@@ -48,8 +48,5 @@
 "%d months ago" => "pirms %d mēnešiem",
 "last year" => "gājušajā gadā",
 "years ago" => "gadus atpakaļ",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s ir pieejams. Iegūt <a href=\"%s\">vairāk informācijas</a>",
-"up to date" => "ir aktuāls",
-"updates check is disabled" => "atjauninājumu pārbaude ir deaktivēta",
 "Could not find category \"%s\"" => "Nevarēja atrast kategoriju “%s”"
 );

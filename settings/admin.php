@@ -20,11 +20,6 @@ $htaccessworking=OC_Util::ishtaccessworking();
 $entries=OC_Log_Owncloud::getEntries(3);
 $entriesremain=(count(OC_Log_Owncloud::getEntries(4)) > 3)?true:false;
 
-function compareEntries($a, $b) {
-	return $b->time - $a->time;
-}
-usort($entries, 'compareEntries');
-
 $tmpl->assign('loglevel', OC_Config::getValue( "loglevel", 2 ));
 $tmpl->assign('entries', $entries);
 $tmpl->assign('entriesremain', $entriesremain);

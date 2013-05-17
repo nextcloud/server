@@ -25,9 +25,7 @@ $_['subadmingroups'] = array_flip($items);
 			id="newusergroups" data-placeholder="groups"
 			title="<?php p($l->t('Groups'))?>" multiple="multiple">
 			<?php foreach($_["groups"] as $group): ?>
-			<option value="<?php p($group['name']);?>">
-				<?php p($group['name']);?>
-			</option>
+			<option value="<?php p($group['name']);?>"><?php p($group['name']);?></option>
 			<?php endforeach;?>
 		</select> <input type="submit" value="<?php p($l->t('Create'))?>" />
 	</form>
@@ -105,9 +103,7 @@ $_['subadmingroups'] = array_flip($items);
 				data-placeholder="groups" title="<?php p($l->t('Groups'))?>"
 				multiple="multiple">
 					<?php foreach($_["groups"] as $group): ?>
-					<option value="<?php p($group['name']);?>">
-						<?php p($group['name']);?>
-					</option>
+					<option value="<?php p($group['name']);?>"><?php p($group['name']);?></option>
 					<?php endforeach;?>
 			</select>
 			</td>
@@ -119,9 +115,7 @@ $_['subadmingroups'] = array_flip($items);
 				data-placeholder="subadmins" title="<?php p($l->t('Group Admin'))?>"
 				multiple="multiple">
 					<?php foreach($_["subadmingroups"] as $group): ?>
-					<option value="<?php p($group);?>">
-						<?php p($group);?>
-					</option>
+					<option value="<?php p($group);?>"><?php p($group);?></option>
 					<?php endforeach;?>
 			</select>
 			</td>

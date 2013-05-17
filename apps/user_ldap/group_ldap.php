@@ -66,7 +66,7 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 
 		//extra work if we don't get back user DNs
 		//TODO: this can be done with one LDAP query
-		if(strtolower($this->connection->ldapGroupMemberAssocAttr) == 'memberuid') {
+		if(strtolower($this->connection->ldapGroupMemberAssocAttr) === 'memberuid') {
 			$dns = array();
 			foreach($members as $mid) {
 				$filter = str_replace('%uid', $mid, $this->connection->ldapLoginFilter);
@@ -108,11 +108,11 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 		}
 
 		//uniqueMember takes DN, memberuid the uid, so we need to distinguish
-		if((strtolower($this->connection->ldapGroupMemberAssocAttr) == 'uniquemember')
-			|| (strtolower($this->connection->ldapGroupMemberAssocAttr) == 'member')
+		if((strtolower($this->connection->ldapGroupMemberAssocAttr) === 'uniquemember')
+			|| (strtolower($this->connection->ldapGroupMemberAssocAttr) === 'member')
 		) {
 			$uid = $userDN;
-		} else if(strtolower($this->connection->ldapGroupMemberAssocAttr) == 'memberuid') {
+		} else if(strtolower($this->connection->ldapGroupMemberAssocAttr) === 'memberuid') {
 			$result = $this->readAttribute($userDN, 'uid');
 			$uid = $result[0];
 		} else {
@@ -157,7 +157,7 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 			return $groupUsers;
 		}
 
-		if($limit == -1) {
+		if($limit === -1) {
 			$limit = null;
 		}
 		$groupDN = $this->groupname2dn($gid);
@@ -175,7 +175,7 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 		}
 
 		$groupUsers = array();
-		$isMemberUid = (strtolower($this->connection->ldapGroupMemberAssocAttr) == 'memberuid');
+		$isMemberUid = (strtolower($this->connection->ldapGroupMemberAssocAttr) === 'memberuid');
 		foreach($members as $member) {
 			if($isMemberUid) {
 				//we got uids, need to get their DNs to 'tranlsate' them to usernames

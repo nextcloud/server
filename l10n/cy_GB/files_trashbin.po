@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-18 02:03+0200\n"
-"PO-Revision-Date: 2013-04-17 17:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-01 01:59+0200\n"
+"PO-Revision-Date: 2013-04-30 14:48+0000\n"
+"Last-Translator: ubuntucymraeg <owen.llywelyn@gmail.com>\n"
 "Language-Team: Welsh (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/cy_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,16 +20,16 @@ msgstr ""
 #: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr ""
+msgstr "Methwyd dileu %s yn barhaol"
 
 #: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
-msgstr ""
+msgstr "Methwyd adfer %s"
 
 #: js/trash.js:7 js/trash.js:96
 msgid "perform restore operation"
-msgstr ""
+msgstr "gweithrediad adfer"
 
 #: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
 msgid "Error"
@@ -37,43 +37,43 @@ msgstr "Gwall"
 
 #: js/trash.js:34
 msgid "delete file permanently"
-msgstr ""
+msgstr "dileu ffeil yn barhaol"
 
 #: js/trash.js:121
 msgid "Delete permanently"
-msgstr ""
+msgstr "Dileu'n barhaol"
 
 #: js/trash.js:174 templates/index.php:17
 msgid "Name"
-msgstr ""
+msgstr "Enw"
 
 #: js/trash.js:175 templates/index.php:27
 msgid "Deleted"
-msgstr ""
+msgstr "Wedi dileu"
 
 #: js/trash.js:184
 msgid "1 folder"
-msgstr ""
+msgstr "1 blygell"
 
 #: js/trash.js:186
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} plygell"
 
 #: js/trash.js:194
 msgid "1 file"
-msgstr ""
+msgstr "1 ffeil"
 
 #: js/trash.js:196
 msgid "{count} files"
-msgstr ""
+msgstr "{count} ffeil"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr ""
+msgstr "Does dim byd yma. Mae eich bin sbwriel yn wag!"
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
-msgstr ""
+msgstr "Adfer"
 
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"
@@ -81,4 +81,4 @@ msgstr "Dileu"
 
 #: templates/part.breadcrumb.php:9
 msgid "Deleted Files"
-msgstr ""
+msgstr "Ffeiliau Ddilewyd"

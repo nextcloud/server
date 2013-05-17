@@ -6,6 +6,7 @@
 "Error configuring Google Drive storage" => "A Google Drive tárolót nem sikerült beállítani",
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>Figyelem:</b> az \"smbclient\" nincs telepítve a kiszolgálón. Emiatt nem lehet CIFS/SMB megosztásokat fölcsatolni. Kérje meg a rendszergazdát, hogy telepítse a szükséges programot.",
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>Figyelem:</b> a PHP FTP támogatása vagy nincs telepítve, vagy nincs engedélyezve a kiszolgálón. Emiatt nem lehetséges FTP-tárolókat fölcsatolni. Kérje meg a rendszergazdát, hogy telepítse a szükséges programot.",
+"<b>Warning:</b> The Curl support in PHP is not enabled or installed. Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask your system administrator to install it." => "<b>Figyelmeztetés:</b> A PHP-ben nincs telepítve vagy engedélyezve a Curl támogatás. Nem lehetséges ownCloud / WebDAV ill. GoogleDrive tárolók becsatolása. Kérje meg a rendszergazdát, hogy telepítse a szükséges programot!",
 "External Storage" => "Külső tárolási szolgáltatások becsatolása",
 "Folder name" => "Mappanév",
 "External storage" => "Külső tárolók",

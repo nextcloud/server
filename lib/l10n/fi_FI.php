@@ -11,7 +11,7 @@
 "Selected files too large to generate zip file." => "Valitut tiedostot ovat liian suurikokoisia mahtuakseen zip-tiedostoon.",
 "couldn't be determined" => "ei voitu määrittää",
 "Application is not enabled" => "Sovellusta ei ole otettu käyttöön",
-"Authentication error" => "Todennusvirhe",
+"Authentication error" => "Tunnistautumisvirhe",
 "Token expired. Please reload page." => "Valtuutus vanheni. Lataa sivu uudelleen.",
 "Files" => "Tiedostot",
 "Text" => "Teksti",
@@ -43,8 +43,5 @@
 "%d months ago" => "%d kuukautta sitten",
 "last year" => "viime vuonna",
 "years ago" => "vuotta sitten",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s on saatavilla. Lue <a href=\"%s\">lisätietoja</a>",
-"up to date" => "ajan tasalla",
-"updates check is disabled" => "päivitysten tarkistus on pois käytöstä",
 "Could not find category \"%s\"" => "Luokkaa \"%s\" ei löytynyt"
 );

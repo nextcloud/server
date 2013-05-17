@@ -36,8 +36,8 @@
 "MS SQL username and/or password not valid: %s" => "MS SQL 用户名和/或密码无效：%s",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "您的Web服务器尚未正确设置以允许文件同步, 因为WebDAV的接口似乎已损坏.",
 "Please double check the <a href='%s'>installation guides</a>." => "请认真检查<a href='%s'>安装指南</a>.",
-"seconds ago" => "几秒前",
-"1 minute ago" => "1分钟前",
+"seconds ago" => "秒前",
+"1 minute ago" => "一分钟前",
 "%d minutes ago" => "%d 分钟前",
 "1 hour ago" => "1小时前",
 "%d hours ago" => "%d小时前",
@@ -47,9 +47,6 @@
 "last month" => "上月",
 "%d months ago" => "%d 月前",
 "last year" => "去年",
-"years ago" => "几年前",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s 已存在。点此 <a href=\"%s\">获取更多信息</a>",
-"up to date" => "已更新。",
-"updates check is disabled" => "更新检查功能被禁用。",
+"years ago" => "年前",
 "Could not find category \"%s\"" => "无法找到分类 \"%s\""
 );

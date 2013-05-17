@@ -3,15 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# AriesAnywhere Anywhere <ariesanywhere@gmail.com>, 2012-2013.
-# AriesAnywhere Anywhere <ariesanywherer@gmail.com>, 2012.
-#   <icewind1991@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:17+0200\n"
+"PO-Revision-Date: 2013-04-26 16:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -24,12 +21,16 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "ไม่สามารถโหลดรายการจาก App Store ได้"
 
-#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
+#: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr "เกิดข้อผิดพลาดเกี่ยวกับสิทธิ์การเข้าใช้งาน"
+msgstr "เกิดข้อผิดพลาดในสิทธิ์การเข้าใช้งาน"
 
-#: ajax/changedisplayname.php:32
+#: ajax/changedisplayname.php:31
+msgid "Your display name has been changed."
+msgstr ""
+
+#: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
 msgstr ""
 
@@ -119,9 +120,9 @@ msgstr "เกิดข้อผิดพลาดในระหว่างก
 msgid "Updated"
 msgstr "อัพเดทแล้ว"
 
-#: js/personal.js:109
+#: js/personal.js:118
 msgid "Saving..."
-msgstr "กำลังบันทึุกข้อมูล..."
+msgstr "กำลังบันทึกข้อมูล..."
 
 #: js/users.js:43
 msgid "deleted"
@@ -135,16 +136,16 @@ msgstr "เลิกทำ"
 msgid "Unable to remove user"
 msgstr ""
 
-#: js/users.js:88 templates/users.php:26 templates/users.php:80
-#: templates/users.php:105
+#: js/users.js:88 templates/users.php:26 templates/users.php:78
+#: templates/users.php:103
 msgid "Groups"
 msgstr "กลุ่ม"
 
-#: js/users.js:91 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
 msgstr "ผู้ดูแลกลุ่ม"
 
-#: js/users.js:111 templates/users.php:161
+#: js/users.js:111 templates/users.php:155
 msgid "Delete"
 msgstr "ลบ"
 
@@ -164,7 +165,7 @@ msgstr ""
 msgid "A valid password must be provided"
 msgstr ""
 
-#: personal.php:29 personal.php:30
+#: personal.php:35 personal.php:36
 msgid "__language_name__"
 msgstr "ภาษาไทย"
 
@@ -234,59 +235,59 @@ msgstr ""
 
 #: templates/admin.php:92
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "ประมวลคำสั่งหนึ่งงานในแต่ละครั้งที่มีการโหลดหน้าเว็บ"
 
 #: templates/admin.php:111
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php ได้รับการลงทะเบียนแล้วกับเว็บผู้ให้บริการ webcron เรียกหน้าเว็บ cron.php ที่ตำแหน่ง root ของ owncloud หลังจากนี้สักครู่ผ่านทาง http"
 
 #: templates/admin.php:121
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "ใช้บริการ cron จากระบบ เรียกไฟล์ cron.php ในโฟลเดอร์ owncloud ผ่านทาง cronjob ของระบบหลังจากนี้สักครู่"
 
 #: templates/admin.php:128
 msgid "Sharing"
-msgstr ""
+msgstr "การแชร์ข้อมูล"
 
 #: templates/admin.php:134
 msgid "Enable Share API"
-msgstr ""
+msgstr "เปิดใช้งาน API สำหรับคุณสมบัติแชร์ข้อมูล"
 
 #: templates/admin.php:135
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "อนุญาตให้แอปฯสามารถใช้ API สำหรับแชร์ข้อมูลได้"
 
 #: templates/admin.php:142
 msgid "Allow links"
-msgstr ""
+msgstr "อนุญาตให้ใช้งานลิงก์ได้"
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "อนุญาตให้ผู้ใช้งานสามารถแชร์ข้อมูลรายการต่างๆไปให้สาธารณะชนเป็นลิงก์ได้"
 
 #: templates/admin.php:150
 msgid "Allow resharing"
-msgstr ""
+msgstr "อนุญาตให้แชร์ข้อมูลซ้ำใหม่ได้"
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "อนุญาตให้ผู้ใช้งานแชร์ข้อมูลรายการต่างๆที่ถูกแชร์มาให้ตัวผู้ใช้งานได้เท่านั้น"
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "อนุญาตให้ผู้ใช้งานแชร์ข้อมูลถึงใครก็ได้"
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "อนุญาตให้ผู้ใช้งานแชร์ข้อมูลได้เฉพาะกับผู้ใช้งานที่อยู่ในกลุ่มเดียวกันเท่านั้น"
 
 #: templates/admin.php:168
 msgid "Security"
@@ -309,25 +310,25 @@ msgstr ""
 
 #: templates/admin.php:195
 msgid "Log"
-msgstr ""
+msgstr "บันทึกการเปลี่ยนแปลง"
 
 #: templates/admin.php:196
 msgid "Log level"
-msgstr ""
+msgstr "ระดับการเก็บบันทึก log"
 
-#: templates/admin.php:223
+#: templates/admin.php:227
 msgid "More"
 msgstr "มาก"
 
-#: templates/admin.php:224
+#: templates/admin.php:228
 msgid "Less"
 msgstr "น้อย"
 
-#: templates/admin.php:231 templates/personal.php:102
+#: templates/admin.php:235 templates/personal.php:105
 msgid "Version"
 msgstr "รุ่น"
 
-#: templates/admin.php:234 templates/personal.php:105
+#: templates/admin.php:238 templates/personal.php:108
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -398,7 +399,7 @@ msgstr ""
 msgid "Show First Run Wizard again"
 msgstr "แสดงหน้าจอวิซาร์ดนำทางครั้งแรกอีกครั้ง"
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:79
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "รหัสผ่าน"
 
@@ -422,82 +423,70 @@ msgstr "รหัสผ่านใหม่"
 msgid "Change password"
 msgstr "เปลี่ยนรหัสผ่าน"
 
-#: templates/personal.php:56 templates/users.php:78
+#: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
 msgstr "ชื่อที่ต้องการแสดง"
 
-#: templates/personal.php:57
-msgid "Your display name was changed"
-msgstr ""
-
-#: templates/personal.php:58
-msgid "Unable to change your display name"
-msgstr ""
-
-#: templates/personal.php:61
-msgid "Change display name"
-msgstr ""
+#: templates/personal.php:68
+msgid "Email"
+msgstr "อีเมล"
 
 #: templates/personal.php:70
-msgid "Email"
-msgstr "อีเมล์"
-
-#: templates/personal.php:72
 msgid "Your email address"
 msgstr "ที่อยู่อีเมล์ของคุณ"
 
-#: templates/personal.php:73
+#: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
 msgstr "กรอกที่อยู่อีเมล์ของคุณเพื่อเปิดให้มีการกู้คืนรหัสผ่านได้"
 
-#: templates/personal.php:79 templates/personal.php:80
+#: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
 msgstr "ภาษา"
 
-#: templates/personal.php:86
+#: templates/personal.php:89
 msgid "Help translate"
 msgstr "ช่วยกันแปล"
 
-#: templates/personal.php:91
+#: templates/personal.php:94
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:93
+#: templates/personal.php:96
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "ใช้ที่อยู่นี้เพื่อเชื่อมต่อกับ ownCloud ในโปรแกรมจัดการไฟล์ของคุณ"
 
-#: templates/users.php:21 templates/users.php:77
+#: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
 msgstr "ชื่อที่ใช้สำหรับเข้าสู่ระบบ"
 
-#: templates/users.php:32
+#: templates/users.php:30
 msgid "Create"
 msgstr "สร้าง"
 
-#: templates/users.php:35
+#: templates/users.php:33
 msgid "Default Storage"
 msgstr "พื้นที่จำกัดข้อมูลเริ่มต้น"
 
-#: templates/users.php:41 templates/users.php:139
+#: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
 msgstr "ไม่จำกัดจำนวน"
 
-#: templates/users.php:59 templates/users.php:154
+#: templates/users.php:57 templates/users.php:148
 msgid "Other"
 msgstr "อื่นๆ"
 
-#: templates/users.php:84
+#: templates/users.php:82
 msgid "Storage"
 msgstr "พื้นที่จัดเก็บข้อมูล"
 
-#: templates/users.php:95
+#: templates/users.php:93
 msgid "change display name"
 msgstr "เปลี่ยนชื่อที่ต้องการให้แสดง"
 
-#: templates/users.php:99
+#: templates/users.php:97
 msgid "set new password"
 msgstr "ตั้งค่ารหัสผ่านใหม่"
 
-#: templates/users.php:134
+#: templates/users.php:128
 msgid "Default"
 msgstr "ค่าเริ่มต้น"

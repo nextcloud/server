@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Help" => "Axuda",
 "Personal" => "Persoal",
-"Settings" => "Configuracións",
+"Settings" => "Axustes",
 "Users" => "Usuarios",
 "Apps" => "Aplicativos",
 "Admin" => "Administración",
@@ -11,7 +11,7 @@
 "Selected files too large to generate zip file." => "Os ficheiros seleccionados son demasiado grandes como para xerar un ficheiro zip.",
 "couldn't be determined" => "non foi posíbel determinalo",
 "Application is not enabled" => "O aplicativo non está activado",
-"Authentication error" => "Produciuse un erro na autenticación",
+"Authentication error" => "Produciuse un erro de autenticación",
 "Token expired. Please reload page." => "Testemuña caducada. Recargue a páxina.",
 "Files" => "Ficheiros",
 "Text" => "Texto",
@@ -48,8 +48,5 @@
 "%d months ago" => "Vai %d meses",
 "last year" => "último ano",
 "years ago" => "anos atrás",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s está dispoñíbel. Obtéña <a href=\"%s\">máis información</a>",
-"up to date" => "actualizado",
-"updates check is disabled" => "a comprobación de actualizacións está desactivada",
 "Could not find category \"%s\"" => "Non foi posíbel atopar a categoría «%s»"
 );

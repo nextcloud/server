@@ -34,7 +34,7 @@
 						   value="(max <?php p($_['uploadMaxHumanFilesize']); ?>)">
 					<input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
 					<input type="file" id="file_upload_start" name='files[]'/>
-					<a href="#" class="svg" onclick="return false;"></a>
+					<a href="#" class="svg"></a>
 				</form>
 			</div>
 			<?php if ($_['trash'] ): ?>
@@ -46,7 +46,6 @@
 				<div id="uploadprogressbar"></div>
 				<input type="button" class="stop" style="display:none"
 					value="<?php p($l->t('Cancel upload'));?>"
-					onclick="javascript:Files.cancelUploads();"
 				/>
 			</div>
 		</div>

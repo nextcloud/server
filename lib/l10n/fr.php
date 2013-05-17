@@ -36,8 +36,8 @@
 "MS SQL username and/or password not valid: %s" => "Le nom d'utilisateur et/ou le mot de passe de la base MS SQL est invalide : %s",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Votre serveur web, n'est pas correctement configuré pour permettre la synchronisation des fichiers, car l'interface WebDav ne fonctionne pas comme il faut.",
 "Please double check the <a href='%s'>installation guides</a>." => "Veuillez vous référer au <a href='%s'>guide d'installation</a>.",
-"seconds ago" => "à l'instant",
-"1 minute ago" => "il y a 1 minute",
+"seconds ago" => "il y a quelques secondes",
+"1 minute ago" => "il y a une minute",
 "%d minutes ago" => "il y a %d minutes",
 "1 hour ago" => "Il y a une heure",
 "%d hours ago" => "Il y a %d heures",
@@ -48,8 +48,5 @@
 "%d months ago" => "Il y a %d mois",
 "last year" => "l'année dernière",
 "years ago" => "il y a plusieurs années",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s est disponible. Obtenez <a href=\"%s\">plus d'informations</a>",
-"up to date" => "À jour",
-"updates check is disabled" => "la vérification des mises à jour est désactivée",
 "Could not find category \"%s\"" => "Impossible de trouver la catégorie \"%s\""
 );

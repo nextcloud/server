@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Gat ekki fært %s - Skrá með þessu nafni er þegar til",
 "Could not move %s" => "Gat ekki fært %s",
-"Unable to rename file" => "Gat ekki endurskýrt skrá",
 "No file was uploaded. Unknown error" => "Engin skrá var send inn. Óþekkt villa.",
 "There is no error, the file uploaded with success" => "Engin villa, innsending heppnaðist",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Innsend skrá er stærri en upload_max stillingin í php.ini:",
@@ -12,6 +11,7 @@
 "Failed to write to disk" => "Tókst ekki að skrifa á disk",
 "Invalid directory." => "Ógild mappa.",
 "Files" => "Skrár",
+"Share" => "Deila",
 "Delete" => "Eyða",
 "Rename" => "Endurskýra",
 "Pending" => "Bíður",
@@ -39,6 +39,7 @@
 "{count} folders" => "{count} möppur",
 "1 file" => "1 skrá",
 "{count} files" => "{count} skrár",
+"Unable to rename file" => "Gat ekki endurskýrt skrá",
 "Upload" => "Senda inn",
 "File handling" => "Meðhöndlun skrár",
 "Maximum upload size" => "Hámarks stærð innsendingar",

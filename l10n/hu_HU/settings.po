@@ -3,17 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Adam Toth <adazlord@gmail.com>, 2012.
-#   <gyonkibendeguz@gmail.com>, 2013.
-# Laszlo Tornoci <torlasz@gmail.com>, 2013.
-# Peter Borsa <peter.borsa@gmail.com>, 2011.
+# Laszlo Tornoci <torlasz@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-02 02:15+0200\n"
+"PO-Revision-Date: 2013-05-01 16:10+0000\n"
+"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,12 +22,16 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Nem tölthető le a lista az App Store-ból"
 
-#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
+#: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
 msgstr "Azonosítási hiba"
 
-#: ajax/changedisplayname.php:32
+#: ajax/changedisplayname.php:31
+msgid "Your display name has been changed."
+msgstr "Az Ön megjelenítési neve megváltozott."
+
+#: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
 msgstr "Nem sikerült megváltoztatni a megjelenítési nevet"
 
@@ -98,7 +99,7 @@ msgstr "Letiltás"
 
 #: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr "Engedélyezés"
+msgstr "engedélyezve"
 
 #: js/apps.js:55
 msgid "Please wait...."
@@ -120,7 +121,7 @@ msgstr "Hiba történt a programfrissítés közben"
 msgid "Updated"
 msgstr "Frissítve"
 
-#: js/personal.js:109
+#: js/personal.js:118
 msgid "Saving..."
 msgstr "Mentés..."
 
@@ -136,16 +137,16 @@ msgstr "visszavonás"
 msgid "Unable to remove user"
 msgstr "A felhasználót nem sikerült eltávolítáni"
 
-#: js/users.js:88 templates/users.php:26 templates/users.php:80
-#: templates/users.php:105
+#: js/users.js:88 templates/users.php:26 templates/users.php:78
+#: templates/users.php:103
 msgid "Groups"
 msgstr "Csoportok"
 
-#: js/users.js:91 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
 msgstr "Csoportadminisztrátor"
 
-#: js/users.js:111 templates/users.php:161
+#: js/users.js:111 templates/users.php:155
 msgid "Delete"
 msgstr "Törlés"
 
@@ -165,7 +166,7 @@ msgstr "A felhasználó nem hozható létre"
 msgid "A valid password must be provided"
 msgstr "Érvényes jelszót kell megadnia"
 
-#: personal.php:29 personal.php:30
+#: personal.php:35 personal.php:36
 msgid "__language_name__"
 msgstr "__language_name__"
 
@@ -316,19 +317,19 @@ msgstr "Naplózás"
 msgid "Log level"
 msgstr "Naplózási szint"
 
-#: templates/admin.php:223
+#: templates/admin.php:227
 msgid "More"
 msgstr "Több"
 
-#: templates/admin.php:224
+#: templates/admin.php:228
 msgid "Less"
 msgstr "Kevesebb"
 
-#: templates/admin.php:231 templates/personal.php:102
+#: templates/admin.php:235 templates/personal.php:105
 msgid "Version"
 msgstr "Verzió"
 
-#: templates/admin.php:234 templates/personal.php:105
+#: templates/admin.php:237 templates/personal.php:108
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -399,7 +400,7 @@ msgstr "Töltse le az állományok szinkronizációjához szükséges programoka
 msgid "Show First Run Wizard again"
 msgstr "Nézzük meg újra az első bejelentkezéskori segítséget!"
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:79
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "Jelszó"
 
@@ -423,82 +424,70 @@ msgstr "Az új jelszó"
 msgid "Change password"
 msgstr "A jelszó megváltoztatása"
 
-#: templates/personal.php:56 templates/users.php:78
+#: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
 msgstr "A megjelenített név"
 
-#: templates/personal.php:57
-msgid "Your display name was changed"
-msgstr "Az Ön megjelenítési neve megváltozott"
-
-#: templates/personal.php:58
-msgid "Unable to change your display name"
-msgstr "Nem sikerült megváltoztatni az Ön megjelenítési nevét"
-
-#: templates/personal.php:61
-msgid "Change display name"
-msgstr "A megjelenítési név módosítása"
-
-#: templates/personal.php:70
+#: templates/personal.php:68
 msgid "Email"
 msgstr "Email"
 
-#: templates/personal.php:72
+#: templates/personal.php:70
 msgid "Your email address"
 msgstr "Az Ön email címe"
 
-#: templates/personal.php:73
+#: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
 msgstr "Adja meg az email címét, hogy jelszó-emlékeztetőt kérhessen, ha elfelejtette a jelszavát!"
 
-#: templates/personal.php:79 templates/personal.php:80
+#: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
 msgstr "Nyelv"
 
-#: templates/personal.php:86
+#: templates/personal.php:89
 msgid "Help translate"
 msgstr "Segítsen a fordításban!"
 
-#: templates/personal.php:91
+#: templates/personal.php:94
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:93
+#: templates/personal.php:96
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Ennek a címnek a megadásával a WebDAV-protokollon keresztül saját gépének fájlkezelőjével is is elérheti az állományait."
 
-#: templates/users.php:21 templates/users.php:77
+#: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
 msgstr "Bejelentkezési név"
 
-#: templates/users.php:32
+#: templates/users.php:30
 msgid "Create"
 msgstr "Létrehozás"
 
-#: templates/users.php:35
+#: templates/users.php:33
 msgid "Default Storage"
 msgstr "Alapértelmezett tárhely"
 
-#: templates/users.php:41 templates/users.php:139
+#: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
 msgstr "Korlátlan"
 
-#: templates/users.php:59 templates/users.php:154
+#: templates/users.php:57 templates/users.php:148
 msgid "Other"
 msgstr "Más"
 
-#: templates/users.php:84
+#: templates/users.php:82
 msgid "Storage"
 msgstr "Tárhely"
 
-#: templates/users.php:95
+#: templates/users.php:93
 msgid "change display name"
 msgstr "a megjelenített név módosítása"
 
-#: templates/users.php:99
+#: templates/users.php:97
 msgid "set new password"
 msgstr "új jelszó beállítása"
 
-#: templates/users.php:134
+#: templates/users.php:128
 msgid "Default"
 msgstr "Alapértelmezett"

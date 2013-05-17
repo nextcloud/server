@@ -6,13 +6,12 @@
  * See the COPYING-README file.
  */
 
-namespace OC\Files;
+namespace OC\Files\Mount;
+
+use \OC\Files\Filesystem;
 
 class Mount {
-	/**
-	 * @var Mount[]
-	 */
-	static private $mounts = array();
+
 
 	/**
 	 * @var \OC\Files\Storage\Storage $storage
@@ -33,7 +32,7 @@ class Mount {
 			$arguments = array();
 		}
 
-		$mountpoint = self::formatPath($mountpoint);
+		$mountpoint = $this->formatPath($mountpoint);
 		if ($storage instanceof \OC\Files\Storage\Storage) {
 			$this->class = get_class($storage);
 			$this->storage = $storage;
@@ -46,8 +45,6 @@ class Mount {
 			$this->arguments = $arguments;
 		}
 		$this->mountPoint = $mountpoint;
-
-		self::$mounts[$this->mountPoint] = $this;
 	}
 
 	/**
@@ -58,6 +55,8 @@ class Mount {
 	}
 
 	/**
+	 * create the storage that is mounted
+	 *
 	 * @return \OC\Files\Storage\Storage
 	 */
 	private function createStorage() {
@@ -121,100 +120,11 @@ class Mount {
 	 * @param string $path
 	 * @return string
 	 */
-	private static function formatPath($path) {
+	private function formatPath($path) {
 		$path = Filesystem::normalizePath($path);
 		if (strlen($path) > 1) {
 			$path .= '/';
 		}
 		return $path;
-	}
-
-	/**
-	 * Find the mount for $path
-	 *
-	 * @param $path
-	 * @return Mount
-	 */
-	public static function find($path) {
-		$path = self::formatPath($path);
-		if (isset(self::$mounts[$path])) {
-			return self::$mounts[$path];
-		}
-
-		\OC_Hook::emit('OC_Filesystem', 'get_mountpoint', array('path' => $path));
-		$foundMountPoint = '';
-		$mountPoints = array_keys(self::$mounts);
-		foreach ($mountPoints as $mountpoint) {
-			if (strpos($path, $mountpoint) === 0 and strlen($mountpoint) > strlen($foundMountPoint)) {
-				$foundMountPoint = $mountpoint;
-			}
-		}
-		if (isset(self::$mounts[$foundMountPoint])) {
-			return self::$mounts[$foundMountPoint];
-		} else {
-			return null;
-		}
-	}
-
-	/**
-	 * Find all mounts in $path
-	 *
-	 * @param $path
-	 * @return Mount[]
-	 */
-	public static function findIn($path) {
-		$path = self::formatPath($path);
-		$result = array();
-		$pathLength = strlen($path);
-		$mountPoints = array_keys(self::$mounts);
-		foreach ($mountPoints as $mountPoint) {
-			if (substr($mountPoint, 0, $pathLength) === $path and strlen($mountPoint) > $pathLength) {
-				$result[] = self::$mounts[$mountPoint];
-			}
-		}
-		return $result;
-	}
-
-	public static function clear() {
-		self::$mounts = array();
-	}
-
-	/**
-	 * Find mounts by storage id
-	 *
-	 * @param string $id
-	 * @return Mount[]
-	 */
-	public static function findByStorageId($id) {
-		if (strlen($id) > 64) {
-			$id = md5($id);
-		}
-		$result = array();
-		foreach (self::$mounts as $mount) {
-			if ($mount->getStorageId() === $id) {
-				$result[] = $mount;
-			}
-		}
-		return $result;
-	}
-
-	/**
-	 * Find mounts by numeric storage id
-	 *
-	 * @param string $id
-	 * @return Mount
-	 */
-	public static function findByNumericId($id) {
-		$query = \OC_DB::prepare('SELECT `id` FROM `*PREFIX*storages` WHERE `numeric_id` = ?');
-		$result = $query->execute(array($id))->fetchOne();
-		if ($result) {
-			$id = $result;
-			foreach (self::$mounts as $mount) {
-				if ($mount->getStorageId() === $id) {
-					return $mount;
-				}
-			}
-		}
-		return false;
 	}
 }

@@ -3,15 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2012
-# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
-# tt yn <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-18 02:04+0200\n"
-"PO-Revision-Date: 2013-04-18 00:04+0000\n"
+"POT-Creation-Date: 2013-04-28 01:57+0200\n"
+"PO-Revision-Date: 2013-04-27 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +23,7 @@ msgstr "ヘルプ"
 
 #: app.php:362
 msgid "Personal"
-msgstr "個人設定"
+msgstr "個人"
 
 #: app.php:373
 msgid "Settings"
@@ -42,7 +39,7 @@ msgstr "アプリ"
 
 #: app.php:406
 msgid "Admin"
-msgstr "管理者"
+msgstr "管理"
 
 #: files.php:209
 msgid "ZIP download is turned off."
@@ -116,72 +113,72 @@ msgstr "%s ではデータベース名にドットを利用できないかもし
 msgid "%s set the database host."
 msgstr "%s にデータベースホストを設定します。"
 
-#: setup.php:132 setup.php:324 setup.php:369
+#: setup.php:132 setup.php:325 setup.php:370
 msgid "PostgreSQL username and/or password not valid"
 msgstr "PostgreSQLのユーザ名もしくはパスワードは有効ではありません"
 
-#: setup.php:133 setup.php:156 setup.php:233
+#: setup.php:133 setup.php:156 setup.php:234
 msgid "You need to enter either an existing account or the administrator."
 msgstr "既存のアカウントもしくは管理者のどちらかを入力する必要があります。"
 
-#: setup.php:155 setup.php:457 setup.php:524
+#: setup.php:155 setup.php:458 setup.php:525
 msgid "Oracle username and/or password not valid"
 msgstr "Oracleのユーザ名もしくはパスワードは有効ではありません"
 
-#: setup.php:232
+#: setup.php:233
 msgid "MySQL username and/or password not valid"
 msgstr "MySQLのユーザ名もしくはパスワードは有効ではありません"
 
-#: setup.php:286 setup.php:390 setup.php:399 setup.php:417 setup.php:427
-#: setup.php:436 setup.php:465 setup.php:531 setup.php:557 setup.php:564
-#: setup.php:575 setup.php:582 setup.php:591 setup.php:599 setup.php:608
-#: setup.php:614
+#: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
+#: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
+#: setup.php:576 setup.php:583 setup.php:592 setup.php:600 setup.php:609
+#: setup.php:615
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "DBエラー: \"%s\""
 
-#: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
-#: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
-#: setup.php:576 setup.php:592 setup.php:600 setup.php:609
+#: setup.php:288 setup.php:392 setup.php:401 setup.php:419 setup.php:429
+#: setup.php:438 setup.php:467 setup.php:533 setup.php:559 setup.php:566
+#: setup.php:577 setup.php:593 setup.php:601 setup.php:610
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr "違反コマンド: \"%s\""
 
-#: setup.php:303
+#: setup.php:304
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
 msgstr "MySQLのユーザ '%s'@'localhost' はすでに存在します。"
 
-#: setup.php:304
+#: setup.php:305
 msgid "Drop this user from MySQL"
 msgstr "MySQLからこのユーザを削除"
 
-#: setup.php:309
+#: setup.php:310
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
 msgstr "MySQLのユーザ '%s'@'%%' はすでに存在します。"
 
-#: setup.php:310
+#: setup.php:311
 msgid "Drop this user from MySQL."
 msgstr "MySQLからこのユーザを削除する。"
 
-#: setup.php:583 setup.php:615
+#: setup.php:584 setup.php:616
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "違反コマンド: \"%s\"、名前: %s、パスワード: %s"
 
-#: setup.php:635
+#: setup.php:636
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
 msgstr "MS SQL サーバーのユーザー名/パスワードが正しくありません: %s"
 
-#: setup.php:853
+#: setup.php:858
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "WebDAVインタフェースが動作していないと考えられるため、あなたのWEBサーバはまだファイルの同期を許可するように適切な設定がされていません。"
 
-#: setup.php:854
+#: setup.php:859
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "<a href='%s'>インストールガイド</a>をよく確認してください。"
@@ -192,7 +189,7 @@ msgstr "数秒前"
 
 #: template.php:114
 msgid "1 minute ago"
-msgstr "1分前"
+msgstr "1 分前"
 
 #: template.php:115
 #, php-format
@@ -223,7 +220,7 @@ msgstr "%d 日前"
 
 #: template.php:121
 msgid "last month"
-msgstr "先月"
+msgstr "一月前"
 
 #: template.php:122
 #, php-format
@@ -232,24 +229,11 @@ msgstr "%d 分前"
 
 #: template.php:123
 msgid "last year"
-msgstr "昨年"
+msgstr "一年前"
 
 #: template.php:124
 msgid "years ago"
 msgstr "年前"
-
-#: updater.php:78
-#, php-format
-msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr "%s が利用可能です。<a href=\"%s\">詳細情報</a> を確認ください"
-
-#: updater.php:81
-msgid "up to date"
-msgstr "最新です"
-
-#: updater.php:84
-msgid "updates check is disabled"
-msgstr "更新チェックは無効です"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format

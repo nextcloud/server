@@ -3,17 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# antiparvos  <marcoslansgarza@gmail.com>, 2012.
-#  <mbouzada@gmail.com>, 2013.
-#   <mbouzada@gmail.com>, 2012.
-# Xosé M. Lamas <correo.xmgz@gmail.com>, 2012-2013.
+# mbouzada <mbouzada@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-01 01:59+0200\n"
+"PO-Revision-Date: 2013-04-30 06:40+0000\n"
+"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -77,7 +74,7 @@ msgstr "Produciuse un erro ao engadir %s aos favoritos."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "Non hai categorías seleccionadas para eliminar."
+msgstr "Non se seleccionaron categorías para eliminación."
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
@@ -162,7 +159,7 @@ msgstr "decembro"
 
 #: js/js.js:286
 msgid "Settings"
-msgstr "Configuracións"
+msgstr "Axustes"
 
 #: js/js.js:718
 msgid "seconds ago"
@@ -178,7 +175,7 @@ msgstr "hai {minutes} minutos"
 
 #: js/js.js:721
 msgid "1 hour ago"
-msgstr "hai 1 hora"
+msgstr "Vai 1 hora"
 
 #: js/js.js:722
 msgid "{hours} hours ago"
@@ -297,7 +294,7 @@ msgstr "Compartir coa ligazón"
 msgid "Password protect"
 msgstr "Protexido con contrasinais"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Contrasinal"
 
@@ -400,24 +397,27 @@ msgstr "Restabelecer o contrasinal de ownCloud"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Usa a seguinte ligazón para restabelecer o contrasinal: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr "Envióuselle ao seu correo unha ligazón para restabelecer o seu contrasinal.<br>Se non o recibe nun prazo razoábel de tempo, revise o seu cartafol de correo lixo ou de non desexados.<br> Se non o atopa aí pregúntelle ao seu administrador local.."
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr "Non foi posíbel facer a petición!<br>Asegúrese de que o seu enderezo de correo ou nome de usuario é correcto."
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "Recibirá unha ligazón por correo para restabelecer o contrasinal"
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "Restabelecer o envío por correo."
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "Non foi posíbel facer a petición"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
 msgstr "Nome de usuario"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "Petición de restabelecemento"
 
@@ -451,7 +451,7 @@ msgstr "Aplicativos"
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Admin"
+msgstr "Administración"
 
 #: strings.php:9
 msgid "Help"
@@ -467,7 +467,7 @@ msgstr "Nube non atopada"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "Editar categorías"
+msgstr "Editar as categorías"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
@@ -523,37 +523,37 @@ msgstr "Avanzado"
 msgid "Data folder"
 msgstr "Cartafol de datos"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Configurar a base de datos"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "vai ser utilizado"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Usuario da base de datos"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Contrasinal da base de datos"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Nome da base de datos"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Táboa de espazos da base de datos"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Servidor da base de datos"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Rematar a configuración"
 
@@ -561,37 +561,42 @@ msgstr "Rematar a configuración"
 msgid "web services under your control"
 msgstr "servizos web baixo o seu control"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr "%s está dispoñíbel. Obteña máis información sobre como actualizar."
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "Desconectar"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Rexeitouse a entrada automática"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Se non fixo recentemente cambios de contrasinal é posíbel que a súa conta estea comprometida!"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Cambie de novo o seu contrasinal para asegurar a súa conta."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Perdeu o contrasinal?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "lembrar"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Conectar"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Accesos alternativos"
 

@@ -3,15 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Anushke Guneratne <anushke@gmail.com>, 2012.
-# Chamara Disanayake <chamara@nic.lk>, 2012.
-#   <thanojar@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"PO-Revision-Date: 2013-04-29 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -149,7 +146,7 @@ msgstr "සැප්තැම්බර්"
 
 #: js/config.php:54
 msgid "October"
-msgstr "ඔක්තෝබර්"
+msgstr "ඔක්තෝබර"
 
 #: js/config.php:55
 msgid "November"
@@ -161,7 +158,7 @@ msgstr "දෙසැම්බර්"
 
 #: js/js.js:286
 msgid "Settings"
-msgstr "සැකසුම්"
+msgstr "සිටුවම්"
 
 #: js/js.js:718
 msgid "seconds ago"
@@ -233,7 +230,7 @@ msgstr "ඔව්"
 
 #: js/oc-dialogs.js:222
 msgid "No"
-msgstr "නැහැ"
+msgstr "එපා"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -296,9 +293,9 @@ msgstr "යොමුවක් මඟින් බෙදාගන්න"
 msgid "Password protect"
 msgstr "මුර පදයකින් ආරක්ශාකරන්න"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr "මුර පදය "
+msgstr "මුර පදය"
 
 #: js/share.js:173
 msgid "Email link to person"
@@ -399,24 +396,27 @@ msgstr "ownCloud මුරපදය ප්‍රත්‍යාරම්භ ක�
 msgid "Use the following link to reset your password: {link}"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "ඔබගේ මුරපදය ප්‍රත්‍යාරම්භ කිරීම සඳහා යොමුව විද්‍යුත් තැපෑලෙන් ලැබෙනු ඇත"
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "ඉල්ලීම අසාර්ථකයි!"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
 msgstr "පරිශීලක නම"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr ""
 
@@ -430,7 +430,7 @@ msgstr "පිවිසුම් පිටුවට"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr "නව මුර පදයක්"
+msgstr "නව මුරපදය"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
@@ -470,7 +470,7 @@ msgstr "ප්‍රභේදයන් සංස්කරණය"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr "එක් කරන්න"
+msgstr "එකතු කරන්න"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -522,37 +522,37 @@ msgstr "දියුණු/උසස්"
 msgid "Data folder"
 msgstr "දත්ත ෆෝල්ඩරය"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "දත්ත සමුදාය හැඩගැසීම"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "භාවිතා වනු ඇත"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "දත්තගබඩා භාවිතාකරු"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "දත්තගබඩාවේ මුරපදය"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "දත්තගබඩාවේ නම"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr ""
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "දත්තගබඩා සේවාදායකයා"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "ස්ථාපනය කිරීම අවසන් කරන්න"
 
@@ -560,37 +560,42 @@ msgstr "ස්ථාපනය කිරීම අවසන් කරන්න"
 msgid "web services under your control"
 msgstr "ඔබට පාලනය කළ හැකි වෙබ් සේවාවන්"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "නික්මීම"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr ""
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr ""
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr ""
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "මුරපදය අමතකද?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "මතක තබාගන්න"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "ප්‍රවේශවන්න"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr ""
 
