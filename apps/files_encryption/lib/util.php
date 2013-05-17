@@ -716,8 +716,8 @@ class Util {
 					$sharingEnabled = \OCP\Share::isEnabled();
 
 					// if file exists try to get sharing users
-					if ($view->file_exists($legacyFile['path'])) {
-						$uniqueUserIds = $util->getSharingUsersArray($sharingEnabled, $legacyFile['path'], $this->userId);
+					if ($this->view->file_exists($legacyFile['path'])) {
+						$uniqueUserIds = $this->getSharingUsersArray($sharingEnabled, $legacyFile['path'], $this->userId);
 					} else {
 						$uniqueUserIds[] = $this->userId;
 					}
@@ -726,7 +726,7 @@ class Util {
 					$publicKeys = Keymanager::getPublicKeys($this->view, $uniqueUserIds);
 
 					// Recrypt data, generate catfile
-					$recrypted = Crypt::legacyKeyRecryptKeyfile($legacyData, $legacyPassphrase, $publicKey, $newPassphrase, $legacyFile['path'], $publicKeys);
+					$recrypted = Crypt::legacyKeyRecryptKeyfile($legacyData, $legacyPassphrase, $publicKeys, $newPassphrase, $legacyFile['path']);
 
 					$rawPath = $legacyFile['path'];
 					$relPath = $this->stripUserFilesPath($rawPath);
