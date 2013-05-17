@@ -427,17 +427,21 @@ class OC_Preview {
 			$newYsize = (int) $image->height();
 			
 			//create transparent background layer
-			$transparentlayer = imagecreatetruecolor($x, $y);
-			$black = imagecolorallocate($transparentlayer, 0, 0, 0);
+			$backgroundlayer = imagecreatetruecolor($x, $y);
+			$white = imagecolorallocate($backgroundlayer, 255, 255, 255);
+			imagefill($backgroundlayer, 0, 0, $white);
+			
 			$image = $image->resource();
-			imagecolortransparent($transparentlayer, $black);
 			
 			$mergeX = floor(abs($x - $newXsize) * 0.5);
 			$mergeY = floor(abs($y - $newYsize) * 0.5);
 			
-			imagecopymerge($transparentlayer, $image, $mergeX, $mergeY, 0, 0, $newXsize, $newYsize, 100);
+			imagecopy($backgroundlayer, $image, $mergeX, $mergeY, 0, 0, $newXsize, $newYsize);
 			
-			$image = new \OC_Image($transparentlayer);
+			//$black = imagecolorallocate(0,0,0);
+			//imagecolortransparent($transparentlayer, $black);
+			
+			$image = new \OC_Image($backgroundlayer);
 			
 			$this->preview = $image;
 			return;
