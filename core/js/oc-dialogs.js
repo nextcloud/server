@@ -198,7 +198,7 @@ var OCdialogs = {
 				self.$filelist = self.$filePicker.find('.filelist');
 				self.$dirUp = self.$filePicker.find('.dirup');
 				self.$dirTree = self.$filePicker.find('.dirtree');
-				self.$dirTree.on('click', 'span', self, self.handleTreeListSelect);
+				self.$dirTree.on('click', 'span:not(:last-child)', self, self.handleTreeListSelect);
 				self.$dirUp.click(self, self.filepickerDirUp);
 				self.$filelist.on('click', 'li', function(event) {
 					self.handlePickerClick(event, $(this));
@@ -393,7 +393,7 @@ var OCdialogs = {
 		}
 		var $template = $('<span data-dir="{dir}">{name}</span>');
 		var paths = path.split('/');
-		paths.pop();
+		//paths.pop();
 		$.each(paths, function(index, dir) {
 			var dir = paths.pop();
 			if(dir === '') {
