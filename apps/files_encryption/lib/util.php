@@ -656,103 +656,108 @@ class Util {
 	 * @param string $dirPath the directory whose files will be encrypted
 	 * @note Encryption is recursive
 	 */
-	public function encryptAll( $publicKey, $dirPath, $legacyPassphrase = null, $newPassphrase = null ) {
-		
-		if ( $found = $this->findEncFiles( $dirPath ) ) {
-		
+	public function encryptAll($publicKey, $dirPath, $legacyPassphrase = null, $newPassphrase = null) {
+
+		if ($found = $this->findEncFiles($dirPath)) {
+
 			// Disable proxy to prevent file being encrypted twice
 			\OC_FileProxy::$enabled = false;
-		
+
 			// Encrypt unencrypted files
-			foreach ( $found['plain'] as $plainFile ) {
-				
+			foreach ($found['plain'] as $plainFile) {
+
 				//relative to data/<user>/file
 				$relPath = $plainFile['path'];
-				
+
 				//relative to /data
-				$rawPath = $this->userId . '/files/' .  $plainFile['path'];
-				
+				$rawPath = $this->userId . '/files/' . $plainFile['path'];
+
 				// Open plain file handle for binary reading
-				$plainHandle1 = $this->view->fopen( $rawPath, 'rb' );
-				
+				$plainHandle1 = $this->view->fopen($rawPath, 'rb');
+
 				// 2nd handle for moving plain file - view->rename() doesn't work, this is a workaround
-				$plainHandle2 = $this->view->fopen( $rawPath . '.plaintmp', 'wb' );
-				
+				$plainHandle2 = $this->view->fopen($rawPath . '.plaintmp', 'wb');
+
 				// Move plain file to a temporary location
-				stream_copy_to_stream( $plainHandle1, $plainHandle2 );
-				
+				stream_copy_to_stream($plainHandle1, $plainHandle2);
+
 				// Close access to original file
 				// $this->view->fclose( $plainHandle1 ); // not implemented in view{}
-				
 				// Delete original plain file so we can rename enc file later
-				$this->view->unlink( $rawPath );
-				
+				$this->view->unlink($rawPath);
+
 				// Open enc file handle for binary writing, with same filename as original plain file
-				$encHandle = fopen( 'crypt://' . $relPath, 'wb' );
-				
+				$encHandle = fopen('crypt://' . $relPath, 'wb');
+
 				// Save data from plain stream to new encrypted file via enc stream
 				// NOTE: Stream{} will be invoked for handling 
 				// the encryption, and should handle all keys 
 				// and their generation etc. automatically
-				$size = stream_copy_to_stream( $plainHandle2, $encHandle );
-				
+				$size = stream_copy_to_stream($plainHandle2, $encHandle);
+
 				// Delete temporary plain copy of file
-				$this->view->unlink( $rawPath . '.plaintmp' );
-				
+				$this->view->unlink($rawPath . '.plaintmp');
+
 				// Add the file to the cache
-				\OC\Files\Filesystem::putFileInfo( $plainFile['path'], array( 'encrypted'=>true, 'size' => $size ), '' );
-			
+				\OC\Files\Filesystem::putFileInfo($plainFile['path'], array('encrypted' => true, 'size' => $size), '');
 			}
-			
+
 			// Encrypt legacy encrypted files
-			if ( 
-				! empty( $legacyPassphrase ) 
-				&& ! empty( $newPassphrase ) 
+			if (
+				!empty($legacyPassphrase)
+				&& !empty($newPassphrase)
 			) {
-			
-				foreach ( $found['legacy'] as $legacyFile ) {
-				
+
+				foreach ($found['legacy'] as $legacyFile) {
+
 					// Fetch data from file
-					$legacyData = $this->view->file_get_contents( $legacyFile['path'] );
+					$legacyData = $this->view->file_get_contents($legacyFile['path']);
+
+					$sharingEnabled = \OCP\Share::isEnabled();
+
+					// if file exists try to get sharing users
+					if ($view->file_exists($legacyFile['path'])) {
+						$uniqueUserIds = $util->getSharingUsersArray($sharingEnabled, $legacyFile['path'], $this->userId);
+					} else {
+						$uniqueUserIds[] = $this->userId;
+					}
+
+					// Fetch public keys for all users who will share the file
+					$publicKeys = Keymanager::getPublicKeys($this->view, $uniqueUserIds);
 
 					// Recrypt data, generate catfile
-					$recrypted = Crypt::legacyKeyRecryptKeyfile( $legacyData, $legacyPassphrase, $publicKey, $newPassphrase, $legacyFile['path'] );
-					
+					$recrypted = Crypt::legacyKeyRecryptKeyfile($legacyData, $legacyPassphrase, $publicKey, $newPassphrase, $legacyFile['path'], $publicKeys);
+
 					$rawPath = $legacyFile['path'];
 					$relPath = $this->stripUserFilesPath($rawPath);
-					
+
 					// Save keyfile
-					Keymanager::setFileKey( $this->view, $relPath, $this->userId, $recrypted['filekey'] );
+					Keymanager::setFileKey($this->view, $relPath, $this->userId, $recrypted['filekey']);
 
 					// Save sharekeys to user folders
-					Keymanager::setShareKeys( $this->view, $relPath, $recrypted['sharekeys'] );
+					Keymanager::setShareKeys($this->view, $relPath, $recrypted['sharekeys']);
 
 					// Overwrite the existing file with the encrypted one
-					$this->view->file_put_contents( $rawPath, $recrypted['data'] );
-					
-					$size = strlen( $recrypted['data'] );
-					
+					$this->view->file_put_contents($rawPath, $recrypted['data']);
+
+					$size = strlen($recrypted['data']);
+
 					// Add the file to the cache
-					\OC\Files\Filesystem::putFileInfo( $rawPath, array( 'encrypted'=>true, 'size' => $size ), '' );
-				
+					\OC\Files\Filesystem::putFileInfo($rawPath, array('encrypted' => true, 'size' => $size), '');
 				}
-				
 			}
-			
+
 			\OC_FileProxy::$enabled = true;
-			
+
 			// If files were found, return true
 			return true;
-		
 		} else {
-		
+
 			// If no files were found, return false
 			return false;
-			
 		}
-		
 	}
-	
+
 	/**
 	 * @brief Return important encryption related paths
 	 * @param string $pathName Name of the directory to return the path of

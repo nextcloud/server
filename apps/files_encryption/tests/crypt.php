@@ -513,48 +513,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( $this->dataUrl, $decrypt );
 	
 	}
-	
-	// What is the point of this test? It doesn't use keyEncryptKeyfile()
-	function testKeyEncryptKeyfile() {
-	
-		# TODO: Don't repeat encryption from previous tests, use PHPUnit test interdependency instead
 		
-		// Generate keypair
-		$pair1 = Encryption\Crypt::createKeypair();
-		
-		// Encrypt plain data, generate keyfile & encrypted file
-		$cryptedData = Encryption\Crypt::symmetricEncryptFileContentKeyfile( $this->dataUrl );
-		
-		// Encrypt keyfile
-		$cryptedKey = Encryption\Crypt::keyEncrypt( $cryptedData['key'], $pair1['publicKey'] );
-		
-		// Decrypt keyfile
-		$decryptKey = Encryption\Crypt::keyDecrypt( $cryptedKey, $pair1['privateKey'] );
-		
-		// Decrypt encrypted file
-		$decryptData = Encryption\Crypt::symmetricDecryptFileContent( $cryptedData['encrypted'], $decryptKey );
-		
-		$this->assertEquals( $this->dataUrl, $decryptData );
-	
-	}
-	
-	/**
-	 * @brief test functionality of keyEncryptKeyfile() and 
-	 * keyDecryptKeyfile()
-	 */
-	function testKeyDecryptKeyfile() {
-		
-		$encrypted = Encryption\Crypt::keyEncryptKeyfile( $this->dataShort, $this->genPublicKey );
-		
-		$this->assertNotEquals( $encrypted['data'], $this->dataShort );
-		
-		$decrypted = Encryption\Crypt::keyDecryptKeyfile( $encrypted['data'], $encrypted['key'], $this->genPrivateKey );
-		
-		$this->assertEquals( $decrypted, $this->dataShort );
-		
-	}
-
-	
 	/**
 	 * @brief test encryption using legacy blowfish method
 	 */

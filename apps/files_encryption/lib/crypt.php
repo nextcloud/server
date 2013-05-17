@@ -472,61 +472,7 @@ class Crypt {
 		return $result;
 	
 	}
-
-        /**
-         * @brief Encrypts content symmetrically and generates keyfile asymmetrically
-         * @returns array containing catfile and new keyfile. 
-         * keys: data, key
-         * @note this method is a wrapper for combining other crypt class methods
-         */
-	public static function keyEncryptKeyfile( $plainContent, $publicKey, $path ) {
-
-		$user = \OCP\User::getUser();
-		$view = new \OC_FilesystemView('/');
-		$util = new Util($view, $user);
-
-		// Encrypt plain data, generate keyfile & encrypted file
-		$cryptedData = self::symmetricEncryptFileContentKeyfile( $plainContent );
 		
-		// Encrypt keyfile
-
-		$sharingEnabled = \OCP\Share::isEnabled();
-
-		// if file exists try to get sharing users
-		if($view->file_exists($path)) {
-			$uniqueUserIds = $util->getSharingUsersArray( $sharingEnabled, $path, $user );
-		} else {
-			$uniqueUserIds[] = $user;
-		}
-
-		// Fetch public keys for all users who will share the file
-		$publicKeys = Keymanager::getPublicKeys( $view, $uniqueUserIds );
-
-		// Encrypt plain keyfile to multiple sharefiles
-		$multiEncrypted = Crypt::multiKeyEncrypt( $cryptedData['key'], $publicKeys );
-
-		return array( 'data' => $cryptedData['encrypted'], 'filekey' => $multiEncrypted['data'], 'sharekeys' => $multiEncrypted['keys'] );
-		
-	}
-	
-        /**
-         * @brief Takes catfile, keyfile, and private key, and
-         * performs decryption
-         * @returns decrypted content
-         * @note this method is a wrapper for combining other crypt class methods
-         */
-	public static function keyDecryptKeyfile( $catfile, $keyfile, $privateKey ) {
-		
-		// Decrypt the keyfile with the user's private key
-		$decryptedKeyfile = self::keyDecrypt( $keyfile, $privateKey );
-		
-		// Decrypt the catfile symmetrically using the decrypted keyfile
-		$decryptedData = self::symmetricDecryptFileContent( $catfile, $decryptedKeyfile );
-		
-		return $decryptedData;
-		
-	}
-	
 	/**
 	* @brief Symmetrically encrypt a file by combining encrypted component data blocks
 	*/
@@ -743,13 +689,17 @@ class Crypt {
 		
 	}
 	
-	public static function legacyKeyRecryptKeyfile( $legacyEncryptedContent, $legacyPassphrase, $publicKey, $newPassphrase, $path ) {
+	public static function legacyKeyRecryptKeyfile( $legacyEncryptedContent, $legacyPassphrase, $publicKeys, $newPassphrase, $path ) {
 	
 		$decrypted = self::legacyDecrypt( $legacyEncryptedContent, $legacyPassphrase );
-	
-		$recrypted = self::keyEncryptKeyfile( $decrypted, $publicKey, $path );
-		
-		return $recrypted;
+
+		// Encrypt plain data, generate keyfile & encrypted file
+		$cryptedData = self::symmetricEncryptFileContentKeyfile( $decrypted );
+
+		// Encrypt plain keyfile to multiple sharefiles
+		$multiEncrypted = Crypt::multiKeyEncrypt( $cryptedData['key'], $publicKeys );
+
+		return array( 'data' => $cryptedData['encrypted'], 'filekey' => $multiEncrypted['data'], 'sharekeys' => $multiEncrypted['keys'] );
 	
 	}
 	
