@@ -47,7 +47,6 @@ class Google extends \OC\Files\Storage\Common {
 			$client = new \Google_Client();
 			$client->setClientId($params['client_id']);
 			$client->setClientSecret($params['client_secret']);
-			$client->setRedirectUri('http://localhost/workspace/core');
 			$client->setScopes(array('https://www.googleapis.com/auth/drive'));
 			$client->setUseObjects(true);
 			$client->setAccessToken($params['token']);
