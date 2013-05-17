@@ -383,6 +383,11 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 
 /* ---- DIALOGS ---- */
 #oc-dialog-filepicker-content .dirtree {width:92%; overflow:hidden; }
+#oc-dialog-filepicker-content .dirtree .home {
+	background-image:url('../img/places/home.svg');
+	background-repeat:no-repeat;
+	background-position: left center;
+}
 #oc-dialog-filepicker-content .dirtree span:not(:last-child) { cursor: pointer; }
 #oc-dialog-filepicker-content .dirtree span:last-child { font-weight: bold; }
 #oc-dialog-filepicker-content .dirtree span:not(:last-child)::after { content: '>'; padding: 3px;}

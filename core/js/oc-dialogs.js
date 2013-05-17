@@ -314,10 +314,10 @@ var OCdialogs = {
 				}));
 			});
 		}
-		this.$dirTree.prepend($template.octemplate({
+		$template.octemplate({
 			dir: '',
-			name: '/'
-		}));
+			name: '&nbsp;&nbsp;&nbsp;&nbsp;' // Ugly but works ;)
+		}, {escapeFunction: null}).addClass('home svg').prependTo(this.$dirTree);
 	},
 	/**
 	 * handle selection made in the tree list
