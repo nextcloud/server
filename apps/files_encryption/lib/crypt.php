@@ -652,7 +652,7 @@ class Crypt {
 		return $legacyEncKey;
 	
 	}
-	
+
 	/**
 	 * @brief encrypts content using legacy blowfish system
 	 * @param $content the cleartext message you want to encrypt
@@ -683,7 +683,7 @@ class Crypt {
 		
 		$decrypted = $bf->decrypt( $content );
 		
-		return $decrypted;
+		return rtrim($decrypted, "\0");;
 		
 	}
 

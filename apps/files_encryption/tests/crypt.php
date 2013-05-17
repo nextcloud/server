@@ -595,7 +595,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	 */
 	function testLegacyKeyRecryptKeyfileEncrypt( $crypted ) {
 	
-		$recrypted = Encryption\Crypt::LegacyKeyRecryptKeyfile( $crypted, $this->pass, $this->genPublicKey, $this->pass );
+		$recrypted = Encryption\Crypt::LegacyKeyRecryptKeyfile( $crypted, $this->pass, array($this->genPublicKey), $this->pass, '');
 		
 		$this->assertNotEquals( $this->dataLong, $recrypted['data'] );
 		
