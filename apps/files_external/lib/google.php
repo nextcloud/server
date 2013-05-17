@@ -21,8 +21,10 @@
 
 namespace OC\Files\Storage;
 
-require_once 'google-api-php-client/src/Google_Client.php';
-require_once 'google-api-php-client/src/contrib/Google_DriveService.php';
+set_include_path(get_include_path().PATH_SEPARATOR.
+	\OC_App::getAppPath('files_external').'/3rdparty/google-api-php-client/src');
+require_once 'Google_Client.php';
+require_once 'contrib/Google_DriveService.php';
 
 class Google extends \OC\Files\Storage\Common {
 
