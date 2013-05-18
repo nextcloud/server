@@ -28,7 +28,7 @@
 				<comments>Whether encryption key recovery is enabled</comments>
 			</field>
 			<field>
-				<name>migrationStatus</name>
+				<name>migration_status</name>
 				<type>boolean</type>
 				<notnull>true</notnull>
 				<default>0</default>

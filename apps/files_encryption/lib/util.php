@@ -1033,7 +1033,7 @@ class Util {
 		$sql = 'UPDATE 
 				*PREFIX*encryption 
 			SET 
-				migrationStatus = ? 
+				migration_status = ?
 			WHERE 
 				uid = ?';
 		
@@ -1062,7 +1062,7 @@ class Util {
 	public function getMigrationStatus() {
 	
 		$sql = 'SELECT 
-				migrationStatus 
+				migration_status
 			FROM 
 				`*PREFIX*encryption` 
 			WHERE 
@@ -1078,7 +1078,7 @@ class Util {
 		
 		while( $row = $result->fetchRow() ) {
 		
-			$migrationStatus[] = $row['migrationStatus'];
+			$migrationStatus[] = $row['migration_status'];
 			
 		}
 		
