@@ -155,7 +155,7 @@ class Crypt {
 		// TODO: Use DI to get \OC\Files\Filesystem out of here
 	
 		// Fetch all file metadata from DB
-		$metadata = \OC\Files\Filesystem::getFileInfo( $path, '' );
+		$metadata = \OC\Files\Filesystem::getFileInfo( $path);
 		
 		// Return encryption status
 		return isset( $metadata['encrypted'] ) and ( bool )$metadata['encrypted'];
@@ -474,78 +474,9 @@ class Crypt {
 	}
 		
 	/**
-	* @brief Symmetrically encrypt a file by combining encrypted component data blocks
-	*/
-	public static function symmetricBlockEncryptFileContent( $plainContent, $key ) {
-	
-		$crypted = '';
-		
-		$remaining = $plainContent;
-		
-		$testarray = array();
-		
-		while( strlen( $remaining ) ) {
-		
-			//echo "\n\n\$block = ".substr( $remaining, 0, 6126 );
-		
-			// Encrypt a chunk of unencrypted data and add it to the rest
-			$block = self::symmetricEncryptFileContent( substr( $remaining, 0, 6126 ), $key );
-			
-			$padded = self::addPadding( $block );
-			
-			$crypted .= $block;
-			
-			$testarray[] = $block;
-			
-			// Remove the data already encrypted from remaining unencrypted data
-			$remaining = substr( $remaining, 6126 );
-		
-		}
-		
-		//echo "hags   ";
-		
-		//echo "\n\n\n\$crypted = $crypted\n\n\n";
-		
-		//print_r($testarray);
-		
-		return $crypted;
-
-	}
-
-
-	/**
-	* @brief Symmetrically decrypt a file by combining encrypted component data blocks
-	*/
-	public static function symmetricBlockDecryptFileContent( $crypted, $key ) {
-		
-		$decrypted = '';
-		
-		$remaining = $crypted;
-		
-		$testarray = array();
-		
-		while( strlen( $remaining ) ) {
-			
-			$testarray[] = substr( $remaining, 0, 8192 );
-		
-			// Decrypt a chunk of unencrypted data and add it to the rest
-			$decrypted .= self::symmetricDecryptFileContent( $remaining, $key );
-			
-			// Remove the data already encrypted from remaining unencrypted data
-			$remaining = substr( $remaining, 8192 );
-			
-		}
-		
-		//echo "\n\n\$testarray = "; print_r($testarray);
-		
-		return $decrypted;
-		
-	}
-	
-        /**
-         * @brief Generates a pseudo random initialisation vector
-         * @return String $iv generated IV
-         */
+	 * @brief Generates a pseudo random initialisation vector
+	 * @return String $iv generated IV
+	 */
 	public static function generateIv() {
 		
 		if ( $random = openssl_random_pseudo_bytes( 12, $strong ) ) {
@@ -571,10 +502,10 @@ class Crypt {
 		
 	}
 	
-        /**
-         * @brief Generate a pseudo random 1024kb ASCII key
-         * @returns $key Generated key
-         */
+	/**
+	 * @brief Generate a pseudo random 1024kb ASCII key
+	 * @returns $key Generated key
+	 */
 	public static function generateKey() {
 		
 		// Generate key
@@ -597,29 +528,6 @@ class Crypt {
 		
 	}
 
-	public static function changekeypasscode( $oldPassword, $newPassword ) {
-
-		if ( \OCP\User::isLoggedIn() ) {
-		
-			$key = Keymanager::getPrivateKey( $user, $view );
-			
-			if ( ( $key = Crypt::symmetricDecryptFileContent($key,$oldpasswd) ) ) {
-			
-				if ( ( $key = Crypt::symmetricEncryptFileContent( $key, $newpasswd ) ) ) {
-				
-					Keymanager::setPrivateKey( $key );
-					
-					return true;
-				}
-				
-			}
-			
-		}
-		
-		return false;
-		
-	}
-	
 	/**
 	 * @brief Get the blowfish encryption handeler for a key
 	 * @param $key string (optional)
@@ -652,7 +560,7 @@ class Crypt {
 		return $legacyEncKey;
 	
 	}
-	
+
 	/**
 	 * @brief encrypts content using legacy blowfish system
 	 * @param $content the cleartext message you want to encrypt
@@ -683,7 +591,7 @@ class Crypt {
 		
 		$decrypted = $bf->decrypt( $content );
 		
-		return $decrypted;
+		return rtrim($decrypted, "\0");;
 		
 	}
 
@@ -713,18 +621,5 @@ class Crypt {
 		return array( 'data' => $cryptedData['encrypted'], 'filekey' => $multiEncrypted['data'], 'sharekeys' => $multiEncrypted['keys'] );
 	
 	}
-	
-	/**
-	* @brief Re-encryptes a legacy blowfish encrypted file using AES with integrated IV
-	* @param $legacyContent the legacy encrypted content to re-encrypt
-	* @returns cleartext content
-	*
-	* This function decrypts an content
-	*/
-	public static function legacyRecrypt( $legacyContent, $legacyPassphrase, $newPassphrase ) {
-		
-		// TODO: write me
-	
-	}
-	
+
 }
