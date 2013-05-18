@@ -88,20 +88,27 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 
         $privateKey = Encryption\Crypt::symmetricDecryptFileContent( $key, $this->pass);
 
-		// Will this length vary? Perhaps we should use a range instead
-		$this->assertGreaterThan( 27, strlen( $privateKey ) );
+		$res = openssl_pkey_get_private($privateKey);
 
-        $this->assertEquals( '-----BEGIN PRIVATE KEY-----', substr( $privateKey, 0, 27 ) );
+		$this->assertTrue(is_resource($res));
+
+		$sslInfo = openssl_pkey_get_details($res);
+
+		$this->assertArrayHasKey('key', $sslInfo);
 	
 	}
 	
 	function testGetPublicKey() {
 
-		$key = Encryption\Keymanager::getPublicKey( $this->view, $this->userId );
-		
-		$this->assertGreaterThan( 26, strlen( $key ) );
-		
-		$this->assertEquals( '-----BEGIN PUBLIC KEY-----', substr( $key, 0, 26 ) );
+		$publiceKey = Encryption\Keymanager::getPublicKey( $this->view, $this->userId );
+
+		$res = openssl_pkey_get_public($publiceKey);
+
+		$this->assertTrue(is_resource($res));
+
+		$sslInfo = openssl_pkey_get_details($res);
+
+		$this->assertArrayHasKey('key', $sslInfo);
 	}
 	
 	function testSetFileKey() {
