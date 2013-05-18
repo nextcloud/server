@@ -16,7 +16,7 @@ Encrypted files
   - Sharekey are stored in /data/user/files_encryption/share-files
   
 - File extensions:
-  - Catfiles have keep the file extension of the original file, pre-encryption
+  - Catfiles have to keep the file extension of the original file, pre-encryption
   - Keyfiles use .keyfile
   - Sharekeys have .shareKey
   

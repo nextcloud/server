@@ -320,7 +320,7 @@ class Hooks {
 
 			$sharingEnabled = \OCP\Share::isEnabled();
 
-			// if a folder was shared, get a list if all (sub-)folders
+			// if a folder was shared, get a list of all (sub-)folders
 			if ($params['itemType'] === 'folder') {
 				$allFiles = $util->getAllFiles($path);
 			} else {
