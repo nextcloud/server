@@ -7,7 +7,6 @@
  * See the COPYING-README file.
  */
 
-//require_once "PHPUnit/Framework/TestCase.php";
 require_once realpath( dirname(__FILE__).'/../../../3rdparty/Crypt_Blowfish/Blowfish.php' );
 require_once realpath( dirname(__FILE__).'/../../../lib/base.php' );
 require_once realpath( dirname(__FILE__).'/../lib/crypt.php' );
@@ -20,18 +19,7 @@ require_once realpath( dirname(__FILE__).'/../appinfo/app.php' );
 
 use OCA\Encryption;
 
-// This has to go here because otherwise session errors arise, and the private 
-// encryption key needs to be saved in the session
-
-/**
- * @note It would be better to use Mockery here for mocking out the session 
- * handling process, and isolate calls to session class and data from the unit 
- * tests relating to them (stream etc.). However getting mockery to work and 
- * overload classes whilst also using the OC autoloader is difficult due to 
- * load order Pear errors.
- */
-
-class Test_Crypt extends \PHPUnit_Framework_TestCase {
+class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	
 	function setUp() {
         // reset backend

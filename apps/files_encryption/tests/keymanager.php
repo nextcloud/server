@@ -5,8 +5,7 @@
  * later.
  * See the COPYING-README file.
  */
- 
-//require_once "PHPUnit/Framework/TestCase.php";
+
 require_once realpath( dirname(__FILE__).'/../../../lib/base.php' );
 require_once realpath( dirname(__FILE__).'/../lib/crypt.php' );
 require_once realpath( dirname(__FILE__).'/../lib/keymanager.php' );
@@ -18,11 +17,7 @@ require_once realpath( dirname(__FILE__).'/../appinfo/app.php' );
 
 use OCA\Encryption;
 
-// This has to go here because otherwise session errors arise, and the private 
-// encryption key needs to be saved in the session
-//\OC_User::login( 'admin', 'admin' );
-
-class Test_Keymanager extends \PHPUnit_Framework_TestCase {
+class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 	
 	function setUp() {
         // reset backend

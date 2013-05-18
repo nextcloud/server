@@ -6,7 +6,6 @@
  * See the COPYING-README file.
  */
 
-//require_once "PHPUnit/Framework/TestCase.php";
 require_once realpath( dirname(__FILE__).'/../../../lib/base.php' );
 require_once realpath( dirname(__FILE__).'/../lib/crypt.php' );
 require_once realpath( dirname(__FILE__).'/../lib/keymanager.php' );
@@ -15,16 +14,9 @@ require_once realpath( dirname(__FILE__).'/../lib/stream.php' );
 require_once realpath( dirname(__FILE__).'/../lib/util.php' );
 require_once realpath( dirname(__FILE__).'/../appinfo/app.php' );
 
-// Load mockery files
-require_once 'Mockery/Loader.php';
-require_once 'Hamcrest/Hamcrest.php';
-$loader = new \Mockery\Loader;
-$loader->register();
-
-use \Mockery as m;
 use OCA\Encryption;
 
-class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
+class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 	
 	function setUp() {
         // reset backend
@@ -72,28 +64,20 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
         $params['password'] = $this->pass;
         OCA\Encryption\Hooks::login($params);
 
-		$mockView = m::mock('OC_FilesystemView');
-		$this->util = new Encryption\Util( $mockView, $this->userId );
-	
+		$this->util = new Encryption\Util( $this->view, $this->userId );
 	}
 	
 	function tearDown(){
 	
-		m::close();
 		\OC_FileProxy::clearProxies();
 	}
 	
 	/**
 	 * @brief test that paths set during User construction are correct
-     *
-     *
-     *
 	 */
 	function testKeyPaths() {
 	
-		$mockView = m::mock('OC_FilesystemView');
-		
-		$util = new Encryption\Util( $mockView, $this->userId );
+		$util = new Encryption\Util( $this->view, $this->userId );
 		
 		$this->assertEquals( $this->publicKeyDir, $util->getPath( 'publicKeyDir' ) );
 		$this->assertEquals( $this->encryptionDir, $util->getPath( 'encryptionDir' ) );
@@ -104,87 +88,19 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 	}
 	
 	/**
-	 * @brief test setup of encryption directories when they don't yet exist
+	 * @brief test setup of encryption directories
 	 */
-	function testSetupServerSideNotSetup() {
+	function testSetupServerSide() {
 	
-		$mockView = m::mock('OC_FilesystemView');
-		
-		$mockView->shouldReceive( 'file_exists' )->times(7)->andReturn( false );
-		$mockView->shouldReceive( 'mkdir' )->times(6)->andReturn( true );
-		$mockView->shouldReceive( 'file_put_contents' )->withAnyArgs();
-		
-		$util = new Encryption\Util( $mockView, $this->userId );
-		
-		$this->assertEquals( true, $util->setupServerSide( $this->pass ) );
-	
+		$this->assertEquals( true, $this->util->setupServerSide( $this->pass ) );
 	}
 	
 	/**
-	 * @brief test setup of encryption directories when they already exist
+	 * @brief test checking whether account is ready for encryption,
 	 */
-	function testSetupServerSideIsSetup() {
+	function testUserIsReady() {
 	
-		$mockView = m::mock('OC_FilesystemView');
-		
-		$mockView->shouldReceive( 'file_exists' )->times(8)->andReturn( true );
-		$mockView->shouldReceive( 'file_put_contents' )->withAnyArgs();
-		
-		$util = new Encryption\Util( $mockView, $this->userId );
-		
-		$this->assertEquals( true, $util->setupServerSide( $this->pass ) );
-		
-	}
-	
-	/**
-	 * @brief test checking whether account is ready for encryption, when it isn't ready
-	 */
-	function testReadyNotReady() {
-	
-		$mockView = m::mock('OC_FilesystemView');
-		
-		$mockView->shouldReceive( 'file_exists' )->times(1)->andReturn( false );
-		
-		$util = new Encryption\Util( $mockView, $this->userId );
-		
-		$this->assertEquals( false, $util->ready() );
-		
-		# TODO: Add more tests here to check that if any of the dirs are 
-		# then false will be returned. Use strict ordering?
-		
-	}
-	
-	/**
-	 * @brief test checking whether account is ready for encryption, when it is ready
-	 */
-	function testReadyIsReady() {
-	
-		$mockView = m::mock('OC_FilesystemView');
-		
-		$mockView->shouldReceive( 'file_exists' )->times(5)->andReturn( true );
-		
-		$util = new Encryption\Util( $mockView, $this->userId );
-		
-		$this->assertEquals( true, $util->ready() );
-		
-		# TODO: Add more tests here to check that if any of the dirs are 
-		# then false will be returned. Use strict ordering?
-		
-	}
-	
-	function testFindEncFiles() {
-	
-// 		$this->view->chroot( "/data/{$this->userId}/files" );
-
-		$util = new Encryption\Util( $this->view, $this->userId );
-		
-		$files = $util->findEncFiles( '/'.$this->userId.'/');
-		
-		//var_dump( $files );
-		
-		# TODO: Add more tests here to check that if any of the dirs are 
-		# then false will be returned. Use strict ordering?
-		
+		$this->assertEquals( true, $this->util->ready() );
 	}
 	
 	function testRecoveryEnabledForUser() {
@@ -230,62 +146,4 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals($file, $filename);
 	}
-
-// 	/**
-// 	 * @brief test decryption using legacy blowfish method
-// 	 * @depends testLegacyEncryptLong
-// 	 */
-// 	function testLegacyKeyRecryptKeyfileDecrypt( $recrypted ) {
-// 	
-// 		$decrypted = Encryption\Crypt::keyDecryptKeyfile( $recrypted['data'], $recrypted['key'], $this->genPrivateKey );
-// 		
-// 		$this->assertEquals( $this->dataLong, $decrypted );
-// 		
-// 	}
-	
-//	// Cannot use this test for now due to hidden dependencies in OC_FileCache
-// 	function testIsLegacyEncryptedContent() {
-// 		
-// 		$keyfileContent = OCA\Encryption\Crypt::symmetricEncryptFileContent( $this->legacyEncryptedData, 'hat' );
-// 		
-// 		$this->assertFalse( OCA\Encryption\Crypt::isLegacyEncryptedContent( $keyfileContent, '/files/admin/test.txt' ) );
-// 		
-// 		OC_FileCache::put( '/admin/files/legacy-encrypted-test.txt', $this->legacyEncryptedData );
-// 		
-// 		$this->assertTrue( OCA\Encryption\Crypt::isLegacyEncryptedContent( $this->legacyEncryptedData, '/files/admin/test.txt' ) );
-// 		
-// 	}
-
-//	// Cannot use this test for now due to need for different root in OC_Filesystem_view class
-// 	function testGetLegacyKey() {
-// 		
-// 		$c = new \OCA\Encryption\Util( $view, false );
-// 
-// 		$bool = $c->getLegacyKey( 'admin' );
-//
-//		$this->assertTrue( $bool );
-// 		
-// 		$this->assertTrue( $c->legacyKey );
-// 		
-// 		$this->assertTrue( is_int( $c->legacyKey ) );
-// 		
-// 		$this->assertTrue( strlen( $c->legacyKey ) == 20 );
-//	
-// 	}
-
-//	// Cannot use this test for now due to need for different root in OC_Filesystem_view class
-// 	function testLegacyDecrypt() {
-// 
-// 		$c = new OCA\Encryption\Util( $this->view, false );
-// 		
-// 		$bool = $c->getLegacyKey( 'admin' );
-// 
-// 		$encrypted = $c->legacyEncrypt( $this->data, $c->legacyKey );
-// 		
-// 		$decrypted = $c->legacyDecrypt( $encrypted, $c->legacyKey );
-// 
-// 		$this->assertEquals( $decrypted, $this->data );
-// 	
-// 	}
-
 }
