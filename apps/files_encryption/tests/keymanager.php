@@ -163,29 +163,23 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 	function testGetUserKeys() {
 	
 		$keys = Encryption\Keymanager::getUserKeys( $this->view, $this->userId );
-		
-		$this->assertGreaterThan( 26, strlen( $keys['publicKey'] ) );
 
-		$this->assertEquals( '-----BEGIN PUBLIC KEY-----', substr( $keys['publicKey'], 0, 26 ) );
+		$resPublic = openssl_pkey_get_public($keys['publicKey']);
 
-        $privateKey = Encryption\Crypt::symmetricDecryptFileContent( $keys['privateKey'], $this->pass);
+		$this->assertTrue(is_resource($resPublic));
 
-        $this->assertGreaterThan( 27, strlen( $keys['privateKey'] ) );
+		$sslInfoPublic = openssl_pkey_get_details($resPublic);
 
-        $this->assertEquals( '-----BEGIN PRIVATE KEY-----', substr( $privateKey, 0, 27 ) );
-	
+		$this->assertArrayHasKey('key', $sslInfoPublic);
+
+		$privateKey = Encryption\Crypt::symmetricDecryptFileContent( $keys['privateKey'], $this->pass);
+
+		$resPrivate = openssl_pkey_get_private($privateKey);
+
+		$this->assertTrue(is_resource($resPrivate));
+
+		$sslInfoPrivate = openssl_pkey_get_details($resPrivate);
+
+		$this->assertArrayHasKey('key', $sslInfoPrivate);
 	}
-	
-	function testGetPublicKeys() {
-		
-		# TODO: write me
-		
-	}
-	
-	function testGetFileKey() {
-	
-// 		Encryption\Keymanager::getFileKey( $this->view, $this->userId, $this->filePath );
-	
-	}
-	
 }
