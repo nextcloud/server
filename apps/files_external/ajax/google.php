@@ -1,6 +1,7 @@
 <?php
-
-require_once 'google-api-php-client/src/Google_Client.php';
+set_include_path(get_include_path().PATH_SEPARATOR.
+	\OC_App::getAppPath('files_external').'/3rdparty/google-api-php-client/src');
+require_once 'Google_Client.php';
 
 OCP\JSON::checkAppEnabled('files_external');
 OCP\JSON::checkLoggedIn();
