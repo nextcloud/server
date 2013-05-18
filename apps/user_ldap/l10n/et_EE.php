@@ -7,6 +7,8 @@
 "Take over settings from recent server configuration?" => "Võta sätted viimasest serveri seadistusest?",
 "Keep settings?" => "Säilitada seadistused?",
 "Cannot add server configuration" => "Ei suuda lisada serveri seadistust",
+"Success" => "Korras",
+"Error" => "Viga",
 "Connection test succeeded" => "Ühenduse testimine õnnestus",
 "Connection test failed" => "Ühenduse testimine ebaõnnestus",
 "Do you really want to delete the current Server Configuration?" => "Oled kindel, et tahad kustutada praegust serveri seadistust?",
