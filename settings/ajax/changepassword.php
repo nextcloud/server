@@ -28,8 +28,13 @@ if(is_null($userstatus)) {
 	exit();
 }
 
-$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), \OCP\User::getUser());
-if ( $recoveryPassword && ! $util->checkRecoveryPassword($recoveryPassword) ) {
+$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), $username);
+$recoveryAdminEnabled = OC_Appconfig::getValue( 'files_encryption', 'recoveryAdminEnabled' );
+$recoveryEnabledForUser = $util->recoveryEnabledForUser();
+
+if ($recoveryAdminEnabled && $recoveryEnabledForUser && $recoveryPassword == '') {
+	OC_JSON::error(array("data" => array( "message" => "Please provide a admin recovery password, otherwise all user data will be lost" )));
+}elseif ( $recoveryPassword && ! $util->checkRecoveryPassword($recoveryPassword) ) {
 	OC_JSON::error(array("data" => array( "message" => "Wrong admin recovery password. Please check the password and try again." )));
 }elseif(!is_null($password) && OC_User::setPassword( $username, $password, $recoveryPassword )) {
 	OC_JSON::success(array("data" => array( "username" => $username )));
@@ -37,4 +42,3 @@ if ( $recoveryPassword && ! $util->checkRecoveryPassword($recoveryPassword) ) {
 else{
 	OC_JSON::error(array("data" => array( "message" => "Unable to change password" )));
 }
-error_log("bliub");
