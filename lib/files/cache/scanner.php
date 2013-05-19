@@ -114,8 +114,8 @@ class Scanner {
 		if ($this->storage->is_dir($path) && ($dh = $this->storage->opendir($path))) {
 			\OC_DB::beginTransaction();
 			while ($file = readdir($dh)) {
-				if (!$this->isIgnoredDir($file)) {
-					$child = ($path) ? $path . '/' . $file : $file;
+				$child = ($path) ? $path . '/' . $file : $file;
+				if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
 					$data = $this->scanFile($child, $recursive === self::SCAN_SHALLOW);
 					if ($data) {
 						if ($data['size'] === -1) {
@@ -149,18 +149,6 @@ class Scanner {
 		return $size;
 	}
 
-	/**
-	 * @brief check if the directory should be ignored when scanning
-	 * NOTE: the special directories . and .. would cause never ending recursion
-	 * @param String $dir
-	 * @return boolean
-	 */
-	private function isIgnoredDir($dir) {
-		if ($dir === '.' || $dir === '..') {
-			return true;
-		}
-		return false;
-	}
 	/**
 	 * @brief check if the file should be ignored when scanning
 	 * NOTE: files with a '.part' extension are ignored as well!
