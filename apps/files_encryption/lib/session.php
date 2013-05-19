@@ -97,8 +97,8 @@ class Session {
 
 	/**
 	 * @brief Sets user private key to session
+	 * @param string $privateKey
 	 * @return bool
-	 *
 	 */
 	public function setPrivateKey( $privateKey ) {
 	

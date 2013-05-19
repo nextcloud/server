@@ -28,10 +28,12 @@ namespace OCA\Encryption;
  * @note Where a method requires a view object, it's root must be '/'
  */
 class Keymanager {
-		
+
 	/**
 	 * @brief retrieve the ENCRYPTED private key from a user
-	 * 
+	 *
+	 * @param \OC_FilesystemView $view
+	 * @param string $user
 	 * @return string private key or false (hopefully)
 	 * @note the key returned by this method must be decrypted before use
 	 */
