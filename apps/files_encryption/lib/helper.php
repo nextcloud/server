@@ -23,76 +23,82 @@
 
 namespace OCA\Encryption;
 
-/**
- * @brief Class to manage registration of hooks an various helper methods
- */
+	/**
+	 * @brief Class to manage registration of hooks an various helper methods
+	 */
 /**
  * Class Helper
  * @package OCA\Encryption
  */
-class Helper {
-		
+class Helper
+{
+
 	/**
 	 * @brief register share related hooks
-	 * 
+	 *
 	 */
-	public static function registerShareHooks() {
+	public static function registerShareHooks()
+	{
 
-        \OCP\Util::connectHook( 'OCP\Share', 'pre_shared', 'OCA\Encryption\Hooks', 'preShared' );
-		\OCP\Util::connectHook( 'OCP\Share', 'post_shared', 'OCA\Encryption\Hooks', 'postShared' );
-        \OCP\Util::connectHook( 'OCP\Share', 'post_unshare', 'OCA\Encryption\Hooks', 'postUnshare' );
+		\OCP\Util::connectHook('OCP\Share', 'pre_shared', 'OCA\Encryption\Hooks', 'preShared');
+		\OCP\Util::connectHook('OCP\Share', 'post_shared', 'OCA\Encryption\Hooks', 'postShared');
+		\OCP\Util::connectHook('OCP\Share', 'post_unshare', 'OCA\Encryption\Hooks', 'postUnshare');
 	}
 
-    /**
-     * @brief register user related hooks
-     *
-     */
-    public static function registerUserHooks() {
+	/**
+	 * @brief register user related hooks
+	 *
+	 */
+	public static function registerUserHooks()
+	{
 
-        \OCP\Util::connectHook( 'OC_User', 'post_login', 'OCA\Encryption\Hooks', 'login' );
-        \OCP\Util::connectHook( 'OC_User', 'post_setPassword', 'OCA\Encryption\Hooks', 'setPassphrase' );
-        \OCP\Util::connectHook( 'OC_User', 'post_createUser', 'OCA\Encryption\Hooks', 'postCreateUser' );
-        \OCP\Util::connectHook( 'OC_User', 'post_deleteUser', 'OCA\Encryption\Hooks', 'postDeleteUser' );
-    }
+		\OCP\Util::connectHook('OC_User', 'post_login', 'OCA\Encryption\Hooks', 'login');
+		\OCP\Util::connectHook('OC_User', 'post_setPassword', 'OCA\Encryption\Hooks', 'setPassphrase');
+		\OCP\Util::connectHook('OC_User', 'post_createUser', 'OCA\Encryption\Hooks', 'postCreateUser');
+		\OCP\Util::connectHook('OC_User', 'post_deleteUser', 'OCA\Encryption\Hooks', 'postDeleteUser');
+	}
 
-    /**
-     * @brief register webdav related hooks
-     *
-     */
-    public static function registerWebdavHooks() {
+	/**
+	 * @brief register webdav related hooks
+	 *
+	 */
+	public static function registerWebdavHooks()
+	{
 
 
-    }
+	}
 
-    /**
-     * @brief register filesystem related hooks
-     *
-     */
-    public static function registerFilesystemHooks() {
+	/**
+	 * @brief register filesystem related hooks
+	 *
+	 */
+	public static function registerFilesystemHooks()
+	{
 
-        \OCP\Util::connectHook('OC_Filesystem', 'post_rename', 'OCA\Encryption\Hooks', 'postRename');
-    }
+		\OCP\Util::connectHook('OC_Filesystem', 'post_rename', 'OCA\Encryption\Hooks', 'postRename');
+	}
 
-    /**
-     * @brief setup user for files_encryption
-     *
-     * @param Util $util
-     * @param string $password
-     * @return bool
-     */
-    public static function setupUser($util, $password) {
-        // Check files_encryption infrastructure is ready for action
-        if ( ! $util->ready() ) {
+	/**
+	 * @brief setup user for files_encryption
+	 *
+	 * @param Util $util
+	 * @param string $password
+	 * @return bool
+	 */
+	public static function setupUser($util, $password)
+	{
+		// Check files_encryption infrastructure is ready for action
+		if (!$util->ready()) {
 
-            \OC_Log::write( 'Encryption library', 'User account "' . $util->getUserId() . '" is not ready for encryption; configuration started', \OC_Log::DEBUG );
+			\OC_Log::write('Encryption library', 'User account "' . $util->getUserId() . '" is not ready for encryption; configuration started', \OC_Log::DEBUG);
 
-            if(!$util->setupServerSide( $password )) {
-                return false;
-            }
-        }
+			if (!$util->setupServerSide($password)) {
+				return false;
+			}
+		}
 
-        return true;
-    }
+		return true;
+	}
 
 	/**
 	 * @brief enable recovery
@@ -103,7 +109,8 @@ class Helper {
 	 * @internal param string $password
 	 * @return bool
 	 */
-	public static function adminEnableRecovery($recoveryKeyId, $recoveryPassword) {
+	public static function adminEnableRecovery($recoveryKeyId, $recoveryPassword)
+	{
 		$view = new \OC\Files\View('/');
 
 		if ($recoveryKeyId === null) {
@@ -139,7 +146,7 @@ class Helper {
 			$view->file_put_contents('/owncloud_private_key/' . $recoveryKeyId . '.private.key', $encryptedPrivateKey);
 
 			// create control file which let us check later on if the entered password was correct.
-			$encryptedControlData =  \OCA\Encryption\Crypt::keyEncrypt("ownCloud", $keypair['publicKey']);
+			$encryptedControlData = \OCA\Encryption\Crypt::keyEncrypt("ownCloud", $keypair['publicKey']);
 			if (!$view->is_dir('/control-file')) {
 				$view->mkdir('/control-file');
 			}
@@ -170,7 +177,8 @@ class Helper {
 	 * @param $recoveryPassword
 	 * @return bool
 	 */
-	public static function adminDisableRecovery($recoveryPassword) {
+	public static function adminDisableRecovery($recoveryPassword)
+	{
 		$util = new Util(new \OC_FilesystemView('/'), \OCP\User::getUser());
 		$return = $util->checkRecoveryPassword($recoveryPassword);
 

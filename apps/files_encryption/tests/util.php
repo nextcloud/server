@@ -6,20 +6,21 @@
  * See the COPYING-README file.
  */
 
-require_once realpath( dirname(__FILE__).'/../../../lib/base.php' );
-require_once realpath( dirname(__FILE__).'/../lib/crypt.php' );
-require_once realpath( dirname(__FILE__).'/../lib/keymanager.php' );
-require_once realpath( dirname(__FILE__).'/../lib/proxy.php' );
-require_once realpath( dirname(__FILE__).'/../lib/stream.php' );
-require_once realpath( dirname(__FILE__).'/../lib/util.php' );
-require_once realpath( dirname(__FILE__).'/../appinfo/app.php' );
+require_once realpath(dirname(__FILE__) . '/../../../lib/base.php');
+require_once realpath(dirname(__FILE__) . '/../lib/crypt.php');
+require_once realpath(dirname(__FILE__) . '/../lib/keymanager.php');
+require_once realpath(dirname(__FILE__) . '/../lib/proxy.php');
+require_once realpath(dirname(__FILE__) . '/../lib/stream.php');
+require_once realpath(dirname(__FILE__) . '/../lib/util.php');
+require_once realpath(dirname(__FILE__) . '/../appinfo/app.php');
 
 use OCA\Encryption;
 
 /**
  * Class Test_Encryption_Util
  */
-class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
+class Test_Encryption_Util extends \PHPUnit_Framework_TestCase
+{
 
 	public $userId;
 	public $encryptionDir;
@@ -38,132 +39,139 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 	public $util;
 	public $dataShort;
 
-	function setUp() {
-        // reset backend
-        \OC_User::useBackend('database');
+	function setUp()
+	{
+		// reset backend
+		\OC_User::useBackend('database');
 
-        \OC_User::setUserId( 'admin' );
-        $this->userId = 'admin';
-        $this->pass = 'admin';
+		\OC_User::setUserId('admin');
+		$this->userId = 'admin';
+		$this->pass = 'admin';
 
-        // set content for encrypting / decrypting in tests
-		$this->dataUrl = realpath( dirname(__FILE__).'/../lib/crypt.php' );
+		// set content for encrypting / decrypting in tests
+		$this->dataUrl = realpath(dirname(__FILE__) . '/../lib/crypt.php');
 		$this->dataShort = 'hats';
-		$this->dataLong = file_get_contents( realpath( dirname(__FILE__).'/../lib/crypt.php' ) );
-		$this->legacyData = realpath( dirname(__FILE__).'/legacy-text.txt' );
-		$this->legacyEncryptedData = realpath( dirname(__FILE__).'/legacy-encrypted-text.txt' );
+		$this->dataLong = file_get_contents(realpath(dirname(__FILE__) . '/../lib/crypt.php'));
+		$this->legacyData = realpath(dirname(__FILE__) . '/legacy-text.txt');
+		$this->legacyEncryptedData = realpath(dirname(__FILE__) . '/legacy-encrypted-text.txt');
 
 		$keypair = Encryption\Crypt::createKeypair();
-		
-		$this->genPublicKey =  $keypair['publicKey'];
+
+		$this->genPublicKey = $keypair['publicKey'];
 		$this->genPrivateKey = $keypair['privateKey'];
-		
-		$this->publicKeyDir =  '/' . 'public-keys';
-		$this->encryptionDir =  '/' . $this->userId . '/' . 'files_encryption';
+
+		$this->publicKeyDir = '/' . 'public-keys';
+		$this->encryptionDir = '/' . $this->userId . '/' . 'files_encryption';
 		$this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
 		$this->publicKeyPath = $this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
 		$this->privateKeyPath = $this->encryptionDir . '/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
 
-        $this->view = new \OC_FilesystemView( '/' );
+		$this->view = new \OC_FilesystemView('/');
 
-        $userHome = \OC_User::getHome($this->userId);
-        $this->dataDir = str_replace('/'.$this->userId, '', $userHome);
+		$userHome = \OC_User::getHome($this->userId);
+		$this->dataDir = str_replace('/' . $this->userId, '', $userHome);
 
-        // Filesystem related hooks
-        \OCA\Encryption\Helper::registerFilesystemHooks();
+		// Filesystem related hooks
+		\OCA\Encryption\Helper::registerFilesystemHooks();
 
-        \OC_FileProxy::register(new OCA\Encryption\Proxy());
+		\OC_FileProxy::register(new OCA\Encryption\Proxy());
 
-        \OC_Util::tearDownFS();
-        \OC_User::setUserId('');
-        \OC\Files\Filesystem::tearDown();
-        \OC_Util::setupFS($this->userId);
-        \OC_User::setUserId($this->userId);
+		\OC_Util::tearDownFS();
+		\OC_User::setUserId('');
+		\OC\Files\Filesystem::tearDown();
+		\OC_Util::setupFS($this->userId);
+		\OC_User::setUserId($this->userId);
 
-        $params['uid'] = $this->userId;
-        $params['password'] = $this->pass;
-        OCA\Encryption\Hooks::login($params);
+		$params['uid'] = $this->userId;
+		$params['password'] = $this->pass;
+		OCA\Encryption\Hooks::login($params);
 
-		$this->util = new Encryption\Util( $this->view, $this->userId );
+		$this->util = new Encryption\Util($this->view, $this->userId);
 	}
-	
-	function tearDown(){
-	
+
+	function tearDown()
+	{
+
 		\OC_FileProxy::clearProxies();
 	}
-	
+
 	/**
 	 * @brief test that paths set during User construction are correct
 	 */
-	function testKeyPaths() {
-	
-		$util = new Encryption\Util( $this->view, $this->userId );
-		
-		$this->assertEquals( $this->publicKeyDir, $util->getPath( 'publicKeyDir' ) );
-		$this->assertEquals( $this->encryptionDir, $util->getPath( 'encryptionDir' ) );
-		$this->assertEquals( $this->keyfilesPath, $util->getPath( 'keyfilesPath' ) );
-		$this->assertEquals( $this->publicKeyPath, $util->getPath( 'publicKeyPath' ) );
-		$this->assertEquals( $this->privateKeyPath, $util->getPath( 'privateKeyPath' ) );
-	
+	function testKeyPaths()
+	{
+
+		$util = new Encryption\Util($this->view, $this->userId);
+
+		$this->assertEquals($this->publicKeyDir, $util->getPath('publicKeyDir'));
+		$this->assertEquals($this->encryptionDir, $util->getPath('encryptionDir'));
+		$this->assertEquals($this->keyfilesPath, $util->getPath('keyfilesPath'));
+		$this->assertEquals($this->publicKeyPath, $util->getPath('publicKeyPath'));
+		$this->assertEquals($this->privateKeyPath, $util->getPath('privateKeyPath'));
+
 	}
-	
+
 	/**
 	 * @brief test setup of encryption directories
 	 */
-	function testSetupServerSide() {
-	
-		$this->assertEquals( true, $this->util->setupServerSide( $this->pass ) );
+	function testSetupServerSide()
+	{
+
+		$this->assertEquals(true, $this->util->setupServerSide($this->pass));
 	}
-	
+
 	/**
 	 * @brief test checking whether account is ready for encryption,
 	 */
-	function testUserIsReady() {
-	
-		$this->assertEquals( true, $this->util->ready() );
+	function testUserIsReady()
+	{
+
+		$this->assertEquals(true, $this->util->ready());
 	}
-	
-	function testRecoveryEnabledForUser() {
-		
-		$util = new Encryption\Util( $this->view, $this->userId );
-		
+
+	function testRecoveryEnabledForUser()
+	{
+
+		$util = new Encryption\Util($this->view, $this->userId);
+
 		// Record the value so we can return it to it's original state later
 		$enabled = $util->recoveryEnabledForUser();
-		
-		$this->assertTrue( $util->setRecoveryForUser( 1 ) );
-		
-		$this->assertEquals( 1, $util->recoveryEnabledForUser() );
-		
-		$this->assertTrue( $util->setRecoveryForUser( 0 ) );
-		
-		$this->assertEquals( 0, $util->recoveryEnabledForUser() );
-		
+
+		$this->assertTrue($util->setRecoveryForUser(1));
+
+		$this->assertEquals(1, $util->recoveryEnabledForUser());
+
+		$this->assertTrue($util->setRecoveryForUser(0));
+
+		$this->assertEquals(0, $util->recoveryEnabledForUser());
+
 		// Return the setting to it's previous state
-		$this->assertTrue( $util->setRecoveryForUser( $enabled ) );
-		
+		$this->assertTrue($util->setRecoveryForUser($enabled));
+
 	}
-	
-	function testGetUidAndFilename() {
-	
-		\OC_User::setUserId( 'admin' );
 
-        $filename = 'tmp-'.time().'.test';
+	function testGetUidAndFilename()
+	{
 
-        // Disable encryption proxy to prevent recursive calls
-        $proxyStatus = \OC_FileProxy::$enabled;
-        \OC_FileProxy::$enabled = false;
+		\OC_User::setUserId('admin');
 
-        $this->view->file_put_contents($this->userId . '/files/' . $filename, $this->dataShort);
+		$filename = 'tmp-' . time() . '.test';
 
-        // Re-enable proxy - our work is done
-        \OC_FileProxy::$enabled = $proxyStatus;
+		// Disable encryption proxy to prevent recursive calls
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
 
-        $util = new Encryption\Util( $this->view, $this->userId );
+		$this->view->file_put_contents($this->userId . '/files/' . $filename, $this->dataShort);
 
-        list($fileOwnerUid, $file) = $util->getUidAndFilename( $filename );
+		// Re-enable proxy - our work is done
+		\OC_FileProxy::$enabled = $proxyStatus;
 
-        $this->assertEquals('admin', $fileOwnerUid);
+		$util = new Encryption\Util($this->view, $this->userId);
 
-        $this->assertEquals($file, $filename);
+		list($fileOwnerUid, $file) = $util->getUidAndFilename($filename);
+
+		$this->assertEquals('admin', $fileOwnerUid);
+
+		$this->assertEquals($file, $filename);
 	}
 }

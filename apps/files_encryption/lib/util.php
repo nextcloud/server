@@ -3,7 +3,7 @@
  * ownCloud
  *
  * @author Sam Tuke, Frank Karlitschek
- * @copyright 2012 Sam Tuke <samtuke@owncloud.com>, 
+ * @copyright 2012 Sam Tuke <samtuke@owncloud.com>,
  * Frank Karlitschek <frank@owncloud.org>
  *
  * This library is free software; you can redistribute it and/or
@@ -55,49 +55,49 @@ namespace OCA\Encryption;
  * unused, likely to become obsolete shortly
  */
 
-class Util {
-	
-	
+class Util
+{
+
 	// Web UI:
-	
+
 	//// DONE: files created via web ui are encrypted
 	//// DONE: file created & encrypted via web ui are readable in web ui
 	//// DONE: file created & encrypted via web ui are readable via webdav
-	
-	
+
+
 	// WebDAV:
-	
+
 	//// DONE: new data filled files added via webdav get encrypted
 	//// DONE: new data filled files added via webdav are readable via webdav
 	//// DONE: reading unencrypted files when encryption is enabled works via 
 	////       webdav
 	//// DONE: files created & encrypted via web ui are readable via webdav
-	
-	
+
+
 	// Legacy support:
-	
+
 	//// DONE: add method to check if file is encrypted using new system
 	//// DONE: add method to check if file is encrypted using old system
 	//// DONE: add method to fetch legacy key
 	//// DONE: add method to decrypt legacy encrypted data
-	
-	
+
+
 	// Admin UI:
-	
+
 	//// DONE: changing user password also changes encryption passphrase
-	
+
 	//// TODO: add support for optional recovery in case of lost passphrase / keys
 	//// TODO: add admin optional required long passphrase for users
 	//// TODO: implement flag system to allow user to specify encryption by folder, subfolder, etc.
-	
-	
+
+
 	// Integration testing:
-	
+
 	//// TODO: test new encryption with versioning
 	//// DONE: test new encryption with sharing
 	//// TODO: test new encryption with proxies
-	
-	
+
+
 	private $view; // OC_FilesystemView object for filesystem operations
 	private $userId; // ID of the currently logged-in user
 	private $pwd; // User Password
@@ -110,228 +110,246 @@ class Util {
 	private $privateKeyPath; // Path to user's private key
 	private $publicShareKeyId;
 	private $recoveryKeyId;
-    private $isPublic;
+	private $isPublic;
 
-	public function __construct( \OC_FilesystemView $view, $userId, $client = false ) {
+	/**
+	 * @param \OC_FilesystemView $view
+	 * @param $userId
+	 * @param bool $client
+	 */
+	public function __construct(\OC_FilesystemView $view, $userId, $client = false)
+	{
 
 		$this->view = $view;
 		$this->userId = $userId;
 		$this->client = $client;
-        $this->isPublic = false;
+		$this->isPublic = false;
 
-        $this->publicShareKeyId = \OC_Appconfig::getValue('files_encryption', 'publicShareKeyId');
-        $this->recoveryKeyId = \OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
+		$this->publicShareKeyId = \OC_Appconfig::getValue('files_encryption', 'publicShareKeyId');
+		$this->recoveryKeyId = \OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
 
-        // if we are anonymous/public
-        if($this->userId === false) {
-            $this->userId = $this->publicShareKeyId;
+		// if we are anonymous/public
+		if ($this->userId === false) {
+			$this->userId = $this->publicShareKeyId;
 
-            // only handle for files_sharing app
-            if($GLOBALS['app'] === 'files_sharing') {
-                $this->userDir =  '/' . $GLOBALS['fileOwner'];
-                $this->fileFolderName = 'files';
-                $this->userFilesDir =  '/' . $GLOBALS['fileOwner'] . '/' . $this->fileFolderName; // TODO: Does this need to be user configurable?
-                $this->publicKeyDir =  '/' . 'public-keys';
-                $this->encryptionDir =  '/' . $GLOBALS['fileOwner'] . '/' . 'files_encryption';
-                $this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
-                $this->shareKeysPath = $this->encryptionDir . '/' . 'share-keys';
-                $this->publicKeyPath = $this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
-                $this->privateKeyPath = '/owncloud_private_key/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
-                $this->isPublic = true;
-            }
-
-        } else {
-            $this->userDir =  '/' . $this->userId;
-            $this->fileFolderName = 'files';
-            $this->userFilesDir =  '/' . $this->userId . '/' . $this->fileFolderName; // TODO: Does this need to be user configurable?
-            $this->publicKeyDir =  '/' . 'public-keys';
-            $this->encryptionDir =  '/' . $this->userId . '/' . 'files_encryption';
-            $this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
-            $this->shareKeysPath = $this->encryptionDir . '/' . 'share-keys';
-            $this->publicKeyPath = $this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
-            $this->privateKeyPath = $this->encryptionDir . '/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
-        }
-	}
-	
-	public function ready() {
-		
-		if( 
-		! $this->view->file_exists( $this->encryptionDir )
-		or ! $this->view->file_exists( $this->keyfilesPath )
-		or ! $this->view->file_exists( $this->shareKeysPath )
-		or ! $this->view->file_exists( $this->publicKeyPath )
-		or ! $this->view->file_exists( $this->privateKeyPath ) 
-		) {
-		
-			return false;
-			
-		} else {
-			
-			return true;
-			
-		}
-	
-	}
-	
-        /**
-         * @brief Sets up user folders and keys for serverside encryption
-         * @param $passphrase passphrase to encrypt server-stored private key with
-         */
-	public function setupServerSide( $passphrase = null ) {
-		
-		// Set directories to check / create
-		$setUpDirs = array( 
-			$this->userDir
-			, $this->userFilesDir
-			, $this->publicKeyDir
-			, $this->encryptionDir
-			, $this->keyfilesPath
-			, $this->shareKeysPath
-		);
-		
-		// Check / create all necessary dirs
-		foreach ( $setUpDirs as $dirPath ) {
-		
-			if( !$this->view->file_exists( $dirPath ) ) {
-			
-				$this->view->mkdir( $dirPath );
-			
+			// only handle for files_sharing app
+			if ($GLOBALS['app'] === 'files_sharing') {
+				$this->userDir = '/' . $GLOBALS['fileOwner'];
+				$this->fileFolderName = 'files';
+				$this->userFilesDir = '/' . $GLOBALS['fileOwner'] . '/' . $this->fileFolderName; // TODO: Does this need to be user configurable?
+				$this->publicKeyDir = '/' . 'public-keys';
+				$this->encryptionDir = '/' . $GLOBALS['fileOwner'] . '/' . 'files_encryption';
+				$this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
+				$this->shareKeysPath = $this->encryptionDir . '/' . 'share-keys';
+				$this->publicKeyPath = $this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
+				$this->privateKeyPath = '/owncloud_private_key/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
+				$this->isPublic = true;
 			}
-		
+
+		} else {
+			$this->userDir = '/' . $this->userId;
+			$this->fileFolderName = 'files';
+			$this->userFilesDir = '/' . $this->userId . '/' . $this->fileFolderName; // TODO: Does this need to be user configurable?
+			$this->publicKeyDir = '/' . 'public-keys';
+			$this->encryptionDir = '/' . $this->userId . '/' . 'files_encryption';
+			$this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
+			$this->shareKeysPath = $this->encryptionDir . '/' . 'share-keys';
+			$this->publicKeyPath = $this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
+			$this->privateKeyPath = $this->encryptionDir . '/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
 		}
-		
-		// Create user keypair
-		if ( 
-			! $this->view->file_exists( $this->publicKeyPath ) 
-			or ! $this->view->file_exists( $this->privateKeyPath ) 
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function ready()
+	{
+
+		if (
+			!$this->view->file_exists($this->encryptionDir)
+			or !$this->view->file_exists($this->keyfilesPath)
+			or !$this->view->file_exists($this->shareKeysPath)
+			or !$this->view->file_exists($this->publicKeyPath)
+			or !$this->view->file_exists($this->privateKeyPath)
 		) {
-		
+
+			return false;
+
+		} else {
+
+			return true;
+
+		}
+
+	}
+
+	/**
+	 * @brief Sets up user folders and keys for serverside encryption
+	 * @param string $passphrase passphrase to encrypt server-stored private key with
+	 */
+	public function setupServerSide($passphrase = null)
+	{
+
+		// Set directories to check / create
+		$setUpDirs = array(
+			$this->userDir
+		, $this->userFilesDir
+		, $this->publicKeyDir
+		, $this->encryptionDir
+		, $this->keyfilesPath
+		, $this->shareKeysPath
+		);
+
+		// Check / create all necessary dirs
+		foreach ($setUpDirs as $dirPath) {
+
+			if (!$this->view->file_exists($dirPath)) {
+
+				$this->view->mkdir($dirPath);
+
+			}
+
+		}
+
+		// Create user keypair
+		if (
+			!$this->view->file_exists($this->publicKeyPath)
+			or !$this->view->file_exists($this->privateKeyPath)
+		) {
+
 			// Generate keypair
 			$keypair = Crypt::createKeypair();
-			
+
 			\OC_FileProxy::$enabled = false;
-			
+
 			// Save public key
-			$this->view->file_put_contents( $this->publicKeyPath, $keypair['publicKey'] );
-			
+			$this->view->file_put_contents($this->publicKeyPath, $keypair['publicKey']);
+
 			// Encrypt private key with user pwd as passphrase
-			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $keypair['privateKey'], $passphrase );
-			
+			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent($keypair['privateKey'], $passphrase);
+
 			// Save private key
-			$this->view->file_put_contents( $this->privateKeyPath, $encryptedPrivateKey );
-			
+			$this->view->file_put_contents($this->privateKeyPath, $encryptedPrivateKey);
+
 			\OC_FileProxy::$enabled = true;
-			
+
 		}
-		
+
 		// If there's no record for this user's encryption preferences
-		if ( false === $this->recoveryEnabledForUser() ) {
-		
+		if (false === $this->recoveryEnabledForUser()) {
+
 			// create database configuration
 			$sql = 'INSERT INTO `*PREFIX*encryption` (`uid`,`mode`,`recovery_enabled`) VALUES (?,?,?)';
-			$args = array( $this->userId, 'server-side', 0);
-			$query = \OCP\DB::prepare( $sql );
-			$query->execute( $args );
-		
+			$args = array($this->userId, 'server-side', 0);
+			$query = \OCP\DB::prepare($sql);
+			$query->execute($args);
+
 		}
-		
+
 		return true;
-	
+
 	}
 
-	public function getPublicShareKeyId() {
+	/**
+	 * @return string
+	 */
+	public function getPublicShareKeyId()
+	{
 		return $this->publicShareKeyId;
 	}
-	
+
 	/**
 	 * @brief Check whether pwd recovery is enabled for a given user
-	 * @return 1 = yes, 0 = no, false = no record
-	 * @note If records are not being returned, check for a hidden space 
+	 * @return bool 1 = yes, 0 = no, false = no record
+	 *
+	 * @note If records are not being returned, check for a hidden space
 	 *       at the start of the uid in db
 	 */
-	public function recoveryEnabledForUser() {
-	
+	public function recoveryEnabledForUser()
+	{
+
 		$sql = 'SELECT 
 				recovery_enabled
 			FROM 
 				`*PREFIX*encryption` 
 			WHERE 
 				uid = ?';
-				
-		$args = array( $this->userId );
 
-		$query = \OCP\DB::prepare( $sql );
-		
-		$result = $query->execute( $args );
-		
+		$args = array($this->userId);
+
+		$query = \OCP\DB::prepare($sql);
+
+		$result = $query->execute($args);
+
 		$recoveryEnabled = array();
-		
-		while( $row = $result->fetchRow() ) {
-		
+
+		while ($row = $result->fetchRow()) {
+
 			$recoveryEnabled[] = $row['recovery_enabled'];
-			
+
 		}
-		
+
 		// If no record is found
-		if ( empty( $recoveryEnabled ) ) {
-		
+		if (empty($recoveryEnabled)) {
+
 			return false;
-		
-		// If a record is found
+
+			// If a record is found
 		} else {
-		
+
 			return $recoveryEnabled[0];
-			
+
 		}
-	
+
 	}
-	
+
 	/**
 	 * @brief Enable / disable pwd recovery for a given user
 	 * @param bool $enabled Whether to enable or disable recovery
 	 * @return bool
 	 */
-	public function setRecoveryForUser( $enabled ) {
-	
+	public function setRecoveryForUser($enabled)
+	{
+
 		$recoveryStatus = $this->recoveryEnabledForUser();
-	
+
 		// If a record for this user already exists, update it
-		if ( false === $recoveryStatus ) {
-		
+		if (false === $recoveryStatus) {
+
 			$sql = 'INSERT INTO `*PREFIX*encryption` 
 					(`uid`,`mode`,`recovery_enabled`)
 				VALUES (?,?,?)';
-				
-			$args = array( $this->userId, 'server-side', $enabled );
-		
-		// Create a new record instead
+
+			$args = array($this->userId, 'server-side', $enabled);
+
+			// Create a new record instead
 		} else {
-		
+
 			$sql = 'UPDATE 
 					*PREFIX*encryption 
 				SET 
 					recovery_enabled = ?
 				WHERE 
 					uid = ?';
-			
-			$args = array( $enabled, $this->userId );
-		
+
+			$args = array($enabled, $this->userId);
+
 		}
-	
-		$query = \OCP\DB::prepare( $sql );
-		
-		if ( $query->execute( $args ) ) {
-		
+
+		$query = \OCP\DB::prepare($sql);
+
+		if ($query->execute($args)) {
+
 			return true;
-			
+
 		} else {
-		
+
 			return false;
-			
+
 		}
-		
+
 	}
-	
+
 	/**
 	 * @brief Find all files and their encryption status within a directory
 	 * @param string $directory The path of the parent directory to search
@@ -339,45 +357,46 @@ class Util {
 	 * @note $directory needs to be a path relative to OC data dir. e.g.
 	 *       /admin/files NOT /backup OR /home/www/oc/data/admin/files
 	 */
-	public function findEncFiles( $directory ) {
-		
+	public function findEncFiles($directory)
+	{
+
 		// Disable proxy - we don't want files to be decrypted before
 		// we handle them
 		\OC_FileProxy::$enabled = false;
-		
-		$found = array( 'plain' => array(), 'encrypted' => array(), 'legacy' => array() );
-		
-		if ( 
-			$this->view->is_dir( $directory ) 
-			&& $handle = $this->view->opendir( $directory ) 
+
+		$found = array('plain' => array(), 'encrypted' => array(), 'legacy' => array());
+
+		if (
+			$this->view->is_dir($directory)
+			&& $handle = $this->view->opendir($directory)
 		) {
-		
-			while ( false !== ( $file = readdir( $handle ) ) ) {
-				
+
+			while (false !== ($file = readdir($handle))) {
+
 				if (
-				$file != "." 
-				&& $file != ".."
+					$file != "."
+					&& $file != ".."
 				) {
-					
-					$filePath = $directory . '/' . $this->view->getRelativePath( '/' . $file );
-					$relPath = $this->stripUserFilesPath( $filePath );
-					
+
+					$filePath = $directory . '/' . $this->view->getRelativePath('/' . $file);
+					$relPath = $this->stripUserFilesPath($filePath);
+
 					// If the path is a directory, search 
 					// its contents
-					if ( $this->view->is_dir( $filePath ) ) { 
-						
-						$this->findEncFiles( $filePath );
-					
-					// If the path is a file, determine 
-					// its encryption status
-					} elseif ( $this->view->is_file( $filePath ) ) {
-						
+					if ($this->view->is_dir($filePath)) {
+
+						$this->findEncFiles($filePath);
+
+						// If the path is a file, determine
+						// its encryption status
+					} elseif ($this->view->is_file($filePath)) {
+
 						// Disable proxies again, some-
 						// where they got re-enabled :/
 						\OC_FileProxy::$enabled = false;
-						
-						$data = $this->view->file_get_contents( $filePath );
-						
+
+						$data = $this->view->file_get_contents($filePath);
+
 						// If the file is encrypted
 						// NOTE: If the userId is 
 						// empty or not set, file will 
@@ -385,128 +404,131 @@ class Util {
 						// NOTE: This is inefficient;
 						// scanning every file like this
 						// will eat server resources :(
-						if ( 
-							Keymanager::getFileKey( $this->view, $this->userId, $relPath )
-							&& Crypt::isCatfileContent( $data )
+						if (
+							Keymanager::getFileKey($this->view, $this->userId, $relPath)
+							&& Crypt::isCatfileContent($data)
 						) {
-						
-							$found['encrypted'][] = array( 'name' => $file, 'path' => $filePath );
-						
-						// If the file uses old 
-						// encryption system
-						} elseif (  Crypt::isLegacyEncryptedContent( $this->tail( $filePath, 3 ), $relPath ) ) {
-							
-							$found['legacy'][] = array( 'name' => $file, 'path' => $filePath );
-							
-						// If the file is not encrypted
+
+							$found['encrypted'][] = array('name' => $file, 'path' => $filePath);
+
+							// If the file uses old
+							// encryption system
+						} elseif (Crypt::isLegacyEncryptedContent($this->tail($filePath, 3), $relPath)) {
+
+							$found['legacy'][] = array('name' => $file, 'path' => $filePath);
+
+							// If the file is not encrypted
 						} else {
-						
-							$found['plain'][] = array( 'name' => $file, 'path' => $relPath );
-						
+
+							$found['plain'][] = array('name' => $file, 'path' => $relPath);
+
 						}
-					
+
 					}
-					
+
 				}
-				
+
 			}
-			
+
 			\OC_FileProxy::$enabled = true;
-			
-			if ( empty( $found ) ) {
-			
+
+			if (empty($found)) {
+
 				return false;
-			
+
 			} else {
-				
+
 				return $found;
-			
+
 			}
-		
+
 		}
-		
+
 		\OC_FileProxy::$enabled = true;
-		
+
 		return false;
 
 	}
-	
-        /**
-         * @brief Fetch the last lines of a file efficiently
-         * @note Safe to use on large files; does not read entire file to memory
-         * @note Derivative of http://tekkie.flashbit.net/php/tail-functionality-in-php
-         */
-	public function tail( $filename, $numLines ) {
-		
+
+	/**
+	 * @brief Fetch the last lines of a file efficiently
+	 * @note Safe to use on large files; does not read entire file to memory
+	 * @note Derivative of http://tekkie.flashbit.net/php/tail-functionality-in-php
+	 */
+	public function tail($filename, $numLines)
+	{
+
 		\OC_FileProxy::$enabled = false;
-		
+
 		$text = '';
 		$pos = -1;
-		$handle = $this->view->fopen( $filename, 'r' );
+		$handle = $this->view->fopen($filename, 'r');
 
-		while ( $numLines > 0 ) {
-		
+		while ($numLines > 0) {
+
 			--$pos;
 
-			if( fseek( $handle, $pos, SEEK_END ) !== 0 ) {
-			
-				rewind( $handle );
+			if (fseek($handle, $pos, SEEK_END) !== 0) {
+
+				rewind($handle);
 				$numLines = 0;
-				
-			} elseif ( fgetc( $handle ) === "\n" ) {
-			
+
+			} elseif (fgetc($handle) === "\n") {
+
 				--$numLines;
-				
+
 			}
 
-			$block_size = ( -$pos ) % 8192;
-			if ( $block_size === 0 || $numLines === 0 ) {
-			
-				$text = fread( $handle, ( $block_size === 0 ? 8192 : $block_size ) ) . $text;
-				
+			$block_size = (-$pos) % 8192;
+			if ($block_size === 0 || $numLines === 0) {
+
+				$text = fread($handle, ($block_size === 0 ? 8192 : $block_size)) . $text;
+
 			}
 		}
 
-		fclose( $handle );
-		
+		fclose($handle);
+
 		\OC_FileProxy::$enabled = true;
-		
+
 		return $text;
 	}
-	
+
 	/**
-	* @brief Check if a given path identifies an encrypted file
-	* @return true / false
-	*/
-	public function isEncryptedPath( $path ) {
-	
+	 * @brief Check if a given path identifies an encrypted file
+	 * @param $path
+	 * @return boolean
+	 */
+	public function isEncryptedPath($path)
+	{
+
 		// Disable encryption proxy so data retrieved is in its
 		// original form
-        $proxyStatus = \OC_FileProxy::$enabled;
+		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
-        // we only need 24 byte from the last chunk
-        $data = '';
-		$handle = $this->view->fopen( $path, 'r' );
-        if(!fseek($handle, -24, SEEK_END)) {
-            $data = fgets($handle);
-        }
+		// we only need 24 byte from the last chunk
+		$data = '';
+		$handle = $this->view->fopen($path, 'r');
+		if (!fseek($handle, -24, SEEK_END)) {
+			$data = fgets($handle);
+		}
 
-        // re-enable proxy
+		// re-enable proxy
 		\OC_FileProxy::$enabled = $proxyStatus;
-		
-		return Crypt::isCatfileContent( $data );
-	
+
+		return Crypt::isCatfileContent($data);
+
 	}
 
 	/**
-	* @brief get the file size of the unencrypted file
-	* @param $path absolute path
-	* @return bool
-	*/
+	 * @brief get the file size of the unencrypted file
+	 * @param string $path absolute path
+	 * @return bool
+	 */
+	public function getFileSize($path)
+	{
 
-	public function getFileSize( $path ) {
-	
 		$result = 0;
 
 		// Disable encryption proxy to prevent recursive calls
@@ -514,8 +536,8 @@ class Util {
 		\OC_FileProxy::$enabled = false;
 
 		// Reformat path for use with OC_FSV
-		$pathSplit = explode( '/', $path );
-		$pathRelative = implode( '/', array_slice( $pathSplit, 3 ) );
+		$pathSplit = explode('/', $path);
+		$pathRelative = implode('/', array_slice($pathSplit, 3));
 
 		if ($pathSplit[2] == 'files' && $this->view->file_exists($path) && $this->isEncryptedPath($path)) {
 
@@ -529,7 +551,7 @@ class Util {
 			// open stream
 			$stream = fopen('crypt://' . $pathRelative, "r");
 
-			if(is_resource($stream)) {
+			if (is_resource($stream)) {
 				// calculate last chunk position
 				$lastChunckPos = ($lastChunckNr * 8192);
 
@@ -551,36 +573,36 @@ class Util {
 
 		return $result;
 	}
-    
+
 	/**
 	 * @brief fix the file size of the encrypted file
 	 * @param $path absolute path
 	 * @return true / false if file is encrypted
 	 */
+	public function fixFileSize($path)
+	{
 
-	public function fixFileSize( $path ) {
-	
 		$result = false;
 
 		// Disable encryption proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
-		$realSize = $this->getFileSize( $path );
-		
-		if ( $realSize > 0 ) {
-		
-			$cached = $this->view->getFileInfo( $path );
+		$realSize = $this->getFileSize($path);
+
+		if ($realSize > 0) {
+
+			$cached = $this->view->getFileInfo($path);
 			$cached['encrypted'] = true;
 
 			// set the size
 			$cached['unencrypted_size'] = $realSize;
 
 			// put file info
-			$this->view->putFileInfo( $path, $cached );
+			$this->view->putFileInfo($path, $cached);
 
 			$result = true;
-			
+
 		}
 
 		\OC_FileProxy::$enabled = $proxyStatus;
@@ -592,70 +614,82 @@ class Util {
 	 * @brief Format a path to be relative to the /user/files/ directory
 	 * @note e.g. turns '/admin/files/test.txt' into 'test.txt'
 	 */
-	public function stripUserFilesPath( $path ) {
-	
-		$trimmed = ltrim( $path, '/' );
-		$split = explode( '/', $trimmed );
-		$sliced = array_slice( $split, 2 );
-		$relPath = implode( '/', $sliced );
-		
+	public function stripUserFilesPath($path)
+	{
+
+		$trimmed = ltrim($path, '/');
+		$split = explode('/', $trimmed);
+		$sliced = array_slice($split, 2);
+		$relPath = implode('/', $sliced);
+
 		return $relPath;
-	
+
 	}
-	
+
 	/**
 	 * @brief Format a path to be relative to the /user directory
 	 * @note e.g. turns '/admin/files/test.txt' into 'files/test.txt'
 	 */
-	public function stripFilesPath( $path ) {
-	
-		$trimmed = ltrim( $path, '/' );
-		$split = explode( '/', $trimmed );
-		$sliced = array_slice( $split, 1 );
-		$relPath = implode( '/', $sliced );
-		
+	public function stripFilesPath($path)
+	{
+
+		$trimmed = ltrim($path, '/');
+		$split = explode('/', $trimmed);
+		$sliced = array_slice($split, 1);
+		$relPath = implode('/', $sliced);
+
 		return $relPath;
-	
+
 	}
-	
+
 	/**
 	 * @brief Format a shared path to be relative to the /user/files/ directory
 	 * @note Expects a path like /uid/files/Shared/filepath
 	 */
-	public function stripSharedFilePath( $path ) {
-	
-		$trimmed = ltrim( $path, '/' );
-		$split = explode( '/', $trimmed );
-		$sliced = array_slice( $split, 3 );
-		$relPath = implode( '/', $sliced );
-		
+	public function stripSharedFilePath($path)
+	{
+
+		$trimmed = ltrim($path, '/');
+		$split = explode('/', $trimmed);
+		$sliced = array_slice($split, 3);
+		$relPath = implode('/', $sliced);
+
 		return $relPath;
-	
+
 	}
-	
-	public function isSharedPath( $path ) {
-	
-		$trimmed = ltrim( $path, '/' );
-		$split = explode( '/', $trimmed );
-		
-		if ( $split[2] == "Shared" ) {
-		
+
+	/**
+	 * @param $path
+	 * @return bool
+	 */
+	public function isSharedPath($path)
+	{
+
+		$trimmed = ltrim($path, '/');
+		$split = explode('/', $trimmed);
+
+		if ($split[2] == "Shared") {
+
 			return true;
-		
+
 		} else {
-		
+
 			return false;
-		
+
 		}
-	
+
 	}
-	
+
 	/**
 	 * @brief Encrypt all files in a directory
 	 * @param string $dirPath the directory whose files will be encrypted
+	 * @param null $legacyPassphrase
+	 * @param null $newPassphrase
+	 * @return bool
 	 * @note Encryption is recursive
 	 */
-	public function encryptAll($dirPath, $legacyPassphrase = null, $newPassphrase = null) {
+	public function encryptAll($dirPath, $legacyPassphrase = null, $newPassphrase = null)
+	{
 
 		if ($found = $this->findEncFiles($dirPath)) {
 
@@ -762,174 +796,180 @@ class Util {
 	 * @param string $pathName Name of the directory to return the path of
 	 * @return string path
 	 */
-	public function getPath( $pathName ) {
-	
-		switch ( $pathName ) {
-			
+	public function getPath($pathName)
+	{
+
+		switch ($pathName) {
+
 			case 'publicKeyDir':
-			
+
 				return $this->publicKeyDir;
-				
+
 				break;
-				
+
 			case 'encryptionDir':
-			
+
 				return $this->encryptionDir;
-				
+
 				break;
-				
+
 			case 'keyfilesPath':
-			
+
 				return $this->keyfilesPath;
-				
+
 				break;
-				
+
 			case 'publicKeyPath':
-			
+
 				return $this->publicKeyPath;
-				
+
 				break;
-				
+
 			case 'privateKeyPath':
-			
+
 				return $this->privateKeyPath;
-				
+
 				break;
-			
+
 		}
-		
+
 	}
-	
+
 	/**
 	 * @brief get path of a file.
-	 * @param $fileId id of the file
-	 * @return path of the file
+	 * @param int $fileId id of the file
+	 * @return string path of the file
 	 */
-	public static function fileIdToPath( $fileId ) {
-	
-		$query = \OC_DB::prepare( 'SELECT `path`'
-				.' FROM `*PREFIX*filecache`'
-				.' WHERE `fileid` = ?' );
-				
-		$result = $query->execute( array( $fileId ) );
-		
+	public static function fileIdToPath($fileId)
+	{
+
+		$query = \OC_DB::prepare('SELECT `path`'
+			. ' FROM `*PREFIX*filecache`'
+			. ' WHERE `fileid` = ?');
+
+		$result = $query->execute(array($fileId));
+
 		$row = $result->fetchRow();
-		
-		return substr( $row['path'], 5 );
-	
+
+		return substr($row['path'], 5);
+
 	}
-	
+
 	/**
 	 * @brief Filter an array of UIDs to return only ones ready for sharing
 	 * @param array $unfilteredUsers users to be checked for sharing readiness
 	 * @return multi-dimensional array. keys: ready, unready
 	 */
-	public function filterShareReadyUsers( $unfilteredUsers ) {
-		
+	public function filterShareReadyUsers($unfilteredUsers)
+	{
+
 		// This array will collect the filtered IDs
 		$readyIds = $unreadyIds = array();
-	
+
 		// Loop through users and create array of UIDs that need new keyfiles
-		foreach ( $unfilteredUsers as $user ) {
-		
-			$util = new Util( $this->view, $user );
-				
+		foreach ($unfilteredUsers as $user) {
+
+			$util = new Util($this->view, $user);
+
 			// Check that the user is encryption capable, or is the
 			// public system user 'ownCloud' (for public shares)
-			if ( 
+			if (
 				$user == $this->publicShareKeyId
 				or $user == $this->recoveryKeyId
-				or $util->ready() 
+				or $util->ready()
 			) {
-			
+
 				// Construct array of ready UIDs for Keymanager{}
 				$readyIds[] = $user;
-				
+
 			} else {
-				
+
 				// Construct array of unready UIDs for Keymanager{}
 				$unreadyIds[] = $user;
-				
+
 				// Log warning; we can't do necessary setup here
 				// because we don't have the user passphrase
-				\OC_Log::write( 'Encryption library', '"'.$user.'" is not setup for encryption', \OC_Log::WARN );
-		
+				\OC_Log::write('Encryption library', '"' . $user . '" is not setup for encryption', \OC_Log::WARN);
+
 			}
-		
+
 		}
-		
-		return array ( 
+
+		return array(
 			'ready' => $readyIds
-			, 'unready' => $unreadyIds
+		, 'unready' => $unreadyIds
 		);
-		
+
 	}
-		
+
 	/**
 	 * @brief Decrypt a keyfile without knowing how it was encrypted
 	 * @param string $filePath
 	 * @param string $fileOwner
 	 * @param string $privateKey
-	 * @note Checks whether file was encrypted with openssl_seal or 
+	 * @note Checks whether file was encrypted with openssl_seal or
 	 *       openssl_encrypt, and decrypts accrdingly
-	 * @note This was used when 2 types of encryption for keyfiles was used, 
+	 * @note This was used when 2 types of encryption for keyfiles was used,
 	 *       but now we've switched to exclusively using openssl_seal()
 	 */
-	public function decryptUnknownKeyfile( $filePath, $fileOwner, $privateKey ) {
+	public function decryptUnknownKeyfile($filePath, $fileOwner, $privateKey)
+	{
 
 		// Get the encrypted keyfile
 		// NOTE: the keyfile format depends on how it was encrypted! At
 		// this stage we don't know how it was encrypted
-		$encKeyfile = Keymanager::getFileKey( $this->view, $this->userId, $filePath );
-		
+		$encKeyfile = Keymanager::getFileKey($this->view, $this->userId, $filePath);
+
 		// We need to decrypt the keyfile
 		// Has the file been shared yet?
-		if ( 
+		if (
 			$this->userId == $fileOwner
-			&& ! Keymanager::getShareKey( $this->view, $this->userId, $filePath ) // NOTE: we can't use isShared() here because it's a post share hook so it always returns true
+			&& !Keymanager::getShareKey($this->view, $this->userId, $filePath) // NOTE: we can't use isShared() here because it's a post share hook so it always returns true
 		) {
-		
+
 			// The file has no shareKey, and its keyfile must be 
 			// decrypted conventionally
-			$plainKeyfile = Crypt::keyDecrypt( $encKeyfile, $privateKey );
-			
-		
+			$plainKeyfile = Crypt::keyDecrypt($encKeyfile, $privateKey);
+
+
 		} else {
-			
+
 			// The file has a shareKey and must use it for decryption
-			$shareKey = Keymanager::getShareKey( $this->view, $this->userId, $filePath );
-		
-			$plainKeyfile = Crypt::multiKeyDecrypt( $encKeyfile, $shareKey, $privateKey );
-			
+			$shareKey = Keymanager::getShareKey($this->view, $this->userId, $filePath);
+
+			$plainKeyfile = Crypt::multiKeyDecrypt($encKeyfile, $shareKey, $privateKey);
+
 		}
-		
+
 		return $plainKeyfile;
 
 	}
-	
+
 	/**
 	 * @brief Encrypt keyfile to multiple users
+	 * @param Session $session
 	 * @param array $users list of users which should be able to access the file
 	 * @param string $filePath path of the file to be shared
-	 * @return bool 
+	 * @return bool
 	 */
-	public function setSharedFileKeyfiles( Session $session, array $users, $filePath ) {
-		
+	public function setSharedFileKeyfiles(Session $session, array $users, $filePath)
+	{
+
 		// Make sure users are capable of sharing
-		$filteredUids = $this->filterShareReadyUsers( $users );
-		
+		$filteredUids = $this->filterShareReadyUsers($users);
+
 		// If we're attempting to share to unready users
-		if ( ! empty( $filteredUids['unready'] ) ) {
-			
-			\OC_Log::write( 'Encryption library', 'Sharing to these user(s) failed as they are unready for encryption:"'.print_r( $filteredUids['unready'], 1 ), \OC_Log::WARN );
-			
+		if (!empty($filteredUids['unready'])) {
+
+			\OC_Log::write('Encryption library', 'Sharing to these user(s) failed as they are unready for encryption:"' . print_r($filteredUids['unready'], 1), \OC_Log::WARN);
+
 			return false;
-			
+
 		}
-		
+
 		// Get public keys for each user, ready for generating sharekeys
-		$userPubKeys = Keymanager::getPublicKeys( $this->view, $filteredUids['ready'] );
-		
+		$userPubKeys = Keymanager::getPublicKeys($this->view, $filteredUids['ready']);
+
 		// Note proxy status then disable it
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
@@ -937,273 +977,279 @@ class Util {
 		// Get the current users's private key for decrypting existing keyfile
 		$privateKey = $session->getPrivateKey();
 
-		$fileOwner = \OC\Files\Filesystem::getOwner( $filePath );
-		
+		$fileOwner = \OC\Files\Filesystem::getOwner($filePath);
+
 		// Decrypt keyfile
-		$plainKeyfile = $this->decryptUnknownKeyfile( $filePath, $fileOwner, $privateKey );
-		
+		$plainKeyfile = $this->decryptUnknownKeyfile($filePath, $fileOwner, $privateKey);
+
 		// Re-enc keyfile to (additional) sharekeys
-		$multiEncKey = Crypt::multiKeyEncrypt( $plainKeyfile, $userPubKeys );
-		
+		$multiEncKey = Crypt::multiKeyEncrypt($plainKeyfile, $userPubKeys);
+
 		// Save the recrypted key to it's owner's keyfiles directory
 		// Save new sharekeys to all necessary user directory
-		if ( 
-			! Keymanager::setFileKey( $this->view, $filePath, $fileOwner, $multiEncKey['data'] )
-			|| ! Keymanager::setShareKeys( $this->view, $filePath, $multiEncKey['keys'] ) 
+		if (
+			!Keymanager::setFileKey($this->view, $filePath, $fileOwner, $multiEncKey['data'])
+			|| !Keymanager::setShareKeys($this->view, $filePath, $multiEncKey['keys'])
 		) {
 
-			\OC_Log::write( 'Encryption library', 'Keyfiles could not be saved for users sharing ' . $filePath, \OC_Log::ERROR );
-			
+			\OC_Log::write('Encryption library', 'Keyfiles could not be saved for users sharing ' . $filePath, \OC_Log::ERROR);
+
 			return false;
 
 		}
-		
+
 		// Return proxy to original status
 		\OC_FileProxy::$enabled = $proxyStatus;
 
 		return true;
 	}
-	
+
 	/**
 	 * @brief Find, sanitise and format users sharing a file
 	 * @note This wraps other methods into a portable bundle
 	 */
-	public function getSharingUsersArray( $sharingEnabled, $filePath, $currentUserId = false ) {
+	public function getSharingUsersArray($sharingEnabled, $filePath, $currentUserId = false)
+	{
 
 		// Check if key recovery is enabled
 		if (
-			\OC_Appconfig::getValue( 'files_encryption', 'recoveryAdminEnabled' )
+			\OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled')
 			&& $this->recoveryEnabledForUser()
 		) {
-		
-			$recoveryEnabled = true;
-			
-		} else {
-		
-			$recoveryEnabled = false;
-			
-		}
-		
-		// Make sure that a share key is generated for the owner too
-		list( $owner, $ownerPath ) = $this->getUidAndFilename( $filePath );
 
-		if ( $sharingEnabled ) {
-		
+			$recoveryEnabled = true;
+
+		} else {
+
+			$recoveryEnabled = false;
+
+		}
+
+		// Make sure that a share key is generated for the owner too
+		list($owner, $ownerPath) = $this->getUidAndFilename($filePath);
+
+		if ($sharingEnabled) {
+
 			// Find out who, if anyone, is sharing the file
-			$result = \OCP\Share::getUsersSharingFile( $ownerPath, $owner,true, true, true );
+			$result = \OCP\Share::getUsersSharingFile($ownerPath, $owner, true, true, true);
 			$userIds = $result['users'];
-			if ( $result['public'] ) {
+			if ($result['public']) {
 				$userIds[] = $this->publicShareKeyId;
 			}
-		
+
 		}
-		
+
 		// If recovery is enabled, add the 
 		// Admin UID to list of users to share to
-		if ( $recoveryEnabled ) {
-			
+		if ($recoveryEnabled) {
+
 			// Find recoveryAdmin user ID
-			$recoveryKeyId = \OC_Appconfig::getValue( 'files_encryption', 'recoveryKeyId' );
-			
+			$recoveryKeyId = \OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
+
 			// Add recoveryAdmin to list of users sharing
 			$userIds[] = $recoveryKeyId;
-			
+
 		}
 
 		// add current user if given
-		if ( $currentUserId != false ) {
-		
+		if ($currentUserId != false) {
+
 			$userIds[] = $currentUserId;
-		
+
 		}
 
 		// Remove duplicate UIDs
-		$uniqueUserIds = array_unique ( $userIds );
-		
+		$uniqueUserIds = array_unique($userIds);
+
 		return $uniqueUserIds;
 
 	}
-	
+
 	/**
 	 * @brief Set file migration status for user
+	 * @param $status
 	 * @return bool
 	 */
-	public function setMigrationStatus( $status ) {
-	
+	public function setMigrationStatus($status)
+	{
+
 		$sql = 'UPDATE 
 				*PREFIX*encryption 
 			SET 
 				migration_status = ?
 			WHERE 
 				uid = ?';
-		
-		$args = array( $status, $this->userId );
-		
-		$query = \OCP\DB::prepare( $sql );
-		
-		if ( $query->execute( $args ) ) {
-		
+
+		$args = array($status, $this->userId);
+
+		$query = \OCP\DB::prepare($sql);
+
+		if ($query->execute($args)) {
+
 			return true;
-			
+
 		} else {
-		
+
 			return false;
-			
+
 		}
-	
+
 	}
-	
+
 	/**
 	 * @brief Check whether pwd recovery is enabled for a given user
-	 * @return 1 = yes, 0 = no, false = no record
-	 * @note If records are not being returned, check for a hidden space 
+	 * @return bool 1 = yes, 0 = no, false = no record
+	 * @note If records are not being returned, check for a hidden space
 	 *       at the start of the uid in db
 	 */
-	public function getMigrationStatus() {
-	
+	public function getMigrationStatus()
+	{
+
 		$sql = 'SELECT 
 				migration_status
 			FROM 
 				`*PREFIX*encryption` 
 			WHERE 
 				uid = ?';
-				
-		$args = array( $this->userId );
 
-		$query = \OCP\DB::prepare( $sql );
-		
-		$result = $query->execute( $args );
-		
+		$args = array($this->userId);
+
+		$query = \OCP\DB::prepare($sql);
+
+		$result = $query->execute($args);
+
 		$migrationStatus = array();
-		
-		while( $row = $result->fetchRow() ) {
-		
+
+		while ($row = $result->fetchRow()) {
+
 			$migrationStatus[] = $row['migration_status'];
-			
+
 		}
-		
+
 		// If no record is found
-		if ( empty( $migrationStatus ) ) {
-		
+		if (empty($migrationStatus)) {
+
 			return false;
-		
-		// If a record is found
+
+			// If a record is found
 		} else {
-		
+
 			return $migrationStatus[0];
-			
+
 		}
-	
+
 	}
-		
+
 	/**
 	 * @brief get uid of the owners of the file and the path to the file
-	 * @param $path Path of the file to check
-	 * @note $shareFilePath must be relative to data/UID/files. Files 
+	 * @param string $path Path of the file to check
+	 * @note $shareFilePath must be relative to data/UID/files. Files
 	 *       relative to /Shared are also acceptable
 	 * @return array
 	 */
-	public function getUidAndFilename( $path ) {
+	public function getUidAndFilename($path)
+	{
 
-        $view = new \OC\Files\View($this->userFilesDir);
-		$fileOwnerUid = $view->getOwner( $path );
+		$view = new \OC\Files\View($this->userFilesDir);
+		$fileOwnerUid = $view->getOwner($path);
 
-        // handle public access
-        if($fileOwnerUid === false && $this->isPublic) {
-            $filename = $path;
-            $fileOwnerUid = $GLOBALS['fileOwner'];
+		// handle public access
+		if ($fileOwnerUid === false && $this->isPublic) {
+			$filename = $path;
+			$fileOwnerUid = $GLOBALS['fileOwner'];
 
-            return array ( $fileOwnerUid, $filename );
-        } else {
+			return array($fileOwnerUid, $filename);
+		} else {
 
-            // Check that UID is valid
-            if ( ! \OCP\User::userExists( $fileOwnerUid ) ) {
-                throw new \Exception( 'Could not find owner (UID = "' . var_export( $fileOwnerUid, 1 ) . '") of file "' . $path . '"' );
-            }
+			// Check that UID is valid
+			if (!\OCP\User::userExists($fileOwnerUid)) {
+				throw new \Exception('Could not find owner (UID = "' . var_export($fileOwnerUid, 1) . '") of file "' . $path . '"');
+			}
 
-            // NOTE: Bah, this dependency should be elsewhere
-            \OC\Files\Filesystem::initMountPoints( $fileOwnerUid );
+			// NOTE: Bah, this dependency should be elsewhere
+			\OC\Files\Filesystem::initMountPoints($fileOwnerUid);
 
-            // If the file owner is the currently logged in user
-            if ( $fileOwnerUid == $this->userId ) {
+			// If the file owner is the currently logged in user
+			if ($fileOwnerUid == $this->userId) {
 
-                // Assume the path supplied is correct
-                $filename = $path;
+				// Assume the path supplied is correct
+				$filename = $path;
 
-            } else {
+			} else {
 
-                $info = $view->getFileInfo( $path );
-                $ownerView = new \OC\Files\View( '/' . $fileOwnerUid . '/files' );
+				$info = $view->getFileInfo($path);
+				$ownerView = new \OC\Files\View('/' . $fileOwnerUid . '/files');
 
-                // Fetch real file path from DB
-                $filename = $ownerView->getPath( $info['fileid'] ); // TODO: Check that this returns a path without including the user data dir
+				// Fetch real file path from DB
+				$filename = $ownerView->getPath($info['fileid']); // TODO: Check that this returns a path without including the user data dir
 
-            }
+			}
 
-            return array ( $fileOwnerUid, $filename );
-        }
+			return array($fileOwnerUid, $filename);
+		}
 
-		
+
 	}
 
 	/**
 	 * @brief geo recursively through a dir and collect all files and sub files.
-	 * @param type $dir relative to the users files folder
+	 * @param string $dir relative to the users files folder
 	 * @return array with list of files relative to the users files folder
 	 */
-	public function getAllFiles( $dir ) {
-	
+	public function getAllFiles($dir)
+	{
+
 		$result = array();
 
-		$content = $this->view->getDirectoryContent( $this->userFilesDir . $dir );
+		$content = $this->view->getDirectoryContent($this->userFilesDir . $dir);
 
 		// handling for re shared folders
-		$path_split = explode( '/', $dir );
+		$path_split = explode('/', $dir);
 		$shared = '';
-		
-		if( $path_split[1] === 'Shared' ) {
-		
+
+		if ($path_split[1] === 'Shared') {
+
 			$shared = '/Shared';
-			
+
 		}
 
-		foreach ( $content as $c ) {
-		
-			$sharedPart = $path_split[sizeof( $path_split )-1];
-			$targetPathSplit = array_reverse( explode( '/', $c['path'] ) );
+		foreach ($content as $c) {
+
+			$sharedPart = $path_split[sizeof($path_split) - 1];
+			$targetPathSplit = array_reverse(explode('/', $c['path']));
 
 			$path = '';
 
 			// rebuild path
-			foreach ( $targetPathSplit as $pathPart ) {
-			
-				if ( $pathPart !== $sharedPart ) {
-				
+			foreach ($targetPathSplit as $pathPart) {
+
+				if ($pathPart !== $sharedPart) {
+
 					$path = '/' . $pathPart . $path;
-				
+
 				} else {
-				
+
 					break;
-				
+
 				}
-				
+
 			}
 
-			$path = $dir.$path;
+			$path = $dir . $path;
 
-			if ($c['type'] === "dir" ) {
-				
-				$result = array_merge( $result, $this->getAllFiles( $path ) );
-			
+			if ($c['type'] === "dir") {
+
+				$result = array_merge($result, $this->getAllFiles($path));
+
 			} else {
-			
+
 				$result[] = $path;
-			
+
 			}
 		}
-		
+
 		return $result;
-	
+
 	}
 
 	/**
@@ -1211,13 +1257,14 @@ class Util {
 	 * @param int $id of the current share
 	 * @return array of the parent
 	 */
-	public static function getShareParent( $id ) {
+	public static function getShareParent($id)
+	{
 
-		$query = \OC_DB::prepare( 'SELECT `file_target`, `item_type`'
-		.' FROM `*PREFIX*share`'
-		.' WHERE `id` = ?' );
+		$query = \OC_DB::prepare('SELECT `file_target`, `item_type`'
+			. ' FROM `*PREFIX*share`'
+			. ' WHERE `id` = ?');
 
-		$result = $query->execute( array( $id ) );
+		$result = $query->execute(array($id));
 
 		$row = $result->fetchRow();
 
@@ -1230,13 +1277,14 @@ class Util {
 	 * @param int $id of the current share
 	 * @return array of the parent
 	 */
-	public static function getParentFromShare( $id ) {
+	public static function getParentFromShare($id)
+	{
 
-		$query = \OC_DB::prepare( 'SELECT `parent`'
-			.' FROM `*PREFIX*share`'
-			.' WHERE `id` = ?' );
+		$query = \OC_DB::prepare('SELECT `parent`'
+			. ' FROM `*PREFIX*share`'
+			. ' WHERE `id` = ?');
 
-		$result = $query->execute( array( $id ) );
+		$result = $query->execute(array($id));
 
 		$row = $result->fetchRow();
 
@@ -1246,57 +1294,70 @@ class Util {
 
 	/**
 	 * @brief get owner of the shared files.
-	 * @param int $Id of a share
-	 * @return owner
+	 * @param $id
+	 * @internal param int $Id of a share
+	 * @return string owner
 	 */
-	public function getOwnerFromSharedFile( $id ) {
-	
-		$query = \OC_DB::prepare( 'SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1 );
-		$source = $query->execute( array( $id ) )->fetchRow();
+	public function getOwnerFromSharedFile($id)
+	{
 
-		if ( isset($source['parent'] ) ) {
-		
+		$query = \OC_DB::prepare('SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1);
+		$source = $query->execute(array($id))->fetchRow();
+
+		if (isset($source['parent'])) {
+
 			$parent = $source['parent'];
-			
-			while ( isset( $parent ) ) {
-			
-				$query = \OC_DB::prepare( 'SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1 );
-				$item = $query->execute( array( $parent ) )->fetchRow();
-				
-				if ( isset( $item['parent'] ) ) {
-				
+
+			while (isset($parent)) {
+
+				$query = \OC_DB::prepare('SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1);
+				$item = $query->execute(array($parent))->fetchRow();
+
+				if (isset($item['parent'])) {
+
 					$parent = $item['parent'];
-				
+
 				} else {
-				
+
 					$fileOwner = $item['uid_owner'];
-					
+
 					break;
-				
+
 				}
 			}
-			
+
 		} else {
-			
+
 			$fileOwner = $source['uid_owner'];
-			
+
 		}
 
 		return $fileOwner;
-		
+
 	}
 
-    public function getUserId()
-    {
-        return $this->userId;
-    }
+	/**
+	 * @return string
+	 */
+	public function getUserId()
+	{
+		return $this->userId;
+	}
 
-    public function getUserFilesDir()
-    {
-        return $this->userFilesDir;
-    }
+	/**
+	 * @return string
+	 */
+	public function getUserFilesDir()
+	{
+		return $this->userFilesDir;
+	}
 
-	public function checkRecoveryPassword($password) {
+	/**
+	 * @param $password
+	 * @return bool
+	 */
+	public function checkRecoveryPassword($password)
+	{
 
 		$pathKey = '/owncloud_private_key/' . $this->recoveryKeyId . ".private.key";
 		$pathControlData = '/control-file/controlfile.enc';
@@ -1315,30 +1376,35 @@ class Util {
 
 		if ($decryptedControlData === 'ownCloud') {
 			return true;
-		} 
-		
+		}
+
 		return false;
 	}
 
-	public function getRecoveryKeyId() {
+	/**
+	 * @return string
+	 */
+	public function getRecoveryKeyId()
+	{
 		return $this->recoveryKeyId;
 	}
 
 	/**
 	 * @brief add recovery key to all encrypted files
 	 */
-	public function addRecoveryKeys($path = '/') {
-		$dirContent = $this->view->getDirectoryContent($this->keyfilesPath.$path);
+	public function addRecoveryKeys($path = '/')
+	{
+		$dirContent = $this->view->getDirectoryContent($this->keyfilesPath . $path);
 		foreach ($dirContent as $item) {
 			$filePath = substr($item['path'], 25);
 			if ($item['type'] == 'dir') {
-				$this->addRecoveryKeys($filePath.'/');
+				$this->addRecoveryKeys($filePath . '/');
 			} else {
 				$session = new Session(new \OC_FilesystemView('/'));
 				$sharingEnabled = \OCP\Share::isEnabled();
 				$file = substr($filePath, 0, -4);
 				$usersSharing = $this->getSharingUsersArray($sharingEnabled, $file);
-				$this->setSharedFileKeyfiles( $session, $usersSharing, $file );
+				$this->setSharedFileKeyfiles($session, $usersSharing, $file);
 			}
 		}
 	}
@@ -1346,25 +1412,27 @@ class Util {
 	/**
 	 * @brief remove recovery key to all encrypted files
 	 */
-	public function removeRecoveryKeys($path = '/') {
-		$dirContent = $this->view->getDirectoryContent($this->keyfilesPath.$path);
+	public function removeRecoveryKeys($path = '/')
+	{
+		$dirContent = $this->view->getDirectoryContent($this->keyfilesPath . $path);
 		foreach ($dirContent as $item) {
 			$filePath = substr($item['path'], 25);
 			if ($item['type'] == 'dir') {
-				$this->removeRecoveryKeys($filePath.'/');
+				$this->removeRecoveryKeys($filePath . '/');
 			} else {
 				$file = substr($filePath, 0, -4);
-				$this->view->unlink($this->shareKeysPath.'/'.$file.'.'.$this->recoveryKeyId.'.shareKey');
+				$this->view->unlink($this->shareKeysPath . '/' . $file . '.' . $this->recoveryKeyId . '.shareKey');
 			}
 		}
 	}
 
 	/**
 	 * @brief decrypt given file with recovery key and encrypt it again to the owner and his new key
-	 * @param type $file
-	 * @param type $privateKey recovery key to decrypt the file
+	 * @param string $file
+	 * @param string $privateKey recovery key to decrypt the file
 	 */
-	private function recoverFile($file, $privateKey) {
+	private function recoverFile($file, $privateKey)
+	{
 
 		$sharingEnabled = \OCP\Share::isEnabled();
 
@@ -1385,17 +1453,17 @@ class Util {
 		\OC_FileProxy::$enabled = false;
 
 		//decrypt file key
-		$encKeyfile = $this->view->file_get_contents($this->keyfilesPath.$file.".key");
-		$shareKey = $this->view->file_get_contents($this->shareKeysPath.$file.".".$this->recoveryKeyId.".shareKey");
+		$encKeyfile = $this->view->file_get_contents($this->keyfilesPath . $file . ".key");
+		$shareKey = $this->view->file_get_contents($this->shareKeysPath . $file . "." . $this->recoveryKeyId . ".shareKey");
 		$plainKeyfile = Crypt::multiKeyDecrypt($encKeyfile, $shareKey, $privateKey);
 		// encrypt file key again to all users, this time with the new public key for the recovered use
 		$userPubKeys = Keymanager::getPublicKeys($this->view, $filteredUids['ready']);
 		$multiEncKey = Crypt::multiKeyEncrypt($plainKeyfile, $userPubKeys);
 
 		// write new keys to filesystem TDOO!
-		$this->view->file_put_contents($this->keyfilesPath.$file.'.key', $multiEncKey['data']);
+		$this->view->file_put_contents($this->keyfilesPath . $file . '.key', $multiEncKey['data']);
 		foreach ($multiEncKey['keys'] as $userId => $shareKey) {
-			$shareKeyPath = $this->shareKeysPath.$file.'.'.$userId.'.shareKey';
+			$shareKeyPath = $this->shareKeysPath . $file . '.' . $userId . '.shareKey';
 			$this->view->file_put_contents($shareKeyPath, $shareKey);
 		}
 
@@ -1405,10 +1473,11 @@ class Util {
 
 	/**
 	 * @brief collect all files and recover them one by one
-	 * @param type $path to look for files keys
-	 * @param type $privateKey private recovery key which is used to decrypt the files
+	 * @param string $path to look for files keys
+	 * @param string $privateKey private recovery key which is used to decrypt the files
 	 */
-	private function recoverAllFiles($path, $privateKey) {
+	private function recoverAllFiles($path, $privateKey)
+	{
 		$dirContent = $this->view->getDirectoryContent($this->keyfilesPath . $path);
 		foreach ($dirContent as $item) {
 			$filePath = substr($item['path'], 25);
@@ -1423,16 +1492,17 @@ class Util {
 
 	/**
 	 * @brief recover users files in case of password lost
-	 * @param type $recoveryPassword
+	 * @param string $recoveryPassword
 	 */
-	public function recoverUsersFiles($recoveryPassword) {
+	public function recoverUsersFiles($recoveryPassword)
+	{
 
 		// Disable encryption proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
-		$encryptedKey = $this->view->file_get_contents( '/owncloud_private_key/'.$this->recoveryKeyId.'.private.key' );
-        $privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, $recoveryPassword );
+		$encryptedKey = $this->view->file_get_contents('/owncloud_private_key/' . $this->recoveryKeyId . '.private.key');
+		$privateKey = Crypt::symmetricDecryptFileContent($encryptedKey, $recoveryPassword);
 
 		\OC_FileProxy::$enabled = $proxyStatus;
 
