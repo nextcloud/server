@@ -21,7 +21,7 @@
 				<comments>What client-side / server-side configuration is used</comments>
 			</field>
 			<field>
-				<name>recovery</name>
+				<name>recovery_enabled</name>
 				<type>boolean</type>
 				<notnull>true</notnull>
 				<default>0</default>

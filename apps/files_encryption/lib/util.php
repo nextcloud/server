@@ -228,7 +228,7 @@ class Util {
 		if ( false === $this->recoveryEnabledForUser() ) {
 		
 			// create database configuration
-			$sql = 'INSERT INTO `*PREFIX*encryption` (`uid`,`mode`,`recovery`) VALUES (?,?,?)';
+			$sql = 'INSERT INTO `*PREFIX*encryption` (`uid`,`mode`,`recovery_enabled`) VALUES (?,?,?)';
 			$args = array( $this->userId, 'server-side', 0);
 			$query = \OCP\DB::prepare( $sql );
 			$query->execute( $args );
@@ -252,7 +252,7 @@ class Util {
 	public function recoveryEnabledForUser() {
 	
 		$sql = 'SELECT 
-				recovery 
+				recovery_enabled
 			FROM 
 				`*PREFIX*encryption` 
 			WHERE 
@@ -268,7 +268,7 @@ class Util {
 		
 		while( $row = $result->fetchRow() ) {
 		
-			$recoveryEnabled[] = $row['recovery'];
+			$recoveryEnabled[] = $row['recovery_enabled'];
 			
 		}
 		
@@ -299,7 +299,7 @@ class Util {
 		if ( false === $recoveryStatus ) {
 		
 			$sql = 'INSERT INTO `*PREFIX*encryption` 
-					(`uid`,`mode`,`recovery`) 
+					(`uid`,`mode`,`recovery_enabled`)
 				VALUES (?,?,?)';
 				
 			$args = array( $this->userId, 'server-side', $enabled );
@@ -310,7 +310,7 @@ class Util {
 			$sql = 'UPDATE 
 					*PREFIX*encryption 
 				SET 
-					recovery = ? 
+					recovery_enabled = ?
 				WHERE 
 					uid = ?';
 			
