@@ -235,9 +235,12 @@ class View extends \PHPUnit_Framework_TestCase {
 		\OC\Files\Filesystem::mount($storage2, array(), '/substorage');
 
 		$rootView = new \OC\Files\View('');
+		$rootView->mkdir('substorage/emptyfolder');
 		$rootView->copy('substorage', 'anotherfolder');
 		$this->assertTrue($rootView->is_dir('/anotherfolder'));
 		$this->assertTrue($rootView->is_dir('/substorage'));
+		$this->assertTrue($rootView->is_dir('/anotherfolder/emptyfolder'));
+		$this->assertTrue($rootView->is_dir('/substorage/emptyfolder'));
 		$this->assertTrue($rootView->file_exists('/anotherfolder/foo.txt'));
 		$this->assertTrue($rootView->file_exists('/anotherfolder/foo.png'));
 		$this->assertTrue($rootView->file_exists('/anotherfolder/folder/bar.txt'));
