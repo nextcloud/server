@@ -452,7 +452,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
         \OC_FileProxy::$enabled = $proxyStatus;
 
         // share the file
-        \OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null, false);
+        \OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, false, OCP\PERMISSION_ALL);
 
         // login as admin
         $this->loginHelper('admin');
@@ -572,7 +572,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
 		$this->assertTrue($util->checkRecoveryPassword('test123'));
 
 		// enable recovery for admin
-		$this->assertTrue($util->setRecoveryForUser(true));
+		$this->assertTrue($util->setRecoveryForUser(1));
 
 		// create folder structure
 		$this->view->mkdir('/admin/files' . $this->folder1);
@@ -594,7 +594,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
 		$this->assertTrue($this->view->file_exists('/admin/files_encryption/share-keys/' . $this->folder1 . $this->subfolder . $this->subsubfolder .'/'. $this->filename . '.'.$recoveryKeyId.'.shareKey'));
 
 		// disable recovery for admin
-		$this->assertTrue($util->setRecoveryForUser(false));
+		$this->assertTrue($util->setRecoveryForUser(0));
 
 		// remove all recovery keys
 		$util->removeRecoveryKeys('/');
@@ -604,7 +604,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
 		$this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys/' . $this->folder1 . $this->subfolder . $this->subsubfolder .'/'. $this->filename . '.'.$recoveryKeyId.'.shareKey'));
 
 		// enable recovery for admin
-		$this->assertTrue($util->setRecoveryForUser(true));
+		$this->assertTrue($util->setRecoveryForUser(1));
 
 		// remove all recovery keys
 		$util->addRecoveryKeys('/');
@@ -639,7 +639,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
 		$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), 'user1');
 
 		// enable recovery for admin
-		$this->assertTrue($util->setRecoveryForUser(true));
+		$this->assertTrue($util->setRecoveryForUser(1));
 
 		// create folder structure
 		$this->view->mkdir('/user1/files' . $this->folder1);
@@ -688,7 +688,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
 		$this->assertFalse($this->view->file_exists('/user1/files_encryption/share-keys/' . $this->folder1 . $this->subfolder . $this->subsubfolder .'/'. $this->filename . '.'.$recoveryKeyId.'.shareKey'));
 
 		// enable recovery for admin
-		$this->assertTrue($util->setRecoveryForUser(false));
+		$this->assertTrue($util->setRecoveryForUser(0));
 	}
 
 	/**
