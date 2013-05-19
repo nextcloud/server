@@ -30,7 +30,7 @@ class BackgroundWatcher {
 			return;
 		}
 		list($storageId, $internalPath) = $cacheItem;
-		$mounts = Mount\Manager::findByStorageId($storageId);
+		$mounts = Mount::findByStorageId($storageId);
 
 		if (count($mounts) === 0) {
 			//if the storage we need isn't mounted on default, try to find a user that has access to the storage
