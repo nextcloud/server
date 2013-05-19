@@ -16,8 +16,28 @@ require_once realpath( dirname(__FILE__).'/../appinfo/app.php' );
 
 use OCA\Encryption;
 
+/**
+ * Class Test_Encryption_Util
+ */
 class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
-	
+
+	public $userId;
+	public $encryptionDir;
+	public $publicKeyDir;
+	public $pass;
+	/**
+	 * @var OC_FilesystemView
+	 */
+	public $view;
+	public $keyfilesPath;
+	public $publicKeyPath;
+	public $privateKeyPath;
+	/**
+	 * @var \OCA\Encryption\Util
+	 */
+	public $util;
+	public $dataShort;
+
 	function setUp() {
         // reset backend
         \OC_User::useBackend('database');

@@ -32,10 +32,24 @@ require_once realpath(dirname(__FILE__) . '/../appinfo/app.php');
 
 use OCA\Encryption;
 
+/**
+ * Class Test_Encryption_Share
+ */
 class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
 {
 
-    function setUp()
+	public $stateFilesTrashbin;
+	public $filename;
+	public $dataShort;
+	/**
+	 * @var OC_FilesystemView
+	 */
+	public $view;
+	public $folder1;
+	public $subfolder;
+	public $subsubfolder;
+
+	function setUp()
     {
         // reset backend
         \OC_User::clearBackends();
@@ -106,7 +120,10 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
 		\OC_FileProxy::clearProxies();
     }
 
-    function testShareFile($withTeardown = true)
+	/**
+	 * @param bool $withTeardown
+	 */
+	function testShareFile($withTeardown = true)
     {
         // login as admin
         $this->loginHelper('admin');
@@ -171,7 +188,10 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
         }
     }
 
-    function testReShareFile($withTeardown = true)
+	/**
+	 * @param bool $withTeardown
+	 */
+	function testReShareFile($withTeardown = true)
     {
         $this->testShareFile(false);
 
@@ -228,7 +248,11 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
         }
     }
 
-    function testShareFolder($withTeardown = true)
+	/**
+	 * @param bool $withTeardown
+	 * @return array
+	 */
+	function testShareFolder($withTeardown = true)
     {
         // login as admin
         $this->loginHelper('admin');
@@ -297,7 +321,10 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
         return $fileInfo;
     }
 
-    function testReShareFolder($withTeardown = true)
+	/**
+	 * @param bool $withTeardown
+	 */
+	function testReShareFolder($withTeardown = true)
     {
         $fileInfoFolder1 = $this->testShareFolder(false);
 
@@ -664,6 +691,11 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
 		$this->assertTrue($util->setRecoveryForUser(false));
 	}
 
+	/**
+	 * @param $user
+	 * @param bool $create
+	 * @param bool $password
+	 */
 	function loginHelper($user, $create = false, $password = false)
     {
         if ($create) {

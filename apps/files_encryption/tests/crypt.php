@@ -19,8 +19,25 @@ require_once realpath( dirname(__FILE__).'/../appinfo/app.php' );
 
 use OCA\Encryption;
 
+/**
+ * Class Test_Encryption_Crypt
+ */
 class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
-	
+
+	public $userId;
+	public $pass;
+	public $stateFilesTrashbin;
+	public $dataLong;
+	public $dataUrl;
+	public $dataShort;
+	/**
+	 * @var OC_FilesystemView
+	 */
+	public $view;
+	public $legacyEncryptedData;
+	public $genPrivateKey;
+	public $genPublicKey;
+
 	function setUp() {
         // reset backend
         \OC_User::clearBackends();
@@ -93,7 +110,10 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue( strlen( $key ) > 16 );
 	
 	}
-	
+
+	/**
+	 * @return String
+	 */
 	function testGenerateIv() {
 		
 		$iv = Encryption\Crypt::generateIv();
@@ -150,7 +170,10 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( $this->dataLong, $splitCatfile['encrypted'] );
 	
 	}
-	
+
+	/**
+	 * @return string padded
+	 */
 	function testAddPadding() {
 	
 		$padded = Encryption\Crypt::addPadding( $this->dataLong );
@@ -214,34 +237,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( $this->dataShort, $decrypt );
 		
 	}
-	
-	// These aren't used for now
-// 	function testSymmetricBlockEncryptShortFileContent() {
-// 		
-// 		$crypted = Encryption\Crypt::symmetricBlockEncryptFileContent( $this->dataShort, $this->randomKey );
-// 		
-// 		$this->assertNotEquals( $this->dataShort, $crypted );
-// 		
-// 
-// 		$decrypt = Encryption\Crypt::symmetricBlockDecryptFileContent( $crypted, $this->randomKey );
-// 
-// 		$this->assertEquals( $this->dataShort, $decrypt );
-// 		
-// 	}
-// 	
-// 	function testSymmetricBlockEncryptLongFileContent() {
-// 		
-// 		$crypted = Encryption\Crypt::symmetricBlockEncryptFileContent( $this->dataLong, $this->randomKey );
-// 		
-// 		$this->assertNotEquals( $this->dataLong, $crypted );
-// 		
-// 
-// 		$decrypt = Encryption\Crypt::symmetricBlockDecryptFileContent( $crypted, $this->randomKey );
-// 
-// 		$this->assertEquals( $this->dataLong, $decrypt );
-// 		
-// 	}
-	
+
 	function testSymmetricStreamEncryptShortFileContent() {
 		
 		$filename = 'tmp-'.time().'.test';
@@ -351,9 +347,9 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$decrypt = '';
 		
 		// Manually decrypt chunk
-		foreach ($e as $e) {
+		foreach ($e as $chunk) {
 			
-			$chunkDecrypt = Encryption\Crypt::symmetricDecryptFileContent( $e, $plainKeyfile );
+			$chunkDecrypt = Encryption\Crypt::symmetricDecryptFileContent( $chunk, $plainKeyfile );
 			
 			// Assemble decrypted chunks
 			$decrypt .= $chunkDecrypt;
@@ -741,7 +737,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( $this->dataLong, $decrypt );
 
 		// change password
-		\OC_User::setPassword($this->userId, 'test');
+		\OC_User::setPassword($this->userId, 'test', null);
 
 		// relogin
 		$params['uid'] = $this->userId;
