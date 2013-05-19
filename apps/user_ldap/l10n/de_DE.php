@@ -72,6 +72,7 @@
 "Email Field" => "E-Mail-Feld",
 "User Home Folder Naming Rule" => "Benennungsregel für das Home-Verzeichnis des Benutzers",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Ohne Eingabe wird der Benutzername (Standard) verwendet. Anderenfalls tragen Sie bitte ein LDAP/AD-Attribut ein.",
+"Internal Username" => "Interner Benutzername",
 "Test Configuration" => "Testkonfiguration",
 "Help" => "Hilfe"
 );

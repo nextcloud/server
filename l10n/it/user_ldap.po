@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-18 01:58+0200\n"
-"PO-Revision-Date: 2013-05-17 10:19+0000\n"
+"POT-Creation-Date: 2013-05-19 01:58+0200\n"
+"PO-Revision-Date: 2013-05-18 06:20+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -367,7 +367,7 @@ msgstr "Attributo nome utente interno:"
 
 #: templates/settings.php:104
 msgid "Override UUID detection"
-msgstr ""
+msgstr "Ignora rilevamento UUID"
 
 #: templates/settings.php:105
 msgid ""
