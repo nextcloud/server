@@ -1,5 +1,5 @@
 <?php if(count($_["breadcrumb"])):?>
-	<div class="crumb">
+	<div class="crumb" data-dir=''>
 		<a href="<?php print_unescaped($_['baseURL']); ?>">
 			<img src="<?php print_unescaped(OCP\image_path('core', 'places/home.svg'));?>" class="svg" />
 		</a>
