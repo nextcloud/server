@@ -283,10 +283,10 @@ var OCdialogs = {
 				$li = self.$listTmpl.octemplate({
 					type: entry.type,
 					dir: dir,
-					imgsrc: entry.mimetype_icon,
 					filename: entry.name,
 					date: OC.mtime2date(entry.mtime)
 				});
+				$li.find('img').attr('src', entry.mimetype_icon);
 				self.$filelist.append($li);
 			});
 
