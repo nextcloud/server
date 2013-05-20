@@ -59,16 +59,6 @@ class Helper
 	}
 
 	/**
-	 * @brief register webdav related hooks
-	 *
-	 */
-	public static function registerWebdavHooks()
-	{
-
-
-	}
-
-	/**
 	 * @brief register filesystem related hooks
 	 *
 	 */

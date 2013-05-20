@@ -18,9 +18,6 @@ OCA\Encryption\Helper::registerUserHooks();
 // Sharing related hooks
 OCA\Encryption\Helper::registerShareHooks();
 
-// Webdav related hooks
-OCA\Encryption\Helper::registerWebdavHooks();
-
 // Filesystem related hooks
 OCA\Encryption\Helper::registerFilesystemHooks();
 

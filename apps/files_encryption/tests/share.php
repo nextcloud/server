@@ -557,14 +557,23 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
 
 	function testRecoveryFile()
 	{
-		// login as admin
-		$this->loginHelper('admin');
+		// disable encryption proxy to prevent recursive calls
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
+
+		$this->view->unlink('/owncloud_private_key');
+		$this->view->unlink('/public-keys');
+
+		\OC_FileProxy::$enabled = $proxyStatus;
 
 		\OCA\Encryption\Helper::adminEnableRecovery(null, 'test123');
 		$recoveryKeyId = OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
 
 		// check if control file created
 		$this->assertTrue($this->view->file_exists('/control-file/controlfile.enc'));
+
+		// login as admin
+		$this->loginHelper('admin');
 
 		$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), 'admin');
 
@@ -620,6 +629,9 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
 		// check if share key for recovery not exists
 		$this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys/' . $this->filename . '.' . $recoveryKeyId . '.shareKey'));
 		$this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys/' . $this->folder1 . $this->subfolder . $this->subsubfolder . '/' . $this->filename . '.' . $recoveryKeyId . '.shareKey'));
+
+		\OCA\Encryption\Helper::adminDisableRecovery('test123');
+		$this->assertEquals(0, \OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled'));
 	}
 
 	function testRecoveryForUser()
@@ -689,6 +701,9 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
 
 		// enable recovery for admin
 		$this->assertTrue($util->setRecoveryForUser(0));
+
+		\OCA\Encryption\Helper::adminDisableRecovery('test123');
+		$this->assertEquals(0, \OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled'));
 	}
 
 	function testFailShareFile()
