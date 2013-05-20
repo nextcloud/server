@@ -343,7 +343,6 @@ class OC_VCategories {
 			$stmt = OCP\DB::prepare($sql);
 			$result = $stmt->execute(array($to, $this->user, $this->type, $id));
 			if (OC_DB::isError($result)) {
-				echo 'DB error: ' . $result . "\n";
 				OC_Log::write('core', __METHOD__. 'DB error: ' . OC_DB::getErrorMessage($result), OC_Log::ERROR);
 				return false;
 			}
