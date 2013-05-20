@@ -212,9 +212,10 @@ class Util
 		}
 
 		// Create user keypair
+		// we should never override a keyfile
 		if (
 			!$this->view->file_exists($this->publicKeyPath)
-			or !$this->view->file_exists($this->privateKeyPath)
+			&& !$this->view->file_exists($this->privateKeyPath)
 		) {
 
 			// Generate keypair
@@ -233,6 +234,15 @@ class Util
 
 			\OC_FileProxy::$enabled = true;
 
+		} else {
+			// check if public-key exists but private-key is missing
+			if($this->view->file_exists($this->publicKeyPath) &&  !$this->view->file_exists($this->privateKeyPath)) {
+				\OC_Log::write('Encryption library', 'public key exists but private key is missing for "' . $this->userId . '"', \OC_Log::FATAL);
+				return false;
+			} else if(!$this->view->file_exists($this->publicKeyPath) &&  $this->view->file_exists($this->privateKeyPath)) {
+				\OC_Log::write('Encryption library', 'private key exists but public key is missing for "' . $this->userId . '"', \OC_Log::FATAL);
+				return false;
+			}
 		}
 
 		// If there's no record for this user's encryption preferences
