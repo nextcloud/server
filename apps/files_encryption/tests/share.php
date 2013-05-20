@@ -691,6 +691,70 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
 		$this->assertTrue($util->setRecoveryForUser(0));
 	}
 
+	function testFailShareFile()
+	{
+		// login as admin
+		$this->loginHelper('admin');
+
+		// save file with content
+		$cryptedFile = file_put_contents('crypt://' . $this->filename, $this->dataShort);
+
+		// test that data was successfully written
+		$this->assertTrue(is_int($cryptedFile));
+
+		// disable encryption proxy to prevent recursive calls
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
+
+		// get the file info from previous created file
+		$fileInfo = $this->view->getFileInfo('/admin/files/' . $this->filename);
+
+		// check if we have a valid file info
+		$this->assertTrue(is_array($fileInfo));
+
+		// check if the unencrypted file size is stored
+		$this->assertGreaterThan(0, $fileInfo['unencrypted_size']);
+
+		// break users public key
+		$this->view->rename('/public-keys/user2.public.key', '/public-keys/user2.public.key_backup');
+
+		// re-enable the file proxy
+		\OC_FileProxy::$enabled = $proxyStatus;
+
+		// share the file
+		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP, 'group1', OCP\PERMISSION_ALL);
+
+		// login as admin
+		$this->loginHelper('admin');
+
+		// check if share key for user1 not exists
+		$this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys/' . $this->filename . '.user2.shareKey'));
+
+		// disable encryption proxy to prevent recursive calls
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
+
+		// break user1 public key
+		$this->view->rename('/public-keys/user2.public.key_backup', '/public-keys/user2.public.key');
+
+		// remove share file
+		$this->view->unlink('/admin/files_encryption/share-keys/' . $this->filename . '.user2.shareKey');
+
+		// re-enable the file proxy
+		\OC_FileProxy::$enabled = $proxyStatus;
+
+		// unshare the file with user1
+		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP, 'group1');
+
+		// check if share key not exists
+		$this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys/' . $this->filename . '.user2.shareKey'));
+
+		// cleanup
+		$this->view->unlink('/admin/files/' . $this->filename);
+	}
+
+
+
 	/**
 	 * @param $user
 	 * @param bool $create

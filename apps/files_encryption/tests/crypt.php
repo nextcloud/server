@@ -51,6 +51,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase
 		$this->dataUrl = realpath(dirname(__FILE__) . '/../lib/crypt.php');
 		$this->legacyData = realpath(dirname(__FILE__) . '/legacy-text.txt');
 		$this->legacyEncryptedData = realpath(dirname(__FILE__) . '/legacy-encrypted-text.txt');
+		$this->legacyEncryptedDataKey = realpath(dirname(__FILE__) . '/encryption.key');
 		$this->randomKey = Encryption\Crypt::generateKey();
 
 		$keypair = Encryption\Crypt::createKeypair();
@@ -884,6 +885,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase
 		// tear down
 		$view->unlink($filename);
 	}
+
 // 	function testEncryption(){
 // 	
 // 		$key=uniqid();

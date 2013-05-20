@@ -208,6 +208,9 @@ class Hooks {
 	/*
 	 * @brief check if files can be encrypted to every user.
 	 */
+	/**
+	 * @param $params
+	 */
 	public static function preShared($params) {
 
 		$users = array();
@@ -229,7 +232,6 @@ class Hooks {
 				$params['run']->run = false;
 				// TODO: Make sure files_sharing provides user
 				// feedback on failed share
-				break;
 			}
 		}
 	}
