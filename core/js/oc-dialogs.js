@@ -173,22 +173,10 @@ var OCdialogs = {
 					}];
 				break;
 				case OCdialogs.OK_BUTTON:
-					var functionToCall;
-					switch(dialog_type) {
-						case 'prompt':
-							buttonlist[1] = {
-								text: t('core', 'Cancel'),
-								click: function() { $(dialog_id).dialog('close'); }
-							};
-							functionToCall = function() { OCdialogs._promptOkHandler(callback, dialog_id); };
-						break;
-						default:
-							functionToCall = function() {
-								$(dialog_id).dialog('close');
-								if(callback !== undefined) { callback() };
-							};
-						break;
-					}
+					var functionToCall = function() {
+						$(dialog_id).dialog('close');
+						if(callback !== undefined) { callback() };
+					};
 					buttonlist[0] = {
 						text: t('core', 'Ok'),
 						click: functionToCall
@@ -254,10 +242,6 @@ var OCdialogs = {
 		}
 	},
 
-	_promptOkHandler: function(callback, dialog_id) {
-		$(dialog_id).dialog('close');
-		if (callback !== undefined) { callback($(dialog_id + ' input#oc-dialog-prompt-input').val()) };
-	},
 	/**
 	 * fills the filepicker with files
 	*/
