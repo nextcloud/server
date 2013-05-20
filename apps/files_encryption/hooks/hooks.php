@@ -225,15 +225,20 @@ class Hooks {
 				break;
 		}
 
+		$error = false;
 		foreach ($users as $user) {
 			if (!$view->file_exists($user . '.public.key')) {
-				// Set flag var 'run' to notify emitting
-				// script that hook execution failed
-				$params['run']->run = false;
-				// TODO: Make sure files_sharing provides user
-				// feedback on failed share
+				$error = true;
+				break;
 			}
 		}
+
+		if($error)
+			// Set flag var 'run' to notify emitting
+			// script that hook execution failed
+			$params['run']->run = false;
+			// TODO: Make sure files_sharing provides user
+			// feedback on failed share
 	}
 
 	/**

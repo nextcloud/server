@@ -706,41 +706,9 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals($this->dataLong, $decrypt);
 
-		$newFolder = '/newfolder' . time();
+		$newFolder = '/newfolder/subfolder' . time();
+		$view->mkdir('/newfolder');
 
-		$view->rename($folder, $newFolder);
-
-		// Get file decrypted contents
-		$newDecrypt = file_get_contents('crypt://' . $newFolder . $filename);
-
-		$this->assertEquals($this->dataLong, $newDecrypt);
-
-		// tear down
-		$view->unlink($newFolder);
-	}
-
-	function testRenameFolder()
-	{
-
-		$filename = '/tmp-' . time();
-
-		$folder = '/folder';
-		$newFolder = '/newfolder';
-		$view = new \OC\Files\View('/' . $this->userId . '/files');
-		$view->mkdir($folder);
-
-		// Save long data as encrypted file using stream wrapper
-		$cryptedFile = file_put_contents('crypt://' . $folder . $filename, $this->dataLong);
-
-		// Test that data was successfully written
-		$this->assertTrue(is_int($cryptedFile));
-
-		// Get file decrypted contents
-		$decrypt = file_get_contents('crypt://' . $folder . $filename);
-
-		$this->assertEquals($this->dataLong, $decrypt);
-
-		// rename folder
 		$view->rename($folder, $newFolder);
 
 		// Get file decrypted contents
@@ -754,8 +722,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase
 
 	function testChangePassphrase()
 	{
-
-		$filename = 'tmp-' . time();
+	$filename = 'tmp-' . time();
 
 		// Save long data as encrypted file using stream wrapper
 		$cryptedFile = file_put_contents('crypt://' . $filename, $this->dataLong);
