@@ -540,32 +540,23 @@ class Keymanager
 
 		$shareKeyPath = '/' . $owner . '/files_encryption/share-keys/' . $filename;
 
-		$result = false;
-
 		if ($view->is_dir($shareKeyPath)) {
 
-			$localPath = \OC_Filesystem::normalizePath($view->getLocalFolder($shareKeyPath));
-			$result = self::recursiveDelShareKeys($localPath, $userIds);
+			$localPath = \OC\Files\Filesystem::normalizePath($view->getLocalFolder($shareKeyPath));
+			self::recursiveDelShareKeys($localPath, $userIds);
 
 		} else {
 
 			foreach ($userIds as $userId) {
-				$view->unlink($shareKeyPath . '.' . $userId . '.shareKey');
+
+				if (!$view->unlink($shareKeyPath . '.' . $userId . '.shareKey')) {
+					\OC_Log::write('Encryption library', 'Could not delete shareKey; does not exist: "' . $shareKeyPath . '.' . $userId . '.shareKey"', \OC_Log::ERROR);
+				}
+
 			}
-
-			$result = true;
-		}
-
-		if (!$result) {
-
-			\OC_Log::write('Encryption library', 'Could not delete shareKey; does not exist: "' . $shareKeyPath, \OC_Log::ERROR);
-
 		}
 
 		\OC_FileProxy::$enabled = $proxyStatus;
-
-		return $result;
-
 	}
 
 	/**
@@ -582,13 +573,14 @@ class Keymanager
 		}
 		/** @var $matches array */
 		foreach ($matches as $ma) {
-			unlink($ma);
+			if (!unlink($ma)) {
+				\OC_Log::write('Encryption library', 'Could not delete shareKey; does not exist: "' . $ma . '"', \OC_Log::ERROR);
+			}
 		}
 		$subdirs = $directories = glob(preg_quote($dir) . '/*', GLOB_ONLYDIR);
 		foreach ($subdirs as $subdir) {
 			self::recursiveDelShareKeys($subdir, $userIds);
 		}
-		return true;
 	}
 
 	/**

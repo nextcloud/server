@@ -67,13 +67,13 @@ class Hooks {
 		// If migration not yet done
 		if ( ! $migrationCompleted ) {
 		
-			$view1 = new \OC_FilesystemView( '/' . $params['uid'] );
+			$userView = new \OC_FilesystemView( '/' . $params['uid'] );
 			
 			// Set legacy encryption key if it exists, to support 
 			// depreciated encryption system
-			if ( 
-				$view1->file_exists( 'encryption.key' )
-				&& $encLegacyKey = $view1->file_get_contents( 'encryption.key' ) 
+			if (
+				$userView->file_exists( 'encryption.key' )
+				&& $encLegacyKey = $userView->file_get_contents( 'encryption.key' )
 			) {
 			
 				$plainLegacyKey = Crypt::legacyDecrypt( $encLegacyKey, $params['password'] );
@@ -412,25 +412,11 @@ class Hooks {
 
 				// Unshare every user who no longer has access to the file
 				$delUsers = array_diff( $userIds, $sharingUsers);
-				
-				if ( !Keymanager::delShareKey( $view, $delUsers, $path ) ) {
-				
-					$failed[] = $path;
-				
-				}
 
+				// delete share key
+				Keymanager::delShareKey( $view, $delUsers, $path );
 			}
 
-			// If no attempts to set keyfiles failed
-			if ( empty( $failed ) ) {
-			
-				return true;
-				
-			} else {
-			
-				return false;
-				
-			}
 		}
 	}
 	
