@@ -38,6 +38,9 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase
 	 */
 	public $util;
 	public $dataShort;
+	public $legacyEncryptedData;
+	public $legacyEncryptedDataKey;
+	public $lagacyKey;
 
 	function setUp()
 	{
@@ -54,6 +57,8 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase
 		$this->dataLong = file_get_contents(realpath(dirname(__FILE__) . '/../lib/crypt.php'));
 		$this->legacyData = realpath(dirname(__FILE__) . '/legacy-text.txt');
 		$this->legacyEncryptedData = realpath(dirname(__FILE__) . '/legacy-encrypted-text.txt');
+		$this->legacyEncryptedDataKey = realpath(dirname(__FILE__) . '/encryption.key');
+		$this->lagacyKey = '62829813025828180801';
 
 		$keypair = Encryption\Crypt::createKeypair();
 
@@ -100,7 +105,6 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase
 	 */
 	function testKeyPaths()
 	{
-
 		$util = new Encryption\Util($this->view, $this->userId);
 
 		$this->assertEquals($this->publicKeyDir, $util->getPath('publicKeyDir'));
@@ -116,7 +120,6 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase
 	 */
 	function testSetupServerSide()
 	{
-
 		$this->assertEquals(true, $this->util->setupServerSide($this->pass));
 	}
 
@@ -125,8 +128,48 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase
 	 */
 	function testUserIsReady()
 	{
-
 		$this->assertEquals(true, $this->util->ready());
+	}
+
+	/**
+	 * @brief test checking whether account is not ready for encryption,
+	 */
+	function testUserIsNotReady()
+	{
+		$this->view->unlink($this->publicKeyDir);
+
+		$params['uid'] = $this->userId;
+		$params['password'] = $this->pass;
+		$this->assertFalse(OCA\Encryption\Hooks::login($params));
+
+		$this->view->unlink($this->privateKeyPath);
+	}
+
+	/**
+	 * @brief test checking whether account is not ready for encryption,
+	 */
+	function testIsLagacyUser()
+	{
+		$userView = new \OC_FilesystemView( '/' . $this->userId );
+
+		// Disable encryption proxy to prevent recursive calls
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
+
+		$encryptionKeyContent = file_get_contents($this->legacyEncryptedDataKey);
+		$userView->file_put_contents('/encryption.key', $encryptionKeyContent);
+
+		\OC_FileProxy::$enabled = $proxyStatus;
+
+		$params['uid'] = $this->userId;
+		$params['password'] = $this->pass;
+
+		$util = new Encryption\Util($this->view, $this->userId);
+		$util->setMigrationStatus(0);
+
+		$this->assertTrue(OCA\Encryption\Hooks::login($params));
+
+		$this->assertEquals($this->lagacyKey, $_SESSION['legacyKey']);
 	}
 
 	function testRecoveryEnabledForUser()
