@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Flávio Veras <flaviove@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-15 01:59+0200\n"
-"PO-Revision-Date: 2013-05-15 00:00+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-18 01:58+0200\n"
+"PO-Revision-Date: 2013-05-17 10:15+0000\n"
+"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -217,7 +218,7 @@ msgstr "{count} arquivos"
 
 #: lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
-msgstr ""
+msgstr "Nome de pasta inválido. O uso do nome 'Compartilhado' é reservado ao ownCloud"
 
 #: lib/app.php:73
 msgid "Unable to rename file"

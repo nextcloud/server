@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Failed to clear the mappings." => "Cancellazione delle associazioni non riuscita.",
 "Failed to delete the server configuration" => "Eliminazione della configurazione del server non riuscita",
 "The configuration is valid and the connection could be established!" => "La configurazione è valida e la connessione può essere stabilita.",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "La configurazione è valida, ma il Bind non è riuscito. Controlla le impostazioni del server e le credenziali.",
@@ -7,6 +8,9 @@
 "Take over settings from recent server configuration?" => "Vuoi recuperare le impostazioni dalla configurazione recente del server?",
 "Keep settings?" => "Vuoi mantenere le impostazioni?",
 "Cannot add server configuration" => "Impossibile aggiungere la configurazione del server",
+"mappings cleared" => "associazioni cancellate",
+"Success" => "Riuscito",
+"Error" => "Errore",
 "Connection test succeeded" => "Prova di connessione riuscita",
 "Connection test failed" => "Prova di connessione non riuscita",
 "Do you really want to delete the current Server Configuration?" => "Vuoi davvero eliminare la configurazione attuale del server?",
@@ -70,6 +74,14 @@
 "Email Field" => "Campo Email",
 "User Home Folder Naming Rule" => "Regola di assegnazione del nome della cartella utente",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Lascia vuoto per il nome utente (predefinito). Altrimenti, specifica un attributo LDAP/AD.",
+"Internal Username" => "Nome utente interno",
+"By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder in ownCloud. It is also a port of remote URLs, for instance for all *DAV services. With this setting, the default behaviour can be overriden. To achieve a similar behaviour as before ownCloud 5 enter the user display name attribute in the following field. Leave it empty for default behaviour. Changes will have effect only on newly mapped (added) LDAP users." => "In modo predefinito, il nome utente interno sarà creato dall'attributo UUID. Ciò assicura che il nome utente sia univoco e che non sia necessario convertire i caratteri. Il nome utente interno consente l'uso di determinati caratteri:  [ a-zA-Z0-9_.@- ]. Altri caratteri sono sostituiti con il corrispondente ASCII o sono semplicemente omessi. In caso di conflitto, sarà incrementato/decrementato un numero. Il nome utente interno è utilizzato per identificare un utente internamente. Rappresenta, inoltre, il nome predefinito per la cartella home dell'utente in ownCloud. Costituisce anche una porta di URL remoti, ad esempio per tutti i servizi *DAV. Con questa impostazione, il comportamento predefinito può essere scavalcato. Per ottenere un comportamento simile alle versioni precedenti ownCloud 5, inserisci l'attributo del nome visualizzato dell'utente nel campo seguente. Lascialo vuoto per il comportamento predefinito. Le modifiche avranno effetto solo sui nuovo utenti LDAP associati (aggiunti).",
+"Internal Username Attribute:" => "Attributo nome utente interno:",
+"Override UUID detection" => "Ignora rilevamento UUID",
+"UUID Attribute:" => "Attributo UUID:",
+"Username-LDAP User Mapping" => "Associazione Nome utente-Utente LDAP",
+"Clear Username-LDAP User Mapping" => "Cancella associazione Nome utente-Utente LDAP",
+"Clear Groupname-LDAP Group Mapping" => "Cancella associazione Nome gruppo-Gruppo LDAP",
 "Test Configuration" => "Prova configurazione",
 "Help" => "Aiuto"
 );

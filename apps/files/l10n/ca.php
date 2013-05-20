@@ -46,6 +46,7 @@
 "{count} folders" => "{count} carpetes",
 "1 file" => "1 fitxer",
 "{count} files" => "{count} fitxers",
+"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Nom de carpeta no vàlid. L'ús de 'Shared' està reservat per Owncloud",
 "Unable to rename file" => "No es pot canviar el nom del fitxer",
 "Upload" => "Puja",
 "File handling" => "Gestió de fitxers",

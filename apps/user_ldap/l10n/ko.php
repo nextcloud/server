@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Deletion failed" => "삭제 실패",
 "Keep settings?" => "설정을 유지합니까?",
+"Error" => "오류",
 "Connection test succeeded" => "연결 시험 성공",
 "Connection test failed" => "연결 시험 실패",
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour. Please ask your system administrator to disable one of them." => "<b>경고:</b> user_ldap 앱과 user_webdavauth 앱은 호환되지 않습니다. 오동작을 일으킬 수 있으므로, 시스템 관리자에게 요청하여 둘 중 하나만 사용하도록 하십시오.",

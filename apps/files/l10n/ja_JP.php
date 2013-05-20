@@ -46,6 +46,7 @@
 "{count} folders" => "{count} フォルダ",
 "1 file" => "1 ファイル",
 "{count} files" => "{count} ファイル",
+"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "無効なフォルダ名です。'Shared' の利用はownCloudで予約済みです",
 "Unable to rename file" => "ファイル名の変更ができません",
 "Upload" => "アップロード",
 "File handling" => "ファイル操作",

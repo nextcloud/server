@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Failed to clear the mappings." => "Falha ao limpar os mapeamentos.",
 "Failed to delete the server configuration" => "Falha ao deletar a configuração do servidor",
 "The configuration is valid and the connection could be established!" => "A configuração é válida e a conexão foi estabelecida!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "A configuração é válida, mas o Bind falhou. Confira as configurações do servidor e as credenciais.",
@@ -7,6 +8,9 @@
 "Take over settings from recent server configuration?" => "Tomar parámetros de recente configuração de servidor?",
 "Keep settings?" => "Manter ajustes?",
 "Cannot add server configuration" => "Impossível adicionar a configuração do servidor",
+"mappings cleared" => "mapeamentos limpos",
+"Success" => "Sucesso",
+"Error" => "Erro",
 "Connection test succeeded" => "Teste de conexão bem sucedida",
 "Connection test failed" => "Teste de conexão falhou",
 "Do you really want to delete the current Server Configuration?" => "Você quer realmente deletar as atuais Configurações de Servidor?",
@@ -70,6 +74,16 @@
 "Email Field" => "Campo de Email",
 "User Home Folder Naming Rule" => "Regra para Nome da Pasta Pessoal do Usuário",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Deixe vazio para nome de usuário (padrão). Caso contrário, especifique um atributo LDAP/AD.",
+"Internal Username" => "Nome de usuário interno",
+"By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder in ownCloud. It is also a port of remote URLs, for instance for all *DAV services. With this setting, the default behaviour can be overriden. To achieve a similar behaviour as before ownCloud 5 enter the user display name attribute in the following field. Leave it empty for default behaviour. Changes will have effect only on newly mapped (added) LDAP users." => "Por padrão, o nome de usuário interno será criado a partir do atributo UUID. Ele garante que o nome de usuário é única e personagens não precisam ser convertidos. O nome de usuário interno tem a restrição de que apenas estes caracteres são permitidos: [a-zA-Z0-9_ @ -.]. Outros caracteres são substituídas por seu correspondente ASCII ou simplesmente serão omitidos. Em colisões um número será adicionado/aumentado. O nome de utilizador interna é usada para identificar um utilizador internamente. É também o nome padrão para a pasta home do usuário em ownCloud. É também um porto de URLs remoto, por exemplo, para todos os serviços de *DAV. Com esta definição, o comportamento padrão pode ser anulado. Para conseguir um comportamento semelhante como antes ownCloud 5 entrar na tela atributo nome de usuário no campo seguinte. Deixe-o vazio para o comportamento padrão. As alterações terão efeito apenas no recém mapeados (adicionado) de usuários LDAP. ",
+"Internal Username Attribute:" => "Atributo Interno de Nome de Usuário:",
+"Override UUID detection" => "Substituir detecção UUID",
+"By default, ownCloud autodetects the UUID attribute. The UUID attribute is used to doubtlessly identify LDAP users and groups. Also, the internal username will be created based on the UUID, if not specified otherwise above. You can override the setting and pass an attribute of your choice. You must make sure that the attribute of your choice can be fetched for both users and groups and it is unique. Leave it empty for default behaviour. Changes will have effect only on newly mapped (added) LDAP users and groups." => "Por padrão, ownCloud detecta automaticamente o atributo UUID. O atributo UUID é usado para identificar, sem dúvida, os usuários e grupos LDAP. Além disso, o nome de usuário interno será criado com base no UUID, se não especificada acima. Você pode substituir a configuração e passar um atributo de sua escolha. Você deve certificar-se de que o atributo de sua escolha pode ser obtida tanto para usuários e grupos e é único. Deixe-o vazio para o comportamento padrão. As alterações terão efeito apenas no recém mapeados (adicionado) de usuários e grupos LDAP.",
+"UUID Attribute:" => "Atributo UUID:",
+"Username-LDAP User Mapping" => "Usuário-LDAP Mapeamento de Usuário",
+"ownCloud uses usernames to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have a internal username. This requires a mapping from ownCloud username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found by ownCloud. The internal ownCloud name is used all over in ownCloud. Clearing the Mappings will have leftovers everywhere. Clearing the Mappings is not configuration sensitive, it affects all LDAP configurations! Do never clear the mappings in a production environment. Only clear mappings in a testing or experimental stage." => "ownCloud usa nomes de usuários para armazenar e atribuir (meta) dados. A fim de identificar com precisão e reconhecer usuários, cada usuário LDAP terá um nome de usuário interno. Isso requer um mapeamento de ownCloud do nome de usuário para usuário LDAP. O nome de usuário criado é mapeado para o UUID do usuário LDAP. Além disso, o DN está em cache, assim como para reduzir a interação LDAP, mas que não é utilizado para a identificação. Se a DN muda, as mudanças serão encontradas pelo ownCloud. O nome ownCloud interno é utilizado em todo ownCloud. Limpando os mapeamentos terá sobras em todos os lugares. Limpeza dos mapeamentos não são sensíveis a configuração, isso afeta todas as configurações LDAP! Nunca limpar os mapeamentos em um ambiente de produção. Somente limpe os mapeamentos em uma fase de testes ou experimental.",
+"Clear Username-LDAP User Mapping" => "Limpar Mapeamento de Usuário Nome de Usuário-LDAP",
+"Clear Groupname-LDAP Group Mapping" => "Limpar NomedoGrupo-LDAP Mapeamento do Grupo",
 "Test Configuration" => "Teste de Configuração",
 "Help" => "Ajuda"
 );

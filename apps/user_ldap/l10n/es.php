@@ -7,6 +7,8 @@
 "Take over settings from recent server configuration?" => "Hacerse cargo de los ajustes de configuración del servidor reciente?",
 "Keep settings?" => "Mantener la configuración?",
 "Cannot add server configuration" => "No se puede añadir la configuración del servidor",
+"Success" => "Éxito",
+"Error" => "Error",
 "Connection test succeeded" => "La prueba de conexión fue exitosa",
 "Connection test failed" => "La prueba de conexión falló",
 "Do you really want to delete the current Server Configuration?" => "¿Realmente desea eliminar la configuración actual del servidor?",
@@ -70,6 +72,7 @@
 "Email Field" => "E-mail",
 "User Home Folder Naming Rule" => "Regla para la carpeta Home de usuario",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Vacío para el nombre de usuario (por defecto). En otro caso, especifique un atributo LDAP/AD.",
+"ownCloud uses usernames to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have a internal username. This requires a mapping from ownCloud username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found by ownCloud. The internal ownCloud name is used all over in ownCloud. Clearing the Mappings will have leftovers everywhere. Clearing the Mappings is not configuration sensitive, it affects all LDAP configurations! Do never clear the mappings in a production environment. Only clear mappings in a testing or experimental stage." => "ownCloud utiliza nombre de usuarios para almacenar y asignar (meta) datos. Con el fin de identificar con precisión y reconocer usuarios, cada usuario LDAP tendrá un nombre de usuario interno. Esto requiere una asignación de nombre de usuario de ownCloud a usuario LDAP. El nombre de usuario creado se asigna al UUID del usuario LDAP. Además el DN se almacena en caché más bien para reducir la interacción de LDAP, pero no se utiliza para la identificación. Si la DN cambia, los cambios serán encontrados por ownCloud. El nombre interno de ownCloud se utiliza para todo en ownCloud. Eliminando las asignaciones tendrá restos por todas partes. Eliminando las asignaciones no es sensible a la configuración, que afecta a todas las configuraciones de LDAP! No limpiar nunca las asignaciones en un entorno de producción. Sólo borrar asignaciones en una situación de prueba o experimental.",
 "Test Configuration" => "Configuración de prueba",
 "Help" => "Ayuda"
 );

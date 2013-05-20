@@ -4,7 +4,9 @@
  * ownCloud - user_ldap
  *
  * @author Dominik Schmidt
+ * @author Arthur Schiwon
  * @copyright 2011 Dominik Schmidt dev@dominik-schmidt.de
+ * @copyright 2012-2013 Arthur Schiwon blizzz@owncloud.com
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE

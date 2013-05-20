@@ -7,6 +7,7 @@
 "Take over settings from recent server configuration?" => "Parametri sonadan uyunlama cikarmak mi?",
 "Keep settings?" => "Ayarları kalsınmı?",
 "Cannot add server configuration" => "Sunucu uyunlama birlemek edemen. ",
+"Error" => "Hata",
 "Connection test succeeded" => "Bağlantı testi başarılı oldu",
 "Connection test failed" => "Bağlantı testi başarısız oldu",
 "Do you really want to delete the current Server Configuration?" => "Hakikatten, Sonuncu Funksyon durmak istiyor mi?",
