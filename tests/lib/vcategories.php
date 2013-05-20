@@ -88,6 +88,7 @@ class Test_VCategories extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($catmgr->rename('Wrok', 'Work'));
 		$this->assertTrue($catmgr->hasCategory('Work'));
 		$this->assertFalse($catmgr->hasCategory('Wrok'));
+		$this->assertFalse($catmgr->rename('Wrok', 'Work'));
 
 	}
 
