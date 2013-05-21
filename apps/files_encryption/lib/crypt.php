@@ -25,7 +25,7 @@
 
 namespace OCA\Encryption;
 
-require_once 'Crypt_Blowfish/Blowfish.php';
+require_once '../3rdparty/Crypt_Blowfish/Blowfish.php';
 
 /**
  * Class for common cryptography functionality

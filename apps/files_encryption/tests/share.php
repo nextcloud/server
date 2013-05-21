@@ -20,7 +20,7 @@
  *
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../3rdparty/Crypt_Blowfish/Blowfish.php');
+require_once realpath(dirname(__FILE__) . '/../3rdparty/Crypt_Blowfish/Blowfish.php');
 require_once realpath(dirname(__FILE__) . '/../../../lib/base.php');
 require_once realpath(dirname(__FILE__) . '/../lib/crypt.php');
 require_once realpath(dirname(__FILE__) . '/../lib/keymanager.php');
