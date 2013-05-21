@@ -170,7 +170,7 @@ class Proxy extends \OC_FileProxy
 				$data = $encData;
 
 				// Update the file cache with file info
-				\OC\Files\Filesystem::putFileInfo($filePath, array('encrypted' => true, 'size' => strlen($size), 'unencrypted_size' => $size), '');
+				\OC\Files\Filesystem::putFileInfo($filePath, array('encrypted' => true, 'size' => strlen($data), 'unencrypted_size' => $size), '');
 
 				// Re-enable proxy - our work is done
 				\OC_FileProxy::$enabled = $proxyStatus;
@@ -189,28 +189,25 @@ class Proxy extends \OC_FileProxy
 	public function postFile_get_contents($path, $data)
 	{
 
-		// FIXME: $path for shared files is just /uid/files/Shared/filepath
-
 		$userId = \OCP\USER::getUser();
 		$view = new \OC_FilesystemView('/');
 		$util = new Util($view, $userId);
 
 		$relPath = $util->stripUserFilesPath($path);
 
-
-		// TODO check for existing key file and reuse it if possible to avoid problems with versioning etc.
 		// Disable encryption proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
+		// init session
+		$session = new Session($view);
+
 		// If data is a catfile
 		if (
 			Crypt::mode() == 'server'
-			&& Crypt::isCatfileContent($data) // TODO: Do we really need this check? Can't we assume it is properly encrypted?
+			&& Crypt::isCatfileContent($data)
 		) {
 
-			// TODO: use get owner to find correct location of key files for shared files
-			$session = new Session($view);
 			$privateKey = $session->getPrivateKey($userId);
 
 			// Get the encrypted keyfile
@@ -229,9 +226,7 @@ class Proxy extends \OC_FileProxy
 			&& isset($_SESSION['legacyenckey'])
 			&& Crypt::isEncryptedMeta($path)
 		) {
-
 			$plainData = Crypt::legacyDecrypt($data, $session->getLegacyKey());
-
 		}
 
 		\OC_FileProxy::$enabled = $proxyStatus;
@@ -293,19 +288,6 @@ class Proxy extends \OC_FileProxy
 	}
 
 	/**
-	 * @brief When a file is renamed, rename its keyfile also
-	 * @param $path
-	 * @return bool Result of rename()
-	 * @note This is pre rather than post because using post didn't work
-	 */
-	public function postWrite($path)
-	{
-		$this->handleFile($path);
-
-		return true;
-	}
-
-	/**
 	 * @param $path
 	 * @return bool
 	 */
@@ -361,7 +343,6 @@ class Proxy extends \OC_FileProxy
 			// Open the file using the crypto stream wrapper 
 			// protocol and let it do the decryption work instead
 			$result = fopen('crypt://' . $path_f, $meta['mode']);
-
 
 		} elseif (
 			self::shouldEncrypt($path)
@@ -428,11 +409,28 @@ class Proxy extends \OC_FileProxy
 	 */
 	public function postStat($path, $data)
 	{
+		$content = '';
+		$view = new \OC_FilesystemView('/');
+		if($view->file_exists($path)) {
+			// disable encryption proxy
+			$proxyStatus = \OC_FileProxy::$enabled;
+			\OC_FileProxy::$enabled = false;
+
+			// we only need 24 byte from the last chunk
+			$handle = $view->fopen($path, 'r');
+			if (!fseek($handle, -24, SEEK_END)) {
+				$content = fgets($handle);
+			}
+
+			// re-enable proxy
+			\OC_FileProxy::$enabled = $proxyStatus;
+		}
+
 		// check if file is encrypted
-		if (Crypt::isCatfileContent($path)) {
+		if (Crypt::isCatfileContent($content)) {
 
 			// get file info from cache
-			$cached = \OC\Files\Filesystem::getFileInfo($path, '');
+			$cached = $view->getFileInfo($path);
 
 			// set the real file size
 			$data['size'] = $cached['unencrypted_size'];

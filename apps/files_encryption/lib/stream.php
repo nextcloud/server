@@ -50,8 +50,6 @@ namespace OCA\Encryption;
  */
 class Stream
 {
-
-	public static $sourceStreams = array();
 	private $plainKey;
 	private $encKeyfiles;
 
@@ -96,57 +94,41 @@ class Stream
 		// rawPath is relative to the data directory
 		$this->rawPath = $util->getUserFilesDir() . $this->relPath;
 
+		// Disable fileproxies so we can get the file size and open the source file without recursive encryption
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
+
 		if (
-			dirname($this->rawPath) == 'streams'
-			and isset(self::$sourceStreams[basename($this->rawPath)])
+			$mode == 'w'
+			or $mode == 'w+'
+			or $mode == 'wb'
+			or $mode == 'wb+'
 		) {
 
-			// Is this just for unit testing purposes?
-
-			$this->handle = self::$sourceStreams[basename($this->rawPath)]['stream'];
-
-			$this->path = self::$sourceStreams[basename($this->rawPath)]['path'];
-
-			$this->size = self::$sourceStreams[basename($this->rawPath)]['size'];
+			// We're writing a new file so start write counter with 0 bytes
+			$this->size = 0;
+			$this->unencryptedSize = 0;
 
 		} else {
 
-			// Disable fileproxies so we can get the file size and open the source file without recursive encryption
-			$proxyStatus = \OC_FileProxy::$enabled;
-			\OC_FileProxy::$enabled = false;
+			$this->size = $this->rootView->filesize($this->rawPath, $mode);
+		}
 
-			if (
-				$mode == 'w'
-				or $mode == 'w+'
-				or $mode == 'wb'
-				or $mode == 'wb+'
-			) {
+		$this->handle = $this->rootView->fopen($this->rawPath, $mode);
 
-				// We're writing a new file so start write counter with 0 bytes
-				$this->size = 0;
-				$this->unencryptedSize = 0;
+		\OC_FileProxy::$enabled = $proxyStatus;
 
-			} else {
+		if (!is_resource($this->handle)) {
 
-				$this->size = $this->rootView->filesize($this->rawPath, $mode);
+			\OCP\Util::writeLog('files_encryption', 'failed to open file "' . $this->rawPath . '"', \OCP\Util::ERROR);
 
-			}
+		} else {
 
-			$this->handle = $this->rootView->fopen($this->rawPath, $mode);
-
-			\OC_FileProxy::$enabled = $proxyStatus;
-
-			if (!is_resource($this->handle)) {
-
-				\OCP\Util::writeLog('files_encryption', 'failed to open file "' . $this->rawPath . '"', \OCP\Util::ERROR);
-
-			} else {
-
-				$this->meta = stream_get_meta_data($this->handle);
-
-			}
+			$this->meta = stream_get_meta_data($this->handle);
 
 		}
+
+
 
 		return is_resource($this->handle);
 
@@ -163,14 +145,6 @@ class Stream
 
 		fseek($this->handle, $offset, $whence);
 
-	}
-
-	/**
-	 * @return int
-	 */
-	public function stream_tell()
-	{
-		return ftell($this->handle);
 	}
 
 	/**
@@ -259,7 +233,6 @@ class Stream
 
 		// If a keyfile already exists
 		if ($this->encKeyfile) {
-			$this->setUserProperty();
 
 			$session = new Session($this->rootView);
 
@@ -276,23 +249,6 @@ class Stream
 			return false;
 
 		}
-
-	}
-
-	public function setUserProperty()
-	{
-
-		// Only get the user again if it isn't already set
-		if (empty($this->userId)) {
-
-			// TODO: Move this user call out of here - it belongs 
-			// elsewhere
-			$this->userId = \OCP\User::getUser();
-
-		}
-
-		// TODO: Add a method for getting the user in case OCP\User::
-		// getUser() doesn't work (can that scenario ever occur?)
 
 	}
 
@@ -318,15 +274,9 @@ class Stream
 		// Get the length of the unencrypted data that we are handling
 		$length = strlen($data);
 
-		// So far this round, no data has been written
-		$written = 0;
-
-		// Find out where we are up to in the writing of data to the 
+		// Find out where we are up to in the writing of data to the
 		// file
 		$pointer = ftell($this->handle);
-
-		// Make sure the userId is set
-		$this->setUserProperty();
 
 		// Get / generate the keyfile for the file we're handling
 		// If we're writing a new file (not overwriting an existing 
@@ -336,7 +286,6 @@ class Stream
 			$this->plainKey = Crypt::generateKey();
 
 		}
-
 
 		// If extra data is left over from the last round, make sure it 
 		// is integrated into the next 6126 / 8192 block
@@ -351,17 +300,16 @@ class Stream
 
 		}
 
-
  		// While there still remains somed data to be processed & written
 		while (strlen($data) > 0) {
 
  			// Remaining length for this iteration, not of the
 			// entire file (may be greater than 8192 bytes)
- 			$remainingLength = strlen( $data );
+ 			$remainingLength = strlen($data);
 
  			// If data remaining to be written is less than the
 			// size of 1 6126 byte block
-			if (strlen($data) < 6126) {
+			if ($remainingLength < 6126) {
 
 				// Set writeCache to contents of $data
 				// The writeCache will be carried over to the 
@@ -388,9 +336,7 @@ class Stream
 				// being handled totals more than 6126 bytes
 				fwrite($this->handle, $encrypted);
 
-				$writtenLen = strlen($encrypted);
-
-				// Remove the chunk we just processed from 
+				// Remove the chunk we just processed from
 				// $data, leaving only unprocessed data in $data
 				// var, for handling on the next round
 				$data = substr($data, 6126);
@@ -416,16 +362,19 @@ class Stream
 	 */
 	public function stream_set_option($option, $arg1, $arg2)
 	{
+		$return = false;
 		switch ($option) {
 			case STREAM_OPTION_BLOCKING:
-				stream_set_blocking($this->handle, $arg1);
+				$return = stream_set_blocking($this->handle, $arg1);
 				break;
 			case STREAM_OPTION_READ_TIMEOUT:
-				stream_set_timeout($this->handle, $arg1, $arg2);
+				$return = stream_set_timeout($this->handle, $arg1, $arg2);
 				break;
 			case STREAM_OPTION_WRITE_BUFFER:
-				stream_set_write_buffer($this->handle, $arg1, $arg2);
+				$return = stream_set_write_buffer($this->handle, $arg1);
 		}
+
+		return $return;
 	}
 
 	/**
@@ -441,7 +390,7 @@ class Stream
 	 */
 	public function stream_lock($mode)
 	{
-		flock($this->handle, $mode);
+		return flock($this->handle, $mode);
 	}
 
 	/**

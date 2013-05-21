@@ -367,14 +367,16 @@ class Util
 	 * @note $directory needs to be a path relative to OC data dir. e.g.
 	 *       /admin/files NOT /backup OR /home/www/oc/data/admin/files
 	 */
-	public function findEncFiles($directory)
+	public function findEncFiles($directory, &$found = false)
 	{
 
 		// Disable proxy - we don't want files to be decrypted before
 		// we handle them
 		\OC_FileProxy::$enabled = false;
 
-		$found = array('plain' => array(), 'encrypted' => array(), 'legacy' => array());
+		if($found == false) {
+			$found = array('plain' => array(), 'encrypted' => array(), 'legacy' => array());
+		}
 
 		if (
 			$this->view->is_dir($directory)
@@ -395,7 +397,7 @@ class Util
 					// its contents
 					if ($this->view->is_dir($filePath)) {
 
-						$this->findEncFiles($filePath);
+						$this->findEncFiles($filePath, $found);
 
 						// If the path is a file, determine
 						// its encryption status
@@ -630,38 +632,6 @@ class Util
 		$trimmed = ltrim($path, '/');
 		$split = explode('/', $trimmed);
 		$sliced = array_slice($split, 2);
-		$relPath = implode('/', $sliced);
-
-		return $relPath;
-
-	}
-
-	/**
-	 * @brief Format a path to be relative to the /user directory
-	 * @note e.g. turns '/admin/files/test.txt' into 'files/test.txt'
-	 */
-	public function stripFilesPath($path)
-	{
-
-		$trimmed = ltrim($path, '/');
-		$split = explode('/', $trimmed);
-		$sliced = array_slice($split, 1);
-		$relPath = implode('/', $sliced);
-
-		return $relPath;
-
-	}
-
-	/**
-	 * @brief Format a shared path to be relative to the /user/files/ directory
-	 * @note Expects a path like /uid/files/Shared/filepath
-	 */
-	public function stripSharedFilePath($path)
-	{
-
-		$trimmed = ltrim($path, '/');
-		$split = explode('/', $trimmed);
-		$sliced = array_slice($split, 3);
 		$relPath = implode('/', $sliced);
 
 		return $relPath;

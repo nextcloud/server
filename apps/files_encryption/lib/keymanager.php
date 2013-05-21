@@ -327,44 +327,6 @@ class Keymanager
 	}
 
 	/**
-	 * @brief store private keys from the user
-	 *
-	 * @param string $privatekey
-	 * @param string $publickey
-	 * @return bool true/false
-	 */
-	public static function setUserKeys($privatekey, $publickey)
-	{
-
-		return (self::setPrivateKey($privatekey) && self::setPublicKey($publickey));
-
-	}
-
-	/**
-	 * @brief store public key of the user
-	 *
-	 * @param string $key
-	 * @return bool true/false
-	 */
-	public static function setPublicKey($key)
-	{
-
-		$view = new \OC_FilesystemView('/public-keys');
-
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = false;
-
-		if (!$view->file_exists('')) $view->mkdir('');
-
-		$result = $view->file_put_contents(\OCP\User::getUser() . '.public.key', $key);
-
-		\OC_FileProxy::$enabled = $proxyStatus;
-
-		return $result;
-
-	}
-
-	/**
 	 * @brief store share key
 	 *
 	 * @param \OC_FilesystemView $view
@@ -538,7 +500,7 @@ class Keymanager
 
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
 
-		$shareKeyPath = '/' . $owner . '/files_encryption/share-keys/' . $filename;
+		$shareKeyPath = \OC\Files\Filesystem::normalizePath('/' . $owner . '/files_encryption/share-keys/' . $filename);
 
 		if ($view->is_dir($shareKeyPath)) {
 
@@ -611,22 +573,4 @@ class Keymanager
 		return $targetPath;
 
 	}
-
-	/**
-	 * @brief Fetch the legacy encryption key from user files
-	 * @internal param string $login used to locate the legacy key
-	 * @internal param string $passphrase used to decrypt the legacy key
-	 * @return boolean
-	 *
-	 * if the key is left out, the default handeler will be used
-	 */
-	public function getLegacyKey()
-	{
-
-		$user = \OCP\User::getUser();
-		$view = new \OC_FilesystemView('/' . $user);
-		return $view->file_get_contents('encryption.key');
-
-	}
-
 }
