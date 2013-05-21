@@ -159,7 +159,7 @@ class OC_Helper {
 	 */
 	public static function imagePath( $app, $image ) {
 		// Read the selected theme from the config file
-		$theme=OC_Config::getValue( "theme" );
+		$theme = OC_Util::getTheme();
 
 		// Check if the app is in the app folder
 		if( file_exists( OC::$SERVERROOT."/themes/$theme/apps/$app/img/$image" )) {
@@ -541,13 +541,15 @@ class OC_Helper {
 	}
 
 	/**
-	 * create a temporary file with an unique filename. It will not be deleted
-	 * automatically
-	 * @param string $postfix
-	 * @return string
+	 * move a file to oc-noclean temp dir
+	 * @param string $filename
+	 * @return mixed
 	 *
 	 */
-	public static function tmpFileNoClean($postfix='') {
+	public static function moveToNoClean($filename='') {
+		if ($filename == '') {
+			return false;
+		}
 		$tmpDirNoClean=get_temp_dir().'/oc-noclean/';
 		if (!file_exists($tmpDirNoClean) || !is_dir($tmpDirNoClean)) {
 			if (file_exists($tmpDirNoClean)) {
@@ -555,10 +557,12 @@ class OC_Helper {
 			}
 			mkdir($tmpDirNoClean);
 		}
-		$file=$tmpDirNoClean.md5(time().rand()).$postfix;
-		$fh=fopen($file, 'w');
-		fclose($fh);
-		return $file;
+		$newname=$tmpDirNoClean.basename($filename);
+		if (rename($filename, $newname)) {
+			return $newname;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -597,7 +601,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * remove all files created by self::tmpFileNoClean
+	 * remove all files in PHP /oc-noclean temp dir 
 	 */
 	public static function cleanTmpNoClean() {
 		$tmpDirNoCleanFile=get_temp_dir().'/oc-noclean/';
@@ -764,9 +768,15 @@ class OC_Helper {
 	public static function maxUploadFilesize($dir) {
 		$upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
 		$post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
-		$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
-
 		$freeSpace = \OC\Files\Filesystem::free_space($dir);
+		if ($upload_max_filesize == 0 and $post_max_size == 0) {
+			$maxUploadFilesize = \OC\Files\FREE_SPACE_UNLIMITED;
+		} elseif ($upload_max_filesize === 0 or $post_max_size === 0) {
+			$maxUploadFilesize = max($upload_max_filesize, $post_max_size); //only the non 0 value counts
+		} else {
+			$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
+		}
+
 		if($freeSpace !== \OC\Files\FREE_SPACE_UNKNOWN){
 			$freeSpace = max($freeSpace, 0);
 
@@ -806,11 +816,19 @@ class OC_Helper {
 			$used = 0;
 		}
 		$free = \OC\Files\Filesystem::free_space();
-		$total = $free + $used;
+		if ($free >= 0){
+			$total = $free + $used;
+		} else {
+			$total = $free; //either unknown or unlimited
+		}
 		if ($total == 0) {
 			$total = 1; // prevent division by zero
 		}
-		$relative = round(($used / $total) * 10000) / 100;
+		if ($total >= 0){
+			$relative = round(($used / $total) * 10000) / 100;
+		} else {
+			$relative = 0;
+		}
 
 		return array('free' => $free, 'used' => $used, 'total' => $total, 'relative' => $relative);
 	}

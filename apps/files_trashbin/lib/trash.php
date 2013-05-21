@@ -39,14 +39,15 @@ class Trashbin {
 		$view = new \OC\Files\View('/'. $user);
 		if (!$view->is_dir('files_trashbin')) {
 			$view->mkdir('files_trashbin');
-			$view->mkdir("files_trashbin/files");
-			$view->mkdir("files_trashbin/versions");
-			$view->mkdir("files_trashbin/keyfiles");
+			$view->mkdir('files_trashbin/files');
+			$view->mkdir('files_trashbin/versions');
+			$view->mkdir('files_trashbin/keyfiles');
+            $view->mkdir('files_trashbin/share-keys');
 		}
 
 		$path_parts = pathinfo($file_path);
 
-		$deleted = $path_parts['basename'];
+		$filename = $path_parts['basename'];
 		$location = $path_parts['dirname'];
 		$timestamp = time();
 		$mime = $view->getMimeType('files'.$file_path);
@@ -61,82 +62,163 @@ class Trashbin {
 		if ( $trashbinSize === false || $trashbinSize < 0 ) {
 			$trashbinSize = self::calculateSize(new \OC\Files\View('/'. $user.'/files_trashbin'));
 		}
-		$trashbinSize += self::copy_recursive($file_path, 'files_trashbin/files/'.$deleted.'.d'.$timestamp, $view);
+		
+		$sizeOfAddedFiles = self::copy_recursive($file_path, 'files_trashbin/files/'.$filename.'.d'.$timestamp, $view);
 
-		if ( $view->file_exists('files_trashbin/files/'.$deleted.'.d'.$timestamp) ) {
-			$query = \OC_DB::prepare("INSERT INTO *PREFIX*files_trash (id,timestamp,location,type,mime,user) VALUES (?,?,?,?,?,?)");
-			$result = $query->execute(array($deleted, $timestamp, $location, $type, $mime, $user));
+		if ( $view->file_exists('files_trashbin/files/'.$filename.'.d'.$timestamp) ) {
+			$trashbinSize += $sizeOfAddedFiles;
+			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`type`,`mime`,`user`) VALUES (?,?,?,?,?,?)");
+			$result = $query->execute(array($filename, $timestamp, $location, $type, $mime, $user));
 			if ( !$result ) { // if file couldn't be added to the database than also don't store it in the trash bin.
-				$view->deleteAll('files_trashbin/files/'.$deleted.'.d'.$timestamp);
+				$view->deleteAll('files_trashbin/files/'.$filename.'.d'.$timestamp);
 				\OC_Log::write('files_trashbin', 'trash bin database couldn\'t be updated', \OC_log::ERROR);
 				return;
 			}
 			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash',
 					array('filePath' => \OC\Files\Filesystem::normalizePath($file_path),
-							'trashPath' => \OC\Files\Filesystem::normalizePath($deleted.'.d'.$timestamp)));
-			
-			// Take care of file versions
-			if ( \OCP\App::isEnabled('files_versions') ) {
-				if ( $view->is_dir('files_versions/'.$file_path) ) {
-					$trashbinSize += self::calculateSize(new \OC\Files\View('/'. $user.'/files_versions/'.$file_path));
-					$view->rename('files_versions/'.$file_path, 'files_trashbin/versions'. $deleted.'.d'.$timestamp);
-				} else if ( $versions = \OCA\Files_Versions\Storage::getVersions($user, $file_path) ) {
-					foreach ($versions as $v) {
-						$trashbinSize += $view->filesize('files_versions'.$v['path'].'.v'.$v['version']);
-						$view->rename('files_versions'.$v['path'].'.v'.$v['version'], 'files_trashbin/versions/'. $deleted.'.v'.$v['version'].'.d'.$timestamp);
-					}
-				}
-			}
-			
-			// Take care of encryption keys
-			$keyfile = \OC\Files\Filesystem::normalizePath('files_encryption/keyfiles/'.$file_path);
-			if ( \OCP\App::isEnabled('files_encryption') && $view->file_exists($keyfile.'.key') ) {
-				if ( $view->is_dir('files'.$file_path) ) {
-					$trashbinSize += self::calculateSize(new \OC\Files\View('/'.$user.'/'.$keyfile));
-					$view->rename($keyfile, 'files_trashbin/keyfiles/'. $deleted.'.d'.$timestamp);
-				} else {
-					$trashbinSize += $view->filesize($keyfile.'.key');
-					$view->rename($keyfile.'.key', 'files_trashbin/keyfiles/'. $deleted.'.key.d'.$timestamp);
-				}
-			}
+							'trashPath' => \OC\Files\Filesystem::normalizePath($filename.'.d'.$timestamp)));
+
+			$trashbinSize += self::retainVersions($view, $file_path, $filename, $timestamp);
+			$trashbinSize += self::retainEncryptionKeys($view, $file_path, $filename, $timestamp);
+
 		} else {
 			\OC_Log::write('files_trashbin', 'Couldn\'t move '.$file_path.' to the trash bin', \OC_log::ERROR);
 		}
-		
-		// get available disk space for user
-		$quota = \OC_Preferences::getValue($user, 'files', 'quota');
-		if ( $quota === null || $quota === 'default') {
-			$quota = \OC_Appconfig::getValue('files', 'default_quota');
-		}
-		if ( $quota === null || $quota === 'none' ) {
-			$quota = \OC\Files\Filesystem::free_space('/') / count(\OCP\User::getUsers());
-		} else {
-			$quota = \OCP\Util::computerFileSize($quota);
-		}
-		
-		// calculate available space for trash bin
-		$rootInfo = $view->getFileInfo('/files');
-		$free = $quota-$rootInfo['size']; // remaining free space for user
-		if ( $free > 0 ) {
-			$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $trashbinSize; // how much space can be used for versions
-		} else {
-			$availableSpace = $free-$trashbinSize;
-		}
-		$trashbinSize -= self::expire($availableSpace);
+
+		$trashbinSize -= self::expire($trashbinSize);
 		
 		self::setTrashbinSize($user, $trashbinSize);
 
 	}
 
+    /**
+     * Move file versions to trash so that they can be restored later
+     *
+     * @param \OC\Files\View $view
+     * @param $file_path path to original file
+     * @param $filename of deleted file
+     * @param $timestamp when the file was deleted
+     *
+     * @return size of stored versions
+     */
+	private static function retainVersions($view, $file_path, $filename, $timestamp) {
+		$size = 0;
+        if (\OCP\App::isEnabled('files_versions')) {
+
+            // disable proxy to prevent recursive calls
+            $proxyStatus = \OC_FileProxy::$enabled;
+            \OC_FileProxy::$enabled = false;
+
+            $user = \OCP\User::getUser();
+			if ($view->is_dir('files_versions/' . $file_path)) {
+                $size += self::calculateSize(new \OC\Files\View('/' . $user . '/files_versions/' . $file_path));
+                $view->rename('files_versions/' . $file_path, 'files_trashbin/versions/' . $filename . '.d' . $timestamp);
+			} else if ($versions = \OCA\Files_Versions\Storage::getVersions($user, $file_path)) {
+                foreach ($versions as $v) {
+					$size += $view->filesize('files_versions' . $v['path'] . '.v' . $v['version']);
+                	$view->rename('files_versions' . $v['path'] . '.v' . $v['version'], 'files_trashbin/versions/' . $filename . '.v' . $v['version'] . '.d' . $timestamp);
+				}
+			}
+
+            // enable proxy
+            \OC_FileProxy::$enabled = $proxyStatus;
+		}
+
+		return $size;
+	}
+
+    /**
+     * Move encryption keys to trash so that they can be restored later
+     *
+     * @param \OC\Files\View $view
+     * @param $file_path path to original file
+     * @param $filename of deleted file
+     * @param $timestamp when the file was deleted
+     *
+     * @return size of encryption keys
+     */
+	private static function retainEncryptionKeys($view, $file_path, $filename, $timestamp) {
+		$size = 0;
+
+		if (\OCP\App::isEnabled('files_encryption')) {
+
+			$user = \OCP\User::getUser();
+
+            // disable proxy to prevent recursive calls
+            $proxyStatus = \OC_FileProxy::$enabled;
+            \OC_FileProxy::$enabled = false;
+
+            // retain key files
+			$keyfile = \OC\Files\Filesystem::normalizePath('files_encryption/keyfiles/' . $file_path);
+
+            if ($view->is_dir($keyfile) || $view->file_exists($keyfile . '.key')) {
+            	$user = \OCP\User::getUser();
+                // move keyfiles
+			    if ($view->is_dir($keyfile)) {
+                    $size += self::calculateSize(new \OC\Files\View('/' . $user . '/' . $keyfile));
+					$view->rename($keyfile, 'files_trashbin/keyfiles/' . $filename . '.d' . $timestamp);
+				} else {
+					$size += $view->filesize($keyfile . '.key');
+            		$view->rename($keyfile . '.key', 'files_trashbin/keyfiles/' . $filename . '.key.d' . $timestamp);
+				}
+			}
+
+            // retain share keys
+			$sharekeys = \OC\Files\Filesystem::normalizePath('files_encryption/share-keys/' . $file_path);
+
+			if ($view->is_dir($sharekeys)) {
+				$size += self::calculateSize(new \OC\Files\View('/' . $user . '/' . $sharekeys));
+				$view->rename($sharekeys, 'files_trashbin/share-keys/' . $filename . '.d' . $timestamp);
+			} else {
+                // get local path to share-keys
+                $localShareKeysPath = $view->getLocalFile($sharekeys);
+
+                // handle share-keys
+                $matches = glob(preg_quote($localShareKeysPath).'*.shareKey');
+                foreach ($matches as $src) {
+                    // get source file parts
+                    $pathinfo = pathinfo($src);
+
+                    // we only want to keep the owners key so we can access the private key
+                    $ownerShareKey = $filename . '.' . $user. '.shareKey';
+
+                    // if we found the share-key for the owner, we need to move it to files_trashbin
+                    if($pathinfo['basename'] == $ownerShareKey) {
+
+                        // calculate size
+                        $size += $view->filesize($sharekeys. '.' . $user. '.shareKey');
+
+                        // move file
+                        $view->rename($sharekeys. '.' . $user. '.shareKey', 'files_trashbin/share-keys/' . $ownerShareKey . '.d' . $timestamp);
+                    } else {
+
+                        // calculate size
+                        $size += filesize($src);
+                        
+                        // don't keep other share-keys
+                        unlink($src);
+                    }
+                }
+
+            }
+
+            // enable proxy
+            \OC_FileProxy::$enabled = $proxyStatus;
+		}
+		return $size;
+	}
 
 	/**
 	 * restore files from trash bin
 	 * @param $file path to the deleted file
 	 * @param $filename name of the file
 	 * @param $timestamp time when the file was deleted
-	 */
+     *
+     * @return bool
+     */
 	public static function restore($file, $filename, $timestamp) {
-		$user = \OCP\User::getUser();
+
+        $user = \OCP\User::getUser();
 		$view = new \OC\Files\View('/'.$user);
 		
 		$trashbinSize = self::getTrashbinSize($user);
@@ -144,8 +226,8 @@ class Trashbin {
 			$trashbinSize = self::calculateSize(new \OC\Files\View('/'. $user.'/files_trashbin'));
 		}
 		if ( $timestamp ) {
-			$query = \OC_DB::prepare('SELECT location,type FROM *PREFIX*files_trash'
-				.' WHERE user=? AND id=? AND timestamp=?');
+			$query = \OC_DB::prepare('SELECT `location`,`type` FROM `*PREFIX*files_trash`'
+				.' WHERE `user`=? AND `id`=? AND `timestamp`=?');
 			$result = $query->execute(array($user,$filename,$timestamp))->fetchAll();
 			if ( count($result) != 1 ) {
 				\OC_Log::write('files_trashbin', 'trash bin database inconsistent!', \OC_Log::ERROR);
@@ -174,8 +256,20 @@ class Trashbin {
 		// we need a  extension in case a file/dir with the same name already exists
 		$ext = self::getUniqueExtension($location, $filename, $view);
 		$mtime = $view->filemtime($source);
-		if( $view->rename($source, $target.$ext) ) {
-			$view->touch($target.$ext, $mtime);
+
+        // disable proxy to prevent recursive calls
+        $proxyStatus = \OC_FileProxy::$enabled;
+        \OC_FileProxy::$enabled = false;
+
+        // restore file
+        $restoreResult = $view->rename($source, $target.$ext);
+
+        // handle the restore result
+        if( $restoreResult ) {
+			$fakeRoot = $view->getRoot();
+			$view->chroot('/'.$user.'/files');
+			$view->touch('/'.$location.'/'.$filename.$ext, $mtime);
+			$view->chroot($fakeRoot);
 			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', 
 					array('filePath' => \OC\Files\Filesystem::normalizePath('/'.$location.'/'.$filename.$ext),
 							'trashPath' => \OC\Files\Filesystem::normalizePath($file)));
@@ -184,68 +278,183 @@ class Trashbin {
 			} else {
 				$trashbinSize -= $view->filesize($target.$ext);
 			}
-			// if versioning app is enabled, copy versions from the trash bin back to the original location
-			if ( \OCP\App::isEnabled('files_versions') ) {
-				if ($timestamp ) {
-					$versionedFile = $filename;
-				} else {
-					$versionedFile = $file;
-				}
-				if ( $result[0]['type'] === 'dir' ) {
-					$trashbinSize -= self::calculateSize(new \OC\Files\View('/'.$user.'/'.'files_trashbin/versions/'. $file));
-					$view->rename(\OC\Files\Filesystem::normalizePath('files_trashbin/versions/'. $file), \OC\Files\Filesystem::normalizePath('files_versions/'.$location.'/'.$filename.$ext));
-				} else if ( $versions = self::getVersionsFromTrash($versionedFile, $timestamp) ) {
-					foreach ($versions as $v) {
-						if ($timestamp ) {
-							$trashbinSize -= $view->filesize('files_trashbin/versions/'.$versionedFile.'.v'.$v.'.d'.$timestamp);
-							$view->rename('files_trashbin/versions/'.$versionedFile.'.v'.$v.'.d'.$timestamp, 'files_versions/'.$location.'/'.$filename.$ext.'.v'.$v);
-						} else {
-							$trashbinSize -= $view->filesize('files_trashbin/versions/'.$versionedFile.'.v'.$v);
-							$view->rename('files_trashbin/versions/'.$versionedFile.'.v'.$v, 'files_versions/'.$location.'/'.$filename.$ext.'.v'.$v);
-						}
-					}
-				}
-			}
-			
-			// Take care of encryption keys TODO! Get '.key' in file between file name and delete date (also for permanent delete!)
-			$parts = pathinfo($file);
-			if ( $result[0]['type'] === 'dir' ) {
-				$keyfile = \OC\Files\Filesystem::normalizePath('files_trashbin/keyfiles/'.$parts['dirname'].'/'.$filename);
-			} else {
-				$keyfile = \OC\Files\Filesystem::normalizePath('files_trashbin/keyfiles/'.$parts['dirname'].'/'.$filename.'.key');
-			}
-			if ($timestamp) {
-				$keyfile .= '.d'.$timestamp;
-			}
-			if ( \OCP\App::isEnabled('files_encryption') && $view->file_exists($keyfile) ) {
-				if ( $result[0]['type'] === 'dir' ) {
-					$trashbinSize -= self::calculateSize(new \OC\Files\View('/'.$user.'/'.$keyfile));
-					$view->rename($keyfile, 'files_encryption/keyfiles/'. $location.'/'.$filename);
-				} else {
-					$trashbinSize -= $view->filesize($keyfile);
-					$view->rename($keyfile, 'files_encryption/keyfiles/'. $location.'/'.$filename.'.key');
-				}
-			}
-			
+
+            $trashbinSize -= self::restoreVersions($view, $file, $filename, $ext, $location, $timestamp);
+			$trashbinSize -= self::restoreEncryptionKeys($view, $file, $filename, $ext, $location, $timestamp);
+
 			if ( $timestamp ) {
-				$query = \OC_DB::prepare('DELETE FROM *PREFIX*files_trash WHERE user=? AND id=? AND timestamp=?');
+				$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trash` WHERE `user`=? AND `id`=? AND `timestamp`=?');
 				$query->execute(array($user,$filename,$timestamp));
 			}
 
 			self::setTrashbinSize($user, $trashbinSize);
-			
+
+            // enable proxy
+            \OC_FileProxy::$enabled = $proxyStatus;
+
 			return true;
-		} else {
-			\OC_Log::write('files_trashbin', 'Couldn\'t restore file from trash bin, '.$filename, \OC_log::ERROR);
 		}
+
+        // enable proxy
+        \OC_FileProxy::$enabled = $proxyStatus;
 
 		return false;
 	}
 
+    /**
+	 * @brief restore versions from trash bin
+	 *
+	 * @param \OC\Files\View $view file view
+	 * @param $file complete path to file
+	 * @param $filename name of file
+	 * @param $ext file extension in case a file with the same $filename already exists
+	 * @param $location location if file
+	 * @param $timestamp deleteion time
+     *
+	 * @return size of restored versions
+	 */
+	private static function restoreVersions($view, $file, $filename, $ext, $location, $timestamp) {
+		$size = 0;
+		if (\OCP\App::isEnabled('files_versions')) {
+            // disable proxy to prevent recursive calls
+            $proxyStatus = \OC_FileProxy::$enabled;
+            \OC_FileProxy::$enabled = false;
+
+            $user = \OCP\User::getUser();
+			if ($timestamp) {
+				$versionedFile = $filename;
+			} else {
+				$versionedFile = $file;
+			}
+
+            if ($view->is_dir('/files_trashbin/versions/'.$file)) {
+				$size += self::calculateSize(new \OC\Files\View('/' . $user . '/' . 'files_trashbin/versions/' . $file));
+            	$view->rename(\OC\Files\Filesystem::normalizePath('files_trashbin/versions/' . $file), \OC\Files\Filesystem::normalizePath('files_versions/' . $location . '/' . $filename . $ext));
+			} else if ($versions = self::getVersionsFromTrash($versionedFile, $timestamp)) {
+                foreach ($versions as $v) {
+            		if ($timestamp) {
+            			$size += $view->filesize('files_trashbin/versions/' . $versionedFile . '.v' . $v . '.d' . $timestamp);
+                        $view->rename('files_trashbin/versions/' . $versionedFile . '.v' . $v . '.d' . $timestamp, 'files_versions/' . $location . '/' . $filename . $ext . '.v' . $v);
+					} else {
+            			$size += $view->filesize('files_trashbin/versions/' . $versionedFile . '.v' . $v);
+						$view->rename('files_trashbin/versions/' . $versionedFile . '.v' . $v, 'files_versions/' . $location . '/' . $filename . $ext . '.v' . $v);
+					}
+				}
+			}
+
+            // enable proxy
+            \OC_FileProxy::$enabled = $proxyStatus;
+		}
+		return $size;
+	}
+
+
+    /**
+     * @brief restore encryption keys from trash bin
+     *
+     * @param \OC\Files\View $view
+     * @param $file complete path to file
+     * @param $filename name of file
+     * @param $ext file extension in case a file with the same $filename already exists
+     * @param $location location if file
+     * @param $timestamp deleteion time
+     *
+     * @return size of restored encrypted file
+     */
+    private static function restoreEncryptionKeys($view, $file, $filename, $ext, $location, $timestamp) {
+		// Take care of encryption keys TODO! Get '.key' in file between file name and delete date (also for permanent delete!)
+		$size = 0;
+		if (\OCP\App::isEnabled('files_encryption')) {
+			$user = \OCP\User::getUser();
+
+            $path_parts = pathinfo($file);
+            $source_location = $path_parts['dirname'];
+
+            if ($view->is_dir('/files_trashbin/keyfiles/'.$file)) {
+                if($source_location != '.') {
+                    $keyfile = \OC\Files\Filesystem::normalizePath('files_trashbin/keyfiles/' . $source_location . '/' . $filename);
+                    $sharekey = \OC\Files\Filesystem::normalizePath('files_trashbin/share-keys/' . $source_location . '/' . $filename);
+                } else {
+                    $keyfile = \OC\Files\Filesystem::normalizePath('files_trashbin/keyfiles/' . $filename);
+                    $sharekey = \OC\Files\Filesystem::normalizePath('files_trashbin/share-keys/' . $filename);
+                }
+            } else {
+                $keyfile = \OC\Files\Filesystem::normalizePath('files_trashbin/keyfiles/' . $source_location . '/' . $filename . '.key');
+            }
+
+            if ($timestamp) {
+                $keyfile .= '.d' . $timestamp;
+            }
+
+            // disable proxy to prevent recursive calls
+            $proxyStatus = \OC_FileProxy::$enabled;
+            \OC_FileProxy::$enabled = false;
+
+            if ($view->file_exists($keyfile)) {
+                // handle directory
+            	if ($view->is_dir($keyfile)) {
+
+                    // handle keyfiles
+                    $size += self::calculateSize(new \OC\Files\View('/' . $user . '/' . $keyfile));
+            		$view->rename($keyfile, 'files_encryption/keyfiles/' . $location . '/' . $filename . $ext);
+
+                    // handle share-keys
+                    if ($timestamp) {
+                        $sharekey .= '.d' . $timestamp;
+                    }
+                    $view->rename($sharekey, 'files_encryption/share-keys/' . $location . '/' . $filename . $ext);
+
+				} else {
+                    // handle keyfiles
+					$size += $view->filesize($keyfile);
+            		$view->rename($keyfile, 'files_encryption/keyfiles/' . $location . '/' . $filename . $ext . '.key');
+
+                    // handle share-keys
+                    $ownerShareKey = \OC\Files\Filesystem::normalizePath('files_trashbin/share-keys/' . $source_location . '/' . $filename . '.' . $user. '.shareKey');
+                    if ($timestamp) {
+                        $ownerShareKey .= '.d' . $timestamp;
+                    }
+
+                    $size += $view->filesize($ownerShareKey);
+
+                    // move only owners key
+                    $view->rename($ownerShareKey, 'files_encryption/share-keys/' . $location . '/' . $filename . $ext . '.' . $user. '.shareKey');
+
+                    // try to re-share if file is shared
+                    $filesystemView = new \OC_FilesystemView('/');
+                    $session = new \OCA\Encryption\Session($filesystemView);
+                    $util = new \OCA\Encryption\Util($filesystemView, $user);
+
+                    // fix the file size
+                    $absolutePath = \OC\Files\Filesystem::normalizePath('/' . $user . '/files/'. $location. '/' .$filename);
+                    $util->fixFileSize($absolutePath);
+
+                    // get current sharing state
+                    $sharingEnabled = \OCP\Share::isEnabled();
+
+                    // get the final filename
+                    $target = \OC\Files\Filesystem::normalizePath($location.'/'.$filename);
+
+                    // get users sharing this file
+                    $usersSharing = $util->getSharingUsersArray($sharingEnabled, $target.$ext, $user);
+
+                    // Attempt to set shareKey
+                    $util->setSharedFileKeyfiles($session, $usersSharing, $target.$ext);
+				}
+			}
+
+            // enable proxy
+            \OC_FileProxy::$enabled = $proxyStatus;
+		}
+		return $size;
+	}
+
 	/**
-	 * delete file from trash bin permanently
+	 * @brief delete file from trash bin permanently
+     *
 	 * @param $filename path to the file
 	 * @param $timestamp of deletion time
+     *
 	 * @return size of deleted files
 	 */
 	public static function delete($filename, $timestamp=null) {
@@ -259,7 +468,7 @@ class Trashbin {
 		}
 
 		if ( $timestamp ) {
-			$query = \OC_DB::prepare('DELETE FROM *PREFIX*files_trash WHERE user=? AND id=? AND timestamp=?');
+			$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trash` WHERE `user`=? AND `id`=? AND `timestamp`=?');
 			$query->execute(array($user,$filename,$timestamp));
 			$file = $filename.'.d'.$timestamp;
 		} else {
@@ -335,16 +544,71 @@ class Trashbin {
 	}
 
 	/**
-	 * clean up the trash bin
-	 * @param max. available disk space for trashbin
+	 * @brief deletes used space for trash bin in db if user was deleted
+	 *
+	 * @param type $uid id of deleted user
+	 * @return result of db delete operation
 	 */
-	private static function expire($availableSpace) {
+	public static function deleteUser($uid) {
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trash` WHERE `user`=?');
+		$result = $query->execute(array($uid));
+		if ($result) {
+			$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trashsize` WHERE `user`=?');
+			return $query->execute(array($uid));
+		}
+		return false;
+	}
+
+	/**
+	 * calculate remaining free space for trash bin
+	 *
+	 * @param $trashbinSize current size of the trash bin
+	 * @return available free space for trash bin
+	 */
+	private static function calculateFreeSpace($trashbinSize) {
+		$softQuota = true;
+		$user = \OCP\User::getUser();
+		$quota = \OC_Preferences::getValue($user, 'files', 'quota');
+		$view = new \OC\Files\View('/'.$user);
+		if ( $quota === null || $quota === 'default') {
+			$quota = \OC_Appconfig::getValue('files', 'default_quota');
+		}
+		if ( $quota === null || $quota === 'none' ) {
+			$quota = \OC\Files\Filesystem::free_space('/');
+			$softQuota = false;
+		} else {
+			$quota = \OCP\Util::computerFileSize($quota);
+		}
+
+		// calculate available space for trash bin
+		// subtract size of files and current trash bin size from quota
+		if ($softQuota) {
+			$rootInfo = $view->getFileInfo('/files/');
+			$free = $quota-$rootInfo['size']; // remaining free space for user
+			if ( $free > 0 ) {
+				$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $trashbinSize; // how much space can be used for versions
+			} else {
+				$availableSpace = $free-$trashbinSize;
+			}
+		} else {
+			$availableSpace = $quota;
+		}
+
+		return $availableSpace;
+	}
+
+	/**
+	 * clean up the trash bin
+	 * @param current size of the trash bin
+	 */
+	private static function expire($trashbinSize) {
 
 		$user = \OCP\User::getUser();
 		$view = new \OC\Files\View('/'.$user);
+		$availableSpace = self::calculateFreeSpace($trashbinSize);
 		$size = 0;
 
-		$query = \OC_DB::prepare('SELECT location,type,id,timestamp FROM *PREFIX*files_trash WHERE user=?');
+		$query = \OC_DB::prepare('SELECT `location`,`type`,`id`,`timestamp` FROM `*PREFIX*files_trash` WHERE `user`=?');
 		$result = $query->execute(array($user))->fetchAll();
 
 		$retention_obligation = \OC_Config::getValue('trashbin_retention_obligation',
@@ -357,18 +621,20 @@ class Trashbin {
 			$filename = $r['id'];
 			if ( $r['timestamp'] < $limit ) {
 				$size += self::delete($filename, $timestamp);
+				\OC_Log::write('files_trashbin', 'remove "'.$filename.'" fom trash bin because it is older than '.$retention_obligation, \OC_log::INFO);
 			}
 		}
 		$availableSpace = $availableSpace + $size;
 		// if size limit for trash bin reached, delete oldest files in trash bin
 		if ($availableSpace < 0) {
-			$query = \OC_DB::prepare('SELECT location,type,id,timestamp FROM *PREFIX*files_trash'
-				.' WHERE user=? ORDER BY timestamp ASC');
+			$query = \OC_DB::prepare('SELECT `location`,`type`,`id`,`timestamp` FROM `*PREFIX*files_trash`'
+				.' WHERE `user`=? ORDER BY `timestamp` ASC');
 			$result = $query->execute(array($user))->fetchAll();
 			$length = count($result);
 			$i = 0;
 			while ( $i < $length &&   $availableSpace < 0 ) {
 				$tmp = self::delete($result[$i]['id'], $result[$i]['timestamp']);
+				\OC_Log::write('files_trashbin', 'remove "'.$result[$i]['id'].'" ('.$tmp.'B) to meet the limit of trash bin size (50% of available quota)', \OC_log::INFO);
 				$availableSpace += $tmp;
 				$size += $tmp;
 				$i++;
@@ -490,7 +756,7 @@ class Trashbin {
 	 * @return mixed trash bin size or false if no trash bin size is stored
 	 */
 	private static function getTrashbinSize($user) {
-		$query = \OC_DB::prepare('SELECT size FROM *PREFIX*files_trashsize WHERE user=?');
+		$query = \OC_DB::prepare('SELECT `size` FROM `*PREFIX*files_trashsize` WHERE `user`=?');
 		$result = $query->execute(array($user))->fetchAll();
 
 		if ($result) {
@@ -507,9 +773,9 @@ class Trashbin {
 	 */
 	private static function setTrashbinSize($user, $size) {
 		if ( self::getTrashbinSize($user) === false) {
-			$query = \OC_DB::prepare('INSERT INTO *PREFIX*files_trashsize (size, user) VALUES (?, ?)');
+			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*files_trashsize` (`size`, `user`) VALUES (?, ?)');
 		}else {
-			$query = \OC_DB::prepare('UPDATE *PREFIX*files_trashsize SET size=? WHERE user=?');
+			$query = \OC_DB::prepare('UPDATE `*PREFIX*files_trashsize` SET `size`=? WHERE `user`=?');
 		}
 		$query->execute(array($size, $user));
 	}

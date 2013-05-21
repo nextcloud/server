@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Error" => "出错",
 "Name" => "名称",
 "1 folder" => "1 个文件夹",
 "{count} folders" => "{count} 个文件夹",

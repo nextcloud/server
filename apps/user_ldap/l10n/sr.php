@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Deletion failed" => "Брисање није успело",
+"Error" => "Грешка",
 "Host" => "Домаћин",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Можете да изоставите протокол, осим ако захтевате SSL. У том случају почните са ldaps://.",
 "Base DN" => "База DN",

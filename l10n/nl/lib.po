@@ -3,17 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# André Koot <meneer@tken.net>, 2013.
-#   <lenny@weijl.org>, 2012.
-# Richard Bos <radoeka@gmail.com>, 2012.
-#   <transifex@thisnet.nl>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-06 00:07+0100\n"
-"PO-Revision-Date: 2013-03-05 20:10+0000\n"
-"Last-Translator: André Koot <meneer@tken.net>\n"
+"POT-Creation-Date: 2013-04-28 01:57+0200\n"
+"PO-Revision-Date: 2013-04-27 23:57+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,19 +41,19 @@ msgstr "Apps"
 msgid "Admin"
 msgstr "Beheerder"
 
-#: files.php:202
+#: files.php:209
 msgid "ZIP download is turned off."
 msgstr "ZIP download is uitgeschakeld."
 
-#: files.php:203
+#: files.php:210
 msgid "Files need to be downloaded one by one."
 msgstr "Bestanden moeten één voor één worden gedownload."
 
-#: files.php:204 files.php:231
+#: files.php:211 files.php:244
 msgid "Back to Files"
 msgstr "Terug naar bestanden"
 
-#: files.php:228
+#: files.php:241
 msgid "Selected files too large to generate zip file."
 msgstr "De geselecteerde bestanden zijn te groot om een zip bestand te maken."
 
@@ -97,10 +93,6 @@ msgstr "Stel de gebruikersnaam van de beheerder in."
 msgid "Set an admin password."
 msgstr "Stel een beheerderswachtwoord in."
 
-#: setup.php:40
-msgid "Specify a data folder."
-msgstr "Geef een datamap op."
-
 #: setup.php:55
 #, php-format
 msgid "%s enter the database username."
@@ -121,75 +113,75 @@ msgstr "%s er mogen geen puntjes in de databasenaam voorkomen"
 msgid "%s set the database host."
 msgstr "%s instellen databaseservernaam."
 
-#: setup.php:128 setup.php:320 setup.php:365
+#: setup.php:132 setup.php:325 setup.php:370
 msgid "PostgreSQL username and/or password not valid"
 msgstr "PostgreSQL gebruikersnaam en/of wachtwoord ongeldig"
 
-#: setup.php:129 setup.php:152 setup.php:229
+#: setup.php:133 setup.php:156 setup.php:234
 msgid "You need to enter either an existing account or the administrator."
 msgstr "Geef of een bestaand account op of het beheerdersaccount."
 
-#: setup.php:151 setup.php:453 setup.php:520
+#: setup.php:155 setup.php:458 setup.php:525
 msgid "Oracle username and/or password not valid"
 msgstr "Oracle gebruikersnaam en/of wachtwoord ongeldig"
 
-#: setup.php:228
+#: setup.php:233
 msgid "MySQL username and/or password not valid"
 msgstr "MySQL gebruikersnaam en/of wachtwoord ongeldig"
 
-#: setup.php:282 setup.php:386 setup.php:395 setup.php:413 setup.php:423
-#: setup.php:432 setup.php:461 setup.php:527 setup.php:553 setup.php:560
-#: setup.php:571 setup.php:578 setup.php:587 setup.php:595 setup.php:604
-#: setup.php:610
+#: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
+#: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
+#: setup.php:576 setup.php:583 setup.php:592 setup.php:600 setup.php:609
+#: setup.php:615
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "DB Fout: \"%s\""
 
-#: setup.php:283 setup.php:387 setup.php:396 setup.php:414 setup.php:424
-#: setup.php:433 setup.php:462 setup.php:528 setup.php:554 setup.php:561
-#: setup.php:572 setup.php:588 setup.php:596 setup.php:605
+#: setup.php:288 setup.php:392 setup.php:401 setup.php:419 setup.php:429
+#: setup.php:438 setup.php:467 setup.php:533 setup.php:559 setup.php:566
+#: setup.php:577 setup.php:593 setup.php:601 setup.php:610
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr "Onjuiste commande was: \"%s\""
 
-#: setup.php:299
+#: setup.php:304
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
 msgstr "MySQL gebruiker '%s'@'localhost' bestaat al."
 
-#: setup.php:300
+#: setup.php:305
 msgid "Drop this user from MySQL"
 msgstr "Verwijder deze gebruiker uit MySQL"
 
-#: setup.php:305
+#: setup.php:310
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
 msgstr "MySQL gebruiker '%s'@'%%' bestaat al"
 
-#: setup.php:306
+#: setup.php:311
 msgid "Drop this user from MySQL."
 msgstr "Verwijder deze gebruiker uit MySQL."
 
-#: setup.php:579 setup.php:611
+#: setup.php:584 setup.php:616
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "Onjuiste commando was: \"%s\", naam: %s, wachtwoord: %s"
 
-#: setup.php:631
+#: setup.php:636
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
 msgstr "MS SQL gebruikersnaam en/of wachtwoord niet geldig: %s"
 
-#: setup.php:849
+#: setup.php:858
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Uw webserver is nog niet goed ingesteld voor bestandssynchronisatie omdat de WebDAV interface verbroken lijkt."
 
-#: setup.php:850
+#: setup.php:859
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr "Conntroleer de <a href='%s'>installatie handleiding</a> goed."
+msgstr "Controleer de <a href='%s'>installatiehandleiding</a> goed."
 
 #: template.php:113
 msgid "seconds ago"
@@ -242,19 +234,6 @@ msgstr "vorig jaar"
 #: template.php:124
 msgid "years ago"
 msgstr "jaar geleden"
-
-#: updater.php:78
-#, php-format
-msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr "%s is beschikbaar. Verkrijg <a href=\"%s\">meer informatie</a>"
-
-#: updater.php:81
-msgid "up to date"
-msgstr "bijgewerkt"
-
-#: updater.php:84
-msgid "updates check is disabled"
-msgstr "Meest recente versie controle is uitgeschakeld"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format

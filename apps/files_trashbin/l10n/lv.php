@@ -2,6 +2,7 @@
 "Couldn't delete %s permanently" => "Nevarēja pilnībā izdzēst %s",
 "Couldn't restore %s" => "Nevarēja atjaunot %s",
 "perform restore operation" => "veikt atjaunošanu",
+"Error" => "Kļūda",
 "delete file permanently" => "dzēst datni pavisam",
 "Delete permanently" => "Dzēst pavisam",
 "Name" => "Nosaukums",
@@ -12,5 +13,6 @@
 "{count} files" => "{count} datnes",
 "Nothing in here. Your trash bin is empty!" => "Šeit nekā nav. Jūsu miskaste ir tukša!",
 "Restore" => "Atjaunot",
-"Delete" => "Dzēst"
+"Delete" => "Dzēst",
+"Deleted Files" => "Dzēstās datnes"
 );

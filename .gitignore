@@ -4,7 +4,6 @@ owncloud
 config/config.php
 config/mount.php
 apps/inc.php
-3rdparty
 
 # ignore all apps except core ones
 apps/*
@@ -16,6 +15,10 @@ apps/*
 !apps/files_versions
 !apps/user_ldap
 !apps/user_webdavauth
+
+# ignore themes except the README
+themes/*
+!themes/README
 
 # just sane ignores
 .*.sw[po]
@@ -50,6 +53,7 @@ nbproject
 
 # phpStorm
 .idea
+*.iml
 
 # geany
 *.geany

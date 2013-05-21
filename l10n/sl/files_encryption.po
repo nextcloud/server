@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <>, 2012.
-# Peter Peroša <peter.perosa@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-10 00:08+0100\n"
-"PO-Revision-Date: 2013-02-09 23:09+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:29+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -25,15 +23,15 @@ msgstr "Šifriranje"
 
 #: templates/settings-personal.php:7
 msgid "File encryption is enabled."
-msgstr ""
+msgstr "Šifriranje datotek je omogočeno."
 
 #: templates/settings-personal.php:11
 msgid "The following file types will not be encrypted:"
-msgstr ""
+msgstr "Navedene vrste datotek ne bodo šifrirane:"
 
 #: templates/settings.php:7
 msgid "Exclude the following file types from encryption:"
-msgstr ""
+msgstr "Ne šifriraj navedenih vrst datotek:"
 
 #: templates/settings.php:12
 msgid "None"

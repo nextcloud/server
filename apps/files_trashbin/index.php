@@ -21,8 +21,7 @@ $dir = isset($_GET['dir']) ? stripslashes($_GET['dir']) : '';
 $result = array();
 if ($dir) {
 	$dirlisting = true;
-	$fullpath = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath($dir);
-	$dirContent = opendir($fullpath);
+	$dirContent = $view->opendir($dir);
 	$i = 0;
 	while($entryName = readdir($dirContent)) {
 		if ( $entryName != '.' && $entryName != '..' ) {
@@ -43,7 +42,7 @@ if ($dir) {
 
 } else {
 	$dirlisting = false;
-	$query = \OC_DB::prepare('SELECT `id`,`location`,`timestamp`,`type`,`mime` FROM `*PREFIX*files_trash` WHERE user = ?');
+	$query = \OC_DB::prepare('SELECT `id`,`location`,`timestamp`,`type`,`mime` FROM `*PREFIX*files_trash` WHERE `user` = ?');
 	$result = $query->execute(array($user))->fetchAll();
 }
 

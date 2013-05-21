@@ -77,7 +77,9 @@ class Mapper
 		$result = $query->execute(array($path1.'%'));
 		$updateQuery = \OC_DB::prepare('UPDATE `*PREFIX*file_map`'
 			.' SET `logic_path` = ?'
-			.' AND `physic_path` = ?'
+			.' , `logic_path_hash` = ?'
+			.' , `physic_path` = ?'
+			.' , `physic_path_hash` = ?'
 			.' WHERE `logic_path` = ?');
 		while( $row = $result->fetchRow()) {
 			$currentLogic = $row['logic_path'];
@@ -86,7 +88,7 @@ class Mapper
 			$newPhysic = $physicPath2.$this->stripRootFolder($currentPhysic, $physicPath1);
 			if ($path1 !== $currentLogic) {
 				try {
-					$updateQuery->execute(array($newLogic, $newPhysic, $currentLogic));
+					$updateQuery->execute(array($newLogic, md5($newLogic), $newPhysic, md5($newPhysic), $currentLogic));
 				} catch (\Exception $e) {
 					error_log('Mapper::Copy failed '.$currentLogic.' -> '.$newLogic.'\n'.$e);
 					throw $e;
@@ -149,7 +151,7 @@ class Mapper
 
 		// detect duplicates
 		while ($this->resolvePhysicalPath($physicalPath) !== null) {
-			$physicalPath = $this->slugifyPath($physicalPath, $index++);
+			$physicalPath = $this->slugifyPath($logicPath, $index++);
 		}
 
 		// insert the new path mapping if requested
@@ -165,11 +167,18 @@ class Mapper
 		$query->execute(array($logicPath, $physicalPath, md5($logicPath), md5($physicalPath)));
 	}
 
-	private function slugifyPath($path, $index=null) {
+	public function slugifyPath($path, $index=null) {
 		$path = $this->stripRootFolder($path, $this->unchangedPhysicalRoot);
 
 		$pathElements = explode('/', $path);
 		$sluggedElements = array();
+
+		// rip off the extension ext from last element
+		$last= end($pathElements);
+		$parts = pathinfo($last);
+		$filename = $parts['filename'];
+		array_pop($pathElements);
+		array_push($pathElements, $filename);
 
 		foreach ($pathElements as $pathElement) {
 			// remove empty elements
@@ -177,20 +186,22 @@ class Mapper
 				continue;
 			}
 
-			// TODO: remove file ext before slugify on last element
 			$sluggedElements[] = self::slugify($pathElement);
 		}
 
-		//
-		// TODO: add the index before the file extension
-		//
+		// apply index to file name
 		if ($index !== null) {
-			$last= end($sluggedElements);
-			array_pop($sluggedElements);
+			$last= array_pop($sluggedElements);
 			array_push($sluggedElements, $last.'-'.$index);
 		}
 
-		$sluggedPath = $this->unchangedPhysicalRoot.implode(DIRECTORY_SEPARATOR, $sluggedElements);
+		// add back the extension
+		if (isset($parts['extension'])) {
+			$last= array_pop($sluggedElements);
+			array_push($sluggedElements, $last.'.'.$parts['extension']);
+		}
+
+		$sluggedPath = $this->unchangedPhysicalRoot.implode('/', $sluggedElements);
 		return $this->stripLast($sluggedPath);
 	}
 
@@ -210,7 +221,7 @@ class Mapper
 
 		// transliterate
 		if (function_exists('iconv')) {
-			$text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+			$text = iconv('utf-8', 'us-ascii//TRANSLIT//IGNORE', $text);
 		}
 
 		// lowercase
@@ -219,10 +230,8 @@ class Mapper
 		// remove unwanted characters
 		$text = preg_replace('~[^-\w]+~', '', $text);
 
-		if (empty($text))
-		{
-			// TODO: we better generate a guid in this case
-			return 'n-a';
+		if (empty($text)) {
+			return uniqid();
 		}
 
 		return $text;

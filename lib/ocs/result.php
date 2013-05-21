@@ -22,7 +22,7 @@
 
 class OC_OCS_Result{
 
-	private $data, $message, $statusCode, $items, $perPage;
+	protected $data, $message, $statusCode, $items, $perPage;
 
 	/**
 	 * create the OCS_Result object
@@ -49,26 +49,48 @@ class OC_OCS_Result{
 	public function setItemsPerPage(int $items) {
 		$this->perPage = $items;
 	}
-
+	
 	/**
-	 * returns the data associated with the api result
+	 * get the status code
+	 * @return int
+	 */
+	public function getStatusCode() {
+		return $this->statusCode;
+	}
+	
+	/**
+	 * get the meta data for the result
 	 * @return array
 	 */
-	public function getResult() {
-		$return = array();
-		$return['meta'] = array();
-		$return['meta']['status'] = ($this->statusCode === 100) ? 'ok' : 'failure';
-		$return['meta']['statuscode'] = $this->statusCode;
-		$return['meta']['message'] = $this->message;
+	public function getMeta() {
+		$meta = array();
+		$meta['status'] = ($this->statusCode === 100) ? 'ok' : 'failure';
+		$meta['statuscode'] = $this->statusCode;
+		$meta['message'] = $this->message;
 		if(isset($this->items)) {
-			$return['meta']['totalitems'] = $this->items;
+			$meta['totalitems'] = $this->items;
 		}
 		if(isset($this->perPage)) {
-			$return['meta']['itemsperpage'] = $this->perPage;
+			$meta['itemsperpage'] = $this->perPage;
 		}
-		$return['data'] = $this->data;
-		// Return the result data.
-		return $return;
+		return $meta;
+
+	}
+	
+	/**
+	 * get the result data
+	 * @return array|string|int 
+	 */
+	public function getData() {
+		return $this->data;
+	}
+	
+	/**
+	 * return bool if the method succedded
+	 * @return bool
+	 */
+	public function succeeded() {
+		return (substr($this->statusCode, 0, 1) === '1');
 	}
 
 

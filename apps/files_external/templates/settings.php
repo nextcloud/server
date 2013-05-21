@@ -102,7 +102,7 @@
 									<option value="<?php p($user); ?>"
 									<?php if (isset($mount['applicable']['users']) && in_array($user, $mount['applicable']['users'])): ?>
 											selected="selected"
-									<?php endif; ?>><?php p($user); ?></option>
+									<?php endif; ?>><?php p($_['userDisplayNames'][$user]); ?></option>
 								<?php endforeach; ?>
 								</optgroup>
 							</select>
@@ -155,7 +155,7 @@
 			</tbody>
 		</table>
 		<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']); ?>">
-		<input type="file" id="rootcert_import" name="rootcert_import" style="width:230px;">
+		<input type="file" id="rootcert_import" name="rootcert_import">
 		<input type="submit" name="cert_import" value="<?php p($l->t('Import Root Certificate')); ?>" />
 </fieldset>
 </form>

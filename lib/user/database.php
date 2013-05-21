@@ -46,7 +46,7 @@ class OC_User_Database extends OC_User_Backend {
 
 	private function getHasher() {
 		if(!self::$hasher) {
-			//we don't want to use DES based crypt(), since it doesn't return a has with a recognisable prefix
+			//we don't want to use DES based crypt(), since it doesn't return a hash with a recognisable prefix
 			$forcePortable=(CRYPT_BLOWFISH!=1);
 			self::$hasher=new PasswordHash(8, $forcePortable);
 		}
@@ -237,13 +237,13 @@ class OC_User_Database extends OC_User_Backend {
 	 * @return boolean
 	 */
 	public function userExists($uid) {
-		$query = OC_DB::prepare( 'SELECT * FROM `*PREFIX*users` WHERE LOWER(`uid`) = LOWER(?)' );
+		$query = OC_DB::prepare( 'SELECT COUNT(*) FROM `*PREFIX*users` WHERE LOWER(`uid`) = LOWER(?)' );
 		$result = $query->execute( array( $uid ));
 		if (OC_DB::isError($result)) {
 			OC_Log::write('core', OC_DB::getErrorMessage($result), OC_Log::ERROR);
 			return false;
 		}
-		return $result->numRows() > 0;
+		return $result->fetchOne() > 0;
 	}
 
 	/**

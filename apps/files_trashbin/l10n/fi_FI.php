@@ -2,6 +2,7 @@
 "Couldn't delete %s permanently" => "Kohdetta %s ei voitu poistaa pysyvästi",
 "Couldn't restore %s" => "Kohteen %s palautus epäonnistui",
 "perform restore operation" => "suorita palautustoiminto",
+"Error" => "Virhe",
 "delete file permanently" => "poista tiedosto pysyvästi",
 "Delete permanently" => "Poista pysyvästi",
 "Name" => "Nimi",
@@ -12,5 +13,6 @@
 "{count} files" => "{count} tiedostoa",
 "Nothing in here. Your trash bin is empty!" => "Tyhjää täynnä! Roskakorissa ei ole mitään.",
 "Restore" => "Palauta",
-"Delete" => "Poista"
+"Delete" => "Poista",
+"Deleted Files" => "Poistetut tiedostot"
 );

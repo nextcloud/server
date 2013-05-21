@@ -53,7 +53,7 @@ class Storage {
 	 * @return mixed versions size or false if no versions size is stored
 	 */
 	private static function getVersionsSize($user) {
-		$query = \OC_DB::prepare('SELECT size FROM *PREFIX*files_versions WHERE user=?');
+		$query = \OC_DB::prepare('SELECT `size` FROM `*PREFIX*files_versions` WHERE `user`=?');
 		$result = $query->execute(array($user))->fetchAll();
 		
 		if ($result) {
@@ -70,9 +70,9 @@ class Storage {
 	 */
 	private static function setVersionsSize($user, $size) {
 		if ( self::getVersionsSize($user) === false) {
-			$query = \OC_DB::prepare('INSERT INTO *PREFIX*files_versions (size, user) VALUES (?, ?)');
+			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*files_versions` (`size`, `user`) VALUES (?, ?)');
 		}else {
-			$query = \OC_DB::prepare('UPDATE *PREFIX*files_versions SET size=? WHERE user=?');
+			$query = \OC_DB::prepare('UPDATE `*PREFIX*files_versions` SET `size`=? WHERE `user`=?');
 		}
 		$query->execute(array($size, $user));
 	}
@@ -156,11 +156,18 @@ class Storage {
 	/**
 	 * rename versions of a file
 	 */
-	public static function rename($oldpath, $newpath) {
-		list($uid, $oldpath) = self::getUidAndFilename($oldpath);
-		list($uidn, $newpath) = self::getUidAndFilename($newpath);
+	public static function rename($old_path, $new_path) {
+		list($uid, $oldpath) = self::getUidAndFilename($old_path);
+		list($uidn, $newpath) = self::getUidAndFilename($new_path);
 		$versions_view = new \OC\Files\View('/'.$uid .'/files_versions');
 		$files_view = new \OC\Files\View('/'.$uid .'/files');
+		
+		// if the file already exists than it was a upload of a existing file
+		// over the web interface -> store() is the right function we need here
+		if ($files_view->file_exists($newpath)) {
+			return self::store($new_path);
+		}
+		
 		$abs_newpath = $versions_view->getLocalFile($newpath);
 
 		if ( $files_view->is_dir($oldpath) && $versions_view->is_dir($oldpath) ) {
@@ -177,11 +184,12 @@ class Storage {
 	/**
 	 * rollback to an old version of a file.
 	 */
-	public static function rollback($filename, $revision) {
+	public static function rollback($file, $revision) {
 
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-			list($uid, $filename) = self::getUidAndFilename($filename);
+			list($uid, $filename) = self::getUidAndFilename($file);
 			$users_view = new \OC\Files\View('/'.$uid);
+			$files_view = new \OC\Files\View('/'.\OCP\User::getUser().'/files');
 			$versionCreated = false;
 
 			//first create a new version
@@ -192,9 +200,9 @@ class Storage {
 			}
 
 			// rollback
-			if( @$users_view->copy('files_versions'.$filename.'.v'.$revision, 'files'.$filename) ) {
-				$users_view->touch('files'.$filename, $revision);
-				Storage::expire($filename);
+			if( @$users_view->rename('files_versions'.$filename.'.v'.$revision, 'files'.$filename) ) {
+				$files_view->touch($file, $revision);
+				Storage::expire($file);
 				return true;
 
 			}else if ( $versionCreated ) {
@@ -270,6 +278,18 @@ class Storage {
 			return( array() );
 		}
 
+	}
+
+
+	/**
+	 * @brief deletes used space for files versions in db if user was deleted
+	 *
+	 * @param type $uid id of deleted user
+	 * @return result of db delete operation
+	 */
+	public static function deleteUser($uid) {
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_versions` WHERE `user`=?');
+		return $query->execute(array($uid));
 	}
 
 	/**
@@ -359,12 +379,14 @@ class Storage {
 			$versions_fileview = new \OC\Files\View('/'.$uid.'/files_versions');
 
 			// get available disk space for user
+			$softQuota = true;
 			$quota = \OC_Preferences::getValue($uid, 'files', 'quota');
 			if ( $quota === null || $quota === 'default') {
 				$quota = \OC_Appconfig::getValue('files', 'default_quota');
 			}
 			if ( $quota === null || $quota === 'none' ) {
-				$quota = \OC\Files\Filesystem::free_space('/') / count(\OCP\User::getUsers());
+				$quota = \OC\Files\Filesystem::free_space('/');
+				$softQuota = false;
 			} else {
 				$quota = \OCP\Util::computerFileSize($quota);
 			}
@@ -378,14 +400,20 @@ class Storage {
 			}
 
 			// calculate available space for version history
-			$files_view = new \OC\Files\View('/'.$uid.'/files');
-			$rootInfo = $files_view->getFileInfo('/');
-			$free = $quota-$rootInfo['size']; // remaining free space for user
-			if ( $free > 0 ) {
-				$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $versionsSize; // how much space can be used for versions
+			// subtract size of files and current versions size from quota
+			if ($softQuota) {
+				$files_view = new \OC\Files\View('/'.$uid.'/files');
+				$rootInfo = $files_view->getFileInfo('/');
+				$free = $quota-$rootInfo['size']; // remaining free space for user
+				if ( $free > 0 ) {
+					$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $versionsSize; // how much space can be used for versions
+				} else {
+					$availableSpace = $free-$versionsSize;
+				}
 			} else {
-				$availableSpace = $free-$versionsSize;
+				$availableSpace = $quota;
 			}
+
 
 			// after every 1000s run reduce the number of all versions not only for the current file
 			$random = rand(0, 1000);

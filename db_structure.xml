@@ -37,6 +37,8 @@
 
 			<index>
 				<name>appconfig_appid_key_index</name>
+				<primary>true</primary>
+				<unique>true</unique>
 				<field>
 					<name>appid</name>
 					<sorting>ascending</sorting>
@@ -134,6 +136,7 @@
 
 			<index>
 				<name>file_map_lp_index</name>
+				<primary>true</primary>
 				<unique>true</unique>
 				<field>
 					<name>logic_path_hash</name>
@@ -387,6 +390,7 @@
 			<index>
 				<name>id_user_index</name>
 				<unique>true</unique>
+				<primary>true</primary>
 				<field>
 					<name>fileid</name>
 					<sorting>ascending</sorting>
@@ -423,6 +427,20 @@
 				<length>64</length>
 			</field>
 
+			<index>
+				<name>gu_gid_uid_index</name>
+				<primary>true</primary>
+				<unique>true</unique>
+				<field>
+					<name>gid</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>uid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
 		</declaration>
 
 	</table>
@@ -450,6 +468,20 @@
 			</field>
 			<index>
 				<name>group_admin_uid</name>
+				<field>
+					<name>uid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>ga_gid_uid_index</name>
+				<primary>true</primary>
+				<unique>true</unique>
+				<field>
+					<name>gid</name>
+					<sorting>ascending</sorting>
+				</field>
 				<field>
 					<name>uid</name>
 					<sorting>ascending</sorting>
@@ -604,6 +636,8 @@
 
 			<index>
 				<name>pref_userid_appid_key_index</name>
+				<primary>true</primary>
+				<unique>true</unique>
 				<field>
 					<name>userid</name>
 					<sorting>ascending</sorting>
@@ -627,6 +661,15 @@
 		<name>*dbprefix*properties</name>
 
 		<declaration>
+
+			<field>
+				<name>id</name>
+				<autoincrement>1</autoincrement>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
 
 			<field>
 				<name>userid</name>
@@ -658,6 +701,14 @@
 				<notnull>true</notnull>
 				<length>255</length>
 			</field>
+
+			<index>
+				<name>property_index</name>
+				<field>
+					<name>userid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 
 		</declaration>
 
@@ -867,7 +918,6 @@
 				<name>displayname</name>
 				<type>text</type>
 				<default></default>
-				<notnull>true</notnull>
 				<length>64</length>
 			</field>
 

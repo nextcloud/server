@@ -1,13 +1,14 @@
-/**
- * @license In-Field Label jQuery Plugin
- * http://fuelyourcoding.com/scripts/infield.html
+/*
+ * jquery.infieldlabel
+ * A simple jQuery plugin for adding labels that sit over a form field and fade away when the fields are populated.
+ * 
+ * Copyright (c) 2009 - 2013 Doug Neiner <doug@dougneiner.com> (http://code.dougneiner.com)
+ * Source: https://github.com/dcneiner/In-Field-Labels-jQuery-Plugin
+ * Dual licensed MIT or GPL
+ *   MIT (http://www.opensource.org/licenses/mit-license)
+ *   GPL (http://www.opensource.org/licenses/gpl-license)
  *
- * Copyright (c) 2009-2010 Doug Neiner
- * Dual licensed under the MIT and GPL licenses.
- * Uses the same license as jQuery, see:
- * http://docs.jquery.com/License
- *
- * @version 0.1.6
+ * @version 0.1.3
  */
 (function ($) {
 
@@ -27,15 +28,20 @@
     base.showing = true;
 
     base.init = function () {
+      var initialSet;
+
       // Merge supplied options with default options
       base.options = $.extend({}, $.InFieldLabels.defaultOptions, options);
 
-      // Check if the field is already filled in
+      // Check if the field is already filled in 
       // add a short delay to handle autocomplete
       setTimeout(function() {
         if (base.$field.val() !== "") {
           base.$label.hide();
           base.showing = false;
+        } else {
+          base.$label.show();
+          base.showing = true;
         }
       }, 200);
 
@@ -47,23 +53,28 @@
         // Use of a namespace (.infieldlabel) allows us to
         // unbind just this method later
         base.hideOnChange(e);
-      }).bind('paste', function (e) {
+      }).bind('paste', function () {
         // Since you can not paste an empty string we can assume
         // that the fieldis not empty and the label can be cleared.
         base.setOpacity(0.0);
-      }).change(function (e) {
+      }).change(function () {
         base.checkForEmpty();
       }).bind('onPropertyChange', function () {
         base.checkForEmpty();
       }).bind('keyup.infieldlabel', function () {
-        base.checkForEmpty()
+        base.checkForEmpty();
       });
-      setInterval(function(){
-          if(base.$field.val() != ""){
-               base.$label.hide();
-               base.showing = false;
-        };
-      },100);
+
+      if ( base.options.pollDuration > 0 ) {
+        initialSet = setInterval( function () {
+        if (base.$field.val() !== "") {
+          base.$label.hide();
+          base.showing = false;
+          clearInterval( initialSet );
+        }
+      }, base.options.pollDuration );
+
+      }
     };
 
     // If the label is currently showing
@@ -92,7 +103,7 @@
       }
     };
 
-    base.prepForShow = function (e) {
+    base.prepForShow = function () {
       if (!base.showing) {
         // Prepare for a animate in...
         base.$label.css({opacity: 0.0}).show();
@@ -127,37 +138,39 @@
 
   $.InFieldLabels.defaultOptions = {
     fadeOpacity: 0.5, // Once a field has focus, how transparent should the label be
-    fadeDuration: 300 // How long should it take to animate from 1.0 opacity to the fadeOpacity
+    fadeDuration: 300, // How long should it take to animate from 1.0 opacity to the fadeOpacity
+    pollDuration: 0, // If set to a number greater than zero, this will poll until content is detected in a field
+    enabledInputTypes: [ "text", "search", "tel", "url", "email", "password", "number", "textarea" ]
   };
 
 
   $.fn.inFieldLabels = function (options) {
+    var allowed_types = options && options.enabledInputTypes || $.InFieldLabels.defaultOptions.enabledInputTypes;
+
     return this.each(function () {
       // Find input or textarea based on for= attribute
       // The for attribute on the label must contain the ID
       // of the input or textarea element
-      var for_attr = $(this).attr('for'), $field;
+      var for_attr = $(this).attr('for'), field, restrict_type;
       if (!for_attr) {
         return; // Nothing to attach, since the for field wasn't used
       }
 
       // Find the referenced input or textarea element
-      $field = $(
-        "input#" + for_attr + "[type='text']," + 
-        "input#" + for_attr + "[type='search']," + 
-        "input#" + for_attr + "[type='tel']," + 
-        "input#" + for_attr + "[type='url']," + 
-        "input#" + for_attr + "[type='email']," + 
-        "input#" + for_attr + "[type='password']," + 
-        "textarea#" + for_attr
-      );
+      field = document.getElementById( for_attr );
+      if ( !field ) {
+        return; // No element found
+      }
 
-      if ($field.length === 0) {
+      // Restrict input type
+      restrict_type = $.inArray( field.type, allowed_types );
+
+      if ( restrict_type === -1 && field.nodeName !== "TEXTAREA" ) {
         return; // Again, nothing to attach
       } 
 
-      // Only create object for input[text], input[password], or textarea
-      (new $.InFieldLabels(this, $field[0], options));
+      // Only create object for matched input types and textarea
+      (new $.InFieldLabels(this, field, options));
     });
   };
 

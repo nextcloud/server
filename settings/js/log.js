@@ -1,5 +1,6 @@
 /**
  * Copyright (c) 2012, Robin Appelman <icewind1991@gmail.com>
+ * Copyright (c) 2013, Morris Jobke <morris.jobke@gmail.com>
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  */
@@ -16,18 +17,26 @@ OC.Log={
 	levels:['Debug','Info','Warning','Error','Fatal'],
 	loaded:3,//are initially loaded
 	getMore:function(count){
-		if(!count){
-			count=10;
-		}
+		count = count || 10;
 		$.get(OC.filePath('settings','ajax','getlog.php'),{offset:OC.Log.loaded,count:count},function(result){
 			if(result.status=='success'){
 				OC.Log.addEntries(result.data);
-				$('html, body').animate({scrollTop: $(document).height()}, 800);
 				if(!result.remain){
-					$('#moreLog').css('display', 'none');
+					$('#moreLog').hide();
 				}
+				$('#lessLog').show();
 			}
 		});
+	},
+	showLess:function(count){
+		count = count || 10;
+		//calculate remaining items - at least 3
+		OC.Log.loaded = Math.max(3,OC.Log.loaded-count);
+		$('#moreLog').show();
+		// remove all non-remaining items
+		$('#log tr').slice(OC.Log.loaded).remove();
+		if(OC.Log.loaded <= 3)
+			$('#lessLog').hide();
 	},
 	addEntries:function(entries){
 		for(var i=0;i<entries.length;i++){
@@ -36,17 +45,21 @@ OC.Log={
 			var levelTd=$('<td/>');
 			levelTd.text(OC.Log.levels[entry.level]);
 			row.append(levelTd);
-			
+
 			var appTd=$('<td/>');
 			appTd.text(entry.app);
 			row.append(appTd);
-			
+
 			var messageTd=$('<td/>');
 			messageTd.text(entry.message);
 			row.append(messageTd);
-			
+
 			var timeTd=$('<td/>');
-			timeTd.text(formatDate(entry.time*1000));
+			if(isNaN(entry.time)){
+				timeTd.text(entry.time);
+			} else {
+				timeTd.text(formatDate(entry.time*1000));
+			}
 			row.append(timeTd);
 			$('#log').append(row);
 		}
@@ -57,5 +70,8 @@ OC.Log={
 $(document).ready(function(){
 	$('#moreLog').click(function(){
 		OC.Log.getMore();
+	})
+	$('#lessLog').click(function(){
+		OC.Log.showLess();
 	})
 });

@@ -7,6 +7,8 @@
 "Take over settings from recent server configuration?" => "Ta över inställningar från tidigare serverkonfiguration?",
 "Keep settings?" => "Behåll inställningarna?",
 "Cannot add server configuration" => "Kunde inte lägga till serverinställning",
+"Success" => "Lyckat",
+"Error" => "Fel",
 "Connection test succeeded" => "Anslutningstestet lyckades",
 "Connection test failed" => "Anslutningstestet misslyckades",
 "Do you really want to delete the current Server Configuration?" => "Vill du verkligen radera den nuvarande serverinställningen?",
@@ -48,6 +50,7 @@
 "Turn off SSL certificate validation." => "Stäng av verifiering av SSL-certifikat.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Om anslutningen bara fungerar med det här alternativet, importera LDAP-serverns SSL-certifikat i din ownCloud-server.",
 "Not recommended, use for testing only." => "Rekommenderas inte, använd bara för test. ",
+"Cache Time-To-Live" => "Cache Time-To-Live",
 "in seconds. A change empties the cache." => "i sekunder. En förändring tömmer cache.",
 "Directory Settings" => "Mappinställningar",
 "User Display Name Field" => "Attribut för användarnamn",
@@ -64,8 +67,11 @@
 "Group-Member association" => "Attribut för gruppmedlemmar",
 "Special Attributes" => "Specialattribut",
 "Quota Field" => "Kvotfält",
+"Quota Default" => "Datakvot standard",
 "in bytes" => "i bytes",
 "Email Field" => "E-postfält",
+"User Home Folder Naming Rule" => "Namnregel för hemkatalog",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Lämnas tomt för användarnamn (standard). Ange annars ett LDAP/AD-attribut.",
+"Test Configuration" => "Testa konfigurationen",
 "Help" => "Hjälp"
 );

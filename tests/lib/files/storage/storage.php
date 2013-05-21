@@ -224,8 +224,7 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testSearchInSubFolder() {
-		$this->instance->mkdir('sub')
-		;
+		$this->instance->mkdir('sub');
 		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
 		$this->instance->file_put_contents('/sub/lorem.txt', file_get_contents($textFile, 'r'));
 		$pngFile = \OC::$SERVERROOT . '/tests/data/logo-wide.png';
@@ -257,5 +256,11 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$fh = $this->instance->fopen('foo', 'r');
 		$content = stream_get_contents($fh);
 		$this->assertEquals(file_get_contents($textFile), $content);
+	}
+
+	public function testTouchCreateFile(){
+		$this->assertFalse($this->instance->file_exists('foo'));
+		$this->instance->touch('foo');
+		$this->assertTrue($this->instance->file_exists('foo'));
 	}
 }

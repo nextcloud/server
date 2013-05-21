@@ -3,19 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Amir Reza Asadi <amirreza.asadi@live.com>, 2013.
-#   <basir.jafarzadeh@gmail.com>, 2012.
-# Hossein nag <h.sname@yahoo.com>, 2012.
-# mahdi Kereshteh <miki_mika1362@yahoo.com>, 2013.
-#   <tamass4116@gmail.com>, 2012.
-# vahid chakoshy <vchakoshy@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-05 00:18+0100\n"
-"PO-Revision-Date: 2013-03-04 16:30+0000\n"
-"Last-Translator: Amir Reza Asadi <amirreza.asadi@live.com>\n"
+"POT-Creation-Date: 2013-05-18 01:58+0200\n"
+"PO-Revision-Date: 2013-05-17 10:19+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,12 +21,16 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "قادر به بارگذاری لیست از فروشگاه اپ نیستم"
 
-#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
+#: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
 msgstr "خطا در اعتبار سنجی"
 
-#: ajax/changedisplayname.php:32
+#: ajax/changedisplayname.php:31
+msgid "Your display name has been changed."
+msgstr ""
+
+#: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
 msgstr "امکان تغییر نام نمایشی شما وجود ندارد"
 
@@ -46,7 +44,7 @@ msgstr "افزودن گروه امکان پذیر نیست"
 
 #: ajax/enableapp.php:11
 msgid "Could not enable app. "
-msgstr ""
+msgstr "برنامه را نمی توان فعال ساخت."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -70,7 +68,7 @@ msgstr "زبان تغییر کرد"
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr "درخواست غیر قابل قبول"
+msgstr "درخواست نامعتبر"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -79,26 +77,26 @@ msgstr "مدیران نمی توانند خود را از گروه مدیریت 
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "امکان افزودن کاربر به گروه %s نیست"
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "امکان حذف کاربر از گروه %s نیست"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr ""
+msgstr "برنامه را نمی توان به هنگام ساخت."
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "بهنگام شده به  {appversion}"
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr "غیرفعال"
 
-#: js/apps.js:36 js/apps.js:64
+#: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
 msgstr "فعال"
 
@@ -106,68 +104,68 @@ msgstr "فعال"
 msgid "Please wait...."
 msgstr "لطفا صبر کنید ..."
 
-#: js/apps.js:84
-msgid "Updating...."
-msgstr "در حال بروز رسانی..."
-
-#: js/apps.js:87
-msgid "Error while updating app"
-msgstr ""
-
-#: js/apps.js:87
+#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
 msgstr "خطا"
 
 #: js/apps.js:90
+msgid "Updating...."
+msgstr "در حال بروز رسانی..."
+
+#: js/apps.js:93
+msgid "Error while updating app"
+msgstr "خطا در هنگام بهنگام سازی برنامه"
+
+#: js/apps.js:96
 msgid "Updated"
 msgstr "بروز رسانی انجام شد"
 
-#: js/personal.js:99
+#: js/personal.js:118
 msgid "Saving..."
-msgstr "درحال ذخیره ..."
+msgstr "در حال ذخیره سازی..."
 
-#: js/users.js:30
+#: js/users.js:47
 msgid "deleted"
 msgstr "حذف شده"
 
-#: js/users.js:30
+#: js/users.js:47
 msgid "undo"
 msgstr "بازگشت"
 
-#: js/users.js:62
+#: js/users.js:79
 msgid "Unable to remove user"
-msgstr ""
+msgstr "حذف کاربر امکان پذیر نیست"
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:80
-#: templates/users.php:105
+#: js/users.js:92 templates/users.php:26 templates/users.php:78
+#: templates/users.php:103
 msgid "Groups"
 msgstr "گروه ها"
 
-#: js/users.js:78 templates/users.php:82 templates/users.php:119
+#: js/users.js:95 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
-msgstr ""
+msgstr "گروه مدیران"
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:115 templates/users.php:155
 msgid "Delete"
-msgstr "پاک کردن"
+msgstr "حذف"
 
-#: js/users.js:191
+#: js/users.js:269
 msgid "add group"
 msgstr "افزودن گروه"
 
-#: js/users.js:352
+#: js/users.js:420
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "نام کاربری صحیح باید وارد شود"
 
-#: js/users.js:353 js/users.js:359 js/users.js:374
+#: js/users.js:421 js/users.js:427 js/users.js:442
 msgid "Error creating user"
 msgstr "خطا در ایجاد کاربر"
 
-#: js/users.js:358
+#: js/users.js:426
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "رمز عبور صحیح باید وارد شود"
 
-#: personal.php:29 personal.php:30
+#: personal.php:35 personal.php:36
 msgid "__language_name__"
 msgstr "__language_name__"
 
@@ -182,7 +180,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "احتمالاً فهرست و فایلهای شما از طریق اینترنت قابل دسترسی هستند. فایل با فرمت .htaccess که ownCloud اراده کرده است دیگر کار نمی کند. ما قویاً توصیه می کنیم که شما وب سرور خودتان را طوری تنظیم کنید که فهرست اطلاعات شما غیر قابل دسترسی باشند یا فهرست اطلاعات را به خارج از ریشه ی اصلی وب سرور انتقال دهید."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -192,22 +190,22 @@ msgstr "هشدار راه اندازی"
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "احتمالاً وب سرور شما طوری تنظیم نشده است که اجازه ی همگام سازی فایلها را بدهد زیرا به نظر میرسد رابط WebDAV از کار افتاده است."
 
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "لطفاً دوباره <a href='%s'>راهنمای نصب</a>را بررسی کنید."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "ماژول 'fileinfo' از کار افتاده"
 
 #: templates/admin.php:47
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr ""
+msgstr "ماژول 'fileinfo' PHP از کار افتاده است.ما اکیدا توصیه می کنیم که این ماژول را فعال کنید تا نتایج بهتری به وسیله ی mime-type detection دریافت کنید."
 
 #: templates/admin.php:58
 msgid "Locale not working"
@@ -219,7 +217,7 @@ msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
 "might be problems with certain characters in file names. We strongly suggest"
 " to install the required packages on your system to support %s."
-msgstr ""
+msgstr "این سرور ownCloud نمی تواند سیستم محلی را بر روی %s تنظیم کند.این به این معنی ست که ممکن است با کاراکترهای خاصی در نام فایل ها مشکل داشته باشد.ما اکیداً نصب کردن بسته های لازم را بر روی سیستم خودتان برای پشتیبانی %s توصیه می کنیم."
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
@@ -233,7 +231,7 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "این سرور OwnCloud ارتباط اینترنتی ندارد.این بدین معناست که بعضی از خصوصیات نظیر خارج کردن منبع ذخیره ی خارجی، اطلاعات در مورد بروزرسانی ها یا نصب برنامه های نوع 3ام کار نمی کنند.دسترسی به فایل ها از راه دور و ارسال آگاه سازی ایمیل ها ممکن است همچنان کار نکنند.اگرشما همه ی خصوصیات OwnCloud می خواهید ما پیشنهاد می کنیم تا ارتباط اینترنتی مربوط به این سرور را فعال کنید."
 
 #: templates/admin.php:92
 msgid "Cron"
@@ -241,7 +239,7 @@ msgstr ""
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "اجرای یک وظیفه با هر بار بارگذاری صفحه"
 
 #: templates/admin.php:111
 msgid ""
@@ -261,15 +259,15 @@ msgstr "اشتراک گذاری"
 
 #: templates/admin.php:134
 msgid "Enable Share API"
-msgstr ""
+msgstr "فعال کردن API اشتراک گذاری"
 
 #: templates/admin.php:135
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "اجازه ی برنامه ها برای استفاده از API اشتراک گذاری"
 
 #: templates/admin.php:142
 msgid "Allow links"
-msgstr ""
+msgstr "اجازه ی لینک ها"
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
@@ -277,19 +275,19 @@ msgstr "اجازه دادن به کاربران برای اشتراک گذاری
 
 #: templates/admin.php:150
 msgid "Allow resharing"
-msgstr ""
+msgstr "مجوز اشتراک گذاری مجدد"
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "اجازه به کاربران برای اشتراک گذاری دوباره با آنها"
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "اجازه به کابران برای اشتراک گذاری با همه"
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "اجازه به کاربران برای اشتراک گذاری ، تنها با دیگر کابران گروه خودشان"
 
 #: templates/admin.php:168
 msgid "Security"
@@ -297,12 +295,12 @@ msgstr "امنیت"
 
 #: templates/admin.php:181
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "وادار کردن HTTPS"
 
 #: templates/admin.php:182
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "وادار کردن مشتریان برای ارتباط با ownCloud از طریق رمزگذاری ارتباط"
 
 #: templates/admin.php:185
 msgid ""
@@ -312,21 +310,25 @@ msgstr ""
 
 #: templates/admin.php:195
 msgid "Log"
-msgstr ""
+msgstr "کارنامه"
 
 #: templates/admin.php:196
 msgid "Log level"
 msgstr ""
 
-#: templates/admin.php:223
+#: templates/admin.php:227
 msgid "More"
 msgstr "بیش‌تر"
 
-#: templates/admin.php:230 templates/personal.php:102
+#: templates/admin.php:228
+msgid "Less"
+msgstr "کم‌تر"
+
+#: templates/admin.php:235 templates/personal.php:105
 msgid "Version"
 msgstr "نسخه"
 
-#: templates/admin.php:233 templates/personal.php:105
+#: templates/admin.php:237 templates/personal.php:108
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -334,7 +336,7 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
+msgstr "توسعه یافته به وسیله ی  <a href=\"http://ownCloud.org/contact\" target=\"_blank\">انجمن ownCloud</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">کد اصلی</a> مجاز زیر گواهی <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/apps.php:11
 msgid "Add your App"
@@ -354,7 +356,7 @@ msgstr "صفحه این اٌپ را در apps.owncloud.com ببینید"
 
 #: templates/apps.php:36
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-مجاز از طرف <span class=\"author\"></span>"
 
 #: templates/apps.php:38
 msgid "Update"
@@ -387,17 +389,17 @@ msgstr "پشتیبانی تجاری"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "شما استفاده کردید از <strong>%s</strong> از میزان در دسترس <strong>%s</strong>"
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "برنامه ها را دریافت کنید تا فایل هایتان را همگام سازید"
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"
 msgstr "راهبری کمکی اجرای اول را دوباره نمایش بده"
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:79
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "گذرواژه"
 
@@ -421,82 +423,70 @@ msgstr "گذرواژه جدید"
 msgid "Change password"
 msgstr "تغییر گذر واژه"
 
-#: templates/personal.php:56 templates/users.php:78
+#: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
 msgstr "نام نمایشی"
 
-#: templates/personal.php:57
-msgid "Your display name was changed"
-msgstr "نام نمایشی شما تغییر یافت"
-
-#: templates/personal.php:58
-msgid "Unable to change your display name"
-msgstr "امکان تغییر نام نمایشی شما وجود ندارد"
-
-#: templates/personal.php:61
-msgid "Change display name"
-msgstr "تغییر نام نمایشی"
+#: templates/personal.php:68
+msgid "Email"
+msgstr "ایمیل"
 
 #: templates/personal.php:70
-msgid "Email"
-msgstr "پست الکترونیکی"
-
-#: templates/personal.php:72
 msgid "Your email address"
 msgstr "پست الکترونیکی شما"
 
-#: templates/personal.php:73
+#: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
 msgstr "پست الکترونیکی را پرکنید  تا بازیابی گذرواژه فعال شود"
 
-#: templates/personal.php:79 templates/personal.php:80
+#: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
 msgstr "زبان"
 
-#: templates/personal.php:86
+#: templates/personal.php:89
 msgid "Help translate"
 msgstr "به ترجمه آن کمک کنید"
 
-#: templates/personal.php:91
+#: templates/personal.php:94
 msgid "WebDAV"
 msgstr ""
 
-#: templates/personal.php:93
+#: templates/personal.php:96
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "از این نشانی برای اتصال به ownCloud خودتان در بخش مدیریت فایل خودتان استفاده کنید"
 
-#: templates/users.php:21 templates/users.php:77
+#: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
 msgstr "نام کاربری"
 
-#: templates/users.php:32
+#: templates/users.php:30
 msgid "Create"
 msgstr "ایجاد کردن"
 
-#: templates/users.php:35
+#: templates/users.php:33
 msgid "Default Storage"
 msgstr "ذخیره سازی پیش فرض"
 
-#: templates/users.php:41 templates/users.php:139
+#: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
 msgstr "نامحدود"
 
-#: templates/users.php:59 templates/users.php:154
+#: templates/users.php:57 templates/users.php:148
 msgid "Other"
-msgstr "سایر"
+msgstr "دیگر"
 
-#: templates/users.php:84
+#: templates/users.php:82
 msgid "Storage"
 msgstr "حافظه"
 
-#: templates/users.php:95
+#: templates/users.php:93
 msgid "change display name"
 msgstr "تغییر نام نمایشی"
 
-#: templates/users.php:99
+#: templates/users.php:97
 msgid "set new password"
 msgstr "تنظیم کلمه عبور جدید"
 
-#: templates/users.php:134
+#: templates/users.php:128
 msgid "Default"
 msgstr "پیش فرض"

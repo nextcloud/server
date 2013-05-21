@@ -2,6 +2,7 @@
 "Couldn't delete %s permanently" => "Αδύνατη η μόνιμη διαγραφή του %s",
 "Couldn't restore %s" => "Αδυναμία επαναφοράς %s",
 "perform restore operation" => "εκτέλεση λειτουργία επαναφοράς",
+"Error" => "Σφάλμα",
 "delete file permanently" => "μόνιμη διαγραφή αρχείου",
 "Delete permanently" => "Μόνιμη διαγραφή",
 "Name" => "Όνομα",
@@ -12,5 +13,6 @@
 "{count} files" => "{count} αρχεία",
 "Nothing in here. Your trash bin is empty!" => "Δεν υπάρχει τίποτα εδώ. Ο κάδος σας είναι άδειος!",
 "Restore" => "Επαναφορά",
-"Delete" => "Διαγραφή"
+"Delete" => "Διαγραφή",
+"Deleted Files" => "Διαγραμμένα Αρχεία"
 );

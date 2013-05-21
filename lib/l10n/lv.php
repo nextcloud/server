@@ -18,7 +18,6 @@
 "Images" => "Attēli",
 "Set an admin username." => "Iestatiet administratora lietotājvārdu.",
 "Set an admin password." => "Iestatiet administratora paroli.",
-"Specify a data folder." => "Norādiet datu mapi.",
 "%s enter the database username." => "%s ievadiet datubāzes lietotājvārdu.",
 "%s enter the database name." => "%s ievadiet datubāzes nosaukumu.",
 "%s you may not use dots in the database name" => "%s datubāžu nosaukumos nedrīkst izmantot punktus",
@@ -49,8 +48,5 @@
 "%d months ago" => "pirms %d mēnešiem",
 "last year" => "gājušajā gadā",
 "years ago" => "gadus atpakaļ",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s ir pieejams. Iegūt <a href=\"%s\">vairāk informācijas</a>",
-"up to date" => "ir aktuāls",
-"updates check is disabled" => "atjauninājumu pārbaude ir deaktivēta",
 "Could not find category \"%s\"" => "Nevarēja atrast kategoriju “%s”"
 );

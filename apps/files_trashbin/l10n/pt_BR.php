@@ -2,6 +2,7 @@
 "Couldn't delete %s permanently" => "Não foi possível excluir %s permanentemente",
 "Couldn't restore %s" => "Não foi possível restaurar %s",
 "perform restore operation" => "realizar operação de restauração",
+"Error" => "Erro",
 "delete file permanently" => "excluir arquivo permanentemente",
 "Delete permanently" => "Excluir permanentemente",
 "Name" => "Nome",
@@ -12,5 +13,6 @@
 "{count} files" => "{count} arquivos",
 "Nothing in here. Your trash bin is empty!" => "Nada aqui. Sua lixeira está vazia!",
 "Restore" => "Restaurar",
-"Delete" => "Excluir"
+"Delete" => "Excluir",
+"Deleted Files" => "Arquivos Apagados"
 );

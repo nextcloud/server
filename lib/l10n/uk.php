@@ -18,7 +18,6 @@
 "Images" => "Зображення",
 "Set an admin username." => "Встановіть ім'я адміністратора.",
 "Set an admin password." => "Встановіть пароль адміністратора.",
-"Specify a data folder." => "Вкажіть теку для даних.",
 "%s enter the database username." => "%s введіть ім'я користувача бази даних.",
 "%s enter the database name." => "%s введіть назву бази даних.",
 "%s you may not use dots in the database name" => "%s не можна використовувати крапки в назві бази даних",
@@ -49,8 +48,5 @@
 "%d months ago" => "%d місяців тому",
 "last year" => "минулого року",
 "years ago" => "роки тому",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s доступно. Отримати <a href=\"%s\">детальну інформацію</a>",
-"up to date" => "оновлено",
-"updates check is disabled" => "перевірка оновлень відключена",
 "Could not find category \"%s\"" => "Не вдалося знайти категорію \"%s\""
 );

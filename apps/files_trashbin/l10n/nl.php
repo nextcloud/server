@@ -2,6 +2,7 @@
 "Couldn't delete %s permanently" => "Kon %s niet permanent verwijderen",
 "Couldn't restore %s" => "Kon %s niet herstellen",
 "perform restore operation" => "uitvoeren restore operatie",
+"Error" => "Fout",
 "delete file permanently" => "verwijder bestanden definitief",
 "Delete permanently" => "Verwijder definitief",
 "Name" => "Naam",
@@ -12,5 +13,6 @@
 "{count} files" => "{count} bestanden",
 "Nothing in here. Your trash bin is empty!" => "Niets te vinden. Uw prullenbak is leeg!",
 "Restore" => "Herstellen",
-"Delete" => "Verwijder"
+"Delete" => "Verwijder",
+"Deleted Files" => "Verwijderde bestanden"
 );

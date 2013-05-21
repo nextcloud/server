@@ -28,10 +28,11 @@ namespace OC\Files\Cache;
  */
 class Shared_Cache extends Cache {
 
+	private $storage;
 	private $files = array();
 
 	public function __construct($storage) {
-
+		$this->storage = $storage;
 	}
 
 	/**
@@ -41,19 +42,30 @@ class Shared_Cache extends Cache {
 	 */
 	private function getSourceCache($target) {
 		$source = \OC_Share_Backend_File::getSource($target);
-		if (isset($source['path'])) {
-			$source['path'] = '/' . $source['uid_owner'] . '/' . $source['path'];
-			\OC\Files\Filesystem::initMountPoints($source['uid_owner']);
-			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source['path']);
-			if ($storage) {
-				$this->files[$target] = $internalPath;
-				$cache = $storage->getCache();
-				$this->storageId = $storage->getId();
-				$this->numericId = $cache->getNumericStorageId();
-				return $cache;
+		if (isset($source['path']) && isset($source['fileOwner'])) {
+			\OC\Files\Filesystem::initMountPoints($source['fileOwner']);
+			$mount = \OC\Files\Filesystem::getMountByNumericId($source['storage']);
+			if (is_array($mount)) {
+				$fullPath = $mount[key($mount)]->getMountPoint().$source['path'];
+				list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($fullPath);
+				if ($storage) {
+					$this->files[$target] = $internalPath;
+					$cache = $storage->getCache();
+					$this->storageId = $storage->getId();
+					$this->numericId = $cache->getNumericStorageId();
+					return $cache;
+				}
 			}
 		}
 		return false;
+	}
+
+	public function getNumericStorageId() {
+		if (isset($this->numericId)) {
+			return $this->numericId;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -64,7 +76,14 @@ class Shared_Cache extends Cache {
 	 */
 	public function get($file) {
 		if ($file == '') {
-			return \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_FILE_APP_ROOT);
+			$data = \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_FILE_APP_ROOT);
+			$etag = \OCP\Config::getUserValue(\OCP\User::getUser(), 'files_sharing', 'etag');
+			if (!isset($etag)) {
+				$etag = $this->storage->getETag('');
+				\OCP\Config::setUserValue(\OCP\User::getUser(), 'files_sharing', 'etag', $etag);
+			}
+			$data['etag'] = $etag;
+			return $data;
 		} else if (is_string($file)) {
 			if ($cache = $this->getSourceCache($file)) {
 				return $cache->get($this->files[$file]);
@@ -118,7 +137,9 @@ class Shared_Cache extends Cache {
 	 * @return int file id
 	 */
 	public function put($file, array $data) {
-		if ($cache = $this->getSourceCache($file)) {
+		if ($file === '' && isset($data['etag'])) {
+			return \OCP\Config::setUserValue(\OCP\User::getUser(), 'files_sharing', 'etag', $data['etag']);
+		} else if ($cache = $this->getSourceCache($file)) {
 			return $cache->put($this->files[$file], $data);
 		}
 		return false;
@@ -169,12 +190,10 @@ class Shared_Cache extends Cache {
 	 */
 	public function move($source, $target) {
 		if ($cache = $this->getSourceCache($source)) {
-			$targetPath = \OC_Share_Backend_File::getSourcePath(dirname($target));
-			if ($targetPath) {
-				$targetPath .= '/' . basename($target);
-				$cache->move($this->files[$source], $targetPath);
+			$file = \OC_Share_Backend_File::getSource($target);
+			if ($file && isset($file['path'])) {
+				$cache->move($this->files[$source], $file['path']);
 			}
-
 		}
 	}
 
@@ -254,6 +273,19 @@ class Shared_Cache extends Cache {
 	 */
 	public function getAll() {
 		return \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_GET_ALL);
+	}
+
+	/**
+	 * find a folder in the cache which has not been fully scanned
+	 *
+	 * If multiply incomplete folders are in the cache, the one with the highest id will be returned,
+	 * use the one with the highest id gives the best result with the background scanner, since that is most
+	 * likely the folder where we stopped scanning previously
+	 *
+	 * @return string|bool the path of the folder or false when no folder matched
+	 */
+	public function getIncomplete() {
+		return false;
 	}
 
 }

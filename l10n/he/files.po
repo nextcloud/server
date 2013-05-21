@@ -3,16 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Dovix Dovix <dovix2003@gmail.com>, 2012.
-#   <ido.parag@gmail.com>, 2012.
-#   <tomerc+transifex.net@gmail.com>, 2011.
-# Yaron Shahrabani <sh.yaron@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-04 00:06+0100\n"
-"PO-Revision-Date: 2013-03-03 23:06+0000\n"
+"POT-Creation-Date: 2013-05-18 01:58+0200\n"
+"PO-Revision-Date: 2013-05-17 10:18+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -31,17 +27,13 @@ msgstr ""
 msgid "Could not move %s"
 msgstr ""
 
-#: ajax/rename.php:22 ajax/rename.php:25
-msgid "Unable to rename file"
-msgstr ""
-
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
 msgstr "לא הועלה קובץ. טעות בלתי מזוהה."
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "לא אירעה תקלה, הקבצים הועלו בהצלחה"
+msgstr "לא התרחשה שגיאה, הקובץ הועלה בהצלחה"
 
 #: ajax/upload.php:27
 msgid ""
@@ -52,19 +44,19 @@ msgstr "הקבצים שנשלחו חורגים מהגודל שצוין בהגד�
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "הקובץ שהועלה חרג מההנחיה MAX_FILE_SIZE שצוינה בטופס ה־HTML"
+msgstr "הקובץ שהועלה גדוך מהערך MAX_FILE_SIZE שהוגדר בתופס HTML"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "הקובץ שהועלה הועלה בצורה חלקית"
+msgstr "הקובץ הועלה באופן חלקי בלבד"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "לא הועלו קבצים"
+msgstr "שום קובץ לא הועלה"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "תיקייה זמנית חסרה"
+msgstr "תקיה זמנית חסרה"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -74,57 +66,68 @@ msgstr "הכתיבה לכונן נכשלה"
 msgid "Not enough storage available"
 msgstr ""
 
-#: ajax/upload.php:82
+#: ajax/upload.php:83
 msgid "Invalid directory."
 msgstr ""
 
-#: appinfo/app.php:10
+#: appinfo/app.php:12
 msgid "Files"
 msgstr "קבצים"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "שתף"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "מחק לצמיתות"
 
-#: js/fileactions.js:127 templates/index.php:92 templates/index.php:93
+#: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
 msgid "Delete"
 msgstr "מחיקה"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "שינוי שם"
 
-#: js/filelist.js:49 js/filelist.js:52 js/files.js:292 js/files.js:408
-#: js/files.js:439
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:421
 msgid "Pending"
 msgstr "ממתין"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:259 js/filelist.js:261
 msgid "{new_name} already exists"
 msgstr "{new_name} כבר קיים"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:259 js/filelist.js:261
 msgid "replace"
 msgstr "החלפה"
 
-#: js/filelist.js:251
+#: js/filelist.js:259
 msgid "suggest name"
 msgstr "הצעת שם"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:259 js/filelist.js:261
 msgid "cancel"
 msgstr "ביטול"
 
-#: js/filelist.js:298
+#: js/filelist.js:306
 msgid "replaced {new_name} with {old_name}"
 msgstr "{new_name} הוחלף ב־{old_name}"
 
-#: js/filelist.js:298
+#: js/filelist.js:306
 msgid "undo"
 msgstr "ביטול"
 
-#: js/filelist.js:323
+#: js/filelist.js:331
 msgid "perform delete operation"
+msgstr ""
+
+#: js/filelist.js:413
+msgid "1 file uploading"
+msgstr "קובץ אחד נשלח"
+
+#: js/filelist.js:416 js/filelist.js:470
+msgid "files uploading"
 msgstr ""
 
 #: js/files.js:52
@@ -149,76 +152,76 @@ msgstr ""
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr ""
 
-#: js/files.js:225
+#: js/files.js:231
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr ""
 
-#: js/files.js:262
+#: js/files.js:264
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "לא יכול להעלות את הקובץ מכיוון שזו תקיה או שמשקל הקובץ 0 בתים"
 
-#: js/files.js:262
-msgid "Upload Error"
-msgstr "שגיאת העלאה"
+#: js/files.js:277
+msgid "Not enough space available"
+msgstr ""
 
-#: js/files.js:273
-msgid "Close"
-msgstr "סגירה"
-
-#: js/files.js:312
-msgid "1 file uploading"
-msgstr "קובץ אחד נשלח"
-
-#: js/files.js:315 js/files.js:370 js/files.js:385
-msgid "{count} files uploading"
-msgstr "{count} קבצים נשלחים"
-
-#: js/files.js:388 js/files.js:423
+#: js/files.js:317
 msgid "Upload cancelled."
 msgstr "ההעלאה בוטלה."
 
-#: js/files.js:497
+#: js/files.js:413
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "מתבצעת כעת העלאת קבצים. עזיבה של העמוד תבטל את ההעלאה."
 
-#: js/files.js:570
+#: js/files.js:486
 msgid "URL cannot be empty."
 msgstr "קישור אינו יכול להיות ריק."
 
-#: js/files.js:575
+#: js/files.js:491
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr ""
 
-#: js/files.js:953 templates/index.php:68
+#: js/files.js:520 js/files.js:536 js/files.js:826 js/files.js:864
+msgid "Error"
+msgstr "שגיאה"
+
+#: js/files.js:877 templates/index.php:69
 msgid "Name"
 msgstr "שם"
 
-#: js/files.js:954 templates/index.php:79
+#: js/files.js:878 templates/index.php:80
 msgid "Size"
 msgstr "גודל"
 
-#: js/files.js:955 templates/index.php:81
+#: js/files.js:879 templates/index.php:82
 msgid "Modified"
 msgstr "זמן שינוי"
 
-#: js/files.js:974
+#: js/files.js:898
 msgid "1 folder"
 msgstr "תיקייה אחת"
 
-#: js/files.js:976
+#: js/files.js:900
 msgid "{count} folders"
 msgstr "{count} תיקיות"
 
-#: js/files.js:984
+#: js/files.js:908
 msgid "1 file"
 msgstr "קובץ אחד"
 
-#: js/files.js:986
+#: js/files.js:910
 msgid "{count} files"
 msgstr "{count} קבצים"
+
+#: lib/app.php:53
+msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
+msgstr ""
+
+#: lib/app.php:73
+msgid "Unable to rename file"
+msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -272,45 +275,45 @@ msgstr "תיקייה"
 msgid "From link"
 msgstr "מקישור"
 
-#: templates/index.php:40
+#: templates/index.php:42
 msgid "Deleted files"
 msgstr ""
 
-#: templates/index.php:46
+#: templates/index.php:48
 msgid "Cancel upload"
 msgstr "ביטול ההעלאה"
 
-#: templates/index.php:53
+#: templates/index.php:54
 msgid "You don’t have write permissions here."
 msgstr ""
 
-#: templates/index.php:60
+#: templates/index.php:61
 msgid "Nothing in here. Upload something!"
 msgstr "אין כאן שום דבר. אולי ברצונך להעלות משהו?"
 
-#: templates/index.php:74
+#: templates/index.php:75
 msgid "Download"
 msgstr "הורדה"
 
-#: templates/index.php:86 templates/index.php:87
+#: templates/index.php:87 templates/index.php:88
 msgid "Unshare"
 msgstr "הסר שיתוף"
 
-#: templates/index.php:106
+#: templates/index.php:107
 msgid "Upload too large"
 msgstr "העלאה גדולה מידי"
 
-#: templates/index.php:108
+#: templates/index.php:109
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "הקבצים שניסית להעלות חרגו מהגודל המקסימלי להעלאת קבצים על שרת זה."
 
-#: templates/index.php:113
+#: templates/index.php:114
 msgid "Files are being scanned, please wait."
 msgstr "הקבצים נסרקים, נא להמתין."
 
-#: templates/index.php:116
+#: templates/index.php:117
 msgid "Current scanning"
 msgstr "הסריקה הנוכחית"
 

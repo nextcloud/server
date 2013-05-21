@@ -3,35 +3,35 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Aranel Surion <aranel@aranelsurion.org>, 2011-2013.
-# Emre  <emresaracoglu@live.com>, 2012.
-#   <info@beyboo.de>, 2012.
-# Necdet Yücel <necdetyucel@gmail.com>, 2012.
-# Tolga Gezginiş <tgezginis@gmail.com>, 2013.
+# ismail yenigül <ismail.yenigul@surgate.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 14:35+0100\n"
-"PO-Revision-Date: 2013-02-27 13:35+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-18 01:58+0200\n"
+"PO-Revision-Date: 2013-05-17 10:19+0000\n"
+"Last-Translator: ismail yenigül <ismail.yenigul@surgate.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: tr\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
 msgstr "App Store'dan liste yüklenemiyor"
 
-#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
+#: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr "Eşleşme hata"
+msgstr "Kimlik doğrulama hatası"
 
-#: ajax/changedisplayname.php:32
+#: ajax/changedisplayname.php:31
+msgid "Your display name has been changed."
+msgstr "Görüntülenen isminiz değiştirildi."
+
+#: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
 msgstr "Ekran adı değiştirilemiyor"
 
@@ -97,78 +97,78 @@ msgstr "{appversion} Güncelle"
 msgid "Disable"
 msgstr "Etkin değil"
 
-#: js/apps.js:36 js/apps.js:64
+#: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr "Etkin"
+msgstr "Etkinleştir"
 
 #: js/apps.js:55
 msgid "Please wait...."
 msgstr "Lütfen bekleyin...."
 
-#: js/apps.js:84
-msgid "Updating...."
-msgstr "Güncelleniyor...."
-
-#: js/apps.js:87
-msgid "Error while updating app"
-msgstr "Uygulama güncellenirken hata"
-
-#: js/apps.js:87
+#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
 msgstr "Hata"
 
 #: js/apps.js:90
+msgid "Updating...."
+msgstr "Güncelleniyor...."
+
+#: js/apps.js:93
+msgid "Error while updating app"
+msgstr "Uygulama güncellenirken hata"
+
+#: js/apps.js:96
 msgid "Updated"
 msgstr "Güncellendi"
 
-#: js/personal.js:99
+#: js/personal.js:118
 msgid "Saving..."
 msgstr "Kaydediliyor..."
 
-#: js/users.js:30
+#: js/users.js:47
 msgid "deleted"
 msgstr "silindi"
 
-#: js/users.js:30
+#: js/users.js:47
 msgid "undo"
 msgstr "geri al"
 
-#: js/users.js:62
+#: js/users.js:79
 msgid "Unable to remove user"
 msgstr "Kullanıcı kaldırılamıyor"
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:80
-#: templates/users.php:105
+#: js/users.js:92 templates/users.php:26 templates/users.php:78
+#: templates/users.php:103
 msgid "Groups"
 msgstr "Gruplar"
 
-#: js/users.js:78 templates/users.php:82 templates/users.php:119
+#: js/users.js:95 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
 msgstr "Yönetici Grubu "
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:115 templates/users.php:155
 msgid "Delete"
 msgstr "Sil"
 
-#: js/users.js:191
+#: js/users.js:269
 msgid "add group"
 msgstr "grup ekle"
 
-#: js/users.js:352
+#: js/users.js:420
 msgid "A valid username must be provided"
 msgstr "Geçerli bir kullanıcı adı mutlaka sağlanmalı"
 
-#: js/users.js:353 js/users.js:359 js/users.js:374
+#: js/users.js:421 js/users.js:427 js/users.js:442
 msgid "Error creating user"
 msgstr "Kullanıcı oluşturulurken hata"
 
-#: js/users.js:358
+#: js/users.js:426
 msgid "A valid password must be provided"
 msgstr "Geçerli bir parola mutlaka sağlanmalı"
 
-#: personal.php:29 personal.php:30
+#: personal.php:35 personal.php:36
 msgid "__language_name__"
-msgstr "__dil_adı__"
+msgstr "Türkçe"
 
 #: templates/admin.php:15
 msgid "Security Warning"
@@ -191,12 +191,12 @@ msgstr "Kurulum Uyarısı"
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Web sunucunuz dosya transferi için düzgün bir şekilde yapılandırılmamış. WevDAV arabirimini sorunlu gözüküyor."
 
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Lütfen <a href='%s'>kurulum kılavuzlarını</a> iki kez kontrol edin."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
@@ -206,11 +206,11 @@ msgstr "Modül 'fileinfo' kayıp"
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr ""
+msgstr "PHP modülü 'fileinfo' kayıp. MIME-tip tanıma ile en iyi sonuçları elde etmek için bu modülü etkinleştirmenizi öneririz."
 
 #: templates/admin.php:58
 msgid "Locale not working"
-msgstr ""
+msgstr "Locale çalışmıyor."
 
 #: templates/admin.php:63
 #, php-format
@@ -218,11 +218,11 @@ msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
 "might be problems with certain characters in file names. We strongly suggest"
 " to install the required packages on your system to support %s."
-msgstr ""
+msgstr "Bu ownCloud sunucusu sistem yerelini %s olarak değiştiremedi. Bu, dosya adlarındaki bazı karakterler ile sorun yaşanabileceği anlamına gelir. %s yerelini desteklemek için gerekli paketleri kurmanızı şiddetle öneririz."
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
-msgstr ""
+msgstr "İnternet bağlantısı çalışmıyor"
 
 #: templates/admin.php:78
 msgid ""
@@ -232,47 +232,47 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "ownCloud sunucusunun internet bağlantısı yok. Bu nedenle harici depolama bağlantısı, güncelleştirme bildirimleri veya 3. parti uygulama kurma gibi bazı özellikler çalışmayacaktır. Uzak dosyalara erişim ve e-posta ile bildirim gönderme çalışmayacak. Eğer ownCloud tüm özelliklerini kullanmak istiyorsanız, internet bağlantısı gerekmektedir."
 
 #: templates/admin.php:92
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Yüklenen her sayfa ile bir görev çalıştır"
 
 #: templates/admin.php:111
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php bir webcron hizmetinde kaydedilir. Owncloud kökündeki cron.php sayfasını http üzerinden dakikada bir çağır."
 
 #: templates/admin.php:121
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Sistemin cron hizmetini kullan. Bir sistem cronjob'ı ile owncloud klasöründeki cron.php dosyasını dakikada bir çağır."
 
 #: templates/admin.php:128
 msgid "Sharing"
-msgstr ""
+msgstr "Paylaşım"
 
 #: templates/admin.php:134
 msgid "Enable Share API"
-msgstr ""
+msgstr "Paylaşım API'sini etkinleştir."
 
 #: templates/admin.php:135
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Uygulamaların paylaşım API'sini kullanmasına izin ver"
 
 #: templates/admin.php:142
 msgid "Allow links"
-msgstr ""
+msgstr "Bağlantıları izin ver."
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Kullanıcıların nesneleri paylaşımı için herkese açık bağlantılara izin ver"
 
 #: templates/admin.php:150
 msgid "Allow resharing"
@@ -280,15 +280,15 @@ msgstr "Paylaşıma izin ver"
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Kullanıcıların kendileri ile paylaşılan öğeleri yeniden paylaşmasına izin ver"
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Kullanıcıların herşeyi paylaşmalarına izin ver"
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Kullanıcıların sadece kendi gruplarındaki kullanıcılarla paylaşmasına izin ver"
 
 #: templates/admin.php:168
 msgid "Security"
@@ -296,18 +296,18 @@ msgstr "Güvenlik"
 
 #: templates/admin.php:181
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "HTTPS bağlantısına zorla"
 
 #: templates/admin.php:182
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "İstemcileri ownCloud'a şifreli bir bağlantı ile bağlanmaya zorlar."
 
 #: templates/admin.php:185
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr ""
+msgstr "SSL zorlamasını etkinleştirmek ya da devre dışı bırakmak için lütfen bu ownCloud örneğine HTTPS ile bağlanın."
 
 #: templates/admin.php:195
 msgid "Log"
@@ -315,17 +315,21 @@ msgstr "Kayıtlar"
 
 #: templates/admin.php:196
 msgid "Log level"
-msgstr ""
+msgstr "Günlük seviyesi"
 
-#: templates/admin.php:223
+#: templates/admin.php:227
 msgid "More"
 msgstr "Daha fazla"
 
-#: templates/admin.php:230 templates/personal.php:102
+#: templates/admin.php:228
+msgid "Less"
+msgstr "Az"
+
+#: templates/admin.php:235 templates/personal.php:105
 msgid "Version"
 msgstr "Sürüm"
 
-#: templates/admin.php:233 templates/personal.php:105
+#: templates/admin.php:237 templates/personal.php:108
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -386,7 +390,7 @@ msgstr "Ticari Destek"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "Kullandığınız:<strong>%s</strong> seçilebilecekler: <strong>%s</strong>"
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
@@ -396,7 +400,7 @@ msgstr "Dosyalarınızı senkronize etmek için uygulamayı indirin"
 msgid "Show First Run Wizard again"
 msgstr "İlk Çalıştırma Sihirbazını yeniden göster"
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:79
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "Parola"
 
@@ -420,82 +424,70 @@ msgstr "Yeni parola"
 msgid "Change password"
 msgstr "Parola değiştir"
 
-#: templates/personal.php:56 templates/users.php:78
+#: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
 msgstr "Ekran Adı"
 
-#: templates/personal.php:57
-msgid "Your display name was changed"
-msgstr "Ekran adınız değiştirildi"
-
-#: templates/personal.php:58
-msgid "Unable to change your display name"
-msgstr "Ekran adınız değiştirilemiyor"
-
-#: templates/personal.php:61
-msgid "Change display name"
-msgstr "Ekran adını değiştir"
-
-#: templates/personal.php:70
+#: templates/personal.php:68
 msgid "Email"
 msgstr "Eposta"
 
-#: templates/personal.php:72
+#: templates/personal.php:70
 msgid "Your email address"
 msgstr "Eposta adresiniz"
 
-#: templates/personal.php:73
+#: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
-msgstr "Parola sıfırlamayı aktifleştirmek için eposta adresi girin"
+msgstr "Parola kurtarmayı etkinleştirmek için bir eposta adresi girin"
 
-#: templates/personal.php:79 templates/personal.php:80
+#: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
 msgstr "Dil"
 
-#: templates/personal.php:86
+#: templates/personal.php:89
 msgid "Help translate"
 msgstr "Çevirilere yardım edin"
 
-#: templates/personal.php:91
+#: templates/personal.php:94
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:93
+#: templates/personal.php:96
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Bu adresi kullanarak ownCloud 'unuza dosya yöneticinizde bağlanın"
 
-#: templates/users.php:21 templates/users.php:77
+#: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
 msgstr "Giriş Adı"
 
-#: templates/users.php:32
+#: templates/users.php:30
 msgid "Create"
 msgstr "Oluştur"
 
-#: templates/users.php:35
+#: templates/users.php:33
 msgid "Default Storage"
 msgstr "Varsayılan Depolama"
 
-#: templates/users.php:41 templates/users.php:139
+#: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
 msgstr "Limitsiz"
 
-#: templates/users.php:59 templates/users.php:154
+#: templates/users.php:57 templates/users.php:148
 msgid "Other"
 msgstr "Diğer"
 
-#: templates/users.php:84
+#: templates/users.php:82
 msgid "Storage"
 msgstr "Depolama"
 
-#: templates/users.php:95
+#: templates/users.php:93
 msgid "change display name"
 msgstr "ekran adını değiştir"
 
-#: templates/users.php:99
+#: templates/users.php:97
 msgid "set new password"
 msgstr "yeni parola belirle"
 
-#: templates/users.php:134
+#: templates/users.php:128
 msgid "Default"
 msgstr "Varsayılan"

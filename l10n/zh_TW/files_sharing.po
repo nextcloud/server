@@ -3,15 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <dw4dev@gmail.com>, 2012.
-# Pellaeon Lin <nfsmwlin@gmail.com>, 2013.
-#   <wu0809@msn.com>, 2012.
+# pellaeon <nfsmwlin@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-25 00:05+0100\n"
-"PO-Revision-Date: 2013-01-24 13:15+0000\n"
+"POT-Creation-Date: 2013-05-01 01:59+0200\n"
+"PO-Revision-Date: 2013-04-30 02:40+0000\n"
 "Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -28,24 +26,24 @@ msgstr "密碼"
 msgid "Submit"
 msgstr "送出"
 
-#: templates/public.php:17
+#: templates/public.php:10
 #, php-format
 msgid "%s shared the folder %s with you"
-msgstr "%s 分享了資料夾 %s 給您"
+msgstr "%s 和您分享了資料夾 %s "
 
-#: templates/public.php:19
+#: templates/public.php:13
 #, php-format
 msgid "%s shared the file %s with you"
-msgstr "%s 分享了檔案 %s 給您"
+msgstr "%s 和您分享了檔案 %s"
 
-#: templates/public.php:22 templates/public.php:38
+#: templates/public.php:19 templates/public.php:43
 msgid "Download"
 msgstr "下載"
 
-#: templates/public.php:37
+#: templates/public.php:40
 msgid "No preview available for"
 msgstr "無法預覽"
 
-#: templates/public.php:43
+#: templates/public.php:50
 msgid "web services under your control"
-msgstr "在您掌控之下的網路服務"
+msgstr "由您控制的網路服務"

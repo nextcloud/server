@@ -18,7 +18,6 @@
 "Images" => "Imágenes",
 "Set an admin username." => "Configurar un nombre de usuario del administrador",
 "Set an admin password." => "Configurar la contraseña del administrador.",
-"Specify a data folder." => "Especificar la carpeta de datos.",
 "%s enter the database username." => "%s ingresar el usuario de la base de datos.",
 "%s enter the database name." => "%s ingresar el nombre de la base de datos",
 "%s you may not use dots in the database name" => "%s no se puede utilizar puntos en el nombre de la base de datos",
@@ -45,12 +44,9 @@
 "today" => "hoy",
 "yesterday" => "ayer",
 "%d days ago" => "hace %d días",
-"last month" => "este mes",
+"last month" => "mes pasado",
 "%d months ago" => "Hace %d meses",
-"last year" => "este año",
+"last year" => "año pasado",
 "years ago" => "hace años",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s está disponible. Obtén <a href=\"%s\">más información</a>",
-"up to date" => "actualizado",
-"updates check is disabled" => "comprobar actualizaciones está desactivado",
 "Could not find category \"%s\"" => "No puede encontrar la categoria \"%s\""
 );

@@ -95,12 +95,12 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 
 			// setup the email
 			$subject = (string)$l->t('User %s shared a file with you', $displayName);
-			if ($type === 'dir')
+			if ($type === 'folder')
 				$subject = (string)$l->t('User %s shared a folder with you', $displayName);
 
 			$text = (string)$l->t('User %s shared the file "%s" with you. It is available for download here: %s',
 				array($displayName, $file, $link));
-			if ($type === 'dir')
+			if ($type === 'folder')
 				$text = (string)$l->t('User %s shared the folder "%s" with you. It is available for download here: %s',
 					array($displayName, $file, $link));
 
@@ -110,7 +110,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 
 			// send it out now
 			try {
-				OCP\Util::sendMail($to_address, $to_address, $subject, $text, $from_address, $user);
+				OCP\Util::sendMail($to_address, $to_address, $subject, $text, $from_address, $displayName);
 				OCP\JSON::success();
 			} catch (Exception $exception) {
 				OCP\JSON::error(array('data' => array('message' => OC_Util::sanitizeHTML($exception->getMessage()))));

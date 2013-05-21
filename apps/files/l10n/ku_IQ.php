@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Close" => "داخستن",
 "URL cannot be empty." => "ناونیشانی به‌سته‌ر نابێت به‌تاڵ بێت.",
+"Error" => "هه‌ڵه",
 "Name" => "ناو",
 "Upload" => "بارکردن",
 "Save" => "پاشکه‌وتکردن",

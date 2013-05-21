@@ -7,6 +7,7 @@
 "Take over settings from recent server configuration?" => "Vegyük át a beállításokat az előző konfigurációból?",
 "Keep settings?" => "Tartsuk meg a beállításokat?",
 "Cannot add server configuration" => "Az új  kiszolgáló konfigurációja nem hozható létre",
+"Error" => "Hiba",
 "Connection test succeeded" => "A kapcsolatellenőrzés eredménye: sikerült",
 "Connection test failed" => "A kapcsolatellenőrzés eredménye: nem sikerült",
 "Do you really want to delete the current Server Configuration?" => "Tényleg törölni szeretné a kiszolgáló beállításait?",

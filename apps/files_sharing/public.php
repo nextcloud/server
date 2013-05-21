@@ -3,6 +3,13 @@ $RUNTIME_NOSETUPFS = true;
 // Load other apps for file previews
 OC_App::loadApps();
 
+if (\OC_Appconfig::getValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
+	header('HTTP/1.0 404 Not Found');
+	$tmpl = new OCP\Template('', '404', 'guest');
+	$tmpl->printPage();
+	exit();
+}
+
 function fileCmp($a, $b) {
 	if ($a['type'] == 'dir' and $b['type'] != 'dir') {
 		return -1;
@@ -113,7 +120,13 @@ if (isset($path)) {
 	// Download the file
 	if (isset($_GET['download'])) {
 		if (isset($_GET['files'])) { // download selected files
-			OC_Files::get($path, $_GET['files'], $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
+			$files = urldecode($_GET['files']);
+			$files_list = json_decode($files);
+			// in case we get only a single file
+			if ($files_list === NULL ) {
+				$files_list = array($files);
+			}
+			OC_Files::get($path, $files_list, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
 		} else {
 			OC_Files::get($dir, $file, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
 		}

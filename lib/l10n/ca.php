@@ -18,7 +18,6 @@
 "Images" => "Imatges",
 "Set an admin username." => "Establiu un nom d'usuari per l'administrador.",
 "Set an admin password." => "Establiu una contrasenya per l'administrador.",
-"Specify a data folder." => "Especifiqueu una carpeta de dades.",
 "%s enter the database username." => "%s escriviu el nom d'usuari de la base de dades.",
 "%s enter the database name." => "%s escriviu el nom de la base de dades.",
 "%s you may not use dots in the database name" => "%s no podeu usar punts en el nom de la base de dades",
@@ -48,9 +47,6 @@
 "last month" => "el mes passat",
 "%d months ago" => "fa %d mesos",
 "last year" => "l'any passat",
-"years ago" => "fa anys",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s està disponible. Obtén <a href=\"%s\">més informació</a>",
-"up to date" => "actualitzat",
-"updates check is disabled" => "la comprovació d'actualitzacions està desactivada",
+"years ago" => "anys enrere",
 "Could not find category \"%s\"" => "No s'ha trobat la categoria \"%s\""
 );
