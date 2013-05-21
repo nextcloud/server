@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Kohteen %s siirto ei onnistunut - Tiedosto samalla nimellä on jo olemassa",
 "Could not move %s" => "Kohteen %s siirto ei onnistunut",
-"Unable to rename file" => "Tiedoston nimeäminen uudelleen ei onnistunut",
 "No file was uploaded. Unknown error" => "Tiedostoa ei lähetetty. Tuntematon virhe",
 "There is no error, the file uploaded with success" => "Ei virheitä, tiedosto lähetettiin onnistuneesti",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Lähetetyn tiedoston koko ylittää php.ini-tiedoston upload_max_filesize-säännön:",
@@ -43,6 +42,7 @@
 "{count} folders" => "{count} kansiota",
 "1 file" => "1 tiedosto",
 "{count} files" => "{count} tiedostoa",
+"Unable to rename file" => "Tiedoston nimeäminen uudelleen ei onnistunut",
 "Upload" => "Lähetä",
 "File handling" => "Tiedostonhallinta",
 "Maximum upload size" => "Lähetettävän tiedoston suurin sallittu koko",

@@ -5,6 +5,7 @@
 "Files" => "Files",
 "Share" => "Compartir",
 "Delete" => "Deler",
+"Error" => "Error",
 "Name" => "Nomine",
 "Size" => "Dimension",
 "Modified" => "Modificate",

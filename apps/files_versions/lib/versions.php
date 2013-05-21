@@ -184,11 +184,12 @@ class Storage {
 	/**
 	 * rollback to an old version of a file.
 	 */
-	public static function rollback($filename, $revision) {
+	public static function rollback($file, $revision) {
 
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-			list($uid, $filename) = self::getUidAndFilename($filename);
+			list($uid, $filename) = self::getUidAndFilename($file);
 			$users_view = new \OC\Files\View('/'.$uid);
+			$files_view = new \OC\Files\View('/'.\OCP\User::getUser().'/files');
 			$versionCreated = false;
 
 			//first create a new version
@@ -199,9 +200,9 @@ class Storage {
 			}
 
 			// rollback
-			if( @$users_view->copy('files_versions'.$filename.'.v'.$revision, 'files'.$filename) ) {
-				$users_view->touch('files'.$filename, $revision);
-				Storage::expire($filename);
+			if( @$users_view->rename('files_versions'.$filename.'.v'.$revision, 'files'.$filename) ) {
+				$files_view->touch($file, $revision);
+				Storage::expire($file);
 				return true;
 
 			}else if ( $versionCreated ) {

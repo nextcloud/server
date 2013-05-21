@@ -27,7 +27,7 @@
 "Saving..." => "Salvestamine...",
 "deleted" => "kustutatud",
 "undo" => "tagasi",
-"Unable to remove user" => "Ei suuda kustutada kasutajat eemaldada",
+"Unable to remove user" => "Kasutaja eemaldamine ebaõnnestus",
 "Groups" => "Grupid",
 "Group Admin" => "Grupi admin",
 "Delete" => "Kustuta",

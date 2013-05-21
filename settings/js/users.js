@@ -19,6 +19,10 @@ function setQuota (uid, quota, ready) {
 var UserList = {
 	useUndo: true,
 	availableGroups: [],
+	offset: 30, //The first 30 users are there. No prob, if less in total.
+				//hardcoded in settings/users.php
+
+	usersToLoad: 10, //So many users will be loaded when user scrolls down
 
 	/**
 	 * @brief Initiate user deletion process in UI
@@ -192,14 +196,17 @@ var UserList = {
 			return;
 		}
 		UserList.updating = true;
-		$.get(OC.Router.generate('settings_ajax_userlist', { offset: UserList.offset }), function (result) {
+		$.get(OC.Router.generate('settings_ajax_userlist', { offset: UserList.offset, limit: UserList.usersToLoad }), function (result) {
 			if (result.status === 'success') {
+				//The offset does not mirror the amount of users available,
+				//because it is backend-dependent. For correct retrieval,
+				//always the limit(requested amount of users) needs to be added.
+				UserList.offset += UserList.usersToLoad;
 				$.each(result.data, function (index, user) {
 					if($('tr[data-uid="' + user.name + '"]').length > 0) {
 						return true;
 					}
 					var tr = UserList.add(user.name, user.displayname, user.groups, user.subadmin, user.quota, false);
-					UserList.offset++;
 					if (index == 9) {
 						$(tr).bind('inview', function (event, isInView, visiblePartX, visiblePartY) {
 							$(this).unbind(event);
@@ -315,7 +322,6 @@ $(document).ready(function () {
 
 	UserList.doSort();
 	UserList.availableGroups = $('#content table').attr('data-groups').split(', ');
-	UserList.offset = $('tbody tr').length;
 	$('tbody tr:last').bind('inview', function (event, isInView, visiblePartX, visiblePartY) {
 		OC.Router.registerLoadedCallback(function () {
 			UserList.update();

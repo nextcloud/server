@@ -24,7 +24,7 @@ $languageCodes=OC_L10N::findAvailableLanguages();
 
 // array of common languages
 $commonlangcodes = array(
-	'en', 'es', 'fr', 'de', 'de_DE', 'ja_JP', 'nl', 'it', 'pt_BR', 'pt_PT', 'da', 'fi_FI', 'nb_NO', 'sv', 'zh_CN', 'ko'
+	'en', 'es', 'fr', 'de', 'de_DE', 'ja_JP', 'ar', 'ru', 'nl', 'it', 'pt_BR', 'pt_PT', 'da', 'fi_FI', 'nb_NO', 'sv', 'zh_CN', 'ko'
 );
 
 $languageNames=include 'languageCodes.php';
@@ -45,11 +45,13 @@ foreach($languageCodes as $lang) {
 	if ($lang === $userLang) {
 		$userLang = $ln;
 	} elseif (in_array($lang, $commonlangcodes)) {
-		$commonlanguages[]=$ln;
+		$commonlanguages[array_search($lang, $commonlangcodes)]=$ln;
 	} else {
 		$languages[]=$ln;
 	}
 }
+
+ksort($commonlanguages);
 
 // sort now by displayed language not the iso-code
 usort( $languages, function ($a, $b) {

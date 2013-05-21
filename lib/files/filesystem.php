@@ -199,7 +199,7 @@ class Filesystem {
 	 * @return Mount\Mount[]
 	 */
 	public static function getMountByNumericId($id) {
-		return self::$mounts->findByStorageId($id);
+		return self::$mounts->findByNumericId($id);
 	}
 
 	/**
@@ -222,7 +222,10 @@ class Filesystem {
 			return false;
 		}
 		self::$defaultInstance = new View($root);
-		self::$mounts = new Mount\Manager();
+
+		if(!self::$mounts) {
+			self::$mounts = new Mount\Manager();
+		}
 
 		//load custom mount config
 		self::initMountPoints($user);

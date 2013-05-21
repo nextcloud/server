@@ -9,7 +9,7 @@
 "Files need to be downloaded one by one." => "Failid tuleb alla laadida ükshaaval.",
 "Back to Files" => "Tagasi failide juurde",
 "Selected files too large to generate zip file." => "Valitud failid on ZIP-faili loomiseks liiga suured.",
-"couldn't be determined" => "Ei suuda tuvastada",
+"couldn't be determined" => "ei suudetud tuvastada",
 "Application is not enabled" => "Rakendus pole sisse lülitatud",
 "Authentication error" => "Autentimise viga",
 "Token expired. Please reload page." => "Kontrollkood aegus. Paelun lae leht uuesti.",

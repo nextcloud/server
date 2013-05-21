@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-28 01:57+0200\n"
-"PO-Revision-Date: 2013-04-27 23:57+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-16 01:58+0200\n"
+"PO-Revision-Date: 2013-05-15 08:40+0000\n"
+"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,25 +42,25 @@ msgstr "Rakendused"
 msgid "Admin"
 msgstr "Admin"
 
-#: files.php:209
+#: files.php:207
 msgid "ZIP download is turned off."
 msgstr "ZIP-ina allalaadimine on välja lülitatud."
 
-#: files.php:210
+#: files.php:208
 msgid "Files need to be downloaded one by one."
 msgstr "Failid tuleb alla laadida ükshaaval."
 
-#: files.php:211 files.php:244
+#: files.php:209 files.php:242
 msgid "Back to Files"
 msgstr "Tagasi failide juurde"
 
-#: files.php:241
+#: files.php:239
 msgid "Selected files too large to generate zip file."
 msgstr "Valitud failid on ZIP-faili loomiseks liiga suured."
 
 #: helper.php:228
 msgid "couldn't be determined"
-msgstr "Ei suuda tuvastada"
+msgstr "ei suudetud tuvastada"
 
 #: json.php:28
 msgid "Application is not enabled"
@@ -173,13 +173,13 @@ msgstr "Tõrkuv käsk oli: \"%s\", nimi: %s, parool: %s"
 msgid "MS SQL username and/or password not valid: %s"
 msgstr "MS SQL kasutajatunnus ja/või parool pole õiged: %s"
 
-#: setup.php:858
+#: setup.php:859
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Veebiserveri ei ole veel korralikult seadistatud võimaldamaks failide sünkroniseerimist, kuna WebDAV liides näib olevat mittetoimiv."
 
-#: setup.php:859
+#: setup.php:860
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Palun tutvu veelkord <a href='%s'>paigalduse juhenditega</a>."

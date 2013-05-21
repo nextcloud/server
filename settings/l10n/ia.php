@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Language changed" => "Linguage cambiate",
 "Invalid request" => "Requesta invalide",
+"Error" => "Error",
 "Groups" => "Gruppos",
 "Delete" => "Deler",
 "__language_name__" => "Interlingua",

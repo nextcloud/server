@@ -325,6 +325,37 @@ class OC_VCategories {
 	}
 
 	/**
+	* @brief Rename category.
+	* @param string $from The name of the existing category
+	* @param string $to The new name of the category.
+	* @returns bool
+	*/
+	public function rename($from, $to) {
+		$id = $this->array_searchi($from, $this->categories);
+		if($id === false) {
+			OCP\Util::writeLog('core', __METHOD__.', category: ' . $from. ' does not exist', OCP\Util::DEBUG);
+			return false;
+		}
+
+		$sql = 'UPDATE `' . self::CATEGORY_TABLE . '` SET `category` = ? '
+			. 'WHERE `uid` = ? AND `type` = ? AND `id` = ?';
+		try {
+			$stmt = OCP\DB::prepare($sql);
+			$result = $stmt->execute(array($to, $this->user, $this->type, $id));
+			if (OC_DB::isError($result)) {
+				OC_Log::write('core', __METHOD__. 'DB error: ' . OC_DB::getErrorMessage($result), OC_Log::ERROR);
+				return false;
+			}
+		} catch(Exception $e) {
+			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
+				OCP\Util::ERROR);
+			return false;
+		}
+		$this->categories[$id] = $to;
+		return true;
+	}
+
+	/**
 	* @brief Add a new category.
 	* @param $names A string with a name or an array of strings containing
 	* the name(s) of the categor(y|ies) to add.

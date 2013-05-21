@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s কে স্থানান্তর করা সম্ভব হলো না -  এই নামের ফাইল বিদ্যমান",
 "Could not move %s" => "%s  কে স্থানান্তর করা সম্ভব হলো না",
-"Unable to rename file" => "ফাইলের নাম পরিবর্তন করা সম্ভব হলো না",
 "No file was uploaded. Unknown error" => "কোন ফাইল আপলোড করা হয় নি। সমস্যার কারণটি অজ্ঞাত।",
 "There is no error, the file uploaded with success" => "কোন সমস্যা হয় নি, ফাইল আপলোড সুসম্পন্ন হয়েছে।",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "আপলোড করা  ফাইলটি php.ini তে বর্ণিত  upload_max_filesize নির্দেশিত আয়তন অতিক্রম করছেঃ",
@@ -40,6 +39,7 @@
 "{count} folders" => "{count} টি ফোল্ডার",
 "1 file" => "১টি ফাইল",
 "{count} files" => "{count} টি ফাইল",
+"Unable to rename file" => "ফাইলের নাম পরিবর্তন করা সম্ভব হলো না",
 "Upload" => "আপলোড",
 "File handling" => "ফাইল হ্যার্ডলিং",
 "Maximum upload size" => "আপলোডের সর্বোচ্চ আকার",

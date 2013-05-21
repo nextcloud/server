@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Methwyd symud %s - Mae ffeil gyda'r enw hwn eisoes yn bodoli",
 "Could not move %s" => "Methwyd symud %s",
-"Unable to rename file" => "Methu ailenwi ffeil",
 "No file was uploaded. Unknown error" => "Ni lwythwyd ffeil i fyny. Gwall anhysbys.",
 "There is no error, the file uploaded with success" => "Does dim gwall, llwythodd y ffeil i fyny'n llwyddiannus",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Mae'r ffeil lwythwyd i fyny'n fwy na chyfarwyddeb upload_max_filesize yn php.ini:",
@@ -47,6 +46,7 @@
 "{count} folders" => "{count} plygell",
 "1 file" => "1 ffeil",
 "{count} files" => "{count} ffeil",
+"Unable to rename file" => "Methu ailenwi ffeil",
 "Upload" => "Llwytho i fyny",
 "File handling" => "Trafod ffeiliau",
 "Maximum upload size" => "Maint mwyaf llwytho i fyny",
