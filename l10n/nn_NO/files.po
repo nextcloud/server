@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-18 01:58+0200\n"
-"PO-Revision-Date: 2013-05-17 10:18+0000\n"
+"POT-Creation-Date: 2013-05-21 02:00+0200\n"
+"PO-Revision-Date: 2013-05-20 13:00+0000\n"
 "Last-Translator: unhammer <unhammer+dill@mm.st>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -219,7 +219,7 @@ msgstr "{count} filer"
 
 #: lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
-msgstr ""
+msgstr "Ugyldig mappenamn. Mappa «Shared» er reservert av ownCloud"
 
 #: lib/app.php:73
 msgid "Unable to rename file"

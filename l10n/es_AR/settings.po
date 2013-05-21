@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-18 01:58+0200\n"
-"PO-Revision-Date: 2013-05-17 10:19+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-20 02:05+0200\n"
+"PO-Revision-Date: 2013-05-19 23:30+0000\n"
+"Last-Translator: Agustin Ferrario <agustin.ferrario@hotmail.com.ar>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +29,7 @@ msgstr "Error al autenticar"
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
-msgstr ""
+msgstr "El nombre mostrado fue cambiado"
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change display name"

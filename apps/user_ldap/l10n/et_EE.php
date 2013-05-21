@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Failed to clear the mappings." => "Vastendususte puhastamine ebaõnnestus.",
 "Failed to delete the server configuration" => "Serveri seadistuse kustutamine ebaõnnestus",
 "The configuration is valid and the connection could be established!" => "Seadistus on korrektne ning ühendus on olemas!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Seadistus on korrektne, kuid ühendus ebaõnnestus. Palun kontrolli serveri seadeid ja ühenduseks kasutatavaid kasutajatunnuseid.",
@@ -7,6 +8,7 @@
 "Take over settings from recent server configuration?" => "Võta sätted viimasest serveri seadistusest?",
 "Keep settings?" => "Säilitada seadistused?",
 "Cannot add server configuration" => "Ei suuda lisada serveri seadistust",
+"mappings cleared" => "vastendused puhastatud",
 "Success" => "Korras",
 "Error" => "Viga",
 "Connection test succeeded" => "Ühenduse testimine õnnestus",
@@ -72,6 +74,16 @@
 "Email Field" => "Email atribuut",
 "User Home Folder Naming Rule" => "Kasutaja kodukataloogi nimetamise reegel",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Kasutajanime (vaikeväärtus) kasutamiseks jäta tühjaks. Vastasel juhul määra LDAP/AD omadus.",
+"Internal Username" => "Sisemine kasutajanimi",
+"By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder in ownCloud. It is also a port of remote URLs, for instance for all *DAV services. With this setting, the default behaviour can be overriden. To achieve a similar behaviour as before ownCloud 5 enter the user display name attribute in the following field. Leave it empty for default behaviour. Changes will have effect only on newly mapped (added) LDAP users." => "Vaikimisi tekitatakse sisemine kasutajanimi UUID atribuudist. See tagab, et kasutajanimi on unikaalne ja sümboleid pole vaja muuta. Sisemisel kasutajatunnuse puhul on lubatud ainult järgmised sümbolid: [ a-zA-Z0-9_.@- ]. Muud sümbolid asendatakse nende ASCII vastega või lihtsalt hüljatakse. Tõrgete korral lisatakse number või suurendatakse seda. Sisemist kasutajatunnust kasutatakse kasutaja sisemiseks tuvastamiseks. Ühtlasi on see ownCloudis kasutaja vaikimisi kodukataloogi nimeks. See on ka serveri URL pordiks, näiteks kõikidel *DAV teenustel.Selle seadistusega saab tühistada vaikimisi käitumise. Saavutamaks sarnast käitumist eelnevate ownCloud 5 versioonidega, sisesta kasutaja kuvatava nime atribuut järgnevale väljale. Vaikimisi seadistuseks jäta tühjaks. Muudatused mõjutavad ainult uusi LDAP kasutajate vastendusi (lisatud).",
+"Internal Username Attribute:" => "Sisemise kasutajatunnuse atribuut:",
+"Override UUID detection" => "Tühista UUID tuvastus",
+"By default, ownCloud autodetects the UUID attribute. The UUID attribute is used to doubtlessly identify LDAP users and groups. Also, the internal username will be created based on the UUID, if not specified otherwise above. You can override the setting and pass an attribute of your choice. You must make sure that the attribute of your choice can be fetched for both users and groups and it is unique. Leave it empty for default behaviour. Changes will have effect only on newly mapped (added) LDAP users and groups." => "Vaikimis ownCloud tuvastab automaatlselt UUID atribuudi. UUID atribuuti kasutatakse LDAP kasutajate ja gruppide kindlaks tuvastamiseks. Samuti tekitatakse sisemine kasutajanimi UUID alusel, kui pole määratud teisiti. Sa saad tühistada selle seadistuse ning määrata atribuudi omal valikul. Pead veenduma, et valitud atribuut toimib nii kasutajate kui gruppide puhul ning on unikaalne. Vaikimisi seadistuseks jäta tühjaks. Muudatused mõjutavad ainult uusi LDAP kasutajate vastendusi (lisatud).",
+"UUID Attribute:" => "UUID atribuut:",
+"Username-LDAP User Mapping" => "LDAP-Kasutajatunnus Kasutaja Vastendus",
+"ownCloud uses usernames to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have a internal username. This requires a mapping from ownCloud username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found by ownCloud. The internal ownCloud name is used all over in ownCloud. Clearing the Mappings will have leftovers everywhere. Clearing the Mappings is not configuration sensitive, it affects all LDAP configurations! Do never clear the mappings in a production environment. Only clear mappings in a testing or experimental stage." => "ownCloud kasutab kasutajanime talletamaks ja omistamaks (pseudo) andmeid. Et täpselt tuvastada ja määratleda kasutajaid, iga LDAP kasutaja peab omama sisemist kasutajatunnust. See vajab ownCloud kasutajatunnuse vastendust LDAP kasutajaks. Tekitatud kasutanimi vastendatakse LDAP kasutaja UUID-iks. Lisaks puhverdatakse DN vähendamaks LDAP päringuid, kuid seda ei kasutata tuvastamisel. ownCloud suudab tuvastada ka DN muutumise. ownCloud sisemist kasutajatunnust kasutatakse üle kogu ownCloudi. Eemaldates vastenduse tekivad kõikjal andmejäägid. Vastenduste eemaldamine ei ole konfiguratsiooni tundlik, see mõjutab kõiki LDAP seadistusi! Ära kunagi eemalda vastendusi produktsioonis! Seda võid teha ainult testis või katsetuste masinas.",
+"Clear Username-LDAP User Mapping" => "Puhasta LDAP-Kasutajatunnus Kasutaja Vastendus",
+"Clear Groupname-LDAP Group Mapping" => "Puhasta LDAP-Grupinimi Grupp Vastendus",
 "Test Configuration" => "Testi seadistust",
 "Help" => "Abiinfo"
 );
