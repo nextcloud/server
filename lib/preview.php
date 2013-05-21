@@ -15,6 +15,7 @@ require_once('preview/images.php');
 require_once('preview/movies.php');
 require_once('preview/mp3.php');
 require_once('preview/pdf.php');
+require_once('preview/svg.php');
 require_once('preview/unknown.php');
 
 class OC_Preview {
