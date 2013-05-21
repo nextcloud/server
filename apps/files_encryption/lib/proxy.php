@@ -465,28 +465,36 @@ class Proxy extends \OC_FileProxy
 			return $size;
 		}
 
-		// get file info from database/cache
-		$fileInfo = \OC\Files\Filesystem::getFileInfo($path_f);
+		$fileInfo = false;
+		// get file info from database/cache if not .part file
+		if(!Keymanager::isPartialFilePath($path)) {
+			$fileInfo = $view->getFileInfo($path);
+		}
 
 		// if file is encrypted return real file size
 		if (is_array($fileInfo) && $fileInfo['encrypted'] === true) {
 			$size = $fileInfo['unencrypted_size'];
 		} else {
 			// self healing if file was removed from file cache
-			if (is_array($fileInfo)) {
-				$userId = \OCP\User::getUser();
-				$util = new Util($view, $userId);
-				$fixSize = $util->getFileSize($path);
-				if ($fixSize > 0) {
-					$size = $fixSize;
+			if (!is_array($fileInfo)) {
+				$fileInfo = array();
+			}
 
-					$fileInfo['encrypted'] = true;
-					$fileInfo['unencrypted_size'] = $size;
+			$userId = \OCP\User::getUser();
+			$util = new Util($view, $userId);
+			$fixSize = $util->getFileSize($path);
+			if ($fixSize > 0) {
+				$size = $fixSize;
 
-					// put file info
+				$fileInfo['encrypted'] = true;
+				$fileInfo['unencrypted_size'] = $size;
+
+				// put file info if not .part file
+				if(!Keymanager::isPartialFilePath($path_f)) {
 					$view->putFileInfo($path, $fileInfo);
 				}
 			}
+
 		}
 		return $size;
 	}
