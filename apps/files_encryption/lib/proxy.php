@@ -484,7 +484,7 @@ class Proxy extends \OC_FileProxy
 					$fileInfo['unencrypted_size'] = $size;
 
 					// put file info
-					$view->putFileInfo($path_f, $fileInfo);
+					$view->putFileInfo($path, $fileInfo);
 				}
 			}
 		}
