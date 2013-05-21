@@ -107,7 +107,7 @@ class Cache {
 			$params = array($file);
 		}
 		$query = \OC_DB::prepare(
-			'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `unencrypted_size`, `etag`
+			'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `storage_mtime`, `encrypted`, `unencrypted_size`, `etag`
 			 FROM `*PREFIX*filecache` ' . $where);
 		$result = $query->execute($params);
 		$data = $result->fetchRow();
@@ -127,6 +127,9 @@ class Cache {
 			$data['storage'] = $this->storageId;
 			$data['mimetype'] = $this->getMimetype($data['mimetype']);
 			$data['mimepart'] = $this->getMimetype($data['mimepart']);
+			if ($data['storage_mtime'] == 0) {
+				$data['storage_mtime'] = $data['mtime'];
+			}
 		}
 
 		return $data;
@@ -142,13 +145,16 @@ class Cache {
 		$fileId = $this->getId($folder);
 		if ($fileId > -1) {
 			$query = \OC_DB::prepare(
-				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `unencrypted_size`, `etag`
+				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `storage_mtime`, `encrypted`, `unencrypted_size`, `etag`
 			 	 FROM `*PREFIX*filecache` WHERE parent = ? ORDER BY `name` ASC');
 			$result = $query->execute(array($fileId));
 			$files = $result->fetchAll();
 			foreach ($files as &$file) {
 				$file['mimetype'] = $this->getMimetype($file['mimetype']);
 				$file['mimepart'] = $this->getMimetype($file['mimepart']);
+				if ($file['storage_mtime'] == 0) {
+					$file['storage_mtime'] = $file['mtime'];
+				}
 			}
 			return $files;
 		} else {
@@ -225,7 +231,7 @@ class Cache {
 	 * @return array
 	 */
 	function buildParts(array $data) {
-		$fields = array('path', 'parent', 'name', 'mimetype', 'size', 'mtime', 'encrypted', 'unencrypted_size', 'etag');
+		$fields = array('path', 'parent', 'name', 'mimetype', 'size', 'mtime', 'storage_mtime', 'encrypted', 'unencrypted_size', 'etag');
 		$params = array();
 		$queryParts = array();
 		foreach ($data as $name => $value) {
@@ -237,6 +243,11 @@ class Cache {
 					$params[] = $this->getMimetypeId(substr($value, 0, strpos($value, '/')));
 					$queryParts[] = '`mimepart`';
 					$value = $this->getMimetypeId($value);
+				} elseif ($name === 'storage_mtime') {
+					if (!isset($data['mtime'])) {
+						$params[] = $value;
+						$queryParts[] = '`mtime`';
+					}
 				}
 				$params[] = $value;
 				$queryParts[] = '`' . $name . '`';
