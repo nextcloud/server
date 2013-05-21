@@ -557,15 +557,6 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
 
 	function testRecoveryFile()
 	{
-		// disable encryption proxy to prevent recursive calls
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = false;
-
-		$this->view->unlink('/owncloud_private_key');
-		$this->view->unlink('/public-keys');
-
-		\OC_FileProxy::$enabled = $proxyStatus;
-
 		\OCA\Encryption\Helper::adminEnableRecovery(null, 'test123');
 		$recoveryKeyId = OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
 
