@@ -51,6 +51,7 @@ class Scanner {
 			$data['size'] = $this->storage->filesize($path);
 		}
 		$data['etag'] = $this->storage->getETag($path);
+		$data['storage_mtime'] = $data['mtime'];
 		return $data;
 	}
 
