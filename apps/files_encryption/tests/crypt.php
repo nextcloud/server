@@ -432,29 +432,6 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase
 		$this->view->unlink($this->userId . '/files/' . $filename);
 	}
 
-	// Is this test still necessary?
-// 	function testSymmetricBlockStreamDecryptFileContent() {
-// 	
-// 		\OC_User::setUserId( 'admin' );
-// 		
-// 		// Disable encryption proxy to prevent unwanted en/decryption
-// 		\OC_FileProxy::$enabled = false;
-// 		
-// 		$cryptedFile = file_put_contents( 'crypt://' . '/blockEncrypt', $this->dataUrl );
-// 		
-// 		// Disable encryption proxy to prevent unwanted en/decryption
-// 		\OC_FileProxy::$enabled = false;
-// 		
-// 		echo "\n\n\$cryptedFile = " . $this->view->file_get_contents( '/blockEncrypt' );
-// 		
-// 		$retreivedCryptedFile = file_get_contents( 'crypt://' . '/blockEncrypt' );
-// 		
-// 		$this->assertEquals( $this->dataUrl, $retreivedCryptedFile );
-// 		
-// 		\OC_FileProxy::$enabled = false;
-// 		
-// 	}
-
 	function testSymmetricEncryptFileContentKeyfile()
 	{
 
@@ -585,6 +562,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals($this->dataLong, $decrypted);
 
+		$this->assertFalse(Encryption\Crypt::getBlowfish(''));
 	}
 
 	/**
@@ -852,69 +830,4 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase
 		// tear down
 		$view->unlink($filename);
 	}
-
-// 	function testEncryption(){
-// 	
-// 		$key=uniqid();
-// 		$file=OC::$SERVERROOT.'/3rdparty/MDB2.php';
-// 		$source=file_get_contents($file); //nice large text file
-// 		$encrypted=OC_Encryption\Crypt::encrypt($source,$key);
-// 		$decrypted=OC_Encryption\Crypt::decrypt($encrypted,$key);
-// 		$decrypted=rtrim($decrypted, "\0");
-// 		$this->assertNotEquals($encrypted,$source);
-// 		$this->assertEquals($decrypted,$source);
-// 
-// 		$chunk=substr($source,0,8192);
-// 		$encrypted=OC_Encryption\Crypt::encrypt($chunk,$key);
-// 		$this->assertEquals(strlen($chunk),strlen($encrypted));
-// 		$decrypted=OC_Encryption\Crypt::decrypt($encrypted,$key);
-// 		$decrypted=rtrim($decrypted, "\0");
-// 		$this->assertEquals($decrypted,$chunk);
-// 		
-// 		$encrypted=OC_Encryption\Crypt::blockEncrypt($source,$key);
-// 		$decrypted=OC_Encryption\Crypt::blockDecrypt($encrypted,$key);
-// 		$this->assertNotEquals($encrypted,$source);
-// 		$this->assertEquals($decrypted,$source);
-// 
-// 		$tmpFileEncrypted=OCP\Files::tmpFile();
-// 		OC_Encryption\Crypt::encryptfile($file,$tmpFileEncrypted,$key);
-// 		$encrypted=file_get_contents($tmpFileEncrypted);
-// 		$decrypted=OC_Encryption\Crypt::blockDecrypt($encrypted,$key);
-// 		$this->assertNotEquals($encrypted,$source);
-// 		$this->assertEquals($decrypted,$source);
-// 
-// 		$tmpFileDecrypted=OCP\Files::tmpFile();
-// 		OC_Encryption\Crypt::decryptfile($tmpFileEncrypted,$tmpFileDecrypted,$key);
-// 		$decrypted=file_get_contents($tmpFileDecrypted);
-// 		$this->assertEquals($decrypted,$source);
-// 
-// 		$file=OC::$SERVERROOT.'/core/img/weather-clear.png';
-// 		$source=file_get_contents($file); //binary file
-// 		$encrypted=OC_Encryption\Crypt::encrypt($source,$key);
-// 		$decrypted=OC_Encryption\Crypt::decrypt($encrypted,$key);
-// 		$decrypted=rtrim($decrypted, "\0");
-// 		$this->assertEquals($decrypted,$source);
-// 
-// 		$encrypted=OC_Encryption\Crypt::blockEncrypt($source,$key);
-// 		$decrypted=OC_Encryption\Crypt::blockDecrypt($encrypted,$key);
-// 		$this->assertEquals($decrypted,$source);
-// 
-// 	}
-// 
-// 	function testBinary(){
-// 		$key=uniqid();
-// 	
-// 		$file=__DIR__.'/binary';
-// 		$source=file_get_contents($file); //binary file
-// 		$encrypted=OC_Encryption\Crypt::encrypt($source,$key);
-// 		$decrypted=OC_Encryption\Crypt::decrypt($encrypted,$key);
-// 
-// 		$decrypted=rtrim($decrypted, "\0");
-// 		$this->assertEquals($decrypted,$source);
-// 
-// 		$encrypted=OC_Encryption\Crypt::blockEncrypt($source,$key);
-// 		$decrypted=OC_Encryption\Crypt::blockDecrypt($encrypted,$key,strlen($source));
-// 		$this->assertEquals($decrypted,$source);
-// 	}
-
 }

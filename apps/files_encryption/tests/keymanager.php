@@ -31,6 +31,7 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase
 	 */
 	public $view;
 	public $randomKey;
+	public $dataShort;
 
 	function setUp()
 	{
@@ -150,33 +151,17 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase
 		//$view = new \OC_FilesystemView( '/' . $this->userId . '/files_encryption/keyfiles' );
 		Encryption\Keymanager::setFileKey($this->view, $file, $this->userId, $key['key']);
 
-		// Disable encryption proxy to prevent recursive calls
+		// enable encryption proxy
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = true;
 
 		// cleanup
 		$this->view->unlink('/' . $this->userId . '/files/' . $file);
 
-		// Re-enable proxy - our work is done
+		// change encryption proxy to previous state
 		\OC_FileProxy::$enabled = $proxyStatus;
 
 	}
-
-// 	/**
-// 	 * @depends testGetPrivateKey
-// 	 */
-// 	function testGetPrivateKey_decrypt() {
-// 	
-// 		$key = Encryption\Keymanager::getPrivateKey( $this->view, $this->userId );
-// 		
-// 		# TODO: replace call to Crypt with a mock object?
-// 		$decrypted = Encryption\Crypt::symmetricDecryptFileContent( $key, $this->passphrase );
-// 		
-// 		$this->assertEquals( 1704, strlen( $decrypted ) );
-// 		
-// 		$this->assertEquals( '-----BEGIN PRIVATE KEY-----', substr( $decrypted, 0, 27 ) );
-// 	
-// 	}
 
 	function testGetUserKeys()
 	{
@@ -200,5 +185,61 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase
 		$sslInfoPrivate = openssl_pkey_get_details($resPrivate);
 
 		$this->assertArrayHasKey('key', $sslInfoPrivate);
+	}
+
+	function testFixPartialFilePath()
+	{
+
+		$partFilename = 'testfile.txt.part';
+		$filename = 'testfile.txt';
+
+		$this->assertTrue(Encryption\Keymanager::isPartialFilePath($partFilename));
+
+		$this->assertEquals('testfile.txt', Encryption\Keymanager::fixPartialFilePath($partFilename));
+
+		$this->assertFalse(Encryption\Keymanager::isPartialFilePath($filename));
+
+		$this->assertEquals('testfile.txt', Encryption\Keymanager::fixPartialFilePath($filename));
+	}
+
+	function testRecursiveDelShareKeys()
+	{
+
+		// generate filename
+		$filename = '/tmp-' . time() . '.txt';
+
+		// create folder structure
+		$this->view->mkdir('/admin/files/folder1');
+		$this->view->mkdir('/admin/files/folder1/subfolder');
+		$this->view->mkdir('/admin/files/folder1/subfolder/subsubfolder');
+
+		// enable encryption proxy
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = true;
+
+		// save file with content
+		$cryptedFile = file_put_contents('crypt:///folder1/subfolder/subsubfolder/' . $filename, $this->dataShort);
+
+		// test that data was successfully written
+		$this->assertTrue(is_int($cryptedFile));
+
+		// change encryption proxy to previous state
+		\OC_FileProxy::$enabled = $proxyStatus;
+
+		// recursive delete keys
+		Encryption\Keymanager::delShareKey($this->view, array('admin'), '/folder1/');
+
+		// check if share key not exists
+		$this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys/folder1/subfolder/subsubfolder/' . $filename . '.admin.shareKey'));
+
+		// enable encryption proxy
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = true;
+
+		// cleanup
+		$this->view->unlink('/admin/files/folder1');
+
+		// change encryption proxy to previous state
+		\OC_FileProxy::$enabled = $proxyStatus;
 	}
 }

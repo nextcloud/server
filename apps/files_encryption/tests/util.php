@@ -217,4 +217,61 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals($file, $filename);
 	}
+
+	function testIsSharedPath() {
+		$sharedPath = '/user1/files/Shared/test';
+		$path = '/user1/files/test';
+
+		$this->assertTrue($this->util->isSharedPath($sharedPath));
+
+		$this->assertFalse($this->util->isSharedPath($path));
+	}
+
+	function testEncryptLagacyFiles()
+	{
+		$userView = new \OC_FilesystemView( '/' . $this->userId);
+		$view = new \OC_FilesystemView( '/' . $this->userId . '/files' );
+
+		// Disable encryption proxy to prevent recursive calls
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
+
+		$encryptionKeyContent = file_get_contents($this->legacyEncryptedDataKey);
+		$userView->file_put_contents('/encryption.key', $encryptionKeyContent);
+
+		$legacyEncryptedData = file_get_contents($this->legacyEncryptedData);
+		$view->mkdir('/test/');
+		$view->mkdir('/test/subtest/');
+		$view->file_put_contents('/test/subtest/legacy-encrypted-text.txt', $legacyEncryptedData);
+
+		$fileInfo = $view->getFileInfo('/test/subtest/legacy-encrypted-text.txt');
+		$fileInfo['encrypted'] = true;
+		$view->putFileInfo('/test/subtest/legacy-encrypted-text.txt', $fileInfo);
+
+		\OC_FileProxy::$enabled = $proxyStatus;
+
+		$params['uid'] = $this->userId;
+		$params['password'] = $this->pass;
+
+		$util = new Encryption\Util($this->view, $this->userId);
+		$util->setMigrationStatus(0);
+
+		$this->assertTrue(OCA\Encryption\Hooks::login($params));
+
+		$this->assertEquals($this->lagacyKey, $_SESSION['legacyKey']);
+
+		$files = $util->findEncFiles('/' . $this->userId . '/files/');
+
+		$this->assertTrue(is_array($files));
+
+		$found = false;
+		foreach($files['encrypted'] as $encryptedFile) {
+			if($encryptedFile['name'] === 'legacy-encrypted-text.txt') {
+				$found = true;
+				break;
+			}
+		}
+
+		$this->assertTrue($found);
+	}
 }

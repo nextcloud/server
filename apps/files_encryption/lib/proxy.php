@@ -361,24 +361,6 @@ class Proxy extends \OC_FileProxy
 
 	/**
 	 * @param $path
-	 * @param $mime
-	 * @return string
-	 */
-	public function postGetMimeType($path, $mime)
-	{
-
-		if (Crypt::isCatfileContent($path)) {
-
-			$mime = \OCP\Files::getMimeType('crypt://' . $path, 'w');
-
-		}
-
-		return $mime;
-
-	}
-
-	/**
-	 * @param $path
 	 * @param $data
 	 * @return array
 	 */
@@ -397,43 +379,6 @@ class Proxy extends \OC_FileProxy
 
 			// Re-enable the proxy
 			\OC_FileProxy::$enabled = $proxyStatus;
-		}
-
-		return $data;
-	}
-
-	/**
-	 * @param $path
-	 * @param $data
-	 * @return mixed
-	 */
-	public function postStat($path, $data)
-	{
-		$content = '';
-		$view = new \OC_FilesystemView('/');
-		if($view->file_exists($path)) {
-			// disable encryption proxy
-			$proxyStatus = \OC_FileProxy::$enabled;
-			\OC_FileProxy::$enabled = false;
-
-			// we only need 24 byte from the last chunk
-			$handle = $view->fopen($path, 'r');
-			if (!fseek($handle, -24, SEEK_END)) {
-				$content = fgets($handle);
-			}
-
-			// re-enable proxy
-			\OC_FileProxy::$enabled = $proxyStatus;
-		}
-
-		// check if file is encrypted
-		if (Crypt::isCatfileContent($content)) {
-
-			// get file info from cache
-			$cached = $view->getFileInfo($path);
-
-			// set the real file size
-			$data['size'] = $cached['unencrypted_size'];
 		}
 
 		return $data;

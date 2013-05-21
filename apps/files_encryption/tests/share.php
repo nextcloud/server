@@ -312,7 +312,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
 			$this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys' . $this->folder1 . $this->subfolder . $this->subsubfolder . '/' . $this->filename . '.user1.shareKey'));
 
 			// cleanup
-			$this->view->unlink('/admin/files' . $this->folder1 . $this->subfolder . $this->subsubfolder . '/' . $this->filename);
+			$this->view->unlink('/admin/files' . $this->folder1);
 
 			// check if share key not exists
 			$this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys' . $this->folder1 . $this->subfolder . $this->subsubfolder . '/' . $this->filename . '.admin.shareKey'));
@@ -621,7 +621,8 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
 		$this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys/' . $this->filename . '.' . $recoveryKeyId . '.shareKey'));
 		$this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys/' . $this->folder1 . $this->subfolder . $this->subsubfolder . '/' . $this->filename . '.' . $recoveryKeyId . '.shareKey'));
 
-		\OCA\Encryption\Helper::adminDisableRecovery('test123');
+		$this->assertTrue(\OCA\Encryption\Helper::adminEnableRecovery(null, 'test123'));
+		$this->assertTrue(\OCA\Encryption\Helper::adminDisableRecovery('test123'));
 		$this->assertEquals(0, \OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled'));
 	}
 
