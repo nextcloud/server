@@ -833,5 +833,14 @@ class Trashbin {
 		}
 		$query->execute(array($size, $user));
 	}
-	
+
+	/**
+	 * register hooks
+	 */
+	public static function registerHooks() {
+		//Listen to delete file signal
+		\OCP\Util::connectHook('OC_Filesystem', 'delete', "OCA\Files_Trashbin\Hooks", "remove_hook");
+		//Listen to delete user signal
+		\OCP\Util::connectHook('OC_User', 'pre_deleteUser', "OCA\Files_Trashbin\Hooks", "deleteUser_hook");
+	}
 }
