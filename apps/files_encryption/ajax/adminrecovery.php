@@ -22,6 +22,7 @@ $recoveryKeyId = OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
 if (isset($_POST['adminEnableRecovery']) && $_POST['adminEnableRecovery'] == 1){
 
 	$return = \OCA\Encryption\Helper::adminEnableRecovery($recoveryKeyId, $_POST['recoveryPassword']);
+	$action = "enable";
 
 // Disable recoveryAdmin
 } elseif (
@@ -29,7 +30,12 @@ if (isset($_POST['adminEnableRecovery']) && $_POST['adminEnableRecovery'] == 1){
 	&& 0 == $_POST['adminEnableRecovery']
 ) {
 	$return = \OCA\Encryption\Helper::adminDisableRecovery($_POST['recoveryPassword']);
+	$action = "disable";
 }
 
 // Return success or failure
-( $return ) ? \OCP\JSON::success() : \OCP\JSON::error();
+if ($return) {
+	\OCP\JSON::success(array("data" => array( "message" => 'Recovery key successfully ' . $action.'d')));
+} else {
+	\OCP\JSON::error(array("data" => array( "message" => 'Could not '.$action.' recovery key. Please check your recovery key password!')));
+}
