@@ -706,13 +706,16 @@ class Util
 				// NOTE: Stream{} will be invoked for handling 
 				// the encryption, and should handle all keys 
 				// and their generation etc. automatically
-				$size = stream_copy_to_stream($plainHandle2, $encHandle);
+				stream_copy_to_stream($plainHandle2, $encHandle);
+
+				// get file size
+				$size = $this->view->filesize($rawPath . '.plaintmp');
 
 				// Delete temporary plain copy of file
 				$this->view->unlink($rawPath . '.plaintmp');
 
 				// Add the file to the cache
-				\OC\Files\Filesystem::putFileInfo($plainFile['path'], array('encrypted' => true, 'size' => $size), '');
+				\OC\Files\Filesystem::putFileInfo($plainFile['path'], array('encrypted' => true, 'size' => $size, 'unencrypted_size' => $size));
 			}
 
 			// Encrypt legacy encrypted files
