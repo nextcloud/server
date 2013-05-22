@@ -145,8 +145,11 @@ class Cache {
 		if ($fileId > -1) {
 			$query = \OC_DB::prepare(
 				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `storage_mtime`, `encrypted`, `etag`
-			 	 FROM `*PREFIX*filecache` WHERE parent = ? ORDER BY `name` ASC');
+				 FROM `*PREFIX*filecache` WHERE `parent` = ? ORDER BY `name` ASC');
 			$result = $query->execute(array($fileId));
+			if (\OC_DB::isError($result)) {
+				\OCP\Util::writeLog('cache', 'getFolderContents failed: ' . $result->getMessage(), \OCP\Util::ERROR);
+			}
 			$files = $result->fetchAll();
 			foreach ($files as &$file) {
 				$file['mimetype'] = $this->getMimetype($file['mimetype']);
@@ -201,7 +204,7 @@ class Cache {
 				. ' VALUES(' . implode(', ', $valuesPlaceholder) . ')');
 			$result = $query->execute($params);
 			if (\OC_DB::isError($result)) {
-				\OCP\Util::writeLog('cache', 'Insert to cache failed: ' . $result, \OCP\Util::ERROR);
+				\OCP\Util::writeLog('cache', 'Insert to cache failed: ' . $result->getMessage(), \OCP\Util::ERROR);
 			}
 
 			return (int)\OC_DB::insertid('*PREFIX*filecache');
@@ -372,6 +375,9 @@ class Cache {
 		$pathHash = md5($file);
 		$query = \OC_DB::prepare('SELECT `size` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?');
 		$result = $query->execute(array($this->getNumericStorageId(), $pathHash));
+		if( \OC_DB::isError($result)) {
+			\OCP\Util::writeLog('cache', 'get status failed: ' . $result->getMessage(), \OCP\Util::ERROR);
+		}
 		if ($row = $result->fetchRow()) {
 			if ((int)$row['size'] === -1) {
 				return self::SHALLOW;
@@ -509,8 +515,11 @@ class Cache {
 	 */
 	public function getIncomplete() {
 		$query = \OC_DB::prepare('SELECT `path` FROM `*PREFIX*filecache`'
-			. ' WHERE `storage` = ? AND `size` = -1 ORDER BY `fileid` DESC LIMIT 1');
+			. ' WHERE `storage` = ? AND `size` = -1 ORDER BY `fileid` DESC',1);
 		$result = $query->execute(array($this->getNumericStorageId()));
+		if (\OC_DB::isError($result)) {
+			\OCP\Util::writeLog('cache', 'getIncomplete failed: ' . $result->getMessage(), \OCP\Util::ERROR);
+		}
 		if ($row = $result->fetchRow()) {
 			return $row['path'];
 		} else {
