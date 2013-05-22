@@ -13,9 +13,11 @@ class OC_Preview_Unknown extends OC_Preview_Provider{
 	}
 
 	public function getThumbnail($path, $maxX, $maxY, $scalingup,$fileview) {
-
-
-		$mimetype = $this->fileview->getMimeType($file);
+		/*$mimetype = $fileview->getMimeType($path);
+		$info = $fileview->getFileInfo($path);
+		$name = array_key_exists('name', $info) ? $info['name'] : '';
+		$size = array_key_exists('size', $info) ? $info['size'] : 0; 
+		$isencrypted = array_key_exists('encrypted', $info) ? $info['encrypted'] : false;*/ // show little lock
 		return new \OC_Image();
 	}
 }

@@ -529,16 +529,30 @@ class OC_Preview {
 		if(array_key_exists('y', $_GET)) $maxY = (int) $_GET['y'];
 		if(array_key_exists('scalingup', $_GET)) $scalingup = (bool) $_GET['scalingup'];
 		if(array_key_exists('t', $_GET)) $token = (string) $_GET['t'];
-
+		
 		$linkItem = OCP\Share::getShareByToken($token);
+		
 		if (is_array($linkItem) && isset($linkItem['uid_owner']) && isset($linkItem['file_source'])) {
 			$userid = $linkItem['uid_owner'];
-			OC_Util::setupFS($fileOwner);
-			$path = $linkItem['file_source'];
+			OC_Util::setupFS($userid);
+			$pathid = $linkItem['file_source'];
+			$path = \OC\Files\Filesystem::getPath($pathid);
+		}
+		
+		//clean up file parameter
+		$file = \OC\Files\Filesystem::normalizePath($file);
+		if(!\OC\Files\Filesystem::isValidPath($file)){
+			OC_Response::setStatus(403);
+			exit;
 		}
 
-		if($user !== null && $path !== null){
-			$preview = new OC_Preview($userid, $path, $file, $maxX, $maxY, $scalingup);
+		$path = \OC\Files\Filesystem::normalizePath($path, false);
+		if(substr($path, 0, 1) == '/'){
+			$path = substr($path, 1);
+		}
+
+		if($userid !== null && $path !== null){
+			$preview = new OC_Preview($userid, 'files/' . $path, $file, $maxX, $maxY, $scalingup);
 			$preview->showPreview();
 		}else{
 			OC_Response::setStatus(404);

@@ -44,6 +44,8 @@ $this->create('core_ajax_routes', '/core/routes.json')
 	->action('OC_Router', 'JSRoutes');
 $this->create('core_ajax_preview', '/core/preview.png')
 	->action('OC_Preview', 'previewRouter');
+$this->create('core_ajax_public_preview', '/core/publicpreview.png')
+	->action('OC_Preview', 'publicPreviewRouter');
 OC::$CLASSPATH['OC_Core_LostPassword_Controller'] = 'core/lostpassword/controller.php';
 $this->create('core_lostpassword_index', '/lostpassword/')
 	->get()
