@@ -1,5 +1,4 @@
 <?php
-$RUNTIME_NOSETUPFS = true;
 // Load other apps for file previews
 OC_App::loadApps();
 
@@ -39,6 +38,7 @@ if (isset($_GET['t'])) {
 			$fileOwner = $shareOwner;
 		}
 		if (isset($fileOwner)) {
+			OC_Util::tearDownFS();
 			OC_Util::setupFS($fileOwner);
 			$path = \OC\Files\Filesystem::getPath($linkItem['file_source']);
 		}

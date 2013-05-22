@@ -45,7 +45,6 @@ function handleUnexpectedShutdown() {
 	}
 }
 
-$RUNTIME_NOSETUPFS = true;
 require_once 'lib/base.php';
 
 session_write_close();
