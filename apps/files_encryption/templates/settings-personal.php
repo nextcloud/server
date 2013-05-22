@@ -4,28 +4,9 @@
 			<?php p( $l->t( 'Encryption' ) ); ?>
 		</legend>
 		
-		<p>
-<!-- 			<?php p( $l->t( 'File encryption is enabled.' ) ); ?> -->
-		</p>
-		<?php if ( ! empty( $_["blacklist"] ) ): ?>
-		<p>
-			<strong>File types</strong>
-			<br />
-			<?php p( $l->t( 'The following file types will not be encrypted:' ) ); ?>
-		</p>
-		
-		<ul>
-			<?php foreach( $_["blacklist"] as $type ): ?>
-			<li>
-				<?php p($type); ?>
-			</li>
-			<?php endforeach; ?>
-		</ul>
-		<?php endif; ?>
-		<br />
 		<?php if ( $_["recoveryEnabled"] ): ?>
 			<p>
-				<label for="userEnableRecovery"><?php p( $l->t( "Enable password recovery by sharing all files with administrator:" ) ); ?></label>
+				<label for="userEnableRecovery"><?php p( $l->t( "Enable password recovery by sharing all files with your administrator:" ) ); ?></label>
 				<br />
 				<em><?php p( $l->t( "Enabling this option will allow you to reobtain access to your encrypted files if your password is lost" ) ); ?></em>
 				<br />
