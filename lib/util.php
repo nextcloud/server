@@ -644,7 +644,7 @@ class OC_Util {
 
 		// in case there is no internet connection on purpose there is no need to display a warning
 		if (!\OC_Config::getValue("has_internet_connection", true)) {
-			return true;
+			return false;
 		}
 
 		// try to connect to owncloud.org to see if http connections to the internet are possible.
