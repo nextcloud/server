@@ -88,6 +88,7 @@
 "The update was successful. Redirecting you to ownCloud now." => "Aktualizacji zakończyła się powodzeniem. Przekierowuję do ownCloud.",
 "ownCloud password reset" => "restart hasła ownCloud",
 "Use the following link to reset your password: {link}" => "Użyj tego odnośnika by zresetować hasło: {link}",
+"The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Link do zresetowania hasła została wysłana na adres email. <br> Jeśli nie otrzymasz go w najbliższym czasie, sprawdź folder ze spamem. <br> Jeśli go tam nie ma zwrócić się do administratora tego ownCloud-a.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Żądanie niepowiodło się!<br>Czy Twój email/nazwa użytkownika są poprawne?",
 "You will receive a link to reset your password via Email." => "Odnośnik służący do resetowania hasła zostanie wysłany na adres e-mail.",
 "Username" => "Nazwa użytkownika",

@@ -51,6 +51,7 @@ class Scanner {
 			$data['size'] = $this->storage->filesize($path);
 		}
 		$data['etag'] = $this->storage->getETag($path);
+		$data['storage_mtime'] = $data['mtime'];
 		return $data;
 	}
 
@@ -167,9 +168,11 @@ class Scanner {
 	 * walk over any folders that are not fully scanned yet and scan them
 	 */
 	public function backgroundScan() {
-		while (($path = $this->cache->getIncomplete()) !== false) {
+		$lastPath = null;
+		while (($path = $this->cache->getIncomplete()) !== false && $path !== $lastPath) {
 			$this->scan($path);
 			$this->cache->correctFolderSize($path);
+			$lastPath = $path;
 		}
 	}
 }

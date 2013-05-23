@@ -46,6 +46,7 @@
 "{count} folders" => "{count} priečinkov",
 "1 file" => "1 súbor",
 "{count} files" => "{count} súborov",
+"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Neplatný názov priečinka. Názov \"Shared\" je rezervovaný pre ownCloud",
 "Unable to rename file" => "Nemožno premenovať súbor",
 "Upload" => "Odoslať",
 "File handling" => "Nastavenie správania sa k súborom",

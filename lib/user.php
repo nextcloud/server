@@ -32,7 +32,7 @@
  *   post_deleteUser(uid)
  *   pre_setPassword(&run, uid, password)
  *   post_setPassword(uid, password)
- *   pre_login(&run, uid)
+ *   pre_login(&run, uid, password)
  *   post_login(uid)
  *   logout()
  */
@@ -244,7 +244,7 @@ class OC_User {
 	 */
 	public static function login( $uid, $password ) {
 		$run = true;
-		OC_Hook::emit( "OC_User", "pre_login", array( "run" => &$run, "uid" => $uid ));
+		OC_Hook::emit( "OC_User", "pre_login", array( "run" => &$run, "uid" => $uid, "password" => $password));
 
 		if( $run ) {
 			$uid = self::checkPassword( $uid, $password );
@@ -610,6 +610,10 @@ class OC_User {
 	public static function isEnabled($userid) {
 		$sql = 'SELECT `userid` FROM `*PREFIX*preferences`'
 			.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?';
+		if (OC_Config::getValue( 'dbtype', 'sqlite' ) === 'oci') { //FIXME oracle hack
+			$sql = 'SELECT `userid` FROM `*PREFIX*preferences`'
+				.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND to_char(`configvalue`) = ?';
+		}
 		$stmt = OC_DB::prepare($sql);
 		if ( ! OC_DB::isError($stmt) ) {
 			$result = $stmt->execute(array($userid, 'core', 'enabled', 'false'));

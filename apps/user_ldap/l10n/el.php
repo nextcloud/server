@@ -7,6 +7,8 @@
 "Take over settings from recent server configuration?" => "Πάρτε πάνω από τις πρόσφατες ρυθμίσεις διαμόρφωσης του διακομιστή?",
 "Keep settings?" => "Διατήρηση ρυθμίσεων;",
 "Cannot add server configuration" => "Αδυναμία προσθήκης ρυθμίσεων διακομιστή",
+"Success" => "Επιτυχία",
+"Error" => "Σφάλμα",
 "Connection test succeeded" => "Επιτυχημένη δοκιμαστική σύνδεση",
 "Connection test failed" => "Αποτυχημένη δοκιμαστική σύνδεσης.",
 "Do you really want to delete the current Server Configuration?" => "Θέλετε να διαγράψετε τις τρέχουσες ρυθμίσεις του διακομιστή;",

@@ -7,6 +7,8 @@
 "Take over settings from recent server configuration?" => "Einstellungen von letzter Konfiguration übernehmen?",
 "Keep settings?" => "Einstellungen beibehalten?",
 "Cannot add server configuration" => "Das Hinzufügen der Serverkonfiguration schlug fehl",
+"Success" => "Erfolg",
+"Error" => "Fehler",
 "Connection test succeeded" => "Verbindungstest erfolgreich",
 "Connection test failed" => "Verbindungstest fehlgeschlagen",
 "Do you really want to delete the current Server Configuration?" => "Möchten Sie die aktuelle Serverkonfiguration wirklich löschen?",
@@ -70,6 +72,7 @@
 "Email Field" => "E-Mail-Feld",
 "User Home Folder Naming Rule" => "Benennungsregel für das Home-Verzeichnis des Benutzers",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Ohne Eingabe wird der Benutzername (Standard) verwendet. Anderenfalls tragen Sie bitte ein LDAP/AD-Attribut ein.",
+"Internal Username" => "Interner Benutzername",
 "Test Configuration" => "Testkonfiguration",
 "Help" => "Hilfe"
 );
