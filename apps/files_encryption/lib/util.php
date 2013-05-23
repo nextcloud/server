@@ -1139,7 +1139,7 @@ class Util
 		$fileOwnerUid = $view->getOwner($path);
 
 		// handle public access
-		if ($fileOwnerUid === false && $this->isPublic) {
+		if ($this->isPublic) {
 			$filename = $path;
 			$fileOwnerUid = $GLOBALS['fileOwner'];
 
@@ -1494,15 +1494,4 @@ class Util
 		$this->recoverAllFiles('/', $privateKey);
 	}
 
-	public function isPublic() {
-		return $this->isPublic;
-	}
-
-	public function getKeyfilePath() {
-		return $this->keyfilesPath;
-	}
-
-	public function getSharekeyPath() {
-		return $this->shareKeysPath;
-	}
 }
