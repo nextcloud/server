@@ -84,7 +84,9 @@ class Session
 
 		}
 
-		if (\OCP\USER::getUser() === false) {
+		if (\OCP\USER::getUser() === false ||
+			(isset($_GET['service']) && $_GET['service'] == 'files' &&
+			isset($_GET['t']))) {
 			// Disable encryption proxy to prevent recursive calls
 			$proxyStatus = \OC_FileProxy::$enabled;
 			\OC_FileProxy::$enabled = false;

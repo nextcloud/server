@@ -237,10 +237,15 @@ class Keymanager
 		}
 
 		$util = new Util($view, \OCP\User::getUser());
-		list($owner, $filename) = $util->getUidAndFilename($filePath);
-		$filePath_f = ltrim($filename, '/');
 
-		$keyfilePath = '/' . $owner . '/files_encryption/keyfiles/' . $filePath_f . '.key';
+		if ($util->isPublic()) {
+			$keyfilePath = $util->getKeyfilePath() . $filePath . '.key';
+		} else {
+			list($owner, $filename) = $util->getUidAndFilename($filePath);
+			$filePath_f = ltrim($filename, '/');
+
+			$keyfilePath = '/' . $owner . '/files_encryption/keyfiles/' . $filePath_f . '.key';
+		}
 
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
@@ -447,9 +452,13 @@ class Keymanager
 		//here we need the currently logged in user, while userId can be a different user
 		$util = new Util($view, \OCP\User::getUser());
 
-		list($owner, $filename) = $util->getUidAndFilename($filePath);
+		if ($util->isPublic()) {
+			$shareKeyPath = $util->getSharekeyPath() . $filePath . '.' . $userId . '.shareKey';
+		} else {
+			list($owner, $filename) = $util->getUidAndFilename($filePath);
+			$shareKeyPath = \OC\Files\Filesystem::normalizePath('/' . $owner . '/files_encryption/share-keys/' . $filename . '.' . $userId . '.shareKey');
+		}
 
-		$shareKeyPath = \OC\Files\Filesystem::normalizePath('/' . $owner . '/files_encryption/share-keys/' . $filename . '.' . $userId . '.shareKey');
 		if ($view->file_exists($shareKeyPath)) {
 
 			$result = $view->file_get_contents($shareKeyPath);
