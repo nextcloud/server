@@ -13,6 +13,8 @@ use OCA\Encryption;
 \OCP\JSON::checkAppEnabled('files_encryption');
 \OCP\JSON::callCheck();
 
+$l=OC_L10N::get('files_encryption');
+
 $return = false;
 
 // Enable recoveryAdmin
@@ -35,7 +37,7 @@ if (isset($_POST['adminEnableRecovery']) && $_POST['adminEnableRecovery'] == 1){
 
 // Return success or failure
 if ($return) {
-	\OCP\JSON::success(array("data" => array( "message" => 'Recovery key successfully ' . $action.'d')));
+	\OCP\JSON::success(array("data" => array( "message" => $l->t('Recovery key successfully ' . $action.'d'))));
 } else {
-	\OCP\JSON::error(array("data" => array( "message" => 'Could not '.$action.' recovery key. Please check your recovery key password!')));
+	\OCP\JSON::error(array("data" => array( "message" => $l->t('Could not '.$action.' recovery key. Please check your recovery key password!'))));
 }
