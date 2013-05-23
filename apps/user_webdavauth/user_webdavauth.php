@@ -42,7 +42,7 @@ class OC_USER_WEBDAVAUTH extends OC_User_Backend {
 
 	public function checkPassword( $uid, $password ) {
 		$arr = explode('://', $this->webdavauth_url, 2);
-		if( ! isset($arr) && count($arr) !== 2) {
+		if( ! isset($arr) OR count($arr) !== 2) {
 			OC_Log::write('OC_USER_WEBDAVAUTH', 'Invalid Url: "'.$this->webdavauth_url.'" ', 3);
 			return false;
 		}
