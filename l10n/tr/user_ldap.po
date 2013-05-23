@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# ismail yenigül <ismail.yenigul@surgate.com>, 2013
 # KAT.RAT12 <spanish.katerina@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-18 01:58+0200\n"
-"PO-Revision-Date: 2013-05-17 10:19+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-23 01:58+0200\n"
+"PO-Revision-Date: 2013-05-22 08:20+0000\n"
+"Last-Translator: ismail yenigül <ismail.yenigul@surgate.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,23 +25,23 @@ msgstr ""
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
-msgstr "Sunucu uyunlama basarmadi "
+msgstr "Sunucu yapılandırmasını silme başarısız oldu"
 
 #: ajax/testConfiguration.php:36
 msgid "The configuration is valid and the connection could be established!"
-msgstr "Uyunlama mantikli ve baglama yerlestirmek edebilmi."
+msgstr "Yapılandırma geçerli ve bağlantı kuruldu!"
 
 #: ajax/testConfiguration.php:39
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
-msgstr "Uyunlama gecerli, fakat Baglama yapamadi. Lutfen kontrol yapmak, eger bu iyi yerlertirdi. "
+msgstr "Yapılandırma geçerli fakat bağlanma(bind) başarısız. Lütfen Sunucu ayarları ve kimlik bilgilerini kontrol ediniz."
 
 #: ajax/testConfiguration.php:43
 msgid ""
 "The configuration is invalid. Please look in the ownCloud log for further "
 "details."
-msgstr "Uyunma mantikli degil. Lutfen log daha kontrol yapmak. "
+msgstr "Yapılandırma geçersiz. Daha fazla detay için lütfen ownCloud günlüklerine bakınız."
 
 #: js/settings.js:66
 msgid "Deletion failed"
@@ -48,15 +49,15 @@ msgstr "Silme başarısız oldu"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
-msgstr "Parametri sonadan uyunlama cikarmak mi?"
+msgstr "Ayarları son sunucu yapılandırmalarından devral?"
 
 #: js/settings.js:83
 msgid "Keep settings?"
-msgstr "Ayarları kalsınmı?"
+msgstr "Ayarlar kalsın mı?"
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
-msgstr "Sunucu uyunlama birlemek edemen. "
+msgstr "Sunucu yapılandırması eklenemedi"
 
 #: js/settings.js:111
 msgid "mappings cleared"
@@ -80,7 +81,7 @@ msgstr "Bağlantı testi başarısız oldu"
 
 #: js/settings.js:156
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr "Hakikatten, Sonuncu Funksyon durmak istiyor mi?"
+msgstr "Şu anki sunucu yapılandırmasını silmek istediğinizden emin misiniz?"
 
 #: js/settings.js:157
 msgid "Confirm Deletion"

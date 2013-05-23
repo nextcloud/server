@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# mhh <marian.hvolka@stuba.sk>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-18 01:58+0200\n"
-"PO-Revision-Date: 2013-05-17 10:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-23 01:58+0200\n"
+"PO-Revision-Date: 2013-05-22 16:10+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -217,7 +218,7 @@ msgstr "{count} súborov"
 
 #: lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
-msgstr ""
+msgstr "Neplatný názov priečinka. Názov \"Shared\" je rezervovaný pre ownCloud"
 
 #: lib/app.php:73
 msgid "Unable to rename file"
