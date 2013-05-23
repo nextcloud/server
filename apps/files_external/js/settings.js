@@ -248,9 +248,7 @@ $(document).ready(function() {
 	});
 
 	$('#sslCertificate').on('click', 'td.remove>img', function() {
-		console.log("remove!");
 		var tr = $(this).parent().parent();
-		console.log("remove cert!");
 		var row=this.parentNode.parentNode;
 		$.post(OC.filePath('files_external', 'ajax', 'removeRootCertificate.php'), { cert: row.id  });
 		$(tr).remove();
