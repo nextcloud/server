@@ -37,27 +37,26 @@ class Session
 	 *
 	 * @note The ownCloud key pair is used to allow public link sharing even if encryption is enabled
 	 */
-	public function __construct($view)
-	{
+	public function __construct( $view ) {
 
 		$this->view = $view;
 
-		if (!$this->view->is_dir('owncloud_private_key')) {
+		if ( !$this->view->is_dir( 'owncloud_private_key' ) ) {
 
-			$this->view->mkdir('owncloud_private_key');
+			$this->view->mkdir( 'owncloud_private_key' );
 
 		}
 
-		$publicShareKeyId = \OC_Appconfig::getValue('files_encryption', 'publicShareKeyId');
+		$publicShareKeyId = \OC_Appconfig::getValue( 'files_encryption', 'publicShareKeyId' );
 
-		if ($publicShareKeyId === null) {
-			$publicShareKeyId = 'pubShare_' . substr(md5(time()), 0, 8);
-			\OC_Appconfig::setValue('files_encryption', 'publicShareKeyId', $publicShareKeyId);
+		if ( $publicShareKeyId === null ) {
+			$publicShareKeyId = 'pubShare_' . substr( md5( time() ), 0, 8 );
+			\OC_Appconfig::setValue( 'files_encryption', 'publicShareKeyId', $publicShareKeyId );
 		}
 
 		if (
-			!$this->view->file_exists("/public-keys/" . $publicShareKeyId . ".public.key")
-			|| !$this->view->file_exists("/owncloud_private_key/" . $publicShareKeyId . ".private.key")
+			!$this->view->file_exists( "/public-keys/" . $publicShareKeyId . ".public.key" )
+			|| !$this->view->file_exists( "/owncloud_private_key/" . $publicShareKeyId . ".private.key" )
 		) {
 
 			$keypair = Crypt::createKeypair();
@@ -68,32 +67,33 @@ class Session
 
 			// Save public key
 
-			if (!$view->is_dir('/public-keys')) {
-				$view->mkdir('/public-keys');
+			if ( !$view->is_dir( '/public-keys' ) ) {
+				$view->mkdir( '/public-keys' );
 			}
 
-			$this->view->file_put_contents('/public-keys/' . $publicShareKeyId . '.public.key', $keypair['publicKey']);
+			$this->view->file_put_contents( '/public-keys/' . $publicShareKeyId . '.public.key', $keypair['publicKey'] );
 
-			// Encrypt private key empthy passphrase
-			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent($keypair['privateKey'], '');
+			// Encrypt private key empty passphrase
+			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $keypair['privateKey'], '' );
 
 			// Save private key
-			$this->view->file_put_contents('/owncloud_private_key/' . $publicShareKeyId . '.private.key', $encryptedPrivateKey);
+			$this->view->file_put_contents( '/owncloud_private_key/' . $publicShareKeyId . '.private.key', $encryptedPrivateKey );
 
 			\OC_FileProxy::$enabled = $proxyStatus;
 
 		}
 
-		if (\OCP\USER::getUser() === false ||
-			(isset($_GET['service']) && $_GET['service'] == 'files' &&
-			isset($_GET['t']))) {
+		if ( \OCP\USER::getUser() === false ||
+			( isset( $_GET['service'] ) && $_GET['service'] == 'files' &&
+				isset( $_GET['t'] ) )
+		) {
 			// Disable encryption proxy to prevent recursive calls
 			$proxyStatus = \OC_FileProxy::$enabled;
 			\OC_FileProxy::$enabled = false;
 
-			$encryptedKey = $this->view->file_get_contents('/owncloud_private_key/' . $publicShareKeyId . '.private.key');
-			$privateKey = Crypt::symmetricDecryptFileContent($encryptedKey, '');
-			$this->setPrivateKey($privateKey);
+			$encryptedKey = $this->view->file_get_contents( '/owncloud_private_key/' . $publicShareKeyId . '.private.key' );
+			$privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, '' );
+			$this->setPrivateKey( $privateKey );
 
 			\OC_FileProxy::$enabled = $proxyStatus;
 		}
@@ -104,8 +104,7 @@ class Session
 	 * @param string $privateKey
 	 * @return bool
 	 */
-	public function setPrivateKey($privateKey)
-	{
+	public function setPrivateKey( $privateKey ) {
 
 		$_SESSION['privateKey'] = $privateKey;
 
@@ -118,12 +117,11 @@ class Session
 	 * @returns string $privateKey The user's plaintext private key
 	 *
 	 */
-	public function getPrivateKey()
-	{
+	public function getPrivateKey() {
 
 		if (
-			isset($_SESSION['privateKey'])
-			&& !empty($_SESSION['privateKey'])
+			isset( $_SESSION['privateKey'] )
+			&& !empty( $_SESSION['privateKey'] )
 		) {
 
 			return $_SESSION['privateKey'];
@@ -141,8 +139,7 @@ class Session
 	 * @param $legacyKey
 	 * @return bool
 	 */
-	public function setLegacyKey($legacyKey)
-	{
+	public function setLegacyKey( $legacyKey ) {
 
 		$_SESSION['legacyKey'] = $legacyKey;
 
@@ -154,12 +151,11 @@ class Session
 	 * @returns string $legacyKey The user's plaintext legacy key
 	 *
 	 */
-	public function getLegacyKey()
-	{
+	public function getLegacyKey() {
 
 		if (
-			isset($_SESSION['legacyKey'])
-			&& !empty($_SESSION['legacyKey'])
+			isset( $_SESSION['legacyKey'] )
+			&& !empty( $_SESSION['legacyKey'] )
 		) {
 
 			return $_SESSION['legacyKey'];

@@ -189,7 +189,7 @@ class Hooks {
 				// Save public key
 				$view->file_put_contents( '/public-keys/'.$user.'.public.key', $keypair['publicKey'] );
 
-				// Encrypt private key empthy passphrase
+				// Encrypt private key empty passphrase
 				$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $keypair['privateKey'], $newUserPassword );
 
 				// Save private key

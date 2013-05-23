@@ -99,4 +99,4 @@ $(document).ready(function(){
 		);
 	});
 	
-})
+});

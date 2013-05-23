@@ -15,7 +15,6 @@ $view = new OC_FilesystemView( '' );
 
 $recoveryAdminEnabled = OC_Appconfig::getValue( 'files_encryption', 'recoveryAdminEnabled' );
 
-$tmpl->assign( 'encryption_mode', \OC_Appconfig::getValue( 'files_encryption', 'mode', 'none' ) );
 $tmpl->assign( 'recoveryEnabled', $recoveryAdminEnabled );
 
 \OCP\Util::addscript( 'files_encryption', 'settings-admin' );

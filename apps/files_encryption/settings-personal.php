@@ -26,4 +26,3 @@ $tmpl->assign( 'recoveryEnabledForUser', $recoveryEnabledForUser );
 
 return $tmpl->fetchPage();
 
-return null;

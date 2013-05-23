@@ -29,18 +29,5 @@
 			</p>
 		<?php endif; ?>
 		<br />
-<!--
-		<p>
-				<label for="encryptAll"><?php p( $l->t( "Scan for unencrypted files and encrypt them" ) ); ?></label>
-				<br />
-				<em><?php p( $l->t( "Use this if you suspect that you still have files which are unencrypted, or encrypted using ownCloud 4 or older." ) ); ?></em>
-				<br />
-				<input type="submit" id="encryptAll" name="encryptAll" value="<?php p( $l->t( 'Scan and encrypt files' ) ); ?>" />
-				<input type="password" name="userPassword" id="userPassword" />
-				<label for="encryptAll"><?php p( $l->t( "Account password" ) ); ?></label>
-				<div id="encryptAllSuccess"><?php p( $l->t( 'Scan complete' ) );?></div>
-				<div id="encryptAllError"><?php p( $l->t( 'Unable to scan and encrypt files' ) );?></div>
-		</p>
--->
 	</fieldset>
 </form>
