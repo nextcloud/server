@@ -54,6 +54,22 @@ cat > ./tests/autoconfig-pgsql.php <<DELIM
 );
 DELIM
 
+cat > ./tests/autoconfig-oci.php <<DELIM
+<?php
+\$AUTOCONFIG = array (
+  'installed' => false,
+  'dbtype' => 'oci',
+  'dbtableprefix' => 'oc_',
+  'adminlogin' => 'admin',
+  'adminpass' => 'admin',
+  'directory' => '$BASEDIR/$DATADIR',
+  'dbuser' => 'oc_autotest',
+  'dbname' => 'XE',
+  'dbhost' => 'localhost',
+  'dbpass' => 'owncloud',
+);
+DELIM
+
 function execute_tests {
 	echo "Setup environment for $1 testing ..."
 	# back to root folder
@@ -76,6 +92,30 @@ function execute_tests {
 	fi
 	if [ "$1" == "pgsql" ] ; then
 		dropdb -U oc_autotest oc_autotest
+	fi
+	if [ "$1" == "oci" ] ; then
+		echo "drop the database"
+		sqlplus -s -l / as sysdba <<EOF
+			drop user oc_autotest cascade;
+EOF
+
+		echo "create the database"
+		sqlplus -s -l / as sysdba <<EOF
+			create user oc_autotest identified by owncloud;
+			alter user oc_autotest default tablespace users
+			temporary tablespace temp
+			quota unlimited on users;
+			grant create session
+			, create table
+			, create procedure
+			, create sequence
+			, create trigger
+			, create view
+			, create synonym
+			, alter session
+			to oc_autotest;
+			exit;
+EOF
 	fi
 
 	# copy autoconfig
@@ -101,9 +141,16 @@ function execute_tests {
 #
 # start test execution
 #
-execute_tests "sqlite"
-execute_tests 'mysql'
-execute_tests 'pgsql'
+if [ -z "$1" ]
+  then
+	execute_tests "sqlite"
+	execute_tests 'mysql'
+	execute_tests 'pgsql'
+	# we will add oci as soon as it's stable
+	#execute_tests 'oci'
+else
+	execute_tests $1
+fi
 
 #
 # NOTES on mysql:
@@ -116,4 +163,8 @@ execute_tests 'pgsql'
 #  - to enable dropdb I decided to add following line to pg_hba.conf (this is not the safest way but I don't care for the testing machine):
 # local	all	all	trust
 #
-
+# NOTES on oci:
+#  - it's a pure nightmare to install Oracle on a Linux-System
+#  - DON'T TRY THIS AT HOME!
+#  - if you really need it: we feel sorry for you
+#
