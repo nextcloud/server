@@ -156,11 +156,13 @@ class OC_DB {
 							'user' => $user,
 							'password' => $pass,
 							'host' => $host,
-							'port' => $port,
 							'dbname' => $name,
 							'charset' => 'AL32UTF8',
 							'driver' => 'oci8',
 					);
+					if (!empty($port)) {
+						$connectionParams['port'] = $port;
+					}
 					break;
 				case 'mssql':
 					$connectionParams = array(
