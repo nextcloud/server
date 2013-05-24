@@ -566,11 +566,6 @@ class Cache {
 	 */
 	public function normalize($path) {
 
-		//normalize unicode if possible
-		if (class_exists('Normalizer')) {
-			$path = \Normalizer::normalize($path);
-		}
-
-		return $path;
+		return \OC_Util::normalizeUnicode($path);
 	}
 }
