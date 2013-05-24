@@ -286,6 +286,14 @@
 			</field>
 
 			<field>
+                <name>unencrypted_size</name>
+                <type>integer</type>
+                <default></default>
+                <notnull>true</notnull>
+                <length>8</length>
+            </field>
+
+			<field>
 				<name>etag</name>
 				<type>text</type>
 				<default></default>
