@@ -63,6 +63,13 @@ class OC_DB_Schema {
 		$comparator = new \Doctrine\DBAL\Schema\Comparator();
 		$schemaDiff = $comparator->compare($fromSchema, $toSchema);
 
+		$platform = $conn->getDatabasePlatform();
+		$tables = $schemaDiff->newTables + $schemaDiff->changedTables + $schemaDiff->removedTables;
+		foreach($tables as $tableDiff) {
+			$tableDiff->name = $platform->quoteIdentifier($tableDiff->name);
+		}
+
+
 		//$from = $fromSchema->toSql($conn->getDatabasePlatform());
 		//$to = $toSchema->toSql($conn->getDatabasePlatform());
 		//echo($from[9]);
