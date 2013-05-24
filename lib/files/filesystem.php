@@ -236,7 +236,9 @@ class Filesystem {
 	}
 
 	static public function initMounts(){
-		self::$mounts = new Mount\Manager();
+		if(!self::$mounts) {
+			self::$mounts = new Mount\Manager();
+		}
 	}
 
 	/**
@@ -451,6 +453,19 @@ class Filesystem {
 		$blacklist = \OC_Config::getValue('blacklisted_files', array('.htaccess'));
 		$filename = strtolower(basename($filename));
 		return (in_array($filename, $blacklist));
+	}
+
+	/**
+	 * @brief check if the directory should be ignored when scanning
+	 * NOTE: the special directories . and .. would cause never ending recursion
+	 * @param String $dir
+	 * @return boolean
+	 */
+	static public function isIgnoredDir($dir) {
+		if ($dir === '.' || $dir === '..') {
+			return true;
+		}
+		return false;
 	}
 
 	/**

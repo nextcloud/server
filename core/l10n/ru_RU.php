@@ -1,4 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Settings" => "Настройки",
-"Error" => "Ошибка"
+"Cancel" => "Отмена",
+"Error" => "Ошибка",
+"Share" => "Сделать общим",
+"Add" => "Добавить"
 );

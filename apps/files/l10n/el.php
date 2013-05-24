@@ -46,6 +46,7 @@
 "{count} folders" => "{count} φάκελοι",
 "1 file" => "1 αρχείο",
 "{count} files" => "{count} αρχεία",
+"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Μη έγκυρο όνομα φακέλου. Η χρήση του 'Κοινόχρηστος' χρησιμοποιείται από το ownCloud",
 "Unable to rename file" => "Αδυναμία μετονομασίας αρχείου",
 "Upload" => "Μεταφόρτωση",
 "File handling" => "Διαχείριση αρχείων",

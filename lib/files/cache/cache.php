@@ -110,7 +110,7 @@ class Cache {
 			$params = array($file);
 		}
 		$query = \OC_DB::prepare(
-			'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `storage_mtime`, `encrypted`, `etag`
+			'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `storage_mtime`, `encrypted`, `unencrypted_size`, `etag`
 			 FROM `*PREFIX*filecache` ' . $where);
 		$result = $query->execute($params);
 		$data = $result->fetchRow();
@@ -126,6 +126,7 @@ class Cache {
 			$data['size'] = (int)$data['size'];
 			$data['mtime'] = (int)$data['mtime'];
 			$data['encrypted'] = (bool)$data['encrypted'];
+            $data['unencrypted_size'] = (int)$data['unencrypted_size'];
 			$data['storage'] = $this->storageId;
 			$data['mimetype'] = $this->getMimetype($data['mimetype']);
 			$data['mimepart'] = $this->getMimetype($data['mimepart']);
@@ -147,8 +148,9 @@ class Cache {
 		$fileId = $this->getId($folder);
 		if ($fileId > -1) {
 			$query = \OC_DB::prepare(
-				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `storage_mtime`, `encrypted`, `etag`
-				 FROM `*PREFIX*filecache` WHERE `parent` = ? ORDER BY `name` ASC');
+				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `storage_mtime`, `encrypted`, `unencrypted_size`, `etag`
+			 	 FROM `*PREFIX*filecache` WHERE `parent` = ? ORDER BY `name` ASC');
+
 			$result = $query->execute(array($fileId));
 			if (\OC_DB::isError($result)) {
 				\OCP\Util::writeLog('cache', 'getFolderContents failed: ' . $result->getMessage(), \OCP\Util::ERROR);
@@ -239,7 +241,7 @@ class Cache {
 	 * @return array
 	 */
 	function buildParts(array $data) {
-		$fields = array('path', 'parent', 'name', 'mimetype', 'size', 'mtime', 'storage_mtime', 'encrypted', 'etag');
+		$fields = array('path', 'parent', 'name', 'mimetype', 'size', 'mtime', 'storage_mtime', 'encrypted', 'unencrypted_size', 'etag');
 		$params = array();
 		$queryParts = array();
 		foreach ($data as $name => $value) {
@@ -410,7 +412,7 @@ class Cache {
 	 */
 	public function search($pattern) {
 		$query = \OC_DB::prepare('
-			SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `etag`
+			SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `unencrypted_size`, `etag`
 			FROM `*PREFIX*filecache` WHERE `name` LIKE ? AND `storage` = ?'
 		);
 		$result = $query->execute(array($pattern, $this->getNumericStorageId()));
@@ -436,7 +438,7 @@ class Cache {
 			$where = '`mimepart` = ?';
 		}
 		$query = \OC_DB::prepare('
-			SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `etag`
+			SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `unencrypted_size`, `etag`
 			FROM `*PREFIX*filecache` WHERE ' . $where . ' AND `storage` = ?'
 		);
 		$mimetype = $this->getMimetypeId($mimetype);
