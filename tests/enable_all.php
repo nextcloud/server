@@ -12,6 +12,7 @@ OC_App::enable('calendar');
 OC_App::enable('contacts');
 OC_App::enable('apptemplateadvanced');
 OC_App::enable('appframework');
+OC_App::enable('files_encryption');
 #OC_App::enable('files_archive');
 #OC_App::enable('mozilla_sync');
 #OC_App::enable('news');
