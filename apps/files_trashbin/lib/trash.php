@@ -55,6 +55,7 @@ class Trashbin {
 			$view->mkdir("files_trashbin/files");
 			$view->mkdir("files_trashbin/versions");
 			$view->mkdir("files_trashbin/keyfiles");
+			$view->mkdir("files_trashbin/share-keys");
 		}
 
 		$path_parts = pathinfo($file_path);
