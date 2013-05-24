@@ -454,6 +454,19 @@ class Filesystem {
 	}
 
 	/**
+	 * @brief check if the directory should be ignored when scanning
+	 * NOTE: the special directories . and .. would cause never ending recursion
+	 * @param String $dir
+	 * @return boolean
+	 */
+	static public function isIgnoredDir($dir) {
+		if ($dir === '.' || $dir === '..') {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * following functions are equivalent to their php builtin equivalents for arguments/return values.
 	 */
 	static public function mkdir($path) {
