@@ -146,7 +146,7 @@ class Helper
 
 		} else { // get recovery key and check the password
 			$util = new \OCA\Encryption\Util( new \OC_FilesystemView( '/' ), \OCP\User::getUser() );
-			$return = $util->checkRecoveryPassword( $_POST['recoveryPassword'] );
+			$return = $util->checkRecoveryPassword( $recoveryPassword );
 			if ( $return ) {
 				\OC_Appconfig::setValue( 'files_encryption', 'recoveryAdminEnabled', 1 );
 			}
