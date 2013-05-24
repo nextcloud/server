@@ -248,10 +248,10 @@ $(document).ready(function() {
 	});
 
 	$('#sslCertificate').on('click', 'td.remove>img', function() {
-		var tr = $(this).parent().parent();
+		var $tr = $(this).parent().parent();
 		var row=this.parentNode.parentNode;
 		$.post(OC.filePath('files_external', 'ajax', 'removeRootCertificate.php'), { cert: row.id  });
-		$(tr).remove();
+		$tr.remove();
 		return true;
 	});
 
