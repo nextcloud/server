@@ -1,0 +1,77 @@
+Encrypted files
+---------------
+
+- Each encrypted file has at least two components: the encrypted data file
+  ('catfile'), and it's corresponding key file ('keyfile'). Shared files have an
+  additional key file ('share key'). The catfile contains the encrypted data
+  concatenated with delimiter text, followed by the initialisation vector ('IV'),
+  and padding. e.g.:
+
+  [encrypted data string][delimiter][IV][padding]
+  [anhAAjAmcGXqj1X9g==][00iv00][MSHU5N5gECP7aAg7][xx] (square braces added)
+  
+- Directory structure:
+  - Encrypted user data (catfiles) are stored in the usual /data/user/files dir
+  - Keyfiles are stored in /data/user/files_encryption/keyfiles
+  - Sharekey are stored in /data/user/files_encryption/share-files
+  
+- File extensions:
+  - Catfiles have to keep the file extension of the original file, pre-encryption
+  - Keyfiles use .keyfile
+  - Sharekeys have .shareKey
+  
+Shared files
+------------
+
+Shared files have a centrally stored catfile and keyfile, and one sharekey for 
+each user that shares it.
+
+When sharing is used, a different encryption method is used to encrypt the 
+keyfile (openssl_seal). Although shared files have a keyfile, its contents
+use a different format therefore.
+
+Each time a shared file is edited or deleted, all sharekeys for users sharing
+that file must have their sharekeys changed also. The keyfile and catfile 
+however need only changing in the owners files, as there is only one copy of
+these.
+
+Publicly shared files (public links)
+------------------------------------
+
+Files shared via public links use a separate system user account called 'ownCloud'. All public files are shared to that user's public key, and the private key is used to access the files when the public link is used in browser.
+
+This means that files shared via public links are accessible only to users who know the shared URL, or to admins who know the 'ownCloud' user password.
+
+Lost password recovery
+----------------------
+
+In order to enable users to read their encrypted files in the event of a password loss/reset scenario, administrators can choose to enable a 'recoveryAdmin' account. This is a user that all user files will automatically be shared to of the option is enabled. This allows the recoveryAdmin user to generate new keyfiles for the user. By default the UID of the recoveryAdmin is 'recoveryAdmin'.
+
+OC_FilesystemView
+-----------------
+
+files_encryption deals extensively with paths and the filesystem. In order to minimise bugs, it makes calls to filesystem methods in a consistent way: OC_FilesystemView{} objects always use '/' as their root, and specify paths each time particular methods are called. e.g. do this:
+
+$view->file_exists( 'path/to/file' );
+
+Not:
+
+$view->chroot( 'path/to' );
+$view->file_exists( 'file' );
+
+Using this convention means that $view objects are more predictable and less likely to break. Problems with paths are the #1 cause of bugs in this app, and consistent $view handling is an important way to prevent them.
+
+Notes
+-----
+
+- The user passphrase is required in order to set up or upgrade the app. New 
+  keypair generation, and the re-encryption of legacy encrypted files requires
+  it. Therefore an appinfo/update.php script cannot be used, and upgrade logic
+  is handled in the login hook listener. Therefore each time the user logs in 
+  their files are scanned to detect unencrypted and legacy encrypted files, and 
+  they are (re)encrypted as necessary. This may present a performance issue; we
+  need to monitor this.
+- When files are saved to ownCloud via WebDAV, a .part file extension is used so
+  that the file isn't cached before the upload has been completed. .part files 
+  are not compatible with files_encrytion's key management system however, so 
+  we have to always sanitise such paths manually before using them.
