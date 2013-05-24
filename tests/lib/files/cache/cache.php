@@ -278,8 +278,8 @@ class Cache extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testWithNormalizer() {
 
-		if(!class_exists('Normalizer')) {
-			$this->markTestSkipped('The Normalizer extension is not available.');
+		if(!class_exists('Patchwork\PHP\Shim\Normalizer')) {
+			$this->markTestSkipped('The 3rdparty Normalizer extension is not available.');
 			return;
 		}
 
