@@ -236,7 +236,9 @@ class Filesystem {
 	}
 
 	static public function initMounts(){
-		self::$mounts = new Mount\Manager();
+		if(!self::$mounts) {
+			self::$mounts = new Mount\Manager();
+		}
 	}
 
 	/**
