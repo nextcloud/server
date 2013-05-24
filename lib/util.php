@@ -1,4 +1,7 @@
 <?php
+
+require_once 'Patchwork/PHP/Shim/Normalizer.php';
+
 /**
  * Class for utility functions
  *
@@ -823,5 +826,16 @@ class OC_Util {
 		return $theme;
 	}
 
+	/**
+	 * Normalize a unicode string
+	 * @param string $value a not normalized string
+	 * @return bool|string
+	 */
+	public static function normalizeUnicode($value) {
+		if(class_exists('Patchwork\PHP\Shim\Normalizer')) {
+			$value = \Patchwork\PHP\Shim\Normalizer::normalize($value);
+		}
 
+		return $value;
+	}
 }
