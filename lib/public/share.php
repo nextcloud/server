@@ -107,6 +107,112 @@ class Share {
 		return false;
 	}
 
+
+	/**
+	* @brief Prepare a path to be passed to DB as file_target
+	* @return string Prepared path
+	*/
+	public static function prepFileTarget( $path ) {
+
+		// Paths in DB are stored with leading slashes, so add one if necessary
+		if ( substr( $path, 0, 1 ) !== '/' ) {
+
+			$path = '/' . $path;
+
+		}
+
+		return $path;
+
+	}
+
+	/**
+	* @brief Find which users can access a shared item
+	* @param $path to the file
+	* @param $user owner of the file
+	* @param include owner to the list of users with access to the file
+	* @return array
+	* @note $path needs to be relative to user data dir, e.g. 'file.txt'
+	*       not '/admin/data/file.txt'
+	*/
+	public static function getUsersSharingFile($path, $user, $includeOwner = false, $removeDuplicates = true) {
+
+		$path_parts = explode(DIRECTORY_SEPARATOR, trim($path, DIRECTORY_SEPARATOR));
+		$path = '';
+		$shares = array();
+		$publicShare = false;
+		$view = new \OC\Files\View('/' . $user . '/files/');
+		foreach ($path_parts as $p) {
+			$path .= '/' . $p;
+			$meta = $view->getFileInfo(\OC_Filesystem::normalizePath($path));
+			$source = $meta['fileid'];
+
+			// Fetch all shares of this file path from DB
+			$query = \OC_DB::prepare(
+				'SELECT share_with
+				FROM
+				`*PREFIX*share`
+				WHERE
+				item_source = ? AND share_type = ?'
+			);
+
+			$result = $query->execute(array($source, self::SHARE_TYPE_USER));
+
+			if (\OC_DB::isError($result)) {
+				\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+			}
+
+			while ($row = $result->fetchRow()) {
+				$shares[] = $row['share_with'];
+			}
+
+			// We also need to take group shares into account
+
+			$query = \OC_DB::prepare(
+				'SELECT share_with
+				FROM
+				`*PREFIX*share`
+				WHERE
+				item_source = ? AND share_type = ?'
+			);
+
+			$result = $query->execute(array($source, self::SHARE_TYPE_GROUP));
+
+			if (\OC_DB::isError($result)) {
+				\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+			}
+
+			while ($row = $result->fetchRow()) {
+				$usersInGroup = \OC_Group::usersInGroup($row['share_with']);
+				$shares = array_merge($shares, $usersInGroup);
+			}
+
+			//check for public link shares
+			$query = \OC_DB::prepare(
+				'SELECT share_with
+				FROM
+				`*PREFIX*share`
+				WHERE
+				item_source = ? AND share_type = ?'
+			);
+
+			$result = $query->execute(array($source, self::SHARE_TYPE_LINK));
+
+			if (\OC_DB::isError($result)) {
+				\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+			}
+
+			if ($result->fetchRow()) {
+				$publicShare = true;
+			}
+		}
+		// Include owner in list of users, if requested
+		if ($includeOwner) {
+			$shares[] = $user;
+		}
+
+		return array("users" => array_unique($shares), "public" => $publicShare);
+	}
+
 	/**
 	* @brief Get the items of item type shared with the current user
 	* @param string Item type
@@ -409,8 +515,16 @@ class Share {
 				'fileSource' => $item['file_source'],
 				'shareType' => $shareType,
 				'shareWith' => $shareWith,
+				'itemParent' => $item['parent'],
 			));
 			self::delete($item['id']);
+			\OC_Hook::emit('OCP\Share', 'post_unshare', array(
+				'itemType' => $itemType,
+				'itemSource' => $itemSource,
+				'shareType' => $shareType,
+				'shareWith' => $shareWith,
+				'itemParent' => $item['parent'],
+			));
 			return true;
 		}
 		return false;
@@ -433,6 +547,11 @@ class Share {
 			foreach ($shares as $share) {
 				self::delete($share['id']);
 			}
+			\OC_Hook::emit('OCP\Share', 'post_unshareAll', array(
+				'itemType' => $itemType,
+				'itemSource' => $itemSource,
+				'shares' => $shares
+			));
 			return true;
 		}
 		return false;
@@ -1084,8 +1203,18 @@ class Share {
 			.' `file_target`, `token`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)');
 		// Share with a group
 		if ($shareType == self::SHARE_TYPE_GROUP) {
-			$groupItemTarget = self::generateTarget($itemType, $itemSource, $shareType, $shareWith['group'],
-				$uidOwner, $suggestedItemTarget);
+			$groupItemTarget = self::generateTarget($itemType, $itemSource, $shareType, $shareWith['group'], $uidOwner, $suggestedItemTarget);
+			\OC_Hook::emit('OCP\Share', 'pre_shared', array(
+				'itemType' => $itemType,
+				'itemSource' => $itemSource,
+				'itemTarget' => $groupItemTarget,
+				'shareType' => $shareType,
+				'shareWith' => $shareWith['group'],
+				'uidOwner' => $uidOwner,
+				'permissions' => $permissions,
+				'fileSource' => $fileSource,
+				'token' => $token
+			));
 			if (isset($fileSource)) {
 				if ($parentFolder) {
 					if ($parentFolder === true) {
@@ -1146,7 +1275,7 @@ class Share {
 				'itemTarget' => $groupItemTarget,
 				'parent' => $parent,
 				'shareType' => $shareType,
-				'shareWith' => $uid,
+				'shareWith' => $shareWith['group'],
 				'uidOwner' => $uidOwner,
 				'permissions' => $permissions,
 				'fileSource' => $fileSource,
@@ -1159,8 +1288,18 @@ class Share {
 				return $parentFolders;
 			}
 		} else {
-			$itemTarget = self::generateTarget($itemType, $itemSource, $shareType, $shareWith, $uidOwner,
-				$suggestedItemTarget);
+			$itemTarget = self::generateTarget($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $suggestedItemTarget);
+			\OC_Hook::emit('OCP\Share', 'pre_shared', array(
+				'itemType' => $itemType,
+				'itemSource' => $itemSource,
+				'itemTarget' => $itemTarget,
+				'shareType' => $shareType,
+				'shareWith' => $shareWith,
+				'uidOwner' => $uidOwner,
+				'permissions' => $permissions,
+				'fileSource' => $fileSource,
+				'token' => $token
+			));
 			if (isset($fileSource)) {
 				if ($parentFolder) {
 					if ($parentFolder === true) {

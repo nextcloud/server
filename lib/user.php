@@ -393,13 +393,14 @@ class OC_User {
 	 * @brief Set password
 	 * @param $uid The username
 	 * @param $password The new password
+	 * @param $recoveryPassword for the encryption app to reset encryption keys
 	 * @returns true/false
 	 *
 	 * Change the password of a user
 	 */
-	public static function setPassword( $uid, $password ) {
+	public static function setPassword( $uid, $password, $recoveryPassword = null ) {
 		$run = true;
-		OC_Hook::emit( "OC_User", "pre_setPassword", array( "run" => &$run, "uid" => $uid, "password" => $password ));
+		OC_Hook::emit( "OC_User", "pre_setPassword", array( "run" => &$run, "uid" => $uid, "password" => $password, "recoveryPassword" => $recoveryPassword ));
 
 		if( $run ) {
 			$success = false;
@@ -412,7 +413,7 @@ class OC_User {
 			}
 			// invalidate all login cookies
 			OC_Preferences::deleteApp($uid, 'login_token');
-			OC_Hook::emit( "OC_User", "post_setPassword", array( "uid" => $uid, "password" => $password ));
+			OC_Hook::emit( "OC_User", "post_setPassword", array( "uid" => $uid, "password" => $password, "recoveryPassword" => $recoveryPassword ));
 			return $success;
 		}
 		else{

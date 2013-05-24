@@ -26,78 +26,146 @@ namespace OCA\Encryption;
  * Class for handling encryption related session data
  */
 
-class Session {
+class Session
+{
+
+	private $view;
+
+	/**
+	 * @brief if session is started, check if ownCloud key pair is set up, if not create it
+	 * @param \OC_FilesystemView $view
+	 *
+	 * @note The ownCloud key pair is used to allow public link sharing even if encryption is enabled
+	 */
+	public function __construct( $view ) {
+
+		$this->view = $view;
+
+		if ( !$this->view->is_dir( 'owncloud_private_key' ) ) {
+
+			$this->view->mkdir( 'owncloud_private_key' );
+
+		}
+
+		$publicShareKeyId = \OC_Appconfig::getValue( 'files_encryption', 'publicShareKeyId' );
+
+		if ( $publicShareKeyId === null ) {
+			$publicShareKeyId = 'pubShare_' . substr( md5( time() ), 0, 8 );
+			\OC_Appconfig::setValue( 'files_encryption', 'publicShareKeyId', $publicShareKeyId );
+		}
+
+		if (
+			!$this->view->file_exists( "/public-keys/" . $publicShareKeyId . ".public.key" )
+			|| !$this->view->file_exists( "/owncloud_private_key/" . $publicShareKeyId . ".private.key" )
+		) {
+
+			$keypair = Crypt::createKeypair();
+
+			// Disable encryption proxy to prevent recursive calls
+			$proxyStatus = \OC_FileProxy::$enabled;
+			\OC_FileProxy::$enabled = false;
+
+			// Save public key
+
+			if ( !$view->is_dir( '/public-keys' ) ) {
+				$view->mkdir( '/public-keys' );
+			}
+
+			$this->view->file_put_contents( '/public-keys/' . $publicShareKeyId . '.public.key', $keypair['publicKey'] );
+
+			// Encrypt private key empty passphrase
+			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $keypair['privateKey'], '' );
+
+			// Save private key
+			$this->view->file_put_contents( '/owncloud_private_key/' . $publicShareKeyId . '.private.key', $encryptedPrivateKey );
+
+			\OC_FileProxy::$enabled = $proxyStatus;
+
+		}
+
+		if ( \OCP\USER::getUser() === false ||
+			( isset( $_GET['service'] ) && $_GET['service'] == 'files' &&
+				isset( $_GET['t'] ) )
+		) {
+			// Disable encryption proxy to prevent recursive calls
+			$proxyStatus = \OC_FileProxy::$enabled;
+			\OC_FileProxy::$enabled = false;
+
+			$encryptedKey = $this->view->file_get_contents( '/owncloud_private_key/' . $publicShareKeyId . '.private.key' );
+			$privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, '' );
+			$this->setPrivateKey( $privateKey );
+
+			\OC_FileProxy::$enabled = $proxyStatus;
+		}
+	}
 
 	/**
 	 * @brief Sets user private key to session
+	 * @param string $privateKey
 	 * @return bool
-	 *
 	 */
 	public function setPrivateKey( $privateKey ) {
-	
+
 		$_SESSION['privateKey'] = $privateKey;
-		
+
 		return true;
-		
+
 	}
-	
+
 	/**
 	 * @brief Gets user private key from session
 	 * @returns string $privateKey The user's plaintext private key
 	 *
 	 */
 	public function getPrivateKey() {
-	
-		if ( 
+
+		if (
 			isset( $_SESSION['privateKey'] )
 			&& !empty( $_SESSION['privateKey'] )
 		) {
-		
+
 			return $_SESSION['privateKey'];
-		
+
 		} else {
-		
+
 			return false;
-			
+
 		}
-		
+
 	}
-	
+
 	/**
 	 * @brief Sets user legacy key to session
+	 * @param $legacyKey
 	 * @return bool
-	 *
 	 */
 	public function setLegacyKey( $legacyKey ) {
-	
-		if ( $_SESSION['legacyKey'] = $legacyKey ) {
-		
-			return true;
-			
-		}
-		
+
+		$_SESSION['legacyKey'] = $legacyKey;
+
+		return true;
 	}
-	
+
 	/**
 	 * @brief Gets user legacy key from session
 	 * @returns string $legacyKey The user's plaintext legacy key
 	 *
 	 */
 	public function getLegacyKey() {
-	
-		if ( 
+
+		if (
 			isset( $_SESSION['legacyKey'] )
 			&& !empty( $_SESSION['legacyKey'] )
 		) {
-		
+
 			return $_SESSION['legacyKey'];
-		
+
 		} else {
-		
+
 			return false;
-			
+
 		}
-		
+
 	}
 
 }
