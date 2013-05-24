@@ -9,5 +9,6 @@
 "Update" => "Azhurno",
 "Get the apps to sync your files" => "Merrni app-et për sinkronizimin e skedarëve tuaj",
 "Password" => "Kodi",
-"New password" => "Kodi i ri"
+"New password" => "Kodi i ri",
+"Email" => "Email-i"
 );

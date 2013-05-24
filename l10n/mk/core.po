@@ -3,15 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Georgi Stanojevski <glisha@gmail.com>, 2012
-# Miroslav Jovanovic <j.miroslav@gmail.com>, 2012
-# Miroslav Jovanovic <jmiroslav@softhome.net>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-24 18:30+0200\n"
-"PO-Revision-Date: 2013-04-24 16:00+0000\n"
+"POT-Creation-Date: 2013-05-24 01:57+0200\n"
+"PO-Revision-Date: 2013-05-23 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -161,7 +158,7 @@ msgstr "Декември"
 
 #: js/js.js:286
 msgid "Settings"
-msgstr "Поставки"
+msgstr "Подесувања"
 
 #: js/js.js:718
 msgid "seconds ago"
@@ -215,25 +212,29 @@ msgstr "минатата година"
 msgid "years ago"
 msgstr "пред години"
 
-#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
-msgid "Ok"
-msgstr "Во ред"
-
-#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
-msgid "Cancel"
-msgstr "Откажи"
-
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:117
 msgid "Choose"
 msgstr "Избери"
 
-#: js/oc-dialogs.js:215
+#: js/oc-dialogs.js:121
+msgid "Cancel"
+msgstr "Откажи"
+
+#: js/oc-dialogs.js:138 js/oc-dialogs.js:195
+msgid "Error loading file picker template"
+msgstr ""
+
+#: js/oc-dialogs.js:161
 msgid "Yes"
 msgstr "Да"
 
-#: js/oc-dialogs.js:222
+#: js/oc-dialogs.js:168
 msgid "No"
 msgstr "Не"
+
+#: js/oc-dialogs.js:181
+msgid "Ok"
+msgstr "Во ред"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -399,24 +400,27 @@ msgstr "ресетирање на лозинка за ownCloud"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Користете ја следната врска да ја ресетирате Вашата лозинка: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "Ќе добиете врска по е-пошта за да може да ја ресетирате Вашата лозинка."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "Порката за ресетирање на лозинка пратена."
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "Барањето не успеа!"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
 #: templates/login.php:19
 msgid "Username"
 msgstr "Корисничко име"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "Побарајте ресетирање"
 
@@ -446,7 +450,7 @@ msgstr "Корисници"
 
 #: strings.php:7
 msgid "Apps"
-msgstr "Апликации"
+msgstr "Аппликации"
 
 #: strings.php:8
 msgid "Admin"
@@ -560,7 +564,12 @@ msgstr "Заврши го подесувањето"
 msgid "web services under your control"
 msgstr "веб сервиси под Ваша контрола"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "Одјава"
 

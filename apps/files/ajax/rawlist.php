@@ -15,6 +15,14 @@ $mimetype = isset($_GET['mimetype']) ? $_GET['mimetype'] : '';
 
 // make filelist
 $files = array();
+// If a type other than directory is requested first load them.
+if($mimetype && strpos($mimetype, 'httpd/unix-directory') === false) {
+	foreach( \OC\Files\Filesystem::getDirectoryContent( $dir, 'httpd/unix-directory' ) as $i ) {
+		$i["date"] = OCP\Util::formatDate($i["mtime"] );
+		$i['mimetype_icon'] = $i['type'] == 'dir' ? \mimetype_icon('dir'): \mimetype_icon($i['mimetype']);
+		$files[] = $i;
+	}
+}
 foreach( \OC\Files\Filesystem::getDirectoryContent( $dir, $mimetype ) as $i ) {
 	$i["date"] = OCP\Util::formatDate($i["mtime"] );
 	$i['mimetype_icon'] = $i['type'] == 'dir' ? \mimetype_icon('dir'): \mimetype_icon($i['mimetype']);

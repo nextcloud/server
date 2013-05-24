@@ -4,14 +4,14 @@
 # 
 # Translators:
 # pisike.sipelgas <pisike.sipelgas@gmail.com>, 2013
-# Rivo Zängov <eraser@eraser.ee>, 2011-2012
+# Rivo Zängov <eraser@eraser.ee>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-24 18:30+0200\n"
-"PO-Revision-Date: 2013-04-24 16:00+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-24 01:57+0200\n"
+"PO-Revision-Date: 2013-05-23 23:15+0000\n"
+"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +27,7 @@ msgstr "Kasutaja %s jagas Sinuga faili"
 #: ajax/share.php:99
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr "Kasutaja %s jagas Sinuga kataloogi."
+msgstr "Kasutaja %s jagas Sinuga kausta."
 
 #: ajax/share.php:101
 #, php-format
@@ -54,7 +54,7 @@ msgstr "Pole kategooriat, mida lisada?"
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr "See kategooria juba eksisteerib: %s"
+msgstr "See kategooria on juba olemas: %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -66,7 +66,7 @@ msgstr "Objekti tüüb puudub."
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr "%s ID puudub"
+msgstr "%s ID puudub."
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
@@ -214,30 +214,34 @@ msgstr "viimasel aastal"
 msgid "years ago"
 msgstr "aastat tagasi"
 
-#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
-msgid "Ok"
-msgstr "Ok"
-
-#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
-msgid "Cancel"
-msgstr "Loobu"
-
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:117
 msgid "Choose"
 msgstr "Vali"
 
-#: js/oc-dialogs.js:215
+#: js/oc-dialogs.js:121
+msgid "Cancel"
+msgstr "Loobu"
+
+#: js/oc-dialogs.js:138 js/oc-dialogs.js:195
+msgid "Error loading file picker template"
+msgstr ""
+
+#: js/oc-dialogs.js:161
 msgid "Yes"
 msgstr "Jah"
 
-#: js/oc-dialogs.js:222
+#: js/oc-dialogs.js:168
 msgid "No"
 msgstr "Ei"
+
+#: js/oc-dialogs.js:181
+msgid "Ok"
+msgstr "Ok"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr "Objekti tüüb pole määratletud"
+msgstr "Objekti tüüp pole määratletud."
 
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
@@ -301,7 +305,7 @@ msgstr "Parool"
 
 #: js/share.js:173
 msgid "Email link to person"
-msgstr "Saada link isikule emailiga"
+msgstr "Saada link isikule e-postiga"
 
 #: js/share.js:174
 msgid "Send"
@@ -398,24 +402,27 @@ msgstr "ownCloud parooli taastamine"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Kasuta järgnevat linki oma parooli taastamiseks: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr "Link parooli vahetuseks on saadetud Sinu e-posti aadressil.<br>Kui kiri pole saabunud mõistliku aja jooksul, siis kontrolli oma spam-/rämpskirjade katalooge.<br>Kui kirja pole ka seal, siis küsi abi süsteemihaldurilt."
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr "Päring ebaõnnestus!<br>Oled sa veendunud, et e-post/kasutajanimi on õiged?"
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "Sinu parooli taastamise link saadetakse sulle e-postile."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "Taastamise e-kiri on saadetud."
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "Päring ebaõnnestus!"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
 #: templates/login.php:19
 msgid "Username"
 msgstr "Kasutajanimi"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "Päringu taastamine"
 
@@ -437,7 +444,7 @@ msgstr "Nulli parool"
 
 #: strings.php:5
 msgid "Personal"
-msgstr "isiklik"
+msgstr "Isiklik"
 
 #: strings.php:6
 msgid "Users"
@@ -445,7 +452,7 @@ msgstr "Kasutajad"
 
 #: strings.php:7
 msgid "Apps"
-msgstr "Programmid"
+msgstr "Rakendused"
 
 #: strings.php:8
 msgid "Admin"
@@ -515,7 +522,7 @@ msgstr "Loo <strong>admini konto</strong>"
 
 #: templates/installation.php:62
 msgid "Advanced"
-msgstr "Lisavalikud"
+msgstr "Täpsem"
 
 #: templates/installation.php:64
 msgid "Data folder"
@@ -557,9 +564,14 @@ msgstr "Lõpeta seadistamine"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "veebiteenused sinu kontrolli all"
+msgstr "veebitenused sinu kontrolli all"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr "%s on saadaval. Vaata lähemalt kuidas uuendada."
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "Logi välja"
 

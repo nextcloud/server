@@ -281,12 +281,28 @@
 			</field>
 
 			<field>
+				<name>storage_mtime</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+
+			<field>
 				<name>encrypted</name>
 				<type>integer</type>
 				<default>0</default>
 				<notnull>true</notnull>
 				<length>4</length>
 			</field>
+
+            <field>
+                <name>unencrypted_size</name>
+                <type>integer</type>
+                <default></default>
+                <notnull>true</notnull>
+                <length>8</length>
+            </field>
 
 			<field>
 				<name>etag</name>

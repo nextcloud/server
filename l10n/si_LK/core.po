@@ -3,15 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Anushke Guneratne <anushke@gmail.com>, 2012
-# Chamara Disanayake <chamara@nic.lk>, 2012
-# Thanoja <thanojar@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-24 18:30+0200\n"
-"PO-Revision-Date: 2013-04-24 16:00+0000\n"
+"POT-Creation-Date: 2013-05-24 01:57+0200\n"
+"PO-Revision-Date: 2013-05-23 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -149,7 +146,7 @@ msgstr "සැප්තැම්බර්"
 
 #: js/config.php:54
 msgid "October"
-msgstr "ඔක්තෝබර්"
+msgstr "ඔක්තෝබර"
 
 #: js/config.php:55
 msgid "November"
@@ -161,7 +158,7 @@ msgstr "දෙසැම්බර්"
 
 #: js/js.js:286
 msgid "Settings"
-msgstr "සැකසුම්"
+msgstr "සිටුවම්"
 
 #: js/js.js:718
 msgid "seconds ago"
@@ -215,25 +212,29 @@ msgstr "පෙර අවුරුද්දේ"
 msgid "years ago"
 msgstr "අවුරුදු කීපයකට පෙර"
 
-#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
-msgid "Ok"
-msgstr "හරි"
-
-#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
-msgid "Cancel"
-msgstr "එපා"
-
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:117
 msgid "Choose"
 msgstr "තෝරන්න"
 
-#: js/oc-dialogs.js:215
+#: js/oc-dialogs.js:121
+msgid "Cancel"
+msgstr "එපා"
+
+#: js/oc-dialogs.js:138 js/oc-dialogs.js:195
+msgid "Error loading file picker template"
+msgstr ""
+
+#: js/oc-dialogs.js:161
 msgid "Yes"
 msgstr "ඔව්"
 
-#: js/oc-dialogs.js:222
+#: js/oc-dialogs.js:168
 msgid "No"
-msgstr "නැහැ"
+msgstr "එපා"
+
+#: js/oc-dialogs.js:181
+msgid "Ok"
+msgstr "හරි"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -298,7 +299,7 @@ msgstr "මුර පදයකින් ආරක්ශාකරන්න"
 
 #: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr "මුර පදය "
+msgstr "මුර පදය"
 
 #: js/share.js:173
 msgid "Email link to person"
@@ -399,24 +400,27 @@ msgstr "ownCloud මුරපදය ප්‍රත්‍යාරම්භ ක�
 msgid "Use the following link to reset your password: {link}"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "ඔබගේ මුරපදය ප්‍රත්‍යාරම්භ කිරීම සඳහා යොමුව විද්‍යුත් තැපෑලෙන් ලැබෙනු ඇත"
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "ඉල්ලීම අසාර්ථකයි!"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
 #: templates/login.php:19
 msgid "Username"
 msgstr "පරිශීලක නම"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr ""
 
@@ -430,7 +434,7 @@ msgstr "පිවිසුම් පිටුවට"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr "නව මුර පදයක්"
+msgstr "නව මුරපදය"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
@@ -470,7 +474,7 @@ msgstr "ප්‍රභේදයන් සංස්කරණය"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr "එක් කරන්න"
+msgstr "එකතු කරන්න"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -560,7 +564,12 @@ msgstr "ස්ථාපනය කිරීම අවසන් කරන්න"
 msgid "web services under your control"
 msgstr "ඔබට පාලනය කළ හැකි වෙබ් සේවාවන්"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "නික්මීම"
 

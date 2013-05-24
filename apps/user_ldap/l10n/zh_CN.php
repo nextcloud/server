@@ -7,6 +7,8 @@
 "Take over settings from recent server configuration?" => "从近期的服务器配置中导入设置？",
 "Keep settings?" => "保留设置吗？",
 "Cannot add server configuration" => "无法添加服务器配置",
+"Success" => "成功",
+"Error" => "错误",
 "Connection test succeeded" => "连接测试成功",
 "Connection test failed" => "连接测试失败",
 "Do you really want to delete the current Server Configuration?" => "您真的想要删除当前服务器配置吗？",

@@ -24,7 +24,6 @@
 "%s set the database host." => "%s 設定資料庫主機。",
 "PostgreSQL username and/or password not valid" => "PostgreSQL 用戶名和/或密碼無效",
 "You need to enter either an existing account or the administrator." => "您必須輸入一個現有的帳號或管理員帳號。",
-"Oracle username and/or password not valid" => "Oracle 用戶名和/或密碼無效",
 "MySQL username and/or password not valid" => "MySQL 用戶名和/或密碼無效",
 "DB Error: \"%s\"" => "資料庫錯誤：\"%s\"",
 "Offending command was: \"%s\"" => "有問題的指令是：\"%s\"",
@@ -32,6 +31,7 @@
 "Drop this user from MySQL" => "在 MySQL 移除這個使用者",
 "MySQL user '%s'@'%%' already exists" => "MySQL 使用者 '%s'@'%%' 已經存在",
 "Drop this user from MySQL." => "在 MySQL 移除這個使用者。",
+"Oracle username and/or password not valid" => "Oracle 用戶名和/或密碼無效",
 "Offending command was: \"%s\", name: %s, password: %s" => "有問題的指令是：\"%s\" ，使用者：\"%s\"，密碼：\"%s\"",
 "MS SQL username and/or password not valid: %s" => "MS SQL 使用者和/或密碼無效：%s",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "您的網頁伺服器尚未被正確設定來進行檔案同步，因為您的 WebDAV 界面似乎無法使用。",
@@ -48,8 +48,5 @@
 "%d months ago" => "%d 個月之前",
 "last year" => "去年",
 "years ago" => "幾年前",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s 已經可用。取得 <a href=\"%s\">更多資訊</a>",
-"up to date" => "最新的",
-"updates check is disabled" => "更新檢查已停用",
 "Could not find category \"%s\"" => "找不到分類：\"%s\""
 );

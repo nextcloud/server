@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
-"There is no error, the file uploaded with success" => "Klaidų nėra, failas įkeltas sėkmingai",
-"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Įkeliamo failo dydis viršija MAX_FILE_SIZE parametrą, kuris yra nustatytas HTML formoje",
+"There is no error, the file uploaded with success" => "Failas įkeltas sėkmingai, be klaidų",
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Įkeliamo failo dydis viršija MAX_FILE_SIZE nustatymą, kuris naudojamas HTML formoje.",
 "The uploaded file was only partially uploaded" => "Failas buvo įkeltas tik dalinai",
-"No file was uploaded" => "Nebuvo įkeltas nė vienas failas",
+"No file was uploaded" => "Nebuvo įkeltas joks failas",
 "Missing a temporary folder" => "Nėra laikinojo katalogo",
 "Failed to write to disk" => "Nepavyko įrašyti į diską",
 "Files" => "Failai",
@@ -45,7 +45,7 @@
 "Download" => "Atsisiųsti",
 "Unshare" => "Nebesidalinti",
 "Upload too large" => "Įkėlimui failas per didelis",
-"The files you are trying to upload exceed the maximum size for file uploads on this server." => "Bandomų įkelti failų dydis viršija maksimalų leidžiamą šiame serveryje",
+"The files you are trying to upload exceed the maximum size for file uploads on this server." => "Bandomų įkelti failų dydis viršija maksimalų, kuris leidžiamas šiame serveryje",
 "Files are being scanned, please wait." => "Skenuojami failai, prašome palaukti.",
 "Current scanning" => "Šiuo metu skenuojama"
 );

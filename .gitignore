@@ -16,6 +16,10 @@ apps/*
 !apps/user_ldap
 !apps/user_webdavauth
 
+# ignore themes except the README
+themes/*
+!themes/README
+
 # just sane ignores
 .*.sw[po]
 *.bak

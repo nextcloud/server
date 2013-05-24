@@ -75,65 +75,9 @@ class OC {
 	protected static $router = null;
 
 	/**
-	 * SPL autoload
+	 * @var \OC\Autoloader $loader
 	 */
-	public static function autoload($className) {
-		$className = trim($className, '\\');
-		
-		if (array_key_exists($className, OC::$CLASSPATH)) {
-			$path = OC::$CLASSPATH[$className];
-			/** @TODO: Remove this when necessary
-			Remove "apps/" from inclusion path for smooth migration to mutli app dir
-			 */
-			if (strpos($path, 'apps/') === 0) {
-				OC_Log::write('core', 'include path for class "' . $className . '" starts with "apps/"', OC_Log::DEBUG);
-				$path = str_replace('apps/', '', $path);
-			}
-		} elseif (strpos($className, 'OC_') === 0) {
-			$path = strtolower(str_replace('_', '/', substr($className, 3)) . '.php');
-		} elseif (strpos($className, 'OC\\') === 0) {
-			$path = strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
-		} elseif (strpos($className, 'OCP\\') === 0) {
-			$path = 'public/' . strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
-		} elseif (strpos($className, 'OCA\\') === 0) {
-			foreach (self::$APPSROOTS as $appDir) {
-				$path = strtolower(str_replace('\\', '/', substr($className, 4)) . '.php');
-				$fullPath = stream_resolve_include_path($appDir['path'] . '/' . $path);
-				if (file_exists($fullPath)) {
-					require_once $fullPath;
-					return false;
-				}
-				// If not found in the root of the app directory, insert '/lib' after app id and try again.
-				$libpath = substr($path, 0, strpos($path, '/')) . '/lib' . substr($path, strpos($path, '/'));
-				$fullPath = stream_resolve_include_path($appDir['path'] . '/' . $libpath);
-				if (file_exists($fullPath)) {
-					require_once $fullPath;
-					return false;
-				}
-			}
-		} elseif (strpos($className, 'Sabre_') === 0) {
-			$path = str_replace('_', '/', $className) . '.php';
-		} elseif(strpos($className, 'Doctrine\\Common')===0) {
-			$path = 'doctrine/common/lib/'.str_replace('\\', '/', $className) . '.php';
-		} elseif(strpos($className, 'Doctrine\\DBAL')===0) {
-			$path = 'doctrine/dbal/lib/'.str_replace('\\', '/', $className) . '.php';
-		} elseif (strpos($className, 'Symfony\\Component\\Routing\\') === 0) {
-			$path = 'symfony/routing/' . str_replace('\\', '/', $className) . '.php';
-		} elseif (strpos($className, 'Sabre\\VObject') === 0) {
-			$path = str_replace('\\', '/', $className) . '.php';
-		} elseif (strpos($className, 'Test_') === 0) {
-			$path = 'tests/lib/' . strtolower(str_replace('_', '/', substr($className, 5)) . '.php');
-		} elseif (strpos($className, 'Test\\') === 0) {
-			$path = 'tests/lib/' . strtolower(str_replace('\\', '/', substr($className, 5)) . '.php');
-		} else {
-			return false;
-		}
-
-		if ($fullPath = stream_resolve_include_path($path)) {
-			require_once $fullPath;
-		}
-		return false;
-	}
+	public static $loader = null;
 
 	public static function initPaths() {
 		// calculate the root directories
@@ -316,6 +260,7 @@ class OC {
 		OC_Util::addScript("jquery-tipsy");
 		OC_Util::addScript("compatibility");
 		OC_Util::addScript("oc-dialogs");
+		OC_Util::addScript("octemplate");
 		OC_Util::addScript("js");
 		OC_Util::addScript("eventsource");
 		OC_Util::addScript("config");
@@ -400,8 +345,14 @@ class OC {
 
 	public static function init() {
 		// register autoloader
-		spl_autoload_register(array('OC', 'autoload'));
-		OC_Util::issetlocaleworking();
+		require_once __DIR__ . '/autoloader.php';
+		self::$loader=new \OC\Autoloader();
+		self::$loader->registerPrefix('Doctrine\\Common', 'doctrine/common/lib');
+		self::$loader->registerPrefix('Doctrine\\DBAL', 'doctrine/dbal/lib');
+		self::$loader->registerPrefix('Symfony\\Component\\Routing', 'symfony/routing');
+		self::$loader->registerPrefix('Sabre\\VObject', '3rdparty');
+		self::$loader->registerPrefix('Sabre_', '3rdparty');
+		spl_autoload_register(array(self::$loader, 'load'));
 
 		// set some stuff
 		//ob_start();
@@ -458,6 +409,7 @@ class OC {
 		}
 
 		self::initPaths();
+		OC_Util::issetlocaleworking();
 
 		// set debug mode if an xdebug session is active
 		if (!defined('DEBUG') || !DEBUG) {
@@ -482,7 +434,9 @@ class OC {
 		self::checkConfig();
 		self::checkInstalled();
 		self::checkSSL();
-		self::initSession();
+		if ( !self::$CLI ) {
+			self::initSession();
+		}
 
 		$errors = OC_Util::checkServer();
 		if (count($errors) > 0) {
@@ -589,10 +543,12 @@ class OC {
 	 * register hooks for sharing
 	 */
 	public static function registerShareHooks() {
-		OC_Hook::connect('OC_User', 'post_deleteUser', 'OCP\Share', 'post_deleteUser');
-		OC_Hook::connect('OC_User', 'post_addToGroup', 'OCP\Share', 'post_addToGroup');
-		OC_Hook::connect('OC_User', 'post_removeFromGroup', 'OCP\Share', 'post_removeFromGroup');
-		OC_Hook::connect('OC_User', 'post_deleteGroup', 'OCP\Share', 'post_deleteGroup');
+		if(\OC_Config::getValue('installed')) {
+			OC_Hook::connect('OC_User', 'post_deleteUser', 'OCP\Share', 'post_deleteUser');
+			OC_Hook::connect('OC_User', 'post_addToGroup', 'OCP\Share', 'post_addToGroup');
+			OC_Hook::connect('OC_User', 'post_removeFromGroup', 'OCP\Share', 'post_removeFromGroup');
+			OC_Hook::connect('OC_User', 'post_deleteGroup', 'OCP\Share', 'post_deleteGroup');
+		}
 	}
 
 	/**
@@ -645,7 +601,7 @@ class OC {
 			
 			// Deny the redirect if the URL contains a @
 			// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
-			if (strpos($location, '@') === FALSE) {
+			if (strpos($location, '@') === false) {
 				header('Location: ' . $location);
 				return;
 			}

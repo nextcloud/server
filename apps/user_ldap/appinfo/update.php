@@ -18,7 +18,7 @@ if(!is_null($pw)) {
 //detect if we can switch on naming guidelines. We won't do it on conflicts.
 //it's a bit spaghetti, but hey.
 $state = OCP\Config::getSystemValue('ldapIgnoreNamingRules', 'unset');
-if($state == 'unset') {
+if($state === 'unset') {
 	OCP\Config::setSystemValue('ldapIgnoreNamingRules', false);
 }
 
@@ -48,7 +48,7 @@ foreach($objects as $object) {
 		$newDN = escapeDN(mb_strtolower($dn['ldap_dn'], 'UTF-8'));
 		if(!empty($dn['directory_uuid'])) {
 			$uuid = $dn['directory_uuid'];
-		} elseif($object == 'user') {
+		} elseif($object === 'user') {
 			$uuid = $userBE->getUUID($newDN);
 			//fix home folder to avoid new ones depending on the configuration
 			$userBE->getHome($dn['owncloud_name']);

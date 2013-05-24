@@ -7,6 +7,8 @@
 "Take over settings from recent server configuration?" => "Prebrať nastavenia z nedávneho nastavenia servera?",
 "Keep settings?" => "Ponechať nastavenia?",
 "Cannot add server configuration" => "Nemožno pridať nastavenie servera",
+"Success" => "Úspešné",
+"Error" => "Chyba",
 "Connection test succeeded" => "Test pripojenia bol úspešný",
 "Connection test failed" => "Test pripojenia zlyhal",
 "Do you really want to delete the current Server Configuration?" => "Naozaj chcete zmazať súčasné nastavenie servera?",

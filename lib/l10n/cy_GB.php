@@ -24,7 +24,6 @@
 "%s set the database host." => "%s gosod gwesteiwr y gronfa ddata.",
 "PostgreSQL username and/or password not valid" => "Enw a/neu gyfrinair PostgreSQL annilys",
 "You need to enter either an existing account or the administrator." => "Rhaid i chi naill ai gyflwyno cyfrif presennol neu'r gweinyddwr.",
-"Oracle username and/or password not valid" => "Enw a/neu gyfrinair Oracle annilys",
 "MySQL username and/or password not valid" => "Enw a/neu gyfrinair MySQL annilys",
 "DB Error: \"%s\"" => "Gwall DB: \"%s\"",
 "Offending command was: \"%s\"" => "Y gorchymyn wnaeth beri tramgwydd oedd: \"%s\"",
@@ -32,6 +31,7 @@
 "Drop this user from MySQL" => "Gollwng y defnyddiwr hwn o MySQL",
 "MySQL user '%s'@'%%' already exists" => "Defnyddiwr MySQL '%s'@'%%' eisoes yn bodoli",
 "Drop this user from MySQL." => "Gollwng y defnyddiwr hwn o MySQL.",
+"Oracle username and/or password not valid" => "Enw a/neu gyfrinair Oracle annilys",
 "Offending command was: \"%s\", name: %s, password: %s" => "Y gorchymyn wnaeth beri tramgwydd oedd: \"%s\", enw: %s, cyfrinair: %s",
 "MS SQL username and/or password not valid: %s" => "Enw a/neu gyfrinair MS SQL annilys: %s",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Nid yw eich gweinydd wedi'i gyflunio eto i ganiatáu cydweddu ffeiliau oherwydd bod y rhyngwyneb WebDAV wedi torri.",
@@ -48,8 +48,5 @@
 "%d months ago" => "%d mis yn ôl",
 "last year" => "y llynedd",
 "years ago" => "blwyddyn yn ôl",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s ar gael. <a href=\"%s\">Mwy o wybodaeth</a>",
-"up to date" => "cyfredol",
-"updates check is disabled" => "gwirio am ddiweddariadau wedi'i analluogi",
 "Could not find category \"%s\"" => "Methu canfod categori \"%s\""
 );

@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Tomer Cohen <tomerc+transifex.net@gmail.com>, 2012
-# Yaron Shahrabani <sh.yaron@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-24 01:57+0200\n"
-"PO-Revision-Date: 2013-04-23 23:58+0000\n"
+"POT-Creation-Date: 2013-05-24 01:57+0200\n"
+"PO-Revision-Date: 2013-05-23 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"

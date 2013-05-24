@@ -3,20 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# hanfeng <appweb.cn@gmail.com>, 2012
-# Dianjin Wang <1132321739qq@gmail.com>, 2012
-# Phoenix Nemo <>, 2012
-# leonfeng <rainofchaos@gmail.com>, 2013
-# waterone <suiy02@gmail.com>, 2012
-# Xuetian Weng <wengxt@gmail.com>, 2013
-# Xuetian Weng <wengxt@gmail.com>, 2011, 2012
 # zhangmin <zm1990s@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-24 18:30+0200\n"
-"PO-Revision-Date: 2013-04-24 16:00+0000\n"
+"POT-Creation-Date: 2013-05-24 01:57+0200\n"
+"PO-Revision-Date: 2013-05-23 23:15+0000\n"
 "Last-Translator: zhangmin <zm1990s@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -220,25 +213,29 @@ msgstr "去年"
 msgid "years ago"
 msgstr "年前"
 
-#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
-msgid "Ok"
-msgstr "好"
-
-#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
-msgid "Cancel"
-msgstr "取消"
-
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:117
 msgid "Choose"
 msgstr "选择(&C)..."
 
-#: js/oc-dialogs.js:215
+#: js/oc-dialogs.js:121
+msgid "Cancel"
+msgstr "取消"
+
+#: js/oc-dialogs.js:138 js/oc-dialogs.js:195
+msgid "Error loading file picker template"
+msgstr ""
+
+#: js/oc-dialogs.js:161
 msgid "Yes"
 msgstr "是"
 
-#: js/oc-dialogs.js:222
+#: js/oc-dialogs.js:168
 msgid "No"
 msgstr "否"
+
+#: js/oc-dialogs.js:181
+msgid "Ok"
+msgstr "好"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -267,7 +264,7 @@ msgstr "已共享"
 
 #: js/share.js:90
 msgid "Share"
-msgstr "共享"
+msgstr "分享"
 
 #: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
@@ -291,7 +288,7 @@ msgstr " {owner}与您共享"
 
 #: js/share.js:159
 msgid "Share with"
-msgstr "共享"
+msgstr "分享之"
 
 #: js/share.js:164
 msgid "Share with link"
@@ -404,24 +401,27 @@ msgstr "重置 ownCloud 密码"
 msgid "Use the following link to reset your password: {link}"
 msgstr "使用以下链接重置您的密码：{link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr "重置密码的链接已发送到您的邮箱。<br>如果您觉得在合理的时间内还未收到邮件，请查看 spam/junk 目录。<br>如果没有在那里，请询问您的本地管理员。"
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr "请求失败<br>您确定您的邮箱/用户名是正确的？"
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "您将会收到包含可以重置密码链接的邮件。"
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "重置邮件已发送。"
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "请求失败！"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
 #: templates/login.php:19
 msgid "Username"
 msgstr "用户名"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "请求重置"
 
@@ -455,7 +455,7 @@ msgstr "应用"
 
 #: strings.php:8
 msgid "Admin"
-msgstr "管理员"
+msgstr "管理"
 
 #: strings.php:9
 msgid "Help"
@@ -475,7 +475,7 @@ msgstr "编辑分类"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr "添加"
+msgstr "增加"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -563,9 +563,14 @@ msgstr "安装完成"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "由您掌控的网络服务"
+msgstr "您控制的web服务"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr "%s 可用。获取更多关于如何升级的信息。"
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "注销"
 

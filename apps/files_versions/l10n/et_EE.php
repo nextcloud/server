@@ -7,5 +7,5 @@
 "No old versions available" => "Vanu versioone pole saadaval",
 "No path specified" => "Asukohta pole määratud",
 "Versions" => "Versioonid",
-"Revert a file to a previous version by clicking on its revert button" => "Taasta fail varasemale versioonile klikkides \"Revert\" nupule"
+"Revert a file to a previous version by clicking on its revert button" => "Taasta fail varasemale versioonile klikkides nupule \"Taasta\""
 );

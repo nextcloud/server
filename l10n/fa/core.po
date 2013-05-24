@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Hossein nag <h.sname@yahoo.com>, 2012
-# miki_mika1362 <miki_mika1362@yahoo.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-24 18:30+0200\n"
-"PO-Revision-Date: 2013-04-24 16:00+0000\n"
+"POT-Creation-Date: 2013-05-24 01:57+0200\n"
+"PO-Revision-Date: 2013-05-23 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -214,25 +212,29 @@ msgstr "سال قبل"
 msgid "years ago"
 msgstr "سال‌های قبل"
 
-#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
-msgid "Ok"
-msgstr "قبول"
-
-#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
-msgid "Cancel"
-msgstr "منصرف شدن"
-
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:117
 msgid "Choose"
 msgstr "انتخاب کردن"
 
-#: js/oc-dialogs.js:215
+#: js/oc-dialogs.js:121
+msgid "Cancel"
+msgstr "منصرف شدن"
+
+#: js/oc-dialogs.js:138 js/oc-dialogs.js:195
+msgid "Error loading file picker template"
+msgstr ""
+
+#: js/oc-dialogs.js:161
 msgid "Yes"
 msgstr "بله"
 
-#: js/oc-dialogs.js:222
+#: js/oc-dialogs.js:168
 msgid "No"
 msgstr "نه"
+
+#: js/oc-dialogs.js:181
+msgid "Ok"
+msgstr "قبول"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -261,7 +263,7 @@ msgstr "اشتراک گذاشته شده"
 
 #: js/share.js:90
 msgid "Share"
-msgstr "اشتراک‌گزاری"
+msgstr "اشتراک‌گذاری"
 
 #: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
@@ -398,24 +400,27 @@ msgstr "پسورد ابرهای شما تغییرکرد"
 msgid "Use the following link to reset your password: {link}"
 msgstr "از لینک زیر جهت دوباره سازی پسورد استفاده کنید :\n{link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "شما یک نامه الکترونیکی حاوی یک لینک جهت بازسازی گذرواژه دریافت خواهید کرد."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "تنظیم مجدد ایمیل را بفرستید."
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "درخواست رد شده است !"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
 #: templates/login.php:19
 msgid "Username"
-msgstr "شناسه"
+msgstr "نام کاربری"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "درخواست دوباره سازی"
 
@@ -441,11 +446,11 @@ msgstr "شخصی"
 
 #: strings.php:6
 msgid "Users"
-msgstr "کاربر ها"
+msgstr "کاربران"
 
 #: strings.php:7
 msgid "Apps"
-msgstr "برنامه"
+msgstr "  برنامه ها"
 
 #: strings.php:8
 msgid "Admin"
@@ -453,7 +458,7 @@ msgstr "مدیر"
 
 #: strings.php:9
 msgid "Help"
-msgstr "کمک"
+msgstr "راه‌نما"
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -465,7 +470,7 @@ msgstr "پیدا نشد"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "ویرایش گروه ها"
+msgstr "ویرایش گروه"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
@@ -515,7 +520,7 @@ msgstr "لطفا یک <strong> شناسه برای مدیر</strong> بسازی�
 
 #: templates/installation.php:62
 msgid "Advanced"
-msgstr "حرفه ای"
+msgstr "پیشرفته"
 
 #: templates/installation.php:64
 msgid "Data folder"
@@ -557,9 +562,14 @@ msgstr "اتمام نصب"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "سرویس وب تحت کنترل شما"
+msgstr "سرویس های تحت وب در کنترل شما"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "خروج"
 

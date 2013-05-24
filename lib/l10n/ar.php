@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Help" => "المساعدة",
 "Personal" => "شخصي",
-"Settings" => "تعديلات",
+"Settings" => "إعدادات",
 "Users" => "المستخدمين",
 "Apps" => "التطبيقات",
 "Admin" => "المدير",
@@ -24,7 +24,6 @@
 "%s set the database host." => "%s ادخل اسم خادم قاعدة البيانات",
 "PostgreSQL username and/or password not valid" => "اسم المستخدم / أو كلمة المرور الخاصة بـPostgreSQL غير صحيحة",
 "You need to enter either an existing account or the administrator." => "انت بحاجة لكتابة اسم مستخدم موجود أو حساب المدير.",
-"Oracle username and/or password not valid" => "اسم المستخدم  و/أو  كلمة المرور لنظام Oracle غير صحيح",
 "MySQL username and/or password not valid" => "اسم المستخدم  و/أو  كلمة المرور لنظام MySQL غير صحيح",
 "DB Error: \"%s\"" => "خطأ في قواعد البيانات : \"%s\"",
 "Offending command was: \"%s\"" => "الأمر المخالف كان : \"%s\"",
@@ -32,6 +31,7 @@
 "Drop this user from MySQL" => "احذف اسم المستخدم هذا من الـ MySQL",
 "MySQL user '%s'@'%%' already exists" => "أسم المستخدم  '%s'@'%%' الخاص بـ MySQL موجود مسبقا",
 "Drop this user from MySQL." => "احذف اسم المستخدم هذا من الـ MySQL.",
+"Oracle username and/or password not valid" => "اسم المستخدم  و/أو  كلمة المرور لنظام Oracle غير صحيح",
 "Offending command was: \"%s\", name: %s, password: %s" => "الأمر المخالف كان : \"%s\", اسم المستخدم : %s, كلمة المرور: %s",
 "MS SQL username and/or password not valid: %s" => "اسم المستخدم  و/أو  كلمة المرور لنظام MS SQL غير صحيح : %s",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "اعدادات خادمك غير صحيحة بشكل تسمح لك بمزامنة ملفاتك وذلك بسبب أن واجهة WebDAV تبدو معطلة",
@@ -48,8 +48,5 @@
 "%d months ago" => "%d شهر مضت",
 "last year" => "السنةالماضية",
 "years ago" => "سنة مضت",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s متاح . احصل على <a href=\"%s\">المزيد من المعلومات </a>",
-"up to date" => "محدّث",
-"updates check is disabled" => "فحص التحديثات معطّل",
 "Could not find category \"%s\"" => "تعذر العثور على المجلد \"%s\""
 );

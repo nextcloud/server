@@ -3,16 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# intense <intense.feel@gmail.com>, 2012
 # mhh <marian.hvolka@stuba.sk>, 2013
-# martinb <martin.babik@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-24 01:57+0200\n"
-"PO-Revision-Date: 2013-04-23 23:58+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-24 01:57+0200\n"
+"PO-Revision-Date: 2013-05-23 23:15+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,7 +56,7 @@ msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
 "your system administrator to install it."
-msgstr ""
+msgstr "<b>Varovanie:</b> nie je nainštalovaná, alebo povolená, podpora Curl v PHP. Nie je možné pripojenie oddielov ownCloud, WebDAV, či GoogleDrive. Prosím požiadajte svojho administrátora systému, nech ju nainštaluje."
 
 #: templates/settings.php:3
 msgid "External Storage"
@@ -107,7 +105,7 @@ msgstr "Používatelia"
 #: templates/settings.php:113 templates/settings.php:114
 #: templates/settings.php:149 templates/settings.php:150
 msgid "Delete"
-msgstr "Odstrániť"
+msgstr "Zmazať"
 
 #: templates/settings.php:129
 msgid "Enable User External Storage"

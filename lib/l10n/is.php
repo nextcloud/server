@@ -27,8 +27,5 @@
 "%d months ago" => "fyrir %d mánuðum",
 "last year" => "síðasta ári",
 "years ago" => "einhverjum árum",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s er í boði. Sækja <a href=\"%s\">meiri upplýsingar</a>",
-"up to date" => "nýjasta útgáfa",
-"updates check is disabled" => "uppfærslupróf er ekki virkjað",
 "Could not find category \"%s\"" => "Fann ekki flokkinn \"%s\""
 );

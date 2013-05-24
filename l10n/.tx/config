@@ -5,16 +5,19 @@ host = https://www.transifex.net
 file_filter = <lang>/core.po
 source_file = templates/core.pot
 source_lang = en
+type = PO
 
 [owncloud.files]
 file_filter = <lang>/files.po
 source_file = templates/files.pot
 source_lang = en
+type = PO
 
 [owncloud.settings]
 file_filter = <lang>/settings.po
 source_file = templates/settings.pot
 source_lang = en
+type = PO
 
 [owncloud.lib]
 file_filter = <lang>/lib.po

@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Deletion failed" => "நீக்கம் தோல்வியடைந்தது",
+"Error" => "வழு",
 "Host" => "ஓம்புனர்",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "நீங்கள் SSL சேவையை தவிர உடன்படு வரைமுறையை தவிர்க்க முடியும். பிறகு ldaps:.// உடன் ஆரம்பிக்கவும்",
 "Base DN" => "தள DN",

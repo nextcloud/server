@@ -3,25 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Denis <reg.transifex.net@demitel.ru>, 2012
-# jekader <jekader@gmail.com>, 2011, 2012
-# k0ldbl00d <k0ldbl00d@gmail.com>, 2012
-# Mihail Vasiliev <mickvav@gmail.com>, 2012
-# sam002 <semen@sam002.net>, 2012
-# m4rkell <sergey@markevich.ru>, 2013
-# adol <sharov3@gmail.com>, 2013
-# skoptev <skoptev@ukr.net>, 2012
-# tonymc <tony.mccourin@gmail.com>, 2011
-# Victor Bravo <>, 2012
-# VicDeo <victor.dubiniuk@gmail.com>, 2012
-# Langaru <langaru@gmail.com>, 2013
+# foool <andrglad@mail.ru>, 2013
+# Vyacheslav Muranov <s@neola.ru>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-24 18:30+0200\n"
-"PO-Revision-Date: 2013-04-24 16:00+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-24 01:57+0200\n"
+"PO-Revision-Date: 2013-05-23 23:15+0000\n"
+"Last-Translator: foool <andrglad@mail.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -170,7 +160,7 @@ msgstr "Декабрь"
 
 #: js/js.js:286
 msgid "Settings"
-msgstr "Настройки"
+msgstr "Конфигурация"
 
 #: js/js.js:718
 msgid "seconds ago"
@@ -224,25 +214,29 @@ msgstr "в прошлом году"
 msgid "years ago"
 msgstr "несколько лет назад"
 
-#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
-msgid "Ok"
-msgstr "Ок"
-
-#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
-msgid "Cancel"
-msgstr "Отмена"
-
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:117
 msgid "Choose"
 msgstr "Выбрать"
 
-#: js/oc-dialogs.js:215
+#: js/oc-dialogs.js:121
+msgid "Cancel"
+msgstr "Отменить"
+
+#: js/oc-dialogs.js:138 js/oc-dialogs.js:195
+msgid "Error loading file picker template"
+msgstr ""
+
+#: js/oc-dialogs.js:161
 msgid "Yes"
 msgstr "Да"
 
-#: js/oc-dialogs.js:222
+#: js/oc-dialogs.js:168
 msgid "No"
 msgstr "Нет"
+
+#: js/oc-dialogs.js:181
+msgid "Ok"
+msgstr "Ок"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -408,24 +402,27 @@ msgstr "Сброс пароля "
 msgid "Use the following link to reset your password: {link}"
 msgstr "Используйте следующую ссылку чтобы сбросить пароль: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr "Ссылка для сброса пароля была отправлена ​​по электронной почте. <br> Если вы не получите его в пределах одной двух минут, проверьте папку спам. <br> Если это не возможно, обратитесь к Вашему администратору."
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr "Что-то не так. Вы уверены что Email / Имя пользователя указаны верно?"
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "На ваш адрес Email выслана ссылка для сброса пароля."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "Отправка письма с информацией для сброса."
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "Запрос не удался!"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
 #: templates/login.php:19
 msgid "Username"
 msgstr "Имя пользователя"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "Запросить сброс"
 
@@ -459,7 +456,7 @@ msgstr "Приложения"
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Администратор"
+msgstr "Admin"
 
 #: strings.php:9
 msgid "Help"
@@ -475,7 +472,7 @@ msgstr "Облако не найдено"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "Редактировать категории"
+msgstr "Редактировать категрии"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
@@ -567,9 +564,14 @@ msgstr "Завершить установку"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "Сетевые службы под твоим контролем"
+msgstr "веб-сервисы под вашим управлением"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr "%s доступно. Получить дополнительную информацию о порядке обновления."
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "Выйти"
 

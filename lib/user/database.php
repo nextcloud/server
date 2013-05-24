@@ -46,7 +46,7 @@ class OC_User_Database extends OC_User_Backend {
 
 	private function getHasher() {
 		if(!self::$hasher) {
-			//we don't want to use DES based crypt(), since it doesn't return a has with a recognisable prefix
+			//we don't want to use DES based crypt(), since it doesn't return a hash with a recognisable prefix
 			$forcePortable=(CRYPT_BLOWFISH!=1);
 			self::$hasher=new PasswordHash(8, $forcePortable);
 		}
@@ -136,7 +136,7 @@ class OC_User_Database extends OC_User_Backend {
 	 */
 	public function getDisplayName($uid) {
 		if( $this->userExists($uid) ) {
-			$query = OC_DB::prepare( 'SELECT displayname FROM `*PREFIX*users` WHERE `uid` = ?' );
+			$query = OC_DB::prepare( 'SELECT `displayname` FROM `*PREFIX*users` WHERE `uid` = ?' );
 			$result = $query->execute( array( $uid ))->fetchAll();
 			$displayName = trim($result[0]['displayname'], ' ');
 			if ( !empty($displayName) ) {

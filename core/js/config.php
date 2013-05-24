@@ -26,8 +26,8 @@ $array = array(
 	"oc_debug" => (defined('DEBUG') && DEBUG) ? 'true' : 'false',
 	"oc_webroot" => "\"".OC::$WEBROOT."\"",
 	"oc_appswebroots" =>  str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
-	"oc_current_user" =>  "\"".OC_User::getUser(). "\"",
-	"oc_requesttoken" =>  "\"".OC_Util::callRegister(). "\"",
+	"oc_current_user" => "document.getElementsByTagName('head')[0].getAttribute('data-user')",
+	"oc_requesttoken" => "document.getElementsByTagName('head')[0].getAttribute('data-requesttoken')",
 	"datepickerFormatDate" => json_encode($l->l('jsdate', 'jsdate')),
 	"dayNames" =>  json_encode(
 		array(

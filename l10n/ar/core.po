@@ -3,16 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Matalqah <houfa2005@yahoo.com>, 2013
-# aboodilankaboot, 2012
-# blackcoder <tarek.taha@gmail.com>, 2013
-# blackcoder <tarek.taha@gmail.com>, 2011, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-24 18:30+0200\n"
-"PO-Revision-Date: 2013-04-24 16:00+0000\n"
+"POT-Creation-Date: 2013-05-24 01:57+0200\n"
+"PO-Revision-Date: 2013-05-23 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -162,7 +158,7 @@ msgstr "كانون الاول"
 
 #: js/js.js:286
 msgid "Settings"
-msgstr "تعديلات"
+msgstr "إعدادات"
 
 #: js/js.js:718
 msgid "seconds ago"
@@ -216,25 +212,29 @@ msgstr "السنةالماضية"
 msgid "years ago"
 msgstr "سنة مضت"
 
-#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
-msgid "Ok"
-msgstr "موافق"
-
-#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
-msgid "Cancel"
-msgstr "الغاء"
-
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:117
 msgid "Choose"
 msgstr "اختيار"
 
-#: js/oc-dialogs.js:215
+#: js/oc-dialogs.js:121
+msgid "Cancel"
+msgstr "الغاء"
+
+#: js/oc-dialogs.js:138 js/oc-dialogs.js:195
+msgid "Error loading file picker template"
+msgstr ""
+
+#: js/oc-dialogs.js:161
 msgid "Yes"
 msgstr "نعم"
 
-#: js/oc-dialogs.js:222
+#: js/oc-dialogs.js:168
 msgid "No"
 msgstr "لا"
+
+#: js/oc-dialogs.js:181
+msgid "Ok"
+msgstr "موافق"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -299,7 +299,7 @@ msgstr "حماية كلمة السر"
 
 #: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr "كلمة السر"
+msgstr "كلمة المرور"
 
 #: js/share.js:173
 msgid "Email link to person"
@@ -400,24 +400,27 @@ msgstr "إعادة تعيين كلمة سر ownCloud"
 msgid "Use the following link to reset your password: {link}"
 msgstr "استخدم هذه الوصلة لاسترجاع كلمة السر: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "سوف نرسل لك بريد يحتوي على وصلة لتجديد كلمة السر."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "إعادة إرسال البريد الإلكتروني."
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "فشل الطلب"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
 #: templates/login.php:19
 msgid "Username"
 msgstr "إسم المستخدم"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "طلب تعديل"
 
@@ -431,7 +434,7 @@ msgstr "الى صفحة الدخول"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr "كلمة سر جديدة"
+msgstr "كلمات سر جديدة"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
@@ -439,11 +442,11 @@ msgstr "تعديل كلمة السر"
 
 #: strings.php:5
 msgid "Personal"
-msgstr "خصوصيات"
+msgstr "شخصي"
 
 #: strings.php:6
 msgid "Users"
-msgstr "المستخدم"
+msgstr "المستخدمين"
 
 #: strings.php:7
 msgid "Apps"
@@ -451,7 +454,7 @@ msgstr "التطبيقات"
 
 #: strings.php:8
 msgid "Admin"
-msgstr "مستخدم رئيسي"
+msgstr "المدير"
 
 #: strings.php:9
 msgid "Help"
@@ -471,7 +474,7 @@ msgstr "عدل الفئات"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr "أدخل"
+msgstr "اضف"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -517,7 +520,7 @@ msgstr "أضف </strong>مستخدم رئيسي <strong>"
 
 #: templates/installation.php:62
 msgid "Advanced"
-msgstr "خيارات متقدمة"
+msgstr "تعديلات متقدمه"
 
 #: templates/installation.php:64
 msgid "Data folder"
@@ -559,9 +562,14 @@ msgstr "انهاء التعديلات"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "خدمات الوب تحت تصرفك"
+msgstr "خدمات الشبكة تحت سيطرتك"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "الخروج"
 

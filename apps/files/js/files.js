@@ -115,6 +115,11 @@ $(document).ready(function() {
 		return false;
 	});
 
+	// Trigger cancelling of file upload
+	$('#uploadprogresswrapper .stop').on('click', function() {
+		Files.cancelUploads();
+	});
+
 	// Show trash bin
 	$('#trash a').live('click', function() {
 		window.location=OC.filePath('files_trashbin', '', 'index.php');
@@ -506,9 +511,9 @@ $(document).ready(function() {
 								var date=new Date();
 								FileList.addFile(name,0,date,false,hidden);
 								var tr=$('tr').filterAttr('data-file',name);
-								tr.attr('data-mime','text/plain');
+								tr.attr('data-mime',result.data.mime);
 								tr.attr('data-id', result.data.id);
-								getMimeIcon('text/plain',function(path){
+								getMimeIcon(result.data.mime,function(path){
 									tr.find('td.filename').attr('style','background-image:url('+path+')');
 								});
 							} else {

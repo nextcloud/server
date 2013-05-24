@@ -3,15 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <khanhnd@kenhgiaiphap.vn>, 2012.
-# sao sang <saosangmo@yahoo.com>, 2013.
-# Sơn Nguyễn <sonnghit@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -53,7 +50,7 @@ msgstr "Không chỉ ra đường dẫn rõ ràng"
 
 #: js/versions.js:6
 msgid "Versions"
-msgstr ""
+msgstr "Phiên bản"
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"

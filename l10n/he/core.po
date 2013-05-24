@@ -3,18 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Dovix Dovix <dovix2003@gmail.com>, 2012
-# Gilad Naaman <gilad.doom@gmail.com>, 2013
-# idop <ido.parag@gmail.com>, 2012
-# Tomer Cohen <tomerc+transifex.net@gmail.com>, 2011
-# Yaron Shahrabani <sh.yaron@gmail.com>, 2011-2012
+# Yaron Shahrabani <sh.yaron@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-24 18:30+0200\n"
-"PO-Revision-Date: 2013-04-24 16:00+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-24 01:57+0200\n"
+"PO-Revision-Date: 2013-05-23 23:15+0000\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -217,25 +213,29 @@ msgstr "שנה שעברה"
 msgid "years ago"
 msgstr "שנים"
 
-#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
-msgid "Ok"
-msgstr "בסדר"
-
-#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
-msgid "Cancel"
-msgstr "ביטול"
-
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:117
 msgid "Choose"
 msgstr "בחירה"
 
-#: js/oc-dialogs.js:215
+#: js/oc-dialogs.js:121
+msgid "Cancel"
+msgstr "ביטול"
+
+#: js/oc-dialogs.js:138 js/oc-dialogs.js:195
+msgid "Error loading file picker template"
+msgstr ""
+
+#: js/oc-dialogs.js:161
 msgid "Yes"
 msgstr "כן"
 
-#: js/oc-dialogs.js:222
+#: js/oc-dialogs.js:168
 msgid "No"
 msgstr "לא"
+
+#: js/oc-dialogs.js:181
+msgid "Ok"
+msgstr "בסדר"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -300,7 +300,7 @@ msgstr "הגנה בססמה"
 
 #: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr "ססמה"
+msgstr "סיסמא"
 
 #: js/share.js:173
 msgid "Email link to person"
@@ -401,24 +401,27 @@ msgstr "איפוס הססמה של ownCloud"
 msgid "Use the following link to reset your password: {link}"
 msgstr "יש להשתמש בקישור הבא כדי לאפס את הססמה שלך: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "יישלח לתיבת הדוא״ל שלך קישור לאיפוס הססמה."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "איפוס שליחת דוא״ל."
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "הבקשה נכשלה!"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
 #: templates/login.php:19
 msgid "Username"
 msgstr "שם משתמש"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "בקשת איפוס"
 
@@ -468,7 +471,7 @@ msgstr "ענן לא נמצא"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "עריכת הקטגוריות"
+msgstr "ערוך קטגוריות"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
@@ -481,7 +484,7 @@ msgstr "אזהרת אבטחה"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "גרסת ה־PHP פגיעה בפני התקפת בית NULL/ריק (CVE-2006-7243)"
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
@@ -560,9 +563,14 @@ msgstr "סיום התקנה"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "שירותי רשת בשליטתך"
+msgstr "שירותי רשת תחת השליטה שלך"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "התנתקות"
 

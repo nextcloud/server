@@ -5,7 +5,8 @@
 /* FILE MENU */
 .actions { padding:.3em; height:2em; width: 100%; }
 .actions input, .actions button, .actions .button { margin:0; float:left; }
-
+.actions .button a { color: #555; }
+.actions .button a:hover, .actions .button a:active { color: #333; }
 #new {
 	height:17px;  margin:0 0 0 1em; z-index:1010; float:left;
 }
@@ -34,6 +35,7 @@
 	background-image:url('%webroot%/core/img/actions/upload.svg');
 	background-repeat:no-repeat;
 	background-position:7px 6px;
+	opacity:0.65;
 }
 .file_upload_target { display:none; }
 .file_upload_form { display:inline; float:left; margin:0; padding:0; cursor:pointer; overflow:visible; }
@@ -148,7 +150,7 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 
 #scanning-message{ top:40%; left:40%; position:absolute; display:none; }
 
-div.crumb a{ padding:0.9em 0 0.7em 0; }
+div.crumb a{ padding:0.9em 0 0.7em 0; color:#555; }
 
 table.dragshadow {
 	width:auto;

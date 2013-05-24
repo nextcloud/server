@@ -3,21 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Mouxy <daniel@mouxy.net>, 2012-2013
 # Mouxy <daniel@mouxy.net>, 2013
-# Duarte Velez Grilo <duartegrilo@gmail.com>, 2013
-# Duarte Velez Grilo <duartegrilo@gmail.com>, 2012
-# Helder Meneses <helder.meneses@gmail.com>, 2011, 2012
-# Helder Meneses <helder.meneses@gmail.com>, 2012-2013
-# Nelson Rosado <nelsontrosado@gmail.com>, 2012
-# rjgpp1994 <rjgpp.1994@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-24 18:30+0200\n"
-"PO-Revision-Date: 2013-04-24 16:00+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-24 01:57+0200\n"
+"PO-Revision-Date: 2013-05-23 23:15+0000\n"
+"Last-Translator: Mouxy <daniel@mouxy.net>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -81,7 +74,7 @@ msgstr "Erro a adicionar %s aos favoritos"
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "Nenhuma categoria seleccionada para apagar"
+msgstr "Nenhuma categoria seleccionada para eliminar."
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
@@ -166,7 +159,7 @@ msgstr "Dezembro"
 
 #: js/js.js:286
 msgid "Settings"
-msgstr "Definições"
+msgstr "Configurações"
 
 #: js/js.js:718
 msgid "seconds ago"
@@ -182,7 +175,7 @@ msgstr "{minutes} minutos atrás"
 
 #: js/js.js:721
 msgid "1 hour ago"
-msgstr "Há 1 hora"
+msgstr "Há 1 horas"
 
 #: js/js.js:722
 msgid "{hours} hours ago"
@@ -220,25 +213,29 @@ msgstr "ano passado"
 msgid "years ago"
 msgstr "anos atrás"
 
-#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
-msgid "Ok"
-msgstr "Ok"
-
-#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
-msgid "Cancel"
-msgstr "Cancelar"
-
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:117
 msgid "Choose"
 msgstr "Escolha"
 
-#: js/oc-dialogs.js:215
+#: js/oc-dialogs.js:121
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: js/oc-dialogs.js:138 js/oc-dialogs.js:195
+msgid "Error loading file picker template"
+msgstr ""
+
+#: js/oc-dialogs.js:161
 msgid "Yes"
 msgstr "Sim"
 
-#: js/oc-dialogs.js:222
+#: js/oc-dialogs.js:168
 msgid "No"
 msgstr "Não"
+
+#: js/oc-dialogs.js:181
+msgid "Ok"
+msgstr "Ok"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -303,7 +300,7 @@ msgstr "Proteger com palavra-passe"
 
 #: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr "Palavra chave"
+msgstr "Password"
 
 #: js/share.js:173
 msgid "Email link to person"
@@ -404,24 +401,27 @@ msgstr "Reposição da password ownCloud"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Use o seguinte endereço para repor a sua password: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr "O link para fazer reset à sua password foi enviado para o seu e-mail. <br> Se não o recebeu dentro um espaço de tempo aceitável, por favor verifique a sua pasta de SPAM.<br> Se não o encontrar, por favor contacte o seu administrador."
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr "O pedido falhou! <br> Tem a certeza que introduziu o seu email/username correcto?"
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "Vai receber um endereço para repor a sua password"
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "E-mail de reinicialização enviado."
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "O pedido falhou!"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
 #: templates/login.php:19
 msgid "Username"
-msgstr "Utilizador"
+msgstr "Nome de utilizador"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "Pedir reposição"
 
@@ -435,7 +435,7 @@ msgstr "Para a página de entrada"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr "Nova password"
+msgstr "Nova palavra-chave"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
@@ -565,7 +565,12 @@ msgstr "Acabar instalação"
 msgid "web services under your control"
 msgstr "serviços web sob o seu controlo"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr "%s está disponível. Tenha mais informações como actualizar."
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "Sair"
 

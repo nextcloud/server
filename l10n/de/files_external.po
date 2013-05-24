@@ -3,19 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Mirodin <blobbyjj@ymail.com>, 2012
-# I Robot <owncloud-bot@tmit.eu>, 2012
-# I Robot <owncloud-bot@tmit.eu>, 2012
-# stefanniedermann <stefan.niedermann@googlemail.com>, 2013
-# I Robot <owncloud-bot@tmit.eu>, 2012
-# traductor <transifex-2.7.mensaje@spamgourmet.com>, 2012
+# arkascha <foss@christian-reiner.info>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-24 01:57+0200\n"
-"PO-Revision-Date: 2013-04-23 23:58+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-24 01:57+0200\n"
+"PO-Revision-Date: 2013-05-23 23:15+0000\n"
+"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -61,7 +56,7 @@ msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
 "your system administrator to install it."
-msgstr ""
+msgstr "<b>Warnung:</b> Die Curl-Unterstützung in PHP ist nicht aktiviert oder installiert. Das Einbinden von ownCloud / WebDav der GoogleDrive-Freigaben ist nicht möglich. Bitte Deinen Systemadminstrator um die Installation. "
 
 #: templates/settings.php:3
 msgid "External Storage"

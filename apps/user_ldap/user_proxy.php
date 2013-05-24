@@ -174,7 +174,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 		foreach($this->backends as $backend) {
 			$backendUsers = $backend->getDisplayNames($search, $limit, $offset);
 			if (is_array($backendUsers)) {
-				$users = array_merge($users, $backendUsers);
+				$users = $users + $backendUsers;
 			}
 		}
 		return $users;
