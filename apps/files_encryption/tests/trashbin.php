@@ -235,7 +235,7 @@ class Test_Encryption_Trashbin extends \PHPUnit_Framework_TestCase
 		$trashFileSuffix = null;
 		// find created file with timestamp
 		foreach($trashFiles as $file) {
-			if(strncmp($file['path'], $filename, strlen($filename))) {
+			if(strncmp($file['name'], $filename, strlen($filename)) == 0) {
 				$path_parts = pathinfo($file['name']);
 				$trashFileSuffix = $path_parts['extension'];
 			}
