@@ -1,4 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Error" => "Ошибка",
-"deleted" => "удалено"
+"deleted" => "удалено",
+"Groups" => "Группы",
+"Delete" => "Удалить",
+"Email" => "Email",
+"Other" => "Другое"
 );

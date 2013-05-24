@@ -1,3 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Error" => "Ошибка"
+"Error" => "Ошибка",
+"Name" => "Имя",
+"Delete" => "Удалить"
 );
