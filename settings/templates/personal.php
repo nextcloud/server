@@ -65,6 +65,9 @@ if($_['displayNameChangeSupported']) {
 }
 ?>
 
+<?php
+if($_['passwordChangeSupported']) {
+?>
 <form id="lostpassword">
 	<fieldset class="personalblock">
 		<legend><strong><?php p($l->t('Email'));?></strong></legend>
@@ -73,6 +76,9 @@ if($_['displayNameChangeSupported']) {
 		<em><?php p($l->t('Fill in an email address to enable password recovery'));?></em>
 	</fieldset>
 </form>
+<?php
+}
+?>
 
 <form>
 	<fieldset class="personalblock">
