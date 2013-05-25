@@ -291,6 +291,10 @@ class Util
 
 		$recoveryEnabled = array();
 
+		if (\OC_DB::isError($result)) {
+			\OC_Log::write('Encryption library', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+		}
+
 		while ( $row = $result->fetchRow() ) {
 
 			$recoveryEnabled[] = $row['recovery_enabled'];
@@ -820,6 +824,10 @@ class Util
 
 		$result = $query->execute( array( $fileId ) );
 
+		if (\OC_DB::isError($result)) {
+			\OC_Log::write('Encryption library', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+		}
+
 		$row = $result->fetchRow();
 
 		return substr( $row['path'], 5 );
@@ -1086,6 +1094,10 @@ class Util
 
 		$migrationStatus = array();
 
+		if (\OC_DB::isError($result)) {
+			\OC_Log::write('Encryption library', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+		}
+
 		$row = $result->fetchRow();
 		if($row) {
 			$migrationStatus[] = $row['migration_status'];
@@ -1221,6 +1233,10 @@ class Util
 
 		$result = $query->execute( array( $id ) );
 
+		if (\OC_DB::isError($result)) {
+			\OC_Log::write('Encryption library', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+		}
+
 		$row = $result->fetchRow();
 
 		return $row;
@@ -1240,6 +1256,10 @@ class Util
 
 		$result = $query->execute( array( $id ) );
 
+		if (\OC_DB::isError($result)) {
+			\OC_Log::write('Encryption library', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+		}
+
 		$row = $result->fetchRow();
 
 		return $row;
@@ -1255,7 +1275,14 @@ class Util
 	public function getOwnerFromSharedFile( $id ) {
 
 		$query = \OC_DB::prepare( 'SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1 );
-		$source = $query->execute( array( $id ) )->fetchRow();
+
+		$result = $query->execute( array( $id ) );
+
+		if (\OC_DB::isError($result)) {
+			\OC_Log::write('Encryption library', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+		}
+
+		$source = $result->fetchRow();
 
 		$fileOwner = false;
 
@@ -1266,7 +1293,14 @@ class Util
 			while ( isset( $parent ) ) {
 
 				$query = \OC_DB::prepare( 'SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1 );
-				$item = $query->execute( array( $parent ) )->fetchRow();
+
+				$result = $query->execute( array( $parent ) );
+
+				if (\OC_DB::isError($result)) {
+					\OC_Log::write('Encryption library', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+				}
+
+				$item = $result->fetchRow();
 
 				if ( isset( $item['parent'] ) ) {
 
