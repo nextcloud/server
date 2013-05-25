@@ -46,6 +46,7 @@
 "years ago" => "aastat tagasi",
 "Choose" => "Vali",
 "Cancel" => "Loobu",
+"Error loading file picker template" => "Viga failivalija malli laadimisel",
 "Yes" => "Jah",
 "No" => "Ei",
 "Ok" => "Ok",

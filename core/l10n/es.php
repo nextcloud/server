@@ -46,6 +46,7 @@
 "years ago" => "hace años",
 "Choose" => "Seleccionar",
 "Cancel" => "Cancelar",
+"Error loading file picker template" => "Error cargando la plantilla del seleccionador de archivos",
 "Yes" => "Sí",
 "No" => "No",
 "Ok" => "Aceptar",

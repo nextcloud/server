@@ -46,6 +46,7 @@
 "years ago" => "年前",
 "Choose" => "選択",
 "Cancel" => "キャンセル",
+"Error loading file picker template" => "ファイルピッカーのテンプレートの読み込みエラー",
 "Yes" => "はい",
 "No" => "いいえ",
 "Ok" => "OK",

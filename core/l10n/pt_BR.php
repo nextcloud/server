@@ -46,6 +46,7 @@
 "years ago" => "anos atrás",
 "Choose" => "Escolha",
 "Cancel" => "Cancelar",
+"Error loading file picker template" => "Template selecionador Erro ao carregar arquivo",
 "Yes" => "Sim",
 "No" => "Não",
 "Ok" => "Ok",
