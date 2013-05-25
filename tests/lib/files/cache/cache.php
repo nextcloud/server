@@ -243,10 +243,10 @@ class Cache extends \PHPUnit_Framework_TestCase {
 	 * @brief this test show the bug resulting if we have no normalizer installed
 	 */
 	public function testWithoutNormalizer() {
-		// create folder Schön with U+00F6
+		// folder name "Schön" with U+00F6 (normalized)
 		$folderWith00F6 = "\x53\x63\x68\xc3\xb6\x6e";
 
-		// create folder Schön with U+0308
+		// folder name "Schön" with U+0308 (un-normalized)
 		$folderWith0308 = "\x53\x63\x68\x6f\xcc\x88\x6e";
 
 		/**
@@ -260,14 +260,23 @@ class Cache extends \PHPUnit_Framework_TestCase {
 
 		$data = array('size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory');
 
+		// put root folder
 		$this->assertFalse($cacheMock->get('folder'));
 		$this->assertGreaterThan(0, $cacheMock->put('folder', $data));
 
-		$this->assertFalse($cacheMock->get('folder/' . $folderWith00F6));
-		$this->assertGreaterThan(0, $cacheMock->put('folder/' .$folderWith00F6, $data));
-
+		// put un-normalized folder
 		$this->assertFalse($cacheMock->get('folder/' .$folderWith0308));
 		$this->assertGreaterThan(0, $cacheMock->put('folder/' .$folderWith0308, $data));
+
+		// get un-normalized folder by name
+		$unNormalizedFolderName = $cacheMock->get('folder/' .$folderWith0308);
+
+		// check if database layer normalized the folder name (this should not happen)
+		$this->assertEquals($folderWith0308, $unNormalizedFolderName['name']);
+
+		// put normalized folder
+		$this->assertFalse($cacheMock->get('folder/' . $folderWith00F6));
+		$this->assertGreaterThan(0, $cacheMock->put('folder/' .$folderWith00F6, $data));
 
 		// this is our bug, we have two different hashes with the same name (Schön)
 		$this->assertEquals(2, count($cacheMock->getFolderContents('folder')));
@@ -283,22 +292,31 @@ class Cache extends \PHPUnit_Framework_TestCase {
 			return;
 		}
 
-		// folder name Schön with U+00F6
+		// folder name "Schön" with U+00F6 (normalized)
 		$folderWith00F6 = "\x53\x63\x68\xc3\xb6\x6e";
 
-		// folder name Schön with U+0308
+		// folder name "Schön" with U+0308 (un-normalized)
 		$folderWith0308 = "\x53\x63\x68\x6f\xcc\x88\x6e";
 
 		$data = array('size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory');
 
+		// put root folder
 		$this->assertFalse($this->cache->get('folder'));
 		$this->assertGreaterThan(0, $this->cache->put('folder', $data));
 
-		$this->assertFalse($this->cache->get('folder/' . $folderWith00F6));
-		$this->assertGreaterThan(0, $this->cache->put('folder/' .$folderWith00F6, $data));
-
-		$this->assertTrue(is_array($this->cache->get('folder/' .$folderWith0308)));
+		// put un-normalized folder
+		$this->assertFalse($this->cache->get('folder/' .$folderWith0308));
 		$this->assertGreaterThan(0, $this->cache->put('folder/' .$folderWith0308, $data));
+
+		// get un-normalized folder by name
+		$unNormalizedFolderName = $this->cache->get('folder/' .$folderWith0308);
+
+		// check if folder name was normalized
+		$this->assertEquals($folderWith00F6, $unNormalizedFolderName['name']);
+
+		// put normalized folder
+		$this->assertTrue(is_array($this->cache->get('folder/' . $folderWith00F6)));
+		$this->assertGreaterThan(0, $this->cache->put('folder/' .$folderWith00F6, $data));
 
 		// at this point we should have only one folder named "Schön"
 		$this->assertEquals(1, count($this->cache->getFolderContents('folder')));
