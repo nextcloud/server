@@ -226,6 +226,17 @@ class Cache {
 	 * @param array $data
 	 */
 	public function update($id, array $data) {
+
+		if(isset($data['path'])) {
+			// normalize path
+			$data['path'] = $this->normalize($data['path']);
+		}
+
+		if(isset($data['name'])) {
+			// normalize path
+			$data['name'] = $this->normalize($data['name']);
+		}
+
 		list($queryParts, $params) = $this->buildParts($data);
 		$params[] = $id;
 
@@ -418,6 +429,10 @@ class Cache {
 	 * @return array of file data
 	 */
 	public function search($pattern) {
+
+		// normalize pattern
+		$pattern = $this->normalize($pattern);
+
 		$query = \OC_DB::prepare('
 			SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `unencrypted_size`, `etag`
 			FROM `*PREFIX*filecache` WHERE `name` LIKE ? AND `storage` = ?'
