@@ -46,6 +46,7 @@
 "{count} folders" => "{count} mapper",
 "1 file" => "1 fil",
 "{count} files" => "{count} filer",
+"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Ugyldig mappenamn. Mappa «Shared» er reservert av ownCloud",
 "Unable to rename file" => "Klarte ikkje endra filnamnet",
 "Upload" => "Last opp",
 "File handling" => "Filhandtering",

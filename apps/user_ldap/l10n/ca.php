@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Failed to clear the mappings." => "Ha fallat en eliminar els mapatges",
 "Failed to delete the server configuration" => "Ha fallat en eliminar la configuració del servidor",
 "The configuration is valid and the connection could be established!" => "La configuració és vàlida i s'ha pogut establir la comunicació!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "La configuració és vàlida, però ha fallat el Bind. Comproveu les credencials i l'arranjament del servidor.",
@@ -7,6 +8,9 @@
 "Take over settings from recent server configuration?" => "Voleu prendre l'arranjament de la configuració actual del servidor?",
 "Keep settings?" => "Voleu mantenir la configuració?",
 "Cannot add server configuration" => "No es pot afegir la configuració del servidor",
+"mappings cleared" => "s'han eliminat els mapatges",
+"Success" => "Èxit",
+"Error" => "Error",
 "Connection test succeeded" => "La prova de connexió ha reeixit",
 "Connection test failed" => "La prova de connexió ha fallat",
 "Do you really want to delete the current Server Configuration?" => "Voleu eliminar la configuració actual del servidor?",
@@ -70,6 +74,16 @@
 "Email Field" => "Camp de correu electrònic",
 "User Home Folder Naming Rule" => "Norma per anomenar la carpeta arrel d'usuari",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Deixeu-ho buit pel nom d'usuari (per defecte). Altrament, especifiqueu un atribut LDAP/AD.",
+"Internal Username" => "Nom d'usuari intern",
+"By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder in ownCloud. It is also a port of remote URLs, for instance for all *DAV services. With this setting, the default behaviour can be overriden. To achieve a similar behaviour as before ownCloud 5 enter the user display name attribute in the following field. Leave it empty for default behaviour. Changes will have effect only on newly mapped (added) LDAP users." => "Per defecte el nom d'usuari intern es crearà a partir de l'atribut UUID. Això assegura que el nom d'usuari és únic i que els caràcters no s'han de convertir. El nom d'usuari intern té la restricció que només estan permesos els caràcters: [ a-zA-Z0-9_.@- ]. Els altres caràcters es substitueixen pel seu corresponent ASCII o simplement s'ometen. En cas de col·lisió s'incrementa/decrementa en un. El nom d'usuari intern s'utilitza per identificar un usuari internament. També és el nom per defecte de la carpeta home a ownCloud. És també un port de URLs remotes, per exemple tots els serveis *DAV. Amb aquest arranjament es pot variar el comportament per defecte. Per obtenir un comportament similar al d'abans de ownCloud 5, escriviu el nom d'usuari a mostrar en el camp següent. Deixei-lo en blanc si preferiu el comportament per defecte. Els canvis tindran efecte només en els nous usuaris LDAP mapats (afegits).",
+"Internal Username Attribute:" => "Atribut nom d'usuari intern:",
+"Override UUID detection" => "Sobrescriu la detecció UUID",
+"By default, ownCloud autodetects the UUID attribute. The UUID attribute is used to doubtlessly identify LDAP users and groups. Also, the internal username will be created based on the UUID, if not specified otherwise above. You can override the setting and pass an attribute of your choice. You must make sure that the attribute of your choice can be fetched for both users and groups and it is unique. Leave it empty for default behaviour. Changes will have effect only on newly mapped (added) LDAP users and groups." => "Per defecte, owncloud autodetecta l'atribut UUID. L'atribut UUID s'utilitza per identificar usuaris i grups de forma indubtable. També el nom d'usuari intern es crearà en base a la UUIS, si no heu especificat res diferent a dalt. Podeu sobreescriure l'arranjament i passar l'atribut que desitgeu. Heu d'assegurar-vos que l'atribut que escolliu pot ser recollit tant pels usuaris com pels grups i que és únic. Deixeu-ho en blanc si preferiu el comportament per defecte. els canvis s'aplicaran en els usuaris i grups LDAP mapats de nou (afegits).",
+"UUID Attribute:" => "Atribut UUID:",
+"Username-LDAP User Mapping" => "Mapatge d'usuari Nom d'usuari-LDAP",
+"ownCloud uses usernames to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have a internal username. This requires a mapping from ownCloud username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found by ownCloud. The internal ownCloud name is used all over in ownCloud. Clearing the Mappings will have leftovers everywhere. Clearing the Mappings is not configuration sensitive, it affects all LDAP configurations! Do never clear the mappings in a production environment. Only clear mappings in a testing or experimental stage." => "ownCloud utilitza els noms d'usuari per emmagatzemar i assignar (meta)dades. per tal d'identificar usuaris de forma precisa, cada usuari LDAP tindrà un nom d'usuari intern. Això requereix un mapatge del nom d'usuari ownCloud a l'usuari LDAP. El nom d'usuari creat es mapa a la UUID de l'usuari LDAP. Addicionalment, la DN es desa a la memòria de cau per reduïr la interacció LDAP, però no s'usa per a identificació. Si la DN canvia, els canvis són detectats per ownCloud. El nom d'usuari intern ownCloud s'utilitza internament arreu de ownCloud. Eliminar els mapatges tindrà efectues per tot arreu. L'eliminació dels mapatges no és sensible a la configuració, afecta a totes les configuracions LDAP! No elimineu mai els mapatges en un entorn de producció. Elimineu-los només en un estadi experimental o de prova.",
+"Clear Username-LDAP User Mapping" => "Elimina el mapatge d'usuari Nom d'usuari-LDAP",
+"Clear Groupname-LDAP Group Mapping" => "Elimina el mapatge de grup Nom de grup-LDAP",
 "Test Configuration" => "Comprovació de la configuració",
 "Help" => "Ajuda"
 );

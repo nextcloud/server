@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Failed to clear the mappings." => "Niet gelukt de vertalingen leeg te maken.",
 "Failed to delete the server configuration" => "Verwijderen serverconfiguratie mislukt",
 "The configuration is valid and the connection could be established!" => "De configuratie is geldig en de verbinding is geslaagd!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "De configuratie is geldig, maar Bind mislukte. Controleer de serverinstellingen en inloggegevens.",
@@ -7,6 +8,9 @@
 "Take over settings from recent server configuration?" => "Overnemen instellingen van de recente serverconfiguratie?",
 "Keep settings?" => "Instellingen bewaren?",
 "Cannot add server configuration" => "Kon de serverconfiguratie niet toevoegen",
+"mappings cleared" => "vertaaltabel leeggemaakt",
+"Success" => "Succes",
+"Error" => "Fout",
 "Connection test succeeded" => "Verbindingstest geslaagd",
 "Connection test failed" => "Verbindingstest mislukt",
 "Do you really want to delete the current Server Configuration?" => "Wilt u werkelijk de huidige Serverconfiguratie verwijderen?",
@@ -70,6 +74,13 @@
 "Email Field" => "E-mailveld",
 "User Home Folder Naming Rule" => "Gebruikers Home map naamgevingsregel",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Laat leeg voor de gebruikersnaam (standaard). Of, specificeer een LDAP/AD attribuut.",
+"Internal Username" => "Interne gebruikersnaam",
+"Internal Username Attribute:" => "Interne gebruikersnaam attribuut:",
+"Override UUID detection" => "Negeren UUID detectie",
+"UUID Attribute:" => "UUID Attribuut:",
+"Username-LDAP User Mapping" => "Gebruikersnaam-LDAP gebruikers vertaling",
+"Clear Username-LDAP User Mapping" => "Leegmaken Gebruikersnaam-LDAP gebruikers vertaling",
+"Clear Groupname-LDAP Group Mapping" => "Leegmaken Groepsnaam-LDAP groep vertaling",
 "Test Configuration" => "Test configuratie",
 "Help" => "Help"
 );

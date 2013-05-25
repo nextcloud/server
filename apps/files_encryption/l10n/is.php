@@ -1,4 +1,3 @@
 <?php $TRANSLATIONS = array(
-"Encryption" => "Dulkóðun",
-"None" => "Ekkert"
+"Encryption" => "Dulkóðun"
 );

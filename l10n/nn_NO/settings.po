@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-17 02:03+0200\n"
-"PO-Revision-Date: 2013-05-16 09:40+0000\n"
-"Last-Translator: unhammer <unhammer+dill@mm.st>\n"
+"POT-Creation-Date: 2013-05-25 02:02+0200\n"
+"PO-Revision-Date: 2013-05-25 00:02+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -138,16 +138,16 @@ msgstr "angra"
 msgid "Unable to remove user"
 msgstr "Klarte ikkje fjerna brukaren"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:78
-#: templates/users.php:103
+#: js/users.js:92 templates/users.php:26 templates/users.php:83
+#: templates/users.php:108
 msgid "Groups"
 msgstr "Grupper"
 
-#: js/users.js:95 templates/users.php:80 templates/users.php:115
+#: js/users.js:95 templates/users.php:85 templates/users.php:120
 msgid "Group Admin"
 msgstr "Gruppestyrar"
 
-#: js/users.js:115 templates/users.php:155
+#: js/users.js:115 templates/users.php:160
 msgid "Delete"
 msgstr "Slett"
 
@@ -155,15 +155,15 @@ msgstr "Slett"
 msgid "add group"
 msgstr "legg til gruppe"
 
-#: js/users.js:420
+#: js/users.js:428
 msgid "A valid username must be provided"
 msgstr "Du må oppgje eit gyldig brukarnamn"
 
-#: js/users.js:421 js/users.js:427 js/users.js:442
+#: js/users.js:429 js/users.js:435 js/users.js:450
 msgid "Error creating user"
 msgstr "Feil ved oppretting av brukar"
 
-#: js/users.js:426
+#: js/users.js:434
 msgid "A valid password must be provided"
 msgstr "Du må oppgje eit gyldig passord"
 
@@ -401,7 +401,7 @@ msgstr "Få app-ar som kan synkronisera filene dine"
 msgid "Show First Run Wizard again"
 msgstr "Vis Oppstartvegvisaren igjen"
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:77
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:82
 msgid "Password"
 msgstr "Passord"
 
@@ -425,7 +425,7 @@ msgstr "Nytt passord"
 msgid "Change password"
 msgstr "Endra passord"
 
-#: templates/personal.php:56 templates/users.php:76
+#: templates/personal.php:56 templates/users.php:81
 msgid "Display Name"
 msgstr "Visingsnamn"
 
@@ -457,7 +457,7 @@ msgstr "WebDAV"
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Bruk denne adressa for å kopla til din ownCloud frå filhandsamaren din"
 
-#: templates/users.php:21 templates/users.php:75
+#: templates/users.php:21 templates/users.php:80
 msgid "Login Name"
 msgstr "Innloggingsnamn"
 
@@ -465,30 +465,34 @@ msgstr "Innloggingsnamn"
 msgid "Create"
 msgstr "Lag"
 
-#: templates/users.php:33
+#: templates/users.php:34
+msgid "Admin Recovery Password"
+msgstr ""
+
+#: templates/users.php:38
 msgid "Default Storage"
 msgstr "Standardlagring"
 
-#: templates/users.php:39 templates/users.php:133
+#: templates/users.php:44 templates/users.php:138
 msgid "Unlimited"
 msgstr "Ubegrensa"
 
-#: templates/users.php:57 templates/users.php:148
+#: templates/users.php:62 templates/users.php:153
 msgid "Other"
 msgstr "Anna"
 
-#: templates/users.php:82
+#: templates/users.php:87
 msgid "Storage"
 msgstr "Lagring"
 
-#: templates/users.php:93
+#: templates/users.php:98
 msgid "change display name"
 msgstr "endra visingsnamn"
 
-#: templates/users.php:97
+#: templates/users.php:102
 msgid "set new password"
 msgstr "lag nytt passord"
 
-#: templates/users.php:128
+#: templates/users.php:133
 msgid "Default"
 msgstr "Standard"

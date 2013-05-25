@@ -3,14 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# a.tangemann <a.tangemann@web.de>, 2013
 # Marcel Kühlhorn <susefan93@gmx.de>, 2013
+# traductor <transifex-2.7.mensaje@spamgourmet.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-17 02:03+0200\n"
-"PO-Revision-Date: 2013-05-17 00:04+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-25 02:01+0200\n"
+"PO-Revision-Date: 2013-05-24 23:26+0000\n"
+"Last-Translator: traductor <transifex-2.7.mensaje@spamgourmet.com>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,11 +66,11 @@ msgstr ""
 
 #: js/settings.js:112
 msgid "Success"
-msgstr ""
+msgstr "Erfolg"
 
 #: js/settings.js:117
 msgid "Error"
-msgstr ""
+msgstr "Fehler"
 
 #: js/settings.js:141
 msgid "Connection test succeeded"
@@ -343,7 +345,7 @@ msgstr "Ohne Eingabe wird der Benutzername (Standard) verwendet. Anderenfalls tr
 
 #: templates/settings.php:101
 msgid "Internal Username"
-msgstr ""
+msgstr "Interner Benutzername"
 
 #: templates/settings.php:102
 msgid ""
@@ -359,7 +361,7 @@ msgid ""
 "achieve a similar behaviour as before ownCloud 5 enter the user display name"
 " attribute in the following field. Leave it empty for default behaviour. "
 "Changes will have effect only on newly mapped (added) LDAP users."
-msgstr ""
+msgstr "Standardmäßig wird der interne Benutzername mittels des UUID-Attributes erzeugt. Dies stellt sicher, dass der Benutzername einzigartig ist und keinerlei Zeichen konvertiert werden müssen. Der interne Benutzername unterliegt Beschränkungen, die nur die nachfolgenden Zeichen erlauben: [ a-zA-Z0-9_.@- ]. Andere Zeichenwerden mittels ihrer korrespondierenden Zeichen ersetzt oder einfach ausgelassen. Bei Übereinstimmungen wird ein Zähler hinzugefügt bzw. der Zähler um einen Wert erhöht. Der interne Benutzername wird benutzt, um einen Benutzer intern zu identifizieren. Es ist ebenso der standardmäßig vorausgewählte Namen des Heimatverzeichnisses in ownCloud. Es dient weiterhin als Port für Remote-URLs - zum Beispiel für alle *DAV-Dienste Mit dieser Einstellung kann das Standardverhalten überschrieben werden. Um ein ähnliches Verhalten wie vor ownCloud 5 zu erzielen, fügen Sie das anzuzeigende Attribut des Benutzernamens in das nachfolgende Feld ein. Lassen Sie dies hingegen für das Standardverhalten leer. Die Änderungen werden sich einzig und allein nur auf neu gemappte (hinzugefügte) LDAP-Benutzer auswirken."
 
 #: templates/settings.php:103
 msgid "Internal Username Attribute:"

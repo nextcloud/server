@@ -251,8 +251,11 @@ class View {
 		if (!$this->file_exists($path)) {
 			$hooks[] = 'write';
 		}
-
-		return $this->basicOperation('touch', $path, $hooks, $mtime);
+		$result = $this->basicOperation('touch', $path, $hooks, $mtime);
+		if (!$result) { //if native touch fails, we emulate it by changing the mtime in the cache
+			$this->putFileInfo($path, array('mtime' => $mtime));
+		}
+		return true;
 	}
 
 	public function file_get_contents($path) {
@@ -368,15 +371,24 @@ class View {
 					list(, $internalPath2) = Filesystem::resolvePath($absolutePath2 . $postFix2);
 					if ($storage) {
 						$result = $storage->rename($internalPath1, $internalPath2);
+                        \OC_FileProxy::runPostProxies('rename', $absolutePath1, $absolutePath2);
 					} else {
 						$result = false;
 					}
 				} else {
-					$source = $this->fopen($path1 . $postFix1, 'r');
-					$target = $this->fopen($path2 . $postFix2, 'w');
-					list($count, $result) = \OC_Helper::streamCopy($source, $target);
-					list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
-					$storage1->unlink($internalPath1);
+					if ($this->is_dir($path1)) {
+						$result = $this->copy($path1, $path2);
+						if ($result === true) {
+							list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
+							$result = $storage1->deleteAll($internalPath1);
+						}
+					} else {
+						$source = $this->fopen($path1 . $postFix1, 'r');
+						$target = $this->fopen($path2 . $postFix2, 'w');
+						list($count, $result) = \OC_Helper::streamCopy($source, $target);
+						list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
+						$storage1->unlink($internalPath1);
+					}
 				}
 				if ($this->fakeRoot == Filesystem::getRoot() && !Cache\Scanner::isPartialFile($path1)) {
 					\OC_Hook::emit(
@@ -459,9 +471,18 @@ class View {
 						$result = false;
 					}
 				} else {
-					$source = $this->fopen($path1 . $postFix1, 'r');
-					$target = $this->fopen($path2 . $postFix2, 'w');
-					list($count, $result) = \OC_Helper::streamCopy($source, $target);
+					if ($this->is_dir($path1) && ($dh = $this->opendir($path1))) {
+						$result = $this->mkdir($path2);
+						while ($file = readdir($dh)) {
+							if (!Filesystem::isIgnoredDir($file)) {
+								$result = $this->copy($path1 . '/' . $file, $path2 . '/' . $file);
+							}
+						}
+					} else {
+						$source = $this->fopen($path1 . $postFix1, 'r');
+						$target = $this->fopen($path2 . $postFix2, 'w');
+						list($count, $result) = \OC_Helper::streamCopy($source, $target);
+					}
 				}
 				if ($this->fakeRoot == Filesystem::getRoot()) {
 					\OC_Hook::emit(
@@ -738,6 +759,9 @@ class View {
 				$data['permissions'] = $permissions;
 			}
 		}
+
+        $data = \OC_FileProxy::runPostProxies('getFileInfo', $path, $data);
+
 		return $data;
 	}
 

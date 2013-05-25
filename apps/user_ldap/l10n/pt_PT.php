@@ -7,6 +7,8 @@
 "Take over settings from recent server configuration?" => "Assumir as configurações da configuração do servidor mais recente?",
 "Keep settings?" => "Manter as definições?",
 "Cannot add server configuration" => "Não foi possível adicionar as configurações do servidor.",
+"Success" => "Sucesso",
+"Error" => "Erro",
 "Connection test succeeded" => "Teste de conecção passado com sucesso.",
 "Connection test failed" => "Erro no teste de conecção.",
 "Do you really want to delete the current Server Configuration?" => "Deseja realmente apagar as configurações de servidor actuais?",

@@ -1,4 +1,3 @@
 <?php $TRANSLATIONS = array(
-"Encryption" => "การเข้ารหัส",
-"None" => "ไม่มี"
+"Encryption" => "การเข้ารหัส"
 );

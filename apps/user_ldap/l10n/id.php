@@ -7,6 +7,8 @@
 "Take over settings from recent server configuration?" => "Ambil alih pengaturan dari konfigurasi server saat ini?",
 "Keep settings?" => "Biarkan pengaturan?",
 "Cannot add server configuration" => "Gagal menambah konfigurasi server",
+"Success" => "Sukses",
+"Error" => "Galat",
 "Connection test succeeded" => "Tes koneksi sukses",
 "Connection test failed" => "Tes koneksi gagal",
 "Do you really want to delete the current Server Configuration?" => "Anda ingin menghapus Konfigurasi Server saat ini?",
