@@ -635,10 +635,17 @@ class Connection {
 	 * Binds to LDAP
 	 */
 	public function bind() {
+		static $getConnectionResourceAttempt = false;
 		if(!$this->config['ldapConfigurationActive']) {
 			return false;
 		}
+		if($getConnectionResourceAttempt) {
+			$getConnectionResourceAttempt = false;
+			return false;
+		}
+		$getConnectionResourceAttempt = true;
 		$cr = $this->getConnectionResource();
+		$getConnectionResourceAttempt = false;
 		if(!is_resource($cr)) {
 			return false;
 		}
