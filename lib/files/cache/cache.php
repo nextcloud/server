@@ -343,6 +343,10 @@ class Cache {
 	 * @param string $target
 	 */
 	public function move($source, $target) {
+		// normalize source and target
+		$source = $this->normalize($source);
+		$target = $this->normalize($target);
+
 		$sourceData = $this->get($source);
 		$sourceId = $sourceData['fileid'];
 		$newParentId = $this->getParentId($target);
@@ -383,6 +387,9 @@ class Cache {
 	 * @return int, Cache::NOT_FOUND, Cache::PARTIAL, Cache::SHALLOW or Cache::COMPLETE
 	 */
 	public function getStatus($file) {
+		// normalize file
+		$file = $this->normalize($file);
+
 		$pathHash = md5($file);
 		$query = \OC_DB::prepare('SELECT `size` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?');
 		$result = $query->execute(array($this->getNumericStorageId(), $pathHash));
