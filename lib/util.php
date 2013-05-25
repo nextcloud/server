@@ -833,7 +833,12 @@ class OC_Util {
 	 */
 	public static function normalizeUnicode($value) {
 		if(class_exists('Patchwork\PHP\Shim\Normalizer')) {
-			$value = \Patchwork\PHP\Shim\Normalizer::normalize($value);
+			$normalizedValue = \Patchwork\PHP\Shim\Normalizer::normalize($value);
+			if($normalizedValue === false) {
+				\OC_Log::write( 'core', 'normalizing failed for "' . $value . '"', \OC_Log::WARN);
+			} else {
+				$value = $normalizedValue;
+			}
 		}
 
 		return $value;
