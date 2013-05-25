@@ -41,6 +41,18 @@ class Google extends \OC\Files\Storage\Common {
 	const DRAWING = 'application/vnd.google-apps.drawing';
 	const PRESENTATION = 'application/vnd.google-apps.presentation';
 
+	/**
+	 * check if curl is installed
+	 */
+	public static function checkDependencies() {
+		if (function_exists('curl_init')) {
+			return true;
+		} else {
+			$l = new \OC_L10N('files_external');
+			return $l->t('<b>Warning:</b> The cURL support in PHP is not enabled or installed. Mounting of Google Drive is not possible. Please ask your system administrator to install it.');
+		}
+	}
+
 	public function __construct($params) {
 		if (isset($params['configured']) && $params['configured'] === 'true'
 			&& isset($params['client_id']) && isset($params['client_secret'])

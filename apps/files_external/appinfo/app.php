@@ -69,7 +69,8 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\Google', array(
 		'configured' => '#configured',
 		'token' => '#token',
 		'token_secret' => '#token secret'),
-	'custom' => 'google'));
+	'custom' => 'google',
+	'has_dependencies' => true));
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\SWIFT', array(
 	'backend' => 'OpenStack Swift',
@@ -97,7 +98,8 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\DAV', array(
 		'user' => 'Username',
 		'password' => '*Password',
 		'root' => '&Root',
-		'secure' => '!Secure https://')));
+		'secure' => '!Secure https://'),
+	'has_dependencies' => true));
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\SFTP', array(
 	'backend' => 'SFTP',
