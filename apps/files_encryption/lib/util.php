@@ -293,12 +293,11 @@ class Util
 
 		if (\OC_DB::isError($result)) {
 			\OC_Log::write('Encryption library', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
-		}
-
-		while ( $row = $result->fetchRow() ) {
-
-			$recoveryEnabled[] = $row['recovery_enabled'];
-
+		} else {
+			$row = $result->fetchRow();
+			if( isset( $row['recovery_enabled'] ) ) {
+				$recoveryEnabled[] = $row['recovery_enabled'];
+			}
 		}
 
 		// If no record is found
@@ -824,13 +823,15 @@ class Util
 
 		$result = $query->execute( array( $fileId ) );
 
+		$path = false;
 		if (\OC_DB::isError($result)) {
 			\OC_Log::write('Encryption library', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+		} else {
+			$row = $result->fetchRow();
+			$path = substr( $row['path'], strlen('files') );
 		}
 
-		$row = $result->fetchRow();
-
-		return substr( $row['path'], 5 );
+		return $path;
 
 	}
 
@@ -1096,11 +1097,11 @@ class Util
 
 		if (\OC_DB::isError($result)) {
 			\OC_Log::write('Encryption library', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
-		}
-
-		$row = $result->fetchRow();
-		if($row) {
-			$migrationStatus[] = $row['migration_status'];
+		} else {
+			$row = $result->fetchRow();
+			if( isset( $row['migration_status'] ) ) {
+				$migrationStatus[] = $row['migration_status'];
+			}
 		}
 
 		// If no record is found
@@ -1233,11 +1234,12 @@ class Util
 
 		$result = $query->execute( array( $id ) );
 
+		$row = array();
 		if (\OC_DB::isError($result)) {
 			\OC_Log::write('Encryption library', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+		} else {
+			$row = $result->fetchRow();
 		}
-
-		$row = $result->fetchRow();
 
 		return $row;
 
@@ -1256,11 +1258,12 @@ class Util
 
 		$result = $query->execute( array( $id ) );
 
+		$row = array();
 		if (\OC_DB::isError($result)) {
 			\OC_Log::write('Encryption library', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+		} else {
+			$row = $result->fetchRow();
 		}
-
-		$row = $result->fetchRow();
 
 		return $row;
 
@@ -1278,11 +1281,12 @@ class Util
 
 		$result = $query->execute( array( $id ) );
 
+		$source = array();
 		if (\OC_DB::isError($result)) {
 			\OC_Log::write('Encryption library', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+		} else {
+			$source = $result->fetchRow();
 		}
-
-		$source = $result->fetchRow();
 
 		$fileOwner = false;
 
@@ -1296,11 +1300,12 @@ class Util
 
 				$result = $query->execute( array( $parent ) );
 
+				$item = array();
 				if (\OC_DB::isError($result)) {
 					\OC_Log::write('Encryption library', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+				} else {
+					$item = $result->fetchRow();
 				}
-
-				$item = $result->fetchRow();
 
 				if ( isset( $item['parent'] ) ) {
 
