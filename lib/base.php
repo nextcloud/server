@@ -571,6 +571,7 @@ class OC {
 			self::checkUpgrade();
 		}
 
+		OC::tryBasicAuthLogin();
 		if (!self::$CLI) {
 			try {
 				if (!OC_Config::getValue('maintenance', false)) {
@@ -779,7 +780,7 @@ class OC {
 			//OC_Log::write('core',"Logged in with HTTP Authentication", OC_Log::DEBUG);
 			OC_User::unsetMagicInCookie();
 			$_REQUEST['redirect_url'] = OC_Request::requestUri();
-			OC_Util::redirectToDefaultPage();
+			//OC_Util::redirectToDefaultPage();
 		}
 		return true;
 	}
