@@ -1,4 +1,3 @@
 <?php $TRANSLATIONS = array(
-"Encryption" => "הצפנה",
-"None" => "כלום"
+"Encryption" => "הצפנה"
 );

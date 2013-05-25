@@ -46,6 +46,7 @@
 "years ago" => "anys enrere",
 "Choose" => "Escull",
 "Cancel" => "Cancel·la",
+"Error loading file picker template" => "Error en carregar la plantilla del seleccionador de fitxers",
 "Yes" => "Sí",
 "No" => "No",
 "Ok" => "D'acord",
