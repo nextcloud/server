@@ -20,13 +20,14 @@
  *
  */
 
-require_once realpath( dirname( __FILE__ ) . '/../../../lib/base.php' );
-require_once realpath( dirname( __FILE__ ) . '/../lib/crypt.php' );
-require_once realpath( dirname( __FILE__ ) . '/../lib/keymanager.php' );
-require_once realpath( dirname( __FILE__ ) . '/../lib/proxy.php' );
-require_once realpath( dirname( __FILE__ ) . '/../lib/stream.php' );
-require_once realpath( dirname( __FILE__ ) . '/../lib/util.php' );
-require_once realpath( dirname( __FILE__ ) . '/../appinfo/app.php' );
+require_once realpath(dirname(__FILE__) . '/../../../lib/base.php');
+require_once realpath(dirname(__FILE__) . '/../lib/crypt.php');
+require_once realpath(dirname(__FILE__) . '/../lib/keymanager.php');
+require_once realpath(dirname(__FILE__) . '/../lib/proxy.php');
+require_once realpath(dirname(__FILE__) . '/../lib/stream.php');
+require_once realpath(dirname(__FILE__) . '/../lib/util.php');
+require_once realpath(dirname(__FILE__) . '/../appinfo/app.php');
+require_once realpath(dirname(__FILE__) . '/util.php');
 
 use OCA\Encryption;
 
@@ -34,8 +35,9 @@ use OCA\Encryption;
  * Class Test_Encryption_Stream
  * @brief this class provide basic stream tests
  */
-class Test_Encryption_Stream extends \PHPUnit_Framework_TestCase
-{
+class Test_Encryption_Stream extends \PHPUnit_Framework_TestCase {
+
+	const TEST_ENCRYPTION_STREAM_USER1 = "test-stream-user1";
 
 	public $userId;
 	public $pass;
@@ -49,138 +51,130 @@ class Test_Encryption_Stream extends \PHPUnit_Framework_TestCase
 	public static function setUpBeforeClass() {
 		// reset backend
 		\OC_User::clearBackends();
-		\OC_User::useBackend( 'database' );
+		\OC_User::useBackend('database');
 
 		// Filesystem related hooks
 		\OCA\Encryption\Helper::registerFilesystemHooks();
 
 		// clear and register hooks
 		\OC_FileProxy::clearProxies();
-		\OC_FileProxy::register( new OCA\Encryption\Proxy() );
+		\OC_FileProxy::register(new OCA\Encryption\Proxy());
 
-		// setup filesystem
-		\OC_Util::tearDownFS();
-		\OC_User::setUserId( '' );
-		\OC\Files\Filesystem::tearDown();
-		\OC_Util::setupFS( 'admin' );
-		\OC_User::setUserId( 'admin' );
-
-		// login admin
-		$params['uid'] = 'admin';
-		$params['password'] = 'admin';
-		OCA\Encryption\Hooks::login( $params );
-
+		// create test user
+		\Test_Encryption_Util::loginHelper(\Test_Encryption_Stream::TEST_ENCRYPTION_STREAM_USER1, true);
 	}
 
 	function setUp() {
 		// set user id
-		\OC_User::setUserId( 'admin' );
-		$this->userId = 'admin';
-		$this->pass = 'admin';
+		\OC_User::setUserId(\Test_Encryption_Stream::TEST_ENCRYPTION_STREAM_USER1);
+		$this->userId = \Test_Encryption_Stream::TEST_ENCRYPTION_STREAM_USER1;
+		$this->pass = \Test_Encryption_Stream::TEST_ENCRYPTION_STREAM_USER1;
 
 		// init filesystem view
-		$this->view = new \OC_FilesystemView( '/' );
+		$this->view = new \OC_FilesystemView('/');
 
 		// init short data
 		$this->dataShort = 'hats';
 
 		// remember files_trashbin state
-		$this->stateFilesTrashbin = OC_App::isEnabled( 'files_trashbin' );
+		$this->stateFilesTrashbin = OC_App::isEnabled('files_trashbin');
 
 		// we don't want to tests with app files_trashbin enabled
-		\OC_App::disable( 'files_trashbin' );
+		\OC_App::disable('files_trashbin');
 	}
 
 	function tearDown() {
 		// reset app files_trashbin
-		if ( $this->stateFilesTrashbin ) {
-			OC_App::enable( 'files_trashbin' );
-		} else {
-			OC_App::disable( 'files_trashbin' );
+		if ($this->stateFilesTrashbin) {
+			OC_App::enable('files_trashbin');
+		}
+		else {
+			OC_App::disable('files_trashbin');
 		}
 	}
 
 	public static function tearDownAfterClass() {
-
+		// cleanup test user
+		\OC_User::deleteUser(\Test_Encryption_Stream::TEST_ENCRYPTION_STREAM_USER1);
 	}
 
 	function testStreamOptions() {
 		$filename = '/tmp-' . time();
-		$view = new \OC\Files\View( '/' . $this->userId . '/files' );
+		$view = new \OC\Files\View('/' . $this->userId . '/files');
 
 		// Save short data as encrypted file using stream wrapper
-		$cryptedFile = $view->file_put_contents( $filename, $this->dataShort );
+		$cryptedFile = $view->file_put_contents($filename, $this->dataShort);
 
 		// Test that data was successfully written
-		$this->assertTrue( is_int( $cryptedFile ) );
+		$this->assertTrue(is_int($cryptedFile));
 
-		$handle = $view->fopen( $filename, 'r' );
+		$handle = $view->fopen($filename, 'r');
 
 		// check if stream is at position zero
-		$this->assertEquals( 0, ftell( $handle ) );
+		$this->assertEquals(0, ftell($handle));
 
 		// set stream options
-		$this->assertTrue( flock( $handle, LOCK_SH ) );
-		$this->assertTrue( flock( $handle, LOCK_UN ) );
+		$this->assertTrue(flock($handle, LOCK_SH));
+		$this->assertTrue(flock($handle, LOCK_UN));
 
 		// tear down
-		$view->unlink( $filename );
+		$view->unlink($filename);
 	}
 
 	function testStreamSetBlocking() {
 		$filename = '/tmp-' . time();
-		$view = new \OC\Files\View( '/' . $this->userId . '/files' );
+		$view = new \OC\Files\View('/' . $this->userId . '/files');
 
 		// Save short data as encrypted file using stream wrapper
-		$cryptedFile = $view->file_put_contents( $filename, $this->dataShort );
+		$cryptedFile = $view->file_put_contents($filename, $this->dataShort);
 
 		// Test that data was successfully written
-		$this->assertTrue( is_int( $cryptedFile ) );
+		$this->assertTrue(is_int($cryptedFile));
 
-		$handle = $view->fopen( $filename, 'r' );
+		$handle = $view->fopen($filename, 'r');
 
 		// set stream options
-		$this->assertTrue( stream_set_blocking( $handle, 1 ) );
+		$this->assertTrue(stream_set_blocking($handle, 1));
 
 		// tear down
-		$view->unlink( $filename );
+		$view->unlink($filename);
 	}
 
 	function testStreamSetTimeout() {
 		$filename = '/tmp-' . time();
-		$view = new \OC\Files\View( '/' . $this->userId . '/files' );
+		$view = new \OC\Files\View('/' . $this->userId . '/files');
 
 		// Save short data as encrypted file using stream wrapper
-		$cryptedFile = $view->file_put_contents( $filename, $this->dataShort );
+		$cryptedFile = $view->file_put_contents($filename, $this->dataShort);
 
 		// Test that data was successfully written
-		$this->assertTrue( is_int( $cryptedFile ) );
+		$this->assertTrue(is_int($cryptedFile));
 
-		$handle = $view->fopen( $filename, 'r' );
+		$handle = $view->fopen($filename, 'r');
 
 		// set stream options
-		$this->assertFalse( stream_set_timeout( $handle, 1 ) );
+		$this->assertFalse(stream_set_timeout($handle, 1));
 
 		// tear down
-		$view->unlink( $filename );
+		$view->unlink($filename);
 	}
 
 	function testStreamSetWriteBuffer() {
 		$filename = '/tmp-' . time();
-		$view = new \OC\Files\View( '/' . $this->userId . '/files' );
+		$view = new \OC\Files\View('/' . $this->userId . '/files');
 
 		// Save short data as encrypted file using stream wrapper
-		$cryptedFile = $view->file_put_contents( $filename, $this->dataShort );
+		$cryptedFile = $view->file_put_contents($filename, $this->dataShort);
 
 		// Test that data was successfully written
-		$this->assertTrue( is_int( $cryptedFile ) );
+		$this->assertTrue(is_int($cryptedFile));
 
-		$handle = $view->fopen( $filename, 'r' );
+		$handle = $view->fopen($filename, 'r');
 
 		// set stream options
-		$this->assertEquals( 0, stream_set_write_buffer( $handle, 1024 ) );
+		$this->assertEquals(0, stream_set_write_buffer($handle, 1024));
 
 		// tear down
-		$view->unlink( $filename );
+		$view->unlink($filename);
 	}
 }
