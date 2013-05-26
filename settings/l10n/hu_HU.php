@@ -101,6 +101,7 @@
 "Use this address to connect to your ownCloud in your file manager" => "Ennek a címnek a megadásával a WebDAV-protokollon keresztül saját gépének fájlkezelőjével is is elérheti az állományait.",
 "Login Name" => "Bejelentkezési név",
 "Create" => "Létrehozás",
+"Admin Recovery Password" => "A jelszóvisszaállítás adminisztrációja",
 "Default Storage" => "Alapértelmezett tárhely",
 "Unlimited" => "Korlátlan",
 "Other" => "Más",

@@ -46,6 +46,7 @@
 "years ago" => "több éve",
 "Choose" => "Válasszon",
 "Cancel" => "Mégsem",
+"Error loading file picker template" => "Nem sikerült betölteni a fájlkiválasztó sablont",
 "Yes" => "Igen",
 "No" => "Nem",
 "Ok" => "Ok",

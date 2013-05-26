@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-25 02:01+0200\n"
-"PO-Revision-Date: 2013-05-25 00:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-26 01:58+0200\n"
+"PO-Revision-Date: 2013-05-25 12:40+0000\n"
+"Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,23 +20,23 @@ msgstr ""
 
 #: ajax/adminrecovery.php:40
 msgid "Recovery key successfully "
-msgstr ""
+msgstr "Odzyskanie klucza udane"
 
 #: ajax/adminrecovery.php:42
 msgid "Could not "
-msgstr ""
+msgstr "Nie można"
 
 #: ajax/changeRecoveryPassword.php:49
 msgid "Password successfully changed."
-msgstr ""
+msgstr "Zmiana hasła udana."
 
 #: ajax/changeRecoveryPassword.php:51
 msgid "Could not change the password. Maybe the old password was not correct."
-msgstr ""
+msgstr "Nie można zmienić hasła. Może stare hasło nie było poprawne."
 
 #: js/settings-admin.js:11
 msgid "Saving..."
-msgstr ""
+msgstr "Zapisywanie..."
 
 #: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
@@ -44,50 +45,50 @@ msgstr "Szyfrowanie"
 #: templates/settings-admin.php:9
 msgid ""
 "Enable encryption passwords recovery key (allow sharing to recovery key):"
-msgstr ""
+msgstr "Włącz szyfrowanie odzyskiwanych haseł klucza (zezwalaj na odzyskiwanie klucza):"
 
 #: templates/settings-admin.php:13
 msgid "Recovery account password"
-msgstr ""
+msgstr "Odzyskiwanie hasła konta"
 
 #: templates/settings-admin.php:20 templates/settings-personal.php:18
 msgid "Enabled"
-msgstr ""
+msgstr "Włączone"
 
 #: templates/settings-admin.php:28 templates/settings-personal.php:26
 msgid "Disabled"
-msgstr ""
+msgstr "Wyłączone"
 
 #: templates/settings-admin.php:32
 msgid "Change encryption passwords recovery key:"
-msgstr ""
+msgstr "Zmiana klucza szyfrowania haseł odzyskiwania:"
 
 #: templates/settings-admin.php:39
 msgid "Old Recovery account password"
-msgstr ""
+msgstr "Stare hasło odzyskiwania"
 
 #: templates/settings-admin.php:46
 msgid "New Recovery account password"
-msgstr ""
+msgstr "Nowe hasło odzyskiwania"
 
 #: templates/settings-admin.php:51
 msgid "Change Password"
-msgstr ""
+msgstr "Zmień hasło"
 
 #: templates/settings-personal.php:9
 msgid "Enable password recovery by sharing all files with your administrator:"
-msgstr ""
+msgstr "Włączyć hasło odzyskiwania przez udostępnianie wszystkich plików z administratorem:"
 
 #: templates/settings-personal.php:11
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files if your password is lost"
-msgstr ""
+msgstr "Włączenie tej opcji umożliwia otrzymać dostęp do zaszyfrowanych plików w przypadku utraty hasła"
 
 #: templates/settings-personal.php:27
 msgid "File recovery settings updated"
-msgstr ""
+msgstr "Ustawienia odzyskiwania plików zmienione"
 
 #: templates/settings-personal.php:28
 msgid "Could not update file recovery"
-msgstr ""
+msgstr "Nie można zmienić pliku odzyskiwania"

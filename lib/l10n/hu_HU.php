@@ -24,6 +24,7 @@
 "%s set the database host." => "%s adja meg az adatbázist szolgáltató számítógép nevét.",
 "PostgreSQL username and/or password not valid" => "A PostgreSQL felhasználói név és/vagy jelszó érvénytelen",
 "You need to enter either an existing account or the administrator." => "Vagy egy létező felhasználó vagy az adminisztrátor bejelentkezési nevét kell megadnia",
+"Oracle connection could not be established" => "Az Oracle kapcsolat nem hozható létre",
 "MySQL username and/or password not valid" => "A MySQL felhasználói név és/vagy jelszó érvénytelen",
 "DB Error: \"%s\"" => "Adatbázis hiba: \"%s\"",
 "Offending command was: \"%s\"" => "A hibát ez a parancs okozta: \"%s\"",
