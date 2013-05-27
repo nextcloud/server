@@ -515,7 +515,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	 */
 	function testLegacyDecryptShort($crypted) {
 
-		$decrypted = Encryption\Crypt::legacyDecrypt($crypted, $this->pass);
+		$decrypted = Encryption\Crypt::legacyBlockDecrypt($crypted, $this->pass);
 
 		$this->assertEquals($this->dataShort, $decrypted);
 
@@ -543,7 +543,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	 */
 	function testLegacyDecryptLong($crypted) {
 
-		$decrypted = Encryption\Crypt::legacyDecrypt($crypted, $this->pass);
+		$decrypted = Encryption\Crypt::legacyBlockDecrypt($crypted, $this->pass);
 
 		$this->assertEquals($this->dataLong, $decrypted);
 
@@ -560,7 +560,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$encKey = Encryption\Crypt::legacyCreateKey($this->pass);
 
 		// Decrypt key
-		$key = Encryption\Crypt::legacyDecrypt($encKey, $this->pass);
+		$key = Encryption\Crypt::legacyBlockDecrypt($encKey, $this->pass);
 
 		$this->assertTrue(is_numeric($key));
 
