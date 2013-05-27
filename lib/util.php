@@ -640,9 +640,9 @@ class OC_Util {
 	/**
 	 * Check if the ownCloud server can connect to the internet
 	 */
-	public static function isinternetconnectionworking() {
+	public static function isInternetconnectionWorking() {
 		// in case there is no internet connection on purpose return false
-		if (self::isinternetconnectionenabled() === false) {
+		if (self::isInternetconnectionEnabled() === false) {
 			return false;
 		}
 
@@ -669,7 +669,7 @@ class OC_Util {
 	/**
 	 * Check if the connection to the internet is disabled on purpose
 	 */
-	public static function isinternetconnectionenabled(){
+	public static function isInternetconnectionEnabled(){
 		return \OC_Config::getValue("has_internet_connection", true);
 	}
 
