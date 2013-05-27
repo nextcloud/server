@@ -445,6 +445,8 @@ class OC {
 		self::checkSSL();
 		if ( !self::$CLI ) {
 			self::initSession();
+		} else {
+			self::$session = new \OC\Session\Memory('');
 		}
 
 		$errors = OC_Util::checkServer();
