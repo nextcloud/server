@@ -18,7 +18,8 @@ namespace OC\Session;
 class Internal extends Memory {
 	public function __construct($name) {
 		session_name($name);
-		if (@session_start()) {
+		session_start();
+		if (!isset($_SESSION)) {
 			throw new \Exception('Failed to start session');
 		}
 		$this->data = $_SESSION;
