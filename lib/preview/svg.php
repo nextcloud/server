@@ -13,7 +13,8 @@ class OC_Preview_SVG extends OC_Preview_Provider{
 
 	public function getThumbnail($path,$maxX,$maxY,$scalingup,$fileview) {
 		$svg = new Imagick();
-		$svg->readImageBlob($fileview->file_get_contents($path));
+		$svg->setResolution($maxX, $maxY);
+		$svg->readImageBlob('<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . $fileview->file_get_contents($path));
 		$svg->setImageFormat('jpg');
 
 		//new image object
