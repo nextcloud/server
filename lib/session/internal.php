@@ -17,7 +17,6 @@ namespace OC\Session;
  */
 class Internal extends Memory {
 	public function __construct($name) {
-		session_write_close();
 		session_name($name);
 		if (@session_start()) {
 			throw new \Exception('Failed to start session');
