@@ -106,7 +106,7 @@ class Session
 	 */
 	public function setPrivateKey( $privateKey ) {
 
-		$_SESSION['privateKey'] = $privateKey;
+		\OC::$session->set('privateKey', $privateKey)
 
 		return true;
 
@@ -119,12 +119,9 @@ class Session
 	 */
 	public function getPrivateKey() {
 
-		if (
-			isset( $_SESSION['privateKey'] )
-			&& !empty( $_SESSION['privateKey'] )
-		) {
+		if ( !is_null( \OC::$session->get('privateKey') ) ) {
 
-			return $_SESSION['privateKey'];
+			return \OC::$session->get('privateKey');
 
 		} else {
 
@@ -141,7 +138,7 @@ class Session
 	 */
 	public function setLegacyKey( $legacyKey ) {
 
-		$_SESSION['legacyKey'] = $legacyKey;
+		\OC::$session->set('legacyKey', $legacyKey);
 
 		return true;
 	}
@@ -153,12 +150,9 @@ class Session
 	 */
 	public function getLegacyKey() {
 
-		if (
-			isset( $_SESSION['legacyKey'] )
-			&& !empty( $_SESSION['legacyKey'] )
-		) {
+		if ( !is_null( \OC::$session->get('legacyKey') ) ) {
 
-			return $_SESSION['legacyKey'];
+			return \OC::$session->get('legacyKey');
 
 		} else {
 

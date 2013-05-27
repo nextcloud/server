@@ -220,7 +220,7 @@ class Proxy extends \OC_FileProxy
 
 		} elseif (
 			Crypt::mode() == 'server'
-			&& isset( $_SESSION['legacyenckey'] )
+			&&\OC::$session->exists('legacyenckey')
 			&& Crypt::isEncryptedMeta( $path )
 		) {
 			$plainData = Crypt::legacyBlockDecrypt( $data, $session->getLegacyKey() );
