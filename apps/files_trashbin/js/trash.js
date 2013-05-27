@@ -117,6 +117,7 @@ $(document).ready(function() {
 			});
 
 		$('.delete').click('click',function(event) {
+			event.preventDefault();
 			console.log("delete selected");
 			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'Delete permanently')+'" src="'+ OC.imagePath('core', 'loading.gif') +'"></a>';
 			var files=getSelectedFiles('file');
