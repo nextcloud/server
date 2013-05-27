@@ -641,7 +641,7 @@ class OC_Util {
 	 * Check if the ownCloud server can connect to the internet
 	 */
 	public static function isinternetconnectionworking() {
-		// in case there is no internet connection on purpose there is no need to display a warning
+		// in case there is no internet connection on purpose return false
 		if (self::isinternetconnectionenabled() === false) {
 			return false;
 		}
