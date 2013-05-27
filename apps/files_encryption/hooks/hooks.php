@@ -76,13 +76,11 @@ class Hooks {
 				&& $encLegacyKey = $userView->file_get_contents( 'encryption.key' )
 			) {
 			
-				$plainLegacyKey = Crypt::legacyDecrypt( $encLegacyKey, $params['password'] );
+				$plainLegacyKey = Crypt::legacyBlockDecrypt( $encLegacyKey, $params['password'] );
 				
 				$session->setLegacyKey( $plainLegacyKey );
 			
 			}
-
-			$publicKey = Keymanager::getPublicKey( $view, $params['uid'] );
 			
 			// Encrypt existing user files:
 			// This serves to upgrade old versions of the encryption
