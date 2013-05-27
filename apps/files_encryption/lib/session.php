@@ -106,7 +106,7 @@ class Session
 	 */
 	public function setPrivateKey( $privateKey ) {
 
-		\OC::$session->set('privateKey', $privateKey)
+		\OC::$session->set('privateKey', $privateKey);
 
 		return true;
 
