@@ -623,7 +623,7 @@ class Crypt
 	 * @param int $maxLength
 	 * @return string
 	 */
-	private static function legacyBlockDecrypt( $data, $key = '', $maxLength = 0 ) {
+	public static function legacyBlockDecrypt( $data, $key = '', $maxLength = 0 ) {
 		$result = '';
 		while ( strlen( $data ) ) {
 			$result .= self::legacyDecrypt( substr( $data, 0, 8192 ), $key );
