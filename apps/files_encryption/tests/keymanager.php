@@ -20,8 +20,7 @@ use OCA\Encryption;
 /**
  * Class Test_Encryption_Keymanager
  */
-class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase
-{
+class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 
 	public $userId;
 	public $pass;
@@ -33,14 +32,35 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase
 	public $randomKey;
 	public $dataShort;
 
-	function setUp()
-	{
+	public static function setUpBeforeClass() {
 		// reset backend
 		\OC_User::clearBackends();
 		\OC_User::useBackend('database');
 
+		// Filesystem related hooks
+		\OCA\Encryption\Helper::registerFilesystemHooks();
+
+		// clear and register hooks
+		\OC_FileProxy::clearProxies();
+		\OC_FileProxy::register(new OCA\Encryption\Proxy());
+
+		// disable file proxy by default
 		\OC_FileProxy::$enabled = false;
 
+		// setup filesystem
+		\OC_Util::tearDownFS();
+		\OC_User::setUserId('');
+		\OC\Files\Filesystem::tearDown();
+		\OC_Util::setupFS('admin');
+		\OC_User::setUserId('admin');
+
+		// login admin
+		$params['uid'] = 'admin';
+		$params['password'] = 'admin';
+		OCA\Encryption\Hooks::login($params);
+	}
+
+	function setUp() {
 		// set content for encrypting / decrypting in tests
 		$this->dataLong = file_get_contents(realpath(dirname(__FILE__) . '/../lib/crypt.php'));
 		$this->dataShort = 'hats';
@@ -62,44 +82,28 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase
 		$userHome = \OC_User::getHome($this->userId);
 		$this->dataDir = str_replace('/' . $this->userId, '', $userHome);
 
-		// Filesystem related hooks
-		\OCA\Encryption\Helper::registerFilesystemHooks();
-
-		\OC_FileProxy::register(new OCA\Encryption\Proxy());
-
 		// remember files_trashbin state
 		$this->stateFilesTrashbin = OC_App::isEnabled('files_trashbin');
 
 		// we don't want to tests with app files_trashbin enabled
 		\OC_App::disable('files_trashbin');
-
-		\OC_Util::tearDownFS();
-		\OC_User::setUserId('');
-		\OC\Files\Filesystem::tearDown();
-		\OC_Util::setupFS($this->userId);
-		\OC_User::setUserId($this->userId);
-
-		$params['uid'] = $this->userId;
-		$params['password'] = $this->pass;
-		OCA\Encryption\Hooks::login($params);
 	}
 
-	function tearDown()
-	{
-
-		\OC_FileProxy::$enabled = true;
-		\OC_FileProxy::clearProxies();
-
+	function tearDown() {
 		// reset app files_trashbin
 		if ($this->stateFilesTrashbin) {
 			OC_App::enable('files_trashbin');
-		} else {
+		}
+		else {
 			OC_App::disable('files_trashbin');
 		}
 	}
 
-	function testGetPrivateKey()
-	{
+	public static function tearDownAfterClass() {
+		\OC_FileProxy::$enabled = true;
+	}
+
+	function testGetPrivateKey() {
 
 		$key = Encryption\Keymanager::getPrivateKey($this->view, $this->userId);
 
@@ -115,8 +119,7 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase
 
 	}
 
-	function testGetPublicKey()
-	{
+	function testGetPublicKey() {
 
 		$publiceKey = Encryption\Keymanager::getPublicKey($this->view, $this->userId);
 
@@ -129,8 +132,7 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase
 		$this->assertArrayHasKey('key', $sslInfo);
 	}
 
-	function testSetFileKey()
-	{
+	function testSetFileKey() {
 
 		# NOTE: This cannot be tested until we are able to break out 
 		# of the FileSystemView data directory root
@@ -163,8 +165,7 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase
 
 	}
 
-	function testGetUserKeys()
-	{
+	function testGetUserKeys() {
 
 		$keys = Encryption\Keymanager::getUserKeys($this->view, $this->userId);
 
@@ -187,8 +188,7 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase
 		$this->assertArrayHasKey('key', $sslInfoPrivate);
 	}
 
-	function testFixPartialFilePath()
-	{
+	function testFixPartialFilePath() {
 
 		$partFilename = 'testfile.txt.part';
 		$filename = 'testfile.txt';
@@ -202,8 +202,7 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase
 		$this->assertEquals('testfile.txt', Encryption\Keymanager::fixPartialFilePath($filename));
 	}
 
-	function testRecursiveDelShareKeys()
-	{
+	function testRecursiveDelShareKeys() {
 
 		// generate filename
 		$filename = '/tmp-' . time() . '.txt';
@@ -230,7 +229,8 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase
 		Encryption\Keymanager::delShareKey($this->view, array('admin'), '/folder1/');
 
 		// check if share key not exists
-		$this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys/folder1/subfolder/subsubfolder/' . $filename . '.admin.shareKey'));
+		$this->assertFalse($this->view->file_exists(
+			'/admin/files_encryption/share-keys/folder1/subfolder/subsubfolder/' . $filename . '.admin.shareKey'));
 
 		// enable encryption proxy
 		$proxyStatus = \OC_FileProxy::$enabled;
