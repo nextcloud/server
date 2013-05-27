@@ -24,6 +24,7 @@
 "%s set the database host." => "%s setze den Datenbank-Host",
 "PostgreSQL username and/or password not valid" => "PostgreSQL Benutzername und/oder Passwort ungültig",
 "You need to enter either an existing account or the administrator." => "Sie müssen entweder ein existierendes Benutzerkonto oder das Administratoren-Konto angeben.",
+"Oracle connection could not be established" => "Die Oracle-Verbindung konnte nicht aufgebaut werden.",
 "MySQL username and/or password not valid" => "MySQL Benutzername und/oder Passwort ungültig",
 "DB Error: \"%s\"" => "DB Fehler: \"%s\"",
 "Offending command was: \"%s\"" => "Fehlerhafter Befehl war: \"%s\"",

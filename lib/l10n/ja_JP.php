@@ -24,6 +24,7 @@
 "%s set the database host." => "%s にデータベースホストを設定します。",
 "PostgreSQL username and/or password not valid" => "PostgreSQLのユーザ名もしくはパスワードは有効ではありません",
 "You need to enter either an existing account or the administrator." => "既存のアカウントもしくは管理者のどちらかを入力する必要があります。",
+"Oracle connection could not be established" => "Oracleへの接続が確立できませんでした。",
 "MySQL username and/or password not valid" => "MySQLのユーザ名もしくはパスワードは有効ではありません",
 "DB Error: \"%s\"" => "DBエラー: \"%s\"",
 "Offending command was: \"%s\"" => "違反コマンド: \"%s\"",

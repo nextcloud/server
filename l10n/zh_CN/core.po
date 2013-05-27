@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-25 02:01+0200\n"
-"PO-Revision-Date: 2013-05-25 00:02+0000\n"
+"POT-Creation-Date: 2013-05-27 02:01+0200\n"
+"PO-Revision-Date: 2013-05-26 23:15+0000\n"
 "Last-Translator: zhangmin <zm1990s@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -223,7 +223,7 @@ msgstr "取消"
 
 #: js/oc-dialogs.js:138 js/oc-dialogs.js:195
 msgid "Error loading file picker template"
-msgstr ""
+msgstr "加载文件选择器模板出错"
 
 #: js/oc-dialogs.js:161
 msgid "Yes"

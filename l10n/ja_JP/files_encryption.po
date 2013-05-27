@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# tt yn <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-25 02:01+0200\n"
-"PO-Revision-Date: 2013-05-25 00:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-27 02:00+0200\n"
+"PO-Revision-Date: 2013-05-26 00:10+0000\n"
+"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,23 +20,23 @@ msgstr ""
 
 #: ajax/adminrecovery.php:40
 msgid "Recovery key successfully "
-msgstr ""
+msgstr "鍵を復旧することができました。"
 
 #: ajax/adminrecovery.php:42
 msgid "Could not "
-msgstr ""
+msgstr "できませんでした。"
 
 #: ajax/changeRecoveryPassword.php:49
 msgid "Password successfully changed."
-msgstr ""
+msgstr "パスワードを変更できました。"
 
 #: ajax/changeRecoveryPassword.php:51
 msgid "Could not change the password. Maybe the old password was not correct."
-msgstr ""
+msgstr "パスワードを変更できませんでした。古いパスワードが間違っているかもしれません。"
 
 #: js/settings-admin.js:11
 msgid "Saving..."
-msgstr ""
+msgstr "保存中..."
 
 #: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
@@ -44,50 +45,50 @@ msgstr "暗号化"
 #: templates/settings-admin.php:9
 msgid ""
 "Enable encryption passwords recovery key (allow sharing to recovery key):"
-msgstr ""
+msgstr "暗号化パスワードの復旧キーを有効にする(復旧キーを共有することを許可):"
 
 #: templates/settings-admin.php:13
 msgid "Recovery account password"
-msgstr ""
+msgstr "復旧アカウントのパスワード"
 
 #: templates/settings-admin.php:20 templates/settings-personal.php:18
 msgid "Enabled"
-msgstr ""
+msgstr "有効"
 
 #: templates/settings-admin.php:28 templates/settings-personal.php:26
 msgid "Disabled"
-msgstr ""
+msgstr "無効"
 
 #: templates/settings-admin.php:32
 msgid "Change encryption passwords recovery key:"
-msgstr ""
+msgstr "復旧キーの暗号化パスワードを変更:"
 
 #: templates/settings-admin.php:39
 msgid "Old Recovery account password"
-msgstr ""
+msgstr "古い復旧アカウントのパスワード"
 
 #: templates/settings-admin.php:46
 msgid "New Recovery account password"
-msgstr ""
+msgstr "新しい復旧アカウントのパスワード"
 
 #: templates/settings-admin.php:51
 msgid "Change Password"
-msgstr ""
+msgstr "パスワードを変更"
 
 #: templates/settings-personal.php:9
 msgid "Enable password recovery by sharing all files with your administrator:"
-msgstr ""
+msgstr "管理者が全ての共有ファイルに対してパスワードによる復旧を有効にする:"
 
 #: templates/settings-personal.php:11
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files if your password is lost"
-msgstr ""
+msgstr "このオプションを有効にすると、もしパスワードが分からなくなったとしても、暗号化されたファイルに再度アクセスすることが出来るようになります。"
 
 #: templates/settings-personal.php:27
 msgid "File recovery settings updated"
-msgstr ""
+msgstr "ファイル復旧設定が更新されました"
 
 #: templates/settings-personal.php:28
 msgid "Could not update file recovery"
-msgstr ""
+msgstr "ファイル復旧を更新できませんでした"

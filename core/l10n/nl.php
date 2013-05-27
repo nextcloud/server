@@ -46,6 +46,7 @@
 "years ago" => "jaar geleden",
 "Choose" => "Kies",
 "Cancel" => "Annuleer",
+"Error loading file picker template" => "Fout bij laden van bestandsselectie sjabloon",
 "Yes" => "Ja",
 "No" => "Nee",
 "Ok" => "Ok",
