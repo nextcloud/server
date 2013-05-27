@@ -21,7 +21,7 @@ $return = false;
 
 $recoveryKeyId = OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
 
-if (isset($_POST['adminEnableRecovery']) && $_POST['adminEnableRecovery'] == 1) {
+if (isset($_POST['adminEnableRecovery']) && $_POST['adminEnableRecovery'] === "1") {
 
 	$return = \OCA\Encryption\Helper::adminEnableRecovery($recoveryKeyId, $_POST['recoveryPassword']);
 	$action = "enable";
