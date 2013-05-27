@@ -23,11 +23,8 @@
 
 namespace OCA\Encryption;
 
-	/**
-	 * @brief Class to manage registration of hooks an various helper methods
-	 */
 /**
- * Class Helper
+ * @brief Class to manage registration of hooks an various helper methods
  * @package OCA\Encryption
  */
 class Helper {

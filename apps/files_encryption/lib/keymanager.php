@@ -79,8 +79,7 @@ class Keymanager {
 	public static function getUserKeys(\OC_FilesystemView $view, $userId) {
 
 		return array(
-			'publicKey' => self::getPublicKey($view, $userId)
-		,
+			'publicKey' => self::getPublicKey($view, $userId),
 			'privateKey' => self::getPrivateKey($view, $userId)
 		);
 

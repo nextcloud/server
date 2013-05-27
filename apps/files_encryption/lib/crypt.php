@@ -92,7 +92,7 @@ class Crypt {
 	 */
 	public static function removePadding($padded) {
 
-		if (substr($padded, -2) == 'xx') {
+		if (substr($padded, -2) === 'xx') {
 
 			$data = substr($padded, 0, -2);
 
@@ -132,7 +132,7 @@ class Crypt {
 		// Fetch identifier from start of metadata
 		$identifier = substr($meta, 0, 6);
 
-		if ($identifier == '00iv00') {
+		if ($identifier === '00iv00') {
 
 			return true;
 
@@ -157,7 +157,7 @@ class Crypt {
 		$metadata = \OC\Files\Filesystem::getFileInfo($path);
 
 		// Return encryption status
-		return isset($metadata['encrypted']) and ( bool )$metadata['encrypted'];
+		return isset($metadata['encrypted']) && ( bool )$metadata['encrypted'];
 
 	}
 
@@ -176,10 +176,9 @@ class Crypt {
 		// If a file is flagged with encryption in DB, but isn't a 
 		// valid content + IV combination, it's probably using the 
 		// legacy encryption system
-		if (
-			isset($metadata['encrypted'])
-			and $metadata['encrypted'] === true
-				and !self::isCatfileContent($data)
+		if (isset($metadata['encrypted'])
+			&& $metadata['encrypted'] === true
+			&& !self::isCatfileContent($data)
 		) {
 
 			return true;
@@ -268,8 +267,7 @@ class Crypt {
 		$encrypted = substr($catFile, 0, -22);
 
 		$split = array(
-			'encrypted' => $encrypted
-		,
+			'encrypted' => $encrypted,
 			'iv' => $iv
 		);
 
@@ -464,6 +462,8 @@ class Crypt {
 
 	/**
 	 * @brief Asymetrically encrypt a string using a public key
+	 * @param $plainContent
+	 * @param $publicKey
 	 * @return string encrypted file
 	 */
 	public static function keyEncrypt($plainContent, $publicKey) {
@@ -476,6 +476,8 @@ class Crypt {
 
 	/**
 	 * @brief Asymetrically decrypt a file using a private key
+	 * @param $encryptedContent
+	 * @param $privatekey
 	 * @return string decrypted file
 	 */
 	public static function keyDecrypt($encryptedContent, $privatekey) {
@@ -548,7 +550,7 @@ class Crypt {
 	/**
 	 * @brief Get the blowfish encryption handeler for a key
 	 * @param $key string (optional)
-	 * @return Crypt_Blowfish blowfish object
+	 * @return \Crypt_Blowfish blowfish object
 	 *
 	 * if the key is left out, the default handeler will be used
 	 */
@@ -586,8 +588,6 @@ class Crypt {
 	 * @brief encrypts content using legacy blowfish system
 	 * @param string $content the cleartext message you want to encrypt
 	 * @param string $passphrase
-	 * @return
-	 * @internal param \OCA\Encryption\the $key encryption key (optional)
 	 * @returns string encrypted content
 	 *
 	 * This function encrypts an content
@@ -604,8 +604,6 @@ class Crypt {
 	 * @brief decrypts content using legacy blowfish system
 	 * @param string $content the cleartext message you want to decrypt
 	 * @param string $passphrase
-	 * @return string
-	 * @internal param \OCA\Encryption\the $key encryption key (optional)
 	 * @return string cleartext content
 	 *
 	 * This function decrypts an content

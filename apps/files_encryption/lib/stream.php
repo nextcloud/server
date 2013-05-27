@@ -97,10 +97,10 @@ class Stream {
 		\OC_FileProxy::$enabled = false;
 
 		if (
-			$mode == 'w'
-			or $mode == 'w+'
-			or $mode == 'wb'
-			or $mode == 'wb+'
+			$mode === 'w'
+			or $mode === 'w+'
+			or $mode === 'wb'
+			or $mode === 'wb+'
 		) {
 
 			// We're writing a new file so start write counter with 0 bytes
@@ -152,7 +152,7 @@ class Stream {
 
 		$this->writeCache = '';
 
-		if ($count != 8192) {
+		if ($count !== 8192) {
 
 			// $count will always be 8192 https://bugs.php.net/bug.php?id=21641
 			// This makes this function a lot simpler, but will break this class if the above 'bug' gets 'fixed'
@@ -425,8 +425,8 @@ class Stream {
 		$this->flush();
 
 		if (
-			$this->meta['mode'] != 'r'
-			and $this->meta['mode'] != 'rb'
+			$this->meta['mode'] !== 'r'
+			and $this->meta['mode'] !== 'rb'
 				and $this->size > 0
 		) {
 			// Disable encryption proxy to prevent recursive calls

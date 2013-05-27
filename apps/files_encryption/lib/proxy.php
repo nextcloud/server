@@ -52,8 +52,8 @@ class Proxy extends \OC_FileProxy {
 		if (is_null(self::$enableEncryption)) {
 
 			if (
-				\OCP\Config::getAppValue('files_encryption', 'enable_encryption', 'true') == 'true'
-				&& Crypt::mode() == 'server'
+				\OCP\Config::getAppValue('files_encryption', 'enable_encryption', 'true') === 'true'
+				&& Crypt::mode() === 'server'
 			) {
 
 				self::$enableEncryption = true;
@@ -204,7 +204,7 @@ class Proxy extends \OC_FileProxy {
 
 		// If data is a catfile
 		if (
-			Crypt::mode() == 'server'
+			Crypt::mode() === 'server'
 			&& Crypt::isCatfileContent($data)
 		) {
 
@@ -222,7 +222,7 @@ class Proxy extends \OC_FileProxy {
 			$plainData = Crypt::symmetricDecryptFileContent($data, $plainKeyfile);
 
 		} elseif (
-			Crypt::mode() == 'server'
+			Crypt::mode() === 'server'
 			&& isset($_SESSION['legacyenckey'])
 			&& Crypt::isEncryptedMeta($path)
 		) {
@@ -310,7 +310,7 @@ class Proxy extends \OC_FileProxy {
 		$path_f = implode('/', array_slice($path_split, 3));
 
 		// FIXME: handling for /userId/cache used by webdav for chunking. The cache chunks are NOT encrypted
-		if (count($path_split) >= 2 && $path_split[2] == 'cache') {
+		if (isset($path_split) && $path_split[2] === 'cache') {
 			return $result;
 		}
 
@@ -326,7 +326,7 @@ class Proxy extends \OC_FileProxy {
 
 		// If file is already encrypted, decrypt using crypto protocol
 		if (
-			Crypt::mode() == 'server'
+			Crypt::mode() === 'server'
 			&& $util->isEncryptedPath($path)
 		) {
 
@@ -339,8 +339,8 @@ class Proxy extends \OC_FileProxy {
 
 		} elseif (
 			self::shouldEncrypt($path)
-			and $meta ['mode'] != 'r'
-				and $meta['mode'] != 'rb'
+			and $meta ['mode'] !== 'r'
+				and $meta['mode'] !== 'rb'
 		) {
 			$result = fopen('crypt://' . $path_f, $meta['mode']);
 		}
@@ -452,7 +452,7 @@ class Proxy extends \OC_FileProxy {
 		$path_f = implode('/', array_slice($path_split, 3));
 
 		// only if file is on 'files' folder fix file size and sharing
-		if (count($path_split) >= 2 && $path_split[2] == 'files' && $util->fixFileSize($path)) {
+		if (isset($path_split) && $path_split[2] === 'files' && $util->fixFileSize($path)) {
 
 			// get sharing app state
 			$sharingEnabled = \OCP\Share::isEnabled();

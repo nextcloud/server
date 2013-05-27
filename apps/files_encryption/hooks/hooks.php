@@ -145,9 +145,9 @@ class Hooks {
 		// Only attempt to change passphrase if server-side encryption
 		// is in use (client-side encryption does not have access to 
 		// the necessary keys)
-		if (Crypt::mode() == 'server') {
+		if (Crypt::mode() === 'server') {
 
-			if ($params['uid'] == \OCP\User::getUser()) {
+			if ($params['uid'] === \OCP\User::getUser()) {
 
 				$view = new \OC_FilesystemView('/');
 
@@ -275,7 +275,7 @@ class Hooks {
 
 			$share = $util->getParentFromShare($params['id']);
 			//if parent is set, then this is a re-share action
-			if ($share['parent'] != null) {
+			if ($share['parent'] !== null) {
 
 				// get the parent from current share
 				$parent = $util->getShareParent($params['parent']);
@@ -394,10 +394,10 @@ class Hooks {
 			}
 
 			// for group shares get a list of the group members
-			if ($params['shareType'] == \OCP\Share::SHARE_TYPE_GROUP) {
+			if ($params['shareType'] === \OCP\Share::SHARE_TYPE_GROUP) {
 				$userIds = \OC_Group::usersInGroup($params['shareWith']);
 			} else {
-				if ($params['shareType'] == \OCP\Share::SHARE_TYPE_LINK) {
+				if ($params['shareType'] === \OCP\Share::SHARE_TYPE_LINK) {
 					$userIds = array($util->getPublicShareKeyId());
 				} else {
 					$userIds = array($params['shareWith']);

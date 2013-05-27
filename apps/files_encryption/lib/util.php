@@ -128,7 +128,7 @@ class Util {
 
 		// if we are anonymous/public
 		if ($this->userId === false
-			|| (isset($_GET['service']) && $_GET['service'] == 'files' && isset($_GET['t']))
+			|| (isset($_GET['service']) && $_GET['service'] === 'files' && isset($_GET['t']))
 		) {
 			$this->userId = $this->publicShareKeyId;
 
@@ -384,7 +384,7 @@ class Util {
 		// we handle them
 		\OC_FileProxy::$enabled = false;
 
-		if ($found == false) {
+		if ($found === false) {
 			$found = array(
 				'plain' => array(),
 				'encrypted' => array(),
@@ -400,8 +400,8 @@ class Util {
 			while (false !== ($file = readdir($handle))) {
 
 				if (
-					$file != "."
-					&& $file != ".."
+					$file !== "."
+					&& $file !== ".."
 				) {
 
 					$filePath = $directory . '/' . $this->view->getRelativePath('/' . $file);
@@ -571,7 +571,7 @@ class Util {
 		$pathSplit = explode('/', $path);
 		$pathRelative = implode('/', array_slice($pathSplit, 3));
 
-		if ($pathSplit[2] == 'files' && $this->view->file_exists($path) && $this->isEncryptedPath($path)) {
+		if (isset($pathSplit[2]) && $pathSplit[2] === 'files' && $this->view->file_exists($path) && $this->isEncryptedPath($path)) {
 
 			// get the size from filesystem
 			$fullPath = $this->view->getLocalFile($path);
@@ -665,7 +665,7 @@ class Util {
 		$trimmed = ltrim($path, '/');
 		$split = explode('/', $trimmed);
 
-		if ($split[2] == "Shared") {
+		if (isset($split[2]) && $split[2] === 'Shared') {
 
 			return true;
 
@@ -871,8 +871,8 @@ class Util {
 			// Check that the user is encryption capable, or is the
 			// public system user 'ownCloud' (for public shares)
 			if (
-				$user == $this->publicShareKeyId
-				or $user == $this->recoveryKeyId
+				$user === $this->publicShareKeyId
+				or $user === $this->recoveryKeyId
 				or $util->ready()
 			) {
 
@@ -920,7 +920,7 @@ class Util {
 		// We need to decrypt the keyfile
 		// Has the file been shared yet?
 		if (
-			$this->userId == $fileOwner
+			$this->userId === $fileOwner
 			&& !Keymanager::getShareKey($this->view, $this->userId, $filePath) // NOTE: we can't use isShared() here because it's a post share hook so it always returns true
 		) {
 
@@ -1051,7 +1051,7 @@ class Util {
 		}
 
 		// add current user if given
-		if ($currentUserId != false) {
+		if ($currentUserId !== false) {
 
 			$userIds[] = $currentUserId;
 
@@ -1168,7 +1168,7 @@ class Util {
 			\OC\Files\Filesystem::initMountPoints($fileOwnerUid);
 
 			// If the file owner is the currently logged in user
-			if ($fileOwnerUid == $this->userId) {
+			if ($fileOwnerUid === $this->userId) {
 
 				// Assume the path supplied is correct
 				$filename = $path;
@@ -1230,7 +1230,7 @@ class Util {
 
 			$path = $dir . $path;
 
-			if ($c['type'] === "dir") {
+			if ($c['type'] === 'dir') {
 
 				$result = array_merge($result, $this->getAllFiles($path));
 
@@ -1419,7 +1419,7 @@ class Util {
 		foreach ($dirContent as $item) {
 			// get relative path from files_encryption/keyfiles/
 			$filePath = substr($item['path'], strlen('files_encryption/keyfiles'));
-			if ($item['type'] == 'dir') {
+			if ($item['type'] === 'dir') {
 				$this->addRecoveryKeys($filePath . '/');
 			} else {
 				$session = new Session(new \OC_FilesystemView('/'));
@@ -1439,7 +1439,7 @@ class Util {
 		foreach ($dirContent as $item) {
 			// get relative path from files_encryption/keyfiles
 			$filePath = substr($item['path'], strlen('files_encryption/keyfiles'));
-			if ($item['type'] == 'dir') {
+			if ($item['type'] === 'dir') {
 				$this->removeRecoveryKeys($filePath . '/');
 			} else {
 				$file = substr($filePath, 0, -4);
@@ -1505,7 +1505,7 @@ class Util {
 		$dirContent = $this->view->getDirectoryContent($this->keyfilesPath . $path);
 		foreach ($dirContent as $item) {
 			$filePath = substr($item['path'], 25);
-			if ($item['type'] == 'dir') {
+			if ($item['type'] === 'dir') {
 				$this->recoverAllFiles($filePath . '/', $privateKey);
 			} else {
 				$file = substr($filePath, 0, -4);
