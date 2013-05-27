@@ -720,7 +720,7 @@ class Util
 					$publicKeys = Keymanager::getPublicKeys( $this->view, $uniqueUserIds );
 
 					// Recrypt data, generate catfile
-					$recrypted = Crypt::legacyKeyRecryptKeyfile( $legacyData, $legacyPassphrase, $publicKeys, $newPassphrase, $legacyFile['path'] );
+					$recrypted = Crypt::legacyKeyRecryptKeyfile( $legacyData, $legacyPassphrase, $publicKeys );
 
 					$rawPath = $legacyFile['path'];
 					$relPath = $this->stripUserFilesPath( $rawPath );

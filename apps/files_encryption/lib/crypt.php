@@ -640,11 +640,9 @@ class Crypt
 	 * @param $legacyEncryptedContent
 	 * @param $legacyPassphrase
 	 * @param $publicKeys
-	 * @param $newPassphrase
-	 * @param $path
 	 * @return array
 	 */
-	public static function legacyKeyRecryptKeyfile( $legacyEncryptedContent, $legacyPassphrase, $publicKeys, $newPassphrase, $path ) {
+	public static function legacyKeyRecryptKeyfile( $legacyEncryptedContent, $legacyPassphrase, $publicKeys ) {
 
 		$decrypted = self::legacyBlockDecrypt( $legacyEncryptedContent, $legacyPassphrase );
 
