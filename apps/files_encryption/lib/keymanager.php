@@ -285,8 +285,8 @@ class Keymanager {
 
 		if (!$result) {
 
-			\OC_Log::write('Encryption library',
-				'Could not delete keyfile; does not exist: "' . $keyPath, \OC_Log::ERROR);
+			\OCP\Util::writeLog('Encryption library',
+				'Could not delete keyfile; does not exist: "' . $keyPath, \OCP\Util::ERROR);
 
 		}
 
@@ -475,8 +475,8 @@ class Keymanager {
 			foreach ($matches as $ma) {
 				$result = unlink($ma);
 				if (!$result) {
-					\OC_Log::write('Encryption library',
-						'Keyfile or shareKey could not be deleted for file "' . $filePath . '"', \OC_Log::ERROR);
+					\OCP\Util::writeLog('Encryption library',
+						'Keyfile or shareKey could not be deleted for file "' . $filePath . '"', \OCP\Util::ERROR);
 				}
 			}
 		}
@@ -507,9 +507,9 @@ class Keymanager {
 			foreach ($userIds as $userId) {
 
 				if (!$view->unlink($shareKeyPath . '.' . $userId . '.shareKey')) {
-					\OC_Log::write('Encryption library',
+					\OCP\Util::writeLog('Encryption library',
 						'Could not delete shareKey; does not exist: "' . $shareKeyPath . '.' . $userId
-						. '.shareKey"', \OC_Log::ERROR);
+						. '.shareKey"', \OCP\Util::ERROR);
 				}
 
 			}
@@ -531,8 +531,8 @@ class Keymanager {
 		/** @var $matches array */
 		foreach ($matches as $ma) {
 			if (!unlink($ma)) {
-				\OC_Log::write('Encryption library',
-					'Could not delete shareKey; does not exist: "' . $ma . '"', \OC_Log::ERROR);
+				\OCP\Util::writeLog('Encryption library',
+					'Could not delete shareKey; does not exist: "' . $ma . '"', \OCP\Util::ERROR);
 			}
 		}
 		$subdirs = $directories = glob(preg_quote($dir) . '/*', GLOB_ONLYDIR);

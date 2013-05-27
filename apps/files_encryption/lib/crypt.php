@@ -206,7 +206,7 @@ class Crypt {
 
 		} else {
 
-			\OC_Log::write('Encryption library', 'Encryption (symmetric) of content failed', \OC_Log::ERROR);
+			\OCP\Util::writeLog('Encryption library', 'Encryption (symmetric) of content failed', \OCP\Util::ERROR);
 
 			return false;
 
@@ -305,7 +305,7 @@ class Crypt {
 
 		} else {
 
-			\OC_Log::write('Encryption library', 'Encryption (symmetric) of keyfile content failed', \OC_Log::ERROR);
+			\OCP\Util::writeLog('Encryption library', 'Encryption (symmetric) of keyfile content failed', \OCP\Util::ERROR);
 
 			return false;
 
@@ -452,7 +452,7 @@ class Crypt {
 
 		} else {
 
-			\OC_Log::write('Encryption library', 'Decryption (asymmetric) of sealed content failed', \OC_Log::ERROR);
+			\OCP\Util::writeLog('Encryption library', 'Decryption (asymmetric) of sealed content failed', \OCP\Util::ERROR);
 
 			return false;
 
@@ -503,7 +503,7 @@ class Crypt {
 			if (!$strong) {
 
 				// If OpenSSL indicates randomness is insecure, log error
-				\OC_Log::write('Encryption library', 'Insecure symmetric key was generated using openssl_random_pseudo_bytes()', \OC_Log::WARN);
+				\OCP\Util::writeLog('Encryption library', 'Insecure symmetric key was generated using openssl_random_pseudo_bytes()', \OCP\Util::WARN);
 
 			}
 

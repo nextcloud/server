@@ -72,8 +72,8 @@ class Helper {
 		// Check files_encryption infrastructure is ready for action
 		if (!$util->ready()) {
 
-			\OC_Log::write('Encryption library', 'User account "' . $util->getUserId()
-												 . '" is not ready for encryption; configuration started', \OC_Log::DEBUG);
+			\OCP\Util::writeLog('Encryption library', 'User account "' . $util->getUserId()
+												 . '" is not ready for encryption; configuration started', \OCP\Util::DEBUG);
 
 			if (!$util->setupServerSide($password)) {
 				return false;
