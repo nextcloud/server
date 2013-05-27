@@ -421,7 +421,7 @@ class Util
 
 							// If the file uses old
 							// encryption system
-						} elseif ( Crypt::isLegacyEncryptedContent( $this->tail( $filePath, 3 ), $relPath ) ) {
+						} elseif ( Crypt::isLegacyEncryptedContent( $data, $relPath ) ) {
 
 							$found['legacy'][] = array( 'name' => $file, 'path' => $filePath );
 
@@ -672,39 +672,28 @@ class Util
 				$relPath = $plainFile['path'];
 
 				//relative to /data
-				$rawPath = $this->userId . '/files/' . $plainFile['path'];
+				$rawPath = '/'.$this->userId . '/files/' . $plainFile['path'];
 
 				// Open plain file handle for binary reading
-				$plainHandle1 = $this->view->fopen( $rawPath, 'rb' );
-
-				// 2nd handle for moving plain file - view->rename() doesn't work, this is a workaround
-				$plainHandle2 = $this->view->fopen( $rawPath . '.plaintmp', 'wb' );
-
-				// Move plain file to a temporary location
-				stream_copy_to_stream( $plainHandle1, $plainHandle2 );
-
-				// Close access to original file
-				// $this->view->fclose( $plainHandle1 ); // not implemented in view{}
-				// Delete original plain file so we can rename enc file later
-				$this->view->unlink( $rawPath );
+				$plainHandle = $this->view->fopen( $rawPath, 'rb' );
 
 				// Open enc file handle for binary writing, with same filename as original plain file
-				$encHandle = fopen( 'crypt://' . $relPath, 'wb' );
+				$encHandle = fopen( 'crypt://' . $relPath.'.tmp', 'wb' );
 
-				// Save data from plain stream to new encrypted file via enc stream
-				// NOTE: Stream{} will be invoked for handling 
-				// the encryption, and should handle all keys 
-				// and their generation etc. automatically
-				stream_copy_to_stream( $plainHandle2, $encHandle );
+				// Move plain file to a temporary location
+				$size = stream_copy_to_stream( $plainHandle, $encHandle );
 
-				// get file size
-				$size = $this->view->filesize( $rawPath . '.plaintmp' );
+				fclose($encHandle);
 
-				// Delete temporary plain copy of file
-				$this->view->unlink( $rawPath . '.plaintmp' );
+				$fakeRoot = $this->view->getRoot();
+				$this->view->chroot('/'.$this->userId.'/files');
+
+				$this->view->rename($relPath . '.tmp', $relPath);
+
+				$this->view->chroot($fakeRoot);
 
 				// Add the file to the cache
-				\OC\Files\Filesystem::putFileInfo( $plainFile['path'], array( 'encrypted' => true, 'size' => $size, 'unencrypted_size' => $size ) );
+				\OC\Files\Filesystem::putFileInfo( $relPath, array( 'encrypted' => true, 'size' => $size, 'unencrypted_size' => $size ) );
 			}
 
 			// Encrypt legacy encrypted files
