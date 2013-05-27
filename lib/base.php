@@ -260,6 +260,7 @@ class OC {
 		OC_Util::addScript("jquery-tipsy");
 		OC_Util::addScript("compatibility");
 		OC_Util::addScript("oc-dialogs");
+		OC_Util::addScript("octemplate");
 		OC_Util::addScript("js");
 		OC_Util::addScript("eventsource");
 		OC_Util::addScript("config");
@@ -542,10 +543,12 @@ class OC {
 	 * register hooks for sharing
 	 */
 	public static function registerShareHooks() {
-		OC_Hook::connect('OC_User', 'post_deleteUser', 'OCP\Share', 'post_deleteUser');
-		OC_Hook::connect('OC_User', 'post_addToGroup', 'OCP\Share', 'post_addToGroup');
-		OC_Hook::connect('OC_User', 'post_removeFromGroup', 'OCP\Share', 'post_removeFromGroup');
-		OC_Hook::connect('OC_User', 'post_deleteGroup', 'OCP\Share', 'post_deleteGroup');
+		if(\OC_Config::getValue('installed')) {
+			OC_Hook::connect('OC_User', 'post_deleteUser', 'OCP\Share', 'post_deleteUser');
+			OC_Hook::connect('OC_User', 'post_addToGroup', 'OCP\Share', 'post_addToGroup');
+			OC_Hook::connect('OC_User', 'post_removeFromGroup', 'OCP\Share', 'post_removeFromGroup');
+			OC_Hook::connect('OC_User', 'post_deleteGroup', 'OCP\Share', 'post_deleteGroup');
+		}
 	}
 
 	/**

@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2013.
-# Art O. Pal <artopal@fastmail.fm>, 2012.
-#   <pggx999@gmail.com>, 2012.
+# Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2013
+# Art O. Pal <artopal@fastmail.fm>, 2012
+# pggx999 <pggx999@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:23+0000\n"
+"POT-Creation-Date: 2013-05-25 02:01+0200\n"
+"PO-Revision-Date: 2013-05-24 13:26+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"

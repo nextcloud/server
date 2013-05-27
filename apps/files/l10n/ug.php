@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s" => "%s يۆتكىيەلمەيدۇ",
-"Unable to rename file" => "ھۆججەت ئاتىنى ئۆزگەرتكىلى بولمايدۇ",
 "No file was uploaded. Unknown error" => "ھېچقانداق ھۆججەت يۈكلەنمىدى. يوچۇن خاتالىق",
 "No file was uploaded" => "ھېچقانداق ھۆججەت يۈكلەنمىدى",
 "Missing a temporary folder" => "ۋاقىتلىق قىسقۇچ كەم.",
@@ -29,6 +28,7 @@
 "1 folder" => "1 قىسقۇچ",
 "1 file" => "1 ھۆججەت",
 "{count} files" => "{count} ھۆججەت",
+"Unable to rename file" => "ھۆججەت ئاتىنى ئۆزگەرتكىلى بولمايدۇ",
 "Upload" => "يۈكلە",
 "Save" => "ساقلا",
 "New" => "يېڭى",

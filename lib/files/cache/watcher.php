@@ -43,7 +43,7 @@ class Watcher {
 	 */
 	public function checkUpdate($path) {
 		$cachedEntry = $this->cache->get($path);
-		if ($this->storage->hasUpdated($path, $cachedEntry['mtime'])) {
+		if ($this->storage->hasUpdated($path, $cachedEntry['storage_mtime'])) {
 			if ($this->storage->is_dir($path)) {
 				$this->scanner->scan($path, Scanner::SCAN_SHALLOW);
 			} else {

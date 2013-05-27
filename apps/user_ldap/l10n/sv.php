@@ -7,6 +7,8 @@
 "Take over settings from recent server configuration?" => "Ta över inställningar från tidigare serverkonfiguration?",
 "Keep settings?" => "Behåll inställningarna?",
 "Cannot add server configuration" => "Kunde inte lägga till serverinställning",
+"Success" => "Lyckat",
+"Error" => "Fel",
 "Connection test succeeded" => "Anslutningstestet lyckades",
 "Connection test failed" => "Anslutningstestet misslyckades",
 "Do you really want to delete the current Server Configuration?" => "Vill du verkligen radera den nuvarande serverinställningen?",

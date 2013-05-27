@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Deletion failed" => "ئۆچۈرۈش مەغلۇپ بولدى",
+"Error" => "خاتالىق",
 "Host" => "باش ئاپپارات",
 "Password" => "ئىم",
 "User Login Filter" => "ئىشلەتكۈچى تىزىمغا كىرىش سۈزگۈچى",

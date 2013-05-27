@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Ezin da %s mugitu - Izen hau duen fitxategia dagoeneko existitzen da",
 "Could not move %s" => "Ezin dira fitxategiak mugitu %s",
-"Unable to rename file" => "Ezin izan da fitxategia berrizendatu",
 "No file was uploaded. Unknown error" => "Ez da fitxategirik igo. Errore ezezaguna",
 "There is no error, the file uploaded with success" => "Ez da errorerik egon, fitxategia ongi igo da",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Igotako fitxategiak php.ini fitxategian ezarritako upload_max_filesize muga gainditu du:",
@@ -47,6 +46,7 @@
 "{count} folders" => "{count} karpeta",
 "1 file" => "fitxategi bat",
 "{count} files" => "{count} fitxategi",
+"Unable to rename file" => "Ezin izan da fitxategia berrizendatu",
 "Upload" => "Igo",
 "File handling" => "Fitxategien kudeaketa",
 "Maximum upload size" => "Igo daitekeen gehienezko tamaina",

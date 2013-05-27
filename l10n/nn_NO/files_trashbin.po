@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# unhammer <unhammer+dill@mm.st>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-30 01:57+0200\n"
-"PO-Revision-Date: 2013-04-29 14:40+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-26 01:58+0200\n"
+"PO-Revision-Date: 2013-05-25 23:17+0000\n"
+"Last-Translator: unhammer <unhammer+dill@mm.st>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,16 +21,16 @@ msgstr ""
 #: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr ""
+msgstr "Klarte ikkje sletta %s for godt"
 
 #: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
-msgstr ""
+msgstr "Klarte ikkje gjenoppretta %s"
 
 #: js/trash.js:7 js/trash.js:96
 msgid "perform restore operation"
-msgstr ""
+msgstr "utfør gjenoppretting"
 
 #: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
 msgid "Error"
@@ -37,7 +38,7 @@ msgstr "Feil"
 
 #: js/trash.js:34
 msgid "delete file permanently"
-msgstr ""
+msgstr "slett fila for godt"
 
 #: js/trash.js:121
 msgid "Delete permanently"
@@ -49,7 +50,7 @@ msgstr "Namn"
 
 #: js/trash.js:175 templates/index.php:27
 msgid "Deleted"
-msgstr ""
+msgstr "Sletta"
 
 #: js/trash.js:184
 msgid "1 folder"
@@ -69,11 +70,11 @@ msgstr "{count} filer"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr ""
+msgstr "Ingenting her. Papirkorga di er tom!"
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
-msgstr ""
+msgstr "Gjenopprett"
 
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"
@@ -81,4 +82,4 @@ msgstr "Slett"
 
 #: templates/part.breadcrumb.php:9
 msgid "Deleted Files"
-msgstr ""
+msgstr "Sletta filer"

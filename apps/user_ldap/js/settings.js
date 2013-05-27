@@ -99,6 +99,26 @@ var LdapConfiguration = {
 				}
 			}
 		);
+	},
+
+	clearMappings: function(mappingSubject) {
+		$.post(
+			OC.filePath('user_ldap','ajax','clearMappings.php'),
+			'ldap_clear_mapping='+mappingSubject,
+			function(result) {
+				if(result.status == 'success') {
+					OC.dialogs.info(
+						t('user_ldap', 'mappings cleared'),
+						t('user_ldap', 'Success')
+					);
+				} else {
+					OC.dialogs.alert(
+						result.message,
+						t('user_ldap', 'Error')
+					);
+				}
+			}
+		);
 	}
 }
 
@@ -164,6 +184,16 @@ $(document).ready(function() {
 				}
 			}
 		);
+	});
+
+	$('#ldap_action_clear_user_mappings').click(function(event) {
+		event.preventDefault();
+		LdapConfiguration.clearMappings('user');
+	});
+
+	$('#ldap_action_clear_group_mappings').click(function(event) {
+		event.preventDefault();
+		LdapConfiguration.clearMappings('group');
 	});
 
 	$('#ldap_serverconfig_chooser').change(function(event) {

@@ -77,7 +77,7 @@ class OC_Util {
 	public static function getVersion() {
 		// hint: We only can count up. Reset minor/patchlevel when
 		// updating major/minor version number.
-		return array(5, 80, 02);
+		return array(5, 80, 04);
 	}
 
 	/**
@@ -173,7 +173,8 @@ class OC_Util {
 		//check for database drivers
 		if(!(is_callable('sqlite_open') or class_exists('SQLite3'))
 			and !is_callable('mysql_connect')
-			and !is_callable('pg_connect')) {
+			and !is_callable('pg_connect')
+			and !is_callable('oci_connect')) {
 			$errors[]=array('error'=>'No database drivers (sqlite, mysql, or postgresql) installed.',
 				'hint'=>'');//TODO: sane hint
 			$web_server_restart= true;

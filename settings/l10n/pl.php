@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Nie można wczytać listy aplikacji",
 "Authentication error" => "Błąd uwierzytelniania",
+"Your display name has been changed." => "Twoje wyświetlana nazwa została zmieniona.",
 "Unable to change display name" => "Nie można zmienić wyświetlanej nazwy",
 "Group already exists" => "Grupa już istnieje",
 "Unable to add group" => "Nie można dodać grupy",
@@ -100,6 +101,7 @@
 "Use this address to connect to your ownCloud in your file manager" => "Użyj tego adresu aby podłączyć zasób ownCloud w menedżerze plików",
 "Login Name" => "Login",
 "Create" => "Utwórz",
+"Admin Recovery Password" => "Odzyskiwanie hasła administratora",
 "Default Storage" => "Magazyn domyślny",
 "Unlimited" => "Bez limitu",
 "Other" => "Inne",

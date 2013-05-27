@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s taşınamadı. Bu isimde dosya zaten var.",
 "Could not move %s" => "%s taşınamadı",
-"Unable to rename file" => "Dosya adı değiştirilemedi",
 "No file was uploaded. Unknown error" => "Dosya yüklenmedi. Bilinmeyen hata",
 "There is no error, the file uploaded with success" => "Dosya başarıyla yüklendi, hata oluşmadı",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "php.ini dosyasında upload_max_filesize ile belirtilen dosya yükleme sınırı aşıldı.",
@@ -47,6 +46,8 @@
 "{count} folders" => "{count} dizin",
 "1 file" => "1 dosya",
 "{count} files" => "{count} dosya",
+"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Geçersiz dizin adı. 'Shared' dizin ismi kullanımı ownCloud tarafından rezerve edilmiştir.",
+"Unable to rename file" => "Dosya adı değiştirilemedi",
 "Upload" => "Yükle",
 "File handling" => "Dosya taşıma",
 "Maximum upload size" => "Maksimum yükleme boyutu",

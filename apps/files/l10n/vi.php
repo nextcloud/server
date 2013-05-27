@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Không thể di chuyển %s - Đã có tên tập tin này trên hệ thống",
 "Could not move %s" => "Không thể di chuyển %s",
-"Unable to rename file" => "Không thể đổi tên file",
 "No file was uploaded. Unknown error" => "Không có tập tin nào được tải lên. Lỗi không xác định",
 "There is no error, the file uploaded with success" => "Không có lỗi, các tập tin đã được tải lên thành công",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "The uploaded file exceeds the upload_max_filesize directive in php.ini: ",
@@ -47,6 +46,7 @@
 "{count} folders" => "{count} thư mục",
 "1 file" => "1 tập tin",
 "{count} files" => "{count} tập tin",
+"Unable to rename file" => "Không thể đổi tên file",
 "Upload" => "Tải lên",
 "File handling" => "Xử lý tập tin",
 "Maximum upload size" => "Kích thước tối đa ",
