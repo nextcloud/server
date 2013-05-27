@@ -93,6 +93,7 @@ $(document).ready(function() {
 		});
 
 		$('.undelete').click('click',function(event) {
+			event.preventDefault();
 			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'perform restore operation')+'" src="'+ OC.imagePath('core', 'loader.gif') +'"></a>';
 			var files=getSelectedFiles('file');
 			var fileslist = JSON.stringify(files);
