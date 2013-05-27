@@ -641,9 +641,8 @@ class OC_Util {
 	 * Check if the ownCloud server can connect to the internet
 	 */
 	public static function isinternetconnectionworking() {
-
 		// in case there is no internet connection on purpose there is no need to display a warning
-		if (!\OC_Config::getValue("has_internet_connection", true)) {
+		if (self::isinternetconnectionenabled() === false) {
 			return false;
 		}
 
@@ -665,6 +664,13 @@ class OC_Util {
 
 		}
 
+	}
+	
+	/**
+	 * Check if the connection to the internet is disabled on purpose
+	 */
+	public static function isinternetconnectionenabled(){
+		return \OC_Config::getValue("has_internet_connection", true);
 	}
 
 	/**
