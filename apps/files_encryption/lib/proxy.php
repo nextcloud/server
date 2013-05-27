@@ -223,7 +223,7 @@ class Proxy extends \OC_FileProxy
 			&& isset( $_SESSION['legacyenckey'] )
 			&& Crypt::isEncryptedMeta( $path )
 		) {
-			$plainData = Crypt::legacyDecrypt( $data, $session->getLegacyKey() );
+			$plainData = Crypt::legacyBlockDecrypt( $data, $session->getLegacyKey() );
 		}
 
 		\OC_FileProxy::$enabled = $proxyStatus;
