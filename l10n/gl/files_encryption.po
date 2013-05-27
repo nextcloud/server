@@ -4,12 +4,14 @@
 # 
 # Translators:
 # mbouzada <mbouzada@gmail.com>, 2013
+# mbouzada <mbouzada@gmail.com>, 2013
+# mbouzada <mbouzada@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-26 01:58+0200\n"
-"PO-Revision-Date: 2013-05-25 07:00+0000\n"
+"POT-Creation-Date: 2013-05-27 02:00+0200\n"
+"PO-Revision-Date: 2013-05-26 08:00+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -65,11 +67,11 @@ msgstr "Cambiar a chave de la recuperación do cifrado de contrasinais:"
 
 #: templates/settings-admin.php:39
 msgid "Old Recovery account password"
-msgstr ""
+msgstr "Antigo contrasinal de recuperación da conta"
 
 #: templates/settings-admin.php:46
 msgid "New Recovery account password"
-msgstr ""
+msgstr "Novo contrasinal de recuperación da conta"
 
 #: templates/settings-admin.php:51
 msgid "Change Password"
@@ -77,18 +79,18 @@ msgstr "Cambiar o contrasinal"
 
 #: templates/settings-personal.php:9
 msgid "Enable password recovery by sharing all files with your administrator:"
-msgstr ""
+msgstr "Activar a recuperación de contrasinais compartindo todos os ficheiros co administrador:"
 
 #: templates/settings-personal.php:11
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files if your password is lost"
-msgstr ""
+msgstr "Ao activar esta opción permitiráselle volver a obter acceso aos ficheiros cifrados se perde o contrasinal"
 
 #: templates/settings-personal.php:27
 msgid "File recovery settings updated"
-msgstr ""
+msgstr "Actualizouse o ficheiro de axustes de recuperación"
 
 #: templates/settings-personal.php:28
 msgid "Could not update file recovery"
-msgstr ""
+msgstr "Non foi posíbel actualizar o ficheiro de recuperación"
