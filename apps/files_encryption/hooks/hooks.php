@@ -81,8 +81,6 @@ class Hooks {
 				$session->setLegacyKey( $plainLegacyKey );
 			
 			}
-
-			$publicKey = Keymanager::getPublicKey( $view, $params['uid'] );
 			
 			// Encrypt existing user files:
 			// This serves to upgrade old versions of the encryption

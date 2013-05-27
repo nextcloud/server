@@ -613,7 +613,7 @@ class Crypt
 
 		$decrypted = $bf->decrypt( $content );
 
-		return rtrim( $decrypted, "\0" );;
+		return $decrypted;
 
 	}
 
