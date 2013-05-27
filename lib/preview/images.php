@@ -14,11 +14,10 @@ class OC_Preview_Image extends OC_Preview_Provider{
 
 	public function getThumbnail($path,$maxX,$maxY,$scalingup,$fileview) {
 		//new image object
-		$image = new \OC_Image();
-		$image->loadFromFile($fileview->getLocalFile($path));
+		$image = new \OC_Image($fileview->fopen($path, 'r'));
 		//check if image object is valid
 		if (!$image->valid()) return false;
-
+		
 		return $image;
 	}
 }
