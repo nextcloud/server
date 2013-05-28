@@ -20,7 +20,8 @@ if(!is_null(shell_exec('ffmpeg -version'))){
 			$abspath = $fileview->toTmpFile($path);
 			$tmppath = OC_Helper::tmpFile();
 
-			$cmd = 'ffmpeg -y  -i ' . escapeshellarg($abspath) . ' -f mjpeg -vframes 1 -ss 1 -s ' . escapeshellarg($maxX) . 'x' . escapeshellarg($maxY) . ' ' . $tmppath;
+			//$cmd = 'ffmpeg -y  -i ' . escapeshellarg($abspath) . ' -f mjpeg -vframes 1 -ss 1 -s ' . escapeshellarg($maxX) . 'x' . escapeshellarg($maxY) . ' ' . $tmppath;
+			$cmd = 'ffmpeg -y  -i ' . escapeshellarg($abspath) . ' -f mjpeg -vframes 1 -ss 1 ' . $tmppath;
 			shell_exec($cmd);
 
 			unlink($abspath);
