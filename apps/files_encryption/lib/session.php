@@ -83,17 +83,14 @@ class Session
 
 		}
 
-		if ( \OCP\USER::getUser() === false ||
-			( isset( $_GET['service'] ) && $_GET['service'] == 'files' &&
-				isset( $_GET['t'] ) )
-		) {
+		if (\OCA\Encryption\Helper::isPublicAccess()) {
 			// Disable encryption proxy to prevent recursive calls
 			$proxyStatus = \OC_FileProxy::$enabled;
 			\OC_FileProxy::$enabled = false;
 
 			$encryptedKey = $this->view->file_get_contents( '/owncloud_private_key/' . $publicShareKeyId . '.private.key' );
 			$privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, '' );
-			$this->setPrivateKey( $privateKey );
+			$this->setPublicSharePrivateKey( $privateKey );
 
 			\OC_FileProxy::$enabled = $proxyStatus;
 		}
@@ -103,6 +100,8 @@ class Session
 	 * @brief Sets user private key to session
 	 * @param string $privateKey
 	 * @return bool
+	 *
+	 * @note this should only be set on login
 	 */
 	public function setPrivateKey( $privateKey ) {
 
@@ -113,26 +112,52 @@ class Session
 	}
 
 	/**
-	 * @brief Gets user private key from session
+	 * @brief Gets user or public share private key from session
 	 * @returns string $privateKey The user's plaintext private key
 	 *
 	 */
 	public function getPrivateKey() {
 
-		if (
-			isset( $_SESSION['privateKey'] )
-			&& !empty( $_SESSION['privateKey'] )
-		) {
-
-			return $_SESSION['privateKey'];
-
+		// return the public share private key if this is a public access
+		if (\OCA\Encryption\Helper::isPublicAccess()) {
+			return $this->getPublicSharePrivateKey();
 		} else {
+			if (isset($_SESSION['privateKey']) && !empty($_SESSION['privateKey'])) {
+				return $_SESSION['privateKey'];
+			} else {
+				return false;
+			}
+		}
+	}
 
+	/**
+	 * @brief Sets public user private key to session
+	 * @param string $privateKey
+	 * @return bool
+	 */
+	public function setPublicSharePrivateKey($privateKey) {
+
+		$_SESSION['publicSharePrivateKey'] = $privateKey;
+
+		return true;
+
+	}
+
+	/**
+	 * @brief Gets public share private key from session
+	 * @returns string $privateKey
+	 *
+	 */
+	public function getPublicSharePrivateKey() {
+
+		if (isset($_SESSION['publicSharePrivateKey']) && !empty($_SESSION['publicSharePrivateKey'])) {
+			return $_SESSION['publicSharePrivateKey'];
+		} else {
 			return false;
-
 		}
 
 	}
+
 
 	/**
 	 * @brief Sets user legacy key to session
