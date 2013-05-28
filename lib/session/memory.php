@@ -15,7 +15,7 @@ namespace OC\Session;
  *
  * @package OC\Session
  */
-class Memory implements Session {
+class Memory extends Session {
 	protected $data;
 
 	public function __construct($name) {

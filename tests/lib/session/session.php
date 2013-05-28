@@ -52,4 +52,13 @@ abstract class Session extends \PHPUnit_Framework_TestCase {
 		$this->instance->clear();
 		$this->assertFalse($this->instance->exists('foo'));
 	}
+
+	public function testArrayInterface() {
+		$this->assertFalse(isset($this->instance['foo']));
+		$this->instance['foo'] = 'bar';
+		$this->assertTrue(isset($this->instance['foo']));
+		$this->assertEquals('bar', $this->instance['foo']);
+		unset($this->instance['foo']);
+		$this->assertFalse(isset($this->instance['foo']));
+	}
 }
