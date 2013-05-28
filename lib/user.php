@@ -220,8 +220,7 @@ class OC_User {
 	 * @brief Sets user id for session and triggers emit
 	 */
 	public static function setUserId($uid) {
-		$user = self::getManager()->get($uid);
-		self::getUserSession()->setUser($user);
+		OC::$session->set('user_id', $uid);
 	}
 
 	/**
@@ -297,9 +296,9 @@ class OC_User {
 	 * @return string uid or false
 	 */
 	public static function getUser() {
-		$user = self::getUserSession()->getUser();
-		if ($user) {
-			return $user->getUID();
+		$uid = OC::$session->get('user_id');
+		if (!is_null($uid)) {
+			return $uid;
 		} else {
 			return false;
 		}
