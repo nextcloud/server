@@ -131,7 +131,7 @@ class Util {
 			$this->userId = $this->publicShareKeyId;
 
 			// only handle for files_sharing app
-			if ($GLOBALS['app'] === 'files_sharing') {
+			if (isset($GLOBALS['app']) && $GLOBALS['app'] === 'files_sharing') {
 				$this->userDir = '/' . $GLOBALS['fileOwner'];
 				$this->fileFolderName = 'files';
 				$this->userFilesDir = '/' . $GLOBALS['fileOwner'] . '/'
