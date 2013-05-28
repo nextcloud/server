@@ -61,7 +61,7 @@ class OC_Setup {
 				$error[] = $l->t("%s you may not use dots in the database name", array($dbprettyname));
 			}
 			if($dbtype != 'oci' && empty($options['dbhost'])) {
-				$error[] = $l->t("%s set the database host.", array($dbprettyname));
+				$options['dbhost'] = 'localhost';
 			}
 		}
 
