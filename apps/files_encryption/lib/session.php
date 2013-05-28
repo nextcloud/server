@@ -150,12 +150,11 @@ class Session
 	 */
 	public function getPublicSharePrivateKey() {
 
-		if (isset($_SESSION['publicSharePrivateKey']) && !empty($_SESSION['publicSharePrivateKey'])) {
-			return $_SESSION['publicSharePrivateKey'];
+		if (!is_null( \OC::$session->get('publicSharePrivateKey') )) {
+			return \OC::$session->get('publicSharePrivateKey');
 		} else {
 			return false;
 		}
-
 	}
 
 
