@@ -46,6 +46,7 @@
 "years ago" => "幾年前",
 "Choose" => "選擇",
 "Cancel" => "取消",
+"Error loading file picker template" => "載入檔案選擇器樣板發生錯誤",
 "Yes" => "是",
 "No" => "否",
 "Ok" => "好",

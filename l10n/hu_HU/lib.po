@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-27 02:01+0200\n"
-"PO-Revision-Date: 2013-05-27 00:02+0000\n"
+"POT-Creation-Date: 2013-05-28 02:01+0200\n"
+"PO-Revision-Date: 2013-05-28 00:02+0000\n"
 "Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -42,19 +42,19 @@ msgstr "Alkalmazások"
 msgid "Admin"
 msgstr "Adminsztráció"
 
-#: files.php:207
+#: files.php:210
 msgid "ZIP download is turned off."
 msgstr "A ZIP-letöltés nincs engedélyezve."
 
-#: files.php:208
+#: files.php:211
 msgid "Files need to be downloaded one by one."
 msgstr "A fájlokat egyenként kell letölteni."
 
-#: files.php:209 files.php:242
+#: files.php:212 files.php:245
 msgid "Back to Files"
 msgstr "Vissza a Fájlokhoz"
 
-#: files.php:239
+#: files.php:242
 msgid "Selected files too large to generate zip file."
 msgstr "A kiválasztott fájlok túl nagyok a zip tömörítéshez."
 
