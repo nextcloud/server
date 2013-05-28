@@ -139,8 +139,8 @@ class User {
 	 * @return string
 	 */
 	public function getHome() {
-		if ($this->backend->implementsActions(\OC_USER_BACKEND_GET_HOME)) {
-			return $this->backend->getHome($this->uid);
+		if ($this->backend->implementsActions(\OC_USER_BACKEND_GET_HOME) and $home = $this->backend->getHome($this->uid)) {
+			return $home;
 		}
 		return \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data") . '/' . $this->uid; //TODO switch to Config object once implemented
 	}
