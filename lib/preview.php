@@ -16,6 +16,7 @@ require_once('preview/movies.php');
 require_once('preview/mp3.php');
 require_once('preview/pdf.php');
 require_once('preview/svg.php');
+require_once('preview/txt.php');
 require_once('preview/unknown.php');
 
 class OC_Preview {
@@ -300,7 +301,7 @@ class OC_Preview {
 		$cached = self::isCached();
 
 		if($cached){
-			$image = new \OC_Image($this->userview->getLocalFile($cached));
+			$image = new \OC_Image($this->userview->file_get_contents($cached, 'r'));
 			$this->preview = $image;
 		}else{
 			$mimetype = $this->fileview->getMimeType($file);
@@ -313,17 +314,22 @@ class OC_Preview {
 				}
 
 				$preview = $provider->getThumbnail($file, $maxX, $maxY, $scalingup, $this->fileview);
-	
+
 				if(!$preview){
 					continue;
 				}
 
-				if(!($preview instanceof \OC_Image)){
-					$preview = @new \OC_Image($preview);
+				//are there any cached thumbnails yet
+				if($this->userview->is_dir(self::THUMBNAILS_FOLDER . '/') === false){
+					$this->userview->mkdir(self::THUMBNAILS_FOLDER . '/');
 				}
 
 				//cache thumbnail
-				$preview->save($this->userview->getLocalFile(self::THUMBNAILS_FOLDER . '/' . $fileid . '/' . $maxX . '-' . $maxY . '.png'));
+				$cachepath = self::THUMBNAILS_FOLDER . '/' . $fileid . '/' . $maxX . '-' . $maxY . '.png';
+				if($this->userview->is_dir(self::THUMBNAILS_FOLDER . '/' . $fileid . '/') === false){
+					$this->userview->mkdir(self::THUMBNAILS_FOLDER . '/' . $fileid . '/');
+				}
+				$this->userview->file_put_contents($cachepath, $preview->data());
 
 				break;
 			}
@@ -354,12 +360,12 @@ class OC_Preview {
 	 * @return image
 	*/
 	public function resizeAndCrop(){
+		$this->preview->fixOrientation();
+
 		$image = $this->preview;
 		$x = $this->maxX;
 		$y = $this->maxY;
 		$scalingup = $this->scalingup;
-
-		$image->fixOrientation();
 
 		if(!($image instanceof \OC_Image)){
 			OC_Log::write('core', 'Object passed to resizeAndCrop is not an instance of OC_Image', OC_Log::DEBUG);
@@ -502,8 +508,14 @@ class OC_Preview {
 		if(array_key_exists('scalingup', $_GET)) $scalingup = (bool) $_GET['scalingup'];
 
 		if($file !== '' && $maxX !== 0 && $maxY !== 0){
-			$preview = new OC_Preview(OC_User::getUser(), 'files', $file,  $maxX, $maxY, $scalingup);
-			$preview->showPreview();
+			try{
+				$preview = new OC_Preview(OC_User::getUser(), 'files', $file,  $maxX, $maxY, $scalingup);
+				$preview->showPreview();
+			}catch(Exception $e){
+				OC_Response::setStatus(404);
+				OC_Log::write('core', $e->getmessage(), OC_Log::ERROR);
+				exit;
+			}
 		}else{
 			OC_Response::setStatus(404);
 			exit;
@@ -552,8 +564,14 @@ class OC_Preview {
 		}
 
 		if($userid !== null && $path !== null){
-			$preview = new OC_Preview($userid, 'files/' . $path, $file, $maxX, $maxY, $scalingup);
-			$preview->showPreview();
+			try{
+				$preview = new OC_Preview($userid, 'files/' . $path, $file, $maxX, $maxY, $scalingup);
+				$preview->showPreview();
+			}catch(Exception $e){
+				OC_Response::setStatus(404);
+				OC_Log::write('core', $e->getmessage(), OC_Log::ERROR);
+				exit;
+			}
 		}else{
 			OC_Response::setStatus(404);
 			exit;
