@@ -39,7 +39,7 @@ class OC_Preview_TXT extends OC_Preview_Provider{
 		}
 
 		$image = new \OC_Image($image);
-		
+
 		if (!$image->valid()) return false;
 
 		return $image;
