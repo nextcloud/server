@@ -8,41 +8,72 @@
 
 namespace OC\Session;
 
-interface Session {
+abstract class Session implements \ArrayAccess {
 	/**
 	 * $name serves as a namespace for the session keys
 	 *
 	 * @param string $name
 	 */
-	public function __construct($name);
+	abstract public function __construct($name);
 
 	/**
 	 * @param string $key
 	 * @param mixed $value
 	 */
-	public function set($key, $value);
+	abstract public function set($key, $value);
 
 	/**
 	 * @param string $key
 	 * @return mixed should return null if $key does not exist
 	 */
-	public function get($key);
+	abstract public function get($key);
 
 	/**
 	 * @param string $key
 	 * @return bool
 	 */
-	public function exists($key);
+	abstract public function exists($key);
 
 	/**
 	 * should not throw any errors if $key does not exist
 	 *
 	 * @param string $key
 	 */
-	public function remove($key);
+	abstract public function remove($key);
 
 	/**
 	 * removes all entries within the cache namespace
 	 */
-	public function clear();
+	abstract public function clear();
+
+	/**
+	 * @param mixed $offset
+	 * @return bool
+	 */
+	public function offsetExists($offset) {
+		return $this->exists($offset);
+	}
+
+	/**
+	 * @param mixed $offset
+	 * @return mixed
+	 */
+	public function offsetGet($offset) {
+		return $this->get($offset);
+	}
+
+	/**
+	 * @param mixed $offset
+	 * @param mixed $value
+	 */
+	public function offsetSet($offset, $value) {
+		$this->set($offset, $value);
+	}
+
+	/**
+	 * @param mixed $offset
+	 */
+	public function offsetUnset($offset) {
+		$this->remove($offset);
+	}
 }
