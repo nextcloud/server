@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-27 02:01+0200\n"
-"PO-Revision-Date: 2013-05-27 00:02+0000\n"
+"POT-Creation-Date: 2013-05-28 02:01+0200\n"
+"PO-Revision-Date: 2013-05-28 00:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -41,19 +41,19 @@ msgstr "  برنامه ها"
 msgid "Admin"
 msgstr "مدیر"
 
-#: files.php:207
+#: files.php:210
 msgid "ZIP download is turned off."
 msgstr "دانلود به صورت فشرده غیر فعال است"
 
-#: files.php:208
+#: files.php:211
 msgid "Files need to be downloaded one by one."
 msgstr "فایل ها باید به صورت یکی یکی دانلود شوند"
 
-#: files.php:209 files.php:242
+#: files.php:212 files.php:245
 msgid "Back to Files"
 msgstr "بازگشت به فایل ها"
 
-#: files.php:239
+#: files.php:242
 msgid "Selected files too large to generate zip file."
 msgstr "فایل های انتخاب شده بزرگتر از آن هستند که بتوان یک فایل فشرده تولید کرد"
 

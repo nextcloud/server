@@ -127,13 +127,11 @@ class Util {
 		$this->recoveryKeyId = \OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
 
 		// if we are anonymous/public
-		if ($this->userId === false
-			|| (isset($_GET['service']) && $_GET['service'] == 'files' && isset($_GET['t']))
-		) {
+		if (\OCA\Encryption\Helper::isPublicAccess()) {
 			$this->userId = $this->publicShareKeyId;
 
 			// only handle for files_sharing app
-			if ($GLOBALS['app'] === 'files_sharing') {
+			if (isset($GLOBALS['app']) && $GLOBALS['app'] === 'files_sharing') {
 				$this->userDir = '/' . $GLOBALS['fileOwner'];
 				$this->fileFolderName = 'files';
 				$this->userFilesDir = '/' . $GLOBALS['fileOwner'] . '/'

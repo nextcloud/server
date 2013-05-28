@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# pellaeon <nfsmwlin@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-26 01:58+0200\n"
-"PO-Revision-Date: 2013-05-25 00:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-28 02:01+0200\n"
+"PO-Revision-Date: 2013-05-27 01:10+0000\n"
+"Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,19 +20,19 @@ msgstr ""
 
 #: ajax/adminrecovery.php:40
 msgid "Recovery key successfully "
-msgstr ""
+msgstr "成功還原金鑰"
 
 #: ajax/adminrecovery.php:42
 msgid "Could not "
-msgstr ""
+msgstr "無法"
 
 #: ajax/changeRecoveryPassword.php:49
 msgid "Password successfully changed."
-msgstr ""
+msgstr "成功變更密碼。"
 
 #: ajax/changeRecoveryPassword.php:51
 msgid "Could not change the password. Maybe the old password was not correct."
-msgstr ""
+msgstr "無法變更密碼，或許是輸入的舊密碼不正確。"
 
 #: js/settings-admin.js:11
 msgid "Saving..."
@@ -52,15 +53,15 @@ msgstr ""
 
 #: templates/settings-admin.php:20 templates/settings-personal.php:18
 msgid "Enabled"
-msgstr ""
+msgstr "已啓用"
 
 #: templates/settings-admin.php:28 templates/settings-personal.php:26
 msgid "Disabled"
-msgstr ""
+msgstr "已停用"
 
 #: templates/settings-admin.php:32
 msgid "Change encryption passwords recovery key:"
-msgstr ""
+msgstr "變更加密密碼還原金鑰："
 
 #: templates/settings-admin.php:39
 msgid "Old Recovery account password"
@@ -72,22 +73,22 @@ msgstr ""
 
 #: templates/settings-admin.php:51
 msgid "Change Password"
-msgstr ""
+msgstr "變更密碼"
 
 #: templates/settings-personal.php:9
 msgid "Enable password recovery by sharing all files with your administrator:"
-msgstr ""
+msgstr "與管理員分享所有檔案以啓用密碼還原功能："
 
 #: templates/settings-personal.php:11
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files if your password is lost"
-msgstr ""
+msgstr "啓用此選項允許您未來遺失密碼時重新取得已加密的檔案"
 
 #: templates/settings-personal.php:27
 msgid "File recovery settings updated"
-msgstr ""
+msgstr "檔案還原設定已更新"
 
 #: templates/settings-personal.php:28
 msgid "Could not update file recovery"
-msgstr ""
+msgstr "無法更新檔案還原設定"
