@@ -14,15 +14,20 @@ class OC_Preview_MP3 extends OC_Preview_Provider{
 	}
 
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-		$getID3 = new getID3(); 
+		$getID3 = new getID3();
+
+		$tmppath = $fileview->toTmpFile($path);
+
 		//Todo - add stream support
-		$tags = $getID3->analyze($fileview->getLocalFile($path)); 
+		$tags = $getID3->analyze($tmppath); 
 		getid3_lib::CopyTagsToComments($tags); 
 		$picture = @$tags['id3v2']['APIC'][0]['data'];
-		
+
+		unlink($tmppath);
+
 		$image = new \OC_Image($picture);
 		if (!$image->valid()) return $this->getNoCoverThumbnail($maxX, $maxY);
-		
+
 		return $image;
 	}
 
