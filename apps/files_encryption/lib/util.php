@@ -1420,7 +1420,7 @@ class Util {
 			if ($item['type'] == 'dir') {
 				$this->addRecoveryKeys($filePath . '/');
 			} else {
-				$session = new Session(new \OC_FilesystemView('/'));
+				$session = new \OCA\Encryption\Session(new \OC_FilesystemView('/'));
 				$sharingEnabled = \OCP\Share::isEnabled();
 				$file = substr($filePath, 0, -4);
 				$usersSharing = $this->getSharingUsersArray($sharingEnabled, $file);
