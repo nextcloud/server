@@ -541,7 +541,7 @@ class Util {
 		// we only need 24 byte from the last chunk
 		$data = '';
 		$handle = $this->view->fopen($path, 'r');
-		if (!fseek($handle, -24, SEEK_END)) {
+		if (is_resource($handle) && !fseek($handle, -24, SEEK_END)) {
 			$data = fgets($handle);
 		}
 
