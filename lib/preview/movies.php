@@ -14,18 +14,25 @@ if(!is_null(shell_exec('ffmpeg -version'))){
 		}
 
 		public function getThumbnail($path,$maxX,$maxY,$scalingup,$fileview) {
-			$abspath = $fileview->getLocalfile($path);
+			//get fileinfo
+			$fileinfo = $fileview->getFileInfo($path);
 
+			$abspath = $fileview->toTmpFile($path);
 			$tmppath = OC_Helper::tmpFile();
 
 			$cmd = 'ffmpeg -y  -i ' . escapeshellarg($abspath) . ' -f mjpeg -vframes 1 -ss 1 -s ' . escapeshellarg($maxX) . 'x' . escapeshellarg($maxY) . ' ' . $tmppath;
 			shell_exec($cmd);
 
+			unlink($abspath);
+
 			$image = new \OC_Image($tmppath);
 			if (!$image->valid()) return false;
+
+			unlink($tmppath);
 
 			return $image;
 		}
 	}
+
 	OC_Preview::registerProvider('OC_Preview_Movie');
 }
