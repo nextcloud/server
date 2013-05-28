@@ -13,11 +13,20 @@ class OC_Preview_Image extends OC_Preview_Provider{
 	}
 
 	public function getThumbnail($path,$maxX,$maxY,$scalingup,$fileview) {
-		//new image object
-		$image = new \OC_Image($fileview->fopen($path, 'r'));
+		//get fileinfo
+		$fileinfo = $fileview->getFileInfo($path);
+
+		//check if file is encrypted
+		if($fileinfo['encrypted'] === true){
+			$image = new \OC_Image($fileview->fopen($path, 'r'));
+		}else{
+			$image = new \OC_Image();
+			$image->loadFromFile($fileview->getLocalFile($path));
+		}
+
 		//check if image object is valid
 		if (!$image->valid()) return false;
-		
+
 		return $image;
 	}
 }
