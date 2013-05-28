@@ -5,24 +5,31 @@
  * later.
  * See the COPYING-README file.
  */
-class OC_Preview_PDF extends OC_Preview_Provider{
+if (extension_loaded('imagick')){
 
-	public function getMimeType(){
-		return '/application\/pdf/';
+	class OC_Preview_PDF extends OC_Preview_Provider{
+
+		public function getMimeType(){
+			return '/application\/pdf/';
+		}
+
+		public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {	
+			$tmppath = $fileview->toTmpFile($path);
+
+			//create imagick object from pdf
+			$pdf = new imagick($tmppath . '[0]');
+			$pdf->setImageFormat('jpg');
+
+			unlink($tmppath);
+
+			//new image object
+			$image = new \OC_Image($pdf);
+			//check if image object is valid
+			if (!$image->valid()) return false;
+
+			return $image;
+		}
 	}
 
-	public function getThumbnail($path, $maxX, $maxY, $scalingup,$fileview) {	
-		//create imagick object from pdf
-		$pdf = new imagick($fileview->getLocalFile($path) . '[0]');
-		$pdf->setImageFormat('jpg');
-
-		//new image object
-		$image = new \OC_Image($pdf);
-		//check if image object is valid
-		if (!$image->valid()) return false;
-
-		return $image;
-	}
+	OC_Preview::registerProvider('OC_Preview_PDF');
 }
-
-OC_Preview::registerProvider('OC_Preview_PDF');
