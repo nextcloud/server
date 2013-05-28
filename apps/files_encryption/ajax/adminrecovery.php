@@ -29,7 +29,7 @@ if (isset($_POST['adminEnableRecovery']) && $_POST['adminEnableRecovery'] === "1
 // Disable recoveryAdmin
 } elseif (
 	isset($_POST['adminEnableRecovery'])
-	&& 0 === $_POST['adminEnableRecovery']
+	&& "0" === $_POST['adminEnableRecovery']
 ) {
 	$return = \OCA\Encryption\Helper::adminDisableRecovery($_POST['recoveryPassword']);
 	$action = "disable";
