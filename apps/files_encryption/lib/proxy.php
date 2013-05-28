@@ -111,7 +111,7 @@ class Proxy extends \OC_FileProxy
 				$userId = \OCP\USER::getUser();
 				$view = new \OC_FilesystemView( '/' );
 				$util = new Util( $view, $userId );
-				$session = new Session( $view );
+				$session = new \OCA\Encryption\Session( $view );
 				$privateKey = $session->getPrivateKey();
 				$filePath = $util->stripUserFilesPath( $path );
 				// Set the filesize for userland, before encrypting
@@ -197,7 +197,7 @@ class Proxy extends \OC_FileProxy
 		\OC_FileProxy::$enabled = false;
 
 		// init session
-		$session = new Session( $view );
+		$session = new \OCA\Encryption\Session( $view );
 
 		// If data is a catfile
 		if (
@@ -220,7 +220,7 @@ class Proxy extends \OC_FileProxy
 
 		} elseif (
 			Crypt::mode() == 'server'
-			&& isset( $_SESSION['legacyenckey'] )
+			&&\OC::$session->exists('legacyenckey')
 			&& Crypt::isEncryptedMeta( $path )
 		) {
 			$plainData = Crypt::legacyBlockDecrypt( $data, $session->getLegacyKey() );
@@ -439,7 +439,7 @@ class Proxy extends \OC_FileProxy
 		\OC_FileProxy::$enabled = false;
 
 		$view = new \OC_FilesystemView( '/' );
-		$session = new Session( $view );
+		$session = new \OCA\Encryption\Session( $view );
 		$userId = \OCP\User::getUser();
 		$util = new Util( $view, $userId );
 
