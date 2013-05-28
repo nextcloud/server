@@ -173,4 +173,20 @@ class Helper
 
 		return $return;
 	}
+
+
+	/**
+	 * @brief checks if access is public/anonymous user
+	 * @return bool
+	 */
+	public static function isPublicAccess() {
+		if (\OCP\USER::getUser() === false
+			|| (isset($_GET['service']) && $_GET['service'] == 'files'
+				&& isset($_GET['t']))
+		) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
