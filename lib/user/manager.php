@@ -20,7 +20,7 @@ use OC\Hooks\PublicEmitter;
  * - preDelete(\OC\User\User $user)
  * - postDelete(\OC\User\User $user)
  * - preCreateUser(string $uid, string $password)
- * - postCreateUser(\OC\User\User $user)
+ * - postCreateUser(\OC\User\User $user, string $password)
  *
  * @package OC\User
  */
@@ -57,7 +57,7 @@ class Manager extends PublicEmitter {
 	public function get($uid) {
 		foreach ($this->backends as $backend) {
 			if ($backend->userExists($uid)) {
-				return new User($uid, $backend);
+				return new User($uid, $backend, $this);
 			}
 		}
 		return null;
@@ -90,7 +90,7 @@ class Manager extends PublicEmitter {
 			$backendUsers = $backend->getUsers($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid) {
-					$users[] = new User($uid, $backend);
+					$users[] = new User($uid, $backend, $this);
 					if (!is_null($limit)) {
 						$limit--;
 					}
@@ -126,7 +126,7 @@ class Manager extends PublicEmitter {
 			$backendUsers = $backend->getDisplayNames($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid => $displayName) {
-					$users[] = new User($uid, $backend);
+					$users[] = new User($uid, $backend, $this);
 					if (!is_null($limit)) {
 						$limit--;
 					}
@@ -179,8 +179,8 @@ class Manager extends PublicEmitter {
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC_USER_BACKEND_CREATE_USER)) {
 				$backend->createUser($uid, $password);
-				$user = new User($uid, $backend);
-				$this->emit('\OC\User', 'postCreateUser', array($user));
+				$user = new User($uid, $backend, $this);
+				$this->emit('\OC\User', 'postCreateUser', array($user, $password));
 				return $user;
 			}
 		}

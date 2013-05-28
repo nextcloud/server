@@ -30,8 +30,8 @@
  *   post_createUser(uid, password)
  *   pre_deleteUser(&run, uid)
  *   post_deleteUser(uid)
- *   pre_setPassword(&run, uid, password)
- *   post_setPassword(uid, password)
+ *   pre_setPassword(&run, uid, password, recoveryPassword)
+ *   post_setPassword(uid, password, recoveryPassword)
  *   pre_login(&run, uid, password)
  *   post_login(uid)
  *   logout()
@@ -43,6 +43,33 @@ class OC_User {
 		if (!self::$userSession) {
 			$manager = new \OC\User\Manager();
 			self::$userSession = new \OC\User\Session($manager, \OC::$session);
+			self::$userSession->listen('\OC\User', 'preCreateUser', function ($uid, $password) {
+				\OC_Hook::emit('OC_User', 'pre_createUser', array("run" => true, "uid" => $uid, "password" => $password));
+			});
+			self::$userSession->listen('\OC\User', 'postCreateUser', function ($user, $password) {
+				\OC_Hook::emit('OC_User', 'post_createUser', array("uid" => $user->getUID(), "password" => $password));
+			});
+			self::$userSession->listen('\OC\User', 'preDelete', function ($user) {
+				\OC_Hook::emit('OC_User', 'pre_deleteUser', array("run" => true, "uid" => $user->getUID()));
+			});
+			self::$userSession->listen('\OC\User', 'postDelete', function ($user) {
+				\OC_Hook::emit('OC_User', 'post_deleteUser', array("uid" => $user->getUID()));
+			});
+			self::$userSession->listen('\OC\User', 'preSetPassword', function ($user, $password, $recoveryPassword) {
+				OC_Hook::emit("OC_User", "pre_setPassword", array("run" => &$run, "uid" => $user->getUID(), "password" => $password, "recoveryPassword" => $recoveryPassword));
+			});
+			self::$userSession->listen('\OC\User', 'postSetPassword', function ($user, $password, $recoveryPassword) {
+				OC_Hook::emit("OC_User", "post_setPassword", array("run" => &$run, "uid" => $user->getUID(), "password" => $password, "recoveryPassword" => $recoveryPassword));
+			});
+			self::$userSession->listen('\OC\User', 'preLogin', function ($uid, $password) {
+				\OC_Hook::emit('OC_User', 'pre_login', array("run" => true, "uid" => $uid, "password" => $password));
+			});
+			self::$userSession->listen('\OC\User', 'preDeleteUser', function ($user, $password) {
+				\OC_Hook::emit('OC_User', 'post_login', array("run" => true, "uid" => $user->getUID(), "password" => $password));
+			});
+			self::$userSession->listen('\OC\User', 'logout', function () {
+				\OC_Hook::emit('OC_User', 'logout', array());
+			});
 		}
 		return self::$userSession;
 	}
