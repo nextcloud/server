@@ -5,25 +5,29 @@
  * later.
  * See the COPYING-README file.
  */
-class OC_Preview_SVG extends OC_Preview_Provider{
+if (extension_loaded('imagick')){
 
-	public function getMimeType(){
-		return '/image\/svg\+xml/';
+	class OC_Preview_SVG extends OC_Preview_Provider{
+
+		public function getMimeType(){
+			return '/image\/svg\+xml/';
+		}
+
+		public function getThumbnail($path,$maxX,$maxY,$scalingup,$fileview) {
+			$svg = new Imagick();
+			$svg->setResolution($maxX, $maxY);
+			$svg->readImageBlob('<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . $fileview->file_get_contents($path));
+			$svg->setImageFormat('jpg');
+
+			//new image object
+			$image = new \OC_Image($svg);
+			//check if image object is valid
+			if (!$image->valid()) return false;
+
+			return $image;
+		}
 	}
 
-	public function getThumbnail($path,$maxX,$maxY,$scalingup,$fileview) {
-		$svg = new Imagick();
-		$svg->setResolution($maxX, $maxY);
-		$svg->readImageBlob('<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . $fileview->file_get_contents($path));
-		$svg->setImageFormat('jpg');
+	OC_Preview::registerProvider('OC_Preview_SVG');
 
-		//new image object
-		$image = new \OC_Image($svg);
-		//check if image object is valid
-		if (!$image->valid()) return false;
-
-		return $image;
-	}
 }
-
-OC_Preview::registerProvider('OC_Preview_SVG');
