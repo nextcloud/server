@@ -138,7 +138,7 @@ class Share {
 
 		$shares = array();
 		$publicShare = false;
-		$source = '-1';
+		$source = -1;
 		$cache = false;
 
 		$view = new \OC\Files\View('/' . $user . '/files/');
@@ -149,7 +149,7 @@ class Share {
 			$cache = new \OC\Files\Cache\Cache($meta['storage']);
 		}
 
-		while ($source !== '-1') {
+		while ($source !== -1) {
 
 			// Fetch all shares of this file path from DB
 			$query = \OC_DB::prepare(
@@ -214,9 +214,9 @@ class Share {
 			// let's get the parent for the next round
 			$meta = $cache->get((int)$source);
 			if($meta !== false) {
-				$source = $meta['parent'];
+				$source = (int)$meta['parent'];
 			} else {
-				$source = '-1';
+				$source = -1;
 			}
 		}
 		// Include owner in list of users, if requested
