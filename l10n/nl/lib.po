@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# André Koot <meneer@tken.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-25 02:02+0200\n"
-"PO-Revision-Date: 2013-05-25 00:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-29 02:02+0200\n"
+"PO-Revision-Date: 2013-05-29 00:02+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,19 +42,19 @@ msgstr "Apps"
 msgid "Admin"
 msgstr "Beheerder"
 
-#: files.php:207
+#: files.php:210
 msgid "ZIP download is turned off."
 msgstr "ZIP download is uitgeschakeld."
 
-#: files.php:208
+#: files.php:211
 msgid "Files need to be downloaded one by one."
 msgstr "Bestanden moeten één voor één worden gedownload."
 
-#: files.php:209 files.php:242
+#: files.php:212 files.php:245
 msgid "Back to Files"
 msgstr "Terug naar bestanden"
 
-#: files.php:239
+#: files.php:242
 msgid "Selected files too large to generate zip file."
 msgstr "De geselecteerde bestanden zijn te groot om een zip bestand te maken."
 
@@ -123,7 +124,7 @@ msgstr "Geef of een bestaand account op of het beheerdersaccount."
 
 #: setup.php:155
 msgid "Oracle connection could not be established"
-msgstr ""
+msgstr "Er kon geen verbinding met Oracle worden bereikt"
 
 #: setup.php:237
 msgid "MySQL username and/or password not valid"

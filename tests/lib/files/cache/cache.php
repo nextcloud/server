@@ -19,11 +19,19 @@ class Cache extends \PHPUnit_Framework_TestCase {
 	 * @var \OC\Files\Storage\Temporary $storage;
 	 */
 	private $storage;
+	/**
+	 * @var \OC\Files\Storage\Temporary $storage2;
+	 */
+	private $storage2;
 
 	/**
 	 * @var \OC\Files\Cache\Cache $cache
 	 */
 	private $cache;
+	/**
+	 * @var \OC\Files\Cache\Cache $cache2
+	 */
+	private $cache2;
 
 	public function testSimple() {
 		$file1 = 'foo';
@@ -170,6 +178,13 @@ class Cache extends \PHPUnit_Framework_TestCase {
 		$this->cache->put($file4, $data);
 		$this->cache->put($file5, $data);
 
+		/* simulate a second user with a different storage id but the same folder structure */
+		$this->cache2->put($file1, $folderData);
+		$this->cache2->put($file2, $folderData);
+		$this->cache2->put($file3, $folderData);
+		$this->cache2->put($file4, $data);
+		$this->cache2->put($file5, $data);
+
 		$this->cache->move('folder/foo', 'folder/foobar');
 
 		$this->assertFalse($this->cache->inCache('folder/foo'));
@@ -180,6 +195,16 @@ class Cache extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($this->cache->inCache('folder/foobar'));
 		$this->assertTrue($this->cache->inCache('folder/foobar/1'));
 		$this->assertTrue($this->cache->inCache('folder/foobar/2'));
+
+		/* the folder structure of the second user must not change! */
+		$this->assertTrue($this->cache2->inCache('folder/bar'));
+		$this->assertTrue($this->cache2->inCache('folder/foo'));
+		$this->assertTrue($this->cache2->inCache('folder/foo/1'));
+		$this->assertTrue($this->cache2->inCache('folder/foo/2'));
+
+		$this->assertFalse($this->cache2->inCache('folder/foobar'));
+		$this->assertFalse($this->cache2->inCache('folder/foobar/1'));
+		$this->assertFalse($this->cache2->inCache('folder/foobar/2'));
 	}
 
 	function testGetIncomplete() {
@@ -243,6 +268,8 @@ class Cache extends \PHPUnit_Framework_TestCase {
 
 	public function setUp() {
 		$this->storage = new \OC\Files\Storage\Temporary(array());
+		$this->storage2 = new \OC\Files\Storage\Temporary(array());
 		$this->cache = new \OC\Files\Cache\Cache($this->storage);
+		$this->cache2 = new \OC\Files\Cache\Cache($this->storage2);
 	}
 }

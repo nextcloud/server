@@ -101,6 +101,7 @@
 "Use this address to connect to your ownCloud in your file manager" => "Gebruik dit adres om te verbinden met uw ownCloud in uw bestandsbeheer",
 "Login Name" => "Inlognaam",
 "Create" => "Creëer",
+"Admin Recovery Password" => "Beheer herstel wachtwoord",
 "Default Storage" => "Default opslag",
 "Unlimited" => "Ongelimiteerd",
 "Other" => "Anders",

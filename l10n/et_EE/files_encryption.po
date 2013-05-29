@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Rivo Zängov <eraser@eraser.ee>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-25 02:01+0200\n"
-"PO-Revision-Date: 2013-05-25 00:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-29 02:01+0200\n"
+"PO-Revision-Date: 2013-05-28 05:40+0000\n"
+"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,7 +36,7 @@ msgstr ""
 
 #: js/settings-admin.js:11
 msgid "Saving..."
-msgstr ""
+msgstr "Salvestamine..."
 
 #: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
@@ -52,11 +53,11 @@ msgstr ""
 
 #: templates/settings-admin.php:20 templates/settings-personal.php:18
 msgid "Enabled"
-msgstr ""
+msgstr "Sisse lülitatud"
 
 #: templates/settings-admin.php:28 templates/settings-personal.php:26
 msgid "Disabled"
-msgstr ""
+msgstr "Väljalülitatud"
 
 #: templates/settings-admin.php:32
 msgid "Change encryption passwords recovery key:"
@@ -72,7 +73,7 @@ msgstr ""
 
 #: templates/settings-admin.php:51
 msgid "Change Password"
-msgstr ""
+msgstr "Muuda parooli"
 
 #: templates/settings-personal.php:9
 msgid "Enable password recovery by sharing all files with your administrator:"

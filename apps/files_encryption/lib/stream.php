@@ -228,7 +228,7 @@ class Stream
 		// If a keyfile already exists
 		if ( $this->encKeyfile ) {
 
-			$session = new Session( $this->rootView );
+			$session = new \OCA\Encryption\Session( $this->rootView );
 
 			$privateKey = $session->getPrivateKey( $this->userId );
 

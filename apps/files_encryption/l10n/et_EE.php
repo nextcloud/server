@@ -1,3 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Encryption" => "Krüpteerimine"
+"Saving..." => "Salvestamine...",
+"Encryption" => "Krüpteerimine",
+"Enabled" => "Sisse lülitatud",
+"Disabled" => "Väljalülitatud",
+"Change Password" => "Muuda parooli"
 );

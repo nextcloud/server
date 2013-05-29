@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Art O. Pal <artopal@fastmail.fm>, 2013
 # ggam <ggam@brainleakage.com>, 2013
 # scambra <sergio@programatica.es>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-25 02:02+0200\n"
-"PO-Revision-Date: 2013-05-25 00:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-29 02:02+0200\n"
+"PO-Revision-Date: 2013-05-28 23:17+0000\n"
+"Last-Translator: Art O. Pal <artopal@fastmail.fm>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -326,11 +327,11 @@ msgstr "Más"
 msgid "Less"
 msgstr "Menos"
 
-#: templates/admin.php:235 templates/personal.php:105
+#: templates/admin.php:235 templates/personal.php:111
 msgid "Version"
 msgstr "Versión"
 
-#: templates/admin.php:237 templates/personal.php:108
+#: templates/admin.php:237 templates/personal.php:114
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -429,31 +430,31 @@ msgstr "Cambiar contraseña"
 msgid "Display Name"
 msgstr "Nombre a mostrar"
 
-#: templates/personal.php:68
+#: templates/personal.php:71
 msgid "Email"
 msgstr "E-mail"
 
-#: templates/personal.php:70
+#: templates/personal.php:73
 msgid "Your email address"
 msgstr "Su dirección de correo"
 
-#: templates/personal.php:71
+#: templates/personal.php:74
 msgid "Fill in an email address to enable password recovery"
 msgstr "Escriba una dirección de correo electrónico para restablecer la contraseña"
 
-#: templates/personal.php:77 templates/personal.php:78
+#: templates/personal.php:83 templates/personal.php:84
 msgid "Language"
 msgstr "Idioma"
 
-#: templates/personal.php:89
+#: templates/personal.php:95
 msgid "Help translate"
 msgstr "Ayúdnos a traducir"
 
-#: templates/personal.php:94
+#: templates/personal.php:100
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:96
+#: templates/personal.php:102
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Use esta dirección para conectarse a su cuenta de ownCloud en el administrador de archivos"
 
@@ -467,7 +468,7 @@ msgstr "Crear"
 
 #: templates/users.php:34
 msgid "Admin Recovery Password"
-msgstr ""
+msgstr "Recuperación de la contraseña de administración"
 
 #: templates/users.php:38
 msgid "Default Storage"

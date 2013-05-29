@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-25 02:02+0200\n"
-"PO-Revision-Date: 2013-05-25 00:02+0000\n"
+"POT-Creation-Date: 2013-05-29 02:02+0200\n"
+"PO-Revision-Date: 2013-05-29 00:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -41,19 +41,19 @@ msgstr "Aplikasi"
 msgid "Admin"
 msgstr "Admin"
 
-#: files.php:207
+#: files.php:210
 msgid "ZIP download is turned off."
 msgstr "Pengunduhan ZIP dimatikan."
 
-#: files.php:208
+#: files.php:211
 msgid "Files need to be downloaded one by one."
 msgstr "Berkas harus diunduh satu persatu."
 
-#: files.php:209 files.php:242
+#: files.php:212 files.php:245
 msgid "Back to Files"
 msgstr "Kembali ke Daftar Berkas"
 
-#: files.php:239
+#: files.php:242
 msgid "Selected files too large to generate zip file."
 msgstr "Berkas yang dipilih terlalu besar untuk dibuat berkas zip-nya."
 

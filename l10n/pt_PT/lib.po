@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Helder Meneses <helder.meneses@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-25 02:02+0200\n"
-"PO-Revision-Date: 2013-05-25 00:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-29 02:02+0200\n"
+"PO-Revision-Date: 2013-05-29 00:02+0000\n"
+"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,19 +42,19 @@ msgstr "Aplicações"
 msgid "Admin"
 msgstr "Admin"
 
-#: files.php:207
+#: files.php:210
 msgid "ZIP download is turned off."
 msgstr "Descarregamento em ZIP está desligado."
 
-#: files.php:208
+#: files.php:211
 msgid "Files need to be downloaded one by one."
 msgstr "Os ficheiros precisam de ser descarregados um por um."
 
-#: files.php:209 files.php:242
+#: files.php:212 files.php:245
 msgid "Back to Files"
 msgstr "Voltar a Ficheiros"
 
-#: files.php:239
+#: files.php:242
 msgid "Selected files too large to generate zip file."
 msgstr "Os ficheiros seleccionados são grandes demais para gerar um ficheiro zip."
 
@@ -123,7 +124,7 @@ msgstr "Precisa de introduzir uma conta existente ou de administrador"
 
 #: setup.php:155
 msgid "Oracle connection could not be established"
-msgstr ""
+msgstr "Não foi possível estabelecer a ligação Oracle"
 
 #: setup.php:237
 msgid "MySQL username and/or password not valid"
