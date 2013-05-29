@@ -18,5 +18,5 @@ abstract class Provider{
 	 * @param string $query
 	 * @return
 	 */
-	abstract public function getThumbnail($path, $maxX, $maxY, $scalingup,$fileview);
+	abstract public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview);
 }

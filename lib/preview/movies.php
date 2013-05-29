@@ -8,14 +8,14 @@
  */
 namespace OC\Preview;
 
-if(!is_null(shell_exec('ffmpeg -version'))){
+if(!is_null(shell_exec('ffmpeg -version'))) {
 	class Movie extends Provider{
 
-		public function getMimeType(){
+		public function getMimeType() {
 			return '/video\/.*/';
 		}
 
-		public function getThumbnail($path,$maxX,$maxY,$scalingup,$fileview) {
+		public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
 			//get fileinfo
 			$fileinfo = $fileview->getFileInfo($path);
 

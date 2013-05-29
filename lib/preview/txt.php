@@ -9,11 +9,11 @@ namespace OC\Preview;
 
 class TXT extends Provider{
 
-	public function getMimeType(){
+	public function getMimeType() {
 		return '/text\/.*/';
 	}
 
-	public function getThumbnail($path,$maxX,$maxY,$scalingup,$fileview) {
+	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
 		$content = $fileview->fopen($path, 'r');
 		$content = stream_get_contents($content);
 
@@ -27,7 +27,7 @@ class TXT extends Provider{
 		$imagecolor = imagecolorallocate($image, 255, 255, 255);
 		$textcolor = imagecolorallocate($image, 0, 0, 0);
 
-		foreach($lines as $index => $line){
+		foreach($lines as $index => $line) {
 			$index = $index + 1;
 
 			$x = (int) 1;
@@ -35,7 +35,7 @@ class TXT extends Provider{
 
 			imagestring($image, 1, $x, $y, $line, $textcolor);
 
-			if(($index * $linesize) >= $maxY){
+			if(($index * $linesize) >= $maxY) {
 				break;
 			}
 		}

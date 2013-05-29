@@ -10,11 +10,11 @@ namespace OC\Preview;
 
 class Unknown extends Provider{
 
-	public function getMimeType(){
+	public function getMimeType() {
 		return '/.*/';
 	}
 
-	public function getThumbnail($path, $maxX, $maxY, $scalingup,$fileview) {
+	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
 		/*$mimetype = $fileview->getMimeType($path);
 		$info = $fileview->getFileInfo($path);
 		$name = array_key_exists('name', $info) ? $info['name'] : '';

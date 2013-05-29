@@ -7,11 +7,11 @@
  */
 namespace OC\Preview;
 
-if (extension_loaded('imagick')){
+if (extension_loaded('imagick')) {
 
 	class SVG extends Provider{
 
-		public function getMimeType(){
+		public function getMimeType() {
 			return '/image\/svg\+xml/';
 		}
 
@@ -20,7 +20,7 @@ if (extension_loaded('imagick')){
 			$svg->setResolution($maxX, $maxY);
 
 			$content = stream_get_contents($fileview->fopen($path, 'r'));
-			if(substr($content, 0, 5) !== '<?xml'){
+			if(substr($content, 0, 5) !== '<?xml') {
 				$content = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . $content;
 			}
 

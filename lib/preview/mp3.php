@@ -11,7 +11,7 @@ require_once('getid3/getid3.php');
 
 class MP3 extends Provider{
 
-	public function getMimeType(){
+	public function getMimeType() {
 		return '/audio\/mpeg/';
 	}
 
@@ -33,7 +33,7 @@ class MP3 extends Provider{
 		return $image;
 	}
 
-	public function getNoCoverThumbnail($maxX, $maxY){
+	public function getNoCoverThumbnail($maxX, $maxY) {
 		$image = new \OC_Image();
 		return $image;
 	}

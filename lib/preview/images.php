@@ -10,16 +10,16 @@ namespace OC\Preview;
 
 class Image extends Provider{
 
-	public function getMimeType(){
+	public function getMimeType() {
 		return '/image\/.*/';
 	}
 
-	public function getThumbnail($path,$maxX,$maxY,$scalingup,$fileview) {
+	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
 		//get fileinfo
 		$fileinfo = $fileview->getFileInfo($path);
 
 		//check if file is encrypted
-		if($fileinfo['encrypted'] === true){
+		if($fileinfo['encrypted'] === true) {
 			$image = new \OC_Image($fileview->fopen($path, 'r'));
 		}else{
 			$image = new \OC_Image();
