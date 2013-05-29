@@ -188,11 +188,11 @@ class Share {
 			//check for public link shares
 			if (!$publicShare) {
 				$query = \OC_DB::prepare(
-						'SELECT share_with
-				FROM
-				`*PREFIX*share`
-				WHERE
-				item_source = ? AND share_type = ?'
+					'SELECT share_with
+					FROM
+					`*PREFIX*share`
+					WHERE
+					item_source = ? AND share_type = ?'
 				);
 
 				$result = $query->execute(array($source, self::SHARE_TYPE_LINK));
