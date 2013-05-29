@@ -86,6 +86,25 @@ class Permissions {
 	}
 
 	/**
+	 * get the permissions for all files in a folder
+	 *
+	 * @param int $parentId
+	 * @return int[]
+	 */
+	public function getDirectoryPermissions($parentId) {
+		$query = \OC_DB::prepare('SELECT `*PREFIX*permissions`.`fileid`, `permissions`
+ 			FROM  `*PREFIX*permissions` INNER JOIN  `*PREFIX*filecache` ON  `*PREFIX*permissions`.fileid =  `*PREFIX*filecache`.fileid
+ 			WHERE  `*PREFIX*filecache`.parent = ?');
+
+		$result = $query->execute(array($parentId));
+		$filePermissions = array();
+		while ($row = $result->fetchRow()) {
+			$filePermissions[$row['fileid']] = $row['permissions'];
+		}
+		return $filePermissions;
+	}
+
+	/**
 	 * remove the permissions for a file
 	 *
 	 * @param int $fileId
