@@ -138,11 +138,17 @@ class Share {
 
 		$shares = array();
 		$publicShare = false;
+		$source = '-1';
+		$cache = false;
+
 		$view = new \OC\Files\View('/' . $user . '/files/');
 		$meta = $view->getFileInfo(\OC_Filesystem::normalizePath($path));
-		$source = $meta['fileid'];
-		$cache = new \OC\Files\Cache\Cache($meta['storage']);
-		
+
+		if($meta !== false) {
+			$source = $meta['fileid'];
+			$cache = new \OC\Files\Cache\Cache($meta['storage']);
+		}
+
 		while ($source !== '-1') {
 
 			// Fetch all shares of this file path from DB
@@ -207,7 +213,11 @@ class Share {
 			
 			// let's get the parent for the next round
 			$meta = $cache->get((int)$source);
-			$source = $meta['parent'];
+			if($meta !== false) {
+				$source = $meta['parent'];
+			} else {
+				$source = '-1';
+			}
 		}
 		// Include owner in list of users, if requested
 		if ($includeOwner) {
