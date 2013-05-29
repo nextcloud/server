@@ -9,7 +9,8 @@
 namespace OC\Preview;
 
 if(!is_null(shell_exec('ffmpeg -version'))) {
-	class Movie extends Provider{
+
+	class Movie extends Provider {
 
 		public function getMimeType() {
 			return '/video\/.*/';

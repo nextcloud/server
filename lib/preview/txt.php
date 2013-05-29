@@ -7,7 +7,7 @@
  */
 namespace OC\Preview;
 
-class TXT extends Provider{
+class TXT extends Provider {
 
 	public function getMimeType() {
 		return '/text\/.*/';

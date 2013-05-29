@@ -9,7 +9,7 @@ namespace OC\Preview;
 
 if (extension_loaded('imagick')) {
 
-	class SVG extends Provider{
+	class SVG extends Provider {
 
 		public function getMimeType() {
 			return '/image\/svg\+xml/';

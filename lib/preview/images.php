@@ -8,7 +8,7 @@
  */
 namespace OC\Preview;
 
-class Image extends Provider{
+class Image extends Provider {
 
 	public function getMimeType() {
 		return '/image\/.*/';

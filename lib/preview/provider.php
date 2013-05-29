@@ -4,7 +4,7 @@
  */
 namespace OC\Preview;
 
-abstract class Provider{
+abstract class Provider {
 	private $options;
 
 	public function __construct($options) {

@@ -9,7 +9,7 @@ namespace OC\Preview;
 
 if (extension_loaded('imagick')) {
 
-	class PDF extends Provider{
+	class PDF extends Provider {
 
 		public function getMimeType() {
 			return '/application\/pdf/';

@@ -8,7 +8,7 @@
  */
 namespace OC\Preview;
 
-class Unknown extends Provider{
+class Unknown extends Provider {
 
 	public function getMimeType() {
 		return '/.*/';

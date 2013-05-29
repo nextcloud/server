@@ -1,4 +1,4 @@
-<?php
+Provider{<?php
 /**
  * Copyright (c) 2013 Georg Ehrke georg@ownCloud.com
  * This file is licensed under the Affero General Public License version 3 or
@@ -9,7 +9,7 @@ namespace OC\Preview;
 
 require_once('getid3/getid3.php');
 
-class MP3 extends Provider{
+class MP3 extends Provider {
 
 	public function getMimeType() {
 		return '/audio\/mpeg/';
