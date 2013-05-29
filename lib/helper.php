@@ -188,38 +188,38 @@ class OC_Helper {
 	 *
 	 * Returns the path to the image of this file type.
 	 */
-	public static function mimetypeIcon( $mimetype ) {
-		$alias=array('application/xml'=>'code/xml');
-		if(isset($alias[$mimetype])) {
-			$mimetype=$alias[$mimetype];
+	public static function mimetypeIcon($mimetype) {
+		$alias = array('application/xml' => 'code/xml');
+		if (isset($alias[$mimetype])) {
+			$mimetype = $alias[$mimetype];
 		}
 		if (isset(self::$mimetypeIcons[$mimetype])) {
 			return self::$mimetypeIcons[$mimetype];
 		}
 		// Replace slash and backslash with a minus
-		$icon = str_replace( "/", "-", $mimetype );
-		$icon = str_replace( "\\", "-", $icon );
+		$icon = str_replace('/', '-', $mimetype);
+		$icon = str_replace( '\\', '-', $icon);
 
 		// Is it a dir?
-		if( $mimetype == "dir" ) {
-			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT."/core/img/filetypes/folder.png";
-			return OC::$WEBROOT."/core/img/filetypes/folder.png";
+		if ($mimetype === 'dir') {
+			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT.'/core/img/filetypes/folder.png';
+			return OC::$WEBROOT.'/core/img/filetypes/folder.png';
 		}
 
 		// Icon exists?
-		if( file_exists( OC::$SERVERROOT."/core/img/filetypes/$icon.png" )) {
-			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT."/core/img/filetypes/$icon.png";
-			return OC::$WEBROOT."/core/img/filetypes/$icon.png";
+		if (file_exists(OC::$SERVERROOT.'/core/img/filetypes/'.$icon.'.png')) {
+			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT.'/core/img/filetypes/'.$icon.'.png';
+			return OC::$WEBROOT.'/core/img/filetypes/'.$icon.'.png';
 		}
-		//try only the first part of the filetype
-		$mimePart=substr($icon, 0, strpos($icon, '-'));
-		if( file_exists( OC::$SERVERROOT."/core/img/filetypes/$mimePart.png" )) {
-			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT."/core/img/filetypes/$mimePart.png";
-			return OC::$WEBROOT."/core/img/filetypes/$mimePart.png";
-		}
-		else{
-			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT."/core/img/filetypes/file.png";
-			return OC::$WEBROOT."/core/img/filetypes/file.png";
+
+		// Try only the first part of the filetype
+		$mimePart = substr($icon, 0, strpos($icon, '-'));
+		if (file_exists(OC::$SERVERROOT.'/core/img/filetypes/'.$mimePart.'.png')) {
+			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT.'/core/img/filetypes/'.$mimePart.'.png';
+			return OC::$WEBROOT.'/core/img/filetypes/'.$mimePart.'.png';
+		} else {
+			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT.'/core/img/filetypes/file.png';
+			return OC::$WEBROOT.'/core/img/filetypes/file.png';
 		}
 	}
 
