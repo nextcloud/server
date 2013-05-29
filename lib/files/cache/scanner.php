@@ -78,19 +78,15 @@ class Scanner {
 						$this->scanFile($parent);
 					}
 				}
+				$newData = $data;
 				if ($cacheData = $this->cache->get($file)) {
+					if ($checkExisting && $data['size'] === -1) {
+						$data['size'] = $cacheData['size'];
+					}
 					if ($data['mtime'] === $cacheData['mtime'] &&
 						$data['size'] === $cacheData['size']) {
 						$data['etag'] = $cacheData['etag'];
 					}
-				}
-				if ($checkExisting and $cacheData) {
-					if ($data['size'] === -1) {
-						$data['size'] = $cacheData['size'];
-					}
-				}
-				$newData = $data;
-				if ($cacheData) {
 					// Only update metadata that has changed
 					$newData = array_diff($data, $cacheData);
 				}
