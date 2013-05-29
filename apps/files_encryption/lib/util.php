@@ -1028,7 +1028,7 @@ class Util {
 		if ($sharingEnabled) {
 
 			// Find out who, if anyone, is sharing the file
-			$result = \OCP\Share::getUsersSharingFile($ownerPath, $owner, true, true, true);
+			$result = \OCP\Share::getUsersSharingFile($ownerPath, $owner, true);
 			$userIds = $result['users'];
 			if ($result['public']) {
 				$userIds[] = $this->publicShareKeyId;
@@ -1459,7 +1459,7 @@ class Util {
 
 		// Find out who, if anyone, is sharing the file
 		if ($sharingEnabled) {
-			$result = \OCP\Share::getUsersSharingFile($file, $this->userId, true, true, true);
+			$result = \OCP\Share::getUsersSharingFile($file, $this->userId, true);
 			$userIds = $result['users'];
 			$userIds[] = $this->recoveryKeyId;
 			if ($result['public']) {
