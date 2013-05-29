@@ -71,6 +71,28 @@ class Shared_Permissions extends Permissions {
 	}
 
 	/**
+	 * get the permissions for all files in a folder
+	 *
+	 * @param int $parentId
+	 * @param string $user
+	 * @return int[]
+	 */
+	public function getDirectoryPermissions($parentId, $user) {
+		// Root of the Shared folder
+		if ($parentId === -1) {
+			return \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_PERMISSIONS);
+		}
+		$permissions = $this->get($parentId, $user);
+		$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `parent` = ?');
+		$result = $query->execute(array($parentId));
+		$filePermissions = array();
+		while ($row = $result->fetchRow()) {
+			$filePermissions[$row['fileid']] = $permissions;
+		}
+		return $filePermissions;
+	}
+
+	/**
 	 * remove the permissions for a file
 	 *
 	 * @param int $fileId
@@ -83,4 +105,5 @@ class Shared_Permissions extends Permissions {
 	public function removeMultiple($fileIds, $user) {
 		// Not a valid action for Shared Permissions
 	}
+
 }
