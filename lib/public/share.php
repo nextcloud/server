@@ -207,8 +207,7 @@ class Share {
 			
 			// let's get the parent for the next round
 			$meta = $cache->get((int)$source);
-			$parent = $meta['parent'];
-			$source = $parent;
+			$source = $meta['parent'];
 		}
 		// Include owner in list of users, if requested
 		if ($includeOwner) {
