@@ -123,25 +123,31 @@ class Share {
 		return $path;
 	
 	}
-		
+
 	/**
 	* @brief Find which users can access a shared item
 	* @param $path to the file
 	* @param $user owner of the file
 	* @param include owner to the list of users with access to the file
 	* @return array
-	* @note $path needs to be relative to user data dir, e.g. 'file.txt' 
+	* @note $path needs to be relative to user data dir, e.g. 'file.txt'
 	*       not '/admin/data/file.txt'
 	*/
 	public static function getUsersSharingFile($path, $user, $includeOwner = false) {
 
 		$shares = array();
 		$publicShare = false;
+		$source = '-1';
+		$cache = false;
+
 		$view = new \OC\Files\View('/' . $user . '/files/');
 		$meta = $view->getFileInfo(\OC_Filesystem::normalizePath($path));
-		$source = $meta['fileid'];
-		$cache = new \OC\Files\Cache\Cache($meta['storage']);
-		
+
+		if($meta !== false) {
+			$source = $meta['fileid'];
+			$cache = new \OC\Files\Cache\Cache($meta['storage']);
+		}
+
 		while ($source !== '-1') {
 
 			// Fetch all shares of this file path from DB
@@ -206,7 +212,11 @@ class Share {
 			
 			// let's get the parent for the next round
 			$meta = $cache->get((int)$source);
-			$source = $meta['parent'];
+			if($meta !== false) {
+				$source = $meta['parent'];
+			} else {
+				$source = '-1';
+			}
 		}
 		// Include owner in list of users, if requested
 		if ($includeOwner) {
