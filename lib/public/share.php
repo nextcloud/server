@@ -186,24 +186,26 @@ class Share {
 			}
 
 			//check for public link shares
-			$query = \OC_DB::prepare(
-				'SELECT share_with
+			if (!$publicShare) {
+				$query = \OC_DB::prepare(
+						'SELECT share_with
 				FROM
 				`*PREFIX*share`
 				WHERE
 				item_source = ? AND share_type = ?'
-			);
+				);
 
-			$result = $query->execute(array($source, self::SHARE_TYPE_LINK));
+				$result = $query->execute(array($source, self::SHARE_TYPE_LINK));
 
-			if (\OC_DB::isError($result)) {
-				\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+				if (\OC_DB::isError($result)) {
+					\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+				}
+
+				if ($result->fetchRow()) {
+					$publicShare = true;
+				}
 			}
-
-			if ($result->fetchRow()) {
-				$publicShare = true;
-			}
-
+			
 			// let's get the parent for the next round
 			$meta = $cache->get((int)$source);
 			$parent = $meta['parent'];
