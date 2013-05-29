@@ -6,8 +6,10 @@
  * later.
  * See the COPYING-README file.
  */
+namespace OC\Preview;
+
 if(!is_null(shell_exec('ffmpeg -version'))){
-	class OC_Preview_Movie extends OC_Preview_Provider{
+	class Movie extends Provider{
 
 		public function getMimeType(){
 			return '/video\/.*/';
@@ -18,7 +20,7 @@ if(!is_null(shell_exec('ffmpeg -version'))){
 			$fileinfo = $fileview->getFileInfo($path);
 
 			$abspath = $fileview->toTmpFile($path);
-			$tmppath = OC_Helper::tmpFile();
+			$tmppath = \OC_Helper::tmpFile();
 
 			//$cmd = 'ffmpeg -y  -i ' . escapeshellarg($abspath) . ' -f mjpeg -vframes 1 -ss 1 -s ' . escapeshellarg($maxX) . 'x' . escapeshellarg($maxY) . ' ' . $tmppath;
 			$cmd = 'ffmpeg -y  -i ' . escapeshellarg($abspath) . ' -f mjpeg -vframes 1 -ss 1 ' . $tmppath;
@@ -35,5 +37,5 @@ if(!is_null(shell_exec('ffmpeg -version'))){
 		}
 	}
 
-	OC_Preview::registerProvider('OC_Preview_Movie');
+	\OC\Preview::registerProvider('OC\Preview\Movie');
 }

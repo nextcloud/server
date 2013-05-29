@@ -11,6 +11,8 @@
  * /data/user/thumbnails/pathhash/x-y.png
  * 
  */
+namespace OC;
+
 require_once('preview/images.php');
 require_once('preview/movies.php');
 require_once('preview/mp3.php');
@@ -19,7 +21,7 @@ require_once('preview/svg.php');
 require_once('preview/txt.php');
 require_once('preview/unknown.php');
 
-class OC_Preview {
+class Preview {
 	//the thumbnail  folder
 	const THUMBNAILS_FOLDER = 'thumbnails';
 
@@ -57,9 +59,9 @@ class OC_Preview {
 	*/
 	public function __construct($user = null, $root = '', $file = '', $maxX = 0, $maxY = 0, $scalingup = true, $force = false){
 		//set config
-		$this->max_x = OC_Config::getValue('preview_max_x', null);
-		$this->max_y = OC_Config::getValue('preview_max_y', null);
-		$this->max_scale_factor = OC_Config::getValue('preview_max_scale_factor', 10);
+		$this->max_x = \OC_Config::getValue('preview_max_x', null);
+		$this->max_y = \OC_Config::getValue('preview_max_y', null);
+		$this->max_scale_factor = \OC_Config::getValue('preview_max_scale_factor', 10);
 
 		//save parameters
 		$this->file = $file;
@@ -74,14 +76,14 @@ class OC_Preview {
 		if($force !== true){
 			if(!is_null($this->max_x)){
 				if($this->maxX > $this->max_x){
-					OC_Log::write('core', 'maxX reduced from ' . $this->maxX . ' to ' . $this->max_x, OC_Log::DEBUG);
+					\OC_Log::write('core', 'maxX reduced from ' . $this->maxX . ' to ' . $this->max_x, \OC_Log::DEBUG);
 					$this->maxX = $this->max_x;
 				}
 			}
 	
 			if(!is_null($this->max_y)){
 				if($this->maxY > $this->max_y){
-					OC_Log::write('core', 'maxY reduced from ' . $this->maxY . ' to ' . $this->max_y, OC_Log::DEBUG);
+					\OC_Log::write('core', 'maxY reduced from ' . $this->maxY . ' to ' . $this->max_y, \OC_Log::DEBUG);
 					$this->maxY = $this->max_y;
 				}
 			}
@@ -93,26 +95,26 @@ class OC_Preview {
 	
 			//check if there are any providers at all
 			if(empty(self::$providers)){
-				OC_Log::write('core', 'No preview providers exist', OC_Log::ERROR);
-				throw new Exception('No providers');
+				\OC_Log::write('core', 'No preview providers exist', \OC_Log::ERROR);
+				throw new \Exception('No providers');
 			}
 	
 			//validate parameters
 			if($file === ''){
-				OC_Log::write('core', 'No filename passed', OC_Log::ERROR);
-				throw new Exception('File not found');
+				\OC_Log::write('core', 'No filename passed', \OC_Log::ERROR);
+				throw new \Exception('File not found');
 			}
 	
 			//check if file exists
 			if(!$this->fileview->file_exists($file)){
-				OC_Log::write('core', 'File:"' . $file . '" not found', OC_Log::ERROR);
-				throw new Exception('File not found');
+				\OC_Log::write('core', 'File:"' . $file . '" not found', \OC_Log::ERROR);
+				throw new \Exception('File not found');
 			}
 	
 			//check if given size makes sense
 			if($maxX === 0 || $maxY === 0){
-				OC_Log::write('core', 'Can not create preview with 0px width or 0px height', OC_Log::ERROR);
-				throw new Exception('Height and/or width set to 0');
+				\OC_Log::write('core', 'Can not create preview with 0px width or 0px height', \OC_Log::ERROR);
+				throw new \Exception('Height and/or width set to 0');
 			}
 		}
 	}
@@ -353,7 +355,7 @@ class OC_Preview {
 	 * @return void
 	*/
 	public function showPreview(){
-		OCP\Response::enableCaching(3600 * 24); // 24 hour
+		\OCP\Response::enableCaching(3600 * 24); // 24 hour
 		$preview = $this->getPreview();
 		if($preview){
 			$preview->show();
@@ -373,7 +375,7 @@ class OC_Preview {
 		$scalingup = $this->scalingup;
 
 		if(!($image instanceof \OC_Image)){
-			OC_Log::write('core', 'Object passed to resizeAndCrop is not an instance of OC_Image', OC_Log::DEBUG);
+			OC_Log::write('core', 'Object passed to resizeAndCrop is not an instance of OC_Image', \OC_Log::DEBUG);
 			return;
 		}
 
@@ -399,7 +401,7 @@ class OC_Preview {
 		}
 		if(!is_null($this->max_scale_factor)){
 			if($factor > $this->max_scale_factor){
-				OC_Log::write('core', 'scalefactor reduced from ' . $factor . ' to ' . $this->max_scale_factor, OC_Log::DEBUG);
+				\OC_Log::write('core', 'scalefactor reduced from ' . $factor . ' to ' . $this->max_scale_factor, \OC_Log::DEBUG);
 				$factor = $this->max_scale_factor;
 			}
 		}
@@ -462,7 +464,7 @@ class OC_Preview {
 
 	/**
 	 * @brief register a new preview provider to be used
-	 * @param string $provider class name of a OC_Preview_Provider
+	 * @param string $provider class name of a Preview_Provider
 	 * @return void
 	 */
 	public static function registerProvider($class, $options=array()){
@@ -496,7 +498,7 @@ class OC_Preview {
 	 * @return void
 	*/
 	public static function previewRouter($params){
-		OC_Util::checkLoggedIn();
+		\OC_Util::checkLoggedIn();
 
 		$file = '';
 		$maxX = 0;
@@ -514,15 +516,15 @@ class OC_Preview {
 
 		if($file !== '' && $maxX !== 0 && $maxY !== 0){
 			try{
-				$preview = new OC_Preview(OC_User::getUser(), 'files', $file,  $maxX, $maxY, $scalingup);
+				$preview = new Preview(\OC_User::getUser(), 'files', $file,  $maxX, $maxY, $scalingup);
 				$preview->showPreview();
 			}catch(Exception $e){
-				OC_Response::setStatus(404);
-				OC_Log::write('core', $e->getmessage(), OC_Log::ERROR);
+				\OC_Response::setStatus(404);
+				\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
 				exit;
 			}
 		}else{
-			OC_Response::setStatus(404);
+			\OC_Response::setStatus(404);
 			exit;
 		}
 	}
@@ -547,11 +549,11 @@ class OC_Preview {
 		if(array_key_exists('scalingup', $_GET)) $scalingup = (bool) $_GET['scalingup'];
 		if(array_key_exists('t', $_GET)) $token = (string) $_GET['t'];
 		
-		$linkItem = OCP\Share::getShareByToken($token);
+		$linkItem = \OCP\Share::getShareByToken($token);
 		
 		if (is_array($linkItem) && isset($linkItem['uid_owner']) && isset($linkItem['file_source'])) {
 			$userid = $linkItem['uid_owner'];
-			OC_Util::setupFS($userid);
+			\OC_Util::setupFS($userid);
 			$pathid = $linkItem['file_source'];
 			$path = \OC\Files\Filesystem::getPath($pathid);
 		}
@@ -559,7 +561,7 @@ class OC_Preview {
 		//clean up file parameter
 		$file = \OC\Files\Filesystem::normalizePath($file);
 		if(!\OC\Files\Filesystem::isValidPath($file)){
-			OC_Response::setStatus(403);
+			\OC_Response::setStatus(403);
 			exit;
 		}
 
@@ -570,15 +572,15 @@ class OC_Preview {
 
 		if($userid !== null && $path !== null){
 			try{
-				$preview = new OC_Preview($userid, 'files/' . $path, $file, $maxX, $maxY, $scalingup);
+				$preview = new Preview($userid, 'files/' . $path, $file, $maxX, $maxY, $scalingup);
 				$preview->showPreview();
 			}catch(Exception $e){
-				OC_Response::setStatus(404);
-				OC_Log::write('core', $e->getmessage(), OC_Log::ERROR);
+				\OC_Response::setStatus(404);
+				\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
 				exit;
 			}
 		}else{
-			OC_Response::setStatus(404);
+			\OC_Response::setStatus(404);
 			exit;
 		}
 	}
@@ -592,7 +594,7 @@ class OC_Preview {
 		if(substr($path, 0, 1) == '/'){
 			$path = substr($path, 1);
 		}
-		$preview = new OC_Preview(OC_User::getUser(), 'files/', $path, 0, 0, false, true);
+		$preview = new Preview(\OC_User::getUser(), 'files/', $path, 0, 0, false, true);
 		$preview->deleteAllPreviews();
 	}
 }

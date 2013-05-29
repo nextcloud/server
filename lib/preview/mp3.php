@@ -5,22 +5,24 @@
  * later.
  * See the COPYING-README file.
  */
+namespace OC\Preview;
+
 require_once('getid3/getid3.php');
 
-class OC_Preview_MP3 extends OC_Preview_Provider{
+class MP3 extends Provider{
 
 	public function getMimeType(){
 		return '/audio\/mpeg/';
 	}
 
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-		$getID3 = new getID3();
+		$getID3 = new \getID3();
 
 		$tmppath = $fileview->toTmpFile($path);
 
 		//Todo - add stream support
 		$tags = $getID3->analyze($tmppath); 
-		getid3_lib::CopyTagsToComments($tags); 
+		\getid3_lib::CopyTagsToComments($tags); 
 		$picture = @$tags['id3v2']['APIC'][0]['data'];
 
 		unlink($tmppath);
@@ -38,4 +40,4 @@ class OC_Preview_MP3 extends OC_Preview_Provider{
 
 }
 
-OC_Preview::registerProvider('OC_Preview_MP3');
+\OC\Preview::registerProvider('OC\Preview\MP3');

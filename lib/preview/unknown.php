@@ -6,7 +6,9 @@
  * later.
  * See the COPYING-README file.
  */
-class OC_Preview_Unknown extends OC_Preview_Provider{
+namespace OC\Preview;
+
+class Unknown extends Provider{
 
 	public function getMimeType(){
 		return '/.*/';
@@ -22,4 +24,4 @@ class OC_Preview_Unknown extends OC_Preview_Provider{
 	}
 }
 
-OC_Preview::registerProvider('OC_Preview_Unknown');
+\OC\Preview::registerProvider('OC\Preview\Unknown');

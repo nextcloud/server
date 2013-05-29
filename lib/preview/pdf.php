@@ -5,9 +5,11 @@
  * later.
  * See the COPYING-README file.
  */
+namespace OC\Preview;
+
 if (extension_loaded('imagick')){
 
-	class OC_Preview_PDF extends OC_Preview_Provider{
+	class PDF extends Provider{
 
 		public function getMimeType(){
 			return '/application\/pdf/';
@@ -17,7 +19,7 @@ if (extension_loaded('imagick')){
 			$tmppath = $fileview->toTmpFile($path);
 
 			//create imagick object from pdf
-			$pdf = new imagick($tmppath . '[0]');
+			$pdf = new \imagick($tmppath . '[0]');
 			$pdf->setImageFormat('jpg');
 
 			unlink($tmppath);
@@ -31,5 +33,5 @@ if (extension_loaded('imagick')){
 		}
 	}
 
-	OC_Preview::registerProvider('OC_Preview_PDF');
+	\OC\Preview::registerProvider('OC\Preview\PDF');
 }

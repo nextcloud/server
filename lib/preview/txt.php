@@ -5,7 +5,9 @@
  * later.
  * See the COPYING-README file.
  */
-class OC_Preview_TXT extends OC_Preview_Provider{
+namespace OC\Preview;
+
+class TXT extends Provider{
 
 	public function getMimeType(){
 		return '/text\/.*/';
@@ -46,4 +48,4 @@ class OC_Preview_TXT extends OC_Preview_Provider{
 	}
 }
 
-OC_Preview::registerProvider('OC_Preview_TXT');
+\OC\Preview::registerProvider('OC\Preview\TXT');

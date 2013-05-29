@@ -5,18 +5,26 @@
  * later.
  * See the COPYING-README file.
  */
+namespace OC\Preview;
+
 if (extension_loaded('imagick')){
 
-	class OC_Preview_SVG extends OC_Preview_Provider{
+	class SVG extends Provider{
 
 		public function getMimeType(){
 			return '/image\/svg\+xml/';
 		}
 
 		public function getThumbnail($path,$maxX,$maxY,$scalingup,$fileview) {
-			$svg = new Imagick();
+			$svg = new \Imagick();
 			$svg->setResolution($maxX, $maxY);
-			$svg->readImageBlob('<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . $fileview->file_get_contents($path));
+
+			$content = stream_get_contents($fileview->fopen($path, 'r'));
+			if(substr($content, 0, 5) !== '<?xml'){
+				$content = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . $content;
+			}
+
+			$svg->readImageBlob($content);
 			$svg->setImageFormat('jpg');
 
 			//new image object
@@ -28,6 +36,6 @@ if (extension_loaded('imagick')){
 		}
 	}
 
-	OC_Preview::registerProvider('OC_Preview_SVG');
+	\OC\Preview::registerProvider('OC\Preview\SVG');
 
 }

@@ -2,7 +2,9 @@
 /**
  * provides search functionalty
  */
-abstract class OC_Preview_Provider{
+namespace OC\Preview;
+
+abstract class Provider{
 	private $options;
 
 	public function __construct($options) {

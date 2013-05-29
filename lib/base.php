@@ -544,8 +544,8 @@ class OC {
 	 * register hooks for previews
 	 */
 	public static function registerPreviewHooks() {
-		OC_Hook::connect('OC_Filesystem', 'post_write', 'OC_Preview', 'post_write');
-		OC_Hook::connect('OC_Filesystem', 'delete', 'OC_Preview', 'post_delete');
+		OC_Hook::connect('OC_Filesystem', 'post_write', 'OC\Preview', 'post_write');
+		OC_Hook::connect('OC_Filesystem', 'delete', 'OC\Preview', 'post_delete');
 	}
 
 	/**
