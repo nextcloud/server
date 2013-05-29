@@ -474,6 +474,7 @@ class OC {
 
 		self::registerCacheHooks();
 		self::registerFilesystemHooks();
+		self::registerPreviewHooks();
 		self::registerShareHooks();
 
 		//make sure temporary files are cleaned up
@@ -537,6 +538,14 @@ class OC {
 		// Check for blacklisted files
 		OC_Hook::connect('OC_Filesystem', 'write', 'OC_Filesystem', 'isBlacklisted');
 		OC_Hook::connect('OC_Filesystem', 'rename', 'OC_Filesystem', 'isBlacklisted');
+	}
+
+	/**
+	 * register hooks for previews
+	 */
+	public static function registerPreviewHooks() {
+		OC_Hook::connect('OC_Filesystem', 'post_write', 'OC_Preview', 'post_write');
+		OC_Hook::connect('OC_Filesystem', 'delete', 'OC_Preview', 'post_delete');
 	}
 
 	/**

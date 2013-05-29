@@ -55,7 +55,7 @@ class OC_Preview {
 	 *					false if thumbnail does not exist
 	 *					path to thumbnail if thumbnail exists
 	*/
-	public function __construct($user = null, $root = '', $file = '', $maxX = 0, $maxY = 0, $scalingup = true){
+	public function __construct($user = null, $root = '', $file = '', $maxX = 0, $maxY = 0, $scalingup = true, $force = false){
 		//set config
 		$this->max_x = OC_Config::getValue('preview_max_x', null);
 		$this->max_y = OC_Config::getValue('preview_max_y', null);
@@ -71,47 +71,49 @@ class OC_Preview {
 		$this->fileview = new \OC\Files\View('/' . $user . '/' . $root);
 		$this->userview = new \OC\Files\View('/' . $user);
 
-		if(!is_null($this->max_x)){
-			if($this->maxX > $this->max_x){
-				OC_Log::write('core', 'maxX reduced from ' . $this->maxX . ' to ' . $this->max_x, OC_Log::DEBUG);
-				$this->maxX = $this->max_x;
+		if($force !== true){
+			if(!is_null($this->max_x)){
+				if($this->maxX > $this->max_x){
+					OC_Log::write('core', 'maxX reduced from ' . $this->maxX . ' to ' . $this->max_x, OC_Log::DEBUG);
+					$this->maxX = $this->max_x;
+				}
 			}
-		}
-
-		if(!is_null($this->max_y)){
-			if($this->maxY > $this->max_y){
-				OC_Log::write('core', 'maxY reduced from ' . $this->maxY . ' to ' . $this->max_y, OC_Log::DEBUG);
-				$this->maxY = $this->max_y;
+	
+			if(!is_null($this->max_y)){
+				if($this->maxY > $this->max_y){
+					OC_Log::write('core', 'maxY reduced from ' . $this->maxY . ' to ' . $this->max_y, OC_Log::DEBUG);
+					$this->maxY = $this->max_y;
+				}
 			}
-		}
-
-		//init providers
-		if(empty(self::$providers)){
-			self::initProviders();
-		}
-
-		//check if there are any providers at all
-		if(empty(self::$providers)){
-			OC_Log::write('core', 'No preview providers exist', OC_Log::ERROR);
-			throw new Exception('No providers');
-		}
-
-		//validate parameters
-		if($file === ''){
-			OC_Log::write('core', 'No filename passed', OC_Log::ERROR);
-			throw new Exception('File not found');
-		}
-
-		//check if file exists
-		if(!$this->fileview->file_exists($file)){
-			OC_Log::write('core', 'File:"' . $file . '" not found', OC_Log::ERROR);
-			throw new Exception('File not found');
-		}
-
-		//check if given size makes sense
-		if($maxX === 0 || $maxY === 0){
-			OC_Log::write('core', 'Can not create preview with 0px width or 0px height', OC_Log::ERROR);
-			throw new Exception('Height and/or width set to 0');
+	
+			//init providers
+			if(empty(self::$providers)){
+				self::initProviders();
+			}
+	
+			//check if there are any providers at all
+			if(empty(self::$providers)){
+				OC_Log::write('core', 'No preview providers exist', OC_Log::ERROR);
+				throw new Exception('No providers');
+			}
+	
+			//validate parameters
+			if($file === ''){
+				OC_Log::write('core', 'No filename passed', OC_Log::ERROR);
+				throw new Exception('File not found');
+			}
+	
+			//check if file exists
+			if(!$this->fileview->file_exists($file)){
+				OC_Log::write('core', 'File:"' . $file . '" not found', OC_Log::ERROR);
+				throw new Exception('File not found');
+			}
+	
+			//check if given size makes sense
+			if($maxX === 0 || $maxY === 0){
+				OC_Log::write('core', 'Can not create preview with 0px width or 0px height', OC_Log::ERROR);
+				throw new Exception('Height and/or width set to 0');
+			}
 		}
 	}
 
@@ -186,19 +188,22 @@ class OC_Preview {
 	public function deletePreview(){
 		$fileinfo = $this->fileview->getFileInfo($this->file);
 		$fileid = $fileinfo['fileid'];
-		
-		return $this->userview->unlink(self::THUMBNAILS_FOLDER . '/' . $fileid . '/' . $this->maxX . '-' . $this->maxY . '.png');
+
+		$this->userview->unlink(self::THUMBNAILS_FOLDER . '/' . $fileid . '/' . $this->maxX . '-' . $this->maxY . '.png');
+		return;
 	}
 
 	/**
 	 * @brief deletes all previews of a file
 	 * @return bool
 	*/
-	public function deleteAllPrevies(){
+	public function deleteAllPreviews(){
 		$fileinfo = $this->fileview->getFileInfo($this->file);
 		$fileid = $fileinfo['fileid'];
 
-		return $this->userview->rmdir(self::THUMBNAILS_FOLDER . '/' . $fileid);
+		$this->userview->deleteAll(self::THUMBNAILS_FOLDER . '/' . $fileid . '/');
+		$this->userview->rmdir(self::THUMBNAILS_FOLDER . '/' . $fileid . '/');
+		return;
 	}
 
 	/**
@@ -576,5 +581,18 @@ class OC_Preview {
 			OC_Response::setStatus(404);
 			exit;
 		}
+	}
+
+	public static function post_write($args){
+		self::post_delete($args);
+	}
+	
+	public static function post_delete($args){
+		$path = $args['path'];
+		if(substr($path, 0, 1) == '/'){
+			$path = substr($path, 1);
+		}
+		$preview = new OC_Preview(OC_User::getUser(), 'files/', $path, 0, 0, false, true);
+		$preview->deleteAllPreviews();
 	}
 }
