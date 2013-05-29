@@ -26,21 +26,20 @@
 namespace OCA\Encryption;
 
 //require_once '../3rdparty/Crypt_Blowfish/Blowfish.php';
-require_once realpath( dirname( __FILE__ ) . '/../3rdparty/Crypt_Blowfish/Blowfish.php' );
+require_once realpath(dirname(__FILE__) . '/../3rdparty/Crypt_Blowfish/Blowfish.php');
 
 /**
  * Class for common cryptography functionality
  */
 
-class Crypt
-{
+class Crypt {
 
 	/**
 	 * @brief return encryption mode client or server side encryption
 	 * @param string $user name (use system wide setting if name=null)
 	 * @return string 'client' or 'server'
 	 */
-	public static function mode( $user = null ) {
+	public static function mode($user = null) {
 
 		return 'server';
 
@@ -52,17 +51,20 @@ class Crypt
 	 */
 	public static function createKeypair() {
 
-		$res = openssl_pkey_new( array( 'private_key_bits' => 4096 ) );
+		$res = openssl_pkey_new(array('private_key_bits' => 4096));
 
 		// Get private key
-		openssl_pkey_export( $res, $privateKey );
+		openssl_pkey_export($res, $privateKey);
 
 		// Get public key
-		$publicKey = openssl_pkey_get_details( $res );
+		$publicKey = openssl_pkey_get_details($res);
 
 		$publicKey = $publicKey['key'];
 
-		return ( array( 'publicKey' => $publicKey, 'privateKey' => $privateKey ) );
+		return (array(
+			'publicKey' => $publicKey,
+			'privateKey' => $privateKey
+		));
 
 	}
 
@@ -75,7 +77,7 @@ class Crypt
 	 * blocks with encryption alone, hence padding is added to achieve the
 	 * required length.
 	 */
-	public static function addPadding( $data ) {
+	public static function addPadding($data) {
 
 		$padded = $data . 'xx';
 
@@ -88,11 +90,11 @@ class Crypt
 	 * @param string $padded padded data to remove padding from
 	 * @return string unpadded data on success, false on error
 	 */
-	public static function removePadding( $padded ) {
+	public static function removePadding($padded) {
 
-		if ( substr( $padded, -2 ) == 'xx' ) {
+		if (substr($padded, -2) === 'xx') {
 
-			$data = substr( $padded, 0, -2 );
+			$data = substr($padded, 0, -2);
 
 			return $data;
 
@@ -111,26 +113,26 @@ class Crypt
 	 * @return boolean
 	 * @note see also OCA\Encryption\Util->isEncryptedPath()
 	 */
-	public static function isCatfileContent( $content ) {
+	public static function isCatfileContent($content) {
 
-		if ( !$content ) {
+		if (!$content) {
 
 			return false;
 
 		}
 
-		$noPadding = self::removePadding( $content );
+		$noPadding = self::removePadding($content);
 
 		// Fetch encryption metadata from end of file
-		$meta = substr( $noPadding, -22 );
+		$meta = substr($noPadding, -22);
 
 		// Fetch IV from end of file
-		$iv = substr( $meta, -16 );
+		$iv = substr($meta, -16);
 
 		// Fetch identifier from start of metadata
-		$identifier = substr( $meta, 0, 6 );
+		$identifier = substr($meta, 0, 6);
 
-		if ( $identifier == '00iv00' ) {
+		if ($identifier === '00iv00') {
 
 			return true;
 
@@ -147,15 +149,15 @@ class Crypt
 	 * @param string $path
 	 * @return bool
 	 */
-	public static function isEncryptedMeta( $path ) {
+	public static function isEncryptedMeta($path) {
 
 		// TODO: Use DI to get \OC\Files\Filesystem out of here
 
 		// Fetch all file metadata from DB
-		$metadata = \OC\Files\Filesystem::getFileInfo( $path );
+		$metadata = \OC\Files\Filesystem::getFileInfo($path);
 
 		// Return encryption status
-		return isset( $metadata['encrypted'] ) and ( bool )$metadata['encrypted'];
+		return isset($metadata['encrypted']) && ( bool )$metadata['encrypted'];
 
 	}
 
@@ -166,18 +168,17 @@ class Crypt
 	 *        e.g. filename or /Docs/filename, NOT admin/files/filename
 	 * @return boolean
 	 */
-	public static function isLegacyEncryptedContent( $data, $relPath ) {
+	public static function isLegacyEncryptedContent($data, $relPath) {
 
 		// Fetch all file metadata from DB
-		$metadata = \OC\Files\Filesystem::getFileInfo( $relPath, '' );
+		$metadata = \OC\Files\Filesystem::getFileInfo($relPath, '');
 
 		// If a file is flagged with encryption in DB, but isn't a 
 		// valid content + IV combination, it's probably using the 
 		// legacy encryption system
-		if (
-			isset( $metadata['encrypted'] )
-			and $metadata['encrypted'] === true
-			and !self::isCatfileContent( $data )
+		if (isset($metadata['encrypted'])
+			&& $metadata['encrypted'] === true
+			&& !self::isCatfileContent($data)
 		) {
 
 			return true;
@@ -197,15 +198,15 @@ class Crypt
 	 * @param string $passphrase
 	 * @return string encrypted file content
 	 */
-	public static function encrypt( $plainContent, $iv, $passphrase = '' ) {
+	public static function encrypt($plainContent, $iv, $passphrase = '') {
 
-		if ( $encryptedContent = openssl_encrypt( $plainContent, 'AES-128-CFB', $passphrase, false, $iv ) ) {
+		if ($encryptedContent = openssl_encrypt($plainContent, 'AES-128-CFB', $passphrase, false, $iv)) {
 
 			return $encryptedContent;
 
 		} else {
 
-			\OC_Log::write( 'Encryption library', 'Encryption (symmetric) of content failed', \OC_Log::ERROR );
+			\OCP\Util::writeLog('Encryption library', 'Encryption (symmetric) of content failed', \OCP\Util::ERROR);
 
 			return false;
 
@@ -221,15 +222,15 @@ class Crypt
 	 * @throws \Exception
 	 * @return string decrypted file content
 	 */
-	public static function decrypt( $encryptedContent, $iv, $passphrase ) {
+	public static function decrypt($encryptedContent, $iv, $passphrase) {
 
-		if ( $plainContent = openssl_decrypt( $encryptedContent, 'AES-128-CFB', $passphrase, false, $iv ) ) {
+		if ($plainContent = openssl_decrypt($encryptedContent, 'AES-128-CFB', $passphrase, false, $iv)) {
 
 			return $plainContent;
 
 		} else {
 
-			throw new \Exception( 'Encryption library: Decryption (symmetric) of content failed' );
+			throw new \Exception('Encryption library: Decryption (symmetric) of content failed');
 
 		}
 
@@ -241,7 +242,7 @@ class Crypt
 	 * @param string $iv IV to be concatenated
 	 * @returns string concatenated content
 	 */
-	public static function concatIv( $content, $iv ) {
+	public static function concatIv($content, $iv) {
 
 		$combined = $content . '00iv00' . $iv;
 
@@ -254,20 +255,20 @@ class Crypt
 	 * @param string $catFile concatenated data to be split
 	 * @returns array keys: encrypted, iv
 	 */
-	public static function splitIv( $catFile ) {
+	public static function splitIv($catFile) {
 
 		// Fetch encryption metadata from end of file
-		$meta = substr( $catFile, -22 );
+		$meta = substr($catFile, -22);
 
 		// Fetch IV from end of file
-		$iv = substr( $meta, -16 );
+		$iv = substr($meta, -16);
 
 		// Remove IV and IV identifier text to expose encrypted content
-		$encrypted = substr( $catFile, 0, -22 );
+		$encrypted = substr($catFile, 0, -22);
 
 		$split = array(
-			'encrypted' => $encrypted
-		, 'iv' => $iv
+			'encrypted' => $encrypted,
+			'iv' => $iv
 		);
 
 		return $split;
@@ -283,9 +284,9 @@ class Crypt
 	 * @note IV need not be specified, as it will be stored in the returned keyfile
 	 * and remain accessible therein.
 	 */
-	public static function symmetricEncryptFileContent( $plainContent, $passphrase = '' ) {
+	public static function symmetricEncryptFileContent($plainContent, $passphrase = '') {
 
-		if ( !$plainContent ) {
+		if (!$plainContent) {
 
 			return false;
 
@@ -293,18 +294,18 @@ class Crypt
 
 		$iv = self::generateIv();
 
-		if ( $encryptedContent = self::encrypt( $plainContent, $iv, $passphrase ) ) {
+		if ($encryptedContent = self::encrypt($plainContent, $iv, $passphrase)) {
 
 			// Combine content to encrypt with IV identifier and actual IV
-			$catfile = self::concatIv( $encryptedContent, $iv );
+			$catfile = self::concatIv($encryptedContent, $iv);
 
-			$padded = self::addPadding( $catfile );
+			$padded = self::addPadding($catfile);
 
 			return $padded;
 
 		} else {
 
-			\OC_Log::write( 'Encryption library', 'Encryption (symmetric) of keyfile content failed', \OC_Log::ERROR );
+			\OCP\Util::writeLog('Encryption library', 'Encryption (symmetric) of keyfile content failed', \OCP\Util::ERROR);
 
 			return false;
 
@@ -326,21 +327,21 @@ class Crypt
 	 *
 	 * This function decrypts a file
 	 */
-	public static function symmetricDecryptFileContent( $keyfileContent, $passphrase = '' ) {
+	public static function symmetricDecryptFileContent($keyfileContent, $passphrase = '') {
 
-		if ( !$keyfileContent ) {
+		if (!$keyfileContent) {
 
-			throw new \Exception( 'Encryption library: no data provided for decryption' );
+			throw new \Exception('Encryption library: no data provided for decryption');
 
 		}
 
 		// Remove padding
-		$noPadding = self::removePadding( $keyfileContent );
+		$noPadding = self::removePadding($keyfileContent);
 
 		// Split into enc data and catfile
-		$catfile = self::splitIv( $noPadding );
+		$catfile = self::splitIv($noPadding);
 
-		if ( $plainContent = self::decrypt( $catfile['encrypted'], $catfile['iv'], $passphrase ) ) {
+		if ($plainContent = self::decrypt($catfile['encrypted'], $catfile['iv'], $passphrase)) {
 
 			return $plainContent;
 
@@ -358,11 +359,11 @@ class Crypt
 	 *
 	 * This function decrypts a file
 	 */
-	public static function symmetricEncryptFileContentKeyfile( $plainContent ) {
+	public static function symmetricEncryptFileContentKeyfile($plainContent) {
 
 		$key = self::generateKey();
 
-		if ( $encryptedContent = self::symmetricEncryptFileContent( $plainContent, $key ) ) {
+		if ($encryptedContent = self::symmetricEncryptFileContent($plainContent, $key)) {
 
 			return array(
 				'key' => $key,
@@ -384,13 +385,13 @@ class Crypt
 	 * @returns array keys: keys (array, key = userId), data
 	 * @note symmetricDecryptFileContent() can decrypt files created using this method
 	 */
-	public static function multiKeyEncrypt( $plainContent, array $publicKeys ) {
+	public static function multiKeyEncrypt($plainContent, array $publicKeys) {
 
 		// openssl_seal returns false without errors if $plainContent 
 		// is empty, so trigger our own error
-		if ( empty( $plainContent ) ) {
+		if (empty($plainContent)) {
 
-			throw new \Exception( 'Cannot mutliKeyEncrypt empty plain content' );
+			throw new \Exception('Cannot mutliKeyEncrypt empty plain content');
 
 		}
 
@@ -399,13 +400,13 @@ class Crypt
 		$shareKeys = array();
 		$mappedShareKeys = array();
 
-		if ( openssl_seal( $plainContent, $sealed, $shareKeys, $publicKeys ) ) {
+		if (openssl_seal($plainContent, $sealed, $shareKeys, $publicKeys)) {
 
 			$i = 0;
 
 			// Ensure each shareKey is labelled with its 
 			// corresponding userId
-			foreach ( $publicKeys as $userId => $publicKey ) {
+			foreach ($publicKeys as $userId => $publicKey) {
 
 				$mappedShareKeys[$userId] = $shareKeys[$i];
 				$i++;
@@ -437,21 +438,21 @@ class Crypt
 	 *
 	 * This function decrypts a file
 	 */
-	public static function multiKeyDecrypt( $encryptedContent, $shareKey, $privateKey ) {
+	public static function multiKeyDecrypt($encryptedContent, $shareKey, $privateKey) {
 
-		if ( !$encryptedContent ) {
+		if (!$encryptedContent) {
 
 			return false;
 
 		}
 
-		if ( openssl_open( $encryptedContent, $plainContent, $shareKey, $privateKey ) ) {
+		if (openssl_open($encryptedContent, $plainContent, $shareKey, $privateKey)) {
 
 			return $plainContent;
 
 		} else {
 
-			\OC_Log::write( 'Encryption library', 'Decryption (asymmetric) of sealed content failed', \OC_Log::ERROR );
+			\OCP\Util::writeLog('Encryption library', 'Decryption (asymmetric) of sealed content failed', \OCP\Util::ERROR);
 
 			return false;
 
@@ -461,11 +462,13 @@ class Crypt
 
 	/**
 	 * @brief Asymetrically encrypt a string using a public key
+	 * @param $plainContent
+	 * @param $publicKey
 	 * @return string encrypted file
 	 */
-	public static function keyEncrypt( $plainContent, $publicKey ) {
+	public static function keyEncrypt($plainContent, $publicKey) {
 
-		openssl_public_encrypt( $plainContent, $encryptedContent, $publicKey );
+		openssl_public_encrypt($plainContent, $encryptedContent, $publicKey);
 
 		return $encryptedContent;
 
@@ -473,13 +476,15 @@ class Crypt
 
 	/**
 	 * @brief Asymetrically decrypt a file using a private key
+	 * @param $encryptedContent
+	 * @param $privatekey
 	 * @return string decrypted file
 	 */
-	public static function keyDecrypt( $encryptedContent, $privatekey ) {
+	public static function keyDecrypt($encryptedContent, $privatekey) {
 
-		$result = @openssl_private_decrypt( $encryptedContent, $plainContent, $privatekey );
+		$result = @openssl_private_decrypt($encryptedContent, $plainContent, $privatekey);
 
-		if ( $result ) {
+		if ($result) {
 			return $plainContent;
 		}
 
@@ -493,24 +498,24 @@ class Crypt
 	 */
 	public static function generateIv() {
 
-		if ( $random = openssl_random_pseudo_bytes( 12, $strong ) ) {
+		if ($random = openssl_random_pseudo_bytes(12, $strong)) {
 
-			if ( !$strong ) {
+			if (!$strong) {
 
 				// If OpenSSL indicates randomness is insecure, log error
-				\OC_Log::write( 'Encryption library', 'Insecure symmetric key was generated using openssl_random_pseudo_bytes()', \OC_Log::WARN );
+				\OCP\Util::writeLog('Encryption library', 'Insecure symmetric key was generated using openssl_random_pseudo_bytes()', \OCP\Util::WARN);
 
 			}
 
 			// We encode the iv purely for string manipulation 
 			// purposes - it gets decoded before use
-			$iv = base64_encode( $random );
+			$iv = base64_encode($random);
 
 			return $iv;
 
 		} else {
 
-			throw new \Exception( 'Generating IV failed' );
+			throw new \Exception('Generating IV failed');
 
 		}
 
@@ -523,12 +528,12 @@ class Crypt
 	public static function generateKey() {
 
 		// Generate key
-		if ( $key = base64_encode( openssl_random_pseudo_bytes( 183, $strong ) ) ) {
+		if ($key = base64_encode(openssl_random_pseudo_bytes(183, $strong))) {
 
-			if ( !$strong ) {
+			if (!$strong) {
 
 				// If OpenSSL indicates randomness is insecure, log error
-				throw new \Exception( 'Encryption library, Insecure symmetric key was generated using openssl_random_pseudo_bytes()' );
+				throw new \Exception('Encryption library, Insecure symmetric key was generated using openssl_random_pseudo_bytes()');
 
 			}
 
@@ -545,15 +550,15 @@ class Crypt
 	/**
 	 * @brief Get the blowfish encryption handeler for a key
 	 * @param $key string (optional)
-	 * @return Crypt_Blowfish blowfish object
+	 * @return \Crypt_Blowfish blowfish object
 	 *
 	 * if the key is left out, the default handeler will be used
 	 */
-	public static function getBlowfish( $key = '' ) {
+	public static function getBlowfish($key = '') {
 
-		if ( $key ) {
+		if ($key) {
 
-			return new \Crypt_Blowfish( $key );
+			return new \Crypt_Blowfish($key);
 
 		} else {
 
@@ -567,13 +572,13 @@ class Crypt
 	 * @param $passphrase
 	 * @return mixed
 	 */
-	public static function legacyCreateKey( $passphrase ) {
+	public static function legacyCreateKey($passphrase) {
 
 		// Generate a random integer
-		$key = mt_rand( 10000, 99999 ) . mt_rand( 10000, 99999 ) . mt_rand( 10000, 99999 ) . mt_rand( 10000, 99999 );
+		$key = mt_rand(10000, 99999) . mt_rand(10000, 99999) . mt_rand(10000, 99999) . mt_rand(10000, 99999);
 
 		// Encrypt the key with the passphrase
-		$legacyEncKey = self::legacyEncrypt( $key, $passphrase );
+		$legacyEncKey = self::legacyEncrypt($key, $passphrase);
 
 		return $legacyEncKey;
 
@@ -583,17 +588,15 @@ class Crypt
 	 * @brief encrypts content using legacy blowfish system
 	 * @param string $content the cleartext message you want to encrypt
 	 * @param string $passphrase
-	 * @return
-	 * @internal param \OCA\Encryption\the $key encryption key (optional)
 	 * @returns string encrypted content
 	 *
 	 * This function encrypts an content
 	 */
-	public static function legacyEncrypt( $content, $passphrase = '' ) {
+	public static function legacyEncrypt($content, $passphrase = '') {
 
-		$bf = self::getBlowfish( $passphrase );
+		$bf = self::getBlowfish($passphrase);
 
-		return $bf->encrypt( $content );
+		return $bf->encrypt($content);
 
 	}
 
@@ -601,20 +604,17 @@ class Crypt
 	 * @brief decrypts content using legacy blowfish system
 	 * @param string $content the cleartext message you want to decrypt
 	 * @param string $passphrase
-	 * @return string
-	 * @internal param \OCA\Encryption\the $key encryption key (optional)
 	 * @return string cleartext content
 	 *
 	 * This function decrypts an content
 	 */
-	private static function legacyDecrypt( $content, $passphrase = '' ) {
+	private static function legacyDecrypt($content, $passphrase = '') {
 
-		$bf = self::getBlowfish( $passphrase );
+		$bf = self::getBlowfish($passphrase);
 
-		$decrypted = $bf->decrypt( $content );
+		$decrypted = $bf->decrypt($content);
 
 		return $decrypted;
-
 	}
 
 	/**
@@ -623,16 +623,17 @@ class Crypt
 	 * @param int $maxLength
 	 * @return string
 	 */
-	public static function legacyBlockDecrypt( $data, $key = '', $maxLength = 0 ) {
+	public static function legacyBlockDecrypt($data, $key = '', $maxLength = 0) {
+
 		$result = '';
-		while ( strlen( $data ) ) {
-			$result .= self::legacyDecrypt( substr( $data, 0, 8192 ), $key );
-			$data = substr( $data, 8192 );
+		while (strlen($data)) {
+			$result .= self::legacyDecrypt(substr($data, 0, 8192), $key);
+			$data = substr($data, 8192);
 		}
-		if ( $maxLength > 0 ) {
-			return substr( $result, 0, $maxLength );
+		if ($maxLength > 0) {
+			return substr($result, 0, $maxLength);
 		} else {
-			return rtrim( $result, "\0" );
+			return rtrim($result, "\0");
 		}
 	}
 
@@ -640,21 +641,23 @@ class Crypt
 	 * @param $legacyEncryptedContent
 	 * @param $legacyPassphrase
 	 * @param $publicKeys
-	 * @param $newPassphrase
-	 * @param $path
 	 * @return array
 	 */
-	public static function legacyKeyRecryptKeyfile( $legacyEncryptedContent, $legacyPassphrase, $publicKeys, $newPassphrase, $path ) {
+	public static function legacyKeyRecryptKeyfile($legacyEncryptedContent, $legacyPassphrase, $publicKeys) {
 
-		$decrypted = self::legacyBlockDecrypt( $legacyEncryptedContent, $legacyPassphrase );
+		$decrypted = self::legacyBlockDecrypt($legacyEncryptedContent, $legacyPassphrase);
 
 		// Encrypt plain data, generate keyfile & encrypted file
-		$cryptedData = self::symmetricEncryptFileContentKeyfile( $decrypted );
+		$cryptedData = self::symmetricEncryptFileContentKeyfile($decrypted);
 
 		// Encrypt plain keyfile to multiple sharefiles
-		$multiEncrypted = Crypt::multiKeyEncrypt( $cryptedData['key'], $publicKeys );
+		$multiEncrypted = Crypt::multiKeyEncrypt($cryptedData['key'], $publicKeys);
 
-		return array( 'data' => $cryptedData['encrypted'], 'filekey' => $multiEncrypted['data'], 'sharekeys' => $multiEncrypted['keys'] );
+		return array(
+			'data' => $cryptedData['encrypted'],
+			'filekey' => $multiEncrypted['data'],
+			'sharekeys' => $multiEncrypted['keys']
+		);
 
 	}
 
