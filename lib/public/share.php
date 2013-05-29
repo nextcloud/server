@@ -143,7 +143,7 @@ class Share {
 		$parent = $meta['parent'];
 		$cache = new \OC\Files\Cache\Cache($meta['storage']);
 		
-		while ($path !== 'files' && $parent !== '-1') {
+		while ($parent !== '-1') {
 
 			// Fetch all shares of this file path from DB
 			$query = \OC_DB::prepare(
@@ -156,14 +156,13 @@ class Share {
 
 			$result = $query->execute(array($source, self::SHARE_TYPE_USER));
 
-			if (\OC_DB::isError($result)) {
-				\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+			if (\OCP\DB::isError($result)) {
+				\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+			} else {
+				while ($row = $result->fetchRow()) {
+					$shares[] = $row['share_with'];
+				}
 			}
-
-			while ($row = $result->fetchRow()) {
-				$shares[] = $row['share_with'];
-			}
-
 			// We also need to take group shares into account
 
 			$query = \OC_DB::prepare(
@@ -176,13 +175,13 @@ class Share {
 
 			$result = $query->execute(array($source, self::SHARE_TYPE_GROUP));
 
-			if (\OC_DB::isError($result)) {
-				\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
-			}
-
-			while ($row = $result->fetchRow()) {
-				$usersInGroup = \OC_Group::usersInGroup($row['share_with']);
-				$shares = array_merge($shares, $usersInGroup);
+			if (\OCP\DB::isError($result)) {
+				\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+			} else {
+				while ($row = $result->fetchRow()) {
+					$usersInGroup = \OC_Group::usersInGroup($row['share_with']);
+					$shares = array_merge($shares, $usersInGroup);
+				}
 			}
 
 			//check for public link shares
@@ -197,20 +196,18 @@ class Share {
 
 				$result = $query->execute(array($source, self::SHARE_TYPE_LINK));
 
-				if (\OC_DB::isError($result)) {
-					\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
-				}
-
-				if ($result->fetchRow()) {
-					$publicShare = true;
+				if (\OCP\DB::isError($result)) {
+					\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+				} else {
+					if ($result->fetchRow()) {
+						$publicShare = true;
+					}
 				}
 			}
 			
 			// let's get the parent for the next round
 			$meta = $cache->get((int)$source);
 			$parent = $meta['parent'];
-			$parentMeta = $cache->get((int)$parent);
-			$path = $parentMeta['path'];
 			$source = $parent;
 		}
 		// Include owner in list of users, if requested
