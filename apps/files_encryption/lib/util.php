@@ -1422,6 +1422,7 @@ class Util {
 			} else {
 				$session = new \OCA\Encryption\Session(new \OC_FilesystemView('/'));
 				$sharingEnabled = \OCP\Share::isEnabled();
+				// remove '.key' extension from path e.g. 'file.txt.key' to 'file.txt'
 				$file = substr($filePath, 0, -4);
 				$usersSharing = $this->getSharingUsersArray($sharingEnabled, $file);
 				$this->setSharedFileKeyfiles($session, $usersSharing, $file);
@@ -1440,6 +1441,7 @@ class Util {
 			if ($item['type'] === 'dir') {
 				$this->removeRecoveryKeys($filePath . '/');
 			} else {
+				// remove '.key' extension from path e.g. 'file.txt.key' to 'file.txt'
 				$file = substr($filePath, 0, -4);
 				$this->view->unlink($this->shareKeysPath . '/' . $file . '.' . $this->recoveryKeyId . '.shareKey');
 			}
@@ -1502,10 +1504,12 @@ class Util {
 	private function recoverAllFiles($path, $privateKey) {
 		$dirContent = $this->view->getDirectoryContent($this->keyfilesPath . $path);
 		foreach ($dirContent as $item) {
-			$filePath = substr($item['path'], 25);
+			// get relative path from files_encryption/keyfiles
+			$filePath = substr($item['path'], strlen('files_encryption/keyfiles'));
 			if ($item['type'] === 'dir') {
 				$this->recoverAllFiles($filePath . '/', $privateKey);
 			} else {
+				// remove '.key' extension from path e.g. 'file.txt.key' to 'file.txt'
 				$file = substr($filePath, 0, -4);
 				$this->recoverFile($file, $privateKey);
 			}
