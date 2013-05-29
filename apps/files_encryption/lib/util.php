@@ -1199,7 +1199,7 @@ class Util {
 
 		$result = array();
 
-		$content = $this->view->getDirectoryContent($this->userFilesDir . $dir);
+		$content = $this->view->getDirectoryContent(\OC\Files\Filesystem::normalizePath($this->userFilesDir . '/' . $dir));
 
 		// handling for re shared folders
 		$path_split = explode('/', $dir);
@@ -1529,6 +1529,24 @@ class Util {
 		\OC_FileProxy::$enabled = $proxyStatus;
 
 		$this->recoverAllFiles('/', $privateKey);
+	}
+
+	/**
+	 * Get the path including the storage mount point
+	 * @param int $id
+	 * @return string the path including the mount point like AmazonS3/folder/file.txt
+	 */
+	public function getPathWithMountPoint($id) {
+		list($storage, $internalPath) = \OC\Files\Cache\Cache::getById($id);
+		$mount = \OC\Files\Filesystem::getMountByStorageId($storage);
+		$mountPoint = $mount[0]->getMountPoint();
+		$path = \OC\Files\Filesystem::normalizePath($mountPoint.'/'.$internalPath);
+
+		// reformat the path to be relative e.g. /user/files/folder becomes /folder/
+		$pathSplit = explode( '/', $path );
+		$relativePath = implode( '/', array_slice( $pathSplit, 3 ) );
+
+		return $relativePath;
 	}
 
 }

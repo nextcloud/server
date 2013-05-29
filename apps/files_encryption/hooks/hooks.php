@@ -327,6 +327,13 @@ class Hooks {
 
 			// if a folder was shared, get a list of all (sub-)folders
 			if ($params['itemType'] === 'folder') {
+
+				// get the path including mount point only if not a shared folder
+				if(strncmp($path, '/Shared' , strlen('/Shared') !== 0)) {
+					// get path including the the storage mount point
+					$path = $util->getPathWithMountPoint($params['itemSource']);
+				}
+
 				$allFiles = $util->getAllFiles($path);
 			} else {
 				$allFiles = array($path);
@@ -402,7 +409,13 @@ class Hooks {
 
 			// if we unshare a folder we need a list of all (sub-)files
 			if ( $params['itemType'] === 'folder' ) {
-			
+
+				// get the path including mount point only if not a shared folder
+				if(strncmp($path, '/Shared' , strlen('/Shared') !== 0)) {
+					// get path including the the storage mount point
+					$path = $util->getPathWithMountPoint($params['itemSource']);
+				}
+
 				$allFiles = $util->getAllFiles( $path );
 				
 			} else {
