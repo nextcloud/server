@@ -120,7 +120,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 
 		$_SERVER['REQUEST_METHOD'] = 'PUT';
 		$_SERVER['REQUEST_URI'] = '/remote.php/webdav' . $filename;
-		$_SERVER['HTTP_AUTHORIZATION'] = 'Basic YWRtaW46YWRtaW4=';
+		$_SERVER['HTTP_AUTHORIZATION'] = 'Basic dGVzdC13ZWJkYXYtdXNlcjE6dGVzdC13ZWJkYXYtdXNlcjE=';
 		$_SERVER['CONTENT_TYPE'] = 'application/octet-stream';
 		$_SERVER['PATH_INFO'] = '/webdav' . $filename;
 		$_SERVER['CONTENT_LENGTH'] = strlen($this->dataShort);
@@ -172,7 +172,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 		// set server vars
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 		$_SERVER['REQUEST_URI'] = '/remote.php/webdav' . $filename;
-		$_SERVER['HTTP_AUTHORIZATION'] = 'Basic YWRtaW46YWRtaW4=';
+		$_SERVER['HTTP_AUTHORIZATION'] = 'Basic dGVzdC13ZWJkYXYtdXNlcjE6dGVzdC13ZWJkYXYtdXNlcjE=';
 		$_SERVER['PATH_INFO'] = '/webdav' . $filename;
 
 		// handle webdav request
@@ -193,7 +193,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 		// set server vars
 		$_SERVER['REQUEST_METHOD'] = 'DELETE';
 		$_SERVER['REQUEST_URI'] = '/remote.php/webdav' . $filename;
-		$_SERVER['HTTP_AUTHORIZATION'] = 'Basic YWRtaW46YWRtaW4=';
+		$_SERVER['HTTP_AUTHORIZATION'] = 'Basic dGVzdC13ZWJkYXYtdXNlcjE6dGVzdC13ZWJkYXYtdXNlcjE=';
 		$_SERVER['PATH_INFO'] = '/webdav' . $filename;
 
 		// handle webdav request

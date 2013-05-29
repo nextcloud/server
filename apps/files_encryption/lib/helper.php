@@ -23,15 +23,11 @@
 
 namespace OCA\Encryption;
 
-	/**
-	 * @brief Class to manage registration of hooks an various helper methods
-	 */
 /**
- * Class Helper
+ * @brief Class to manage registration of hooks an various helper methods
  * @package OCA\Encryption
  */
-class Helper
-{
+class Helper {
 
 	/**
 	 * @brief register share related hooks
@@ -39,9 +35,9 @@ class Helper
 	 */
 	public static function registerShareHooks() {
 
-		\OCP\Util::connectHook( 'OCP\Share', 'pre_shared', 'OCA\Encryption\Hooks', 'preShared' );
-		\OCP\Util::connectHook( 'OCP\Share', 'post_shared', 'OCA\Encryption\Hooks', 'postShared' );
-		\OCP\Util::connectHook( 'OCP\Share', 'post_unshare', 'OCA\Encryption\Hooks', 'postUnshare' );
+		\OCP\Util::connectHook('OCP\Share', 'pre_shared', 'OCA\Encryption\Hooks', 'preShared');
+		\OCP\Util::connectHook('OCP\Share', 'post_shared', 'OCA\Encryption\Hooks', 'postShared');
+		\OCP\Util::connectHook('OCP\Share', 'post_unshare', 'OCA\Encryption\Hooks', 'postUnshare');
 	}
 
 	/**
@@ -50,10 +46,10 @@ class Helper
 	 */
 	public static function registerUserHooks() {
 
-		\OCP\Util::connectHook( 'OC_User', 'post_login', 'OCA\Encryption\Hooks', 'login' );
-		\OCP\Util::connectHook( 'OC_User', 'post_setPassword', 'OCA\Encryption\Hooks', 'setPassphrase' );
-		\OCP\Util::connectHook( 'OC_User', 'post_createUser', 'OCA\Encryption\Hooks', 'postCreateUser' );
-		\OCP\Util::connectHook( 'OC_User', 'post_deleteUser', 'OCA\Encryption\Hooks', 'postDeleteUser' );
+		\OCP\Util::connectHook('OC_User', 'post_login', 'OCA\Encryption\Hooks', 'login');
+		\OCP\Util::connectHook('OC_User', 'post_setPassword', 'OCA\Encryption\Hooks', 'setPassphrase');
+		\OCP\Util::connectHook('OC_User', 'post_createUser', 'OCA\Encryption\Hooks', 'postCreateUser');
+		\OCP\Util::connectHook('OC_User', 'post_deleteUser', 'OCA\Encryption\Hooks', 'postDeleteUser');
 	}
 
 	/**
@@ -62,7 +58,7 @@ class Helper
 	 */
 	public static function registerFilesystemHooks() {
 
-		\OCP\Util::connectHook( 'OC_Filesystem', 'post_rename', 'OCA\Encryption\Hooks', 'postRename' );
+		\OCP\Util::connectHook('OC_Filesystem', 'post_rename', 'OCA\Encryption\Hooks', 'postRename');
 	}
 
 	/**
@@ -72,13 +68,14 @@ class Helper
 	 * @param string $password
 	 * @return bool
 	 */
-	public static function setupUser( $util, $password ) {
+	public static function setupUser($util, $password) {
 		// Check files_encryption infrastructure is ready for action
-		if ( !$util->ready() ) {
+		if (!$util->ready()) {
 
-			\OC_Log::write( 'Encryption library', 'User account "' . $util->getUserId() . '" is not ready for encryption; configuration started', \OC_Log::DEBUG );
+			\OCP\Util::writeLog('Encryption library', 'User account "' . $util->getUserId()
+												 . '" is not ready for encryption; configuration started', \OCP\Util::DEBUG);
 
-			if ( !$util->setupServerSide( $password ) ) {
+			if (!$util->setupServerSide($password)) {
 				return false;
 			}
 		}
@@ -95,21 +92,21 @@ class Helper
 	 * @internal param string $password
 	 * @return bool
 	 */
-	public static function adminEnableRecovery( $recoveryKeyId, $recoveryPassword ) {
-		$view = new \OC\Files\View( '/' );
+	public static function adminEnableRecovery($recoveryKeyId, $recoveryPassword) {
+		$view = new \OC\Files\View('/');
 
-		if ( $recoveryKeyId === null ) {
-			$recoveryKeyId = 'recovery_' . substr( md5( time() ), 0, 8 );
-			\OC_Appconfig::setValue( 'files_encryption', 'recoveryKeyId', $recoveryKeyId );
+		if ($recoveryKeyId === null) {
+			$recoveryKeyId = 'recovery_' . substr(md5(time()), 0, 8);
+			\OC_Appconfig::setValue('files_encryption', 'recoveryKeyId', $recoveryKeyId);
 		}
 
-		if ( !$view->is_dir( '/owncloud_private_key' ) ) {
-			$view->mkdir( '/owncloud_private_key' );
+		if (!$view->is_dir('/owncloud_private_key')) {
+			$view->mkdir('/owncloud_private_key');
 		}
 
 		if (
-			( !$view->file_exists( "/public-keys/" . $recoveryKeyId . ".public.key" )
-				|| !$view->file_exists( "/owncloud_private_key/" . $recoveryKeyId . ".private.key" ) )
+			(!$view->file_exists("/public-keys/" . $recoveryKeyId . ".public.key")
+			 || !$view->file_exists("/owncloud_private_key/" . $recoveryKeyId . ".private.key"))
 		) {
 
 			$keypair = \OCA\Encryption\Crypt::createKeypair();
@@ -118,37 +115,37 @@ class Helper
 
 			// Save public key
 
-			if ( !$view->is_dir( '/public-keys' ) ) {
-				$view->mkdir( '/public-keys' );
+			if (!$view->is_dir('/public-keys')) {
+				$view->mkdir('/public-keys');
 			}
 
-			$view->file_put_contents( '/public-keys/' . $recoveryKeyId . '.public.key', $keypair['publicKey'] );
+			$view->file_put_contents('/public-keys/' . $recoveryKeyId . '.public.key', $keypair['publicKey']);
 
 			// Encrypt private key empthy passphrase
-			$encryptedPrivateKey = \OCA\Encryption\Crypt::symmetricEncryptFileContent( $keypair['privateKey'], $recoveryPassword );
+			$encryptedPrivateKey = \OCA\Encryption\Crypt::symmetricEncryptFileContent($keypair['privateKey'], $recoveryPassword);
 
 			// Save private key
-			$view->file_put_contents( '/owncloud_private_key/' . $recoveryKeyId . '.private.key', $encryptedPrivateKey );
+			$view->file_put_contents('/owncloud_private_key/' . $recoveryKeyId . '.private.key', $encryptedPrivateKey);
 
 			// create control file which let us check later on if the entered password was correct.
-			$encryptedControlData = \OCA\Encryption\Crypt::keyEncrypt( "ownCloud", $keypair['publicKey'] );
-			if ( !$view->is_dir( '/control-file' ) ) {
-				$view->mkdir( '/control-file' );
+			$encryptedControlData = \OCA\Encryption\Crypt::keyEncrypt("ownCloud", $keypair['publicKey']);
+			if (!$view->is_dir('/control-file')) {
+				$view->mkdir('/control-file');
 			}
-			$view->file_put_contents( '/control-file/controlfile.enc', $encryptedControlData );
+			$view->file_put_contents('/control-file/controlfile.enc', $encryptedControlData);
 
 			\OC_FileProxy::$enabled = true;
 
 			// Set recoveryAdmin as enabled
-			\OC_Appconfig::setValue( 'files_encryption', 'recoveryAdminEnabled', 1 );
+			\OC_Appconfig::setValue('files_encryption', 'recoveryAdminEnabled', 1);
 
 			$return = true;
 
 		} else { // get recovery key and check the password
-			$util = new \OCA\Encryption\Util( new \OC_FilesystemView( '/' ), \OCP\User::getUser() );
-			$return = $util->checkRecoveryPassword( $recoveryPassword );
-			if ( $return ) {
-				\OC_Appconfig::setValue( 'files_encryption', 'recoveryAdminEnabled', 1 );
+			$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), \OCP\User::getUser());
+			$return = $util->checkRecoveryPassword($recoveryPassword);
+			if ($return) {
+				\OC_Appconfig::setValue('files_encryption', 'recoveryAdminEnabled', 1);
 			}
 		}
 
@@ -162,13 +159,13 @@ class Helper
 	 * @param $recoveryPassword
 	 * @return bool
 	 */
-	public static function adminDisableRecovery( $recoveryPassword ) {
-		$util = new Util( new \OC_FilesystemView( '/' ), \OCP\User::getUser() );
-		$return = $util->checkRecoveryPassword( $recoveryPassword );
+	public static function adminDisableRecovery($recoveryPassword) {
+		$util = new Util(new \OC_FilesystemView('/'), \OCP\User::getUser());
+		$return = $util->checkRecoveryPassword($recoveryPassword);
 
-		if ( $return ) {
+		if ($return) {
 			// Set recoveryAdmin as disabled
-			\OC_Appconfig::setValue( 'files_encryption', 'recoveryAdminEnabled', 0 );
+			\OC_Appconfig::setValue('files_encryption', 'recoveryAdminEnabled', 0);
 		}
 
 		return $return;
