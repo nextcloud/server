@@ -797,7 +797,7 @@ class View {
 			}
 
 			$files = $cache->getFolderContents($internalPath); //TODO: mimetype_filter
-			$permissions = $permissionsCache->getDirectoryPermissions($cache->getId($internalPath));
+			$permissions = $permissionsCache->getDirectoryPermissions($cache->getId($internalPath), $user);
 
 			$ids = array();
 			foreach ($files as $i => $file) {
