@@ -27,6 +27,7 @@
 class OC_Helper {
 	private static $mimetypes=array();
 	private static $tmpFiles=array();
+	private static $mimetypeIcons = array();
 
 	/**
 	 * @brief Creates an url using a defined route
@@ -192,25 +193,32 @@ class OC_Helper {
 		if(isset($alias[$mimetype])) {
 			$mimetype=$alias[$mimetype];
 		}
+		if (isset(self::$mimetypeIcons[$mimetype])) {
+			return self::$mimetypeIcons[$mimetype];
+		}
 		// Replace slash and backslash with a minus
-		$mimetype = str_replace( "/", "-", $mimetype );
-		$mimetype = str_replace( "\\", "-", $mimetype );
+		$icon = str_replace( "/", "-", $mimetype );
+		$icon = str_replace( "\\", "-", $icon );
 
 		// Is it a dir?
 		if( $mimetype == "dir" ) {
+			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT."/core/img/filetypes/folder.png";
 			return OC::$WEBROOT."/core/img/filetypes/folder.png";
 		}
 
 		// Icon exists?
-		if( file_exists( OC::$SERVERROOT."/core/img/filetypes/$mimetype.png" )) {
-			return OC::$WEBROOT."/core/img/filetypes/$mimetype.png";
+		if( file_exists( OC::$SERVERROOT."/core/img/filetypes/$icon.png" )) {
+			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT."/core/img/filetypes/$icon.png";
+			return OC::$WEBROOT."/core/img/filetypes/$icon.png";
 		}
 		//try only the first part of the filetype
-		$mimetype=substr($mimetype, 0, strpos($mimetype, '-'));
-		if( file_exists( OC::$SERVERROOT."/core/img/filetypes/$mimetype.png" )) {
-			return OC::$WEBROOT."/core/img/filetypes/$mimetype.png";
+		$mimePart=substr($icon, 0, strpos($icon, '-'));
+		if( file_exists( OC::$SERVERROOT."/core/img/filetypes/$mimePart.png" )) {
+			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT."/core/img/filetypes/$mimePart.png";
+			return OC::$WEBROOT."/core/img/filetypes/$mimePart.png";
 		}
 		else{
+			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT."/core/img/filetypes/file.png";
 			return OC::$WEBROOT."/core/img/filetypes/file.png";
 		}
 	}
