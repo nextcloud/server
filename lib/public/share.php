@@ -142,7 +142,7 @@ class Share {
 		$cache = false;
 
 		$view = new \OC\Files\View('/' . $user . '/files/');
-		$meta = $view->getFileInfo(\OC_Filesystem::normalizePath($path));
+		$meta = $view->getFileInfo(\OC\Files\Filesystem::normalizePath($path));
 
 		if($meta !== false) {
 			$source = $meta['fileid'];
