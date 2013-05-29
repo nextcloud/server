@@ -327,15 +327,14 @@ class Hooks {
 
 			$sharingEnabled = \OCP\Share::isEnabled();
 
+			// get the path including mount point only if not a shared folder
+			if(strncmp($path, '/Shared' , strlen('/Shared') !== 0)) {
+				// get path including the the storage mount point
+				$path = $util->getPathWithMountPoint($params['itemSource']);
+			}
+
 			// if a folder was shared, get a list of all (sub-)folders
 			if ($params['itemType'] === 'folder') {
-
-				// get the path including mount point only if not a shared folder
-				if(strncmp($path, '/Shared' , strlen('/Shared') !== 0)) {
-					// get path including the the storage mount point
-					$path = $util->getPathWithMountPoint($params['itemSource']);
-				}
-
 				$allFiles = $util->getAllFiles($path);
 			} else {
 				$allFiles = array($path);
@@ -383,17 +382,11 @@ class Hooks {
 
 				// rebuild path
 				foreach ($targetPathSplit as $pathPart) {
-
 					if ($pathPart !== $sharedPart) {
-
 						$path = '/' . $pathPart . $path;
-
 					} else {
-
 						break;
-
 					}
-
 				}
 
 				// prefix path with Shared
@@ -411,19 +404,16 @@ class Hooks {
 				}
 			}
 
+			// get the path including mount point only if not a shared folder
+			if(strncmp($path, '/Shared' , strlen('/Shared') !== 0)) {
+				// get path including the the storage mount point
+				$path = $util->getPathWithMountPoint($params['itemSource']);
+			}
+
 			// if we unshare a folder we need a list of all (sub-)files
-			if ( $params['itemType'] === 'folder' ) {
-
-				// get the path including mount point only if not a shared folder
-				if(strncmp($path, '/Shared' , strlen('/Shared') !== 0)) {
-					// get path including the the storage mount point
-					$path = $util->getPathWithMountPoint($params['itemSource']);
-				}
-
+			if ($params['itemType'] === 'folder') {
 				$allFiles = $util->getAllFiles( $path );
-				
 			} else {
-
 				$allFiles = array($path);
 			}
 
