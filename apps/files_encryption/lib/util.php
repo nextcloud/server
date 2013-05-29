@@ -188,7 +188,9 @@ class Util {
 
 	/**
 	 * @brief Sets up user folders and keys for serverside encryption
-	 * @param string $passphrase passphrase to encrypt server-stored private key with
+	 *
+	 * @param string $passphrase to encrypt server-stored private key with
+	 * @return bool
 	 */
 	public function setupServerSide($passphrase = null) {
 
@@ -403,7 +405,7 @@ class Util {
 				) {
 
 					$filePath = $directory . '/' . $this->view->getRelativePath('/' . $file);
-					$relPath = $this->stripUserFilesPath($filePath);
+					$relPath = \OCA\Encryption\Helper::stripUserFilesPath($filePath);
 
 					// If the path is a directory, search 
 					// its contents
@@ -528,7 +530,7 @@ class Util {
 
 	/**
 	 * @brief Check if a given path identifies an encrypted file
-	 * @param $path
+	 * @param string $path
 	 * @return boolean
 	 */
 	public function isEncryptedPath($path) {
@@ -565,11 +567,13 @@ class Util {
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
-		// Reformat path for use with OC_FSV
-		$pathSplit = explode('/', $path);
-		$pathRelative = implode('/', array_slice($pathSplit, 3));
+		// split the path parts
+		$pathParts = explode('/', $path);
 
-		if (isset($pathSplit[2]) && $pathSplit[2] === 'files' && $this->view->file_exists($path) && $this->isEncryptedPath($path)) {
+		// get relative path
+		$relativePath = \OCA\Encryption\Helper::stripUserFilesPath($path);
+
+		if (isset($pathParts[2]) && $pathParts[2] === 'files' && $this->view->file_exists($path) && $this->isEncryptedPath($path)) {
 
 			// get the size from filesystem
 			$fullPath = $this->view->getLocalFile($path);
@@ -579,7 +583,7 @@ class Util {
 			$lastChunkNr = floor($size / 8192);
 
 			// open stream
-			$stream = fopen('crypt://' . $pathRelative, "r");
+			$stream = fopen('crypt://' . $relativePath, "r");
 
 			if (is_resource($stream)) {
 				// calculate last chunk position
@@ -639,21 +643,7 @@ class Util {
 		return $result;
 	}
 
-	/**
-	 * @brief Format a path to be relative to the /user/files/ directory
-	 * @note e.g. turns '/admin/files/test.txt' into 'test.txt'
-	 */
-	public function stripUserFilesPath($path) {
-
-		$trimmed = ltrim($path, '/');
-		$split = explode('/', $trimmed);
-		$sliced = array_slice($split, 2);
-		$relPath = implode('/', $sliced);
-
-		return $relPath;
-
-	}
-
+	
 	/**
 	 * @param $path
 	 * @return bool
@@ -748,7 +738,7 @@ class Util {
 					$recrypted = Crypt::legacyKeyRecryptKeyfile( $legacyData, $legacyPassphrase, $publicKeys );
 
 					$rawPath = $legacyFile['path'];
-					$relPath = $this->stripUserFilesPath($rawPath);
+					$relPath = \OCA\Encryption\Helper::stripUserFilesPath($rawPath);
 
 					// Save keyfile
 					Keymanager::setFileKey($this->view, $relPath, $this->userId, $recrypted['filekey']);
@@ -903,6 +893,7 @@ class Util {
 	 * @param string $filePath
 	 * @param string $fileOwner
 	 * @param string $privateKey
+	 * @return bool|string
 	 * @note Checks whether file was encrypted with openssl_seal or
 	 *       openssl_encrypt, and decrypts accrdingly
 	 * @note This was used when 2 types of encryption for keyfiles was used,
@@ -1136,6 +1127,7 @@ class Util {
 	/**
 	 * @brief get uid of the owners of the file and the path to the file
 	 * @param string $path Path of the file to check
+	 * @throws \Exception
 	 * @note $shareFilePath must be relative to data/UID/files. Files
 	 *       relative to /Shared are also acceptable
 	 * @return array
@@ -1202,11 +1194,11 @@ class Util {
 		$content = $this->view->getDirectoryContent(\OC\Files\Filesystem::normalizePath($this->userFilesDir . '/' . $dir));
 
 		// handling for re shared folders
-		$path_split = explode('/', $dir);
+		$pathSplit = explode('/', $dir);
 
 		foreach ($content as $c) {
 
-			$sharedPart = $path_split[sizeof($path_split) - 1];
+			$sharedPart = $pathSplit[sizeof($pathSplit) - 1];
 			$targetPathSplit = array_reverse(explode('/', $c['path']));
 
 			$path = '';
@@ -1547,8 +1539,7 @@ class Util {
 		$path = \OC\Files\Filesystem::normalizePath($mountPoint.'/'.$internalPath);
 
 		// reformat the path to be relative e.g. /user/files/folder becomes /folder/
-		$pathSplit = explode( '/', $path );
-		$relativePath = implode( '/', array_slice( $pathSplit, 3 ) );
+		$relativePath = \OCA\Encryption\Helper::stripUserFilesPath($path);
 
 		return $relativePath;
 	}
