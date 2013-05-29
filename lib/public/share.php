@@ -133,17 +133,16 @@ class Share {
 	* @note $path needs to be relative to user data dir, e.g. 'file.txt' 
 	*       not '/admin/data/file.txt'
 	*/
-	public static function getUsersSharingFile($path, $user, $includeOwner = false, $removeDuplicates = true) {
+	public static function getUsersSharingFile($path, $user, $includeOwner = false) {
 
-		$path_parts = explode(DIRECTORY_SEPARATOR, trim($path, DIRECTORY_SEPARATOR));
-		$path = '';
 		$shares = array();
 		$publicShare = false;
 		$view = new \OC\Files\View('/' . $user . '/files/');
-		foreach ($path_parts as $p) {
-			$path .= '/' . $p;
-			$meta = $view->getFileInfo(\OC_Filesystem::normalizePath($path));
-			$source = $meta['fileid'];
+		$meta = $view->getFileInfo(\OC_Filesystem::normalizePath($path));
+		$source = $meta['fileid'];
+		$cache = new \OC\Files\Cache\Cache($meta['storage']);
+		
+		while ($path !== 'files') {
 
 			// Fetch all shares of this file path from DB
 			$query = \OC_DB::prepare(
@@ -203,6 +202,13 @@ class Share {
 			if ($result->fetchRow()) {
 				$publicShare = true;
 			}
+
+			// let's get the parent for the next round
+			$meta = $cache->get((int)$source);
+			$parent = $meta['parent'];
+			$parentMeta = $cache->get((int)$parent);
+			$path = $parentMeta['path'];
+			$source = $parent;
 		}
 		// Include owner in list of users, if requested
 		if ($includeOwner) {
