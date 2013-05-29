@@ -141,10 +141,9 @@ class Share {
 		$view = new \OC\Files\View('/' . $user . '/files/');
 		$meta = $view->getFileInfo(\OC_Filesystem::normalizePath($path));
 		$source = $meta['fileid'];
-		$parent = $meta['parent'];
 		$cache = new \OC\Files\Cache\Cache($meta['storage']);
 		
-		while ($parent !== '-1') {
+		while ($source !== '-1') {
 
 			// Fetch all shares of this file path from DB
 			$query = \OC_DB::prepare(
