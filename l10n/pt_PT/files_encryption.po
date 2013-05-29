@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Helder Meneses <helder.meneses@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-26 01:58+0200\n"
-"PO-Revision-Date: 2013-05-25 00:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-29 02:01+0200\n"
+"PO-Revision-Date: 2013-05-28 08:40+0000\n"
+"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,15 +24,15 @@ msgstr ""
 
 #: ajax/adminrecovery.php:42
 msgid "Could not "
-msgstr ""
+msgstr "Não foi possivel"
 
 #: ajax/changeRecoveryPassword.php:49
 msgid "Password successfully changed."
-msgstr ""
+msgstr "Password alterada com sucesso."
 
 #: ajax/changeRecoveryPassword.php:51
 msgid "Could not change the password. Maybe the old password was not correct."
-msgstr ""
+msgstr "Não foi possivel alterar a password. Possivelmente a password antiga não está correcta."
 
 #: js/settings-admin.js:11
 msgid "Saving..."
@@ -52,11 +53,11 @@ msgstr ""
 
 #: templates/settings-admin.php:20 templates/settings-personal.php:18
 msgid "Enabled"
-msgstr ""
+msgstr "Activado"
 
 #: templates/settings-admin.php:28 templates/settings-personal.php:26
 msgid "Disabled"
-msgstr ""
+msgstr "Desactivado"
 
 #: templates/settings-admin.php:32
 msgid "Change encryption passwords recovery key:"
@@ -72,7 +73,7 @@ msgstr ""
 
 #: templates/settings-admin.php:51
 msgid "Change Password"
-msgstr ""
+msgstr "Mudar a Password"
 
 #: templates/settings-personal.php:9
 msgid "Enable password recovery by sharing all files with your administrator:"

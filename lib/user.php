@@ -264,7 +264,7 @@ class OC_User {
 	 * @brief Sets user id for session and triggers emit
 	 */
 	public static function setUserId($uid) {
-		$_SESSION['user_id'] = $uid;
+		\OC::$session->set('user_id', $uid);
 	}
 
 	/**
@@ -285,7 +285,7 @@ class OC_User {
 			$result = true;
 		}
 		if (OC_User::getUser() === $uid) {
-			$_SESSION['display_name'] = $displayName;
+			\OC::$session->set('display_name', $displayName);
 		}
 		return $result;
 	}
@@ -328,10 +328,10 @@ class OC_User {
 	 * Checks if the user is logged in
 	 */
 	public static function isLoggedIn() {
-		if( isset($_SESSION['user_id']) AND $_SESSION['user_id']) {
+		if( \OC::$session->get('user_id')) {
 			OC_App::loadApps(array('authentication'));
 			self::setupBackends();
-			if (self::userExists($_SESSION['user_id']) ) {
+			if (self::userExists(\OC::$session->get('user_id')) ) {
 				return true;
 			}
 		}
@@ -356,8 +356,8 @@ class OC_User {
 	 * @return string uid or false
 	 */
 	public static function getUser() {
-		if( isset($_SESSION['user_id']) AND $_SESSION['user_id'] ) {
-			return $_SESSION['user_id'];
+		if( \OC::$session->get('user_id') ) {
+			return \OC::$session->get('user_id');
 		}
 		else{
 			return false;
@@ -371,8 +371,8 @@ class OC_User {
 	public static function getDisplayName($user=null) {
 		if ( $user ) {
 			return self::determineDisplayName($user);
-		} else if( isset($_SESSION['display_name']) AND $_SESSION['display_name'] ) {
-			return $_SESSION['display_name'];
+		} else if( \OC::$session->get('display_name') ) {
+			return \OC::$session->get('display_name');
 		}
 		else{
 			return false;

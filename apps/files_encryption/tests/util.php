@@ -183,7 +183,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 		$this->assertTrue(OCA\Encryption\Hooks::login($params));
 
-		$this->assertEquals($this->legacyKey, $_SESSION['legacyKey']);
+		$this->assertEquals($this->legacyKey, \OC::$session->get('legacyKey'));
 	}
 
 	function testRecoveryEnabledForUser() {
@@ -273,7 +273,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 		$this->assertTrue(OCA\Encryption\Hooks::login($params));
 
-		$this->assertEquals($this->legacyKey, $_SESSION['legacyKey']);
+		$this->assertEquals($this->legacyKey, \OC::$session->get('legacyKey'));
 
 		$files = $util->findEncFiles('/' . \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER . '/files/');
 

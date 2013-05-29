@@ -105,7 +105,7 @@ class Session
 	 */
 	public function setPrivateKey( $privateKey ) {
 
-		$_SESSION['privateKey'] = $privateKey;
+		\OC::$session->set('privateKey', $privateKey);
 
 		return true;
 
@@ -122,8 +122,8 @@ class Session
 		if (\OCA\Encryption\Helper::isPublicAccess()) {
 			return $this->getPublicSharePrivateKey();
 		} else {
-			if (isset($_SESSION['privateKey']) && !empty($_SESSION['privateKey'])) {
-				return $_SESSION['privateKey'];
+			if (!is_null( \OC::$session->get('privateKey') )) {
+				return \OC::$session->get('privateKey');
 			} else {
 				return false;
 			}
@@ -137,7 +137,7 @@ class Session
 	 */
 	public function setPublicSharePrivateKey($privateKey) {
 
-		$_SESSION['publicSharePrivateKey'] = $privateKey;
+			\OC::$session->set('publicSharePrivateKey', $privateKey);
 
 		return true;
 
@@ -150,12 +150,11 @@ class Session
 	 */
 	public function getPublicSharePrivateKey() {
 
-		if (isset($_SESSION['publicSharePrivateKey']) && !empty($_SESSION['publicSharePrivateKey'])) {
-			return $_SESSION['publicSharePrivateKey'];
+		if (!is_null( \OC::$session->get('publicSharePrivateKey') )) {
+			return \OC::$session->get('publicSharePrivateKey');
 		} else {
 			return false;
 		}
-
 	}
 
 
@@ -166,7 +165,7 @@ class Session
 	 */
 	public function setLegacyKey( $legacyKey ) {
 
-		$_SESSION['legacyKey'] = $legacyKey;
+		\OC::$session->set('legacyKey', $legacyKey);
 
 		return true;
 	}
@@ -178,12 +177,9 @@ class Session
 	 */
 	public function getLegacyKey() {
 
-		if (
-			isset( $_SESSION['legacyKey'] )
-			&& !empty( $_SESSION['legacyKey'] )
-		) {
+		if ( !is_null( \OC::$session->get('legacyKey') ) ) {
 
-			return $_SESSION['legacyKey'];
+			return \OC::$session->get('legacyKey');
 
 		} else {
 

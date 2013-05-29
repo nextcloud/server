@@ -75,6 +75,11 @@ class OC {
 	protected static $router = null;
 
 	/**
+	 * @var \OC\Session\Session
+	 */
+	public static $session = null;
+
+	/**
 	 * @var \OC\Autoloader $loader
 	 */
 	public static $loader = null;
@@ -283,14 +288,17 @@ class OC {
 		$cookie_path = OC::$WEBROOT ?: '/';
 		ini_set('session.cookie_path', $cookie_path);
 
-		// set the session name to the instance id - which is unique
-		session_name(OC_Util::getInstanceId());
+		try{
+			// set the session name to the instance id - which is unique
+			self::$session = new \OC\Session\Internal(OC_Util::getInstanceId());
+			// if session cant be started break with http 500 error
+		}catch (Exception $e){
+			//set the session object to a dummy session so code relying on the session existing still works
+			self::$session = new \OC\Session\Memory('');
 
-		// if session cant be started break with http 500 error
-		if (session_start() === false){
-			OC_Log::write('core', 'Session could not be initialized', 
+			OC_Log::write('core', 'Session could not be initialized',
 				OC_Log::ERROR);
-			
+
 			header('HTTP/1.1 500 Internal Server Error');
 			OC_Util::addStyle("styles");
 			$error = 'Session could not be initialized. Please contact your ';
@@ -304,15 +312,15 @@ class OC {
 		}
 
 		// regenerate session id periodically to avoid session fixation
-		if (!isset($_SESSION['SID_CREATED'])) {
-			$_SESSION['SID_CREATED'] = time();
-		} else if (time() - $_SESSION['SID_CREATED'] > 60*60*12) {
+		if (!self::$session->exists('SID_CREATED')) {
+			self::$session->set('SID_CREATED', time());
+		} else if (time() - self::$session->get('SID_CREATED') > 60*60*12) {
 			session_regenerate_id(true);
-			$_SESSION['SID_CREATED'] = time();
+			self::$session->set('SID_CREATED', time());
 		}
 
 		// session timeout
-		if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 60*60*24)) {
+		if (self::$session->exists('LAST_ACTIVITY') && (time() - self::$session->get('LAST_ACTIVITY') > 60*60*24)) {
 			if (isset($_COOKIE[session_name()])) {
 				setcookie(session_name(), '', time() - 42000, $cookie_path);
 			}
@@ -320,7 +328,8 @@ class OC {
 			session_destroy();
 			session_start();
 		}
-		$_SESSION['LAST_ACTIVITY'] = time();
+
+		self::$session->set('LAST_ACTIVITY', time());
 	}
 
 	public static function getRouter() {
@@ -436,6 +445,8 @@ class OC {
 		self::checkSSL();
 		if ( !self::$CLI ) {
 			self::initSession();
+		} else {
+			self::$session = new \OC\Session\Memory('');
 		}
 
 		$errors = OC_Util::checkServer();
@@ -446,14 +457,14 @@ class OC {
 
 		// User and Groups
 		if (!OC_Config::getValue("installed", false)) {
-			$_SESSION['user_id'] = '';
+			self::$session->set('user_id','');
 		}
 
 		OC_User::useBackend(new OC_User_Database());
 		OC_Group::useBackend(new OC_Group_Database());
 
-		if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SESSION['user_id'])
-			&& $_SERVER['PHP_AUTH_USER'] != $_SESSION['user_id']) {
+		if (isset($_SERVER['PHP_AUTH_USER']) && self::$session->exists('user_id')
+			&& $_SERVER['PHP_AUTH_USER'] != self::$session->get('user_id')) {
 			OC_User::logout();
 		}
 
@@ -598,7 +609,7 @@ class OC {
 		// Handle redirect URL for logged in users
 		if (isset($_REQUEST['redirect_url']) && OC_User::isLoggedIn()) {
 			$location = OC_Helper::makeURLAbsolute(urldecode($_REQUEST['redirect_url']));
-			
+
 			// Deny the redirect if the URL contains a @
 			// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
 			if (strpos($location, '@') === false) {
@@ -748,7 +759,7 @@ class OC {
 		if (OC_User::login($_POST["user"], $_POST["password"])) {
 			// setting up the time zone
 			if (isset($_POST['timezone-offset'])) {
-				$_SESSION['timezone'] = $_POST['timezone-offset'];
+				self::$session->set('timezone', $_POST['timezone-offset']);
 			}
 
 			self::cleanupLoginTokens($_POST['user']);
