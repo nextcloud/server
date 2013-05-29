@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-28 02:01+0200\n"
-"PO-Revision-Date: 2013-05-27 23:16+0000\n"
+"POT-Creation-Date: 2013-05-29 02:02+0200\n"
+"PO-Revision-Date: 2013-05-29 00:02+0000\n"
 "Last-Translator: rogerc\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -313,11 +313,11 @@ msgstr "Envia"
 
 #: js/share.js:178
 msgid "Set expiration date"
-msgstr "Estableix la data d'expiració"
+msgstr "Estableix la data de venciment"
 
 #: js/share.js:179
 msgid "Expiration date"
-msgstr "Data d'expiració"
+msgstr "Data de venciment"
 
 #: js/share.js:211
 msgid "Share via email:"
@@ -369,11 +369,11 @@ msgstr "Protegeix amb contrasenya"
 
 #: js/share.js:577
 msgid "Error unsetting expiration date"
-msgstr "Error en eliminar la data d'expiració"
+msgstr "Error en eliminar la data de venciment"
 
 #: js/share.js:589
 msgid "Error setting expiration date"
-msgstr "Error en establir la data d'expiració"
+msgstr "Error en establir la data de venciment"
 
 #: js/share.js:604
 msgid "Sending ..."
@@ -566,12 +566,12 @@ msgstr "Acaba la configuració"
 msgid "web services under your control"
 msgstr "controleu els vostres serveis web"
 
-#: templates/layout.user.php:36
+#: templates/layout.user.php:37
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s està disponible. Obtingueu més informació de com actualitzar."
 
-#: templates/layout.user.php:61
+#: templates/layout.user.php:62
 msgid "Log out"
 msgstr "Surt"
 

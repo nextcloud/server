@@ -46,6 +46,7 @@
 "{count} folders" => "{count} pastas",
 "1 file" => "1 ficheiro",
 "{count} files" => "{count} ficheiros",
+"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Nome da pasta inválido. Palavra 'Shared' é reservado pela ownCloud",
 "Unable to rename file" => "Não foi possível renomear o ficheiro",
 "Upload" => "Carregar",
 "File handling" => "Manuseamento de ficheiros",

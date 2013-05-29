@@ -57,7 +57,7 @@ class Hooks {
 
 		$privateKey = Crypt::symmetricDecryptFileContent($encryptedKey, $params['password']);
 
-		$session = new Session($view);
+		$session = new \OCA\Encryption\Session($view);
 
 		$session->setPrivateKey($privateKey, $params['uid']);
 
@@ -75,13 +75,13 @@ class Hooks {
 				$userView->file_exists('encryption.key')
 				&& $encLegacyKey = $userView->file_get_contents('encryption.key')
 			) {
-			
+
 				$plainLegacyKey = Crypt::legacyBlockDecrypt($encLegacyKey, $params['password']);
-				
+
 				$session->setLegacyKey($plainLegacyKey);
-			
+
 			}
-			
+
 			// Encrypt existing user files:
 			// This serves to upgrade old versions of the encryption
 			// app (see appinfo/spec.txt)
@@ -151,7 +151,7 @@ class Hooks {
 
 				$view = new \OC_FilesystemView('/');
 
-				$session = new Session($view);
+				$session = new \OCA\Encryption\Session($view);
 
 				// Get existing decrypted private key
 				$privateKey = $session->getPrivateKey();
@@ -268,7 +268,7 @@ class Hooks {
 		if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
 
 			$view = new \OC_FilesystemView('/');
-			$session = new Session($view);
+			$session = new \OCA\Encryption\Session($view);
 			$userId = \OCP\User::getUser();
 			$util = new Util($view, $userId);
 			$path = $util->fileIdToPath($params['itemSource']);
@@ -442,7 +442,7 @@ class Hooks {
 		\OC_FileProxy::$enabled = false;
 
 		$view = new \OC_FilesystemView('/');
-		$session = new Session($view);
+		$session = new \OCA\Encryption\Session($view);
 		$userId = \OCP\User::getUser();
 		$util = new Util($view, $userId);
 

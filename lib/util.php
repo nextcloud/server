@@ -151,10 +151,10 @@ class OC_Util {
 	 * @param bool dateOnly option to omit time from the result
 	 */
 	public static function formatDate( $timestamp, $dateOnly=false) {
-		if(isset($_SESSION['timezone'])) {//adjust to clients timezone if we know it
+		if(\OC::$session->exists('timezone')) {//adjust to clients timezone if we know it
 			$systemTimeZone = intval(date('O'));
 			$systemTimeZone=(round($systemTimeZone/100, 0)*60)+($systemTimeZone%100);
-			$clientTimeZone=$_SESSION['timezone']*60;
+			$clientTimeZone=\OC::$session->get('timezone')*60;
 			$offset=$clientTimeZone-$systemTimeZone;
 			$timestamp=$timestamp+$offset*60;
 		}
@@ -458,13 +458,13 @@ class OC_Util {
 	 */
 	public static function callRegister() {
 		// Check if a token exists
-		if(!isset($_SESSION['requesttoken'])) {
+		if(!\OC::$session->exists('requesttoken')) {
 			// No valid token found, generate a new one.
 			$requestToken = self::generate_random_bytes(20);
-			$_SESSION['requesttoken']=$requestToken;
+			\OC::$session->set('requesttoken', $requestToken);
 		} else {
 			// Valid token already exists, send it
-			$requestToken = $_SESSION['requesttoken'];
+			$requestToken = \OC::$session->get('requesttoken');
 		}
 		return($requestToken);
 	}
@@ -476,7 +476,7 @@ class OC_Util {
 	 * @see OC_Util::callRegister()
 	 */
 	public static function isCallRegistered() {
-		if(!isset($_SESSION['requesttoken'])) {
+		if(!\OC::$session->exists('requesttoken')) {
 			return false;
 		}
 
@@ -492,7 +492,7 @@ class OC_Util {
 		}
 
 		// Check if the token is valid
-		if($token !== $_SESSION['requesttoken']) {
+		if($token !== \OC::$session->get('requesttoken')) {
 			// Not valid
 			return false;
 		} else {
