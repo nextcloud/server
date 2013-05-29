@@ -216,7 +216,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 	 *
 	 * @param bool $body
 	 *
-	 * @note this init procedure is copied from /apps/files/remote.php
+	 * @note this init procedure is copied from /apps/files/appinfo/remote.php
 	 */
 	function handleWebdavRequest($body = false) {
 		// Backends
