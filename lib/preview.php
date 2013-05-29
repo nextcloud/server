@@ -375,7 +375,7 @@ class Preview {
 		$scalingup = $this->scalingup;
 
 		if(!($image instanceof \OC_Image)){
-			OC_Log::write('core', 'Object passed to resizeAndCrop is not an instance of OC_Image', \OC_Log::DEBUG);
+			\OC_Log::write('core', 'Object passed to resizeAndCrop is not an instance of OC_Image', \OC_Log::DEBUG);
 			return;
 		}
 
