@@ -15,7 +15,7 @@ use OCA\Encryption;
 
 if (
 	isset($_POST['userEnableRecovery'])
-	&& (0 == $_POST['userEnableRecovery'] || "1" === $_POST['userEnableRecovery'])
+	&& (0 == $_POST['userEnableRecovery'] || '1' === $_POST['userEnableRecovery'])
 ) {
 
 	$userId = \OCP\USER::getUser();
@@ -25,7 +25,7 @@ if (
 	// Save recovery preference to DB
 	$return = $util->setRecoveryForUser($_POST['userEnableRecovery']);
 
-	if ($_POST['userEnableRecovery'] === "1") {
+	if ($_POST['userEnableRecovery'] === '1') {
 		$util->addRecoveryKeys();
 	} else {
 		$util->removeRecoveryKeys();
