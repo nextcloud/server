@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-28 02:01+0200\n"
-"PO-Revision-Date: 2013-05-27 23:16+0000\n"
+"POT-Creation-Date: 2013-05-29 02:02+0200\n"
+"PO-Revision-Date: 2013-05-29 00:02+0000\n"
 "Last-Translator: zhangmin <zm1990s@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -565,12 +565,12 @@ msgstr "安装完成"
 msgid "web services under your control"
 msgstr "您控制的web服务"
 
-#: templates/layout.user.php:36
+#: templates/layout.user.php:37
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s 可用。获取更多关于如何升级的信息。"
 
-#: templates/layout.user.php:61
+#: templates/layout.user.php:62
 msgid "Log out"
 msgstr "注销"
 

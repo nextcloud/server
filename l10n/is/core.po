@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-28 02:01+0200\n"
-"PO-Revision-Date: 2013-05-28 00:02+0000\n"
+"POT-Creation-Date: 2013-05-29 02:02+0200\n"
+"PO-Revision-Date: 2013-05-29 00:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Icelandic (http://www.transifex.com/projects/p/owncloud/language/is/)\n"
 "MIME-Version: 1.0\n"
@@ -564,12 +564,12 @@ msgstr "Virkja uppsetningu"
 msgid "web services under your control"
 msgstr "vefþjónusta undir þinni stjórn"
 
-#: templates/layout.user.php:36
+#: templates/layout.user.php:37
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:61
+#: templates/layout.user.php:62
 msgid "Log out"
 msgstr "Útskrá"
 
