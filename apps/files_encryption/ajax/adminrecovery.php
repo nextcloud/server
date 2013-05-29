@@ -16,7 +16,6 @@ use OCA\Encryption;
 $l = OC_L10N::get('files_encryption');
 
 $return = false;
-$action = '';
 // Enable recoveryAdmin
 
 $recoveryKeyId = OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
@@ -24,7 +23,18 @@ $recoveryKeyId = OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
 if (isset($_POST['adminEnableRecovery']) && $_POST['adminEnableRecovery'] === "1") {
 
 	$return = \OCA\Encryption\Helper::adminEnableRecovery($recoveryKeyId, $_POST['recoveryPassword']);
-	$action = $l->t('enable');
+
+	// Return success or failure
+	if ($return) {
+		\OCP\JSON::success(array("data" => array("message" => $l->t('Recovery key successfully enabled'))));
+	} else {
+		\OCP\JSON::error(array(
+							  "data" => array(
+								  "message" => $l->t(
+									  'Could not enable recovery key. Please check your recovery key password!')
+							  )
+						 ));
+	}
 
 // Disable recoveryAdmin
 } elseif (
@@ -32,17 +42,18 @@ if (isset($_POST['adminEnableRecovery']) && $_POST['adminEnableRecovery'] === "1
 	&& "0" === $_POST['adminEnableRecovery']
 ) {
 	$return = \OCA\Encryption\Helper::adminDisableRecovery($_POST['recoveryPassword']);
-	$action = $l->t('disable');
+
+	// Return success or failure
+	if ($return) {
+		\OCP\JSON::success(array("data" => array("message" => $l->t('Recovery key successfully disabled'))));
+	} else {
+		\OCP\JSON::error(array(
+							  "data" => array(
+								  "message" => $l->t(
+									  'Could not disable recovery key. Please check your recovery key password!')
+							  )
+						 ));
+	}
 }
 
-// Return success or failure
-if ($return) {
-	\OCP\JSON::success(array("data" => array("message" => $l->t('Recovery key successfully %sd', array($action)))));
-} else {
-	\OCP\JSON::error(array(
-						  "data" => array(
-							  "message" => $l->t(
-								  'Could not %s recovery key. Please check your recovery key password!', array($action))
-						  )
-					 ));
-}
+
