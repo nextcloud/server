@@ -572,7 +572,6 @@ class OC {
 		}
 
 		OC::tryBasicAuthLogin();
-
 		if (!self::$CLI) {
 			try {
 				if (!OC_Config::getValue('maintenance', false)) {
@@ -680,8 +679,9 @@ class OC {
 			$error[] = 'invalidpassword';
 
 			// The user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
+		} elseif (OC::tryBasicAuthLogin()) {
+			$error[] = 'invalidpassword';
 		}
-
 		OC_Util::displayLoginPage(array_unique($error));
 	}
 
@@ -779,6 +779,8 @@ class OC {
 		if (OC_User::login($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"])) {
 			//OC_Log::write('core',"Logged in with HTTP Authentication", OC_Log::DEBUG);
 			OC_User::unsetMagicInCookie();
+			$_REQUEST['redirect_url'] = OC_Request::requestUri();
+			//OC_Util::redirectToDefaultPage();
 		}
 		return true;
 	}
