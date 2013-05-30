@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-27 02:00+0200\n"
-"PO-Revision-Date: 2013-05-26 19:40+0000\n"
-"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
+"POT-Creation-Date: 2013-05-30 02:27+0200\n"
+"PO-Revision-Date: 2013-05-30 00:27+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,13 +18,23 @@ msgstr ""
 "Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ajax/adminrecovery.php:40
-msgid "Recovery key successfully "
-msgstr "Recuperação de chave com sucesso"
+#: ajax/adminrecovery.php:29
+msgid "Recovery key successfully enabled"
+msgstr ""
 
-#: ajax/adminrecovery.php:42
-msgid "Could not "
-msgstr "Não foi possível"
+#: ajax/adminrecovery.php:34
+msgid ""
+"Could not enable recovery key. Please check your recovery key password!"
+msgstr ""
+
+#: ajax/adminrecovery.php:48
+msgid "Recovery key successfully disabled"
+msgstr ""
+
+#: ajax/adminrecovery.php:53
+msgid ""
+"Could not disable recovery key. Please check your recovery key password!"
+msgstr ""
 
 #: ajax/changeRecoveryPassword.php:49
 msgid "Password successfully changed."

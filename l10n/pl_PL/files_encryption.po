@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-25 02:01+0200\n"
-"PO-Revision-Date: 2013-05-25 00:02+0000\n"
+"POT-Creation-Date: 2013-05-30 02:27+0200\n"
+"PO-Revision-Date: 2013-05-30 00:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (Poland) (http://www.transifex.com/projects/p/owncloud/language/pl_PL/)\n"
 "MIME-Version: 1.0\n"
@@ -17,12 +17,22 @@ msgstr ""
 "Language: pl_PL\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ajax/adminrecovery.php:40
-msgid "Recovery key successfully "
+#: ajax/adminrecovery.php:29
+msgid "Recovery key successfully enabled"
 msgstr ""
 
-#: ajax/adminrecovery.php:42
-msgid "Could not "
+#: ajax/adminrecovery.php:34
+msgid ""
+"Could not enable recovery key. Please check your recovery key password!"
+msgstr ""
+
+#: ajax/adminrecovery.php:48
+msgid "Recovery key successfully disabled"
+msgstr ""
+
+#: ajax/adminrecovery.php:53
+msgid ""
+"Could not disable recovery key. Please check your recovery key password!"
 msgstr ""
 
 #: ajax/changeRecoveryPassword.php:49

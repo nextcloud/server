@@ -1,6 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Recovery key successfully " => "O contrasinal foi recuperado satisfactoriamente",
-"Could not " => "Non foi posíbel",
 "Password successfully changed." => "O contrasinal foi cambiado satisfactoriamente",
 "Could not change the password. Maybe the old password was not correct." => "Non foi posíbel cambiar o contrasinal. Probabelmente o contrasinal antigo non é o  correcto.",
 "Saving..." => "Gardando...",

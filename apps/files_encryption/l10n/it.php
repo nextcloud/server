@@ -1,6 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Recovery key successfully " => "Chiave ripristinata correttamente",
-"Could not " => "Impossibile",
 "Password successfully changed." => "Password modificata correttamente.",
 "Could not change the password. Maybe the old password was not correct." => "Impossibile cambiare la password. Forse la vecchia password non era corretta.",
 "Saving..." => "Salvataggio in corso...",

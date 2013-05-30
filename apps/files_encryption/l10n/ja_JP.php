@@ -1,6 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Recovery key successfully " => "鍵を復旧することができました。",
-"Could not " => "できませんでした。",
 "Password successfully changed." => "パスワードを変更できました。",
 "Could not change the password. Maybe the old password was not correct." => "パスワードを変更できませんでした。古いパスワードが間違っているかもしれません。",
 "Saving..." => "保存中...",
