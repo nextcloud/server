@@ -26,6 +26,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	const FORMAT_FILE_APP_ROOT = 2;
 	const FORMAT_OPENDIR = 3;
 	const FORMAT_GET_ALL = 4;
+	const FORMAT_PERMISSIONS = 5;
 
 	private $path;
 
@@ -125,6 +126,12 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 				$ids[] = $item['file_source'];
 			}
 			return $ids;
+		} else if ($format === self::FORMAT_PERMISSIONS) {
+			$filePermissions = array();
+			foreach ($items as $item) {
+				$filePermissions[$item['file_source']] = $item['permissions'];
+			}
+			return $filePermissions;
 		}
 		return array();
 	}
