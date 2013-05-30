@@ -59,3 +59,13 @@ class PHP extends TXT {
 }
 
 \OC\Preview::registerProvider('OC\Preview\PHP');
+
+class JavaScript extends TXT {
+
+	public function getMimeType() {
+		return '/application\/javascript/';
+	}
+
+}
+
+\OC\Preview::registerProvider('OC\Preview\JavaScript');
