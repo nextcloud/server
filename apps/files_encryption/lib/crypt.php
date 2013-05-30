@@ -608,7 +608,7 @@ class Crypt {
 	 *
 	 * This function decrypts an content
 	 */
-	private static function legacyDecrypt($content, $passphrase = '') {
+	public static function legacyDecrypt($content, $passphrase = '') {
 
 		$bf = self::getBlowfish($passphrase);
 
