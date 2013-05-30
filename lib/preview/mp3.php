@@ -7,8 +7,6 @@
  */
 namespace OC\Preview;
 
-require_once('getid3/getid3.php');
-
 class MP3 extends Provider {
 
 	public function getMimeType() {
@@ -16,6 +14,8 @@ class MP3 extends Provider {
 	}
 
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
+		require_once('getid3/getid3.php');
+
 		$getID3 = new \getID3();
 
 		$tmppath = $fileview->toTmpFile($path);
