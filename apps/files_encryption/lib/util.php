@@ -725,40 +725,28 @@ class Util {
 					// Fetch data from file
 					$legacyData = $this->view->file_get_contents($legacyFile['path']);
 
-					$sharingEnabled = \OCP\Share::isEnabled();
-
-					// if file exists try to get sharing users
-					if ($this->view->file_exists($legacyFile['path'])) {
-						$uniqueUserIds = $this->getSharingUsersArray($sharingEnabled, $legacyFile['path'], $this->userId);
-					} else {
-						$uniqueUserIds[] = $this->userId;
-					}
-
-					// Fetch public keys for all users who will share the file
-					$publicKeys = Keymanager::getPublicKeys($this->view, $uniqueUserIds);
-
-					// Recrypt data, generate catfile
-					$recrypted = Crypt::legacyKeyRecryptKeyfile( $legacyData, $legacyPassphrase, $publicKeys );
+					// decrypt data, generate catfile
+					$decrypted = Crypt::legacyBlockDecrypt($legacyData, $legacyPassphrase);
 
 					$rawPath = $legacyFile['path'];
-					$relPath = \OCA\Encryption\Helper::stripUserFilesPath($rawPath);
 
-					// Save keyfile
-					Keymanager::setFileKey($this->view, $relPath, $this->userId, $recrypted['filekey']);
+					// enable proxy the ensure encryption is handled
+					\OC_FileProxy::$enabled = true;
 
-					// Save sharekeys to user folders
-					Keymanager::setShareKeys($this->view, $relPath, $recrypted['sharekeys']);
+					// Open enc file handle for binary writing, with same filename as original plain file
+					$encHandle = $this->view->fopen( $rawPath, 'wb' );
 
-					// Overwrite the existing file with the encrypted one
-					$this->view->file_put_contents($rawPath, $recrypted['data']);
+					if (is_resource($encHandle)) {
 
-					$size = strlen($recrypted['data']);
+						// write data to stream
+						fwrite($encHandle, $decrypted);
 
-					// Add the file to the cache
-					\OC\Files\Filesystem::putFileInfo($rawPath, array(
-																	 'encrypted' => true,
-																	 'size' => $size
-																), '');
+						// close stream
+						fclose($encHandle);
+					}
+
+					// disable proxy to prevent file being encrypted twice
+					\OC_FileProxy::$enabled = false;
 				}
 			}
 
