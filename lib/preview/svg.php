@@ -16,16 +16,21 @@ if (extension_loaded('imagick')) {
 		}
 
 		public function getThumbnail($path,$maxX,$maxY,$scalingup,$fileview) {
-			$svg = new \Imagick();
-			$svg->setResolution($maxX, $maxY);
+			try{
+				$svg = new \Imagick();
+				$svg->setResolution($maxX, $maxY);
 
-			$content = stream_get_contents($fileview->fopen($path, 'r'));
-			if(substr($content, 0, 5) !== '<?xml') {
-				$content = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . $content;
+				$content = stream_get_contents($fileview->fopen($path, 'r'));
+				if(substr($content, 0, 5) !== '<?xml') {
+					$content = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . $content;
+				}
+
+				$svg->readImageBlob($content);
+				$svg->setImageFormat('jpg');
+			}catch(\Exception $e){
+				\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
+				return false;
 			}
-
-			$svg->readImageBlob($content);
-			$svg->setImageFormat('jpg');
 
 			//new image object
 			$image = new \OC_Image($svg);

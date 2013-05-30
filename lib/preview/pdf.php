@@ -19,8 +19,13 @@ if (extension_loaded('imagick')) {
 			$tmppath = $fileview->toTmpFile($path);
 
 			//create imagick object from pdf
-			$pdf = new \imagick($tmppath . '[0]');
-			$pdf->setImageFormat('jpg');
+			try{
+				$pdf = new \imagick($tmppath . '[0]');
+				$pdf->setImageFormat('jpg');
+			}catch(\Exception $e){
+				\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
+				return false;
+			}
 
 			unlink($tmppath);
 
