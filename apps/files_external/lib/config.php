@@ -524,17 +524,50 @@ class OC_Mount_Config {
 	 * check dependencies
 	 */
 	public static function checkDependencies() {
-		$txt='';
+		$dependencyMessages = array();
 		foreach (OC_Mount_Config::$backends as $class => $backend) {
 			if (isset($backend['has_dependencies']) and $backend['has_dependencies'] === true) {
 				$result = $class::checkDependencies();
-				if ($result !== true) {
-					$txt.=$result.'<br />';
+				if ($result !== true and OC_Mount_Config::findFirstSentence($dependencyMessages, $result) < 0) {
+					$dependencyMessages[] = $result;
 				}
 			}
 		}
 
-		return $txt;
+		if (count($dependencyMessages) > 0) {
+			return implode('<br />', $dependencyMessages);
+		}
+		return '';
+	}
+
+	/**
+	 * Finds the first string in an array that has the same first sentence (or part thereof)
+	 * as a given comparison string
+	 * @param $arr array An array of strings
+	 * @param $str string The string to find
+	 * @return int The position of the first occurrence or -1 if not found
+	 */
+	private static function findFirstSentence($arr, $str) {
+		foreach ($arr as $i => $item) {
+			$itemPos = strpos($item, '.');
+			$strPos = strpos($str, '.');
+
+			if ($itemPos < 0 && $strPos < 0) {
+				$itemPos = strpos($item, ',');
+				$strPos = strpos($str, ',');
+
+				if ($itemPos < 0 && $strPos < 0) {
+					$itemPos = strlen($item);
+					$strPos = strlen($str);
+				}
+			}
+
+			if ($itemPos === $strPos and strncasecmp($item, $str, $itemPos) === 0) {
+				return $i;
+			}
+		}
+
+		return -1;
 	}
 
 	/**

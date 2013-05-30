@@ -31,7 +31,7 @@ class DAV extends \OC\Files\Storage\Common {
 			return true;
 		} else {
 			$l = new \OC_L10N('files_external');
-			return $l->t('<b>Warning:</b> The cURL support in PHP is not enabled or installed. Mounting of ownCloud / WebDAV is not possible. Please ask your system administrator to install it.');
+			return $l->t('<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of ownCloud / WebDAV is not possible. Please ask your system administrator to install it.');
 		}
 	}
 

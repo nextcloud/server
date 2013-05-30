@@ -28,7 +28,7 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 			}
 		}
 		$l = new \OC_L10N('files_external');
-		return $l->t('<b>Warning:</b> "smbclient" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it.');
+		return $l->t('<b>Note:</b> "smbclient" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it.');
 	}
 
 	public function __construct($params) {

@@ -25,7 +25,7 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 			return(true);
 		} else {
 			$l = new \OC_L10N('files_external');
-			return $l->t('<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it.');
+			return $l->t('<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it.');
 		}
 	}
 
