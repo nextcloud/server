@@ -270,7 +270,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$shareKey = Encryption\Keymanager::getShareKey($this->view, $this->userId, $filename);
 
 		// get session
-		$session = new Encryption\Session($this->view);
+		$session = new \OCA\Encryption\Session($this->view);
 
 		// get private key
 		$privateKey = $session->getPrivateKey($this->userId);
@@ -345,7 +345,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$shareKey = Encryption\Keymanager::getShareKey($this->view, $this->userId, $filename);
 
 		// get session
-		$session = new Encryption\Session($this->view);
+		$session = new \OCA\Encryption\Session($this->view);
 
 		// get private key
 		$privateKey = $session->getPrivateKey($this->userId);
@@ -575,7 +575,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	 */
 	function testLegacyKeyRecryptKeyfileEncrypt($crypted) {
 
-		$recrypted = Encryption\Crypt::LegacyKeyRecryptKeyfile($crypted, $this->pass, array($this->genPublicKey), $this->pass, '');
+		$recrypted = Encryption\Crypt::LegacyKeyRecryptKeyfile($crypted, $this->pass, array($this->genPublicKey));
 
 		$this->assertNotEquals($this->dataLong, $recrypted['data']);
 
