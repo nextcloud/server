@@ -101,6 +101,7 @@
 "Use this address to connect to your ownCloud in your file manager" => "Použite túto adresu pre pripojenie vášho ownCloud k súborovému správcovi",
 "Login Name" => "Prihlasovacie meno",
 "Create" => "Vytvoriť",
+"Admin Recovery Password" => "Obnovenie hesla administrátora",
 "Default Storage" => "Predvolené úložisko",
 "Unlimited" => "Nelimitované",
 "Other" => "Iné",

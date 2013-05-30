@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-26 01:58+0200\n"
-"PO-Revision-Date: 2013-05-25 23:16+0000\n"
+"POT-Creation-Date: 2013-05-30 02:27+0200\n"
+"PO-Revision-Date: 2013-05-29 23:36+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -325,11 +325,11 @@ msgstr "Altro"
 msgid "Less"
 msgstr "Meno"
 
-#: templates/admin.php:235 templates/personal.php:105
+#: templates/admin.php:235 templates/personal.php:111
 msgid "Version"
 msgstr "Versione"
 
-#: templates/admin.php:237 templates/personal.php:108
+#: templates/admin.php:237 templates/personal.php:114
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -428,31 +428,31 @@ msgstr "Modifica password"
 msgid "Display Name"
 msgstr "Nome visualizzato"
 
-#: templates/personal.php:68
+#: templates/personal.php:71
 msgid "Email"
 msgstr "Posta elettronica"
 
-#: templates/personal.php:70
+#: templates/personal.php:73
 msgid "Your email address"
 msgstr "Il tuo indirizzo email"
 
-#: templates/personal.php:71
+#: templates/personal.php:74
 msgid "Fill in an email address to enable password recovery"
 msgstr "Inserisci il tuo indirizzo email per abilitare il recupero della password"
 
-#: templates/personal.php:77 templates/personal.php:78
+#: templates/personal.php:83 templates/personal.php:84
 msgid "Language"
 msgstr "Lingua"
 
-#: templates/personal.php:89
+#: templates/personal.php:95
 msgid "Help translate"
 msgstr "Migliora la traduzione"
 
-#: templates/personal.php:94
+#: templates/personal.php:100
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:96
+#: templates/personal.php:102
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Usa questo indirizzo per connetterti al tuo ownCloud dal tuo gestore file"
 

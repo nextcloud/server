@@ -1,10 +1,9 @@
 <?php $TRANSLATIONS = array(
-"Recovery key successfully " => "鍵を復旧することができました。",
-"Could not " => "できませんでした。",
 "Password successfully changed." => "パスワードを変更できました。",
 "Could not change the password. Maybe the old password was not correct." => "パスワードを変更できませんでした。古いパスワードが間違っているかもしれません。",
 "Saving..." => "保存中...",
 "Encryption" => "暗号化",
+"Enable encryption passwords recovery key (allow sharing to recovery key):" => "暗号化パスワードの復旧キーを有効にする(復旧キーを共有することを許可):",
 "Recovery account password" => "復旧アカウントのパスワード",
 "Enabled" => "有効",
 "Disabled" => "無効",

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-26 01:58+0200\n"
-"PO-Revision-Date: 2013-05-25 23:15+0000\n"
+"POT-Creation-Date: 2013-05-30 02:27+0200\n"
+"PO-Revision-Date: 2013-05-29 23:36+0000\n"
 "Last-Translator: ubuntucymraeg <owen.llywelyn@gmail.com>\n"
 "Language-Team: Welsh (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/cy_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -565,12 +565,12 @@ msgstr "Gorffen sefydlu"
 msgid "web services under your control"
 msgstr "gwasanaethau gwe a reolir gennych"
 
-#: templates/layout.user.php:36
+#: templates/layout.user.php:37
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s ar gael. Mwy o wybodaeth am sut i ddiweddaru."
 
-#: templates/layout.user.php:61
+#: templates/layout.user.php:62
 msgid "Log out"
 msgstr "Allgofnodi"
 

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-26 01:58+0200\n"
-"PO-Revision-Date: 2013-05-25 23:15+0000\n"
+"POT-Creation-Date: 2013-05-30 02:27+0200\n"
+"PO-Revision-Date: 2013-05-29 23:35+0000\n"
 "Last-Translator: traductor <transifex-2.7.mensaje@spamgourmet.com>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -568,12 +568,12 @@ msgstr "Installation abschließen"
 msgid "web services under your control"
 msgstr "Web-Services unter Ihrer Kontrolle"
 
-#: templates/layout.user.php:36
+#: templates/layout.user.php:37
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s ist verfügbar. Holen Sie weitere Informationen zu Aktualisierungen ein."
 
-#: templates/layout.user.php:61
+#: templates/layout.user.php:62
 msgid "Log out"
 msgstr "Abmelden"
 

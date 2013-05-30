@@ -24,6 +24,7 @@
 "%s set the database host." => "%s spécifiez l'hôte de la base de données.",
 "PostgreSQL username and/or password not valid" => "Nom d'utilisateur et/ou mot de passe de la base PostgreSQL invalide",
 "You need to enter either an existing account or the administrator." => "Vous devez spécifier soit le nom d'un compte existant, soit celui de l'administrateur.",
+"Oracle connection could not be established" => "La connexion Oracle ne peut pas être établie",
 "MySQL username and/or password not valid" => "Nom d'utilisateur et/ou mot de passe de la base MySQL invalide",
 "DB Error: \"%s\"" => "Erreur de la base de données : \"%s\"",
 "Offending command was: \"%s\"" => "La requête en cause est : \"%s\"",

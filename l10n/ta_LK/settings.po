@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-26 01:58+0200\n"
-"PO-Revision-Date: 2013-05-25 23:16+0000\n"
+"POT-Creation-Date: 2013-05-30 02:27+0200\n"
+"PO-Revision-Date: 2013-05-29 23:36+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -324,11 +324,11 @@ msgstr "மேலதிக"
 msgid "Less"
 msgstr "குறைவான"
 
-#: templates/admin.php:235 templates/personal.php:105
+#: templates/admin.php:235 templates/personal.php:111
 msgid "Version"
 msgstr ""
 
-#: templates/admin.php:237 templates/personal.php:108
+#: templates/admin.php:237 templates/personal.php:114
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -427,31 +427,31 @@ msgstr "கடவுச்சொல்லை மாற்றுக"
 msgid "Display Name"
 msgstr ""
 
-#: templates/personal.php:68
+#: templates/personal.php:71
 msgid "Email"
 msgstr "மின்னஞ்சல்"
 
-#: templates/personal.php:70
+#: templates/personal.php:73
 msgid "Your email address"
 msgstr "உங்களுடைய மின்னஞ்சல் முகவரி"
 
-#: templates/personal.php:71
+#: templates/personal.php:74
 msgid "Fill in an email address to enable password recovery"
 msgstr "கடவுச்சொல் மீள் பெறுவதை இயலுமைப்படுத்துவதற்கு மின்னஞ்சல் முகவரியை இயலுமைப்படுத்துக"
 
-#: templates/personal.php:77 templates/personal.php:78
+#: templates/personal.php:83 templates/personal.php:84
 msgid "Language"
 msgstr "மொழி"
 
-#: templates/personal.php:89
+#: templates/personal.php:95
 msgid "Help translate"
 msgstr "மொழிபெயர்க்க உதவி"
 
-#: templates/personal.php:94
+#: templates/personal.php:100
 msgid "WebDAV"
 msgstr ""
 
-#: templates/personal.php:96
+#: templates/personal.php:102
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr ""
 
