@@ -75,7 +75,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$this->legacyData = realpath(dirname(__FILE__) . '/legacy-text.txt');
 		$this->legacyEncryptedData = realpath(dirname(__FILE__) . '/legacy-encrypted-text.txt');
 		$this->legacyEncryptedDataKey = realpath(dirname(__FILE__) . '/encryption.key');
-		$this->legacyKey = '30943623843030686906';
+		$this->legacyKey = "30943623843030686906\0\0\0\0";
 
 		$keypair = Encryption\Crypt::createKeypair();
 
