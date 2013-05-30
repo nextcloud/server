@@ -87,7 +87,15 @@ class Preview {
 					$this->maxY = $this->max_y;
 				}
 			}
-	
+
+			$fileinfo = $this->fileview->getFileInfo($this->file);
+			if(array_key_exists('size', $fileinfo)){
+				if((int) $fileinfo['size'] === 0){
+					\OC_Log::write('core', 'You can\'t generate a preview of a 0 byte file (' . $this->file . ')', \OC_Log::ERROR);
+					throw new \Exception('0 byte file given');	
+				}
+			}
+
 			//init providers
 			if(empty(self::$providers)) {
 				self::initProviders();
@@ -518,7 +526,7 @@ class Preview {
 			try{
 				$preview = new Preview(\OC_User::getUser(), 'files', $file,  $maxX, $maxY, $scalingup);
 				$preview->showPreview();
-			}catch(Exception $e) {
+			}catch(\Exception $e) {
 				\OC_Response::setStatus(404);
 				\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
 				exit;
@@ -574,7 +582,7 @@ class Preview {
 			try{
 				$preview = new Preview($userid, 'files/' . $path, $file, $maxX, $maxY, $scalingup);
 				$preview->showPreview();
-			}catch(Exception $e) {
+			}catch(\Exception $e) {
 				\OC_Response::setStatus(404);
 				\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
 				exit;
