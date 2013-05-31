@@ -25,6 +25,12 @@ stream_wrapper_register('crypt', 'OCA\Encryption\Stream');
 
 // check if we are logged in
 if (OCP\User::isLoggedIn()) {
+
+	// ensure filesystem is loaded
+	if(!\OC\Files\Filesystem::$loaded) {
+		\OC_Util::setupFS();
+	}
+
 	$view = new OC_FilesystemView('/');
 	$session = new \OCA\Encryption\Session($view);
 
