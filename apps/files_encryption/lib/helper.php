@@ -186,4 +186,18 @@ class Helper {
 			return false;
 		}
 	}
+
+	/**
+	 * @brief Format a path to be relative to the /user/files/ directory
+	 * @param string $path the absolute path
+	 * @return string e.g. turns '/admin/files/test.txt' into 'test.txt'
+	 */
+	public static function stripUserFilesPath($path) {
+		$trimmed = ltrim($path, '/');
+		$split = explode('/', $trimmed);
+		$sliced = array_slice($split, 2);
+		$relPath = implode('/', $sliced);
+
+		return $relPath;
+	}
 }
