@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  *
  * @brief Script to change recovery key password
- * 
+ *
  */
 
 use OCA\Encryption;
@@ -15,7 +15,7 @@ use OCA\Encryption;
 \OCP\JSON::checkAppEnabled('files_encryption');
 \OCP\JSON::callCheck();
 
-$l=OC_L10N::get('core');
+$l = OC_L10N::get('core');
 
 $return = false;
 
@@ -28,7 +28,7 @@ $result = $util->checkRecoveryPassword($oldPassword);
 
 if ($result) {
 	$keyId = $util->getRecoveryKeyId();
-	$keyPath = '/owncloud_private_key/' . $keyId . ".private.key";
+	$keyPath = '/owncloud_private_key/' . $keyId . '.private.key';
 	$view = new \OC\Files\View('/');
 
 	$proxyStatus = \OC_FileProxy::$enabled;
@@ -46,7 +46,7 @@ if ($result) {
 
 // success or failure
 if ($return) {
-	\OCP\JSON::success(array("data" => array( "message" => $l->t('Password successfully changed.'))));
+	\OCP\JSON::success(array('data' => array('message' => $l->t('Password successfully changed.'))));
 } else {
-	\OCP\JSON::error(array("data" => array( "message" => $l->t('Could not change the password. Maybe the old password was not correct.'))));
+	\OCP\JSON::error(array('data' => array('message' => $l->t('Could not change the password. Maybe the old password was not correct.'))));
 }

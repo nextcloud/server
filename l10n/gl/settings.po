@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-28 02:01+0200\n"
-"PO-Revision-Date: 2013-05-27 23:17+0000\n"
+"POT-Creation-Date: 2013-05-31 01:59+0200\n"
+"PO-Revision-Date: 2013-05-30 23:15+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -325,11 +325,11 @@ msgstr "Máis"
 msgid "Less"
 msgstr "Menos"
 
-#: templates/admin.php:235 templates/personal.php:105
+#: templates/admin.php:235 templates/personal.php:111
 msgid "Version"
 msgstr "Versión"
 
-#: templates/admin.php:237 templates/personal.php:108
+#: templates/admin.php:237 templates/personal.php:114
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -428,31 +428,31 @@ msgstr "Cambiar o contrasinal"
 msgid "Display Name"
 msgstr "Amosar o nome"
 
-#: templates/personal.php:68
+#: templates/personal.php:71
 msgid "Email"
 msgstr "Correo"
 
-#: templates/personal.php:70
+#: templates/personal.php:73
 msgid "Your email address"
 msgstr "O seu enderezo de correo"
 
-#: templates/personal.php:71
+#: templates/personal.php:74
 msgid "Fill in an email address to enable password recovery"
 msgstr "Escriba un enderezo de correo para activar a recuperación do contrasinal"
 
-#: templates/personal.php:77 templates/personal.php:78
+#: templates/personal.php:83 templates/personal.php:84
 msgid "Language"
 msgstr "Idioma"
 
-#: templates/personal.php:89
+#: templates/personal.php:95
 msgid "Help translate"
 msgstr "Axude na tradución"
 
-#: templates/personal.php:94
+#: templates/personal.php:100
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:96
+#: templates/personal.php:102
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Utilice este enderezo para conectarse ao seu ownCloud co administrador de ficheiros"
 

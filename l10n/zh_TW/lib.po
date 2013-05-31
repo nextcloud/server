@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-28 02:01+0200\n"
-"PO-Revision-Date: 2013-05-28 00:02+0000\n"
+"POT-Creation-Date: 2013-05-31 01:59+0200\n"
+"PO-Revision-Date: 2013-05-30 23:16+0000\n"
 "Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -58,7 +58,7 @@ msgstr "回到檔案列表"
 msgid "Selected files too large to generate zip file."
 msgstr "選擇的檔案太大以致於無法產生壓縮檔。"
 
-#: helper.php:228
+#: helper.php:236
 msgid "couldn't be determined"
 msgstr "無法判斷"
 

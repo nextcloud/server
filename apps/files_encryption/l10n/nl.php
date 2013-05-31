@@ -1,6 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Recovery key successfully " => "Sleutelherstel succesvol",
-"Could not " => "Kon niet",
 "Password successfully changed." => "Wachtwoord succesvol gewijzigd.",
 "Could not change the password. Maybe the old password was not correct." => "Kon wachtwoord niet wijzigen. Wellicht oude wachtwoord niet juist ingevoerd.",
 "Saving..." => "Opslaan",

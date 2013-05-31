@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-28 02:01+0200\n"
-"PO-Revision-Date: 2013-05-28 00:02+0000\n"
+"POT-Creation-Date: 2013-05-31 01:59+0200\n"
+"PO-Revision-Date: 2013-05-30 23:16+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -58,7 +58,7 @@ msgstr "Torna ai file"
 msgid "Selected files too large to generate zip file."
 msgstr "I  file selezionati sono troppo grandi per generare un file zip."
 
-#: helper.php:228
+#: helper.php:236
 msgid "couldn't be determined"
 msgstr "non può essere determinato"
 

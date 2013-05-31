@@ -258,7 +258,8 @@ class OC {
 
 	public static function initTemplateEngine() {
 		// Add the stuff we need always
-		OC_Util::addScript("jquery-1.7.2.min");
+		OC_Util::addScript("jquery-1.10.0.min");
+		OC_Util::addScript("jquery-migrate-1.2.1.min");
 		OC_Util::addScript("jquery-ui-1.10.0.custom");
 		OC_Util::addScript("jquery-showpassword");
 		OC_Util::addScript("jquery.infieldlabel");

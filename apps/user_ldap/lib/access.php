@@ -441,8 +441,8 @@ abstract class Access {
 		//while loop is just a precaution. If a name is not generated within
 		//20 attempts, something else is very wrong. Avoids infinite loop.
 		while($attempts < 20){
-			$altName = $name . '_' . uniqid();
-			if(\OCP\User::userExists($altName)) {
+			$altName = $name . '_' . rand(1000,9999);
+			if(!\OCP\User::userExists($altName)) {
 				return $altName;
 			}
 			$attempts++;

@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# bmgmatias <bmgmatias@gmail.com>, 2013
 # Mouxy <daniel@mouxy.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-28 02:01+0200\n"
-"PO-Revision-Date: 2013-05-27 23:16+0000\n"
-"Last-Translator: Mouxy <daniel@mouxy.net>\n"
+"POT-Creation-Date: 2013-05-31 01:58+0200\n"
+"PO-Revision-Date: 2013-05-30 23:15+0000\n"
+"Last-Translator: bmgmatias <bmgmatias@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -223,7 +224,7 @@ msgstr "Cancelar"
 
 #: js/oc-dialogs.js:138 js/oc-dialogs.js:195
 msgid "Error loading file picker template"
-msgstr ""
+msgstr "Erro ao carregar arquivo do separador modelo"
 
 #: js/oc-dialogs.js:161
 msgid "Yes"
@@ -565,12 +566,12 @@ msgstr "Acabar instalação"
 msgid "web services under your control"
 msgstr "serviços web sob o seu controlo"
 
-#: templates/layout.user.php:36
+#: templates/layout.user.php:37
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s está disponível. Tenha mais informações como actualizar."
 
-#: templates/layout.user.php:61
+#: templates/layout.user.php:62
 msgid "Log out"
 msgstr "Sair"
 
