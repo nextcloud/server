@@ -116,8 +116,8 @@ class Session implements Emitter {
 		if ($user) {
 			$result = $user->checkPassword($password);
 			if ($result and $user->isEnabled()) {
-				$this->manager->emit('\OC\User', 'postLogin', array($user, $password));
 				$this->setUser($user);
+				$this->manager->emit('\OC\User', 'postLogin', array($user, $password));
 				return true;
 			} else {
 				return false;
