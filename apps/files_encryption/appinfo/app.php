@@ -33,13 +33,13 @@ if (OCP\User::isLoggedIn()) {
 	}
 
 	$view = new OC_FilesystemView('/');
-	$session = new \OCA\Encryption\Session($view);
 
-		// check if user has a private key
-		if (
-			!$session->getPrivateKey(\OCP\USER::getUser())
-			&& OCA\Encryption\Crypt::mode() === 'server'
-		) {
+	$user = \OCP\USER::getUser();
+	// check if user has a private key
+	if (
+		!$view->file_exists('/' . $user . '/files_encryption/' . $user . '.private.key')
+		&& OCA\Encryption\Crypt::mode() === 'server'
+	) {
 
 			// Force the user to log-in again if the encryption key isn't unlocked
 			// (happens when a user is logged in before the encryption app is
