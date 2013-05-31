@@ -56,10 +56,10 @@ class OC_User {
 				\OC_Hook::emit('OC_User', 'post_deleteUser', array('uid' => $user->getUID()));
 			});
 			self::$userSession->listen('\OC\User', 'preSetPassword', function ($user, $password, $recoveryPassword) {
-				OC_Hook::emit('OC_User', 'pre_setPassword', array('run' => &$run, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword));
+				OC_Hook::emit('OC_User', 'pre_setPassword', array('run' => true, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword));
 			});
 			self::$userSession->listen('\OC\User', 'postSetPassword', function ($user, $password, $recoveryPassword) {
-				OC_Hook::emit('OC_User', 'post_setPassword', array('run' => &$run, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword));
+				OC_Hook::emit('OC_User', 'post_setPassword', array('run' => true, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword));
 			});
 			self::$userSession->listen('\OC\User', 'preLogin', function ($uid, $password) {
 				\OC_Hook::emit('OC_User', 'pre_login', array('run' => true, 'uid' => $uid, 'password' => $password));
