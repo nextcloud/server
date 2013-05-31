@@ -57,6 +57,21 @@ class Hooks {
 
 		$privateKey = Crypt::symmetricDecryptFileContent($encryptedKey, $params['password']);
 
+		// check if this a valid private key
+		$res = openssl_pkey_get_private($privateKey);
+		if(is_resource($res)) {
+			$sslInfo = openssl_pkey_get_details($res);
+			if(!isset($sslInfo['key'])) {
+				$privateKey = null;
+			}
+		} else {
+			$privateKey = null;
+		}
+
+		if($privateKey === null) {
+			\OCP\Util::writeLog('Encryption library', 'Private key for user "' . $params['uid'] . '" is not valid! Maybe the user password was changed from outside if so please change it back to gain access', \OCP\Util::ERROR);
+		}
+
 		$session = new \OCA\Encryption\Session($view);
 
 		$session->setPrivateKey($privateKey, $params['uid']);
@@ -143,7 +158,7 @@ class Hooks {
 	public static function setPassphrase($params) {
 
 		// Only attempt to change passphrase if server-side encryption
-		// is in use (client-side encryption does not have access to 
+		// is in use (client-side encryption does not have access to
 		// the necessary keys)
 		if (Crypt::mode() === 'server') {
 
