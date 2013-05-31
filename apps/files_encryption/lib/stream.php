@@ -236,7 +236,11 @@ class Stream {
 			// if there is no valid private key return false
 			if($privateKey === false) {
 
-				\OCP\Util::writeLog('Encryption library', 'Private key for user "' . $this->userId . '" is not valid! Maybe the user password was changed from outside if so please change it back to gain access', \OCP\Util::ERROR);
+				if(\OC_Util::isCallRegistered()) {
+					$l = \OC_L10N::get('core');
+					\OCP\JSON::error(array('data' => array('message' => $l->t('Private key is not valid! Maybe the user password was changed from outside if so please change it back to gain access'))));
+					throw new \Exception('Private key for user "' . $this->userId . '" is not valid! Maybe the user password was changed from outside if so please change it back to gain access');
+				}
 
 				return false;
 			}
@@ -433,6 +437,22 @@ class Stream {
 
 		$this->flush();
 
+		$view = new \OC_FilesystemView('/');
+		$session = new \OCA\Encryption\Session( $this->rootView );
+		$privateKey = $session->getPrivateKey($this->userId);
+
+		// if there is no valid private key return false
+		if($privateKey === false) {
+
+			if(\OC_Util::isCallRegistered()) {
+				$l = \OC_L10N::get('core');
+				\OCP\JSON::error(array('data' => array('message' => $l->t('Private key is not valid! Maybe the user password was changed from outside if so please change it back to gain access'))));
+				throw new \Exception('Private key for user "' . $this->userId . '" is not valid! Maybe the user password was changed from outside if so please change it back to gain access');
+			}
+
+			return false;
+		}
+
 		if (
 			$this->meta['mode'] !== 'r'
 			and $this->meta['mode'] !== 'rb'
@@ -458,8 +478,6 @@ class Stream {
 
 			// Encrypt enc key for all sharing users
 			$this->encKeyfiles = Crypt::multiKeyEncrypt($this->plainKey, $publicKeys);
-
-			$view = new \OC_FilesystemView('/');
 
 			// Save the new encrypted file key
 			Keymanager::setFileKey($this->rootView, $this->relPath, $this->userId, $this->encKeyfiles['data']);

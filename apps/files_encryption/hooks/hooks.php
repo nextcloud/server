@@ -62,13 +62,13 @@ class Hooks {
 		if(is_resource($res)) {
 			$sslInfo = openssl_pkey_get_details($res);
 			if(!isset($sslInfo['key'])) {
-				$privateKey = null;
+				$privateKey = false;
 			}
 		} else {
-			$privateKey = null;
+			$privateKey = false;
 		}
 
-		if($privateKey === null) {
+		if($privateKey === false) {
 			\OCP\Util::writeLog('Encryption library', 'Private key for user "' . $params['uid'] . '" is not valid! Maybe the user password was changed from outside if so please change it back to gain access', \OCP\Util::ERROR);
 		}
 

@@ -28,9 +28,10 @@ if (OCP\User::isLoggedIn()) {
 	$view = new OC_FilesystemView('/');
 	$session = new \OCA\Encryption\Session($view);
 
+	$user = \OCP\USER::getUser();
 	// check if user has a private key
 	if (
-		!$session->getPrivateKey(\OCP\USER::getUser())
+		!$view->file_exists('/' . $user . '/files_encryption/' . $user . '.private.key')
 		&& OCA\Encryption\Crypt::mode() === 'server'
 	) {
 
