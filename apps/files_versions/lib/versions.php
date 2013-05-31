@@ -113,8 +113,16 @@ class Storage {
 				mkdir($versionsFolderName.'/'.$info['dirname'], 0750, true);
 			}
 
+			// disable proxy to prevent multiple fopen calls
+			$proxyStatus = \OC_FileProxy::$enabled;
+			\OC_FileProxy::$enabled = false;
+
 			// store a new version of a file
 			$users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename));
+
+			// reset proxy state
+			\OC_FileProxy::$enabled = $proxyStatus;
+
 			$versionsSize = self::getVersionsSize($uid);
 			if (  $versionsSize === false || $versionsSize < 0 ) {
 				$versionsSize = self::calculateSize($uid);
@@ -195,7 +203,16 @@ class Storage {
 			//first create a new version
 			$version = 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename);
 			if ( !$users_view->file_exists($version)) {
+
+				// disable proxy to prevent multiple fopen calls
+				$proxyStatus = \OC_FileProxy::$enabled;
+				\OC_FileProxy::$enabled = false;
+
 				$users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename));
+
+				// reset proxy state
+				\OC_FileProxy::$enabled = $proxyStatus;
+
 				$versionCreated = true;
 			}
 
