@@ -56,18 +56,21 @@ class Stream {
 	private $relPath; // rel path to users file dir
 	private $userId;
 	private $handle; // Resource returned by fopen
-	private $path;
-	private $readBuffer; // For streams that dont support seeking
 	private $meta = array(); // Header / meta for source stream
-	private $count;
 	private $writeCache;
 	private $size;
 	private $unencryptedSize;
 	private $publicKey;
-	private $keyfile;
 	private $encKeyfile;
-	private static $view; // a fsview object set to user dir
+	/**
+	 * @var \OC\Files\View
+	 */
 	private $rootView; // a fsview object set to '/'
+	/**
+	 * @var \OCA\Encryption\Session
+	 */
+	private $session;
+	private $privateKey;
 
 	/**
 	 * @param $path
@@ -81,6 +84,10 @@ class Stream {
 		if (!isset($this->rootView)) {
 			$this->rootView = new \OC_FilesystemView('/');
 		}
+
+		$this->session = new \OCA\Encryption\Session($this->rootView);
+
+		$this->privateKey = $this->session->getPrivateKey($this->userId);
 
 		$util = new Util($this->rootView, \OCP\USER::getUser());
 
@@ -229,17 +236,14 @@ class Stream {
 		// If a keyfile already exists
 		if ($this->encKeyfile) {
 
-			$session = new \OCA\Encryption\Session( $this->rootView );
-
-			$privateKey = $session->getPrivateKey($this->userId);
-
 			// if there is no valid private key return false
-			if($privateKey === false) {
+			if ($this->privateKey === false) {
 
-				if(\OC_Util::isCallRegistered()) {
+				if (\OC_Util::isCallRegistered()) {
 					$l = \OC_L10N::get('core');
 					\OCP\JSON::error(array('data' => array('message' => $l->t('Private key is not valid! Maybe the user password was changed from outside if so please change it back to gain access'))));
-					throw new \Exception('Private key for user "' . $this->userId . '" is not valid! Maybe the user password was changed from outside if so please change it back to gain access');
+					throw new \Exception('Private key for user "' . $this->userId
+										 . '" is not valid! Maybe the user password was changed from outside if so please change it back to gain access');
 				}
 
 				return false;
@@ -247,7 +251,7 @@ class Stream {
 
 			$shareKey = Keymanager::getShareKey($this->rootView, $this->userId, $this->relPath);
 
-			$this->plainKey = Crypt::multiKeyDecrypt($this->encKeyfile, $shareKey, $privateKey);
+			$this->plainKey = Crypt::multiKeyDecrypt($this->encKeyfile, $shareKey, $this->privateKey);
 
 			return true;
 
@@ -269,6 +273,12 @@ class Stream {
 	 * @note PHP automatically updates the file pointer after writing data to reflect it's length. There is generally no need to update the poitner manually using fseek
 	 */
 	public function stream_write($data) {
+
+		// if there is no valid private key return false
+		if ($this->privateKey === false) {
+			$this->size = 0;
+			return strlen($data);
+		}
 
 		// Disable the file proxies so that encryption is not 
 		// automatically attempted when the file is written to disk - 
@@ -437,18 +447,32 @@ class Stream {
 
 		$this->flush();
 
-		$view = new \OC_FilesystemView('/');
-		$session = new \OCA\Encryption\Session( $this->rootView );
-		$privateKey = $session->getPrivateKey($this->userId);
-
 		// if there is no valid private key return false
-		if($privateKey === false) {
+		if ($this->privateKey === false) {
 
-			if(\OC_Util::isCallRegistered()) {
+			if (\OC_Util::isCallRegistered()) {
 				$l = \OC_L10N::get('core');
 				\OCP\JSON::error(array('data' => array('message' => $l->t('Private key is not valid! Maybe the user password was changed from outside if so please change it back to gain access'))));
-				throw new \Exception('Private key for user "' . $this->userId . '" is not valid! Maybe the user password was changed from outside if so please change it back to gain access');
+
+				// cleanup
+				if ($this->meta['mode'] !== 'r' && $this->meta['mode'] !== 'rb') {
+
+					// Disable encryption proxy to prevent recursive calls
+					$proxyStatus = \OC_FileProxy::$enabled;
+					\OC_FileProxy::$enabled = false;
+
+					if ($this->rootView->file_exists($this->rawPath) && $this->size === 0) {
+						$this->rootView->unlink($this->rawPath);
+					}
+
+					// Re-enable proxy - our work is done
+					\OC_FileProxy::$enabled = $proxyStatus;
+				}
+
+				throw new \Exception('Private key for user "' . $this->userId
+									 . '" is not valid! Maybe the user password was changed from outside if so please change it back to gain access');
 			}
+
 
 			return false;
 		}
@@ -483,10 +507,10 @@ class Stream {
 			Keymanager::setFileKey($this->rootView, $this->relPath, $this->userId, $this->encKeyfiles['data']);
 
 			// Save the sharekeys
-			Keymanager::setShareKeys($view, $this->relPath, $this->encKeyfiles['keys']);
+			Keymanager::setShareKeys($this->rootView, $this->relPath, $this->encKeyfiles['keys']);
 
 			// get file info
-			$fileInfo = $view->getFileInfo($this->rawPath);
+			$fileInfo = $this->rootView->getFileInfo($this->rawPath);
 			if (!is_array($fileInfo)) {
 				$fileInfo = array();
 			}
@@ -500,7 +524,7 @@ class Stream {
 			$fileInfo['unencrypted_size'] = $this->unencryptedSize;
 
 			// set fileinfo
-			$view->putFileInfo($this->rawPath, $fileInfo);
+			$this->rootView->putFileInfo($this->rawPath, $fileInfo);
 		}
 
 		return fclose($this->handle);
