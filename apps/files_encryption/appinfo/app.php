@@ -10,7 +10,7 @@ OC::$CLASSPATH['OCA\Encryption\Session'] = 'files_encryption/lib/session.php';
 OC::$CLASSPATH['OCA\Encryption\Capabilities'] = 'files_encryption/lib/capabilities.php';
 OC::$CLASSPATH['OCA\Encryption\Helper'] = 'files_encryption/lib/helper.php';
 
-if(!OC_Config::getValue('maintenance', false)) {
+if (!OC_Config::getValue('maintenance', false)) {
 	OC_FileProxy::register(new OCA\Encryption\Proxy());
 
 	// User related hooks
@@ -26,6 +26,12 @@ if(!OC_Config::getValue('maintenance', false)) {
 
 	// check if we are logged in
 	if (OCP\User::isLoggedIn()) {
+
+		// ensure filesystem is loaded
+		if (!\OC\Files\Filesystem::$loaded) {
+			\OC_Util::setupFS();
+		}
+
 		$view = new OC_FilesystemView('/');
 		$session = new \OCA\Encryption\Session($view);
 
