@@ -30,6 +30,8 @@ class Manager extends PublicEmitter {
 	 */
 	private $backends = array();
 
+	private $cachedUsers = array();
+
 	/**
 	 * @param \OC_User_Backend $backend
 	 */
@@ -55,9 +57,13 @@ class Manager extends PublicEmitter {
 	 * @return \OC\User\User
 	 */
 	public function get($uid) {
+		if (isset($this->cachedUsers[$uid])) {
+			return $this->cachedUsers[$uid];
+		}
 		foreach ($this->backends as $backend) {
 			if ($backend->userExists($uid)) {
-				return new User($uid, $backend, $this);
+				$this->cachedUsers[$uid] = new User($uid, $backend, $this);
+				return $this->cachedUsers[$uid];
 			}
 		}
 		return null;
@@ -90,7 +96,7 @@ class Manager extends PublicEmitter {
 			$backendUsers = $backend->getUsers($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid) {
-					$users[] = new User($uid, $backend, $this);
+					$users[] = $this->get($uid);
 					if (!is_null($limit)) {
 						$limit--;
 					}
@@ -126,7 +132,7 @@ class Manager extends PublicEmitter {
 			$backendUsers = $backend->getDisplayNames($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid => $displayName) {
-					$users[] = new User($uid, $backend, $this);
+					$users[] = $this->get($uid);
 					if (!is_null($limit)) {
 						$limit--;
 					}
@@ -159,7 +165,7 @@ class Manager extends PublicEmitter {
 		// Allowed are: "a-z", "A-Z", "0-9" and "_.@-"
 		if (preg_match('/[^a-zA-Z0-9 _\.@\-]/', $uid)) {
 			throw new \Exception('Only the following characters are allowed in a username:'
-				. ' "a-z", "A-Z", "0-9", and "_.@-"');
+			. ' "a-z", "A-Z", "0-9", and "_.@-"');
 		}
 		// No empty username
 		if (trim($uid) == '') {
@@ -179,7 +185,7 @@ class Manager extends PublicEmitter {
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC_USER_BACKEND_CREATE_USER)) {
 				$backend->createUser($uid, $password);
-				$user = new User($uid, $backend, $this);
+				$user = $this->get($uid);
 				$this->emit('\OC\User', 'postCreateUser', array($user, $password));
 				return $user;
 			}
