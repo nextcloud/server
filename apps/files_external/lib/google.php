@@ -465,4 +465,63 @@ class Google extends \OC\Files\Storage\Common {
 		return false;
 	}
 
+	public function hasUpdated($path, $time) {
+		if ($this->is_file($path)) {
+			return parent::hasUpdated($path, $time);
+		} else {
+			// Google Drive doesn't change modified times of folders when files inside are updated
+			// Instead we use the Changes API to see if folders have been updated, and it's a pain
+			$folder = $this->getDriveFile($path);
+			if ($folder) {
+				$result = false;
+				$folderId = $folder->getId();
+				$startChangeId = \OC_Appconfig::getValue('files_external', $this->getId().'cId');
+				$params = array(
+					'includeDeleted' => true,
+					'includeSubscribed' => true,
+				);
+				if (isset($startChangeId)) {
+					$startChangeId = (int)$startChangeId;
+					$largestChangeId = $startChangeId;
+					$params['startChangeId'] = $startChangeId + 1;
+				} else {
+					$largestChangeId = 0;
+				}
+				$pageToken = true;
+				while ($pageToken) {
+					if ($pageToken !== true) {
+						$params['pageToken'] = $pageToken;
+					}
+					$changes = $this->service->changes->listChanges($params);
+					if ($largestChangeId === 0 || $largestChangeId === $startChangeId) {
+						$largestChangeId = $changes->getLargestChangeId();
+					}
+					if (isset($startChangeId)) {
+						// Check if a file in this folder has been updated
+						// There is no way to filter by folder at the API level...
+						foreach ($changes->getItems() as $change) {
+							foreach ($change->getFile()->getParents() as $parent) {
+								if ($parent->getId() === $folderId) {
+									$result = true;
+								// Check if there are changes in different folders
+								} else if ($change->getId() <= $largestChangeId) {
+									// Decrement id so this change is fetched when called again
+									$largestChangeId = $change->getId();
+									$largestChangeId--;
+								}
+							}
+						}
+						$pageToken = $changes->getNextPageToken();
+					} else {
+						// Assuming the initial scan just occurred and changes are negligible
+						break;
+					}
+				}
+				\OC_Appconfig::setValue('files_external', $this->getId().'cId', $largestChangeId);
+				return $result;
+			}
+		}
+		return false;
+	}
+
 }
