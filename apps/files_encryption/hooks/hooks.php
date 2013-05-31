@@ -46,6 +46,11 @@ class Hooks {
 
 		$view = new \OC_FilesystemView('/');
 
+		// ensure filesystem is loaded
+		if(!\OC\Files\Filesystem::$loaded) {
+			\OC_Util::setupFS($params['uid']);
+		}
+
 		$util = new Util($view, $params['uid']);
 
 		// setup user, if user not ready force relogin
