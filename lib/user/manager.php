@@ -32,6 +32,16 @@ class Manager extends PublicEmitter {
 
 	private $cachedUsers = array();
 
+	public function __construct() {
+		$cachedUsers = $this->cachedUsers;
+		$this->listen('\OC\User', 'postDelete', function ($user) use (&$cachedUsers) {
+			$i = array_search($user, $cachedUsers);
+			if ($i !== false) {
+				unset($cachedUsers[$i]);
+			}
+		});
+	}
+
 	/**
 	 * @param \OC_User_Backend $backend
 	 */
@@ -62,11 +72,18 @@ class Manager extends PublicEmitter {
 		}
 		foreach ($this->backends as $backend) {
 			if ($backend->userExists($uid)) {
-				$this->cachedUsers[$uid] = new User($uid, $backend, $this);
-				return $this->cachedUsers[$uid];
+				return $this->getUserObject($uid, $backend);
 			}
 		}
 		return null;
+	}
+
+	protected function getUserObject($uid, $backend) {
+		if (isset($this->cachedUsers[$uid])) {
+			return $this->cachedUsers[$uid];
+		}
+		$this->cachedUsers[$uid] = new User($uid, $backend, $this);
+		return $this->cachedUsers[$uid];
 	}
 
 	/**
@@ -96,7 +113,7 @@ class Manager extends PublicEmitter {
 			$backendUsers = $backend->getUsers($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid) {
-					$users[] = $this->get($uid);
+					$users[] = $this->getUserObject($uid, $backend);
 					if (!is_null($limit)) {
 						$limit--;
 					}
@@ -132,7 +149,7 @@ class Manager extends PublicEmitter {
 			$backendUsers = $backend->getDisplayNames($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid => $displayName) {
-					$users[] = $this->get($uid);
+					$users[] = $this->getUserObject($uid, $backend);
 					if (!is_null($limit)) {
 						$limit--;
 					}
@@ -185,7 +202,7 @@ class Manager extends PublicEmitter {
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC_USER_BACKEND_CREATE_USER)) {
 				$backend->createUser($uid, $password);
-				$user = $this->get($uid);
+				$user = $this->getUserObject($uid, $backend);
 				$this->emit('\OC\User', 'postCreateUser', array($user, $password));
 				return $user;
 			}
