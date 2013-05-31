@@ -100,6 +100,9 @@ class Cache {
 	 */
 	public function get($file) {
 		if (is_string($file) or $file == '') {
+			// normalize file
+			$file = $this->normalize($file);
+
 			$where = 'WHERE `storage` = ? AND `path_hash` = ?';
 			$params = array($this->getNumericStorageId(), md5($file));
 		} else { //file id
@@ -179,6 +182,9 @@ class Cache {
 			$this->update($id, $data);
 			return $id;
 		} else {
+			// normalize file
+			$file = $this->normalize($file);
+
 			if (isset($this->partial[$file])) { //add any saved partial data
 				$data = array_merge($this->partial[$file], $data);
 				unset($this->partial[$file]);
@@ -220,6 +226,17 @@ class Cache {
 	 * @param array $data
 	 */
 	public function update($id, array $data) {
+
+		if(isset($data['path'])) {
+			// normalize path
+			$data['path'] = $this->normalize($data['path']);
+		}
+
+		if(isset($data['name'])) {
+			// normalize path
+			$data['name'] = $this->normalize($data['name']);
+		}
+
 		list($queryParts, $params) = $this->buildParts($data);
 		$params[] = $id;
 
@@ -267,6 +284,9 @@ class Cache {
 	 * @return int
 	 */
 	public function getId($file) {
+		// normalize file
+		$file = $this->normalize($file);
+
 		$pathHash = md5($file);
 
 		$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?');
@@ -334,6 +354,10 @@ class Cache {
 	 * @param string $target
 	 */
 	public function move($source, $target) {
+		// normalize source and target
+		$source = $this->normalize($source);
+		$target = $this->normalize($target);
+
 		$sourceData = $this->get($source);
 		$sourceId = $sourceData['fileid'];
 		$newParentId = $this->getParentId($target);
@@ -374,6 +398,9 @@ class Cache {
 	 * @return int, Cache::NOT_FOUND, Cache::PARTIAL, Cache::SHALLOW or Cache::COMPLETE
 	 */
 	public function getStatus($file) {
+		// normalize file
+		$file = $this->normalize($file);
+
 		$pathHash = md5($file);
 		$query = \OC_DB::prepare('SELECT `size` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?');
 		$result = $query->execute(array($this->getNumericStorageId(), $pathHash));
@@ -402,6 +429,10 @@ class Cache {
 	 * @return array of file data
 	 */
 	public function search($pattern) {
+
+		// normalize pattern
+		$pattern = $this->normalize($pattern);
+
 		$query = \OC_DB::prepare('
 			SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `unencrypted_size`, `etag`
 			FROM `*PREFIX*filecache` WHERE `name` LIKE ? AND `storage` = ?'
@@ -550,5 +581,15 @@ class Cache {
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * normalize the given path
+	 * @param $path
+	 * @return string
+	 */
+	public function normalize($path) {
+
+		return \OC_Util::normalizeUnicode($path);
 	}
 }
