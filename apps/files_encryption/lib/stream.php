@@ -118,7 +118,7 @@ class Stream {
 
 		if (!is_resource($this->handle)) {
 
-			\OCP\Util::writeLog('files_encryption', 'failed to open file "' . $this->rawPath . '"', \OCP\Util::ERROR);
+			\OCP\Util::writeLog('Encryption library', 'failed to open file "' . $this->rawPath . '"', \OCP\Util::ERROR);
 
 		} else {
 
@@ -156,7 +156,7 @@ class Stream {
 
 			// $count will always be 8192 https://bugs.php.net/bug.php?id=21641
 			// This makes this function a lot simpler, but will break this class if the above 'bug' gets 'fixed'
-			\OCP\Util::writeLog('files_encryption', 'PHP "bug" 21641 no longer holds, decryption system requires refactoring', \OCP\Util::FATAL);
+			\OCP\Util::writeLog('Encryption library', 'PHP "bug" 21641 no longer holds, decryption system requires refactoring', \OCP\Util::FATAL);
 
 			die();
 
@@ -165,7 +165,7 @@ class Stream {
 		// Get the data from the file handle
 		$data = fread($this->handle, 8192);
 
-		$result = '';
+		$result = null;
 
 		if (strlen($data)) {
 
@@ -175,10 +175,11 @@ class Stream {
 				throw new \Exception(
 					'Encryption key not found for "' . $this->rawPath . '" during attempted read via stream');
 
-			}
+			} else {
 
-			// Decrypt data
-			$result = Crypt::symmetricDecryptFileContent($data, $this->plainKey);
+				// Decrypt data
+				$result = Crypt::symmetricDecryptFileContent($data, $this->plainKey);
+			}
 
 		}
 
@@ -231,6 +232,14 @@ class Stream {
 			$session = new \OCA\Encryption\Session( $this->rootView );
 
 			$privateKey = $session->getPrivateKey($this->userId);
+
+			// if there is no valid private key return false
+			if($privateKey === false) {
+
+				\OCP\Util::writeLog('Encryption library', 'Private key for user "' . $this->userId . '" is not valid! Maybe the user password was changed from outside if so please change it back to gain access', \OCP\Util::ERROR);
+
+				return false;
+			}
 
 			$shareKey = Keymanager::getShareKey($this->rootView, $this->userId, $this->relPath);
 
