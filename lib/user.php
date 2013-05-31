@@ -47,24 +47,30 @@ class OC_User {
 				\OC_Hook::emit('OC_User', 'pre_createUser', array('run' => true, 'uid' => $uid, 'password' => $password));
 			});
 			self::$userSession->listen('\OC\User', 'postCreateUser', function ($user, $password) {
+				/** @var $user \OC\User\User */
 				\OC_Hook::emit('OC_User', 'post_createUser', array('uid' => $user->getUID(), 'password' => $password));
 			});
 			self::$userSession->listen('\OC\User', 'preDelete', function ($user) {
+				/** @var $user \OC\User\User */
 				\OC_Hook::emit('OC_User', 'pre_deleteUser', array('run' => true, 'uid' => $user->getUID()));
 			});
 			self::$userSession->listen('\OC\User', 'postDelete', function ($user) {
+				/** @var $user \OC\User\User */
 				\OC_Hook::emit('OC_User', 'post_deleteUser', array('uid' => $user->getUID()));
 			});
 			self::$userSession->listen('\OC\User', 'preSetPassword', function ($user, $password, $recoveryPassword) {
+				/** @var $user \OC\User\User */
 				OC_Hook::emit('OC_User', 'pre_setPassword', array('run' => true, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword));
 			});
 			self::$userSession->listen('\OC\User', 'postSetPassword', function ($user, $password, $recoveryPassword) {
+				/** @var $user \OC\User\User */
 				OC_Hook::emit('OC_User', 'post_setPassword', array('run' => true, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword));
 			});
 			self::$userSession->listen('\OC\User', 'preLogin', function ($uid, $password) {
 				\OC_Hook::emit('OC_User', 'pre_login', array('run' => true, 'uid' => $uid, 'password' => $password));
 			});
 			self::$userSession->listen('\OC\User', 'postLogin', function ($user, $password) {
+				/** @var $user \OC\User\User */
 				\OC_Hook::emit('OC_User', 'post_login', array('run' => true, 'uid' => $user->getUID(), 'password' => $password));
 			});
 			self::$userSession->listen('\OC\User', 'logout', function () {
@@ -74,6 +80,9 @@ class OC_User {
 		return self::$userSession;
 	}
 
+	/**
+	 * @return \OC\User\Manager
+	 */
 	private static function getManager() {
 		return self::getUserSession()->getManager();
 	}
@@ -292,7 +301,7 @@ class OC_User {
 
 	/**
 	 * @brief Check if the user is logged in
-	 * @returns true/false
+	 * @returns bool
 	 *
 	 * Checks if the user is logged in
 	 */
