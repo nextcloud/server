@@ -64,7 +64,7 @@ class OC_User {
 			self::$userSession->listen('\OC\User', 'preLogin', function ($uid, $password) {
 				\OC_Hook::emit('OC_User', 'pre_login', array("run" => true, "uid" => $uid, "password" => $password));
 			});
-			self::$userSession->listen('\OC\User', 'preDeleteUser', function ($user, $password) {
+			self::$userSession->listen('\OC\User', 'postLogin', function ($user, $password) {
 				\OC_Hook::emit('OC_User', 'post_login', array("run" => true, "uid" => $user->getUID(), "password" => $password));
 			});
 			self::$userSession->listen('\OC\User', 'logout', function () {
