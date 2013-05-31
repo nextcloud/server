@@ -118,7 +118,13 @@ class Helper {
 			return false;
 		}
 
-		$query = \OCP\DB::prepare('TRUNCATE '.$table);
+		if(strpos(\OCP\Config::getSystemValue('dbtype'), 'sqlite') !== false) {
+			$query = \OCP\DB::prepare('DELETE FROM '.$table);
+		} else {
+			$query = \OCP\DB::prepare('TRUNCATE '.$table);
+		}
+
+
 		$res = $query->execute();
 
 		if(\OCP\DB::isError($res)) {
