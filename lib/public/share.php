@@ -123,27 +123,32 @@ class Share {
 		return $path;
 	
 	}
-		
+
 	/**
 	* @brief Find which users can access a shared item
 	* @param $path to the file
 	* @param $user owner of the file
 	* @param include owner to the list of users with access to the file
 	* @return array
-	* @note $path needs to be relative to user data dir, e.g. 'file.txt' 
+	* @note $path needs to be relative to user data dir, e.g. 'file.txt'
 	*       not '/admin/data/file.txt'
 	*/
-	public static function getUsersSharingFile($path, $user, $includeOwner = false, $removeDuplicates = true) {
+	public static function getUsersSharingFile($path, $user, $includeOwner = false) {
 
-		$path_parts = explode(DIRECTORY_SEPARATOR, trim($path, DIRECTORY_SEPARATOR));
-		$path = '';
 		$shares = array();
 		$publicShare = false;
+		$source = -1;
+		$cache = false;
+
 		$view = new \OC\Files\View('/' . $user . '/files/');
-		foreach ($path_parts as $p) {
-			$path .= '/' . $p;
-			$meta = $view->getFileInfo(\OC_Filesystem::normalizePath($path));
+		$meta = $view->getFileInfo(\OC\Files\Filesystem::normalizePath($path));
+
+		if($meta !== false) {
 			$source = $meta['fileid'];
+			$cache = new \OC\Files\Cache\Cache($meta['storage']);
+		}
+
+		while ($source !== -1) {
 
 			// Fetch all shares of this file path from DB
 			$query = \OC_DB::prepare(
@@ -156,14 +161,13 @@ class Share {
 
 			$result = $query->execute(array($source, self::SHARE_TYPE_USER));
 
-			if (\OC_DB::isError($result)) {
-				\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+			if (\OCP\DB::isError($result)) {
+				\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+			} else {
+				while ($row = $result->fetchRow()) {
+					$shares[] = $row['share_with'];
+				}
 			}
-
-			while ($row = $result->fetchRow()) {
-				$shares[] = $row['share_with'];
-			}
-
 			// We also need to take group shares into account
 
 			$query = \OC_DB::prepare(
@@ -176,32 +180,42 @@ class Share {
 
 			$result = $query->execute(array($source, self::SHARE_TYPE_GROUP));
 
-			if (\OC_DB::isError($result)) {
-				\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
-			}
-
-			while ($row = $result->fetchRow()) {
-				$usersInGroup = \OC_Group::usersInGroup($row['share_with']);
-				$shares = array_merge($shares, $usersInGroup);
+			if (\OCP\DB::isError($result)) {
+				\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+			} else {
+				while ($row = $result->fetchRow()) {
+					$usersInGroup = \OC_Group::usersInGroup($row['share_with']);
+					$shares = array_merge($shares, $usersInGroup);
+				}
 			}
 
 			//check for public link shares
-			$query = \OC_DB::prepare(
-				'SELECT share_with
-				FROM
-				`*PREFIX*share`
-				WHERE
-				item_source = ? AND share_type = ?'
-			);
+			if (!$publicShare) {
+				$query = \OC_DB::prepare(
+					'SELECT share_with
+					FROM
+					`*PREFIX*share`
+					WHERE
+					item_source = ? AND share_type = ?'
+				);
 
-			$result = $query->execute(array($source, self::SHARE_TYPE_LINK));
+				$result = $query->execute(array($source, self::SHARE_TYPE_LINK));
 
-			if (\OC_DB::isError($result)) {
-				\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+				if (\OCP\DB::isError($result)) {
+					\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+				} else {
+					if ($result->fetchRow()) {
+						$publicShare = true;
+					}
+				}
 			}
-
-			if ($result->fetchRow()) {
-				$publicShare = true;
+			
+			// let's get the parent for the next round
+			$meta = $cache->get((int)$source);
+			if($meta !== false) {
+				$source = (int)$meta['parent'];
+			} else {
+				$source = -1;
 			}
 		}
 		// Include owner in list of users, if requested
