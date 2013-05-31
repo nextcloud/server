@@ -333,7 +333,7 @@ class OC_User {
 
 	/**
 	 * @brief get the display name of the user currently logged in.
-	 * @retur string uid or false
+	 * @return string uid or false
 	 */
 	public static function getDisplayName($user = null) {
 		if ($user) {
