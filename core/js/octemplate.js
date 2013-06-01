@@ -61,7 +61,9 @@
 
 			if(typeof this.options.escapeFunction === 'function') {
 				for (var key = 0; key < this.vars.length; key++) {
-					this.vars[key] = self.options.escapeFunction(this.vars[key]);
+					if(typeof this.vars[key] === 'string') {
+						this.vars[key] = self.options.escapeFunction(this.vars[key]);
+					}
 				}
 			}
 
