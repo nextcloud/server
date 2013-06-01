@@ -1,4 +1,8 @@
 <?php $TRANSLATIONS = array(
+"Recovery key successfully enabled" => "Herstelsleutel succesvol geactiveerd",
+"Could not enable recovery key. Please check your recovery key password!" => "Kon herstelsleutel niet activeren. Controleer het wachtwoord van uw herstelsleutel!",
+"Recovery key successfully disabled" => "Herstelsleutel succesvol gedeactiveerd",
+"Could not disable recovery key. Please check your recovery key password!" => "Kon herstelsleutel niet deactiveren. Controleer het wachtwoord van uw herstelsleutel!",
 "Password successfully changed." => "Wachtwoord succesvol gewijzigd.",
 "Could not change the password. Maybe the old password was not correct." => "Kon wachtwoord niet wijzigen. Wellicht oude wachtwoord niet juist ingevoerd.",
 "Saving..." => "Opslaan",
