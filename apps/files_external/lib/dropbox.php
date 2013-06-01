@@ -33,6 +33,18 @@ class Dropbox extends \OC\Files\Storage\Common {
 
 	private static $tempFiles = array();
 
+	/**
+	 * check if curl is installed
+	 */
+	public static function checkDependencies() {
+		if (function_exists('curl_init')) {
+			return true;
+		} else {
+			$l = new \OC_L10N('files_external');
+			return $l->t('<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of Dropbox is not possible. Please ask your system administrator to install it.');
+		}
+	}
+
 	public function __construct($params) {
 		if (isset($params['configured']) && $params['configured'] == 'true'
 			&& isset($params['app_key'])

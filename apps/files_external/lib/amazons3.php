@@ -73,6 +73,18 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/**
+	 * check if curl is installed
+	 */
+	public static function checkDependencies() {
+		if (function_exists('curl_init')) {
+			return true;
+		} else {
+			$l = new \OC_L10N('files_external');
+			return $l->t('<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of Amazon S3 is not possible. Please ask your system administrator to install it.');
+		}
+	}
+
 	public function __construct($params) {
 		if (!isset($params['key']) || !isset($params['secret']) || !isset($params['bucket'])) {
 			throw new \Exception("Access Key, Secret and Bucket have to be configured.");
