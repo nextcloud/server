@@ -5,10 +5,14 @@
 		<file>apps.php</file>
 	</testsuite>
 	<!-- filters for code coverage -->
-	<whitelist processUncoveredFilesFromWhitelist="true">
-		<directory suffix=".php">..</directory>
-		<exclude>
-			<directory suffix=".php">../3rdparty</directory>
-		</exclude>
-	</whitelist>
+	<filter>
+		<!-- whitelist processUncoveredFilesFromWhitelist="true" -->
+		<whitelist>
+			<directory suffix=".php">..</directory>
+			<exclude>
+				<directory suffix=".php">../3rdparty</directory>
+				<directory suffix=".php">../lib/MDB2</directory>
+			</exclude>
+		</whitelist>
+	</filter>
 </phpunit>
