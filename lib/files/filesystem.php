@@ -359,7 +359,9 @@ class Filesystem {
 	 * clear all mounts and storage backends
 	 */
 	public static function clearMounts() {
-		self::$mounts->clear();
+		if (self::$mounts) {
+			self::$mounts->clear();
+		}
 	}
 
 	/**
