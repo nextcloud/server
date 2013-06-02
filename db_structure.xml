@@ -891,7 +891,7 @@
 
 			<field>
 				<name>last_run</name>
-				<type>timestamp</type>
+				<type>integer</type>
 				<default></default>
 				<notnull>false</notnull>
 			</field>
