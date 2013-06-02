@@ -80,7 +80,7 @@ class OC_Util {
 	public static function getVersion() {
 		// hint: We only can count up. Reset minor/patchlevel when
 		// updating major/minor version number.
-		return array(5, 80, 04);
+		return array(5, 80, 05);
 	}
 
 	/**
