@@ -265,6 +265,7 @@ class OC {
 		OC_Util::addScript("jquery.infieldlabel");
 		OC_Util::addScript("jquery-tipsy");
 		OC_Util::addScript("compatibility");
+		OC_Util::addScript("jquery.ocdialog");
 		OC_Util::addScript("oc-dialogs");
 		OC_Util::addScript("octemplate");
 		OC_Util::addScript("js");
@@ -278,6 +279,7 @@ class OC {
 		OC_Util::addStyle("multiselect");
 		OC_Util::addStyle("jquery-ui-1.10.0.custom");
 		OC_Util::addStyle("jquery-tipsy");
+		OC_Util::addStyle("jquery.ocdialog");
 		OC_Util::addScript("oc-requesttoken");
 	}
 
