@@ -20,6 +20,8 @@ $users = array();
 $groups = array();
 
 $isadmin = OC_User::isAdminUser(OC_User::getUser());
+$recoveryAdminEnabled = OC_App::isEnabled('files_encryption') &&
+					    OC_Appconfig::getValue( 'files_encryption', 'recoveryAdminEnabled' );
 
 if($isadmin) {
 	$accessiblegroups = OC_Group::getGroups();
@@ -77,4 +79,5 @@ $tmpl->assign( 'numofgroups', count($accessiblegroups));
 $tmpl->assign( 'quota_preset', $quotaPreset);
 $tmpl->assign( 'default_quota', $defaultQuota);
 $tmpl->assign( 'defaultQuotaIsUserDefined', $defaultQuotaIsUserDefined);
+$tmpl->assign( 'recoveryAdminEnabled', $recoveryAdminEnabled);
 $tmpl->printPage();

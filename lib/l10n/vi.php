@@ -13,10 +13,10 @@
 "Application is not enabled" => "Ứng dụng không được BẬT",
 "Authentication error" => "Lỗi xác thực",
 "Token expired. Please reload page." => "Mã Token đã hết hạn. Hãy tải lại trang.",
-"Files" => "Các tập tin",
+"Files" => "Tập tin",
 "Text" => "Văn bản",
 "Images" => "Hình ảnh",
-"seconds ago" => "1 giây trước",
+"seconds ago" => "vài giây trước",
 "1 minute ago" => "1 phút trước",
 "%d minutes ago" => "%d phút trước",
 "1 hour ago" => "1 giờ trước",
@@ -28,8 +28,5 @@
 "%d months ago" => "%d tháng trước",
 "last year" => "năm trước",
 "years ago" => "năm trước",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s có sẵn.  <a href=\"%s\">xem thêm ở đây</a>",
-"up to date" => "đến ngày",
-"updates check is disabled" => "đã TĂT chức năng cập nhật ",
 "Could not find category \"%s\"" => "không thể tìm thấy mục \"%s\""
 );

@@ -75,54 +75,14 @@ class OC {
 	protected static $router = null;
 
 	/**
-	 * SPL autoload
+	 * @var \OC\Session\Session
 	 */
-	public static function autoload($className) {
-		$className = trim($className, '\\');
-		
-		if (array_key_exists($className, OC::$CLASSPATH)) {
-			$path = OC::$CLASSPATH[$className];
-			/** @TODO: Remove this when necessary
-			Remove "apps/" from inclusion path for smooth migration to mutli app dir
-			 */
-			if (strpos($path, 'apps/') === 0) {
-				OC_Log::write('core', 'include path for class "' . $className . '" starts with "apps/"', OC_Log::DEBUG);
-				$path = str_replace('apps/', '', $path);
-			}
-		} elseif (strpos($className, 'OC_') === 0) {
-			$path = strtolower(str_replace('_', '/', substr($className, 3)) . '.php');
-		} elseif (strpos($className, 'OC\\') === 0) {
-			$path = strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
-		} elseif (strpos($className, 'OCP\\') === 0) {
-			$path = 'public/' . strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
-		} elseif (strpos($className, 'OCA\\') === 0) {
-			foreach (self::$APPSROOTS as $appDir) {
-				$path = $appDir['path'] . '/' . strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
-				$fullPath = stream_resolve_include_path($path);
-				if (file_exists($fullPath)) {
-					require_once $fullPath;
-					return false;
-				}
-			}
-		} elseif (strpos($className, 'Sabre_') === 0) {
-			$path = str_replace('_', '/', $className) . '.php';
-		} elseif (strpos($className, 'Symfony\\Component\\Routing\\') === 0) {
-			$path = 'symfony/routing/' . str_replace('\\', '/', $className) . '.php';
-		} elseif (strpos($className, 'Sabre\\VObject') === 0) {
-			$path = str_replace('\\', '/', $className) . '.php';
-		} elseif (strpos($className, 'Test_') === 0) {
-			$path = 'tests/lib/' . strtolower(str_replace('_', '/', substr($className, 5)) . '.php');
-		} elseif (strpos($className, 'Test\\') === 0) {
-			$path = 'tests/lib/' . strtolower(str_replace('\\', '/', substr($className, 5)) . '.php');
-		} else {
-			return false;
-		}
+	public static $session = null;
 
-		if ($fullPath = stream_resolve_include_path($path)) {
-			require_once $fullPath;
-		}
-		return false;
-	}
+	/**
+	 * @var \OC\Autoloader $loader
+	 */
+	public static $loader = null;
 
 	public static function initPaths() {
 		// calculate the root directories
@@ -298,13 +258,15 @@ class OC {
 
 	public static function initTemplateEngine() {
 		// Add the stuff we need always
-		OC_Util::addScript("jquery-1.7.2.min");
+		OC_Util::addScript("jquery-1.10.0.min");
+		OC_Util::addScript("jquery-migrate-1.2.1.min");
 		OC_Util::addScript("jquery-ui-1.10.0.custom");
 		OC_Util::addScript("jquery-showpassword");
 		OC_Util::addScript("jquery.infieldlabel");
 		OC_Util::addScript("jquery-tipsy");
 		OC_Util::addScript("compatibility");
 		OC_Util::addScript("oc-dialogs");
+		OC_Util::addScript("octemplate");
 		OC_Util::addScript("js");
 		OC_Util::addScript("eventsource");
 		OC_Util::addScript("config");
@@ -327,14 +289,17 @@ class OC {
 		$cookie_path = OC::$WEBROOT ?: '/';
 		ini_set('session.cookie_path', $cookie_path);
 
-		// set the session name to the instance id - which is unique
-		session_name(OC_Util::getInstanceId());
+		try{
+			// set the session name to the instance id - which is unique
+			self::$session = new \OC\Session\Internal(OC_Util::getInstanceId());
+			// if session cant be started break with http 500 error
+		}catch (Exception $e){
+			//set the session object to a dummy session so code relying on the session existing still works
+			self::$session = new \OC\Session\Memory('');
 
-		// if session cant be started break with http 500 error
-		if (session_start() === false){
-			OC_Log::write('core', 'Session could not be initialized', 
+			OC_Log::write('core', 'Session could not be initialized',
 				OC_Log::ERROR);
-			
+
 			header('HTTP/1.1 500 Internal Server Error');
 			OC_Util::addStyle("styles");
 			$error = 'Session could not be initialized. Please contact your ';
@@ -348,15 +313,15 @@ class OC {
 		}
 
 		// regenerate session id periodically to avoid session fixation
-		if (!isset($_SESSION['SID_CREATED'])) {
-			$_SESSION['SID_CREATED'] = time();
-		} else if (time() - $_SESSION['SID_CREATED'] > 60*60*12) {
+		if (!self::$session->exists('SID_CREATED')) {
+			self::$session->set('SID_CREATED', time());
+		} else if (time() - self::$session->get('SID_CREATED') > 60*60*12) {
 			session_regenerate_id(true);
-			$_SESSION['SID_CREATED'] = time();
+			self::$session->set('SID_CREATED', time());
 		}
 
 		// session timeout
-		if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 60*60*24)) {
+		if (self::$session->exists('LAST_ACTIVITY') && (time() - self::$session->get('LAST_ACTIVITY') > 60*60*24)) {
 			if (isset($_COOKIE[session_name()])) {
 				setcookie(session_name(), '', time() - 42000, $cookie_path);
 			}
@@ -364,7 +329,8 @@ class OC {
 			session_destroy();
 			session_start();
 		}
-		$_SESSION['LAST_ACTIVITY'] = time();
+
+		self::$session->set('LAST_ACTIVITY', time());
 	}
 
 	public static function getRouter() {
@@ -389,8 +355,14 @@ class OC {
 
 	public static function init() {
 		// register autoloader
-		spl_autoload_register(array('OC', 'autoload'));
-		OC_Util::issetlocaleworking();
+		require_once __DIR__ . '/autoloader.php';
+		self::$loader=new \OC\Autoloader();
+		self::$loader->registerPrefix('Doctrine\\Common', 'doctrine/common/lib');
+		self::$loader->registerPrefix('Doctrine\\DBAL', 'doctrine/dbal/lib');
+		self::$loader->registerPrefix('Symfony\\Component\\Routing', 'symfony/routing');
+		self::$loader->registerPrefix('Sabre\\VObject', '3rdparty');
+		self::$loader->registerPrefix('Sabre_', '3rdparty');
+		spl_autoload_register(array(self::$loader, 'load'));
 
 		// set some stuff
 		//ob_start();
@@ -447,6 +419,7 @@ class OC {
 		}
 
 		self::initPaths();
+		OC_Util::issetlocaleworking();
 
 		// set debug mode if an xdebug session is active
 		if (!defined('DEBUG') || !DEBUG) {
@@ -467,11 +440,15 @@ class OC {
 		stream_wrapper_register('close', 'OC\Files\Stream\Close');
 		stream_wrapper_register('oc', 'OC\Files\Stream\OC');
 
+		self::initTemplateEngine();
 		self::checkConfig();
 		self::checkInstalled();
 		self::checkSSL();
-		self::initSession();
-		self::initTemplateEngine();
+		if ( !self::$CLI ) {
+			self::initSession();
+		} else {
+			self::$session = new \OC\Session\Memory('');
+		}
 
 		$errors = OC_Util::checkServer();
 		if (count($errors) > 0) {
@@ -481,14 +458,14 @@ class OC {
 
 		// User and Groups
 		if (!OC_Config::getValue("installed", false)) {
-			$_SESSION['user_id'] = '';
+			self::$session->set('user_id','');
 		}
 
 		OC_User::useBackend(new OC_User_Database());
 		OC_Group::useBackend(new OC_Group_Database());
 
-		if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SESSION['user_id'])
-			&& $_SERVER['PHP_AUTH_USER'] != $_SESSION['user_id']) {
+		if (isset($_SERVER['PHP_AUTH_USER']) && self::$session->exists('user_id')
+			&& $_SERVER['PHP_AUTH_USER'] != self::$session->get('user_id')) {
 			OC_User::logout();
 		}
 
@@ -584,10 +561,12 @@ class OC {
 	 * register hooks for sharing
 	 */
 	public static function registerShareHooks() {
-		OC_Hook::connect('OC_User', 'post_deleteUser', 'OCP\Share', 'post_deleteUser');
-		OC_Hook::connect('OC_User', 'post_addToGroup', 'OCP\Share', 'post_addToGroup');
-		OC_Hook::connect('OC_User', 'post_removeFromGroup', 'OCP\Share', 'post_removeFromGroup');
-		OC_Hook::connect('OC_User', 'post_deleteGroup', 'OCP\Share', 'post_deleteGroup');
+		if(\OC_Config::getValue('installed')) {
+			OC_Hook::connect('OC_User', 'post_deleteUser', 'OCP\Share', 'post_deleteUser');
+			OC_Hook::connect('OC_User', 'post_addToGroup', 'OCP\Share', 'post_addToGroup');
+			OC_Hook::connect('OC_User', 'post_removeFromGroup', 'OCP\Share', 'post_removeFromGroup');
+			OC_Hook::connect('OC_User', 'post_deleteGroup', 'OCP\Share', 'post_deleteGroup');
+		}
 	}
 
 	/**
@@ -637,8 +616,13 @@ class OC {
 		// Handle redirect URL for logged in users
 		if (isset($_REQUEST['redirect_url']) && OC_User::isLoggedIn()) {
 			$location = OC_Helper::makeURLAbsolute(urldecode($_REQUEST['redirect_url']));
-			header('Location: ' . $location);
-			return;
+
+			// Deny the redirect if the URL contains a @
+			// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
+			if (strpos($location, '@') === false) {
+				header('Location: ' . $location);
+				return;
+			}
 		}
 		// Handle WebDAV
 		if ($_SERVER['REQUEST_METHOD'] == 'PROPFIND') {
@@ -782,7 +766,7 @@ class OC {
 		if (OC_User::login($_POST["user"], $_POST["password"])) {
 			// setting up the time zone
 			if (isset($_POST['timezone-offset'])) {
-				$_SESSION['timezone'] = $_POST['timezone-offset'];
+				self::$session->set('timezone', $_POST['timezone-offset']);
 			}
 
 			self::cleanupLoginTokens($_POST['user']);

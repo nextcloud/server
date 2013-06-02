@@ -86,6 +86,26 @@ class Permissions {
 	}
 
 	/**
+	 * get the permissions for all files in a folder
+	 *
+	 * @param int $parentId
+	 * @param string $user
+	 * @return int[]
+	 */
+	public function getDirectoryPermissions($parentId, $user) {
+		$query = \OC_DB::prepare('SELECT `*PREFIX*permissions`.`fileid`, `permissions`
+			FROM `*PREFIX*permissions` INNER JOIN `*PREFIX*filecache` ON `*PREFIX*permissions`.`fileid` = `*PREFIX*filecache`.`fileid`
+			WHERE `*PREFIX*filecache`.`parent` = ? AND `*PREFIX*permissions`.`user` = ?');
+
+		$result = $query->execute(array($parentId, $user));
+		$filePermissions = array();
+		while ($row = $result->fetchRow()) {
+			$filePermissions[$row['fileid']] = $row['permissions'];
+		}
+		return $filePermissions;
+	}
+
+	/**
 	 * remove the permissions for a file
 	 *
 	 * @param int $fileId
@@ -106,5 +126,20 @@ class Permissions {
 		foreach ($fileIds as $fileId) {
 			$query->execute(array($fileId, $user));
 		}
+	}
+
+	/**
+	 * get the list of users which have permissions stored for a file
+	 *
+	 * @param int $fileId
+	 */
+	public function getUsers($fileId) {
+		$query = \OC_DB::prepare('SELECT `user` FROM `*PREFIX*permissions` WHERE `fileid` = ?');
+		$result = $query->execute(array($fileId));
+		$users = array();
+		while ($row = $result->fetchRow()) {
+			$users[] = $row['user'];
+		}
+		return $users;
 	}
 }

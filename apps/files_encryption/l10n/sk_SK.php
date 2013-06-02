@@ -1,7 +1,11 @@
 <?php $TRANSLATIONS = array(
+"Password successfully changed." => "Heslo úspešne zmenené.",
+"Saving..." => "Ukladám...",
 "Encryption" => "Šifrovanie",
-"File encryption is enabled." => "Šifrovanie súborov nastavené.",
-"The following file types will not be encrypted:" => "Uvedené typy súborov nebudú šifrované:",
-"Exclude the following file types from encryption:" => "Nešifrovať uvedené typy súborov",
-"None" => "Žiadne"
+"Enabled" => "Povolené",
+"Disabled" => "Zakázané",
+"Change encryption passwords recovery key:" => "Zmeniť šifrovacie heslo obnovovacieho kľúča:",
+"Change Password" => "Zmeniť heslo",
+"File recovery settings updated" => "Nastavenie obnovy súborov aktualizované",
+"Could not update file recovery" => "Nemožno aktualizovať obnovenie súborov"
 );

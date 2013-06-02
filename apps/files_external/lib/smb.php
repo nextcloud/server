@@ -73,7 +73,6 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 	 * @return bool
 	 */
 	public function hasUpdated($path,$time) {
-		$this->init();
 		if(!$path and $this->root=='/') {
 			// mtime doesn't work for shares, but giving the nature of the backend,
 			// doing a full update is still just fast enough

@@ -8,13 +8,13 @@ var LdapConfiguration = {
 			OC.filePath('user_ldap','ajax','getConfiguration.php'),
 			$('#ldap_serverconfig_chooser').serialize(),
 			function (result) {
-				if(result.status == 'success') {
+				if(result.status === 'success') {
 					$.each(result.configuration, function(configkey, configvalue) {
 						elementID = '#'+configkey;
 
 						//deal with Checkboxes
 						if($(elementID).is('input[type=checkbox]')) {
-							if(configvalue == 1) {
+							if(parseInt(configvalue) === 1) {
 								$(elementID).attr('checked', 'checked');
 							} else {
 								$(elementID).removeAttr('checked');
@@ -37,13 +37,13 @@ var LdapConfiguration = {
 
 	resetDefaults: function() {
 		$('#ldap').find('input[type=text], input[type=number], input[type=password], textarea, select').each(function() {
-			if($(this).attr('id') == 'ldap_serverconfig_chooser') {
+			if($(this).attr('id') === 'ldap_serverconfig_chooser') {
 				return;
 			}
 			$(this).val($(this).attr('data-default'));
 		});
 		$('#ldap').find('input[type=checkbox]').each(function() {
-			if($(this).attr('data-default') == 1) {
+			if($(this).attr('data-default') === 1) {
 				$(this).attr('checked', 'checked');
 			} else {
 				$(this).removeAttr('checked');
@@ -56,7 +56,7 @@ var LdapConfiguration = {
 			OC.filePath('user_ldap','ajax','deleteConfiguration.php'),
 			$('#ldap_serverconfig_chooser').serialize(),
 			function (result) {
-				if(result.status == 'success') {
+				if(result.status === 'success') {
 					$('#ldap_serverconfig_chooser option:selected').remove();
 					$('#ldap_serverconfig_chooser option:first').select();
 					LdapConfiguration.refreshConfig();
@@ -74,7 +74,7 @@ var LdapConfiguration = {
 		$.post(
 			OC.filePath('user_ldap','ajax','getNewServerConfigPrefix.php'),
 			function (result) {
-				if(result.status == 'success') {
+				if(result.status === 'success') {
 					if(doNotAsk) {
 						LdapConfiguration.resetDefaults();
 					} else {
@@ -99,6 +99,26 @@ var LdapConfiguration = {
 				}
 			}
 		);
+	},
+
+	clearMappings: function(mappingSubject) {
+		$.post(
+			OC.filePath('user_ldap','ajax','clearMappings.php'),
+			'ldap_clear_mapping='+mappingSubject,
+			function(result) {
+				if(result.status == 'success') {
+					OC.dialogs.info(
+						t('user_ldap', 'mappings cleared'),
+						t('user_ldap', 'Success')
+					);
+				} else {
+					OC.dialogs.alert(
+						result.message,
+						t('user_ldap', 'Error')
+					);
+				}
+			}
+		);
 	}
 }
 
@@ -115,7 +135,7 @@ $(document).ready(function() {
 			OC.filePath('user_ldap','ajax','testConfiguration.php'),
 			$('#ldap').serialize(),
 			function (result) {
-				if (result.status == 'success') {
+				if (result.status === 'success') {
 					OC.dialogs.alert(
 						result.message,
 						t('user_ldap', 'Connection test succeeded')
@@ -150,7 +170,7 @@ $(document).ready(function() {
 			$('#ldap').serialize(),
 			function (result) {
 				bgcolor = $('#ldap_submit').css('background');
-				if (result.status == 'success') {
+				if (result.status === 'success') {
 					//the dealing with colors is a but ugly, but the jQuery version in use has issues with rgba colors
 					$('#ldap_submit').css('background', '#fff');
 					$('#ldap_submit').effect('highlight', {'color':'#A8FA87'}, 5000, function() {
@@ -166,9 +186,19 @@ $(document).ready(function() {
 		);
 	});
 
+	$('#ldap_action_clear_user_mappings').click(function(event) {
+		event.preventDefault();
+		LdapConfiguration.clearMappings('user');
+	});
+
+	$('#ldap_action_clear_group_mappings').click(function(event) {
+		event.preventDefault();
+		LdapConfiguration.clearMappings('group');
+	});
+
 	$('#ldap_serverconfig_chooser').change(function(event) {
 		value = $('#ldap_serverconfig_chooser option:selected:first').attr('value');
-		if(value == 'NEW') {
+		if(value === 'NEW') {
 			LdapConfiguration.addConfiguration(false);
 		} else {
 			LdapConfiguration.refreshConfig();

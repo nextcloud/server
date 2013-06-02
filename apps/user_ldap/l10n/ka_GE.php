@@ -7,6 +7,8 @@
 "Take over settings from recent server configuration?" => "დაბრუნდებით სერვერის წინა კონფიგურაციაში?",
 "Keep settings?" => "დავტოვოთ პარამეტრები?",
 "Cannot add server configuration" => "სერვერის პარამეტრების დამატება ვერ მოხერხდა",
+"Success" => "დასრულდა",
+"Error" => "შეცდომა",
 "Connection test succeeded" => "კავშირის ტესტირება მოხერხდა",
 "Connection test failed" => "კავშირის ტესტირება ვერ მოხერხდა",
 "Do you really want to delete the current Server Configuration?" => "ნამდვილად გინდათ წაშალოთ სერვერის მიმდინარე პარამეტრები?",

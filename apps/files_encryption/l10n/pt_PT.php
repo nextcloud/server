@@ -1,7 +1,9 @@
 <?php $TRANSLATIONS = array(
+"Password successfully changed." => "Password alterada com sucesso.",
+"Could not change the password. Maybe the old password was not correct." => "Não foi possivel alterar a password. Possivelmente a password antiga não está correcta.",
+"Saving..." => "A guardar...",
 "Encryption" => "Encriptação",
-"File encryption is enabled." => "A encriptação de ficheiros está ligada",
-"The following file types will not be encrypted:" => "Os seguintes ficheiros não serão encriptados:",
-"Exclude the following file types from encryption:" => "Excluir da encriptação os seguintes tipos de ficheiro:",
-"None" => "Nenhum"
+"Enabled" => "Activado",
+"Disabled" => "Desactivado",
+"Change Password" => "Mudar a Password"
 );

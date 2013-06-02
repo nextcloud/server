@@ -28,8 +28,5 @@
 "%d months ago" => "%d luni in urma",
 "last year" => "ultimul an",
 "years ago" => "ani în urmă",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s este disponibil. Vezi <a href=\"%s\">mai multe informații</a>",
-"up to date" => "la zi",
-"updates check is disabled" => "verificarea după actualizări este dezactivată",
 "Could not find category \"%s\"" => "Cloud nu a gasit categoria \"%s\""
 );

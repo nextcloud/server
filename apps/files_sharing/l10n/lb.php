@@ -1,3 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Password" => "Passwuert"
+"Password" => "Passwuert",
+"Submit" => "Fortschécken",
+"Download" => "Download",
+"web services under your control" => "Web Servicer ënnert denger Kontroll"
 );

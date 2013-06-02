@@ -26,8 +26,5 @@
 "%d days ago" => "%d 天前",
 "last month" => "上个月",
 "last year" => "去年",
-"years ago" => "年前",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s 不可用。获知 <a href=\"%s\">详情</a>",
-"up to date" => "最新",
-"updates check is disabled" => "更新检测已禁用"
+"years ago" => "年前"
 );

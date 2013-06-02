@@ -32,7 +32,7 @@
  *   post_deleteUser(uid)
  *   pre_setPassword(&run, uid, password)
  *   post_setPassword(uid, password)
- *   pre_login(&run, uid)
+ *   pre_login(&run, uid, password)
  *   post_login(uid)
  *   logout()
  */
@@ -244,7 +244,7 @@ class OC_User {
 	 */
 	public static function login( $uid, $password ) {
 		$run = true;
-		OC_Hook::emit( "OC_User", "pre_login", array( "run" => &$run, "uid" => $uid ));
+		OC_Hook::emit( "OC_User", "pre_login", array( "run" => &$run, "uid" => $uid, "password" => $password));
 
 		if( $run ) {
 			$uid = self::checkPassword( $uid, $password );
@@ -264,7 +264,7 @@ class OC_User {
 	 * @brief Sets user id for session and triggers emit
 	 */
 	public static function setUserId($uid) {
-		$_SESSION['user_id'] = $uid;
+		\OC::$session->set('user_id', $uid);
 	}
 
 	/**
@@ -285,7 +285,7 @@ class OC_User {
 			$result = true;
 		}
 		if (OC_User::getUser() === $uid) {
-			$_SESSION['display_name'] = $displayName;
+			\OC::$session->set('display_name', $displayName);
 		}
 		return $result;
 	}
@@ -328,10 +328,10 @@ class OC_User {
 	 * Checks if the user is logged in
 	 */
 	public static function isLoggedIn() {
-		if( isset($_SESSION['user_id']) AND $_SESSION['user_id']) {
+		if( \OC::$session->get('user_id')) {
 			OC_App::loadApps(array('authentication'));
 			self::setupBackends();
-			if (self::userExists($_SESSION['user_id']) ) {
+			if (self::userExists(\OC::$session->get('user_id')) ) {
 				return true;
 			}
 		}
@@ -356,8 +356,8 @@ class OC_User {
 	 * @return string uid or false
 	 */
 	public static function getUser() {
-		if( isset($_SESSION['user_id']) AND $_SESSION['user_id'] ) {
-			return $_SESSION['user_id'];
+		if( \OC::$session->get('user_id') ) {
+			return \OC::$session->get('user_id');
 		}
 		else{
 			return false;
@@ -371,8 +371,8 @@ class OC_User {
 	public static function getDisplayName($user=null) {
 		if ( $user ) {
 			return self::determineDisplayName($user);
-		} else if( isset($_SESSION['display_name']) AND $_SESSION['display_name'] ) {
-			return $_SESSION['display_name'];
+		} else if( \OC::$session->get('display_name') ) {
+			return \OC::$session->get('display_name');
 		}
 		else{
 			return false;
@@ -393,13 +393,14 @@ class OC_User {
 	 * @brief Set password
 	 * @param $uid The username
 	 * @param $password The new password
+	 * @param $recoveryPassword for the encryption app to reset encryption keys
 	 * @returns true/false
 	 *
 	 * Change the password of a user
 	 */
-	public static function setPassword( $uid, $password ) {
+	public static function setPassword( $uid, $password, $recoveryPassword = null ) {
 		$run = true;
-		OC_Hook::emit( "OC_User", "pre_setPassword", array( "run" => &$run, "uid" => $uid, "password" => $password ));
+		OC_Hook::emit( "OC_User", "pre_setPassword", array( "run" => &$run, "uid" => $uid, "password" => $password, "recoveryPassword" => $recoveryPassword ));
 
 		if( $run ) {
 			$success = false;
@@ -412,7 +413,7 @@ class OC_User {
 			}
 			// invalidate all login cookies
 			OC_Preferences::deleteApp($uid, 'login_token');
-			OC_Hook::emit( "OC_User", "post_setPassword", array( "uid" => $uid, "password" => $password ));
+			OC_Hook::emit( "OC_User", "post_setPassword", array( "uid" => $uid, "password" => $password, "recoveryPassword" => $recoveryPassword ));
 			return $success;
 		}
 		else{
@@ -527,7 +528,7 @@ class OC_User {
 		foreach (self::$_usedBackends as $backend) {
 			$backendDisplayNames = $backend->getDisplayNames($search, $limit, $offset);
 			if (is_array($backendDisplayNames)) {
-				$displayNames = array_merge($displayNames, $backendDisplayNames);
+				$displayNames = $displayNames + $backendDisplayNames;
 			}
 		}
 		asort($displayNames);
@@ -610,6 +611,10 @@ class OC_User {
 	public static function isEnabled($userid) {
 		$sql = 'SELECT `userid` FROM `*PREFIX*preferences`'
 			.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?';
+		if (OC_Config::getValue( 'dbtype', 'sqlite' ) === 'oci') { //FIXME oracle hack
+			$sql = 'SELECT `userid` FROM `*PREFIX*preferences`'
+				.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND to_char(`configvalue`) = ?';
+		}
 		$stmt = OC_DB::prepare($sql);
 		if ( ! OC_DB::isError($stmt) ) {
 			$result = $stmt->execute(array($userid, 'core', 'enabled', 'false'));

@@ -24,7 +24,7 @@
 "%s set the database host." => "%s establiu l'ordinador central de la base de dades.",
 "PostgreSQL username and/or password not valid" => "Nom d'usuari i/o contrasenya PostgreSQL no vàlids",
 "You need to enter either an existing account or the administrator." => "Heu d'escriure un compte existent o el d'administrador.",
-"Oracle username and/or password not valid" => "Nom d'usuari i/o contrasenya Oracle no vàlids",
+"Oracle connection could not be established" => "No s'ha pogut establir la connexió Oracle",
 "MySQL username and/or password not valid" => "Nom d'usuari i/o contrasenya MySQL no vàlids",
 "DB Error: \"%s\"" => "Error DB: \"%s\"",
 "Offending command was: \"%s\"" => "L'ordre en conflicte és: \"%s\"",
@@ -32,6 +32,7 @@
 "Drop this user from MySQL" => "Elimina aquest usuari de MySQL",
 "MySQL user '%s'@'%%' already exists" => "L'usuari MySQL '%s'@'%%' ja existeix",
 "Drop this user from MySQL." => "Elimina aquest usuari de MySQL.",
+"Oracle username and/or password not valid" => "Nom d'usuari i/o contrasenya Oracle no vàlids",
 "Offending command was: \"%s\", name: %s, password: %s" => "L'ordre en conflicte és: \"%s\", nom: %s, contrasenya: %s",
 "MS SQL username and/or password not valid: %s" => "Nom d'usuari i/o contrasenya MS SQL no vàlids: %s",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "El servidor web no està configurat correctament per permetre la sincronització de fitxers perquè la interfície WebDAV sembla no funcionar correctament.",
@@ -47,9 +48,6 @@
 "last month" => "el mes passat",
 "%d months ago" => "fa %d mesos",
 "last year" => "l'any passat",
-"years ago" => "fa anys",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s està disponible. Obtén <a href=\"%s\">més informació</a>",
-"up to date" => "actualitzat",
-"updates check is disabled" => "la comprovació d'actualitzacions està desactivada",
+"years ago" => "anys enrere",
 "Could not find category \"%s\"" => "No s'ha trobat la categoria \"%s\""
 );

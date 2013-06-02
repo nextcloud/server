@@ -101,7 +101,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 
 	/**
 	 * @brief Ensure that the fileinfo cache is filled
-	 & @note Uses OC_FileCache or a direct stat
+	 * @note Uses OC_FileCache or a direct stat
 	 */
 	protected function getFileinfoCache() {
 		if (!isset($this->fileinfo_cache)) {

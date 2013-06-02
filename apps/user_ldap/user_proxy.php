@@ -76,8 +76,15 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 			if(isset($this->backends[$prefix])) {
 				$result = call_user_func_array(array($this->backends[$prefix], $method), $parameters);
 				if(!$result) {
-					//not found here, reset cache to null
-					$this->writeToCache($cacheKey, null);
+					//not found here, reset cache to null if user vanished
+					//because sometimes methods return false with a reason
+					$userExists = call_user_func_array(
+						array($this->backends[$prefix], 'userExists'),
+						array($uid)
+					);
+					if(!$userExists) {
+						$this->writeToCache($cacheKey, null);
+					}
 				}
 				return $result;
 			}
@@ -167,7 +174,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 		foreach($this->backends as $backend) {
 			$backendUsers = $backend->getDisplayNames($search, $limit, $offset);
 			if (is_array($backendUsers)) {
-				$users = array_merge($users, $backendUsers);
+				$users = $users + $backendUsers;
 			}
 		}
 		return $users;

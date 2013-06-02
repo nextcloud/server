@@ -81,6 +81,17 @@ class Test_VCategories extends PHPUnit_Framework_TestCase {
 
 	}
 
+	public function testrenameCategory() {
+		$defcategories = array('Friends', 'Family', 'Wrok', 'Other');
+		$catmgr = new OC_VCategories($this->objectType, $this->user, $defcategories);
+
+		$this->assertTrue($catmgr->rename('Wrok', 'Work'));
+		$this->assertTrue($catmgr->hasCategory('Work'));
+		$this->assertFalse($catmgr->hasCategory('Wrok'));
+		$this->assertFalse($catmgr->rename('Wrok', 'Work'));
+
+	}
+
 	public function testAddToCategory() {
 		$objids = array(1, 2, 3, 4, 5, 6, 7, 8, 9);
 

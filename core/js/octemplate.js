@@ -60,11 +60,11 @@
 			var self = this;
 
 			if(typeof this.options.escapeFunction === 'function') {
-				$.each(this.vars, function(key, val) {
-					if(typeof val === 'string') {
-						self.vars[key] = self.options.escapeFunction(val);
+				for (var key = 0; key < this.vars.length; key++) {
+					if(typeof this.vars[key] === 'string') {
+						this.vars[key] = self.options.escapeFunction(this.vars[key]);
 					}
-				});
+				}
 			}
 
 			var _html = this._build(this.vars);
@@ -72,7 +72,7 @@
 		},
 		// From stackoverflow.com/questions/1408289/best-way-to-do-variable-interpolation-in-javascript
 		_build: function(o){
-			var data = this.elem.attr('type') === 'text/template' ? this.elem.html() : this.elem.get(0).outerHTML;
+			var data = this.elem.attr('type') === 'text/template' ? this.elem.html() : outerHTML(this.elem.get(0));
 			try {
 				return data.replace(/{([^{}]*)}/g,
 					function (a, b) {

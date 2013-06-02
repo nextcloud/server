@@ -7,6 +7,12 @@
 
 namespace Test\Files;
 
+class TemporaryNoTouch extends \OC\Files\Storage\Temporary {
+	public function touch($path, $mtime = null) {
+		return false;
+	}
+}
+
 class View extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var \OC\Files\Storage\Storage[] $storages;
@@ -220,7 +226,7 @@ class View extends \PHPUnit_Framework_TestCase {
 		$cachedData = $rootView->getFileInfo('foo.txt');
 		$this->assertEquals(16, $cachedData['size']);
 
-		$rootView->putFileInfo('foo.txt', array('mtime' => 10));
+		$rootView->putFileInfo('foo.txt', array('storage_mtime' => 10));
 		$storage1->file_put_contents('foo.txt', 'foo');
 		clearstatcache();
 
@@ -228,12 +234,73 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(3, $cachedData['size']);
 	}
 
+	function testCopyBetweenStorages() {
+		$storage1 = $this->getTestStorage();
+		$storage2 = $this->getTestStorage();
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		\OC\Files\Filesystem::mount($storage2, array(), '/substorage');
+
+		$rootView = new \OC\Files\View('');
+		$rootView->mkdir('substorage/emptyfolder');
+		$rootView->copy('substorage', 'anotherfolder');
+		$this->assertTrue($rootView->is_dir('/anotherfolder'));
+		$this->assertTrue($rootView->is_dir('/substorage'));
+		$this->assertTrue($rootView->is_dir('/anotherfolder/emptyfolder'));
+		$this->assertTrue($rootView->is_dir('/substorage/emptyfolder'));
+		$this->assertTrue($rootView->file_exists('/anotherfolder/foo.txt'));
+		$this->assertTrue($rootView->file_exists('/anotherfolder/foo.png'));
+		$this->assertTrue($rootView->file_exists('/anotherfolder/folder/bar.txt'));
+		$this->assertTrue($rootView->file_exists('/substorage/foo.txt'));
+		$this->assertTrue($rootView->file_exists('/substorage/foo.png'));
+		$this->assertTrue($rootView->file_exists('/substorage/folder/bar.txt'));
+	}
+
+	function testMoveBetweenStorages() {
+		$storage1 = $this->getTestStorage();
+		$storage2 = $this->getTestStorage();
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		\OC\Files\Filesystem::mount($storage2, array(), '/substorage');
+
+		$rootView = new \OC\Files\View('');
+		$rootView->rename('foo.txt', 'substorage/folder/foo.txt');
+		$this->assertFalse($rootView->file_exists('foo.txt'));
+		$this->assertTrue($rootView->file_exists('substorage/folder/foo.txt'));
+		$rootView->rename('substorage/folder', 'anotherfolder');
+		$this->assertFalse($rootView->is_dir('substorage/folder'));
+		$this->assertTrue($rootView->file_exists('anotherfolder/foo.txt'));
+		$this->assertTrue($rootView->file_exists('anotherfolder/bar.txt'));
+	}
+
+	function testTouch() {
+		$storage = $this->getTestStorage(true, '\Test\Files\TemporaryNoTouch');
+
+		\OC\Files\Filesystem::mount($storage, array(), '/');
+
+		$rootView = new \OC\Files\View('');
+		$oldCachedData = $rootView->getFileInfo('foo.txt');
+
+		$rootView->touch('foo.txt', 500);
+
+		$cachedData = $rootView->getFileInfo('foo.txt');
+		$this->assertEquals(500, $cachedData['mtime']);
+		$this->assertEquals($oldCachedData['storage_mtime'], $cachedData['storage_mtime']);
+
+		$rootView->putFileInfo('foo.txt', array('storage_mtime' => 1000)); //make sure the watcher detects the change
+		$rootView->file_put_contents('foo.txt', 'asd');
+		$cachedData = $rootView->getFileInfo('foo.txt');
+		$this->assertGreaterThanOrEqual($cachedData['mtime'], $oldCachedData['mtime']);
+		$this->assertEquals($cachedData['storage_mtime'], $cachedData['mtime']);
+	}
+
 	/**
 	 * @param bool $scan
 	 * @return \OC\Files\Storage\Storage
 	 */
-	private function getTestStorage($scan = true) {
-		$storage = new \OC\Files\Storage\Temporary(array());
+	private function getTestStorage($scan = true, $class = '\OC\Files\Storage\Temporary') {
+		/**
+		 * @var \OC\Files\Storage\Storage $storage
+		 */
+		$storage = new $class(array());
 		$textData = "dummy file data\n";
 		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo.png');
 		$storage->mkdir('folder');

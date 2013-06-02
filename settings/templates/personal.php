@@ -38,7 +38,7 @@ if($_['passwordChangeSupported']) {
 		<div id="passwordchanged"><?php echo $l->t('Your password was changed');?></div>
 		<div id="passworderror"><?php echo $l->t('Unable to change your password');?></div>
 		<input type="password" id="pass1" name="oldpassword" placeholder="<?php echo $l->t('Current password');?>" />
-		<input type="password" id="pass2" name="new-password"
+		<input type="password" id="pass2" name="password"
 			placeholder="<?php echo $l->t('New password');?>" data-typetoggle="#personal-show" />
 		<input type="checkbox" id="personal-show" name="show" /><label for="personal-show"></label>
 		<input id="passwordbutton" type="submit" value="<?php echo $l->t('Change password');?>" />
@@ -54,17 +54,18 @@ if($_['displayNameChangeSupported']) {
 <form id="displaynameform">
 	<fieldset class="personalblock">
 		<legend><strong><?php echo $l->t('Display Name');?></strong></legend>
-		<div id="displaynamechanged"><?php p($l->t('Your display name was changed'));?></div>
-		<div id="displaynameerror"><?php p($l->t('Unable to change your display name'));?></div>
 		<input type="text" id="displayName" name="displayName" value="<?php p($_['displayName'])?>" />
+        <span class="msg"></span>
 		<input type="hidden" id="oldDisplayName" name="oldDisplayName" value="<?php p($_['displayName'])?>" />
-		<input id="displaynamebutton" type="submit" value="<?php p($l->t('Change display name'));?>" />
 	</fieldset>
 </form>
 <?php
 }
 ?>
 
+<?php
+if($_['passwordChangeSupported']) {
+?>
 <form id="lostpassword">
 	<fieldset class="personalblock">
 		<legend><strong><?php p($l->t('Email'));?></strong></legend>
@@ -73,16 +74,24 @@ if($_['displayNameChangeSupported']) {
 		<em><?php p($l->t('Fill in an email address to enable password recovery'));?></em>
 	</fieldset>
 </form>
+<?php
+}
+?>
 
 <form>
 	<fieldset class="personalblock">
 		<legend><strong><?php p($l->t('Language'));?></strong></legend>
 		<select id="languageinput" class="chzen-select" name="lang" data-placeholder="<?php p($l->t('Language'));?>">
+		<option value="<?php p($_['activelanguage']['code']);?>"><?php p($_['activelanguage']['name']);?></option>
+		<?php foreach($_['commonlanguages'] as $language):?>
+			<option value="<?php p($language['code']);?>"><?php p($language['name']);?></option>
+		<?php endforeach;?>
+		<optgroup label="––––––––––"><option class="languagedivider">-</option></optgroup>
 		<?php foreach($_['languages'] as $language):?>
 			<option value="<?php p($language['code']);?>"><?php p($language['name']);?></option>
 		<?php endforeach;?>
 		</select>
-		<a href="https://www.transifex.net/projects/p/owncloud/team/<?php p($_['languages'][0]['code']);?>/"
+		<a href="https://www.transifex.net/projects/p/owncloud/team/<?php p($_['activelanguage']['code']);?>/"
 			target="_blank"><em><?php p($l->t('Help translate'));?></em></a>
 	</fieldset>
 </form>

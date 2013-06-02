@@ -245,14 +245,17 @@ class View {
 		if (!is_null($mtime) and !is_numeric($mtime)) {
 			$mtime = strtotime($mtime);
 		}
-		
+
 		$hooks = array('touch');
-		
+
 		if (!$this->file_exists($path)) {
 			$hooks[] = 'write';
 		}
-		
-		return $this->basicOperation('touch', $path, $hooks, $mtime);
+		$result = $this->basicOperation('touch', $path, $hooks, $mtime);
+		if (!$result) { //if native touch fails, we emulate it by changing the mtime in the cache
+			$this->putFileInfo($path, array('mtime' => $mtime));
+		}
+		return true;
 	}
 
 	public function file_get_contents($path) {
@@ -263,11 +266,13 @@ class View {
 		if (is_resource($data)) { //not having to deal with streams in file_put_contents makes life easier
 			$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 			if (\OC_FileProxy::runPreProxies('file_put_contents', $absolutePath, $data)
-				&& Filesystem::isValidPath($path)) {
+				and Filesystem::isValidPath($path)
+					and !Filesystem::isFileBlacklisted($path)
+			) {
 				$path = $this->getRelativePath($absolutePath);
 				$exists = $this->file_exists($path);
 				$run = true;
-				if ($this->fakeRoot == Filesystem::getRoot() && ! Cache\Scanner::isIgnoredFile($path) ) {
+				if ($this->fakeRoot == Filesystem::getRoot() && !Cache\Scanner::isPartialFile($path)) {
 					if (!$exists) {
 						\OC_Hook::emit(
 							Filesystem::CLASSNAME,
@@ -295,7 +300,7 @@ class View {
 					list ($count, $result) = \OC_Helper::streamCopy($data, $target);
 					fclose($target);
 					fclose($data);
-					if ($this->fakeRoot == Filesystem::getRoot() && ! Cache\Scanner::isIgnoredFile($path) ) {
+					if ($this->fakeRoot == Filesystem::getRoot() && !Cache\Scanner::isPartialFile($path)) {
 						if (!$exists) {
 							\OC_Hook::emit(
 								Filesystem::CLASSNAME,
@@ -335,8 +340,12 @@ class View {
 		$postFix2 = (substr($path2, -1, 1) === '/') ? '/' : '';
 		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($path1));
 		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($path2));
-		if (\OC_FileProxy::runPreProxies('rename', $absolutePath1, $absolutePath2)
-			and Filesystem::isValidPath($path2)) {
+		if (
+			\OC_FileProxy::runPreProxies('rename', $absolutePath1, $absolutePath2)
+			and Filesystem::isValidPath($path2)
+			and Filesystem::isValidPath($path1)
+			and !Filesystem::isFileBlacklisted($path2)
+		) {
 			$path1 = $this->getRelativePath($absolutePath1);
 			$path2 = $this->getRelativePath($absolutePath2);
 
@@ -344,7 +353,7 @@ class View {
 				return false;
 			}
 			$run = true;
-			if ($this->fakeRoot == Filesystem::getRoot()) {
+			if ($this->fakeRoot == Filesystem::getRoot() && !Cache\Scanner::isPartialFile($path1)) {
 				\OC_Hook::emit(
 					Filesystem::CLASSNAME, Filesystem::signal_rename,
 					array(
@@ -362,17 +371,26 @@ class View {
 					list(, $internalPath2) = Filesystem::resolvePath($absolutePath2 . $postFix2);
 					if ($storage) {
 						$result = $storage->rename($internalPath1, $internalPath2);
+						\OC_FileProxy::runPostProxies('rename', $absolutePath1, $absolutePath2);
 					} else {
 						$result = false;
 					}
 				} else {
-					$source = $this->fopen($path1 . $postFix1, 'r');
-					$target = $this->fopen($path2 . $postFix2, 'w');
-					list($count, $result) = \OC_Helper::streamCopy($source, $target);
-					list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
-					$storage1->unlink($internalPath1);
+					if ($this->is_dir($path1)) {
+						$result = $this->copy($path1, $path2);
+						if ($result === true) {
+							list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
+							$result = $storage1->deleteAll($internalPath1);
+						}
+					} else {
+						$source = $this->fopen($path1 . $postFix1, 'r');
+						$target = $this->fopen($path2 . $postFix2, 'w');
+						list($count, $result) = \OC_Helper::streamCopy($source, $target);
+						list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
+						$storage1->unlink($internalPath1);
+					}
 				}
-				if ($this->fakeRoot == Filesystem::getRoot()) {
+				if ($this->fakeRoot == Filesystem::getRoot() && !Cache\Scanner::isPartialFile($path1)) {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
 						Filesystem::signal_post_rename,
@@ -396,7 +414,12 @@ class View {
 		$postFix2 = (substr($path2, -1, 1) === '/') ? '/' : '';
 		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($path1));
 		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($path2));
-		if (\OC_FileProxy::runPreProxies('copy', $absolutePath1, $absolutePath2) and Filesystem::isValidPath($path2)) {
+		if (
+			\OC_FileProxy::runPreProxies('copy', $absolutePath1, $absolutePath2)
+			and Filesystem::isValidPath($path2)
+			and Filesystem::isValidPath($path1)
+			and !Filesystem::isFileBlacklisted($path2)
+		) {
 			$path1 = $this->getRelativePath($absolutePath1);
 			$path2 = $this->getRelativePath($absolutePath2);
 
@@ -448,9 +471,18 @@ class View {
 						$result = false;
 					}
 				} else {
-					$source = $this->fopen($path1 . $postFix1, 'r');
-					$target = $this->fopen($path2 . $postFix2, 'w');
-					list($count, $result) = \OC_Helper::streamCopy($source, $target);
+					if ($this->is_dir($path1) && ($dh = $this->opendir($path1))) {
+						$result = $this->mkdir($path2);
+						while ($file = readdir($dh)) {
+							if (!Filesystem::isIgnoredDir($file)) {
+								$result = $this->copy($path1 . '/' . $file, $path2 . '/' . $file);
+							}
+						}
+					} else {
+						$source = $this->fopen($path1 . $postFix1, 'r');
+						$target = $this->fopen($path2 . $postFix2, 'w');
+						list($count, $result) = \OC_Helper::streamCopy($source, $target);
+					}
 				}
 				if ($this->fakeRoot == Filesystem::getRoot()) {
 					\OC_Hook::emit(
@@ -598,7 +630,10 @@ class View {
 	private function basicOperation($operation, $path, $hooks = array(), $extraParam = null) {
 		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
-		if (\OC_FileProxy::runPreProxies($operation, $absolutePath, $extraParam) and Filesystem::isValidPath($path)) {
+		if (\OC_FileProxy::runPreProxies($operation, $absolutePath, $extraParam)
+			and Filesystem::isValidPath($path)
+				and !Filesystem::isFileBlacklisted($path)
+		) {
 			$path = $this->getRelativePath($absolutePath);
 			if ($path == null) {
 				return false;
@@ -627,7 +662,7 @@ class View {
 	private function runHooks($hooks, $path, $post = false) {
 		$prefix = ($post) ? 'post_' : '';
 		$run = true;
-		if (Filesystem::$loaded and $this->fakeRoot == Filesystem::getRoot() && ! Cache\Scanner::isIgnoredFile($path) ) {
+		if (Filesystem::$loaded and $this->fakeRoot == Filesystem::getRoot()) {
 			foreach ($hooks as $hook) {
 				if ($hook != 'read') {
 					\OC_Hook::emit(
@@ -724,6 +759,9 @@ class View {
 				$data['permissions'] = $permissions;
 			}
 		}
+
+		$data = \OC_FileProxy::runPostProxies('getFileInfo', $path, $data);
+
 		return $data;
 	}
 
@@ -759,18 +797,18 @@ class View {
 			}
 
 			$files = $cache->getFolderContents($internalPath); //TODO: mimetype_filter
+			$permissions = $permissionsCache->getDirectoryPermissions($cache->getId($internalPath), $user);
 
 			$ids = array();
 			foreach ($files as $i => $file) {
 				$files[$i]['type'] = $file['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
 				$ids[] = $file['fileid'];
 
-				$permissions = $permissionsCache->get($file['fileid'], $user);
-				if ($permissions === -1) {
-					$permissions = $storage->getPermissions($file['path']);
-					$permissionsCache->set($file['fileid'], $user, $permissions);
+				if (!isset($permissions[$file['fileid']])) {
+					$permissions[$file['fileid']] = $storage->getPermissions($file['path']);
+					$permissionsCache->set($file['fileid'], $user, $permissions[$file['fileid']]);
 				}
-				$files[$i]['permissions'] = $permissions;
+				$files[$i]['permissions'] = $permissions[$file['fileid']];
 			}
 
 			//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
@@ -931,11 +969,11 @@ class View {
 	}
 
 	/**
-	* Get the owner for a file or folder
-	*
-	* @param string $path
-	* @return string
-	*/
+	 * Get the owner for a file or folder
+	 *
+	 * @param string $path
+	 * @return string
+	 */
 	public function getOwner($path) {
 		return $this->basicOperation('getOwner', $path);
 	}
@@ -969,7 +1007,7 @@ class View {
 	 */
 	public function getPath($id) {
 		list($storage, $internalPath) = Cache\Cache::getById($id);
-		$mounts = Mount::findByStorageId($storage);
+		$mounts = Filesystem::getMountByStorageId($storage);
 		foreach ($mounts as $mount) {
 			/**
 			 * @var \OC\Files\Mount $mount

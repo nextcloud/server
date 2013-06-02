@@ -6,12 +6,23 @@
  * See the COPYING-README file.
  */
 
-$tmpl = new OCP\Template( 'files_encryption', 'settings-personal');
+// Add CSS stylesheet
+\OC_Util::addStyle('files_encryption', 'settings-personal');
 
-$blackList = explode( ',', \OCP\Config::getAppValue( 'files_encryption', 'type_blacklist', 'jpg,png,jpeg,avi,mpg,mpeg,mkv,mp3,oga,ogv,ogg' ) );
+$tmpl = new OCP\Template('files_encryption', 'settings-personal');
 
-$tmpl->assign( 'blacklist', $blackList );
+$user = \OCP\USER::getUser();
+$view = new \OC_FilesystemView('/');
+$util = new \OCA\Encryption\Util($view, $user);
+
+$recoveryAdminEnabled = OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled');
+$recoveryEnabledForUser = $util->recoveryEnabledForUser();
+
+\OCP\Util::addscript('files_encryption', 'settings-personal');
+\OCP\Util::addScript('settings', 'personal');
+
+$tmpl->assign('recoveryEnabled', $recoveryAdminEnabled);
+$tmpl->assign('recoveryEnabledForUser', $recoveryEnabledForUser);
 
 return $tmpl->fetchPage();
 
-return null;
