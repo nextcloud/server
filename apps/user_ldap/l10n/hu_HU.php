@@ -75,6 +75,12 @@
 "User Home Folder Naming Rule" => "A home könyvtár elérési útvonala",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Hagyja üresen, ha a felhasználónevet kívánja használni. Ellenkező esetben adjon meg egy LDAP/AD attribútumot!",
 "Internal Username" => "Belső felhasználónév",
+"Internal Username Attribute:" => "A belső felhasználónév attribútuma:",
+"Override UUID detection" => "Az UUID-felismerés felülbírálása",
+"UUID Attribute:" => "UUID attribútum:",
+"Username-LDAP User Mapping" => "Felhasználó - LDAP felhasználó hozzárendelés",
+"Clear Username-LDAP User Mapping" => "A felhasználó - LDAP felhasználó hozzárendelés törlése",
+"Clear Groupname-LDAP Group Mapping" => "A csoport - LDAP csoport hozzárendelés törlése",
 "Test Configuration" => "A beállítások tesztelése",
 "Help" => "Súgó"
 );
