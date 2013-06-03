@@ -489,10 +489,10 @@ class OC_User {
 	/**
 	 * disables a user
 	 *
-	 * @param string $userid the user to disable
+	 * @param string $uid the user to disable
 	 */
-	public static function disableUser($userid) {
-		$user = self::getManager()->get($userid);
+	public static function disableUser($uid) {
+		$user = self::getManager()->get($uid);
 		if ($user) {
 			$user->setEnabled(false);
 		}
@@ -501,10 +501,10 @@ class OC_User {
 	/**
 	 * enable a user
 	 *
-	 * @param string $userid
+	 * @param string $uid
 	 */
-	public static function enableUser($userid) {
-		$user = self::getManager()->get($userid);
+	public static function enableUser($uid) {
+		$user = self::getManager()->get($uid);
 		if ($user) {
 			$user->setEnabled(true);
 		}
@@ -513,11 +513,11 @@ class OC_User {
 	/**
 	 * checks if a user is enabled
 	 *
-	 * @param string $userid
+	 * @param string $uid
 	 * @return bool
 	 */
-	public static function isEnabled($userid) {
-		$user = self::getManager()->get($userid);
+	public static function isEnabled($uid) {
+		$user = self::getManager()->get($uid);
 		if ($user) {
 			return $user->isEnabled();
 		} else {
