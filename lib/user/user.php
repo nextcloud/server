@@ -76,8 +76,7 @@ class User {
 	public function setDisplayName($displayName) {
 		if ($this->canChangeDisplayName()) {
 			$this->displayName = $displayName;
-			$this->backend->setDisplayName($this->uid, $displayName);
-			return true;
+			return $this->backend->setDisplayName($this->uid, $displayName);
 		} else {
 			return false;
 		}
