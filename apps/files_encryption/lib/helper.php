@@ -201,7 +201,11 @@ class Helper {
 	 */
 	public static function redirectToErrorPage() {
 		$location = \OC_Helper::linkToAbsolute('apps/files_encryption/files', 'error.php');
-		header('Location: ' . $location);
+		$post = 0;
+		if(count($_POST) > 0) {
+			$post = 1;
+		}
+		header('Location: ' . $location . '?p=' . $post);
 		exit();
 	}
 }
