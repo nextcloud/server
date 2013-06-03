@@ -66,6 +66,7 @@ class Manager extends PublicEmitter {
 	 * remove all user backends
 	 */
 	public function clearBackends() {
+		$this->cachedUsers = array();
 		$this->backends = array();
 	}
 
@@ -109,12 +110,8 @@ class Manager extends PublicEmitter {
 	 * @return bool
 	 */
 	public function userExists($uid) {
-		foreach ($this->backends as $backend) {
-			if ($backend->userExists($uid)) {
-				return true;
-			}
-		}
-		return false;
+		$user = $this->get($uid);
+		return ($user !== null);
 	}
 
 	/**
