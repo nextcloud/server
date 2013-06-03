@@ -39,7 +39,7 @@ if ($decryptedKey) {
 	$encryptedKey = \OCA\Encryption\Crypt::symmetricEncryptFileContent($decryptedKey, $newPassword);
 	$view->file_put_contents($keyPath, $encryptedKey);
 
-	$session->getPrivateKey($decryptedKey);
+	$session->setPrivateKey($decryptedKey);
 
 	$return = true;
 }
