@@ -22,27 +22,27 @@ $return = false;
 $oldPassword = $_POST['oldPassword'];
 $newPassword = $_POST['newPassword'];
 
+$view = new \OC\Files\View('/');
 $util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), \OCP\User::getUser());
 
-$result = $util->checkRecoveryPassword($oldPassword);
+$proxyStatus = \OC_FileProxy::$enabled;
+\OC_FileProxy::$enabled = false;
 
-if ($result) {
-	$keyId = $util->getRecoveryKeyId();
-	$keyPath = '/owncloud_private_key/' . $keyId . '.private.key';
-	$view = new \OC\Files\View('/');
+$keyId = $util->getRecoveryKeyId();
+$keyPath = '/owncloud_private_key/' . $keyId . '.private.key';
 
-	$proxyStatus = \OC_FileProxy::$enabled;
-	\OC_FileProxy::$enabled = false;
+$encryptedRecoveryKey = $view->file_get_contents($keyPath);
+$decryptedRecoveryKey = \OCA\Encryption\Crypt::decryptPrivateKey($encryptedRecoveryKey, $oldPassword);
 
-	$encryptedRecoveryKey = $view->file_get_contents($keyPath);
-	$decryptedRecoveryKey = \OCA\Encryption\Crypt::symmetricDecryptFileContent($encryptedRecoveryKey, $oldPassword);
+if ($decryptedRecoveryKey) {
+
 	$encryptedRecoveryKey = \OCA\Encryption\Crypt::symmetricEncryptFileContent($decryptedRecoveryKey, $newPassword);
 	$view->file_put_contents($keyPath, $encryptedRecoveryKey);
 
-	\OC_FileProxy::$enabled = $proxyStatus;
-
 	$return = true;
 }
+
+\OC_FileProxy::$enabled = $proxyStatus;
 
 // success or failure
 if ($return) {

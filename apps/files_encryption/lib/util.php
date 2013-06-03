@@ -1380,26 +1380,24 @@ class Util {
 	 */
 	public function checkRecoveryPassword($password) {
 
+		$result = false;
 		$pathKey = '/owncloud_private_key/' . $this->recoveryKeyId . ".private.key";
-		$pathControlData = '/control-file/controlfile.enc';
 
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
 		$recoveryKey = $this->view->file_get_contents($pathKey);
 
-		$decryptedRecoveryKey = Crypt::symmetricDecryptFileContent($recoveryKey, $password);
+		$decryptedRecoveryKey = Crypt::decryptPrivateKey($recoveryKey, $password);
 
-		$controlData = $this->view->file_get_contents($pathControlData);
-		$decryptedControlData = Crypt::keyDecrypt($controlData, $decryptedRecoveryKey);
+		if ($decryptedRecoveryKey) {
+			$result = true;
+		}
 
 		\OC_FileProxy::$enabled = $proxyStatus;
 
-		if ($decryptedControlData === 'ownCloud') {
-			return true;
-		}
 
-		return false;
+		return $result;
 	}
 
 	/**
@@ -1528,7 +1526,7 @@ class Util {
 
 		$encryptedKey = $this->view->file_get_contents(
 			'/owncloud_private_key/' . $this->recoveryKeyId . '.private.key');
-		$privateKey = Crypt::symmetricDecryptFileContent($encryptedKey, $recoveryPassword);
+		$privateKey = Crypt::decryptPrivateKey($encryptedKey, $recoveryPassword);
 
 		\OC_FileProxy::$enabled = $proxyStatus;
 
