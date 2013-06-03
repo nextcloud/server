@@ -129,7 +129,9 @@ var OCdialogs = {
 				modal: modal,
 				buttons: buttonlist,
 				close: function(event, ui) {
-					self.$filePicker.ocdialog('destroy').remove();
+					try {
+						$(this).ocdialog('destroy').remove();
+					} catch(e) {}
 					self.$filePicker = null;
 				}
 			});
