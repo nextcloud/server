@@ -36,11 +36,13 @@
 
 /**
  * This class is responsible for reading and writing config.php, the very basic
- * configuration file of owncloud.
+ * configuration file of ownCloud.
  */
 OC_Config::$object = new \OC\Config(OC::$SERVERROOT.'/config/', defined('DEBUG') && DEBUG);
-class OC_Config{
+class OC_Config {
+
 	public static $object;
+
 	/**
 	 * @brief Lists all available config keys
 	 * @return array with key names
@@ -61,8 +63,8 @@ class OC_Config{
 	 * This function gets the value from config.php. If it does not exist,
 	 * $default will be returned.
 	 */
-	public static function getValue( $key, $default = null ) {
-		return self::$object->getValue( $key, $default );
+	public static function getValue($key, $default = null) {
+		return self::$object->getValue($key, $default);
 	}
 
 	/**
@@ -70,14 +72,14 @@ class OC_Config{
 	 * @param string $key key
 	 * @param string $value value
 	 *
-	 * This function sets the value and writes the config.php. If the file can
-	 * not be written, false will be returned.
+	 * This function sets the value and writes the config.php.
+	 *
 	 */
-	public static function setValue( $key, $value ) {
+	public static function setValue($key, $value) {
 		try {
-			self::$object->setValue( $key, $value );
+			self::$object->setValue($key, $value);
 		} catch (\OC\HintException $e) {
-			\OC_Template::printErrorPage( $e->getMessage(), $e->getHint() );
+			\OC_Template::printErrorPage($e->getMessage(), $e->getHint());
 		}
 	}
 
@@ -85,14 +87,14 @@ class OC_Config{
 	 * @brief Removes a key from the config
 	 * @param string $key key
 	 *
-	 * This function removes a key from the config.php. If owncloud has no
-	 * write access to config.php, the function will return false.
+	 * This function removes a key from the config.php.
+	 *
 	 */
-	public static function deleteKey( $key ) {
+	public static function deleteKey($key) {
 		try {
-			self::$object->deleteKey( $key );
+			self::$object->deleteKey($key);
 		} catch (\OC\HintException $e) {
-			\OC_Template::printErrorPage( $e->getMessage(), $e->getHint() );
+			\OC_Template::printErrorPage($e->getMessage(), $e->getHint());
 		}
 	}
 }

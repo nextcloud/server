@@ -38,7 +38,7 @@ namespace OC;
 
 /**
  * This class is responsible for reading and writing config.php, the very basic
- * configuration file of owncloud.
+ * configuration file of ownCloud.
  */
 class Config {
 	// associative array key => value
@@ -63,7 +63,7 @@ class Config {
 	 * does not return the values.
 	 */
 	public function getKeys() {
-		return array_keys( $this->cache );
+		return array_keys($this->cache);
 	}
 
 	/**
@@ -75,8 +75,8 @@ class Config {
 	 * This function gets the value from config.php. If it does not exist,
 	 * $default will be returned.
 	 */
-	public function getValue( $key, $default = null ) {
-		if( array_key_exists( $key, $this->cache )) {
+	public function getValue($key, $default = null) {
+		if (isset($this->cache[$key])) {
 			return $this->cache[$key];
 		}
 
@@ -88,10 +88,10 @@ class Config {
 	 * @param string $key key
 	 * @param string $value value
 	 *
-	 * This function sets the value and writes the config.php. If the file can
-	 * not be written, false will be returned.
+	 * This function sets the value and writes the config.php.
+	 *
 	 */
-	public function setValue( $key, $value ) {
+	public function setValue($key, $value) {
 		// Add change
 		$this->cache[$key] = $value;
 
@@ -103,13 +103,13 @@ class Config {
 	 * @brief Removes a key from the config
 	 * @param string $key key
 	 *
-	 * This function removes a key from the config.php. If owncloud has no
-	 * write access to config.php, the function will return false.
+	 * This function removes a key from the config.php.
+	 *
 	 */
-	public function deleteKey( $key ) {
-		if( array_key_exists( $key, $this->cache )) {
+	public function deleteKey($key) {
+		if (isset($this->cache[$key])) {
 			// Delete key from cache
-			unset( $this->cache[$key] );
+			unset($this->cache[$key]);
 
 			// Write changes
 			$this->writeData();
@@ -123,7 +123,7 @@ class Config {
 	 */
 	private function readData() {
 		// read all file in config dir ending by config.php
-		$configFiles = glob( $this->configDir.'*.config.php');
+		$configFiles = glob($this->configDir.'*.config.php');
 
 		//Filter only regular files
 		$configFiles = array_filter($configFiles, 'is_file');
@@ -135,13 +135,13 @@ class Config {
 		array_unshift($configFiles, $this->configFilename);
 
 		//Include file and merge config
-		foreach($configFiles as $file) {
-			if( !file_exists( $file) ) {
+		foreach ($configFiles as $file) {
+			if (!file_exists($file)) {
 				continue;
 			}
 			unset($CONFIG);
 			include $file;
-			if( isset( $CONFIG ) && is_array( $CONFIG )) {
+			if (isset($CONFIG) && is_array($CONFIG)) {
 				$this->cache = array_merge($this->cache, $CONFIG);
 			}
 		}
@@ -164,12 +164,12 @@ class Config {
 		$content .= ";\n";
 
 		// Write the file
-		$result=@file_put_contents( $this->configFilename, $content );
-		if(!$result) {
+		$result = @file_put_contents( $this->configFilename, $content);
+		if (!$result) {
 			throw new HintException(
 				"Can't write into config directory 'config'",
 				'You can usually fix this by giving the webserver user write access'
-					.' to the config directory in owncloud');
+					.' to the config directory in ownCloud');
 		}
 		// Prevent others not to read the config
 		@chmod($this->configFilename, 0640);
