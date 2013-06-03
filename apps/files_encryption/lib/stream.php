@@ -116,6 +116,11 @@ class Stream {
 
 		} else {
 
+			if($this->privateKey === false) {
+				// if private key is not valid redirect user to a error page
+				\OCA\Encryption\Helper::redirectToErrorPage();
+			}
+
 			$this->size = $this->rootView->filesize($this->rawPath, $mode);
 		}
 
@@ -239,12 +244,8 @@ class Stream {
 			// if there is no valid private key return false
 			if ($this->privateKey === false) {
 
-				if (\OC_Util::isCallRegistered()) {
-					$l = \OC_L10N::get('core');
-					\OCP\JSON::error(array('data' => array('message' => $l->t('Private key is not valid! Maybe the user password was changed from outside if so please change it back to gain access'))));
-					throw new \Exception('Private key for user "' . $this->userId
-										 . '" is not valid! Maybe the user password was changed from outside if so please change it back to gain access');
-				}
+				// if private key is not valid redirect user to a error page
+				\OCA\Encryption\Helper::redirectToErrorPage();
 
 				return false;
 			}
@@ -450,10 +451,6 @@ class Stream {
 		// if there is no valid private key return false
 		if ($this->privateKey === false) {
 
-			if (\OC_Util::isCallRegistered()) {
-				$l = \OC_L10N::get('core');
-				\OCP\JSON::error(array('data' => array('message' => $l->t('Private key is not valid! Maybe the user password was changed from outside if so please change it back to gain access'))));
-
 				// cleanup
 				if ($this->meta['mode'] !== 'r' && $this->meta['mode'] !== 'rb') {
 
@@ -469,12 +466,8 @@ class Stream {
 					\OC_FileProxy::$enabled = $proxyStatus;
 				}
 
-				throw new \Exception('Private key for user "' . $this->userId
-									 . '" is not valid! Maybe the user password was changed from outside if so please change it back to gain access');
-			}
-
-
-			return false;
+			// if private key is not valid redirect user to a error page
+			\OCA\Encryption\Helper::redirectToErrorPage();
 		}
 
 		if (
