@@ -194,4 +194,13 @@ class Helper {
 
 		return $relPath;
 	}
+
+	/**
+	 * @brief redirect to a error page
+	 */
+	public static function redirectToErrorPage() {
+		$location = \OC_Helper::linkToAbsolute('apps/files_encryption/files', 'error.php');
+		header('Location: ' . $location);
+		exit();
+	}
 }
