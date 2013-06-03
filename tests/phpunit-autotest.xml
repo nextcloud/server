@@ -11,6 +11,7 @@
 			<directory suffix=".php">..</directory>
 			<exclude>
 				<directory suffix=".php">../3rdparty</directory>
+				<directory suffix=".php">../apps/files/l10n</directory>
 				<directory suffix=".php">../lib/MDB2</directory>
 			</exclude>
 		</whitelist>
