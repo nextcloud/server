@@ -74,7 +74,7 @@ class Helper {
 		if (!$util->ready()) {
 
 			\OCP\Util::writeLog('Encryption library', 'User account "' . $util->getUserId()
-												 . '" is not ready for encryption; configuration started', \OCP\Util::DEBUG);
+													  . '" is not ready for encryption; configuration started', \OCP\Util::DEBUG);
 
 			if (!$util->setupServerSide($password)) {
 				return false;

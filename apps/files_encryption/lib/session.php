@@ -90,7 +90,9 @@ class Session {
 
 			$encryptedKey = $this->view->file_get_contents(
 				'/owncloud_private_key/' . $publicShareKeyId . '.private.key');
-			$privateKey = Crypt::symmetricDecryptFileContent($encryptedKey, '');
+
+			$privateKey = Crypt::decryptPrivateKey($encryptedKey, '');
+
 			$this->setPublicSharePrivateKey($privateKey);
 
 			\OC_FileProxy::$enabled = $proxyStatus;
@@ -123,6 +125,7 @@ class Session {
 		if (\OCA\Encryption\Helper::isPublicAccess()) {
 			return $this->getPublicSharePrivateKey();
 		} else {
+
 			if (isset($_SESSION['privateKey']) && !empty($_SESSION['privateKey'])) {
 				return $_SESSION['privateKey'];
 			} else {

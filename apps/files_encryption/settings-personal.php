@@ -26,7 +26,7 @@ $recoveryEnabledForUser = $util->recoveryEnabledForUser();
 
 $tmpl->assign('recoveryEnabled', $recoveryAdminEnabled);
 $tmpl->assign('recoveryEnabledForUser', $recoveryEnabledForUser);
-$tmpl->assign("privateKeySet" , $privateKeySet);
+$tmpl->assign('privateKeySet', $privateKeySet);
 
 return $tmpl->fetchPage();
 

@@ -365,9 +365,9 @@ class Crypt {
 
 		// check if this a valid private key
 		$res = openssl_pkey_get_private($plainKey);
-		if(is_resource($res)) {
+		if (is_resource($res)) {
 			$sslInfo = openssl_pkey_get_details($res);
-			if(!isset($sslInfo['key'])) {
+			if (!isset($sslInfo['key'])) {
 				$plainKey = false;
 			}
 		} else {
