@@ -63,7 +63,7 @@ class Hooks {
 
 		$session = new \OCA\Encryption\Session($view);
 
-		$session->setPrivateKey($privateKey, $params['uid']);
+		$session->setPrivateKey($privateKey);
 
 		// Check if first-run file migration has already been performed
 		$migrationCompleted = $util->getMigrationStatus();
