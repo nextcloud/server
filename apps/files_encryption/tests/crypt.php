@@ -226,6 +226,24 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 	}
 
+	function testDecryptPrivateKey() {
+
+		$keypair = Encryption\Crypt::createKeypair();
+
+		// test successful decrypt
+		$crypted = Encryption\Crypt::symmetricEncryptFileContent($keypair['privateKey'], 'hat');
+
+		$decrypted = Encryption\Crypt::decryptPrivateKey($crypted, 'hat');
+
+		$this->assertEquals($keypair['privateKey'], $decrypted);
+
+		//test private key decrypt with wrong password
+		$wrongPasswd = Encryption\Crypt::decryptPrivateKey($crypted, 'hat2');
+
+		$this->assertEquals(false, $wrongPasswd);
+
+	}
+
 	function testSymmetricEncryptFileContent() {
 
 		# TODO: search in keyfile for actual content as IV will ensure this test always passes
