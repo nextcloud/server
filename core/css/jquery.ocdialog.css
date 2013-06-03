@@ -19,7 +19,6 @@
 .oc-dialog-content {
 	z-index: 1000;
 	background: white;
-	overflow-y: auto;
 }
 .oc-dialog-separator {
 }
