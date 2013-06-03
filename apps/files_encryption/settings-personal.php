@@ -14,6 +14,9 @@ $tmpl = new OCP\Template('files_encryption', 'settings-personal');
 $user = \OCP\USER::getUser();
 $view = new \OC_FilesystemView('/');
 $util = new \OCA\Encryption\Util($view, $user);
+$session = new \OCA\Encryption\Session($view);
+
+$privateKeySet = ($session->getPrivateKey() !== false) ? true : false;
 
 $recoveryAdminEnabled = OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled');
 $recoveryEnabledForUser = $util->recoveryEnabledForUser();
@@ -23,6 +26,7 @@ $recoveryEnabledForUser = $util->recoveryEnabledForUser();
 
 $tmpl->assign('recoveryEnabled', $recoveryAdminEnabled);
 $tmpl->assign('recoveryEnabledForUser', $recoveryEnabledForUser);
+$tmpl->assign("privateKeySet" , $privateKeySet);
 
 return $tmpl->fetchPage();
 
