@@ -391,7 +391,12 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 #oc-dialog-filepicker-content .dirtree span:not(:last-child) { cursor: pointer; }
 #oc-dialog-filepicker-content .dirtree span:last-child { font-weight: bold; }
 #oc-dialog-filepicker-content .dirtree span:not(:last-child)::after { content: '>'; padding: 3px;}
-#oc-dialog-filepicker-content .filelist {height:270px; overflow-y:auto; background-color:white; width:100%;}
+#oc-dialog-filepicker-content .filelist {
+	overflow-y:auto;
+	max-height: 300px;
+	background-color:white;
+	width:100%;
+}
 #oc-dialog-filepicker-content .filelist img { margin: 2px 1em 0 4px; }
 #oc-dialog-filepicker-content .filelist .date { float:right;margin-right:1em; }
 #oc-dialog-filepicker-content .filepicker_element_selected { background-color:lightblue;}
