@@ -57,6 +57,7 @@ class Manager extends PublicEmitter {
 	 * @param \OC_User_Backend $backend
 	 */
 	public function removeBackend($backend) {
+		$this->cachedUsers = array();
 		if (($i = array_search($backend, $this->backends)) !== false) {
 			unset($this->backends[$i]);
 		}
