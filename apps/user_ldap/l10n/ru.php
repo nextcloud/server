@@ -7,6 +7,8 @@
 "Take over settings from recent server configuration?" => "Принять настройки из последней конфигурации сервера?",
 "Keep settings?" => "Сохранить настройки?",
 "Cannot add server configuration" => "Не получилось добавить конфигурацию сервера",
+"Success" => "Успешно",
+"Error" => "Ошибка",
 "Connection test succeeded" => "Проверка соединения удалась",
 "Connection test failed" => "Проверка соединения не удалась",
 "Do you really want to delete the current Server Configuration?" => "Вы действительно хотите удалить существующую конфигурацию сервера?",

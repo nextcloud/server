@@ -1,4 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Encryption" => "Енкрипција",
-"None" => "Ништо"
+"Saving..." => "Снимам...",
+"Encryption" => "Енкрипција"
 );

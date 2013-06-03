@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Ант По <du6egub@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:16+0200\n"
-"PO-Revision-Date: 2013-04-26 08:29+0000\n"
+"POT-Creation-Date: 2013-05-30 02:27+0200\n"
+"PO-Revision-Date: 2013-05-30 00:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -17,22 +18,87 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: templates/settings-personal.php:4 templates/settings.php:5
+#: ajax/adminrecovery.php:29
+msgid "Recovery key successfully enabled"
+msgstr ""
+
+#: ajax/adminrecovery.php:34
+msgid ""
+"Could not enable recovery key. Please check your recovery key password!"
+msgstr ""
+
+#: ajax/adminrecovery.php:48
+msgid "Recovery key successfully disabled"
+msgstr ""
+
+#: ajax/adminrecovery.php:53
+msgid ""
+"Could not disable recovery key. Please check your recovery key password!"
+msgstr ""
+
+#: ajax/changeRecoveryPassword.php:49
+msgid "Password successfully changed."
+msgstr "Пароль изменен удачно."
+
+#: ajax/changeRecoveryPassword.php:51
+msgid "Could not change the password. Maybe the old password was not correct."
+msgstr "Невозможно изменить пароль. Возможно старый пароль не был верен."
+
+#: js/settings-admin.js:11
+msgid "Saving..."
+msgstr "Сохранение..."
+
+#: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
 msgstr "Шифрование"
 
-#: templates/settings-personal.php:7
-msgid "File encryption is enabled."
-msgstr "Шифрование файла включено."
+#: templates/settings-admin.php:9
+msgid ""
+"Enable encryption passwords recovery key (allow sharing to recovery key):"
+msgstr "Включить шифрование пароля ключа восстановления (понадобится разрешение для восстановления ключа)"
+
+#: templates/settings-admin.php:13
+msgid "Recovery account password"
+msgstr "Восстановление пароля учетной записи"
+
+#: templates/settings-admin.php:20 templates/settings-personal.php:18
+msgid "Enabled"
+msgstr "Включено"
+
+#: templates/settings-admin.php:28 templates/settings-personal.php:26
+msgid "Disabled"
+msgstr "Отключено"
+
+#: templates/settings-admin.php:32
+msgid "Change encryption passwords recovery key:"
+msgstr "Изменить шифрование пароля ключа восстановления:"
+
+#: templates/settings-admin.php:39
+msgid "Old Recovery account password"
+msgstr "Старое Восстановление пароля учетной записи"
+
+#: templates/settings-admin.php:46
+msgid "New Recovery account password"
+msgstr "Новое Восстановление пароля учетной записи"
+
+#: templates/settings-admin.php:51
+msgid "Change Password"
+msgstr "Изменить пароль"
+
+#: templates/settings-personal.php:9
+msgid "Enable password recovery by sharing all files with your administrator:"
+msgstr "Включить восстановление пароля путем доступа Вашего администратора ко всем файлам"
 
 #: templates/settings-personal.php:11
-msgid "The following file types will not be encrypted:"
-msgstr "Следующие типы файлов не будут зашифрованы:"
+msgid ""
+"Enabling this option will allow you to reobtain access to your encrypted "
+"files if your password is lost"
+msgstr "Включение этой опции позволит вам получить доступ к зашифрованным файлам, в случае утери пароля"
 
-#: templates/settings.php:7
-msgid "Exclude the following file types from encryption:"
-msgstr "Исключить следующие типы файлов из шифрованных:"
+#: templates/settings-personal.php:27
+msgid "File recovery settings updated"
+msgstr "Настройки файла восстановления обновлены"
 
-#: templates/settings.php:12
-msgid "None"
-msgstr "Нет новостей"
+#: templates/settings-personal.php:28
+msgid "Could not update file recovery"
+msgstr "Невозможно обновить файл восстановления"

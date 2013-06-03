@@ -46,6 +46,7 @@
 "{count} folders" => "{count} mappa",
 "1 file" => "1 fájl",
 "{count} files" => "{count} fájl",
+"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Érvénytelen mappanév. A 'Shared' az ownCloud számára fenntartott elnevezés",
 "Unable to rename file" => "Nem lehet átnevezni a fájlt",
 "Upload" => "Feltöltés",
 "File handling" => "Fájlkezelés",

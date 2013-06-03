@@ -123,8 +123,11 @@ class OC_Files {
 				header('Content-Length: ' . filesize($filename));
 				self::addSendfileHeader($filename);
 			}else{
+				$filesize = \OC\Files\Filesystem::filesize($filename);
 				header('Content-Type: '.\OC\Files\Filesystem::getMimeType($filename));
-				header("Content-Length: ".\OC\Files\Filesystem::filesize($filename));
+				if ($filesize > -1) {
+					header("Content-Length: ".$filesize);
+				}
 				list($storage) = \OC\Files\Filesystem::resolvePath($filename);
 				if ($storage instanceof \OC\Files\Storage\Local) {
 					self::addSendfileHeader(\OC\Files\Filesystem::getLocalFile($filename));

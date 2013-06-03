@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# pellaeon <nfsmwlin@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:16+0200\n"
-"PO-Revision-Date: 2013-04-26 08:29+0000\n"
+"POT-Creation-Date: 2013-05-30 02:27+0200\n"
+"PO-Revision-Date: 2013-05-30 00:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -17,22 +18,87 @@ msgstr ""
 "Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: templates/settings-personal.php:4 templates/settings.php:5
+#: ajax/adminrecovery.php:29
+msgid "Recovery key successfully enabled"
+msgstr ""
+
+#: ajax/adminrecovery.php:34
+msgid ""
+"Could not enable recovery key. Please check your recovery key password!"
+msgstr ""
+
+#: ajax/adminrecovery.php:48
+msgid "Recovery key successfully disabled"
+msgstr ""
+
+#: ajax/adminrecovery.php:53
+msgid ""
+"Could not disable recovery key. Please check your recovery key password!"
+msgstr ""
+
+#: ajax/changeRecoveryPassword.php:49
+msgid "Password successfully changed."
+msgstr "成功變更密碼。"
+
+#: ajax/changeRecoveryPassword.php:51
+msgid "Could not change the password. Maybe the old password was not correct."
+msgstr "無法變更密碼，或許是輸入的舊密碼不正確。"
+
+#: js/settings-admin.js:11
+msgid "Saving..."
+msgstr "儲存中..."
+
+#: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
 msgstr "加密"
 
-#: templates/settings-personal.php:7
-msgid "File encryption is enabled."
-msgstr "檔案加密已被啟用"
+#: templates/settings-admin.php:9
+msgid ""
+"Enable encryption passwords recovery key (allow sharing to recovery key):"
+msgstr ""
+
+#: templates/settings-admin.php:13
+msgid "Recovery account password"
+msgstr ""
+
+#: templates/settings-admin.php:20 templates/settings-personal.php:18
+msgid "Enabled"
+msgstr "已啓用"
+
+#: templates/settings-admin.php:28 templates/settings-personal.php:26
+msgid "Disabled"
+msgstr "已停用"
+
+#: templates/settings-admin.php:32
+msgid "Change encryption passwords recovery key:"
+msgstr "變更加密密碼還原金鑰："
+
+#: templates/settings-admin.php:39
+msgid "Old Recovery account password"
+msgstr ""
+
+#: templates/settings-admin.php:46
+msgid "New Recovery account password"
+msgstr ""
+
+#: templates/settings-admin.php:51
+msgid "Change Password"
+msgstr "變更密碼"
+
+#: templates/settings-personal.php:9
+msgid "Enable password recovery by sharing all files with your administrator:"
+msgstr "與管理員分享所有檔案以啓用密碼還原功能："
 
 #: templates/settings-personal.php:11
-msgid "The following file types will not be encrypted:"
-msgstr "以下的文件類型不會被加密："
+msgid ""
+"Enabling this option will allow you to reobtain access to your encrypted "
+"files if your password is lost"
+msgstr "啓用此選項允許您未來遺失密碼時重新取得已加密的檔案"
 
-#: templates/settings.php:7
-msgid "Exclude the following file types from encryption:"
-msgstr "從加密中排除的檔案類型："
+#: templates/settings-personal.php:27
+msgid "File recovery settings updated"
+msgstr "檔案還原設定已更新"
 
-#: templates/settings.php:12
-msgid "None"
-msgstr "無"
+#: templates/settings-personal.php:28
+msgid "Could not update file recovery"
+msgstr "無法更新檔案還原設定"

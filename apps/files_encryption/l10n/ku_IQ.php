@@ -1,4 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Encryption" => "نهێنیکردن",
-"None" => "هیچ"
+"Saving..." => "پاشکه‌وتده‌کات...",
+"Encryption" => "نهێنیکردن"
 );

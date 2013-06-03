@@ -2,6 +2,8 @@
 "Deletion failed" => "Poisto epäonnistui",
 "Keep settings?" => "Säilytetäänkö asetukset?",
 "Cannot add server configuration" => "Palvelinasetusten lisäys epäonnistui",
+"Success" => "Onnistui!",
+"Error" => "Virhe",
 "Connection test succeeded" => "Yhteystesti onnistui",
 "Connection test failed" => "Yhteystesti epäonnistui",
 "Confirm Deletion" => "Vahvista poisto",

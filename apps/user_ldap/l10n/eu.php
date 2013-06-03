@@ -7,6 +7,8 @@
 "Take over settings from recent server configuration?" => "oraintsuko zerbitzariaren konfigurazioaren ezarpenen ardura hartu?",
 "Keep settings?" => "Mantendu ezarpenak?",
 "Cannot add server configuration" => "Ezin da zerbitzariaren konfigurazioa gehitu",
+"Success" => "Arrakasta",
+"Error" => "Errorea",
 "Connection test succeeded" => "Konexio froga ongi burutu da",
 "Connection test failed" => "Konexio frogak huts egin du",
 "Do you really want to delete the current Server Configuration?" => "Ziur zaude Zerbitzariaren Konfigurazioa ezabatu nahi duzula?",

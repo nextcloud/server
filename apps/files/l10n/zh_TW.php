@@ -46,6 +46,7 @@
 "{count} folders" => "{count} 個資料夾",
 "1 file" => "1 個檔案",
 "{count} files" => "{count} 個檔案",
+"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "無效的資料夾名稱，'Shared' 的使用被 ownCloud 保留",
 "Unable to rename file" => "無法重新命名檔案",
 "Upload" => "上傳",
 "File handling" => "檔案處理",

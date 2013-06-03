@@ -51,6 +51,7 @@ class Scanner {
 			$data['size'] = $this->storage->filesize($path);
 		}
 		$data['etag'] = $this->storage->getETag($path);
+		$data['storage_mtime'] = $data['mtime'];
 		return $data;
 	}
 
@@ -77,18 +78,21 @@ class Scanner {
 						$this->scanFile($parent);
 					}
 				}
-				if($cacheData = $this->cache->get($file)) {
+				$newData = $data;
+				if ($cacheData = $this->cache->get($file)) {
+					if ($checkExisting && $data['size'] === -1) {
+						$data['size'] = $cacheData['size'];
+					}
 					if ($data['mtime'] === $cacheData['mtime'] &&
 						$data['size'] === $cacheData['size']) {
 						$data['etag'] = $cacheData['etag'];
 					}
+					// Only update metadata that has changed
+					$newData = array_diff($data, $cacheData);
 				}
-				if ($checkExisting and $cacheData) {
-					if ($data['size'] === -1) {
-						$data['size'] = $cacheData['size'];
-					}
+				if (!empty($newData)) {
+					$this->cache->put($file, $newData);
 				}
-				$this->cache->put($file, $data);
 			}
 			return $data;
 		}
@@ -115,7 +119,7 @@ class Scanner {
 			\OC_DB::beginTransaction();
 			while ($file = readdir($dh)) {
 				$child = ($path) ? $path . '/' . $file : $file;
-				if (!$this->isIgnoredDir($file)) {
+				if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
 					$data = $this->scanFile($child, $recursive === self::SCAN_SHALLOW);
 					if ($data) {
 						if ($data['size'] === -1) {
@@ -150,18 +154,6 @@ class Scanner {
 	}
 
 	/**
-	 * @brief check if the directory should be ignored when scanning
-	 * NOTE: the special directories . and .. would cause never ending recursion
-	 * @param String $dir
-	 * @return boolean
-	 */
-	private function isIgnoredDir($dir) {
-		if ($dir === '.' || $dir === '..') {
-			return true;
-		}
-		return false;
-	}
-	/**
 	 * @brief check if the file should be ignored when scanning
 	 * NOTE: files with a '.part' extension are ignored as well!
 	 *       prevents unfinished put requests to be scanned
@@ -179,9 +171,11 @@ class Scanner {
 	 * walk over any folders that are not fully scanned yet and scan them
 	 */
 	public function backgroundScan() {
-		while (($path = $this->cache->getIncomplete()) !== false) {
+		$lastPath = null;
+		while (($path = $this->cache->getIncomplete()) !== false && $path !== $lastPath) {
 			$this->scan($path);
 			$this->cache->correctFolderSize($path);
+			$lastPath = $path;
 		}
 	}
 }

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:17+0200\n"
-"PO-Revision-Date: 2013-04-26 16:22+0000\n"
+"POT-Creation-Date: 2013-06-03 02:27+0200\n"
+"PO-Revision-Date: 2013-06-02 23:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -124,44 +124,44 @@ msgstr "Ажурирано"
 msgid "Saving..."
 msgstr "Чување у току..."
 
-#: js/users.js:43
+#: js/users.js:47
 msgid "deleted"
 msgstr "обрисано"
 
-#: js/users.js:43
+#: js/users.js:47
 msgid "undo"
 msgstr "опозови"
 
-#: js/users.js:75
+#: js/users.js:79
 msgid "Unable to remove user"
 msgstr "Не могу да уклоним корисника"
 
-#: js/users.js:88 templates/users.php:26 templates/users.php:78
-#: templates/users.php:103
+#: js/users.js:92 templates/users.php:26 templates/users.php:83
+#: templates/users.php:108
 msgid "Groups"
 msgstr "Групе"
 
-#: js/users.js:91 templates/users.php:80 templates/users.php:115
+#: js/users.js:95 templates/users.php:85 templates/users.php:120
 msgid "Group Admin"
 msgstr "Управник групе"
 
-#: js/users.js:111 templates/users.php:155
+#: js/users.js:115 templates/users.php:160
 msgid "Delete"
 msgstr "Обриши"
 
-#: js/users.js:262
+#: js/users.js:269
 msgid "add group"
 msgstr "додај групу"
 
-#: js/users.js:414
+#: js/users.js:428
 msgid "A valid username must be provided"
 msgstr "Морате унети исправно корисничко име"
 
-#: js/users.js:415 js/users.js:421 js/users.js:436
+#: js/users.js:429 js/users.js:435 js/users.js:450
 msgid "Error creating user"
 msgstr "Грешка при прављењу корисника"
 
-#: js/users.js:420
+#: js/users.js:434
 msgid "A valid password must be provided"
 msgstr "Морате унети исправну лозинку"
 
@@ -324,11 +324,11 @@ msgstr "Више"
 msgid "Less"
 msgstr "Мање"
 
-#: templates/admin.php:235 templates/personal.php:105
+#: templates/admin.php:235 templates/personal.php:111
 msgid "Version"
 msgstr "Верзија"
 
-#: templates/admin.php:238 templates/personal.php:108
+#: templates/admin.php:237 templates/personal.php:114
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -399,7 +399,7 @@ msgstr "Преузмите апликације ради синхронизов�
 msgid "Show First Run Wizard again"
 msgstr "Поново прикажи чаробњак за прво покретање"
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:77
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:82
 msgid "Password"
 msgstr "Лозинка"
 
@@ -423,39 +423,39 @@ msgstr "Нова лозинка"
 msgid "Change password"
 msgstr "Измени лозинку"
 
-#: templates/personal.php:56 templates/users.php:76
+#: templates/personal.php:56 templates/users.php:81
 msgid "Display Name"
 msgstr "Име за приказ"
 
-#: templates/personal.php:68
+#: templates/personal.php:71
 msgid "Email"
 msgstr "Е-пошта"
 
-#: templates/personal.php:70
+#: templates/personal.php:73
 msgid "Your email address"
 msgstr "Ваша адреса е-поште"
 
-#: templates/personal.php:71
+#: templates/personal.php:74
 msgid "Fill in an email address to enable password recovery"
 msgstr "Ун"
 
-#: templates/personal.php:77 templates/personal.php:78
+#: templates/personal.php:83 templates/personal.php:84
 msgid "Language"
 msgstr "Језик"
 
-#: templates/personal.php:89
+#: templates/personal.php:95
 msgid "Help translate"
 msgstr " Помозите у превођењу"
 
-#: templates/personal.php:94
+#: templates/personal.php:100
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:96
+#: templates/personal.php:102
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Користите ову адресу да се повежете са ownCloud-ом у управљачу датотекама"
 
-#: templates/users.php:21 templates/users.php:75
+#: templates/users.php:21 templates/users.php:80
 msgid "Login Name"
 msgstr "Корисничко име"
 
@@ -463,30 +463,34 @@ msgstr "Корисничко име"
 msgid "Create"
 msgstr "Направи"
 
-#: templates/users.php:33
+#: templates/users.php:34
+msgid "Admin Recovery Password"
+msgstr ""
+
+#: templates/users.php:38
 msgid "Default Storage"
 msgstr "Подразумевано складиште"
 
-#: templates/users.php:39 templates/users.php:133
+#: templates/users.php:44 templates/users.php:138
 msgid "Unlimited"
 msgstr "Неограничено"
 
-#: templates/users.php:57 templates/users.php:148
+#: templates/users.php:62 templates/users.php:153
 msgid "Other"
 msgstr "Друго"
 
-#: templates/users.php:82
+#: templates/users.php:87
 msgid "Storage"
 msgstr "Складиште"
 
-#: templates/users.php:93
+#: templates/users.php:98
 msgid "change display name"
 msgstr "промени име за приказ"
 
-#: templates/users.php:97
+#: templates/users.php:102
 msgid "set new password"
 msgstr "постави нову лозинку"
 
-#: templates/users.php:128
+#: templates/users.php:133
 msgid "Default"
 msgstr "Подразумевано"

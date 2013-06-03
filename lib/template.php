@@ -246,14 +246,14 @@ class OC_Template{
 		// if the formfactor is not yet autodetected do the
 		// autodetection now. For possible formfactors check the
 		// detectFormfactor documentation
-		if(!isset($_SESSION['formfactor'])) {
-			$_SESSION['formfactor'] = self::detectFormfactor();
+		if (!\OC::$session->exists('formfactor')) {
+			\OC::$session->set('formfactor', self::detectFormfactor());
 		}
 		// allow manual override via GET parameter
 		if(isset($_GET['formfactor'])) {
-			$_SESSION['formfactor']=$_GET['formfactor'];
+			\OC::$session->set('formfactor', $_GET['formfactor']);
 		}
-		$formfactor=$_SESSION['formfactor'];
+		$formfactor = \OC::$session->get('formfactor');
 		if($formfactor=='default') {
 			$fext='';
 		}elseif($formfactor=='mobile') {

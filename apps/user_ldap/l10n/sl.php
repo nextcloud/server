@@ -7,6 +7,8 @@
 "Take over settings from recent server configuration?" => "Ali naj se prevzame nastavitve nedavne nastavitve strežnika?",
 "Keep settings?" => "Ali nas se nastavitve ohranijo?",
 "Cannot add server configuration" => "Ni mogoče dodati nastavitev strežnika",
+"Success" => "Uspešno končano.",
+"Error" => "Napaka",
 "Connection test succeeded" => "Preizkus povezave je uspešno končan.",
 "Connection test failed" => "Preizkus povezave je spodletel.",
 "Do you really want to delete the current Server Configuration?" => "Ali res želite izbrisati trenutne nastavitve strežnika?",

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:16+0200\n"
-"PO-Revision-Date: 2013-04-26 08:30+0000\n"
+"POT-Creation-Date: 2013-06-03 02:27+0200\n"
+"PO-Revision-Date: 2013-06-02 23:18+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -27,11 +27,11 @@ msgstr "Невъзможно изтриване на %s завинаги"
 msgid "Couldn't restore %s"
 msgstr "Невъзможно възтановяване на %s"
 
-#: js/trash.js:7 js/trash.js:96
+#: js/trash.js:7 js/trash.js:97
 msgid "perform restore operation"
 msgstr "извършване на действие по възстановяване"
 
-#: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
+#: js/trash.js:19 js/trash.js:46 js/trash.js:115 js/trash.js:141
 msgid "Error"
 msgstr "Грешка"
 
@@ -39,31 +39,31 @@ msgstr "Грешка"
 msgid "delete file permanently"
 msgstr "изтриване на файла завинаги"
 
-#: js/trash.js:121
+#: js/trash.js:123
 msgid "Delete permanently"
 msgstr "Изтриване завинаги"
 
-#: js/trash.js:174 templates/index.php:17
+#: js/trash.js:176 templates/index.php:17
 msgid "Name"
 msgstr "Име"
 
-#: js/trash.js:175 templates/index.php:27
+#: js/trash.js:177 templates/index.php:27
 msgid "Deleted"
 msgstr "Изтрито"
 
-#: js/trash.js:184
+#: js/trash.js:186
 msgid "1 folder"
 msgstr "1 папка"
 
-#: js/trash.js:186
+#: js/trash.js:188
 msgid "{count} folders"
 msgstr "{count} папки"
 
-#: js/trash.js:194
+#: js/trash.js:196
 msgid "1 file"
 msgstr "1 файл"
 
-#: js/trash.js:196
+#: js/trash.js:198
 msgid "{count} files"
 msgstr "{count} файла"
 

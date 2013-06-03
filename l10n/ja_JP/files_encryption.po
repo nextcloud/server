@@ -3,13 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
+# tt yn <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:16+0200\n"
-"PO-Revision-Date: 2013-04-26 08:29+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-01 01:58+0200\n"
+"PO-Revision-Date: 2013-05-31 06:00+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,22 +19,87 @@ msgstr ""
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: templates/settings-personal.php:4 templates/settings.php:5
+#: ajax/adminrecovery.php:29
+msgid "Recovery key successfully enabled"
+msgstr "リカバリ用のキーは正常に有効化されました"
+
+#: ajax/adminrecovery.php:34
+msgid ""
+"Could not enable recovery key. Please check your recovery key password!"
+msgstr "リカバリ用のキーを有効にできませんでした。リカバリ用のキーのパスワードを確認して下さい！"
+
+#: ajax/adminrecovery.php:48
+msgid "Recovery key successfully disabled"
+msgstr "リカバリ用のキーを正常に無効化しました"
+
+#: ajax/adminrecovery.php:53
+msgid ""
+"Could not disable recovery key. Please check your recovery key password!"
+msgstr "リカバリ用のキーを無効化できませんでした。リカバリ用のキーのパスワードを確認して下さい！"
+
+#: ajax/changeRecoveryPassword.php:49
+msgid "Password successfully changed."
+msgstr "パスワードを変更できました。"
+
+#: ajax/changeRecoveryPassword.php:51
+msgid "Could not change the password. Maybe the old password was not correct."
+msgstr "パスワードを変更できませんでした。古いパスワードが間違っているかもしれません。"
+
+#: js/settings-admin.js:11
+msgid "Saving..."
+msgstr "保存中..."
+
+#: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
 msgstr "暗号化"
 
-#: templates/settings-personal.php:7
-msgid "File encryption is enabled."
-msgstr "ファイルの暗号化は有効です。"
+#: templates/settings-admin.php:9
+msgid ""
+"Enable encryption passwords recovery key (allow sharing to recovery key):"
+msgstr "暗号化パスワードの復旧キーを有効にする(復旧キーを共有することを許可):"
+
+#: templates/settings-admin.php:13
+msgid "Recovery account password"
+msgstr "復旧アカウントのパスワード"
+
+#: templates/settings-admin.php:20 templates/settings-personal.php:18
+msgid "Enabled"
+msgstr "有効"
+
+#: templates/settings-admin.php:28 templates/settings-personal.php:26
+msgid "Disabled"
+msgstr "無効"
+
+#: templates/settings-admin.php:32
+msgid "Change encryption passwords recovery key:"
+msgstr "復旧キーの暗号化パスワードを変更:"
+
+#: templates/settings-admin.php:39
+msgid "Old Recovery account password"
+msgstr "古い復旧アカウントのパスワード"
+
+#: templates/settings-admin.php:46
+msgid "New Recovery account password"
+msgstr "新しい復旧アカウントのパスワード"
+
+#: templates/settings-admin.php:51
+msgid "Change Password"
+msgstr "パスワードを変更"
+
+#: templates/settings-personal.php:9
+msgid "Enable password recovery by sharing all files with your administrator:"
+msgstr "管理者が全ての共有ファイルに対してパスワードによる復旧を有効にする:"
 
 #: templates/settings-personal.php:11
-msgid "The following file types will not be encrypted:"
-msgstr "次のファイルタイプは暗号化されません:"
+msgid ""
+"Enabling this option will allow you to reobtain access to your encrypted "
+"files if your password is lost"
+msgstr "このオプションを有効にすると、もしパスワードが分からなくなったとしても、暗号化されたファイルに再度アクセスすることが出来るようになります。"
 
-#: templates/settings.php:7
-msgid "Exclude the following file types from encryption:"
-msgstr "次のファイルタイプを暗号化から除外:"
+#: templates/settings-personal.php:27
+msgid "File recovery settings updated"
+msgstr "ファイル復旧設定が更新されました"
 
-#: templates/settings.php:12
-msgid "None"
-msgstr "なし"
+#: templates/settings-personal.php:28
+msgid "Could not update file recovery"
+msgstr "ファイル復旧を更新できませんでした"

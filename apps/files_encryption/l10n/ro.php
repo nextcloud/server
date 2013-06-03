@@ -1,4 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Encryption" => "Încriptare",
-"None" => "Niciuna"
+"Saving..." => "Se salvează...",
+"Encryption" => "Încriptare"
 );

@@ -46,6 +46,7 @@
 "{count} folders" => "{count} Ordner",
 "1 file" => "1 Datei",
 "{count} files" => "{count} Dateien",
+"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Ungültiger Ordnername. Die Verwendung von \"Shared\" ist ownCloud vorbehalten.",
 "Unable to rename file" => "Konnte Datei nicht umbenennen",
 "Upload" => "Hochladen",
 "File handling" => "Dateibehandlung",

@@ -1,4 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Encryption" => "การเข้ารหัส",
-"None" => "ไม่มี"
+"Saving..." => "กำลังบันทึกข้อมูล...",
+"Encryption" => "การเข้ารหัส"
 );

@@ -1,4 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Encryption" => "மறைக்குறியீடு",
-"None" => "ஒன்றுமில்லை"
+"Saving..." => "சேமிக்கப்படுகிறது...",
+"Encryption" => "மறைக்குறியீடு"
 );
