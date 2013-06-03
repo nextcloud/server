@@ -274,22 +274,6 @@ class OC_User {
 		}
 	}
 
-
-	/**
-	 * @brief get display name
-	 * @param $uid The username
-	 * @return string display name or uid if no display name is defined
-	 *
-	 */
-	private static function determineDisplayName($uid) {
-		$user = self::getManager()->get($uid);
-		if ($user) {
-			return $user->getDisplayName();
-		} else {
-			return $uid;
-		}
-	}
-
 	/**
 	 * @brief Logs the current user out and kills all the session data
 	 *
@@ -342,11 +326,17 @@ class OC_User {
 
 	/**
 	 * @brief get the display name of the user currently logged in.
+	 * @param string $uid
 	 * @return string uid or false
 	 */
-	public static function getDisplayName($user = null) {
-		if ($user) {
-			return self::determineDisplayName($user);
+	public static function getDisplayName($uid = null) {
+		if ($uid) {
+			$user = self::getManager()->get($uid);
+			if ($user) {
+				return $user->getDisplayName();
+			} else {
+				return $uid;
+			}
 		} else {
 			$user = self::getUserSession()->getUser();
 			if ($user) {
