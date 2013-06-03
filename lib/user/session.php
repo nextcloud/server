@@ -71,6 +71,8 @@ class Session implements Emitter {
 	}
 
 	/**
+	 * get the manager object
+	 *
 	 * @return \OC\User\Manager
 	 */
 	public function getManager() {
@@ -110,6 +112,13 @@ class Session implements Emitter {
 		}
 	}
 
+	/**
+	 * try to login with the provided credentials
+	 *
+	 * @param string $uid
+	 * @param string $password
+	 * @return bool
+	 */
 	public function login($uid, $password) {
 		$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
 		$user = $this->manager->get($uid);
@@ -127,6 +136,9 @@ class Session implements Emitter {
 		}
 	}
 
+	/**
+	 * logout the user from the session
+	 */
 	public function logout() {
 		$this->manager->emit('\OC\User', 'logout');
 		$this->setUser(null);
@@ -148,7 +160,7 @@ class Session implements Emitter {
 	}
 
 	/**
-	 * @brief Remove cookie for "remember username"
+	 * Remove cookie for "remember username"
 	 */
 	public function unsetMagicInCookie() {
 		unset($_COOKIE["oc_username"]); //TODO: DI

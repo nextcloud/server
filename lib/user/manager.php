@@ -43,6 +43,8 @@ class Manager extends PublicEmitter {
 	}
 
 	/**
+	 * register a user backend
+	 *
 	 * @param \OC_User_Backend $backend
 	 */
 	public function registerBackend($backend) {
@@ -50,6 +52,8 @@ class Manager extends PublicEmitter {
 	}
 
 	/**
+	 * remove a user backend
+	 *
 	 * @param \OC_User_Backend $backend
 	 */
 	public function removeBackend($backend) {
@@ -58,16 +62,21 @@ class Manager extends PublicEmitter {
 		}
 	}
 
+	/**
+	 * remove all user backends
+	 */
 	public function clearBackends() {
 		$this->backends = array();
 	}
 
 	/**
+	 * get a user by user id
+	 *
 	 * @param string $uid
 	 * @return \OC\User\User
 	 */
 	public function get($uid) {
-		if (isset($this->cachedUsers[$uid])) {
+		if (isset($this->cachedUsers[$uid])) { //check the cache first to prevent having to loop over the backends
 			return $this->cachedUsers[$uid];
 		}
 		foreach ($this->backends as $backend) {
@@ -78,6 +87,13 @@ class Manager extends PublicEmitter {
 		return null;
 	}
 
+	/**
+	 * get or construct the user object
+	 *
+	 * @param string $uid
+	 * @param \OC_User_Backend $backend
+	 * @return \OC\User\User
+	 */
 	protected function getUserObject($uid, $backend) {
 		if (isset($this->cachedUsers[$uid])) {
 			return $this->cachedUsers[$uid];
@@ -87,6 +103,8 @@ class Manager extends PublicEmitter {
 	}
 
 	/**
+	 * check if a user exists
+	 *
 	 * @param string $uid
 	 * @return bool
 	 */

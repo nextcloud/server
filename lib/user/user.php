@@ -56,6 +56,8 @@ class User {
 	}
 
 	/**
+	 * get the user id
+	 *
 	 * @return string
 	 */
 	public function getUID() {
@@ -63,6 +65,8 @@ class User {
 	}
 
 	/**
+	 * get the displayname for the user, if no specific displayname is set it will fallback to the user id
+	 *
 	 * @return string
 	 */
 	public function getDisplayName() {
@@ -70,6 +74,8 @@ class User {
 	}
 
 	/**
+	 * set the displayname for the user
+	 *
 	 * @param string $displayName
 	 * @return bool
 	 */
@@ -83,6 +89,8 @@ class User {
 	}
 
 	/**
+	 * Delete the user
+	 *
 	 * @return bool
 	 */
 	public function delete() {
@@ -97,6 +105,8 @@ class User {
 	}
 
 	/**
+	 * Check if the password is valid for the user
+	 *
 	 * @param $password
 	 * @return bool
 	 */
@@ -113,6 +123,8 @@ class User {
 	}
 
 	/**
+	 * Set the password of the user
+	 *
 	 * @param string $password
 	 * @param string $recoveryPassword for the encryption app to reset encryption keys
 	 * @return bool
@@ -145,6 +157,8 @@ class User {
 	}
 
 	/**
+	 * check if the backend supports changing passwords
+	 *
 	 * @return bool
 	 */
 	public function canChangePassword() {
@@ -152,6 +166,8 @@ class User {
 	}
 
 	/**
+	 * check if the backend supports changing display names
+	 *
 	 * @return bool
 	 */
 	public function canChangeDisplayName() {
@@ -159,6 +175,8 @@ class User {
 	}
 
 	/**
+	 * check if the user is enabled
+	 *
 	 * @return bool
 	 */
 	public function isEnabled() {
@@ -166,6 +184,8 @@ class User {
 	}
 
 	/**
+	 * set the enabled status for the user
+	 *
 	 * @param bool $enabled
 	 */
 	public function setEnabled($enabled) {
