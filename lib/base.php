@@ -441,14 +441,14 @@ class OC {
 		stream_wrapper_register('oc', 'OC\Files\Stream\OC');
 
 		self::initTemplateEngine();
-		self::checkConfig();
-		self::checkInstalled();
-		self::checkSSL();
 		if ( !self::$CLI ) {
 			self::initSession();
 		} else {
 			self::$session = new \OC\Session\Memory('');
 		}
+		self::checkConfig();
+		self::checkInstalled();
+		self::checkSSL();
 
 		$errors = OC_Util::checkServer();
 		if (count($errors) > 0) {
