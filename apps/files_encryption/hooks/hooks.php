@@ -57,8 +57,9 @@ class Hooks {
 
 		$privateKey = Crypt::decryptPrivateKey($encryptedKey, $params['password']);
 
-		if($privateKey === false) {
-			\OCP\Util::writeLog('Encryption library', 'Private key for user "' . $params['uid'] . '" is not valid! Maybe the user password was changed from outside if so please change it back to gain access', \OCP\Util::ERROR);
+		if ($privateKey === false) {
+			\OCP\Util::writeLog('Encryption library', 'Private key for user "' . $params['uid']
+													  . '" is not valid! Maybe the user password was changed from outside if so please change it back to gain access', \OCP\Util::ERROR);
 		}
 
 		$session = new \OCA\Encryption\Session($view);
@@ -332,7 +333,7 @@ class Hooks {
 			$sharingEnabled = \OCP\Share::isEnabled();
 
 			// get the path including mount point only if not a shared folder
-			if(strncmp($path, '/Shared' , strlen('/Shared') !== 0)) {
+			if (strncmp($path, '/Shared', strlen('/Shared') !== 0)) {
 				// get path including the the storage mount point
 				$path = $util->getPathWithMountPoint($params['itemSource']);
 			}
@@ -409,14 +410,14 @@ class Hooks {
 			}
 
 			// get the path including mount point only if not a shared folder
-			if(strncmp($path, '/Shared' , strlen('/Shared') !== 0)) {
+			if (strncmp($path, '/Shared', strlen('/Shared') !== 0)) {
 				// get path including the the storage mount point
 				$path = $util->getPathWithMountPoint($params['itemSource']);
 			}
 
 			// if we unshare a folder we need a list of all (sub-)files
 			if ($params['itemType'] === 'folder') {
-				$allFiles = $util->getAllFiles( $path );
+				$allFiles = $util->getAllFiles($path);
 			} else {
 				$allFiles = array($path);
 			}

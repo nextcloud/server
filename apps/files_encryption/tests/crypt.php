@@ -92,8 +92,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		// reset app files_trashbin
 		if ($this->stateFilesTrashbin) {
 			OC_App::enable('files_trashbin');
-		}
-		else {
+		} else {
 			OC_App::disable('files_trashbin');
 		}
 	}

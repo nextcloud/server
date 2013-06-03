@@ -302,7 +302,7 @@ class Util {
 		if (\OCP\DB::isError($result)) {
 			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 		} else {
-			if($result->numRows() > 0) {
+			if ($result->numRows() > 0) {
 				$row = $result->fetchRow();
 				if (isset($row['recovery_enabled'])) {
 					$recoveryEnabled[] = $row['recovery_enabled'];
@@ -442,7 +442,7 @@ class Util {
 
 							// If the file uses old
 							// encryption system
-						} elseif ( Crypt::isLegacyEncryptedContent( $data, $relPath ) ) {
+						} elseif (Crypt::isLegacyEncryptedContent($data, $relPath)) {
 
 							$found['legacy'][] = array(
 								'name' => $file,
@@ -573,7 +573,9 @@ class Util {
 		// get relative path
 		$relativePath = \OCA\Encryption\Helper::stripUserFilesPath($path);
 
-		if (isset($pathParts[2]) && $pathParts[2] === 'files' && $this->view->file_exists($path) && $this->isEncryptedPath($path)) {
+		if (isset($pathParts[2]) && $pathParts[2] === 'files' && $this->view->file_exists($path)
+			&& $this->isEncryptedPath($path)
+		) {
 
 			// get the size from filesystem
 			$fullPath = $this->view->getLocalFile($path);
@@ -643,7 +645,7 @@ class Util {
 		return $result;
 	}
 
-	
+
 	/**
 	 * @param $path
 	 * @return bool
@@ -687,28 +689,32 @@ class Util {
 				$relPath = $plainFile['path'];
 
 				//relative to /data
-				$rawPath = '/'.$this->userId . '/files/' . $plainFile['path'];
+				$rawPath = '/' . $this->userId . '/files/' . $plainFile['path'];
 
 				// Open plain file handle for binary reading
-				$plainHandle = $this->view->fopen( $rawPath, 'rb' );
+				$plainHandle = $this->view->fopen($rawPath, 'rb');
 
 				// Open enc file handle for binary writing, with same filename as original plain file
-				$encHandle = fopen( 'crypt://' . $relPath.'.tmp', 'wb' );
+				$encHandle = fopen('crypt://' . $relPath . '.tmp', 'wb');
 
 				// Move plain file to a temporary location
-				$size = stream_copy_to_stream( $plainHandle, $encHandle );
+				$size = stream_copy_to_stream($plainHandle, $encHandle);
 
 				fclose($encHandle);
 
 				$fakeRoot = $this->view->getRoot();
-				$this->view->chroot('/'.$this->userId.'/files');
+				$this->view->chroot('/' . $this->userId . '/files');
 
 				$this->view->rename($relPath . '.tmp', $relPath);
 
 				$this->view->chroot($fakeRoot);
 
 				// Add the file to the cache
-				\OC\Files\Filesystem::putFileInfo( $relPath, array( 'encrypted' => true, 'size' => $size, 'unencrypted_size' => $size ) );
+				\OC\Files\Filesystem::putFileInfo($relPath, array(
+																 'encrypted' => true,
+																 'size' => $size,
+																 'unencrypted_size' => $size
+															));
 			}
 
 			// Encrypt legacy encrypted files
@@ -735,7 +741,7 @@ class Util {
 					$publicKeys = Keymanager::getPublicKeys($this->view, $uniqueUserIds);
 
 					// Recrypt data, generate catfile
-					$recrypted = Crypt::legacyKeyRecryptKeyfile( $legacyData, $legacyPassphrase, $publicKeys );
+					$recrypted = Crypt::legacyKeyRecryptKeyfile($legacyData, $legacyPassphrase, $publicKeys);
 
 					$rawPath = $legacyFile['path'];
 					$relPath = \OCA\Encryption\Helper::stripUserFilesPath($rawPath);
@@ -831,7 +837,7 @@ class Util {
 		if (\OCP\DB::isError($result)) {
 			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 		} else {
-			if($result->numRows() > 0) {
+			if ($result->numRows() > 0) {
 				$row = $result->fetchRow();
 				$path = substr($row['path'], strlen('files'));
 			}
@@ -1102,7 +1108,7 @@ class Util {
 		if (\OCP\DB::isError($result)) {
 			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 		} else {
-			if($result->numRows() > 0) {
+			if ($result->numRows() > 0) {
 				$row = $result->fetchRow();
 				if (isset($row['migration_status'])) {
 					$migrationStatus[] = $row['migration_status'];
@@ -1191,7 +1197,8 @@ class Util {
 
 		$result = array();
 
-		$content = $this->view->getDirectoryContent(\OC\Files\Filesystem::normalizePath($this->userFilesDir . '/' . $dir));
+		$content = $this->view->getDirectoryContent(\OC\Files\Filesystem::normalizePath(
+			$this->userFilesDir . '/' . $dir));
 
 		// handling for re shared folders
 		$pathSplit = explode('/', $dir);
@@ -1252,7 +1259,7 @@ class Util {
 		if (\OCP\DB::isError($result)) {
 			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 		} else {
-			if($result->numRows() > 0) {
+			if ($result->numRows() > 0) {
 				$row = $result->fetchRow();
 			}
 		}
@@ -1278,7 +1285,7 @@ class Util {
 		if (\OCP\DB::isError($result)) {
 			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 		} else {
-			if($result->numRows() > 0) {
+			if ($result->numRows() > 0) {
 				$row = $result->fetchRow();
 			}
 		}
@@ -1303,7 +1310,7 @@ class Util {
 		if (\OCP\DB::isError($result)) {
 			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 		} else {
-			if($result->numRows() > 0) {
+			if ($result->numRows() > 0) {
 				$source = $result->fetchRow();
 			}
 		}
@@ -1324,7 +1331,7 @@ class Util {
 				if (\OCP\DB::isError($result)) {
 					\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 				} else {
-					if($result->numRows() > 0) {
+					if ($result->numRows() > 0) {
 						$item = $result->fetchRow();
 					}
 				}
@@ -1534,7 +1541,7 @@ class Util {
 		list($storage, $internalPath) = \OC\Files\Cache\Cache::getById($id);
 		$mount = \OC\Files\Filesystem::getMountByStorageId($storage);
 		$mountPoint = $mount[0]->getMountPoint();
-		$path = \OC\Files\Filesystem::normalizePath($mountPoint.'/'.$internalPath);
+		$path = \OC\Files\Filesystem::normalizePath($mountPoint . '/' . $internalPath);
 
 		// reformat the path to be relative e.g. /user/files/folder becomes /folder/
 		$relativePath = \OCA\Encryption\Helper::stripUserFilesPath($path);

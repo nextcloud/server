@@ -29,7 +29,7 @@ $user = \OCP\User::getUser();
 $proxyStatus = \OC_FileProxy::$enabled;
 \OC_FileProxy::$enabled = false;
 
-$keyPath = '/' . $user . '/files_encryption/'.$user.'.private.key';
+$keyPath = '/' . $user . '/files_encryption/' . $user . '.private.key';
 
 $encryptedKey = $view->file_get_contents($keyPath);
 $decryptedKey = \OCA\Encryption\Crypt::decryptPrivateKey($encryptedKey, $oldPassword);
