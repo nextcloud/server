@@ -89,7 +89,7 @@ class Session {
 			\OC_FileProxy::$enabled = false;
 
 			$encryptedKey = $this->view->file_get_contents( '/owncloud_private_key/' . $publicShareKeyId . '.private.key' );
-			$privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, '' );
+			$privateKey = Crypt::decryptPrivateKey($encryptedKey, '');
 			$this->setPublicSharePrivateKey( $privateKey );
 
 			\OC_FileProxy::$enabled = $proxyStatus;

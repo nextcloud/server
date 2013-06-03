@@ -93,6 +93,7 @@ class Helper {
 	 * @return bool
 	 */
 	public static function adminEnableRecovery($recoveryKeyId, $recoveryPassword) {
+
 		$view = new \OC\Files\View('/');
 
 		if ($recoveryKeyId === null) {
@@ -126,13 +127,6 @@ class Helper {
 
 			// Save private key
 			$view->file_put_contents('/owncloud_private_key/' . $recoveryKeyId . '.private.key', $encryptedPrivateKey);
-
-			// create control file which let us check later on if the entered password was correct.
-			$encryptedControlData = \OCA\Encryption\Crypt::keyEncrypt("ownCloud", $keypair['publicKey']);
-			if (!$view->is_dir('/control-file')) {
-				$view->mkdir('/control-file');
-			}
-			$view->file_put_contents('/control-file/controlfile.enc', $encryptedControlData);
 
 			\OC_FileProxy::$enabled = true;
 
