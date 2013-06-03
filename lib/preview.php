@@ -20,7 +20,7 @@ require_once('preview/pdf.php');
 require_once('preview/svg.php');
 require_once('preview/txt.php');
 require_once('preview/unknown.php');
-require_once('preview/msoffice.php');
+//require_once('preview/msoffice.php');
 //require_once('preview/opendocument.php');
 
 class Preview {
