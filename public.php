@@ -1,6 +1,7 @@
 <?php
 $RUNTIME_NOAPPS = true;
 require_once 'lib/base.php';
+OC::checkMaintenanceMode();
 if (!isset($_GET['service'])) {
 	header('HTTP/1.0 404 Not Found');
 	exit;
