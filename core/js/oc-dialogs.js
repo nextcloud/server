@@ -115,7 +115,8 @@ var OCdialogs = {
 			};
 			var buttonlist = [{
 				text: t('core', 'Choose'),
-				click: functionToCall
+				click: functionToCall,
+				defaultButton: true
 				},
 				{
 				text: t('core', 'Cancel'),
@@ -164,7 +165,8 @@ var OCdialogs = {
 						click: function(){
 							if (callback !== undefined) { callback(true) };
 							$(dialog_id).ocdialog('close');
-						}
+						},
+						defaultButton: true
 					},
 					{
 						text: t('core', 'No'),
@@ -181,7 +183,8 @@ var OCdialogs = {
 					};
 					buttonlist[0] = {
 						text: t('core', 'Ok'),
-						click: functionToCall
+						click: functionToCall,
+						defaultButton: true
 					};
 				break;
 			};
