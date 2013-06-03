@@ -164,7 +164,7 @@ class Config {
 		$content .= ";\n";
 
 		// Write the file
-		$result = @file_put_contents( $this->configFilename, $content);
+		$result = @file_put_contents($this->configFilename, $content);
 		if (!$result) {
 			throw new HintException(
 				"Can't write into config directory 'config'",
