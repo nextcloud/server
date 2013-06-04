@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Error" => "সমস্যা",
 "Host" => "হোস্ট",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "SSL আবশ্যক  না হলে  আপনি এই প্রটোকলটি মুছে ফেলতে পারেন । এরপর শুরু করুন এটা দিয়ে ldaps://",
 "Base DN" => "ভিত্তি  DN",

@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <suganthi@nic.lk>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-09 02:10+0200\n"
-"PO-Revision-Date: 2013-04-08 02:20+0000\n"
+"POT-Creation-Date: 2013-06-03 02:27+0200\n"
+"PO-Revision-Date: 2013-06-02 23:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -22,12 +21,16 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "செயலி சேமிப்பிலிருந்து பட்டியலை ஏற்றமுடியாதுள்ளது"
 
-#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
+#: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
 msgstr "அத்தாட்சிப்படுத்தலில் வழு"
 
-#: ajax/changedisplayname.php:32
+#: ajax/changedisplayname.php:31
+msgid "Your display name has been changed."
+msgstr ""
+
+#: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
 msgstr ""
 
@@ -95,7 +98,7 @@ msgstr "இயலுமைப்ப"
 
 #: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr "செயலற்றதாக்குக"
+msgstr "இயலுமைப்படுத்துக"
 
 #: js/apps.js:55
 msgid "Please wait...."
@@ -117,52 +120,52 @@ msgstr ""
 msgid "Updated"
 msgstr ""
 
-#: js/personal.js:99
+#: js/personal.js:118
 msgid "Saving..."
-msgstr "இயலுமைப்படுத்துக"
+msgstr "சேமிக்கப்படுகிறது..."
 
-#: js/users.js:31
+#: js/users.js:47
 msgid "deleted"
 msgstr ""
 
-#: js/users.js:31
+#: js/users.js:47
 msgid "undo"
 msgstr "முன் செயல் நீக்கம் "
 
-#: js/users.js:63
+#: js/users.js:79
 msgid "Unable to remove user"
 msgstr ""
 
-#: js/users.js:76 templates/users.php:26 templates/users.php:80
-#: templates/users.php:105
+#: js/users.js:92 templates/users.php:26 templates/users.php:83
+#: templates/users.php:108
 msgid "Groups"
 msgstr "குழுக்கள்"
 
-#: js/users.js:79 templates/users.php:82 templates/users.php:119
+#: js/users.js:95 templates/users.php:85 templates/users.php:120
 msgid "Group Admin"
 msgstr "குழு நிர்வாகி"
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:115 templates/users.php:160
 msgid "Delete"
-msgstr "அழிக்க"
+msgstr "நீக்குக"
 
-#: js/users.js:243
+#: js/users.js:269
 msgid "add group"
 msgstr ""
 
-#: js/users.js:407
+#: js/users.js:428
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:408 js/users.js:414 js/users.js:429
+#: js/users.js:429 js/users.js:435 js/users.js:450
 msgid "Error creating user"
 msgstr ""
 
-#: js/users.js:413
+#: js/users.js:434
 msgid "A valid password must be provided"
 msgstr ""
 
-#: personal.php:29 personal.php:30
+#: personal.php:35 personal.php:36
 msgid "__language_name__"
 msgstr "_மொழி_பெயர்_"
 
@@ -313,19 +316,19 @@ msgstr ""
 msgid "Log level"
 msgstr ""
 
-#: templates/admin.php:223
+#: templates/admin.php:227
 msgid "More"
 msgstr "மேலதிக"
 
-#: templates/admin.php:224
+#: templates/admin.php:228
 msgid "Less"
 msgstr "குறைவான"
 
-#: templates/admin.php:231 templates/personal.php:102
+#: templates/admin.php:235 templates/personal.php:111
 msgid "Version"
 msgstr ""
 
-#: templates/admin.php:234 templates/personal.php:105
+#: templates/admin.php:237 templates/personal.php:114
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -396,7 +399,7 @@ msgstr ""
 msgid "Show First Run Wizard again"
 msgstr ""
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:79
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:82
 msgid "Password"
 msgstr "கடவுச்சொல்"
 
@@ -420,82 +423,74 @@ msgstr "புதிய கடவுச்சொல்"
 msgid "Change password"
 msgstr "கடவுச்சொல்லை மாற்றுக"
 
-#: templates/personal.php:56 templates/users.php:78
+#: templates/personal.php:56 templates/users.php:81
 msgid "Display Name"
 msgstr ""
 
-#: templates/personal.php:57
-msgid "Your display name was changed"
-msgstr ""
-
-#: templates/personal.php:58
-msgid "Unable to change your display name"
-msgstr ""
-
-#: templates/personal.php:61
-msgid "Change display name"
-msgstr ""
-
-#: templates/personal.php:70
+#: templates/personal.php:71
 msgid "Email"
 msgstr "மின்னஞ்சல்"
 
-#: templates/personal.php:72
+#: templates/personal.php:73
 msgid "Your email address"
 msgstr "உங்களுடைய மின்னஞ்சல் முகவரி"
 
-#: templates/personal.php:73
+#: templates/personal.php:74
 msgid "Fill in an email address to enable password recovery"
 msgstr "கடவுச்சொல் மீள் பெறுவதை இயலுமைப்படுத்துவதற்கு மின்னஞ்சல் முகவரியை இயலுமைப்படுத்துக"
 
-#: templates/personal.php:79 templates/personal.php:80
+#: templates/personal.php:83 templates/personal.php:84
 msgid "Language"
 msgstr "மொழி"
 
-#: templates/personal.php:86
+#: templates/personal.php:95
 msgid "Help translate"
 msgstr "மொழிபெயர்க்க உதவி"
 
-#: templates/personal.php:91
+#: templates/personal.php:100
 msgid "WebDAV"
 msgstr ""
 
-#: templates/personal.php:93
+#: templates/personal.php:102
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr ""
 
-#: templates/users.php:21 templates/users.php:77
+#: templates/users.php:21 templates/users.php:80
 msgid "Login Name"
 msgstr ""
 
-#: templates/users.php:32
+#: templates/users.php:30
 msgid "Create"
 msgstr "உருவாக்குக"
 
-#: templates/users.php:35
+#: templates/users.php:34
+msgid "Admin Recovery Password"
+msgstr ""
+
+#: templates/users.php:38
 msgid "Default Storage"
 msgstr ""
 
-#: templates/users.php:41 templates/users.php:139
+#: templates/users.php:44 templates/users.php:138
 msgid "Unlimited"
 msgstr ""
 
-#: templates/users.php:59 templates/users.php:154
+#: templates/users.php:62 templates/users.php:153
 msgid "Other"
 msgstr "மற்றவை"
 
-#: templates/users.php:84
+#: templates/users.php:87
 msgid "Storage"
 msgstr ""
 
-#: templates/users.php:95
+#: templates/users.php:98
 msgid "change display name"
 msgstr ""
 
-#: templates/users.php:99
+#: templates/users.php:102
 msgid "set new password"
 msgstr ""
 
-#: templates/users.php:134
+#: templates/users.php:133
 msgid "Default"
 msgstr ""

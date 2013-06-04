@@ -3,14 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Дмитрий <langaru@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-09 02:10+0200\n"
-"PO-Revision-Date: 2013-04-08 02:21+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-03 02:27+0200\n"
+"PO-Revision-Date: 2013-04-26 08:01+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,60 +20,60 @@ msgstr ""
 #: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr "%s не может быть удалён навсегда"
+msgstr ""
 
 #: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
-msgstr "%s не может быть восстановлен"
+msgstr ""
 
-#: js/trash.js:7 js/trash.js:96
+#: js/trash.js:7 js/trash.js:97
 msgid "perform restore operation"
-msgstr "выполнить операцию восстановления"
+msgstr ""
 
-#: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
+#: js/trash.js:19 js/trash.js:46 js/trash.js:115 js/trash.js:141
 msgid "Error"
 msgstr "Ошибка"
 
 #: js/trash.js:34
 msgid "delete file permanently"
-msgstr "удалить файл навсегда"
+msgstr ""
 
-#: js/trash.js:121
+#: js/trash.js:123
 msgid "Delete permanently"
-msgstr "Удалить навсегда"
+msgstr ""
 
-#: js/trash.js:174 templates/index.php:17
+#: js/trash.js:176 templates/index.php:17
 msgid "Name"
 msgstr "Имя"
 
-#: js/trash.js:175 templates/index.php:27
+#: js/trash.js:177 templates/index.php:27
 msgid "Deleted"
-msgstr "Удалён"
-
-#: js/trash.js:184
-msgid "1 folder"
-msgstr "1 папка"
+msgstr ""
 
 #: js/trash.js:186
-msgid "{count} folders"
-msgstr "{количество} папок"
+msgid "1 folder"
+msgstr ""
 
-#: js/trash.js:194
-msgid "1 file"
-msgstr "1 файл"
+#: js/trash.js:188
+msgid "{count} folders"
+msgstr ""
 
 #: js/trash.js:196
+msgid "1 file"
+msgstr ""
+
+#: js/trash.js:198
 msgid "{count} files"
-msgstr "{количество} файлов"
+msgstr ""
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr "Здесь ничего нет. Ваша корзина пуста!"
+msgstr ""
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
-msgstr "Восстановить"
+msgstr ""
 
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"
@@ -82,4 +81,4 @@ msgstr "Удалить"
 
 #: templates/part.breadcrumb.php:9
 msgid "Deleted Files"
-msgstr "Удаленные файлы"
+msgstr ""

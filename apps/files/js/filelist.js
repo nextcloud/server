@@ -191,6 +191,13 @@ var FileList={
 		td.children('a.name').hide();
 		td.append(form);
 		input.focus();
+		//preselect input
+		var len = input.val().lastIndexOf('.');
+		if (len === -1) {
+			len = input.val().length;
+		}
+		input.selectRange(0,len);
+		
 		form.submit(function(event){
 			event.stopPropagation();
 			event.preventDefault();
@@ -320,9 +327,9 @@ var FileList={
 		}
 		for (var i=0; i<files.length; i++) {
 			var deleteAction = $('tr').filterAttr('data-file',files[i]).children("td.date").children(".action.delete");
-			var oldHTML = deleteAction[0].outerHTML;
+			var oldHTML = deleteAction.html();
 			var newHTML = '<img class="move2trash" data-action="Delete" title="'+t('files', 'perform delete operation')+'" src="'+ OC.imagePath('core', 'loading.gif') +'"></a>';
-			deleteAction[0].outerHTML = newHTML;
+			deleteAction.html(newHTML);
 		}
 		// Finish any existing actions
 		if (FileList.lastAction) {
@@ -344,7 +351,7 @@ var FileList={
 					} else {
 						$.each(files,function(index,file) {
 							var deleteAction = $('tr').filterAttr('data-file',file).children("td.date").children(".move2trash");
-							deleteAction[0].outerHTML = oldHTML;
+							deleteAction.html(oldHTML);
 						});
 					}
 				});

@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Pyae Sone <gipsyhnh@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:31+0000\n"
+"POT-Creation-Date: 2013-06-03 02:27+0200\n"
+"PO-Revision-Date: 2013-06-02 23:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Burmese (Myanmar) (http://www.transifex.com/projects/p/owncloud/language/my_MM/)\n"
 "MIME-Version: 1.0\n"
@@ -161,75 +160,79 @@ msgstr "ဒီဇင်ဘာ"
 msgid "Settings"
 msgstr ""
 
-#: js/js.js:779
+#: js/js.js:718
 msgid "seconds ago"
 msgstr "စက္ကန့်အနည်းငယ်က"
 
-#: js/js.js:780
+#: js/js.js:719
 msgid "1 minute ago"
 msgstr "၁ မိနစ်အရင်က"
 
-#: js/js.js:781
+#: js/js.js:720
 msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/js.js:782
+#: js/js.js:721
 msgid "1 hour ago"
 msgstr "၁ နာရီ အရင်က"
 
-#: js/js.js:783
+#: js/js.js:722
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:784
+#: js/js.js:723
 msgid "today"
 msgstr "ယနေ့"
 
-#: js/js.js:785
+#: js/js.js:724
 msgid "yesterday"
 msgstr "မနေ့က"
 
-#: js/js.js:786
+#: js/js.js:725
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:787
+#: js/js.js:726
 msgid "last month"
 msgstr "ပြီးခဲ့သောလ"
 
-#: js/js.js:788
+#: js/js.js:727
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:789
+#: js/js.js:728
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:790
+#: js/js.js:729
 msgid "last year"
 msgstr "မနှစ်က"
 
-#: js/js.js:791
+#: js/js.js:730
 msgid "years ago"
 msgstr "နှစ် အရင်က"
 
-#: js/oc-dialogs.js:126
+#: js/oc-dialogs.js:117
 msgid "Choose"
 msgstr "ရွေးချယ်"
 
-#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+#: js/oc-dialogs.js:121
 msgid "Cancel"
 msgstr "ပယ်ဖျက်မည်"
 
-#: js/oc-dialogs.js:162
-msgid "No"
-msgstr "မဟုတ်ဘူး"
+#: js/oc-dialogs.js:138 js/oc-dialogs.js:195
+msgid "Error loading file picker template"
+msgstr ""
 
-#: js/oc-dialogs.js:163
+#: js/oc-dialogs.js:161
 msgid "Yes"
 msgstr "ဟုတ်"
 
-#: js/oc-dialogs.js:180
+#: js/oc-dialogs.js:168
+msgid "No"
+msgstr "မဟုတ်ဘူး"
+
+#: js/oc-dialogs.js:181
 msgid "Ok"
 msgstr "အိုကေ"
 
@@ -238,9 +241,11 @@ msgstr "အိုကေ"
 msgid "The object type is not specified."
 msgstr ""
 
-#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:566
-#: js/share.js:578
+#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
+#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/share.js:589
 msgid "Error"
 msgstr ""
 
@@ -260,7 +265,7 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
-#: js/share.js:125 js/share.js:606
+#: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
 msgstr ""
 
@@ -292,7 +297,7 @@ msgstr ""
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "စကားဝှက်"
 
@@ -320,59 +325,59 @@ msgstr "အီးမေးလ်ဖြင့်ဝေမျှမည် -"
 msgid "No people found"
 msgstr ""
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Resharing is not allowed"
 msgstr "ပြန်လည်ဝေမျှခြင်းခွင့်မပြုပါ"
 
-#: js/share.js:276
+#: js/share.js:287
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:297
+#: js/share.js:308
 msgid "Unshare"
 msgstr ""
 
-#: js/share.js:309
+#: js/share.js:320
 msgid "can edit"
 msgstr "ပြင်ဆင်နိုင်"
 
-#: js/share.js:311
+#: js/share.js:322
 msgid "access control"
 msgstr ""
 
-#: js/share.js:314
+#: js/share.js:325
 msgid "create"
 msgstr "ဖန်တီးမည်"
 
-#: js/share.js:317
+#: js/share.js:328
 msgid "update"
 msgstr ""
 
-#: js/share.js:320
+#: js/share.js:331
 msgid "delete"
 msgstr "ဖျက်မည်"
 
-#: js/share.js:323
+#: js/share.js:334
 msgid "share"
 msgstr "ဝေမျှမည်"
 
-#: js/share.js:357 js/share.js:553
+#: js/share.js:368 js/share.js:564
 msgid "Password protected"
 msgstr "စကားဝှက်ဖြင့်ကာကွယ်ထားသည်"
 
-#: js/share.js:566
+#: js/share.js:577
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:578
+#: js/share.js:589
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:593
+#: js/share.js:604
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:604
+#: js/share.js:615
 msgid "Email sent"
 msgstr ""
 
@@ -395,24 +400,27 @@ msgstr ""
 msgid "Use the following link to reset your password: {link}"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "အီးမေးလ်မှတစ်ဆင့် သင်၏စကားဝှက်ကို ပြန်ဖော်ရန်အတွက် Link တစ်ခုလက်ခံရရှိပါလိမ့်မယ်။"
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
 msgstr "သုံးစွဲသူအမည်"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr ""
 
@@ -518,37 +526,37 @@ msgstr "အဆင့်မြင့်"
 msgid "Data folder"
 msgstr "အချက်အလက်ဖိုလ်ဒါလ်"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr ""
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr ""
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Database သုံးစွဲသူ"
 
-#: templates/installation.php:141
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Database စကားဝှက်"
 
-#: templates/installation.php:146
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Database အမည်"
 
-#: templates/installation.php:156
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr ""
 
-#: templates/installation.php:163
+#: templates/installation.php:166
 msgid "Database host"
 msgstr ""
 
-#: templates/installation.php:169
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "တပ်ဆင်ခြင်းပြီးပါပြီ။"
 
@@ -556,37 +564,42 @@ msgstr "တပ်ဆင်ခြင်းပြီးပါပြီ။"
 msgid "web services under your control"
 msgstr "သင်၏ထိန်းချုပ်မှု့အောက်တွင်ရှိသော Web services"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:37
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:62
 msgid "Log out"
 msgstr ""
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr ""
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr ""
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr ""
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "သင်၏စကားဝှက်ပျောက်သွားပြီလား။"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "မှတ်မိစေသည်"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "ဝင်ရောက်ရန်"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr ""
 

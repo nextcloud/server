@@ -96,7 +96,38 @@ class Helper {
 			return false;
 		}
 
-		if($res->numRows() == 0) {
+		if($res->numRows() === 0) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Truncate's the given mapping table
+	 *
+	 * @param string $mapping either 'user' or 'group'
+	 * @return boolean true on success, false otherwise
+	 */
+	static public function clearMapping($mapping) {
+		if($mapping === 'user') {
+			$table = '`*PREFIX*ldap_user_mapping`';
+		} else if ($mapping === 'group') {
+			$table = '`*PREFIX*ldap_group_mapping`';
+		} else {
+			return false;
+		}
+
+		if(strpos(\OCP\Config::getSystemValue('dbtype'), 'sqlite') !== false) {
+			$query = \OCP\DB::prepare('DELETE FROM '.$table);
+		} else {
+			$query = \OCP\DB::prepare('TRUNCATE '.$table);
+		}
+
+
+		$res = $query->execute();
+
+		if(\OCP\DB::isError($res)) {
 			return false;
 		}
 

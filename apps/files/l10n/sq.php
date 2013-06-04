@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s nuk u spostua - Aty ekziston një skedar me të njëjtin emër",
 "Could not move %s" => "%s nuk u spostua",
-"Unable to rename file" => "Nuk është i mundur riemërtimi i skedarit",
 "No file was uploaded. Unknown error" => "Nuk u ngarkua asnjë skedar. Veprim i gabuar i panjohur",
 "There is no error, the file uploaded with success" => "Nuk pati veprime të gabuara, skedari u ngarkua me sukses",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Skedari i ngarkuar tejkalon udhëzimin upload_max_filesize tek php.ini:",
@@ -13,6 +12,7 @@
 "Not enough storage available" => "Nuk ka mbetur hapësirë memorizimi e mjaftueshme",
 "Invalid directory." => "Dosje e pavlefshme.",
 "Files" => "Skedarët",
+"Share" => "Nda",
 "Delete permanently" => "Elimino përfundimisht",
 "Delete" => "Elimino",
 "Rename" => "Riemërto",
@@ -46,6 +46,7 @@
 "{count} folders" => "{count} dosje",
 "1 file" => "1 skedar",
 "{count} files" => "{count} skedarë",
+"Unable to rename file" => "Nuk është i mundur riemërtimi i skedarit",
 "Upload" => "Ngarko",
 "File handling" => "Trajtimi i skedarit",
 "Maximum upload size" => "Dimensioni maksimal i ngarkimit",

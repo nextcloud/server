@@ -3,15 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#  <admin@alphacorp.tk>, 2013.
-#   <dw4dev@gmail.com>, 2012.
+# pellaeon <nfsmwlin@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-20 00:02+0100\n"
-"PO-Revision-Date: 2013-03-19 03:30+0000\n"
-"Last-Translator: Hydriz <admin@alphacorp.tk>\n"
+"POT-Creation-Date: 2013-05-25 02:01+0200\n"
+"PO-Revision-Date: 2013-05-24 13:28+0000\n"
+"Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,7 +47,7 @@ msgstr "沒有舊的版本"
 
 #: history.php:74
 msgid "No path specified"
-msgstr "沒有指定路線"
+msgstr "沒有指定路徑"
 
 #: js/versions.js:6
 msgid "Versions"
@@ -56,4 +55,4 @@ msgstr "版本"
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"
-msgstr "按一按復原的按鈕，就能把一個檔案復原至以前的版本"
+msgstr "按一下復原的按鈕即可把檔案復原至以前的版本"

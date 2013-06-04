@@ -1,4 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Encryption" => "Šifravimas",
-"None" => "Nieko"
+"Saving..." => "Saugoma...",
+"Encryption" => "Šifravimas"
 );

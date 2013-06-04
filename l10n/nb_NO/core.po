@@ -3,19 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <ajarmund@gmail.com>, 2011, 2012.
-# Christer Eriksson <post@hc3web.com>, 2012.
-# Daniel  <i18n@daniel.priv.no>, 2012.
-#   <espenbye@me.com>, 2012.
-#   <hdalgrav@gmail.com>, 2012.
-#   <itssmail@yahoo.no>, 2012.
-#   <runesudden@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-09 02:10+0200\n"
-"PO-Revision-Date: 2013-04-08 02:20+0000\n"
+"POT-Creation-Date: 2013-06-04 02:29+0200\n"
+"PO-Revision-Date: 2013-06-03 00:32+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -167,75 +160,79 @@ msgstr "Desember"
 msgid "Settings"
 msgstr "Innstillinger"
 
-#: js/js.js:707
+#: js/js.js:718
 msgid "seconds ago"
 msgstr "sekunder siden"
 
-#: js/js.js:708
+#: js/js.js:719
 msgid "1 minute ago"
 msgstr "1 minutt siden"
 
-#: js/js.js:709
+#: js/js.js:720
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minutter siden"
 
-#: js/js.js:710
+#: js/js.js:721
 msgid "1 hour ago"
 msgstr "1 time siden"
 
-#: js/js.js:711
+#: js/js.js:722
 msgid "{hours} hours ago"
 msgstr "{hours} timer siden"
 
-#: js/js.js:712
+#: js/js.js:723
 msgid "today"
 msgstr "i dag"
 
-#: js/js.js:713
+#: js/js.js:724
 msgid "yesterday"
 msgstr "i går"
 
-#: js/js.js:714
+#: js/js.js:725
 msgid "{days} days ago"
 msgstr "{days} dager siden"
 
-#: js/js.js:715
+#: js/js.js:726
 msgid "last month"
 msgstr "forrige måned"
 
-#: js/js.js:716
+#: js/js.js:727
 msgid "{months} months ago"
 msgstr "{months} måneder siden"
 
-#: js/js.js:717
+#: js/js.js:728
 msgid "months ago"
 msgstr "måneder siden"
 
-#: js/js.js:718
+#: js/js.js:729
 msgid "last year"
 msgstr "forrige år"
 
-#: js/js.js:719
+#: js/js.js:730
 msgid "years ago"
 msgstr "år siden"
 
-#: js/oc-dialogs.js:126
+#: js/oc-dialogs.js:117
 msgid "Choose"
 msgstr "Velg"
 
-#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+#: js/oc-dialogs.js:122
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: js/oc-dialogs.js:162
-msgid "No"
-msgstr "Nei"
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+msgid "Error loading file picker template"
+msgstr ""
 
-#: js/oc-dialogs.js:163
+#: js/oc-dialogs.js:164
 msgid "Yes"
 msgstr "Ja"
 
-#: js/oc-dialogs.js:180
+#: js/oc-dialogs.js:172
+msgid "No"
+msgstr "Nei"
+
+#: js/oc-dialogs.js:185
 msgid "Ok"
 msgstr "Ok"
 
@@ -300,7 +297,7 @@ msgstr "Del med link"
 msgid "Password protect"
 msgstr "Passordbeskyttet"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Passord"
 
@@ -403,24 +400,27 @@ msgstr "Tilbakestill ownCloud passord"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Bruk følgende lenke for å tilbakestille passordet ditt: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "Du burde motta detaljer om å tilbakestille passordet ditt via epost."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
 msgstr "Brukernavn"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "Anmod tilbakestilling"
 
@@ -526,75 +526,80 @@ msgstr "Avansert"
 msgid "Data folder"
 msgstr "Datamappe"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Konfigurer databasen"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "vil bli brukt"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Databasebruker"
 
-#: templates/installation.php:141
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Databasepassord"
 
-#: templates/installation.php:146
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Databasenavn"
 
-#: templates/installation.php:156
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Database tabellområde"
 
-#: templates/installation.php:163
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Databasevert"
 
-#: templates/installation.php:169
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Fullfør oppsetting"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "nettjenester under din kontroll"
+msgstr "web tjenester du kontrollerer"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:37
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:62
 msgid "Log out"
 msgstr "Logg ut"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Automatisk pålogging avvist!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Hvis du ikke har endret passordet ditt nylig kan kontoen din være kompromitert"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Vennligst skift passord for å gjøre kontoen din sikker igjen."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Mistet passordet ditt?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "husk"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Logg inn"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr ""
 

@@ -77,10 +77,10 @@ class Test_StreamWrappers extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testOC() {
-		\OC\Files\Mount::clear();
+		\OC\Files\Filesystem::clearMounts();
 		$storage = new \OC\Files\Storage\Temporary(array());
 		$storage->file_put_contents('foo.txt', 'asd');
-		new \OC\Files\Mount($storage, '/');
+		\OC\Files\Filesystem::mount($storage, array(), '/');
 
 		$this->assertTrue(file_exists('oc:///foo.txt'));
 		$this->assertEquals('asd', file_get_contents('oc:///foo.txt'));

@@ -57,12 +57,22 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 
 	public function stat($path) {
 		if ( ! $path and $this->root=='/') {//mtime doesn't work for shares
-			$mtime=$this->shareMTime();
 			$stat=stat($this->constructUrl($path));
+			if (empty($stat)) {
+				return false;
+			}
+			$mtime=$this->shareMTime();
 			$stat['mtime']=$mtime;
 			return $stat;
 		} else {
-			return stat($this->constructUrl($path));
+			$stat = stat($this->constructUrl($path));
+
+			// smb4php can return an empty array if the connection could not be established
+			if (empty($stat)) {
+				return false;
+			}
+
+			return $stat;
 		}
 	}
 
@@ -73,7 +83,6 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 	 * @return bool
 	 */
 	public function hasUpdated($path,$time) {
-		$this->init();
 		if(!$path and $this->root=='/') {
 			// mtime doesn't work for shares, but giving the nature of the backend,
 			// doing a full update is still just fast enough

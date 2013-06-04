@@ -134,3 +134,17 @@ if(!String.prototype.trim) {
 		return this.replace(/^\s+|\s+$/g,'');
 	};
 }
+
+// Older Firefoxes doesn't support outerHTML
+// From http://stackoverflow.com/questions/1700870/how-do-i-do-outerhtml-in-firefox#answer-3819589
+function outerHTML(node){
+	// In newer browsers use the internal property otherwise build a wrapper.
+	return node.outerHTML || (
+	function(n){
+		var div = document.createElement('div'), h;
+		div.appendChild( n.cloneNode(true) );
+		h = div.innerHTML;
+		div = null;
+		return h;
+	})(node);
+}

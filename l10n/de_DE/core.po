@@ -3,34 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <admin@s-goecker.de>, 2011-2012.
-#   <alex.hotz@gmail.com>, 2011.
-#   <a.tangemann@web.de>, 2012.
-#   <blobbyjj@ymail.com>, 2012.
-#   <deh3nne@deviantdev.com>, 2012.
-#   <georg.stefan.germany@googlemail.com>, 2011.
-# I Robot <owncloud-bot@tmit.eu>, 2013.
-# I Robot <thomas.mueller@tmit.eu>, 2012.
-# Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
-#   <mail@felixmoeller.de>, 2012.
-# Marcel Kühlhorn <susefan93@gmx.de>, 2012-2013.
-#   <m.fresel@sysangels.com>, 2012.
-#   <niko@nik-o-mat.de>, 2012.
-# Phi Lieb <>, 2012.
-#  <stefan.niedermann@googlemail.com>, 2013.
-#   <Steve_Reichert@gmx.de>, 2013.
-# Susi <>, 2013.
-#   <thomas.mueller@tmit.eu>, 2012.
-#  <transifex-2.7.mensaje@spamgourmet.com>, 2013.
-#   <transifex.3.mensaje@spamgourmet.com>, 2012.
-# Tristan <blobbyjj@ymail.com>, 2013.
+# arkascha <foss@christian-reiner.info>, 2013
+# Marcel Kühlhorn <susefan93@gmx.de>, 2013
+# traductor <transifex-2.7.mensaje@spamgourmet.com>, 2013
+# Mirodin <blobbyjj@ymail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-09 02:10+0200\n"
-"PO-Revision-Date: 2013-04-08 02:20+0000\n"
-"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
+"POT-Creation-Date: 2013-06-04 02:29+0200\n"
+"PO-Revision-Date: 2013-06-03 00:32+0000\n"
+"Last-Translator: traductor <transifex-2.7.mensaje@spamgourmet.com>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -181,75 +164,79 @@ msgstr "Dezember"
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: js/js.js:707
+#: js/js.js:718
 msgid "seconds ago"
 msgstr "Gerade eben"
 
-#: js/js.js:708
+#: js/js.js:719
 msgid "1 minute ago"
 msgstr "Vor 1 Minute"
 
-#: js/js.js:709
+#: js/js.js:720
 msgid "{minutes} minutes ago"
 msgstr "Vor {minutes} Minuten"
 
-#: js/js.js:710
+#: js/js.js:721
 msgid "1 hour ago"
 msgstr "Vor einer Stunde"
 
-#: js/js.js:711
+#: js/js.js:722
 msgid "{hours} hours ago"
 msgstr "Vor {hours} Stunden"
 
-#: js/js.js:712
+#: js/js.js:723
 msgid "today"
 msgstr "Heute"
 
-#: js/js.js:713
+#: js/js.js:724
 msgid "yesterday"
 msgstr "Gestern"
 
-#: js/js.js:714
+#: js/js.js:725
 msgid "{days} days ago"
 msgstr "Vor {days} Tag(en)"
 
-#: js/js.js:715
+#: js/js.js:726
 msgid "last month"
 msgstr "Letzten Monat"
 
-#: js/js.js:716
+#: js/js.js:727
 msgid "{months} months ago"
 msgstr "Vor {months} Monaten"
 
-#: js/js.js:717
+#: js/js.js:728
 msgid "months ago"
 msgstr "Vor Monaten"
 
-#: js/js.js:718
+#: js/js.js:729
 msgid "last year"
 msgstr "Letztes Jahr"
 
-#: js/js.js:719
+#: js/js.js:730
 msgid "years ago"
 msgstr "Vor Jahren"
 
-#: js/oc-dialogs.js:126
+#: js/oc-dialogs.js:117
 msgid "Choose"
 msgstr "Auswählen"
 
-#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+#: js/oc-dialogs.js:122
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: js/oc-dialogs.js:162
-msgid "No"
-msgstr "Nein"
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+msgid "Error loading file picker template"
+msgstr "Es ist ein Fehler in der Vorlage des Datei-Auswählers aufgetreten."
 
-#: js/oc-dialogs.js:163
+#: js/oc-dialogs.js:164
 msgid "Yes"
 msgstr "Ja"
 
-#: js/oc-dialogs.js:180
+#: js/oc-dialogs.js:172
+msgid "No"
+msgstr "Nein"
+
+#: js/oc-dialogs.js:185
 msgid "Ok"
 msgstr "OK"
 
@@ -288,7 +275,7 @@ msgstr "Fehler beim Teilen"
 
 #: js/share.js:136
 msgid "Error while unsharing"
-msgstr "Fehler bei der Aufhebung der Teilung"
+msgstr "Fehler beim Aufheben der Freigabe"
 
 #: js/share.js:143
 msgid "Error while changing permissions"
@@ -314,7 +301,7 @@ msgstr "Über einen Link teilen"
 msgid "Password protect"
 msgstr "Passwortschutz"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Passwort"
 
@@ -417,26 +404,29 @@ msgstr "ownCloud-Passwort zurücksetzen"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Nutzen Sie den nachfolgenden Link, um Ihr Passwort zurückzusetzen: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr "Der Link zum Rücksetzen Ihres Passworts ist an Ihre E-Mail-Adresse gesendet worde.<br>Wenn Sie ihn nicht innerhalb einer vernünftigen Zeitspanne erhalten, prüfen Sie bitte Ihre Spam-Verzeichnisse.<br>Wenn er nicht dort ist, fragen Sie Ihren lokalen Administrator."
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr "Anfrage fehlgeschlagen!<br>Haben Sie darauf geachtet, dass E-Mail-Adresse/Nutzername korrekt waren?"
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "Sie erhalten einen Link per E-Mail, um Ihr Passwort zurückzusetzen."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "Eine E-Mail zum Zurücksetzen des Passworts wurde gesendet."
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "Die Anfrage schlug fehl!"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
 msgstr "Benutzername"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
-msgstr "Zurücksetzung beantragen"
+msgstr "Zurücksetzung anfordern"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -464,11 +454,11 @@ msgstr "Benutzer"
 
 #: strings.php:7
 msgid "Apps"
-msgstr "Anwendungen"
+msgstr "Apps"
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Admin"
+msgstr "Administrator"
 
 #: strings.php:9
 msgid "Help"
@@ -484,7 +474,7 @@ msgstr "Cloud wurde nicht gefunden"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "Kategorien bearbeiten"
+msgstr "Kategorien ändern"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
@@ -540,37 +530,37 @@ msgstr "Fortgeschritten"
 msgid "Data folder"
 msgstr "Datenverzeichnis"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Datenbank einrichten"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "wird verwendet"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Datenbank-Benutzer"
 
-#: templates/installation.php:141
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Datenbank-Passwort"
 
-#: templates/installation.php:146
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Datenbank-Name"
 
-#: templates/installation.php:156
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Datenbank-Tablespace"
 
-#: templates/installation.php:163
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Datenbank-Host"
 
-#: templates/installation.php:169
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Installation abschließen"
 
@@ -578,37 +568,42 @@ msgstr "Installation abschließen"
 msgid "web services under your control"
 msgstr "Web-Services unter Ihrer Kontrolle"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:37
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr "%s ist verfügbar. Holen Sie weitere Informationen zu Aktualisierungen ein."
+
+#: templates/layout.user.php:62
 msgid "Log out"
 msgstr "Abmelden"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
-msgstr "Automatische Anmeldung verweigert."
+msgstr "Automatische Anmeldung verweigert!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Wenn Sie Ihr Passwort nicht vor kurzem geändert haben, könnte Ihr\nAccount kompromittiert sein!"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Bitte ändern Sie Ihr Passwort, um Ihr Konto wieder zu sichern."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Passwort vergessen?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "merken"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Einloggen"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Alternative Logins"
 

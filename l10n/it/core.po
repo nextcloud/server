@@ -3,18 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <cosenal@gmail.com>, 2011.
-# Francesco Apruzzese <cescoap@gmail.com>, 2011, 2012.
-#   <marco@carnazzo.it>, 2011, 2012.
-#  <pgcloud@imballaggi.net>, 2013.
-#   <rb.colombo@gmail.com>, 2011.
-# Vincenzo Reale <vinx.reale@gmail.com>, 2012-2013.
+# Vincenzo Reale <vinx.reale@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-09 02:10+0200\n"
-"PO-Revision-Date: 2013-04-08 02:20+0000\n"
+"POT-Creation-Date: 2013-06-04 02:29+0200\n"
+"PO-Revision-Date: 2013-06-03 00:32+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -166,75 +161,79 @@ msgstr "Dicembre"
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: js/js.js:707
+#: js/js.js:718
 msgid "seconds ago"
 msgstr "secondi fa"
 
-#: js/js.js:708
+#: js/js.js:719
 msgid "1 minute ago"
 msgstr "Un minuto fa"
 
-#: js/js.js:709
+#: js/js.js:720
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minuti fa"
 
-#: js/js.js:710
+#: js/js.js:721
 msgid "1 hour ago"
 msgstr "1 ora fa"
 
-#: js/js.js:711
+#: js/js.js:722
 msgid "{hours} hours ago"
 msgstr "{hours} ore fa"
 
-#: js/js.js:712
+#: js/js.js:723
 msgid "today"
 msgstr "oggi"
 
-#: js/js.js:713
+#: js/js.js:724
 msgid "yesterday"
 msgstr "ieri"
 
-#: js/js.js:714
+#: js/js.js:725
 msgid "{days} days ago"
 msgstr "{days} giorni fa"
 
-#: js/js.js:715
+#: js/js.js:726
 msgid "last month"
 msgstr "mese scorso"
 
-#: js/js.js:716
+#: js/js.js:727
 msgid "{months} months ago"
 msgstr "{months} mesi fa"
 
-#: js/js.js:717
+#: js/js.js:728
 msgid "months ago"
 msgstr "mesi fa"
 
-#: js/js.js:718
+#: js/js.js:729
 msgid "last year"
 msgstr "anno scorso"
 
-#: js/js.js:719
+#: js/js.js:730
 msgid "years ago"
 msgstr "anni fa"
 
-#: js/oc-dialogs.js:126
+#: js/oc-dialogs.js:117
 msgid "Choose"
 msgstr "Scegli"
 
-#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+#: js/oc-dialogs.js:122
 msgid "Cancel"
 msgstr "Annulla"
 
-#: js/oc-dialogs.js:162
-msgid "No"
-msgstr "No"
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+msgid "Error loading file picker template"
+msgstr "Errore durante il caricamento del modello del selezionatore di file"
 
-#: js/oc-dialogs.js:163
+#: js/oc-dialogs.js:164
 msgid "Yes"
 msgstr "Sì"
 
-#: js/oc-dialogs.js:180
+#: js/oc-dialogs.js:172
+msgid "No"
+msgstr "No"
+
+#: js/oc-dialogs.js:185
 msgid "Ok"
 msgstr "Ok"
 
@@ -299,7 +298,7 @@ msgstr "Condividi con collegamento"
 msgid "Password protect"
 msgstr "Proteggi con password"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Password"
 
@@ -357,11 +356,11 @@ msgstr "aggiornare"
 
 #: js/share.js:331
 msgid "delete"
-msgstr "eliminare"
+msgstr "elimina"
 
 #: js/share.js:334
 msgid "share"
-msgstr "condividere"
+msgstr "condividi"
 
 #: js/share.js:368 js/share.js:564
 msgid "Password protected"
@@ -402,24 +401,27 @@ msgstr "Ripristino password di ownCloud"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Usa il collegamento seguente per ripristinare la password: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr "Il collegamento per ripristinare la password è stato inviato al tuo indirizzo di posta.<br>Se non lo ricevi in tempi ragionevoli, controlla le cartelle della posta indesiderata.<br>Se non dovesse essere nemmeno lì, contatta il tuo amministratore locale."
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr "Richiesta non riuscita!<br>Sei sicuro che l'indirizzo di posta/nome utente fosse corretto?"
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "Riceverai un collegamento per ripristinare la tua password via email"
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "Email di ripristino inviata."
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "Richiesta non riuscita!"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
 msgstr "Nome utente"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "Richiesta di ripristino"
 
@@ -469,7 +471,7 @@ msgstr "Nuvola non trovata"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "Modifica le categorie"
+msgstr "Modifica categorie"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
@@ -519,43 +521,43 @@ msgstr "Crea un <strong>account amministratore</strong>"
 
 #: templates/installation.php:62
 msgid "Advanced"
-msgstr "Avanzate"
+msgstr "Avanzat"
 
 #: templates/installation.php:64
 msgid "Data folder"
 msgstr "Cartella dati"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Configura il database"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "sarà utilizzato"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Utente del database"
 
-#: templates/installation.php:141
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Password del database"
 
-#: templates/installation.php:146
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Nome del database"
 
-#: templates/installation.php:156
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Spazio delle tabelle del database"
 
-#: templates/installation.php:163
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Host del database"
 
-#: templates/installation.php:169
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Termina la configurazione"
 
@@ -563,37 +565,42 @@ msgstr "Termina la configurazione"
 msgid "web services under your control"
 msgstr "servizi web nelle tue mani"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:37
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr "%s è disponibile. Ottieni ulteriori informazioni sull'aggiornamento."
+
+#: templates/layout.user.php:62
 msgid "Log out"
 msgstr "Esci"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Accesso automatico rifiutato."
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Se non hai cambiato la password recentemente, il tuo account potrebbe essere compromesso."
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Cambia la password per rendere nuovamente sicuro il tuo account."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Hai perso la password?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "ricorda"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Accedi"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Accessi alternativi"
 

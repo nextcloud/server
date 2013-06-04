@@ -33,6 +33,7 @@ class SFTP extends Storage {
 		}
 		$this->config['sftp']['root'] .= '/' . $id; //make sure we have an new empty folder to work in
 		$this->instance = new \OC\Files\Storage\SFTP($this->config['sftp']);
+		$this->instance->mkdir('/');
 	}
 
 	public function tearDown() {

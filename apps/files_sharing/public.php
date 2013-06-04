@@ -1,7 +1,13 @@
 <?php
-$RUNTIME_NOSETUPFS = true;
 // Load other apps for file previews
 OC_App::loadApps();
+
+if (\OC_Appconfig::getValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
+	header('HTTP/1.0 404 Not Found');
+	$tmpl = new OCP\Template('', '404', 'guest');
+	$tmpl->printPage();
+	exit();
+}
 
 function fileCmp($a, $b) {
 	if ($a['type'] == 'dir' and $b['type'] != 'dir') {
@@ -39,6 +45,7 @@ if (isset($_GET['t'])) {
 			$fileOwner = $shareOwner;
 		}
 		if (isset($fileOwner)) {
+			OC_Util::tearDownFS();
 			OC_Util::setupFS($fileOwner);
 			$path = \OC\Files\Filesystem::getPath($linkItem['file_source']);
 		}
@@ -77,7 +84,7 @@ if (isset($path)) {
 					exit();
 				} else {
 					// Save item id in session for future requests
-					$_SESSION['public_link_authenticated'] = $linkItem['id'];
+					\OC::$session->set('public_link_authenticated', $linkItem['id']);
 				}
 			} else {
 				OCP\Util::writeLog('share', 'Unknown share type '.$linkItem['share_type']
@@ -90,8 +97,8 @@ if (isset($path)) {
 
 		} else {
 			// Check if item id is set in session
-			if (!isset($_SESSION['public_link_authenticated'])
-				|| $_SESSION['public_link_authenticated'] !== $linkItem['id']
+			if ( ! \OC::$session->exists('public_link_authenticated')
+				|| \OC::$session->get('public_link_authenticated') !== $linkItem['id']
 			) {
 				// Prompt for password
 				$tmpl = new OCP\Template('files_sharing', 'authenticate', 'guest');

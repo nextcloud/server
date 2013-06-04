@@ -7,57 +7,57 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-01 00:02+0200\n"
-"PO-Revision-Date: 2012-07-27 22:23+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2013-06-04 02:29+0200\n"
+"PO-Revision-Date: 2013-06-03 00:32+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Language-Team: Finnish (http://www.transifex.com/projects/p/owncloud/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:349
+#: app.php:357
 msgid "Help"
 msgstr ""
 
-#: app.php:362
+#: app.php:370
 msgid "Personal"
 msgstr ""
 
-#: app.php:373
+#: app.php:381
 msgid "Settings"
 msgstr "asetukset"
 
-#: app.php:385
+#: app.php:393
 msgid "Users"
 msgstr ""
 
-#: app.php:398
+#: app.php:406
 msgid "Apps"
 msgstr ""
 
-#: app.php:406
+#: app.php:414
 msgid "Admin"
 msgstr ""
 
-#: files.php:209
+#: files.php:210
 msgid "ZIP download is turned off."
 msgstr ""
 
-#: files.php:210
+#: files.php:211
 msgid "Files need to be downloaded one by one."
 msgstr ""
 
-#: files.php:211 files.php:244
+#: files.php:212 files.php:245
 msgid "Back to Files"
 msgstr ""
 
-#: files.php:241
+#: files.php:242
 msgid "Selected files too large to generate zip file."
 msgstr ""
 
-#: helper.php:228
+#: helper.php:236
 msgid "couldn't be determined"
 msgstr ""
 
@@ -93,10 +93,6 @@ msgstr ""
 msgid "Set an admin password."
 msgstr ""
 
-#: setup.php:40
-msgid "Specify a data folder."
-msgstr ""
-
 #: setup.php:55
 #, php-format
 msgid "%s enter the database username."
@@ -117,72 +113,76 @@ msgstr ""
 msgid "%s set the database host."
 msgstr ""
 
-#: setup.php:132 setup.php:324 setup.php:369
+#: setup.php:132 setup.php:329 setup.php:374
 msgid "PostgreSQL username and/or password not valid"
 msgstr ""
 
-#: setup.php:133 setup.php:156 setup.php:233
+#: setup.php:133 setup.php:238
 msgid "You need to enter either an existing account or the administrator."
 msgstr ""
 
-#: setup.php:155 setup.php:457 setup.php:524
-msgid "Oracle username and/or password not valid"
+#: setup.php:155
+msgid "Oracle connection could not be established"
 msgstr ""
 
-#: setup.php:232
+#: setup.php:237
 msgid "MySQL username and/or password not valid"
 msgstr ""
 
-#: setup.php:286 setup.php:390 setup.php:399 setup.php:417 setup.php:427
-#: setup.php:436 setup.php:465 setup.php:531 setup.php:557 setup.php:564
-#: setup.php:575 setup.php:582 setup.php:591 setup.php:599 setup.php:608
-#: setup.php:614
+#: setup.php:291 setup.php:395 setup.php:404 setup.php:422 setup.php:432
+#: setup.php:441 setup.php:474 setup.php:540 setup.php:566 setup.php:573
+#: setup.php:584 setup.php:591 setup.php:600 setup.php:608 setup.php:617
+#: setup.php:623
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr ""
 
-#: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
-#: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
-#: setup.php:576 setup.php:592 setup.php:600 setup.php:609
+#: setup.php:292 setup.php:396 setup.php:405 setup.php:423 setup.php:433
+#: setup.php:442 setup.php:475 setup.php:541 setup.php:567 setup.php:574
+#: setup.php:585 setup.php:601 setup.php:609 setup.php:618
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr ""
 
-#: setup.php:303
+#: setup.php:308
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
 msgstr ""
 
-#: setup.php:304
+#: setup.php:309
 msgid "Drop this user from MySQL"
 msgstr ""
 
-#: setup.php:309
+#: setup.php:314
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
 msgstr ""
 
-#: setup.php:310
+#: setup.php:315
 msgid "Drop this user from MySQL."
 msgstr ""
 
-#: setup.php:583 setup.php:615
+#: setup.php:466 setup.php:533
+msgid "Oracle username and/or password not valid"
+msgstr ""
+
+#: setup.php:592 setup.php:624
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr ""
 
-#: setup.php:635
+#: setup.php:644
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
 msgstr ""
 
-#: setup.php:853
+#: setup.php:867
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr ""
 
-#: setup.php:854
+#: setup.php:868
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""
@@ -237,19 +237,6 @@ msgstr ""
 
 #: template.php:124
 msgid "years ago"
-msgstr ""
-
-#: updater.php:78
-#, php-format
-msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr ""
-
-#: updater.php:81
-msgid "up to date"
-msgstr ""
-
-#: updater.php:84
-msgid "updates check is disabled"
 msgstr ""
 
 #: vcategories.php:188 vcategories.php:249

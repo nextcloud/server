@@ -19,6 +19,7 @@ class FTP extends Storage {
 		}
 		$this->config['ftp']['root'] .= '/' . $id; //make sure we have an new empty folder to work in
 		$this->instance = new \OC\Files\Storage\FTP($this->config['ftp']);
+		$this->instance->mkdir('/');
 	}
 
 	public function tearDown() {

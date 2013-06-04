@@ -122,9 +122,21 @@ class OC_L10N{
 				)
 				&& file_exists($i18ndir.$lang.'.php')) {
 				// Include the file, save the data from $CONFIG
-				include strip_tags($i18ndir).strip_tags($lang).'.php';
+				$transFile = strip_tags($i18ndir).strip_tags($lang).'.php';
+				include $transFile;
 				if(isset($TRANSLATIONS) && is_array($TRANSLATIONS)) {
 					$this->translations = $TRANSLATIONS;
+					//merge with translations from theme
+					$theme = OC_Config::getValue( "theme" );
+					if (!is_null($theme)) {
+						$transFile = OC::$SERVERROOT.'/themes/'.$theme.substr($transFile, strlen(OC::$SERVERROOT));
+						if (file_exists($transFile)) {
+							include $transFile;
+							if (isset($TRANSLATIONS) && is_array($TRANSLATIONS)) {
+								$this->translations = array_merge($this->translations, $TRANSLATIONS);
+							}
+						}
+					}
 				}
 			}
 
@@ -298,10 +310,16 @@ class OC_L10N{
 				$temp = explode(';', $i);
 				$temp[0] = str_replace('-', '_', $temp[0]);
 				if( ($key = array_search($temp[0], $available)) !== false) {
+					if (is_null($app)) {
+						self::$language = $available[$key];
+					}
 					return $available[$key];
 				}
 				foreach($available as $l) {
 					if ( $temp[0] == substr($l, 0, 2) ) {
+						if (is_null($app)) {
+							self::$language = $l;
+						}
 						return $l;
 					}
 				}

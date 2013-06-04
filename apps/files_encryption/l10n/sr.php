@@ -1,4 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Encryption" => "Шифровање",
-"None" => "Ништа"
+"Saving..." => "Чување у току...",
+"Encryption" => "Шифровање"
 );

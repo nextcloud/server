@@ -3,18 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Dovix Dovix <dovix2003@gmail.com>, 2012.
-# Gilad Naaman <gilad.doom@gmail.com>, 2013.
-#   <ido.parag@gmail.com>, 2012.
-#   <tomerc+transifex.net@gmail.com>, 2011.
-# Yaron Shahrabani <sh.yaron@gmail.com>, 2011-2012.
+# Yaron Shahrabani <sh.yaron@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-09 02:10+0200\n"
-"PO-Revision-Date: 2013-04-08 02:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-04 02:29+0200\n"
+"PO-Revision-Date: 2013-06-03 00:32+0000\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -165,75 +161,79 @@ msgstr "דצמבר"
 msgid "Settings"
 msgstr "הגדרות"
 
-#: js/js.js:707
+#: js/js.js:718
 msgid "seconds ago"
 msgstr "שניות"
 
-#: js/js.js:708
+#: js/js.js:719
 msgid "1 minute ago"
 msgstr "לפני דקה אחת"
 
-#: js/js.js:709
+#: js/js.js:720
 msgid "{minutes} minutes ago"
 msgstr "לפני {minutes} דקות"
 
-#: js/js.js:710
+#: js/js.js:721
 msgid "1 hour ago"
 msgstr "לפני שעה"
 
-#: js/js.js:711
+#: js/js.js:722
 msgid "{hours} hours ago"
 msgstr "לפני {hours} שעות"
 
-#: js/js.js:712
+#: js/js.js:723
 msgid "today"
 msgstr "היום"
 
-#: js/js.js:713
+#: js/js.js:724
 msgid "yesterday"
 msgstr "אתמול"
 
-#: js/js.js:714
+#: js/js.js:725
 msgid "{days} days ago"
 msgstr "לפני {days} ימים"
 
-#: js/js.js:715
+#: js/js.js:726
 msgid "last month"
 msgstr "חודש שעבר"
 
-#: js/js.js:716
+#: js/js.js:727
 msgid "{months} months ago"
 msgstr "לפני {months} חודשים"
 
-#: js/js.js:717
+#: js/js.js:728
 msgid "months ago"
 msgstr "חודשים"
 
-#: js/js.js:718
+#: js/js.js:729
 msgid "last year"
 msgstr "שנה שעברה"
 
-#: js/js.js:719
+#: js/js.js:730
 msgid "years ago"
 msgstr "שנים"
 
-#: js/oc-dialogs.js:126
+#: js/oc-dialogs.js:117
 msgid "Choose"
 msgstr "בחירה"
 
-#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+#: js/oc-dialogs.js:122
 msgid "Cancel"
 msgstr "ביטול"
 
-#: js/oc-dialogs.js:162
-msgid "No"
-msgstr "לא"
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+msgid "Error loading file picker template"
+msgstr ""
 
-#: js/oc-dialogs.js:163
+#: js/oc-dialogs.js:164
 msgid "Yes"
 msgstr "כן"
 
-#: js/oc-dialogs.js:180
+#: js/oc-dialogs.js:172
+msgid "No"
+msgstr "לא"
+
+#: js/oc-dialogs.js:185
 msgid "Ok"
 msgstr "בסדר"
 
@@ -298,9 +298,9 @@ msgstr "שיתוף עם קישור"
 msgid "Password protect"
 msgstr "הגנה בססמה"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr "ססמה"
+msgstr "סיסמא"
 
 #: js/share.js:173
 msgid "Email link to person"
@@ -401,24 +401,27 @@ msgstr "איפוס הססמה של ownCloud"
 msgid "Use the following link to reset your password: {link}"
 msgstr "יש להשתמש בקישור הבא כדי לאפס את הססמה שלך: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "יישלח לתיבת הדוא״ל שלך קישור לאיפוס הססמה."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "איפוס שליחת דוא״ל."
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "הבקשה נכשלה!"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
 msgstr "שם משתמש"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "בקשת איפוס"
 
@@ -468,7 +471,7 @@ msgstr "ענן לא נמצא"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "עריכת הקטגוריות"
+msgstr "ערוך קטגוריות"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
@@ -481,7 +484,7 @@ msgstr "אזהרת אבטחה"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "גרסת ה־PHP פגיעה בפני התקפת בית NULL/ריק (CVE-2006-7243)"
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
@@ -524,75 +527,80 @@ msgstr "מתקדם"
 msgid "Data folder"
 msgstr "תיקיית נתונים"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "הגדרת מסד הנתונים"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "ינוצלו"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "שם משתמש במסד הנתונים"
 
-#: templates/installation.php:141
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "ססמת מסד הנתונים"
 
-#: templates/installation.php:146
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "שם מסד הנתונים"
 
-#: templates/installation.php:156
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "מרחב הכתובות של מסד הנתונים"
 
-#: templates/installation.php:163
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "שרת בסיס נתונים"
 
-#: templates/installation.php:169
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "סיום התקנה"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "שירותי רשת בשליטתך"
+msgstr "שירותי רשת תחת השליטה שלך"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:37
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:62
 msgid "Log out"
 msgstr "התנתקות"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "בקשת הכניסה האוטומטית נדחתה!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "אם לא שינית את ססמתך לאחרונה, יתכן שחשבונך נפגע!"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "נא לשנות את הססמה שלך כדי לאבטח את חשבונך מחדש."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "שכחת את ססמתך?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "שמירת הססמה"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "כניסה"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "כניסות אלטרנטיביות"
 

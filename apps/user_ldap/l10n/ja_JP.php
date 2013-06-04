@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Failed to clear the mappings." => "マッピングのクリアに失敗しました。",
 "Failed to delete the server configuration" => "サーバ設定の削除に失敗しました",
 "The configuration is valid and the connection could be established!" => "設定は有効であり、接続を確立しました！",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "設定は有効ですが、接続に失敗しました。サーバ設定と資格情報を確認して下さい。",
@@ -7,6 +8,9 @@
 "Take over settings from recent server configuration?" => "最近のサーバ設定から設定を引き継ぎますか？",
 "Keep settings?" => "設定を保持しますか？",
 "Cannot add server configuration" => "サーバ設定を追加できません",
+"mappings cleared" => "マッピングをクリアしました",
+"Success" => "成功",
+"Error" => "エラー",
 "Connection test succeeded" => "接続テストに成功しました",
 "Connection test failed" => "接続テストに失敗しました",
 "Do you really want to delete the current Server Configuration?" => "現在のサーバ設定を本当に削除してもよろしいですか？",
@@ -70,6 +74,16 @@
 "Email Field" => "メールフィールド",
 "User Home Folder Naming Rule" => "ユーザのホームフォルダ命名規則",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "ユーザ名を空のままにしてください（デフォルト）。そうでない場合は、LDAPもしくはADの属性を指定してください。",
-"Test Configuration" => "テスト設定",
+"Internal Username" => "内部ユーザ名",
+"By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder in ownCloud. It is also a port of remote URLs, for instance for all *DAV services. With this setting, the default behaviour can be overriden. To achieve a similar behaviour as before ownCloud 5 enter the user display name attribute in the following field. Leave it empty for default behaviour. Changes will have effect only on newly mapped (added) LDAP users." => "デフォルトでは、内部ユーザ名はUUID属性から作成されます。これにより、ユーザ名がユニークであり、かつ文字の変換が必要ないことを保証します。内部ユーザ名には、[ a-zA-Z0-9_.@- ] の文字のみが有効であるという制限があり、その他の文字は対応する ASCII コードに変換されるか単に無視されます。そのため、他のユーザ名との衝突の回数が増加するでしょう。内部ユーザ名は、内部的にユーザを識別するために用いられ、また、ownCloudにおけるデフォルトのホームフォルダ名としても用いられます。例えば*DAVサービスのように、リモートURLのポートでもあります。この設定により、デフォルトの振る舞いを再定義します。ownCloud 5 以前と同じような振る舞いにするためには、以下のフィールドにユーザ表示名の属性を入力します。空にするとデフォルトの振る舞いとなります。変更は新しくマッピング（追加）されたLDAPユーザにおいてのみ有効となります。",
+"Internal Username Attribute:" => "内部ユーザ名属性:",
+"Override UUID detection" => "UUID検出を再定義する",
+"By default, ownCloud autodetects the UUID attribute. The UUID attribute is used to doubtlessly identify LDAP users and groups. Also, the internal username will be created based on the UUID, if not specified otherwise above. You can override the setting and pass an attribute of your choice. You must make sure that the attribute of your choice can be fetched for both users and groups and it is unique. Leave it empty for default behaviour. Changes will have effect only on newly mapped (added) LDAP users and groups." => "デフォルトでは、ownCloud は UUID 属性を自動的に検出します。UUID属性は、LDAPユーザとLDAPグループを間違いなく識別するために利用されます。また、もしこれを指定しない場合は、内部ユーザ名はUUIDに基づいて作成されます。この設定は再定義することができ、あなたの選択した属性を用いることができます。選択した属性がユーザとグループの両方に対して適用でき、かつユニークであることを確認してください。空であればデフォルトの振る舞いとなります。変更は、新しくマッピング（追加）されたLDAPユーザとLDAPグループに対してのみ有効となります。",
+"UUID Attribute:" => "UUID属性:",
+"Username-LDAP User Mapping" => "ユーザ名とLDAPユーザのマッピング",
+"ownCloud uses usernames to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have a internal username. This requires a mapping from ownCloud username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found by ownCloud. The internal ownCloud name is used all over in ownCloud. Clearing the Mappings will have leftovers everywhere. Clearing the Mappings is not configuration sensitive, it affects all LDAP configurations! Do never clear the mappings in a production environment. Only clear mappings in a testing or experimental stage." => "ownCloudは（メタ） データの保存と割り当てにユーザ名を使用します。ユーザを正確に識別して認識するために、個々のLDAPユーザは内部ユーザ名を持っています。これは、ownCloudユーザ名とLDAPユーザ名の間のマッピングが必要であることを意味しています。生成されたユーザ名は、LDAPユーザのUUIDとマッピングされます。加えて、DNがLDAPとのインタラクションを削減するためにキャッシュされますが、識別には利用されません。DNが変わった場合は、変更をownCloudが見つけます。内部のownCloud名はownCloud全体に亘って利用されます。マッピングをクリアすると、いたるところに使われないままの物が残るでしょう。マッピングのクリアは設定に敏感ではありませんが、全てのLDAPの設定に影響を与えます！本番の環境では決してマッピングをクリアしないでください。テストもしくは実験の段階でのみマッピングのクリアを行なってください。",
+"Clear Username-LDAP User Mapping" => "ユーザ名とLDAPユーザのマッピングをクリアする",
+"Clear Groupname-LDAP Group Mapping" => "グループ名とLDAPグループのマッピングをクリアする",
+"Test Configuration" => "設定をテスト",
 "Help" => "ヘルプ"
 );

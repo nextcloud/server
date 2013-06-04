@@ -1,26 +1,41 @@
 <?php
 
-// Init owncloud
-
+/**
+ * ownCloud - Core
+ *
+ * @author Morris Jobke
+ * @copyright 2013 Morris Jobke morris.jobke@gmail.com
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 
-// Get data
-$dir = stripslashes($_GET["dir"]);
-$file = stripslashes($_GET["file"]);
-$newname = stripslashes($_GET["newname"]);
+$files = new \OCA\Files\App(
+	\OC\Files\Filesystem::getView(),
+	\OC_L10n::get('files')
+);
+$result = $files->rename(
+	$_GET["dir"],
+	$_GET["file"],
+	$_GET["newname"]
+);
 
-$l = OC_L10N::get('files');
-
-if ( $newname !== '.' and ($dir != '' || $file != 'Shared') and $newname !== '.') {
-	$targetFile = \OC\Files\Filesystem::normalizePath($dir . '/' . $newname);
-	$sourceFile = \OC\Files\Filesystem::normalizePath($dir . '/' . $file);
-	if(\OC\Files\Filesystem::rename($sourceFile, $targetFile)) {
-		OCP\JSON::success(array("data" => array( "dir" => $dir, "file" => $file, "newname" => $newname )));
-	} else {
-		OCP\JSON::error(array("data" => array( "message" => $l->t("Unable to rename file") )));
-	}
-}else{
-	OCP\JSON::error(array("data" => array( "message" => $l->t("Unable to rename file") )));
+if($result['success'] === true){
+	OCP\JSON::success(array('data' => $result['data']));
+} else {
+	OCP\JSON::error(array('data' => $result['data']));
 }

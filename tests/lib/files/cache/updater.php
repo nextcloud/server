@@ -42,14 +42,11 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$this->scanner->scan('');
 		$this->cache = $this->storage->getCache();
 
+		\OC\Files\Filesystem::tearDown();
 		if (!self::$user) {
-			if (!\OC\Files\Filesystem::getView()) {
-				self::$user = uniqid();
-				\OC\Files\Filesystem::init(self::$user, '/' . self::$user . '/files');
-			} else {
-				self::$user = \OC_User::getUser();
-			}
+			self::$user = uniqid();
 		}
+		\OC\Files\Filesystem::init(self::$user, '/' . self::$user . '/files');
 
 		Filesystem::clearMounts();
 		Filesystem::mount($this->storage, array(), '/' . self::$user . '/files');

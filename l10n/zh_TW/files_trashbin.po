@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#  <admin@alphacorp.tk>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-09 02:10+0200\n"
-"PO-Revision-Date: 2013-04-08 02:21+0000\n"
+"POT-Creation-Date: 2013-06-03 02:27+0200\n"
+"PO-Revision-Date: 2013-06-02 23:18+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -21,56 +20,56 @@ msgstr ""
 #: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr "無法永久刪除%s"
+msgstr "無法永久刪除 %s"
 
 #: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
-msgstr "無法復原%s"
+msgstr "無法復原 %s"
 
-#: js/trash.js:7 js/trash.js:96
+#: js/trash.js:7 js/trash.js:97
 msgid "perform restore operation"
 msgstr "進行復原動作"
 
-#: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
+#: js/trash.js:19 js/trash.js:46 js/trash.js:115 js/trash.js:141
 msgid "Error"
 msgstr "錯誤"
 
 #: js/trash.js:34
 msgid "delete file permanently"
-msgstr "永久刪除文件"
+msgstr "永久刪除檔案"
 
-#: js/trash.js:121
+#: js/trash.js:123
 msgid "Delete permanently"
 msgstr "永久刪除"
 
-#: js/trash.js:174 templates/index.php:17
+#: js/trash.js:176 templates/index.php:17
 msgid "Name"
 msgstr "名稱"
 
-#: js/trash.js:175 templates/index.php:27
+#: js/trash.js:177 templates/index.php:27
 msgid "Deleted"
 msgstr "已刪除"
 
-#: js/trash.js:184
+#: js/trash.js:186
 msgid "1 folder"
 msgstr "1 個資料夾"
 
-#: js/trash.js:186
+#: js/trash.js:188
 msgid "{count} folders"
 msgstr "{count} 個資料夾"
 
-#: js/trash.js:194
+#: js/trash.js:196
 msgid "1 file"
 msgstr "1 個檔案"
 
-#: js/trash.js:196
+#: js/trash.js:198
 msgid "{count} files"
 msgstr "{count} 個檔案"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr "這裏沒東西。您的垃圾桶是空的！"
+msgstr "您的垃圾桶是空的！"
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"

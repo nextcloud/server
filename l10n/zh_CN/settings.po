@@ -3,20 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <appweb.cn@gmail.com>, 2012.
-# CyberCowBoy <ccb3275@gmail.com>, 2013.
-# Dianjin Wang <1132321739qq@gmail.com>, 2012-2013.
-# Phoenix Nemo <>, 2012.
-#   <rainofchaos@gmail.com>, 2012.
-#   <suiy02@gmail.com>, 2012.
-#  <wengxt@gmail.com>, 2013.
-#   <wengxt@gmail.com>, 2011, 2012.
+# zhangmin <zm1990s@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-09 02:10+0200\n"
-"PO-Revision-Date: 2013-04-08 02:20+0000\n"
+"POT-Creation-Date: 2013-06-03 02:27+0200\n"
+"PO-Revision-Date: 2013-06-02 23:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -29,12 +22,16 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "无法从应用商店载入列表"
 
-#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
+#: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr "认证错误"
+msgstr "认证出错"
 
-#: ajax/changedisplayname.php:32
+#: ajax/changedisplayname.php:31
+msgid "Your display name has been changed."
+msgstr "您的显示名字已经改变"
+
+#: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
 msgstr "无法修改显示名称"
 
@@ -72,7 +69,7 @@ msgstr "语言已修改"
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr "非法请求"
+msgstr "无效请求"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -102,7 +99,7 @@ msgstr "禁用"
 
 #: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr "启用"
+msgstr "开启"
 
 #: js/apps.js:55
 msgid "Please wait...."
@@ -124,52 +121,52 @@ msgstr "更新 app 时出错"
 msgid "Updated"
 msgstr "已更新"
 
-#: js/personal.js:99
+#: js/personal.js:118
 msgid "Saving..."
-msgstr "正在保存"
+msgstr "保存中"
 
-#: js/users.js:31
+#: js/users.js:47
 msgid "deleted"
 msgstr "已经删除"
 
-#: js/users.js:31
+#: js/users.js:47
 msgid "undo"
 msgstr "撤销"
 
-#: js/users.js:63
+#: js/users.js:79
 msgid "Unable to remove user"
 msgstr "无法移除用户"
 
-#: js/users.js:76 templates/users.php:26 templates/users.php:80
-#: templates/users.php:105
+#: js/users.js:92 templates/users.php:26 templates/users.php:83
+#: templates/users.php:108
 msgid "Groups"
 msgstr "组"
 
-#: js/users.js:79 templates/users.php:82 templates/users.php:119
+#: js/users.js:95 templates/users.php:85 templates/users.php:120
 msgid "Group Admin"
 msgstr "组管理员"
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:115 templates/users.php:160
 msgid "Delete"
 msgstr "删除"
 
-#: js/users.js:243
+#: js/users.js:269
 msgid "add group"
 msgstr "添加组"
 
-#: js/users.js:407
+#: js/users.js:428
 msgid "A valid username must be provided"
 msgstr "必须提供合法的用户名"
 
-#: js/users.js:408 js/users.js:414 js/users.js:429
+#: js/users.js:429 js/users.js:435 js/users.js:450
 msgid "Error creating user"
 msgstr "创建用户出错"
 
-#: js/users.js:413
+#: js/users.js:434
 msgid "A valid password must be provided"
 msgstr "必须提供合法的密码"
 
-#: personal.php:29 personal.php:30
+#: personal.php:35 personal.php:36
 msgid "__language_name__"
 msgstr "简体中文"
 
@@ -320,19 +317,19 @@ msgstr "日志"
 msgid "Log level"
 msgstr "日志级别"
 
-#: templates/admin.php:223
+#: templates/admin.php:227
 msgid "More"
 msgstr "更多"
 
-#: templates/admin.php:224
+#: templates/admin.php:228
 msgid "Less"
 msgstr "更少"
 
-#: templates/admin.php:231 templates/personal.php:102
+#: templates/admin.php:235 templates/personal.php:111
 msgid "Version"
 msgstr "版本"
 
-#: templates/admin.php:234 templates/personal.php:105
+#: templates/admin.php:237 templates/personal.php:114
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -403,7 +400,7 @@ msgstr "安装应用进行文件同步"
 msgid "Show First Run Wizard again"
 msgstr "再次显示首次运行向导"
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:79
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:82
 msgid "Password"
 msgstr "密码"
 
@@ -427,82 +424,74 @@ msgstr "新密码"
 msgid "Change password"
 msgstr "修改密码"
 
-#: templates/personal.php:56 templates/users.php:78
+#: templates/personal.php:56 templates/users.php:81
 msgid "Display Name"
 msgstr "显示名称"
 
-#: templates/personal.php:57
-msgid "Your display name was changed"
-msgstr "您的显示名称已修改"
-
-#: templates/personal.php:58
-msgid "Unable to change your display name"
-msgstr "无法修改您的显示名称"
-
-#: templates/personal.php:61
-msgid "Change display name"
-msgstr "修改显示名称"
-
-#: templates/personal.php:70
+#: templates/personal.php:71
 msgid "Email"
 msgstr "电子邮件"
 
-#: templates/personal.php:72
+#: templates/personal.php:73
 msgid "Your email address"
 msgstr "您的电子邮件"
 
-#: templates/personal.php:73
+#: templates/personal.php:74
 msgid "Fill in an email address to enable password recovery"
 msgstr "填写电子邮件地址以启用密码恢复功能"
 
-#: templates/personal.php:79 templates/personal.php:80
+#: templates/personal.php:83 templates/personal.php:84
 msgid "Language"
 msgstr "语言"
 
-#: templates/personal.php:86
+#: templates/personal.php:95
 msgid "Help translate"
 msgstr "帮助翻译"
 
-#: templates/personal.php:91
+#: templates/personal.php:100
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:93
+#: templates/personal.php:102
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "用该地址来连接文件管理器中的 ownCloud"
 
-#: templates/users.php:21 templates/users.php:77
+#: templates/users.php:21 templates/users.php:80
 msgid "Login Name"
 msgstr "登录名称"
 
-#: templates/users.php:32
+#: templates/users.php:30
 msgid "Create"
 msgstr "创建"
 
-#: templates/users.php:35
+#: templates/users.php:34
+msgid "Admin Recovery Password"
+msgstr ""
+
+#: templates/users.php:38
 msgid "Default Storage"
 msgstr "默认存储"
 
-#: templates/users.php:41 templates/users.php:139
+#: templates/users.php:44 templates/users.php:138
 msgid "Unlimited"
 msgstr "无限"
 
-#: templates/users.php:59 templates/users.php:154
+#: templates/users.php:62 templates/users.php:153
 msgid "Other"
 msgstr "其它"
 
-#: templates/users.php:84
+#: templates/users.php:87
 msgid "Storage"
 msgstr "存储"
 
-#: templates/users.php:95
+#: templates/users.php:98
 msgid "change display name"
 msgstr "修改显示名称"
 
-#: templates/users.php:99
+#: templates/users.php:102
 msgid "set new password"
 msgstr "设置新密码"
 
-#: templates/users.php:134
+#: templates/users.php:133
 msgid "Default"
 msgstr "默认"

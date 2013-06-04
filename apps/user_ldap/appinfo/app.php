@@ -24,7 +24,7 @@
 OCP\App::registerAdmin('user_ldap', 'settings');
 
 $configPrefixes = OCA\user_ldap\lib\Helper::getServerConfigurationPrefixes(true);
-if(count($configPrefixes) == 1) {
+if(count($configPrefixes) === 1) {
 	$connector = new OCA\user_ldap\lib\Connection($configPrefixes[0]);
 	$userBackend  = new OCA\user_ldap\USER_LDAP();
 	$userBackend->setConnector($connector);
@@ -49,7 +49,7 @@ $entry = array(
 	'name' => 'LDAP'
 );
 
-OCP\Backgroundjob::addRegularTask('OCA\user_ldap\lib\Jobs', 'updateGroups');
+OCP\Backgroundjob::registerJob('OCA\user_ldap\lib\Jobs');
 if(OCP\App::isEnabled('user_webdavauth')) {
 	OCP\Util::writeLog('user_ldap',
 		'user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour',

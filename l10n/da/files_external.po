@@ -3,17 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Bawl <transifex@bawl.dk>, 2013.
-#   <cronner@gmail.com>, 2012.
-# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2012.
-# Ole Holm Frandsen <froksen@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-31 00:01+0100\n"
-"PO-Revision-Date: 2013-03-30 18:00+0000\n"
-"Last-Translator: Bawl <transifex@bawl.dk>\n"
+"POT-Creation-Date: 2013-06-03 02:27+0200\n"
+"PO-Revision-Date: 2013-06-02 23:17+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,18 +37,25 @@ msgstr "Angiv venligst en valid Dropbox app nøgle og hemmelighed"
 msgid "Error configuring Google Drive storage"
 msgstr "Fejl ved konfiguration af Google Drive plads"
 
-#: lib/config.php:423
+#: lib/config.php:431
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b> Advarsel: </ b> \"smbclient\" ikke er installeret. Montering af CIFS / SMB delinger er ikke muligt. Spørg din systemadministrator om at installere det."
 
-#: lib/config.php:426
+#: lib/config.php:434
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
 msgstr "<b> Advarsel: </ b> FTP-understøttelse i PHP ikke er aktiveret eller installeret. Montering af FTP delinger er ikke muligt. Spørg din systemadministrator om at installere det."
+
+#: lib/config.php:437
+msgid ""
+"<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
+"Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
+"your system administrator to install it."
+msgstr "<b>Advarsel:</b> Understøttelsen for Curl i PHP er enten ikke aktiveret eller ikke installeret. Det er ikke muligt, at montere ownCloud / WebDAV eller GoogleDrive. Spørg din system administrator om at installere det. "
 
 #: templates/settings.php:3
 msgid "External Storage"

@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Vincenzo Reale <vinx.reale@gmail.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-01 00:05+0100\n"
-"PO-Revision-Date: 2013-02-27 23:30+0000\n"
+"POT-Creation-Date: 2013-05-25 02:01+0200\n"
+"PO-Revision-Date: 2013-05-24 13:28+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -41,11 +40,11 @@ msgstr "non riuscita"
 msgid "File %s could not be reverted to version %s"
 msgstr "Il file %s non può essere ripristinato alla versione %s"
 
-#: history.php:68
+#: history.php:69
 msgid "No old versions available"
 msgstr "Non sono disponibili versioni precedenti"
 
-#: history.php:73
+#: history.php:74
 msgid "No path specified"
 msgstr "Nessun percorso specificato"
 
