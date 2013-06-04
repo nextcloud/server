@@ -36,9 +36,9 @@
 		
 		<?php if ( $_["recoveryEnabled"] ): ?>
 			<p>
-				<label for="userEnableRecovery"><?php p( $l->t( "Enable password recovery by sharing all files with your administrator:" ) ); ?></label>
+				<label for="userEnableRecovery"><?php p( $l->t( "Enable password recovery:" ) ); ?></label>
 				<br />
-				<em><?php p( $l->t( "Enabling this option will allow you to reobtain access to your encrypted files if your password is lost" ) ); ?></em>
+				<em><?php p( $l->t( "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" ) ); ?></em>
 				<br />
 				<input 
 				type='radio'
