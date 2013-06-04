@@ -6,6 +6,7 @@
 
 		<?php if ( ! $_["privateKeySet"] ): ?>
 			<p>
+				<a name="changePKPasswd" />
 				<label for="changePrivateKeyPasswd"><?php p( $l->t( "Your private key password no longer match your log-in password:" ) ); ?></label>
 				<br />
 				<em><?php p( $l->t( "Set your old private key password to your current log-in password." ) ); ?></em>
