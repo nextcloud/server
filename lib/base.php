@@ -571,6 +571,7 @@ class OC {
 			self::checkUpgrade();
 		}
 
+		// Test it the user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
 		OC::tryBasicAuthLogin();
 
 		if (!self::$CLI) {
@@ -674,12 +675,9 @@ class OC {
 		// remember was checked after last login
 		if (OC::tryRememberLogin()) {
 			$error[] = 'invalidcookie';
-
 			// Someone wants to log in :
 		} elseif (OC::tryFormLogin()) {
 			$error[] = 'invalidpassword';
-
-			// The user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
 		}
 
 		OC_Util::displayLoginPage(array_unique($error));
@@ -779,6 +777,7 @@ class OC {
 		if (OC_User::login($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"])) {
 			//OC_Log::write('core',"Logged in with HTTP Authentication", OC_Log::DEBUG);
 			OC_User::unsetMagicInCookie();
+			$_SERVER['HTTP_REQUESTTOKEN'] = OC_Util::callRegister();
 		}
 		return true;
 	}
