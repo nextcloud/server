@@ -28,7 +28,7 @@ if (extension_loaded('imagick')) {
 
 			chdir(get_temp_dir());
 
-			$exec = 'libreoffice --headless -convert-to pdf ' . escapeshellarg($abspath);
+			$exec = $this->cmd . ' --headless -convert-to pdf ' . escapeshellarg($abspath);
 			exec($exec)
 			
 			//create imagick object from pdf
