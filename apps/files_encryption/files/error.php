@@ -4,7 +4,7 @@ if (!isset($_)) { //also provide standalone error page
 
 	$l = OC_L10N::get('files_encryption');
 
-	$errorMsg = $l->t('Your private key is not valid! Maybe your password was changed from outside.');
+	$errorMsg = $l->t('Your private key is not valid! Maybe your password was changed from outside. You can update your private key password in your personal settings to regain access to your files');
 
 	if(isset($_GET['p']) && $_GET['p'] === '1') {
 		header('HTTP/1.0 404 ' . $errorMsg);
