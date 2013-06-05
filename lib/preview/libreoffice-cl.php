@@ -26,11 +26,13 @@ if (extension_loaded('imagick')) {
 
 			$abspath = $fileview->toTmpFile($path);
 
-			chdir(get_temp_dir());
+			$tmpdir = get_temp_dir();
 
-			$exec = $this->cmd . ' --headless -convert-to pdf ' . escapeshellarg($abspath);
-			exec($exec);
-			
+			$exec = $this->cmd . ' --headless --nologo --nofirststartwizard --invisible --norestore -convert-to pdf -outdir ' . escapeshellarg($tmpdir) . ' ' . escapeshellarg($abspath);
+			$export = 'export HOME=/tmp';
+
+			shell_exec($export . "\n" . $exec);
+
 			//create imagick object from pdf
 			try{
 				$pdf = new \imagick($abspath . '.pdf' . '[0]');
@@ -43,7 +45,8 @@ if (extension_loaded('imagick')) {
 			$image = new \OC_Image($pdf);
 
 			unlink($abspath);
-			unlink($tmppath);
+			unlink($abspath . '.pdf');
+
 			if (!$image->valid()) return false;
 
 			return $image;
