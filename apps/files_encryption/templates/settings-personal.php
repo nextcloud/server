@@ -7,9 +7,15 @@
 		<?php if ( ! $_["privateKeySet"] ): ?>
 			<p>
 				<a name="changePKPasswd" />
-				<label for="changePrivateKeyPasswd"><?php p( $l->t( "Your private key password no longer match your log-in password:" ) ); ?></label>
+				<label for="changePrivateKeyPasswd">
+					<?php p( $l->t( "Your private key password no longer match your log-in password:" ) ); ?>
+				</label>
 				<br />
-				<em><?php p( $l->t( "Set your old private key password to your current log-in password." ) ); ?></em>
+				<em><?php p( $l->t( "Set your old private key password to your current log-in password." ) ); ?>
+				<?php if (  $_["recoveryEnabledForUser"] ):
+						p( $l->t( " If you don't remember your old password you can ask your administrator to recover your files." ) );
+				endif; ?>
+				</em>
 				<br />
 				<input
 					type="password"
@@ -34,7 +40,7 @@
 
 		<br />
 		
-		<?php if ( $_["recoveryEnabled"] ): ?>
+		<?php if ( $_["recoveryEnabled"] && $_["privateKeySet"] ): ?>
 			<p>
 				<label for="userEnableRecovery"><?php p( $l->t( "Enable password recovery:" ) ); ?></label>
 				<br />
