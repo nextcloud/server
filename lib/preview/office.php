@@ -5,9 +5,11 @@
  * later.
  * See the COPYING-README file.
  */
-if(shell_exec('libreoffice') || shell_exec('openoffice')) {
+//let's see if there is libreoffice or openoffice on this machine
+if(shell_exec('libreoffice --headless --version') || shell_exec('openoffice --headless --version') || is_string(\OC_Config::getValue('preview_libreoffice_path', null))) {
 	require_once('libreoffice-cl.php');
 }else{
+	//in case there isn't, use our fallback
 	require_once('msoffice.php');
 	require_once('opendocument.php');
 }
