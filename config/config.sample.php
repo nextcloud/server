@@ -192,5 +192,5 @@ $CONFIG = array(
 /* the max factor to scale a preview, default is set to 10 */
 'preview_max_scale_factor' => 10,
 /* custom path for libreoffice / openoffice binary */
-'preview_libreoffice_path' => '/usr/bin/libreoffice';
+'preview_libreoffice_path' => '/usr/bin/libreoffice',
 );
