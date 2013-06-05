@@ -4,7 +4,7 @@ If you have questions about how to install or use ownCloud, please direct these 
 
 ### Guidelines
 * Please search the existing issues first, it's likely that your issue was already reported or even fixed.
-* This repository is *only* for issues within the ownCloud core code. This also includes the apps: files, encryption, external storage, sharing, trashbin, versions, LDAP, and WebDAV Auth
+* This repository is *only* for issues within the ownCloud core code. This also includes the apps: files, encryption, external storage, sharing, deleted files, versions, LDAP, and WebDAV Auth
 * The issues in other components should be reported in their respective repositories: 
   - [Android client](https://github.com/owncloud/android/issues)
   - [iOS client](https://github.com/owncloud/ios-issues/issues)
