@@ -21,12 +21,19 @@ $privateKeySet = ($session->getPrivateKey() !== false) ? true : false;
 $recoveryAdminEnabled = OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled');
 $recoveryEnabledForUser = $util->recoveryEnabledForUser();
 
-\OCP\Util::addscript('files_encryption', 'settings-personal');
-\OCP\Util::addScript('settings', 'personal');
+$result = false;
 
-$tmpl->assign('recoveryEnabled', $recoveryAdminEnabled);
-$tmpl->assign('recoveryEnabledForUser', $recoveryEnabledForUser);
-$tmpl->assign('privateKeySet', $privateKeySet);
+if ($recoveryAdminEnabled || !$privateKeySet) {
 
-return $tmpl->fetchPage();
+	\OCP\Util::addscript('files_encryption', 'settings-personal');
+	\OCP\Util::addScript('settings', 'personal');
+
+	$tmpl->assign('recoveryEnabled', $recoveryAdminEnabled);
+	$tmpl->assign('recoveryEnabledForUser', $recoveryEnabledForUser);
+	$tmpl->assign('privateKeySet', $privateKeySet);
+
+	$result = $tmpl->fetchPage();
+}
+
+return $result;
 
