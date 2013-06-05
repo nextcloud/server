@@ -29,7 +29,7 @@ if (extension_loaded('imagick')) {
 			$tmpdir = get_temp_dir();
 
 			$exec = $this->cmd . ' --headless --nologo --nofirststartwizard --invisible --norestore -convert-to pdf -outdir ' . escapeshellarg($tmpdir) . ' ' . escapeshellarg($abspath);
-			$export = 'export HOME=/tmp';
+			$export = 'export HOME=/' . $tmpdir;
 
 			shell_exec($export . "\n" . $exec);
 
