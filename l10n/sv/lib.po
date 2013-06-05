@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# medialabs, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-04 02:29+0200\n"
-"PO-Revision-Date: 2013-06-03 00:32+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-05 01:59+0200\n"
+"PO-Revision-Date: 2013-06-04 21:24+0000\n"
+"Last-Translator: medialabs\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -87,47 +88,47 @@ msgstr "Bilder"
 
 #: setup.php:34
 msgid "Set an admin username."
-msgstr ""
+msgstr "Ange ett användarnamn för administratören."
 
 #: setup.php:37
 msgid "Set an admin password."
-msgstr ""
+msgstr "Ange ett administratörslösenord."
 
 #: setup.php:55
 #, php-format
 msgid "%s enter the database username."
-msgstr ""
+msgstr "%s ange databasanvändare."
 
 #: setup.php:58
 #, php-format
 msgid "%s enter the database name."
-msgstr ""
+msgstr "%s ange databasnamn"
 
 #: setup.php:61
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr ""
+msgstr "%s du får inte använda punkter i databasnamnet"
 
 #: setup.php:64
 #, php-format
 msgid "%s set the database host."
-msgstr ""
+msgstr "%s ange databasserver/host."
 
 #: setup.php:132 setup.php:329 setup.php:374
 msgid "PostgreSQL username and/or password not valid"
-msgstr ""
+msgstr "PostgreSQL-användarnamnet och/eller lösenordet är felaktigt"
 
 #: setup.php:133 setup.php:238
 msgid "You need to enter either an existing account or the administrator."
-msgstr ""
+msgstr "Du måste antingen ange ett befintligt konto eller administratör."
 
 #: setup.php:155
 msgid "Oracle connection could not be established"
-msgstr ""
+msgstr "Oracle-anslutning kunde inte etableras"
 
 #: setup.php:237
 msgid "MySQL username and/or password not valid"
-msgstr ""
+msgstr "MySQL-användarnamnet och/eller lösenordet är felaktigt"
 
 #: setup.php:291 setup.php:395 setup.php:404 setup.php:422 setup.php:432
 #: setup.php:441 setup.php:474 setup.php:540 setup.php:566 setup.php:573
@@ -135,46 +136,46 @@ msgstr ""
 #: setup.php:623
 #, php-format
 msgid "DB Error: \"%s\""
-msgstr ""
+msgstr "DB error: \"%s\""
 
 #: setup.php:292 setup.php:396 setup.php:405 setup.php:423 setup.php:433
 #: setup.php:442 setup.php:475 setup.php:541 setup.php:567 setup.php:574
 #: setup.php:585 setup.php:601 setup.php:609 setup.php:618
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr ""
+msgstr "Det felaktiga kommandot var: \"%s\""
 
 #: setup.php:308
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "MySQL-användaren '%s'@'localhost' existerar redan."
 
 #: setup.php:309
 msgid "Drop this user from MySQL"
-msgstr ""
+msgstr "Radera denna användare från MySQL"
 
 #: setup.php:314
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
-msgstr ""
+msgstr "MySQl-användare '%s'@'%%' existerar redan"
 
 #: setup.php:315
 msgid "Drop this user from MySQL."
-msgstr ""
+msgstr "Radera denna användare från MySQL."
 
 #: setup.php:466 setup.php:533
 msgid "Oracle username and/or password not valid"
-msgstr ""
+msgstr "Oracle-användarnamnet och/eller lösenordet är felaktigt"
 
 #: setup.php:592 setup.php:624
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr ""
+msgstr "Det felande kommandot var: \"%s\", name: %s, password: %s"
 
 #: setup.php:644
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr ""
+msgstr "MS SQL-användaren och/eller lösenordet var inte giltigt: %s"
 
 #: setup.php:867
 msgid ""

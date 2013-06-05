@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Failed to clear the mappings." => "Fel vid rensning av mappningar",
 "Failed to delete the server configuration" => "Misslyckades med att radera serverinställningen",
 "The configuration is valid and the connection could be established!" => "Inställningen är giltig och anslutningen kunde upprättas!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Konfigurationen är riktig, men Bind felade. Var vänlig och kontrollera serverinställningar och logininformation.",
@@ -7,6 +8,7 @@
 "Take over settings from recent server configuration?" => "Ta över inställningar från tidigare serverkonfiguration?",
 "Keep settings?" => "Behåll inställningarna?",
 "Cannot add server configuration" => "Kunde inte lägga till serverinställning",
+"mappings cleared" => "mappningar rensade",
 "Success" => "Lyckat",
 "Error" => "Fel",
 "Connection test succeeded" => "Anslutningstestet lyckades",
@@ -72,6 +74,11 @@
 "Email Field" => "E-postfält",
 "User Home Folder Naming Rule" => "Namnregel för hemkatalog",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Lämnas tomt för användarnamn (standard). Ange annars ett LDAP/AD-attribut.",
+"Internal Username" => "Internt Användarnamn",
+"By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder in ownCloud. It is also a port of remote URLs, for instance for all *DAV services. With this setting, the default behaviour can be overriden. To achieve a similar behaviour as before ownCloud 5 enter the user display name attribute in the following field. Leave it empty for default behaviour. Changes will have effect only on newly mapped (added) LDAP users." => "Som standard skapas det interna användarnamnet från UUID-attributet. Det säkerställer att användarnamnet är unikt och tecken inte behöver konverteras. Det interna användarnamnet har restriktionerna att endast följande tecken är tillåtna:  [ a-zA-Z0-9_.@- ]. Andra tecken blir ersatta av deras motsvarighet i ASCII eller utelämnas helt. En siffra kommer att läggas till eller ökas på vid en kollision. Det interna användarnamnet används för att identifiera användaren internt. Det är även förvalt som användarens användarnamn i ownCloud. Det är även en port för fjärråtkomst, t.ex. för alla *DAV-tjänster. Med denna inställning kan det förvalda beteendet åsidosättas. För att uppnå ett liknande beteende som innan ownCloud 5, ange attributet för användarens visningsnamn i detta fält. Lämna det tomt för förvalt beteende. Ändringarna kommer endast att påverka nyligen mappade (tillagda) LDAP-användare",
+"Internal Username Attribute:" => "Internt Användarnamn Attribut:",
+"Override UUID detection" => "Åsidosätt UUID detektion",
+"UUID Attribute:" => "UUID Attribut:",
 "Test Configuration" => "Testa konfigurationen",
 "Help" => "Hjälp"
 );

@@ -124,7 +124,7 @@
 "If you did not change your password recently, your account may be compromised!" => "如果您最近没有修改您的密码，那您的帐号可能被攻击了！",
 "Please change your password to secure your account again." => "请修改您的密码以保护账户。",
 "Lost your password?" => "忘记密码?",
-"remember" => "备忘",
+"remember" => "记住登录",
 "Log in" => "登陆",
 "Alternative Logins" => "备选登录",
 "prev" => "后退",

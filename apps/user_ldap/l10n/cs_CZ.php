@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Failed to clear the mappings." => "Selhalo zrušení mapování.",
 "Failed to delete the server configuration" => "Selhalo smazání nastavení serveru",
 "The configuration is valid and the connection could be established!" => "Nastavení je v pořádku a spojení bylo navázáno.",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Konfigurace je v pořádku, ale spojení selhalo. Zkontrolujte, prosím, nastavení serveru a přihlašovací údaje.",
@@ -7,6 +8,7 @@
 "Take over settings from recent server configuration?" => "Převzít nastavení z nedávného nastavení serveru?",
 "Keep settings?" => "Ponechat nastavení?",
 "Cannot add server configuration" => "Nelze přidat nastavení serveru",
+"mappings cleared" => "mapování zrušeno",
 "Success" => "Úspěch",
 "Error" => "Chyba",
 "Connection test succeeded" => "Test spojení byl úspěšný",
@@ -72,6 +74,13 @@
 "Email Field" => "Pole e-mailu",
 "User Home Folder Naming Rule" => "Pravidlo pojmenování domovské složky uživatele",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Ponechte prázdné pro uživatelské jméno (výchozí). Jinak uveďte LDAP/AD parametr.",
+"Internal Username" => "Interní uživatelské jméno",
+"Internal Username Attribute:" => "Atribut interního uživatelského jména:",
+"Override UUID detection" => "Nastavit ručně UUID atribut",
+"UUID Attribute:" => "Atribut UUID:",
+"Username-LDAP User Mapping" => "Mapování uživatelských jmen z LDAPu",
+"Clear Username-LDAP User Mapping" => "Zrušit mapování LDAPových uživatelských jmen",
+"Clear Groupname-LDAP Group Mapping" => "Zrušit mapování LDAPových jmen skupin",
 "Test Configuration" => "Vyzkoušet nastavení",
 "Help" => "Nápověda"
 );

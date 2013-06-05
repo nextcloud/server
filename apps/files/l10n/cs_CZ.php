@@ -46,6 +46,7 @@
 "{count} folders" => "{count} složky",
 "1 file" => "1 soubor",
 "{count} files" => "{count} soubory",
+"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Tento název složky nelze použít. Použití názvu 'Shared' je ownCloudem rezervováno",
 "Unable to rename file" => "Nelze přejmenovat soubor",
 "Upload" => "Odeslat",
 "File handling" => "Zacházení se soubory",

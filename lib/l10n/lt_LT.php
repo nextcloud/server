@@ -14,13 +14,17 @@
 "Token expired. Please reload page." => "Sesija baigėsi. Prašome perkrauti puslapį.",
 "Files" => "Failai",
 "Text" => "Žinučių",
+"Images" => "Paveikslėliai",
 "seconds ago" => "prieš sekundę",
 "1 minute ago" => "Prieš 1 minutę",
 "%d minutes ago" => "prieš %d minučių",
+"1 hour ago" => "prieš 1 valandą",
+"%d hours ago" => "prieš %d valandų",
 "today" => "šiandien",
 "yesterday" => "vakar",
 "%d days ago" => "prieš %d dienų",
 "last month" => "praeitą mėnesį",
+"%d months ago" => "prieš %d mėnesių",
 "last year" => "praeitais metais",
 "years ago" => "prieš metus"
 );
