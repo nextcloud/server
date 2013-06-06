@@ -366,10 +366,10 @@ class OC_Helper {
 	/**
 	 * Try to guess the mimetype based on filename
 	 *
-	 * @param string $name
+	 * @param string $path
 	 * @return string
 	 */
-	static public function getFileNameMimeType($name){
+	static public function getFileNameMimeType($path){
 		if(strpos($path, '.')) {
 			//try to guess the type by the file extension
 			if(!self::$mimetypes || self::$mimetypes != include 'mimetypes.list.php') {
