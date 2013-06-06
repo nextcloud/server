@@ -26,19 +26,20 @@ class iRODS extends \OC\Files\Storage\StreamWrapper{
 
 	public function __construct($params) {
 		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
-			$this->host=$params['host'];
-			$this->port=$params['port'];
-			$this->user=$params['user'];
-			$this->password=$params['password'];
-			$this->use_logon_credentials=$params['use_logon_credentials'];
-			$this->zone=$params['zone'];
-			$this->auth_mode=isset($params['auth_mode']) ? $params['auth_mode'] : '';
+			$this->host = $params['host'];
+			$this->port = $params['port'];
+			$this->user = $params['user'];
+			$this->password = $params['password'];
+			$this->use_logon_credentials = $params['use_logon_credentials'];
+			$this->zone = $params['zone'];
+			$this->auth_mode = isset($params['auth_mode']) ? $params['auth_mode'] : '';
 
-			$this->root=isset($params['root'])?$params['root']:'/';
-			if ( ! $this->root || $this->root[0]!='/') {
+			$this->root = isset($params['root']) ? $params['root'] : '/';
+			if ( ! $this->root || $this->root[0] !== '/') {
 				$this->root='/'.$this->root;
 			}
 
+			// take user and password from the session
 			if ($this->use_logon_credentials && isset($_SESSION['irods-credentials']) )
 			{
 				$this->user = $_SESSION['irods-credentials']['uid'];
@@ -69,10 +70,84 @@ class iRODS extends \OC\Files\Storage\StreamWrapper{
 	 * @return string
 	 */
 	public function constructUrl($path) {
+		$path = rtrim($path,'/');
+		if ( $path === '' || $path[0] !== '/') {
+			$path = '/'.$path;
+		}
+
+		// adding auth method
 		$userWithZone = $this->user.'.'.$this->zone;
-		if ($this->auth_mode === '') {
-			$userWithZone .= $this->auth_mode;
+		if ($this->auth_mode !== '') {
+			$userWithZone .= '.'.$this->auth_mode;
 		}
 		return 'rods://'.$userWithZone.':'.$this->password.'@'.$this->host.':'.$this->port.$this->root.$path;
 	}
+
+	public function filetype($path) {
+		$this->init();
+		return @filetype($this->constructUrl($path));
+	}
+
+	public function mkdir($path) {
+		$this->init();
+		return @mkdir($this->constructUrl($path));
+	}
+
+	public function touch($path, $mtime=null) {
+
+		// we cannot set a time
+		if ($mtime != null) {
+			return false;
+		}
+
+		$this->init();
+
+		$path = $this->constructUrl($path);
+
+		// if the file doesn't exist we create it
+		if (!file_exists($path)) {
+			file_put_contents($path, '');
+			return true;
+		}
+
+		// mtime updates are not supported
+		return false;
+	}
+
+	/**
+	 * check if a file or folder has been updated since $time
+	 * @param string $path
+	 * @param int $time
+	 * @return bool
+	 */
+	public function hasUpdated($path,$time) {
+		$this->init();
+
+		// this it a work around for folder mtimes -> we loop it's content
+		if ( $this->is_dir($path)) {
+			$actualTime=$this->collectionMTime($path);
+			return $actualTime>$time;
+		}
+
+		$actualTime=$this->filemtime($path);
+		return $actualTime>$time;
+	}
+
+	/**
+	 * get the best guess for the modification time of an iRODS collection
+	 */
+	private function collectionMTime($path) {
+		$dh = $this->opendir($path);
+		$lastCTime = $this->filemtime($path);
+		while ($file = readdir($dh)) {
+			if ($file != '.' and $file != '..') {
+				$time = $this->filemtime($file);
+				if ($time > $lastCTime) {
+					$lastCTime = $time;
+				}
+			}
+		}
+		return $lastCTime;
+	}
+
 }
