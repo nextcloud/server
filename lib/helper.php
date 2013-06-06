@@ -377,9 +377,9 @@ class OC_Helper {
 			}
 			$extension=strtolower(strrchr(basename($path), "."));
 			$extension=substr($extension, 1);//remove leading .
-			$mimeType=(isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
+			return (isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
 		}else{
-			$mimeType='application/octet-stream';
+			return 'application/octet-stream';
 		}
 	}
 
