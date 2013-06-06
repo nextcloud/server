@@ -86,12 +86,10 @@ class iRODS extends \OC\Files\Storage\StreamWrapper{
 	}
 
 	public function filetype($path) {
-		$this->init();
 		return @filetype($this->constructUrl($path));
 	}
 
 	public function mkdir($path) {
-		$this->init();
 		return @mkdir($this->constructUrl($path));
 	}
 
@@ -101,8 +99,6 @@ class iRODS extends \OC\Files\Storage\StreamWrapper{
 		if ($mtime != null) {
 			return false;
 		}
-
-		$this->init();
 
 		$path = $this->constructUrl($path);
 
@@ -123,8 +119,6 @@ class iRODS extends \OC\Files\Storage\StreamWrapper{
 	 * @return bool
 	 */
 	public function hasUpdated($path,$time) {
-		$this->init();
-
 		// this it a work around for folder mtimes -> we loop it's content
 		if ( $this->is_dir($path)) {
 			$actualTime=$this->collectionMTime($path);
