@@ -534,7 +534,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		// some hacking to simulate public link
 		$GLOBALS['app'] = 'files_sharing';
 		$GLOBALS['fileOwner'] = \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1;
-		\OC_User::setUserId('');
+		\OC_User::setUserId(false);
 
 		// get file contents
 		$retrievedCryptedFile = file_get_contents('crypt://' . $this->filename);

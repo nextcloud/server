@@ -258,12 +258,14 @@ class OC {
 
 	public static function initTemplateEngine() {
 		// Add the stuff we need always
-		OC_Util::addScript("jquery-1.7.2.min");
+		OC_Util::addScript("jquery-1.10.0.min");
+		OC_Util::addScript("jquery-migrate-1.2.1.min");
 		OC_Util::addScript("jquery-ui-1.10.0.custom");
 		OC_Util::addScript("jquery-showpassword");
 		OC_Util::addScript("jquery.infieldlabel");
 		OC_Util::addScript("jquery-tipsy");
 		OC_Util::addScript("compatibility");
+		OC_Util::addScript("jquery.ocdialog");
 		OC_Util::addScript("oc-dialogs");
 		OC_Util::addScript("octemplate");
 		OC_Util::addScript("js");
@@ -277,6 +279,7 @@ class OC {
 		OC_Util::addStyle("multiselect");
 		OC_Util::addStyle("jquery-ui-1.10.0.custom");
 		OC_Util::addStyle("jquery-tipsy");
+		OC_Util::addStyle("jquery.ocdialog");
 		OC_Util::addScript("oc-requesttoken");
 	}
 
@@ -440,14 +443,14 @@ class OC {
 		stream_wrapper_register('oc', 'OC\Files\Stream\OC');
 
 		self::initTemplateEngine();
-		self::checkConfig();
-		self::checkInstalled();
-		self::checkSSL();
 		if ( !self::$CLI ) {
 			self::initSession();
 		} else {
 			self::$session = new \OC\Session\Memory('');
 		}
+		self::checkConfig();
+		self::checkInstalled();
+		self::checkSSL();
 
 		$errors = OC_Util::checkServer();
 		if (count($errors) > 0) {
@@ -537,9 +540,15 @@ class OC {
 	 * register hooks for the cache
 	 */
 	public static function registerCacheHooks() {
-		// register cache cleanup jobs
-		OC_BackgroundJob_RegularTask::register('OC_Cache_FileGlobal', 'gc');
-		OC_Hook::connect('OC_User', 'post_login', 'OC_Cache_File', 'loginListener');
+		if (OC_Config::getValue('installed', false)) { //don't try to do this before we are properly setup
+			// register cache cleanup jobs
+			try { //if this is executed before the upgrade to the new backgroundjob system is completed it will throw an exception
+				\OCP\BackgroundJob::registerJob('OC_Cache_FileGlobalGC');
+			} catch (Exception $e) {
+
+			}
+			OC_Hook::connect('OC_User', 'post_login', 'OC_Cache_File', 'loginListener');
+		}
 	}
 
 	/**

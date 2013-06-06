@@ -79,6 +79,8 @@
 "Override UUID detection" => "Zastąp wykrywanie UUID",
 "UUID Attribute:" => "Atrybuty UUID:",
 "Username-LDAP User Mapping" => "Mapowanie użytkownika LDAP",
+"Clear Username-LDAP User Mapping" => "Czyść Mapowanie użytkownika LDAP",
+"Clear Groupname-LDAP Group Mapping" => "Czyść Mapowanie nazwy grupy LDAP",
 "Test Configuration" => "Konfiguracja testowa",
 "Help" => "Pomoc"
 );

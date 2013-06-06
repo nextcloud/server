@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-29 02:02+0200\n"
-"PO-Revision-Date: 2013-05-29 00:02+0000\n"
+"POT-Creation-Date: 2013-06-04 02:29+0200\n"
+"PO-Revision-Date: 2013-06-03 00:32+0000\n"
 "Last-Translator: bmgmatias <bmgmatias@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -218,23 +218,23 @@ msgstr "anos atrás"
 msgid "Choose"
 msgstr "Escolha"
 
-#: js/oc-dialogs.js:121
+#: js/oc-dialogs.js:122
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: js/oc-dialogs.js:138 js/oc-dialogs.js:195
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
 msgid "Error loading file picker template"
 msgstr "Erro ao carregar arquivo do separador modelo"
 
-#: js/oc-dialogs.js:161
+#: js/oc-dialogs.js:164
 msgid "Yes"
 msgstr "Sim"
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:172
 msgid "No"
 msgstr "Não"
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:185
 msgid "Ok"
 msgstr "Ok"
 

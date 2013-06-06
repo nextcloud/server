@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-05-29 02:02+0200\n"
+"POT-Creation-Date: 2013-06-04 02:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,23 +216,23 @@ msgstr ""
 msgid "Choose"
 msgstr ""
 
-#: js/oc-dialogs.js:121
+#: js/oc-dialogs.js:122
 msgid "Cancel"
 msgstr ""
 
-#: js/oc-dialogs.js:138 js/oc-dialogs.js:195
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
 msgid "Error loading file picker template"
 msgstr ""
 
-#: js/oc-dialogs.js:161
+#: js/oc-dialogs.js:164
 msgid "Yes"
 msgstr ""
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:172
 msgid "No"
 msgstr ""
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:185
 msgid "Ok"
 msgstr ""
 

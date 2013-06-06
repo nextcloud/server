@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Failed to clear the mappings." => "Nepodarilo sa vymazať mapovania.",
 "Failed to delete the server configuration" => "Zlyhalo zmazanie nastavenia servera.",
 "The configuration is valid and the connection could be established!" => "Nastavenie je v poriadku a pripojenie je stabilné.",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Nastavenie je v poriadku, ale pripojenie zlyhalo. Skontrolujte nastavenia servera a prihlasovacie údaje.",
@@ -7,6 +8,7 @@
 "Take over settings from recent server configuration?" => "Prebrať nastavenia z nedávneho nastavenia servera?",
 "Keep settings?" => "Ponechať nastavenia?",
 "Cannot add server configuration" => "Nemožno pridať nastavenie servera",
+"mappings cleared" => "mapovanie vymazané",
 "Success" => "Úspešné",
 "Error" => "Chyba",
 "Connection test succeeded" => "Test pripojenia bol úspešný",
@@ -72,6 +74,11 @@
 "Email Field" => "Pole email",
 "User Home Folder Naming Rule" => "Pravidlo pre nastavenie mena používateľského priečinka dát",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Nechajte prázdne pre používateľské meno (predvolené). Inak uveďte atribút LDAP/AD.",
+"Internal Username" => "Interné používateľské meno",
+"By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder in ownCloud. It is also a port of remote URLs, for instance for all *DAV services. With this setting, the default behaviour can be overriden. To achieve a similar behaviour as before ownCloud 5 enter the user display name attribute in the following field. Leave it empty for default behaviour. Changes will have effect only on newly mapped (added) LDAP users." => "V predvolenom nastavení bude interné používateľské meno vytvorené z UUID atribútu. Zabezpečí sa to, že používateľské meno bude jedinečné a znaky nemusia byť prevedené. Interné meno má obmedzenie, iba tieto znaky sú povolené: [a-zA-Z0-9_ @ -.]. Ostatné znaky sú nahradené ich ASCII alebo jednoducho vynechané. Pri kolíziách bude číslo byť pridané / odobrané. Interné používateľské meno sa používa na identifikáciu používateľa interne. Je to tiež predvolený názov používateľského domovského priečinka v ownCloud. To je tiež port vzdialeného URL, napríklad pre všetky služby * DAV. S týmto nastavením sa dá prepísať predvolené správanie. Pre dosiahnutie podobného správania sa ako pred ownCloud 5 zadajte atribút zobrazenia používateľského mena v tomto poli. Ponechajte prázdne pre predvolené správanie. Zmeny budú mať vplyv iba na novo mapovaných (pridaných) LDAP používateľov.",
+"Internal Username Attribute:" => "Atribút interného používateľského mena:",
+"Override UUID detection" => "Prepísať UUID detekciu",
+"UUID Attribute:" => "UUID atribút:",
 "Test Configuration" => "Test nastavenia",
 "Help" => "Pomoc"
 );

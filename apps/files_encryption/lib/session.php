@@ -26,8 +26,7 @@ namespace OCA\Encryption;
  * Class for handling encryption related session data
  */
 
-class Session
-{
+class Session {
 
 	private $view;
 
@@ -37,26 +36,26 @@ class Session
 	 *
 	 * @note The ownCloud key pair is used to allow public link sharing even if encryption is enabled
 	 */
-	public function __construct( $view ) {
+	public function __construct($view) {
 
 		$this->view = $view;
 
-		if ( !$this->view->is_dir( 'owncloud_private_key' ) ) {
+		if (!$this->view->is_dir('owncloud_private_key')) {
 
-			$this->view->mkdir( 'owncloud_private_key' );
+			$this->view->mkdir('owncloud_private_key');
 
 		}
 
-		$publicShareKeyId = \OC_Appconfig::getValue( 'files_encryption', 'publicShareKeyId' );
+		$publicShareKeyId = \OC_Appconfig::getValue('files_encryption', 'publicShareKeyId');
 
-		if ( $publicShareKeyId === null ) {
-			$publicShareKeyId = 'pubShare_' . substr( md5( time() ), 0, 8 );
-			\OC_Appconfig::setValue( 'files_encryption', 'publicShareKeyId', $publicShareKeyId );
+		if ($publicShareKeyId === null) {
+			$publicShareKeyId = 'pubShare_' . substr(md5(time()), 0, 8);
+			\OC_Appconfig::setValue('files_encryption', 'publicShareKeyId', $publicShareKeyId);
 		}
 
 		if (
-			!$this->view->file_exists( "/public-keys/" . $publicShareKeyId . ".public.key" )
-			|| !$this->view->file_exists( "/owncloud_private_key/" . $publicShareKeyId . ".private.key" )
+			!$this->view->file_exists("/public-keys/" . $publicShareKeyId . ".public.key")
+			|| !$this->view->file_exists("/owncloud_private_key/" . $publicShareKeyId . ".private.key")
 		) {
 
 			$keypair = Crypt::createKeypair();
@@ -67,17 +66,18 @@ class Session
 
 			// Save public key
 
-			if ( !$view->is_dir( '/public-keys' ) ) {
-				$view->mkdir( '/public-keys' );
+			if (!$view->is_dir('/public-keys')) {
+				$view->mkdir('/public-keys');
 			}
 
-			$this->view->file_put_contents( '/public-keys/' . $publicShareKeyId . '.public.key', $keypair['publicKey'] );
+			$this->view->file_put_contents('/public-keys/' . $publicShareKeyId . '.public.key', $keypair['publicKey']);
 
 			// Encrypt private key empty passphrase
-			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $keypair['privateKey'], '' );
+			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent($keypair['privateKey'], '');
 
 			// Save private key
-			$this->view->file_put_contents( '/owncloud_private_key/' . $publicShareKeyId . '.private.key', $encryptedPrivateKey );
+			$this->view->file_put_contents(
+				'/owncloud_private_key/' . $publicShareKeyId . '.private.key', $encryptedPrivateKey);
 
 			\OC_FileProxy::$enabled = $proxyStatus;
 
@@ -103,7 +103,7 @@ class Session
 	 *
 	 * @note this should only be set on login
 	 */
-	public function setPrivateKey( $privateKey ) {
+	public function setPrivateKey($privateKey) {
 
 		\OC::$session->set('privateKey', $privateKey);
 
@@ -117,7 +117,6 @@ class Session
 	 *
 	 */
 	public function getPrivateKey() {
-
 		// return the public share private key if this is a public access
 		if (\OCA\Encryption\Helper::isPublicAccess()) {
 			return $this->getPublicSharePrivateKey();
@@ -163,7 +162,7 @@ class Session
 	 * @param $legacyKey
 	 * @return bool
 	 */
-	public function setLegacyKey( $legacyKey ) {
+	public function setLegacyKey($legacyKey) {
 
 		\OC::$session->set('legacyKey', $legacyKey);
 

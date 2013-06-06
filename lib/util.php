@@ -1,4 +1,7 @@
 <?php
+
+require_once 'Patchwork/PHP/Shim/Normalizer.php';
+
 /**
  * Class for utility functions
  *
@@ -77,7 +80,7 @@ class OC_Util {
 	public static function getVersion() {
 		// hint: We only can count up. Reset minor/patchlevel when
 		// updating major/minor version number.
-		return array(5, 80, 04);
+		return array(5, 80, 05);
 	}
 
 	/**
@@ -641,11 +644,10 @@ class OC_Util {
 	/**
 	 * Check if the ownCloud server can connect to the internet
 	 */
-	public static function isinternetconnectionworking() {
-
-		// in case there is no internet connection on purpose there is no need to display a warning
-		if (!\OC_Config::getValue("has_internet_connection", true)) {
-			return true;
+	public static function isInternetConnectionWorking() {
+		// in case there is no internet connection on purpose return false
+		if (self::isInternetConnectionEnabled() === false) {
+			return false;
 		}
 
 		// try to connect to owncloud.org to see if http connections to the internet are possible.
@@ -666,6 +668,13 @@ class OC_Util {
 
 		}
 
+	}
+	
+	/**
+	 * Check if the connection to the internet is disabled on purpose
+	 */
+	public static function isInternetConnectionEnabled(){
+		return \OC_Config::getValue("has_internet_connection", true);
 	}
 
 	/**
@@ -823,5 +832,21 @@ class OC_Util {
 		return $theme;
 	}
 
+	/**
+	 * Normalize a unicode string
+	 * @param string $value a not normalized string
+	 * @return bool|string
+	 */
+	public static function normalizeUnicode($value) {
+		if(class_exists('Patchwork\PHP\Shim\Normalizer')) {
+			$normalizedValue = \Patchwork\PHP\Shim\Normalizer::normalize($value);
+			if($normalizedValue === false) {
+				\OC_Log::write( 'core', 'normalizing failed for "' . $value . '"', \OC_Log::WARN);
+			} else {
+				$value = $normalizedValue;
+			}
+		}
 
+		return $value;
+	}
 }

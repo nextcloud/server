@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# mhh <marian.hvolka@stuba.sk>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-29 02:02+0200\n"
-"PO-Revision-Date: 2013-05-29 00:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-04 02:29+0200\n"
+"PO-Revision-Date: 2013-06-03 00:32+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,7 +58,7 @@ msgstr "Späť na súbory"
 msgid "Selected files too large to generate zip file."
 msgstr "Zvolené súbory sú príliš veľké na vygenerovanie zip súboru."
 
-#: helper.php:228
+#: helper.php:236
 msgid "couldn't be determined"
 msgstr "nedá sa zistiť"
 
@@ -123,7 +124,7 @@ msgstr "Musíte zadať jestvujúci účet alebo administrátora."
 
 #: setup.php:155
 msgid "Oracle connection could not be established"
-msgstr ""
+msgstr "Nie je možné pripojiť sa k Oracle"
 
 #: setup.php:237
 msgid "MySQL username and/or password not valid"

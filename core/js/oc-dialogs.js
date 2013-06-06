@@ -72,7 +72,7 @@ var OCdialogs = {
 			var dialog_name = 'oc-dialog-filepicker-content';
 			var dialog_id = '#' + dialog_name;
 			if(self.$filePicker) {
-				self.$filePicker.dialog('close');
+				self.$filePicker.ocdialog('close');
 			}
 			self.$filePicker = $tmpl.octemplate({
 				dialog_name: dialog_name,
@@ -110,26 +110,29 @@ var OCdialogs = {
 						datapath += '/' + self.$filelist.find('.filepicker_element_selected .filename').text();
 					}
 					callback(datapath);
-					self.$filePicker.dialog('close');
+					self.$filePicker.ocdialog('close');
 				}
 			};
 			var buttonlist = [{
 				text: t('core', 'Choose'),
-				click: functionToCall
+				click: functionToCall,
+				defaultButton: true
 				},
 				{
 				text: t('core', 'Cancel'),
-				click: function(){self.$filePicker.dialog('close'); }
+				click: function(){self.$filePicker.ocdialog('close'); }
 			}];
 
-			self.$filePicker.dialog({
+			self.$filePicker.ocdialog({
 				closeOnEscape: true,
 				width: (4/9)*$(document).width(),
 				height: 420,
 				modal: modal,
 				buttons: buttonlist,
 				close: function(event, ui) {
-					self.$filePicker.dialog('destroy').remove();
+					try {
+						$(this).ocdialog('destroy').remove();
+					} catch(e) {}
 					self.$filePicker = null;
 				}
 			});
@@ -161,30 +164,32 @@ var OCdialogs = {
 						text: t('core', 'Yes'),
 						click: function(){
 							if (callback !== undefined) { callback(true) };
-							$(dialog_id).dialog('close');
-						}
+							$(dialog_id).ocdialog('close');
+						},
+						defaultButton: true
 					},
 					{
 						text: t('core', 'No'),
 						click: function(){
 							if (callback !== undefined) { callback(false) };
-							$(dialog_id).dialog('close');
+							$(dialog_id).ocdialog('close');
 						}
 					}];
 				break;
 				case OCdialogs.OK_BUTTON:
 					var functionToCall = function() {
-						$(dialog_id).dialog('close');
+						$(dialog_id).ocdialog('close');
 						if(callback !== undefined) { callback() };
 					};
 					buttonlist[0] = {
 						text: t('core', 'Ok'),
-						click: functionToCall
+						click: functionToCall,
+						defaultButton: true
 					};
 				break;
 			};
 
-			$(dialog_id).dialog({
+			$(dialog_id).ocdialog({
 				closeOnEscape: true,
 				modal: modal,
 				buttons: buttonlist

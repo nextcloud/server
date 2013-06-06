@@ -1,6 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Recovery key successfully " => "成功還原金鑰",
-"Could not " => "無法",
 "Password successfully changed." => "成功變更密碼。",
 "Could not change the password. Maybe the old password was not correct." => "無法變更密碼，或許是輸入的舊密碼不正確。",
 "Saving..." => "儲存中...",

@@ -10,7 +10,7 @@ OC::$CLASSPATH['OCA\Encryption\Session'] = 'files_encryption/lib/session.php';
 OC::$CLASSPATH['OCA\Encryption\Capabilities'] = 'files_encryption/lib/capabilities.php';
 OC::$CLASSPATH['OCA\Encryption\Helper'] = 'files_encryption/lib/helper.php';
 
-OC_FileProxy::register( new OCA\Encryption\Proxy() );
+OC_FileProxy::register(new OCA\Encryption\Proxy());
 
 // User related hooks
 OCA\Encryption\Helper::registerUserHooks();
@@ -21,10 +21,16 @@ OCA\Encryption\Helper::registerShareHooks();
 // Filesystem related hooks
 OCA\Encryption\Helper::registerFilesystemHooks();
 
-stream_wrapper_register( 'crypt', 'OCA\Encryption\Stream' );
+stream_wrapper_register('crypt', 'OCA\Encryption\Stream');
 
 // check if we are logged in
 if (OCP\User::isLoggedIn()) {
+
+	// ensure filesystem is loaded
+	if(!\OC\Files\Filesystem::$loaded) {
+		\OC_Util::setupFS();
+	}
+
 	$view = new OC_FilesystemView('/');
 	$session = new \OCA\Encryption\Session($view);
 
@@ -46,6 +52,6 @@ if (OCP\User::isLoggedIn()) {
 }
 
 // Register settings scripts
-OCP\App::registerAdmin( 'files_encryption', 'settings-admin' );
-OCP\App::registerPersonal( 'files_encryption', 'settings-personal' );
+OCP\App::registerAdmin('files_encryption', 'settings-admin');
+OCP\App::registerPersonal('files_encryption', 'settings-personal');
 

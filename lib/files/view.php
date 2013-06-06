@@ -267,7 +267,7 @@ class View {
 			$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 			if (\OC_FileProxy::runPreProxies('file_put_contents', $absolutePath, $data)
 				and Filesystem::isValidPath($path)
-				and ! Filesystem::isFileBlacklisted($path)
+					and !Filesystem::isFileBlacklisted($path)
 			) {
 				$path = $this->getRelativePath($absolutePath);
 				$exists = $this->file_exists($path);
@@ -344,7 +344,7 @@ class View {
 			\OC_FileProxy::runPreProxies('rename', $absolutePath1, $absolutePath2)
 			and Filesystem::isValidPath($path2)
 			and Filesystem::isValidPath($path1)
-			and ! Filesystem::isFileBlacklisted($path2)
+			and !Filesystem::isFileBlacklisted($path2)
 		) {
 			$path1 = $this->getRelativePath($absolutePath1);
 			$path2 = $this->getRelativePath($absolutePath2);
@@ -371,7 +371,7 @@ class View {
 					list(, $internalPath2) = Filesystem::resolvePath($absolutePath2 . $postFix2);
 					if ($storage) {
 						$result = $storage->rename($internalPath1, $internalPath2);
-                        \OC_FileProxy::runPostProxies('rename', $absolutePath1, $absolutePath2);
+						\OC_FileProxy::runPostProxies('rename', $absolutePath1, $absolutePath2);
 					} else {
 						$result = false;
 					}
@@ -418,7 +418,7 @@ class View {
 			\OC_FileProxy::runPreProxies('copy', $absolutePath1, $absolutePath2)
 			and Filesystem::isValidPath($path2)
 			and Filesystem::isValidPath($path1)
-			and ! Filesystem::isFileBlacklisted($path2)
+			and !Filesystem::isFileBlacklisted($path2)
 		) {
 			$path1 = $this->getRelativePath($absolutePath1);
 			$path2 = $this->getRelativePath($absolutePath2);
@@ -632,7 +632,7 @@ class View {
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		if (\OC_FileProxy::runPreProxies($operation, $absolutePath, $extraParam)
 			and Filesystem::isValidPath($path)
-			and ! Filesystem::isFileBlacklisted($path)
+				and !Filesystem::isFileBlacklisted($path)
 		) {
 			$path = $this->getRelativePath($absolutePath);
 			if ($path == null) {
@@ -760,7 +760,7 @@ class View {
 			}
 		}
 
-        $data = \OC_FileProxy::runPostProxies('getFileInfo', $path, $data);
+		$data = \OC_FileProxy::runPostProxies('getFileInfo', $path, $data);
 
 		return $data;
 	}
@@ -797,18 +797,18 @@ class View {
 			}
 
 			$files = $cache->getFolderContents($internalPath); //TODO: mimetype_filter
+			$permissions = $permissionsCache->getDirectoryPermissions($cache->getId($internalPath), $user);
 
 			$ids = array();
 			foreach ($files as $i => $file) {
 				$files[$i]['type'] = $file['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
 				$ids[] = $file['fileid'];
 
-				$permissions = $permissionsCache->get($file['fileid'], $user);
-				if ($permissions === -1) {
-					$permissions = $storage->getPermissions($file['path']);
-					$permissionsCache->set($file['fileid'], $user, $permissions);
+				if (!isset($permissions[$file['fileid']])) {
+					$permissions[$file['fileid']] = $storage->getPermissions($file['path']);
+					$permissionsCache->set($file['fileid'], $user, $permissions[$file['fileid']]);
 				}
-				$files[$i]['permissions'] = $permissions;
+				$files[$i]['permissions'] = $permissions[$file['fileid']];
 			}
 
 			//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
