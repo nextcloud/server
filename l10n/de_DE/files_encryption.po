@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# ako84 <a0306265@unet.univie.ac.at>, 2013
 # traductor <transifex-2.7.mensaje@spamgourmet.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-01 01:58+0200\n"
-"PO-Revision-Date: 2013-05-31 22:00+0000\n"
-"Last-Translator: traductor <transifex-2.7.mensaje@spamgourmet.com>\n"
+"POT-Creation-Date: 2013-06-06 02:18+0200\n"
+"PO-Revision-Date: 2013-06-05 16:42+0000\n"
+"Last-Translator: ako84 <a0306265@unet.univie.ac.at>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -87,7 +88,7 @@ msgstr "Passwort ändern"
 
 #: templates/settings-personal.php:9
 msgid "Enable password recovery by sharing all files with your administrator:"
-msgstr ""
+msgstr "Aktiviere die Wiederherstellung deines Passwortes durch das Teilen aller Dateien mit dem Administrator:"
 
 #: templates/settings-personal.php:11
 msgid ""

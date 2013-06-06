@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Failed to clear the mappings." => "清除映射失败。",
 "Failed to delete the server configuration" => "未能删除服务器配置",
 "The configuration is valid and the connection could be established!" => "配置有效，能够建立连接！",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "配置有效但绑定失败。请检查服务器设置和认证信息。",
@@ -7,6 +8,7 @@
 "Take over settings from recent server configuration?" => "从近期的服务器配置中导入设置？",
 "Keep settings?" => "保留设置吗？",
 "Cannot add server configuration" => "无法添加服务器配置",
+"mappings cleared" => "清除映射",
 "Success" => "成功",
 "Error" => "错误",
 "Connection test succeeded" => "连接测试成功",
@@ -72,6 +74,16 @@
 "Email Field" => "电邮字段",
 "User Home Folder Naming Rule" => "用户主目录命名规则",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "将用户名称留空(默认)。否则指定一个LDAP/AD属性",
+"Internal Username" => "内部用户名",
+"By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder in ownCloud. It is also a port of remote URLs, for instance for all *DAV services. With this setting, the default behaviour can be overriden. To achieve a similar behaviour as before ownCloud 5 enter the user display name attribute in the following field. Leave it empty for default behaviour. Changes will have effect only on newly mapped (added) LDAP users." => "默认情况下内部用户名具有唯一识别属性来确保用户名的唯一性和属性不用转换。内部用户名有严格的字符限制，只允许使用 [ a-zA-Z0-9_.@- ]。其他字符会被ASCII码取代或者被活力。当冲突时会增加或者减少一个数字。内部用户名被用于内部识别用户，同时也作为ownCloud中用户根文件夹的默认名。也作为远程URLs的一部分，比如为了所有的*DAV服务。在这种设置下，默认行为可以被超越。实现一个类似的行为，owncloud 5输入用户的显示名称属性在以下领域之前。让它空着的默认行为。更改只对新映射的影响（增加）的LDAP用户。",
+"Internal Username Attribute:" => "内部用户名属性：",
+"Override UUID detection" => "超越UUID检测",
+"By default, ownCloud autodetects the UUID attribute. The UUID attribute is used to doubtlessly identify LDAP users and groups. Also, the internal username will be created based on the UUID, if not specified otherwise above. You can override the setting and pass an attribute of your choice. You must make sure that the attribute of your choice can be fetched for both users and groups and it is unique. Leave it empty for default behaviour. Changes will have effect only on newly mapped (added) LDAP users and groups." => "默认ownCloud自动检测UUID属性。UUID属性用来无误的识别LDAP用户和组。同时内部用户名也基于UUID创建，如果没有上述的指定。也可以超越设置直接指定一种属性。但一定要确保指定的属性取得的用户和组是唯一的。默认行为空。变更基于新映射(增加)LDAP用户和组才会生效。",
+"UUID Attribute:" => "UUID属性：",
+"Username-LDAP User Mapping" => "用户名-LDAP用户映射",
+"ownCloud uses usernames to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have a internal username. This requires a mapping from ownCloud username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found by ownCloud. The internal ownCloud name is used all over in ownCloud. Clearing the Mappings will have leftovers everywhere. Clearing the Mappings is not configuration sensitive, it affects all LDAP configurations! Do never clear the mappings in a production environment. Only clear mappings in a testing or experimental stage." => "ownCloud使用用户名存储和分配数据(元)。为了准确地识别和确认用户，每个用户都有一个内部用户名。需要从ownCloud用户名映射到LDAP用户。创建的用户名映射到LDAP用户的UUID。此外，DN是缓存以及减少LDAP交互，但它不用于识别。如果DN变化，ownCloud也会变化。内部ownCloud名在ownCloud的各处使用。清除映射将一片混乱。清除映射不是常用的配置，它影响到所有LDAP配置！千万不要在正式环境中清除映射。只有在测试或试验阶段可以清除映射。",
+"Clear Username-LDAP User Mapping" => "清除用户-LDAP用户映射",
+"Clear Groupname-LDAP Group Mapping" => "清除组用户-LDAP级映射",
 "Test Configuration" => "测试配置",
 "Help" => "帮助"
 );
