@@ -29,7 +29,7 @@ if (is_null($userstatus)) {
 }
 
 if (\OCP\App::isEnabled('files_encryption') && $userstatus !== 'user') {
-//handle the recovery case
+	//handle the recovery case
 	$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), $username);
 	$recoveryAdminEnabled = OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled');
 
