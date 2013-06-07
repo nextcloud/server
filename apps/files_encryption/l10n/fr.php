@@ -1,7 +1,22 @@
 <?php $TRANSLATIONS = array(
+"Recovery key successfully enabled" => "Clé de récupération activée avec succès",
+"Could not enable recovery key. Please check your recovery key password!" => "Ne peut pas activer la clé de récupération. s'il vous plait vérifiez votre mot de passe de clé de récupération!",
+"Recovery key successfully disabled" => "Clé de récupération désactivée avc succès",
+"Could not disable recovery key. Please check your recovery key password!" => "Ne peut pas désactiver la clé de récupération. S'il vous plait vérifiez votre mot de passe de clé de récupération!",
+"Password successfully changed." => "Mot de passe changé avec succès ",
+"Could not change the password. Maybe the old password was not correct." => "Ne peut pas changer le mot de passe. L'ancien mot de passe est peut-être incorrect.",
+"Saving..." => "Enregistrement...",
 "Encryption" => "Chiffrement",
-"File encryption is enabled." => "Le chiffrement des fichiers est activé",
-"The following file types will not be encrypted:" => "Les fichiers de types suivants ne seront pas chiffrés :",
-"Exclude the following file types from encryption:" => "Ne pas chiffrer les fichiers dont les types sont les suivants :",
-"None" => "Aucun"
+"Enable encryption passwords recovery key (allow sharing to recovery key):" => "Activer la clé de récupération par mots de passe de cryptage (autoriser le partage de la clé de récupération) ",
+"Recovery account password" => "Rétablissement du compte mot de passe ",
+"Enabled" => "Activer",
+"Disabled" => "Désactiver",
+"Change encryption passwords recovery key:" => "Changer les mots de passe de cryptage par la clé de récupération",
+"Old Recovery account password" => "Ancien compte de récupération de mots de passe",
+"New Recovery account password" => "Nouveau compte de récupération de mots de passe",
+"Change Password" => "Changer de mot de passe",
+"Enable password recovery by sharing all files with your administrator:" => "Activer la récupération des mots de passe en partageant les fichiers avec votre administrateur:",
+"Enabling this option will allow you to reobtain access to your encrypted files if your password is lost" => "En activant cette option cela vous autorisera à récupérer votre accès aux fichiers cryptés si votre mot de passe est perdu",
+"File recovery settings updated" => "Mise à jour des paramètres de récupération de fichiers ",
+"Could not update file recovery" => "Ne peut pas remettre à jour les fichiers de récupération"
 );

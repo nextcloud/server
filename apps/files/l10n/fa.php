@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s نمی تواند حرکت کند - در حال حاضر پرونده با این نام وجود دارد. ",
 "Could not move %s" => "%s نمی تواند حرکت کند ",
-"Unable to rename file" => "قادر به تغییر نام پرونده نیست.",
 "No file was uploaded. Unknown error" => "هیچ فایلی آپلود نشد.خطای ناشناس",
 "There is no error, the file uploaded with success" => "هیچ خطایی نیست بارگذاری پرونده موفقیت آمیز بود",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "پرونده آپلود شده بیش ازدستور  ماکزیمم_حجم فایل_برای آپلود در   php.ini استفاده کرده است.",
@@ -47,6 +46,7 @@
 "{count} folders" => "{ شمار} پوشه ها",
 "1 file" => "1 پرونده",
 "{count} files" => "{ شمار } فایل ها",
+"Unable to rename file" => "قادر به تغییر نام پرونده نیست.",
 "Upload" => "بارگزاری",
 "File handling" => "اداره پرونده ها",
 "Maximum upload size" => "حداکثر اندازه بارگزاری",

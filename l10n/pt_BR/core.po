@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-01 01:59+0200\n"
-"PO-Revision-Date: 2013-04-30 00:50+0000\n"
+"POT-Creation-Date: 2013-06-04 02:29+0200\n"
+"PO-Revision-Date: 2013-06-03 00:32+0000\n"
 "Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -213,25 +213,29 @@ msgstr "último ano"
 msgid "years ago"
 msgstr "anos atrás"
 
-#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
-msgid "Ok"
-msgstr "Ok"
-
-#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
-msgid "Cancel"
-msgstr "Cancelar"
-
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:117
 msgid "Choose"
 msgstr "Escolha"
 
-#: js/oc-dialogs.js:215
+#: js/oc-dialogs.js:122
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+msgid "Error loading file picker template"
+msgstr "Template selecionador Erro ao carregar arquivo"
+
+#: js/oc-dialogs.js:164
 msgid "Yes"
 msgstr "Sim"
 
-#: js/oc-dialogs.js:222
+#: js/oc-dialogs.js:172
 msgid "No"
 msgstr "Não"
+
+#: js/oc-dialogs.js:185
+msgid "Ok"
+msgstr "Ok"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -561,12 +565,12 @@ msgstr "Concluir configuração"
 msgid "web services under your control"
 msgstr "serviços web sob seu controle"
 
-#: templates/layout.user.php:36
+#: templates/layout.user.php:37
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s está disponível. Obtenha mais informações sobre como atualizar."
 
-#: templates/layout.user.php:61
+#: templates/layout.user.php:62
 msgid "Log out"
 msgstr "Sair"
 

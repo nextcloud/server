@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Vincenzo Reale <vinx.reale@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:16+0200\n"
-"PO-Revision-Date: 2013-04-26 08:29+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-31 01:58+0200\n"
+"PO-Revision-Date: 2013-05-30 04:40+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,22 +18,87 @@ msgstr ""
 "Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: templates/settings-personal.php:4 templates/settings.php:5
+#: ajax/adminrecovery.php:29
+msgid "Recovery key successfully enabled"
+msgstr "Chiave di ripristino abilitata correttamente"
+
+#: ajax/adminrecovery.php:34
+msgid ""
+"Could not enable recovery key. Please check your recovery key password!"
+msgstr "Impossibile abilitare la chiave di ripristino. Verifica la password della chiave di ripristino."
+
+#: ajax/adminrecovery.php:48
+msgid "Recovery key successfully disabled"
+msgstr "Chiave di ripristinata disabilitata correttamente"
+
+#: ajax/adminrecovery.php:53
+msgid ""
+"Could not disable recovery key. Please check your recovery key password!"
+msgstr "Impossibile disabilitare la chiave di ripristino. Verifica la password della chiave di ripristino."
+
+#: ajax/changeRecoveryPassword.php:49
+msgid "Password successfully changed."
+msgstr "Password modificata correttamente."
+
+#: ajax/changeRecoveryPassword.php:51
+msgid "Could not change the password. Maybe the old password was not correct."
+msgstr "Impossibile cambiare la password. Forse la vecchia password non era corretta."
+
+#: js/settings-admin.js:11
+msgid "Saving..."
+msgstr "Salvataggio in corso..."
+
+#: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
 msgstr "Cifratura"
 
-#: templates/settings-personal.php:7
-msgid "File encryption is enabled."
-msgstr "La cifratura dei file è abilitata."
+#: templates/settings-admin.php:9
+msgid ""
+"Enable encryption passwords recovery key (allow sharing to recovery key):"
+msgstr "Abilita la chiave di ripristino delle password di cifratura (consente di condividere la chiave di ripristino):"
+
+#: templates/settings-admin.php:13
+msgid "Recovery account password"
+msgstr "Password di ripristino dell'account"
+
+#: templates/settings-admin.php:20 templates/settings-personal.php:18
+msgid "Enabled"
+msgstr "Abilitata"
+
+#: templates/settings-admin.php:28 templates/settings-personal.php:26
+msgid "Disabled"
+msgstr "Disabilitata"
+
+#: templates/settings-admin.php:32
+msgid "Change encryption passwords recovery key:"
+msgstr "Cambia la chiave di ripristino delle password di cifratura:"
+
+#: templates/settings-admin.php:39
+msgid "Old Recovery account password"
+msgstr "Vecchia password di ripristino dell'account"
+
+#: templates/settings-admin.php:46
+msgid "New Recovery account password"
+msgstr "Nuova password di ripristino dell'account"
+
+#: templates/settings-admin.php:51
+msgid "Change Password"
+msgstr "Modifica password"
+
+#: templates/settings-personal.php:9
+msgid "Enable password recovery by sharing all files with your administrator:"
+msgstr "Abilita il ripristino della password condividendo tutti i file con l'amministratore:"
 
 #: templates/settings-personal.php:11
-msgid "The following file types will not be encrypted:"
-msgstr "I seguenti tipi di file non saranno cifrati:"
+msgid ""
+"Enabling this option will allow you to reobtain access to your encrypted "
+"files if your password is lost"
+msgstr "L'abilitazione di questa opzione ti consentirà di ottenere nuovamente accesso ai tuoi file cifrati in caso di smarrimento della password"
 
-#: templates/settings.php:7
-msgid "Exclude the following file types from encryption:"
-msgstr "Escludi i seguenti tipi di file dalla cifratura:"
+#: templates/settings-personal.php:27
+msgid "File recovery settings updated"
+msgstr "Impostazioni di ripristino dei file aggiornate"
 
-#: templates/settings.php:12
-msgid "None"
-msgstr "Nessuno"
+#: templates/settings-personal.php:28
+msgid "Could not update file recovery"
+msgstr "Impossibile aggiornare il ripristino dei file"

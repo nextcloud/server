@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Ni mogoče premakniti %s - datoteka s tem imenom že obstaja",
 "Could not move %s" => "Ni mogoče premakniti %s",
-"Unable to rename file" => "Ni mogoče preimenovati datoteke",
 "No file was uploaded. Unknown error" => "Ni poslane datoteke. Neznana napaka.",
 "There is no error, the file uploaded with success" => "Datoteka je uspešno naložena.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Poslana datoteka presega dovoljeno velikost, ki je določena z možnostjo upload_max_filesize v datoteki php.ini:",
@@ -47,6 +46,7 @@
 "{count} folders" => "{count} map",
 "1 file" => "1 datoteka",
 "{count} files" => "{count} datotek",
+"Unable to rename file" => "Ni mogoče preimenovati datoteke",
 "Upload" => "Pošlji",
 "File handling" => "Upravljanje z datotekami",
 "Maximum upload size" => "Največja velikost za pošiljanja",

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-04 01:58+0200\n"
-"PO-Revision-Date: 2013-05-03 13:10+0000\n"
+"POT-Creation-Date: 2013-06-03 02:27+0200\n"
+"PO-Revision-Date: 2013-06-02 23:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Interlingua (http://www.transifex.com/projects/p/owncloud/language/ia/)\n"
 "MIME-Version: 1.0\n"
@@ -25,10 +25,6 @@ msgstr ""
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
 msgid "Could not move %s"
-msgstr ""
-
-#: ajax/rename.php:22 ajax/rename.php:25
-msgid "Unable to rename file"
 msgstr ""
 
 #: ajax/upload.php:19
@@ -94,43 +90,43 @@ msgstr "Deler"
 msgid "Rename"
 msgstr ""
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:421
 msgid "Pending"
 msgstr ""
 
-#: js/filelist.js:252 js/filelist.js:254
+#: js/filelist.js:259 js/filelist.js:261
 msgid "{new_name} already exists"
 msgstr ""
 
-#: js/filelist.js:252 js/filelist.js:254
+#: js/filelist.js:259 js/filelist.js:261
 msgid "replace"
 msgstr ""
 
-#: js/filelist.js:252
+#: js/filelist.js:259
 msgid "suggest name"
 msgstr ""
 
-#: js/filelist.js:252 js/filelist.js:254
+#: js/filelist.js:259 js/filelist.js:261
 msgid "cancel"
 msgstr ""
 
-#: js/filelist.js:299
+#: js/filelist.js:306
 msgid "replaced {new_name} with {old_name}"
 msgstr ""
 
-#: js/filelist.js:299
+#: js/filelist.js:306
 msgid "undo"
 msgstr ""
 
-#: js/filelist.js:324
+#: js/filelist.js:331
 msgid "perform delete operation"
 msgstr ""
 
-#: js/filelist.js:406
+#: js/filelist.js:413
 msgid "1 file uploading"
 msgstr ""
 
-#: js/filelist.js:409 js/filelist.js:463
+#: js/filelist.js:416 js/filelist.js:470
 msgid "files uploading"
 msgstr ""
 
@@ -217,6 +213,14 @@ msgstr ""
 
 #: js/files.js:910
 msgid "{count} files"
+msgstr ""
+
+#: lib/app.php:53
+msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
+msgstr ""
+
+#: lib/app.php:73
+msgid "Unable to rename file"
 msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18

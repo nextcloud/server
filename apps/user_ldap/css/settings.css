@@ -11,6 +11,10 @@
 	display: inline-block;
 }
 
+.ldapIndent {
+	margin-left: 50px;
+}
+
 .ldapwarning {
 	margin-left: 1.4em;
 	color: #FF3B3B;

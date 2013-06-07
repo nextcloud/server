@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# traductor <transifex-2.7.mensaje@spamgourmet.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-04 01:59+0200\n"
-"PO-Revision-Date: 2013-05-03 21:40+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-04 02:29+0200\n"
+"PO-Revision-Date: 2013-06-03 00:32+0000\n"
+"Last-Translator: traductor <transifex-2.7.mensaje@spamgourmet.com>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,47 +18,47 @@ msgstr ""
 "Language: de_DE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:349
+#: app.php:357
 msgid "Help"
 msgstr "Hilfe"
 
-#: app.php:362
+#: app.php:370
 msgid "Personal"
 msgstr "Persönlich"
 
-#: app.php:373
+#: app.php:381
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: app.php:385
+#: app.php:393
 msgid "Users"
 msgstr "Benutzer"
 
-#: app.php:398
+#: app.php:406
 msgid "Apps"
 msgstr "Apps"
 
-#: app.php:406
+#: app.php:414
 msgid "Admin"
 msgstr "Administrator"
 
-#: files.php:207
+#: files.php:210
 msgid "ZIP download is turned off."
 msgstr "Der ZIP-Download ist deaktiviert."
 
-#: files.php:208
+#: files.php:211
 msgid "Files need to be downloaded one by one."
 msgstr "Die Dateien müssen einzeln heruntergeladen werden."
 
-#: files.php:209 files.php:242
+#: files.php:212 files.php:245
 msgid "Back to Files"
 msgstr "Zurück zu \"Dateien\""
 
-#: files.php:239
+#: files.php:242
 msgid "Selected files too large to generate zip file."
 msgstr "Die gewählten Dateien sind zu groß, um eine ZIP-Datei zu erstellen."
 
-#: helper.php:228
+#: helper.php:236
 msgid "couldn't be determined"
 msgstr "konnte nicht ermittelt werden"
 
@@ -113,72 +114,76 @@ msgstr "%s Der Datenbank-Name darf keine Punkte enthalten"
 msgid "%s set the database host."
 msgstr "%s setze den Datenbank-Host"
 
-#: setup.php:132 setup.php:325 setup.php:370
+#: setup.php:132 setup.php:329 setup.php:374
 msgid "PostgreSQL username and/or password not valid"
 msgstr "PostgreSQL Benutzername und/oder Passwort ungültig"
 
-#: setup.php:133 setup.php:156 setup.php:234
+#: setup.php:133 setup.php:238
 msgid "You need to enter either an existing account or the administrator."
 msgstr "Sie müssen entweder ein existierendes Benutzerkonto oder das Administratoren-Konto angeben."
 
-#: setup.php:155 setup.php:458 setup.php:525
-msgid "Oracle username and/or password not valid"
-msgstr "Oracle Benutzername und/oder Passwort ungültig"
+#: setup.php:155
+msgid "Oracle connection could not be established"
+msgstr "Die Oracle-Verbindung konnte nicht aufgebaut werden."
 
-#: setup.php:233
+#: setup.php:237
 msgid "MySQL username and/or password not valid"
 msgstr "MySQL Benutzername und/oder Passwort ungültig"
 
-#: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
-#: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
-#: setup.php:576 setup.php:583 setup.php:592 setup.php:600 setup.php:609
-#: setup.php:615
+#: setup.php:291 setup.php:395 setup.php:404 setup.php:422 setup.php:432
+#: setup.php:441 setup.php:474 setup.php:540 setup.php:566 setup.php:573
+#: setup.php:584 setup.php:591 setup.php:600 setup.php:608 setup.php:617
+#: setup.php:623
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "DB Fehler: \"%s\""
 
-#: setup.php:288 setup.php:392 setup.php:401 setup.php:419 setup.php:429
-#: setup.php:438 setup.php:467 setup.php:533 setup.php:559 setup.php:566
-#: setup.php:577 setup.php:593 setup.php:601 setup.php:610
+#: setup.php:292 setup.php:396 setup.php:405 setup.php:423 setup.php:433
+#: setup.php:442 setup.php:475 setup.php:541 setup.php:567 setup.php:574
+#: setup.php:585 setup.php:601 setup.php:609 setup.php:618
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr "Fehlerhafter Befehl war: \"%s\""
 
-#: setup.php:304
+#: setup.php:308
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
 msgstr "MySQL Benutzer '%s'@'localhost' existiert bereits."
 
-#: setup.php:305
+#: setup.php:309
 msgid "Drop this user from MySQL"
 msgstr "Lösche diesen Benutzer aus MySQL"
 
-#: setup.php:310
+#: setup.php:314
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
 msgstr "MySQL Benutzer '%s'@'%%' existiert bereits"
 
-#: setup.php:311
+#: setup.php:315
 msgid "Drop this user from MySQL."
 msgstr "Lösche diesen Benutzer aus MySQL."
 
-#: setup.php:584 setup.php:616
+#: setup.php:466 setup.php:533
+msgid "Oracle username and/or password not valid"
+msgstr "Oracle Benutzername und/oder Passwort ungültig"
+
+#: setup.php:592 setup.php:624
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "Fehlerhafter Befehl war: \"%s\", Name: %s, Passwort: %s"
 
-#: setup.php:636
+#: setup.php:644
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
 msgstr "MS SQL Benutzername und/oder Passwort ungültig: %s"
 
-#: setup.php:858
+#: setup.php:867
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Ihr Web-Server ist noch nicht für eine Datei-Synchronisation konfiguriert, weil die WebDAV-Schnittstelle vermutlich defekt ist."
 
-#: setup.php:859
+#: setup.php:868
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Bitte prüfen Sie die <a href='%s'>Installationsanleitungen</a>."

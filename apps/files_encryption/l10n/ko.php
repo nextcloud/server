@@ -1,4 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Encryption" => "암호화",
-"None" => "없음"
+"Saving..." => "저장 중...",
+"Encryption" => "암호화"
 );

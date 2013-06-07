@@ -351,10 +351,14 @@ $(document).ready(function () {
 		input.keypress(function (event) {
 			if (event.keyCode == 13) {
 				if ($(this).val().length > 0) {
+					var recoveryPasswordVal = $('input:password[id="recoveryPassword"]').val();
 					$.post(
 						OC.filePath('settings', 'ajax', 'changepassword.php'),
-						{username: uid, password: $(this).val()},
+						{username: uid, password: $(this).val(), recoveryPassword: recoveryPasswordVal},
 						function (result) {
+							if (result.status != 'success') {
+								OC.Notification.show(t('admin', result.data.message));
+							}
 						}
 					);
 					input.blur();
@@ -368,6 +372,10 @@ $(document).ready(function () {
 			img.css('display', '');
 		});
 	});
+	$('input:password[id="recoveryPassword"]').keyup(function(event) {
+		OC.Notification.hide();
+	});
+
 	$('table').on('click', 'td.password', function (event) {
 		$(this).children('img').click();
 	});

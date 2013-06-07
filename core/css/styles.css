@@ -37,7 +37,7 @@ filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endC
 
 
 /* INPUTS */
-input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"],
+input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"], input[type="url"],
 textarea, select,
 button, .button,
 #quota, div.jp-progress, .pager li a {
@@ -48,11 +48,11 @@ button, .button,
 	-moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em;
 }
 input[type="hidden"] { height:0; width:0; }
-input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"], textarea {
+input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"], input[type="url"], textarea {
 	background:#f8f8f8; color:#555; cursor:text;
 	font-family: inherit; /* use default ownCloud font instead of default textarea monospace */
 }
-input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"] {
+input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"], input[type="url"] {
 	-webkit-appearance:textfield; -moz-appearance:textfield;
 	-webkit-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box;
 }
@@ -61,6 +61,7 @@ input[type="password"]:hover, input[type="password"]:focus, input[type="password
 input[type="number"]:hover, input[type="number"]:focus, input[type="number"]:active,
 .searchbox input[type="search"]:hover, .searchbox input[type="search"]:focus, .searchbox input[type="search"]:active,
 input[type="email"]:hover, input[type="email"]:focus, input[type="email"]:active,
+input[type="url"]:hover, input[type="url"]:focus, input[type="url"]:active,
 textarea:hover, textarea:focus, textarea:active {
 	background-color:#fff; color:#333;
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1;
@@ -382,13 +383,27 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 .ui-datepicker-prev,.ui-datepicker-next{ border:1px solid #ddd; background:#fff; }
 
 /* ---- DIALOGS ---- */
-#dirup {width:4%;}
-#dirtree {width:92%;}
-#filelist {height:270px; overflow-y:auto; background-color:white; width:100%;}
-.filepicker_element_selected { background-color:lightblue;}
-.filepicker_loader {height:170px; width:100%; background-color:#333; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"; filter:alpha(opacity=30); opacity:.3; visibility:visible; position:absolute; top:0; left:0; text-align:center; padding-top:150px;}
+#oc-dialog-filepicker-content .dirtree {width:92%; overflow:hidden; }
+#oc-dialog-filepicker-content .dirtree .home {
+	background-image:url('../img/places/home.svg');
+	background-repeat:no-repeat;
+	background-position: left center;
+}
+#oc-dialog-filepicker-content .dirtree span:not(:last-child) { cursor: pointer; }
+#oc-dialog-filepicker-content .dirtree span:last-child { font-weight: bold; }
+#oc-dialog-filepicker-content .dirtree span:not(:last-child)::after { content: '>'; padding: 3px;}
+#oc-dialog-filepicker-content .filelist {
+	overflow-y:auto;
+	max-height: 300px;
+	background-color:white;
+	width:100%;
+}
+#oc-dialog-filepicker-content .filelist img { margin: 2px 1em 0 4px; }
+#oc-dialog-filepicker-content .filelist .date { float:right;margin-right:1em; }
+#oc-dialog-filepicker-content .filepicker_element_selected { background-color:lightblue;}
 .ui-dialog {position:fixed !important;}
 span.ui-icon {float: left; margin: 3px 7px 30px 0;}
+.loading { background: url('../img/loading.gif') no-repeat center; cursor: wait; }
 
 /* ---- CATEGORIES ---- */
 #categoryform .scrollarea { position:absolute; left:10px; top:10px; right:10px; bottom:50px; overflow:auto; border:1px solid #ddd; background:#f8f8f8; }

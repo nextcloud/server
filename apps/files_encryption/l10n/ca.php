@@ -1,7 +1,22 @@
 <?php $TRANSLATIONS = array(
+"Recovery key successfully enabled" => "La clau de recuperació s'ha activat",
+"Could not enable recovery key. Please check your recovery key password!" => "No s'ha pogut activar la clau de recuperació. Comproveu contrasenya de la clau de recuperació!",
+"Recovery key successfully disabled" => "La clau de recuperació s'ha descativat",
+"Could not disable recovery key. Please check your recovery key password!" => "No s'ha pogut desactivar la calu de recuperació. Comproveu la contrasenya de la clau de recuperació!",
+"Password successfully changed." => "La contrasenya s'ha canviat.",
+"Could not change the password. Maybe the old password was not correct." => "No s'ha pogut canviar la contrasenya. Potser la contrasenya anterior no era correcta.",
+"Saving..." => "Desant...",
 "Encryption" => "Xifrat",
-"File encryption is enabled." => "El xifrat de fitxers està activat.",
-"The following file types will not be encrypted:" => "Els tipus de fitxers següents no es xifraran:",
-"Exclude the following file types from encryption:" => "Exclou els tipus de fitxers següents del xifratge:",
-"None" => "Cap"
+"Enable encryption passwords recovery key (allow sharing to recovery key):" => "Activa la clau de recuperació de contrasenya (permet compartir la clau de recuperació):",
+"Recovery account password" => "Contrasenya de recuperació del compte",
+"Enabled" => "Activat",
+"Disabled" => "Desactivat",
+"Change encryption passwords recovery key:" => "Canvia la clau de recuperació de la contrasenya:",
+"Old Recovery account password" => "Contrasenya de recuperació anterior",
+"New Recovery account password" => "Nova contrasenya de recuperació de compte",
+"Change Password" => "Canvia la contrasenya",
+"Enable password recovery by sharing all files with your administrator:" => "Activa la recuperació de contrasenya compartint tots els fitxers amb l'administrador:",
+"Enabling this option will allow you to reobtain access to your encrypted files if your password is lost" => "Activant aquesta opció us permetrà obtenir de nou accés als fitxers encriptats si perdeu la contrasenya",
+"File recovery settings updated" => "S'han  actualitzat els arranjaments de recuperació de fitxers",
+"Could not update file recovery" => "No s'ha pogut actualitzar la recuperació de fitxers"
 );

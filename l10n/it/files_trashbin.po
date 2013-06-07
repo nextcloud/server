@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:16+0200\n"
-"PO-Revision-Date: 2013-04-26 08:30+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-03 02:27+0200\n"
+"PO-Revision-Date: 2013-06-02 23:18+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,11 +27,11 @@ msgstr "Impossibile eliminare %s definitivamente"
 msgid "Couldn't restore %s"
 msgstr "Impossibile ripristinare %s"
 
-#: js/trash.js:7 js/trash.js:96
+#: js/trash.js:7 js/trash.js:97
 msgid "perform restore operation"
 msgstr "esegui operazione di ripristino"
 
-#: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
+#: js/trash.js:19 js/trash.js:46 js/trash.js:115 js/trash.js:141
 msgid "Error"
 msgstr "Errore"
 
@@ -39,31 +39,31 @@ msgstr "Errore"
 msgid "delete file permanently"
 msgstr "elimina il file definitivamente"
 
-#: js/trash.js:121
+#: js/trash.js:123
 msgid "Delete permanently"
 msgstr "Elimina definitivamente"
 
-#: js/trash.js:174 templates/index.php:17
+#: js/trash.js:176 templates/index.php:17
 msgid "Name"
 msgstr "Nome"
 
-#: js/trash.js:175 templates/index.php:27
+#: js/trash.js:177 templates/index.php:27
 msgid "Deleted"
 msgstr "Eliminati"
 
-#: js/trash.js:184
+#: js/trash.js:186
 msgid "1 folder"
 msgstr "1 cartella"
 
-#: js/trash.js:186
+#: js/trash.js:188
 msgid "{count} folders"
 msgstr "{count} cartelle"
 
-#: js/trash.js:194
+#: js/trash.js:196
 msgid "1 file"
 msgstr "1 file"
 
-#: js/trash.js:196
+#: js/trash.js:198
 msgid "{count} files"
 msgstr "{count} file"
 

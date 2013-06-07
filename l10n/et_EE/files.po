@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# pisike.sipelgas <pisike.sipelgas@gmail.com>, 2013
 # Rivo Zängov <eraser@eraser.ee>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-01 01:59+0200\n"
-"PO-Revision-Date: 2013-04-30 09:40+0000\n"
+"POT-Creation-Date: 2013-06-03 02:27+0200\n"
+"PO-Revision-Date: 2013-06-02 23:17+0000\n"
 "Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -28,10 +29,6 @@ msgstr "Ei saa liigutada faili %s - samanimeline fail on juba olemas"
 msgid "Could not move %s"
 msgstr "%s liigutamine ebaõnnestus"
 
-#: ajax/rename.php:22 ajax/rename.php:25
-msgid "Unable to rename file"
-msgstr "Faili ümbernimetamine ebaõnnestus"
-
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
 msgstr "Ühtegi faili ei laetud üles. Tundmatu viga"
@@ -43,7 +40,7 @@ msgstr "Ühtegi tõrget polnud, fail on üles laetud"
 #: ajax/upload.php:27
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-msgstr "Üleslaetava faili suurus ületab php.ini poolt määratud upload_max_filesize suuruse"
+msgstr "Üleslaetava faili suurus ületab php.ini poolt määratud upload_max_filesize suuruse:"
 
 #: ajax/upload.php:29
 msgid ""
@@ -95,45 +92,45 @@ msgstr "Kustuta"
 msgid "Rename"
 msgstr "Nimeta ümber"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:421
 msgid "Pending"
 msgstr "Ootel"
 
-#: js/filelist.js:252 js/filelist.js:254
+#: js/filelist.js:259 js/filelist.js:261
 msgid "{new_name} already exists"
 msgstr "{new_name} on juba olemas"
 
-#: js/filelist.js:252 js/filelist.js:254
+#: js/filelist.js:259 js/filelist.js:261
 msgid "replace"
 msgstr "asenda"
 
-#: js/filelist.js:252
+#: js/filelist.js:259
 msgid "suggest name"
 msgstr "soovita nime"
 
-#: js/filelist.js:252 js/filelist.js:254
+#: js/filelist.js:259 js/filelist.js:261
 msgid "cancel"
 msgstr "loobu"
 
-#: js/filelist.js:299
+#: js/filelist.js:306
 msgid "replaced {new_name} with {old_name}"
 msgstr "asendas nime {old_name} nimega {new_name}"
 
-#: js/filelist.js:299
+#: js/filelist.js:306
 msgid "undo"
 msgstr "tagasi"
 
-#: js/filelist.js:324
+#: js/filelist.js:331
 msgid "perform delete operation"
 msgstr "teosta kustutamine"
 
-#: js/filelist.js:406
+#: js/filelist.js:413
 msgid "1 file uploading"
-msgstr "1 faili üleslaadimisel"
+msgstr "1 fail üleslaadimisel"
 
-#: js/filelist.js:409 js/filelist.js:463
+#: js/filelist.js:416 js/filelist.js:470
 msgid "files uploading"
-msgstr "failide üleslaadimine"
+msgstr "faili üleslaadimisel"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -151,7 +148,7 @@ msgstr "Vigane nimi, '\\', '/', '<', '>', ':', '\"', '|', '?' ja '*' pole lubatu
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr "Sinu andmemaht on täis! Faile ei uuendata ja sünkroniseerimist ei toimu!"
+msgstr "Sinu andmemaht on täis! Faile ei uuendata ega sünkroniseerita!"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
@@ -161,7 +158,7 @@ msgstr "Su andmemaht on peaaegu täis ({usedSpacePercent}%)"
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr "Valmistatakse allalaadimist. See võib võtta veidi aega kui on tegu suurte failidega. "
+msgstr "Valmistatakse allalaadimist. See võib võtta veidi aega, kui on tegu suurte failidega. "
 
 #: js/files.js:264
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
@@ -178,7 +175,7 @@ msgstr "Üleslaadimine tühistati."
 #: js/files.js:413
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "Faili üleslaadimine on töös.  Lehelt lahkumine katkestab selle üleslaadimise."
+msgstr "Faili üleslaadimine on töös. Lehelt lahkumine katkestab selle üleslaadimise."
 
 #: js/files.js:486
 msgid "URL cannot be empty."
@@ -219,6 +216,14 @@ msgstr "1 fail"
 #: js/files.js:910
 msgid "{count} files"
 msgstr "{count} faili"
+
+#: lib/app.php:53
+msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
+msgstr "Vigane kausta nimi. 'Shared' kasutamine on reserveeritud ownCloud poolt."
+
+#: lib/app.php:73
+msgid "Unable to rename file"
+msgstr "Faili ümbernimetamine ebaõnnestus"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -308,7 +313,7 @@ msgstr "Failid, mida sa proovid üles laadida, ületab serveri poolt üleslaetav
 
 #: templates/index.php:114
 msgid "Files are being scanned, please wait."
-msgstr "Faile skannitakse, palun oota"
+msgstr "Faile skannitakse, palun oota."
 
 #: templates/index.php:117
 msgid "Current scanning"
@@ -316,4 +321,4 @@ msgstr "Praegune skannimine"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr "Uuendan failisüsteemi puhvrit..."
+msgstr "Failisüsteemi puhvri uuendamine..."

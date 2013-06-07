@@ -1,7 +1,22 @@
 <?php $TRANSLATIONS = array(
+"Recovery key successfully enabled" => "Återställningsnyckeln har framgångsrikt aktiverats",
+"Could not enable recovery key. Please check your recovery key password!" => "Kunde inte aktivera återställningsnyckeln. Vänligen kontrollera ditt lösenord för återställningsnyckeln!",
+"Recovery key successfully disabled" => "Återställningsnyckeln har framgångsrikt inaktiverats",
+"Could not disable recovery key. Please check your recovery key password!" => "Kunde inte inaktivera återställningsnyckeln. Vänligen kontrollera ditt lösenord för återställningsnyckeln!",
+"Password successfully changed." => "Ändringen av lösenordet lyckades.",
+"Could not change the password. Maybe the old password was not correct." => "Kunde inte ändra lösenordet. Kanske det gamla lösenordet inte var rätt.",
+"Saving..." => "Sparar...",
 "Encryption" => "Kryptering",
-"File encryption is enabled." => "Filkryptering är aktiverat.",
-"The following file types will not be encrypted:" => "Följande filtyper kommer inte att krypteras:",
-"Exclude the following file types from encryption:" => "Exkludera följande filtyper från kryptering:",
-"None" => "Ingen"
+"Enable encryption passwords recovery key (allow sharing to recovery key):" => "Aktivera återställningsnyckel för krypterade lösenord. (tillåt delning till återställningsnyckeln):",
+"Recovery account password" => "Återställning av kontolösenord",
+"Enabled" => "Aktiverad",
+"Disabled" => "Inaktiverad",
+"Change encryption passwords recovery key:" => "Ändra återställningsnyckeln för krypterade lösenord:",
+"Old Recovery account password" => "Gamla lösenordet för återställningskontot",
+"New Recovery account password" => "Nytt återställningslösenord för kontot",
+"Change Password" => "Byt lösenord",
+"Enable password recovery by sharing all files with your administrator:" => "Aktivera lösenordsåterställning genom att dela alla filer med din administratör:",
+"Enabling this option will allow you to reobtain access to your encrypted files if your password is lost" => "Aktivera det här alternativet för att kunna återfå tillgång till dina krypterade filer om du skulle förlora/glömma ditt lösenord",
+"File recovery settings updated" => "Inställningarna för filåterställning har uppdaterats",
+"Could not update file recovery" => "Kunde inte uppdatera filåterställning"
 );

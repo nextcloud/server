@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-01 01:59+0200\n"
-"PO-Revision-Date: 2013-04-30 14:43+0000\n"
-"Last-Translator: ubuntucymraeg <owen.llywelyn@gmail.com>\n"
+"POT-Creation-Date: 2013-06-03 02:27+0200\n"
+"PO-Revision-Date: 2013-06-02 23:17+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Welsh (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/cy_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,10 +26,6 @@ msgstr "Methwyd symud %s - Mae ffeil gyda'r enw hwn eisoes yn bodoli"
 #, php-format
 msgid "Could not move %s"
 msgstr "Methwyd symud %s"
-
-#: ajax/rename.php:22 ajax/rename.php:25
-msgid "Unable to rename file"
-msgstr "Methu ailenwi ffeil"
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
@@ -94,43 +90,43 @@ msgstr "Dileu"
 msgid "Rename"
 msgstr "Ailenwi"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:421
 msgid "Pending"
 msgstr "I ddod"
 
-#: js/filelist.js:252 js/filelist.js:254
+#: js/filelist.js:259 js/filelist.js:261
 msgid "{new_name} already exists"
 msgstr "{new_name} yn bodoli'n barod"
 
-#: js/filelist.js:252 js/filelist.js:254
+#: js/filelist.js:259 js/filelist.js:261
 msgid "replace"
 msgstr "amnewid"
 
-#: js/filelist.js:252
+#: js/filelist.js:259
 msgid "suggest name"
 msgstr "awgrymu enw"
 
-#: js/filelist.js:252 js/filelist.js:254
+#: js/filelist.js:259 js/filelist.js:261
 msgid "cancel"
 msgstr "diddymu"
 
-#: js/filelist.js:299
+#: js/filelist.js:306
 msgid "replaced {new_name} with {old_name}"
 msgstr "newidiwyd {new_name} yn lle {old_name}"
 
-#: js/filelist.js:299
+#: js/filelist.js:306
 msgid "undo"
 msgstr "dadwneud"
 
-#: js/filelist.js:324
+#: js/filelist.js:331
 msgid "perform delete operation"
 msgstr "cyflawni gweithred dileu"
 
-#: js/filelist.js:406
+#: js/filelist.js:413
 msgid "1 file uploading"
 msgstr "1 ffeil yn llwytho i fyny"
 
-#: js/filelist.js:409 js/filelist.js:463
+#: js/filelist.js:416 js/filelist.js:470
 msgid "files uploading"
 msgstr "ffeiliau'n llwytho i fyny"
 
@@ -218,6 +214,14 @@ msgstr "1 ffeil"
 #: js/files.js:910
 msgid "{count} files"
 msgstr "{count} ffeil"
+
+#: lib/app.php:53
+msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
+msgstr ""
+
+#: lib/app.php:73
+msgid "Unable to rename file"
+msgstr "Methu ailenwi ffeil"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# mhh <marian.hvolka@stuba.sk>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-28 01:57+0200\n"
-"PO-Revision-Date: 2013-04-27 23:57+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-04 02:29+0200\n"
+"PO-Revision-Date: 2013-06-03 00:32+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,47 +18,47 @@ msgstr ""
 "Language: sk_SK\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: app.php:349
+#: app.php:357
 msgid "Help"
 msgstr "Pomoc"
 
-#: app.php:362
+#: app.php:370
 msgid "Personal"
 msgstr "Osobné"
 
-#: app.php:373
+#: app.php:381
 msgid "Settings"
 msgstr "Nastavenia"
 
-#: app.php:385
+#: app.php:393
 msgid "Users"
 msgstr "Používatelia"
 
-#: app.php:398
+#: app.php:406
 msgid "Apps"
 msgstr "Aplikácie"
 
-#: app.php:406
+#: app.php:414
 msgid "Admin"
 msgstr "Administrátor"
 
-#: files.php:209
+#: files.php:210
 msgid "ZIP download is turned off."
 msgstr "Sťahovanie súborov ZIP je vypnuté."
 
-#: files.php:210
+#: files.php:211
 msgid "Files need to be downloaded one by one."
 msgstr "Súbory musia byť nahrávané jeden za druhým."
 
-#: files.php:211 files.php:244
+#: files.php:212 files.php:245
 msgid "Back to Files"
 msgstr "Späť na súbory"
 
-#: files.php:241
+#: files.php:242
 msgid "Selected files too large to generate zip file."
 msgstr "Zvolené súbory sú príliš veľké na vygenerovanie zip súboru."
 
-#: helper.php:228
+#: helper.php:236
 msgid "couldn't be determined"
 msgstr "nedá sa zistiť"
 
@@ -113,72 +114,76 @@ msgstr "V názve databázy %s nemôžete používať bodky"
 msgid "%s set the database host."
 msgstr "Zadajte názov počítača s databázou %s."
 
-#: setup.php:132 setup.php:325 setup.php:370
+#: setup.php:132 setup.php:329 setup.php:374
 msgid "PostgreSQL username and/or password not valid"
 msgstr "Používateľské meno a/alebo heslo pre PostgreSQL databázu je neplatné"
 
-#: setup.php:133 setup.php:156 setup.php:234
+#: setup.php:133 setup.php:238
 msgid "You need to enter either an existing account or the administrator."
 msgstr "Musíte zadať jestvujúci účet alebo administrátora."
 
-#: setup.php:155 setup.php:458 setup.php:525
-msgid "Oracle username and/or password not valid"
-msgstr "Používateľské meno a/alebo heslo pre Oracle databázu je neplatné"
+#: setup.php:155
+msgid "Oracle connection could not be established"
+msgstr "Nie je možné pripojiť sa k Oracle"
 
-#: setup.php:233
+#: setup.php:237
 msgid "MySQL username and/or password not valid"
 msgstr "Používateľské meno a/alebo heslo pre MySQL databázu je neplatné"
 
-#: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
-#: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
-#: setup.php:576 setup.php:583 setup.php:592 setup.php:600 setup.php:609
-#: setup.php:615
+#: setup.php:291 setup.php:395 setup.php:404 setup.php:422 setup.php:432
+#: setup.php:441 setup.php:474 setup.php:540 setup.php:566 setup.php:573
+#: setup.php:584 setup.php:591 setup.php:600 setup.php:608 setup.php:617
+#: setup.php:623
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "Chyba DB: \"%s\""
 
-#: setup.php:288 setup.php:392 setup.php:401 setup.php:419 setup.php:429
-#: setup.php:438 setup.php:467 setup.php:533 setup.php:559 setup.php:566
-#: setup.php:577 setup.php:593 setup.php:601 setup.php:610
+#: setup.php:292 setup.php:396 setup.php:405 setup.php:423 setup.php:433
+#: setup.php:442 setup.php:475 setup.php:541 setup.php:567 setup.php:574
+#: setup.php:585 setup.php:601 setup.php:609 setup.php:618
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr "Podozrivý príkaz bol: \"%s\""
 
-#: setup.php:304
+#: setup.php:308
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
 msgstr "Používateľ '%s'@'localhost' už v MySQL existuje."
 
-#: setup.php:305
+#: setup.php:309
 msgid "Drop this user from MySQL"
 msgstr "Zahodiť používateľa z MySQL."
 
-#: setup.php:310
+#: setup.php:314
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
 msgstr "Používateľ '%s'@'%%' už v MySQL existuje"
 
-#: setup.php:311
+#: setup.php:315
 msgid "Drop this user from MySQL."
 msgstr "Zahodiť používateľa z MySQL."
 
-#: setup.php:584 setup.php:616
+#: setup.php:466 setup.php:533
+msgid "Oracle username and/or password not valid"
+msgstr "Používateľské meno a/alebo heslo pre Oracle databázu je neplatné"
+
+#: setup.php:592 setup.php:624
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "Podozrivý príkaz bol: \"%s\", meno: %s, heslo: %s"
 
-#: setup.php:636
+#: setup.php:644
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
 msgstr "Používateľské meno, alebo heslo MS SQL nie je platné: %s"
 
-#: setup.php:858
+#: setup.php:867
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Váš webový server nie je správne nastavený na synchronizáciu, pretože rozhranie WebDAV je poškodené."
 
-#: setup.php:859
+#: setup.php:868
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Prosím skontrolujte <a href='%s'>inštalačnú príručku</a>."

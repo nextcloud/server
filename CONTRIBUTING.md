@@ -12,11 +12,12 @@ If you have questions about how to use ownCloud, please direct these to the [mai
   - Apps:
       - [Bookmarks](https://github.com/owncloud/bookmarks/issues)
       - [Calendar](https://github.com/owncloud/calendar/issues)
+      - [Contacts](https://github.com/owncloud/contacts/issues)
       - [Mail](https://github.com/owncloud/mail/issues)
       - [News](https://github.com/owncloud/news/issues)
       - [Notes](https://github.com/owncloud/notes/issues)
       - [Shorty](https://github.com/owncloud/shorty/issues)
-      - [other apps](https://github.com/owncloud/apps/issues) (e.g. Contacts, Pictures, Music, ...)
+      - [other apps](https://github.com/owncloud/apps/issues) (e.g. Pictures, Music, Tasks, ...)
 
 If your issue appears to be a bug, and hasn't been reported, open a new issue.
 

@@ -1,3 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Settings" => "Настройки"
+"Settings" => "Настройки",
+"Text" => "Текст"
 );

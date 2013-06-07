@@ -191,6 +191,13 @@ var FileList={
 		td.children('a.name').hide();
 		td.append(form);
 		input.focus();
+		//preselect input
+		var len = input.val().lastIndexOf('.');
+		if (len === -1) {
+			len = input.val().length;
+		}
+		input.selectRange(0,len);
+		
 		form.submit(function(event){
 			event.stopPropagation();
 			event.preventDefault();

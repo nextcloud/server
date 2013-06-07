@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "No se pudo mover %s - Un archivo con este nombre ya existe",
 "Could not move %s" => "No se pudo mover %s ",
-"Unable to rename file" => "No fue posible cambiar el nombre al archivo",
 "No file was uploaded. Unknown error" => "El archivo no fue subido. Error desconocido",
 "There is no error, the file uploaded with success" => "No hay errores, el archivo fue subido con éxito",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "El archivo que intentás subir excede el tamaño definido por upload_max_filesize en el php.ini:",
@@ -47,6 +46,8 @@
 "{count} folders" => "{count} directorios",
 "1 file" => "1 archivo",
 "{count} files" => "{count} archivos",
+"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Nombre de carpeta inválido. El uso de \"Shared\" está reservado por ownCloud",
+"Unable to rename file" => "No fue posible cambiar el nombre al archivo",
 "Upload" => "Subir",
 "File handling" => "Tratamiento de archivos",
 "Maximum upload size" => "Tamaño máximo de subida",

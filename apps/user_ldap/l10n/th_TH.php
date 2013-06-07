@@ -6,6 +6,8 @@
 "Deletion failed" => "การลบทิ้งล้มเหลว",
 "Keep settings?" => "รักษาการตั้งค่าไว้?",
 "Cannot add server configuration" => "ไม่สามารถเพิ่มค่ากำหนดเซิร์ฟเวอร์ได้",
+"Success" => "เสร็จสิ้น",
+"Error" => "ข้อผิดพลาด",
 "Connection test succeeded" => "ทดสอบการเชื่อมต่อสำเร็จ",
 "Connection test failed" => "ทดสอบการเชื่อมต่อล้มเหลว",
 "Do you really want to delete the current Server Configuration?" => "คุณแน่ใจแล้วหรือว่าต้องการลบการกำหนดค่าเซิร์ฟเวอร์ปัจจุบันทิ้งไป?",

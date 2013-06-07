@@ -1,7 +1,22 @@
 <?php $TRANSLATIONS = array(
+"Recovery key successfully enabled" => "恢复密钥成功启用",
+"Could not enable recovery key. Please check your recovery key password!" => "不能启用恢复密钥。请检查恢复密钥密码！",
+"Recovery key successfully disabled" => "恢复密钥成功禁用",
+"Could not disable recovery key. Please check your recovery key password!" => "不能禁用恢复密钥。请检查恢复密钥密码！",
+"Password successfully changed." => "密码修改成功。",
+"Could not change the password. Maybe the old password was not correct." => "不能修改密码。旧密码可能不正确。",
+"Saving..." => "保存中",
 "Encryption" => "加密",
-"File encryption is enabled." => "文件加密已启用.",
-"The following file types will not be encrypted:" => "如下的文件类型将不会被加密:",
-"Exclude the following file types from encryption:" => "从加密中排除如下的文件类型:",
-"None" => "无"
+"Enable encryption passwords recovery key (allow sharing to recovery key):" => "启用加密密码恢复密钥（允许共享恢复密钥）：",
+"Recovery account password" => "恢复账户密码",
+"Enabled" => "开启",
+"Disabled" => "禁用",
+"Change encryption passwords recovery key:" => "变更加密密码恢复密钥：",
+"Old Recovery account password" => "旧恢复账号密码",
+"New Recovery account password" => "新恢复账号密码",
+"Change Password" => "修改密码",
+"Enable password recovery by sharing all files with your administrator:" => "通过与系统管理员共享全部文件启用密码恢复：",
+"Enabling this option will allow you to reobtain access to your encrypted files if your password is lost" => "启用该选项将允许你丢失密码时重新取得加密过的文件。",
+"File recovery settings updated" => "文件恢复设置已更新",
+"Could not update file recovery" => "不能更新文件恢复"
 );
