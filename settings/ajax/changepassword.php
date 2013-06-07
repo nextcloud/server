@@ -27,7 +27,7 @@ if (is_null($userstatus)) {
 	OC_JSON::error(array('data' => array('message' => 'Authentication error')));
 	exit();
 }
-if (\OCP\App::isEnabled('files_encryption')) {
+if (\OCP\App::isEnabled('files_encryption') && $userstatus !== 'user') {
 	$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), $username);
 	$recoveryAdminEnabled = OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled');
 	$recoveryEnabledForUser = $util->recoveryEnabledForUser();
