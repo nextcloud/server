@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "不能从App Store 中加载列表",
 "Authentication error" => "验证错误",
+"Your display name has been changed." => "您的显示名称已修改",
 "Unable to change display name" => "无法更改显示名称",
 "Group already exists" => "群组已存在",
 "Unable to add group" => "未能添加群组",
@@ -40,7 +41,10 @@
 "Setup Warning" => "配置注意",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "因WebDAV接口故障，您的网络服务器好像并未允许文件同步。",
 "Please double check the <a href='%s'>installation guides</a>." => "请双击<a href='%s'>安装向导</a>。",
+"Module 'fileinfo' missing" => "模块“fileinfo”丢失。",
+"The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "PHP 模块“fileinfo”丢失。我们强烈建议打开此模块来获得 mine 类型检测的最佳结果。",
 "Locale not working" => "区域设置未运作",
+"This ownCloud server can't set system locale to %s. This means that there might be problems with certain characters in file names. We strongly suggest to install the required packages on your system to support %s." => "ownCloud 服务器不能把系统区域设置到 %s。这意味着文件名可内可能含有某些引起问题的字符。我们强烈建议在您的系统上安装必要的包来支持“%s”。",
 "Internet connection not working" => "互联网连接未运作",
 "Cron" => "Cron",
 "Execute one task with each page loaded" => "在每个页面载入时执行一项任务",

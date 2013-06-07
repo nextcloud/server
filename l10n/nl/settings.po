@@ -4,13 +4,14 @@
 # 
 # Translators:
 # André Koot <meneer@tken.net>, 2013
+# helonaut, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-03 02:27+0200\n"
-"PO-Revision-Date: 2013-06-02 23:17+0000\n"
-"Last-Translator: André Koot <meneer@tken.net>\n"
+"POT-Creation-Date: 2013-06-05 01:59+0200\n"
+"PO-Revision-Date: 2013-06-04 14:59+0000\n"
+"Last-Translator: helonaut\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -390,11 +391,11 @@ msgstr "Commerciële ondersteuning"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr "U heeft <strong>%s</strong> van de <strong>%s</strong>  beschikbaren gebruikt"
+msgstr "Je hebt <strong>%s</strong> gebruikt van de beschikbare <strong>%s<strong>"
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
-msgstr "Download de apps om bestanden te synchen"
+msgstr "Download de apps om bestanden te syncen"
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"
@@ -438,7 +439,7 @@ msgstr "Uw e-mailadres"
 
 #: templates/personal.php:74
 msgid "Fill in an email address to enable password recovery"
-msgstr "Vul een e-mailadres in om wachtwoord reset uit te kunnen voeren"
+msgstr "Vul een mailadres in om je wachtwoord te kunnen herstellen"
 
 #: templates/personal.php:83 templates/personal.php:84
 msgid "Language"
@@ -470,7 +471,7 @@ msgstr "Beheer herstel wachtwoord"
 
 #: templates/users.php:38
 msgid "Default Storage"
-msgstr "Default opslag"
+msgstr "Standaard Opslaglimiet"
 
 #: templates/users.php:44 templates/users.php:138
 msgid "Unlimited"
@@ -482,7 +483,7 @@ msgstr "Anders"
 
 #: templates/users.php:87
 msgid "Storage"
-msgstr "Opslag"
+msgstr "Opslaglimiet"
 
 #: templates/users.php:98
 msgid "change display name"
@@ -494,4 +495,4 @@ msgstr "Instellen nieuw wachtwoord"
 
 #: templates/users.php:133
 msgid "Default"
-msgstr "Default"
+msgstr "Standaard"

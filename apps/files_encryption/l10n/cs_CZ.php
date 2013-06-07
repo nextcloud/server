@@ -1,4 +1,22 @@
 <?php $TRANSLATIONS = array(
+"Recovery key successfully enabled" => "Záchranný klíč byl úspěšně povolen",
+"Could not enable recovery key. Please check your recovery key password!" => "Nepodařilo se povolit záchranný klíč. Zkontrolujte prosím vaše heslo záchranného klíče!",
+"Recovery key successfully disabled" => "Záchranný klíč byl úspěšně zakázán",
+"Could not disable recovery key. Please check your recovery key password!" => "Nepodařilo se zakázat záchranný klíč. Zkontrolujte prosím vaše heslo záchranného klíče!",
+"Password successfully changed." => "Heslo bylo úspěšně změněno.",
+"Could not change the password. Maybe the old password was not correct." => "Heslo se nepodařilo změnit. Pravděpodobně nebylo stávající heslo zadáno správně.",
 "Saving..." => "Ukládám...",
-"Encryption" => "Šifrování"
+"Encryption" => "Šifrování",
+"Enable encryption passwords recovery key (allow sharing to recovery key):" => "Povolit šifrování hesel záchranným klíčem (povolí sdílený záchranný klíč):",
+"Recovery account password" => "Heslo pro obnovu účtu",
+"Enabled" => "Povolit",
+"Disabled" => "Zakázat",
+"Change encryption passwords recovery key:" => "Změnit šifrovací hesla záchranného klíče",
+"Old Recovery account password" => "Stávající heslo pro obnovu účtu",
+"New Recovery account password" => "Nové heslo pro obnovu účtu",
+"Change Password" => "Změnit heslo",
+"Enable password recovery by sharing all files with your administrator:" => "Povolit obnovu hesla sdílením všech souborů s vaším administrátorem:",
+"Enabling this option will allow you to reobtain access to your encrypted files if your password is lost" => "Povolení této volby vám umožní získat přístup k vašim zašifrovaným souborům pokud ztratíte heslo",
+"File recovery settings updated" => "Možnosti obnovy souboru upraveny",
+"Could not update file recovery" => "Nepodařilo se změnit možnosti obnovy souboru"
 );

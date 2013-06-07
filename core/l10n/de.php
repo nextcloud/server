@@ -46,6 +46,7 @@
 "years ago" => "Vor Jahren",
 "Choose" => "Auswählen",
 "Cancel" => "Abbrechen",
+"Error loading file picker template" => "Dateiauswahltemplate konnte nicht geladen werden",
 "Yes" => "Ja",
 "No" => "Nein",
 "Ok" => "OK",

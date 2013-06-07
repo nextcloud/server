@@ -24,6 +24,7 @@
 "%s set the database host." => "%s задайте хост базы данных.",
 "PostgreSQL username and/or password not valid" => "Неверное имя пользователя и/или пароль PostgreSQL",
 "You need to enter either an existing account or the administrator." => "Вы должны войти или в существующий аккаунт или под администратором.",
+"Oracle connection could not be established" => "соединение с Oracle не может быть установлено",
 "MySQL username and/or password not valid" => "Неверное имя пользователя и/или пароль MySQL",
 "DB Error: \"%s\"" => "Ошибка БД: \"%s\"",
 "Offending command was: \"%s\"" => "Вызываемая команда была: \"%s\"",

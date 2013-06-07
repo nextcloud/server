@@ -101,6 +101,7 @@
 "Use this address to connect to your ownCloud in your file manager" => "Используйте этот URL для подключения файлового менеджера к Вашему хранилищу",
 "Login Name" => "Имя пользователя",
 "Create" => "Создать",
+"Admin Recovery Password" => "Восстановление Пароля Администратора",
 "Default Storage" => "Хранилище по-умолчанию",
 "Unlimited" => "Неограниченно",
 "Other" => "Другое",

@@ -46,6 +46,7 @@
 "{count} folders" => "{count} папок",
 "1 file" => "1 файл",
 "{count} files" => "{count} файлов",
+"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Неправильное имя каталога. Имя 'Shared' зарезервировано.",
 "Unable to rename file" => "Невозможно переименовать файл",
 "Upload" => "Загрузка",
 "File handling" => "Управление файлами",

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Magnus Magnusson <maggiymir@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-04 02:29+0200\n"
-"PO-Revision-Date: 2013-06-03 00:32+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-07 02:14+0200\n"
+"PO-Revision-Date: 2013-06-06 07:14+0000\n"
+"Last-Translator: Magnus Magnusson <maggiymir@gmail.com>\n"
 "Language-Team: Icelandic (http://www.transifex.com/projects/p/owncloud/language/is/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -259,7 +260,7 @@ msgstr "Umbeðina skráin {file} ekki tiltæk!"
 
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
-msgstr ""
+msgstr "Deilt"
 
 #: js/share.js:90
 msgid "Share"
@@ -390,7 +391,7 @@ msgstr ""
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "Uppfærslan heppnaðist. Beini þér til ownCloud nú."
 
 #: lostpassword/controller.php:48
 msgid "ownCloud password reset"
@@ -567,7 +568,7 @@ msgstr "vefþjónusta undir þinni stjórn"
 #: templates/layout.user.php:37
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr ""
+msgstr "%s er til boða. Fáðu meiri upplýsingar um hvernig þú uppfærir."
 
 #: templates/layout.user.php:62
 msgid "Log out"
