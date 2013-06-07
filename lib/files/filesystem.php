@@ -146,7 +146,7 @@ class Filesystem {
 	/**
 	 * @var \OC\Files\Storage\Loader $loader
 	 */
-	private static $loader;
+	public static $loader;
 
 	/**
 	 * get the mountpoint of the storage object for a path
