@@ -146,7 +146,14 @@ class Filesystem {
 	/**
 	 * @var \OC\Files\Storage\Loader $loader
 	 */
-	public static $loader;
+	private static $loader;
+
+	public static function getLoader(){
+		if (!self::$loader) {
+			self::$loader = new Loader();
+		}
+		return self::$loader;
+	}
 
 	/**
 	 * get the mountpoint of the storage object for a path
@@ -245,7 +252,7 @@ class Filesystem {
 		if (self::$defaultInstance) {
 			return false;
 		}
-		self::$loader = new Loader();
+		self::getLoader();
 		self::$defaultInstance = new View($root);
 
 		if (!self::$mounts) {
@@ -400,7 +407,7 @@ class Filesystem {
 		if (!self::$mounts) {
 			\OC_Util::setupFS();
 		}
-		$mount = new Mount\Mount($class, $mountpoint, $arguments, self::$loader);
+		$mount = new Mount\Mount($class, $mountpoint, $arguments, self::getLoader());
 		self::$mounts->addMount($mount);
 	}
 
