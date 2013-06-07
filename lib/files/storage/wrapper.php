@@ -10,7 +10,7 @@ namespace OC\Files\Storage;
 
 class Wrapper implements Storage {
 	/**
-	 * @var Storage $storage
+	 * @var \OC\Files\Storage\Storage $storage
 	 */
 	protected $storage;
 
@@ -19,6 +19,13 @@ class Wrapper implements Storage {
 	 */
 	public function __construct($parameters) {
 		$this->storage = $parameters['storage'];
+	}
+
+	/**
+	 * @return \OC\Files\Storage\Storage
+	 */
+	public function getWrapperStorage() {
+		return $this->storage;
 	}
 
 	/**
