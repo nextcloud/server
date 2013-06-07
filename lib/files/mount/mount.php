@@ -9,10 +9,10 @@
 namespace OC\Files\Mount;
 
 use \OC\Files\Filesystem;
+use OC\Files\Storage\Loader;
+use OC\Files\Storage\Storage;
 
 class Mount {
-
-
 	/**
 	 * @var \OC\Files\Storage\Storage $storage
 	 */
@@ -23,24 +23,30 @@ class Mount {
 	private $mountPoint;
 
 	/**
-	 * @var callable[] $storageWrappers
+	 * @var \OC\Files\Storage\Loader $loader
 	 */
-	private $storageWrappers = array();
+	private $loader;
 
 	/**
-	 * @param string|\OC\Files\Storage\Storage $storage
+	 * @param string | \OC\Files\Storage\Storage $storage
 	 * @param string $mountpoint
-	 * @param array $arguments (optional)
+	 * @param array $arguments (optional)\
+	 * @param \OC\Files\Storage\Loader $loader
 	 */
-	public function __construct($storage, $mountpoint, $arguments = null) {
+	public function __construct($storage, $mountpoint, $arguments = null, $loader = null) {
 		if (is_null($arguments)) {
 			$arguments = array();
 		}
+		if (is_null($loader)) {
+			$this->loader = new Loader();
+		} else {
+			$this->loader = $loader;
+		}
 
 		$mountpoint = $this->formatPath($mountpoint);
-		if ($storage instanceof \OC\Files\Storage\Storage) {
+		if ($storage instanceof Storage) {
 			$this->class = get_class($storage);
-			$this->storage = $storage;
+			$this->storage = $this->loader->wrap($mountpoint, $storage);
 		} else {
 			// Update old classes to new namespace
 			if (strpos($storage, 'OC_Filestorage_') !== false) {
@@ -67,7 +73,7 @@ class Mount {
 	private function createStorage() {
 		if (class_exists($this->class)) {
 			try {
-				return $this->loadStorage($this->class, $this->arguments);
+				return $this->loader->load($this->mountPoint, $this->class, $this->arguments);
 			} catch (\Exception $exception) {
 				\OC_Log::write('core', $exception->getMessage(), \OC_Log::ERROR);
 				return null;
@@ -76,25 +82,6 @@ class Mount {
 			\OC_Log::write('core', 'storage backend ' . $this->class . ' not found', \OC_Log::ERROR);
 			return null;
 		}
-	}
-
-	/**
-	 * allow modifier storage behaviour by adding wrappers around storages
-	 *
-	 * $callback should be a function of type (string $mountPoint, Storage $storage) => Storage
-	 *
-	 * @param callable $callback
-	 */
-	public function addStorageWrapper($callback) {
-		$this->storageWrappers[] = $callback;
-	}
-
-	private function loadStorage($class, $arguments) {
-		$storage = new $class($arguments);
-		foreach ($this->storageWrappers as $wrapper) {
-			$storage = $wrapper($this->mountPoint, $storage);
-		}
-		return $storage;
 	}
 
 	/**
