@@ -34,8 +34,9 @@ $files = $_GET["files"];
 $dir = $_GET["dir"];
 
 $files_list = json_decode($files);
+
 // in case we get only a single file
-if ($files_list === NULL ) {
+if ($files_list === NULL || $files_list === true || $files_list === false) {
 	$files_list = array($files);
 }
 
