@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-04 02:29+0200\n"
-"PO-Revision-Date: 2013-06-03 00:32+0000\n"
+"POT-Creation-Date: 2013-06-07 02:14+0200\n"
+"PO-Revision-Date: 2013-06-06 18:31+0000\n"
 "Last-Translator: ismail yenigül <ismail.yenigul@surgate.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -124,7 +124,7 @@ msgstr "Bir konto veya kullanici birlemek ihtiyacin. "
 
 #: setup.php:155
 msgid "Oracle connection could not be established"
-msgstr ""
+msgstr "Oracle bağlantısı kurulamadı"
 
 #: setup.php:237
 msgid "MySQL username and/or password not valid"

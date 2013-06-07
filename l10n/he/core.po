@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-04 02:29+0200\n"
-"PO-Revision-Date: 2013-06-03 00:32+0000\n"
+"POT-Creation-Date: 2013-06-07 02:14+0200\n"
+"PO-Revision-Date: 2013-06-06 08:56+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -223,7 +223,7 @@ msgstr "ביטול"
 
 #: js/oc-dialogs.js:141 js/oc-dialogs.js:200
 msgid "Error loading file picker template"
-msgstr ""
+msgstr "שגיאה בטעינת תבנית בחירת הקבצים"
 
 #: js/oc-dialogs.js:164
 msgid "Yes"
@@ -406,11 +406,11 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr ""
+msgstr "הקישור לאיפוס הססמה שלך נשלח אליך בדוא״ל.<br>אם לא קיבלת את הקישור תוך זמן סביר, מוטב לבדוק את תיבת הזבל שלך.<br>אם ההודעה לא שם, כדאי לשאול את מנהל הרשת שלך ."
 
 #: lostpassword/templates/lostpassword.php:12
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
+msgstr "הבקשה נכשלה!<br>האם כתובת הדוא״ל/שם המשתמש שלך נכונים?"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
@@ -488,7 +488,7 @@ msgstr "גרסת ה־PHP פגיעה בפני התקפת בית NULL/ריק (CVE-
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr ""
+msgstr "נא לעדכן את התקנת ה־PHP שלך כדי להשתמש ב־PHP בבטחה."
 
 #: templates/installation.php:32
 msgid ""
@@ -568,7 +568,7 @@ msgstr "שירותי רשת תחת השליטה שלך"
 #: templates/layout.user.php:37
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr ""
+msgstr "%s זמינה להורדה. ניתן ללחוץ כדי לקבל מידע נוסף כיצד לעדכן."
 
 #: templates/layout.user.php:62
 msgid "Log out"

@@ -4,13 +4,14 @@
 # 
 # Translators:
 # fkj <fengkaijia@gmail.com>, 2013
+# hyy0591 <yangyu.huang@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-05 01:58+0200\n"
-"PO-Revision-Date: 2013-06-04 14:55+0000\n"
-"Last-Translator: fkj <fengkaijia@gmail.com>\n"
+"POT-Creation-Date: 2013-06-07 02:14+0200\n"
+"PO-Revision-Date: 2013-06-06 06:41+0000\n"
+"Last-Translator: hyy0591 <yangyu.huang@gmail.com>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -70,7 +71,7 @@ msgstr ""
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "在添加 %s 到收藏夹时发生错误。"
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -79,7 +80,7 @@ msgstr "没有选中要删除的分类。"
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "在移除收藏夹中的 %s 时发生错误。"
 
 #: js/config.php:34
 msgid "Sunday"
