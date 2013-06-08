@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Failed to clear the mappings." => "Не удалось очистить соотвествия.",
 "Failed to delete the server configuration" => "Не удалось удалить конфигурацию сервера",
 "The configuration is valid and the connection could be established!" => "Конфигурация правильная и подключение может быть установлено!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Конфигурация верна, но операция подключения завершилась неудачно. Пожалуйста, проверьте настройки сервера и учетные данные.",
@@ -7,6 +8,7 @@
 "Take over settings from recent server configuration?" => "Принять настройки из последней конфигурации сервера?",
 "Keep settings?" => "Сохранить настройки?",
 "Cannot add server configuration" => "Не получилось добавить конфигурацию сервера",
+"mappings cleared" => "Соответствия очищены",
 "Success" => "Успешно",
 "Error" => "Ошибка",
 "Connection test succeeded" => "Проверка соединения удалась",
@@ -72,6 +74,13 @@
 "Email Field" => "Поле адресса эллектронной почты",
 "User Home Folder Naming Rule" => "Правило именования Домашней Папки Пользователя",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Оставьте имя пользователя пустым (по умолчанию). Иначе укажите атрибут LDAP/AD.",
+"Internal Username" => "Внутреннее имя пользователя",
+"Internal Username Attribute:" => "Аттрибут для внутреннего имени:",
+"Override UUID detection" => "Переопределить нахождение UUID",
+"UUID Attribute:" => "Аттрибут для UUID:",
+"Username-LDAP User Mapping" => "Соответствия Имя-Пользователь LDAP",
+"Clear Username-LDAP User Mapping" => "Очистить соответствия Имя-Пользователь LDAP",
+"Clear Groupname-LDAP Group Mapping" => "Очистить соответствия Группа-Группа LDAP",
 "Test Configuration" => "Тестовая конфигурация",
 "Help" => "Помощь"
 );
