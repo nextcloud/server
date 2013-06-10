@@ -116,7 +116,7 @@ class Proxy extends \OC_FileProxy {
 					return true;
 				}
 
-				$handle = fopen('crypt://' . $relativePath . '.etmp', 'w');
+				$handle = fopen('crypt://' . $path . '.etmp', 'w');
 				if (is_resource($handle)) {
 
 					// write data to stream
@@ -296,14 +296,14 @@ class Proxy extends \OC_FileProxy {
 
 			// Open the file using the crypto stream wrapper 
 			// protocol and let it do the decryption work instead
-			$result = fopen('crypt://' . $relativePath, $meta['mode']);
+			$result = fopen('crypt://' . $path, $meta['mode']);
 
 		} elseif (
 			self::shouldEncrypt($path)
 			and $meta ['mode'] !== 'r'
 				and $meta['mode'] !== 'rb'
 		) {
-			$result = fopen('crypt://' . $relativePath, $meta['mode']);
+			$result = fopen('crypt://' . $path, $meta['mode']);
 		}
 
 		// Re-enable the proxy

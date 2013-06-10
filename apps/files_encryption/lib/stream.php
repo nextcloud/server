@@ -73,7 +73,7 @@ class Stream {
 	private $privateKey;
 
 	/**
-	 * @param $path
+	 * @param $path raw path relative to data/
 	 * @param $mode
 	 * @param $options
 	 * @param $opened_path
@@ -93,12 +93,16 @@ class Stream {
 
 		$this->userId = $util->getUserId();
 
-		// Strip identifier text from path, this gives us the path relative to data/<user>/files
-		$this->relPath = \OC\Files\Filesystem::normalizePath(str_replace('crypt://', '', $path));
-
 		// rawPath is relative to the data directory
-		$this->rawPath = $util->getUserFilesDir() . $this->relPath;
+		$this->rawPath = \OC\Files\Filesystem::normalizePath(str_replace('crypt://', '', $path));
 
+		// Strip identifier text from path, this gives us the path relative to data/<user>/files
+		$this->relPath = Helper::stripUserFilesPath($this->rawPath);
+		// if raw path doesn't point to a real file, check if it is a version or a file in the trash bin
+		if ($this->relPath === false) {
+			$this->relPath = Helper::getPathToRealFile($this->rawPath);
+		}
+		
 		// Disable fileproxies so we can get the file size and open the source file without recursive encryption
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
