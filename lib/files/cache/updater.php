@@ -60,7 +60,7 @@ class Updater {
 			$cache = $storage->getCache($internalPath);
 			$cache->remove($internalPath);
 			$cache->correctFolderSize($internalPath);
-			self::correctFolder($path, time());
+			self::correctFolder($internalPath, time());
 		}
 	}
 
@@ -85,8 +85,8 @@ class Updater {
 				$cache->move($internalFrom, $internalTo);
 				$cache->correctFolderSize($internalFrom);
 				$cache->correctFolderSize($internalTo);
-				self::correctFolder($from, time());
-				self::correctFolder($to, time());
+				self::correctFolder($internalFrom, time());
+				self::correctFolder($internalTo, time());
 			} else {
 				self::deleteUpdate($from);
 				self::writeUpdate($to);
