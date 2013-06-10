@@ -241,7 +241,7 @@ class Cache {
 		$params[] = $id;
 
 		$query = \OC_DB::prepare('UPDATE `*PREFIX*filecache` SET ' . implode(' = ?, ', $queryParts) . '=?'
-			. ' WHERE fileid = ?');
+			. ' WHERE `fileid` = ?');
 		$query->execute($params);
 	}
 
@@ -385,10 +385,10 @@ class Cache {
 	 * remove all entries for files that are stored on the storage from the cache
 	 */
 	public function clear() {
-		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*filecache` WHERE storage = ?');
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*filecache` WHERE `storage` = ?');
 		$query->execute(array($this->getNumericStorageId()));
 
-		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*storages` WHERE id = ?');
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*storages` WHERE `id` = ?');
 		$query->execute(array($this->storageId));
 	}
 
