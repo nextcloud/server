@@ -153,7 +153,7 @@ class Cache {
 		if ($fileId > -1) {
 			$query = \OC_DB::prepare(
 				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `unencrypted_size` , `etag`
-			 	 FROM `*PREFIX*filecache` WHERE parent = ? ORDER BY `name` ASC');
+			 	 FROM `*PREFIX*filecache` WHERE `parent` = ? ORDER BY `name` ASC');
 			$result = $query->execute(array($fileId));
 			$files = $result->fetchAll();
 			foreach ($files as &$file) {
@@ -224,7 +224,7 @@ class Cache {
 		$params[] = $id;
 
 		$query = \OC_DB::prepare('UPDATE `*PREFIX*filecache` SET ' . implode(' = ?, ', $queryParts) . '=?'
-			. ' WHERE fileid = ?');
+			. ' WHERE `fileid` = ?');
 		$query->execute($params);
 	}
 
@@ -356,10 +356,10 @@ class Cache {
 	 * remove all entries for files that are stored on the storage from the cache
 	 */
 	public function clear() {
-		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*filecache` WHERE storage = ?');
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*filecache` WHERE `storage` = ?');
 		$query->execute(array($this->numericId));
 
-		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*storages` WHERE id = ?');
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*storages` WHERE `id` = ?');
 		$query->execute(array($this->storageId));
 	}
 
