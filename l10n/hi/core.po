@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-07 02:14+0200\n"
-"PO-Revision-Date: 2013-06-06 08:00+0000\n"
+"POT-Creation-Date: 2013-06-10 01:58+0200\n"
+"PO-Revision-Date: 2013-06-09 23:17+0000\n"
 "Last-Translator: rktaiwala <rktaiwala@gmail.com>\n"
 "Language-Team: Hindi (http://www.transifex.com/projects/p/owncloud/language/hi/)\n"
 "MIME-Version: 1.0\n"
@@ -264,7 +264,7 @@ msgstr ""
 
 #: js/share.js:90
 msgid "Share"
-msgstr ""
+msgstr "साझा करें"
 
 #: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
@@ -288,7 +288,7 @@ msgstr ""
 
 #: js/share.js:159
 msgid "Share with"
-msgstr ""
+msgstr "के साथ साझा"
 
 #: js/share.js:164
 msgid "Share with link"

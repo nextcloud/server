@@ -13,6 +13,8 @@
 "November" => "नवंबर",
 "December" => "दिसम्बर",
 "Settings" => "सेटिंग्स",
+"Share" => "साझा करें",
+"Share with" => "के साथ साझा",
 "Password" => "पासवर्ड",
 "Use the following link to reset your password: {link}" => "आगे दिये गये लिंक का उपयोग पासवर्ड बदलने के लिये किजीये: {link}",
 "You will receive a link to reset your password via Email." => "पासवर्ड बदलने कि लिंक आपको ई-मेल द्वारा भेजी जायेगी|",

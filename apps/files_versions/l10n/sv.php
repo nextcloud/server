@@ -7,5 +7,5 @@
 "No old versions available" => "Inga gamla versioner finns tillgängliga",
 "No path specified" => "Ingen sökväg angiven",
 "Versions" => "Versioner",
-"Revert a file to a previous version by clicking on its revert button" => "Återställ en fil till en tidigare version genom att klicka på knappen"
+"Revert a file to a previous version by clicking on its revert button" => "Återställ en fil till en tidigare version genom att klicka på återställningsknappen"
 );

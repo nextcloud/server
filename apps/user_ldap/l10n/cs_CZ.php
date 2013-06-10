@@ -79,8 +79,8 @@
 "Override UUID detection" => "Nastavit ručně UUID atribut",
 "UUID Attribute:" => "Atribut UUID:",
 "Username-LDAP User Mapping" => "Mapování uživatelských jmen z LDAPu",
-"Clear Username-LDAP User Mapping" => "Zrušit mapování LDAPových uživatelských jmen",
-"Clear Groupname-LDAP Group Mapping" => "Zrušit mapování LDAPových jmen skupin",
+"Clear Username-LDAP User Mapping" => "Zrušit mapování uživatelských jmen LDAPu",
+"Clear Groupname-LDAP Group Mapping" => "Zrušit mapování názvů skupin LDAPu",
 "Test Configuration" => "Vyzkoušet nastavení",
 "Help" => "Nápověda"
 );

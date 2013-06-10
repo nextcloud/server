@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Honza K. <honza889@gmail.com>, 2013
+# Tomáš Chvátal <tomas.chvatal@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-05 01:58+0200\n"
-"PO-Revision-Date: 2013-06-04 17:57+0000\n"
-"Last-Translator: Honza K. <honza889@gmail.com>\n"
+"POT-Creation-Date: 2013-06-08 02:03+0200\n"
+"PO-Revision-Date: 2013-06-07 13:50+0000\n"
+"Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,7 +35,7 @@ msgstr "Záchranný klíč byl úspěšně zakázán"
 #: ajax/adminrecovery.php:53
 msgid ""
 "Could not disable recovery key. Please check your recovery key password!"
-msgstr "Nepodařilo se zakázat záchranný klíč. Zkontrolujte prosím vaše heslo záchranného klíče!"
+msgstr "Nelze zakázat záchranný klíč. Zkontrolujte prosím heslo vašeho záchranného klíče."
 
 #: ajax/changeRecoveryPassword.php:49
 msgid "Password successfully changed."
@@ -42,7 +43,7 @@ msgstr "Heslo bylo úspěšně změněno."
 
 #: ajax/changeRecoveryPassword.php:51
 msgid "Could not change the password. Maybe the old password was not correct."
-msgstr "Heslo se nepodařilo změnit. Pravděpodobně nebylo stávající heslo zadáno správně."
+msgstr "Nelze změnit heslo. Pravděpodobně nebylo stávající heslo zadáno správně."
 
 #: js/settings-admin.js:11
 msgid "Saving..."
@@ -55,7 +56,7 @@ msgstr "Šifrování"
 #: templates/settings-admin.php:9
 msgid ""
 "Enable encryption passwords recovery key (allow sharing to recovery key):"
-msgstr "Povolit šifrování hesel záchranným klíčem (povolí sdílený záchranný klíč):"
+msgstr "Povolit záchranný klíč šifrovacích hesel (povolí sdílený záchranný klíč):"
 
 #: templates/settings-admin.php:13
 msgid "Recovery account password"
@@ -63,15 +64,15 @@ msgstr "Heslo pro obnovu účtu"
 
 #: templates/settings-admin.php:20 templates/settings-personal.php:18
 msgid "Enabled"
-msgstr "Povolit"
+msgstr "Povoleno"
 
 #: templates/settings-admin.php:28 templates/settings-personal.php:26
 msgid "Disabled"
-msgstr "Zakázat"
+msgstr "Zakázáno"
 
 #: templates/settings-admin.php:32
 msgid "Change encryption passwords recovery key:"
-msgstr "Změnit šifrovací hesla záchranného klíče"
+msgstr "Změnit záchranný klíč šifrovacích hesel:"
 
 #: templates/settings-admin.php:39
 msgid "Old Recovery account password"
@@ -87,18 +88,18 @@ msgstr "Změnit heslo"
 
 #: templates/settings-personal.php:9
 msgid "Enable password recovery by sharing all files with your administrator:"
-msgstr "Povolit obnovu hesla sdílením všech souborů s vaším administrátorem:"
+msgstr "Povolit obnovu hesla sdílením všech souborů s vaším správcem:"
 
 #: templates/settings-personal.php:11
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files if your password is lost"
-msgstr "Povolení této volby vám umožní získat přístup k vašim zašifrovaným souborům pokud ztratíte heslo"
+msgstr "Povolení vám umožní znovu získat přístup k vašim zašifrovaným souborům pokud ztratíte heslo"
 
 #: templates/settings-personal.php:27
 msgid "File recovery settings updated"
-msgstr "Možnosti obnovy souboru upraveny"
+msgstr "Možnosti obnovy souborů aktualizovány"
 
 #: templates/settings-personal.php:28
 msgid "Could not update file recovery"
-msgstr "Nepodařilo se změnit možnosti obnovy souboru"
+msgstr "Nelze aktualizovat obnovu souborů"
