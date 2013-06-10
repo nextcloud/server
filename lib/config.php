@@ -122,21 +122,17 @@ class Config {
 	 * Reads the config file and saves it to the cache
 	 */
 	private function readData() {
-		// read all file in config dir ending by config.php
-		$configFiles = glob($this->configDir.'*.config.php');
-
-		//Filter only regular files
-		$configFiles = array_filter($configFiles, 'is_file');
-
-		//Sort array naturally :
-		natsort($configFiles);
-
-		// Add default config
-		array_unshift($configFiles, $this->configFilename);
-
-		//Include file and merge config
+		// Default config
+		$configFiles = array($this->configFilename);
+		// Add all files in the config dir ending with config.php
+		$extra = glob($this->configDir.'*.config.php');
+		if (is_array($extra)) {
+			natsort($extra);
+			$configFiles = array_merge($configFiles, $extra);
+		}
+		// Include file and merge config
 		foreach ($configFiles as $file) {
-			if (!file_exists($file)) {
+			if (!is_file($file)) {
 				continue;
 			}
 			unset($CONFIG);
