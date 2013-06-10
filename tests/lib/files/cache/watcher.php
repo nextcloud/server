@@ -29,6 +29,9 @@ class Watcher extends \PHPUnit_Framework_TestCase {
 		}
 	}
 
+	/**
+	 * @medium
+	 */
 	function testWatcher() {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();

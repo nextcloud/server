@@ -140,6 +140,9 @@ class Test_Encryption_Stream extends \PHPUnit_Framework_TestCase {
 		$view->unlink($filename);
 	}
 
+	/**
+	 * @medium
+	 */
 	function testStreamSetTimeout() {
 		$filename = '/tmp-' . time();
 		$view = new \OC\Files\View('/' . $this->userId . '/files');
