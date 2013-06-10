@@ -601,14 +601,13 @@ class Connection {
 				$error = null;
 			}
 
-			$error = null;
 			//if LDAP server is not reachable, try the Backup (Replica!) Server
-			if((!$bindStatus && ($error === -1))
+			if((!$bindStatus && ($error !== 0))
 				|| $this->config['ldapOverrideMainServer']
 				|| $this->getFromCache('overrideMainServer')) {
 					$this->doConnect($this->config['ldapBackupHost'], $this->config['ldapBackupPort']);
 					$bindStatus = $this->bind();
-					if($bindStatus && $error === -1) {
+					if(!$bindStatus && $error === -1) {
 						//when bind to backup server succeeded and failed to main server,
 						//skip contacting him until next cache refresh
 						$this->writeToCache('overrideMainServer', true);
@@ -621,6 +620,10 @@ class Connection {
 	private function doConnect($host, $port) {
 		if(empty($host)) {
 			return false;
+		}
+		if(strpos($host, '://') !== false) {
+			//ldap_connect ignores port paramater when URLs are passed
+			$host .= ':' . $port;
 		}
 		$this->ldapConnectionRes = ldap_connect($host, $port);
 		if(ldap_set_option($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
@@ -636,10 +639,17 @@ class Connection {
 	 * Binds to LDAP
 	 */
 	public function bind() {
+		static $getConnectionResourceAttempt = false;
 		if(!$this->config['ldapConfigurationActive']) {
 			return false;
 		}
+		if($getConnectionResourceAttempt) {
+			$getConnectionResourceAttempt = false;
+			return false;
+		}
+		$getConnectionResourceAttempt = true;
 		$cr = $this->getConnectionResource();
+		$getConnectionResourceAttempt = false;
 		if(!is_resource($cr)) {
 			return false;
 		}

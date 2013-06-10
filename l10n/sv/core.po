@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# medialabs, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-31 01:58+0200\n"
-"PO-Revision-Date: 2013-05-30 23:15+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-10 01:58+0200\n"
+"PO-Revision-Date: 2013-06-09 23:18+0000\n"
+"Last-Translator: medialabs\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -216,23 +217,23 @@ msgstr "år sedan"
 msgid "Choose"
 msgstr "Välj"
 
-#: js/oc-dialogs.js:121
+#: js/oc-dialogs.js:122
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: js/oc-dialogs.js:138 js/oc-dialogs.js:195
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
 msgid "Error loading file picker template"
-msgstr ""
+msgstr "Fel vid inläsning av filväljarens mall"
 
-#: js/oc-dialogs.js:161
+#: js/oc-dialogs.js:164
 msgid "Yes"
 msgstr "Ja"
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:172
 msgid "No"
 msgstr "Nej"
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:185
 msgid "Ok"
 msgstr "Ok"
 
@@ -405,11 +406,11 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr ""
+msgstr "Länken för att återställa ditt lösenorden har skickats till din e-postadress<br>Om du inte har erhållit meddelandet inom kort, vänligen kontrollera din skräppost-mapp<br>Om den inte finns där, vänligen kontakta din administratör."
 
 #: lostpassword/templates/lostpassword.php:12
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
+msgstr "Begäran misslyckades!<br>Är du helt säker på att din e-postadress/användarnamn är korrekt?"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
@@ -567,7 +568,7 @@ msgstr "webbtjänster under din kontroll"
 #: templates/layout.user.php:37
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr ""
+msgstr "%s är tillgänglig. Få mer information om hur du går tillväga för att uppdatera"
 
 #: templates/layout.user.php:62
 msgid "Log out"

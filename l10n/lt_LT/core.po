@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Roman Deniobe <rms200x@gmail.com>, 2013
+# fizikiukas <fizikiukas@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-31 01:58+0200\n"
-"PO-Revision-Date: 2013-05-30 23:15+0000\n"
-"Last-Translator: Roman Deniobe <rms200x@gmail.com>\n"
+"POT-Creation-Date: 2013-06-10 01:58+0200\n"
+"PO-Revision-Date: 2013-06-09 23:17+0000\n"
+"Last-Translator: fizikiukas <fizikiukas@gmail.com>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,18 +34,18 @@ msgstr "Vartotojas %s su jumis pasidalino aplanku"
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr ""
+msgstr "Vartotojas %s pasidalino failu \"%s\" su jumis. Jį atsisiųsti galite čia: %s"
 
 #: ajax/share.php:104
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr ""
+msgstr "Vartotojas %s pasidalino aplanku \"%s\" su jumis. Jį atsisiųsti galite čia: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr ""
+msgstr "Kategorija nenurodyta."
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
@@ -53,24 +54,24 @@ msgstr "Nepridėsite jokios kategorijos?"
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr ""
+msgstr "Ši kategorija jau egzistuoja: %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr ""
+msgstr "Objekto tipas nenurodytas."
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr ""
+msgstr "%s ID nenurodytas."
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "Klaida perkeliant %s į jūsų mėgstamiausius."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -79,7 +80,7 @@ msgstr "Trynimui nepasirinkta jokia kategorija."
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "Klaida ištrinant %s iš jūsų mėgstamiausius."
 
 #: js/config.php:34
 msgid "Sunday"
@@ -175,11 +176,11 @@ msgstr "Prieš {count} minutes"
 
 #: js/js.js:721
 msgid "1 hour ago"
-msgstr ""
+msgstr "prieš 1 valandą"
 
 #: js/js.js:722
 msgid "{hours} hours ago"
-msgstr ""
+msgstr "prieš {hours} valandas"
 
 #: js/js.js:723
 msgid "today"
@@ -199,7 +200,7 @@ msgstr "praeitą mėnesį"
 
 #: js/js.js:727
 msgid "{months} months ago"
-msgstr ""
+msgstr "prieš {months} mėnesių"
 
 #: js/js.js:728
 msgid "months ago"
@@ -217,30 +218,30 @@ msgstr "prieš metus"
 msgid "Choose"
 msgstr "Pasirinkite"
 
-#: js/oc-dialogs.js:121
+#: js/oc-dialogs.js:122
 msgid "Cancel"
 msgstr "Atšaukti"
 
-#: js/oc-dialogs.js:138 js/oc-dialogs.js:195
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
 msgid "Error loading file picker template"
-msgstr ""
+msgstr "Klaida pakraunant failų naršyklę"
 
-#: js/oc-dialogs.js:161
+#: js/oc-dialogs.js:164
 msgid "Yes"
 msgstr "Taip"
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:172
 msgid "No"
 msgstr "Ne"
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:185
 msgid "Ok"
 msgstr "Gerai"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr ""
+msgstr "Objekto tipas nenurodytas."
 
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
@@ -252,15 +253,15 @@ msgstr "Klaida"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr ""
+msgstr "Nenurodytas programos pavadinimas."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "Reikalingas {file} failas nėra įrašytas!"
 
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
-msgstr ""
+msgstr "Dalinamasi"
 
 #: js/share.js:90
 msgid "Share"
@@ -304,11 +305,11 @@ msgstr "Slaptažodis"
 
 #: js/share.js:173
 msgid "Email link to person"
-msgstr ""
+msgstr "Nusiųsti nuorodą paštu"
 
 #: js/share.js:174
 msgid "Send"
-msgstr ""
+msgstr "Siųsti"
 
 #: js/share.js:178
 msgid "Set expiration date"
@@ -376,22 +377,22 @@ msgstr "Klaida nustatant galiojimo laiką"
 
 #: js/share.js:604
 msgid "Sending ..."
-msgstr ""
+msgstr "Siunčiama..."
 
 #: js/share.js:615
 msgid "Email sent"
-msgstr ""
+msgstr "Laiškas išsiųstas"
 
 #: js/update.js:14
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr ""
+msgstr "Atnaujinimas buvo nesėkmingas. PApie tai prašome pranešti the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud bendruomenei</a>."
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "Atnaujinimas buvo sėkmingas. Nukreipiame į jūsų ownCloud."
 
 #: lostpassword/controller.php:48
 msgid "ownCloud password reset"
@@ -406,11 +407,11 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr ""
+msgstr "Nuorodą su jūsų slaptažodžio atkūrimu buvo nusiųsta jums į paštą.<br>Jei jo negausite per atitinkamą laiką, pasižiūrėkite brukalo aplankale.<br> Jei jo ir ten nėra, teiraukitės administratoriaus."
 
 #: lostpassword/templates/lostpassword.php:12
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
+msgstr "Klaida!<br>Ar tikrai jūsų el paštas/vartotojo vardas buvo teisingi?"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
@@ -484,11 +485,11 @@ msgstr "Saugumo pranešimas"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "Jūsų PHP versija yra pažeidžiama prieš NULL Byte ataką (CVE-2006-7243)"
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr ""
+msgstr "Prašome atnaujinti savo PHP norint naudotis savo ownCloud saugiai."
 
 #: templates/installation.php:32
 msgid ""
@@ -506,14 +507,14 @@ msgstr "Be saugaus atsitiktinių skaičių generatoriaus, piktavaliai gali atsp�
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr "Jūsų failai yra tikriausiai prieinami per internetą nes .htaccess failas neveikia."
 
 #: templates/installation.php:40
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Norint gauti daugiau informacijos apie tai kaip tinkamai nustatyit savo serverį, prašome perskaityti <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">dokumentaciją</a>."
 
 #: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
@@ -568,7 +569,7 @@ msgstr "jūsų valdomos web paslaugos"
 #: templates/layout.user.php:37
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr ""
+msgstr "%s yra prieinama. Gaukite daugiau informacijos apie atnaujinimą."
 
 #: templates/layout.user.php:62
 msgid "Log out"
@@ -602,7 +603,7 @@ msgstr "Prisijungti"
 
 #: templates/login.php:47
 msgid "Alternative Logins"
-msgstr ""
+msgstr "Alternatyvūs prisijungimai"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -615,4 +616,4 @@ msgstr "kitas"
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
+msgstr "Atnaujinama ownCloud į %s versiją. tai gali šiek tiek užtrukti."

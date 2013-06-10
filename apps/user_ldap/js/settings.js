@@ -14,7 +14,7 @@ var LdapConfiguration = {
 
 						//deal with Checkboxes
 						if($(elementID).is('input[type=checkbox]')) {
-							if(configvalue === 1) {
+							if(parseInt(configvalue) === 1) {
 								$(elementID).attr('checked', 'checked');
 							} else {
 								$(elementID).removeAttr('checked');

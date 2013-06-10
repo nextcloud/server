@@ -1,4 +1,8 @@
 <?php $TRANSLATIONS = array(
+"Recovery key successfully enabled" => "Recuperação de chave habilitada com sucesso",
+"Could not enable recovery key. Please check your recovery key password!" => "Impossível habilitar recuperação de chave. Por favor verifique sua senha para recuperação de chave!",
+"Recovery key successfully disabled" => "Recuperação de chave desabilitada com sucesso",
+"Could not disable recovery key. Please check your recovery key password!" => "Impossível desabilitar recuperação de chave. Por favor verifique sua senha para recuperação de chave!",
 "Password successfully changed." => "Senha alterada com sucesso.",
 "Could not change the password. Maybe the old password was not correct." => "Não foi possível alterar a senha. Talvez a senha antiga não estava correta.",
 "Saving..." => "Salvando...",

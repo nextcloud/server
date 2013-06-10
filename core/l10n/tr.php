@@ -46,6 +46,7 @@
 "years ago" => "yıl önce",
 "Choose" => "seç",
 "Cancel" => "İptal",
+"Error loading file picker template" => "Seçici şablon dosya yüklemesinde hata",
 "Yes" => "Evet",
 "No" => "Hayır",
 "Ok" => "Tamam",

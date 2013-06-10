@@ -46,6 +46,11 @@ class Hooks {
 
 		$view = new \OC_FilesystemView('/');
 
+		// ensure filesystem is loaded
+		if(!\OC\Files\Filesystem::$loaded) {
+			\OC_Util::setupFS($params['uid']);
+		}
+
 		$util = new Util($view, $params['uid']);
 
 		// setup user, if user not ready force relogin
@@ -139,6 +144,15 @@ class Hooks {
 		$view->unlink($publicKey);
 
 		\OC_FileProxy::$enabled = $proxyStatus;
+	}
+
+	/**
+	 * @brief If the password can't be changed within ownCloud, than update the key password in advance.
+	 */
+	public static function preSetPassphrase($params) {
+		if ( ! \OC_User::canUserChangePassword($params['uid']) ) {
+			self::setPassphrase($params);
+		}
 	}
 
 	/**

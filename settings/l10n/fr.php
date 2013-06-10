@@ -101,6 +101,7 @@
 "Use this address to connect to your ownCloud in your file manager" => "Utiliser cette adresse pour vous connecter à ownCloud dans votre gestionnaire de fichiers",
 "Login Name" => "Nom de la connexion",
 "Create" => "Créer",
+"Admin Recovery Password" => "Récupération du mot de passe administrateur",
 "Default Storage" => "Support de stockage par défaut",
 "Unlimited" => "Illimité",
 "Other" => "Autre",

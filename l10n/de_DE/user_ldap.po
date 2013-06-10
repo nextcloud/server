@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-31 01:58+0200\n"
-"PO-Revision-Date: 2013-05-30 23:16+0000\n"
+"POT-Creation-Date: 2013-06-10 01:58+0200\n"
+"PO-Revision-Date: 2013-06-09 23:19+0000\n"
 "Last-Translator: traductor <transifex-2.7.mensaje@spamgourmet.com>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -369,7 +369,7 @@ msgstr ""
 
 #: templates/settings.php:104
 msgid "Override UUID detection"
-msgstr ""
+msgstr "UUID-Erkennung überschreiben"
 
 #: templates/settings.php:105
 msgid ""
@@ -384,7 +384,7 @@ msgstr ""
 
 #: templates/settings.php:106
 msgid "UUID Attribute:"
-msgstr ""
+msgstr "UUID-Attribut:"
 
 #: templates/settings.php:107
 msgid "Username-LDAP User Mapping"

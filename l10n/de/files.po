@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Marcel Kühlhorn <susefan93@gmx.de>, 2013
+# ninov <ninovdl@ymail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-31 01:58+0200\n"
-"PO-Revision-Date: 2013-05-30 23:15+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-10 01:58+0200\n"
+"PO-Revision-Date: 2013-06-09 23:18+0000\n"
+"Last-Translator: ninov <ninovdl@ymail.com>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -218,7 +219,7 @@ msgstr "{count} Dateien"
 
 #: lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
-msgstr ""
+msgstr "Der Ordnername ist ungültig. Nur ownCloud kann den Ordner \"Shared\" anlegen"
 
 #: lib/app.php:73
 msgid "Unable to rename file"

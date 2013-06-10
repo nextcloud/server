@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Димитър Кръстев <dimitar.t.krastev@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-31 01:59+0200\n"
-"PO-Revision-Date: 2013-05-30 23:16+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-10 01:59+0200\n"
+"PO-Revision-Date: 2013-06-09 23:18+0000\n"
+"Last-Translator: Димитър Кръстев <dimitar.t.krastev@gmail.com>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -111,7 +112,7 @@ msgstr "%s, не можете да ползвате точки в името н�
 #: setup.php:64
 #, php-format
 msgid "%s set the database host."
-msgstr ""
+msgstr "%s задай хост на базата данни."
 
 #: setup.php:132 setup.php:329 setup.php:374
 msgid "PostgreSQL username and/or password not valid"
@@ -123,7 +124,7 @@ msgstr "Необходимо е да влезете в всъществуващ 
 
 #: setup.php:155
 msgid "Oracle connection could not be established"
-msgstr ""
+msgstr "Oracle връзка не можа да се осъществи"
 
 #: setup.php:237
 msgid "MySQL username and/or password not valid"
@@ -142,7 +143,7 @@ msgstr "Грешка в базата от данни: \"%s\""
 #: setup.php:585 setup.php:601 setup.php:609 setup.php:618
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr ""
+msgstr "Проблемната команда беше: \"%s\""
 
 #: setup.php:308
 #, php-format
@@ -169,7 +170,7 @@ msgstr "Невалидно Oracle потребителско име и/или п
 #: setup.php:592 setup.php:624
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr ""
+msgstr "Проблемната команда беше: \"%s\", име: %s, парола: %s"
 
 #: setup.php:644
 #, php-format
@@ -180,7 +181,7 @@ msgstr "Невалидно MS SQL потребителско име и/или п
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Вашият web сървър все още не е удачно настроен да позволява синхронизация на файлове, защото WebDAV интерфейсът изглежда не работи."
 
 #: setup.php:868
 #, php-format

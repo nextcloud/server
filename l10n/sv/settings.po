@@ -3,13 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Jan Busk, 2013
+# medialabs, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-31 01:59+0200\n"
-"PO-Revision-Date: 2013-05-30 23:15+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-10 01:59+0200\n"
+"PO-Revision-Date: 2013-06-09 23:18+0000\n"
+"Last-Translator: medialabs\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +30,7 @@ msgstr "Fel vid autentisering"
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
-msgstr ""
+msgstr "Ditt visningsnamn har ändrats."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
@@ -90,7 +92,7 @@ msgstr "Kunde inte uppdatera appen"
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr "Uppdaterar till {appversion}"
+msgstr "Uppdatera till {appversion}"
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
@@ -209,7 +211,7 @@ msgstr "PHP-modulen 'fileinfo' saknas. Vi rekommenderar starkt att aktivera den 
 
 #: templates/admin.php:58
 msgid "Locale not working"
-msgstr ""
+msgstr "Locale fungerar inte"
 
 #: templates/admin.php:63
 #, php-format
@@ -217,11 +219,11 @@ msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
 "might be problems with certain characters in file names. We strongly suggest"
 " to install the required packages on your system to support %s."
-msgstr ""
+msgstr "Denna ownCloud server kan inte sätta system locale till %s. Det innebär att det kan vara problem med vissa tecken i filnamnet. Vi vill verkligen rekommendera att du installerar nödvändiga paket på ditt system för att stödja %s."
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
-msgstr ""
+msgstr "Internetförbindelsen fungerar inte"
 
 #: templates/admin.php:78
 msgid ""
@@ -231,7 +233,7 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "Den här ownCloudservern har ingen fungerande internetförbindelse. Det innebär att några funktioner som t.ex. att montera externa lagringsplatser, meddelanden om uppdateringar eller installation av tredjepartsappar inte fungerar. Det kan vara så att det inte går att få fjärråtkomst till filer och att e-post inte fungerar. Vi rekommenderar att du tillåter internetåtkomst för den här servern om du vill ha tillgång till alla funktioner hos ownCloud"
 
 #: templates/admin.php:92
 msgid "Cron"
@@ -295,18 +297,18 @@ msgstr "Säkerhet"
 
 #: templates/admin.php:181
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "Kräv HTTPS"
 
 #: templates/admin.php:182
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "Tvingar klienter att ansluta till ownCloud via en krypterad förbindelse."
 
 #: templates/admin.php:185
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr ""
+msgstr "Vänligen anslut till denna instans av ownCloud via HTTPS för att aktivera/avaktivera SSL"
 
 #: templates/admin.php:195
 msgid "Log"
@@ -336,7 +338,7 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr "Utvecklad av <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud kommunity</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">källkoden</a> är licenserad under <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
+msgstr "Utvecklad av <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud Community</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">källkoden</a> är licenserad under <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/apps.php:11
 msgid "Add your App"
@@ -368,7 +370,7 @@ msgstr "Användardokumentation"
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
-msgstr "Administratördokumentation"
+msgstr "Administratörsdokumentation"
 
 #: templates/help.php:9
 msgid "Online Documentation"
@@ -393,7 +395,7 @@ msgstr "Du har använt <strong>%s</strong> av tillgängliga <strong>%s</strong>"
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
-msgstr "Skaffa appar för att synkronisera dina filer"
+msgstr "Skaffa apparna för att synkronisera dina filer"
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"
@@ -425,7 +427,7 @@ msgstr "Ändra lösenord"
 
 #: templates/personal.php:56 templates/users.php:81
 msgid "Display Name"
-msgstr "Visat namn"
+msgstr "Visningsnamn"
 
 #: templates/personal.php:71
 msgid "Email"
@@ -465,7 +467,7 @@ msgstr "Skapa"
 
 #: templates/users.php:34
 msgid "Admin Recovery Password"
-msgstr ""
+msgstr "Admin återställningslösenord"
 
 #: templates/users.php:38
 msgid "Default Storage"
@@ -485,7 +487,7 @@ msgstr "Lagring"
 
 #: templates/users.php:98
 msgid "change display name"
-msgstr "ändra visat namn"
+msgstr "ändra visningsnamn"
 
 #: templates/users.php:102
 msgid "set new password"

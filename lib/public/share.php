@@ -1009,7 +1009,7 @@ class Share {
 					if (!isset($mounts[$row['storage']])) {
 						$mountPoints = \OC\Files\Filesystem::getMountByNumericId($row['storage']);
 						if (is_array($mountPoints)) {
-							$mounts[$row['storage']] = $mountPoints[key($mountPoints)];
+							$mounts[$row['storage']] = current($mountPoints);
 						}
 					}
 					if ($mounts[$row['storage']]) {

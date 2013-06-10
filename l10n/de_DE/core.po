@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-31 01:58+0200\n"
-"PO-Revision-Date: 2013-05-30 23:15+0000\n"
+"POT-Creation-Date: 2013-06-10 01:58+0200\n"
+"PO-Revision-Date: 2013-06-09 23:17+0000\n"
 "Last-Translator: traductor <transifex-2.7.mensaje@spamgourmet.com>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -220,23 +220,23 @@ msgstr "Vor Jahren"
 msgid "Choose"
 msgstr "Auswählen"
 
-#: js/oc-dialogs.js:121
+#: js/oc-dialogs.js:122
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: js/oc-dialogs.js:138 js/oc-dialogs.js:195
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
 msgid "Error loading file picker template"
 msgstr "Es ist ein Fehler in der Vorlage des Datei-Auswählers aufgetreten."
 
-#: js/oc-dialogs.js:161
+#: js/oc-dialogs.js:164
 msgid "Yes"
 msgstr "Ja"
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:172
 msgid "No"
 msgstr "Nein"
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:185
 msgid "Ok"
 msgstr "OK"
 
