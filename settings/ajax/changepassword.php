@@ -28,17 +28,29 @@ if(is_null($userstatus)) {
 	exit();
 }
 
-$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), $username);
 $recoveryAdminEnabled = OC_Appconfig::getValue( 'files_encryption', 'recoveryAdminEnabled' );
-$recoveryEnabledForUser = $util->recoveryEnabledForUser();
 
-if ($recoveryAdminEnabled && $recoveryEnabledForUser && $recoveryPassword == '') {
-	OC_JSON::error(array("data" => array( "message" => "Please provide a admin recovery password, otherwise all user data will be lost" )));
-}elseif ( $recoveryPassword && ! $util->checkRecoveryPassword($recoveryPassword) ) {
-	OC_JSON::error(array("data" => array( "message" => "Wrong admin recovery password. Please check the password and try again." )));
-}elseif(!is_null($password) && OC_User::setPassword( $username, $password, $recoveryPassword )) {
-	OC_JSON::success(array("data" => array( "username" => $username )));
+
+$validRecoveryPassword = false;
+$recoveryPasswordSupported = false;
+
+if ($recoveryAdminEnabled) {
+	$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), $username);
+	$validRecoveryPassword = $util->checkRecoveryPassword($recoveryPassword);
+	$recoveryPasswordSupported = $util->recoveryEnabledForUser();
 }
-else{
-	OC_JSON::error(array("data" => array( "message" => "Unable to change password" )));
+
+if ($recoveryPasswordSupported && $recoveryPassword == '') {
+	OC_JSON::error(array("data" => array( "message" => "Please provide a admin recovery password, otherwise all user data will be lost" )));
+} elseif ( $recoveryPasswordSupported && ! $validRecoveryPassword) {
+	OC_JSON::error(array("data" => array( "message" => "Wrong admin recovery password. Please check the password and try again." )));
+} else { // now we know that everything is file regarding the recovery password, let's try to change the password
+	$result = OC_User::setPassword($username, $password, $recoveryPassword);
+	if (!$result && $recoveryPasswordSupported) {
+		OC_JSON::error(array("data" => array( "message" => "Back-end doesn't support password change, but the users encryption key was successfully updated." )));
+	} elseif (!$result && !$recoveryPasswordSupported) {
+		OC_JSON::error(array("data" => array( "message" => "Unable to change password" )));
+	} else {
+		OC_JSON::success(array("data" => array( "username" => $username )));
+	}
 }
