@@ -36,6 +36,9 @@ class Test_DBSchema extends PHPUnit_Framework_TestCase {
 	}
 
 	// everything in one test, they depend on each other
+	/**
+	 * @medium
+	 */
 	public function testSchema() {
 		$this->doTestSchemaCreating();
 		$this->doTestSchemaChanging();

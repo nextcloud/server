@@ -118,6 +118,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @brief test that paths set during User construction are correct
 	 */
 	function testKeyPaths() {
@@ -132,6 +133,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @brief test setup of encryption directories
 	 */
 	function testSetupServerSide() {
@@ -139,6 +141,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @brief test checking whether account is ready for encryption,
 	 */
 	function testUserIsReady() {
@@ -159,6 +162,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 //	}
 
 	/**
+	 * @medium
 	 * @brief test checking whether account is not ready for encryption,
 	 */
 	function testIsLegacyUser() {
@@ -186,6 +190,9 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($this->legacyKey, \OC::$session->get('legacyKey'));
 	}
 
+	/**
+	 * @medium
+	 */
 	function testRecoveryEnabledForUser() {
 
 		$util = new Encryption\Util($this->view, $this->userId);
@@ -206,6 +213,9 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 	}
 
+	/**
+	 * @medium
+	 */
 	function testGetUidAndFilename() {
 
 		\OC_User::setUserId(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER1);
@@ -232,6 +242,9 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$this->view->unlink($this->userId . '/files/' . $filename);
 	}
 
+	/**
+	 * @medium
+	 */
 	function testIsSharedPath() {
 		$sharedPath = '/user1/files/Shared/test';
 		$path = '/user1/files/test';
@@ -241,6 +254,9 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->util->isSharedPath($path));
 	}
 
+	/**
+	 * @large
+	 */
 	function testEncryptLegacyFiles() {
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER);
 

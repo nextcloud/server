@@ -63,6 +63,9 @@ class Watcher extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($cache->inCache('folder/bar2.txt'));
 	}
 
+	/**
+	 * @medium
+	 */
 	public function testFileToFolder() {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();
