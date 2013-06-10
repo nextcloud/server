@@ -22,8 +22,8 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		OC_DB::createDbFromStructure(self::$schema_file);
 
 		$this->test_prefix = $r;
-		$this->table1 = $this->test_prefix.'contacts_addressbooks';
-		$this->table2 = $this->test_prefix.'contacts_cards';
+		$this->table1 = $this->test_prefix.'cntcts_addrsbks';
+		$this->table2 = $this->test_prefix.'cntcts_cards';
 		$this->table3 = $this->test_prefix.'vcategory';
 	}
 

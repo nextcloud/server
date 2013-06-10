@@ -9,7 +9,7 @@
 
  <table>
 
-  <name>*dbprefix*contacts_addressbooks</name>
+  <name>*dbprefix*cntcts_addrsbks</name>
 
   <declaration>
 
