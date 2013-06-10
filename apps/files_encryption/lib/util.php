@@ -289,7 +289,7 @@ class Util {
 	 */
 	public function recoveryEnabledForUser() {
 
-		$sql = 'SELECT `recovery_enabled` FROM `*PREFIX*encryption` WHERE  uid = ?';
+		$sql = 'SELECT `recovery_enabled` FROM `*PREFIX*encryption` WHERE `uid` = ?';
 
 		$args = array($this->userId);
 
@@ -347,7 +347,7 @@ class Util {
 			// Create a new record instead
 		} else {
 
-			$sql = 'UPDATE `*PREFIX*encryption` SET recovery_enabled = ? WHERE uid = ?';
+			$sql = 'UPDATE `*PREFIX*encryption` SET `recovery_enabled` = ? WHERE `uid` = ?';
 
 			$args = array(
 				$enabled,
@@ -1060,7 +1060,7 @@ class Util {
 	 */
 	public function setMigrationStatus($status) {
 
-		$sql = 'UPDATE `*PREFIX*encryption` SET migration_status = ? WHERE uid = ?';
+		$sql = 'UPDATE `*PREFIX*encryption` SET `migration_status` = ? WHERE `uid` = ?';
 
 		$args = array(
 			$status,
@@ -1089,7 +1089,7 @@ class Util {
 	 */
 	public function getMigrationStatus() {
 
-		$sql = 'SELECT `migration_status` FROM `*PREFIX*encryption`  WHERE uid = ?';
+		$sql = 'SELECT `migration_status` FROM `*PREFIX*encryption` WHERE `uid` = ?';
 
 		$args = array($this->userId);
 
