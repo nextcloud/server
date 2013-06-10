@@ -408,7 +408,6 @@ class OC_DB {
 				// TODO try to convert LIMIT OFFSET notation to parameters, see fixLimitClauseForMSSQL
 				$message = 'LIMIT and OFFSET are forbidden for portability reasons,'
 						 . ' pass an array with \'limit\' and \'offset\' instead';
-				\OCP\Util::writeLog('db', $message, \OCP\Util::FATAL);
 				throw new DatabaseException($message);
 			}
 			$stmt = array('sql' => $stmt, 'limit' => null, 'offset' => null);
@@ -417,7 +416,6 @@ class OC_DB {
 			// convert to prepared statement
 			if ( ! array_key_exists('sql', $stmt) ) {
 				$message = 'statement array must at least contain key \'sql\'';
-				\OCP\Util::writeLog('db', $message, \OCP\Util::FATAL);
 				throw new DatabaseException($message);
 			}
 			if ( ! array_key_exists('limit', $stmt) ) {
@@ -438,7 +436,6 @@ class OC_DB {
 			} else {
 				$message = 'Expected a prepared statement or array got ' . gettype($stmt);
 			}
-			\OCP\Util::writeLog('db', $message, \OCP\Util::FATAL);
 			throw new DatabaseException($message);
 		}
 		return $result;
@@ -937,7 +934,6 @@ class OC_DB {
 			} else {
 				$message .= ', Root cause:' . self::getErrorMessage($result);
 			}
-			OC_Log::write('db', $message, OC_Log::FATAL);
 			throw new DatabaseException($message, getErrorCode($result));
 		}
 	}
