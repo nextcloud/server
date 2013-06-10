@@ -662,5 +662,9 @@ class Crypt {
 			return rtrim($result, "\0");
 		}
 	}
+	
+	public static function decryptAll() {
+		error_log("decrypt all");
+	}
 
 }

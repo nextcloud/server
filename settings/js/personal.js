@@ -110,6 +110,19 @@ $(document).ready(function(){
 		});
 		return false;
 	});
+
+	$('button:button[name="submitDecryptAll"]').click(function() {
+		console.log("click!");
+		$.post('ajax/decryptall.php', {}, function(data) {
+			/*
+			if (data.status === "error") {
+				OC.msg.finishedSaving('#encryption .msg', data);
+			} else {
+				OC.msg.finishedSaving('#encryption .msg', data);
+			}*/
+		}
+		);
+	});
 } );
 
 OC.msg={
