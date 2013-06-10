@@ -13,25 +13,25 @@ class Test_Config extends PHPUnit_Framework_TestCase {
 
 	public function testReadData()
 	{
-		$config = new OC\Config(self::CONFIG_DIR, false);
+		$config = new OC\Config(self::CONFIG_DIR);
 		$this->assertAttributeEquals(array(), 'cache', $config);
 
 		file_put_contents(self::CONFIG_FILE, self::TESTCONTENT);
-		$config = new OC\Config(self::CONFIG_DIR, false);
+		$config = new OC\Config(self::CONFIG_DIR);
 		$this->assertAttributeEquals(array('foo'=>'bar'), 'cache', $config);
 	}
 
 	public function testGetKeys()
 	{
 		file_put_contents(self::CONFIG_FILE, self::TESTCONTENT);
-		$config = new OC\Config(self::CONFIG_DIR, false);
+		$config = new OC\Config(self::CONFIG_DIR);
 		$this->assertEquals(array('foo'), $config->getKeys());
 	}
 
 	public function testGetValue()
 	{
 		file_put_contents(self::CONFIG_FILE, self::TESTCONTENT);
-		$config = new OC\Config(self::CONFIG_DIR, false);
+		$config = new OC\Config(self::CONFIG_DIR);
 		$this->assertEquals('bar', $config->getValue('foo'));
 		$this->assertEquals(null, $config->getValue('bar'));
 		$this->assertEquals('moo', $config->getValue('bar', 'moo'));
@@ -40,7 +40,7 @@ class Test_Config extends PHPUnit_Framework_TestCase {
 	public function testSetValue()
 	{
 		file_put_contents(self::CONFIG_FILE, self::TESTCONTENT);
-		$config = new OC\Config(self::CONFIG_DIR, false);
+		$config = new OC\Config(self::CONFIG_DIR);
 		$config->setValue('foo', 'moo');
 		$this->assertAttributeEquals(array('foo'=>'moo'), 'cache', $config);
 		$content = file_get_contents(self::CONFIG_FILE);
@@ -69,7 +69,7 @@ EOL
 	public function testDeleteKey()
 	{
 		file_put_contents(self::CONFIG_FILE, self::TESTCONTENT);
-		$config = new OC\Config(self::CONFIG_DIR, false);
+		$config = new OC\Config(self::CONFIG_DIR);
 		$config->deleteKey('foo');
 		$this->assertAttributeEquals(array(), 'cache', $config);
 		$content = file_get_contents(self::CONFIG_FILE);
@@ -84,11 +84,11 @@ EOL
 
 	public function testSavingDebugMode()
 	{
+		define('DEBUG',true);
 		file_put_contents(self::CONFIG_FILE, self::TESTCONTENT);
-		$config = new OC\Config(self::CONFIG_DIR, true);
+		$config = new OC\Config(self::CONFIG_DIR);
 		$config->deleteKey('foo'); // change something so we save to the config file
 		$this->assertAttributeEquals(array(), 'cache', $config);
-		$this->assertAttributeEquals(true, 'debug_mode', $config);
 		$content = file_get_contents(self::CONFIG_FILE);
 		$this->assertEquals(<<<EOL
 <?php
@@ -102,7 +102,7 @@ EOL
 
 	public function testWriteData()
 	{
-		$config = new OC\Config('/non-writable', false);
+		$config = new OC\Config('/non-writable');
 		try {
 			$config->setValue('foo', 'bar');
 		} catch (\OC\HintException $e) {
