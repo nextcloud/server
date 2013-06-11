@@ -33,6 +33,9 @@ class View extends \PHPUnit_Framework_TestCase {
 		}
 	}
 
+	/**
+	 * @medium
+	 */
 	public function testCacheAPI() {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
@@ -104,6 +107,9 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(array(), $rootView->getDirectoryContent('/non/existing'));
 	}
 
+	/**
+	 * @medium
+	 */
 	function testGetPath() {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
@@ -127,6 +133,9 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->assertNull($folderView->getPath($id1));
 	}
 
+	/**
+	 * @medium
+	 */
 	function testMountPointOverwrite() {
 		$storage1 = $this->getTestStorage(false);
 		$storage2 = $this->getTestStorage();
@@ -170,6 +179,9 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($textSize, $folderData[0]['size']);
 	}
 
+	/**
+	 * @medium
+	 */
 	function testSearch() {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
@@ -217,6 +229,9 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(3, count($folderView->searchByMime('text')));
 	}
 
+	/**
+	 * @medium
+	 */
 	function testWatcher() {
 		$storage1 = $this->getTestStorage();
 		\OC\Files\Filesystem::mount($storage1, array(), '/');
@@ -234,6 +249,9 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(3, $cachedData['size']);
 	}
 
+	/**
+	 * @medium
+	 */
 	function testCopyBetweenStorages() {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
@@ -255,6 +273,9 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($rootView->file_exists('/substorage/folder/bar.txt'));
 	}
 
+	/**
+	 * @medium
+	 */
 	function testMoveBetweenStorages() {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
@@ -271,6 +292,9 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($rootView->file_exists('anotherfolder/bar.txt'));
 	}
 
+	/**
+	 * @medium
+	 */
 	function testTouch() {
 		$storage = $this->getTestStorage(true, '\Test\Files\TemporaryNoTouch');
 

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<phpunit bootstrap="bootstrap.php">
+<phpunit bootstrap="bootstrap.php"
+		 strict="true"
+		 timeoutForSmallTests="3"
+		 timeoutForMediumTests="30"
+		 timeoutForLargeTests="90"
+>
 	<testsuite name='ownCloud'>
 		<directory suffix='.php'>lib/</directory>
 		<file>apps.php</file>

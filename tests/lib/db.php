@@ -51,6 +51,9 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($row);
 	}
 
+	/**
+	 * @medium
+	 */
 	public function testNOW() {
 		$query = OC_DB::prepare('INSERT INTO `*PREFIX*'.$this->table2.'` (`fullname`,`uri`) VALUES (NOW(),?)');
 		$result = $query->execute(array('uri_2'));

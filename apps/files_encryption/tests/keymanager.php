@@ -103,6 +103,9 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 		\OC_FileProxy::$enabled = true;
 	}
 
+	/**
+	 * @medium
+	 */
 	function testGetPrivateKey() {
 
 		$key = Encryption\Keymanager::getPrivateKey($this->view, $this->userId);
@@ -119,6 +122,9 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 
 	}
 
+	/**
+	 * @medium
+	 */
 	function testGetPublicKey() {
 
 		$publiceKey = Encryption\Keymanager::getPublicKey($this->view, $this->userId);
@@ -132,6 +138,9 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 		$this->assertArrayHasKey('key', $sslInfo);
 	}
 
+	/**
+	 * @medium
+	 */
 	function testSetFileKey() {
 
 		# NOTE: This cannot be tested until we are able to break out 
@@ -165,6 +174,9 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 
 	}
 
+	/**
+	 * @medium
+	 */
 	function testGetUserKeys() {
 
 		$keys = Encryption\Keymanager::getUserKeys($this->view, $this->userId);
@@ -188,6 +200,9 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 		$this->assertArrayHasKey('key', $sslInfoPrivate);
 	}
 
+	/**
+	 * @medium
+	 */
 	function testFixPartialFilePath() {
 
 		$partFilename = 'testfile.txt.part';
@@ -202,6 +217,9 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('testfile.txt', Encryption\Keymanager::fixPartialFilePath($filename));
 	}
 
+	/**
+	 * @medium
+	 */
 	function testRecursiveDelShareKeys() {
 
 		// generate filename

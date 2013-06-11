@@ -103,6 +103,9 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		\OC_User::deleteUser(\Test_Encryption_Crypt::TEST_ENCRYPTION_CRYPT_USER1);
 	}
 
+	/**
+	 * @medium
+	 */
 	function testGenerateKey() {
 
 		# TODO: use more accurate (larger) string length for test confirmation
@@ -114,6 +117,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @large
 	 * @return String
 	 */
 	function testGenerateIv() {
@@ -127,6 +131,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @large
 	 * @depends testGenerateIv
 	 */
 	function testConcatIv($iv) {
@@ -159,6 +164,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @depends testConcatIv
 	 */
 	function testSplitIv($testConcatIv) {
@@ -175,6 +181,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @return string padded
 	 */
 	function testAddPadding() {
@@ -190,6 +197,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @depends testAddPadding
 	 */
 	function testRemovePadding($padded) {
@@ -200,6 +208,9 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 	}
 
+	/**
+	 * @medium
+	 */
 	function testEncrypt() {
 
 		$random = openssl_random_pseudo_bytes(13);
@@ -212,6 +223,9 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 	}
 
+	/**
+	 * @medium
+	 */
 	function testDecrypt() {
 
 		$random = openssl_random_pseudo_bytes(13);
@@ -226,6 +240,9 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 	}
 
+	/**
+	 * @medium
+	 */
 	function testSymmetricEncryptFileContent() {
 
 		# TODO: search in keyfile for actual content as IV will ensure this test always passes
@@ -241,6 +258,9 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 	}
 
+	/**
+	 * @medium
+	 */
 	function testSymmetricStreamEncryptShortFileContent() {
 
 		$filename = 'tmp-' . time() . '.test';
@@ -291,6 +311,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @brief Test that data that is written by the crypto stream wrapper
 	 * @note Encrypted data is manually prepared and decrypted here to avoid dependency on success of stream_read
 	 * @note If this test fails with truncate content, check that enough array slices are being rejoined to form $e, as the crypt.php file may have gotten longer and broken the manual
@@ -377,6 +398,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @brief Test that data that is read by the crypto stream wrapper
 	 */
 	function testSymmetricStreamDecryptShortFileContent() {
@@ -406,6 +428,9 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->view->unlink($this->userId . '/files/' . $filename);
 	}
 
+	/**
+	 * @medium
+	 */
 	function testSymmetricStreamDecryptLongFileContent() {
 
 		$filename = 'tmp-' . time();
@@ -425,6 +450,9 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->view->unlink($this->userId . '/files/' . $filename);
 	}
 
+	/**
+	 * @medium
+	 */
 	function testSymmetricEncryptFileContentKeyfile() {
 
 		# TODO: search in keyfile for actual content as IV will ensure this test always passes
@@ -440,6 +468,9 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 	}
 
+	/**
+	 * @medium
+	 */
 	function testIsEncryptedContent() {
 
 		$this->assertFalse(Encryption\Crypt::isCatfileContent($this->dataUrl));
@@ -452,6 +483,9 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 	}
 
+	/**
+	 * @large
+	 */
 	function testMultiKeyEncrypt() {
 
 		# TODO: search in keyfile for actual content as IV will ensure this test always passes
@@ -476,6 +510,9 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 	}
 
+	/**
+	 * @medium
+	 */
 	function testKeyEncrypt() {
 
 		// Generate keypair
@@ -494,6 +531,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @brief test encryption using legacy blowfish method
 	 */
 	function testLegacyEncryptShort() {
@@ -510,6 +548,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @brief test decryption using legacy blowfish method
 	 * @depends testLegacyEncryptShort
 	 */
@@ -522,6 +561,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @brief test encryption using legacy blowfish method
 	 */
 	function testLegacyEncryptLong() {
@@ -538,6 +578,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @brief test decryption using legacy blowfish method
 	 * @depends testLegacyEncryptLong
 	 */
@@ -551,6 +592,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @brief test generation of legacy encryption key
 	 * @depends testLegacyDecryptShort
 	 */
@@ -570,6 +612,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @brief test decryption using legacy blowfish method
 	 * @depends testLegacyEncryptLong
 	 */
@@ -586,6 +629,9 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 	}
 
+	/**
+	 * @medium
+	 */
 	function testRenameFile() {
 
 		$filename = 'tmp-' . time();
@@ -614,6 +660,9 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$view->unlink($newFilename);
 	}
 
+	/**
+	 * @medium
+	 */
 	function testMoveFileIntoFolder() {
 
 		$filename = 'tmp-' . time();
@@ -644,6 +693,9 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$view->unlink($newFolder);
 	}
 
+	/**
+	 * @medium
+	 */
 	function testMoveFolder() {
 
 		$view = new \OC\Files\View('/' . $this->userId . '/files');
@@ -679,6 +731,9 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$view->unlink('/newfolder');
 	}
 
+	/**
+	 * @medium
+	 */
 	function testChangePassphrase() {
 		$filename = 'tmp-' . time();
 
@@ -713,6 +768,9 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$view->unlink($filename);
 	}
 
+	/**
+	 * @medium
+	 */
 	function testViewFilePutAndGetContents() {
 
 		$filename = '/tmp-' . time();
@@ -744,6 +802,9 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$view->unlink($filename);
 	}
 
+	/**
+	 * @large
+	 */
 	function testTouchExistingFile() {
 		$filename = '/tmp-' . time();
 		$view = new \OC\Files\View('/' . $this->userId . '/files');
@@ -765,6 +826,9 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$view->unlink($filename);
 	}
 
+	/**
+	 * @medium
+	 */
 	function testTouchFile() {
 		$filename = '/tmp-' . time();
 		$view = new \OC\Files\View('/' . $this->userId . '/files');
@@ -786,6 +850,9 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$view->unlink($filename);
 	}
 
+	/**
+	 * @medium
+	 */
 	function testFopenFile() {
 		$filename = '/tmp-' . time();
 		$view = new \OC\Files\View('/' . $this->userId . '/files');
