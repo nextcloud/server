@@ -141,7 +141,7 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 	padding:0 70px 0 0.5em; margin:0;
 	-moz-box-sizing:border-box; box-sizing:border-box;
 	-moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000;
-	background:#f7f7f7; border-bottom:1px solid #eee;  z-index:50;
+	background:#eee; border-bottom:1px solid #e7e7e7; z-index:50;
 }
 #controls .button { display:inline-block; }
 
@@ -355,14 +355,27 @@ tr .action { width:16px; height:16px; }
 tr:hover .action:hover, .selectedActions a:hover, .header-action:hover { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
 tbody tr:hover, tr:active { background-color:#f8f8f8; }
 
-#body-settings .personalblock, #body-settings .helpblock { padding:.5em 1em; margin:1em; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
+#body-settings .personalblock, #body-settings .helpblock {
+	padding: .5em 1em;
+	margin: 1em;
+	background-color: rgb(240,240,240);
+	color: #555;
+	text-shadow: #fff 0 1px 0;
+	-moz-border-radius: .5em; -webkit-border-radius: .5em; border-radius: .5em;
+}
 #body-settings .personalblock#quota { position:relative; padding:0; }
 #body-settings #controls+.helpblock { position:relative; margin-top:3em; }
 .personalblock > legend { margin-top:2em; }
 .personalblock > legend, th, dt, label { font-weight:bold; }
 code { font-family:"Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", monospace; }
 
-#quota div, div.jp-play-bar, div.jp-seek-bar { padding:0; background:#e6e6e6; font-weight:normal; white-space:nowrap; -moz-border-radius-bottomleft:.4em; -webkit-border-bottom-left-radius:.4em; border-bottom-left-radius:.4em; -moz-border-radius-topleft:.4em; -webkit-border-top-left-radius:.4em; border-top-left-radius:.4em; }
+#quota div, div.jp-play-bar, div.jp-seek-bar {
+	padding: 0;
+	background-color: rgb(220,220,220);
+	font-weight: normal;
+	white-space: nowrap;
+	-moz-border-radius-bottomleft: .4em; -webkit-border-bottom-left-radius: .4em; border-bottom-left-radius:.4em;
+	-moz-border-radius-topleft: .4em; -webkit-border-top-left-radius: .4em; border-top-left-radius: .4em; }
 #quotatext {padding:.6em 1em;}
 div.jp-play-bar, div.jp-seek-bar { padding:0; }
 
@@ -427,11 +440,21 @@ span.ui-icon {float: left; margin: 3px 7px 30px 0;}
 .help-includes {overflow: hidden; width: 100%; height: 100%; -moz-box-sizing: border-box;	box-sizing: border-box;	padding-top: 2.8em; }
 .help-iframe {width: 100%; height: 100%; margin: 0;padding: 0; border: 0; overflow: auto;}
 
+
 /* ---- BREADCRUMB ---- */
 div.crumb { float:left; display:block; background:url('../img/breadcrumb.svg') no-repeat right 0; padding:.75em 1.5em 0 1em; height:2.9em;  -moz-box-sizing:border-box; box-sizing:border-box; }
 div.crumb:first-child { padding:10px 20px 10px 5px; }
 div.crumb.last { font-weight:bold; background:none; padding-right:10px; }
 div.crumb a{ padding: 0.9em 0 0.7em 0; }
+
+/* some feedback for hover/tap on breadcrumbs */
+div.crumb:hover,
+div.crumb:focus,
+div.crumb:active {
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+	filter:alpha(opacity=70);
+	opacity:.7;
+}
 
 
 
