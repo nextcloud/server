@@ -89,9 +89,17 @@ div.multiselect>span:last-child {
 }
 
 ul.multiselectoptions input.new {
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
 	padding-bottom: .2em;
 	padding-top: .2em;
 	margin: 0;
+}
+
+ul.multiselectoptions > li.creator {
+	padding: 10px;
+	font-weight: bold;
+}
+ul.multiselectoptions > li.creator > input {
+	width: 95% !important; /* do not constrain size of text input */
+	padding: 5px;
+	margin: -5px;
 }
