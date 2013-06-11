@@ -213,7 +213,7 @@ class OC_User {
 	 * Allowed characters in the username are: "a-z", "A-Z", "0-9" and "_.@-"
 	 */
 	public static function createUser($uid, $password) {
-		self::getManager()->createUser($uid, $password);
+		return self::getManager()->createUser($uid, $password);
 	}
 
 	/**
