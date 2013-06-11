@@ -28,9 +28,7 @@ class MP3 extends Provider {
 		unlink($tmppath);
 
 		$image = new \OC_Image($picture);
-		if (!$image->valid()) return $this->getNoCoverThumbnail($maxX, $maxY);
-
-		return $image;
+		return $image->valid() ? $image : $this->getNoCoverThumbnail($maxX, $maxY);
 	}
 
 	public function getNoCoverThumbnail($maxX, $maxY) {

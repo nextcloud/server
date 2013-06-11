@@ -32,9 +32,7 @@ if (extension_loaded('imagick')) {
 			//new image object
 			$image = new \OC_Image($pdf);
 			//check if image object is valid
-			if (!$image->valid()) return false;
-
-			return $image;
+			return $image->valid() ? $image : false;
 		}
 	}
 

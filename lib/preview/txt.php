@@ -42,9 +42,7 @@ class TXT extends Provider {
 
 		$image = new \OC_Image($image);
 
-		if (!$image->valid()) return false;
-
-		return $image;
+		return $image->valid() ? $image : false;
 	}
 }
 

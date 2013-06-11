@@ -26,10 +26,7 @@ class Image extends Provider {
 			$image->loadFromFile($fileview->getLocalFile($path));
 		}
 
-		//check if image object is valid
-		if (!$image->valid()) return false;
-
-		return $image;
+		return $image->valid() ? $image : false;
 	}
 }
 

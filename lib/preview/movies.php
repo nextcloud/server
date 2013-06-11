@@ -27,14 +27,13 @@ if(!is_null(shell_exec('ffmpeg -version'))) {
 			$cmd = 'ffmpeg -y  -i ' . escapeshellarg($abspath) . ' -f mjpeg -vframes 1 -ss 1 ' . escapeshellarg($tmppath);
 			shell_exec($cmd);
 
-			unlink($abspath);
 
 			$image = new \OC_Image($tmppath);
-			if (!$image->valid()) return false;
 
+			unlink($abspath);
 			unlink($tmppath);
 
-			return $image;
+			return $image->valid() ? $image : false;
 		}
 	}
 
