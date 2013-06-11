@@ -427,7 +427,8 @@ class Preview {
 
 		if($newXsize >= $x && $newYsize >= $y) {
 			$cropX = floor(abs($x - $newXsize) * 0.5);
-			$cropY = floor(abs($y - $newYsize) * 0.5);
+			//$cropY = floor(abs($y - $newYsize) * 0.5);
+			$cropY = 0;
 
 			$image->crop($cropX, $cropY, $x, $y);
 			
