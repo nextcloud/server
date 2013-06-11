@@ -8,71 +8,66 @@
 namespace OC\Preview;
 
 //we need imagick to convert 
-if (extension_loaded('imagick')) {
+class Office extends Provider {
 
-	class Office extends Provider {
+	private $cmd;
 
-		private $cmd;
+	public function getMimeType() {
+		return null;
+	}
 
-		public function getMimeType() {
-			return null;
+	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
+		$this->initCmd();
+		if(is_null($this->cmd)) {
+			return false;
 		}
 
-		public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-			$this->initCmd();
-			if(is_null($this->cmd)) {
-				return false;
-			}
+		$abspath = $fileview->toTmpFile($path);
 
-			$abspath = $fileview->toTmpFile($path);
+		$tmpdir = get_temp_dir();
 
-			$tmpdir = get_temp_dir();
+		$exec = $this->cmd . ' --headless --nologo --nofirststartwizard --invisible --norestore -convert-to pdf -outdir ' . escapeshellarg($tmpdir) . ' ' . escapeshellarg($abspath);
+		$export = 'export HOME=/' . $tmpdir;
 
-			$exec = $this->cmd . ' --headless --nologo --nofirststartwizard --invisible --norestore -convert-to pdf -outdir ' . escapeshellarg($tmpdir) . ' ' . escapeshellarg($abspath);
-			$export = 'export HOME=/' . $tmpdir;
+		shell_exec($export . "\n" . $exec);
 
-			shell_exec($export . "\n" . $exec);
-
-			//create imagick object from pdf
-			try{
-				$pdf = new \imagick($abspath . '.pdf' . '[0]');
-				$pdf->setImageFormat('jpg');
-			}catch(\Exception $e){
-				\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
-				return false;
-			}
-
-			$image = new \OC_Image($pdf);
-
-			unlink($abspath);
-			unlink($abspath . '.pdf');
-
-			if (!$image->valid()) return false;
-
-			return $image;
+		//create imagick object from pdf
+		try{
+			$pdf = new \imagick($abspath . '.pdf' . '[0]');
+			$pdf->setImageFormat('jpg');
+		}catch(\Exception $e){
+			\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
+			return false;
 		}
 
-		private function initCmd() {
-			$cmd = '';
+		$image = new \OC_Image($pdf);
 
-			if(is_string(\OC_Config::getValue('preview_libreoffice_path', null))) {
-				$cmd = \OC_Config::getValue('preview_libreoffice_path', null);
-			}
+		unlink($abspath);
+		unlink($abspath . '.pdf');
 
-			if($cmd === '' && shell_exec('libreoffice --headless --version')) {
-				$cmd = 'libreoffice';
-			}
+		return $image->valid() ? $image : false;
+	}
 
-			if($cmd === '' && shell_exec('openoffice --headless --version')) {
-				$cmd = 'openoffice';
-			}
+	private function initCmd() {
+		$cmd = '';
 
-			if($cmd === '') {
-				$cmd = null;
-			}
-
-			$this->cmd = $cmd;
+		if(is_string(\OC_Config::getValue('preview_libreoffice_path', null))) {
+			$cmd = \OC_Config::getValue('preview_libreoffice_path', null);
 		}
+
+		if($cmd === '' && shell_exec('libreoffice --headless --version')) {
+			$cmd = 'libreoffice';
+		}
+
+		if($cmd === '' && shell_exec('openoffice --headless --version')) {
+			$cmd = 'openoffice';
+		}
+
+		if($cmd === '') {
+			$cmd = null;
+		}
+
+		$this->cmd = $cmd;
 	}
 }
 
