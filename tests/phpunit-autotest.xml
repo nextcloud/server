@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <phpunit bootstrap="bootstrap.php"
 		 strict="true"
-		 timeoutForSmallTests="3"
-		 timeoutForMediumTests="30"
-		 timeoutForLargeTests="90"
+		 timeoutForSmallTests="30"
+		 timeoutForMediumTests="300"
+		 timeoutForLargeTests="900"
 >
 	<testsuite name='ownCloud'>
 		<directory suffix='.php'>lib/</directory>
