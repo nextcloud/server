@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-10 01:59+0200\n"
-"PO-Revision-Date: 2013-06-09 23:18+0000\n"
+"POT-Creation-Date: 2013-06-11 01:57+0200\n"
+"PO-Revision-Date: 2013-06-10 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -137,16 +137,16 @@ msgstr "დაბრუნება"
 msgid "Unable to remove user"
 msgstr "მომხმარებლის წაშლა ვერ მოხერხდა"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:83
-#: templates/users.php:108
+#: js/users.js:92 templates/users.php:26 templates/users.php:87
+#: templates/users.php:112
 msgid "Groups"
 msgstr "ჯგუფები"
 
-#: js/users.js:95 templates/users.php:85 templates/users.php:120
+#: js/users.js:95 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "ჯგუფის ადმინისტრატორი"
 
-#: js/users.js:115 templates/users.php:160
+#: js/users.js:115 templates/users.php:164
 msgid "Delete"
 msgstr "წაშლა"
 
@@ -400,7 +400,7 @@ msgstr "აპლიკაცია ფაილების სინქრო�
 msgid "Show First Run Wizard again"
 msgstr "მაჩვენე თავიდან გაშვებული ვიზარდი"
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "პაროლი"
 
@@ -424,7 +424,7 @@ msgstr "ახალი პაროლი"
 msgid "Change password"
 msgstr "პაროლის შეცვლა"
 
-#: templates/personal.php:56 templates/users.php:81
+#: templates/personal.php:56 templates/users.php:85
 msgid "Display Name"
 msgstr "დისპლეის სახელი"
 
@@ -456,7 +456,7 @@ msgstr "WebDAV"
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "გამოიყენე შემდეგი მისამართი ownCloud–თან დასაკავშირებლად შენს ფაილმენეჯერში"
 
-#: templates/users.php:21 templates/users.php:80
+#: templates/users.php:21 templates/users.php:84
 msgid "Login Name"
 msgstr "მომხმარებლის სახელი"
 
@@ -464,34 +464,40 @@ msgstr "მომხმარებლის სახელი"
 msgid "Create"
 msgstr "შექმნა"
 
-#: templates/users.php:34
+#: templates/users.php:36
 msgid "Admin Recovery Password"
 msgstr ""
 
-#: templates/users.php:38
+#: templates/users.php:37 templates/users.php:38
+msgid ""
+"Enter the recovery password in order to recover the users files during "
+"password change"
+msgstr ""
+
+#: templates/users.php:42
 msgid "Default Storage"
 msgstr "საწყისი საცავი"
 
-#: templates/users.php:44 templates/users.php:138
+#: templates/users.php:48 templates/users.php:142
 msgid "Unlimited"
 msgstr "ულიმიტო"
 
-#: templates/users.php:62 templates/users.php:153
+#: templates/users.php:66 templates/users.php:157
 msgid "Other"
 msgstr "სხვა"
 
-#: templates/users.php:87
+#: templates/users.php:91
 msgid "Storage"
 msgstr "საცავი"
 
-#: templates/users.php:98
+#: templates/users.php:102
 msgid "change display name"
 msgstr "შეცვალე დისფლეის სახელი"
 
-#: templates/users.php:102
+#: templates/users.php:106
 msgid "set new password"
 msgstr "დააყენეთ ახალი პაროლი"
 
-#: templates/users.php:133
+#: templates/users.php:137
 msgid "Default"
 msgstr "საწყისი პარამეტრები"

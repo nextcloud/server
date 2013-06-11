@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Failed to clear the mappings." => "Falhou a limpar os mapas",
 "Failed to delete the server configuration" => "Erro ao eliminar as configurações do servidor",
 "The configuration is valid and the connection could be established!" => "A configuração está correcta e foi possível estabelecer a ligação!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "A configuração está correcta, mas não foi possível estabelecer o \"laço\", por favor, verifique as configurações do servidor e as credenciais.",
@@ -7,6 +8,7 @@
 "Take over settings from recent server configuration?" => "Assumir as configurações da configuração do servidor mais recente?",
 "Keep settings?" => "Manter as definições?",
 "Cannot add server configuration" => "Não foi possível adicionar as configurações do servidor.",
+"mappings cleared" => "Mapas limpos",
 "Success" => "Sucesso",
 "Error" => "Erro",
 "Connection test succeeded" => "Teste de conecção passado com sucesso.",
@@ -72,6 +74,13 @@
 "Email Field" => "Campo de email",
 "User Home Folder Naming Rule" => "Regra da pasta inicial do utilizador",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Deixe vazio para nome de utilizador (padrão). De outro modo, especifique um atributo LDAP/AD.",
+"Internal Username" => "Nome de utilizador interno",
+"Internal Username Attribute:" => "Atributo do nome de utilizador interno",
+"Override UUID detection" => "Passar a detecção do UUID",
+"UUID Attribute:" => "Atributo UUID:",
+"Username-LDAP User Mapping" => "Mapeamento do utilizador LDAP",
+"Clear Username-LDAP User Mapping" => "Limpar mapeamento do utilizador-LDAP",
+"Clear Groupname-LDAP Group Mapping" => "Limpar o mapeamento do nome de grupo LDAP",
 "Test Configuration" => "Testar a configuração",
 "Help" => "Ajuda"
 );
