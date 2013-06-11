@@ -7,22 +7,24 @@
  */
 namespace OC\Preview;
 
-class MSOffice2003 extends Provider {
+class DOC extends Provider {
 
-	public function getMimeType(){
-		return null;
+	public function getMimeType() {
+		return '/application\/msword/';
 	}
 
-	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview){
-		return false;
+	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
+		
 	}
+
 }
 
+\OC\Preview::registerProvider('OC\Preview\DOC');
 
-class MSOffice2007 extends Provider {
+class DOCX extends Provider {
 
-	public function getMimeType(){
-		return null;
+	public function getMimeType() {
+		return '/application\/vnd.openxmlformats-officedocument.wordprocessingml.document/';
 	}
 
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
@@ -39,36 +41,50 @@ class MSOffice2007 extends Provider {
 
 		unlink($tmpdoc);
 
-		//new image object
 		$image = new \OC_Image($pdf);
-		//check if image object is valid
-		if (!$image->valid()) return false;
-
-		return $image;
-	}
-}
-
-class DOC extends MSOffice2003 {
-
-	public function getMimeType() {
-		return '/application\/msword/';
-	}
-
-}
-
-\OC\Preview::registerProvider('OC\Preview\DOC');
-
-class DOCX extends MSOffice2007 {
-
-	public function getMimeType() {
-		return '/application\/vnd.openxmlformats-officedocument.wordprocessingml.document/';
+		
+		return $image->valid() ? $image : false;
 	}
 
 }
 
 \OC\Preview::registerProvider('OC\Preview\DOCX');
 
-class XLS extends MSOffice2003 {
+class MSOfficeExcel extends Provider {
+
+	public function getMimeType() {
+		return null;
+	}
+
+	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
+		require_once('PHPExcel/Classes/PHPExcel.php');
+		require_once('PHPExcel/Classes/PHPExcel/IOFactory.php');
+		//require_once('mpdf/mpdf.php');
+
+		$abspath = $fileview->toTmpFile($path);
+		$tmppath = \OC_Helper::tmpFile();
+
+		$rendererName = \PHPExcel_Settings::PDF_RENDERER_DOMPDF;
+		$rendererLibraryPath = \OC::$THIRDPARTYROOT . '/dompdf';
+
+		\PHPExcel_Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
+
+		$phpexcel = new \PHPExcel($abspath);
+		$excel = \PHPExcel_IOFactory::createWriter($phpexcel, 'PDF');
+		$excel->save($tmppath);
+
+		$pdf = new \imagick($tmppath . '[0]');
+		$pdf->setImageFormat('jpg');
+
+		unlink($abspath);
+		unlink($tmppath);
+
+		return $image->valid() ? $image : false;
+	}
+
+}
+
+class XLS extends MSOfficeExcel {
 
 	public function getMimeType() {
 		return '/application\/vnd.ms-excel/';
@@ -78,7 +94,7 @@ class XLS extends MSOffice2003 {
 
 \OC\Preview::registerProvider('OC\Preview\XLS');
 
-class XLSX extends MSOffice2007 {
+class XLSX extends MSOfficeExcel {
 
 	public function getMimeType() {
 		return '/application\/vnd.openxmlformats-officedocument.spreadsheetml.sheet/';
@@ -88,7 +104,34 @@ class XLSX extends MSOffice2007 {
 
 \OC\Preview::registerProvider('OC\Preview\XLSX');
 
-class PPT extends MSOffice2003 {
+class MSOfficePowerPoint extends Provider {
+
+	public function getMimeType() {
+		return null;
+	}
+
+	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
+		//require_once('');
+		//require_once('');
+
+		$abspath = $fileview->toTmpFile($path);
+		$tmppath = \OC_Helper::tmpFile();
+
+		$excel = PHPPowerPoint_IOFactory::createWriter($abspath, 'PDF');
+		$excel->save($tmppath);
+
+		$pdf = new \imagick($tmppath . '[0]');
+		$pdf->setImageFormat('jpg');
+
+		unlink($abspath);
+		unlink($tmppath);
+
+		return $image->valid() ? $image : false;
+	}
+
+}
+
+class PPT extends MSOfficePowerPoint {
 
 	public function getMimeType() {
 		return '/application\/vnd.ms-powerpoint/';
@@ -98,7 +141,7 @@ class PPT extends MSOffice2003 {
 
 \OC\Preview::registerProvider('OC\Preview\PPT');
 
-class PPTX extends MSOffice2007 {
+class PPTX extends MSOfficePowerPoint {
 
 	public function getMimeType() {
 		return '/application\/vnd.openxmlformats-officedocument.presentationml.presentation/';
