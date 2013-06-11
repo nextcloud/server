@@ -174,7 +174,8 @@ class OC_App{
 		$apps=array('files');
 		$sql = 'SELECT `appid` FROM `*PREFIX*appconfig`'
 			.' WHERE `configkey` = \'enabled\' AND `configvalue`=\'yes\'';
-		if (OC_Config::getValue( 'dbtype', 'sqlite' ) === 'oci') { //FIXME oracle hack
+		if (OC_Config::getValue( 'dbtype', 'sqlite' ) === 'oci') {
+			//FIXME oracle hack: need to explicitly cast CLOB to CHAR for comparison
 			$sql = 'SELECT `appid` FROM `*PREFIX*appconfig`'
 			.' WHERE `configkey` = \'enabled\' AND to_char(`configvalue`)=\'yes\'';
 		}
