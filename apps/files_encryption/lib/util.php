@@ -96,10 +96,13 @@ class Util {
 	//// DONE: test new encryption with sharing
 	//// TODO: test new encryption with proxies
 
+	const MIGRATION_COMPLETED = 1;    // migration to new encryption completed
+	const MIGRATION_IN_PROGRESS = -1; // migration is running
+	const MIGRATION_OPEN = 0;         // user still needs to be migrated
+
 
 	private $view; // OC_FilesystemView object for filesystem operations
 	private $userId; // ID of the currently logged-in user
-	private $pwd; // User Password
 	private $client; // Client side encryption mode flag
 	private $publicKeyDir; // Dir containing all public user keys
 	private $encryptionDir; // Dir containing user's files_encryption
@@ -1097,9 +1100,9 @@ class Util {
 
 		$migrationStatus = $this->getMigrationStatus();
 
-		if ($migrationStatus === '0') {
+		if ($migrationStatus === self::MIGRATION_OPEN) {
 
-			$return = $this->setMigrationStatus(-1);
+			$return = $this->setMigrationStatus(self::MIGRATION_IN_PROGRESS);
 
 			if ($return === true) {
 				\OCP\Util::writeLog('Encryption library', "Enter migration mode for initial encryption for user " . $this->userId, \OCP\Util::INFO);
@@ -1107,7 +1110,7 @@ class Util {
 				\OCP\Util::writeLog('Encryption library', "Could not activate migration mode for " . $this->userId . ", encryption aborted", \OCP\Util::ERROR);
 			}
 		} else {
-			\OCP\Util::writeLog('Encryption library', "Another process already performs the migration for user " . $this->userId, \OCP\Util::INFO);
+			\OCP\Util::writeLog('Encryption library', "Another process already performs the migration for user " . $this->userId, \OCP\Util::WARN);
 		}
 		
 		\OC_DB::commit();
@@ -1131,9 +1134,9 @@ class Util {
 
 		$migrationStatus = $this->getMigrationStatus();
 
-		if ($migrationStatus === '-1') {
+		if ($migrationStatus === self::MIGRATION_IN_PROGRESS) {
 
-			$return = $this->setMigrationStatus(1);
+			$return = $this->setMigrationStatus(self::MIGRATION_COMPLETED);
 
 			if ($return === true) {
 				\OCP\Util::writeLog('Encryption library', "Leave migration mode for: " . $this->userId . " successfully.", \OCP\Util::INFO);
@@ -1151,7 +1154,7 @@ class Util {
 
 	/**
 	 * @brief check if files are already migrated to the encryption system
-	 * @return '1' = yes, '0' = no, '-1' =  migration in progress, false = no record
+	 * @return migration status, false = in case of no record
 	 * @note If records are not being returned, check for a hidden space
 	 *       at the start of the uid in db
 	 */
@@ -1184,7 +1187,7 @@ class Util {
 			return false;
 			// If a record is found
 		} else {
-			return $migrationStatus[0];
+			return (int)$migrationStatus[0];
 		}
 
 	}
