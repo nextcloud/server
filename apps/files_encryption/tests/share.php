@@ -128,6 +128,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @param bool $withTeardown
 	 */
 	function testShareFile($withTeardown = true) {
@@ -204,6 +205,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @param bool $withTeardown
 	 */
 	function testReShareFile($withTeardown = true) {
@@ -274,6 +276,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @param bool $withTeardown
 	 * @return array
 	 */
@@ -362,6 +365,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @param bool $withTeardown
 	 */
 	function testReShareFolder($withTeardown = true) {
@@ -563,6 +567,9 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 			. $this->filename . '.' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '.shareKey'));
 	}
 
+	/**
+	 * @medium
+	 */
 	function testShareFileWithGroup() {
 		// login as admin
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
@@ -638,6 +645,9 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
 	}
 
+	/**
+	 * @large
+	 */
 	function testRecoveryFile() {
 		// login as admin
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
@@ -737,6 +747,9 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(0, \OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled'));
 	}
 
+	/**
+	 * @large
+	 */
 	function testRecoveryForUser() {
 		// login as admin
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
@@ -830,6 +843,9 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(0, \OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled'));
 	}
 
+	/**
+	 * @medium
+	 */
 	function testFailShareFile() {
 		// login as admin
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);

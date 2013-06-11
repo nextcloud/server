@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Teogramm <theodorewii121@hotmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-30 02:27+0200\n"
-"PO-Revision-Date: 2013-05-30 00:27+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-11 01:56+0200\n"
+"PO-Revision-Date: 2013-06-10 15:00+0000\n"
+"Last-Translator: Teogramm <theodorewii121@hotmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,11 +38,11 @@ msgstr ""
 
 #: ajax/changeRecoveryPassword.php:49
 msgid "Password successfully changed."
-msgstr ""
+msgstr "Ο κωδικός αλλάχτηκε επιτυχώς."
 
 #: ajax/changeRecoveryPassword.php:51
 msgid "Could not change the password. Maybe the old password was not correct."
-msgstr ""
+msgstr "Αποτυχία αλλαγής κωδικού ίσως ο παλιός κωδικός να μην ήταν σωστός."
 
 #: js/settings-admin.js:11
 msgid "Saving..."
@@ -58,15 +59,15 @@ msgstr ""
 
 #: templates/settings-admin.php:13
 msgid "Recovery account password"
-msgstr ""
+msgstr "Επαναφορά κωδικού πρόσβασης λογαριασμού"
 
 #: templates/settings-admin.php:20 templates/settings-personal.php:18
 msgid "Enabled"
-msgstr ""
+msgstr "Ενεργοποιημένο"
 
 #: templates/settings-admin.php:28 templates/settings-personal.php:26
 msgid "Disabled"
-msgstr ""
+msgstr "Απενεργοποιημένο"
 
 #: templates/settings-admin.php:32
 msgid "Change encryption passwords recovery key:"
@@ -82,11 +83,11 @@ msgstr ""
 
 #: templates/settings-admin.php:51
 msgid "Change Password"
-msgstr ""
+msgstr "Αλλαγή Κωδικού Πρόσβασης"
 
 #: templates/settings-personal.php:9
 msgid "Enable password recovery by sharing all files with your administrator:"
-msgstr ""
+msgstr "Ενεργοποιήστε την επαναφορά κωδικού πρόσβασης με το να μοιραστείτε όλα τα αρχεία με τον διαχειριστή σας:"
 
 #: templates/settings-personal.php:11
 msgid ""
@@ -96,7 +97,7 @@ msgstr ""
 
 #: templates/settings-personal.php:27
 msgid "File recovery settings updated"
-msgstr ""
+msgstr "Οι ρυθμίσεις επαναφοράς αρχείων ανανεώθηκαν"
 
 #: templates/settings-personal.php:28
 msgid "Could not update file recovery"

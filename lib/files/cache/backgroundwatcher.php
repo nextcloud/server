@@ -59,9 +59,9 @@ class BackgroundWatcher {
 	 */
 	static private function getNextFileId($previous, $folder) {
 		if ($folder) {
-			$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `fileid` > ? AND mimetype = ' . self::getFolderMimetype() . ' ORDER BY `fileid` ASC', 1);
+			$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `fileid` > ? AND `mimetype` = ' . self::getFolderMimetype() . ' ORDER BY `fileid` ASC', 1);
 		} else {
-			$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `fileid` > ? AND mimetype != ' . self::getFolderMimetype() . ' ORDER BY `fileid` ASC', 1);
+			$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `fileid` > ? AND `mimetype` != ' . self::getFolderMimetype() . ' ORDER BY `fileid` ASC', 1);
 		}
 		$result = $query->execute(array($previous));
 		if ($row = $result->fetchRow()) {
