@@ -18,6 +18,9 @@ ul.multiselectoptions.down {
 	border-bottom-left-radius: .5em;
 	border-bottom-right-radius: .5em;
 	width: 100%; /* do not cut off group names */
+	-webkit-box-shadow: 0px 0px 20px rgba(29,45,68,.4);
+	-moz-box-shadow: 0px 0px 20px rgba(29,45,68,.4);
+	box-shadow: 0px 0px 20px rgba(29,45,68,.4);
 }
 
 ul.multiselectoptions.up {
