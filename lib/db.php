@@ -517,6 +517,7 @@ class OC_DB {
 		} elseif( $type == 'oci'  ) {
 			$query = str_replace( '`', '"', $query );
 			$query = str_ireplace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
+			$query = str_ireplace( 'UNIX_TIMESTAMP()', "(cast(sys_extract_utc(systimestamp) as date) - date'1970-01-01') * 86400", $query );
 		}elseif( $type == 'mssql' ) {
 			$query = preg_replace( "/\`(.*?)`/", "[$1]", $query );
 			$query = str_replace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
