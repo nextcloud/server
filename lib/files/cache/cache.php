@@ -208,9 +208,9 @@ class Cache {
 			$params[] = $this->getNumericStorageId();
 			$valuesPlaceholder = array_fill(0, count($queryParts), '?');
 
-			$sql = 'INSERT INTO `*PREFIX*filecache`(' . implode(', ', $queryParts) . ')'
-				. ' VALUES(' . implode(', ', $valuesPlaceholder) . ')';
-			\OC_DB::executeAudited($sql,array($params));
+			$sql = 'INSERT INTO `*PREFIX*filecache` (' . implode(', ', $queryParts) . ')'
+				. ' VALUES (' . implode(', ', $valuesPlaceholder) . ')';
+			\OC_DB::executeAudited($sql, $params);
 
 			return (int)\OC_DB::insertid('*PREFIX*filecache');
 		}
