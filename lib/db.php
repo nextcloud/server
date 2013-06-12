@@ -733,6 +733,11 @@ class DoctrineStatementWrapper {
 	 * provide numRows
 	 */
 	public function numRows() {
+		$type = OC_Config::getValue( "dbtype", "sqlite" );
+		if ($type == 'oci') {
+			// OCI doesn't have a queryString, just do a rowCount for now
+			return $this->statement->rowCount();
+		}
 		$regex = '/^SELECT\s+(?:ALL\s+|DISTINCT\s+)?(?:.*?)\s+FROM\s+(.*)$/i';
 		$queryString = $this->statement->getWrappedStatement()->queryString;
 		if (preg_match($regex, $queryString, $output) > 0) {
