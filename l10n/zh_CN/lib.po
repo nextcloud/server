@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# modokwang <modokwang@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-31 01:59+0200\n"
-"PO-Revision-Date: 2013-05-30 23:16+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-12 02:56+0200\n"
+"PO-Revision-Date: 2013-06-11 23:28+0000\n"
+"Last-Translator: modokwang <modokwang@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,27 +18,27 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: app.php:357
+#: app.php:358
 msgid "Help"
 msgstr "帮助"
 
-#: app.php:370
+#: app.php:371
 msgid "Personal"
 msgstr "个人"
 
-#: app.php:381
+#: app.php:382
 msgid "Settings"
 msgstr "设置"
 
-#: app.php:393
+#: app.php:394
 msgid "Users"
 msgstr "用户"
 
-#: app.php:406
+#: app.php:407
 msgid "Apps"
 msgstr "应用"
 
-#: app.php:414
+#: app.php:415
 msgid "Admin"
 msgstr "管理"
 
@@ -123,7 +124,7 @@ msgstr "你需要输入一个数据库中已有的账户或管理员账户。"
 
 #: setup.php:155
 msgid "Oracle connection could not be established"
-msgstr ""
+msgstr "不能建立甲骨文连接"
 
 #: setup.php:237
 msgid "MySQL username and/or password not valid"

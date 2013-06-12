@@ -142,6 +142,15 @@ class Hooks {
 	}
 
 	/**
+	 * @brief If the password can't be changed within ownCloud, than update the key password in advance.
+	 */
+	public static function preSetPassphrase($params) {
+		if ( ! \OC_User::canUserChangePassword($params['uid']) ) {
+			self::setPassphrase($params);
+		}
+	}
+
+	/**
 	 * @brief Change a user's encryption passphrase
 	 * @param array $params keys: uid, password
 	 */

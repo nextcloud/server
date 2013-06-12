@@ -46,6 +46,7 @@
 "years ago" => "před lety",
 "Choose" => "Vybrat",
 "Cancel" => "Zrušit",
+"Error loading file picker template" => "Chyba při načítání šablony výběru souborů",
 "Yes" => "Ano",
 "No" => "Ne",
 "Ok" => "Ok",

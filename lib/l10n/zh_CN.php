@@ -24,6 +24,7 @@
 "%s set the database host." => "%s 设置数据库所在主机。",
 "PostgreSQL username and/or password not valid" => "PostgreSQL 数据库用户名和/或密码无效",
 "You need to enter either an existing account or the administrator." => "你需要输入一个数据库中已有的账户或管理员账户。",
+"Oracle connection could not be established" => "不能建立甲骨文连接",
 "MySQL username and/or password not valid" => "MySQL 数据库用户名和/或密码无效",
 "DB Error: \"%s\"" => "数据库错误：\"%s\"",
 "Offending command was: \"%s\"" => "冲突命令为：\"%s\"",

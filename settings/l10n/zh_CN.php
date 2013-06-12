@@ -101,6 +101,7 @@
 "Use this address to connect to your ownCloud in your file manager" => "用该地址来连接文件管理器中的 ownCloud",
 "Login Name" => "登录名称",
 "Create" => "创建",
+"Admin Recovery Password" => "管理恢复密码",
 "Default Storage" => "默认存储",
 "Unlimited" => "无限",
 "Other" => "其它",

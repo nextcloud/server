@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Adam Toth <adazlord@gmail.com>, 2013
 # Laszlo Tornoci <torlasz@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-31 01:59+0200\n"
-"PO-Revision-Date: 2013-05-30 23:15+0000\n"
-"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
+"POT-Creation-Date: 2013-06-12 02:56+0200\n"
+"PO-Revision-Date: 2013-06-11 23:27+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -137,16 +138,16 @@ msgstr "visszavonás"
 msgid "Unable to remove user"
 msgstr "A felhasználót nem sikerült eltávolítáni"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:83
-#: templates/users.php:108
+#: js/users.js:92 templates/users.php:26 templates/users.php:87
+#: templates/users.php:112
 msgid "Groups"
 msgstr "Csoportok"
 
-#: js/users.js:95 templates/users.php:85 templates/users.php:120
+#: js/users.js:95 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "Csoportadminisztrátor"
 
-#: js/users.js:115 templates/users.php:160
+#: js/users.js:115 templates/users.php:164
 msgid "Delete"
 msgstr "Törlés"
 
@@ -181,7 +182,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr "Az adatkönytára és az itt levő fájlok valószínűleg elérhetők az internetről. Az ownCloud által beillesztett .htaccess fájl nem működik. Nagyon fontos, hogy a webszervert úgy konfigurálja, hogy az adatkönyvtár nem legyen közvetlenül kívülről elérhető, vagy az adatkönyvtárt tegye a webszerver dokumentumfáján kívülre."
+msgstr "Az adatkönytára és az itt levő fájlok valószínűleg elérhetők az internetről. Az ownCloud által beillesztett .htaccess fájl nem működik. Nagyon fontos, hogy a webszervert úgy konfigurálja, hogy az adatkönyvtár ne legyen közvetlenül kívülről elérhető, vagy az adatkönyvtárt tegye a webszerver dokumentumfáján kívülre."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -206,7 +207,7 @@ msgstr "A 'fileinfo' modul hiányzik"
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr "A 'fileinfo' PHP modul hiányzik. Erősen javasolt ennek a modulnak az telepítése, ha az ember jó eredményt szeretne a MIME-típusok felismerésében."
+msgstr "A 'fileinfo' PHP modul hiányzik. Erősen javasolt ennek a modulnak a telepítése a MIME-típusok felismerésének eredményessé tételéhez."
 
 #: templates/admin.php:58
 msgid "Locale not working"
@@ -400,7 +401,7 @@ msgstr "Töltse le az állományok szinkronizációjához szükséges programoka
 msgid "Show First Run Wizard again"
 msgstr "Nézzük meg újra az első bejelentkezéskori segítséget!"
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "Jelszó"
 
@@ -424,7 +425,7 @@ msgstr "Az új jelszó"
 msgid "Change password"
 msgstr "A jelszó megváltoztatása"
 
-#: templates/personal.php:56 templates/users.php:81
+#: templates/personal.php:56 templates/users.php:85
 msgid "Display Name"
 msgstr "A megjelenített név"
 
@@ -456,7 +457,7 @@ msgstr "WebDAV"
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Ennek a címnek a megadásával a WebDAV-protokollon keresztül saját gépének fájlkezelőjével is is elérheti az állományait."
 
-#: templates/users.php:21 templates/users.php:80
+#: templates/users.php:21 templates/users.php:84
 msgid "Login Name"
 msgstr "Bejelentkezési név"
 
@@ -464,34 +465,40 @@ msgstr "Bejelentkezési név"
 msgid "Create"
 msgstr "Létrehozás"
 
-#: templates/users.php:34
+#: templates/users.php:36
 msgid "Admin Recovery Password"
 msgstr "A jelszóvisszaállítás adminisztrációja"
 
-#: templates/users.php:38
+#: templates/users.php:37 templates/users.php:38
+msgid ""
+"Enter the recovery password in order to recover the users files during "
+"password change"
+msgstr ""
+
+#: templates/users.php:42
 msgid "Default Storage"
 msgstr "Alapértelmezett tárhely"
 
-#: templates/users.php:44 templates/users.php:138
+#: templates/users.php:48 templates/users.php:142
 msgid "Unlimited"
 msgstr "Korlátlan"
 
-#: templates/users.php:62 templates/users.php:153
+#: templates/users.php:66 templates/users.php:157
 msgid "Other"
 msgstr "Más"
 
-#: templates/users.php:87
+#: templates/users.php:91
 msgid "Storage"
 msgstr "Tárhely"
 
-#: templates/users.php:98
+#: templates/users.php:102
 msgid "change display name"
 msgstr "a megjelenített név módosítása"
 
-#: templates/users.php:102
+#: templates/users.php:106
 msgid "set new password"
 msgstr "új jelszó beállítása"
 
-#: templates/users.php:133
+#: templates/users.php:137
 msgid "Default"
 msgstr "Alapértelmezett"

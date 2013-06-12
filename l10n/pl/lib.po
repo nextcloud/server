@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-31 01:59+0200\n"
-"PO-Revision-Date: 2013-05-30 23:16+0000\n"
+"POT-Creation-Date: 2013-06-12 02:56+0200\n"
+"PO-Revision-Date: 2013-06-11 23:28+0000\n"
 "Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: app.php:357
+#: app.php:358
 msgid "Help"
 msgstr "Pomoc"
 
-#: app.php:370
+#: app.php:371
 msgid "Personal"
 msgstr "Osobiste"
 
-#: app.php:381
+#: app.php:382
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: app.php:393
+#: app.php:394
 msgid "Users"
 msgstr "Użytkownicy"
 
-#: app.php:406
+#: app.php:407
 msgid "Apps"
 msgstr "Aplikacje"
 
-#: app.php:414
+#: app.php:415
 msgid "Admin"
 msgstr "Administrator"
 

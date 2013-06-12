@@ -101,6 +101,7 @@
 "Use this address to connect to your ownCloud in your file manager" => "Bu adresi kullanarak ownCloud 'unuza dosya yöneticinizde bağlanın",
 "Login Name" => "Giriş Adı",
 "Create" => "Oluştur",
+"Admin Recovery Password" => "Yönetici kurtarma parolası",
 "Default Storage" => "Varsayılan Depolama",
 "Unlimited" => "Limitsiz",
 "Other" => "Diğer",

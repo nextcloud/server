@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Couldn't delete %s permanently" => "Невъзможно изтриване на %s завинаги",
+"Couldn't delete %s permanently" => "Невъзможно перманентното изтриване на %s",
 "Couldn't restore %s" => "Невъзможно възтановяване на %s",
 "perform restore operation" => "извършване на действие по възстановяване",
 "Error" => "Грешка",

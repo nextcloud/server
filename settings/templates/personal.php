@@ -4,12 +4,6 @@
  * See the COPYING-README file.
  */?>
 
-<div id="quota" class="personalblock"><div style="width:<?php p($_['usage_relative']);?>%;">
-	<p id="quotatext"><?php print_unescaped($l->t('You have used <strong>%s</strong> of the available <strong>%s</strong>',
-		array($_['usage'], $_['total_space'])));?></p>
-</div></div>
-
-
 
 <div class="clientsbox">
 	<h2><?php p($l->t('Get the apps to sync your files'));?></h2>
@@ -27,6 +21,15 @@
 	<?php }?>
 </div>
 
+
+<div id="quota" class="personalblock">
+	<div style="width:<?php p($_['usage_relative']);?>%;">
+		<p id="quotatext">
+			<?php print_unescaped($l->t('You have used <strong>%s</strong> of the available <strong>%s</strong>',
+			array($_['usage'], $_['total_space'])));?>
+		</p>
+	</div>
+</div>
 
 
 <?php

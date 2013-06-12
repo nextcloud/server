@@ -24,6 +24,7 @@
 "%s set the database host." => "Zadejte název počítače s databází %s.",
 "PostgreSQL username and/or password not valid" => "Uživatelské jméno, či heslo PostgreSQL není platné",
 "You need to enter either an existing account or the administrator." => "Musíte zadat existující účet, či správce.",
+"Oracle connection could not be established" => "Spojení s Oracle nemohlo být navázáno",
 "MySQL username and/or password not valid" => "Uživatelské jméno, či heslo MySQL není platné",
 "DB Error: \"%s\"" => "Chyba DB: \"%s\"",
 "Offending command was: \"%s\"" => "Podezřelý příkaz byl: \"%s\"",

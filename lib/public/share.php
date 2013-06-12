@@ -152,11 +152,11 @@ class Share {
 
 			// Fetch all shares of this file path from DB
 			$query = \OC_DB::prepare(
-				'SELECT share_with
+				'SELECT `share_with`
 				FROM
 				`*PREFIX*share`
 				WHERE
-				item_source = ? AND share_type = ?'
+				`item_source` = ? AND `share_type` = ?'
 			);
 
 			$result = $query->execute(array($source, self::SHARE_TYPE_USER));
@@ -171,11 +171,11 @@ class Share {
 			// We also need to take group shares into account
 
 			$query = \OC_DB::prepare(
-				'SELECT share_with
+				'SELECT `share_with`
 				FROM
 				`*PREFIX*share`
 				WHERE
-				item_source = ? AND share_type = ?'
+				`item_source` = ? AND `share_type` = ?'
 			);
 
 			$result = $query->execute(array($source, self::SHARE_TYPE_GROUP));
@@ -192,11 +192,11 @@ class Share {
 			//check for public link shares
 			if (!$publicShare) {
 				$query = \OC_DB::prepare(
-					'SELECT share_with
+					'SELECT `share_with`
 					FROM
 					`*PREFIX*share`
 					WHERE
-					item_source = ? AND share_type = ?'
+					`item_source` = ? AND `share_type` = ?'
 				);
 
 				$result = $query->execute(array($source, self::SHARE_TYPE_LINK));
@@ -1009,7 +1009,7 @@ class Share {
 					if (!isset($mounts[$row['storage']])) {
 						$mountPoints = \OC\Files\Filesystem::getMountByNumericId($row['storage']);
 						if (is_array($mountPoints)) {
-							$mounts[$row['storage']] = $mountPoints[key($mountPoints)];
+							$mounts[$row['storage']] = current($mountPoints);
 						}
 					}
 					if ($mounts[$row['storage']]) {

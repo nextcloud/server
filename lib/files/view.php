@@ -300,7 +300,7 @@ class View {
 					list ($count, $result) = \OC_Helper::streamCopy($data, $target);
 					fclose($target);
 					fclose($data);
-					if ($this->fakeRoot == Filesystem::getRoot() && !Cache\Scanner::isPartialFile($path)) {
+					if ($this->fakeRoot == Filesystem::getRoot() && !Cache\Scanner::isPartialFile($path) && $result !== false) {
 						if (!$exists) {
 							\OC_Hook::emit(
 								Filesystem::CLASSNAME,
@@ -386,11 +386,13 @@ class View {
 						$source = $this->fopen($path1 . $postFix1, 'r');
 						$target = $this->fopen($path2 . $postFix2, 'w');
 						list($count, $result) = \OC_Helper::streamCopy($source, $target);
-						list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
-						$storage1->unlink($internalPath1);
+						if ($result !== false) {
+							list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
+							$storage1->unlink($internalPath1);
+						}
 					}
 				}
-				if ($this->fakeRoot == Filesystem::getRoot() && !Cache\Scanner::isPartialFile($path1)) {
+				if ($this->fakeRoot == Filesystem::getRoot() && !Cache\Scanner::isPartialFile($path1) && $result !== false) {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
 						Filesystem::signal_post_rename,
@@ -484,7 +486,7 @@ class View {
 						list($count, $result) = \OC_Helper::streamCopy($source, $target);
 					}
 				}
-				if ($this->fakeRoot == Filesystem::getRoot()) {
+				if ($this->fakeRoot == Filesystem::getRoot() && $result !== false) {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
 						Filesystem::signal_post_copy,
@@ -648,7 +650,7 @@ class View {
 					$result = $storage->$operation($internalPath);
 				}
 				$result = \OC_FileProxy::runPostProxies($operation, $this->getAbsolutePath($path), $result);
-				if (Filesystem::$loaded and $this->fakeRoot == Filesystem::getRoot()) {
+				if (Filesystem::$loaded and $this->fakeRoot == Filesystem::getRoot() && $result !== false) {
 					if ($operation != 'fopen') { //no post hooks for fopen, the file stream is still open
 						$this->runHooks($hooks, $path, true);
 					}

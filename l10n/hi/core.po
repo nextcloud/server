@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# rktaiwala <rktaiwala@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-31 01:58+0200\n"
-"PO-Revision-Date: 2013-05-30 00:42+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-12 02:56+0200\n"
+"PO-Revision-Date: 2013-06-11 23:27+0000\n"
+"Last-Translator: rktaiwala <rktaiwala@gmail.com>\n"
 "Language-Team: Hindi (http://www.transifex.com/projects/p/owncloud/language/hi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "User %s shared a file with you"
-msgstr ""
+msgstr "उपयोगकर्ता %s ने आप के साथ एक फ़ाइल सहभाजीत किया"
 
 #: ajax/share.php:99
 #, php-format
@@ -110,51 +111,51 @@ msgstr ""
 
 #: js/config.php:45
 msgid "January"
-msgstr ""
+msgstr "जनवरी"
 
 #: js/config.php:46
 msgid "February"
-msgstr ""
+msgstr "फरवरी"
 
 #: js/config.php:47
 msgid "March"
-msgstr ""
+msgstr "मार्च"
 
 #: js/config.php:48
 msgid "April"
-msgstr ""
+msgstr "अप्रैल"
 
 #: js/config.php:49
 msgid "May"
-msgstr ""
+msgstr "मई"
 
 #: js/config.php:50
 msgid "June"
-msgstr ""
+msgstr "जून"
 
 #: js/config.php:51
 msgid "July"
-msgstr ""
+msgstr "जुलाई"
 
 #: js/config.php:52
 msgid "August"
-msgstr ""
+msgstr "अगस्त"
 
 #: js/config.php:53
 msgid "September"
-msgstr ""
+msgstr "सितम्बर"
 
 #: js/config.php:54
 msgid "October"
-msgstr ""
+msgstr "अक्टूबर"
 
 #: js/config.php:55
 msgid "November"
-msgstr ""
+msgstr "नवंबर"
 
 #: js/config.php:56
 msgid "December"
-msgstr ""
+msgstr "दिसम्बर"
 
 #: js/js.js:286
 msgid "Settings"
@@ -216,23 +217,23 @@ msgstr ""
 msgid "Choose"
 msgstr ""
 
-#: js/oc-dialogs.js:121
+#: js/oc-dialogs.js:122
 msgid "Cancel"
 msgstr ""
 
-#: js/oc-dialogs.js:138 js/oc-dialogs.js:195
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
 msgid "Error loading file picker template"
 msgstr ""
 
-#: js/oc-dialogs.js:161
+#: js/oc-dialogs.js:164
 msgid "Yes"
 msgstr ""
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:172
 msgid "No"
 msgstr ""
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:185
 msgid "Ok"
 msgstr ""
 
@@ -263,7 +264,7 @@ msgstr ""
 
 #: js/share.js:90
 msgid "Share"
-msgstr ""
+msgstr "साझा करें"
 
 #: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
@@ -287,7 +288,7 @@ msgstr ""
 
 #: js/share.js:159
 msgid "Share with"
-msgstr ""
+msgstr "के साथ साझा"
 
 #: js/share.js:164
 msgid "Share with link"
