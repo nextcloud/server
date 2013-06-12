@@ -42,7 +42,7 @@ class DOCX extends Provider {
 		unlink($tmpdoc);
 
 		$image = new \OC_Image($pdf);
-		
+
 		return $image->valid() ? $image : false;
 	}
 
@@ -65,7 +65,7 @@ class MSOfficeExcel extends Provider {
 		$tmppath = \OC_Helper::tmpFile();
 
 		$rendererName = \PHPExcel_Settings::PDF_RENDERER_DOMPDF;
-		$rendererLibraryPath = \OC::$THIRDPARTYROOT . '/dompdf';
+		$rendererLibraryPath = \OC::$THIRDPARTYROOT . '/3rdparty/dompdf';
 
 		\PHPExcel_Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
 
@@ -78,6 +78,8 @@ class MSOfficeExcel extends Provider {
 
 		unlink($abspath);
 		unlink($tmppath);
+
+		$image = new \OC_Image($pdf);
 
 		return $image->valid() ? $image : false;
 	}
