@@ -38,7 +38,12 @@
 			</div></header>
 			<?php print_unescaped($_['content']); ?>
 		</div>
-		<footer><p class="info"><a href="http://owncloud.org/">ownCloud</a> &ndash;
-			<?php p($l->t( 'web services under your control' )); ?></p></footer>
+		<footer>
+			<p class="info">
+				<?php OC_Util::getEditionString() === '' ? '' : p('© 2013 '); ?>
+				<a href="
+					<?php OC_Util::getEditionString() === '' ? p('http://owncloud.org') : p('https://owncloud.com'); ?>">
+					<?php  OC_Util::getEditionString() === '' ? p('ownCloud') : p('ownCloud Inc.'); ?></a> &ndash;
+			<?php OC_Util::getEditionString() === '' ? p($l->t( 'web services under your control' )) : p("Your Cloud, Your Data, Your Way!"); ?></p></footer>
 	</body>
 </html>
