@@ -102,6 +102,7 @@
 "Login Name" => "Inloggningsnamn",
 "Create" => "Skapa",
 "Admin Recovery Password" => "Admin återställningslösenord",
+"Enter the recovery password in order to recover the users files during password change" => "Enter the recovery password in order to recover the users files during password change",
 "Default Storage" => "Förvald lagring",
 "Unlimited" => "Obegränsad",
 "Other" => "Annat",

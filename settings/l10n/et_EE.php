@@ -102,6 +102,7 @@
 "Login Name" => "Kasutajanimi",
 "Create" => "Lisa",
 "Admin Recovery Password" => "Admin taasteparool",
+"Enter the recovery password in order to recover the users files during password change" => "Sisesta taasteparool kasutaja failide taastamiseks paroolivahetuse käigus",
 "Default Storage" => "Vaikimisi maht",
 "Unlimited" => "Piiramatult",
 "Other" => "Muu",
