@@ -1057,63 +1057,25 @@ class Util {
 	}
 
 	/**
-	 * @brief Set file migration status for user
-	 * @param $status
-	 * @return bool
-	 */
-	private function setMigrationStatus($status) {
-
-		$sql = 'UPDATE `*PREFIX*encryption` SET `migration_status` = ? WHERE `uid` = ?';
-
-		$args = array(
-			$status,
-			$this->userId
-		);
-
-		$query = \OCP\DB::prepare($sql);
-
-		if ($query->execute($args)) {
-
-			return true;
-
-		} else {
-			\OCP\Util::writeLog('Encryption library', "Could not set migration status for " . $this->userId, \OCP\Util::ERROR);
-			return false;
-
-		}
-
-	}
-
-	/**
 	 * @brief start migration mode to initially encrypt users data
 	 * @return boolean
 	 */
 	public function beginMigration() {
-		
+
 		$return = false;
 
-		$transaction = \OC_DB::beginTransaction();
+		$sql = 'UPDATE `*PREFIX*encryption` SET `migration_status` = ? WHERE `uid` = ? and `migration_status` = ?';
+		$args = array(self::MIGRATION_IN_PROGRESS, $this->userId, self::MIGRATION_OPEN);
+		$query = \OCP\DB::prepare($sql);
+		$result = $query->execute($args);
+		$manipulatedRows = $result->numRows();
 
-		if ($transaction === false) {
-			\OCP\Util::writeLog('Encryption library', "Your database migration doesn't support transactions", \OCP\Util::WARN);
-		}
-
-		$migrationStatus = $this->getMigrationStatus();
-
-		if ($migrationStatus === self::MIGRATION_OPEN) {
-
-			$return = $this->setMigrationStatus(self::MIGRATION_IN_PROGRESS);
-
-			if ($return === true) {
-				\OCP\Util::writeLog('Encryption library', "Enter migration mode for initial encryption for user " . $this->userId, \OCP\Util::INFO);
-			} else {
-				\OCP\Util::writeLog('Encryption library', "Could not activate migration mode for " . $this->userId . ", encryption aborted", \OCP\Util::ERROR);
-			}
+		if ($manipulatedRows === 1) {
+			$return = true;
+			\OCP\Util::writeLog('Encryption library', "Start migration to encryption mode for " . $this->userId, \OCP\Util::INFO);
 		} else {
-			\OCP\Util::writeLog('Encryption library', "Another process already performs the migration for user " . $this->userId, \OCP\Util::WARN);
+			\OCP\Util::writeLog('Encryption library', "Could not activate migration mode for " . $this->userId . ". Probably another process already started the initial encryption", \OCP\Util::WARN);
 		}
-		
-		\OC_DB::commit();
 
 		return $return;
 	}
@@ -1126,28 +1088,18 @@ class Util {
 
 		$return = false;
 
-		$transaction = \OC_DB::beginTransaction();
+		$sql = 'UPDATE `*PREFIX*encryption` SET `migration_status` = ? WHERE `uid` = ? and `migration_status` = ?';
+		$args = array(self::MIGRATION_COMPLETED, $this->userId, self::MIGRATION_IN_PROGRESS);
+		$query = \OCP\DB::prepare($sql);
+		$result = $query->execute($args);
+		$manipulatedRows = $result->numRows();
 
-		if ($transaction === false) {
-			\OCP\Util::writeLog('Encryption library', "Your database migration doesn't support transactions", \OCP\Util::WARN);
-		}
-
-		$migrationStatus = $this->getMigrationStatus();
-
-		if ($migrationStatus === self::MIGRATION_IN_PROGRESS) {
-
-			$return = $this->setMigrationStatus(self::MIGRATION_COMPLETED);
-
-			if ($return === true) {
-				\OCP\Util::writeLog('Encryption library', "Leave migration mode for: " . $this->userId . " successfully.", \OCP\Util::INFO);
-			} else {
-				\OCP\Util::writeLog('Encryption library', "Could not deactivate migration mode for " . $this->userId, \OCP\Util::ERROR);
-			}
+		if ($manipulatedRows === 1) {
+			$result = true;
+			\OCP\Util::writeLog('Encryption library', "Finish migration successfully for " . $this->userId, \OCP\Util::INFO);
 		} else {
-			\OCP\Util::writeLog('Encryption library', "Someone else finished the migration mode to early for user " . $this->userId, \OCP\Util::ERROR);
+			\OCP\Util::writeLog('Encryption library', "Could not deactivate migration mode for " . $this->userId, \OCP\Util::WARN);
 		}
-
-		\OC_DB::commit();
 
 		return $return;
 	}
@@ -1158,7 +1110,7 @@ class Util {
 	 * @note If records are not being returned, check for a hidden space
 	 *       at the start of the uid in db
 	 */
-	private function getMigrationStatus() {
+	public function getMigrationStatus() {
 
 		$sql = 'SELECT `migration_status` FROM `*PREFIX*encryption` WHERE `uid` = ?';
 
