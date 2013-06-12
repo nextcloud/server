@@ -108,15 +108,13 @@ if($_['passwordChangeSupported']) {
 	print_unescaped($form);
 };?>
 
+<fieldset class="personalblock credits-footer">
 <?php if (OC_Util::getEditionString() === ''): ?>
-<fieldset class="personalblock">
 	<legend><strong><?php p($l->t('Version'));?></strong></legend>
 	<strong>ownCloud</strong> <?php p(OC_Util::getVersionString()); ?>
 	<?php p(OC_Util::getEditionString()); ?> <br />
 	<?php print_unescaped($l->t('Developed by the <a href="http://ownCloud.org/contact" target="_blank">ownCloud community</a>, the <a href="https://github.com/owncloud" target="_blank">source code</a> is licensed under the <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank"><abbr title="Affero General Public License">AGPL</abbr></a>.')); ?>
-</fieldset>
 <?php else: ?>
-<fieldset class="personalblock credits-footer">
     <p>© 2013 <a href="<?php p(OC_Defaults::getBaseUrl()); ?>" target="_blank"><?php p(OC_Defaults::getEntity()); ?></a> – <?php p(OC_Defaults::getSlogan()); ?></p>
-</fieldset>
 <?php endif; ?>
+</fieldset>
