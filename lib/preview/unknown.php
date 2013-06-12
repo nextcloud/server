@@ -15,12 +15,24 @@ class Unknown extends Provider {
 	}
 
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-		/*$mimetype = $fileview->getMimeType($path);
-		$info = $fileview->getFileInfo($path);
-		$name = array_key_exists('name', $info) ? $info['name'] : '';
-		$size = array_key_exists('size', $info) ? $info['size'] : 0; 
-		$isencrypted = array_key_exists('encrypted', $info) ? $info['encrypted'] : false;*/ // show little lock
-		return new \OC_Image();
+		$mimetype = $fileview->getMimeType($path);
+		if(substr_count($mimetype, '/')) {
+			list($type, $subtype) = explode('/', $mimetype);
+		}
+
+		$iconsroot = \OC::$SERVERROOT . '/core/img/filetypes/';
+
+		$icons = array($mimetype, $type, 'text');
+		foreach($icons as $icon) {
+			$icon = str_replace('/', '-', $icon);
+
+			$iconpath = $iconsroot . $icon . '.png';
+
+			if(file_exists($iconpath)) {
+				return new \OC_Image($iconpath);
+			}
+		}
+		return false;
 	}
 }
 
