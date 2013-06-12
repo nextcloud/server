@@ -6,8 +6,11 @@
 <!--[if gt IE 9]><html class="ng-csp ie"><![endif]-->
 <!--[if !IE]><!--><html class="ng-csp"><!--<![endif]-->
 	<head data-user="<?php p($_['user_uid']); ?>" data-requesttoken="<?php p($_['requesttoken']); ?>">
-		<title><?php p(!empty($_['application'])?$_['application'].' | ':'') ?>ownCloud
-			<?php p(trim($_['user_displayname']) != '' ?' ('.$_['user_displayname'].') ':'') ?></title>
+		<title>
+			<?php p(!empty($_['application'])?$_['application'].' | ':'');
+			OC_Util::getEditionString() === '' ? p("ownCloud") : p("ownCloud Enterprise Edition");
+			p(trim($_['user_displayname']) != '' ?' ('.$_['user_displayname'].') ':'') ?>
+		</title>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="apple-itunes-app" content="app-id=543672169">
