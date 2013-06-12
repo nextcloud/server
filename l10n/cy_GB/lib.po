@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-11 01:57+0200\n"
-"PO-Revision-Date: 2013-06-10 23:19+0000\n"
+"POT-Creation-Date: 2013-06-12 02:56+0200\n"
+"PO-Revision-Date: 2013-06-11 23:28+0000\n"
 "Last-Translator: ubuntucymraeg <owen.llywelyn@gmail.com>\n"
 "Language-Team: Welsh (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/cy_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -17,27 +17,27 @@ msgstr ""
 "Language: cy_GB\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;\n"
 
-#: app.php:357
+#: app.php:358
 msgid "Help"
 msgstr "Cymorth"
 
-#: app.php:370
+#: app.php:371
 msgid "Personal"
 msgstr "Personol"
 
-#: app.php:381
+#: app.php:382
 msgid "Settings"
 msgstr "Gosodiadau"
 
-#: app.php:393
+#: app.php:394
 msgid "Users"
 msgstr "Defnyddwyr"
 
-#: app.php:406
+#: app.php:407
 msgid "Apps"
 msgstr "Pecynnau"
 
-#: app.php:414
+#: app.php:415
 msgid "Admin"
 msgstr "Gweinyddu"
 

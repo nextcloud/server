@@ -102,6 +102,7 @@
 "Login Name" => "Přihlašovací jméno",
 "Create" => "Vytvořit",
 "Admin Recovery Password" => "Heslo obnovy správce",
+"Enter the recovery password in order to recover the users files during password change" => "Zadejte heslo obnovy pro obnovení souborů uživatele při změně hesla",
 "Default Storage" => "Výchozí úložiště",
 "Unlimited" => "Neomezeně",
 "Other" => "Jiný",
