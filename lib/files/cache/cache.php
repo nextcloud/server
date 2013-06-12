@@ -238,7 +238,7 @@ class Cache {
 		$params[] = $id;
 
 		$sql = 'UPDATE `*PREFIX*filecache` SET ' . implode(' = ?, ', $queryParts) . '=? WHERE `fileid` = ?';
-		\OC_DB::executeAudited($sql,array($params));
+		\OC_DB::executeAudited($sql, $params);
 	}
 
 	/**
