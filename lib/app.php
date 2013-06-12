@@ -349,7 +349,8 @@ class OC_App{
 
 		$settings = array();
 		// by default, settings only contain the help menu
-		if(OC_Config::getValue('knowledgebaseenabled', true)==true) {
+		if(OC_Util::getEditionString() === '' &&
+			OC_Config::getValue('knowledgebaseenabled', true)==true) {
 			$settings = array(
 				array(
 					"id" => "help",
