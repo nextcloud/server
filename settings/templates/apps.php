@@ -10,7 +10,7 @@
 
 <ul id="leftcontent" class="applist">
 	<li>
-		<a class="app-external" target="_blank" href="http://owncloud.org/dev">+ <?php p($l->t('Add your App'));?></a>
+		<a class="app-external" target="_blank" href="http://owncloud.org/dev"><?php p($l->t('Add your App'));?> …</a>
 	</li>
 
 	<?php foreach($_['apps'] as $app):?>
