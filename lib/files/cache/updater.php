@@ -41,7 +41,7 @@ class Updater {
 			$scanner = $storage->getScanner($internalPath);
 			$scanner->scan($internalPath, Scanner::SCAN_SHALLOW);
 			$cache->correctFolderSize($internalPath);
-			self::correctFolder($internalPath, $storage->filemtime($internalPath));
+			self::correctFolder($path, $storage->filemtime($internalPath));
 		}
 	}
 
@@ -60,7 +60,7 @@ class Updater {
 			$cache = $storage->getCache($internalPath);
 			$cache->remove($internalPath);
 			$cache->correctFolderSize($internalPath);
-			self::correctFolder($internalPath, time());
+			self::correctFolder($path, time());
 		}
 	}
 
@@ -85,8 +85,8 @@ class Updater {
 				$cache->move($internalFrom, $internalTo);
 				$cache->correctFolderSize($internalFrom);
 				$cache->correctFolderSize($internalTo);
-				self::correctFolder($internalFrom, time());
-				self::correctFolder($internalTo, time());
+				self::correctFolder($from, time());
+				self::correctFolder($to, time());
 			} else {
 				self::deleteUpdate($from);
 				self::writeUpdate($to);
