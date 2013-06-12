@@ -178,8 +178,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$params['uid'] = \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER;
 		$params['password'] = \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER;
 
-		$util = new Encryption\Util($this->view, \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER);
-		$util->setMigrationStatus(0);
+		$this->setMigrationStatus(0, \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER);
 
 		$this->assertTrue(OCA\Encryption\Hooks::login($params));
 
@@ -269,7 +268,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$params['password'] = \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER;
 
 		$util = new Encryption\Util($this->view, \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER);
-		$util->setMigrationStatus(0);
+		$this->setMigrationStatus(0, \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER);
 
 		$this->assertTrue(OCA\Encryption\Hooks::login($params));
 
@@ -314,4 +313,20 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$params['password'] = $password;
 		OCA\Encryption\Hooks::login($params);
 	}
+
+	private function setMigrationStatus($status, $user) {
+		$sql = 'UPDATE `*PREFIX*encryption` SET `migration_status` = ? WHERE `uid` = ?';
+		$args = array(
+			$status,
+			$user
+		);
+
+		$query = \OCP\DB::prepare($sql);
+		if ($query->execute($args)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }
