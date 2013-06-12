@@ -7,7 +7,7 @@
 <!--[if !IE]><!--><html class="ng-csp"><!--<![endif]-->
 	<head>
 		<title>
-		<?php OC_Util::getEditionString() === '' ? p("ownCloud") : p("ownCloud Enterprise Edition") ?>
+		<?php p(OC_Defaults::getName()); ?>
 		</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="shortcut icon" href="<?php print_unescaped(image_path('', 'favicon.png')); ?>" />

@@ -8,7 +8,7 @@
 	<head data-user="<?php p($_['user_uid']); ?>" data-requesttoken="<?php p($_['requesttoken']); ?>">
 		<title>
 			<?php p(!empty($_['application'])?$_['application'].' | ':'');
-			OC_Util::getEditionString() === '' ? p("ownCloud") : p("ownCloud Enterprise Edition");
+			p(OC_Defaults::getName());
 			p(trim($_['user_displayname']) != '' ?' ('.$_['user_displayname'].') ':'') ?>
 		</title>
 		<meta charset="utf-8">
