@@ -2,6 +2,10 @@
 
 If you have questions about how to install or use ownCloud, please direct these to the [mailing list][mailinglist] or our [forum][forum]. We are also available on [IRC][irc].
 
+### TL;DR
+
+ * The [issue template can be found here][template] but be aware of the different repositories! See list bellow
+
 ### Guidelines
 * Please search the existing issues first, it's likely that your issue was already reported or even fixed.
 * This repository is *only* for issues within the ownCloud core code. This also includes the apps: files, encryption, external storage, sharing, deleted files, versions, LDAP, and WebDAV Auth
@@ -19,7 +23,7 @@ If you have questions about how to install or use ownCloud, please direct these 
       - [Notes](https://github.com/owncloud/notes/issues)
       - [Shorty](https://github.com/owncloud/shorty/issues)
       - [All other apps](https://github.com/owncloud/apps/issues) (e.g. Pictures, Tasks, ...)
-* [Report the issue](https://github.com/owncloud/core/issues/new) using our [template][template], it includes all the information we need to track down the issue.
+* Report the issue using our [template][template], it includes all the information we need to track down the issue.
 
 Help us to maximize the effort we can spend fixing issues and adding new features, by not reporting duplicate issues.
 
