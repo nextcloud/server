@@ -91,8 +91,10 @@ if($_['passwordChangeSupported']) {
 			<option value="<?php p($language['code']);?>"><?php p($language['name']);?></option>
 		<?php endforeach;?>
 		</select>
+		<?php if (OC_Util::getEditionString() === ''): ?>
 		<a href="https://www.transifex.net/projects/p/owncloud/team/<?php p($_['activelanguage']['code']);?>/"
 			target="_blank"><em><?php p($l->t('Help translate'));?></em></a>
+		<?php endif; ?>
 	</fieldset>
 </form>
 
