@@ -59,7 +59,6 @@ class MSOfficeExcel extends Provider {
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
 		require_once('PHPExcel/Classes/PHPExcel.php');
 		require_once('PHPExcel/Classes/PHPExcel/IOFactory.php');
-		//require_once('mpdf/mpdf.php');
 
 		$abspath = $fileview->toTmpFile($path);
 		$tmppath = \OC_Helper::tmpFile();
@@ -113,20 +112,20 @@ class MSOfficePowerPoint extends Provider {
 	}
 
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-		//require_once('');
-		//require_once('');
+		return false;
 
 		$abspath = $fileview->toTmpFile($path);
 		$tmppath = \OC_Helper::tmpFile();
 
-		$excel = PHPPowerPoint_IOFactory::createWriter($abspath, 'PDF');
-		$excel->save($tmppath);
+		null;
 
 		$pdf = new \imagick($tmppath . '[0]');
 		$pdf->setImageFormat('jpg');
 
 		unlink($abspath);
 		unlink($tmppath);
+
+		$image = new \OC_Image($pdf);
 
 		return $image->valid() ? $image : false;
 	}
