@@ -23,13 +23,20 @@
 
 $RUNTIME_NOAPPS = true; //no apps, yet
 
-require_once 'lib/base.php';
+try {
 
-if(OC_Config::getValue('installed')==1) $installed='true'; else $installed='false';
-$values=array(
-	'installed'=>$installed,
-	'version'=>implode('.', OC_Util::getVersion()),
-	'versionstring'=>OC_Util::getVersionString(),
-	'edition'=>OC_Util::getEditionString());
+	require_once 'lib/base.php';
 
-echo(json_encode($values));
+	if(OC_Config::getValue('installed')==1) $installed='true'; else $installed='false';
+	$values=array(
+		'installed'=>$installed,
+		'version'=>implode('.', OC_Util::getVersion()),
+		'versionstring'=>OC_Util::getVersionString(),
+		'edition'=>OC_Util::getEditionString());
+
+	echo(json_encode($values));
+
+} catch (Exception $ex) {
+	OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);
+	\OCP\Util::writeLog('remote', $ex->getMessage(), \OCP\Util::FATAL);
+}
