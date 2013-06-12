@@ -23,7 +23,7 @@
 
 namespace OCA\user_ldap\lib;
 
-abstract class Access {
+abstract class Access extends BackendBase {
 	protected $connection;
 	//never ever check this var directly, always use getPagedSearchResultState
 	protected $pagedSearchedSuccessful;
@@ -60,7 +60,7 @@ abstract class Access {
 			return false;
 		}
 		$dn = $this->DNasBaseParameter($dn);
-		$rr = @ldap_read($cr, $dn, $filter, array($attr));
+		$rr = @$this->ldap->read($cr, $dn, $filter, array($attr));
 		if(!is_resource($rr)) {
 			if(!empty($attr)) {
 				//do not throw this message on userExists check, irritates
@@ -73,13 +73,13 @@ abstract class Access {
 			\OCP\Util::writeLog('user_ldap', 'readAttribute: '.$dn.' found', \OCP\Util::DEBUG);
 			return array();
 		}
-		$er = ldap_first_entry($cr, $rr);
+		$er = $this->ldap->first_entry($cr, $rr);
 		if(!is_resource($er)) {
 			//did not match the filter, return false
 			return false;
 		}
 		//LDAP attributes are not case sensitive
-		$result = \OCP\Util::mb_array_change_key_case(ldap_get_attributes($cr, $er), MB_CASE_LOWER, 'UTF-8');
+		$result = \OCP\Util::mb_array_change_key_case($this->ldap->get_attributes($cr, $er), MB_CASE_LOWER, 'UTF-8');
 		$attr = mb_strtolower($attr, 'UTF-8');
 
 		if(isset($result[$attr]) && $result[$attr]['count'] > 0) {
@@ -664,11 +664,11 @@ abstract class Access {
 		$pagedSearchOK = $this->initPagedSearch($filter, $base, $attr, $limit, $offset);
 
 		$linkResources = array_pad(array(), count($base), $link_resource);
-		$sr = ldap_search($linkResources, $base, $filter, $attr);
-		$error = ldap_errno($link_resource);
+		$sr = $this->ldap->search($linkResources, $base, $filter, $attr);
+		$error = $this->ldap->errno($link_resource);
 		if(!is_array($sr) || $error !== 0) {
 			\OCP\Util::writeLog('user_ldap',
-				'Error when searching: '.ldap_error($link_resource).' code '.ldap_errno($link_resource),
+				'Error when searching: '.$this->ldap->error($link_resource).' code '.$this->ldap->errno($link_resource),
 				\OCP\Util::ERROR);
 			\OCP\Util::writeLog('user_ldap', 'Attempt for Paging?  '.print_r($pagedSearchOK, true), \OCP\Util::ERROR);
 			return array();
@@ -677,19 +677,19 @@ abstract class Access {
 		// Do the server-side sorting
 		foreach(array_reverse($attr) as $sortAttr){
 			foreach($sr as $searchResource) {
-				ldap_sort($link_resource, $searchResource, $sortAttr);
+				$this->ldap->sort($link_resource, $searchResource, $sortAttr);
 			}
 		}
 
 		$findings = array();
 		foreach($sr as $key => $res) {
-		    $findings = array_merge($findings, ldap_get_entries($link_resource, $res ));
+		    $findings = array_merge($findings, $this->ldap->get_entries($link_resource, $res ));
 		}
 		if($pagedSearchOK) {
 			\OCP\Util::writeLog('user_ldap', 'Paged search successful', \OCP\Util::INFO);
 			foreach($sr as $key => $res) {
 				$cookie = null;
-				if(ldap_control_paged_result_response($link_resource, $res, $cookie)) {
+				if($this->ldap->control_paged_result_response($link_resource, $res, $cookie)) {
 					\OCP\Util::writeLog('user_ldap', 'Set paged search cookie', \OCP\Util::INFO);
 					$this->setPagedResultCookie($base[$key], $filter, $limit, $offset, $cookie);
 				}
@@ -1103,7 +1103,7 @@ abstract class Access {
 					if($offset > 0) {
 						\OCP\Util::writeLog('user_ldap', 'Cookie '.$cookie, \OCP\Util::INFO);
 					}
-					$pagedSearchOK = ldap_control_paged_result($this->connection->getConnectionResource(),
+					$pagedSearchOK = $this->ldap->control_paged_result($this->connection->getConnectionResource(),
 						$limit, false, $cookie);
 					if(!$pagedSearchOK) {
 						return false;
