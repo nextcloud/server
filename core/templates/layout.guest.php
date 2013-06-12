@@ -6,7 +6,9 @@
 <!--[if gt IE 9]><html class="ng-csp ie"><![endif]-->
 <!--[if !IE]><!--><html class="ng-csp"><!--<![endif]-->
 	<head data-requesttoken="<?php p($_['requesttoken']); ?>">
-		<title>ownCloud</title>
+		<title>
+		<?php OC_Util::getEditionString() === '' ? p("ownCloud") : p("ownCloud Enterprise Edition") ?>
+		</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="apple-itunes-app" content="app-id=543672169">
 		<link rel="shortcut icon" href="<?php print_unescaped(image_path('', 'favicon.png')); ?>" />
