@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Default strings and values which differ between the enterprise and the
+ * community edition. Use the get methods to always get the right strings.
+ */
+
 class OC_Defaults {
 
 	private static $communityEntity = "ownCloud";
