@@ -67,7 +67,10 @@ class Hooks {
 		$session->setPrivateKey($privateKey, $params['uid']);
 
 		// Check if first-run file migration has already been performed
-		$ready = $util->beginMigration();
+		$ready = false;
+		if ($util->getMigrationStatus() === Util::MIGRATION_OPEN) {
+			$ready = $util->beginMigration();
+		}
 
 		// If migration not yet done
 		if ($ready) {
