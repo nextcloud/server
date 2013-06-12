@@ -7,7 +7,7 @@
 <!--[if !IE]><!--><html class="ng-csp"><!--<![endif]-->
 	<head data-requesttoken="<?php p($_['requesttoken']); ?>">
 		<title>
-		<?php OC_Util::getEditionString() === '' ? p("ownCloud") : p("ownCloud Enterprise Edition") ?>
+		<?php p(OC_Defaults::getName()); ?>
 		</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="apple-itunes-app" content="app-id=543672169">
@@ -41,9 +41,8 @@
 		<footer>
 			<p class="info">
 				<?php OC_Util::getEditionString() === '' ? '' : p('© 2013 '); ?>
-				<a href="
-					<?php OC_Util::getEditionString() === '' ? p('http://owncloud.org') : p('https://owncloud.com'); ?>">
-					<?php  OC_Util::getEditionString() === '' ? p('ownCloud') : p('ownCloud Inc.'); ?></a> &ndash;
-			<?php OC_Util::getEditionString() === '' ? p($l->t( 'web services under your control' )) : p("Your Cloud, Your Data, Your Way!"); ?></p></footer>
+				<a href="<?php p(OC_Defaults::getBaseUrl())?>">
+					<?php  p(OC_Defaults::getEntity()); ?></a> &ndash;
+			<?php p(OC_Defaults::getSlogan()); ?></p></footer>
 	</body>
 </html>
