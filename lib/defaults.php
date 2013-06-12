@@ -5,11 +5,13 @@ class OC_Defaults {
 	private static $communityEntity = "ownCloud";
 	private static $communityName = "ownCloud";
 	private static $communityBaseUrl = "http://owncloud.org";
+	private static $communitySyncClientUrl = " http://owncloud.org/sync-clients/";
 	private static $communitySlogan = "web services under your control";
 
 	private static $enterpriseEntity = "ownCloud Inc.";
 	private static $enterpriseName = "ownCloud Enterprise Edition";
 	private static $enterpriseBaseUrl = "https://owncloud.com";
+	private static $enterpiseSyncClientUrl = "https://owncloud.com/products/desktop-clients";
 	private static $enterpriseSlogan = "Your Cloud, Your Data, Your Way!";
 
 
@@ -18,6 +20,14 @@ class OC_Defaults {
 			return self::$communityBaseUrl;
 		} else {
 			return self::$enterpriseBaseUrl;
+		}
+	}
+
+	public static function getSyncClientUrl() {
+		if (OC_Util::getEditionString() === '') {
+			return self::$communitySyncClientUrl;
+		} else {
+			return self::$enterpiseSyncClientUrl;
 		}
 	}
 
