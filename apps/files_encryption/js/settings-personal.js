@@ -4,7 +4,25 @@
  * See the COPYING-README file.
  */
 
+function updatePrivateKeyPasswd() {
+	var oldPrivateKeyPassword = $('input:password[id="oldPrivateKeyPassword"]').val();
+	var newPrivateKeyPassword = $('input:password[id="newPrivateKeyPassword"]').val();
+	OC.msg.startSaving('#encryption .msg');
+	$.post(
+	OC.filePath( 'files_encryption', 'ajax', 'updatePrivateKeyPassword.php' )
+		, { oldPassword: oldPrivateKeyPassword, newPassword: newPrivateKeyPassword }
+		,  function( data ) {
+			if (data.status === "error") {
+				OC.msg.finishedSaving('#encryption .msg', data);
+			} else {
+				OC.msg.finishedSaving('#encryption .msg', data);
+			}
+		}
+	);
+}
+
 $(document).ready(function(){
+
 	// Trigger ajax on recoveryAdmin status change
 	$( 'input:radio[name="userEnableRecovery"]' ).change( 
 		function() {
@@ -57,4 +75,24 @@ $(document).ready(function(){
 		}
 		
 	);
+
+	// update private key password
+
+	$('input:password[name="changePrivateKeyPassword"]').keyup(function(event) {
+		var oldPrivateKeyPassword = $('input:password[id="oldPrivateKeyPassword"]').val();
+		var newPrivateKeyPassword = $('input:password[id="newPrivateKeyPassword"]').val();
+		if (newPrivateKeyPassword !== '' && oldPrivateKeyPassword !== '' ) {
+			$('button:button[name="submitChangePrivateKeyPassword"]').removeAttr("disabled");
+			if(event.which === 13) {
+				updatePrivateKeyPasswd();
+			}
+		} else {
+			$('button:button[name="submitChangePrivateKeyPassword"]').attr("disabled", "true");
+		}
+	});
+
+	$('button:button[name="submitChangePrivateKeyPassword"]').click(function() {
+		updatePrivateKeyPasswd();
+	});
+
 });

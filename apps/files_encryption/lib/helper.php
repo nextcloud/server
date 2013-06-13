@@ -74,7 +74,7 @@ class Helper {
 		if (!$util->ready()) {
 
 			\OCP\Util::writeLog('Encryption library', 'User account "' . $util->getUserId()
-												 . '" is not ready for encryption; configuration started', \OCP\Util::DEBUG);
+													  . '" is not ready for encryption; configuration started', \OCP\Util::DEBUG);
 
 			if (!$util->setupServerSide($password)) {
 				return false;
@@ -94,6 +94,7 @@ class Helper {
 	 * @return bool
 	 */
 	public static function adminEnableRecovery($recoveryKeyId, $recoveryPassword) {
+
 		$view = new \OC\Files\View('/');
 
 		if ($recoveryKeyId === null) {
@@ -127,13 +128,6 @@ class Helper {
 
 			// Save private key
 			$view->file_put_contents('/owncloud_private_key/' . $recoveryKeyId . '.private.key', $encryptedPrivateKey);
-
-			// create control file which let us check later on if the entered password was correct.
-			$encryptedControlData = \OCA\Encryption\Crypt::keyEncrypt("ownCloud", $keypair['publicKey']);
-			if (!$view->is_dir('/control-file')) {
-				$view->mkdir('/control-file');
-			}
-			$view->file_put_contents('/control-file/controlfile.enc', $encryptedControlData);
 
 			\OC_FileProxy::$enabled = true;
 
@@ -200,5 +194,18 @@ class Helper {
 		$relPath = implode('/', $sliced);
 
 		return $relPath;
+	}
+
+	/**
+	 * @brief redirect to a error page
+	 */
+	public static function redirectToErrorPage() {
+		$location = \OC_Helper::linkToAbsolute('apps/files_encryption/files', 'error.php');
+		$post = 0;
+		if(count($_POST) > 0) {
+			$post = 1;
+		}
+		header('Location: ' . $location . '?p=' . $post);
+		exit();
 	}
 }

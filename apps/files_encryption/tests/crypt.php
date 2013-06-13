@@ -92,8 +92,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		// reset app files_trashbin
 		if ($this->stateFilesTrashbin) {
 			OC_App::enable('files_trashbin');
-		}
-		else {
+		} else {
 			OC_App::disable('files_trashbin');
 		}
 	}
@@ -239,6 +238,23 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($this->dataUrl, $decrypt);
 
 	}
+
+	function testDecryptPrivateKey() {
+
+		// test successful decrypt
+		$crypted = Encryption\Crypt::symmetricEncryptFileContent($this->genPrivateKey, 'hat');
+
+		$decrypted = Encryption\Crypt::decryptPrivateKey($crypted, 'hat');
+
+		$this->assertEquals($this->genPrivateKey, $decrypted);
+
+		//test private key decrypt with wrong password
+		$wrongPasswd = Encryption\Crypt::decryptPrivateKey($crypted, 'hat2');
+
+		$this->assertEquals(false, $wrongPasswd);
+
+	}
+
 
 	/**
 	 * @medium

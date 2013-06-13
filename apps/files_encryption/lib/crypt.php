@@ -352,6 +352,34 @@ class Crypt {
 	}
 
 	/**
+	 * @brief Decrypt private key and check if the result is a valid keyfile
+	 * @param string $encryptedKey encrypted keyfile
+	 * @param string $passphrase to decrypt keyfile
+	 * @returns encrypted private key or false
+	 *
+	 * This function decrypts a file
+	 */
+	public static function decryptPrivateKey($encryptedKey, $passphrase) {
+
+		$plainKey = self::symmetricDecryptFileContent($encryptedKey, $passphrase);
+
+		// check if this a valid private key
+		$res = openssl_pkey_get_private($plainKey);
+		if (is_resource($res)) {
+			$sslInfo = openssl_pkey_get_details($res);
+			if (!isset($sslInfo['key'])) {
+				$plainKey = false;
+			}
+		} else {
+			$plainKey = false;
+		}
+
+		return $plainKey;
+
+	}
+
+
+	/**
 	 * @brief Creates symmetric keyfile content using a generated key
 	 * @param string $plainContent content to be encrypted
 	 * @returns array keys: key, encrypted

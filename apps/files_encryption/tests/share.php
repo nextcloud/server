@@ -111,8 +111,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		// reset app files_trashbin
 		if ($this->stateFilesTrashbin) {
 			OC_App::enable('files_trashbin');
-		}
-		else {
+		} else {
 			OC_App::disable('files_trashbin');
 		}
 	}
@@ -656,9 +655,6 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		\OCA\Encryption\Helper::adminEnableRecovery(null, 'test123');
 		$recoveryKeyId = OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
 
-		// check if control file created
-		$this->assertTrue($this->view->file_exists('/control-file/controlfile.enc'));
-
 		// login as admin
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
 
@@ -760,9 +756,6 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
 		\OCA\Encryption\Helper::adminEnableRecovery(null, 'test123');
 		$recoveryKeyId = OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
-
-		// check if control file created
-		$this->assertTrue($this->view->file_exists('/control-file/controlfile.enc'));
 
 		// login as user1
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2);
