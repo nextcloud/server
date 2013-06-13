@@ -41,6 +41,7 @@ class Preview {
 	private $maxY;
 	private $scalingup;
 
+	//preview images object
 	private $preview;
 
 	//preview providers
@@ -81,7 +82,7 @@ class Preview {
 					$this->maxX = $this->max_x;
 				}
 			}
-	
+
 			if(!is_null($this->max_y)) {
 				if($this->maxY > $this->max_y) {
 					\OC_Log::write('core', 'maxY reduced from ' . $this->maxY . ' to ' . $this->max_y, \OC_Log::DEBUG);
@@ -101,25 +102,25 @@ class Preview {
 			if(empty(self::$providers)) {
 				self::initProviders();
 			}
-	
+
 			//check if there are any providers at all
 			if(empty(self::$providers)) {
 				\OC_Log::write('core', 'No preview providers exist', \OC_Log::ERROR);
 				throw new \Exception('No providers');
 			}
-	
+
 			//validate parameters
 			if($file === '') {
 				\OC_Log::write('core', 'No filename passed', \OC_Log::ERROR);
 				throw new \Exception('File not found');
 			}
-	
+
 			//check if file exists
 			if(!$this->fileview->file_exists($file)) {
 				\OC_Log::write('core', 'File:"' . $file . '" not found', \OC_Log::ERROR);
 				throw new \Exception('File not found');
 			}
-	
+
 			//check if given size makes sense
 			if($maxX === 0 || $maxY === 0) {
 				\OC_Log::write('core', 'Can not create preview with 0px width or 0px height', \OC_Log::ERROR);
