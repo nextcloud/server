@@ -67,10 +67,13 @@ class Hooks {
 		$session->setPrivateKey($privateKey, $params['uid']);
 
 		// Check if first-run file migration has already been performed
-		$migrationCompleted = $util->getMigrationStatus();
+		$ready = false;
+		if ($util->getMigrationStatus() === Util::MIGRATION_OPEN) {
+			$ready = $util->beginMigration();
+		}
 
 		// If migration not yet done
-		if (!$migrationCompleted) {
+		if ($ready) {
 
 			$userView = new \OC_FilesystemView('/' . $params['uid']);
 
@@ -102,7 +105,7 @@ class Hooks {
 			}
 
 			// Register successful migration in DB
-			$util->setMigrationStatus(1);
+			$util->finishMigration();
 
 		}
 

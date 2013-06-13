@@ -96,10 +96,13 @@ class Util {
 	//// DONE: test new encryption with sharing
 	//// TODO: test new encryption with proxies
 
+	const MIGRATION_COMPLETED = 1;    // migration to new encryption completed
+	const MIGRATION_IN_PROGRESS = -1; // migration is running
+	const MIGRATION_OPEN = 0;         // user still needs to be migrated
+
 
 	private $view; // OC_FilesystemView object for filesystem operations
 	private $userId; // ID of the currently logged-in user
-	private $pwd; // User Password
 	private $client; // Client side encryption mode flag
 	private $publicKeyDir; // Dir containing all public user keys
 	private $encryptionDir; // Dir containing user's files_encryption
@@ -1054,36 +1057,56 @@ class Util {
 	}
 
 	/**
-	 * @brief Set file migration status for user
-	 * @param $status
-	 * @return bool
+	 * @brief start migration mode to initially encrypt users data
+	 * @return boolean
 	 */
-	public function setMigrationStatus($status) {
+	public function beginMigration() {
 
-		$sql = 'UPDATE `*PREFIX*encryption` SET `migration_status` = ? WHERE `uid` = ?';
+		$return = false;
 
-		$args = array(
-			$status,
-			$this->userId
-		);
-
+		$sql = 'UPDATE `*PREFIX*encryption` SET `migration_status` = ? WHERE `uid` = ? and `migration_status` = ?';
+		$args = array(self::MIGRATION_IN_PROGRESS, $this->userId, self::MIGRATION_OPEN);
 		$query = \OCP\DB::prepare($sql);
+		$result = $query->execute($args);
+		$manipulatedRows = $result->numRows();
 
-		if ($query->execute($args)) {
-
-			return true;
-
+		if ($manipulatedRows === 1) {
+			$return = true;
+			\OCP\Util::writeLog('Encryption library', "Start migration to encryption mode for " . $this->userId, \OCP\Util::INFO);
 		} else {
-
-			return false;
-
+			\OCP\Util::writeLog('Encryption library', "Could not activate migration mode for " . $this->userId . ". Probably another process already started the initial encryption", \OCP\Util::WARN);
 		}
 
+		return $return;
 	}
 
 	/**
-	 * @brief Check whether pwd recovery is enabled for a given user
-	 * @return bool 1 = yes, 0 = no, false = no record
+	 * @brief close migration mode after users data has been encrypted successfully
+	 * @return boolean
+	 */
+	public function finishMigration() {
+
+		$return = false;
+
+		$sql = 'UPDATE `*PREFIX*encryption` SET `migration_status` = ? WHERE `uid` = ? and `migration_status` = ?';
+		$args = array(self::MIGRATION_COMPLETED, $this->userId, self::MIGRATION_IN_PROGRESS);
+		$query = \OCP\DB::prepare($sql);
+		$result = $query->execute($args);
+		$manipulatedRows = $result->numRows();
+
+		if ($manipulatedRows === 1) {
+			$return = true;
+			\OCP\Util::writeLog('Encryption library', "Finish migration successfully for " . $this->userId, \OCP\Util::INFO);
+		} else {
+			\OCP\Util::writeLog('Encryption library', "Could not deactivate migration mode for " . $this->userId, \OCP\Util::WARN);
+		}
+
+		return $return;
+	}
+
+	/**
+	 * @brief check if files are already migrated to the encryption system
+	 * @return migration status, false = in case of no record
 	 * @note If records are not being returned, check for a hidden space
 	 *       at the start of the uid in db
 	 */
@@ -1112,14 +1135,11 @@ class Util {
 
 		// If no record is found
 		if (empty($migrationStatus)) {
-
+			\OCP\Util::writeLog('Encryption library', "Could not get migration status for " . $this->userId . ", no record found", \OCP\Util::ERROR);
 			return false;
-
 			// If a record is found
 		} else {
-
-			return $migrationStatus[0];
-
+			return (int)$migrationStatus[0];
 		}
 
 	}
