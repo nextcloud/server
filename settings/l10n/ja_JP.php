@@ -102,6 +102,7 @@
 "Login Name" => "ログイン名",
 "Create" => "作成",
 "Admin Recovery Password" => "管理者復旧パスワード",
+"Enter the recovery password in order to recover the users files during password change" => "パスワード変更の間のユーザーのファイルを回復するために、リカバリパスワードを入力してください",
 "Default Storage" => "デフォルトストレージ",
 "Unlimited" => "無制限",
 "Other" => "その他",

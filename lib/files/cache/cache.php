@@ -96,7 +96,7 @@ class Cache {
 	 * get the stored metadata of a file or folder
 	 *
 	 * @param string/int $file
-	 * @return array
+	 * @return array | false
 	 */
 	public function get($file) {
 		if (is_string($file) or $file == '') {
@@ -114,6 +114,12 @@ class Cache {
 			 FROM `*PREFIX*filecache` ' . $where);
 		$result = $query->execute($params);
 		$data = $result->fetchRow();
+
+		//FIXME hide this HACK in the next database layer, or just use doctrine and get rid of MDB2 and PDO
+		//PDO returns false, MDB2 returns null, oracle always uses MDB2, so convert null to false
+		if ($data === null) {
+			$data = false;
+		}
 
 		//merge partial data
 		if (!$data and  is_string($file)) {

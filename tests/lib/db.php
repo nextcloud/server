@@ -37,7 +37,7 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$result = $query->execute(array('uri_1'));
 		$this->assertTrue((bool)$result);
 		$row = $result->fetchRow();
-		$this->assertFalse($row);
+		$this->assertFalse((bool)$row); //PDO returns false, MDB2 returns null
 		$query = OC_DB::prepare('INSERT INTO `*PREFIX*'.$this->table2.'` (`fullname`,`uri`) VALUES (?,?)');
 		$result = $query->execute(array('fullname test', 'uri_1'));
 		$this->assertTrue((bool)$result);
@@ -48,7 +48,7 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$this->assertArrayHasKey('fullname', $row);
 		$this->assertEquals($row['fullname'], 'fullname test');
 		$row = $result->fetchRow();
-		$this->assertFalse($row);
+		$this->assertFalse((bool)$row); //PDO returns false, MDB2 returns null
 	}
 
 	/**

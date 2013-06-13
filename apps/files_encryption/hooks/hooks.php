@@ -72,10 +72,13 @@ class Hooks {
 		$session->setPrivateKey($privateKey);
 
 		// Check if first-run file migration has already been performed
-		$migrationCompleted = $util->getMigrationStatus();
+		$ready = false;
+		if ($util->getMigrationStatus() === Util::MIGRATION_OPEN) {
+			$ready = $util->beginMigration();
+		}
 
 		// If migration not yet done
-		if (!$migrationCompleted) {
+		if ($ready) {
 
 			$userView = new \OC_FilesystemView('/' . $params['uid']);
 
@@ -86,7 +89,7 @@ class Hooks {
 				&& $encLegacyKey = $userView->file_get_contents('encryption.key')
 			) {
 
-				$plainLegacyKey = Crypt::legacyBlockDecrypt($encLegacyKey, $params['password']);
+				$plainLegacyKey = Crypt::legacyDecrypt($encLegacyKey, $params['password']);
 
 				$session->setLegacyKey($plainLegacyKey);
 
@@ -107,7 +110,7 @@ class Hooks {
 			}
 
 			// Register successful migration in DB
-			$util->setMigrationStatus(1);
+			$util->finishMigration();
 
 		}
 

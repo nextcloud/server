@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-11 01:57+0200\n"
-"PO-Revision-Date: 2013-06-10 23:19+0000\n"
+"POT-Creation-Date: 2013-06-13 02:16+0200\n"
+"PO-Revision-Date: 2013-06-12 01:03+0000\n"
 "Last-Translator: ubuntucymraeg <owen.llywelyn@gmail.com>\n"
 "Language-Team: Welsh (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/cy_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -17,27 +17,27 @@ msgstr ""
 "Language: cy_GB\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;\n"
 
-#: app.php:357
+#: app.php:358
 msgid "Help"
 msgstr "Cymorth"
 
-#: app.php:370
+#: app.php:371
 msgid "Personal"
 msgstr "Personol"
 
-#: app.php:381
+#: app.php:382
 msgid "Settings"
 msgstr "Gosodiadau"
 
-#: app.php:393
+#: app.php:394
 msgid "Users"
 msgstr "Defnyddwyr"
 
-#: app.php:406
+#: app.php:407
 msgid "Apps"
 msgstr "Pecynnau"
 
-#: app.php:414
+#: app.php:415
 msgid "Admin"
 msgstr "Gweinyddu"
 
@@ -113,76 +113,76 @@ msgstr "%s does dim hawl defnyddio dot yn enw'r gronfa ddata"
 msgid "%s set the database host."
 msgstr "%s gosod gwesteiwr y gronfa ddata."
 
-#: setup.php:132 setup.php:329 setup.php:374
+#: setup.php:126 setup.php:323 setup.php:368
 msgid "PostgreSQL username and/or password not valid"
 msgstr "Enw a/neu gyfrinair PostgreSQL annilys"
 
-#: setup.php:133 setup.php:238
+#: setup.php:127 setup.php:232
 msgid "You need to enter either an existing account or the administrator."
 msgstr "Rhaid i chi naill ai gyflwyno cyfrif presennol neu'r gweinyddwr."
 
-#: setup.php:155
+#: setup.php:149
 msgid "Oracle connection could not be established"
 msgstr ""
 
-#: setup.php:237
+#: setup.php:231
 msgid "MySQL username and/or password not valid"
 msgstr "Enw a/neu gyfrinair MySQL annilys"
 
-#: setup.php:291 setup.php:395 setup.php:404 setup.php:422 setup.php:432
-#: setup.php:441 setup.php:474 setup.php:540 setup.php:566 setup.php:573
-#: setup.php:584 setup.php:591 setup.php:600 setup.php:608 setup.php:617
-#: setup.php:623
+#: setup.php:285 setup.php:389 setup.php:398 setup.php:416 setup.php:426
+#: setup.php:435 setup.php:468 setup.php:534 setup.php:560 setup.php:567
+#: setup.php:578 setup.php:585 setup.php:594 setup.php:602 setup.php:611
+#: setup.php:617
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "Gwall DB: \"%s\""
 
-#: setup.php:292 setup.php:396 setup.php:405 setup.php:423 setup.php:433
-#: setup.php:442 setup.php:475 setup.php:541 setup.php:567 setup.php:574
-#: setup.php:585 setup.php:601 setup.php:609 setup.php:618
+#: setup.php:286 setup.php:390 setup.php:399 setup.php:417 setup.php:427
+#: setup.php:436 setup.php:469 setup.php:535 setup.php:561 setup.php:568
+#: setup.php:579 setup.php:595 setup.php:603 setup.php:612
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr "Y gorchymyn wnaeth beri tramgwydd oedd: \"%s\""
 
-#: setup.php:308
+#: setup.php:302
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
 msgstr "Defnyddiwr MySQL '%s'@'localhost' yn bodoli eisoes."
 
-#: setup.php:309
+#: setup.php:303
 msgid "Drop this user from MySQL"
 msgstr "Gollwng y defnyddiwr hwn o MySQL"
 
-#: setup.php:314
+#: setup.php:308
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
 msgstr "Defnyddiwr MySQL '%s'@'%%' eisoes yn bodoli"
 
-#: setup.php:315
+#: setup.php:309
 msgid "Drop this user from MySQL."
 msgstr "Gollwng y defnyddiwr hwn o MySQL."
 
-#: setup.php:466 setup.php:533
+#: setup.php:460 setup.php:527
 msgid "Oracle username and/or password not valid"
 msgstr "Enw a/neu gyfrinair Oracle annilys"
 
-#: setup.php:592 setup.php:624
+#: setup.php:586 setup.php:618
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "Y gorchymyn wnaeth beri tramgwydd oedd: \"%s\", enw: %s, cyfrinair: %s"
 
-#: setup.php:644
+#: setup.php:638
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
 msgstr "Enw a/neu gyfrinair MS SQL annilys: %s"
 
-#: setup.php:867
+#: setup.php:861
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Nid yw eich gweinydd wedi'i gyflunio eto i ganiatáu cydweddu ffeiliau oherwydd bod y rhyngwyneb WebDAV wedi torri."
 
-#: setup.php:868
+#: setup.php:862
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Gwiriwch y <a href='%s'>canllawiau gosod</a> eto."
