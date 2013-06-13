@@ -697,7 +697,7 @@ class Util {
 				$plainHandle = $this->view->fopen($rawPath, 'rb');
 
 				// Open enc file handle for binary writing, with same filename as original plain file
-				$encHandle = fopen('crypt://' . $relPath . '.tmp', 'wb');
+				$encHandle = fopen('crypt://' . $relPath . '.part', 'wb');
 
 				// Move plain file to a temporary location
 				$size = stream_copy_to_stream($plainHandle, $encHandle);
@@ -707,7 +707,7 @@ class Util {
 				$fakeRoot = $this->view->getRoot();
 				$this->view->chroot('/' . $this->userId . '/files');
 
-				$this->view->rename($relPath . '.tmp', $relPath);
+				$this->view->rename($relPath . '.part', $relPath);
 
 				$this->view->chroot($fakeRoot);
 
