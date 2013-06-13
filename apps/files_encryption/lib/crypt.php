@@ -168,7 +168,7 @@ class Crypt {
 	 *        e.g. filename or /Docs/filename, NOT admin/files/filename
 	 * @return boolean
 	 */
-	public static function isLegacyEncryptedContent($data, $relPath) {
+	public static function isLegacyEncryptedContent($isCatFileContent, $relPath) {
 
 		// Fetch all file metadata from DB
 		$metadata = \OC\Files\Filesystem::getFileInfo($relPath, '');
@@ -178,7 +178,7 @@ class Crypt {
 		// legacy encryption system
 		if (isset($metadata['encrypted'])
 			&& $metadata['encrypted'] === true
-			&& !self::isCatfileContent($data)
+			&& $isCatFileContent === false
 		) {
 
 			return true;
@@ -480,7 +480,7 @@ class Crypt {
 
 		} else {
 
-			\OCP\Util::writeLog('Encryption library', 'Decryption (asymmetric) of sealed content failed', \OCP\Util::ERROR);
+			\OCP\Util::writeLog('Encryption library', 'Decryption (asymmetric) of sealed content with share-key "'.$shareKey.'" failed', \OCP\Util::ERROR);
 
 			return false;
 

@@ -424,8 +424,7 @@ class Util {
 						// where they got re-enabled :/
 						\OC_FileProxy::$enabled = false;
 
-						$data = $this->view->file_get_contents($filePath);
-
+						$isEncryptedPath = $this->isEncryptedPath($filePath);
 						// If the file is encrypted
 						// NOTE: If the userId is 
 						// empty or not set, file will 
@@ -435,7 +434,7 @@ class Util {
 						// will eat server resources :(
 						if (
 							Keymanager::getFileKey($this->view, $this->userId, $relPath)
-							&& Crypt::isCatfileContent($data)
+							&& $isEncryptedPath
 						) {
 
 							$found['encrypted'][] = array(
@@ -445,7 +444,7 @@ class Util {
 
 							// If the file uses old
 							// encryption system
-						} elseif (Crypt::isLegacyEncryptedContent($data, $relPath)) {
+						} elseif (Crypt::isLegacyEncryptedContent($isEncryptedPath, $relPath)) {
 
 							$found['legacy'][] = array(
 								'name' => $file,
