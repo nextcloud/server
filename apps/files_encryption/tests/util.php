@@ -314,6 +314,14 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		OCA\Encryption\Hooks::login($params);
 	}
 
+	/**
+	 * helper function to set migration status to the right value
+	 * to be able to test the migration path
+	 * 
+	 * @param $status needed migration status for test
+	 * @param $user for which user the status should be set
+	 * @return boolean
+	 */
 	private function setMigrationStatus($status, $user) {
 		$sql = 'UPDATE `*PREFIX*encryption` SET `migration_status` = ? WHERE `uid` = ?';
 		$args = array(
