@@ -45,8 +45,20 @@ class Mapper extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('D:/a/b/text', $this->mapper->slugifyPath('D:/a/b/text'));
 
 		// with double dot
-		$this->assertEquals('D:/text-text.txt', $this->mapper->slugifyPath('D:/text.text.txt'));
-		$this->assertEquals('D:/text-text-2.txt', $this->mapper->slugifyPath('D:/text.text.txt', 2));
-		$this->assertEquals('D:/a/b/text-text.txt', $this->mapper->slugifyPath('D:/a/b/text.text.txt'));
+		$this->assertEquals('D:/text.text.txt', $this->mapper->slugifyPath('D:/text.text.txt'));
+		$this->assertEquals('D:/text.text-2.txt', $this->mapper->slugifyPath('D:/text.text.txt', 2));
+		$this->assertEquals('D:/a/b/text.text.txt', $this->mapper->slugifyPath('D:/a/b/text.text.txt'));
+			
+		// foldername and filename with periods
+		$this->assertEquals('D:/folder.name.with.periods', $this->mapper->slugifyPath('D:/folder.name.with.periods'));
+		$this->assertEquals('D:/folder.name.with.periods/test-2.txt', $this->mapper->slugifyPath('D:/folder.name.with.periods/test.txt', 2));
+		$this->assertEquals('D:/folder.name.with.periods/test.txt', $this->mapper->slugifyPath('D:/folder.name.with.periods/test.txt'));
+
+		// foldername and filename with periods and spaces
+		$this->assertEquals('D:/folder.name.with.peri-ods', $this->mapper->slugifyPath('D:/folder.name.with.peri ods'));
+		$this->assertEquals('D:/folder.name.with.peri-ods/te-st-2.t-x-t', $this->mapper->slugifyPath('D:/folder.name.with.peri ods/te st.t x t', 2));
+		$this->assertEquals('D:/folder.name.with.peri-ods/te-st.t-x-t', $this->mapper->slugifyPath('D:/folder.name.with.peri ods/te st.t x t'));
+
+		
 	}
 }
