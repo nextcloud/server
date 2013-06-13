@@ -6,7 +6,9 @@
 <!--[if gt IE 9]><html class="ng-csp ie"><![endif]-->
 <!--[if !IE]><!--><html class="ng-csp"><!--<![endif]-->
 	<head data-requesttoken="<?php p($_['requesttoken']); ?>">
-		<title>ownCloud</title>
+		<title>
+		<?php p(OC_Defaults::getName()); ?>
+		</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="apple-itunes-app" content="app-id=543672169">
 		<link rel="shortcut icon" href="<?php print_unescaped(image_path('', 'favicon.png')); ?>" />
@@ -33,10 +35,18 @@
 		<div id="login">
 			<header><div id="header">
 				<img src="<?php print_unescaped(image_path('', 'logo.svg')); ?>" class="svg" alt="ownCloud" />
+				<?php if (OC_Util::getEditionString() !== ''): ?>
+				<div id="logo-claim">Enterprise Edition</div>
+				<?php endif; ?>
 			</div></header>
 			<?php print_unescaped($_['content']); ?>
 		</div>
-		<footer><p class="info"><a href="http://owncloud.org/">ownCloud</a> &ndash;
-			<?php p($l->t( 'web services under your control' )); ?></p></footer>
+		<footer>
+			<p class="info">
+				<?php OC_Util::getEditionString() === '' ? '' : p('© 2013 '); ?>
+				<a href="<?php p(OC_Defaults::getBaseUrl())?>">
+					<?php  p(OC_Defaults::getEntity()); ?></a>
+				<?php OC_Util::getEditionString() === '' ? print_unescaped(' &ndash; ') : print_unescaped('<br/>'); ?>
+			<?php p(OC_Defaults::getSlogan()); ?></p></footer>
 	</body>
 </html>
