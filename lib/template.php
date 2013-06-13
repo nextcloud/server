@@ -547,7 +547,7 @@ class OC_Template{
 			$error_msg = '['.$exception->getCode().'] '.$error_msg;
 		}
 		$hint = $exception->getTraceAsString();
-		while ($exception = $exception->previous()) {
+		while (method_exists($exception,'previous') && $exception = $exception->previous()) {
 			$error_msg .= '<br/>Caused by: ';
 			if ($exception->getCode()) {
 				$error_msg .= '['.$exception->getCode().'] ';
