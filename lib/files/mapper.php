@@ -53,11 +53,9 @@ class Mapper
 		}
 
 		if ($isLogicPath) {
-			$query = \OC_DB::prepare('DELETE FROM `*PREFIX*file_map` WHERE `logic_path` LIKE ?');
-			$query->execute(array($path));
+			\OC_DB::executeAudited('DELETE FROM `*PREFIX*file_map` WHERE `logic_path` LIKE ?', array($path));
 		} else {
-			$query = \OC_DB::prepare('DELETE FROM `*PREFIX*file_map` WHERE `physic_path` LIKE ?');
-			$query->execute(array($path));
+			\OC_DB::executeAudited('DELETE FROM `*PREFIX*file_map` WHERE `physic_path` LIKE ?', array($path));
 		}
 	}
 
@@ -73,8 +71,8 @@ class Mapper
 		$physicPath1 = $this->logicToPhysical($path1, true);
 		$physicPath2 = $this->logicToPhysical($path2, true);
 
-		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*file_map` WHERE `logic_path` LIKE ?');
-		$result = $query->execute(array($path1.'%'));
+		$sql = 'SELECT * FROM `*PREFIX*file_map` WHERE `logic_path` LIKE ?';
+		$result = \OC_DB::executeAudited($sql, array($path1.'%'));
 		$updateQuery = \OC_DB::prepare('UPDATE `*PREFIX*file_map`'
 			.' SET `logic_path` = ?'
 			.' , `logic_path_hash` = ?'
@@ -88,7 +86,8 @@ class Mapper
 			$newPhysic = $physicPath2.$this->stripRootFolder($currentPhysic, $physicPath1);
 			if ($path1 !== $currentLogic) {
 				try {
-					$updateQuery->execute(array($newLogic, md5($newLogic), $newPhysic, md5($newPhysic), $currentLogic));
+					\OC_DB::executeAudited($updateQuery, array($newLogic, md5($newLogic), $newPhysic, md5($newPhysic),
+						$currentLogic));
 				} catch (\Exception $e) {
 					error_log('Mapper::Copy failed '.$currentLogic.' -> '.$newLogic.'\n'.$e);
 					throw $e;
@@ -123,8 +122,8 @@ class Mapper
 
 	private function resolveLogicPath($logicPath) {
 		$logicPath = $this->stripLast($logicPath);
-		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*file_map` WHERE `logic_path_hash` = ?');
-		$result = $query->execute(array(md5($logicPath)));
+		$sql = 'SELECT * FROM `*PREFIX*file_map` WHERE `logic_path_hash` = ?';
+		$result = \OC_DB::executeAudited($sql, array(md5($logicPath)));
 		$result = $result->fetchRow();
 		if ($result === false) {
 			return null;
@@ -135,8 +134,8 @@ class Mapper
 
 	private function resolvePhysicalPath($physicalPath) {
 		$physicalPath = $this->stripLast($physicalPath);
-		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*file_map` WHERE `physic_path_hash` = ?');
-		$result = $query->execute(array(md5($physicalPath)));
+		$sql = \OC_DB::prepare('SELECT * FROM `*PREFIX*file_map` WHERE `physic_path_hash` = ?');
+		$result = \OC_DB::executeAudited($sql, array(md5($physicalPath)));
 		$result = $result->fetchRow();
 
 		return $result['logic_path'];
@@ -163,8 +162,9 @@ class Mapper
 	}
 
 	private function insert($logicPath, $physicalPath) {
-		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*file_map`(`logic_path`, `physic_path`, `logic_path_hash`, `physic_path_hash`) VALUES(?, ?, ?, ?)');
-		$query->execute(array($logicPath, $physicalPath, md5($logicPath), md5($physicalPath)));
+		$sql = 'INSERT INTO `*PREFIX*file_map` (`logic_path`, `physic_path`, `logic_path_hash`, `physic_path_hash`)
+				VALUES (?, ?, ?, ?)';
+		\OC_DB::executeAudited($sql, array($logicPath, $physicalPath, md5($logicPath), md5($physicalPath)));
 	}
 
 	public function slugifyPath($path, $index=null) {

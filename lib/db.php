@@ -568,10 +568,6 @@ class OC_DB {
 		
 		self::raiseExceptionOnError($definition,'Failed to parse the database definition');
 
-		// Die in case something went wrong
-		if( $definition instanceof MDB2_Schema_Error ) {
-			OC_Template::printErrorPage( $definition->getMessage().': '.$definition->getUserInfo() );
-		}
 		if(OC_Config::getValue('dbtype', 'sqlite')==='oci') {
 			unset($definition['charset']); //or MDB2 tries SHUTDOWN IMMEDIATE
 			$oldname = $definition['name'];
@@ -921,7 +917,7 @@ class OC_DB {
 		}
 	}
 	/**
-	 * check if a result is an error, writes a log entry and throws an exception, works with MDB2 and PDOException
+	 * check if a result is an error and throws an exception, works with MDB2 and PDOException
 	 * @param mixed $result
 	 * @param string message
 	 * @return void
@@ -934,7 +930,7 @@ class OC_DB {
 			} else {
 				$message .= ', Root cause:' . self::getErrorMessage($result);
 			}
-			throw new DatabaseException($message, getErrorCode($result));
+			throw new DatabaseException($message, self::getErrorCode($result));
 		}
 	}
 
