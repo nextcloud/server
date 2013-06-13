@@ -1095,7 +1095,7 @@ class Util {
 		$manipulatedRows = $result->numRows();
 
 		if ($manipulatedRows === 1) {
-			$result = true;
+			$return = true;
 			\OCP\Util::writeLog('Encryption library', "Finish migration successfully for " . $this->userId, \OCP\Util::INFO);
 		} else {
 			\OCP\Util::writeLog('Encryption library', "Could not deactivate migration mode for " . $this->userId, \OCP\Util::WARN);
