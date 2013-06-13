@@ -84,7 +84,7 @@ class Hooks {
 				&& $encLegacyKey = $userView->file_get_contents('encryption.key')
 			) {
 
-				$plainLegacyKey = Crypt::legacyBlockDecrypt($encLegacyKey, $params['password']);
+				$plainLegacyKey = Crypt::legacyDecrypt($encLegacyKey, $params['password']);
 
 				$session->setLegacyKey($plainLegacyKey);
 

@@ -608,7 +608,7 @@ class Crypt {
 	 *
 	 * This function decrypts an content
 	 */
-	private static function legacyDecrypt($content, $passphrase = '') {
+	public static function legacyDecrypt($content, $passphrase = '') {
 
 		$bf = self::getBlowfish($passphrase);
 
@@ -635,30 +635,6 @@ class Crypt {
 		} else {
 			return rtrim($result, "\0");
 		}
-	}
-
-	/**
-	 * @param $legacyEncryptedContent
-	 * @param $legacyPassphrase
-	 * @param $publicKeys
-	 * @return array
-	 */
-	public static function legacyKeyRecryptKeyfile($legacyEncryptedContent, $legacyPassphrase, $publicKeys) {
-
-		$decrypted = self::legacyBlockDecrypt($legacyEncryptedContent, $legacyPassphrase);
-
-		// Encrypt plain data, generate keyfile & encrypted file
-		$cryptedData = self::symmetricEncryptFileContentKeyfile($decrypted);
-
-		// Encrypt plain keyfile to multiple sharefiles
-		$multiEncrypted = Crypt::multiKeyEncrypt($cryptedData['key'], $publicKeys);
-
-		return array(
-			'data' => $cryptedData['encrypted'],
-			'filekey' => $multiEncrypted['data'],
-			'sharekeys' => $multiEncrypted['keys']
-		);
-
 	}
 
 }

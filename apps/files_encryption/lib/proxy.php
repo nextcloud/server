@@ -256,6 +256,8 @@ class Proxy extends \OC_FileProxy {
 	 */
 	public function postFopen($path, &$result) {
 
+		$path = \OC\Files\Filesystem::normalizePath($path);
+
 		if (!$result) {
 
 			return $result;

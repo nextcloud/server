@@ -613,24 +613,6 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @medium
-	 * @brief test decryption using legacy blowfish method
-	 * @depends testLegacyEncryptLong
-	 */
-	function testLegacyKeyRecryptKeyfileEncrypt($crypted) {
-
-		$recrypted = Encryption\Crypt::LegacyKeyRecryptKeyfile($crypted, $this->pass, array($this->genPublicKey));
-
-		$this->assertNotEquals($this->dataLong, $recrypted['data']);
-
-		return $recrypted;
-
-		# TODO: search inencrypted text for actual content to ensure it
-		# genuine transformation
-
-	}
-
-	/**
-	 * @medium
 	 */
 	function testRenameFile() {
 
