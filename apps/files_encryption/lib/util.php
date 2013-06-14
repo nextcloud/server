@@ -424,8 +424,7 @@ class Util {
 						// where they got re-enabled :/
 						\OC_FileProxy::$enabled = false;
 
-						$data = $this->view->file_get_contents($filePath);
-
+						$isEncryptedPath = $this->isEncryptedPath($filePath);
 						// If the file is encrypted
 						// NOTE: If the userId is 
 						// empty or not set, file will 
@@ -435,7 +434,7 @@ class Util {
 						// will eat server resources :(
 						if (
 							Keymanager::getFileKey($this->view, $this->userId, $relPath)
-							&& Crypt::isCatfileContent($data)
+							&& $isEncryptedPath
 						) {
 
 							$found['encrypted'][] = array(
@@ -445,7 +444,7 @@ class Util {
 
 							// If the file uses old
 							// encryption system
-						} elseif (Crypt::isLegacyEncryptedContent($data, $relPath)) {
+						} elseif (Crypt::isLegacyEncryptedContent($isEncryptedPath, $relPath)) {
 
 							$found['legacy'][] = array(
 								'name' => $file,
@@ -698,7 +697,7 @@ class Util {
 				$plainHandle = $this->view->fopen($rawPath, 'rb');
 
 				// Open enc file handle for binary writing, with same filename as original plain file
-				$encHandle = fopen('crypt://' . $relPath . '.tmp', 'wb');
+				$encHandle = fopen('crypt://' . $relPath . '.part', 'wb');
 
 				// Move plain file to a temporary location
 				$size = stream_copy_to_stream($plainHandle, $encHandle);
@@ -708,7 +707,7 @@ class Util {
 				$fakeRoot = $this->view->getRoot();
 				$this->view->chroot('/' . $this->userId . '/files');
 
-				$this->view->rename($relPath . '.tmp', $relPath);
+				$this->view->rename($relPath . '.part', $relPath);
 
 				$this->view->chroot($fakeRoot);
 
