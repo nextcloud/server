@@ -78,7 +78,7 @@ class Upgrade {
 				VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
 		}
 		if (!$this->inCache($data['storage'], $data['path_hash'], $data['id'])) {
-			$insertQuery->execute(array($data['id'], $data['storage'],
+			\OC_DB::executeAudited($insertQuery, array($data['id'], $data['storage'],
 				$data['path'], $data['path_hash'], $data['parent'], $data['name'],
 				$data['mimetype'], $data['mimepart'], $data['size'], $data['mtime'], $data['encrypted'], $data['etag']));
 		}
@@ -97,7 +97,7 @@ class Upgrade {
 		if(is_null($query)) {
 			$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE (`storage` = ? AND `path_hash` = ?) OR `fileid` = ?');
 		}
-		$result = $query->execute(array($storage, $pathHash, $id));
+		$result = \OC_DB::executeAudited($query, array($storage, $pathHash, $id));
 		return (bool)$result->fetchRow();
 	}
 

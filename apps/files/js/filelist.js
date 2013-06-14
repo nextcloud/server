@@ -51,7 +51,7 @@ var FileList={
 		}else{
 			simpleSize=t('files', 'Pending');
 		}
-		var sizeColor = Math.round(200-Math.pow((size/(1024*1024)),2));
+		var sizeColor = Math.round(160-Math.pow((size/(1024*1024)),2));
 		var lastModifiedTime = Math.round(lastModified.getTime() / 1000);
 		td = $('<td></td>').attr({
 			"class": "filesize",

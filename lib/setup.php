@@ -106,12 +106,6 @@ class OC_Setup {
 						'hint' => $e->getHint()
 					);
 					return($error);
-				} catch (Exception $e) {
-					$error[] = array(
-						'error' => $e->getMessage(),
-						'hint' => ''
-					);
-					return($error);
 				}
 			}
 			elseif($dbtype == 'pgsql') {
@@ -127,7 +121,7 @@ class OC_Setup {
 
 				try {
 					self::setupPostgreSQLDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $username);
-				} catch (Exception $e) {
+				} catch (DatabaseSetupException $e) {
 					$error[] = array(
 						'error' => $l->t('PostgreSQL username and/or password not valid'),
 						'hint' => $l->t('You need to enter either an existing account or the administrator.')
@@ -150,10 +144,14 @@ class OC_Setup {
 
 				try {
 					self::setupOCIDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $dbtablespace, $username);
-				} catch (Exception $e) {
+				} catch (DatabaseSetupException $e) {
 					$error[] = array(
-						'error' => $l->t('Oracle username and/or password not valid'),
-						'hint' => $l->t('You need to enter either an existing account or the administrator.')
+						'error' => $l->t('Oracle connection could not be established'),
+						'hint' => $e->getMessage().' Check environment: ORACLE_HOME='.getenv('ORACLE_HOME')
+							.' ORACLE_SID='.getenv('ORACLE_SID')
+							.' LD_LIBRARY_PATH='.getenv('LD_LIBRARY_PATH')
+							.' NLS_LANG='.getenv('NLS_LANG')
+							.' tnsnames.ora is '.(is_readable(getenv('ORACLE_HOME').'/network/admin/tnsnames.ora')?'':'not ').'readable'
 					);
 					return $error;
 				}
@@ -173,7 +171,7 @@ class OC_Setup {
 
 				try {
 					self::setupMSSQLDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix);
-				} catch (Exception $e) {
+				} catch (DatabaseSetupException $e) {
 					$error[] = array(
 						'error' => 'MS SQL username and/or password not valid',
 						'hint' => 'You need to enter either an existing account or the administrator.'
@@ -322,7 +320,7 @@ class OC_Setup {
 		$connection_string = "host='$e_host' dbname=postgres user='$e_user' password='$e_password'";
 		$connection = @pg_connect($connection_string);
 		if(!$connection) {
-			throw new Exception($l->t('PostgreSQL username and/or password not valid'));
+			throw new DatabaseSetupException($l->t('PostgreSQL username and/or password not valid'));
 		}
 		$e_user = pg_escape_string($dbuser);
 		//check for roles creation rights in postgresql
@@ -367,7 +365,7 @@ class OC_Setup {
 		$connection_string = "host='$e_host' dbname='$e_dbname' user='$e_user' password='$e_password'";
 		$connection = @pg_connect($connection_string);
 		if(!$connection) {
-			throw new Exception($l->t('PostgreSQL username and/or password not valid'));
+			throw new DatabaseSetupException($l->t('PostgreSQL username and/or password not valid'));
 		}
 		$query = "select count(*) FROM pg_class WHERE relname='{$dbtableprefix}users' limit 1";
 		$result = pg_query($connection, $query);
@@ -452,10 +450,14 @@ class OC_Setup {
 		} else {
 			$easy_connect_string = '//'.$e_host.'/'.$e_dbname;
 		}
+		\OC_Log::write('setup oracle', 'connect string: ' . $easy_connect_string, \OC_Log::DEBUG);
 		$connection = @oci_connect($dbuser, $dbpass, $easy_connect_string);
 		if(!$connection) {
 			$e = oci_error();
-			throw new Exception($l->t('Oracle username and/or password not valid'));
+			if (is_array ($e) && isset ($e['message'])) {
+				throw new DatabaseSetupException($e['message']);
+			}
+			throw new DatabaseSetupException($l->t('Oracle username and/or password not valid'));
 		}
 		//check for roles creation rights in oracle
 
@@ -522,7 +524,7 @@ class OC_Setup {
 		}
 		$connection = @oci_connect($dbuser, $dbpass, $easy_connect_string);
 		if(!$connection) {
-			throw new Exception($l->t('Oracle username and/or password not valid'));
+			throw new DatabaseSetupException($l->t('Oracle username and/or password not valid'));
 		}
 		$query = "SELECT count(*) FROM user_tables WHERE table_name = :un";
 		$stmt = oci_parse($connection, $query);
@@ -633,7 +635,7 @@ class OC_Setup {
 			} else {
 				$entry = '';
 			}
-			throw new Exception($l->t('MS SQL username and/or password not valid: %s', array($entry)));
+			throw new DatabaseSetupException($l->t('MS SQL username and/or password not valid: %s', array($entry)));
 		}
 
 		OC_Config::setValue('dbuser', $dbuser);

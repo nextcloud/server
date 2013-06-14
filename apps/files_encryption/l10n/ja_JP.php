@@ -1,7 +1,20 @@
 <?php $TRANSLATIONS = array(
+"Recovery key successfully enabled" => "リカバリ用のキーは正常に有効化されました",
+"Could not enable recovery key. Please check your recovery key password!" => "リカバリ用のキーを有効にできませんでした。リカバリ用のキーのパスワードを確認して下さい！",
+"Recovery key successfully disabled" => "リカバリ用のキーを正常に無効化しました",
+"Could not disable recovery key. Please check your recovery key password!" => "リカバリ用のキーを無効化できませんでした。リカバリ用のキーのパスワードを確認して下さい！",
+"Password successfully changed." => "パスワードを変更できました。",
+"Could not change the password. Maybe the old password was not correct." => "パスワードを変更できませんでした。古いパスワードが間違っているかもしれません。",
+"Saving..." => "保存中...",
 "Encryption" => "暗号化",
-"File encryption is enabled." => "ファイルの暗号化は有効です。",
-"The following file types will not be encrypted:" => "次のファイルタイプは暗号化されません:",
-"Exclude the following file types from encryption:" => "次のファイルタイプを暗号化から除外:",
-"None" => "なし"
+"Enable encryption passwords recovery key (allow sharing to recovery key):" => "暗号化パスワードの復旧キーを有効にする(復旧キーを共有することを許可):",
+"Recovery account password" => "復旧アカウントのパスワード",
+"Enabled" => "有効",
+"Disabled" => "無効",
+"Change encryption passwords recovery key:" => "復旧キーの暗号化パスワードを変更:",
+"Old Recovery account password" => "古い復旧アカウントのパスワード",
+"New Recovery account password" => "新しい復旧アカウントのパスワード",
+"Change Password" => "パスワードを変更",
+"File recovery settings updated" => "ファイル復旧設定が更新されました",
+"Could not update file recovery" => "ファイル復旧を更新できませんでした"
 );

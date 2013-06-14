@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# hyy0591 <yangyu.huang@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-18 01:58+0200\n"
-"PO-Revision-Date: 2013-05-17 10:19+0000\n"
+"POT-Creation-Date: 2013-06-12 02:56+0200\n"
+"PO-Revision-Date: 2013-06-11 23:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +29,7 @@ msgstr "验证错误"
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
-msgstr ""
+msgstr "您的显示名称已修改"
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
@@ -136,16 +137,16 @@ msgstr "撤销"
 msgid "Unable to remove user"
 msgstr "无法移除用户"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:78
-#: templates/users.php:103
+#: js/users.js:92 templates/users.php:26 templates/users.php:87
+#: templates/users.php:112
 msgid "Groups"
 msgstr "群组"
 
-#: js/users.js:95 templates/users.php:80 templates/users.php:115
+#: js/users.js:95 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "群组管理员"
 
-#: js/users.js:115 templates/users.php:155
+#: js/users.js:115 templates/users.php:164
 msgid "Delete"
 msgstr "删除"
 
@@ -153,15 +154,15 @@ msgstr "删除"
 msgid "add group"
 msgstr "添加群组"
 
-#: js/users.js:420
+#: js/users.js:428
 msgid "A valid username must be provided"
 msgstr "请填写有效用户名"
 
-#: js/users.js:421 js/users.js:427 js/users.js:442
+#: js/users.js:429 js/users.js:435 js/users.js:450
 msgid "Error creating user"
 msgstr "新增用户时出现错误"
 
-#: js/users.js:426
+#: js/users.js:434
 msgid "A valid password must be provided"
 msgstr "请填写有效密码"
 
@@ -199,13 +200,13 @@ msgstr "请双击<a href='%s'>安装向导</a>。"
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "模块“fileinfo”丢失。"
 
 #: templates/admin.php:47
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr ""
+msgstr "PHP 模块“fileinfo”丢失。我们强烈建议打开此模块来获得 mine 类型检测的最佳结果。"
 
 #: templates/admin.php:58
 msgid "Locale not working"
@@ -217,7 +218,7 @@ msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
 "might be problems with certain characters in file names. We strongly suggest"
 " to install the required packages on your system to support %s."
-msgstr ""
+msgstr "ownCloud 服务器不能把系统区域设置到 %s。这意味着文件名可内可能含有某些引起问题的字符。我们强烈建议在您的系统上安装必要的包来支持“%s”。"
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
@@ -324,11 +325,11 @@ msgstr "更多"
 msgid "Less"
 msgstr "更少"
 
-#: templates/admin.php:235 templates/personal.php:105
+#: templates/admin.php:235 templates/personal.php:111
 msgid "Version"
 msgstr "版本"
 
-#: templates/admin.php:237 templates/personal.php:108
+#: templates/admin.php:237 templates/personal.php:114
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -399,7 +400,7 @@ msgstr "获取应用并同步您的文件"
 msgid "Show First Run Wizard again"
 msgstr "再次显示首次运行向导"
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:77
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "密码"
 
@@ -423,39 +424,39 @@ msgstr "新密码"
 msgid "Change password"
 msgstr "改变密码"
 
-#: templates/personal.php:56 templates/users.php:76
+#: templates/personal.php:56 templates/users.php:85
 msgid "Display Name"
 msgstr "显示名称"
 
-#: templates/personal.php:68
+#: templates/personal.php:71
 msgid "Email"
 msgstr "电子邮件"
 
-#: templates/personal.php:70
+#: templates/personal.php:73
 msgid "Your email address"
 msgstr "你的email地址"
 
-#: templates/personal.php:71
+#: templates/personal.php:74
 msgid "Fill in an email address to enable password recovery"
 msgstr "输入一个邮箱地址以激活密码恢复功能"
 
-#: templates/personal.php:77 templates/personal.php:78
+#: templates/personal.php:83 templates/personal.php:84
 msgid "Language"
 msgstr "语言"
 
-#: templates/personal.php:89
+#: templates/personal.php:95
 msgid "Help translate"
 msgstr "帮助翻译"
 
-#: templates/personal.php:94
+#: templates/personal.php:100
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:96
+#: templates/personal.php:102
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "使用此地址来在您的文件管理器中连接您的ownCloud"
 
-#: templates/users.php:21 templates/users.php:75
+#: templates/users.php:21 templates/users.php:84
 msgid "Login Name"
 msgstr "登录名"
 
@@ -463,30 +464,40 @@ msgstr "登录名"
 msgid "Create"
 msgstr "新建"
 
-#: templates/users.php:33
+#: templates/users.php:36
+msgid "Admin Recovery Password"
+msgstr ""
+
+#: templates/users.php:37 templates/users.php:38
+msgid ""
+"Enter the recovery password in order to recover the users files during "
+"password change"
+msgstr ""
+
+#: templates/users.php:42
 msgid "Default Storage"
 msgstr "默认容量"
 
-#: templates/users.php:39 templates/users.php:133
+#: templates/users.php:48 templates/users.php:142
 msgid "Unlimited"
 msgstr "无限制"
 
-#: templates/users.php:57 templates/users.php:148
+#: templates/users.php:66 templates/users.php:157
 msgid "Other"
 msgstr "其他"
 
-#: templates/users.php:82
+#: templates/users.php:91
 msgid "Storage"
 msgstr "容量"
 
-#: templates/users.php:93
+#: templates/users.php:102
 msgid "change display name"
 msgstr "更改显示名称"
 
-#: templates/users.php:97
+#: templates/users.php:106
 msgid "set new password"
 msgstr "设置新的密码"
 
-#: templates/users.php:128
+#: templates/users.php:137
 msgid "Default"
 msgstr "默认"

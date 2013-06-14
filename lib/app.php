@@ -172,9 +172,18 @@ class OC_App{
 			return array();
 		}
 		$apps=array('files');
-		$query = OC_DB::prepare( 'SELECT `appid` FROM `*PREFIX*appconfig`'
-			.' WHERE `configkey` = \'enabled\' AND `configvalue`=\'yes\'' );
+		$sql = 'SELECT `appid` FROM `*PREFIX*appconfig`'
+			.' WHERE `configkey` = \'enabled\' AND `configvalue`=\'yes\'';
+		if (OC_Config::getValue( 'dbtype', 'sqlite' ) === 'oci') {
+			//FIXME oracle hack: need to explicitly cast CLOB to CHAR for comparison
+			$sql = 'SELECT `appid` FROM `*PREFIX*appconfig`'
+			.' WHERE `configkey` = \'enabled\' AND to_char(`configvalue`)=\'yes\'';
+		}
+		$query = OC_DB::prepare( $sql );
 		$result=$query->execute();
+		if( \OC_DB::isError($result)) {
+			throw new DatabaseException($result->getMessage(), $query);
+		}
 		while($row=$result->fetchRow()) {
 			if(array_search($row['appid'], $apps)===false) {
 				$apps[]=$row['appid'];
@@ -340,7 +349,8 @@ class OC_App{
 
 		$settings = array();
 		// by default, settings only contain the help menu
-		if(OC_Config::getValue('knowledgebaseenabled', true)==true) {
+		if(OC_Util::getEditionString() === '' &&
+			OC_Config::getValue('knowledgebaseenabled', true)==true) {
 			$settings = array(
 				array(
 					"id" => "help",

@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Denis <reg.transifex.net@demitel.ru>, 2013.
-#   <sharov3@gmail.com>, 2012.
-#   <skoptev@ukr.net>, 2012.
+# Denis <reg.transifex.net@demitel.ru>, 2013
+# adol <sharov3@gmail.com>, 2012
+# skoptev <skoptev@ukr.net>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:23+0000\n"
+"POT-Creation-Date: 2013-05-25 02:01+0200\n"
+"PO-Revision-Date: 2013-05-24 13:26+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"

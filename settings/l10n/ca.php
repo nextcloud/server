@@ -101,6 +101,8 @@
 "Use this address to connect to your ownCloud in your file manager" => "Useu aquesta adreça per connectar amb ownCloud des del gestor de fitxers",
 "Login Name" => "Nom d'accés",
 "Create" => "Crea",
+"Admin Recovery Password" => "Recuperació de contrasenya d'administrador",
+"Enter the recovery password in order to recover the users files during password change" => "Escriviu la contrasenya de recuperació per a poder recuperar els fitxers dels usuaris en canviar la contrasenya",
 "Default Storage" => "Emmagatzemament per defecte",
 "Unlimited" => "Il·limitat",
 "Other" => "Un altre",

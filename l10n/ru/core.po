@@ -5,13 +5,14 @@
 # Translators:
 # foool <andrglad@mail.ru>, 2013
 # Vyacheslav Muranov <s@neola.ru>, 2013
+# Langaru <langaru@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-18 01:58+0200\n"
-"PO-Revision-Date: 2013-05-17 10:18+0000\n"
-"Last-Translator: foool <andrglad@mail.ru>\n"
+"POT-Creation-Date: 2013-06-14 02:47+0200\n"
+"PO-Revision-Date: 2013-06-14 00:47+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -214,25 +215,29 @@ msgstr "в прошлом году"
 msgid "years ago"
 msgstr "несколько лет назад"
 
-#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
-msgid "Ok"
-msgstr "Ок"
-
-#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
-msgid "Cancel"
-msgstr "Отменить"
-
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:117
 msgid "Choose"
 msgstr "Выбрать"
 
-#: js/oc-dialogs.js:215
+#: js/oc-dialogs.js:122
+msgid "Cancel"
+msgstr "Отменить"
+
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+msgid "Error loading file picker template"
+msgstr "Ошибка при загрузке файла выбора  шаблона"
+
+#: js/oc-dialogs.js:164
 msgid "Yes"
 msgstr "Да"
 
-#: js/oc-dialogs.js:222
+#: js/oc-dialogs.js:172
 msgid "No"
 msgstr "Нет"
+
+#: js/oc-dialogs.js:185
+msgid "Ok"
+msgstr "Ок"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -390,7 +395,7 @@ msgstr "При обновлении произошла ошибка. Пожал�
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Обновление прошло успешно. Перенаправляемся в Ваш ownCloud..."
 
-#: lostpassword/controller.php:48
+#: lostpassword/controller.php:58
 msgid "ownCloud password reset"
 msgstr "Сброс пароля "
 
@@ -418,7 +423,19 @@ msgstr "На ваш адрес Email выслана ссылка для сбро
 msgid "Username"
 msgstr "Имя пользователя"
 
-#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:22
+msgid ""
+"Your files seems to be encrypted. If you didn't have enabled the recovery "
+"key there will be no way to get your data back once the password was "
+"resetted. If you are not sure what to do, please contact your administrator "
+"first before continue. Do you really want to continue?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:24
+msgid "Yes, I really want to reset my password now"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:29
 msgid "Request reset"
 msgstr "Запросить сброс"
 
@@ -558,16 +575,12 @@ msgstr "Хост базы данных"
 msgid "Finish setup"
 msgstr "Завершить установку"
 
-#: templates/layout.guest.php:40
-msgid "web services under your control"
-msgstr "веб-сервисы под вашим управлением"
-
-#: templates/layout.user.php:36
+#: templates/layout.user.php:40
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s доступно. Получить дополнительную информацию о порядке обновления."
 
-#: templates/layout.user.php:61
+#: templates/layout.user.php:67
 msgid "Log out"
 msgstr "Выйти"
 

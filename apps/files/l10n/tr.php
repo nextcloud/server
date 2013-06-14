@@ -46,6 +46,7 @@
 "{count} folders" => "{count} dizin",
 "1 file" => "1 dosya",
 "{count} files" => "{count} dosya",
+"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Geçersiz dizin adı. 'Shared' dizin ismi kullanımı ownCloud tarafından rezerve edilmiştir.",
 "Unable to rename file" => "Dosya adı değiştirilemedi",
 "Upload" => "Yükle",
 "File handling" => "Dosya taşıma",

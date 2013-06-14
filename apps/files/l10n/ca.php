@@ -57,7 +57,7 @@
 "0 is unlimited" => "0 és sense límit",
 "Maximum input size for ZIP files" => "Mida màxima d'entrada per fitxers ZIP",
 "Save" => "Desa",
-"New" => "Nova",
+"New" => "Nou",
 "Text file" => "Fitxer de text",
 "Folder" => "Carpeta",
 "From link" => "Des d'enllaç",

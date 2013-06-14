@@ -1,7 +1,8 @@
 <?php $TRANSLATIONS = array(
+"Password successfully changed." => "Tu contraseña fue cambiada",
+"Could not change the password. Maybe the old password was not correct." => "No se pudo cambiar la contraseña. Comprobá que la contraseña actual sea correcta.",
+"Saving..." => "Guardando...",
 "Encryption" => "Encriptación",
-"File encryption is enabled." => "La encriptación de archivos no está habilitada",
-"The following file types will not be encrypted:" => "Los siguientes tipos de archivos no serán encriptados",
-"Exclude the following file types from encryption:" => "Excluir los siguientes tipos de archivos de encriptación:",
-"None" => "Ninguno"
+"Enable encryption passwords recovery key (allow sharing to recovery key):" => "Habilitar clave de recuperación de contraseñas (permite compartir clave de contraseñas):",
+"Recovery account password" => "Recuperar contraseña"
 );

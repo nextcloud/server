@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-18 01:58+0200\n"
-"PO-Revision-Date: 2013-05-17 10:18+0000\n"
+"POT-Creation-Date: 2013-06-12 02:55+0200\n"
+"PO-Revision-Date: 2013-06-11 23:27+0000\n"
 "Last-Translator: rogerc\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -262,7 +262,7 @@ msgstr "Desa"
 
 #: templates/index.php:7
 msgid "New"
-msgstr "Nova"
+msgstr "Nou"
 
 #: templates/index.php:10
 msgid "Text file"

@@ -101,6 +101,8 @@
 "Use this address to connect to your ownCloud in your file manager" => "Kasuta seda aadressi ühendamaks oma ownCloudi failihalduriga",
 "Login Name" => "Kasutajanimi",
 "Create" => "Lisa",
+"Admin Recovery Password" => "Admin taasteparool",
+"Enter the recovery password in order to recover the users files during password change" => "Sisesta taasteparool kasutaja failide taastamiseks paroolivahetuse käigus",
 "Default Storage" => "Vaikimisi maht",
 "Unlimited" => "Piiramatult",
 "Other" => "Muu",

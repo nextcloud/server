@@ -29,13 +29,16 @@ class Watcher extends \PHPUnit_Framework_TestCase {
 		}
 	}
 
+	/**
+	 * @medium
+	 */
 	function testWatcher() {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();
 		$updater = $storage->getWatcher();
 
 		//set the mtime to the past so it can detect an mtime change
-		$cache->put('', array('mtime' => 10));
+		$cache->put('', array('storage_mtime' => 10));
 
 		$this->assertTrue($cache->inCache('folder/bar.txt'));
 		$this->assertTrue($cache->inCache('folder/bar2.txt'));
@@ -47,14 +50,14 @@ class Watcher extends \PHPUnit_Framework_TestCase {
 		$cachedData = $cache->get('bar.test');
 		$this->assertEquals(3, $cachedData['size']);
 
-		$cache->put('bar.test', array('mtime' => 10));
+		$cache->put('bar.test', array('storage_mtime' => 10));
 		$storage->file_put_contents('bar.test', 'test data');
 
 		$updater->checkUpdate('bar.test');
 		$cachedData = $cache->get('bar.test');
 		$this->assertEquals(9, $cachedData['size']);
 
-		$cache->put('folder', array('mtime' => 10));
+		$cache->put('folder', array('storage_mtime' => 10));
 
 		$storage->unlink('folder/bar2.txt');
 		$updater->checkUpdate('folder');
@@ -63,13 +66,16 @@ class Watcher extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($cache->inCache('folder/bar2.txt'));
 	}
 
+	/**
+	 * @medium
+	 */
 	public function testFileToFolder() {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();
 		$updater = $storage->getWatcher();
 
 		//set the mtime to the past so it can detect an mtime change
-		$cache->put('', array('mtime' => 10));
+		$cache->put('', array('storage_mtime' => 10));
 
 		$storage->unlink('foo.txt');
 		$storage->rename('folder', 'foo.txt');
@@ -85,7 +91,7 @@ class Watcher extends \PHPUnit_Framework_TestCase {
 		$updater = $storage->getWatcher();
 
 		//set the mtime to the past so it can detect an mtime change
-		$cache->put('foo.txt', array('mtime' => 10));
+		$cache->put('foo.txt', array('storage_mtime' => 10));
 
 		$storage->unlink('foo.txt');
 		$storage->rename('folder', 'foo.txt');

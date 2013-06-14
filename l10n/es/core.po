@@ -6,13 +6,14 @@
 # ggam <ggam@brainleakage.com>, 2013
 # msoko <sokolovitch@yahoo.com>, 2013
 # iGerli <stefano@aerosoles.net>, 2013
+# xhiena <xhiena@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-21 02:00+0200\n"
-"PO-Revision-Date: 2013-05-20 23:10+0000\n"
-"Last-Translator: ggam <ggam@brainleakage.com>\n"
+"POT-Creation-Date: 2013-06-14 02:47+0200\n"
+"PO-Revision-Date: 2013-06-14 00:47+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -215,25 +216,29 @@ msgstr "el año pasado"
 msgid "years ago"
 msgstr "hace años"
 
-#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
-msgid "Ok"
-msgstr "Aceptar"
-
-#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
-msgid "Cancel"
-msgstr "Cancelar"
-
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:117
 msgid "Choose"
 msgstr "Seleccionar"
 
-#: js/oc-dialogs.js:215
+#: js/oc-dialogs.js:122
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+msgid "Error loading file picker template"
+msgstr "Error cargando la plantilla del seleccionador de archivos"
+
+#: js/oc-dialogs.js:164
 msgid "Yes"
 msgstr "Sí"
 
-#: js/oc-dialogs.js:222
+#: js/oc-dialogs.js:172
 msgid "No"
 msgstr "No"
+
+#: js/oc-dialogs.js:185
+msgid "Ok"
+msgstr "Aceptar"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -391,7 +396,7 @@ msgstr "La actualización ha fracasado. Por favor, informe de este problema a la
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "La actualización se ha realizado correctamente. Redireccionando a ownCloud ahora."
 
-#: lostpassword/controller.php:48
+#: lostpassword/controller.php:58
 msgid "ownCloud password reset"
 msgstr "Restablecer contraseña de ownCloud"
 
@@ -419,7 +424,19 @@ msgstr "Recibirá un enlace por correo electrónico para restablecer su contrase
 msgid "Username"
 msgstr "Nombre de usuario"
 
-#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:22
+msgid ""
+"Your files seems to be encrypted. If you didn't have enabled the recovery "
+"key there will be no way to get your data back once the password was "
+"resetted. If you are not sure what to do, please contact your administrator "
+"first before continue. Do you really want to continue?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:24
+msgid "Yes, I really want to reset my password now"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:29
 msgid "Request reset"
 msgstr "Solicitar restablecimiento"
 
@@ -559,16 +576,12 @@ msgstr "Host de la base de datos"
 msgid "Finish setup"
 msgstr "Completar la instalación"
 
-#: templates/layout.guest.php:40
-msgid "web services under your control"
-msgstr "Servicios web bajo su control"
-
-#: templates/layout.user.php:36
+#: templates/layout.user.php:40
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s esta disponible. Obtener mas información de como actualizar."
 
-#: templates/layout.user.php:61
+#: templates/layout.user.php:67
 msgid "Log out"
 msgstr "Salir"
 

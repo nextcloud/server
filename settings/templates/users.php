@@ -29,6 +29,15 @@ $_['subadmingroups'] = array_flip($items);
 			<?php endforeach;?>
 		</select> <input type="submit" value="<?php p($l->t('Create'))?>" />
 	</form>
+	<?php if((bool)$_['recoveryAdminEnabled']): ?>
+	<div class="recoveryPassword">
+	<input id="recoveryPassword"
+		   type="password"
+		   placeholder="<?php p($l->t('Admin Recovery Password'))?>"
+		   title="<?php p($l->t('Enter the recovery password in order to recover the users files during password change'))?>"
+		   alt="<?php p($l->t('Enter the recovery password in order to recover the users files during password change'))?>"/>
+	</div>
+	<?php endif; ?>
 	<div class="quota">
 		<span><?php p($l->t('Default Storage'));?></span>
 			<?php if((bool) $_['isadmin']): ?>

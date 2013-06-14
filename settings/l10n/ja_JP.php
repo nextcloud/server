@@ -101,6 +101,8 @@
 "Use this address to connect to your ownCloud in your file manager" => "ファイルマネージャでownCloudに接続する際はこのアドレスを利用してください",
 "Login Name" => "ログイン名",
 "Create" => "作成",
+"Admin Recovery Password" => "管理者復旧パスワード",
+"Enter the recovery password in order to recover the users files during password change" => "パスワード変更の間のユーザーのファイルを回復するために、リカバリパスワードを入力してください",
 "Default Storage" => "デフォルトストレージ",
 "Unlimited" => "無制限",
 "Other" => "その他",
