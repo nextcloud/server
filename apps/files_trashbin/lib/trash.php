@@ -191,14 +191,16 @@ class Trashbin {
 				$size += self::calculateSize(new \OC\Files\View($sharekeys));
 				$rootView->rename($sharekeys, $user . '/files_trashbin/share-keys/' . $filename . '.d' . $timestamp);
 			} else {
-				// get local path to share-keys
-				$localShareKeysPath = $rootView->getLocalFile($sharekeys);
 
-				// handle share-keys
-				$matches = glob(preg_quote($localShareKeysPath) . '*.shareKey');
-				foreach ($matches as $src) {
-					// get source file parts
-					$pathinfo = pathinfo($src);
+                // get local path to share-keys
+				$localShareKeysPath = $rootView->getLocalFile($sharekeys);
+				$escapedLocalShareKeysPath = preg_replace('/(\*|\?|\[)/', '[$1]', $localShareKeysPath);
+
+                // handle share-keys
+                $matches = glob($escapedLocalShareKeysPath.'*.shareKey');
+                foreach ($matches as $src) {
+                    // get source file parts
+                    $pathinfo = pathinfo($src);
 
 					// we only want to keep the owners key so we can access the private key
 					$ownerShareKey = $filename . '.' . $user . '.shareKey';
@@ -724,15 +726,17 @@ class Trashbin {
 	 * @param $timestamp timestamp when the file was deleted
 	 */
 	private static function getVersionsFromTrash($filename, $timestamp) {
-		$view = new \OC\Files\View('/' . \OCP\User::getUser() . '/files_trashbin/versions');
-		$versionsName = $view->getLocalFile($filename);
+
+		$view = new \OC\Files\View('/'.\OCP\User::getUser().'/files_trashbin/versions');
+		$versionsName = $view->getLocalFile($filename).'.v';
+		$escapedVersionsName = preg_replace('/(\*|\?|\[)/', '[$1]', $versionsName);
 		$versions = array();
 		if ($timestamp) {
 			// fetch for old versions
-			$matches = glob($versionsName . '.v*.d' . $timestamp);
-			$offset = -strlen($timestamp) - 2;
+			$matches = glob( $escapedVersionsName.'*.d'.$timestamp );
+			$offset = -strlen($timestamp)-2;
 		} else {
-			$matches = glob($versionsName . '.v*');
+			$matches = glob( $escapedVersionsName.'*' );
 		}
 
 		foreach ($matches as $ma) {
