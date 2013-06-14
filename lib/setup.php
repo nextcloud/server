@@ -133,12 +133,15 @@ class OC_Setup {
 				$dbuser = $options['dbuser'];
 				$dbpass = $options['dbpass'];
 				$dbname = $options['dbname'];
-				$dbtablespace = $options['dbtablespace'];
+				if (array_key_exists('dbtablespace', $options)) {
+					$dbtablespace = $options['dbtablespace'];
+				} else {
+					$dbtablespace = 'USERS';
+				}
 				$dbhost = isset($options['dbhost'])?$options['dbhost']:'';
 				$dbtableprefix = isset($options['dbtableprefix']) ? $options['dbtableprefix'] : 'oc_';
 
 				OC_Config::setValue('dbname', $dbname);
-				OC_Config::setValue('dbtablespace', $dbtablespace);
 				OC_Config::setValue('dbhost', $dbhost);
 				OC_Config::setValue('dbtableprefix', $dbtableprefix);
 
@@ -439,8 +442,8 @@ class OC_Setup {
 		}
 	}
 
-	private static function setupOCIDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $dbtablespace,
-		$username) {
+	private static function setupOCIDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix,
+		$dbtablespace = 'USERS', $username) {
 		$l = self::getTrans();
 		$e_host = addslashes($dbhost);
 		$e_dbname = addslashes($dbname);
@@ -552,7 +555,7 @@ class OC_Setup {
 	 * @param String $tablespace
 	 * @param resource $connection
 	 */
-	private static function oci_createDBUser($name, $password, $tablespace, $connection) {
+	private static function oci_createDBUser($name, $password, $tablespace = 'USERS', $connection) {
 		$l = self::getTrans();
 		$query = "SELECT * FROM all_users WHERE USERNAME = :un";
 		$stmt = oci_parse($connection, $query);
