@@ -3,7 +3,7 @@ print_unescaped($l->t("Hey there,\n\njust letting you know that %s shared »%s«
 ?>
 
 --
-<?php
-print_unescaped($l->t("ownCloud – web services under your control"));
+ownCloud - <?php
+print_unescaped($l->t("web services under your control"));
 ?>
 http://ownCloud.org
