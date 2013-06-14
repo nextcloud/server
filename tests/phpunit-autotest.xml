@@ -29,6 +29,7 @@
 				<directory suffix=".php">../lib/MDB2</directory>
 				<directory suffix=".php">../lib/l10n</directory>
 				<directory suffix=".php">../core/l10n</directory>
+				<directory suffix=".php">../settings/l10n</directory>
 			</exclude>
 		</whitelist>
 	</filter>
