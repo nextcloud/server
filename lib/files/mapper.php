@@ -172,14 +172,9 @@ class Mapper
 
 		$pathElements = explode('/', $path);
 		$sluggedElements = array();
-
-		// rip off the extension ext from last element
+		
 		$last= end($pathElements);
-		$parts = pathinfo($last);
-		$filename = $parts['filename'];
-		array_pop($pathElements);
-		array_push($pathElements, $filename);
-
+		
 		foreach ($pathElements as $pathElement) {
 			// remove empty elements
 			if (empty($pathElement)) {
@@ -192,13 +187,15 @@ class Mapper
 		// apply index to file name
 		if ($index !== null) {
 			$last= array_pop($sluggedElements);
-			array_push($sluggedElements, $last.'-'.$index);
-		}
+			
+			// if filename contains periods - add index number before last period
+			if (preg_match('~\.[^\.]+$~i',$last,$extension)){
+				array_push($sluggedElements, substr($last,0,-(strlen($extension[0]))).'-'.$index.$extension[0]);
+			} else {
+				// if filename doesn't contain periods add index ofter the last char
+				array_push($sluggedElements, $last.'-'.$index);
+				}
 
-		// add back the extension
-		if (isset($parts['extension'])) {
-			$last= array_pop($sluggedElements);
-			array_push($sluggedElements, $last.'.'.$parts['extension']);
 		}
 
 		$sluggedPath = $this->unchangedPhysicalRoot.implode('/', $sluggedElements);
@@ -213,8 +210,8 @@ class Mapper
 	 */
 	private function slugify($text)
 	{
-		// replace non letter or digits by -
-		$text = preg_replace('~[^\\pL\d]+~u', '-', $text);
+		// replace non letter or digits or dots by -
+		$text = preg_replace('~[^\\pL\d\.]+~u', '-', $text);
 
 		// trim
 		$text = trim($text, '-');
@@ -228,7 +225,10 @@ class Mapper
 		$text = strtolower($text);
 
 		// remove unwanted characters
-		$text = preg_replace('~[^-\w]+~', '', $text);
+		$text = preg_replace('~[^-\w\.]+~', '', $text);
+		
+		// trim ending dots (for security reasons and win compatibility)
+		$text = preg_replace('~\.+$~', '', $text);
 
 		if (empty($text)) {
 			return uniqid();
