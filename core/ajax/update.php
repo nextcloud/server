@@ -5,11 +5,15 @@ require_once '../../lib/base.php';
 
 if (OC::checkUpgrade(false)) {
 	\OC_DB::enableCaching(false);
+	OC_Config::setValue('maintenance', true);
+	$installedVersion = OC_Config::getValue('version', '0.0.0');
+	$currentVersion = implode('.', OC_Util::getVersion());
+	OC_Log::write('core', 'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, OC_Log::WARN);
 	$updateEventSource = new OC_EventSource();
 	$watcher = new UpdateWatcher($updateEventSource);
 	OC_Hook::connect('update', 'success', $watcher, 'success');
 	OC_Hook::connect('update', 'error', $watcher, 'error');
-	OC_Hook::connect('update', 'error', $watcher, 'failure');
+	OC_Hook::connect('update', 'failure', $watcher, 'failure');
 	$watcher->success('Turned on maintenance mode');
 	try {
 		$result = OC_DB::updateDbFromStructure(OC::$SERVERROOT.'/db_structure.xml');
@@ -99,6 +103,7 @@ class UpdateWatcher {
 		OC_Util::obEnd();
 		$this->eventSource->send('failure', $message);
 		$this->eventSource->close();
+		OC_Config::setValue('maintenance', false);
 		die();
 	}
 

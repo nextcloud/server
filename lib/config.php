@@ -173,7 +173,7 @@ class OC_Config{
 		}
 		// Prevent others not to read the config
 		@chmod($filename, 0640);
-
+		OC_Util::clearOpcodeCache();
 		return true;
 	}
 }
