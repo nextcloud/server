@@ -26,8 +26,8 @@ class Test_DBSchema extends PHPUnit_Framework_TestCase {
 		file_put_contents( self::$schema_file2, $content );
 
 		$this->test_prefix = $r;
-		$this->table1 = $this->test_prefix.'contacts_addressbooks';
-		$this->table2 = $this->test_prefix.'contacts_cards';
+		$this->table1 = $this->test_prefix.'cntcts_addrsbks';
+		$this->table2 = $this->test_prefix.'cntcts_cards';
 	}
 
 	public function tearDown() {

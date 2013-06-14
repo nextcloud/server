@@ -68,7 +68,7 @@
 				<name>id</name>
 				<type>text</type>
 				<default></default>
-				<notnull>true</notnull>
+				<notnull>false</notnull>
 				<length>64</length>
 			</field>
 
@@ -217,7 +217,7 @@
 				<name>path</name>
 				<type>text</type>
 				<default></default>
-				<notnull>true</notnull>
+				<notnull>false</notnull>
 				<length>512</length>
 			</field>
 
@@ -241,7 +241,7 @@
 				<name>name</name>
 				<type>text</type>
 				<default></default>
-				<notnull>true</notnull>
+				<notnull>false</notnull>
 				<length>250</length>
 			</field>
 
