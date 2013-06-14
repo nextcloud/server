@@ -460,7 +460,7 @@ class OC_DB {
 			$row = $result->fetchRow();
 			self::raiseExceptionOnError($row, 'fetching row for insertid failed');
 			return $row['id'];
-		} else if( $type === 'mssql') {
+		} else if( $type === 'mssql' || $type === 'oci') {
 			if($table !== null) {
 				$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
 				$table = str_replace( '*PREFIX*', $prefix, $table );
@@ -594,6 +594,11 @@ class OC_DB {
 		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
 
 		self::connectScheme();
+		
+		if(OC_Config::getValue('dbtype', 'sqlite')==='oci') {
+			//set dbname, it is unset because oci uses 'service' to connect
+			self::$schema->db->database_name=self::$schema->db->dsn['username'];
+		}
 
 		// read file
 		$content = file_get_contents( $file );
@@ -616,6 +621,12 @@ class OC_DB {
 		if( $CONFIG_DBTYPE == 'pgsql' ) { //mysql support it too but sqlite doesn't
 			$content = str_replace( '<default>0000-00-00 00:00:00</default>',
 				'<default>CURRENT_TIMESTAMP</default>', $content );
+		}
+		if(OC_Config::getValue('dbtype', 'sqlite')==='oci') {
+			unset($previousSchema['charset']); //or MDB2 tries SHUTDOWN IMMEDIATE
+			$oldname = $previousSchema['name'];
+			$previousSchema['name']=OC_Config::getValue( "dbuser", $oldname );
+			//TODO check identifiers are at most 30 chars long
 		}
 		file_put_contents( $file2, $content );
 		$op = self::$schema->updateDatabase($file2, $previousSchema, array(), false);
