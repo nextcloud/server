@@ -30,6 +30,7 @@
 				<directory suffix=".php">../lib/l10n</directory>
 				<directory suffix=".php">../core/l10n</directory>
 				<directory suffix=".php">../settings/l10n</directory>
+				<directory suffix=".php">../tests</directory>
 			</exclude>
 		</whitelist>
 	</filter>
