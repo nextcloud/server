@@ -833,6 +833,26 @@ class OC_Util {
 	}
 
 	/**
+	 * Clear the opcode cache if one exists
+	 * This is necessary for writing to the config file
+	 * in case the opcode cache doesn't revalidate files
+	 */
+	public static function clearOpcodeCache() {
+		// APC
+		if (function_exists('apc_clear_cache')) {
+			apc_clear_cache();
+		}
+		// Zend Opcache
+		if (function_exists('accelerator_reset')) {
+			accelerator_reset();
+		}
+		// XCache
+		if (function_exists('xcache_clear_cache')) {
+			xcache_clear_cache(XC_TYPE_VAR, 0);
+		}
+	}
+
+	/**
 	 * Normalize a unicode string
 	 * @param string $value a not normalized string
 	 * @return bool|string

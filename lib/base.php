@@ -235,10 +235,7 @@ class OC {
 			$currentVersion = implode('.', OC_Util::getVersion());
 			if (version_compare($currentVersion, $installedVersion, '>')) {
 				if ($showTemplate && !OC_Config::getValue('maintenance', false)) {
-					OC_Config::setValue('maintenance', true);
-					OC_Log::write('core',
-						'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion,
-						OC_Log::WARN);
+					OC_Config::setValue('theme', '');
 					$minimizerCSS = new OC_Minimizer_CSS();
 					$minimizerCSS->clearCache();
 					$minimizerJS = new OC_Minimizer_JS();
