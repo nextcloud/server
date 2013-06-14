@@ -8,6 +8,8 @@
 
 namespace OC\Files\Cache;
 
+use OC\Files\Filesystem;
+
 class Scanner {
 	/**
 	 * @var \OC\Files\Storage\Storage $storage
@@ -62,8 +64,8 @@ class Scanner {
 	 * @return array with metadata of the scanned file
 	 */
 	public function scanFile($file, $checkExisting = false) {
-		if ( ! self::isPartialFile($file)
-			and ! \OC\Files\Filesystem::isFileBlacklisted($file)
+		if (!self::isPartialFile($file)
+			and !Filesystem::isFileBlacklisted($file)
 		) {
 			\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', array('path' => $file, 'storage' => $this->storageId));
 			$data = $this->getData($file);
@@ -83,7 +85,8 @@ class Scanner {
 						$data['size'] = $cacheData['size'];
 					}
 					if ($data['mtime'] === $cacheData['mtime'] &&
-						$data['size'] === $cacheData['size']) {
+						$data['size'] === $cacheData['size']
+					) {
 						$data['etag'] = $cacheData['etag'];
 					}
 					// Only update metadata that has changed
@@ -99,38 +102,42 @@ class Scanner {
 	}
 
 	/**
-	 * scan all the files in a folder and store them in the cache
+	 * scan a folder and all it's children
 	 *
 	 * @param string $path
 	 * @param bool $recursive
-	 * @param bool $onlyChilds
 	 * @return int the size of the scanned folder or -1 if the size is unknown at this stage
 	 */
-	public function scan($path, $recursive = self::SCAN_RECURSIVE, $onlyChilds = false) {
-		\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_folder', array('path' => $path, 'storage' => $this->storageId));
-		$childQueue = array();
-		if (!$onlyChilds) {
-			$this->scanFile($path);
-		}
+	public function scan($path, $recursive = self::SCAN_RECURSIVE) {
+		$this->scanFile($path);
+		return $this->scanChildren($path, $recursive);
+	}
 
+	/**
+	 * scan all the files and folders in a folder
+	 *
+	 * @param string $path
+	 * @param bool $recursive
+	 * @return int the size of the scanned folder or -1 if the size is unknown at this stage
+	 */
+	public function scanChildren($path, $recursive = self::SCAN_RECURSIVE) {
+		\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_folder', array('path' => $path, 'storage' => $this->storageId));
 		$size = 0;
+		$childQueue = array();
 		if ($this->storage->is_dir($path) && ($dh = $this->storage->opendir($path))) {
 			\OC_DB::beginTransaction();
 			while ($file = readdir($dh)) {
 				$child = ($path) ? $path . '/' . $file : $file;
-				if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
+				if (!Filesystem::isIgnoredDir($file)) {
 					$data = $this->scanFile($child, $recursive === self::SCAN_SHALLOW);
 					if ($data) {
 						if ($data['size'] === -1) {
 							if ($recursive === self::SCAN_RECURSIVE) {
 								$childQueue[] = $child;
-								$data['size'] = 0;
 							} else {
 								$size = -1;
 							}
-						}
-
-						if ($size !== -1) {
+						} else if ($size !== -1) {
 							$size += $data['size'];
 						}
 					}
@@ -138,7 +145,7 @@ class Scanner {
 			}
 			\OC_DB::commit();
 			foreach ($childQueue as $child) {
-				$childSize = $this->scan($child, self::SCAN_RECURSIVE, true);
+				$childSize = $this->scanChildren($child, self::SCAN_RECURSIVE);
 				if ($childSize === -1) {
 					$size = -1;
 				} else {
