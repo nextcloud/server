@@ -407,7 +407,7 @@ class OC_DB {
 			$row = $query->execute()->fetchRow();
 			return $row['id'];
 		}
-		if( $type == 'mssql' ) {
+		if( $type == 'mssql' || $type == 'oci' ) {
 			if($table !== null) {
 				$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
 				$table = str_replace( '*PREFIX*', $prefix, $table );
