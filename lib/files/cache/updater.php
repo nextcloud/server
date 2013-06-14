@@ -103,7 +103,7 @@ class Updater {
 	static public function correctFolder($path, $time) {
 		if ($path !== '' && $path !== '/') {
 			$parent = dirname($path);
-			if ($parent === '.') {
+			if ($parent === '.' || $parent === '\\') {
 				$parent = '';
 			}
 			/**
