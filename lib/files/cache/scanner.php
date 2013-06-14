@@ -29,6 +29,9 @@ class Scanner {
 	const SCAN_RECURSIVE = true;
 	const SCAN_SHALLOW = false;
 
+	const REUSE_ETAG = 1;
+	const REUSE_SIZE = 2;
+
 	public function __construct(\OC\Files\Storage\Storage $storage) {
 		$this->storage = $storage;
 		$this->storageId = $this->storage->getId();
@@ -60,10 +63,10 @@ class Scanner {
 	 * scan a single file and store it in the cache
 	 *
 	 * @param string $file
-	 * @param bool $checkExisting check existing folder sizes in the cache instead of always using -1 for folder size
+	 * @param int $reuseExisting
 	 * @return array with metadata of the scanned file
 	 */
-	public function scanFile($file, $checkExisting = false) {
+	public function scanFile($file, $reuseExisting = 0) {
 		if (!self::isPartialFile($file)
 			and !Filesystem::isFileBlacklisted($file)
 		) {
@@ -80,21 +83,22 @@ class Scanner {
 					}
 				}
 				$newData = $data;
-				if ($cacheData = $this->cache->get($file)) {
-					if ($checkExisting && $data['size'] === -1) {
-						$data['size'] = $cacheData['size'];
-					}
-					if ($data['mtime'] === $cacheData['mtime'] &&
-						$data['size'] === $cacheData['size']
-					) {
-						$data['etag'] = $cacheData['etag'];
+				if ($reuseExisting and $cacheData = $this->cache->get($file)) {
+					// only reuse data if the file hasn't explicitly changed
+					if ($data['mtime'] === $cacheData['mtime']) {
+						if (($reuseExisting & self::REUSE_SIZE) && ($data['size'] === -1)) {
+							$data['size'] = $cacheData['size'];
+						}
+						if ($reuseExisting & self::REUSE_ETAG) {
+							$data['etag'] = $cacheData['etag'];
+						}
 					}
 					// Only update metadata that has changed
 					$newData = array_diff($data, $cacheData);
 				}
-				if (!empty($newData)) {
-					$this->cache->put($file, $newData);
-				}
+			}
+			if (!empty($newData)) {
+				$this->cache->put($file, $newData);
 			}
 			return $data;
 		}
@@ -106,10 +110,14 @@ class Scanner {
 	 *
 	 * @param string $path
 	 * @param bool $recursive
+	 * @param int $reuse
 	 * @return int the size of the scanned folder or -1 if the size is unknown at this stage
 	 */
-	public function scan($path, $recursive = self::SCAN_RECURSIVE) {
-		$this->scanFile($path);
+	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1) {
+		if ($reuse === -1) {
+			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : 0;
+		}
+		$this->scanFile($path, $reuse);
 		return $this->scanChildren($path, $recursive);
 	}
 
@@ -118,9 +126,13 @@ class Scanner {
 	 *
 	 * @param string $path
 	 * @param bool $recursive
+	 * @param int $reuse
 	 * @return int the size of the scanned folder or -1 if the size is unknown at this stage
 	 */
-	public function scanChildren($path, $recursive = self::SCAN_RECURSIVE) {
+	public function scanChildren($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1) {
+		if ($reuse === -1) {
+			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : 0;
+		}
 		\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_folder', array('path' => $path, 'storage' => $this->storageId));
 		$size = 0;
 		$childQueue = array();
@@ -129,7 +141,7 @@ class Scanner {
 			while ($file = readdir($dh)) {
 				$child = ($path) ? $path . '/' . $file : $file;
 				if (!Filesystem::isIgnoredDir($file)) {
-					$data = $this->scanFile($child, $recursive === self::SCAN_SHALLOW);
+					$data = $this->scanFile($child, $reuse);
 					if ($data) {
 						if ($data['size'] === -1) {
 							if ($recursive === self::SCAN_RECURSIVE) {
