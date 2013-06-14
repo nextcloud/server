@@ -125,7 +125,6 @@
 "Database tablespace" => "Табличое пространство базы данных",
 "Database host" => "Хост базы данных",
 "Finish setup" => "Завершить установку",
-"web services under your control" => "веб-сервисы под вашим управлением",
 "%s is available. Get more information on how to update." => "%s доступно. Получить дополнительную информацию о порядке обновления.",
 "Log out" => "Выйти",
 "Automatic logon rejected!" => "Автоматический вход в систему отключен!",

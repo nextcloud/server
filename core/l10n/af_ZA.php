@@ -23,7 +23,6 @@
 "Database password" => "Databasis-wagwoord",
 "Database name" => "Databasis naam",
 "Finish setup" => "Maak opstelling klaar",
-"web services under your control" => "webdienste onder jou beheer",
 "Log out" => "Teken uit",
 "Lost your password?" => "Jou wagwoord verloor?",
 "remember" => "onthou",

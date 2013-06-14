@@ -15,8 +15,6 @@
 "Old Recovery account password" => "Gamla lösenordet för återställningskontot",
 "New Recovery account password" => "Nytt återställningslösenord för kontot",
 "Change Password" => "Byt lösenord",
-"Enable password recovery by sharing all files with your administrator:" => "Aktivera lösenordsåterställning genom att dela alla filer med din administratör:",
-"Enabling this option will allow you to reobtain access to your encrypted files if your password is lost" => "Aktivera det här alternativet för att kunna återfå tillgång till dina krypterade filer om du skulle förlora/glömma ditt lösenord",
 "File recovery settings updated" => "Inställningarna för filåterställning har uppdaterats",
 "Could not update file recovery" => "Kunde inte uppdatera filåterställning"
 );

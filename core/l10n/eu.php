@@ -122,7 +122,6 @@
 "Database tablespace" => "Datu basearen taula-lekua",
 "Database host" => "Datubasearen hostalaria",
 "Finish setup" => "Bukatu konfigurazioa",
-"web services under your control" => "web zerbitzuak zure kontrolpean",
 "Log out" => "Saioa bukatu",
 "Automatic logon rejected!" => "Saio hasiera automatikoa ez onartuta!",
 "If you did not change your password recently, your account may be compromised!" => "Zure pasahitza orain dela gutxi ez baduzu aldatu, zure kontua arriskuan egon daiteke!",

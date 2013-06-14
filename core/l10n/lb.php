@@ -70,7 +70,6 @@
 "Database tablespace" => "Datebank Tabelle-Gréisst",
 "Database host" => "Datebank Server",
 "Finish setup" => "Installatioun ofschléissen",
-"web services under your control" => "Web Servicer ënnert denger Kontroll",
 "Log out" => "Ausloggen",
 "Lost your password?" => "Passwuert vergiess?",
 "remember" => "verhalen",

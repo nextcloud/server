@@ -125,7 +125,6 @@
 "Database tablespace" => "Espai de taula de la base de dades",
 "Database host" => "Ordinador central de la base de dades",
 "Finish setup" => "Acaba la configuració",
-"web services under your control" => "controleu els vostres serveis web",
 "%s is available. Get more information on how to update." => "%s està disponible. Obtingueu més informació de com actualitzar.",
 "Log out" => "Surt",
 "Automatic logon rejected!" => "L'ha rebutjat l'acceditació automàtica!",

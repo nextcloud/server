@@ -124,7 +124,6 @@
 "Database tablespace" => "Razpredelnica podatkovne zbirke",
 "Database host" => "Gostitelj podatkovne zbirke",
 "Finish setup" => "Končaj namestitev",
-"web services under your control" => "spletne storitve pod vašim nadzorom",
 "%s is available. Get more information on how to update." => "%s je na voljo. Pridobite več podrobnosti za posodobitev.",
 "Log out" => "Odjava",
 "Automatic logon rejected!" => "Samodejno prijavljanje je zavrnjeno!",

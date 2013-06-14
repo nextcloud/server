@@ -15,8 +15,6 @@
 "Old Recovery account password" => "Konto vana taaste parool",
 "New Recovery account password" => "Konto uus taasteparool",
 "Change Password" => "Muuda parooli",
-"Enable password recovery by sharing all files with your administrator:" => "Luba parooli taaste jagades kõik failid administraatoriga:",
-"Enabling this option will allow you to reobtain access to your encrypted files if your password is lost" => "Valiku lubamine võimaldab taastada ligipääsu krüpteeritud failidele kui parool on kadunud",
 "File recovery settings updated" => "Faili taaste seaded uuendatud",
 "Could not update file recovery" => "Ei suuda uuendada taastefaili"
 );

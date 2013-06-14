@@ -7,6 +7,5 @@
 "Enabled" => "Ενεργοποιημένο",
 "Disabled" => "Απενεργοποιημένο",
 "Change Password" => "Αλλαγή Κωδικού Πρόσβασης",
-"Enable password recovery by sharing all files with your administrator:" => "Ενεργοποιήστε την επαναφορά κωδικού πρόσβασης με το να μοιραστείτε όλα τα αρχεία με τον διαχειριστή σας:",
 "File recovery settings updated" => "Οι ρυθμίσεις επαναφοράς αρχείων ανανεώθηκαν"
 );

@@ -125,7 +125,6 @@
 "Database tablespace" => "Az adatbázis táblázattér (tablespace)",
 "Database host" => "Adatbázis szerver",
 "Finish setup" => "A beállítások befejezése",
-"web services under your control" => "webszolgáltatások saját kézben",
 "%s is available. Get more information on how to update." => "%s rendelkezésre áll. További információ a frissítéshez.",
 "Log out" => "Kilépés",
 "Automatic logon rejected!" => "Az automatikus bejelentkezés sikertelen!",

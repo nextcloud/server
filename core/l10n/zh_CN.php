@@ -125,7 +125,6 @@
 "Database tablespace" => "数据库表空间",
 "Database host" => "数据库主机",
 "Finish setup" => "安装完成",
-"web services under your control" => "您控制的web服务",
 "%s is available. Get more information on how to update." => "%s 可用。获取更多关于如何升级的信息。",
 "Log out" => "注销",
 "Automatic logon rejected!" => "自动登录被拒绝！",

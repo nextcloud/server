@@ -124,7 +124,6 @@
 "Database tablespace" => "Cơ sở dữ liệu tablespace",
 "Database host" => "Database host",
 "Finish setup" => "Cài đặt hoàn tất",
-"web services under your control" => "dịch vụ web dưới sự kiểm soát của bạn",
 "%s is available. Get more information on how to update." => "%s còn trống. Xem thêm thông tin cách cập nhật.",
 "Log out" => "Đăng xuất",
 "Automatic logon rejected!" => "Tự động đăng nhập đã bị từ chối !",

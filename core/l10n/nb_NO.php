@@ -92,7 +92,6 @@
 "Database tablespace" => "Database tabellområde",
 "Database host" => "Databasevert",
 "Finish setup" => "Fullfør oppsetting",
-"web services under your control" => "web tjenester du kontrollerer",
 "Log out" => "Logg ut",
 "Automatic logon rejected!" => "Automatisk pålogging avvist!",
 "If you did not change your password recently, your account may be compromised!" => "Hvis du ikke har endret passordet ditt nylig kan kontoen din være kompromitert",

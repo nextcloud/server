@@ -15,8 +15,6 @@
 "Old Recovery account password" => "Contrasenya de recuperació anterior",
 "New Recovery account password" => "Nova contrasenya de recuperació de compte",
 "Change Password" => "Canvia la contrasenya",
-"Enable password recovery by sharing all files with your administrator:" => "Activa la recuperació de contrasenya compartint tots els fitxers amb l'administrador:",
-"Enabling this option will allow you to reobtain access to your encrypted files if your password is lost" => "Activant aquesta opció us permetrà obtenir de nou accés als fitxers encriptats si perdeu la contrasenya",
 "File recovery settings updated" => "S'han  actualitzat els arranjaments de recuperació de fitxers",
 "Could not update file recovery" => "No s'ha pogut actualitzar la recuperació de fitxers"
 );

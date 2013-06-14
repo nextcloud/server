@@ -122,7 +122,6 @@
 "Database tablespace" => "جدول پایگاه داده",
 "Database host" => "هاست پایگاه داده",
 "Finish setup" => "اتمام نصب",
-"web services under your control" => "سرویس های تحت وب در کنترل شما",
 "Log out" => "خروج",
 "Automatic logon rejected!" => "ورود به سیستم اتوماتیک ردشد!",
 "If you did not change your password recently, your account may be compromised!" => "اگر شما اخیرا رمزعبور را تغییر نداده اید، حساب شما در معرض خطر می باشد !",

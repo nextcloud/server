@@ -118,7 +118,6 @@
 "Database tablespace" => "Tietokannan taulukkotila",
 "Database host" => "Tietokantapalvelin",
 "Finish setup" => "Viimeistele asennus",
-"web services under your control" => "verkkopalvelut hallinnassasi",
 "%s is available. Get more information on how to update." => "%s on saatavilla. Lue lisätietoja, miten päivitys asennetaan.",
 "Log out" => "Kirjaudu ulos",
 "Automatic logon rejected!" => "Automaattinen sisäänkirjautuminen hylättiin!",

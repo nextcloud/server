@@ -15,8 +15,6 @@
 "Old Recovery account password" => "旧恢复账号密码",
 "New Recovery account password" => "新恢复账号密码",
 "Change Password" => "修改密码",
-"Enable password recovery by sharing all files with your administrator:" => "通过与系统管理员共享全部文件启用密码恢复：",
-"Enabling this option will allow you to reobtain access to your encrypted files if your password is lost" => "启用该选项将允许你丢失密码时重新取得加密过的文件。",
 "File recovery settings updated" => "文件恢复设置已更新",
 "Could not update file recovery" => "不能更新文件恢复"
 );

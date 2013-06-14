@@ -15,8 +15,6 @@
 "Old Recovery account password" => "Ancien compte de récupération de mots de passe",
 "New Recovery account password" => "Nouveau compte de récupération de mots de passe",
 "Change Password" => "Changer de mot de passe",
-"Enable password recovery by sharing all files with your administrator:" => "Activer la récupération des mots de passe en partageant les fichiers avec votre administrateur:",
-"Enabling this option will allow you to reobtain access to your encrypted files if your password is lost" => "En activant cette option cela vous autorisera à récupérer votre accès aux fichiers cryptés si votre mot de passe est perdu",
 "File recovery settings updated" => "Mise à jour des paramètres de récupération de fichiers ",
 "Could not update file recovery" => "Ne peut pas remettre à jour les fichiers de récupération"
 );

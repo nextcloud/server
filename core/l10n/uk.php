@@ -122,7 +122,6 @@
 "Database tablespace" => "Таблиця бази даних",
 "Database host" => "Хост бази даних",
 "Finish setup" => "Завершити налаштування",
-"web services under your control" => "підконтрольні Вам веб-сервіси",
 "Log out" => "Вихід",
 "Automatic logon rejected!" => "Автоматичний вхід в систему відхилений!",
 "If you did not change your password recently, your account may be compromised!" => "Якщо Ви не міняли пароль останнім часом, Ваш обліковий запис може бути скомпрометованим!",

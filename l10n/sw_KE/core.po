@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-25 02:01+0200\n"
-"PO-Revision-Date: 2013-05-24 13:26+0000\n"
+"POT-Creation-Date: 2013-06-14 02:47+0200\n"
+"PO-Revision-Date: 2013-06-14 00:47+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swahili (Kenya) (http://www.transifex.com/projects/p/owncloud/language/sw_KE/)\n"
 "MIME-Version: 1.0\n"
@@ -216,23 +216,23 @@ msgstr ""
 msgid "Choose"
 msgstr ""
 
-#: js/oc-dialogs.js:121
+#: js/oc-dialogs.js:122
 msgid "Cancel"
 msgstr ""
 
-#: js/oc-dialogs.js:138 js/oc-dialogs.js:195
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
 msgid "Error loading file picker template"
 msgstr ""
 
-#: js/oc-dialogs.js:161
+#: js/oc-dialogs.js:164
 msgid "Yes"
 msgstr ""
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:172
 msgid "No"
 msgstr ""
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:185
 msgid "Ok"
 msgstr ""
 
@@ -392,7 +392,7 @@ msgstr ""
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr ""
 
-#: lostpassword/controller.php:48
+#: lostpassword/controller.php:58
 msgid "ownCloud password reset"
 msgstr ""
 
@@ -420,7 +420,19 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:22
+msgid ""
+"Your files seems to be encrypted. If you didn't have enabled the recovery "
+"key there will be no way to get your data back once the password was "
+"resetted. If you are not sure what to do, please contact your administrator "
+"first before continue. Do you really want to continue?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:24
+msgid "Yes, I really want to reset my password now"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:29
 msgid "Request reset"
 msgstr ""
 
@@ -560,16 +572,12 @@ msgstr ""
 msgid "Finish setup"
 msgstr ""
 
-#: templates/layout.guest.php:40
-msgid "web services under your control"
-msgstr ""
-
-#: templates/layout.user.php:36
+#: templates/layout.user.php:40
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:61
+#: templates/layout.user.php:67
 msgid "Log out"
 msgstr ""
 

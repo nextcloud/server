@@ -125,7 +125,6 @@
 "Database tablespace" => "Obszar tabel bazy danych",
 "Database host" => "Komputer bazy danych",
 "Finish setup" => "Zakończ konfigurowanie",
-"web services under your control" => "Kontrolowane serwisy",
 "%s is available. Get more information on how to update." => "%s jest dostępna. Dowiedz się więcej na temat aktualizacji.",
 "Log out" => "Wyloguj",
 "Automatic logon rejected!" => "Automatyczne logowanie odrzucone!",

@@ -125,7 +125,6 @@
 "Database tablespace" => "データベースの表領域",
 "Database host" => "データベースのホスト名",
 "Finish setup" => "セットアップを完了します",
-"web services under your control" => "管理下のウェブサービス",
 "%s is available. Get more information on how to update." => "%s が利用可能です。更新方法に関してさらに情報を取得して下さい。",
 "Log out" => "ログアウト",
 "Automatic logon rejected!" => "自動ログインは拒否されました！",

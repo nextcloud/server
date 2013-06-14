@@ -122,7 +122,6 @@
 "Database tablespace" => "ბაზის ცხრილის ზომა",
 "Database host" => "მონაცემთა ბაზის ჰოსტი",
 "Finish setup" => "კონფიგურაციის დასრულება",
-"web services under your control" => "web services under your control",
 "Log out" => "გამოსვლა",
 "Automatic logon rejected!" => "ავტომატური შესვლა უარყოფილია!",
 "If you did not change your password recently, your account may be compromised!" => "თუ თქვენ არ შეცვლით პაროლს, თქვენი ანგარიში შეიძლება იყოს დაშვებადი სხვებისთვის",

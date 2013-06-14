@@ -122,7 +122,6 @@
 "Database tablespace" => "مساحة جدول قاعدة البيانات",
 "Database host" => "خادم قاعدة البيانات",
 "Finish setup" => "انهاء التعديلات",
-"web services under your control" => "خدمات الشبكة تحت سيطرتك",
 "Log out" => "الخروج",
 "Automatic logon rejected!" => "تم رفض تسجيل الدخول التلقائي!",
 "If you did not change your password recently, your account may be compromised!" => "قد يكون حسابك في خطر إن لم تقم بإعادة تعيين كلمة السر حديثاً",

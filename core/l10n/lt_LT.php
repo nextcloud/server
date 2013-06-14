@@ -125,7 +125,6 @@
 "Database tablespace" => "Duomenų bazės loginis saugojimas",
 "Database host" => "Duomenų bazės serveris",
 "Finish setup" => "Baigti diegimą",
-"web services under your control" => "jūsų valdomos web paslaugos",
 "%s is available. Get more information on how to update." => "%s yra prieinama. Gaukite daugiau informacijos apie atnaujinimą.",
 "Log out" => "Atsijungti",
 "Automatic logon rejected!" => "Automatinis prisijungimas atmestas!",

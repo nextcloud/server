@@ -125,7 +125,6 @@
 "Database tablespace" => "Andmebaasi tabeliruum",
 "Database host" => "Andmebaasi host",
 "Finish setup" => "Lõpeta seadistamine",
-"web services under your control" => "veebiteenused sinu kontrolli all",
 "%s is available. Get more information on how to update." => "%s on saadaval. Vaata lähemalt kuidas uuendada.",
 "Log out" => "Logi välja",
 "Automatic logon rejected!" => "Automaatne sisselogimine lükati tagasi!",

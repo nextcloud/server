@@ -125,7 +125,6 @@
 "Database tablespace" => "資料庫 tablespace",
 "Database host" => "資料庫主機",
 "Finish setup" => "完成設定",
-"web services under your control" => "由您控制的網路服務",
 "%s is available. Get more information on how to update." => "%s 已經釋出，瞭解更多資訊以進行更新。",
 "Log out" => "登出",
 "Automatic logon rejected!" => "自動登入被拒！",

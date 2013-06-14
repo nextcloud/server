@@ -124,7 +124,6 @@
 "Database tablespace" => "Tabela de spațiu a bazei de date",
 "Database host" => "Bază date",
 "Finish setup" => "Finalizează instalarea",
-"web services under your control" => "servicii web controlate de tine",
 "Log out" => "Ieșire",
 "Automatic logon rejected!" => "Logare automata respinsa",
 "If you did not change your password recently, your account may be compromised!" => "Daca nu schimbi parola cand de curand , contul tau poate fi conpromis",

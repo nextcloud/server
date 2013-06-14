@@ -55,7 +55,6 @@
 "Database password" => "Database စကားဝှက်",
 "Database name" => "Database အမည်",
 "Finish setup" => "တပ်ဆင်ခြင်းပြီးပါပြီ။",
-"web services under your control" => "သင်၏ထိန်းချုပ်မှု့အောက်တွင်ရှိသော Web services",
 "Lost your password?" => "သင်၏စကားဝှက်ပျောက်သွားပြီလား။",
 "remember" => "မှတ်မိစေသည်",
 "Log in" => "ဝင်ရောက်ရန်",

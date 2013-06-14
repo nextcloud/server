@@ -113,7 +113,6 @@
 "Database tablespace" => "ডাটাবেজ টেবলস্পেস",
 "Database host" => "ডাটাবেজ হোস্ট",
 "Finish setup" => "সেটআপ সুসম্পন্ন কর",
-"web services under your control" => "ওয়েব সার্ভিস আপনার হাতের মুঠোয়",
 "Log out" => "প্রস্থান",
 "Lost your password?" => "কূটশব্দ হারিয়েছেন?",
 "remember" => "মনে রাখ",

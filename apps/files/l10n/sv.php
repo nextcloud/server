@@ -29,7 +29,7 @@
 "'.' is an invalid file name." => "'.' är ett ogiltigt filnamn.",
 "File name cannot be empty." => "Filnamn kan inte vara tomt.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Ogiltigt namn, '\\', '/', '<', '>', ':', '\"', '|', '?' och '*' är inte tillåtet.",
-"Your storage is full, files can not be updated or synced anymore!" => "Ditt lagringsutrymme är fullt, filer kan ej längre laddas upp eller synkas!",
+"Your storage is full, files can not be updated or synced anymore!" => "Ditt lagringsutrymme är fullt, filer kan inte längre uppdateras eller synkroniseras!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Ditt lagringsutrymme är nästan fullt ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "Din nedladdning förbereds. Det kan ta tid om det är stora filer.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Kan inte ladda upp din fil eftersom det är en katalog eller har 0 bytes",

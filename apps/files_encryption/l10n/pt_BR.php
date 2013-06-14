@@ -15,8 +15,6 @@
 "Old Recovery account password" => "Recuperação de senha de conta antiga",
 "New Recovery account password" => "Senha Nova  da conta de Recuperação",
 "Change Password" => "Trocar Senha",
-"Enable password recovery by sharing all files with your administrator:" => "Habilitar recuperação de senha através da partilha de todos os arquivos com o administrador:",
-"Enabling this option will allow you to reobtain access to your encrypted files if your password is lost" => "Ativando esta opção irá permitir que você reobtainha acesso aos seus arquivos criptografados se sua senha for perdida",
 "File recovery settings updated" => "Configurações de recuperação de arquivo atualizado",
 "Could not update file recovery" => "Não foi possível atualizar a recuperação de arquivos"
 );

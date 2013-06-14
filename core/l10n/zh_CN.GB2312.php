@@ -120,7 +120,6 @@
 "Database tablespace" => "数据库表格空间",
 "Database host" => "数据库主机",
 "Finish setup" => "完成安装",
-"web services under your control" => "您控制的网络服务",
 "Log out" => "注销",
 "Automatic logon rejected!" => "自动登录被拒绝！",
 "If you did not change your password recently, your account may be compromised!" => "如果您最近没有修改您的密码，那您的帐号可能被攻击了！",

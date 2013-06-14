@@ -124,7 +124,6 @@
 "Database tablespace" => "Tabellnamnrom for database",
 "Database host" => "Databasetenar",
 "Finish setup" => "Fullfør oppsettet",
-"web services under your control" => "Vevtenester under din kontroll",
 "%s is available. Get more information on how to update." => "%s er tilgjengeleg. Få meir informasjon om korleis du oppdaterer.",
 "Log out" => "Logg ut",
 "Automatic logon rejected!" => "Automatisk innlogging avvist!",

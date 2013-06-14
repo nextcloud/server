@@ -68,7 +68,6 @@
 "Database tablespace" => "ڈیٹابیس ٹیبل سپیس",
 "Database host" => "ڈیٹابیس ہوسٹ",
 "Finish setup" => "سیٹ اپ ختم کریں",
-"web services under your control" => "آپ کے اختیار میں ویب سروسیز",
 "Log out" => "لاگ آؤٹ",
 "Lost your password?" => "کیا آپ پاسورڈ بھول گئے ہیں؟",
 "remember" => "یاد رکھیں",

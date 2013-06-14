@@ -122,7 +122,6 @@
 "Database tablespace" => "데이터베이스 테이블 공간",
 "Database host" => "데이터베이스 호스트",
 "Finish setup" => "설치 완료",
-"web services under your control" => "내가 관리하는 웹 서비스",
 "Log out" => "로그아웃",
 "Automatic logon rejected!" => "자동 로그인이 거부되었습니다!",
 "If you did not change your password recently, your account may be compromised!" => "최근에 암호를 변경하지 않았다면 계정이 탈취되었을 수도 있습니다!",

@@ -15,8 +15,6 @@
 "Old Recovery account password" => "古い復旧アカウントのパスワード",
 "New Recovery account password" => "新しい復旧アカウントのパスワード",
 "Change Password" => "パスワードを変更",
-"Enable password recovery by sharing all files with your administrator:" => "管理者が全ての共有ファイルに対してパスワードによる復旧を有効にする:",
-"Enabling this option will allow you to reobtain access to your encrypted files if your password is lost" => "このオプションを有効にすると、もしパスワードが分からなくなったとしても、暗号化されたファイルに再度アクセスすることが出来るようになります。",
 "File recovery settings updated" => "ファイル復旧設定が更新されました",
 "Could not update file recovery" => "ファイル復旧を更新できませんでした"
 );

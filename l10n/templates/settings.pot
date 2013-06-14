@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-06-13 02:16+0200\n"
+"POT-Creation-Date: 2013-06-14 02:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -324,11 +324,11 @@ msgstr ""
 msgid "Less"
 msgstr ""
 
-#: templates/admin.php:235 templates/personal.php:114
+#: templates/admin.php:235 templates/personal.php:116
 msgid "Version"
 msgstr ""
 
-#: templates/admin.php:237 templates/personal.php:117
+#: templates/admin.php:237 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank"
 "\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" "
@@ -337,28 +337,28 @@ msgid ""
 "General Public License\">AGPL</abbr></a>."
 msgstr ""
 
-#: templates/apps.php:11
+#: templates/apps.php:13
 msgid "Add your App"
 msgstr ""
 
-#: templates/apps.php:12
+#: templates/apps.php:28
 msgid "More Apps"
 msgstr ""
 
-#: templates/apps.php:28
+#: templates/apps.php:33
 msgid "Select an App"
 msgstr ""
 
-#: templates/apps.php:34
+#: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
 msgstr ""
 
-#: templates/apps.php:36
+#: templates/apps.php:41
 msgid ""
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr ""
 
-#: templates/apps.php:38
+#: templates/apps.php:43
 msgid "Update"
 msgstr ""
 
@@ -443,15 +443,15 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
-#: templates/personal.php:98
+#: templates/personal.php:99
 msgid "Help translate"
 msgstr ""
 
-#: templates/personal.php:103
+#: templates/personal.php:105
 msgid "WebDAV"
 msgstr ""
 
-#: templates/personal.php:105
+#: templates/personal.php:107
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr ""
 

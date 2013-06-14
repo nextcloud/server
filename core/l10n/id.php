@@ -122,7 +122,6 @@
 "Database tablespace" => "Tablespace basis data",
 "Database host" => "Host basis data",
 "Finish setup" => "Selesaikan instalasi",
-"web services under your control" => "layanan web dalam kontrol Anda",
 "Log out" => "Keluar",
 "Automatic logon rejected!" => "Masuk otomatis ditolak!",
 "If you did not change your password recently, your account may be compromised!" => "Jika tidak pernah mengubah sandi Anda baru-baru ini, akun Anda mungkin dalam bahaya!",

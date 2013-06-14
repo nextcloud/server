@@ -124,7 +124,6 @@
 "Database tablespace" => "Tablespace-i i database-it",
 "Database host" => "Pozicioni (host) i database-it",
 "Finish setup" => "Mbaro setup-in",
-"web services under your control" => "shërbime web nën kontrollin tënd",
 "Log out" => "Dalje",
 "Automatic logon rejected!" => "Hyrja automatike u refuzua!",
 "If you did not change your password recently, your account may be compromised!" => "Nqse nuk keni ndryshuar kodin kohët e fundit, llogaria juaj mund të jetë komprometuar.",

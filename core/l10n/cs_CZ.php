@@ -125,7 +125,6 @@
 "Database tablespace" => "Tabulkový prostor databáze",
 "Database host" => "Hostitel databáze",
 "Finish setup" => "Dokončit nastavení",
-"web services under your control" => "služby webu pod Vaší kontrolou",
 "%s is available. Get more information on how to update." => "%s je dostupná. Získejte více informací k postupu aktualizace.",
 "Log out" => "Odhlásit se",
 "Automatic logon rejected!" => "Automatické přihlášení odmítnuto.",

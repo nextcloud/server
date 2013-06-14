@@ -124,7 +124,6 @@
 "Database tablespace" => "Κενά Πινάκων Βάσης Δεδομένων",
 "Database host" => "Διακομιστής βάσης δεδομένων",
 "Finish setup" => "Ολοκλήρωση εγκατάστασης",
-"web services under your control" => "υπηρεσίες δικτύου υπό τον έλεγχό σας",
 "%s is available. Get more information on how to update." => "%s είναι διαθέσιμη. Δείτε περισσότερες πληροφορίες στο πώς να αναβαθμίσετε.",
 "Log out" => "Αποσύνδεση",
 "Automatic logon rejected!" => "Απορρίφθηκε η αυτόματη σύνδεση!",

@@ -15,8 +15,6 @@
 "Old Recovery account password" => "Stávající heslo pro obnovu účtu",
 "New Recovery account password" => "Nové heslo pro obnovu účtu",
 "Change Password" => "Změnit heslo",
-"Enable password recovery by sharing all files with your administrator:" => "Povolit obnovu hesla sdílením všech souborů s vaším správcem:",
-"Enabling this option will allow you to reobtain access to your encrypted files if your password is lost" => "Povolení vám umožní znovu získat přístup k vašim zašifrovaným souborům pokud ztratíte heslo",
 "File recovery settings updated" => "Možnosti obnovy souborů aktualizovány",
 "Could not update file recovery" => "Nelze aktualizovat obnovu souborů"
 );

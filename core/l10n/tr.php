@@ -125,7 +125,6 @@
 "Database tablespace" => "Veritabanı tablo alanı",
 "Database host" => "Veritabanı sunucusu",
 "Finish setup" => "Kurulumu tamamla",
-"web services under your control" => "Bilgileriniz güvenli ve şifreli",
 "%s is available. Get more information on how to update." => "%s mevcuttur. Güncelleştirme hakkında daha fazla bilgi alın.",
 "Log out" => "Çıkış yap",
 "Automatic logon rejected!" => "Otomatik oturum açma reddedildi!",

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-13 02:16+0200\n"
-"PO-Revision-Date: 2013-06-12 01:02+0000\n"
+"POT-Creation-Date: 2013-06-14 02:47+0200\n"
+"PO-Revision-Date: 2013-06-14 00:47+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -392,7 +392,7 @@ msgstr ""
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr ""
 
-#: lostpassword/controller.php:48
+#: lostpassword/controller.php:58
 msgid "ownCloud password reset"
 msgstr "ownCloud இன் கடவுச்சொல் மீளமைப்பு"
 
@@ -420,7 +420,19 @@ msgstr "நீங்கள் மின்னஞ்சல் மூலம் உ
 msgid "Username"
 msgstr "பயனாளர் பெயர்"
 
-#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:22
+msgid ""
+"Your files seems to be encrypted. If you didn't have enabled the recovery "
+"key there will be no way to get your data back once the password was "
+"resetted. If you are not sure what to do, please contact your administrator "
+"first before continue. Do you really want to continue?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:24
+msgid "Yes, I really want to reset my password now"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:29
 msgid "Request reset"
 msgstr "கோரிக்கை மீளமைப்பு"
 
@@ -560,16 +572,12 @@ msgstr "தரவுத்தள ஓம்புனர்"
 msgid "Finish setup"
 msgstr "அமைப்பை முடிக்க"
 
-#: templates/layout.guest.php:40
-msgid "web services under your control"
-msgstr "வலைய சேவைகள் உங்களுடைய கட்டுப்பாட்டின் கீழ் உள்ளது"
-
-#: templates/layout.user.php:37
+#: templates/layout.user.php:40
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:62
+#: templates/layout.user.php:67
 msgid "Log out"
 msgstr "விடுபதிகை செய்க"
 

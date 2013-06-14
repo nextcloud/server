@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-13 02:16+0200\n"
-"PO-Revision-Date: 2013-06-12 01:02+0000\n"
-"Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
+"POT-Creation-Date: 2013-06-14 02:47+0200\n"
+"PO-Revision-Date: 2013-06-14 00:47+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -394,7 +394,7 @@ msgstr "Aktualizace neproběhla úspěšně. Nahlaste prosím problém do <a hre
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Aktualizace byla úspěšná. Přesměrovávám na ownCloud."
 
-#: lostpassword/controller.php:48
+#: lostpassword/controller.php:58
 msgid "ownCloud password reset"
 msgstr "Obnovení hesla pro ownCloud"
 
@@ -422,7 +422,19 @@ msgstr "Bude Vám e-mailem zaslán odkaz pro obnovu hesla."
 msgid "Username"
 msgstr "Uživatelské jméno"
 
-#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:22
+msgid ""
+"Your files seems to be encrypted. If you didn't have enabled the recovery "
+"key there will be no way to get your data back once the password was "
+"resetted. If you are not sure what to do, please contact your administrator "
+"first before continue. Do you really want to continue?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:24
+msgid "Yes, I really want to reset my password now"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:29
 msgid "Request reset"
 msgstr "Vyžádat obnovu"
 
@@ -562,16 +574,12 @@ msgstr "Hostitel databáze"
 msgid "Finish setup"
 msgstr "Dokončit nastavení"
 
-#: templates/layout.guest.php:40
-msgid "web services under your control"
-msgstr "služby webu pod Vaší kontrolou"
-
-#: templates/layout.user.php:37
+#: templates/layout.user.php:40
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s je dostupná. Získejte více informací k postupu aktualizace."
 
-#: templates/layout.user.php:62
+#: templates/layout.user.php:67
 msgid "Log out"
 msgstr "Odhlásit se"
 

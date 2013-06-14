@@ -125,7 +125,6 @@
 "Database tablespace" => "Database tablespace",
 "Database host" => "Database server",
 "Finish setup" => "Installatie afronden",
-"web services under your control" => "Webdiensten in eigen beheer",
 "%s is available. Get more information on how to update." => "%s is beschikbaar. Verkrijg meer informatie over het bijwerken.",
 "Log out" => "Afmelden",
 "Automatic logon rejected!" => "Automatische aanmelding geweigerd!",

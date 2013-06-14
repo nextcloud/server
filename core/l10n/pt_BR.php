@@ -125,7 +125,6 @@
 "Database tablespace" => "Espaço de tabela do banco de dados",
 "Database host" => "Host do banco de dados",
 "Finish setup" => "Concluir configuração",
-"web services under your control" => "serviços web sob seu controle",
 "%s is available. Get more information on how to update." => "%s está disponível. Obtenha mais informações sobre como atualizar.",
 "Log out" => "Sair",
 "Automatic logon rejected!" => "Entrada Automática no Sistema Rejeitada!",

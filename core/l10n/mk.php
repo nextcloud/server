@@ -114,7 +114,6 @@
 "Database tablespace" => "Табела во базата на податоци",
 "Database host" => "Сервер со база",
 "Finish setup" => "Заврши го подесувањето",
-"web services under your control" => "веб сервиси под Ваша контрола",
 "Log out" => "Одјава",
 "Automatic logon rejected!" => "Одбиена автоматска најава!",
 "If you did not change your password recently, your account may be compromised!" => "Ако не сте ја промениле лозинката во скоро време, вашата сметка може да е компромитирана",

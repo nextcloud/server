@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Ole Holm Frandsen <froksen@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-13 02:16+0200\n"
-"PO-Revision-Date: 2013-06-12 01:03+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-14 02:47+0200\n"
+"PO-Revision-Date: 2013-06-13 12:19+0000\n"
+"Last-Translator: Ole Holm Frandsen <froksen@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,27 +18,27 @@ msgstr ""
 "Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:358
+#: app.php:359
 msgid "Help"
 msgstr "Hjælp"
 
-#: app.php:371
+#: app.php:372
 msgid "Personal"
 msgstr "Personligt"
 
-#: app.php:382
+#: app.php:383
 msgid "Settings"
 msgstr "Indstillinger"
 
-#: app.php:394
+#: app.php:395
 msgid "Users"
 msgstr "Brugere"
 
-#: app.php:407
+#: app.php:408
 msgid "Apps"
 msgstr "Apps"
 
-#: app.php:415
+#: app.php:416
 msgid "Admin"
 msgstr "Admin"
 
@@ -123,7 +124,7 @@ msgstr "Du bliver nødt til at indtaste en eksisterende bruger eller en administ
 
 #: setup.php:149
 msgid "Oracle connection could not be established"
-msgstr ""
+msgstr "Oracle forbindelsen kunne ikke etableres"
 
 #: setup.php:231
 msgid "MySQL username and/or password not valid"

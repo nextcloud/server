@@ -116,7 +116,6 @@
 "Database tablespace" => "Töflusvæði gagnagrunns",
 "Database host" => "Netþjónn gagnagrunns",
 "Finish setup" => "Virkja uppsetningu",
-"web services under your control" => "vefþjónusta undir þinni stjórn",
 "%s is available. Get more information on how to update." => "%s er til boða. Fáðu meiri upplýsingar um hvernig þú uppfærir.",
 "Log out" => "Útskrá",
 "Automatic logon rejected!" => "Sjálfvirkri innskráningu hafnað!",

@@ -117,7 +117,6 @@
 "Database tablespace" => "พื้นที่ตารางในฐานข้อมูล",
 "Database host" => "Database host",
 "Finish setup" => "ติดตั้งเรียบร้อยแล้ว",
-"web services under your control" => "เว็บเซอร์วิสที่คุณควบคุมการใช้งานได้",
 "Log out" => "ออกจากระบบ",
 "Automatic logon rejected!" => "การเข้าสู่ระบบอัตโนมัติถูกปฏิเสธแล้ว",
 "If you did not change your password recently, your account may be compromised!" => "หากคุณยังไม่ได้เปลี่ยนรหัสผ่านของคุณเมื่อเร็วๆนี้, บัญชีของคุณอาจถูกบุกรุกโดยผู้อื่น",

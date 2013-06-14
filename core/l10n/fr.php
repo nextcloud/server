@@ -125,7 +125,6 @@
 "Database tablespace" => "Tablespaces de la base de données",
 "Database host" => "Serveur de la base de données",
 "Finish setup" => "Terminer l'installation",
-"web services under your control" => "services web sous votre contrôle",
 "%s is available. Get more information on how to update." => "%s est disponible. Obtenez plus d'informations sur la façon de mettre à jour.",
 "Log out" => "Se déconnecter",
 "Automatic logon rejected!" => "Connexion automatique rejetée !",

@@ -125,7 +125,6 @@
 "Database tablespace" => "Táboa de espazos da base de datos",
 "Database host" => "Servidor da base de datos",
 "Finish setup" => "Rematar a configuración",
-"web services under your control" => "servizos web baixo o seu control",
 "%s is available. Get more information on how to update." => "%s está dispoñíbel. Obteña máis información sobre como actualizar.",
 "Log out" => "Desconectar",
 "Automatic logon rejected!" => "Rexeitouse a entrada automática",

@@ -57,7 +57,6 @@
 "Database name" => "Nama pangkalan data",
 "Database host" => "Hos pangkalan data",
 "Finish setup" => "Setup selesai",
-"web services under your control" => "Perkhidmatan web di bawah kawalan anda",
 "Log out" => "Log keluar",
 "Lost your password?" => "Hilang kata laluan?",
 "remember" => "ingat",

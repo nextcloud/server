@@ -18,7 +18,6 @@
 "Database name" => "ناوی داتابه‌یس",
 "Database host" => "هۆستی داتابه‌یس",
 "Finish setup" => "كۆتایی هات ده‌ستكاریه‌كان",
-"web services under your control" => "ڕاژه‌ی وێب له‌ژێر چاودێریت دایه",
 "Log out" => "چوونەدەرەوە",
 "prev" => "پێشتر",
 "next" => "دواتر"
