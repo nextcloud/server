@@ -442,8 +442,8 @@ class OC_Setup {
 		}
 	}
 
-	private static function setupOCIDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix,
-		$dbtablespace = 'USERS', $username) {
+	private static function setupOCIDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $dbtablespace,
+			$username) {
 		$l = self::getTrans();
 		$e_host = addslashes($dbhost);
 		$e_dbname = addslashes($dbname);
@@ -555,7 +555,7 @@ class OC_Setup {
 	 * @param String $tablespace
 	 * @param resource $connection
 	 */
-	private static function oci_createDBUser($name, $password, $tablespace = 'USERS', $connection) {
+	private static function oci_createDBUser($name, $password, $tablespace, $connection) {
 		$l = self::getTrans();
 		$query = "SELECT * FROM all_users WHERE USERNAME = :un";
 		$stmt = oci_parse($connection, $query);
