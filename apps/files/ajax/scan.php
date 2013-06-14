@@ -24,7 +24,7 @@ foreach ($mountPoints as $mountPoint) {
 		ScanListener::$mountPoints[$storage->getId()] = $mountPoint;
 		$scanner = $storage->getScanner();
 		if ($force) {
-			$scanner->scan('');
+			$scanner->scan('', \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG);
 		} else {
 			$scanner->backgroundScan();
 		}
