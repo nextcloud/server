@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "O usuario %s compartíu un ficheiro con vostede",
-"User %s shared a folder with you" => "O usuario %s compartíu un cartafol con vostede",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "O usuario %s compartiu o ficheiro «%s» con vostede. Teno dispoñíbel en: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "O usuario %s compartiu o cartafol «%s» con vostede. Teno dispoñíbel en: %s",
 "Category type not provided." => "Non se indicou o tipo de categoría",
 "No category to add?" => "Sen categoría que engadir?",
 "This category already exists: %s" => "Esta categoría xa existe: %s",
@@ -93,6 +89,8 @@
 "Request failed!<br>Did you make sure your email/username was right?" => "Non foi posíbel facer a petición!<br>Asegúrese de que o seu enderezo de correo ou nome de usuario é correcto.",
 "You will receive a link to reset your password via Email." => "Recibirá unha ligazón por correo para restabelecer o contrasinal",
 "Username" => "Nome de usuario",
+"Your files seems to be encrypted. If you didn't have enabled the recovery key there will be no way to get your data back once the password was resetted. If you are not sure what to do, please contact your administrator first before continue. Do you really want to continue?" => "Semella que os ficheiros están cifrados. Se aínda non activou a chave de recuperación non haberá xeito de recuperar os datos unha vez que se teña restabelecido o contrasinal. Se non ten certeza do que ten que facer, póñase en contacto co administrador antes de continuar. Confirma que quere continuar?",
+"Yes, I really want to reset my password now" => "Si, confirmo que quero restabelecer agora o meu contrasinal",
 "Request reset" => "Petición de restabelecemento",
 "Your password was reset" => "O contrasinal foi restabelecido",
 "To login page" => "A páxina de conexión",

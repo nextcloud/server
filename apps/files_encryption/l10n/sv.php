@@ -6,6 +6,8 @@
 "Password successfully changed." => "Ändringen av lösenordet lyckades.",
 "Could not change the password. Maybe the old password was not correct." => "Kunde inte ändra lösenordet. Kanske det gamla lösenordet inte var rätt.",
 "Saving..." => "Sparar...",
+"You can unlock your private key in your " => "Du kan låsa upp din privata nyckel i dina",
+"personal settings" => "personliga inställningar",
 "Encryption" => "Kryptering",
 "Enable encryption passwords recovery key (allow sharing to recovery key):" => "Aktivera återställningsnyckel för krypterade lösenord. (tillåt delning till återställningsnyckeln):",
 "Recovery account password" => "Återställning av kontolösenord",
@@ -15,6 +17,9 @@
 "Old Recovery account password" => "Gamla lösenordet för återställningskontot",
 "New Recovery account password" => "Nytt återställningslösenord för kontot",
 "Change Password" => "Byt lösenord",
+"Old log-in password" => "Gammalt inloggningslösenord",
+"Current log-in password" => "Nuvarande inloggningslösenord",
+"Enable password recovery:" => "Aktivera lösenordsåterställning",
 "File recovery settings updated" => "Inställningarna för filåterställning har uppdaterats",
 "Could not update file recovery" => "Kunde inte uppdatera filåterställning"
 );

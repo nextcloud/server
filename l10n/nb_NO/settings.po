@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-12 02:56+0200\n"
-"PO-Revision-Date: 2013-06-11 23:28+0000\n"
+"POT-Creation-Date: 2013-06-15 01:59+0200\n"
+"PO-Revision-Date: 2013-06-14 23:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -59,7 +59,7 @@ msgstr "Ugyldig epost"
 msgid "Unable to delete group"
 msgstr "Kan ikke slette gruppe"
 
-#: ajax/removeuser.php:24
+#: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "Kan ikke slette bruker"
 
@@ -325,11 +325,11 @@ msgstr "Mer"
 msgid "Less"
 msgstr "Mindre"
 
-#: templates/admin.php:235 templates/personal.php:111
+#: templates/admin.php:235 templates/personal.php:116
 msgid "Version"
 msgstr "Versjon"
 
-#: templates/admin.php:237 templates/personal.php:114
+#: templates/admin.php:237 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -339,27 +339,27 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Utviklet av<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud sammfunnet</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">kildekoden</a> er lisensiert under <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/apps.php:11
+#: templates/apps.php:13
 msgid "Add your App"
 msgstr "Legg til din App"
 
-#: templates/apps.php:12
+#: templates/apps.php:28
 msgid "More Apps"
 msgstr "Flere Apps"
 
-#: templates/apps.php:28
+#: templates/apps.php:33
 msgid "Select an App"
 msgstr "Velg en app"
 
-#: templates/apps.php:34
+#: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
 msgstr "Se applikasjonens side på apps.owncloud.org"
 
-#: templates/apps.php:36
+#: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-lisensiert av <span class=\"author\"></span>"
 
-#: templates/apps.php:38
+#: templates/apps.php:43
 msgid "Update"
 msgstr "Oppdater"
 
@@ -387,72 +387,72 @@ msgstr "Feilsporing"
 msgid "Commercial Support"
 msgstr "Kommersiell støtte"
 
-#: templates/personal.php:8
+#: templates/personal.php:9
+msgid "Get the apps to sync your files"
+msgstr "Få dine apps til å synkronisere dine filer"
+
+#: templates/personal.php:20
+msgid "Show First Run Wizard again"
+msgstr "Vis \"Førstegangs veiveiseren\" på nytt"
+
+#: templates/personal.php:28
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Du har brukt <strong>%s</strong> av tilgjengelig <strong>%s</strong>"
 
-#: templates/personal.php:15
-msgid "Get the apps to sync your files"
-msgstr "Få dine apps til å synkronisere dine filer"
-
-#: templates/personal.php:26
-msgid "Show First Run Wizard again"
-msgstr "Vis \"Førstegangs veiveiseren\" på nytt"
-
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:86
+#: templates/personal.php:40 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "Passord"
 
-#: templates/personal.php:38
+#: templates/personal.php:41
 msgid "Your password was changed"
 msgstr "Passord har blitt endret"
 
-#: templates/personal.php:39
+#: templates/personal.php:42
 msgid "Unable to change your password"
 msgstr "Kunne ikke endre passordet ditt"
 
-#: templates/personal.php:40
+#: templates/personal.php:43
 msgid "Current password"
 msgstr "Nåværende passord"
 
-#: templates/personal.php:42
+#: templates/personal.php:45
 msgid "New password"
 msgstr "Nytt passord"
 
-#: templates/personal.php:44
+#: templates/personal.php:47
 msgid "Change password"
 msgstr "Endre passord"
 
-#: templates/personal.php:56 templates/users.php:85
+#: templates/personal.php:59 templates/users.php:85
 msgid "Display Name"
 msgstr "Visningsnavn"
 
-#: templates/personal.php:71
+#: templates/personal.php:74
 msgid "Email"
 msgstr "Epost"
 
-#: templates/personal.php:73
+#: templates/personal.php:76
 msgid "Your email address"
 msgstr "Din e-postadresse"
 
-#: templates/personal.php:74
+#: templates/personal.php:77
 msgid "Fill in an email address to enable password recovery"
 msgstr "Oppi epostadressen du vil tilbakestille passordet for"
 
-#: templates/personal.php:83 templates/personal.php:84
+#: templates/personal.php:86 templates/personal.php:87
 msgid "Language"
 msgstr "Språk"
 
-#: templates/personal.php:95
+#: templates/personal.php:99
 msgid "Help translate"
 msgstr "Bidra til oversettelsen"
 
-#: templates/personal.php:100
+#: templates/personal.php:105
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:102
+#: templates/personal.php:107
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Bruk denne adressen for å kople til ownCloud i din filbehandler"
 

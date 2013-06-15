@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-12 02:56+0200\n"
-"PO-Revision-Date: 2013-06-11 23:28+0000\n"
+"POT-Creation-Date: 2013-06-15 01:59+0200\n"
+"PO-Revision-Date: 2013-06-14 23:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -58,7 +58,7 @@ msgstr "செல்லுபடியற்ற மின்னஞ்சல்"
 msgid "Unable to delete group"
 msgstr "குழுவை நீக்க முடியாது"
 
-#: ajax/removeuser.php:24
+#: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "பயனாளரை நீக்க முடியாது"
 
@@ -324,11 +324,11 @@ msgstr "மேலதிக"
 msgid "Less"
 msgstr "குறைவான"
 
-#: templates/admin.php:235 templates/personal.php:111
+#: templates/admin.php:235 templates/personal.php:116
 msgid "Version"
 msgstr ""
 
-#: templates/admin.php:237 templates/personal.php:114
+#: templates/admin.php:237 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -338,27 +338,27 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/apps.php:11
+#: templates/apps.php:13
 msgid "Add your App"
 msgstr "உங்களுடைய செயலியை சேர்க்க"
 
-#: templates/apps.php:12
+#: templates/apps.php:28
 msgid "More Apps"
 msgstr "மேலதிக செயலிகள்"
 
-#: templates/apps.php:28
+#: templates/apps.php:33
 msgid "Select an App"
 msgstr "செயலி ஒன்றை தெரிவுசெய்க"
 
-#: templates/apps.php:34
+#: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
 msgstr "apps.owncloud.com இல் செயலி பக்கத்தை பார்க்க"
 
-#: templates/apps.php:36
+#: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"அனுமதிப்பத்திரம்\"></span>-அனுமதி பெற்ற <span class=\"ஆசிரியர்\"></span>"
 
-#: templates/apps.php:38
+#: templates/apps.php:43
 msgid "Update"
 msgstr "இற்றைப்படுத்தல்"
 
@@ -386,72 +386,72 @@ msgstr ""
 msgid "Commercial Support"
 msgstr ""
 
-#: templates/personal.php:8
+#: templates/personal.php:9
+msgid "Get the apps to sync your files"
+msgstr ""
+
+#: templates/personal.php:20
+msgid "Show First Run Wizard again"
+msgstr ""
+
+#: templates/personal.php:28
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "நீங்கள் <strong>%s</strong> இலுள்ள <strong>%s</strong>பயன்படுத்தியுள்ளீர்கள்"
 
-#: templates/personal.php:15
-msgid "Get the apps to sync your files"
-msgstr ""
-
-#: templates/personal.php:26
-msgid "Show First Run Wizard again"
-msgstr ""
-
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:86
+#: templates/personal.php:40 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "கடவுச்சொல்"
 
-#: templates/personal.php:38
+#: templates/personal.php:41
 msgid "Your password was changed"
 msgstr "உங்களுடைய கடவுச்சொல் மாற்றப்பட்டுள்ளது"
 
-#: templates/personal.php:39
+#: templates/personal.php:42
 msgid "Unable to change your password"
 msgstr "உங்களுடைய கடவுச்சொல்லை மாற்றமுடியாது"
 
-#: templates/personal.php:40
+#: templates/personal.php:43
 msgid "Current password"
 msgstr "தற்போதைய கடவுச்சொல்"
 
-#: templates/personal.php:42
+#: templates/personal.php:45
 msgid "New password"
 msgstr "புதிய கடவுச்சொல்"
 
-#: templates/personal.php:44
+#: templates/personal.php:47
 msgid "Change password"
 msgstr "கடவுச்சொல்லை மாற்றுக"
 
-#: templates/personal.php:56 templates/users.php:85
+#: templates/personal.php:59 templates/users.php:85
 msgid "Display Name"
 msgstr ""
 
-#: templates/personal.php:71
+#: templates/personal.php:74
 msgid "Email"
 msgstr "மின்னஞ்சல்"
 
-#: templates/personal.php:73
+#: templates/personal.php:76
 msgid "Your email address"
 msgstr "உங்களுடைய மின்னஞ்சல் முகவரி"
 
-#: templates/personal.php:74
+#: templates/personal.php:77
 msgid "Fill in an email address to enable password recovery"
 msgstr "கடவுச்சொல் மீள் பெறுவதை இயலுமைப்படுத்துவதற்கு மின்னஞ்சல் முகவரியை இயலுமைப்படுத்துக"
 
-#: templates/personal.php:83 templates/personal.php:84
+#: templates/personal.php:86 templates/personal.php:87
 msgid "Language"
 msgstr "மொழி"
 
-#: templates/personal.php:95
+#: templates/personal.php:99
 msgid "Help translate"
 msgstr "மொழிபெயர்க்க உதவி"
 
-#: templates/personal.php:100
+#: templates/personal.php:105
 msgid "WebDAV"
 msgstr ""
 
-#: templates/personal.php:102
+#: templates/personal.php:107
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr ""
 

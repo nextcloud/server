@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-12 02:56+0200\n"
-"PO-Revision-Date: 2013-06-11 23:27+0000\n"
+"POT-Creation-Date: 2013-06-15 01:59+0200\n"
+"PO-Revision-Date: 2013-06-14 23:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
@@ -59,7 +59,7 @@ msgstr "非法Email"
 msgid "Unable to delete group"
 msgstr "未能删除群组"
 
-#: ajax/removeuser.php:24
+#: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "未能删除用户"
 
@@ -325,11 +325,11 @@ msgstr "更多"
 msgid "Less"
 msgstr "更少"
 
-#: templates/admin.php:235 templates/personal.php:111
+#: templates/admin.php:235 templates/personal.php:116
 msgid "Version"
 msgstr "版本"
 
-#: templates/admin.php:237 templates/personal.php:114
+#: templates/admin.php:237 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -339,27 +339,27 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "由 <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 社区</a>开发，<a href=\"https://github.com/owncloud\" target=\"_blank\">s源代码</a> 以 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> 许可协议发布。"
 
-#: templates/apps.php:11
+#: templates/apps.php:13
 msgid "Add your App"
 msgstr "添加你的应用程序"
 
-#: templates/apps.php:12
+#: templates/apps.php:28
 msgid "More Apps"
 msgstr "更多应用"
 
-#: templates/apps.php:28
+#: templates/apps.php:33
 msgid "Select an App"
 msgstr "选择一个程序"
 
-#: templates/apps.php:34
+#: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
 msgstr "在owncloud.com上查看应用程序"
 
-#: templates/apps.php:36
+#: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>授权协议 <span class=\"author\"></span>"
 
-#: templates/apps.php:38
+#: templates/apps.php:43
 msgid "Update"
 msgstr "更新"
 
@@ -387,72 +387,72 @@ msgstr "Bug追踪者"
 msgid "Commercial Support"
 msgstr "商业支持"
 
-#: templates/personal.php:8
+#: templates/personal.php:9
+msgid "Get the apps to sync your files"
+msgstr "获取应用并同步您的文件"
+
+#: templates/personal.php:20
+msgid "Show First Run Wizard again"
+msgstr "再次显示首次运行向导"
+
+#: templates/personal.php:28
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "您已使用<strong>%s</strong>/<strong>%s</strong>"
 
-#: templates/personal.php:15
-msgid "Get the apps to sync your files"
-msgstr "获取应用并同步您的文件"
-
-#: templates/personal.php:26
-msgid "Show First Run Wizard again"
-msgstr "再次显示首次运行向导"
-
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:86
+#: templates/personal.php:40 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "密码"
 
-#: templates/personal.php:38
+#: templates/personal.php:41
 msgid "Your password was changed"
 msgstr "您的密码以变更"
 
-#: templates/personal.php:39
+#: templates/personal.php:42
 msgid "Unable to change your password"
 msgstr "不能改变你的密码"
 
-#: templates/personal.php:40
+#: templates/personal.php:43
 msgid "Current password"
 msgstr "现在的密码"
 
-#: templates/personal.php:42
+#: templates/personal.php:45
 msgid "New password"
 msgstr "新密码"
 
-#: templates/personal.php:44
+#: templates/personal.php:47
 msgid "Change password"
 msgstr "改变密码"
 
-#: templates/personal.php:56 templates/users.php:85
+#: templates/personal.php:59 templates/users.php:85
 msgid "Display Name"
 msgstr "显示名称"
 
-#: templates/personal.php:71
+#: templates/personal.php:74
 msgid "Email"
 msgstr "电子邮件"
 
-#: templates/personal.php:73
+#: templates/personal.php:76
 msgid "Your email address"
 msgstr "你的email地址"
 
-#: templates/personal.php:74
+#: templates/personal.php:77
 msgid "Fill in an email address to enable password recovery"
 msgstr "输入一个邮箱地址以激活密码恢复功能"
 
-#: templates/personal.php:83 templates/personal.php:84
+#: templates/personal.php:86 templates/personal.php:87
 msgid "Language"
 msgstr "语言"
 
-#: templates/personal.php:95
+#: templates/personal.php:99
 msgid "Help translate"
 msgstr "帮助翻译"
 
-#: templates/personal.php:100
+#: templates/personal.php:105
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:102
+#: templates/personal.php:107
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "使用此地址来在您的文件管理器中连接您的ownCloud"
 

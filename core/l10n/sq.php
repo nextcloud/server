@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "Përdoruesi %s ndau me ju një skedar",
-"User %s shared a folder with you" => "Përdoruesi %s ndau me ju një dosje",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "Përdoruesi %s ndau me ju skedarin \"%s\". Ky skedar është gati për shkarkim nga këtu: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Përdoruesi %s ndau me ju dosjen \"%s\". Kjo dosje është gati për shkarkim nga këto: %s",
 "Category type not provided." => "Mungon tipi i kategorisë.",
 "No category to add?" => "Asnjë kategori për të shtuar?",
 "This category already exists: %s" => "Kjo kategori tashmë ekziston: %s",
@@ -104,6 +100,7 @@
 "Help" => "Ndihmë",
 "Access forbidden" => "Ndalohet hyrja",
 "Cloud not found" => "Cloud-i nuk u gjet",
+"web services under your control" => "shërbime web nën kontrollin tënd",
 "Edit categories" => "Ndrysho kategoritë",
 "Add" => "Shto",
 "Security Warning" => "Paralajmërim sigurie",

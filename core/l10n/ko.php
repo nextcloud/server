@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "%s 님이 파일을 공유하였습니다",
-"User %s shared a folder with you" => "%s 님이 폴더를 공유하였습니다",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "%s 님이 파일 \"%s\"을(를) 공유하였습니다. 여기에서 다운로드할 수 있습니다: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "%s 님이 폴더 \"%s\"을(를) 공유하였습니다. 여기에서 다운로드할 수 있습니다: %s",
 "Category type not provided." => "분류 형식이 제공되지 않았습니다.",
 "No category to add?" => "추가할 분류가 없습니까?",
 "This category already exists: %s" => "분류가 이미 존재합니다: %s",
@@ -102,6 +98,7 @@
 "Help" => "도움말",
 "Access forbidden" => "접근 금지됨",
 "Cloud not found" => "클라우드를 찾을 수 없습니다",
+"web services under your control" => "내가 관리하는 웹 서비스",
 "Edit categories" => "분류 수정",
 "Add" => "추가",
 "Security Warning" => "보안 경고",

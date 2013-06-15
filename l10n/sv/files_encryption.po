@@ -4,13 +4,14 @@
 # 
 # Translators:
 # medialabs, 2013
+# medialabs, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-14 02:46+0200\n"
-"PO-Revision-Date: 2013-06-14 00:47+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-15 01:58+0200\n"
+"PO-Revision-Date: 2013-06-14 19:40+0000\n"
+"Last-Translator: medialabs\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -73,11 +74,11 @@ msgstr ""
 
 #: templates/invalid_private_key.php:7
 msgid "You can unlock your private key in your "
-msgstr ""
+msgstr "Du kan låsa upp din privata nyckel i dina"
 
 #: templates/invalid_private_key.php:7
 msgid "personal settings"
-msgstr ""
+msgstr "personliga inställningar"
 
 #: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
@@ -132,11 +133,11 @@ msgstr ""
 
 #: templates/settings-personal.php:24
 msgid "Old log-in password"
-msgstr ""
+msgstr "Gammalt inloggningslösenord"
 
 #: templates/settings-personal.php:30
 msgid "Current log-in password"
-msgstr ""
+msgstr "Nuvarande inloggningslösenord"
 
 #: templates/settings-personal.php:35
 msgid "Update Private Key Password"
@@ -144,7 +145,7 @@ msgstr ""
 
 #: templates/settings-personal.php:45
 msgid "Enable password recovery:"
-msgstr ""
+msgstr "Aktivera lösenordsåterställning"
 
 #: templates/settings-personal.php:47
 msgid ""

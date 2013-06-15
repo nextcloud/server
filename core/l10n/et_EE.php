@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "Kasutaja %s jagas sinuga faili",
-"User %s shared a folder with you" => "Kasutaja %s jagas Sinuga kausta.",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "Kasutaja %s jagas sinuga faili \"%s\". See on allalaadimiseks saadaval siin: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Kasutaja %s jagas sinuga kausta \"%s\". See on allalaadimiseks saadaval siin: %s",
 "Category type not provided." => "Kategooria tüüp puudub.",
 "No category to add?" => "Pole kategooriat, mida lisada?",
 "This category already exists: %s" => "See kategooria on juba olemas: %s",
@@ -105,6 +101,7 @@
 "Help" => "Abiinfo",
 "Access forbidden" => "Ligipääs on keelatud",
 "Cloud not found" => "Pilve ei leitud",
+"web services under your control" => "veebitenused sinu kontrolli all",
 "Edit categories" => "Muuda kategooriaid",
 "Add" => "Lisa",
 "Security Warning" => "Turvahoiatus",

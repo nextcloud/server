@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "用户 %s 与您分享了一个文件",
-"User %s shared a folder with you" => "用户 %s 与您分享了一个文件夹",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "用户 %s 与您分享了文件“%s”。点击下载：%s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "用户 %s 与您分享了文件夹“%s”。点击下载：%s",
 "Category type not provided." => "未选择分类类型。",
 "No category to add?" => "没有分类添加了?",
 "This category already exists: %s" => "此分类已存在：%s",

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-12 02:56+0200\n"
-"PO-Revision-Date: 2013-06-11 23:27+0000\n"
+"POT-Creation-Date: 2013-06-15 01:59+0200\n"
+"PO-Revision-Date: 2013-06-14 23:22+0000\n"
 "Last-Translator: rogerc\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,7 @@ msgstr "El correu electrònic no és vàlid"
 msgid "Unable to delete group"
 msgstr "No es pot eliminar el grup"
 
-#: ajax/removeuser.php:24
+#: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "No es pot eliminar l'usuari"
 
@@ -326,11 +326,11 @@ msgstr "Més"
 msgid "Less"
 msgstr "Menys"
 
-#: templates/admin.php:235 templates/personal.php:111
+#: templates/admin.php:235 templates/personal.php:116
 msgid "Version"
 msgstr "Versió"
 
-#: templates/admin.php:237 templates/personal.php:114
+#: templates/admin.php:237 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -340,27 +340,27 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Desenvolupat per la <a href=\"http://ownCloud.org/contact\" target=\"_blank\">comunitat ownCloud</a>, el <a href=\"https://github.com/owncloud\" target=\"_blank\">codi font</a> té llicència <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/apps.php:11
+#: templates/apps.php:13
 msgid "Add your App"
 msgstr "Afegiu la vostra aplicació"
 
-#: templates/apps.php:12
+#: templates/apps.php:28
 msgid "More Apps"
 msgstr "Més aplicacions"
 
-#: templates/apps.php:28
+#: templates/apps.php:33
 msgid "Select an App"
 msgstr "Seleccioneu una aplicació"
 
-#: templates/apps.php:34
+#: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
 msgstr "Mireu la pàgina d'aplicacions a apps.owncloud.com"
 
-#: templates/apps.php:36
+#: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-propietat de <span class=\"author\"></span>"
 
-#: templates/apps.php:38
+#: templates/apps.php:43
 msgid "Update"
 msgstr "Actualitza"
 
@@ -388,72 +388,72 @@ msgstr "Seguiment d'errors"
 msgid "Commercial Support"
 msgstr "Suport comercial"
 
-#: templates/personal.php:8
+#: templates/personal.php:9
+msgid "Get the apps to sync your files"
+msgstr "Obtén les aplicacions per sincronitzar fitxers"
+
+#: templates/personal.php:20
+msgid "Show First Run Wizard again"
+msgstr "Torna a mostrar l'assistent de primera execució"
+
+#: templates/personal.php:28
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Heu utilitzat <strong>%s</strong> d'un total disponible de <strong>%s</strong>"
 
-#: templates/personal.php:15
-msgid "Get the apps to sync your files"
-msgstr "Obtén les aplicacions per sincronitzar fitxers"
-
-#: templates/personal.php:26
-msgid "Show First Run Wizard again"
-msgstr "Torna a mostrar l'assistent de primera execució"
-
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:86
+#: templates/personal.php:40 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "Contrasenya"
 
-#: templates/personal.php:38
+#: templates/personal.php:41
 msgid "Your password was changed"
 msgstr "La seva contrasenya s'ha canviat"
 
-#: templates/personal.php:39
+#: templates/personal.php:42
 msgid "Unable to change your password"
 msgstr "No s'ha pogut canviar la contrasenya"
 
-#: templates/personal.php:40
+#: templates/personal.php:43
 msgid "Current password"
 msgstr "Contrasenya actual"
 
-#: templates/personal.php:42
+#: templates/personal.php:45
 msgid "New password"
 msgstr "Contrasenya nova"
 
-#: templates/personal.php:44
+#: templates/personal.php:47
 msgid "Change password"
 msgstr "Canvia la contrasenya"
 
-#: templates/personal.php:56 templates/users.php:85
+#: templates/personal.php:59 templates/users.php:85
 msgid "Display Name"
 msgstr "Nom a mostrar"
 
-#: templates/personal.php:71
+#: templates/personal.php:74
 msgid "Email"
 msgstr "Correu electrònic"
 
-#: templates/personal.php:73
+#: templates/personal.php:76
 msgid "Your email address"
 msgstr "Correu electrònic"
 
-#: templates/personal.php:74
+#: templates/personal.php:77
 msgid "Fill in an email address to enable password recovery"
 msgstr "Ompliu el correu electrònic per activar la recuperació de contrasenya"
 
-#: templates/personal.php:83 templates/personal.php:84
+#: templates/personal.php:86 templates/personal.php:87
 msgid "Language"
 msgstr "Idioma"
 
-#: templates/personal.php:95
+#: templates/personal.php:99
 msgid "Help translate"
 msgstr "Ajudeu-nos amb la traducció"
 
-#: templates/personal.php:100
+#: templates/personal.php:105
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:102
+#: templates/personal.php:107
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Useu aquesta adreça per connectar amb ownCloud des del gestor de fitxers"
 

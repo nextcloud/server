@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "Používateľ %s zdieľa s Vami súbor",
-"User %s shared a folder with you" => "Používateľ %s zdieľa s Vami priečinok",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "Používateľ %s zdieľa s Vami súbor \"%s\".  Môžete si ho stiahnuť tu: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Používateľ %s zdieľa s Vami priečinok \"%s\".  Môžete si ho stiahnuť tu: %s",
 "Category type not provided." => "Neposkytnutý typ kategórie.",
 "No category to add?" => "Žiadna kategória pre pridanie?",
 "This category already exists: %s" => "Kategória: %s už existuje.",

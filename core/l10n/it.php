@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "L'utente %s ha condiviso un file con te",
-"User %s shared a folder with you" => "L'utente %s ha condiviso una cartella con te",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "L'utente %s ha condiviso il file \"%s\" con te. È disponibile per lo scaricamento qui: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "L'utente %s ha condiviso la cartella \"%s\" con te. È disponibile per lo scaricamento qui: %s",
 "Category type not provided." => "Tipo di categoria non fornito.",
 "No category to add?" => "Nessuna categoria da aggiungere?",
 "This category already exists: %s" => "Questa categoria esiste già: %s",
@@ -105,6 +101,7 @@
 "Help" => "Aiuto",
 "Access forbidden" => "Accesso negato",
 "Cloud not found" => "Nuvola non trovata",
+"web services under your control" => "servizi web nelle tue mani",
 "Edit categories" => "Modifica categorie",
 "Add" => "Aggiungi",
 "Security Warning" => "Avviso di sicurezza",

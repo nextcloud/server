@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-13 02:16+0200\n"
-"PO-Revision-Date: 2013-06-12 21:41+0000\n"
+"POT-Creation-Date: 2013-06-15 01:58+0200\n"
+"PO-Revision-Date: 2013-06-14 23:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bosnian (http://www.transifex.com/projects/p/owncloud/language/bs/)\n"
 "MIME-Version: 1.0\n"
@@ -45,7 +45,7 @@ msgstr ""
 
 #: js/trash.js:176 templates/index.php:17
 msgid "Name"
-msgstr ""
+msgstr "Ime"
 
 #: js/trash.js:177 templates/index.php:27
 msgid "Deleted"

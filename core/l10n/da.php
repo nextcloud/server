@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "Bruger %s delte en fil med dig",
-"User %s shared a folder with you" => "Bruger %s delte en mappe med dig",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "Bruger %s delte filen \"%s\" med dig. Den kan hentes her: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Bruger %s delte mappe \"%s\" med dig. Det kan hentes her: %s",
 "Category type not provided." => "Kategori typen ikke er fastsat.",
 "No category to add?" => "Ingen kategori at tilføje?",
 "This category already exists: %s" => "Kategorien eksisterer allerede: %s",
@@ -105,6 +101,7 @@
 "Help" => "Hjælp",
 "Access forbidden" => "Adgang forbudt",
 "Cloud not found" => "Sky ikke fundet",
+"web services under your control" => "Webtjenester under din kontrol",
 "Edit categories" => "Rediger kategorier",
 "Add" => "Tilføj",
 "Security Warning" => "Sikkerhedsadvarsel",

@@ -5,6 +5,9 @@
 "Could not disable recovery key. Please check your recovery key password!" => "Nelze zakázat záchranný klíč. Zkontrolujte prosím heslo vašeho záchranného klíče.",
 "Password successfully changed." => "Heslo bylo úspěšně změněno.",
 "Could not change the password. Maybe the old password was not correct." => "Nelze změnit heslo. Pravděpodobně nebylo stávající heslo zadáno správně.",
+"Private key password successfully updated." => "Heslo soukromého klíče úspěšně aktualizováno.",
+"Could not update the private key password. Maybe the old password was not correct." => "Nelze aktualizovat heslo soukromého klíče. Možná nebylo staré heslo správně.",
+"Your private key is not valid! Maybe your password was changed from outside. You can update your private key password in your personal settings to regain access to your files" => "Váš soukromý klíč není platný. Možná bylo vaše heslo změněno z venku. Můžete aktualizovat heslo soukromého klíče v osobním nastavení pro opětovné získání přístupu k souborům",
 "Saving..." => "Ukládám...",
 "Encryption" => "Šifrování",
 "Enable encryption passwords recovery key (allow sharing to recovery key):" => "Povolit záchranný klíč šifrovacích hesel (povolí sdílený záchranný klíč):",
@@ -15,6 +18,8 @@
 "Old Recovery account password" => "Stávající heslo pro obnovu účtu",
 "New Recovery account password" => "Nové heslo pro obnovu účtu",
 "Change Password" => "Změnit heslo",
+"Enable password recovery:" => "Povolit obnovu hesla:",
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Povolení vám umožní znovu získat přístup k vašim zašifrovaným souborům pokud ztratíte heslo",
 "File recovery settings updated" => "Možnosti obnovy souborů aktualizovány",
 "Could not update file recovery" => "Nelze aktualizovat obnovu souborů"
 );

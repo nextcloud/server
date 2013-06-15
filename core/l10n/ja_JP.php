@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "ユーザ %s はあなたとファイルを共有しています",
-"User %s shared a folder with you" => "ユーザ %s はあなたとフォルダを共有しています",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "ユーザ %s はあなたとファイル \"%s\" を共有しています。こちらからダウンロードできます: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "ユーザ %s はあなたとフォルダ \"%s\" を共有しています。こちらからダウンロードできます: %s",
 "Category type not provided." => "カテゴリタイプは提供されていません。",
 "No category to add?" => "追加するカテゴリはありませんか？",
 "This category already exists: %s" => "このカテゴリはすでに存在します: %s",
@@ -93,6 +89,8 @@
 "Request failed!<br>Did you make sure your email/username was right?" => "リクエストに失敗しました！<br>あなたのメール／ユーザ名が正しいことを確認しましたか？",
 "You will receive a link to reset your password via Email." => "メールでパスワードをリセットするリンクが届きます。",
 "Username" => "ユーザー名",
+"Your files seems to be encrypted. If you didn't have enabled the recovery key there will be no way to get your data back once the password was resetted. If you are not sure what to do, please contact your administrator first before continue. Do you really want to continue?" => "ファイルが暗号化されているようです。復旧キーを有効にしていなかった場合、パスワードをリセットしてからデータを復旧する方法はありません。何をすべきかわからないなら、続ける前にまず管理者に連絡しましょう。本当に続けますか？",
+"Yes, I really want to reset my password now" => "はい、今すぐパスワードをリセットします。",
 "Request reset" => "リセットを要求します。",
 "Your password was reset" => "あなたのパスワードはリセットされました。",
 "To login page" => "ログインページへ戻る",

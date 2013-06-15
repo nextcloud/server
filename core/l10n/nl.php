@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "Gebruiker %s deelde een bestand met u",
-"User %s shared a folder with you" => "Gebruiker %s deelde een map met u",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "Gebruiker %s deelde bestand \"%s\" met u. Het is hier te downloaden: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Gebruiker %s deelde de map \"%s\" met u. De map is hier beschikbaar voor download: %s",
 "Category type not provided." => "Categorie type niet opgegeven.",
 "No category to add?" => "Geen categorie toevoegen?",
 "This category already exists: %s" => "Deze categorie bestaat al: %s",
@@ -105,6 +101,7 @@
 "Help" => "Help",
 "Access forbidden" => "Toegang verboden",
 "Cloud not found" => "Cloud niet gevonden",
+"web services under your control" => "Webdiensten in eigen beheer",
 "Edit categories" => "Wijzig categorieën",
 "Add" => "Toevoegen",
 "Security Warning" => "Beveiligingswaarschuwing",

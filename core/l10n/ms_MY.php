@@ -44,6 +44,7 @@
 "Help" => "Bantuan",
 "Access forbidden" => "Larangan akses",
 "Cloud not found" => "Awan tidak dijumpai",
+"web services under your control" => "Perkhidmatan web di bawah kawalan anda",
 "Edit categories" => "Ubah kategori",
 "Add" => "Tambah",
 "Security Warning" => "Amaran keselamatan",

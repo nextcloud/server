@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-13 02:16+0200\n"
-"PO-Revision-Date: 2013-06-12 21:41+0000\n"
+"POT-Creation-Date: 2013-06-15 01:58+0200\n"
+"PO-Revision-Date: 2013-06-14 23:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bosnian (http://www.transifex.com/projects/p/owncloud/language/bs/)\n"
 "MIME-Version: 1.0\n"
@@ -76,7 +76,7 @@ msgstr ""
 
 #: js/fileactions.js:116
 msgid "Share"
-msgstr ""
+msgstr "Podijeli"
 
 #: js/fileactions.js:126
 msgid "Delete permanently"
@@ -189,11 +189,11 @@ msgstr ""
 
 #: js/files.js:877 templates/index.php:69
 msgid "Name"
-msgstr ""
+msgstr "Ime"
 
 #: js/files.js:878 templates/index.php:80
 msgid "Size"
-msgstr ""
+msgstr "Veličina"
 
 #: js/files.js:879 templates/index.php:82
 msgid "Modified"
@@ -257,7 +257,7 @@ msgstr ""
 
 #: templates/admin.php:26
 msgid "Save"
-msgstr ""
+msgstr "Spasi"
 
 #: templates/index.php:7
 msgid "New"
@@ -269,7 +269,7 @@ msgstr ""
 
 #: templates/index.php:12
 msgid "Folder"
-msgstr ""
+msgstr "Fasikla"
 
 #: templates/index.php:14
 msgid "From link"

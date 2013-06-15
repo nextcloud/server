@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "Uživatel %s s vámi sdílí soubor",
-"User %s shared a folder with you" => "Uživatel %s s vámi sdílí složku",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "Uživatel %s s vámi sdílí soubor \"%s\". Můžete jej stáhnout zde: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Uživatel %s s vámi sdílí složku \"%s\". Můžete ji stáhnout zde: %s",
 "Category type not provided." => "Nezadán typ kategorie.",
 "No category to add?" => "Žádná kategorie k přidání?",
 "This category already exists: %s" => "Kategorie již existuje: %s",
@@ -93,6 +89,8 @@
 "Request failed!<br>Did you make sure your email/username was right?" => "Požadavek selhal.<br>Ujistili jste se, že vaše uživatelské jméno a e-mail jsou správně?",
 "You will receive a link to reset your password via Email." => "Bude Vám e-mailem zaslán odkaz pro obnovu hesla.",
 "Username" => "Uživatelské jméno",
+"Your files seems to be encrypted. If you didn't have enabled the recovery key there will be no way to get your data back once the password was resetted. If you are not sure what to do, please contact your administrator first before continue. Do you really want to continue?" => "Vaše soubory jsou šifrovány. Pokud nemáte povolen klíč obnovy, neexistuje způsob jak získat po obnově hesla vaše data. Pokud si nejste jisti co dělat, kontaktujte nejprve svého správce. Opravdu si přejete pokračovat?",
+"Yes, I really want to reset my password now" => "Ano, opravdu si nyní přeji obnovit své heslo",
 "Request reset" => "Vyžádat obnovu",
 "Your password was reset" => "Vaše heslo bylo obnoveno",
 "To login page" => "Na stránku přihlášení",

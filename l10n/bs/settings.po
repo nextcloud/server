@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-13 02:16+0200\n"
-"PO-Revision-Date: 2013-06-12 21:41+0000\n"
+"POT-Creation-Date: 2013-06-15 01:59+0200\n"
+"PO-Revision-Date: 2013-06-14 19:40+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bosnian (http://www.transifex.com/projects/p/owncloud/language/bs/)\n"
 "MIME-Version: 1.0\n"
@@ -122,7 +122,7 @@ msgstr ""
 
 #: js/personal.js:118
 msgid "Saving..."
-msgstr ""
+msgstr "Spašavam..."
 
 #: js/users.js:47
 msgid "deleted"
@@ -324,11 +324,11 @@ msgstr ""
 msgid "Less"
 msgstr ""
 
-#: templates/admin.php:235 templates/personal.php:114
+#: templates/admin.php:235 templates/personal.php:116
 msgid "Version"
 msgstr ""
 
-#: templates/admin.php:237 templates/personal.php:117
+#: templates/admin.php:237 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -338,27 +338,27 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr ""
 
-#: templates/apps.php:11
+#: templates/apps.php:13
 msgid "Add your App"
 msgstr ""
 
-#: templates/apps.php:12
+#: templates/apps.php:28
 msgid "More Apps"
 msgstr ""
 
-#: templates/apps.php:28
+#: templates/apps.php:33
 msgid "Select an App"
 msgstr ""
 
-#: templates/apps.php:34
+#: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
 msgstr ""
 
-#: templates/apps.php:36
+#: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr ""
 
-#: templates/apps.php:38
+#: templates/apps.php:43
 msgid "Update"
 msgstr ""
 
@@ -443,15 +443,15 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
-#: templates/personal.php:98
+#: templates/personal.php:99
 msgid "Help translate"
 msgstr ""
 
-#: templates/personal.php:103
+#: templates/personal.php:105
 msgid "WebDAV"
 msgstr ""
 
-#: templates/personal.php:105
+#: templates/personal.php:107
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr ""
 
