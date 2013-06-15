@@ -50,12 +50,19 @@ class Trashbin {
 		$view = new \OC\Files\View('/'. $user);
 		if (!$view->is_dir('files_trashbin')) {
 			$view->mkdir('files_trashbin');
-			$view->mkdir('files_trashbin/files');
-			$view->mkdir('files_trashbin/versions');
-			$view->mkdir('files_trashbin/keyfiles');
-            $view->mkdir('files_trashbin/share-keys');
 		}
-
+		if (!$view->is_dir('files_trashbin/files')) {
+			$view->mkdir('files_trashbin/files');
+		}
+		if (!$view->is_dir('files_trashbin/versions')) {
+			$view->mkdir('files_trashbin/versions');
+		}
+		if (!$view->is_dir('files_trashbin/keyfiles')) {
+			$view->mkdir('files_trashbin/keyfiles');
+		}
+		if (!$view->is_dir('files_trashbin/share-keys')) {
+			$view->mkdir('files_trashbin/share-keys');
+		}
 		$path_parts = pathinfo($file_path);
 
 		$filename = $path_parts['basename'];
