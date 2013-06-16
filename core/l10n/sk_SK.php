@@ -100,6 +100,7 @@
 "Help" => "Pomoc",
 "Access forbidden" => "Prístup odmietnutý",
 "Cloud not found" => "Nenájdené",
+"web services under your control" => "webové služby pod Vašou kontrolou",
 "Edit categories" => "Upraviť kategórie",
 "Add" => "Pridať",
 "Security Warning" => "Bezpečnostné varovanie",

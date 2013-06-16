@@ -101,6 +101,7 @@
 "Help" => "Ayuda",
 "Access forbidden" => "Acceso denegado",
 "Cloud not found" => "No se encontró ownCloud",
+"web services under your control" => "servicios web controlados por vos",
 "Edit categories" => "Editar categorías",
 "Add" => "Agregar",
 "Security Warning" => "Advertencia de seguridad",

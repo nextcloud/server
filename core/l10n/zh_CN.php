@@ -101,6 +101,7 @@
 "Help" => "帮助",
 "Access forbidden" => "访问禁止",
 "Cloud not found" => "未找到云",
+"web services under your control" => "您控制的web服务",
 "Edit categories" => "编辑分类",
 "Add" => "增加",
 "Security Warning" => "安全警告",

@@ -102,6 +102,7 @@
 "Login Name" => "Inlognaam",
 "Create" => "Creëer",
 "Admin Recovery Password" => "Beheer herstel wachtwoord",
+"Enter the recovery password in order to recover the users files during password change" => "Voer het herstel wachtwoord in om de gebruikersbestanden terug te halen bij wachtwoordwijziging",
 "Default Storage" => "Standaard Opslaglimiet",
 "Unlimited" => "Ongelimiteerd",
 "Other" => "Anders",

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"%s shared »%s« with you" => "%s delade »%s« med dig",
 "Category type not provided." => "Kategorityp inte angiven.",
 "No category to add?" => "Ingen kategori att lägga till?",
 "This category already exists: %s" => "Denna kategori finns redan: %s",
@@ -103,6 +104,7 @@
 "Help" => "Hjälp",
 "Access forbidden" => "Åtkomst förbjuden",
 "Cloud not found" => "Hittade inget moln",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Hej där,⏎\n⏎\nville bara meddela dig att %s delade %s med dig.⏎\nTitta på den: %s⏎\n⏎\nVi hörs!",
 "web services under your control" => "webbtjänster under din kontroll",
 "Edit categories" => "Editera kategorier",
 "Add" => "Lägg till",
@@ -133,6 +135,7 @@
 "remember" => "kom ihåg",
 "Log in" => "Logga in",
 "Alternative Logins" => "Alternativa inloggningar",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Hej där,<br><br>ville bara informera dig om att %s delade »%s« med dig.<br><a href=\"%s\">Titta på den!</a><br><br>Hörs!",
 "prev" => "föregående",
 "next" => "nästa",
 "Updating ownCloud to version %s, this may take a while." => "Uppdaterar ownCloud till version %s, detta kan ta en stund."

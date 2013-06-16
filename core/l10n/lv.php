@@ -98,6 +98,7 @@
 "Help" => "Palīdzība",
 "Access forbidden" => "Pieeja ir liegta",
 "Cloud not found" => "Mākonis netika atrasts",
+"web services under your control" => "tīmekļa servisi tavā varā",
 "Edit categories" => "Rediģēt kategoriju",
 "Add" => "Pievienot",
 "Security Warning" => "Brīdinājums par drošību",

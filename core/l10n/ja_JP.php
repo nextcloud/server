@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"%s shared »%s« with you" => "%sが あなたと »%s«を共有しました",
 "Category type not provided." => "カテゴリタイプは提供されていません。",
 "No category to add?" => "追加するカテゴリはありませんか？",
 "This category already exists: %s" => "このカテゴリはすでに存在します: %s",
@@ -103,6 +104,8 @@
 "Help" => "ヘルプ",
 "Access forbidden" => "アクセスが禁止されています",
 "Cloud not found" => "見つかりません",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "こんにちは、\n\n%s があなたと %s を共有したことをお知らせします。\nそれを表示: %s\n\nそれでは。",
+"web services under your control" => "管理下のウェブサービス",
 "Edit categories" => "カテゴリを編集",
 "Add" => "追加",
 "Security Warning" => "セキュリティ警告",
@@ -132,6 +135,7 @@
 "remember" => "パスワードを記憶する",
 "Log in" => "ログイン",
 "Alternative Logins" => "代替ログイン",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "こんにちは、<br><br>%sがあなたと »%s« を共有したことをお知らせします。<br><a href=\"%s\">それを表示</a><br><br>それでは。",
 "prev" => "前",
 "next" => "次",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud をバージョン %s に更新しています、しばらくお待ち下さい。"

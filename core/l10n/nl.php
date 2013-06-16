@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"%s shared »%s« with you" => "%s deelde »%s« met u",
 "Category type not provided." => "Categorie type niet opgegeven.",
 "No category to add?" => "Geen categorie toevoegen?",
 "This category already exists: %s" => "Deze categorie bestaat al: %s",
@@ -89,6 +90,7 @@
 "Request failed!<br>Did you make sure your email/username was right?" => "Aanvraag mislukt!<br>Weet u zeker dat uw gebruikersnaam en/of wachtwoord goed waren?",
 "You will receive a link to reset your password via Email." => "U ontvangt een link om uw wachtwoord opnieuw in te stellen via e-mail.",
 "Username" => "Gebruikersnaam",
+"Yes, I really want to reset my password now" => "Ja, ik wil mijn wachtwoord nu echt resetten",
 "Request reset" => "Resetaanvraag",
 "Your password was reset" => "Je wachtwoord is gewijzigd",
 "To login page" => "Naar de login-pagina",
@@ -101,6 +103,7 @@
 "Help" => "Help",
 "Access forbidden" => "Toegang verboden",
 "Cloud not found" => "Cloud niet gevonden",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Hallo daar,\n\n%s deelde %s met u.\nBekijk: %s\n\nVeel plezier!",
 "web services under your control" => "Webdiensten in eigen beheer",
 "Edit categories" => "Wijzig categorieën",
 "Add" => "Toevoegen",
@@ -131,6 +134,7 @@
 "remember" => "onthoud gegevens",
 "Log in" => "Meld je aan",
 "Alternative Logins" => "Alternatieve inlogs",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Hallo daar,<br><br> %s deelde »%s« met u.<br><a href=\"%s\">Bekijk!</a><br><br>Veel plezier!",
 "prev" => "vorige",
 "next" => "volgende",
 "Updating ownCloud to version %s, this may take a while." => "Updaten ownCloud naar versie %s, dit kan even duren."

@@ -56,6 +56,7 @@
 "Help" => "Hëllef",
 "Access forbidden" => "Access net erlaabt",
 "Cloud not found" => "Cloud net fonnt",
+"web services under your control" => "Web Servicer ënnert denger Kontroll",
 "Edit categories" => "Kategorien editéieren",
 "Add" => "Dobäisetzen",
 "Security Warning" => "Sécherheets Warnung",

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-15 01:58+0200\n"
-"PO-Revision-Date: 2013-06-14 19:40+0000\n"
+"POT-Creation-Date: 2013-06-16 01:58+0200\n"
+"PO-Revision-Date: 2013-06-15 16:00+0000\n"
 "Last-Translator: medialabs\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -47,20 +47,20 @@ msgstr "Kunde inte ändra lösenordet. Kanske det gamla lösenordet inte var rä
 
 #: ajax/updatePrivateKeyPassword.php:51
 msgid "Private key password successfully updated."
-msgstr ""
+msgstr "Den privata lösenordsnyckeln uppdaterades utan problem."
 
 #: ajax/updatePrivateKeyPassword.php:53
 msgid ""
 "Could not update the private key password. Maybe the old password was not "
 "correct."
-msgstr ""
+msgstr "Kunde inte uppdatera den privata lösenordsnyckeln. Kanske var det gamla lösenordet fel."
 
 #: files/error.php:7
 msgid ""
 "Your private key is not valid! Maybe your password was changed from outside."
 " You can update your private key password in your personal settings to "
 "regain access to your files"
-msgstr ""
+msgstr "Din privata lösenordsnyckel är inte giltig! Kanske byttes ditt lösenord från utsidan. Du kan uppdatera din privata lösenordsnyckel under dina personliga inställningar för att återfå tillgång till dina filer"
 
 #: js/settings-admin.js:11
 msgid "Saving..."
@@ -70,7 +70,7 @@ msgstr "Sparar..."
 msgid ""
 "Your private key is not valid! Maybe the your password was changed from "
 "outside."
-msgstr ""
+msgstr "Din privata lösenordsnyckel är inte giltig! Kanske byttes ditt lösenord från utsidan."
 
 #: templates/invalid_private_key.php:7
 msgid "You can unlock your private key in your "
@@ -119,17 +119,17 @@ msgstr "Byt lösenord"
 
 #: templates/settings-personal.php:11
 msgid "Your private key password no longer match your log-in password:"
-msgstr ""
+msgstr "Din privata lösenordsnyckel stämmer inte längre överrens med ditt inloggningslösenord:"
 
 #: templates/settings-personal.php:14
 msgid "Set your old private key password to your current log-in password."
-msgstr ""
+msgstr "Ställ in din gamla privata lösenordsnyckel till ditt aktuella inloggningslösenord."
 
 #: templates/settings-personal.php:16
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
-msgstr ""
+msgstr "Om du inte kommer ihåg ditt gamla lösenord kan du be din administratör att återställa dina filer."
 
 #: templates/settings-personal.php:24
 msgid "Old log-in password"
@@ -141,7 +141,7 @@ msgstr "Nuvarande inloggningslösenord"
 
 #: templates/settings-personal.php:35
 msgid "Update Private Key Password"
-msgstr ""
+msgstr "Uppdatera den privata lösenordsnyckeln"
 
 #: templates/settings-personal.php:45
 msgid "Enable password recovery:"

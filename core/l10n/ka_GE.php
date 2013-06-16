@@ -98,6 +98,7 @@
 "Help" => "დახმარება",
 "Access forbidden" => "წვდომა აკრძალულია",
 "Cloud not found" => "ღრუბელი არ არსებობს",
+"web services under your control" => "web services under your control",
 "Edit categories" => "კატეგორიების რედაქტირება",
 "Add" => "დამატება",
 "Security Warning" => "უსაფრთხოების გაფრთხილება",

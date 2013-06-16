@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"%s shared »%s« with you" => "%s compartiu «%s» con vostede",
 "Category type not provided." => "Non se indicou o tipo de categoría",
 "No category to add?" => "Sen categoría que engadir?",
 "This category already exists: %s" => "Esta categoría xa existe: %s",
@@ -103,6 +104,8 @@
 "Help" => "Axuda",
 "Access forbidden" => "Acceso denegado",
 "Cloud not found" => "Nube non atopada",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Ola,\n\nsó facerlle saber que %s compartiu %s con vostede.\nVéxao en: %s\n\nSaúdos!",
+"web services under your control" => "servizos web baixo o seu control",
 "Edit categories" => "Editar as categorías",
 "Add" => "Engadir",
 "Security Warning" => "Aviso de seguranza",
@@ -132,6 +135,7 @@
 "remember" => "lembrar",
 "Log in" => "Conectar",
 "Alternative Logins" => "Accesos alternativos",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Ola,<br><br>só facerlle saber que %s compartiu «%s» con vostede.<br><a href=\"%s\">Véxao!</a><br><br>Saúdos!",
 "prev" => "anterior",
 "next" => "seguinte",
 "Updating ownCloud to version %s, this may take a while." => "Actualizando ownCloud a versión %s,  esto pode levar un anaco."

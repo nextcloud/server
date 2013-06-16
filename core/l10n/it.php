@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"%s shared »%s« with you" => "%s condiviso »%s« con te",
 "Category type not provided." => "Tipo di categoria non fornito.",
 "No category to add?" => "Nessuna categoria da aggiungere?",
 "This category already exists: %s" => "Questa categoria esiste già: %s",
@@ -89,6 +90,8 @@
 "Request failed!<br>Did you make sure your email/username was right?" => "Richiesta non riuscita!<br>Sei sicuro che l'indirizzo di posta/nome utente fosse corretto?",
 "You will receive a link to reset your password via Email." => "Riceverai un collegamento per ripristinare la tua password via email",
 "Username" => "Nome utente",
+"Your files seems to be encrypted. If you didn't have enabled the recovery key there will be no way to get your data back once the password was resetted. If you are not sure what to do, please contact your administrator first before continue. Do you really want to continue?" => "I file non sembrano essere cifrati. Se non hai precedentemente abilitato la chiave di recupero, non sarà più possibile ritrovare i tuoi dati una volta che la password sarà resettata. Se non sei sicuro, per favore contatta l'amministratore prima di proseguire. Vuoi veramente continuare?",
+"Yes, I really want to reset my password now" => "Sì, voglio davvero resettare la mia password adesso",
 "Request reset" => "Richiesta di ripristino",
 "Your password was reset" => "La password è stata ripristinata",
 "To login page" => "Alla pagina di accesso",
@@ -101,6 +104,7 @@
 "Help" => "Aiuto",
 "Access forbidden" => "Accesso negato",
 "Cloud not found" => "Nuvola non trovata",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Ehilà,\n\nvolevo solamente farti sapere che %s ha condiviso %s con te.\nGuarda: %s\n\nGrazie!",
 "web services under your control" => "servizi web nelle tue mani",
 "Edit categories" => "Modifica categorie",
 "Add" => "Aggiungi",
@@ -131,6 +135,7 @@
 "remember" => "ricorda",
 "Log in" => "Accedi",
 "Alternative Logins" => "Accessi alternativi",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Ehilà,<br><br>volevo solamente farti sapere che %s ha condiviso »%s« con te.<br><a href=\"%s\">Guarda!</a><br><br>Grazie!",
 "prev" => "precedente",
 "next" => "successivo",
 "Updating ownCloud to version %s, this may take a while." => "Aggiornamento di ownCloud alla versione %s in corso, ciò potrebbe richiedere del tempo."

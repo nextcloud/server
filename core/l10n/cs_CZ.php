@@ -103,6 +103,7 @@
 "Help" => "Nápověda",
 "Access forbidden" => "Přístup zakázán",
 "Cloud not found" => "Cloud nebyl nalezen",
+"web services under your control" => "služby webu pod Vaší kontrolou",
 "Edit categories" => "Upravit kategorie",
 "Add" => "Přidat",
 "Security Warning" => "Bezpečnostní upozornění",

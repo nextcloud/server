@@ -101,6 +101,7 @@
 "Help" => "Pagalba",
 "Access forbidden" => "Priėjimas draudžiamas",
 "Cloud not found" => "Negalima rasti",
+"web services under your control" => "jūsų valdomos web paslaugos",
 "Edit categories" => "Redaguoti kategorijas",
 "Add" => "Pridėti",
 "Security Warning" => "Saugumo pranešimas",

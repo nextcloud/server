@@ -101,6 +101,7 @@
 "Help" => "Súgó",
 "Access forbidden" => "A hozzáférés nem engedélyezett",
 "Cloud not found" => "A felhő nem található",
+"web services under your control" => "webszolgáltatások saját kézben",
 "Edit categories" => "Kategóriák szerkesztése",
 "Add" => "Hozzáadás",
 "Security Warning" => "Biztonsági figyelmeztetés",
