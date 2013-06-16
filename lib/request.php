@@ -18,7 +18,7 @@ class OC_Request {
 
 	/**
 	 * @brief Returns the server host
-	 * @returns the server host
+	 * @returns string the server host
 	 *
 	 * Returns the server host, even if the website uses one or more
 	 * reverse proxies
@@ -39,7 +39,7 @@ class OC_Request {
 			}
 		}
 		else{
-			$host = $_SERVER['HTTP_HOST'];
+			$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
 		}
 		return $host;
 	}
@@ -47,7 +47,7 @@ class OC_Request {
 
 	/**
 	* @brief Returns the server protocol
-	* @returns the server protocol
+	* @returns string the server protocol
 	*
 	* Returns the server protocol. It respects reverse proxy servers and load balancers
 	*/
@@ -69,7 +69,7 @@ class OC_Request {
 
 	/**
 	 * @brief Returns the request uri
-	 * @returns the request uri
+	 * @returns string the request uri
 	 *
 	 * Returns the request uri, even if the website uses one or more
 	 * reverse proxies
@@ -84,7 +84,7 @@ class OC_Request {
 
 	/**
 	 * @brief Returns the script name
-	 * @returns the script name
+	 * @returns string the script name
 	 *
 	 * Returns the script name, even if the website uses one or more
 	 * reverse proxies
@@ -138,7 +138,7 @@ class OC_Request {
 
 	/**
 	 * @brief Check if this is a no-cache request
-	 * @returns true for no-cache
+	 * @returns boolean true for no-cache
 	 */
 	static public function isNoCache() {
 		if (!isset($_SERVER['HTTP_CACHE_CONTROL'])) {
@@ -149,7 +149,7 @@ class OC_Request {
 
 	/**
 	 * @brief Check if the requestor understands gzip
-	 * @returns true for gzip encoding supported
+	 * @returns boolean true for gzip encoding supported
 	 */
 	static public function acceptGZip() {
 		if (!isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
