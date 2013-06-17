@@ -2,7 +2,7 @@
 $(document).ready(function() {
 
 	if (typeof FileActions !== 'undefined') {
-		FileActions.register('all', 'Restore', OC.PERMISSION_READ,  OC.imagePath('core', 'actions/history.svg'), function(filename) {
+		FileActions.register('all', 'Restore', OC.PERMISSION_READ, OC.imagePath('core', 'actions/history'), function(filename) {
 			var tr=$('tr').filterAttr('data-file', filename);
 			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'perform restore operation')+'" src="'+ OC.imagePath('core', 'loading.gif') +'"></a>';
 			var undeleteAction = $('tr').filterAttr('data-file',filename).children("td.date");
