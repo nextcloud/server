@@ -241,11 +241,12 @@ class Storage {
 	public static function getVersions($uid, $filename, $count = 0 ) {
 		if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
 			$versions_fileview = new \OC\Files\View('/' . $uid . '/files_versions');
-			$versionsName = $versions_fileview->getLocalFile($filename);
-			
+			$versionsName = $versions_fileview->getLocalFile($filename).'.v';
+			$escapedVersionName = preg_replace('/(\*|\?|\[)/', '[$1]', $versionsName);
+
 			$versions = array();
 			// fetch for old versions
-			$matches = glob(preg_quote($versionsName).'.v*' );
+			$matches = glob($escapedVersionName.'*');
 
 			if ( !$matches ) {
 				return $versions;
