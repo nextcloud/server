@@ -92,7 +92,7 @@ if($_['passwordChangeSupported']) {
 		<?php endforeach;?>
 		</select>
 		<?php if (OC_Util::getEditionString() === ''): ?>
-		<a href="https://www.transifex.net/projects/p/owncloud/team/<?php p($_['languages']['code']);?>/"
+		<a href="https://www.transifex.net/projects/p/owncloud/team/<?php p($_['languages'][0]['code']);?>/"
 			target="_blank"><em><?php p($l->t('Help translate'));?></em></a>
 		<?php endif; ?>
 	</fieldset>
