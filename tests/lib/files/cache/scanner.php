@@ -104,7 +104,7 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 		$this->assertNotEquals($cachedDataFolder['size'], -1);
 	}
 
-	function testBackgroundScan(){
+	function testBackgroundScan() {
 		$this->fillTestFolders();
 		$this->storage->mkdir('folder2');
 		$this->storage->file_put_contents('folder2/bar.txt', 'foobar');
@@ -124,6 +124,24 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 		$this->assertnotEquals(-1, $cachedData['size']);
 
 		$this->assertFalse($this->cache->getIncomplete());
+	}
+
+	public function testReuseExisting() {
+		$this->fillTestFolders();
+
+		$this->scanner->scan('');
+		$oldData = $this->cache->get('');
+		$this->storage->unlink('folder/bar.txt');
+		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW, \OC\Files\Cache\Scanner::REUSE_SIZE);
+		$newData = $this->cache->get('');
+		$this->assertNotEquals($oldData['etag'], $newData['etag']);
+		$this->assertEquals($oldData['size'], $newData['size']);
+
+		$oldData = $newData;
+		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW, \OC\Files\Cache\Scanner::REUSE_ETAG);
+		$newData = $this->cache->get('');
+		$this->assertEquals($oldData['etag'], $newData['etag']);
+		$this->assertEquals(-1, $newData['size']);
 	}
 
 	function setUp() {

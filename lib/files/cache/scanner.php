@@ -119,7 +119,7 @@ class Scanner {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : 0;
 		}
 		$this->scanFile($path, $reuse);
-		return $this->scanChildren($path, $recursive);
+		return $this->scanChildren($path, $recursive, $reuse);
 	}
 
 	/**
@@ -165,9 +165,7 @@ class Scanner {
 					$size += $childSize;
 				}
 			}
-			if ($size !== -1) {
-				$this->cache->put($path, array('size' => $size));
-			}
+			$this->cache->put($path, array('size' => $size));
 		}
 		return $size;
 	}
