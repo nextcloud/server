@@ -241,7 +241,7 @@ class Storage {
 	public static function getVersions($uid, $filename, $count = 0 ) {
 		if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
 			$versions_fileview = new \OC\Files\View('/' . $uid . '/files_versions');
-			$versionsName = \OC_Filesystem::normalizePath($versions_fileview->getLocalFile($filename).'.v');
+			$versionsName = $versions_fileview->getLocalFile($filename).'.v';
 			$escapedVersionName = preg_replace('/(\*|\?|\[)/', '[$1]', $versionsName);
 
 			$versions = array();
