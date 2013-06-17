@@ -88,7 +88,7 @@ var UserList = {
 		tr.attr('data-uid', username);
 		tr.attr('data-displayName', displayname);
 		tr.find('td.name').text(username);
-		tr.find('td.displayName').text(displayname);
+		tr.find('td.displayName > span').text(displayname);
 		var groupsSelect = $('<select multiple="multiple" class="groupsselect" data-placehoder="Groups" title="' + t('settings', 'Groups') + '"></select>').attr('data-username', username).attr('data-user-groups', groups);
 		tr.find('td.groups').empty();
 		if (tr.find('td.subadmins').length > 0) {
