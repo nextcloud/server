@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-10 01:58+0200\n"
-"PO-Revision-Date: 2013-06-09 23:18+0000\n"
+"POT-Creation-Date: 2013-06-17 02:02+0200\n"
+"PO-Revision-Date: 2013-06-16 23:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -19,27 +19,8 @@ msgstr ""
 
 #: ajax/share.php:97
 #, php-format
-msgid "User %s shared a file with you"
-msgstr "მომხმარებელმა  %s გაგიზიარათ ფაილი"
-
-#: ajax/share.php:99
-#, php-format
-msgid "User %s shared a folder with you"
-msgstr "მომხმარებელმა  %s გაგიზიარათ ფოლდერი"
-
-#: ajax/share.php:101
-#, php-format
-msgid ""
-"User %s shared the file \"%s\" with you. It is available for download here: "
-"%s"
-msgstr "მომხმარებელმა %s გაგიზიარათ ფაილი \"%s\". ის ხელმისაწვდომია გადმოსაწერად აქ: %s"
-
-#: ajax/share.php:104
-#, php-format
-msgid ""
-"User %s shared the folder \"%s\" with you. It is available for download "
-"here: %s"
-msgstr "მომხმარებელმა %s გაგიზიარათ ფოლდერი \"%s\". ის ხელმისაწვდომია გადმოსაწერად აქ: %s"
+msgid "%s shared »%s« with you"
+msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -392,7 +373,7 @@ msgstr "განახლება ვერ განხორციელდ�
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "განახლება ვერ განხორციელდა. გადამისამართება თქვენს ownCloud–ზე."
 
-#: lostpassword/controller.php:48
+#: lostpassword/controller.php:58
 msgid "ownCloud password reset"
 msgstr "ownCloud პაროლის შეცვლა"
 
@@ -420,7 +401,19 @@ msgstr "თქვენ მოგივათ პაროლის შესა
 msgid "Username"
 msgstr "მომხმარებლის სახელი"
 
-#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:22
+msgid ""
+"Your files seems to be encrypted. If you didn't have enabled the recovery "
+"key there will be no way to get your data back once the password was "
+"resetted. If you are not sure what to do, please contact your administrator "
+"first before continue. Do you really want to continue?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:24
+msgid "Yes, I really want to reset my password now"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:29
 msgid "Request reset"
 msgstr "პაროლის შეცვლის მოთხოვნა"
 
@@ -467,6 +460,21 @@ msgstr "წვდომა აკრძალულია"
 #: templates/404.php:12
 msgid "Cloud not found"
 msgstr "ღრუბელი არ არსებობს"
+
+#: templates/altmail.php:2
+#, php-format
+msgid ""
+"Hey there,\n"
+"\n"
+"just letting you know that %s shared %s with you.\n"
+"View it: %s\n"
+"\n"
+"Cheers!"
+msgstr ""
+
+#: templates/altmail.php:7 templates/mail.php:24
+msgid "web services under your control"
+msgstr "web services under your control"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -560,16 +568,12 @@ msgstr "მონაცემთა ბაზის ჰოსტი"
 msgid "Finish setup"
 msgstr "კონფიგურაციის დასრულება"
 
-#: templates/layout.guest.php:40
-msgid "web services under your control"
-msgstr "web services under your control"
-
-#: templates/layout.user.php:37
+#: templates/layout.user.php:40
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:62
+#: templates/layout.user.php:67
 msgid "Log out"
 msgstr "გამოსვლა"
 
@@ -602,6 +606,13 @@ msgstr "შესვლა"
 #: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "ალტერნატიული Login–ი"
+
+#: templates/mail.php:15
+#, php-format
+msgid ""
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
+"href=\"%s\">View it!</a><br><br>Cheers!"
+msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

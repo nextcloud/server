@@ -11,8 +11,6 @@
 "Old Recovery account password" => "Старое Восстановление пароля учетной записи",
 "New Recovery account password" => "Новое Восстановление пароля учетной записи",
 "Change Password" => "Изменить пароль",
-"Enable password recovery by sharing all files with your administrator:" => "Включить восстановление пароля путем доступа Вашего администратора ко всем файлам",
-"Enabling this option will allow you to reobtain access to your encrypted files if your password is lost" => "Включение этой опции позволит вам получить доступ к зашифрованным файлам, в случае утери пароля",
 "File recovery settings updated" => "Настройки файла восстановления обновлены",
 "Could not update file recovery" => "Невозможно обновить файл восстановления"
 );

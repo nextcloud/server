@@ -15,8 +15,6 @@
 "Old Recovery account password" => "Eski kurtarma hesabı parolası",
 "New Recovery account password" => "Yeni kurtarma hesabı parolası",
 "Change Password" => "Parola değiştir",
-"Enable password recovery by sharing all files with your administrator:" => "Parola kurtarmasını tüm paylaşılan dosyaları sistem yöneticiniz ile paylaşarak kurtarmayı etkinleştir:",
-"Enabling this option will allow you to reobtain access to your encrypted files if your password is lost" => "Bu seçeneği etkinleştirmekle eğer parolanızı kaybederseniz şifreli dosyalara erişimi elde etmiş olursunuz",
 "File recovery settings updated" => "Dosya kurtarma ayarları güncellendi",
 "Could not update file recovery" => "Dosya kurtarma güncellenemedi"
 );

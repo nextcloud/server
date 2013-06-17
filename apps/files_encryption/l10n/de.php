@@ -12,6 +12,5 @@
 "Disabled" => "Deaktiviert",
 "Change encryption passwords recovery key:" => "Wiederherstellungsschlüssel für Passwörter ändern:",
 "Change Password" => "Passwort ändern",
-"Enabling this option will allow you to reobtain access to your encrypted files if your password is lost" => "Wenn Sie diese Einstellung aktivieren, können Sie auch im Falle des Verlustes Ihres Passworts auf verschlüsselte Dateien zugreifen",
 "File recovery settings updated" => "Einstellungen zur Wiederherstellung von Dateien wurden aktualisiert"
 );

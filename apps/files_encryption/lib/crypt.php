@@ -168,7 +168,7 @@ class Crypt {
 	 *        e.g. filename or /Docs/filename, NOT admin/files/filename
 	 * @return boolean
 	 */
-	public static function isLegacyEncryptedContent($data, $relPath) {
+	public static function isLegacyEncryptedContent($isCatFileContent, $relPath) {
 
 		// Fetch all file metadata from DB
 		$metadata = \OC\Files\Filesystem::getFileInfo($relPath, '');
@@ -178,7 +178,7 @@ class Crypt {
 		// legacy encryption system
 		if (isset($metadata['encrypted'])
 			&& $metadata['encrypted'] === true
-			&& !self::isCatfileContent($data)
+			&& $isCatFileContent === false
 		) {
 
 			return true;
@@ -352,6 +352,34 @@ class Crypt {
 	}
 
 	/**
+	 * @brief Decrypt private key and check if the result is a valid keyfile
+	 * @param string $encryptedKey encrypted keyfile
+	 * @param string $passphrase to decrypt keyfile
+	 * @returns encrypted private key or false
+	 *
+	 * This function decrypts a file
+	 */
+	public static function decryptPrivateKey($encryptedKey, $passphrase) {
+
+		$plainKey = self::symmetricDecryptFileContent($encryptedKey, $passphrase);
+
+		// check if this a valid private key
+		$res = openssl_pkey_get_private($plainKey);
+		if (is_resource($res)) {
+			$sslInfo = openssl_pkey_get_details($res);
+			if (!isset($sslInfo['key'])) {
+				$plainKey = false;
+			}
+		} else {
+			$plainKey = false;
+		}
+
+		return $plainKey;
+
+	}
+
+
+	/**
 	 * @brief Creates symmetric keyfile content using a generated key
 	 * @param string $plainContent content to be encrypted
 	 * @returns array keys: key, encrypted
@@ -452,7 +480,7 @@ class Crypt {
 
 		} else {
 
-			\OCP\Util::writeLog('Encryption library', 'Decryption (asymmetric) of sealed content failed', \OCP\Util::ERROR);
+			\OCP\Util::writeLog('Encryption library', 'Decryption (asymmetric) of sealed content with share-key "'.$shareKey.'" failed', \OCP\Util::ERROR);
 
 			return false;
 
@@ -608,7 +636,7 @@ class Crypt {
 	 *
 	 * This function decrypts an content
 	 */
-	private static function legacyDecrypt($content, $passphrase = '') {
+	public static function legacyDecrypt($content, $passphrase = '') {
 
 		$bf = self::getBlowfish($passphrase);
 
@@ -635,30 +663,6 @@ class Crypt {
 		} else {
 			return rtrim($result, "\0");
 		}
-	}
-
-	/**
-	 * @param $legacyEncryptedContent
-	 * @param $legacyPassphrase
-	 * @param $publicKeys
-	 * @return array
-	 */
-	public static function legacyKeyRecryptKeyfile($legacyEncryptedContent, $legacyPassphrase, $publicKeys) {
-
-		$decrypted = self::legacyBlockDecrypt($legacyEncryptedContent, $legacyPassphrase);
-
-		// Encrypt plain data, generate keyfile & encrypted file
-		$cryptedData = self::symmetricEncryptFileContentKeyfile($decrypted);
-
-		// Encrypt plain keyfile to multiple sharefiles
-		$multiEncrypted = Crypt::multiKeyEncrypt($cryptedData['key'], $publicKeys);
-
-		return array(
-			'data' => $cryptedData['encrypted'],
-			'filekey' => $multiEncrypted['data'],
-			'sharekeys' => $multiEncrypted['keys']
-		);
-
 	}
 
 }

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-10 01:59+0200\n"
-"PO-Revision-Date: 2013-06-09 23:18+0000\n"
+"POT-Creation-Date: 2013-06-17 02:02+0200\n"
+"PO-Revision-Date: 2013-06-16 23:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -17,27 +17,27 @@ msgstr ""
 "Language: bn_BD\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:357
+#: app.php:359
 msgid "Help"
 msgstr "সহায়িকা"
 
-#: app.php:370
+#: app.php:372
 msgid "Personal"
 msgstr "ব্যক্তিগত"
 
-#: app.php:381
+#: app.php:383
 msgid "Settings"
 msgstr "নিয়ামকসমূহ"
 
-#: app.php:393
+#: app.php:395
 msgid "Users"
 msgstr "ব্যবহারকারী"
 
-#: app.php:406
+#: app.php:408
 msgid "Apps"
 msgstr "অ্যাপ"
 
-#: app.php:414
+#: app.php:416
 msgid "Admin"
 msgstr "প্রশাসন"
 
@@ -113,76 +113,76 @@ msgstr ""
 msgid "%s set the database host."
 msgstr ""
 
-#: setup.php:132 setup.php:329 setup.php:374
+#: setup.php:126 setup.php:332 setup.php:377
 msgid "PostgreSQL username and/or password not valid"
 msgstr ""
 
-#: setup.php:133 setup.php:238
+#: setup.php:127 setup.php:235
 msgid "You need to enter either an existing account or the administrator."
 msgstr ""
 
-#: setup.php:155
+#: setup.php:152
 msgid "Oracle connection could not be established"
 msgstr ""
 
-#: setup.php:237
+#: setup.php:234
 msgid "MySQL username and/or password not valid"
 msgstr ""
 
-#: setup.php:291 setup.php:395 setup.php:404 setup.php:422 setup.php:432
-#: setup.php:441 setup.php:474 setup.php:540 setup.php:566 setup.php:573
-#: setup.php:584 setup.php:591 setup.php:600 setup.php:608 setup.php:617
-#: setup.php:623
+#: setup.php:288 setup.php:398 setup.php:407 setup.php:425 setup.php:435
+#: setup.php:444 setup.php:477 setup.php:543 setup.php:569 setup.php:576
+#: setup.php:587 setup.php:594 setup.php:603 setup.php:611 setup.php:620
+#: setup.php:626
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr ""
 
-#: setup.php:292 setup.php:396 setup.php:405 setup.php:423 setup.php:433
-#: setup.php:442 setup.php:475 setup.php:541 setup.php:567 setup.php:574
-#: setup.php:585 setup.php:601 setup.php:609 setup.php:618
+#: setup.php:289 setup.php:399 setup.php:408 setup.php:426 setup.php:436
+#: setup.php:445 setup.php:478 setup.php:544 setup.php:570 setup.php:577
+#: setup.php:588 setup.php:604 setup.php:612 setup.php:621
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr ""
 
-#: setup.php:308
+#: setup.php:305
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
 msgstr ""
 
-#: setup.php:309
+#: setup.php:306
 msgid "Drop this user from MySQL"
 msgstr ""
 
-#: setup.php:314
+#: setup.php:311
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
 msgstr ""
 
-#: setup.php:315
+#: setup.php:312
 msgid "Drop this user from MySQL."
 msgstr ""
 
-#: setup.php:466 setup.php:533
+#: setup.php:469 setup.php:536
 msgid "Oracle username and/or password not valid"
 msgstr ""
 
-#: setup.php:592 setup.php:624
+#: setup.php:595 setup.php:627
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr ""
 
-#: setup.php:644
+#: setup.php:647
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
 msgstr ""
 
-#: setup.php:867
+#: setup.php:870
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr ""
 
-#: setup.php:868
+#: setup.php:871
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""

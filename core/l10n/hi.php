@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "उपयोगकर्ता %s ने आप के साथ एक फ़ाइल सहभाजीत किया",
 "January" => "जनवरी",
 "February" => "फरवरी",
 "March" => "मार्च",

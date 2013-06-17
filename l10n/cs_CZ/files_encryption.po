@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-08 02:03+0200\n"
-"PO-Revision-Date: 2013-06-07 13:50+0000\n"
+"POT-Creation-Date: 2013-06-15 01:58+0200\n"
+"PO-Revision-Date: 2013-06-14 19:40+0000\n"
 "Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -45,61 +45,118 @@ msgstr "Heslo bylo úspěšně změněno."
 msgid "Could not change the password. Maybe the old password was not correct."
 msgstr "Nelze změnit heslo. Pravděpodobně nebylo stávající heslo zadáno správně."
 
+#: ajax/updatePrivateKeyPassword.php:51
+msgid "Private key password successfully updated."
+msgstr "Heslo soukromého klíče úspěšně aktualizováno."
+
+#: ajax/updatePrivateKeyPassword.php:53
+msgid ""
+"Could not update the private key password. Maybe the old password was not "
+"correct."
+msgstr "Nelze aktualizovat heslo soukromého klíče. Možná nebylo staré heslo správně."
+
+#: files/error.php:7
+msgid ""
+"Your private key is not valid! Maybe your password was changed from outside."
+" You can update your private key password in your personal settings to "
+"regain access to your files"
+msgstr "Váš soukromý klíč není platný. Možná bylo vaše heslo změněno z venku. Můžete aktualizovat heslo soukromého klíče v osobním nastavení pro opětovné získání přístupu k souborům"
+
 #: js/settings-admin.js:11
 msgid "Saving..."
 msgstr "Ukládám..."
+
+#: templates/invalid_private_key.php:5
+msgid ""
+"Your private key is not valid! Maybe the your password was changed from "
+"outside."
+msgstr ""
+
+#: templates/invalid_private_key.php:7
+msgid "You can unlock your private key in your "
+msgstr ""
+
+#: templates/invalid_private_key.php:7
+msgid "personal settings"
+msgstr ""
 
 #: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
 msgstr "Šifrování"
 
-#: templates/settings-admin.php:9
+#: templates/settings-admin.php:10
 msgid ""
 "Enable encryption passwords recovery key (allow sharing to recovery key):"
 msgstr "Povolit záchranný klíč šifrovacích hesel (povolí sdílený záchranný klíč):"
 
-#: templates/settings-admin.php:13
+#: templates/settings-admin.php:14
 msgid "Recovery account password"
 msgstr "Heslo pro obnovu účtu"
 
-#: templates/settings-admin.php:20 templates/settings-personal.php:18
+#: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
 msgstr "Povoleno"
 
-#: templates/settings-admin.php:28 templates/settings-personal.php:26
+#: templates/settings-admin.php:29 templates/settings-personal.php:62
 msgid "Disabled"
 msgstr "Zakázáno"
 
-#: templates/settings-admin.php:32
+#: templates/settings-admin.php:34
 msgid "Change encryption passwords recovery key:"
 msgstr "Změnit záchranný klíč šifrovacích hesel:"
 
-#: templates/settings-admin.php:39
+#: templates/settings-admin.php:41
 msgid "Old Recovery account password"
 msgstr "Stávající heslo pro obnovu účtu"
 
-#: templates/settings-admin.php:46
+#: templates/settings-admin.php:48
 msgid "New Recovery account password"
 msgstr "Nové heslo pro obnovu účtu"
 
-#: templates/settings-admin.php:51
+#: templates/settings-admin.php:53
 msgid "Change Password"
 msgstr "Změnit heslo"
 
-#: templates/settings-personal.php:9
-msgid "Enable password recovery by sharing all files with your administrator:"
-msgstr "Povolit obnovu hesla sdílením všech souborů s vaším správcem:"
-
 #: templates/settings-personal.php:11
+msgid "Your private key password no longer match your log-in password:"
+msgstr ""
+
+#: templates/settings-personal.php:14
+msgid "Set your old private key password to your current log-in password."
+msgstr ""
+
+#: templates/settings-personal.php:16
+msgid ""
+" If you don't remember your old password you can ask your administrator to "
+"recover your files."
+msgstr ""
+
+#: templates/settings-personal.php:24
+msgid "Old log-in password"
+msgstr ""
+
+#: templates/settings-personal.php:30
+msgid "Current log-in password"
+msgstr ""
+
+#: templates/settings-personal.php:35
+msgid "Update Private Key Password"
+msgstr ""
+
+#: templates/settings-personal.php:45
+msgid "Enable password recovery:"
+msgstr "Povolit obnovu hesla:"
+
+#: templates/settings-personal.php:47
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
-"files if your password is lost"
+"files in case of password loss"
 msgstr "Povolení vám umožní znovu získat přístup k vašim zašifrovaným souborům pokud ztratíte heslo"
 
-#: templates/settings-personal.php:27
+#: templates/settings-personal.php:63
 msgid "File recovery settings updated"
 msgstr "Možnosti obnovy souborů aktualizovány"
 
-#: templates/settings-personal.php:28
+#: templates/settings-personal.php:64
 msgid "Could not update file recovery"
 msgstr "Nelze aktualizovat obnovu souborů"

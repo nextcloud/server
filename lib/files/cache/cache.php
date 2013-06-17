@@ -65,13 +65,11 @@ class Cache {
 	 */
 	public function getMimetypeId($mime) {
 		if (!isset($this->mimetypeIds[$mime])) {
-			$query = \OC_DB::prepare('SELECT `id` FROM `*PREFIX*mimetypes` WHERE `mimetype` = ?');
-			$result = $query->execute(array($mime));
+			$result = \OC_DB::executeAudited('SELECT `id` FROM `*PREFIX*mimetypes` WHERE `mimetype` = ?', array($mime));
 			if ($row = $result->fetchRow()) {
 				$this->mimetypeIds[$mime] = $row['id'];
 			} else {
-				$query = \OC_DB::prepare('INSERT INTO `*PREFIX*mimetypes`(`mimetype`) VALUES(?)');
-				$query->execute(array($mime));
+				$result = \OC_DB::executeAudited('INSERT INTO `*PREFIX*mimetypes`(`mimetype`) VALUES(?)', array($mime));
 				$this->mimetypeIds[$mime] = \OC_DB::insertid('*PREFIX*mimetypes');
 			}
 			$this->mimetypes[$this->mimetypeIds[$mime]] = $mime;
@@ -81,8 +79,8 @@ class Cache {
 
 	public function getMimetype($id) {
 		if (!isset($this->mimetypes[$id])) {
-			$query = \OC_DB::prepare('SELECT `mimetype` FROM `*PREFIX*mimetypes` WHERE `id` = ?');
-			$result = $query->execute(array($id));
+			$sql = 'SELECT `mimetype` FROM `*PREFIX*mimetypes` WHERE `id` = ?';
+			$result = \OC_DB::executeAudited($sql, array($id));
 			if ($row = $result->fetchRow()) {
 				$this->mimetypes[$id] = $row['mimetype'];
 			} else {
@@ -96,7 +94,7 @@ class Cache {
 	 * get the stored metadata of a file or folder
 	 *
 	 * @param string/int $file
-	 * @return array
+	 * @return array | false
 	 */
 	public function get($file) {
 		if (is_string($file) or $file == '') {
@@ -109,11 +107,17 @@ class Cache {
 			$where = 'WHERE `fileid` = ?';
 			$params = array($file);
 		}
-		$query = \OC_DB::prepare(
-			'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `storage_mtime`, `encrypted`, `unencrypted_size`, `etag`
-			 FROM `*PREFIX*filecache` ' . $where);
-		$result = $query->execute($params);
+		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`,
+					   `storage_mtime`, `encrypted`, `unencrypted_size`, `etag`
+				FROM `*PREFIX*filecache` ' . $where;
+		$result = \OC_DB::executeAudited($sql, $params);
 		$data = $result->fetchRow();
+
+		//FIXME hide this HACK in the next database layer, or just use doctrine and get rid of MDB2 and PDO
+		//PDO returns false, MDB2 returns null, oracle always uses MDB2, so convert null to false
+		if ($data === null) {
+			$data = false;
+		}
 
 		//merge partial data
 		if (!$data and  is_string($file)) {
@@ -147,14 +151,10 @@ class Cache {
 	public function getFolderContents($folder) {
 		$fileId = $this->getId($folder);
 		if ($fileId > -1) {
-			$query = \OC_DB::prepare(
-				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `storage_mtime`, `encrypted`, `unencrypted_size`, `etag`
-			 	 FROM `*PREFIX*filecache` WHERE `parent` = ? ORDER BY `name` ASC');
-
-			$result = $query->execute(array($fileId));
-			if (\OC_DB::isError($result)) {
-				\OCP\Util::writeLog('cache', 'getFolderContents failed: ' . $result->getMessage(), \OCP\Util::ERROR);
-			}
+			$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`,
+						   `storage_mtime`, `encrypted`, `unencrypted_size`, `etag`
+					FROM `*PREFIX*filecache` WHERE `parent` = ? ORDER BY `name` ASC';
+			$result = \OC_DB::executeAudited($sql,array($fileId));
 			$files = $result->fetchAll();
 			foreach ($files as &$file) {
 				$file['mimetype'] = $this->getMimetype($file['mimetype']);
@@ -208,12 +208,9 @@ class Cache {
 			$params[] = $this->getNumericStorageId();
 			$valuesPlaceholder = array_fill(0, count($queryParts), '?');
 
-			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*filecache`(' . implode(', ', $queryParts) . ')'
-				. ' VALUES(' . implode(', ', $valuesPlaceholder) . ')');
-			$result = $query->execute($params);
-			if (\OC_DB::isError($result)) {
-				\OCP\Util::writeLog('cache', 'Insert to cache failed: ' . $result->getMessage(), \OCP\Util::ERROR);
-			}
+			$sql = 'INSERT INTO `*PREFIX*filecache` (' . implode(', ', $queryParts) . ')'
+				. ' VALUES (' . implode(', ', $valuesPlaceholder) . ')';
+			\OC_DB::executeAudited($sql, $params);
 
 			return (int)\OC_DB::insertid('*PREFIX*filecache');
 		}
@@ -240,9 +237,8 @@ class Cache {
 		list($queryParts, $params) = $this->buildParts($data);
 		$params[] = $id;
 
-		$query = \OC_DB::prepare('UPDATE `*PREFIX*filecache` SET ' . implode(' = ?, ', $queryParts) . '=?'
-			. ' WHERE fileid = ?');
-		$query->execute($params);
+		$sql = 'UPDATE `*PREFIX*filecache` SET ' . implode(' = ?, ', $queryParts) . '=? WHERE `fileid` = ?';
+		\OC_DB::executeAudited($sql, $params);
 	}
 
 	/**
@@ -289,9 +285,8 @@ class Cache {
 
 		$pathHash = md5($file);
 
-		$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?');
-		$result = $query->execute(array($this->getNumericStorageId(), $pathHash));
-
+		$sql = 'SELECT `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?';
+		$result = \OC_DB::executeAudited($sql, array($this->getNumericStorageId(), $pathHash));
 		if ($row = $result->fetchRow()) {
 			return $row['fileid'];
 		} else {
@@ -340,8 +335,9 @@ class Cache {
 				$this->remove($child['path']);
 			}
 		}
-		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*filecache` WHERE `fileid` = ?');
-		$query->execute(array($entry['fileid']));
+		
+		$sql = 'DELETE FROM `*PREFIX*filecache` WHERE `fileid` = ?';
+		\OC_DB::executeAudited($sql, array($entry['fileid']));
 
 		$permissionsCache = new Permissions($this->storageId);
 		$permissionsCache->remove($entry['fileid']);
@@ -364,32 +360,31 @@ class Cache {
 
 		if ($sourceData['mimetype'] === 'httpd/unix-directory') {
 			//find all child entries
-			$query = \OC_DB::prepare('SELECT `path`, `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path` LIKE ?');
-			$result = $query->execute(array($this->getNumericStorageId(), $source . '/%'));
+			$sql = 'SELECT `path`, `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path` LIKE ?';
+			$result = \OC_DB::executeAudited($sql, array($this->getNumericStorageId(), $source . '/%'));
 			$childEntries = $result->fetchAll();
 			$sourceLength = strlen($source);
 			$query = \OC_DB::prepare('UPDATE `*PREFIX*filecache` SET `path` = ?, `path_hash` = ? WHERE `fileid` = ?');
 
 			foreach ($childEntries as $child) {
 				$targetPath = $target . substr($child['path'], $sourceLength);
-				$query->execute(array($targetPath, md5($targetPath), $child['fileid']));
+				\OC_DB::executeAudited($query, array($targetPath, md5($targetPath), $child['fileid']));
 			}
 		}
 
-		$query = \OC_DB::prepare('UPDATE `*PREFIX*filecache` SET `path` = ?, `path_hash` = ?, `name` = ?, `parent` =?'
-			. ' WHERE `fileid` = ?');
-		$query->execute(array($target, md5($target), basename($target), $newParentId, $sourceId));
+		$sql = 'UPDATE `*PREFIX*filecache` SET `path` = ?, `path_hash` = ?, `name` = ?, `parent` =? WHERE `fileid` = ?';
+		\OC_DB::executeAudited($sql, array($target, md5($target), basename($target), $newParentId, $sourceId));
 	}
 
 	/**
 	 * remove all entries for files that are stored on the storage from the cache
 	 */
 	public function clear() {
-		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*filecache` WHERE storage = ?');
-		$query->execute(array($this->getNumericStorageId()));
+		$sql = 'DELETE FROM `*PREFIX*filecache` WHERE `storage` = ?';
+		\OC_DB::executeAudited($sql, array($this->getNumericStorageId()));
 
-		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*storages` WHERE id = ?');
-		$query->execute(array($this->storageId));
+		$sql = 'DELETE FROM `*PREFIX*storages` WHERE `id` = ?';
+		\OC_DB::executeAudited($sql, array($this->storageId));
 	}
 
 	/**
@@ -402,11 +397,8 @@ class Cache {
 		$file = $this->normalize($file);
 
 		$pathHash = md5($file);
-		$query = \OC_DB::prepare('SELECT `size` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?');
-		$result = $query->execute(array($this->getNumericStorageId(), $pathHash));
-		if( \OC_DB::isError($result)) {
-			\OCP\Util::writeLog('cache', 'get status failed: ' . $result->getMessage(), \OCP\Util::ERROR);
-		}
+		$sql = 'SELECT `size` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?';
+		$result = \OC_DB::executeAudited($sql, array($this->getNumericStorageId(), $pathHash));
 		if ($row = $result->fetchRow()) {
 			if ((int)$row['size'] === -1) {
 				return self::SHALLOW;
@@ -433,11 +425,9 @@ class Cache {
 		// normalize pattern
 		$pattern = $this->normalize($pattern);
 
-		$query = \OC_DB::prepare('
-			SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `unencrypted_size`, `etag`
-			FROM `*PREFIX*filecache` WHERE `name` LIKE ? AND `storage` = ?'
-		);
-		$result = $query->execute(array($pattern, $this->getNumericStorageId()));
+		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `unencrypted_size`, `etag`
+				FROM `*PREFIX*filecache` WHERE `name` LIKE ? AND `storage` = ?';
+		$result = \OC_DB::executeAudited($sql, array($pattern, $this->getNumericStorageId()));
 		$files = array();
 		while ($row = $result->fetchRow()) {
 			$row['mimetype'] = $this->getMimetype($row['mimetype']);
@@ -459,12 +449,10 @@ class Cache {
 		} else {
 			$where = '`mimepart` = ?';
 		}
-		$query = \OC_DB::prepare('
-			SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `unencrypted_size`, `etag`
-			FROM `*PREFIX*filecache` WHERE ' . $where . ' AND `storage` = ?'
-		);
+		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `unencrypted_size`, `etag`
+				FROM `*PREFIX*filecache` WHERE ' . $where . ' AND `storage` = ?';
 		$mimetype = $this->getMimetypeId($mimetype);
-		$result = $query->execute(array($mimetype, $this->getNumericStorageId()));
+		$result = \OC_DB::executeAudited($sql, array($mimetype, $this->getNumericStorageId()));
 		$files = array();
 		while ($row = $result->fetchRow()) {
 			$row['mimetype'] = $this->getMimetype($row['mimetype']);
@@ -501,8 +489,8 @@ class Cache {
 		if ($id === -1) {
 			return 0;
 		}
-		$query = \OC_DB::prepare('SELECT `size` FROM `*PREFIX*filecache` WHERE `parent` = ? AND `storage` = ?');
-		$result = $query->execute(array($id, $this->getNumericStorageId()));
+		$sql = 'SELECT `size` FROM `*PREFIX*filecache` WHERE `parent` = ? AND `storage` = ?';
+		$result = \OC_DB::executeAudited($sql, array($id, $this->getNumericStorageId()));
 		$totalSize = 0;
 		$hasChilds = 0;
 		while ($row = $result->fetchRow()) {
@@ -528,8 +516,8 @@ class Cache {
 	 * @return int[]
 	 */
 	public function getAll() {
-		$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ?');
-		$result = $query->execute(array($this->getNumericStorageId()));
+		$sql = 'SELECT `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ?';
+		$result = \OC_DB::executeAudited($sql, array($this->getNumericStorageId()));
 		$ids = array();
 		while ($row = $result->fetchRow()) {
 			$ids[] = $row['fileid'];
@@ -549,10 +537,7 @@ class Cache {
 	public function getIncomplete() {
 		$query = \OC_DB::prepare('SELECT `path` FROM `*PREFIX*filecache`'
 			. ' WHERE `storage` = ? AND `size` = -1 ORDER BY `fileid` DESC',1);
-		$result = $query->execute(array($this->getNumericStorageId()));
-		if (\OC_DB::isError($result)) {
-			\OCP\Util::writeLog('cache', 'getIncomplete failed: ' . $result->getMessage(), \OCP\Util::ERROR);
-		}
+		$result = \OC_DB::executeAudited($query, array($this->getNumericStorageId()));
 		if ($row = $result->fetchRow()) {
 			return $row['path'];
 		} else {
@@ -567,8 +552,8 @@ class Cache {
 	 * @return array, first element holding the storage id, second the path
 	 */
 	static public function getById($id) {
-		$query = \OC_DB::prepare('SELECT `storage`, `path` FROM `*PREFIX*filecache` WHERE `fileid` = ?');
-		$result = $query->execute(array($id));
+		$sql = 'SELECT `storage`, `path` FROM `*PREFIX*filecache` WHERE `fileid` = ?';
+		$result = \OC_DB::executeAudited($sql, array($id));
 		if ($row = $result->fetchRow()) {
 			$numericId = $row['storage'];
 			$path = $row['path'];

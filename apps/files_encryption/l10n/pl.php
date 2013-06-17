@@ -11,8 +11,6 @@
 "Old Recovery account password" => "Stare hasło odzyskiwania",
 "New Recovery account password" => "Nowe hasło odzyskiwania",
 "Change Password" => "Zmień hasło",
-"Enable password recovery by sharing all files with your administrator:" => "Włączyć hasło odzyskiwania przez udostępnianie wszystkich plików z administratorem:",
-"Enabling this option will allow you to reobtain access to your encrypted files if your password is lost" => "Włączenie tej opcji umożliwia otrzymać dostęp do zaszyfrowanych plików w przypadku utraty hasła",
 "File recovery settings updated" => "Ustawienia odzyskiwania plików zmienione",
 "Could not update file recovery" => "Nie można zmienić pliku odzyskiwania"
 );

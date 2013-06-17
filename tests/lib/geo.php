@@ -7,6 +7,10 @@
  */
 
 class Test_Geo extends PHPUnit_Framework_TestCase {
+	
+	/**
+	 * @medium
+	 */
 	function testTimezone() {
 		$result = OC_Geo::timezone(3, 3);
 		$expected = 'Africa/Porto-Novo';

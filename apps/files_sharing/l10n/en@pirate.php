@@ -4,6 +4,5 @@
 "%s shared the folder %s with you" => "%s shared the folder %s with you",
 "%s shared the file %s with you" => "%s shared the file %s with you",
 "Download" => "Download",
-"No preview available for" => "No preview available for",
-"web services under your control" => "web services under your control"
+"No preview available for" => "No preview available for"
 );

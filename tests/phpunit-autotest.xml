@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<phpunit bootstrap="bootstrap.php">
+<phpunit bootstrap="bootstrap.php"
+		 strict="true"
+		 timeoutForSmallTests="900"
+		 timeoutForMediumTests="900"
+		 timeoutForLargeTests="900"
+>
 	<testsuite name='ownCloud'>
 		<directory suffix='.php'>lib/</directory>
 		<file>apps.php</file>
@@ -22,6 +27,10 @@
 				<directory suffix=".php">../apps/user_ldap/l10n</directory>
 				<directory suffix=".php">../apps/user_webdavauth/l10n</directory>
 				<directory suffix=".php">../lib/MDB2</directory>
+				<directory suffix=".php">../lib/l10n</directory>
+				<directory suffix=".php">../core/l10n</directory>
+				<directory suffix=".php">../settings/l10n</directory>
+				<directory suffix=".php">../tests</directory>
 			</exclude>
 		</whitelist>
 	</filter>

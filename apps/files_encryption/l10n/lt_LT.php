@@ -15,8 +15,6 @@
 "Old Recovery account password" => "Seno atstatymo vartotojo slaptažodis",
 "New Recovery account password" => "naujo atstatymo vartotojo slaptažodis",
 "Change Password" => "Pakeisti slaptažodį",
-"Enable password recovery by sharing all files with your administrator:" => "Įjungti slaptažodžio atkūrimą dalinantis visais failas su administratoriumi:",
-"Enabling this option will allow you to reobtain access to your encrypted files if your password is lost" => "Įjungus šią funkciją jums bus suteiktas priėjimas prie šifruotos informacijos ir pamiršus slaptažodį.",
 "File recovery settings updated" => "Failų atstatymo nustatymai pakeisti",
 "Could not update file recovery" => "Neišėjo atnaujinti failų atkūrimo"
 );

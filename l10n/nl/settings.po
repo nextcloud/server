@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-10 01:59+0200\n"
-"PO-Revision-Date: 2013-06-09 23:18+0000\n"
-"Last-Translator: helonaut\n"
+"POT-Creation-Date: 2013-06-17 02:02+0200\n"
+"PO-Revision-Date: 2013-06-16 23:23+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,7 +60,7 @@ msgstr "Ongeldige e-mail"
 msgid "Unable to delete group"
 msgstr "Niet in staat om groep te verwijderen"
 
-#: ajax/removeuser.php:24
+#: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "Niet in staat om gebruiker te verwijderen"
 
@@ -138,16 +138,16 @@ msgstr "ongedaan maken"
 msgid "Unable to remove user"
 msgstr "Kon gebruiker niet verwijderen"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:83
-#: templates/users.php:108
+#: js/users.js:92 templates/users.php:26 templates/users.php:87
+#: templates/users.php:112
 msgid "Groups"
 msgstr "Groepen"
 
-#: js/users.js:95 templates/users.php:85 templates/users.php:120
+#: js/users.js:95 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "Groep beheerder"
 
-#: js/users.js:115 templates/users.php:160
+#: js/users.js:115 templates/users.php:164
 msgid "Delete"
 msgstr "Verwijder"
 
@@ -326,11 +326,11 @@ msgstr "Meer"
 msgid "Less"
 msgstr "Minder"
 
-#: templates/admin.php:235 templates/personal.php:111
+#: templates/admin.php:235 templates/personal.php:116
 msgid "Version"
 msgstr "Versie"
 
-#: templates/admin.php:237 templates/personal.php:114
+#: templates/admin.php:237 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -340,27 +340,27 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Ontwikkeld door de <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud gemeenschap</a>, de <a href=\"https://github.com/owncloud\" target=\"_blank\">bron code</a> is gelicenseerd onder de <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/apps.php:11
+#: templates/apps.php:13
 msgid "Add your App"
 msgstr "App toevoegen"
 
-#: templates/apps.php:12
+#: templates/apps.php:28
 msgid "More Apps"
 msgstr "Meer apps"
 
-#: templates/apps.php:28
+#: templates/apps.php:33
 msgid "Select an App"
 msgstr "Selecteer een app"
 
-#: templates/apps.php:34
+#: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
 msgstr "Zie de applicatiepagina op apps.owncloud.com"
 
-#: templates/apps.php:36
+#: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-Gelicenseerd door <span class=\"author\"></span>"
 
-#: templates/apps.php:38
+#: templates/apps.php:43
 msgid "Update"
 msgstr "Bijwerken"
 
@@ -388,76 +388,76 @@ msgstr "Bugtracker"
 msgid "Commercial Support"
 msgstr "Commerciële ondersteuning"
 
-#: templates/personal.php:8
+#: templates/personal.php:9
+msgid "Get the apps to sync your files"
+msgstr "Download de apps om bestanden te syncen"
+
+#: templates/personal.php:20
+msgid "Show First Run Wizard again"
+msgstr "Toon de Eerste start Wizard opnieuw"
+
+#: templates/personal.php:28
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Je hebt <strong>%s</strong> gebruikt van de beschikbare <strong>%s<strong>"
 
-#: templates/personal.php:15
-msgid "Get the apps to sync your files"
-msgstr "Download de apps om bestanden te syncen"
-
-#: templates/personal.php:26
-msgid "Show First Run Wizard again"
-msgstr "Toon de Eerste start Wizard opnieuw"
-
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:40 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "Wachtwoord"
 
-#: templates/personal.php:38
+#: templates/personal.php:41
 msgid "Your password was changed"
 msgstr "Je wachtwoord is veranderd"
 
-#: templates/personal.php:39
+#: templates/personal.php:42
 msgid "Unable to change your password"
 msgstr "Niet in staat om uw wachtwoord te wijzigen"
 
-#: templates/personal.php:40
+#: templates/personal.php:43
 msgid "Current password"
 msgstr "Huidig wachtwoord"
 
-#: templates/personal.php:42
+#: templates/personal.php:45
 msgid "New password"
 msgstr "Nieuw"
 
-#: templates/personal.php:44
+#: templates/personal.php:47
 msgid "Change password"
 msgstr "Wijzig wachtwoord"
 
-#: templates/personal.php:56 templates/users.php:81
+#: templates/personal.php:59 templates/users.php:85
 msgid "Display Name"
 msgstr "Weergavenaam"
 
-#: templates/personal.php:71
+#: templates/personal.php:74
 msgid "Email"
 msgstr "E-mailadres"
 
-#: templates/personal.php:73
+#: templates/personal.php:76
 msgid "Your email address"
 msgstr "Uw e-mailadres"
 
-#: templates/personal.php:74
+#: templates/personal.php:77
 msgid "Fill in an email address to enable password recovery"
 msgstr "Vul een mailadres in om je wachtwoord te kunnen herstellen"
 
-#: templates/personal.php:83 templates/personal.php:84
+#: templates/personal.php:86 templates/personal.php:87
 msgid "Language"
 msgstr "Taal"
 
-#: templates/personal.php:95
+#: templates/personal.php:99
 msgid "Help translate"
 msgstr "Help met vertalen"
 
-#: templates/personal.php:100
+#: templates/personal.php:105
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:102
+#: templates/personal.php:107
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Gebruik dit adres om te verbinden met uw ownCloud in uw bestandsbeheer"
 
-#: templates/users.php:21 templates/users.php:80
+#: templates/users.php:21 templates/users.php:84
 msgid "Login Name"
 msgstr "Inlognaam"
 
@@ -465,34 +465,40 @@ msgstr "Inlognaam"
 msgid "Create"
 msgstr "Creëer"
 
-#: templates/users.php:34
+#: templates/users.php:36
 msgid "Admin Recovery Password"
 msgstr "Beheer herstel wachtwoord"
 
-#: templates/users.php:38
+#: templates/users.php:37 templates/users.php:38
+msgid ""
+"Enter the recovery password in order to recover the users files during "
+"password change"
+msgstr "Voer het herstel wachtwoord in om de gebruikersbestanden terug te halen bij wachtwoordwijziging"
+
+#: templates/users.php:42
 msgid "Default Storage"
 msgstr "Standaard Opslaglimiet"
 
-#: templates/users.php:44 templates/users.php:138
+#: templates/users.php:48 templates/users.php:142
 msgid "Unlimited"
 msgstr "Ongelimiteerd"
 
-#: templates/users.php:62 templates/users.php:153
+#: templates/users.php:66 templates/users.php:157
 msgid "Other"
 msgstr "Anders"
 
-#: templates/users.php:87
+#: templates/users.php:91
 msgid "Storage"
 msgstr "Opslaglimiet"
 
-#: templates/users.php:98
+#: templates/users.php:102
 msgid "change display name"
 msgstr "wijzig weergavenaam"
 
-#: templates/users.php:102
+#: templates/users.php:106
 msgid "set new password"
 msgstr "Instellen nieuw wachtwoord"
 
-#: templates/users.php:133
+#: templates/users.php:137
 msgid "Default"
 msgstr "Standaard"

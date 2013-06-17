@@ -131,10 +131,10 @@ class User {
 	 * @return bool
 	 */
 	public function setPassword($password, $recoveryPassword) {
+		if ($this->emitter) {
+			$this->emitter->emit('\OC\User', 'preSetPassword', array($this, $password, $recoveryPassword));
+		}
 		if ($this->backend->implementsActions(\OC_USER_BACKEND_SET_PASSWORD)) {
-			if ($this->emitter) {
-				$this->emitter->emit('\OC\User', 'preSetPassword', array($this, $password, $recoveryPassword));
-			}
 			$result = $this->backend->setPassword($this->uid, $password);
 			if ($this->emitter) {
 				$this->emitter->emit('\OC\User', 'postSetPassword', array($this, $password, $recoveryPassword));

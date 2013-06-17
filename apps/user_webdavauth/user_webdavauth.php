@@ -41,10 +41,16 @@ class OC_USER_WEBDAVAUTH extends OC_User_Backend {
 	}
 
 	public function checkPassword( $uid, $password ) {
-		$url= 'http://'.urlencode($uid).':'.urlencode($password).'@'.$this->webdavauth_url;
+		$arr = explode('://', $this->webdavauth_url, 2);
+		if( ! isset($arr) OR count($arr) !== 2) {
+			OC_Log::write('OC_USER_WEBDAVAUTH', 'Invalid Url: "'.$this->webdavauth_url.'" ', 3);
+			return false;
+		}
+		list($webdavauth_protocol, $webdavauth_url_path) = $arr;
+		$url= $webdavauth_protocol.'://'.urlencode($uid).':'.urlencode($password).'@'.$webdavauth_url_path;
 		$headers = get_headers($url);
 		if($headers==false) {
-			OC_Log::write('OC_USER_WEBDAVAUTH', 'Not possible to connect to WebDAV Url: "'.$this->webdavauth_url.'" ', 3);
+			OC_Log::write('OC_USER_WEBDAVAUTH', 'Not possible to connect to WebDAV Url: "'.$webdavauth_protocol.'://'.$webdavauth_url_path.'" ', 3);
 			return false;
 
 		}
