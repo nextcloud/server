@@ -364,6 +364,26 @@ class OC_Helper {
 	}
 
 	/**
+	 * Try to guess the mimetype based on filename
+	 *
+	 * @param string $path
+	 * @return string
+	 */
+	static public function getFileNameMimeType($path){
+		if(strpos($path, '.')) {
+			//try to guess the type by the file extension
+			if(!self::$mimetypes || self::$mimetypes != include 'mimetypes.list.php') {
+				self::$mimetypes=include 'mimetypes.list.php';
+			}
+			$extension=strtolower(strrchr(basename($path), "."));
+			$extension=substr($extension, 1);//remove leading .
+			return (isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
+		}else{
+			return 'application/octet-stream';
+		}
+	}
+
+	/**
 	 * get the mimetype form a local file
 	 * @param string $path
 	 * @return string
@@ -377,17 +397,7 @@ class OC_Helper {
 			return "httpd/unix-directory";
 		}
 
-		if(strpos($path, '.')) {
-			//try to guess the type by the file extension
-			if(!self::$mimetypes || self::$mimetypes != include 'mimetypes.list.php') {
-				self::$mimetypes=include 'mimetypes.list.php';
-			}
-			$extension=strtolower(strrchr(basename($path), "."));
-			$extension=substr($extension, 1);//remove leading .
-			$mimeType=(isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
-		}else{
-			$mimeType='application/octet-stream';
-		}
+		$mimeType = self::getFileNameMimeType($path);
 
 		if($mimeType=='application/octet-stream' and function_exists('finfo_open')
 			and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)) {
@@ -609,7 +619,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * remove all files in PHP /oc-noclean temp dir 
+	 * remove all files in PHP /oc-noclean temp dir
 	 */
 	public static function cleanTmpNoClean() {
 		$tmpDirNoCleanFile=get_temp_dir().'/oc-noclean/';

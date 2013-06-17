@@ -1,6 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "Корисник %s дели са вама датотеку",
-"User %s shared a folder with you" => "Корисник %s дели са вама директоријум",
 "Category type not provided." => "Врста категорије није унет.",
 "No category to add?" => "Додати још неку категорију?",
 "Object type not provided." => "Врста објекта није унета.",
@@ -95,6 +93,7 @@
 "Help" => "Помоћ",
 "Access forbidden" => "Забрањен приступ",
 "Cloud not found" => "Облак није нађен",
+"web services under your control" => "веб сервиси под контролом",
 "Edit categories" => "Измени категорије",
 "Add" => "Додај",
 "Security Warning" => "Сигурносно упозорење",

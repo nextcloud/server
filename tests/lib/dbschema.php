@@ -94,12 +94,17 @@ class Test_DBSchema extends PHPUnit_Framework_TestCase {
 				break;
 			case 'pgsql':
 				$sql = "SELECT tablename AS table_name, schemaname AS schema_name "
-					. "FROM pg_tables WHERE schemaname NOT LIKE 'pg_%' "
+					.  "FROM pg_tables WHERE schemaname NOT LIKE 'pg_%' "
 					.  "AND schemaname != 'information_schema' "
 					.  "AND tablename = '".$table."'";
 				$query = OC_DB::prepare($sql);
 				$result = $query->execute(array());
 				$exists = $result && $result->fetchOne();
+				break;
+			case 'oci':
+				$sql = 'SELECT table_name FROM user_tables WHERE table_name = ?';
+				$result = \OC_DB::executeAudited($sql, array($table));
+				$exists = (bool)$result->fetchOne(); //oracle uses MDB2 and returns null
 				break;
 			case 'mssql':
 				$sql = "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{$table}'";

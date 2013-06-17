@@ -38,6 +38,7 @@
 "Help" => "Adjuta",
 "Access forbidden" => "Accesso prohibite",
 "Cloud not found" => "Nube non trovate",
+"web services under your control" => "servicios web sub tu controlo",
 "Edit categories" => "Modificar categorias",
 "Add" => "Adder",
 "Create an <strong>admin account</strong>" => "Crear un <strong>conto de administration</strong>",

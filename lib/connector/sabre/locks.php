@@ -88,9 +88,8 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 		}
 		$query.=')';
 
-		$stmt = OC_DB::prepare( $query );
-		$result = $stmt->execute( $params );
-
+		$result = OC_DB::executeAudited( $query, $params );
+		
 		$lockList = array();
 		while( $row = $result->fetchRow()) {
 
@@ -127,14 +126,17 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 		$locks = $this->getLocks($uri, false);
 		$exists = false;
 		foreach($locks as $lock) {
-			if ($lock->token == $lockInfo->token) $exists = true;
+			if ($lock->token == $lockInfo->token) {
+				$exists = true;
+				break;
+			}
 		}
 
 		if ($exists) {
-			$query = OC_DB::prepare( 'UPDATE `*PREFIX*locks`'
-				.' SET `owner` = ?, `timeout` = ?, `scope` = ?, `depth` = ?, `uri` = ?, `created` = ?'
-				.' WHERE `userid` = ? AND `token` = ?' );
-			$result = $query->execute( array(
+			$sql = 'UPDATE `*PREFIX*locks`'
+				 .' SET `owner` = ?, `timeout` = ?, `scope` = ?, `depth` = ?, `uri` = ?, `created` = ?'
+				 .' WHERE `userid` = ? AND `token` = ?';
+			$result = OC_DB::executeAudited( $sql, array(
 				$lockInfo->owner,
 				$lockInfo->timeout,
 				$lockInfo->scope,
@@ -145,10 +147,10 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 				$lockInfo->token)
 			);
 		} else {
-			$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*locks`'
-				.' (`userid`,`owner`,`timeout`,`scope`,`depth`,`uri`,`created`,`token`)'
-				.' VALUES (?,?,?,?,?,?,?,?)' );
-			$result = $query->execute( array(
+			$sql = 'INSERT INTO `*PREFIX*locks`'
+				 .' (`userid`,`owner`,`timeout`,`scope`,`depth`,`uri`,`created`,`token`)'
+				 .' VALUES (?,?,?,?,?,?,?,?)';
+			$result = OC_DB::executeAudited( $sql, array(
 				OC_User::getUser(),
 				$lockInfo->owner,
 				$lockInfo->timeout,
@@ -173,8 +175,8 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 	 */
 	public function unlock($uri, Sabre_DAV_Locks_LockInfo $lockInfo) {
 
-		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*locks` WHERE `userid` = ? AND `uri` = ? AND `token` = ?' );
-		$result = $query->execute( array(OC_User::getUser(), $uri, $lockInfo->token));
+		$sql = 'DELETE FROM `*PREFIX*locks` WHERE `userid` = ? AND `uri` = ? AND `token` = ?';
+		$result = OC_DB::executeAudited( $sql, array(OC_User::getUser(), $uri, $lockInfo->token));
 
 		return $result->numRows() === 1;
 

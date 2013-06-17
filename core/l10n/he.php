@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "המשתמש %s שיתף אתך קובץ",
-"User %s shared a folder with you" => "המשתמש %s שיתף אתך תיקייה",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "המשתמש %s שיתף אתך את הקובץ „%s“. ניתן להוריד את הקובץ מכאן: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "המשתמש %s שיתף אתך את התיקייה „%s“. ניתן להוריד את התיקייה מכאן: %s",
 "Category type not provided." => "סוג הקטגוריה לא סופק.",
 "No category to add?" => "אין קטגוריה להוספה?",
 "This category already exists: %s" => "הקטגוריה הבאה כבר קיימת: %s",
@@ -105,6 +101,7 @@
 "Help" => "עזרה",
 "Access forbidden" => "הגישה נחסמה",
 "Cloud not found" => "ענן לא נמצא",
+"web services under your control" => "שירותי רשת תחת השליטה שלך",
 "Edit categories" => "ערוך קטגוריות",
 "Add" => "הוספה",
 "Security Warning" => "אזהרת אבטחה",

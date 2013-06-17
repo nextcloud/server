@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "მომხმარებელმა  %s გაგიზიარათ ფაილი",
-"User %s shared a folder with you" => "მომხმარებელმა  %s გაგიზიარათ ფოლდერი",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "მომხმარებელმა %s გაგიზიარათ ფაილი \"%s\". ის ხელმისაწვდომია გადმოსაწერად აქ: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "მომხმარებელმა %s გაგიზიარათ ფოლდერი \"%s\". ის ხელმისაწვდომია გადმოსაწერად აქ: %s",
 "Category type not provided." => "კატეგორიის ტიპი არ არის განხილული.",
 "No category to add?" => "არ არის კატეგორია დასამატებლად?",
 "This category already exists: %s" => "კატეგორია უკვე არსებობს: %s",
@@ -102,6 +98,7 @@
 "Help" => "დახმარება",
 "Access forbidden" => "წვდომა აკრძალულია",
 "Cloud not found" => "ღრუბელი არ არსებობს",
+"web services under your control" => "web services under your control",
 "Edit categories" => "კატეგორიების რედაქტირება",
 "Add" => "დამატება",
 "Security Warning" => "უსაფრთხოების გაფრთხილება",

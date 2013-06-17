@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "La uzanto %s kunhavigis dosieron kun vi",
-"User %s shared a folder with you" => "La uzanto %s kunhavigis dosierujon kun vi",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "La uzanto %s kunhavigis la dosieron “%s” kun vi. Ĝi elŝuteblas el tie ĉi: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "La uzanto %s kunhavigis la dosierujon “%s” kun vi. Ĝi elŝuteblas el tie ĉi: %s",
 "Category type not provided." => "Ne proviziĝis tipon de kategorio.",
 "No category to add?" => "Ĉu neniu kategorio estas aldonota?",
 "This category already exists: %s" => "Tiu kategorio jam ekzistas: %s",
@@ -102,6 +98,7 @@
 "Help" => "Helpo",
 "Access forbidden" => "Aliro estas malpermesata",
 "Cloud not found" => "La nubo ne estas trovita",
+"web services under your control" => "TTT-servoj regataj de vi",
 "Edit categories" => "Redakti kategoriojn",
 "Add" => "Aldoni",
 "Security Warning" => "Sekureca averto",

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-14 02:46+0200\n"
-"PO-Revision-Date: 2013-06-14 00:47+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-15 01:58+0200\n"
+"PO-Revision-Date: 2013-06-14 19:40+0000\n"
+"Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,20 +47,20 @@ msgstr "Nelze změnit heslo. Pravděpodobně nebylo stávající heslo zadáno s
 
 #: ajax/updatePrivateKeyPassword.php:51
 msgid "Private key password successfully updated."
-msgstr ""
+msgstr "Heslo soukromého klíče úspěšně aktualizováno."
 
 #: ajax/updatePrivateKeyPassword.php:53
 msgid ""
 "Could not update the private key password. Maybe the old password was not "
 "correct."
-msgstr ""
+msgstr "Nelze aktualizovat heslo soukromého klíče. Možná nebylo staré heslo správně."
 
 #: files/error.php:7
 msgid ""
 "Your private key is not valid! Maybe your password was changed from outside."
 " You can update your private key password in your personal settings to "
 "regain access to your files"
-msgstr ""
+msgstr "Váš soukromý klíč není platný. Možná bylo vaše heslo změněno z venku. Můžete aktualizovat heslo soukromého klíče v osobním nastavení pro opětovné získání přístupu k souborům"
 
 #: js/settings-admin.js:11
 msgid "Saving..."
@@ -145,13 +145,13 @@ msgstr ""
 
 #: templates/settings-personal.php:45
 msgid "Enable password recovery:"
-msgstr ""
+msgstr "Povolit obnovu hesla:"
 
 #: templates/settings-personal.php:47
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
-msgstr ""
+msgstr "Povolení vám umožní znovu získat přístup k vašim zašifrovaným souborům pokud ztratíte heslo"
 
 #: templates/settings-personal.php:63
 msgid "File recovery settings updated"

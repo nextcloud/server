@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "Vartotojas %s pasidalino su jumis failu",
-"User %s shared a folder with you" => "Vartotojas %s su jumis pasidalino aplanku",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "Vartotojas %s pasidalino failu \"%s\" su jumis. Jį atsisiųsti galite čia: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Vartotojas %s pasidalino aplanku \"%s\" su jumis. Jį atsisiųsti galite čia: %s",
 "Category type not provided." => "Kategorija nenurodyta.",
 "No category to add?" => "Nepridėsite jokios kategorijos?",
 "This category already exists: %s" => "Ši kategorija jau egzistuoja: %s",
@@ -105,6 +101,7 @@
 "Help" => "Pagalba",
 "Access forbidden" => "Priėjimas draudžiamas",
 "Cloud not found" => "Negalima rasti",
+"web services under your control" => "jūsų valdomos web paslaugos",
 "Edit categories" => "Redaguoti kategorijas",
 "Add" => "Pridėti",
 "Security Warning" => "Saugumo pranešimas",

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-14 02:47+0200\n"
-"PO-Revision-Date: 2013-06-14 00:47+0000\n"
+"POT-Creation-Date: 2013-06-17 02:02+0200\n"
+"PO-Revision-Date: 2013-06-16 23:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -20,27 +20,8 @@ msgstr ""
 
 #: ajax/share.php:97
 #, php-format
-msgid "User %s shared a file with you"
-msgstr "用戶 %s 與您分享了一個檔案"
-
-#: ajax/share.php:99
-#, php-format
-msgid "User %s shared a folder with you"
-msgstr "用戶 %s 與您分享了一個資料夾"
-
-#: ajax/share.php:101
-#, php-format
-msgid ""
-"User %s shared the file \"%s\" with you. It is available for download here: "
-"%s"
-msgstr "用戶 %s 與您分享了檔案 \"%s\" ，您可以從這裡下載它： %s"
-
-#: ajax/share.php:104
-#, php-format
-msgid ""
-"User %s shared the folder \"%s\" with you. It is available for download "
-"here: %s"
-msgstr "用戶 %s 與您分享了資料夾 \"%s\" ，您可以從這裡下載它： %s"
+msgid "%s shared »%s« with you"
+msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -481,6 +462,21 @@ msgstr "存取被拒"
 msgid "Cloud not found"
 msgstr "未發現雲端"
 
+#: templates/altmail.php:2
+#, php-format
+msgid ""
+"Hey there,\n"
+"\n"
+"just letting you know that %s shared %s with you.\n"
+"View it: %s\n"
+"\n"
+"Cheers!"
+msgstr ""
+
+#: templates/altmail.php:7 templates/mail.php:24
+msgid "web services under your control"
+msgstr "由您控制的網路服務"
+
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
 msgstr "編輯分類"
@@ -611,6 +607,13 @@ msgstr "登入"
 #: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "替代登入方法"
+
+#: templates/mail.php:15
+#, php-format
+msgid ""
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
+"href=\"%s\">View it!</a><br><br>Cheers!"
+msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

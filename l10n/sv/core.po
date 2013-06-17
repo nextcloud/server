@@ -5,13 +5,14 @@
 # Translators:
 # Gunnar Norin <blittan@xbmc.org>, 2013
 # medialabs, 2013
+# medialabs, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-14 02:47+0200\n"
-"PO-Revision-Date: 2013-06-14 00:47+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-17 02:02+0200\n"
+"PO-Revision-Date: 2013-06-16 23:22+0000\n"
+"Last-Translator: medialabs\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,27 +22,8 @@ msgstr ""
 
 #: ajax/share.php:97
 #, php-format
-msgid "User %s shared a file with you"
-msgstr "Användare %s delade en fil med dig"
-
-#: ajax/share.php:99
-#, php-format
-msgid "User %s shared a folder with you"
-msgstr "Användare %s delade en mapp med dig"
-
-#: ajax/share.php:101
-#, php-format
-msgid ""
-"User %s shared the file \"%s\" with you. It is available for download here: "
-"%s"
-msgstr "Användare %s delade filen \"%s\" med dig. Den finns att ladda ner här: %s"
-
-#: ajax/share.php:104
-#, php-format
-msgid ""
-"User %s shared the folder \"%s\" with you. It is available for download "
-"here: %s"
-msgstr "Användare %s delade mappen \"%s\" med dig. Den finns att ladda ner här: %s"
+msgid "%s shared »%s« with you"
+msgstr "%s delade »%s« med dig"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -428,11 +410,11 @@ msgid ""
 "key there will be no way to get your data back once the password was "
 "resetted. If you are not sure what to do, please contact your administrator "
 "first before continue. Do you really want to continue?"
-msgstr ""
+msgstr "Dina filer ser ut att vara krypterade. Om du inte har aktiverat återställningsnyckeln så finns finns det inget sätt att få tillbaka dina filer när du väl har återställt lösenordet. Om du inte är säker på vad du ska göra, vänligen kontakta din administratör innan du fortsätter. Vill du verkligen fortsätta?"
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
-msgstr ""
+msgstr "Ja, jag vill verkligen återställa mitt lösenord nu"
 
 #: lostpassword/templates/lostpassword.php:29
 msgid "Request reset"
@@ -481,6 +463,21 @@ msgstr "Åtkomst förbjuden"
 #: templates/404.php:12
 msgid "Cloud not found"
 msgstr "Hittade inget moln"
+
+#: templates/altmail.php:2
+#, php-format
+msgid ""
+"Hey there,\n"
+"\n"
+"just letting you know that %s shared %s with you.\n"
+"View it: %s\n"
+"\n"
+"Cheers!"
+msgstr "Hej där,⏎\n⏎\nville bara meddela dig att %s delade %s med dig.⏎\nTitta på den: %s⏎\n⏎\nVi hörs!"
+
+#: templates/altmail.php:7 templates/mail.php:24
+msgid "web services under your control"
+msgstr "webbtjänster under din kontroll"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -612,6 +609,13 @@ msgstr "Logga in"
 #: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Alternativa inloggningar"
+
+#: templates/mail.php:15
+#, php-format
+msgid ""
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
+"href=\"%s\">View it!</a><br><br>Cheers!"
+msgstr "Hej där,<br><br>ville bara informera dig om att %s delade »%s« med dig.<br><a href=\"%s\">Titta på den!</a><br><br>Hörs!"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

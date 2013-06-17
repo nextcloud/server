@@ -664,3 +664,10 @@ button.loading {
 	background-position: right 10px center; background-repeat: no-repeat;
 	padding-right: 30px;
 }
+
+
+
+/* ---- BROWSER-SPECIFIC FIXES ---- */
+::-moz-focus-inner {
+	border: 0; /* remove dotted outlines in Firefox */
+}

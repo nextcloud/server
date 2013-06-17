@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "用戶 %s 與您分享了一個檔案",
-"User %s shared a folder with you" => "用戶 %s 與您分享了一個資料夾",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "用戶 %s 與您分享了檔案 \"%s\" ，您可以從這裡下載它： %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "用戶 %s 與您分享了資料夾 \"%s\" ，您可以從這裡下載它： %s",
 "Category type not provided." => "未提供分類類型。",
 "No category to add?" => "沒有可增加的分類？",
 "This category already exists: %s" => "分類已經存在： %s",
@@ -105,6 +101,7 @@
 "Help" => "說明",
 "Access forbidden" => "存取被拒",
 "Cloud not found" => "未發現雲端",
+"web services under your control" => "由您控制的網路服務",
 "Edit categories" => "編輯分類",
 "Add" => "增加",
 "Security Warning" => "安全性警告",

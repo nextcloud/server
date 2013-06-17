@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-14 02:46+0200\n"
-"PO-Revision-Date: 2013-06-14 00:47+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-15 01:58+0200\n"
+"PO-Revision-Date: 2013-06-14 11:54+0000\n"
+"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,20 +48,20 @@ msgstr "Non foi posíbel cambiar o contrasinal. Probabelmente o contrasinal anti
 
 #: ajax/updatePrivateKeyPassword.php:51
 msgid "Private key password successfully updated."
-msgstr ""
+msgstr "A chave privada foi actualizada correctamente."
 
 #: ajax/updatePrivateKeyPassword.php:53
 msgid ""
 "Could not update the private key password. Maybe the old password was not "
 "correct."
-msgstr ""
+msgstr "Non foi posíbel actualizar o contrasinal da chave privada. É probábel que o contrasinal antigo non sexa correcto."
 
 #: files/error.php:7
 msgid ""
 "Your private key is not valid! Maybe your password was changed from outside."
 " You can update your private key password in your personal settings to "
 "regain access to your files"
-msgstr ""
+msgstr "A chave privada non é correcta! É probábel que o seu contrasinal teña sido cambiado desde o exterior. Vostede pode actualizar o contrasinal da súa chave privada nos seus axustes persoais para recuperar o acceso aos seus ficheiros"
 
 #: js/settings-admin.js:11
 msgid "Saving..."
@@ -71,15 +71,15 @@ msgstr "Gardando..."
 msgid ""
 "Your private key is not valid! Maybe the your password was changed from "
 "outside."
-msgstr ""
+msgstr "A chave privada non é correcta! É probábel que o seu contrasinal teña sido cambiado desde o exterior. "
 
 #: templates/invalid_private_key.php:7
 msgid "You can unlock your private key in your "
-msgstr ""
+msgstr "Pode desbloquear a chave privada nos seus"
 
 #: templates/invalid_private_key.php:7
 msgid "personal settings"
-msgstr ""
+msgstr "axustes persoais"
 
 #: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
@@ -120,39 +120,39 @@ msgstr "Cambiar o contrasinal"
 
 #: templates/settings-personal.php:11
 msgid "Your private key password no longer match your log-in password:"
-msgstr ""
+msgstr "O seu contrasinal da chave privada non coincide co seu contrasinal de acceso."
 
 #: templates/settings-personal.php:14
 msgid "Set your old private key password to your current log-in password."
-msgstr ""
+msgstr "Estabeleza o seu contrasinal antigo da chave de recuperación ao seu contrasinal de acceso actual"
 
 #: templates/settings-personal.php:16
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
-msgstr ""
+msgstr " Se non lembra o seu antigo contrasinal pode pedírllelo ao seu administrador para recuperar os seus ficheiros."
 
 #: templates/settings-personal.php:24
 msgid "Old log-in password"
-msgstr ""
+msgstr "Contrasinal de acceso antigo"
 
 #: templates/settings-personal.php:30
 msgid "Current log-in password"
-msgstr ""
+msgstr "Contrasinal de acceso actual"
 
 #: templates/settings-personal.php:35
 msgid "Update Private Key Password"
-msgstr ""
+msgstr "Actualizar o contrasinal da chave privada"
 
 #: templates/settings-personal.php:45
 msgid "Enable password recovery:"
-msgstr ""
+msgstr "Activar o  contrasinal de recuperación:"
 
 #: templates/settings-personal.php:47
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
-msgstr ""
+msgstr "Ao activar esta opción permitiráselle volver a obter acceso aos ficheiros cifrados no caso de perda do contrasinal"
 
 #: templates/settings-personal.php:63
 msgid "File recovery settings updated"

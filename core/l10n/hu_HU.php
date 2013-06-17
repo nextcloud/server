@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "%s felhasználó megosztott Önnel egy fájlt",
-"User %s shared a folder with you" => "%s felhasználó megosztott Önnel egy mappát",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "%s felhasználó megosztotta ezt az állományt Önnel: %s. A fájl innen tölthető le: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "%s felhasználó megosztotta ezt a mappát Önnel: %s. A mappa innen tölthető le: %s",
 "Category type not provided." => "Nincs megadva a kategória típusa.",
 "No category to add?" => "Nincs hozzáadandó kategória?",
 "This category already exists: %s" => "Ez a kategória már létezik: %s",
@@ -105,6 +101,7 @@
 "Help" => "Súgó",
 "Access forbidden" => "A hozzáférés nem engedélyezett",
 "Cloud not found" => "A felhő nem található",
+"web services under your control" => "webszolgáltatások saját kézben",
 "Edit categories" => "Kategóriák szerkesztése",
 "Add" => "Hozzáadás",
 "Security Warning" => "Biztonsági figyelmeztetés",

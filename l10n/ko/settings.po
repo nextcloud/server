@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-12 02:56+0200\n"
-"PO-Revision-Date: 2013-06-11 23:27+0000\n"
+"POT-Creation-Date: 2013-06-17 02:02+0200\n"
+"PO-Revision-Date: 2013-06-16 23:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -58,7 +58,7 @@ msgstr "잘못된 이메일 주소"
 msgid "Unable to delete group"
 msgstr "그룹을 삭제할 수 없습니다."
 
-#: ajax/removeuser.php:24
+#: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "사용자를 삭제할 수 없습니다."
 
@@ -324,11 +324,11 @@ msgstr "더 중요함"
 msgid "Less"
 msgstr "덜 중요함"
 
-#: templates/admin.php:235 templates/personal.php:111
+#: templates/admin.php:235 templates/personal.php:116
 msgid "Version"
 msgstr "버전"
 
-#: templates/admin.php:237 templates/personal.php:114
+#: templates/admin.php:237 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -338,27 +338,27 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 커뮤니티</a>에 의해서 개발되었습니다. <a href=\"https://github.com/owncloud\" target=\"_blank\">원본 코드</a>는 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>에 따라 사용이 허가됩니다."
 
-#: templates/apps.php:11
+#: templates/apps.php:13
 msgid "Add your App"
 msgstr "앱 추가"
 
-#: templates/apps.php:12
+#: templates/apps.php:28
 msgid "More Apps"
 msgstr "더 많은 앱"
 
-#: templates/apps.php:28
+#: templates/apps.php:33
 msgid "Select an App"
 msgstr "앱 선택"
 
-#: templates/apps.php:34
+#: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
 msgstr "apps.owncloud.com에 있는 앱 페이지를 참고하십시오"
 
-#: templates/apps.php:36
+#: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-라이선스됨: <span class=\"author\"></span>"
 
-#: templates/apps.php:38
+#: templates/apps.php:43
 msgid "Update"
 msgstr "업데이트"
 
@@ -386,72 +386,72 @@ msgstr "버그 트래커"
 msgid "Commercial Support"
 msgstr "상업용 지원"
 
-#: templates/personal.php:8
+#: templates/personal.php:9
+msgid "Get the apps to sync your files"
+msgstr "앱을 이용하여 당신의 파일을 동기화 할 수 있습니다."
+
+#: templates/personal.php:20
+msgid "Show First Run Wizard again"
+msgstr "첫 실행 마법사 다시 보이기"
+
+#: templates/personal.php:28
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "현재 공간 <strong>%s</strong>/<strong>%s</strong>을(를) 사용 중입니다"
 
-#: templates/personal.php:15
-msgid "Get the apps to sync your files"
-msgstr "앱을 이용하여 당신의 파일을 동기화 할 수 있습니다."
-
-#: templates/personal.php:26
-msgid "Show First Run Wizard again"
-msgstr "첫 실행 마법사 다시 보이기"
-
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:86
+#: templates/personal.php:40 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "암호"
 
-#: templates/personal.php:38
+#: templates/personal.php:41
 msgid "Your password was changed"
 msgstr "암호가 변경되었습니다"
 
-#: templates/personal.php:39
+#: templates/personal.php:42
 msgid "Unable to change your password"
 msgstr "암호를 변경할 수 없음"
 
-#: templates/personal.php:40
+#: templates/personal.php:43
 msgid "Current password"
 msgstr "현재 암호"
 
-#: templates/personal.php:42
+#: templates/personal.php:45
 msgid "New password"
 msgstr "새 암호"
 
-#: templates/personal.php:44
+#: templates/personal.php:47
 msgid "Change password"
 msgstr "암호 변경"
 
-#: templates/personal.php:56 templates/users.php:85
+#: templates/personal.php:59 templates/users.php:85
 msgid "Display Name"
 msgstr "표시 이름"
 
-#: templates/personal.php:71
+#: templates/personal.php:74
 msgid "Email"
 msgstr "이메일"
 
-#: templates/personal.php:73
+#: templates/personal.php:76
 msgid "Your email address"
 msgstr "이메일 주소"
 
-#: templates/personal.php:74
+#: templates/personal.php:77
 msgid "Fill in an email address to enable password recovery"
 msgstr "암호 찾기 기능을 사용하려면 이메일 주소를 입력하십시오."
 
-#: templates/personal.php:83 templates/personal.php:84
+#: templates/personal.php:86 templates/personal.php:87
 msgid "Language"
 msgstr "언어"
 
-#: templates/personal.php:95
+#: templates/personal.php:99
 msgid "Help translate"
 msgstr "번역 돕기"
 
-#: templates/personal.php:100
+#: templates/personal.php:105
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:102
+#: templates/personal.php:107
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "파일 관리자에서 ownCloud에 접속하려면 이 주소를 사용하십시오."
 

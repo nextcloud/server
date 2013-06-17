@@ -6,6 +6,9 @@
 "Password successfully changed." => "Wachtwoord succesvol gewijzigd.",
 "Could not change the password. Maybe the old password was not correct." => "Kon wachtwoord niet wijzigen. Wellicht oude wachtwoord niet juist ingevoerd.",
 "Saving..." => "Opslaan",
+"Your private key is not valid! Maybe the your password was changed from outside." => "Uw privésleutel is niet geldig. Misschien was uw wachtwoord van buitenaf gewijzigd.",
+"You can unlock your private key in your " => "U kunt uw privésleutel deblokkeren in uw",
+"personal settings" => "persoonlijke instellingen",
 "Encryption" => "Versleuteling",
 "Enable encryption passwords recovery key (allow sharing to recovery key):" => "Activeer versleuteling van wachtwoorden herstelsleutel (maak delen met herstel sleutel mogelijk):",
 "Recovery account password" => "Herstel account wachtwoord",
@@ -15,6 +18,12 @@
 "Old Recovery account password" => "Oude herstel account wachtwoord",
 "New Recovery account password" => "Nieuwe herstel account wachtwoord",
 "Change Password" => "Wijzigen wachtwoord",
+" If you don't remember your old password you can ask your administrator to recover your files." => "Als u uw oude wachtwoord niet meer weet, kunt u uw beheerder vragen uw bestanden terug te halen.",
+"Old log-in password" => "Oude wachtwoord",
+"Current log-in password" => "Huidige wachtwoord",
+"Update Private Key Password" => "Bijwerken wachtwoord Privésleutel",
+"Enable password recovery:" => "Activeren wachtwoord herstel:",
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Het activeren van deze optie maakt het mogelijk om uw versleutelde bestanden te benaderen als uw wachtwoord kwijt is",
 "File recovery settings updated" => "Bestandsherstel instellingen bijgewerkt",
 "Could not update file recovery" => "Kon bestandsherstel niet bijwerken"
 );

@@ -4,7 +4,7 @@ class DatabaseSetupException extends Exception
 {
 	private $hint;
 
-	public function __construct($message, $hint, $code = 0, Exception $previous = null) {
+	public function __construct($message, $hint = '', $code = 0, Exception $previous = null) {
 		$this->hint = $hint;
 		parent::__construct($message, $code, $previous);
 	}
@@ -133,12 +133,15 @@ class OC_Setup {
 				$dbuser = $options['dbuser'];
 				$dbpass = $options['dbpass'];
 				$dbname = $options['dbname'];
-				$dbtablespace = $options['dbtablespace'];
+				if (array_key_exists('dbtablespace', $options)) {
+					$dbtablespace = $options['dbtablespace'];
+				} else {
+					$dbtablespace = 'USERS';
+				}
 				$dbhost = isset($options['dbhost'])?$options['dbhost']:'';
 				$dbtableprefix = isset($options['dbtableprefix']) ? $options['dbtableprefix'] : 'oc_';
 
 				OC_Config::setValue('dbname', $dbname);
-				OC_Config::setValue('dbtablespace', $dbtablespace);
 				OC_Config::setValue('dbhost', $dbhost);
 				OC_Config::setValue('dbtableprefix', $dbtableprefix);
 
@@ -446,7 +449,7 @@ class OC_Setup {
 	}
 
 	private static function setupOCIDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $dbtablespace,
-		$username) {
+			$username) {
 		$l = self::getTrans();
 		$e_host = addslashes($dbhost);
 		$e_dbname = addslashes($dbname);

@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
+# plazmism <gomidori@live.jp>, 2013
 # tt yn <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-14 02:46+0200\n"
-"PO-Revision-Date: 2013-06-14 00:47+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-15 01:58+0200\n"
+"PO-Revision-Date: 2013-06-14 10:30+0000\n"
+"Last-Translator: plazmism <gomidori@live.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,20 +48,20 @@ msgstr "パスワードを変更できませんでした。古いパスワード
 
 #: ajax/updatePrivateKeyPassword.php:51
 msgid "Private key password successfully updated."
-msgstr ""
+msgstr "秘密鍵のパスワードが正常に更新されました。"
 
 #: ajax/updatePrivateKeyPassword.php:53
 msgid ""
 "Could not update the private key password. Maybe the old password was not "
 "correct."
-msgstr ""
+msgstr "秘密鍵のパスワードを更新できませんでした。古いパスワードが正確でない場合があります。"
 
 #: files/error.php:7
 msgid ""
 "Your private key is not valid! Maybe your password was changed from outside."
 " You can update your private key password in your personal settings to "
 "regain access to your files"
-msgstr ""
+msgstr "秘密鍵が有効ではありません。パスワードが外部から変更された恐れがあります。。個人設定で秘密鍵のパスワードを更新して、ファイルへのアクセス権を奪還できます。"
 
 #: js/settings-admin.js:11
 msgid "Saving..."
@@ -70,15 +71,15 @@ msgstr "保存中..."
 msgid ""
 "Your private key is not valid! Maybe the your password was changed from "
 "outside."
-msgstr ""
+msgstr "秘密鍵が有効ではありません。パスワードが外部から変更された恐れがあります。"
 
 #: templates/invalid_private_key.php:7
 msgid "You can unlock your private key in your "
-msgstr ""
+msgstr "個人設定で"
 
 #: templates/invalid_private_key.php:7
 msgid "personal settings"
-msgstr ""
+msgstr "秘密鍵をアンロックできます"
 
 #: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
@@ -119,39 +120,39 @@ msgstr "パスワードを変更"
 
 #: templates/settings-personal.php:11
 msgid "Your private key password no longer match your log-in password:"
-msgstr ""
+msgstr "もはや秘密鍵はログインパスワードと一致しません:"
 
 #: templates/settings-personal.php:14
 msgid "Set your old private key password to your current log-in password."
-msgstr ""
+msgstr "古い秘密鍵のパスワードを現在のログインパスワードに設定する。"
 
 #: templates/settings-personal.php:16
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
-msgstr ""
+msgstr "古いパスワードを覚えていない場合、管理者に尋ねてファイルを回復することができます。"
 
 #: templates/settings-personal.php:24
 msgid "Old log-in password"
-msgstr ""
+msgstr "古いログインパスワード"
 
 #: templates/settings-personal.php:30
 msgid "Current log-in password"
-msgstr ""
+msgstr "現在のログインパスワード"
 
 #: templates/settings-personal.php:35
 msgid "Update Private Key Password"
-msgstr ""
+msgstr "秘密鍵のパスワードを更新"
 
 #: templates/settings-personal.php:45
 msgid "Enable password recovery:"
-msgstr ""
+msgstr "パスワード復旧を有効化:"
 
 #: templates/settings-personal.php:47
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
-msgstr ""
+msgstr "このオプションを有効にすると、パスワードを紛失した場合も、暗号化されたファイルに再度アクセスすることができるようになります。"
 
 #: templates/settings-personal.php:63
 msgid "File recovery settings updated"

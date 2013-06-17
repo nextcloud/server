@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "Utilizatorul %s a partajat un fișier cu tine",
-"User %s shared a folder with you" => "Utilizatorul %s a partajat un dosar cu tine",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "Utilizatorul %s a partajat fișierul \"%s\" cu tine. Îl poți descărca de aici: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Utilizatorul %s a partajat dosarul \"%s\" cu tine. Îl poți descărca de aici: %s ",
 "Category type not provided." => "Tipul de categorie nu este prevazut",
 "No category to add?" => "Nici o categorie de adăugat?",
 "This category already exists: %s" => "Această categorie deja există: %s",
@@ -104,6 +100,7 @@
 "Help" => "Ajutor",
 "Access forbidden" => "Acces interzis",
 "Cloud not found" => "Nu s-a găsit",
+"web services under your control" => "servicii web controlate de tine",
 "Edit categories" => "Editează categorii",
 "Add" => "Adaugă",
 "Security Warning" => "Avertisment de securitate",

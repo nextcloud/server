@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "Lietotājs %s ar jums dalījās ar datni.",
-"User %s shared a folder with you" => "Lietotājs %s ar jums dalījās ar mapi.",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "Lietotājs %s ar jums dalījās ar datni “%s”. To var lejupielādēt šeit — %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Lietotājs %s ar jums dalījās ar mapi “%s”. To var lejupielādēt šeit — %s",
 "Category type not provided." => "Kategorijas tips nav norādīts.",
 "No category to add?" => "Nav kategoriju, ko pievienot?",
 "This category already exists: %s" => "Šāda kategorija jau eksistē — %s",
@@ -102,6 +98,7 @@
 "Help" => "Palīdzība",
 "Access forbidden" => "Pieeja ir liegta",
 "Cloud not found" => "Mākonis netika atrasts",
+"web services under your control" => "tīmekļa servisi tavā varā",
 "Edit categories" => "Rediģēt kategoriju",
 "Add" => "Pievienot",
 "Security Warning" => "Brīdinājums par drošību",
