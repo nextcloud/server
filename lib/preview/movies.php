@@ -17,16 +17,18 @@ if(!is_null(shell_exec('ffmpeg -version'))) {
 		}
 
 		public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-			//get fileinfo
-			$fileinfo = $fileview->getFileInfo($path);
-
-			$abspath = $fileview->toTmpFile($path);
+			$abspath = \OC_Helper::tmpFile();
 			$tmppath = \OC_Helper::tmpFile();
 
-			//$cmd = 'ffmpeg -y  -i ' . escapeshellarg($abspath) . ' -f mjpeg -vframes 1 -ss 1 -s ' . escapeshellarg($maxX) . 'x' . escapeshellarg($maxY) . ' ' . $tmppath;
-			$cmd = 'ffmpeg -y  -i ' . escapeshellarg($abspath) . ' -f mjpeg -vframes 1 -ss 1 ' . escapeshellarg($tmppath);
-			shell_exec($cmd);
+			$handle = $fileview->fopen($path, 'rb');
 
+			$firstmb = stream_get_contents($handle, 1048576); //1024 * 1024 = 1048576
+			file_put_contents($abspath, $firstmb);
+
+			//$cmd = 'ffmpeg -y  -i ' . escapeshellarg($abspath) . ' -f mjpeg -vframes 1 -ss 1 -s ' . escapeshellarg($maxX) . 'x' . escapeshellarg($maxY) . ' ' . $tmppath;
+			$cmd = 'ffmpeg -an -y  -i ' . escapeshellarg($abspath) . ' -f mjpeg -vframes 1 -ss 1 ' . escapeshellarg($tmppath);
+			
+			shell_exec($cmd);
 
 			$image = new \OC_Image($tmppath);
 
