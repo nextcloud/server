@@ -8,6 +8,7 @@
 "Private key password successfully updated." => "Mot de passe de la clé privé mis à jour avec succès.",
 "Could not update the private key password. Maybe the old password was not correct." => "Impossible de mettre à jour le mot de passe de la clé privé. Peut-être que l'ancien mot de passe n'était pas correcte.",
 "Saving..." => "Enregistrement...",
+"You can unlock your private key in your " => "Vous pouvez déverrouiller votre clé privée dans votre",
 "personal settings" => "paramètres personnel",
 "Encryption" => "Chiffrement",
 "Enable encryption passwords recovery key (allow sharing to recovery key):" => "Activer la clé de récupération par mots de passe de cryptage (autoriser le partage de la clé de récupération) ",
@@ -18,6 +19,10 @@
 "Old Recovery account password" => "Ancien compte de récupération de mots de passe",
 "New Recovery account password" => "Nouveau compte de récupération de mots de passe",
 "Change Password" => "Changer de mot de passe",
+"Old log-in password" => "Ancien mot de passe de connexion",
+"Current log-in password" => "Actuel mot de passe de connexion",
+"Update Private Key Password" => "Mettre à jour le mot de passe de votre clé privée",
+"Enable password recovery:" => "Activer la récupération du mot de passe:",
 "File recovery settings updated" => "Mise à jour des paramètres de récupération de fichiers ",
 "Could not update file recovery" => "Ne peut pas remettre à jour les fichiers de récupération"
 );

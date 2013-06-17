@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"%s shared »%s« with you" => "%s s vámi sdílí »%s«",
 "Category type not provided." => "Nezadán typ kategorie.",
 "No category to add?" => "Žádná kategorie k přidání?",
 "This category already exists: %s" => "Kategorie již existuje: %s",
@@ -103,6 +104,7 @@
 "Help" => "Nápověda",
 "Access forbidden" => "Přístup zakázán",
 "Cloud not found" => "Cloud nebyl nalezen",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Ahoj,\n\njenom vám chci oznámit že %s s vámi sdílí %s.\nPodívat se můžete zde: %s\n\nDíky",
 "web services under your control" => "služby webu pod Vaší kontrolou",
 "Edit categories" => "Upravit kategorie",
 "Add" => "Přidat",
@@ -133,6 +135,7 @@
 "remember" => "zapamatovat",
 "Log in" => "Přihlásit",
 "Alternative Logins" => "Alternativní přihlášení",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Ahoj,<br><br>jenom vám chci oznámit že %s s vámi sdílí %s.\nPodívat se můžete <br><a href=\"%s\">zde</a>.<br><br>Díky",
 "prev" => "předchozí",
 "next" => "následující",
 "Updating ownCloud to version %s, this may take a while." => "Aktualizuji ownCloud na verzi %s, bude to chvíli trvat."

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"%s shared »%s« with you" => "%s partagé »%s« avec vous",
 "Category type not provided." => "Type de catégorie non spécifié.",
 "No category to add?" => "Pas de catégorie à ajouter ?",
 "This category already exists: %s" => "Cette catégorie existe déjà : %s",
@@ -89,6 +90,8 @@
 "Request failed!<br>Did you make sure your email/username was right?" => "Requête en échec!<br>Avez-vous vérifié vos courriel/nom d'utilisateur?",
 "You will receive a link to reset your password via Email." => "Vous allez recevoir un e-mail contenant un lien pour réinitialiser votre mot de passe.",
 "Username" => "Nom d'utilisateur",
+"Your files seems to be encrypted. If you didn't have enabled the recovery key there will be no way to get your data back once the password was resetted. If you are not sure what to do, please contact your administrator first before continue. Do you really want to continue?" => "Vos fichiers semblent être cryptés. Si vous n'aviez pas activé la clé de récupération il n'y aura aucun moyen de récupérer vos données une fois que le mot de passe aura été réinitialisé. Si vous n'êtes pas certain de ce que vous faites, veuillez d'abord contacter votre administrateur avant de continuer. Êtes-vous sûr de vouloir continuer?",
+"Yes, I really want to reset my password now" => "Oui, je veux vraiment réinitialiser mon mot de passe maintenant",
 "Request reset" => "Demander la réinitialisation",
 "Your password was reset" => "Votre mot de passe a été réinitialisé",
 "To login page" => "Retour à la page d'authentification",
@@ -101,6 +104,7 @@
 "Help" => "Aide",
 "Access forbidden" => "Accès interdit",
 "Cloud not found" => "Introuvable",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Salut,\n\nje veux juste vous signaler %s partagé %s avec vous.\nVoyez-le: %s\n\nBonne continuation!",
 "web services under your control" => "services web sous votre contrôle",
 "Edit categories" => "Editer les catégories",
 "Add" => "Ajouter",
@@ -131,6 +135,7 @@
 "remember" => "se souvenir de moi",
 "Log in" => "Connexion",
 "Alternative Logins" => "Logins alternatifs",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Salut,<br><br>je veux juste vous signaler %s partagé »%s« avec vous.<br><a href=\"%s\">Voyez-le!</a><br><br>Bonne continuation!",
 "prev" => "précédent",
 "next" => "suivant",
 "Updating ownCloud to version %s, this may take a while." => "Mise à jour en cours d'ownCloud vers la version %s, cela peut prendre du temps."

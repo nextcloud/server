@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Adalberto Rodrigues <rodrigues_adalberto@yahoo.fr>, 2013
 # froozeify <froozeify@mail.com>, 2013
 # lyly95, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-16 01:58+0200\n"
-"PO-Revision-Date: 2013-06-15 12:00+0000\n"
-"Last-Translator: froozeify <froozeify@mail.com>\n"
+"POT-Creation-Date: 2013-06-17 02:02+0200\n"
+"PO-Revision-Date: 2013-06-16 18:50+0000\n"
+"Last-Translator: Adalberto Rodrigues <rodrigues_adalberto@yahoo.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,7 +75,7 @@ msgstr ""
 
 #: templates/invalid_private_key.php:7
 msgid "You can unlock your private key in your "
-msgstr ""
+msgstr "Vous pouvez déverrouiller votre clé privée dans votre"
 
 #: templates/invalid_private_key.php:7
 msgid "personal settings"
@@ -133,19 +134,19 @@ msgstr ""
 
 #: templates/settings-personal.php:24
 msgid "Old log-in password"
-msgstr ""
+msgstr "Ancien mot de passe de connexion"
 
 #: templates/settings-personal.php:30
 msgid "Current log-in password"
-msgstr ""
+msgstr "Actuel mot de passe de connexion"
 
 #: templates/settings-personal.php:35
 msgid "Update Private Key Password"
-msgstr ""
+msgstr "Mettre à jour le mot de passe de votre clé privée"
 
 #: templates/settings-personal.php:45
 msgid "Enable password recovery:"
-msgstr ""
+msgstr "Activer la récupération du mot de passe:"
 
 #: templates/settings-personal.php:47
 msgid ""
