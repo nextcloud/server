@@ -257,7 +257,7 @@ class Storage {
 
 				foreach( $deleteItems as $de ) {
 
-					unlink( $versionsName.'.v'.$de );
+					unlink( $de );
 
 				}
 			}
