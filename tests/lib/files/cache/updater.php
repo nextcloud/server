@@ -69,6 +69,7 @@ class Updater extends \PHPUnit_Framework_TestCase {
 	public function testWrite() {
 		$textSize = strlen("dummy file data\n");
 		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo.png');
+		$this->cache->put('foo.txt', array('mtime' => 100));
 		$rootCachedData = $this->cache->get('');
 		$this->assertEquals(3 * $textSize + $imageSize, $rootCachedData['size']);
 
@@ -77,11 +78,9 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$cachedData = $this->cache->get('foo.txt');
 		$this->assertEquals(3, $cachedData['size']);
 		$this->assertNotEquals($fooCachedData['etag'], $cachedData['etag']);
-		$mtime = $cachedData['mtime'];
 		$cachedData = $this->cache->get('');
 		$this->assertEquals(2 * $textSize + $imageSize + 3, $cachedData['size']);
 		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
-		$this->assertGreaterThanOrEqual($rootCachedData['mtime'], $mtime);
 		$rootCachedData = $cachedData;
 
 		$this->assertFalse($this->cache->inCache('bar.txt'));
