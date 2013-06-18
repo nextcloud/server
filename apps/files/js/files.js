@@ -797,7 +797,7 @@ $(document).ready(function() {
 	}
 });
 
-function scanFiles(force, dir){
+function scanFiles(force, dir, users){
 	if (!OC.currentUser) {
 		return;
 	}
@@ -807,7 +807,18 @@ function scanFiles(force, dir){
 	}
 	force = !!force; //cast to bool
 	scanFiles.scanning = true;
-	var scannerEventSource = new OC.EventSource(OC.filePath('files','ajax','scan.php'),{force:force,dir:dir});
+	var scannerEventSource;
+	if (users) {
+		var usersString;
+		if (users === 'all') {
+			usersString = users;
+		} else {
+			usersString = users.join(',');
+		}
+		scannerEventSource = new OC.EventSource(OC.filePath('files','ajax','scan.php'),{force: force,dir: dir, users: usersString});
+	} else {
+		scannerEventSource = new OC.EventSource(OC.filePath('files','ajax','scan.php'),{force: force,dir: dir});
+	}
 	scanFiles.cancel = scannerEventSource.close.bind(scannerEventSource);
 	scannerEventSource.listen('count',function(count){
 		console.log(count + 'files scanned')
@@ -818,6 +829,9 @@ function scanFiles(force, dir){
 	scannerEventSource.listen('done',function(count){
 		scanFiles.scanning=false;
 		console.log('done after ' + count + 'files');
+	});
+	scannerEventSource.listen('user',function(user){
+		console.log('scanning files for ' + user);
 	});
 }
 scanFiles.scanning=false;
