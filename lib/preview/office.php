@@ -13,6 +13,5 @@ if (extension_loaded('imagick')) {
 	}else{
 		//in case there isn't, use our fallback
 		require_once('msoffice.php');
-		require_once('opendocument.php');
 	}
 }
