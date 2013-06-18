@@ -14,7 +14,7 @@ class DOC extends Provider {
 	}
 
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-		
+		require_once();
 	}
 
 }
@@ -105,6 +105,7 @@ class XLSX extends MSOfficeExcel {
 
 \OC\Preview::registerProvider('OC\Preview\XLSX');
 
+/* //There is no (good) php-only solution for converting powerpoint documents to pdfs / pngs ...
 class MSOfficePowerPoint extends Provider {
 
 	public function getMimeType() {
@@ -113,21 +114,6 @@ class MSOfficePowerPoint extends Provider {
 
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
 		return false;
-
-		$abspath = $fileview->toTmpFile($path);
-		$tmppath = \OC_Helper::tmpFile();
-
-		null;
-
-		$pdf = new \imagick($tmppath . '[0]');
-		$pdf->setImageFormat('jpg');
-
-		unlink($abspath);
-		unlink($tmppath);
-
-		$image = new \OC_Image($pdf);
-
-		return $image->valid() ? $image : false;
 	}
 
 }
@@ -151,3 +137,4 @@ class PPTX extends MSOfficePowerPoint {
 }
 
 \OC\Preview::registerProvider('OC\Preview\PPTX');
+*/
