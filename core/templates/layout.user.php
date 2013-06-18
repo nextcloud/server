@@ -44,7 +44,7 @@
 			<a href="<?php print_unescaped(link_to('', 'index.php')); ?>" title="" id="owncloud"><img class="svg"
 				src="<?php print_unescaped(image_path('', 'logo-wide.svg')); ?>" alt="ownCloud" /></a>
 			<?php if (OC_Util::getEditionString() !== ''): ?>
-			<div id="logo-claim">Enterprise Edition</div>
+			<div id="logo-claim" style="display:none;">Enterprise Edition</div>
 			<?php endif; ?>
 			<ul id="settings" class="svg">
 				<span id="expand" tabindex="0" role="link">
