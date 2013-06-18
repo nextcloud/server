@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"%s shared »%s« with you" => "%s Współdzielone »%s« z tobą",
 "Category type not provided." => "Nie podano typu kategorii.",
 "No category to add?" => "Brak kategorii do dodania?",
 "This category already exists: %s" => "Ta kategoria już istnieje: %s",
@@ -89,6 +90,7 @@
 "Request failed!<br>Did you make sure your email/username was right?" => "Żądanie niepowiodło się!<br>Czy Twój email/nazwa użytkownika są poprawne?",
 "You will receive a link to reset your password via Email." => "Odnośnik służący do resetowania hasła zostanie wysłany na adres e-mail.",
 "Username" => "Nazwa użytkownika",
+"Yes, I really want to reset my password now" => "Tak, naprawdę chcę zresetować hasło teraz",
 "Request reset" => "Żądanie resetowania",
 "Your password was reset" => "Zresetowano hasło",
 "To login page" => "Do strony logowania",

@@ -102,6 +102,7 @@
 "Login Name" => "Login",
 "Create" => "Utwórz",
 "Admin Recovery Password" => "Odzyskiwanie hasła administratora",
+"Enter the recovery password in order to recover the users files during password change" => "Wpisz hasło odzyskiwania, aby odzyskać pliki użytkowników podczas zmiany hasła",
 "Default Storage" => "Magazyn domyślny",
 "Unlimited" => "Bez limitu",
 "Other" => "Inne",
