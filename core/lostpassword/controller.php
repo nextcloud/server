@@ -8,11 +8,11 @@
 
 class OC_Core_LostPassword_Controller {
 	protected static function displayLostPasswordPage($error, $requested) {
-		$encrypted = OC_App::isEnabled('files_encryption');
+		$isEncrypted = OC_App::isEnabled('files_encryption');
 		OC_Template::printGuestPage('core/lostpassword', 'lostpassword',
 			array('error' => $error,
 				'requested' => $requested,
-				'encrypted' => $encrypted));
+				'isEncrypted' => $isEncrypted));
 	}
 	
 	protected static function displayResetPasswordPage($success, $args) {
@@ -33,7 +33,9 @@ class OC_Core_LostPassword_Controller {
 
 	public static function sendEmail($args) {
 
-		if(isset($_POST['noEncryption']) || isset($_POST['continue'])) {
+		$isEncrypted = OC_App::isEnabled('files_encryption');
+
+		if(!$isEncrypted || isset($_POST['continue'])) {
 			$continue = true;
 		} else {
 			$continue = false;
