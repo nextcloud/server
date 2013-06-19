@@ -56,20 +56,18 @@ class Crypt {
 		if ($res === false) {
 			\OCP\Util::writeLog('Encryption library', 'couldn\'t generate users key-pair for ' . \OCP\User::getUser(), \OCP\Util::ERROR);
 			$result = false;
-		} else {
-
-			// Get private key
-			openssl_pkey_export($res, $privateKey);
+		} elseif (openssl_pkey_export($res, $privateKey)) {
 
 			// Get public key
 			$publicKey = openssl_pkey_get_details($res);
-
 			$publicKey = $publicKey['key'];
 
 			$result = array(
 				'publicKey' => $publicKey,
 				'privateKey' => $privateKey
 			);
+		} else {
+			\OCP\Util::writeLog('Encryption library', 'couldn\'t export users private key, please check your servers openSSL configuration.' . \OCP\User::getUser(), \OCP\Util::ERROR);
 		}
 
 		return $result;
