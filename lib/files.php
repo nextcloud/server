@@ -45,7 +45,8 @@ class OC_Files {
 	 */
 	public static function get($dir, $files, $only_header = false) {
 		$xsendfile = false;
-		if (isset($_SERVER['MOD_X_SENDFILE_ENABLED']) || isset($_SERVER['MOD_X_SENDFILE2_ENABLED']) ||
+		if (isset($_SERVER['MOD_X_SENDFILE_ENABLED']) ||
+			isset($_SERVER['MOD_X_SENDFILE2_ENABLED']) ||
 			isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
 			$xsendfile = true;
 		}
@@ -172,7 +173,8 @@ class OC_Files {
 			header("X-Sendfile: " . $filename);
  		}
  		if (isset($_SERVER['MOD_X_SENDFILE2_ENABLED'])) {
- 			if (isset($_SERVER['HTTP_RANGE']) && preg_match('/\Abytes=(?P<start>[0-9]+)-(?P<end>[0-9]*)\z/', $_SERVER['HTTP_RANGE'], $range)) {
+			if (isset($_SERVER['HTTP_RANGE']) &&
+				preg_match("/\Abytes=(?P<start>[0-9]+)-(?P<end>[0-9]*)\z/", $_SERVER['HTTP_RANGE'], $range)) {
  				if ($range['end'] == "") {
  					$range['end'] = filesize($filename) - 1;
  				}
