@@ -70,7 +70,7 @@
 				<name>id</name>
 				<type>text</type>
 				<default></default>
-				<notnull>true</notnull>
+				<notnull>false</notnull>
 				<length>64</length>
 			</field>
 
@@ -220,7 +220,7 @@
 				<name>path</name>
 				<type>text</type>
 				<default></default>
-				<notnull>true</notnull>
+				<notnull>false</notnull>
 				<length>512</length>
 			</field>
 
@@ -244,7 +244,7 @@
 				<name>name</name>
 				<type>text</type>
 				<default></default>
-				<notnull>true</notnull>
+				<notnull>false</notnull>
 				<length>250</length>
 			</field>
 
@@ -281,12 +281,28 @@
 			</field>
 
 			<field>
+				<name>storage_mtime</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+
+			<field>
 				<name>encrypted</name>
 				<type>integer</type>
 				<default>0</default>
 				<notnull>true</notnull>
 				<length>4</length>
 			</field>
+
+            <field>
+                <name>unencrypted_size</name>
+                <type>integer</type>
+                <default></default>
+                <notnull>true</notnull>
+                <length>8</length>
+            </field>
 
 			<field>
 				<name>etag</name>
@@ -843,7 +859,7 @@
 
 	<table>
 
-		<name>*dbprefix*queuedtasks</name>
+		<name>*dbprefix*jobs</name>
 
 		<declaration>
 
@@ -858,35 +874,35 @@
 			</field>
 
 			<field>
-				<name>app</name>
+				<name>class</name>
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>255</length>
+				<length>256</length>
 			</field>
 
 			<field>
-				<name>klass</name>
+				<name>argument</name>
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>255</length>
+				<length>256</length>
 			</field>
 
 			<field>
-				<name>method</name>
-				<type>text</type>
+				<name>last_run</name>
+				<type>integer</type>
 				<default></default>
-				<notnull>true</notnull>
-				<length>255</length>
+				<notnull>false</notnull>
 			</field>
 
-			<field>
-				<name>parameters</name>
-				<type>text</type>
-				<notnull>true</notnull>
-				<length>255</length>
-			</field>
+			<index>
+				<name>job_class_index</name>
+				<field>
+					<name>class</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 
 		</declaration>
 

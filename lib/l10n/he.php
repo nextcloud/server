@@ -15,6 +15,8 @@
 "Files" => "קבצים",
 "Text" => "טקסט",
 "Images" => "תמונות",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "שרת האינטרנט שלך אינו מוגדר לצורכי סנכרון קבצים עדיין כיוון שמנשק ה־WebDAV כנראה אינו תקין.",
+"Please double check the <a href='%s'>installation guides</a>." => "נא לעיין שוב ב<a href='%s'>מדריכי ההתקנה</a>.",
 "seconds ago" => "שניות",
 "1 minute ago" => "לפני דקה אחת",
 "%d minutes ago" => "לפני %d דקות",

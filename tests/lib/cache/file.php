@@ -22,7 +22,8 @@
 
 class Test_Cache_File extends Test_Cache {
 	private $user;
-	
+	private $datadir;
+
 	function skip() {
 		//$this->skipUnless(OC_User::isLoggedIn());
 	}
@@ -31,15 +32,20 @@ class Test_Cache_File extends Test_Cache {
 		//clear all proxies and hooks so we can do clean testing
 		OC_FileProxy::clearProxies();
 		OC_Hook::clear('OC_Filesystem');
-		
+
+		//disabled atm
 		//enable only the encryption hook if needed
-		if(OC_App::isEnabled('files_encryption')) {
-			OC_FileProxy::register(new OC_FileProxy_Encryption());
-		}
-		
+		//if(OC_App::isEnabled('files_encryption')) {
+		//	OC_FileProxy::register(new OC_FileProxy_Encryption());
+		//}
+
 		//set up temporary storage
 		\OC\Files\Filesystem::clearMounts();
-		\OC\Files\Filesystem::mount('\OC\Files\Storage\Temporary',array(),'/');
+		$storage = new \OC\Files\Storage\Temporary(array());
+		\OC\Files\Filesystem::mount($storage,array(),'/');
+		$datadir = str_replace('local::', '', $storage->getId());
+		$this->datadir = OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data');
+		OC_Config::setValue('datadirectory', $datadir);
 
 		OC_User::clearBackends();
 		OC_User::useBackend(new OC_User_Dummy());
@@ -59,5 +65,6 @@ class Test_Cache_File extends Test_Cache {
 
 	public function tearDown() {
 		OC_User::setUserId($this->user);
+		OC_Config::setValue('datadirectory', $this->datadir);
 	}
 }

@@ -1,7 +1,20 @@
 <?php $TRANSLATIONS = array(
+"Recovery key successfully enabled" => "Kurtarma anahtarı başarıyla etkinleştirildi",
+"Could not enable recovery key. Please check your recovery key password!" => "Kurtarma anahtarı etkinleştirilemedi. Lütfen kurtarma anahtarı parolanızı kontrol edin!",
+"Recovery key successfully disabled" => "Kurtarma anahtarı başarıyla devre dışı bırakıldı",
+"Could not disable recovery key. Please check your recovery key password!" => "Kurtarma anahtarı devre dışı bırakılamadı. Lütfen kurtarma anahtarı parolanızı kontrol edin!",
+"Password successfully changed." => "Şifreniz başarıyla değiştirildi.",
+"Could not change the password. Maybe the old password was not correct." => "Parola değiştirilemedi. Eski parolanız doğru olmayabilir",
+"Saving..." => "Kaydediliyor...",
 "Encryption" => "Şifreleme",
-"File encryption is enabled." => "Dosya şifreleme aktif.",
-"The following file types will not be encrypted:" => "Belirtilen dosya tipleri şifrelenmeyecek:",
-"Exclude the following file types from encryption:" => "Seçilen dosya tiplerini şifreleme:",
-"None" => "Hiçbiri"
+"Enable encryption passwords recovery key (allow sharing to recovery key):" => "Şifreli parola kurtarma anahtarını etkinleştir(kurtarma anahtarı paylaşımına izin ver)",
+"Recovery account password" => "Kurtarma hesabı parolası",
+"Enabled" => "Etkinleştirildi",
+"Disabled" => "Devre dışı",
+"Change encryption passwords recovery key:" => "Şifreli parolalar kurtarma anahtarını değiştir:",
+"Old Recovery account password" => "Eski kurtarma hesabı parolası",
+"New Recovery account password" => "Yeni kurtarma hesabı parolası",
+"Change Password" => "Parola değiştir",
+"File recovery settings updated" => "Dosya kurtarma ayarları güncellendi",
+"Could not update file recovery" => "Dosya kurtarma güncellenemedi"
 );

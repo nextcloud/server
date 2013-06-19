@@ -708,14 +708,14 @@ function scanFiles(force, dir){
 	var scannerEventSource = new OC.EventSource(OC.filePath('files','ajax','scan.php'),{force:force,dir:dir});
 	scanFiles.cancel = scannerEventSource.close.bind(scannerEventSource);
 	scannerEventSource.listen('count',function(count){
-		console.log(count + 'files scanned')
+		console.log(count + ' files scanned')
 	});
 	scannerEventSource.listen('folder',function(path){
 		console.log('now scanning ' + path)
 	});
 	scannerEventSource.listen('done',function(count){
 		scanFiles.scanning=false;
-		console.log('done after ' + count + 'files');
+		console.log('done after ' + count + ' files');
 	});
 }
 scanFiles.scanning=false;

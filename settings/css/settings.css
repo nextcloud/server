@@ -45,6 +45,8 @@ table:not(.nostyle) { width:100%; }
 #rightcontent { padding-left: 1em; }
 div.quota { float:right; display:block; position:absolute; right:25em; top:-1px; }
 div.quota-select-wrapper { position: relative; }
+div.recoveryPassword { left:50em; display:block; position:absolute; top:-1px; }
+input#recoveryPassword {width:15em;}
 select.quota { position:absolute; left:0; top:0; width:10em; }
 select.quota-user { position:relative; left:0; top:0; width:10em; }
 div.quota>span { position:absolute; right:0; white-space:nowrap; top:.7em; color:#888; text-shadow:0 1px 0 #fff; }
@@ -59,7 +61,13 @@ select.quota.active { background: #fff; }
 /* APPS */
 .appinfo { margin: 1em; }
 h3 { font-size: 1.4em; font-weight: bold; }
-ul.applist li { height: 2.2em; padding: 0.2em 0.2em 0.2em 0.8em !important; }
+ul.applist a {
+	height: 2.2em;
+	padding: 0.2em 0.2em 0.2em 0.8em !important;
+}
+ul.applist .app-external {
+	width: 100%;
+}
 li { color:#888; }
 li.active { color:#000; }
 small.externalapp { color:#FFF; background-color:#BBB; font-weight:bold; font-size: 0.6em; margin: 0; padding: 0.1em 0.2em; border-radius: 4px;}

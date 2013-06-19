@@ -46,6 +46,7 @@
 "{count} folders" => "{count} mappen",
 "1 file" => "1 bestand",
 "{count} files" => "{count} bestanden",
+"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Ongeldige mapnaam. Gebruik van 'Gedeeld' is voorbehouden aan Owncloud zelf",
 "Unable to rename file" => "Kan bestand niet hernoemen",
 "Upload" => "Uploaden",
 "File handling" => "Bestand",

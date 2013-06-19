@@ -7,10 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-30 01:57+0200\n"
-"PO-Revision-Date: 2013-04-29 23:57+0000\n"
+"POT-Creation-Date: 2013-06-04 02:29+0200\n"
+"PO-Revision-Date: 2013-06-03 00:32+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -212,24 +212,28 @@ msgstr ""
 msgid "years ago"
 msgstr ""
 
-#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
-msgid "Ok"
-msgstr ""
-
-#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
-msgid "Cancel"
-msgstr ""
-
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:117
 msgid "Choose"
 msgstr ""
 
-#: js/oc-dialogs.js:215
+#: js/oc-dialogs.js:122
+msgid "Cancel"
+msgstr "Отмена"
+
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+msgid "Error loading file picker template"
+msgstr ""
+
+#: js/oc-dialogs.js:164
 msgid "Yes"
 msgstr ""
 
-#: js/oc-dialogs.js:222
+#: js/oc-dialogs.js:172
 msgid "No"
+msgstr ""
+
+#: js/oc-dialogs.js:185
+msgid "Ok"
 msgstr ""
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
@@ -243,7 +247,7 @@ msgstr ""
 #: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
-msgstr ""
+msgstr "Ошибка"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
@@ -259,7 +263,7 @@ msgstr ""
 
 #: js/share.js:90
 msgid "Share"
-msgstr ""
+msgstr "Сделать общим"
 
 #: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
@@ -470,7 +474,7 @@ msgstr ""
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr ""
+msgstr "Добавить"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -560,12 +564,12 @@ msgstr ""
 msgid "web services under your control"
 msgstr ""
 
-#: templates/layout.user.php:36
+#: templates/layout.user.php:37
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:61
+#: templates/layout.user.php:62
 msgid "Log out"
 msgstr ""
 

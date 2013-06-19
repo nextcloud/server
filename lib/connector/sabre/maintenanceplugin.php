@@ -50,6 +50,9 @@ class OC_Connector_Sabre_MaintenancePlugin extends Sabre_DAV_ServerPlugin
 		if (OC_Config::getValue('maintenance', false)) {
 			throw new Sabre_DAV_Exception_ServiceUnavailable();
 		}
+		if (OC::checkUpgrade(false)) {
+			throw new Sabre_DAV_Exception_ServiceUnavailable('Upgrade needed');
+		}
 
 		return true;
 	}

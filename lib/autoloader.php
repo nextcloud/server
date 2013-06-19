@@ -96,8 +96,8 @@ class Autoloader {
 		} else {
 			foreach ($this->prefixPaths as $prefix => $dir) {
 				if (0 === strpos($class, $prefix)) {
-					$path = str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
-					$path = str_replace('_', DIRECTORY_SEPARATOR, $path);
+					$path = str_replace('\\', '/', $class) . '.php';
+					$path = str_replace('_', '/', $path);
 					$paths[] = $dir . '/' . $path;
 				}
 			}

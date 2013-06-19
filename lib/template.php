@@ -246,14 +246,14 @@ class OC_Template{
 		// if the formfactor is not yet autodetected do the
 		// autodetection now. For possible formfactors check the
 		// detectFormfactor documentation
-		if(!isset($_SESSION['formfactor'])) {
-			$_SESSION['formfactor'] = self::detectFormfactor();
+		if (!\OC::$session->exists('formfactor')) {
+			\OC::$session->set('formfactor', self::detectFormfactor());
 		}
 		// allow manual override via GET parameter
 		if(isset($_GET['formfactor'])) {
-			$_SESSION['formfactor']=$_GET['formfactor'];
+			\OC::$session->set('formfactor', $_GET['formfactor']);
 		}
-		$formfactor=$_SESSION['formfactor'];
+		$formfactor = \OC::$session->get('formfactor');
 		if($formfactor=='default') {
 			$fext='';
 		}elseif($formfactor=='mobile') {
@@ -534,5 +534,26 @@ class OC_Template{
 		$content->assign( 'errors', $errors );
 		$content->printPage();
 		die();
+	}
+	
+	/**
+	 * print error page using Exception details
+	 * @param Exception $exception
+	 */
+	
+	public static function printExceptionErrorPage(Exception $exception) {
+		$error_msg = $exception->getMessage();
+		if ($exception->getCode()) {
+			$error_msg = '['.$exception->getCode().'] '.$error_msg;
+		}
+		$hint = $exception->getTraceAsString();
+		while (method_exists($exception,'previous') && $exception = $exception->previous()) {
+			$error_msg .= '<br/>Caused by: ';
+			if ($exception->getCode()) {
+				$error_msg .= '['.$exception->getCode().'] ';
+			}
+			$error_msg .= $exception->getMessage();
+		};
+		self::printErrorPage($error_msg, $hint);
 	}
 }

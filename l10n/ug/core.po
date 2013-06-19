@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-12 02:01+0200\n"
-"PO-Revision-Date: 2013-05-04 12:10+0000\n"
-"Last-Translator: Abduqadir Abliz <sahran.ug@gmail.com>\n"
+"POT-Creation-Date: 2013-06-18 02:04+0200\n"
+"PO-Revision-Date: 2013-06-17 23:24+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Uighur <uqkun@outlook.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,26 +19,7 @@ msgstr ""
 
 #: ajax/share.php:97
 #, php-format
-msgid "User %s shared a file with you"
-msgstr ""
-
-#: ajax/share.php:99
-#, php-format
-msgid "User %s shared a folder with you"
-msgstr ""
-
-#: ajax/share.php:101
-#, php-format
-msgid ""
-"User %s shared the file \"%s\" with you. It is available for download here: "
-"%s"
-msgstr ""
-
-#: ajax/share.php:104
-#, php-format
-msgid ""
-"User %s shared the folder \"%s\" with you. It is available for download "
-"here: %s"
+msgid "%s shared »%s« with you"
 msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
@@ -212,25 +193,29 @@ msgstr ""
 msgid "years ago"
 msgstr ""
 
-#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
-msgid "Ok"
-msgstr "جەزملە"
-
-#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
-msgid "Cancel"
-msgstr "ۋاز كەچ"
-
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:117
 msgid "Choose"
 msgstr ""
 
-#: js/oc-dialogs.js:215
+#: js/oc-dialogs.js:122
+msgid "Cancel"
+msgstr "ۋاز كەچ"
+
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+msgid "Error loading file picker template"
+msgstr ""
+
+#: js/oc-dialogs.js:164
 msgid "Yes"
 msgstr "ھەئە"
 
-#: js/oc-dialogs.js:222
+#: js/oc-dialogs.js:172
 msgid "No"
 msgstr "ياق"
+
+#: js/oc-dialogs.js:185
+msgid "Ok"
+msgstr "جەزملە"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -388,7 +373,7 @@ msgstr ""
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr ""
 
-#: lostpassword/controller.php:48
+#: lostpassword/controller.php:58
 msgid "ownCloud password reset"
 msgstr ""
 
@@ -416,7 +401,19 @@ msgstr ""
 msgid "Username"
 msgstr "ئىشلەتكۈچى ئاتى"
 
-#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:22
+msgid ""
+"Your files seems to be encrypted. If you didn't have enabled the recovery "
+"key there will be no way to get your data back once the password was "
+"resetted. If you are not sure what to do, please contact your administrator "
+"first before continue. Do you really want to continue?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:24
+msgid "Yes, I really want to reset my password now"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:29
 msgid "Request reset"
 msgstr ""
 
@@ -462,6 +459,21 @@ msgstr ""
 
 #: templates/404.php:12
 msgid "Cloud not found"
+msgstr ""
+
+#: templates/altmail.php:2
+#, php-format
+msgid ""
+"Hey there,\n"
+"\n"
+"just letting you know that %s shared %s with you.\n"
+"View it: %s\n"
+"\n"
+"Cheers!"
+msgstr ""
+
+#: templates/altmail.php:7 templates/mail.php:24
+msgid "web services under your control"
 msgstr ""
 
 #: templates/edit_categories_dialog.php:4
@@ -556,16 +568,12 @@ msgstr ""
 msgid "Finish setup"
 msgstr "تەڭشەك تامام"
 
-#: templates/layout.guest.php:40
-msgid "web services under your control"
-msgstr ""
-
-#: templates/layout.user.php:36
+#: templates/layout.user.php:40
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:61
+#: templates/layout.user.php:67
 msgid "Log out"
 msgstr "تىزىمدىن چىق"
 
@@ -597,6 +605,13 @@ msgstr ""
 
 #: templates/login.php:47
 msgid "Alternative Logins"
+msgstr ""
+
+#: templates/mail.php:15
+#, php-format
+msgid ""
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
+"href=\"%s\">View it!</a><br><br>Cheers!"
 msgstr ""
 
 #: templates/part.pagenavi.php:3

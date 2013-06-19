@@ -9,7 +9,7 @@
 
  <table>
 
-  <name>*dbprefix*contacts_addressbooks</name>
+  <name>*dbprefix*cntcts_addrsbks</name>
 
   <declaration>
 
@@ -77,7 +77,7 @@
 
  <table>
 
-  <name>*dbprefix*contacts_cards</name>
+  <name>*dbprefix*cntcts_cards</name>
 
   <declaration>
 

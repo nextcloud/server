@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:17+0200\n"
-"PO-Revision-Date: 2013-04-26 16:22+0000\n"
+"POT-Creation-Date: 2013-06-18 02:05+0200\n"
+"PO-Revision-Date: 2013-06-17 23:25+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -58,7 +58,7 @@ msgstr "البريد الإلكتروني غير صالح"
 msgid "Unable to delete group"
 msgstr "فشل إزالة المجموعة"
 
-#: ajax/removeuser.php:24
+#: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "فشل إزالة المستخدم"
 
@@ -124,44 +124,44 @@ msgstr "تم التحديث بنجاح"
 msgid "Saving..."
 msgstr "جاري الحفظ..."
 
-#: js/users.js:43
+#: js/users.js:47
 msgid "deleted"
 msgstr "تم الحذف"
 
-#: js/users.js:43
+#: js/users.js:47
 msgid "undo"
 msgstr "تراجع"
 
-#: js/users.js:75
+#: js/users.js:79
 msgid "Unable to remove user"
 msgstr "تعذر حذف المستخدم"
 
-#: js/users.js:88 templates/users.php:26 templates/users.php:78
-#: templates/users.php:103
+#: js/users.js:92 templates/users.php:26 templates/users.php:87
+#: templates/users.php:112
 msgid "Groups"
 msgstr "مجموعات"
 
-#: js/users.js:91 templates/users.php:80 templates/users.php:115
+#: js/users.js:95 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "مدير المجموعة"
 
-#: js/users.js:111 templates/users.php:155
+#: js/users.js:115 templates/users.php:164
 msgid "Delete"
 msgstr "إلغاء"
 
-#: js/users.js:262
+#: js/users.js:269
 msgid "add group"
 msgstr "اضافة مجموعة"
 
-#: js/users.js:414
+#: js/users.js:428
 msgid "A valid username must be provided"
 msgstr "يجب ادخال اسم مستخدم صحيح"
 
-#: js/users.js:415 js/users.js:421 js/users.js:436
+#: js/users.js:429 js/users.js:435 js/users.js:450
 msgid "Error creating user"
 msgstr "حصل خطأ اثناء انشاء مستخدم"
 
-#: js/users.js:420
+#: js/users.js:434
 msgid "A valid password must be provided"
 msgstr "يجب ادخال كلمة مرور صحيحة"
 
@@ -324,11 +324,11 @@ msgstr "المزيد"
 msgid "Less"
 msgstr "أقل"
 
-#: templates/admin.php:235 templates/personal.php:105
+#: templates/admin.php:235 templates/personal.php:116
 msgid "Version"
 msgstr "إصدار"
 
-#: templates/admin.php:238 templates/personal.php:108
+#: templates/admin.php:237 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -338,27 +338,27 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "طوّر من قبل <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud مجتمع</a>, الـ <a href=\"https://github.com/owncloud\" target=\"_blank\">النص المصدري</a> مرخص بموجب <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">رخصة أفيرو العمومية</abbr></a>."
 
-#: templates/apps.php:11
+#: templates/apps.php:13
 msgid "Add your App"
 msgstr "أضف تطبيقاتك"
 
-#: templates/apps.php:12
+#: templates/apps.php:28
 msgid "More Apps"
 msgstr "المزيد من التطبيقات"
 
-#: templates/apps.php:28
+#: templates/apps.php:33
 msgid "Select an App"
 msgstr "إختر تطبيقاً"
 
-#: templates/apps.php:34
+#: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
 msgstr "راجع صفحة التطبيق على apps.owncloud.com"
 
-#: templates/apps.php:36
+#: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-ترخيص من قبل <span class=\"author\"></span>"
 
-#: templates/apps.php:38
+#: templates/apps.php:43
 msgid "Update"
 msgstr "حدث"
 
@@ -386,76 +386,76 @@ msgstr "تعقب علة"
 msgid "Commercial Support"
 msgstr "دعم تجاري"
 
-#: templates/personal.php:8
+#: templates/personal.php:9
+msgid "Get the apps to sync your files"
+msgstr "احصل على التطبيقات لمزامنة ملفاتك"
+
+#: templates/personal.php:20
+msgid "Show First Run Wizard again"
+msgstr "ابدأ خطوات بداية التشغيل من جديد"
+
+#: templates/personal.php:28
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "تم إستهلاك <strong>%s</strong> من المتوفر <strong>%s</strong>"
 
-#: templates/personal.php:15
-msgid "Get the apps to sync your files"
-msgstr "احصل على التطبيقات لمزامنة ملفاتك"
-
-#: templates/personal.php:26
-msgid "Show First Run Wizard again"
-msgstr "ابدأ خطوات بداية التشغيل من جديد"
-
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:77
+#: templates/personal.php:40 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "كلمة المرور"
 
-#: templates/personal.php:38
+#: templates/personal.php:41
 msgid "Your password was changed"
 msgstr "لقد تم تغيير كلمة السر"
 
-#: templates/personal.php:39
+#: templates/personal.php:42
 msgid "Unable to change your password"
 msgstr "لم يتم تعديل كلمة السر بنجاح"
 
-#: templates/personal.php:40
+#: templates/personal.php:43
 msgid "Current password"
 msgstr "كلمات السر الحالية"
 
-#: templates/personal.php:42
+#: templates/personal.php:45
 msgid "New password"
 msgstr "كلمات سر جديدة"
 
-#: templates/personal.php:44
+#: templates/personal.php:47
 msgid "Change password"
 msgstr "عدل كلمة السر"
 
-#: templates/personal.php:56 templates/users.php:76
+#: templates/personal.php:59 templates/users.php:85
 msgid "Display Name"
 msgstr "اسم الحساب"
 
-#: templates/personal.php:68
+#: templates/personal.php:74
 msgid "Email"
 msgstr "البريد الإلكترونى"
 
-#: templates/personal.php:70
+#: templates/personal.php:76
 msgid "Your email address"
 msgstr "عنوانك البريدي"
 
-#: templates/personal.php:71
+#: templates/personal.php:77
 msgid "Fill in an email address to enable password recovery"
 msgstr "أدخل عنوانك البريدي لتفعيل استرجاع كلمة المرور"
 
-#: templates/personal.php:77 templates/personal.php:78
+#: templates/personal.php:86 templates/personal.php:87
 msgid "Language"
 msgstr "اللغة"
 
-#: templates/personal.php:89
+#: templates/personal.php:99
 msgid "Help translate"
 msgstr "ساعد في الترجمه"
 
-#: templates/personal.php:94
+#: templates/personal.php:105
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:96
+#: templates/personal.php:107
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "إستخدم هذا العنوان للإتصال بـ ownCloud في مدير الملفات"
 
-#: templates/users.php:21 templates/users.php:75
+#: templates/users.php:21 templates/users.php:84
 msgid "Login Name"
 msgstr "اسم الدخول"
 
@@ -463,30 +463,40 @@ msgstr "اسم الدخول"
 msgid "Create"
 msgstr "انشئ"
 
-#: templates/users.php:33
+#: templates/users.php:36
+msgid "Admin Recovery Password"
+msgstr ""
+
+#: templates/users.php:37 templates/users.php:38
+msgid ""
+"Enter the recovery password in order to recover the users files during "
+"password change"
+msgstr ""
+
+#: templates/users.php:42
 msgid "Default Storage"
 msgstr "وحدة التخزين الافتراضية"
 
-#: templates/users.php:39 templates/users.php:133
+#: templates/users.php:48 templates/users.php:142
 msgid "Unlimited"
 msgstr "غير محدود"
 
-#: templates/users.php:57 templates/users.php:148
+#: templates/users.php:66 templates/users.php:157
 msgid "Other"
 msgstr "شيء آخر"
 
-#: templates/users.php:82
+#: templates/users.php:91
 msgid "Storage"
 msgstr "وحدة التخزين"
 
-#: templates/users.php:93
+#: templates/users.php:102
 msgid "change display name"
 msgstr "تغيير اسم الحساب"
 
-#: templates/users.php:97
+#: templates/users.php:106
 msgid "set new password"
 msgstr "اعداد كلمة مرور جديدة"
 
-#: templates/users.php:128
+#: templates/users.php:137
 msgid "Default"
 msgstr "افتراضي"

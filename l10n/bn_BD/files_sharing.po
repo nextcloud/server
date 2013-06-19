@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:16+0200\n"
-"PO-Revision-Date: 2013-04-26 08:29+0000\n"
+"POT-Creation-Date: 2013-06-18 02:04+0200\n"
+"PO-Revision-Date: 2013-06-17 23:25+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +42,3 @@ msgstr "ডাউনলোড"
 #: templates/public.php:40
 msgid "No preview available for"
 msgstr "এর জন্য কোন প্রাকবীক্ষণ সুলভ নয়"
-
-#: templates/public.php:50
-msgid "web services under your control"
-msgstr "ওয়েব সার্ভিস আপনার হাতের মুঠোয়"
