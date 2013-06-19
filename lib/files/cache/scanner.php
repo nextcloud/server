@@ -137,11 +137,20 @@ class Scanner {
 		\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_folder', array('path' => $path, 'storage' => $this->storageId));
 		$size = 0;
 		$childQueue = array();
+		$existingChildren = array();
+		if ($this->cache->inCache($path)) {
+			$children = $this->cache->getFolderContents($path);
+			foreach ($children as $child) {
+				$existingChildren[] = $child['name'];
+			}
+		}
+		$newChildren = array();
 		if ($this->storage->is_dir($path) && ($dh = $this->storage->opendir($path))) {
 			\OC_DB::beginTransaction();
 			while ($file = readdir($dh)) {
 				$child = ($path) ? $path . '/' . $file : $file;
 				if (!Filesystem::isIgnoredDir($file)) {
+					$newChildren[] = $file;
 					$data = $this->scanFile($child, $reuse);
 					if ($data) {
 						if ($data['size'] === -1) {
@@ -155,6 +164,11 @@ class Scanner {
 						}
 					}
 				}
+			}
+			$removedChildren = \array_diff($existingChildren, $newChildren);
+			foreach ($removedChildren as $childName) {
+				$child = ($path) ? $path . '/' . $childName : $childName;
+				$this->cache->remove($child);
 			}
 			\OC_DB::commit();
 			foreach ($childQueue as $child) {
