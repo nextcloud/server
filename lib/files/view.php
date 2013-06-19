@@ -386,6 +386,12 @@ class View {
 						$source = $this->fopen($path1 . $postFix1, 'r');
 						$target = $this->fopen($path2 . $postFix2, 'w');
 						list($count, $result) = \OC_Helper::streamCopy($source, $target);
+
+						// close open handle - especially $source is necessary because unlink below will
+						// throw an exception on windows because the file is locked
+						fclose($source);
+						fclose($target);
+
 						if ($result !== false) {
 							list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
 							$storage1->unlink($internalPath1);
