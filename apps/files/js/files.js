@@ -711,7 +711,7 @@ function scanFiles(force, dir, users){
 		if (users === 'all') {
 			usersString = users;
 		} else {
-			usersString = users.join(',');
+			usersString = JSON.stringify(users);
 		}
 		scannerEventSource = new OC.EventSource(OC.filePath('files','ajax','scan.php'),{force: force,dir: dir, users: usersString});
 	} else {
