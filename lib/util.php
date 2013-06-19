@@ -819,9 +819,9 @@ class OC_Util {
 	 * @return string the theme
 	 */
 	public static function getTheme() {
-		$theme = OC_Config::getValue("theme");
+		$theme = OC_Config::getValue("theme", '');
 
-		if(is_null($theme)) {
+		if($theme === '') {
 			
 			if(is_dir(OC::$SERVERROOT . '/themes/default')) {
 				$theme = 'default';
