@@ -7,6 +7,7 @@
  */
 namespace OC\Preview;
 
+/* //There is no (good) php-only solution for converting 2003 word documents to pdfs / pngs ...
 class DOC extends Provider {
 
 	public function getMimeType() {
@@ -14,12 +15,13 @@ class DOC extends Provider {
 	}
 
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-		require_once();
+		require_once('');
 	}
 
 }
 
 \OC\Preview::registerProvider('OC\Preview\DOC');
+*/
 
 class DOCX extends Provider {
 
