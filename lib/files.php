@@ -45,7 +45,7 @@ class OC_Files {
 	 */
 	public static function get($dir, $files, $only_header = false) {
 		$xsendfile = false;
-		if (isset($_SERVER['MOD_X_SENDFILE_ENABLED']) ||
+		if (isset($_SERVER['MOD_X_SENDFILE_ENABLED']) || isset($_SERVER['MOD_X_SENDFILE2_ENABLED']) ||
 			isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
 			$xsendfile = true;
 		}
@@ -170,6 +170,18 @@ class OC_Files {
 	private static function addSendfileHeader($filename) {
 		if (isset($_SERVER['MOD_X_SENDFILE_ENABLED'])) {
 			header("X-Sendfile: " . $filename);
+ 		}
+ 		if (isset($_SERVER['MOD_X_SENDFILE2_ENABLED'])) {
+ 			if (isset($_SERVER['HTTP_RANGE']) && preg_match('/\Abytes=(?P<start>[0-9]+)-(?P<end>[0-9]*)\z/', $_SERVER['HTTP_RANGE'], $range)) {
+ 				if ($range['end'] == "") {
+ 					$range['end'] = filesize($filename) - 1;
+ 				}
+ 				header("Content-Range: bytes " . $range['start'] . "-" . $range['end'] . "/" . filesize($filename));
+ 				header("HTTP/1.1 206 Partial content");
+ 				header("X-Sendfile2: " . str_replace(",", "%2c", rawurlencode($filename)) . " " . $range['start'] . "-" . $range['end']);
+ 			} else {
+ 				header("X-Sendfile: " . $filename);
+ 			}
 		}
 		if (isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
 			header("X-Accel-Redirect: " . $filename);
