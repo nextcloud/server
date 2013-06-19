@@ -9,7 +9,7 @@ if (isset($_GET['users'])) {
 	if ($_GET['users'] === 'all') {
 		$users = OC_User::getUsers();
 	} else {
-		$users = explode(',', $_GET['users']);
+		$users = json_decode($_GET['users']);
 	}
 } else {
 	$users = array(OC_User::getUser());
