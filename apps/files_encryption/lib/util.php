@@ -228,18 +228,21 @@ class Util {
 			// Generate keypair
 			$keypair = Crypt::createKeypair();
 
-			\OC_FileProxy::$enabled = false;
+			if ($keypair) {
 
-			// Save public key
-			$this->view->file_put_contents($this->publicKeyPath, $keypair['publicKey']);
+				\OC_FileProxy::$enabled = false;
 
-			// Encrypt private key with user pwd as passphrase
-			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent($keypair['privateKey'], $passphrase);
+				// Encrypt private key with user pwd as passphrase
+				$encryptedPrivateKey = Crypt::symmetricEncryptFileContent($keypair['privateKey'], $passphrase);
 
-			// Save private key
-			$this->view->file_put_contents($this->privateKeyPath, $encryptedPrivateKey);
+				// Save key-pair
+				if ($encryptedPrivateKey) {
+					$this->view->file_put_contents($this->privateKeyPath, $encryptedPrivateKey);
+					$this->view->file_put_contents($this->publicKeyPath, $keypair['publicKey']);
+				}
 
-			\OC_FileProxy::$enabled = true;
+				\OC_FileProxy::$enabled = true;
+			}
 
 		} else {
 			// check if public-key exists but private-key is missing

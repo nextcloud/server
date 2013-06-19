@@ -53,19 +53,26 @@ class Crypt {
 
 		$res = openssl_pkey_new(array('private_key_bits' => 4096));
 
-		// Get private key
-		openssl_pkey_export($res, $privateKey);
+		if ($res === false) {
+			\OCP\Util::writeLog('Encryption library', 'couldn\'t generate users key-pair for ' . \OCP\User::getUser(), \OCP\Util::ERROR);
+			$result = false;
+		} else {
 
-		// Get public key
-		$publicKey = openssl_pkey_get_details($res);
+			// Get private key
+			openssl_pkey_export($res, $privateKey);
 
-		$publicKey = $publicKey['key'];
+			// Get public key
+			$publicKey = openssl_pkey_get_details($res);
 
-		return (array(
-			'publicKey' => $publicKey,
-			'privateKey' => $privateKey
-		));
+			$publicKey = $publicKey['key'];
 
+			$result = array(
+				'publicKey' => $publicKey,
+				'privateKey' => $privateKey
+			);
+		}
+
+		return $result;
 	}
 
 	/**
@@ -287,28 +294,22 @@ class Crypt {
 	public static function symmetricEncryptFileContent($plainContent, $passphrase = '') {
 
 		if (!$plainContent) {
-
+			\OCP\Util::writeLog('Encryption library', 'symmetrically encryption failed, no content given.', \OCP\Util::ERROR);
 			return false;
-
 		}
 
 		$iv = self::generateIv();
 
 		if ($encryptedContent = self::encrypt($plainContent, $iv, $passphrase)) {
-
 			// Combine content to encrypt with IV identifier and actual IV
 			$catfile = self::concatIv($encryptedContent, $iv);
-
 			$padded = self::addPadding($catfile);
 
 			return $padded;
 
 		} else {
-
 			\OCP\Util::writeLog('Encryption library', 'Encryption (symmetric) of keyfile content failed', \OCP\Util::ERROR);
-
 			return false;
-
 		}
 
 	}
