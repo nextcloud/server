@@ -20,7 +20,6 @@ class MP3 extends Provider {
 
 		$tmppath = $fileview->toTmpFile($path);
 
-		//Todo - add stream support
 		$tags = $getID3->analyze($tmppath); 
 		\getid3_lib::CopyTagsToComments($tags); 
 		$picture = @$tags['id3v2']['APIC'][0]['data'];
@@ -32,8 +31,14 @@ class MP3 extends Provider {
 	}
 
 	public function getNoCoverThumbnail($maxX, $maxY) {
-		$image = new \OC_Image();
-		return $image;
+		$icon = \OC::$SERVERROOT . '/core/img/filetypes/audio.png';
+
+		if(!file_exists($icon)) {
+			return false;
+		}
+
+		$image = new \OC_Image($icon);
+		return $image->valid() ? $image : false;
 	}
 
 }
