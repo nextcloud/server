@@ -962,11 +962,14 @@ class OC_DB {
 	 * @return bool
 	 */
 	public static function isError($result) {
-		if(self::$backend==self::BACKEND_PDO and $result === false) {
+		//PDO returns false on error (and throws an exception)
+		if (self::$backend===self::BACKEND_PDO and $result === false) {
 			return true;
-		}elseif(self::$backend==self::BACKEND_MDB2 and PEAR::isError($result)) {
+		} else
+		//MDB2 returns an MDB2_Error object
+		if (self::$backend===self::BACKEND_MDB2 and PEAR::isError($result)) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
