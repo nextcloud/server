@@ -125,7 +125,7 @@ class OC_VCategories {
 				OC_Log::write('core', __METHOD__. 'DB error: ' . OC_DB::getErrorMessage($result), OC_Log::ERROR);
 				return false;
 			}
-			return ($result->numRows() == 0);
+			return ($result->numRows() === 0);
 		} catch(Exception $e) {
 			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
 				OCP\Util::ERROR);
