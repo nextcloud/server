@@ -90,13 +90,13 @@ class Helper {
 				AND `appid` = \'user_ldap\'
 				AND `configkey` NOT IN (\'enabled\', \'installed_version\', \'types\', \'bgjUpdateGroupsLastRun\')
 		');
-		$res = $query->execute(array($prefix.'%'));
+		$delRows = $query->execute(array($prefix.'%'));
 
-		if(\OCP\DB::isError($res)) {
+		if(\OCP\DB::isError($delRows)) {
 			return false;
 		}
 
-		if($res->numRows() === 0) {
+		if($delRows === 0) {
 			return false;
 		}
 
