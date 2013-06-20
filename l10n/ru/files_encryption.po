@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Ант По <du6egub@gmail.com>, 2013
+# alfsoft <alfsoft@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-14 02:46+0200\n"
-"PO-Revision-Date: 2013-06-14 00:47+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-20 02:36+0200\n"
+"PO-Revision-Date: 2013-06-18 18:20+0000\n"
+"Last-Translator: alfsoft <alfsoft@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: ajax/adminrecovery.php:29
 msgid "Recovery key successfully enabled"
-msgstr ""
+msgstr "Ключ восстановления успешно установлен"
 
 #: ajax/adminrecovery.php:34
 msgid ""
@@ -29,7 +30,7 @@ msgstr ""
 
 #: ajax/adminrecovery.php:48
 msgid "Recovery key successfully disabled"
-msgstr ""
+msgstr "Ключ восстановления успешно отключен"
 
 #: ajax/adminrecovery.php:53
 msgid ""
@@ -77,7 +78,7 @@ msgstr ""
 
 #: templates/invalid_private_key.php:7
 msgid "personal settings"
-msgstr ""
+msgstr "персональные настройки"
 
 #: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
@@ -128,7 +129,7 @@ msgstr ""
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
-msgstr ""
+msgstr "Если вы не помните свой старый пароль, вы можете попросить своего администратора восстановить ваши файлы"
 
 #: templates/settings-personal.php:24
 msgid "Old log-in password"
@@ -150,7 +151,7 @@ msgstr ""
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
-msgstr ""
+msgstr "Включение этой опции позволит вам получить доступ к своим зашифрованным файлам в случае утери пароля"
 
 #: templates/settings-personal.php:63
 msgid "File recovery settings updated"

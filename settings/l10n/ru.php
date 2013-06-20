@@ -102,6 +102,7 @@
 "Login Name" => "Имя пользователя",
 "Create" => "Создать",
 "Admin Recovery Password" => "Восстановление Пароля Администратора",
+"Enter the recovery password in order to recover the users files during password change" => "Введите пароль для того, чтобы восстановить файлы пользователей при смене пароля",
 "Default Storage" => "Хранилище по-умолчанию",
 "Unlimited" => "Неограниченно",
 "Other" => "Другое",

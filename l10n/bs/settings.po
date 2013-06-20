@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-15 01:59+0200\n"
-"PO-Revision-Date: 2013-06-14 19:40+0000\n"
+"POT-Creation-Date: 2013-06-20 02:37+0200\n"
+"PO-Revision-Date: 2013-06-20 00:37+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bosnian (http://www.transifex.com/projects/p/owncloud/language/bs/)\n"
 "MIME-Version: 1.0\n"
@@ -455,7 +455,7 @@ msgstr ""
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr ""
 
-#: templates/users.php:21 templates/users.php:84
+#: templates/users.php:21
 msgid "Login Name"
 msgstr ""
 
@@ -483,6 +483,10 @@ msgstr ""
 
 #: templates/users.php:66 templates/users.php:157
 msgid "Other"
+msgstr ""
+
+#: templates/users.php:84
+msgid "Username"
 msgstr ""
 
 #: templates/users.php:91

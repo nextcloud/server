@@ -102,6 +102,7 @@
 "Login Name" => "Bejelentkezési név",
 "Create" => "Létrehozás",
 "Admin Recovery Password" => "A jelszóvisszaállítás adminisztrációja",
+"Enter the recovery password in order to recover the users files during password change" => "Adja meg az adatok visszanyeréséhez szükséges jelszót arra az esetre, ha a felhasználók megváltoztatják a jelszavukat",
 "Default Storage" => "Alapértelmezett tárhely",
 "Unlimited" => "Korlátlan",
 "Other" => "Más",

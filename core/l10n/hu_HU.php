@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"%s shared »%s« with you" => "%s megosztotta Önnel ezt:  »%s«",
 "Category type not provided." => "Nincs megadva a kategória típusa.",
 "No category to add?" => "Nincs hozzáadandó kategória?",
 "This category already exists: %s" => "Ez a kategória már létezik: %s",
@@ -89,6 +90,7 @@
 "Request failed!<br>Did you make sure your email/username was right?" => "A kérést nem sikerült teljesíteni! <br>Biztos, hogy jó emailcímet/felhasználónevet adott meg?",
 "You will receive a link to reset your password via Email." => "Egy emailben fog értesítést kapni a jelszóbeállítás módjáról.",
 "Username" => "Felhasználónév",
+"Yes, I really want to reset my password now" => "Igen, tényleg meg akarom változtatni a jelszavam",
 "Request reset" => "Visszaállítás igénylése",
 "Your password was reset" => "Jelszó megváltoztatva",
 "To login page" => "A bejelentkező ablakhoz",
@@ -101,6 +103,7 @@
 "Help" => "Súgó",
 "Access forbidden" => "A hozzáférés nem engedélyezett",
 "Cloud not found" => "A felhő nem található",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Üdv!\n\nÚj hír: %s megosztotta Önnel ezt: %s.\nItt nézhető meg: %s\n\nMinden jót!",
 "web services under your control" => "webszolgáltatások saját kézben",
 "Edit categories" => "Kategóriák szerkesztése",
 "Add" => "Hozzáadás",
@@ -131,6 +134,7 @@
 "remember" => "emlékezzen",
 "Log in" => "Bejelentkezés",
 "Alternative Logins" => "Alternatív bejelentkezés",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Üdv!<br><br>Új hír: %s megosztotta Önnel ezt:  »%s«.<br><a href=\"%s\">Itt nézhető meg!</a><br><br>Minden jót!",
 "prev" => "előző",
 "next" => "következő",
 "Updating ownCloud to version %s, this may take a while." => "Owncloud frissítés a %s verzióra folyamatban. Kis türelmet."

@@ -90,7 +90,6 @@
 "Request failed!<br>Did you make sure your email/username was right?" => "La petición ha fallado! <br> ¿Está seguro de que su dirección de correo electrónico o nombre de usuario era correcto?",
 "You will receive a link to reset your password via Email." => "Recibirá un enlace por correo electrónico para restablecer su contraseña",
 "Username" => "Nombre de usuario",
-"Your files seems to be encrypted. If you didn't have enabled the recovery key there will be no way to get your data back once the password was resetted. If you are not sure what to do, please contact your administrator first before continue. Do you really want to continue?" => "Sus archivos parecen estar encriptados. Si no ha habilitado la clave de recurperación, no habrá ninguna manera de recuperar sus datos hasta que la contraseña sea reseteada. Si no está seguro de qué hacer, por favor contacte con su administrador antes de continuar. ¿Desea realmente continuar?",
 "Yes, I really want to reset my password now" => "Sí. Realmente deseo resetear mi contraseña ahora",
 "Request reset" => "Solicitar restablecimiento",
 "Your password was reset" => "Su contraseña ha sido establecida",

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-14 02:46+0200\n"
-"PO-Revision-Date: 2013-06-14 00:47+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-20 02:36+0200\n"
+"PO-Revision-Date: 2013-06-18 20:40+0000\n"
+"Last-Translator: traductor <transifex-2.7.mensaje@spamgourmet.com>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -70,7 +70,7 @@ msgstr "Speichern..."
 msgid ""
 "Your private key is not valid! Maybe the your password was changed from "
 "outside."
-msgstr ""
+msgstr "Ihr privater Schlüssel ist ungültig! Vielleicht wurde Ihr Passwort von außerhalb geändert."
 
 #: templates/invalid_private_key.php:7
 msgid "You can unlock your private key in your "
@@ -78,7 +78,7 @@ msgstr ""
 
 #: templates/invalid_private_key.php:7
 msgid "personal settings"
-msgstr ""
+msgstr "Persönliche Einstellungen"
 
 #: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
@@ -129,15 +129,15 @@ msgstr ""
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
-msgstr ""
+msgstr "Falls Sie sich nicht an Ihr altes Passwort erinnern können, fragen Sie bitte Ihren Administrator, um Ihre Dateien wiederherzustellen."
 
 #: templates/settings-personal.php:24
 msgid "Old log-in password"
-msgstr ""
+msgstr "Altes Login-Passwort"
 
 #: templates/settings-personal.php:30
 msgid "Current log-in password"
-msgstr ""
+msgstr "Momentanes Login-Passwort"
 
 #: templates/settings-personal.php:35
 msgid "Update Private Key Password"
@@ -145,7 +145,7 @@ msgstr ""
 
 #: templates/settings-personal.php:45
 msgid "Enable password recovery:"
-msgstr ""
+msgstr "Passwort-Wiederherstellung aktivieren:"
 
 #: templates/settings-personal.php:47
 msgid ""

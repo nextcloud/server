@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"%s shared »%s« with you" => "%s поделился »%s« с вами",
 "Category type not provided." => "Тип категории не предоставлен",
 "No category to add?" => "Нет категорий для добавления?",
 "This category already exists: %s" => "Эта категория уже существует: %s",
@@ -89,6 +90,7 @@
 "Request failed!<br>Did you make sure your email/username was right?" => "Что-то не так. Вы уверены что Email / Имя пользователя указаны верно?",
 "You will receive a link to reset your password via Email." => "На ваш адрес Email выслана ссылка для сброса пароля.",
 "Username" => "Имя пользователя",
+"Yes, I really want to reset my password now" => "Да, я действительно хочу сбросить свой пароль",
 "Request reset" => "Запросить сброс",
 "Your password was reset" => "Ваш пароль был сброшен",
 "To login page" => "На страницу авторизации",
@@ -101,6 +103,7 @@
 "Help" => "Помощь",
 "Access forbidden" => "Доступ запрещён",
 "Cloud not found" => "Облако не найдено",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Приветствую,⏎\n⏎\nпросто даю знать, что %s поделился %s с вами.⏎\nПосмотреть: %s⏎\n⏎\nУдачи!",
 "web services under your control" => "веб-сервисы под вашим управлением",
 "Edit categories" => "Редактировать категрии",
 "Add" => "Добавить",
@@ -131,6 +134,7 @@
 "remember" => "запомнить",
 "Log in" => "Войти",
 "Alternative Logins" => "Альтернативные имена пользователя",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Приветствую,<br><br>просто даю знать, что %s поделился »%s« с вами.<br><a href=\"%s\">Посмотреть!</a><br><br>Удачи!",
 "prev" => "пред",
 "next" => "след",
 "Updating ownCloud to version %s, this may take a while." => "Производится обновление ownCloud до версии %s. Это может занять некоторое время."

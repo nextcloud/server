@@ -16,6 +16,8 @@
 "Files" => "파일",
 "Text" => "텍스트",
 "Images" => "그림",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "WebDAV 인터페이스가 제대로 작동하지 않습니다. 웹 서버에서 파일 동기화를 사용할 수 있도록 설정이 제대로 되지 않은 것 같습니다.",
+"Please double check the <a href='%s'>installation guides</a>." => "<a href='%s'>설치 가이드</a>를 다시 한 번 확인하십시오.",
 "seconds ago" => "초 전",
 "1 minute ago" => "1분 전",
 "%d minutes ago" => "%d분 전",

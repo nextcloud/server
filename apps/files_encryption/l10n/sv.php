@@ -28,6 +28,7 @@
 "Current log-in password" => "Nuvarande inloggningslösenord",
 "Update Private Key Password" => "Uppdatera den privata lösenordsnyckeln",
 "Enable password recovery:" => "Aktivera lösenordsåterställning",
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Genom att aktivera detta alternativ kommer du kunna återfå tillgång till dina krypterade filer om du skulle förlora/glömma ditt lösenord",
 "File recovery settings updated" => "Inställningarna för filåterställning har uppdaterats",
 "Could not update file recovery" => "Kunde inte uppdatera filåterställning"
 );

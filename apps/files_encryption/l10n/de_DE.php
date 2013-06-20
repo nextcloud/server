@@ -6,6 +6,8 @@
 "Password successfully changed." => "Das Passwort wurde erfolgreich geändert.",
 "Could not change the password. Maybe the old password was not correct." => "Das Passwort konnte nicht geändert werden. Vielleicht war das alte Passwort nicht richtig.",
 "Saving..." => "Speichern...",
+"Your private key is not valid! Maybe the your password was changed from outside." => "Ihr privater Schlüssel ist ungültig! Vielleicht wurde Ihr Passwort von außerhalb geändert.",
+"personal settings" => "Persönliche Einstellungen",
 "Encryption" => "Verschlüsselung",
 "Recovery account password" => "Account-Passwort wiederherstellen",
 "Enabled" => "Aktiviert",
@@ -13,6 +15,10 @@
 "Old Recovery account password" => "Altes Passwort für die Account-Wiederherstellung",
 "New Recovery account password" => "Neues Passwort für die Account-Wiederherstellung",
 "Change Password" => "Passwort ändern",
+" If you don't remember your old password you can ask your administrator to recover your files." => "Falls Sie sich nicht an Ihr altes Passwort erinnern können, fragen Sie bitte Ihren Administrator, um Ihre Dateien wiederherzustellen.",
+"Old log-in password" => "Altes Login-Passwort",
+"Current log-in password" => "Momentanes Login-Passwort",
+"Enable password recovery:" => "Passwort-Wiederherstellung aktivieren:",
 "File recovery settings updated" => "Die Einstellungen für die Dateiwiederherstellung wurden aktualisiert.",
 "Could not update file recovery" => "Die Dateiwiederherstellung konnte nicht aktualisiert werden."
 );

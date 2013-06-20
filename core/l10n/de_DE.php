@@ -89,6 +89,7 @@
 "Request failed!<br>Did you make sure your email/username was right?" => "Anfrage fehlgeschlagen!<br>Haben Sie darauf geachtet, dass E-Mail-Adresse/Nutzername korrekt waren?",
 "You will receive a link to reset your password via Email." => "Sie erhalten einen Link per E-Mail, um Ihr Passwort zurückzusetzen.",
 "Username" => "Benutzername",
+"Yes, I really want to reset my password now" => "Ja, ich möchte jetzt mein Passwort wirklich zurücksetzen.",
 "Request reset" => "Zurücksetzung anfordern",
 "Your password was reset" => "Ihr Passwort wurde zurückgesetzt.",
 "To login page" => "Zur Login-Seite",
