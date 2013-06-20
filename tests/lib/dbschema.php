@@ -110,7 +110,6 @@ class Test_DBSchema extends PHPUnit_Framework_TestCase {
 		}
 		
 		$name = $result->fetchOne(); //FIXME checking with '$result->numRows() === 1' does not seem to work?
-		OC_DB::raiseExceptionOnError($name);
 		if ($name === $table) {
 			return true;
 		} else {
