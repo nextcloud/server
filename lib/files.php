@@ -173,18 +173,18 @@ class OC_Files {
 			header("X-Sendfile: " . $filename);
  		}
  		if (isset($_SERVER['MOD_X_SENDFILE2_ENABLED'])) {
-		/*	if (isset($_SERVER['HTTP_RANGE']) &&
-		*		preg_match("/\Abytes=(?P<start>[0-9]+)-(?P<end>[0-9]*)\z/", $_SERVER['HTTP_RANGE'], $range)) {
- 		*		if ($range['end'] == "") {
- 		*			$range['end'] = filesize($filename) - 1;
- 		*		}
- 		*		header("Content-Range: bytes " . $range['start'] . "-" . $range['end'] . "/" . filesize($filename));
- 		*		header("HTTP/1.1 206 Partial content");
- 		*		header("X-Sendfile2: " . str_replace(",", "%2c", rawurlencode($filename)) . " " . $range['start'] . "-" . $range['end']);
- 		*	} else {
- 		*/
- 			header("X-Sendfile: " . $filename);
- 		//	}
+			if (isset($_SERVER['HTTP_RANGE']) && 
+				preg_match("/^bytes=([0-9]+)-([0-9]*)$/", $_SERVER['HTTP_RANGE'], $range)) {
+				$filelength = filesize($filename);
+ 				if ($range[2] == "") {
+ 					$range[2] = $filelength - 1;
+ 				}
+ 				header("Content-Range: bytes $range[1]-$range[2]/" . $filelength);
+ 				header("HTTP/1.1 206 Partial content");
+ 				header("X-Sendfile2: " . str_replace(",", "%2c", rawurlencode($filename)) . " $range[1]-$range[2]");
+ 			} else {
+ 				header("X-Sendfile: " . $filename);
+ 			}
 		}
 		
 		if (isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
