@@ -1,62 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   height="16"
-   width="16"
-   version="1.1"
-   id="svg2"
-   inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="add.svg"
-   inkscape:export-filename="add.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
-  <metadata
-     id="metadata12">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <defs
-     id="defs10" />
-  <sodipodi:namedview
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="1301"
-     inkscape:window-height="744"
-     id="namedview8"
-     showgrid="false"
-     inkscape:zoom="14.75"
-     inkscape:cx="12.655895"
-     inkscape:cy="5.3587617"
-     inkscape:window-x="65"
-     inkscape:window-y="24"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg2" />
-  <g
-     transform="matrix(-0.70710678,-0.70710678,0.70710678,-0.70710678,-724.84547,752.15918)"
-     id="g4">
-    <path
-       inkscape:connector-curvature="0"
-       id="path2989"
-       d="m 1.6360606,1040.8645 2.8284271,-2.8284 3.5355134,3.5355 3.5355339,-3.5355 2.828427,2.8284 -3.535534,3.5355 3.535555,3.5356 -2.828428,2.8284 -3.5355539,-3.5356 -3.5356917,3.5354 -2.8281118,-2.8281 3.5353763,-3.5357 z"
-       sodipodi:nodetypes="ccccccccccccc" />
-  </g>
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="16" width="16" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+ <g transform="matrix(-.70711 -.70711 .70711 -.70711 -724.85 752.16)">
+  <path d="m1.6361 1040.9 2.8284-2.8284 3.5355 3.5355 3.5355-3.5355 2.8284 2.8284-3.5355 3.5355 3.5356 3.5356-2.8284 2.8284-3.5356-3.5356-3.5357 3.5354-2.8281-2.8281 3.5354-3.5357z"/>
+ </g>
 </svg>
