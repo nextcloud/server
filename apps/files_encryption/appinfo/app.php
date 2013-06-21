@@ -10,7 +10,7 @@ OC::$CLASSPATH['OCA\Encryption\Session'] = 'files_encryption/lib/session.php';
 OC::$CLASSPATH['OCA\Encryption\Capabilities'] = 'files_encryption/lib/capabilities.php';
 OC::$CLASSPATH['OCA\Encryption\Helper'] = 'files_encryption/lib/helper.php';
 
-if(!OC_Config::getValue('maintenance', false)) {
+if (!OC_Config::getValue('maintenance', false)) {
 	OC_FileProxy::register(new OCA\Encryption\Proxy());
 
 	// User related hooks
@@ -24,22 +24,26 @@ if(!OC_Config::getValue('maintenance', false)) {
 
 	stream_wrapper_register('crypt', 'OCA\Encryption\Stream');
 
-// check if we are logged in
-if (OCP\User::isLoggedIn()) {
+	// check if we are logged in
+	if (OCP\User::isLoggedIn()) {
 
-	// ensure filesystem is loaded
-	if(!\OC\Files\Filesystem::$loaded) {
-		\OC_Util::setupFS();
-	}
+		// ensure filesystem is loaded
+		if (!\OC\Files\Filesystem::$loaded) {
+			\OC_Util::setupFS();
+		}
 
-	$view = new OC_FilesystemView('/');
+		$view = new OC_FilesystemView('/');
 
-	$user = \OCP\USER::getUser();
-	// check if user has a private key
-	if (
-		!$view->file_exists('/' . $user . '/files_encryption/' . $user . '.private.key')
-		&& OCA\Encryption\Crypt::mode() === 'server'
-	) {
+		$sessionReady = false;
+		if (extension_loaded("openssl")) {
+			$session = new \OCA\Encryption\Session($view);
+			$sessionReady = true;
+		}
+
+		$user = \OCP\USER::getUser();
+		// check if user has a private key
+		if ($sessionReady === false || (!$view->file_exists('/' . $user . '/files_encryption/' . $user . '.private.key') && OCA\Encryption\Crypt::mode() === 'server')
+		) {
 
 			// Force the user to log-in again if the encryption key isn't unlocked
 			// (happens when a user is logged in before the encryption app is
