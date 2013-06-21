@@ -79,6 +79,9 @@
 "Internal Username Attribute:" => "Atribút interného používateľského mena:",
 "Override UUID detection" => "Prepísať UUID detekciu",
 "UUID Attribute:" => "UUID atribút:",
+"Username-LDAP User Mapping" => "Mapovanie názvov LDAP používateľských mien",
+"Clear Username-LDAP User Mapping" => "Zrušiť mapovanie LDAP používateľských mien",
+"Clear Groupname-LDAP Group Mapping" => "Zrušiť mapovanie názvov LDAP skupín",
 "Test Configuration" => "Test nastavenia",
 "Help" => "Pomoc"
 );

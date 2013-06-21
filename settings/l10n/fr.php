@@ -106,6 +106,7 @@
 "Default Storage" => "Support de stockage par défaut",
 "Unlimited" => "Illimité",
 "Other" => "Autre",
+"Username" => "Nom d'utilisateur",
 "Storage" => "Support de stockage",
 "change display name" => "Changer le nom affiché",
 "set new password" => "Changer le mot de passe",

@@ -106,6 +106,7 @@
 "Default Storage" => "Standard opbevaring",
 "Unlimited" => "Ubegrænset",
 "Other" => "Andet",
+"Username" => "Brugernavn",
 "Storage" => "Opbevaring",
 "change display name" => "skift skærmnavn",
 "set new password" => "skift kodeord",

@@ -106,6 +106,7 @@
 "Default Storage" => "Archiviazione predefinita",
 "Unlimited" => "Illimitata",
 "Other" => "Altro",
+"Username" => "Nome utente",
 "Storage" => "Archiviazione",
 "change display name" => "cambia il nome visualizzato",
 "set new password" => "imposta una nuova password",

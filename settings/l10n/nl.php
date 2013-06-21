@@ -106,6 +106,7 @@
 "Default Storage" => "Standaard Opslaglimiet",
 "Unlimited" => "Ongelimiteerd",
 "Other" => "Anders",
+"Username" => "Gebruikersnaam",
 "Storage" => "Opslaglimiet",
 "change display name" => "wijzig weergavenaam",
 "set new password" => "Instellen nieuw wachtwoord",

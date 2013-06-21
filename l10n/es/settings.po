@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-20 02:37+0200\n"
-"PO-Revision-Date: 2013-06-20 00:37+0000\n"
+"POT-Creation-Date: 2013-06-21 08:49+0200\n"
+"PO-Revision-Date: 2013-06-20 09:52+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -491,7 +491,7 @@ msgstr "Otro"
 
 #: templates/users.php:84
 msgid "Username"
-msgstr ""
+msgstr "Nombre de usuario"
 
 #: templates/users.php:91
 msgid "Storage"

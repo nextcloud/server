@@ -105,6 +105,7 @@
 "Default Storage" => "預設儲存區",
 "Unlimited" => "無限制",
 "Other" => "其他",
+"Username" => "使用者名稱",
 "Storage" => "儲存區",
 "change display name" => "修改顯示名稱",
 "set new password" => "設定新密碼",

@@ -104,6 +104,7 @@
 "Default Storage" => "Privzeta shramba",
 "Unlimited" => "Neomejeno",
 "Other" => "Drugo",
+"Username" => "Uporabniško ime",
 "Storage" => "Shramba",
 "change display name" => "spremeni prikazano ime",
 "set new password" => "nastavi novo geslo",

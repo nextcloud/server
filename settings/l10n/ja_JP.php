@@ -106,6 +106,7 @@
 "Default Storage" => "デフォルトストレージ",
 "Unlimited" => "無制限",
 "Other" => "その他",
+"Username" => "ユーザー名",
 "Storage" => "ストレージ",
 "change display name" => "表示名を変更",
 "set new password" => "新しいパスワードを設定",

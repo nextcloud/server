@@ -84,6 +84,7 @@
 "Default Storage" => "Bộ nhớ mặc định",
 "Unlimited" => "Không giới hạn",
 "Other" => "Khác",
+"Username" => "Tên đăng nhập",
 "Storage" => "Bộ nhớ",
 "change display name" => "Thay đổi tên hiển thị",
 "set new password" => "đặt mật khẩu mới",

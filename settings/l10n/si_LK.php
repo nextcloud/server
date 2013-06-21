@@ -47,5 +47,6 @@
 "Language" => "භාෂාව",
 "Help translate" => "පරිවර්ථන සහය",
 "Create" => "තනන්න",
-"Other" => "වෙනත්"
+"Other" => "වෙනත්",
+"Username" => "පරිශීලක නම"
 );

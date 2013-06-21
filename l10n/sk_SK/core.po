@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-20 02:37+0200\n"
-"PO-Revision-Date: 2013-06-20 00:37+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-21 08:49+0200\n"
+"PO-Revision-Date: 2013-06-20 16:50+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s s Vami zdieľa »%s«"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -204,7 +204,7 @@ msgstr "Zrušiť"
 
 #: js/oc-dialogs.js:141 js/oc-dialogs.js:200
 msgid "Error loading file picker template"
-msgstr ""
+msgstr "Chyba pri načítaní šablóny výberu súborov"
 
 #: js/oc-dialogs.js:164
 msgid "Yes"
@@ -412,7 +412,7 @@ msgstr ""
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
-msgstr ""
+msgstr "Áno, želám si teraz obnoviť svoje heslo"
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
@@ -471,7 +471,7 @@ msgid ""
 "View it: %s\n"
 "\n"
 "Cheers!"
-msgstr ""
+msgstr "Ahoj,\n\nChcem Vám oznámiť, že %s s Vami zdieľa %s.\nPozrieť si to môžete tu: %s\n\nVďaka"
 
 #: templates/altmail.php:7 templates/mail.php:24
 msgid "web services under your control"
@@ -613,7 +613,7 @@ msgstr "Alternatívne prihlasovanie"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr ""
+msgstr "Ahoj,<br><br>chcem Vám oznámiť, že %s s Vami zdieľa %s.\nPozrieť si to môžete tu: <br><a href=\"%s\">zde</a>.<br><br>Vďaka"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

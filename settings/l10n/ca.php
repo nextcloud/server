@@ -106,6 +106,7 @@
 "Default Storage" => "Emmagatzemament per defecte",
 "Unlimited" => "Il·limitat",
 "Other" => "Un altre",
+"Username" => "Nom d'usuari",
 "Storage" => "Emmagatzemament",
 "change display name" => "canvia el nom a mostrar",
 "set new password" => "estableix nova contrasenya",

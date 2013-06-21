@@ -104,6 +104,7 @@
 "Default Storage" => "Standard lager",
 "Unlimited" => "Ubegrenset",
 "Other" => "Annet",
+"Username" => "Brukernavn",
 "Storage" => "Lager",
 "change display name" => "endre visningsnavn",
 "set new password" => "sett nytt passord",

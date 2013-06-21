@@ -105,6 +105,7 @@
 "Default Storage" => "Varsayılan Depolama",
 "Unlimited" => "Limitsiz",
 "Other" => "Diğer",
+"Username" => "Kullanıcı Adı",
 "Storage" => "Depolama",
 "change display name" => "ekran adını değiştir",
 "set new password" => "yeni parola belirle",

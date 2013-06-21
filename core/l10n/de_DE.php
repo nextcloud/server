@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"%s shared »%s« with you" => "%s geteilt »%s« mit Ihnen",
 "Category type not provided." => "Kategorie nicht angegeben.",
 "No category to add?" => "Keine Kategorie hinzuzufügen?",
 "This category already exists: %s" => "Die nachfolgende Kategorie existiert bereits: %s",
@@ -89,6 +90,7 @@
 "Request failed!<br>Did you make sure your email/username was right?" => "Anfrage fehlgeschlagen!<br>Haben Sie darauf geachtet, dass E-Mail-Adresse/Nutzername korrekt waren?",
 "You will receive a link to reset your password via Email." => "Sie erhalten einen Link per E-Mail, um Ihr Passwort zurückzusetzen.",
 "Username" => "Benutzername",
+"Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Ihre Dateien sind verschlüsselt. Wenn Sie den Wiederherstellungsschlüssel nicht aktiviert haben, wird es keinen Weg geben, um Ihre Daten wieder zu bekommen, nachdem Ihr Passwort zurückgesetzt wurde. Wenn Sie sich nicht sicher sind, was Sie tun sollen, wenden Sie sich bitte an Ihren Administrator, bevor Sie fortfahren. Wollen Sie wirklich fortfahren?",
 "Yes, I really want to reset my password now" => "Ja, ich möchte jetzt mein Passwort wirklich zurücksetzen.",
 "Request reset" => "Zurücksetzung anfordern",
 "Your password was reset" => "Ihr Passwort wurde zurückgesetzt.",
@@ -102,6 +104,7 @@
 "Help" => "Hilfe",
 "Access forbidden" => "Zugriff verboten",
 "Cloud not found" => "Cloud wurde nicht gefunden",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Hallo,\n\nich wollte Sie nur wissen lassen, dass %s %s mit Ihnen teilt.\nSchauen Sie es sich an: %s\n\nViele Grüße!",
 "web services under your control" => "Web-Services unter Ihrer Kontrolle",
 "Edit categories" => "Kategorien ändern",
 "Add" => "Hinzufügen",
@@ -132,6 +135,7 @@
 "remember" => "merken",
 "Log in" => "Einloggen",
 "Alternative Logins" => "Alternative Logins",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Hallo,<br><br>ich wollte Sie nur wissen lassen, dass %s %s mit Ihnen teilt.<br><a href=\"%s\">Schauen Sie es sich an!</a><br><br>Viele Grüße!",
 "prev" => "Zurück",
 "next" => "Weiter",
 "Updating ownCloud to version %s, this may take a while." => "Aktualisiere ownCloud auf Version %s. Dies könnte eine Weile dauern."

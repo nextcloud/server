@@ -96,6 +96,7 @@
 "Default Storage" => "ذخیره سازی پیش فرض",
 "Unlimited" => "نامحدود",
 "Other" => "دیگر",
+"Username" => "نام کاربری",
 "Storage" => "حافظه",
 "change display name" => "تغییر نام نمایشی",
 "set new password" => "تنظیم کلمه عبور جدید",

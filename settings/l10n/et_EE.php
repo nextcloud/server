@@ -106,6 +106,7 @@
 "Default Storage" => "Vaikimisi maht",
 "Unlimited" => "Piiramatult",
 "Other" => "Muu",
+"Username" => "Kasutajanimi",
 "Storage" => "Maht",
 "change display name" => "muuda näidatavat nime",
 "set new password" => "määra uus parool",

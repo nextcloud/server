@@ -46,5 +46,6 @@
 "Language" => "Lenga",
 "Help translate" => "Ajuda a la revirada",
 "Create" => "Crea",
-"Other" => "Autres"
+"Other" => "Autres",
+"Username" => "Non d'usancièr"
 );

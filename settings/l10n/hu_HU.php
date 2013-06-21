@@ -106,6 +106,7 @@
 "Default Storage" => "Alapértelmezett tárhely",
 "Unlimited" => "Korlátlan",
 "Other" => "Más",
+"Username" => "Felhasználónév",
 "Storage" => "Tárhely",
 "change display name" => "a megjelenített név módosítása",
 "set new password" => "új jelszó beállítása",

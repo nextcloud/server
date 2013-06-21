@@ -105,6 +105,7 @@
 "Default Storage" => "Προκαθορισμένη Αποθήκευση ",
 "Unlimited" => "Απεριόριστο",
 "Other" => "Άλλο",
+"Username" => "Όνομα χρήστη",
 "Storage" => "Αποθήκευση",
 "change display name" => "αλλαγή ονόματος εμφάνισης",
 "set new password" => "επιλογή νέου κωδικού",

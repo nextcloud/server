@@ -70,6 +70,7 @@
 "Default Storage" => "Defaŭlta konservejo",
 "Unlimited" => "Senlima",
 "Other" => "Alia",
+"Username" => "Uzantonomo",
 "Storage" => "Konservejo",
 "Default" => "Defaŭlta"
 );

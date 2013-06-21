@@ -5,15 +5,16 @@
 # Translators:
 # arkascha <foss@christian-reiner.info>, 2013
 # Marcel Kühlhorn <susefan93@gmx.de>, 2013
+# Mario Siegmann <mario_siegmann@web.de>, 2013
 # traductor <transifex-2.7.mensaje@spamgourmet.com>, 2013
 # Mirodin <blobbyjj@ymail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-20 02:37+0200\n"
-"PO-Revision-Date: 2013-06-20 00:37+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-21 08:49+0200\n"
+"PO-Revision-Date: 2013-06-20 11:30+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s geteilt »%s« mit Ihnen"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -411,7 +412,7 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr ""
+msgstr "Ihre Dateien sind verschlüsselt. Wenn Sie den Wiederherstellungsschlüssel nicht aktiviert haben, wird es keinen Weg geben, um Ihre Daten wieder zu bekommen, nachdem Ihr Passwort zurückgesetzt wurde. Wenn Sie sich nicht sicher sind, was Sie tun sollen, wenden Sie sich bitte an Ihren Administrator, bevor Sie fortfahren. Wollen Sie wirklich fortfahren?"
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
@@ -474,7 +475,7 @@ msgid ""
 "View it: %s\n"
 "\n"
 "Cheers!"
-msgstr ""
+msgstr "Hallo,\n\nich wollte Sie nur wissen lassen, dass %s %s mit Ihnen teilt.\nSchauen Sie es sich an: %s\n\nViele Grüße!"
 
 #: templates/altmail.php:7 templates/mail.php:24
 msgid "web services under your control"
@@ -616,7 +617,7 @@ msgstr "Alternative Logins"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr ""
+msgstr "Hallo,<br><br>ich wollte Sie nur wissen lassen, dass %s %s mit Ihnen teilt.<br><a href=\"%s\">Schauen Sie es sich an!</a><br><br>Viele Grüße!"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

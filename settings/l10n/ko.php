@@ -106,6 +106,7 @@
 "Default Storage" => "기본 저장소",
 "Unlimited" => "무제한",
 "Other" => "기타",
+"Username" => "사용자 이름",
 "Storage" => "저장소",
 "change display name" => "표시 이름 변경",
 "set new password" => "새 암호 설정",

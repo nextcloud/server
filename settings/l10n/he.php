@@ -97,6 +97,7 @@
 "Default Storage" => "אחסון בררת המחדל",
 "Unlimited" => "ללא הגבלה",
 "Other" => "אחר",
+"Username" => "שם משתמש",
 "Storage" => "אחסון",
 "change display name" => "החלפת שם התצוגה",
 "set new password" => "הגדרת ססמה חדשה",

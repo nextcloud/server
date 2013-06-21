@@ -90,6 +90,7 @@
 "Request failed!<br>Did you make sure your email/username was right?" => "La petició ha fallat!<br>Esteu segur que el correu/nom d'usuari és correcte?",
 "You will receive a link to reset your password via Email." => "Rebreu un enllaç al correu electrònic per reiniciar la contrasenya.",
 "Username" => "Nom d'usuari",
+"Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Els vostres fitxers estan encriptats. Si no heu habilitat la clau de recuperació no hi haurà manera de recuperar les dades després que reestabliu la contrasenya. Si sabeu què fer, contacteu amb l'administrador abans de continuar. Voleu continuar?",
 "Yes, I really want to reset my password now" => "Sí, vull restablir ara la contrasenya",
 "Request reset" => "Sol·licita reinicialització",
 "Your password was reset" => "La vostra contrasenya s'ha reinicialitzat",

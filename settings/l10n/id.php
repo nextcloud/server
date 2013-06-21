@@ -103,6 +103,7 @@
 "Default Storage" => "Penyimpanan Baku",
 "Unlimited" => "Tak terbatas",
 "Other" => "Lainnya",
+"Username" => "Nama pengguna",
 "Storage" => "Penyimpanan",
 "change display name" => "ubah nama tampilan",
 "set new password" => "setel sandi baru",

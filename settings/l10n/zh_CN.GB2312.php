@@ -101,6 +101,7 @@
 "Default Storage" => "默认容量",
 "Unlimited" => "无限制",
 "Other" => "其他",
+"Username" => "用户名",
 "Storage" => "容量",
 "change display name" => "更改显示名称",
 "set new password" => "设置新的密码",
