@@ -421,21 +421,11 @@ class Connection {
 	private function validateConfiguration() {
 		// first step: "soft" checks: settings that are not really
 		// necessary, but advisable. If left empty, give an info message
-		if(empty($this->config['ldapBaseUsers']) ||
-			// this part handles return of preg_split in readConfiguration
-			(count($this->config['ldapBaseUsers'][0]) === 1
-				&& isset($this->config['ldapBaseUsers'][0])
-				&& empty($this->config['ldapBaseUsers'][0]))
-		) {
+		if(empty($this->config['ldapBaseUsers'])) {
 			\OCP\Util::writeLog('user_ldap', 'Base tree for Users is empty, using Base DN', \OCP\Util::INFO);
 			$this->config['ldapBaseUsers'] = $this->config['ldapBase'];
 		}
-		if(empty($this->config['ldapBaseGroups']) ||
-			// this part handles return of preg_split in readConfiguration
-			(count($this->config['ldapBaseGroups'][0]) === 1
-				&& isset($this->config['ldapBaseGroups'][0])
-				&& empty($this->config['ldapBaseGroups'][0]))
-		) {
+		if(empty($this->config['ldapBaseGroups'])) {
 			\OCP\Util::writeLog('user_ldap', 'Base tree for Groups is empty, using Base DN', \OCP\Util::INFO);
 			$this->config['ldapBaseGroups'] = $this->config['ldapBase'];
 		}
