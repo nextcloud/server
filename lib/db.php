@@ -322,12 +322,20 @@ class OC_DB {
 			$row = $result->fetchRow();
 			self::raiseExceptionOnError($row, 'fetching row for insertid failed');
 			return $row['id'];
-		} else if( $type === 'mssql' || $type === 'oci') {
+		} else if( $type === 'mssql') {
 			if($table !== null) {
 				$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
 				$table = str_replace( '*PREFIX*', $prefix, $table );
 			}
-			 self::$connection->lastInsertId($table);
+			return self::$connection->lastInsertId($table);
+		}
+		if( $type === 'oci' ) {
+			if($table !== null) {
+				$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
+				$suffix = '_SEQ';
+				$table = '"'.str_replace( '*PREFIX*', $prefix, $table ).$suffix.'"';
+			}
+			return self::$connection->lastInsertId($table);
 		} else {
 			if($table !== null) {
 				$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
