@@ -55,6 +55,7 @@ class OC_DB_MDB2SchemaReader {
 				case 'name':
 					$name = (string)$child;
 					$name = str_replace( '*dbprefix*', self::$DBTABLEPREFIX, $name );
+					$name = self::$platform->quoteIdentifier($name);
 					$table = $schema->createTable($name);
 					break;
 				case 'create':
@@ -98,6 +99,7 @@ class OC_DB_MDB2SchemaReader {
 			switch($child->getName()) {
 				case 'name':
 					$name = (string)$child;
+					$name = self::$platform->quoteIdentifier($name);
 					break;
 				case 'type':
 					$type = (string)$child;
@@ -189,10 +191,7 @@ class OC_DB_MDB2SchemaReader {
 						switch($field->getName()) {
 							case 'name':
 								$field_name = (string)$field;
-								$keywords = self::$platform->getReservedKeywordsList();
-								if ($keywords->isKeyword($field_name)) {
-									$field_name = self::$platform->quoteIdentifier($field_name);
-								}
+								$field_name = self::$platform->quoteIdentifier($field_name);
 								$fields[] = $field_name;
 								break;
 							case 'sorting':
