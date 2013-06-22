@@ -8,13 +8,8 @@
 "Private key password successfully updated." => "Contraseña de clave privada actualizada con éxito.",
 "Saving..." => "Guardando...",
 "Encryption" => "Cifrado",
-"Enable encryption passwords recovery key (allow sharing to recovery key):" => "Habilitar clave de recuperación de contraseñas ():",
-"Recovery account password" => "Recuperar contraseña",
 "Enabled" => "Habilitar",
 "Disabled" => "Deshabilitado",
-"Change encryption passwords recovery key:" => "Cambiar clave de cifrado de contraseñas:",
-"Old Recovery account password" => "Contraseña de recuperación actual",
-"New Recovery account password" => "Contraseña de recuperación nueva",
 "Change Password" => "Cambiar contraseña",
 "File recovery settings updated" => "Opciones de recuperación de archivos actualizada",
 "Could not update file recovery" => "No se pudo actualizar la recuperación de archivos"

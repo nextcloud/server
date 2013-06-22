@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-18 02:04+0200\n"
-"PO-Revision-Date: 2013-06-17 10:10+0000\n"
-"Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
+"POT-Creation-Date: 2013-06-22 02:06+0200\n"
+"PO-Revision-Date: 2013-06-22 00:07+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -61,6 +61,16 @@ msgid ""
 "regain access to your files"
 msgstr "Klucz prywatny nie jest poprawny! Może Twoje hasło zostało zmienione z zewnątrz. Można zaktualizować hasło klucza prywatnego w ustawieniach osobistych w celu odzyskania dostępu do plików"
 
+#: hooks/hooks.php:44
+msgid "PHP module OpenSSL is not installed."
+msgstr ""
+
+#: hooks/hooks.php:45
+msgid ""
+"Please ask your server administrator to install the module. For now the "
+"encryption app was disabled."
+msgstr ""
+
 #: js/settings-admin.js:11
 msgid "Saving..."
 msgstr "Zapisywanie..."
@@ -85,12 +95,12 @@ msgstr "Szyfrowanie"
 
 #: templates/settings-admin.php:10
 msgid ""
-"Enable encryption passwords recovery key (allow sharing to recovery key):"
-msgstr "Włącz szyfrowanie odzyskiwanych haseł klucza (zezwalaj na odzyskiwanie klucza):"
+"Enable recovery key (allow to recover users files in case of password loss):"
+msgstr ""
 
 #: templates/settings-admin.php:14
-msgid "Recovery account password"
-msgstr "Odzyskiwanie hasła konta"
+msgid "Recovery key password"
+msgstr ""
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
@@ -101,16 +111,16 @@ msgid "Disabled"
 msgstr "Wyłączone"
 
 #: templates/settings-admin.php:34
-msgid "Change encryption passwords recovery key:"
-msgstr "Zmiana klucza szyfrowania haseł odzyskiwania:"
+msgid "Change recovery key password:"
+msgstr ""
 
 #: templates/settings-admin.php:41
-msgid "Old Recovery account password"
-msgstr "Stare hasło odzyskiwania"
+msgid "Old Recovery key password"
+msgstr ""
 
 #: templates/settings-admin.php:48
-msgid "New Recovery account password"
-msgstr "Nowe hasło odzyskiwania"
+msgid "New Recovery key password"
+msgstr ""
 
 #: templates/settings-admin.php:53
 msgid "Change Password"

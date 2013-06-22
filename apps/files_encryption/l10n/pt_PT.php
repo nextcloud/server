@@ -7,13 +7,8 @@
 "Could not change the password. Maybe the old password was not correct." => "Não foi possivel alterar a password. Possivelmente a password antiga não está correcta.",
 "Saving..." => "A guardar...",
 "Encryption" => "Encriptação",
-"Enable encryption passwords recovery key (allow sharing to recovery key):" => "Activar a chave de recuperação das passwords de encriptação (permitir partilha da chave de recuperação):",
-"Recovery account password" => "Password de recuperação de conta",
 "Enabled" => "Activado",
 "Disabled" => "Desactivado",
-"Change encryption passwords recovery key:" => "Alterar a chave de recuperação da password de encriptação:",
-"Old Recovery account password" => "Password de recuperação de conta antiga:",
-"New Recovery account password" => "Nova password de recuperação de conta",
 "Change Password" => "Mudar a Password",
 "File recovery settings updated" => "Actualizadas as definições de recuperação de ficheiros",
 "Could not update file recovery" => "Não foi possível actualizar a recuperação de ficheiros"

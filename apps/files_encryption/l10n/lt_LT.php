@@ -7,13 +7,8 @@
 "Could not change the password. Maybe the old password was not correct." => "Slaptažodis nebuvo pakeistas. Gali būti, kad buvo neteisingai suvestas senasis.",
 "Saving..." => "Saugoma...",
 "Encryption" => "Šifravimas",
-"Enable encryption passwords recovery key (allow sharing to recovery key):" => "Įjungti šifravimo slaptažodžio atstatymo raktą (leidžia dalintis su atstatymo raktu):",
-"Recovery account password" => "Atstatymo vartotojo slaptažodis",
 "Enabled" => "Įjungta",
 "Disabled" => "Išjungta",
-"Change encryption passwords recovery key:" => "Pakeisti šifravimo slaptažodžio atstatymo raktą:",
-"Old Recovery account password" => "Seno atstatymo vartotojo slaptažodis",
-"New Recovery account password" => "naujo atstatymo vartotojo slaptažodis",
 "Change Password" => "Pakeisti slaptažodį",
 "File recovery settings updated" => "Failų atstatymo nustatymai pakeisti",
 "Could not update file recovery" => "Neišėjo atnaujinti failų atkūrimo"

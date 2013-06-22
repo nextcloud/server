@@ -7,13 +7,8 @@
 "Could not change the password. Maybe the old password was not correct." => "Parola değiştirilemedi. Eski parolanız doğru olmayabilir",
 "Saving..." => "Kaydediliyor...",
 "Encryption" => "Şifreleme",
-"Enable encryption passwords recovery key (allow sharing to recovery key):" => "Şifreli parola kurtarma anahtarını etkinleştir(kurtarma anahtarı paylaşımına izin ver)",
-"Recovery account password" => "Kurtarma hesabı parolası",
 "Enabled" => "Etkinleştirildi",
 "Disabled" => "Devre dışı",
-"Change encryption passwords recovery key:" => "Şifreli parolalar kurtarma anahtarını değiştir:",
-"Old Recovery account password" => "Eski kurtarma hesabı parolası",
-"New Recovery account password" => "Yeni kurtarma hesabı parolası",
 "Change Password" => "Parola değiştir",
 "File recovery settings updated" => "Dosya kurtarma ayarları güncellendi",
 "Could not update file recovery" => "Dosya kurtarma güncellenemedi"

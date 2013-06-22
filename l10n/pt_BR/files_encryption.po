@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-21 08:48+0200\n"
-"PO-Revision-Date: 2013-06-20 21:50+0000\n"
-"Last-Translator: bjamalaro <bjamalaro@yahoo.com.br>\n"
+"POT-Creation-Date: 2013-06-22 02:06+0200\n"
+"PO-Revision-Date: 2013-06-22 00:07+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,6 +62,16 @@ msgid ""
 "regain access to your files"
 msgstr "Sua chave privada não é válida! Talvez sua senha tenha sido mudada. Você pode atualizar sua senha de chave privada nas suas configurações pessoais para obter novamente acesso aos seus arquivos."
 
+#: hooks/hooks.php:44
+msgid "PHP module OpenSSL is not installed."
+msgstr ""
+
+#: hooks/hooks.php:45
+msgid ""
+"Please ask your server administrator to install the module. For now the "
+"encryption app was disabled."
+msgstr ""
+
 #: js/settings-admin.js:11
 msgid "Saving..."
 msgstr "Salvando..."
@@ -86,12 +96,12 @@ msgstr "Criptografia"
 
 #: templates/settings-admin.php:10
 msgid ""
-"Enable encryption passwords recovery key (allow sharing to recovery key):"
-msgstr "Ativar a criptografia de chave de recuperação de senhas (permitir compartilhar a chave de recuperação):"
+"Enable recovery key (allow to recover users files in case of password loss):"
+msgstr ""
 
 #: templates/settings-admin.php:14
-msgid "Recovery account password"
-msgstr "Recuperar a senha da conta"
+msgid "Recovery key password"
+msgstr ""
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
@@ -102,16 +112,16 @@ msgid "Disabled"
 msgstr "Desabilitado"
 
 #: templates/settings-admin.php:34
-msgid "Change encryption passwords recovery key:"
-msgstr "Mudar a criptografia de chave de recuperação de senhas:"
+msgid "Change recovery key password:"
+msgstr ""
 
 #: templates/settings-admin.php:41
-msgid "Old Recovery account password"
-msgstr "Recuperação de senha de conta antiga"
+msgid "Old Recovery key password"
+msgstr ""
 
 #: templates/settings-admin.php:48
-msgid "New Recovery account password"
-msgstr "Senha Nova  da conta de Recuperação"
+msgid "New Recovery key password"
+msgstr ""
 
 #: templates/settings-admin.php:53
 msgid "Change Password"
