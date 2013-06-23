@@ -4,14 +4,15 @@
 # 
 # Translators:
 # idetao <marcxosm@gmail.com>, 2013
+# polxmod <paolo.velati@gmail.com>, 2013
 # Vincenzo Reale <vinx.reale@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-22 02:06+0200\n"
-"PO-Revision-Date: 2013-06-22 00:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-23 01:59+0200\n"
+"PO-Revision-Date: 2013-06-22 23:02+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,13 +65,13 @@ msgstr "La chiave privata non è valida! Forse la password è stata cambiata dal
 
 #: hooks/hooks.php:44
 msgid "PHP module OpenSSL is not installed."
-msgstr ""
+msgstr "Il modulo PHP OpenSSL non è installato."
 
 #: hooks/hooks.php:45
 msgid ""
 "Please ask your server administrator to install the module. For now the "
 "encryption app was disabled."
-msgstr ""
+msgstr "Chiedi all'amministratore del server di installare il modulo. Per ora la crittografia è disabilitata."
 
 #: js/settings-admin.js:11
 msgid "Saving..."
@@ -97,11 +98,11 @@ msgstr "Cifratura"
 #: templates/settings-admin.php:10
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
-msgstr ""
+msgstr "Abilita la chiave di recupero (permette di recuperare i file utenti in caso di perdita della password):"
 
 #: templates/settings-admin.php:14
 msgid "Recovery key password"
-msgstr ""
+msgstr "Password della chiave di recupero"
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
@@ -113,15 +114,15 @@ msgstr "Disabilitata"
 
 #: templates/settings-admin.php:34
 msgid "Change recovery key password:"
-msgstr ""
+msgstr "Cambia la password della chiave di recupero:"
 
 #: templates/settings-admin.php:41
 msgid "Old Recovery key password"
-msgstr ""
+msgstr "Vecchia password della chiave di recupero"
 
 #: templates/settings-admin.php:48
 msgid "New Recovery key password"
-msgstr ""
+msgstr "Nuova password della chiave di recupero"
 
 #: templates/settings-admin.php:53
 msgid "Change Password"
@@ -155,13 +156,13 @@ msgstr "Aggiorna la password della chiave privata"
 
 #: templates/settings-personal.php:45
 msgid "Enable password recovery:"
-msgstr "Abilita il recupero della password:"
+msgstr "Abilita il ripristino della password:"
 
 #: templates/settings-personal.php:47
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
-msgstr "Abilitando questa opzione potrai accedere nuovamente ai file cifrati nel caso in cui la password venga perduta"
+msgstr "L'abilitazione di questa opzione ti consentirà di accedere nuovamente ai file cifrati in caso di perdita della password"
 
 #: templates/settings-personal.php:63
 msgid "File recovery settings updated"

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-20 02:36+0200\n"
-"PO-Revision-Date: 2013-06-18 23:28+0000\n"
+"POT-Creation-Date: 2013-06-23 01:58+0200\n"
+"PO-Revision-Date: 2013-06-22 10:23+0000\n"
 "Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -185,35 +185,35 @@ msgstr "URL ei saa olla tühi."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Vigane kataloogi nimi. 'Shared' kasutamine on reserveeritud ownCloud poolt."
 
-#: js/files.js:520 js/files.js:536 js/files.js:826 js/files.js:864
+#: js/files.js:520 js/files.js:536 js/files.js:840 js/files.js:878
 msgid "Error"
 msgstr "Viga"
 
-#: js/files.js:877 templates/index.php:69
+#: js/files.js:891 templates/index.php:69
 msgid "Name"
 msgstr "Nimi"
 
-#: js/files.js:878 templates/index.php:80
+#: js/files.js:892 templates/index.php:80
 msgid "Size"
 msgstr "Suurus"
 
-#: js/files.js:879 templates/index.php:82
+#: js/files.js:893 templates/index.php:82
 msgid "Modified"
 msgstr "Muudetud"
 
-#: js/files.js:898
+#: js/files.js:912
 msgid "1 folder"
 msgstr "1 kaust"
 
-#: js/files.js:900
+#: js/files.js:914
 msgid "{count} folders"
 msgstr "{count} kausta"
 
-#: js/files.js:908
+#: js/files.js:922
 msgid "1 file"
 msgstr "1 fail"
 
-#: js/files.js:910
+#: js/files.js:924
 msgid "{count} files"
 msgstr "{count} faili"
 
