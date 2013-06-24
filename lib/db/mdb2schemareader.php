@@ -144,6 +144,7 @@ class OC_DB_MDB2SchemaReader {
 			if (empty($options['default'])) {
 				if (empty($options['notnull']) || !$options['notnull']) {
 					unset($options['default']);
+					$options['notnull'] = false;
 				}
 				if ($type == 'integer') {
 					$options['default'] = 0;
