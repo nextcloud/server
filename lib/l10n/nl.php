@@ -24,6 +24,7 @@
 "%s set the database host." => "%s instellen databaseservernaam.",
 "PostgreSQL username and/or password not valid" => "PostgreSQL gebruikersnaam en/of wachtwoord ongeldig",
 "You need to enter either an existing account or the administrator." => "Geef of een bestaand account op of het beheerdersaccount.",
+"Oracle connection could not be established" => "Er kon geen verbinding met Oracle worden bereikt",
 "MySQL username and/or password not valid" => "MySQL gebruikersnaam en/of wachtwoord ongeldig",
 "DB Error: \"%s\"" => "DB Fout: \"%s\"",
 "Offending command was: \"%s\"" => "Onjuiste commande was: \"%s\"",

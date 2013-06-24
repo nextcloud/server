@@ -25,7 +25,8 @@ define('MDB2_SCHEMA_DUMP_STRUCTURE', '1');
 class DatabaseException extends Exception {
 	private $query;
 
-	public function __construct($message, $query) {
+	//FIXME getQuery seems to be unused, maybe use parent constructor with $message, $code and $previous
+	public function __construct($message, $query = null){
 		parent::__construct($message);
 		$this->query = $query;
 	}
@@ -252,9 +253,59 @@ class OC_DB {
 	}
 
 	/**
+	 * @brief execute a prepared statement, on error write log and throw exception
+	 * @param mixed $stmt DoctrineStatementWrapperm,
+	 *					  an array with 'sql' and optionally 'limit' and 'offset' keys
+	 *					.. or a simple sql query string
+	 * @param array $parameters
+	 * @return result
+	 * @throws DatabaseException
+	 */
+	static public function executeAudited( $stmt, array $parameters = null) {
+		if (is_string($stmt)) {
+			// convert to an array with 'sql'
+			if (stripos($stmt,'LIMIT') !== false) { //OFFSET requires LIMIT, se we only neet to check for LIMIT
+				// TODO try to convert LIMIT OFFSET notation to parameters, see fixLimitClauseForMSSQL
+				$message = 'LIMIT and OFFSET are forbidden for portability reasons,'
+						 . ' pass an array with \'limit\' and \'offset\' instead';
+				throw new DatabaseException($message);
+			}
+			$stmt = array('sql' => $stmt, 'limit' => null, 'offset' => null);
+		}
+		if (is_array($stmt)){
+			// convert to prepared statement
+			if ( ! array_key_exists('sql', $stmt) ) {
+				$message = 'statement array must at least contain key \'sql\'';
+				throw new DatabaseException($message);
+			}
+			if ( ! array_key_exists('limit', $stmt) ) {
+				$stmt['limit'] = null;
+			}
+			if ( ! array_key_exists('limit', $stmt) ) {
+				$stmt['offset'] = null;
+			}
+			$stmt = self::prepare($stmt['sql'], $stmt['limit'], $stmt['offset']);
+		}
+		self::raiseExceptionOnError($stmt, 'Could not prepare statement');
+		if ($stmt instanceof DoctrineStatementWrapper) {
+			$result = $stmt->execute($parameters);
+			self::raiseExceptionOnError($result, 'Could not execute statement');
+		} else {
+			if (is_object($stmt)) {
+				$message = 'Expected a prepared statement or array got ' . get_class($stmt);
+			} else {
+				$message = 'Expected a prepared statement or array got ' . gettype($stmt);
+			}
+			throw new DatabaseException($message);
+		}
+		return $result;
+	}
+
+	/**
 	 * @brief gets last value of autoincrement
 	 * @param string $table The optional table name (will replace *PREFIX*) and add sequence suffix
 	 * @return int id
+	 * @throws DatabaseException
 	 *
 	 * \Doctrine\DBAL\Connection lastInsertId
 	 *
@@ -264,25 +315,27 @@ class OC_DB {
 	public static function insertid($table=null) {
 		self::connect();
 		$type = OC_Config::getValue( "dbtype", "sqlite" );
-		if( $type == 'pgsql' ) {
-			$query = self::prepare('SELECT lastval() AS id');
-			$row = $query->execute()->fetchRow();
+		if( $type === 'pgsql' ) {
+			$result = self::executeAudited('SELECT lastval() AS id');
+			$row = $result->fetchRow();
+			self::raiseExceptionOnError($row, 'fetching row for insertid failed');
 			return $row['id'];
-		}
-		if( $type == 'mssql' ) {
+		} else if( $type === 'mssql' || $type === 'oci') {
 			if($table !== null) {
 				$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
 				$table = str_replace( '*PREFIX*', $prefix, $table );
 			}
-			return self::$connection->lastInsertId($table);
+			 self::$connection->lastInsertId($table);
 		} else {
 			if($table !== null) {
 				$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
 				$suffix = OC_Config::getValue( "dbsequencesuffix", "_id_seq" );
 				$table = str_replace( '*PREFIX*', $prefix, $table ).$suffix;
 			}
-			return self::$connection->lastInsertId($table);
+			$result = self::$connection->lastInsertId($table);
 		}
+		self::raiseExceptionOnError($result, 'insertid failed');
+		return $result;
 	}
 
 	/**
@@ -395,15 +448,9 @@ class OC_DB {
 			}
 			$query = substr($query, 0, strlen($query) - 5);
 			try {
-				$stmt = self::prepare($query);
-				$result = $stmt->execute($inserts);
-			} catch(\Doctrine\DBAL\DBALException $e) {
-				$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
-				$entry .= 'Offending command was: ' . $query . '<br />';
-				OC_Log::write('core', $entry, OC_Log::FATAL);
-				error_log('DB error: '.$entry);
-				OC_Template::printErrorPage( $entry );
-				return false;
+				$result = self::executeAudited($query, $inserts);
+			} catch(DatabaseException $e) {
+				OC_Template::printExceptionErrorPage( $e );
 			}
 
 			if((int)$result->numRows() === 0) {
@@ -428,17 +475,12 @@ class OC_DB {
 		}
 
 		try {
-			$result = self::prepare($query);
+			$result = self::executeAudited($query, $inserts);
 		} catch(\Doctrine\DBAL\DBALException $e) {
-			$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
-			$entry .= 'Offending command was: ' . $query.'<br />';
-			OC_Log::write('core', $entry, OC_Log::FATAL);
-			error_log('DB error: ' . $entry);
-			OC_Template::printErrorPage( $entry );
-			return false;
+			OC_Template::printExceptionErrorPage( $e );
 		}
 
-		return $result->execute($inserts);
+		return $result;
 	}
 
 	/**
@@ -607,7 +649,28 @@ class OC_DB {
 			return false;
 		}
 	}
+	/**
+	 * check if a result is an error and throws an exception, works with \Doctrine\DBAL\DBALException
+	 * @param mixed $result
+	 * @param string message
+	 * @return void
+	 * @throws DatabaseException
+	 */
+	public static function raiseExceptionOnError($result, $message = null) {
+		if(self::isError($result)) {
+			if ($message === null) {
+				$message = self::getErrorMessage($result);
+			} else {
+				$message .= ', Root cause:' . self::getErrorMessage($result);
+			}
+			throw new DatabaseException($message, self::getErrorCode($result));
+		}
+	}
 
+	public static function getErrorCode($error) {
+		$code = self::$connection->errorCode();
+		return $code;
+	}
 	/**
 	 * returns the error code and message as a string for logging
 	 * works with DoctrineException

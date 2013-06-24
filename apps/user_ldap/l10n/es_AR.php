@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Fallo al borrar la configuración del servidor",
-"The configuration is valid and the connection could be established!" => "La configuración es valida y la conexión pudo ser establecida.",
+"The configuration is valid and the connection could be established!" => "La configuración es válida y la conexión pudo ser establecida.",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "La configuración es válida, pero el enlace falló. Por favor, comprobá la configuración del servidor y las credenciales.",
 "The configuration is invalid. Please look in the ownCloud log for further details." => "La configuración no es válida. Por favor, buscá en el log de ownCloud más detalles.",
 "Deletion failed" => "Error al borrar",

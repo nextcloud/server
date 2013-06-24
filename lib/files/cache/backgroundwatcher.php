@@ -18,8 +18,8 @@ class BackgroundWatcher {
 		if (!is_null(self::$folderMimetype)) {
 			return self::$folderMimetype;
 		}
-		$query = \OC_DB::prepare('SELECT `id` FROM `*PREFIX*mimetypes` WHERE `mimetype` = ?');
-		$result = $query->execute(array('httpd/unix-directory'));
+		$sql = 'SELECT `id` FROM `*PREFIX*mimetypes` WHERE `mimetype` = ?';
+		$result = \OC_DB::executeAudited($sql, array('httpd/unix-directory'));
 		$row = $result->fetchRow();
 		return $row['id'];
 	}
@@ -59,11 +59,11 @@ class BackgroundWatcher {
 	 */
 	static private function getNextFileId($previous, $folder) {
 		if ($folder) {
-			$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `fileid` > ? AND mimetype = ' . self::getFolderMimetype() . ' ORDER BY `fileid` ASC', 1);
+			$stmt = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `fileid` > ? AND `mimetype` = ? ORDER BY `fileid` ASC', 1);
 		} else {
-			$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `fileid` > ? AND mimetype != ' . self::getFolderMimetype() . ' ORDER BY `fileid` ASC', 1);
+			$stmt = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `fileid` > ? AND `mimetype` != ? ORDER BY `fileid` ASC', 1);
 		}
-		$result = $query->execute(array($previous));
+		$result = \OC_DB::executeAudited($stmt, array($previous,self::getFolderMimetype()));
 		if ($row = $result->fetchRow()) {
 			return $row['fileid'];
 		} else {

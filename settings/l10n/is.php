@@ -15,8 +15,12 @@
 "Unable to remove user from group %s" => "Ekki tókst að fjarlægja notanda úr hópnum %s",
 "Disable" => "Gera óvirkt",
 "Enable" => "Virkja",
+"Please wait...." => "Andartak....",
 "Error" => "Villa",
+"Updating...." => "Uppfæri...",
+"Updated" => "Uppfært",
 "Saving..." => "Er að vista ...",
+"deleted" => "eytt",
 "undo" => "afturkalla",
 "Groups" => "Hópar",
 "Group Admin" => "Hópstjóri",
@@ -47,6 +51,7 @@
 "Current password" => "Núverandi lykilorð",
 "New password" => "Nýtt lykilorð",
 "Change password" => "Breyta lykilorði",
+"Display Name" => "Vísa nafn",
 "Email" => "Netfang",
 "Your email address" => "Netfangið þitt",
 "Fill in an email address to enable password recovery" => "Sláðu inn netfangið þitt til að virkja endurheimt á lykilorði",
@@ -58,6 +63,7 @@
 "Default Storage" => "Sjálfgefin gagnageymsla",
 "Unlimited" => "Ótakmarkað",
 "Other" => "Annað",
+"Username" => "Notendanafn",
 "Storage" => "gagnapláss",
 "Default" => "Sjálfgefið"
 );

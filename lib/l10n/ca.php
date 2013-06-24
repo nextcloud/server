@@ -24,6 +24,7 @@
 "%s set the database host." => "%s establiu l'ordinador central de la base de dades.",
 "PostgreSQL username and/or password not valid" => "Nom d'usuari i/o contrasenya PostgreSQL no vàlids",
 "You need to enter either an existing account or the administrator." => "Heu d'escriure un compte existent o el d'administrador.",
+"Oracle connection could not be established" => "No s'ha pogut establir la connexió Oracle",
 "MySQL username and/or password not valid" => "Nom d'usuari i/o contrasenya MySQL no vàlids",
 "DB Error: \"%s\"" => "Error DB: \"%s\"",
 "Offending command was: \"%s\"" => "L'ordre en conflicte és: \"%s\"",

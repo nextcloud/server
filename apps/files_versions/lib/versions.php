@@ -113,8 +113,16 @@ class Storage {
 				mkdir($versionsFolderName.'/'.$info['dirname'], 0750, true);
 			}
 
+			// disable proxy to prevent multiple fopen calls
+			$proxyStatus = \OC_FileProxy::$enabled;
+			\OC_FileProxy::$enabled = false;
+
 			// store a new version of a file
 			$users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename));
+
+			// reset proxy state
+			\OC_FileProxy::$enabled = $proxyStatus;
+
 			$versionsSize = self::getVersionsSize($uid);
 			if (  $versionsSize === false || $versionsSize < 0 ) {
 				$versionsSize = self::calculateSize($uid);
@@ -195,7 +203,16 @@ class Storage {
 			//first create a new version
 			$version = 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename);
 			if ( !$users_view->file_exists($version)) {
+
+				// disable proxy to prevent multiple fopen calls
+				$proxyStatus = \OC_FileProxy::$enabled;
+				\OC_FileProxy::$enabled = false;
+
 				$users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename));
+
+				// reset proxy state
+				\OC_FileProxy::$enabled = $proxyStatus;
+
 				$versionCreated = true;
 			}
 
@@ -224,11 +241,12 @@ class Storage {
 	public static function getVersions($uid, $filename, $count = 0 ) {
 		if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
 			$versions_fileview = new \OC\Files\View('/' . $uid . '/files_versions');
-			$versionsName = $versions_fileview->getLocalFile($filename);
-			
+			$versionsName = $versions_fileview->getLocalFile($filename).'.v';
+			$escapedVersionName = preg_replace('/(\*|\?|\[)/', '[$1]', $versionsName);
+
 			$versions = array();
 			// fetch for old versions
-			$matches = glob(preg_quote($versionsName).'.v*' );
+			$matches = glob($escapedVersionName.'*');
 
 			if ( !$matches ) {
 				return $versions;

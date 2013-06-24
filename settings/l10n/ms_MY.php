@@ -31,5 +31,6 @@
 "Language" => "Bahasa",
 "Help translate" => "Bantu terjemah",
 "Create" => "Buat",
-"Other" => "Lain"
+"Other" => "Lain",
+"Username" => "Nama pengguna"
 );

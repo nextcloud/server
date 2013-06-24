@@ -24,6 +24,7 @@
 "%s set the database host." => "%s estabeleza o servidor da base de datos",
 "PostgreSQL username and/or password not valid" => "Nome de usuario e/ou contrasinal de PostgreSQL incorrecto",
 "You need to enter either an existing account or the administrator." => "Deberá introducir unha conta existente ou o administrador.",
+"Oracle connection could not be established" => "Non foi posíbel estabelecer a conexión con Oracle",
 "MySQL username and/or password not valid" => "Nome de usuario e/ou contrasinal de MySQL incorrecto",
 "DB Error: \"%s\"" => "Produciuse un erro na base de datos: «%s»",
 "Offending command was: \"%s\"" => "A orde ofensiva foi: «%s»",

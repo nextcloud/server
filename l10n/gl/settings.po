@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-24 01:57+0200\n"
-"PO-Revision-Date: 2013-05-23 23:15+0000\n"
+"POT-Creation-Date: 2013-06-23 01:59+0200\n"
+"PO-Revision-Date: 2013-06-22 10:23+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -59,7 +59,7 @@ msgstr "Correo incorrecto"
 msgid "Unable to delete group"
 msgstr "Non é posíbel eliminar o grupo."
 
-#: ajax/removeuser.php:24
+#: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "Non é posíbel eliminar o usuario"
 
@@ -137,16 +137,16 @@ msgstr "desfacer"
 msgid "Unable to remove user"
 msgstr "Non é posíbel retirar o usuario"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:78
-#: templates/users.php:103
+#: js/users.js:92 templates/users.php:26 templates/users.php:87
+#: templates/users.php:112
 msgid "Groups"
 msgstr "Grupos"
 
-#: js/users.js:95 templates/users.php:80 templates/users.php:115
+#: js/users.js:95 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "Grupo Admin"
 
-#: js/users.js:115 templates/users.php:155
+#: js/users.js:115 templates/users.php:164
 msgid "Delete"
 msgstr "Eliminar"
 
@@ -154,15 +154,15 @@ msgstr "Eliminar"
 msgid "add group"
 msgstr "engadir un grupo"
 
-#: js/users.js:420
+#: js/users.js:428
 msgid "A valid username must be provided"
 msgstr "Debe fornecer un nome de usuario"
 
-#: js/users.js:421 js/users.js:427 js/users.js:442
+#: js/users.js:429 js/users.js:435 js/users.js:450
 msgid "Error creating user"
 msgstr "Produciuse un erro ao crear o usuario"
 
-#: js/users.js:426
+#: js/users.js:434
 msgid "A valid password must be provided"
 msgstr "Debe fornecer un contrasinal"
 
@@ -325,11 +325,11 @@ msgstr "Máis"
 msgid "Less"
 msgstr "Menos"
 
-#: templates/admin.php:235 templates/personal.php:105
+#: templates/admin.php:235 templates/personal.php:116
 msgid "Version"
 msgstr "Versión"
 
-#: templates/admin.php:237 templates/personal.php:108
+#: templates/admin.php:237 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -339,27 +339,27 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Desenvolvido pola <a href=\"http://ownCloud.org/contact\" target=\"_blank\">comunidade ownCloud</a>, o <a href=\"https://github.com/owncloud\" target=\"_blank\">código fonte</a> está baixo a licenza <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/apps.php:11
+#: templates/apps.php:13
 msgid "Add your App"
 msgstr "Engada o seu aplicativo"
 
-#: templates/apps.php:12
+#: templates/apps.php:28
 msgid "More Apps"
 msgstr "Máis aplicativos"
 
-#: templates/apps.php:28
+#: templates/apps.php:33
 msgid "Select an App"
 msgstr "Escolla un aplicativo"
 
-#: templates/apps.php:34
+#: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
 msgstr "Consulte a páxina do aplicativo en apps.owncloud.com"
 
-#: templates/apps.php:36
+#: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licenciado por<span class=\"author\"></span>"
 
-#: templates/apps.php:38
+#: templates/apps.php:43
 msgid "Update"
 msgstr "Actualizar"
 
@@ -387,76 +387,76 @@ msgstr "Seguemento de fallos"
 msgid "Commercial Support"
 msgstr "Asistencia comercial"
 
-#: templates/personal.php:8
+#: templates/personal.php:9
+msgid "Get the apps to sync your files"
+msgstr "Obteña os aplicativos para sincronizar os seus ficheiros"
+
+#: templates/personal.php:20
+msgid "Show First Run Wizard again"
+msgstr "Amosar o axudante da primeira execución outra vez"
+
+#: templates/personal.php:28
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Ten en uso <strong>%s</strong> do total dispoñíbel de <strong>%s</strong>"
 
-#: templates/personal.php:15
-msgid "Get the apps to sync your files"
-msgstr "Obteña os aplicativos para sincronizar os seus ficheiros"
-
-#: templates/personal.php:26
-msgid "Show First Run Wizard again"
-msgstr "Amosar o axudante da primeira execución outra vez"
-
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:77
+#: templates/personal.php:40 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "Contrasinal"
 
-#: templates/personal.php:38
+#: templates/personal.php:41
 msgid "Your password was changed"
 msgstr "O seu contrasinal foi cambiado"
 
-#: templates/personal.php:39
+#: templates/personal.php:42
 msgid "Unable to change your password"
 msgstr "Non é posíbel cambiar o seu contrasinal"
 
-#: templates/personal.php:40
+#: templates/personal.php:43
 msgid "Current password"
 msgstr "Contrasinal actual"
 
-#: templates/personal.php:42
+#: templates/personal.php:45
 msgid "New password"
 msgstr "Novo contrasinal"
 
-#: templates/personal.php:44
+#: templates/personal.php:47
 msgid "Change password"
 msgstr "Cambiar o contrasinal"
 
-#: templates/personal.php:56 templates/users.php:76
+#: templates/personal.php:59 templates/users.php:85
 msgid "Display Name"
 msgstr "Amosar o nome"
 
-#: templates/personal.php:68
+#: templates/personal.php:74
 msgid "Email"
 msgstr "Correo"
 
-#: templates/personal.php:70
+#: templates/personal.php:76
 msgid "Your email address"
 msgstr "O seu enderezo de correo"
 
-#: templates/personal.php:71
+#: templates/personal.php:77
 msgid "Fill in an email address to enable password recovery"
-msgstr "Escriba un enderezo de correo para activar a recuperación do contrasinal"
+msgstr "Escriba un enderezo de correo para activar o contrasinal de recuperación"
 
-#: templates/personal.php:77 templates/personal.php:78
+#: templates/personal.php:86 templates/personal.php:87
 msgid "Language"
 msgstr "Idioma"
 
-#: templates/personal.php:89
+#: templates/personal.php:99
 msgid "Help translate"
 msgstr "Axude na tradución"
 
-#: templates/personal.php:94
+#: templates/personal.php:105
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:96
+#: templates/personal.php:107
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Utilice este enderezo para conectarse ao seu ownCloud co administrador de ficheiros"
 
-#: templates/users.php:21 templates/users.php:75
+#: templates/users.php:21
 msgid "Login Name"
 msgstr "Nome de acceso"
 
@@ -464,30 +464,44 @@ msgstr "Nome de acceso"
 msgid "Create"
 msgstr "Crear"
 
-#: templates/users.php:33
+#: templates/users.php:36
+msgid "Admin Recovery Password"
+msgstr "Contrasinal de recuperación do administrador"
+
+#: templates/users.php:37 templates/users.php:38
+msgid ""
+"Enter the recovery password in order to recover the users files during "
+"password change"
+msgstr "Introduza o contrasinal de recuperación para recuperar os ficheiros dos usuarios durante o cambio de contrasinal"
+
+#: templates/users.php:42
 msgid "Default Storage"
 msgstr "Almacenamento predeterminado"
 
-#: templates/users.php:39 templates/users.php:133
+#: templates/users.php:48 templates/users.php:142
 msgid "Unlimited"
 msgstr "Sen límites"
 
-#: templates/users.php:57 templates/users.php:148
+#: templates/users.php:66 templates/users.php:157
 msgid "Other"
 msgstr "Outro"
 
-#: templates/users.php:82
+#: templates/users.php:84
+msgid "Username"
+msgstr "Nome de usuario"
+
+#: templates/users.php:91
 msgid "Storage"
 msgstr "Almacenamento"
 
-#: templates/users.php:93
+#: templates/users.php:102
 msgid "change display name"
 msgstr "cambiar o nome visíbel"
 
-#: templates/users.php:97
+#: templates/users.php:106
 msgid "set new password"
 msgstr "estabelecer un novo contrasinal"
 
-#: templates/users.php:128
+#: templates/users.php:137
 msgid "Default"
 msgstr "Predeterminado"

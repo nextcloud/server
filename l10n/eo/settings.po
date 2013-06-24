@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-24 01:57+0200\n"
-"PO-Revision-Date: 2013-05-23 23:15+0000\n"
+"POT-Creation-Date: 2013-06-23 01:59+0200\n"
+"PO-Revision-Date: 2013-06-22 10:24+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -58,7 +58,7 @@ msgstr "Nevalida retpoŝtadreso"
 msgid "Unable to delete group"
 msgstr "Ne eblis forigi la grupon"
 
-#: ajax/removeuser.php:24
+#: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "Ne eblis forigi la uzanton"
 
@@ -136,16 +136,16 @@ msgstr "malfari"
 msgid "Unable to remove user"
 msgstr ""
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:78
-#: templates/users.php:103
+#: js/users.js:92 templates/users.php:26 templates/users.php:87
+#: templates/users.php:112
 msgid "Groups"
 msgstr "Grupoj"
 
-#: js/users.js:95 templates/users.php:80 templates/users.php:115
+#: js/users.js:95 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "Grupadministranto"
 
-#: js/users.js:115 templates/users.php:155
+#: js/users.js:115 templates/users.php:164
 msgid "Delete"
 msgstr "Forigi"
 
@@ -153,15 +153,15 @@ msgstr "Forigi"
 msgid "add group"
 msgstr ""
 
-#: js/users.js:420
+#: js/users.js:428
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:421 js/users.js:427 js/users.js:442
+#: js/users.js:429 js/users.js:435 js/users.js:450
 msgid "Error creating user"
 msgstr ""
 
-#: js/users.js:426
+#: js/users.js:434
 msgid "A valid password must be provided"
 msgstr ""
 
@@ -324,11 +324,11 @@ msgstr "Pli"
 msgid "Less"
 msgstr "Malpli"
 
-#: templates/admin.php:235 templates/personal.php:105
+#: templates/admin.php:235 templates/personal.php:116
 msgid "Version"
 msgstr "Eldono"
 
-#: templates/admin.php:237 templates/personal.php:108
+#: templates/admin.php:237 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -338,27 +338,27 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Ellaborita de la <a href=\"http://ownCloud.org/contact\" target=\"_blank\">komunumo de ownCloud</a>, la <a href=\"https://github.com/owncloud\" target=\"_blank\">fontokodo</a> publikas laŭ la permesilo <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/apps.php:11
+#: templates/apps.php:13
 msgid "Add your App"
 msgstr "Aldonu vian aplikaĵon"
 
-#: templates/apps.php:12
+#: templates/apps.php:28
 msgid "More Apps"
 msgstr "Pli da aplikaĵoj"
 
-#: templates/apps.php:28
+#: templates/apps.php:33
 msgid "Select an App"
 msgstr "Elekti aplikaĵon"
 
-#: templates/apps.php:34
+#: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
 msgstr "Vidu la paĝon pri aplikaĵoj ĉe apps.owncloud.com"
 
-#: templates/apps.php:36
+#: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"</span>-permesilhavigita de <span class=\"author\"></span>"
 
-#: templates/apps.php:38
+#: templates/apps.php:43
 msgid "Update"
 msgstr "Ĝisdatigi"
 
@@ -386,76 +386,76 @@ msgstr "Cimoraportejo"
 msgid "Commercial Support"
 msgstr "Komerca subteno"
 
-#: templates/personal.php:8
+#: templates/personal.php:9
+msgid "Get the apps to sync your files"
+msgstr ""
+
+#: templates/personal.php:20
+msgid "Show First Run Wizard again"
+msgstr ""
+
+#: templates/personal.php:28
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Vi uzas <strong>%s</strong> el la haveblaj <strong>%s</strong>"
 
-#: templates/personal.php:15
-msgid "Get the apps to sync your files"
-msgstr ""
-
-#: templates/personal.php:26
-msgid "Show First Run Wizard again"
-msgstr ""
-
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:77
+#: templates/personal.php:40 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "Pasvorto"
 
-#: templates/personal.php:38
+#: templates/personal.php:41
 msgid "Your password was changed"
 msgstr "Via pasvorto ŝanĝiĝis"
 
-#: templates/personal.php:39
+#: templates/personal.php:42
 msgid "Unable to change your password"
 msgstr "Ne eblis ŝanĝi vian pasvorton"
 
-#: templates/personal.php:40
+#: templates/personal.php:43
 msgid "Current password"
 msgstr "Nuna pasvorto"
 
-#: templates/personal.php:42
+#: templates/personal.php:45
 msgid "New password"
 msgstr "Nova pasvorto"
 
-#: templates/personal.php:44
+#: templates/personal.php:47
 msgid "Change password"
 msgstr "Ŝanĝi la pasvorton"
 
-#: templates/personal.php:56 templates/users.php:76
+#: templates/personal.php:59 templates/users.php:85
 msgid "Display Name"
 msgstr ""
 
-#: templates/personal.php:68
+#: templates/personal.php:74
 msgid "Email"
 msgstr "Retpoŝto"
 
-#: templates/personal.php:70
+#: templates/personal.php:76
 msgid "Your email address"
 msgstr "Via retpoŝta adreso"
 
-#: templates/personal.php:71
+#: templates/personal.php:77
 msgid "Fill in an email address to enable password recovery"
 msgstr "Enigu retpoŝtadreson por kapabligi pasvortan restaŭron"
 
-#: templates/personal.php:77 templates/personal.php:78
+#: templates/personal.php:86 templates/personal.php:87
 msgid "Language"
 msgstr "Lingvo"
 
-#: templates/personal.php:89
+#: templates/personal.php:99
 msgid "Help translate"
 msgstr "Helpu traduki"
 
-#: templates/personal.php:94
+#: templates/personal.php:105
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:96
+#: templates/personal.php:107
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Uzu ĉi tiun adreson por konekti al via ownCloud vian dosieradministrilon"
 
-#: templates/users.php:21 templates/users.php:75
+#: templates/users.php:21
 msgid "Login Name"
 msgstr ""
 
@@ -463,30 +463,44 @@ msgstr ""
 msgid "Create"
 msgstr "Krei"
 
-#: templates/users.php:33
+#: templates/users.php:36
+msgid "Admin Recovery Password"
+msgstr ""
+
+#: templates/users.php:37 templates/users.php:38
+msgid ""
+"Enter the recovery password in order to recover the users files during "
+"password change"
+msgstr ""
+
+#: templates/users.php:42
 msgid "Default Storage"
 msgstr "Defaŭlta konservejo"
 
-#: templates/users.php:39 templates/users.php:133
+#: templates/users.php:48 templates/users.php:142
 msgid "Unlimited"
 msgstr "Senlima"
 
-#: templates/users.php:57 templates/users.php:148
+#: templates/users.php:66 templates/users.php:157
 msgid "Other"
 msgstr "Alia"
 
-#: templates/users.php:82
+#: templates/users.php:84
+msgid "Username"
+msgstr "Uzantonomo"
+
+#: templates/users.php:91
 msgid "Storage"
 msgstr "Konservejo"
 
-#: templates/users.php:93
+#: templates/users.php:102
 msgid "change display name"
 msgstr ""
 
-#: templates/users.php:97
+#: templates/users.php:106
 msgid "set new password"
 msgstr ""
 
-#: templates/users.php:128
+#: templates/users.php:137
 msgid "Default"
 msgstr "Defaŭlta"

@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# modokwang <modokwang@gmail.com>, 2013
 # zhangmin <zm1990s@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-24 01:57+0200\n"
-"PO-Revision-Date: 2013-05-23 23:15+0000\n"
-"Last-Translator: zhangmin <zm1990s@gmail.com>\n"
+"POT-Creation-Date: 2013-06-23 01:59+0200\n"
+"PO-Revision-Date: 2013-06-22 10:24+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -59,7 +60,7 @@ msgstr "无效的电子邮件"
 msgid "Unable to delete group"
 msgstr "无法删除组"
 
-#: ajax/removeuser.php:24
+#: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "无法删除用户"
 
@@ -137,16 +138,16 @@ msgstr "撤销"
 msgid "Unable to remove user"
 msgstr "无法移除用户"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:78
-#: templates/users.php:103
+#: js/users.js:92 templates/users.php:26 templates/users.php:87
+#: templates/users.php:112
 msgid "Groups"
 msgstr "组"
 
-#: js/users.js:95 templates/users.php:80 templates/users.php:115
+#: js/users.js:95 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "组管理员"
 
-#: js/users.js:115 templates/users.php:155
+#: js/users.js:115 templates/users.php:164
 msgid "Delete"
 msgstr "删除"
 
@@ -154,15 +155,15 @@ msgstr "删除"
 msgid "add group"
 msgstr "添加组"
 
-#: js/users.js:420
+#: js/users.js:428
 msgid "A valid username must be provided"
 msgstr "必须提供合法的用户名"
 
-#: js/users.js:421 js/users.js:427 js/users.js:442
+#: js/users.js:429 js/users.js:435 js/users.js:450
 msgid "Error creating user"
 msgstr "创建用户出错"
 
-#: js/users.js:426
+#: js/users.js:434
 msgid "A valid password must be provided"
 msgstr "必须提供合法的密码"
 
@@ -325,11 +326,11 @@ msgstr "更多"
 msgid "Less"
 msgstr "更少"
 
-#: templates/admin.php:235 templates/personal.php:105
+#: templates/admin.php:235 templates/personal.php:116
 msgid "Version"
 msgstr "版本"
 
-#: templates/admin.php:237 templates/personal.php:108
+#: templates/admin.php:237 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -339,27 +340,27 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "由<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud社区</a>开发，  <a href=\"https://github.com/owncloud\" target=\"_blank\">源代码</a>在<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>许可证下发布。"
 
-#: templates/apps.php:11
+#: templates/apps.php:13
 msgid "Add your App"
 msgstr "添加应用"
 
-#: templates/apps.php:12
+#: templates/apps.php:28
 msgid "More Apps"
 msgstr "更多应用"
 
-#: templates/apps.php:28
+#: templates/apps.php:33
 msgid "Select an App"
 msgstr "选择一个应用"
 
-#: templates/apps.php:34
+#: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
 msgstr "查看在 app.owncloud.com 的应用程序页面"
 
-#: templates/apps.php:36
+#: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-核准： <span class=\"author\"></span>"
 
-#: templates/apps.php:38
+#: templates/apps.php:43
 msgid "Update"
 msgstr "更新"
 
@@ -387,76 +388,76 @@ msgstr "问题跟踪器"
 msgid "Commercial Support"
 msgstr "商业支持"
 
-#: templates/personal.php:8
+#: templates/personal.php:9
+msgid "Get the apps to sync your files"
+msgstr "安装应用进行文件同步"
+
+#: templates/personal.php:20
+msgid "Show First Run Wizard again"
+msgstr "再次显示首次运行向导"
+
+#: templates/personal.php:28
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "你已使用 <strong>%s</strong>，有效空间 <strong>%s</strong>"
 
-#: templates/personal.php:15
-msgid "Get the apps to sync your files"
-msgstr "安装应用进行文件同步"
-
-#: templates/personal.php:26
-msgid "Show First Run Wizard again"
-msgstr "再次显示首次运行向导"
-
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:77
+#: templates/personal.php:40 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "密码"
 
-#: templates/personal.php:38
+#: templates/personal.php:41
 msgid "Your password was changed"
 msgstr "密码已修改"
 
-#: templates/personal.php:39
+#: templates/personal.php:42
 msgid "Unable to change your password"
 msgstr "无法修改密码"
 
-#: templates/personal.php:40
+#: templates/personal.php:43
 msgid "Current password"
 msgstr "当前密码"
 
-#: templates/personal.php:42
+#: templates/personal.php:45
 msgid "New password"
 msgstr "新密码"
 
-#: templates/personal.php:44
+#: templates/personal.php:47
 msgid "Change password"
 msgstr "修改密码"
 
-#: templates/personal.php:56 templates/users.php:76
+#: templates/personal.php:59 templates/users.php:85
 msgid "Display Name"
 msgstr "显示名称"
 
-#: templates/personal.php:68
+#: templates/personal.php:74
 msgid "Email"
 msgstr "电子邮件"
 
-#: templates/personal.php:70
+#: templates/personal.php:76
 msgid "Your email address"
 msgstr "您的电子邮件"
 
-#: templates/personal.php:71
+#: templates/personal.php:77
 msgid "Fill in an email address to enable password recovery"
 msgstr "填写电子邮件地址以启用密码恢复功能"
 
-#: templates/personal.php:77 templates/personal.php:78
+#: templates/personal.php:86 templates/personal.php:87
 msgid "Language"
 msgstr "语言"
 
-#: templates/personal.php:89
+#: templates/personal.php:99
 msgid "Help translate"
 msgstr "帮助翻译"
 
-#: templates/personal.php:94
+#: templates/personal.php:105
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:96
+#: templates/personal.php:107
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "用该地址来连接文件管理器中的 ownCloud"
 
-#: templates/users.php:21 templates/users.php:75
+#: templates/users.php:21
 msgid "Login Name"
 msgstr "登录名称"
 
@@ -464,30 +465,44 @@ msgstr "登录名称"
 msgid "Create"
 msgstr "创建"
 
-#: templates/users.php:33
+#: templates/users.php:36
+msgid "Admin Recovery Password"
+msgstr "管理恢复密码"
+
+#: templates/users.php:37 templates/users.php:38
+msgid ""
+"Enter the recovery password in order to recover the users files during "
+"password change"
+msgstr ""
+
+#: templates/users.php:42
 msgid "Default Storage"
 msgstr "默认存储"
 
-#: templates/users.php:39 templates/users.php:133
+#: templates/users.php:48 templates/users.php:142
 msgid "Unlimited"
 msgstr "无限"
 
-#: templates/users.php:57 templates/users.php:148
+#: templates/users.php:66 templates/users.php:157
 msgid "Other"
 msgstr "其它"
 
-#: templates/users.php:82
+#: templates/users.php:84
+msgid "Username"
+msgstr "用户名"
+
+#: templates/users.php:91
 msgid "Storage"
 msgstr "存储"
 
-#: templates/users.php:93
+#: templates/users.php:102
 msgid "change display name"
 msgstr "修改显示名称"
 
-#: templates/users.php:97
+#: templates/users.php:106
 msgid "set new password"
 msgstr "设置新密码"
 
-#: templates/users.php:128
+#: templates/users.php:137
 msgid "Default"
 msgstr "默认"

@@ -24,6 +24,7 @@
 "%s set the database host." => "%s määra andmebaasi server.",
 "PostgreSQL username and/or password not valid" => "PostgreSQL kasutajatunnus ja/või parool pole õiged",
 "You need to enter either an existing account or the administrator." => "Sisesta kas juba olemasolev konto või administrator.",
+"Oracle connection could not be established" => "Ei suuda luua ühendust Oracle baasiga",
 "MySQL username and/or password not valid" => "MySQL kasutajatunnus ja/või parool pole õiged",
 "DB Error: \"%s\"" => "Andmebaasi viga: \"%s\"",
 "Offending command was: \"%s\"" => "Tõrkuv käsk oli: \"%s\"",

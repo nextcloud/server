@@ -22,7 +22,8 @@
 
 class Test_Cache_File extends Test_Cache {
 	private $user;
-	
+	private $datadir;
+
 	function skip() {
 		//$this->skipUnless(OC_User::isLoggedIn());
 	}
@@ -40,7 +41,11 @@ class Test_Cache_File extends Test_Cache {
 
 		//set up temporary storage
 		\OC\Files\Filesystem::clearMounts();
-		\OC\Files\Filesystem::mount('\OC\Files\Storage\Temporary',array(),'/');
+		$storage = new \OC\Files\Storage\Temporary(array());
+		\OC\Files\Filesystem::mount($storage,array(),'/');
+		$datadir = str_replace('local::', '', $storage->getId());
+		$this->datadir = OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data');
+		OC_Config::setValue('datadirectory', $datadir);
 
 		OC_User::clearBackends();
 		OC_User::useBackend(new OC_User_Dummy());
@@ -60,5 +65,6 @@ class Test_Cache_File extends Test_Cache {
 
 	public function tearDown() {
 		OC_User::setUserId($this->user);
+		OC_Config::setValue('datadirectory', $this->datadir);
 	}
 }

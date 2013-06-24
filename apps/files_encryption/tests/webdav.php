@@ -27,6 +27,7 @@ require_once realpath(dirname(__FILE__) . '/../lib/proxy.php');
 require_once realpath(dirname(__FILE__) . '/../lib/stream.php');
 require_once realpath(dirname(__FILE__) . '/../lib/util.php');
 require_once realpath(dirname(__FILE__) . '/../appinfo/app.php');
+require_once realpath(dirname(__FILE__) . '/util.php');
 
 use OCA\Encryption;
 
@@ -34,8 +35,9 @@ use OCA\Encryption;
  * Class Test_Encryption_Webdav
  * @brief this class provide basic webdav tests for PUT,GET and DELETE
  */
-class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase
-{
+class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
+
+	const TEST_ENCRYPTION_WEBDAV_USER1 = "test-webdav-user1";
 
 	public $userId;
 	public $pass;
@@ -46,15 +48,33 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase
 	public $dataShort;
 	public $stateFilesTrashbin;
 
-	function setUp()
-	{
+	public static function setUpBeforeClass() {
+		// reset backend
+		\OC_User::clearBackends();
+		\OC_User::useBackend('database');
+
+		// Filesystem related hooks
+		\OCA\Encryption\Helper::registerFilesystemHooks();
+
+		// Filesystem related hooks
+		\OCA\Encryption\Helper::registerUserHooks();
+
+		// clear and register hooks
+		\OC_FileProxy::clearProxies();
+		\OC_FileProxy::register(new OCA\Encryption\Proxy());
+
+		// create test user
+		\Test_Encryption_Util::loginHelper(\Test_Encryption_Webdav::TEST_ENCRYPTION_WEBDAV_USER1, true);
+	}
+
+	function setUp() {
 		// reset backend
 		\OC_User::useBackend('database');
 
 		// set user id
-		\OC_User::setUserId('admin');
-		$this->userId = 'admin';
-		$this->pass = 'admin';
+		\OC_User::setUserId(\Test_Encryption_Webdav::TEST_ENCRYPTION_WEBDAV_USER1);
+		$this->userId = \Test_Encryption_Webdav::TEST_ENCRYPTION_WEBDAV_USER1;
+		$this->pass = \Test_Encryption_Webdav::TEST_ENCRYPTION_WEBDAV_USER1;
 
 		// init filesystem view
 		$this->view = new \OC_FilesystemView('/');
@@ -62,42 +82,29 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase
 		// init short data
 		$this->dataShort = 'hats';
 
-		// init filesystem related hooks
-		\OCA\Encryption\Helper::registerFilesystemHooks();
-
-		// register encryption file proxy
-		\OC_FileProxy::register(new OCA\Encryption\Proxy());
-
 		// remember files_trashbin state
 		$this->stateFilesTrashbin = OC_App::isEnabled('files_trashbin');
 
 		// we don't want to tests with app files_trashbin enabled
 		\OC_App::disable('files_trashbin');
 
-		// init filesystem for user
-		\OC_Util::tearDownFS();
-		\OC_User::setUserId('');
-		\OC\Files\Filesystem::tearDown();
-		\OC_Util::setupFS($this->userId);
-		\OC_User::setUserId($this->userId);
-
-		// login user
-		$params['uid'] = $this->userId;
-		$params['password'] = $this->pass;
-		OCA\Encryption\Hooks::login($params);
+		// create test user
+		\Test_Encryption_Util::loginHelper(\Test_Encryption_Webdav::TEST_ENCRYPTION_WEBDAV_USER1);
 	}
 
-	function tearDown()
-	{
+	function tearDown() {
 		// reset app files_trashbin
 		if ($this->stateFilesTrashbin) {
 			OC_App::enable('files_trashbin');
-		} else {
+		}
+		else {
 			OC_App::disable('files_trashbin');
 		}
+	}
 
-		// clear all proxies
-		\OC_FileProxy::clearProxies();
+	public static function tearDownAfterClass() {
+		// cleanup test user
+		\OC_User::deleteUser(\Test_Encryption_Webdav::TEST_ENCRYPTION_WEBDAV_USER1);
 	}
 
 	/**
@@ -113,7 +120,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase
 
 		$_SERVER['REQUEST_METHOD'] = 'PUT';
 		$_SERVER['REQUEST_URI'] = '/remote.php/webdav' . $filename;
-		$_SERVER['HTTP_AUTHORIZATION'] = 'Basic YWRtaW46YWRtaW4=';
+		$_SERVER['HTTP_AUTHORIZATION'] = 'Basic dGVzdC13ZWJkYXYtdXNlcjE6dGVzdC13ZWJkYXYtdXNlcjE=';
 		$_SERVER['CONTENT_TYPE'] = 'application/octet-stream';
 		$_SERVER['PATH_INFO'] = '/webdav' . $filename;
 		$_SERVER['CONTENT_LENGTH'] = strlen($this->dataShort);
@@ -125,10 +132,12 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase
 		$this->assertTrue($this->view->file_exists('/' . $this->userId . '/files' . $filename));
 
 		// check if key-file was created
-		$this->assertTrue($this->view->file_exists('/' . $this->userId . '/files_encryption/keyfiles/' . $filename . '.key'));
+		$this->assertTrue($this->view->file_exists(
+			'/' . $this->userId . '/files_encryption/keyfiles/' . $filename . '.key'));
 
 		// check if shareKey-file was created
-		$this->assertTrue($this->view->file_exists('/' . $this->userId . '/files_encryption/share-keys/' . $filename . '.' . $this->userId . '.shareKey'));
+		$this->assertTrue($this->view->file_exists(
+			'/' . $this->userId . '/files_encryption/share-keys/' . $filename . '.' . $this->userId . '.shareKey'));
 
 		// disable encryption proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
@@ -163,7 +172,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase
 		// set server vars
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 		$_SERVER['REQUEST_URI'] = '/remote.php/webdav' . $filename;
-		$_SERVER['HTTP_AUTHORIZATION'] = 'Basic YWRtaW46YWRtaW4=';
+		$_SERVER['HTTP_AUTHORIZATION'] = 'Basic dGVzdC13ZWJkYXYtdXNlcjE6dGVzdC13ZWJkYXYtdXNlcjE=';
 		$_SERVER['PATH_INFO'] = '/webdav' . $filename;
 
 		// handle webdav request
@@ -184,7 +193,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase
 		// set server vars
 		$_SERVER['REQUEST_METHOD'] = 'DELETE';
 		$_SERVER['REQUEST_URI'] = '/remote.php/webdav' . $filename;
-		$_SERVER['HTTP_AUTHORIZATION'] = 'Basic YWRtaW46YWRtaW4=';
+		$_SERVER['HTTP_AUTHORIZATION'] = 'Basic dGVzdC13ZWJkYXYtdXNlcjE6dGVzdC13ZWJkYXYtdXNlcjE=';
 		$_SERVER['PATH_INFO'] = '/webdav' . $filename;
 
 		// handle webdav request
@@ -194,10 +203,12 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase
 		$this->assertFalse($this->view->file_exists('/' . $this->userId . '/files' . $filename));
 
 		// check if key-file was removed
-		$this->assertFalse($this->view->file_exists('/' . $this->userId . '/files_encryption/keyfiles' . $filename . '.key'));
+		$this->assertFalse($this->view->file_exists(
+			'/' . $this->userId . '/files_encryption/keyfiles' . $filename . '.key'));
 
 		// check if shareKey-file was removed
-		$this->assertFalse($this->view->file_exists('/' . $this->userId . '/files_encryption/share-keys' . $filename . '.' . $this->userId . '.shareKey'));
+		$this->assertFalse($this->view->file_exists(
+			'/' . $this->userId . '/files_encryption/share-keys' . $filename . '.' . $this->userId . '.shareKey'));
 	}
 
 	/**
@@ -205,7 +216,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase
 	 *
 	 * @param bool $body
 	 *
-	 * @note this init procedure is copied from /apps/files/remote.php
+	 * @note this init procedure is copied from /apps/files/appinfo/remote.php
 	 */
 	function handleWebdavRequest($body = false) {
 		// Backends
@@ -229,7 +240,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase
 		$server->addPlugin(new OC_Connector_Sabre_MaintenancePlugin());
 
 		// And off we go!
-		if($body) {
+		if ($body) {
 			$server->httpRequest->setBody($body);
 		}
 

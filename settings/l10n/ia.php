@@ -21,5 +21,6 @@
 "Language" => "Linguage",
 "Help translate" => "Adjuta a traducer",
 "Create" => "Crear",
-"Other" => "Altere"
+"Other" => "Altere",
+"Username" => "Nomine de usator"
 );

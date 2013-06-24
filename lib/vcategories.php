@@ -554,7 +554,7 @@ class OC_VCategories {
 		}
 		try {
 			$stmt = OCP\DB::prepare('DELETE FROM `' . self::CATEGORY_TABLE . '` '
-				. 'WHERE `uid` = ? AND');
+				. 'WHERE `uid` = ?');
 			$result = $stmt->execute(array($arguments['uid']));
 			if (OC_DB::isError($result)) {
 				OC_Log::write('core', __METHOD__. 'DB error: ' . OC_DB::getErrorMessage($result), OC_Log::ERROR);

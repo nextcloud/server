@@ -93,6 +93,7 @@ $(document).ready(function() {
 		});
 
 		$('.undelete').click('click',function(event) {
+			event.preventDefault();
 			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'perform restore operation')+'" src="'+ OC.imagePath('core', 'loader.gif') +'"></a>';
 			var files=getSelectedFiles('file');
 			var fileslist = JSON.stringify(files);
@@ -117,6 +118,7 @@ $(document).ready(function() {
 			});
 
 		$('.delete').click('click',function(event) {
+			event.preventDefault();
 			console.log("delete selected");
 			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'Delete permanently')+'" src="'+ OC.imagePath('core', 'loading.gif') +'"></a>';
 			var files=getSelectedFiles('file');

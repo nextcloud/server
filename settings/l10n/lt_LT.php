@@ -27,6 +27,7 @@
 "Select an App" => "Pasirinkite programą",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>- autorius<span class=\"author\"></span>",
 "Update" => "Atnaujinti",
+"Get the apps to sync your files" => "Atsisiųskite programėlių, kad sinchronizuotumėte savo failus",
 "Password" => "Slaptažodis",
 "Your password was changed" => "Jūsų slaptažodis buvo pakeistas",
 "Unable to change your password" => "Neįmanoma pakeisti slaptažodžio",
@@ -39,5 +40,6 @@
 "Language" => "Kalba",
 "Help translate" => "Padėkite išversti",
 "Create" => "Sukurti",
-"Other" => "Kita"
+"Other" => "Kita",
+"Username" => "Prisijungimo vardas"
 );

@@ -24,6 +24,7 @@
 "%s set the database host." => "%s 設定資料庫主機。",
 "PostgreSQL username and/or password not valid" => "PostgreSQL 用戶名和/或密碼無效",
 "You need to enter either an existing account or the administrator." => "您必須輸入一個現有的帳號或管理員帳號。",
+"Oracle connection could not be established" => "無法建立 Oracle 資料庫連線",
 "MySQL username and/or password not valid" => "MySQL 用戶名和/或密碼無效",
 "DB Error: \"%s\"" => "資料庫錯誤：\"%s\"",
 "Offending command was: \"%s\"" => "有問題的指令是：\"%s\"",

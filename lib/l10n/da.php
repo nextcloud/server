@@ -24,6 +24,7 @@
 "%s set the database host." => "%s sæt database værten.",
 "PostgreSQL username and/or password not valid" => "PostgreSQL brugernavn og/eller kodeord er ikke gyldigt.",
 "You need to enter either an existing account or the administrator." => "Du bliver nødt til at indtaste en eksisterende bruger eller en administrator.",
+"Oracle connection could not be established" => "Oracle forbindelsen kunne ikke etableres",
 "MySQL username and/or password not valid" => "MySQL brugernavn og/eller kodeord er ikke gyldigt.",
 "DB Error: \"%s\"" => "Databasefejl: \"%s\"",
 "Offending command was: \"%s\"" => "Fejlende kommando var: \"%s\"",

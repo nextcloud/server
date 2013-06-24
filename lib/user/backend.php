@@ -58,7 +58,7 @@ abstract class OC_User_Backend implements OC_User_Interface {
 
 	/**
 	* @brief Get all supported actions
-	* @returns bitwise-or'ed actions
+	* @return int bitwise-or'ed actions
 	*
 	* Returns the supported actions as int to be
 	* compared with OC_USER_BACKEND_CREATE_USER etc.
@@ -76,8 +76,8 @@ abstract class OC_User_Backend implements OC_User_Interface {
 
 	/**
 	* @brief Check if backend implements actions
-	* @param $actions bitwise-or'ed actions
-	* @returns boolean
+	* @param int $actions bitwise-or'ed actions
+	* @return boolean
 	*
 	* Returns the supported actions as int to be
 	* compared with OC_USER_BACKEND_CREATE_USER etc.
@@ -87,12 +87,12 @@ abstract class OC_User_Backend implements OC_User_Interface {
 	}
 
 	/**
-	* @brief delete a user
-	* @param $uid The username of the user to delete
-	* @returns true/false
-	*
-	* Deletes a user
-	*/
+	 * @brief delete a user
+	 * @param string $uid The username of the user to delete
+	 * @return bool
+	 *
+	 * Deletes a user
+	 */
 	public function deleteUser( $uid ) {
 		return false;
 	}
@@ -127,8 +127,8 @@ abstract class OC_User_Backend implements OC_User_Interface {
 
 	/**
 	 * @brief get display name of the user
-	 * @param $uid user ID of the user
-	 * @return display name
+	 * @param string $uid user ID of the user
+	 * @return string display name
 	 */
 	public function getDisplayName($uid) {
 		return $uid;

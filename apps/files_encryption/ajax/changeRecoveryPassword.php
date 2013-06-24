@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  *
  * @brief Script to change recovery key password
- * 
+ *
  */
 
 use OCA\Encryption;
@@ -15,38 +15,38 @@ use OCA\Encryption;
 \OCP\JSON::checkAppEnabled('files_encryption');
 \OCP\JSON::callCheck();
 
-$l=OC_L10N::get('core');
+$l = OC_L10N::get('core');
 
 $return = false;
 
 $oldPassword = $_POST['oldPassword'];
 $newPassword = $_POST['newPassword'];
 
+$view = new \OC\Files\View('/');
 $util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), \OCP\User::getUser());
 
-$result = $util->checkRecoveryPassword($oldPassword);
+$proxyStatus = \OC_FileProxy::$enabled;
+\OC_FileProxy::$enabled = false;
 
-if ($result) {
-	$keyId = $util->getRecoveryKeyId();
-	$keyPath = '/owncloud_private_key/' . $keyId . ".private.key";
-	$view = new \OC\Files\View('/');
+$keyId = $util->getRecoveryKeyId();
+$keyPath = '/owncloud_private_key/' . $keyId . '.private.key';
 
-	$proxyStatus = \OC_FileProxy::$enabled;
-	\OC_FileProxy::$enabled = false;
+$encryptedRecoveryKey = $view->file_get_contents($keyPath);
+$decryptedRecoveryKey = \OCA\Encryption\Crypt::decryptPrivateKey($encryptedRecoveryKey, $oldPassword);
 
-	$encryptedRecoveryKey = $view->file_get_contents($keyPath);
-	$decryptedRecoveryKey = \OCA\Encryption\Crypt::symmetricDecryptFileContent($encryptedRecoveryKey, $oldPassword);
+if ($decryptedRecoveryKey) {
+
 	$encryptedRecoveryKey = \OCA\Encryption\Crypt::symmetricEncryptFileContent($decryptedRecoveryKey, $newPassword);
 	$view->file_put_contents($keyPath, $encryptedRecoveryKey);
-
-	\OC_FileProxy::$enabled = $proxyStatus;
 
 	$return = true;
 }
 
+\OC_FileProxy::$enabled = $proxyStatus;
+
 // success or failure
 if ($return) {
-	\OCP\JSON::success(array("data" => array( "message" => $l->t('Password successfully changed.'))));
+	\OCP\JSON::success(array('data' => array('message' => $l->t('Password successfully changed.'))));
 } else {
-	\OCP\JSON::error(array("data" => array( "message" => $l->t('Could not change the password. Maybe the old password was not correct.'))));
+	\OCP\JSON::error(array('data' => array('message' => $l->t('Could not change the password. Maybe the old password was not correct.'))));
 }

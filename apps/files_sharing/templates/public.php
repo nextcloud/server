@@ -46,5 +46,9 @@
 		<?php endif; ?>
 	<?php endif; ?>
 </div>
-<footer><p class="info"><a href="http://owncloud.org/">ownCloud</a> &ndash;
-<?php p($l->t('web services under your control')); ?></p></footer>
+<footer>
+	<p class="info"><a href="<?php p(OC_Defaults::getBaseUrl()); ?>"><?php p(OC_Defaults::getEntity()) ?></a>
+		<?php OC_Util::getEditionString() === '' ? print_unescaped(' &ndash; ') : print_unescaped('<br/>'); ?>
+		<?php p(OC_Defaults::getSlogan()); ?>
+	</p>
+</footer>

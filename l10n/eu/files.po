@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-24 01:57+0200\n"
-"PO-Revision-Date: 2013-05-23 23:15+0000\n"
+"POT-Creation-Date: 2013-06-23 01:58+0200\n"
+"PO-Revision-Date: 2013-06-22 10:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -183,35 +183,35 @@ msgstr "URLa ezin da hutsik egon."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Baliogabeako karpeta izena. 'Shared' izena Owncloudek erreserbatzen du"
 
-#: js/files.js:520 js/files.js:536 js/files.js:826 js/files.js:864
+#: js/files.js:520 js/files.js:536 js/files.js:840 js/files.js:878
 msgid "Error"
 msgstr "Errorea"
 
-#: js/files.js:877 templates/index.php:69
+#: js/files.js:891 templates/index.php:69
 msgid "Name"
 msgstr "Izena"
 
-#: js/files.js:878 templates/index.php:80
+#: js/files.js:892 templates/index.php:80
 msgid "Size"
 msgstr "Tamaina"
 
-#: js/files.js:879 templates/index.php:82
+#: js/files.js:893 templates/index.php:82
 msgid "Modified"
 msgstr "Aldatuta"
 
-#: js/files.js:898
+#: js/files.js:912
 msgid "1 folder"
 msgstr "karpeta bat"
 
-#: js/files.js:900
+#: js/files.js:914
 msgid "{count} folders"
 msgstr "{count} karpeta"
 
-#: js/files.js:908
+#: js/files.js:922
 msgid "1 file"
 msgstr "fitxategi bat"
 
-#: js/files.js:910
+#: js/files.js:924
 msgid "{count} files"
 msgstr "{count} fitxategi"
 

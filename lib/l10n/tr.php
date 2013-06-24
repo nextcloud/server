@@ -24,6 +24,7 @@
 "%s set the database host." => "%s veritabanı sunucu adını tanımla",
 "PostgreSQL username and/or password not valid" => "PostgreSQL adi kullanici ve/veya parola yasal degildir. ",
 "You need to enter either an existing account or the administrator." => "Bir konto veya kullanici birlemek ihtiyacin. ",
+"Oracle connection could not be established" => "Oracle bağlantısı kurulamadı",
 "MySQL username and/or password not valid" => "MySQL kullanıcı adı ve/veya parolası geçerli değil",
 "DB Error: \"%s\"" => "DB Hata: ''%s''",
 "Offending command was: \"%s\"" => "Komut rahasiz ''%s''. ",
