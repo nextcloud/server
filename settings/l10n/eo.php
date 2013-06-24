@@ -52,6 +52,7 @@
 "Forum" => "Forumo",
 "Bugtracker" => "Cimoraportejo",
 "Commercial Support" => "Komerca subteno",
+"Get the apps to sync your files" => "Ekhavu la aplikaĵojn por sinkronigi viajn dosierojn",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Vi uzas <strong>%s</strong> el la haveblaj <strong>%s</strong>",
 "Password" => "Pasvorto",
 "Your password was changed" => "Via pasvorto ŝanĝiĝis",
