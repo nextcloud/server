@@ -176,6 +176,10 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 	public function unlock($uri, Sabre_DAV_Locks_LockInfo $lockInfo) {
 
 		$sql = 'DELETE FROM `*PREFIX*locks` WHERE `userid` = ? AND `uri` = ? AND `token` = ?';
+		if (OC_Config::getValue( "dbtype") === 'oci') {
+			//FIXME oracle hack: need to explicitly cast CLOB to CHAR for comparison
+			$sql = 'DELETE FROM `*PREFIX*locks` WHERE `userid` = ? AND to_char(`uri`) = ? AND `token` = ?';
+		}
 		$result = OC_DB::executeAudited( $sql, array(OC_User::getUser(), $uri, $lockInfo->token));
 
 		return $result->numRows() === 1;
