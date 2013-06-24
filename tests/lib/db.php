@@ -94,7 +94,7 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$query = OC_DB::prepare('SELECT * FROM `*PREFIX*'.$this->table3.'`');
 		$result = $query->execute();
 		$this->assertTrue((bool)$result);
-		$this->assertEquals('4', $result->numRows());
+		$this->assertEquals('4', count($result->fetchAll()));
 	}
 
 	public function testinsertIfNotExistDontOverwrite() {
