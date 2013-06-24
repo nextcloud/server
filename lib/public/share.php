@@ -663,9 +663,13 @@ class Share {
 					// Remove the permissions for all reshares of this item
 					if (!empty($ids)) {
 						$ids = "'".implode("','", $ids)."'";
-						$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `permissions` = `permissions` & ?'
-							.' WHERE `id` IN ('.$ids.')');
-						$query->execute(array($permissions));
+						// the binary operator & works on sqlite, mysql, postgresql and mssql
+						$sql = 'UPDATE `*PREFIX*share` SET `permissions` = `permissions` & ? WHERE `id` IN ('.$ids.')';
+						if (\OC_Config::getValue('dbtype', 'sqlite') === 'oci') {
+							// guess which dbms does not handle & and uses a function for this
+							$sql = 'UPDATE `*PREFIX*share` SET `permissions` = BITAND(`permissions`,?) WHERE `id` IN ('.$ids.')';
+						}
+						\OC_DB::executeAudited($sql, array($permissions));
 					}
 				}
 			}
