@@ -488,7 +488,8 @@ class Keymanager {
 			$view->unlink($baseDir . $filePath);
 		} else {
 			$localKeyPath = $view->getLocalFile($baseDir . $filePath);
-			$matches = glob(preg_quote($localKeyPath) . '*.shareKey');
+			$escapedPath = preg_replace('/(\*|\?|\[)/', '[$1]', $localKeyPath);
+			$matches = glob($escapedPath . '*.shareKey');
 			foreach ($matches as $ma) {
 				$result = unlink($ma);
 				if (!$result) {
@@ -547,7 +548,10 @@ class Keymanager {
 	 */
 	private static function recursiveDelShareKeys($dir, $userIds) {
 		foreach ($userIds as $userId) {
-			$matches = glob(preg_quote($dir) . '/*' . preg_quote('.' . $userId . '.shareKey'));
+			$extension = '.' . $userId . '.shareKey';
+			$escapedDir = preg_replace('/(\*|\?|\[)/', '[$1]', $dir);
+			$escapedExtension = preg_replace('/(\*|\?|\[)/', '[$1]', $extension);
+			$matches = glob($escapedDir . '/*' . $escapedExtension);
 		}
 		/** @var $matches array */
 		foreach ($matches as $ma) {
@@ -556,7 +560,7 @@ class Keymanager {
 					'Could not delete shareKey; does not exist: "' . $ma . '"', \OCP\Util::ERROR);
 			}
 		}
-		$subdirs = $directories = glob(preg_quote($dir) . '/*', GLOB_ONLYDIR);
+		$subdirs = $directories = glob($escapedDir . '/*', GLOB_ONLYDIR);
 		foreach ($subdirs as $subdir) {
 			self::recursiveDelShareKeys($subdir, $userIds);
 		}
