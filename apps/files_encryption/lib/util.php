@@ -1037,11 +1037,12 @@ class Util {
 		}
 
 		// check if it is a group mount
-		$mount = \OC_Mount_Config::getSystemMountPoints();
-		foreach ($mount as $mountPoint => $data) {
-			if ($mountPoint == substr($ownerPath, 1, strlen($mountPoint))) {
-				$userIds = array_merge($userIds,
-					$this->getUserWithAccessToMountPoint($data['applicable']['users'], $data['applicable']['groups']));
+		if (\OCP\App::isEnabled("files_external")) {
+			$mount = \OC_Mount_Config::getSystemMountPoints();
+			foreach ($mount as $mountPoint => $data) {
+				if ($mountPoint == substr($ownerPath, 1, strlen($mountPoint))) {
+					$userIds = array_merge($userIds, $this->getUserWithAccessToMountPoint($data['applicable']['users'], $data['applicable']['groups']));
+				}
 			}
 		}
 
@@ -1579,10 +1580,12 @@ class Util {
 	 * @return boolean
 	 */
 	public function isSystemWideMountPoint($path) {
-		$mount = \OC_Mount_Config::getSystemMountPoints();
-		foreach ($mount as $mountPoint => $data) {
-			if ($mountPoint == substr($path, 1, strlen($mountPoint))) {
-				return true;
+		if (\OCP\App::isEnabled("files_external")) {
+			$mount = \OC_Mount_Config::getSystemMountPoints();
+			foreach ($mount as $mountPoint => $data) {
+				if ($mountPoint == substr($path, 1, strlen($mountPoint))) {
+					return true;
+				}
 			}
 		}
 		return false;
