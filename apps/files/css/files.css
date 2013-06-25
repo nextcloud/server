@@ -62,7 +62,10 @@
 	color:#888; text-shadow:#fff 0 1px 0;
 }
 #filestable { position: relative; top:37px; width:100%; }
-tbody tr { background-color:#fff; height:2.5em; }
+tbody tr {
+	background-color: #fff;
+	height: 44px;
+}
 tbody tr:hover, tbody tr:active {
 	background-color: rgb(240,240,240);
 }
@@ -75,12 +78,25 @@ span.extension { text-transform:lowercase; -ms-filter:"progid:DXImageTransform.M
 tr:hover span.extension { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; color:#777; }
 table tr.mouseOver td { background-color:#eee; }
 table th { height:2em; padding:0 .5em; color:#999; }
-table th .name { float:left; margin-left:.5em; }
+table th .name {
+	float: left;
+	margin-left: 17px;
+}
 table th, table td { border-bottom:1px solid #ddd; text-align:left; font-weight:normal; }
-table td { border-bottom:1px solid #eee; font-style:normal; background-position:1em .5em; background-repeat:no-repeat; }
+table td {
+	border-bottom: 1px solid #eee;
+	font-style: normal;
+	background-position: 8px center;
+	background-repeat: no-repeat;
+}
 table th#headerName { width:100em; /* not really sure why this works better than 100% … table styling */ }
 table th#headerSize, table td.filesize { min-width:3em; padding:0 1em; text-align:right; }
-table th#headerDate, table td.date { min-width:11em; padding:0 .1em 0 1em; text-align:left; }
+table th#headerDate, table td.date {
+	position: relative;
+	min-width: 11em;
+	padding:0 .1em 0 1em;
+	text-align:left;
+}
 
 /* Multiselect bar */
 #filestable.multiselect { top:63px; }
@@ -93,13 +109,29 @@ table.multiselect thead th {
 }
 table.multiselect #headerName { width: 100%; }
 table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
-table td.filename a.name { display:block; height:1.5em; vertical-align:middle; margin-left:3em; }
+table td.filename a.name {
+	box-sizing: border-box;
+	display: block;
+	height: 44px;
+	vertical-align: middle;
+	margin-left: 50px;
+}
 table tr[data-type="dir"] td.filename a.name span.nametext {font-weight:bold; }
 table td.filename input.filename { width:100%; cursor:text; }
 table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:.2em .5em .5em 0; }
 table td.filename .nametext, .uploadtext, .modified { float:left; padding:.3em 0; }
+.modified {
+	position: absolute;
+	top: 10px;
+}
 /* TODO fix usability bug (accidental file/folder selection) */
-table td.filename .nametext { overflow:hidden; text-overflow:ellipsis; max-width:800px; }
+table td.filename .nametext {
+	position: absolute;
+	top: 10px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 800px;
+}
 table td.filename .uploadtext { font-weight:normal; margin-left:.5em; }
 table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 
@@ -119,8 +151,10 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 
 /* File actions */
 .fileactions {
-	position:absolute; top:.6em; right:0;
-	font-size:.8em;
+	position: absolute;
+	top: 13px;
+	right: 0;
+	font-size: 11px;
 }
 #fileList .name { position:relative; /* Firefox needs to explicitly have this default set … */ }
 #fileList tr:hover .fileactions { /* background to distinguish when overlaying with file names */
@@ -132,7 +166,11 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 	box-shadow: -5px 0 7px rgba(230,230,230,.9);
 }
 #fileList .fileactions a.action img { position:relative; top:.2em; }
-#fileList a.action { display:inline; margin:-.5em 0; padding:1em .5em 1em .5em !important; }
+#fileList a.action {
+	display: inline;
+	margin: -.5em 0;
+	padding: 16px 8px !important;
+}
 #fileList img.move2trash { display:inline; margin:-.5em 0; padding:1em .5em 1em .5em !important; float:right; }
 a.action.delete { float:right; }
 a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
