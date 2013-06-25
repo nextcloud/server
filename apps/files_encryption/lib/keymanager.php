@@ -591,7 +591,7 @@ class Keymanager {
 	 * @return boolean
 	 */
 	private static function isSystemWideMountPoint($path) {
-		$mount = OC_Mount_Config::getSystemMountPoints();
+		$mount = \OC_Mount_Config::getSystemMountPoints();
 		foreach ($mount as $mountPoint => $data) {
 			if ($mountPoint == substr($path, 1, strlen($mountPoint))) {
 				return true;
