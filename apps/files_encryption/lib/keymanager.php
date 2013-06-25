@@ -475,10 +475,19 @@ class Keymanager {
 	 */
 	public static function delAllShareKeys(\OC_FilesystemView $view, $userId, $filePath) {
 
-		if ($view->is_dir($userId . '/files/' . $filePath)) {
-			$view->unlink($userId . '/files_encryption/share-keys/' . $filePath);
+		$util = new util($view, $userId);
+
+		if ($util->isSystemWideMountPoint($filePath)) {
+			$baseDir = '/files_encryption/share-keys/';
 		} else {
-			$localKeyPath = $view->getLocalFile($userId . '/files_encryption/share-keys/' . $filePath);
+			$baseDir = $userId . '/files_encryption/share-keys/';
+		}
+
+
+		if ($view->is_dir($userId . '/files/' . $filePath)) {
+			$view->unlink($baseDir . $filePath);
+		} else {
+			$localKeyPath = $view->getLocalFile($baseDir . $filePath);
 			$matches = glob(preg_quote($localKeyPath) . '*.shareKey');
 			foreach ($matches as $ma) {
 				$result = unlink($ma);
@@ -503,7 +512,11 @@ class Keymanager {
 
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
 
-		$shareKeyPath = \OC\Files\Filesystem::normalizePath('/' . $owner . '/files_encryption/share-keys/' . $filename);
+		if ($util->isSystemWideMountPoint($filename)) {
+			$shareKeyPath = \OC\Files\Filesystem::normalizePath('/files_encryption/share-keys/' . $filename);
+		} else {
+			$shareKeyPath = \OC\Files\Filesystem::normalizePath('/' . $owner . '/files_encryption/share-keys/' . $filename);
+		}
 
 		if ($view->is_dir($shareKeyPath)) {
 
