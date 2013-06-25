@@ -1037,7 +1037,7 @@ class Util {
 		}
 
 		// check if it is a group mount
-		$mount = OC_Mount_Config::getSystemMountPoints();
+		$mount = \OC_Mount_Config::getSystemMountPoints();
 		foreach ($mount as $mountPoint => $data) {
 			if ($mountPoint == substr($ownerPath, 1, strlen($mountPoint))) {
 				$userIds = array_merge($userIds,
