@@ -126,7 +126,12 @@ class Keymanager {
 		$util = new Util($view, \OCP\User::getUser());
 		list($owner, $filename) = $util->getUidAndFilename($path);
 
-		$basePath = '/' . $owner . '/files_encryption/keyfiles';
+		// in case of system wide mount points the keys are stored directly in the data directory
+		if (self::isSystemWideMountPoint($filename)) {
+			$basePath = '/files_encryption/keyfiles';
+		} else {
+			$basePath = '/' . $owner . '/files_encryption/keyfiles';
+		}
 
 		$targetPath = self::keySetPreparation($view, $filename, $basePath, $owner);
 
@@ -233,7 +238,12 @@ class Keymanager {
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
 		$filePath_f = ltrim($filename, '/');
 
-		$keyfilePath = '/' . $owner . '/files_encryption/keyfiles/' . $filePath_f . '.key';
+		// in case of system wide mount points the keys are stored directly in the data directory
+		if (self::isSystemWideMountPoint($filename)) {
+			$keyfilePath = '/files_encryption/keyfiles/' . $filePath_f . '.key';
+		} else {
+			$keyfilePath = '/' . $owner . '/files_encryption/keyfiles/' . $filePath_f . '.key';
+		}
 
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
@@ -341,19 +351,20 @@ class Keymanager {
 
 		list($owner, $filename) = $util->getUidAndFilename($path);
 
-		$basePath = '/' . $owner . '/files_encryption/share-keys';
+		// in case of system wide mount points the keys are stored directly in the data directory
+		if (self::isSystemWideMountPoint($filename)) {
+			$basePath = '/files_encryption/share-keys';
+		} else {
+			$basePath = '/' . $owner . '/files_encryption/share-keys';
+		}
 
 		$shareKeyPath = self::keySetPreparation($view, $filename, $basePath, $owner);
 
 		// try reusing key file if part file
 		if (self::isPartialFilePath($shareKeyPath)) {
-
 			$writePath = $basePath . '/' . self::fixPartialFilePath($shareKeyPath) . '.' . $userId . '.shareKey';
-
 		} else {
-
 			$writePath = $basePath . '/' . $shareKeyPath . '.' . $userId . '.shareKey';
-
 		}
 
 		$proxyStatus = \OC_FileProxy::$enabled;
@@ -440,8 +451,13 @@ class Keymanager {
 		$util = new Util($view, \OCP\User::getUser());
 
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
-		$shareKeyPath = \OC\Files\Filesystem::normalizePath(
-			'/' . $owner . '/files_encryption/share-keys/' . $filename . '.' . $userId . '.shareKey');
+
+		// in case of system wide mount points the keys are stored directly in the data directory
+		if (self::isSystemWideMountPoint($filename)) {
+			$shareKeyPath = '/files_encryption/share-keys/' . $filename . '.' . $userId . '.shareKey';
+		} else {
+			$shareKeyPath = '/' . $owner . '/files_encryption/share-keys/' . $filename . '.' . $userId . '.shareKey';
+		}
 
 		if ($view->file_exists($shareKeyPath)) {
 
@@ -567,5 +583,20 @@ class Keymanager {
 
 		return $targetPath;
 
+	}
+
+	/**
+	 * @brief check if the file is stored on a system wide mount point
+	 * @param $path relative to /data/user with leading '/'
+	 * @return boolean
+	 */
+	private static function isSystemWideMountPoint($path) {
+		$mount = OC_Mount_Config::getSystemMountPoints();
+		foreach ($mount as $mountPoint => $data) {
+			if ($mountPoint == substr($path, 1, strlen($mountPoint))) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
