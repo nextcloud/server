@@ -45,9 +45,15 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 *
 	 * @param string $name Name of the file
 	 * @param resource|string $data Initial payload
+	 * @throws Sabre_DAV_Exception_Forbidden
 	 * @return null|string
 	 */
 	public function createFile($name, $data = null) {
+
+		if (!\OC\Files\Filesystem::isCreatable($this->path)) {
+			throw new \Sabre_DAV_Exception_Forbidden();
+		}
+
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
 			$info = OC_FileChunking::decodeName($name);
 			if (empty($info)) {
@@ -102,9 +108,14 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 * Creates a new subdirectory
 	 *
 	 * @param string $name
+	 * @throws Sabre_DAV_Exception_Forbidden
 	 * @return void
 	 */
 	public function createDirectory($name) {
+
+		if (!\OC\Files\Filesystem::isCreatable($this->path)) {
+			throw new \Sabre_DAV_Exception_Forbidden();
+		}
 
 		$newPath = $this->path . '/' . $name;
 		if(!\OC\Files\Filesystem::mkdir($newPath)) {
@@ -203,9 +214,13 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 * Deletes all files in this directory, and then itself
 	 *
 	 * @return void
+	 * @throws Sabre_DAV_Exception_Forbidden
 	 */
 	public function delete() {
 
+		if (!\OC\Files\Filesystem::isDeletable($this->path)) {
+			throw new \Sabre_DAV_Exception_Forbidden();
+		}
 		if ($this->path != "/Shared") {
 			foreach($this->getChildren() as $child) $child->delete();
 			\OC\Files\Filesystem::rmdir($this->path);
