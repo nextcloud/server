@@ -335,17 +335,39 @@ class Keymanager {
 	 * @brief store share key
 	 *
 	 * @param \OC_FilesystemView $view
-	 * @param string $path relative path of the file, including filename
-	 * @param $userId
+	 * @param string $path where the share key is stored
 	 * @param $shareKey
-	 * @internal param string $key
-	 * @internal param string $dbClassName
 	 * @return bool true/false
 	 * @note The keyfile is not encrypted here. Client code must
 	 * asymmetrically encrypt the keyfile before passing it to this method
 	 */
-	public static function setShareKey(\OC_FilesystemView $view, $path, $userId, $shareKey) {
+	private static function setShareKey(\OC_FilesystemView $view, $path, $shareKey) {
 
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
+
+		$result = $view->file_put_contents($path, $shareKey);
+
+		\OC_FileProxy::$enabled = $proxyStatus;
+
+		if (is_int($result) && $result > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * @brief store multiple share keys for a single file
+	 * @param \OC_FilesystemView $view
+	 * @param $path
+	 * @param array $shareKeys
+	 * @return bool
+	 */
+	public static function setShareKeys(\OC_FilesystemView $view, $path, array $shareKeys) {
+
+		// $shareKeys must be  an array with the following format:
+		// [userId] => [encrypted key]
 		// Here we need the currently logged in user, while userId can be a different user
 		$util = new Util($view, \OCP\User::getUser());
 
@@ -360,63 +382,26 @@ class Keymanager {
 
 		$shareKeyPath = self::keySetPreparation($view, $filename, $basePath, $owner);
 
-		// try reusing key file if part file
-		if (self::isPartialFilePath($shareKeyPath)) {
-			$writePath = $basePath . '/' . self::fixPartialFilePath($shareKeyPath) . '.' . $userId . '.shareKey';
-		} else {
-			$writePath = $basePath . '/' . $shareKeyPath . '.' . $userId . '.shareKey';
-		}
-
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = false;
-
-		$result = $view->file_put_contents($writePath, $shareKey);
-
-		\OC_FileProxy::$enabled = $proxyStatus;
-
-		if (
-			is_int($result)
-			&& $result > 0
-		) {
-
-			return true;
-
-		} else {
-
-			return false;
-
-		}
-
-	}
-
-	/**
-	 * @brief store multiple share keys for a single file
-	 * @param \OC_FilesystemView $view
-	 * @param $path
-	 * @param array $shareKeys
-	 * @return bool
-	 */
-	public static function setShareKeys(\OC_FilesystemView $view, $path, array $shareKeys) {
-
-		// $shareKeys must be  an array with the following format:
-		// [userId] => [encrypted key]
-
 		$result = true;
 
 		foreach ($shareKeys as $userId => $shareKey) {
 
-			if (!self::setShareKey($view, $path, $userId, $shareKey)) {
+			// try reusing key file if part file
+			if (self::isPartialFilePath($shareKeyPath)) {
+				$writePath = $basePath . '/' . self::fixPartialFilePath($shareKeyPath) . '.' . $userId . '.shareKey';
+			} else {
+				$writePath = $basePath . '/' . $shareKeyPath . '.' . $userId . '.shareKey';
+			}
+
+			if (!self::setShareKey($view, $writePath, $shareKey)) {
 
 				// If any of the keys are not set, flag false
 				$result = false;
-
 			}
-
 		}
 
 		// Returns false if any of the keys weren't set
 		return $result;
-
 	}
 
 	/**
