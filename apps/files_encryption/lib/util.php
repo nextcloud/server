@@ -1193,7 +1193,7 @@ class Util {
 
 			return array(
 				$fileOwnerUid,
-				$filename
+				\OC_Filesystem::normalizePath($filename)
 			);
 		}
 
