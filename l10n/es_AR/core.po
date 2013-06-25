@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-24 02:02+0200\n"
-"PO-Revision-Date: 2013-06-24 00:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-25 02:04+0200\n"
+"PO-Revision-Date: 2013-06-24 23:14+0000\n"
+"Last-Translator: cjtess <claudio.tessone@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s compartió \"%s\" con vos"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -408,11 +408,11 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr ""
+msgstr "Tus archivos están encriptados. Si no habilitaste la clave de recuperación, no vas a tener manera de obtener nuevamente tus datos después que se resetee tu contraseña. Si no estás seguro sobre qué hacer, ponete en contacto con el administrador antes de seguir. ¿Estás seguro/a de querer continuar?"
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
-msgstr ""
+msgstr "Sí, definitivamente quiero resetear mi contraseña ahora"
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
@@ -471,7 +471,7 @@ msgid ""
 "View it: %s\n"
 "\n"
 "Cheers!"
-msgstr ""
+msgstr "Hola,\n\nSimplemente te informo que %s compartió %s con vos.\nMiralo acá: %s\n\n¡Chau!"
 
 #: templates/altmail.php:7 templates/mail.php:24
 msgid "web services under your control"
@@ -613,7 +613,7 @@ msgstr "Nombre alternativos de usuarios"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr ""
+msgstr "Hola,<br><br>Simplemente te informo que %s compartió %s con vos.<br><a href=\"%s\">Miralo acá:</a><br><br>¡Chau!"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

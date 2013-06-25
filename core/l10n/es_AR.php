@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"%s shared »%s« with you" => "%s compartió \"%s\" con vos",
 "Category type not provided." => "Tipo de categoría no provisto. ",
 "No category to add?" => "¿Ninguna categoría para añadir?",
 "This category already exists: %s" => "Esta categoría ya existe: %s",
@@ -89,6 +90,8 @@
 "Request failed!<br>Did you make sure your email/username was right?" => "¡Error en el pedido! <br> ¿Estás seguro de que tu dirección de correo electrónico o nombre de usuario son correcto?",
 "You will receive a link to reset your password via Email." => "Vas a recibir un enlace por e-mail para restablecer tu contraseña",
 "Username" => "Nombre de usuario",
+"Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Tus archivos están encriptados. Si no habilitaste la clave de recuperación, no vas a tener manera de obtener nuevamente tus datos después que se resetee tu contraseña. Si no estás seguro sobre qué hacer, ponete en contacto con el administrador antes de seguir. ¿Estás seguro/a de querer continuar?",
+"Yes, I really want to reset my password now" => "Sí, definitivamente quiero resetear mi contraseña ahora",
 "Request reset" => "Solicitar restablecimiento",
 "Your password was reset" => "Tu contraseña fue restablecida",
 "To login page" => "A la página de inicio de sesión",
@@ -101,6 +104,7 @@
 "Help" => "Ayuda",
 "Access forbidden" => "Acceso denegado",
 "Cloud not found" => "No se encontró ownCloud",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Hola,\n\nSimplemente te informo que %s compartió %s con vos.\nMiralo acá: %s\n\n¡Chau!",
 "web services under your control" => "servicios web controlados por vos",
 "Edit categories" => "Editar categorías",
 "Add" => "Agregar",
@@ -131,6 +135,7 @@
 "remember" => "recordame",
 "Log in" => "Entrar",
 "Alternative Logins" => "Nombre alternativos de usuarios",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Hola,<br><br>Simplemente te informo que %s compartió %s con vos.<br><a href=\"%s\">Miralo acá:</a><br><br>¡Chau!",
 "prev" => "anterior",
 "next" => "siguiente",
 "Updating ownCloud to version %s, this may take a while." => "Actualizando ownCloud a la versión %s, puede domorar un rato."

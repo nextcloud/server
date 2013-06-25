@@ -3,14 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
+# Teogramm <theodorewii121@hotmail.com>, 2013
 # Teogramm <theodorewii121@hotmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-22 02:06+0200\n"
-"PO-Revision-Date: 2013-06-22 00:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-25 02:04+0200\n"
+"PO-Revision-Date: 2013-06-24 20:50+0000\n"
+"Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -87,7 +89,7 @@ msgstr ""
 
 #: templates/invalid_private_key.php:7
 msgid "personal settings"
-msgstr ""
+msgstr "προσωπικές ρυθμίσεις"
 
 #: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"

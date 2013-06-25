@@ -102,6 +102,7 @@
 "Login Name" => "Όνομα Σύνδεσης",
 "Create" => "Δημιουργία",
 "Admin Recovery Password" => "Κωδικός Επαναφοράς Διαχειριστή ",
+"Enter the recovery password in order to recover the users files during password change" => "Εισάγετε το συνθηματικό ανάκτησης ώστε να ανακτήσετε τα αρχεία χρηστών κατά την αλλαγή συνθηματικού",
 "Default Storage" => "Προκαθορισμένη Αποθήκευση ",
 "Unlimited" => "Απεριόριστο",
 "Other" => "Άλλο",

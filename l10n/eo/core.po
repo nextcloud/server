@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Baptiste <baptiste+transifex@darthenay.fr>, 2013
+# Mariano <mstreet@kde.org.ar>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-24 02:02+0200\n"
-"PO-Revision-Date: 2013-06-24 00:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-25 02:04+0200\n"
+"PO-Revision-Date: 2013-06-24 23:14+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +22,7 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s kunhavigis “%s” kun vi"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -391,7 +392,7 @@ msgstr ""
 
 #: lostpassword/templates/lostpassword.php:12
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
+msgstr "La peto malsukcesis!<br />Ĉu vi certiĝis, ke via retpoŝto/uzantonomo ĝustas?"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
@@ -412,7 +413,7 @@ msgstr ""
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
-msgstr ""
+msgstr "Jes, mi vere volas restarigi mian pasvorton nun"
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
@@ -471,7 +472,7 @@ msgid ""
 "View it: %s\n"
 "\n"
 "Cheers!"
-msgstr ""
+msgstr "Saluton:\n\nNi nur sciigas vin, ke %s kunhavigis %s kun vi.\nVidu ĝin: %s\n\nĜis!"
 
 #: templates/altmail.php:7 templates/mail.php:24
 msgid "web services under your control"
@@ -496,7 +497,7 @@ msgstr "Via PHP versio estas sendefenda je la NULL bajto atako (CVE-2006-7243)"
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr ""
+msgstr "Bonvolu ĝisdatigi vian instalon de PHP por uzi ownCloud-on sekure."
 
 #: templates/installation.php:32
 msgid ""
@@ -572,7 +573,7 @@ msgstr "Fini la instalon"
 #: templates/layout.user.php:40
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr ""
+msgstr "%s haveblas. Ekhavi pli da informo pri kiel ĝisdatigi."
 
 #: templates/layout.user.php:67
 msgid "Log out"
@@ -580,7 +581,7 @@ msgstr "Elsaluti"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "La aŭtomata ensaluto malakceptiĝis!"
 
 #: templates/login.php:10
 msgid ""
@@ -606,14 +607,14 @@ msgstr "Ensaluti"
 
 #: templates/login.php:47
 msgid "Alternative Logins"
-msgstr ""
+msgstr "Alternativaj ensalutoj"
 
 #: templates/mail.php:15
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr ""
+msgstr "Saluton:<br /><br />Ni nur sciigas vin, ke %s kunhavigis “%s” kun vi.<br /><a href=\"%s\">Vidu ĝin</a><br /><br />Ĝis!"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -626,4 +627,4 @@ msgstr "jena"
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
+msgstr "ownCloud ĝisdatiĝas al eldono %s, tio ĉi povas daŭri je iom da tempo."

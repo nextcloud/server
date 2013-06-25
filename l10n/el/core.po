@@ -3,16 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
+# KAT.RAT12 <spanish.katerina@gmail.com>, 2013
 # Teogramm <theodorewii121@hotmail.com>, 2013
+# Teogramm <theodorewii121@hotmail.com>, 2013
+# Wasilis <inactive+Wasilis@transifex.com>, 2013
 # Wasilis <inactive+Wasilis@transifex.com>, 2013
 # KAT.RAT12 <spanish.katerina@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-24 02:02+0200\n"
-"PO-Revision-Date: 2013-06-24 00:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-25 02:04+0200\n"
+"PO-Revision-Date: 2013-06-24 23:14+0000\n"
+"Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +27,7 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "Ο %s διαμοιράστηκε μαζί σας το »%s«"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -410,11 +414,11 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr ""
+msgstr "Τα αρχεία σας είναι κρυπτογραφημένα. Εάν δεν έχετε ενεργοποιήσει το κλειδί ανάκτησης, δεν υπάρχει περίπτωση να έχετε πρόσβαση στα δεδομένα σας μετά την επαναφορά του συνθηματικού. Εάν δεν είστε σίγουροι τι να κάνετε, παρακαλώ επικοινωνήστε με τον διαχειριστή πριν συνεχίσετε. Θέλετε να συνεχίσετε;"
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
-msgstr ""
+msgstr "Ναι, θέλω να επαναφέρω το συνθηματικό μου τώρα."
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
@@ -473,7 +477,7 @@ msgid ""
 "View it: %s\n"
 "\n"
 "Cheers!"
-msgstr ""
+msgstr "Γεια σας,\n\nσας ενημερώνουμε ότι ο %s διαμοιράστηκε μαζί σας το %s.\nΔείτε το: %s\n\nΓεια χαρά!"
 
 #: templates/altmail.php:7 templates/mail.php:24
 msgid "web services under your control"
@@ -615,7 +619,7 @@ msgstr "Εναλλακτικές Συνδέσεις"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr ""
+msgstr "Γεια σας,<br><br>σας ενημερώνουμε ότι ο %s διαμοιράστηκε μαζί σας το »%s«.<br><a href=\"%s\">Δείτε το!</a><br><br>Γεια χαρά!"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-24 02:02+0200\n"
-"PO-Revision-Date: 2013-06-23 23:15+0000\n"
+"POT-Creation-Date: 2013-06-25 02:05+0200\n"
+"PO-Revision-Date: 2013-06-24 23:14+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -190,12 +190,12 @@ msgstr ""
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Via TTT-servilo ankoraŭ ne ĝuste agordiĝis por permesi sinkronigi dosierojn ĉar la WebDAV-interfaco ŝajnas rompita."
 
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Bonvolu duoble kontroli la <a href='%s'>gvidilon por instalo</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
