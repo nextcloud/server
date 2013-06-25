@@ -476,10 +476,19 @@ class Hooks {
 		$util = new Util($view, $userId);
 
 		// Format paths to be relative to user files dir
-		$oldKeyfilePath = \OC\Files\Filesystem::normalizePath(
-			$userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/' . $params['oldpath']);
-		$newKeyfilePath = \OC\Files\Filesystem::normalizePath(
-			$userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/' . $params['newpath']);
+		if ($util->isSystemWideMountPoint($params['oldpath'])) {
+			$baseDir = 'files_encryption/';
+			$oldKeyfilePath = $baseDir . 'keyfiles/' . $params['oldpath'];
+		} else {
+			$baseDir = $userId . '/' . 'files_encryption/';
+			$oldKeyfilePath = $baseDir . 'keyfiles/' . $params['oldpath'];
+		}
+
+		if ($util->isSystemWideMountPoint($params['newpath'])) {
+			$newKeyfilePath =  $baseDir . 'keyfiles/' . $params['newpath'];
+		} else {
+			$newKeyfilePath = $baseDir . 'keyfiles/' . $params['newpath'];
+		}
 
 		// add key ext if this is not an folder
 		if (!$view->is_dir($oldKeyfilePath)) {
@@ -487,7 +496,7 @@ class Hooks {
 			$newKeyfilePath .= '.key';
 
 			// handle share-keys
-			$localKeyPath = $view->getLocalFile($userId . '/files_encryption/share-keys/' . $params['oldpath']);
+			$localKeyPath = $view->getLocalFile($baseDir . 'share-keys/' . $params['oldpath']);
 			$matches = glob(preg_quote($localKeyPath) . '*.shareKey');
 			foreach ($matches as $src) {
 				$dst = \OC\Files\Filesystem::normalizePath(str_replace($params['oldpath'], $params['newpath'], $src));
@@ -502,10 +511,8 @@ class Hooks {
 
 		} else {
 			// handle share-keys folders
-			$oldShareKeyfilePath = \OC\Files\Filesystem::normalizePath(
-				$userId . '/' . 'files_encryption' . '/' . 'share-keys' . '/' . $params['oldpath']);
-			$newShareKeyfilePath = \OC\Files\Filesystem::normalizePath(
-				$userId . '/' . 'files_encryption' . '/' . 'share-keys' . '/' . $params['newpath']);
+			$oldShareKeyfilePath = $baseDir . 'share-keys/' . $params['oldpath'];
+			$newShareKeyfilePath = $baseDir . 'share-keys/' . $params['newpath'];
 
 			// create destination folder if not exists
 			if (!$view->file_exists(dirname($newShareKeyfilePath))) {
