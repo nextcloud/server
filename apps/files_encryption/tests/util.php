@@ -219,7 +219,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 		\OC_User::setUserId(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER1);
 
-		$filename = 'tmp-' . time() . '.test';
+		$filename = '/tmp-' . time() . '.test';
 
 		// Disable encryption proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
