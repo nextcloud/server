@@ -277,7 +277,14 @@ class Keymanager {
 	public static function deleteFileKey(\OC_FilesystemView $view, $userId, $path) {
 
 		$trimmed = ltrim($path, '/');
-		$keyPath = '/' . $userId . '/files_encryption/keyfiles/' . $trimmed;
+
+		$util = new Util($view, \OCP\User::getUser());
+
+		if($util->isSystemWideMountPoint($path)) {
+			$keyPath = '/files_encryption/keyfiles/' . $trimmed;
+		} else {
+			$keyPath = '/' . $userId . '/files_encryption/keyfiles/' . $trimmed;
+		}
 
 		$result = false;
 
