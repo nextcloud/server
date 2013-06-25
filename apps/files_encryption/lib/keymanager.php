@@ -127,7 +127,7 @@ class Keymanager {
 		list($owner, $filename) = $util->getUidAndFilename($path);
 
 		// in case of system wide mount points the keys are stored directly in the data directory
-		if (self::isSystemWideMountPoint($filename)) {
+		if ($util->isSystemWideMountPoint($filename)) {
 			$basePath = '/files_encryption/keyfiles';
 		} else {
 			$basePath = '/' . $owner . '/files_encryption/keyfiles';
@@ -239,7 +239,7 @@ class Keymanager {
 		$filePath_f = ltrim($filename, '/');
 
 		// in case of system wide mount points the keys are stored directly in the data directory
-		if (self::isSystemWideMountPoint($filename)) {
+		if ($util->isSystemWideMountPoint($filename)) {
 			$keyfilePath = '/files_encryption/keyfiles/' . $filePath_f . '.key';
 		} else {
 			$keyfilePath = '/' . $owner . '/files_encryption/keyfiles/' . $filePath_f . '.key';
@@ -374,7 +374,7 @@ class Keymanager {
 		list($owner, $filename) = $util->getUidAndFilename($path);
 
 		// in case of system wide mount points the keys are stored directly in the data directory
-		if (self::isSystemWideMountPoint($filename)) {
+		if ($util->isSystemWideMountPoint($filename)) {
 			$basePath = '/files_encryption/share-keys';
 		} else {
 			$basePath = '/' . $owner . '/files_encryption/share-keys';
@@ -438,7 +438,7 @@ class Keymanager {
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
 
 		// in case of system wide mount points the keys are stored directly in the data directory
-		if (self::isSystemWideMountPoint($filename)) {
+		if ($util->isSystemWideMountPoint($filename)) {
 			$shareKeyPath = '/files_encryption/share-keys/' . $filename . '.' . $userId . '.shareKey';
 		} else {
 			$shareKeyPath = '/' . $owner . '/files_encryption/share-keys/' . $filename . '.' . $userId . '.shareKey';
@@ -568,20 +568,5 @@ class Keymanager {
 
 		return $targetPath;
 
-	}
-
-	/**
-	 * @brief check if the file is stored on a system wide mount point
-	 * @param $path relative to /data/user with leading '/'
-	 * @return boolean
-	 */
-	private static function isSystemWideMountPoint($path) {
-		$mount = \OC_Mount_Config::getSystemMountPoints();
-		foreach ($mount as $mountPoint => $data) {
-			if ($mountPoint == substr($path, 1, strlen($mountPoint))) {
-				return true;
-			}
-		}
-		return false;
 	}
 }

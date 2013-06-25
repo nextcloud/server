@@ -1573,4 +1573,19 @@ class Util {
 		return $relativePath;
 	}
 
+	/**
+	 * @brief check if the file is stored on a system wide mount point
+	 * @param $path relative to /data/user with leading '/'
+	 * @return boolean
+	 */
+	public function isSystemWideMountPoint($path) {
+		$mount = \OC_Mount_Config::getSystemMountPoints();
+		foreach ($mount as $mountPoint => $data) {
+			if ($mountPoint == substr($path, 1, strlen($mountPoint))) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
