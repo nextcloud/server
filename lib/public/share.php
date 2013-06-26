@@ -662,13 +662,15 @@ class Share {
 					// Remove the permissions for all reshares of this item
 					if (!empty($ids)) {
 						$ids = "'".implode("','", $ids)."'";
-						// the binary operator & works on sqlite, mysql, postgresql and mssql
-						$sql = 'UPDATE `*PREFIX*share` SET `permissions` = `permissions` & ? WHERE `id` IN ('.$ids.')';
-						if (\OC_Config::getValue('dbtype', 'sqlite') === 'oci') {
-							// guess which dbms does not handle & and uses a function for this
-							$sql = 'UPDATE `*PREFIX*share` SET `permissions` = BITAND(`permissions`,?) WHERE `id` IN ('.$ids.')';
+						// TODO this should be done with Doctrine platform objects
+						if (\OC_Config::getValue( "dbtype") === 'oci') {
+							$andOp = 'BITAND(`permissions`, ?)';
+						} else {
+							$andOp = '`permissions` & ?';
 						}
-						\OC_DB::executeAudited($sql, array($permissions));
+						$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `permissions` = '.$andOp
+							.' WHERE `id` IN ('.$ids.')');
+						$query->execute(array($permissions));
 					}
 				}
 			}
