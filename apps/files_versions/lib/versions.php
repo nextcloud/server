@@ -178,6 +178,8 @@ class Storage {
 			return self::store($new_path);
 		}
 
+		self::expire($newpath);
+
 		$abs_newpath = $versions_view->getLocalFile($newpath);
 
 		if ( $files_view->is_dir($oldpath) && $versions_view->is_dir($oldpath) ) {
