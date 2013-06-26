@@ -978,7 +978,7 @@ class Share {
 					// Check if the same owner shared with the user twice
 					// through a group and user share - this is allowed
 					$id = $targets[$row[$column]];
-					if ($items[$id]['uid_owner'] == $row['uid_owner']) {
+					if (isset($items[$id]) && $items[$id]['uid_owner'] == $row['uid_owner']) {
 						// Switch to group share type to ensure resharing conditions aren't bypassed
 						if ($items[$id]['share_type'] != self::SHARE_TYPE_GROUP) {
 							$items[$id]['share_type'] = self::SHARE_TYPE_GROUP;
