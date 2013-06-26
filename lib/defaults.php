@@ -71,4 +71,26 @@ class OC_Defaults {
 		}
 	}
 
+	public static function getShortFooter() {
+		if (OC_Util::getEditionString() === '') {
+			$footer = "<a href=\"". self::getBaseUrl() . "\" target=\"_blank\">" .self::getEntity() . "</a>".
+				' – ' . self::getSlogan();
+		} else {
+			$footer = "© 2013 <a href=\"".self::getBaseUrl()."\" target=\"_blank\">".self::getEntity()."</a>".
+				" – " . self::getSlogan();
+		}
+
+		return $footer;
+	}
+
+	public static function getLongFooter() {
+		if (OC_Util::getEditionString() === '') {
+			$footer = self::getShortFooter();
+		} else {
+			$footer = "© 2013 <a href=\"".self::getBaseUrl()."\" target=\"_blank\">".self::getEntity()."</a>".
+				"<br/>" . self::getSlogan();
+		}
+		return $footer;
+	}
+
 }
