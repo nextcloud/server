@@ -89,6 +89,7 @@
 "Request failed!<br>Did you make sure your email/username was right?" => "請求失敗！<br>您確定填入的電子郵件地址或是帳號名稱是正確的嗎？",
 "You will receive a link to reset your password via Email." => "重設密碼的連結將會寄到你的電子郵件信箱。",
 "Username" => "使用者名稱",
+"Yes, I really want to reset my password now" => "對，我現在想要重設我的密碼。",
 "Request reset" => "請求重設",
 "Your password was reset" => "您的密碼已重設",
 "To login page" => "至登入頁面",

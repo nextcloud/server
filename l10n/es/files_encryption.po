@@ -5,13 +5,15 @@
 # Translators:
 # gmoriello <gmoriello@gmail.com>, 2013
 # saskarip <saskarip@gmail.com>, 2013
+# William Díaz <wdiazux@gmail.com>, 2013
+# xhiena <xhiena@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-22 02:06+0200\n"
-"PO-Revision-Date: 2013-06-22 00:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-26 01:59+0200\n"
+"PO-Revision-Date: 2013-06-25 21:40+0000\n"
+"Last-Translator: xhiena <xhiena@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,7 +55,7 @@ msgstr "Contraseña de clave privada actualizada con éxito."
 msgid ""
 "Could not update the private key password. Maybe the old password was not "
 "correct."
-msgstr ""
+msgstr "No se pudo cambiar la contraseña. Puede que la contraseña antigua no sea correcta."
 
 #: files/error.php:7
 msgid ""
@@ -155,7 +157,7 @@ msgstr ""
 
 #: templates/settings-personal.php:45
 msgid "Enable password recovery:"
-msgstr ""
+msgstr "Habilitar la recuperación de contraseña:"
 
 #: templates/settings-personal.php:47
 msgid ""

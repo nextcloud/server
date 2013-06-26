@@ -46,6 +46,7 @@
 "{count} folders" => "{count} foldare",
 "1 file" => "1 fisier",
 "{count} files" => "{count} fisiere",
+"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Nume de dosar invalid. Utilizarea 'Shared' e rezervată de ownCloud",
 "Unable to rename file" => "Nu s-a putut redenumi fișierul",
 "Upload" => "Încărcare",
 "File handling" => "Manipulare fișiere",
