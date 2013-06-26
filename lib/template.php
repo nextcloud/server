@@ -63,6 +63,18 @@ function image_path( $app, $image ) {
 }
 
 /**
+ * @brief make preview_icon available as a simple function
+ * Returns the path to the preview of the image.
+ * @param $path path of file
+ * @returns link to the preview
+ *
+ * For further information have a look at OC_Helper::previewIcon
+ */
+function preview_icon( $path ) {
+	return OC_Helper::previewIcon( $path );
+}
+
+/**
  * @brief make OC_Helper::mimetypeIcon available as a simple function
  * @param string $mimetype mimetype
  * @return string link to the image

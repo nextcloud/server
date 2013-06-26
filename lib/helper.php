@@ -224,6 +224,17 @@ class OC_Helper {
 	}
 
 	/**
+	 * @brief get path to preview of file
+	 * @param string $path path
+	 * @return string the url
+	 *
+	 * Returns the path to the preview of the file.
+	 */
+	public static function previewIcon($path) {
+		return self::linkToRoute( 'core_ajax_preview', array('x' => 32, 'y' => 32, 'file' => $path));
+	}
+
+	/**
 	 * @brief Make a human file size
 	 * @param int $bytes file size in bytes
 	 * @return string a human readable file size

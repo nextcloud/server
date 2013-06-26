@@ -1,6 +1,7 @@
 <input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>">
 
 <?php foreach($_['files'] as $file):
+	$relativePath = substr($file['path'], 6);
 	$simple_file_size = OCP\simple_file_size($file['size']);
 	// the bigger the file, the darker the shade of grey; megabytes*2
 	$simple_size_color = intval(160-$file['size']/(1024*1024)*2);
@@ -23,7 +24,7 @@
 		<?php if($file['type'] == 'dir'): ?>
 			style="background-image:url(<?php print_unescaped(OCP\mimetype_icon('dir')); ?>)"
 		<?php else: ?>
-			style="background-image:url(<?php print_unescaped(OCP\mimetype_icon($file['mimetype'])); ?>)"
+			style="background-image:url(<?php print_unescaped(OCP\preview_icon($relativePath)); ?>)"
 		<?php endif; ?>
 			>
 		<?php if(!isset($_['readonly']) || !$_['readonly']): ?><input type="checkbox" /><?php endif; ?>
