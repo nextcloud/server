@@ -964,6 +964,30 @@ class Share {
 		$switchedItems = array();
 		$mounts = array();
 		while ($row = $result->fetchRow()) {
+			if (isset($row['id'])) {
+				$row['id']=(int)$row['id'];
+			}
+			if (isset($row['share_type'])) {
+				$row['share_type']=(int)$row['share_type'];
+			}
+			if (isset($row['parent'])) {
+				$row['parent']=(int)$row['parent'];
+			}
+			if (isset($row['file_parent'])) {
+				$row['file_parent']=(int)$row['file_parent'];
+			}
+			if (isset($row['file_source'])) {
+				$row['file_source']=(int)$row['file_source'];
+			}
+			if (isset($row['permissions'])) {
+				$row['permissions']=(int)$row['permissions'];
+			}
+			if (isset($row['storage'])) {
+				$row['storage']=(int)$row['storage'];
+			}
+			if (isset($row['stime'])) {
+				$row['stime']=(int)$row['stime'];
+			}
 			// Filter out duplicate group shares for users with unique targets
 			if ($row['share_type'] == self::$shareTypeGroupUserUnique && isset($items[$row['parent']])) {
 				$row['share_type'] = self::SHARE_TYPE_GROUP;
