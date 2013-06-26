@@ -20,7 +20,7 @@ class Image extends Provider {
 
 		//check if file is encrypted
 		if($fileinfo['encrypted'] === true) {
-			$image = new \OC_Image($fileview->fopen($path, 'r'));
+			$image = new \OC_Image(stream_get_contents($fileview->fopen($path, 'r')));
 		}else{
 			$image = new \OC_Image();
 			$image->loadFromFile($fileview->getLocalFile($path));
