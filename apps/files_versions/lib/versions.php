@@ -137,12 +137,7 @@ class Storage {
 
 			$versionsSize += $users_view->filesize('files'.$filename);
 
-			// expire old revisions if necessary
-			$newSize = self::expire($filename, $versionsSize);
-
-			if ( $newSize != $versionsSize ) {
-				self::setVersionsSize($uid, $newSize);
-			}
+			self::setVersionsSize($uid, $versionsSize);
 		}
 	}
 
