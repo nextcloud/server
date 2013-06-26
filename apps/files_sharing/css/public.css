@@ -15,13 +15,13 @@ body {
 	padding:.5em;
 }
 
-#header #details {
+#details {
 	color:#fff;
-		float: left;
+	float: left;
 }
 
-#header #public_upload,
-#header #download {
+#public_upload,
+#download {
 	font-weight:700;
 	margin: 0 0.4em 0 2em;
 	padding: 0 5px;
@@ -30,12 +30,12 @@ body {
 
 }
 
-#header #public_upload {
+#public_upload {
 	margin-left: 0.3em;
 }
 
-#header #public_upload img,
-#header #download img {
+#public_upload img,
+#download img {
 	padding-left:.1em;
 	padding-right:.3em;
 	vertical-align:text-bottom;
@@ -107,7 +107,7 @@ thead{
 	width: 100% !important;
 }
 
-.header-right #download span {
+#download span {
 	position: relative;
 	bottom: 3px;
 }
