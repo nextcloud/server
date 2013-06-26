@@ -7,7 +7,10 @@
  */
 var oc_debug;
 var oc_webroot;
-var oc_requesttoken;
+
+var oc_current_user = document.getElementsByTagName('head')[0].getAttribute('data-user');
+var oc_requesttoken = document.getElementsByTagName('head')[0].getAttribute('data-requesttoken');
+
 if (typeof oc_webroot === "undefined") {
 	oc_webroot = location.pathname.substr(0, location.pathname.lastIndexOf('/'));
 }
