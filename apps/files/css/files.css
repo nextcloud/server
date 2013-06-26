@@ -118,7 +118,7 @@ table td.filename a.name {
 }
 table tr[data-type="dir"] td.filename a.name span.nametext {font-weight:bold; }
 table td.filename input.filename { width:100%; cursor:text; }
-table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:.2em .5em .5em 0; }
+table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:.2em .5em .5em .3em; }
 table td.filename .nametext, .uploadtext, .modified { float:left; padding:.3em 0; }
 .modified {
 	position: absolute;
