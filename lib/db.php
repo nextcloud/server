@@ -207,22 +207,11 @@ class OC_DB {
 	static public function prepare( $query , $limit=null, $offset=null ) {
 
 		if (!is_null($limit) && $limit != -1) {
-			//Doctrine does not handle limit and offset.
-			//FIXME: check limit notation for other dbs
-			//the following sql thus might needs to take into account db ways of representing it
-			//(oracle has no LIMIT / OFFSET)
-			$limit = (int)$limit;
-			$limitsql = ' LIMIT ' . $limit;
-			if (!is_null($offset)) {
-				$offset = (int)$offset;
-				$limitsql .= ' OFFSET ' . $offset;
+			if ($limit === -1) {
+				$limit = null;
 			}
-			//insert limitsql
-			if (substr($query, -1) == ';') { //if query ends with ;
-				$query = substr($query, 0, -1) . $limitsql . ';';
-			} else {
-				$query.=$limitsql;
-			}
+			$platform = self::$connection->getDatabasePlatform();
+			$query = $platform->modifyLimitQuery($query, $limit, $offset);
 		} else {
 			if (isset(self::$preparedQueries[$query]) and self::$cachingEnabled) {
 				return self::$preparedQueries[$query];
