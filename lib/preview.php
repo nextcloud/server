@@ -323,7 +323,7 @@ class Preview {
 		}else{
 			$mimetype = $this->fileview->getMimeType($file);
 
-			$preview;
+			$preview = null;
 
 			foreach(self::$providers as $supportedmimetype => $provider) {
 				if(!preg_match($supportedmimetype, $mimetype)) {
@@ -350,6 +350,11 @@ class Preview {
 
 				break;
 			}
+
+			if(is_null($preview) || $preview === false) {
+				$preview = new \OC_Image();
+			}
+
 			$this->preview = $preview;
 		}
 		$this->resizeAndCrop();
