@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# alfsoft <alfsoft@gmail.com>, 2013
 # foool <andrglad@mail.ru>, 2013
 # Vyacheslav Muranov <s@neola.ru>, 2013
 # Langaru <langaru@gmail.com>, 2013
@@ -10,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-03 02:27+0200\n"
-"PO-Revision-Date: 2013-06-02 23:17+0000\n"
-"Last-Translator: Langaru <langaru@gmail.com>\n"
+"POT-Creation-Date: 2013-06-26 02:00+0200\n"
+"PO-Revision-Date: 2013-06-25 23:14+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,27 +23,8 @@ msgstr ""
 
 #: ajax/share.php:97
 #, php-format
-msgid "User %s shared a file with you"
-msgstr "Пользователь %s поделился с вами файлом"
-
-#: ajax/share.php:99
-#, php-format
-msgid "User %s shared a folder with you"
-msgstr "Пользователь %s открыл вам доступ к папке"
-
-#: ajax/share.php:101
-#, php-format
-msgid ""
-"User %s shared the file \"%s\" with you. It is available for download here: "
-"%s"
-msgstr "Пользователь %s открыл вам доступ к файлу \"%s\". Он доступен для загрузки здесь: %s"
-
-#: ajax/share.php:104
-#, php-format
-msgid ""
-"User %s shared the folder \"%s\" with you. It is available for download "
-"here: %s"
-msgstr "Пользователь %s открыл вам доступ к папке \"%s\". Она доступна для загрузки здесь: %s"
+msgid "%s shared »%s« with you"
+msgstr "%s поделился »%s« с вами"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -219,23 +201,23 @@ msgstr "несколько лет назад"
 msgid "Choose"
 msgstr "Выбрать"
 
-#: js/oc-dialogs.js:121
+#: js/oc-dialogs.js:122
 msgid "Cancel"
 msgstr "Отменить"
 
-#: js/oc-dialogs.js:138 js/oc-dialogs.js:195
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
 msgid "Error loading file picker template"
 msgstr "Ошибка при загрузке файла выбора  шаблона"
 
-#: js/oc-dialogs.js:161
+#: js/oc-dialogs.js:164
 msgid "Yes"
 msgstr "Да"
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:172
 msgid "No"
 msgstr "Нет"
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:185
 msgid "Ok"
 msgstr "Ок"
 
@@ -395,7 +377,7 @@ msgstr "При обновлении произошла ошибка. Пожал�
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Обновление прошло успешно. Перенаправляемся в Ваш ownCloud..."
 
-#: lostpassword/controller.php:48
+#: lostpassword/controller.php:60
 msgid "ownCloud password reset"
 msgstr "Сброс пароля "
 
@@ -423,7 +405,19 @@ msgstr "На ваш адрес Email выслана ссылка для сбро
 msgid "Username"
 msgstr "Имя пользователя"
 
-#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:22
+msgid ""
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset. If you "
+"are not sure what to do, please contact your administrator before you "
+"continue. Do you really want to continue?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:24
+msgid "Yes, I really want to reset my password now"
+msgstr "Да, я действительно хочу сбросить свой пароль"
+
+#: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
 msgstr "Запросить сброс"
 
@@ -470,6 +464,21 @@ msgstr "Доступ запрещён"
 #: templates/404.php:12
 msgid "Cloud not found"
 msgstr "Облако не найдено"
+
+#: templates/altmail.php:2
+#, php-format
+msgid ""
+"Hey there,\n"
+"\n"
+"just letting you know that %s shared %s with you.\n"
+"View it: %s\n"
+"\n"
+"Cheers!"
+msgstr "Приветствую,⏎\n⏎\nпросто даю знать, что %s поделился %s с вами.⏎\nПосмотреть: %s⏎\n⏎\nУдачи!"
+
+#: templates/altmail.php:7 templates/mail.php:24
+msgid "web services under your control"
+msgstr "веб-сервисы под вашим управлением"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -563,16 +572,12 @@ msgstr "Хост базы данных"
 msgid "Finish setup"
 msgstr "Завершить установку"
 
-#: templates/layout.guest.php:40
-msgid "web services under your control"
-msgstr "веб-сервисы под вашим управлением"
-
-#: templates/layout.user.php:37
+#: templates/layout.user.php:40
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s доступно. Получить дополнительную информацию о порядке обновления."
 
-#: templates/layout.user.php:62
+#: templates/layout.user.php:67
 msgid "Log out"
 msgstr "Выйти"
 
@@ -605,6 +610,13 @@ msgstr "Войти"
 #: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Альтернативные имена пользователя"
+
+#: templates/mail.php:15
+#, php-format
+msgid ""
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
+"href=\"%s\">View it!</a><br><br>Cheers!"
+msgstr "Приветствую,<br><br>просто даю знать, что %s поделился »%s« с вами.<br><a href=\"%s\">Посмотреть!</a><br><br>Удачи!"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

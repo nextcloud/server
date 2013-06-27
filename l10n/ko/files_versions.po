@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Shinjo Park <kde@peremen.name>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-25 02:01+0200\n"
-"PO-Revision-Date: 2013-05-24 13:28+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-20 02:37+0200\n"
+"PO-Revision-Date: 2013-06-19 08:50+0000\n"
+"Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,12 +25,12 @@ msgstr "되돌릴 수 없습니다: %s"
 
 #: history.php:40
 msgid "success"
-msgstr "완료"
+msgstr "성공"
 
 #: history.php:42
 #, php-format
 msgid "File %s was reverted to version %s"
-msgstr "파일 %s를 버전 %s로 변경하였습니다."
+msgstr "파일 %s을(를) 버전 %s(으)로 되돌림"
 
 #: history.php:49
 msgid "failure"
@@ -38,20 +39,20 @@ msgstr "실패"
 #: history.php:51
 #, php-format
 msgid "File %s could not be reverted to version %s"
-msgstr "파일 %s를 버전 %s로 되돌리지 못했습니다."
+msgstr "파일 %s을(를) 버전 %s(으)로 되돌리지 못했음"
 
 #: history.php:69
 msgid "No old versions available"
-msgstr "오래된 버전을 사용할 수 없습니다"
+msgstr "오래된 버전을 사용할 수 없음"
 
 #: history.php:74
 msgid "No path specified"
-msgstr "경로를 알수 없습니다."
+msgstr "경로가 지정되지 않았음"
 
 #: js/versions.js:6
 msgid "Versions"
-msgstr "버젼"
+msgstr "버전"
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"
-msgstr "변경 버튼을 클릭하여 이전 버전의 파일로 변경할 수 있습니다."
+msgstr "변경 단추를 눌러 이전 버전의 파일로 되돌릴 수 있습니다"

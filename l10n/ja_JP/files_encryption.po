@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
+# plazmism <gomidori@live.jp>, 2013
 # tt yn <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-01 01:58+0200\n"
-"PO-Revision-Date: 2013-05-31 06:00+0000\n"
-"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
+"POT-Creation-Date: 2013-06-23 01:59+0200\n"
+"PO-Revision-Date: 2013-06-22 10:17+0000\n"
+"Last-Translator: plazmism <gomidori@live.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,61 +46,128 @@ msgstr "パスワードを変更できました。"
 msgid "Could not change the password. Maybe the old password was not correct."
 msgstr "パスワードを変更できませんでした。古いパスワードが間違っているかもしれません。"
 
+#: ajax/updatePrivateKeyPassword.php:51
+msgid "Private key password successfully updated."
+msgstr "秘密鍵のパスワードが正常に更新されました。"
+
+#: ajax/updatePrivateKeyPassword.php:53
+msgid ""
+"Could not update the private key password. Maybe the old password was not "
+"correct."
+msgstr "秘密鍵のパスワードを更新できませんでした。古いパスワードが正確でない場合があります。"
+
+#: files/error.php:7
+msgid ""
+"Your private key is not valid! Maybe your password was changed from outside."
+" You can update your private key password in your personal settings to "
+"regain access to your files"
+msgstr "秘密鍵が有効ではありません。パスワードが外部から変更された恐れがあります。。個人設定で秘密鍵のパスワードを更新して、ファイルへのアクセス権を奪還できます。"
+
+#: hooks/hooks.php:44
+msgid "PHP module OpenSSL is not installed."
+msgstr "PHPのモジュール OpenSSLがインストールされていません。"
+
+#: hooks/hooks.php:45
+msgid ""
+"Please ask your server administrator to install the module. For now the "
+"encryption app was disabled."
+msgstr "サーバーの管理者にモジュールのインストールを頼んでください。さしあたり暗号化アプリは無効化されました。"
+
 #: js/settings-admin.js:11
 msgid "Saving..."
 msgstr "保存中..."
+
+#: templates/invalid_private_key.php:5
+msgid ""
+"Your private key is not valid! Maybe the your password was changed from "
+"outside."
+msgstr "秘密鍵が有効ではありません。パスワードが外部から変更された恐れがあります。"
+
+#: templates/invalid_private_key.php:7
+msgid "You can unlock your private key in your "
+msgstr "個人設定で"
+
+#: templates/invalid_private_key.php:7
+msgid "personal settings"
+msgstr "秘密鍵をアンロックできます"
 
 #: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
 msgstr "暗号化"
 
-#: templates/settings-admin.php:9
+#: templates/settings-admin.php:10
 msgid ""
-"Enable encryption passwords recovery key (allow sharing to recovery key):"
-msgstr "暗号化パスワードの復旧キーを有効にする(復旧キーを共有することを許可):"
+"Enable recovery key (allow to recover users files in case of password loss):"
+msgstr "復旧キーを有効化 (万一パスワードを亡くした場合もユーザーのファイルを回復できる):"
 
-#: templates/settings-admin.php:13
-msgid "Recovery account password"
-msgstr "復旧アカウントのパスワード"
+#: templates/settings-admin.php:14
+msgid "Recovery key password"
+msgstr "復旧キーのパスワード"
 
-#: templates/settings-admin.php:20 templates/settings-personal.php:18
+#: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
 msgstr "有効"
 
-#: templates/settings-admin.php:28 templates/settings-personal.php:26
+#: templates/settings-admin.php:29 templates/settings-personal.php:62
 msgid "Disabled"
 msgstr "無効"
 
-#: templates/settings-admin.php:32
-msgid "Change encryption passwords recovery key:"
-msgstr "復旧キーの暗号化パスワードを変更:"
+#: templates/settings-admin.php:34
+msgid "Change recovery key password:"
+msgstr "復旧キーのパスワードを変更:"
 
-#: templates/settings-admin.php:39
-msgid "Old Recovery account password"
-msgstr "古い復旧アカウントのパスワード"
+#: templates/settings-admin.php:41
+msgid "Old Recovery key password"
+msgstr "古い復旧キーのパスワード"
 
-#: templates/settings-admin.php:46
-msgid "New Recovery account password"
-msgstr "新しい復旧アカウントのパスワード"
+#: templates/settings-admin.php:48
+msgid "New Recovery key password"
+msgstr "新しい復旧キーのパスワード"
 
-#: templates/settings-admin.php:51
+#: templates/settings-admin.php:53
 msgid "Change Password"
 msgstr "パスワードを変更"
 
-#: templates/settings-personal.php:9
-msgid "Enable password recovery by sharing all files with your administrator:"
-msgstr "管理者が全ての共有ファイルに対してパスワードによる復旧を有効にする:"
-
 #: templates/settings-personal.php:11
+msgid "Your private key password no longer match your log-in password:"
+msgstr "もはや秘密鍵はログインパスワードと一致しません:"
+
+#: templates/settings-personal.php:14
+msgid "Set your old private key password to your current log-in password."
+msgstr "古い秘密鍵のパスワードを現在のログインパスワードに設定する。"
+
+#: templates/settings-personal.php:16
+msgid ""
+" If you don't remember your old password you can ask your administrator to "
+"recover your files."
+msgstr "古いパスワードを覚えていない場合、管理者に尋ねてファイルを回復することができます。"
+
+#: templates/settings-personal.php:24
+msgid "Old log-in password"
+msgstr "古いログインパスワード"
+
+#: templates/settings-personal.php:30
+msgid "Current log-in password"
+msgstr "現在のログインパスワード"
+
+#: templates/settings-personal.php:35
+msgid "Update Private Key Password"
+msgstr "秘密鍵のパスワードを更新"
+
+#: templates/settings-personal.php:45
+msgid "Enable password recovery:"
+msgstr "パスワード復旧を有効化:"
+
+#: templates/settings-personal.php:47
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
-"files if your password is lost"
-msgstr "このオプションを有効にすると、もしパスワードが分からなくなったとしても、暗号化されたファイルに再度アクセスすることが出来るようになります。"
+"files in case of password loss"
+msgstr "このオプションを有効にすると、パスワードを紛失した場合も、暗号化されたファイルに再度アクセスすることができるようになります。"
 
-#: templates/settings-personal.php:27
+#: templates/settings-personal.php:63
 msgid "File recovery settings updated"
 msgstr "ファイル復旧設定が更新されました"
 
-#: templates/settings-personal.php:28
+#: templates/settings-personal.php:64
 msgid "Could not update file recovery"
 msgstr "ファイル復旧を更新できませんでした"

@@ -39,5 +39,6 @@
 "Language" => "Sprooch",
 "Help translate" => "Hëllef iwwersetzen",
 "Create" => "Erstellen",
-"Other" => "Aner"
+"Other" => "Aner",
+"Username" => "Benotzernumm"
 );

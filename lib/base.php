@@ -235,10 +235,7 @@ class OC {
 			$currentVersion = implode('.', OC_Util::getVersion());
 			if (version_compare($currentVersion, $installedVersion, '>')) {
 				if ($showTemplate && !OC_Config::getValue('maintenance', false)) {
-					OC_Config::setValue('maintenance', true);
-					OC_Log::write('core',
-						'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion,
-						OC_Log::WARN);
+					OC_Config::setValue('theme', '');
 					$minimizerCSS = new OC_Minimizer_CSS();
 					$minimizerCSS->clearCache();
 					$minimizerJS = new OC_Minimizer_JS();
@@ -291,14 +288,14 @@ class OC {
 		$cookie_path = OC::$WEBROOT ?: '/';
 		ini_set('session.cookie_path', $cookie_path);
 
+		//set the session object to a dummy session so code relying on the session existing still works
+		self::$session = new \OC\Session\Memory('');
+		
 		try{
 			// set the session name to the instance id - which is unique
 			self::$session = new \OC\Session\Internal(OC_Util::getInstanceId());
 			// if session cant be started break with http 500 error
 		}catch (Exception $e){
-			//set the session object to a dummy session so code relying on the session existing still works
-			self::$session = new \OC\Session\Memory('');
-
 			OC_Log::write('core', 'Session could not be initialized',
 				OC_Log::ERROR);
 

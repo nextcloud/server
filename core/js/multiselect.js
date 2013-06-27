@@ -176,10 +176,10 @@
 			});
 			button.parent().data('preventHide',false);
 			if(settings.createText){
-				var li=$('<li class="creator">+ <em>'+settings.createText+'<em></li>');
+				var li=$('<li class="creator">+ '+settings.createText+'</li>');
 				li.click(function(event){
 					li.empty();
-					var input=$('<input class="new">');
+					var input=$('<input type="text" class="new">');
 					li.append(input);
 					input.focus();
 					input.css('width',button.innerWidth());

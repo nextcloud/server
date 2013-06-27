@@ -11,6 +11,7 @@ class OC_Response {
 	const STATUS_NOT_MODIFIED = 304;
 	const STATUS_TEMPORARY_REDIRECT = 307;
 	const STATUS_NOT_FOUND = 404;
+	const STATUS_INTERNAL_SERVER_ERROR = 500;
 
 	/**
 	* @brief Enable response caching by sending correct HTTP headers
@@ -69,6 +70,9 @@ class OC_Response {
 				break;
 			case self::STATUS_NOT_FOUND;
 				$status = $status . ' Not Found';
+				break;
+			case self::STATUS_INTERNAL_SERVER_ERROR;
+				$status = $status . ' Internal Server Error';
 				break;
 		}
 		header($protocol.' '.$status);

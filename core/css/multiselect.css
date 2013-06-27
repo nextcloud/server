@@ -1,84 +1,105 @@
-/* Copyright (c) 2011, Jan-Christoph Borchardt, http://jancborchardt.net
- This file is licensed under the Affero General Public License version 3 or later.
- See the COPYING-README file. */
+/* Copyright (c) 2011, Jan-Christoph Borchardt, http: //jancborchardt.net
+This file is licensed under the Affero General Public License version 3 or later.
+See the COPYING-README file. */
 
- ul.multiselectoptions {
- 	background-color:#fff;
- 	border:1px solid #ddd;
- 	border-top:none;
- 	box-shadow:0 1px 1px #ddd;
- 	padding-top:.5em;
- 	position:absolute;
-	max-height: 20em;
-	overflow-y: auto;
- 	z-index:49;
- }
+ul.multiselectoptions {
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-top: none;
+	box-shadow: 0 1px 1px #ddd;
+	padding-top: .5em;
+	position: absolute;
+	max-height:  20em;
+	overflow-y:  auto;
+	z-index: 49;
+}
 
- ul.multiselectoptions.down {
- 	border-bottom-left-radius:.5em;
- 	border-bottom-right-radius:.5em;
- }
+ul.multiselectoptions.down {
+	border-bottom-left-radius: .5em;
+	border-bottom-right-radius: .5em;
+	width: 100%; /* do not cut off group names */
+	-webkit-box-shadow: 0px 0px 20px rgba(29,45,68,.4);
+	-moz-box-shadow: 0px 0px 20px rgba(29,45,68,.4);
+	box-shadow: 0px 0px 20px rgba(29,45,68,.4);
+}
 
- ul.multiselectoptions.up {
- 	border-top-left-radius:.5em;
- 	border-top-right-radius:.5em;
- }
+ul.multiselectoptions.up {
+	border-top-left-radius: .5em;
+	border-top-right-radius: .5em;
+}
 
- ul.multiselectoptions>li {
- 	overflow:hidden;
- 	white-space:nowrap;
- }
+ul.multiselectoptions>li {
+	overflow: hidden;
+	white-space: nowrap;
+}
 
- ul.multiselectoptions>li>input[type="checkbox"] {
-	margin-top: 3px;
-	margin-right: 5px;
-	margin-left: 3px;
- }
+ul.multiselectoptions > li > input[type="checkbox"] {
+	margin: 10px 7px;
+	vertical-align: middle;
+}
+ul.multiselectoptions > li input[type='checkbox']+label {
+	font-weight: normal;
+	display: inline-block;
+	width: 100%;
+	padding: 5px 27px;
+	margin-left: -27px; /* to have area around checkbox clickable as well */
+}
+ul.multiselectoptions > li input[type='checkbox']:checked+label {
+	font-weight: bold;
+}
 
- div.multiselect {
- 	display:inline-block;
- 	max-width:400px;
- 	min-width:100px;
- 	padding-right:.6em;
- 	position:relative;
- 	vertical-align:bottom;
- }
+div.multiselect {
+	display: inline-block;
+	max-width: 400px;
+	min-width: 150px;
+	padding-right: .6em;
+	position: relative;
+	vertical-align: bottom;
+}
 
- div.multiselect.active {
- 	background-color:#fff;
- 	position:relative;
- 	z-index:50;
- }
+div.multiselect.active {
+	background-color: #fff;
+	position: relative;
+	z-index: 50;
+}
 
- div.multiselect.up {
- 	border-top:0 none;
- 	border-top-left-radius:0;
- 	border-top-right-radius:0;
- }
+div.multiselect.up {
+	border-top: 0 none;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
 
- div.multiselect.down {
- 	border-bottom:none;
- 	border-bottom-left-radius:0;
- 	border-bottom-right-radius:0;
- }
+div.multiselect.down {
+	border-bottom: none;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
 
- div.multiselect>span:first-child {
- 	float:left;
- 	margin-right:2em;
- 	overflow:hidden;
- 	text-overflow:ellipsis;
- 	width:90%;
- }
+div.multiselect>span:first-child {
+	float: left;
+	margin-right: 2em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 90%;
+}
 
- div.multiselect>span:last-child {
- 	position:absolute;
- 	right:.8em;
- }
+div.multiselect>span:last-child {
+	position: absolute;
+	right: .8em;
+}
 
- ul.multiselectoptions input.new {
- 	border-top-left-radius:0;
- 	border-top-right-radius:0;
- 	padding-bottom:.2em;
- 	padding-top:.2em;
- 	margin:0;
- }
+ul.multiselectoptions input.new {
+	padding-bottom: .2em;
+	padding-top: .2em;
+	margin: 0;
+}
+
+ul.multiselectoptions > li.creator {
+	padding: 10px;
+	font-weight: bold;
+}
+ul.multiselectoptions > li.creator > input {
+	width: 95% !important; /* do not constrain size of text input */
+	padding: 5px;
+	margin: -5px;
+}

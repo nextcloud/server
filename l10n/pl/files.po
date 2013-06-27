@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-03 02:27+0200\n"
-"PO-Revision-Date: 2013-06-02 23:17+0000\n"
+"POT-Creation-Date: 2013-06-26 01:59+0200\n"
+"PO-Revision-Date: 2013-06-25 23:14+0000\n"
 "Last-Translator: adbrand <pkwiecin@adbrand.pl>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -184,35 +184,35 @@ msgstr "URL nie może być pusty."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Nieprawidłowa nazwa folderu. Korzystanie z nazwy „Shared” jest zarezerwowane dla ownCloud"
 
-#: js/files.js:520 js/files.js:536 js/files.js:826 js/files.js:864
+#: js/files.js:520 js/files.js:536 js/files.js:840 js/files.js:878
 msgid "Error"
 msgstr "Błąd"
 
-#: js/files.js:877 templates/index.php:69
+#: js/files.js:891 templates/index.php:69
 msgid "Name"
 msgstr "Nazwa"
 
-#: js/files.js:878 templates/index.php:80
+#: js/files.js:892 templates/index.php:80
 msgid "Size"
 msgstr "Rozmiar"
 
-#: js/files.js:879 templates/index.php:82
+#: js/files.js:893 templates/index.php:82
 msgid "Modified"
 msgstr "Modyfikacja"
 
-#: js/files.js:898
+#: js/files.js:912
 msgid "1 folder"
 msgstr "1 folder"
 
-#: js/files.js:900
+#: js/files.js:914
 msgid "{count} folders"
 msgstr "Ilość folderów: {count}"
 
-#: js/files.js:908
+#: js/files.js:922
 msgid "1 file"
 msgstr "1 plik"
 
-#: js/files.js:910
+#: js/files.js:924
 msgid "{count} files"
 msgstr "Ilość plików: {count}"
 

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-03 02:27+0200\n"
-"PO-Revision-Date: 2013-06-02 23:17+0000\n"
+"POT-Creation-Date: 2013-06-26 01:59+0200\n"
+"PO-Revision-Date: 2013-06-25 23:14+0000\n"
 "Last-Translator: zhangmin <zm1990s@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -184,35 +184,35 @@ msgstr "URL不能为空"
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "无效文件夹名。'共享' 是 Owncloud 预留的文件夹名。"
 
-#: js/files.js:520 js/files.js:536 js/files.js:826 js/files.js:864
+#: js/files.js:520 js/files.js:536 js/files.js:840 js/files.js:878
 msgid "Error"
 msgstr "错误"
 
-#: js/files.js:877 templates/index.php:69
+#: js/files.js:891 templates/index.php:69
 msgid "Name"
 msgstr "名称"
 
-#: js/files.js:878 templates/index.php:80
+#: js/files.js:892 templates/index.php:80
 msgid "Size"
 msgstr "大小"
 
-#: js/files.js:879 templates/index.php:82
+#: js/files.js:893 templates/index.php:82
 msgid "Modified"
 msgstr "修改日期"
 
-#: js/files.js:898
+#: js/files.js:912
 msgid "1 folder"
 msgstr "1个文件夹"
 
-#: js/files.js:900
+#: js/files.js:914
 msgid "{count} folders"
 msgstr "{count} 个文件夹"
 
-#: js/files.js:908
+#: js/files.js:922
 msgid "1 file"
 msgstr "1 个文件"
 
-#: js/files.js:910
+#: js/files.js:924
 msgid "{count} files"
 msgstr "{count} 个文件"
 

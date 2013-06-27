@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-03 02:27+0200\n"
-"PO-Revision-Date: 2013-06-02 23:17+0000\n"
+"POT-Creation-Date: 2013-06-26 02:00+0200\n"
+"PO-Revision-Date: 2013-06-25 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -59,7 +59,7 @@ msgstr "არასწორი იმეილი"
 msgid "Unable to delete group"
 msgstr "ჯგუფის წაშლა ვერ მოხერხდა"
 
-#: ajax/removeuser.php:24
+#: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "მომხმარებლის წაშლა ვერ მოხერხდა"
 
@@ -137,16 +137,16 @@ msgstr "დაბრუნება"
 msgid "Unable to remove user"
 msgstr "მომხმარებლის წაშლა ვერ მოხერხდა"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:83
-#: templates/users.php:108
+#: js/users.js:92 templates/users.php:26 templates/users.php:87
+#: templates/users.php:112
 msgid "Groups"
 msgstr "ჯგუფები"
 
-#: js/users.js:95 templates/users.php:85 templates/users.php:120
+#: js/users.js:95 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "ჯგუფის ადმინისტრატორი"
 
-#: js/users.js:115 templates/users.php:160
+#: js/users.js:115 templates/users.php:164
 msgid "Delete"
 msgstr "წაშლა"
 
@@ -325,11 +325,11 @@ msgstr "უფრო მეტი"
 msgid "Less"
 msgstr "უფრო ნაკლები"
 
-#: templates/admin.php:235 templates/personal.php:111
+#: templates/admin.php:235 templates/personal.php:116
 msgid "Version"
 msgstr "ვერსია"
 
-#: templates/admin.php:237 templates/personal.php:114
+#: templates/admin.php:237 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -339,27 +339,27 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "წარმოებულია <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>–ის მიერ. <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a>  ვრცელდება <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> ლიცენზიის ფარგლებში."
 
-#: templates/apps.php:11
+#: templates/apps.php:13
 msgid "Add your App"
 msgstr "დაამატე შენი აპლიკაცია"
 
-#: templates/apps.php:12
+#: templates/apps.php:28
 msgid "More Apps"
 msgstr "უფრო მეტი აპლიკაციები"
 
-#: templates/apps.php:28
+#: templates/apps.php:33
 msgid "Select an App"
 msgstr "აირჩიეთ აპლიკაცია"
 
-#: templates/apps.php:34
+#: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
 msgstr "ნახეთ აპლიკაციის გვერდი apps.owncloud.com –ზე"
 
-#: templates/apps.php:36
+#: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-ლიცენსირებულია <span class=\"author\"></span>"
 
-#: templates/apps.php:38
+#: templates/apps.php:43
 msgid "Update"
 msgstr "განახლება"
 
@@ -387,76 +387,76 @@ msgstr "ბაგთრექერი"
 msgid "Commercial Support"
 msgstr "კომერციული მხარდაჭერა"
 
-#: templates/personal.php:8
+#: templates/personal.php:9
+msgid "Get the apps to sync your files"
+msgstr "აპლიკაცია ფაილების სინქრონიზაციისთვის"
+
+#: templates/personal.php:20
+msgid "Show First Run Wizard again"
+msgstr "მაჩვენე თავიდან გაშვებული ვიზარდი"
+
+#: templates/personal.php:28
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "თქვენ გამოყენებული გაქვთ <strong>%s</strong> –ი –<strong>%s<strong>–დან"
 
-#: templates/personal.php:15
-msgid "Get the apps to sync your files"
-msgstr "აპლიკაცია ფაილების სინქრონიზაციისთვის"
-
-#: templates/personal.php:26
-msgid "Show First Run Wizard again"
-msgstr "მაჩვენე თავიდან გაშვებული ვიზარდი"
-
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:40 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "პაროლი"
 
-#: templates/personal.php:38
+#: templates/personal.php:41
 msgid "Your password was changed"
 msgstr "თქვენი პაროლი შეიცვალა"
 
-#: templates/personal.php:39
+#: templates/personal.php:42
 msgid "Unable to change your password"
 msgstr "თქვენი პაროლი არ შეიცვალა"
 
-#: templates/personal.php:40
+#: templates/personal.php:43
 msgid "Current password"
 msgstr "მიმდინარე პაროლი"
 
-#: templates/personal.php:42
+#: templates/personal.php:45
 msgid "New password"
 msgstr "ახალი პაროლი"
 
-#: templates/personal.php:44
+#: templates/personal.php:47
 msgid "Change password"
 msgstr "პაროლის შეცვლა"
 
-#: templates/personal.php:56 templates/users.php:81
+#: templates/personal.php:59 templates/users.php:85
 msgid "Display Name"
 msgstr "დისპლეის სახელი"
 
-#: templates/personal.php:71
+#: templates/personal.php:74
 msgid "Email"
 msgstr "იმეილი"
 
-#: templates/personal.php:73
+#: templates/personal.php:76
 msgid "Your email address"
 msgstr "თქვენი იმეილ მისამართი"
 
-#: templates/personal.php:74
+#: templates/personal.php:77
 msgid "Fill in an email address to enable password recovery"
 msgstr "შეავსეთ იმეილ მისამართის ველი პაროლის აღსადგენად"
 
-#: templates/personal.php:83 templates/personal.php:84
+#: templates/personal.php:86 templates/personal.php:87
 msgid "Language"
 msgstr "ენა"
 
-#: templates/personal.php:95
+#: templates/personal.php:99
 msgid "Help translate"
 msgstr "თარგმნის დახმარება"
 
-#: templates/personal.php:100
+#: templates/personal.php:105
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:102
+#: templates/personal.php:107
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "გამოიყენე შემდეგი მისამართი ownCloud–თან დასაკავშირებლად შენს ფაილმენეჯერში"
 
-#: templates/users.php:21 templates/users.php:80
+#: templates/users.php:21
 msgid "Login Name"
 msgstr "მომხმარებლის სახელი"
 
@@ -464,34 +464,44 @@ msgstr "მომხმარებლის სახელი"
 msgid "Create"
 msgstr "შექმნა"
 
-#: templates/users.php:34
+#: templates/users.php:36
 msgid "Admin Recovery Password"
 msgstr ""
 
-#: templates/users.php:38
+#: templates/users.php:37 templates/users.php:38
+msgid ""
+"Enter the recovery password in order to recover the users files during "
+"password change"
+msgstr ""
+
+#: templates/users.php:42
 msgid "Default Storage"
 msgstr "საწყისი საცავი"
 
-#: templates/users.php:44 templates/users.php:138
+#: templates/users.php:48 templates/users.php:142
 msgid "Unlimited"
 msgstr "ულიმიტო"
 
-#: templates/users.php:62 templates/users.php:153
+#: templates/users.php:66 templates/users.php:157
 msgid "Other"
 msgstr "სხვა"
 
-#: templates/users.php:87
+#: templates/users.php:84
+msgid "Username"
+msgstr "მომხმარებლის სახელი"
+
+#: templates/users.php:91
 msgid "Storage"
 msgstr "საცავი"
 
-#: templates/users.php:98
+#: templates/users.php:102
 msgid "change display name"
 msgstr "შეცვალე დისფლეის სახელი"
 
-#: templates/users.php:102
+#: templates/users.php:106
 msgid "set new password"
 msgstr "დააყენეთ ახალი პაროლი"
 
-#: templates/users.php:133
+#: templates/users.php:137
 msgid "Default"
 msgstr "საწყისი პარამეტრები"

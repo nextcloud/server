@@ -166,5 +166,6 @@ class Config {
 		}
 		// Prevent others from reading the config
 		@chmod($this->configFilename, 0640);
+		OC_Util::clearOpcodeCache();
 	}
 }

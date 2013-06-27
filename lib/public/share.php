@@ -152,11 +152,11 @@ class Share {
 
 			// Fetch all shares of this file path from DB
 			$query = \OC_DB::prepare(
-				'SELECT share_with
+				'SELECT `share_with`
 				FROM
 				`*PREFIX*share`
 				WHERE
-				item_source = ? AND share_type = ?'
+				`item_source` = ? AND `share_type` = ?'
 			);
 
 			$result = $query->execute(array($source, self::SHARE_TYPE_USER));
@@ -171,11 +171,11 @@ class Share {
 			// We also need to take group shares into account
 
 			$query = \OC_DB::prepare(
-				'SELECT share_with
+				'SELECT `share_with`
 				FROM
 				`*PREFIX*share`
 				WHERE
-				item_source = ? AND share_type = ?'
+				`item_source` = ? AND `share_type` = ?'
 			);
 
 			$result = $query->execute(array($source, self::SHARE_TYPE_GROUP));
@@ -192,11 +192,11 @@ class Share {
 			//check for public link shares
 			if (!$publicShare) {
 				$query = \OC_DB::prepare(
-					'SELECT share_with
+					'SELECT `share_with`
 					FROM
 					`*PREFIX*share`
 					WHERE
-					item_source = ? AND share_type = ?'
+					`item_source` = ? AND `share_type` = ?'
 				);
 
 				$result = $query->execute(array($source, self::SHARE_TYPE_LINK));
@@ -1586,10 +1586,10 @@ class Share {
 
 	public static function post_removeFromGroup($arguments) {
 		// TODO Don't call if user deleted?
-		$query = \OC_DB::prepare('SELECT `id`, `share_type` FROM `*PREFIX*share`'
-			.' WHERE (`share_type` = ? AND `share_with` = ?) OR (`share_type` = ? AND `share_with` = ?)');
-		$result = $query->execute(array(self::SHARE_TYPE_GROUP, $arguments['gid'], self::$shareTypeGroupUserUnique,
-			$arguments['uid']));
+		$sql = 'SELECT `id`, `share_type` FROM `*PREFIX*share`'
+			.' WHERE (`share_type` = ? AND `share_with` = ?) OR (`share_type` = ? AND `share_with` = ?)';
+		$result = \OC_DB::executeAudited($sql, array(self::SHARE_TYPE_GROUP, $arguments['gid'],
+			self::$shareTypeGroupUserUnique, $arguments['uid']));
 		while ($item = $result->fetchRow()) {
 			if ($item['share_type'] == self::SHARE_TYPE_GROUP) {
 				// Delete all reshares by this user of the group share
@@ -1601,8 +1601,8 @@ class Share {
 	}
 
 	public static function post_deleteGroup($arguments) {
-		$query = \OC_DB::prepare('SELECT id FROM `*PREFIX*share` WHERE `share_type` = ? AND `share_with` = ?');
-		$result = $query->execute(array(self::SHARE_TYPE_GROUP, $arguments['gid']));
+		$sql = 'SELECT `id` FROM `*PREFIX*share` WHERE `share_type` = ? AND `share_with` = ?';
+		$result = \OC_DB::executeAudited($sql, array(self::SHARE_TYPE_GROUP, $arguments['gid']));
 		while ($item = $result->fetchRow()) {
 			self::delete($item['id']);
 		}

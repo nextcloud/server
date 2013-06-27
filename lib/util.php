@@ -819,9 +819,9 @@ class OC_Util {
 	 * @return string the theme
 	 */
 	public static function getTheme() {
-		$theme = OC_Config::getValue("theme");
+		$theme = OC_Config::getValue("theme", '');
 
-		if(is_null($theme)) {
+		if($theme === '') {
 			
 			if(is_dir(OC::$SERVERROOT . '/themes/default')) {
 				$theme = 'default';
@@ -830,6 +830,26 @@ class OC_Util {
 		}
 
 		return $theme;
+	}
+
+	/**
+	 * Clear the opcode cache if one exists
+	 * This is necessary for writing to the config file
+	 * in case the opcode cache doesn't revalidate files
+	 */
+	public static function clearOpcodeCache() {
+		// APC
+		if (function_exists('apc_clear_cache')) {
+			apc_clear_cache();
+		}
+		// Zend Opcache
+		if (function_exists('accelerator_reset')) {
+			accelerator_reset();
+		}
+		// XCache
+		if (function_exists('xcache_clear_cache')) {
+			xcache_clear_cache(XC_TYPE_VAR, 0);
+		}
 	}
 
 	/**

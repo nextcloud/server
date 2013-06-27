@@ -26,8 +26,8 @@ class Legacy {
 	 * @return int
 	 */
 	function getCount() {
-		$query = \OC_DB::prepare('SELECT COUNT(`id`) AS `count` FROM `*PREFIX*fscache` WHERE `user` = ?');
-		$result = $query->execute(array($this->user));
+		$sql = 'SELECT COUNT(`id`) AS `count` FROM `*PREFIX*fscache` WHERE `user` = ?';
+		$result = \OC_DB::executeAudited($sql, array($this->user));
 		if ($row = $result->fetchRow()) {
 			return $row['count'];
 		} else {
@@ -45,7 +45,7 @@ class Legacy {
 			return $this->cacheHasItems;
 		}
 		try {
-			$query = \OC_DB::prepare('SELECT `id` FROM `*PREFIX*fscache` WHERE `user` = ? LIMIT 1');
+			$query = \OC_DB::prepare('SELECT `id` FROM `*PREFIX*fscache` WHERE `user` = ?',1);
 		} catch (\Exception $e) {
 			$this->cacheHasItems = false;
 			return false;
@@ -74,11 +74,11 @@ class Legacy {
 	 */
 	function get($path) {
 		if (is_numeric($path)) {
-			$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*fscache` WHERE `id` = ?');
+			$sql = 'SELECT * FROM `*PREFIX*fscache` WHERE `id` = ?';
 		} else {
-			$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*fscache` WHERE `path` = ?');
+			$sql = 'SELECT * FROM `*PREFIX*fscache` WHERE `path` = ?';
 		}
-		$result = $query->execute(array($path));
+		$result = \OC_DB::executeAudited($sql, array($path));
 		$data = $result->fetchRow();
 		$data['etag'] = $this->getEtag($data['path'], $data['user']);
 		return $data;
@@ -111,7 +111,7 @@ class Legacy {
 		if(is_null($query)){
 			$query = \OC_DB::prepare('SELECT `propertyvalue` FROM `*PREFIX*properties` WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = \'{DAV:}getetag\'');
 		}
-		$result = $query->execute(array($user, '/' . $relativePath));
+		$result = \OC_DB::executeAudited($query,array($user, '/' . $relativePath));
 		if ($row = $result->fetchRow()) {
 			return trim($row['propertyvalue'], '"');
 		} else {
@@ -126,8 +126,7 @@ class Legacy {
 	 * @return array
 	 */
 	function getChildren($id) {
-		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*fscache` WHERE `parent` = ?');
-		$result = $query->execute(array($id));
+		$result = \OC_DB::executeAudited('SELECT * FROM `*PREFIX*fscache` WHERE `parent` = ?', array($id));
 		$data = $result->fetchAll();
 		foreach ($data as $i => $item) {
 			$data[$i]['etag'] = $this->getEtag($item['path'], $item['user']);

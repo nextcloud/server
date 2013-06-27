@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Tomáš Chvátal <tomas.chvatal@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-03 02:27+0200\n"
-"PO-Revision-Date: 2013-06-02 23:17+0000\n"
+"POT-Creation-Date: 2013-06-26 02:00+0200\n"
+"PO-Revision-Date: 2013-06-25 23:14+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -58,7 +59,7 @@ msgstr "Neplatný e-mail"
 msgid "Unable to delete group"
 msgstr "Nelze smazat skupinu"
 
-#: ajax/removeuser.php:24
+#: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "Nelze smazat uživatele"
 
@@ -136,16 +137,16 @@ msgstr "zpět"
 msgid "Unable to remove user"
 msgstr "Nelze odebrat uživatele"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:83
-#: templates/users.php:108
+#: js/users.js:92 templates/users.php:26 templates/users.php:87
+#: templates/users.php:112
 msgid "Groups"
 msgstr "Skupiny"
 
-#: js/users.js:95 templates/users.php:85 templates/users.php:120
+#: js/users.js:95 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "Správa skupiny"
 
-#: js/users.js:115 templates/users.php:160
+#: js/users.js:115 templates/users.php:164
 msgid "Delete"
 msgstr "Smazat"
 
@@ -324,11 +325,11 @@ msgstr "Více"
 msgid "Less"
 msgstr "Méně"
 
-#: templates/admin.php:235 templates/personal.php:111
+#: templates/admin.php:235 templates/personal.php:116
 msgid "Version"
 msgstr "Verze"
 
-#: templates/admin.php:237 templates/personal.php:114
+#: templates/admin.php:237 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -338,27 +339,27 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Vyvinuto <a href=\"http://ownCloud.org/contact\" target=\"_blank\">komunitou ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">zdrojový kód</a> je licencován pod <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/apps.php:11
+#: templates/apps.php:13
 msgid "Add your App"
 msgstr "Přidat Vaší aplikaci"
 
-#: templates/apps.php:12
+#: templates/apps.php:28
 msgid "More Apps"
 msgstr "Více aplikací"
 
-#: templates/apps.php:28
+#: templates/apps.php:33
 msgid "Select an App"
 msgstr "Vyberte aplikaci"
 
-#: templates/apps.php:34
+#: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
 msgstr "Více na stránce s aplikacemi na apps.owncloud.com"
 
-#: templates/apps.php:36
+#: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licencováno <span class=\"author\"></span>"
 
-#: templates/apps.php:38
+#: templates/apps.php:43
 msgid "Update"
 msgstr "Aktualizovat"
 
@@ -386,76 +387,76 @@ msgstr "Bugtracker"
 msgid "Commercial Support"
 msgstr "Placená podpora"
 
-#: templates/personal.php:8
+#: templates/personal.php:9
+msgid "Get the apps to sync your files"
+msgstr "Získat aplikace pro synchronizaci vašich souborů"
+
+#: templates/personal.php:20
+msgid "Show First Run Wizard again"
+msgstr "Znovu zobrazit průvodce prvním spuštěním"
+
+#: templates/personal.php:28
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Používáte <strong>%s</strong> z <strong>%s</strong> dostupných"
 
-#: templates/personal.php:15
-msgid "Get the apps to sync your files"
-msgstr "Získat aplikace pro synchronizaci vašich souborů"
-
-#: templates/personal.php:26
-msgid "Show First Run Wizard again"
-msgstr "Znovu zobrazit průvodce prvním spuštěním"
-
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:40 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "Heslo"
 
-#: templates/personal.php:38
+#: templates/personal.php:41
 msgid "Your password was changed"
 msgstr "Vaše heslo bylo změněno"
 
-#: templates/personal.php:39
+#: templates/personal.php:42
 msgid "Unable to change your password"
 msgstr "Vaše heslo nelze změnit"
 
-#: templates/personal.php:40
+#: templates/personal.php:43
 msgid "Current password"
 msgstr "Současné heslo"
 
-#: templates/personal.php:42
+#: templates/personal.php:45
 msgid "New password"
 msgstr "Nové heslo"
 
-#: templates/personal.php:44
+#: templates/personal.php:47
 msgid "Change password"
 msgstr "Změnit heslo"
 
-#: templates/personal.php:56 templates/users.php:81
+#: templates/personal.php:59 templates/users.php:85
 msgid "Display Name"
 msgstr "Zobrazované jméno"
 
-#: templates/personal.php:71
+#: templates/personal.php:74
 msgid "Email"
 msgstr "E-mail"
 
-#: templates/personal.php:73
+#: templates/personal.php:76
 msgid "Your email address"
 msgstr "Vaše e-mailová adresa"
 
-#: templates/personal.php:74
+#: templates/personal.php:77
 msgid "Fill in an email address to enable password recovery"
 msgstr "Pro povolení změny hesla vyplňte adresu e-mailu"
 
-#: templates/personal.php:83 templates/personal.php:84
+#: templates/personal.php:86 templates/personal.php:87
 msgid "Language"
 msgstr "Jazyk"
 
-#: templates/personal.php:95
+#: templates/personal.php:99
 msgid "Help translate"
 msgstr "Pomoci s překladem"
 
-#: templates/personal.php:100
+#: templates/personal.php:105
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:102
+#: templates/personal.php:107
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Použijte tuto adresu pro připojení k vašemu ownCloud skrze správce souborů"
 
-#: templates/users.php:21 templates/users.php:80
+#: templates/users.php:21
 msgid "Login Name"
 msgstr "Přihlašovací jméno"
 
@@ -463,34 +464,44 @@ msgstr "Přihlašovací jméno"
 msgid "Create"
 msgstr "Vytvořit"
 
-#: templates/users.php:34
+#: templates/users.php:36
 msgid "Admin Recovery Password"
-msgstr ""
+msgstr "Heslo obnovy správce"
 
-#: templates/users.php:38
+#: templates/users.php:37 templates/users.php:38
+msgid ""
+"Enter the recovery password in order to recover the users files during "
+"password change"
+msgstr "Zadejte heslo obnovy pro obnovení souborů uživatele při změně hesla"
+
+#: templates/users.php:42
 msgid "Default Storage"
 msgstr "Výchozí úložiště"
 
-#: templates/users.php:44 templates/users.php:138
+#: templates/users.php:48 templates/users.php:142
 msgid "Unlimited"
 msgstr "Neomezeně"
 
-#: templates/users.php:62 templates/users.php:153
+#: templates/users.php:66 templates/users.php:157
 msgid "Other"
 msgstr "Jiný"
 
-#: templates/users.php:87
+#: templates/users.php:84
+msgid "Username"
+msgstr "Uživatelské jméno"
+
+#: templates/users.php:91
 msgid "Storage"
 msgstr "Úložiště"
 
-#: templates/users.php:98
+#: templates/users.php:102
 msgid "change display name"
 msgstr "změnit zobrazované jméno"
 
-#: templates/users.php:102
+#: templates/users.php:106
 msgid "set new password"
 msgstr "nastavit nové heslo"
 
-#: templates/users.php:133
+#: templates/users.php:137
 msgid "Default"
 msgstr "Výchozí"

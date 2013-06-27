@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# rogerc, 2013
 # Jordi Vilalta Prat <jvprat@jvprat.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-30 02:27+0200\n"
-"PO-Revision-Date: 2013-05-30 00:27+0000\n"
+"POT-Creation-Date: 2013-06-22 02:06+0200\n"
+"PO-Revision-Date: 2013-06-22 00:07+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -20,85 +21,152 @@ msgstr ""
 
 #: ajax/adminrecovery.php:29
 msgid "Recovery key successfully enabled"
-msgstr ""
+msgstr "La clau de recuperació s'ha activat"
 
 #: ajax/adminrecovery.php:34
 msgid ""
 "Could not enable recovery key. Please check your recovery key password!"
-msgstr ""
+msgstr "No s'ha pogut activar la clau de recuperació. Comproveu contrasenya de la clau de recuperació!"
 
 #: ajax/adminrecovery.php:48
 msgid "Recovery key successfully disabled"
-msgstr ""
+msgstr "La clau de recuperació s'ha descativat"
 
 #: ajax/adminrecovery.php:53
 msgid ""
 "Could not disable recovery key. Please check your recovery key password!"
-msgstr ""
+msgstr "No s'ha pogut desactivar la calu de recuperació. Comproveu la contrasenya de la clau de recuperació!"
 
 #: ajax/changeRecoveryPassword.php:49
 msgid "Password successfully changed."
-msgstr ""
+msgstr "La contrasenya s'ha canviat."
 
 #: ajax/changeRecoveryPassword.php:51
 msgid "Could not change the password. Maybe the old password was not correct."
+msgstr "No s'ha pogut canviar la contrasenya. Potser la contrasenya anterior no era correcta."
+
+#: ajax/updatePrivateKeyPassword.php:51
+msgid "Private key password successfully updated."
+msgstr "La contrasenya de la clau privada s'ha actualitzat."
+
+#: ajax/updatePrivateKeyPassword.php:53
+msgid ""
+"Could not update the private key password. Maybe the old password was not "
+"correct."
+msgstr "No s'ha pogut actualitzar la contrasenya de la clau privada. Potser la contrasenya anterior no era correcta."
+
+#: files/error.php:7
+msgid ""
+"Your private key is not valid! Maybe your password was changed from outside."
+" You can update your private key password in your personal settings to "
+"regain access to your files"
+msgstr "La clau privada no és vàlida! Potser la contrasenya ha canviat des de fora. Podeu actualitzar la contrasenya de la clau privada a l'arranjament personal per obtenir de nou accés als vostres fitxers"
+
+#: hooks/hooks.php:44
+msgid "PHP module OpenSSL is not installed."
+msgstr ""
+
+#: hooks/hooks.php:45
+msgid ""
+"Please ask your server administrator to install the module. For now the "
+"encryption app was disabled."
 msgstr ""
 
 #: js/settings-admin.js:11
 msgid "Saving..."
 msgstr "Desant..."
 
+#: templates/invalid_private_key.php:5
+msgid ""
+"Your private key is not valid! Maybe the your password was changed from "
+"outside."
+msgstr "La vostra clau privada no és vàlida! Potser la vostra contrasenya ha canviat des de fora."
+
+#: templates/invalid_private_key.php:7
+msgid "You can unlock your private key in your "
+msgstr "Podeu desbloquejar la clau privada en el vostre"
+
+#: templates/invalid_private_key.php:7
+msgid "personal settings"
+msgstr "arranjament personal"
+
 #: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
 msgstr "Xifrat"
 
-#: templates/settings-admin.php:9
+#: templates/settings-admin.php:10
 msgid ""
-"Enable encryption passwords recovery key (allow sharing to recovery key):"
+"Enable recovery key (allow to recover users files in case of password loss):"
 msgstr ""
 
-#: templates/settings-admin.php:13
-msgid "Recovery account password"
+#: templates/settings-admin.php:14
+msgid "Recovery key password"
 msgstr ""
 
-#: templates/settings-admin.php:20 templates/settings-personal.php:18
+#: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
-msgstr ""
+msgstr "Activat"
 
-#: templates/settings-admin.php:28 templates/settings-personal.php:26
+#: templates/settings-admin.php:29 templates/settings-personal.php:62
 msgid "Disabled"
+msgstr "Desactivat"
+
+#: templates/settings-admin.php:34
+msgid "Change recovery key password:"
 msgstr ""
 
-#: templates/settings-admin.php:32
-msgid "Change encryption passwords recovery key:"
+#: templates/settings-admin.php:41
+msgid "Old Recovery key password"
 msgstr ""
 
-#: templates/settings-admin.php:39
-msgid "Old Recovery account password"
+#: templates/settings-admin.php:48
+msgid "New Recovery key password"
 msgstr ""
 
-#: templates/settings-admin.php:46
-msgid "New Recovery account password"
-msgstr ""
-
-#: templates/settings-admin.php:51
+#: templates/settings-admin.php:53
 msgid "Change Password"
-msgstr ""
-
-#: templates/settings-personal.php:9
-msgid "Enable password recovery by sharing all files with your administrator:"
-msgstr ""
+msgstr "Canvia la contrasenya"
 
 #: templates/settings-personal.php:11
+msgid "Your private key password no longer match your log-in password:"
+msgstr "La clau privada ja no es correspon amb la contrasenya d'accés:"
+
+#: templates/settings-personal.php:14
+msgid "Set your old private key password to your current log-in password."
+msgstr "Establiu la vostra contrasenya clau en funció de la contrasenya actual d'accés."
+
+#: templates/settings-personal.php:16
+msgid ""
+" If you don't remember your old password you can ask your administrator to "
+"recover your files."
+msgstr "Si no recordeu la contrasenya anterior podeu demanar a l'administrador que recuperi els vostres fitxers."
+
+#: templates/settings-personal.php:24
+msgid "Old log-in password"
+msgstr "Contrasenya anterior d'accés"
+
+#: templates/settings-personal.php:30
+msgid "Current log-in password"
+msgstr "Contrasenya d'accés actual"
+
+#: templates/settings-personal.php:35
+msgid "Update Private Key Password"
+msgstr "Actualitza la contrasenya de clau privada"
+
+#: templates/settings-personal.php:45
+msgid "Enable password recovery:"
+msgstr "Habilita la recuperació de contrasenya:"
+
+#: templates/settings-personal.php:47
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
-"files if your password is lost"
-msgstr ""
+"files in case of password loss"
+msgstr "Activar aquesta opció us permetrà obtenir de nou accés als vostres fitxers encriptats en cas de perdre la contrasenya"
 
-#: templates/settings-personal.php:27
+#: templates/settings-personal.php:63
 msgid "File recovery settings updated"
-msgstr ""
+msgstr "S'han  actualitzat els arranjaments de recuperació de fitxers"
 
-#: templates/settings-personal.php:28
+#: templates/settings-personal.php:64
 msgid "Could not update file recovery"
-msgstr ""
+msgstr "No s'ha pogut actualitzar la recuperació de fitxers"

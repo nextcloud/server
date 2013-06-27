@@ -621,6 +621,10 @@ class Connection {
 		if(empty($host)) {
 			return false;
 		}
+		if(strpos($host, '://') !== false) {
+			//ldap_connect ignores port paramater when URLs are passed
+			$host .= ':' . $port;
+		}
 		$this->ldapConnectionRes = ldap_connect($host, $port);
 		if(ldap_set_option($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
 			if(ldap_set_option($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {

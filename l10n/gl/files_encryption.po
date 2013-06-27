@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-31 01:58+0200\n"
-"PO-Revision-Date: 2013-05-30 06:50+0000\n"
+"POT-Creation-Date: 2013-06-24 02:01+0200\n"
+"PO-Revision-Date: 2013-06-23 11:37+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -46,61 +46,128 @@ msgstr "O contrasinal foi cambiado satisfactoriamente"
 msgid "Could not change the password. Maybe the old password was not correct."
 msgstr "Non foi posíbel cambiar o contrasinal. Probabelmente o contrasinal antigo non é o  correcto."
 
+#: ajax/updatePrivateKeyPassword.php:51
+msgid "Private key password successfully updated."
+msgstr "A chave privada foi actualizada correctamente."
+
+#: ajax/updatePrivateKeyPassword.php:53
+msgid ""
+"Could not update the private key password. Maybe the old password was not "
+"correct."
+msgstr "Non foi posíbel actualizar o contrasinal da chave privada. É probábel que o contrasinal antigo non sexa correcto."
+
+#: files/error.php:7
+msgid ""
+"Your private key is not valid! Maybe your password was changed from outside."
+" You can update your private key password in your personal settings to "
+"regain access to your files"
+msgstr "A chave privada non é correcta! É probábel que o seu contrasinal teña sido cambiado desde o exterior. Vostede pode actualizar o contrasinal da súa chave privada nos seus axustes persoais para recuperar o acceso aos seus ficheiros"
+
+#: hooks/hooks.php:44
+msgid "PHP module OpenSSL is not installed."
+msgstr "O módulo PHP OpenSSL non está instalado."
+
+#: hooks/hooks.php:45
+msgid ""
+"Please ask your server administrator to install the module. For now the "
+"encryption app was disabled."
+msgstr "Pregúntelle ao administrador do servidor pola instalación do módulo. Polo de agora o aplicativo de cifrado foi desactivado."
+
 #: js/settings-admin.js:11
 msgid "Saving..."
 msgstr "Gardando..."
+
+#: templates/invalid_private_key.php:5
+msgid ""
+"Your private key is not valid! Maybe the your password was changed from "
+"outside."
+msgstr "A chave privada non é correcta! É probábel que o seu contrasinal teña sido cambiado desde o exterior. "
+
+#: templates/invalid_private_key.php:7
+msgid "You can unlock your private key in your "
+msgstr "Pode desbloquear a chave privada nos seus"
+
+#: templates/invalid_private_key.php:7
+msgid "personal settings"
+msgstr "axustes persoais"
 
 #: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
 msgstr "Cifrado"
 
-#: templates/settings-admin.php:9
+#: templates/settings-admin.php:10
 msgid ""
-"Enable encryption passwords recovery key (allow sharing to recovery key):"
-msgstr "Activar a chave  de recuperación do cifrado de contrasinais (permite compartir a chave de recuperación):"
+"Enable recovery key (allow to recover users files in case of password loss):"
+msgstr "Activar a chave de recuperación (permitirá recuperar os ficheiros dos usuarios no caso de perda do contrasinal):"
 
-#: templates/settings-admin.php:13
-msgid "Recovery account password"
-msgstr "Recuperación do contrasinal da conta"
+#: templates/settings-admin.php:14
+msgid "Recovery key password"
+msgstr "Contrasinal da chave de recuperación"
 
-#: templates/settings-admin.php:20 templates/settings-personal.php:18
+#: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
 msgstr "Activado"
 
-#: templates/settings-admin.php:28 templates/settings-personal.php:26
+#: templates/settings-admin.php:29 templates/settings-personal.php:62
 msgid "Disabled"
 msgstr "Desactivado"
 
-#: templates/settings-admin.php:32
-msgid "Change encryption passwords recovery key:"
-msgstr "Cambiar a chave de la recuperación do cifrado de contrasinais:"
+#: templates/settings-admin.php:34
+msgid "Change recovery key password:"
+msgstr "Cambiar o contrasinal da chave de la recuperación:"
 
-#: templates/settings-admin.php:39
-msgid "Old Recovery account password"
-msgstr "Antigo contrasinal de recuperación da conta"
+#: templates/settings-admin.php:41
+msgid "Old Recovery key password"
+msgstr "Antigo contrasinal da chave de recuperación"
 
-#: templates/settings-admin.php:46
-msgid "New Recovery account password"
-msgstr "Novo contrasinal de recuperación da conta"
+#: templates/settings-admin.php:48
+msgid "New Recovery key password"
+msgstr "Novo contrasinal da chave de recuperación"
 
-#: templates/settings-admin.php:51
+#: templates/settings-admin.php:53
 msgid "Change Password"
 msgstr "Cambiar o contrasinal"
 
-#: templates/settings-personal.php:9
-msgid "Enable password recovery by sharing all files with your administrator:"
-msgstr "Activar a recuperación de contrasinais compartindo todos os ficheiros co administrador:"
-
 #: templates/settings-personal.php:11
+msgid "Your private key password no longer match your log-in password:"
+msgstr "O seu contrasinal da chave privada non coincide co seu contrasinal de acceso."
+
+#: templates/settings-personal.php:14
+msgid "Set your old private key password to your current log-in password."
+msgstr "Estabeleza o seu contrasinal antigo da chave de recuperación ao seu contrasinal de acceso actual"
+
+#: templates/settings-personal.php:16
+msgid ""
+" If you don't remember your old password you can ask your administrator to "
+"recover your files."
+msgstr " Se non lembra o seu antigo contrasinal pode pedírllelo ao seu administrador para recuperar os seus ficheiros."
+
+#: templates/settings-personal.php:24
+msgid "Old log-in password"
+msgstr "Contrasinal de acceso antigo"
+
+#: templates/settings-personal.php:30
+msgid "Current log-in password"
+msgstr "Contrasinal de acceso actual"
+
+#: templates/settings-personal.php:35
+msgid "Update Private Key Password"
+msgstr "Actualizar o contrasinal da chave privada"
+
+#: templates/settings-personal.php:45
+msgid "Enable password recovery:"
+msgstr "Activar o  contrasinal de recuperación:"
+
+#: templates/settings-personal.php:47
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
-"files if your password is lost"
-msgstr "Ao activar esta opción permitiráselle volver a obter acceso aos ficheiros cifrados se perde o contrasinal"
+"files in case of password loss"
+msgstr "Ao activar esta opción permitiráselle volver a obter acceso aos ficheiros cifrados no caso de perda do contrasinal"
 
-#: templates/settings-personal.php:27
+#: templates/settings-personal.php:63
 msgid "File recovery settings updated"
 msgstr "Actualizouse o ficheiro de axustes de recuperación"
 
-#: templates/settings-personal.php:28
+#: templates/settings-personal.php:64
 msgid "Could not update file recovery"
 msgstr "Non foi posíbel actualizar o ficheiro de recuperación"
