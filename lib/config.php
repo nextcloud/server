@@ -47,8 +47,11 @@ class Config {
 	protected $configDir;
 	protected $configFilename;
 
-	public function __construct($configDir) {
+	protected $debugMode;
+
+	public function __construct($configDir, $debugMode) {
 		$this->configDir = $configDir;
+		$this->debugMode = $debugMode;
 		$this->configFilename = $this->configDir.'config.php';
 		$this->readData();
 	}
@@ -149,7 +152,7 @@ class Config {
 	private function writeData() {
 		// Create a php file ...
 		$content = "<?php\n";
-		if (defined('DEBUG') && DEBUG) {
+		if ($this->debugMode) {
 			$content .= "define('DEBUG',true);\n";
 		}
 		$content .= '$CONFIG = ';
@@ -164,7 +167,7 @@ class Config {
 				'You can usually fix this by giving the webserver user write access'
 					.' to the config directory in ownCloud');
 		}
-		// Prevent others from reading the config
+		// Prevent others not to read the config
 		@chmod($this->configFilename, 0640);
 		\OC_Util::clearOpcodeCache();
 	}

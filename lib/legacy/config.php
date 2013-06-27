@@ -38,7 +38,7 @@
  * This class is responsible for reading and writing config.php, the very basic
  * configuration file of ownCloud.
  */
-OC_Config::$object = new \OC\Config(OC::$SERVERROOT.'/config/');
+OC_Config::$object = new \OC\Config(OC::$SERVERROOT.'/config/', defined('DEBUG') && DEBUG);
 class OC_Config {
 
 	public static $object;
