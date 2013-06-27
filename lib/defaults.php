@@ -19,13 +19,9 @@ class OC_Defaults {
 	private static $defaultSlogan = "web services under your control";
 
 	private function themeExist($method) {
-		if (OC_Util::getTheme() !== '' &&
-			//class_exists('OC_Theme') &&
-			method_exists('OC_Theme', $method)) {
-
+		if (OC_Util::getTheme() !== '' && method_exists('OC_Theme', $method)) {
 			return true;
 		}
-
 		return false;
 	}
 
