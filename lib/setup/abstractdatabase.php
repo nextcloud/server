@@ -4,14 +4,16 @@ namespace OC\Setup;
 
 abstract class AbstractDatabase {
 	protected $trans;
+	protected $dbDefinitionFile;
 	protected $dbuser;
 	protected $dbpassword;
 	protected $dbname;
 	protected $dbhost;
 	protected $tableprefix;
 
-	public function __construct($trans) {
+	public function __construct($trans, $dbDefinitionFile) {
 		$this->trans = $trans;
+		$this->dbDefinitionFile = $dbDefinitionFile;
 	}
 
 	public function validate($config) {

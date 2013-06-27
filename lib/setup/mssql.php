@@ -172,7 +172,7 @@ class MSSQL extends AbstractDatabase {
 				\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
 			} else {
 				if ($row == null) {
-					\OC_DB::createDbFromStructure('db_structure.xml');
+					\OC_DB::createDbFromStructure($this->dbDefinitionFile);
 				}
 			}
 		}

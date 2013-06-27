@@ -19,7 +19,7 @@ class DatabaseSetupException extends Exception
 }
 
 class OC_Setup {
-	static $db_setup_classes = array(
+	static $dbSetupClasses = array(
 		'mysql' => '\OC\Setup\MySQL',
 		'pgsql' => '\OC\Setup\PostgreSQL',
 		'oci'   => '\OC\Setup\OCI',
@@ -48,13 +48,13 @@ class OC_Setup {
 			$options['directory'] = OC::$SERVERROOT."/data";
 		}
 
-		if (!isset(self::$db_setup_classes[$dbtype])) {
+		if (!isset(self::$dbSetupClasses[$dbtype])) {
 			$dbtype = 'sqlite';
 		}
 
-		$class = self::$db_setup_classes[$dbtype];
-		$db_setup = new $class(self::getTrans());
-		$error = array_merge($error, $db_setup->validate($options));
+		$class = self::$dbSetupClasses[$dbtype];
+		$dbSetup = new $class(self::getTrans(), 'db_structure.xml');
+		$error = array_merge($error, $dbSetup->validate($options));
 
 		if(count($error) != 0) {
 			return $error;
@@ -83,8 +83,8 @@ class OC_Setup {
 		OC_Config::setValue('dbtype', $dbtype);
 		OC_Config::setValue('version', implode('.', OC_Util::getVersion()));
 		try {
-			$db_setup->initialize($options);
-			$db_setup->setupDatabase($username);
+			$dbSetup->initialize($options);
+			$dbSetup->setupDatabase($username);
 		} catch (DatabaseSetupException $e) {
 			$error[] = array(
 				'error' => $e->getMessage(),

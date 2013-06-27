@@ -128,7 +128,7 @@ class OCI extends AbstractDatabase {
 			$row = oci_fetch_row($stmt);
 		}
 		if(!$result or $row[0]==0) {
-			\OC_DB::createDbFromStructure('db_structure.xml');
+			\OC_DB::createDbFromStructure($this->dbDefinitionFile);
 		}
 	}
 
