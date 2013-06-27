@@ -63,7 +63,7 @@ class Helper {
 	}
 
 	/**
-	 * @brief register filesystem related hooks
+	 * @brief register app management related hooks
 	 *
 	 */
 	public static function registerAppHooks() {
