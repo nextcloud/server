@@ -46,6 +46,7 @@
 "{count} folders" => "{count} map",
 "1 file" => "1 datoteka",
 "{count} files" => "{count} datotek",
+"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Ime mape je neveljavno. Uporaba oznake \"Souporaba\" je rezervirana za ownCloud",
 "Unable to rename file" => "Ni mogoče preimenovati datoteke",
 "Upload" => "Pošlji",
 "File handling" => "Upravljanje z datotekami",

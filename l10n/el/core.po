@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-26 02:00+0200\n"
-"PO-Revision-Date: 2013-06-25 23:14+0000\n"
+"POT-Creation-Date: 2013-06-27 02:04+0200\n"
+"PO-Revision-Date: 2013-06-27 00:02+0000\n"
 "Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -68,135 +68,135 @@ msgstr "Δεν επιλέχτηκαν κατηγορίες για διαγραφ
 msgid "Error removing %s from favorites."
 msgstr "Σφάλμα αφαίρεσης %s από τα αγαπημένα."
 
-#: js/config.php:34
+#: js/config.php:32
 msgid "Sunday"
 msgstr "Κυριακή"
 
-#: js/config.php:35
+#: js/config.php:33
 msgid "Monday"
 msgstr "Δευτέρα"
 
-#: js/config.php:36
+#: js/config.php:34
 msgid "Tuesday"
 msgstr "Τρίτη"
 
-#: js/config.php:37
+#: js/config.php:35
 msgid "Wednesday"
 msgstr "Τετάρτη"
 
-#: js/config.php:38
+#: js/config.php:36
 msgid "Thursday"
 msgstr "Πέμπτη"
 
-#: js/config.php:39
+#: js/config.php:37
 msgid "Friday"
 msgstr "Παρασκευή"
 
-#: js/config.php:40
+#: js/config.php:38
 msgid "Saturday"
 msgstr "Σάββατο"
 
-#: js/config.php:45
+#: js/config.php:43
 msgid "January"
 msgstr "Ιανουάριος"
 
-#: js/config.php:46
+#: js/config.php:44
 msgid "February"
 msgstr "Φεβρουάριος"
 
-#: js/config.php:47
+#: js/config.php:45
 msgid "March"
 msgstr "Μάρτιος"
 
-#: js/config.php:48
+#: js/config.php:46
 msgid "April"
 msgstr "Απρίλιος"
 
-#: js/config.php:49
+#: js/config.php:47
 msgid "May"
 msgstr "Μάϊος"
 
-#: js/config.php:50
+#: js/config.php:48
 msgid "June"
 msgstr "Ιούνιος"
 
-#: js/config.php:51
+#: js/config.php:49
 msgid "July"
 msgstr "Ιούλιος"
 
-#: js/config.php:52
+#: js/config.php:50
 msgid "August"
 msgstr "Αύγουστος"
 
-#: js/config.php:53
+#: js/config.php:51
 msgid "September"
 msgstr "Σεπτέμβριος"
 
-#: js/config.php:54
+#: js/config.php:52
 msgid "October"
 msgstr "Οκτώβριος"
 
-#: js/config.php:55
+#: js/config.php:53
 msgid "November"
 msgstr "Νοέμβριος"
 
-#: js/config.php:56
+#: js/config.php:54
 msgid "December"
 msgstr "Δεκέμβριος"
 
-#: js/js.js:286
+#: js/js.js:289
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:718
+#: js/js.js:721
 msgid "seconds ago"
 msgstr "δευτερόλεπτα πριν"
 
-#: js/js.js:719
+#: js/js.js:722
 msgid "1 minute ago"
 msgstr "1 λεπτό πριν"
 
-#: js/js.js:720
+#: js/js.js:723
 msgid "{minutes} minutes ago"
 msgstr "{minutes} λεπτά πριν"
 
-#: js/js.js:721
+#: js/js.js:724
 msgid "1 hour ago"
 msgstr "1 ώρα πριν"
 
-#: js/js.js:722
+#: js/js.js:725
 msgid "{hours} hours ago"
 msgstr "{hours} ώρες πριν"
 
-#: js/js.js:723
+#: js/js.js:726
 msgid "today"
 msgstr "σήμερα"
 
-#: js/js.js:724
+#: js/js.js:727
 msgid "yesterday"
 msgstr "χτες"
 
-#: js/js.js:725
+#: js/js.js:728
 msgid "{days} days ago"
 msgstr "{days} ημέρες πριν"
 
-#: js/js.js:726
+#: js/js.js:729
 msgid "last month"
 msgstr "τελευταίο μήνα"
 
-#: js/js.js:727
+#: js/js.js:730
 msgid "{months} months ago"
 msgstr "{months} μήνες πριν"
 
-#: js/js.js:728
+#: js/js.js:731
 msgid "months ago"
 msgstr "μήνες πριν"
 
-#: js/js.js:729
+#: js/js.js:732
 msgid "last year"
 msgstr "τελευταίο χρόνο"
 
-#: js/js.js:730
+#: js/js.js:733
 msgid "years ago"
 msgstr "χρόνια πριν"
 

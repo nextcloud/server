@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-26 02:00+0200\n"
-"PO-Revision-Date: 2013-06-25 23:14+0000\n"
+"POT-Creation-Date: 2013-06-27 02:04+0200\n"
+"PO-Revision-Date: 2013-06-27 00:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Kurdish (Iraq) (http://www.transifex.com/projects/p/owncloud/language/ku_IQ/)\n"
 "MIME-Version: 1.0\n"
@@ -61,135 +61,135 @@ msgstr ""
 msgid "Error removing %s from favorites."
 msgstr ""
 
-#: js/config.php:34
+#: js/config.php:32
 msgid "Sunday"
 msgstr ""
 
-#: js/config.php:35
+#: js/config.php:33
 msgid "Monday"
 msgstr ""
 
-#: js/config.php:36
+#: js/config.php:34
 msgid "Tuesday"
 msgstr ""
 
-#: js/config.php:37
+#: js/config.php:35
 msgid "Wednesday"
 msgstr ""
 
-#: js/config.php:38
+#: js/config.php:36
 msgid "Thursday"
 msgstr ""
 
-#: js/config.php:39
+#: js/config.php:37
 msgid "Friday"
 msgstr ""
 
-#: js/config.php:40
+#: js/config.php:38
 msgid "Saturday"
 msgstr ""
 
-#: js/config.php:45
+#: js/config.php:43
 msgid "January"
 msgstr ""
 
-#: js/config.php:46
+#: js/config.php:44
 msgid "February"
 msgstr ""
 
-#: js/config.php:47
+#: js/config.php:45
 msgid "March"
 msgstr ""
 
-#: js/config.php:48
+#: js/config.php:46
 msgid "April"
 msgstr ""
 
-#: js/config.php:49
+#: js/config.php:47
 msgid "May"
 msgstr ""
 
-#: js/config.php:50
+#: js/config.php:48
 msgid "June"
 msgstr ""
 
-#: js/config.php:51
+#: js/config.php:49
 msgid "July"
 msgstr ""
 
-#: js/config.php:52
+#: js/config.php:50
 msgid "August"
 msgstr ""
 
-#: js/config.php:53
+#: js/config.php:51
 msgid "September"
 msgstr ""
 
-#: js/config.php:54
+#: js/config.php:52
 msgid "October"
 msgstr ""
 
-#: js/config.php:55
+#: js/config.php:53
 msgid "November"
 msgstr ""
 
-#: js/config.php:56
+#: js/config.php:54
 msgid "December"
 msgstr ""
 
-#: js/js.js:286
+#: js/js.js:289
 msgid "Settings"
 msgstr "ده‌ستكاری"
 
-#: js/js.js:718
+#: js/js.js:721
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:719
+#: js/js.js:722
 msgid "1 minute ago"
 msgstr ""
 
-#: js/js.js:720
+#: js/js.js:723
 msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/js.js:721
+#: js/js.js:724
 msgid "1 hour ago"
 msgstr ""
 
-#: js/js.js:722
+#: js/js.js:725
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:723
+#: js/js.js:726
 msgid "today"
 msgstr ""
 
-#: js/js.js:724
+#: js/js.js:727
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:725
+#: js/js.js:728
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:726
+#: js/js.js:729
 msgid "last month"
 msgstr ""
 
-#: js/js.js:727
+#: js/js.js:730
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:728
+#: js/js.js:731
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:729
+#: js/js.js:732
 msgid "last year"
 msgstr ""
 
-#: js/js.js:730
+#: js/js.js:733
 msgid "years ago"
 msgstr ""
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-26 02:00+0200\n"
-"PO-Revision-Date: 2013-06-25 23:14+0000\n"
+"POT-Creation-Date: 2013-06-27 02:04+0200\n"
+"PO-Revision-Date: 2013-06-27 00:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -61,135 +61,135 @@ msgstr "Ни једна категорија није означена за бр
 msgid "Error removing %s from favorites."
 msgstr "Грешка приликом уклањања %s из омиљених"
 
-#: js/config.php:34
+#: js/config.php:32
 msgid "Sunday"
 msgstr "Недеља"
 
-#: js/config.php:35
+#: js/config.php:33
 msgid "Monday"
 msgstr "Понедељак"
 
-#: js/config.php:36
+#: js/config.php:34
 msgid "Tuesday"
 msgstr "Уторак"
 
-#: js/config.php:37
+#: js/config.php:35
 msgid "Wednesday"
 msgstr "Среда"
 
-#: js/config.php:38
+#: js/config.php:36
 msgid "Thursday"
 msgstr "Четвртак"
 
-#: js/config.php:39
+#: js/config.php:37
 msgid "Friday"
 msgstr "Петак"
 
-#: js/config.php:40
+#: js/config.php:38
 msgid "Saturday"
 msgstr "Субота"
 
-#: js/config.php:45
+#: js/config.php:43
 msgid "January"
 msgstr "Јануар"
 
-#: js/config.php:46
+#: js/config.php:44
 msgid "February"
 msgstr "Фебруар"
 
-#: js/config.php:47
+#: js/config.php:45
 msgid "March"
 msgstr "Март"
 
-#: js/config.php:48
+#: js/config.php:46
 msgid "April"
 msgstr "Април"
 
-#: js/config.php:49
+#: js/config.php:47
 msgid "May"
 msgstr "Мај"
 
-#: js/config.php:50
+#: js/config.php:48
 msgid "June"
 msgstr "Јун"
 
-#: js/config.php:51
+#: js/config.php:49
 msgid "July"
 msgstr "Јул"
 
-#: js/config.php:52
+#: js/config.php:50
 msgid "August"
 msgstr "Август"
 
-#: js/config.php:53
+#: js/config.php:51
 msgid "September"
 msgstr "Септембар"
 
-#: js/config.php:54
+#: js/config.php:52
 msgid "October"
 msgstr "Октобар"
 
-#: js/config.php:55
+#: js/config.php:53
 msgid "November"
 msgstr "Новембар"
 
-#: js/config.php:56
+#: js/config.php:54
 msgid "December"
 msgstr "Децембар"
 
-#: js/js.js:286
+#: js/js.js:289
 msgid "Settings"
 msgstr "Поставке"
 
-#: js/js.js:718
+#: js/js.js:721
 msgid "seconds ago"
 msgstr "пре неколико секунди"
 
-#: js/js.js:719
+#: js/js.js:722
 msgid "1 minute ago"
 msgstr "пре 1 минут"
 
-#: js/js.js:720
+#: js/js.js:723
 msgid "{minutes} minutes ago"
 msgstr "пре {minutes} минута"
 
-#: js/js.js:721
+#: js/js.js:724
 msgid "1 hour ago"
 msgstr "Пре једног сата"
 
-#: js/js.js:722
+#: js/js.js:725
 msgid "{hours} hours ago"
 msgstr "Пре {hours} сата (сати)"
 
-#: js/js.js:723
+#: js/js.js:726
 msgid "today"
 msgstr "данас"
 
-#: js/js.js:724
+#: js/js.js:727
 msgid "yesterday"
 msgstr "јуче"
 
-#: js/js.js:725
+#: js/js.js:728
 msgid "{days} days ago"
 msgstr "пре {days} дана"
 
-#: js/js.js:726
+#: js/js.js:729
 msgid "last month"
 msgstr "прошлог месеца"
 
-#: js/js.js:727
+#: js/js.js:730
 msgid "{months} months ago"
 msgstr "Пре {months} месеца (месеци)"
 
-#: js/js.js:728
+#: js/js.js:731
 msgid "months ago"
 msgstr "месеци раније"
 
-#: js/js.js:729
+#: js/js.js:732
 msgid "last year"
 msgstr "прошле године"
 
-#: js/js.js:730
+#: js/js.js:733
 msgid "years ago"
 msgstr "година раније"
 

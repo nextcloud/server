@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# barbarak <barbarak@arnes.si>, 2013
 # mateju <>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-26 02:00+0200\n"
-"PO-Revision-Date: 2013-06-25 23:14+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-27 02:04+0200\n"
+"PO-Revision-Date: 2013-06-27 00:02+0000\n"
+"Last-Translator: barbarak <barbarak@arnes.si>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +22,7 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s je delil »%s« z vami"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -62,135 +63,135 @@ msgstr "Za izbris ni izbrana nobena kategorija."
 msgid "Error removing %s from favorites."
 msgstr "Napaka odstranjevanja %s iz priljubljenih predmetov."
 
-#: js/config.php:34
+#: js/config.php:32
 msgid "Sunday"
 msgstr "nedelja"
 
-#: js/config.php:35
+#: js/config.php:33
 msgid "Monday"
 msgstr "ponedeljek"
 
-#: js/config.php:36
+#: js/config.php:34
 msgid "Tuesday"
 msgstr "torek"
 
-#: js/config.php:37
+#: js/config.php:35
 msgid "Wednesday"
 msgstr "sreda"
 
-#: js/config.php:38
+#: js/config.php:36
 msgid "Thursday"
 msgstr "četrtek"
 
-#: js/config.php:39
+#: js/config.php:37
 msgid "Friday"
 msgstr "petek"
 
-#: js/config.php:40
+#: js/config.php:38
 msgid "Saturday"
 msgstr "sobota"
 
-#: js/config.php:45
+#: js/config.php:43
 msgid "January"
 msgstr "januar"
 
-#: js/config.php:46
+#: js/config.php:44
 msgid "February"
 msgstr "februar"
 
-#: js/config.php:47
+#: js/config.php:45
 msgid "March"
 msgstr "marec"
 
-#: js/config.php:48
+#: js/config.php:46
 msgid "April"
 msgstr "april"
 
-#: js/config.php:49
+#: js/config.php:47
 msgid "May"
 msgstr "maj"
 
-#: js/config.php:50
+#: js/config.php:48
 msgid "June"
 msgstr "junij"
 
-#: js/config.php:51
+#: js/config.php:49
 msgid "July"
 msgstr "julij"
 
-#: js/config.php:52
+#: js/config.php:50
 msgid "August"
 msgstr "avgust"
 
-#: js/config.php:53
+#: js/config.php:51
 msgid "September"
 msgstr "september"
 
-#: js/config.php:54
+#: js/config.php:52
 msgid "October"
 msgstr "oktober"
 
-#: js/config.php:55
+#: js/config.php:53
 msgid "November"
 msgstr "november"
 
-#: js/config.php:56
+#: js/config.php:54
 msgid "December"
 msgstr "december"
 
-#: js/js.js:286
+#: js/js.js:289
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: js/js.js:718
+#: js/js.js:721
 msgid "seconds ago"
 msgstr "pred nekaj sekundami"
 
-#: js/js.js:719
+#: js/js.js:722
 msgid "1 minute ago"
 msgstr "pred minuto"
 
-#: js/js.js:720
+#: js/js.js:723
 msgid "{minutes} minutes ago"
 msgstr "pred {minutes} minutami"
 
-#: js/js.js:721
+#: js/js.js:724
 msgid "1 hour ago"
 msgstr "Pred 1 uro"
 
-#: js/js.js:722
+#: js/js.js:725
 msgid "{hours} hours ago"
 msgstr "pred {hours} urami"
 
-#: js/js.js:723
+#: js/js.js:726
 msgid "today"
 msgstr "danes"
 
-#: js/js.js:724
+#: js/js.js:727
 msgid "yesterday"
 msgstr "včeraj"
 
-#: js/js.js:725
+#: js/js.js:728
 msgid "{days} days ago"
 msgstr "pred {days} dnevi"
 
-#: js/js.js:726
+#: js/js.js:729
 msgid "last month"
 msgstr "zadnji mesec"
 
-#: js/js.js:727
+#: js/js.js:730
 msgid "{months} months ago"
 msgstr "pred {months} meseci"
 
-#: js/js.js:728
+#: js/js.js:731
 msgid "months ago"
 msgstr "mesecev nazaj"
 
-#: js/js.js:729
+#: js/js.js:732
 msgid "last year"
 msgstr "lansko leto"
 
-#: js/js.js:730
+#: js/js.js:733
 msgid "years ago"
 msgstr "let nazaj"
 
@@ -204,7 +205,7 @@ msgstr "Prekliči"
 
 #: js/oc-dialogs.js:141 js/oc-dialogs.js:200
 msgid "Error loading file picker template"
-msgstr ""
+msgstr "Napaka pri nalaganju predloge za izbor dokumenta"
 
 #: js/oc-dialogs.js:164
 msgid "Yes"
@@ -408,11 +409,11 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr ""
+msgstr "Datoteke so šifrirane. Če niste omogočili ključa za obnovitev, žal podatkov ne bo mogoče pridobiti nazaj, ko boste geslo enkrat spremenili. Če niste prepričani, kaj storiti, se obrnite na skrbnika storitve. Ste prepričani, da želite nadaljevati?"
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
-msgstr ""
+msgstr "Da, potrjujem ponastavitev gesla"
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
@@ -471,7 +472,7 @@ msgid ""
 "View it: %s\n"
 "\n"
 "Cheers!"
-msgstr ""
+msgstr "Pozdravljen/a,⏎\n⏎\nsporočam, da je %s delil %s s teboj.⏎\nPoglej na: %s⏎\n⏎\nLep pozdrav!"
 
 #: templates/altmail.php:7 templates/mail.php:24
 msgid "web services under your control"
@@ -613,7 +614,7 @@ msgstr "Druge prijavne možnosti"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr ""
+msgstr "Pozdravljen/a,<br><br>sporočam, da je %s delil »%s« s teboj.<br><a href=\"%s\">Poglej vsebine!</a><br><br>Lep pozdrav!"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

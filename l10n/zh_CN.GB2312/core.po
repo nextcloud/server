@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-26 02:00+0200\n"
-"PO-Revision-Date: 2013-06-25 23:14+0000\n"
+"POT-Creation-Date: 2013-06-27 02:04+0200\n"
+"PO-Revision-Date: 2013-06-27 00:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
@@ -63,135 +63,135 @@ msgstr "没有选中要删除的分类。"
 msgid "Error removing %s from favorites."
 msgstr "在移除收藏夹中的 %s 时发生错误。"
 
-#: js/config.php:34
+#: js/config.php:32
 msgid "Sunday"
 msgstr "星期天"
 
-#: js/config.php:35
+#: js/config.php:33
 msgid "Monday"
 msgstr "星期一"
 
-#: js/config.php:36
+#: js/config.php:34
 msgid "Tuesday"
 msgstr "星期二"
 
-#: js/config.php:37
+#: js/config.php:35
 msgid "Wednesday"
 msgstr "星期三"
 
-#: js/config.php:38
+#: js/config.php:36
 msgid "Thursday"
 msgstr "星期四"
 
-#: js/config.php:39
+#: js/config.php:37
 msgid "Friday"
 msgstr "星期五"
 
-#: js/config.php:40
+#: js/config.php:38
 msgid "Saturday"
 msgstr "星期六"
 
-#: js/config.php:45
+#: js/config.php:43
 msgid "January"
 msgstr "一月"
 
-#: js/config.php:46
+#: js/config.php:44
 msgid "February"
 msgstr "二月"
 
-#: js/config.php:47
+#: js/config.php:45
 msgid "March"
 msgstr "三月"
 
-#: js/config.php:48
+#: js/config.php:46
 msgid "April"
 msgstr "四月"
 
-#: js/config.php:49
+#: js/config.php:47
 msgid "May"
 msgstr "五月"
 
-#: js/config.php:50
+#: js/config.php:48
 msgid "June"
 msgstr "六月"
 
-#: js/config.php:51
+#: js/config.php:49
 msgid "July"
 msgstr "七月"
 
-#: js/config.php:52
+#: js/config.php:50
 msgid "August"
 msgstr "八月"
 
-#: js/config.php:53
+#: js/config.php:51
 msgid "September"
 msgstr "九月"
 
-#: js/config.php:54
+#: js/config.php:52
 msgid "October"
 msgstr "十月"
 
-#: js/config.php:55
+#: js/config.php:53
 msgid "November"
 msgstr "十一月"
 
-#: js/config.php:56
+#: js/config.php:54
 msgid "December"
 msgstr "十二月"
 
-#: js/js.js:286
+#: js/js.js:289
 msgid "Settings"
 msgstr "设置"
 
-#: js/js.js:718
+#: js/js.js:721
 msgid "seconds ago"
 msgstr "秒前"
 
-#: js/js.js:719
+#: js/js.js:722
 msgid "1 minute ago"
 msgstr "1 分钟前"
 
-#: js/js.js:720
+#: js/js.js:723
 msgid "{minutes} minutes ago"
 msgstr "{minutes} 分钟前"
 
-#: js/js.js:721
+#: js/js.js:724
 msgid "1 hour ago"
 msgstr "1小时前"
 
-#: js/js.js:722
+#: js/js.js:725
 msgid "{hours} hours ago"
 msgstr "{hours}小时前"
 
-#: js/js.js:723
+#: js/js.js:726
 msgid "today"
 msgstr "今天"
 
-#: js/js.js:724
+#: js/js.js:727
 msgid "yesterday"
 msgstr "昨天"
 
-#: js/js.js:725
+#: js/js.js:728
 msgid "{days} days ago"
 msgstr "{days} 天前"
 
-#: js/js.js:726
+#: js/js.js:729
 msgid "last month"
 msgstr "上个月"
 
-#: js/js.js:727
+#: js/js.js:730
 msgid "{months} months ago"
 msgstr "{months}月前"
 
-#: js/js.js:728
+#: js/js.js:731
 msgid "months ago"
 msgstr "月前"
 
-#: js/js.js:729
+#: js/js.js:732
 msgid "last year"
 msgstr "去年"
 
-#: js/js.js:730
+#: js/js.js:733
 msgid "years ago"
 msgstr "年前"
 

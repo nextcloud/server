@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-26 02:00+0200\n"
-"PO-Revision-Date: 2013-06-25 23:14+0000\n"
+"POT-Creation-Date: 2013-06-27 02:04+0200\n"
+"PO-Revision-Date: 2013-06-27 00:02+0000\n"
 "Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -63,135 +63,135 @@ msgstr "Neniu kategorio elektiĝis por forigo."
 msgid "Error removing %s from favorites."
 msgstr "Eraro dum forigo de %s el favoratoj."
 
-#: js/config.php:34
+#: js/config.php:32
 msgid "Sunday"
 msgstr "dimanĉo"
 
-#: js/config.php:35
+#: js/config.php:33
 msgid "Monday"
 msgstr "lundo"
 
-#: js/config.php:36
+#: js/config.php:34
 msgid "Tuesday"
 msgstr "mardo"
 
-#: js/config.php:37
+#: js/config.php:35
 msgid "Wednesday"
 msgstr "merkredo"
 
-#: js/config.php:38
+#: js/config.php:36
 msgid "Thursday"
 msgstr "ĵaŭdo"
 
-#: js/config.php:39
+#: js/config.php:37
 msgid "Friday"
 msgstr "vendredo"
 
-#: js/config.php:40
+#: js/config.php:38
 msgid "Saturday"
 msgstr "sabato"
 
-#: js/config.php:45
+#: js/config.php:43
 msgid "January"
 msgstr "Januaro"
 
-#: js/config.php:46
+#: js/config.php:44
 msgid "February"
 msgstr "Februaro"
 
-#: js/config.php:47
+#: js/config.php:45
 msgid "March"
 msgstr "Marto"
 
-#: js/config.php:48
+#: js/config.php:46
 msgid "April"
 msgstr "Aprilo"
 
-#: js/config.php:49
+#: js/config.php:47
 msgid "May"
 msgstr "Majo"
 
-#: js/config.php:50
+#: js/config.php:48
 msgid "June"
 msgstr "Junio"
 
-#: js/config.php:51
+#: js/config.php:49
 msgid "July"
 msgstr "Julio"
 
-#: js/config.php:52
+#: js/config.php:50
 msgid "August"
 msgstr "Aŭgusto"
 
-#: js/config.php:53
+#: js/config.php:51
 msgid "September"
 msgstr "Septembro"
 
-#: js/config.php:54
+#: js/config.php:52
 msgid "October"
 msgstr "Oktobro"
 
-#: js/config.php:55
+#: js/config.php:53
 msgid "November"
 msgstr "Novembro"
 
-#: js/config.php:56
+#: js/config.php:54
 msgid "December"
 msgstr "Decembro"
 
-#: js/js.js:286
+#: js/js.js:289
 msgid "Settings"
 msgstr "Agordo"
 
-#: js/js.js:718
+#: js/js.js:721
 msgid "seconds ago"
 msgstr "sekundoj antaŭe"
 
-#: js/js.js:719
+#: js/js.js:722
 msgid "1 minute ago"
 msgstr "antaŭ 1 minuto"
 
-#: js/js.js:720
+#: js/js.js:723
 msgid "{minutes} minutes ago"
 msgstr "antaŭ {minutes} minutoj"
 
-#: js/js.js:721
+#: js/js.js:724
 msgid "1 hour ago"
 msgstr "antaŭ 1 horo"
 
-#: js/js.js:722
+#: js/js.js:725
 msgid "{hours} hours ago"
 msgstr "antaŭ {hours} horoj"
 
-#: js/js.js:723
+#: js/js.js:726
 msgid "today"
 msgstr "hodiaŭ"
 
-#: js/js.js:724
+#: js/js.js:727
 msgid "yesterday"
 msgstr "hieraŭ"
 
-#: js/js.js:725
+#: js/js.js:728
 msgid "{days} days ago"
 msgstr "antaŭ {days} tagoj"
 
-#: js/js.js:726
+#: js/js.js:729
 msgid "last month"
 msgstr "lastamonate"
 
-#: js/js.js:727
+#: js/js.js:730
 msgid "{months} months ago"
 msgstr "antaŭ {months} monatoj"
 
-#: js/js.js:728
+#: js/js.js:731
 msgid "months ago"
 msgstr "monatoj antaŭe"
 
-#: js/js.js:729
+#: js/js.js:732
 msgid "last year"
 msgstr "lastajare"
 
-#: js/js.js:730
+#: js/js.js:733
 msgid "years ago"
 msgstr "jaroj antaŭe"
 

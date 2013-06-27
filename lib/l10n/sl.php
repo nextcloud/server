@@ -24,6 +24,7 @@
 "%s set the database host." => "%s - vnos gostitelja podatkovne zbirke.",
 "PostgreSQL username and/or password not valid" => "Uporabniško ime ali geslo PostgreSQL ni veljavno",
 "You need to enter either an existing account or the administrator." => "Prijaviti se je treba v obstoječi ali pa skrbniški račun.",
+"Oracle connection could not be established" => "Povezava z bazo Oracle ni uspela.",
 "MySQL username and/or password not valid" => "Uporabniško ime ali geslo MySQL ni veljavno",
 "DB Error: \"%s\"" => "Napaka podatkovne zbirke: \"%s\"",
 "Offending command was: \"%s\"" => "Napačni ukaz je: \"%s\"",

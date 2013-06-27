@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-26 02:00+0200\n"
-"PO-Revision-Date: 2013-06-25 23:14+0000\n"
+"POT-Creation-Date: 2013-06-27 02:04+0200\n"
+"PO-Revision-Date: 2013-06-27 00:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -61,135 +61,135 @@ msgstr "სარედაქტირებელი კატეგორი�
 msgid "Error removing %s from favorites."
 msgstr "შეცდომა  %s–ის ფევორიტებიდან წაშლის დროს."
 
-#: js/config.php:34
+#: js/config.php:32
 msgid "Sunday"
 msgstr "კვირა"
 
-#: js/config.php:35
+#: js/config.php:33
 msgid "Monday"
 msgstr "ორშაბათი"
 
-#: js/config.php:36
+#: js/config.php:34
 msgid "Tuesday"
 msgstr "სამშაბათი"
 
-#: js/config.php:37
+#: js/config.php:35
 msgid "Wednesday"
 msgstr "ოთხშაბათი"
 
-#: js/config.php:38
+#: js/config.php:36
 msgid "Thursday"
 msgstr "ხუთშაბათი"
 
-#: js/config.php:39
+#: js/config.php:37
 msgid "Friday"
 msgstr "პარასკევი"
 
-#: js/config.php:40
+#: js/config.php:38
 msgid "Saturday"
 msgstr "შაბათი"
 
-#: js/config.php:45
+#: js/config.php:43
 msgid "January"
 msgstr "იანვარი"
 
-#: js/config.php:46
+#: js/config.php:44
 msgid "February"
 msgstr "თებერვალი"
 
-#: js/config.php:47
+#: js/config.php:45
 msgid "March"
 msgstr "მარტი"
 
-#: js/config.php:48
+#: js/config.php:46
 msgid "April"
 msgstr "აპრილი"
 
-#: js/config.php:49
+#: js/config.php:47
 msgid "May"
 msgstr "მაისი"
 
-#: js/config.php:50
+#: js/config.php:48
 msgid "June"
 msgstr "ივნისი"
 
-#: js/config.php:51
+#: js/config.php:49
 msgid "July"
 msgstr "ივლისი"
 
-#: js/config.php:52
+#: js/config.php:50
 msgid "August"
 msgstr "აგვისტო"
 
-#: js/config.php:53
+#: js/config.php:51
 msgid "September"
 msgstr "სექტემბერი"
 
-#: js/config.php:54
+#: js/config.php:52
 msgid "October"
 msgstr "ოქტომბერი"
 
-#: js/config.php:55
+#: js/config.php:53
 msgid "November"
 msgstr "ნოემბერი"
 
-#: js/config.php:56
+#: js/config.php:54
 msgid "December"
 msgstr "დეკემბერი"
 
-#: js/js.js:286
+#: js/js.js:289
 msgid "Settings"
 msgstr "პარამეტრები"
 
-#: js/js.js:718
+#: js/js.js:721
 msgid "seconds ago"
 msgstr "წამის წინ"
 
-#: js/js.js:719
+#: js/js.js:722
 msgid "1 minute ago"
 msgstr "1 წუთის წინ"
 
-#: js/js.js:720
+#: js/js.js:723
 msgid "{minutes} minutes ago"
 msgstr "{minutes} წუთის წინ"
 
-#: js/js.js:721
+#: js/js.js:724
 msgid "1 hour ago"
 msgstr "1 საათის წინ"
 
-#: js/js.js:722
+#: js/js.js:725
 msgid "{hours} hours ago"
 msgstr "{hours} საათის წინ"
 
-#: js/js.js:723
+#: js/js.js:726
 msgid "today"
 msgstr "დღეს"
 
-#: js/js.js:724
+#: js/js.js:727
 msgid "yesterday"
 msgstr "გუშინ"
 
-#: js/js.js:725
+#: js/js.js:728
 msgid "{days} days ago"
 msgstr "{days} დღის წინ"
 
-#: js/js.js:726
+#: js/js.js:729
 msgid "last month"
 msgstr "გასულ თვეში"
 
-#: js/js.js:727
+#: js/js.js:730
 msgid "{months} months ago"
 msgstr "{months} თვის წინ"
 
-#: js/js.js:728
+#: js/js.js:731
 msgid "months ago"
 msgstr "თვის წინ"
 
-#: js/js.js:729
+#: js/js.js:732
 msgid "last year"
 msgstr "ბოლო წელს"
 
-#: js/js.js:730
+#: js/js.js:733
 msgid "years ago"
 msgstr "წლის წინ"
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-26 02:00+0200\n"
-"PO-Revision-Date: 2013-06-25 23:14+0000\n"
+"POT-Creation-Date: 2013-06-27 02:04+0200\n"
+"PO-Revision-Date: 2013-06-27 00:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -61,135 +61,135 @@ msgstr "Neviena kategorija nav izvēlēta dzēšanai."
 msgid "Error removing %s from favorites."
 msgstr "Kļūda, izņemot %s no izlases."
 
-#: js/config.php:34
+#: js/config.php:32
 msgid "Sunday"
 msgstr "Svētdiena"
 
-#: js/config.php:35
+#: js/config.php:33
 msgid "Monday"
 msgstr "Pirmdiena"
 
-#: js/config.php:36
+#: js/config.php:34
 msgid "Tuesday"
 msgstr "Otrdiena"
 
-#: js/config.php:37
+#: js/config.php:35
 msgid "Wednesday"
 msgstr "Trešdiena"
 
-#: js/config.php:38
+#: js/config.php:36
 msgid "Thursday"
 msgstr "Ceturtdiena"
 
-#: js/config.php:39
+#: js/config.php:37
 msgid "Friday"
 msgstr "Piektdiena"
 
-#: js/config.php:40
+#: js/config.php:38
 msgid "Saturday"
 msgstr "Sestdiena"
 
-#: js/config.php:45
+#: js/config.php:43
 msgid "January"
 msgstr "Janvāris"
 
-#: js/config.php:46
+#: js/config.php:44
 msgid "February"
 msgstr "Februāris"
 
-#: js/config.php:47
+#: js/config.php:45
 msgid "March"
 msgstr "Marts"
 
-#: js/config.php:48
+#: js/config.php:46
 msgid "April"
 msgstr "Aprīlis"
 
-#: js/config.php:49
+#: js/config.php:47
 msgid "May"
 msgstr "Maijs"
 
-#: js/config.php:50
+#: js/config.php:48
 msgid "June"
 msgstr "Jūnijs"
 
-#: js/config.php:51
+#: js/config.php:49
 msgid "July"
 msgstr "Jūlijs"
 
-#: js/config.php:52
+#: js/config.php:50
 msgid "August"
 msgstr "Augusts"
 
-#: js/config.php:53
+#: js/config.php:51
 msgid "September"
 msgstr "Septembris"
 
-#: js/config.php:54
+#: js/config.php:52
 msgid "October"
 msgstr "Oktobris"
 
-#: js/config.php:55
+#: js/config.php:53
 msgid "November"
 msgstr "Novembris"
 
-#: js/config.php:56
+#: js/config.php:54
 msgid "December"
 msgstr "Decembris"
 
-#: js/js.js:286
+#: js/js.js:289
 msgid "Settings"
 msgstr "Iestatījumi"
 
-#: js/js.js:718
+#: js/js.js:721
 msgid "seconds ago"
 msgstr "sekundes atpakaļ"
 
-#: js/js.js:719
+#: js/js.js:722
 msgid "1 minute ago"
 msgstr "pirms 1 minūtes"
 
-#: js/js.js:720
+#: js/js.js:723
 msgid "{minutes} minutes ago"
 msgstr "pirms {minutes} minūtēm"
 
-#: js/js.js:721
+#: js/js.js:724
 msgid "1 hour ago"
 msgstr "pirms 1 stundas"
 
-#: js/js.js:722
+#: js/js.js:725
 msgid "{hours} hours ago"
 msgstr "pirms {hours} stundām"
 
-#: js/js.js:723
+#: js/js.js:726
 msgid "today"
 msgstr "šodien"
 
-#: js/js.js:724
+#: js/js.js:727
 msgid "yesterday"
 msgstr "vakar"
 
-#: js/js.js:725
+#: js/js.js:728
 msgid "{days} days ago"
 msgstr "pirms {days} dienām"
 
-#: js/js.js:726
+#: js/js.js:729
 msgid "last month"
 msgstr "pagājušajā mēnesī"
 
-#: js/js.js:727
+#: js/js.js:730
 msgid "{months} months ago"
 msgstr "pirms {months} mēnešiem"
 
-#: js/js.js:728
+#: js/js.js:731
 msgid "months ago"
 msgstr "mēnešus atpakaļ"
 
-#: js/js.js:729
+#: js/js.js:732
 msgid "last year"
 msgstr "gājušajā gadā"
 
-#: js/js.js:730
+#: js/js.js:733
 msgid "years ago"
 msgstr "gadus atpakaļ"
 
