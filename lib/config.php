@@ -49,12 +49,17 @@ class Config {
 
 	protected $debugMode;
 
-	public function __construct($configDir, $debugMode) {
+	public function __construct($configDir) {
 		$this->configDir = $configDir;
-		$this->debugMode = $debugMode;
 		$this->configFilename = $this->configDir.'config.php';
 		$this->readData();
+		$this->setDebugMode(defined('DEBUG') && DEBUG);
 	}
+
+	public function setDebugMode($enable) {
+		$this->debugMode = $enable;
+	}
+
 	/**
 	 * @brief Lists all available config keys
 	 * @return array with key names
