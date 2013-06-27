@@ -325,6 +325,7 @@ class OC_DB {
 	 * @param string $query Query string
 	 * @param int $limit
 	 * @param int $offset
+	 * @param bool $isManipulation
 	 * @return MDB2_Statement_Common prepared SQL query
 	 *
 	 * SQL query via MDB2 prepare(), needs to be execute()'d!
@@ -390,11 +391,7 @@ class OC_DB {
 				throw new DatabaseException($e->getMessage(), $query);
 			}
 			// differentiate between query and manipulation
-			if ($isManipulation) {
-				$result=new PDOStatementWrapper($result, true);
-			} else {
-				$result=new PDOStatementWrapper($result, false);
-			}
+			$result = new PDOStatementWrapper($result, $isManipulation);
 		}
 		if ((is_null($limit) || $limit == -1) and self::$cachingEnabled ) {
 			$type = OC_Config::getValue( "dbtype", "sqlite" );
