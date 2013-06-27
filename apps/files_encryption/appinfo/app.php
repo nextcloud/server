@@ -22,6 +22,9 @@ if (!OC_Config::getValue('maintenance', false)) {
 	// Filesystem related hooks
 	OCA\Encryption\Helper::registerFilesystemHooks();
 
+	// App manager related hooks
+	OCA\Encryption\Helper::registerAppHooks();
+
 	stream_wrapper_register('crypt', 'OCA\Encryption\Stream');
 
 	// check if we are logged in
