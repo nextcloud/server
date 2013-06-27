@@ -118,7 +118,7 @@ class Storage {
 				$versionsSize = self::calculateSize($uid);
 			}
 
-			// assumptgion: we need filesize($filename) for the new version +
+			// assumption: we need filesize($filename) for the new version +
 			// some more free space for the modified file which might be
 			// 1.5 times as large as the current version -> 2.5
 			$neededSpace = $files_view->filesize($filename) * 2.5;
