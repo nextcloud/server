@@ -962,21 +962,21 @@ class OC_DB {
 	 * @return bool
 	 */
 	public static function isError($result) {
+		//MDB2 returns an MDB2_Error object
+		if (class_exists('PEAR') === true && PEAR::isError($result)) {
+			return true;
+		}
 		//PDO returns false on error (and throws an exception)
 		if (self::$backend===self::BACKEND_PDO and $result === false) {
 			return true;
-		} else
-		//MDB2 returns an MDB2_Error object
-		if (self::$backend===self::BACKEND_MDB2 and PEAR::isError($result)) {
-			return true;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 	/**
 	 * check if a result is an error and throws an exception, works with MDB2 and PDOException
 	 * @param mixed $result
-	 * @param string message
+	 * @param string $message
 	 * @return void
 	 * @throws DatabaseException
 	 */
@@ -992,12 +992,15 @@ class OC_DB {
 	}
 
 	public static function getErrorCode($error) {
-		if ( self::$backend==self::BACKEND_MDB2 and PEAR::isError($error) ) {
-			$code = $error->getCode();
-		} elseif ( self::$backend==self::BACKEND_PDO and self::$PDO ) {
-			$code = self::$PDO->errorCode();
+		if ( class_exists('PEAR') === true && PEAR::isError($error) ) {
+			/** @var $error PEAR_Error */
+			return $error->getCode();
 		}
-		return $code;
+		if ( self::$backend==self::BACKEND_PDO and self::$PDO ) {
+			return self::$PDO->errorCode();
+		}
+
+		return -1;
 	}
 	/**
 	 * returns the error code and message as a string for logging
@@ -1006,23 +1009,24 @@ class OC_DB {
 	 * @return string
 	 */
 	public static function getErrorMessage($error) {
-		if ( self::$backend==self::BACKEND_MDB2 and PEAR::isError($error) ) {
+		if ( class_exists('PEAR') === true && PEAR::isError($error) ) {
 			$msg = $error->getCode() . ': ' . $error->getMessage();
 			$msg .= ' (' . $error->getDebugInfo() . ')';
-		} elseif (self::$backend==self::BACKEND_PDO and self::$PDO) {
+
+			return $msg;
+		}
+		if (self::$backend==self::BACKEND_PDO and self::$PDO) {
 			$msg = self::$PDO->errorCode() . ': ';
 			$errorInfo = self::$PDO->errorInfo();
 			if (is_array($errorInfo)) {
 				$msg .= 'SQLSTATE = '.$errorInfo[0] . ', ';
 				$msg .= 'Driver Code = '.$errorInfo[1] . ', ';
 				$msg .= 'Driver Message = '.$errorInfo[2];
-			}else{
-				$msg = '';
 			}
-		}else{
-			$msg = '';
+			return $msg;
 		}
-		return $msg;
+
+		return '';
 	}
 
 	/**
