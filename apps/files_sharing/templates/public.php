@@ -5,6 +5,9 @@
 <header><div id="header">
 	<a href="<?php print_unescaped(link_to('', 'index.php')); ?>" title="" id="owncloud"><img class="svg"
 		src="<?php print_unescaped(image_path('', 'logo-wide.svg')); ?>" alt="ownCloud" /></a>
+	<?php if (OC_Util::getEditionString() !== ''): ?>
+		<div id="logo-claim" style="display:none;">Enterprise Edition</div>
+	<?php endif; ?>
 	<div class="header-right">
 	<?php if (isset($_['folder'])): ?>
 		<span id="details"><?php p($l->t('%s shared the folder %s with you',
