@@ -23,6 +23,14 @@ class OC_Log {
 	const ERROR=3;
 	const FATAL=4;
 
+	static private $level_funcs = array(
+		self::DEBUG	=> 'debug',
+		self::INFO	=> 'info',
+		self::WARN	=> 'warning',
+		self::ERROR	=> 'error',
+		self::FATAL	=> 'emergency',
+		);
+
 	static public $enabled = true;
 	static protected $class = null;
 
@@ -34,12 +42,9 @@ class OC_Log {
 	 */
 	public static function write($app, $message, $level) {
 		if (self::$enabled) {
-			if (!self::$class) {
-				self::$class = 'OC_Log_'.ucfirst(OC_Config::getValue('log_type', 'owncloud'));
-				call_user_func(array(self::$class, 'init'));
-			}
-			$log_class=self::$class;
-			$log_class::write($app, $message, $level);
+			$context = array('app' => $app);
+			$func = array(self::$object, self::$level_funcs[$level]);
+			call_user_func($func, $message, $context);
 		}
 	}
 

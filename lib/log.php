@@ -19,10 +19,6 @@ namespace OC;
  */
 
 class Log {
-	const NOTICE=5;
-	const CRITICAL=6;
-	const ALERT=7;
-
 	/**
 	 * System is unusable.
 	 *
@@ -114,6 +110,11 @@ class Log {
 		$this->log(\OC_Log::DEBUG, $message, $context);
 	}
 
+	public function __construct() {
+		$this->log_class = 'OC_Log_'.ucfirst(\OC_Config::getValue('log_type', 'owncloud'));
+		call_user_func(array($this->log_class, 'init'));
+	}
+
 	/**
 	 * Logs with an arbitrary level.
 	 *
@@ -127,6 +128,7 @@ class Log {
 		} else {
 			$app = 'no app in context';
 		}
-		\OC_Log::write($app, $message, $level);
+		$log_class=$this->log_class;
+		$log_class::write($app, $message, $level);
 	}
 }
