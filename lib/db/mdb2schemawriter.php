@@ -7,6 +7,12 @@
  */
 
 class OC_DB_MDB2SchemaWriter {
+
+	/**
+	 * @param $file
+	 * @param \Doctrine\DBAL\Schema\AbstractSchemaManager $sm
+	 * @return bool
+	 */
 	static public function saveSchemaToFile($file, $sm) {
 		$xml = new SimpleXMLElement('<database/>');
 		$xml->addChild('name', OC_Config::getValue( "dbname", "owncloud" ));

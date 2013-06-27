@@ -12,8 +12,9 @@ class OC_DB_Schema {
 
 	/**
 	 * @brief saves database scheme to xml file
+	 * @param \Doctrine\DBAL\Connection $conn
 	 * @param string $file name of file
-	 * @param int $mode
+	 * @param int|string $mode
 	 * @return bool
 	 *
 	 * TODO: write more documentation

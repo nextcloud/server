@@ -49,10 +49,10 @@ class OC_DB {
 	/**
 	 * @var \Doctrine\DBAL\Connection
 	 */
-	static private $connection; //the prefered connection to use, only Doctrine
+	static private $connection; //the preferred connection to use, only Doctrine
 	static private $backend=null;
 	/**
-	 * @var Doctrine
+	 * @var \Doctrine\DBAL\Connection
 	 */
 	static private $DOCTRINE=null;
 
@@ -652,7 +652,7 @@ class OC_DB {
 	/**
 	 * check if a result is an error and throws an exception, works with \Doctrine\DBAL\DBALException
 	 * @param mixed $result
-	 * @param string message
+	 * @param string $message
 	 * @return void
 	 * @throws DatabaseException
 	 */
