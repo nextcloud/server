@@ -129,7 +129,7 @@ class Config {
 		}
 		// Include file and merge config
 		foreach ($configFiles as $file) {
-			if (!is_file($file)) {
+			if (!file_exists($file)) {
 				continue;
 			}
 			unset($CONFIG);
