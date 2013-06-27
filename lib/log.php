@@ -19,6 +19,8 @@ namespace OC;
  */
 
 class Log {
+	private $logClass;
+
 	/**
 	 * System is unusable.
 	 *
@@ -111,8 +113,8 @@ class Log {
 	}
 
 	public function __construct() {
-		$this->log_class = 'OC_Log_'.ucfirst(\OC_Config::getValue('log_type', 'owncloud'));
-		call_user_func(array($this->log_class, 'init'));
+		$this->logClass = 'OC_Log_'.ucfirst(\OC_Config::getValue('log_type', 'owncloud'));
+		call_user_func(array($this->logClass, 'init'));
 	}
 
 	/**
@@ -122,13 +124,13 @@ class Log {
 	 * @param string $message
 	 * @param array $context
 	 */
-	protected function log($level, $message, array $context = array()) {
+	public function log($level, $message, array $context = array()) {
 		if (isset($context['app'])) {
 			$app = $context['app'];
 		} else {
 			$app = 'no app in context';
 		}
-		$log_class=$this->log_class;
-		$log_class::write($app, $message, $level);
+		$logClass=$this->logClass;
+		$logClass::write($app, $message, $level);
 	}
 }
