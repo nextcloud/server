@@ -437,7 +437,7 @@ class Storage {
 			}
 
 
-			// after every 1000s run reduce the number of all versions not only for the current file
+			// with the  probability of 0.1% we reduce the number of all versions not only for the current file
 			$random = rand(0, 1000);
 			if ($random == 0) {
 				$allFiles = true;
