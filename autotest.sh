@@ -146,8 +146,7 @@ if [ -z "$1" ]
 	execute_tests "sqlite"
 	execute_tests 'mysql'
 	execute_tests 'pgsql'
-	# we will add oci as soon as it's stable
-	#execute_tests 'oci'
+	execute_tests 'oci'
 else
 	execute_tests $1
 fi
