@@ -315,7 +315,7 @@ class OC {
 		// regenerate session id periodically to avoid session fixation
 		if (!self::$session->exists('SID_CREATED')) {
 			self::$session->set('SID_CREATED', time());
-		} else if (time() - self::$session->get('SID_CREATED') > $sessionLifeTime) {
+		} else if (time() - self::$session->get('SID_CREATED') > $sessionLifeTime / 2) {
 			session_regenerate_id(true);
 			self::$session->set('SID_CREATED', time());
 		}
@@ -337,7 +337,7 @@ class OC {
 	 * @return int
 	 */
 	private static function getSessionLifeTime() {
-		return OC_Config::getValue('session_life_time', 60 * 60 * 12);
+		return OC_Config::getValue('session_lifetime', 60 * 60 * 24);
 	}
 
 	public static function getRouter() {
