@@ -41,7 +41,7 @@ class Log {
 	 * @param array $context
 	 */
 	public function alert($message, array $context = array()) {
-		$this->log(self::ALERT, $message, $context);
+		$this->log(\OC_Log::ERROR, $message, $context);
 	}
 
 	/**
@@ -53,7 +53,7 @@ class Log {
 	 * @param array $context
 	 */
 	public function critical($message, array $context = array()) {
-		$this->log(self::CRITICAL, $message, $context);
+		$this->log(\OC_Log::ERROR, $message, $context);
 	}
 
 	/**
@@ -87,7 +87,7 @@ class Log {
 	 * @param array $context
 	 */
 	public function notice($message, array $context = array()) {
-		$this->log(self::NOTICE, $message, $context);
+		$this->log(\OC_Log::INFO, $message, $context);
 	}
 
 	/**
