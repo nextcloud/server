@@ -398,7 +398,7 @@ class Storage {
 	private static function expire($filename, $versionsSize = null, $offset = 0) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);
-			$versions_fileview = new \OC\Files\View('/'.$uid.'/files_versions');
+			$versionsFileview = new \OC\Files\View('/'.$uid.'/files_versions');
 
 			// get available disk space for user
 			$softQuota = true;
@@ -445,20 +445,20 @@ class Storage {
 				$allFiles = false;
 			}
 
-			$all_versions = Storage::getVersions($uid, $filename);
-			$versions_by_file[$filename] = $all_versions;
+			$allVersions = Storage::getVersions($uid, $filename);
+			$versionsByFile[$filename] = $allVersions;
 
-			$sizeOfDeletedVersions = self::delOldVersions($versions_by_file, $all_versions, $versions_fileview);
+			$sizeOfDeletedVersions = self::delOldVersions($versionsByFile, $allVersions, $versionsFileview);
 			$availableSpace = $availableSpace + $sizeOfDeletedVersions;
 			$versionsSize = $versionsSize - $sizeOfDeletedVersions;
 
 			// if still not enough free space we rearrange the versions from all files
 			if ($availableSpace <= 0 || $allFiles) {
 				$result = Storage::getAllVersions($uid);
-				$versions_by_file = $result['by_file'];
-				$all_versions = $result['all'];
+				$versionsByFile = $result['by_file'];
+				$allVersions = $result['all'];
 
-				$sizeOfDeletedVersions = self::delOldVersions($versions_by_file, $all_versions, $versions_fileview);
+				$sizeOfDeletedVersions = self::delOldVersions($versionsByFile, $allVersions, $versionsFileview);
 				$availableSpace = $availableSpace + $sizeOfDeletedVersions;
 				$versionsSize = $versionsSize - $sizeOfDeletedVersions;
 			}
@@ -466,12 +466,14 @@ class Storage {
 			// Check if enough space is available after versions are rearranged.
 			// If not we delete the oldest versions until we meet the size limit for versions,
 			// but always keep the two latest versions
-			$numOfVersions = count($all_versions) -2 ;
+			$numOfVersions = count($allVersions) -2 ;
 			$i = 0;
 			while ($availableSpace < 0 && $i < $numOfVersions) {
-				$versions_fileview->unlink($all_versions[$i]['path'].'.v'.$all_versions[$i]['version']);
-				$versionsSize -= $all_versions[$i]['size'];
-				$availableSpace += $all_versions[$i]['size'];
+				$version = current($allVersions);
+				$versionsFileview->unlink($version['path'].'.v'.$version['version']);
+				$versionsSize -= $version['size'];
+				$availableSpace += $version['size'];
+				next($allVersions);
 				$i++;
 			}
 
