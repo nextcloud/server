@@ -26,9 +26,6 @@ class OC_DB_MDB2SchemaReader {
 		foreach($xml->children() as $child) {
 			switch($child->getName()) {
 				case 'name':
-					$name = (string)$child;
-					$name = str_replace( '*dbname*', self::$DBNAME, $name );
-					break;
 				case 'create':
 				case 'overwrite':
 				case 'charset':

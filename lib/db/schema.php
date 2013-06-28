@@ -7,9 +7,6 @@
  */
 
 class OC_DB_Schema {
-	private static $DBNAME;
-	private static $DBTABLEPREFIX;
-
 	/**
 	 * @brief saves database scheme to xml file
 	 * @param \Doctrine\DBAL\Connection $conn
