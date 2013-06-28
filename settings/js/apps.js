@@ -20,6 +20,11 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		page.find('span.score').html(app.score);
 		page.find('p.description').text(app.description);
 		page.find('img.preview').attr('src', app.preview);
+		if (app.preview && app.preview.length) {
+			page.find('img.preview').show();
+		} else {
+			page.find('img.preview').hide();
+		}
 		page.find('small.externalapp').attr('style', 'visibility:visible');
 		page.find('span.author').text(app.author);
 		page.find('span.licence').text(app.licence);
