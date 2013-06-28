@@ -71,8 +71,20 @@ var FileList={
 		tr.append(td);
 		return tr;
 	},
-	addFile:function(name,size,lastModified,loading,hidden){
+	addFile:function(name,size,lastModified,loading,hidden,param){
 		var imgurl;
+
+		if (!param) {
+			param = {};
+		}
+
+		var download_url = null;
+		if (!param.download_url) {
+			download_url = OC.Router.generate('download', { file: $('#dir').val()+'/'+name });
+		} else {
+			download_url = param.download_url;
+		}
+
 		if (loading) {
 			imgurl = OC.imagePath('core', 'loading.gif');
 		} else {
@@ -82,7 +94,7 @@ var FileList={
 			'file',
 			name,
 			imgurl,
-			OC.Router.generate('download', { file: $('#dir').val()+'/'+name }),
+			download_url,
 			size,
 			lastModified,
 			$('#permissions').val()
@@ -197,7 +209,7 @@ var FileList={
 			len = input.val().length;
 		}
 		input.selectRange(0,len);
-		
+
 		form.submit(function(event){
 			event.stopPropagation();
 			event.preventDefault();
@@ -423,8 +435,12 @@ $(document).ready(function(){
 					size=data.files[0].size;
 				}
 				var date=new Date();
+				var param = {};
+				if ($('#publicUploadRequestToken')) {
+					param.download_url = document.location.href + '&download&path=/' + $('#dir').val() + '/' + uniqueName;
+				}
 				// create new file context
-				data.context = FileList.addFile(uniqueName,size,date,true,false);
+				data.context = FileList.addFile(uniqueName,size,date,true,false,param);
 
 			}
 		}
