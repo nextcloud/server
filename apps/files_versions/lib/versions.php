@@ -453,7 +453,7 @@ class Storage {
 			$versionsSize = $versionsSize - $sizeOfDeletedVersions;
 
 			// if still not enough free space we rearrange the versions from all files
-			if ($availableSpace < 0 || $allFiles) {
+			if ($availableSpace <= 0 || $allFiles) {
 				$result = Storage::getAllVersions($uid);
 				$versions_by_file = $result['by_file'];
 				$all_versions = $result['all'];
