@@ -35,9 +35,7 @@
 		<div id="login">
 			<header><div id="header">
 				<img src="<?php print_unescaped(image_path('', 'logo.svg')); ?>" class="svg" alt="ownCloud" />
-				<?php if (OC_Util::getEditionString() !== ''): ?>
-				<div id="logo-claim" style="display:none;">Enterprise Edition</div>
-				<?php endif; ?>
+				<div id="logo-claim" style="display:none;"><?php p(OC_Defaults::getLogoClaim()); ?></div>
 			</div></header>
 			<?php print_unescaped($_['content']); ?>
 		</div>
