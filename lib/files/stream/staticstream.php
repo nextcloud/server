@@ -26,6 +26,10 @@ class StaticStream {
 	public function stream_flush() {
 	}
 
+	public static function clear() {
+		self::$data = array();
+	}
+
 	public function stream_open($path, $mode, $options, &$opened_path) {
 		switch ($mode[0]) {
 			case 'r':
