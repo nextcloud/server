@@ -8,7 +8,7 @@
 
 namespace OC\Files\Storage\Wrapper;
 
-class Wrapper implements Storage {
+class Wrapper implements \OC\Files\Storage\Storage {
 	/**
 	 * @var \OC\Files\Storage\Storage $storage
 	 */

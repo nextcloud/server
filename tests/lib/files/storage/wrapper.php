@@ -17,7 +17,7 @@ class Wrapper extends Storage {
 	public function setUp() {
 		$this->tmpDir = \OC_Helper::tmpFolder();
 		$storage = new \OC\Files\Storage\Local(array('datadir' => $this->tmpDir));
-		$this->instance = new \OC\Files\Storage\Wrapper(array('storage' => $storage));
+		$this->instance = new \OC\Files\Storage\Wrapper\Wrapper(array('storage' => $storage));
 	}
 
 	public function tearDown() {

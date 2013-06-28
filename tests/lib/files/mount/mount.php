@@ -10,7 +10,7 @@ namespace Test\Files\Mount;
 
 
 use OC\Files\Storage\Loader;
-use OC\Files\Storage\Wrapper;
+use OC\Files\Storage\Wrapper\Wrapper;
 
 class Mount extends \PHPUnit_Framework_TestCase {
 	public function testFromStorageObject() {
@@ -41,6 +41,6 @@ class Mount extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$mount = new \OC\Files\Mount\Mount($storage, '/foo', array(), $loader);
-		$this->assertInstanceOf('\OC\Files\Storage\Wrapper', $mount->getStorage());
+		$this->assertInstanceOf('\OC\Files\Storage\Wrapper\Wrapper', $mount->getStorage());
 	}
 }
