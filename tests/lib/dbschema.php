@@ -53,12 +53,6 @@ class Test_DBSchema extends PHPUnit_Framework_TestCase {
 	}
 
 	public function doTestSchemaChanging() {
-		if (OC_Config::getValue( 'dbtype', 'sqlite' ) === 'oci') {
-			$this->markTestSkipped(
-				// see http://abhijitbashetti.blogspot.de/2011/10/converting-varchar2-to-clob-and-clob-to.html
-				'Oracle does not simply ALTER a VARCHAR into a CLOB.'
-			);
-		}
 		OC_DB::updateDbFromStructure($this->schema_file2);
 		$this->assertTableExist($this->table2);
 	}
