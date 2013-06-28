@@ -484,18 +484,18 @@ class Storage {
 	/**
 	 * @brief delete old version from a given list of versions
 	 *
-	 * @param array $versions_by_file list of versions ordered by files
-	 * @param array $all_versions all versions accross multiple files
-	 * @param $versions_fileview OC\Files\View on data/user/files_versions
+	 * @param array $versionsByFile list of versions ordered by files
+	 * @param array $allVversions all versions accross multiple files
+	 * @param $versionsFileview OC\Files\View on data/user/files_versions
 	 * @return size of releted versions
 	 */
-	private static function delOldVersions($versions_by_file, &$all_versions, $versions_fileview) {
+	private static function delOldVersions($versionsByFile, &$allVersions, $versionsFileview) {
 
 		$time = time();
 		$size = 0;
 
 		// delete old versions for every given file
-		foreach ($versions_by_file as $versions) {
+		foreach ($versionsByFile as $versions) {
 			$versions = array_reverse($versions); // newest version first
 
 			$interval = 1;
@@ -518,9 +518,9 @@ class Storage {
 					if ($nextInterval == -1 || $version['version'] >= $nextInterval) {
 						if ($version['version'] > $nextVersion) {
 							//distance between two version too small, delete version
-							$versions_fileview->unlink($version['path'] . '.v' . $version['version']);
+							$versionsFileview->unlink($version['path'] . '.v' . $version['version']);
 							$size += $version['size'];
-							unset($all_versions[$key]); // update array with all versions
+							unset($allVersions[$key]); // update array with all versions
 						} else {
 							$nextVersion = $version['version'] - $step;
 						}
