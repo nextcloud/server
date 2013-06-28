@@ -578,13 +578,11 @@ abstract class Access {
 		');
 
 		//feed the DB
-		$res = $insert->execute(array($dn, $ocname, $this->getUUID($dn), $dn, $ocname));
+		$insRows = $insert->execute(array($dn, $ocname, $this->getUUID($dn), $dn, $ocname));
 
-		if(\OCP\DB::isError($res)) {
+		if(\OCP\DB::isError($insRows)) {
 			return false;
 		}
-
-		$insRows = $res->numRows();
 
 		if($insRows === 0) {
 			return false;

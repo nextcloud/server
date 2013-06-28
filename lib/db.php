@@ -326,11 +326,12 @@ class OC_DB {
 	 * @param string $query Query string
 	 * @param int $limit
 	 * @param int $offset
+	 * @param bool $isManipulation
 	 * @return MDB2_Statement_Common prepared SQL query
 	 *
 	 * SQL query via MDB2 prepare(), needs to be execute()'d!
 	 */
-	static public function prepare( $query , $limit=null, $offset=null ) {
+	static public function prepare( $query , $limit = null, $offset = null, $isManipulation = null) {
 
 		if (!is_null($limit) && $limit != -1) {
 			if (self::$backend == self::BACKEND_MDB2) {
@@ -367,12 +368,23 @@ class OC_DB {
 			OC_Log::write('core', 'DB prepare : '.$query, OC_Log::DEBUG);
 		}
 		self::connect();
+		
+		if ($isManipulation === null) {
+			//try to guess, so we return the number of rows on manipulations
+			$isManipulation = self::isManipulation($query);
+		}
+		
 		// return the result
 		if(self::$backend==self::BACKEND_MDB2) {
-			$result = self::$connection->prepare( $query );
+			// differentiate between query and manipulation
+			if ($isManipulation) {
+				$result = self::$connection->prepare( $query, null, MDB2_PREPARE_MANIP );
+			} else {
+				$result = self::$connection->prepare( $query, null, MDB2_PREPARE_RESULT );
+			}
 
 			// Die if we have an error (error means: bad query, not 0 results!)
-			if( PEAR::isError($result)) {
+			if( self::isError($result)) {
 				throw new DatabaseException($result->getMessage(), $query);
 			}
 		}else{
@@ -381,7 +393,8 @@ class OC_DB {
 			}catch(PDOException $e) {
 				throw new DatabaseException($e->getMessage(), $query);
 			}
-			$result=new PDOStatementWrapper($result);
+			// differentiate between query and manipulation
+			$result = new PDOStatementWrapper($result, $isManipulation);
 		}
 		if ((is_null($limit) || $limit == -1) and self::$cachingEnabled ) {
 			$type = OC_Config::getValue( "dbtype", "sqlite" );
@@ -391,7 +404,33 @@ class OC_DB {
 		}
 		return $result;
 	}
-
+	
+	/**
+	 * tries to guess the type of statement based on the first 10 characters
+	 * the current check allows some whitespace but does not work with IF EXISTS or other more complex statements
+	 * 
+	 * @param string $sql
+	 */
+	static public function isManipulation( $sql ) {
+		$selectOccurence = stripos ($sql, "SELECT");
+		if ($selectOccurence !== false && $selectOccurence < 10) {
+			return false;
+		}
+		$insertOccurence = stripos ($sql, "INSERT");
+		if ($insertOccurence !== false && $insertOccurence < 10) {
+			return true;
+		}
+		$updateOccurence = stripos ($sql, "UPDATE");
+		if ($updateOccurence !== false && $updateOccurence < 10) {
+			return true;
+		}
+		$deleteOccurance = stripos ($sql, "DELETE");
+		if ($deleteOccurance !== false && $deleteOccurance < 10) {
+			return true;
+		}
+		return false;
+	}
+	
 	/**
 	 * @brief execute a prepared statement, on error write log and throw exception
 	 * @param mixed $stmt PDOStatementWrapper | MDB2_Statement_Common ,
@@ -718,6 +757,9 @@ class OC_DB {
 		} catch(PDOException $e) {
 			OC_Template::printExceptionErrorPage( $e );
 		}
+		if ($result === 0) {
+			return true;
+		}
 
 		return $result;
 	}
@@ -920,7 +962,7 @@ class OC_DB {
 	 * @return bool
 	 */
 	public static function isError($result) {
-		if(!$result) {
+		if(self::$backend==self::BACKEND_PDO and $result === false) {
 			return true;
 		}elseif(self::$backend==self::BACKEND_MDB2 and PEAR::isError($result)) {
 			return true;
@@ -998,11 +1040,13 @@ class PDOStatementWrapper{
 	/**
 	 * @var PDOStatement
 	 */
-	private $statement=null;
-	private $lastArguments=array();
+	private $statement = null;
+	private $isManipulation = false;
+	private $lastArguments = array();
 
-	public function __construct($statement) {
-		$this->statement=$statement;
+	public function __construct($statement, $isManipulation = false) {
+		$this->statement = $statement;
+		$this->isManipulation = $isManipulation;
 	}
 
 	/**
@@ -1024,15 +1068,18 @@ class PDOStatementWrapper{
 				$input = $this->tryFixSubstringLastArgumentDataForMSSQL($input);
 			}
 
-			$result=$this->statement->execute($input);
+			$result = $this->statement->execute($input);
 		} else {
-			$result=$this->statement->execute();
+			$result = $this->statement->execute();
 		}
 		
-		if ($result) {
-			return $this;
-		} else {
+		if ($result === false) {
 			return false;
+		}
+		if ($this->isManipulation) {
+			return $this->statement->rowCount();
+		} else {
+			return $this;
 		}
 	}
 
