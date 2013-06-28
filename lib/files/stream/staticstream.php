@@ -9,6 +9,8 @@
 namespace OC\Files\Stream;
 
 class StaticStream {
+	const MODE_FILE = 0100000;
+
 	public $context;
 	protected static $data = array();
 
@@ -24,6 +26,10 @@ class StaticStream {
 	}
 
 	public function stream_flush() {
+	}
+
+	public static function clear() {
+		self::$data = array();
 	}
 
 	public function stream_open($path, $mode, $options, &$opened_path) {
@@ -94,36 +100,7 @@ class StaticStream {
 	}
 
 	public function stream_stat() {
-		$size = strlen(self::$data[$this->path]);
-		$time = time();
-		return array(
-			0 => 0,
-			'dev' => 0,
-			1 => 0,
-			'ino' => 0,
-			2 => 0777,
-			'mode' => 0777,
-			3 => 1,
-			'nlink' => 1,
-			4 => 0,
-			'uid' => 0,
-			5 => 0,
-			'gid' => 0,
-			6 => '',
-			'rdev' => '',
-			7 => $size,
-			'size' => $size,
-			8 => $time,
-			'atime' => $time,
-			9 => $time,
-			'mtime' => $time,
-			10 => $time,
-			'ctime' => $time,
-			11 => -1,
-			'blksize' => -1,
-			12 => -1,
-			'blocks' => -1,
-		);
+		return $this->url_stat($this->path);
 	}
 
 	public function stream_tell() {
@@ -157,34 +134,22 @@ class StaticStream {
 		if (isset(self::$data[$path])) {
 			$size = strlen(self::$data[$path]);
 			$time = time();
-			return array(
-				0 => 0,
+			$data = array(
 				'dev' => 0,
-				1 => 0,
 				'ino' => 0,
-				2 => 0777,
-				'mode' => 0777,
-				3 => 1,
+				'mode' => self::MODE_FILE | 0777,
 				'nlink' => 1,
-				4 => 0,
 				'uid' => 0,
-				5 => 0,
 				'gid' => 0,
-				6 => '',
 				'rdev' => '',
-				7 => $size,
 				'size' => $size,
-				8 => $time,
 				'atime' => $time,
-				9 => $time,
 				'mtime' => $time,
-				10 => $time,
 				'ctime' => $time,
-				11 => -1,
 				'blksize' => -1,
-				12 => -1,
 				'blocks' => -1,
 			);
+			return array_values($data) + $data;
 		}
 		return false;
 	}
