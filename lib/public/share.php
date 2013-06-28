@@ -662,7 +662,13 @@ class Share {
 					// Remove the permissions for all reshares of this item
 					if (!empty($ids)) {
 						$ids = "'".implode("','", $ids)."'";
-						$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `permissions` = `permissions` & ?'
+						// TODO this should be done with Doctrine platform objects
+						if (\OC_Config::getValue( "dbtype") === 'oci') {
+							$andOp = 'BITAND(`permissions`, ?)';
+						} else {
+							$andOp = '`permissions` & ?';
+						}
+						$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `permissions` = '.$andOp
 							.' WHERE `id` IN ('.$ids.')');
 						$query->execute(array($permissions));
 					}
