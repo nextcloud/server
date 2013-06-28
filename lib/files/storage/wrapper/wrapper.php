@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-namespace OC\Files\Storage;
+namespace OC\Files\Storage\Wrapper;
 
 class Wrapper implements Storage {
 	/**
