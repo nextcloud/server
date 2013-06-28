@@ -153,7 +153,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						a.prepend(img);
 						li.append(a);
 						container.append(li);
-						if (entry.icon.match(/\.svg$/i)) {
+						if (!SVGSupport() && entry.icon.match(/\.svg$/i)) {
 							$(img).addClass('svg');
 							replaceSVG();
 						}
