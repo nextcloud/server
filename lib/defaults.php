@@ -17,6 +17,7 @@ class OC_Defaults {
 	private static $defaultSyncClientUrl = " http://owncloud.org/sync-clients/";
 	private static $defaultDocBaseUrl = "http://doc.owncloud.org";
 	private static $defaultSlogan = "web services under your control";
+	private static $defaultLogoClaim = "ownCloud Community";
 
 	private function themeExist($method) {
 		if (OC_Util::getTheme() !== '' && method_exists('OC_Theme', $method)) {
@@ -71,6 +72,14 @@ class OC_Defaults {
 			return OC_Theme::getSlogan();
 		} else {
 			return $l->t(self::$defaultSlogan);
+		}
+	}
+
+	public static function getLogoClaim() {
+		if (self::themeExist('getLogoClaim')) {
+			return OC_Theme::getLogoClaim();
+		} else {
+			return self::$defaultLogoClaim;
 		}
 	}
 
