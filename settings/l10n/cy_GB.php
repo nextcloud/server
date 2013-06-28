@@ -12,5 +12,6 @@
 "Password" => "Cyfrinair",
 "New password" => "Cyfrinair newydd",
 "Email" => "E-bost",
-"Other" => "Arall"
+"Other" => "Arall",
+"Username" => "Enw defnyddiwr"
 );

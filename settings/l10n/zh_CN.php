@@ -105,6 +105,7 @@
 "Default Storage" => "默认存储",
 "Unlimited" => "无限",
 "Other" => "其它",
+"Username" => "用户名",
 "Storage" => "存储",
 "change display name" => "修改显示名称",
 "set new password" => "设置新密码",

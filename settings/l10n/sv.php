@@ -106,6 +106,7 @@
 "Default Storage" => "Förvald lagring",
 "Unlimited" => "Obegränsad",
 "Other" => "Annat",
+"Username" => "Användarnamn",
 "Storage" => "Lagring",
 "change display name" => "ändra visningsnamn",
 "set new password" => "ange nytt lösenord",

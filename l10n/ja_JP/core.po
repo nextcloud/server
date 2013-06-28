@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-18 02:04+0200\n"
-"PO-Revision-Date: 2013-06-17 23:25+0000\n"
+"POT-Creation-Date: 2013-06-28 01:58+0200\n"
+"PO-Revision-Date: 2013-06-27 23:14+0000\n"
 "Last-Translator: plazmism <gomidori@live.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -63,135 +63,135 @@ msgstr "削除するカテゴリが選択されていません。"
 msgid "Error removing %s from favorites."
 msgstr "お気に入りから %s の削除エラー"
 
-#: js/config.php:34
+#: js/config.php:32
 msgid "Sunday"
 msgstr "日"
 
-#: js/config.php:35
+#: js/config.php:33
 msgid "Monday"
 msgstr "月"
 
-#: js/config.php:36
+#: js/config.php:34
 msgid "Tuesday"
 msgstr "火"
 
-#: js/config.php:37
+#: js/config.php:35
 msgid "Wednesday"
 msgstr "水"
 
-#: js/config.php:38
+#: js/config.php:36
 msgid "Thursday"
 msgstr "木"
 
-#: js/config.php:39
+#: js/config.php:37
 msgid "Friday"
 msgstr "金"
 
-#: js/config.php:40
+#: js/config.php:38
 msgid "Saturday"
 msgstr "土"
 
-#: js/config.php:45
+#: js/config.php:43
 msgid "January"
 msgstr "1月"
 
-#: js/config.php:46
+#: js/config.php:44
 msgid "February"
 msgstr "2月"
 
-#: js/config.php:47
+#: js/config.php:45
 msgid "March"
 msgstr "3月"
 
-#: js/config.php:48
+#: js/config.php:46
 msgid "April"
 msgstr "4月"
 
-#: js/config.php:49
+#: js/config.php:47
 msgid "May"
 msgstr "5月"
 
-#: js/config.php:50
+#: js/config.php:48
 msgid "June"
 msgstr "6月"
 
-#: js/config.php:51
+#: js/config.php:49
 msgid "July"
 msgstr "7月"
 
-#: js/config.php:52
+#: js/config.php:50
 msgid "August"
 msgstr "8月"
 
-#: js/config.php:53
+#: js/config.php:51
 msgid "September"
 msgstr "9月"
 
-#: js/config.php:54
+#: js/config.php:52
 msgid "October"
 msgstr "10月"
 
-#: js/config.php:55
+#: js/config.php:53
 msgid "November"
 msgstr "11月"
 
-#: js/config.php:56
+#: js/config.php:54
 msgid "December"
 msgstr "12月"
 
-#: js/js.js:286
+#: js/js.js:289
 msgid "Settings"
 msgstr "設定"
 
-#: js/js.js:718
+#: js/js.js:721
 msgid "seconds ago"
 msgstr "数秒前"
 
-#: js/js.js:719
+#: js/js.js:722
 msgid "1 minute ago"
 msgstr "1 分前"
 
-#: js/js.js:720
+#: js/js.js:723
 msgid "{minutes} minutes ago"
 msgstr "{minutes} 分前"
 
-#: js/js.js:721
+#: js/js.js:724
 msgid "1 hour ago"
 msgstr "1 時間前"
 
-#: js/js.js:722
+#: js/js.js:725
 msgid "{hours} hours ago"
 msgstr "{hours} 時間前"
 
-#: js/js.js:723
+#: js/js.js:726
 msgid "today"
 msgstr "今日"
 
-#: js/js.js:724
+#: js/js.js:727
 msgid "yesterday"
 msgstr "昨日"
 
-#: js/js.js:725
+#: js/js.js:728
 msgid "{days} days ago"
 msgstr "{days} 日前"
 
-#: js/js.js:726
+#: js/js.js:729
 msgid "last month"
 msgstr "一月前"
 
-#: js/js.js:727
+#: js/js.js:730
 msgid "{months} months ago"
 msgstr "{months} 月前"
 
-#: js/js.js:728
+#: js/js.js:731
 msgid "months ago"
 msgstr "月前"
 
-#: js/js.js:729
+#: js/js.js:732
 msgid "last year"
 msgstr "一年前"
 
-#: js/js.js:730
+#: js/js.js:733
 msgid "years ago"
 msgstr "年前"
 
@@ -375,7 +375,7 @@ msgstr "更新に成功しました。この問題を <a href=\"https://github.c
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "更新に成功しました。今すぐownCloudにリダイレクトします。"
 
-#: lostpassword/controller.php:58
+#: lostpassword/controller.php:60
 msgid "ownCloud password reset"
 msgstr "ownCloudのパスワードをリセットします"
 
@@ -405,17 +405,17 @@ msgstr "ユーザー名"
 
 #: lostpassword/templates/lostpassword.php:22
 msgid ""
-"Your files seems to be encrypted. If you didn't have enabled the recovery "
-"key there will be no way to get your data back once the password was "
-"resetted. If you are not sure what to do, please contact your administrator "
-"first before continue. Do you really want to continue?"
-msgstr "ファイルが暗号化されているようです。復旧キーを有効にしていなかった場合、パスワードをリセットしてからデータを復旧する方法はありません。何をすべきかわからないなら、続ける前にまず管理者に連絡しましょう。本当に続けますか？"
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset. If you "
+"are not sure what to do, please contact your administrator before you "
+"continue. Do you really want to continue?"
+msgstr "ファイルが暗号化されています。復旧キーを有効にしていなかった場合、パスワードをリセットしてからデータを復旧する方法はありません。何をすべきかよくわからないなら、続ける前にまず管理者に連絡しましょう。本当に続けますか？"
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
 msgstr "はい、今すぐパスワードをリセットします。"
 
-#: lostpassword/templates/lostpassword.php:29
+#: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
 msgstr "リセットを要求します。"
 

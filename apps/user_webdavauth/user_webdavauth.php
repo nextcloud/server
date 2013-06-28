@@ -56,10 +56,10 @@ class OC_USER_WEBDAVAUTH extends OC_User_Backend {
 		}
 		$returncode= substr($headers[0], 9, 3);
 
-		if(($returncode=='401') or ($returncode=='403')) {
-			return(false);
-		}else{
-			return($uid);
+		if(substr($returncode, 0, 1) === '2') {
+			return $uid;
+		} else {
+			return false;
 		}
 
 	}

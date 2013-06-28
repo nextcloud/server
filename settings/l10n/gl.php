@@ -106,6 +106,7 @@
 "Default Storage" => "Almacenamento predeterminado",
 "Unlimited" => "Sen límites",
 "Other" => "Outro",
+"Username" => "Nome de usuario",
 "Storage" => "Almacenamento",
 "change display name" => "cambiar o nome visíbel",
 "set new password" => "estabelecer un novo contrasinal",

@@ -4,14 +4,15 @@
 # 
 # Translators:
 # arkascha <foss@christian-reiner.info>, 2013
+# Mario Siegmann <mario_siegmann@web.de>, 2013
 # ninov <ninovdl@ymail.com>, 2013
 # Mirodin <blobbyjj@ymail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-18 02:05+0200\n"
-"PO-Revision-Date: 2013-06-17 23:25+0000\n"
+"POT-Creation-Date: 2013-06-28 01:58+0200\n"
+"PO-Revision-Date: 2013-06-27 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -458,7 +459,7 @@ msgstr "WebDAV"
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Verwende diese Adresse, um Deinen Dateimanager mit Deiner ownCloud zu verbinden"
 
-#: templates/users.php:21 templates/users.php:84
+#: templates/users.php:21
 msgid "Login Name"
 msgstr "Loginname"
 
@@ -474,7 +475,7 @@ msgstr "Admin-Wiederherstellungspasswort"
 msgid ""
 "Enter the recovery password in order to recover the users files during "
 "password change"
-msgstr ""
+msgstr "Geben Sie das Wiederherstellungspasswort ein, um die Benutzerdateien während Passwortänderung wiederherzustellen"
 
 #: templates/users.php:42
 msgid "Default Storage"
@@ -487,6 +488,10 @@ msgstr "Unbegrenzt"
 #: templates/users.php:66 templates/users.php:157
 msgid "Other"
 msgstr "Andere"
+
+#: templates/users.php:84
+msgid "Username"
+msgstr "Benutzername"
 
 #: templates/users.php:91
 msgid "Storage"

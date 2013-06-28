@@ -63,6 +63,7 @@
 "Default Storage" => "Sjálfgefin gagnageymsla",
 "Unlimited" => "Ótakmarkað",
 "Other" => "Annað",
+"Username" => "Notendanafn",
 "Storage" => "gagnapláss",
 "Default" => "Sjálfgefið"
 );

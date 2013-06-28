@@ -10,5 +10,6 @@
 "Get the apps to sync your files" => "Merrni app-et për sinkronizimin e skedarëve tuaj",
 "Password" => "Kodi",
 "New password" => "Kodi i ri",
-"Email" => "Email-i"
+"Email" => "Email-i",
+"Username" => "Përdoruesi"
 );

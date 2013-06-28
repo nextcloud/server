@@ -5,5 +5,6 @@
 "Password" => "సంకేతపదం",
 "New password" => "కొత్త సంకేతపదం",
 "Your email address" => "మీ ఈమెయిలు చిరునామా",
-"Language" => "భాష"
+"Language" => "భాష",
+"Username" => "వాడుకరి పేరు"
 );

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"%s shared »%s« with you" => "%s s Vami zdieľa »%s«",
 "Category type not provided." => "Neposkytnutý typ kategórie.",
 "No category to add?" => "Žiadna kategória pre pridanie?",
 "This category already exists: %s" => "Kategória: %s už existuje.",
@@ -42,6 +43,7 @@
 "years ago" => "pred rokmi",
 "Choose" => "Výber",
 "Cancel" => "Zrušiť",
+"Error loading file picker template" => "Chyba pri načítaní šablóny výberu súborov",
 "Yes" => "Áno",
 "No" => "Nie",
 "Ok" => "Ok",
@@ -88,6 +90,7 @@
 "Request failed!<br>Did you make sure your email/username was right?" => "Požiadavka zlyhala.<br>Uistili ste sa, že Vaše používateľské meno a email sú správne?",
 "You will receive a link to reset your password via Email." => "Odkaz pre obnovenie hesla obdržíte e-mailom.",
 "Username" => "Meno používateľa",
+"Yes, I really want to reset my password now" => "Áno, želám si teraz obnoviť svoje heslo",
 "Request reset" => "Požiadať o obnovenie",
 "Your password was reset" => "Vaše heslo bolo obnovené",
 "To login page" => "Na prihlasovaciu stránku",
@@ -100,6 +103,7 @@
 "Help" => "Pomoc",
 "Access forbidden" => "Prístup odmietnutý",
 "Cloud not found" => "Nenájdené",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Ahoj,\n\nChcem Vám oznámiť, že %s s Vami zdieľa %s.\nPozrieť si to môžete tu: %s\n\nVďaka",
 "web services under your control" => "webové služby pod Vašou kontrolou",
 "Edit categories" => "Upraviť kategórie",
 "Add" => "Pridať",
@@ -130,6 +134,7 @@
 "remember" => "zapamätať",
 "Log in" => "Prihlásiť sa",
 "Alternative Logins" => "Alternatívne prihlasovanie",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Ahoj,<br><br>chcem Vám oznámiť, že %s s Vami zdieľa %s.\nPozrieť si to môžete tu: <br><a href=\"%s\">zde</a>.<br><br>Vďaka",
 "prev" => "späť",
 "next" => "ďalej",
 "Updating ownCloud to version %s, this may take a while." => "Aktualizujem ownCloud na verziu %s, môže to chvíľu trvať."

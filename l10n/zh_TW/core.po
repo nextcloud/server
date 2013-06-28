@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# chenanyeh <chnjsn1221@gmail.com>, 2013
 # pellaeon <nfsmwlin@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-18 02:04+0200\n"
-"PO-Revision-Date: 2013-06-17 23:25+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-28 01:58+0200\n"
+"PO-Revision-Date: 2013-06-27 23:14+0000\n"
+"Last-Translator: chenanyeh <chnjsn1221@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,135 +63,135 @@ msgstr "沒有選擇要刪除的分類。"
 msgid "Error removing %s from favorites."
 msgstr "從最愛移除 %s 時發生錯誤。"
 
-#: js/config.php:34
+#: js/config.php:32
 msgid "Sunday"
 msgstr "週日"
 
-#: js/config.php:35
+#: js/config.php:33
 msgid "Monday"
 msgstr "週一"
 
-#: js/config.php:36
+#: js/config.php:34
 msgid "Tuesday"
 msgstr "週二"
 
-#: js/config.php:37
+#: js/config.php:35
 msgid "Wednesday"
 msgstr "週三"
 
-#: js/config.php:38
+#: js/config.php:36
 msgid "Thursday"
 msgstr "週四"
 
-#: js/config.php:39
+#: js/config.php:37
 msgid "Friday"
 msgstr "週五"
 
-#: js/config.php:40
+#: js/config.php:38
 msgid "Saturday"
 msgstr "週六"
 
-#: js/config.php:45
+#: js/config.php:43
 msgid "January"
 msgstr "一月"
 
-#: js/config.php:46
+#: js/config.php:44
 msgid "February"
 msgstr "二月"
 
-#: js/config.php:47
+#: js/config.php:45
 msgid "March"
 msgstr "三月"
 
-#: js/config.php:48
+#: js/config.php:46
 msgid "April"
 msgstr "四月"
 
-#: js/config.php:49
+#: js/config.php:47
 msgid "May"
 msgstr "五月"
 
-#: js/config.php:50
+#: js/config.php:48
 msgid "June"
 msgstr "六月"
 
-#: js/config.php:51
+#: js/config.php:49
 msgid "July"
 msgstr "七月"
 
-#: js/config.php:52
+#: js/config.php:50
 msgid "August"
 msgstr "八月"
 
-#: js/config.php:53
+#: js/config.php:51
 msgid "September"
 msgstr "九月"
 
-#: js/config.php:54
+#: js/config.php:52
 msgid "October"
 msgstr "十月"
 
-#: js/config.php:55
+#: js/config.php:53
 msgid "November"
 msgstr "十一月"
 
-#: js/config.php:56
+#: js/config.php:54
 msgid "December"
 msgstr "十二月"
 
-#: js/js.js:286
+#: js/js.js:289
 msgid "Settings"
 msgstr "設定"
 
-#: js/js.js:718
+#: js/js.js:721
 msgid "seconds ago"
 msgstr "幾秒前"
 
-#: js/js.js:719
+#: js/js.js:722
 msgid "1 minute ago"
 msgstr "1 分鐘前"
 
-#: js/js.js:720
+#: js/js.js:723
 msgid "{minutes} minutes ago"
 msgstr "{minutes} 分鐘前"
 
-#: js/js.js:721
+#: js/js.js:724
 msgid "1 hour ago"
 msgstr "1 小時之前"
 
-#: js/js.js:722
+#: js/js.js:725
 msgid "{hours} hours ago"
 msgstr "{hours} 小時前"
 
-#: js/js.js:723
+#: js/js.js:726
 msgid "today"
 msgstr "今天"
 
-#: js/js.js:724
+#: js/js.js:727
 msgid "yesterday"
 msgstr "昨天"
 
-#: js/js.js:725
+#: js/js.js:728
 msgid "{days} days ago"
 msgstr "{days} 天前"
 
-#: js/js.js:726
+#: js/js.js:729
 msgid "last month"
 msgstr "上個月"
 
-#: js/js.js:727
+#: js/js.js:730
 msgid "{months} months ago"
 msgstr "{months} 個月前"
 
-#: js/js.js:728
+#: js/js.js:731
 msgid "months ago"
 msgstr "幾個月前"
 
-#: js/js.js:729
+#: js/js.js:732
 msgid "last year"
 msgstr "去年"
 
-#: js/js.js:730
+#: js/js.js:733
 msgid "years ago"
 msgstr "幾年前"
 
@@ -374,7 +375,7 @@ msgstr "升級失敗，請將此問題回報 <a href=\"https://github.com/ownclo
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "升級成功，正將您重新導向至 ownCloud 。"
 
-#: lostpassword/controller.php:58
+#: lostpassword/controller.php:60
 msgid "ownCloud password reset"
 msgstr "ownCloud 密碼重設"
 
@@ -404,17 +405,17 @@ msgstr "使用者名稱"
 
 #: lostpassword/templates/lostpassword.php:22
 msgid ""
-"Your files seems to be encrypted. If you didn't have enabled the recovery "
-"key there will be no way to get your data back once the password was "
-"resetted. If you are not sure what to do, please contact your administrator "
-"first before continue. Do you really want to continue?"
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset. If you "
+"are not sure what to do, please contact your administrator before you "
+"continue. Do you really want to continue?"
 msgstr ""
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
-msgstr ""
+msgstr "對，我現在想要重設我的密碼。"
 
-#: lostpassword/templates/lostpassword.php:29
+#: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
 msgstr "請求重設"
 

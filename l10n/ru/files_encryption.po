@@ -4,12 +4,13 @@
 # 
 # Translators:
 # Ант По <du6egub@gmail.com>, 2013
+# alfsoft <alfsoft@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-14 02:46+0200\n"
-"PO-Revision-Date: 2013-06-14 00:47+0000\n"
+"POT-Creation-Date: 2013-06-22 02:06+0200\n"
+"PO-Revision-Date: 2013-06-22 00:07+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: ajax/adminrecovery.php:29
 msgid "Recovery key successfully enabled"
-msgstr ""
+msgstr "Ключ восстановления успешно установлен"
 
 #: ajax/adminrecovery.php:34
 msgid ""
@@ -29,7 +30,7 @@ msgstr ""
 
 #: ajax/adminrecovery.php:48
 msgid "Recovery key successfully disabled"
-msgstr ""
+msgstr "Ключ восстановления успешно отключен"
 
 #: ajax/adminrecovery.php:53
 msgid ""
@@ -61,6 +62,16 @@ msgid ""
 "regain access to your files"
 msgstr ""
 
+#: hooks/hooks.php:44
+msgid "PHP module OpenSSL is not installed."
+msgstr ""
+
+#: hooks/hooks.php:45
+msgid ""
+"Please ask your server administrator to install the module. For now the "
+"encryption app was disabled."
+msgstr ""
+
 #: js/settings-admin.js:11
 msgid "Saving..."
 msgstr "Сохранение..."
@@ -77,7 +88,7 @@ msgstr ""
 
 #: templates/invalid_private_key.php:7
 msgid "personal settings"
-msgstr ""
+msgstr "персональные настройки"
 
 #: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
@@ -85,12 +96,12 @@ msgstr "Шифрование"
 
 #: templates/settings-admin.php:10
 msgid ""
-"Enable encryption passwords recovery key (allow sharing to recovery key):"
-msgstr "Включить шифрование пароля ключа восстановления (понадобится разрешение для восстановления ключа)"
+"Enable recovery key (allow to recover users files in case of password loss):"
+msgstr ""
 
 #: templates/settings-admin.php:14
-msgid "Recovery account password"
-msgstr "Восстановление пароля учетной записи"
+msgid "Recovery key password"
+msgstr ""
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
@@ -101,16 +112,16 @@ msgid "Disabled"
 msgstr "Отключено"
 
 #: templates/settings-admin.php:34
-msgid "Change encryption passwords recovery key:"
-msgstr "Изменить шифрование пароля ключа восстановления:"
+msgid "Change recovery key password:"
+msgstr ""
 
 #: templates/settings-admin.php:41
-msgid "Old Recovery account password"
-msgstr "Старое Восстановление пароля учетной записи"
+msgid "Old Recovery key password"
+msgstr ""
 
 #: templates/settings-admin.php:48
-msgid "New Recovery account password"
-msgstr "Новое Восстановление пароля учетной записи"
+msgid "New Recovery key password"
+msgstr ""
 
 #: templates/settings-admin.php:53
 msgid "Change Password"
@@ -128,7 +139,7 @@ msgstr ""
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
-msgstr ""
+msgstr "Если вы не помните свой старый пароль, вы можете попросить своего администратора восстановить ваши файлы"
 
 #: templates/settings-personal.php:24
 msgid "Old log-in password"
@@ -150,7 +161,7 @@ msgstr ""
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
-msgstr ""
+msgstr "Включение этой опции позволит вам получить доступ к своим зашифрованным файлам в случае утери пароля"
 
 #: templates/settings-personal.php:63
 msgid "File recovery settings updated"

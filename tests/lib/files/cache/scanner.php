@@ -144,6 +144,27 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(-1, $newData['size']);
 	}
 
+	public function testRemovedFile() {
+		$this->fillTestFolders();
+
+		$this->scanner->scan('');
+		$this->assertTrue($this->cache->inCache('foo.txt'));
+		$this->storage->unlink('foo.txt');
+		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW);
+		$this->assertFalse($this->cache->inCache('foo.txt'));
+	}
+
+	public function testRemovedFolder() {
+		$this->fillTestFolders();
+
+		$this->scanner->scan('');
+		$this->assertTrue($this->cache->inCache('folder/bar.txt'));
+		$this->storage->unlink('/folder');
+		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW);
+		$this->assertFalse($this->cache->inCache('folder'));
+		$this->assertFalse($this->cache->inCache('folder/bar.txt'));
+	}
+
 	function setUp() {
 		$this->storage = new \OC\Files\Storage\Temporary(array());
 		$this->scanner = new \OC\Files\Cache\Scanner($this->storage);
@@ -151,9 +172,11 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 	}
 
 	function tearDown() {
-		$ids = $this->cache->getAll();
-		$permissionsCache = $this->storage->getPermissionsCache();
-		$permissionsCache->removeMultiple($ids, \OC_User::getUser());
-		$this->cache->clear();
+		if ($this->cache) {
+			$ids = $this->cache->getAll();
+			$permissionsCache = $this->storage->getPermissionsCache();
+			$permissionsCache->removeMultiple($ids, \OC_User::getUser());
+			$this->cache->clear();
+		}
 	}
 }

@@ -40,5 +40,6 @@
 "Language" => "Kalba",
 "Help translate" => "Padėkite išversti",
 "Create" => "Sukurti",
-"Other" => "Kita"
+"Other" => "Kita",
+"Username" => "Prisijungimo vardas"
 );

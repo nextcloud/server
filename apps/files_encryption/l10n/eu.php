@@ -1,4 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Saving..." => "Gordetzen...",
-"Encryption" => "Enkriptazioa"
+"Encryption" => "Enkriptazioa",
+"Enabled" => "Gaitua",
+"Disabled" => "Ez-gaitua",
+"Change Password" => "Aldatu Pasahitza"
 );

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-18 02:04+0200\n"
-"PO-Revision-Date: 2013-06-17 23:24+0000\n"
+"POT-Creation-Date: 2013-06-28 01:58+0200\n"
+"PO-Revision-Date: 2013-06-27 23:14+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -62,135 +62,135 @@ msgstr "Silmek için bir kategori seçilmedi"
 msgid "Error removing %s from favorites."
 msgstr "%s favorilere çıkarılırken hata oluştu"
 
-#: js/config.php:34
+#: js/config.php:32
 msgid "Sunday"
 msgstr "Pazar"
 
-#: js/config.php:35
+#: js/config.php:33
 msgid "Monday"
 msgstr "Pazartesi"
 
-#: js/config.php:36
+#: js/config.php:34
 msgid "Tuesday"
 msgstr "Salı"
 
-#: js/config.php:37
+#: js/config.php:35
 msgid "Wednesday"
 msgstr "Çarşamba"
 
-#: js/config.php:38
+#: js/config.php:36
 msgid "Thursday"
 msgstr "Perşembe"
 
-#: js/config.php:39
+#: js/config.php:37
 msgid "Friday"
 msgstr "Cuma"
 
-#: js/config.php:40
+#: js/config.php:38
 msgid "Saturday"
 msgstr "Cumartesi"
 
-#: js/config.php:45
+#: js/config.php:43
 msgid "January"
 msgstr "Ocak"
 
-#: js/config.php:46
+#: js/config.php:44
 msgid "February"
 msgstr "Şubat"
 
-#: js/config.php:47
+#: js/config.php:45
 msgid "March"
 msgstr "Mart"
 
-#: js/config.php:48
+#: js/config.php:46
 msgid "April"
 msgstr "Nisan"
 
-#: js/config.php:49
+#: js/config.php:47
 msgid "May"
 msgstr "Mayıs"
 
-#: js/config.php:50
+#: js/config.php:48
 msgid "June"
 msgstr "Haziran"
 
-#: js/config.php:51
+#: js/config.php:49
 msgid "July"
 msgstr "Temmuz"
 
-#: js/config.php:52
+#: js/config.php:50
 msgid "August"
 msgstr "Ağustos"
 
-#: js/config.php:53
+#: js/config.php:51
 msgid "September"
 msgstr "Eylül"
 
-#: js/config.php:54
+#: js/config.php:52
 msgid "October"
 msgstr "Ekim"
 
-#: js/config.php:55
+#: js/config.php:53
 msgid "November"
 msgstr "Kasım"
 
-#: js/config.php:56
+#: js/config.php:54
 msgid "December"
 msgstr "Aralık"
 
-#: js/js.js:286
+#: js/js.js:289
 msgid "Settings"
 msgstr "Ayarlar"
 
-#: js/js.js:718
+#: js/js.js:721
 msgid "seconds ago"
 msgstr "saniye önce"
 
-#: js/js.js:719
+#: js/js.js:722
 msgid "1 minute ago"
 msgstr "1 dakika önce"
 
-#: js/js.js:720
+#: js/js.js:723
 msgid "{minutes} minutes ago"
 msgstr "{minutes} dakika önce"
 
-#: js/js.js:721
+#: js/js.js:724
 msgid "1 hour ago"
 msgstr "1 saat önce"
 
-#: js/js.js:722
+#: js/js.js:725
 msgid "{hours} hours ago"
 msgstr "{hours} saat önce"
 
-#: js/js.js:723
+#: js/js.js:726
 msgid "today"
 msgstr "bugün"
 
-#: js/js.js:724
+#: js/js.js:727
 msgid "yesterday"
 msgstr "dün"
 
-#: js/js.js:725
+#: js/js.js:728
 msgid "{days} days ago"
 msgstr "{days} gün önce"
 
-#: js/js.js:726
+#: js/js.js:729
 msgid "last month"
 msgstr "geçen ay"
 
-#: js/js.js:727
+#: js/js.js:730
 msgid "{months} months ago"
 msgstr "{months} ay önce"
 
-#: js/js.js:728
+#: js/js.js:731
 msgid "months ago"
 msgstr "ay önce"
 
-#: js/js.js:729
+#: js/js.js:732
 msgid "last year"
 msgstr "geçen yıl"
 
-#: js/js.js:730
+#: js/js.js:733
 msgid "years ago"
 msgstr "yıl önce"
 
@@ -374,7 +374,7 @@ msgstr "Güncelleme başarılı olmadı. Lütfen bu hatayı bildirin <a href=\"h
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Güncelleme başarılı. ownCloud'a yönlendiriliyor."
 
-#: lostpassword/controller.php:58
+#: lostpassword/controller.php:60
 msgid "ownCloud password reset"
 msgstr "ownCloud parola sıfırlama"
 
@@ -404,17 +404,17 @@ msgstr "Kullanıcı Adı"
 
 #: lostpassword/templates/lostpassword.php:22
 msgid ""
-"Your files seems to be encrypted. If you didn't have enabled the recovery "
-"key there will be no way to get your data back once the password was "
-"resetted. If you are not sure what to do, please contact your administrator "
-"first before continue. Do you really want to continue?"
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset. If you "
+"are not sure what to do, please contact your administrator before you "
+"continue. Do you really want to continue?"
 msgstr ""
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:29
+#: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
 msgstr "Sıfırlama iste"
 

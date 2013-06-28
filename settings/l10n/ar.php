@@ -103,6 +103,7 @@
 "Default Storage" => "وحدة التخزين الافتراضية",
 "Unlimited" => "غير محدود",
 "Other" => "شيء آخر",
+"Username" => "إسم المستخدم",
 "Storage" => "وحدة التخزين",
 "change display name" => "تغيير اسم الحساب",
 "set new password" => "اعداد كلمة مرور جديدة",

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# asaez <asaez@asaez.eu>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-14 02:46+0200\n"
-"PO-Revision-Date: 2013-06-14 00:47+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-27 02:04+0200\n"
+"PO-Revision-Date: 2013-06-26 08:10+0000\n"
+"Last-Translator: asaez <asaez@asaez.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,6 +61,16 @@ msgid ""
 "regain access to your files"
 msgstr ""
 
+#: hooks/hooks.php:44
+msgid "PHP module OpenSSL is not installed."
+msgstr ""
+
+#: hooks/hooks.php:45
+msgid ""
+"Please ask your server administrator to install the module. For now the "
+"encryption app was disabled."
+msgstr ""
+
 #: js/settings-admin.js:11
 msgid "Saving..."
 msgstr "Gordetzen..."
@@ -84,36 +95,36 @@ msgstr "Enkriptazioa"
 
 #: templates/settings-admin.php:10
 msgid ""
-"Enable encryption passwords recovery key (allow sharing to recovery key):"
+"Enable recovery key (allow to recover users files in case of password loss):"
 msgstr ""
 
 #: templates/settings-admin.php:14
-msgid "Recovery account password"
+msgid "Recovery key password"
 msgstr ""
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
-msgstr ""
+msgstr "Gaitua"
 
 #: templates/settings-admin.php:29 templates/settings-personal.php:62
 msgid "Disabled"
-msgstr ""
+msgstr "Ez-gaitua"
 
 #: templates/settings-admin.php:34
-msgid "Change encryption passwords recovery key:"
+msgid "Change recovery key password:"
 msgstr ""
 
 #: templates/settings-admin.php:41
-msgid "Old Recovery account password"
+msgid "Old Recovery key password"
 msgstr ""
 
 #: templates/settings-admin.php:48
-msgid "New Recovery account password"
+msgid "New Recovery key password"
 msgstr ""
 
 #: templates/settings-admin.php:53
 msgid "Change Password"
-msgstr ""
+msgstr "Aldatu Pasahitza"
 
 #: templates/settings-personal.php:11
 msgid "Your private key password no longer match your log-in password:"

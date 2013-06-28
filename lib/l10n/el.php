@@ -24,6 +24,7 @@
 "%s set the database host." => "%s ρυθμίση του κεντρικόυ υπολογιστή βάσης δεδομένων. ",
 "PostgreSQL username and/or password not valid" => "Μη έγκυρος χρήστης και/ή συνθηματικό της PostgreSQL",
 "You need to enter either an existing account or the administrator." => "Χρειάζεται να εισάγετε είτε έναν υπάρχον λογαριασμό ή του διαχειριστή.",
+"Oracle connection could not be established" => "Αδυναμία σύνδεσης Oracle",
 "MySQL username and/or password not valid" => "Μη έγκυρος χρήστης και/ή συνθηματικό της MySQL",
 "DB Error: \"%s\"" => "Σφάλμα Βάσης Δεδομένων: \"%s\"",
 "Offending command was: \"%s\"" => "Η εντολη παραβατικοτητας ηταν: \"%s\"",

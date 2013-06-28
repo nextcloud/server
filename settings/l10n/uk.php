@@ -103,6 +103,7 @@
 "Default Storage" => "сховище за замовчуванням",
 "Unlimited" => "Необмежено",
 "Other" => "Інше",
+"Username" => "Ім'я користувача",
 "Storage" => "Сховище",
 "change display name" => "змінити зображене ім'я",
 "set new password" => "встановити новий пароль",

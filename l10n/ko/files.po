@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# ujuc Gang <potopro@gmail.com>, 2013
-# ujuc Gang <potopro@gmail.com>, 2013
+# Sungjin Gang <potopro@gmail.com>, 2013
+# Sungjin Gang <potopro@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-18 02:04+0200\n"
-"PO-Revision-Date: 2013-06-17 23:25+0000\n"
+"POT-Creation-Date: 2013-06-28 01:58+0200\n"
+"PO-Revision-Date: 2013-06-27 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -185,35 +185,35 @@ msgstr "URL을 입력해야 합니다."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "폴더 이름이 유효하지 않습니다. "
 
-#: js/files.js:520 js/files.js:536 js/files.js:826 js/files.js:864
+#: js/files.js:520 js/files.js:536 js/files.js:840 js/files.js:878
 msgid "Error"
 msgstr "오류"
 
-#: js/files.js:877 templates/index.php:69
+#: js/files.js:891 templates/index.php:69
 msgid "Name"
 msgstr "이름"
 
-#: js/files.js:878 templates/index.php:80
+#: js/files.js:892 templates/index.php:80
 msgid "Size"
 msgstr "크기"
 
-#: js/files.js:879 templates/index.php:82
+#: js/files.js:893 templates/index.php:82
 msgid "Modified"
 msgstr "수정됨"
 
-#: js/files.js:898
+#: js/files.js:912
 msgid "1 folder"
 msgstr "폴더 1개"
 
-#: js/files.js:900
+#: js/files.js:914
 msgid "{count} folders"
 msgstr "폴더 {count}개"
 
-#: js/files.js:908
+#: js/files.js:922
 msgid "1 file"
 msgstr "파일 1개"
 
-#: js/files.js:910
+#: js/files.js:924
 msgid "{count} files"
 msgstr "파일 {count}개"
 

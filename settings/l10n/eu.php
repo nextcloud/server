@@ -103,6 +103,7 @@
 "Default Storage" => "Lehenetsitako Biltegiratzea",
 "Unlimited" => "Mugarik gabe",
 "Other" => "Bestelakoa",
+"Username" => "Erabiltzaile izena",
 "Storage" => "Biltegiratzea",
 "change display name" => "aldatu bistaratze izena",
 "set new password" => "ezarri pasahitz berria",

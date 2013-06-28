@@ -7,13 +7,8 @@
 "Could not change the password. Maybe the old password was not correct." => "不能修改密码。旧密码可能不正确。",
 "Saving..." => "保存中",
 "Encryption" => "加密",
-"Enable encryption passwords recovery key (allow sharing to recovery key):" => "启用加密密码恢复密钥（允许共享恢复密钥）：",
-"Recovery account password" => "恢复账户密码",
 "Enabled" => "开启",
 "Disabled" => "禁用",
-"Change encryption passwords recovery key:" => "变更加密密码恢复密钥：",
-"Old Recovery account password" => "旧恢复账号密码",
-"New Recovery account password" => "新恢复账号密码",
 "Change Password" => "修改密码",
 "File recovery settings updated" => "文件恢复设置已更新",
 "Could not update file recovery" => "不能更新文件恢复"

@@ -106,6 +106,7 @@
 "Default Storage" => "Výchozí úložiště",
 "Unlimited" => "Neomezeně",
 "Other" => "Jiný",
+"Username" => "Uživatelské jméno",
 "Storage" => "Úložiště",
 "change display name" => "změnit zobrazované jméno",
 "set new password" => "nastavit nové heslo",

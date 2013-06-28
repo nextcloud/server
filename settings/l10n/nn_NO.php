@@ -104,6 +104,7 @@
 "Default Storage" => "Standardlagring",
 "Unlimited" => "Ubegrensa",
 "Other" => "Anna",
+"Username" => "Brukarnamn",
 "Storage" => "Lagring",
 "change display name" => "endra visingsnamn",
 "set new password" => "lag nytt passord",

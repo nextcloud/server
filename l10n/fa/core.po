@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-18 02:04+0200\n"
-"PO-Revision-Date: 2013-06-17 23:25+0000\n"
+"POT-Creation-Date: 2013-06-28 01:58+0200\n"
+"PO-Revision-Date: 2013-06-27 23:14+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -61,135 +61,135 @@ msgstr "هیج دسته ای برای پاک شدن انتخاب نشده است
 msgid "Error removing %s from favorites."
 msgstr "خطای پاک کردن %s از علاقه مندی ها."
 
-#: js/config.php:34
+#: js/config.php:32
 msgid "Sunday"
 msgstr "یکشنبه"
 
-#: js/config.php:35
+#: js/config.php:33
 msgid "Monday"
 msgstr "دوشنبه"
 
-#: js/config.php:36
+#: js/config.php:34
 msgid "Tuesday"
 msgstr "سه شنبه"
 
-#: js/config.php:37
+#: js/config.php:35
 msgid "Wednesday"
 msgstr "چهارشنبه"
 
-#: js/config.php:38
+#: js/config.php:36
 msgid "Thursday"
 msgstr "پنجشنبه"
 
-#: js/config.php:39
+#: js/config.php:37
 msgid "Friday"
 msgstr "جمعه"
 
-#: js/config.php:40
+#: js/config.php:38
 msgid "Saturday"
 msgstr "شنبه"
 
-#: js/config.php:45
+#: js/config.php:43
 msgid "January"
 msgstr "ژانویه"
 
-#: js/config.php:46
+#: js/config.php:44
 msgid "February"
 msgstr "فبریه"
 
-#: js/config.php:47
+#: js/config.php:45
 msgid "March"
 msgstr "مارس"
 
-#: js/config.php:48
+#: js/config.php:46
 msgid "April"
 msgstr "آوریل"
 
-#: js/config.php:49
+#: js/config.php:47
 msgid "May"
 msgstr "می"
 
-#: js/config.php:50
+#: js/config.php:48
 msgid "June"
 msgstr "ژوئن"
 
-#: js/config.php:51
+#: js/config.php:49
 msgid "July"
 msgstr "جولای"
 
-#: js/config.php:52
+#: js/config.php:50
 msgid "August"
 msgstr "آگوست"
 
-#: js/config.php:53
+#: js/config.php:51
 msgid "September"
 msgstr "سپتامبر"
 
-#: js/config.php:54
+#: js/config.php:52
 msgid "October"
 msgstr "اکتبر"
 
-#: js/config.php:55
+#: js/config.php:53
 msgid "November"
 msgstr "نوامبر"
 
-#: js/config.php:56
+#: js/config.php:54
 msgid "December"
 msgstr "دسامبر"
 
-#: js/js.js:286
+#: js/js.js:289
 msgid "Settings"
 msgstr "تنظیمات"
 
-#: js/js.js:718
+#: js/js.js:721
 msgid "seconds ago"
 msgstr "ثانیه‌ها پیش"
 
-#: js/js.js:719
+#: js/js.js:722
 msgid "1 minute ago"
 msgstr "1 دقیقه پیش"
 
-#: js/js.js:720
+#: js/js.js:723
 msgid "{minutes} minutes ago"
 msgstr "{دقیقه ها} دقیقه های پیش"
 
-#: js/js.js:721
+#: js/js.js:724
 msgid "1 hour ago"
 msgstr "1 ساعت پیش"
 
-#: js/js.js:722
+#: js/js.js:725
 msgid "{hours} hours ago"
 msgstr "{ساعت ها} ساعت ها پیش"
 
-#: js/js.js:723
+#: js/js.js:726
 msgid "today"
 msgstr "امروز"
 
-#: js/js.js:724
+#: js/js.js:727
 msgid "yesterday"
 msgstr "دیروز"
 
-#: js/js.js:725
+#: js/js.js:728
 msgid "{days} days ago"
 msgstr "{روزها} روزهای پیش"
 
-#: js/js.js:726
+#: js/js.js:729
 msgid "last month"
 msgstr "ماه قبل"
 
-#: js/js.js:727
+#: js/js.js:730
 msgid "{months} months ago"
 msgstr "{ماه ها} ماه ها پیش"
 
-#: js/js.js:728
+#: js/js.js:731
 msgid "months ago"
 msgstr "ماه‌های قبل"
 
-#: js/js.js:729
+#: js/js.js:732
 msgid "last year"
 msgstr "سال قبل"
 
-#: js/js.js:730
+#: js/js.js:733
 msgid "years ago"
 msgstr "سال‌های قبل"
 
@@ -373,7 +373,7 @@ msgstr "به روز رسانی ناموفق بود. لطفا این خطا را 
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "به روزرسانی موفقیت آمیز بود. در حال انتقال شما به OwnCloud."
 
-#: lostpassword/controller.php:58
+#: lostpassword/controller.php:60
 msgid "ownCloud password reset"
 msgstr "پسورد ابرهای شما تغییرکرد"
 
@@ -403,17 +403,17 @@ msgstr "نام کاربری"
 
 #: lostpassword/templates/lostpassword.php:22
 msgid ""
-"Your files seems to be encrypted. If you didn't have enabled the recovery "
-"key there will be no way to get your data back once the password was "
-"resetted. If you are not sure what to do, please contact your administrator "
-"first before continue. Do you really want to continue?"
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset. If you "
+"are not sure what to do, please contact your administrator before you "
+"continue. Do you really want to continue?"
 msgstr ""
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:29
+#: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
 msgstr "درخواست دوباره سازی"
 

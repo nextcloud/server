@@ -97,6 +97,7 @@
 "Default Storage" => "Подразумевано складиште",
 "Unlimited" => "Неограничено",
 "Other" => "Друго",
+"Username" => "Корисничко име",
 "Storage" => "Складиште",
 "change display name" => "промени име за приказ",
 "set new password" => "постави нову лозинку",

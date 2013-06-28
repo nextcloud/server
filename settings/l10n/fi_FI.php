@@ -91,6 +91,7 @@
 "Default Storage" => "Oletustallennustila",
 "Unlimited" => "Rajoittamaton",
 "Other" => "Muu",
+"Username" => "Käyttäjätunnus",
 "Storage" => "Tallennustila",
 "change display name" => "vaihda näyttönimi",
 "set new password" => "aseta uusi salasana",

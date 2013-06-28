@@ -90,7 +90,6 @@
 "Request failed!<br>Did you make sure your email/username was right?" => "Begäran misslyckades!<br>Är du helt säker på att din e-postadress/användarnamn är korrekt?",
 "You will receive a link to reset your password via Email." => "Du får en länk att återställa ditt lösenord via e-post.",
 "Username" => "Användarnamn",
-"Your files seems to be encrypted. If you didn't have enabled the recovery key there will be no way to get your data back once the password was resetted. If you are not sure what to do, please contact your administrator first before continue. Do you really want to continue?" => "Dina filer ser ut att vara krypterade. Om du inte har aktiverat återställningsnyckeln så finns finns det inget sätt att få tillbaka dina filer när du väl har återställt lösenordet. Om du inte är säker på vad du ska göra, vänligen kontakta din administratör innan du fortsätter. Vill du verkligen fortsätta?",
 "Yes, I really want to reset my password now" => "Ja, jag vill verkligen återställa mitt lösenord nu",
 "Request reset" => "Begär återställning",
 "Your password was reset" => "Ditt lösenord har återställts",

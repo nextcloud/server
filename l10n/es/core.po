@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Art O. Pal <artopal@fastmail.fm>, 2013
 # ggam <ggam@brainleakage.com>, 2013
 # msoko <sokolovitch@yahoo.com>, 2013
 # saskarip <saskarip@gmail.com>, 2013
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-18 02:04+0200\n"
-"PO-Revision-Date: 2013-06-17 23:24+0000\n"
-"Last-Translator: saskarip <saskarip@gmail.com>\n"
+"POT-Creation-Date: 2013-06-28 01:58+0200\n"
+"PO-Revision-Date: 2013-06-27 23:14+0000\n"
+"Last-Translator: Art O. Pal <artopal@fastmail.fm>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -66,135 +67,135 @@ msgstr "No hay categorías seleccionadas para borrar."
 msgid "Error removing %s from favorites."
 msgstr "Error eliminando %s de los favoritos."
 
-#: js/config.php:34
+#: js/config.php:32
 msgid "Sunday"
 msgstr "Domingo"
 
-#: js/config.php:35
+#: js/config.php:33
 msgid "Monday"
 msgstr "Lunes"
 
-#: js/config.php:36
+#: js/config.php:34
 msgid "Tuesday"
 msgstr "Martes"
 
-#: js/config.php:37
+#: js/config.php:35
 msgid "Wednesday"
 msgstr "Miércoles"
 
-#: js/config.php:38
+#: js/config.php:36
 msgid "Thursday"
 msgstr "Jueves"
 
-#: js/config.php:39
+#: js/config.php:37
 msgid "Friday"
 msgstr "Viernes"
 
-#: js/config.php:40
+#: js/config.php:38
 msgid "Saturday"
 msgstr "Sábado"
 
-#: js/config.php:45
+#: js/config.php:43
 msgid "January"
 msgstr "Enero"
 
-#: js/config.php:46
+#: js/config.php:44
 msgid "February"
 msgstr "Febrero"
 
-#: js/config.php:47
+#: js/config.php:45
 msgid "March"
 msgstr "Marzo"
 
-#: js/config.php:48
+#: js/config.php:46
 msgid "April"
 msgstr "Abril"
 
-#: js/config.php:49
+#: js/config.php:47
 msgid "May"
 msgstr "Mayo"
 
-#: js/config.php:50
+#: js/config.php:48
 msgid "June"
 msgstr "Junio"
 
-#: js/config.php:51
+#: js/config.php:49
 msgid "July"
 msgstr "Julio"
 
-#: js/config.php:52
+#: js/config.php:50
 msgid "August"
 msgstr "Agosto"
 
-#: js/config.php:53
+#: js/config.php:51
 msgid "September"
 msgstr "Septiembre"
 
-#: js/config.php:54
+#: js/config.php:52
 msgid "October"
 msgstr "Octubre"
 
-#: js/config.php:55
+#: js/config.php:53
 msgid "November"
 msgstr "Noviembre"
 
-#: js/config.php:56
+#: js/config.php:54
 msgid "December"
 msgstr "Diciembre"
 
-#: js/js.js:286
+#: js/js.js:289
 msgid "Settings"
 msgstr "Ajustes"
 
-#: js/js.js:718
+#: js/js.js:721
 msgid "seconds ago"
 msgstr "hace segundos"
 
-#: js/js.js:719
+#: js/js.js:722
 msgid "1 minute ago"
 msgstr "hace 1 minuto"
 
-#: js/js.js:720
+#: js/js.js:723
 msgid "{minutes} minutes ago"
 msgstr "hace {minutes} minutos"
 
-#: js/js.js:721
+#: js/js.js:724
 msgid "1 hour ago"
 msgstr "Hace 1 hora"
 
-#: js/js.js:722
+#: js/js.js:725
 msgid "{hours} hours ago"
 msgstr "Hace {hours} horas"
 
-#: js/js.js:723
+#: js/js.js:726
 msgid "today"
 msgstr "hoy"
 
-#: js/js.js:724
+#: js/js.js:727
 msgid "yesterday"
 msgstr "ayer"
 
-#: js/js.js:725
+#: js/js.js:728
 msgid "{days} days ago"
 msgstr "hace {days} días"
 
-#: js/js.js:726
+#: js/js.js:729
 msgid "last month"
 msgstr "el mes pasado"
 
-#: js/js.js:727
+#: js/js.js:730
 msgid "{months} months ago"
 msgstr "Hace {months} meses"
 
-#: js/js.js:728
+#: js/js.js:731
 msgid "months ago"
 msgstr "hace meses"
 
-#: js/js.js:729
+#: js/js.js:732
 msgid "last year"
 msgstr "el año pasado"
 
-#: js/js.js:730
+#: js/js.js:733
 msgid "years ago"
 msgstr "hace años"
 
@@ -378,7 +379,7 @@ msgstr "La actualización ha fracasado. Por favor, informe de este problema a la
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "La actualización se ha realizado con éxito. Redireccionando a ownCloud ahora."
 
-#: lostpassword/controller.php:58
+#: lostpassword/controller.php:60
 msgid "ownCloud password reset"
 msgstr "Reseteo contraseña de ownCloud"
 
@@ -408,17 +409,17 @@ msgstr "Nombre de usuario"
 
 #: lostpassword/templates/lostpassword.php:22
 msgid ""
-"Your files seems to be encrypted. If you didn't have enabled the recovery "
-"key there will be no way to get your data back once the password was "
-"resetted. If you are not sure what to do, please contact your administrator "
-"first before continue. Do you really want to continue?"
-msgstr "Sus archivos parecen estar encriptados. Si no ha habilitado la clave de recurperación, no habrá ninguna manera de recuperar sus datos hasta que la contraseña sea reseteada. Si no está seguro de qué hacer, por favor contacte con su administrador antes de continuar. ¿Desea realmente continuar?"
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset. If you "
+"are not sure what to do, please contact your administrator before you "
+"continue. Do you really want to continue?"
+msgstr "Sus archivos están cifrados. Si no ha habilitado la clave de recurperación, no habrá forma de recuperar sus datos luego de que la contraseña sea reseteada. Si no está seguro de qué hacer, contacte a su administrador antes de continuar. ¿Realmente desea continuar?"
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
 msgstr "Sí. Realmente deseo resetear mi contraseña ahora"
 
-#: lostpassword/templates/lostpassword.php:29
+#: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
 msgstr "Solicitar restablecimiento"
 

@@ -106,6 +106,7 @@
 "Default Storage" => "Magazyn domyślny",
 "Unlimited" => "Bez limitu",
 "Other" => "Inne",
+"Username" => "Nazwa użytkownika",
 "Storage" => "Magazyn",
 "change display name" => "zmień wyświetlaną nazwę",
 "set new password" => "ustaw nowe hasło",

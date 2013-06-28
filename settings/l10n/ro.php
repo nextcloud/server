@@ -75,6 +75,7 @@
 "Default Storage" => "Stocare implicită",
 "Unlimited" => "Nelimitată",
 "Other" => "Altele",
+"Username" => "Nume utilizator",
 "Storage" => "Stocare",
 "Default" => "Implicită"
 );

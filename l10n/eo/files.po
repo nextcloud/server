@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Mariano <mstreet@kde.org.ar>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-18 02:04+0200\n"
-"PO-Revision-Date: 2013-06-17 23:25+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-28 01:58+0200\n"
+"PO-Revision-Date: 2013-06-27 23:15+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,7 +65,7 @@ msgstr "Malsukcesis skribo al disko"
 
 #: ajax/upload.php:51
 msgid "Not enough storage available"
-msgstr ""
+msgstr "Ne haveblas sufiĉa memoro"
 
 #: ajax/upload.php:83
 msgid "Invalid directory."
@@ -80,7 +81,7 @@ msgstr "Kunhavigi"
 
 #: js/fileactions.js:126
 msgid "Delete permanently"
-msgstr ""
+msgstr "Forigi por ĉiam"
 
 #: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
 msgid "Delete"
@@ -120,7 +121,7 @@ msgstr "malfari"
 
 #: js/filelist.js:331
 msgid "perform delete operation"
-msgstr ""
+msgstr "plenumi forigan operacion"
 
 #: js/filelist.js:413
 msgid "1 file uploading"
@@ -146,11 +147,11 @@ msgstr "Nevalida nomo: “\\”, “/”, “<”, “>”, “:”, “\"”, �
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "Via memoro plenas, ne plu eblas ĝisdatigi aŭ sinkronigi dosierojn!"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "Via memoro preskaŭ plenas ({usedSpacePercent}%)"
 
 #: js/files.js:231
 msgid ""
@@ -183,41 +184,41 @@ msgstr "URL ne povas esti malplena."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Nevalida dosierujnomo. Uzo de “Shared” rezervatas de Owncloud."
 
-#: js/files.js:520 js/files.js:536 js/files.js:826 js/files.js:864
+#: js/files.js:520 js/files.js:536 js/files.js:840 js/files.js:878
 msgid "Error"
 msgstr "Eraro"
 
-#: js/files.js:877 templates/index.php:69
+#: js/files.js:891 templates/index.php:69
 msgid "Name"
 msgstr "Nomo"
 
-#: js/files.js:878 templates/index.php:80
+#: js/files.js:892 templates/index.php:80
 msgid "Size"
 msgstr "Grando"
 
-#: js/files.js:879 templates/index.php:82
+#: js/files.js:893 templates/index.php:82
 msgid "Modified"
 msgstr "Modifita"
 
-#: js/files.js:898
+#: js/files.js:912
 msgid "1 folder"
 msgstr "1 dosierujo"
 
-#: js/files.js:900
+#: js/files.js:914
 msgid "{count} folders"
 msgstr "{count} dosierujoj"
 
-#: js/files.js:908
+#: js/files.js:922
 msgid "1 file"
 msgstr "1 dosiero"
 
-#: js/files.js:910
+#: js/files.js:924
 msgid "{count} files"
 msgstr "{count} dosierujoj"
 
 #: lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
-msgstr ""
+msgstr "Nevalida dosierujnomo. La uzo de “Shared” estas rezervita de ownCloud."
 
 #: lib/app.php:73
 msgid "Unable to rename file"
@@ -277,7 +278,7 @@ msgstr "El ligilo"
 
 #: templates/index.php:42
 msgid "Deleted files"
-msgstr ""
+msgstr "Forigitaj dosieroj"
 
 #: templates/index.php:48
 msgid "Cancel upload"
@@ -285,7 +286,7 @@ msgstr "Nuligi alŝuton"
 
 #: templates/index.php:54
 msgid "You don’t have write permissions here."
-msgstr ""
+msgstr "Vi ne havas permeson skribi ĉi tie."
 
 #: templates/index.php:61
 msgid "Nothing in here. Upload something!"
@@ -319,4 +320,4 @@ msgstr "Nuna skano"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr ""
+msgstr "Ĝisdatiĝas dosiersistema kaŝmemoro..."

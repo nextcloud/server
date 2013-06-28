@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"%s shared »%s« with you" => "%s compartilhou »%s« com você",
 "Category type not provided." => "Tipo de categoria não fornecido.",
 "No category to add?" => "Nenhuma categoria a adicionar?",
 "This category already exists: %s" => "Esta categoria já existe: %s",
@@ -89,6 +90,8 @@
 "Request failed!<br>Did you make sure your email/username was right?" => "O pedido falhou! <br>Certifique-se que seu e-mail/username estavam corretos?",
 "You will receive a link to reset your password via Email." => "Você receberá um link para redefinir sua senha por e-mail.",
 "Username" => "Nome de usuário",
+"Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Seus arquivos estão encriptados. Se você não habilitou a chave de recuperação, não haverá maneira de recuperar seus dados após criar uma nova senha. Se você não tem certeza do que fazer,  por favor entre em contato com o administrador antes de continuar. Tem certeza que realmente quer continuar?",
+"Yes, I really want to reset my password now" => "Sim, realmente quero criar uma nova senha.",
 "Request reset" => "Pedir redefinição",
 "Your password was reset" => "Sua senha foi redefinida",
 "To login page" => "Para a página de login",
@@ -101,6 +104,7 @@
 "Help" => "Ajuda",
 "Access forbidden" => "Acesso proibido",
 "Cloud not found" => "Cloud não encontrado",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Olá,\n\napenas para você saber que %s compartilhou %s com você.\nVeja: %s\n\nAbraços!",
 "web services under your control" => "serviços web sob seu controle",
 "Edit categories" => "Editar categorias",
 "Add" => "Adicionar",
@@ -131,6 +135,7 @@
 "remember" => "lembrar",
 "Log in" => "Fazer login",
 "Alternative Logins" => "Logins alternativos",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Olá,<br><br>apenas para você saber que %s compartilhou %s com você.<br><a href=\"%s\">Veja: </a><br><br>Abraços!",
 "prev" => "anterior",
 "next" => "próximo",
 "Updating ownCloud to version %s, this may take a while." => "Atualizando ownCloud para a versão %s, isto pode levar algum tempo."

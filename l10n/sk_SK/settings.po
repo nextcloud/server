@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-18 02:05+0200\n"
-"PO-Revision-Date: 2013-06-17 23:25+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-28 01:58+0200\n"
+"PO-Revision-Date: 2013-06-27 23:15+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -456,7 +456,7 @@ msgstr "WebDAV"
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Použite túto adresu pre pripojenie vášho ownCloud k súborovému správcovi"
 
-#: templates/users.php:21 templates/users.php:84
+#: templates/users.php:21
 msgid "Login Name"
 msgstr "Prihlasovacie meno"
 
@@ -472,7 +472,7 @@ msgstr "Obnovenie hesla administrátora"
 msgid ""
 "Enter the recovery password in order to recover the users files during "
 "password change"
-msgstr ""
+msgstr "Zadajte heslo pre obnovenie súborov používateľa pri zmene hesla"
 
 #: templates/users.php:42
 msgid "Default Storage"
@@ -485,6 +485,10 @@ msgstr "Nelimitované"
 #: templates/users.php:66 templates/users.php:157
 msgid "Other"
 msgstr "Iné"
+
+#: templates/users.php:84
+msgid "Username"
+msgstr "Meno používateľa"
 
 #: templates/users.php:91
 msgid "Storage"

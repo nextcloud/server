@@ -33,13 +33,18 @@ if (!OC_Config::getValue('maintenance', false)) {
 		}
 
 		$view = new OC_FilesystemView('/');
-		$session = new \OCA\Encryption\Session($view);
+
+		$sessionReady = false;
+		if(extension_loaded("openssl")) {
+			$session = new \OCA\Encryption\Session($view);
+			$sessionReady = true;
+		}
 
 		$user = \OCP\USER::getUser();
 		// check if user has a private key
-		if (
-			!$view->file_exists('/' . $user . '/files_encryption/' . $user . '.private.key')
-			&& OCA\Encryption\Crypt::mode() === 'server'
+		if ($sessionReady === false
+			|| (!$view->file_exists('/' . $user . '/files_encryption/' . $user . '.private.key')
+				&& OCA\Encryption\Crypt::mode() === 'server')
 		) {
 
 			// Force the user to log-in again if the encryption key isn't unlocked

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-18 02:04+0200\n"
-"PO-Revision-Date: 2013-06-17 23:25+0000\n"
-"Last-Translator: idetao <marcxosm@gmail.com>\n"
+"POT-Creation-Date: 2013-06-28 01:58+0200\n"
+"PO-Revision-Date: 2013-06-27 23:14+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr "%s condiviso »%s« con te"
+msgstr "%s ha condiviso »%s« con te"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -63,135 +63,135 @@ msgstr "Nessuna categoria selezionata per l'eliminazione."
 msgid "Error removing %s from favorites."
 msgstr "Errore durante la rimozione di %s dai preferiti."
 
-#: js/config.php:34
+#: js/config.php:32
 msgid "Sunday"
 msgstr "Domenica"
 
-#: js/config.php:35
+#: js/config.php:33
 msgid "Monday"
 msgstr "Lunedì"
 
-#: js/config.php:36
+#: js/config.php:34
 msgid "Tuesday"
 msgstr "Martedì"
 
-#: js/config.php:37
+#: js/config.php:35
 msgid "Wednesday"
 msgstr "Mercoledì"
 
-#: js/config.php:38
+#: js/config.php:36
 msgid "Thursday"
 msgstr "Giovedì"
 
-#: js/config.php:39
+#: js/config.php:37
 msgid "Friday"
 msgstr "Venerdì"
 
-#: js/config.php:40
+#: js/config.php:38
 msgid "Saturday"
 msgstr "Sabato"
 
-#: js/config.php:45
+#: js/config.php:43
 msgid "January"
 msgstr "Gennaio"
 
-#: js/config.php:46
+#: js/config.php:44
 msgid "February"
 msgstr "Febbraio"
 
-#: js/config.php:47
+#: js/config.php:45
 msgid "March"
 msgstr "Marzo"
 
-#: js/config.php:48
+#: js/config.php:46
 msgid "April"
 msgstr "Aprile"
 
-#: js/config.php:49
+#: js/config.php:47
 msgid "May"
 msgstr "Maggio"
 
-#: js/config.php:50
+#: js/config.php:48
 msgid "June"
 msgstr "Giugno"
 
-#: js/config.php:51
+#: js/config.php:49
 msgid "July"
 msgstr "Luglio"
 
-#: js/config.php:52
+#: js/config.php:50
 msgid "August"
 msgstr "Agosto"
 
-#: js/config.php:53
+#: js/config.php:51
 msgid "September"
 msgstr "Settembre"
 
-#: js/config.php:54
+#: js/config.php:52
 msgid "October"
 msgstr "Ottobre"
 
-#: js/config.php:55
+#: js/config.php:53
 msgid "November"
 msgstr "Novembre"
 
-#: js/config.php:56
+#: js/config.php:54
 msgid "December"
 msgstr "Dicembre"
 
-#: js/js.js:286
+#: js/js.js:289
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: js/js.js:718
+#: js/js.js:721
 msgid "seconds ago"
 msgstr "secondi fa"
 
-#: js/js.js:719
+#: js/js.js:722
 msgid "1 minute ago"
 msgstr "Un minuto fa"
 
-#: js/js.js:720
+#: js/js.js:723
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minuti fa"
 
-#: js/js.js:721
+#: js/js.js:724
 msgid "1 hour ago"
 msgstr "1 ora fa"
 
-#: js/js.js:722
+#: js/js.js:725
 msgid "{hours} hours ago"
 msgstr "{hours} ore fa"
 
-#: js/js.js:723
+#: js/js.js:726
 msgid "today"
 msgstr "oggi"
 
-#: js/js.js:724
+#: js/js.js:727
 msgid "yesterday"
 msgstr "ieri"
 
-#: js/js.js:725
+#: js/js.js:728
 msgid "{days} days ago"
 msgstr "{days} giorni fa"
 
-#: js/js.js:726
+#: js/js.js:729
 msgid "last month"
 msgstr "mese scorso"
 
-#: js/js.js:727
+#: js/js.js:730
 msgid "{months} months ago"
 msgstr "{months} mesi fa"
 
-#: js/js.js:728
+#: js/js.js:731
 msgid "months ago"
 msgstr "mesi fa"
 
-#: js/js.js:729
+#: js/js.js:732
 msgid "last year"
 msgstr "anno scorso"
 
-#: js/js.js:730
+#: js/js.js:733
 msgid "years ago"
 msgstr "anni fa"
 
@@ -375,7 +375,7 @@ msgstr "L'aggiornamento non è riuscito. Segnala il problema alla <a href=\"http
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "L'aggiornamento è stato effettuato correttamente. Stai per essere reindirizzato a ownCloud."
 
-#: lostpassword/controller.php:58
+#: lostpassword/controller.php:60
 msgid "ownCloud password reset"
 msgstr "Ripristino password di ownCloud"
 
@@ -405,17 +405,17 @@ msgstr "Nome utente"
 
 #: lostpassword/templates/lostpassword.php:22
 msgid ""
-"Your files seems to be encrypted. If you didn't have enabled the recovery "
-"key there will be no way to get your data back once the password was "
-"resetted. If you are not sure what to do, please contact your administrator "
-"first before continue. Do you really want to continue?"
-msgstr "I file non sembrano essere cifrati. Se non hai precedentemente abilitato la chiave di recupero, non sarà più possibile ritrovare i tuoi dati una volta che la password sarà resettata. Se non sei sicuro, per favore contatta l'amministratore prima di proseguire. Vuoi veramente continuare?"
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset. If you "
+"are not sure what to do, please contact your administrator before you "
+"continue. Do you really want to continue?"
+msgstr "I file sono cifrati. Se non hai precedentemente abilitato la chiave di recupero, non sarà più possibile ritrovare i tuoi dati una volta che la password sarà ripristinata. Se non sei sicuro, per favore contatta l'amministratore prima di proseguire. Vuoi davvero continuare?"
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
-msgstr "Sì, voglio davvero resettare la mia password adesso"
+msgstr "Sì, voglio davvero ripristinare la mia password adesso"
 
-#: lostpassword/templates/lostpassword.php:29
+#: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
 msgstr "Richiesta di ripristino"
 
@@ -472,7 +472,7 @@ msgid ""
 "View it: %s\n"
 "\n"
 "Cheers!"
-msgstr "Ehilà,\n\nvolevo solamente farti sapere che %s ha condiviso %s con te.\nGuarda: %s\n\nGrazie!"
+msgstr "Ehilà,\n\nvolevo solamente farti sapere che %s ha condiviso %s con te.\nGuarda: %s\n\nSaluti!"
 
 #: templates/altmail.php:7 templates/mail.php:24
 msgid "web services under your control"
@@ -614,7 +614,7 @@ msgstr "Accessi alternativi"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr "Ehilà,<br><br>volevo solamente farti sapere che %s ha condiviso »%s« con te.<br><a href=\"%s\">Guarda!</a><br><br>Grazie!"
+msgstr "Ehilà,<br><br>volevo solamente farti sapere che %s ha condiviso »%s« con te.<br><a href=\"%s\">Guarda!</a><br><br>Saluti!"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

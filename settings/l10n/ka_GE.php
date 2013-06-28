@@ -104,6 +104,7 @@
 "Default Storage" => "საწყისი საცავი",
 "Unlimited" => "ულიმიტო",
 "Other" => "სხვა",
+"Username" => "მომხმარებლის სახელი",
 "Storage" => "საცავი",
 "change display name" => "შეცვალე დისფლეის სახელი",
 "set new password" => "დააყენეთ ახალი პაროლი",

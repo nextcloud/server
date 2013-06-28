@@ -103,6 +103,7 @@
 "Default Storage" => "Noklusējuma krātuve",
 "Unlimited" => "Neierobežota",
 "Other" => "Cits",
+"Username" => "Lietotājvārds",
 "Storage" => "Krātuve",
 "change display name" => "mainīt redzamo vārdu",
 "set new password" => "iestatīt jaunu paroli",
