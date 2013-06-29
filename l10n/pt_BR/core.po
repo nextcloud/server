@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-28 01:58+0200\n"
-"PO-Revision-Date: 2013-06-27 23:14+0000\n"
-"Last-Translator: bjamalaro <bjamalaro@yahoo.com.br>\n"
+"POT-Creation-Date: 2013-06-29 02:03+0200\n"
+"PO-Revision-Date: 2013-06-29 00:03+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -227,8 +227,8 @@ msgstr "O tipo de objeto não foi especificado."
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
-#: js/share.js:589
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:618
+#: js/share.js:630
 msgid "Error"
 msgstr "Erro"
 
@@ -248,7 +248,7 @@ msgstr "Compartilhados"
 msgid "Share"
 msgstr "Compartilhar"
 
-#: js/share.js:125 js/share.js:617
+#: js/share.js:125 js/share.js:658
 msgid "Error while sharing"
 msgstr "Erro ao compartilhar"
 
@@ -268,99 +268,103 @@ msgstr "Compartilhado com você e com o grupo {group} por {owner}"
 msgid "Shared with you by {owner}"
 msgstr "Compartilhado com você por {owner}"
 
-#: js/share.js:159
+#: js/share.js:172
 msgid "Share with"
 msgstr "Compartilhar com"
 
-#: js/share.js:164
+#: js/share.js:177
 msgid "Share with link"
 msgstr "Compartilhar com link"
 
-#: js/share.js:167
+#: js/share.js:180
 msgid "Password protect"
 msgstr "Proteger com senha"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:26
+#: js/share.js:182 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Senha"
 
-#: js/share.js:173
+#: js/share.js:186
+msgid "Allow Public Upload"
+msgstr ""
+
+#: js/share.js:189
 msgid "Email link to person"
 msgstr "Enviar link por e-mail"
 
-#: js/share.js:174
+#: js/share.js:190
 msgid "Send"
 msgstr "Enviar"
 
-#: js/share.js:178
+#: js/share.js:195
 msgid "Set expiration date"
 msgstr "Definir data de expiração"
 
-#: js/share.js:179
+#: js/share.js:196
 msgid "Expiration date"
 msgstr "Data de expiração"
 
-#: js/share.js:211
+#: js/share.js:228
 msgid "Share via email:"
 msgstr "Compartilhar via e-mail:"
 
-#: js/share.js:213
+#: js/share.js:230
 msgid "No people found"
 msgstr "Nenhuma pessoa encontrada"
 
-#: js/share.js:251
+#: js/share.js:268
 msgid "Resharing is not allowed"
 msgstr "Não é permitido re-compartilhar"
 
-#: js/share.js:287
+#: js/share.js:304
 msgid "Shared in {item} with {user}"
 msgstr "Compartilhado em {item} com {user}"
 
-#: js/share.js:308
+#: js/share.js:325
 msgid "Unshare"
 msgstr "Descompartilhar"
 
-#: js/share.js:320
+#: js/share.js:337
 msgid "can edit"
 msgstr "pode editar"
 
-#: js/share.js:322
+#: js/share.js:339
 msgid "access control"
 msgstr "controle de acesso"
 
-#: js/share.js:325
+#: js/share.js:342
 msgid "create"
 msgstr "criar"
 
-#: js/share.js:328
+#: js/share.js:345
 msgid "update"
 msgstr "atualizar"
 
-#: js/share.js:331
+#: js/share.js:348
 msgid "delete"
 msgstr "remover"
 
-#: js/share.js:334
+#: js/share.js:351
 msgid "share"
 msgstr "compartilhar"
 
-#: js/share.js:368 js/share.js:564
+#: js/share.js:385 js/share.js:605
 msgid "Password protected"
 msgstr "Protegido com senha"
 
-#: js/share.js:577
+#: js/share.js:618
 msgid "Error unsetting expiration date"
 msgstr "Erro ao remover data de expiração"
 
-#: js/share.js:589
+#: js/share.js:630
 msgid "Error setting expiration date"
 msgstr "Erro ao definir data de expiração"
 
-#: js/share.js:604
+#: js/share.js:645
 msgid "Sending ..."
 msgstr "Enviando ..."
 
-#: js/share.js:615
+#: js/share.js:656
 msgid "Email sent"
 msgstr "E-mail enviado"
 

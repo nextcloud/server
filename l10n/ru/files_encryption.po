@@ -5,13 +5,15 @@
 # Translators:
 # Ант По <du6egub@gmail.com>, 2013
 # alfsoft <alfsoft@gmail.com>, 2013
+# lord93 <lordakryl@gmail.com>, 2013
+# jekader <jekader@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-22 02:06+0200\n"
-"PO-Revision-Date: 2013-06-22 00:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-29 02:03+0200\n"
+"PO-Revision-Date: 2013-06-28 20:20+0000\n"
+"Last-Translator: jekader <jekader@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +28,7 @@ msgstr "Ключ восстановления успешно установле�
 #: ajax/adminrecovery.php:34
 msgid ""
 "Could not enable recovery key. Please check your recovery key password!"
-msgstr ""
+msgstr "Невозможно включить ключ восстановления. Проверьте правильность пароля от ключа!"
 
 #: ajax/adminrecovery.php:48
 msgid "Recovery key successfully disabled"
@@ -35,7 +37,7 @@ msgstr "Ключ восстановления успешно отключен"
 #: ajax/adminrecovery.php:53
 msgid ""
 "Could not disable recovery key. Please check your recovery key password!"
-msgstr ""
+msgstr "Невозможно выключить ключ восстановления. Проверьте правильность пароля от ключа!"
 
 #: ajax/changeRecoveryPassword.php:49
 msgid "Password successfully changed."
@@ -47,30 +49,30 @@ msgstr "Невозможно изменить пароль. Возможно с�
 
 #: ajax/updatePrivateKeyPassword.php:51
 msgid "Private key password successfully updated."
-msgstr ""
+msgstr "Пароль секретного ключа успешно обновлён."
 
 #: ajax/updatePrivateKeyPassword.php:53
 msgid ""
 "Could not update the private key password. Maybe the old password was not "
 "correct."
-msgstr ""
+msgstr "Невозможно обновить пароль от секретного ключа. Возможно, старый пароль указан неверно."
 
 #: files/error.php:7
 msgid ""
 "Your private key is not valid! Maybe your password was changed from outside."
 " You can update your private key password in your personal settings to "
 "regain access to your files"
-msgstr ""
+msgstr "Секретный ключ недействителен! Возможно, Ваш пароль изменился. Пожалуйста, обновите пароль к приватному ключу в личных настройках, чтобы получить доступ к файлам"
 
 #: hooks/hooks.php:44
 msgid "PHP module OpenSSL is not installed."
-msgstr ""
+msgstr "Модуль OpenSSL для PHP не установлен."
 
 #: hooks/hooks.php:45
 msgid ""
 "Please ask your server administrator to install the module. For now the "
 "encryption app was disabled."
-msgstr ""
+msgstr "Попросите администратора сервера установить модуль. Приложение шифрования было временно отключено."
 
 #: js/settings-admin.js:11
 msgid "Saving..."
@@ -80,11 +82,11 @@ msgstr "Сохранение..."
 msgid ""
 "Your private key is not valid! Maybe the your password was changed from "
 "outside."
-msgstr ""
+msgstr "Секретный ключ недействителен! Возможно, Ваш пароль был изменён в другой программе."
 
 #: templates/invalid_private_key.php:7
 msgid "You can unlock your private key in your "
-msgstr ""
+msgstr "Вы можете разблокировать закрытый ключ в своём "
 
 #: templates/invalid_private_key.php:7
 msgid "personal settings"
@@ -97,11 +99,11 @@ msgstr "Шифрование"
 #: templates/settings-admin.php:10
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
-msgstr ""
+msgstr "Включить ключ восстановления (позволяет пользователям восстановить файлы при потере пароля):"
 
 #: templates/settings-admin.php:14
 msgid "Recovery key password"
-msgstr ""
+msgstr "Пароль для ключа восстановления"
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
@@ -113,15 +115,15 @@ msgstr "Отключено"
 
 #: templates/settings-admin.php:34
 msgid "Change recovery key password:"
-msgstr ""
+msgstr "Сменить пароль для ключа восстановления:"
 
 #: templates/settings-admin.php:41
 msgid "Old Recovery key password"
-msgstr ""
+msgstr "Старый пароль для ключа восстановления"
 
 #: templates/settings-admin.php:48
 msgid "New Recovery key password"
-msgstr ""
+msgstr "Новый пароль для ключа восстановления"
 
 #: templates/settings-admin.php:53
 msgid "Change Password"
@@ -129,11 +131,11 @@ msgstr "Изменить пароль"
 
 #: templates/settings-personal.php:11
 msgid "Your private key password no longer match your log-in password:"
-msgstr ""
+msgstr "Пароль от секретного ключа больше не соответствует паролю входа:"
 
 #: templates/settings-personal.php:14
 msgid "Set your old private key password to your current log-in password."
-msgstr ""
+msgstr "Замените старый пароль от секретного ключа на новый пароль входа."
 
 #: templates/settings-personal.php:16
 msgid ""
@@ -143,19 +145,19 @@ msgstr "Если вы не помните свой старый пароль, в
 
 #: templates/settings-personal.php:24
 msgid "Old log-in password"
-msgstr ""
+msgstr "Старый пароль для входа"
 
 #: templates/settings-personal.php:30
 msgid "Current log-in password"
-msgstr ""
+msgstr "Текущйи пароль для входа"
 
 #: templates/settings-personal.php:35
 msgid "Update Private Key Password"
-msgstr ""
+msgstr "Обновить пароль от секретного ключа"
 
 #: templates/settings-personal.php:45
 msgid "Enable password recovery:"
-msgstr ""
+msgstr "Включить восстановление пароля:"
 
 #: templates/settings-personal.php:47
 msgid ""

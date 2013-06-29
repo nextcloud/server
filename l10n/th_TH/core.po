@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-28 01:58+0200\n"
-"PO-Revision-Date: 2013-06-27 23:14+0000\n"
+"POT-Creation-Date: 2013-06-29 02:03+0200\n"
+"PO-Revision-Date: 2013-06-29 00:03+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -225,8 +225,8 @@ msgstr "ชนิดของวัตถุยังไม่ได้รับ
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
-#: js/share.js:589
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:618
+#: js/share.js:630
 msgid "Error"
 msgstr "ข้อผิดพลาด"
 
@@ -246,7 +246,7 @@ msgstr "แชร์แล้ว"
 msgid "Share"
 msgstr "แชร์"
 
-#: js/share.js:125 js/share.js:617
+#: js/share.js:125 js/share.js:658
 msgid "Error while sharing"
 msgstr "เกิดข้อผิดพลาดในระหว่างการแชร์ข้อมูล"
 
@@ -266,99 +266,103 @@ msgstr "ได้แชร์ให้กับคุณ และกลุ่�
 msgid "Shared with you by {owner}"
 msgstr "ถูกแชร์ให้กับคุณโดย {owner}"
 
-#: js/share.js:159
+#: js/share.js:172
 msgid "Share with"
 msgstr "แชร์ให้กับ"
 
-#: js/share.js:164
+#: js/share.js:177
 msgid "Share with link"
 msgstr "แชร์ด้วยลิงก์"
 
-#: js/share.js:167
+#: js/share.js:180
 msgid "Password protect"
 msgstr "ใส่รหัสผ่านไว้"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:26
+#: js/share.js:182 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "รหัสผ่าน"
 
-#: js/share.js:173
+#: js/share.js:186
+msgid "Allow Public Upload"
+msgstr ""
+
+#: js/share.js:189
 msgid "Email link to person"
 msgstr "ส่งลิงก์ให้ทางอีเมล"
 
-#: js/share.js:174
+#: js/share.js:190
 msgid "Send"
 msgstr "ส่ง"
 
-#: js/share.js:178
+#: js/share.js:195
 msgid "Set expiration date"
 msgstr "กำหนดวันที่หมดอายุ"
 
-#: js/share.js:179
+#: js/share.js:196
 msgid "Expiration date"
 msgstr "วันที่หมดอายุ"
 
-#: js/share.js:211
+#: js/share.js:228
 msgid "Share via email:"
 msgstr "แชร์ผ่านทางอีเมล"
 
-#: js/share.js:213
+#: js/share.js:230
 msgid "No people found"
 msgstr "ไม่พบบุคคลที่ต้องการ"
 
-#: js/share.js:251
+#: js/share.js:268
 msgid "Resharing is not allowed"
 msgstr "ไม่อนุญาตให้แชร์ข้อมูลซ้ำได้"
 
-#: js/share.js:287
+#: js/share.js:304
 msgid "Shared in {item} with {user}"
 msgstr "ได้แชร์ {item} ให้กับ {user}"
 
-#: js/share.js:308
+#: js/share.js:325
 msgid "Unshare"
 msgstr "ยกเลิกการแชร์"
 
-#: js/share.js:320
+#: js/share.js:337
 msgid "can edit"
 msgstr "สามารถแก้ไข"
 
-#: js/share.js:322
+#: js/share.js:339
 msgid "access control"
 msgstr "ระดับควบคุมการเข้าใช้งาน"
 
-#: js/share.js:325
+#: js/share.js:342
 msgid "create"
 msgstr "สร้าง"
 
-#: js/share.js:328
+#: js/share.js:345
 msgid "update"
 msgstr "อัพเดท"
 
-#: js/share.js:331
+#: js/share.js:348
 msgid "delete"
 msgstr "ลบ"
 
-#: js/share.js:334
+#: js/share.js:351
 msgid "share"
 msgstr "แชร์"
 
-#: js/share.js:368 js/share.js:564
+#: js/share.js:385 js/share.js:605
 msgid "Password protected"
 msgstr "ใส่รหัสผ่านไว้"
 
-#: js/share.js:577
+#: js/share.js:618
 msgid "Error unsetting expiration date"
 msgstr "เกิดข้อผิดพลาดในการยกเลิกการตั้งค่าวันที่หมดอายุ"
 
-#: js/share.js:589
+#: js/share.js:630
 msgid "Error setting expiration date"
 msgstr "เกิดข้อผิดพลาดในการตั้งค่าวันที่หมดอายุ"
 
-#: js/share.js:604
+#: js/share.js:645
 msgid "Sending ..."
 msgstr "กำลังส่ง..."
 
-#: js/share.js:615
+#: js/share.js:656
 msgid "Email sent"
 msgstr "ส่งอีเมล์แล้ว"
 

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-25 02:04+0200\n"
-"PO-Revision-Date: 2013-06-24 12:10+0000\n"
+"POT-Creation-Date: 2013-06-29 02:03+0200\n"
+"PO-Revision-Date: 2013-06-28 09:20+0000\n"
 "Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -96,11 +96,11 @@ msgstr "Szyfrowanie"
 #: templates/settings-admin.php:10
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
-msgstr ""
+msgstr "Włączhasło klucza odzyskiwania (pozwala odzyskać pliki użytkowników w przypadku utraty hasła):"
 
 #: templates/settings-admin.php:14
 msgid "Recovery key password"
-msgstr ""
+msgstr "Hasło klucza odzyskiwania"
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
@@ -112,15 +112,15 @@ msgstr "Wyłączone"
 
 #: templates/settings-admin.php:34
 msgid "Change recovery key password:"
-msgstr ""
+msgstr "Zmień hasło klucza odzyskiwania"
 
 #: templates/settings-admin.php:41
 msgid "Old Recovery key password"
-msgstr ""
+msgstr "Stare hasło klucza odzyskiwania"
 
 #: templates/settings-admin.php:48
 msgid "New Recovery key password"
-msgstr ""
+msgstr "Nowe hasło klucza odzyskiwania"
 
 #: templates/settings-admin.php:53
 msgid "Change Password"

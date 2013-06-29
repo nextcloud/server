@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-28 01:58+0200\n"
-"PO-Revision-Date: 2013-06-27 23:14+0000\n"
+"POT-Creation-Date: 2013-06-29 02:03+0200\n"
+"PO-Revision-Date: 2013-06-29 00:03+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -225,8 +225,8 @@ msgstr "Tipe objek tidak ditentukan."
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
-#: js/share.js:589
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:618
+#: js/share.js:630
 msgid "Error"
 msgstr "Galat"
 
@@ -246,7 +246,7 @@ msgstr "Dibagikan"
 msgid "Share"
 msgstr "Bagikan"
 
-#: js/share.js:125 js/share.js:617
+#: js/share.js:125 js/share.js:658
 msgid "Error while sharing"
 msgstr "Galat ketika membagikan"
 
@@ -266,99 +266,103 @@ msgstr "Dibagikan dengan Anda dan grup {group} oleh {owner}"
 msgid "Shared with you by {owner}"
 msgstr "Dibagikan dengan Anda oleh {owner}"
 
-#: js/share.js:159
+#: js/share.js:172
 msgid "Share with"
 msgstr "Bagikan dengan"
 
-#: js/share.js:164
+#: js/share.js:177
 msgid "Share with link"
 msgstr "Bagikan lewat tautan"
 
-#: js/share.js:167
+#: js/share.js:180
 msgid "Password protect"
 msgstr "Lindungi dengan sandi"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:26
+#: js/share.js:182 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Sandi"
 
-#: js/share.js:173
+#: js/share.js:186
+msgid "Allow Public Upload"
+msgstr ""
+
+#: js/share.js:189
 msgid "Email link to person"
 msgstr "Emailkan tautan ini ke orang"
 
-#: js/share.js:174
+#: js/share.js:190
 msgid "Send"
 msgstr "Kirim"
 
-#: js/share.js:178
+#: js/share.js:195
 msgid "Set expiration date"
 msgstr "Setel tanggal kedaluwarsa"
 
-#: js/share.js:179
+#: js/share.js:196
 msgid "Expiration date"
 msgstr "Tanggal kedaluwarsa"
 
-#: js/share.js:211
+#: js/share.js:228
 msgid "Share via email:"
 msgstr "Bagian lewat email:"
 
-#: js/share.js:213
+#: js/share.js:230
 msgid "No people found"
 msgstr "Tidak ada orang ditemukan"
 
-#: js/share.js:251
+#: js/share.js:268
 msgid "Resharing is not allowed"
 msgstr "Berbagi ulang tidak diizinkan"
 
-#: js/share.js:287
+#: js/share.js:304
 msgid "Shared in {item} with {user}"
 msgstr "Dibagikan dalam {item} dengan {user}"
 
-#: js/share.js:308
+#: js/share.js:325
 msgid "Unshare"
 msgstr "Batalkan berbagi"
 
-#: js/share.js:320
+#: js/share.js:337
 msgid "can edit"
 msgstr "dapat mengedit"
 
-#: js/share.js:322
+#: js/share.js:339
 msgid "access control"
 msgstr "kontrol akses"
 
-#: js/share.js:325
+#: js/share.js:342
 msgid "create"
 msgstr "buat"
 
-#: js/share.js:328
+#: js/share.js:345
 msgid "update"
 msgstr "perbarui"
 
-#: js/share.js:331
+#: js/share.js:348
 msgid "delete"
 msgstr "hapus"
 
-#: js/share.js:334
+#: js/share.js:351
 msgid "share"
 msgstr "bagikan"
 
-#: js/share.js:368 js/share.js:564
+#: js/share.js:385 js/share.js:605
 msgid "Password protected"
 msgstr "Dilindungi sandi"
 
-#: js/share.js:577
+#: js/share.js:618
 msgid "Error unsetting expiration date"
 msgstr "Galat ketika menghapus tanggal kedaluwarsa"
 
-#: js/share.js:589
+#: js/share.js:630
 msgid "Error setting expiration date"
 msgstr "Galat ketika menyetel tanggal kedaluwarsa"
 
-#: js/share.js:604
+#: js/share.js:645
 msgid "Sending ..."
 msgstr "Mengirim ..."
 
-#: js/share.js:615
+#: js/share.js:656
 msgid "Email sent"
 msgstr "Email terkirim"
 

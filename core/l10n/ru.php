@@ -43,7 +43,7 @@
 "years ago" => "несколько лет назад",
 "Choose" => "Выбрать",
 "Cancel" => "Отменить",
-"Error loading file picker template" => "Ошибка при загрузке файла выбора  шаблона",
+"Error loading file picker template" => "Ошибка при загрузке файла выбора шаблона",
 "Yes" => "Да",
 "No" => "Нет",
 "Ok" => "Ок",
@@ -86,10 +86,11 @@
 "The update was successful. Redirecting you to ownCloud now." => "Обновление прошло успешно. Перенаправляемся в Ваш ownCloud...",
 "ownCloud password reset" => "Сброс пароля ",
 "Use the following link to reset your password: {link}" => "Используйте следующую ссылку чтобы сбросить пароль: {link}",
-"The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Ссылка для сброса пароля была отправлена ​​по электронной почте. <br> Если вы не получите его в пределах одной двух минут, проверьте папку спам. <br> Если это не возможно, обратитесь к Вашему администратору.",
-"Request failed!<br>Did you make sure your email/username was right?" => "Что-то не так. Вы уверены что Email / Имя пользователя указаны верно?",
+"The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Ссылка для сброса пароля отправлена вам ​​по электронной почте.<br>Если вы не получите письмо в пределах одной-двух минут, проверьте папку Спам. <br>Если письма там нет, обратитесь к своему администратору.",
+"Request failed!<br>Did you make sure your email/username was right?" => "Запрос не удался. Вы уверены, что email или имя пользователя указаны верно?",
 "You will receive a link to reset your password via Email." => "На ваш адрес Email выслана ссылка для сброса пароля.",
 "Username" => "Имя пользователя",
+"Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Ваши файлы зашифрованы. Если вы не активировали ключ восстановления, то после сброса пароля все ваши данные будут потеряны навсегда. Если вы не знаете что делать, свяжитесь со своим администратором до того как продолжить. Вы действительно хотите продолжить?",
 "Yes, I really want to reset my password now" => "Да, я действительно хочу сбросить свой пароль",
 "Request reset" => "Запросить сброс",
 "Your password was reset" => "Ваш пароль был сброшен",
@@ -110,7 +111,7 @@
 "Security Warning" => "Предупреждение безопасности",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Ваша версия PHP уязвима к атаке NULL Byte (CVE-2006-7243)",
 "Please update your PHP installation to use ownCloud securely." => "Пожалуйста обновите Ваш PHP чтобы использовать ownCloud безопасно.",
-"No secure random number generator is available, please enable the PHP OpenSSL extension." => "Нет доступного защищенного генератора случайных чисел, пожалуйста, включите расширение PHP OpenSSL.",
+"No secure random number generator is available, please enable the PHP OpenSSL extension." => "Отсутствует защищенный генератор случайных чисел, пожалуйста, включите расширение PHP OpenSSL.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Без защищенного генератора случайных чисел злоумышленник может предугадать токены сброса пароля и завладеть Вашей учетной записью.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Ваша папка с данными и файлы возможно доступны из интернета потому что файл .htaccess не работает.",
 "For information how to properly configure your server, please see the <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>." => "Для информации как правильно настроить Ваш сервер, пожалйста загляните в <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">документацию</a>.",
@@ -137,5 +138,5 @@
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Приветствую,<br><br>просто даю знать, что %s поделился »%s« с вами.<br><a href=\"%s\">Посмотреть!</a><br><br>Удачи!",
 "prev" => "пред",
 "next" => "след",
-"Updating ownCloud to version %s, this may take a while." => "Производится обновление ownCloud до версии %s. Это может занять некоторое время."
+"Updating ownCloud to version %s, this may take a while." => "Идёт обновление ownCloud до версии %s. Это может занять некоторое время."
 );
