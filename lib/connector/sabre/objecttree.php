@@ -46,4 +46,28 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 		return $node;
 
 	}
+
+	/**
+	 * Moves a file from one location to another
+	 *
+	 * @param string $sourcePath The path to the file which should be moved
+	 * @param string $destinationPath The full destination path, so not just the destination parent node
+	 * @throws \Sabre_DAV_Exception_Forbidden
+	 * @return int
+	 */
+	public function move($sourcePath, $destinationPath) {
+
+		$sourceNode = $this->getNodeForPath($sourcePath);
+		if ($sourceNode instanceof \Sabre_DAV_ICollection and $this->nodeExists($destinationPath)) {
+			throw new \Sabre_DAV_Exception_Forbidden('Could not copy directory ' . $sourceNode . ', target exists');
+		}
+		list($sourceDir,) = \Sabre_DAV_URLUtil::splitPath($sourcePath);
+		list($destinationDir,) = \Sabre_DAV_URLUtil::splitPath($destinationPath);
+
+		Filesystem::rename($sourcePath, $destinationPath);
+
+		$this->markDirty($sourceDir);
+		$this->markDirty($destinationDir);
+
+	}
 }
