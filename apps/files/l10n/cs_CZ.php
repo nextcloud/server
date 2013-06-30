@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Nelze přesunout %s - existuje soubor se stejným názvem",
 "Could not move %s" => "Nelze přesunout %s",
+"Unable to set upload directory." => "Nelze nastavit adresář pro nahrané soubory.",
+"Invalid Token" => "Neplatný token",
 "No file was uploaded. Unknown error" => "Soubor nebyl odeslán. Neznámá chyba",
 "There is no error, the file uploaded with success" => "Soubor byl odeslán úspěšně",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Odesílaný soubor přesahuje velikost upload_max_filesize povolenou v php.ini:",
