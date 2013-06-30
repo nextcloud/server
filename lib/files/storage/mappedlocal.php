@@ -34,10 +34,30 @@ class MappedLocal extends \OC\Files\Storage\Common{
 		return @mkdir($this->buildPath($path));
 	}
 	public function rmdir($path) {
-		if ($result = @rmdir($this->buildPath($path))) {
-			$this->cleanMapper($path);
+		try {
+			$it = new \RecursiveIteratorIterator(
+				new \RecursiveDirectoryIterator($this->buildPath($path)),
+				\RecursiveIteratorIterator::CHILD_FIRST
+			);
+			foreach ($it as $file) {
+				/**
+				 * @var \SplFileInfo $file
+				 */
+				if (in_array($file->getBasename(), array('.', '..'))) {
+					continue;
+				} elseif ($file->isDir()) {
+					rmdir($file->getPathname());
+				} elseif ($file->isFile() || $file->isLink()) {
+					unlink($file->getPathname());
+				}
+			}
+			if ($result = @rmdir($this->buildPath($path))) {
+				$this->cleanMapper($path);
+			}
+			return $result;
+		} catch (\UnexpectedValueException $e) {
+			return false;
 		}
-		return $result;
 	}
 	public function opendir($path) {
 		$files = array('.', '..');
