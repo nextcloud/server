@@ -39,7 +39,27 @@ if (\OC_Util::runningOnWindows()) {
 		}
 
 		public function rmdir($path) {
-			return @rmdir($this->datadir . $path);
+			try {
+				$it = new \RecursiveIteratorIterator(
+					new \RecursiveDirectoryIterator($this->datadir . $path),
+					\RecursiveIteratorIterator::CHILD_FIRST
+				);
+				foreach ($it as $file) {
+					/**
+					 * @var \SplFileInfo $file
+					 */
+					if (in_array($file->getBasename(), array('.', '..'))) {
+						continue;
+					} elseif ($file->isDir()) {
+						rmdir($file->getPathname());
+					} elseif ($file->isFile() || $file->isLink()) {
+						unlink($file->getPathname());
+					}
+				}
+				return rmdir($this->datadir . $path);
+			} catch (\UnexpectedValueException $e) {
+				return false;
+			}
 		}
 
 		public function opendir($path) {
