@@ -70,4 +70,33 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 		$this->markDirty($destinationDir);
 
 	}
+
+	/**
+	 * Copies a file or directory.
+	 *
+	 * This method must work recursively and delete the destination
+	 * if it exists
+	 *
+	 * @param string $source
+	 * @param string $destination
+	 * @return void
+	 */
+	public function copy($source, $destination) {
+
+		if (Filesystem::is_file($source)) {
+			Filesystem::copy($source, $destination);
+		} else {
+			Filesystem::mkdir($destination);
+			$dh = Filesystem::opendir($source);
+			while ($subnode = readdir($dh)) {
+
+				if ($subnode == '.' || $subnode == '..') continue;
+				$this->copy($source . '/' . $subnode, $destination . '/' . $subnode);
+
+			}
+		}
+
+		list($destinationDir,) = \Sabre_DAV_URLUtil::splitPath($destination);
+		$this->markDirty($destinationDir);
+	}
 }
