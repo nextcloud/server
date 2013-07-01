@@ -678,7 +678,7 @@ class View {
 	private function runHooks($hooks, $path, $post = false) {
 		$prefix = ($post) ? 'post_' : '';
 		$run = true;
-		if (Filesystem::$loaded and $this->fakeRoot == Filesystem::getRoot()) {
+		if (Filesystem::$loaded and $this->fakeRoot == Filesystem::getRoot() && !Cache\Scanner::isPartialFile($path)) {
 			foreach ($hooks as $hook) {
 				if ($hook != 'read') {
 					\OC_Hook::emit(
