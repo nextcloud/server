@@ -177,6 +177,12 @@ class MappedLocal extends \OC\Files\Storage\Common{
 			return false;
 		}
 
+		if ($this->is_dir($path2)) {
+			$this->rmdir($path2);
+		} else if ($this->is_file($path2)) {
+			$this->unlink($path2);
+		}
+
 		$physicPath1 = $this->buildPath($path1);
 		$physicPath2 = $this->buildPath($path2);
 		if($return=rename($physicPath1, $physicPath2)) {
@@ -187,18 +193,29 @@ class MappedLocal extends \OC\Files\Storage\Common{
 		return $return;
 	}
 	public function copy($path1, $path2) {
-		if($this->is_dir($path2)) {
-			if(!$this->file_exists($path2)) {
-				$this->mkdir($path2);
+		if ($this->is_dir($path1)) {
+			if ($this->is_dir($path2)) {
+				$this->rmdir($path2);
+			} else if ($this->is_file($path2)) {
+				$this->unlink($path2);
 			}
-			$source=substr($path1, strrpos($path1, '/')+1);
-			$path2.=$source;
+			$dir = $this->opendir($path1);
+			$this->mkdir($path2);
+			while ($file = readdir($dir)) {
+				if (($file != '.') && ($file != '..')) {
+					if (!$this->copy($path1 . '/' . $file, $path2 . '/' . $file)) {
+						return false;
+					}
+				}
+			}
+			closedir($dir);
+			return true;
+		} else {
+			if ($return = copy($this->buildPath($path1), $this->buildPath($path2))) {
+				$this->copyMapping($path1, $path2);
+			}
+			return $return;
 		}
-		if($return=copy($this->buildPath($path1), $this->buildPath($path2))) {
-			// mapper needs to create copies or all children
-			$this->copyMapping($path1, $path2);
-		}
-		return $return;
 	}
 	public function fopen($path, $mode) {
 		if($return=fopen($this->buildPath($path), $mode)) {
