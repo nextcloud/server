@@ -139,12 +139,15 @@ class OC_Setup {
 				$dbuser = $options['dbuser'];
 				$dbpass = $options['dbpass'];
 				$dbname = $options['dbname'];
-				$dbtablespace = $options['dbtablespace'];
+				if (array_key_exists('dbtablespace', $options)) {
+					$dbtablespace = $options['dbtablespace'];
+				} else {
+					$dbtablespace = 'USERS';
+				}
 				$dbhost = isset($options['dbhost'])?$options['dbhost']:'';
 				$dbtableprefix = isset($options['dbtableprefix']) ? $options['dbtableprefix'] : 'oc_';
 
 				OC_Config::setValue('dbname', $dbname);
-				OC_Config::setValue('dbtablespace', $dbtablespace);
 				OC_Config::setValue('dbhost', $dbhost);
 				OC_Config::setValue('dbtableprefix', $dbtableprefix);
 

@@ -45,7 +45,12 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 		// but otherwise reading locks from SQLite Databases will return
 		// nothing
 		$query = 'SELECT * FROM `*PREFIX*locks`'
-			.' WHERE `userid` = ? AND (`created` + `timeout`) > '.time().' AND (( `uri` = ?)';
+			   .' WHERE `userid` = ? AND (`created` + `timeout`) > '.time().' AND (( `uri` = ?)';
+		if (OC_Config::getValue( "dbtype") === 'oci') {
+			//FIXME oracle hack: need to explicitly cast CLOB to CHAR for comparison
+			$query = 'SELECT * FROM `*PREFIX*locks`'
+				   .' WHERE `userid` = ? AND (`created` + `timeout`) > '.time().' AND (( to_char(`uri`) = ?)';
+		}
 		$params = array(OC_User::getUser(), $uri);
 
 		// We need to check locks for every part in the uri.
@@ -60,15 +65,24 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 
 			if ($currentPath) $currentPath.='/';
 			$currentPath.=$part;
-
-			$query.=' OR (`depth` != 0 AND `uri` = ?)';
+			//FIXME oracle hack: need to explicitly cast CLOB to CHAR for comparison
+			if (OC_Config::getValue( "dbtype") === 'oci') {
+				$query.=' OR (`depth` != 0 AND to_char(`uri`) = ?)';
+			} else {
+				$query.=' OR (`depth` != 0 AND `uri` = ?)';
+			}
 			$params[] = $currentPath;
 
 		}
 
 		if ($returnChildLocks) {
 
-			$query.=' OR (`uri` LIKE ?)';
+			//FIXME oracle hack: need to explicitly cast CLOB to CHAR for comparison
+			if (OC_Config::getValue( "dbtype") === 'oci') {
+				$query.=' OR (to_char(`uri`) LIKE ?)';
+			} else {
+				$query.=' OR (`uri` LIKE ?)';
+			}
 			$params[] = $uri . '/%';
 
 		}
