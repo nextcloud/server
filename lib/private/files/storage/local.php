@@ -196,7 +196,7 @@ if (\OC_Util::runningOnWindows()) {
 				$dir = $this->opendir($path1);
 				$this->mkdir($path2);
 				while ($file = readdir($dir)) {
-					if (($file != '.') && ($file != '..')) {
+					if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
 						if (!$this->copy($path1 . '/' . $file, $path2 . '/' . $file)) {
 							return false;
 						}
