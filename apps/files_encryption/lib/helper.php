@@ -132,7 +132,7 @@ class Helper {
 
 			$view->file_put_contents('/public-keys/' . $recoveryKeyId . '.public.key', $keypair['publicKey']);
 
-			// Encrypt private key empthy passphrase
+			// Encrypt private key empty passphrase
 			$encryptedPrivateKey = \OCA\Encryption\Crypt::symmetricEncryptFileContent($keypair['privateKey'], $recoveryPassword);
 
 			// Save private key
@@ -220,7 +220,7 @@ class Helper {
 
 
 	/**
-	 * check requirements for encryptoin app.
+	 * check requirements for encryption app.
 	 * @return bool true if requirements are met
 	 */
 	public static function checkRequirements() {
