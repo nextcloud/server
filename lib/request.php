@@ -9,7 +9,7 @@
 class OC_Request {
 	/**
 	 * @brief Check overwrite condition
-	 * @returns true/false
+	 * @returns bool
 	 */
 	private static function isOverwriteCondition() {
 		$regex = '/' . OC_Config::getValue('overwritecondaddr', '')  . '/';
@@ -39,7 +39,13 @@ class OC_Request {
 			}
 		}
 		else{
-			$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
+			if (isset($_SERVER['HTTP_HOST'])) {
+				return $_SERVER['HTTP_HOST'];
+			}
+			if (isset($_SERVER['SERVER_NAME'])) {
+				return $_SERVER['SERVER_NAME'];
+			}
+			return 'localhost';
 		}
 		return $host;
 	}
