@@ -41,6 +41,9 @@
 OC_Config::$object = new \OC\Config(OC::$SERVERROOT.'/config/');
 class OC_Config {
 
+	/**
+	 * @var \OC\Config
+	 */
 	public static $object;
 
 	/**

@@ -11,6 +11,11 @@ class Test_Config extends PHPUnit_Framework_TestCase {
 	const CONFIG_DIR = 'static://';
 	const TESTCONTENT = '<?php $CONFIG=array("foo"=>"bar");';
 
+	/**
+	 * @var \OC\Config
+	 */
+	private $config;
+
 	function setUp() {
 		file_put_contents(self::CONFIG_FILE, self::TESTCONTENT);
 		$this->config = new OC\Config(self::CONFIG_DIR);
@@ -94,14 +99,12 @@ EOL
 , $content);
 	}
 
+	/**
+	 * @expectedException \OC\HintException
+	 */
 	public function testWriteData()
 	{
 		$config = new OC\Config('/non-writable');
-		try {
-			$config->setValue('foo', 'bar');
-		} catch (\OC\HintException $e) {
-			return;
-		}
-		$this->fail();
+		$config->setValue('foo', 'bar');
 	}
 }
