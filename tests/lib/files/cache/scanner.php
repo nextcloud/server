@@ -195,7 +195,7 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 
 		$this->scanner->scan('');
 		$this->assertTrue($this->cache->inCache('folder/bar.txt'));
-		$this->storage->unlink('/folder');
+		$this->storage->rmdir('/folder');
 		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW);
 		$this->assertFalse($this->cache->inCache('folder'));
 		$this->assertFalse($this->cache->inCache('folder/bar.txt'));
