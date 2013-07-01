@@ -350,7 +350,16 @@ class View {
 				return false;
 			}
 			$run = true;
-			if ($this->fakeRoot == Filesystem::getRoot() && !Cache\Scanner::isPartialFile($path1)) {
+			if ($this->fakeRoot == Filesystem::getRoot() && (Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2))) {
+				// if it was a rename from a part file to a regular file it was a write and not a rename operation
+				\OC_Hook::emit(
+					Filesystem::CLASSNAME, Filesystem::signal_write,
+					array(
+						Filesystem::signal_param_path => $path2,
+						Filesystem::signal_param_run => &$run
+					)
+				);
+			} elseif ($this->fakeRoot == Filesystem::getRoot()) {
 				\OC_Hook::emit(
 					Filesystem::CLASSNAME, Filesystem::signal_rename,
 					array(
@@ -388,7 +397,16 @@ class View {
 						}
 					}
 				}
-				if ($this->fakeRoot == Filesystem::getRoot() && !Cache\Scanner::isPartialFile($path1) && $result !== false) {
+				if ($this->fakeRoot == Filesystem::getRoot() && (Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2)) && $result !== false) {
+					// if it was a rename from a part file to a regular file it was a write and not a rename operation
+					\OC_Hook::emit(
+						Filesystem::CLASSNAME,
+						Filesystem::signal_post_write,
+						array(
+							Filesystem::signal_param_path => $path2,
+						)
+					);
+				} elseif ($this->fakeRoot == Filesystem::getRoot() && $result !== false) {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
 						Filesystem::signal_post_rename,
