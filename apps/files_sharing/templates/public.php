@@ -5,6 +5,7 @@
 <header><div id="header">
 	<a href="<?php print_unescaped(link_to('', 'index.php')); ?>" title="" id="owncloud"><img class="svg"
 		src="<?php print_unescaped(image_path('', 'logo-wide.svg')); ?>" alt="ownCloud" /></a>
+	<div id="logo-claim" style="display:none;"><?php p(OC_Defaults::getLogoClaim()); ?></div>
 	<div class="header-right">
 	<?php if (isset($_['folder'])): ?>
 		<span id="details"><?php p($l->t('%s shared the folder %s with you',
@@ -40,8 +41,7 @@
 	<?php endif; ?>
 </div>
 <footer>
-	<p class="info"><a href="<?php p(OC_Defaults::getBaseUrl()); ?>"><?php p(OC_Defaults::getEntity()) ?></a>
-		<?php OC_Util::getEditionString() === '' ? print_unescaped(' &ndash; ') : print_unescaped('<br/>'); ?>
-		<?php p(OC_Defaults::getSlogan()); ?>
+	<p class="info">
+		<?php print_unescaped(OC_Defaults::getLongFooter()); ?>
 	</p>
 </footer>
