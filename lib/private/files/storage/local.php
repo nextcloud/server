@@ -177,9 +177,11 @@ if (\OC_Util::runningOnWindows()) {
 				return false;
 			}
 
-			if ($return = rename($this->datadir . $path1, $this->datadir . $path2)) {
+			if ($this->is_dir($path2)) {
+				$this->rmdir($path2);
 			}
-			return $return;
+
+			return rename($this->datadir . $path1, $this->datadir . $path2);
 		}
 
 		public function copy($path1, $path2) {

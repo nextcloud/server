@@ -385,4 +385,20 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('qwerty', $this->instance->file_get_contents('target/test2.txt'));
 		$this->assertEquals('bar', $this->instance->file_get_contents('target/subfolder/test.txt'));
 	}
+
+	public function testRenameOverWriteDirectory() {
+		$this->instance->mkdir('source');
+		$this->instance->file_put_contents('source/test1.txt', 'foo');
+
+		$this->instance->mkdir('target');
+		$this->instance->file_put_contents('target/test1.txt', 'bar');
+		$this->instance->file_put_contents('target/test2.txt', 'bar');
+
+		$this->instance->rename('source', 'target');
+
+		$this->assertFalse($this->instance->file_exists('source'));
+		$this->assertFalse($this->instance->file_exists('source/test1.txt'));
+		$this->assertFalse($this->instance->file_exists('target/test2.txt'));
+		$this->assertEquals('foo', $this->instance->file_get_contents('target/test1.txt'));
+	}
 }
