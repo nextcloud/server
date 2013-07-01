@@ -19,7 +19,7 @@ class OC_Defaults {
 	private static $defaultSlogan = "web services under your control";
 	private static $defaultLogoClaim = "";
 
-	private function themeExist($method) {
+	private static function themeExist($method) {
 		if (OC_Util::getTheme() !== '' && method_exists('OC_Theme', $method)) {
 			return true;
 		}
