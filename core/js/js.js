@@ -352,10 +352,10 @@ OC.Notification={
 	},
 	show: function(text) {
 		if(($('#notification').filter('span.undo').length == 1) || OC.Notification.isHidden()){
-			$('#notification').html(text);
+			$('#notification').text(text);
 			$('#notification').fadeIn().css("display","inline");
 		}else{
-			OC.Notification.queuedNotifications.push($(text).html());
+			OC.Notification.queuedNotifications.push($('<div/>').text(text).html());
 		}
 	},
 	isHidden: function() {

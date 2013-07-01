@@ -50,7 +50,7 @@ class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 		$result = $this->files->rename($dir, $oldname, $newname);
 		$expected = array(
 			'success'	=> false,
-			'data'		=> array('message' => 'Unable to rename file')
+			'data'		=> array('message' => '%s could not be renamed')
 		);
 
 		$this->assertEquals($expected, $result);
