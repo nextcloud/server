@@ -7,9 +7,8 @@
  */
 
 class Test_DBSchema extends PHPUnit_Framework_TestCase {
-	protected static $schema_file = 'static://test_db_scheme';
-	protected static $schema_file2 = 'static://test_db_scheme2';
-	protected $test_prefix;
+	protected $schema_file = 'static://test_db_scheme';
+	protected $schema_file2 = 'static://test_db_scheme2';
 	protected $table1;
 	protected $table2;
 
@@ -20,19 +19,20 @@ class Test_DBSchema extends PHPUnit_Framework_TestCase {
 		$r = '_'.OC_Util::generate_random_bytes('4').'_';
 		$content = file_get_contents( $dbfile );
 		$content = str_replace( '*dbprefix*', '*dbprefix*'.$r, $content );
-		file_put_contents( self::$schema_file, $content );
+		file_put_contents( $this->schema_file, $content );
 		$content = file_get_contents( $dbfile2 );
 		$content = str_replace( '*dbprefix*', '*dbprefix*'.$r, $content );
-		file_put_contents( self::$schema_file2, $content );
+		file_put_contents( $this->schema_file2, $content );
 
-		$this->test_prefix = $r;
-		$this->table1 = $this->test_prefix.'cntcts_addrsbks';
-		$this->table2 = $this->test_prefix.'cntcts_cards';
+		$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
+		
+		$this->table1 = $prefix.$r.'cntcts_addrsbks';
+		$this->table2 = $prefix.$r.'cntcts_cards';
 	}
 
 	public function tearDown() {
-		unlink(self::$schema_file);
-		unlink(self::$schema_file2);
+		unlink($this->schema_file);
+		unlink($this->schema_file2);
 	}
 
 	// everything in one test, they depend on each other
@@ -47,13 +47,13 @@ class Test_DBSchema extends PHPUnit_Framework_TestCase {
 	}
 
 	public function doTestSchemaCreating() {
-		OC_DB::createDbFromStructure(self::$schema_file);
+		OC_DB::createDbFromStructure($this->schema_file);
 		$this->assertTableExist($this->table1);
 		$this->assertTableExist($this->table2);
 	}
 
 	public function doTestSchemaChanging() {
-		OC_DB::updateDbFromStructure(self::$schema_file2);
+		OC_DB::updateDbFromStructure($this->schema_file2);
 		$this->assertTableExist($this->table2);
 	}
 
@@ -66,67 +66,61 @@ class Test_DBSchema extends PHPUnit_Framework_TestCase {
 	}
 
 	public function doTestSchemaRemoving() {
-		OC_DB::removeDBStructure(self::$schema_file);
+		OC_DB::removeDBStructure($this->schema_file);
 		$this->assertTableNotExist($this->table1);
 		$this->assertTableNotExist($this->table2);
 	}
 
 	public function tableExist($table) {
-		$table = '*PREFIX*' . $table;
 
 		switch (OC_Config::getValue( 'dbtype', 'sqlite' )) {
 			case 'sqlite':
 			case 'sqlite3':
 				$sql = "SELECT name FROM sqlite_master "
-				. "WHERE type = 'table' AND name != 'sqlite_sequence' "
-				.  "AND name != 'geometry_columns' AND name != 'spatial_ref_sys' "
-				. "UNION ALL SELECT name FROM sqlite_temp_master "
-				. "WHERE type = 'table' AND name = '".$table."'";
-				$query = OC_DB::prepare($sql);
-				$result = $query->execute(array());
-				$exists = $result && $result->fetchOne();
+					.  "WHERE type = 'table' AND name = ? "
+					.  "UNION ALL SELECT name FROM sqlite_temp_master "
+					.  "WHERE type = 'table' AND name = ?";
+				$result = \OC_DB::executeAudited($sql, array($table, $table));
 				break;
 			case 'mysql':
-				$sql = 'SHOW TABLES LIKE "'.$table.'"';
-				$query = OC_DB::prepare($sql);
-				$result = $query->execute(array());
-				$exists = $result && $result->fetchOne();
+				$sql = 'SHOW TABLES LIKE ?';
+				$result = \OC_DB::executeAudited($sql, array($table));
 				break;
 			case 'pgsql':
-				$sql = "SELECT tablename AS table_name, schemaname AS schema_name "
-					.  "FROM pg_tables WHERE schemaname NOT LIKE 'pg_%' "
-					.  "AND schemaname != 'information_schema' "
-					.  "AND tablename = '".$table."'";
-				$query = OC_DB::prepare($sql);
-				$result = $query->execute(array());
-				$exists = $result && $result->fetchOne();
+				$sql = 'SELECT tablename AS table_name, schemaname AS schema_name '
+					.  'FROM pg_tables WHERE schemaname NOT LIKE \'pg_%\' '
+					.  'AND schemaname != \'information_schema\' '
+					.  'AND tablename = ?';
+				$result = \OC_DB::executeAudited($sql, array($table));
 				break;
 			case 'oci':
-				$sql = 'SELECT table_name FROM user_tables WHERE table_name = ?';
+				$sql = 'SELECT TABLE_NAME FROM USER_TABLES WHERE TABLE_NAME = ?';
 				$result = \OC_DB::executeAudited($sql, array($table));
-				$exists = (bool)$result->fetchOne(); //oracle uses MDB2 and returns null
 				break;
 			case 'mssql':
-				$sql = "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{$table}'";
-				$query = OC_DB::prepare($sql);
-				$result = $query->execute(array());
-				$exists = $result && $result->fetchOne();
+				$sql = 'SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ?';
+				$result = \OC_DB::executeAudited($sql, array($table));
 				break;
 		}
-		return $exists;
+		
+		$name = $result->fetchOne(); //FIXME checking with '$result->numRows() === 1' does not seem to work?
+		if ($name === $table) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public function assertTableExist($table) {
-		$this->assertTrue($this->tableExist($table));
+		$this->assertTrue($this->tableExist($table), 'Table ' . $table . ' does not exist');
 	}
 
 	public function assertTableNotExist($table) {
 		$type=OC_Config::getValue( "dbtype", "sqlite" );
 		if( $type == 'sqlite' || $type == 'sqlite3' ) {
 			// sqlite removes the tables after closing the DB
-		}
-		else {
-			$this->assertFalse($this->tableExist($table));
+		} else {
+			$this->assertFalse($this->tableExist($table), 'Table ' . $table . ' exists.');
 		}
 	}
 }
