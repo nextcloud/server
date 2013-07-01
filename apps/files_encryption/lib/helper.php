@@ -231,6 +231,6 @@ class Helper {
 		// we need php >= 5.3.3
 		$result &= version_compare(phpversion(), '5.3.3', '>=');
 
-		return $result;
+		return (bool) $result;
 	}
 }
