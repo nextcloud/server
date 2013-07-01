@@ -179,20 +179,34 @@ if (\OC_Util::runningOnWindows()) {
 
 			if ($this->is_dir($path2)) {
 				$this->rmdir($path2);
+			} else if ($this->is_file($path2)) {
+				$this->unlink($path2);
 			}
 
 			return rename($this->datadir . $path1, $this->datadir . $path2);
 		}
 
 		public function copy($path1, $path2) {
-			if ($this->is_dir($path2)) {
-				if (!$this->file_exists($path2)) {
-					$this->mkdir($path2);
+			if ($this->is_dir($path1)) {
+				if ($this->is_dir($path2)) {
+					$this->rmdir($path2);
+				} else if ($this->is_file($path2)) {
+					$this->unlink($path2);
 				}
-				$source = substr($path1, strrpos($path1, '/') + 1);
-				$path2 .= $source;
+				$dir = $this->opendir($path1);
+				$this->mkdir($path2);
+				while ($file = readdir($dir)) {
+					if (($file != '.') && ($file != '..')) {
+						if (!$this->copy($path1 . '/' . $file, $path2 . '/' . $file)) {
+							return false;
+						}
+					}
+				}
+				closedir($dir);
+				return true;
+			} else {
+				return copy($this->datadir . $path1, $this->datadir . $path2);
 			}
-			return copy($this->datadir . $path1, $this->datadir . $path2);
 		}
 
 		public function fopen($path, $mode) {
