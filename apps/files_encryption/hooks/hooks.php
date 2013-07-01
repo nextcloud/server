@@ -42,7 +42,7 @@ class Hooks {
 		//check if all requirements are met
 		if(!Helper::checkRequirements() ) {
 			$error_msg = $l->t("Missing requirements.");
-			$hint = $l->t('Please make sure that the OpenSSL module and PHP >0 5.3.3 is installed. For now the encryption app was disabled.');
+			$hint = $l->t('Please make sure that the OpenSSL module and PHP >= 5.3.3 is installed. For now the encryption app was disabled.');
 			\OC_App::disable('files_encryption');
 			\OCP\Util::writeLog('Encryption library', $error_msg . ' ' . $hint, \OCP\Util::ERROR);
 			\OCP\Template::printErrorPage($error_msg, $hint);
