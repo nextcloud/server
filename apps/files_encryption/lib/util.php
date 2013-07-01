@@ -362,17 +362,7 @@ class Util {
 
 		}
 
-		$query = \OCP\DB::prepare($sql);
-
-		if ($query->execute($args)) {
-
-			return true;
-
-		} else {
-
-			return false;
-
-		}
+		return is_numeric(\OC_DB::executeAudited($sql, $args));
 
 	}
 
@@ -1063,8 +1053,7 @@ class Util {
 		$sql = 'UPDATE `*PREFIX*encryption` SET `migration_status` = ? WHERE `uid` = ? and `migration_status` = ?';
 		$args = array(self::MIGRATION_IN_PROGRESS, $this->userId, self::MIGRATION_OPEN);
 		$query = \OCP\DB::prepare($sql);
-		$result = $query->execute($args);
-		$manipulatedRows = $result->numRows();
+		$manipulatedRows = $query->execute($args);
 
 		if ($manipulatedRows === 1) {
 			$return = true;
@@ -1087,8 +1076,7 @@ class Util {
 		$sql = 'UPDATE `*PREFIX*encryption` SET `migration_status` = ? WHERE `uid` = ? and `migration_status` = ?';
 		$args = array(self::MIGRATION_COMPLETED, $this->userId, self::MIGRATION_IN_PROGRESS);
 		$query = \OCP\DB::prepare($sql);
-		$result = $query->execute($args);
-		$manipulatedRows = $result->numRows();
+		$manipulatedRows = $query->execute($args);
 
 		if ($manipulatedRows === 1) {
 			$return = true;

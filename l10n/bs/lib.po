@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-13 02:16+0200\n"
-"PO-Revision-Date: 2013-06-12 21:41+0000\n"
+"POT-Creation-Date: 2013-06-30 02:06+0200\n"
+"PO-Revision-Date: 2013-06-30 00:06+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bosnian (http://www.transifex.com/projects/p/owncloud/language/bs/)\n"
 "MIME-Version: 1.0\n"
@@ -17,27 +17,27 @@ msgstr ""
 "Language: bs\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: app.php:358
+#: app.php:359
 msgid "Help"
 msgstr ""
 
-#: app.php:371
+#: app.php:372
 msgid "Personal"
 msgstr ""
 
-#: app.php:382
+#: app.php:383
 msgid "Settings"
 msgstr ""
 
-#: app.php:394
+#: app.php:395
 msgid "Users"
 msgstr ""
 
-#: app.php:407
+#: app.php:408
 msgid "Apps"
 msgstr ""
 
-#: app.php:415
+#: app.php:416
 msgid "Admin"
 msgstr ""
 
@@ -85,104 +85,102 @@ msgstr ""
 msgid "Images"
 msgstr ""
 
-#: setup.php:34
-msgid "Set an admin username."
-msgstr ""
-
-#: setup.php:37
-msgid "Set an admin password."
-msgstr ""
-
-#: setup.php:55
+#: setup/abstractdatabase.php:22
 #, php-format
 msgid "%s enter the database username."
 msgstr ""
 
-#: setup.php:58
+#: setup/abstractdatabase.php:25
 #, php-format
 msgid "%s enter the database name."
 msgstr ""
 
-#: setup.php:61
+#: setup/abstractdatabase.php:28
 #, php-format
 msgid "%s you may not use dots in the database name"
 msgstr ""
 
-#: setup.php:64
-#, php-format
-msgid "%s set the database host."
-msgstr ""
-
-#: setup.php:126 setup.php:323 setup.php:368
-msgid "PostgreSQL username and/or password not valid"
-msgstr ""
-
-#: setup.php:127 setup.php:232
-msgid "You need to enter either an existing account or the administrator."
-msgstr ""
-
-#: setup.php:149
-msgid "Oracle connection could not be established"
-msgstr ""
-
-#: setup.php:231
-msgid "MySQL username and/or password not valid"
-msgstr ""
-
-#: setup.php:285 setup.php:389 setup.php:398 setup.php:416 setup.php:426
-#: setup.php:435 setup.php:468 setup.php:534 setup.php:560 setup.php:567
-#: setup.php:578 setup.php:585 setup.php:594 setup.php:602 setup.php:611
-#: setup.php:617
-#, php-format
-msgid "DB Error: \"%s\""
-msgstr ""
-
-#: setup.php:286 setup.php:390 setup.php:399 setup.php:417 setup.php:427
-#: setup.php:436 setup.php:469 setup.php:535 setup.php:561 setup.php:568
-#: setup.php:579 setup.php:595 setup.php:603 setup.php:612
-#, php-format
-msgid "Offending command was: \"%s\""
-msgstr ""
-
-#: setup.php:302
-#, php-format
-msgid "MySQL user '%s'@'localhost' exists already."
-msgstr ""
-
-#: setup.php:303
-msgid "Drop this user from MySQL"
-msgstr ""
-
-#: setup.php:308
-#, php-format
-msgid "MySQL user '%s'@'%%' already exists"
-msgstr ""
-
-#: setup.php:309
-msgid "Drop this user from MySQL."
-msgstr ""
-
-#: setup.php:460 setup.php:527
-msgid "Oracle username and/or password not valid"
-msgstr ""
-
-#: setup.php:586 setup.php:618
-#, php-format
-msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr ""
-
-#: setup.php:638
+#: setup/mssql.php:20
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
 msgstr ""
 
-#: setup.php:861
+#: setup/mssql.php:21 setup/mysql.php:13 setup/oci.php:114
+#: setup/postgresql.php:24 setup/postgresql.php:70
+msgid "You need to enter either an existing account or the administrator."
+msgstr ""
+
+#: setup/mysql.php:12
+msgid "MySQL username and/or password not valid"
+msgstr ""
+
+#: setup/mysql.php:67 setup/oci.php:54 setup/oci.php:121 setup/oci.php:147
+#: setup/oci.php:154 setup/oci.php:165 setup/oci.php:172 setup/oci.php:181
+#: setup/oci.php:189 setup/oci.php:198 setup/oci.php:204
+#: setup/postgresql.php:89 setup/postgresql.php:98 setup/postgresql.php:115
+#: setup/postgresql.php:125 setup/postgresql.php:134
+#, php-format
+msgid "DB Error: \"%s\""
+msgstr ""
+
+#: setup/mysql.php:68 setup/oci.php:55 setup/oci.php:122 setup/oci.php:148
+#: setup/oci.php:155 setup/oci.php:166 setup/oci.php:182 setup/oci.php:190
+#: setup/oci.php:199 setup/postgresql.php:90 setup/postgresql.php:99
+#: setup/postgresql.php:116 setup/postgresql.php:126 setup/postgresql.php:135
+#, php-format
+msgid "Offending command was: \"%s\""
+msgstr ""
+
+#: setup/mysql.php:85
+#, php-format
+msgid "MySQL user '%s'@'localhost' exists already."
+msgstr ""
+
+#: setup/mysql.php:86
+msgid "Drop this user from MySQL"
+msgstr ""
+
+#: setup/mysql.php:91
+#, php-format
+msgid "MySQL user '%s'@'%%' already exists"
+msgstr ""
+
+#: setup/mysql.php:92
+msgid "Drop this user from MySQL."
+msgstr ""
+
+#: setup/oci.php:34
+msgid "Oracle connection could not be established"
+msgstr ""
+
+#: setup/oci.php:41 setup/oci.php:113
+msgid "Oracle username and/or password not valid"
+msgstr ""
+
+#: setup/oci.php:173 setup/oci.php:205
+#, php-format
+msgid "Offending command was: \"%s\", name: %s, password: %s"
+msgstr ""
+
+#: setup/postgresql.php:23 setup/postgresql.php:69
+msgid "PostgreSQL username and/or password not valid"
+msgstr ""
+
+#: setup.php:42
+msgid "Set an admin username."
+msgstr ""
+
+#: setup.php:45
+msgid "Set an admin password."
+msgstr ""
+
+#: setup.php:198
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr ""
 
-#: setup.php:862
+#: setup.php:199
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""

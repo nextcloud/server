@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-26 02:00+0200\n"
-"PO-Revision-Date: 2013-06-25 23:14+0000\n"
+"POT-Creation-Date: 2013-07-01 03:19+0200\n"
+"PO-Revision-Date: 2013-07-01 01:12+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -61,135 +61,135 @@ msgstr "لم يتم اختيار فئة للحذف"
 msgid "Error removing %s from favorites."
 msgstr "خطأ في حذف %s من المفضلة"
 
-#: js/config.php:34
+#: js/config.php:32
 msgid "Sunday"
 msgstr "الاحد"
 
-#: js/config.php:35
+#: js/config.php:33
 msgid "Monday"
 msgstr "الأثنين"
 
-#: js/config.php:36
+#: js/config.php:34
 msgid "Tuesday"
 msgstr "الثلاثاء"
 
-#: js/config.php:37
+#: js/config.php:35
 msgid "Wednesday"
 msgstr "الاربعاء"
 
-#: js/config.php:38
+#: js/config.php:36
 msgid "Thursday"
 msgstr "الخميس"
 
-#: js/config.php:39
+#: js/config.php:37
 msgid "Friday"
 msgstr "الجمعه"
 
-#: js/config.php:40
+#: js/config.php:38
 msgid "Saturday"
 msgstr "السبت"
 
-#: js/config.php:45
+#: js/config.php:43
 msgid "January"
 msgstr "كانون الثاني"
 
-#: js/config.php:46
+#: js/config.php:44
 msgid "February"
 msgstr "شباط"
 
-#: js/config.php:47
+#: js/config.php:45
 msgid "March"
 msgstr "آذار"
 
-#: js/config.php:48
+#: js/config.php:46
 msgid "April"
 msgstr "نيسان"
 
-#: js/config.php:49
+#: js/config.php:47
 msgid "May"
 msgstr "أيار"
 
-#: js/config.php:50
+#: js/config.php:48
 msgid "June"
 msgstr "حزيران"
 
-#: js/config.php:51
+#: js/config.php:49
 msgid "July"
 msgstr "تموز"
 
-#: js/config.php:52
+#: js/config.php:50
 msgid "August"
 msgstr "آب"
 
-#: js/config.php:53
+#: js/config.php:51
 msgid "September"
 msgstr "أيلول"
 
-#: js/config.php:54
+#: js/config.php:52
 msgid "October"
 msgstr "تشرين الاول"
 
-#: js/config.php:55
+#: js/config.php:53
 msgid "November"
 msgstr "تشرين الثاني"
 
-#: js/config.php:56
+#: js/config.php:54
 msgid "December"
 msgstr "كانون الاول"
 
-#: js/js.js:286
+#: js/js.js:289
 msgid "Settings"
 msgstr "إعدادات"
 
-#: js/js.js:718
+#: js/js.js:721
 msgid "seconds ago"
 msgstr "منذ ثواني"
 
-#: js/js.js:719
+#: js/js.js:722
 msgid "1 minute ago"
 msgstr "منذ دقيقة"
 
-#: js/js.js:720
+#: js/js.js:723
 msgid "{minutes} minutes ago"
 msgstr "{minutes} منذ دقائق"
 
-#: js/js.js:721
+#: js/js.js:724
 msgid "1 hour ago"
 msgstr "قبل ساعة مضت"
 
-#: js/js.js:722
+#: js/js.js:725
 msgid "{hours} hours ago"
 msgstr "{hours} ساعة مضت"
 
-#: js/js.js:723
+#: js/js.js:726
 msgid "today"
 msgstr "اليوم"
 
-#: js/js.js:724
+#: js/js.js:727
 msgid "yesterday"
 msgstr "يوم أمس"
 
-#: js/js.js:725
+#: js/js.js:728
 msgid "{days} days ago"
 msgstr "{days} يوم سابق"
 
-#: js/js.js:726
+#: js/js.js:729
 msgid "last month"
 msgstr "الشهر الماضي"
 
-#: js/js.js:727
+#: js/js.js:730
 msgid "{months} months ago"
 msgstr "{months} شهر مضت"
 
-#: js/js.js:728
+#: js/js.js:731
 msgid "months ago"
 msgstr "شهر مضى"
 
-#: js/js.js:729
+#: js/js.js:732
 msgid "last year"
 msgstr "السنةالماضية"
 
-#: js/js.js:730
+#: js/js.js:733
 msgid "years ago"
 msgstr "سنة مضت"
 
@@ -225,8 +225,8 @@ msgstr "نوع العنصر غير محدد."
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
-#: js/share.js:589
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:618
+#: js/share.js:630
 msgid "Error"
 msgstr "خطأ"
 
@@ -246,7 +246,7 @@ msgstr "مشارك"
 msgid "Share"
 msgstr "شارك"
 
-#: js/share.js:125 js/share.js:617
+#: js/share.js:125 js/share.js:658
 msgid "Error while sharing"
 msgstr "حصل خطأ عند عملية المشاركة"
 
@@ -266,99 +266,103 @@ msgstr "شورك معك ومع المجموعة {group} من قبل {owner}"
 msgid "Shared with you by {owner}"
 msgstr "شورك معك من قبل {owner}"
 
-#: js/share.js:159
+#: js/share.js:172
 msgid "Share with"
 msgstr "شارك مع"
 
-#: js/share.js:164
+#: js/share.js:177
 msgid "Share with link"
 msgstr "شارك مع رابط"
 
-#: js/share.js:167
+#: js/share.js:180
 msgid "Password protect"
 msgstr "حماية كلمة السر"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:26
+#: js/share.js:182 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "كلمة المرور"
 
-#: js/share.js:173
+#: js/share.js:186
+msgid "Allow Public Upload"
+msgstr ""
+
+#: js/share.js:189
 msgid "Email link to person"
 msgstr "ارسل الرابط بالبريد الى صديق"
 
-#: js/share.js:174
+#: js/share.js:190
 msgid "Send"
 msgstr "أرسل"
 
-#: js/share.js:178
+#: js/share.js:195
 msgid "Set expiration date"
 msgstr "تعيين تاريخ إنتهاء الصلاحية"
 
-#: js/share.js:179
+#: js/share.js:196
 msgid "Expiration date"
 msgstr "تاريخ إنتهاء الصلاحية"
 
-#: js/share.js:211
+#: js/share.js:228
 msgid "Share via email:"
 msgstr "مشاركة عبر البريد الإلكتروني:"
 
-#: js/share.js:213
+#: js/share.js:230
 msgid "No people found"
 msgstr "لم يتم العثور على أي شخص"
 
-#: js/share.js:251
+#: js/share.js:268
 msgid "Resharing is not allowed"
 msgstr "لا يسمح بعملية إعادة المشاركة"
 
-#: js/share.js:287
+#: js/share.js:304
 msgid "Shared in {item} with {user}"
 msgstr "شورك في {item} مع {user}"
 
-#: js/share.js:308
+#: js/share.js:325
 msgid "Unshare"
 msgstr "إلغاء مشاركة"
 
-#: js/share.js:320
+#: js/share.js:337
 msgid "can edit"
 msgstr "التحرير مسموح"
 
-#: js/share.js:322
+#: js/share.js:339
 msgid "access control"
 msgstr "ضبط الوصول"
 
-#: js/share.js:325
+#: js/share.js:342
 msgid "create"
 msgstr "إنشاء"
 
-#: js/share.js:328
+#: js/share.js:345
 msgid "update"
 msgstr "تحديث"
 
-#: js/share.js:331
+#: js/share.js:348
 msgid "delete"
 msgstr "حذف"
 
-#: js/share.js:334
+#: js/share.js:351
 msgid "share"
 msgstr "مشاركة"
 
-#: js/share.js:368 js/share.js:564
+#: js/share.js:385 js/share.js:605
 msgid "Password protected"
 msgstr "محمي بكلمة السر"
 
-#: js/share.js:577
+#: js/share.js:618
 msgid "Error unsetting expiration date"
 msgstr "حصل خطأ عند عملية إزالة تاريخ إنتهاء الصلاحية"
 
-#: js/share.js:589
+#: js/share.js:630
 msgid "Error setting expiration date"
 msgstr "حصل خطأ عند عملية تعيين تاريخ إنتهاء الصلاحية"
 
-#: js/share.js:604
+#: js/share.js:645
 msgid "Sending ..."
 msgstr "جاري الارسال ..."
 
-#: js/share.js:615
+#: js/share.js:656
 msgid "Email sent"
 msgstr "تم ارسال البريد الالكتروني"
 

@@ -44,7 +44,9 @@ abstract class Session extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testRemoveNonExisting() {
+		$this->assertFalse($this->instance->exists('foo'));
 		$this->instance->remove('foo');
+		$this->assertFalse($this->instance->exists('foo'));
 	}
 
 	public function testNotExistsAfterClear() {

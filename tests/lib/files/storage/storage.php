@@ -258,9 +258,21 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(file_get_contents($textFile), $content);
 	}
 
-	public function testTouchCreateFile(){
+	public function testTouchCreateFile() {
 		$this->assertFalse($this->instance->file_exists('foo'));
 		$this->instance->touch('foo');
 		$this->assertTrue($this->instance->file_exists('foo'));
+	}
+
+	public function testRecursiveRmdir() {
+		$this->instance->mkdir('folder');
+		$this->instance->mkdir('folder/bar');
+		$this->instance->file_put_contents('folder/asd.txt', 'foobar');
+		$this->instance->file_put_contents('folder/bar/foo.txt', 'asd');
+		$this->instance->rmdir('folder');
+		$this->assertFalse($this->instance->file_exists('folder/asd.txt'));
+		$this->assertFalse($this->instance->file_exists('folder/bar/foo.txt'));
+		$this->assertFalse($this->instance->file_exists('folder/bar'));
+		$this->assertFalse($this->instance->file_exists('folder'));
 	}
 }

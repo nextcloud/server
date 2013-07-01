@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-26 02:00+0200\n"
-"PO-Revision-Date: 2013-06-25 23:14+0000\n"
+"POT-Creation-Date: 2013-07-01 03:19+0200\n"
+"PO-Revision-Date: 2013-07-01 01:12+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -61,135 +61,135 @@ msgstr "هیج دسته ای برای پاک شدن انتخاب نشده است
 msgid "Error removing %s from favorites."
 msgstr "خطای پاک کردن %s از علاقه مندی ها."
 
-#: js/config.php:34
+#: js/config.php:32
 msgid "Sunday"
 msgstr "یکشنبه"
 
-#: js/config.php:35
+#: js/config.php:33
 msgid "Monday"
 msgstr "دوشنبه"
 
-#: js/config.php:36
+#: js/config.php:34
 msgid "Tuesday"
 msgstr "سه شنبه"
 
-#: js/config.php:37
+#: js/config.php:35
 msgid "Wednesday"
 msgstr "چهارشنبه"
 
-#: js/config.php:38
+#: js/config.php:36
 msgid "Thursday"
 msgstr "پنجشنبه"
 
-#: js/config.php:39
+#: js/config.php:37
 msgid "Friday"
 msgstr "جمعه"
 
-#: js/config.php:40
+#: js/config.php:38
 msgid "Saturday"
 msgstr "شنبه"
 
-#: js/config.php:45
+#: js/config.php:43
 msgid "January"
 msgstr "ژانویه"
 
-#: js/config.php:46
+#: js/config.php:44
 msgid "February"
 msgstr "فبریه"
 
-#: js/config.php:47
+#: js/config.php:45
 msgid "March"
 msgstr "مارس"
 
-#: js/config.php:48
+#: js/config.php:46
 msgid "April"
 msgstr "آوریل"
 
-#: js/config.php:49
+#: js/config.php:47
 msgid "May"
 msgstr "می"
 
-#: js/config.php:50
+#: js/config.php:48
 msgid "June"
 msgstr "ژوئن"
 
-#: js/config.php:51
+#: js/config.php:49
 msgid "July"
 msgstr "جولای"
 
-#: js/config.php:52
+#: js/config.php:50
 msgid "August"
 msgstr "آگوست"
 
-#: js/config.php:53
+#: js/config.php:51
 msgid "September"
 msgstr "سپتامبر"
 
-#: js/config.php:54
+#: js/config.php:52
 msgid "October"
 msgstr "اکتبر"
 
-#: js/config.php:55
+#: js/config.php:53
 msgid "November"
 msgstr "نوامبر"
 
-#: js/config.php:56
+#: js/config.php:54
 msgid "December"
 msgstr "دسامبر"
 
-#: js/js.js:286
+#: js/js.js:289
 msgid "Settings"
 msgstr "تنظیمات"
 
-#: js/js.js:718
+#: js/js.js:721
 msgid "seconds ago"
 msgstr "ثانیه‌ها پیش"
 
-#: js/js.js:719
+#: js/js.js:722
 msgid "1 minute ago"
 msgstr "1 دقیقه پیش"
 
-#: js/js.js:720
+#: js/js.js:723
 msgid "{minutes} minutes ago"
 msgstr "{دقیقه ها} دقیقه های پیش"
 
-#: js/js.js:721
+#: js/js.js:724
 msgid "1 hour ago"
 msgstr "1 ساعت پیش"
 
-#: js/js.js:722
+#: js/js.js:725
 msgid "{hours} hours ago"
 msgstr "{ساعت ها} ساعت ها پیش"
 
-#: js/js.js:723
+#: js/js.js:726
 msgid "today"
 msgstr "امروز"
 
-#: js/js.js:724
+#: js/js.js:727
 msgid "yesterday"
 msgstr "دیروز"
 
-#: js/js.js:725
+#: js/js.js:728
 msgid "{days} days ago"
 msgstr "{روزها} روزهای پیش"
 
-#: js/js.js:726
+#: js/js.js:729
 msgid "last month"
 msgstr "ماه قبل"
 
-#: js/js.js:727
+#: js/js.js:730
 msgid "{months} months ago"
 msgstr "{ماه ها} ماه ها پیش"
 
-#: js/js.js:728
+#: js/js.js:731
 msgid "months ago"
 msgstr "ماه‌های قبل"
 
-#: js/js.js:729
+#: js/js.js:732
 msgid "last year"
 msgstr "سال قبل"
 
-#: js/js.js:730
+#: js/js.js:733
 msgid "years ago"
 msgstr "سال‌های قبل"
 
@@ -225,8 +225,8 @@ msgstr "نوع شی تعیین نشده است."
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
-#: js/share.js:589
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:618
+#: js/share.js:630
 msgid "Error"
 msgstr "خطا"
 
@@ -246,7 +246,7 @@ msgstr "اشتراک گذاشته شده"
 msgid "Share"
 msgstr "اشتراک‌گذاری"
 
-#: js/share.js:125 js/share.js:617
+#: js/share.js:125 js/share.js:658
 msgid "Error while sharing"
 msgstr "خطا درحال به اشتراک گذاشتن"
 
@@ -266,99 +266,103 @@ msgstr "به اشتراک گذاشته شده با شما و گروه {گروه}
 msgid "Shared with you by {owner}"
 msgstr "به اشتراک گذاشته شده با شما توسط { دارنده}"
 
-#: js/share.js:159
+#: js/share.js:172
 msgid "Share with"
 msgstr "به اشتراک گذاشتن با"
 
-#: js/share.js:164
+#: js/share.js:177
 msgid "Share with link"
 msgstr "به اشتراک گذاشتن با پیوند"
 
-#: js/share.js:167
+#: js/share.js:180
 msgid "Password protect"
 msgstr "نگهداری کردن رمز عبور"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:26
+#: js/share.js:182 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "گذرواژه"
 
-#: js/share.js:173
+#: js/share.js:186
+msgid "Allow Public Upload"
+msgstr ""
+
+#: js/share.js:189
 msgid "Email link to person"
 msgstr "پیوند ایمیل برای شخص."
 
-#: js/share.js:174
+#: js/share.js:190
 msgid "Send"
 msgstr "ارسال"
 
-#: js/share.js:178
+#: js/share.js:195
 msgid "Set expiration date"
 msgstr "تنظیم تاریخ انقضا"
 
-#: js/share.js:179
+#: js/share.js:196
 msgid "Expiration date"
 msgstr "تاریخ انقضا"
 
-#: js/share.js:211
+#: js/share.js:228
 msgid "Share via email:"
 msgstr "از طریق ایمیل به اشتراک بگذارید :"
 
-#: js/share.js:213
+#: js/share.js:230
 msgid "No people found"
 msgstr "کسی یافت نشد"
 
-#: js/share.js:251
+#: js/share.js:268
 msgid "Resharing is not allowed"
 msgstr "اشتراک گذاری مجدد مجاز نمی باشد"
 
-#: js/share.js:287
+#: js/share.js:304
 msgid "Shared in {item} with {user}"
 msgstr "به اشتراک گذاشته شده در {بخش} با {کاربر}"
 
-#: js/share.js:308
+#: js/share.js:325
 msgid "Unshare"
 msgstr "لغو اشتراک"
 
-#: js/share.js:320
+#: js/share.js:337
 msgid "can edit"
 msgstr "می توان ویرایش کرد"
 
-#: js/share.js:322
+#: js/share.js:339
 msgid "access control"
 msgstr "کنترل دسترسی"
 
-#: js/share.js:325
+#: js/share.js:342
 msgid "create"
 msgstr "ایجاد"
 
-#: js/share.js:328
+#: js/share.js:345
 msgid "update"
 msgstr "به روز"
 
-#: js/share.js:331
+#: js/share.js:348
 msgid "delete"
 msgstr "پاک کردن"
 
-#: js/share.js:334
+#: js/share.js:351
 msgid "share"
 msgstr "به اشتراک گذاشتن"
 
-#: js/share.js:368 js/share.js:564
+#: js/share.js:385 js/share.js:605
 msgid "Password protected"
 msgstr "نگهداری از رمز عبور"
 
-#: js/share.js:577
+#: js/share.js:618
 msgid "Error unsetting expiration date"
 msgstr "خطا در تنظیم نکردن تاریخ انقضا "
 
-#: js/share.js:589
+#: js/share.js:630
 msgid "Error setting expiration date"
 msgstr "خطا در تنظیم تاریخ انقضا"
 
-#: js/share.js:604
+#: js/share.js:645
 msgid "Sending ..."
 msgstr "درحال ارسال ..."
 
-#: js/share.js:615
+#: js/share.js:656
 msgid "Email sent"
 msgstr "ایمیل ارسال شد"
 

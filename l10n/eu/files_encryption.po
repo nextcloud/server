@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# asaez <asaez@asaez.eu>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-22 02:06+0200\n"
-"PO-Revision-Date: 2013-06-22 00:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-27 02:04+0200\n"
+"PO-Revision-Date: 2013-06-26 08:10+0000\n"
+"Last-Translator: asaez <asaez@asaez.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -103,11 +104,11 @@ msgstr ""
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
-msgstr ""
+msgstr "Gaitua"
 
 #: templates/settings-admin.php:29 templates/settings-personal.php:62
 msgid "Disabled"
-msgstr ""
+msgstr "Ez-gaitua"
 
 #: templates/settings-admin.php:34
 msgid "Change recovery key password:"
@@ -123,7 +124,7 @@ msgstr ""
 
 #: templates/settings-admin.php:53
 msgid "Change Password"
-msgstr ""
+msgstr "Aldatu Pasahitza"
 
 #: templates/settings-personal.php:11
 msgid "Your private key password no longer match your log-in password:"

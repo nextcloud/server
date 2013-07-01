@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"%s shared »%s« with you" => "%s je delil »%s« z vami",
 "Category type not provided." => "Vrsta kategorije ni podana.",
 "No category to add?" => "Ali ni kategorije za dodajanje?",
 "This category already exists: %s" => "Kategorija že obstaja: %s",
@@ -42,6 +43,7 @@
 "years ago" => "let nazaj",
 "Choose" => "Izbor",
 "Cancel" => "Prekliči",
+"Error loading file picker template" => "Napaka pri nalaganju predloge za izbor dokumenta",
 "Yes" => "Da",
 "No" => "Ne",
 "Ok" => "V redu",
@@ -88,6 +90,8 @@
 "Request failed!<br>Did you make sure your email/username was right?" => "Zahteva je spodletela!<br>Ali sta elektronski naslov oziroma uporabniško ime navedena pravilno?",
 "You will receive a link to reset your password via Email." => "Na elektronski naslov boste prejeli povezavo za ponovno nastavitev gesla.",
 "Username" => "Uporabniško ime",
+"Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Datoteke so šifrirane. Če niste omogočili ključa za obnovitev, žal podatkov ne bo mogoče pridobiti nazaj, ko boste geslo enkrat spremenili. Če niste prepričani, kaj storiti, se obrnite na skrbnika storitve. Ste prepričani, da želite nadaljevati?",
+"Yes, I really want to reset my password now" => "Da, potrjujem ponastavitev gesla",
 "Request reset" => "Zahtevaj ponovno nastavitev",
 "Your password was reset" => "Geslo je ponovno nastavljeno",
 "To login page" => "Na prijavno stran",
@@ -100,6 +104,7 @@
 "Help" => "Pomoč",
 "Access forbidden" => "Dostop je prepovedan",
 "Cloud not found" => "Oblaka ni mogoče najti",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Pozdravljen/a,⏎\n⏎\nsporočam, da je %s delil %s s teboj.⏎\nPoglej na: %s⏎\n⏎\nLep pozdrav!",
 "web services under your control" => "spletne storitve pod vašim nadzorom",
 "Edit categories" => "Uredi kategorije",
 "Add" => "Dodaj",
@@ -130,6 +135,7 @@
 "remember" => "zapomni si",
 "Log in" => "Prijava",
 "Alternative Logins" => "Druge prijavne možnosti",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Pozdravljen/a,<br><br>sporočam, da je %s delil »%s« s teboj.<br><a href=\"%s\">Poglej vsebine!</a><br><br>Lep pozdrav!",
 "prev" => "nazaj",
 "next" => "naprej",
 "Updating ownCloud to version %s, this may take a while." => "Posodabljanje sistema ownCloud na različico %s je lahko dolgotrajno."

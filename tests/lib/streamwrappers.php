@@ -33,18 +33,6 @@ class Test_StreamWrappers extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(count($items), count($result));
 	}
 
-	public function testStaticStream() {
-		$sourceFile = OC::$SERVERROOT . '/tests/data/lorem.txt';
-		$staticFile = 'static://test';
-		$this->assertFalse(file_exists($staticFile));
-		file_put_contents($staticFile, file_get_contents($sourceFile));
-		$this->assertTrue(file_exists($staticFile));
-		$this->assertEquals(file_get_contents($sourceFile), file_get_contents($staticFile));
-		unlink($staticFile);
-		clearstatcache();
-		$this->assertFalse(file_exists($staticFile));
-	}
-
 	public function testCloseStream() {
 		//ensure all basic stream stuff works
 		$sourceFile = OC::$SERVERROOT . '/tests/data/lorem.txt';

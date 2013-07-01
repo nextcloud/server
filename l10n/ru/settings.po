@@ -4,15 +4,16 @@
 # 
 # Translators:
 # alfsoft <alfsoft@gmail.com>, 2013
+# lord93 <lordakryl@gmail.com>, 2013
 # eurekafag <eurekafag@eureka7.ru>, 2013
 # Friktor <antonshramko@yandex.ru>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-26 02:00+0200\n"
-"PO-Revision-Date: 2013-06-25 23:14+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-01 03:20+0200\n"
+"PO-Revision-Date: 2013-06-30 23:15+0000\n"
+"Last-Translator: lord93 <lordakryl@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +23,7 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr "Загрузка из App Store запрещена"
+msgstr "Не удалось загрузить список из App Store"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
@@ -105,7 +106,7 @@ msgstr "Включить"
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr "Повремени..."
+msgstr "Подождите..."
 
 #: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
@@ -117,7 +118,7 @@ msgstr "Обновление..."
 
 #: js/apps.js:93
 msgid "Error while updating app"
-msgstr "Ошибка в процессе обновления приложения"
+msgstr "Ошибка при обновлении приложения"
 
 #: js/apps.js:96
 msgid "Updated"
@@ -158,7 +159,7 @@ msgstr "добавить группу"
 
 #: js/users.js:428
 msgid "A valid username must be provided"
-msgstr "Предоставте подходящее имя пользователя"
+msgstr "Укажите правильное имя пользователя"
 
 #: js/users.js:429 js/users.js:435 js/users.js:450
 msgid "Error creating user"
@@ -166,7 +167,7 @@ msgstr "Ошибка создания пользователя"
 
 #: js/users.js:434
 msgid "A valid password must be provided"
-msgstr "Предоставте подходящий пароль"
+msgstr "Укажите валидный пароль"
 
 #: personal.php:35 personal.php:36
 msgid "__language_name__"
@@ -183,7 +184,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr "Ваши каталоги данных и файлы, вероятно, доступны из Интернета. Файл .htaccess, предоставляемый ownCloud, не работает. Мы настоятельно рекомендуем Вам настроить вебсервер таким образом, чтобы каталоги данных больше не были доступны, или переместить их за пределы корневого каталога документов веб-сервера."
+msgstr "Ваш каталог с данными и файлы, вероятно, доступны из интернета. Файл .htaccess, предоставляемый ownCloud, не работает. Мы настоятельно рекомендуем настроить веб-сервер таким образом, чтобы каталоги данных больше не были доступны, или переместить их за пределы корневого каталога документов веб-сервера."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -193,7 +194,7 @@ msgstr "Предупреждение установки"
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr "Ваш веб сервер до сих пор не настроен правильно для возможности синхронизации файлов, похоже что проблема в неисправности интерфейса WebDAV."
+msgstr "Веб-сервер до сих пор не настроен для возможности синхронизации файлов. Похоже что проблема в неисправности интерфейса WebDAV."
 
 #: templates/admin.php:33
 #, php-format
@@ -202,13 +203,13 @@ msgstr "Пожалуйста, дважды просмотрите <a href='%s'>�
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr "Модуль 'fileinfo' потерян"
+msgstr "Модуль 'fileinfo' отсутствует"
 
 #: templates/admin.php:47
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr "PHP модуль 'fileinfo' потерян. Мы настоятельно рекомендуем включить этот модуль для получения лучших результатов в mime-типе обнаружения."
+msgstr "PHP модуль 'fileinfo' отсутствует. Мы настоятельно рекомендуем включить этот модуль для улучшения определения типов (mime-type) файлов."
 
 #: templates/admin.php:58
 msgid "Locale not working"
@@ -224,7 +225,7 @@ msgstr "Этот сервер ownCloud не может установить яз
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
-msgstr "Интернет соединение не работает"
+msgstr "Интернет-соединение не работает"
 
 #: templates/admin.php:78
 msgid ""
@@ -234,11 +235,11 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr "Этот сервер ownCloud не имеет ни одного рабочего интернет соединения. Это значит, что некоторые возможности, такие как монтаж внешних носителей, уведомления о обновлениях или установки 3го рода приложений,не работают."
+msgstr "Этот сервер ownCloud не имеет рабочего интернет-соединения. Это значит, что некоторые возможности отключены, например: подключение внешних носителей, уведомления об обновлениях, установка сторонних приложений."
 
 #: templates/admin.php:92
 msgid "Cron"
-msgstr "Демон"
+msgstr "Планировщик задач по расписанию"
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
@@ -248,13 +249,13 @@ msgstr "Выполнять одно задание с каждой загруж�
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr "cron.php зарегистрирован на webcron сервисе. Вызов страницы cron.php в корне owncloud раз в минуту через http."
+msgstr "Зарегистрировать cron.php в службе webcron сервисе. Вызывает страницу cron.php в корне owncloud раз в минуту через http."
 
 #: templates/admin.php:121
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr "Использование системной службы cron. Вызов файла cron.php в папке owncloud через систему cronjob раз в минуту."
+msgstr "Использовать системную службу cron. Вызов файла cron.php в папке owncloud через систему cronjob раз в минуту."
 
 #: templates/admin.php:128
 msgid "Sharing"
@@ -266,7 +267,7 @@ msgstr "Включить API общего доступа"
 
 #: templates/admin.php:135
 msgid "Allow apps to use the Share API"
-msgstr "Позволить программам использовать API общего доступа"
+msgstr "Позволить приложениям использовать API общего доступа"
 
 #: templates/admin.php:142
 msgid "Allow links"
@@ -274,7 +275,7 @@ msgstr "Разрешить ссылки"
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
-msgstr "Разрешить пользователям открывать в общий доступ эллементы с публичной ссылкой"
+msgstr "Разрешить пользователям открывать в общий доступ элементы с публичной ссылкой"
 
 #: templates/admin.php:150
 msgid "Allow resharing"
@@ -456,7 +457,7 @@ msgstr "WebDAV"
 
 #: templates/personal.php:107
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "Используйте этот URL для подключения файлового менеджера к Вашему хранилищу"
+msgstr "Используйте этот адрес для подключения файлового менеджера к этому хранилищу"
 
 #: templates/users.php:21
 msgid "Login Name"
@@ -506,4 +507,4 @@ msgstr "установить новый пароль"
 
 #: templates/users.php:137
 msgid "Default"
-msgstr "По-умолчанию"
+msgstr "По умолчанию"

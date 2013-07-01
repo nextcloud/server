@@ -62,6 +62,7 @@
 "Share with link" => "Deel met link",
 "Password protect" => "Wachtwoord beveiligd",
 "Password" => "Wachtwoord",
+"Allow Public Upload" => "Sta publieke uploads toe",
 "Email link to person" => "E-mail link naar persoon",
 "Send" => "Versturen",
 "Set expiration date" => "Stel vervaldatum in",

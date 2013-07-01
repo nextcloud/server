@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-26 02:00+0200\n"
-"PO-Revision-Date: 2013-06-25 23:14+0000\n"
-"Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
+"POT-Creation-Date: 2013-07-01 03:19+0200\n"
+"PO-Revision-Date: 2013-07-01 01:12+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -68,135 +68,135 @@ msgstr "Δεν επιλέχτηκαν κατηγορίες για διαγραφ
 msgid "Error removing %s from favorites."
 msgstr "Σφάλμα αφαίρεσης %s από τα αγαπημένα."
 
-#: js/config.php:34
+#: js/config.php:32
 msgid "Sunday"
 msgstr "Κυριακή"
 
-#: js/config.php:35
+#: js/config.php:33
 msgid "Monday"
 msgstr "Δευτέρα"
 
-#: js/config.php:36
+#: js/config.php:34
 msgid "Tuesday"
 msgstr "Τρίτη"
 
-#: js/config.php:37
+#: js/config.php:35
 msgid "Wednesday"
 msgstr "Τετάρτη"
 
-#: js/config.php:38
+#: js/config.php:36
 msgid "Thursday"
 msgstr "Πέμπτη"
 
-#: js/config.php:39
+#: js/config.php:37
 msgid "Friday"
 msgstr "Παρασκευή"
 
-#: js/config.php:40
+#: js/config.php:38
 msgid "Saturday"
 msgstr "Σάββατο"
 
-#: js/config.php:45
+#: js/config.php:43
 msgid "January"
 msgstr "Ιανουάριος"
 
-#: js/config.php:46
+#: js/config.php:44
 msgid "February"
 msgstr "Φεβρουάριος"
 
-#: js/config.php:47
+#: js/config.php:45
 msgid "March"
 msgstr "Μάρτιος"
 
-#: js/config.php:48
+#: js/config.php:46
 msgid "April"
 msgstr "Απρίλιος"
 
-#: js/config.php:49
+#: js/config.php:47
 msgid "May"
 msgstr "Μάϊος"
 
-#: js/config.php:50
+#: js/config.php:48
 msgid "June"
 msgstr "Ιούνιος"
 
-#: js/config.php:51
+#: js/config.php:49
 msgid "July"
 msgstr "Ιούλιος"
 
-#: js/config.php:52
+#: js/config.php:50
 msgid "August"
 msgstr "Αύγουστος"
 
-#: js/config.php:53
+#: js/config.php:51
 msgid "September"
 msgstr "Σεπτέμβριος"
 
-#: js/config.php:54
+#: js/config.php:52
 msgid "October"
 msgstr "Οκτώβριος"
 
-#: js/config.php:55
+#: js/config.php:53
 msgid "November"
 msgstr "Νοέμβριος"
 
-#: js/config.php:56
+#: js/config.php:54
 msgid "December"
 msgstr "Δεκέμβριος"
 
-#: js/js.js:286
+#: js/js.js:289
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:718
+#: js/js.js:721
 msgid "seconds ago"
 msgstr "δευτερόλεπτα πριν"
 
-#: js/js.js:719
+#: js/js.js:722
 msgid "1 minute ago"
 msgstr "1 λεπτό πριν"
 
-#: js/js.js:720
+#: js/js.js:723
 msgid "{minutes} minutes ago"
 msgstr "{minutes} λεπτά πριν"
 
-#: js/js.js:721
+#: js/js.js:724
 msgid "1 hour ago"
 msgstr "1 ώρα πριν"
 
-#: js/js.js:722
+#: js/js.js:725
 msgid "{hours} hours ago"
 msgstr "{hours} ώρες πριν"
 
-#: js/js.js:723
+#: js/js.js:726
 msgid "today"
 msgstr "σήμερα"
 
-#: js/js.js:724
+#: js/js.js:727
 msgid "yesterday"
 msgstr "χτες"
 
-#: js/js.js:725
+#: js/js.js:728
 msgid "{days} days ago"
 msgstr "{days} ημέρες πριν"
 
-#: js/js.js:726
+#: js/js.js:729
 msgid "last month"
 msgstr "τελευταίο μήνα"
 
-#: js/js.js:727
+#: js/js.js:730
 msgid "{months} months ago"
 msgstr "{months} μήνες πριν"
 
-#: js/js.js:728
+#: js/js.js:731
 msgid "months ago"
 msgstr "μήνες πριν"
 
-#: js/js.js:729
+#: js/js.js:732
 msgid "last year"
 msgstr "τελευταίο χρόνο"
 
-#: js/js.js:730
+#: js/js.js:733
 msgid "years ago"
 msgstr "χρόνια πριν"
 
@@ -232,8 +232,8 @@ msgstr "Δεν καθορίστηκε ο τύπος του αντικειμέν�
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
-#: js/share.js:589
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:618
+#: js/share.js:630
 msgid "Error"
 msgstr "Σφάλμα"
 
@@ -253,7 +253,7 @@ msgstr "Κοινόχρηστα"
 msgid "Share"
 msgstr "Διαμοιρασμός"
 
-#: js/share.js:125 js/share.js:617
+#: js/share.js:125 js/share.js:658
 msgid "Error while sharing"
 msgstr "Σφάλμα κατά τον διαμοιρασμό"
 
@@ -273,99 +273,103 @@ msgstr "Διαμοιράστηκε με σας και με την ομάδα {gr
 msgid "Shared with you by {owner}"
 msgstr "Διαμοιράστηκε με σας από τον {owner}"
 
-#: js/share.js:159
+#: js/share.js:172
 msgid "Share with"
 msgstr "Διαμοιρασμός με"
 
-#: js/share.js:164
+#: js/share.js:177
 msgid "Share with link"
 msgstr "Διαμοιρασμός με σύνδεσμο"
 
-#: js/share.js:167
+#: js/share.js:180
 msgid "Password protect"
 msgstr "Προστασία συνθηματικού"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:26
+#: js/share.js:182 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Συνθηματικό"
 
-#: js/share.js:173
+#: js/share.js:186
+msgid "Allow Public Upload"
+msgstr ""
+
+#: js/share.js:189
 msgid "Email link to person"
 msgstr "Αποστολή συνδέσμου με email "
 
-#: js/share.js:174
+#: js/share.js:190
 msgid "Send"
 msgstr "Αποστολή"
 
-#: js/share.js:178
+#: js/share.js:195
 msgid "Set expiration date"
 msgstr "Ορισμός ημ. λήξης"
 
-#: js/share.js:179
+#: js/share.js:196
 msgid "Expiration date"
 msgstr "Ημερομηνία λήξης"
 
-#: js/share.js:211
+#: js/share.js:228
 msgid "Share via email:"
 msgstr "Διαμοιρασμός μέσω email:"
 
-#: js/share.js:213
+#: js/share.js:230
 msgid "No people found"
 msgstr "Δεν βρέθηκε άνθρωπος"
 
-#: js/share.js:251
+#: js/share.js:268
 msgid "Resharing is not allowed"
 msgstr "Ξαναμοιρασμός δεν επιτρέπεται"
 
-#: js/share.js:287
+#: js/share.js:304
 msgid "Shared in {item} with {user}"
 msgstr "Διαμοιρασμός του {item} με τον {user}"
 
-#: js/share.js:308
+#: js/share.js:325
 msgid "Unshare"
 msgstr "Σταμάτημα διαμοιρασμού"
 
-#: js/share.js:320
+#: js/share.js:337
 msgid "can edit"
 msgstr "δυνατότητα αλλαγής"
 
-#: js/share.js:322
+#: js/share.js:339
 msgid "access control"
 msgstr "έλεγχος πρόσβασης"
 
-#: js/share.js:325
+#: js/share.js:342
 msgid "create"
 msgstr "δημιουργία"
 
-#: js/share.js:328
+#: js/share.js:345
 msgid "update"
 msgstr "ενημέρωση"
 
-#: js/share.js:331
+#: js/share.js:348
 msgid "delete"
 msgstr "διαγραφή"
 
-#: js/share.js:334
+#: js/share.js:351
 msgid "share"
 msgstr "διαμοιρασμός"
 
-#: js/share.js:368 js/share.js:564
+#: js/share.js:385 js/share.js:605
 msgid "Password protected"
 msgstr "Προστασία με συνθηματικό"
 
-#: js/share.js:577
+#: js/share.js:618
 msgid "Error unsetting expiration date"
 msgstr "Σφάλμα κατά την διαγραφή της ημ. λήξης"
 
-#: js/share.js:589
+#: js/share.js:630
 msgid "Error setting expiration date"
 msgstr "Σφάλμα κατά τον ορισμό ημ. λήξης"
 
-#: js/share.js:604
+#: js/share.js:645
 msgid "Sending ..."
 msgstr "Αποστολή..."
 
-#: js/share.js:615
+#: js/share.js:656
 msgid "Email sent"
 msgstr "Το Email απεστάλη "
 

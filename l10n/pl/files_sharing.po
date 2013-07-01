@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-26 01:59+0200\n"
-"PO-Revision-Date: 2013-06-25 23:15+0000\n"
+"POT-Creation-Date: 2013-07-01 03:18+0200\n"
+"PO-Revision-Date: 2013-06-30 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -25,20 +25,28 @@ msgstr "Hasło"
 msgid "Submit"
 msgstr "Wyślij"
 
-#: templates/public.php:10
+#: templates/public.php:14
 #, php-format
 msgid "%s shared the folder %s with you"
 msgstr "%s współdzieli folder z tobą %s"
 
-#: templates/public.php:13
+#: templates/public.php:17
 #, php-format
 msgid "%s shared the file %s with you"
 msgstr "%s współdzieli z tobą plik %s"
 
-#: templates/public.php:19 templates/public.php:43
+#: templates/public.php:25 templates/public.php:83
 msgid "Download"
 msgstr "Pobierz"
 
-#: templates/public.php:40
+#: templates/public.php:41
+msgid "Upload"
+msgstr "Wyślij"
+
+#: templates/public.php:51
+msgid "Cancel upload"
+msgstr "Anuluj wysyłanie"
+
+#: templates/public.php:80
 msgid "No preview available for"
 msgstr "Podgląd nie jest dostępny dla"

@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-22 02:06+0200\n"
-"PO-Revision-Date: 2013-06-22 00:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-06-27 02:04+0200\n"
+"PO-Revision-Date: 2013-06-26 12:22+0000\n"
+"Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,16 +28,16 @@ msgstr "Clé de récupération activée avec succès"
 #: ajax/adminrecovery.php:34
 msgid ""
 "Could not enable recovery key. Please check your recovery key password!"
-msgstr "Ne peut pas activer la clé de récupération. s'il vous plait vérifiez votre mot de passe de clé de récupération!"
+msgstr "Impossible d'activer la clé de récupération. Veuillez vérifier votre mot de passe de clé de récupération !"
 
 #: ajax/adminrecovery.php:48
 msgid "Recovery key successfully disabled"
-msgstr "Clé de récupération désactivée avc succès"
+msgstr "Clé de récupération désactivée avec succès"
 
 #: ajax/adminrecovery.php:53
 msgid ""
 "Could not disable recovery key. Please check your recovery key password!"
-msgstr "Ne peut pas désactiver la clé de récupération. S'il vous plait vérifiez votre mot de passe de clé de récupération!"
+msgstr "Impossible de désactiver la clé de récupération. Veuillez vérifier votre mot de passe de clé de récupération !"
 
 #: ajax/changeRecoveryPassword.php:49
 msgid "Password successfully changed."
@@ -66,13 +66,13 @@ msgstr "Votre clef privée est invalide ! Votre mot de passe a peut-être été 
 
 #: hooks/hooks.php:44
 msgid "PHP module OpenSSL is not installed."
-msgstr ""
+msgstr "Le module OpenSSL de PHP n'est pas installé."
 
 #: hooks/hooks.php:45
 msgid ""
 "Please ask your server administrator to install the module. For now the "
 "encryption app was disabled."
-msgstr ""
+msgstr "Veuillez demander à l'administrateur du serveur d'installer le module. Pour l'instant l'application de chiffrement a été désactivé."
 
 #: js/settings-admin.js:11
 msgid "Saving..."
@@ -99,11 +99,11 @@ msgstr "Chiffrement"
 #: templates/settings-admin.php:10
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
-msgstr ""
+msgstr "Activer la clef de récupération (permet de récupérer les fichiers des utilisateurs en cas de perte de mot de passe)."
 
 #: templates/settings-admin.php:14
 msgid "Recovery key password"
-msgstr ""
+msgstr "Mot de passe de la clef de récupération"
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
@@ -115,15 +115,15 @@ msgstr "Désactiver"
 
 #: templates/settings-admin.php:34
 msgid "Change recovery key password:"
-msgstr ""
+msgstr "Modifier le mot de passe de la clef de récupération :"
 
 #: templates/settings-admin.php:41
 msgid "Old Recovery key password"
-msgstr ""
+msgstr "Ancien mot de passe de la clef de récupération"
 
 #: templates/settings-admin.php:48
 msgid "New Recovery key password"
-msgstr ""
+msgstr "Nouveau mot de passe de la clef de récupération"
 
 #: templates/settings-admin.php:53
 msgid "Change Password"
@@ -157,7 +157,7 @@ msgstr "Mettre à jour le mot de passe de votre clé privée"
 
 #: templates/settings-personal.php:45
 msgid "Enable password recovery:"
-msgstr "Activer la récupération du mot de passe:"
+msgstr "Activer la récupération du mot de passe :"
 
 #: templates/settings-personal.php:47
 msgid ""
@@ -167,7 +167,7 @@ msgstr "Activer cette option vous permettra d'obtenir à nouveau l'accès à vos
 
 #: templates/settings-personal.php:63
 msgid "File recovery settings updated"
-msgstr "Mise à jour des paramètres de récupération de fichiers "
+msgstr "Paramètres de récupération de fichiers mis à jour"
 
 #: templates/settings-personal.php:64
 msgid "Could not update file recovery"

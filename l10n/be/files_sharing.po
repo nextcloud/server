@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-14 02:47+0200\n"
-"PO-Revision-Date: 2013-06-14 00:47+0000\n"
+"POT-Creation-Date: 2013-06-29 02:03+0200\n"
+"PO-Revision-Date: 2013-06-29 00:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Belarusian (http://www.transifex.com/projects/p/owncloud/language/be/)\n"
 "MIME-Version: 1.0\n"
@@ -25,20 +25,28 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: templates/public.php:10
+#: templates/public.php:14
 #, php-format
 msgid "%s shared the folder %s with you"
 msgstr ""
 
-#: templates/public.php:13
+#: templates/public.php:17
 #, php-format
 msgid "%s shared the file %s with you"
 msgstr ""
 
-#: templates/public.php:19 templates/public.php:43
+#: templates/public.php:25 templates/public.php:83
 msgid "Download"
 msgstr ""
 
-#: templates/public.php:40
+#: templates/public.php:41
+msgid "Upload"
+msgstr ""
+
+#: templates/public.php:51
+msgid "Cancel upload"
+msgstr ""
+
+#: templates/public.php:80
 msgid "No preview available for"
 msgstr ""
