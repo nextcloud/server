@@ -21,4 +21,3 @@ if (!isset($_)) { //also provide standalone error page
 
 	exit;
 }
-?>
