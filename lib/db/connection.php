@@ -148,6 +148,23 @@ class Connection extends \Doctrine\DBAL\Connection {
 		return $this->adapter->insertIfNotExist($table, $input);
 	}
 
+	/**
+	 * returns the error code and message as a string for logging
+	 * works with DoctrineException
+	 * @param mixed $error
+	 * @return string
+	 */
+	public function getError() {
+		$msg = $this->errorCode() . ': ';
+		$errorInfo = $this->errorInfo();
+		if (is_array($errorInfo)) {
+			$msg .= 'SQLSTATE = '.$errorInfo[0] . ', ';
+			$msg .= 'Driver Code = '.$errorInfo[1] . ', ';
+			$msg .= 'Driver Message = '.$errorInfo[2];
+		}
+		return $msg;
+	}
+
 	// internal use
 	protected function replaceTablePrefix($statement) {
 		return str_replace( '*PREFIX*', $this->table_prefix, $statement );

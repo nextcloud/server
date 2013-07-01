@@ -433,16 +433,8 @@ class OC_DB {
 	 */
 	public static function getErrorMessage($error) {
 		if (self::$connection) {
-			$msg = self::$connection->errorCode() . ': ';
-			$errorInfo = self::$connection->errorInfo();
-			if (is_array($errorInfo)) {
-				$msg .= 'SQLSTATE = '.$errorInfo[0] . ', ';
-				$msg .= 'Driver Code = '.$errorInfo[1] . ', ';
-				$msg .= 'Driver Message = '.$errorInfo[2];
-			}
-			return $msg;
+			return self::$connection->getError();
 		}
-
 		return '';
 	}
 
