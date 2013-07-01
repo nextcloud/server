@@ -467,7 +467,7 @@ $(document).ready(function(){
 				}
 				var date=new Date();
 				var param = {};
-				if ($('#publicUploadRequestToken')) {
+				if ($('#publicUploadRequestToken').length) {
 					param.download_url = document.location.href + '&download&path=/' + $('#dir').val() + '/' + uniqueName;
 				}
 				// create new file context
