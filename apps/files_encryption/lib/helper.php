@@ -220,7 +220,7 @@ class Helper {
 		//openssl extension needs to be loaded
 		$result &= extension_loaded("openssl");
 		// we need php >= 5.3.3
-		$result &= version_compare(phpversion(), '5.3.11', '>=');
+		$result &= version_compare(phpversion(), '5.3.3', '>=');
 
 		return $result;
 	}
