@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-30 02:05+0200\n"
-"PO-Revision-Date: 2013-06-30 00:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-01 03:19+0200\n"
+"PO-Revision-Date: 2013-07-01 01:12+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -286,7 +286,7 @@ msgstr "Wachtwoord"
 
 #: js/share.js:186
 msgid "Allow Public Upload"
-msgstr ""
+msgstr "Sta publieke uploads toe"
 
 #: js/share.js:189
 msgid "Email link to person"

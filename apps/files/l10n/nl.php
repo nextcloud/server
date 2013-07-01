@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Kon %s niet verplaatsen - Er bestaat al een bestand met deze naam",
 "Could not move %s" => "Kon %s niet verplaatsen",
+"Unable to set upload directory." => "Kan upload map niet instellen.",
+"Invalid Token" => "Ongeldig Token",
 "No file was uploaded. Unknown error" => "Er was geen bestand geladen.  Onbekende fout",
 "There is no error, the file uploaded with success" => "De upload van het bestand is goedgegaan.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Het geüploade bestand overscheidt de upload_max_filesize optie in php.ini:",
