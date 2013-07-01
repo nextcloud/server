@@ -164,7 +164,7 @@ if (\OC_Util::runningOnWindows()) {
 		}
 
 		public function unlink($path) {
-			return $this->delTree($path);
+			return unlink($this->datadir . $path);
 		}
 
 		public function rename($path1, $path2) {
@@ -208,30 +208,6 @@ if (\OC_Util::runningOnWindows()) {
 					case 'a':
 						break;
 				}
-			}
-			return $return;
-		}
-
-		/**
-		 * @param string $dir
-		 */
-		private function delTree($dir) {
-			$dirRelative = $dir;
-			$dir = $this->datadir . $dir;
-			if (!file_exists($dir)) return true;
-			if (!is_dir($dir) || is_link($dir)) return unlink($dir);
-			foreach (scandir($dir) as $item) {
-				if ($item == '.' || $item == '..') continue;
-				if (is_file($dir . '/' . $item)) {
-					if (unlink($dir . '/' . $item)) {
-					}
-				} elseif (is_dir($dir . '/' . $item)) {
-					if (!$this->delTree($dirRelative . "/" . $item)) {
-						return false;
-					};
-				}
-			}
-			if ($return = rmdir($dir)) {
 			}
 			return $return;
 		}
