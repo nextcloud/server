@@ -6,7 +6,7 @@
 
 <?php $defaults = new OC_Defaults(); // initialize themable default strings and urls ?>
 
-<div class="clientsbox">
+<div class="clientsbox center">
 	<h2><?php p($l->t('Get the apps to sync your files'));?></h2>
 	<a href="<?php p($_['clients']['desktop']); ?>" target="_blank">
 		<img src="<?php print_unescaped(OCP\Util::imagePath('core', 'desktopapp.png')); ?>" />
@@ -18,7 +18,7 @@
 		<img src="<?php print_unescaped(OCP\Util::imagePath('core', 'appstore.png')); ?>" />
 	</a>
 	<?php if(OC_APP::isEnabled('firstrunwizard')) {?>
-	<center><a class="button" href="#" id="showWizard"><?php p($l->t('Show First Run Wizard again'));?></a></center>
+	<p class="center"><a class="button" href="#" id="showWizard"><?php p($l->t('Show First Run Wizard again'));?></a></p>
 	<?php }?>
 </div>
 
