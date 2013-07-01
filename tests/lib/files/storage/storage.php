@@ -345,4 +345,44 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(array('test.txt'), $content);
 	}
+
+	public function testCopyOverWriteFile() {
+		$this->instance->file_put_contents('target.txt', 'foo');
+		$this->instance->file_put_contents('source.txt', 'bar');
+		$this->instance->copy('source.txt', 'target.txt');
+		$this->assertEquals('bar', $this->instance->file_get_contents('target.txt'));
+	}
+
+	public function testRenameOverWriteFile() {
+		$this->instance->file_put_contents('target.txt', 'foo');
+		$this->instance->file_put_contents('source.txt', 'bar');
+		$this->instance->rename('source.txt', 'target.txt');
+		$this->assertEquals('bar', $this->instance->file_get_contents('target.txt'));
+		$this->assertFalse($this->instance->file_exists('source.txt'));
+	}
+
+	public function testRenameDirectory() {
+		$this->instance->mkdir('source');
+		$this->instance->file_put_contents('source/test1.txt', 'foo');
+		$this->instance->file_put_contents('source/test2.txt', 'qwerty');
+		$this->instance->mkdir('source/subfolder');
+		$this->instance->file_put_contents('source/subfolder/test.txt', 'bar');
+		$this->instance->rename('source', 'target');
+
+		$this->assertFalse($this->instance->file_exists('source'));
+		$this->assertFalse($this->instance->file_exists('source/test1.txt'));
+		$this->assertFalse($this->instance->file_exists('source/test2.txt'));
+		$this->assertFalse($this->instance->file_exists('source/subfolder'));
+		$this->assertFalse($this->instance->file_exists('source/test.txt'));
+
+		$this->assertTrue($this->instance->file_exists('target'));
+		$this->assertTrue($this->instance->file_exists('target/test1.txt'));
+		$this->assertTrue($this->instance->file_exists('target/test2.txt'));
+		$this->assertTrue($this->instance->file_exists('target/subfolder'));
+		$this->assertTrue($this->instance->file_exists('target/subfolder/test.txt'));
+
+		$this->assertEquals('foo', $this->instance->file_get_contents('target/test1.txt'));
+		$this->assertEquals('qwerty', $this->instance->file_get_contents('target/test2.txt'));
+		$this->assertEquals('bar', $this->instance->file_get_contents('target/subfolder/test.txt'));
+	}
 }
