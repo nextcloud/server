@@ -31,8 +31,9 @@
 namespace OC\Files;
 
 use OC\Files\Storage\Loader;
-const FREE_SPACE_UNKNOWN = -2;
-const FREE_SPACE_UNLIMITED = -3;
+const SPACE_NOT_COMPUTED = -1;
+const SPACE_UNKNOWN = -2;
+const SPACE_UNLIMITED = -3;
 
 class Filesystem {
 	/**
