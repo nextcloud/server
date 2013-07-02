@@ -226,8 +226,12 @@ var OC={
 		var path=OC.filePath(app,'css',style+'.css');
 		if(OC.addStyle.loaded.indexOf(path)===-1){
 			OC.addStyle.loaded.push(path);
-			style=$('<link rel="stylesheet" type="text/css" href="'+path+'"/>');
-			$('head').append(style);
+			if (document.createStyleSheet) {
+				document.createStyleSheet(path);
+			} else {
+				style=$('<link rel="stylesheet" type="text/css" href="'+path+'"/>');
+				$('head').append(style);
+			}
 		}
 	},
 	basename: function(path) {
