@@ -543,4 +543,17 @@ class Hooks {
 
 		\OC_FileProxy::$enabled = $proxyStatus;
 	}
+
+	/**
+	 * set migration status back to '0' so that all new files get encrypted
+	 * if the app gets enabled again
+	 * @param array $params contains the app ID
+	 */
+	public static function preDisable($params) {
+		if ($params['app'] === 'files_encryption') {
+			$query = \OC_DB::prepare('UPDATE `*PREFIX*encryption` SET `migration_status`=0');
+			$query->execute();
+		}
+	}
+
 }

@@ -63,6 +63,15 @@ class Helper {
 	}
 
 	/**
+	 * @brief register app management related hooks
+	 *
+	 */
+	public static function registerAppHooks() {
+
+		\OCP\Util::connectHook('OC_App', 'pre_disable', 'OCA\Encryption\Hooks', 'preDisable');
+	}
+
+	/**
 	 * @brief setup user for files_encryption
 	 *
 	 * @param Util $util

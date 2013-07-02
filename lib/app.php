@@ -259,6 +259,7 @@ class OC_App{
 	 */
 	public static function disable( $app ) {
 		// check if app is a shipped app or not. if not delete
+		\OC_Hook::emit('OC_App', 'pre_disable', array('app' => $app));
 		OC_Appconfig::setValue( $app, 'enabled', 'no' );
 
 		// check if app is a shipped app or not. if not delete
