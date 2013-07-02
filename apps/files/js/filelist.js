@@ -172,8 +172,9 @@ var FileList={
 		if (id != null) {
 			tr.attr('data-id', id);
 		}
-		getMimeIcon(mime,function(path){
-			tr.find('td.filename').attr('style','background-image:url('+path+')');
+		var path = $('#dir').val()+'/'+name;
+		getPreviewIcon(path, function(previewpath){
+			tr.find('td.filename').attr('style','background-image:url('+previewpath+')');
 		});
 		tr.find('td.filename').draggable(dragOptions);
 	},

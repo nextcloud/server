@@ -513,8 +513,9 @@ $(document).ready(function() {
 								var tr=$('tr').filterAttr('data-file',name);
 								tr.attr('data-mime',result.data.mime);
 								tr.attr('data-id', result.data.id);
-								getMimeIcon(result.data.mime,function(path){
-									tr.find('td.filename').attr('style','background-image:url('+path+')');
+								var path = $('#dir').val()+'/'+name;
+								getPreviewIcon(path, function(previewpath){
+									tr.find('td.filename').attr('style','background-image:url('+previewpath+')');
 								});
 							} else {
 								OC.dialogs.alert(result.data.message, t('core', 'Error'));
@@ -577,8 +578,9 @@ $(document).ready(function() {
 						var tr=$('tr').filterAttr('data-file',localName);
 						tr.data('mime',mime).data('id',id);
 						tr.attr('data-id', id);
-						getMimeIcon(mime,function(path){
-							tr.find('td.filename').attr('style','background-image:url('+path+')');
+						var path = $('#dir').val()+'/'+localName;
+						getPreviewIcon(path, function(previewpath){
+							tr.find('td.filename').attr('style','background-image:url('+previewpath+')');
 						});
 					});
 					eventSource.listen('error',function(error){
@@ -769,8 +771,9 @@ var createDragShadow = function(event){
 		if (elem.type === 'dir') {
 			newtr.find('td.filename').attr('style','background-image:url('+OC.imagePath('core', 'filetypes/folder.png')+')');
 		} else {
-			getMimeIcon(elem.mime,function(path){
-				newtr.find('td.filename').attr('style','background-image:url('+path+')');
+			var path = $('#dir').val()+'/'+elem.name;
+			getPreviewIcon(path, function(previewpath){
+				newtr.find('td.filename').attr('style','background-image:url('+previewpath+')');
 			});
 		}
 	});
@@ -955,6 +958,10 @@ function getMimeIcon(mime, ready){
 	}
 }
 getMimeIcon.cache={};
+
+function getPreviewIcon(path, ready){
+	ready(OC.Router.generate('core_ajax_preview', {file:path, x:44, y:44}));
+}
 
 function getUniqueName(name){
 	if($('tr').filterAttr('data-file',name).length>0){
