@@ -180,28 +180,18 @@ class OC_DB {
 							$dsn = 'oci:dbname=//' . $host . '/' . $name;
 					}
 					break;
-                case 'mssql':
+				case 'mssql':
 					if ($port) {
 							$dsn='sqlsrv:Server='.$host.','.$port.';Database='.$name;
 					} else {
 							$dsn='sqlsrv:Server='.$host.';Database='.$name;
 					}
-					break;                    
+					break;
 				default:
 					return false;
 			}
-			try{
-				self::$PDO=new PDO($dsn, $user, $pass, $opts);
-			}catch(PDOException $e) {
-				OC_Log::write('core', $e->getMessage(), OC_Log::FATAL);
-				OC_User::setUserId(null);
-
-				// send http status 503
-				header('HTTP/1.1 503 Service Temporarily Unavailable');
-				header('Status: 503 Service Temporarily Unavailable');
-				OC_Template::printErrorPage('Failed to connect to database');
-				die();
-			}
+			self::$PDO=new PDO($dsn, $user, $pass, $opts);
+			
 			// We always, really always want associative arrays
 			self::$PDO->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 			self::$PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -299,19 +289,8 @@ class OC_DB {
 
 			// Try to establish connection
 			self::$MDB2 = MDB2::factory( $dsn, $options );
-
-			// Die if we could not connect
-			if( PEAR::isError( self::$MDB2 )) {
-				OC_Log::write('core', self::$MDB2->getUserInfo(), OC_Log::FATAL);
-				OC_Log::write('core', self::$MDB2->getMessage(), OC_Log::FATAL);
-				OC_User::setUserId(null);
-
-				// send http status 503
-				header('HTTP/1.1 503 Service Temporarily Unavailable');
-				header('Status: 503 Service Temporarily Unavailable');
-				OC_Template::printErrorPage('Failed to connect to database');
-				die();
-			}
+			
+			self::raiseExceptionOnError( self::$MDB2 );
 
 			// We always, really always want associative arrays
 			self::$MDB2->setFetchMode(MDB2_FETCHMODE_ASSOC);
@@ -803,9 +782,9 @@ class OC_DB {
 			$query = str_replace( 'now()', 'CURRENT_TIMESTAMP', $query );
 			$query = str_replace( 'LENGTH(', 'LEN(', $query );
 			$query = str_replace( 'SUBSTR(', 'SUBSTRING(', $query );
-            
-            $query = self::fixLimitClauseForMSSQL($query);
-        }
+
+			$query = self::fixLimitClauseForMSSQL($query);
+		}
 
 		// replace table name prefix
 		$query = str_replace( '*PREFIX*', $prefix, $query );
@@ -813,60 +792,60 @@ class OC_DB {
 		return $query;
 	}
 
-    private static function fixLimitClauseForMSSQL($query) {
-        $limitLocation = stripos ($query, "LIMIT");
-        
-        if ( $limitLocation === false ) {
-            return $query;
-        } 
-        
-        // total == 0 means all results - not zero results
-        //
-        // First number is either total or offset, locate it by first space
-        //
-        $offset = substr ($query, $limitLocation + 5);
-        $offset = substr ($offset, 0, stripos ($offset, ' '));
-        $offset = trim ($offset);
+	private static function fixLimitClauseForMSSQL($query) {
+		$limitLocation = stripos ($query, "LIMIT");
 
-        // check for another parameter
-        if (stripos ($offset, ',') === false) {
-            // no more parameters
-            $offset = 0;
-            $total = intval ($offset);
-        } else {
-            // found another parameter
-            $offset = intval ($offset);
+		if ( $limitLocation === false ) {
+			return $query;
+		} 
 
-            $total = substr ($query, $limitLocation + 5);
-            $total = substr ($total, stripos ($total, ','));
+		// total == 0 means all results - not zero results
+		//
+		// First number is either total or offset, locate it by first space
+		//
+		$offset = substr ($query, $limitLocation + 5);
+		$offset = substr ($offset, 0, stripos ($offset, ' '));
+		$offset = trim ($offset);
 
-            $total = substr ($total, 0, stripos ($total, ' '));
-            $total = intval ($total);
-        }
+		// check for another parameter
+		if (stripos ($offset, ',') === false) {
+			// no more parameters
+			$offset = 0;
+			$total = intval ($offset);
+		} else {
+			// found another parameter
+			$offset = intval ($offset);
 
-        $query = trim (substr ($query, 0, $limitLocation));
+			$total = substr ($query, $limitLocation + 5);
+			$total = substr ($total, stripos ($total, ','));
 
-        if ($offset == 0 && $total !== 0) {
-            if (strpos($query, "SELECT") === false) {
-                $query = "TOP {$total} " . $query;
-            } else {
-                $query = preg_replace('/SELECT(\s*DISTINCT)?/Dsi', 'SELECT$1 TOP '.$total, $query);
-            }
-        } else if ($offset > 0) {
-            $query = preg_replace('/SELECT(\s*DISTINCT)?/Dsi', 'SELECT$1 TOP(10000000) ', $query);
-            $query = 'SELECT *
-                    FROM (SELECT sub2.*, ROW_NUMBER() OVER(ORDER BY sub2.line2) AS line3
-                    FROM (SELECT 1 AS line2, sub1.* FROM (' . $query . ') AS sub1) as sub2) AS sub3';
+			$total = substr ($total, 0, stripos ($total, ' '));
+			$total = intval ($total);
+		}
 
-            if ($total > 0) {
-                $query .= ' WHERE line3 BETWEEN ' . ($offset + 1) . ' AND ' . ($offset + $total);
-            } else {
-                $query .= ' WHERE line3 > ' . $offset;
-            }
-        }
-        return $query;
-    }
-    
+		$query = trim (substr ($query, 0, $limitLocation));
+
+		if ($offset == 0 && $total !== 0) {
+			if (strpos($query, "SELECT") === false) {
+				$query = "TOP {$total} " . $query;
+			} else {
+				$query = preg_replace('/SELECT(\s*DISTINCT)?/Dsi', 'SELECT$1 TOP '.$total, $query);
+			}
+		} else if ($offset > 0) {
+			$query = preg_replace('/SELECT(\s*DISTINCT)?/Dsi', 'SELECT$1 TOP(10000000) ', $query);
+			$query = 'SELECT *
+					FROM (SELECT sub2.*, ROW_NUMBER() OVER(ORDER BY sub2.line2) AS line3
+					FROM (SELECT 1 AS line2, sub1.* FROM (' . $query . ') AS sub1) as sub2) AS sub3';
+
+			if ($total > 0) {
+				$query .= ' WHERE line3 BETWEEN ' . ($offset + 1) . ' AND ' . ($offset + $total);
+			} else {
+				$query .= ' WHERE line3 > ' . $offset;
+			}
+		}
+		return $query;
+	}
+
 	/**
 	 * @brief drop a table
 	 * @param string $tableName the table to drop
@@ -962,18 +941,21 @@ class OC_DB {
 	 * @return bool
 	 */
 	public static function isError($result) {
-		if(self::$backend==self::BACKEND_PDO and $result === false) {
+		//MDB2 returns an MDB2_Error object
+		if (class_exists('PEAR') === true && PEAR::isError($result)) {
 			return true;
-		}elseif(self::$backend==self::BACKEND_MDB2 and PEAR::isError($result)) {
-			return true;
-		}else{
-			return false;
 		}
+		//PDO returns false on error (and throws an exception)
+		if (self::$backend===self::BACKEND_PDO and $result === false) {
+			return true;
+		}
+
+		return false;
 	}
 	/**
 	 * check if a result is an error and throws an exception, works with MDB2 and PDOException
 	 * @param mixed $result
-	 * @param string message
+	 * @param string $message
 	 * @return void
 	 * @throws DatabaseException
 	 */
@@ -989,12 +971,15 @@ class OC_DB {
 	}
 
 	public static function getErrorCode($error) {
-		if ( self::$backend==self::BACKEND_MDB2 and PEAR::isError($error) ) {
-			$code = $error->getCode();
-		} elseif ( self::$backend==self::BACKEND_PDO and self::$PDO ) {
-			$code = self::$PDO->errorCode();
+		if ( class_exists('PEAR') === true && PEAR::isError($error) ) {
+			/** @var $error PEAR_Error */
+			return $error->getCode();
 		}
-		return $code;
+		if ( self::$backend==self::BACKEND_PDO and self::$PDO ) {
+			return self::$PDO->errorCode();
+		}
+
+		return -1;
 	}
 	/**
 	 * returns the error code and message as a string for logging
@@ -1003,23 +988,24 @@ class OC_DB {
 	 * @return string
 	 */
 	public static function getErrorMessage($error) {
-		if ( self::$backend==self::BACKEND_MDB2 and PEAR::isError($error) ) {
+		if ( class_exists('PEAR') === true && PEAR::isError($error) ) {
 			$msg = $error->getCode() . ': ' . $error->getMessage();
 			$msg .= ' (' . $error->getDebugInfo() . ')';
-		} elseif (self::$backend==self::BACKEND_PDO and self::$PDO) {
+
+			return $msg;
+		}
+		if (self::$backend==self::BACKEND_PDO and self::$PDO) {
 			$msg = self::$PDO->errorCode() . ': ';
 			$errorInfo = self::$PDO->errorInfo();
 			if (is_array($errorInfo)) {
 				$msg .= 'SQLSTATE = '.$errorInfo[0] . ', ';
 				$msg .= 'Driver Code = '.$errorInfo[1] . ', ';
 				$msg .= 'Driver Message = '.$errorInfo[2];
-			}else{
-				$msg = '';
 			}
-		}else{
-			$msg = '';
+			return $msg;
 		}
-		return $msg;
+
+		return '';
 	}
 
 	/**
@@ -1172,7 +1158,7 @@ class PDOStatementWrapper{
 			die ($entry);
 		}
 	}
-    
+
 	/**
 	 * provide numRows
 	 */
