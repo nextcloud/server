@@ -47,7 +47,6 @@
 "{count} folders" => "{count} cartafoles",
 "1 file" => "1 ficheiro",
 "{count} files" => "{count} ficheiros",
-"Unable to rename file" => "Non é posíbel renomear o ficheiro",
 "Upload" => "Enviar",
 "File handling" => "Manexo de ficheiro",
 "Maximum upload size" => "Tamaño máximo do envío",

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-01 03:18+0200\n"
-"PO-Revision-Date: 2013-06-30 23:15+0000\n"
+"POT-Creation-Date: 2013-07-02 15:33+0200\n"
+"PO-Revision-Date: 2013-07-02 13:33+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -30,11 +30,11 @@ msgstr "Ni mogoče premakniti %s"
 
 #: ajax/upload.php:16 ajax/upload.php:39
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "Mapo, v katero boste prenašali dokumente, ni mogoče določiti"
 
 #: ajax/upload.php:23
 msgid "Invalid Token"
-msgstr ""
+msgstr "Neveljaven žeton"
 
 #: ajax/upload.php:55
 msgid "No file was uploaded. Unknown error"
@@ -129,43 +129,43 @@ msgstr "Izbriši"
 msgid "Rename"
 msgstr "Preimenuj"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:433
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:464
 msgid "Pending"
 msgstr "V čakanju ..."
 
-#: js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:302 js/filelist.js:304
 msgid "{new_name} already exists"
 msgstr "{new_name} že obstaja"
 
-#: js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:302 js/filelist.js:304
 msgid "replace"
 msgstr "zamenjaj"
 
-#: js/filelist.js:271
+#: js/filelist.js:302
 msgid "suggest name"
 msgstr "predlagaj ime"
 
-#: js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:302 js/filelist.js:304
 msgid "cancel"
 msgstr "prekliči"
 
-#: js/filelist.js:318
+#: js/filelist.js:349
 msgid "replaced {new_name} with {old_name}"
 msgstr "preimenovano ime {new_name} z imenom {old_name}"
 
-#: js/filelist.js:318
+#: js/filelist.js:349
 msgid "undo"
 msgstr "razveljavi"
 
-#: js/filelist.js:343
+#: js/filelist.js:374
 msgid "perform delete operation"
 msgstr "izvedi opravilo brisanja"
 
-#: js/filelist.js:425
+#: js/filelist.js:456
 msgid "1 file uploading"
 msgstr "Pošiljanje 1 datoteke"
 
-#: js/filelist.js:428 js/filelist.js:486
+#: js/filelist.js:459 js/filelist.js:517
 msgid "files uploading"
 msgstr "poteka pošiljanje datotek"
 
@@ -230,8 +230,9 @@ msgid "{count} files"
 msgstr "{count} datotek"
 
 #: lib/app.php:73
-msgid "Unable to rename file"
-msgstr "Ni mogoče preimenovati datoteke"
+#, php-format
+msgid "%s could not be renamed"
+msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"

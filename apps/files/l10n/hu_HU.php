@@ -47,7 +47,6 @@
 "{count} folders" => "{count} mappa",
 "1 file" => "1 fájl",
 "{count} files" => "{count} fájl",
-"Unable to rename file" => "Nem lehet átnevezni a fájlt",
 "Upload" => "Feltöltés",
 "File handling" => "Fájlkezelés",
 "Maximum upload size" => "Maximális feltölthető fájlméret",

@@ -46,7 +46,6 @@
 "{count} folders" => "{count} dosje",
 "1 file" => "1 skedar",
 "{count} files" => "{count} skedarë",
-"Unable to rename file" => "Nuk është i mundur riemërtimi i skedarit",
 "Upload" => "Ngarko",
 "File handling" => "Trajtimi i skedarit",
 "Maximum upload size" => "Dimensioni maksimal i ngarkimit",

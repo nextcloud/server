@@ -47,7 +47,6 @@
 "{count} folders" => "{count} dossiers",
 "1 file" => "1 fichier",
 "{count} files" => "{count} fichiers",
-"Unable to rename file" => "Impossible de renommer le fichier",
 "Upload" => "Envoyer",
 "File handling" => "Gestion des fichiers",
 "Maximum upload size" => "Taille max. d'envoi",

@@ -39,7 +39,6 @@
 "{count} folders" => "{count} תיקיות",
 "1 file" => "קובץ אחד",
 "{count} files" => "{count} קבצים",
-"Unable to rename file" => "לא ניתן לשנות את שם הקובץ",
 "Upload" => "העלאה",
 "File handling" => "טיפול בקבצים",
 "Maximum upload size" => "גודל העלאה מקסימלי",

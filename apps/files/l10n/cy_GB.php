@@ -46,7 +46,6 @@
 "{count} folders" => "{count} plygell",
 "1 file" => "1 ffeil",
 "{count} files" => "{count} ffeil",
-"Unable to rename file" => "Methu ailenwi ffeil",
 "Upload" => "Llwytho i fyny",
 "File handling" => "Trafod ffeiliau",
 "Maximum upload size" => "Maint mwyaf llwytho i fyny",

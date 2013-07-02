@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-22 02:06+0200\n"
-"PO-Revision-Date: 2013-06-22 00:07+0000\n"
+"POT-Creation-Date: 2013-07-02 15:33+0200\n"
+"PO-Revision-Date: 2013-07-02 13:33+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -57,20 +57,21 @@ msgstr "No s'ha pogut actualitzar la contrasenya de la clau privada. Potser la c
 
 #: files/error.php:7
 msgid ""
-"Your private key is not valid! Maybe your password was changed from outside."
-" You can update your private key password in your personal settings to "
-"regain access to your files"
-msgstr "La clau privada no és vàlida! Potser la contrasenya ha canviat des de fora. Podeu actualitzar la contrasenya de la clau privada a l'arranjament personal per obtenir de nou accés als vostres fitxers"
+"Your private key is not valid! Likely your password was changed outside the "
+"ownCloud system (e.g. your corporate directory). You can update your private"
+" key password in your personal settings to recover access to your encrypted "
+"files."
+msgstr ""
 
 #: hooks/hooks.php:44
 msgid "PHP module OpenSSL is not installed."
-msgstr ""
+msgstr "El mòdul OpenSSL de PHP no està instal·lat."
 
 #: hooks/hooks.php:45
 msgid ""
 "Please ask your server administrator to install the module. For now the "
 "encryption app was disabled."
-msgstr ""
+msgstr "Demaneu a l'administrador del servidor que instal·li el mòdul. Per ara, l'aplicació d'encriptació s'ha deshabilitat."
 
 #: js/settings-admin.js:11
 msgid "Saving..."
@@ -97,11 +98,11 @@ msgstr "Xifrat"
 #: templates/settings-admin.php:10
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
-msgstr ""
+msgstr "Activa la clau de recuperació (permet recuperar fitxers d'usuaris en cas de pèrdua de contrasenya):"
 
 #: templates/settings-admin.php:14
 msgid "Recovery key password"
-msgstr ""
+msgstr "Clau de recuperació de la contrasenya"
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
@@ -113,15 +114,15 @@ msgstr "Desactivat"
 
 #: templates/settings-admin.php:34
 msgid "Change recovery key password:"
-msgstr ""
+msgstr "Canvia la clau de recuperació de contrasenya:"
 
 #: templates/settings-admin.php:41
 msgid "Old Recovery key password"
-msgstr ""
+msgstr "Antiga clau de recuperació de contrasenya"
 
 #: templates/settings-admin.php:48
 msgid "New Recovery key password"
-msgstr ""
+msgstr "Nova clau de recuperació de contrasenya"
 
 #: templates/settings-admin.php:53
 msgid "Change Password"

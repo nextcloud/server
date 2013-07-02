@@ -62,6 +62,7 @@
 "Share with link" => "Omogoči souporabo preko povezave",
 "Password protect" => "Zaščiti z geslom",
 "Password" => "Geslo",
+"Allow Public Upload" => "Dovoli javne prenose na strežnik",
 "Email link to person" => "Posreduj povezavo po elektronski pošti",
 "Send" => "Pošlji",
 "Set expiration date" => "Nastavi datum preteka",

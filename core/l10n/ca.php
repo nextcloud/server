@@ -62,6 +62,7 @@
 "Share with link" => "Comparteix amb enllaç",
 "Password protect" => "Protegir amb contrasenya",
 "Password" => "Contrasenya",
+"Allow Public Upload" => "Permet pujada pública",
 "Email link to person" => "Enllaç per correu electrónic amb la persona",
 "Send" => "Envia",
 "Set expiration date" => "Estableix la data de venciment",

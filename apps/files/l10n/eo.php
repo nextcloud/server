@@ -47,7 +47,6 @@
 "{count} folders" => "{count} dosierujoj",
 "1 file" => "1 dosiero",
 "{count} files" => "{count} dosierujoj",
-"Unable to rename file" => "Ne eblis alinomigi dosieron",
 "Upload" => "Alŝuti",
 "File handling" => "Dosieradministro",
 "Maximum upload size" => "Maksimuma alŝutogrando",

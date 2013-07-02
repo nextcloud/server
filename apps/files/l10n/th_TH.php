@@ -45,7 +45,6 @@
 "{count} folders" => "{count} โฟลเดอร์",
 "1 file" => "1 ไฟล์",
 "{count} files" => "{count} ไฟล์",
-"Unable to rename file" => "ไม่สามารถเปลี่ยนชื่อไฟล์ได้",
 "Upload" => "อัพโหลด",
 "File handling" => "การจัดกาไฟล์",
 "Maximum upload size" => "ขนาดไฟล์สูงสุดที่อัพโหลดได้",

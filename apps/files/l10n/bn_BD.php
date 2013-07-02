@@ -39,7 +39,6 @@
 "{count} folders" => "{count} টি ফোল্ডার",
 "1 file" => "১টি ফাইল",
 "{count} files" => "{count} টি ফাইল",
-"Unable to rename file" => "ফাইলের নাম পরিবর্তন করা সম্ভব হলো না",
 "Upload" => "আপলোড",
 "File handling" => "ফাইল হ্যার্ডলিং",
 "Maximum upload size" => "আপলোডের সর্বোচ্চ আকার",

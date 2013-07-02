@@ -47,7 +47,6 @@
 "{count} folders" => "{count} φάκελοι",
 "1 file" => "1 αρχείο",
 "{count} files" => "{count} αρχεία",
-"Unable to rename file" => "Αδυναμία μετονομασίας αρχείου",
 "Upload" => "Μεταφόρτωση",
 "File handling" => "Διαχείριση αρχείων",
 "Maximum upload size" => "Μέγιστο μέγεθος αποστολής",

@@ -47,7 +47,6 @@
 "{count} folders" => "{count} папок",
 "1 file" => "1 файл",
 "{count} files" => "{count} файлов",
-"Unable to rename file" => "Невозможно переименовать файл",
 "Upload" => "Загрузка",
 "File handling" => "Управление файлами",
 "Maximum upload size" => "Максимальный размер загружаемого файла",

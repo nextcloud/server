@@ -47,7 +47,6 @@
 "{count} folders" => "{count} mapper",
 "1 file" => "1 fil",
 "{count} files" => "{count} filer",
-"Unable to rename file" => "Kan ikke gi nytt navn",
 "Upload" => "Last opp",
 "File handling" => "Filhåndtering",
 "Maximum upload size" => "Maksimum opplastingsstørrelse",

@@ -47,7 +47,6 @@
 "{count} folders" => "{count} Ordner",
 "1 file" => "1 Datei",
 "{count} files" => "{count} Dateien",
-"Unable to rename file" => "Konnte Datei nicht umbenennen",
 "Upload" => "Hochladen",
 "File handling" => "Dateibehandlung",
 "Maximum upload size" => "Maximale Upload-Größe",

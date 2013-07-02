@@ -47,7 +47,6 @@
 "{count} folders" => "{count} kausta",
 "1 file" => "1 fail",
 "{count} files" => "{count} faili",
-"Unable to rename file" => "Faili ümbernimetamine ebaõnnestus",
 "Upload" => "Lae üles",
 "File handling" => "Failide käsitlemine",
 "Maximum upload size" => "Maksimaalne üleslaadimise suurus",

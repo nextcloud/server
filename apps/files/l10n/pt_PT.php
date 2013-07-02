@@ -47,7 +47,6 @@
 "{count} folders" => "{count} pastas",
 "1 file" => "1 ficheiro",
 "{count} files" => "{count} ficheiros",
-"Unable to rename file" => "Não foi possível renomear o ficheiro",
 "Upload" => "Carregar",
 "File handling" => "Manuseamento de ficheiros",
 "Maximum upload size" => "Tamanho máximo de envio",

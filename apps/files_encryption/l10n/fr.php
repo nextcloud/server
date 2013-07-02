@@ -7,7 +7,6 @@
 "Could not change the password. Maybe the old password was not correct." => "Ne peut pas changer le mot de passe. L'ancien mot de passe est peut-être incorrect.",
 "Private key password successfully updated." => "Mot de passe de la clé privé mis à jour avec succès.",
 "Could not update the private key password. Maybe the old password was not correct." => "Impossible de mettre à jour le mot de passe de la clé privé. Peut-être que l'ancien mot de passe n'était pas correcte.",
-"Your private key is not valid! Maybe your password was changed from outside. You can update your private key password in your personal settings to regain access to your files" => "Votre clef privée est invalide ! Votre mot de passe a peut-être été modifié depuis l'extérieur. Vous pouvez mettre à jour le mot de passe de votre clef privée dans vos paramètres personnels pour récupérer l'accès à vos fichiers",
 "PHP module OpenSSL is not installed." => "Le module OpenSSL de PHP n'est pas installé.",
 "Please ask your server administrator to install the module. For now the encryption app was disabled." => "Veuillez demander à l'administrateur du serveur d'installer le module. Pour l'instant l'application de chiffrement a été désactivé.",
 "Saving..." => "Enregistrement...",

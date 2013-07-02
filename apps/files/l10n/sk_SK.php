@@ -47,7 +47,6 @@
 "{count} folders" => "{count} priečinkov",
 "1 file" => "1 súbor",
 "{count} files" => "{count} súborov",
-"Unable to rename file" => "Nemožno premenovať súbor",
 "Upload" => "Odoslať",
 "File handling" => "Nastavenie správania sa k súborom",
 "Maximum upload size" => "Maximálna veľkosť odosielaného súboru",

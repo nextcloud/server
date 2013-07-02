@@ -46,7 +46,6 @@
 "{count} folders" => "{count} фасцикле/и",
 "1 file" => "1 датотека",
 "{count} files" => "{count} датотеке/а",
-"Unable to rename file" => "Не могу да преименујем датотеку",
 "Upload" => "Отпреми",
 "File handling" => "Управљање датотекама",
 "Maximum upload size" => "Највећа величина датотеке",

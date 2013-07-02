@@ -42,7 +42,6 @@
 "{count} folders" => "{count} kansiota",
 "1 file" => "1 tiedosto",
 "{count} files" => "{count} tiedostoa",
-"Unable to rename file" => "Tiedoston nimeäminen uudelleen ei onnistunut",
 "Upload" => "Lähetä",
 "File handling" => "Tiedostonhallinta",
 "Maximum upload size" => "Lähetettävän tiedoston suurin sallittu koko",

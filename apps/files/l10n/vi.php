@@ -46,7 +46,6 @@
 "{count} folders" => "{count} thư mục",
 "1 file" => "1 tập tin",
 "{count} files" => "{count} tập tin",
-"Unable to rename file" => "Không thể đổi tên file",
 "Upload" => "Tải lên",
 "File handling" => "Xử lý tập tin",
 "Maximum upload size" => "Kích thước tối đa ",

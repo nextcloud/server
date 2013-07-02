@@ -7,7 +7,6 @@
 "Could not change the password. Maybe the old password was not correct." => "Nelze změnit heslo. Pravděpodobně nebylo stávající heslo zadáno správně.",
 "Private key password successfully updated." => "Heslo soukromého klíče úspěšně aktualizováno.",
 "Could not update the private key password. Maybe the old password was not correct." => "Nelze aktualizovat heslo soukromého klíče. Možná nebylo staré heslo správně.",
-"Your private key is not valid! Maybe your password was changed from outside. You can update your private key password in your personal settings to regain access to your files" => "Váš soukromý klíč není platný. Možná bylo vaše heslo změněno z venku. Můžete aktualizovat heslo soukromého klíče v osobním nastavení pro opětovné získání přístupu k souborům",
 "Saving..." => "Ukládám...",
 "Encryption" => "Šifrování",
 "Enabled" => "Povoleno",

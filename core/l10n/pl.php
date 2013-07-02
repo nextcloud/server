@@ -62,6 +62,7 @@
 "Share with link" => "Współdziel wraz z odnośnikiem",
 "Password protect" => "Zabezpiecz hasłem",
 "Password" => "Hasło",
+"Allow Public Upload" => "Pozwól na  publiczne wczytywanie",
 "Email link to person" => "Wyślij osobie odnośnik poprzez e-mail",
 "Send" => "Wyślij",
 "Set expiration date" => "Ustaw datę wygaśnięcia",

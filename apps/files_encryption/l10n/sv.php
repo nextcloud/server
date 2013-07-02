@@ -7,7 +7,6 @@
 "Could not change the password. Maybe the old password was not correct." => "Kunde inte ändra lösenordet. Kanske det gamla lösenordet inte var rätt.",
 "Private key password successfully updated." => "Den privata lösenordsnyckeln uppdaterades utan problem.",
 "Could not update the private key password. Maybe the old password was not correct." => "Kunde inte uppdatera den privata lösenordsnyckeln. Kanske var det gamla lösenordet fel.",
-"Your private key is not valid! Maybe your password was changed from outside. You can update your private key password in your personal settings to regain access to your files" => "Din privata lösenordsnyckel är inte giltig! Kanske byttes ditt lösenord från utsidan. Du kan uppdatera din privata lösenordsnyckel under dina personliga inställningar för att återfå tillgång till dina filer",
 "Saving..." => "Sparar...",
 "Your private key is not valid! Maybe the your password was changed from outside." => "Din privata lösenordsnyckel är inte giltig! Kanske byttes ditt lösenord från utsidan.",
 "You can unlock your private key in your " => "Du kan låsa upp din privata nyckel i dina",

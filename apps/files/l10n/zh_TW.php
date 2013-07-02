@@ -47,7 +47,6 @@
 "{count} folders" => "{count} 個資料夾",
 "1 file" => "1 個檔案",
 "{count} files" => "{count} 個檔案",
-"Unable to rename file" => "無法重新命名檔案",
 "Upload" => "上傳",
 "File handling" => "檔案處理",
 "Maximum upload size" => "最大上傳檔案大小",

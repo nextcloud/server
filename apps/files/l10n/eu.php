@@ -46,7 +46,6 @@
 "{count} folders" => "{count} karpeta",
 "1 file" => "fitxategi bat",
 "{count} files" => "{count} fitxategi",
-"Unable to rename file" => "Ezin izan da fitxategia berrizendatu",
 "Upload" => "Igo",
 "File handling" => "Fitxategien kudeaketa",
 "Maximum upload size" => "Igo daitekeen gehienezko tamaina",

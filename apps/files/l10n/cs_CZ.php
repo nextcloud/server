@@ -49,7 +49,6 @@
 "{count} folders" => "{count} složky",
 "1 file" => "1 soubor",
 "{count} files" => "{count} soubory",
-"Unable to rename file" => "Nelze přejmenovat soubor",
 "Upload" => "Odeslat",
 "File handling" => "Zacházení se soubory",
 "Maximum upload size" => "Maximální velikost pro odesílání",
