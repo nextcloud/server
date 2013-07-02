@@ -93,7 +93,7 @@ $totalsize = 0; ?>
 			} ?>
 		</span></td>
 		<td class="filesize">
-		<?php p(OCP\simple_file_size($totalsize)); ?>
+		<?php print_unescaped(OCP\simple_file_size($totalsize)); ?>
 		</td>
 		<td></td>
 	</tr>
