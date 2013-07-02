@@ -71,8 +71,20 @@ var FileList={
 		tr.append(td);
 		return tr;
 	},
-	addFile:function(name,size,lastModified,loading,hidden){
+	addFile:function(name,size,lastModified,loading,hidden,param){
 		var imgurl;
+
+		if (!param) {
+			param = {};
+		}
+
+		var download_url = null;
+		if (!param.download_url) {
+			download_url = OC.Router.generate('download', { file: $('#dir').val()+'/'+name });
+		} else {
+			download_url = param.download_url;
+		}
+
 		if (loading) {
 			imgurl = OC.imagePath('core', 'loading.gif');
 		} else {
@@ -82,23 +94,23 @@ var FileList={
 			'file',
 			name,
 			imgurl,
-			OC.Router.generate('download', { file: $('#dir').val()+'/'+name }),
+			download_url,
 			size,
 			lastModified,
 			$('#permissions').val()
 		);
 
-		FileList.insertElement(name, 'file', tr.attr('data-file',name));
-		var row = $('tr').filterAttr('data-file',name);
+		FileList.insertElement(name, 'file', tr);
 		if(loading){
-			row.data('loading',true);
+			tr.data('loading',true);
 		}else{
-			row.find('td.filename').draggable(dragOptions);
+			tr.find('td.filename').draggable(dragOptions);
 		}
 		if (hidden) {
-			row.hide();
+			tr.hide();
 		}
-		FileActions.display(row.find('td.filename'));
+		FileActions.display(tr.find('td.filename'));
+		return tr;
 	},
 	addDir:function(name,size,lastModified,hidden){
 
@@ -113,13 +125,14 @@ var FileList={
 		);
 
 		FileList.insertElement(name,'dir',tr);
-		var row = $('tr').filterAttr('data-file',name);
-		row.find('td.filename').draggable(dragOptions);
-		row.find('td.filename').droppable(folderDropOptions);
+		var td = tr.find('td.filename');
+		td.draggable(dragOptions);
+		td.droppable(folderDropOptions);
 		if (hidden) {
-			row.hide();
+			tr.hide();
 		}
-		FileActions.display(row.find('td.filename'));
+		FileActions.display(tr.find('td.filename'));
+		return tr;
 	},
 	refresh:function(data) {
 		var result = jQuery.parseJSON(data.responseText);
@@ -190,6 +203,14 @@ var FileList={
 		td.children('a.name').hide();
 		td.append(form);
 		input.focus();
+
+		//preselect input
+		var len = input.val().lastIndexOf('.');
+		if (len === -1) {
+			len = input.val().length;
+		}
+		input.selectRange(0,len);
+
 		form.submit(function(event){
 			event.stopPropagation();
 			event.preventDefault();
@@ -351,6 +372,152 @@ var FileList={
 };
 
 $(document).ready(function(){
+
+	// handle upload events
+	var file_upload_start = $('#file_upload_start');
+	file_upload_start.on('fileuploaddrop', function(e, data) {
+		// only handle drop to dir if fileList exists
+		if ($('#fileList').length > 0) {
+			var dropTarget = $(e.originalEvent.target).closest('tr');
+			if(dropTarget && dropTarget.data('type') === 'dir') { // drag&drop upload to folder
+				var dirName = dropTarget.data('file');
+				// update folder in form
+				data.formData = function(form) {
+					var formArray = form.serializeArray();
+					// array index 0 contains the max files size
+					// array index 1 contains the request token
+					// array index 2 contains the directory
+					var parentDir = formArray[2]['value'];
+					if (parentDir === '/') {
+						formArray[2]['value'] += dirName;
+					} else {
+						formArray[2]['value'] += '/'+dirName;
+					}
+					return formArray;
+				}
+			}
+		}
+	});
+	file_upload_start.on('fileuploadadd', function(e, data) {
+		// only add to fileList if it exists
+		if ($('#fileList').length > 0) {
+
+			if(FileList.deleteFiles && FileList.deleteFiles.indexOf(data.files[0].name)!=-1){//finish delete if we are uploading a deleted file
+				FileList.finishDelete(null, true); //delete file before continuing
+			}
+
+			// add ui visualization to existing folder or as new stand-alone file?
+			var dropTarget = $(e.originalEvent.target).closest('tr');
+			if(dropTarget && dropTarget.data('type') === 'dir') {
+				// add to existing folder
+				var dirName = dropTarget.data('file');
+
+				// set dir context
+				data.context = $('tr').filterAttr('data-type', 'dir').filterAttr('data-file', dirName);
+
+				// update upload counter ui
+				var uploadtext = data.context.find('.uploadtext');
+				var currentUploads = parseInt(uploadtext.attr('currentUploads'));
+				currentUploads += 1;
+				uploadtext.attr('currentUploads', currentUploads);
+				if(currentUploads === 1) {
+					var img = OC.imagePath('core', 'loading.gif');
+					data.context.find('td.filename').attr('style','background-image:url('+img+')');
+					uploadtext.text(t('files', '1 file uploading'));
+					uploadtext.show();
+				} else {
+					uploadtext.text(currentUploads + ' ' + t('files', 'files uploading'));
+				}
+			} else {
+				// add as stand-alone row to filelist
+				var uniqueName = getUniqueName(data.files[0].name);
+				var size=t('files','Pending');
+				if(data.files[0].size>=0){
+					size=data.files[0].size;
+				}
+				var date=new Date();
+				var param = {};
+				if ($('#publicUploadRequestToken').length) {
+					param.download_url = document.location.href + '&download&path=/' + $('#dir').val() + '/' + uniqueName;
+				}
+				// create new file context
+				data.context = FileList.addFile(uniqueName,size,date,true,false,param);
+
+			}
+		}
+	});
+	file_upload_start.on('fileuploaddone', function(e, data) {
+		// only update the fileList if it exists
+		if ($('#fileList').length > 0) {
+			var response;
+			if (typeof data.result === 'string') {
+				response = data.result;
+			} else {
+				// fetch response from iframe
+				response = data.result[0].body.innerText;
+			}
+			var result=$.parseJSON(response);
+
+			if(typeof result[0] !== 'undefined' && result[0].status === 'success') {
+				var file = result[0];
+
+				if (data.context.data('type') === 'file') {
+					// update file data
+					data.context.attr('data-mime',file.mime).attr('data-id',file.id);
+					var size = data.context.data('size');
+					if(size!=file.size){
+						data.context.attr('data-size', file.size);
+						data.context.find('td.filesize').text(humanFileSize(file.size));
+					}
+					if (FileList.loadingDone) {
+						FileList.loadingDone(file.name, file.id);
+					}
+				} else {
+					// update upload counter ui
+					var uploadtext = data.context.find('.uploadtext');
+					var currentUploads = parseInt(uploadtext.attr('currentUploads'));
+					currentUploads -= 1;
+					uploadtext.attr('currentUploads', currentUploads);
+					if(currentUploads === 0) {
+						var img = OC.imagePath('core', 'filetypes/folder.png');
+						data.context.find('td.filename').attr('style','background-image:url('+img+')');
+						uploadtext.text('');
+						uploadtext.hide();
+					} else {
+						uploadtext.text(currentUploads + ' ' + t('files', 'files uploading'));
+					}
+
+					// update folder size
+					var size =  parseInt(data.context.data('size'));
+					size +=  parseInt(file.size)	;
+					data.context.attr('data-size', size);
+					data.context.find('td.filesize').text(humanFileSize(size));
+
+				}
+			}
+		}
+	});
+	file_upload_start.on('fileuploadfail', function(e, data) {
+		// only update the fileList if it exists
+		// cleanup files, error notification has been shown by fileupload code
+		var tr = data.context;
+		if (typeof tr === 'undefined') {
+			tr = $('tr').filterAttr('data-file', data.files[0].name);
+		}
+		if (tr.attr('data-type') === 'dir') {
+			//cleanup uploading to a dir
+			var uploadtext = tr.find('.uploadtext');
+			var img = OC.imagePath('core', 'filetypes/folder.png');
+			tr.find('td.filename').attr('style','background-image:url('+img+')');
+			uploadtext.text('');
+			uploadtext.hide(); //TODO really hide already
+		} else {
+			//remove file
+			tr.fadeOut();
+			tr.remove();
+		}
+	});
+
 	$('#notification').hide();
 	$('#notification').on('click', '.undo', function(){
 		if (FileList.deleteFiles) {

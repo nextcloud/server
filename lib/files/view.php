@@ -744,7 +744,7 @@ class View {
 						if ($subStorage) {
 							$subCache = $subStorage->getCache('');
 							$rootEntry = $subCache->get('');
-							$data['size'] += $rootEntry['size'];
+							$data['size'] += isset($rootEntry['size']) ? $rootEntry['size'] : 0;
 						}
 					}
 				}
