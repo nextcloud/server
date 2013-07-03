@@ -4,6 +4,7 @@
  * See the COPYING-README file.
  */?>
 
+<?php OC_Defaults::init(); // initialize themable default strings and urls ?>
 
 <div class="clientsbox">
 	<h2><?php p($l->t('Get the apps to sync your files'));?></h2>

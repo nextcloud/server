@@ -8,6 +8,8 @@
 OC_Util::checkLoggedIn();
 OC_App::loadApps();
 
+OC_Defaults::init(); // initialize themable default strings and urls
+
 // Highlight navigation entry
 OC_Util::addScript( 'settings', 'personal' );
 OC_Util::addStyle( 'settings', 'settings' );

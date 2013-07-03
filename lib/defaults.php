@@ -11,13 +11,29 @@ if (file_exists(OC::$SERVERROOT . '/themes/' . OC_Util::getTheme() . '/defaults.
 
 class OC_Defaults {
 
-	private static $defaultEntity = "ownCloud";
-	private static $defaultName = "ownCloud";
-	private static $defaultBaseUrl = "http://owncloud.org";
-	private static $defaultSyncClientUrl = " http://owncloud.org/sync-clients/";
-	private static $defaultDocBaseUrl = "http://doc.owncloud.org";
-	private static $defaultSlogan = "web services under your control";
-	private static $defaultLogoClaim = "";
+	private static $defaultEntity;
+	private static $defaultName;
+	private static $defaultBaseUrl;
+	private static $defaultSyncClientUrl;
+	private static $defaultDocBaseUrl;
+	private static $defaultSlogan;
+	private static $defaultLogoClaim;
+
+	public static function init() {
+		$l = OC_L10N::get('core');
+
+		self::$defaultEntity = "ownCloud";
+		self::$defaultName = "ownCloud";
+		self::$defaultBaseUrl = "http://owncloud.org";
+		self::$defaultSyncClientUrl = " http://owncloud.org/sync-clients/";
+		self::$defaultDocBaseUrl = "http://doc.owncloud.org";
+		self::$defaultSlogan = $l->t("web services under your control");
+		self::$defaultLogoClaim = "";
+
+		if (class_exists("OC_Theme")) {
+			OC_Theme::init();
+		}
+	}
 
 	private static function themeExist($method) {
 		if (OC_Util::getTheme() !== '' && method_exists('OC_Theme', $method)) {
@@ -67,11 +83,10 @@ class OC_Defaults {
 	}
 
 	public static function getSlogan() {
-		$l = OC_L10N::get('core');
 		if (self::themeExist('getSlogan')) {
 			return OC_Theme::getSlogan();
 		} else {
-			return $l->t(self::$defaultSlogan);
+			return self::$defaultSlogan;
 		}
 	}
 

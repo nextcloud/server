@@ -4,6 +4,8 @@
  * See the COPYING-README file.
  */
 $levels = array('Debug', 'Info', 'Warning', 'Error', 'Fatal');
+
+OC_Defaults::init(); // initialize themable default strings and urls
 ?>
 
 <?php
