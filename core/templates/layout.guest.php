@@ -5,6 +5,9 @@
 <!--[if IE 9]><html class="ng-csp ie ie9 lte9"><![endif]-->
 <!--[if gt IE 9]><html class="ng-csp ie"><![endif]-->
 <!--[if !IE]><!--><html class="ng-csp"><!--<![endif]-->
+
+	<?php OC_Defaults::init(); // initialize themable default strings and urls ?>
+
 	<head data-requesttoken="<?php p($_['requesttoken']); ?>">
 		<title>
 		<?php p(OC_Defaults::getName()); ?>
