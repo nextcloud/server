@@ -148,14 +148,14 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 		$dh = $this->opendir($path);
 		while ($file = readdir($dh)) {
-			if ($file == '.' || $file != '..') {
+			if ($file == '.' || $file == '..') {
 				continue;
 			}
 
-			if ($this->is_dir(stripcslashes($file))) {
-				$this->rmdir(stripcslashes($file));
+			if ($this->is_dir($path . '/' . $file)) {
+				$this->rmdir($path . '/' . $file);
 			} else {
-				$this->unlink(stripcslashes($file));
+				$this->unlink($path . '/' . $file);
 			}
                	}
 
