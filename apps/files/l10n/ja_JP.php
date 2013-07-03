@@ -49,6 +49,7 @@
 "{count} folders" => "{count} フォルダ",
 "1 file" => "1 ファイル",
 "{count} files" => "{count} ファイル",
+"%s could not be renamed" => "%sの名前を変更できませんでした",
 "Upload" => "アップロード",
 "File handling" => "ファイル操作",
 "Maximum upload size" => "最大アップロードサイズ",

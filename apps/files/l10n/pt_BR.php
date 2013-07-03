@@ -49,6 +49,7 @@
 "{count} folders" => "{count} pastas",
 "1 file" => "1 arquivo",
 "{count} files" => "{count} arquivos",
+"%s could not be renamed" => "%s não pode ser renomeado",
 "Upload" => "Upload",
 "File handling" => "Tratamento de Arquivo",
 "Maximum upload size" => "Tamanho máximo para carregar",

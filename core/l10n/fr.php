@@ -62,6 +62,7 @@
 "Share with link" => "Partager via lien",
 "Password protect" => "Protéger par un mot de passe",
 "Password" => "Mot de passe",
+"Allow Public Upload" => "Autoriser l'upload par les utilisateurs non enregistrés",
 "Email link to person" => "Envoyez le lien par email",
 "Send" => "Envoyer",
 "Set expiration date" => "Spécifier la date d'expiration",

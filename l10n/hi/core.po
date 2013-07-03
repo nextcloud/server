@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-01 03:19+0200\n"
-"PO-Revision-Date: 2013-07-01 01:12+0000\n"
+"POT-Creation-Date: 2013-07-03 01:57+0200\n"
+"PO-Revision-Date: 2013-07-02 14:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hindi (http://www.transifex.com/projects/p/owncloud/language/hi/)\n"
 "MIME-Version: 1.0\n"
@@ -578,7 +578,7 @@ msgstr "सेटअप समाप्त करे"
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:67
+#: templates/layout.user.php:65
 msgid "Log out"
 msgstr "लोग  आउट"
 

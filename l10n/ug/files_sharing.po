@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-01 03:18+0200\n"
-"PO-Revision-Date: 2013-06-30 23:15+0000\n"
+"POT-Creation-Date: 2013-07-03 01:56+0200\n"
+"PO-Revision-Date: 2013-07-02 14:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Uighur <uqkun@outlook.com>\n"
 "MIME-Version: 1.0\n"
@@ -26,28 +26,28 @@ msgstr "ئىم"
 msgid "Submit"
 msgstr "تاپشۇر"
 
-#: templates/public.php:14
+#: templates/public.php:15
 #, php-format
 msgid "%s shared the folder %s with you"
 msgstr ""
 
-#: templates/public.php:17
+#: templates/public.php:18
 #, php-format
 msgid "%s shared the file %s with you"
 msgstr ""
 
-#: templates/public.php:25 templates/public.php:83
+#: templates/public.php:26 templates/public.php:84
 msgid "Download"
 msgstr "چۈشۈر"
 
-#: templates/public.php:41
+#: templates/public.php:42
 msgid "Upload"
 msgstr "يۈكلە"
 
-#: templates/public.php:51
+#: templates/public.php:52
 msgid "Cancel upload"
 msgstr "يۈكلەشتىن ۋاز كەچ"
 
-#: templates/public.php:80
+#: templates/public.php:81
 msgid "No preview available for"
 msgstr ""

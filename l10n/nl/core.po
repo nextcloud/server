@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-01 03:19+0200\n"
-"PO-Revision-Date: 2013-07-01 01:12+0000\n"
+"POT-Creation-Date: 2013-07-03 01:57+0200\n"
+"PO-Revision-Date: 2013-07-02 14:04+0000\n"
 "Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -579,7 +579,7 @@ msgstr "Installatie afronden"
 msgid "%s is available. Get more information on how to update."
 msgstr "%s is beschikbaar. Verkrijg meer informatie over het bijwerken."
 
-#: templates/layout.user.php:67
+#: templates/layout.user.php:65
 msgid "Log out"
 msgstr "Afmelden"
 
