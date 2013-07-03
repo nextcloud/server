@@ -20,6 +20,7 @@ $(document).ready(function() {
 						OC.dialogs.alert(result.data.message, t('core', 'Error'));
 					}
 					enableActions();
+					FileList.updateFileSummary();
 				});
 
 			});
@@ -48,6 +49,7 @@ $(document).ready(function() {
 						OC.dialogs.alert(result.data.message, t('core', 'Error'));
 					}
 					enableActions();
+					FileList.updateFileSummary();
 				});
 
 			});
