@@ -47,7 +47,6 @@
 "{count} folders" => "{count} aplankalai",
 "1 file" => "1 failas",
 "{count} files" => "{count} failai",
-"Unable to rename file" => "Nepavyko pervadinti failo",
 "Upload" => "Įkelti",
 "File handling" => "Failų tvarkymas",
 "Maximum upload size" => "Maksimalus įkeliamo failo dydis",

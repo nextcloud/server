@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-01 03:18+0200\n"
-"PO-Revision-Date: 2013-06-30 23:15+0000\n"
+"POT-Creation-Date: 2013-07-03 01:56+0200\n"
+"PO-Revision-Date: 2013-07-02 14:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -129,43 +129,43 @@ msgstr "刪除"
 msgid "Rename"
 msgstr "重新命名"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:433
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:464
 msgid "Pending"
 msgstr "等候中"
 
-#: js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:302 js/filelist.js:304
 msgid "{new_name} already exists"
 msgstr "{new_name} 已經存在"
 
-#: js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:302 js/filelist.js:304
 msgid "replace"
 msgstr "取代"
 
-#: js/filelist.js:271
+#: js/filelist.js:302
 msgid "suggest name"
 msgstr "建議檔名"
 
-#: js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:302 js/filelist.js:304
 msgid "cancel"
 msgstr "取消"
 
-#: js/filelist.js:318
+#: js/filelist.js:349
 msgid "replaced {new_name} with {old_name}"
 msgstr "使用 {new_name} 取代 {old_name}"
 
-#: js/filelist.js:318
+#: js/filelist.js:349
 msgid "undo"
 msgstr "復原"
 
-#: js/filelist.js:343
+#: js/filelist.js:374
 msgid "perform delete operation"
 msgstr "進行刪除動作"
 
-#: js/filelist.js:425
+#: js/filelist.js:456
 msgid "1 file uploading"
 msgstr "1 個檔案正在上傳"
 
-#: js/filelist.js:428 js/filelist.js:486
+#: js/filelist.js:459 js/filelist.js:517
 msgid "files uploading"
 msgstr "檔案正在上傳中"
 
@@ -230,8 +230,9 @@ msgid "{count} files"
 msgstr "{count} 個檔案"
 
 #: lib/app.php:73
-msgid "Unable to rename file"
-msgstr "無法重新命名檔案"
+#, php-format
+msgid "%s could not be renamed"
+msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"

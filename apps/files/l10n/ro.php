@@ -47,7 +47,6 @@
 "{count} folders" => "{count} foldare",
 "1 file" => "1 fisier",
 "{count} files" => "{count} fisiere",
-"Unable to rename file" => "Nu s-a putut redenumi fișierul",
 "Upload" => "Încărcare",
 "File handling" => "Manipulare fișiere",
 "Maximum upload size" => "Dimensiune maximă admisă la încărcare",

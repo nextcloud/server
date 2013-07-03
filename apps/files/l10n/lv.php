@@ -45,7 +45,6 @@
 "{count} folders" => "{count} mapes",
 "1 file" => "1 datne",
 "{count} files" => "{count} datnes",
-"Unable to rename file" => "Nevarēja pārsaukt datni",
 "Upload" => "Augšupielādēt",
 "File handling" => "Datņu pārvaldība",
 "Maximum upload size" => "Maksimālais datņu augšupielādes apjoms",

@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Impossível mover %s - Um arquivo com este nome já existe",
 "Could not move %s" => "Impossível mover %s",
+"Unable to set upload directory." => "Impossível configurar o diretório de upload",
+"Invalid Token" => "Token inválido",
 "No file was uploaded. Unknown error" => "Nenhum arquivo foi enviado. Erro desconhecido",
 "There is no error, the file uploaded with success" => "Sem erros, o arquivo foi enviado com sucesso",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "O arquivo enviado excede a diretiva upload_max_filesize no php.ini: ",
@@ -47,7 +49,7 @@
 "{count} folders" => "{count} pastas",
 "1 file" => "1 arquivo",
 "{count} files" => "{count} arquivos",
-"Unable to rename file" => "Impossível renomear arquivo",
+"%s could not be renamed" => "%s não pode ser renomeado",
 "Upload" => "Upload",
 "File handling" => "Tratamento de Arquivo",
 "Maximum upload size" => "Tamanho máximo para carregar",

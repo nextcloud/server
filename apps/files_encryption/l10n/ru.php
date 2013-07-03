@@ -7,7 +7,6 @@
 "Could not change the password. Maybe the old password was not correct." => "Невозможно изменить пароль. Возможно старый пароль не был верен.",
 "Private key password successfully updated." => "Пароль секретного ключа успешно обновлён.",
 "Could not update the private key password. Maybe the old password was not correct." => "Невозможно обновить пароль от секретного ключа. Возможно, старый пароль указан неверно.",
-"Your private key is not valid! Maybe your password was changed from outside. You can update your private key password in your personal settings to regain access to your files" => "Секретный ключ недействителен! Возможно, Ваш пароль изменился. Пожалуйста, обновите пароль к приватному ключу в личных настройках, чтобы получить доступ к файлам",
 "PHP module OpenSSL is not installed." => "Модуль OpenSSL для PHP не установлен.",
 "Please ask your server administrator to install the module. For now the encryption app was disabled." => "Попросите администратора сервера установить модуль. Приложение шифрования было временно отключено.",
 "Saving..." => "Сохранение...",

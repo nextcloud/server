@@ -46,7 +46,6 @@
 "{count} folders" => "{count} folder",
 "1 file" => "1 berkas",
 "{count} files" => "{count} berkas",
-"Unable to rename file" => "Tidak dapat mengubah nama berkas",
 "Upload" => "Unggah",
 "File handling" => "Penanganan berkas",
 "Maximum upload size" => "Ukuran pengunggahan maksimum",

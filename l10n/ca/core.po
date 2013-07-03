@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-01 03:19+0200\n"
-"PO-Revision-Date: 2013-07-01 01:12+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-03 01:57+0200\n"
+"PO-Revision-Date: 2013-07-02 14:04+0000\n"
+"Last-Translator: rogerc\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -286,7 +286,7 @@ msgstr "Contrasenya"
 
 #: js/share.js:186
 msgid "Allow Public Upload"
-msgstr ""
+msgstr "Permet pujada pública"
 
 #: js/share.js:189
 msgid "Email link to person"
@@ -579,7 +579,7 @@ msgstr "Acaba la configuració"
 msgid "%s is available. Get more information on how to update."
 msgstr "%s està disponible. Obtingueu més informació de com actualitzar."
 
-#: templates/layout.user.php:67
+#: templates/layout.user.php:65
 msgid "Log out"
 msgstr "Surt"
 

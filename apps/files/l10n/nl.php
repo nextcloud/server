@@ -49,7 +49,6 @@
 "{count} folders" => "{count} mappen",
 "1 file" => "1 bestand",
 "{count} files" => "{count} bestanden",
-"Unable to rename file" => "Kan bestand niet hernoemen",
 "Upload" => "Uploaden",
 "File handling" => "Bestand",
 "Maximum upload size" => "Maximale bestandsgrootte voor uploads",

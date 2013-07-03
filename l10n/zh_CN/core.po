@@ -4,13 +4,14 @@
 # 
 # Translators:
 # zhangmin <zm1990s@gmail.com>, 2013
+# zhangmin <zm1990s@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-01 03:19+0200\n"
-"PO-Revision-Date: 2013-07-01 01:12+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-03 01:57+0200\n"
+"PO-Revision-Date: 2013-07-02 14:04+0000\n"
+"Last-Translator: m13253 <m13253@hotmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +22,7 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s 向您分享了 »%s«"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -261,11 +262,11 @@ msgstr "修改权限时出错"
 
 #: js/share.js:152
 msgid "Shared with you and the group {group} by {owner}"
-msgstr "{owner}共享给您及{group}组"
+msgstr "{owner} 共享给您及 {group} 组"
 
 #: js/share.js:154
 msgid "Shared with you by {owner}"
-msgstr " {owner}与您共享"
+msgstr "{owner} 与您共享"
 
 #: js/share.js:172
 msgid "Share with"
@@ -285,7 +286,7 @@ msgstr "密码"
 
 #: js/share.js:186
 msgid "Allow Public Upload"
-msgstr ""
+msgstr "允许公开上传"
 
 #: js/share.js:189
 msgid "Email link to person"
@@ -317,7 +318,7 @@ msgstr "不允许二次共享"
 
 #: js/share.js:304
 msgid "Shared in {item} with {user}"
-msgstr "在{item} 与 {user}共享。"
+msgstr "在 {item} 与 {user} 共享。"
 
 #: js/share.js:325
 msgid "Unshare"
@@ -412,11 +413,11 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr ""
+msgstr "您的文件已加密。如果您不启用恢复密钥，您将无法在重设密码后取回文件。如果您不太确定，请在继续前联系您的管理员。您真的要继续吗？"
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
-msgstr ""
+msgstr "使得，我真的要现在重设密码"
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
@@ -475,7 +476,7 @@ msgid ""
 "View it: %s\n"
 "\n"
 "Cheers!"
-msgstr ""
+msgstr "您好，\n\n%s 向您分享了 %s。\n查看： %s"
 
 #: templates/altmail.php:7 templates/mail.php:24
 msgid "web services under your control"
@@ -578,7 +579,7 @@ msgstr "安装完成"
 msgid "%s is available. Get more information on how to update."
 msgstr "%s 可用。获取更多关于如何升级的信息。"
 
-#: templates/layout.user.php:67
+#: templates/layout.user.php:65
 msgid "Log out"
 msgstr "注销"
 
@@ -617,7 +618,7 @@ msgstr "其他登录方式"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr ""
+msgstr "您好，<br><br>%s 向您分享了 »%s«。<br><a href=\"%s\">查看</a>"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

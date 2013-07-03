@@ -47,7 +47,6 @@
 "{count} folders" => "{count} mappar",
 "1 file" => "1 fil",
 "{count} files" => "{count} filer",
-"Unable to rename file" => "Kan inte byta namn på filen",
 "Upload" => "Ladda upp",
 "File handling" => "Filhantering",
 "Maximum upload size" => "Maximal storlek att ladda upp",

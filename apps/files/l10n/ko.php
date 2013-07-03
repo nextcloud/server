@@ -46,7 +46,6 @@
 "{count} folders" => "폴더 {count}개",
 "1 file" => "파일 1개",
 "{count} files" => "파일 {count}개",
-"Unable to rename file" => "파일 이름바꾸기 할 수 없음",
 "Upload" => "업로드",
 "File handling" => "파일 처리",
 "Maximum upload size" => "최대 업로드 크기",

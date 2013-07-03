@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-01 03:20+0200\n"
-"PO-Revision-Date: 2013-07-01 01:12+0000\n"
+"POT-Creation-Date: 2013-07-03 01:57+0200\n"
+"PO-Revision-Date: 2013-07-02 14:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
-#: app.php:359
+#: app.php:360
 msgid "Help"
 msgstr "Pomoč"
 
-#: app.php:372
+#: app.php:373
 msgid "Personal"
 msgstr "Osebno"
 
-#: app.php:383
+#: app.php:384
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: app.php:395
+#: app.php:396
 msgid "Users"
 msgstr "Uporabniki"
 
-#: app.php:408
+#: app.php:409
 msgid "Apps"
 msgstr "Programi"
 
-#: app.php:416
+#: app.php:417
 msgid "Admin"
 msgstr "Skrbništvo"
 

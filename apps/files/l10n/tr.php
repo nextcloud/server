@@ -47,7 +47,6 @@
 "{count} folders" => "{count} dizin",
 "1 file" => "1 dosya",
 "{count} files" => "{count} dosya",
-"Unable to rename file" => "Dosya adı değiştirilemedi",
 "Upload" => "Yükle",
 "File handling" => "Dosya taşıma",
 "Maximum upload size" => "Maksimum yükleme boyutu",

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-01 03:18+0200\n"
-"PO-Revision-Date: 2013-06-30 23:15+0000\n"
+"POT-Creation-Date: 2013-07-03 01:56+0200\n"
+"PO-Revision-Date: 2013-07-02 14:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -25,28 +25,28 @@ msgstr "Salasana"
 msgid "Submit"
 msgstr "Lähetä"
 
-#: templates/public.php:14
+#: templates/public.php:15
 #, php-format
 msgid "%s shared the folder %s with you"
 msgstr "%s jakoi kansion %s kanssasi"
 
-#: templates/public.php:17
+#: templates/public.php:18
 #, php-format
 msgid "%s shared the file %s with you"
 msgstr "%s jakoi tiedoston %s kanssasi"
 
-#: templates/public.php:25 templates/public.php:83
+#: templates/public.php:26 templates/public.php:84
 msgid "Download"
 msgstr "Lataa"
 
-#: templates/public.php:41
+#: templates/public.php:42
 msgid "Upload"
 msgstr "Lähetä"
 
-#: templates/public.php:51
+#: templates/public.php:52
 msgid "Cancel upload"
 msgstr "Peru lähetys"
 
-#: templates/public.php:80
+#: templates/public.php:81
 msgid "No preview available for"
 msgstr "Ei esikatselua kohteelle"

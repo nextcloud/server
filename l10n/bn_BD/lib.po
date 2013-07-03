@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-01 03:20+0200\n"
-"PO-Revision-Date: 2013-07-01 01:12+0000\n"
+"POT-Creation-Date: 2013-07-03 01:57+0200\n"
+"PO-Revision-Date: 2013-07-02 14:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -17,27 +17,27 @@ msgstr ""
 "Language: bn_BD\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:359
+#: app.php:360
 msgid "Help"
 msgstr "সহায়িকা"
 
-#: app.php:372
+#: app.php:373
 msgid "Personal"
 msgstr "ব্যক্তিগত"
 
-#: app.php:383
+#: app.php:384
 msgid "Settings"
 msgstr "নিয়ামকসমূহ"
 
-#: app.php:395
+#: app.php:396
 msgid "Users"
 msgstr "ব্যবহারকারী"
 
-#: app.php:408
+#: app.php:409
 msgid "Apps"
 msgstr "অ্যাপ"
 
-#: app.php:416
+#: app.php:417
 msgid "Admin"
 msgstr "প্রশাসন"
 

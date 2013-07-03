@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-01 03:20+0200\n"
-"PO-Revision-Date: 2013-06-30 23:15+0000\n"
+"POT-Creation-Date: 2013-07-03 01:57+0200\n"
+"PO-Revision-Date: 2013-07-02 14:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -89,35 +89,35 @@ msgstr "使用者移出群組%s錯誤"
 msgid "Couldn't update app."
 msgstr "無法更新應用程式"
 
-#: js/apps.js:30
+#: js/apps.js:35
 msgid "Update to {appversion}"
 msgstr "更新至 {appversion}"
 
-#: js/apps.js:36 js/apps.js:76
+#: js/apps.js:41 js/apps.js:81
 msgid "Disable"
 msgstr "停用"
 
-#: js/apps.js:36 js/apps.js:64 js/apps.js:83
+#: js/apps.js:41 js/apps.js:69 js/apps.js:88
 msgid "Enable"
 msgstr "啟用"
 
-#: js/apps.js:55
+#: js/apps.js:60
 msgid "Please wait...."
 msgstr "請稍候..."
 
-#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
+#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
 msgid "Error"
 msgstr "錯誤"
 
-#: js/apps.js:90
+#: js/apps.js:95
 msgid "Updating...."
 msgstr "更新中..."
 
-#: js/apps.js:93
+#: js/apps.js:98
 msgid "Error while updating app"
 msgstr "更新應用程式錯誤"
 
-#: js/apps.js:96
+#: js/apps.js:101
 msgid "Updated"
 msgstr "已更新"
 
@@ -325,11 +325,11 @@ msgstr "更多"
 msgid "Less"
 msgstr "少"
 
-#: templates/admin.php:235 templates/personal.php:116
+#: templates/admin.php:234 templates/personal.php:115
 msgid "Version"
 msgstr "版本"
 
-#: templates/admin.php:237 templates/personal.php:119
+#: templates/admin.php:238 templates/personal.php:118
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

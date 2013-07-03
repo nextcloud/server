@@ -7,7 +7,6 @@
 "Could not change the password. Maybe the old password was not correct." => "No se pudo cambiar la contraseña. Compruebe que la contraseña actual sea correcta.",
 "Private key password successfully updated." => "Contraseña de clave privada actualizada con éxito.",
 "Could not update the private key password. Maybe the old password was not correct." => "No se pudo cambiar la contraseña. Puede que la contraseña antigua no sea correcta.",
-"Your private key is not valid! Maybe your password was changed from outside. You can update your private key password in your personal settings to regain access to your files" => "¡Su clave privada no es válida! Tal vez su contraseña ha sido cambiada desde fuera. Puede actualizar la contraseña de su clave privada en sus opciones personales para recuperar el acceso a sus ficheros",
 "PHP module OpenSSL is not installed." => "El módulo OpenSSL de PHP no está instalado.",
 "Please ask your server administrator to install the module. For now the encryption app was disabled." => "Por favor pida al administrador de su servidor que le instale el módulo. De momento la aplicación de cifrado está deshabilitada.",
 "Saving..." => "Guardando...",

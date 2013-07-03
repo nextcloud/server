@@ -49,7 +49,6 @@
 "{count} folders" => "{count} carpetas",
 "1 file" => "1 archivo",
 "{count} files" => "{count} archivos",
-"Unable to rename file" => "No se puede renombrar el archivo",
 "Upload" => "Subir",
 "File handling" => "Manejo de archivos",
 "Maximum upload size" => "Tamaño máximo de subida",

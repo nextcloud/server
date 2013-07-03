@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
+# plazmism <gomidori@live.jp>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-01 03:18+0200\n"
-"PO-Revision-Date: 2013-06-30 23:15+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-03 01:56+0200\n"
+"PO-Revision-Date: 2013-07-02 15:20+0000\n"
+"Last-Translator: plazmism <gomidori@live.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,11 +31,11 @@ msgstr "%s を移動できませんでした"
 
 #: ajax/upload.php:16 ajax/upload.php:39
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "アップロードディレクトリを設定出来ません。"
 
 #: ajax/upload.php:23
 msgid "Invalid Token"
-msgstr ""
+msgstr "無効なトークン"
 
 #: ajax/upload.php:55
 msgid "No file was uploaded. Unknown error"
@@ -129,43 +130,43 @@ msgstr "削除"
 msgid "Rename"
 msgstr "名前の変更"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:433
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:464
 msgid "Pending"
 msgstr "中断"
 
-#: js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:302 js/filelist.js:304
 msgid "{new_name} already exists"
 msgstr "{new_name} はすでに存在しています"
 
-#: js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:302 js/filelist.js:304
 msgid "replace"
 msgstr "置き換え"
 
-#: js/filelist.js:271
+#: js/filelist.js:302
 msgid "suggest name"
 msgstr "推奨名称"
 
-#: js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:302 js/filelist.js:304
 msgid "cancel"
 msgstr "キャンセル"
 
-#: js/filelist.js:318
+#: js/filelist.js:349
 msgid "replaced {new_name} with {old_name}"
 msgstr "{old_name} を {new_name} に置換"
 
-#: js/filelist.js:318
+#: js/filelist.js:349
 msgid "undo"
 msgstr "元に戻す"
 
-#: js/filelist.js:343
+#: js/filelist.js:374
 msgid "perform delete operation"
 msgstr "削除を実行"
 
-#: js/filelist.js:425
+#: js/filelist.js:456
 msgid "1 file uploading"
 msgstr "ファイルを1つアップロード中"
 
-#: js/filelist.js:428 js/filelist.js:486
+#: js/filelist.js:459 js/filelist.js:517
 msgid "files uploading"
 msgstr "ファイルをアップロード中"
 
@@ -230,8 +231,9 @@ msgid "{count} files"
 msgstr "{count} ファイル"
 
 #: lib/app.php:73
-msgid "Unable to rename file"
-msgstr "ファイル名の変更ができません"
+#, php-format
+msgid "%s could not be renamed"
+msgstr "%sの名前を変更できませんでした"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-07-01 03:20+0200\n"
+"POT-Creation-Date: 2013-07-03 01:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,27 +17,27 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: app.php:359
+#: app.php:360
 msgid "Help"
 msgstr ""
 
-#: app.php:372
+#: app.php:373
 msgid "Personal"
 msgstr ""
 
-#: app.php:383
+#: app.php:384
 msgid "Settings"
 msgstr ""
 
-#: app.php:395
+#: app.php:396
 msgid "Users"
 msgstr ""
 
-#: app.php:408
+#: app.php:409
 msgid "Apps"
 msgstr ""
 
-#: app.php:416
+#: app.php:417
 msgid "Admin"
 msgstr ""
 

@@ -7,7 +7,7 @@
 "Could not change the password. Maybe the old password was not correct." => "パスワードを変更できませんでした。古いパスワードが間違っているかもしれません。",
 "Private key password successfully updated." => "秘密鍵のパスワードが正常に更新されました。",
 "Could not update the private key password. Maybe the old password was not correct." => "秘密鍵のパスワードを更新できませんでした。古いパスワードが正確でない場合があります。",
-"Your private key is not valid! Maybe your password was changed from outside. You can update your private key password in your personal settings to regain access to your files" => "秘密鍵が有効ではありません。パスワードが外部から変更された恐れがあります。。個人設定で秘密鍵のパスワードを更新して、ファイルへのアクセス権を奪還できます。",
+"Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "秘密鍵が有効ではありません。パスワードがownCloudシステムの外部(例えば、企業ディレクトリ)から変更された恐れがあります。個人設定で秘密鍵のパスワードを更新して、暗号化されたファイルを回復出来ます。",
 "PHP module OpenSSL is not installed." => "PHPのモジュール OpenSSLがインストールされていません。",
 "Please ask your server administrator to install the module. For now the encryption app was disabled." => "サーバーの管理者にモジュールのインストールを頼んでください。さしあたり暗号化アプリは無効化されました。",
 "Saving..." => "保存中...",

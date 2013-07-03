@@ -46,7 +46,6 @@
 "{count} folders" => "{count} папок",
 "1 file" => "1 файл",
 "{count} files" => "{count} файлів",
-"Unable to rename file" => "Не вдалося перейменувати файл",
 "Upload" => "Вивантажити",
 "File handling" => "Робота з файлами",
 "Maximum upload size" => "Максимальний розмір відвантажень",

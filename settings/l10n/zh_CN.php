@@ -102,6 +102,7 @@
 "Login Name" => "登录名称",
 "Create" => "创建",
 "Admin Recovery Password" => "管理恢复密码",
+"Enter the recovery password in order to recover the users files during password change" => "输入恢复密码来在更改密码的时候恢复用户文件",
 "Default Storage" => "默认存储",
 "Unlimited" => "无限",
 "Other" => "其它",

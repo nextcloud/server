@@ -46,7 +46,6 @@
 "{count} folders" => "{ شمار} پوشه ها",
 "1 file" => "1 پرونده",
 "{count} files" => "{ شمار } فایل ها",
-"Unable to rename file" => "قادر به تغییر نام پرونده نیست.",
 "Upload" => "بارگزاری",
 "File handling" => "اداره پرونده ها",
 "Maximum upload size" => "حداکثر اندازه بارگزاری",
