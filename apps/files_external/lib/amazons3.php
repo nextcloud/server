@@ -70,11 +70,14 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				'base_url' => $base_url
 			));
 		} else {
+			if ( ! isset($params['region'])) {
+				$params['region'] = 'us-west-1';
+			}
 			$this->connection = S3Client::factory(array(
 				'key' => $params['key'],
 				'secret' => $params['secret'],
 				'scheme' => $scheme,
-				'region' => $region
+				'region' => $params'[region']
 			));
 		}
 
