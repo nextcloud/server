@@ -98,7 +98,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getEditionString() {
-		return '';
+		return 'Enteerprise';
 	}
 
 	/**
