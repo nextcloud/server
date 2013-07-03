@@ -79,6 +79,54 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 			}
 		}
 		$this->assertEquals(array(), $content);
+
+		$this->assertTrue($this->instance->mkdir('/folder'));
+		$this->assertTrue($this->instance->mkdir('/folder/sub_a'));
+		$this->assertTrue($this->instance->mkdir('/folder/sub_b'));
+		$this->assertTrue($this->instance->mkdir('/folder/sub_b/sub_bb'));
+		$this->assertTrue($this->instance->touch('/folder/sub_b/sub_bb/file.txt'));
+		$this->assertTrue($this->instance->touch('/folder/sub_a/file.txt'));
+		$this->assertTrue($this->instance->is_dir('/folder/sub_b'));
+		$this->assertTrue($this->instance->is_dir('/folder/sub_b/sub_bb'));
+		$this->assertTrue($this->instance->file_exists('/folder/sub_a/file.txt'));
+		$this->assertTrue($this->instance->file_exists('/folder/sub_b/sub_bb/file.txt'));
+
+		$dh = $this->instance->opendir('/folder');
+		$content = array();
+		while ($file = readdir($dh)) {
+			if ($file != '.' and $file != '..') {
+				$content[] = $file;
+			}
+		}
+		$this->assertEquals(array('sub_a', 'sub_b'), $content);
+
+		$dh = $this->instance->opendir('/folder/sub_b/sub_bb');
+		$content = array();
+		while ($file = readdir($dh)) {
+			if ($file != '.' and $file != '..') {
+				$content[] = $file;
+			}
+		}
+		$this->assertEquals(array('file.txt'), $content);
+
+		$this->assertTrue($this->instance->rmdir('/folder/sub_b'));
+		$this->assertFalse($this->instance->is_dir('/folder/sub_b'));
+		$this->assertFalse($this->instance->is_dir('/folder/sub_b/sub_bb'));
+		$this->assertFalse($this->instance->file_exists('/folder/sub_b/sub_bb/file.txt'));
+
+		$dh = $this->instance->opendir('/folder');
+		$content = array();
+		while ($file = readdir($dh)) {
+			if ($file != '.' and $file != '..') {
+				$content[] = $file;
+			}
+		}
+		$this->assertEquals(array('sub_a'), $content);
+
+		$this->assertTrue($this->instance->rmdir('/folder'));
+		$this->assertFalse($this->instance->is_dir('/folder'));
+		$this->assertFalse($this->instance->is_dir('/folder/sub_a'));
+		$this->assertFalse($this->instance->file_exists('/folder/sub_a/file.txt'));
 	}
 
 	/**
