@@ -829,6 +829,26 @@ OC.set=function(name, value) {
 	context[tail]=value;
 };
 
+/**
+ * select a range in an input field
+ * @link http://stackoverflow.com/questions/499126/jquery-set-cursor-position-in-text-area
+ * @param {type} start
+ * @param {type} end
+ */
+$.fn.selectRange = function(start, end) {
+	return this.each(function() {
+		if (this.setSelectionRange) {
+			this.focus();
+			this.setSelectionRange(start, end);
+		} else if (this.createTextRange) {
+			var range = this.createTextRange();
+			range.collapse(true);
+			range.moveEnd('character', end);
+			range.moveStart('character', start);
+			range.select();
+		}
+	});
+};
 
 /**
  * Calls the server periodically every 15 mins to ensure that session doesnt
