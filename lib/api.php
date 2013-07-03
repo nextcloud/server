@@ -67,6 +67,8 @@ class OC_API {
 			OC::getRouter()->useCollection('ocs');
 			OC::getRouter()->create($name, $url)
 				->method($method)
+				->defaults($defaults)
+				->requirements($requirements)
 				->action('OC_API', 'call');
 			self::$actions[$name] = array();
 		}
