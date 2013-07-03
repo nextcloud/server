@@ -2,7 +2,7 @@
   <div id="notification" style="display: none;"></div>
 </div>
 
-<?php $defaults = new OC_Defaults(); // initialize themable default strings and urls ?>
+<?php $defaults = new OCP\Defaults(); // initialize themable default strings and urls ?>
 
 <input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
 <input type="hidden" name="downloadURL" value="<?php p($_['downloadURL']) ?>" id="downloadURL">
