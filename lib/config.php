@@ -144,7 +144,7 @@ class OC_Config{
 
 		//Include file and merge config
 		foreach($config_files as $file){
-			include $file;
+			@include $file;
 			if( isset( $CONFIG ) && is_array( $CONFIG )) {
 				self::$cache = array_merge(self::$cache, $CONFIG);
 			}
