@@ -50,7 +50,12 @@ return array(
 		'run'=>false,
 		'key'=>'test',
 		'secret'=>'test',
-		'bucket'=>'bucket',
+		'bucket'=>'bucket'
+		//'hostname' => 'your.host.name',
+		//'port' => '443',
+		//'use_ssl' => 'true',
+		//'use_path_style' => 'false',
+		//'region' => 'us-west-1'
 	),
 	'dropbox' => array (
 		'run'=>false,
