@@ -197,6 +197,47 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($this->instance->file_exists('/target2.txt'));
 		$this->assertFalse($this->instance->file_exists('/source.txt'));
 		$this->assertEquals(file_get_contents($textFile), $this->instance->file_get_contents('/target.txt'));
+
+		$this->assertTrue($this->instance->mkdir('/folder'));
+		$this->assertTrue($this->instance->mkdir('/folder/sub_a'));
+		$this->assertTrue($this->instance->mkdir('/folder/sub_b'));
+		$this->assertTrue($this->instance->mkdir('/folder/sub_b/sub_bb'));
+
+		$this->assertTrue($this->instance->rename('/folder/sub_b', '/folder/sub_c'));
+		$this->assertTrue($this->instance->is_dir('/folder/sub_c'));
+		$this->assertTrue($this->instance->is_dir('/folder/sub_c/sub_bb'));
+		$this->assertFalse($this->instance->is_dir('/folder/sub_b'));
+		$this->assertFalse($this->instance->is_dir('/folder/sub_b/sub_bb'));
+
+		$this->assertTrue($this->instance->rename('/folder', '/folder_b'));
+		$this->assertTrue($this->instance->is_dir('/folder_b'));
+		$this->assertTrue($this->instance->is_dir('/folder_b/sub_c'));
+		$this->assertTrue($this->instance->is_dir('/folder_b/sub_c/sub_bb'));
+		$this->assertFalse($this->instance->is_dir('/folder'));
+		$this->assertFalse($this->instance->is_dir('/folder/sub_c'));
+		$this->assertFalse($this->instance->is_dir('/folder/sub_c/sub_bb'));
+
+		$this->assertTrue($this->instance->copy('/folder_b', '/folder'));
+		$this->assertTrue($this->instance->is_dir('/folder_b'));
+		$this->assertTrue($this->instance->is_dir('/folder_b/sub_c'));
+		$this->assertTrue($this->instance->is_dir('/folder_b/sub_c/sub_bb'));
+		$this->assertTrue($this->instance->is_dir('/folder'));
+		$this->assertTrue($this->instance->is_dir('/folder/sub_c'));
+		$this->assertTrue($this->instance->is_dir('/folder/sub_c/sub_bb'));
+
+		$this->assertTrue($this->instance->copy('/folder/sub_c', '/folder/sub_b'));
+		$this->assertTrue($this->instance->is_dir('/folder/sub_b'));
+		$this->assertTrue($this->instance->is_dir('/folder/sub_b/sub_bb'));
+		$this->assertTrue($this->instance->is_dir('/folder/sub_c'));
+		$this->assertTrue($this->instance->is_dir('/folder/sub_c/sub_bb'));
+
+		$this->assertTrue($this->instance->rmdir('/folder'));
+		$this->assertFalse($this->instance->is_dir('/folder'));
+		$this->assertFalse($this->instance->is_dir('/folder/sub_a'));
+		$this->assertFalse($this->instance->is_dir('/folder/sub_b'));
+		$this->assertFalse($this->instance->is_dir('/folder/sub_c'));
+		$this->assertFalse($this->instance->is_dir('/folder/sub_b/sub_bb'));
+		$this->assertFalse($this->instance->is_dir('/folder/sub_c/sub_bb'));
 	}
 
 	public function testLocal() {
