@@ -79,7 +79,7 @@ if (isset($path)) {
 											 $linkItem['share_with']))) {
 					$tmpl = new OCP\Template('files_sharing', 'authenticate', 'guest');
 					$tmpl->assign('URL', $url);
-					$tmpl->assign('error', true);
+					$tmpl->assign('wrongpw', true);
 					$tmpl->printPage();
 					exit();
 				} else {
