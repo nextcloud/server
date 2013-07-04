@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Adalberto Rodrigues <rodrigues_adalberto@yahoo.fr>, 2013
 # Christophe Lherieau <skimpax@gmail.com>, 2013
 # MathieuP <mathieu.payrol@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-03 01:56+0200\n"
-"PO-Revision-Date: 2013-07-02 14:05+0000\n"
+"POT-Creation-Date: 2013-07-04 09:30+0200\n"
+"PO-Revision-Date: 2013-07-04 07:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -31,11 +32,11 @@ msgstr "Impossible de déplacer %s"
 
 #: ajax/upload.php:16 ajax/upload.php:39
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "Impossible de définir le dossier pour l'upload, charger."
 
 #: ajax/upload.php:23
 msgid "Invalid Token"
-msgstr ""
+msgstr "Jeton non valide"
 
 #: ajax/upload.php:55
 msgid "No file was uploaded. Unknown error"
@@ -233,7 +234,7 @@ msgstr "{count} fichiers"
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "%s ne peut être renommé"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -328,6 +329,22 @@ msgstr "Les fichiers sont en cours d'analyse, veuillez patienter."
 #: templates/index.php:117
 msgid "Current scanning"
 msgstr "Analyse en cours"
+
+#: templates/part.list.php:78
+msgid "directory"
+msgstr ""
+
+#: templates/part.list.php:80
+msgid "directories"
+msgstr ""
+
+#: templates/part.list.php:89
+msgid "file"
+msgstr ""
+
+#: templates/part.list.php:91
+msgid "files"
+msgstr ""
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

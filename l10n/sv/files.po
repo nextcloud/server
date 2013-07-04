@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Gunnar Norin <blittan@xbmc.org>, 2013
+# Magnus Höglund <magnus@linux.com>, 2013
 # medialabs, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-03 01:56+0200\n"
-"PO-Revision-Date: 2013-07-02 14:05+0000\n"
+"POT-Creation-Date: 2013-07-04 09:30+0200\n"
+"PO-Revision-Date: 2013-07-04 07:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -31,11 +32,11 @@ msgstr "Kan inte flytta %s"
 
 #: ajax/upload.php:16 ajax/upload.php:39
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "Kan inte sätta mapp för uppladdning."
 
 #: ajax/upload.php:23
 msgid "Invalid Token"
-msgstr ""
+msgstr "Ogiltig token"
 
 #: ajax/upload.php:55
 msgid "No file was uploaded. Unknown error"
@@ -233,7 +234,7 @@ msgstr "{count} filer"
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "%s kunde inte namnändras"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -328,6 +329,22 @@ msgstr "Filer skannas, var god vänta"
 #: templates/index.php:117
 msgid "Current scanning"
 msgstr "Aktuell skanning"
+
+#: templates/part.list.php:78
+msgid "directory"
+msgstr ""
+
+#: templates/part.list.php:80
+msgid "directories"
+msgstr ""
+
+#: templates/part.list.php:89
+msgid "file"
+msgstr ""
+
+#: templates/part.list.php:91
+msgid "files"
+msgstr ""
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

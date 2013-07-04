@@ -113,9 +113,11 @@ class OC_Mail {
 	 */
 	public static function getfooter() {
 
+		$defaults = new OC_Defaults();
+
 		$txt="\n--\n";
-		$txt.=OC_Defaults::getName() . "\n";
-		$txt.=OC_Defaults::getSlogan() . "\n";
+		$txt.=$defaults->getName() . "\n";
+		$txt.=$defaults->getSlogan() . "\n";
 
 		return($txt);
 

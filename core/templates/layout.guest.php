@@ -5,9 +5,12 @@
 <!--[if IE 9]><html class="ng-csp ie ie9 lte9"><![endif]-->
 <!--[if gt IE 9]><html class="ng-csp ie"><![endif]-->
 <!--[if !IE]><!--><html class="ng-csp"><!--<![endif]-->
+
+	<?php $defaults = new OC_Defaults(); // initialize themable default strings and urls ?>
+
 	<head data-requesttoken="<?php p($_['requesttoken']); ?>">
 		<title>
-		<?php p(OC_Defaults::getName()); ?>
+		<?php p($defaults->getName()); ?>
 		</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="apple-itunes-app" content="app-id=543672169">
@@ -35,13 +38,13 @@
 		<div id="login">
 			<header><div id="header">
 				<img src="<?php print_unescaped(image_path('', 'logo.svg')); ?>" class="svg" alt="ownCloud" />
-				<div id="logo-claim" style="display:none;"><?php p(OC_Defaults::getLogoClaim()); ?></div>
+				<div id="logo-claim" style="display:none;"><?php p($defaults->getLogoClaim()); ?></div>
 			</div></header>
 			<?php print_unescaped($_['content']); ?>
 		</div>
 		<footer>
 			<p class="info">
-				<?php print_unescaped(OC_Defaults::getLongFooter()); ?>
+				<?php print_unescaped($defaults->getLongFooter()); ?>
 			</p></footer>
 	</body>
 </html>

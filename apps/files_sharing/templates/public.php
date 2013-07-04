@@ -2,6 +2,8 @@
   <div id="notification" style="display: none;"></div>
 </div>
 
+<?php $defaults = new OCP\Defaults(); // initialize themable default strings and urls ?>
+
 <input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
 <input type="hidden" name="downloadURL" value="<?php p($_['downloadURL']) ?>" id="downloadURL">
 <input type="hidden" name="filename" value="<?php p($_['filename']) ?>" id="filename">
@@ -9,7 +11,7 @@
 <header><div id="header">
 	<a href="<?php print_unescaped(link_to('', 'index.php')); ?>" title="" id="owncloud"><img class="svg"
 		src="<?php print_unescaped(image_path('', 'logo-wide.svg')); ?>" alt="ownCloud" /></a>
-	<div id="logo-claim" style="display:none;"><?php p(OC_Defaults::getLogoClaim()); ?></div>
+	<div id="logo-claim" style="display:none;"><?php p($defaults->getLogoClaim()); ?></div>
 	<div class="header-right">
 	<?php if (isset($_['folder'])): ?>
 		<span id="details"><?php p($l->t('%s shared the folder %s with you',
@@ -89,6 +91,6 @@
 </div>
 <footer>
 	<p class="info">
-		<?php print_unescaped(OC_Defaults::getLongFooter()); ?>
+		<?php print_unescaped($defaults->getLongFooter()); ?>
 	</p>
 </footer>

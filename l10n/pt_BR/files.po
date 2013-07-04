@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-03 01:56+0200\n"
-"PO-Revision-Date: 2013-07-02 15:10+0000\n"
-"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
+"POT-Creation-Date: 2013-07-04 09:30+0200\n"
+"PO-Revision-Date: 2013-07-04 07:31+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -328,6 +328,22 @@ msgstr "Arquivos sendo escaneados, por favor aguarde."
 #: templates/index.php:117
 msgid "Current scanning"
 msgstr "Scanning atual"
+
+#: templates/part.list.php:78
+msgid "directory"
+msgstr ""
+
+#: templates/part.list.php:80
+msgid "directories"
+msgstr ""
+
+#: templates/part.list.php:89
+msgid "file"
+msgstr ""
+
+#: templates/part.list.php:91
+msgid "files"
+msgstr ""
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

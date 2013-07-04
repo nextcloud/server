@@ -49,6 +49,7 @@
 "{count} folders" => "{count} cartelle",
 "1 file" => "1 file",
 "{count} files" => "{count} file",
+"%s could not be renamed" => "%s non può essere rinominato",
 "Upload" => "Carica",
 "File handling" => "Gestione file",
 "Maximum upload size" => "Dimensione massima upload",

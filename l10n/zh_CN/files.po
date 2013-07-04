@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Mengz You <mengz.you@gmail.com>, 2013
 # zhangmin <zm1990s@gmail.com>, 2013
 # zhangmin <zm1990s@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-03 01:56+0200\n"
-"PO-Revision-Date: 2013-07-02 14:05+0000\n"
+"POT-Creation-Date: 2013-07-04 09:30+0200\n"
+"PO-Revision-Date: 2013-07-04 07:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -233,7 +234,7 @@ msgstr "{count} 个文件"
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "%s 不能被重命名"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -328,6 +329,22 @@ msgstr "文件正在被扫描，请稍候。"
 #: templates/index.php:117
 msgid "Current scanning"
 msgstr "当前扫描"
+
+#: templates/part.list.php:78
+msgid "directory"
+msgstr ""
+
+#: templates/part.list.php:80
+msgid "directories"
+msgstr ""
+
+#: templates/part.list.php:89
+msgid "file"
+msgstr ""
+
+#: templates/part.list.php:91
+msgid "files"
+msgstr ""
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

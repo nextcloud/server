@@ -6,6 +6,7 @@
 "Error configuring Google Drive storage" => "Errore bat egon da Google Drive biltegiratzea konfiguratzean",
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>Abisua:</b> \"smbclient\" ez dago instalatuta. CIFS/SMB partekatutako karpetak montatzea ez da posible. Mesedez eskatu zure sistema kudeatzaileari instalatzea.",
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>Abisua:</b> PHPren FTP modulua ez dago instalatuta edo gaitua. FTP partekatutako karpetak montatzea ez da posible. Mesedez eskatu zure sistema kudeatzaileari instalatzea.",
+"<b>Warning:</b> The Curl support in PHP is not enabled or installed. Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask your system administrator to install it." => "<b>Abisua:</b> Curl euskarri PHP modulua ez dago instalatuta edo gaitua. Ezinezko da ownCloud /WebDAV GoogleDrive-n muntatzea. Mesedez eskatu sistema kudeatzaileari instala dezan. ",
 "External Storage" => "Kanpoko Biltegiratzea",
 "Folder name" => "Karpetaren izena",
 "External storage" => "Kanpoko biltegiratzea",

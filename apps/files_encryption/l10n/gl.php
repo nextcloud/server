@@ -7,6 +7,7 @@
 "Could not change the password. Maybe the old password was not correct." => "Non foi posíbel cambiar o contrasinal. Probabelmente o contrasinal antigo non é o  correcto.",
 "Private key password successfully updated." => "A chave privada foi actualizada correctamente.",
 "Could not update the private key password. Maybe the old password was not correct." => "Non foi posíbel actualizar o contrasinal da chave privada. É probábel que o contrasinal antigo non sexa correcto.",
+"Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "A chave privada non é correcta! É probábel que o seu contrasinal teña sido cambiado desde o exterior (p.ex. o seu directorio corporativo). Vostede pode actualizar o contrasinal da súa chave privada nos seus axustes persoais para recuperar o acceso aos seus ficheiros",
 "PHP module OpenSSL is not installed." => "O módulo PHP OpenSSL non está instalado.",
 "Please ask your server administrator to install the module. For now the encryption app was disabled." => "Pregúntelle ao administrador do servidor pola instalación do módulo. Polo de agora o aplicativo de cifrado foi desactivado.",
 "Saving..." => "Gardando...",
