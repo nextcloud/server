@@ -362,8 +362,22 @@ class Util {
 
 		}
 
-		return is_numeric(\OC_DB::executeAudited($sql, $args));
+		$query = \OCP\DB::prepare($sql);
 
+		if (\OCP\DB::isError($query)) {
+			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($query), \OCP\Util::ERROR);
+			return false;
+		}
+		
+		$result = $query->execute($args);
+
+		if (\OCP\DB::isError($result)) {
+			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
+			return false;
+		}
+		
+		return is_numeric($result);
+		
 	}
 
 	/**
