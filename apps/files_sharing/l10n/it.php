@@ -5,6 +5,6 @@
 "%s shared the file %s with you" => "%s ha condiviso il file %s con te",
 "Download" => "Scarica",
 "Upload" => "Carica",
-"Cancel upload" => "Annulla invio",
+"Cancel upload" => "Annulla il caricamento",
 "No preview available for" => "Nessuna anteprima disponibile per"
 );

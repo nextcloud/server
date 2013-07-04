@@ -49,6 +49,7 @@
 "{count} folders" => "{count} 个文件夹",
 "1 file" => "1 个文件",
 "{count} files" => "{count} 个文件",
+"%s could not be renamed" => "%s 不能被重命名",
 "Upload" => "上传",
 "File handling" => "文件处理",
 "Maximum upload size" => "最大上传大小",

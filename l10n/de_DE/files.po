@@ -4,14 +4,15 @@
 # 
 # Translators:
 # a.tangemann <a.tangemann@web.de>, 2013
+# SteinQuadrat, 2013
 # Marcel Kühlhorn <susefan93@gmx.de>, 2013
 # Mirodin <blobbyjj@ymail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-03 01:56+0200\n"
-"PO-Revision-Date: 2013-07-02 14:04+0000\n"
+"POT-Creation-Date: 2013-07-04 09:30+0200\n"
+"PO-Revision-Date: 2013-07-04 07:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -32,11 +33,11 @@ msgstr "Konnte %s nicht verschieben"
 
 #: ajax/upload.php:16 ajax/upload.php:39
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "Das Upload-Verzeichnis konnte nicht gesetzt werden."
 
 #: ajax/upload.php:23
 msgid "Invalid Token"
-msgstr ""
+msgstr "Ungültiges Merkmal"
 
 #: ajax/upload.php:55
 msgid "No file was uploaded. Unknown error"
@@ -234,7 +235,7 @@ msgstr "{count} Dateien"
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "%s konnte nicht umbenannt werden"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -329,6 +330,22 @@ msgstr "Dateien werden gescannt, bitte warten."
 #: templates/index.php:117
 msgid "Current scanning"
 msgstr "Scanne"
+
+#: templates/part.list.php:78
+msgid "directory"
+msgstr ""
+
+#: templates/part.list.php:80
+msgid "directories"
+msgstr ""
+
+#: templates/part.list.php:89
+msgid "file"
+msgstr ""
+
+#: templates/part.list.php:91
+msgid "files"
+msgstr ""
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

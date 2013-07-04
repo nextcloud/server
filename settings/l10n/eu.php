@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Ezin izan da App Dendatik zerrenda kargatu",
 "Authentication error" => "Autentifikazio errorea",
+"Your display name has been changed." => "Zure bistaratze izena aldatu egin da.",
 "Unable to change display name" => "Ezin izan da bistaratze izena aldatu",
 "Group already exists" => "Taldea dagoeneko existitzenda",
 "Unable to add group" => "Ezin izan da taldea gehitu",
@@ -100,6 +101,8 @@
 "Use this address to connect to your ownCloud in your file manager" => "Erabili helbide hau zure fitxategi kudeatzailean zure ownCloudera konektatzeko",
 "Login Name" => "Sarrera Izena",
 "Create" => "Sortu",
+"Admin Recovery Password" => "Kudeatzaile pasahitz berreskuratzea",
+"Enter the recovery password in order to recover the users files during password change" => "berreskuratze pasahitza idatzi pasahitz aldaketan erabiltzaileen fitxategiak berreskuratzeko",
 "Default Storage" => "Lehenetsitako Biltegiratzea",
 "Unlimited" => "Mugarik gabe",
 "Other" => "Bestelakoa",

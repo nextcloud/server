@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-01 03:20+0200\n"
-"PO-Revision-Date: 2013-07-01 01:12+0000\n"
+"POT-Creation-Date: 2013-07-04 09:31+0200\n"
+"PO-Revision-Date: 2013-07-03 00:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Occitan (post 1500) (http://www.transifex.com/projects/p/owncloud/language/oc/)\n"
 "MIME-Version: 1.0\n"
@@ -17,27 +17,27 @@ msgstr ""
 "Language: oc\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: app.php:359
+#: app.php:360
 msgid "Help"
 msgstr "Ajuda"
 
-#: app.php:372
+#: app.php:373
 msgid "Personal"
 msgstr "Personal"
 
-#: app.php:383
+#: app.php:384
 msgid "Settings"
 msgstr "Configuracion"
 
-#: app.php:395
+#: app.php:396
 msgid "Users"
 msgstr "Usancièrs"
 
-#: app.php:408
+#: app.php:409
 msgid "Apps"
 msgstr "Apps"
 
-#: app.php:416
+#: app.php:417
 msgid "Admin"
 msgstr "Admin"
 
