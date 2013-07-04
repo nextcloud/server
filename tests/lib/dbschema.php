@@ -98,6 +98,15 @@ class Test_DBSchema extends PHPUnit_Framework_TestCase {
 				$result = $query->execute(array());
 				$exists = $result && $result->fetchOne();
 				break;
+			case 'oci':
+				$sql = 'SELECT count(table_name) FROM user_tables WHERE table_name = \''.$table.'\'';
+				$query = OC_DB::prepare($sql);
+				$result = $query->execute(array());
+				if (OC_DB::isError($result)) {
+					throw new DatabaseException(OC_DB::getErrorMessage($result), $sql);
+				}
+				$exists = (bool)$result->fetchOne(); //oracle uses MDB2 and returns null
+				break;
 			case 'mssql':
 				$sql = "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{$table}'";
 				$query = OC_DB::prepare($sql);
