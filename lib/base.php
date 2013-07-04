@@ -255,6 +255,7 @@ class OC {
 
 			// render error page
 			$tmpl = new OC_Template('', 'update.user', 'guest');
+			OC_Util::addscript('maintenance-check');
 			$tmpl->printPage();
 			die();
 		}
