@@ -7,8 +7,7 @@
 <?php endif;?>
 <?php for($i=0; $i<count($_["breadcrumb"]); $i++):
 	$crumb = $_["breadcrumb"][$i];
-	$dir = str_replace('+', '%20', urlencode($crumb["dir"]));
-	$dir = str_replace('%2F', '/', $dir); ?>
+	$dir = \OCP\Util::encodePath($crumb["dir"]); ?>
 	<div class="crumb <?php if($i == count($_["breadcrumb"])-1) p('last');?> svg"
 		 data-dir='<?php p($dir);?>'>
 	<a href="<?php p($_['baseURL'].$dir); ?>"><?php p($crumb["name"]); ?></a>
