@@ -5,10 +5,13 @@
 <!--[if IE 9]><html class="ng-csp ie ie9 lte9"><![endif]-->
 <!--[if gt IE 9]><html class="ng-csp ie"><![endif]-->
 <!--[if !IE]><!--><html class="ng-csp"><!--<![endif]-->
+
+	<?php $defaults = new OC_Defaults(); // initialize themable default strings and urls ?>
+	
 	<head data-user="<?php p($_['user_uid']); ?>" data-requesttoken="<?php p($_['requesttoken']); ?>">
 		<title>
 			<?php p(!empty($_['application'])?$_['application'].' | ':'');
-			p(OC_Defaults::getName());
+			p($defaults->getName());
 			p(trim($_['user_displayname']) != '' ?' ('.$_['user_displayname'].') ':'') ?>
 		</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -39,7 +42,7 @@
 	<header><div id="header">
 			<a href="<?php print_unescaped(link_to('', 'index.php')); ?>" title="" id="owncloud"><img class="svg"
 				src="<?php print_unescaped(image_path('', 'logo-wide.svg')); ?>" alt="ownCloud" /></a>
-			<div id="logo-claim" style="display:none;"><?php p(OC_Defaults::getLogoClaim()); ?></div>
+			<div id="logo-claim" style="display:none;"><?php p($defaults->getLogoClaim()); ?></div>
 			<ul id="settings" class="svg">
 				<span id="expand">
 					<span id="expandDisplayName"><?php  p(trim($_['user_displayname']) != '' ? $_['user_displayname'] : $_['user_uid']) ?></span>

@@ -5,100 +5,118 @@
  * community edition. Use the get methods to always get the right strings.
  */
 
+
 if (file_exists(OC::$SERVERROOT . '/themes/' . OC_Util::getTheme() . '/defaults.php')) {
 	require_once 'themes/' . OC_Util::getTheme() . '/defaults.php';
 }
 
 class OC_Defaults {
 
-	private static $defaultEntity = "ownCloud";
-	private static $defaultName = "ownCloud";
-	private static $defaultBaseUrl = "http://owncloud.org";
-	private static $defaultSyncClientUrl = " http://owncloud.org/sync-clients/";
-	private static $defaultDocBaseUrl = "http://doc.owncloud.org";
-	private static $defaultSlogan = "web services under your control";
-	private static $defaultLogoClaim = "";
+	private $theme;
 
-	private static function themeExist($method) {
+	private $defaultEntity;
+	private $defaultName;
+	private $defaultBaseUrl;
+	private $defaultSyncClientUrl;
+	private $defaultDocBaseUrl;
+	private $defaultSlogan;
+	private $defaultLogoClaim;
+
+	function __construct() {
+		$l = OC_L10N::get('core');
+
+		$this->defaultEntity = "ownCloud";
+		$this->defaultName = "ownCloud";
+		$this->defaultBaseUrl = "http://owncloud.org";
+		$this->defaultSyncClientUrl = " http://owncloud.org/sync-clients/";
+		$this->defaultDocBaseUrl = "http://doc.owncloud.org";
+		$this->defaultSlogan = $l->t("web services under your control");
+		$this->defaultLogoClaim = "";
+
+		if (class_exists("OC_Theme")) {
+			$this->theme = new OC_Theme();
+		}
+	}
+
+	private function themeExist($method) {
 		if (OC_Util::getTheme() !== '' && method_exists('OC_Theme', $method)) {
 			return true;
 		}
 		return false;
 	}
 
-	public static function getBaseUrl() {
-		if (self::themeExist('getBaseUrl')) {
-			return OC_Theme::getBaseUrl();
+	public function getBaseUrl() {
+		if ($this->themeExist('getBaseUrl')) {
+			return $this->theme->getBaseUrl();
 		} else {
-			return self::$defaultBaseUrl;
+			return $this->defaultBaseUrl;
 		}
 	}
 
-	public static function getSyncClientUrl() {
-		if (self::themeExist('getSyncClientUrl')) {
-			return OC_Theme::getSyncClientUrl();
+	public function getSyncClientUrl() {
+		if ($this->themeExist('getSyncClientUrl')) {
+			return $this->theme->getSyncClientUrl();
 		} else {
-			return self::$defaultSyncClientUrl;
+			return $this->defaultSyncClientUrl;
 		}
 	}
 
-	public static function getDocBaseUrl() {
-		if (self::themeExist('getDocBaseUrl')) {
-			return OC_Theme::getDocBaseUrl();
+	public function getDocBaseUrl() {
+		if ($this->themeExist('getDocBaseUrl')) {
+			return $this->theme->getDocBaseUrl();
 		} else {
-			return self::$defaultDocBaseUrl;
+			return $this->defaultDocBaseUrl;
 		}
 	}
 
-	public static function getName() {
-		if (self::themeExist('getName')) {
-			return OC_Theme::getName();
+	public function getName() {
+		if ($this->themeExist('getName')) {
+			return $this->theme->getName();
 		} else {
-			return self::$defaultName;
+			return $this->defaultName;
 		}
 	}
 
-	public static function getEntity() {
-		if (self::themeExist('getEntity')) {
-			return OC_Theme::getEntity();
+	public function getEntity() {
+		if ($this->themeExist('getEntity')) {
+			return $this->theme->getEntity();
 		} else {
-			return self::$defaultEntity;
+			return $this->defaultEntity;
 		}
 	}
 
-	public static function getSlogan() {
-		$l = OC_L10N::get('core');
-		if (self::themeExist('getSlogan')) {
-			return OC_Theme::getSlogan();
+	public function getSlogan() {
+		if ($this->themeExist('getSlogan')) {
+			return $this->theme->getSlogan();
 		} else {
-			return $l->t(self::$defaultSlogan);
+			return $this->defaultSlogan;
 		}
 	}
 
-	public static function getLogoClaim() {
-		if (self::themeExist('getLogoClaim')) {
-			return OC_Theme::getLogoClaim();
+	public function getLogoClaim() {
+		if ($this->themeExist('getLogoClaim')) {
+			return $this->theme->getLogoClaim();
 		} else {
-			return self::$defaultLogoClaim;
+			return $this->defaultLogoClaim;
 		}
 	}
 
-	public static function getShortFooter() {
-		if (self::themeExist('getShortFooter')) {
-			$footer = OC_Theme::getShortFooter();
+	public function getShortFooter() {
+		if ($this->themeExist('getShortFooter')) {
+			$footer = $this->theme->getShortFooter();
 		} else {
-			$footer = "<a href=\"". self::getBaseUrl() . "\" target=\"_blank\">" .self::getEntity() . "</a>".
-				' – ' . self::getSlogan();
+			$footer = "<a href=\"". $this->getBaseUrl() . "\" target=\"_blank\">" .$this->getEntity() . "</a>".
+				' – ' . $this->getSlogan();
 		}
 
 		return $footer;
 	}
 
-	public static function getLongFooter() {
-		if (self::themeExist('getLongFooter')) {
-			$footer = OC_Theme::getLongFooter();
+	public function getLongFooter() {
+		if ($this->themeExist('getLongFooter')) {
+			$footer = $this->theme->getLongFooter();
 		} else {
-			$footer = self::getShortFooter();
+			$footer = $this->getShortFooter();
 		}
 
 		return $footer;
