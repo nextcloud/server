@@ -11,16 +11,16 @@ namespace OC\Log;
 class Rotate extends \OC\BackgroundJob\Job {
 	const LOG_SIZE_LIMIT = 104857600; // 100 MB
 	public function run($logFile) {
-		$filesize = filesize($logFile);
+		$filesize = @filesize($logFile);
 		if ($filesize >= self::LOG_SIZE_LIMIT) {
 			$this->rotate($logFile);
 		}
 	}
 
 	protected function rotate($logfile) {
-		$rotated_logfile = $logfile.'.1';
-		rename($logfile, $rotated_logfile);
-		$msg = 'Log file "'.$logfile.'" was over 100MB, moved to "'.$rotated_logfile.'"';
+		$rotatedLogfile = $logfile.'.1';
+		rename($logfile, $rotatedLogfile);
+		$msg = 'Log file "'.$logfile.'" was over 100MB, moved to "'.$rotatedLogfile.'"';
 		\OC_Log::write('OC\Log\Rotate', $msg, \OC_Log::WARN);
 	}
 }
