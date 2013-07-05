@@ -11,6 +11,8 @@ var form_data;
 
 $(document).ready(function() {
 
+	$('#data-upload-form').tipsy({gravity:'ne', fade:true});
+
 	if (typeof FileActions !== 'undefined') {
 		var mimetype = $('#mimetype').val();
 		// Show file preview if previewer is available, images are already handled by the template
