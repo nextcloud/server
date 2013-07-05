@@ -232,7 +232,6 @@ class Helper {
 
 		return (bool) $result;
 	}
-}
 
 	/**
 	 * @brief glob uses different pattern than regular expressions, escape glob pattern only
