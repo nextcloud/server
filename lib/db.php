@@ -1047,7 +1047,7 @@ class PDOStatementWrapper{
 	}
 
 	/**
-	 * make execute return the result instead of a bool
+	 * make execute return the result or updated row count instead of a bool
 	 */
 	public function execute($input=array()) {
 		if(OC_Config::getValue( "log_query", false)) {
