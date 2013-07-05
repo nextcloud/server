@@ -132,6 +132,9 @@ class OC_Config{
 
 		// read all file in config dir ending by config.php
 		$config_files = glob( OC::$SERVERROOT."/config/*.config.php");
+		if (!is_array($config_files)) {
+			$config_files = array();
+		}
 
 		//Filter only regular files
 		$config_files = array_filter($config_files, 'is_file');
