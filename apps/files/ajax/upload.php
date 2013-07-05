@@ -26,15 +26,18 @@ if (empty($_POST['dirToken'])) {
 	if (!($linkItem['permissions'] & OCP\PERMISSION_CREATE)) {
 		OCP\JSON::checkLoggedIn();
 	} else {
+		// Setup FS with owner
+		OC_Util::tearDownFS();
+		OC_Util::setupFS($linkItem['uid_owner']);
+
 		// translate linkItem to the real folder name on the file system
-		$sharedItem = OCP\Share::getItemShared($linkItem['item_type'], $linkItem['item_source']);
+		$sharedItem = OCP\Share::getSharedItem($linkItem['item_type'], $linkItem['item_source'], $linkItem['uid_owner']);
 		if (!$sharedItem || empty($sharedItem) || $sharedItem === false) {
 			OCP\JSON::error(array('data' => array_merge(array('message' => $l->t('Unable to set upload directory.')))));
 			die();
 		}
 
 		// The token defines the target directory (security reasons)
-		$sharedItem = array_pop($sharedItem);
 		$dir = sprintf(
 			"/%s/%s",
 			$sharedItem['path'],
@@ -45,8 +48,6 @@ if (empty($_POST['dirToken'])) {
 			OCP\JSON::error(array('data' => array_merge(array('message' => $l->t('Unable to set upload directory.')))));
 			die();
 		}
-		// Setup FS with owner
-		OC_Util::setupFS($linkItem['uid_owner']);
 	}
 }
 

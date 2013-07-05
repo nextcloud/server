@@ -312,9 +312,20 @@ class Share {
 	* @return Return depends on format
 	*/
 	public static function getItemShared($itemType, $itemSource, $format = self::FORMAT_NONE,
-		$parameters = null, $includeCollections = false) {
+	                                     $parameters = null, $includeCollections = false) {
 		return self::getItems($itemType, $itemSource, null, null, \OC_User::getUser(), $format,
 			$parameters, -1, $includeCollections);
+	}
+
+	/**
+	 * @param $itemType
+	 * @param $itemSource
+	 * @param $uid_owner
+	 * @return mixed
+	 */
+	public static function getSharedItem($itemType, $itemSource, $uid_owner) {
+		return self::getItems($itemType, $itemSource, null, null, $uid_owner, self::FORMAT_NONE,
+			null, 1, false);
 	}
 
 	/**
