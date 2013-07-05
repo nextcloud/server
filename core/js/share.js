@@ -181,13 +181,13 @@ OC.Share={
 				html += '<div id="linkPass">';
 				html += '<input id="linkPassText" type="password" placeholder="'+t('core', 'Password')+'" />';
 				html += '</div>';
-				if (possiblePermissions & OC.PERMISSION_CREATE) {
+				if (itemType === 'folder' && (possiblePermissions & OC.PERMISSION_CREATE)) {
 					html += '<div id="allowPublicUploadWrapper" style="display:none;">';
 					html += '<input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload"' + ((allowPublicUploadStatus) ? 'checked="checked"' : '') + ' />';
 					html += '<label for="sharingDialogAllowPublicUpload">' + t('core', 'Allow Public Upload') + '</label>';
 					html += '</div>';
 				}
-                html += '</div><form id="emailPrivateLink" >';
+				html += '</div><form id="emailPrivateLink" >';
 				html += '<input id="email" style="display:none; width:62%;" value="" placeholder="'+t('core', 'Email link to person')+'" type="text" />';
 				html += '<input id="emailButton" style="display:none;" type="submit" value="'+t('core', 'Send')+'" />';
 				html += '</form>';

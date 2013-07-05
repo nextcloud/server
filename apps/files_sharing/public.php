@@ -151,6 +151,9 @@ if (isset($path)) {
 		if (\OCP\App::isEnabled('files_encryption')) {
 			$allowPublicUploadEnabled = false;
 		}
+		if (isset($file)) {
+			$allowPublicUploadEnabled = false;
+		}
 		$tmpl->assign('allowPublicUploadEnabled', $allowPublicUploadEnabled);
 		$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 		$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
