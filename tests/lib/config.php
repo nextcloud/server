@@ -21,30 +21,26 @@ class Test_Config extends PHPUnit_Framework_TestCase {
 		$this->config = new OC\Config(self::CONFIG_DIR);
 	}
 
-	public function testReadData()
-	{
+	public function testReadData() {
 		$config = new OC\Config('/non-existing');
 		$this->assertAttributeEquals(array(), 'cache', $config);
 
-		$this->assertAttributeEquals(array('foo'=>'bar'), 'cache', $this->config);
+		$this->assertAttributeEquals(array('foo' => 'bar'), 'cache', $this->config);
 	}
 
-	public function testGetKeys()
-	{
+	public function testGetKeys() {
 		$this->assertEquals(array('foo'), $this->config->getKeys());
 	}
 
-	public function testGetValue()
-	{
+	public function testGetValue() {
 		$this->assertEquals('bar', $this->config->getValue('foo'));
 		$this->assertEquals(null, $this->config->getValue('bar'));
 		$this->assertEquals('moo', $this->config->getValue('bar', 'moo'));
 	}
 
-	public function testSetValue()
-	{
+	public function testSetValue() {
 		$this->config->setValue('foo', 'moo');
-		$this->assertAttributeEquals(array('foo'=>'moo'), 'cache', $this->config);
+		$this->assertAttributeEquals(array('foo' => 'moo'), 'cache', $this->config);
 		$content = file_get_contents(self::CONFIG_FILE);
 		$this->assertEquals(<<<EOL
 <?php
@@ -53,9 +49,9 @@ class Test_Config extends PHPUnit_Framework_TestCase {
 );
 
 EOL
-, $content);
+			, $content);
 		$this->config->setValue('bar', 'red');
-		$this->assertAttributeEquals(array('foo'=>'moo', 'bar'=>'red'), 'cache', $this->config);
+		$this->assertAttributeEquals(array('foo' => 'moo', 'bar' => 'red'), 'cache', $this->config);
 		$content = file_get_contents(self::CONFIG_FILE);
 		$this->assertEquals(<<<EOL
 <?php
@@ -65,11 +61,10 @@ EOL
 );
 
 EOL
-, $content);
+			, $content);
 	}
 
-	public function testDeleteKey()
-	{
+	public function testDeleteKey() {
 		$this->config->deleteKey('foo');
 		$this->assertAttributeEquals(array(), 'cache', $this->config);
 		$content = file_get_contents(self::CONFIG_FILE);
@@ -79,11 +74,10 @@ EOL
 );
 
 EOL
-, $content);
+			, $content);
 	}
 
-	public function testSavingDebugMode()
-	{
+	public function testSavingDebugMode() {
 		$this->config->setDebugMode(true);
 		$this->config->deleteKey('foo'); // change something so we save to the config file
 		$this->assertAttributeEquals(array(), 'cache', $this->config);
@@ -96,14 +90,13 @@ define('DEBUG',true);
 );
 
 EOL
-, $content);
+			, $content);
 	}
 
 	/**
 	 * @expectedException \OC\HintException
 	 */
-	public function testWriteData()
-	{
+	public function testWriteData() {
 		$config = new OC\Config('/non-writable');
 		$config->setValue('foo', 'bar');
 	}
