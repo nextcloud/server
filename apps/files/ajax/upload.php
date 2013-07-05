@@ -18,7 +18,6 @@ if (empty($_POST['dirToken'])) {
 	}
 } else {
 	$linkItem = OCP\Share::getShareByToken($_POST['dirToken']);
-
 	if ($linkItem === false) {
 		OCP\JSON::error(array('data' => array_merge(array('message' => $l->t('Invalid Token')))));
 		die();
@@ -27,11 +26,17 @@ if (empty($_POST['dirToken'])) {
 	if (!($linkItem['permissions'] & OCP\PERMISSION_CREATE)) {
 		OCP\JSON::checkLoggedIn();
 	} else {
+		// translate linkItem to the real folder name on the file system
+		$sharedItem = OCP\Share::getItemShared($linkItem['item_type'], $linkItem['item_source']);
+		if (!$sharedItem || empty($sharedItem) || $sharedItem === false) {
+			OCP\JSON::error(array('data' => array_merge(array('message' => $l->t('Unable to set upload directory.')))));
+			die();
+		}
 
 		// The token defines the target directory (security reasons)
 		$dir = sprintf(
 			"/%s/%s",
-			$linkItem['file_target'],
+			array_pop($sharedItem)['path'],
 			isset($_POST['subdir']) ? $_POST['subdir'] : ''
 		);
 
