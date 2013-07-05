@@ -37,6 +37,12 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		$result = OC_Util::sanitizeHTML($goodString);
 		$this->assertEquals("This is an harmless string.", $result);
 	}
+	
+	function testEncodePath(){
+		$component = '/§#@test%&^ä/-child';
+		$result = OC_Util::encodePath($component);
+		$this->assertEquals("/%C2%A7%23%40test%25%26%5E%C3%A4/-child", $result);
+	}
 
 	function testGenerate_random_bytes() {
 		$result = strlen(OC_Util::generate_random_bytes(59));
