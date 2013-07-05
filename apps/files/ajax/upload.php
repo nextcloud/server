@@ -35,6 +35,11 @@ if (empty($_POST['dirToken'])) {
 			isset($_POST['subdir']) ? $_POST['subdir'] : ''
 		);
 
+		// handle reshare
+		if (!empty($linkItem['parent'])) {
+			$dir = '/Shared'.$dir;
+		}
+
 		if (!$dir || empty($dir) || $dir === false) {
 			OCP\JSON::error(array('data' => array_merge(array('message' => $l->t('Unable to set upload directory.')))));
 			die();
