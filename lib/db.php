@@ -664,7 +664,7 @@ class OC_DB {
 	 * @brief Insert a row if a matching row doesn't exists.
 	 * @param string $table. The table to insert into in the form '*PREFIX*tableName'
 	 * @param array $input. An array of fieldname/value pairs
-	 * @returns The return value from PDOStatementWrapper->execute()
+	 * @returns int number of updated rows
 	 */
 	public static function insertIfNotExist($table, $input) {
 		self::connect();
@@ -690,6 +690,10 @@ class OC_DB {
 			try {
 				$stmt = self::prepare($query);
 				$result = $stmt->execute($inserts);
+				if (self::isError($result)) {
+					OC_Log::write('core', self::getErrorMessage($result), OC_Log::FATAL);
+					OC_Template::printErrorPage( $entry );
+				}
 
 			} catch(PDOException $e) {
 				$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
@@ -704,7 +708,7 @@ class OC_DB {
 					. implode('`,`', array_keys($input)) . '`) VALUES('
 					. str_repeat('?,', count($input)-1).'? ' . ')';
 			} else {
-				return true;
+				return 0;
 			}
 		} elseif( $type == 'pgsql' || $type == 'oci' || $type == 'mysql' || $type == 'mssql') {
 			$query = 'INSERT INTO `' .$table . '` (`'
@@ -721,7 +725,18 @@ class OC_DB {
 		}
 
 		try {
-			$result = self::prepare($query);
+			$stmt = self::prepare($query);
+			if (self::isError($stmt)) {
+				$msg = self::getErrorMessage($stmt);
+				OC_Log::write('core', $msg, OC_Log::FATAL);
+				OC_Template::printErrorPage( $msg );
+			}
+			$result = $stmt->execute($inserts);
+			if (self::isError($result)) {
+				$msg = self::getErrorMessage($result);
+				OC_Log::write('core', $msg, OC_Log::FATAL);
+				OC_Template::printErrorPage( $msg );
+			}
 		} catch(PDOException $e) {
 			$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
 			$entry .= 'Offending command was: ' . $query.'<br />';
@@ -729,11 +744,8 @@ class OC_DB {
 			error_log('DB error: ' . $entry);
 			OC_Template::printErrorPage( $entry );
 		}
-		if ($result === 0) {
-			return true;
-		}
 
-		return $result->execute($inserts);
+		return $result;
 	}
 
 	/**
@@ -934,13 +946,16 @@ class OC_DB {
 	 * @return bool
 	 */
 	public static function isError($result) {
-		if(self::$backend==self::BACKEND_PDO and $result === false) {
+		//MDB2 returns an MDB2_Error object
+		if (class_exists('PEAR') === true && PEAR::isError($result)) {
 			return true;
-		}elseif(self::$backend==self::BACKEND_MDB2 and PEAR::isError($result)) {
-			return true;
-		}else{
-			return false;
 		}
+		//PDO returns false on error (and throws an exception)
+		if (self::$backend===self::BACKEND_PDO and $result === false) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -999,7 +1014,7 @@ class PDOStatementWrapper{
 	}
 
 	/**
-	 * make execute return the result instead of a bool
+	 * make execute return the result or updated row count instead of a bool
 	 */
 	public function execute($input=array()) {
 		$this->lastArguments = $input;
