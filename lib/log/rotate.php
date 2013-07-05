@@ -8,6 +8,13 @@
 
 namespace OC\Log;
 
+/**
+ * This rotates the current logfile to a new name, this way the total log usage
+ * will stay limited and older entries are available for a while longer. The
+ * total disk usage is twice LOG_SIZE_LIMIT.
+ * For more professional log management set the 'logfile' config to a different
+ * location and manage that with your own tools.
+ */
 class Rotate extends \OC\BackgroundJob\Job {
 	const LOG_SIZE_LIMIT = 104857600; // 100 MB
 	public function run($logFile) {
