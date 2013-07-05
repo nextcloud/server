@@ -163,10 +163,10 @@ OC.Share={
 
 			var allowPublicUploadStatus = false;
 			$.each(data.shares, function(key, value) {
-			  if (allowPublicUploadStatus) {
-                            return true;
-                          }
-			  allowPublicUploadStatus = (value.permissions & OC.PERMISSION_CREATE) ? true : false;
+				if (allowPublicUploadStatus) {
+					return true;
+				}
+				allowPublicUploadStatus = (value.permissions & OC.PERMISSION_CREATE) ? true : false;
 			});
 
 			html += '<input id="shareWith" type="text" placeholder="'+t('core', 'Share with')+'" />';
@@ -181,7 +181,7 @@ OC.Share={
 				html += '<div id="linkPass">';
 				html += '<input id="linkPassText" type="password" placeholder="'+t('core', 'Password')+'" />';
 				html += '</div>';
-                if (itemType == 'folder') {
+                if (itemType == 'folder' && (possiblePermissions & OC.PERMISSION_CREATE)) {
                     html += '<div id="allowPublicUploadWrapper" style="display:none;">';
                     html += '<input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload"' + ((allowPublicUploadStatus) ? 'checked="checked"' : '') + ' />';
                     html += '<label for="sharingDialogAllowPublicUpload">' + t('core', 'Allow Public Upload') + '</label>';
