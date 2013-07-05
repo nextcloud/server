@@ -497,7 +497,7 @@ class Hooks {
 
 			// handle share-keys
 			$localKeyPath = $view->getLocalFile($baseDir . 'share-keys/' . $params['oldpath']);
-			$escapedPath = preg_replace('/(\*|\?|\[)/', '[$1]', $localKeyPath);
+			$escapedPath = Helper::escapeGlobPattern($localKeyPath);
 			$matches = glob($escapedPath . '*.shareKey');
 			foreach ($matches as $src) {
 				$dst = \OC\Files\Filesystem::normalizePath(str_replace($params['oldpath'], $params['newpath'], $src));
