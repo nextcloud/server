@@ -488,7 +488,7 @@ class Keymanager {
 			$view->unlink($baseDir . $filePath);
 		} else {
 			$localKeyPath = $view->getLocalFile($baseDir . $filePath);
-			$escapedPath = preg_replace('/(\*|\?|\[)/', '[$1]', $localKeyPath);
+			$escapedPath = Helper::escapeGlobPattern($localKeyPath);
 			$matches = glob($escapedPath . '*.shareKey');
 			foreach ($matches as $ma) {
 				$result = unlink($ma);
@@ -549,8 +549,8 @@ class Keymanager {
 	private static function recursiveDelShareKeys($dir, $userIds) {
 		foreach ($userIds as $userId) {
 			$extension = '.' . $userId . '.shareKey';
-			$escapedDir = preg_replace('/(\*|\?|\[)/', '[$1]', $dir);
-			$escapedExtension = preg_replace('/(\*|\?|\[)/', '[$1]', $extension);
+			$escapedDir = Helper::escapeGlobPattern($dir);
+			$escapedExtension = Helper::escapeGlobPattern($extension);
 			$matches = glob($escapedDir . '/*' . $escapedExtension);
 		}
 		/** @var $matches array */
