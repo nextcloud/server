@@ -992,13 +992,9 @@ class Util {
 			\OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled')
 			&& $this->recoveryEnabledForUser()
 		) {
-
 			$recoveryEnabled = true;
-
 		} else {
-
 			$recoveryEnabled = false;
-
 		}
 
 		// Make sure that a share key is generated for the owner too
@@ -1019,20 +1015,25 @@ class Util {
 		// If recovery is enabled, add the 
 		// Admin UID to list of users to share to
 		if ($recoveryEnabled) {
-
 			// Find recoveryAdmin user ID
 			$recoveryKeyId = \OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
-
 			// Add recoveryAdmin to list of users sharing
 			$userIds[] = $recoveryKeyId;
-
 		}
 
 		// add current user if given
 		if ($currentUserId !== false) {
-
 			$userIds[] = $currentUserId;
+		}
 
+		// check if it is a group mount
+		if (\OCP\App::isEnabled("files_external")) {
+			$mount = \OC_Mount_Config::getSystemMountPoints();
+			foreach ($mount as $mountPoint => $data) {
+				if ($mountPoint == substr($ownerPath, 1, strlen($mountPoint))) {
+					$userIds = array_merge($userIds, $this->getUserWithAccessToMountPoint($data['applicable']['users'], $data['applicable']['groups']));
+				}
+			}
 		}
 
 		// Remove duplicate UIDs
@@ -1040,6 +1041,20 @@ class Util {
 
 		return $uniqueUserIds;
 
+	}
+
+	private function getUserWithAccessToMountPoint($users, $groups) {
+		$result = array();
+		if (in_array('all', $users)) {
+			$result = \OCP\User::getUsers();
+		} else {
+			$result = array_merge($result, $users);
+			foreach ($groups as $group) {
+				$result = array_merge($result, \OC_Group::usersInGroup($group));
+			}
+		}
+
+		return $result;
 	}
 
 	/**
@@ -1179,7 +1194,7 @@ class Util {
 
 			return array(
 				$fileOwnerUid,
-				$filename
+				\OC_Filesystem::normalizePath($filename)
 			);
 		}
 
@@ -1545,6 +1560,23 @@ class Util {
 		$relativePath = \OCA\Encryption\Helper::stripUserFilesPath($path);
 
 		return $relativePath;
+	}
+
+	/**
+	 * @brief check if the file is stored on a system wide mount point
+	 * @param $path relative to /data/user with leading '/'
+	 * @return boolean
+	 */
+	public function isSystemWideMountPoint($path) {
+		if (\OCP\App::isEnabled("files_external")) {
+			$mount = \OC_Mount_Config::getSystemMountPoints();
+			foreach ($mount as $mountPoint => $data) {
+				if ($mountPoint == substr($path, 1, strlen($mountPoint))) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }

@@ -18,7 +18,6 @@ if (empty($_POST['dirToken'])) {
 	}
 } else {
 	$linkItem = OCP\Share::getShareByToken($_POST['dirToken']);
-
 	if ($linkItem === false) {
 		OCP\JSON::error(array('data' => array_merge(array('message' => $l->t('Invalid Token')))));
 		die();
@@ -31,6 +30,7 @@ if (empty($_POST['dirToken'])) {
 		$rootLinkItem = OCP\Share::resolveReShare($linkItem);
 
 		// Setup FS with owner
+		OC_Util::tearDownFS();
 		OC_Util::setupFS($rootLinkItem['uid_owner']);
 
 		// The token defines the target directory (security reasons)

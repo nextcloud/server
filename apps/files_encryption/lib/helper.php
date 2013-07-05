@@ -218,7 +218,6 @@ class Helper {
 		exit();
 	}
 
-
 	/**
 	 * check requirements for encryption app.
 	 * @return bool true if requirements are met
@@ -233,4 +232,14 @@ class Helper {
 
 		return (bool) $result;
 	}
+
+	/**
+	 * @brief glob uses different pattern than regular expressions, escape glob pattern only
+	 * @param unescaped path
+	 * @return escaped path
+	 */
+	public static function escapeGlobPattern($path) {
+		return preg_replace('/(\*|\?|\[)/', '[$1]', $path);
+	}
 }
+
