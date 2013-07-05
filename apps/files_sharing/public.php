@@ -137,7 +137,7 @@ if (isset($path)) {
 		if (\OCP\App::isEnabled('files_encryption')) {
 			$allowPublicUploadEnabled = false;
 		}
-		if (isset($file)) {
+		if ($linkItem['item_type'] !== 'folder') {
 			$allowPublicUploadEnabled = false;
 		}
 		$tmpl->assign('allowPublicUploadEnabled', $allowPublicUploadEnabled);
