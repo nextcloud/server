@@ -156,7 +156,7 @@ class OC_DB_MDB2SchemaReader {
 					unset($options['default']);
 				}
 			}
-			if ($type == 'integer') {
+			if ($type == 'integer' && isset($options['length'])) {
 				$length = $options['length'];
 				if ($length < 4) {
 					$type = 'smallint';
