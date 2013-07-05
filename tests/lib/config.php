@@ -39,6 +39,7 @@ class Test_Config extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testSetValue() {
+		$this->config->setDebugMode(false);
 		$this->config->setValue('foo', 'moo');
 		$this->assertAttributeEquals(array('foo' => 'moo'), 'cache', $this->config);
 		$content = file_get_contents(self::CONFIG_FILE);
@@ -65,6 +66,7 @@ EOL
 	}
 
 	public function testDeleteKey() {
+		$this->config->setDebugMode(false);
 		$this->config->deleteKey('foo');
 		$this->assertAttributeEquals(array(), 'cache', $this->config);
 		$content = file_get_contents(self::CONFIG_FILE);
