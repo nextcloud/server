@@ -8,8 +8,6 @@
 "Private key password successfully updated." => "Zasebni ključ za geslo je bil uspešno posodobljen.",
 "Could not update the private key password. Maybe the old password was not correct." => "Zasebnega ključa za geslo ni bilo mogoče posodobiti. Morda vnos starega gesla ni bil pravilen.",
 "Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Vaš zasebni ključ ni veljaven. Morda je bilo vaše geslo spremenjeno zunaj sistema ownCloud (npr. v skupnem imeniku). Svoj zasebni ključ, ki vam bo omogočil dostop do šifriranih dokumentov, lahko posodobite v osebnih nastavitvah.",
-"PHP module OpenSSL is not installed." => "PHP-modul OpenSSL ni nameščen.",
-"Please ask your server administrator to install the module. For now the encryption app was disabled." => "Obvestite skrbnika strežnika, da namesti manjkajoč modul. Trenutno je šifriranje onemogočeno.",
 "Saving..." => "Poteka shranjevanje ...",
 "Your private key is not valid! Maybe the your password was changed from outside." => "Vaš zasebni ključ ni veljaven. Morda je bilo vaše geslo spremenjeno.",
 "You can unlock your private key in your " => "Svoj zasebni ključ lahko odklenite v",

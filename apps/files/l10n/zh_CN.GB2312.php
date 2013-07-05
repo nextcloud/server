@@ -51,5 +51,7 @@
 "Upload too large" => "上传过大",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "你正在试图上传的文件超过了此服务器支持的最大的文件大小.",
 "Files are being scanned, please wait." => "正在扫描文件,请稍候.",
-"Current scanning" => "正在扫描"
+"Current scanning" => "正在扫描",
+"file" => "文件",
+"files" => "文件"
 );

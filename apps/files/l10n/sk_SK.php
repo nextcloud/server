@@ -70,5 +70,7 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Súbory, ktoré sa snažíte nahrať, presahujú maximálnu veľkosť pre nahratie súborov na tento server.",
 "Files are being scanned, please wait." => "Čakajte, súbory sú prehľadávané.",
 "Current scanning" => "Práve prezerané",
+"file" => "súbor",
+"files" => "súbory",
 "Upgrading filesystem cache..." => "Aktualizujem medzipamäť súborového systému..."
 );

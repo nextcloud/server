@@ -68,5 +68,7 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Augšupielādējamās datnes pārsniedz servera pieļaujamo datņu augšupielādes apjomu",
 "Files are being scanned, please wait." => "Datnes šobrīd tiek caurskatītas, lūdzu, uzgaidiet.",
 "Current scanning" => "Šobrīd tiek caurskatīts",
+"file" => "fails",
+"files" => "faili",
 "Upgrading filesystem cache..." => "Uzlabo datņu sistēmas kešatmiņu..."
 );

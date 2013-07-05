@@ -70,5 +70,7 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Fișierul care l-ai încărcat a depășită limita maximă admisă la încărcare pe acest server.",
 "Files are being scanned, please wait." => "Fișierele sunt scanate, te rog așteptă.",
 "Current scanning" => "În curs de scanare",
+"file" => "fișier",
+"files" => "fișiere",
 "Upgrading filesystem cache..." => "Modernizare fisiere de sistem cache.."
 );

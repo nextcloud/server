@@ -70,5 +70,7 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Os ficheiros que tenta enviar exceden do tamaño máximo permitido neste servidor",
 "Files are being scanned, please wait." => "Estanse analizando os ficheiros. Agarde.",
 "Current scanning" => "Análise actual",
+"file" => "ficheiro",
+"files" => "ficheiros",
 "Upgrading filesystem cache..." => "Anovando a caché do sistema de ficheiros..."
 );

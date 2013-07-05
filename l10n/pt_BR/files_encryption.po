@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-03 01:56+0200\n"
-"PO-Revision-Date: 2013-07-02 15:10+0000\n"
-"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
+"POT-Creation-Date: 2013-07-05 02:12+0200\n"
+"PO-Revision-Date: 2013-07-05 00:13+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,14 +64,15 @@ msgid ""
 msgstr "Sua chave privada não é válida! Provavelmente sua senha foi alterada fora do sistema ownCloud (por exemplo, seu diretório corporativo). Você pode atualizar sua senha de chave privada em suas configurações pessoais para recuperar o acesso a seus arquivos criptografados."
 
 #: hooks/hooks.php:44
-msgid "PHP module OpenSSL is not installed."
-msgstr "O módulo PHP OpenSSL não está instalado."
+msgid "Missing requirements."
+msgstr ""
 
 #: hooks/hooks.php:45
 msgid ""
-"Please ask your server administrator to install the module. For now the "
-"encryption app was disabled."
-msgstr "Por favor peça ao administrador do servidor para instalar o módulo. Por enquanto o app de encriptação foi desabilitada."
+"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
+"PHP extension is enabled and configured properly. For now, the encryption "
+"app has been disabled."
+msgstr ""
 
 #: js/settings-admin.js:11
 msgid "Saving..."

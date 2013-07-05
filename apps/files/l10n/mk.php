@@ -52,5 +52,7 @@
 "Upload too large" => "Фајлот кој се вчитува е преголем",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Датотеките кои се обидувате да ги подигнете ја надминуваат максималната големина за подигнување датотеки на овој сервер.",
 "Files are being scanned, please wait." => "Се скенираат датотеки, ве молам почекајте.",
-"Current scanning" => "Моментално скенирам"
+"Current scanning" => "Моментално скенирам",
+"file" => "датотека",
+"files" => "датотеки"
 );

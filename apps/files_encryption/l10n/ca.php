@@ -7,8 +7,6 @@
 "Could not change the password. Maybe the old password was not correct." => "No s'ha pogut canviar la contrasenya. Potser la contrasenya anterior no era correcta.",
 "Private key password successfully updated." => "La contrasenya de la clau privada s'ha actualitzat.",
 "Could not update the private key password. Maybe the old password was not correct." => "No s'ha pogut actualitzar la contrasenya de la clau privada. Potser la contrasenya anterior no era correcta.",
-"PHP module OpenSSL is not installed." => "El mòdul OpenSSL de PHP no està instal·lat.",
-"Please ask your server administrator to install the module. For now the encryption app was disabled." => "Demaneu a l'administrador del servidor que instal·li el mòdul. Per ara, l'aplicació d'encriptació s'ha deshabilitat.",
 "Saving..." => "Desant...",
 "Your private key is not valid! Maybe the your password was changed from outside." => "La vostra clau privada no és vàlida! Potser la vostra contrasenya ha canviat des de fora.",
 "You can unlock your private key in your " => "Podeu desbloquejar la clau privada en el vostre",

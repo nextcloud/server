@@ -66,5 +66,7 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "ไฟล์ที่คุณพยายามที่จะอัพโหลดมีขนาดเกินกว่าขนาดสูงสุดที่กำหนดไว้ให้อัพโหลดได้สำหรับเซิร์ฟเวอร์นี้",
 "Files are being scanned, please wait." => "ไฟล์กำลังอยู่ระหว่างการสแกน, กรุณารอสักครู่.",
 "Current scanning" => "ไฟล์ที่กำลังสแกนอยู่ขณะนี้",
+"file" => "ไฟล์",
+"files" => "ไฟล์",
 "Upgrading filesystem cache..." => "กำลังอัพเกรดหน่วยความจำแคชของระบบไฟล์..."
 );

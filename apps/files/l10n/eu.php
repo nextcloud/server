@@ -69,5 +69,7 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Igotzen saiatzen ari zaren fitxategiak zerbitzari honek igotzeko onartzen duena baino handiagoak dira.",
 "Files are being scanned, please wait." => "Fitxategiak eskaneatzen ari da, itxoin mezedez.",
 "Current scanning" => "Orain eskaneatzen ari da",
+"file" => "fitxategia",
+"files" => "fitxategiak",
 "Upgrading filesystem cache..." => "Fitxategi sistemaren katxea eguneratzen..."
 );

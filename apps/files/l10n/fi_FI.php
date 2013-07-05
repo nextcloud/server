@@ -65,5 +65,7 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan.",
 "Files are being scanned, please wait." => "Tiedostoja tarkistetaan, odota hetki.",
 "Current scanning" => "Tämänhetkinen tutkinta",
+"file" => "tiedosto",
+"files" => "tiedostoa",
 "Upgrading filesystem cache..." => "Päivitetään tiedostojärjestelmän välimuistia..."
 );

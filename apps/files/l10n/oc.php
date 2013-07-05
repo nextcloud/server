@@ -42,5 +42,7 @@
 "Upload too large" => "Amontcargament tròp gròs",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Los fichièrs que sias a amontcargar son tròp pesucs per la talha maxi pel servidor.",
 "Files are being scanned, please wait." => "Los fiichièrs son a èsser explorats, ",
-"Current scanning" => "Exploracion en cors"
+"Current scanning" => "Exploracion en cors",
+"file" => "fichièr",
+"files" => "fichièrs"
 );

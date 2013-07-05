@@ -8,8 +8,6 @@
 "Private key password successfully updated." => "私钥密码成功更新。",
 "Could not update the private key password. Maybe the old password was not correct." => "无法更新私钥密码。可能旧密码不正确。",
 "Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "您的私有密钥无效！也许是您在 ownCloud 系统外更改了密码 (比如，在您的公司目录)。您可以在个人设置里更新您的私钥密码来恢复访问你的加密文件。",
-"PHP module OpenSSL is not installed." => "PHP 模块 OpenSSL 未安装。",
-"Please ask your server administrator to install the module. For now the encryption app was disabled." => "请请求您的服务器管理员安装该模块。现在加密应用被禁用。",
 "Saving..." => "保存中",
 "Your private key is not valid! Maybe the your password was changed from outside." => "您的私钥不正确！可能您在别处更改了密码。",
 "You can unlock your private key in your " => "您可以在这里解锁您的私钥：",

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-29 02:03+0200\n"
-"PO-Revision-Date: 2013-06-29 00:04+0000\n"
+"POT-Creation-Date: 2013-07-05 02:13+0200\n"
+"PO-Revision-Date: 2013-07-05 00:13+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Afrikaans (South Africa) (http://www.transifex.com/projects/p/owncloud/language/af_ZA/)\n"
 "MIME-Version: 1.0\n"
@@ -18,35 +18,39 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: templates/authenticate.php:4
+msgid "The password is wrong. Try again."
+msgstr ""
+
+#: templates/authenticate.php:7
 msgid "Password"
 msgstr "Wagwoord"
 
-#: templates/authenticate.php:6
+#: templates/authenticate.php:9
 msgid "Submit"
-msgstr ""
-
-#: templates/public.php:14
-#, php-format
-msgid "%s shared the folder %s with you"
 msgstr ""
 
 #: templates/public.php:17
 #, php-format
+msgid "%s shared the folder %s with you"
+msgstr ""
+
+#: templates/public.php:20
+#, php-format
 msgid "%s shared the file %s with you"
 msgstr ""
 
-#: templates/public.php:25 templates/public.php:83
+#: templates/public.php:28 templates/public.php:86
 msgid "Download"
 msgstr ""
 
-#: templates/public.php:41
+#: templates/public.php:44
 msgid "Upload"
 msgstr ""
 
-#: templates/public.php:51
+#: templates/public.php:54
 msgid "Cancel upload"
 msgstr ""
 
-#: templates/public.php:80
+#: templates/public.php:83
 msgid "No preview available for"
 msgstr ""

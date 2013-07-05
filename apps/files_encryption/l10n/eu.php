@@ -7,7 +7,6 @@
 "Could not change the password. Maybe the old password was not correct." => "Ezin izan da pasahitza aldatu. Agian pasahitz zaharra okerrekoa da.",
 "Private key password successfully updated." => "Gako pasahitz pribatu behar bezala eguneratu da.",
 "Could not update the private key password. Maybe the old password was not correct." => "Ezin izan da gako pribatu pasahitza eguneratu. Agian pasahitz zaharra okerrekoa da.",
-"PHP module OpenSSL is not installed." => "OpenSSL PHP modulua ez dago instalaturik.",
 "Saving..." => "Gordetzen...",
 "personal settings" => "ezarpen pertsonalak",
 "Encryption" => "Enkriptazioa",

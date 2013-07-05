@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-04 09:30+0200\n"
-"PO-Revision-Date: 2013-07-03 05:30+0000\n"
+"POT-Creation-Date: 2013-07-05 02:13+0200\n"
+"PO-Revision-Date: 2013-07-05 00:12+0000\n"
 "Last-Translator: Magnus Höglund <magnus@linux.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -576,12 +576,12 @@ msgstr "Databasserver"
 msgid "Finish setup"
 msgstr "Avsluta installation"
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:43
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s är tillgänglig. Få mer information om hur du går tillväga för att uppdatera."
 
-#: templates/layout.user.php:65
+#: templates/layout.user.php:68
 msgid "Log out"
 msgstr "Logga ut"
 

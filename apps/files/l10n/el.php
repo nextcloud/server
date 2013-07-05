@@ -70,5 +70,7 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Τα αρχεία που προσπαθείτε να ανεβάσετε υπερβαίνουν το μέγιστο μέγεθος αποστολής αρχείων σε αυτόν τον διακομιστή.",
 "Files are being scanned, please wait." => "Τα αρχεία σαρώνονται, παρακαλώ περιμένετε.",
 "Current scanning" => "Τρέχουσα ανίχνευση",
+"file" => "αρχείο",
+"files" => "αρχεία",
 "Upgrading filesystem cache..." => "Ενημέρωση της μνήμης cache του συστήματος αρχείων..."
 );

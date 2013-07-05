@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-04 09:30+0200\n"
-"PO-Revision-Date: 2013-07-03 05:50+0000\n"
+"POT-Creation-Date: 2013-07-05 02:13+0200\n"
+"PO-Revision-Date: 2013-07-05 00:12+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -575,12 +575,12 @@ msgstr "Host del database"
 msgid "Finish setup"
 msgstr "Termina la configurazione"
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:43
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s è disponibile. Ottieni ulteriori informazioni sull'aggiornamento."
 
-#: templates/layout.user.php:65
+#: templates/layout.user.php:68
 msgid "Log out"
 msgstr "Esci"
 

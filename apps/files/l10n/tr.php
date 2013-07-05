@@ -70,5 +70,7 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Yüklemeye çalıştığınız dosyalar bu sunucudaki maksimum yükleme boyutunu aşıyor.",
 "Files are being scanned, please wait." => "Dosyalar taranıyor, lütfen bekleyin.",
 "Current scanning" => "Güncel tarama",
+"file" => "dosya",
+"files" => "dosyalar",
 "Upgrading filesystem cache..." => "Sistem dosyası önbelleği güncelleniyor"
 );

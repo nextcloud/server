@@ -70,5 +70,7 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "La dosieroj, kiujn vi provas alŝuti, transpasas la maksimuman grandon por dosieralŝutoj en ĉi tiu servilo.",
 "Files are being scanned, please wait." => "Dosieroj estas skanataj, bonvolu atendi.",
 "Current scanning" => "Nuna skano",
+"file" => "dosiero",
+"files" => "dosieroj",
 "Upgrading filesystem cache..." => "Ĝisdatiĝas dosiersistema kaŝmemoro..."
 );

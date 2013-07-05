@@ -73,5 +73,7 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "您正尝试上传的文件超过了此服务器可以上传的最大容量限制",
 "Files are being scanned, please wait." => "文件正在被扫描，请稍候。",
 "Current scanning" => "当前扫描",
+"file" => "文件",
+"files" => "文件",
 "Upgrading filesystem cache..." => "正在更新文件系统缓存..."
 );

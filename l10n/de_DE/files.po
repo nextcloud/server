@@ -5,14 +5,15 @@
 # Translators:
 # a.tangemann <a.tangemann@web.de>, 2013
 # SteinQuadrat, 2013
+# I Robot <owncloud-bot@tmit.eu>, 2013
 # Marcel Kühlhorn <susefan93@gmx.de>, 2013
 # Mirodin <blobbyjj@ymail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-04 09:30+0200\n"
-"PO-Revision-Date: 2013-07-04 07:31+0000\n"
+"POT-Creation-Date: 2013-07-05 02:12+0200\n"
+"PO-Revision-Date: 2013-07-04 10:40+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -333,19 +334,19 @@ msgstr "Scanne"
 
 #: templates/part.list.php:78
 msgid "directory"
-msgstr ""
+msgstr "Verzeichnis"
 
 #: templates/part.list.php:80
 msgid "directories"
-msgstr ""
+msgstr "Verzeichnisse"
 
 #: templates/part.list.php:89
 msgid "file"
-msgstr ""
+msgstr "Datei"
 
 #: templates/part.list.php:91
 msgid "files"
-msgstr ""
+msgstr "Dateien"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

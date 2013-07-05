@@ -69,5 +69,7 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Berkas yang dicoba untuk diunggah melebihi ukuran maksimum pengunggahan berkas di server ini.",
 "Files are being scanned, please wait." => "Berkas sedang dipindai, silakan tunggu.",
 "Current scanning" => "Yang sedang dipindai",
+"file" => "berkas",
+"files" => "berkas-berkas",
 "Upgrading filesystem cache..." => "Meningkatkan tembolok sistem berkas..."
 );

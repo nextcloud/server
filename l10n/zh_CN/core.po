@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-04 09:30+0200\n"
-"PO-Revision-Date: 2013-07-03 00:02+0000\n"
+"POT-Creation-Date: 2013-07-05 02:13+0200\n"
+"PO-Revision-Date: 2013-07-05 00:12+0000\n"
 "Last-Translator: m13253 <m13253@hotmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -574,12 +574,12 @@ msgstr "数据库主机"
 msgid "Finish setup"
 msgstr "安装完成"
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:43
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s 可用。获取更多关于如何升级的信息。"
 
-#: templates/layout.user.php:65
+#: templates/layout.user.php:68
 msgid "Log out"
 msgstr "注销"
 

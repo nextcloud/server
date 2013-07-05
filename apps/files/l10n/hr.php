@@ -42,5 +42,7 @@
 "Upload too large" => "Prijenos je preobiman",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Datoteke koje pokušavate prenijeti prelaze maksimalnu veličinu za prijenos datoteka na ovom poslužitelju.",
 "Files are being scanned, please wait." => "Datoteke se skeniraju, molimo pričekajte.",
-"Current scanning" => "Trenutno skeniranje"
+"Current scanning" => "Trenutno skeniranje",
+"file" => "datoteka",
+"files" => "datoteke"
 );

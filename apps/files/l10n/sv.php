@@ -73,5 +73,9 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Filerna du försöker ladda upp överstiger den maximala storleken för filöverföringar på servern.",
 "Files are being scanned, please wait." => "Filer skannas, var god vänta",
 "Current scanning" => "Aktuell skanning",
+"directory" => "mapp",
+"directories" => "mappar",
+"file" => "fil",
+"files" => "filer",
 "Upgrading filesystem cache..." => "Uppgraderar filsystemets cache..."
 );
