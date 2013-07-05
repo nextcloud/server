@@ -491,6 +491,7 @@ class OC {
 		self::registerCacheHooks();
 		self::registerFilesystemHooks();
 		self::registerShareHooks();
+		\OCP\BackgroundJob::registerJob('OC\Log\Rotate', OC_Config::getValue("datadirectory", OC::$SERVERROOT.'/data').'/owncloud.log');
 
 		//make sure temporary files are cleaned up
 		register_shutdown_function(array('OC_Helper', 'cleanTmp'));
