@@ -341,17 +341,6 @@ class Share {
 	}
 
 	/**
-	 * @param $itemType
-	 * @param $itemSource
-	 * @param $uid_owner
-	 * @return mixed
-	 */
-	public static function getSharedItem($itemType, $itemSource, $uid_owner) {
-		return self::getItems($itemType, $itemSource, null, null, $uid_owner, self::FORMAT_NONE,
-			null, 1, false);
-	}
-
-	/**
 	* Get all users an item is shared with
 	* @param string Item type
 	* @param string Item source
