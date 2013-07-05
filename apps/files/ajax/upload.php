@@ -34,9 +34,10 @@ if (empty($_POST['dirToken'])) {
 		}
 
 		// The token defines the target directory (security reasons)
+		$sharedItem = array_pop($sharedItem);
 		$dir = sprintf(
 			"/%s/%s",
-			array_pop($sharedItem)['path'],
+			$sharedItem['path'],
 			isset($_POST['subdir']) ? $_POST['subdir'] : ''
 		);
 
