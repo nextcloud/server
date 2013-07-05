@@ -132,6 +132,7 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 		$this->scanner->scan('');
 		$oldData = $this->cache->get('');
 		$this->storage->unlink('folder/bar.txt');
+		$this->cache->put('folder', array('mtime' => $this->storage->filemtime('folder')));
 		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW, \OC\Files\Cache\Scanner::REUSE_SIZE);
 		$newData = $this->cache->get('');
 		$this->assertNotEquals($oldData['etag'], $newData['etag']);
