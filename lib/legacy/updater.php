@@ -9,6 +9,6 @@
 class OC_Updater {
 	public static function check() {
 		$updater = new \OC\Updater();
-		return $updater->check();
+		return $updater->check('http://apps.owncloud.com/updater.php');
 	}
 }
