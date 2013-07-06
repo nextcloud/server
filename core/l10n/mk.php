@@ -94,7 +94,6 @@
 "Help" => "Помош",
 "Access forbidden" => "Забранет пристап",
 "Cloud not found" => "Облакот не е најден",
-"web services under your control" => "веб сервиси под Ваша контрола",
 "Edit categories" => "Уреди категории",
 "Add" => "Додади",
 "Security Warning" => "Безбедносно предупредување",

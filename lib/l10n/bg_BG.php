@@ -5,6 +5,7 @@
 "Users" => "Потребители",
 "Apps" => "Приложения",
 "Admin" => "Админ",
+"web services under your control" => "уеб услуги под Ваш контрол",
 "ZIP download is turned off." => "Изтеглянето като ZIP е изключено.",
 "Files need to be downloaded one by one." => "Файловете трябва да се изтеглят един по един.",
 "Back to Files" => "Назад към файловете",

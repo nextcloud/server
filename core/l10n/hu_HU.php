@@ -104,7 +104,6 @@
 "Access forbidden" => "A hozzáférés nem engedélyezett",
 "Cloud not found" => "A felhő nem található",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Üdv!\n\nÚj hír: %s megosztotta Önnel ezt: %s.\nItt nézhető meg: %s\n\nMinden jót!",
-"web services under your control" => "webszolgáltatások saját kézben",
 "Edit categories" => "Kategóriák szerkesztése",
 "Add" => "Hozzáadás",
 "Security Warning" => "Biztonsági figyelmeztetés",

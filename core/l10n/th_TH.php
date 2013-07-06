@@ -97,7 +97,6 @@
 "Help" => "ช่วยเหลือ",
 "Access forbidden" => "การเข้าถึงถูกหวงห้าม",
 "Cloud not found" => "ไม่พบ Cloud",
-"web services under your control" => "เว็บเซอร์วิสที่คุณควบคุมการใช้งานได้",
 "Edit categories" => "แก้ไขหมวดหมู่",
 "Add" => "เพิ่ม",
 "Security Warning" => "คำเตือนเกี่ยวกับความปลอดภัย",

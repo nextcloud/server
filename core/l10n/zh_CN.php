@@ -106,7 +106,6 @@
 "Access forbidden" => "访问禁止",
 "Cloud not found" => "未找到云",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "您好，\n\n%s 向您分享了 %s。\n查看： %s",
-"web services under your control" => "您控制的web服务",
 "Edit categories" => "编辑分类",
 "Add" => "增加",
 "Security Warning" => "安全警告",

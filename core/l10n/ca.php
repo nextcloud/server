@@ -106,7 +106,6 @@
 "Access forbidden" => "Accés prohibit",
 "Cloud not found" => "No s'ha trobat el núvol",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Ei,\n\nnomés fer-te saber que %s ha compartit %s amb tu.\nMira-ho: %s\n\nSalut!",
-"web services under your control" => "controleu els vostres serveis web",
 "Edit categories" => "Edita les categories",
 "Add" => "Afegeix",
 "Security Warning" => "Avís de seguretat",

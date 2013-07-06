@@ -4,13 +4,14 @@
 # 
 # Translators:
 # rogerc, 2013
+# Josep Tomàs <jtomas.binsoft@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-05 02:12+0200\n"
-"PO-Revision-Date: 2013-07-04 07:55+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-06 02:01+0200\n"
+"PO-Revision-Date: 2013-07-05 23:24+0000\n"
+"Last-Translator: Josep Tomàs <jtomas.binsoft@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,54 +29,54 @@ msgstr "No s'ha pogut moure %s - Ja hi ha un fitxer amb aquest nom"
 msgid "Could not move %s"
 msgstr " No s'ha pogut moure %s"
 
-#: ajax/upload.php:16 ajax/upload.php:39
+#: ajax/upload.php:16 ajax/upload.php:36 ajax/upload.php:48
 msgid "Unable to set upload directory."
 msgstr "No es pot establir la carpeta de pujada."
 
-#: ajax/upload.php:23
+#: ajax/upload.php:22
 msgid "Invalid Token"
 msgstr "Testimoni no vàlid"
 
-#: ajax/upload.php:55
+#: ajax/upload.php:62
 msgid "No file was uploaded. Unknown error"
 msgstr "No s'ha carregat cap fitxer. Error desconegut"
 
-#: ajax/upload.php:62
+#: ajax/upload.php:69
 msgid "There is no error, the file uploaded with success"
 msgstr "No hi ha errors, el fitxer s'ha carregat correctament"
 
-#: ajax/upload.php:63
+#: ajax/upload.php:70
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "L’arxiu que voleu carregar supera el màxim definit en la directiva upload_max_filesize del php.ini:"
 
-#: ajax/upload.php:65
+#: ajax/upload.php:72
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "El fitxer carregat supera la directiva MAX_FILE_SIZE especificada al formulari HTML"
 
-#: ajax/upload.php:66
+#: ajax/upload.php:73
 msgid "The uploaded file was only partially uploaded"
 msgstr "El fitxer només s'ha carregat parcialment"
 
-#: ajax/upload.php:67
+#: ajax/upload.php:74
 msgid "No file was uploaded"
 msgstr "No s'ha carregat cap fitxer"
 
-#: ajax/upload.php:68
+#: ajax/upload.php:75
 msgid "Missing a temporary folder"
 msgstr "Falta un fitxer temporal"
 
-#: ajax/upload.php:69
+#: ajax/upload.php:76
 msgid "Failed to write to disk"
 msgstr "Ha fallat en escriure al disc"
 
-#: ajax/upload.php:87
+#: ajax/upload.php:94
 msgid "Not enough storage available"
 msgstr "No hi ha prou espai disponible"
 
-#: ajax/upload.php:119
+#: ajax/upload.php:126
 msgid "Invalid directory."
 msgstr "Directori no vàlid."
 
@@ -232,7 +233,7 @@ msgstr "{count} fitxers"
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "%s no es pot canviar el nom"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -330,11 +331,11 @@ msgstr "Actualment escanejant"
 
 #: templates/part.list.php:78
 msgid "directory"
-msgstr ""
+msgstr "directori"
 
 #: templates/part.list.php:80
 msgid "directories"
-msgstr ""
+msgstr "directoris"
 
 #: templates/part.list.php:89
 msgid "file"

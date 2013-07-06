@@ -104,7 +104,6 @@
 "Access forbidden" => "Δεν επιτρέπεται η πρόσβαση",
 "Cloud not found" => "Δεν βρέθηκε νέφος",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Γεια σας,\n\nσας ενημερώνουμε ότι ο %s διαμοιράστηκε μαζί σας το %s.\nΔείτε το: %s\n\nΓεια χαρά!",
-"web services under your control" => "υπηρεσίες δικτύου υπό τον έλεγχό σας",
 "Edit categories" => "Επεξεργασία κατηγοριών",
 "Add" => "Προσθήκη",
 "Security Warning" => "Προειδοποίηση Ασφαλείας",

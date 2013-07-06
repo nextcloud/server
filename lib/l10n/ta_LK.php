@@ -5,6 +5,7 @@
 "Users" => "பயனாளர்",
 "Apps" => "செயலிகள்",
 "Admin" => "நிர்வாகம்",
+"web services under your control" => "வலைய சேவைகள் உங்களுடைய கட்டுப்பாட்டின் கீழ் உள்ளது",
 "ZIP download is turned off." => "வீசொலிப் பூட்டு பதிவிறக்கம் நிறுத்தப்பட்டுள்ளது.",
 "Files need to be downloaded one by one." => "கோப்புகள்ஒன்றன் பின் ஒன்றாக பதிவிறக்கப்படவேண்டும்.",
 "Back to Files" => "கோப்புகளுக்கு செல்க",

@@ -105,7 +105,6 @@
 "Access forbidden" => "Acceso prohibido",
 "Cloud not found" => "No se encontró ownCloud",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Hola,\n\nSimplemente te informo que %s compartió %s con vos.\nMiralo acá: %s\n\n¡Chau!",
-"web services under your control" => "servicios web que controlás",
 "Edit categories" => "Editar categorías",
 "Add" => "Agregar",
 "Security Warning" => "Advertencia de seguridad",

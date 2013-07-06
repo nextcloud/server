@@ -101,7 +101,6 @@
 "Help" => "עזרה",
 "Access forbidden" => "הגישה נחסמה",
 "Cloud not found" => "ענן לא נמצא",
-"web services under your control" => "שירותי רשת תחת השליטה שלך",
 "Edit categories" => "ערוך קטגוריות",
 "Add" => "הוספה",
 "Security Warning" => "אזהרת אבטחה",

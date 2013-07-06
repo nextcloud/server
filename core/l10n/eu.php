@@ -98,7 +98,6 @@
 "Help" => "Laguntza",
 "Access forbidden" => "Sarrera debekatuta",
 "Cloud not found" => "Ez da hodeia aurkitu",
-"web services under your control" => "web zerbitzuak zure kontrolpean",
 "Edit categories" => "Editatu kategoriak",
 "Add" => "Gehitu",
 "Security Warning" => "Segurtasun abisua",

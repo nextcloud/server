@@ -98,7 +98,6 @@
 "Help" => "راه‌نما",
 "Access forbidden" => "اجازه دسترسی به مناطق ممنوعه را ندارید",
 "Cloud not found" => "پیدا نشد",
-"web services under your control" => "سرویس های تحت وب در کنترل شما",
 "Edit categories" => "ویرایش گروه",
 "Add" => "افزودن",
 "Security Warning" => "اخطار امنیتی",

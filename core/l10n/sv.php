@@ -106,7 +106,6 @@
 "Access forbidden" => "Åtkomst förbjuden",
 "Cloud not found" => "Hittade inget moln",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Hej där,⏎\n⏎\nville bara meddela dig att %s delade %s med dig.⏎\nTitta på den: %s⏎\n⏎\nVi hörs!",
-"web services under your control" => "webbtjänster under din kontroll",
 "Edit categories" => "Editera kategorier",
 "Add" => "Lägg till",
 "Security Warning" => "Säkerhetsvarning",

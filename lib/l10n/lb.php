@@ -5,6 +5,7 @@
 "Users" => "Benotzer",
 "Apps" => "Applikatiounen",
 "Admin" => "Admin",
+"web services under your control" => "Web-Servicer ënnert denger Kontroll",
 "Authentication error" => "Authentifikatioun's Fehler",
 "Files" => "Dateien",
 "Text" => "SMS",

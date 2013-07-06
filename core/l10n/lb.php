@@ -106,7 +106,6 @@
 "Access forbidden" => "Zougrëff net erlaabt",
 "Cloud not found" => "Cloud net fonnt",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Hallo,\n\nech wëll just Bescheed soen dass den/d' %s,  »%s« mat dir gedeelt huet.\nKucken: %s\n\nE schéine Bonjour!",
-"web services under your control" => "Web-Servicer ënnert denger Kontroll",
 "Edit categories" => "Kategorien editéieren",
 "Add" => "Dobäisetzen",
 "Security Warning" => "Sécherheets-Warnung",

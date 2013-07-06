@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"The password is wrong. Try again." => "Parola este incorectă. Încercaţi din nou.",
 "Password" => "Parolă",
 "Submit" => "Trimite",
 "%s shared the folder %s with you" => "%s a partajat directorul %s cu tine",

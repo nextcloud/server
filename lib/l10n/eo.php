@@ -5,6 +5,7 @@
 "Users" => "Uzantoj",
 "Apps" => "Aplikaĵoj",
 "Admin" => "Administranto",
+"web services under your control" => "TTT-servoj regataj de vi",
 "ZIP download is turned off." => "ZIP-elŝuto estas malkapabligita.",
 "Files need to be downloaded one by one." => "Dosieroj devas elŝutiĝi unuope.",
 "Back to Files" => "Reen al la dosieroj",

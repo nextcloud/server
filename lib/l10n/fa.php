@@ -5,6 +5,7 @@
 "Users" => "کاربران",
 "Apps" => "  برنامه ها",
 "Admin" => "مدیر",
+"web services under your control" => "سرویس های تحت وب در کنترل شما",
 "ZIP download is turned off." => "دانلود به صورت فشرده غیر فعال است",
 "Files need to be downloaded one by one." => "فایل ها باید به صورت یکی یکی دانلود شوند",
 "Back to Files" => "بازگشت به فایل ها",

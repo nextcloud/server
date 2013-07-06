@@ -102,7 +102,6 @@
 "Help" => "說明",
 "Access forbidden" => "存取被拒",
 "Cloud not found" => "未發現雲端",
-"web services under your control" => "由您控制的網路服務",
 "Edit categories" => "編輯分類",
 "Add" => "增加",
 "Security Warning" => "安全性警告",

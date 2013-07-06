@@ -5,6 +5,7 @@
 "Users" => "Notendur",
 "Apps" => "Forrit",
 "Admin" => "Stjórnun",
+"web services under your control" => "vefþjónusta undir þinni stjórn",
 "ZIP download is turned off." => "Slökkt á ZIP niðurhali.",
 "Files need to be downloaded one by one." => "Skrárnar verður að sækja eina og eina",
 "Back to Files" => "Aftur í skrár",

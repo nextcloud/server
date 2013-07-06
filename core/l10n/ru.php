@@ -105,7 +105,6 @@
 "Access forbidden" => "Доступ запрещён",
 "Cloud not found" => "Облако не найдено",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Приветствую,⏎\n⏎\nпросто даю знать, что %s поделился %s с вами.⏎\nПосмотреть: %s⏎\n⏎\nУдачи!",
-"web services under your control" => "веб-сервисы под вашим управлением",
 "Edit categories" => "Редактировать категрии",
 "Add" => "Добавить",
 "Security Warning" => "Предупреждение безопасности",

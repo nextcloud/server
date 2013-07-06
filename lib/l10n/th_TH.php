@@ -5,6 +5,7 @@
 "Users" => "ผู้ใช้งาน",
 "Apps" => "แอปฯ",
 "Admin" => "ผู้ดูแล",
+"web services under your control" => "เว็บเซอร์วิสที่คุณควบคุมการใช้งานได้",
 "ZIP download is turned off." => "คุณสมบัติการดาวน์โหลด zip ถูกปิดการใช้งานไว้",
 "Files need to be downloaded one by one." => "ไฟล์สามารถดาวน์โหลดได้ทีละครั้งเท่านั้น",
 "Back to Files" => "กลับไปที่ไฟล์",

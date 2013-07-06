@@ -100,7 +100,6 @@
 "Help" => "Giúp đỡ",
 "Access forbidden" => "Truy cập bị cấm",
 "Cloud not found" => "Không tìm thấy Clound",
-"web services under your control" => "dịch vụ web dưới sự kiểm soát của bạn",
 "Edit categories" => "Sửa chuyên mục",
 "Add" => "Thêm",
 "Security Warning" => "Cảnh bảo bảo mật",

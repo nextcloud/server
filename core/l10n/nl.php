@@ -106,7 +106,6 @@
 "Access forbidden" => "Toegang verboden",
 "Cloud not found" => "Cloud niet gevonden",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Hallo daar,\n\n%s deelde %s met jou.\nBekijk: %s\n\nVeel plezier!",
-"web services under your control" => "Webdiensten in eigen beheer",
 "Edit categories" => "Wijzig categorieën",
 "Add" => "Toevoegen",
 "Security Warning" => "Beveiligingswaarschuwing",
