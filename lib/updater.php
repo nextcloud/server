@@ -37,9 +37,10 @@ class Updater extends BasicEmitter {
 
 	/**
 	 * Check if a new version is available
+	 * @param string $updateUrl the url to check, i.e. 'http://apps.owncloud.com/updater.php'
 	 * @return array | bool
 	 */
-	public function check() {
+	public function check($updaterUrl) {
 
 		// Look up the cache - it is invalidated all 30 minutes
 		if ((\OC_Appconfig::getValue('core', 'lastupdatedat') + 1800) > time()) {
@@ -51,17 +52,16 @@ class Updater extends BasicEmitter {
 		if (\OC_Appconfig::getValue('core', 'installedat', '') == '') {
 			\OC_Appconfig::setValue('core', 'installedat', microtime(true));
 		}
-
-		$updaterurl = 'http://apps.owncloud.com/updater.php';
+;
 		$version = \OC_Util::getVersion();
 		$version['installed'] = \OC_Appconfig::getValue('core', 'installedat');
 		$version['updated'] = \OC_Appconfig::getValue('core', 'lastupdatedat');
 		$version['updatechannel'] = 'stable';
 		$version['edition'] = \OC_Util::getEditionString();
-		$versionstring = implode('x', $version);
+		$versionString = implode('x', $version);
 
 		//fetch xml data from updater
-		$url = $updaterurl . '?version=' . $versionstring;
+		$url = $updaterUrl . '?version=' . $versionString;
 
 		// set a sensible timeout of 10 sec to stay responsive even if the update server is down.
 		$ctx = stream_context_create(
