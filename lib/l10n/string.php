@@ -8,18 +8,23 @@
 
 class OC_L10N_String{
 	protected $l10n;
-	public function __construct($l10n, $text, $parameters) {
+	public function __construct($l10n, $text, $parameters, $count = 1) {
 		$this->l10n = $l10n;
 		$this->text = $text;
 		$this->parameters = $parameters;
+		$this->count = $count;
 
 	}
 
 	public function __toString() {
 		$translations = $this->l10n->getTranslations();
+
+		$text = $this->text;
 		if(array_key_exists($this->text, $translations)) {
-			return vsprintf($translations[$this->text], $this->parameters);
+			$text = $translations[$this->text];
 		}
-		return vsprintf($this->text, $this->parameters);
+		// Replace %n first (won't interfere with vsprintf)
+		$text = str_replace('%n', $this->count, $text);
+		return vsprintf($text, $this->parameters);
 	}
 }

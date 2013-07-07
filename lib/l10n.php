@@ -168,6 +168,26 @@ class OC_L10N{
 
 	/**
 	 * @brief Translating
+	 * @param $text_singular String the string to translate for exactly one object
+	 * @param $text_plural String the string to translate for n objects
+	 * @param $count Integer Number of objects
+	 * @param array $parameters default:array() Parameters for sprintf
+	 * @return \OC_L10N_String Translation or the same text
+	 *
+	 * Returns the translation. If no translation is found, $text will be
+	 * returned. %n will be replaced with the number of objects.
+	 */
+	public function tp($text_singular, $text_plural, $count, $parameters = array()) {
+		if($count == 1){
+			return new OC_L10N_String($this, $text_singular, $parameters, $count);
+		}
+		else{
+			return new OC_L10N_String($this, $text_plural, $parameters, $count);
+		}
+	}
+
+	/**
+	 * @brief Translating
 	 * @param $textArray The text array we need a translation for
 	 * @returns Translation or the same text
 	 *
