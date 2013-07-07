@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# miki_mika1362 <miki_mika1362@yahoo.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-06 02:01+0200\n"
-"PO-Revision-Date: 2013-07-05 23:24+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-07 01:58+0200\n"
+"PO-Revision-Date: 2013-07-06 23:14+0000\n"
+"Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,11 +30,11 @@ msgstr "%s نمی تواند حرکت کند "
 
 #: ajax/upload.php:16 ajax/upload.php:36 ajax/upload.php:48
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "قادر به تنظیم پوشه آپلود نمی باشد."
 
 #: ajax/upload.php:22
 msgid "Invalid Token"
-msgstr ""
+msgstr "رمز نامعتبر"
 
 #: ajax/upload.php:62
 msgid "No file was uploaded. Unknown error"
@@ -105,7 +106,7 @@ msgstr "URL  نمی تواند خالی باشد."
 
 #: js/file-upload.js:238 lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
-msgstr ""
+msgstr "نام پوشه نامعتبر است. استفاده از 'به اشتراک گذاشته شده' متعلق به ownCloud میباشد."
 
 #: js/file-upload.js:267 js/file-upload.js:283 js/files.js:373 js/files.js:389
 #: js/files.js:693 js/files.js:731
@@ -231,7 +232,7 @@ msgstr "{ شمار } فایل ها"
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "%s نمیتواند تغییر نام دهد."
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -329,11 +330,11 @@ msgstr "بازرسی کنونی"
 
 #: templates/part.list.php:78
 msgid "directory"
-msgstr ""
+msgstr "پوشه"
 
 #: templates/part.list.php:80
 msgid "directories"
-msgstr ""
+msgstr "پوشه ها"
 
 #: templates/part.list.php:89
 msgid "file"

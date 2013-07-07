@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# miki_mika1362 <miki_mika1362@yahoo.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-06 02:02+0200\n"
-"PO-Revision-Date: 2013-07-06 00:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-07 01:59+0200\n"
+"PO-Revision-Date: 2013-07-06 23:14+0000\n"
+"Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s به اشتراک گذاشته شده است »%s« توسط شما"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -203,7 +204,7 @@ msgstr "منصرف شدن"
 
 #: js/oc-dialogs.js:141 js/oc-dialogs.js:200
 msgid "Error loading file picker template"
-msgstr ""
+msgstr "خطا در بارگذاری قالب انتخاب کننده فایل"
 
 #: js/oc-dialogs.js:164
 msgid "Yes"
@@ -284,7 +285,7 @@ msgstr "گذرواژه"
 
 #: js/share.js:187
 msgid "Allow Public Upload"
-msgstr ""
+msgstr "اجازه آپلود عمومی"
 
 #: js/share.js:191
 msgid "Email link to person"
@@ -390,11 +391,11 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr ""
+msgstr "لینک تنظیم مجدد رمز عبور به ایمیل شما ارسال شده است.<br>اگر آن رادر یک زمان مشخصی دریافت نکرده اید، لطفا هرزنامه/ پوشه های ناخواسته را بررسی کنید.<br>در صورت نبودن از مدیر خود بپرسید."
 
 #: lostpassword/templates/lostpassword.php:12
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
+msgstr "درخواست رد شده است !<br> آیا مطمئن هستید که ایمیل/ نام کاربری شما صحیح میباشد ؟"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
@@ -411,11 +412,11 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr ""
+msgstr "فایل های شما رمزگذاری شده اند. اگر شما کلید بازیابی را فعال نکرده اید، پس از راه اندازی مجدد رمزعبور هیچ راهی برای بازگشت اطلاعاتتان وجود نخواهد داشت.در صورت عدم اطمینان به انجام کار، لطفا ابتدا با مدیر خود تماس بگیرید. آیا واقعا میخواهید ادامه دهید ؟"
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
-msgstr ""
+msgstr "بله، من اکنون میخواهم رمز عبور خود را مجددا راه اندازی کنم."
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
@@ -474,7 +475,7 @@ msgid ""
 "View it: %s\n"
 "\n"
 "Cheers!"
-msgstr ""
+msgstr "اینجا,⏎\n فقط به شما اجازه میدهد که بدانید %s به اشتراک گذاشته شده %s توسط شما.⏎\nمشاهده آن :  %s⏎\n⏎\nبه سلامتی!"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -571,7 +572,7 @@ msgstr "اتمام نصب"
 #: templates/layout.user.php:43
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr ""
+msgstr "%s در دسترس است. برای چگونگی به روز رسانی اطلاعات بیشتر را دریافت نمایید."
 
 #: templates/layout.user.php:68
 msgid "Log out"
@@ -612,7 +613,7 @@ msgstr "ورود متناوب"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr ""
+msgstr "اینجا<br><br> فقط به شما اجازه میدهد که بدانید %s به اشتراک گذاشته شده»%s« توسط شما.<br><a href=\"%s\"> مشاهده آن!</a><br><br> به سلامتی!"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-06 02:01+0200\n"
-"PO-Revision-Date: 2013-07-05 23:24+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-07 01:58+0200\n"
+"PO-Revision-Date: 2013-07-06 23:14+0000\n"
+"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,11 +30,11 @@ msgstr "Non foi posíbel mover %s"
 
 #: ajax/upload.php:16 ajax/upload.php:36 ajax/upload.php:48
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "Non é posíbel configurar o directorio de envíos."
 
 #: ajax/upload.php:22
 msgid "Invalid Token"
-msgstr ""
+msgstr "Marca incorrecta"
 
 #: ajax/upload.php:62
 msgid "No file was uploaded. Unknown error"
@@ -232,7 +232,7 @@ msgstr "{count} ficheiros"
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "%s non pode cambiar de nome"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -330,11 +330,11 @@ msgstr "Análise actual"
 
 #: templates/part.list.php:78
 msgid "directory"
-msgstr ""
+msgstr "directorio"
 
 #: templates/part.list.php:80
 msgid "directories"
-msgstr ""
+msgstr "directorios"
 
 #: templates/part.list.php:89
 msgid "file"

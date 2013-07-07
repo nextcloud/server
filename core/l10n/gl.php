@@ -62,6 +62,7 @@
 "Share with link" => "Compartir coa ligazón",
 "Password protect" => "Protexido con contrasinais",
 "Password" => "Contrasinal",
+"Allow Public Upload" => "Permitir o envío público",
 "Email link to person" => "Enviar ligazón por correo",
 "Send" => "Enviar",
 "Set expiration date" => "Definir a data de caducidade",
