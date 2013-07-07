@@ -39,7 +39,7 @@ sub crawlFiles{
 	foreach my $i ( @files ){
 		next if substr( $i, 0, 1 ) eq '.';
 		next if $i eq 'l10n';
-		
+
 		if( -d $dir.'/'.$i ){
 			push( @found, crawlFiles( $dir.'/'.$i ));
 		}
@@ -100,11 +100,17 @@ if( $task eq 'read' ){
 
 		foreach my $file ( @totranslate ){
 			next if $ignore{$file};
-			my $keyword = ( $file =~ /\.js$/ ? 't:2' : 't');
+			my $keywords = '';
+			if( $file =~ /\.js$/ ){
+				$keywords = '--keyword=t:2 --keyword=tp:2,3';
+			}
+			else{
+				$keywords = '--keyword=t --keyword=tp:1,2';
+			}
 			my $language = ( $file =~ /\.js$/ ? 'Python' : 'PHP');
 			my $joinexisting = ( -e $output ? '--join-existing' : '');
 			print "    Reading $file\n";
-			`xgettext --output="$output" $joinexisting --keyword=$keyword --language=$language "$file" --from-code=UTF-8 --package-version="5.0.0" --package-name="ownCloud Core" --msgid-bugs-address="translations\@owncloud.org"`;
+			`xgettext --output="$output" $joinexisting $keywords --language=$language "$file" --from-code=UTF-8 --package-version="5.0.0" --package-name="ownCloud Core" --msgid-bugs-address="translations\@owncloud.org"`;
 		}
 		chdir( $whereami );
 	}
@@ -118,7 +124,7 @@ elsif( $task eq 'write' ){
 		print "  Processing $app\n";
 		foreach my $language ( @languages ){
 			next if $language eq 'templates';
-			
+
 			my $input = "${whereami}/$language/$app.po";
 			next unless -e $input;
 
@@ -128,8 +134,18 @@ elsif( $task eq 'write' ){
 			my @strings = ();
 			foreach my $string ( @{$array} ){
 				next if $string->msgid() eq '""';
-				next if $string->msgstr() eq '""';
-				push( @strings, $string->msgid()." => ".$string->msgstr());
+
+				# Do we use singular or plural?
+				if( defined( $string->msgstr_n() )){
+					next if $string->msgstr_n()->{"0"} eq '""' ||
+					  $string->msgstr_n()->{"1"} eq '""';
+					push( @strings, $string->msgid()." => ".$string->msgstr_n()->{"0"} );
+					push( @strings, $string->msgid_plural()." => ".$string->msgstr_n()->{"1"} );
+				}
+				else{
+					next if $string->msgstr() eq '""';
+					push( @strings, $string->msgid()." => ".$string->msgstr());
+				}
 			}
 			next if $#strings == -1; # Skip empty files
 
