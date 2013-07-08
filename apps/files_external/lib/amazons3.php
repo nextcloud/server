@@ -71,7 +71,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				'key' => $params['key'],
 				'secret' => $params['secret'],
 				'scheme' => $scheme,
-				'region' => $params'[region']
+				'region' => $params['region']
 			));
 		}
 
