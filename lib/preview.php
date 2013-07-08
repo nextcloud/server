@@ -519,10 +519,6 @@ class Preview {
 		$file = '';
 		$maxX = 0;
 		$maxY = 0;
-		/*
-		 * use: ?scalingup=0 / ?scalingup = 1
-		 * do not use ?scalingup=false / ?scalingup = true as these will always be true
-		 */
 		$scalingup = true;
 
 		if(array_key_exists('file', $_GET)) $file = (string) urldecode($_GET['file']);
@@ -598,6 +594,37 @@ class Preview {
 		if($userid !== null && $path !== null && $sharedfile !== null) {
 			try{
 				$preview = new Preview($userid, 'files/' . $path, $sharedfile, $maxX, $maxY, $scalingup);
+				$preview->showPreview();
+			}catch(\Exception $e) {
+				\OC_Response::setStatus(404);
+				\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
+				exit;
+			}
+		}else{
+			\OC_Response::setStatus(404);
+			exit;
+		}
+	}
+
+	public static function trashbinPreviewRouter() {
+		if(!\OC_App::isEnabled('files_trashbin')){
+			exit;
+		}
+		\OC_Util::checkLoggedIn();
+
+		$file = '';
+		$maxX = 0;
+		$maxY = 0;
+		$scalingup = true;
+
+		if(array_key_exists('file', $_GET)) $file = (string) urldecode($_GET['file']);
+		if(array_key_exists('x', $_GET)) $maxX = (int) $_GET['x'];
+		if(array_key_exists('y', $_GET)) $maxY = (int) $_GET['y'];
+		if(array_key_exists('scalingup', $_GET)) $scalingup = (bool) $_GET['scalingup'];
+
+		if($file !== '' && $maxX !== 0 && $maxY !== 0) {
+			try{
+				$preview = new Preview(\OC_User::getUser(), 'files_trashbin/files', $file, $maxX, $maxY, $scalingup);
 				$preview->showPreview();
 			}catch(\Exception $e) {
 				\OC_Response::setStatus(404);

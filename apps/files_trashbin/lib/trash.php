@@ -850,4 +850,8 @@ class Trashbin {
 		//Listen to delete user signal
 		\OCP\Util::connectHook('OC_User', 'pre_deleteUser', "OCA\Files_Trashbin\Hooks", "deleteUser_hook");
 	}
+
+	public static function preview_icon($path) {
+		return \OC_Helper::linkToRoute( 'core_ajax_trashbin_preview', array('x' => 44, 'y' => 44, 'file' => $path));
+	}
 }
