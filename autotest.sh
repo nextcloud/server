@@ -143,11 +143,10 @@ EOF
 #
 if [ -z "$1" ]
   then
-	execute_tests "sqlite"
+	execute_tests 'sqlite'
 	execute_tests 'mysql'
 	execute_tests 'pgsql'
-	# we will add oci as soon as it's stable
-	#execute_tests 'oci'
+	execute_tests 'oci'
 else
 	execute_tests $1 $2 $3
 fi
