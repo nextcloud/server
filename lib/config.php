@@ -49,6 +49,9 @@ class Config {
 
 	protected $debugMode;
 
+	/**
+	 * @param $configDir path to the config dir, needs to end with '/'
+	 */
 	public function __construct($configDir) {
 		$this->configDir = $configDir;
 		$this->configFilename = $this->configDir.'config.php';
