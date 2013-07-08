@@ -40,19 +40,26 @@ class AmazonS3 extends Storage {
 		if ($this->instance) {
 			$connection = $this->instance->getConnection();
 
-			// NOTE(berendt): clearBucket() is not working with Ceph
-			$iterator = $connection->getIterator('ListObjects', array(
-				'Bucket' => $this->config['amazons3']['bucket']
-			));
-
-			foreach ($iterator as $object) {
-				$connection->deleteObject(array(
-					'Bucket' => $this->config['amazons3']['bucket'],
-					'Key' => $object['Key']
+			try {
+				// NOTE(berendt): clearBucket() is not working with Ceph
+				$iterator = $connection->getIterator('ListObjects', array(
+					'Bucket' => $this->config['amazons3']['bucket']
 				));
+
+				foreach ($iterator as $object) {
+					$connection->deleteObject(array(
+						'Bucket' => $this->config['amazons3']['bucket'],
+						'Key' => $object['Key']
+					));
+				}
+			} catch (S3Exception $e) {
 			}
 
 			$connection->deleteBucket(array(
+				'Bucket' => $this->config['amazons3']['bucket']
+			));
+
+			$connection->waitUntilBucketNotExists(array(
 				'Bucket' => $this->config['amazons3']['bucket']
 			));
 		}
