@@ -49,7 +49,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 	public function __construct($params) {
 		if ( ! isset($params['key']) || ! isset($params['secret']) || ! isset($params['bucket'])) {
-			throw new \Exception();
+			throw new \Exception("Access Key, Secret and Bucket have to be configured.");
 		}
 
 		$this->id = 'amazon::' . $params['key'] . md5($params['secret']);
@@ -76,7 +76,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		if (! $this->connection->isValidBucketName($this->bucket)) {
-			throw new \Exception();
+			throw new \Exception("The configured bucket name is invalid.");
 		}
 
 		if ( ! $this->connection->doesBucketExist($this->bucket)) {
