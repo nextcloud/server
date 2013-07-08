@@ -155,6 +155,8 @@ class OC_Config{
 	 */
 	public static function writeData() {
 		// Create a php file ...
+		$defaults = new OC_Defaults;
+		
 		$content = "<?php\n\$CONFIG = ";
 		$content .= var_export(self::$cache, true);
 		$content .= ";\n";
@@ -166,8 +168,8 @@ class OC_Config{
 			$tmpl = new OC_Template( '', 'error', 'guest' );
 			$tmpl->assign('errors', array(1=>array(
 				'error'=>"Can't write into config directory 'config'",
-				'hint'=>'You can usually fix this by giving the webserver user write access'
-					.' to the config directory in owncloud')));
+				'hint'=>'This can usually be fixed by '
+					.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html#set-the-directory-permissions" target="_blank">giving the webserver write access to the config directory</a>.')));
 			$tmpl->printPage();
 			exit;
 		}
