@@ -674,7 +674,13 @@ class Share {
 					// Remove the permissions for all reshares of this item
 					if (!empty($ids)) {
 						$ids = "'".implode("','", $ids)."'";
-						$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `permissions` = `permissions` & ?'
+						// TODO this should be done with Doctrine platform objects
+						if (\OC_Config::getValue( "dbtype") === 'oci') {
+							$andOp = 'BITAND(`permissions`, ?)';
+						} else {
+							$andOp = '`permissions` & ?';
+						}
+						$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `permissions` = '.$andOp
 							.' WHERE `id` IN ('.$ids.')');
 						$query->execute(array($permissions));
 					}
@@ -975,6 +981,30 @@ class Share {
 		$switchedItems = array();
 		$mounts = array();
 		while ($row = $result->fetchRow()) {
+			if (isset($row['id'])) {
+				$row['id']=(int)$row['id'];
+			}
+			if (isset($row['share_type'])) {
+				$row['share_type']=(int)$row['share_type'];
+			}
+			if (isset($row['parent'])) {
+				$row['parent']=(int)$row['parent'];
+			}
+			if (isset($row['file_parent'])) {
+				$row['file_parent']=(int)$row['file_parent'];
+			}
+			if (isset($row['file_source'])) {
+				$row['file_source']=(int)$row['file_source'];
+			}
+			if (isset($row['permissions'])) {
+				$row['permissions']=(int)$row['permissions'];
+			}
+			if (isset($row['storage'])) {
+				$row['storage']=(int)$row['storage'];
+			}
+			if (isset($row['stime'])) {
+				$row['stime']=(int)$row['stime'];
+			}
 			// Filter out duplicate group shares for users with unique targets
 			if ($row['share_type'] == self::$shareTypeGroupUserUnique && isset($items[$row['parent']])) {
 				$row['share_type'] = self::SHARE_TYPE_GROUP;
@@ -990,7 +1020,7 @@ class Share {
 					// Check if the same owner shared with the user twice
 					// through a group and user share - this is allowed
 					$id = $targets[$row[$column]];
-					if ($items[$id]['uid_owner'] == $row['uid_owner']) {
+					if (isset($items[$id]) && $items[$id]['uid_owner'] == $row['uid_owner']) {
 						// Switch to group share type to ensure resharing conditions aren't bypassed
 						if ($items[$id]['share_type'] != self::SHARE_TYPE_GROUP) {
 							$items[$id]['share_type'] = self::SHARE_TYPE_GROUP;
@@ -1608,7 +1638,7 @@ class Share {
 	}
 
 	public static function post_deleteGroup($arguments) {
-		$query = \OC_DB::prepare('SELECT id FROM `*PREFIX*share` WHERE `share_type` = ? AND `share_with` = ?');
+		$query = \OC_DB::prepare('SELECT `id` FROM `*PREFIX*share` WHERE `share_type` = ? AND `share_with` = ?');
 		$result = $query->execute(array(self::SHARE_TYPE_GROUP, $arguments['gid']));
 		while ($item = $result->fetchRow()) {
 			self::delete($item['id']);

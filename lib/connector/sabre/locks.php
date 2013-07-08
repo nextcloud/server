@@ -176,7 +176,7 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*locks` WHERE `userid` = ? AND `uri` = ? AND `token` = ?' );
 		$result = $query->execute( array(OC_User::getUser(), $uri, $lockInfo->token));
 
-		return $result->numRows() === 1;
+		return $result === 1;
 
 	}
 

@@ -325,11 +325,12 @@ class OC_DB {
 	 * @param string $query Query string
 	 * @param int $limit
 	 * @param int $offset
+	 * @param bool $isManipulation
 	 * @return MDB2_Statement_Common prepared SQL query
 	 *
 	 * SQL query via MDB2 prepare(), needs to be execute()'d!
 	 */
-	static public function prepare( $query , $limit=null, $offset=null ) {
+	static public function prepare( $query , $limit = null, $offset = null, $isManipulation = null) {
 
 		if (!is_null($limit) && $limit != -1) {
 			if (self::$backend == self::BACKEND_MDB2) {
@@ -364,12 +365,23 @@ class OC_DB {
 		$query = self::processQuery( $query );
 
 		self::connect();
+		
+		if ($isManipulation === null) {
+			//try to guess, so we return the number of rows on manipulations
+			$isManipulation = self::isManipulation($query);
+		}
+		
 		// return the result
 		if(self::$backend==self::BACKEND_MDB2) {
-			$result = self::$connection->prepare( $query );
+			// differentiate between query and manipulation
+			if ($isManipulation) {
+				$result = self::$connection->prepare( $query, null, MDB2_PREPARE_MANIP );
+			} else {
+				$result = self::$connection->prepare( $query, null, MDB2_PREPARE_RESULT );
+			}
 
 			// Die if we have an error (error means: bad query, not 0 results!)
-			if( PEAR::isError($result)) {
+			if( self::isError($result)) {
 				throw new DatabaseException($result->getMessage(), $query);
 			}
 		}else{
@@ -378,7 +390,8 @@ class OC_DB {
 			}catch(PDOException $e) {
 				throw new DatabaseException($e->getMessage(), $query);
 			}
-			$result=new PDOStatementWrapper($result);
+			// differentiate between query and manipulation
+			$result = new PDOStatementWrapper($result, $isManipulation);
 		}
 		if ((is_null($limit) || $limit == -1) and self::$cachingEnabled ) {
 			$type = OC_Config::getValue( "dbtype", "sqlite" );
@@ -388,7 +401,33 @@ class OC_DB {
 		}
 		return $result;
 	}
-
+	
+	/**
+	 * tries to guess the type of statement based on the first 10 characters
+	 * the current check allows some whitespace but does not work with IF EXISTS or other more complex statements
+	 * 
+	 * @param string $sql
+	 */
+	static public function isManipulation( $sql ) {
+		$selectOccurence = stripos ($sql, "SELECT");
+		if ($selectOccurence !== false && $selectOccurence < 10) {
+			return false;
+		}
+		$insertOccurence = stripos ($sql, "INSERT");
+		if ($insertOccurence !== false && $insertOccurence < 10) {
+			return true;
+		}
+		$updateOccurence = stripos ($sql, "UPDATE");
+		if ($updateOccurence !== false && $updateOccurence < 10) {
+			return true;
+		}
+		$deleteOccurance = stripos ($sql, "DELETE");
+		if ($deleteOccurance !== false && $deleteOccurance < 10) {
+			return true;
+		}
+		return false;
+	}
+	
 	/**
 	 * @brief gets last value of autoincrement
 	 * @param string $table The optional table name (will replace *PREFIX*) and add sequence suffix
@@ -625,7 +664,7 @@ class OC_DB {
 	 * @brief Insert a row if a matching row doesn't exists.
 	 * @param string $table. The table to insert into in the form '*PREFIX*tableName'
 	 * @param array $input. An array of fieldname/value pairs
-	 * @returns The return value from PDOStatementWrapper->execute()
+	 * @returns int number of updated rows
 	 */
 	public static function insertIfNotExist($table, $input) {
 		self::connect();
@@ -651,6 +690,10 @@ class OC_DB {
 			try {
 				$stmt = self::prepare($query);
 				$result = $stmt->execute($inserts);
+				if (self::isError($result)) {
+					OC_Log::write('core', self::getErrorMessage($result), OC_Log::FATAL);
+					OC_Template::printErrorPage( $entry );
+				}
 
 			} catch(PDOException $e) {
 				$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
@@ -665,7 +708,7 @@ class OC_DB {
 					. implode('`,`', array_keys($input)) . '`) VALUES('
 					. str_repeat('?,', count($input)-1).'? ' . ')';
 			} else {
-				return true;
+				return 0;
 			}
 		} elseif( $type == 'pgsql' || $type == 'oci' || $type == 'mysql' || $type == 'mssql') {
 			$query = 'INSERT INTO `' .$table . '` (`'
@@ -682,7 +725,18 @@ class OC_DB {
 		}
 
 		try {
-			$result = self::prepare($query);
+			$stmt = self::prepare($query);
+			if (self::isError($stmt)) {
+				$msg = self::getErrorMessage($stmt);
+				OC_Log::write('core', $msg, OC_Log::FATAL);
+				OC_Template::printErrorPage( $msg );
+			}
+			$result = $stmt->execute($inserts);
+			if (self::isError($result)) {
+				$msg = self::getErrorMessage($result);
+				OC_Log::write('core', $msg, OC_Log::FATAL);
+				OC_Template::printErrorPage( $msg );
+			}
 		} catch(PDOException $e) {
 			$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
 			$entry .= 'Offending command was: ' . $query.'<br />';
@@ -691,7 +745,7 @@ class OC_DB {
 			OC_Template::printErrorPage( $entry );
 		}
 
-		return $result->execute($inserts);
+		return $result;
 	}
 
 	/**
@@ -726,6 +780,7 @@ class OC_DB {
 		}elseif( $type == 'oci'  ) {
 			$query = str_replace( '`', '"', $query );
 			$query = str_ireplace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
+			$query = str_ireplace( 'UNIX_TIMESTAMP()', '((CAST(SYS_EXTRACT_UTC(systimestamp) AS DATE))-TO_DATE(\'1970101000000\',\'YYYYMMDDHH24MiSS\'))*24*3600', $query );
 		}elseif( $type == 'mssql' ) {
 			$query = preg_replace( "/\`(.*?)`/", "[$1]", $query );
 			$query = str_replace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
@@ -891,13 +946,16 @@ class OC_DB {
 	 * @return bool
 	 */
 	public static function isError($result) {
-		if(!$result) {
+		//MDB2 returns an MDB2_Error object
+		if (class_exists('PEAR') === true && PEAR::isError($result)) {
 			return true;
-		}elseif(self::$backend==self::BACKEND_MDB2 and PEAR::isError($result)) {
-			return true;
-		}else{
-			return false;
 		}
+		//PDO returns false on error (and throws an exception)
+		if (self::$backend===self::BACKEND_PDO and $result === false) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -946,15 +1004,17 @@ class PDOStatementWrapper{
 	/**
 	 * @var PDOStatement
 	 */
-	private $statement=null;
-	private $lastArguments=array();
+	private $statement = null;
+	private $isManipulation = false;
+	private $lastArguments = array();
 
-	public function __construct($statement) {
-		$this->statement=$statement;
+	public function __construct($statement, $isManipulation = false) {
+		$this->statement = $statement;
+		$this->isManipulation = $isManipulation;
 	}
 
 	/**
-	 * make execute return the result instead of a bool
+	 * make execute return the result or updated row count instead of a bool
 	 */
 	public function execute($input=array()) {
 		$this->lastArguments = $input;
@@ -968,15 +1028,18 @@ class PDOStatementWrapper{
 				$input = $this->tryFixSubstringLastArgumentDataForMSSQL($input);
 			}
 
-			$result=$this->statement->execute($input);
+			$result = $this->statement->execute($input);
 		} else {
-			$result=$this->statement->execute();
+			$result = $this->statement->execute();
 		}
 		
-		if ($result) {
-			return $this;
-		} else {
+		if ($result === false) {
 			return false;
+		}
+		if ($this->isManipulation) {
+			return $this->statement->rowCount();
+		} else {
+			return $this;
 		}
 	}
 
