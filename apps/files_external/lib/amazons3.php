@@ -75,6 +75,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			));
 		}
 
+		if (! $this->connection->isValidBucketName($this->bucket)) {
+			throw new \Exception();
+		}
+
 		if ( ! $this->connection->doesBucketExist($this->bucket)) {
 			$result = $this->connection->createBucket(array(
 				'Bucket' => $this->bucket
