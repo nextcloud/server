@@ -83,7 +83,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			$result = $this->connection->createBucket(array(
 				'Bucket' => $this->bucket
 			));
-			sleep(5);
+			while ( ! $this->connection->doesBucketExist($this->bucket)) {
+				sleep(1);
+			}
 		}
 
 		if ( ! $this->file_exists('.')) {
