@@ -29,12 +29,10 @@ class ErrorHandler {
 	//Fatal errors handler
 	public static function onShutdown() {
 		$error = error_get_last();
-		if($error) {
+		if($error && self::$logger) {
 			//ob_end_clean();
 			$msg = $error['message'] . ' at ' . $error['file'] . '#' . $error['line'];
 			self::$logger->critical($msg, array('app' => 'PHP'));
-		} else {
-			return true;
 		}
 	}
 
