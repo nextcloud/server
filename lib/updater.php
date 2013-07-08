@@ -10,7 +10,7 @@ namespace OC;
 use OC\Hooks\BasicEmitter;
 
 /**
- * Class that handels autoupdating of ownCloud
+ * Class that handles autoupdating of ownCloud
  *
  * Hooks provided in scope \OC\Updater
  *  - maintenanceStart()
@@ -52,7 +52,7 @@ class Updater extends BasicEmitter {
 		if (\OC_Appconfig::getValue('core', 'installedat', '') == '') {
 			\OC_Appconfig::setValue('core', 'installedat', microtime(true));
 		}
-;
+
 		$version = \OC_Util::getVersion();
 		$version['installed'] = \OC_Appconfig::getValue('core', 'installedat');
 		$version['updated'] = \OC_Appconfig::getValue('core', 'lastupdatedat');
