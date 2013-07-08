@@ -59,4 +59,16 @@ class ForwardingEmitter extends BasicEmitter {
 		$baseEmitter1->emit('Test', 'test2');
 		$this->assertEquals(2, $hookCalled);
 	}
+
+	public function testForwardExistingHooks() {
+		$baseEmitter = new PublicEmitter();
+		$forwardingEmitter = new DummyForwardingEmitter();
+		$hookCalled = false;
+		$forwardingEmitter->listen('Test', 'test', function () use (&$hookCalled) {
+			$hookCalled = true;
+		});
+		$forwardingEmitter->forward($baseEmitter);
+		$baseEmitter->emit('Test', 'test');
+		$this->assertTrue($hookCalled);
+	}
 }

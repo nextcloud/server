@@ -38,5 +38,13 @@ abstract class ForwardingEmitter extends BasicEmitter {
 	 */
 	protected function forward($emitter) {
 		$this->forwardEmitters[] = $emitter;
+
+		//forward all previously connected hooks
+		foreach ($this->listeners as $key => $listeners) {
+			list($scope, $method) = explode('::', $key, 2);
+			foreach ($listeners as $listener) {
+				$emitter->listen($scope, $method, $listener);
+			}
+		}
 	}
 }
