@@ -104,7 +104,6 @@
 "Help" => "Pomoc",
 "Access forbidden" => "Dostęp zabroniony",
 "Cloud not found" => "Nie odnaleziono chmury",
-"web services under your control" => "Kontrolowane serwisy",
 "Edit categories" => "Edytuj kategorie",
 "Add" => "Dodaj",
 "Security Warning" => "Ostrzeżenie o zabezpieczeniach",

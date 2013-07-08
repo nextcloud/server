@@ -36,5 +36,6 @@
 "Download" => "Изтегляне",
 "Upload too large" => "Файлът който сте избрали за качване е прекалено голям",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Файловете които се опитвате да качите са по-големи от позволеното за сървъра.",
-"Files are being scanned, please wait." => "Файловете се претърсват, изчакайте."
+"Files are being scanned, please wait." => "Файловете се претърсват, изчакайте.",
+"file" => "файл"
 );

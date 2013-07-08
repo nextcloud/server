@@ -449,8 +449,10 @@ $(document).ready(function () {
 					OC.dialogs.alert(result.data.message,
 						t('settings', 'Error creating user'));
 				} else {
-					var addedGroups = result.data.groups.split(', ');
-					UserList.availableGroups = $.unique($.merge(UserList.availableGroups, addedGroups));
+					if (result.data.groups) {
+						var addedGroups = result.data.groups.split(', ');
+						UserList.availableGroups = $.unique($.merge(UserList.availableGroups, addedGroups));
+					}
 					if($('tr[data-uid="' + username + '"]').length === 0) {
 						UserList.add(username, username, result.data.groups, null, 'default', true);
 					}

@@ -5,6 +5,7 @@
 "Users" => "Pengguna",
 "Apps" => "Aplikasi",
 "Admin" => "Admin",
+"web services under your control" => "layanan web dalam kontrol Anda",
 "ZIP download is turned off." => "Pengunduhan ZIP dimatikan.",
 "Files need to be downloaded one by one." => "Berkas harus diunduh satu persatu.",
 "Back to Files" => "Kembali ke Daftar Berkas",

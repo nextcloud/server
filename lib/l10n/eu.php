@@ -5,6 +5,7 @@
 "Users" => "Erabiltzaileak",
 "Apps" => "Aplikazioak",
 "Admin" => "Admin",
+"web services under your control" => "web zerbitzuak zure kontrolpean",
 "ZIP download is turned off." => "ZIP deskarga ez dago gaituta.",
 "Files need to be downloaded one by one." => "Fitxategiak banan-banan deskargatu behar dira.",
 "Back to Files" => "Itzuli fitxategietara",

@@ -5,6 +5,7 @@
 "Users" => "المستخدمين",
 "Apps" => "التطبيقات",
 "Admin" => "المدير",
+"web services under your control" => "خدمات الشبكة تحت سيطرتك",
 "ZIP download is turned off." => "تحميل ملفات ZIP متوقف",
 "Files need to be downloaded one by one." => "الملفات بحاجة الى ان يتم تحميلها واحد تلو الاخر",
 "Back to Files" => "العودة الى الملفات",

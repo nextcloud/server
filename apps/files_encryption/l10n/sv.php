@@ -8,8 +8,6 @@
 "Private key password successfully updated." => "Den privata lösenordsnyckeln uppdaterades utan problem.",
 "Could not update the private key password. Maybe the old password was not correct." => "Kunde inte uppdatera den privata lösenordsnyckeln. Kanske var det gamla lösenordet fel.",
 "Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Din privata lösenordsnyckel är inte giltig! Troligen har ditt lösenord ändrats utanför ownCloud (t.ex. i företagets katalogtjänst). Du kan uppdatera den privata lösenordsnyckeln under dina personliga inställningar för att återfå tillgång till dina filer.",
-"PHP module OpenSSL is not installed." => "PHP-modulen för OpenSSL är inte installerad.",
-"Please ask your server administrator to install the module. For now the encryption app was disabled." => "Be din systemadministratör att installera modulen. För tillfället är appen för kryptering inaktiverad.",
 "Saving..." => "Sparar...",
 "Your private key is not valid! Maybe the your password was changed from outside." => "Din privata lösenordsnyckel är inte giltig! Kanske byttes ditt lösenord från utsidan.",
 "You can unlock your private key in your " => "Du kan låsa upp din privata nyckel i dina",

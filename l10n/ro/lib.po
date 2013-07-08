@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-04 09:31+0200\n"
-"PO-Revision-Date: 2013-07-03 00:02+0000\n"
+"POT-Creation-Date: 2013-07-08 02:03+0200\n"
+"PO-Revision-Date: 2013-07-08 00:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -40,6 +40,10 @@ msgstr "Aplicații"
 #: app.php:417
 msgid "Admin"
 msgstr "Admin"
+
+#: defaults.php:33
+msgid "web services under your control"
+msgstr "servicii web controlate de tine"
 
 #: files.php:210
 msgid "ZIP download is turned off."
@@ -178,12 +182,12 @@ msgstr ""
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Serverul de web nu este încă setat corespunzător pentru a permite sincronizarea fișierelor deoarece interfața WebDAV pare a fi întreruptă."
 
 #: setup.php:199
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Vă rugăm să verificați <a href='%s'>ghiduri de instalare</ a>."
 
 #: template.php:113
 msgid "seconds ago"

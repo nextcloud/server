@@ -49,6 +49,7 @@
 "{count} folders" => "{count} carpetas",
 "1 file" => "1 archivo",
 "{count} files" => "{count} archivos",
+"%s could not be renamed" => "%s no se pudo renombrar",
 "Upload" => "Subir",
 "File handling" => "Manejo de archivos",
 "Maximum upload size" => "Tamaño máximo de subida",
@@ -72,5 +73,9 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Los archivos que estás intentando subir sobrepasan el tamaño máximo permitido en este servidor.",
 "Files are being scanned, please wait." => "Los archivos están siendo escaneados,  por favor espere.",
 "Current scanning" => "Escaneo actual",
+"directory" => "carpeta",
+"directories" => "carpetas",
+"file" => "archivo",
+"files" => "archivos",
 "Upgrading filesystem cache..." => "Actualizando caché del sistema de archivos"
 );

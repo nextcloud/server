@@ -5,6 +5,7 @@
 "Users" => "Käyttäjät",
 "Apps" => "Sovellukset",
 "Admin" => "Ylläpitäjä",
+"web services under your control" => "verkkopalvelut hallinnassasi",
 "ZIP download is turned off." => "ZIP-lataus on poistettu käytöstä.",
 "Files need to be downloaded one by one." => "Tiedostot on ladattava yksittäin.",
 "Back to Files" => "Takaisin tiedostoihin",

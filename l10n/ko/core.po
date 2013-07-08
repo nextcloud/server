@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-04 09:30+0200\n"
-"PO-Revision-Date: 2013-07-03 00:02+0000\n"
+"POT-Creation-Date: 2013-07-08 02:02+0200\n"
+"PO-Revision-Date: 2013-07-08 00:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -226,8 +226,8 @@ msgstr "객체 유형이 지정되지 않았습니다."
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:618
-#: js/share.js:630
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:620
+#: js/share.js:632
 msgid "Error"
 msgstr "오류"
 
@@ -247,7 +247,7 @@ msgstr "공유됨"
 msgid "Share"
 msgstr "공유"
 
-#: js/share.js:125 js/share.js:658
+#: js/share.js:125 js/share.js:660
 msgid "Error while sharing"
 msgstr "공유하는 중 오류 발생"
 
@@ -283,87 +283,87 @@ msgstr "암호 보호"
 msgid "Password"
 msgstr "암호"
 
-#: js/share.js:186
+#: js/share.js:187
 msgid "Allow Public Upload"
 msgstr ""
 
-#: js/share.js:189
+#: js/share.js:191
 msgid "Email link to person"
 msgstr "이메일 주소"
 
-#: js/share.js:190
+#: js/share.js:192
 msgid "Send"
 msgstr "전송"
 
-#: js/share.js:195
+#: js/share.js:197
 msgid "Set expiration date"
 msgstr "만료 날짜 설정"
 
-#: js/share.js:196
+#: js/share.js:198
 msgid "Expiration date"
 msgstr "만료 날짜"
 
-#: js/share.js:228
+#: js/share.js:230
 msgid "Share via email:"
 msgstr "이메일로 공유:"
 
-#: js/share.js:230
+#: js/share.js:232
 msgid "No people found"
 msgstr "발견된 사람 없음"
 
-#: js/share.js:268
+#: js/share.js:270
 msgid "Resharing is not allowed"
 msgstr "다시 공유할 수 없습니다"
 
-#: js/share.js:304
+#: js/share.js:306
 msgid "Shared in {item} with {user}"
 msgstr "{user} 님과 {item}에서 공유 중"
 
-#: js/share.js:325
+#: js/share.js:327
 msgid "Unshare"
 msgstr "공유 해제"
 
-#: js/share.js:337
+#: js/share.js:339
 msgid "can edit"
 msgstr "편집 가능"
 
-#: js/share.js:339
+#: js/share.js:341
 msgid "access control"
 msgstr "접근 제어"
 
-#: js/share.js:342
+#: js/share.js:344
 msgid "create"
 msgstr "생성"
 
-#: js/share.js:345
+#: js/share.js:347
 msgid "update"
 msgstr "업데이트"
 
-#: js/share.js:348
+#: js/share.js:350
 msgid "delete"
 msgstr "삭제"
 
-#: js/share.js:351
+#: js/share.js:353
 msgid "share"
 msgstr "공유"
 
-#: js/share.js:385 js/share.js:605
+#: js/share.js:387 js/share.js:607
 msgid "Password protected"
 msgstr "암호로 보호됨"
 
-#: js/share.js:618
+#: js/share.js:620
 msgid "Error unsetting expiration date"
 msgstr "만료 날짜 해제 오류"
 
-#: js/share.js:630
+#: js/share.js:632
 msgid "Error setting expiration date"
 msgstr "만료 날짜 설정 오류"
 
-#: js/share.js:645
+#: js/share.js:647
 msgid "Sending ..."
 msgstr "전송 중..."
 
-#: js/share.js:656
+#: js/share.js:658
 msgid "Email sent"
 msgstr "이메일 발송됨"
 
@@ -466,7 +466,7 @@ msgstr "접근 금지됨"
 msgid "Cloud not found"
 msgstr "클라우드를 찾을 수 없습니다"
 
-#: templates/altmail.php:2
+#: templates/altmail.php:4
 #, php-format
 msgid ""
 "Hey there,\n"
@@ -476,10 +476,6 @@ msgid ""
 "\n"
 "Cheers!"
 msgstr ""
-
-#: templates/altmail.php:7 templates/mail.php:24
-msgid "web services under your control"
-msgstr "내가 관리하는 웹 서비스"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -573,12 +569,12 @@ msgstr "데이터베이스 호스트"
 msgid "Finish setup"
 msgstr "설치 완료"
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:43
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:65
+#: templates/layout.user.php:68
 msgid "Log out"
 msgstr "로그아웃"
 
@@ -612,7 +608,7 @@ msgstr "로그인"
 msgid "Alternative Logins"
 msgstr "대체 "
 
-#: templates/mail.php:15
+#: templates/mail.php:16
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "

@@ -106,7 +106,6 @@
 "Access forbidden" => "Accesso negato",
 "Cloud not found" => "Nuvola non trovata",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Ehilà,\n\nvolevo solamente farti sapere che %s ha condiviso %s con te.\nGuarda: %s\n\nSaluti!",
-"web services under your control" => "servizi web nelle tue mani",
 "Edit categories" => "Modifica categorie",
 "Add" => "Aggiungi",
 "Security Warning" => "Avviso di sicurezza",

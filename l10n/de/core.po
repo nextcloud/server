@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-04 09:30+0200\n"
-"PO-Revision-Date: 2013-07-03 00:02+0000\n"
+"POT-Creation-Date: 2013-07-08 02:02+0200\n"
+"PO-Revision-Date: 2013-07-08 00:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -230,8 +230,8 @@ msgstr "Der Objekttyp ist nicht angegeben."
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:618
-#: js/share.js:630
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:620
+#: js/share.js:632
 msgid "Error"
 msgstr "Fehler"
 
@@ -251,7 +251,7 @@ msgstr "Geteilt"
 msgid "Share"
 msgstr "Teilen"
 
-#: js/share.js:125 js/share.js:658
+#: js/share.js:125 js/share.js:660
 msgid "Error while sharing"
 msgstr "Fehler beim Teilen"
 
@@ -287,87 +287,87 @@ msgstr "Passwortschutz"
 msgid "Password"
 msgstr "Passwort"
 
-#: js/share.js:186
+#: js/share.js:187
 msgid "Allow Public Upload"
 msgstr ""
 
-#: js/share.js:189
+#: js/share.js:191
 msgid "Email link to person"
 msgstr "Link per E-Mail verschicken"
 
-#: js/share.js:190
+#: js/share.js:192
 msgid "Send"
 msgstr "Senden"
 
-#: js/share.js:195
+#: js/share.js:197
 msgid "Set expiration date"
 msgstr "Setze ein Ablaufdatum"
 
-#: js/share.js:196
+#: js/share.js:198
 msgid "Expiration date"
 msgstr "Ablaufdatum"
 
-#: js/share.js:228
+#: js/share.js:230
 msgid "Share via email:"
 msgstr "Über eine E-Mail teilen:"
 
-#: js/share.js:230
+#: js/share.js:232
 msgid "No people found"
 msgstr "Niemand gefunden"
 
-#: js/share.js:268
+#: js/share.js:270
 msgid "Resharing is not allowed"
 msgstr "Weiterverteilen ist nicht erlaubt"
 
-#: js/share.js:304
+#: js/share.js:306
 msgid "Shared in {item} with {user}"
 msgstr "Für {user} in {item} freigegeben"
 
-#: js/share.js:325
+#: js/share.js:327
 msgid "Unshare"
 msgstr "Freigabe aufheben"
 
-#: js/share.js:337
+#: js/share.js:339
 msgid "can edit"
 msgstr "kann bearbeiten"
 
-#: js/share.js:339
+#: js/share.js:341
 msgid "access control"
 msgstr "Zugriffskontrolle"
 
-#: js/share.js:342
+#: js/share.js:344
 msgid "create"
 msgstr "erstellen"
 
-#: js/share.js:345
+#: js/share.js:347
 msgid "update"
 msgstr "aktualisieren"
 
-#: js/share.js:348
+#: js/share.js:350
 msgid "delete"
 msgstr "löschen"
 
-#: js/share.js:351
+#: js/share.js:353
 msgid "share"
 msgstr "teilen"
 
-#: js/share.js:385 js/share.js:605
+#: js/share.js:387 js/share.js:607
 msgid "Password protected"
 msgstr "Durch ein Passwort geschützt"
 
-#: js/share.js:618
+#: js/share.js:620
 msgid "Error unsetting expiration date"
 msgstr "Fehler beim Entfernen des Ablaufdatums"
 
-#: js/share.js:630
+#: js/share.js:632
 msgid "Error setting expiration date"
 msgstr "Fehler beim Setzen des Ablaufdatums"
 
-#: js/share.js:645
+#: js/share.js:647
 msgid "Sending ..."
 msgstr "Sende ..."
 
-#: js/share.js:656
+#: js/share.js:658
 msgid "Email sent"
 msgstr "E-Mail wurde verschickt"
 
@@ -470,7 +470,7 @@ msgstr "Zugriff verboten"
 msgid "Cloud not found"
 msgstr "Cloud nicht gefunden"
 
-#: templates/altmail.php:2
+#: templates/altmail.php:4
 #, php-format
 msgid ""
 "Hey there,\n"
@@ -480,10 +480,6 @@ msgid ""
 "\n"
 "Cheers!"
 msgstr "Hallo,\n\nwollte dich nur kurz informieren, dass %s gerade %s mit dir geteilt hat.\nSchau es dir an: %s\n\nGruß!"
-
-#: templates/altmail.php:7 templates/mail.php:24
-msgid "web services under your control"
-msgstr "Web-Services unter Deiner Kontrolle"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -577,12 +573,12 @@ msgstr "Datenbank-Host"
 msgid "Finish setup"
 msgstr "Installation abschließen"
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:43
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s ist verfügbar. Holen Sie weitere Informationen zu Aktualisierungen ein."
 
-#: templates/layout.user.php:65
+#: templates/layout.user.php:68
 msgid "Log out"
 msgstr "Abmelden"
 
@@ -616,7 +612,7 @@ msgstr "Einloggen"
 msgid "Alternative Logins"
 msgstr "Alternative Logins"
 
-#: templates/mail.php:15
+#: templates/mail.php:16
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "

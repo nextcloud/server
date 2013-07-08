@@ -106,7 +106,6 @@
 "Access forbidden" => "Přístup zakázán",
 "Cloud not found" => "Cloud nebyl nalezen",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Ahoj,\n\njenom vám chci oznámit že %s s vámi sdílí %s.\nPodívat se můžete zde: %s\n\nDíky",
-"web services under your control" => "služby webu pod Vaší kontrolou",
 "Edit categories" => "Upravit kategorie",
 "Add" => "Přidat",
 "Security Warning" => "Bezpečnostní upozornění",

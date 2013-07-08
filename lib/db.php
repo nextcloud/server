@@ -681,7 +681,7 @@ class OC_DB {
 	 * @brief Insert a row if a matching row doesn't exists.
 	 * @param string $table. The table to insert into in the form '*PREFIX*tableName'
 	 * @param array $input. An array of fieldname/value pairs
-	 * @returns The return value from PDOStatementWrapper->execute()
+	 * @returns int number of updated rows
 	 */
 	public static function insertIfNotExist($table, $input) {
 		self::connect();
@@ -715,7 +715,7 @@ class OC_DB {
 					. implode('`,`', array_keys($input)) . '`) VALUES('
 					. str_repeat('?,', count($input)-1).'? ' . ')';
 			} else {
-				return true;
+				return 0; //no rows updated
 			}
 		} elseif( $type == 'pgsql' || $type == 'oci' || $type == 'mysql' || $type == 'mssql') {
 			$query = 'INSERT INTO `' .$table . '` (`'
@@ -735,9 +735,6 @@ class OC_DB {
 			$result = self::executeAudited($query, $inserts);
 		} catch(PDOException $e) {
 			OC_Template::printExceptionErrorPage( $e );
-		}
-		if ($result === 0) {
-			return true;
 		}
 
 		return $result;
@@ -1036,7 +1033,7 @@ class PDOStatementWrapper{
 	}
 
 	/**
-	 * make execute return the result instead of a bool
+	 * make execute return the result or updated row count instead of a bool
 	 */
 	public function execute($input=array()) {
 		if(OC_Config::getValue( "log_query", false)) {

@@ -73,5 +73,9 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "アップロードしようとしているファイルは、サーバで規定された最大サイズを超えています。",
 "Files are being scanned, please wait." => "ファイルをスキャンしています、しばらくお待ちください。",
 "Current scanning" => "スキャン中",
+"directory" => "ディレクトリ",
+"directories" => "ディレクトリ",
+"file" => "ファイル",
+"files" => "ファイル",
 "Upgrading filesystem cache..." => "ファイルシステムキャッシュを更新中..."
 );

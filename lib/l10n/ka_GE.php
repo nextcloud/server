@@ -5,6 +5,7 @@
 "Users" => "მომხმარებელი",
 "Apps" => "აპლიკაციები",
 "Admin" => "ადმინისტრატორი",
+"web services under your control" => "web services under your control",
 "ZIP download is turned off." => "ZIP download–ი გათიშულია",
 "Files need to be downloaded one by one." => "ფაილები უნდა გადმოიტვირთოს სათითაოდ.",
 "Back to Files" => "უკან ფაილებში",

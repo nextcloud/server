@@ -73,5 +73,9 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "I file che stai provando a caricare superano la dimensione massima consentita su questo server.",
 "Files are being scanned, please wait." => "Scansione dei file in corso, attendi",
 "Current scanning" => "Scansione corrente",
+"directory" => "cartella",
+"directories" => "cartelle",
+"file" => "file",
+"files" => "file",
 "Upgrading filesystem cache..." => "Aggiornamento della cache del filesystem in corso..."
 );

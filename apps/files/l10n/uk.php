@@ -69,5 +69,7 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Файли,що ви намагаєтесь відвантажити перевищують максимальний дозволений розмір файлів на цьому сервері.",
 "Files are being scanned, please wait." => "Файли скануються, зачекайте, будь-ласка.",
 "Current scanning" => "Поточне сканування",
+"file" => "файл",
+"files" => "файли",
 "Upgrading filesystem cache..." => "Оновлення кеша файлової системи..."
 );

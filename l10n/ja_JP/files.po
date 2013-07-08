@@ -5,13 +5,14 @@
 # Translators:
 # Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
 # plazmism <gomidori@live.jp>, 2013
+# tt yn <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-04 09:30+0200\n"
-"PO-Revision-Date: 2013-07-04 07:31+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-08 02:02+0200\n"
+"PO-Revision-Date: 2013-07-07 23:14+0000\n"
+"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,54 +30,54 @@ msgstr "%s を移動できませんでした ― この名前のファイルは�
 msgid "Could not move %s"
 msgstr "%s を移動できませんでした"
 
-#: ajax/upload.php:16 ajax/upload.php:39
+#: ajax/upload.php:16 ajax/upload.php:36 ajax/upload.php:48
 msgid "Unable to set upload directory."
 msgstr "アップロードディレクトリを設定出来ません。"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:22
 msgid "Invalid Token"
 msgstr "無効なトークン"
 
-#: ajax/upload.php:55
+#: ajax/upload.php:62
 msgid "No file was uploaded. Unknown error"
 msgstr "ファイルは何もアップロードされていません。不明なエラー"
 
-#: ajax/upload.php:62
+#: ajax/upload.php:69
 msgid "There is no error, the file uploaded with success"
 msgstr "エラーはありません。ファイルのアップロードは成功しました"
 
-#: ajax/upload.php:63
+#: ajax/upload.php:70
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "アップロードされたファイルはphp.ini の upload_max_filesize に設定されたサイズを超えています:"
 
-#: ajax/upload.php:65
+#: ajax/upload.php:72
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "アップロードファイルはHTMLフォームで指定された MAX_FILE_SIZE の制限を超えています"
 
-#: ajax/upload.php:66
+#: ajax/upload.php:73
 msgid "The uploaded file was only partially uploaded"
 msgstr "アップロードファイルは一部分だけアップロードされました"
 
-#: ajax/upload.php:67
+#: ajax/upload.php:74
 msgid "No file was uploaded"
 msgstr "ファイルはアップロードされませんでした"
 
-#: ajax/upload.php:68
+#: ajax/upload.php:75
 msgid "Missing a temporary folder"
 msgstr "一時保存フォルダが見つかりません"
 
-#: ajax/upload.php:69
+#: ajax/upload.php:76
 msgid "Failed to write to disk"
 msgstr "ディスクへの書き込みに失敗しました"
 
-#: ajax/upload.php:87
+#: ajax/upload.php:94
 msgid "Not enough storage available"
 msgstr "ストレージに十分な空き容量がありません"
 
-#: ajax/upload.php:119
+#: ajax/upload.php:126
 msgid "Invalid directory."
 msgstr "無効なディレクトリです。"
 
@@ -331,19 +332,19 @@ msgstr "スキャン中"
 
 #: templates/part.list.php:78
 msgid "directory"
-msgstr ""
+msgstr "ディレクトリ"
 
 #: templates/part.list.php:80
 msgid "directories"
-msgstr ""
+msgstr "ディレクトリ"
 
 #: templates/part.list.php:89
 msgid "file"
-msgstr ""
+msgstr "ファイル"
 
 #: templates/part.list.php:91
 msgid "files"
-msgstr ""
+msgstr "ファイル"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

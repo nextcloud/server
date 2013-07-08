@@ -5,6 +5,7 @@
 "Users" => "Brukere",
 "Apps" => "Apper",
 "Admin" => "Admin",
+"web services under your control" => "web tjenester du kontrollerer",
 "ZIP download is turned off." => "ZIP-nedlasting av avslått",
 "Files need to be downloaded one by one." => "Filene må lastes ned en om gangen",
 "Back to Files" => "Tilbake til filer",

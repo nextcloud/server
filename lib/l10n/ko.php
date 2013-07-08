@@ -5,6 +5,7 @@
 "Users" => "사용자",
 "Apps" => "앱",
 "Admin" => "관리자",
+"web services under your control" => "내가 관리하는 웹 서비스",
 "ZIP download is turned off." => "ZIP 다운로드가 비활성화되었습니다.",
 "Files need to be downloaded one by one." => "파일을 개별적으로 다운로드해야 합니다.",
 "Back to Files" => "파일로 돌아가기",

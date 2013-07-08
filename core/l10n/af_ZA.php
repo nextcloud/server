@@ -15,7 +15,6 @@
 "Admin" => "Admin",
 "Help" => "Hulp",
 "Cloud not found" => "Wolk nie gevind",
-"web services under your control" => "webdienste onder jou beheer",
 "Create an <strong>admin account</strong>" => "Skep `n <strong>admin-rekening</strong>",
 "Advanced" => "Gevorderd",
 "Configure the database" => "Stel databasis op",

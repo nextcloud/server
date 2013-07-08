@@ -23,11 +23,15 @@ body {
 #public_upload,
 #download {
 	font-weight:700;
-	margin: 0 0.4em 0 2em;
+	margin: 0 0.4em 0 0;
 	padding: 0 5px;
 	height: 27px;
 	float: left;
 
+}
+
+.header-right #details {
+	margin-right: 2em;
 }
 
 #public_upload {

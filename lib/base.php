@@ -173,11 +173,12 @@ class OC {
 	public static function checkConfig() {
 		if (file_exists(OC::$SERVERROOT . "/config/config.php")
 			and !is_writable(OC::$SERVERROOT . "/config/config.php")) {
+			$defaults = new OC_Defaults();
 			$tmpl = new OC_Template('', 'error', 'guest');
 			$tmpl->assign('errors', array(1 => array(
 				'error' => "Can't write into config directory 'config'",
-				'hint' => 'You can usually fix this by giving the webserver user write access'
-					.' to the config directory in owncloud'
+				'hint' => 'This can usually be fixed by '
+					.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html#set-the-directory-permissions" target="_blank">giving the webserver write access to the config directory</a>.'
 			)));
 			$tmpl->printPage();
 			exit();

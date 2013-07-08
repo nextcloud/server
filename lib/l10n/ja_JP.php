@@ -5,6 +5,7 @@
 "Users" => "ユーザ",
 "Apps" => "アプリ",
 "Admin" => "管理",
+"web services under your control" => "管理下のウェブサービス",
 "ZIP download is turned off." => "ZIPダウンロードは無効です。",
 "Files need to be downloaded one by one." => "ファイルは1つずつダウンロードする必要があります。",
 "Back to Files" => "ファイルに戻る",

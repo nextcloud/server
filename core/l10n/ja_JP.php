@@ -106,7 +106,6 @@
 "Access forbidden" => "アクセスが禁止されています",
 "Cloud not found" => "見つかりません",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "こんにちは、\n\n%s があなたと %s を共有したことをお知らせします。\nそれを表示: %s\n\nそれでは。",
-"web services under your control" => "管理下のウェブサービス",
 "Edit categories" => "カテゴリを編集",
 "Add" => "追加",
 "Security Warning" => "セキュリティ警告",

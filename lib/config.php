@@ -156,6 +156,7 @@ class Config {
 	 */
 	private function writeData() {
 		// Create a php file ...
+		$defaults = new OC_Defaults;
 		$content = "<?php\n";
 		if ($this->debugMode) {
 			$content .= "define('DEBUG',true);\n";
@@ -167,10 +168,11 @@ class Config {
 		// Write the file
 		$result = @file_put_contents($this->configFilename, $content);
 		if (!$result) {
+			$url = $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html#set-the-directory-permissions';
 			throw new HintException(
 				"Can't write into config directory 'config'",
-				'You can usually fix this by giving the webserver user write access'
-					.' to the config directory in ownCloud');
+				'This can usually be fixed by '
+					.'<a href="' . $url . '" target="_blank">giving the webserver write access to the config directory</a>.');
 		}
 		// Prevent others not to read the config
 		@chmod($this->configFilename, 0640);

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-04 09:30+0200\n"
-"PO-Revision-Date: 2013-07-04 07:31+0000\n"
+"POT-Creation-Date: 2013-07-08 02:02+0200\n"
+"PO-Revision-Date: 2013-07-07 23:14+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -27,54 +27,54 @@ msgstr "Kohteen %s siirto ei onnistunut - Tiedosto samalla nimellä on jo olemas
 msgid "Could not move %s"
 msgstr "Kohteen %s siirto ei onnistunut"
 
-#: ajax/upload.php:16 ajax/upload.php:39
+#: ajax/upload.php:16 ajax/upload.php:36 ajax/upload.php:48
 msgid "Unable to set upload directory."
 msgstr ""
 
-#: ajax/upload.php:23
+#: ajax/upload.php:22
 msgid "Invalid Token"
 msgstr ""
 
-#: ajax/upload.php:55
+#: ajax/upload.php:62
 msgid "No file was uploaded. Unknown error"
 msgstr "Tiedostoa ei lähetetty. Tuntematon virhe"
 
-#: ajax/upload.php:62
+#: ajax/upload.php:69
 msgid "There is no error, the file uploaded with success"
 msgstr "Ei virheitä, tiedosto lähetettiin onnistuneesti"
 
-#: ajax/upload.php:63
+#: ajax/upload.php:70
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Lähetetyn tiedoston koko ylittää php.ini-tiedoston upload_max_filesize-säännön:"
 
-#: ajax/upload.php:65
+#: ajax/upload.php:72
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Ladattavan tiedoston maksimikoko ylittää MAX_FILE_SIZE dirketiivin, joka on määritelty HTML-lomakkeessa"
 
-#: ajax/upload.php:66
+#: ajax/upload.php:73
 msgid "The uploaded file was only partially uploaded"
 msgstr "Tiedoston lähetys onnistui vain osittain"
 
-#: ajax/upload.php:67
+#: ajax/upload.php:74
 msgid "No file was uploaded"
 msgstr "Yhtäkään tiedostoa ei lähetetty"
 
-#: ajax/upload.php:68
+#: ajax/upload.php:75
 msgid "Missing a temporary folder"
 msgstr "Tilapäiskansio puuttuu"
 
-#: ajax/upload.php:69
+#: ajax/upload.php:76
 msgid "Failed to write to disk"
 msgstr "Levylle kirjoitus epäonnistui"
 
-#: ajax/upload.php:87
+#: ajax/upload.php:94
 msgid "Not enough storage available"
 msgstr "Tallennustilaa ei ole riittävästi käytettävissä"
 
-#: ajax/upload.php:119
+#: ajax/upload.php:126
 msgid "Invalid directory."
 msgstr "Virheellinen kansio."
 
@@ -337,11 +337,11 @@ msgstr ""
 
 #: templates/part.list.php:89
 msgid "file"
-msgstr ""
+msgstr "tiedosto"
 
 #: templates/part.list.php:91
 msgid "files"
-msgstr ""
+msgstr "tiedostoa"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

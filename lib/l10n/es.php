@@ -5,6 +5,7 @@
 "Users" => "Usuarios",
 "Apps" => "Aplicaciones",
 "Admin" => "Administración",
+"web services under your control" => "Servicios web bajo su control",
 "ZIP download is turned off." => "La descarga en ZIP está desactivada.",
 "Files need to be downloaded one by one." => "Los archivos deben ser descargados uno por uno.",
 "Back to Files" => "Volver a Archivos",

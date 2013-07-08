@@ -49,6 +49,7 @@
 "{count} folders" => "Ilość folderów: {count}",
 "1 file" => "1 plik",
 "{count} files" => "Ilość plików: {count}",
+"%s could not be renamed" => "%s nie można zmienić nazwy",
 "Upload" => "Wyślij",
 "File handling" => "Zarządzanie plikami",
 "Maximum upload size" => "Maksymalny rozmiar wysyłanego pliku",
@@ -72,5 +73,9 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Pliki, które próbujesz przesłać, przekraczają maksymalną dopuszczalną wielkość.",
 "Files are being scanned, please wait." => "Skanowanie plików, proszę czekać.",
 "Current scanning" => "Aktualnie skanowane",
+"directory" => "Katalog",
+"directories" => "Katalogi",
+"file" => "plik",
+"files" => "pliki",
 "Upgrading filesystem cache..." => "Uaktualnianie plików pamięci podręcznej..."
 );

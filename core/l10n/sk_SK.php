@@ -104,7 +104,6 @@
 "Access forbidden" => "Prístup odmietnutý",
 "Cloud not found" => "Nenájdené",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Ahoj,\n\nChcem Vám oznámiť, že %s s Vami zdieľa %s.\nPozrieť si to môžete tu: %s\n\nVďaka",
-"web services under your control" => "webové služby pod Vašou kontrolou",
 "Edit categories" => "Upraviť kategórie",
 "Add" => "Pridať",
 "Security Warning" => "Bezpečnostné varovanie",

@@ -98,7 +98,6 @@
 "Help" => "도움말",
 "Access forbidden" => "접근 금지됨",
 "Cloud not found" => "클라우드를 찾을 수 없습니다",
-"web services under your control" => "내가 관리하는 웹 서비스",
 "Edit categories" => "분류 수정",
 "Add" => "추가",
 "Security Warning" => "보안 경고",

@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-02 15:33+0200\n"
-"PO-Revision-Date: 2013-07-02 13:33+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-08 02:02+0200\n"
+"PO-Revision-Date: 2013-07-07 05:50+0000\n"
+"Last-Translator: JamFX <niko@nik-o-mat.de>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,17 +62,18 @@ msgid ""
 "ownCloud system (e.g. your corporate directory). You can update your private"
 " key password in your personal settings to recover access to your encrypted "
 "files."
-msgstr ""
+msgstr "Ihr privater Schlüssel ist ungültig. Möglicher Weise wurde von außerhalb Ihr Passwort geändert (z.B. in Ihrem gemeinsamen Verzeichnis). Sie können das Passwort Ihres privaten Schlüssels in den persönlichen Einstellungen aktualisieren, um wieder an Ihre Dateien zu gelangen."
 
 #: hooks/hooks.php:44
-msgid "PHP module OpenSSL is not installed."
-msgstr "Das PHP-Modul OpenSSL ist nicht installiert."
+msgid "Missing requirements."
+msgstr "Fehlende Voraussetzungen"
 
 #: hooks/hooks.php:45
 msgid ""
-"Please ask your server administrator to install the module. For now the "
-"encryption app was disabled."
-msgstr "Bitte fragen Sie Ihren Server-Administrator, das entsprechende Modul zu installieren. Bis dahin wurde die Anwendung zur Verschlüsselung deaktiviert."
+"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
+"PHP extension is enabled and configured properly. For now, the encryption "
+"app has been disabled."
+msgstr "Bitte stellen Sie sicher, dass PHP 5.3.3 oder neuer installiert und die PHP-Erweiterung OpenSSL aktiviert und richtig konfiguriert ist. Zur Zeit ist die Verschlüsselungs-App deaktiviert."
 
 #: js/settings-admin.js:11
 msgid "Saving..."
@@ -86,7 +87,7 @@ msgstr "Ihr privater Schlüssel ist ungültig! Vielleicht wurde Ihr Passwort von
 
 #: templates/invalid_private_key.php:7
 msgid "You can unlock your private key in your "
-msgstr ""
+msgstr "Sie können den privaten Schlüssel ändern und zwar in Ihrem"
 
 #: templates/invalid_private_key.php:7
 msgid "personal settings"

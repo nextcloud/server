@@ -27,23 +27,9 @@ if (isset($_GET['t'])) {
 		$type = $linkItem['item_type'];
 		$fileSource = $linkItem['file_source'];
 		$shareOwner = $linkItem['uid_owner'];
-		$fileOwner = null;
 		$path = null;
-		if (isset($linkItem['parent'])) {
-			$parent = $linkItem['parent'];
-			while (isset($parent)) {
-				$query = \OC_DB::prepare('SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1);
-				$item = $query->execute(array($parent))->fetchRow();
-				if (isset($item['parent'])) {
-					$parent = $item['parent'];
-				} else {
-					$fileOwner = $item['uid_owner'];
-					break;
-				}
-			}
-		} else {
-			$fileOwner = $shareOwner;
-		}
+		$rootLinkItem = OCP\Share::resolveReShare($linkItem);
+		$fileOwner = $rootLinkItem['uid_owner'];
 		if (isset($fileOwner)) {
 			OC_Util::tearDownFS();
 			OC_Util::setupFS($fileOwner);
@@ -149,6 +135,9 @@ if (isset($path)) {
 		$tmpl->assign('dirToken', $linkItem['token']);
 		$allowPublicUploadEnabled = (($linkItem['permissions'] & OCP\PERMISSION_CREATE) ? true : false );
 		if (\OCP\App::isEnabled('files_encryption')) {
+			$allowPublicUploadEnabled = false;
+		}
+		if ($linkItem['item_type'] !== 'folder') {
 			$allowPublicUploadEnabled = false;
 		}
 		$tmpl->assign('allowPublicUploadEnabled', $allowPublicUploadEnabled);

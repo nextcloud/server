@@ -4,5 +4,6 @@
 "failure" => "شکست",
 "No old versions available" => "هیچ نسخه قدیمی در دسترس نیست",
 "No path specified" => "هیچ مسیری مشخص نشده است",
+"Versions" => "نسخه ها",
 "Revert a file to a previous version by clicking on its revert button" => "بازگردانی یک پرورنده به نسخه قدیمی اش از  طریق دکمه بازگردانی امکان پذیر است"
 );

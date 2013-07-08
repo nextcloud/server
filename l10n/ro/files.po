@@ -5,13 +5,14 @@
 # Translators:
 # dimaursu16 <dima@ceata.org>, 2013
 # ripkid666 <ripkid666@gmail.com>, 2013
+# sergiu_sechel <sergiu.sechel@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-04 09:30+0200\n"
-"PO-Revision-Date: 2013-07-04 07:31+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-08 02:02+0200\n"
+"PO-Revision-Date: 2013-07-07 23:14+0000\n"
+"Last-Translator: sergiu_sechel <sergiu.sechel@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,61 +23,61 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr "Nu se poate de mutat %s - Fișier cu acest nume deja există"
+msgstr "%s nu se poate muta - Fișierul cu acest nume există deja "
 
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
 msgid "Could not move %s"
 msgstr "Nu s-a putut muta %s"
 
-#: ajax/upload.php:16 ajax/upload.php:39
+#: ajax/upload.php:16 ajax/upload.php:36 ajax/upload.php:48
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "Imposibil de a seta directorul pentru incărcare."
 
-#: ajax/upload.php:23
+#: ajax/upload.php:22
 msgid "Invalid Token"
-msgstr ""
+msgstr "Jeton Invalid"
 
-#: ajax/upload.php:55
+#: ajax/upload.php:62
 msgid "No file was uploaded. Unknown error"
 msgstr "Nici un fișier nu a fost încărcat. Eroare necunoscută"
 
-#: ajax/upload.php:62
+#: ajax/upload.php:69
 msgid "There is no error, the file uploaded with success"
 msgstr "Nu a apărut nici o eroare, fișierul a fost încărcat cu succes"
 
-#: ajax/upload.php:63
+#: ajax/upload.php:70
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Fisierul incarcat depaseste upload_max_filesize permisi in php.ini: "
 
-#: ajax/upload.php:65
+#: ajax/upload.php:72
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Fișierul are o dimensiune mai mare decât variabile MAX_FILE_SIZE specificată în formularul HTML"
 
-#: ajax/upload.php:66
+#: ajax/upload.php:73
 msgid "The uploaded file was only partially uploaded"
 msgstr "Fișierul a fost încărcat doar parțial"
 
-#: ajax/upload.php:67
+#: ajax/upload.php:74
 msgid "No file was uploaded"
 msgstr "Nu a fost încărcat nici un fișier"
 
-#: ajax/upload.php:68
+#: ajax/upload.php:75
 msgid "Missing a temporary folder"
 msgstr "Lipsește un director temporar"
 
-#: ajax/upload.php:69
+#: ajax/upload.php:76
 msgid "Failed to write to disk"
 msgstr "Eroare la scriere pe disc"
 
-#: ajax/upload.php:87
+#: ajax/upload.php:94
 msgid "Not enough storage available"
 msgstr "Nu este suficient spațiu disponibil"
 
-#: ajax/upload.php:119
+#: ajax/upload.php:126
 msgid "Invalid directory."
 msgstr "Director invalid."
 
@@ -233,7 +234,7 @@ msgstr "{count} fisiere"
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "%s nu a putut fi redenumit"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -331,19 +332,19 @@ msgstr "În curs de scanare"
 
 #: templates/part.list.php:78
 msgid "directory"
-msgstr ""
+msgstr "catalog"
 
 #: templates/part.list.php:80
 msgid "directories"
-msgstr ""
+msgstr "cataloage"
 
 #: templates/part.list.php:89
 msgid "file"
-msgstr ""
+msgstr "fișier"
 
 #: templates/part.list.php:91
 msgid "files"
-msgstr ""
+msgstr "fișiere"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

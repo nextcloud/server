@@ -72,5 +72,7 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Datoteke, ki jih želite poslati, presegajo največjo dovoljeno velikost na strežniku.",
 "Files are being scanned, please wait." => "Poteka preučevanje datotek, počakajte ...",
 "Current scanning" => "Trenutno poteka preučevanje",
+"file" => "datoteka",
+"files" => "datoteke",
 "Upgrading filesystem cache..." => "Nadgrajevanje predpomnilnika datotečnega sistema ..."
 );
