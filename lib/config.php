@@ -159,7 +159,7 @@ class Config {
 	 */
 	private function writeData() {
 		// Create a php file ...
-		$defaults = new OC_Defaults;
+		$defaults = new \OC_Defaults;
 		$content = "<?php\n";
 		if ($this->debugMode) {
 			$content .= "define('DEBUG',true);\n";
