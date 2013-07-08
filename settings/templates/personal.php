@@ -105,7 +105,7 @@ if($_['passwordChangeSupported']) {
 <fieldset class="personalblock">
 	<legend><strong><?php p($l->t('WebDAV'));?></strong></legend>
 	<code><?php print_unescaped(OC_Helper::linkToRemote('webdav')); ?></code><br />
-	<em><?php p($l->t('Use this address to connect to your ownCloud in your file manager'));?></em>
+	<em><?php print_unescaped($l->t('Use this address to <a href="%s/server/5.0/user_manual/files/files.html" target="_blank">access your Files via WebDAV</a>', array($defaults->getDocBaseUrl())));?></em>
 </fieldset>
 
 <?php foreach($_['forms'] as $form) {
