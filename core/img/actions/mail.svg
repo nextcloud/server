@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="16" width="16" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
- <g>
-  <rect stroke-linejoin="round" height="10.244" width="15.244" stroke="#000" stroke-linecap="square" y="2.6281" x=".37806" stroke-width=".75613"/>
-  <path d="m-0.6 11 8.6-5l8.6 5" stroke="#fff" stroke-width="1px" fill="none"/>
-  <path d="m0 2.5 8 6.5 8-6.5" stroke="#fff" stroke-linecap="round" stroke-width="1px"/>
- </g>
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="16" width="16" version="1.0" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/">
+ <path d="m0.88889 3c-0.49245 0-0.88889 0.3968-0.88889 0.8892v8.2228c0 0.492 0.39644 0.888 0.88889 0.888h14.222c0.493 0 0.889-0.396 0.889-0.888v-8.2228c0-0.4924-0.396-0.8892-0.889-0.8892zm0.75 1.0281 6.0833 6.0833h0.52778l6.1111-6.0833 0.61111 0.61111-3.6389 3.6944 2.75 2.8056-0.61111 0.61111-2.8056-2.8056-2.0278 2.0556h-1.2778l-2.0271-2.0552-2.8055 2.8332-0.6111-0.639 2.7777-2.8054-3.6666-3.6944z"/>
 </svg>
