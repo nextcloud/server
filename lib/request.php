@@ -11,9 +11,10 @@ class OC_Request {
 	 * @brief Check overwrite condition
 	 * @returns bool
 	 */
-	private static function isOverwriteCondition() {
+	private static function isOverwriteCondition($type = '') {
 		$regex = '/' . OC_Config::getValue('overwritecondaddr', '')  . '/';
-		return $regex === '//' or preg_match($regex, $_SERVER['REMOTE_ADDR']) === 1;
+		return $regex === '//' or preg_match($regex, $_SERVER['REMOTE_ADDR']) === 1
+			or ($type !== 'protocol' and OC_Config::getValue('forcessl', false));
 	}
 
 	/**
@@ -27,7 +28,7 @@ class OC_Request {
 		if(OC::$CLI) {
 			return 'localhost';
 		}
-		if(OC_Config::getValue('overwritehost', '')<>'' and self::isOverwriteCondition()) {
+		if(OC_Config::getValue('overwritehost', '') !== '' and self::isOverwriteCondition()) {
 			return OC_Config::getValue('overwritehost');
 		}
 		if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
@@ -58,7 +59,7 @@ class OC_Request {
 	* Returns the server protocol. It respects reverse proxy servers and load balancers
 	*/
 	public static function serverProtocol() {
-		if(OC_Config::getValue('overwriteprotocol', '')<>'' and self::isOverwriteCondition()) {
+		if(OC_Config::getValue('overwriteprotocol', '') !== '' and self::isOverwriteCondition('protocol')) {
 			return OC_Config::getValue('overwriteprotocol');
 		}
 		if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
@@ -82,7 +83,7 @@ class OC_Request {
 	 */
 	public static function requestUri() {
 		$uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
-		if (OC_Config::getValue('overwritewebroot', '') <> '' and self::isOverwriteCondition()) {
+		if (OC_Config::getValue('overwritewebroot', '') !== '' and self::isOverwriteCondition()) {
 			$uri = self::scriptName() . substr($uri, strlen($_SERVER['SCRIPT_NAME']));
 		}
 		return $uri;
@@ -97,7 +98,7 @@ class OC_Request {
 	 */
 	public static function scriptName() {
 		$name = $_SERVER['SCRIPT_NAME'];
-		if (OC_Config::getValue('overwritewebroot', '') <> '' and self::isOverwriteCondition()) {
+		if (OC_Config::getValue('overwritewebroot', '') !== '' and self::isOverwriteCondition()) {
 			$serverroot = str_replace("\\", '/', substr(__DIR__, 0, -4));
 			$suburi = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen($serverroot)));
 			$name = OC_Config::getValue('overwritewebroot', '') . $suburi;
