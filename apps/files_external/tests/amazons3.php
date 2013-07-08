@@ -59,9 +59,7 @@ class AmazonS3 extends Storage {
 				'Bucket' => $this->config['amazons3']['bucket']
 			));
 
-			$connection->waitUntilBucketNotExists(array(
-				'Bucket' => $this->config['amazons3']['bucket']
-			));
+			sleep(5);
 		}
 	}
 }
