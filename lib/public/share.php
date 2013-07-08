@@ -293,6 +293,29 @@ class Share {
 	}
 
 	/**
+	 * @brief resolves reshares down to the last real share
+	 * @param $linkItem
+	 * @return $fileOwner
+	 */
+	public static function resolveReShare($linkItem)
+	{
+		if (isset($linkItem['parent'])) {
+			$parent = $linkItem['parent'];
+			while (isset($parent)) {
+				$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*share` WHERE `id` = ?', 1);
+				$item = $query->execute(array($parent))->fetchRow();
+				if (isset($item['parent'])) {
+					$parent = $item['parent'];
+				} else {
+					return $item;
+				}
+			}
+		}
+		return $linkItem;
+	}
+
+
+	/**
 	* @brief Get the shared items of item type owned by the current user
 	* @param string Item type
 	* @param int Format (optional) Format type must be defined by the backend
@@ -316,17 +339,6 @@ class Share {
 	                                     $parameters = null, $includeCollections = false) {
 		return self::getItems($itemType, $itemSource, null, null, \OC_User::getUser(), $format,
 			$parameters, -1, $includeCollections);
-	}
-
-	/**
-	 * @param $itemType
-	 * @param $itemSource
-	 * @param $uid_owner
-	 * @return mixed
-	 */
-	public static function getSharedItem($itemType, $itemSource, $uid_owner) {
-		return self::getItems($itemType, $itemSource, null, null, $uid_owner, self::FORMAT_NONE,
-			null, 1, false);
 	}
 
 	/**
