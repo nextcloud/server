@@ -264,10 +264,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	public function unlink($path) {
 		$path = $this->normalizePath($path);
 
-		if ( ! $this->file_exists($path)) {
-			return false;
-		}
-
 		try {
 			$result = $this->connection->deleteObject(array(
 				'Bucket' => $this->bucket,
