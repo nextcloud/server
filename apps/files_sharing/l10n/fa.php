@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"The password is wrong. Try again." => "رمزعبور اشتباه می باشد. دوباره امتحان کنید.",
 "Password" => "گذرواژه",
 "Submit" => "ثبت",
 "%s shared the folder %s with you" => "%sپوشه %s را با شما به اشتراک گذاشت",

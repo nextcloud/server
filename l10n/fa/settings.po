@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-07 01:59+0200\n"
-"PO-Revision-Date: 2013-07-06 23:15+0000\n"
+"POT-Creation-Date: 2013-07-08 02:03+0200\n"
+"PO-Revision-Date: 2013-07-07 23:14+0000\n"
 "Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr "خطا در اعتبار سنجی"
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
-msgstr ""
+msgstr "نام نمایش شما تغییر یافته است."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
@@ -307,7 +307,7 @@ msgstr "وادار کردن مشتریان برای ارتباط با ownCloud �
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr ""
+msgstr "از طریق HTTPS به این نسخه از ownCloud متصل شوید تا بتوانید SSL  را فعال یا غیر فعال نمایید."
 
 #: templates/admin.php:197
 msgid "Log"
@@ -315,7 +315,7 @@ msgstr "کارنامه"
 
 #: templates/admin.php:198
 msgid "Log level"
-msgstr ""
+msgstr "سطح ورود"
 
 #: templates/admin.php:229
 msgid "More"
@@ -466,13 +466,13 @@ msgstr "ایجاد کردن"
 
 #: templates/users.php:36
 msgid "Admin Recovery Password"
-msgstr ""
+msgstr "مدیریت بازیابی رمز عبور"
 
 #: templates/users.php:37 templates/users.php:38
 msgid ""
 "Enter the recovery password in order to recover the users files during "
 "password change"
-msgstr ""
+msgstr "در حین تغییر رمز عبور به منظور بازیابی فایل های کاربران، رمز عبور بازیابی را وارد کنید"
 
 #: templates/users.php:42
 msgid "Default Storage"

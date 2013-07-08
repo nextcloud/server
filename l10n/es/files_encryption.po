@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-06 02:01+0200\n"
-"PO-Revision-Date: 2013-07-05 17:50+0000\n"
+"POT-Creation-Date: 2013-07-08 02:02+0200\n"
+"PO-Revision-Date: 2013-07-07 07:50+0000\n"
 "Last-Translator: Korrosivo <yo@rubendelcampo.es>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -66,7 +66,7 @@ msgid ""
 "ownCloud system (e.g. your corporate directory). You can update your private"
 " key password in your personal settings to recover access to your encrypted "
 "files."
-msgstr "¡Su clave privada no es válida! Tal vez su contraseña ha sido cambiada desde fuera. Puede actualizar la contraseña de su clave privada en sus opciones personales para recuperar el acceso a sus ficheros."
+msgstr "¡Su clave privada no es válida! Tal vez su contraseña ha sido cambiada desde fuera. Puede actualizar su clave privada en sus opciones personales para recuperar el acceso a sus ficheros."
 
 #: hooks/hooks.php:44
 msgid "Missing requirements."
@@ -124,11 +124,11 @@ msgstr "Cambiar la contraseña de la clave de recuperación"
 
 #: templates/settings-admin.php:41
 msgid "Old Recovery key password"
-msgstr "Contraseña de la antigua clave de recuperación"
+msgstr "Antigua clave de recuperación"
 
 #: templates/settings-admin.php:48
 msgid "New Recovery key password"
-msgstr "Contraseña de la nueva clave de recuperación"
+msgstr "Nueva clave de recuperación"
 
 #: templates/settings-admin.php:53
 msgid "Change Password"
