@@ -137,5 +137,6 @@ if ($needUpgrade) {
 	$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 	$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 	$tmpl->assign('usedSpacePercent', (int)$storageInfo['relative']);
+	$tmpl->assign('isPublic', false);
 	$tmpl->printPage();
 }

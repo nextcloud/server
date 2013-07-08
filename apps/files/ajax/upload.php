@@ -26,21 +26,17 @@ if (empty($_POST['dirToken'])) {
 	if (!($linkItem['permissions'] & OCP\PERMISSION_CREATE)) {
 		OCP\JSON::checkLoggedIn();
 	} else {
-		// Setup FS with owner
-		OC_Util::tearDownFS();
-		OC_Util::setupFS($linkItem['uid_owner']);
+		// resolve reshares
+		$rootLinkItem = OCP\Share::resolveReShare($linkItem);
 
-		// translate linkItem to the real folder name on the file system
-		$sharedItem = OCP\Share::getSharedItem($linkItem['item_type'], $linkItem['item_source'], $linkItem['uid_owner']);
-		if (!$sharedItem || empty($sharedItem) || $sharedItem === false) {
-			OCP\JSON::error(array('data' => array_merge(array('message' => $l->t('Unable to set upload directory.')))));
-			die();
-		}
+		// Setup FS with owner
+		OC_Util::setupFS($rootLinkItem['uid_owner']);
 
 		// The token defines the target directory (security reasons)
+		$path = \OC\Files\Filesystem::getPath($linkItem['file_source']);
 		$dir = sprintf(
 			"/%s/%s",
-			$sharedItem['path'],
+			$path,
 			isset($_POST['subdir']) ? $_POST['subdir'] : ''
 		);
 
@@ -83,17 +79,17 @@ $files = $_FILES['files'];
 
 $error = '';
 
-$maxUploadFilesize = OCP\Util::maxUploadFilesize($dir);
-$maxHumanFilesize = OCP\Util::humanFileSize($maxUploadFilesize);
+$maxUploadFileSize = $storageStats['uploadMaxFilesize'];
+$maxHumanFileSize = OCP\Util::humanFileSize($maxUploadFileSize);
 
 $totalSize = 0;
 foreach ($files['size'] as $size) {
 	$totalSize += $size;
 }
-if ($totalSize > $maxUploadFilesize) {
+if ($maxUploadFileSize >= 0 and $totalSize > $maxUploadFileSize) {
 	OCP\JSON::error(array('data' => array('message' => $l->t('Not enough storage available'),
-		'uploadMaxFilesize' => $maxUploadFilesize,
-		'maxHumanFilesize' => $maxHumanFilesize)));
+		'uploadMaxFilesize' => $maxUploadFileSize,
+		'maxHumanFilesize' => $maxHumanFileSize)));
 	exit();
 }
 
@@ -115,8 +111,8 @@ if (strpos($dir, '..') === false) {
 				'id' => $meta['fileid'],
 				'name' => basename($target),
 				'originalname' => $files['name'][$i],
-				'uploadMaxFilesize' => $maxUploadFilesize,
-				'maxHumanFilesize' => $maxHumanFilesize
+				'uploadMaxFilesize' => $maxUploadFileSize,
+				'maxHumanFilesize' => $maxHumanFileSize
 			);
 		}
 	}
