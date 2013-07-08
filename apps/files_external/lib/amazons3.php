@@ -38,13 +38,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	private static $tmpFiles = array();
 
 	private function normalizePath($path) {
-		if (substr($path, 0, 1) == '/') {
-			$path = substr($path, 1);
-		}
-
-		if (substr($path, -1) == '/') {
-			$path = substr($path, 0, -1);
-		}
+		$path = trim($path, '/');
 
 		if ( ! $path) {
 			$path = '.';
