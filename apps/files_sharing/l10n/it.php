@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"The password is wrong. Try again." => "La password è errata. Prova ancora.",
 "Password" => "Password",
 "Submit" => "Invia",
 "%s shared the folder %s with you" => "%s ha condiviso la cartella %s con te",

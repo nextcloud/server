@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-08 02:02+0200\n"
-"PO-Revision-Date: 2013-07-07 23:14+0000\n"
+"POT-Creation-Date: 2013-07-09 02:03+0200\n"
+"PO-Revision-Date: 2013-07-08 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr "Nepavyko perkelti %s - failas su tokiu pavadinimu jau egzistuoja"
 msgid "Could not move %s"
 msgstr "Nepavyko perkelti %s"
 
-#: ajax/upload.php:16 ajax/upload.php:36 ajax/upload.php:48
+#: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
 msgstr ""
 
@@ -36,46 +36,46 @@ msgstr ""
 msgid "Invalid Token"
 msgstr ""
 
-#: ajax/upload.php:62
+#: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
 msgstr "Failai nebuvo įkelti dėl nežinomos priežasties"
 
-#: ajax/upload.php:69
+#: ajax/upload.php:66
 msgid "There is no error, the file uploaded with success"
 msgstr "Failas įkeltas sėkmingai, be klaidų"
 
-#: ajax/upload.php:70
+#: ajax/upload.php:67
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Įkeliamas failas yra didesnis nei leidžia upload_max_filesize php.ini faile:"
 
-#: ajax/upload.php:72
+#: ajax/upload.php:69
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Įkeliamo failo dydis viršija MAX_FILE_SIZE nustatymą, kuris naudojamas HTML formoje."
 
-#: ajax/upload.php:73
+#: ajax/upload.php:70
 msgid "The uploaded file was only partially uploaded"
 msgstr "Failas buvo įkeltas tik dalinai"
 
-#: ajax/upload.php:74
+#: ajax/upload.php:71
 msgid "No file was uploaded"
 msgstr "Nebuvo įkeltas joks failas"
 
-#: ajax/upload.php:75
+#: ajax/upload.php:72
 msgid "Missing a temporary folder"
 msgstr "Nėra laikinojo katalogo"
 
-#: ajax/upload.php:76
+#: ajax/upload.php:73
 msgid "Failed to write to disk"
 msgstr "Nepavyko įrašyti į diską"
 
-#: ajax/upload.php:94
+#: ajax/upload.php:91
 msgid "Not enough storage available"
 msgstr "Nepakanka vietos serveryje"
 
-#: ajax/upload.php:126
+#: ajax/upload.php:123
 msgid "Invalid directory."
 msgstr "Neteisingas aplankas"
 

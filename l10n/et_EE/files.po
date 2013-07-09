@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-08 02:02+0200\n"
-"PO-Revision-Date: 2013-07-07 23:14+0000\n"
+"POT-Creation-Date: 2013-07-09 02:03+0200\n"
+"PO-Revision-Date: 2013-07-08 23:15+0000\n"
 "Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr "Ei saa liigutada faili %s - samanimeline fail on juba olemas"
 msgid "Could not move %s"
 msgstr "%s liigutamine ebaõnnestus"
 
-#: ajax/upload.php:16 ajax/upload.php:36 ajax/upload.php:48
+#: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
 msgstr "Üleslaadimiste kausta määramine ebaõnnestus."
 
@@ -37,46 +37,46 @@ msgstr "Üleslaadimiste kausta määramine ebaõnnestus."
 msgid "Invalid Token"
 msgstr "Vigane kontrollkood"
 
-#: ajax/upload.php:62
+#: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
 msgstr "Ühtegi faili ei laetud üles. Tundmatu viga"
 
-#: ajax/upload.php:69
+#: ajax/upload.php:66
 msgid "There is no error, the file uploaded with success"
 msgstr "Ühtegi tõrget polnud, fail on üles laetud"
 
-#: ajax/upload.php:70
+#: ajax/upload.php:67
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Üleslaetava faili suurus ületab php.ini poolt määratud upload_max_filesize suuruse:"
 
-#: ajax/upload.php:72
+#: ajax/upload.php:69
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Üleslaetud fail ületab MAX_FILE_SIZE suuruse, mis on HTML vormi jaoks määratud"
 
-#: ajax/upload.php:73
+#: ajax/upload.php:70
 msgid "The uploaded file was only partially uploaded"
 msgstr "Fail laeti üles ainult osaliselt"
 
-#: ajax/upload.php:74
+#: ajax/upload.php:71
 msgid "No file was uploaded"
 msgstr "Ühtegi faili ei laetud üles"
 
-#: ajax/upload.php:75
+#: ajax/upload.php:72
 msgid "Missing a temporary folder"
 msgstr "Ajutiste failide kaust puudub"
 
-#: ajax/upload.php:76
+#: ajax/upload.php:73
 msgid "Failed to write to disk"
 msgstr "Kettale kirjutamine ebaõnnestus"
 
-#: ajax/upload.php:94
+#: ajax/upload.php:91
 msgid "Not enough storage available"
 msgstr "Saadaval pole piisavalt ruumi"
 
-#: ajax/upload.php:126
+#: ajax/upload.php:123
 msgid "Invalid directory."
 msgstr "Vigane kaust."
 

@@ -98,7 +98,6 @@
 "Language" => "Idioma",
 "Help translate" => "Ayúdnos a traducir",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "Use esta dirección para conectarse a su cuenta de ownCloud en el administrador de archivos",
 "Login Name" => "Nombre de usuario",
 "Create" => "Crear",
 "Admin Recovery Password" => "Recuperación de la contraseña de administración",

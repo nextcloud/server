@@ -68,7 +68,6 @@
 "Language" => "Lingvo",
 "Help translate" => "Helpu traduki",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "Uzu ĉi tiun adreson por konekti al via ownCloud vian dosieradministrilon",
 "Create" => "Krei",
 "Default Storage" => "Defaŭlta konservejo",
 "Unlimited" => "Senlima",

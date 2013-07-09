@@ -77,7 +77,6 @@
 "Language" => "ภาษา",
 "Help translate" => "ช่วยกันแปล",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "ใช้ที่อยู่นี้เพื่อเชื่อมต่อกับ ownCloud ในโปรแกรมจัดการไฟล์ของคุณ",
 "Login Name" => "ชื่อที่ใช้สำหรับเข้าสู่ระบบ",
 "Create" => "สร้าง",
 "Default Storage" => "พื้นที่จำกัดข้อมูลเริ่มต้น",

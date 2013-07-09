@@ -78,7 +78,6 @@
 "Language" => "Ngôn ngữ",
 "Help translate" => "Hỗ trợ dịch thuật",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "Sử dụng địa chỉ này để kết nối ownCloud của bạn trong trình quản lý file của bạn",
 "Login Name" => "Tên đăng nhập",
 "Create" => "Tạo",
 "Default Storage" => "Bộ nhớ mặc định",

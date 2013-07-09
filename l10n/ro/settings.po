@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-08 02:03+0200\n"
-"PO-Revision-Date: 2013-07-07 23:14+0000\n"
-"Last-Translator: sergiu_sechel <sergiu.sechel@gmail.com>\n"
+"POT-Creation-Date: 2013-07-09 02:04+0200\n"
+"PO-Revision-Date: 2013-07-09 00:04+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -453,8 +453,11 @@ msgid "WebDAV"
 msgstr "WebDAV"
 
 #: templates/personal.php:108
-msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "Folosește această adresă pentru a conecta ownCloud cu managerul de fișiere"
+#, php-format
+msgid ""
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
+"target=\"_blank\">access your Files via WebDAV</a>"
+msgstr ""
 
 #: templates/users.php:21
 msgid "Login Name"

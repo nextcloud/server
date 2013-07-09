@@ -94,7 +94,6 @@
 "Fill in an email address to enable password recovery" => "پست الکترونیکی را پرکنید  تا بازیابی گذرواژه فعال شود",
 "Language" => "زبان",
 "Help translate" => "به ترجمه آن کمک کنید",
-"Use this address to connect to your ownCloud in your file manager" => "از این نشانی برای اتصال به ownCloud خودتان در بخش مدیریت فایل خودتان استفاده کنید",
 "Login Name" => "نام کاربری",
 "Create" => "ایجاد کردن",
 "Admin Recovery Password" => "مدیریت بازیابی رمز عبور",

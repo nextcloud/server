@@ -98,7 +98,6 @@
 "Language" => "Hizkuntza",
 "Help translate" => "Lagundu itzultzen",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "Erabili helbide hau zure fitxategi kudeatzailean zure ownCloudera konektatzeko",
 "Login Name" => "Sarrera Izena",
 "Create" => "Sortu",
 "Admin Recovery Password" => "Kudeatzaile pasahitz berreskuratzea",

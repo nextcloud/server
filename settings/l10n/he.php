@@ -90,7 +90,6 @@
 "Language" => "פה",
 "Help translate" => "עזרה בתרגום",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "השתמש בכתובת זאת על מנת להתחבר אל ownCloud דרך סייר קבצים.",
 "Login Name" => "שם כניסה",
 "Create" => "יצירה",
 "Admin Recovery Password" => "ססמת השחזור של המנהל",

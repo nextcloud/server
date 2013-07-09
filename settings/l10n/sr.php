@@ -91,7 +91,6 @@
 "Language" => "Језик",
 "Help translate" => " Помозите у превођењу",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "Користите ову адресу да се повежете са ownCloud-ом у управљачу датотекама",
 "Login Name" => "Корисничко име",
 "Create" => "Направи",
 "Default Storage" => "Подразумевано складиште",

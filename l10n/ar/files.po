@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-08 02:02+0200\n"
-"PO-Revision-Date: 2013-07-07 23:14+0000\n"
+"POT-Creation-Date: 2013-07-09 02:03+0200\n"
+"PO-Revision-Date: 2013-07-08 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,7 @@ msgstr "فشل في نقل الملف %s - يوجد ملف بنفس هذا ال�
 msgid "Could not move %s"
 msgstr "فشل في نقل %s"
 
-#: ajax/upload.php:16 ajax/upload.php:36 ajax/upload.php:48
+#: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
 msgstr ""
 
@@ -35,46 +35,46 @@ msgstr ""
 msgid "Invalid Token"
 msgstr ""
 
-#: ajax/upload.php:62
+#: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
 msgstr "لم يتم رفع أي ملف , خطأ غير معروف"
 
-#: ajax/upload.php:69
+#: ajax/upload.php:66
 msgid "There is no error, the file uploaded with success"
 msgstr "تم ترفيع الملفات بنجاح."
 
-#: ajax/upload.php:70
+#: ajax/upload.php:67
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "حجم الملف المرفوع تجاوز قيمة  upload_max_filesize الموجودة في ملف php.ini "
 
-#: ajax/upload.php:72
+#: ajax/upload.php:69
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "حجم الملف الذي تريد ترفيعه أعلى مما MAX_FILE_SIZE يسمح به في واجهة ال HTML."
 
-#: ajax/upload.php:73
+#: ajax/upload.php:70
 msgid "The uploaded file was only partially uploaded"
 msgstr "تم ترفيع جزء من الملفات الذي تريد ترفيعها فقط"
 
-#: ajax/upload.php:74
+#: ajax/upload.php:71
 msgid "No file was uploaded"
 msgstr "لم يتم ترفيع أي من الملفات"
 
-#: ajax/upload.php:75
+#: ajax/upload.php:72
 msgid "Missing a temporary folder"
 msgstr "المجلد المؤقت غير موجود"
 
-#: ajax/upload.php:76
+#: ajax/upload.php:73
 msgid "Failed to write to disk"
 msgstr "خطأ في الكتابة على القرص الصلب"
 
-#: ajax/upload.php:94
+#: ajax/upload.php:91
 msgid "Not enough storage available"
 msgstr "لا يوجد مساحة تخزينية كافية"
 
-#: ajax/upload.php:126
+#: ajax/upload.php:123
 msgid "Invalid directory."
 msgstr "مسار غير صحيح."
 

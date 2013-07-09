@@ -98,7 +98,6 @@
 "Language" => "Keel",
 "Help translate" => "Aita tõlkida",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "Kasuta seda aadressi ühendamaks oma ownCloudi failihalduriga",
 "Login Name" => "Kasutajanimi",
 "Create" => "Lisa",
 "Admin Recovery Password" => "Admin taasteparool",

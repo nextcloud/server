@@ -85,7 +85,6 @@
 "Language" => "Kieli",
 "Help translate" => "Auta kääntämisessä",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "Käytä tätä osoitetta yhdistäessäsi ownCloudiisi tiedostonhallintaa käyttäen",
 "Login Name" => "Kirjautumisnimi",
 "Create" => "Luo",
 "Default Storage" => "Oletustallennustila",

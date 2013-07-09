@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-08 02:02+0200\n"
-"PO-Revision-Date: 2013-07-07 23:14+0000\n"
+"POT-Creation-Date: 2013-07-09 02:03+0200\n"
+"PO-Revision-Date: 2013-07-08 23:15+0000\n"
 "Last-Translator: sergiu_sechel <sergiu.sechel@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr "%s nu se poate muta - Fișierul cu acest nume există deja "
 msgid "Could not move %s"
 msgstr "Nu s-a putut muta %s"
 
-#: ajax/upload.php:16 ajax/upload.php:36 ajax/upload.php:48
+#: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
 msgstr "Imposibil de a seta directorul pentru incărcare."
 
@@ -38,46 +38,46 @@ msgstr "Imposibil de a seta directorul pentru incărcare."
 msgid "Invalid Token"
 msgstr "Jeton Invalid"
 
-#: ajax/upload.php:62
+#: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
 msgstr "Nici un fișier nu a fost încărcat. Eroare necunoscută"
 
-#: ajax/upload.php:69
+#: ajax/upload.php:66
 msgid "There is no error, the file uploaded with success"
 msgstr "Nu a apărut nici o eroare, fișierul a fost încărcat cu succes"
 
-#: ajax/upload.php:70
+#: ajax/upload.php:67
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Fisierul incarcat depaseste upload_max_filesize permisi in php.ini: "
 
-#: ajax/upload.php:72
+#: ajax/upload.php:69
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Fișierul are o dimensiune mai mare decât variabile MAX_FILE_SIZE specificată în formularul HTML"
 
-#: ajax/upload.php:73
+#: ajax/upload.php:70
 msgid "The uploaded file was only partially uploaded"
 msgstr "Fișierul a fost încărcat doar parțial"
 
-#: ajax/upload.php:74
+#: ajax/upload.php:71
 msgid "No file was uploaded"
 msgstr "Nu a fost încărcat nici un fișier"
 
-#: ajax/upload.php:75
+#: ajax/upload.php:72
 msgid "Missing a temporary folder"
 msgstr "Lipsește un director temporar"
 
-#: ajax/upload.php:76
+#: ajax/upload.php:73
 msgid "Failed to write to disk"
 msgstr "Eroare la scriere pe disc"
 
-#: ajax/upload.php:94
+#: ajax/upload.php:91
 msgid "Not enough storage available"
 msgstr "Nu este suficient spațiu disponibil"
 
-#: ajax/upload.php:126
+#: ajax/upload.php:123
 msgid "Invalid directory."
 msgstr "Director invalid."
 

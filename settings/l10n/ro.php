@@ -93,7 +93,6 @@
 "Language" => "Limba",
 "Help translate" => "Ajută la traducere",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "Folosește această adresă pentru a conecta ownCloud cu managerul de fișiere",
 "Create" => "Crează",
 "Default Storage" => "Stocare implicită",
 "Unlimited" => "Nelimitată",

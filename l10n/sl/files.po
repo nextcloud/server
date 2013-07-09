@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-08 02:02+0200\n"
-"PO-Revision-Date: 2013-07-07 23:14+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-09 02:03+0200\n"
+"PO-Revision-Date: 2013-07-08 23:14+0000\n"
+"Last-Translator: barbarak <barbarak@arnes.si>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,14 +21,14 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr "Ni mogoče premakniti %s - datoteka s tem imenom že obstaja"
+msgstr "%s ni mogoče premakniti  - datoteka s tem imenom že obstaja"
 
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
 msgid "Could not move %s"
 msgstr "Ni mogoče premakniti %s"
 
-#: ajax/upload.php:16 ajax/upload.php:36 ajax/upload.php:48
+#: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
 msgstr "Mapo, v katero boste prenašali dokumente, ni mogoče določiti"
 
@@ -36,46 +36,46 @@ msgstr "Mapo, v katero boste prenašali dokumente, ni mogoče določiti"
 msgid "Invalid Token"
 msgstr "Neveljaven žeton"
 
-#: ajax/upload.php:62
+#: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
 msgstr "Ni poslane datoteke. Neznana napaka."
 
-#: ajax/upload.php:69
+#: ajax/upload.php:66
 msgid "There is no error, the file uploaded with success"
 msgstr "Datoteka je uspešno naložena."
 
-#: ajax/upload.php:70
+#: ajax/upload.php:67
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Poslana datoteka presega dovoljeno velikost, ki je določena z možnostjo upload_max_filesize v datoteki php.ini:"
 
-#: ajax/upload.php:72
+#: ajax/upload.php:69
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Poslana datoteka presega velikost, ki jo določa parameter največje dovoljene velikosti v obrazcu HTML."
 
-#: ajax/upload.php:73
+#: ajax/upload.php:70
 msgid "The uploaded file was only partially uploaded"
 msgstr "Poslan je le del datoteke."
 
-#: ajax/upload.php:74
+#: ajax/upload.php:71
 msgid "No file was uploaded"
 msgstr "Ni poslane datoteke"
 
-#: ajax/upload.php:75
+#: ajax/upload.php:72
 msgid "Missing a temporary folder"
 msgstr "Manjka začasna mapa"
 
-#: ajax/upload.php:76
+#: ajax/upload.php:73
 msgid "Failed to write to disk"
 msgstr "Pisanje na disk je spodletelo"
 
-#: ajax/upload.php:94
+#: ajax/upload.php:91
 msgid "Not enough storage available"
 msgstr "Na voljo ni dovolj prostora"
 
-#: ajax/upload.php:126
+#: ajax/upload.php:123
 msgid "Invalid directory."
 msgstr "Neveljavna mapa."
 
@@ -232,7 +232,7 @@ msgstr "{count} datotek"
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "%s ni bilo mogoče preimenovati"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -330,11 +330,11 @@ msgstr "Trenutno poteka preučevanje"
 
 #: templates/part.list.php:78
 msgid "directory"
-msgstr ""
+msgstr "direktorij"
 
 #: templates/part.list.php:80
 msgid "directories"
-msgstr ""
+msgstr "direktoriji"
 
 #: templates/part.list.php:89
 msgid "file"

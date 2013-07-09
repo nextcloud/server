@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-06 02:02+0200\n"
-"PO-Revision-Date: 2013-07-05 08:25+0000\n"
+"POT-Creation-Date: 2013-07-09 02:04+0200\n"
+"PO-Revision-Date: 2013-07-09 00:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Malayalam (India) (http://www.transifex.com/projects/p/owncloud/language/ml_IN/)\n"
 "MIME-Version: 1.0\n"
@@ -452,7 +452,10 @@ msgid "WebDAV"
 msgstr ""
 
 #: templates/personal.php:108
-msgid "Use this address to connect to your ownCloud in your file manager"
+#, php-format
+msgid ""
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
+"target=\"_blank\">access your Files via WebDAV</a>"
 msgstr ""
 
 #: templates/users.php:21

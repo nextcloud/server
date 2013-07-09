@@ -97,7 +97,6 @@
 "Language" => "اللغة",
 "Help translate" => "ساعد في الترجمه",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "إستخدم هذا العنوان للإتصال بـ ownCloud في مدير الملفات",
 "Login Name" => "اسم الدخول",
 "Create" => "انشئ",
 "Default Storage" => "وحدة التخزين الافتراضية",

@@ -98,7 +98,6 @@
 "Language" => "Язык",
 "Help translate" => "Помочь с переводом",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "Используйте этот адрес для подключения файлового менеджера к этому хранилищу",
 "Login Name" => "Имя пользователя",
 "Create" => "Создать",
 "Admin Recovery Password" => "Восстановление Пароля Администратора",
