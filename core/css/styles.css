@@ -283,6 +283,8 @@ li.update, li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; bac
 	background:#383c43 url('../img/noise.png') repeat;
 	-moz-box-shadow:0 0 7px #000; -webkit-box-shadow:0 0 7px #000; box-shadow:0 0 7px #000;
 	overflow:hidden; box-sizing:border-box; -moz-box-sizing:border-box;
+	/* prevent ugly selection effect on accidental selection */
+	-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
 }
 #navigation:hover {
 	overflow-y: auto; /* show scrollbar only on hover */
@@ -344,6 +346,8 @@ li.update, li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; bac
 	border-bottom-left-radius:7px; border-bottom:1px #333 solid; border-left:1px #333 solid;
 	-moz-box-shadow:0 0 7px rgb(29,45,68); -webkit-box-shadow:0 0 7px rgb(29,45,68); box-shadow:0 0 7px rgb(29,45,68);
 	-moz-box-sizing: border-box; box-sizing: border-box;
+	/* prevent ugly selection effect on accidental selection */
+	-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
 }
 	#expanddiv a {
 		display: block;
