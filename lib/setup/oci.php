@@ -9,8 +9,8 @@ class OCI extends AbstractDatabase {
 
 	public function initialize($config) {
 		parent::initialize($config);
-		if (array_key_exists('dbtablespace', $options)) {
-			$this->dbtablespace = $options['dbtablespace'];
+		if (array_key_exists('dbtablespace', $config)) {
+			$this->dbtablespace = $config['dbtablespace'];
 		} else {
 			$this->dbtablespace = 'USERS';
 		}
@@ -31,14 +31,14 @@ class OCI extends AbstractDatabase {
 		if(!$connection) {
 			$e = oci_error();
 			if (is_array ($e) && isset ($e['message'])) {
-				throw new DatabaseSetupException($l->t('Oracle connection could not be established'),
+				throw new \DatabaseSetupException($this->trans->t('Oracle connection could not be established'),
 				$e['message'].' Check environment: ORACLE_HOME='.getenv('ORACLE_HOME')
 							.' ORACLE_SID='.getenv('ORACLE_SID')
 							.' LD_LIBRARY_PATH='.getenv('LD_LIBRARY_PATH')
 							.' NLS_LANG='.getenv('NLS_LANG')
 							.' tnsnames.ora is '.(is_readable(getenv('ORACLE_HOME').'/network/admin/tnsnames.ora')?'':'not ').'readable');
 			}
-			throw new DatabaseSetupException($l->t('Oracle username and/or password not valid'),
+			throw new \DatabaseSetupException($this->trans->t('Oracle username and/or password not valid'),
 					'Check environment: ORACLE_HOME='.getenv('ORACLE_HOME')
 							.' ORACLE_SID='.getenv('ORACLE_SID')
 							.' LD_LIBRARY_PATH='.getenv('LD_LIBRARY_PATH')
