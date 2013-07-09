@@ -47,12 +47,12 @@ class Manager extends PublicEmitter {
 	 */
 	public function __construct($userManager) {
 		$this->userManager = $userManager;
-		$manager = $this;
-		$this->listen('\OC\Group', 'delete', function ($group) use (&$manager) {
+		$cache = &$this->cachedGroups;
+		$this->listen('\OC\Group', 'delete', function ($group) use (&$cache) {
 			/**
 			 * @var \OC\Group\Group $group
 			 */
-			unset($manager->cachedGroups[$group->getGID()]);
+			unset($cache[$group->getGID()]);
 		});
 	}
 
