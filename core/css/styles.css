@@ -343,13 +343,28 @@ li.update, li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; bac
 	background:#383c43 url('../img/noise.png') repeat;
 	border-bottom-left-radius:7px; border-bottom:1px #333 solid; border-left:1px #333 solid;
 	-moz-box-shadow:0 0 7px rgb(29,45,68); -webkit-box-shadow:0 0 7px rgb(29,45,68); box-shadow:0 0 7px rgb(29,45,68);
+	-moz-box-sizing: border-box; box-sizing: border-box;
 }
 	#expanddiv a {
-		display:block; color:#fff; text-shadow:0 -1px 0 #000; padding:0 8px;
-		-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70);opacity:.7;
+		display: block;
+		height: 40px;
+		color: #fff;
+		text-shadow: 0 -1px 0 #000;
+		padding: 4px 12px 0;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+		filter: alpha(opacity=70);
+		opacity: .7;
+		-moz-box-sizing: border-box; box-sizing: border-box;
 	}
-	#expanddiv a img { margin-bottom:-3px; }
-	#expanddiv a:hover, #expanddiv a:focus, #expanddiv a:active { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
+	#expanddiv a img {
+		margin-bottom: -3px;
+		margin-right: 6px;
+	}
+	#expanddiv a:hover, #expanddiv a:focus, #expanddiv a:active {
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+		filter: alpha(opacity=100);
+		opacity: 1;
+	}
 
 
 /* VARIOUS REUSABLE SELECTORS */
