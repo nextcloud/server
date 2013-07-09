@@ -77,7 +77,7 @@
 					<?php endif; ?>
 				</span>
 			</th>
-			<th id="headerSize"><?php p($l->t( 'Size' )); ?></th>
+			<th id="headerSize"><?php p($l->t('Size (MB)')); ?></th>
 			<th id="headerDate">
 				<span id="modified"><?php p($l->t( 'Modified' )); ?></span>
 				<?php if ($_['permissions'] & OCP\PERMISSION_DELETE): ?>
