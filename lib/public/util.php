@@ -355,6 +355,20 @@ class Util {
 	public static function sanitizeHTML( $value ) {
 		return(\OC_Util::sanitizeHTML($value));
 	}
+		
+	/**
+	 * @brief Public function to encode url parameters
+	 *
+	 * This function is used to encode path to file before output.
+	 * Encoding is done according to RFC 3986 with one exception:
+	 * Character '/' is preserved as is. 
+	 *
+	 * @param string $component part of URI to encode
+	 * @return string 
+	 */
+	public static function encodePath($component) {
+		return(\OC_Util::encodePath($component));
+	}
 
 	/**
 	* @brief Returns an array with all keys from input lowercased or uppercased. Numbered indices are left as is.
