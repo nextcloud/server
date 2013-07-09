@@ -287,9 +287,6 @@ li.update, li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; bac
 #navigation:hover {
 	overflow-y: auto; /* show scrollbar only on hover */
 }
-#navigation li {
-	padding: 6px 0; /* some whitespace between apps */
-}
 #navigation a span {
 	display: block;
 	text-decoration: none;
@@ -298,6 +295,7 @@ li.update, li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; bac
 	color: #fff;
 	text-shadow: #000 0 -1px 0;
 	white-space:nowrap; overflow:hidden; text-overflow:ellipsis; /* ellipsize long app names */
+	padding-bottom: 10px;
 }
 
 	/* icon opacity and hover effect */
@@ -327,9 +325,11 @@ li.update, li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; bac
 		width: 32px;
 		height: 32px;
 		margin-left: 24px;
-		padding: 8px 0 4px;
+		padding: 10px 0 4px;
 	}
-	#navigation li:first-child a { padding-top:16px; }
+	#navigation li:first-child .icon { /* special rule for Files icon as it's first */
+		padding-top: 20px;
+	}
 
 
 /* USER MENU */
