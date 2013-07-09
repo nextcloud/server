@@ -475,7 +475,6 @@ div.crumb:active {
 	width: 250px;
 	height: 100%;
 	float: left;
-	padding-bottom: 32px;
 	-moz-box-sizing: border-box; box-sizing: border-box;
 	background-color: #f8f8f8;
 	border-right: 1px solid #ccc;
