@@ -6,11 +6,11 @@
 			<div id="new" class="button">
 				<a><?php p($l->t('New'));?></a>
 				<ul>
-					<li style="background-image:url('<?php p(OCP\mimetype_icon('text/plain')) ?>');background-size: 16px 16px;"
+					<li style="background-image:url('<?php p(OCP\mimetype_icon('text/plain')) ?>')"
 						data-type='file'><p><?php p($l->t('Text file'));?></p></li>
-					<li style="background-image:url('<?php p(OCP\mimetype_icon('dir')) ?>');background-size: 16px 16px;"
+					<li style="background-image:url('<?php p(OCP\mimetype_icon('dir')) ?>')"
 						data-type='folder'><p><?php p($l->t('Folder'));?></p></li>
-					<li style="background-image:url('<?php p(OCP\image_path('core', 'actions/public.png')) ?>')"
+					<li style="background-image:url('<?php p(OCP\image_path('core', 'web.png')) ?>')"
 						data-type='web'><p><?php p($l->t('From link'));?></p></li>
 				</ul>
 			</div>
