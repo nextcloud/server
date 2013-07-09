@@ -116,7 +116,7 @@ class Group {
 					$this->users[] = $user;
 				}
 				if ($this->emitter) {
-					$this->emitter->emit('\OC\Group', 'addUser', array($this, $user));
+					$this->emitter->emit('\OC\Group', 'postAddUser', array($this, $user));
 				}
 				return;
 			}
@@ -141,7 +141,7 @@ class Group {
 		}
 		if ($result) {
 			if ($this->emitter) {
-				$this->emitter->emit('\OC\Group', 'removeUser', array($this, $user));
+				$this->emitter->emit('\OC\Group', 'postRemoveUser', array($this, $user));
 			}
 			if ($this->users) {
 				foreach ($this->users as $index => $groupUser) {
@@ -231,7 +231,7 @@ class Group {
 			}
 		}
 		if ($result and $this->emitter) {
-			$this->emitter->emit('\OC\Group', 'delete', array($this));
+			$this->emitter->emit('\OC\Group', 'postDelete', array($this));
 		}
 		return $result;
 	}

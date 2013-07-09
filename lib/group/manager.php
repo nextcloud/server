@@ -15,14 +15,14 @@ use OC\Hooks\PublicEmitter;
  * Class Manager
  *
  * Hooks available in scope \OC\Group:
- * - addUser(\OC\Group\Group $group, \OC\User\User $user)
  * - preAddUser(\OC\Group\Group $group, \OC\User\User $user)
- * - removeUser(\OC\Group\Group $group, \OC\User\User $user)
+ * - postAddUser(\OC\Group\Group $group, \OC\User\User $user)
  * - preRemoveUser(\OC\Group\Group $group, \OC\User\User $user)
- * - delete(\OC\Group\Group $group)
+ * - postRemoveUser(\OC\Group\Group $group, \OC\User\User $user)
  * - preDelete(\OC\Group\Group $group)
- * - create(\OC\Group\Group $group)
+ * - postDelete(\OC\Group\Group $group)
  * - preCreate(string $groupId)
+ * - postCreate(\OC\Group\Group $group)
  *
  * @package OC\Group
  */
@@ -48,7 +48,7 @@ class Manager extends PublicEmitter {
 	public function __construct($userManager) {
 		$this->userManager = $userManager;
 		$cache = &$this->cachedGroups;
-		$this->listen('\OC\Group', 'delete', function ($group) use (&$cache) {
+		$this->listen('\OC\Group', 'postDelete', function ($group) use (&$cache) {
 			/**
 			 * @var \OC\Group\Group $group
 			 */
@@ -112,7 +112,7 @@ class Manager extends PublicEmitter {
 				if ($backend->implementsActions(OC_GROUP_BACKEND_CREATE_GROUP)) {
 					$backend->createGroup($gid);
 					$group = $this->createGroupObject($gid);
-					$this->emit('\OC\Group', 'create', array($group));
+					$this->emit('\OC\Group', 'postCreate', array($group));
 					return $group;
 				}
 			}
