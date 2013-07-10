@@ -166,7 +166,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 		$dh = $this->opendir($path);
 		while ($file = readdir($dh)) {
-			if ($file == '.' || $file == '..') {
+			if ($file === '.' || $file === '..') {
 				continue;
 			}
 
@@ -193,7 +193,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	public function opendir($path) {
 		$path = $this->normalizePath($path);
 
-		if ($path == '.') {
+		if ($path === '.') {
 			$path = '';
 		} else if ($path) {
 			$path .= '/';
@@ -437,7 +437,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 			$dh = $this->opendir($path1);
 			while ($file = readdir($dh)) {
-				if ($file == '.' || $file == '..') {
+				if ($file === '.' || $file === '..') {
 					continue;
 				}
 
@@ -455,11 +455,11 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		$path2 = $this->normalizePath($path2);
 
 		if ($this->is_file($path1)) {
-			if ($this->copy($path1, $path2) == false) {
+			if ($this->copy($path1, $path2) === false) {
 				return false;
 			}
 
-			if ($this->unlink($path1) == false) {
+			if ($this->unlink($path1) === false) {
 				$this->unlink($path2);
 				return false;
 			}
@@ -468,11 +468,11 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				return false;
 			}
 
-			if ($this->copy($path1, $path2) == false) {
+			if ($this->copy($path1, $path2) === false) {
 				return false;
 			}
 
-			if($this->rmdir($path1) == false) {
+			if($this->rmdir($path1) === false) {
 				$this->rmdir($path2);
 				return false;
 			}
