@@ -296,7 +296,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			return false;
 		}
 
-		$this->touch(dirname($path));
 		return true;
 	}
 
@@ -514,7 +513,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			$this->testTimeout();
 
 			unlink($tmpFile);
-			$this->touch(dirname(self::$tmpFiles[$tmpFile]));
 		} catch (S3Exception $e) {
 			return false;
 		}
