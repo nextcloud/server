@@ -13,7 +13,7 @@ class Group {
 	/**
 	 * @var string $id
 	 */
-	private $id;
+	private $fid;
 
 	/**
 	 * @var \OC\User\User[] $users
@@ -36,20 +36,20 @@ class Group {
 	private $userManager;
 
 	/**
-	 * @param string $id
+	 * @param string $gid
 	 * @param \OC_Group_Backend[] $backends
 	 * @param \OC\User\Manager $userManager
 	 * @param \OC\Hooks\PublicEmitter $emitter
 	 */
-	public function __construct($id, $backends, $userManager, $emitter = null) {
-		$this->id = $id;
+	public function __construct($gid, $backends, $userManager, $emitter = null) {
+		$this->gid = $gid;
 		$this->backends = $backends;
 		$this->userManager = $userManager;
 		$this->emitter = $emitter;
 	}
 
 	public function getGID() {
-		return $this->id;
+		return $this->gid;
 	}
 
 	/**
@@ -66,7 +66,7 @@ class Group {
 		$userIds = array();
 		foreach ($this->backends as $backend) {
 			$diff = array_diff(
-				$backend->usersInGroup($this->id),
+				$backend->usersInGroup($this->gid),
 				$userIds
 			);
 			if ($diff) {
@@ -89,7 +89,7 @@ class Group {
 	 */
 	public function inGroup($user) {
 		foreach ($this->backends as $backend) {
-			if ($backend->inGroup($user->getUID(), $this->id)) {
+			if ($backend->inGroup($user->getUID(), $this->gid)) {
 				return true;
 			}
 		}
@@ -111,7 +111,7 @@ class Group {
 		}
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(OC_GROUP_BACKEND_ADD_TO_GROUP)) {
-				$backend->addToGroup($user->getUID(), $this->id);
+				$backend->addToGroup($user->getUID(), $this->gid);
 				if ($this->users) {
 					$this->users[] = $user;
 				}
@@ -134,8 +134,8 @@ class Group {
 			$this->emitter->emit('\OC\Group', 'preRemoveUser', array($this, $user));
 		}
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(OC_GROUP_BACKEND_REMOVE_FROM_GOUP) and $backend->inGroup($user->getUID(), $this->id)) {
-				$backend->removeFromGroup($user->getUID(), $this->id);
+			if ($backend->implementsActions(OC_GROUP_BACKEND_REMOVE_FROM_GOUP) and $backend->inGroup($user->getUID(), $this->gid)) {
+				$backend->removeFromGroup($user->getUID(), $this->gid);
 				$result = true;
 			}
 		}
@@ -165,7 +165,7 @@ class Group {
 	public function searchUsers($search, $limit = null, $offset = null) {
 		$users = array();
 		foreach ($this->backends as $backend) {
-			$userIds = $backend->usersInGroup($this->id, $search, $limit, $offset);
+			$userIds = $backend->usersInGroup($this->gid, $search, $limit, $offset);
 			if (!is_null($limit)) {
 				$limit -= count($userIds);
 			}
@@ -194,9 +194,9 @@ class Group {
 		$users = array();
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(OC_GROUP_BACKEND_GET_DISPLAYNAME)) {
-				$userIds = array_keys($backend->displayNamesInGroup($this->id, $search, $limit, $offset));
+				$userIds = array_keys($backend->displayNamesInGroup($this->gid, $search, $limit, $offset));
 			} else {
-				$userIds = $backend->usersInGroup($this->id, $search, $limit, $offset);
+				$userIds = $backend->usersInGroup($this->gid, $search, $limit, $offset);
 			}
 			if (!is_null($limit)) {
 				$limit -= count($userIds);
@@ -225,9 +225,9 @@ class Group {
 			$this->emitter->emit('\OC\Group', 'preDelete', array($this));
 		}
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(OC_GROUP_BACKEND_DELETE_GROUP) and $backend->groupExists($this->id)) {
+			if ($backend->implementsActions(OC_GROUP_BACKEND_DELETE_GROUP) and $backend->groupExists($this->gid)) {
 				$result = true;
-				$backend->deleteGroup($this->id);
+				$backend->deleteGroup($this->gid);
 			}
 		}
 		if ($result and $this->emitter) {
