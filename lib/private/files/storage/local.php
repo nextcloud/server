@@ -188,22 +188,7 @@ if (\OC_Util::runningOnWindows()) {
 
 		public function copy($path1, $path2) {
 			if ($this->is_dir($path1)) {
-				if ($this->is_dir($path2)) {
-					$this->rmdir($path2);
-				} else if ($this->is_file($path2)) {
-					$this->unlink($path2);
-				}
-				$dir = $this->opendir($path1);
-				$this->mkdir($path2);
-				while ($file = readdir($dir)) {
-					if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
-						if (!$this->copy($path1 . '/' . $file, $path2 . '/' . $file)) {
-							return false;
-						}
-					}
-				}
-				closedir($dir);
-				return true;
+				return parent::copy($path1, $path2);
 			} else {
 				return copy($this->datadir . $path1, $this->datadir . $path2);
 			}
