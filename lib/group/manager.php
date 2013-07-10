@@ -47,7 +47,7 @@ class Manager extends PublicEmitter {
 	 */
 	public function __construct($userManager) {
 		$this->userManager = $userManager;
-		$cache = &$this->cachedGroups;
+		$cache = & $this->cachedGroups;
 		$this->listen('\OC\Group', 'postDelete', function ($group) use (&$cache) {
 			/**
 			 * @var \OC\Group\Group $group
@@ -78,13 +78,13 @@ class Manager extends PublicEmitter {
 		}
 		foreach ($this->backends as $backend) {
 			if ($backend->groupExists($gid)) {
-				return $this->createGroupObject($gid);
+				return $this->getGroupObject($gid);
 			}
 		}
 		return null;
 	}
 
-	protected function createGroupObject($gid) {
+	protected function getGroupObject($gid) {
 		$this->cachedGroups[$gid] = new Group($gid, $this->backends, $this->userManager, $this);
 		return $this->cachedGroups[$gid];
 	}
@@ -111,7 +111,7 @@ class Manager extends PublicEmitter {
 			foreach ($this->backends as $backend) {
 				if ($backend->implementsActions(OC_GROUP_BACKEND_CREATE_GROUP)) {
 					$backend->createGroup($gid);
-					$group = $this->createGroupObject($gid);
+					$group = $this->getGroupObject($gid);
 					$this->emit('\OC\Group', 'postCreate', array($group));
 					return $group;
 				}
@@ -137,7 +137,7 @@ class Manager extends PublicEmitter {
 				$offset -= count($groupIds);
 			}
 			foreach ($groupIds as $groupId) {
-				$groups[$groupId] = $this->createGroupObject($groupId);
+				$groups[$groupId] = $this->getGroupObject($groupId);
 			}
 			if (!is_null($limit) and $limit <= 0) {
 				return array_values($groups);
@@ -155,7 +155,7 @@ class Manager extends PublicEmitter {
 		foreach ($this->backends as $backend) {
 			$groupIds = $backend->getUserGroups($user->getUID());
 			foreach ($groupIds as $groupId) {
-				$groups[$groupId] = $this->createGroupObject($groupId);
+				$groups[$groupId] = $this->getGroupObject($groupId);
 			}
 		}
 		return array_values($groups);
