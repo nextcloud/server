@@ -23,13 +23,14 @@
  * wrapper for server side events (http://en.wikipedia.org/wiki/Server-sent_events)
  * includes a fallback for older browsers and IE
  *
- * use server side events with causion, to many open requests can hang the server
+ * use server side events with caution, to many open requests can hang the server
  */
 
 /**
  * create a new event source
- * @param string src
- * @param object data to be send as GET
+ * @param src
+ * @param data to be send as GET
+ * @constructor
  */
 OC.EventSource=function(src,data){
 	var dataStr='';

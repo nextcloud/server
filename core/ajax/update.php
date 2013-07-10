@@ -14,7 +14,6 @@ if (OC::checkUpgrade(false)) {
 	OC_Log::write('core', 'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, OC_Log::WARN);
 	$watcher = new UpdateWatcher($updateEventSource);
 	OC_Hook::connect('update', 'success', $watcher, 'success');
-	OC_Hook::connect('update', 'error', $watcher, 'error');
 	OC_Hook::connect('update', 'failure', $watcher, 'failure');
 	$watcher->success('Turned on maintenance mode');
 	try {
@@ -92,12 +91,6 @@ class UpdateWatcher {
 	public function success($message) {
 		OC_Util::obEnd();
 		$this->eventSource->send('success', $message);
-		ob_start();
-	}
-
-	public function error($message) {
-		OC_Util::obEnd();
-		$this->eventSource->send('error', $message);
 		ob_start();
 	}
 
