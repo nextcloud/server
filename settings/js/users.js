@@ -76,7 +76,7 @@ var UserList = {
 							ready();
 						}
 					} else {
-						oc.dialogs.alert(result.data.message, t('settings', 'Unable to remove user'));
+						OC.dialogs.alert(result.data.message, t('settings', 'Unable to remove user'));
 					}
 				}
 			});
