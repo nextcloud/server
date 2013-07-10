@@ -332,7 +332,7 @@ class Preview {
 
 				$preview = $provider->getThumbnail($file, $maxX, $maxY, $scalingup, $this->fileview);
 
-				if(!$preview) {
+				if(!($preview instanceof \OC_Image)) {
 					continue;
 				}
 
@@ -346,6 +346,8 @@ class Preview {
 				if($this->userview->is_dir(self::THUMBNAILS_FOLDER . '/' . $fileid . '/') === false) {
 					$this->userview->mkdir(self::THUMBNAILS_FOLDER . '/' . $fileid . '/');
 				}
+
+				$preview->fixOrientation();
 				$this->userview->file_put_contents($cachepath, $preview->data());
 
 				break;
@@ -382,8 +384,6 @@ class Preview {
 	 * @return image
 	*/
 	public function resizeAndCrop() {
-		$this->preview->fixOrientation();
-
 		$image = $this->preview;
 		$x = $this->maxX;
 		$y = $this->maxY;
