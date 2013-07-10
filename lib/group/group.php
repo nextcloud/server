@@ -162,7 +162,7 @@ class Group {
 	 * @param int $offset
 	 * @return \OC\User\User[]
 	 */
-	public function searchUsers($search = '', $limit = null, $offset = null) {
+	public function searchUsers($search, $limit = null, $offset = null) {
 		$users = array();
 		foreach ($this->backends as $backend) {
 			$userIds = $backend->usersInGroup($this->id, $search, $limit, $offset);
@@ -190,7 +190,7 @@ class Group {
 	 * @param int $offset
 	 * @return \OC\User\User[]
 	 */
-	public function searchDisplayName($search = '', $limit = null, $offset = null) {
+	public function searchDisplayName($search, $limit = null, $offset = null) {
 		$users = array();
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(OC_GROUP_BACKEND_GET_DISPLAYNAME)) {
