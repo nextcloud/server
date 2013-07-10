@@ -348,10 +348,6 @@ class Preview {
 
 	/**
 	 * @brief return a preview of a file
-	 * @param $file The path to the file where you want a thumbnail from
-	 * @param $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
-	 * @param $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
-	 * @param $scaleup Scale smaller images up to the thumbnail size or not. Might look ugly
 	 * @return image
 	*/
 	public function getPreview() {
@@ -419,10 +415,6 @@ class Preview {
 
 	/**
 	 * @brief show preview
-	 * @param $file The path to the file where you want a thumbnail from
-	 * @param $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
-	 * @param $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
-	 * @param $scaleup Scale smaller images up to the thumbnail size or not. Might look ugly
 	 * @return void
 	*/
 	public function showPreview() {
@@ -431,6 +423,7 @@ class Preview {
 			$this->getPreview();
 		}
 		$this->preview->show();
+		return;
 	}
 
 	/**
@@ -486,7 +479,7 @@ class Preview {
 
 		$image->preciseResize($newXsize, $newYsize);
 
-		if($newXsize == $x && $newYsize === $y) {
+		if($newXsize === $x && $newYsize === $y) {
 			$this->preview = $image;
 			return;
 		}
