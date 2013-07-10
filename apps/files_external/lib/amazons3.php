@@ -36,6 +36,8 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	private $connection;
 	private $bucket;
 	private static $tmpFiles = array();
+	private $test = false;
+	private $timeout = 15;
 
 	private function normalizePath($path) {
 		$path = trim($path, '/');
@@ -47,44 +49,54 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return $path;
 	}
 
+	private function testTimeout() {
+		if ($this->test) {
+			sleep($this->timeout);
+		}
+	}
+
 	public function __construct($params) {
 		if ( ! isset($params['key']) || ! isset($params['secret']) || ! isset($params['bucket'])) {
 			throw new \Exception("Access Key, Secret and Bucket have to be configured.");
 		}
 
 		$this->id = 'amazon::' . $params['key'] . md5($params['secret']);
+
 		$this->bucket = $params['bucket'];
 		$scheme = ($params['use_ssl'] === 'false') ? 'http' : 'https';
-
-		if (isset($params['hostname']) && isset($params['port'])) {
-			$base_url = $scheme.'://'.$params['hostname'].':'.$params['port'].'/';
-			$this->connection = S3Client::factory(array(
-				'key' => $params['key'],
-				'secret' => $params['secret'],
-				'base_url' => $base_url
-			));
-		} else {
-			if ( ! isset($params['region'])) {
-				$params['region'] = 'us-west-1';
-			}
-			$this->connection = S3Client::factory(array(
-				'key' => $params['key'],
-				'secret' => $params['secret'],
-				'scheme' => $scheme,
-				'region' => $params['region']
-			));
+		$this->test = ( isset($params['test'])) ? true : false;
+		$this->timeout = ( ! isset($params['timeout'])) ? 15 : $params['timeout'];
+		$params['region'] = ( ! isset($params['region'])) ? 'eu-west-1' : $params['region'];
+		$params['hostname'] = ( !isset($params['hostname'])) ? 's3.amazonaws.com' : $params['hostname'];
+		if ( ! isset($params['port'])) {
+			$params['port'] = ($params['use_ssl'] === 'false') ? 80 : 443;
 		}
+		$base_url = $scheme.'://'.$params['hostname'].':'.$params['port'].'/';
+
+		$this->connection = S3Client::factory(array(
+			'key' => $params['key'],
+			'secret' => $params['secret'],
+			'base_url' => $base_url,
+			'region' => $params['region']
+		));
 
 		if (! $this->connection->isValidBucketName($this->bucket)) {
 			throw new \Exception("The configured bucket name is invalid.");
 		}
 
 		if ( ! $this->connection->doesBucketExist($this->bucket)) {
-			$result = $this->connection->createBucket(array(
-				'Bucket' => $this->bucket
-			));
-			while ( ! $this->connection->doesBucketExist($this->bucket)) {
-				sleep(1);
+			try {
+				$result = $this->connection->createBucket(array(
+					'Bucket' => $this->bucket
+				));
+				$this->connection->waitUntilBucketExists(array(
+					'Bucket' => $this->bucket,
+					'waiter.interval' => 1,
+					'waiter.max_attempts' => 15
+				));
+			$this->testTimeout();
+			} catch (S3Exception $e) {
+				throw new \Exception("Creation of bucket failed.");
 			}
 		}
 
@@ -96,6 +108,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				'ContentType' => 'httpd/unix-directory',
 				'ContentLength' => 0
 			));
+			$this->testTimeout();
 		}
 	}
 
@@ -114,6 +127,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				'ContentType' => 'httpd/unix-directory',
 				'ContentLength' => 0
 			));
+			$this->testTimeout();
 		} catch (S3Exception $e) {
 			return false;
 		}
@@ -168,6 +182,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				'Bucket' => $this->bucket,
 				'Key' => $path . '/'
 			));
+			$this->testTimeout();
 		} catch (S3Exception $e) {
 			return false;
 		}
@@ -276,6 +291,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				'Bucket' => $this->bucket,
 				'Key' => $path
 			));
+			$this->testTimeout();
 		} catch (S3Exception $e) {
 			return false;
 		}
@@ -373,12 +389,14 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 					'Metadata' => $metadata,
 					'CopySource' => $this->bucket . '/' . $path
 				));
+				$this->testTimeout();
 			} else {
 				$result = $this->connection->putObject(array(
 					'Bucket' => $this->bucket,
 					'Key' => $path,
 					'Metadata' => $metadata
 				));
+				$this->testTimeout();
 			}
 		} catch (S3Exception $e) {
 			return false;
@@ -398,6 +416,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 					'Key' => $path2,
 					'CopySource' => $this->bucket . '/' . $path1
 				));
+				$this->testTimeout();
 			} catch (S3Exception $e) {
 				return false;
 			}
@@ -412,6 +431,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 					'Key' => $path2 . '/',
 					'CopySource' => $this->bucket . '/' . $path1 . '/'
 				));
+				$this->testTimeout();
 			} catch (S3Exception $e) {
 				return false;
 			}
@@ -491,6 +511,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				'ContentType' => \OC_Helper::getMimeType($tmpFile),
 				'ContentLength' => filesize($tmpFile)
 			));
+			$this->testTimeout();
 
 			unlink($tmpFile);
 			$this->touch(dirname(self::$tmpFiles[$tmpFile]));

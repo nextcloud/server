@@ -54,8 +54,9 @@ return array(
 		//'hostname' => 'your.host.name',
 		//'port' => '443',
 		//'use_ssl' => 'true',
-		//'use_path_style' => 'false',
-		//'region' => 'us-west-1'
+		//'region' => 'eu-west-1',
+		//'test'=>'true',
+		//'timeout'=>20
 	),
 	'dropbox' => array (
 		'run'=>false,

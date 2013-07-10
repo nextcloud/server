@@ -59,9 +59,8 @@ class AmazonS3 extends Storage {
 				'Bucket' => $this->config['amazons3']['bucket']
 			));
 
-			while($connection->doesBucketExist($this->config['amazons3']['bucket'])) {
-				sleep(1);
-			}
+			//wait some seconds for completing the replication
+			sleep(30);
 		}
 	}
 }
