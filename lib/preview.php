@@ -243,9 +243,9 @@ class Preview {
 		$fileinfo = $this->fileview->getFileInfo($file);
 		$fileid = $fileinfo['fileid'];
 
-		$previepath = $this->getThumbnailsFolder() . '/' . $fileid . '/' . $this->getMaxX() . '-' . $this->getMaxY() . '.png';
-		$this->userview->unlink($previepath);
-		return $this->userview->file_exists($previepath);
+		$previewpath = $this->getThumbnailsFolder() . '/' . $fileid . '/' . $this->getMaxX() . '-' . $this->getMaxY() . '.png';
+		$this->userview->unlink($previewpath);
+		return $this->userview->file_exists($previewpath);
 	}
 
 	/**
@@ -261,7 +261,7 @@ class Preview {
 		$previewpath = $this->getThumbnailsFolder() . '/' . $fileid . '/';
 		$this->userview->deleteAll($previewpath);
 		$this->userview->rmdir($previewpath);
-		return $this->userview->is_dir($previepath);
+		return $this->userview->is_dir($previewpath);
 	}
 
 	/**
