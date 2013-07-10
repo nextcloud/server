@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-09 02:04+0200\n"
-"PO-Revision-Date: 2013-07-09 00:02+0000\n"
+"POT-Creation-Date: 2013-07-10 02:13+0200\n"
+"PO-Revision-Date: 2013-07-09 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Icelandic (http://www.transifex.com/projects/p/owncloud/language/is/)\n"
 "MIME-Version: 1.0\n"
@@ -45,19 +45,19 @@ msgstr "Stjórnun"
 msgid "web services under your control"
 msgstr "vefþjónusta undir þinni stjórn"
 
-#: files.php:210
+#: files.php:226
 msgid "ZIP download is turned off."
 msgstr "Slökkt á ZIP niðurhali."
 
-#: files.php:211
+#: files.php:227
 msgid "Files need to be downloaded one by one."
 msgstr "Skrárnar verður að sækja eina og eina"
 
-#: files.php:212 files.php:245
+#: files.php:228 files.php:261
 msgid "Back to Files"
 msgstr "Aftur í skrár"
 
-#: files.php:242
+#: files.php:258
 msgid "Selected files too large to generate zip file."
 msgstr "Valdar skrár eru of stórar til að búa til ZIP skrá."
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-09 02:03+0200\n"
-"PO-Revision-Date: 2013-07-09 00:02+0000\n"
+"POT-Creation-Date: 2013-07-10 02:13+0200\n"
+"PO-Revision-Date: 2013-07-09 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -137,59 +137,59 @@ msgstr "ნოემბერი"
 msgid "December"
 msgstr "დეკემბერი"
 
-#: js/js.js:289
+#: js/js.js:293
 msgid "Settings"
 msgstr "პარამეტრები"
 
-#: js/js.js:721
+#: js/js.js:725
 msgid "seconds ago"
 msgstr "წამის წინ"
 
-#: js/js.js:722
+#: js/js.js:726
 msgid "1 minute ago"
 msgstr "1 წუთის წინ"
 
-#: js/js.js:723
+#: js/js.js:727
 msgid "{minutes} minutes ago"
 msgstr "{minutes} წუთის წინ"
 
-#: js/js.js:724
+#: js/js.js:728
 msgid "1 hour ago"
 msgstr "1 საათის წინ"
 
-#: js/js.js:725
+#: js/js.js:729
 msgid "{hours} hours ago"
 msgstr "{hours} საათის წინ"
 
-#: js/js.js:726
+#: js/js.js:730
 msgid "today"
 msgstr "დღეს"
 
-#: js/js.js:727
+#: js/js.js:731
 msgid "yesterday"
 msgstr "გუშინ"
 
-#: js/js.js:728
+#: js/js.js:732
 msgid "{days} days ago"
 msgstr "{days} დღის წინ"
 
-#: js/js.js:729
+#: js/js.js:733
 msgid "last month"
 msgstr "გასულ თვეში"
 
-#: js/js.js:730
+#: js/js.js:734
 msgid "{months} months ago"
 msgstr "{months} თვის წინ"
 
-#: js/js.js:731
+#: js/js.js:735
 msgid "months ago"
 msgstr "თვის წინ"
 
-#: js/js.js:732
+#: js/js.js:736
 msgid "last year"
 msgstr "ბოლო წელს"
 
-#: js/js.js:733
+#: js/js.js:737
 msgid "years ago"
 msgstr "წლის წინ"
 

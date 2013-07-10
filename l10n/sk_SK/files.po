@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-09 02:03+0200\n"
-"PO-Revision-Date: 2013-07-08 23:14+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-10 02:13+0200\n"
+"PO-Revision-Date: 2013-07-09 23:15+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,11 +30,11 @@ msgstr "Nie je možné presunúť %s"
 
 #: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "Nemožno nastaviť priečinok pre nahrané súbory."
 
 #: ajax/upload.php:22
 msgid "Invalid Token"
-msgstr ""
+msgstr "Neplatný token"
 
 #: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
@@ -77,7 +77,7 @@ msgstr "Nedostatok dostupného úložného priestoru"
 
 #: ajax/upload.php:123
 msgid "Invalid directory."
-msgstr "Neplatný priečinok"
+msgstr "Neplatný priečinok."
 
 #: appinfo/app.php:12
 msgid "Files"
@@ -93,7 +93,7 @@ msgstr "Nie je k dispozícii dostatok miesta"
 
 #: js/file-upload.js:64
 msgid "Upload cancelled."
-msgstr "Odosielanie zrušené"
+msgstr "Odosielanie zrušené."
 
 #: js/file-upload.js:167 js/files.js:266
 msgid ""
@@ -102,7 +102,7 @@ msgstr "Opustenie stránky zruší práve prebiehajúce odosielanie súboru."
 
 #: js/file-upload.js:233 js/files.js:339
 msgid "URL cannot be empty."
-msgstr "URL nemôže byť prázdne"
+msgstr "URL nemôže byť prázdne."
 
 #: js/file-upload.js:238 lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
@@ -232,7 +232,7 @@ msgstr "{count} súborov"
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "%s nemohol byť premenovaný"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -328,19 +328,19 @@ msgstr "Čakajte, súbory sú prehľadávané."
 msgid "Current scanning"
 msgstr "Práve prezerané"
 
-#: templates/part.list.php:78
+#: templates/part.list.php:76
 msgid "directory"
-msgstr ""
+msgstr "priečinok"
 
-#: templates/part.list.php:80
+#: templates/part.list.php:78
 msgid "directories"
-msgstr ""
+msgstr "priečinky"
 
-#: templates/part.list.php:89
+#: templates/part.list.php:87
 msgid "file"
 msgstr "súbor"
 
-#: templates/part.list.php:91
+#: templates/part.list.php:89
 msgid "files"
 msgstr "súbory"
 

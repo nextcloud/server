@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "External Storage" => "حافظه خارجی",
+"Folder name" => "نام پوشه",
 "Configuration" => "پیکربندی",
 "Options" => "تنظیمات",
 "Applicable" => "قابل اجرا",

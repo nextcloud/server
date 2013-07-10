@@ -98,6 +98,7 @@
 "Language" => "Lingua",
 "Help translate" => "Migliora la traduzione",
 "WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "Utilizza questo indirizzo per <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">accedere ai tuoi File via WebDAV</a>",
 "Login Name" => "Nome utente",
 "Create" => "Crea",
 "Admin Recovery Password" => "Password di ripristino amministrativa",

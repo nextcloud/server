@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-09 02:03+0200\n"
-"PO-Revision-Date: 2013-07-09 00:02+0000\n"
+"POT-Creation-Date: 2013-07-10 02:13+0200\n"
+"PO-Revision-Date: 2013-07-09 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -140,59 +140,59 @@ msgstr "Novembre"
 msgid "December"
 msgstr "Dicembre"
 
-#: js/js.js:289
+#: js/js.js:293
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: js/js.js:721
+#: js/js.js:725
 msgid "seconds ago"
 msgstr "secondi fa"
 
-#: js/js.js:722
+#: js/js.js:726
 msgid "1 minute ago"
 msgstr "Un minuto fa"
 
-#: js/js.js:723
+#: js/js.js:727
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minuti fa"
 
-#: js/js.js:724
+#: js/js.js:728
 msgid "1 hour ago"
 msgstr "1 ora fa"
 
-#: js/js.js:725
+#: js/js.js:729
 msgid "{hours} hours ago"
 msgstr "{hours} ore fa"
 
-#: js/js.js:726
+#: js/js.js:730
 msgid "today"
 msgstr "oggi"
 
-#: js/js.js:727
+#: js/js.js:731
 msgid "yesterday"
 msgstr "ieri"
 
-#: js/js.js:728
+#: js/js.js:732
 msgid "{days} days ago"
 msgstr "{days} giorni fa"
 
-#: js/js.js:729
+#: js/js.js:733
 msgid "last month"
 msgstr "mese scorso"
 
-#: js/js.js:730
+#: js/js.js:734
 msgid "{months} months ago"
 msgstr "{months} mesi fa"
 
-#: js/js.js:731
+#: js/js.js:735
 msgid "months ago"
 msgstr "mesi fa"
 
-#: js/js.js:732
+#: js/js.js:736
 msgid "last year"
 msgstr "anno scorso"
 
-#: js/js.js:733
+#: js/js.js:737
 msgid "years ago"
 msgstr "anni fa"
 

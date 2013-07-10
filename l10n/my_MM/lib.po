@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-09 02:04+0200\n"
-"PO-Revision-Date: 2013-07-08 23:15+0000\n"
+"POT-Creation-Date: 2013-07-10 02:13+0200\n"
+"PO-Revision-Date: 2013-07-09 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Burmese (Myanmar) (http://www.transifex.com/projects/p/owncloud/language/my_MM/)\n"
 "MIME-Version: 1.0\n"
@@ -45,19 +45,19 @@ msgstr "အက်ဒမင်"
 msgid "web services under your control"
 msgstr "သင်၏ထိန်းချုပ်မှု့အောက်တွင်ရှိသော Web services"
 
-#: files.php:210
+#: files.php:226
 msgid "ZIP download is turned off."
 msgstr "ZIP ဒေါင်းလုတ်ကိုပိတ်ထားသည်"
 
-#: files.php:211
+#: files.php:227
 msgid "Files need to be downloaded one by one."
 msgstr "ဖိုင်များသည် တစ်ခုပြီး တစ်ခုဒေါင်းလုတ်ချရန်လိုအပ်သည်"
 
-#: files.php:212 files.php:245
+#: files.php:228 files.php:261
 msgid "Back to Files"
 msgstr "ဖိုင်သို့ပြန်သွားမည်"
 
-#: files.php:242
+#: files.php:258
 msgid "Selected files too large to generate zip file."
 msgstr "zip ဖိုင်အဖြစ်ပြုလုပ်ရန် ရွေးချယ်ထားသောဖိုင်များသည် အရမ်းကြီးလွန်းသည်"
 

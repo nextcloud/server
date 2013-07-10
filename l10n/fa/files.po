@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-09 02:03+0200\n"
-"PO-Revision-Date: 2013-07-08 23:15+0000\n"
+"POT-Creation-Date: 2013-07-10 02:13+0200\n"
+"PO-Revision-Date: 2013-07-09 23:15+0000\n"
 "Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -328,19 +328,19 @@ msgstr "پرونده ها در حال بازرسی هستند لطفا صبر ک
 msgid "Current scanning"
 msgstr "بازرسی کنونی"
 
-#: templates/part.list.php:78
+#: templates/part.list.php:76
 msgid "directory"
 msgstr "پوشه"
 
-#: templates/part.list.php:80
+#: templates/part.list.php:78
 msgid "directories"
 msgstr "پوشه ها"
 
-#: templates/part.list.php:89
+#: templates/part.list.php:87
 msgid "file"
 msgstr "پرونده"
 
-#: templates/part.list.php:91
+#: templates/part.list.php:89
 msgid "files"
 msgstr "پرونده ها"
 

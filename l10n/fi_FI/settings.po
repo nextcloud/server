@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-09 02:04+0200\n"
-"PO-Revision-Date: 2013-07-09 00:04+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-10 02:13+0200\n"
+"PO-Revision-Date: 2013-07-09 23:15+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -156,7 +156,7 @@ msgstr "lisää ryhmä"
 
 #: js/users.js:428
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Anna kelvollinen käyttäjätunnus"
 
 #: js/users.js:429 js/users.js:435 js/users.js:450
 msgid "Error creating user"
@@ -164,7 +164,7 @@ msgstr "Virhe käyttäjää luotaessa"
 
 #: js/users.js:434
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Anna kelvollinen salasana"
 
 #: personal.php:37 personal.php:38
 msgid "__language_name__"
@@ -457,7 +457,7 @@ msgstr "WebDAV"
 msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
 "target=\"_blank\">access your Files via WebDAV</a>"
-msgstr ""
+msgstr "Käytä tätä osoitetta <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">päästäksesi käsiksi tiedostoihisi WebDAVin kautta</a>"
 
 #: templates/users.php:21
 msgid "Login Name"

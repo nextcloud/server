@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-09 02:04+0200\n"
-"PO-Revision-Date: 2013-07-09 00:04+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-10 02:13+0200\n"
+"PO-Revision-Date: 2013-07-09 23:15+0000\n"
+"Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -236,7 +236,7 @@ msgstr "این سرور OwnCloud ارتباط اینترنتی ندارد.این
 
 #: templates/admin.php:94
 msgid "Cron"
-msgstr ""
+msgstr "زمانبند"
 
 #: templates/admin.php:103
 msgid "Execute one task with each page loaded"
@@ -246,13 +246,13 @@ msgstr "اجرای یک وظیفه با هر بار بارگذاری صفحه"
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php در یک سرویس webcron ثبت شده است. تماس یک بار در دقیقه بر روی http با صفحه  cron.php در ریشه owncloud ."
 
 #: templates/admin.php:123
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "استفاده از سیستم های سرویس cron . تماس یک بار در دقیقه با فایل cron.php در پوشه owncloud از طریق یک سیستم cronjob ."
 
 #: templates/admin.php:130
 msgid "Sharing"
@@ -450,14 +450,14 @@ msgstr "به ترجمه آن کمک کنید"
 
 #: templates/personal.php:106
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/personal.php:108
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
 "target=\"_blank\">access your Files via WebDAV</a>"
-msgstr ""
+msgstr "استفاده ابن آدرس <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\"> برای دسترسی فایل های شما از طریق WebDAV </a>"
 
 #: templates/users.php:21
 msgid "Login Name"
