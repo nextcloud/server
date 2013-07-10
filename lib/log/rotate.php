@@ -16,7 +16,7 @@ namespace OC\Log;
  * location and manage that with your own tools.
  */
 class Rotate extends \OC\BackgroundJob\Job {
-	const LOG_SIZE_LIMIT = 104857600; // 100 MB
+	const LOG_SIZE_LIMIT = 104857600; // 100 MiB
 	public function run($logFile) {
 		$filesize = @filesize($logFile);
 		if ($filesize >= self::LOG_SIZE_LIMIT) {
