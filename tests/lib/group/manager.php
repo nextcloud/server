@@ -64,6 +64,22 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		$this->assertNull($manager->get('group1'));
 	}
 
+	public function testGetDeleted() {
+		$backend = new \OC_Group_Dummy();
+		$backend->createGroup('group1');
+
+		/**
+		 * @var \OC\User\Manager $userManager
+		 */
+		$userManager = $this->getMock('\OC\User\Manager');
+		$manager = new \OC\Group\Manager($userManager);
+		$manager->addBackend($backend);
+
+		$group = $manager->get('group1');
+		$group->delete();
+		$this->assertNull($manager->get('group1'));
+	}
+
 	public function testGetMultipleBackends() {
 		/**
 		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC_Group_Backend $backend1
