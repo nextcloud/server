@@ -852,6 +852,6 @@ class Trashbin {
 	}
 
 	public static function preview_icon($path) {
-		return \OC_Helper::linkToRoute( 'core_ajax_trashbin_preview', array('x' => 44, 'y' => 44, 'file' => $path));
+		return \OC_Helper::linkToRoute( 'core_ajax_trashbin_preview', array('x' => 44, 'y' => 44, 'file' => urlencode($path) ));
 	}
 }

@@ -231,7 +231,7 @@ class OC_Helper {
 	 * Returns the path to the preview of the file.
 	 */
 	public static function previewIcon($path) {
-		return self::linkToRoute( 'core_ajax_preview', array('x' => 44, 'y' => 44, 'file' => $path));
+		return self::linkToRoute( 'core_ajax_preview', array('x' => 44, 'y' => 44, 'file' => urlencode($path) ));
 	}
 
 	/**
