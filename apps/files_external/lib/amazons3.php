@@ -42,7 +42,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	private function normalizePath($path) {
 		$path = trim($path, '/');
 
-		if ( ! $path) {
+		if (!$path) {
 			$path = '.';
 		}
 
@@ -56,7 +56,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	}
 
 	public function __construct($params) {
-		if ( ! isset($params['key']) || ! isset($params['secret']) || ! isset($params['bucket'])) {
+		if (!isset($params['key']) || !isset($params['secret']) || !isset($params['bucket'])) {
 			throw new \Exception("Access Key, Secret and Bucket have to be configured.");
 		}
 
@@ -68,7 +68,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		$this->timeout = ( ! isset($params['timeout'])) ? 15 : $params['timeout'];
 		$params['region'] = ( ! isset($params['region'])) ? 'eu-west-1' : $params['region'];
 		$params['hostname'] = ( !isset($params['hostname'])) ? 's3.amazonaws.com' : $params['hostname'];
-		if ( ! isset($params['port'])) {
+		if (!isset($params['port'])) {
 			$params['port'] = ($params['use_ssl'] === 'false') ? 80 : 443;
 		}
 		$base_url = $scheme.'://'.$params['hostname'].':'.$params['port'].'/';
@@ -80,11 +80,11 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			'region' => $params['region']
 		));
 
-		if (! $this->connection->isValidBucketName($this->bucket)) {
+		if (!$this->connection->isValidBucketName($this->bucket)) {
 			throw new \Exception("The configured bucket name is invalid.");
 		}
 
-		if ( ! $this->connection->doesBucketExist($this->bucket)) {
+		if (!$this->connection->doesBucketExist($this->bucket)) {
 			try {
 				$result = $this->connection->createBucket(array(
 					'Bucket' => $this->bucket
@@ -100,7 +100,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			}
 		}
 
-		if ( ! $this->file_exists('.')) {
+		if (!$this->file_exists('.')) {
 			$result = $this->connection->putObject(array(
 				'Bucket' => $this->bucket,
 				'Key'    => '.',
@@ -115,7 +115,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	public function mkdir($path) {
 		$path = $this->normalizePath($path);
 
-		if($this->is_dir($path)) {
+		if ($this->is_dir($path)) {
 			return false;
 		}
 
@@ -138,7 +138,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	public function file_exists($path) {
 		$path = $this->normalizePath($path);
 
-		if ( ! $path) {
+		if (!$path) {
 			$path = '.';
 		} else if ($path != '.' && $this->is_dir($path)) {
 			$path .= '/';
@@ -160,7 +160,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	public function rmdir($path) {
 		$path = $this->normalizePath($path);
 
-		if ( ! $this->file_exists($path)) {
+		if (!$this->file_exists($path)) {
 			return false;
 		}
 
@@ -212,7 +212,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 					isset($object['Key']) ? $object['Key'] : $object['Prefix']
 				);
 
-				if ( $file != basename($path)) {
+				if ($file != basename($path)) {
 					$files[] = $file;
 				}
 			}
@@ -373,7 +373,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		$path = $this->normalizePath($path);
 
 		$metadata = array();
-		if ( ! is_null($mtime)) {
+		if (!is_null($mtime)) {
 			$metadata = array('lastmodified' => $mtime);
 		}
 
@@ -472,7 +472,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				return false;
 			}
 
-			if($this->rmdir($path1) === false) {
+			if ($this->rmdir($path1) === false) {
 				$this->rmdir($path2);
 				return false;
 			}
@@ -498,7 +498,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	}
 
 	public function writeBack($tmpFile) {
-		if ( ! isset(self::$tmpFiles[$tmpFile])) {
+		if (!isset(self::$tmpFiles[$tmpFile])) {
 			return false;
 		}
 
