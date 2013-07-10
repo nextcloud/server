@@ -84,7 +84,7 @@ class OC_Group {
 	public static function createGroup($gid) {
 		OC_Hook::emit("OC_Group", "pre_createGroup", array("run" => true, "gid" => $gid));
 
-		if (self::getManager()->create($gid)) {
+		if (self::getManager()->createGroup($gid)) {
 			OC_Hook::emit("OC_User", "post_createGroup", array("gid" => $gid));
 			return true;
 		} else {
@@ -220,7 +220,7 @@ class OC_Group {
 	 * @return bool
 	 */
 	public static function groupExists($gid) {
-		return self::getManager()->exists($gid);
+		return self::getManager()->groupExists($gid);
 	}
 
 	/**

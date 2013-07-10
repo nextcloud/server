@@ -93,7 +93,7 @@ class Manager extends PublicEmitter {
 	 * @param string $gid
 	 * @return bool
 	 */
-	public function exists($gid) {
+	public function groupExists($gid) {
 		return !is_null($this->get($gid));
 	}
 
@@ -101,10 +101,10 @@ class Manager extends PublicEmitter {
 	 * @param string $gid
 	 * @return \OC\Group\Group
 	 */
-	public function create($gid) {
+	public function createGroup($gid) {
 		if (!$gid) {
 			return false;
-		} else if ($this->exists($gid)) {
+		} else if ($this->groupExists($gid)) {
 			return $this->get($gid);
 		} else {
 			$this->emit('\OC\Group', 'preCreate', array($gid));
@@ -126,7 +126,7 @@ class Manager extends PublicEmitter {
 	 * @param int $offset
 	 * @return \OC\Group\Group[]
 	 */
-	public function search($search = '', $limit = null, $offset = null) {
+	public function search($search, $limit = null, $offset = null) {
 		$groups = array();
 		foreach ($this->backends as $backend) {
 			$groupIds = $backend->getGroups($search, $limit, $offset);

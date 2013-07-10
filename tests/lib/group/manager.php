@@ -134,7 +134,7 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		$manager = new \OC\Group\Manager($userManager);
 		$manager->addBackend($backend);
 
-		$group = $manager->create('group1');
+		$group = $manager->createGroup('group1');
 		$this->assertEquals('group1', $group->getGID());
 	}
 
@@ -157,7 +157,7 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		$manager = new \OC\Group\Manager($userManager);
 		$manager->addBackend($backend);
 
-		$group = $manager->create('group1');
+		$group = $manager->createGroup('group1');
 		$this->assertEquals('group1', $group->getGID());
 	}
 
