@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# miki_mika1362 <miki_mika1362@yahoo.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-17 02:02+0200\n"
-"PO-Revision-Date: 2013-06-16 23:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-10 02:13+0200\n"
+"PO-Revision-Date: 2013-07-09 23:15+0000\n"
+"Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s به اشتراک گذاشته شده است »%s« توسط شما"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -61,135 +62,135 @@ msgstr "هیج دسته ای برای پاک شدن انتخاب نشده است
 msgid "Error removing %s from favorites."
 msgstr "خطای پاک کردن %s از علاقه مندی ها."
 
-#: js/config.php:34
+#: js/config.php:32
 msgid "Sunday"
 msgstr "یکشنبه"
 
-#: js/config.php:35
+#: js/config.php:33
 msgid "Monday"
 msgstr "دوشنبه"
 
-#: js/config.php:36
+#: js/config.php:34
 msgid "Tuesday"
 msgstr "سه شنبه"
 
-#: js/config.php:37
+#: js/config.php:35
 msgid "Wednesday"
 msgstr "چهارشنبه"
 
-#: js/config.php:38
+#: js/config.php:36
 msgid "Thursday"
 msgstr "پنجشنبه"
 
-#: js/config.php:39
+#: js/config.php:37
 msgid "Friday"
 msgstr "جمعه"
 
-#: js/config.php:40
+#: js/config.php:38
 msgid "Saturday"
 msgstr "شنبه"
 
-#: js/config.php:45
+#: js/config.php:43
 msgid "January"
 msgstr "ژانویه"
 
-#: js/config.php:46
+#: js/config.php:44
 msgid "February"
 msgstr "فبریه"
 
-#: js/config.php:47
+#: js/config.php:45
 msgid "March"
 msgstr "مارس"
 
-#: js/config.php:48
+#: js/config.php:46
 msgid "April"
 msgstr "آوریل"
 
-#: js/config.php:49
+#: js/config.php:47
 msgid "May"
 msgstr "می"
 
-#: js/config.php:50
+#: js/config.php:48
 msgid "June"
 msgstr "ژوئن"
 
-#: js/config.php:51
+#: js/config.php:49
 msgid "July"
 msgstr "جولای"
 
-#: js/config.php:52
+#: js/config.php:50
 msgid "August"
 msgstr "آگوست"
 
-#: js/config.php:53
+#: js/config.php:51
 msgid "September"
 msgstr "سپتامبر"
 
-#: js/config.php:54
+#: js/config.php:52
 msgid "October"
 msgstr "اکتبر"
 
-#: js/config.php:55
+#: js/config.php:53
 msgid "November"
 msgstr "نوامبر"
 
-#: js/config.php:56
+#: js/config.php:54
 msgid "December"
 msgstr "دسامبر"
 
-#: js/js.js:286
+#: js/js.js:293
 msgid "Settings"
 msgstr "تنظیمات"
 
-#: js/js.js:718
+#: js/js.js:725
 msgid "seconds ago"
 msgstr "ثانیه‌ها پیش"
 
-#: js/js.js:719
+#: js/js.js:726
 msgid "1 minute ago"
 msgstr "1 دقیقه پیش"
 
-#: js/js.js:720
+#: js/js.js:727
 msgid "{minutes} minutes ago"
 msgstr "{دقیقه ها} دقیقه های پیش"
 
-#: js/js.js:721
+#: js/js.js:728
 msgid "1 hour ago"
 msgstr "1 ساعت پیش"
 
-#: js/js.js:722
+#: js/js.js:729
 msgid "{hours} hours ago"
 msgstr "{ساعت ها} ساعت ها پیش"
 
-#: js/js.js:723
+#: js/js.js:730
 msgid "today"
 msgstr "امروز"
 
-#: js/js.js:724
+#: js/js.js:731
 msgid "yesterday"
 msgstr "دیروز"
 
-#: js/js.js:725
+#: js/js.js:732
 msgid "{days} days ago"
 msgstr "{روزها} روزهای پیش"
 
-#: js/js.js:726
+#: js/js.js:733
 msgid "last month"
 msgstr "ماه قبل"
 
-#: js/js.js:727
+#: js/js.js:734
 msgid "{months} months ago"
 msgstr "{ماه ها} ماه ها پیش"
 
-#: js/js.js:728
+#: js/js.js:735
 msgid "months ago"
 msgstr "ماه‌های قبل"
 
-#: js/js.js:729
+#: js/js.js:736
 msgid "last year"
 msgstr "سال قبل"
 
-#: js/js.js:730
+#: js/js.js:737
 msgid "years ago"
 msgstr "سال‌های قبل"
 
@@ -203,7 +204,7 @@ msgstr "منصرف شدن"
 
 #: js/oc-dialogs.js:141 js/oc-dialogs.js:200
 msgid "Error loading file picker template"
-msgstr ""
+msgstr "خطا در بارگذاری قالب انتخاب کننده فایل"
 
 #: js/oc-dialogs.js:164
 msgid "Yes"
@@ -225,8 +226,8 @@ msgstr "نوع شی تعیین نشده است."
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
-#: js/share.js:589
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:620
+#: js/share.js:632
 msgid "Error"
 msgstr "خطا"
 
@@ -246,7 +247,7 @@ msgstr "اشتراک گذاشته شده"
 msgid "Share"
 msgstr "اشتراک‌گذاری"
 
-#: js/share.js:125 js/share.js:617
+#: js/share.js:125 js/share.js:660
 msgid "Error while sharing"
 msgstr "خطا درحال به اشتراک گذاشتن"
 
@@ -266,99 +267,103 @@ msgstr "به اشتراک گذاشته شده با شما و گروه {گروه}
 msgid "Shared with you by {owner}"
 msgstr "به اشتراک گذاشته شده با شما توسط { دارنده}"
 
-#: js/share.js:159
+#: js/share.js:172
 msgid "Share with"
 msgstr "به اشتراک گذاشتن با"
 
-#: js/share.js:164
+#: js/share.js:177
 msgid "Share with link"
 msgstr "به اشتراک گذاشتن با پیوند"
 
-#: js/share.js:167
+#: js/share.js:180
 msgid "Password protect"
 msgstr "نگهداری کردن رمز عبور"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:26
+#: js/share.js:182 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "گذرواژه"
 
-#: js/share.js:173
+#: js/share.js:187
+msgid "Allow Public Upload"
+msgstr "اجازه آپلود عمومی"
+
+#: js/share.js:191
 msgid "Email link to person"
 msgstr "پیوند ایمیل برای شخص."
 
-#: js/share.js:174
+#: js/share.js:192
 msgid "Send"
 msgstr "ارسال"
 
-#: js/share.js:178
+#: js/share.js:197
 msgid "Set expiration date"
 msgstr "تنظیم تاریخ انقضا"
 
-#: js/share.js:179
+#: js/share.js:198
 msgid "Expiration date"
 msgstr "تاریخ انقضا"
 
-#: js/share.js:211
+#: js/share.js:230
 msgid "Share via email:"
 msgstr "از طریق ایمیل به اشتراک بگذارید :"
 
-#: js/share.js:213
+#: js/share.js:232
 msgid "No people found"
 msgstr "کسی یافت نشد"
 
-#: js/share.js:251
+#: js/share.js:270
 msgid "Resharing is not allowed"
 msgstr "اشتراک گذاری مجدد مجاز نمی باشد"
 
-#: js/share.js:287
+#: js/share.js:306
 msgid "Shared in {item} with {user}"
 msgstr "به اشتراک گذاشته شده در {بخش} با {کاربر}"
 
-#: js/share.js:308
+#: js/share.js:327
 msgid "Unshare"
 msgstr "لغو اشتراک"
 
-#: js/share.js:320
+#: js/share.js:339
 msgid "can edit"
 msgstr "می توان ویرایش کرد"
 
-#: js/share.js:322
+#: js/share.js:341
 msgid "access control"
 msgstr "کنترل دسترسی"
 
-#: js/share.js:325
+#: js/share.js:344
 msgid "create"
 msgstr "ایجاد"
 
-#: js/share.js:328
+#: js/share.js:347
 msgid "update"
 msgstr "به روز"
 
-#: js/share.js:331
+#: js/share.js:350
 msgid "delete"
 msgstr "پاک کردن"
 
-#: js/share.js:334
+#: js/share.js:353
 msgid "share"
 msgstr "به اشتراک گذاشتن"
 
-#: js/share.js:368 js/share.js:564
+#: js/share.js:387 js/share.js:607
 msgid "Password protected"
 msgstr "نگهداری از رمز عبور"
 
-#: js/share.js:577
+#: js/share.js:620
 msgid "Error unsetting expiration date"
 msgstr "خطا در تنظیم نکردن تاریخ انقضا "
 
-#: js/share.js:589
+#: js/share.js:632
 msgid "Error setting expiration date"
 msgstr "خطا در تنظیم تاریخ انقضا"
 
-#: js/share.js:604
+#: js/share.js:647
 msgid "Sending ..."
 msgstr "درحال ارسال ..."
 
-#: js/share.js:615
+#: js/share.js:658
 msgid "Email sent"
 msgstr "ایمیل ارسال شد"
 
@@ -373,7 +378,7 @@ msgstr "به روز رسانی ناموفق بود. لطفا این خطا را 
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "به روزرسانی موفقیت آمیز بود. در حال انتقال شما به OwnCloud."
 
-#: lostpassword/controller.php:58
+#: lostpassword/controller.php:60
 msgid "ownCloud password reset"
 msgstr "پسورد ابرهای شما تغییرکرد"
 
@@ -386,11 +391,11 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr ""
+msgstr "لینک تنظیم مجدد رمز عبور به ایمیل شما ارسال شده است.<br>اگر آن رادر یک زمان مشخصی دریافت نکرده اید، لطفا هرزنامه/ پوشه های ناخواسته را بررسی کنید.<br>در صورت نبودن از مدیر خود بپرسید."
 
 #: lostpassword/templates/lostpassword.php:12
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
+msgstr "درخواست رد شده است !<br> آیا مطمئن هستید که ایمیل/ نام کاربری شما صحیح میباشد ؟"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
@@ -403,17 +408,17 @@ msgstr "نام کاربری"
 
 #: lostpassword/templates/lostpassword.php:22
 msgid ""
-"Your files seems to be encrypted. If you didn't have enabled the recovery "
-"key there will be no way to get your data back once the password was "
-"resetted. If you are not sure what to do, please contact your administrator "
-"first before continue. Do you really want to continue?"
-msgstr ""
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset. If you "
+"are not sure what to do, please contact your administrator before you "
+"continue. Do you really want to continue?"
+msgstr "فایل های شما رمزگذاری شده اند. اگر شما کلید بازیابی را فعال نکرده اید، پس از راه اندازی مجدد رمزعبور هیچ راهی برای بازگشت اطلاعاتتان وجود نخواهد داشت.در صورت عدم اطمینان به انجام کار، لطفا ابتدا با مدیر خود تماس بگیرید. آیا واقعا میخواهید ادامه دهید ؟"
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
-msgstr ""
+msgstr "بله، من اکنون میخواهم رمز عبور خود را مجددا راه اندازی کنم."
 
-#: lostpassword/templates/lostpassword.php:29
+#: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
 msgstr "درخواست دوباره سازی"
 
@@ -461,7 +466,7 @@ msgstr "اجازه دسترسی به مناطق ممنوعه را ندارید"
 msgid "Cloud not found"
 msgstr "پیدا نشد"
 
-#: templates/altmail.php:2
+#: templates/altmail.php:4
 #, php-format
 msgid ""
 "Hey there,\n"
@@ -470,11 +475,7 @@ msgid ""
 "View it: %s\n"
 "\n"
 "Cheers!"
-msgstr ""
-
-#: templates/altmail.php:7 templates/mail.php:24
-msgid "web services under your control"
-msgstr "سرویس های تحت وب در کنترل شما"
+msgstr "اینجا,⏎\n فقط به شما اجازه میدهد که بدانید %s به اشتراک گذاشته شده %s توسط شما.⏎\nمشاهده آن :  %s⏎\n⏎\nبه سلامتی!"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -568,12 +569,12 @@ msgstr "هاست پایگاه داده"
 msgid "Finish setup"
 msgstr "اتمام نصب"
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:43
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr ""
+msgstr "%s در دسترس است. برای چگونگی به روز رسانی اطلاعات بیشتر را دریافت نمایید."
 
-#: templates/layout.user.php:67
+#: templates/layout.user.php:68
 msgid "Log out"
 msgstr "خروج"
 
@@ -607,12 +608,12 @@ msgstr "ورود"
 msgid "Alternative Logins"
 msgstr "ورود متناوب"
 
-#: templates/mail.php:15
+#: templates/mail.php:16
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr ""
+msgstr "اینجا<br><br> فقط به شما اجازه میدهد که بدانید %s به اشتراک گذاشته شده»%s« توسط شما.<br><a href=\"%s\"> مشاهده آن!</a><br><br> به سلامتی!"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

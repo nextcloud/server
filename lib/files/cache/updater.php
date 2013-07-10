@@ -7,6 +7,7 @@
  */
 
 namespace OC\Files\Cache;
+use OCP\Util;
 
 /**
  * listen to filesystem hooks and change the cache accordingly
@@ -102,7 +103,7 @@ class Updater {
 	static public function correctFolder($path, $time) {
 		if ($path !== '' && $path !== '/') {
 			$parent = dirname($path);
-			if ($parent === '.') {
+			if ($parent === '.' || $parent === '\\') {
 				$parent = '';
 			}
 			/**
@@ -116,6 +117,8 @@ class Updater {
 				if ($id !== -1) {
 					$cache->update($id, array('mtime' => $time, 'etag' => $storage->getETag($internalPath)));
 					self::correctFolder($parent, $time);
+				} else {
+					Util::writeLog('core', 'Path not in cache: '.$internalPath, Util::ERROR);
 				}
 			}
 		}

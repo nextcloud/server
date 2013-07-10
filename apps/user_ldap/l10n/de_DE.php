@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Failed to clear the mappings." => "Löschen der Zuordnung fehlgeschlagen.",
 "Failed to delete the server configuration" => "Löschen der Serverkonfiguration fehlgeschlagen",
 "The configuration is valid and the connection could be established!" => "Die Konfiguration ist gültig und die Verbindung konnte hergestellt werden!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Die Konfiguration ist gültig aber die Verbindung ist fehlgeschlagen. Bitte überprüfen Sie die Servereinstellungen und die Anmeldeinformationen.",
@@ -7,6 +8,7 @@
 "Take over settings from recent server configuration?" => "Einstellungen von letzter Konfiguration übernehmen?",
 "Keep settings?" => "Einstellungen beibehalten?",
 "Cannot add server configuration" => "Das Hinzufügen der Serverkonfiguration schlug fehl",
+"mappings cleared" => "Zuordnungen gelöscht",
 "Success" => "Erfolg",
 "Error" => "Fehler",
 "Connection test succeeded" => "Verbindungstest erfolgreich",
@@ -74,8 +76,13 @@
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Ohne Eingabe wird der Benutzername (Standard) verwendet. Anderenfalls tragen Sie bitte ein LDAP/AD-Attribut ein.",
 "Internal Username" => "Interner Benutzername",
 "By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder in ownCloud. It is also a port of remote URLs, for instance for all *DAV services. With this setting, the default behaviour can be overriden. To achieve a similar behaviour as before ownCloud 5 enter the user display name attribute in the following field. Leave it empty for default behaviour. Changes will have effect only on newly mapped (added) LDAP users." => "Standardmäßig wird der interne Benutzername mittels des UUID-Attributes erzeugt. Dies stellt sicher, dass der Benutzername einzigartig ist und keinerlei Zeichen konvertiert werden müssen. Der interne Benutzername unterliegt Beschränkungen, die nur die nachfolgenden Zeichen erlauben: [ a-zA-Z0-9_.@- ]. Andere Zeichenwerden mittels ihrer korrespondierenden Zeichen ersetzt oder einfach ausgelassen. Bei Übereinstimmungen wird ein Zähler hinzugefügt bzw. der Zähler um einen Wert erhöht. Der interne Benutzername wird benutzt, um einen Benutzer intern zu identifizieren. Es ist ebenso der standardmäßig vorausgewählte Namen des Heimatverzeichnisses in ownCloud. Es dient weiterhin als Port für Remote-URLs - zum Beispiel für alle *DAV-Dienste Mit dieser Einstellung kann das Standardverhalten überschrieben werden. Um ein ähnliches Verhalten wie vor ownCloud 5 zu erzielen, fügen Sie das anzuzeigende Attribut des Benutzernamens in das nachfolgende Feld ein. Lassen Sie dies hingegen für das Standardverhalten leer. Die Änderungen werden sich einzig und allein nur auf neu gemappte (hinzugefügte) LDAP-Benutzer auswirken.",
+"Internal Username Attribute:" => "Interne Eigenschaften des Benutzers:",
 "Override UUID detection" => "UUID-Erkennung überschreiben",
+"By default, ownCloud autodetects the UUID attribute. The UUID attribute is used to doubtlessly identify LDAP users and groups. Also, the internal username will be created based on the UUID, if not specified otherwise above. You can override the setting and pass an attribute of your choice. You must make sure that the attribute of your choice can be fetched for both users and groups and it is unique. Leave it empty for default behaviour. Changes will have effect only on newly mapped (added) LDAP users and groups." => "Standardmäßig erkennt OwnCloud die UUID-Eigenschaften des Benutzers selbstständig. Die UUID-Eigenschaften werden genutzt, um einen LDAP-Benutzer und Gruppen einwandfrei zu identifizieren. Außerdem wird ein interner Benutzername erzeugt, der auf Eigenschaften der UUID basiert, wenn es oben nicht anders angegeben wurde. Sie können diese Eigenschaften überschreiben und selbst Eigenschaften nach Wahl vorgeben. Sie müssen allerdings sicherstellen, dass die Eigenschaften zur Identifikation für Benutzer und Gruppen eindeutig sind. Lassen Sie es frei, um es beim Standardverhalten zu belassen. Änderungen wirken sich nur auf neu zugeordnete (neu erstellte) LDAP-Benutzer und -Gruppen aus.",
 "UUID Attribute:" => "UUID-Attribut:",
+"Username-LDAP User Mapping" => "LDAP-Benutzernamenzuordnung",
+"Clear Username-LDAP User Mapping" => "Lösche LDAP-Benutzernamenzuordnung",
+"Clear Groupname-LDAP Group Mapping" => "Lösche LDAP-Gruppennamenzuordnung",
 "Test Configuration" => "Testkonfiguration",
 "Help" => "Hilfe"
 );

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"%s shared »%s« with you" => "%s jakoi kohteen »%s« kanssasi",
 "Category type not provided." => "Luokan tyyppiä ei määritelty.",
 "No category to add?" => "Ei lisättävää luokkaa?",
 "This category already exists: %s" => "Luokka on jo olemassa: %s",
@@ -83,6 +84,7 @@
 "Request failed!<br>Did you make sure your email/username was right?" => "Pyyntö epäonnistui!<br>Olihan sähköpostiosoitteesi/käyttäjätunnuksesi oikein?",
 "You will receive a link to reset your password via Email." => "Saat sähköpostitse linkin nollataksesi salasanan.",
 "Username" => "Käyttäjätunnus",
+"Yes, I really want to reset my password now" => "Kyllä, haluan nollata salasanani nyt",
 "Request reset" => "Tilaus lähetetty",
 "Your password was reset" => "Salasanasi nollattiin",
 "To login page" => "Kirjautumissivulle",
@@ -95,7 +97,7 @@
 "Help" => "Ohje",
 "Access forbidden" => "Pääsy estetty",
 "Cloud not found" => "Pilveä ei löydy",
-"web services under your control" => "verkkopalvelut hallinnassasi",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Hei!\n\n%s jakoi kohteen %s kanssasi.\nKatso se tästä: %s\n\nNäkemiin!",
 "Edit categories" => "Muokkaa luokkia",
 "Add" => "Lisää",
 "Security Warning" => "Turvallisuusvaroitus",
@@ -124,6 +126,7 @@
 "remember" => "muista",
 "Log in" => "Kirjaudu sisään",
 "Alternative Logins" => "Vaihtoehtoiset kirjautumiset",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Hei!<br><br>%s jakoi kohteen »%s« kanssasi.<br><a href=\"%s\">Katso se tästä!</a><br><br>Näkemiin!",
 "prev" => "edellinen",
 "next" => "seuraava",
 "Updating ownCloud to version %s, this may take a while." => "Päivitetään ownCloud versioon %s, tämä saattaa kestää hetken."

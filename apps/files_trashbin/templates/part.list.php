@@ -4,10 +4,8 @@
 	// the older the file, the brighter the shade of grey; days*14
 	$relative_date_color = round((time()-$file['date'])/60/60/24*14);
 	if($relative_date_color>200) $relative_date_color = 200;
-	$name = str_replace('+', '%20', urlencode($file['name']));
-	$name = str_replace('%2F', '/', $name);
-	$directory = str_replace('+', '%20', urlencode($file['directory']));
-	$directory = str_replace('%2F', '/', $directory); ?>
+	$name = \OCP\Util::encodePath($file['name']);
+	$directory = \OCP\Util::encodePath($file['directory']); ?>
 	<tr data-filename="<?php p($file['name']);?>"
 		data-type="<?php ($file['type'] == 'dir')?p('dir'):p('file')?>"
 		data-mime="<?php p($file['mimetype'])?>"

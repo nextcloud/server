@@ -41,6 +41,7 @@ class TimedJob extends \PHPUnit_Framework_TestCase {
 			$this->fail("job should have run");
 		} catch (JobRun $e) {
 		}
+		$this->assertTrue(true);
 	}
 
 	public function testShouldNotRunWithinInterval() {
@@ -50,6 +51,7 @@ class TimedJob extends \PHPUnit_Framework_TestCase {
 		} catch (JobRun $e) {
 			$this->fail("job should not have run");
 		}
+		$this->assertTrue(true);
 	}
 
 	public function testShouldNotTwice() {
@@ -64,5 +66,6 @@ class TimedJob extends \PHPUnit_Framework_TestCase {
 				$this->fail("job should not have run the second time");
 			}
 		}
+		$this->assertTrue(true);
 	}
 }

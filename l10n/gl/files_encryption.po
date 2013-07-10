@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-15 01:58+0200\n"
-"PO-Revision-Date: 2013-06-14 11:54+0000\n"
+"POT-Creation-Date: 2013-07-07 01:58+0200\n"
+"PO-Revision-Date: 2013-07-06 09:11+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -58,10 +58,22 @@ msgstr "Non foi posíbel actualizar o contrasinal da chave privada. É probábel
 
 #: files/error.php:7
 msgid ""
-"Your private key is not valid! Maybe your password was changed from outside."
-" You can update your private key password in your personal settings to "
-"regain access to your files"
-msgstr "A chave privada non é correcta! É probábel que o seu contrasinal teña sido cambiado desde o exterior. Vostede pode actualizar o contrasinal da súa chave privada nos seus axustes persoais para recuperar o acceso aos seus ficheiros"
+"Your private key is not valid! Likely your password was changed outside the "
+"ownCloud system (e.g. your corporate directory). You can update your private"
+" key password in your personal settings to recover access to your encrypted "
+"files."
+msgstr "A chave privada non é correcta! É probábel que o seu contrasinal teña sido cambiado desde o exterior (p.ex. o seu directorio corporativo). Vostede pode actualizar o contrasinal da súa chave privada nos seus axustes persoais para recuperar o acceso aos seus ficheiros"
+
+#: hooks/hooks.php:44
+msgid "Missing requirements."
+msgstr "Non se cumpren os requisitos."
+
+#: hooks/hooks.php:45
+msgid ""
+"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
+"PHP extension is enabled and configured properly. For now, the encryption "
+"app has been disabled."
+msgstr "Asegúrese de que está instalado o  PHP 5.3.3 ou posterior e de que a extensión OpenSSL PHP estea activada e configurada correctamente. Polo de agora foi desactivado o aplicativo de cifrado."
 
 #: js/settings-admin.js:11
 msgid "Saving..."
@@ -87,12 +99,12 @@ msgstr "Cifrado"
 
 #: templates/settings-admin.php:10
 msgid ""
-"Enable encryption passwords recovery key (allow sharing to recovery key):"
-msgstr "Activar a chave  de recuperación do cifrado de contrasinais (permite compartir a chave de recuperación):"
+"Enable recovery key (allow to recover users files in case of password loss):"
+msgstr "Activar a chave de recuperación (permitirá recuperar os ficheiros dos usuarios no caso de perda do contrasinal):"
 
 #: templates/settings-admin.php:14
-msgid "Recovery account password"
-msgstr "Recuperación do contrasinal da conta"
+msgid "Recovery key password"
+msgstr "Contrasinal da chave de recuperación"
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
@@ -103,16 +115,16 @@ msgid "Disabled"
 msgstr "Desactivado"
 
 #: templates/settings-admin.php:34
-msgid "Change encryption passwords recovery key:"
-msgstr "Cambiar a chave de la recuperación do cifrado de contrasinais:"
+msgid "Change recovery key password:"
+msgstr "Cambiar o contrasinal da chave de la recuperación:"
 
 #: templates/settings-admin.php:41
-msgid "Old Recovery account password"
-msgstr "Antigo contrasinal de recuperación da conta"
+msgid "Old Recovery key password"
+msgstr "Antigo contrasinal da chave de recuperación"
 
 #: templates/settings-admin.php:48
-msgid "New Recovery account password"
-msgstr "Novo contrasinal de recuperación da conta"
+msgid "New Recovery key password"
+msgstr "Novo contrasinal da chave de recuperación"
 
 #: templates/settings-admin.php:53
 msgid "Change Password"

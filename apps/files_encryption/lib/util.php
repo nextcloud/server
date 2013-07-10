@@ -228,18 +228,21 @@ class Util {
 			// Generate keypair
 			$keypair = Crypt::createKeypair();
 
-			\OC_FileProxy::$enabled = false;
+			if ($keypair) {
 
-			// Save public key
-			$this->view->file_put_contents($this->publicKeyPath, $keypair['publicKey']);
+				\OC_FileProxy::$enabled = false;
 
-			// Encrypt private key with user pwd as passphrase
-			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent($keypair['privateKey'], $passphrase);
+				// Encrypt private key with user pwd as passphrase
+				$encryptedPrivateKey = Crypt::symmetricEncryptFileContent($keypair['privateKey'], $passphrase);
 
-			// Save private key
-			$this->view->file_put_contents($this->privateKeyPath, $encryptedPrivateKey);
+				// Save key-pair
+				if ($encryptedPrivateKey) {
+					$this->view->file_put_contents($this->privateKeyPath, $encryptedPrivateKey);
+					$this->view->file_put_contents($this->publicKeyPath, $keypair['publicKey']);
+				}
 
-			\OC_FileProxy::$enabled = true;
+				\OC_FileProxy::$enabled = true;
+			}
 
 		} else {
 			// check if public-key exists but private-key is missing
@@ -359,17 +362,7 @@ class Util {
 
 		}
 
-		$query = \OCP\DB::prepare($sql);
-
-		if ($query->execute($args)) {
-
-			return true;
-
-		} else {
-
-			return false;
-
-		}
+		return is_numeric(\OC_DB::executeAudited($sql, $args));
 
 	}
 
@@ -999,13 +992,9 @@ class Util {
 			\OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled')
 			&& $this->recoveryEnabledForUser()
 		) {
-
 			$recoveryEnabled = true;
-
 		} else {
-
 			$recoveryEnabled = false;
-
 		}
 
 		// Make sure that a share key is generated for the owner too
@@ -1026,20 +1015,25 @@ class Util {
 		// If recovery is enabled, add the 
 		// Admin UID to list of users to share to
 		if ($recoveryEnabled) {
-
 			// Find recoveryAdmin user ID
 			$recoveryKeyId = \OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
-
 			// Add recoveryAdmin to list of users sharing
 			$userIds[] = $recoveryKeyId;
-
 		}
 
 		// add current user if given
 		if ($currentUserId !== false) {
-
 			$userIds[] = $currentUserId;
+		}
 
+		// check if it is a group mount
+		if (\OCP\App::isEnabled("files_external")) {
+			$mount = \OC_Mount_Config::getSystemMountPoints();
+			foreach ($mount as $mountPoint => $data) {
+				if ($mountPoint == substr($ownerPath, 1, strlen($mountPoint))) {
+					$userIds = array_merge($userIds, $this->getUserWithAccessToMountPoint($data['applicable']['users'], $data['applicable']['groups']));
+				}
+			}
 		}
 
 		// Remove duplicate UIDs
@@ -1047,6 +1041,20 @@ class Util {
 
 		return $uniqueUserIds;
 
+	}
+
+	private function getUserWithAccessToMountPoint($users, $groups) {
+		$result = array();
+		if (in_array('all', $users)) {
+			$result = \OCP\User::getUsers();
+		} else {
+			$result = array_merge($result, $users);
+			foreach ($groups as $group) {
+				$result = array_merge($result, \OC_Group::usersInGroup($group));
+			}
+		}
+
+		return $result;
 	}
 
 	/**
@@ -1060,8 +1068,7 @@ class Util {
 		$sql = 'UPDATE `*PREFIX*encryption` SET `migration_status` = ? WHERE `uid` = ? and `migration_status` = ?';
 		$args = array(self::MIGRATION_IN_PROGRESS, $this->userId, self::MIGRATION_OPEN);
 		$query = \OCP\DB::prepare($sql);
-		$result = $query->execute($args);
-		$manipulatedRows = $result->numRows();
+		$manipulatedRows = $query->execute($args);
 
 		if ($manipulatedRows === 1) {
 			$return = true;
@@ -1084,8 +1091,7 @@ class Util {
 		$sql = 'UPDATE `*PREFIX*encryption` SET `migration_status` = ? WHERE `uid` = ? and `migration_status` = ?';
 		$args = array(self::MIGRATION_COMPLETED, $this->userId, self::MIGRATION_IN_PROGRESS);
 		$query = \OCP\DB::prepare($sql);
-		$result = $query->execute($args);
-		$manipulatedRows = $result->numRows();
+		$manipulatedRows = $query->execute($args);
 
 		if ($manipulatedRows === 1) {
 			$return = true;
@@ -1188,7 +1194,7 @@ class Util {
 
 			return array(
 				$fileOwnerUid,
-				$filename
+				\OC_Filesystem::normalizePath($filename)
 			);
 		}
 
@@ -1554,6 +1560,23 @@ class Util {
 		$relativePath = \OCA\Encryption\Helper::stripUserFilesPath($path);
 
 		return $relativePath;
+	}
+
+	/**
+	 * @brief check if the file is stored on a system wide mount point
+	 * @param $path relative to /data/user with leading '/'
+	 * @return boolean
+	 */
+	public function isSystemWideMountPoint($path) {
+		if (\OCP\App::isEnabled("files_external")) {
+			$mount = \OC_Mount_Config::getSystemMountPoints();
+			foreach ($mount as $mountPoint => $data) {
+				if ($mountPoint == substr($path, 1, strlen($mountPoint))) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }

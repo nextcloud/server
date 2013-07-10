@@ -64,6 +64,7 @@
 "Default Storage" => "كۆڭۈلدىكى ساقلىغۇچ",
 "Unlimited" => "چەكسىز",
 "Other" => "باشقا",
+"Username" => "ئىشلەتكۈچى ئاتى",
 "Storage" => "ساقلىغۇچ",
 "change display name" => "كۆرسىتىدىغان ئىسىمنى ئۆزگەرت",
 "set new password" => "يېڭى ئىم تەڭشە",

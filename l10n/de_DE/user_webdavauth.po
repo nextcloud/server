@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-15 01:59+0200\n"
-"PO-Revision-Date: 2013-06-15 00:00+0000\n"
+"POT-Creation-Date: 2013-07-05 02:13+0200\n"
+"PO-Revision-Date: 2013-07-04 10:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr "WebDAV-Authentifizierung"
 
 #: templates/settings.php:4
 msgid "URL: "
-msgstr ""
+msgstr "URL:"
 
 #: templates/settings.php:7
 msgid ""

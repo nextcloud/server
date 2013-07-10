@@ -101,7 +101,6 @@
 "Help" => "Hjælp",
 "Access forbidden" => "Adgang forbudt",
 "Cloud not found" => "Sky ikke fundet",
-"web services under your control" => "Webtjenester under din kontrol",
 "Edit categories" => "Rediger kategorier",
 "Add" => "Tilføj",
 "Security Warning" => "Sikkerhedsadvarsel",

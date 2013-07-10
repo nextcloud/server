@@ -3,15 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# asaez <asaez@asaez.eu>, 2013
 # gmoriello <gmoriello@gmail.com>, 2013
-# saskarip, 2013
+# mikelanabitarte <mikelanabitarte@gmail.com>, 2013
+# Korrosivo <yo@rubendelcampo.es>, 2013
+# saskarip <saskarip@gmail.com>, 2013
+# William Díaz <wdiazux@gmail.com>, 2013
+# xhiena <xhiena@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-17 02:02+0200\n"
-"PO-Revision-Date: 2013-06-16 08:20+0000\n"
-"Last-Translator: saskarip\n"
+"POT-Creation-Date: 2013-07-08 02:02+0200\n"
+"PO-Revision-Date: 2013-07-07 07:50+0000\n"
+"Last-Translator: Korrosivo <yo@rubendelcampo.es>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,14 +58,26 @@ msgstr "Contraseña de clave privada actualizada con éxito."
 msgid ""
 "Could not update the private key password. Maybe the old password was not "
 "correct."
-msgstr ""
+msgstr "No se pudo cambiar la contraseña. Puede que la contraseña antigua no sea correcta."
 
 #: files/error.php:7
 msgid ""
-"Your private key is not valid! Maybe your password was changed from outside."
-" You can update your private key password in your personal settings to "
-"regain access to your files"
-msgstr ""
+"Your private key is not valid! Likely your password was changed outside the "
+"ownCloud system (e.g. your corporate directory). You can update your private"
+" key password in your personal settings to recover access to your encrypted "
+"files."
+msgstr "¡Su clave privada no es válida! Tal vez su contraseña ha sido cambiada desde fuera. Puede actualizar su clave privada en sus opciones personales para recuperar el acceso a sus ficheros."
+
+#: hooks/hooks.php:44
+msgid "Missing requirements."
+msgstr "Requisitos incompletos."
+
+#: hooks/hooks.php:45
+msgid ""
+"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
+"PHP extension is enabled and configured properly. For now, the encryption "
+"app has been disabled."
+msgstr "Por favor, asegúrese de que PHP 5.3.3 o posterior está instalado y que la extensión OpenSSL de PHP está habilitada y configurada correctamente. Por el momento, la aplicación de cifrado ha sido deshabilitada."
 
 #: js/settings-admin.js:11
 msgid "Saving..."
@@ -70,15 +87,15 @@ msgstr "Guardando..."
 msgid ""
 "Your private key is not valid! Maybe the your password was changed from "
 "outside."
-msgstr ""
+msgstr "¡Su clave privada no es válida! Tal vez su contraseña ha sido cambiada desde fuera."
 
 #: templates/invalid_private_key.php:7
 msgid "You can unlock your private key in your "
-msgstr ""
+msgstr "Puede desbloquear su clave privada en su"
 
 #: templates/invalid_private_key.php:7
 msgid "personal settings"
-msgstr ""
+msgstr "opciones personales"
 
 #: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
@@ -86,12 +103,12 @@ msgstr "Cifrado"
 
 #: templates/settings-admin.php:10
 msgid ""
-"Enable encryption passwords recovery key (allow sharing to recovery key):"
-msgstr "Habilitar clave de recuperación de contraseñas ():"
+"Enable recovery key (allow to recover users files in case of password loss):"
+msgstr "Habilitar la clave de recuperación (permite recuperar los ficheros del usuario en caso de pérdida de la contraseña);"
 
 #: templates/settings-admin.php:14
-msgid "Recovery account password"
-msgstr "Recuperar contraseña"
+msgid "Recovery key password"
+msgstr "Contraseña de clave de recuperación"
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
@@ -102,16 +119,16 @@ msgid "Disabled"
 msgstr "Deshabilitado"
 
 #: templates/settings-admin.php:34
-msgid "Change encryption passwords recovery key:"
-msgstr "Cambiar clave de cifrado de contraseñas:"
+msgid "Change recovery key password:"
+msgstr "Cambiar la contraseña de la clave de recuperación"
 
 #: templates/settings-admin.php:41
-msgid "Old Recovery account password"
-msgstr "Contraseña de recuperación actual"
+msgid "Old Recovery key password"
+msgstr "Antigua clave de recuperación"
 
 #: templates/settings-admin.php:48
-msgid "New Recovery account password"
-msgstr "Contraseña de recuperación nueva"
+msgid "New Recovery key password"
+msgstr "Nueva clave de recuperación"
 
 #: templates/settings-admin.php:53
 msgid "Change Password"
@@ -119,39 +136,39 @@ msgstr "Cambiar contraseña"
 
 #: templates/settings-personal.php:11
 msgid "Your private key password no longer match your log-in password:"
-msgstr ""
+msgstr "Su contraseña de clave privada ya no coincide con su contraseña de acceso:"
 
 #: templates/settings-personal.php:14
 msgid "Set your old private key password to your current log-in password."
-msgstr ""
+msgstr "Establecer la contraseña de su antigua clave privada a su contraseña actual de acceso."
 
 #: templates/settings-personal.php:16
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
-msgstr ""
+msgstr "Si no recuerda su antigua contraseña puede pedir a su administrador que le recupere sus ficheros."
 
 #: templates/settings-personal.php:24
 msgid "Old log-in password"
-msgstr ""
+msgstr "Contraseña de acceso antigua"
 
 #: templates/settings-personal.php:30
 msgid "Current log-in password"
-msgstr ""
+msgstr "Contraseña de acceso actual"
 
 #: templates/settings-personal.php:35
 msgid "Update Private Key Password"
-msgstr ""
+msgstr "Actualizar Contraseña de Clave Privada"
 
 #: templates/settings-personal.php:45
 msgid "Enable password recovery:"
-msgstr ""
+msgstr "Habilitar la recuperación de contraseña:"
 
 #: templates/settings-personal.php:47
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
-msgstr ""
+msgstr "Habilitar esta opción le permitirá volver a tener acceso a sus ficheros cifrados en caso de pérdida de contraseña"
 
 #: templates/settings-personal.php:63
 msgid "File recovery settings updated"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-17 02:02+0200\n"
-"PO-Revision-Date: 2013-06-16 23:22+0000\n"
+"POT-Creation-Date: 2013-07-10 02:13+0200\n"
+"PO-Revision-Date: 2013-07-09 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s compartió \"%s\" con vos"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -60,137 +60,137 @@ msgstr "No se seleccionaron categorías para borrar."
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr "Error al remover %s de favoritos. "
+msgstr "Error al borrar %s de favoritos. "
 
-#: js/config.php:34
+#: js/config.php:32
 msgid "Sunday"
 msgstr "Domingo"
 
-#: js/config.php:35
+#: js/config.php:33
 msgid "Monday"
 msgstr "Lunes"
 
-#: js/config.php:36
+#: js/config.php:34
 msgid "Tuesday"
 msgstr "Martes"
 
-#: js/config.php:37
+#: js/config.php:35
 msgid "Wednesday"
 msgstr "Miércoles"
 
-#: js/config.php:38
+#: js/config.php:36
 msgid "Thursday"
 msgstr "Jueves"
 
-#: js/config.php:39
+#: js/config.php:37
 msgid "Friday"
 msgstr "Viernes"
 
-#: js/config.php:40
+#: js/config.php:38
 msgid "Saturday"
 msgstr "Sábado"
 
-#: js/config.php:45
+#: js/config.php:43
 msgid "January"
 msgstr "enero"
 
-#: js/config.php:46
+#: js/config.php:44
 msgid "February"
 msgstr "febrero"
 
-#: js/config.php:47
+#: js/config.php:45
 msgid "March"
 msgstr "marzo"
 
-#: js/config.php:48
+#: js/config.php:46
 msgid "April"
 msgstr "abril"
 
-#: js/config.php:49
+#: js/config.php:47
 msgid "May"
 msgstr "mayo"
 
-#: js/config.php:50
+#: js/config.php:48
 msgid "June"
 msgstr "junio"
 
-#: js/config.php:51
+#: js/config.php:49
 msgid "July"
 msgstr "julio"
 
-#: js/config.php:52
+#: js/config.php:50
 msgid "August"
 msgstr "agosto"
 
-#: js/config.php:53
+#: js/config.php:51
 msgid "September"
 msgstr "septiembre"
 
-#: js/config.php:54
+#: js/config.php:52
 msgid "October"
 msgstr "octubre"
 
-#: js/config.php:55
+#: js/config.php:53
 msgid "November"
 msgstr "noviembre"
 
-#: js/config.php:56
+#: js/config.php:54
 msgid "December"
 msgstr "diciembre"
 
-#: js/js.js:286
+#: js/js.js:293
 msgid "Settings"
 msgstr "Configuración"
 
-#: js/js.js:718
+#: js/js.js:725
 msgid "seconds ago"
 msgstr "segundos atrás"
 
-#: js/js.js:719
+#: js/js.js:726
 msgid "1 minute ago"
 msgstr "hace 1 minuto"
 
-#: js/js.js:720
+#: js/js.js:727
 msgid "{minutes} minutes ago"
 msgstr "hace {minutes} minutos"
 
-#: js/js.js:721
+#: js/js.js:728
 msgid "1 hour ago"
 msgstr "1 hora atrás"
 
-#: js/js.js:722
+#: js/js.js:729
 msgid "{hours} hours ago"
-msgstr "{hours} horas atrás"
+msgstr "hace {hours} horas"
 
-#: js/js.js:723
+#: js/js.js:730
 msgid "today"
 msgstr "hoy"
 
-#: js/js.js:724
+#: js/js.js:731
 msgid "yesterday"
 msgstr "ayer"
 
-#: js/js.js:725
+#: js/js.js:732
 msgid "{days} days ago"
 msgstr "hace {days} días"
 
-#: js/js.js:726
+#: js/js.js:733
 msgid "last month"
 msgstr "el mes pasado"
 
-#: js/js.js:727
+#: js/js.js:734
 msgid "{months} months ago"
 msgstr "{months} meses atrás"
 
-#: js/js.js:728
+#: js/js.js:735
 msgid "months ago"
 msgstr "meses atrás"
 
-#: js/js.js:729
+#: js/js.js:736
 msgid "last year"
 msgstr "el año pasado"
 
-#: js/js.js:730
+#: js/js.js:737
 msgid "years ago"
 msgstr "años atrás"
 
@@ -221,19 +221,19 @@ msgstr "Aceptar"
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr "El tipo de objeto no esta especificado. "
+msgstr "El tipo de objeto no está especificado. "
 
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
-#: js/share.js:589
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:620
+#: js/share.js:632
 msgid "Error"
 msgstr "Error"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr "El nombre de la aplicación no esta especificado."
+msgstr "El nombre de la App no está especificado."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
@@ -247,13 +247,13 @@ msgstr "Compartido"
 msgid "Share"
 msgstr "Compartir"
 
-#: js/share.js:125 js/share.js:617
+#: js/share.js:125 js/share.js:660
 msgid "Error while sharing"
 msgstr "Error al compartir"
 
 #: js/share.js:136
 msgid "Error while unsharing"
-msgstr "Error en el procedimiento de "
+msgstr "Error en al dejar de compartir"
 
 #: js/share.js:143
 msgid "Error while changing permissions"
@@ -267,101 +267,105 @@ msgstr "Compartido con vos y el grupo {group} por {owner}"
 msgid "Shared with you by {owner}"
 msgstr "Compartido con vos por {owner}"
 
-#: js/share.js:159
+#: js/share.js:172
 msgid "Share with"
 msgstr "Compartir con"
 
-#: js/share.js:164
+#: js/share.js:177
 msgid "Share with link"
-msgstr "Compartir con link"
+msgstr "Compartir con enlace"
 
-#: js/share.js:167
+#: js/share.js:180
 msgid "Password protect"
 msgstr "Proteger con contraseña "
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:26
+#: js/share.js:182 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Contraseña"
 
-#: js/share.js:173
+#: js/share.js:187
+msgid "Allow Public Upload"
+msgstr ""
+
+#: js/share.js:191
 msgid "Email link to person"
-msgstr "Enviar el link por e-mail."
+msgstr "Enviar el enlace por e-mail."
 
-#: js/share.js:174
+#: js/share.js:192
 msgid "Send"
-msgstr "Enviar"
+msgstr "Mandar"
 
-#: js/share.js:178
+#: js/share.js:197
 msgid "Set expiration date"
 msgstr "Asignar fecha de vencimiento"
 
-#: js/share.js:179
+#: js/share.js:198
 msgid "Expiration date"
 msgstr "Fecha de vencimiento"
 
-#: js/share.js:211
+#: js/share.js:230
 msgid "Share via email:"
-msgstr "compartido a través de e-mail:"
+msgstr "Compartir a través de e-mail:"
 
-#: js/share.js:213
+#: js/share.js:232
 msgid "No people found"
 msgstr "No se encontraron usuarios"
 
-#: js/share.js:251
+#: js/share.js:270
 msgid "Resharing is not allowed"
 msgstr "No se permite volver a compartir"
 
-#: js/share.js:287
+#: js/share.js:306
 msgid "Shared in {item} with {user}"
 msgstr "Compartido en {item} con {user}"
 
-#: js/share.js:308
+#: js/share.js:327
 msgid "Unshare"
 msgstr "Dejar de compartir"
 
-#: js/share.js:320
+#: js/share.js:339
 msgid "can edit"
-msgstr "puede editar"
+msgstr "podés editar"
 
-#: js/share.js:322
+#: js/share.js:341
 msgid "access control"
 msgstr "control de acceso"
 
-#: js/share.js:325
+#: js/share.js:344
 msgid "create"
 msgstr "crear"
 
-#: js/share.js:328
+#: js/share.js:347
 msgid "update"
 msgstr "actualizar"
 
-#: js/share.js:331
+#: js/share.js:350
 msgid "delete"
 msgstr "borrar"
 
-#: js/share.js:334
+#: js/share.js:353
 msgid "share"
 msgstr "compartir"
 
-#: js/share.js:368 js/share.js:564
+#: js/share.js:387 js/share.js:607
 msgid "Password protected"
 msgstr "Protegido por contraseña"
 
-#: js/share.js:577
+#: js/share.js:620
 msgid "Error unsetting expiration date"
-msgstr "Error al remover la fecha de caducidad"
+msgstr "Error al remover la fecha de vencimiento"
 
-#: js/share.js:589
+#: js/share.js:632
 msgid "Error setting expiration date"
 msgstr "Error al asignar fecha de vencimiento"
 
-#: js/share.js:604
+#: js/share.js:647
 msgid "Sending ..."
-msgstr "Enviando..."
+msgstr "Mandando..."
 
-#: js/share.js:615
+#: js/share.js:658
 msgid "Email sent"
-msgstr "Email enviado"
+msgstr "e-mail mandado"
 
 #: js/update.js:14
 msgid ""
@@ -374,7 +378,7 @@ msgstr "La actualización no pudo ser completada. Por favor, reportá el inconve
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "La actualización fue exitosa. Estás siendo redirigido a ownCloud."
 
-#: lostpassword/controller.php:58
+#: lostpassword/controller.php:60
 msgid "ownCloud password reset"
 msgstr "Restablecer contraseña de ownCloud"
 
@@ -387,7 +391,7 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr "El enlace para restablecer la contraseña fue enviada a tu correo electrónico. <br> Si no lo recibís en un plazo de tiempo razonable,  revisá tu carpeta de spam / correo no deseado. <br> Si no está ahí, preguntale a tu administrador."
+msgstr "El enlace para restablecer la contraseña fue enviada a tu e-mail. <br> Si no lo recibís en un plazo de tiempo razonable,  revisá tu carpeta de spam / correo no deseado. <br> Si no está ahí, preguntale a tu administrador."
 
 #: lostpassword/templates/lostpassword.php:12
 msgid "Request failed!<br>Did you make sure your email/username was right?"
@@ -395,7 +399,7 @@ msgstr "¡Error en el pedido! <br> ¿Estás seguro de que tu dirección de corre
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
-msgstr "Vas a recibir un enlace por e-mail para restablecer tu contraseña"
+msgstr "Vas a recibir un enlace por e-mail para restablecer tu contraseña."
 
 #: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
 #: templates/login.php:19
@@ -404,17 +408,17 @@ msgstr "Nombre de usuario"
 
 #: lostpassword/templates/lostpassword.php:22
 msgid ""
-"Your files seems to be encrypted. If you didn't have enabled the recovery "
-"key there will be no way to get your data back once the password was "
-"resetted. If you are not sure what to do, please contact your administrator "
-"first before continue. Do you really want to continue?"
-msgstr ""
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset. If you "
+"are not sure what to do, please contact your administrator before you "
+"continue. Do you really want to continue?"
+msgstr "Tus archivos están encriptados. Si no habilitaste la clave de recuperación, no vas a tener manera de obtener nuevamente tus datos después que se restablezca tu contraseña. Si no estás seguro sobre qué hacer, ponete en contacto con el administrador antes de seguir. ¿Estás seguro/a que querés continuar?"
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
-msgstr ""
+msgstr "Sí, definitivamente quiero restablecer mi contraseña ahora"
 
-#: lostpassword/templates/lostpassword.php:29
+#: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
 msgstr "Solicitar restablecimiento"
 
@@ -444,7 +448,7 @@ msgstr "Usuarios"
 
 #: strings.php:7
 msgid "Apps"
-msgstr "Aplicaciones"
+msgstr "Apps"
 
 #: strings.php:8
 msgid "Admin"
@@ -456,13 +460,13 @@ msgstr "Ayuda"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr "Acceso denegado"
+msgstr "Acceso prohibido"
 
 #: templates/404.php:12
 msgid "Cloud not found"
 msgstr "No se encontró ownCloud"
 
-#: templates/altmail.php:2
+#: templates/altmail.php:4
 #, php-format
 msgid ""
 "Hey there,\n"
@@ -471,11 +475,7 @@ msgid ""
 "View it: %s\n"
 "\n"
 "Cheers!"
-msgstr ""
-
-#: templates/altmail.php:7 templates/mail.php:24
-msgid "web services under your control"
-msgstr "servicios web controlados por vos"
+msgstr "Hola,\n\nSimplemente te informo que %s compartió %s con vos.\nMiralo acá: %s\n\n¡Chau!"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -502,13 +502,13 @@ msgstr "Actualizá tu instalación de PHP para usar ownCloud de manera segura."
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr "No hay disponible ningún generador de números aleatorios seguro. Por favor habilitá la extensión OpenSSL de PHP."
+msgstr "No hay disponible ningún generador de números aleatorios seguro. Por favor, habilitá la extensión OpenSSL de PHP."
 
 #: templates/installation.php:33
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr "Sin un generador de números aleatorios seguro un atacante podría predecir los tokens de reinicio de tu contraseña y tomar control de tu cuenta."
+msgstr "Sin un generador de números aleatorios seguro un atacante podría predecir las pruebas de reinicio de tu contraseña y tomar control de tu cuenta."
 
 #: templates/installation.php:39
 msgid ""
@@ -543,7 +543,7 @@ msgstr "Configurar la base de datos"
 #: templates/installation.php:102 templates/installation.php:113
 #: templates/installation.php:125
 msgid "will be used"
-msgstr "se utilizarán"
+msgstr "se usarán"
 
 #: templates/installation.php:137
 msgid "Database user"
@@ -563,18 +563,18 @@ msgstr "Espacio de tablas de la base de datos"
 
 #: templates/installation.php:166
 msgid "Database host"
-msgstr "Host de la base de datos"
+msgstr "Huésped de la base de datos"
 
 #: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Completar la instalación"
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:43
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s está disponible. Obtené más información sobre cómo actualizar."
 
-#: templates/layout.user.php:67
+#: templates/layout.user.php:68
 msgid "Log out"
 msgstr "Cerrar la sesión"
 
@@ -590,7 +590,7 @@ msgstr "¡Si no cambiaste tu contraseña recientemente, puede ser que tu cuenta 
 
 #: templates/login.php:12
 msgid "Please change your password to secure your account again."
-msgstr "Por favor, cambiá tu contraseña para fortalecer nuevamente la seguridad de tu cuenta."
+msgstr "Por favor, cambiá tu contraseña para incrementar la seguridad de tu cuenta."
 
 #: templates/login.php:34
 msgid "Lost your password?"
@@ -602,18 +602,18 @@ msgstr "recordame"
 
 #: templates/login.php:41
 msgid "Log in"
-msgstr "Entrar"
+msgstr "Iniciar sesión"
 
 #: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Nombre alternativos de usuarios"
 
-#: templates/mail.php:15
+#: templates/mail.php:16
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr ""
+msgstr "Hola,<br><br>Simplemente te informo que %s compartió %s con vos.<br><a href=\"%s\">Miralo acá:</a><br><br>¡Chau!"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -626,4 +626,4 @@ msgstr "siguiente"
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr "Actualizando ownCloud a la versión %s, puede domorar un rato."
+msgstr "Actualizando ownCloud a la versión %s, puede demorar un rato."

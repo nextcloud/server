@@ -8,6 +8,11 @@
 "Missing a temporary folder" => "Недостасува привремена папка",
 "Failed to write to disk" => "Неуспеав да запишам на диск",
 "Files" => "Датотеки",
+"Unable to upload your file as it is a directory or has 0 bytes" => "Не може да се преземе вашата датотека бидејќи фолдерот во кој се наоѓа фајлот има големина од 0 бајти",
+"Upload cancelled." => "Преземањето е прекинато.",
+"File upload is in progress. Leaving the page now will cancel the upload." => "Подигање на датотека е во тек. Напуштење на страницата ќе го прекине.",
+"URL cannot be empty." => "Адресата неможе да биде празна.",
+"Error" => "Грешка",
 "Share" => "Сподели",
 "Delete" => "Избриши",
 "Rename" => "Преименувај",
@@ -20,11 +25,6 @@
 "undo" => "врати",
 "1 file uploading" => "1 датотека се подига",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Неправилно име. , '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' не се дозволени.",
-"Unable to upload your file as it is a directory or has 0 bytes" => "Не може да се преземе вашата датотека бидејќи фолдерот во кој се наоѓа фајлот има големина од 0 бајти",
-"Upload cancelled." => "Преземањето е прекинато.",
-"File upload is in progress. Leaving the page now will cancel the upload." => "Подигање на датотека е во тек. Напуштење на страницата ќе го прекине.",
-"URL cannot be empty." => "Адресата неможе да биде празна.",
-"Error" => "Грешка",
 "Name" => "Име",
 "Size" => "Големина",
 "Modified" => "Променето",
@@ -52,5 +52,7 @@
 "Upload too large" => "Фајлот кој се вчитува е преголем",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Датотеките кои се обидувате да ги подигнете ја надминуваат максималната големина за подигнување датотеки на овој сервер.",
 "Files are being scanned, please wait." => "Се скенираат датотеки, ве молам почекајте.",
-"Current scanning" => "Моментално скенирам"
+"Current scanning" => "Моментално скенирам",
+"file" => "датотека",
+"files" => "датотеки"
 );

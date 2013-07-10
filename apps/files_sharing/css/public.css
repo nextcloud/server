@@ -17,14 +17,29 @@ body {
 
 #details {
 	color:#fff;
+	float: left;
 }
 
-#header #download {
+#public_upload,
+#download {
 	font-weight:700;
-	margin-left:2em;
+	margin: 0 0.4em 0 0;
+	padding: 0 5px;
+	height: 27px;
+	float: left;
+
 }
 
-#header #download img {
+.header-right #details {
+	margin-right: 2em;
+}
+
+#public_upload {
+	margin-left: 0.3em;
+}
+
+#public_upload img,
+#download img {
 	padding-left:.1em;
 	padding-right:.3em;
 	vertical-align:text-bottom;
@@ -72,4 +87,50 @@ p.info a {
 thead{
 	background-color: white;
 	padding-left:0 !important; /* fixes multiselect bar offset on shared page */
+}
+
+#data-upload-form {
+	position: relative;
+	right: 0;
+	height: 27px;
+	overflow: hidden;
+	padding: 0;
+	float: right;
+	display: inline;
+	margin: 0;
+}
+
+#file_upload_start {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: alpha(opacity=0);
+	opacity: 0;
+	z-index: 20;
+	position: absolute !important;
+	top: 0;
+	left: 0;
+	width: 100% !important;
+}
+
+#download span {
+	position: relative;
+	bottom: 3px;
+}
+
+#publicUploadButtonMock {
+	position:relative;
+	display:block;
+	width:100%;
+	height:27px;
+	cursor:pointer;
+	z-index:10;
+	background-image:url('%webroot%/core/img/actions/upload.svg');
+	background-repeat:no-repeat;
+	background-position:7px 6px;
+}
+
+#publicUploadButtonMock span {
+	margin: 0 5px 0 28px;
+	position: relative;
+	top: -2px;
+	color: #555;
 }

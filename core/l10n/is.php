@@ -96,7 +96,6 @@
 "Help" => "Hjálp",
 "Access forbidden" => "Aðgangur bannaður",
 "Cloud not found" => "Ský finnst ekki",
-"web services under your control" => "vefþjónusta undir þinni stjórn",
 "Edit categories" => "Breyta flokkum",
 "Add" => "Bæta við",
 "Security Warning" => "Öryggis aðvörun",

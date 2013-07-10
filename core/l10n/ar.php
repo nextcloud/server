@@ -98,7 +98,6 @@
 "Help" => "المساعدة",
 "Access forbidden" => "التوصّل محظور",
 "Cloud not found" => "لم يتم إيجاد",
-"web services under your control" => "خدمات الشبكة تحت سيطرتك",
 "Edit categories" => "عدل الفئات",
 "Add" => "اضف",
 "Security Warning" => "تحذير أمان",

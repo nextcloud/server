@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-17 02:02+0200\n"
-"PO-Revision-Date: 2013-06-16 23:24+0000\n"
-"Last-Translator: Cyril Glapa <kyriog@gmail.com>\n"
+"POT-Creation-Date: 2013-07-10 02:13+0200\n"
+"PO-Revision-Date: 2013-07-09 23:15+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,43 +18,47 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: app.php:359
+#: app.php:360
 msgid "Help"
 msgstr "Aide"
 
-#: app.php:372
+#: app.php:373
 msgid "Personal"
 msgstr "Personnel"
 
-#: app.php:383
+#: app.php:384
 msgid "Settings"
 msgstr "Paramètres"
 
-#: app.php:395
+#: app.php:396
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: app.php:408
+#: app.php:409
 msgid "Apps"
 msgstr "Applications"
 
-#: app.php:416
+#: app.php:417
 msgid "Admin"
 msgstr "Administration"
 
-#: files.php:210
+#: defaults.php:33
+msgid "web services under your control"
+msgstr "services web sous votre contrôle"
+
+#: files.php:226
 msgid "ZIP download is turned off."
 msgstr "Téléchargement ZIP désactivé."
 
-#: files.php:211
+#: files.php:227
 msgid "Files need to be downloaded one by one."
 msgstr "Les fichiers nécessitent d'être téléchargés un par un."
 
-#: files.php:212 files.php:245
+#: files.php:228 files.php:261
 msgid "Back to Files"
 msgstr "Retour aux Fichiers"
 
-#: files.php:242
+#: files.php:258
 msgid "Selected files too large to generate zip file."
 msgstr "Les fichiers sélectionnés sont trop volumineux pour être compressés."
 
@@ -86,104 +90,102 @@ msgstr "Texte"
 msgid "Images"
 msgstr "Images"
 
-#: setup.php:34
-msgid "Set an admin username."
-msgstr "Spécifiez un nom d'utilisateur pour l'administrateur."
-
-#: setup.php:37
-msgid "Set an admin password."
-msgstr "Spécifiez un mot de passe administrateur."
-
-#: setup.php:55
+#: setup/abstractdatabase.php:22
 #, php-format
 msgid "%s enter the database username."
 msgstr "%s entrez le nom d'utilisateur de la base de données."
 
-#: setup.php:58
+#: setup/abstractdatabase.php:25
 #, php-format
 msgid "%s enter the database name."
 msgstr "%s entrez le nom de la base de données."
 
-#: setup.php:61
+#: setup/abstractdatabase.php:28
 #, php-format
 msgid "%s you may not use dots in the database name"
 msgstr "%s vous nez pouvez pas utiliser de points dans le nom de la base de données"
 
-#: setup.php:64
-#, php-format
-msgid "%s set the database host."
-msgstr "%s spécifiez l'hôte de la base de données."
-
-#: setup.php:126 setup.php:332 setup.php:377
-msgid "PostgreSQL username and/or password not valid"
-msgstr "Nom d'utilisateur et/ou mot de passe de la base PostgreSQL invalide"
-
-#: setup.php:127 setup.php:235
-msgid "You need to enter either an existing account or the administrator."
-msgstr "Vous devez spécifier soit le nom d'un compte existant, soit celui de l'administrateur."
-
-#: setup.php:152
-msgid "Oracle connection could not be established"
-msgstr "La connexion Oracle ne peut pas être établie"
-
-#: setup.php:234
-msgid "MySQL username and/or password not valid"
-msgstr "Nom d'utilisateur et/ou mot de passe de la base MySQL invalide"
-
-#: setup.php:288 setup.php:398 setup.php:407 setup.php:425 setup.php:435
-#: setup.php:444 setup.php:477 setup.php:543 setup.php:569 setup.php:576
-#: setup.php:587 setup.php:594 setup.php:603 setup.php:611 setup.php:620
-#: setup.php:626
-#, php-format
-msgid "DB Error: \"%s\""
-msgstr "Erreur de la base de données : \"%s\""
-
-#: setup.php:289 setup.php:399 setup.php:408 setup.php:426 setup.php:436
-#: setup.php:445 setup.php:478 setup.php:544 setup.php:570 setup.php:577
-#: setup.php:588 setup.php:604 setup.php:612 setup.php:621
-#, php-format
-msgid "Offending command was: \"%s\""
-msgstr "La requête en cause est : \"%s\""
-
-#: setup.php:305
-#, php-format
-msgid "MySQL user '%s'@'localhost' exists already."
-msgstr "L'utilisateur MySQL '%s'@'localhost' existe déjà."
-
-#: setup.php:306
-msgid "Drop this user from MySQL"
-msgstr "Retirer cet utilisateur de la base MySQL"
-
-#: setup.php:311
-#, php-format
-msgid "MySQL user '%s'@'%%' already exists"
-msgstr "L'utilisateur MySQL '%s'@'%%' existe déjà"
-
-#: setup.php:312
-msgid "Drop this user from MySQL."
-msgstr "Retirer cet utilisateur de la base MySQL."
-
-#: setup.php:469 setup.php:536
-msgid "Oracle username and/or password not valid"
-msgstr "Nom d'utilisateur et/ou mot de passe de la base Oracle invalide"
-
-#: setup.php:595 setup.php:627
-#, php-format
-msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr "La requête en cause est : \"%s\", nom : %s, mot de passe : %s"
-
-#: setup.php:647
+#: setup/mssql.php:20
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
 msgstr "Le nom d'utilisateur et/ou le mot de passe de la base MS SQL est invalide : %s"
 
-#: setup.php:870
+#: setup/mssql.php:21 setup/mysql.php:13 setup/oci.php:114
+#: setup/postgresql.php:24 setup/postgresql.php:70
+msgid "You need to enter either an existing account or the administrator."
+msgstr "Vous devez spécifier soit le nom d'un compte existant, soit celui de l'administrateur."
+
+#: setup/mysql.php:12
+msgid "MySQL username and/or password not valid"
+msgstr "Nom d'utilisateur et/ou mot de passe de la base MySQL invalide"
+
+#: setup/mysql.php:67 setup/oci.php:54 setup/oci.php:121 setup/oci.php:147
+#: setup/oci.php:154 setup/oci.php:165 setup/oci.php:172 setup/oci.php:181
+#: setup/oci.php:189 setup/oci.php:198 setup/oci.php:204
+#: setup/postgresql.php:89 setup/postgresql.php:98 setup/postgresql.php:115
+#: setup/postgresql.php:125 setup/postgresql.php:134
+#, php-format
+msgid "DB Error: \"%s\""
+msgstr "Erreur de la base de données : \"%s\""
+
+#: setup/mysql.php:68 setup/oci.php:55 setup/oci.php:122 setup/oci.php:148
+#: setup/oci.php:155 setup/oci.php:166 setup/oci.php:182 setup/oci.php:190
+#: setup/oci.php:199 setup/postgresql.php:90 setup/postgresql.php:99
+#: setup/postgresql.php:116 setup/postgresql.php:126 setup/postgresql.php:135
+#, php-format
+msgid "Offending command was: \"%s\""
+msgstr "La requête en cause est : \"%s\""
+
+#: setup/mysql.php:85
+#, php-format
+msgid "MySQL user '%s'@'localhost' exists already."
+msgstr "L'utilisateur MySQL '%s'@'localhost' existe déjà."
+
+#: setup/mysql.php:86
+msgid "Drop this user from MySQL"
+msgstr "Retirer cet utilisateur de la base MySQL"
+
+#: setup/mysql.php:91
+#, php-format
+msgid "MySQL user '%s'@'%%' already exists"
+msgstr "L'utilisateur MySQL '%s'@'%%' existe déjà"
+
+#: setup/mysql.php:92
+msgid "Drop this user from MySQL."
+msgstr "Retirer cet utilisateur de la base MySQL."
+
+#: setup/oci.php:34
+msgid "Oracle connection could not be established"
+msgstr "La connexion Oracle ne peut pas être établie"
+
+#: setup/oci.php:41 setup/oci.php:113
+msgid "Oracle username and/or password not valid"
+msgstr "Nom d'utilisateur et/ou mot de passe de la base Oracle invalide"
+
+#: setup/oci.php:173 setup/oci.php:205
+#, php-format
+msgid "Offending command was: \"%s\", name: %s, password: %s"
+msgstr "La requête en cause est : \"%s\", nom : %s, mot de passe : %s"
+
+#: setup/postgresql.php:23 setup/postgresql.php:69
+msgid "PostgreSQL username and/or password not valid"
+msgstr "Nom d'utilisateur et/ou mot de passe de la base PostgreSQL invalide"
+
+#: setup.php:42
+msgid "Set an admin username."
+msgstr "Spécifiez un nom d'utilisateur pour l'administrateur."
+
+#: setup.php:45
+msgid "Set an admin password."
+msgstr "Spécifiez un mot de passe administrateur."
+
+#: setup.php:198
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Votre serveur web, n'est pas correctement configuré pour permettre la synchronisation des fichiers, car l'interface WebDav ne fonctionne pas comme il faut."
 
-#: setup.php:871
+#: setup.php:199
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Veuillez vous référer au <a href='%s'>guide d'installation</a>."

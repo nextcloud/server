@@ -22,6 +22,9 @@ if (!OC_Config::getValue('maintenance', false)) {
 	// Filesystem related hooks
 	OCA\Encryption\Helper::registerFilesystemHooks();
 
+	// App manager related hooks
+	OCA\Encryption\Helper::registerAppHooks();
+
 	stream_wrapper_register('crypt', 'OCA\Encryption\Stream');
 
 	// check if we are logged in
@@ -33,13 +36,17 @@ if (!OC_Config::getValue('maintenance', false)) {
 		}
 
 		$view = new OC_FilesystemView('/');
-		$session = new \OCA\Encryption\Session($view);
+
+		$sessionReady = OCA\Encryption\Helper::checkRequirements();
+		if($sessionReady) {
+			$session = new \OCA\Encryption\Session($view);
+		}
 
 		$user = \OCP\USER::getUser();
 		// check if user has a private key
-		if (
-			!$view->file_exists('/' . $user . '/files_encryption/' . $user . '.private.key')
-			&& OCA\Encryption\Crypt::mode() === 'server'
+		if ($sessionReady === false
+			|| (!$view->file_exists('/' . $user . '/files_encryption/' . $user . '.private.key')
+				&& OCA\Encryption\Crypt::mode() === 'server')
 		) {
 
 			// Force the user to log-in again if the encryption key isn't unlocked

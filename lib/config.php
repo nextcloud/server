@@ -132,6 +132,9 @@ class OC_Config{
 
 		// read all file in config dir ending by config.php
 		$config_files = glob( OC::$SERVERROOT."/config/*.config.php");
+		if (!is_array($config_files)) {
+			$config_files = array();
+		}
 
 		//Filter only regular files
 		$config_files = array_filter($config_files, 'is_file');
@@ -144,7 +147,7 @@ class OC_Config{
 
 		//Include file and merge config
 		foreach($config_files as $file){
-			include $file;
+			@include $file;
 			if( isset( $CONFIG ) && is_array( $CONFIG )) {
 				self::$cache = array_merge(self::$cache, $CONFIG);
 			}
@@ -165,6 +168,7 @@ class OC_Config{
 	 */
 	public static function writeData() {
 		// Create a php file ...
+		$defaults = new OC_Defaults;
 		$content = "<?php\n ";
 		if (defined('DEBUG') && DEBUG) {
 			$content .= "define('DEBUG',true);\n";
@@ -180,8 +184,8 @@ class OC_Config{
 			$tmpl = new OC_Template( '', 'error', 'guest' );
 			$tmpl->assign('errors', array(1=>array(
 				'error'=>"Can't write into config directory 'config'",
-				'hint'=>'You can usually fix this by giving the webserver user write access'
-					.' to the config directory in owncloud')));
+				'hint'=>'This can usually be fixed by '
+					.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html#set-the-directory-permissions" target="_blank">giving the webserver write access to the config directory</a>.')));
 			$tmpl->printPage();
 			exit;
 		}

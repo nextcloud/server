@@ -132,9 +132,9 @@ EOF
 	php -f enable_all.php
 	if [ "$1" == "sqlite" ] ; then
 		# coverage only with sqlite - causes segfault on ci.tmit.eu - reason unknown
-		phpunit --configuration phpunit-autotest.xml --log-junit autotest-results-$1.xml --coverage-clover autotest-clover-$1.xml --coverage-html coverage-html-$1
+		phpunit --configuration phpunit-autotest.xml --log-junit autotest-results-$1.xml --coverage-clover autotest-clover-$1.xml --coverage-html coverage-html-$1 $2 $3
 	else
-		phpunit --configuration phpunit-autotest.xml --log-junit autotest-results-$1.xml
+		phpunit --configuration phpunit-autotest.xml --log-junit autotest-results-$1.xml $2 $3
 	fi
 }
 
@@ -143,13 +143,12 @@ EOF
 #
 if [ -z "$1" ]
   then
-	execute_tests "sqlite"
+	execute_tests 'sqlite'
 	execute_tests 'mysql'
 	execute_tests 'pgsql'
-	# we will add oci as soon as it's stable
-	#execute_tests 'oci'
+	execute_tests 'oci'
 else
-	execute_tests $1
+	execute_tests $1 $2 $3
 fi
 
 #

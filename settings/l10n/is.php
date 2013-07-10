@@ -58,11 +58,11 @@
 "Language" => "Tungumál",
 "Help translate" => "Hjálpa við þýðingu",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "Notaðu þessa vefslóð til að tengjast ownCloud svæðinu þínu",
 "Create" => "Búa til",
 "Default Storage" => "Sjálfgefin gagnageymsla",
 "Unlimited" => "Ótakmarkað",
 "Other" => "Annað",
+"Username" => "Notendanafn",
 "Storage" => "gagnapláss",
 "Default" => "Sjálfgefið"
 );

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-17 02:02+0200\n"
-"PO-Revision-Date: 2013-06-16 23:24+0000\n"
+"POT-Creation-Date: 2013-07-10 02:13+0200\n"
+"PO-Revision-Date: 2013-07-09 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Interlingua (http://www.transifex.com/projects/p/owncloud/language/ia/)\n"
 "MIME-Version: 1.0\n"
@@ -18,27 +18,39 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: templates/authenticate.php:4
+msgid "The password is wrong. Try again."
+msgstr ""
+
+#: templates/authenticate.php:7
 msgid "Password"
 msgstr "Contrasigno"
 
-#: templates/authenticate.php:6
+#: templates/authenticate.php:9
 msgid "Submit"
 msgstr "Submitter"
 
-#: templates/public.php:10
+#: templates/public.php:17
 #, php-format
 msgid "%s shared the folder %s with you"
 msgstr ""
 
-#: templates/public.php:13
+#: templates/public.php:20
 #, php-format
 msgid "%s shared the file %s with you"
 msgstr ""
 
-#: templates/public.php:19 templates/public.php:43
+#: templates/public.php:28 templates/public.php:90
 msgid "Download"
 msgstr "Discargar"
 
-#: templates/public.php:40
+#: templates/public.php:45 templates/public.php:48
+msgid "Upload"
+msgstr "Incargar"
+
+#: templates/public.php:58
+msgid "Cancel upload"
+msgstr ""
+
+#: templates/public.php:87
 msgid "No preview available for"
 msgstr ""

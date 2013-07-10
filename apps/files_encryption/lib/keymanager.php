@@ -126,7 +126,12 @@ class Keymanager {
 		$util = new Util($view, \OCP\User::getUser());
 		list($owner, $filename) = $util->getUidAndFilename($path);
 
-		$basePath = '/' . $owner . '/files_encryption/keyfiles';
+		// in case of system wide mount points the keys are stored directly in the data directory
+		if ($util->isSystemWideMountPoint($filename)) {
+			$basePath = '/files_encryption/keyfiles';
+		} else {
+			$basePath = '/' . $owner . '/files_encryption/keyfiles';
+		}
 
 		$targetPath = self::keySetPreparation($view, $filename, $basePath, $owner);
 
@@ -233,7 +238,12 @@ class Keymanager {
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
 		$filePath_f = ltrim($filename, '/');
 
-		$keyfilePath = '/' . $owner . '/files_encryption/keyfiles/' . $filePath_f . '.key';
+		// in case of system wide mount points the keys are stored directly in the data directory
+		if ($util->isSystemWideMountPoint($filename)) {
+			$keyfilePath = '/files_encryption/keyfiles/' . $filePath_f . '.key';
+		} else {
+			$keyfilePath = '/' . $owner . '/files_encryption/keyfiles/' . $filePath_f . '.key';
+		}
 
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
@@ -267,7 +277,14 @@ class Keymanager {
 	public static function deleteFileKey(\OC_FilesystemView $view, $userId, $path) {
 
 		$trimmed = ltrim($path, '/');
-		$keyPath = '/' . $userId . '/files_encryption/keyfiles/' . $trimmed;
+
+		$util = new Util($view, \OCP\User::getUser());
+
+		if($util->isSystemWideMountPoint($path)) {
+			$keyPath = '/files_encryption/keyfiles/' . $trimmed;
+		} else {
+			$keyPath = '/' . $userId . '/files_encryption/keyfiles/' . $trimmed;
+		}
 
 		$result = false;
 
@@ -325,57 +342,26 @@ class Keymanager {
 	 * @brief store share key
 	 *
 	 * @param \OC_FilesystemView $view
-	 * @param string $path relative path of the file, including filename
-	 * @param $userId
+	 * @param string $path where the share key is stored
 	 * @param $shareKey
-	 * @internal param string $key
-	 * @internal param string $dbClassName
 	 * @return bool true/false
 	 * @note The keyfile is not encrypted here. Client code must
 	 * asymmetrically encrypt the keyfile before passing it to this method
 	 */
-	public static function setShareKey(\OC_FilesystemView $view, $path, $userId, $shareKey) {
-
-		// Here we need the currently logged in user, while userId can be a different user
-		$util = new Util($view, \OCP\User::getUser());
-
-		list($owner, $filename) = $util->getUidAndFilename($path);
-
-		$basePath = '/' . $owner . '/files_encryption/share-keys';
-
-		$shareKeyPath = self::keySetPreparation($view, $filename, $basePath, $owner);
-
-		// try reusing key file if part file
-		if (self::isPartialFilePath($shareKeyPath)) {
-
-			$writePath = $basePath . '/' . self::fixPartialFilePath($shareKeyPath) . '.' . $userId . '.shareKey';
-
-		} else {
-
-			$writePath = $basePath . '/' . $shareKeyPath . '.' . $userId . '.shareKey';
-
-		}
+	private static function setShareKey(\OC_FilesystemView $view, $path, $shareKey) {
 
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
-		$result = $view->file_put_contents($writePath, $shareKey);
+		$result = $view->file_put_contents($path, $shareKey);
 
 		\OC_FileProxy::$enabled = $proxyStatus;
 
-		if (
-			is_int($result)
-			&& $result > 0
-		) {
-
+		if (is_int($result) && $result > 0) {
 			return true;
-
 		} else {
-
 			return false;
-
 		}
-
 	}
 
 	/**
@@ -389,23 +375,40 @@ class Keymanager {
 
 		// $shareKeys must be  an array with the following format:
 		// [userId] => [encrypted key]
+		// Here we need the currently logged in user, while userId can be a different user
+		$util = new Util($view, \OCP\User::getUser());
+
+		list($owner, $filename) = $util->getUidAndFilename($path);
+
+		// in case of system wide mount points the keys are stored directly in the data directory
+		if ($util->isSystemWideMountPoint($filename)) {
+			$basePath = '/files_encryption/share-keys';
+		} else {
+			$basePath = '/' . $owner . '/files_encryption/share-keys';
+		}
+
+		$shareKeyPath = self::keySetPreparation($view, $filename, $basePath, $owner);
 
 		$result = true;
 
 		foreach ($shareKeys as $userId => $shareKey) {
 
-			if (!self::setShareKey($view, $path, $userId, $shareKey)) {
+			// try reusing key file if part file
+			if (self::isPartialFilePath($shareKeyPath)) {
+				$writePath = $basePath . '/' . self::fixPartialFilePath($shareKeyPath) . '.' . $userId . '.shareKey';
+			} else {
+				$writePath = $basePath . '/' . $shareKeyPath . '.' . $userId . '.shareKey';
+			}
+
+			if (!self::setShareKey($view, $writePath, $shareKey)) {
 
 				// If any of the keys are not set, flag false
 				$result = false;
-
 			}
-
 		}
 
 		// Returns false if any of the keys weren't set
 		return $result;
-
 	}
 
 	/**
@@ -440,8 +443,13 @@ class Keymanager {
 		$util = new Util($view, \OCP\User::getUser());
 
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
-		$shareKeyPath = \OC\Files\Filesystem::normalizePath(
-			'/' . $owner . '/files_encryption/share-keys/' . $filename . '.' . $userId . '.shareKey');
+
+		// in case of system wide mount points the keys are stored directly in the data directory
+		if ($util->isSystemWideMountPoint($filename)) {
+			$shareKeyPath = '/files_encryption/share-keys/' . $filename . '.' . $userId . '.shareKey';
+		} else {
+			$shareKeyPath = '/' . $owner . '/files_encryption/share-keys/' . $filename . '.' . $userId . '.shareKey';
+		}
 
 		if ($view->file_exists($shareKeyPath)) {
 
@@ -467,11 +475,21 @@ class Keymanager {
 	 */
 	public static function delAllShareKeys(\OC_FilesystemView $view, $userId, $filePath) {
 
-		if ($view->is_dir($userId . '/files/' . $filePath)) {
-			$view->unlink($userId . '/files_encryption/share-keys/' . $filePath);
+		$util = new util($view, $userId);
+
+		if ($util->isSystemWideMountPoint($filePath)) {
+			$baseDir = '/files_encryption/share-keys/';
 		} else {
-			$localKeyPath = $view->getLocalFile($userId . '/files_encryption/share-keys/' . $filePath);
-			$matches = glob(preg_quote($localKeyPath) . '*.shareKey');
+			$baseDir = $userId . '/files_encryption/share-keys/';
+		}
+
+
+		if ($view->is_dir($userId . '/files/' . $filePath)) {
+			$view->unlink($baseDir . $filePath);
+		} else {
+			$localKeyPath = $view->getLocalFile($baseDir . $filePath);
+			$escapedPath = Helper::escapeGlobPattern($localKeyPath);
+			$matches = glob($escapedPath . '*.shareKey');
 			foreach ($matches as $ma) {
 				$result = unlink($ma);
 				if (!$result) {
@@ -495,7 +513,11 @@ class Keymanager {
 
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
 
-		$shareKeyPath = \OC\Files\Filesystem::normalizePath('/' . $owner . '/files_encryption/share-keys/' . $filename);
+		if ($util->isSystemWideMountPoint($filename)) {
+			$shareKeyPath = \OC\Files\Filesystem::normalizePath('/files_encryption/share-keys/' . $filename);
+		} else {
+			$shareKeyPath = \OC\Files\Filesystem::normalizePath('/' . $owner . '/files_encryption/share-keys/' . $filename);
+		}
 
 		if ($view->is_dir($shareKeyPath)) {
 
@@ -526,7 +548,10 @@ class Keymanager {
 	 */
 	private static function recursiveDelShareKeys($dir, $userIds) {
 		foreach ($userIds as $userId) {
-			$matches = glob(preg_quote($dir) . '/*' . preg_quote('.' . $userId . '.shareKey'));
+			$extension = '.' . $userId . '.shareKey';
+			$escapedDir = Helper::escapeGlobPattern($dir);
+			$escapedExtension = Helper::escapeGlobPattern($extension);
+			$matches = glob($escapedDir . '/*' . $escapedExtension);
 		}
 		/** @var $matches array */
 		foreach ($matches as $ma) {
@@ -535,7 +560,7 @@ class Keymanager {
 					'Could not delete shareKey; does not exist: "' . $ma . '"', \OCP\Util::ERROR);
 			}
 		}
-		$subdirs = $directories = glob(preg_quote($dir) . '/*', GLOB_ONLYDIR);
+		$subdirs = $directories = glob($escapedDir . '/*', GLOB_ONLYDIR);
 		foreach ($subdirs as $subdir) {
 			self::recursiveDelShareKeys($subdir, $userIds);
 		}

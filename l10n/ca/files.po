@@ -4,13 +4,14 @@
 # 
 # Translators:
 # rogerc, 2013
+# Josep Tomàs <jtomas.binsoft@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-17 02:01+0200\n"
-"PO-Revision-Date: 2013-06-16 23:23+0000\n"
-"Last-Translator: rogerc\n"
+"POT-Creation-Date: 2013-07-10 02:13+0200\n"
+"PO-Revision-Date: 2013-07-09 23:15+0000\n"
+"Last-Translator: Josep Tomàs <jtomas.binsoft@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,52 +29,90 @@ msgstr "No s'ha pogut moure %s - Ja hi ha un fitxer amb aquest nom"
 msgid "Could not move %s"
 msgstr " No s'ha pogut moure %s"
 
-#: ajax/upload.php:19
+#: ajax/upload.php:16 ajax/upload.php:45
+msgid "Unable to set upload directory."
+msgstr "No es pot establir la carpeta de pujada."
+
+#: ajax/upload.php:22
+msgid "Invalid Token"
+msgstr "Testimoni no vàlid"
+
+#: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
 msgstr "No s'ha carregat cap fitxer. Error desconegut"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:66
 msgid "There is no error, the file uploaded with success"
 msgstr "No hi ha errors, el fitxer s'ha carregat correctament"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:67
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "L’arxiu que voleu carregar supera el màxim definit en la directiva upload_max_filesize del php.ini:"
 
-#: ajax/upload.php:29
+#: ajax/upload.php:69
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "El fitxer carregat supera la directiva MAX_FILE_SIZE especificada al formulari HTML"
 
-#: ajax/upload.php:30
+#: ajax/upload.php:70
 msgid "The uploaded file was only partially uploaded"
 msgstr "El fitxer només s'ha carregat parcialment"
 
-#: ajax/upload.php:31
+#: ajax/upload.php:71
 msgid "No file was uploaded"
 msgstr "No s'ha carregat cap fitxer"
 
-#: ajax/upload.php:32
+#: ajax/upload.php:72
 msgid "Missing a temporary folder"
 msgstr "Falta un fitxer temporal"
 
-#: ajax/upload.php:33
+#: ajax/upload.php:73
 msgid "Failed to write to disk"
 msgstr "Ha fallat en escriure al disc"
 
-#: ajax/upload.php:51
+#: ajax/upload.php:91
 msgid "Not enough storage available"
 msgstr "No hi ha prou espai disponible"
 
-#: ajax/upload.php:83
+#: ajax/upload.php:123
 msgid "Invalid directory."
 msgstr "Directori no vàlid."
 
 #: appinfo/app.php:12
 msgid "Files"
 msgstr "Fitxers"
+
+#: js/file-upload.js:11
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr "No es pot pujar el fitxer perquè és una carpeta o té 0 bytes"
+
+#: js/file-upload.js:24
+msgid "Not enough space available"
+msgstr "No hi ha prou espai disponible"
+
+#: js/file-upload.js:64
+msgid "Upload cancelled."
+msgstr "La pujada s'ha cancel·lat."
+
+#: js/file-upload.js:167 js/files.js:266
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr "Hi ha una pujada en curs. Si abandoneu la pàgina la pujada es cancel·larà."
+
+#: js/file-upload.js:233 js/files.js:339
+msgid "URL cannot be empty."
+msgstr "La URL no pot ser buida"
+
+#: js/file-upload.js:238 lib/app.php:53
+msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
+msgstr "Nom de carpeta no vàlid. L'ús de 'Shared' està reservat per Owncloud"
+
+#: js/file-upload.js:267 js/file-upload.js:283 js/files.js:373 js/files.js:389
+#: js/files.js:693 js/files.js:731
+msgid "Error"
+msgstr "Error"
 
 #: js/fileactions.js:116
 msgid "Share"
@@ -91,43 +130,43 @@ msgstr "Esborra"
 msgid "Rename"
 msgstr "Reanomena"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:421
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:464
 msgid "Pending"
 msgstr "Pendent"
 
-#: js/filelist.js:259 js/filelist.js:261
+#: js/filelist.js:302 js/filelist.js:304
 msgid "{new_name} already exists"
 msgstr "{new_name} ja existeix"
 
-#: js/filelist.js:259 js/filelist.js:261
+#: js/filelist.js:302 js/filelist.js:304
 msgid "replace"
 msgstr "substitueix"
 
-#: js/filelist.js:259
+#: js/filelist.js:302
 msgid "suggest name"
 msgstr "sugereix un nom"
 
-#: js/filelist.js:259 js/filelist.js:261
+#: js/filelist.js:302 js/filelist.js:304
 msgid "cancel"
 msgstr "cancel·la"
 
-#: js/filelist.js:306
+#: js/filelist.js:349
 msgid "replaced {new_name} with {old_name}"
 msgstr "s'ha substituït {old_name} per {new_name}"
 
-#: js/filelist.js:306
+#: js/filelist.js:349
 msgid "undo"
 msgstr "desfés"
 
-#: js/filelist.js:331
+#: js/filelist.js:374
 msgid "perform delete operation"
 msgstr "executa d'operació d'esborrar"
 
-#: js/filelist.js:413
+#: js/filelist.js:456
 msgid "1 file uploading"
 msgstr "1 fitxer pujant"
 
-#: js/filelist.js:416 js/filelist.js:470
+#: js/filelist.js:459 js/filelist.js:517
 msgid "files uploading"
 msgstr "fitxers pujant"
 
@@ -159,70 +198,42 @@ msgid ""
 "big."
 msgstr "S'està preparant la baixada. Pot trigar una estona si els fitxers són grans."
 
-#: js/files.js:264
-msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "No es pot pujar el fitxer perquè és una carpeta o té 0 bytes"
-
-#: js/files.js:277
-msgid "Not enough space available"
-msgstr "No hi ha prou espai disponible"
-
-#: js/files.js:317
-msgid "Upload cancelled."
-msgstr "La pujada s'ha cancel·lat."
-
-#: js/files.js:413
-msgid ""
-"File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "Hi ha una pujada en curs. Si abandoneu la pàgina la pujada es cancel·larà."
-
-#: js/files.js:486
-msgid "URL cannot be empty."
-msgstr "La URL no pot ser buida"
-
-#: js/files.js:491
+#: js/files.js:344
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Nom de carpeta no vàlid. L'ús de 'Shared' està reservat per Owncloud"
 
-#: js/files.js:520 js/files.js:536 js/files.js:826 js/files.js:864
-msgid "Error"
-msgstr "Error"
-
-#: js/files.js:877 templates/index.php:69
+#: js/files.js:744 templates/index.php:69
 msgid "Name"
 msgstr "Nom"
 
-#: js/files.js:878 templates/index.php:80
+#: js/files.js:745 templates/index.php:80
 msgid "Size"
 msgstr "Mida"
 
-#: js/files.js:879 templates/index.php:82
+#: js/files.js:746 templates/index.php:82
 msgid "Modified"
 msgstr "Modificat"
 
-#: js/files.js:898
+#: js/files.js:765
 msgid "1 folder"
 msgstr "1 carpeta"
 
-#: js/files.js:900
+#: js/files.js:767
 msgid "{count} folders"
 msgstr "{count} carpetes"
 
-#: js/files.js:908
+#: js/files.js:775
 msgid "1 file"
 msgstr "1 fitxer"
 
-#: js/files.js:910
+#: js/files.js:777
 msgid "{count} files"
 msgstr "{count} fitxers"
 
-#: lib/app.php:53
-msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
-msgstr "Nom de carpeta no vàlid. L'ús de 'Shared' està reservat per Owncloud"
-
 #: lib/app.php:73
-msgid "Unable to rename file"
-msgstr "No es pot canviar el nom del fitxer"
+#, php-format
+msgid "%s could not be renamed"
+msgstr "%s no es pot canviar el nom"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -317,6 +328,22 @@ msgstr "S'estan escanejant els fitxers, espereu"
 #: templates/index.php:117
 msgid "Current scanning"
 msgstr "Actualment escanejant"
+
+#: templates/part.list.php:76
+msgid "directory"
+msgstr "directori"
+
+#: templates/part.list.php:78
+msgid "directories"
+msgstr "directoris"
+
+#: templates/part.list.php:87
+msgid "file"
+msgstr "fitxer"
+
+#: templates/part.list.php:89
+msgid "files"
+msgstr "fitxers"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

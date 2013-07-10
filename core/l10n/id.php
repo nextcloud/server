@@ -98,7 +98,6 @@
 "Help" => "Bantuan",
 "Access forbidden" => "Akses ditolak",
 "Cloud not found" => "Cloud tidak ditemukan",
-"web services under your control" => "layanan web dalam kontrol Anda",
 "Edit categories" => "Edit kategori",
 "Add" => "Tambah",
 "Security Warning" => "Peringatan Keamanan",

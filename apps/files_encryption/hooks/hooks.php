@@ -38,11 +38,15 @@ class Hooks {
 	 * @note This method should never be called for users using client side encryption
 	 */
 	public static function login($params) {
-
-		// Manually initialise Filesystem{} singleton with correct 
-		// fake root path, in order to avoid fatal webdav errors
-		// NOTE: disabled because this give errors on webdav!
-		//\OC\Files\Filesystem::init( $params['uid'], '/' . 'files' . '/' );
+		$l = new \OC_L10N('files_encryption');
+		//check if all requirements are met
+		if(!Helper::checkRequirements() ) {
+			$error_msg = $l->t("Missing requirements.");
+			$hint = $l->t('Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL PHP extension is enabled and configured properly. For now, the encryption app has been disabled.');
+			\OC_App::disable('files_encryption');
+			\OCP\Util::writeLog('Encryption library', $error_msg . ' ' . $hint, \OCP\Util::ERROR);
+			\OCP\Template::printErrorPage($error_msg, $hint);
+		}
 
 		$view = new \OC_FilesystemView('/');
 
@@ -472,10 +476,19 @@ class Hooks {
 		$util = new Util($view, $userId);
 
 		// Format paths to be relative to user files dir
-		$oldKeyfilePath = \OC\Files\Filesystem::normalizePath(
-			$userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/' . $params['oldpath']);
-		$newKeyfilePath = \OC\Files\Filesystem::normalizePath(
-			$userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/' . $params['newpath']);
+		if ($util->isSystemWideMountPoint($params['oldpath'])) {
+			$baseDir = 'files_encryption/';
+			$oldKeyfilePath = $baseDir . 'keyfiles/' . $params['oldpath'];
+		} else {
+			$baseDir = $userId . '/' . 'files_encryption/';
+			$oldKeyfilePath = $baseDir . 'keyfiles/' . $params['oldpath'];
+		}
+
+		if ($util->isSystemWideMountPoint($params['newpath'])) {
+			$newKeyfilePath =  $baseDir . 'keyfiles/' . $params['newpath'];
+		} else {
+			$newKeyfilePath = $baseDir . 'keyfiles/' . $params['newpath'];
+		}
 
 		// add key ext if this is not an folder
 		if (!$view->is_dir($oldKeyfilePath)) {
@@ -483,8 +496,9 @@ class Hooks {
 			$newKeyfilePath .= '.key';
 
 			// handle share-keys
-			$localKeyPath = $view->getLocalFile($userId . '/files_encryption/share-keys/' . $params['oldpath']);
-			$matches = glob(preg_quote($localKeyPath) . '*.shareKey');
+			$localKeyPath = $view->getLocalFile($baseDir . 'share-keys/' . $params['oldpath']);
+			$escapedPath = Helper::escapeGlobPattern($localKeyPath);
+			$matches = glob($escapedPath . '*.shareKey');
 			foreach ($matches as $src) {
 				$dst = \OC\Files\Filesystem::normalizePath(str_replace($params['oldpath'], $params['newpath'], $src));
 
@@ -498,10 +512,8 @@ class Hooks {
 
 		} else {
 			// handle share-keys folders
-			$oldShareKeyfilePath = \OC\Files\Filesystem::normalizePath(
-				$userId . '/' . 'files_encryption' . '/' . 'share-keys' . '/' . $params['oldpath']);
-			$newShareKeyfilePath = \OC\Files\Filesystem::normalizePath(
-				$userId . '/' . 'files_encryption' . '/' . 'share-keys' . '/' . $params['newpath']);
+			$oldShareKeyfilePath = $baseDir . 'share-keys/' . $params['oldpath'];
+			$newShareKeyfilePath = $baseDir . 'share-keys/' . $params['newpath'];
 
 			// create destination folder if not exists
 			if (!$view->file_exists(dirname($newShareKeyfilePath))) {
@@ -539,4 +551,17 @@ class Hooks {
 
 		\OC_FileProxy::$enabled = $proxyStatus;
 	}
+
+	/**
+	 * set migration status back to '0' so that all new files get encrypted
+	 * if the app gets enabled again
+	 * @param array $params contains the app ID
+	 */
+	public static function preDisable($params) {
+		if ($params['app'] === 'files_encryption') {
+			$query = \OC_DB::prepare('UPDATE `*PREFIX*encryption` SET `migration_status`=0');
+			$query->execute();
+		}
+	}
+
 }

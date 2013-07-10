@@ -78,7 +78,6 @@
 "Help" => "Hjelp",
 "Access forbidden" => "Tilgang nektet",
 "Cloud not found" => "Sky ikke funnet",
-"web services under your control" => "web tjenester du kontrollerer",
 "Edit categories" => "Rediger kategorier",
 "Add" => "Legg til",
 "Security Warning" => "Sikkerhetsadvarsel",

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-17 02:01+0200\n"
-"PO-Revision-Date: 2013-06-16 23:23+0000\n"
+"POT-Creation-Date: 2013-07-10 02:13+0200\n"
+"PO-Revision-Date: 2013-07-09 23:15+0000\n"
 "Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -28,52 +28,90 @@ msgstr "Nie je možné presunúť %s - súbor s týmto menom už existuje"
 msgid "Could not move %s"
 msgstr "Nie je možné presunúť %s"
 
-#: ajax/upload.php:19
+#: ajax/upload.php:16 ajax/upload.php:45
+msgid "Unable to set upload directory."
+msgstr "Nemožno nastaviť priečinok pre nahrané súbory."
+
+#: ajax/upload.php:22
+msgid "Invalid Token"
+msgstr "Neplatný token"
+
+#: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
 msgstr "Žiaden súbor nebol odoslaný. Neznáma chyba"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:66
 msgid "There is no error, the file uploaded with success"
 msgstr "Nenastala žiadna chyba, súbor bol úspešne nahraný"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:67
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Nahraný súbor predčil  konfiguračnú direktívu upload_max_filesize v súbore php.ini:"
 
-#: ajax/upload.php:29
+#: ajax/upload.php:69
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Ukladaný súbor prekračuje nastavenie MAX_FILE_SIZE z volieb HTML formulára."
 
-#: ajax/upload.php:30
+#: ajax/upload.php:70
 msgid "The uploaded file was only partially uploaded"
 msgstr "Ukladaný súbor sa nahral len čiastočne"
 
-#: ajax/upload.php:31
+#: ajax/upload.php:71
 msgid "No file was uploaded"
 msgstr "Žiadny súbor nebol uložený"
 
-#: ajax/upload.php:32
+#: ajax/upload.php:72
 msgid "Missing a temporary folder"
 msgstr "Chýba dočasný priečinok"
 
-#: ajax/upload.php:33
+#: ajax/upload.php:73
 msgid "Failed to write to disk"
 msgstr "Zápis na disk sa nepodaril"
 
-#: ajax/upload.php:51
+#: ajax/upload.php:91
 msgid "Not enough storage available"
 msgstr "Nedostatok dostupného úložného priestoru"
 
-#: ajax/upload.php:83
+#: ajax/upload.php:123
 msgid "Invalid directory."
-msgstr "Neplatný priečinok"
+msgstr "Neplatný priečinok."
 
 #: appinfo/app.php:12
 msgid "Files"
 msgstr "Súbory"
+
+#: js/file-upload.js:11
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr "Nedá sa odoslať Váš súbor, pretože je to priečinok, alebo je jeho veľkosť 0 bajtov"
+
+#: js/file-upload.js:24
+msgid "Not enough space available"
+msgstr "Nie je k dispozícii dostatok miesta"
+
+#: js/file-upload.js:64
+msgid "Upload cancelled."
+msgstr "Odosielanie zrušené."
+
+#: js/file-upload.js:167 js/files.js:266
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr "Opustenie stránky zruší práve prebiehajúce odosielanie súboru."
+
+#: js/file-upload.js:233 js/files.js:339
+msgid "URL cannot be empty."
+msgstr "URL nemôže byť prázdne."
+
+#: js/file-upload.js:238 lib/app.php:53
+msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
+msgstr "Neplatný názov priečinka. Názov \"Shared\" je rezervovaný pre ownCloud"
+
+#: js/file-upload.js:267 js/file-upload.js:283 js/files.js:373 js/files.js:389
+#: js/files.js:693 js/files.js:731
+msgid "Error"
+msgstr "Chyba"
 
 #: js/fileactions.js:116
 msgid "Share"
@@ -91,43 +129,43 @@ msgstr "Zmazať"
 msgid "Rename"
 msgstr "Premenovať"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:421
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:464
 msgid "Pending"
 msgstr "Prebieha"
 
-#: js/filelist.js:259 js/filelist.js:261
+#: js/filelist.js:302 js/filelist.js:304
 msgid "{new_name} already exists"
 msgstr "{new_name} už existuje"
 
-#: js/filelist.js:259 js/filelist.js:261
+#: js/filelist.js:302 js/filelist.js:304
 msgid "replace"
 msgstr "nahradiť"
 
-#: js/filelist.js:259
+#: js/filelist.js:302
 msgid "suggest name"
 msgstr "pomôcť s menom"
 
-#: js/filelist.js:259 js/filelist.js:261
+#: js/filelist.js:302 js/filelist.js:304
 msgid "cancel"
 msgstr "zrušiť"
 
-#: js/filelist.js:306
+#: js/filelist.js:349
 msgid "replaced {new_name} with {old_name}"
 msgstr "prepísaný {new_name} súborom {old_name}"
 
-#: js/filelist.js:306
+#: js/filelist.js:349
 msgid "undo"
 msgstr "vrátiť"
 
-#: js/filelist.js:331
+#: js/filelist.js:374
 msgid "perform delete operation"
 msgstr "vykonať zmazanie"
 
-#: js/filelist.js:413
+#: js/filelist.js:456
 msgid "1 file uploading"
 msgstr "1 súbor sa posiela "
 
-#: js/filelist.js:416 js/filelist.js:470
+#: js/filelist.js:459 js/filelist.js:517
 msgid "files uploading"
 msgstr "nahrávanie súborov"
 
@@ -159,70 +197,42 @@ msgid ""
 "big."
 msgstr "Vaše sťahovanie sa pripravuje. Ak sú sťahované súbory veľké, môže to chvíľu trvať."
 
-#: js/files.js:264
-msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Nedá sa odoslať Váš súbor, pretože je to priečinok, alebo je jeho veľkosť 0 bajtov"
-
-#: js/files.js:277
-msgid "Not enough space available"
-msgstr "Nie je k dispozícii dostatok miesta"
-
-#: js/files.js:317
-msgid "Upload cancelled."
-msgstr "Odosielanie zrušené"
-
-#: js/files.js:413
-msgid ""
-"File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "Opustenie stránky zruší práve prebiehajúce odosielanie súboru."
-
-#: js/files.js:486
-msgid "URL cannot be empty."
-msgstr "URL nemôže byť prázdne"
-
-#: js/files.js:491
+#: js/files.js:344
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Neplatné meno priečinka. Používanie mena 'Shared' je vyhradené len pre Owncloud"
 
-#: js/files.js:520 js/files.js:536 js/files.js:826 js/files.js:864
-msgid "Error"
-msgstr "Chyba"
-
-#: js/files.js:877 templates/index.php:69
+#: js/files.js:744 templates/index.php:69
 msgid "Name"
 msgstr "Názov"
 
-#: js/files.js:878 templates/index.php:80
+#: js/files.js:745 templates/index.php:80
 msgid "Size"
 msgstr "Veľkosť"
 
-#: js/files.js:879 templates/index.php:82
+#: js/files.js:746 templates/index.php:82
 msgid "Modified"
 msgstr "Upravené"
 
-#: js/files.js:898
+#: js/files.js:765
 msgid "1 folder"
 msgstr "1 priečinok"
 
-#: js/files.js:900
+#: js/files.js:767
 msgid "{count} folders"
 msgstr "{count} priečinkov"
 
-#: js/files.js:908
+#: js/files.js:775
 msgid "1 file"
 msgstr "1 súbor"
 
-#: js/files.js:910
+#: js/files.js:777
 msgid "{count} files"
 msgstr "{count} súborov"
 
-#: lib/app.php:53
-msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
-msgstr "Neplatný názov priečinka. Názov \"Shared\" je rezervovaný pre ownCloud"
-
 #: lib/app.php:73
-msgid "Unable to rename file"
-msgstr "Nemožno premenovať súbor"
+#, php-format
+msgid "%s could not be renamed"
+msgstr "%s nemohol byť premenovaný"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -317,6 +327,22 @@ msgstr "Čakajte, súbory sú prehľadávané."
 #: templates/index.php:117
 msgid "Current scanning"
 msgstr "Práve prezerané"
+
+#: templates/part.list.php:76
+msgid "directory"
+msgstr "priečinok"
+
+#: templates/part.list.php:78
+msgid "directories"
+msgstr "priečinky"
+
+#: templates/part.list.php:87
+msgid "file"
+msgstr "súbor"
+
+#: templates/part.list.php:89
+msgid "files"
+msgstr "súbory"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

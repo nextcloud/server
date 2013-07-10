@@ -30,6 +30,7 @@
 
 namespace OC\Files;
 
+use OC\Files\Storage\Loader;
 const FREE_SPACE_UNKNOWN = -2;
 const FREE_SPACE_UNLIMITED = -3;
 
@@ -143,6 +144,18 @@ class Filesystem {
 	const signal_param_run = 'run';
 
 	/**
+	 * @var \OC\Files\Storage\Loader $loader
+	 */
+	private static $loader;
+
+	public static function getLoader(){
+		if (!self::$loader) {
+			self::$loader = new Loader();
+		}
+		return self::$loader;
+	}
+
+	/**
 	 * get the mountpoint of the storage object for a path
 	 * ( note: because a storage is not always mounted inside the fakeroot, the
 	 * returned mountpoint is relative to the absolute root of the filesystem
@@ -239,6 +252,7 @@ class Filesystem {
 		if (self::$defaultInstance) {
 			return false;
 		}
+		self::getLoader();
 		self::$defaultInstance = new View($root);
 
 		if (!self::$mounts) {
@@ -393,7 +407,7 @@ class Filesystem {
 		if (!self::$mounts) {
 			\OC_Util::setupFS();
 		}
-		$mount = new Mount\Mount($class, $mountpoint, $arguments);
+		$mount = new Mount\Mount($class, $mountpoint, $arguments, self::getLoader());
 		self::$mounts->addMount($mount);
 	}
 

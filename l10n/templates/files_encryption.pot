@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-06-17 02:02+0200\n"
+"POT-Creation-Date: 2013-07-10 02:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,9 +54,21 @@ msgstr ""
 
 #: files/error.php:7
 msgid ""
-"Your private key is not valid! Maybe your password was changed from outside. "
-"You can update your private key password in your personal settings to regain "
-"access to your files"
+"Your private key is not valid! Likely your password was changed outside the "
+"ownCloud system (e.g. your corporate directory). You can update your private "
+"key password in your personal settings to recover access to your encrypted "
+"files."
+msgstr ""
+
+#: hooks/hooks.php:44
+msgid "Missing requirements."
+msgstr ""
+
+#: hooks/hooks.php:45
+msgid ""
+"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
+"PHP extension is enabled and configured properly. For now, the encryption "
+"app has been disabled."
 msgstr ""
 
 #: js/settings-admin.js:11
@@ -83,11 +95,11 @@ msgstr ""
 
 #: templates/settings-admin.php:10
 msgid ""
-"Enable encryption passwords recovery key (allow sharing to recovery key):"
+"Enable recovery key (allow to recover users files in case of password loss):"
 msgstr ""
 
 #: templates/settings-admin.php:14
-msgid "Recovery account password"
+msgid "Recovery key password"
 msgstr ""
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
@@ -99,15 +111,15 @@ msgid "Disabled"
 msgstr ""
 
 #: templates/settings-admin.php:34
-msgid "Change encryption passwords recovery key:"
+msgid "Change recovery key password:"
 msgstr ""
 
 #: templates/settings-admin.php:41
-msgid "Old Recovery account password"
+msgid "Old Recovery key password"
 msgstr ""
 
 #: templates/settings-admin.php:48
-msgid "New Recovery account password"
+msgid "New Recovery key password"
 msgstr ""
 
 #: templates/settings-admin.php:53

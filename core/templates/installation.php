@@ -165,7 +165,7 @@
 		<p class="infield groupbottom">
 			<label for="dbhost" class="infield" id="dbhostlabel"><?php p($l->t( 'Database host' )); ?></label>
 			<input type="text" name="dbhost" id="dbhost" placeholder=""
-				value="<?php p(OC_Helper::init_var('dbhost', 'localhost')); ?>" />
+				value="<?php p(OC_Helper::init_var('dbhost')); ?>" />
 		</p>
 	</fieldset>
 

@@ -4,6 +4,16 @@ session_write_close();
 
 $force = (isset($_GET['force']) and ($_GET['force'] === 'true'));
 $dir = isset($_GET['dir']) ? $_GET['dir'] : '';
+if (isset($_GET['users'])) {
+	OC_JSON::checkAdminUser();
+	if ($_GET['users'] === 'all') {
+		$users = OC_User::getUsers();
+	} else {
+		$users = json_decode($_GET['users']);
+	}
+} else {
+	$users = array(OC_User::getUser());
+}
 
 $eventSource = new OC_EventSource();
 ScanListener::$eventSource = $eventSource;
@@ -12,21 +22,27 @@ ScanListener::$view = \OC\Files\Filesystem::getView();
 OC_Hook::connect('\OC\Files\Cache\Scanner', 'scan_folder', 'ScanListener', 'folder');
 OC_Hook::connect('\OC\Files\Cache\Scanner', 'scan_file', 'ScanListener', 'file');
 
-$absolutePath = \OC\Files\Filesystem::getView()->getAbsolutePath($dir);
+foreach ($users as $user) {
+	$eventSource->send('user', $user);
+	OC_Util::tearDownFS();
+	OC_Util::setupFS($user);
 
-$mountPoints = \OC\Files\Filesystem::getMountPoints($absolutePath);
-$mountPoints[] = \OC\Files\Filesystem::getMountPoint($absolutePath);
-$mountPoints = array_reverse($mountPoints); //start with the mount point of $dir
+	$absolutePath = \OC\Files\Filesystem::getView()->getAbsolutePath($dir);
 
-foreach ($mountPoints as $mountPoint) {
-	$storage = \OC\Files\Filesystem::getStorage($mountPoint);
-	if ($storage) {
-		ScanListener::$mountPoints[$storage->getId()] = $mountPoint;
-		$scanner = $storage->getScanner();
-		if ($force) {
-			$scanner->scan('');
-		} else {
-			$scanner->backgroundScan();
+	$mountPoints = \OC\Files\Filesystem::getMountPoints($absolutePath);
+	$mountPoints[] = \OC\Files\Filesystem::getMountPoint($absolutePath);
+	$mountPoints = array_reverse($mountPoints); //start with the mount point of $dir
+
+	foreach ($mountPoints as $mountPoint) {
+		$storage = \OC\Files\Filesystem::getStorage($mountPoint);
+		if ($storage) {
+			ScanListener::$mountPoints[$storage->getId()] = $mountPoint;
+			$scanner = $storage->getScanner();
+			if ($force) {
+				$scanner->scan('', \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG);
+			} else {
+				$scanner->backgroundScan();
+			}
 		}
 	}
 }
