@@ -24,7 +24,7 @@ if ($dir) {
 	$dirContent = $view->opendir($dir);
 	$i = 0;
 	while($entryName = readdir($dirContent)) {
-		if ( $entryName !== '.' && $entryName !== '..' ) {
+		if (!\OC\Files\Filesystem::isIgnoredDir($entryName)) {
 			$pos = strpos($dir.'/', '/', 1);
 			$tmp = substr($dir, 0, $pos);
 			$pos = strrpos($tmp, '.d');
