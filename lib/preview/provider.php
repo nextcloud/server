@@ -1,7 +1,4 @@
 <?php
-/**
- * provides search functionalty
- */
 namespace OC\Preview;
 
 abstract class Provider {
