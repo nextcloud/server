@@ -427,6 +427,14 @@ class Preview {
 	}
 
 	/**
+	 * @brief show preview
+	 * @return void
+	*/
+	public function show() {
+		return $this->showPreview();
+	}
+
+	/**
 	 * @brief resize, crop and fix orientation
 	 * @return image
 	*/
@@ -567,30 +575,40 @@ class Preview {
 	 * @brief method that handles preview requests from users that are logged in
 	 * @return void
 	*/
-	public static function previewRouter($params) {
+	public static function previewRouter() {
 		\OC_Util::checkLoggedIn();
 
-		$file = '';
-		$maxX = 0;
-		$maxY = 0;
-		$scalingup = true;
+		$file = array_key_exists('file', $_GET) ? (string) urldecode($_GET['file']) : '';
+		$maxX = array_key_exists('x', $_GET) ? (int) $_GET['x'] : '44';
+		$maxY = array_key_exists('y', $_GET) ? (int) $_GET['y'] : '44';
+		$scalingup = array_key_exists('scalingup', $_GET) ? (bool) $_GET['scalingup'] : true;
 
-		if(array_key_exists('file', $_GET)) $file = (string) urldecode($_GET['file']);
-		if(array_key_exists('x', $_GET)) $maxX = (int) $_GET['x'];
-		if(array_key_exists('y', $_GET)) $maxY = (int) $_GET['y'];
-		if(array_key_exists('scalingup', $_GET)) $scalingup = (bool) $_GET['scalingup'];
+		if($file === '') {
+			\OC_Response::setStatus(400); //400 Bad Request
+			\OC_Log::write('core-preview', 'No file parameter was passed', \OC_Log::DEBUG);
+			self::showErrorPreview();
+			exit;
+		}
 
-		if($file !== '' && $maxX !== 0 && $maxY !== 0) {
-			try{
-				$preview = new Preview(\OC_User::getUser(), 'files', $file,  $maxX, $maxY, $scalingup);
-				$preview->showPreview();
-			}catch(\Exception $e) {
-				\OC_Response::setStatus(404);
-				\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
-				exit;
-			}
-		}else{
-			\OC_Response::setStatus(404);
+		if($maxX === 0 || $maxY === 0) {
+			\OC_Response::setStatus(400); //400 Bad Request
+			\OC_Log::write('core-preview', 'x and/or y set to 0', \OC_Log::DEBUG);
+			self::showErrorPreview();
+			exit;
+		}
+
+		try{
+			$preview = new Preview(\OC_User::getUser(), 'files');
+			$preview->setFile($file);
+			$preview->setMaxX($maxX);
+			$preview->setMaxY($maxY);
+			$preview->setScalingUp($scalingup);
+
+			$preview->show();
+		}catch(\Exception $e) {
+			\OC_Response::setStatus(500);
+			\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
+			self::showErrorPreview();
 			exit;
 		}
 	}
@@ -599,94 +617,132 @@ class Preview {
 	 * @brief method that handles preview requests from users that are not logged in / view shared folders that are public
 	 * @return void
 	*/
-	public static function publicPreviewRouter($params) {
-		$file = '';
-		$maxX = 0;
-		$maxY = 0;
-		$scalingup = true;
-		$token = '';
-
-		$user = null;
-		$path = null;
-
-		if(array_key_exists('file', $_GET)) $file = (string) urldecode($_GET['file']);
-		if(array_key_exists('x', $_GET)) $maxX = (int) $_GET['x'];
-		if(array_key_exists('y', $_GET)) $maxY = (int) $_GET['y'];
-		if(array_key_exists('scalingup', $_GET)) $scalingup = (bool) $_GET['scalingup'];
-		if(array_key_exists('t', $_GET)) $token = (string) $_GET['t'];
-
-		$linkItem = \OCP\Share::getShareByToken($token);
-
-		if (is_array($linkItem) && isset($linkItem['uid_owner']) && isset($linkItem['file_source'])) {
-			$userid = $linkItem['uid_owner'];
-			\OC_Util::setupFS($userid);
-
-			$pathid = $linkItem['file_source'];
-			$path = \OC\Files\Filesystem::getPath($pathid);
-			$pathinfo = \OC\Files\Filesystem::getFileInfo($path);
-
-			$sharedfile = null;
-			if($linkItem['item_type'] === 'folder') {
-				//clean up file parameter
-				$sharedfile = \OC\Files\Filesystem::normalizePath($file);
-				if(!\OC\Files\Filesystem::isValidPath($file)) {
-					\OC_Response::setStatus(403);
-					exit;
-				}
-			} else if($linkItem['item_type'] === 'file') {
-				$parent = $pathinfo['parent'];
-				$path = \OC\Files\Filesystem::getPath($parent);
-				$sharedfile = $pathinfo['name'];
-			}
-
-			$path = \OC\Files\Filesystem::normalizePath($path, false);
-			if(substr($path, 0, 1) == '/') {
-				$path = substr($path, 1);
-			}
+	public static function publicPreviewRouter() {
+		if(!\OC_App::isEnabled('files_sharing')){
+			exit;
 		}
 
-		if($userid !== null && $path !== null && $sharedfile !== null) {
-			try{
-				$preview = new Preview($userid, 'files/' . $path, $sharedfile, $maxX, $maxY, $scalingup);
-				$preview->showPreview();
-			}catch(\Exception $e) {
-				\OC_Response::setStatus(404);
-				\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
+		$file = array_key_exists('file', $_GET) ? (string) urldecode($_GET['file']) : '';
+		$maxX = array_key_exists('x', $_GET) ? (int) $_GET['x'] : '44';
+		$maxY = array_key_exists('y', $_GET) ? (int) $_GET['y'] : '44';
+		$scalingup = array_key_exists('scalingup', $_GET) ? (bool) $_GET['scalingup'] : true;
+		$token = array_key_exists('t', $_GET) ? (string) $_GET['t'] : '';
+
+		if($token === ''){
+			\OC_Response::setStatus(400); //400 Bad Request
+			\OC_Log::write('core-preview', 'No token parameter was passed', \OC_Log::DEBUG);
+			self::showErrorPreview();
+			exit;
+		}
+
+		$linkedItem = \OCP\Share::getShareByToken($token);
+		if($linkedItem === false || ($linkedItem['item_type'] !== 'file' && $linkedItem['item_type'] !== 'folder')) {
+			\OC_Response::setStatus(404);
+			\OC_Log::write('core-preview', 'Passed token parameter is not valid', \OC_Log::DEBUG);
+			self::showErrorPreview();
+			exit;
+		}
+
+		if(!isset($linkedItem['uid_owner']) || !isset($linkedItem['file_source'])) {
+			\OC_Response::setStatus(500);
+			\OC_Log::write('core-preview', 'Passed token seems to be valid, but it does not contain all necessary information . ("' . $token . '")');
+			self::showErrorPreview();
+			exit;
+		}
+
+		$userid = $linkedItem['uid_owner'];
+		\OC_Util::setupFS($userid);
+
+		$pathid = $linkedItem['file_source'];
+		$path = \OC\Files\Filesystem::getPath($pathid);
+		$pathinfo = \OC\Files\Filesystem::getFileInfo($path);
+		$sharedfile = null;
+
+		if($linkedItem['item_type'] === 'folder') {
+			$isvalid = \OC\File\Filesystem::isValidPath($file);
+			if(!$isvalid) {
+				\OC_Response::setStatus(400); //400 Bad Request
+				\OC_Log::write('core-preview', 'Passed filename is not valid, might be malicious (file:"' . $file . '";ip:"' . $_SERVER['REMOTE_ADDR'] . '")', \OC_Log::WARN);
+				self::showErrorPreview();
 				exit;
 			}
-		}else{
-			\OC_Response::setStatus(404);
+			$sharedfile = \OC\Files\Filesystem::normalizePath($file);
+		}
+
+		if($linkedItem['item_type'] === 'file') {
+			$parent = $pathinfo['parent'];
+			$path = \OC\Files\Filesystem::getPath($parent);
+			$sharedfile = $pathinfo['name'];
+		}
+
+		$path = \OC\Files\Filesystem::normalizePath($path, false);
+		if(substr($path, 0, 1) == '/') {
+			$path = substr($path, 1);
+		}
+
+		if($maxX === 0 || $maxY === 0) {
+			\OC_Response::setStatus(400); //400 Bad Request
+			\OC_Log::write('core-preview', 'x and/or y set to 0', \OC_Log::DEBUG);
+			self::showErrorPreview();
+			exit;
+		}
+
+		$root = 'files/' . $path;
+
+		try{
+			$preview = new Preview($userid, $path);
+			$preview->setFile($file);
+			$preview->setMaxX($maxX);
+			$preview->setMaxY($maxY);
+			$preview->setScalingUp($scalingup);
+
+			$preview->show();
+		}catch(\Exception $e) {
+			\OC_Response::setStatus(500);
+			\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
+			self::showErrorPreview();
 			exit;
 		}
 	}
 
 	public static function trashbinPreviewRouter() {
+		\OC_Util::checkLoggedIn();
+
 		if(!\OC_App::isEnabled('files_trashbin')){
 			exit;
 		}
-		\OC_Util::checkLoggedIn();
 
-		$file = '';
-		$maxX = 0;
-		$maxY = 0;
-		$scalingup = true;
+		$file = array_key_exists('file', $_GET) ? (string) urldecode($_GET['file']) : '';
+		$maxX = array_key_exists('x', $_GET) ? (int) $_GET['x'] : '44';
+		$maxY = array_key_exists('y', $_GET) ? (int) $_GET['y'] : '44';
+		$scalingup = array_key_exists('scalingup', $_GET) ? (bool) $_GET['scalingup'] : true;
 
-		if(array_key_exists('file', $_GET)) $file = (string) urldecode($_GET['file']);
-		if(array_key_exists('x', $_GET)) $maxX = (int) $_GET['x'];
-		if(array_key_exists('y', $_GET)) $maxY = (int) $_GET['y'];
-		if(array_key_exists('scalingup', $_GET)) $scalingup = (bool) $_GET['scalingup'];
+		if($file === '') {
+			\OC_Response::setStatus(400); //400 Bad Request
+			\OC_Log::write('core-preview', 'No file parameter was passed', \OC_Log::DEBUG);
+			self::showErrorPreview();
+			exit;
+		}
 
-		if($file !== '' && $maxX !== 0 && $maxY !== 0) {
-			try{
-				$preview = new Preview(\OC_User::getUser(), 'files_trashbin/files', $file, $maxX, $maxY, $scalingup);
-				$preview->showPreview();
-			}catch(\Exception $e) {
-				\OC_Response::setStatus(404);
-				\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
-				exit;
-			}
-		}else{
-			\OC_Response::setStatus(404);
+		if($maxX === 0 || $maxY === 0) {
+			\OC_Response::setStatus(400); //400 Bad Request
+			\OC_Log::write('core-preview', 'x and/or y set to 0', \OC_Log::DEBUG);
+			self::showErrorPreview();
+			exit;
+		}
+
+		try{
+			$preview = new Preview(\OC_User::getUser(), 'files_trashbin/files');
+			$preview->setFile($file);
+			$preview->setMaxX($maxX);
+			$preview->setMaxY($maxY);
+			$preview->setScalingUp($scalingup);
+
+			$preview->showPreview();
+		}catch(\Exception $e) {
+			\OC_Response::setStatus(500);
+			\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
+			self::showErrorPreview();
 			exit;
 		}
 	}
@@ -702,5 +758,12 @@ class Preview {
 		}
 		$preview = new Preview(\OC_User::getUser(), 'files/', $path, 0, 0, false, true);
 		$preview->deleteAllPreviews();
+	}
+	
+	private static function showErrorPreview() {
+		$path = \OC::$SERVERROOT . '/core/img/actions/delete.png';
+		$preview = new \OC_Image($path);
+		$preview->preciseResize(44, 44);
+		$preview->show();
 	}
 }
