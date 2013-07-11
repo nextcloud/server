@@ -87,10 +87,7 @@ class Preview extends \PHPUnit_Framework_TestCase {
 
 		$preview = new \OC\Preview($user, 'files/', 'test.txt', 1000, 1000);
 		$image = $preview->getPreview();
-		
-		var_dump($image->width());
-		var_dump($image->height());
-		
+
 		$this->assertEquals($image->width(), $maxX);
 		$this->assertEquals($image->height(), $maxY);
 	}
