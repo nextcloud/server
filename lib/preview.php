@@ -27,9 +27,9 @@ class Preview {
 	const THUMBNAILS_FOLDER = 'thumbnails';
 
 	//config
-	private $max_scale_factor;
-	private $max_x;
-	private $max_y;
+	private $maxScaleFactor;
+	private $configMaxX;
+	private $configMaxY;
 
 	//fileview object
 	private $fileview = null;
@@ -61,9 +61,9 @@ class Preview {
 	*/
 	public function __construct($user='', $root='/', $file='', $maxX=1, $maxY=1, $scalingup=true) {
 		//set config
-		$this->max_x = \OC_Config::getValue('preview_max_x', null);
-		$this->max_y = \OC_Config::getValue('preview_max_y', null);
-		$this->max_scale_factor = \OC_Config::getValue('preview_max_scale_factor', 10);
+		$this->configMaxX = \OC_Config::getValue('preview_max_x', null);
+		$this->configMaxY = \OC_Config::getValue('preview_max_y', null);
+		$this->maxScaleFactor = \OC_Config::getValue('preview_max_scale_factor', 10);
 
 		//save parameters
 		$this->setFile($file);
@@ -136,7 +136,7 @@ class Preview {
 	 * @return integer
 	*/
 	public function getMaxScaleFactor() {
-		return $this->max_scale_factor;
+		return $this->maxScaleFactor;
 	}
 
 	/**
@@ -144,7 +144,7 @@ class Preview {
 	 * @return integer
 	*/
 	public function getConfigMaxX() {
-		return $this->max_x;
+		return $this->configMaxX;
 	}
 
 	/**
@@ -152,7 +152,7 @@ class Preview {
 	 * @return integer
 	*/
 	public function getConfigMaxY() {
-		return $this->max_y;
+		return $this->configMaxY;
 	}
 
 	/**
