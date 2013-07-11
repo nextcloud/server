@@ -5,14 +5,15 @@ require_once '../../lib/base.php';
 
 if (OC::checkUpgrade(false)) {
 	\OC_DB::enableCaching(false);
+
+	// initialize the event source before we enter maintenance mode because CSRF protection can terminate the script
+	$updateEventSource = new OC_EventSource();
 	OC_Config::setValue('maintenance', true);
 	$installedVersion = OC_Config::getValue('version', '0.0.0');
 	$currentVersion = implode('.', OC_Util::getVersion());
 	OC_Log::write('core', 'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, OC_Log::WARN);
-	$updateEventSource = new OC_EventSource();
 	$watcher = new UpdateWatcher($updateEventSource);
 	OC_Hook::connect('update', 'success', $watcher, 'success');
-	OC_Hook::connect('update', 'error', $watcher, 'error');
 	OC_Hook::connect('update', 'failure', $watcher, 'failure');
 	$watcher->success('Turned on maintenance mode');
 	try {
@@ -90,12 +91,6 @@ class UpdateWatcher {
 	public function success($message) {
 		OC_Util::obEnd();
 		$this->eventSource->send('success', $message);
-		ob_start();
-	}
-
-	public function error($message) {
-		OC_Util::obEnd();
-		$this->eventSource->send('error', $message);
 		ob_start();
 	}
 
