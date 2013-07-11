@@ -659,7 +659,7 @@ class Preview {
 		$sharedfile = null;
 
 		if($linkedItem['item_type'] === 'folder') {
-			$isvalid = \OC\File\Filesystem::isValidPath($file);
+			$isvalid = \OC\Files\Filesystem::isValidPath($file);
 			if(!$isvalid) {
 				\OC_Response::setStatus(400); //400 Bad Request
 				\OC_Log::write('core-preview', 'Passed filename is not valid, might be malicious (file:"' . $file . '";ip:"' . $_SERVER['REMOTE_ADDR'] . '")', \OC_Log::WARN);
