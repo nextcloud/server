@@ -690,7 +690,7 @@ class Preview {
 		$root = 'files/' . $path;
 
 		try{
-			$preview = new Preview($userid, $path);
+			$preview = new Preview($userid, $root);
 			$preview->setFile($file);
 			$preview->setMaxX($maxX);
 			$preview->setMaxY($maxY);
