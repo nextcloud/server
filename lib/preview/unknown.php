@@ -22,7 +22,11 @@ class Unknown extends Provider {
 
 		$iconsroot = \OC::$SERVERROOT . '/core/img/filetypes/';
 
-		$icons = array($mimetype, $type, 'text');
+		if(isset($type)){
+			$icons = array($mimetype, $type, 'text');
+		}else{
+			$icons = array($mimetype, 'text');
+		}
 		foreach($icons as $icon) {
 			$icon = str_replace('/', '-', $icon);
 
