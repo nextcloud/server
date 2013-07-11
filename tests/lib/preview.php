@@ -74,8 +74,8 @@ class Preview extends \PHPUnit_Framework_TestCase {
 		$maxX = 250;
 		$maxY = 250;
 
-		\OC_Config::getValue('preview_max_x', $maxX);
-		\OC_Config::getValue('preview_max_y', $maxY);
+		\OC_Config::setValue('preview_max_x', $maxX);
+		\OC_Config::setValue('preview_max_y', $maxY);
 
 		$rootView = new \OC\Files\View('');
 		$rootView->mkdir('/'.$user);
@@ -87,7 +87,10 @@ class Preview extends \PHPUnit_Framework_TestCase {
 
 		$preview = new \OC\Preview($user, 'files/', 'test.txt', 1000, 1000);
 		$image = $preview->getPreview();
-
+		
+		var_dump($image->width());
+		var_dump($image->height());
+		
 		$this->assertEquals($image->width(), $maxX);
 		$this->assertEquals($image->height(), $maxY);
 	}
