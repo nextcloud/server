@@ -42,12 +42,13 @@ $this->create('js_config', '/core/js/config.js')
 // Routing
 $this->create('core_ajax_routes', '/core/routes.json')
 	->action('OC_Router', 'JSRoutes');
+OC::$CLASSPATH['OC\PreviewManager'] = 'lib/preview.php';
 $this->create('core_ajax_preview', '/core/preview.png')
-	->action('OC\Preview', 'previewRouter');
+	->action('OC\PreviewManager', 'previewRouter');
 $this->create('core_ajax_trashbin_preview', '/core/trashbinpreview.png')
-	->action('OC\Preview', 'trashbinPreviewRouter');
+	->action('OC\PreviewManager', 'trashbinPreviewRouter');
 $this->create('core_ajax_public_preview', '/core/publicpreview.png')
-	->action('OC\Preview', 'publicPreviewRouter');
+	->action('OC\PreviewManager', 'publicPreviewRouter');
 OC::$CLASSPATH['OC_Core_LostPassword_Controller'] = 'core/lostpassword/controller.php';
 $this->create('core_lostpassword_index', '/lostpassword/')
 	->get()

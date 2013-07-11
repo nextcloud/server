@@ -39,6 +39,6 @@ if (extension_loaded('imagick')) {
 		}
 	}
 
-	\OC\Preview::registerProvider('OC\Preview\SVG');
+	\OC\PreviewManager::registerProvider('OC\Preview\SVG');
 
 }

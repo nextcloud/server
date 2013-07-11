@@ -80,7 +80,7 @@ class MSOfficeDoc extends Office {
 
 }
 
-\OC\Preview::registerProvider('OC\Preview\MSOfficeDoc');
+\OC\PreviewManager::registerProvider('OC\Preview\MSOfficeDoc');
 
 //.docm, .dotm, .xls(m), .xlt(m), .xla(m), .ppt(m), .pot(m), .pps(m), .ppa(m)
 class MSOffice2003 extends Office {
@@ -91,7 +91,7 @@ class MSOffice2003 extends Office {
 
 }
 
-\OC\Preview::registerProvider('OC\Preview\MSOffice2003');
+\OC\PreviewManager::registerProvider('OC\Preview\MSOffice2003');
 
 //.docx, .dotx, .xlsx, .xltx, .pptx, .potx, .ppsx
 class MSOffice2007 extends Office {
@@ -102,7 +102,7 @@ class MSOffice2007 extends Office {
 
 }
 
-\OC\Preview::registerProvider('OC\Preview\MSOffice2007');
+\OC\PreviewManager::registerProvider('OC\Preview\MSOffice2007');
 
 //.odt, .ott, .oth, .odm, .odg, .otg, .odp, .otp, .ods, .ots, .odc, .odf, .odb, .odi, .oxt
 class OpenDocument extends Office {
@@ -113,7 +113,7 @@ class OpenDocument extends Office {
 
 }
 
-\OC\Preview::registerProvider('OC\Preview\OpenDocument');
+\OC\PreviewManager::registerProvider('OC\Preview\OpenDocument');
 
 //.sxw, .stw, .sxc, .stc, .sxd, .std, .sxi, .sti, .sxg, .sxm
 class StarOffice extends Office {
@@ -124,4 +124,4 @@ class StarOffice extends Office {
 
 }
 
-\OC\Preview::registerProvider('OC\Preview\StarOffice');
+\OC\PreviewManager::registerProvider('OC\Preview\StarOffice');

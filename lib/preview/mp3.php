@@ -43,4 +43,4 @@ class MP3 extends Provider {
 
 }
 
-\OC\Preview::registerProvider('OC\Preview\MP3');
+\OC\PreviewManager::registerProvider('OC\Preview\MP3');

@@ -46,7 +46,7 @@ class TXT extends Provider {
 	}
 }
 
-\OC\Preview::registerProvider('OC\Preview\TXT');
+\OC\PreviewManager::registerProvider('OC\Preview\TXT');
 
 class PHP extends TXT {
 
@@ -56,7 +56,7 @@ class PHP extends TXT {
 
 }
 
-\OC\Preview::registerProvider('OC\Preview\PHP');
+\OC\PreviewManager::registerProvider('OC\Preview\PHP');
 
 class JavaScript extends TXT {
 
@@ -66,4 +66,4 @@ class JavaScript extends TXT {
 
 }
 
-\OC\Preview::registerProvider('OC\Preview\JavaScript');
+\OC\PreviewManager::registerProvider('OC\Preview\JavaScript');

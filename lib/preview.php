@@ -44,10 +44,6 @@ class Preview {
 	//preview images object
 	private $preview;
 
-	//preview providers
-	static private $providers = array();
-	static private $registeredProviders = array();
-
 	/**
 	 * @brief check if thumbnail or bigger version of thumbnail of file is cached
 	 * @param string $user userid - if no user is given, OC_User::getUser will be used
@@ -82,11 +78,13 @@ class Preview {
 		$this->preview = null;
 
 		//check if there are preview backends
-		if(empty(self::$providers)) {
-			self::initProviders();
+		$providers = PreviewManager::getProviders();
+		if(empty($providers)) {
+			PreviewManager::initProviders();
 		}
 
-		if(empty(self::$providers)) {
+		$providers = PreviewManager::getProviders();
+		if(empty($providers)) {
 			\OC_Log::write('core', 'No preview providers exist', \OC_Log::ERROR);
 			throw new \Exception('No preview providers');
 		}
@@ -380,7 +378,8 @@ class Preview {
 			$mimetype = $this->fileview->getMimeType($file);
 			$preview = null;
 
-			foreach(self::$providers as $supportedmimetype => $provider) {
+			$providers = PreviewManager::getProviders();
+			foreach($providers as $supportedmimetype => $provider) {
 				if(!preg_match($supportedmimetype, $mimetype)) {
 					continue;
 				}
@@ -544,6 +543,16 @@ class Preview {
 			return;
 		}
 	}
+}
+
+class PreviewManager {
+	//preview providers
+	static private $providers = array();
+	static private $registeredProviders = array();
+
+	public static function getProviders() {
+		return self::$providers;
+	}
 
 	/**
 	 * @brief register a new preview provider to be used
@@ -559,7 +568,7 @@ class Preview {
 	 * @brief create instances of all the registered preview providers
 	 * @return void
 	 */
-	private static function initProviders() {
+	public static function initProviders() {
 		if(count(self::$providers)>0) {
 			return;
 		}
@@ -766,7 +775,7 @@ class Preview {
 		$preview->deleteAllPreviews();
 	}
 	
-	private static function showErrorPreview() {
+	public static function showErrorPreview() {
 		$path = \OC::$SERVERROOT . '/core/img/actions/delete.png';
 		$preview = new \OC_Image($path);
 		$preview->preciseResize(44, 44);
