@@ -74,6 +74,10 @@ function preview_icon( $path ) {
 	return OC_Helper::previewIcon( $path );
 }
 
+function publicPreview_icon ( $path, $token ) {
+	return OC_Helper::publicPreview_icon( $path, $token );
+}
+
 /**
  * @brief make OC_Helper::mimetypeIcon available as a simple function
  * @param string $mimetype mimetype

@@ -65,6 +65,16 @@ function preview_icon( $path ) {
 }
 
 /**
+ * @brief make publicpreview_icon available as a simple function
+ * Returns the path to the preview of the image.
+ * @param $path path of file
+ * @returns link to the preview
+ */
+function publicPreview_icon ( $path, $token ) {
+	return(\publicPreview_icon( $path, $token ));
+}
+
+/**
  * @brief make OC_Helper::humanFileSize available as a simple function
  * Makes 2048 to 2 kB.
  * @param $bytes size in bytes

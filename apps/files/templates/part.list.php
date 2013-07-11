@@ -30,7 +30,14 @@ $totalsize = 0; ?>
 		<?php if($file['type'] == 'dir'): ?>
 			style="background-image:url(<?php print_unescaped(OCP\mimetype_icon('dir')); ?>)"
 		<?php else: ?>
-			style="background-image:url(<?php print_unescaped(OCP\preview_icon($relativePath)); ?>)"
+			<?php if($_['isPublic']): ?>
+				<?php
+				$relativePath = substr($relativePath, strlen($_['sharingroot']));
+				?>
+				style="background-image:url(<?php print_unescaped(OCP\publicPreview_icon($relativePath, $_['sharingtoken'])); ?>)"
+			<?php else: ?>
+				style="background-image:url(<?php print_unescaped(OCP\preview_icon($relativePath)); ?>)"
+			<?php endif; ?>
 		<?php endif; ?>
 			>
 		<?php if(!isset($_['readonly']) || !$_['readonly']): ?><input type="checkbox" /><?php endif; ?>

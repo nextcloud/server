@@ -234,6 +234,10 @@ class OC_Helper {
 		return self::linkToRoute( 'core_ajax_preview', array('x' => 44, 'y' => 44, 'file' => urlencode($path) ));
 	}
 
+	public static function publicPreview_icon( $path, $token ) {
+		return self::linkToRoute( 'core_ajax_public_preview', array('x' => 44, 'y' => 44, 'file' => urlencode($path), 't' => $token));
+	}
+
 	/**
 	 * @brief Make a human file size
 	 * @param int $bytes file size in bytes
