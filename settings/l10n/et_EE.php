@@ -98,6 +98,7 @@
 "Language" => "Keel",
 "Help translate" => "Aita tõlkida",
 "WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "Kasuta seda aadressi <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">oma failidele ligipääsuks WebDAV kaudu</a>",
 "Login Name" => "Kasutajanimi",
 "Create" => "Lisa",
 "Admin Recovery Password" => "Admin taasteparool",

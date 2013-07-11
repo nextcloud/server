@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-10 02:13+0200\n"
-"PO-Revision-Date: 2013-07-09 23:15+0000\n"
+"POT-Creation-Date: 2013-07-11 02:16+0200\n"
+"PO-Revision-Date: 2013-07-11 00:18+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
@@ -204,7 +204,7 @@ msgstr ""
 msgid "Name"
 msgstr "名称"
 
-#: js/files.js:745 templates/index.php:80
+#: js/files.js:745
 msgid "Size"
 msgstr "大小"
 
@@ -304,6 +304,10 @@ msgstr "这里没有东西.上传点什么!"
 #: templates/index.php:75
 msgid "Download"
 msgstr "下载"
+
+#: templates/index.php:80
+msgid "Size (MB)"
+msgstr ""
 
 #: templates/index.php:87 templates/index.php:88
 msgid "Unshare"

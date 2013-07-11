@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-04 09:30+0200\n"
-"PO-Revision-Date: 2013-07-04 07:31+0000\n"
+"POT-Creation-Date: 2013-07-11 02:16+0200\n"
+"PO-Revision-Date: 2013-07-11 00:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Kannada (http://www.transifex.com/projects/p/owncloud/language/kn/)\n"
 "MIME-Version: 1.0\n"
@@ -27,54 +27,54 @@ msgstr ""
 msgid "Could not move %s"
 msgstr ""
 
-#: ajax/upload.php:16 ajax/upload.php:39
+#: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
 msgstr ""
 
-#: ajax/upload.php:23
+#: ajax/upload.php:22
 msgid "Invalid Token"
 msgstr ""
 
-#: ajax/upload.php:55
+#: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
 msgstr ""
 
-#: ajax/upload.php:62
+#: ajax/upload.php:66
 msgid "There is no error, the file uploaded with success"
 msgstr ""
 
-#: ajax/upload.php:63
+#: ajax/upload.php:67
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr ""
 
-#: ajax/upload.php:65
+#: ajax/upload.php:69
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr ""
 
-#: ajax/upload.php:66
+#: ajax/upload.php:70
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: ajax/upload.php:67
+#: ajax/upload.php:71
 msgid "No file was uploaded"
 msgstr ""
 
-#: ajax/upload.php:68
+#: ajax/upload.php:72
 msgid "Missing a temporary folder"
 msgstr ""
 
-#: ajax/upload.php:69
+#: ajax/upload.php:73
 msgid "Failed to write to disk"
 msgstr ""
 
-#: ajax/upload.php:87
+#: ajax/upload.php:91
 msgid "Not enough storage available"
 msgstr ""
 
-#: ajax/upload.php:119
+#: ajax/upload.php:123
 msgid "Invalid directory."
 msgstr ""
 
@@ -204,7 +204,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: js/files.js:745 templates/index.php:80
+#: js/files.js:745
 msgid "Size"
 msgstr ""
 
@@ -305,6 +305,10 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
+#: templates/index.php:80
+msgid "Size (MB)"
+msgstr ""
+
 #: templates/index.php:87 templates/index.php:88
 msgid "Unshare"
 msgstr ""
@@ -327,19 +331,19 @@ msgstr ""
 msgid "Current scanning"
 msgstr ""
 
-#: templates/part.list.php:78
+#: templates/part.list.php:76
 msgid "directory"
 msgstr ""
 
-#: templates/part.list.php:80
+#: templates/part.list.php:78
 msgid "directories"
 msgstr ""
 
-#: templates/part.list.php:89
+#: templates/part.list.php:87
 msgid "file"
 msgstr ""
 
-#: templates/part.list.php:91
+#: templates/part.list.php:89
 msgid "files"
 msgstr ""
 

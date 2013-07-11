@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-10 02:13+0200\n"
-"PO-Revision-Date: 2013-07-09 23:15+0000\n"
+"POT-Creation-Date: 2013-07-11 02:16+0200\n"
+"PO-Revision-Date: 2013-07-11 00:18+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -204,7 +204,7 @@ msgstr ""
 msgid "Name"
 msgstr "Nimi"
 
-#: js/files.js:745 templates/index.php:80
+#: js/files.js:745
 msgid "Size"
 msgstr "Koko"
 
@@ -304,6 +304,10 @@ msgstr "Täällä ei ole mitään. Lähetä tänne jotakin!"
 #: templates/index.php:75
 msgid "Download"
 msgstr "Lataa"
+
+#: templates/index.php:80
+msgid "Size (MB)"
+msgstr ""
 
 #: templates/index.php:87 templates/index.php:88
 msgid "Unshare"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-10 02:13+0200\n"
-"PO-Revision-Date: 2013-07-09 23:15+0000\n"
+"POT-Creation-Date: 2013-07-11 02:16+0200\n"
+"PO-Revision-Date: 2013-07-11 00:18+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -30,11 +30,11 @@ msgstr "Nem sikerült %s áthelyezése"
 
 #: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "Nem található a mappa, ahova feltölteni szeretne."
 
 #: ajax/upload.php:22
 msgid "Invalid Token"
-msgstr ""
+msgstr "Hibás mappacím"
 
 #: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
@@ -205,7 +205,7 @@ msgstr "Érvénytelen mappanév. A név használata csak a Owncloud számára le
 msgid "Name"
 msgstr "Név"
 
-#: js/files.js:745 templates/index.php:80
+#: js/files.js:745
 msgid "Size"
 msgstr "Méret"
 
@@ -232,7 +232,7 @@ msgstr "{count} fájl"
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "%s átnevezése nem sikerült"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -306,6 +306,10 @@ msgstr "Itt nincs semmi. Töltsön fel valamit!"
 msgid "Download"
 msgstr "Letöltés"
 
+#: templates/index.php:80
+msgid "Size (MB)"
+msgstr ""
+
 #: templates/index.php:87 templates/index.php:88
 msgid "Unshare"
 msgstr "A megosztás visszavonása"
@@ -330,11 +334,11 @@ msgstr "Ellenőrzés alatt"
 
 #: templates/part.list.php:76
 msgid "directory"
-msgstr ""
+msgstr "mappa"
 
 #: templates/part.list.php:78
 msgid "directories"
-msgstr ""
+msgstr "mappa"
 
 #: templates/part.list.php:87
 msgid "file"

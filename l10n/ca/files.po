@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-10 02:13+0200\n"
-"PO-Revision-Date: 2013-07-09 23:15+0000\n"
-"Last-Translator: Josep Tomàs <jtomas.binsoft@gmail.com>\n"
+"POT-Creation-Date: 2013-07-11 02:16+0200\n"
+"PO-Revision-Date: 2013-07-11 00:18+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -206,7 +206,7 @@ msgstr "Nom de carpeta no vàlid. L'ús de 'Shared' està reservat per Owncloud"
 msgid "Name"
 msgstr "Nom"
 
-#: js/files.js:745 templates/index.php:80
+#: js/files.js:745
 msgid "Size"
 msgstr "Mida"
 
@@ -306,6 +306,10 @@ msgstr "Res per aquí. Pugeu alguna cosa!"
 #: templates/index.php:75
 msgid "Download"
 msgstr "Baixa"
+
+#: templates/index.php:80
+msgid "Size (MB)"
+msgstr ""
 
 #: templates/index.php:87 templates/index.php:88
 msgid "Unshare"
