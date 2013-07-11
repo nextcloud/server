@@ -50,11 +50,12 @@ class Preview {
 
 	/**
 	 * @brief check if thumbnail or bigger version of thumbnail of file is cached
-	 * @param $user userid - if no user is given, OC_User::getUser will be used
-	 * @param $root path of root
-	 * @param $file The path to the file where you want a thumbnail from
-	 * @param $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
-	 * @param $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
+	 * @param string $user userid - if no user is given, OC_User::getUser will be used
+	 * @param string $root path of root
+	 * @param string $file The path to the file where you want a thumbnail from
+	 * @param int $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
+	 * @param int $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
+	 * @param bool $scalingup Disable/Enable upscaling of previews
 	 * @return mixed (bool / string) 
 	 *					false if thumbnail does not exist
 	 *					path to thumbnail if thumbnail exists
@@ -157,6 +158,7 @@ class Preview {
 
 	/**
 	 * @brief set the path of the file you want a thumbnail from
+	 * @param string $file
 	 * @return $this
 	*/
 	public function setFile($file) {
@@ -166,6 +168,7 @@ class Preview {
 
 	/**
 	 * @brief set the the max width of the preview
+	 * @param int $maxX
 	 * @return $this
 	*/
 	public function setMaxX($maxX=1) {
@@ -185,6 +188,7 @@ class Preview {
 
 	/**
 	 * @brief set the the max height of the preview
+	 * @param int $maxY
 	 * @return $this
 	*/
 	public function setMaxY($maxY=1) {
@@ -204,6 +208,7 @@ class Preview {
 
 	/**
 	 * @brief set whether or not scalingup is enabled
+	 * @param bool $scalingup
 	 * @return $this
 	*/
 	public function setScalingup($scalingup) {
@@ -216,7 +221,7 @@ class Preview {
 
 	/**
 	 * @brief check if all parameters are valid
-	 * @return integer
+	 * @return bool
 	*/
 	public function isFileValid() {
 		$file = $this->getFile();
@@ -543,6 +548,7 @@ class Preview {
 	/**
 	 * @brief register a new preview provider to be used
 	 * @param string $provider class name of a Preview_Provider
+	 * @param array $options
 	 * @return void
 	 */
 	public static function registerProvider($class, $options=array()) {
