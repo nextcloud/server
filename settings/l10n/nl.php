@@ -98,7 +98,6 @@
 "Language" => "Taal",
 "Help translate" => "Help met vertalen",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "Gebruik dit adres om te verbinden met uw ownCloud in uw bestandsbeheer",
 "Login Name" => "Inlognaam",
 "Create" => "Creëer",
 "Admin Recovery Password" => "Beheer herstel wachtwoord",

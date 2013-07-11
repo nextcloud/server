@@ -97,7 +97,6 @@
 "Language" => "Valoda",
 "Help translate" => "Palīdzi tulkot",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "Izmanto šo adresi, lai, izmantojot datņu pārvaldnieku, savienotos ar savu ownCloud",
 "Login Name" => "Ierakstīšanās vārds",
 "Create" => "Izveidot",
 "Default Storage" => "Noklusējuma krātuve",

@@ -71,8 +71,20 @@ var FileList={
 		tr.append(td);
 		return tr;
 	},
-	addFile:function(name,size,lastModified,loading,hidden){
+	addFile:function(name,size,lastModified,loading,hidden,param){
 		var imgurl;
+
+		if (!param) {
+			param = {};
+		}
+
+		var download_url = null;
+		if (!param.download_url) {
+			download_url = OC.Router.generate('download', { file: $('#dir').val()+'/'+name });
+		} else {
+			download_url = param.download_url;
+		}
+
 		if (loading) {
 			imgurl = OC.imagePath('core', 'loading.gif');
 		} else {
@@ -82,7 +94,7 @@ var FileList={
 			'file',
 			name,
 			imgurl,
-			OC.Router.generate('download', { file: $('#dir').val()+'/'+name }),
+			download_url,
 			size,
 			lastModified,
 			$('#permissions').val()
@@ -197,7 +209,7 @@ var FileList={
 			len = input.val().length;
 		}
 		input.selectRange(0,len);
-		
+
 		form.submit(function(event){
 			event.stopPropagation();
 			event.preventDefault();
@@ -208,13 +220,44 @@ var FileList={
 				if (FileList.checkName(name, newname, false)) {
 					newname = name;
 				} else {
-					$.get(OC.filePath('files','ajax','rename.php'), { dir : $('#dir').val(), newname: newname, file: name },function(result) {
-						if (!result || result.status == 'error') {
-							OC.dialogs.alert(result.data.message, 'Error moving file');
-							newname = name;
+					// save background image, because it's replaced by a spinner while async request
+					var oldBackgroundImage = td.css('background-image');
+					// mark as loading
+					td.css('background-image', 'url('+ OC.imagePath('core', 'loading.gif') + ')');
+					$.ajax({
+						url: OC.filePath('files','ajax','rename.php'),
+						data: {
+							dir : $('#dir').val(),
+							newname: newname,
+							file: name
+						},
+						success: function(result) {
+							if (!result || result.status === 'error') {
+								OC.Notification.show(result.data.message);
+								newname = name;
+								// revert changes
+								tr.attr('data-file', newname);
+								var path = td.children('a.name').attr('href');
+								td.children('a.name').attr('href', path.replace(encodeURIComponent(name), encodeURIComponent(newname)));
+								if (newname.indexOf('.') > 0 && tr.data('type') !== 'dir') {
+									var basename=newname.substr(0,newname.lastIndexOf('.'));
+								} else {
+									var basename=newname;
+								}
+								td.find('a.name span.nametext').text(basename);
+								if (newname.indexOf('.') > 0 && tr.data('type') !== 'dir') {
+									if (td.find('a.name span.extension').length === 0 ) {
+										td.find('a.name span.nametext').append('<span class="extension"></span>');
+									}
+									td.find('a.name span.extension').text(newname.substr(newname.lastIndexOf('.')));
+								}
+								tr.find('.fileactions').effect('highlight', {}, 5000);
+								tr.effect('highlight', {}, 5000);
+							}
+							// remove loading mark and recover old image
+							td.css('background-image', oldBackgroundImage);
 						}
 					});
-
 				}
 			}
 			tr.data('renaming',false);
@@ -423,8 +466,12 @@ $(document).ready(function(){
 					size=data.files[0].size;
 				}
 				var date=new Date();
+				var param = {};
+				if ($('#publicUploadRequestToken').length) {
+					param.download_url = document.location.href + '&download&path=/' + $('#dir').val() + '/' + uniqueName;
+				}
 				// create new file context
-				data.context = FileList.addFile(uniqueName,size,date,true,false);
+				data.context = FileList.addFile(uniqueName,size,date,true,false,param);
 
 			}
 		}

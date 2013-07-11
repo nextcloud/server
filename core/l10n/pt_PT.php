@@ -101,7 +101,6 @@
 "Help" => "Ajuda",
 "Access forbidden" => "Acesso interdito",
 "Cloud not found" => "Cloud nao encontrada",
-"web services under your control" => "serviços web sob o seu controlo",
 "Edit categories" => "Editar categorias",
 "Add" => "Adicionar",
 "Security Warning" => "Aviso de Segurança",

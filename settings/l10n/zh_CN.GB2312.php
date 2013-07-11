@@ -95,7 +95,6 @@
 "Language" => "语言",
 "Help translate" => "帮助翻译",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "使用此地址来在您的文件管理器中连接您的ownCloud",
 "Login Name" => "登录名",
 "Create" => "新建",
 "Default Storage" => "默认容量",

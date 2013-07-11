@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# miki_mika1362 <miki_mika1362@yahoo.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-20 02:36+0200\n"
-"PO-Revision-Date: 2013-06-18 23:29+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-11 02:16+0200\n"
+"PO-Revision-Date: 2013-07-10 23:36+0000\n"
+"Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,29 +20,29 @@ msgstr ""
 
 #: js/dropbox.js:7 js/dropbox.js:28 js/google.js:16 js/google.js:34
 msgid "Access granted"
-msgstr ""
+msgstr "مجوز دسترسی صادر شد"
 
 #: js/dropbox.js:30 js/dropbox.js:96 js/dropbox.js:102
 msgid "Error configuring Dropbox storage"
-msgstr ""
+msgstr "خطا به هنگام تنظیم فضای دراپ باکس"
 
 #: js/dropbox.js:65 js/google.js:66
 msgid "Grant access"
-msgstr ""
+msgstr " مجوز اعطا دسترسی"
 
 #: js/dropbox.js:101
 msgid "Please provide a valid Dropbox app key and secret."
-msgstr ""
+msgstr "لطفا یک کلید و کد امنیتی صحیح دراپ باکس وارد کنید."
 
 #: js/google.js:36 js/google.js:93
 msgid "Error configuring Google Drive storage"
-msgstr ""
+msgstr "خطا به هنگام تنظیم فضای Google Drive"
 
 #: lib/config.php:431
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
-msgstr ""
+msgstr "خطا: \"smbclient\" نصب نشده است. نصب و راه اندازی سهام  CIFS/SMB امکان پذیر نمیباشد. لطفا از مدیریت سازمان خود برای راه اندازی آن درخواست نمایید."
 
 #: lib/config.php:434
 msgid ""
@@ -63,7 +64,7 @@ msgstr "حافظه خارجی"
 
 #: templates/settings.php:9 templates/settings.php:28
 msgid "Folder name"
-msgstr ""
+msgstr "نام پوشه"
 
 #: templates/settings.php:10
 msgid "External storage"

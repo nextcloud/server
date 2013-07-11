@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-23 01:59+0200\n"
-"PO-Revision-Date: 2013-06-22 10:23+0000\n"
-"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
+"POT-Creation-Date: 2013-07-11 02:17+0200\n"
+"PO-Revision-Date: 2013-07-10 23:35+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -92,35 +92,35 @@ msgstr "Der Benutzer konnte nicht aus der Gruppe %s entfernt werden"
 msgid "Couldn't update app."
 msgstr "Die App konnte nicht aktualisiert werden."
 
-#: js/apps.js:30
+#: js/apps.js:35
 msgid "Update to {appversion}"
 msgstr "Aktualisiere zu {appversion}"
 
-#: js/apps.js:36 js/apps.js:76
+#: js/apps.js:41 js/apps.js:81
 msgid "Disable"
 msgstr "Deaktivieren"
 
-#: js/apps.js:36 js/apps.js:64 js/apps.js:83
+#: js/apps.js:41 js/apps.js:69 js/apps.js:88
 msgid "Enable"
 msgstr "Aktivieren"
 
-#: js/apps.js:55
+#: js/apps.js:60
 msgid "Please wait...."
 msgstr "Bitte warten..."
 
-#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
+#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
 msgid "Error"
 msgstr "Fehler"
 
-#: js/apps.js:90
+#: js/apps.js:95
 msgid "Updating...."
 msgstr "Aktualisierung..."
 
-#: js/apps.js:93
+#: js/apps.js:98
 msgid "Error while updating app"
 msgstr "Fehler beim Aktualisieren der App"
 
-#: js/apps.js:96
+#: js/apps.js:101
 msgid "Updated"
 msgstr "Aktualisiert"
 
@@ -169,15 +169,15 @@ msgstr "Beim Anlegen des Benutzers ist ein Fehler aufgetreten"
 msgid "A valid password must be provided"
 msgstr "Es muss ein gültiges Passwort angegeben werden"
 
-#: personal.php:35 personal.php:36
+#: personal.php:37 personal.php:38
 msgid "__language_name__"
 msgstr "Deutsch (Persönlich)"
 
-#: templates/admin.php:15
+#: templates/admin.php:17
 msgid "Security Warning"
 msgstr "Sicherheitswarnung"
 
-#: templates/admin.php:18
+#: templates/admin.php:20
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file that ownCloud provides is not working. We "
@@ -186,36 +186,36 @@ msgid ""
 " webserver document root."
 msgstr "Dein Datenverzeichnis und Deine Datein sind vielleicht vom Internet aus erreichbar. Die .htaccess Datei, die ownCloud verwendet, arbeitet nicht richtig. Wir schlagen Dir dringend vor, dass Du Deinen Webserver so konfigurierst, dass das Datenverzeichnis nicht länger erreichbar ist oder, dass Du Dein Datenverzeichnis aus dem Dokumenten-root des Webservers bewegst."
 
-#: templates/admin.php:29
+#: templates/admin.php:31
 msgid "Setup Warning"
 msgstr "Einrichtungswarnung"
 
-#: templates/admin.php:32
+#: templates/admin.php:34
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Dein Web-Server ist noch nicht für Datei-Synchronisation bereit, weil die WebDAV-Schnittstelle vermutlich defekt ist."
 
-#: templates/admin.php:33
+#: templates/admin.php:35
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Bitte prüfen Sie die <a href='%s'>Installationsanleitungen</a>."
 
-#: templates/admin.php:44
+#: templates/admin.php:46
 msgid "Module 'fileinfo' missing"
 msgstr "Modul 'fileinfo' fehlt "
 
-#: templates/admin.php:47
+#: templates/admin.php:49
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "Das PHP-Modul 'fileinfo' fehlt. Wir empfehlen dieses Modul zu aktivieren um die besten Resultate bei der Erkennung der Dateitypen zu erreichen."
 
-#: templates/admin.php:58
+#: templates/admin.php:60
 msgid "Locale not working"
 msgstr "Ländereinstellung funktioniert nicht"
 
-#: templates/admin.php:63
+#: templates/admin.php:65
 #, php-format
 msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
@@ -223,11 +223,11 @@ msgid ""
 " to install the required packages on your system to support %s."
 msgstr "Dieser ownCloud Server kann die Ländereinstellung nicht auf %s ändern. Dies bedeutet, dass es Probleme mit bestimmten Zeichen in Dateinamen geben könnte. Wir empfehlen die für %s benötigten Pakete auf Deinem System zu installieren."
 
-#: templates/admin.php:75
+#: templates/admin.php:77
 msgid "Internet connection not working"
 msgstr "Keine Netzwerkverbindung"
 
-#: templates/admin.php:78
+#: templates/admin.php:80
 msgid ""
 "This ownCloud server has no working internet connection. This means that "
 "some of the features like mounting of external storage, notifications about "
@@ -237,102 +237,102 @@ msgid ""
 " of ownCloud."
 msgstr "Dieser ownCloud Server hat keine funktionierende Netzwerkverbindung. Dies bedeutet das einige Funktionen wie das Einbinden von externen Speichern, Update-Benachrichtigungen oder die Installation von Drittanbieter-Apps nicht funktionieren. Der Fernzugriff auf Dateien und das Senden von Benachrichtigungsmails funktioniert eventuell ebenfalls nicht. Wir empfehlen die Netzwerkverbindung für diesen Server zu aktivieren, wenn Du alle Funktionen von ownCloud nutzen möchtest."
 
-#: templates/admin.php:92
+#: templates/admin.php:94
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:101
+#: templates/admin.php:103
 msgid "Execute one task with each page loaded"
 msgstr "Führe eine Aufgabe mit jeder geladenen Seite aus"
 
-#: templates/admin.php:111
+#: templates/admin.php:113
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
 msgstr "cron.php ist an einem Webcron-Service registriert. Die cron.php Seite wird einmal pro Minute über http abgerufen."
 
-#: templates/admin.php:121
+#: templates/admin.php:123
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
 msgstr "Nutze den Cron Systemdienst. Rufe die Datei cron.php im owncloud Ordner einmal pro Minute über einen Cronjob auf."
 
-#: templates/admin.php:128
+#: templates/admin.php:130
 msgid "Sharing"
 msgstr "Teilen"
 
-#: templates/admin.php:134
+#: templates/admin.php:136
 msgid "Enable Share API"
 msgstr "Aktiviere Sharing-API"
 
-#: templates/admin.php:135
+#: templates/admin.php:137
 msgid "Allow apps to use the Share API"
 msgstr "Erlaubt Apps die Nutzung der Share-API"
 
-#: templates/admin.php:142
+#: templates/admin.php:144
 msgid "Allow links"
 msgstr "Erlaubt Links"
 
-#: templates/admin.php:143
+#: templates/admin.php:145
 msgid "Allow users to share items to the public with links"
 msgstr "Erlaubt Benutzern, Inhalte über öffentliche Links zu teilen"
 
-#: templates/admin.php:150
+#: templates/admin.php:152
 msgid "Allow resharing"
 msgstr "Erlaubt erneutes Teilen"
 
-#: templates/admin.php:151
+#: templates/admin.php:153
 msgid "Allow users to share items shared with them again"
 msgstr "Erlaubt Benutzern, mit ihnen geteilte Inhalte erneut zu teilen"
 
-#: templates/admin.php:158
+#: templates/admin.php:160
 msgid "Allow users to share with anyone"
 msgstr "Erlaubt Benutzern, mit jedem zu teilen"
 
-#: templates/admin.php:161
+#: templates/admin.php:163
 msgid "Allow users to only share with users in their groups"
 msgstr "Erlaubt Benutzern, nur mit Benutzern ihrer Gruppe zu teilen"
 
-#: templates/admin.php:168
+#: templates/admin.php:170
 msgid "Security"
 msgstr "Sicherheit"
 
-#: templates/admin.php:181
+#: templates/admin.php:183
 msgid "Enforce HTTPS"
 msgstr "Erzwinge HTTPS"
 
-#: templates/admin.php:182
+#: templates/admin.php:184
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
 msgstr "Erzwingt die Verwendung einer verschlüsselten Verbindung"
 
-#: templates/admin.php:185
+#: templates/admin.php:187
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
 msgstr "Bitte verbinde Dich über eine HTTPS Verbindung mit diesem ownCloud Server um diese Einstellung zu ändern"
 
-#: templates/admin.php:195
+#: templates/admin.php:197
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:196
+#: templates/admin.php:198
 msgid "Log level"
 msgstr "Loglevel"
 
-#: templates/admin.php:227
+#: templates/admin.php:229
 msgid "More"
 msgstr "Mehr"
 
-#: templates/admin.php:228
+#: templates/admin.php:230
 msgid "Less"
 msgstr "Weniger"
 
-#: templates/admin.php:235 templates/personal.php:116
+#: templates/admin.php:236 templates/personal.php:116
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin.php:237 templates/personal.php:119
+#: templates/admin.php:240 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -390,74 +390,77 @@ msgstr "Bugtracker"
 msgid "Commercial Support"
 msgstr "Kommerzieller Support"
 
-#: templates/personal.php:9
+#: templates/personal.php:10
 msgid "Get the apps to sync your files"
 msgstr "Lade die Apps zur Synchronisierung Deiner Daten herunter"
 
-#: templates/personal.php:20
+#: templates/personal.php:21
 msgid "Show First Run Wizard again"
 msgstr "Erstinstallation erneut durchführen"
 
-#: templates/personal.php:28
+#: templates/personal.php:29
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Du verwendest <strong>%s</strong> der verfügbaren <strong>%s<strong>"
 
-#: templates/personal.php:40 templates/users.php:23 templates/users.php:86
+#: templates/personal.php:41 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "Passwort"
 
-#: templates/personal.php:41
+#: templates/personal.php:42
 msgid "Your password was changed"
 msgstr "Dein Passwort wurde geändert."
 
-#: templates/personal.php:42
+#: templates/personal.php:43
 msgid "Unable to change your password"
 msgstr "Passwort konnte nicht geändert werden"
 
-#: templates/personal.php:43
+#: templates/personal.php:44
 msgid "Current password"
 msgstr "Aktuelles Passwort"
 
-#: templates/personal.php:45
+#: templates/personal.php:46
 msgid "New password"
 msgstr "Neues Passwort"
 
-#: templates/personal.php:47
+#: templates/personal.php:48
 msgid "Change password"
 msgstr "Passwort ändern"
 
-#: templates/personal.php:59 templates/users.php:85
+#: templates/personal.php:60 templates/users.php:85
 msgid "Display Name"
 msgstr "Anzeigename"
 
-#: templates/personal.php:74
+#: templates/personal.php:75
 msgid "Email"
 msgstr "E-Mail"
 
-#: templates/personal.php:76
+#: templates/personal.php:77
 msgid "Your email address"
 msgstr "Deine E-Mail-Adresse"
 
-#: templates/personal.php:77
+#: templates/personal.php:78
 msgid "Fill in an email address to enable password recovery"
 msgstr "Trage eine E-Mail-Adresse ein, um die Passwort-Wiederherstellung zu aktivieren."
 
-#: templates/personal.php:86 templates/personal.php:87
+#: templates/personal.php:87 templates/personal.php:88
 msgid "Language"
 msgstr "Sprache"
 
-#: templates/personal.php:99
+#: templates/personal.php:100
 msgid "Help translate"
 msgstr "Hilf bei der Übersetzung"
 
-#: templates/personal.php:105
+#: templates/personal.php:106
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:107
-msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "Verwende diese Adresse, um Deinen Dateimanager mit Deiner ownCloud zu verbinden"
+#: templates/personal.php:108
+#, php-format
+msgid ""
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
+"target=\"_blank\">access your Files via WebDAV</a>"
+msgstr ""
 
 #: templates/users.php:21
 msgid "Login Name"

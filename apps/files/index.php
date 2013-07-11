@@ -26,6 +26,7 @@ OCP\User::checkLoggedIn();
 
 // Load the files we need
 OCP\Util::addStyle('files', 'files');
+OCP\Util::addscript('files', 'file-upload');
 OCP\Util::addscript('files', 'jquery.iframe-transport');
 OCP\Util::addscript('files', 'jquery.fileupload');
 OCP\Util::addscript('files', 'jquery-visibility');
@@ -136,5 +137,6 @@ if ($needUpgrade) {
 	$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 	$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 	$tmpl->assign('usedSpacePercent', (int)$storageInfo['relative']);
+	$tmpl->assign('isPublic', false);
 	$tmpl->printPage();
 }

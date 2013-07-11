@@ -22,6 +22,9 @@ if (!OC_Config::getValue('maintenance', false)) {
 	// Filesystem related hooks
 	OCA\Encryption\Helper::registerFilesystemHooks();
 
+	// App manager related hooks
+	OCA\Encryption\Helper::registerAppHooks();
+
 	stream_wrapper_register('crypt', 'OCA\Encryption\Stream');
 
 	// check if we are logged in
@@ -34,10 +37,9 @@ if (!OC_Config::getValue('maintenance', false)) {
 
 		$view = new OC_FilesystemView('/');
 
-		$sessionReady = false;
-		if(extension_loaded("openssl")) {
+		$sessionReady = OCA\Encryption\Helper::checkRequirements();
+		if($sessionReady) {
 			$session = new \OCA\Encryption\Session($view);
-			$sessionReady = true;
 		}
 
 		$user = \OCP\USER::getUser();

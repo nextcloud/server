@@ -1,5 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Password" => "Лозинка",
 "Submit" => "Пошаљи",
-"Download" => "Преузми"
+"Download" => "Преузми",
+"Upload" => "Отпреми",
+"Cancel upload" => "Прекини отпремање"
 );

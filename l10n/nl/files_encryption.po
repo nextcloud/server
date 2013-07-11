@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-22 02:06+0200\n"
-"PO-Revision-Date: 2013-06-22 00:07+0000\n"
+"POT-Creation-Date: 2013-07-05 02:12+0200\n"
+"PO-Revision-Date: 2013-07-05 00:13+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -46,29 +46,31 @@ msgstr "Kon wachtwoord niet wijzigen. Wellicht oude wachtwoord niet juist ingevo
 
 #: ajax/updatePrivateKeyPassword.php:51
 msgid "Private key password successfully updated."
-msgstr ""
+msgstr "Privésleutel succesvol bijgewerkt."
 
 #: ajax/updatePrivateKeyPassword.php:53
 msgid ""
 "Could not update the private key password. Maybe the old password was not "
 "correct."
-msgstr ""
+msgstr "Kon het wachtwoord van de privésleutel niet wijzigen. Misschien was het oude wachtwoord onjuist."
 
 #: files/error.php:7
 msgid ""
-"Your private key is not valid! Maybe your password was changed from outside."
-" You can update your private key password in your personal settings to "
-"regain access to your files"
+"Your private key is not valid! Likely your password was changed outside the "
+"ownCloud system (e.g. your corporate directory). You can update your private"
+" key password in your personal settings to recover access to your encrypted "
+"files."
 msgstr ""
 
 #: hooks/hooks.php:44
-msgid "PHP module OpenSSL is not installed."
+msgid "Missing requirements."
 msgstr ""
 
 #: hooks/hooks.php:45
 msgid ""
-"Please ask your server administrator to install the module. For now the "
-"encryption app was disabled."
+"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
+"PHP extension is enabled and configured properly. For now, the encryption "
+"app has been disabled."
 msgstr ""
 
 #: js/settings-admin.js:11
@@ -96,11 +98,11 @@ msgstr "Versleuteling"
 #: templates/settings-admin.php:10
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
-msgstr ""
+msgstr "Activeren herstelsleutel (maakt het mogelijk om gebruikersbestanden terug te halen in geval van verlies van het wachtwoord):"
 
 #: templates/settings-admin.php:14
 msgid "Recovery key password"
-msgstr ""
+msgstr "Wachtwoord herstelsleulel"
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
@@ -112,15 +114,15 @@ msgstr "Gedeactiveerd"
 
 #: templates/settings-admin.php:34
 msgid "Change recovery key password:"
-msgstr ""
+msgstr "Wijzig wachtwoord herstelsleutel:"
 
 #: templates/settings-admin.php:41
 msgid "Old Recovery key password"
-msgstr ""
+msgstr "Oude wachtwoord herstelsleutel"
 
 #: templates/settings-admin.php:48
 msgid "New Recovery key password"
-msgstr ""
+msgstr "Nieuwe wachtwoord herstelsleutel"
 
 #: templates/settings-admin.php:53
 msgid "Change Password"
@@ -128,11 +130,11 @@ msgstr "Wijzigen wachtwoord"
 
 #: templates/settings-personal.php:11
 msgid "Your private key password no longer match your log-in password:"
-msgstr ""
+msgstr "Het wachtwoord van uw privésleutel komt niet meer overeen met uw inlogwachtwoord:"
 
 #: templates/settings-personal.php:14
 msgid "Set your old private key password to your current log-in password."
-msgstr ""
+msgstr "Stel het wachtwoord van uw oude privésleutel in op uw huidige inlogwachtwoord."
 
 #: templates/settings-personal.php:16
 msgid ""

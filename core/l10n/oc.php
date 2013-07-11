@@ -74,7 +74,6 @@
 "Help" => "Ajuda",
 "Access forbidden" => "Acces enebit",
 "Cloud not found" => "Nívol pas trobada",
-"web services under your control" => "Services web jos ton contraròtle",
 "Edit categories" => "Edita categorias",
 "Add" => "Ajusta",
 "Security Warning" => "Avertiment de securitat",

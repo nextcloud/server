@@ -2,6 +2,7 @@
 "Password successfully changed." => "Ο κωδικός αλλάχτηκε επιτυχώς.",
 "Could not change the password. Maybe the old password was not correct." => "Αποτυχία αλλαγής κωδικού ίσως ο παλιός κωδικός να μην ήταν σωστός.",
 "Saving..." => "Γίνεται αποθήκευση...",
+"personal settings" => "προσωπικές ρυθμίσεις",
 "Encryption" => "Κρυπτογράφηση",
 "Enabled" => "Ενεργοποιημένο",
 "Disabled" => "Απενεργοποιημένο",

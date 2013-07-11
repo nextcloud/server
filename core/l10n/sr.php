@@ -93,7 +93,6 @@
 "Help" => "Помоћ",
 "Access forbidden" => "Забрањен приступ",
 "Cloud not found" => "Облак није нађен",
-"web services under your control" => "веб сервиси под контролом",
 "Edit categories" => "Измени категорије",
 "Add" => "Додај",
 "Security Warning" => "Сигурносно упозорење",

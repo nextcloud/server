@@ -73,7 +73,6 @@
 "Help" => "Pomoć",
 "Access forbidden" => "Pristup zabranjen",
 "Cloud not found" => "Cloud nije pronađen",
-"web services under your control" => "web usluge pod vašom kontrolom",
 "Edit categories" => "Uredi kategorije",
 "Add" => "Dodaj",
 "Create an <strong>admin account</strong>" => "Stvori <strong>administratorski račun</strong>",

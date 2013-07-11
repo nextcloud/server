@@ -6,6 +6,10 @@
 "Missing a temporary folder" => "Nedostaje privremeni direktorij",
 "Failed to write to disk" => "Neuspjelo pisanje na disk",
 "Files" => "Datoteke",
+"Unable to upload your file as it is a directory or has 0 bytes" => "Nemoguće poslati datoteku jer je prazna ili je direktorij",
+"Upload cancelled." => "Slanje poništeno.",
+"File upload is in progress. Leaving the page now will cancel the upload." => "Učitavanje datoteke. Napuštanjem stranice će prekinuti učitavanje.",
+"Error" => "Greška",
 "Share" => "Podijeli",
 "Delete" => "Obriši",
 "Rename" => "Promjeni ime",
@@ -16,10 +20,6 @@
 "undo" => "vrati",
 "1 file uploading" => "1 datoteka se učitava",
 "files uploading" => "datoteke se učitavaju",
-"Unable to upload your file as it is a directory or has 0 bytes" => "Nemoguće poslati datoteku jer je prazna ili je direktorij",
-"Upload cancelled." => "Slanje poništeno.",
-"File upload is in progress. Leaving the page now will cancel the upload." => "Učitavanje datoteke. Napuštanjem stranice će prekinuti učitavanje.",
-"Error" => "Greška",
 "Name" => "Ime",
 "Size" => "Veličina",
 "Modified" => "Zadnja promjena",
@@ -42,5 +42,7 @@
 "Upload too large" => "Prijenos je preobiman",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Datoteke koje pokušavate prenijeti prelaze maksimalnu veličinu za prijenos datoteka na ovom poslužitelju.",
 "Files are being scanned, please wait." => "Datoteke se skeniraju, molimo pričekajte.",
-"Current scanning" => "Trenutno skeniranje"
+"Current scanning" => "Trenutno skeniranje",
+"file" => "datoteka",
+"files" => "datoteke"
 );

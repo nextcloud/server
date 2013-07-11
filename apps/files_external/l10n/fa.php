@@ -1,5 +1,12 @@
 <?php $TRANSLATIONS = array(
+"Access granted" => "مجوز دسترسی صادر شد",
+"Error configuring Dropbox storage" => "خطا به هنگام تنظیم فضای دراپ باکس",
+"Grant access" => " مجوز اعطا دسترسی",
+"Please provide a valid Dropbox app key and secret." => "لطفا یک کلید و کد امنیتی صحیح دراپ باکس وارد کنید.",
+"Error configuring Google Drive storage" => "خطا به هنگام تنظیم فضای Google Drive",
+"<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "خطا: \"smbclient\" نصب نشده است. نصب و راه اندازی سهام  CIFS/SMB امکان پذیر نمیباشد. لطفا از مدیریت سازمان خود برای راه اندازی آن درخواست نمایید.",
 "External Storage" => "حافظه خارجی",
+"Folder name" => "نام پوشه",
 "Configuration" => "پیکربندی",
 "Options" => "تنظیمات",
 "Applicable" => "قابل اجرا",

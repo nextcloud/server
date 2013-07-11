@@ -5,6 +5,7 @@
 "Users" => "Vartotojai",
 "Apps" => "Programos",
 "Admin" => "Administravimas",
+"web services under your control" => "jūsų valdomos web paslaugos",
 "ZIP download is turned off." => "ZIP atsisiuntimo galimybė yra išjungta.",
 "Files need to be downloaded one by one." => "Failai turi būti parsiunčiami vienas po kito.",
 "Back to Files" => "Atgal į Failus",

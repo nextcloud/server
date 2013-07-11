@@ -20,6 +20,11 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		page.find('span.score').html(app.score);
 		page.find('p.description').text(app.description);
 		page.find('img.preview').attr('src', app.preview);
+		if (app.preview && app.preview.length) {
+			page.find('img.preview').show();
+		} else {
+			page.find('img.preview').hide();
+		}
 		page.find('small.externalapp').attr('style', 'visibility:visible');
 		page.find('span.author').text(app.author);
 		page.find('span.licence').text(app.licence);
@@ -142,12 +147,16 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						li.attr('data-id', entry.id);
 						var img= $('<img class="icon"/>').attr({ src: entry.icon});
 						var a=$('<a></a>').attr('href', entry.href);
-						var filename=$('<span></span>')
+						var filename=$('<span></span>');
 						filename.text(entry.name);
 						a.prepend(filename);
 						a.prepend(img);
 						li.append(a);
 						container.append(li);
+						if (!SVGSupport() && entry.icon.match(/\.svg$/i)) {
+							$(img).addClass('svg');
+							replaceSVG();
+						}
 					}
 				}
 			}

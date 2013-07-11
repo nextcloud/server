@@ -6,15 +6,15 @@
 "Missing a temporary folder" => "Et feelt en temporären Dossier",
 "Failed to write to disk" => "Konnt net op den Disk schreiwen",
 "Files" => "Dateien",
+"Unable to upload your file as it is a directory or has 0 bytes" => "Kann deng Datei net eroplueden well et en Dossier ass oder 0 byte grouss ass.",
+"Upload cancelled." => "Upload ofgebrach.",
+"File upload is in progress. Leaving the page now will cancel the upload." => "File Upload am gaang. Wann's de des Säit verléiss gëtt den Upload ofgebrach.",
+"Error" => "Fehler",
 "Share" => "Deelen",
 "Delete" => "Läschen",
 "replace" => "ersetzen",
 "cancel" => "ofbriechen",
 "undo" => "réckgängeg man",
-"Unable to upload your file as it is a directory or has 0 bytes" => "Kann deng Datei net eroplueden well et en Dossier ass oder 0 byte grouss ass.",
-"Upload cancelled." => "Upload ofgebrach.",
-"File upload is in progress. Leaving the page now will cancel the upload." => "File Upload am gaang. Wann's de des Säit verléiss gëtt den Upload ofgebrach.",
-"Error" => "Fehler",
 "Name" => "Numm",
 "Size" => "Gréisst",
 "Modified" => "Geännert",
@@ -37,5 +37,7 @@
 "Upload too large" => "Upload ze grouss",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Déi Dateien déi Dir probéiert erop ze lueden sinn méi grouss wei déi Maximal Gréisst déi op dësem Server erlaabt ass.",
 "Files are being scanned, please wait." => "Fichieren gi gescannt, war weg.",
-"Current scanning" => "Momentane Scan"
+"Current scanning" => "Momentane Scan",
+"file" => "Datei",
+"files" => "Dateien"
 );

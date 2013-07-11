@@ -5,6 +5,7 @@
 "Users" => "ব্যবহারকারী",
 "Apps" => "অ্যাপ",
 "Admin" => "প্রশাসন",
+"web services under your control" => "ওয়েব সার্ভিস আপনার হাতের মুঠোয়",
 "ZIP download is turned off." => "ZIP ডাউনলোড বন্ধ করা আছে।",
 "Files need to be downloaded one by one." => "ফাইলগুলো একে একে ডাউনলোড করা আবশ্যক।",
 "Back to Files" => "ফাইলে ফিরে চল",

@@ -7,14 +7,14 @@
 "Missing a temporary folder" => "Direktori sementara hilang",
 "Failed to write to disk" => "Gagal untuk disimpan",
 "Files" => "Fail-fail",
+"Unable to upload your file as it is a directory or has 0 bytes" => "Tidak boleh memuatnaik fail anda kerana mungkin ianya direktori atau saiz fail 0 bytes",
+"Upload cancelled." => "Muatnaik dibatalkan.",
+"Error" => "Ralat",
 "Share" => "Kongsi",
 "Delete" => "Padam",
 "Pending" => "Dalam proses",
 "replace" => "ganti",
 "cancel" => "Batal",
-"Unable to upload your file as it is a directory or has 0 bytes" => "Tidak boleh memuatnaik fail anda kerana mungkin ianya direktori atau saiz fail 0 bytes",
-"Upload cancelled." => "Muatnaik dibatalkan.",
-"Error" => "Ralat",
 "Name" => "Nama",
 "Size" => "Saiz",
 "Modified" => "Dimodifikasi",
@@ -36,5 +36,7 @@
 "Upload too large" => "Muatnaik terlalu besar",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Fail yang cuba dimuat naik melebihi saiz maksimum fail upload server",
 "Files are being scanned, please wait." => "Fail sedang diimbas, harap bersabar.",
-"Current scanning" => "Imbasan semasa"
+"Current scanning" => "Imbasan semasa",
+"file" => "fail",
+"files" => "fail"
 );

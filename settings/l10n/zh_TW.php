@@ -98,7 +98,6 @@
 "Language" => "語言",
 "Help translate" => "幫助翻譯",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "在您的檔案管理員中使用這個地址來連線到 ownCloud",
 "Login Name" => "登入名稱",
 "Create" => "建立",
 "Admin Recovery Password" => "管理者復原密碼",

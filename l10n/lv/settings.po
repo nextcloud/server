@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-23 01:59+0200\n"
-"PO-Revision-Date: 2013-06-22 10:24+0000\n"
+"POT-Creation-Date: 2013-07-11 02:17+0200\n"
+"PO-Revision-Date: 2013-07-10 23:35+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -88,35 +88,35 @@ msgstr "Nevar izņemt lietotāju no grupas %s"
 msgid "Couldn't update app."
 msgstr "Nevarēja atjaunināt lietotni."
 
-#: js/apps.js:30
+#: js/apps.js:35
 msgid "Update to {appversion}"
 msgstr "Atjaunināt uz {appversion}"
 
-#: js/apps.js:36 js/apps.js:76
+#: js/apps.js:41 js/apps.js:81
 msgid "Disable"
 msgstr "Deaktivēt"
 
-#: js/apps.js:36 js/apps.js:64 js/apps.js:83
+#: js/apps.js:41 js/apps.js:69 js/apps.js:88
 msgid "Enable"
 msgstr "Aktivēt"
 
-#: js/apps.js:55
+#: js/apps.js:60
 msgid "Please wait...."
 msgstr "Lūdzu, uzgaidiet...."
 
-#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
+#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
 msgid "Error"
 msgstr "Kļūda"
 
-#: js/apps.js:90
+#: js/apps.js:95
 msgid "Updating...."
 msgstr "Atjaunina...."
 
-#: js/apps.js:93
+#: js/apps.js:98
 msgid "Error while updating app"
 msgstr "Kļūda, atjauninot lietotni"
 
-#: js/apps.js:96
+#: js/apps.js:101
 msgid "Updated"
 msgstr "Atjaunināta"
 
@@ -165,15 +165,15 @@ msgstr "Kļūda, veidojot lietotāju"
 msgid "A valid password must be provided"
 msgstr "Jānorāda derīga parole"
 
-#: personal.php:35 personal.php:36
+#: personal.php:37 personal.php:38
 msgid "__language_name__"
 msgstr "__valodas_nosaukums__"
 
-#: templates/admin.php:15
+#: templates/admin.php:17
 msgid "Security Warning"
 msgstr "Brīdinājums par drošību"
 
-#: templates/admin.php:18
+#: templates/admin.php:20
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file that ownCloud provides is not working. We "
@@ -182,36 +182,36 @@ msgid ""
 " webserver document root."
 msgstr "Jūsu datu direktorija un datnes visdrīzāk ir pieejamas no interneta. ownCloud nodrošinātā .htaccess datne nedarbojas. Mēs iesakām konfigurēt serveri tā, lai datu direktorija vairs nebūtu pieejama, vai arī pārvietojiet datu direktoriju ārpus tīmekļa servera dokumentu saknes."
 
-#: templates/admin.php:29
+#: templates/admin.php:31
 msgid "Setup Warning"
 msgstr "Iestatīšanas brīdinājums"
 
-#: templates/admin.php:32
+#: templates/admin.php:34
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Jūsu serveris vēl nav pareizi iestatīts, lai ļautu sinhronizēt datnes, jo izskatās, ka WebDAV saskarne ir salauzta."
 
-#: templates/admin.php:33
+#: templates/admin.php:35
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Lūdzu, vēlreiz pārbaudiet <a href='%s'>instalēšanas palīdzību</a>."
 
-#: templates/admin.php:44
+#: templates/admin.php:46
 msgid "Module 'fileinfo' missing"
 msgstr "Trūkst modulis “fileinfo”"
 
-#: templates/admin.php:47
+#: templates/admin.php:49
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "Trūkst PHP modulis “fileinfo”. Mēs iesakām to aktivēt, lai pēc iespējas labāk noteiktu mime tipus."
 
-#: templates/admin.php:58
+#: templates/admin.php:60
 msgid "Locale not working"
 msgstr "Lokāle nestrādā"
 
-#: templates/admin.php:63
+#: templates/admin.php:65
 #, php-format
 msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
@@ -219,11 +219,11 @@ msgid ""
 " to install the required packages on your system to support %s."
 msgstr "Šis ownCloud serveris nevar iestatīt sistēmas lokāli uz %s. Tas nozīmē, ka varētu būt problēmas ar noteiktām rakstzīmēm datņu nosaukumos. Mēs iesakām instalēt vajadzīgās pakotnes savā sistēmā %s atbalstam."
 
-#: templates/admin.php:75
+#: templates/admin.php:77
 msgid "Internet connection not working"
 msgstr "Interneta savienojums nedarbojas"
 
-#: templates/admin.php:78
+#: templates/admin.php:80
 msgid ""
 "This ownCloud server has no working internet connection. This means that "
 "some of the features like mounting of external storage, notifications about "
@@ -233,102 +233,102 @@ msgid ""
 " of ownCloud."
 msgstr "Šim ownCloud serverim nav strādājoša interneta savienojuma. Tas nozīmē, ka dažas no šīm iespējām, piemēram, ārējas krātuves montēšana, paziņošana par atjauninājumiem vai trešās puses programmatūras instalēšana nestrādā. Varētu nestrādāt attālināta piekļuve pie datnēm un paziņojumu e-pasta vēstuļu sūtīšana. Mēs iesakām aktivēt interneta savienojumu šim serverim, ja vēlaties visas ownCloud iespējas."
 
-#: templates/admin.php:92
+#: templates/admin.php:94
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:101
+#: templates/admin.php:103
 msgid "Execute one task with each page loaded"
 msgstr "Izpildīt vienu uzdevumu ar katru ielādēto lapu"
 
-#: templates/admin.php:111
+#: templates/admin.php:113
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
 msgstr "cron.php ir reģistrēts webcron servisā. Izsauciet cron.php lapu ownCloud saknē caur http reizi sekundē."
 
-#: templates/admin.php:121
+#: templates/admin.php:123
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
 msgstr "Izmantot sistēmas cron servisu. Izsauciet cron.php datni ownCloud mapē caur sistēmas cornjob reizi minūtē."
 
-#: templates/admin.php:128
+#: templates/admin.php:130
 msgid "Sharing"
 msgstr "Dalīšanās"
 
-#: templates/admin.php:134
+#: templates/admin.php:136
 msgid "Enable Share API"
 msgstr "Aktivēt koplietošanas API"
 
-#: templates/admin.php:135
+#: templates/admin.php:137
 msgid "Allow apps to use the Share API"
 msgstr "Ļauj lietotnēm izmantot koplietošanas API"
 
-#: templates/admin.php:142
+#: templates/admin.php:144
 msgid "Allow links"
 msgstr "Atļaut saites"
 
-#: templates/admin.php:143
+#: templates/admin.php:145
 msgid "Allow users to share items to the public with links"
 msgstr "Ļaut lietotājiem publiski dalīties ar vienumiem, izmantojot saites"
 
-#: templates/admin.php:150
+#: templates/admin.php:152
 msgid "Allow resharing"
 msgstr "Atļaut atkārtotu koplietošanu"
 
-#: templates/admin.php:151
+#: templates/admin.php:153
 msgid "Allow users to share items shared with them again"
 msgstr "Ļaut lietotājiem dalīties ar vienumiem atkārtoti"
 
-#: templates/admin.php:158
+#: templates/admin.php:160
 msgid "Allow users to share with anyone"
 msgstr "Ļaut lietotājiem dalīties ar visiem"
 
-#: templates/admin.php:161
+#: templates/admin.php:163
 msgid "Allow users to only share with users in their groups"
 msgstr "Ļaut lietotājiem dalīties ar lietotājiem to grupās"
 
-#: templates/admin.php:168
+#: templates/admin.php:170
 msgid "Security"
 msgstr "Drošība"
 
-#: templates/admin.php:181
+#: templates/admin.php:183
 msgid "Enforce HTTPS"
 msgstr "Uzspiest HTTPS"
 
-#: templates/admin.php:182
+#: templates/admin.php:184
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
 msgstr "Piespiež klientus savienoties ar ownCloud caur šifrētu savienojumu."
 
-#: templates/admin.php:185
+#: templates/admin.php:187
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
 msgstr "Lūdzu, savienojieties ar šo ownCloud pakalpojumu caur HTTPS, lai aktivētu vai deaktivētu SSL piemērošanu."
 
-#: templates/admin.php:195
+#: templates/admin.php:197
 msgid "Log"
 msgstr "Žurnāls"
 
-#: templates/admin.php:196
+#: templates/admin.php:198
 msgid "Log level"
 msgstr "Žurnāla līmenis"
 
-#: templates/admin.php:227
+#: templates/admin.php:229
 msgid "More"
 msgstr "Vairāk"
 
-#: templates/admin.php:228
+#: templates/admin.php:230
 msgid "Less"
 msgstr "Mazāk"
 
-#: templates/admin.php:235 templates/personal.php:116
+#: templates/admin.php:236 templates/personal.php:116
 msgid "Version"
 msgstr "Versija"
 
-#: templates/admin.php:237 templates/personal.php:119
+#: templates/admin.php:240 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -386,74 +386,77 @@ msgstr "Kļūdu sekotājs"
 msgid "Commercial Support"
 msgstr "Komerciālais atbalsts"
 
-#: templates/personal.php:9
+#: templates/personal.php:10
 msgid "Get the apps to sync your files"
 msgstr "Saņem lietotnes, lai sinhronizētu savas datnes"
 
-#: templates/personal.php:20
+#: templates/personal.php:21
 msgid "Show First Run Wizard again"
 msgstr "Vēlreiz rādīt pirmās palaišanas vedni"
 
-#: templates/personal.php:28
+#: templates/personal.php:29
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Jūs lietojat <strong>%s</strong> no pieejamajiem <strong>%s</strong>"
 
-#: templates/personal.php:40 templates/users.php:23 templates/users.php:86
+#: templates/personal.php:41 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "Parole"
 
-#: templates/personal.php:41
+#: templates/personal.php:42
 msgid "Your password was changed"
 msgstr "Jūru parole tika nomainīta"
 
-#: templates/personal.php:42
+#: templates/personal.php:43
 msgid "Unable to change your password"
 msgstr "Nevar nomainīt jūsu paroli"
 
-#: templates/personal.php:43
+#: templates/personal.php:44
 msgid "Current password"
 msgstr "Pašreizējā parole"
 
-#: templates/personal.php:45
+#: templates/personal.php:46
 msgid "New password"
 msgstr "Jauna parole"
 
-#: templates/personal.php:47
+#: templates/personal.php:48
 msgid "Change password"
 msgstr "Mainīt paroli"
 
-#: templates/personal.php:59 templates/users.php:85
+#: templates/personal.php:60 templates/users.php:85
 msgid "Display Name"
 msgstr "Redzamais vārds"
 
-#: templates/personal.php:74
+#: templates/personal.php:75
 msgid "Email"
 msgstr "E-pasts"
 
-#: templates/personal.php:76
+#: templates/personal.php:77
 msgid "Your email address"
 msgstr "Jūsu e-pasta adrese"
 
-#: templates/personal.php:77
+#: templates/personal.php:78
 msgid "Fill in an email address to enable password recovery"
 msgstr "Ievadiet e-pasta adresi, lai vēlāk varētu atgūt paroli, ja būs nepieciešamība"
 
-#: templates/personal.php:86 templates/personal.php:87
+#: templates/personal.php:87 templates/personal.php:88
 msgid "Language"
 msgstr "Valoda"
 
-#: templates/personal.php:99
+#: templates/personal.php:100
 msgid "Help translate"
 msgstr "Palīdzi tulkot"
 
-#: templates/personal.php:105
+#: templates/personal.php:106
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:107
-msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "Izmanto šo adresi, lai, izmantojot datņu pārvaldnieku, savienotos ar savu ownCloud"
+#: templates/personal.php:108
+#, php-format
+msgid ""
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
+"target=\"_blank\">access your Files via WebDAV</a>"
+msgstr ""
 
 #: templates/users.php:21
 msgid "Login Name"

@@ -70,7 +70,7 @@ class App {
 		} else {
 			// rename failed
 			$result['data'] = array(
-				'message'	=> $this->l10n->t('Unable to rename file')
+				'message'	=> $this->l10n->t('%s could not be renamed', array($oldname))
 			);
 		}
 		return $result;

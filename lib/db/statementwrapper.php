@@ -13,11 +13,13 @@ class OC_DB_StatementWrapper {
 	/**
 	 * @var \Doctrine\DBAL\Driver\Statement
 	 */
-	private $statement=null;
-	private $lastArguments=array();
+	private $statement = null;
+	private $isManipulation = false;
+	private $lastArguments = array();
 
-	public function __construct($statement) {
-		$this->statement=$statement;
+	public function __construct($statement, $isManipulation) {
+		$this->statement = $statement;
+		$this->isManipulation = $isManipulation;
 	}
 
 	/**
@@ -65,15 +67,18 @@ class OC_DB_StatementWrapper {
 				$input = $this->tryFixSubstringLastArgumentDataForMSSQL($input);
 			}
 
-			$result=$this->statement->execute($input);
+			$result = $this->statement->execute($input);
 		} else {
-			$result=$this->statement->execute();
+			$result = $this->statement->execute();
 		}
 		
-		if ($result) {
-			return $this;
-		} else {
+		if ($result === false) {
 			return false;
+		}
+		if ($this->isManipulation) {
+			return $this->statement->rowCount();
+		} else {
+			return $this;
 		}
 	}
 

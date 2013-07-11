@@ -6,6 +6,10 @@
 "Missing a temporary folder" => "Un dorsièr temporari manca",
 "Failed to write to disk" => "L'escriptura sul disc a fracassat",
 "Files" => "Fichièrs",
+"Unable to upload your file as it is a directory or has 0 bytes" => "Impossible d'amontcargar lo teu fichièr qu'es un repertòri o que ten pas que 0 octet.",
+"Upload cancelled." => "Amontcargar anullat.",
+"File upload is in progress. Leaving the page now will cancel the upload." => "Un amontcargar es a se far. Daissar aquesta pagina ara tamparà lo cargament. ",
+"Error" => "Error",
 "Share" => "Parteja",
 "Delete" => "Escafa",
 "Rename" => "Torna nomenar",
@@ -16,10 +20,6 @@
 "undo" => "defar",
 "1 file uploading" => "1 fichièr al amontcargar",
 "files uploading" => "fichièrs al amontcargar",
-"Unable to upload your file as it is a directory or has 0 bytes" => "Impossible d'amontcargar lo teu fichièr qu'es un repertòri o que ten pas que 0 octet.",
-"Upload cancelled." => "Amontcargar anullat.",
-"File upload is in progress. Leaving the page now will cancel the upload." => "Un amontcargar es a se far. Daissar aquesta pagina ara tamparà lo cargament. ",
-"Error" => "Error",
 "Name" => "Nom",
 "Size" => "Talha",
 "Modified" => "Modificat",
@@ -42,5 +42,7 @@
 "Upload too large" => "Amontcargament tròp gròs",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Los fichièrs que sias a amontcargar son tròp pesucs per la talha maxi pel servidor.",
 "Files are being scanned, please wait." => "Los fiichièrs son a èsser explorats, ",
-"Current scanning" => "Exploracion en cors"
+"Current scanning" => "Exploracion en cors",
+"file" => "fichièr",
+"files" => "fichièrs"
 );

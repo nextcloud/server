@@ -1,0 +1,56 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-07-06 02:01+0200\n"
+"PO-Revision-Date: 2013-07-05 08:25+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Language-Team: Malayalam (India) (http://www.transifex.com/projects/p/owncloud/language/ml_IN/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ml_IN\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/authenticate.php:4
+msgid "The password is wrong. Try again."
+msgstr ""
+
+#: templates/authenticate.php:7
+msgid "Password"
+msgstr ""
+
+#: templates/authenticate.php:9
+msgid "Submit"
+msgstr ""
+
+#: templates/public.php:17
+#, php-format
+msgid "%s shared the folder %s with you"
+msgstr ""
+
+#: templates/public.php:20
+#, php-format
+msgid "%s shared the file %s with you"
+msgstr ""
+
+#: templates/public.php:28 templates/public.php:90
+msgid "Download"
+msgstr ""
+
+#: templates/public.php:45 templates/public.php:48
+msgid "Upload"
+msgstr ""
+
+#: templates/public.php:58
+msgid "Cancel upload"
+msgstr ""
+
+#: templates/public.php:87
+msgid "No preview available for"
+msgstr ""

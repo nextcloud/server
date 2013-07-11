@@ -98,7 +98,6 @@
 "Language" => "Idioma",
 "Help translate" => "Ajudeu-nos amb la traducció",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "Useu aquesta adreça per connectar amb ownCloud des del gestor de fitxers",
 "Login Name" => "Nom d'accés",
 "Create" => "Crea",
 "Admin Recovery Password" => "Recuperació de contrasenya d'administrador",
