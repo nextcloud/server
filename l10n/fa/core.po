@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-11 02:17+0200\n"
-"PO-Revision-Date: 2013-07-11 00:12+0000\n"
+"POT-Creation-Date: 2013-07-12 02:03+0200\n"
+"PO-Revision-Date: 2013-07-11 23:14+0000\n"
 "Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -367,14 +367,14 @@ msgstr "درحال ارسال ..."
 msgid "Email sent"
 msgstr "ایمیل ارسال شد"
 
-#: js/update.js:14
+#: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
 msgstr "به روز رسانی ناموفق بود. لطفا این خطا را به  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">جامعه ی OwnCloud</a> گزارش نمایید."
 
-#: js/update.js:18
+#: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "به روزرسانی موفقیت آمیز بود. در حال انتقال شما به OwnCloud."
 

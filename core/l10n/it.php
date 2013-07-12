@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s ha condiviso »%s« con te",
+"%s shared »%s« with you" => "%s ha condiviso «%s» con te",
 "Category type not provided." => "Tipo di categoria non fornito.",
 "No category to add?" => "Nessuna categoria da aggiungere?",
 "This category already exists: %s" => "Questa categoria esiste già: %s",
@@ -135,7 +135,7 @@
 "remember" => "ricorda",
 "Log in" => "Accedi",
 "Alternative Logins" => "Accessi alternativi",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Ehilà,<br><br>volevo solamente farti sapere che %s ha condiviso »%s« con te.<br><a href=\"%s\">Guarda!</a><br><br>Saluti!",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Ehilà,<br><br>volevo solamente farti sapere che %s ha condiviso «%s» con te.<br><a href=\"%s\">Guarda!</a><br><br>Saluti!",
 "prev" => "precedente",
 "next" => "successivo",
 "Updating ownCloud to version %s, this may take a while." => "Aggiornamento di ownCloud alla versione %s in corso, ciò potrebbe richiedere del tempo."
