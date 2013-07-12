@@ -149,8 +149,8 @@ if (!$_['internetconnectionworking']) {
 			<td <?php if ($_['shareAPIEnabled'] == 'no') print_unescaped('style="display:none"');?>>
 				<input type="checkbox" name="shareapi_allow_public_upload" id="allowPublicUpload"
 				       value="1" <?php if ($_['allowPublicUpload'] == 'yes') print_unescaped('checked="checked"'); ?> />
-				<label for="allowPublicUpload"><?php p($l->t('Allow anonymous uploads'));?></label><br/>
-				<em><?php p($l->t('Allow users to enable others to anonymously upload into their publicly shared folders')); ?></em>
+				<label for="allowPublicUpload"><?php p($l->t('Allow public uploads'));?></label><br/>
+				<em><?php p($l->t('Allow users to enable others to upload into their publicly shared folders')); ?></em>
 			</td>
 		</tr>
 		<tr>
