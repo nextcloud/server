@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-22 02:06+0200\n"
-"PO-Revision-Date: 2013-06-22 00:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-06 02:01+0200\n"
+"PO-Revision-Date: 2013-07-05 09:30+0000\n"
+"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,30 +47,32 @@ msgstr "Ei suutnud vahetada parooli. Võib-olla on vana parool valesti sisestatu
 
 #: ajax/updatePrivateKeyPassword.php:51
 msgid "Private key password successfully updated."
-msgstr ""
+msgstr "Privaatse võtme parool edukalt uuendatud."
 
 #: ajax/updatePrivateKeyPassword.php:53
 msgid ""
 "Could not update the private key password. Maybe the old password was not "
 "correct."
-msgstr ""
+msgstr "Ei suutnud uuendada privaatse võtme parooli. Võib-olla polnud vana parool õige."
 
 #: files/error.php:7
 msgid ""
-"Your private key is not valid! Maybe your password was changed from outside."
-" You can update your private key password in your personal settings to "
-"regain access to your files"
-msgstr ""
+"Your private key is not valid! Likely your password was changed outside the "
+"ownCloud system (e.g. your corporate directory). You can update your private"
+" key password in your personal settings to recover access to your encrypted "
+"files."
+msgstr "Sinu privaatne võti pole toimiv! Tõenäoliselt on sinu parool muutunud väljaspool ownCloud süsteemi (näiteks ettevõtte keskhaldus). Sa saad uuendada oma privaatse võtme parooli seadete all taastamaks ligipääsu oma krüpteeritud failidele."
 
 #: hooks/hooks.php:44
-msgid "PHP module OpenSSL is not installed."
-msgstr ""
+msgid "Missing requirements."
+msgstr "Nõutavad on puudu."
 
 #: hooks/hooks.php:45
 msgid ""
-"Please ask your server administrator to install the module. For now the "
-"encryption app was disabled."
-msgstr ""
+"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
+"PHP extension is enabled and configured properly. For now, the encryption "
+"app has been disabled."
+msgstr "Veendu, et kasutusel oleks PHP 5.3.3 või uuem versioon ning kasutusel oleks OpenSSL PHP laiendus ja see on korrektselt seadistatud. Hetkel on krüpteerimise rakenduse kasutamine peatatud."
 
 #: js/settings-admin.js:11
 msgid "Saving..."
@@ -80,15 +82,15 @@ msgstr "Salvestamine..."
 msgid ""
 "Your private key is not valid! Maybe the your password was changed from "
 "outside."
-msgstr ""
+msgstr "Sinu privaatne võti ei ole õige. Võib-olla on parool vahetatud süsteemi väliselt."
 
 #: templates/invalid_private_key.php:7
 msgid "You can unlock your private key in your "
-msgstr ""
+msgstr "Saad avada oma privaatse võtme oma"
 
 #: templates/invalid_private_key.php:7
 msgid "personal settings"
-msgstr ""
+msgstr "isiklikes seadetes"
 
 #: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
@@ -97,11 +99,11 @@ msgstr "Krüpteerimine"
 #: templates/settings-admin.php:10
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
-msgstr ""
+msgstr "Luba taastevõti (võimada kasutaja failide taastamine parooli kaotuse puhul):"
 
 #: templates/settings-admin.php:14
 msgid "Recovery key password"
-msgstr ""
+msgstr "Taastevõtme parool"
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
@@ -113,15 +115,15 @@ msgstr "Väljalülitatud"
 
 #: templates/settings-admin.php:34
 msgid "Change recovery key password:"
-msgstr ""
+msgstr "Muuda taastevõtme parooli:"
 
 #: templates/settings-admin.php:41
 msgid "Old Recovery key password"
-msgstr ""
+msgstr "Vana taastevõtme parool"
 
 #: templates/settings-admin.php:48
 msgid "New Recovery key password"
-msgstr ""
+msgstr "Uus taastevõtme parool"
 
 #: templates/settings-admin.php:53
 msgid "Change Password"
@@ -129,39 +131,39 @@ msgstr "Muuda parooli"
 
 #: templates/settings-personal.php:11
 msgid "Your private key password no longer match your log-in password:"
-msgstr ""
+msgstr "Sinu privaatse võtme parool ei ühti enam sinu sisselogimise parooliga:"
 
 #: templates/settings-personal.php:14
 msgid "Set your old private key password to your current log-in password."
-msgstr ""
+msgstr "Pane oma vana privaatvõtme parooliks oma praegune sisselogimise parool."
 
 #: templates/settings-personal.php:16
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
-msgstr ""
+msgstr "Kui sa ei mäleta oma vana parooli, siis palu oma süsteemihalduril taastada ligipääs failidele."
 
 #: templates/settings-personal.php:24
 msgid "Old log-in password"
-msgstr ""
+msgstr "Vana sisselogimise parool"
 
 #: templates/settings-personal.php:30
 msgid "Current log-in password"
-msgstr ""
+msgstr "Praegune sisselogimise parool"
 
 #: templates/settings-personal.php:35
 msgid "Update Private Key Password"
-msgstr ""
+msgstr "Uuenda privaatse võtme parooli"
 
 #: templates/settings-personal.php:45
 msgid "Enable password recovery:"
-msgstr ""
+msgstr "Luba parooli taaste:"
 
 #: templates/settings-personal.php:47
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
-msgstr ""
+msgstr "Valiku lubamine võimaldab taastada ligipääsu krüpteeritud failidele kui parooli kaotuse puhul"
 
 #: templates/settings-personal.php:63
 msgid "File recovery settings updated"

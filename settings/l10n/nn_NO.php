@@ -98,7 +98,6 @@
 "Language" => "Språk",
 "Help translate" => "Hjelp oss å omsetja",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "Bruk denne adressa for å kopla til din ownCloud frå filhandsamaren din",
 "Login Name" => "Innloggingsnamn",
 "Create" => "Lag",
 "Default Storage" => "Standardlagring",

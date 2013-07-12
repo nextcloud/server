@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-23 01:59+0200\n"
-"PO-Revision-Date: 2013-06-22 10:17+0000\n"
-"Last-Translator: plazmism <gomidori@live.jp>\n"
+"POT-Creation-Date: 2013-07-07 01:58+0200\n"
+"PO-Revision-Date: 2013-07-06 01:30+0000\n"
+"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,20 +58,22 @@ msgstr "秘密鍵のパスワードを更新できませんでした。古いパ
 
 #: files/error.php:7
 msgid ""
-"Your private key is not valid! Maybe your password was changed from outside."
-" You can update your private key password in your personal settings to "
-"regain access to your files"
-msgstr "秘密鍵が有効ではありません。パスワードが外部から変更された恐れがあります。。個人設定で秘密鍵のパスワードを更新して、ファイルへのアクセス権を奪還できます。"
+"Your private key is not valid! Likely your password was changed outside the "
+"ownCloud system (e.g. your corporate directory). You can update your private"
+" key password in your personal settings to recover access to your encrypted "
+"files."
+msgstr "秘密鍵が有効ではありません。パスワードがownCloudシステムの外部(例えば、企業ディレクトリ)から変更された恐れがあります。個人設定で秘密鍵のパスワードを更新して、暗号化されたファイルを回復出来ます。"
 
 #: hooks/hooks.php:44
-msgid "PHP module OpenSSL is not installed."
-msgstr "PHPのモジュール OpenSSLがインストールされていません。"
+msgid "Missing requirements."
+msgstr "必要要件が満たされていません。"
 
 #: hooks/hooks.php:45
 msgid ""
-"Please ask your server administrator to install the module. For now the "
-"encryption app was disabled."
-msgstr "サーバーの管理者にモジュールのインストールを頼んでください。さしあたり暗号化アプリは無効化されました。"
+"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
+"PHP extension is enabled and configured properly. For now, the encryption "
+"app has been disabled."
+msgstr "必ず、PHP 5.3.3以上をインストールし、OpenSSLのPHP拡張を有効にして適切に設定してください。現時点では暗号化アプリは無効になっています。"
 
 #: js/settings-admin.js:11
 msgid "Saving..."

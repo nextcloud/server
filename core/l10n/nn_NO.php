@@ -100,7 +100,6 @@
 "Help" => "Hjelp",
 "Access forbidden" => "Tilgang forbudt",
 "Cloud not found" => "Fann ikkje skyen",
-"web services under your control" => "Vev tjenester under din kontroll",
 "Edit categories" => "Endra kategoriar",
 "Add" => "Legg til",
 "Security Warning" => "Tryggleiksåtvaring",

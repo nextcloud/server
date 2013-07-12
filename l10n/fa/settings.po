@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# miki_mika1362 <miki_mika1362@yahoo.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-28 01:58+0200\n"
-"PO-Revision-Date: 2013-06-27 23:15+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-12 02:04+0200\n"
+"PO-Revision-Date: 2013-07-11 23:15+0000\n"
+"Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +29,7 @@ msgstr "خطا در اعتبار سنجی"
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
-msgstr ""
+msgstr "نام نمایش شما تغییر یافته است."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
@@ -88,35 +89,35 @@ msgstr "امکان حذف کاربر از گروه %s نیست"
 msgid "Couldn't update app."
 msgstr "برنامه را نمی توان به هنگام ساخت."
 
-#: js/apps.js:30
+#: js/apps.js:35
 msgid "Update to {appversion}"
 msgstr "بهنگام شده به  {appversion}"
 
-#: js/apps.js:36 js/apps.js:76
+#: js/apps.js:41 js/apps.js:81
 msgid "Disable"
 msgstr "غیرفعال"
 
-#: js/apps.js:36 js/apps.js:64 js/apps.js:83
+#: js/apps.js:41 js/apps.js:69 js/apps.js:88
 msgid "Enable"
 msgstr "فعال"
 
-#: js/apps.js:55
+#: js/apps.js:60
 msgid "Please wait...."
 msgstr "لطفا صبر کنید ..."
 
-#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
+#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
 msgid "Error"
 msgstr "خطا"
 
-#: js/apps.js:90
+#: js/apps.js:95
 msgid "Updating...."
 msgstr "در حال بروز رسانی..."
 
-#: js/apps.js:93
+#: js/apps.js:98
 msgid "Error while updating app"
 msgstr "خطا در هنگام بهنگام سازی برنامه"
 
-#: js/apps.js:96
+#: js/apps.js:101
 msgid "Updated"
 msgstr "بروز رسانی انجام شد"
 
@@ -165,15 +166,15 @@ msgstr "خطا در ایجاد کاربر"
 msgid "A valid password must be provided"
 msgstr "رمز عبور صحیح باید وارد شود"
 
-#: personal.php:35 personal.php:36
+#: personal.php:37 personal.php:38
 msgid "__language_name__"
 msgstr "__language_name__"
 
-#: templates/admin.php:15
+#: templates/admin.php:17
 msgid "Security Warning"
 msgstr "اخطار امنیتی"
 
-#: templates/admin.php:18
+#: templates/admin.php:20
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file that ownCloud provides is not working. We "
@@ -182,36 +183,36 @@ msgid ""
 " webserver document root."
 msgstr "احتمالاً فهرست و فایلهای شما از طریق اینترنت قابل دسترسی هستند. فایل با فرمت .htaccess که ownCloud اراده کرده است دیگر کار نمی کند. ما قویاً توصیه می کنیم که شما وب سرور خودتان را طوری تنظیم کنید که فهرست اطلاعات شما غیر قابل دسترسی باشند یا فهرست اطلاعات را به خارج از ریشه ی اصلی وب سرور انتقال دهید."
 
-#: templates/admin.php:29
+#: templates/admin.php:31
 msgid "Setup Warning"
 msgstr "هشدار راه اندازی"
 
-#: templates/admin.php:32
+#: templates/admin.php:34
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "احتمالاً وب سرور شما طوری تنظیم نشده است که اجازه ی همگام سازی فایلها را بدهد زیرا به نظر میرسد رابط WebDAV از کار افتاده است."
 
-#: templates/admin.php:33
+#: templates/admin.php:35
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "لطفاً دوباره <a href='%s'>راهنمای نصب</a>را بررسی کنید."
 
-#: templates/admin.php:44
+#: templates/admin.php:46
 msgid "Module 'fileinfo' missing"
 msgstr "ماژول 'fileinfo' از کار افتاده"
 
-#: templates/admin.php:47
+#: templates/admin.php:49
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "ماژول 'fileinfo' PHP از کار افتاده است.ما اکیدا توصیه می کنیم که این ماژول را فعال کنید تا نتایج بهتری به وسیله ی mime-type detection دریافت کنید."
 
-#: templates/admin.php:58
+#: templates/admin.php:60
 msgid "Locale not working"
-msgstr ""
+msgstr "زبان محلی کار نمی کند."
 
-#: templates/admin.php:63
+#: templates/admin.php:65
 #, php-format
 msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
@@ -219,11 +220,11 @@ msgid ""
 " to install the required packages on your system to support %s."
 msgstr "این سرور ownCloud نمی تواند سیستم محلی را بر روی %s تنظیم کند.این به این معنی ست که ممکن است با کاراکترهای خاصی در نام فایل ها مشکل داشته باشد.ما اکیداً نصب کردن بسته های لازم را بر روی سیستم خودتان برای پشتیبانی %s توصیه می کنیم."
 
-#: templates/admin.php:75
+#: templates/admin.php:77
 msgid "Internet connection not working"
 msgstr "اتصال اینترنت کار نمی کند"
 
-#: templates/admin.php:78
+#: templates/admin.php:80
 msgid ""
 "This ownCloud server has no working internet connection. This means that "
 "some of the features like mounting of external storage, notifications about "
@@ -233,102 +234,102 @@ msgid ""
 " of ownCloud."
 msgstr "این سرور OwnCloud ارتباط اینترنتی ندارد.این بدین معناست که بعضی از خصوصیات نظیر خارج کردن منبع ذخیره ی خارجی، اطلاعات در مورد بروزرسانی ها یا نصب برنامه های نوع 3ام کار نمی کنند.دسترسی به فایل ها از راه دور و ارسال آگاه سازی ایمیل ها ممکن است همچنان کار نکنند.اگرشما همه ی خصوصیات OwnCloud می خواهید ما پیشنهاد می کنیم تا ارتباط اینترنتی مربوط به این سرور را فعال کنید."
 
-#: templates/admin.php:92
+#: templates/admin.php:94
 msgid "Cron"
-msgstr ""
+msgstr "زمانبند"
 
-#: templates/admin.php:101
+#: templates/admin.php:103
 msgid "Execute one task with each page loaded"
 msgstr "اجرای یک وظیفه با هر بار بارگذاری صفحه"
 
-#: templates/admin.php:111
+#: templates/admin.php:113
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php در یک سرویس webcron ثبت شده است. تماس یک بار در دقیقه بر روی http با صفحه  cron.php در ریشه owncloud ."
 
-#: templates/admin.php:121
+#: templates/admin.php:123
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "استفاده از سیستم های سرویس cron . تماس یک بار در دقیقه با فایل cron.php در پوشه owncloud از طریق یک سیستم cronjob ."
 
-#: templates/admin.php:128
+#: templates/admin.php:130
 msgid "Sharing"
 msgstr "اشتراک گذاری"
 
-#: templates/admin.php:134
+#: templates/admin.php:136
 msgid "Enable Share API"
 msgstr "فعال کردن API اشتراک گذاری"
 
-#: templates/admin.php:135
+#: templates/admin.php:137
 msgid "Allow apps to use the Share API"
 msgstr "اجازه ی برنامه ها برای استفاده از API اشتراک گذاری"
 
-#: templates/admin.php:142
+#: templates/admin.php:144
 msgid "Allow links"
 msgstr "اجازه ی لینک ها"
 
-#: templates/admin.php:143
+#: templates/admin.php:145
 msgid "Allow users to share items to the public with links"
 msgstr "اجازه دادن به کاربران برای اشتراک گذاری آیتم ها با عموم از طریق پیوند ها"
 
-#: templates/admin.php:150
+#: templates/admin.php:152
 msgid "Allow resharing"
 msgstr "مجوز اشتراک گذاری مجدد"
 
-#: templates/admin.php:151
+#: templates/admin.php:153
 msgid "Allow users to share items shared with them again"
 msgstr "اجازه به کاربران برای اشتراک گذاری دوباره با آنها"
 
-#: templates/admin.php:158
+#: templates/admin.php:160
 msgid "Allow users to share with anyone"
 msgstr "اجازه به کابران برای اشتراک گذاری با همه"
 
-#: templates/admin.php:161
+#: templates/admin.php:163
 msgid "Allow users to only share with users in their groups"
 msgstr "اجازه به کاربران برای اشتراک گذاری ، تنها با دیگر کابران گروه خودشان"
 
-#: templates/admin.php:168
+#: templates/admin.php:170
 msgid "Security"
 msgstr "امنیت"
 
-#: templates/admin.php:181
+#: templates/admin.php:183
 msgid "Enforce HTTPS"
 msgstr "وادار کردن HTTPS"
 
-#: templates/admin.php:182
+#: templates/admin.php:184
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
 msgstr "وادار کردن مشتریان برای ارتباط با ownCloud از طریق رمزگذاری ارتباط"
 
-#: templates/admin.php:185
+#: templates/admin.php:187
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr ""
+msgstr "از طریق HTTPS به این نسخه از ownCloud متصل شوید تا بتوانید SSL  را فعال یا غیر فعال نمایید."
 
-#: templates/admin.php:195
+#: templates/admin.php:197
 msgid "Log"
 msgstr "کارنامه"
 
-#: templates/admin.php:196
+#: templates/admin.php:198
 msgid "Log level"
-msgstr ""
+msgstr "سطح ورود"
 
-#: templates/admin.php:227
+#: templates/admin.php:229
 msgid "More"
 msgstr "بیش‌تر"
 
-#: templates/admin.php:228
+#: templates/admin.php:230
 msgid "Less"
 msgstr "کم‌تر"
 
-#: templates/admin.php:235 templates/personal.php:116
+#: templates/admin.php:236 templates/personal.php:116
 msgid "Version"
 msgstr "نسخه"
 
-#: templates/admin.php:237 templates/personal.php:119
+#: templates/admin.php:240 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -386,74 +387,77 @@ msgstr "ردیاب باگ "
 msgid "Commercial Support"
 msgstr "پشتیبانی تجاری"
 
-#: templates/personal.php:9
+#: templates/personal.php:10
 msgid "Get the apps to sync your files"
 msgstr "برنامه ها را دریافت کنید تا فایل هایتان را همگام سازید"
 
-#: templates/personal.php:20
+#: templates/personal.php:21
 msgid "Show First Run Wizard again"
 msgstr "راهبری کمکی اجرای اول را دوباره نمایش بده"
 
-#: templates/personal.php:28
+#: templates/personal.php:29
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "شما استفاده کردید از <strong>%s</strong> از میزان در دسترس <strong>%s</strong>"
 
-#: templates/personal.php:40 templates/users.php:23 templates/users.php:86
+#: templates/personal.php:41 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "گذرواژه"
 
-#: templates/personal.php:41
+#: templates/personal.php:42
 msgid "Your password was changed"
 msgstr "رمز عبور شما تغییر یافت"
 
-#: templates/personal.php:42
+#: templates/personal.php:43
 msgid "Unable to change your password"
 msgstr "ناتوان در تغییر گذرواژه"
 
-#: templates/personal.php:43
+#: templates/personal.php:44
 msgid "Current password"
 msgstr "گذرواژه کنونی"
 
-#: templates/personal.php:45
+#: templates/personal.php:46
 msgid "New password"
 msgstr "گذرواژه جدید"
 
-#: templates/personal.php:47
+#: templates/personal.php:48
 msgid "Change password"
 msgstr "تغییر گذر واژه"
 
-#: templates/personal.php:59 templates/users.php:85
+#: templates/personal.php:60 templates/users.php:85
 msgid "Display Name"
 msgstr "نام نمایشی"
 
-#: templates/personal.php:74
+#: templates/personal.php:75
 msgid "Email"
 msgstr "ایمیل"
 
-#: templates/personal.php:76
+#: templates/personal.php:77
 msgid "Your email address"
 msgstr "پست الکترونیکی شما"
 
-#: templates/personal.php:77
+#: templates/personal.php:78
 msgid "Fill in an email address to enable password recovery"
 msgstr "پست الکترونیکی را پرکنید  تا بازیابی گذرواژه فعال شود"
 
-#: templates/personal.php:86 templates/personal.php:87
+#: templates/personal.php:87 templates/personal.php:88
 msgid "Language"
 msgstr "زبان"
 
-#: templates/personal.php:99
+#: templates/personal.php:100
 msgid "Help translate"
 msgstr "به ترجمه آن کمک کنید"
 
-#: templates/personal.php:105
+#: templates/personal.php:106
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
-#: templates/personal.php:107
-msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "از این نشانی برای اتصال به ownCloud خودتان در بخش مدیریت فایل خودتان استفاده کنید"
+#: templates/personal.php:108
+#, php-format
+msgid ""
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
+"target=\"_blank\">access your Files via WebDAV</a>"
+msgstr "استفاده ابن آدرس <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\"> برای دسترسی فایل های شما از طریق WebDAV </a>"
 
 #: templates/users.php:21
 msgid "Login Name"
@@ -465,13 +469,13 @@ msgstr "ایجاد کردن"
 
 #: templates/users.php:36
 msgid "Admin Recovery Password"
-msgstr ""
+msgstr "مدیریت بازیابی رمز عبور"
 
 #: templates/users.php:37 templates/users.php:38
 msgid ""
 "Enter the recovery password in order to recover the users files during "
 "password change"
-msgstr ""
+msgstr "در حین تغییر رمز عبور به منظور بازیابی فایل های کاربران، رمز عبور بازیابی را وارد کنید"
 
 #: templates/users.php:42
 msgid "Default Storage"

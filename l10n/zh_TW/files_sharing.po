@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-28 01:58+0200\n"
-"PO-Revision-Date: 2013-06-27 23:15+0000\n"
+"POT-Creation-Date: 2013-07-12 02:03+0200\n"
+"PO-Revision-Date: 2013-07-11 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -19,27 +19,39 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: templates/authenticate.php:4
+msgid "The password is wrong. Try again."
+msgstr ""
+
+#: templates/authenticate.php:7
 msgid "Password"
 msgstr "密碼"
 
-#: templates/authenticate.php:6
+#: templates/authenticate.php:9
 msgid "Submit"
 msgstr "送出"
 
-#: templates/public.php:10
+#: templates/public.php:17
 #, php-format
 msgid "%s shared the folder %s with you"
 msgstr "%s 和您分享了資料夾 %s "
 
-#: templates/public.php:13
+#: templates/public.php:20
 #, php-format
 msgid "%s shared the file %s with you"
 msgstr "%s 和您分享了檔案 %s"
 
-#: templates/public.php:19 templates/public.php:43
+#: templates/public.php:28 templates/public.php:90
 msgid "Download"
 msgstr "下載"
 
-#: templates/public.php:40
+#: templates/public.php:45 templates/public.php:48
+msgid "Upload"
+msgstr "上傳"
+
+#: templates/public.php:58
+msgid "Cancel upload"
+msgstr "取消上傳"
+
+#: templates/public.php:87
 msgid "No preview available for"
 msgstr "無法預覽"

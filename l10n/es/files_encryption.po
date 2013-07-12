@@ -5,6 +5,8 @@
 # Translators:
 # asaez <asaez@asaez.eu>, 2013
 # gmoriello <gmoriello@gmail.com>, 2013
+# mikelanabitarte <mikelanabitarte@gmail.com>, 2013
+# Korrosivo <yo@rubendelcampo.es>, 2013
 # saskarip <saskarip@gmail.com>, 2013
 # William Díaz <wdiazux@gmail.com>, 2013
 # xhiena <xhiena@gmail.com>, 2013
@@ -12,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-27 02:04+0200\n"
-"PO-Revision-Date: 2013-06-26 08:10+0000\n"
-"Last-Translator: asaez <asaez@asaez.eu>\n"
+"POT-Creation-Date: 2013-07-08 02:02+0200\n"
+"PO-Revision-Date: 2013-07-07 07:50+0000\n"
+"Last-Translator: Korrosivo <yo@rubendelcampo.es>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,20 +62,22 @@ msgstr "No se pudo cambiar la contraseña. Puede que la contraseña antigua no s
 
 #: files/error.php:7
 msgid ""
-"Your private key is not valid! Maybe your password was changed from outside."
-" You can update your private key password in your personal settings to "
-"regain access to your files"
-msgstr "¡Su clave privada no es válida! Tal vez su contraseña ha sido cambiada desde fuera. Puede actualizar la contraseña de su clave privada en sus opciones personales para recuperar el acceso a sus ficheros"
+"Your private key is not valid! Likely your password was changed outside the "
+"ownCloud system (e.g. your corporate directory). You can update your private"
+" key password in your personal settings to recover access to your encrypted "
+"files."
+msgstr "¡Su clave privada no es válida! Tal vez su contraseña ha sido cambiada desde fuera. Puede actualizar su clave privada en sus opciones personales para recuperar el acceso a sus ficheros."
 
 #: hooks/hooks.php:44
-msgid "PHP module OpenSSL is not installed."
-msgstr "El módulo OpenSSL de PHP no está instalado."
+msgid "Missing requirements."
+msgstr "Requisitos incompletos."
 
 #: hooks/hooks.php:45
 msgid ""
-"Please ask your server administrator to install the module. For now the "
-"encryption app was disabled."
-msgstr "Por favor pida al administrador de su servidor que le instale el módulo. De momento la aplicación de cifrado está deshabilitada."
+"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
+"PHP extension is enabled and configured properly. For now, the encryption "
+"app has been disabled."
+msgstr "Por favor, asegúrese de que PHP 5.3.3 o posterior está instalado y que la extensión OpenSSL de PHP está habilitada y configurada correctamente. Por el momento, la aplicación de cifrado ha sido deshabilitada."
 
 #: js/settings-admin.js:11
 msgid "Saving..."
@@ -120,11 +124,11 @@ msgstr "Cambiar la contraseña de la clave de recuperación"
 
 #: templates/settings-admin.php:41
 msgid "Old Recovery key password"
-msgstr "Contraseña de la antigua clave de recuperación"
+msgstr "Antigua clave de recuperación"
 
 #: templates/settings-admin.php:48
 msgid "New Recovery key password"
-msgstr "Contraseña de la nueva clave de recuperación"
+msgstr "Nueva clave de recuperación"
 
 #: templates/settings-admin.php:53
 msgid "Change Password"

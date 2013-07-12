@@ -9,10 +9,10 @@
 namespace OC\Files\Mount;
 
 use \OC\Files\Filesystem;
+use OC\Files\Storage\Loader;
+use OC\Files\Storage\Storage;
 
 class Mount {
-
-
 	/**
 	 * @var \OC\Files\Storage\Storage $storage
 	 */
@@ -23,19 +23,30 @@ class Mount {
 	private $mountPoint;
 
 	/**
-	 * @param string|\OC\Files\Storage\Storage $storage
-	 * @param string $mountpoint
-	 * @param array $arguments (optional)
+	 * @var \OC\Files\Storage\Loader $loader
 	 */
-	public function __construct($storage, $mountpoint, $arguments = null) {
+	private $loader;
+
+	/**
+	 * @param string | \OC\Files\Storage\Storage $storage
+	 * @param string $mountpoint
+	 * @param array $arguments (optional)\
+	 * @param \OC\Files\Storage\Loader $loader
+	 */
+	public function __construct($storage, $mountpoint, $arguments = null, $loader = null) {
 		if (is_null($arguments)) {
 			$arguments = array();
 		}
+		if (is_null($loader)) {
+			$this->loader = new Loader();
+		} else {
+			$this->loader = $loader;
+		}
 
 		$mountpoint = $this->formatPath($mountpoint);
-		if ($storage instanceof \OC\Files\Storage\Storage) {
+		if ($storage instanceof Storage) {
 			$this->class = get_class($storage);
-			$this->storage = $storage;
+			$this->storage = $this->loader->wrap($mountpoint, $storage);
 		} else {
 			// Update old classes to new namespace
 			if (strpos($storage, 'OC_Filestorage_') !== false) {
@@ -62,7 +73,7 @@ class Mount {
 	private function createStorage() {
 		if (class_exists($this->class)) {
 			try {
-				return new $this->class($this->arguments);
+				return $this->loader->load($this->mountPoint, $this->class, $this->arguments);
 			} catch (\Exception $exception) {
 				\OC_Log::write('core', $exception->getMessage(), \OC_Log::ERROR);
 				return null;

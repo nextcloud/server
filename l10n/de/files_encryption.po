@@ -6,13 +6,15 @@
 # iLennart21 <a12s34d56f78@live.com>, 2013
 # Stephan Köninger <mail@stekoe.de>, 2013
 # ninov <ninovdl@ymail.com>, 2013
+# Pwnicorn <pwnicorndev@gmail.com>, 2013
+# kabum <uu.kabum@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-22 02:06+0200\n"
-"PO-Revision-Date: 2013-06-22 00:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-12 02:03+0200\n"
+"PO-Revision-Date: 2013-07-11 12:50+0000\n"
+"Last-Translator: kabum <uu.kabum@gmail.com>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -54,24 +56,26 @@ msgstr "Passwort des privaten Schlüssels erfolgreich aktualisiert"
 msgid ""
 "Could not update the private key password. Maybe the old password was not "
 "correct."
-msgstr ""
+msgstr "Das Passwort des privaten Schlüssels konnte nicht aktualisiert werden. Eventuell war das alte Passwort falsch."
 
 #: files/error.php:7
 msgid ""
-"Your private key is not valid! Maybe your password was changed from outside."
-" You can update your private key password in your personal settings to "
-"regain access to your files"
-msgstr ""
+"Your private key is not valid! Likely your password was changed outside the "
+"ownCloud system (e.g. your corporate directory). You can update your private"
+" key password in your personal settings to recover access to your encrypted "
+"files."
+msgstr "Dein privater Schlüssel ist ungültig. Möglicher Weise wurde von außerhalb Dein Passwort geändert (z.B. in deinem gemeinsamen Verzeichnis). Du kannst das Passwort deines privaten Schlüssels in den persönlichen Einstellungen aktualisieren, um wieder an deine Dateien zu gelangen."
 
 #: hooks/hooks.php:44
-msgid "PHP module OpenSSL is not installed."
-msgstr ""
+msgid "Missing requirements."
+msgstr "Fehlende Vorraussetzungen"
 
 #: hooks/hooks.php:45
 msgid ""
-"Please ask your server administrator to install the module. For now the "
-"encryption app was disabled."
-msgstr ""
+"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
+"PHP extension is enabled and configured properly. For now, the encryption "
+"app has been disabled."
+msgstr "Bitte stellen Sie sicher, dass PHP 5.3.3 oder neuer installiert ist und die OpenSSL-PHP-Erweiterung aktiviert und richtig konfiguriert ist. Die Verschlüsselungsanwendung wurde vorerst deaktiviert."
 
 #: js/settings-admin.js:11
 msgid "Saving..."
@@ -81,11 +85,11 @@ msgstr "Speichern..."
 msgid ""
 "Your private key is not valid! Maybe the your password was changed from "
 "outside."
-msgstr ""
+msgstr "Ihr privater Schlüssel ist ungültig! Eventuell wurde Ihr Passwort von außerhalb geändert."
 
 #: templates/invalid_private_key.php:7
 msgid "You can unlock your private key in your "
-msgstr ""
+msgstr "Du kannst den privaten Schlüssel ändern und zwar in deinem"
 
 #: templates/invalid_private_key.php:7
 msgid "personal settings"
@@ -98,11 +102,11 @@ msgstr "Verschlüsselung"
 #: templates/settings-admin.php:10
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
-msgstr ""
+msgstr "Wiederherstellungsschlüssel aktivieren (ermöglicht das Wiederherstellen von Dateien, falls das Passwort vergessen wurde):"
 
 #: templates/settings-admin.php:14
 msgid "Recovery key password"
-msgstr ""
+msgstr "Wiederherstellungsschlüssel-Passwort"
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
@@ -114,15 +118,15 @@ msgstr "Deaktiviert"
 
 #: templates/settings-admin.php:34
 msgid "Change recovery key password:"
-msgstr ""
+msgstr "Wiederherstellungsschlüssel-Passwort ändern:"
 
 #: templates/settings-admin.php:41
 msgid "Old Recovery key password"
-msgstr ""
+msgstr "Altes Wiederherstellungsschlüssel-Passwort"
 
 #: templates/settings-admin.php:48
 msgid "New Recovery key password"
-msgstr ""
+msgstr "Neues Wiederherstellungsschlüssel-Passwort"
 
 #: templates/settings-admin.php:53
 msgid "Change Password"
@@ -130,17 +134,17 @@ msgstr "Passwort ändern"
 
 #: templates/settings-personal.php:11
 msgid "Your private key password no longer match your log-in password:"
-msgstr ""
+msgstr "Ihr Passwort für ihren privaten Schlüssel stimmt nicht mehr mit ihrem Loginpasswort überein."
 
 #: templates/settings-personal.php:14
 msgid "Set your old private key password to your current log-in password."
-msgstr ""
+msgstr "Setzen Sie ihr altes Passwort für ihren privaten Schlüssel auf ihr aktuelles Login-Passwort"
 
 #: templates/settings-personal.php:16
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
-msgstr ""
+msgstr "Wenn Sie Ihr altes Passwort vergessen haben, können Sie den Administrator bitten, Ihre Daten wiederherzustellen."
 
 #: templates/settings-personal.php:24
 msgid "Old log-in password"
@@ -152,17 +156,17 @@ msgstr "Aktuelles Passwort"
 
 #: templates/settings-personal.php:35
 msgid "Update Private Key Password"
-msgstr ""
+msgstr "Passwort für den privaten Schlüssel aktualisieren"
 
 #: templates/settings-personal.php:45
 msgid "Enable password recovery:"
-msgstr ""
+msgstr "Passwortwiederherstellung aktivvieren:"
 
 #: templates/settings-personal.php:47
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
-msgstr ""
+msgstr "Wenn Sie diese Option aktivieren, können Sie Ihre verschlüsselten Dateien wiederherstellen, falls Sie Ihr Passwort vergessen"
 
 #: templates/settings-personal.php:63
 msgid "File recovery settings updated"
@@ -170,4 +174,4 @@ msgstr "Einstellungen zur Wiederherstellung von Dateien wurden aktualisiert"
 
 #: templates/settings-personal.php:64
 msgid "Could not update file recovery"
-msgstr ""
+msgstr "Dateiwiederherstellung konnte nicht aktualisiert werden"

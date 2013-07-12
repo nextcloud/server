@@ -98,7 +98,6 @@
 "Language" => "Jazyk",
 "Help translate" => "Pomoci s překladem",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "Použijte tuto adresu pro připojení k vašemu ownCloud skrze správce souborů",
 "Login Name" => "Přihlašovací jméno",
 "Create" => "Vytvořit",
 "Admin Recovery Password" => "Heslo obnovy správce",

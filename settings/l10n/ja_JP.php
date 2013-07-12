@@ -98,7 +98,7 @@
 "Language" => "言語",
 "Help translate" => "翻訳に協力する",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "ファイルマネージャでownCloudに接続する際はこのアドレスを利用してください",
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "<a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">WebDAV経由でファイルにアクセス</a>するにはこのアドレスを利用してください",
 "Login Name" => "ログイン名",
 "Create" => "作成",
 "Admin Recovery Password" => "管理者復旧パスワード",

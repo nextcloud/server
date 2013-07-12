@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="22" width="22" version="1.0" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/">
- <defs>
-  <linearGradient id="a" y2="45.69" gradientUnits="userSpaceOnUse" x2="24.139" gradientTransform="matrix(.53994 0 0 .53668 -1.7557 -1.7859)" y1="6.5317" x1="24.139">
-   <stop stop-color="#fff" offset="0"/>
-   <stop stop-color="#fff" stop-opacity="0" offset="1"/>
-  </linearGradient>
- </defs>
- <path opacity=".4" d="m8.5932 8.2152v-5.9948h5v5.9948h6v5.0052h-6v6h-5v-6h-6v-5.0052h6z" fill-rule="evenodd" stroke="url(#a)"/>
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="16" width="16" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+ <g transform="matrix(-.70711 -.70711 .70711 -.70711 -724.85 752.16)">
+  <path d="m1.6361 1040.9 2.8284-2.8284 3.5355 3.5355 3.5355-3.5355 2.8284 2.8284-3.5355 3.5355 3.5356 3.5356-2.8284 2.8284-3.5356-3.5356-3.5357 3.5354-2.8281-2.8281 3.5354-3.5357z"/>
+ </g>
 </svg>

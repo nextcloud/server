@@ -98,7 +98,6 @@
 "Language" => "ენა",
 "Help translate" => "თარგმნის დახმარება",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "გამოიყენე შემდეგი მისამართი ownCloud–თან დასაკავშირებლად შენს ფაილმენეჯერში",
 "Login Name" => "მომხმარებლის სახელი",
 "Create" => "შექმნა",
 "Default Storage" => "საწყისი საცავი",

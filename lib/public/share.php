@@ -292,6 +292,29 @@ class Share {
 	}
 
 	/**
+	 * @brief resolves reshares down to the last real share
+	 * @param $linkItem
+	 * @return $fileOwner
+	 */
+	public static function resolveReShare($linkItem)
+	{
+		if (isset($linkItem['parent'])) {
+			$parent = $linkItem['parent'];
+			while (isset($parent)) {
+				$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*share` WHERE `id` = ?', 1);
+				$item = $query->execute(array($parent))->fetchRow();
+				if (isset($item['parent'])) {
+					$parent = $item['parent'];
+				} else {
+					return $item;
+				}
+			}
+		}
+		return $linkItem;
+	}
+
+
+	/**
 	* @brief Get the shared items of item type owned by the current user
 	* @param string Item type
 	* @param int Format (optional) Format type must be defined by the backend
@@ -312,7 +335,7 @@ class Share {
 	* @return Return depends on format
 	*/
 	public static function getItemShared($itemType, $itemSource, $format = self::FORMAT_NONE,
-		$parameters = null, $includeCollections = false) {
+	                                     $parameters = null, $includeCollections = false) {
 		return self::getItems($itemType, $itemSource, null, null, \OC_User::getUser(), $format,
 			$parameters, -1, $includeCollections);
 	}
@@ -634,6 +657,17 @@ class Share {
 			}
 			$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `permissions` = ? WHERE `id` = ?');
 			$query->execute(array($permissions, $item['id']));
+			if ($itemType === 'file' || $itemType === 'folder') {
+				\OC_Hook::emit('OCP\Share', 'post_update_permissions', array(
+					'itemType' => $itemType,
+					'itemSource' => $itemSource,
+					'shareType' => $shareType,
+					'shareWith' => $shareWith,
+					'uidOwner' => \OC_User::getUser(),
+					'permissions' => $permissions,
+					'path' => $item['path'],
+				));
+			}
 			// Check if permissions were removed
 			if ($item['permissions'] & ~$permissions) {
 				// If share permission is removed all reshares must be deleted
@@ -662,7 +696,13 @@ class Share {
 					// Remove the permissions for all reshares of this item
 					if (!empty($ids)) {
 						$ids = "'".implode("','", $ids)."'";
-						$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `permissions` = `permissions` & ?'
+						// TODO this should be done with Doctrine platform objects
+						if (\OC_Config::getValue( "dbtype") === 'oci') {
+							$andOp = 'BITAND(`permissions`, ?)';
+						} else {
+							$andOp = '`permissions` & ?';
+						}
+						$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `permissions` = '.$andOp
 							.' WHERE `id` IN ('.$ids.')');
 						$query->execute(array($permissions));
 					}
@@ -963,6 +1003,30 @@ class Share {
 		$switchedItems = array();
 		$mounts = array();
 		while ($row = $result->fetchRow()) {
+			if (isset($row['id'])) {
+				$row['id']=(int)$row['id'];
+			}
+			if (isset($row['share_type'])) {
+				$row['share_type']=(int)$row['share_type'];
+			}
+			if (isset($row['parent'])) {
+				$row['parent']=(int)$row['parent'];
+			}
+			if (isset($row['file_parent'])) {
+				$row['file_parent']=(int)$row['file_parent'];
+			}
+			if (isset($row['file_source'])) {
+				$row['file_source']=(int)$row['file_source'];
+			}
+			if (isset($row['permissions'])) {
+				$row['permissions']=(int)$row['permissions'];
+			}
+			if (isset($row['storage'])) {
+				$row['storage']=(int)$row['storage'];
+			}
+			if (isset($row['stime'])) {
+				$row['stime']=(int)$row['stime'];
+			}
 			// Filter out duplicate group shares for users with unique targets
 			if ($row['share_type'] == self::$shareTypeGroupUserUnique && isset($items[$row['parent']])) {
 				$row['share_type'] = self::SHARE_TYPE_GROUP;
@@ -978,7 +1042,7 @@ class Share {
 					// Check if the same owner shared with the user twice
 					// through a group and user share - this is allowed
 					$id = $targets[$row[$column]];
-					if ($items[$id]['uid_owner'] == $row['uid_owner']) {
+					if (isset($items[$id]) && $items[$id]['uid_owner'] == $row['uid_owner']) {
 						// Switch to group share type to ensure resharing conditions aren't bypassed
 						if ($items[$id]['share_type'] != self::SHARE_TYPE_GROUP) {
 							$items[$id]['share_type'] = self::SHARE_TYPE_GROUP;

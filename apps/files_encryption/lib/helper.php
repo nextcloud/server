@@ -63,6 +63,15 @@ class Helper {
 	}
 
 	/**
+	 * @brief register app management related hooks
+	 *
+	 */
+	public static function registerAppHooks() {
+
+		\OCP\Util::connectHook('OC_App', 'pre_disable', 'OCA\Encryption\Hooks', 'preDisable');
+	}
+
+	/**
 	 * @brief setup user for files_encryption
 	 *
 	 * @param Util $util
@@ -123,7 +132,7 @@ class Helper {
 
 			$view->file_put_contents('/public-keys/' . $recoveryKeyId . '.public.key', $keypair['publicKey']);
 
-			// Encrypt private key empthy passphrase
+			// Encrypt private key empty passphrase
 			$encryptedPrivateKey = \OCA\Encryption\Crypt::symmetricEncryptFileContent($keypair['privateKey'], $recoveryPassword);
 
 			// Save private key
@@ -208,4 +217,29 @@ class Helper {
 		header('Location: ' . $location . '?p=' . $post);
 		exit();
 	}
+
+	/**
+	 * check requirements for encryption app.
+	 * @return bool true if requirements are met
+	 */
+	public static function checkRequirements() {
+		$result = true;
+
+		//openssl extension needs to be loaded
+		$result &= extension_loaded("openssl");
+		// we need php >= 5.3.3
+		$result &= version_compare(phpversion(), '5.3.3', '>=');
+
+		return (bool) $result;
+	}
+
+	/**
+	 * @brief glob uses different pattern than regular expressions, escape glob pattern only
+	 * @param unescaped path
+	 * @return escaped path
+	 */
+	public static function escapeGlobPattern($path) {
+		return preg_replace('/(\*|\?|\[)/', '[$1]', $path);
+	}
 }
+

@@ -98,7 +98,6 @@
 "Language" => "Jezik",
 "Help translate" => "Sodelujte pri prevajanju",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "Ta naslov uporabite za povezavo upravljalnika datotek z oblakom ownCloud.",
 "Login Name" => "Prijavno ime",
 "Create" => "Ustvari",
 "Admin Recovery Password" => "Obnovitev administratorjevega gesla",

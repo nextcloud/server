@@ -2,7 +2,6 @@
 "Password successfully changed." => "La pasvorto sukcese ŝanĝiĝis.",
 "Could not change the password. Maybe the old password was not correct." => "Ne eblis ŝanĝi la pasvorton. Eble la malnova pasvorto malĝustis.",
 "Private key password successfully updated." => "La pasvorto de la malpublika klavo sukcese ĝisdatiĝis.",
-"PHP module OpenSSL is not installed." => "La PHP-modulo OpenSSL ne instalitas.",
 "Saving..." => "Konservante...",
 "personal settings" => "persona agordo",
 "Encryption" => "Ĉifrado",

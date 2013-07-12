@@ -17,6 +17,10 @@
  	width:26.5em;
  	z-index:75;
  }
+ 
+ .ie8 #searchresults {
+	 border: 1px solid #666 !important;
+ }
 
  #searchresults li.resultHeader {
  	background-color:#eee;

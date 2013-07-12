@@ -53,7 +53,6 @@
 "Language" => "ভাষা",
 "Help translate" => "অনুবাদ করতে সহায়তা করুন",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "আপনার ownCloud এ সংযুক্ত হতে এই ঠিকানাটি আপনার ফাইল ব্যবস্থাপকে ব্যবহার করুন",
 "Create" => "তৈরী কর",
 "Default Storage" => "পূর্বনির্ধারিত সংরক্ষণাগার",
 "Unlimited" => "অসীম",

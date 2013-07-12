@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-28 01:58+0200\n"
-"PO-Revision-Date: 2013-06-27 23:14+0000\n"
+"POT-Creation-Date: 2013-07-12 02:03+0200\n"
+"PO-Revision-Date: 2013-07-11 23:14+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -137,59 +137,59 @@ msgstr "พฤศจิกายน"
 msgid "December"
 msgstr "ธันวาคม"
 
-#: js/js.js:289
+#: js/js.js:293
 msgid "Settings"
 msgstr "ตั้งค่า"
 
-#: js/js.js:721
+#: js/js.js:725
 msgid "seconds ago"
 msgstr "วินาที ก่อนหน้านี้"
 
-#: js/js.js:722
+#: js/js.js:726
 msgid "1 minute ago"
 msgstr "1 นาทีก่อนหน้านี้"
 
-#: js/js.js:723
+#: js/js.js:727
 msgid "{minutes} minutes ago"
 msgstr "{minutes} นาทีก่อนหน้านี้"
 
-#: js/js.js:724
+#: js/js.js:728
 msgid "1 hour ago"
 msgstr "1 ชั่วโมงก่อนหน้านี้"
 
-#: js/js.js:725
+#: js/js.js:729
 msgid "{hours} hours ago"
 msgstr "{hours} ชั่วโมงก่อนหน้านี้"
 
-#: js/js.js:726
+#: js/js.js:730
 msgid "today"
 msgstr "วันนี้"
 
-#: js/js.js:727
+#: js/js.js:731
 msgid "yesterday"
 msgstr "เมื่อวานนี้"
 
-#: js/js.js:728
+#: js/js.js:732
 msgid "{days} days ago"
 msgstr "{day} วันก่อนหน้านี้"
 
-#: js/js.js:729
+#: js/js.js:733
 msgid "last month"
 msgstr "เดือนที่แล้ว"
 
-#: js/js.js:730
+#: js/js.js:734
 msgid "{months} months ago"
 msgstr "{months} เดือนก่อนหน้านี้"
 
-#: js/js.js:731
+#: js/js.js:735
 msgid "months ago"
 msgstr "เดือน ที่ผ่านมา"
 
-#: js/js.js:732
+#: js/js.js:736
 msgid "last year"
 msgstr "ปีที่แล้ว"
 
-#: js/js.js:733
+#: js/js.js:737
 msgid "years ago"
 msgstr "ปี ที่ผ่านมา"
 
@@ -225,8 +225,8 @@ msgstr "ชนิดของวัตถุยังไม่ได้รับ
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
-#: js/share.js:589
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:620
+#: js/share.js:632
 msgid "Error"
 msgstr "ข้อผิดพลาด"
 
@@ -246,7 +246,7 @@ msgstr "แชร์แล้ว"
 msgid "Share"
 msgstr "แชร์"
 
-#: js/share.js:125 js/share.js:617
+#: js/share.js:125 js/share.js:660
 msgid "Error while sharing"
 msgstr "เกิดข้อผิดพลาดในระหว่างการแชร์ข้อมูล"
 
@@ -266,110 +266,114 @@ msgstr "ได้แชร์ให้กับคุณ และกลุ่�
 msgid "Shared with you by {owner}"
 msgstr "ถูกแชร์ให้กับคุณโดย {owner}"
 
-#: js/share.js:159
+#: js/share.js:172
 msgid "Share with"
 msgstr "แชร์ให้กับ"
 
-#: js/share.js:164
+#: js/share.js:177
 msgid "Share with link"
 msgstr "แชร์ด้วยลิงก์"
 
-#: js/share.js:167
+#: js/share.js:180
 msgid "Password protect"
 msgstr "ใส่รหัสผ่านไว้"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:26
+#: js/share.js:182 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "รหัสผ่าน"
 
-#: js/share.js:173
+#: js/share.js:187
+msgid "Allow Public Upload"
+msgstr ""
+
+#: js/share.js:191
 msgid "Email link to person"
 msgstr "ส่งลิงก์ให้ทางอีเมล"
 
-#: js/share.js:174
+#: js/share.js:192
 msgid "Send"
 msgstr "ส่ง"
 
-#: js/share.js:178
+#: js/share.js:197
 msgid "Set expiration date"
 msgstr "กำหนดวันที่หมดอายุ"
 
-#: js/share.js:179
+#: js/share.js:198
 msgid "Expiration date"
 msgstr "วันที่หมดอายุ"
 
-#: js/share.js:211
+#: js/share.js:230
 msgid "Share via email:"
 msgstr "แชร์ผ่านทางอีเมล"
 
-#: js/share.js:213
+#: js/share.js:232
 msgid "No people found"
 msgstr "ไม่พบบุคคลที่ต้องการ"
 
-#: js/share.js:251
+#: js/share.js:270
 msgid "Resharing is not allowed"
 msgstr "ไม่อนุญาตให้แชร์ข้อมูลซ้ำได้"
 
-#: js/share.js:287
+#: js/share.js:306
 msgid "Shared in {item} with {user}"
 msgstr "ได้แชร์ {item} ให้กับ {user}"
 
-#: js/share.js:308
+#: js/share.js:327
 msgid "Unshare"
 msgstr "ยกเลิกการแชร์"
 
-#: js/share.js:320
+#: js/share.js:339
 msgid "can edit"
 msgstr "สามารถแก้ไข"
 
-#: js/share.js:322
+#: js/share.js:341
 msgid "access control"
 msgstr "ระดับควบคุมการเข้าใช้งาน"
 
-#: js/share.js:325
+#: js/share.js:344
 msgid "create"
 msgstr "สร้าง"
 
-#: js/share.js:328
+#: js/share.js:347
 msgid "update"
 msgstr "อัพเดท"
 
-#: js/share.js:331
+#: js/share.js:350
 msgid "delete"
 msgstr "ลบ"
 
-#: js/share.js:334
+#: js/share.js:353
 msgid "share"
 msgstr "แชร์"
 
-#: js/share.js:368 js/share.js:564
+#: js/share.js:387 js/share.js:607
 msgid "Password protected"
 msgstr "ใส่รหัสผ่านไว้"
 
-#: js/share.js:577
+#: js/share.js:620
 msgid "Error unsetting expiration date"
 msgstr "เกิดข้อผิดพลาดในการยกเลิกการตั้งค่าวันที่หมดอายุ"
 
-#: js/share.js:589
+#: js/share.js:632
 msgid "Error setting expiration date"
 msgstr "เกิดข้อผิดพลาดในการตั้งค่าวันที่หมดอายุ"
 
-#: js/share.js:604
+#: js/share.js:647
 msgid "Sending ..."
 msgstr "กำลังส่ง..."
 
-#: js/share.js:615
+#: js/share.js:658
 msgid "Email sent"
 msgstr "ส่งอีเมล์แล้ว"
 
-#: js/update.js:14
+#: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
 msgstr "การอัพเดทไม่เป็นผลสำเร็จ กรุณาแจ้งปัญหาที่เกิดขึ้นไปยัง <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">คอมมูนิตี้ผู้ใช้งาน ownCloud</a>"
 
-#: js/update.js:18
+#: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "การอัพเดทเสร็จเรียบร้อยแล้ว กำลังเปลี่ยนเส้นทางไปที่ ownCloud อยู่ในขณะนี้"
 
@@ -461,7 +465,7 @@ msgstr "การเข้าถึงถูกหวงห้าม"
 msgid "Cloud not found"
 msgstr "ไม่พบ Cloud"
 
-#: templates/altmail.php:2
+#: templates/altmail.php:4
 #, php-format
 msgid ""
 "Hey there,\n"
@@ -471,10 +475,6 @@ msgid ""
 "\n"
 "Cheers!"
 msgstr ""
-
-#: templates/altmail.php:7 templates/mail.php:24
-msgid "web services under your control"
-msgstr "เว็บเซอร์วิสที่คุณควบคุมการใช้งานได้"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -568,12 +568,12 @@ msgstr "Database host"
 msgid "Finish setup"
 msgstr "ติดตั้งเรียบร้อยแล้ว"
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:43
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:67
+#: templates/layout.user.php:68
 msgid "Log out"
 msgstr "ออกจากระบบ"
 
@@ -607,7 +607,7 @@ msgstr "เข้าสู่ระบบ"
 msgid "Alternative Logins"
 msgstr ""
 
-#: templates/mail.php:15
+#: templates/mail.php:16
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "

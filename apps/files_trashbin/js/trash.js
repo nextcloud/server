@@ -2,9 +2,9 @@
 $(document).ready(function() {
 
 	if (typeof FileActions !== 'undefined') {
-		FileActions.register('all', 'Restore', OC.PERMISSION_READ,  OC.imagePath('core', 'actions/undelete.png'), function(filename) {
+		FileActions.register('all', 'Restore', OC.PERMISSION_READ, OC.imagePath('core', 'actions/history'), function(filename) {
 			var tr=$('tr').filterAttr('data-file', filename);
-			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'perform restore operation')+'" src="'+ OC.imagePath('core', 'loader.gif') +'"></a>';
+			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'perform restore operation')+'" src="'+ OC.imagePath('core', 'loading.gif') +'"></a>';
 			var undeleteAction = $('tr').filterAttr('data-file',filename).children("td.date");
 			var files = tr.attr('data-file');
 			undeleteAction[0].innerHTML = undeleteAction[0].innerHTML+spinner;
@@ -94,7 +94,7 @@ $(document).ready(function() {
 
 		$('.undelete').click('click',function(event) {
 			event.preventDefault();
-			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'perform restore operation')+'" src="'+ OC.imagePath('core', 'loader.gif') +'"></a>';
+			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'perform restore operation')+'" src="'+ OC.imagePath('core', 'loading.gif') +'"></a>';
 			var files=getSelectedFiles('file');
 			var fileslist = JSON.stringify(files);
 			var dirlisting=getSelectedFiles('dirlisting')[0];

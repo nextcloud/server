@@ -155,6 +155,8 @@ class BasicEmitter extends \PHPUnit_Framework_TestCase {
 		$this->emitter->listen('Test', 'test', $listener);
 		$this->emitter->removeListener('Test', 'test', $listener);
 		$this->emitter->emitEvent('Test', 'test');
+
+		$this->assertTrue(true);
 	}
 
 	public function testRemoveWildcardListener() {
@@ -168,6 +170,8 @@ class BasicEmitter extends \PHPUnit_Framework_TestCase {
 		$this->emitter->listen('Test', 'test', $listener2);
 		$this->emitter->removeListener('Test', 'test');
 		$this->emitter->emitEvent('Test', 'test');
+
+		$this->assertTrue(true);
 	}
 
 	public function testRemoveWildcardMethod() {
@@ -179,6 +183,8 @@ class BasicEmitter extends \PHPUnit_Framework_TestCase {
 		$this->emitter->removeListener('Test', null, $listener);
 		$this->emitter->emitEvent('Test', 'test');
 		$this->emitter->emitEvent('Test', 'foo');
+
+		$this->assertTrue(true);
 	}
 
 	public function testRemoveWildcardScope() {
@@ -190,6 +196,8 @@ class BasicEmitter extends \PHPUnit_Framework_TestCase {
 		$this->emitter->removeListener(null, 'test', $listener);
 		$this->emitter->emitEvent('Test', 'test');
 		$this->emitter->emitEvent('Bar', 'test');
+
+		$this->assertTrue(true);
 	}
 
 	public function testRemoveWildcardScopeAndMethod() {
@@ -203,6 +211,8 @@ class BasicEmitter extends \PHPUnit_Framework_TestCase {
 		$this->emitter->emitEvent('Test', 'test');
 		$this->emitter->emitEvent('Test', 'foo');
 		$this->emitter->emitEvent('Bar', 'foo');
+
+		$this->assertTrue(true);
 	}
 
 	/**
@@ -219,6 +229,8 @@ class BasicEmitter extends \PHPUnit_Framework_TestCase {
 		$this->emitter->listen('Test', 'test', $listener2);
 		$this->emitter->removeListener('Test', 'test', $listener1);
 		$this->emitter->emitEvent('Test', 'test');
+
+		$this->assertTrue(true);
 	}
 
 	/**
@@ -232,6 +244,8 @@ class BasicEmitter extends \PHPUnit_Framework_TestCase {
 		$this->emitter->listen('Test', 'foo', $listener);
 		$this->emitter->removeListener('Test', 'foo', $listener);
 		$this->emitter->emitEvent('Test', 'test');
+
+		$this->assertTrue(true);
 	}
 
 	/**
@@ -245,6 +259,8 @@ class BasicEmitter extends \PHPUnit_Framework_TestCase {
 		$this->emitter->listen('Bar', 'test', $listener);
 		$this->emitter->removeListener('Bar', 'test', $listener);
 		$this->emitter->emitEvent('Test', 'test');
+
+		$this->assertTrue(true);
 	}
 
 	/**
@@ -257,5 +273,7 @@ class BasicEmitter extends \PHPUnit_Framework_TestCase {
 		$this->emitter->listen('Test', 'test', $listener);
 		$this->emitter->removeListener('Bar', 'test', $listener);
 		$this->emitter->emitEvent('Test', 'test');
+
+		$this->assertTrue(true);
 	}
 }

@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s ha condiviso »%s« con te",
+"%s shared »%s« with you" => "%s ha condiviso «%s» con te",
 "Category type not provided." => "Tipo di categoria non fornito.",
 "No category to add?" => "Nessuna categoria da aggiungere?",
 "This category already exists: %s" => "Questa categoria esiste già: %s",
@@ -62,6 +62,7 @@
 "Share with link" => "Condividi con collegamento",
 "Password protect" => "Proteggi con password",
 "Password" => "Password",
+"Allow Public Upload" => "Consenti caricamento pubblico",
 "Email link to person" => "Invia collegamento via email",
 "Send" => "Invia",
 "Set expiration date" => "Imposta data di scadenza",
@@ -105,7 +106,6 @@
 "Access forbidden" => "Accesso negato",
 "Cloud not found" => "Nuvola non trovata",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Ehilà,\n\nvolevo solamente farti sapere che %s ha condiviso %s con te.\nGuarda: %s\n\nSaluti!",
-"web services under your control" => "servizi web nelle tue mani",
 "Edit categories" => "Modifica categorie",
 "Add" => "Aggiungi",
 "Security Warning" => "Avviso di sicurezza",
@@ -135,7 +135,7 @@
 "remember" => "ricorda",
 "Log in" => "Accedi",
 "Alternative Logins" => "Accessi alternativi",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Ehilà,<br><br>volevo solamente farti sapere che %s ha condiviso »%s« con te.<br><a href=\"%s\">Guarda!</a><br><br>Saluti!",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Ehilà,<br><br>volevo solamente farti sapere che %s ha condiviso «%s» con te.<br><a href=\"%s\">Guarda!</a><br><br>Saluti!",
 "prev" => "precedente",
 "next" => "successivo",
 "Updating ownCloud to version %s, this may take a while." => "Aggiornamento di ownCloud alla versione %s in corso, ciò potrebbe richiedere del tempo."

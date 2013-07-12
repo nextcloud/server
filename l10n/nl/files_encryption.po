@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-26 01:59+0200\n"
-"PO-Revision-Date: 2013-06-25 20:00+0000\n"
-"Last-Translator: André Koot <meneer@tken.net>\n"
+"POT-Creation-Date: 2013-07-05 02:12+0200\n"
+"PO-Revision-Date: 2013-07-05 00:13+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -56,20 +56,22 @@ msgstr "Kon het wachtwoord van de privésleutel niet wijzigen. Misschien was het
 
 #: files/error.php:7
 msgid ""
-"Your private key is not valid! Maybe your password was changed from outside."
-" You can update your private key password in your personal settings to "
-"regain access to your files"
-msgstr "Uw privésleutel is niet geldig! Misschien was uw wachtwoord van buitenaf gewijzigd. U kunt het wachtwoord van uw privésleutel bijwerking in uw persoonlijke instellingen om bij uw bestanden te komen."
+"Your private key is not valid! Likely your password was changed outside the "
+"ownCloud system (e.g. your corporate directory). You can update your private"
+" key password in your personal settings to recover access to your encrypted "
+"files."
+msgstr ""
 
 #: hooks/hooks.php:44
-msgid "PHP module OpenSSL is not installed."
-msgstr "PHP module OpenSSL is niet geïnstalleerd."
+msgid "Missing requirements."
+msgstr ""
 
 #: hooks/hooks.php:45
 msgid ""
-"Please ask your server administrator to install the module. For now the "
-"encryption app was disabled."
-msgstr "Vraag uw beheerder deze module te installeren. Tot zolang is de crypto app gedeactiveerd."
+"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
+"PHP extension is enabled and configured properly. For now, the encryption "
+"app has been disabled."
+msgstr ""
 
 #: js/settings-admin.js:11
 msgid "Saving..."

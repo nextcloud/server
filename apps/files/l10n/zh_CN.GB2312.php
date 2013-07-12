@@ -7,6 +7,11 @@
 "Missing a temporary folder" => "缺失临时文件夹",
 "Failed to write to disk" => "写磁盘失败",
 "Files" => "文件",
+"Unable to upload your file as it is a directory or has 0 bytes" => "不能上传您的文件，由于它是文件夹或者为空文件",
+"Upload cancelled." => "上传取消了",
+"File upload is in progress. Leaving the page now will cancel the upload." => "文件正在上传。关闭页面会取消上传。",
+"URL cannot be empty." => "网址不能为空。",
+"Error" => "出错",
 "Share" => "分享",
 "Delete" => "删除",
 "Rename" => "重命名",
@@ -19,11 +24,6 @@
 "undo" => "撤销",
 "1 file uploading" => "1 个文件正在上传",
 "files uploading" => "个文件正在上传",
-"Unable to upload your file as it is a directory or has 0 bytes" => "不能上传您的文件，由于它是文件夹或者为空文件",
-"Upload cancelled." => "上传取消了",
-"File upload is in progress. Leaving the page now will cancel the upload." => "文件正在上传。关闭页面会取消上传。",
-"URL cannot be empty." => "网址不能为空。",
-"Error" => "出错",
 "Name" => "名称",
 "Size" => "大小",
 "Modified" => "修改日期",
@@ -51,5 +51,7 @@
 "Upload too large" => "上传过大",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "你正在试图上传的文件超过了此服务器支持的最大的文件大小.",
 "Files are being scanned, please wait." => "正在扫描文件,请稍候.",
-"Current scanning" => "正在扫描"
+"Current scanning" => "正在扫描",
+"file" => "文件",
+"files" => "文件"
 );

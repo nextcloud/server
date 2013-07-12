@@ -98,7 +98,6 @@
 "Help" => "Допомога",
 "Access forbidden" => "Доступ заборонено",
 "Cloud not found" => "Cloud не знайдено",
-"web services under your control" => "підконтрольні Вам веб-сервіси",
 "Edit categories" => "Редагувати категорії",
 "Add" => "Додати",
 "Security Warning" => "Попередження про небезпеку",

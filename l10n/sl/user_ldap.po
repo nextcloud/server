@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# barbarak <barbarak@arnes.si>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-28 01:58+0200\n"
-"PO-Revision-Date: 2013-06-27 23:15+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-12 02:03+0200\n"
+"PO-Revision-Date: 2013-07-11 23:15+0000\n"
+"Last-Translator: barbarak <barbarak@arnes.si>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: ajax/clearMappings.php:34
 msgid "Failed to clear the mappings."
-msgstr ""
+msgstr "Preslikav ni bilo mogoče izbrisati"
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
@@ -59,7 +60,7 @@ msgstr "Ni mogoče dodati nastavitev strežnika"
 
 #: js/settings.js:111
 msgid "mappings cleared"
-msgstr ""
+msgstr "Preslikave so izbrisane"
 
 #: js/settings.js:112
 msgid "Success"
@@ -342,7 +343,7 @@ msgstr "Pustite prazno za uporabniško ime (privzeto), sicer navedite atribut LD
 
 #: templates/settings.php:101
 msgid "Internal Username"
-msgstr ""
+msgstr "Interno uporabniško ime"
 
 #: templates/settings.php:102
 msgid ""
@@ -358,15 +359,15 @@ msgid ""
 "achieve a similar behaviour as before ownCloud 5 enter the user display name"
 " attribute in the following field. Leave it empty for default behaviour. "
 "Changes will have effect only on newly mapped (added) LDAP users."
-msgstr ""
+msgstr "Po privzetih nastavitvah bo uporabniško ime nastavljeno na podlagi atributa UUID. Ta zagotovi, da je uporabniško ime unikatno in, da znakov ni potrebno pretvarjati. Interno uporabniško ime ima omejitev v uporabi znakov, in sicer so dovoljeni le znaki [ a-zA-Z0-9_.@- ]. Ostali znaki so nadomeščeni z njihovimi ustreznicami v ASCII ali so enostavno prezrti. Pri prekrivanju znakov bo dodana številka. Interno uporabniško ime je v uporabi za interno identifikacijo uporabnika. Je tudi privzeto ime za uporabnikovo domačo mapo v ownCloudu.  Predstavlja tudi vrata za oddaljene internetne naslove, na primer za vse storitve *DAV. S to nastavitvijo se privzete nastavitve ne bodo upoštevale. Če boste želeli doseči isto obnašanje kot pri različicah ownClouda 5, vnesite atribut za Ime za prikaz v spodnje polje. Če boste polje pustili prazno, bo uporabljena privzeta vrednost. Spremembe bodo vplivale samo na novo dodane LDAP-uporabnike."
 
 #: templates/settings.php:103
 msgid "Internal Username Attribute:"
-msgstr ""
+msgstr "Atribut Interno uporabniško ime"
 
 #: templates/settings.php:104
 msgid "Override UUID detection"
-msgstr ""
+msgstr "Prezri zaznavo UUID"
 
 #: templates/settings.php:105
 msgid ""
@@ -377,15 +378,15 @@ msgid ""
 "You must make sure that the attribute of your choice can be fetched for both"
 " users and groups and it is unique. Leave it empty for default behaviour. "
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
-msgstr ""
+msgstr "Po privzetih nastavitvah ownCloud sam zazna atribute UUID. Atribut UUID je uporabljen za identifikacijo LDAP-uporabnikov in skupin. Na podlagi atributa UUID se ustvari tudi interno uporabniško ime, če ne navedete drugačnih nastavitev sami. Nastavitev lahko povozite in izberete nastavitev po vaši izbiri. Potrebno je zagotoviti, da je izbran atribut lahko uporabljen tako za kreiranje uporabnikov kot skupin in je unikaten. Pustite praznega, če želite, da sistem uporabi privzete nastavitve. Spremembe bodo uporabljene šele pri novo preslikanih ali dodanih LDAP-uporabnikih in skupinah."
 
 #: templates/settings.php:106
 msgid "UUID Attribute:"
-msgstr ""
+msgstr "Atribut UUID"
 
 #: templates/settings.php:107
 msgid "Username-LDAP User Mapping"
-msgstr ""
+msgstr "Preslikava uporabniško ime - LDAP-uporabnik"
 
 #: templates/settings.php:108
 msgid ""
@@ -400,15 +401,15 @@ msgid ""
 "configuration sensitive, it affects all LDAP configurations! Do never clear "
 "the mappings in a production environment. Only clear mappings in a testing "
 "or experimental stage."
-msgstr ""
+msgstr "ownCloud uporablja uporabniška imena za shranjevanje in določanje metapodatkov. Za natančno identifikacijo in prepoznavo uporabnikov, ima vsak LDAP-uporabnik svoje interno uporabniško ime. To zahteva preslikavo iz uporabniškega imena v ownCloudu v LDAP-uporabnika.  Ustvarjeno uporabniško ime je preslikano v UUID LDAP-uporabnika. Hkrati je v predpomnilnik shranjen DN uporabnika, zato da se zmanjšajo povezave z LDAP-om, ni pa uporabljen za identifikacijo uporabnikov. Če se DN spremeni, bo ownCloud sam našel te spremembe. Interno ime v ownCloudu je uporabljeno v celotnem sistemu. Brisanje preslikav bo pustilo posledice povsod. Brisanje preslikav je zato problematično za konfiguracijo, vpliva na celotno LDAP-konfiguracijo. Nikoli ne brišite preslikav na produkcijskem okolju. Preslikave brišite samo v fazi preizkušanja storitve."
 
 #: templates/settings.php:109
 msgid "Clear Username-LDAP User Mapping"
-msgstr ""
+msgstr "Izbriši preslikavo Uporabniškega imena in LDAP-uporabnika"
 
 #: templates/settings.php:109
 msgid "Clear Groupname-LDAP Group Mapping"
-msgstr ""
+msgstr "Izbriši preslikavo Skupine in LDAP-skupine"
 
 #: templates/settings.php:111
 msgid "Test Configuration"

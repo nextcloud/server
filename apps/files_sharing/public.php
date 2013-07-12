@@ -27,23 +27,9 @@ if (isset($_GET['t'])) {
 		$type = $linkItem['item_type'];
 		$fileSource = $linkItem['file_source'];
 		$shareOwner = $linkItem['uid_owner'];
-		$fileOwner = null;
 		$path = null;
-		if (isset($linkItem['parent'])) {
-			$parent = $linkItem['parent'];
-			while (isset($parent)) {
-				$query = \OC_DB::prepare('SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1);
-				$item = $query->execute(array($parent))->fetchRow();
-				if (isset($item['parent'])) {
-					$parent = $item['parent'];
-				} else {
-					$fileOwner = $item['uid_owner'];
-					break;
-				}
-			}
-		} else {
-			$fileOwner = $shareOwner;
-		}
+		$rootLinkItem = OCP\Share::resolveReShare($linkItem);
+		$fileOwner = $rootLinkItem['uid_owner'];
 		if (isset($fileOwner)) {
 			OC_Util::tearDownFS();
 			OC_Util::setupFS($fileOwner);
@@ -79,7 +65,7 @@ if (isset($path)) {
 											 $linkItem['share_with']))) {
 					$tmpl = new OCP\Template('files_sharing', 'authenticate', 'guest');
 					$tmpl->assign('URL', $url);
-					$tmpl->assign('error', true);
+					$tmpl->assign('wrongpw', true);
 					$tmpl->printPage();
 					exit();
 				} else {
@@ -132,15 +118,32 @@ if (isset($path)) {
 		}
 		exit();
 	} else {
+		OCP\Util::addScript('files', 'file-upload');
 		OCP\Util::addStyle('files_sharing', 'public');
 		OCP\Util::addScript('files_sharing', 'public');
 		OCP\Util::addScript('files', 'fileactions');
+		OCP\Util::addScript('files', 'jquery.iframe-transport');
+		OCP\Util::addScript('files', 'jquery.fileupload');
+		$maxUploadFilesize=OCP\Util::maxUploadFilesize($path);
 		$tmpl = new OCP\Template('files_sharing', 'public', 'base');
 		$tmpl->assign('uidOwner', $shareOwner);
 		$tmpl->assign('displayName', \OCP\User::getDisplayName($shareOwner));
 		$tmpl->assign('filename', $file);
+		$tmpl->assign('directory_path', $linkItem['file_target']);
 		$tmpl->assign('mimetype', \OC\Files\Filesystem::getMimeType($path));
 		$tmpl->assign('fileTarget', basename($linkItem['file_target']));
+		$tmpl->assign('dirToken', $linkItem['token']);
+		$allowPublicUploadEnabled = (($linkItem['permissions'] & OCP\PERMISSION_CREATE) ? true : false );
+		if (\OCP\App::isEnabled('files_encryption')) {
+			$allowPublicUploadEnabled = false;
+		}
+		if ($linkItem['item_type'] !== 'folder') {
+			$allowPublicUploadEnabled = false;
+		}
+		$tmpl->assign('allowPublicUploadEnabled', $allowPublicUploadEnabled);
+		$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
+		$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
+
 		$urlLinkIdentifiers= (isset($token)?'&t='.$token:'')
 							.(isset($_GET['dir'])?'&dir='.$_GET['dir']:'')
 							.(isset($_GET['file'])?'&file='.$_GET['file']:'');
@@ -191,15 +194,17 @@ if (isset($path)) {
 			$breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
 			$breadcrumbNav->assign('breadcrumb', $breadcrumb);
 			$breadcrumbNav->assign('baseURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&path=');
+			$maxUploadFilesize=OCP\Util::maxUploadFilesize($path);
 			$folder = new OCP\Template('files', 'index', '');
 			$folder->assign('fileList', $list->fetchPage());
 			$folder->assign('breadcrumb', $breadcrumbNav->fetchPage());
 			$folder->assign('dir', $getPath);
 			$folder->assign('isCreatable', false);
-			$folder->assign('permissions', 0);
+			$folder->assign('permissions', OCP\PERMISSION_READ);
+			$folder->assign('isPublic',true);
 			$folder->assign('files', $files);
-			$folder->assign('uploadMaxFilesize', 0);
-			$folder->assign('uploadMaxHumanFilesize', 0);
+			$folder->assign('uploadMaxFilesize', $maxUploadFilesize);
+			$folder->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 			$folder->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 			$folder->assign('usedSpacePercent', 0);
 			$tmpl->assign('folder', $folder->fetchPage());

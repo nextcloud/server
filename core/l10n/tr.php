@@ -101,7 +101,6 @@
 "Help" => "Yardım",
 "Access forbidden" => "Erişim yasaklı",
 "Cloud not found" => "Bulut bulunamadı",
-"web services under your control" => "Bilgileriniz güvenli ve şifreli",
 "Edit categories" => "Kategorileri düzenle",
 "Add" => "Ekle",
 "Security Warning" => "Güvenlik Uyarisi",

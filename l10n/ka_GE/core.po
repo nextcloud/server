@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-28 01:58+0200\n"
-"PO-Revision-Date: 2013-06-27 23:14+0000\n"
+"POT-Creation-Date: 2013-07-12 02:03+0200\n"
+"PO-Revision-Date: 2013-07-11 23:14+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -137,59 +137,59 @@ msgstr "ნოემბერი"
 msgid "December"
 msgstr "დეკემბერი"
 
-#: js/js.js:289
+#: js/js.js:293
 msgid "Settings"
 msgstr "პარამეტრები"
 
-#: js/js.js:721
+#: js/js.js:725
 msgid "seconds ago"
 msgstr "წამის წინ"
 
-#: js/js.js:722
+#: js/js.js:726
 msgid "1 minute ago"
 msgstr "1 წუთის წინ"
 
-#: js/js.js:723
+#: js/js.js:727
 msgid "{minutes} minutes ago"
 msgstr "{minutes} წუთის წინ"
 
-#: js/js.js:724
+#: js/js.js:728
 msgid "1 hour ago"
 msgstr "1 საათის წინ"
 
-#: js/js.js:725
+#: js/js.js:729
 msgid "{hours} hours ago"
 msgstr "{hours} საათის წინ"
 
-#: js/js.js:726
+#: js/js.js:730
 msgid "today"
 msgstr "დღეს"
 
-#: js/js.js:727
+#: js/js.js:731
 msgid "yesterday"
 msgstr "გუშინ"
 
-#: js/js.js:728
+#: js/js.js:732
 msgid "{days} days ago"
 msgstr "{days} დღის წინ"
 
-#: js/js.js:729
+#: js/js.js:733
 msgid "last month"
 msgstr "გასულ თვეში"
 
-#: js/js.js:730
+#: js/js.js:734
 msgid "{months} months ago"
 msgstr "{months} თვის წინ"
 
-#: js/js.js:731
+#: js/js.js:735
 msgid "months ago"
 msgstr "თვის წინ"
 
-#: js/js.js:732
+#: js/js.js:736
 msgid "last year"
 msgstr "ბოლო წელს"
 
-#: js/js.js:733
+#: js/js.js:737
 msgid "years ago"
 msgstr "წლის წინ"
 
@@ -225,8 +225,8 @@ msgstr "ობიექტის ტიპი არ არის მითი�
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
-#: js/share.js:589
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:620
+#: js/share.js:632
 msgid "Error"
 msgstr "შეცდომა"
 
@@ -246,7 +246,7 @@ msgstr "გაზიარებული"
 msgid "Share"
 msgstr "გაზიარება"
 
-#: js/share.js:125 js/share.js:617
+#: js/share.js:125 js/share.js:660
 msgid "Error while sharing"
 msgstr "შეცდომა გაზიარების დროს"
 
@@ -266,110 +266,114 @@ msgstr "გაზიარდა თქვენთვის და ჯგუფ
 msgid "Shared with you by {owner}"
 msgstr "გაზიარდა თქვენთვის {owner}–ის მიერ"
 
-#: js/share.js:159
+#: js/share.js:172
 msgid "Share with"
 msgstr "გააზიარე შემდეგით:"
 
-#: js/share.js:164
+#: js/share.js:177
 msgid "Share with link"
 msgstr "გაუზიარე ლინკით"
 
-#: js/share.js:167
+#: js/share.js:180
 msgid "Password protect"
 msgstr "პაროლით დაცვა"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:26
+#: js/share.js:182 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "პაროლი"
 
-#: js/share.js:173
+#: js/share.js:187
+msgid "Allow Public Upload"
+msgstr ""
+
+#: js/share.js:191
 msgid "Email link to person"
 msgstr "ლინკის პიროვნების იმეილზე გაგზავნა"
 
-#: js/share.js:174
+#: js/share.js:192
 msgid "Send"
 msgstr "გაგზავნა"
 
-#: js/share.js:178
+#: js/share.js:197
 msgid "Set expiration date"
 msgstr "მიუთითე ვადის გასვლის დრო"
 
-#: js/share.js:179
+#: js/share.js:198
 msgid "Expiration date"
 msgstr "ვადის გასვლის დრო"
 
-#: js/share.js:211
+#: js/share.js:230
 msgid "Share via email:"
 msgstr "გააზიარე მეილზე"
 
-#: js/share.js:213
+#: js/share.js:232
 msgid "No people found"
 msgstr "მომხმარებელი არ არის ნაპოვნი"
 
-#: js/share.js:251
+#: js/share.js:270
 msgid "Resharing is not allowed"
 msgstr "მეორეჯერ გაზიარება არ არის დაშვებული"
 
-#: js/share.js:287
+#: js/share.js:306
 msgid "Shared in {item} with {user}"
 msgstr "გაზიარდა {item}–ში  {user}–ის მიერ"
 
-#: js/share.js:308
+#: js/share.js:327
 msgid "Unshare"
 msgstr "გაუზიარებადი"
 
-#: js/share.js:320
+#: js/share.js:339
 msgid "can edit"
 msgstr "შეგიძლია შეცვლა"
 
-#: js/share.js:322
+#: js/share.js:341
 msgid "access control"
 msgstr "დაშვების კონტროლი"
 
-#: js/share.js:325
+#: js/share.js:344
 msgid "create"
 msgstr "შექმნა"
 
-#: js/share.js:328
+#: js/share.js:347
 msgid "update"
 msgstr "განახლება"
 
-#: js/share.js:331
+#: js/share.js:350
 msgid "delete"
 msgstr "წაშლა"
 
-#: js/share.js:334
+#: js/share.js:353
 msgid "share"
 msgstr "გაზიარება"
 
-#: js/share.js:368 js/share.js:564
+#: js/share.js:387 js/share.js:607
 msgid "Password protected"
 msgstr "პაროლით დაცული"
 
-#: js/share.js:577
+#: js/share.js:620
 msgid "Error unsetting expiration date"
 msgstr "შეცდომა ვადის გასვლის მოხსნის დროს"
 
-#: js/share.js:589
+#: js/share.js:632
 msgid "Error setting expiration date"
 msgstr "შეცდომა ვადის გასვლის მითითების დროს"
 
-#: js/share.js:604
+#: js/share.js:647
 msgid "Sending ..."
 msgstr "გაგზავნა ...."
 
-#: js/share.js:615
+#: js/share.js:658
 msgid "Email sent"
 msgstr "იმეილი გაიგზავნა"
 
-#: js/update.js:14
+#: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
 msgstr "განახლება ვერ განხორციელდა. გთხოვთ შეგვატყობინოთ ამ პრობლემის შესახებ აქ: <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>."
 
-#: js/update.js:18
+#: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "განახლება ვერ განხორციელდა. გადამისამართება თქვენს ownCloud–ზე."
 
@@ -461,7 +465,7 @@ msgstr "წვდომა აკრძალულია"
 msgid "Cloud not found"
 msgstr "ღრუბელი არ არსებობს"
 
-#: templates/altmail.php:2
+#: templates/altmail.php:4
 #, php-format
 msgid ""
 "Hey there,\n"
@@ -471,10 +475,6 @@ msgid ""
 "\n"
 "Cheers!"
 msgstr ""
-
-#: templates/altmail.php:7 templates/mail.php:24
-msgid "web services under your control"
-msgstr "web services under your control"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -568,12 +568,12 @@ msgstr "მონაცემთა ბაზის ჰოსტი"
 msgid "Finish setup"
 msgstr "კონფიგურაციის დასრულება"
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:43
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:67
+#: templates/layout.user.php:68
 msgid "Log out"
 msgstr "გამოსვლა"
 
@@ -607,7 +607,7 @@ msgstr "შესვლა"
 msgid "Alternative Logins"
 msgstr "ალტერნატიული Login–ი"
 
-#: templates/mail.php:15
+#: templates/mail.php:16
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "

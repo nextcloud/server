@@ -57,10 +57,11 @@ class Crypt {
 
 		if ($res === false) {
 			\OCP\Util::writeLog('Encryption library', 'couldn\'t generate users key-pair for ' . \OCP\User::getUser(), \OCP\Util::ERROR);
+			\OCP\Util::writeLog('Encryption library', openssl_error_string(), \OCP\Util::ERROR);
 		} elseif (openssl_pkey_export($res, $privateKey)) {
 			// Get public key
-			$publicKey = openssl_pkey_get_details($res);
-			$publicKey = $publicKey['key'];
+			$keyDetails = openssl_pkey_get_details($res);
+			$publicKey = $keyDetails['key'];
 
 			$return = array(
 				'publicKey' => $publicKey,
@@ -68,6 +69,7 @@ class Crypt {
 			);
 		} else {
 			\OCP\Util::writeLog('Encryption library', 'couldn\'t export users private key, please check your servers openSSL configuration.' . \OCP\User::getUser(), \OCP\Util::ERROR);
+			\OCP\Util::writeLog('Encryption library', openssl_error_string(), \OCP\Util::ERROR);
 		}
 
 		return $return;
@@ -206,13 +208,10 @@ class Crypt {
 	public static function encrypt($plainContent, $iv, $passphrase = '') {
 
 		if ($encryptedContent = openssl_encrypt($plainContent, 'AES-128-CFB', $passphrase, false, $iv)) {
-
 			return $encryptedContent;
-
 		} else {
-
 			\OCP\Util::writeLog('Encryption library', 'Encryption (symmetric) of content failed', \OCP\Util::ERROR);
-
+			\OCP\Util::writeLog('Encryption library', openssl_error_string(), \OCP\Util::ERROR);
 			return false;
 
 		}

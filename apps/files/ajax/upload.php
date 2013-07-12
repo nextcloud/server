@@ -1,17 +1,57 @@
 <?php
 
-// Init owncloud
-
-
 // Firefox and Konqueror tries to download application/json for me.  --Arthur
 OCP\JSON::setContentTypeHeader('text/plain');
 
-OCP\JSON::checkLoggedIn();
-OCP\JSON::callCheck();
+// If a directory token is sent along check if public upload is permitted.
+// If not, check the login.
+// If no token is sent along, rely on login only
+
 $l = OC_L10N::get('files');
+if (empty($_POST['dirToken'])) {
+	// The standard case, files are uploaded through logged in users :)
+	OCP\JSON::checkLoggedIn();
+	$dir = isset($_POST['dir']) ? $_POST['dir'] : "";
+	if (!$dir || empty($dir) || $dir === false) {
+		OCP\JSON::error(array('data' => array_merge(array('message' => $l->t('Unable to set upload directory.')))));
+		die();
+	}
+} else {
+	$linkItem = OCP\Share::getShareByToken($_POST['dirToken']);
+	if ($linkItem === false) {
+		OCP\JSON::error(array('data' => array_merge(array('message' => $l->t('Invalid Token')))));
+		die();
+	}
+
+	if (!($linkItem['permissions'] & OCP\PERMISSION_CREATE)) {
+		OCP\JSON::checkLoggedIn();
+	} else {
+		// resolve reshares
+		$rootLinkItem = OCP\Share::resolveReShare($linkItem);
+
+		// Setup FS with owner
+		OC_Util::tearDownFS();
+		OC_Util::setupFS($rootLinkItem['uid_owner']);
+
+		// The token defines the target directory (security reasons)
+		$path = \OC\Files\Filesystem::getPath($linkItem['file_source']);
+		$dir = sprintf(
+			"/%s/%s",
+			$path,
+			isset($_POST['subdir']) ? $_POST['subdir'] : ''
+		);
+
+		if (!$dir || empty($dir) || $dir === false) {
+			OCP\JSON::error(array('data' => array_merge(array('message' => $l->t('Unable to set upload directory.')))));
+			die();
+		}
+	}
+}
 
 
-$dir = $_POST['dir'];
+OCP\JSON::callCheck();
+
+
 // get array with current storage stats (e.g. max file size)
 $storageStats = \OCA\files\lib\Helper::buildFileStorageStatistics($dir);
 
@@ -25,7 +65,7 @@ foreach ($_FILES['files']['error'] as $error) {
 		$errors = array(
 			UPLOAD_ERR_OK => $l->t('There is no error, the file uploaded with success'),
 			UPLOAD_ERR_INI_SIZE => $l->t('The uploaded file exceeds the upload_max_filesize directive in php.ini: ')
-				. ini_get('upload_max_filesize'),
+			. ini_get('upload_max_filesize'),
 			UPLOAD_ERR_FORM_SIZE => $l->t('The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form'),
 			UPLOAD_ERR_PARTIAL => $l->t('The uploaded file was only partially uploaded'),
 			UPLOAD_ERR_NO_FILE => $l->t('No file was uploaded'),
@@ -40,17 +80,17 @@ $files = $_FILES['files'];
 
 $error = '';
 
-$maxUploadFilesize = OCP\Util::maxUploadFilesize($dir);
-$maxHumanFilesize = OCP\Util::humanFileSize($maxUploadFilesize);
+$maxUploadFileSize = $storageStats['uploadMaxFilesize'];
+$maxHumanFileSize = OCP\Util::humanFileSize($maxUploadFileSize);
 
 $totalSize = 0;
 foreach ($files['size'] as $size) {
 	$totalSize += $size;
 }
-if ($maxUploadFilesize >= 0 and $totalSize > $maxUploadFilesize) {
+if ($maxUploadFileSize >= 0 and $totalSize > $maxUploadFileSize) {
 	OCP\JSON::error(array('data' => array('message' => $l->t('Not enough storage available'),
-		'uploadMaxFilesize' => $maxUploadFilesize,
-		'maxHumanFilesize' => $maxHumanFilesize)));
+		'uploadMaxFilesize' => $maxUploadFileSize,
+		'maxHumanFilesize' => $maxHumanFileSize)));
 	exit();
 }
 
@@ -71,9 +111,9 @@ if (strpos($dir, '..') === false) {
 				'size' => $meta['size'],
 				'id' => $meta['fileid'],
 				'name' => basename($target),
-				'originalname'=>$files['name'][$i],
-				'uploadMaxFilesize' => $maxUploadFilesize,
-				'maxHumanFilesize' => $maxHumanFilesize
+				'originalname' => $files['name'][$i],
+				'uploadMaxFilesize' => $maxUploadFileSize,
+				'maxHumanFilesize' => $maxHumanFileSize
 			);
 		}
 	}
