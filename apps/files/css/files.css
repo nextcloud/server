@@ -168,3 +168,8 @@ table.dragshadow td.size {
 	text-align: center;
 	margin-left: -200px;
 }
+
+html.lte8 #fileList tr:hover a.delete {
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+}
