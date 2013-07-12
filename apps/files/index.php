@@ -138,5 +138,6 @@ if ($needUpgrade) {
 	$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 	$tmpl->assign('usedSpacePercent', (int)$storageInfo['relative']);
 	$tmpl->assign('isPublic', false);
+	$tmpl->assign('publicUploadEnabled', \OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes'));
 	$tmpl->printPage();
 }

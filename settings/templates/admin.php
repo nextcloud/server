@@ -140,9 +140,17 @@ if (!$_['internetconnectionworking']) {
 		<tr>
 			<td <?php if ($_['shareAPIEnabled'] == 'no') print_unescaped('style="display:none"');?>>
 				<input type="checkbox" name="shareapi_allow_links" id="allowLinks"
-					   value="1" <?php if ($_['allowLinks'] == 'yes') print_unescaped('checked="checked"'); ?> />
+				       value="1" <?php if ($_['allowLinks'] == 'yes') print_unescaped('checked="checked"'); ?> />
 				<label for="allowLinks"><?php p($l->t('Allow links'));?></label><br/>
 				<em><?php p($l->t('Allow users to share items to the public with links')); ?></em>
+			</td>
+		</tr>
+		<tr>
+			<td <?php if ($_['shareAPIEnabled'] == 'no') print_unescaped('style="display:none"');?>>
+				<input type="checkbox" name="shareapi_allow_public_upload" id="allowPublicUpload"
+				       value="1" <?php if ($_['allowPublicUpload'] == 'yes') print_unescaped('checked="checked"'); ?> />
+				<label for="allowPublicUpload"><?php p($l->t('Allow anonymous uploads'));?></label><br/>
+				<em><?php p($l->t('Allow users to enable others to anonymously upload into their publicly shared folders')); ?></em>
 			</td>
 		</tr>
 		<tr>
