@@ -202,6 +202,7 @@ if (isset($path)) {
 			$folder->assign('isCreatable', false);
 			$folder->assign('permissions', OCP\PERMISSION_READ);
 			$folder->assign('isPublic',true);
+			$folder->assign('publicUploadEnabled', true);
 			$folder->assign('files', $files);
 			$folder->assign('uploadMaxFilesize', $maxUploadFilesize);
 			$folder->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
