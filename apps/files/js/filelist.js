@@ -171,6 +171,8 @@ var FileList={
 			}
 		}else if(type=='dir' && $('tr[data-file]').length>0){
 			$('tr[data-file]').first().before(element);
+		} else if(type=='file' && $('tr[data-file]').length>0) {
+			$('tr[data-file]').last().before(element);
 		}else{
 			$('#fileList').append(element);
 		}
