@@ -283,6 +283,10 @@ class Preview {
 		$fileinfo = $this->fileview->getFileInfo($file);
 		$fileid = $fileinfo['fileid'];
 
+		if(is_null($fileid)) {
+			return false;
+		}
+
 		$previewpath = $this->getThumbnailsFolder() . '/' . $fileid . '/';
 		if(!$this->userview->is_dir($previewpath)) {
 			return false;
@@ -293,18 +297,19 @@ class Preview {
 			return $previewpath . $maxX . '-' . $maxY . '.png';
 		}
 
-		$wantedaspectratio = $maxX / $maxY;
+		$wantedaspectratio = (float) ($maxX / $maxY);
 
 		//array for usable cached thumbnails
 		$possiblethumbnails = array();
 
 		$allthumbnails = $this->userview->getDirectoryContent($previewpath);
 		foreach($allthumbnails as $thumbnail) {
-			$size = explode('-', $thumbnail['name']);
-			$x = $size[0];
-			$y = $size[1];
+			$name = rtrim($thumbnail['name'], '.png');
+			$size = explode('-', $name);
+			$x = (int) $size[0];
+			$y = (int) $size[1];
 
-			$aspectratio = $x / $y;
+			$aspectratio = (float) ($x / $y);
 			if($aspectratio !== $wantedaspectratio) {
 				continue;
 			}
