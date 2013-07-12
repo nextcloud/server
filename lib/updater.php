@@ -22,19 +22,6 @@ use OC\Hooks\BasicEmitter;
  *  - failure(string $message)
  */
 class Updater extends BasicEmitter {
-
-	/**
-	 * @var \OC\Log $log
-	 */
-	private $log;
-
-	/**
-	 * @param \OC\Log $log
-	 */
-	public function __construct($log = null) {
-		$this->log = $log;
-	}
-
 	/**
 	 * Check if a new version is available
 	 * @param string $updateUrl the url to check, i.e. 'http://apps.owncloud.com/updater.php'
@@ -44,6 +31,7 @@ class Updater extends BasicEmitter {
 		OC_Appconfig::setValue('core', 'lastupdatedat', microtime(true));
 		if ((\OC_Appconfig::getValue('core', 'lastupdatedat') + 1800) > time()) {
 			return json_decode(\OC_Appconfig::getValue('core', 'lastupdateResult'), true);
+		}
 		\OC_Appconfig::setValue('core', 'lastupdatedat', time());
 		if (\OC_Appconfig::getValue('core', 'installedat', '') == '') {
 			\OC_Appconfig::setValue('core', 'installedat', microtime(true));
@@ -91,9 +79,7 @@ class Updater extends BasicEmitter {
 		\OC_Config::setValue('maintenance', true);
 		$installedVersion = \OC_Config::getValue('version', '0.0.0');
 		$currentVersion = implode('.', \OC_Util::getVersion());
-		if ($this->log) {
-			$this->log->debug('starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, array('app' => 'core'));
-		}
+		\OC_Log::write('core', 'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, \OC_Log::WARN);
 		$this->emit('\OC\Updater', 'maintenanceStart');
 		try {
 			\OC_DB::updateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
