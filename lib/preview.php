@@ -305,7 +305,7 @@ class Preview {
 			$y = $size[1];
 
 			$aspectratio = $x / $y;
-			if($aspectratio != $wantedaspectratio) {
+			if($aspectratio !== $wantedaspectratio) {
 				continue;
 			}
 
@@ -691,7 +691,7 @@ class PreviewManager {
 		}
 
 		$path = \OC\Files\Filesystem::normalizePath($path, false);
-		if(substr($path, 0, 1) == '/') {
+		if(substr($path, 0, 1) === '/') {
 			$path = substr($path, 1);
 		}
 
@@ -768,7 +768,7 @@ class PreviewManager {
 	
 	public static function post_delete($args) {
 		$path = $args['path'];
-		if(substr($path, 0, 1) == '/') {
+		if(substr($path, 0, 1) === '/') {
 			$path = substr($path, 1);
 		}
 		$preview = new Preview(\OC_User::getUser(), 'files/', $path, 0, 0, false, true);
