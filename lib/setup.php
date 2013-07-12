@@ -1,21 +1,7 @@
 <?php
 
-class DatabaseSetupException extends Exception
+class DatabaseSetupException extends \OC\HintException
 {
-	private $hint;
-
-	public function __construct($message, $hint = '', $code = 0, Exception $previous = null) {
-		$this->hint = $hint;
-		parent::__construct($message, $code, $previous);
-	}
-
-	public function __toString() {
-		return __CLASS__ . ": [{$this->code}]: {$this->message} ({$this->hint})\n";
-	}
-
-	public function getHint() {
-		return $this->hint;
-	}
 }
 
 class OC_Setup {
