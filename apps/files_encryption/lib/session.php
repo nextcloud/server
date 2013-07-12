@@ -88,9 +88,10 @@ class Session {
 			$proxyStatus = \OC_FileProxy::$enabled;
 			\OC_FileProxy::$enabled = false;
 
-			$encryptedKey = $this->view->file_get_contents( '/owncloud_private_key/' . $publicShareKeyId . '.private.key' );
-			$privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, '' );
-			$this->setPublicSharePrivateKey( $privateKey );
+			$encryptedKey = $this->view->file_get_contents(
+				'/owncloud_private_key/' . $publicShareKeyId . '.private.key');
+			$privateKey = Crypt::decryptPrivateKey($encryptedKey, '');
+			$this->setPublicSharePrivateKey($privateKey);
 
 			\OC_FileProxy::$enabled = $proxyStatus;
 		}
@@ -121,7 +122,7 @@ class Session {
 		if (\OCA\Encryption\Helper::isPublicAccess()) {
 			return $this->getPublicSharePrivateKey();
 		} else {
-			if (!is_null( \OC::$session->get('privateKey') )) {
+			if (!is_null(\OC::$session->get('privateKey'))) {
 				return \OC::$session->get('privateKey');
 			} else {
 				return false;
@@ -136,7 +137,7 @@ class Session {
 	 */
 	public function setPublicSharePrivateKey($privateKey) {
 
-			\OC::$session->set('publicSharePrivateKey', $privateKey);
+		\OC::$session->set('publicSharePrivateKey', $privateKey);
 
 		return true;
 
@@ -149,7 +150,7 @@ class Session {
 	 */
 	public function getPublicSharePrivateKey() {
 
-		if (!is_null( \OC::$session->get('publicSharePrivateKey') )) {
+		if (!is_null(\OC::$session->get('publicSharePrivateKey'))) {
 			return \OC::$session->get('publicSharePrivateKey');
 		} else {
 			return false;
@@ -176,7 +177,7 @@ class Session {
 	 */
 	public function getLegacyKey() {
 
-		if ( !is_null( \OC::$session->get('legacyKey') ) ) {
+		if (!is_null(\OC::$session->get('legacyKey'))) {
 
 			return \OC::$session->get('legacyKey');
 

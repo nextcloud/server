@@ -7,6 +7,10 @@
 "Missing a temporary folder" => "තාවකාලික ෆොල්ඩරයක් අතුරුදහන්",
 "Failed to write to disk" => "තැටිගත කිරීම අසාර්ථකයි",
 "Files" => "ගොනු",
+"Upload cancelled." => "උඩුගත කිරීම අත් හරින්න ලදී",
+"File upload is in progress. Leaving the page now will cancel the upload." => "උඩුගතකිරීමක් සිදුවේ. පිටුව හැර යාමෙන් එය නැවතෙනු ඇත",
+"URL cannot be empty." => "යොමුව හිස් විය නොහැක",
+"Error" => "දෝෂයක්",
 "Share" => "බෙදා හදා ගන්න",
 "Delete" => "මකා දමන්න",
 "Rename" => "නැවත නම් කරන්න",
@@ -15,10 +19,6 @@
 "cancel" => "අත් හරින්න",
 "undo" => "නිෂ්ප්‍රභ කරන්න",
 "1 file uploading" => "1 ගොනුවක් උඩගත කෙරේ",
-"Upload cancelled." => "උඩුගත කිරීම අත් හරින්න ලදී",
-"File upload is in progress. Leaving the page now will cancel the upload." => "උඩුගතකිරීමක් සිදුවේ. පිටුව හැර යාමෙන් එය නැවතෙනු ඇත",
-"URL cannot be empty." => "යොමුව හිස් විය නොහැක",
-"Error" => "දෝෂයක්",
 "Name" => "නම",
 "Size" => "ප්‍රමාණය",
 "Modified" => "වෙනස් කළ",
@@ -44,5 +44,7 @@
 "Upload too large" => "උඩුගත කිරීම විශාල වැඩිය",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "ඔබ උඩුගත කිරීමට තැත් කරන ගොනු මෙම සේවාදායකයා උඩුගත කිරීමට ඉඩදී ඇති උපරිම ගොනු විශාලත්වයට වඩා වැඩිය",
 "Files are being scanned, please wait." => "ගොනු පරික්ෂා කෙරේ. මඳක් රැඳී සිටින්න",
-"Current scanning" => "වර්තමාන පරික්ෂාව"
+"Current scanning" => "වර්තමාන පරික්ෂාව",
+"file" => "ගොනුව",
+"files" => "ගොනු"
 );

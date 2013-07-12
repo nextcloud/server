@@ -7,6 +7,8 @@
 "Failed to write to disk" => "Възникна проблем при запис в диска",
 "Invalid directory." => "Невалидна директория.",
 "Files" => "Файлове",
+"Upload cancelled." => "Качването е спряно.",
+"Error" => "Грешка",
 "Share" => "Споделяне",
 "Delete permanently" => "Изтриване завинаги",
 "Delete" => "Изтриване",
@@ -15,8 +17,6 @@
 "replace" => "препокриване",
 "cancel" => "отказ",
 "undo" => "възтановяване",
-"Upload cancelled." => "Качването е спряно.",
-"Error" => "Грешка",
 "Name" => "Име",
 "Size" => "Размер",
 "Modified" => "Променено",
@@ -36,5 +36,6 @@
 "Download" => "Изтегляне",
 "Upload too large" => "Файлът който сте избрали за качване е прекалено голям",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Файловете които се опитвате да качите са по-големи от позволеното за сървъра.",
-"Files are being scanned, please wait." => "Файловете се претърсват, изчакайте."
+"Files are being scanned, please wait." => "Файловете се претърсват, изчакайте.",
+"file" => "файл"
 );

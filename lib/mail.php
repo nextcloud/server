@@ -113,9 +113,12 @@ class OC_Mail {
 	 */
 	public static function getfooter() {
 
-		$txt="\n-- \n";
-		$txt.="ownCloud\n";
-		$txt.="Your Cloud, Your Data, Your Way!\n";
+		$defaults = new OC_Defaults();
+
+		$txt="\n--\n";
+		$txt.=$defaults->getName() . "\n";
+		$txt.=$defaults->getSlogan() . "\n";
+
 		return($txt);
 
 	}

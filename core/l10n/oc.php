@@ -88,7 +88,6 @@
 "Database tablespace" => "Espandi de taula de basa de donadas",
 "Database host" => "Òste de basa de donadas",
 "Finish setup" => "Configuracion acabada",
-"web services under your control" => "Services web jos ton contraròtle",
 "Log out" => "Sortida",
 "Lost your password?" => "L'as perdut lo senhal ?",
 "remember" => "bremba-te",

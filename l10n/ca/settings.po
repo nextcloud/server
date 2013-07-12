@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-30 02:27+0200\n"
-"PO-Revision-Date: 2013-05-29 23:36+0000\n"
-"Last-Translator: rogerc\n"
+"POT-Creation-Date: 2013-07-12 02:04+0200\n"
+"PO-Revision-Date: 2013-07-11 23:15+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,7 +60,7 @@ msgstr "El correu electrònic no és vàlid"
 msgid "Unable to delete group"
 msgstr "No es pot eliminar el grup"
 
-#: ajax/removeuser.php:24
+#: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "No es pot eliminar l'usuari"
 
@@ -90,35 +90,35 @@ msgstr "No es pot eliminar l'usuari del grup %s"
 msgid "Couldn't update app."
 msgstr "No s'ha pogut actualitzar l'aplicació."
 
-#: js/apps.js:30
+#: js/apps.js:35
 msgid "Update to {appversion}"
 msgstr "Actualitza a {appversion}"
 
-#: js/apps.js:36 js/apps.js:76
+#: js/apps.js:41 js/apps.js:81
 msgid "Disable"
 msgstr "Desactiva"
 
-#: js/apps.js:36 js/apps.js:64 js/apps.js:83
+#: js/apps.js:41 js/apps.js:69 js/apps.js:88
 msgid "Enable"
 msgstr "Habilita"
 
-#: js/apps.js:55
+#: js/apps.js:60
 msgid "Please wait...."
 msgstr "Espereu..."
 
-#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
+#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
 msgid "Error"
 msgstr "Error"
 
-#: js/apps.js:90
+#: js/apps.js:95
 msgid "Updating...."
 msgstr "Actualitzant..."
 
-#: js/apps.js:93
+#: js/apps.js:98
 msgid "Error while updating app"
 msgstr "Error en actualitzar l'aplicació"
 
-#: js/apps.js:96
+#: js/apps.js:101
 msgid "Updated"
 msgstr "Actualitzada"
 
@@ -138,16 +138,16 @@ msgstr "desfés"
 msgid "Unable to remove user"
 msgstr "No s'ha pogut eliminar l'usuari"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:83
-#: templates/users.php:108
+#: js/users.js:92 templates/users.php:26 templates/users.php:87
+#: templates/users.php:112
 msgid "Groups"
 msgstr "Grups"
 
-#: js/users.js:95 templates/users.php:85 templates/users.php:120
+#: js/users.js:95 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "Grup Admin"
 
-#: js/users.js:115 templates/users.php:160
+#: js/users.js:115 templates/users.php:164
 msgid "Delete"
 msgstr "Esborra"
 
@@ -167,15 +167,15 @@ msgstr "Error en crear l'usuari"
 msgid "A valid password must be provided"
 msgstr "Heu de facilitar una contrasenya vàlida"
 
-#: personal.php:35 personal.php:36
+#: personal.php:37 personal.php:38
 msgid "__language_name__"
 msgstr "Català"
 
-#: templates/admin.php:15
+#: templates/admin.php:17
 msgid "Security Warning"
 msgstr "Avís de seguretat"
 
-#: templates/admin.php:18
+#: templates/admin.php:20
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file that ownCloud provides is not working. We "
@@ -184,36 +184,36 @@ msgid ""
 " webserver document root."
 msgstr "La carpeta de dades i els fitxers provablement són accessibles des d'internet. El fitxer .htaccess que proporciona ownCloud no funciona. Us recomanem que configureu el vostre servidor web de manera que la carpeta de dades no sigui accessible o que moveu la carpeta de dades fora de la carpeta arrel del servidor web."
 
-#: templates/admin.php:29
+#: templates/admin.php:31
 msgid "Setup Warning"
 msgstr "Avís de configuració"
 
-#: templates/admin.php:32
+#: templates/admin.php:34
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "El servidor web no està configurat correctament per permetre la sincronització de fitxers perquè la interfície WebDAV sembla no funcionar correctament."
 
-#: templates/admin.php:33
+#: templates/admin.php:35
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Comproveu les <a href='%s'>guies d'instal·lació</a>."
 
-#: templates/admin.php:44
+#: templates/admin.php:46
 msgid "Module 'fileinfo' missing"
 msgstr "No s'ha trobat el mòdul 'fileinfo'"
 
-#: templates/admin.php:47
+#: templates/admin.php:49
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "El mòdul de PHP 'fileinfo' no s'ha trobat. Us recomanem que habiliteu aquest mòdul per obtenir millors resultats amb la detecció mime-type."
 
-#: templates/admin.php:58
+#: templates/admin.php:60
 msgid "Locale not working"
 msgstr "Locale no funciona"
 
-#: templates/admin.php:63
+#: templates/admin.php:65
 #, php-format
 msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
@@ -221,11 +221,11 @@ msgid ""
 " to install the required packages on your system to support %s."
 msgstr "Aquest servidor ownCloud no pot establir el locale del sistema a %s. Això significa que hi poden haver problemes amb alguns caràcters en el nom dels fitxers. Us recomanem instal·lar els paquets necessaris al sistema per donar suport a %s."
 
-#: templates/admin.php:75
+#: templates/admin.php:77
 msgid "Internet connection not working"
 msgstr "La connexió a internet no funciona"
 
-#: templates/admin.php:78
+#: templates/admin.php:80
 msgid ""
 "This ownCloud server has no working internet connection. This means that "
 "some of the features like mounting of external storage, notifications about "
@@ -235,102 +235,102 @@ msgid ""
 " of ownCloud."
 msgstr "Aquest servidor ownCloud no té cap connexió a internet que funcioni. Això significa que algunes de les característiques com el muntatge d'emmagatzemament externs, les notificacions quant a actualitzacions o la instal·lació d'aplicacions de tercers no funcionarà. L'accés remot a fitxers i l'enviament de correus electrònics podria tampoc no funcionar. Us suggerim que habiliteu la connexió a internet per aquest servidor si voleu gaudir de totes les possibilitats d'ownCloud."
 
-#: templates/admin.php:92
+#: templates/admin.php:94
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:101
+#: templates/admin.php:103
 msgid "Execute one task with each page loaded"
 msgstr "Executa una tasca per cada paquet carregat"
 
-#: templates/admin.php:111
+#: templates/admin.php:113
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
 msgstr "cron.php està registrat en un servei webcron. Feu la crida a cron.php a l'arrel d'ownCloud cada minut a través de http."
 
-#: templates/admin.php:121
+#: templates/admin.php:123
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
 msgstr "Usa un servei cron del sistema. Feu la crida al fitxer cron.php a través d'un cronjob del sistema cada minut."
 
-#: templates/admin.php:128
+#: templates/admin.php:130
 msgid "Sharing"
 msgstr "Compartir"
 
-#: templates/admin.php:134
+#: templates/admin.php:136
 msgid "Enable Share API"
 msgstr "Habilita l'API de compartir"
 
-#: templates/admin.php:135
+#: templates/admin.php:137
 msgid "Allow apps to use the Share API"
 msgstr "Permet que les aplicacions utilitzin l'API de compartir"
 
-#: templates/admin.php:142
+#: templates/admin.php:144
 msgid "Allow links"
 msgstr "Permet enllaços"
 
-#: templates/admin.php:143
+#: templates/admin.php:145
 msgid "Allow users to share items to the public with links"
 msgstr "Permet als usuaris compartir elements amb el públic amb enllaços"
 
-#: templates/admin.php:150
+#: templates/admin.php:152
 msgid "Allow resharing"
 msgstr "Permet compartir de nou"
 
-#: templates/admin.php:151
+#: templates/admin.php:153
 msgid "Allow users to share items shared with them again"
 msgstr "Permet als usuaris compartir de nou elements ja compartits amb ells"
 
-#: templates/admin.php:158
+#: templates/admin.php:160
 msgid "Allow users to share with anyone"
 msgstr "Permet compartir amb qualsevol"
 
-#: templates/admin.php:161
+#: templates/admin.php:163
 msgid "Allow users to only share with users in their groups"
 msgstr "Permet als usuaris compartir només amb els usuaris del seu grup"
 
-#: templates/admin.php:168
+#: templates/admin.php:170
 msgid "Security"
 msgstr "Seguretat"
 
-#: templates/admin.php:181
+#: templates/admin.php:183
 msgid "Enforce HTTPS"
 msgstr "Força HTTPS"
 
-#: templates/admin.php:182
+#: templates/admin.php:184
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
 msgstr "Força als clients la connexió amb ownCloud via una connexió encriptada."
 
-#: templates/admin.php:185
+#: templates/admin.php:187
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
 msgstr "Connecteu aquesta instància onwCloud via HTTPS per habilitar o deshabilitar el forçament SSL."
 
-#: templates/admin.php:195
+#: templates/admin.php:197
 msgid "Log"
 msgstr "Registre"
 
-#: templates/admin.php:196
+#: templates/admin.php:198
 msgid "Log level"
 msgstr "Nivell de registre"
 
-#: templates/admin.php:227
+#: templates/admin.php:229
 msgid "More"
 msgstr "Més"
 
-#: templates/admin.php:228
+#: templates/admin.php:230
 msgid "Less"
 msgstr "Menys"
 
-#: templates/admin.php:235 templates/personal.php:111
+#: templates/admin.php:236 templates/personal.php:116
 msgid "Version"
 msgstr "Versió"
 
-#: templates/admin.php:237 templates/personal.php:114
+#: templates/admin.php:240 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -340,27 +340,27 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Desenvolupat per la <a href=\"http://ownCloud.org/contact\" target=\"_blank\">comunitat ownCloud</a>, el <a href=\"https://github.com/owncloud\" target=\"_blank\">codi font</a> té llicència <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/apps.php:11
+#: templates/apps.php:13
 msgid "Add your App"
 msgstr "Afegiu la vostra aplicació"
 
-#: templates/apps.php:12
+#: templates/apps.php:28
 msgid "More Apps"
 msgstr "Més aplicacions"
 
-#: templates/apps.php:28
+#: templates/apps.php:33
 msgid "Select an App"
 msgstr "Seleccioneu una aplicació"
 
-#: templates/apps.php:34
+#: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
 msgstr "Mireu la pàgina d'aplicacions a apps.owncloud.com"
 
-#: templates/apps.php:36
+#: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-propietat de <span class=\"author\"></span>"
 
-#: templates/apps.php:38
+#: templates/apps.php:43
 msgid "Update"
 msgstr "Actualitza"
 
@@ -388,76 +388,79 @@ msgstr "Seguiment d'errors"
 msgid "Commercial Support"
 msgstr "Suport comercial"
 
-#: templates/personal.php:8
+#: templates/personal.php:10
+msgid "Get the apps to sync your files"
+msgstr "Obtén les aplicacions per sincronitzar fitxers"
+
+#: templates/personal.php:21
+msgid "Show First Run Wizard again"
+msgstr "Torna a mostrar l'assistent de primera execució"
+
+#: templates/personal.php:29
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Heu utilitzat <strong>%s</strong> d'un total disponible de <strong>%s</strong>"
 
-#: templates/personal.php:15
-msgid "Get the apps to sync your files"
-msgstr "Obtén les aplicacions per sincronitzar fitxers"
-
-#: templates/personal.php:26
-msgid "Show First Run Wizard again"
-msgstr "Torna a mostrar l'assistent de primera execució"
-
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:41 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "Contrasenya"
 
-#: templates/personal.php:38
+#: templates/personal.php:42
 msgid "Your password was changed"
 msgstr "La seva contrasenya s'ha canviat"
 
-#: templates/personal.php:39
+#: templates/personal.php:43
 msgid "Unable to change your password"
 msgstr "No s'ha pogut canviar la contrasenya"
 
-#: templates/personal.php:40
+#: templates/personal.php:44
 msgid "Current password"
 msgstr "Contrasenya actual"
 
-#: templates/personal.php:42
+#: templates/personal.php:46
 msgid "New password"
 msgstr "Contrasenya nova"
 
-#: templates/personal.php:44
+#: templates/personal.php:48
 msgid "Change password"
 msgstr "Canvia la contrasenya"
 
-#: templates/personal.php:56 templates/users.php:81
+#: templates/personal.php:60 templates/users.php:85
 msgid "Display Name"
 msgstr "Nom a mostrar"
 
-#: templates/personal.php:71
+#: templates/personal.php:75
 msgid "Email"
 msgstr "Correu electrònic"
 
-#: templates/personal.php:73
+#: templates/personal.php:77
 msgid "Your email address"
 msgstr "Correu electrònic"
 
-#: templates/personal.php:74
+#: templates/personal.php:78
 msgid "Fill in an email address to enable password recovery"
 msgstr "Ompliu el correu electrònic per activar la recuperació de contrasenya"
 
-#: templates/personal.php:83 templates/personal.php:84
+#: templates/personal.php:87 templates/personal.php:88
 msgid "Language"
 msgstr "Idioma"
 
-#: templates/personal.php:95
+#: templates/personal.php:100
 msgid "Help translate"
 msgstr "Ajudeu-nos amb la traducció"
 
-#: templates/personal.php:100
+#: templates/personal.php:106
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:102
-msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "Useu aquesta adreça per connectar amb ownCloud des del gestor de fitxers"
+#: templates/personal.php:108
+#, php-format
+msgid ""
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
+"target=\"_blank\">access your Files via WebDAV</a>"
+msgstr ""
 
-#: templates/users.php:21 templates/users.php:80
+#: templates/users.php:21
 msgid "Login Name"
 msgstr "Nom d'accés"
 
@@ -465,34 +468,44 @@ msgstr "Nom d'accés"
 msgid "Create"
 msgstr "Crea"
 
-#: templates/users.php:34
+#: templates/users.php:36
 msgid "Admin Recovery Password"
 msgstr "Recuperació de contrasenya d'administrador"
 
-#: templates/users.php:38
+#: templates/users.php:37 templates/users.php:38
+msgid ""
+"Enter the recovery password in order to recover the users files during "
+"password change"
+msgstr "Escriviu la contrasenya de recuperació per a poder recuperar els fitxers dels usuaris en canviar la contrasenya"
+
+#: templates/users.php:42
 msgid "Default Storage"
 msgstr "Emmagatzemament per defecte"
 
-#: templates/users.php:44 templates/users.php:138
+#: templates/users.php:48 templates/users.php:142
 msgid "Unlimited"
 msgstr "Il·limitat"
 
-#: templates/users.php:62 templates/users.php:153
+#: templates/users.php:66 templates/users.php:157
 msgid "Other"
 msgstr "Un altre"
 
-#: templates/users.php:87
+#: templates/users.php:84
+msgid "Username"
+msgstr "Nom d'usuari"
+
+#: templates/users.php:91
 msgid "Storage"
 msgstr "Emmagatzemament"
 
-#: templates/users.php:98
+#: templates/users.php:102
 msgid "change display name"
 msgstr "canvia el nom a mostrar"
 
-#: templates/users.php:102
+#: templates/users.php:106
 msgid "set new password"
 msgstr "estableix nova contrasenya"
 
-#: templates/users.php:133
+#: templates/users.php:137
 msgid "Default"
 msgstr "Per defecte"

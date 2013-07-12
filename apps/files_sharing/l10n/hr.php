@@ -2,5 +2,6 @@
 "Password" => "Lozinka",
 "Submit" => "Pošalji",
 "Download" => "Preuzimanje",
-"web services under your control" => "web usluge pod vašom kontrolom"
+"Upload" => "Učitaj",
+"Cancel upload" => "Prekini upload"
 );

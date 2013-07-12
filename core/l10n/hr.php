@@ -86,7 +86,6 @@
 "Database tablespace" => "Database tablespace",
 "Database host" => "Poslužitelj baze podataka",
 "Finish setup" => "Završi postavljanje",
-"web services under your control" => "web usluge pod vašom kontrolom",
 "Log out" => "Odjava",
 "Lost your password?" => "Izgubili ste lozinku?",
 "remember" => "zapamtiti",

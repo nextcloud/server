@@ -1,6 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "Корисник %s дели са вама датотеку",
-"User %s shared a folder with you" => "Корисник %s дели са вама директоријум",
 "Category type not provided." => "Врста категорије није унет.",
 "No category to add?" => "Додати још неку категорију?",
 "Object type not provided." => "Врста објекта није унета.",
@@ -111,7 +109,6 @@
 "Database tablespace" => "Радни простор базе података",
 "Database host" => "Домаћин базе",
 "Finish setup" => "Заврши подешавање",
-"web services under your control" => "веб сервиси под контролом",
 "Log out" => "Одјава",
 "Automatic logon rejected!" => "Аутоматска пријава је одбијена!",
 "If you did not change your password recently, your account may be compromised!" => "Ако ускоро не промените лозинку ваш налог може бити компромитован!",

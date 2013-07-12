@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "Brukaren %s delte ei fil med deg",
-"User %s shared a folder with you" => "Brukaren %s delte ei mappe med deg",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "Brukaren %s delte fila «%s» med deg. Du kan lasta ho ned her: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Brukaren %s delte mappa «%s» med deg. Du kan lasta ho ned her: %s",
 "Category type not provided." => "Ingen kategoritype.",
 "No category to add?" => "Ingen kategori å leggja til?",
 "This category already exists: %s" => "Denne kategorien finst alt: %s",
@@ -124,7 +120,6 @@
 "Database tablespace" => "Tabellnamnrom for database",
 "Database host" => "Databasetenar",
 "Finish setup" => "Fullfør oppsettet",
-"web services under your control" => "Vevtenester under din kontroll",
 "%s is available. Get more information on how to update." => "%s er tilgjengeleg. Få meir informasjon om korleis du oppdaterer.",
 "Log out" => "Logg ut",
 "Automatic logon rejected!" => "Automatisk innlogging avvist!",

@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "%s berbagi berkas dengan Anda",
-"User %s shared a folder with you" => "%s berbagi folder dengan Anda",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "%s berbagi berkas \"%s\" dengan Anda. Silakan unduh di sini: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "%s berbagi folder \"%s\" dengan Anda. Silakan unduh di sini: %s",
 "Category type not provided." => "Tipe kategori tidak diberikan.",
 "No category to add?" => "Tidak ada kategori yang akan ditambahkan?",
 "This category already exists: %s" => "Kategori ini sudah ada: %s",
@@ -122,7 +118,6 @@
 "Database tablespace" => "Tablespace basis data",
 "Database host" => "Host basis data",
 "Finish setup" => "Selesaikan instalasi",
-"web services under your control" => "layanan web dalam kontrol Anda",
 "Log out" => "Keluar",
 "Automatic logon rejected!" => "Masuk otomatis ditolak!",
 "If you did not change your password recently, your account may be compromised!" => "Jika tidak pernah mengubah sandi Anda baru-baru ini, akun Anda mungkin dalam bahaya!",

@@ -210,6 +210,22 @@ class Connection {
 	}
 
 	/**
+	 * Special handling for reading Base Configuration
+	 *
+	 * @param $base the internal name of the config key
+	 * @param $value the value stored for the base
+	 */
+	private function readBase($base, $value) {
+		if(empty($value)) {
+			$value = '';
+		} else {
+			$value = preg_split('/\r\n|\r|\n/', $value);
+		}
+
+		$this->config[$base] = $value;
+	}
+
+	/**
 	 * Caches the general LDAP configuration.
 	 */
 	private function readConfiguration($force = false) {
@@ -224,14 +240,9 @@ class Connection {
 			$this->config['ldapAgentName']  = $this->$v('ldap_dn');
 			$this->config['ldapAgentPassword']
 				= base64_decode($this->$v('ldap_agent_password'));
-			$rawLdapBase                    = $this->$v('ldap_base');
-			$this->config['ldapBase']
-				= preg_split('/\r\n|\r|\n/', $rawLdapBase);
-			$this->config['ldapBaseUsers']
-				= preg_split('/\r\n|\r|\n/', ($this->$v('ldap_base_users')));
-			$this->config['ldapBaseGroups']
-				= preg_split('/\r\n|\r|\n/', $this->$v('ldap_base_groups'));
-			unset($rawLdapBase);
+			$this->readBase('ldapBase',       $this->$v('ldap_base'));
+			$this->readBase('ldapBaseUsers',  $this->$v('ldap_base_users'));
+			$this->readBase('ldapBaseGroups', $this->$v('ldap_base_groups'));
 			$this->config['ldapTLS']        = $this->$v('ldap_tls');
 			$this->config['ldapNoCase']     = $this->$v('ldap_nocase');
 			$this->config['turnOffCertCheck']
@@ -601,14 +612,13 @@ class Connection {
 				$error = null;
 			}
 
-			$error = null;
 			//if LDAP server is not reachable, try the Backup (Replica!) Server
-			if((!$bindStatus && ($error === -1))
+			if((!$bindStatus && ($error !== 0))
 				|| $this->config['ldapOverrideMainServer']
 				|| $this->getFromCache('overrideMainServer')) {
 					$this->doConnect($this->config['ldapBackupHost'], $this->config['ldapBackupPort']);
 					$bindStatus = $this->bind();
-					if($bindStatus && $error === -1) {
+					if(!$bindStatus && $error === -1) {
 						//when bind to backup server succeeded and failed to main server,
 						//skip contacting him until next cache refresh
 						$this->writeToCache('overrideMainServer', true);
@@ -621,6 +631,10 @@ class Connection {
 	private function doConnect($host, $port) {
 		if(empty($host)) {
 			return false;
+		}
+		if(strpos($host, '://') !== false) {
+			//ldap_connect ignores port paramater when URLs are passed
+			$host .= ':' . $port;
 		}
 		$this->ldapConnectionRes = ldap_connect($host, $port);
 		if(ldap_set_option($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
@@ -636,10 +650,17 @@ class Connection {
 	 * Binds to LDAP
 	 */
 	public function bind() {
+		static $getConnectionResourceAttempt = false;
 		if(!$this->config['ldapConfigurationActive']) {
 			return false;
 		}
+		if($getConnectionResourceAttempt) {
+			$getConnectionResourceAttempt = false;
+			return false;
+		}
+		$getConnectionResourceAttempt = true;
 		$cr = $this->getConnectionResource();
+		$getConnectionResourceAttempt = false;
 		if(!is_resource($cr)) {
 			return false;
 		}

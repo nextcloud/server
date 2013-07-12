@@ -75,7 +75,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$this->legacyData = realpath(dirname(__FILE__) . '/legacy-text.txt');
 		$this->legacyEncryptedData = realpath(dirname(__FILE__) . '/legacy-encrypted-text.txt');
 		$this->legacyEncryptedDataKey = realpath(dirname(__FILE__) . '/encryption.key');
-		$this->legacyKey = '30943623843030686906';
+		$this->legacyKey = "30943623843030686906\0\0\0\0";
 
 		$keypair = Encryption\Crypt::createKeypair();
 
@@ -118,6 +118,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @brief test that paths set during User construction are correct
 	 */
 	function testKeyPaths() {
@@ -132,6 +133,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @brief test setup of encryption directories
 	 */
 	function testSetupServerSide() {
@@ -139,6 +141,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @brief test checking whether account is ready for encryption,
 	 */
 	function testUserIsReady() {
@@ -159,6 +162,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 //	}
 
 	/**
+	 * @medium
 	 * @brief test checking whether account is not ready for encryption,
 	 */
 	function testIsLegacyUser() {
@@ -178,14 +182,16 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$params['uid'] = \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER;
 		$params['password'] = \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER;
 
-		$util = new Encryption\Util($this->view, \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER);
-		$util->setMigrationStatus(0);
+		$this->setMigrationStatus(0, \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER);
 
 		$this->assertTrue(OCA\Encryption\Hooks::login($params));
 
 		$this->assertEquals($this->legacyKey, \OC::$session->get('legacyKey'));
 	}
 
+	/**
+	 * @medium
+	 */
 	function testRecoveryEnabledForUser() {
 
 		$util = new Encryption\Util($this->view, $this->userId);
@@ -206,11 +212,14 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 	}
 
+	/**
+	 * @medium
+	 */
 	function testGetUidAndFilename() {
 
 		\OC_User::setUserId(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER1);
 
-		$filename = 'tmp-' . time() . '.test';
+		$filename = '/tmp-' . time() . '.test';
 
 		// Disable encryption proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
@@ -232,6 +241,9 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$this->view->unlink($this->userId . '/files/' . $filename);
 	}
 
+	/**
+	 * @medium
+	 */
 	function testIsSharedPath() {
 		$sharedPath = '/user1/files/Shared/test';
 		$path = '/user1/files/test';
@@ -241,6 +253,9 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->util->isSharedPath($path));
 	}
 
+	/**
+	 * @large
+	 */
 	function testEncryptLegacyFiles() {
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER);
 
@@ -269,7 +284,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$params['password'] = \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER;
 
 		$util = new Encryption\Util($this->view, \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER);
-		$util->setMigrationStatus(0);
+		$this->setMigrationStatus(0, \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER);
 
 		$this->assertTrue(OCA\Encryption\Hooks::login($params));
 
@@ -314,4 +329,28 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$params['password'] = $password;
 		OCA\Encryption\Hooks::login($params);
 	}
+
+	/**
+	 * helper function to set migration status to the right value
+	 * to be able to test the migration path
+	 * 
+	 * @param $status needed migration status for test
+	 * @param $user for which user the status should be set
+	 * @return boolean
+	 */
+	private function setMigrationStatus($status, $user) {
+		$sql = 'UPDATE `*PREFIX*encryption` SET `migration_status` = ? WHERE `uid` = ?';
+		$args = array(
+			$status,
+			$user
+		);
+
+		$query = \OCP\DB::prepare($sql);
+		if ($query->execute($args)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }

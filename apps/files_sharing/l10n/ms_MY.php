@@ -2,5 +2,6 @@
 "Password" => "Kata laluan",
 "Submit" => "Hantar",
 "Download" => "Muat turun",
-"web services under your control" => "Perkhidmatan web di bawah kawalan anda"
+"Upload" => "Muat naik",
+"Cancel upload" => "Batal muat naik"
 );

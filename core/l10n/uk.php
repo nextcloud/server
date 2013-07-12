@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "Користувач %s поділився файлом з вами",
-"User %s shared a folder with you" => "Користувач %s поділився текою з вами",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "Користувач %s поділився файлом \"%s\" з вами. Він доступний для завантаження звідси: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Користувач %s поділився текою \"%s\" з вами. Він доступний для завантаження звідси: %s",
 "Category type not provided." => "Не вказано тип категорії.",
 "No category to add?" => "Відсутні категорії для додавання?",
 "This category already exists: %s" => "Ця категорія вже існує: %s",
@@ -122,7 +118,6 @@
 "Database tablespace" => "Таблиця бази даних",
 "Database host" => "Хост бази даних",
 "Finish setup" => "Завершити налаштування",
-"web services under your control" => "підконтрольні Вам веб-сервіси",
 "Log out" => "Вихід",
 "Automatic logon rejected!" => "Автоматичний вхід в систему відхилений!",
 "If you did not change your password recently, your account may be compromised!" => "Якщо Ви не міняли пароль останнім часом, Ваш обліковий запис може бути скомпрометованим!",

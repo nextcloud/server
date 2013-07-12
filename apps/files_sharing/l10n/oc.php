@@ -2,5 +2,6 @@
 "Password" => "Senhal",
 "Submit" => "Sosmetre",
 "Download" => "Avalcarga",
-"web services under your control" => "Services web jos ton contraròtle"
+"Upload" => "Amontcarga",
+"Cancel upload" => " Anulla l'amontcargar"
 );

@@ -173,11 +173,12 @@ class OC {
 	public static function checkConfig() {
 		if (file_exists(OC::$SERVERROOT . "/config/config.php")
 			and !is_writable(OC::$SERVERROOT . "/config/config.php")) {
+			$defaults = new OC_Defaults();
 			$tmpl = new OC_Template('', 'error', 'guest');
 			$tmpl->assign('errors', array(1 => array(
 				'error' => "Can't write into config directory 'config'",
-				'hint' => 'You can usually fix this by giving the webserver user write access'
-					.' to the config directory in owncloud'
+				'hint' => 'This can usually be fixed by '
+					.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html#set-the-directory-permissions" target="_blank">giving the webserver write access to the config directory</a>.'
 			)));
 			$tmpl->printPage();
 			exit();
@@ -235,10 +236,7 @@ class OC {
 			$currentVersion = implode('.', OC_Util::getVersion());
 			if (version_compare($currentVersion, $installedVersion, '>')) {
 				if ($showTemplate && !OC_Config::getValue('maintenance', false)) {
-					OC_Config::setValue('maintenance', true);
-					OC_Log::write('core',
-						'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion,
-						OC_Log::WARN);
+					OC_Config::setValue('theme', '');
 					$minimizerCSS = new OC_Minimizer_CSS();
 					$minimizerCSS->clearCache();
 					$minimizerJS = new OC_Minimizer_JS();
@@ -265,6 +263,7 @@ class OC {
 		OC_Util::addScript("jquery.infieldlabel");
 		OC_Util::addScript("jquery-tipsy");
 		OC_Util::addScript("compatibility");
+		OC_Util::addScript("jquery.ocdialog");
 		OC_Util::addScript("oc-dialogs");
 		OC_Util::addScript("octemplate");
 		OC_Util::addScript("js");
@@ -278,6 +277,7 @@ class OC {
 		OC_Util::addStyle("multiselect");
 		OC_Util::addStyle("jquery-ui-1.10.0.custom");
 		OC_Util::addStyle("jquery-tipsy");
+		OC_Util::addStyle("jquery.ocdialog");
 		OC_Util::addScript("oc-requesttoken");
 	}
 
@@ -289,14 +289,14 @@ class OC {
 		$cookie_path = OC::$WEBROOT ?: '/';
 		ini_set('session.cookie_path', $cookie_path);
 
+		//set the session object to a dummy session so code relying on the session existing still works
+		self::$session = new \OC\Session\Memory('');
+		
 		try{
 			// set the session name to the instance id - which is unique
 			self::$session = new \OC\Session\Internal(OC_Util::getInstanceId());
 			// if session cant be started break with http 500 error
 		}catch (Exception $e){
-			//set the session object to a dummy session so code relying on the session existing still works
-			self::$session = new \OC\Session\Memory('');
-
 			OC_Log::write('core', 'Session could not be initialized',
 				OC_Log::ERROR);
 
@@ -312,16 +312,17 @@ class OC {
 			exit();
 		}
 
+		$sessionLifeTime = self::getSessionLifeTime();
 		// regenerate session id periodically to avoid session fixation
 		if (!self::$session->exists('SID_CREATED')) {
 			self::$session->set('SID_CREATED', time());
-		} else if (time() - self::$session->get('SID_CREATED') > 60*60*12) {
+		} else if (time() - self::$session->get('SID_CREATED') > $sessionLifeTime / 2) {
 			session_regenerate_id(true);
 			self::$session->set('SID_CREATED', time());
 		}
 
 		// session timeout
-		if (self::$session->exists('LAST_ACTIVITY') && (time() - self::$session->get('LAST_ACTIVITY') > 60*60*24)) {
+		if (self::$session->exists('LAST_ACTIVITY') && (time() - self::$session->get('LAST_ACTIVITY') > $sessionLifeTime)) {
 			if (isset($_COOKIE[session_name()])) {
 				setcookie(session_name(), '', time() - 42000, $cookie_path);
 			}
@@ -331,6 +332,13 @@ class OC {
 		}
 
 		self::$session->set('LAST_ACTIVITY', time());
+	}
+
+	/**
+	 * @return int
+	 */
+	private static function getSessionLifeTime() {
+		return OC_Config::getValue('session_lifetime', 60 * 60 * 24);
 	}
 
 	public static function getRouter() {
@@ -394,9 +402,6 @@ class OC {
 		@ini_set('post_max_size', '10G');
 		@ini_set('file_uploads', '50');
 
-		//try to set the session lifetime to 60min
-		@ini_set('gc_maxlifetime', '3600');
-
 		//copy http auth headers for apache+php-fcgid work around
 		if (isset($_SERVER['HTTP_XAUTHORIZATION']) && !isset($_SERVER['HTTP_AUTHORIZATION'])) {
 			$_SERVER['HTTP_AUTHORIZATION'] = $_SERVER['HTTP_XAUTHORIZATION'];
@@ -441,20 +446,24 @@ class OC {
 		stream_wrapper_register('oc', 'OC\Files\Stream\OC');
 
 		self::initTemplateEngine();
-		self::checkConfig();
-		self::checkInstalled();
-		self::checkSSL();
 		if ( !self::$CLI ) {
 			self::initSession();
 		} else {
 			self::$session = new \OC\Session\Memory('');
 		}
+		self::checkConfig();
+		self::checkInstalled();
+		self::checkSSL();
 
 		$errors = OC_Util::checkServer();
 		if (count($errors) > 0) {
 			OC_Template::printGuestPage('', 'error', array('errors' => $errors));
 			exit;
 		}
+
+		//try to set the session lifetime
+		$sessionLifeTime = self::getSessionLifeTime();
+		@ini_set('gc_maxlifetime', (string)$sessionLifeTime);
 
 		// User and Groups
 		if (!OC_Config::getValue("installed", false)) {
@@ -537,9 +546,15 @@ class OC {
 	 * register hooks for the cache
 	 */
 	public static function registerCacheHooks() {
-		// register cache cleanup jobs
-		OC_BackgroundJob_RegularTask::register('OC_Cache_FileGlobal', 'gc');
-		OC_Hook::connect('OC_User', 'post_login', 'OC_Cache_File', 'loginListener');
+		if (OC_Config::getValue('installed', false)) { //don't try to do this before we are properly setup
+			// register cache cleanup jobs
+			try { //if this is executed before the upgrade to the new backgroundjob system is completed it will throw an exception
+				\OCP\BackgroundJob::registerJob('OC_Cache_FileGlobalGC');
+			} catch (Exception $e) {
+
+			}
+			OC_Hook::connect('OC_User', 'post_login', 'OC_Cache_File', 'loginListener');
+		}
 	}
 
 	/**

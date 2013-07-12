@@ -90,13 +90,13 @@ class Helper {
 				AND `appid` = \'user_ldap\'
 				AND `configkey` NOT IN (\'enabled\', \'installed_version\', \'types\', \'bgjUpdateGroupsLastRun\')
 		');
-		$res = $query->execute(array($prefix.'%'));
+		$delRows = $query->execute(array($prefix.'%'));
 
-		if(\OCP\DB::isError($res)) {
+		if(\OCP\DB::isError($delRows)) {
 			return false;
 		}
 
-		if($res->numRows() === 0) {
+		if($delRows === 0) {
 			return false;
 		}
 
@@ -118,7 +118,13 @@ class Helper {
 			return false;
 		}
 
-		$query = \OCP\DB::prepare('TRUNCATE '.$table);
+		if(strpos(\OCP\Config::getSystemValue('dbtype'), 'sqlite') !== false) {
+			$query = \OCP\DB::prepare('DELETE FROM '.$table);
+		} else {
+			$query = \OCP\DB::prepare('TRUNCATE '.$table);
+		}
+
+
 		$res = $query->execute();
 
 		if(\OCP\DB::isError($res)) {

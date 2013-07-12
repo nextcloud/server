@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# idetao <marcxosm@gmail.com>, 2013
 # Vincenzo Reale <vinx.reale@gmail.com>, 2012-2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-25 02:01+0200\n"
-"PO-Revision-Date: 2013-05-24 13:26+0000\n"
+"POT-Creation-Date: 2013-06-20 02:37+0200\n"
+"PO-Revision-Date: 2013-06-19 06:39+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -23,8 +24,8 @@ msgid "WebDAV Authentication"
 msgstr "Autenticazione WebDAV"
 
 #: templates/settings.php:4
-msgid "URL: http://"
-msgstr "URL: http://"
+msgid "URL: "
+msgstr "URL:"
 
 #: templates/settings.php:7
 msgid ""

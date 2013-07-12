@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-30 02:27+0200\n"
-"PO-Revision-Date: 2013-05-29 23:36+0000\n"
-"Last-Translator: unhammer <unhammer+dill@mm.st>\n"
+"POT-Creation-Date: 2013-07-12 02:03+0200\n"
+"PO-Revision-Date: 2013-07-11 23:14+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,52 +29,90 @@ msgstr "Klarte ikkje flytta %s – det finst allereie ei fil med dette namnet"
 msgid "Could not move %s"
 msgstr "Klarte ikkje flytta %s"
 
-#: ajax/upload.php:19
+#: ajax/upload.php:16 ajax/upload.php:45
+msgid "Unable to set upload directory."
+msgstr ""
+
+#: ajax/upload.php:22
+msgid "Invalid Token"
+msgstr ""
+
+#: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
 msgstr "Ingen filer lasta opp. Ukjend feil"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:66
 msgid "There is no error, the file uploaded with success"
 msgstr "Ingen feil, fila vart lasta opp"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:67
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Fila du lasta opp er større enn det «upload_max_filesize» i php.ini tillater: "
 
-#: ajax/upload.php:29
+#: ajax/upload.php:69
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Den opplasta fila er større enn variabelen MAX_FILE_SIZE i HTML-skjemaet"
 
-#: ajax/upload.php:30
+#: ajax/upload.php:70
 msgid "The uploaded file was only partially uploaded"
 msgstr "Fila vart berre delvis lasta opp"
 
-#: ajax/upload.php:31
+#: ajax/upload.php:71
 msgid "No file was uploaded"
 msgstr "Ingen filer vart lasta opp"
 
-#: ajax/upload.php:32
+#: ajax/upload.php:72
 msgid "Missing a temporary folder"
 msgstr "Manglar ei mellombels mappe"
 
-#: ajax/upload.php:33
+#: ajax/upload.php:73
 msgid "Failed to write to disk"
 msgstr "Klarte ikkje skriva til disk"
 
-#: ajax/upload.php:51
+#: ajax/upload.php:91
 msgid "Not enough storage available"
 msgstr "Ikkje nok lagringsplass tilgjengeleg"
 
-#: ajax/upload.php:83
+#: ajax/upload.php:123
 msgid "Invalid directory."
 msgstr "Ugyldig mappe."
 
 #: appinfo/app.php:12
 msgid "Files"
 msgstr "Filer"
+
+#: js/file-upload.js:11
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr "Klarte ikkje lasta opp fila sidan ho er ei mappe eller er på 0 byte"
+
+#: js/file-upload.js:24
+msgid "Not enough space available"
+msgstr "Ikkje nok lagringsplass tilgjengeleg"
+
+#: js/file-upload.js:64
+msgid "Upload cancelled."
+msgstr "Opplasting avbroten."
+
+#: js/file-upload.js:167 js/files.js:266
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr "Fila lastar no opp. Viss du forlèt sida no vil opplastinga verta avbroten."
+
+#: js/file-upload.js:233 js/files.js:339
+msgid "URL cannot be empty."
+msgstr "Nettadressa kan ikkje vera tom."
+
+#: js/file-upload.js:238 lib/app.php:53
+msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
+msgstr "Ugyldig mappenamn. Mappa «Shared» er reservert av ownCloud"
+
+#: js/file-upload.js:267 js/file-upload.js:283 js/files.js:373 js/files.js:389
+#: js/files.js:693 js/files.js:731
+msgid "Error"
+msgstr "Feil"
 
 #: js/fileactions.js:116
 msgid "Share"
@@ -92,43 +130,43 @@ msgstr "Slett"
 msgid "Rename"
 msgstr "Endra namn"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:421
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:464
 msgid "Pending"
 msgstr "Under vegs"
 
-#: js/filelist.js:259 js/filelist.js:261
+#: js/filelist.js:302 js/filelist.js:304
 msgid "{new_name} already exists"
 msgstr "{new_name} finst allereie"
 
-#: js/filelist.js:259 js/filelist.js:261
+#: js/filelist.js:302 js/filelist.js:304
 msgid "replace"
 msgstr "byt ut"
 
-#: js/filelist.js:259
+#: js/filelist.js:302
 msgid "suggest name"
 msgstr "føreslå namn"
 
-#: js/filelist.js:259 js/filelist.js:261
+#: js/filelist.js:302 js/filelist.js:304
 msgid "cancel"
 msgstr "avbryt"
 
-#: js/filelist.js:306
+#: js/filelist.js:349
 msgid "replaced {new_name} with {old_name}"
 msgstr "bytte ut {new_name} med {old_name}"
 
-#: js/filelist.js:306
+#: js/filelist.js:349
 msgid "undo"
 msgstr "angre"
 
-#: js/filelist.js:331
+#: js/filelist.js:374
 msgid "perform delete operation"
 msgstr "utfør sletting"
 
-#: js/filelist.js:413
+#: js/filelist.js:456
 msgid "1 file uploading"
 msgstr "1 fil lastar opp"
 
-#: js/filelist.js:416 js/filelist.js:470
+#: js/filelist.js:459 js/filelist.js:517
 msgid "files uploading"
 msgstr "filer lastar opp"
 
@@ -160,70 +198,42 @@ msgid ""
 "big."
 msgstr "Gjer klar nedlastinga di. Dette kan ta ei stund viss filene er store."
 
-#: js/files.js:264
-msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Klarte ikkje lasta opp fila sidan ho er ei mappe eller er på 0 byte"
-
-#: js/files.js:277
-msgid "Not enough space available"
-msgstr "Ikkje nok lagringsplass tilgjengeleg"
-
-#: js/files.js:317
-msgid "Upload cancelled."
-msgstr "Opplasting avbroten."
-
-#: js/files.js:413
-msgid ""
-"File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "Fila lastar no opp. Viss du forlèt sida no vil opplastinga verta avbroten."
-
-#: js/files.js:486
-msgid "URL cannot be empty."
-msgstr "Nettadressa kan ikkje vera tom."
-
-#: js/files.js:491
+#: js/files.js:344
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Ugyldig mappenamn. Mappa «Shared» er reservert av ownCloud"
 
-#: js/files.js:520 js/files.js:536 js/files.js:826 js/files.js:864
-msgid "Error"
-msgstr "Feil"
-
-#: js/files.js:877 templates/index.php:69
+#: js/files.js:744 templates/index.php:69
 msgid "Name"
 msgstr "Namn"
 
-#: js/files.js:878 templates/index.php:80
+#: js/files.js:745
 msgid "Size"
 msgstr "Storleik"
 
-#: js/files.js:879 templates/index.php:82
+#: js/files.js:746 templates/index.php:82
 msgid "Modified"
 msgstr "Endra"
 
-#: js/files.js:898
+#: js/files.js:765
 msgid "1 folder"
 msgstr "1 mappe"
 
-#: js/files.js:900
+#: js/files.js:767
 msgid "{count} folders"
 msgstr "{count} mapper"
 
-#: js/files.js:908
+#: js/files.js:775
 msgid "1 file"
 msgstr "1 fil"
 
-#: js/files.js:910
+#: js/files.js:777
 msgid "{count} files"
 msgstr "{count} filer"
 
-#: lib/app.php:53
-msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
-msgstr "Ugyldig mappenamn. Mappa «Shared» er reservert av ownCloud"
-
 #: lib/app.php:73
-msgid "Unable to rename file"
-msgstr "Klarte ikkje endra filnamnet"
+#, php-format
+msgid "%s could not be renamed"
+msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -297,6 +307,10 @@ msgstr "Ingenting her. Last noko opp!"
 msgid "Download"
 msgstr "Last ned"
 
+#: templates/index.php:80
+msgid "Size (MB)"
+msgstr ""
+
 #: templates/index.php:87 templates/index.php:88
 msgid "Unshare"
 msgstr "Udel"
@@ -318,6 +332,22 @@ msgstr "Skannar filer, ver venleg og vent."
 #: templates/index.php:117
 msgid "Current scanning"
 msgstr "Køyrande skanning"
+
+#: templates/part.list.php:76
+msgid "directory"
+msgstr ""
+
+#: templates/part.list.php:78
+msgid "directories"
+msgstr ""
+
+#: templates/part.list.php:87
+msgid "file"
+msgstr ""
+
+#: templates/part.list.php:89
+msgid "files"
+msgstr ""
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

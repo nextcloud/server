@@ -48,6 +48,7 @@ class Helper {
 
 		\OCP\Util::connectHook('OC_User', 'post_login', 'OCA\Encryption\Hooks', 'login');
 		\OCP\Util::connectHook('OC_User', 'post_setPassword', 'OCA\Encryption\Hooks', 'setPassphrase');
+		\OCP\Util::connectHook('OC_User', 'pre_setPassword', 'OCA\Encryption\Hooks', 'preSetPassphrase');
 		\OCP\Util::connectHook('OC_User', 'post_createUser', 'OCA\Encryption\Hooks', 'postCreateUser');
 		\OCP\Util::connectHook('OC_User', 'post_deleteUser', 'OCA\Encryption\Hooks', 'postDeleteUser');
 	}
@@ -62,6 +63,15 @@ class Helper {
 	}
 
 	/**
+	 * @brief register app management related hooks
+	 *
+	 */
+	public static function registerAppHooks() {
+
+		\OCP\Util::connectHook('OC_App', 'pre_disable', 'OCA\Encryption\Hooks', 'preDisable');
+	}
+
+	/**
 	 * @brief setup user for files_encryption
 	 *
 	 * @param Util $util
@@ -73,7 +83,7 @@ class Helper {
 		if (!$util->ready()) {
 
 			\OCP\Util::writeLog('Encryption library', 'User account "' . $util->getUserId()
-												 . '" is not ready for encryption; configuration started', \OCP\Util::DEBUG);
+													  . '" is not ready for encryption; configuration started', \OCP\Util::DEBUG);
 
 			if (!$util->setupServerSide($password)) {
 				return false;
@@ -93,6 +103,7 @@ class Helper {
 	 * @return bool
 	 */
 	public static function adminEnableRecovery($recoveryKeyId, $recoveryPassword) {
+
 		$view = new \OC\Files\View('/');
 
 		if ($recoveryKeyId === null) {
@@ -121,18 +132,11 @@ class Helper {
 
 			$view->file_put_contents('/public-keys/' . $recoveryKeyId . '.public.key', $keypair['publicKey']);
 
-			// Encrypt private key empthy passphrase
+			// Encrypt private key empty passphrase
 			$encryptedPrivateKey = \OCA\Encryption\Crypt::symmetricEncryptFileContent($keypair['privateKey'], $recoveryPassword);
 
 			// Save private key
 			$view->file_put_contents('/owncloud_private_key/' . $recoveryKeyId . '.private.key', $encryptedPrivateKey);
-
-			// create control file which let us check later on if the entered password was correct.
-			$encryptedControlData = \OCA\Encryption\Crypt::keyEncrypt("ownCloud", $keypair['publicKey']);
-			if (!$view->is_dir('/control-file')) {
-				$view->mkdir('/control-file');
-			}
-			$view->file_put_contents('/control-file/controlfile.enc', $encryptedControlData);
 
 			\OC_FileProxy::$enabled = true;
 
@@ -186,4 +190,56 @@ class Helper {
 			return false;
 		}
 	}
+
+	/**
+	 * @brief Format a path to be relative to the /user/files/ directory
+	 * @param string $path the absolute path
+	 * @return string e.g. turns '/admin/files/test.txt' into 'test.txt'
+	 */
+	public static function stripUserFilesPath($path) {
+		$trimmed = ltrim($path, '/');
+		$split = explode('/', $trimmed);
+		$sliced = array_slice($split, 2);
+		$relPath = implode('/', $sliced);
+
+		return $relPath;
+	}
+
+	/**
+	 * @brief redirect to a error page
+	 */
+	public static function redirectToErrorPage() {
+		$location = \OC_Helper::linkToAbsolute('apps/files_encryption/files', 'error.php');
+		$post = 0;
+		if(count($_POST) > 0) {
+			$post = 1;
+		}
+		header('Location: ' . $location . '?p=' . $post);
+		exit();
+	}
+
+	/**
+	 * check requirements for encryption app.
+	 * @return bool true if requirements are met
+	 */
+	public static function checkRequirements() {
+		$result = true;
+
+		//openssl extension needs to be loaded
+		$result &= extension_loaded("openssl");
+		// we need php >= 5.3.3
+		$result &= version_compare(phpversion(), '5.3.3', '>=');
+
+		return (bool) $result;
+	}
+
+	/**
+	 * @brief glob uses different pattern than regular expressions, escape glob pattern only
+	 * @param unescaped path
+	 * @return escaped path
+	 */
+	public static function escapeGlobPattern($path) {
+		return preg_replace('/(\*|\?|\[)/', '[$1]', $path);
+	}
 }
+

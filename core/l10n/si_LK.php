@@ -79,7 +79,6 @@
 "Database name" => "දත්තගබඩාවේ නම",
 "Database host" => "දත්තගබඩා සේවාදායකයා",
 "Finish setup" => "ස්ථාපනය කිරීම අවසන් කරන්න",
-"web services under your control" => "ඔබට පාලනය කළ හැකි වෙබ් සේවාවන්",
 "Log out" => "නික්මීම",
 "Lost your password?" => "මුරපදය අමතකද?",
 "remember" => "මතක තබාගන්න",

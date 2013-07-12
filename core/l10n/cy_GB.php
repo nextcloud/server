@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "Rhannodd defnyddiwr %s ffeil â chi",
-"User %s shared a folder with you" => "Rhannodd defnyddiwr %s blygell â chi",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "Rhannodd defnyddiwr %s ffeil \"%s\" â chi. Gellir ei llwytho lawr o fan hyn: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Rhannodd defnyddiwr %s blygell \"%s\" â chi. Gellir ei llwytho lawr o fan hyn: %s",
 "Category type not provided." => "Math o gategori heb ei ddarparu.",
 "No category to add?" => "Dim categori i'w ychwanegu?",
 "This category already exists: %s" => "Mae'r categori hwn eisoes yn bodoli: %s",
@@ -124,7 +120,6 @@
 "Database tablespace" => "Tablespace cronfa ddata",
 "Database host" => "Gwesteiwr cronfa ddata",
 "Finish setup" => "Gorffen sefydlu",
-"web services under your control" => "gwasanaethau gwe a reolir gennych",
 "%s is available. Get more information on how to update." => "%s ar gael. Mwy o wybodaeth am sut i ddiweddaru.",
 "Log out" => "Allgofnodi",
 "Automatic logon rejected!" => "Gwrthodwyd mewngofnodi awtomatig!",

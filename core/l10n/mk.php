@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "Корисникот %s сподели датотека со Вас",
-"User %s shared a folder with you" => "Корисникот %s сподели папка со Вас",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "Корисникот %s ја сподели датотека „%s“ со Вас. Достапна е за преземање тука: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Корисникот %s ја сподели папката „%s“ со Вас. Достапна е за преземање тука: %s",
 "Category type not provided." => "Не беше доставен тип на категорија.",
 "No category to add?" => "Нема категорија да се додаде?",
 "Object type not provided." => "Не беше доставен тип на објект.",
@@ -114,7 +110,6 @@
 "Database tablespace" => "Табела во базата на податоци",
 "Database host" => "Сервер со база",
 "Finish setup" => "Заврши го подесувањето",
-"web services under your control" => "веб сервиси под Ваша контрола",
 "Log out" => "Одјава",
 "Automatic logon rejected!" => "Одбиена автоматска најава!",
 "If you did not change your password recently, your account may be compromised!" => "Ако не сте ја промениле лозинката во скоро време, вашата сметка може да е компромитирана",

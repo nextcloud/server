@@ -3,12 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Gunnar Norin <blittan@xbmc.org>, 2013
+# Jan Busk, 2013
+# Jan Busk, 2013
+# medialabs, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-30 02:27+0200\n"
-"PO-Revision-Date: 2013-05-29 23:36+0000\n"
+"POT-Creation-Date: 2013-07-12 02:04+0200\n"
+"PO-Revision-Date: 2013-07-11 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +32,7 @@ msgstr "Fel vid autentisering"
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
-msgstr ""
+msgstr "Ditt visningsnamn har ändrats."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
@@ -58,7 +62,7 @@ msgstr "Ogiltig e-post"
 msgid "Unable to delete group"
 msgstr "Kan inte radera grupp"
 
-#: ajax/removeuser.php:24
+#: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "Kan inte radera användare"
 
@@ -86,37 +90,37 @@ msgstr "Kan inte radera användare från gruppen %s"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr "Kunde inte uppdatera appen"
+msgstr "Kunde inte uppdatera appen."
 
-#: js/apps.js:30
+#: js/apps.js:35
 msgid "Update to {appversion}"
-msgstr "Uppdaterar till {appversion}"
+msgstr "Uppdatera till {appversion}"
 
-#: js/apps.js:36 js/apps.js:76
+#: js/apps.js:41 js/apps.js:81
 msgid "Disable"
 msgstr "Deaktivera"
 
-#: js/apps.js:36 js/apps.js:64 js/apps.js:83
+#: js/apps.js:41 js/apps.js:69 js/apps.js:88
 msgid "Enable"
 msgstr "Aktivera"
 
-#: js/apps.js:55
+#: js/apps.js:60
 msgid "Please wait...."
 msgstr "Var god vänta..."
 
-#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
+#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
 msgid "Error"
 msgstr "Fel"
 
-#: js/apps.js:90
+#: js/apps.js:95
 msgid "Updating...."
 msgstr "Uppdaterar..."
 
-#: js/apps.js:93
+#: js/apps.js:98
 msgid "Error while updating app"
 msgstr "Fel uppstod vid uppdatering av appen"
 
-#: js/apps.js:96
+#: js/apps.js:101
 msgid "Updated"
 msgstr "Uppdaterad"
 
@@ -136,16 +140,16 @@ msgstr "ångra"
 msgid "Unable to remove user"
 msgstr "Kan inte ta bort användare"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:83
-#: templates/users.php:108
+#: js/users.js:92 templates/users.php:26 templates/users.php:87
+#: templates/users.php:112
 msgid "Groups"
 msgstr "Grupper"
 
-#: js/users.js:95 templates/users.php:85 templates/users.php:120
+#: js/users.js:95 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "Gruppadministratör"
 
-#: js/users.js:115 templates/users.php:160
+#: js/users.js:115 templates/users.php:164
 msgid "Delete"
 msgstr "Radera"
 
@@ -165,15 +169,15 @@ msgstr "Fel vid skapande av användare"
 msgid "A valid password must be provided"
 msgstr "Ett giltigt lösenord måste anges"
 
-#: personal.php:35 personal.php:36
+#: personal.php:37 personal.php:38
 msgid "__language_name__"
 msgstr "__language_name__"
 
-#: templates/admin.php:15
+#: templates/admin.php:17
 msgid "Security Warning"
 msgstr "Säkerhetsvarning"
 
-#: templates/admin.php:18
+#: templates/admin.php:20
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file that ownCloud provides is not working. We "
@@ -182,48 +186,48 @@ msgid ""
 " webserver document root."
 msgstr "Din datakatalog och dina filer är förmodligen tillgängliga från Internet. Den .htaccess-fil som ownCloud tillhandahåller fungerar inte. Vi rekommenderar starkt att du konfigurerar webbservern så att datakatalogen inte längre är tillgänglig eller att du flyttar datakatalogen utanför webbserverns dokument-root."
 
-#: templates/admin.php:29
+#: templates/admin.php:31
 msgid "Setup Warning"
 msgstr "Installationsvarning"
 
-#: templates/admin.php:32
+#: templates/admin.php:34
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Din webbserver är inte korrekt konfigurerad för att tillåta filsynkronisering eftersom WebDAV inte verkar fungera."
 
-#: templates/admin.php:33
+#: templates/admin.php:35
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Var god kontrollera <a href='%s'>installationsguiden</a>."
 
-#: templates/admin.php:44
+#: templates/admin.php:46
 msgid "Module 'fileinfo' missing"
 msgstr "Modulen \"fileinfo\" saknas"
 
-#: templates/admin.php:47
+#: templates/admin.php:49
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "PHP-modulen 'fileinfo' saknas. Vi rekommenderar starkt att aktivera den här modulen för att kunna upptäcka korrekt mime-typ."
 
-#: templates/admin.php:58
+#: templates/admin.php:60
 msgid "Locale not working"
-msgstr ""
+msgstr "Locale fungerar inte"
 
-#: templates/admin.php:63
+#: templates/admin.php:65
 #, php-format
 msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
 "might be problems with certain characters in file names. We strongly suggest"
 " to install the required packages on your system to support %s."
-msgstr ""
+msgstr "Denna ownCloud server kan inte sätta system locale till %s. Det innebär att det kan vara problem med vissa tecken i filnamnet. Vi vill verkligen rekommendera att du installerar nödvändiga paket på ditt system för att stödja %s."
 
-#: templates/admin.php:75
+#: templates/admin.php:77
 msgid "Internet connection not working"
-msgstr ""
+msgstr "Internetförbindelsen fungerar inte"
 
-#: templates/admin.php:78
+#: templates/admin.php:80
 msgid ""
 "This ownCloud server has no working internet connection. This means that "
 "some of the features like mounting of external storage, notifications about "
@@ -231,104 +235,104 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "Den här ownCloudservern har ingen fungerande internetförbindelse. Det innebär att några funktioner som t.ex. att montera externa lagringsplatser, meddelanden om uppdateringar eller installation av tredjepartsappar inte fungerar. Det kan vara så att det inte går att få fjärråtkomst till filer och att e-post inte fungerar. Vi rekommenderar att du tillåter internetåtkomst för den här servern om du vill ha tillgång till alla funktioner hos ownCloud"
 
-#: templates/admin.php:92
+#: templates/admin.php:94
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:101
+#: templates/admin.php:103
 msgid "Execute one task with each page loaded"
 msgstr "Exekvera en uppgift vid varje sidladdning"
 
-#: templates/admin.php:111
+#: templates/admin.php:113
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
 msgstr "cron.php är registrerad som en webcron-tjänst. Anropa cron.php sidan i ownCloud en gång i minuten över HTTP."
 
-#: templates/admin.php:121
+#: templates/admin.php:123
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
 msgstr "Använd system-tjänsten cron. Anropa filen cron.php i ownCloud-mappen via ett cronjobb varje minut."
 
-#: templates/admin.php:128
+#: templates/admin.php:130
 msgid "Sharing"
 msgstr "Dela"
 
-#: templates/admin.php:134
+#: templates/admin.php:136
 msgid "Enable Share API"
 msgstr "Aktivera delat API"
 
-#: templates/admin.php:135
+#: templates/admin.php:137
 msgid "Allow apps to use the Share API"
 msgstr "Tillåt applikationer att använda delat API"
 
-#: templates/admin.php:142
+#: templates/admin.php:144
 msgid "Allow links"
 msgstr "Tillåt länkar"
 
-#: templates/admin.php:143
+#: templates/admin.php:145
 msgid "Allow users to share items to the public with links"
 msgstr "Tillåt delning till allmänheten via publika länkar"
 
-#: templates/admin.php:150
+#: templates/admin.php:152
 msgid "Allow resharing"
 msgstr "Tillåt vidaredelning"
 
-#: templates/admin.php:151
+#: templates/admin.php:153
 msgid "Allow users to share items shared with them again"
 msgstr "Tillåt användare att dela vidare filer som delats med dem"
 
-#: templates/admin.php:158
+#: templates/admin.php:160
 msgid "Allow users to share with anyone"
 msgstr "Tillåt delning med alla"
 
-#: templates/admin.php:161
+#: templates/admin.php:163
 msgid "Allow users to only share with users in their groups"
 msgstr "Tillåt bara delning med användare i egna grupper"
 
-#: templates/admin.php:168
+#: templates/admin.php:170
 msgid "Security"
 msgstr "Säkerhet"
 
-#: templates/admin.php:181
+#: templates/admin.php:183
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "Kräv HTTPS"
 
-#: templates/admin.php:182
+#: templates/admin.php:184
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "Tvingar klienter att ansluta till ownCloud via en krypterad förbindelse."
 
-#: templates/admin.php:185
+#: templates/admin.php:187
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr ""
+msgstr "Vänligen anslut till denna instans av ownCloud via HTTPS för att aktivera/avaktivera SSL"
 
-#: templates/admin.php:195
+#: templates/admin.php:197
 msgid "Log"
 msgstr "Logg"
 
-#: templates/admin.php:196
+#: templates/admin.php:198
 msgid "Log level"
 msgstr "Nivå på loggning"
 
-#: templates/admin.php:227
+#: templates/admin.php:229
 msgid "More"
 msgstr "Mer"
 
-#: templates/admin.php:228
+#: templates/admin.php:230
 msgid "Less"
 msgstr "Mindre"
 
-#: templates/admin.php:235 templates/personal.php:111
+#: templates/admin.php:236 templates/personal.php:116
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin.php:237 templates/personal.php:114
+#: templates/admin.php:240 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -336,29 +340,29 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr "Utvecklad av <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud kommunity</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">källkoden</a> är licenserad under <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
+msgstr "Utvecklad av <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud Community</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">källkoden</a> är licenserad under <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/apps.php:11
+#: templates/apps.php:13
 msgid "Add your App"
 msgstr "Lägg till din applikation"
 
-#: templates/apps.php:12
+#: templates/apps.php:28
 msgid "More Apps"
 msgstr "Fler Appar"
 
-#: templates/apps.php:28
+#: templates/apps.php:33
 msgid "Select an App"
 msgstr "Välj en App"
 
-#: templates/apps.php:34
+#: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
 msgstr "Se programsida på apps.owncloud.com"
 
-#: templates/apps.php:36
+#: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licensierad av <span class=\"author\"></span>"
 
-#: templates/apps.php:38
+#: templates/apps.php:43
 msgid "Update"
 msgstr "Uppdatera"
 
@@ -368,7 +372,7 @@ msgstr "Användardokumentation"
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
-msgstr "Administratördokumentation"
+msgstr "Administratörsdokumentation"
 
 #: templates/help.php:9
 msgid "Online Documentation"
@@ -386,76 +390,79 @@ msgstr "Bugtracker"
 msgid "Commercial Support"
 msgstr "Kommersiell support"
 
-#: templates/personal.php:8
+#: templates/personal.php:10
+msgid "Get the apps to sync your files"
+msgstr "Skaffa apparna för att synkronisera dina filer"
+
+#: templates/personal.php:21
+msgid "Show First Run Wizard again"
+msgstr "Visa Första uppstarts-guiden igen"
+
+#: templates/personal.php:29
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Du har använt <strong>%s</strong> av tillgängliga <strong>%s</strong>"
 
-#: templates/personal.php:15
-msgid "Get the apps to sync your files"
-msgstr "Skaffa appar för att synkronisera dina filer"
-
-#: templates/personal.php:26
-msgid "Show First Run Wizard again"
-msgstr "Visa Första uppstarts-guiden igen"
-
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:41 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "Lösenord"
 
-#: templates/personal.php:38
+#: templates/personal.php:42
 msgid "Your password was changed"
 msgstr "Ditt lösenord har ändrats"
 
-#: templates/personal.php:39
+#: templates/personal.php:43
 msgid "Unable to change your password"
 msgstr "Kunde inte ändra ditt lösenord"
 
-#: templates/personal.php:40
+#: templates/personal.php:44
 msgid "Current password"
 msgstr "Nuvarande lösenord"
 
-#: templates/personal.php:42
+#: templates/personal.php:46
 msgid "New password"
 msgstr "Nytt lösenord"
 
-#: templates/personal.php:44
+#: templates/personal.php:48
 msgid "Change password"
 msgstr "Ändra lösenord"
 
-#: templates/personal.php:56 templates/users.php:81
+#: templates/personal.php:60 templates/users.php:85
 msgid "Display Name"
-msgstr "Visat namn"
+msgstr "Visningsnamn"
 
-#: templates/personal.php:71
+#: templates/personal.php:75
 msgid "Email"
 msgstr "E-post"
 
-#: templates/personal.php:73
+#: templates/personal.php:77
 msgid "Your email address"
 msgstr "Din e-postadress"
 
-#: templates/personal.php:74
+#: templates/personal.php:78
 msgid "Fill in an email address to enable password recovery"
 msgstr "Fyll i en e-postadress för att aktivera återställning av lösenord"
 
-#: templates/personal.php:83 templates/personal.php:84
+#: templates/personal.php:87 templates/personal.php:88
 msgid "Language"
 msgstr "Språk"
 
-#: templates/personal.php:95
+#: templates/personal.php:100
 msgid "Help translate"
 msgstr "Hjälp att översätta"
 
-#: templates/personal.php:100
+#: templates/personal.php:106
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:102
-msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "Använd denna adress för att ansluta till ownCloud i din filhanterare"
+#: templates/personal.php:108
+#, php-format
+msgid ""
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
+"target=\"_blank\">access your Files via WebDAV</a>"
+msgstr ""
 
-#: templates/users.php:21 templates/users.php:80
+#: templates/users.php:21
 msgid "Login Name"
 msgstr "Inloggningsnamn"
 
@@ -463,34 +470,44 @@ msgstr "Inloggningsnamn"
 msgid "Create"
 msgstr "Skapa"
 
-#: templates/users.php:34
+#: templates/users.php:36
 msgid "Admin Recovery Password"
-msgstr ""
+msgstr "Admin återställningslösenord"
 
-#: templates/users.php:38
+#: templates/users.php:37 templates/users.php:38
+msgid ""
+"Enter the recovery password in order to recover the users files during "
+"password change"
+msgstr "Enter the recovery password in order to recover the users files during password change"
+
+#: templates/users.php:42
 msgid "Default Storage"
 msgstr "Förvald lagring"
 
-#: templates/users.php:44 templates/users.php:138
+#: templates/users.php:48 templates/users.php:142
 msgid "Unlimited"
 msgstr "Obegränsad"
 
-#: templates/users.php:62 templates/users.php:153
+#: templates/users.php:66 templates/users.php:157
 msgid "Other"
 msgstr "Annat"
 
-#: templates/users.php:87
+#: templates/users.php:84
+msgid "Username"
+msgstr "Användarnamn"
+
+#: templates/users.php:91
 msgid "Storage"
 msgstr "Lagring"
 
-#: templates/users.php:98
-msgid "change display name"
-msgstr "ändra visat namn"
-
 #: templates/users.php:102
+msgid "change display name"
+msgstr "ändra visningsnamn"
+
+#: templates/users.php:106
 msgid "set new password"
 msgstr "ange nytt lösenord"
 
-#: templates/users.php:133
+#: templates/users.php:137
 msgid "Default"
 msgstr "Förvald"

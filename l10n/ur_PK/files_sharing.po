@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-25 02:01+0200\n"
-"PO-Revision-Date: 2013-05-24 13:27+0000\n"
+"POT-Creation-Date: 2013-07-05 02:13+0200\n"
+"PO-Revision-Date: 2013-07-05 00:13+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Urdu (Pakistan) (http://www.transifex.com/projects/p/owncloud/language/ur_PK/)\n"
 "MIME-Version: 1.0\n"
@@ -18,31 +18,39 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: templates/authenticate.php:4
+msgid "The password is wrong. Try again."
+msgstr ""
+
+#: templates/authenticate.php:7
 msgid "Password"
 msgstr "پاسورڈ"
 
-#: templates/authenticate.php:6
+#: templates/authenticate.php:9
 msgid "Submit"
 msgstr ""
 
-#: templates/public.php:10
+#: templates/public.php:17
 #, php-format
 msgid "%s shared the folder %s with you"
 msgstr ""
 
-#: templates/public.php:13
+#: templates/public.php:20
 #, php-format
 msgid "%s shared the file %s with you"
 msgstr ""
 
-#: templates/public.php:19 templates/public.php:43
+#: templates/public.php:28 templates/public.php:86
 msgid "Download"
 msgstr ""
 
-#: templates/public.php:40
-msgid "No preview available for"
+#: templates/public.php:44
+msgid "Upload"
 msgstr ""
 
-#: templates/public.php:50
-msgid "web services under your control"
-msgstr "آپ کے اختیار میں ویب سروسیز"
+#: templates/public.php:54
+msgid "Cancel upload"
+msgstr ""
+
+#: templates/public.php:83
+msgid "No preview available for"
+msgstr ""

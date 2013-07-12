@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "ผู้ใช้งาน %s ได้แชร์ไฟล์ให้กับคุณ",
-"User %s shared a folder with you" => "ผู้ใช้งาน %s ได้แชร์โฟลเดอร์ให้กับคุณ",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "ผู้ใช้งาน %s ได้แชร์ไฟล์ \"%s\" ให้กับคุณ และคุณสามารถสามารถดาวน์โหลดไฟล์ดังกล่าวได้จากที่นี่: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "ผู้ใช้งาน %s ได้แชร์โฟลเดอร์ \"%s\" ให้กับคุณ และคุณสามารถดาวน์โหลดโฟลเดอร์ดังกล่าวได้จากที่นี่: %s",
 "Category type not provided." => "ยังไม่ได้ระบุชนิดของหมวดหมู่",
 "No category to add?" => "ไม่มีหมวดหมู่ที่ต้องการเพิ่ม?",
 "Object type not provided." => "ชนิดของวัตถุยังไม่ได้ถูกระบุ",
@@ -117,7 +113,6 @@
 "Database tablespace" => "พื้นที่ตารางในฐานข้อมูล",
 "Database host" => "Database host",
 "Finish setup" => "ติดตั้งเรียบร้อยแล้ว",
-"web services under your control" => "เว็บเซอร์วิสที่คุณควบคุมการใช้งานได้",
 "Log out" => "ออกจากระบบ",
 "Automatic logon rejected!" => "การเข้าสู่ระบบอัตโนมัติถูกปฏิเสธแล้ว",
 "If you did not change your password recently, your account may be compromised!" => "หากคุณยังไม่ได้เปลี่ยนรหัสผ่านของคุณเมื่อเร็วๆนี้, บัญชีของคุณอาจถูกบุกรุกโดยผู้อื่น",

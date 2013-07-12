@@ -6,6 +6,7 @@
 "Error configuring Google Drive storage" => "配置 Google Drive 存储失败",
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>注意：</b>“SMB客户端”未安装。CIFS/SMB分享不可用。请向您的系统管理员请求安装该客户端。",
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>注意：</b>PHP的FTP支持尚未启用或未安装。FTP分享不可用。请向您的系统管理员请求安装。",
+"<b>Warning:</b> The Curl support in PHP is not enabled or installed. Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask your system administrator to install it." => "<b>警告：</b> PHP 的 Curl 支持没有安装或打开。挂载 ownCloud、WebDAV 或 Google Drive 的功能将不可用。请询问您的系统管理员去安装它。",
 "External Storage" => "外部存储",
 "Folder name" => "文件夹名",
 "External storage" => "外部存储",

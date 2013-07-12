@@ -300,7 +300,7 @@ class View {
 					list ($count, $result) = \OC_Helper::streamCopy($data, $target);
 					fclose($target);
 					fclose($data);
-					if ($this->fakeRoot == Filesystem::getRoot() && !Cache\Scanner::isPartialFile($path)) {
+					if ($this->fakeRoot == Filesystem::getRoot() && !Cache\Scanner::isPartialFile($path) && $result !== false) {
 						if (!$exists) {
 							\OC_Hook::emit(
 								Filesystem::CLASSNAME,
@@ -353,7 +353,16 @@ class View {
 				return false;
 			}
 			$run = true;
-			if ($this->fakeRoot == Filesystem::getRoot() && !Cache\Scanner::isPartialFile($path1)) {
+			if ($this->fakeRoot == Filesystem::getRoot() && (Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2))) {
+				// if it was a rename from a part file to a regular file it was a write and not a rename operation
+				\OC_Hook::emit(
+					Filesystem::CLASSNAME, Filesystem::signal_write,
+					array(
+						Filesystem::signal_param_path => $path2,
+						Filesystem::signal_param_run => &$run
+					)
+				);
+			} elseif ($this->fakeRoot == Filesystem::getRoot()) {
 				\OC_Hook::emit(
 					Filesystem::CLASSNAME, Filesystem::signal_rename,
 					array(
@@ -386,11 +395,28 @@ class View {
 						$source = $this->fopen($path1 . $postFix1, 'r');
 						$target = $this->fopen($path2 . $postFix2, 'w');
 						list($count, $result) = \OC_Helper::streamCopy($source, $target);
-						list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
-						$storage1->unlink($internalPath1);
+
+						// close open handle - especially $source is necessary because unlink below will
+						// throw an exception on windows because the file is locked
+						fclose($source);
+						fclose($target);
+
+						if ($result !== false) {
+							list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
+							$storage1->unlink($internalPath1);
+						}
 					}
 				}
-				if ($this->fakeRoot == Filesystem::getRoot() && !Cache\Scanner::isPartialFile($path1)) {
+				if ($this->fakeRoot == Filesystem::getRoot() && (Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2)) && $result !== false) {
+					// if it was a rename from a part file to a regular file it was a write and not a rename operation
+					\OC_Hook::emit(
+						Filesystem::CLASSNAME,
+						Filesystem::signal_post_write,
+						array(
+							Filesystem::signal_param_path => $path2,
+						)
+					);
+				} elseif ($this->fakeRoot == Filesystem::getRoot() && $result !== false) {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
 						Filesystem::signal_post_rename,
@@ -484,7 +510,7 @@ class View {
 						list($count, $result) = \OC_Helper::streamCopy($source, $target);
 					}
 				}
-				if ($this->fakeRoot == Filesystem::getRoot()) {
+				if ($this->fakeRoot == Filesystem::getRoot() && $result !== false) {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
 						Filesystem::signal_post_copy,
@@ -648,7 +674,7 @@ class View {
 					$result = $storage->$operation($internalPath);
 				}
 				$result = \OC_FileProxy::runPostProxies($operation, $this->getAbsolutePath($path), $result);
-				if (Filesystem::$loaded and $this->fakeRoot == Filesystem::getRoot()) {
+				if (Filesystem::$loaded and $this->fakeRoot == Filesystem::getRoot() && $result !== false) {
 					if ($operation != 'fopen') { //no post hooks for fopen, the file stream is still open
 						$this->runHooks($hooks, $path, true);
 					}
@@ -662,7 +688,7 @@ class View {
 	private function runHooks($hooks, $path, $post = false) {
 		$prefix = ($post) ? 'post_' : '';
 		$run = true;
-		if (Filesystem::$loaded and $this->fakeRoot == Filesystem::getRoot()) {
+		if (Filesystem::$loaded and $this->fakeRoot == Filesystem::getRoot() && !Cache\Scanner::isPartialFile($path)) {
 			foreach ($hooks as $hook) {
 				if ($hook != 'read') {
 					\OC_Hook::emit(
@@ -746,7 +772,7 @@ class View {
 						if ($subStorage) {
 							$subCache = $subStorage->getCache('');
 							$rootEntry = $subCache->get('');
-							$data['size'] += $rootEntry['size'];
+							$data['size'] += isset($rootEntry['size']) ? $rootEntry['size'] : 0;
 						}
 					}
 				}

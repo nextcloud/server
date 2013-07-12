@@ -76,7 +76,7 @@ var UserList = {
 							ready();
 						}
 					} else {
-						oc.dialogs.alert(result.data.message, t('settings', 'Unable to remove user'));
+						OC.dialogs.alert(result.data.message, t('settings', 'Unable to remove user'));
 					}
 				}
 			});
@@ -88,7 +88,7 @@ var UserList = {
 		tr.attr('data-uid', username);
 		tr.attr('data-displayName', displayname);
 		tr.find('td.name').text(username);
-		tr.find('td.displayName').text(displayname);
+		tr.find('td.displayName > span').text(displayname);
 		var groupsSelect = $('<select multiple="multiple" class="groupsselect" data-placehoder="Groups" title="' + t('settings', 'Groups') + '"></select>').attr('data-username', username).attr('data-user-groups', groups);
 		tr.find('td.groups').empty();
 		if (tr.find('td.subadmins').length > 0) {
@@ -449,8 +449,10 @@ $(document).ready(function () {
 					OC.dialogs.alert(result.data.message,
 						t('settings', 'Error creating user'));
 				} else {
-					var addedGroups = result.data.groups.split(', ');
-					UserList.availableGroups = $.unique($.merge(UserList.availableGroups, addedGroups));
+					if (result.data.groups) {
+						var addedGroups = result.data.groups.split(', ');
+						UserList.availableGroups = $.unique($.merge(UserList.availableGroups, addedGroups));
+					}
 					if($('tr[data-uid="' + username + '"]').length === 0) {
 						UserList.add(username, username, result.data.groups, null, 'default', true);
 					}

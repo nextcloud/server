@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "%s 님이 파일을 공유하였습니다",
-"User %s shared a folder with you" => "%s 님이 폴더를 공유하였습니다",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "%s 님이 파일 \"%s\"을(를) 공유하였습니다. 여기에서 다운로드할 수 있습니다: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "%s 님이 폴더 \"%s\"을(를) 공유하였습니다. 여기에서 다운로드할 수 있습니다: %s",
 "Category type not provided." => "분류 형식이 제공되지 않았습니다.",
 "No category to add?" => "추가할 분류가 없습니까?",
 "This category already exists: %s" => "분류가 이미 존재합니다: %s",
@@ -122,7 +118,6 @@
 "Database tablespace" => "데이터베이스 테이블 공간",
 "Database host" => "데이터베이스 호스트",
 "Finish setup" => "설치 완료",
-"web services under your control" => "내가 관리하는 웹 서비스",
 "Log out" => "로그아웃",
 "Automatic logon rejected!" => "자동 로그인이 거부되었습니다!",
 "If you did not change your password recently, your account may be compromised!" => "최근에 암호를 변경하지 않았다면 계정이 탈취되었을 수도 있습니다!",

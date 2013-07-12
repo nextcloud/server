@@ -50,7 +50,7 @@
 			</div>
 		</div>
 		<div id="file_action_panel"></div>
-	<?php else:?>
+	<?php elseif( !$_['isPublic'] ):?>
 		<div class="actions"><input type="button" disabled value="<?php p($l->t('You don’t have write permissions here.'))?>"></div>
 		<input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
 	<?php endif;?>
@@ -77,7 +77,7 @@
 					<?php endif; ?>
 				</span>
 			</th>
-			<th id="headerSize"><?php p($l->t( 'Size' )); ?></th>
+			<th id="headerSize"><?php p($l->t('Size (MB)')); ?></th>
 			<th id="headerDate">
 				<span id="modified"><?php p($l->t( 'Modified' )); ?></span>
 				<?php if ($_['permissions'] & OCP\PERMISSION_DELETE): ?>

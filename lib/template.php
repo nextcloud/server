@@ -535,4 +535,25 @@ class OC_Template{
 		$content->printPage();
 		die();
 	}
+	
+	/**
+	 * print error page using Exception details
+	 * @param Exception $exception
+	 */
+	
+	public static function printExceptionErrorPage(Exception $exception) {
+		$error_msg = $exception->getMessage();
+		if ($exception->getCode()) {
+			$error_msg = '['.$exception->getCode().'] '.$error_msg;
+		}
+		$hint = $exception->getTraceAsString();
+		while (method_exists($exception,'previous') && $exception = $exception->previous()) {
+			$error_msg .= '<br/>Caused by: ';
+			if ($exception->getCode()) {
+				$error_msg .= '['.$exception->getCode().'] ';
+			}
+			$error_msg .= $exception->getMessage();
+		};
+		self::printErrorPage($error_msg, $hint);
+	}
 }

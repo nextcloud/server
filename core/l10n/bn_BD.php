@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "%s নামের ব্যবহারকারি আপনার সাথে একটা ফাইল ভাগাভাগি করেছেন",
-"User %s shared a folder with you" => "%s নামের ব্যবহারকারি আপনার সাথে একটা ফোল্ডার ভাগাভাগি করেছেন",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "%s নামের ব্যবহারকারী \"%s\" ফাইলটি আপনার সাথে ভাগাভাগি করেছেন। এটি এখন এখানে ডাউনলোড করার জন্য সুলভঃ %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "%s নামের ব্যবহারকারী \"%s\" ফোল্ডারটি আপনার সাথে ভাগাভাগি করেছেন। এটি এখন এখানে ডাউনলোড করার জন্য সুলভঃ %s",
 "Category type not provided." => "ক্যাটেগরির ধরণটি প্রদান করা হয় নি।",
 "No category to add?" => "যোগ করার মত কোন ক্যাটেগরি নেই ?",
 "Object type not provided." => "অবজেক্টের ধরণটি প্রদান করা হয় নি।",
@@ -113,7 +109,6 @@
 "Database tablespace" => "ডাটাবেজ টেবলস্পেস",
 "Database host" => "ডাটাবেজ হোস্ট",
 "Finish setup" => "সেটআপ সুসম্পন্ন কর",
-"web services under your control" => "ওয়েব সার্ভিস আপনার হাতের মুঠোয়",
 "Log out" => "প্রস্থান",
 "Lost your password?" => "কূটশব্দ হারিয়েছেন?",
 "remember" => "মনে রাখ",

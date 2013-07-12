@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "%s chia sẻ tập tin này cho bạn",
-"User %s shared a folder with you" => "%s chia sẻ thư mục này cho bạn",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "Người dùng %s chia sẻ tập tin \"%s\" cho bạn .Bạn có thể tải tại đây : %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Người dùng %s chia sẻ thư mục \"%s\" cho bạn .Bạn có thể tải tại đây : %s",
 "Category type not provided." => "Kiểu hạng mục không được cung cấp.",
 "No category to add?" => "Không có danh mục được thêm?",
 "This category already exists: %s" => "Danh mục này đã tồn tại: %s",
@@ -124,7 +120,6 @@
 "Database tablespace" => "Cơ sở dữ liệu tablespace",
 "Database host" => "Database host",
 "Finish setup" => "Cài đặt hoàn tất",
-"web services under your control" => "dịch vụ web dưới sự kiểm soát của bạn",
 "%s is available. Get more information on how to update." => "%s còn trống. Xem thêm thông tin cách cập nhật.",
 "Log out" => "Đăng xuất",
 "Automatic logon rejected!" => "Tự động đăng nhập đã bị từ chối !",

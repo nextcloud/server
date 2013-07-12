@@ -49,7 +49,6 @@
 "Database password" => "Contrasigno de base de datos",
 "Database name" => "Nomine de base de datos",
 "Database host" => "Hospite de base de datos",
-"web services under your control" => "servicios web sub tu controlo",
 "Log out" => "Clauder le session",
 "Lost your password?" => "Tu perdeva le contrasigno?",
 "remember" => "memora",

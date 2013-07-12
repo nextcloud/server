@@ -63,8 +63,12 @@
 }
 #filestable { position: relative; top:37px; width:100%; }
 tbody tr { background-color:#fff; height:2.5em; }
-tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#f8f8f8; }
-tbody tr.selected { background-color:#eee; }
+tbody tr:hover, tbody tr:active {
+	background-color: rgb(240,240,240);
+}
+tbody tr.selected {
+	background-color: rgb(230,230,230);
+}
 tbody a { color:#000; }
 span.extension, span.uploading, td.date { color:#999; }
 span.extension { text-transform:lowercase; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70); opacity:.7; -webkit-transition:opacity 300ms; -moz-transition:opacity 300ms; -o-transition:opacity 300ms; transition:opacity 300ms; }
@@ -81,7 +85,12 @@ table th#headerDate, table td.date { min-width:11em; padding:0 .1em 0 1em; text-
 /* Multiselect bar */
 #filestable.multiselect { top:63px; }
 table.multiselect thead { position:fixed; top:82px; z-index:1; -moz-box-sizing: border-box; box-sizing: border-box; left: 0; padding-left: 64px; width:100%; }
-table.multiselect thead th { background:rgba(230,230,230,.8); color:#000; font-weight:bold; border-bottom:0; }
+table.multiselect thead th {
+	background-color: rgba(210,210,210,.7);
+	color: #000;
+	font-weight: bold;
+	border-bottom: 0;
+}
 table.multiselect #headerName { width: 100%; }
 table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
 table td.filename a.name { display:block; height:1.5em; vertical-align:middle; margin-left:3em; }
@@ -115,10 +124,12 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 }
 #fileList .name { position:relative; /* Firefox needs to explicitly have this default set … */ }
 #fileList tr:hover .fileactions { /* background to distinguish when overlaying with file names */
-	background:rgba(248,248,248,.9); box-shadow:-5px 0 7px rgba(248,248,248,.9);
+	background-color: rgba(240,240,240,0.898);
+	box-shadow: -5px 0 7px rgba(240,240,240,0.898);
 }
 #fileList tr.selected:hover .fileactions, #fileList tr.mouseOver .fileactions { /* slightly darker color for selected rows */
-	background:rgba(238,238,238,.9); box-shadow:-5px 0 7px rgba(238,238,238,.9);
+	background-color: rgba(230,230,230,.9);
+	box-shadow: -5px 0 7px rgba(230,230,230,.9);
 }
 #fileList .fileactions a.action img { position:relative; top:.2em; }
 #fileList a.action { display:inline; margin:-.5em 0; padding:1em .5em 1em .5em !important; }
@@ -146,6 +157,14 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 	filter: alpha(opacity=1);
 	opacity: 1;
 	display:inline;
+}
+
+.summary {
+	opacity: .5;
+}
+
+.summary .info {
+	margin-left: 3em;
 }
 
 #scanning-message{ top:40%; left:40%; position:absolute; display:none; }

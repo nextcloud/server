@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-30 02:27+0200\n"
-"PO-Revision-Date: 2013-05-30 00:27+0000\n"
+"POT-Creation-Date: 2013-07-05 02:12+0200\n"
+"PO-Revision-Date: 2013-07-05 00:13+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Interlingua (http://www.transifex.com/projects/p/owncloud/language/ia/)\n"
 "MIME-Version: 1.0\n"
@@ -43,61 +43,130 @@ msgstr ""
 msgid "Could not change the password. Maybe the old password was not correct."
 msgstr ""
 
+#: ajax/updatePrivateKeyPassword.php:51
+msgid "Private key password successfully updated."
+msgstr ""
+
+#: ajax/updatePrivateKeyPassword.php:53
+msgid ""
+"Could not update the private key password. Maybe the old password was not "
+"correct."
+msgstr ""
+
+#: files/error.php:7
+msgid ""
+"Your private key is not valid! Likely your password was changed outside the "
+"ownCloud system (e.g. your corporate directory). You can update your private"
+" key password in your personal settings to recover access to your encrypted "
+"files."
+msgstr ""
+
+#: hooks/hooks.php:44
+msgid "Missing requirements."
+msgstr ""
+
+#: hooks/hooks.php:45
+msgid ""
+"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
+"PHP extension is enabled and configured properly. For now, the encryption "
+"app has been disabled."
+msgstr ""
+
 #: js/settings-admin.js:11
 msgid "Saving..."
+msgstr ""
+
+#: templates/invalid_private_key.php:5
+msgid ""
+"Your private key is not valid! Maybe the your password was changed from "
+"outside."
+msgstr ""
+
+#: templates/invalid_private_key.php:7
+msgid "You can unlock your private key in your "
+msgstr ""
+
+#: templates/invalid_private_key.php:7
+msgid "personal settings"
 msgstr ""
 
 #: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
 msgstr ""
 
-#: templates/settings-admin.php:9
+#: templates/settings-admin.php:10
 msgid ""
-"Enable encryption passwords recovery key (allow sharing to recovery key):"
+"Enable recovery key (allow to recover users files in case of password loss):"
 msgstr ""
 
-#: templates/settings-admin.php:13
-msgid "Recovery account password"
+#: templates/settings-admin.php:14
+msgid "Recovery key password"
 msgstr ""
 
-#: templates/settings-admin.php:20 templates/settings-personal.php:18
+#: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
 msgstr ""
 
-#: templates/settings-admin.php:28 templates/settings-personal.php:26
+#: templates/settings-admin.php:29 templates/settings-personal.php:62
 msgid "Disabled"
 msgstr ""
 
-#: templates/settings-admin.php:32
-msgid "Change encryption passwords recovery key:"
+#: templates/settings-admin.php:34
+msgid "Change recovery key password:"
 msgstr ""
 
-#: templates/settings-admin.php:39
-msgid "Old Recovery account password"
+#: templates/settings-admin.php:41
+msgid "Old Recovery key password"
 msgstr ""
 
-#: templates/settings-admin.php:46
-msgid "New Recovery account password"
+#: templates/settings-admin.php:48
+msgid "New Recovery key password"
 msgstr ""
 
-#: templates/settings-admin.php:51
+#: templates/settings-admin.php:53
 msgid "Change Password"
 msgstr ""
 
-#: templates/settings-personal.php:9
-msgid "Enable password recovery by sharing all files with your administrator:"
+#: templates/settings-personal.php:11
+msgid "Your private key password no longer match your log-in password:"
 msgstr ""
 
-#: templates/settings-personal.php:11
+#: templates/settings-personal.php:14
+msgid "Set your old private key password to your current log-in password."
+msgstr ""
+
+#: templates/settings-personal.php:16
+msgid ""
+" If you don't remember your old password you can ask your administrator to "
+"recover your files."
+msgstr ""
+
+#: templates/settings-personal.php:24
+msgid "Old log-in password"
+msgstr ""
+
+#: templates/settings-personal.php:30
+msgid "Current log-in password"
+msgstr ""
+
+#: templates/settings-personal.php:35
+msgid "Update Private Key Password"
+msgstr ""
+
+#: templates/settings-personal.php:45
+msgid "Enable password recovery:"
+msgstr ""
+
+#: templates/settings-personal.php:47
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
-"files if your password is lost"
+"files in case of password loss"
 msgstr ""
 
-#: templates/settings-personal.php:27
+#: templates/settings-personal.php:63
 msgid "File recovery settings updated"
 msgstr ""
 
-#: templates/settings-personal.php:28
+#: templates/settings-personal.php:64
 msgid "Could not update file recovery"
 msgstr ""

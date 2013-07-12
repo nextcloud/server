@@ -51,21 +51,28 @@ class Crypt {
 	 */
 	public static function createKeypair() {
 
+		$return = false;
+
 		$res = openssl_pkey_new(array('private_key_bits' => 4096));
 
-		// Get private key
-		openssl_pkey_export($res, $privateKey);
+		if ($res === false) {
+			\OCP\Util::writeLog('Encryption library', 'couldn\'t generate users key-pair for ' . \OCP\User::getUser(), \OCP\Util::ERROR);
+			\OCP\Util::writeLog('Encryption library', openssl_error_string(), \OCP\Util::ERROR);
+		} elseif (openssl_pkey_export($res, $privateKey)) {
+			// Get public key
+			$keyDetails = openssl_pkey_get_details($res);
+			$publicKey = $keyDetails['key'];
 
-		// Get public key
-		$publicKey = openssl_pkey_get_details($res);
+			$return = array(
+				'publicKey' => $publicKey,
+				'privateKey' => $privateKey
+			);
+		} else {
+			\OCP\Util::writeLog('Encryption library', 'couldn\'t export users private key, please check your servers openSSL configuration.' . \OCP\User::getUser(), \OCP\Util::ERROR);
+			\OCP\Util::writeLog('Encryption library', openssl_error_string(), \OCP\Util::ERROR);
+		}
 
-		$publicKey = $publicKey['key'];
-
-		return (array(
-			'publicKey' => $publicKey,
-			'privateKey' => $privateKey
-		));
-
+		return $return;
 	}
 
 	/**
@@ -168,7 +175,7 @@ class Crypt {
 	 *        e.g. filename or /Docs/filename, NOT admin/files/filename
 	 * @return boolean
 	 */
-	public static function isLegacyEncryptedContent($data, $relPath) {
+	public static function isLegacyEncryptedContent($isCatFileContent, $relPath) {
 
 		// Fetch all file metadata from DB
 		$metadata = \OC\Files\Filesystem::getFileInfo($relPath, '');
@@ -178,7 +185,7 @@ class Crypt {
 		// legacy encryption system
 		if (isset($metadata['encrypted'])
 			&& $metadata['encrypted'] === true
-			&& !self::isCatfileContent($data)
+			&& $isCatFileContent === false
 		) {
 
 			return true;
@@ -201,13 +208,10 @@ class Crypt {
 	public static function encrypt($plainContent, $iv, $passphrase = '') {
 
 		if ($encryptedContent = openssl_encrypt($plainContent, 'AES-128-CFB', $passphrase, false, $iv)) {
-
 			return $encryptedContent;
-
 		} else {
-
 			\OCP\Util::writeLog('Encryption library', 'Encryption (symmetric) of content failed', \OCP\Util::ERROR);
-
+			\OCP\Util::writeLog('Encryption library', openssl_error_string(), \OCP\Util::ERROR);
 			return false;
 
 		}
@@ -287,28 +291,22 @@ class Crypt {
 	public static function symmetricEncryptFileContent($plainContent, $passphrase = '') {
 
 		if (!$plainContent) {
-
+			\OCP\Util::writeLog('Encryption library', 'symmetrically encryption failed, no content given.', \OCP\Util::ERROR);
 			return false;
-
 		}
 
 		$iv = self::generateIv();
 
 		if ($encryptedContent = self::encrypt($plainContent, $iv, $passphrase)) {
-
 			// Combine content to encrypt with IV identifier and actual IV
 			$catfile = self::concatIv($encryptedContent, $iv);
-
 			$padded = self::addPadding($catfile);
 
 			return $padded;
 
 		} else {
-
 			\OCP\Util::writeLog('Encryption library', 'Encryption (symmetric) of keyfile content failed', \OCP\Util::ERROR);
-
 			return false;
-
 		}
 
 	}
@@ -350,6 +348,34 @@ class Crypt {
 		}
 
 	}
+
+	/**
+	 * @brief Decrypt private key and check if the result is a valid keyfile
+	 * @param string $encryptedKey encrypted keyfile
+	 * @param string $passphrase to decrypt keyfile
+	 * @returns encrypted private key or false
+	 *
+	 * This function decrypts a file
+	 */
+	public static function decryptPrivateKey($encryptedKey, $passphrase) {
+
+		$plainKey = self::symmetricDecryptFileContent($encryptedKey, $passphrase);
+
+		// check if this a valid private key
+		$res = openssl_pkey_get_private($plainKey);
+		if (is_resource($res)) {
+			$sslInfo = openssl_pkey_get_details($res);
+			if (!isset($sslInfo['key'])) {
+				$plainKey = false;
+			}
+		} else {
+			$plainKey = false;
+		}
+
+		return $plainKey;
+
+	}
+
 
 	/**
 	 * @brief Creates symmetric keyfile content using a generated key
@@ -452,7 +478,7 @@ class Crypt {
 
 		} else {
 
-			\OCP\Util::writeLog('Encryption library', 'Decryption (asymmetric) of sealed content failed', \OCP\Util::ERROR);
+			\OCP\Util::writeLog('Encryption library', 'Decryption (asymmetric) of sealed content with share-key "'.$shareKey.'" failed', \OCP\Util::ERROR);
 
 			return false;
 
@@ -608,7 +634,7 @@ class Crypt {
 	 *
 	 * This function decrypts an content
 	 */
-	private static function legacyDecrypt($content, $passphrase = '') {
+	public static function legacyDecrypt($content, $passphrase = '') {
 
 		$bf = self::getBlowfish($passphrase);
 
@@ -635,30 +661,6 @@ class Crypt {
 		} else {
 			return rtrim($result, "\0");
 		}
-	}
-
-	/**
-	 * @param $legacyEncryptedContent
-	 * @param $legacyPassphrase
-	 * @param $publicKeys
-	 * @return array
-	 */
-	public static function legacyKeyRecryptKeyfile($legacyEncryptedContent, $legacyPassphrase, $publicKeys) {
-
-		$decrypted = self::legacyBlockDecrypt($legacyEncryptedContent, $legacyPassphrase);
-
-		// Encrypt plain data, generate keyfile & encrypted file
-		$cryptedData = self::symmetricEncryptFileContentKeyfile($decrypted);
-
-		// Encrypt plain keyfile to multiple sharefiles
-		$multiEncrypted = Crypt::multiKeyEncrypt($cryptedData['key'], $publicKeys);
-
-		return array(
-			'data' => $cryptedData['encrypted'],
-			'filekey' => $multiEncrypted['data'],
-			'sharekeys' => $multiEncrypted['keys']
-		);
-
 	}
 
 }

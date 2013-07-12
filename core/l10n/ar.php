@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "المستخدم %s قام بمشاركة ملف معك",
-"User %s shared a folder with you" => "المستخدم  %s قام بمشاركة مجلد معك",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "المستخدم  %s  قام بمشاركة الملف  \"%s\"  معك . الملف متاح للتحميل من هنا : %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "المستخدم  %s  قام بمشاركة المجلد  \"%s\"  معك . المجلد متاح للتحميل من هنا : %s",
 "Category type not provided." => "نوع التصنيف لم يدخل",
 "No category to add?" => "ألا توجد فئة للإضافة؟",
 "This category already exists: %s" => "هذا التصنيف موجود مسبقا :  %s",
@@ -122,7 +118,6 @@
 "Database tablespace" => "مساحة جدول قاعدة البيانات",
 "Database host" => "خادم قاعدة البيانات",
 "Finish setup" => "انهاء التعديلات",
-"web services under your control" => "خدمات الشبكة تحت سيطرتك",
 "Log out" => "الخروج",
 "Automatic logon rejected!" => "تم رفض تسجيل الدخول التلقائي!",
 "If you did not change your password recently, your account may be compromised!" => "قد يكون حسابك في خطر إن لم تقم بإعادة تعيين كلمة السر حديثاً",

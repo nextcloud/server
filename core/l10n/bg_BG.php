@@ -62,7 +62,6 @@
 "Database name" => "Име на базата",
 "Database host" => "Хост за базата",
 "Finish setup" => "Завършване на настройките",
-"web services under your control" => "уеб услуги под Ваш контрол",
 "Log out" => "Изход",
 "Lost your password?" => "Забравена парола?",
 "remember" => "запомни",

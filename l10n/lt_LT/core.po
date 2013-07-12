@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Roman Deniobe <rms200x@gmail.com>, 2013
+# fizikiukas <fizikiukas@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-30 02:27+0200\n"
-"PO-Revision-Date: 2013-05-29 23:36+0000\n"
-"Last-Translator: Roman Deniobe <rms200x@gmail.com>\n"
+"POT-Creation-Date: 2013-07-12 02:03+0200\n"
+"PO-Revision-Date: 2013-07-11 23:14+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,31 +21,12 @@ msgstr ""
 
 #: ajax/share.php:97
 #, php-format
-msgid "User %s shared a file with you"
-msgstr "Vartotojas %s pasidalino su jumis failu"
-
-#: ajax/share.php:99
-#, php-format
-msgid "User %s shared a folder with you"
-msgstr "Vartotojas %s su jumis pasidalino aplanku"
-
-#: ajax/share.php:101
-#, php-format
-msgid ""
-"User %s shared the file \"%s\" with you. It is available for download here: "
-"%s"
-msgstr ""
-
-#: ajax/share.php:104
-#, php-format
-msgid ""
-"User %s shared the folder \"%s\" with you. It is available for download "
-"here: %s"
+msgid "%s shared »%s« with you"
 msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr ""
+msgstr "Kategorija nenurodyta."
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
@@ -53,24 +35,24 @@ msgstr "Nepridėsite jokios kategorijos?"
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr ""
+msgstr "Ši kategorija jau egzistuoja: %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr ""
+msgstr "Objekto tipas nenurodytas."
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr ""
+msgstr "%s ID nenurodytas."
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "Klaida perkeliant %s į jūsų mėgstamiausius."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -79,137 +61,137 @@ msgstr "Trynimui nepasirinkta jokia kategorija."
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "Klaida ištrinant %s iš jūsų mėgstamiausius."
 
-#: js/config.php:34
+#: js/config.php:32
 msgid "Sunday"
 msgstr "Sekmadienis"
 
-#: js/config.php:35
+#: js/config.php:33
 msgid "Monday"
 msgstr "Pirmadienis"
 
-#: js/config.php:36
+#: js/config.php:34
 msgid "Tuesday"
 msgstr "Antradienis"
 
-#: js/config.php:37
+#: js/config.php:35
 msgid "Wednesday"
 msgstr "Trečiadienis"
 
-#: js/config.php:38
+#: js/config.php:36
 msgid "Thursday"
 msgstr "Ketvirtadienis"
 
-#: js/config.php:39
+#: js/config.php:37
 msgid "Friday"
 msgstr "Penktadienis"
 
-#: js/config.php:40
+#: js/config.php:38
 msgid "Saturday"
 msgstr "Šeštadienis"
 
-#: js/config.php:45
+#: js/config.php:43
 msgid "January"
 msgstr "Sausis"
 
-#: js/config.php:46
+#: js/config.php:44
 msgid "February"
 msgstr "Vasaris"
 
-#: js/config.php:47
+#: js/config.php:45
 msgid "March"
 msgstr "Kovas"
 
-#: js/config.php:48
+#: js/config.php:46
 msgid "April"
 msgstr "Balandis"
 
-#: js/config.php:49
+#: js/config.php:47
 msgid "May"
 msgstr "Gegužė"
 
-#: js/config.php:50
+#: js/config.php:48
 msgid "June"
 msgstr "Birželis"
 
-#: js/config.php:51
+#: js/config.php:49
 msgid "July"
 msgstr "Liepa"
 
-#: js/config.php:52
+#: js/config.php:50
 msgid "August"
 msgstr "Rugpjūtis"
 
-#: js/config.php:53
+#: js/config.php:51
 msgid "September"
 msgstr "Rugsėjis"
 
-#: js/config.php:54
+#: js/config.php:52
 msgid "October"
 msgstr "Spalis"
 
-#: js/config.php:55
+#: js/config.php:53
 msgid "November"
 msgstr "Lapkritis"
 
-#: js/config.php:56
+#: js/config.php:54
 msgid "December"
 msgstr "Gruodis"
 
-#: js/js.js:286
+#: js/js.js:293
 msgid "Settings"
 msgstr "Nustatymai"
 
-#: js/js.js:718
+#: js/js.js:725
 msgid "seconds ago"
 msgstr "prieš sekundę"
 
-#: js/js.js:719
+#: js/js.js:726
 msgid "1 minute ago"
 msgstr "Prieš 1 minutę"
 
-#: js/js.js:720
+#: js/js.js:727
 msgid "{minutes} minutes ago"
 msgstr "Prieš {count} minutes"
 
-#: js/js.js:721
+#: js/js.js:728
 msgid "1 hour ago"
-msgstr ""
+msgstr "prieš 1 valandą"
 
-#: js/js.js:722
+#: js/js.js:729
 msgid "{hours} hours ago"
-msgstr ""
+msgstr "prieš {hours} valandas"
 
-#: js/js.js:723
+#: js/js.js:730
 msgid "today"
 msgstr "šiandien"
 
-#: js/js.js:724
+#: js/js.js:731
 msgid "yesterday"
 msgstr "vakar"
 
-#: js/js.js:725
+#: js/js.js:732
 msgid "{days} days ago"
 msgstr "Prieš {days}  dienas"
 
-#: js/js.js:726
+#: js/js.js:733
 msgid "last month"
 msgstr "praeitą mėnesį"
 
-#: js/js.js:727
+#: js/js.js:734
 msgid "{months} months ago"
-msgstr ""
+msgstr "prieš {months} mėnesių"
 
-#: js/js.js:728
+#: js/js.js:735
 msgid "months ago"
 msgstr "prieš mėnesį"
 
-#: js/js.js:729
+#: js/js.js:736
 msgid "last year"
 msgstr "praeitais metais"
 
-#: js/js.js:730
+#: js/js.js:737
 msgid "years ago"
 msgstr "prieš metus"
 
@@ -217,56 +199,56 @@ msgstr "prieš metus"
 msgid "Choose"
 msgstr "Pasirinkite"
 
-#: js/oc-dialogs.js:121
+#: js/oc-dialogs.js:122
 msgid "Cancel"
 msgstr "Atšaukti"
 
-#: js/oc-dialogs.js:138 js/oc-dialogs.js:195
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
 msgid "Error loading file picker template"
-msgstr ""
+msgstr "Klaida pakraunant failų naršyklę"
 
-#: js/oc-dialogs.js:161
+#: js/oc-dialogs.js:164
 msgid "Yes"
 msgstr "Taip"
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:172
 msgid "No"
 msgstr "Ne"
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:185
 msgid "Ok"
 msgstr "Gerai"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr ""
+msgstr "Objekto tipas nenurodytas."
 
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
-#: js/share.js:589
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:620
+#: js/share.js:632
 msgid "Error"
 msgstr "Klaida"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr ""
+msgstr "Nenurodytas programos pavadinimas."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "Reikalingas {file} failas nėra įrašytas!"
 
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
-msgstr ""
+msgstr "Dalinamasi"
 
 #: js/share.js:90
 msgid "Share"
 msgstr "Dalintis"
 
-#: js/share.js:125 js/share.js:617
+#: js/share.js:125 js/share.js:660
 msgid "Error while sharing"
 msgstr "Klaida, dalijimosi metu"
 
@@ -286,114 +268,118 @@ msgstr "Pasidalino su Jumis ir {group} grupe {owner}"
 msgid "Shared with you by {owner}"
 msgstr "Pasidalino su Jumis {owner}"
 
-#: js/share.js:159
+#: js/share.js:172
 msgid "Share with"
 msgstr "Dalintis su"
 
-#: js/share.js:164
+#: js/share.js:177
 msgid "Share with link"
 msgstr "Dalintis nuoroda"
 
-#: js/share.js:167
+#: js/share.js:180
 msgid "Password protect"
 msgstr "Apsaugotas slaptažodžiu"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:26
+#: js/share.js:182 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Slaptažodis"
 
-#: js/share.js:173
+#: js/share.js:187
+msgid "Allow Public Upload"
+msgstr ""
+
+#: js/share.js:191
 msgid "Email link to person"
-msgstr ""
+msgstr "Nusiųsti nuorodą paštu"
 
-#: js/share.js:174
+#: js/share.js:192
 msgid "Send"
-msgstr ""
+msgstr "Siųsti"
 
-#: js/share.js:178
+#: js/share.js:197
 msgid "Set expiration date"
 msgstr "Nustatykite galiojimo laiką"
 
-#: js/share.js:179
+#: js/share.js:198
 msgid "Expiration date"
 msgstr "Galiojimo laikas"
 
-#: js/share.js:211
+#: js/share.js:230
 msgid "Share via email:"
 msgstr "Dalintis per el. paštą:"
 
-#: js/share.js:213
+#: js/share.js:232
 msgid "No people found"
 msgstr "Žmonių nerasta"
 
-#: js/share.js:251
+#: js/share.js:270
 msgid "Resharing is not allowed"
 msgstr "Dalijinasis išnaujo negalimas"
 
-#: js/share.js:287
+#: js/share.js:306
 msgid "Shared in {item} with {user}"
 msgstr "Pasidalino {item} su {user}"
 
-#: js/share.js:308
+#: js/share.js:327
 msgid "Unshare"
 msgstr "Nebesidalinti"
 
-#: js/share.js:320
+#: js/share.js:339
 msgid "can edit"
 msgstr "gali redaguoti"
 
-#: js/share.js:322
+#: js/share.js:341
 msgid "access control"
 msgstr "priėjimo kontrolė"
 
-#: js/share.js:325
+#: js/share.js:344
 msgid "create"
 msgstr "sukurti"
 
-#: js/share.js:328
+#: js/share.js:347
 msgid "update"
 msgstr "atnaujinti"
 
-#: js/share.js:331
+#: js/share.js:350
 msgid "delete"
 msgstr "ištrinti"
 
-#: js/share.js:334
+#: js/share.js:353
 msgid "share"
 msgstr "dalintis"
 
-#: js/share.js:368 js/share.js:564
+#: js/share.js:387 js/share.js:607
 msgid "Password protected"
 msgstr "Apsaugota slaptažodžiu"
 
-#: js/share.js:577
+#: js/share.js:620
 msgid "Error unsetting expiration date"
 msgstr "Klaida nuimant galiojimo laiką"
 
-#: js/share.js:589
+#: js/share.js:632
 msgid "Error setting expiration date"
 msgstr "Klaida nustatant galiojimo laiką"
 
-#: js/share.js:604
+#: js/share.js:647
 msgid "Sending ..."
-msgstr ""
+msgstr "Siunčiama..."
 
-#: js/share.js:615
+#: js/share.js:658
 msgid "Email sent"
-msgstr ""
+msgstr "Laiškas išsiųstas"
 
-#: js/update.js:14
+#: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr ""
+msgstr "Atnaujinimas buvo nesėkmingas. PApie tai prašome pranešti the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud bendruomenei</a>."
 
-#: js/update.js:18
+#: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "Atnaujinimas buvo sėkmingas. Nukreipiame į jūsų ownCloud."
 
-#: lostpassword/controller.php:48
+#: lostpassword/controller.php:60
 msgid "ownCloud password reset"
 msgstr "ownCloud slaptažodžio atkūrimas"
 
@@ -406,11 +392,11 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr ""
+msgstr "Nuorodą su jūsų slaptažodžio atkūrimu buvo nusiųsta jums į paštą.<br>Jei jo negausite per atitinkamą laiką, pasižiūrėkite brukalo aplankale.<br> Jei jo ir ten nėra, teiraukitės administratoriaus."
 
 #: lostpassword/templates/lostpassword.php:12
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
+msgstr "Klaida!<br>Ar tikrai jūsų el paštas/vartotojo vardas buvo teisingi?"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
@@ -421,7 +407,19 @@ msgstr "Elektroniniu paštu gausite nuorodą, su kuria galėsite iš naujo nusta
 msgid "Username"
 msgstr "Prisijungimo vardas"
 
-#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:22
+msgid ""
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset. If you "
+"are not sure what to do, please contact your administrator before you "
+"continue. Do you really want to continue?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:24
+msgid "Yes, I really want to reset my password now"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
 msgstr "Prašyti nustatymo iš najo"
 
@@ -469,6 +467,17 @@ msgstr "Priėjimas draudžiamas"
 msgid "Cloud not found"
 msgstr "Negalima rasti"
 
+#: templates/altmail.php:4
+#, php-format
+msgid ""
+"Hey there,\n"
+"\n"
+"just letting you know that %s shared %s with you.\n"
+"View it: %s\n"
+"\n"
+"Cheers!"
+msgstr ""
+
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
 msgstr "Redaguoti kategorijas"
@@ -484,11 +493,11 @@ msgstr "Saugumo pranešimas"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "Jūsų PHP versija yra pažeidžiama prieš NULL Byte ataką (CVE-2006-7243)"
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr ""
+msgstr "Prašome atnaujinti savo PHP norint naudotis savo ownCloud saugiai."
 
 #: templates/installation.php:32
 msgid ""
@@ -506,14 +515,14 @@ msgstr "Be saugaus atsitiktinių skaičių generatoriaus, piktavaliai gali atsp�
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr "Jūsų failai yra tikriausiai prieinami per internetą nes .htaccess failas neveikia."
 
 #: templates/installation.php:40
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Norint gauti daugiau informacijos apie tai kaip tinkamai nustatyit savo serverį, prašome perskaityti <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">dokumentaciją</a>."
 
 #: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
@@ -561,16 +570,12 @@ msgstr "Duomenų bazės serveris"
 msgid "Finish setup"
 msgstr "Baigti diegimą"
 
-#: templates/layout.guest.php:40
-msgid "web services under your control"
-msgstr "jūsų valdomos web paslaugos"
-
-#: templates/layout.user.php:37
+#: templates/layout.user.php:43
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr ""
+msgstr "%s yra prieinama. Gaukite daugiau informacijos apie atnaujinimą."
 
-#: templates/layout.user.php:62
+#: templates/layout.user.php:68
 msgid "Log out"
 msgstr "Atsijungti"
 
@@ -602,6 +607,13 @@ msgstr "Prisijungti"
 
 #: templates/login.php:47
 msgid "Alternative Logins"
+msgstr "Alternatyvūs prisijungimai"
+
+#: templates/mail.php:16
+#, php-format
+msgid ""
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
+"href=\"%s\">View it!</a><br><br>Cheers!"
 msgstr ""
 
 #: templates/part.pagenavi.php:3
@@ -615,4 +627,4 @@ msgstr "kitas"
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
+msgstr "Atnaujinama ownCloud į %s versiją. tai gali šiek tiek užtrukti."

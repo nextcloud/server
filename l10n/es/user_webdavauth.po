@@ -6,13 +6,14 @@
 # Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2013
 # Art O. Pal <artopal@fastmail.fm>, 2012
 # pggx999 <pggx999@gmail.com>, 2012
+# saskarip <saskarip@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-25 02:01+0200\n"
-"PO-Revision-Date: 2013-05-24 13:26+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-08 02:02+0200\n"
+"PO-Revision-Date: 2013-07-07 08:08+0000\n"
+"Last-Translator: Korrosivo <yo@rubendelcampo.es>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,8 +26,8 @@ msgid "WebDAV Authentication"
 msgstr "Autenticación de WevDAV"
 
 #: templates/settings.php:4
-msgid "URL: http://"
-msgstr "URL: http://"
+msgid "URL: "
+msgstr "URL:"
 
 #: templates/settings.php:7
 msgid ""

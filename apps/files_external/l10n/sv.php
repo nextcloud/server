@@ -6,6 +6,7 @@
 "Error configuring Google Drive storage" => "Fel vid konfigurering av Google Drive",
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>Varning:</b> \"smb-klienten\" är inte installerad. Montering av CIFS/SMB delningar är inte möjligt. Kontakta din systemadministratör för att få den installerad.",
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>Varning:</b> Stöd för FTP i PHP är inte aktiverat eller installerat. Montering av FTP-delningar är inte möjligt. Kontakta din systemadministratör för att få det installerat.",
+"<b>Warning:</b> The Curl support in PHP is not enabled or installed. Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask your system administrator to install it." => "<b>Varning:<b> Curl-stöd i PHP är inte aktiverat eller installerat. Montering av ownCloud / WebDAV eller GoogleDrive är inte möjligt. Vänligen be din administratör att installera det.",
 "External Storage" => "Extern lagring",
 "Folder name" => "Mappnamn",
 "External storage" => "Extern lagring",

@@ -106,7 +106,6 @@
 "Database tablespace" => "தரவுத்தள அட்டவணை",
 "Database host" => "தரவுத்தள ஓம்புனர்",
 "Finish setup" => "அமைப்பை முடிக்க",
-"web services under your control" => "வலைய சேவைகள் உங்களுடைய கட்டுப்பாட்டின் கீழ் உள்ளது",
 "Log out" => "விடுபதிகை செய்க",
 "Automatic logon rejected!" => "தன்னிச்சையான புகுபதிகை நிராகரிப்பட்டது!",
 "If you did not change your password recently, your account may be compromised!" => "உங்களுடைய கடவுச்சொல்லை அண்மையில் மாற்றவில்லையின், உங்களுடைய கணக்கு சமரசமாகிவிடும்!",

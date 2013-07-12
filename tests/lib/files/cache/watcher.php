@@ -29,6 +29,9 @@ class Watcher extends \PHPUnit_Framework_TestCase {
 		}
 	}
 
+	/**
+	 * @medium
+	 */
 	function testWatcher() {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();
@@ -63,6 +66,9 @@ class Watcher extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($cache->inCache('folder/bar2.txt'));
 	}
 
+	/**
+	 * @medium
+	 */
 	public function testFileToFolder() {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();

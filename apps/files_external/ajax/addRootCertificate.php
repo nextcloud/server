@@ -29,8 +29,12 @@ if ($isValid == false) {
 
 // add the certificate if it could be verified
 if ( $isValid ) {
+	// disable proxy to prevent multiple fopen calls
+	$proxyStatus = \OC_FileProxy::$enabled;
+	\OC_FileProxy::$enabled = false;
 	$view->file_put_contents($filename, $data);
 	OC_Mount_Config::createCertificateBundle();
+	\OC_FileProxy::$enabled = $proxyStatus;
 } else {
 	OCP\Util::writeLog('files_external',
 			'Couldn\'t import SSL root certificate ('.$filename.'), allowed formats: PEM and DER',

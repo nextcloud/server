@@ -1,9 +1,11 @@
 <?php $TRANSLATIONS = array(
+"The password is wrong. Try again." => "Неверный пароль. Попробуйте еще раз.",
 "Password" => "Пароль",
 "Submit" => "Отправить",
 "%s shared the folder %s with you" => "%s открыл доступ к папке %s для Вас",
 "%s shared the file %s with you" => "%s открыл доступ к файлу %s для Вас",
 "Download" => "Скачать",
-"No preview available for" => "Предпросмотр недоступен для",
-"web services under your control" => "веб-сервисы под вашим управлением"
+"Upload" => "Загрузка",
+"Cancel upload" => "Отмена загрузки",
+"No preview available for" => "Предпросмотр недоступен для"
 );

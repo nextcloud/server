@@ -38,13 +38,22 @@ class Hooks {
 	 * @note This method should never be called for users using client side encryption
 	 */
 	public static function login($params) {
-
-		// Manually initialise Filesystem{} singleton with correct 
-		// fake root path, in order to avoid fatal webdav errors
-		// NOTE: disabled because this give errors on webdav!
-		//\OC\Files\Filesystem::init( $params['uid'], '/' . 'files' . '/' );
+		$l = new \OC_L10N('files_encryption');
+		//check if all requirements are met
+		if(!Helper::checkRequirements() ) {
+			$error_msg = $l->t("Missing requirements.");
+			$hint = $l->t('Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL PHP extension is enabled and configured properly. For now, the encryption app has been disabled.');
+			\OC_App::disable('files_encryption');
+			\OCP\Util::writeLog('Encryption library', $error_msg . ' ' . $hint, \OCP\Util::ERROR);
+			\OCP\Template::printErrorPage($error_msg, $hint);
+		}
 
 		$view = new \OC_FilesystemView('/');
+
+		// ensure filesystem is loaded
+		if(!\OC\Files\Filesystem::$loaded) {
+			\OC_Util::setupFS($params['uid']);
+		}
 
 		$util = new Util($view, $params['uid']);
 
@@ -55,17 +64,25 @@ class Hooks {
 
 		$encryptedKey = Keymanager::getPrivateKey($view, $params['uid']);
 
-		$privateKey = Crypt::symmetricDecryptFileContent($encryptedKey, $params['password']);
+		$privateKey = Crypt::decryptPrivateKey($encryptedKey, $params['password']);
+
+		if ($privateKey === false) {
+			\OCP\Util::writeLog('Encryption library', 'Private key for user "' . $params['uid']
+													  . '" is not valid! Maybe the user password was changed from outside if so please change it back to gain access', \OCP\Util::ERROR);
+		}
 
 		$session = new \OCA\Encryption\Session($view);
 
-		$session->setPrivateKey($privateKey, $params['uid']);
+		$session->setPrivateKey($privateKey);
 
 		// Check if first-run file migration has already been performed
-		$migrationCompleted = $util->getMigrationStatus();
+		$ready = false;
+		if ($util->getMigrationStatus() === Util::MIGRATION_OPEN) {
+			$ready = $util->beginMigration();
+		}
 
 		// If migration not yet done
-		if (!$migrationCompleted) {
+		if ($ready) {
 
 			$userView = new \OC_FilesystemView('/' . $params['uid']);
 
@@ -76,7 +93,7 @@ class Hooks {
 				&& $encLegacyKey = $userView->file_get_contents('encryption.key')
 			) {
 
-				$plainLegacyKey = Crypt::legacyBlockDecrypt($encLegacyKey, $params['password']);
+				$plainLegacyKey = Crypt::legacyDecrypt($encLegacyKey, $params['password']);
 
 				$session->setLegacyKey($plainLegacyKey);
 
@@ -97,7 +114,7 @@ class Hooks {
 			}
 
 			// Register successful migration in DB
-			$util->setMigrationStatus(1);
+			$util->finishMigration();
 
 		}
 
@@ -137,13 +154,22 @@ class Hooks {
 	}
 
 	/**
+	 * @brief If the password can't be changed within ownCloud, than update the key password in advance.
+	 */
+	public static function preSetPassphrase($params) {
+		if ( ! \OC_User::canUserChangePassword($params['uid']) ) {
+			self::setPassphrase($params);
+		}
+	}
+
+	/**
 	 * @brief Change a user's encryption passphrase
 	 * @param array $params keys: uid, password
 	 */
 	public static function setPassphrase($params) {
 
 		// Only attempt to change passphrase if server-side encryption
-		// is in use (client-side encryption does not have access to 
+		// is in use (client-side encryption does not have access to
 		// the necessary keys)
 		if (Crypt::mode() === 'server') {
 
@@ -327,6 +353,12 @@ class Hooks {
 
 			$sharingEnabled = \OCP\Share::isEnabled();
 
+			// get the path including mount point only if not a shared folder
+			if (strncmp($path, '/Shared', strlen('/Shared') !== 0)) {
+				// get path including the the storage mount point
+				$path = $util->getPathWithMountPoint($params['itemSource']);
+			}
+
 			// if a folder was shared, get a list of all (sub-)folders
 			if ($params['itemType'] === 'folder') {
 				$allFiles = $util->getAllFiles($path);
@@ -376,17 +408,11 @@ class Hooks {
 
 				// rebuild path
 				foreach ($targetPathSplit as $pathPart) {
-
 					if ($pathPart !== $sharedPart) {
-
 						$path = '/' . $pathPart . $path;
-
 					} else {
-
 						break;
-
 					}
-
 				}
 
 				// prefix path with Shared
@@ -404,13 +430,16 @@ class Hooks {
 				}
 			}
 
+			// get the path including mount point only if not a shared folder
+			if (strncmp($path, '/Shared', strlen('/Shared') !== 0)) {
+				// get path including the the storage mount point
+				$path = $util->getPathWithMountPoint($params['itemSource']);
+			}
+
 			// if we unshare a folder we need a list of all (sub-)files
 			if ($params['itemType'] === 'folder') {
-
 				$allFiles = $util->getAllFiles($path);
-
 			} else {
-
 				$allFiles = array($path);
 			}
 
@@ -447,10 +476,19 @@ class Hooks {
 		$util = new Util($view, $userId);
 
 		// Format paths to be relative to user files dir
-		$oldKeyfilePath = \OC\Files\Filesystem::normalizePath(
-			$userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/' . $params['oldpath']);
-		$newKeyfilePath = \OC\Files\Filesystem::normalizePath(
-			$userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/' . $params['newpath']);
+		if ($util->isSystemWideMountPoint($params['oldpath'])) {
+			$baseDir = 'files_encryption/';
+			$oldKeyfilePath = $baseDir . 'keyfiles/' . $params['oldpath'];
+		} else {
+			$baseDir = $userId . '/' . 'files_encryption/';
+			$oldKeyfilePath = $baseDir . 'keyfiles/' . $params['oldpath'];
+		}
+
+		if ($util->isSystemWideMountPoint($params['newpath'])) {
+			$newKeyfilePath =  $baseDir . 'keyfiles/' . $params['newpath'];
+		} else {
+			$newKeyfilePath = $baseDir . 'keyfiles/' . $params['newpath'];
+		}
 
 		// add key ext if this is not an folder
 		if (!$view->is_dir($oldKeyfilePath)) {
@@ -458,8 +496,9 @@ class Hooks {
 			$newKeyfilePath .= '.key';
 
 			// handle share-keys
-			$localKeyPath = $view->getLocalFile($userId . '/files_encryption/share-keys/' . $params['oldpath']);
-			$matches = glob(preg_quote($localKeyPath) . '*.shareKey');
+			$localKeyPath = $view->getLocalFile($baseDir . 'share-keys/' . $params['oldpath']);
+			$escapedPath = Helper::escapeGlobPattern($localKeyPath);
+			$matches = glob($escapedPath . '*.shareKey');
 			foreach ($matches as $src) {
 				$dst = \OC\Files\Filesystem::normalizePath(str_replace($params['oldpath'], $params['newpath'], $src));
 
@@ -473,10 +512,8 @@ class Hooks {
 
 		} else {
 			// handle share-keys folders
-			$oldShareKeyfilePath = \OC\Files\Filesystem::normalizePath(
-				$userId . '/' . 'files_encryption' . '/' . 'share-keys' . '/' . $params['oldpath']);
-			$newShareKeyfilePath = \OC\Files\Filesystem::normalizePath(
-				$userId . '/' . 'files_encryption' . '/' . 'share-keys' . '/' . $params['newpath']);
+			$oldShareKeyfilePath = $baseDir . 'share-keys/' . $params['oldpath'];
+			$newShareKeyfilePath = $baseDir . 'share-keys/' . $params['newpath'];
 
 			// create destination folder if not exists
 			if (!$view->file_exists(dirname($newShareKeyfilePath))) {
@@ -514,4 +551,17 @@ class Hooks {
 
 		\OC_FileProxy::$enabled = $proxyStatus;
 	}
+
+	/**
+	 * set migration status back to '0' so that all new files get encrypted
+	 * if the app gets enabled again
+	 * @param array $params contains the app ID
+	 */
+	public static function preDisable($params) {
+		if ($params['app'] === 'files_encryption') {
+			$query = \OC_DB::prepare('UPDATE `*PREFIX*encryption` SET `migration_status`=0');
+			$query->execute();
+		}
+	}
+
 }

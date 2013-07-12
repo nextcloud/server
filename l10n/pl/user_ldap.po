@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013
+# orcio6 <orcio6@o2.pl>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-30 02:27+0200\n"
-"PO-Revision-Date: 2013-05-29 23:37+0000\n"
-"Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
+"POT-Creation-Date: 2013-07-12 02:03+0200\n"
+"PO-Revision-Date: 2013-07-11 23:15+0000\n"
+"Last-Translator: orcio6 <orcio6@o2.pl>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -359,7 +360,7 @@ msgid ""
 "achieve a similar behaviour as before ownCloud 5 enter the user display name"
 " attribute in the following field. Leave it empty for default behaviour. "
 "Changes will have effect only on newly mapped (added) LDAP users."
-msgstr ""
+msgstr "Domyślnie, wewnętrzna nazwa użytkownika zostanie utworzona z atrybutu UUID, ang. Universally unique identifier - Unikalny identyfikator użytkownika. To daje pewność, że nazwa użytkownika jest niepowtarzalna a znaki nie muszą być konwertowane. Wewnętrzna nazwa użytkownika dopuszcza jedynie znaki: [ a-zA-Z0-9_.@- ]. Pozostałe znaki zamieniane są na ich odpowiedniki ASCII lub po prostu pomijane. W przypadku, gdy nazwa się powtarza na końcu dodawana / zwiększana jest cyfra. Wewnętrzna nazwa użytkownika służy do wewnętrznej identyfikacji użytkownika. Jest to również domyślna nazwa głównego folderu w ownCloud. Jest to również klucz zdalnego URL, na przykład dla wszystkich usług *DAV. Dzięki temu ustawieniu można modyfikować domyślne zachowania. Aby osiągnąć podobny efekt jak w ownCloud 5 wpisz atrybut nazwy użytkownika w poniższym polu. Pozostaw puste dla domyślnego zachowania. Zmiany będą miały wpływ tylko na nowo stworzonych (dodane) użytkowników LDAP."
 
 #: templates/settings.php:103
 msgid "Internal Username Attribute:"

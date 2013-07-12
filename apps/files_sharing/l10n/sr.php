@@ -2,5 +2,6 @@
 "Password" => "Лозинка",
 "Submit" => "Пошаљи",
 "Download" => "Преузми",
-"web services under your control" => "веб сервиси под контролом"
+"Upload" => "Отпреми",
+"Cancel upload" => "Прекини отпремање"
 );

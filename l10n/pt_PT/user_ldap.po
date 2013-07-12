@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Mouxy <daniel@mouxy.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-30 02:27+0200\n"
-"PO-Revision-Date: 2013-05-29 23:37+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-12 02:03+0200\n"
+"PO-Revision-Date: 2013-07-11 23:15+0000\n"
+"Last-Translator: Mouxy <daniel@mouxy.net>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: ajax/clearMappings.php:34
 msgid "Failed to clear the mappings."
-msgstr ""
+msgstr "Falhou a limpar os mapas"
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
@@ -59,7 +60,7 @@ msgstr "Não foi possível adicionar as configurações do servidor."
 
 #: js/settings.js:111
 msgid "mappings cleared"
-msgstr ""
+msgstr "Mapas limpos"
 
 #: js/settings.js:112
 msgid "Success"
@@ -342,7 +343,7 @@ msgstr "Deixe vazio para nome de utilizador (padrão). De outro modo, especifiqu
 
 #: templates/settings.php:101
 msgid "Internal Username"
-msgstr ""
+msgstr "Nome de utilizador interno"
 
 #: templates/settings.php:102
 msgid ""
@@ -362,11 +363,11 @@ msgstr ""
 
 #: templates/settings.php:103
 msgid "Internal Username Attribute:"
-msgstr ""
+msgstr "Atributo do nome de utilizador interno"
 
 #: templates/settings.php:104
 msgid "Override UUID detection"
-msgstr ""
+msgstr "Passar a detecção do UUID"
 
 #: templates/settings.php:105
 msgid ""
@@ -381,11 +382,11 @@ msgstr ""
 
 #: templates/settings.php:106
 msgid "UUID Attribute:"
-msgstr ""
+msgstr "Atributo UUID:"
 
 #: templates/settings.php:107
 msgid "Username-LDAP User Mapping"
-msgstr ""
+msgstr "Mapeamento do utilizador LDAP"
 
 #: templates/settings.php:108
 msgid ""
@@ -404,11 +405,11 @@ msgstr ""
 
 #: templates/settings.php:109
 msgid "Clear Username-LDAP User Mapping"
-msgstr ""
+msgstr "Limpar mapeamento do utilizador-LDAP"
 
 #: templates/settings.php:109
 msgid "Clear Groupname-LDAP Group Mapping"
-msgstr ""
+msgstr "Limpar o mapeamento do nome de grupo LDAP"
 
 #: templates/settings.php:111
 msgid "Test Configuration"

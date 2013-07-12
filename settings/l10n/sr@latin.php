@@ -13,5 +13,6 @@
 "Email" => "E-mail",
 "Language" => "Jezik",
 "Create" => "Napravi",
-"Other" => "Drugo"
+"Other" => "Drugo",
+"Username" => "Korisničko ime"
 );

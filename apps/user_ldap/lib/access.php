@@ -441,8 +441,8 @@ abstract class Access {
 		//while loop is just a precaution. If a name is not generated within
 		//20 attempts, something else is very wrong. Avoids infinite loop.
 		while($attempts < 20){
-			$altName = $name . '_' . uniqid();
-			if(\OCP\User::userExists($altName)) {
+			$altName = $name . '_' . rand(1000,9999);
+			if(!\OCP\User::userExists($altName)) {
 				return $altName;
 			}
 			$attempts++;
@@ -578,13 +578,11 @@ abstract class Access {
 		');
 
 		//feed the DB
-		$res = $insert->execute(array($dn, $ocname, $this->getUUID($dn), $dn, $ocname));
+		$insRows = $insert->execute(array($dn, $ocname, $this->getUUID($dn), $dn, $ocname));
 
-		if(\OCP\DB::isError($res)) {
+		if(\OCP\DB::isError($insRows)) {
 			return false;
 		}
-
-		$insRows = $res->numRows();
 
 		if($insRows === 0) {
 			return false;

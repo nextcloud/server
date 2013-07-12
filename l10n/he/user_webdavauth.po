@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Yaron Shahrabani <sh.yaron@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-25 02:01+0200\n"
-"PO-Revision-Date: 2013-05-24 13:26+0000\n"
+"POT-Creation-Date: 2013-06-15 01:59+0200\n"
+"PO-Revision-Date: 2013-06-15 00:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -19,10 +20,10 @@ msgstr ""
 
 #: templates/settings.php:3
 msgid "WebDAV Authentication"
-msgstr ""
+msgstr "הזדהות מול WebDAV"
 
 #: templates/settings.php:4
-msgid "URL: http://"
+msgid "URL: "
 msgstr ""
 
 #: templates/settings.php:7
@@ -30,4 +31,4 @@ msgid ""
 "ownCloud will send the user credentials to this URL. This plugin checks the "
 "response and will interpret the HTTP statuscodes 401 and 403 as invalid "
 "credentials, and all other responses as valid credentials."
-msgstr ""
+msgstr "מערכת ownCloud תשלח את פרטי המשתמש לכתובת זו. התוסף יבדוק את התגובה ויתרגם את הקודים 401 ו־403 כתגובה לציון פרטי גישה שגויים ואת כל שאר התגובות כפרטי גישה נכונים."

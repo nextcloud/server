@@ -1,4 +1,7 @@
 <?php
+
+require_once 'Patchwork/PHP/Shim/Normalizer.php';
+
 /**
  * Class for utility functions
  *
@@ -77,7 +80,7 @@ class OC_Util {
 	public static function getVersion() {
 		// hint: We only can count up. Reset minor/patchlevel when
 		// updating major/minor version number.
-		return array(5, 80, 04);
+		return array(5, 80, 05);
 	}
 
 	/**
@@ -169,6 +172,8 @@ class OC_Util {
 	public static function checkServer() {
 		$errors=array();
 
+		$defaults = new \OC_Defaults();
+
 		$web_server_restart= false;
 		//check for database drivers
 		if(!(is_callable('sqlite_open') or class_exists('SQLite3'))
@@ -181,14 +186,16 @@ class OC_Util {
 		}
 
 		//common hint for all file permissons error messages
-		$permissionsHint='Permissions can usually be fixed by giving the webserver write access'
-			.' to the ownCloud directory';
+		$permissionsHint = 'Permissions can usually be fixed by '
+			.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html#set-the-directory-permissions" target="_blank">giving the webserver write access to the root directory</a>.';
 
 		// Check if config folder is writable.
 		if(!is_writable(OC::$SERVERROOT."/config/") or !is_readable(OC::$SERVERROOT."/config/")) {
-			$errors[]=array('error'=>"Can't write into config directory 'config'",
-				'hint'=>'You can usually fix this by giving the webserver user write access'
-					.' to the config directory in owncloud');
+			$errors[] = array(
+				'error' => "Can't write into config directory",
+				'hint' => 'This can usually be fixed by '
+					.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html#set-the-directory-permissions" target="_blank">giving the webserver write access to the config directory</a>.'
+				);
 		}
 
 		// Check if there is a writable install folder.
@@ -196,9 +203,12 @@ class OC_Util {
 			if( OC_App::getInstallPath() === null
 				|| !is_writable(OC_App::getInstallPath())
 				|| !is_readable(OC_App::getInstallPath()) ) {
-				$errors[]=array('error'=>"Can't write into apps directory",
-					'hint'=>'You can usually fix this by giving the webserver user write access'
-					.' to the apps directory in owncloud or disabling the appstore in the config file.');
+				$errors[] = array(
+					'error' => "Can't write into apps directory",
+					'hint' => 'This can usually be fixed by '
+						.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html#set-the-directory-permissions" target="_blank">giving the webserver write access to the apps directory</a> '
+						.'or disabling the appstore in the config file.'
+					);
 			}
 		}
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
@@ -208,10 +218,11 @@ class OC_Util {
 			if ($success) {
 				$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
 			} else {
-				$errors[]=array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY.")",
-					'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '"
-						.OC::$SERVERROOT."' (in a terminal, use the command "
-						."'chown -R www-data:www-data /path/to/your/owncloud/install/data' ");
+				$errors[] = array(
+					'error' => "Can't create data directory (".$CONFIG_DATADIRECTORY.")",
+					'hint' => 'This can usually be fixed by '
+					.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html#set-the-directory-permissions" target="_blank">giving the webserver write access to the root directory</a>.'
+				);
 			}
 		} else if(!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
 			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') not writable by ownCloud',
@@ -528,7 +539,22 @@ class OC_Util {
 		}
 		return $value;
 	}
-
+	
+	/**
+	 * @brief Public function to encode url parameters
+	 *
+	 * This function is used to encode path to file before output.
+	 * Encoding is done according to RFC 3986 with one exception:
+	 * Character '/' is preserved as is. 
+	 *
+	 * @param string $component part of URI to encode
+	 * @return string 
+	 */
+	public static function encodePath($component) {
+		$encoded = rawurlencode($component);
+		$encoded = str_replace('%2F', '/', $encoded);
+		return $encoded;
+	}
 
 	/**
 	 * Check if the htaccess file is working by creating a test file in the data directory and trying to access via http
@@ -641,11 +667,10 @@ class OC_Util {
 	/**
 	 * Check if the ownCloud server can connect to the internet
 	 */
-	public static function isinternetconnectionworking() {
-
-		// in case there is no internet connection on purpose there is no need to display a warning
-		if (!\OC_Config::getValue("has_internet_connection", true)) {
-			return true;
+	public static function isInternetConnectionWorking() {
+		// in case there is no internet connection on purpose return false
+		if (self::isInternetConnectionEnabled() === false) {
+			return false;
 		}
 
 		// try to connect to owncloud.org to see if http connections to the internet are possible.
@@ -666,6 +691,13 @@ class OC_Util {
 
 		}
 
+	}
+	
+	/**
+	 * Check if the connection to the internet is disabled on purpose
+	 */
+	public static function isInternetConnectionEnabled(){
+		return \OC_Config::getValue("has_internet_connection", true);
 	}
 
 	/**
@@ -810,9 +842,9 @@ class OC_Util {
 	 * @return string the theme
 	 */
 	public static function getTheme() {
-		$theme = OC_Config::getValue("theme");
+		$theme = OC_Config::getValue("theme", '');
 
-		if(is_null($theme)) {
+		if($theme === '') {
 			
 			if(is_dir(OC::$SERVERROOT . '/themes/default')) {
 				$theme = 'default';
@@ -823,5 +855,41 @@ class OC_Util {
 		return $theme;
 	}
 
+	/**
+	 * Clear the opcode cache if one exists
+	 * This is necessary for writing to the config file
+	 * in case the opcode cache doesn't revalidate files
+	 */
+	public static function clearOpcodeCache() {
+		// APC
+		if (function_exists('apc_clear_cache')) {
+			apc_clear_cache();
+		}
+		// Zend Opcache
+		if (function_exists('accelerator_reset')) {
+			accelerator_reset();
+		}
+		// XCache
+		if (function_exists('xcache_clear_cache')) {
+			xcache_clear_cache(XC_TYPE_VAR, 0);
+		}
+	}
 
+	/**
+	 * Normalize a unicode string
+	 * @param string $value a not normalized string
+	 * @return bool|string
+	 */
+	public static function normalizeUnicode($value) {
+		if(class_exists('Patchwork\PHP\Shim\Normalizer')) {
+			$normalizedValue = \Patchwork\PHP\Shim\Normalizer::normalize($value);
+			if($normalizedValue === false) {
+				\OC_Log::write( 'core', 'normalizing failed for "' . $value . '"', \OC_Log::WARN);
+			} else {
+				$value = $normalizedValue;
+			}
+		}
+
+		return $value;
+	}
 }

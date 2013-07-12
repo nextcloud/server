@@ -32,5 +32,6 @@
 "Language" => "Jezik",
 "Help translate" => "Pomoć prevesti",
 "Create" => "Izradi",
-"Other" => "ostali"
+"Other" => "ostali",
+"Username" => "Korisničko ime"
 );

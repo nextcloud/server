@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-30 02:27+0200\n"
-"PO-Revision-Date: 2013-05-29 23:36+0000\n"
+"POT-Creation-Date: 2013-07-12 02:03+0200\n"
+"PO-Revision-Date: 2013-07-11 23:14+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -27,52 +27,90 @@ msgstr "%s nuk u spostua - Aty ekziston një skedar me të njëjtin emër"
 msgid "Could not move %s"
 msgstr "%s nuk u spostua"
 
-#: ajax/upload.php:19
+#: ajax/upload.php:16 ajax/upload.php:45
+msgid "Unable to set upload directory."
+msgstr ""
+
+#: ajax/upload.php:22
+msgid "Invalid Token"
+msgstr ""
+
+#: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
 msgstr "Nuk u ngarkua asnjë skedar. Veprim i gabuar i panjohur"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:66
 msgid "There is no error, the file uploaded with success"
 msgstr "Nuk pati veprime të gabuara, skedari u ngarkua me sukses"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:67
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Skedari i ngarkuar tejkalon udhëzimin upload_max_filesize tek php.ini:"
 
-#: ajax/upload.php:29
+#: ajax/upload.php:69
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Skedari i ngarkuar tejkalon udhëzimin MAX_FILE_SIZE të specifikuar në formularin HTML"
 
-#: ajax/upload.php:30
+#: ajax/upload.php:70
 msgid "The uploaded file was only partially uploaded"
 msgstr "Skedari i ngarkuar u ngarkua vetëm pjesërisht"
 
-#: ajax/upload.php:31
+#: ajax/upload.php:71
 msgid "No file was uploaded"
 msgstr "Nuk u ngarkua asnjë skedar"
 
-#: ajax/upload.php:32
+#: ajax/upload.php:72
 msgid "Missing a temporary folder"
 msgstr "Një dosje e përkohshme nuk u gjet"
 
-#: ajax/upload.php:33
+#: ajax/upload.php:73
 msgid "Failed to write to disk"
 msgstr "Ruajtja në disk dështoi"
 
-#: ajax/upload.php:51
+#: ajax/upload.php:91
 msgid "Not enough storage available"
 msgstr "Nuk ka mbetur hapësirë memorizimi e mjaftueshme"
 
-#: ajax/upload.php:83
+#: ajax/upload.php:123
 msgid "Invalid directory."
 msgstr "Dosje e pavlefshme."
 
 #: appinfo/app.php:12
 msgid "Files"
 msgstr "Skedarët"
+
+#: js/file-upload.js:11
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr "Nuk është i mundur ngarkimi i skedarit tuaj sepse është dosje ose ka dimension 0 byte"
+
+#: js/file-upload.js:24
+msgid "Not enough space available"
+msgstr "Nuk ka hapësirë memorizimi e mjaftueshme"
+
+#: js/file-upload.js:64
+msgid "Upload cancelled."
+msgstr "Ngarkimi u anulua."
+
+#: js/file-upload.js:167 js/files.js:266
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr "Ngarkimi i skedarit është në vazhdim. Nqse ndërroni faqen tani ngarkimi do të anulohet."
+
+#: js/file-upload.js:233 js/files.js:339
+msgid "URL cannot be empty."
+msgstr "URL-i nuk mund të jetë bosh."
+
+#: js/file-upload.js:238 lib/app.php:53
+msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
+msgstr ""
+
+#: js/file-upload.js:267 js/file-upload.js:283 js/files.js:373 js/files.js:389
+#: js/files.js:693 js/files.js:731
+msgid "Error"
+msgstr "Veprim i gabuar"
 
 #: js/fileactions.js:116
 msgid "Share"
@@ -90,43 +128,43 @@ msgstr "Elimino"
 msgid "Rename"
 msgstr "Riemërto"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:421
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:464
 msgid "Pending"
 msgstr "Pezulluar"
 
-#: js/filelist.js:259 js/filelist.js:261
+#: js/filelist.js:302 js/filelist.js:304
 msgid "{new_name} already exists"
 msgstr "{new_name} ekziston"
 
-#: js/filelist.js:259 js/filelist.js:261
+#: js/filelist.js:302 js/filelist.js:304
 msgid "replace"
 msgstr "zëvëndëso"
 
-#: js/filelist.js:259
+#: js/filelist.js:302
 msgid "suggest name"
 msgstr "sugjero një emër"
 
-#: js/filelist.js:259 js/filelist.js:261
+#: js/filelist.js:302 js/filelist.js:304
 msgid "cancel"
 msgstr "anulo"
 
-#: js/filelist.js:306
+#: js/filelist.js:349
 msgid "replaced {new_name} with {old_name}"
 msgstr "U zëvëndësua {new_name} me {old_name}"
 
-#: js/filelist.js:306
+#: js/filelist.js:349
 msgid "undo"
 msgstr "anulo"
 
-#: js/filelist.js:331
+#: js/filelist.js:374
 msgid "perform delete operation"
 msgstr "ekzekuto operacionin e eliminimit"
 
-#: js/filelist.js:413
+#: js/filelist.js:456
 msgid "1 file uploading"
 msgstr "Po ngarkohet 1 skedar"
 
-#: js/filelist.js:416 js/filelist.js:470
+#: js/filelist.js:459 js/filelist.js:517
 msgid "files uploading"
 msgstr "po ngarkoj skedarët"
 
@@ -158,70 +196,42 @@ msgid ""
 "big."
 msgstr "Shkarkimi juaj po përgatitet. Mund të duhet pak kohë nqse skedarët janë të mëdhenj."
 
-#: js/files.js:264
-msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Nuk është i mundur ngarkimi i skedarit tuaj sepse është dosje ose ka dimension 0 byte"
-
-#: js/files.js:277
-msgid "Not enough space available"
-msgstr "Nuk ka hapësirë memorizimi e mjaftueshme"
-
-#: js/files.js:317
-msgid "Upload cancelled."
-msgstr "Ngarkimi u anulua."
-
-#: js/files.js:413
-msgid ""
-"File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "Ngarkimi i skedarit është në vazhdim. Nqse ndërroni faqen tani ngarkimi do të anulohet."
-
-#: js/files.js:486
-msgid "URL cannot be empty."
-msgstr "URL-i nuk mund të jetë bosh."
-
-#: js/files.js:491
+#: js/files.js:344
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Emri i dosjes është i pavlefshëm. Përdorimi i \"Shared\" është i rezervuar nga Owncloud-i."
 
-#: js/files.js:520 js/files.js:536 js/files.js:826 js/files.js:864
-msgid "Error"
-msgstr "Veprim i gabuar"
-
-#: js/files.js:877 templates/index.php:69
+#: js/files.js:744 templates/index.php:69
 msgid "Name"
 msgstr "Emri"
 
-#: js/files.js:878 templates/index.php:80
+#: js/files.js:745
 msgid "Size"
 msgstr "Dimensioni"
 
-#: js/files.js:879 templates/index.php:82
+#: js/files.js:746 templates/index.php:82
 msgid "Modified"
 msgstr "Modifikuar"
 
-#: js/files.js:898
+#: js/files.js:765
 msgid "1 folder"
 msgstr "1 dosje"
 
-#: js/files.js:900
+#: js/files.js:767
 msgid "{count} folders"
 msgstr "{count} dosje"
 
-#: js/files.js:908
+#: js/files.js:775
 msgid "1 file"
 msgstr "1 skedar"
 
-#: js/files.js:910
+#: js/files.js:777
 msgid "{count} files"
 msgstr "{count} skedarë"
 
-#: lib/app.php:53
-msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
-msgstr ""
-
 #: lib/app.php:73
-msgid "Unable to rename file"
-msgstr "Nuk është i mundur riemërtimi i skedarit"
+#, php-format
+msgid "%s could not be renamed"
+msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -295,6 +305,10 @@ msgstr "Këtu nuk ka asgjë. Ngarkoni diçka!"
 msgid "Download"
 msgstr "Shkarko"
 
+#: templates/index.php:80
+msgid "Size (MB)"
+msgstr ""
+
 #: templates/index.php:87 templates/index.php:88
 msgid "Unshare"
 msgstr "Hiq ndarjen"
@@ -316,6 +330,22 @@ msgstr "Skedarët po analizohen, ju lutemi pritni."
 #: templates/index.php:117
 msgid "Current scanning"
 msgstr "Analizimi aktual"
+
+#: templates/part.list.php:76
+msgid "directory"
+msgstr ""
+
+#: templates/part.list.php:78
+msgid "directories"
+msgstr ""
+
+#: templates/part.list.php:87
+msgid "file"
+msgstr ""
+
+#: templates/part.list.php:89
+msgid "files"
+msgstr ""
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

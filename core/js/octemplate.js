@@ -60,11 +60,11 @@
 			var self = this;
 
 			if(typeof this.options.escapeFunction === 'function') {
-				$.each(this.vars, function(key, val) {
-					if(typeof val === 'string') {
-						self.vars[key] = self.options.escapeFunction(val);
+				for (var key = 0; key < this.vars.length; key++) {
+					if(typeof this.vars[key] === 'string') {
+						this.vars[key] = self.options.escapeFunction(this.vars[key]);
 					}
-				});
+				}
 			}
 
 			var _html = this._build(this.vars);

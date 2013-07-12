@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "Përdoruesi %s ndau me ju një skedar",
-"User %s shared a folder with you" => "Përdoruesi %s ndau me ju një dosje",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "Përdoruesi %s ndau me ju skedarin \"%s\". Ky skedar është gati për shkarkim nga këtu: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Përdoruesi %s ndau me ju dosjen \"%s\". Kjo dosje është gati për shkarkim nga këto: %s",
 "Category type not provided." => "Mungon tipi i kategorisë.",
 "No category to add?" => "Asnjë kategori për të shtuar?",
 "This category already exists: %s" => "Kjo kategori tashmë ekziston: %s",
@@ -124,7 +120,6 @@
 "Database tablespace" => "Tablespace-i i database-it",
 "Database host" => "Pozicioni (host) i database-it",
 "Finish setup" => "Mbaro setup-in",
-"web services under your control" => "shërbime web nën kontrollin tënd",
 "Log out" => "Dalje",
 "Automatic logon rejected!" => "Hyrja automatike u refuzua!",
 "If you did not change your password recently, your account may be compromised!" => "Nqse nuk keni ndryshuar kodin kohët e fundit, llogaria juaj mund të jetë komprometuar.",

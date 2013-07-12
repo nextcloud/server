@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "%s erabiltzaileak zurekin fitxategi bat elkarbanatu du ",
-"User %s shared a folder with you" => "%s erabiltzaileak zurekin karpeta bat elkarbanatu du ",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "%s erabiltzaileak \"%s\" fitxategia zurekin elkarbanatu du. Hemen duzu eskuragarri:  %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "%s erabiltzaileak \"%s\" karpeta zurekin elkarbanatu du. Hemen duzu eskuragarri:  %s",
 "Category type not provided." => "Kategoria mota ez da zehaztu.",
 "No category to add?" => "Ez dago gehitzeko kategoriarik?",
 "This category already exists: %s" => "Kategoria hau dagoeneko existitzen da: %s",
@@ -122,7 +118,6 @@
 "Database tablespace" => "Datu basearen taula-lekua",
 "Database host" => "Datubasearen hostalaria",
 "Finish setup" => "Bukatu konfigurazioa",
-"web services under your control" => "web zerbitzuak zure kontrolpean",
 "Log out" => "Saioa bukatu",
 "Automatic logon rejected!" => "Saio hasiera automatikoa ez onartuta!",
 "If you did not change your password recently, your account may be compromised!" => "Zure pasahitza orain dela gutxi ez baduzu aldatu, zure kontua arriskuan egon daiteke!",

@@ -7,11 +7,12 @@
 	src="<?php print_unescaped(OC_Helper::linkToRoute('apps_custom'));?>?appid=<?php p($_['appid']); ?>"></script>
  <script type="text/javascript" src="<?php print_unescaped(OC_Helper::linkTo('settings/js', 'apps.js'));?>"></script>
 
-<div id="controls">
-	<a class="button" target="_blank" href="http://owncloud.org/dev"><?php p($l->t('Add your App'));?></a>
-	<a class="button" target="_blank" href="http://apps.owncloud.com"><?php p($l->t('More Apps'));?></a>
-</div>
-<ul id="leftcontent" class="applist hascontrols">
+
+<ul id="leftcontent" class="applist">
+	<li>
+		<a class="app-external" target="_blank" href="http://owncloud.org/dev"><?php p($l->t('Add your App'));?> …</a>
+	</li>
+
 	<?php foreach($_['apps'] as $app):?>
 	<li <?php if($app['active']) print_unescaped('class="active"')?> data-id="<?php p($app['id']) ?>"
 		<?php if ( isset( $app['ocs_id'] ) ) { print_unescaped("data-id-ocs=\"{".OC_Util::sanitizeHTML($app['ocs_id'])."}\""); } ?>
@@ -22,6 +23,10 @@
 			print_unescaped('<small class="'.OC_Util::sanitizeHTML($app['internalclass']).' list">'.OC_Util::sanitizeHTML($app['internallabel']).'</small>') ?>
 	</li>
 	<?php endforeach;?>
+
+	<li>
+		<a class="app-external" target="_blank" href="http://apps.owncloud.com"><?php p($l->t('More Apps'));?> …</a>
+	</li>
 </ul>
 <div id="rightcontent">
 	<div class="appinfo">
@@ -29,7 +34,7 @@
 		class="version"></span><small class="externalapp" style="visibility:hidden;"></small></h3>
 	<span class="score"></span>
 	<p class="description"></p>
-	<img src="" class="preview" />
+	<img src="" class="preview hidden" />
 	<p class="appslink hidden"><a href="#" target="_blank"><?php
 		p($l->t('See application page at apps.owncloud.com'));?></a></p>
 	<p class="license hidden"><?php

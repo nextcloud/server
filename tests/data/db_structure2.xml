@@ -9,7 +9,7 @@
 
  <table>
 
-  <name>*dbprefix*contacts_addressbooks</name>
+  <name>*dbprefix*cntcts_addrsbks</name>
 
   <declaration>
 
@@ -49,8 +49,9 @@
 
    <field>
     <name>description</name>
-    <type>clob</type>
+    <type>text</type>
     <notnull>false</notnull>
+    <length>1024</length>
    </field>
 
    <field>

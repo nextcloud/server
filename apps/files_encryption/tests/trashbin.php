@@ -113,6 +113,7 @@ class Test_Encryption_Trashbin extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @brief test delete file
 	 */
 	function testDeleteFile() {
@@ -184,6 +185,7 @@ class Test_Encryption_Trashbin extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @brief test restore file
 	 *
 	 * @depends testDeleteFile
@@ -215,6 +217,7 @@ class Test_Encryption_Trashbin extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
 	 * @brief test delete file forever
 	 */
 	function testPermanentDeleteFile() {

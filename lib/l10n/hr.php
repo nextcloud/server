@@ -5,6 +5,7 @@
 "Users" => "Korisnici",
 "Apps" => "Aplikacije",
 "Admin" => "Administrator",
+"web services under your control" => "web usluge pod vašom kontrolom",
 "Authentication error" => "Greška kod autorizacije",
 "Files" => "Datoteke",
 "Text" => "Tekst",

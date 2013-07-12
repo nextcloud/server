@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-30 02:27+0200\n"
-"PO-Revision-Date: 2013-05-29 23:36+0000\n"
+"POT-Creation-Date: 2013-07-12 02:04+0200\n"
+"PO-Revision-Date: 2013-07-11 23:15+0000\n"
 "Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,7 @@ msgstr "Vigane e-post"
 msgid "Unable to delete group"
 msgstr "Grupi kustutamine ebaõnnestus"
 
-#: ajax/removeuser.php:24
+#: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "Kasutaja kustutamine ebaõnnestus"
 
@@ -90,35 +90,35 @@ msgstr "Kasutajat ei saa eemaldada grupist %s"
 msgid "Couldn't update app."
 msgstr "Rakenduse uuendamine ebaõnnestus."
 
-#: js/apps.js:30
+#: js/apps.js:35
 msgid "Update to {appversion}"
 msgstr "Uuenda versioonile {appversion}"
 
-#: js/apps.js:36 js/apps.js:76
+#: js/apps.js:41 js/apps.js:81
 msgid "Disable"
 msgstr "Lülita välja"
 
-#: js/apps.js:36 js/apps.js:64 js/apps.js:83
+#: js/apps.js:41 js/apps.js:69 js/apps.js:88
 msgid "Enable"
 msgstr "Lülita sisse"
 
-#: js/apps.js:55
+#: js/apps.js:60
 msgid "Please wait...."
 msgstr "Palun oota..."
 
-#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
+#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
 msgid "Error"
 msgstr "Viga"
 
-#: js/apps.js:90
+#: js/apps.js:95
 msgid "Updating...."
 msgstr "Uuendamine..."
 
-#: js/apps.js:93
+#: js/apps.js:98
 msgid "Error while updating app"
 msgstr "Viga rakenduse uuendamisel"
 
-#: js/apps.js:96
+#: js/apps.js:101
 msgid "Updated"
 msgstr "Uuendatud"
 
@@ -138,16 +138,16 @@ msgstr "tagasi"
 msgid "Unable to remove user"
 msgstr "Kasutaja eemaldamine ebaõnnestus"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:83
-#: templates/users.php:108
+#: js/users.js:92 templates/users.php:26 templates/users.php:87
+#: templates/users.php:112
 msgid "Groups"
 msgstr "Grupid"
 
-#: js/users.js:95 templates/users.php:85 templates/users.php:120
+#: js/users.js:95 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "Grupi admin"
 
-#: js/users.js:115 templates/users.php:160
+#: js/users.js:115 templates/users.php:164
 msgid "Delete"
 msgstr "Kustuta"
 
@@ -167,15 +167,15 @@ msgstr "Viga kasutaja loomisel"
 msgid "A valid password must be provided"
 msgstr "Sisesta nõuetele vastav parool"
 
-#: personal.php:35 personal.php:36
+#: personal.php:37 personal.php:38
 msgid "__language_name__"
 msgstr "Eesti"
 
-#: templates/admin.php:15
+#: templates/admin.php:17
 msgid "Security Warning"
 msgstr "Turvahoiatus"
 
-#: templates/admin.php:18
+#: templates/admin.php:20
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file that ownCloud provides is not working. We "
@@ -184,36 +184,36 @@ msgid ""
 " webserver document root."
 msgstr "Andmete kataloog ja failid on tõenäoliselt internetis avalikult saadaval. .htaccess fail, mida pakub ownCloud, ei toimi. Soovitame tungivalt veebiserveri seadistust selliselt, et andmete kataloog ei oleks enam vabalt saadaval või tõstaksid andmete kataloogi oma veebiserveri veebi-juurkataloogist mujale."
 
-#: templates/admin.php:29
+#: templates/admin.php:31
 msgid "Setup Warning"
 msgstr "Paigalduse hoiatus"
 
-#: templates/admin.php:32
+#: templates/admin.php:34
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Veebiserveri ei ole veel korralikult seadistatud võimaldamaks failide sünkroniseerimist, kuna WebDAV liides näib olevat mittetoimiv."
 
-#: templates/admin.php:33
+#: templates/admin.php:35
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Palun tutvu veelkord <a href='%s'>paigalduse juhenditega</a>."
 
-#: templates/admin.php:44
+#: templates/admin.php:46
 msgid "Module 'fileinfo' missing"
 msgstr "Moodul 'fileinfo' puudub"
 
-#: templates/admin.php:47
+#: templates/admin.php:49
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "PHP moodul 'fileinfo' puudub. Soovitame tungivalt see lisada saavutamaks parimaid tulemusi failitüüpide tuvastamisel."
 
-#: templates/admin.php:58
+#: templates/admin.php:60
 msgid "Locale not working"
 msgstr "Lokalisatsioon ei toimi"
 
-#: templates/admin.php:63
+#: templates/admin.php:65
 #, php-format
 msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
@@ -221,11 +221,11 @@ msgid ""
 " to install the required packages on your system to support %s."
 msgstr "ownCloud server ei suuda seadistada süsteemi lokalisatsiooni %s. See tähendab, et võib esineda probleeme teatud tähemärkidega failide nimedes. Soovitame tungivalt paigaldada süsteemi vajalikud pakid toetamaks %s."
 
-#: templates/admin.php:75
+#: templates/admin.php:77
 msgid "Internet connection not working"
 msgstr "Internetiühendus ei toimi"
 
-#: templates/admin.php:78
+#: templates/admin.php:80
 msgid ""
 "This ownCloud server has no working internet connection. This means that "
 "some of the features like mounting of external storage, notifications about "
@@ -235,102 +235,102 @@ msgid ""
 " of ownCloud."
 msgstr "ownCloud serveril puudub toimiv internetiühendus. See tähendab, et mõned funktsionaalsused, nagu näiteks väliste andmehoidlate ühendamine, teavitused uuendustest või kolmandate osapoolte rakenduste paigaldamine ei tööta. Eemalt failidele ligipääs ning teadete saatmine emailiga ei pruugi samuti toimida. Kui soovid täielikku funktsionaalsust, siis soovitame serverile tagada ligipääs internetti."
 
-#: templates/admin.php:92
+#: templates/admin.php:94
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:101
+#: templates/admin.php:103
 msgid "Execute one task with each page loaded"
 msgstr "Käivita toiming lehe laadimisel"
 
-#: templates/admin.php:111
+#: templates/admin.php:113
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
 msgstr "cron.php on registreeritud webcron teenusena. Lae cron.php lehte owncloud veebikataloogist iga minut üle http."
 
-#: templates/admin.php:121
+#: templates/admin.php:123
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
 msgstr "Kasuta süsteemi cron teenust. Käivita cron.php fail owncloud veebikataloogist kasutades süsteemi crontab toimingut iga minut."
 
-#: templates/admin.php:128
+#: templates/admin.php:130
 msgid "Sharing"
 msgstr "Jagamine"
 
-#: templates/admin.php:134
+#: templates/admin.php:136
 msgid "Enable Share API"
 msgstr "Luba Share API"
 
-#: templates/admin.php:135
+#: templates/admin.php:137
 msgid "Allow apps to use the Share API"
 msgstr "Luba rakendustel kasutada Share API-t"
 
-#: templates/admin.php:142
+#: templates/admin.php:144
 msgid "Allow links"
 msgstr "Luba lingid"
 
-#: templates/admin.php:143
+#: templates/admin.php:145
 msgid "Allow users to share items to the public with links"
 msgstr "Luba kasutajatel jagada kirjeid avalike linkidega"
 
-#: templates/admin.php:150
+#: templates/admin.php:152
 msgid "Allow resharing"
 msgstr "Luba edasijagamine"
 
-#: templates/admin.php:151
+#: templates/admin.php:153
 msgid "Allow users to share items shared with them again"
 msgstr "Luba kasutajatel jagada edasi kirjeid, mida on neile jagatud"
 
-#: templates/admin.php:158
+#: templates/admin.php:160
 msgid "Allow users to share with anyone"
 msgstr "Luba kasutajatel kõigiga jagada"
 
-#: templates/admin.php:161
+#: templates/admin.php:163
 msgid "Allow users to only share with users in their groups"
 msgstr "Luba kasutajatel jagada kirjeid ainult nende grupi liikmetele, millesse nad ise kuuluvad"
 
-#: templates/admin.php:168
+#: templates/admin.php:170
 msgid "Security"
 msgstr "Turvalisus"
 
-#: templates/admin.php:181
+#: templates/admin.php:183
 msgid "Enforce HTTPS"
 msgstr "Sunni peale HTTPS-i kasutamine"
 
-#: templates/admin.php:182
+#: templates/admin.php:184
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
 msgstr "Sunnib kliente ownCloudiga ühenduma krüpteeritult."
 
-#: templates/admin.php:185
+#: templates/admin.php:187
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
 msgstr "Palun ühendu selle ownCloud instantsiga üle HTTPS või keela SSL kasutamine."
 
-#: templates/admin.php:195
+#: templates/admin.php:197
 msgid "Log"
 msgstr "Logi"
 
-#: templates/admin.php:196
+#: templates/admin.php:198
 msgid "Log level"
 msgstr "Logi tase"
 
-#: templates/admin.php:227
+#: templates/admin.php:229
 msgid "More"
 msgstr "Rohkem"
 
-#: templates/admin.php:228
+#: templates/admin.php:230
 msgid "Less"
 msgstr "Vähem"
 
-#: templates/admin.php:235 templates/personal.php:111
+#: templates/admin.php:236 templates/personal.php:116
 msgid "Version"
 msgstr "Versioon"
 
-#: templates/admin.php:237 templates/personal.php:114
+#: templates/admin.php:240 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -340,27 +340,27 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Arendatud <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud kogukonna</a> poolt. <a href=\"https://github.com/owncloud\" target=\"_blank\">Lähtekood</a> on avaldatud ja kaetud <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> litsentsiga."
 
-#: templates/apps.php:11
+#: templates/apps.php:13
 msgid "Add your App"
 msgstr "Lisa oma rakendus"
 
-#: templates/apps.php:12
+#: templates/apps.php:28
 msgid "More Apps"
 msgstr "Veel rakendusi"
 
-#: templates/apps.php:28
+#: templates/apps.php:33
 msgid "Select an App"
 msgstr "Vali programm"
 
-#: templates/apps.php:34
+#: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
 msgstr "Vaata rakenduste lehte aadressil apps.owncloud.com"
 
-#: templates/apps.php:36
+#: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-litsenseeritud <span class=\"author\"></span>"
 
-#: templates/apps.php:38
+#: templates/apps.php:43
 msgid "Update"
 msgstr "Uuenda"
 
@@ -388,76 +388,79 @@ msgstr "Vigade nimekiri"
 msgid "Commercial Support"
 msgstr "Tasuline kasutajatugi"
 
-#: templates/personal.php:8
+#: templates/personal.php:10
+msgid "Get the apps to sync your files"
+msgstr "Hangi rakendusi failide sünkroniseerimiseks"
+
+#: templates/personal.php:21
+msgid "Show First Run Wizard again"
+msgstr "Näita veelkord Esmase Käivituse Juhendajat"
+
+#: templates/personal.php:29
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Kasutad <strong>%s</strong> saadavalolevast <strong>%s</strong>"
 
-#: templates/personal.php:15
-msgid "Get the apps to sync your files"
-msgstr "Hangi rakendusi failide sünkroniseerimiseks"
-
-#: templates/personal.php:26
-msgid "Show First Run Wizard again"
-msgstr "Näita veelkord Esmase Käivituse Juhendajat"
-
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:41 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "Parool"
 
-#: templates/personal.php:38
+#: templates/personal.php:42
 msgid "Your password was changed"
 msgstr "Sinu parooli on muudetud"
 
-#: templates/personal.php:39
+#: templates/personal.php:43
 msgid "Unable to change your password"
 msgstr "Sa ei saa oma parooli muuta"
 
-#: templates/personal.php:40
+#: templates/personal.php:44
 msgid "Current password"
 msgstr "Praegune parool"
 
-#: templates/personal.php:42
+#: templates/personal.php:46
 msgid "New password"
 msgstr "Uus parool"
 
-#: templates/personal.php:44
+#: templates/personal.php:48
 msgid "Change password"
 msgstr "Muuda parooli"
 
-#: templates/personal.php:56 templates/users.php:81
+#: templates/personal.php:60 templates/users.php:85
 msgid "Display Name"
 msgstr "Näidatav nimi"
 
-#: templates/personal.php:71
+#: templates/personal.php:75
 msgid "Email"
 msgstr "E-post"
 
-#: templates/personal.php:73
+#: templates/personal.php:77
 msgid "Your email address"
 msgstr "Sinu e-posti aadress"
 
-#: templates/personal.php:74
+#: templates/personal.php:78
 msgid "Fill in an email address to enable password recovery"
 msgstr "Parooli taastamise sisse lülitamiseks sisesta e-posti aadress"
 
-#: templates/personal.php:83 templates/personal.php:84
+#: templates/personal.php:87 templates/personal.php:88
 msgid "Language"
 msgstr "Keel"
 
-#: templates/personal.php:95
+#: templates/personal.php:100
 msgid "Help translate"
 msgstr "Aita tõlkida"
 
-#: templates/personal.php:100
+#: templates/personal.php:106
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:102
-msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "Kasuta seda aadressi ühendamaks oma ownCloudi failihalduriga"
+#: templates/personal.php:108
+#, php-format
+msgid ""
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
+"target=\"_blank\">access your Files via WebDAV</a>"
+msgstr "Kasuta seda aadressi <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">oma failidele ligipääsuks WebDAV kaudu</a>"
 
-#: templates/users.php:21 templates/users.php:80
+#: templates/users.php:21
 msgid "Login Name"
 msgstr "Kasutajanimi"
 
@@ -465,34 +468,44 @@ msgstr "Kasutajanimi"
 msgid "Create"
 msgstr "Lisa"
 
-#: templates/users.php:34
+#: templates/users.php:36
 msgid "Admin Recovery Password"
 msgstr "Admin taasteparool"
 
-#: templates/users.php:38
+#: templates/users.php:37 templates/users.php:38
+msgid ""
+"Enter the recovery password in order to recover the users files during "
+"password change"
+msgstr "Sisesta taasteparool kasutaja failide taastamiseks paroolivahetuse käigus"
+
+#: templates/users.php:42
 msgid "Default Storage"
 msgstr "Vaikimisi maht"
 
-#: templates/users.php:44 templates/users.php:138
+#: templates/users.php:48 templates/users.php:142
 msgid "Unlimited"
 msgstr "Piiramatult"
 
-#: templates/users.php:62 templates/users.php:153
+#: templates/users.php:66 templates/users.php:157
 msgid "Other"
 msgstr "Muu"
 
-#: templates/users.php:87
+#: templates/users.php:84
+msgid "Username"
+msgstr "Kasutajanimi"
+
+#: templates/users.php:91
 msgid "Storage"
 msgstr "Maht"
 
-#: templates/users.php:98
+#: templates/users.php:102
 msgid "change display name"
 msgstr "muuda näidatavat nime"
 
-#: templates/users.php:102
+#: templates/users.php:106
 msgid "set new password"
 msgstr "määra uus parool"
 
-#: templates/users.php:133
+#: templates/users.php:137
 msgid "Default"
 msgstr "Vaikeväärtus"

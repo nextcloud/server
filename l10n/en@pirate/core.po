@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-25 02:01+0200\n"
-"PO-Revision-Date: 2013-05-24 13:26+0000\n"
-"Last-Translator: lhpalacio <luizhenrique_gomespalacio@hotmail.com>\n"
+"POT-Creation-Date: 2013-07-06 02:02+0200\n"
+"PO-Revision-Date: 2013-07-06 00:02+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Pirate English (http://www.transifex.com/projects/p/owncloud/language/en@pirate/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,26 +20,7 @@ msgstr ""
 
 #: ajax/share.php:97
 #, php-format
-msgid "User %s shared a file with you"
-msgstr "User %s shared a file with you"
-
-#: ajax/share.php:99
-#, php-format
-msgid "User %s shared a folder with you"
-msgstr ""
-
-#: ajax/share.php:101
-#, php-format
-msgid ""
-"User %s shared the file \"%s\" with you. It is available for download here: "
-"%s"
-msgstr ""
-
-#: ajax/share.php:104
-#, php-format
-msgid ""
-"User %s shared the folder \"%s\" with you. It is available for download "
-"here: %s"
+msgid "%s shared »%s« with you"
 msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
@@ -81,135 +62,135 @@ msgstr ""
 msgid "Error removing %s from favorites."
 msgstr ""
 
-#: js/config.php:34
+#: js/config.php:32
 msgid "Sunday"
 msgstr ""
 
-#: js/config.php:35
+#: js/config.php:33
 msgid "Monday"
 msgstr ""
 
-#: js/config.php:36
+#: js/config.php:34
 msgid "Tuesday"
 msgstr ""
 
-#: js/config.php:37
+#: js/config.php:35
 msgid "Wednesday"
 msgstr ""
 
-#: js/config.php:38
+#: js/config.php:36
 msgid "Thursday"
 msgstr ""
 
-#: js/config.php:39
+#: js/config.php:37
 msgid "Friday"
 msgstr ""
 
-#: js/config.php:40
+#: js/config.php:38
 msgid "Saturday"
 msgstr ""
 
-#: js/config.php:45
+#: js/config.php:43
 msgid "January"
 msgstr ""
 
-#: js/config.php:46
+#: js/config.php:44
 msgid "February"
 msgstr ""
 
-#: js/config.php:47
+#: js/config.php:45
 msgid "March"
 msgstr ""
 
-#: js/config.php:48
+#: js/config.php:46
 msgid "April"
 msgstr ""
 
-#: js/config.php:49
+#: js/config.php:47
 msgid "May"
 msgstr ""
 
-#: js/config.php:50
+#: js/config.php:48
 msgid "June"
 msgstr ""
 
-#: js/config.php:51
+#: js/config.php:49
 msgid "July"
 msgstr ""
 
-#: js/config.php:52
+#: js/config.php:50
 msgid "August"
 msgstr ""
 
-#: js/config.php:53
+#: js/config.php:51
 msgid "September"
 msgstr ""
 
-#: js/config.php:54
+#: js/config.php:52
 msgid "October"
 msgstr ""
 
-#: js/config.php:55
+#: js/config.php:53
 msgid "November"
 msgstr ""
 
-#: js/config.php:56
+#: js/config.php:54
 msgid "December"
 msgstr ""
 
-#: js/js.js:286
+#: js/js.js:289
 msgid "Settings"
 msgstr ""
 
-#: js/js.js:718
+#: js/js.js:721
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:719
+#: js/js.js:722
 msgid "1 minute ago"
 msgstr ""
 
-#: js/js.js:720
+#: js/js.js:723
 msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/js.js:721
+#: js/js.js:724
 msgid "1 hour ago"
 msgstr ""
 
-#: js/js.js:722
+#: js/js.js:725
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:723
+#: js/js.js:726
 msgid "today"
 msgstr ""
 
-#: js/js.js:724
+#: js/js.js:727
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:725
+#: js/js.js:728
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:726
+#: js/js.js:729
 msgid "last month"
 msgstr ""
 
-#: js/js.js:727
+#: js/js.js:730
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:728
+#: js/js.js:731
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:729
+#: js/js.js:732
 msgid "last year"
 msgstr ""
 
-#: js/js.js:730
+#: js/js.js:733
 msgid "years ago"
 msgstr ""
 
@@ -217,23 +198,23 @@ msgstr ""
 msgid "Choose"
 msgstr ""
 
-#: js/oc-dialogs.js:121
+#: js/oc-dialogs.js:122
 msgid "Cancel"
 msgstr ""
 
-#: js/oc-dialogs.js:138 js/oc-dialogs.js:195
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
 msgid "Error loading file picker template"
 msgstr ""
 
-#: js/oc-dialogs.js:161
+#: js/oc-dialogs.js:164
 msgid "Yes"
 msgstr ""
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:172
 msgid "No"
 msgstr ""
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:185
 msgid "Ok"
 msgstr ""
 
@@ -245,8 +226,8 @@ msgstr ""
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
-#: js/share.js:589
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:620
+#: js/share.js:632
 msgid "Error"
 msgstr ""
 
@@ -266,7 +247,7 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
-#: js/share.js:125 js/share.js:617
+#: js/share.js:125 js/share.js:660
 msgid "Error while sharing"
 msgstr ""
 
@@ -286,99 +267,103 @@ msgstr ""
 msgid "Shared with you by {owner}"
 msgstr ""
 
-#: js/share.js:159
+#: js/share.js:172
 msgid "Share with"
 msgstr ""
 
-#: js/share.js:164
+#: js/share.js:177
 msgid "Share with link"
 msgstr ""
 
-#: js/share.js:167
+#: js/share.js:180
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:26
+#: js/share.js:182 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Passcode"
 
-#: js/share.js:173
+#: js/share.js:187
+msgid "Allow Public Upload"
+msgstr ""
+
+#: js/share.js:191
 msgid "Email link to person"
 msgstr ""
 
-#: js/share.js:174
+#: js/share.js:192
 msgid "Send"
 msgstr ""
 
-#: js/share.js:178
+#: js/share.js:197
 msgid "Set expiration date"
 msgstr ""
 
-#: js/share.js:179
+#: js/share.js:198
 msgid "Expiration date"
 msgstr ""
 
-#: js/share.js:211
+#: js/share.js:230
 msgid "Share via email:"
 msgstr ""
 
-#: js/share.js:213
+#: js/share.js:232
 msgid "No people found"
 msgstr ""
 
-#: js/share.js:251
+#: js/share.js:270
 msgid "Resharing is not allowed"
 msgstr ""
 
-#: js/share.js:287
+#: js/share.js:306
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:308
+#: js/share.js:327
 msgid "Unshare"
 msgstr ""
 
-#: js/share.js:320
+#: js/share.js:339
 msgid "can edit"
 msgstr ""
 
-#: js/share.js:322
+#: js/share.js:341
 msgid "access control"
 msgstr ""
 
-#: js/share.js:325
+#: js/share.js:344
 msgid "create"
 msgstr ""
 
-#: js/share.js:328
+#: js/share.js:347
 msgid "update"
 msgstr ""
 
-#: js/share.js:331
+#: js/share.js:350
 msgid "delete"
 msgstr ""
 
-#: js/share.js:334
+#: js/share.js:353
 msgid "share"
 msgstr ""
 
-#: js/share.js:368 js/share.js:564
+#: js/share.js:387 js/share.js:607
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:577
+#: js/share.js:620
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:589
+#: js/share.js:632
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:604
+#: js/share.js:647
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:615
+#: js/share.js:658
 msgid "Email sent"
 msgstr ""
 
@@ -393,7 +378,7 @@ msgstr ""
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr ""
 
-#: lostpassword/controller.php:48
+#: lostpassword/controller.php:60
 msgid "ownCloud password reset"
 msgstr ""
 
@@ -421,7 +406,19 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:22
+msgid ""
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset. If you "
+"are not sure what to do, please contact your administrator before you "
+"continue. Do you really want to continue?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:24
+msgid "Yes, I really want to reset my password now"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
 msgstr ""
 
@@ -467,6 +464,17 @@ msgstr ""
 
 #: templates/404.php:12
 msgid "Cloud not found"
+msgstr ""
+
+#: templates/altmail.php:4
+#, php-format
+msgid ""
+"Hey there,\n"
+"\n"
+"just letting you know that %s shared %s with you.\n"
+"View it: %s\n"
+"\n"
+"Cheers!"
 msgstr ""
 
 #: templates/edit_categories_dialog.php:4
@@ -561,16 +569,12 @@ msgstr ""
 msgid "Finish setup"
 msgstr ""
 
-#: templates/layout.guest.php:40
-msgid "web services under your control"
-msgstr "web services under your control"
-
-#: templates/layout.user.php:36
+#: templates/layout.user.php:43
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:61
+#: templates/layout.user.php:68
 msgid "Log out"
 msgstr ""
 
@@ -602,6 +606,13 @@ msgstr ""
 
 #: templates/login.php:47
 msgid "Alternative Logins"
+msgstr ""
+
+#: templates/mail.php:16
+#, php-format
+msgid ""
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
+"href=\"%s\">View it!</a><br><br>Cheers!"
 msgstr ""
 
 #: templates/part.pagenavi.php:3

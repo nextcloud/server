@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-30 02:27+0200\n"
-"PO-Revision-Date: 2013-05-29 23:36+0000\n"
+"POT-Creation-Date: 2013-07-12 02:03+0200\n"
+"PO-Revision-Date: 2013-07-11 23:14+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -27,52 +27,90 @@ msgstr ""
 msgid "Could not move %s"
 msgstr ""
 
-#: ajax/upload.php:19
+#: ajax/upload.php:16 ajax/upload.php:45
+msgid "Unable to set upload directory."
+msgstr ""
+
+#: ajax/upload.php:22
+msgid "Invalid Token"
+msgstr ""
+
+#: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
 msgstr "Ниту еден фајл не се вчита. Непозната грешка"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:66
 msgid "There is no error, the file uploaded with success"
 msgstr "Датотеката беше успешно подигната."
 
-#: ajax/upload.php:27
+#: ajax/upload.php:67
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Подигнатата датотека ја надминува upload_max_filesize директивата во php.ini:"
 
-#: ajax/upload.php:29
+#: ajax/upload.php:69
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Големината на датотеката ја надминува MAX_FILE_SIZE директивата која беше специфицирана во HTML формата"
 
-#: ajax/upload.php:30
+#: ajax/upload.php:70
 msgid "The uploaded file was only partially uploaded"
 msgstr "Датотеката беше само делумно подигната."
 
-#: ajax/upload.php:31
+#: ajax/upload.php:71
 msgid "No file was uploaded"
 msgstr "Не беше подигната датотека."
 
-#: ajax/upload.php:32
+#: ajax/upload.php:72
 msgid "Missing a temporary folder"
 msgstr "Недостасува привремена папка"
 
-#: ajax/upload.php:33
+#: ajax/upload.php:73
 msgid "Failed to write to disk"
 msgstr "Неуспеав да запишам на диск"
 
-#: ajax/upload.php:51
+#: ajax/upload.php:91
 msgid "Not enough storage available"
 msgstr ""
 
-#: ajax/upload.php:83
+#: ajax/upload.php:123
 msgid "Invalid directory."
 msgstr ""
 
 #: appinfo/app.php:12
 msgid "Files"
 msgstr "Датотеки"
+
+#: js/file-upload.js:11
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr "Не може да се преземе вашата датотека бидејќи фолдерот во кој се наоѓа фајлот има големина од 0 бајти"
+
+#: js/file-upload.js:24
+msgid "Not enough space available"
+msgstr ""
+
+#: js/file-upload.js:64
+msgid "Upload cancelled."
+msgstr "Преземањето е прекинато."
+
+#: js/file-upload.js:167 js/files.js:266
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr "Подигање на датотека е во тек. Напуштење на страницата ќе го прекине."
+
+#: js/file-upload.js:233 js/files.js:339
+msgid "URL cannot be empty."
+msgstr "Адресата неможе да биде празна."
+
+#: js/file-upload.js:238 lib/app.php:53
+msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
+msgstr ""
+
+#: js/file-upload.js:267 js/file-upload.js:283 js/files.js:373 js/files.js:389
+#: js/files.js:693 js/files.js:731
+msgid "Error"
+msgstr "Грешка"
 
 #: js/fileactions.js:116
 msgid "Share"
@@ -90,43 +128,43 @@ msgstr "Избриши"
 msgid "Rename"
 msgstr "Преименувај"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:421
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:464
 msgid "Pending"
 msgstr "Чека"
 
-#: js/filelist.js:259 js/filelist.js:261
+#: js/filelist.js:302 js/filelist.js:304
 msgid "{new_name} already exists"
 msgstr "{new_name} веќе постои"
 
-#: js/filelist.js:259 js/filelist.js:261
+#: js/filelist.js:302 js/filelist.js:304
 msgid "replace"
 msgstr "замени"
 
-#: js/filelist.js:259
+#: js/filelist.js:302
 msgid "suggest name"
 msgstr "предложи име"
 
-#: js/filelist.js:259 js/filelist.js:261
+#: js/filelist.js:302 js/filelist.js:304
 msgid "cancel"
 msgstr "откажи"
 
-#: js/filelist.js:306
+#: js/filelist.js:349
 msgid "replaced {new_name} with {old_name}"
 msgstr "заменета {new_name} со {old_name}"
 
-#: js/filelist.js:306
+#: js/filelist.js:349
 msgid "undo"
 msgstr "врати"
 
-#: js/filelist.js:331
+#: js/filelist.js:374
 msgid "perform delete operation"
 msgstr ""
 
-#: js/filelist.js:413
+#: js/filelist.js:456
 msgid "1 file uploading"
 msgstr "1 датотека се подига"
 
-#: js/filelist.js:416 js/filelist.js:470
+#: js/filelist.js:459 js/filelist.js:517
 msgid "files uploading"
 msgstr ""
 
@@ -158,69 +196,41 @@ msgid ""
 "big."
 msgstr ""
 
-#: js/files.js:264
-msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Не може да се преземе вашата датотека бидејќи фолдерот во кој се наоѓа фајлот има големина од 0 бајти"
-
-#: js/files.js:277
-msgid "Not enough space available"
-msgstr ""
-
-#: js/files.js:317
-msgid "Upload cancelled."
-msgstr "Преземањето е прекинато."
-
-#: js/files.js:413
-msgid ""
-"File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "Подигање на датотека е во тек. Напуштење на страницата ќе го прекине."
-
-#: js/files.js:486
-msgid "URL cannot be empty."
-msgstr "Адресата неможе да биде празна."
-
-#: js/files.js:491
+#: js/files.js:344
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr ""
 
-#: js/files.js:520 js/files.js:536 js/files.js:826 js/files.js:864
-msgid "Error"
-msgstr "Грешка"
-
-#: js/files.js:877 templates/index.php:69
+#: js/files.js:744 templates/index.php:69
 msgid "Name"
 msgstr "Име"
 
-#: js/files.js:878 templates/index.php:80
+#: js/files.js:745
 msgid "Size"
 msgstr "Големина"
 
-#: js/files.js:879 templates/index.php:82
+#: js/files.js:746 templates/index.php:82
 msgid "Modified"
 msgstr "Променето"
 
-#: js/files.js:898
+#: js/files.js:765
 msgid "1 folder"
 msgstr "1 папка"
 
-#: js/files.js:900
+#: js/files.js:767
 msgid "{count} folders"
 msgstr "{count} папки"
 
-#: js/files.js:908
+#: js/files.js:775
 msgid "1 file"
 msgstr "1 датотека"
 
-#: js/files.js:910
+#: js/files.js:777
 msgid "{count} files"
 msgstr "{count} датотеки"
 
-#: lib/app.php:53
-msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
-msgstr ""
-
 #: lib/app.php:73
-msgid "Unable to rename file"
+#, php-format
+msgid "%s could not be renamed"
 msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18
@@ -295,6 +305,10 @@ msgstr "Тука нема ништо. Снимете нешто!"
 msgid "Download"
 msgstr "Преземи"
 
+#: templates/index.php:80
+msgid "Size (MB)"
+msgstr ""
+
 #: templates/index.php:87 templates/index.php:88
 msgid "Unshare"
 msgstr "Не споделувај"
@@ -316,6 +330,22 @@ msgstr "Се скенираат датотеки, ве молам почекај
 #: templates/index.php:117
 msgid "Current scanning"
 msgstr "Моментално скенирам"
+
+#: templates/part.list.php:76
+msgid "directory"
+msgstr ""
+
+#: templates/part.list.php:78
+msgid "directories"
+msgstr ""
+
+#: templates/part.list.php:87
+msgid "file"
+msgstr "датотека"
+
+#: templates/part.list.php:89
+msgid "files"
+msgstr "датотеки"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
