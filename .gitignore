@@ -6,7 +6,7 @@
 /apps/inc.php
 
 # ignore all apps except core ones
-/apps*
+#/apps*
 !/apps/files
 !/apps/files_encryption
 !/apps/files_external
@@ -15,6 +15,13 @@
 !/apps/files_versions
 !/apps/user_ldap
 !/apps/user_webdavauth
+/apps/files_external/3rdparty/irodsphp/PHPUnitTest
+/apps/files_external/3rdparty/irodsphp/web
+/apps/files_external/3rdparty/irodsphp/prods/test
+/apps/files_external/3rdparty/irodsphp/prods/tutorial
+/apps/files_external/3rdparty/irodsphp/prods/test*
+
+
 
 # ignore themes except the README
 /themes/*
