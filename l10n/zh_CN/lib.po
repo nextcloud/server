@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-12 02:04+0200\n"
-"PO-Revision-Date: 2013-07-11 23:15+0000\n"
+"POT-Creation-Date: 2013-07-13 01:59+0200\n"
+"PO-Revision-Date: 2013-07-12 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -171,21 +171,21 @@ msgstr "冲突命令为：\"%s\"，名称：%s，密码：%s"
 msgid "PostgreSQL username and/or password not valid"
 msgstr "PostgreSQL 数据库用户名和/或密码无效"
 
-#: setup.php:42
+#: setup.php:28
 msgid "Set an admin username."
 msgstr "请设置一个管理员用户名。"
 
-#: setup.php:45
+#: setup.php:31
 msgid "Set an admin password."
 msgstr "请设置一个管理员密码。"
 
-#: setup.php:198
+#: setup.php:184
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "您的Web服务器尚未正确设置以允许文件同步, 因为WebDAV的接口似乎已损坏."
 
-#: setup.php:199
+#: setup.php:185
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "请认真检查<a href='%s'>安装指南</a>."

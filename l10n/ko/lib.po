@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-12 02:04+0200\n"
-"PO-Revision-Date: 2013-07-11 23:15+0000\n"
+"POT-Creation-Date: 2013-07-13 01:59+0200\n"
+"PO-Revision-Date: 2013-07-12 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -170,21 +170,21 @@ msgstr ""
 msgid "PostgreSQL username and/or password not valid"
 msgstr ""
 
-#: setup.php:42
+#: setup.php:28
 msgid "Set an admin username."
 msgstr ""
 
-#: setup.php:45
+#: setup.php:31
 msgid "Set an admin password."
 msgstr ""
 
-#: setup.php:198
+#: setup.php:184
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "WebDAV 인터페이스가 제대로 작동하지 않습니다. 웹 서버에서 파일 동기화를 사용할 수 있도록 설정이 제대로 되지 않은 것 같습니다."
 
-#: setup.php:199
+#: setup.php:185
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "<a href='%s'>설치 가이드</a>를 다시 한 번 확인하십시오."

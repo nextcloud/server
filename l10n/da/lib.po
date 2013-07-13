@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-12 02:04+0200\n"
-"PO-Revision-Date: 2013-07-11 23:15+0000\n"
+"POT-Creation-Date: 2013-07-13 01:59+0200\n"
+"PO-Revision-Date: 2013-07-12 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -171,21 +171,21 @@ msgstr "Fejlende kommando var: \"%s\", navn: %s, password: %s"
 msgid "PostgreSQL username and/or password not valid"
 msgstr "PostgreSQL brugernavn og/eller kodeord er ikke gyldigt."
 
-#: setup.php:42
+#: setup.php:28
 msgid "Set an admin username."
 msgstr "Angiv et admin brugernavn."
 
-#: setup.php:45
+#: setup.php:31
 msgid "Set an admin password."
 msgstr "Angiv et admin kodeord."
 
-#: setup.php:198
+#: setup.php:184
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Din webserver er endnu ikke sat op til at tillade fil synkronisering fordi WebDAV grænsefladen virker ødelagt."
 
-#: setup.php:199
+#: setup.php:185
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Dobbelttjek venligst <a href='%s'>installations vejledningerne</a>."

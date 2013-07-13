@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-12 02:04+0200\n"
-"PO-Revision-Date: 2013-07-11 23:15+0000\n"
+"POT-Creation-Date: 2013-07-13 01:59+0200\n"
+"PO-Revision-Date: 2013-07-12 23:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -170,21 +170,21 @@ msgstr "الأمر المخالف كان : \"%s\", اسم المستخدم : %s,
 msgid "PostgreSQL username and/or password not valid"
 msgstr "اسم المستخدم / أو كلمة المرور الخاصة بـPostgreSQL غير صحيحة"
 
-#: setup.php:42
+#: setup.php:28
 msgid "Set an admin username."
 msgstr "اعداد اسم مستخدم للمدير"
 
-#: setup.php:45
+#: setup.php:31
 msgid "Set an admin password."
 msgstr "اعداد كلمة مرور للمدير"
 
-#: setup.php:198
+#: setup.php:184
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "اعدادات خادمك غير صحيحة بشكل تسمح لك بمزامنة ملفاتك وذلك بسبب أن واجهة WebDAV تبدو معطلة"
 
-#: setup.php:199
+#: setup.php:185
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "الرجاء التحقق من <a href='%s'>دليل التنصيب</a>."

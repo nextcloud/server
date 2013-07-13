@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-12 02:03+0200\n"
-"PO-Revision-Date: 2013-07-11 23:14+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-13 01:59+0200\n"
+"PO-Revision-Date: 2013-07-12 23:14+0000\n"
+"Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,11 +30,11 @@ msgstr "無法移動 %s"
 
 #: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "無法設定上傳目錄。"
 
 #: ajax/upload.php:22
 msgid "Invalid Token"
-msgstr ""
+msgstr "無效的 token"
 
 #: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
@@ -129,43 +129,43 @@ msgstr "刪除"
 msgid "Rename"
 msgstr "重新命名"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:464
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:466
 msgid "Pending"
 msgstr "等候中"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:304 js/filelist.js:306
 msgid "{new_name} already exists"
 msgstr "{new_name} 已經存在"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:304 js/filelist.js:306
 msgid "replace"
 msgstr "取代"
 
-#: js/filelist.js:302
+#: js/filelist.js:304
 msgid "suggest name"
 msgstr "建議檔名"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:304 js/filelist.js:306
 msgid "cancel"
 msgstr "取消"
 
-#: js/filelist.js:349
+#: js/filelist.js:351
 msgid "replaced {new_name} with {old_name}"
 msgstr "使用 {new_name} 取代 {old_name}"
 
-#: js/filelist.js:349
+#: js/filelist.js:351
 msgid "undo"
 msgstr "復原"
 
-#: js/filelist.js:374
+#: js/filelist.js:376
 msgid "perform delete operation"
 msgstr "進行刪除動作"
 
-#: js/filelist.js:456
+#: js/filelist.js:458
 msgid "1 file uploading"
 msgstr "1 個檔案正在上傳"
 
-#: js/filelist.js:459 js/filelist.js:517
+#: js/filelist.js:461 js/filelist.js:519
 msgid "files uploading"
 msgstr "檔案正在上傳中"
 
@@ -232,7 +232,7 @@ msgstr "{count} 個檔案"
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "無法重新命名 %s"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -308,7 +308,7 @@ msgstr "下載"
 
 #: templates/index.php:80
 msgid "Size (MB)"
-msgstr ""
+msgstr "大小 (MB)"
 
 #: templates/index.php:87 templates/index.php:88
 msgid "Unshare"
@@ -334,19 +334,19 @@ msgstr "目前掃描"
 
 #: templates/part.list.php:76
 msgid "directory"
-msgstr ""
+msgstr "目錄"
 
 #: templates/part.list.php:78
 msgid "directories"
-msgstr ""
+msgstr "目錄"
 
 #: templates/part.list.php:87
 msgid "file"
-msgstr ""
+msgstr "檔案"
 
 #: templates/part.list.php:89
 msgid "files"
-msgstr ""
+msgstr "檔案"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
