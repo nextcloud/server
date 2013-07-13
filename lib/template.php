@@ -441,6 +441,7 @@ class OC_Template{
 		// Register the variables
 		$_ = $this->vars;
 		$l = $this->l10n;
+		$defaults = new \OC_Defaults;
 
 		// Execute the template
 		ob_start();
@@ -462,6 +463,7 @@ class OC_Template{
 	public function inc( $file, $additionalparams = null ) {
 		$_ = $this->vars;
 		$l = $this->l10n;
+		$defaults = new \OC_Defaults;
 
 		if( !is_null($additionalparams)) {
 			$_ = array_merge( $additionalparams, $this->vars );
