@@ -2,7 +2,7 @@
 <info>
 	<id>files_encryption</id>
 	<name>Encryption</name>
-	<description>WARNING: This is a preview release of the new ownCloud 5 encryption system. Testing and feedback is very welcome but don't use this in production yet. After the app was enabled you need to re-login to initialize your encryption keys</description>
+	<description>The new ownCloud 5 files encryption system. After the app was enabled you need to re-login to initialize your encryption keys.</description>
 	<licence>AGPL</licence>
 	<author>Sam Tuke, Bjoern Schiessle, Florin Peter</author>
 	<require>4</require>
