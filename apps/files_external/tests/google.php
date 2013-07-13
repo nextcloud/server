@@ -1,5 +1,4 @@
 <?php
-
 /**
  * ownCloud
  *
@@ -22,20 +21,23 @@
 
 namespace Test\Files\Storage;
 
+require_once 'files_external/lib/google.php';
+
 class Google extends Storage {
+
 	private $config;
 
-	public function setUp() {
-		$id = uniqid();
+	protected function setUp() {
 		$this->config = include('files_external/tests/config.php');
-		if ( ! is_array($this->config) or ! isset($this->config['google']) or ! $this->config['google']['run']) {
-			$this->markTestSkipped('Google backend not configured');
+		if (!is_array($this->config) || !isset($this->config['google'])
+			|| !$this->config['google']['run']
+		) {
+			$this->markTestSkipped('Google Drive backend not configured');
 		}
-		$this->config['google']['root'] .= '/' . $id; //make sure we have an new empty folder to work in
 		$this->instance = new \OC\Files\Storage\Google($this->config['google']);
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		if ($this->instance) {
 			$this->instance->rmdir('/');
 		}

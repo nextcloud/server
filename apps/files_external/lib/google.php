@@ -1,23 +1,23 @@
 <?php
 /**
-* ownCloud
-*
-* @author Michael Gapczynski
-* @copyright 2012 Michael Gapczynski mtgap@owncloud.com
-*
-* This library is free software; you can redistribute it and/or
-* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*
-* You should have received a copy of the GNU Affero General Public
-* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * ownCloud
+ *
+ * @author Michael Gapczynski
+ * @copyright 2012 Michael Gapczynski mtgap@owncloud.com
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 namespace OC\Files\Storage;
 
@@ -96,7 +96,7 @@ class Google extends \OC\Files\Storage\Common {
 				if (isset($this->driveFiles[$path])) {
 					$parentId = $this->driveFiles[$path]->getId();
 				} else {
-					$q = "title='".$name."' and '".$parentId."' in parents";
+					$q = "title='".$name."' and '".$parentId."' in parents and trashed = false";
 					$result = $this->service->files->listFiles(array('q' => $q))->getItems();
 					if (!empty($result)) {
 						// Google Drive allows files with the same name, ownCloud doesn't
@@ -133,6 +133,25 @@ class Google extends \OC\Files\Storage\Common {
 	}
 
 	/**
+	 * Set the Google_DriveFile object in the cache
+	 * @param string $path
+	 * @param Google_DriveFile|false $file
+	 */
+	private function setDriveFile($path, $file) {
+		$path = trim($this->root.$path, '/');
+		$this->driveFiles[$path] = $file;
+		if ($file === false) {
+			// Set all child paths as false
+			$len = strlen($path);
+			foreach ($this->driveFiles as $key => $file) {
+				if (substr($key, 0, $len) === $path) {
+					$this->driveFiles[$key] = false;
+				}
+			}
+		}
+	}
+
+	/**
 	 * Write a log message to inform about duplicate file names
 	 * @param string $path
 	 */
@@ -141,7 +160,8 @@ class Google extends \OC\Files\Storage\Common {
 		$user = $about->getName();
 		\OCP\Util::writeLog('files_external',
 			'Ignoring duplicate file name: '.$path.' on Google Drive for Google user: '.$user,
-			\OCP\Util::INFO);
+			\OCP\Util::INFO
+		);
 	}
 
 	/**
@@ -165,22 +185,41 @@ class Google extends \OC\Files\Storage\Common {
 	}
 
 	public function mkdir($path) {
-		$parentFolder = $this->getDriveFile(dirname($path));
-		if ($parentFolder) {
-			$folder = new \Google_DriveFile();
-			$folder->setTitle(basename($path));
-			$folder->setMimeType(self::FOLDER);
-			$parent = new \Google_ParentReference();
-			$parent->setId($parentFolder->getId());
-			$folder->setParents(array($parent));
-			return (bool)$this->service->files->insert($folder);
-		} else {
-			return false;
+		if (!$this->is_dir($path)) {
+			$parentFolder = $this->getDriveFile(dirname($path));
+			if ($parentFolder) {
+				$folder = new \Google_DriveFile();
+				$folder->setTitle(basename($path));
+				$folder->setMimeType(self::FOLDER);
+				$parent = new \Google_ParentReference();
+				$parent->setId($parentFolder->getId());
+				$folder->setParents(array($parent));
+				$result = $this->service->files->insert($folder);
+				if ($result) {
+					$this->setDriveFile($path, $result);
+				}
+				return (bool)$result;
+			}
 		}
+		return false;
 	}
 
 	public function rmdir($path) {
-		return $this->unlink($path);
+		if (trim($this->root.$path, '/') === '') {
+			$dir = $this->opendir($path);
+			while ($file = readdir($dir)) {
+				if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
+					if (!$this->unlink($path.'/'.$file)) {
+						return false;
+					}
+				}
+			}
+			closedir($dir);
+			$this->driveFiles = array();
+			return true;
+		} else {
+			return $this->unlink($path);
+		}
 	}
 
 	public function opendir($path) {
@@ -196,12 +235,12 @@ class Google extends \OC\Files\Storage\Common {
 				if ($pageToken !== true) {
 					$params['pageToken'] = $pageToken;
 				}
-				$params['q'] = "'".$folder->getId()."' in parents";
+				$params['q'] = "'".$folder->getId()."' in parents and trashed = false";
 				$children = $this->service->files->listFiles($params);
 				foreach ($children->getItems() as $child) {
 					$name = $child->getTitle();
 					// Check if this is a Google Doc i.e. no extension in name
-					if ($child->getFileExtension() == ''
+					if ($child->getFileExtension() === ''
 						&& $child->getMimeType() !== self::FOLDER
 					) {
 						$name .= '.'.$this->getGoogleDocExtension($child->getMimeType());
@@ -213,28 +252,21 @@ class Google extends \OC\Files\Storage\Common {
 					}
 					// Google Drive allows files with the same name, ownCloud doesn't
 					// Prevent opendir() from returning any duplicate files
-					if (isset($this->driveFiles[$filepath]) && !isset($duplicates[$filepath])) {
-						// Save this key to unset later in case there are more than 2 duplicates
-						$duplicates[$filepath] = $name;
+					$key = array_search($name, $files);
+					if ($key !== false || isset($duplicates[$filepath])) {
+						if (!isset($duplicates[$filepath])) {
+							$duplicates[$filepath] = true;
+							$this->setDriveFile($filepath, false);
+							unset($files[$key]);
+							$this->onDuplicateFileDetected($filepath);
+						}
 					} else {
 						// Cache the Google_DriveFile for future use
-						$this->driveFiles[$filepath] = $child;
+						$this->setDriveFile($filepath, $child);
 						$files[] = $name;
 					}
 				}
 				$pageToken = $children->getNextPageToken();
-			}
-			// Remove all duplicate files
-			foreach ($duplicates as $filepath => $name) {
-				unset($this->driveFiles[$filepath]);
-				$key = array_search($name, $files);
-				unset($files[$key]);
-				$this->onDuplicateFileDetected($filepath);
-			}
-			// Reindex $files array if duplicates were removed
-			// This is necessary for \OC\Files\Stream\Dir
-			if (!empty($duplicates)) {
-				$files = array_values($files);
 			}
 			\OC\Files\Stream\Dir::register('google'.$path, $files);
 			return opendir('fakedir://google'.$path);
@@ -285,7 +317,7 @@ class Google extends \OC\Files\Storage\Common {
 	}
 
 	public function isReadable($path) {
-		return true;
+		return $this->file_exists($path);
 	}
 
 	public function isUpdatable($path) {
@@ -304,7 +336,11 @@ class Google extends \OC\Files\Storage\Common {
 	public function unlink($path) {
 		$file = $this->getDriveFile($path);
 		if ($file) {
-			return (bool)$this->service->files->trash($file->getId());
+			$result = $this->service->files->trash($file->getId());
+			if ($result) {
+				$this->setDriveFile($path, false);
+			}
+			return (bool)$result;
 		} else {
 			return false;
 		}
@@ -322,9 +358,16 @@ class Google extends \OC\Files\Storage\Common {
 					$parent = new \Google_ParentReference();
 					$parent->setId($parentFolder2->getId());
 					$file->setParents(array($parent));
+				} else {
+					return false;
 				}
 			}
-			return (bool)$this->service->files->patch($file->getId(), $file);
+			$result = $this->service->files->patch($file->getId(), $file);
+			if ($result) {
+				$this->setDriveFile($path1, false);
+				$this->setDriveFile($path2, $result);
+			}
+			return (bool)$result;
 		} else {
 			return false;
 		}
@@ -361,7 +404,7 @@ class Google extends \OC\Files\Storage\Common {
 						}
 					}
 				}
-				return null;
+				return false;
 			case 'w':
 			case 'wb':
 			case 'a':
@@ -390,23 +433,28 @@ class Google extends \OC\Files\Storage\Common {
 			$path = self::$tempFiles[$tmpFile];
 			$parentFolder = $this->getDriveFile(dirname($path));
 			if ($parentFolder) {
-				$file = new \Google_DriveFile();
-				$file->setTitle(basename($path));
-				$mimetype = \OC_Helper::getMimeType($tmpFile);
-				$file->setMimeType($mimetype);
-				$parent = new \Google_ParentReference();
-				$parent->setId($parentFolder->getId());
-				$file->setParents(array($parent));
 				// TODO Research resumable upload
+				$mimetype = \OC_Helper::getMimeType($tmpFile);
 				$data = file_get_contents($tmpFile);
 				$params = array(
 					'data' => $data,
 					'mimeType' => $mimetype,
 				);
+				$result = false;
 				if ($this->file_exists($path)) {
-					$this->service->files->update($file->getId(), $file, $params);
+					$file = $this->getDriveFile($path);
+					$result = $this->service->files->update($file->getId(), $file, $params);
 				} else {
-					$this->service->files->insert($file, $params);
+					$file = new \Google_DriveFile();
+					$file->setTitle(basename($path));
+					$file->setMimeType($mimetype);
+					$parent = new \Google_ParentReference();
+					$parent->setId($parentFolder->getId());
+					$file->setParents(array($parent));
+					$result = $this->service->files->insert($file, $params);
+				}
+				if ($result) {
+					$this->setDriveFile($path, $result);
 				}
 			}
 			unlink($tmpFile);
@@ -444,18 +492,31 @@ class Google extends \OC\Files\Storage\Common {
 
 	public function touch($path, $mtime = null) {
 		$file = $this->getDriveFile($path);
+		$result = false;
 		if ($file) {
 			if (isset($mtime)) {
 				$file->setModifiedDate($mtime);
-				$this->service->files->patch($file->getId(), $file, array(
+				$result = $this->service->files->patch($file->getId(), $file, array(
 					'setModifiedDate' => true,
 				));
 			} else {
-				return (bool)$this->service->files->touch($file->getId());
+				$result = $this->service->files->touch($file->getId());
 			}
 		} else {
-			return false;
+			$parentFolder = $this->getDriveFile(dirname($path));
+			if ($parentFolder) {
+				$file = new \Google_DriveFile();
+				$file->setTitle(basename($path));
+				$parent = new \Google_ParentReference();
+				$parent->setId($parentFolder->getId());
+				$file->setParents(array($parent));
+				$result = $this->service->files->insert($file);
+			}
 		}
+		if ($result) {
+			$this->setDriveFile($path, $result);
+		}
+		return (bool)$result;
 	}
 
 	public function test() {
@@ -500,14 +561,17 @@ class Google extends \OC\Files\Storage\Common {
 						// Check if a file in this folder has been updated
 						// There is no way to filter by folder at the API level...
 						foreach ($changes->getItems() as $change) {
-							foreach ($change->getFile()->getParents() as $parent) {
-								if ($parent->getId() === $folderId) {
-									$result = true;
-								// Check if there are changes in different folders
-								} else if ($change->getId() <= $largestChangeId) {
-									// Decrement id so this change is fetched when called again
-									$largestChangeId = $change->getId();
-									$largestChangeId--;
+							$file = $change->getFile();
+							if ($file) {
+								foreach ($file->getParents() as $parent) {
+									if ($parent->getId() === $folderId) {
+										$result = true;
+									// Check if there are changes in different folders
+									} else if ($change->getId() <= $largestChangeId) {
+										// Decrement id so this change is fetched when called again
+										$largestChangeId = $change->getId();
+										$largestChangeId--;
+									}
 								}
 							}
 						}
