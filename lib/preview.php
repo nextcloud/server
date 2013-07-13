@@ -60,7 +60,7 @@ class Preview {
 		//set config
 		$this->configMaxX = \OC_Config::getValue('preview_max_x', null);
 		$this->configMaxY = \OC_Config::getValue('preview_max_y', null);
-		$this->maxScaleFactor = \OC_Config::getValue('preview_max_scale_factor', 10);
+		$this->maxScaleFactor = \OC_Config::getValue('preview_max_scale_factor', 2);
 
 		//save parameters
 		$this->setFile($file);
@@ -377,6 +377,7 @@ class Preview {
 		if($cached) {
 			$image = new \OC_Image($this->userview->file_get_contents($cached, 'r'));
 			$this->preview = $image->valid() ? $image : null;
+			$this->resizeAndCrop();
 		}
 
 		if(is_null($this->preview)) {
