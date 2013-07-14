@@ -76,3 +76,11 @@
  	padding-top:.2em;
  	margin:0;
  }
+ 
+ 
+.ie8 div.multiselect span:first-child {
+	display:block;
+	position:relative;
+	width: 90%;
+	margin-right:-1px;
+}
