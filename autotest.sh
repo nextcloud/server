@@ -3,11 +3,16 @@
 # ownCloud
 #
 # @author Thomas Müller
-# @copyright 2012 Thomas Müller thomas.mueller@tmit.eu
+# @copyright 2012, 2013 Thomas Müller thomas.mueller@tmit.eu
 #
 
+#$EXECUTOR_NUMBER is set by Jenkins and allows us to run autotest in parallel
+DATABASENAME=oc_autotest$EXECUTOR_NUMBER
+ADMINLOGIN=admin$EXECUTOR_NUMBER
 DATADIR=data-autotest
 BASEDIR=$PWD
+
+echo "Using database $DATABASENAME"
 
 # create autoconfig for sqlite, mysql and postgresql
 cat > ./tests/autoconfig-sqlite.php <<DELIM
@@ -16,7 +21,7 @@ cat > ./tests/autoconfig-sqlite.php <<DELIM
   'installed' => false,
   'dbtype' => 'sqlite',
   'dbtableprefix' => 'oc_',
-  'adminlogin' => 'admin',
+  'adminlogin' => $ADMINLOGIN,
   'adminpass' => 'admin',
   'directory' => '$BASEDIR/$DATADIR',
 );
@@ -28,13 +33,13 @@ cat > ./tests/autoconfig-mysql.php <<DELIM
   'installed' => false,
   'dbtype' => 'mysql',
   'dbtableprefix' => 'oc_',
-  'adminlogin' => 'admin',
+  'adminlogin' => $ADMINLOGIN,
   'adminpass' => 'admin',
   'directory' => '$BASEDIR/$DATADIR',
-  'dbuser' => 'oc_autotest',	
-  'dbname' => 'oc_autotest',	
+  'dbuser' => 'oc_autotest',
+  'dbname' => $DATABASENAME,
   'dbhost' => 'localhost',
-  'dbpass' => 'owncloud',	
+  'dbpass' => 'owncloud',
 );
 DELIM
 
@@ -44,13 +49,13 @@ cat > ./tests/autoconfig-pgsql.php <<DELIM
   'installed' => false,
   'dbtype' => 'pgsql',
   'dbtableprefix' => 'oc_',
-  'adminlogin' => 'admin',
+  'adminlogin' => $ADMINLOGIN,
   'adminpass' => 'admin',
   'directory' => '$BASEDIR/$DATADIR',
-  'dbuser' => 'oc_autotest',	
-  'dbname' => 'oc_autotest',	
+  'dbuser' => 'oc_autotest',
+  'dbname' => $DATABASENAME,
   'dbhost' => 'localhost',
-  'dbpass' => 'owncloud',	
+  'dbpass' => 'owncloud',
 );
 DELIM
 
@@ -60,10 +65,10 @@ cat > ./tests/autoconfig-oci.php <<DELIM
   'installed' => false,
   'dbtype' => 'oci',
   'dbtableprefix' => 'oc_',
-  'adminlogin' => 'admin',
+  'adminlogin' => $ADMINLOGIN,
   'adminpass' => 'admin',
   'directory' => '$BASEDIR/$DATADIR',
-  'dbuser' => 'oc_autotest',
+  'dbuser' => $DATABASENAME,
   'dbname' => 'XE',
   'dbhost' => 'localhost',
   'dbpass' => 'owncloud',
@@ -88,21 +93,21 @@ function execute_tests {
 
 	# drop database
 	if [ "$1" == "mysql" ] ; then
-		mysql -u oc_autotest -powncloud -e "DROP DATABASE oc_autotest"
+		mysql -u oc_autotest -powncloud -e "DROP DATABASE $DATABASENAME"
 	fi
 	if [ "$1" == "pgsql" ] ; then
-		dropdb -U oc_autotest oc_autotest
+		dropdb -U oc_autotest $DATABASENAME
 	fi
 	if [ "$1" == "oci" ] ; then
 		echo "drop the database"
 		sqlplus -s -l / as sysdba <<EOF
-			drop user oc_autotest cascade;
+			drop user $DATABASENAME cascade;
 EOF
 
 		echo "create the database"
 		sqlplus -s -l / as sysdba <<EOF
-			create user oc_autotest identified by owncloud;
-			alter user oc_autotest default tablespace users
+			create user $DATABASENAME identified by owncloud;
+			alter user $DATABASENAME default tablespace users
 			temporary tablespace temp
 			quota unlimited on users;
 			grant create session
@@ -113,7 +118,7 @@ EOF
 			, create view
 			, create synonym
 			, alter session
-			to oc_autotest;
+			to $DATABASENAME;
 			exit;
 EOF
 	fi
