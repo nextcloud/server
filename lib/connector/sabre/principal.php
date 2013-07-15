@@ -121,6 +121,6 @@ class OC_Connector_Sabre_Principal implements Sabre_DAVACL_IPrincipalBackend {
 	}
 
 	function searchPrincipals($prefixPath, array $searchProperties) {
-		return 0;
+		return array();
 	}
 }
