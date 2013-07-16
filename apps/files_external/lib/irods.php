@@ -65,7 +65,7 @@ class iRODS extends \OC\Files\Storage\StreamWrapper{
 	}
 
 	/**
-	 * construct the ftp url
+	 * construct the rods url
 	 * @param string $path
 	 * @return string
 	 */
@@ -80,6 +80,8 @@ class iRODS extends \OC\Files\Storage\StreamWrapper{
 		if ($this->auth_mode !== '') {
 			$userWithZone .= '.'.$this->auth_mode;
 		}
+
+		// url wrapper schema is named rods
 		return 'rods://'.$userWithZone.':'.$this->password.'@'.$this->host.':'.$this->port.$this->root.$path;
 	}
 
