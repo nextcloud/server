@@ -28,6 +28,28 @@ class Cache extends \Test_Cache {
 		$this->assertFalse($this->instance->hasKey('foo'));
 	}
 
+	public function testArrayAccessSet() {
+		$this->instance['foo'] = 'bar';
+		$this->assertEquals('bar', $this->instance->get('foo'));
+	}
+
+	public function testArrayAccessGet() {
+		$this->instance->set('foo', 'bar');
+		$this->assertEquals('bar', $this->instance['foo']);
+	}
+
+	public function testArrayAccessExists() {
+		$this->assertFalse(isset($this->instance['foo']));
+		$this->instance->set('foo', 'bar');
+		$this->assertTrue(isset($this->instance['foo']));
+	}
+
+	public function testArrayAccessUnset() {
+		$this->instance->set('foo', 'bar');
+		unset($this->instance['foo']);
+		$this->assertFalse($this->instance->hasKey('foo'));
+	}
+
 	public function tearDown() {
 		if ($this->instance) {
 			$this->instance->clear();

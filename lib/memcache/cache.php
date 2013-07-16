@@ -8,7 +8,7 @@
 
 namespace OC\Memcache;
 
-abstract class Cache {
+abstract class Cache implements \ArrayAccess {
 	/**
 	 * @var string $prefix
 	 */
@@ -56,4 +56,22 @@ abstract class Cache {
 	 * @return mixed
 	 */
 	abstract public function clear($prefix = '');
+
+	//implement the ArrayAccess interface
+
+	public function offsetExists($offset) {
+		return $this->hasKey($offset);
+	}
+
+	public function offsetSet($offset, $value) {
+		$this->set($offset, $value);
+	}
+
+	public function offsetGet($offset) {
+		return $this->get($offset);
+	}
+
+	public function offsetUnset($offset) {
+		$this->remove($offset);
+	}
 }
