@@ -102,10 +102,10 @@ if( $task eq 'read' ){
 			next if $ignore{$file};
 			my $keywords = '';
 			if( $file =~ /\.js$/ ){
-				$keywords = '--keyword=t:2 --keyword=tp:2,3';
+				$keywords = '--keyword=t:2 --keyword=n:2,3';
 			}
 			else{
-				$keywords = '--keyword=t --keyword=tp:1,2';
+				$keywords = '--keyword=t --keyword=n:1,2';
 			}
 			my $language = ( $file =~ /\.js$/ ? 'Python' : 'PHP');
 			my $joinexisting = ( -e $output ? '--join-existing' : '');
@@ -137,10 +137,15 @@ elsif( $task eq 'write' ){
 
 				# Do we use singular or plural?
 				if( defined( $string->msgstr_n() )){
-					next if $string->msgstr_n()->{"0"} eq '""' ||
-					  $string->msgstr_n()->{"1"} eq '""';
-					push( @strings, $string->msgid()." => ".$string->msgstr_n()->{"0"} );
-					push( @strings, $string->msgid_plural()." => ".$string->msgstr_n()->{"1"} );
+					my @variants = ();
+					my $identifier = $string->msgid()."::".$string->msgid_plural()
+					$identifier =~ s/"/_/g;
+
+					foreach my $variant ( sort { $a <=> $b} keys( %{$string->msgstr_n()} )){
+						push( @variants, $string->msgstr_n()->{$variant} );
+					}
+
+					push( @strings, "\"$identifier\" => array(".join(@variants, ",").")";
 				}
 				else{
 					next if $string->msgstr() eq '""';
