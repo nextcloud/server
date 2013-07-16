@@ -176,7 +176,7 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(filesize($textFile), $this->instance->filesize('/lorem.txt'));
 
 		$stat = $this->instance->stat('/lorem.txt');
-		//only size and mtime are requered in the result
+		//only size and mtime are required in the result
 		$this->assertEquals($stat['size'], $this->instance->filesize('/lorem.txt'));
 		$this->assertEquals($stat['mtime'], $mTime);
 
@@ -208,34 +208,6 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 
 		$this->instance->unlink('/lorem.txt');
 		$this->assertTrue($this->instance->hasUpdated('/', $mtimeStart - 1));
-	}
-
-	public function testSearch() {
-		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
-		$this->instance->file_put_contents('/lorem.txt', file_get_contents($textFile, 'r'));
-		$pngFile = \OC::$SERVERROOT . '/tests/data/logo-wide.png';
-		$this->instance->file_put_contents('/logo-wide.png', file_get_contents($pngFile, 'r'));
-		$svgFile = \OC::$SERVERROOT . '/tests/data/logo-wide.svg';
-		$this->instance->file_put_contents('/logo-wide.svg', file_get_contents($svgFile, 'r'));
-		$result = $this->instance->search('logo');
-		$this->assertEquals(2, count($result));
-		$this->assertContains('/logo-wide.svg', $result);
-		$this->assertContains('/logo-wide.png', $result);
-	}
-
-	public function testSearchInSubFolder() {
-		$this->instance->mkdir('sub');
-		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
-		$this->instance->file_put_contents('/sub/lorem.txt', file_get_contents($textFile, 'r'));
-		$pngFile = \OC::$SERVERROOT . '/tests/data/logo-wide.png';
-		$this->instance->file_put_contents('/sub/logo-wide.png', file_get_contents($pngFile, 'r'));
-		$svgFile = \OC::$SERVERROOT . '/tests/data/logo-wide.svg';
-		$this->instance->file_put_contents('/sub/logo-wide.svg', file_get_contents($svgFile, 'r'));
-
-		$result = $this->instance->search('logo');
-		$this->assertEquals(2, count($result));
-		$this->assertContains('/sub/logo-wide.svg', $result);
-		$this->assertContains('/sub/logo-wide.png', $result);
 	}
 
 	public function testFOpen() {
