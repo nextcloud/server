@@ -1,5 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Deletion failed" => "Fejl ved sletning",
+"Success" => "Succes",
+"Error" => "Fejl",
 "Host" => "Host",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Du kan udelade protokollen, medmindre du skal bruge SSL. Start i så fald med ldaps://",
 "Base DN" => "Base DN",

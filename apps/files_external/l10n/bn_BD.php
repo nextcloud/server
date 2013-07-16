@@ -12,7 +12,7 @@
 "All Users" => "সমস্ত ব্যবহারকারী",
 "Groups" => "গোষ্ঠীসমূহ",
 "Users" => "ব্যবহারকারী",
-"Delete" => "মুছে ফেল",
+"Delete" => "মুছে",
 "Enable User External Storage" => "ব্যবহারকারীর বাহ্যিক সংরক্ষণাগার সক্রিয় কর",
 "Allow users to mount their own external storage" => "ব্যবহারকারীদেরকে তাদের নিজস্ব বাহ্যিক সংরক্ষনাগার  সাউন্ট করতে অনুমোদন দাও",
 "SSL root certificates" => "SSL  রুট সনদপত্র",

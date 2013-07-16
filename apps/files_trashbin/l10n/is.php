@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Error" => "Villa",
 "Name" => "Nafn",
 "1 folder" => "1 mappa",
 "{count} folders" => "{count} möppur",

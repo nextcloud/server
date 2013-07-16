@@ -33,8 +33,8 @@ class Permissions {
 	 * @return int (-1 if file no permissions set)
 	 */
 	public function get($fileId, $user) {
-		$query = \OC_DB::prepare('SELECT `permissions` FROM `*PREFIX*permissions` WHERE `user` = ? AND `fileid` = ?');
-		$result = $query->execute(array($user, $fileId));
+		$sql = 'SELECT `permissions` FROM `*PREFIX*permissions` WHERE `user` = ? AND `fileid` = ?';
+		$result = \OC_DB::executeAudited($sql, array($user, $fileId));
 		if ($row = $result->fetchRow()) {
 			return $row['permissions'];
 		} else {
@@ -51,13 +51,11 @@ class Permissions {
 	 */
 	public function set($fileId, $user, $permissions) {
 		if (self::get($fileId, $user) !== -1) {
-			$query = \OC_DB::prepare('UPDATE `*PREFIX*permissions` SET `permissions` = ?'
-				. ' WHERE `user` = ? AND `fileid` = ?');
+			$sql = 'UPDATE `*PREFIX*permissions` SET `permissions` = ? WHERE `user` = ? AND `fileid` = ?';
 		} else {
-			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*permissions`(`permissions`, `user`, `fileid`)'
-				. ' VALUES(?, ?,? )');
+			$sql = 'INSERT INTO `*PREFIX*permissions`(`permissions`, `user`, `fileid`) VALUES(?, ?,? )';
 		}
-		$query->execute(array($permissions, $user, $fileId));
+		\OC_DB::executeAudited($sql, array($permissions, $user, $fileId));
 	}
 
 	/**
@@ -75,9 +73,30 @@ class Permissions {
 		$params[] = $user;
 		$inPart = implode(', ', array_fill(0, count($fileIds), '?'));
 
-		$query = \OC_DB::prepare('SELECT `fileid`, `permissions` FROM `*PREFIX*permissions`'
-			. ' WHERE `fileid` IN (' . $inPart . ') AND `user` = ?');
-		$result = $query->execute($params);
+		$sql = 'SELECT `fileid`, `permissions` FROM `*PREFIX*permissions`'
+			. ' WHERE `fileid` IN (' . $inPart . ') AND `user` = ?';
+		$result = \OC_DB::executeAudited($sql, $params);
+		$filePermissions = array();
+		while ($row = $result->fetchRow()) {
+			$filePermissions[$row['fileid']] = $row['permissions'];
+		}
+		return $filePermissions;
+	}
+
+	/**
+	 * get the permissions for all files in a folder
+	 *
+	 * @param int $parentId
+	 * @param string $user
+	 * @return int[]
+	 */
+	public function getDirectoryPermissions($parentId, $user) {
+		$sql = 'SELECT `*PREFIX*permissions`.`fileid`, `permissions`
+			FROM `*PREFIX*permissions`
+			INNER JOIN `*PREFIX*filecache` ON `*PREFIX*permissions`.`fileid` = `*PREFIX*filecache`.`fileid`
+			WHERE `*PREFIX*filecache`.`parent` = ? AND `*PREFIX*permissions`.`user` = ?';
+
+		$result = \OC_DB::executeAudited($sql, array($parentId, $user));
 		$filePermissions = array();
 		while ($row = $result->fetchRow()) {
 			$filePermissions[$row['fileid']] = $row['permissions'];
@@ -93,18 +112,32 @@ class Permissions {
 	 */
 	public function remove($fileId, $user = null) {
 		if (is_null($user)) {
-			$query = \OC_DB::prepare('DELETE FROM `*PREFIX*permissions` WHERE `fileid` = ?');
-			$query->execute(array($fileId));
+			\OC_DB::executeAudited('DELETE FROM `*PREFIX*permissions` WHERE `fileid` = ?', array($fileId));
 		} else {
-			$query = \OC_DB::prepare('DELETE FROM `*PREFIX*permissions` WHERE `fileid` = ? AND `user` = ?');
-			$query->execute(array($fileId, $user));
+			$sql = 'DELETE FROM `*PREFIX*permissions` WHERE `fileid` = ? AND `user` = ?';
+			\OC_DB::executeAudited($sql, array($fileId, $user));
 		}
 	}
 
 	public function removeMultiple($fileIds, $user) {
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*permissions` WHERE `fileid` = ? AND `user` = ?');
 		foreach ($fileIds as $fileId) {
-			$query->execute(array($fileId, $user));
+			\OC_DB::executeAudited($query, array($fileId, $user));
 		}
+	}
+
+	/**
+	 * get the list of users which have permissions stored for a file
+	 *
+	 * @param int $fileId
+	 */
+	public function getUsers($fileId) {
+		$sql = 'SELECT `user` FROM `*PREFIX*permissions` WHERE `fileid` = ?';
+		$result = \OC_DB::executeAudited($sql, array($fileId));
+		$users = array();
+		while ($row = $result->fetchRow()) {
+			$users[] = $row['user'];
+		}
+		return $users;
 	}
 }

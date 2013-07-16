@@ -5,6 +5,7 @@
 "Users" => "用户",
 "Apps" => "程序",
 "Admin" => "管理员",
+"web services under your control" => "您控制的网络服务",
 "ZIP download is turned off." => "ZIP 下载已关闭",
 "Files need to be downloaded one by one." => "需要逐个下载文件。",
 "Back to Files" => "返回到文件",
@@ -15,16 +16,16 @@
 "Files" => "文件",
 "Text" => "文本",
 "Images" => "图片",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "因WebDAV接口故障，您的网络服务器好像并未允许文件同步。",
+"Please double check the <a href='%s'>installation guides</a>." => "请双击<a href='%s'>安装向导</a>。",
 "seconds ago" => "秒前",
 "1 minute ago" => "1 分钟前",
 "%d minutes ago" => "%d 分钟前",
+"1 hour ago" => "1小时前",
 "today" => "今天",
 "yesterday" => "昨天",
 "%d days ago" => "%d 天前",
 "last month" => "上个月",
 "last year" => "去年",
-"years ago" => "年前",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s 不可用。获知 <a href=\"%s\">详情</a>",
-"up to date" => "最新",
-"updates check is disabled" => "更新检测已禁用"
+"years ago" => "年前"
 );

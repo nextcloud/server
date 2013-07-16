@@ -1,7 +1,11 @@
 <?php $TRANSLATIONS = array(
+"Password successfully changed." => "Ο κωδικός αλλάχτηκε επιτυχώς.",
+"Could not change the password. Maybe the old password was not correct." => "Αποτυχία αλλαγής κωδικού ίσως ο παλιός κωδικός να μην ήταν σωστός.",
+"Saving..." => "Γίνεται αποθήκευση...",
+"personal settings" => "προσωπικές ρυθμίσεις",
 "Encryption" => "Κρυπτογράφηση",
-"File encryption is enabled." => "Η κρυπτογράφηση αρχείων είναι ενεργή.",
-"The following file types will not be encrypted:" => "Οι παρακάτω τύποι αρχείων δεν θα κρυπτογραφηθούν:",
-"Exclude the following file types from encryption:" => "Εξαίρεση των παρακάτω τύπων αρχείων από την κρυπτογράφηση:",
-"None" => "Καμία"
+"Enabled" => "Ενεργοποιημένο",
+"Disabled" => "Απενεργοποιημένο",
+"Change Password" => "Αλλαγή Κωδικού Πρόσβασης",
+"File recovery settings updated" => "Οι ρυθμίσεις επαναφοράς αρχείων ανανεώθηκαν"
 );

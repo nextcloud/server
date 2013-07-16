@@ -5,6 +5,7 @@
 "Users" => "Utilizatori",
 "Apps" => "Aplicații",
 "Admin" => "Admin",
+"web services under your control" => "servicii web controlate de tine",
 "ZIP download is turned off." => "Descărcarea ZIP este dezactivată.",
 "Files need to be downloaded one by one." => "Fișierele trebuie descărcate unul câte unul.",
 "Back to Files" => "Înapoi la fișiere",
@@ -16,6 +17,8 @@
 "Files" => "Fișiere",
 "Text" => "Text",
 "Images" => "Imagini",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Serverul de web nu este încă setat corespunzător pentru a permite sincronizarea fișierelor deoarece interfața WebDAV pare a fi întreruptă.",
+"Please double check the <a href='%s'>installation guides</a>." => "Vă rugăm să verificați <a href='%s'>ghiduri de instalare</ a>.",
 "seconds ago" => "secunde în urmă",
 "1 minute ago" => "1 minut în urmă",
 "%d minutes ago" => "%d minute în urmă",
@@ -28,8 +31,5 @@
 "%d months ago" => "%d luni in urma",
 "last year" => "ultimul an",
 "years ago" => "ani în urmă",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s este disponibil. Vezi <a href=\"%s\">mai multe informații</a>",
-"up to date" => "la zi",
-"updates check is disabled" => "verificarea după actualizări este dezactivată",
 "Could not find category \"%s\"" => "Cloud nu a gasit categoria \"%s\""
 );

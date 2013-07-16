@@ -33,18 +33,6 @@ class Test_StreamWrappers extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(count($items), count($result));
 	}
 
-	public function testStaticStream() {
-		$sourceFile = OC::$SERVERROOT . '/tests/data/lorem.txt';
-		$staticFile = 'static://test';
-		$this->assertFalse(file_exists($staticFile));
-		file_put_contents($staticFile, file_get_contents($sourceFile));
-		$this->assertTrue(file_exists($staticFile));
-		$this->assertEquals(file_get_contents($sourceFile), file_get_contents($staticFile));
-		unlink($staticFile);
-		clearstatcache();
-		$this->assertFalse(file_exists($staticFile));
-	}
-
 	public function testCloseStream() {
 		//ensure all basic stream stuff works
 		$sourceFile = OC::$SERVERROOT . '/tests/data/lorem.txt';
@@ -77,10 +65,10 @@ class Test_StreamWrappers extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testOC() {
-		\OC\Files\Mount::clear();
+		\OC\Files\Filesystem::clearMounts();
 		$storage = new \OC\Files\Storage\Temporary(array());
 		$storage->file_put_contents('foo.txt', 'asd');
-		new \OC\Files\Mount($storage, '/');
+		\OC\Files\Filesystem::mount($storage, array(), '/');
 
 		$this->assertTrue(file_exists('oc:///foo.txt'));
 		$this->assertEquals('asd', file_get_contents('oc:///foo.txt'));

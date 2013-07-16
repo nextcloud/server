@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<phpunit bootstrap="bootstrap.php">
+	<testsuite name='ownCloud'>
+		<directory suffix='.php'>lib/</directory>
+		<file>apps.php</file>
+	</testsuite>
+	<!-- filters for code coverage -->
+	<filter>
+		<!-- whitelist processUncoveredFilesFromWhitelist="true" -->
+		<whitelist>
+			<directory suffix=".php">..</directory>
+			<exclude>
+				<directory suffix=".php">../3rdparty</directory>
+				<directory suffix=".php">../lib/MDB2</directory>
+			</exclude>
+		</whitelist>
+	</filter>
+</phpunit>

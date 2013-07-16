@@ -2,6 +2,8 @@
 "Deletion failed" => "Poisto epäonnistui",
 "Keep settings?" => "Säilytetäänkö asetukset?",
 "Cannot add server configuration" => "Palvelinasetusten lisäys epäonnistui",
+"Success" => "Onnistui!",
+"Error" => "Virhe",
 "Connection test succeeded" => "Yhteystesti onnistui",
 "Connection test failed" => "Yhteystesti epäonnistui",
 "Confirm Deletion" => "Vahvista poisto",
@@ -40,6 +42,7 @@
 "Base Group Tree" => "Ryhmien juuri",
 "Group-Member association" => "Ryhmän ja jäsenen assosiaatio (yhteys)",
 "in bytes" => "tavuissa",
+"Email Field" => "Sähköpostikenttä",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Jätä tyhjäksi käyttäjänimi (oletusasetus). Muutoin anna LDAP/AD-atribuutti.",
 "Help" => "Ohje"
 );

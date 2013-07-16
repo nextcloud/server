@@ -7,6 +7,7 @@
  */
 
 namespace OC\Files\Cache;
+use OCP\Util;
 
 /**
  * listen to filesystem hooks and change the cache accordingly
@@ -16,7 +17,7 @@ class Updater {
 	/**
 	 * resolve a path to a storage and internal path
 	 *
-	 * @param string $path
+	 * @param string $path the relative path
 	 * @return array consisting of the storage and the internal path
 	 */
 	static public function resolvePath($path) {
@@ -24,6 +25,11 @@ class Updater {
 		return $view->resolvePath($path);
 	}
 
+	/**
+	 * perform a write update
+	 *
+	 * @param string $path the relative path of the file
+	 */
 	static public function writeUpdate($path) {
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
@@ -39,6 +45,11 @@ class Updater {
 		}
 	}
 
+	/**
+	 * perform a delete update
+	 *
+	 * @param string $path the relative path of the file
+	 */
 	static public function deleteUpdate($path) {
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
@@ -53,6 +64,12 @@ class Updater {
 		}
 	}
 
+	/**
+	 * preform a rename update
+	 *
+	 * @param string $from the relative path of the source file
+	 * @param string $to the relative path of the target file
+	 */
 	static public function renameUpdate($from, $to) {
 		/**
 		 * @var \OC\Files\Storage\Storage $storageFrom
@@ -86,7 +103,7 @@ class Updater {
 	static public function correctFolder($path, $time) {
 		if ($path !== '' && $path !== '/') {
 			$parent = dirname($path);
-			if ($parent === '.') {
+			if ($parent === '.' || $parent === '\\') {
 				$parent = '';
 			}
 			/**
@@ -100,6 +117,8 @@ class Updater {
 				if ($id !== -1) {
 					$cache->update($id, array('mtime' => $time, 'etag' => $storage->getETag($internalPath)));
 					self::correctFolder($parent, $time);
+				} else {
+					Util::writeLog('core', 'Path not in cache: '.$internalPath, Util::ERROR);
 				}
 			}
 		}
@@ -110,6 +129,20 @@ class Updater {
 	 */
 	static public function writeHook($params) {
 		self::writeUpdate($params['path']);
+	}
+
+	/**
+	 * @param array $params
+	 */
+	static public function touchHook($params) {
+		$path = $params['path'];
+		list($storage, $internalPath) = self::resolvePath($path);
+		$cache = $storage->getCache();
+		$id = $cache->getId($internalPath);
+		if ($id !== -1) {
+			$cache->update($id, array('etag' => $storage->getETag($internalPath)));
+		}
+		self::writeUpdate($path);
 	}
 
 	/**

@@ -7,6 +7,8 @@
 "Take over settings from recent server configuration?" => "Hent innstillinger fra tidligere tjener-konfigurasjon?",
 "Keep settings?" => "Behold innstillinger?",
 "Cannot add server configuration" => "Kan ikke legge til tjener-konfigurasjon",
+"Success" => "Suksess",
+"Error" => "Feil",
 "Connection test succeeded" => "Tilkoblingstest lyktes",
 "Connection test failed" => "Tilkoblingstest mislyktes",
 "Do you really want to delete the current Server Configuration?" => "Er du sikker på at du vil slette aktiv tjener-konfigurasjon?",

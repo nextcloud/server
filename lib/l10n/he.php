@@ -5,6 +5,7 @@
 "Users" => "משתמשים",
 "Apps" => "יישומים",
 "Admin" => "מנהל",
+"web services under your control" => "שירותי רשת תחת השליטה שלך",
 "ZIP download is turned off." => "הורדת ZIP כבויה",
 "Files need to be downloaded one by one." => "יש להוריד את הקבצים אחד אחרי השני.",
 "Back to Files" => "חזרה לקבצים",
@@ -15,6 +16,8 @@
 "Files" => "קבצים",
 "Text" => "טקסט",
 "Images" => "תמונות",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "שרת האינטרנט שלך אינו מוגדר לצורכי סנכרון קבצים עדיין כיוון שמנשק ה־WebDAV כנראה אינו תקין.",
+"Please double check the <a href='%s'>installation guides</a>." => "נא לעיין שוב ב<a href='%s'>מדריכי ההתקנה</a>.",
 "seconds ago" => "שניות",
 "1 minute ago" => "לפני דקה אחת",
 "%d minutes ago" => "לפני %d דקות",
@@ -27,8 +30,5 @@
 "%d months ago" => "לפני %d חודשים",
 "last year" => "שנה שעברה",
 "years ago" => "שנים",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s זמין. קבלת <a href=\"%s\">מידע נוסף</a>",
-"up to date" => "עדכני",
-"updates check is disabled" => "בדיקת עדכונים מנוטרלת",
 "Could not find category \"%s\"" => "לא ניתן למצוא את הקטגוריה „%s“"
 );

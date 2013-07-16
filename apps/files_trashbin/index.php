@@ -21,8 +21,7 @@ $dir = isset($_GET['dir']) ? stripslashes($_GET['dir']) : '';
 $result = array();
 if ($dir) {
 	$dirlisting = true;
-	$fullpath = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath($dir);
-	$dirContent = opendir($fullpath);
+	$dirContent = $view->opendir($dir);
 	$i = 0;
 	while($entryName = readdir($dirContent)) {
 		if ( $entryName != '.' && $entryName != '..' ) {
@@ -102,12 +101,15 @@ $breadcrumbNav->assign('home', OCP\Util::linkTo('files', 'index.php'));
 
 $list = new OCP\Template('files_trashbin', 'part.list', '');
 $list->assign('files', $files);
-$list->assign('baseURL', OCP\Util::linkTo('files_trashbin', 'index.php'). '?dir='.$dir);
-$list->assign('downloadURL', OCP\Util::linkTo('files_trashbin', 'download.php') . '?file='.$dir);
+
+$encodedDir = \OCP\Util::encodePath($dir);
+$list->assign('baseURL', OCP\Util::linkTo('files_trashbin', 'index.php'). '?dir='.$encodedDir);
+$list->assign('downloadURL', OCP\Util::linkTo('files_trashbin', 'download.php') . '?file='.$encodedDir);
 $list->assign('disableSharing', true);
 $list->assign('dirlisting', $dirlisting);
-$tmpl->assign('dirlisting', $dirlisting);
 $list->assign('disableDownloadActions', true);
+
+$tmpl->assign('dirlisting', $dirlisting);
 $tmpl->assign('breadcrumb', $breadcrumbNav->fetchPage());
 $tmpl->assign('fileList', $list->fetchPage());
 $tmpl->assign('files', $files);

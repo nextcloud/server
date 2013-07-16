@@ -3,18 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>, 2012.
-# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2012-2013.
-# <tetuyano+transi@gmail.com>, 2012.
-#   <tetuyano+transi@gmail.com>, 2012.
-# YANO Tetsu <tetuyano+transi@gmail.com>, 2013.
+# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
+# plazmism <gomidori@live.jp>, 2013
+# pabook <pabook.32@gmail.com>, 2013
+# tt yn <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-16 22:17+0100\n"
-"PO-Revision-Date: 2013-03-14 23:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-16 01:56-0400\n"
+"PO-Revision-Date: 2013-07-16 05:14+0000\n"
+"Last-Translator: pabook <pabook.32@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,50 +31,54 @@ msgstr "%s を移動できませんでした ― この名前のファイルは�
 msgid "Could not move %s"
 msgstr "%s を移動できませんでした"
 
-#: ajax/rename.php:22 ajax/rename.php:25
-msgid "Unable to rename file"
-msgstr "ファイル名の変更ができません"
+#: ajax/upload.php:16 ajax/upload.php:45
+msgid "Unable to set upload directory."
+msgstr "アップロードディレクトリを設定出来ません。"
 
-#: ajax/upload.php:19
+#: ajax/upload.php:22
+msgid "Invalid Token"
+msgstr "無効なトークン"
+
+#: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
 msgstr "ファイルは何もアップロードされていません。不明なエラー"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:66
 msgid "There is no error, the file uploaded with success"
 msgstr "エラーはありません。ファイルのアップロードは成功しました"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:67
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "アップロードされたファイルはphp.ini の upload_max_filesize に設定されたサイズを超えています:"
 
-#: ajax/upload.php:29
+#: ajax/upload.php:69
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "アップロードされたファイルはHTMLのフォームに設定されたMAX_FILE_SIZEに設定されたサイズを超えています"
+msgstr "アップロードファイルはHTMLフォームで指定された MAX_FILE_SIZE の制限を超えています"
 
-#: ajax/upload.php:30
+#: ajax/upload.php:70
 msgid "The uploaded file was only partially uploaded"
-msgstr "ファイルは一部分しかアップロードされませんでした"
+msgstr "アップロードファイルは一部分だけアップロードされました"
 
-#: ajax/upload.php:31
+#: ajax/upload.php:71
 msgid "No file was uploaded"
 msgstr "ファイルはアップロードされませんでした"
 
-#: ajax/upload.php:32
+#: ajax/upload.php:72
 msgid "Missing a temporary folder"
-msgstr "テンポラリフォルダが見つかりません"
+msgstr "一時保存フォルダが見つかりません"
 
-#: ajax/upload.php:33
+#: ajax/upload.php:73
 msgid "Failed to write to disk"
 msgstr "ディスクへの書き込みに失敗しました"
 
-#: ajax/upload.php:51
+#: ajax/upload.php:91
 msgid "Not enough storage available"
 msgstr "ストレージに十分な空き容量がありません"
 
-#: ajax/upload.php:82
+#: ajax/upload.php:123
 msgid "Invalid directory."
 msgstr "無効なディレクトリです。"
 
@@ -83,50 +86,91 @@ msgstr "無効なディレクトリです。"
 msgid "Files"
 msgstr "ファイル"
 
-#: js/fileactions.js:125
+#: js/file-upload.js:11
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr "ディレクトリもしくは0バイトのファイルはアップロードできません"
+
+#: js/file-upload.js:24
+msgid "Not enough space available"
+msgstr "利用可能なスペースが十分にありません"
+
+#: js/file-upload.js:64
+msgid "Upload cancelled."
+msgstr "アップロードはキャンセルされました。"
+
+#: js/file-upload.js:167 js/files.js:266
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr "ファイル転送を実行中です。今このページから移動するとアップロードが中止されます。"
+
+#: js/file-upload.js:233 js/files.js:339
+msgid "URL cannot be empty."
+msgstr "URLは空にできません。"
+
+#: js/file-upload.js:238 lib/app.php:53
+msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
+msgstr "無効なフォルダ名です。'Shared' の利用はownCloudで予約済みです"
+
+#: js/file-upload.js:267 js/file-upload.js:283 js/files.js:373 js/files.js:389
+#: js/files.js:693 js/files.js:731
+msgid "Error"
+msgstr "エラー"
+
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "共有"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "完全に削除する"
 
-#: js/fileactions.js:127 templates/index.php:92 templates/index.php:93
+#: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
 msgid "Delete"
 msgstr "削除"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "名前の変更"
 
-#: js/filelist.js:49 js/filelist.js:52 js/files.js:293 js/files.js:409
-#: js/files.js:440
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:466
 msgid "Pending"
-msgstr "保留"
+msgstr "中断"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:304 js/filelist.js:306
 msgid "{new_name} already exists"
 msgstr "{new_name} はすでに存在しています"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:304 js/filelist.js:306
 msgid "replace"
 msgstr "置き換え"
 
-#: js/filelist.js:251
+#: js/filelist.js:304
 msgid "suggest name"
 msgstr "推奨名称"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:304 js/filelist.js:306
 msgid "cancel"
 msgstr "キャンセル"
 
-#: js/filelist.js:298
+#: js/filelist.js:351
 msgid "replaced {new_name} with {old_name}"
 msgstr "{old_name} を {new_name} に置換"
 
-#: js/filelist.js:298
+#: js/filelist.js:351
 msgid "undo"
 msgstr "元に戻す"
 
-#: js/filelist.js:323
+#: js/filelist.js:376
 msgid "perform delete operation"
 msgstr "削除を実行"
+
+#: js/filelist.js:458
+msgid "1 file uploading"
+msgstr "ファイルを1つアップロード中"
+
+#: js/filelist.js:461 js/filelist.js:519
+msgid "files uploading"
+msgstr "ファイルをアップロード中"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -150,76 +194,48 @@ msgstr "あなたのストレージは一杯です。ファイルの更新と同
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "あなたのストレージはほぼ一杯です（{usedSpacePercent}%）"
 
-#: js/files.js:226
+#: js/files.js:231
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "ダウンロードの準備中です。ファイルサイズが大きい場合は少し時間がかかるかもしれません。"
 
-#: js/files.js:263
-msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "ディレクトリもしくは0バイトのファイルはアップロードできません"
-
-#: js/files.js:263
-msgid "Upload Error"
-msgstr "アップロードエラー"
-
-#: js/files.js:274
-msgid "Close"
-msgstr "閉じる"
-
-#: js/files.js:313
-msgid "1 file uploading"
-msgstr "ファイルを1つアップロード中"
-
-#: js/files.js:316 js/files.js:371 js/files.js:386
-msgid "{count} files uploading"
-msgstr "{count} ファイルをアップロード中"
-
-#: js/files.js:389 js/files.js:424
-msgid "Upload cancelled."
-msgstr "アップロードはキャンセルされました。"
-
-#: js/files.js:498
-msgid ""
-"File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "ファイル転送を実行中です。今このページから移動するとアップロードが中止されます。"
-
-#: js/files.js:571
-msgid "URL cannot be empty."
-msgstr "URLは空にできません。"
-
-#: js/files.js:576
+#: js/files.js:344
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "無効なフォルダ名です。'Shared' の利用は ownCloud が予約済みです。"
 
-#: js/files.js:954 templates/index.php:68
+#: js/files.js:744 templates/index.php:69
 msgid "Name"
 msgstr "名前"
 
-#: js/files.js:955 templates/index.php:79
+#: js/files.js:745
 msgid "Size"
 msgstr "サイズ"
 
-#: js/files.js:956 templates/index.php:81
+#: js/files.js:746 templates/index.php:82
 msgid "Modified"
-msgstr "更新日時"
+msgstr "変更"
 
-#: js/files.js:975
+#: js/files.js:765
 msgid "1 folder"
 msgstr "1 フォルダ"
 
-#: js/files.js:977
+#: js/files.js:767
 msgid "{count} folders"
 msgstr "{count} フォルダ"
 
-#: js/files.js:985
+#: js/files.js:775
 msgid "1 file"
 msgstr "1 ファイル"
 
-#: js/files.js:987
+#: js/files.js:777
 msgid "{count} files"
 msgstr "{count} ファイル"
+
+#: lib/app.php:73
+#, php-format
+msgid "%s could not be renamed"
+msgstr "%sの名前を変更できませんでした"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -259,7 +275,7 @@ msgstr "保存"
 
 #: templates/index.php:7
 msgid "New"
-msgstr "新規"
+msgstr "新規作成"
 
 #: templates/index.php:10
 msgid "Text file"
@@ -273,47 +289,67 @@ msgstr "フォルダ"
 msgid "From link"
 msgstr "リンク"
 
-#: templates/index.php:40
+#: templates/index.php:42
 msgid "Deleted files"
 msgstr "削除ファイル"
 
-#: templates/index.php:46
+#: templates/index.php:48
 msgid "Cancel upload"
 msgstr "アップロードをキャンセル"
 
-#: templates/index.php:53
+#: templates/index.php:54
 msgid "You don’t have write permissions here."
 msgstr "あなたには書き込み権限がありません。"
 
-#: templates/index.php:60
+#: templates/index.php:61
 msgid "Nothing in here. Upload something!"
 msgstr "ここには何もありません。何かアップロードしてください。"
 
-#: templates/index.php:74
+#: templates/index.php:75
 msgid "Download"
 msgstr "ダウンロード"
 
-#: templates/index.php:86 templates/index.php:87
+#: templates/index.php:80
+msgid "Size (MB)"
+msgstr "サイズ(MB)"
+
+#: templates/index.php:87 templates/index.php:88
 msgid "Unshare"
-msgstr "共有しない"
+msgstr "共有解除"
 
-#: templates/index.php:106
+#: templates/index.php:107
 msgid "Upload too large"
-msgstr "ファイルサイズが大きすぎます"
+msgstr "アップロードには大きすぎます。"
 
-#: templates/index.php:108
+#: templates/index.php:109
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "アップロードしようとしているファイルは、サーバで規定された最大サイズを超えています。"
 
-#: templates/index.php:113
+#: templates/index.php:114
 msgid "Files are being scanned, please wait."
 msgstr "ファイルをスキャンしています、しばらくお待ちください。"
 
-#: templates/index.php:116
+#: templates/index.php:117
 msgid "Current scanning"
 msgstr "スキャン中"
+
+#: templates/part.list.php:76
+msgid "directory"
+msgstr "ディレクトリ"
+
+#: templates/part.list.php:78
+msgid "directories"
+msgstr "ディレクトリ"
+
+#: templates/part.list.php:87
+msgid "file"
+msgstr "ファイル"
+
+#: templates/part.list.php:89
+msgid "files"
+msgstr "ファイル"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

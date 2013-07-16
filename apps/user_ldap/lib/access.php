@@ -62,7 +62,10 @@ abstract class Access {
 		$dn = $this->DNasBaseParameter($dn);
 		$rr = @ldap_read($cr, $dn, $filter, array($attr));
 		if(!is_resource($rr)) {
-			\OCP\Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, \OCP\Util::DEBUG);
+			if(!empty($attr)) {
+				//do not throw this message on userExists check, irritates
+				\OCP\Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, \OCP\Util::DEBUG);
+			}
 			//in case an error occurs , e.g. object does not exist
 			return false;
 		}
@@ -84,7 +87,7 @@ abstract class Access {
 			for($i=0;$i<$result[$attr]['count'];$i++) {
 				if($this->resemblesDN($attr)) {
 					$values[] = $this->sanitizeDN($result[$attr][$i]);
-				} elseif(strtolower($attr) == 'objectguid' || strtolower($attr) == 'guid') {
+				} elseif(strtolower($attr) === 'objectguid' || strtolower($attr) === 'guid') {
 					$values[] = $this->convertObjectGUID2Str($result[$attr][$i]);
 				} else {
 					$values[] = $result[$attr][$i];
@@ -314,7 +317,19 @@ abstract class Access {
 			}
 			$ldapname = $ldapname[0];
 		}
-		$intname = $isUser ? $this->sanitizeUsername($uuid) : $this->sanitizeUsername($ldapname);
+
+		if($isUser) {
+			$usernameAttribute = $this->connection->ldapExpertUsernameAttr;
+			if(!emptY($usernameAttribute)) {
+				$username = $this->readAttribute($dn, $usernameAttribute);
+				$username = $username[0];
+			} else {
+				$username = $uuid;
+			}
+			$intname = $this->sanitizeUsername($username);
+		} else {
+			$intname = $ldapname;
+		}
 
 		//a new user/group! Add it only if it doesn't conflict with other backend's users or existing groups
 		//disabling Cache is required to avoid that the new user is cached as not-existing in fooExists check
@@ -426,8 +441,8 @@ abstract class Access {
 		//while loop is just a precaution. If a name is not generated within
 		//20 attempts, something else is very wrong. Avoids infinite loop.
 		while($attempts < 20){
-			$altName = $name . '_' . uniqid();
-			if(\OCP\User::userExists($altName)) {
+			$altName = $name . '_' . rand(1000,9999);
+			if(!\OCP\User::userExists($altName)) {
 				return $altName;
 			}
 			$attempts++;
@@ -459,7 +474,7 @@ abstract class Access {
 		while($row = $res->fetchRow()) {
 			$usedNames[] = $row['owncloud_name'];
 		}
-		if(!($usedNames) || count($usedNames) == 0) {
+		if(!($usedNames) || count($usedNames) === 0) {
 			$lastNo = 1; //will become name_2
 		} else {
 			natsort($usedNames);
@@ -547,7 +562,7 @@ abstract class Access {
 
 		$sqlAdjustment = '';
 		$dbtype = \OCP\Config::getSystemValue('dbtype');
-		if($dbtype == 'mysql') {
+		if($dbtype === 'mysql') {
 			$sqlAdjustment = 'FROM DUAL';
 		}
 
@@ -563,15 +578,13 @@ abstract class Access {
 		');
 
 		//feed the DB
-		$res = $insert->execute(array($dn, $ocname, $this->getUUID($dn), $dn, $ocname));
+		$insRows = $insert->execute(array($dn, $ocname, $this->getUUID($dn), $dn, $ocname));
 
-		if(\OCP\DB::isError($res)) {
+		if(\OCP\DB::isError($insRows)) {
 			return false;
 		}
 
-		$insRows = $res->numRows();
-
-		if($insRows == 0) {
+		if($insRows === 0) {
 			return false;
 		}
 
@@ -653,7 +666,7 @@ abstract class Access {
 		$linkResources = array_pad(array(), count($base), $link_resource);
 		$sr = ldap_search($linkResources, $base, $filter, $attr);
 		$error = ldap_errno($link_resource);
-		if(!is_array($sr) || $error != 0) {
+		if(!is_array($sr) || $error !== 0) {
 			\OCP\Util::writeLog('user_ldap',
 				'Error when searching: '.ldap_error($link_resource).' code '.ldap_errno($link_resource),
 				\OCP\Util::ERROR);
@@ -721,7 +734,7 @@ abstract class Access {
 					foreach($attr as $key) {
 						$key = mb_strtolower($key, 'UTF-8');
 						if(isset($item[$key])) {
-							if($key != 'dn') {
+							if($key !== 'dn') {
 								$selection[$i][$key] = $this->resemblesDN($key) ?
 									$this->sanitizeDN($item[$key][0])
 									: $item[$key][0];
@@ -813,7 +826,7 @@ abstract class Access {
 	private function combineFilter($filters, $operator) {
 		$combinedFilter = '('.$operator;
 		foreach($filters as $filter) {
-		    if($filter[0] != '(') {
+		    if($filter[0] !== '(') {
 				$filter = '('.$filter.')';
 		    }
 		    $combinedFilter.=$filter;
@@ -854,7 +867,7 @@ abstract class Access {
 	private function getFilterPartForSearch($search, $searchAttributes, $fallbackAttribute) {
 		$filter = array();
 		$search = empty($search) ? '*' : '*'.$search.'*';
-		if(!is_array($searchAttributes) || count($searchAttributes) == 0) {
+		if(!is_array($searchAttributes) || count($searchAttributes) === 0) {
 			if(empty($fallbackAttribute)) {
 				return '';
 			}
@@ -864,7 +877,7 @@ abstract class Access {
 				$filter[] = $attribute . '=' . $search;
 			}
 		}
-		if(count($filter) == 1) {
+		if(count($filter) === 1) {
 			return '('.$filter[0].')';
 		}
 		return $this->combineFilterWithOr($filter);
@@ -890,7 +903,13 @@ abstract class Access {
 	 * @returns true on success, false otherwise
 	 */
 	private function detectUuidAttribute($dn, $force = false) {
-		if(($this->connection->ldapUuidAttribute != 'auto') && !$force) {
+		if(($this->connection->ldapUuidAttribute !== 'auto') && !$force) {
+			return true;
+		}
+
+		$fixedAttribute = $this->connection->ldapExpertUUIDAttr;
+		if(!empty($fixedAttribute)) {
+			$this->connection->ldapUuidAttribute = $fixedAttribute;
 			return true;
 		}
 
@@ -1004,7 +1023,7 @@ abstract class Access {
 	 * @returns string containing the key or empty if none is cached
 	 */
 	private function getPagedResultCookie($base, $filter, $limit, $offset) {
-		if($offset == 0) {
+		if($offset === 0) {
 			return '';
 		}
 		$offset -= $limit;
@@ -1028,7 +1047,7 @@ abstract class Access {
 	 */
 	private function setPagedResultCookie($base, $filter, $limit, $offset, $cookie) {
 		if(!empty($cookie)) {
-			$cachekey = 'lc' . dechex(crc32($base)) . '-' . dechex(crc32($filter)) . '-' .$limit . '-' . $offset;
+			$cachekey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' .$limit . '-' . $offset;
 			$cookie = $this->connection->writeToCache($cachekey, $cookie);
 		}
 	}

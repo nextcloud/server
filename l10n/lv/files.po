@@ -3,16 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <aldis@udris.lv>, 2012.
-# Imants Liepiņš <imzzinator@gmail.com>, 2012.
-# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-16 22:17+0100\n"
-"PO-Revision-Date: 2013-03-14 23:20+0000\n"
-"Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
+"POT-Creation-Date: 2013-07-16 01:56-0400\n"
+"PO-Revision-Date: 2013-07-16 05:14+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,50 +27,54 @@ msgstr "Nevarēja pārvietot %s — jau eksistē datne ar tādu nosaukumu"
 msgid "Could not move %s"
 msgstr "Nevarēja pārvietot %s"
 
-#: ajax/rename.php:22 ajax/rename.php:25
-msgid "Unable to rename file"
-msgstr "Nevarēja pārsaukt datni"
+#: ajax/upload.php:16 ajax/upload.php:45
+msgid "Unable to set upload directory."
+msgstr ""
 
-#: ajax/upload.php:19
+#: ajax/upload.php:22
+msgid "Invalid Token"
+msgstr ""
+
+#: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
 msgstr "Netika augšupielādēta neviena datne. Nezināma kļūda"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:66
 msgid "There is no error, the file uploaded with success"
-msgstr "Augšupielāde pabeigta bez kļūdām"
+msgstr "Viss kārtībā, datne augšupielādēta veiksmīga"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:67
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Augšupielādētā datne pārsniedz upload_max_filesize norādījumu php.ini datnē:"
 
-#: ajax/upload.php:29
+#: ajax/upload.php:69
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Augšupielādētā datne pārsniedz MAX_FILE_SIZE norādi, kas ir norādīta HTML formā"
 
-#: ajax/upload.php:30
+#: ajax/upload.php:70
 msgid "The uploaded file was only partially uploaded"
 msgstr "Augšupielādētā datne ir tikai daļēji augšupielādēta"
 
-#: ajax/upload.php:31
+#: ajax/upload.php:71
 msgid "No file was uploaded"
 msgstr "Neviena datne netika augšupielādēta"
 
-#: ajax/upload.php:32
+#: ajax/upload.php:72
 msgid "Missing a temporary folder"
 msgstr "Trūkst pagaidu mapes"
 
-#: ajax/upload.php:33
+#: ajax/upload.php:73
 msgid "Failed to write to disk"
 msgstr "Neizdevās saglabāt diskā"
 
-#: ajax/upload.php:51
+#: ajax/upload.php:91
 msgid "Not enough storage available"
 msgstr "Nav pietiekami daudz vietas"
 
-#: ajax/upload.php:82
+#: ajax/upload.php:123
 msgid "Invalid directory."
 msgstr "Nederīga direktorija."
 
@@ -81,50 +82,91 @@ msgstr "Nederīga direktorija."
 msgid "Files"
 msgstr "Datnes"
 
-#: js/fileactions.js:125
+#: js/file-upload.js:11
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr "Nevar augšupielādēt jūsu datni, jo tā ir direktorija vai arī tā ir 0 baitu liela"
+
+#: js/file-upload.js:24
+msgid "Not enough space available"
+msgstr "Nepietiek brīvas vietas"
+
+#: js/file-upload.js:64
+msgid "Upload cancelled."
+msgstr "Augšupielāde ir atcelta."
+
+#: js/file-upload.js:167 js/files.js:266
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr "Notiek augšupielāde. Pametot lapu tagad, tiks atcelta augšupielāde."
+
+#: js/file-upload.js:233 js/files.js:339
+msgid "URL cannot be empty."
+msgstr "URL nevar būt tukšs."
+
+#: js/file-upload.js:238 lib/app.php:53
+msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
+msgstr ""
+
+#: js/file-upload.js:267 js/file-upload.js:283 js/files.js:373 js/files.js:389
+#: js/files.js:693 js/files.js:731
+msgid "Error"
+msgstr "Kļūda"
+
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Dalīties"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Dzēst pavisam"
 
-#: js/fileactions.js:127 templates/index.php:92 templates/index.php:93
+#: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
 msgid "Delete"
 msgstr "Dzēst"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Pārsaukt"
 
-#: js/filelist.js:49 js/filelist.js:52 js/files.js:293 js/files.js:409
-#: js/files.js:440
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:466
 msgid "Pending"
 msgstr "Gaida savu kārtu"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:304 js/filelist.js:306
 msgid "{new_name} already exists"
 msgstr "{new_name} jau eksistē"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:304 js/filelist.js:306
 msgid "replace"
 msgstr "aizvietot"
 
-#: js/filelist.js:251
+#: js/filelist.js:304
 msgid "suggest name"
 msgstr "ieteiktais nosaukums"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:304 js/filelist.js:306
 msgid "cancel"
 msgstr "atcelt"
 
-#: js/filelist.js:298
+#: js/filelist.js:351
 msgid "replaced {new_name} with {old_name}"
 msgstr "aizvietoja {new_name} ar {old_name}"
 
-#: js/filelist.js:298
+#: js/filelist.js:351
 msgid "undo"
 msgstr "atsaukt"
 
-#: js/filelist.js:323
+#: js/filelist.js:376
 msgid "perform delete operation"
 msgstr "veikt dzēšanas darbību"
+
+#: js/filelist.js:458
+msgid "1 file uploading"
+msgstr "Augšupielādē 1 datni"
+
+#: js/filelist.js:461 js/filelist.js:519
+msgid "files uploading"
+msgstr ""
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -148,76 +190,48 @@ msgstr "Jūsu krātuve ir pilna, datnes vairs nevar augšupielādēt vai sinhron
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Jūsu krātuve ir gandrīz pilna ({usedSpacePercent}%)"
 
-#: js/files.js:226
+#: js/files.js:231
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Tiek sagatavota lejupielāde. Tas var aizņemt kādu laiciņu, ja datnes ir lielas."
 
-#: js/files.js:263
-msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Nevar augšupielādēt jūsu datni, jo tā ir direktorija vai arī tās izmērs ir 0 baiti"
-
-#: js/files.js:263
-msgid "Upload Error"
-msgstr "Kļūda augšupielādējot"
-
-#: js/files.js:274
-msgid "Close"
-msgstr "Aizvērt"
-
-#: js/files.js:313
-msgid "1 file uploading"
-msgstr "Augšupielādē 1 datni"
-
-#: js/files.js:316 js/files.js:371 js/files.js:386
-msgid "{count} files uploading"
-msgstr "augšupielādē {count} datnes"
-
-#: js/files.js:389 js/files.js:424
-msgid "Upload cancelled."
-msgstr "Augšupielāde ir atcelta."
-
-#: js/files.js:498
-msgid ""
-"File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "Notiek augšupielāde. Pametot lapu tagad, tiks atcelta augšupielāde."
-
-#: js/files.js:571
-msgid "URL cannot be empty."
-msgstr "URL nevar būt tukšs."
-
-#: js/files.js:576
+#: js/files.js:344
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Nederīgs mapes nosaukums. “Koplietots” izmantojums ir rezervēts ownCloud servisam."
 
-#: js/files.js:954 templates/index.php:68
+#: js/files.js:744 templates/index.php:69
 msgid "Name"
 msgstr "Nosaukums"
 
-#: js/files.js:955 templates/index.php:79
+#: js/files.js:745
 msgid "Size"
 msgstr "Izmērs"
 
-#: js/files.js:956 templates/index.php:81
+#: js/files.js:746 templates/index.php:82
 msgid "Modified"
 msgstr "Mainīts"
 
-#: js/files.js:975
+#: js/files.js:765
 msgid "1 folder"
 msgstr "1 mape"
 
-#: js/files.js:977
+#: js/files.js:767
 msgid "{count} folders"
 msgstr "{count} mapes"
 
-#: js/files.js:985
+#: js/files.js:775
 msgid "1 file"
 msgstr "1 datne"
 
-#: js/files.js:987
+#: js/files.js:777
 msgid "{count} files"
 msgstr "{count} datnes"
+
+#: lib/app.php:73
+#, php-format
+msgid "%s could not be renamed"
+msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -271,47 +285,67 @@ msgstr "Mape"
 msgid "From link"
 msgstr "No saites"
 
-#: templates/index.php:40
+#: templates/index.php:42
 msgid "Deleted files"
 msgstr "Dzēstās datnes"
 
-#: templates/index.php:46
+#: templates/index.php:48
 msgid "Cancel upload"
 msgstr "Atcelt augšupielādi"
 
-#: templates/index.php:53
+#: templates/index.php:54
 msgid "You don’t have write permissions here."
 msgstr "Jums nav tiesību šeit rakstīt."
 
-#: templates/index.php:60
+#: templates/index.php:61
 msgid "Nothing in here. Upload something!"
 msgstr "Te vēl nekas nav. Rīkojies, sāc augšupielādēt!"
 
-#: templates/index.php:74
+#: templates/index.php:75
 msgid "Download"
 msgstr "Lejupielādēt"
 
-#: templates/index.php:86 templates/index.php:87
+#: templates/index.php:80
+msgid "Size (MB)"
+msgstr ""
+
+#: templates/index.php:87 templates/index.php:88
 msgid "Unshare"
 msgstr "Pārtraukt dalīšanos"
 
-#: templates/index.php:106
+#: templates/index.php:107
 msgid "Upload too large"
 msgstr "Datne ir par lielu, lai to augšupielādētu"
 
-#: templates/index.php:108
+#: templates/index.php:109
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Augšupielādējamās datnes pārsniedz servera pieļaujamo datņu augšupielādes apjomu"
 
-#: templates/index.php:113
+#: templates/index.php:114
 msgid "Files are being scanned, please wait."
 msgstr "Datnes šobrīd tiek caurskatītas, lūdzu, uzgaidiet."
 
-#: templates/index.php:116
+#: templates/index.php:117
 msgid "Current scanning"
 msgstr "Šobrīd tiek caurskatīts"
+
+#: templates/part.list.php:76
+msgid "directory"
+msgstr ""
+
+#: templates/part.list.php:78
+msgid "directories"
+msgstr ""
+
+#: templates/part.list.php:87
+msgid "file"
+msgstr "fails"
+
+#: templates/part.list.php:89
+msgid "files"
+msgstr "faili"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

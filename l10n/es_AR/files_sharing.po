@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <claudio.tessone@gmail.com>, 2012.
+# cjtess <claudio.tessone@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-25 02:02+0200\n"
-"PO-Revision-Date: 2012-09-24 04:38+0000\n"
+"POT-Creation-Date: 2013-07-16 01:56-0400\n"
+"PO-Revision-Date: 2013-07-16 05:15+0000\n"
 "Last-Translator: cjtess <claudio.tessone@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -19,31 +19,39 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: templates/authenticate.php:4
+msgid "The password is wrong. Try again."
+msgstr "La contraseña no es correcta. Probá de nuevo."
+
+#: templates/authenticate.php:7
 msgid "Password"
 msgstr "Contraseña"
 
-#: templates/authenticate.php:6
+#: templates/authenticate.php:9
 msgid "Submit"
 msgstr "Enviar"
 
-#: templates/public.php:9
+#: templates/public.php:17
 #, php-format
 msgid "%s shared the folder %s with you"
 msgstr "%s compartió la carpeta %s con vos"
 
-#: templates/public.php:11
+#: templates/public.php:20
 #, php-format
 msgid "%s shared the file %s with you"
 msgstr "%s compartió el archivo %s con vos"
 
-#: templates/public.php:14 templates/public.php:30
+#: templates/public.php:28 templates/public.php:90
 msgid "Download"
 msgstr "Descargar"
 
-#: templates/public.php:29
+#: templates/public.php:45 templates/public.php:48
+msgid "Upload"
+msgstr "Subir"
+
+#: templates/public.php:58
+msgid "Cancel upload"
+msgstr "Cancelar subida"
+
+#: templates/public.php:87
 msgid "No preview available for"
 msgstr "La vista preliminar no está disponible para"
-
-#: templates/public.php:37
-msgid "web services under your control"
-msgstr "servicios web controlados por vos"

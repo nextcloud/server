@@ -3,17 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#  <asieriko@gmail.com>, 2013.
-#   <asieriko@gmail.com>, 2012.
-# Asier Urio Larrea <asieriko@gmail.com>, 2011.
-# Piarres Beobide <pi@beobide.net>, 2012.
+# Piarres Beobide <pi@beobide.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-03 00:06+0100\n"
-"PO-Revision-Date: 2013-03-02 21:40+0000\n"
-"Last-Translator: asieriko <asieriko@gmail.com>\n"
+"POT-Creation-Date: 2013-07-16 01:56-0400\n"
+"PO-Revision-Date: 2013-07-16 05:15+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,12 +22,16 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Ezin izan da App Dendatik zerrenda kargatu"
 
-#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
+#: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
 msgstr "Autentifikazio errorea"
 
-#: ajax/changedisplayname.php:32
+#: ajax/changedisplayname.php:31
+msgid "Your display name has been changed."
+msgstr "Zure bistaratze izena aldatu egin da."
+
+#: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
 msgstr "Ezin izan da bistaratze izena aldatu"
 
@@ -58,7 +59,7 @@ msgstr "Baliogabeko eposta"
 msgid "Unable to delete group"
 msgstr "Ezin izan da taldea ezabatu"
 
-#: ajax/removeuser.php:24
+#: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "Ezin izan da erabiltzailea ezabatu"
 
@@ -68,7 +69,7 @@ msgstr "Hizkuntza aldatuta"
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr "Baliogabeko eskaria"
+msgstr "Baliogabeko eskaera"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -88,92 +89,92 @@ msgstr "Ezin izan da erabiltzailea %s taldetik ezabatu"
 msgid "Couldn't update app."
 msgstr "Ezin izan da aplikazioa eguneratu."
 
-#: js/apps.js:30
+#: js/apps.js:35
 msgid "Update to {appversion}"
 msgstr "Eguneratu {appversion}-ra"
 
-#: js/apps.js:36 js/apps.js:76
+#: js/apps.js:41 js/apps.js:81
 msgid "Disable"
 msgstr "Ez-gaitu"
 
-#: js/apps.js:36 js/apps.js:64
+#: js/apps.js:41 js/apps.js:69 js/apps.js:88
 msgid "Enable"
 msgstr "Gaitu"
 
-#: js/apps.js:55
+#: js/apps.js:60
 msgid "Please wait...."
 msgstr "Itxoin mesedez..."
 
-#: js/apps.js:84
-msgid "Updating...."
-msgstr "Eguneratzen..."
-
-#: js/apps.js:87
-msgid "Error while updating app"
-msgstr "Errorea aplikazioa eguneratzen zen bitartean"
-
-#: js/apps.js:87
+#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
 msgid "Error"
 msgstr "Errorea"
 
-#: js/apps.js:90
+#: js/apps.js:95
+msgid "Updating...."
+msgstr "Eguneratzen..."
+
+#: js/apps.js:98
+msgid "Error while updating app"
+msgstr "Errorea aplikazioa eguneratzen zen bitartean"
+
+#: js/apps.js:101
 msgid "Updated"
 msgstr "Eguneratuta"
 
-#: js/personal.js:99
+#: js/personal.js:118
 msgid "Saving..."
 msgstr "Gordetzen..."
 
-#: js/users.js:30
+#: js/users.js:47
 msgid "deleted"
 msgstr "ezabatuta"
 
-#: js/users.js:30
+#: js/users.js:47
 msgid "undo"
 msgstr "desegin"
 
-#: js/users.js:62
+#: js/users.js:79
 msgid "Unable to remove user"
 msgstr "Ezin izan da erabiltzailea aldatu"
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:80
-#: templates/users.php:105
+#: js/users.js:92 templates/users.php:26 templates/users.php:87
+#: templates/users.php:112
 msgid "Groups"
 msgstr "Taldeak"
 
-#: js/users.js:78 templates/users.php:82 templates/users.php:119
+#: js/users.js:95 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "Talde administradorea"
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:115 templates/users.php:164
 msgid "Delete"
 msgstr "Ezabatu"
 
-#: js/users.js:191
+#: js/users.js:269
 msgid "add group"
 msgstr "gehitu taldea"
 
-#: js/users.js:352
+#: js/users.js:428
 msgid "A valid username must be provided"
 msgstr "Baliozko erabiltzaile izena eman behar da"
 
-#: js/users.js:353 js/users.js:359 js/users.js:374
+#: js/users.js:429 js/users.js:435 js/users.js:450
 msgid "Error creating user"
 msgstr "Errore bat egon da erabiltzailea sortzean"
 
-#: js/users.js:358
+#: js/users.js:434
 msgid "A valid password must be provided"
 msgstr "Baliozko pasahitza eman behar da"
 
-#: personal.php:29 personal.php:30
+#: personal.php:37 personal.php:38
 msgid "__language_name__"
 msgstr "Euskera"
 
-#: templates/admin.php:15
+#: templates/admin.php:17
 msgid "Security Warning"
 msgstr "Segurtasun abisua"
 
-#: templates/admin.php:18
+#: templates/admin.php:20
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file that ownCloud provides is not working. We "
@@ -182,36 +183,36 @@ msgid ""
 " webserver document root."
 msgstr "Zure data karpeta eta zure fitxategiak internetetik zuzenean eskuragarri egon daitezke. ownCloudek emandako .htaccess fitxategia ez du bere lana egiten. Aholkatzen dizugu zure web zerbitzaria ongi konfiguratzea data karpeta eskuragarri ez izateko edo data karpeta web zerbitzariaren dokumentu errotik mugitzea."
 
-#: templates/admin.php:29
+#: templates/admin.php:31
 msgid "Setup Warning"
 msgstr "Konfiguratu Abisuak"
 
-#: templates/admin.php:32
+#: templates/admin.php:34
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Zure web zerbitzaria ez dago oraindik ongi konfiguratuta fitxategien sinkronizazioa egiteko, WebDAV interfazea ongi ez dagoela dirudi."
 
-#: templates/admin.php:33
+#: templates/admin.php:35
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Mesedez begiratu <a href='%s'>instalazio gidak</a>."
 
-#: templates/admin.php:44
+#: templates/admin.php:46
 msgid "Module 'fileinfo' missing"
 msgstr "'fileinfo' Modulua falta da"
 
-#: templates/admin.php:47
+#: templates/admin.php:49
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "PHP 'fileinfo' modulua falta da. Modulu hau gaitzea aholkatzen dizugu mime-type ezberdinak hobe detektatzeko."
 
-#: templates/admin.php:58
+#: templates/admin.php:60
 msgid "Locale not working"
 msgstr "Lokala ez dabil"
 
-#: templates/admin.php:63
+#: templates/admin.php:65
 #, php-format
 msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
@@ -219,11 +220,11 @@ msgid ""
 " to install the required packages on your system to support %s."
 msgstr "OwnClud zerbitzari honek ezin du sistemaren lokala %s-ra ezarri. Honek fitxategien izenetan karaktere batzuekin arazoak egon daitekeela esan nahi du. Aholkatzen dizugu zure sistema %s lokalea onartzeko beharrezkoak diren paketeak instalatzea."
 
-#: templates/admin.php:75
+#: templates/admin.php:77
 msgid "Internet connection not working"
 msgstr "Interneteko konexioak ez du funtzionatzen"
 
-#: templates/admin.php:78
+#: templates/admin.php:80
 msgid ""
 "This ownCloud server has no working internet connection. This means that "
 "some of the features like mounting of external storage, notifications about "
@@ -233,98 +234,102 @@ msgid ""
 " of ownCloud."
 msgstr "ownCloud zerbitzari honen interneteko konexioa ez dabil. Honek esan nahi du kanpoko biltegiratze zerbitzuak, eguneraketen informazioa edo bestelako aplikazioen instalazioa bezalako programek ez dutela funtzionatuko. Urrunetik fitxategiak eskuratzea eta e-postak bidaltzea ere ezinezkoa izan daiteke. onwCloud-en aukera guztiak erabili ahal izateko zerbitzari honetan interneteko konexioa gaitzea aholkatzen dizugu."
 
-#: templates/admin.php:92
+#: templates/admin.php:94
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:101
+#: templates/admin.php:103
 msgid "Execute one task with each page loaded"
 msgstr "Exekutatu zeregin bat orri karga bakoitzean"
 
-#: templates/admin.php:111
+#: templates/admin.php:113
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
 msgstr "cron.php webcron zerbitzu batean erregistratua dago. Deitu cron.php orria ownclouden erroan minuturo http bidez."
 
-#: templates/admin.php:121
+#: templates/admin.php:123
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
 msgstr "Erabili sistemaren cron zerbitzua. Deitu cron.php fitxategia owncloud karpetan minuturo sistemaren cron lan baten bidez."
 
-#: templates/admin.php:128
+#: templates/admin.php:130
 msgid "Sharing"
 msgstr "Partekatzea"
 
-#: templates/admin.php:134
+#: templates/admin.php:136
 msgid "Enable Share API"
 msgstr "Gaitu Elkarbanatze APIa"
 
-#: templates/admin.php:135
+#: templates/admin.php:137
 msgid "Allow apps to use the Share API"
 msgstr "Baimendu aplikazioak Elkarbanatze APIa erabiltzeko"
 
-#: templates/admin.php:142
+#: templates/admin.php:144
 msgid "Allow links"
 msgstr "Baimendu loturak"
 
-#: templates/admin.php:143
+#: templates/admin.php:145
 msgid "Allow users to share items to the public with links"
 msgstr "Baimendu erabiltzaileak loturen bidez fitxategiak publikoki elkarbanatzen"
 
-#: templates/admin.php:150
+#: templates/admin.php:152
 msgid "Allow resharing"
 msgstr "Baimendu birpartekatzea"
 
-#: templates/admin.php:151
+#: templates/admin.php:153
 msgid "Allow users to share items shared with them again"
 msgstr "Baimendu erabiltzaileak haiekin elkarbanatutako fitxategiak berriz ere elkarbanatzen"
 
-#: templates/admin.php:158
+#: templates/admin.php:160
 msgid "Allow users to share with anyone"
 msgstr "Baimendu erabiltzaileak edonorekin elkarbanatzen"
 
-#: templates/admin.php:161
+#: templates/admin.php:163
 msgid "Allow users to only share with users in their groups"
 msgstr "Baimendu erabiltzaileak bakarrik bere taldeko erabiltzaileekin elkarbanatzen"
 
-#: templates/admin.php:168
+#: templates/admin.php:170
 msgid "Security"
 msgstr "Segurtasuna"
 
-#: templates/admin.php:181
+#: templates/admin.php:183
 msgid "Enforce HTTPS"
 msgstr "Behartu HTTPS"
 
-#: templates/admin.php:182
+#: templates/admin.php:184
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
 msgstr "Bezeroak konexio enkriptatu baten bidez ownCloud-era konektatzera behartzen du."
 
-#: templates/admin.php:185
+#: templates/admin.php:187
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
 msgstr "Mesedez konektatu ownCloud honetara HTTPS bidez SSL-ren beharra gaitu edo ezgaitzeko"
 
-#: templates/admin.php:195
+#: templates/admin.php:197
 msgid "Log"
 msgstr "Egunkaria"
 
-#: templates/admin.php:196
+#: templates/admin.php:198
 msgid "Log level"
 msgstr "Erregistro maila"
 
-#: templates/admin.php:223
+#: templates/admin.php:229
 msgid "More"
 msgstr "Gehiago"
 
-#: templates/admin.php:230 templates/personal.php:102
+#: templates/admin.php:230
+msgid "Less"
+msgstr "Gutxiago"
+
+#: templates/admin.php:236 templates/personal.php:116
 msgid "Version"
 msgstr "Bertsioa"
 
-#: templates/admin.php:233 templates/personal.php:105
+#: templates/admin.php:240 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -334,27 +339,27 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud komunitateak</a> garatuta, <a href=\"https://github.com/owncloud\" target=\"_blank\">itubruru kodea</a><a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr> lizentziarekin banatzen da</a>."
 
-#: templates/apps.php:11
+#: templates/apps.php:13
 msgid "Add your App"
 msgstr "Gehitu zure aplikazioa"
 
-#: templates/apps.php:12
+#: templates/apps.php:28
 msgid "More Apps"
 msgstr "App gehiago"
 
-#: templates/apps.php:28
+#: templates/apps.php:33
 msgid "Select an App"
 msgstr "Aukeratu programa bat"
 
-#: templates/apps.php:34
+#: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
 msgstr "Ikusi programen orria apps.owncloud.com en"
 
-#: templates/apps.php:36
+#: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-lizentziatua <span class=\"author\"></span>"
 
-#: templates/apps.php:38
+#: templates/apps.php:43
 msgid "Update"
 msgstr "Eguneratu"
 
@@ -382,119 +387,124 @@ msgstr "Bugtracker"
 msgid "Commercial Support"
 msgstr "Babes komertziala"
 
-#: templates/personal.php:8
+#: templates/personal.php:10
+msgid "Get the apps to sync your files"
+msgstr "Lortu aplikazioak zure fitxategiak sinkronizatzeko"
+
+#: templates/personal.php:21
+msgid "Show First Run Wizard again"
+msgstr "Erakutsi berriz Lehenengo Aldiko Morroia"
+
+#: templates/personal.php:29
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Dagoeneko <strong>%s</strong> erabili duzu eskuragarri duzun <strong>%s</strong>etatik"
 
-#: templates/personal.php:15
-msgid "Get the apps to sync your files"
-msgstr "Lortu aplikazioak zure fitxategiak sinkronizatzeko"
-
-#: templates/personal.php:26
-msgid "Show First Run Wizard again"
-msgstr "Erakutsi berriz Lehenengo Aldiko Morroia"
-
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:79
+#: templates/personal.php:41 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "Pasahitza"
 
-#: templates/personal.php:38
+#: templates/personal.php:42
 msgid "Your password was changed"
 msgstr "Zere pasahitza aldatu da"
 
-#: templates/personal.php:39
+#: templates/personal.php:43
 msgid "Unable to change your password"
 msgstr "Ezin izan da zure pasahitza aldatu"
 
-#: templates/personal.php:40
+#: templates/personal.php:44
 msgid "Current password"
 msgstr "Uneko pasahitza"
 
-#: templates/personal.php:42
+#: templates/personal.php:46
 msgid "New password"
 msgstr "Pasahitz berria"
 
-#: templates/personal.php:44
+#: templates/personal.php:48
 msgid "Change password"
 msgstr "Aldatu pasahitza"
 
-#: templates/personal.php:56 templates/users.php:78
+#: templates/personal.php:60 templates/users.php:85
 msgid "Display Name"
 msgstr "Bistaratze Izena"
 
-#: templates/personal.php:57
-msgid "Your display name was changed"
-msgstr "Zure bistaratze izena aldatu da"
-
-#: templates/personal.php:58
-msgid "Unable to change your display name"
-msgstr "Ezin izan da zure bistaratze izena aldatu"
-
-#: templates/personal.php:61
-msgid "Change display name"
-msgstr "Aldatu bistaratze izena"
-
-#: templates/personal.php:70
+#: templates/personal.php:75
 msgid "Email"
-msgstr "E-Posta"
+msgstr "E-posta"
 
-#: templates/personal.php:72
+#: templates/personal.php:77
 msgid "Your email address"
 msgstr "Zure e-posta"
 
-#: templates/personal.php:73
+#: templates/personal.php:78
 msgid "Fill in an email address to enable password recovery"
 msgstr "Idatz ezazu e-posta bat pasahitza berreskuratu ahal izateko"
 
-#: templates/personal.php:79 templates/personal.php:80
+#: templates/personal.php:87 templates/personal.php:88
 msgid "Language"
 msgstr "Hizkuntza"
 
-#: templates/personal.php:86
+#: templates/personal.php:100
 msgid "Help translate"
 msgstr "Lagundu itzultzen"
 
-#: templates/personal.php:91
+#: templates/personal.php:106
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:93
-msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "Erabili helbide hau zure fitxategi kudeatzailean zure ownCloudera konektatzeko"
+#: templates/personal.php:108
+#, php-format
+msgid ""
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
+"target=\"_blank\">access your Files via WebDAV</a>"
+msgstr ""
 
-#: templates/users.php:21 templates/users.php:77
+#: templates/users.php:21
 msgid "Login Name"
 msgstr "Sarrera Izena"
 
-#: templates/users.php:32
+#: templates/users.php:30
 msgid "Create"
 msgstr "Sortu"
 
-#: templates/users.php:35
+#: templates/users.php:36
+msgid "Admin Recovery Password"
+msgstr "Kudeatzaile pasahitz berreskuratzea"
+
+#: templates/users.php:37 templates/users.php:38
+msgid ""
+"Enter the recovery password in order to recover the users files during "
+"password change"
+msgstr "berreskuratze pasahitza idatzi pasahitz aldaketan erabiltzaileen fitxategiak berreskuratzeko"
+
+#: templates/users.php:42
 msgid "Default Storage"
 msgstr "Lehenetsitako Biltegiratzea"
 
-#: templates/users.php:41 templates/users.php:139
+#: templates/users.php:48 templates/users.php:142
 msgid "Unlimited"
 msgstr "Mugarik gabe"
 
-#: templates/users.php:59 templates/users.php:154
+#: templates/users.php:66 templates/users.php:157
 msgid "Other"
-msgstr "Besteak"
+msgstr "Bestelakoa"
 
 #: templates/users.php:84
+msgid "Username"
+msgstr "Erabiltzaile izena"
+
+#: templates/users.php:91
 msgid "Storage"
 msgstr "Biltegiratzea"
 
-#: templates/users.php:95
+#: templates/users.php:102
 msgid "change display name"
 msgstr "aldatu bistaratze izena"
 
-#: templates/users.php:99
+#: templates/users.php:106
 msgid "set new password"
 msgstr "ezarri pasahitz berria"
 
-#: templates/users.php:134
+#: templates/users.php:137
 msgid "Default"
 msgstr "Lehenetsia"

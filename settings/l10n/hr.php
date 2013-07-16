@@ -15,6 +15,9 @@
 "Group Admin" => "Grupa Admin",
 "Delete" => "Obriši",
 "__language_name__" => "__ime_jezika__",
+"Cron" => "Cron",
+"Log" => "dnevnik",
+"More" => "više",
 "Add your App" => "Dodajte vašu aplikaciju",
 "Select an App" => "Odaberite Aplikaciju",
 "See application page at apps.owncloud.com" => "Pogledajte stranicu s aplikacijama na apps.owncloud.com",
@@ -29,5 +32,6 @@
 "Language" => "Jezik",
 "Help translate" => "Pomoć prevesti",
 "Create" => "Izradi",
-"Other" => "ostali"
+"Other" => "ostali",
+"Username" => "Korisničko ime"
 );

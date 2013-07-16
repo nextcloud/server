@@ -3,21 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <blobbyjj@ymail.com>, 2012.
-# I Robot <thomas.mueller@tmit.eu>, 2012.
-#   <mail@felixmoeller.de>, 2012.
-# Marcel Kühlhorn <susefan93@gmx.de>, 2013.
-#  <niko@nik-o-mat.de>, 2013.
-#   <niko@nik-o-mat.de>, 2012.
-#  <robert.neumann01@gmail.com>, 2013.
-#  <stefan.niedermann@googlemail.com>, 2013.
-#   <thomas.mueller@tmit.eu>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-06 00:07+0100\n"
-"PO-Revision-Date: 2013-03-05 21:26+0000\n"
+"POT-Creation-Date: 2013-05-25 02:01+0200\n"
+"PO-Revision-Date: 2013-05-24 13:28+0000\n"
 "Last-Translator: a.tangemann <a.tangemann@web.de>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -38,7 +29,7 @@ msgstr "Erfolgreich"
 #: history.php:42
 #, php-format
 msgid "File %s was reverted to version %s"
-msgstr "Die Datei %s wurde zur Version %s zurückgesetzt"
+msgstr "Die Datei %s wurde auf die Version %s zurückgesetzt"
 
 #: history.php:49
 msgid "failure"
@@ -47,7 +38,7 @@ msgstr "Fehlgeschlagen"
 #: history.php:51
 #, php-format
 msgid "File %s could not be reverted to version %s"
-msgstr "Die Datei %s konnte nicht zur Version %s zurückgesetzt werden"
+msgstr "Die Datei %s konnte nicht auf die Version %s zurückgesetzt werden"
 
 #: history.php:69
 msgid "No old versions available"

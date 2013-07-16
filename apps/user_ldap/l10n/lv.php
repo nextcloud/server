@@ -7,6 +7,7 @@
 "Take over settings from recent server configuration?" => "Paņemt iestatījumus no nesenas servera konfigurācijas?",
 "Keep settings?" => "Paturēt iestatījumus?",
 "Cannot add server configuration" => "Nevar pievienot servera konfigurāciju",
+"Error" => "Kļūda",
 "Connection test succeeded" => "Savienojuma tests ir veiksmīgs",
 "Connection test failed" => "Savienojuma tests cieta neveiksmi",
 "Do you really want to delete the current Server Configuration?" => "Vai tiešām vēlaties dzēst pašreizējo servera konfigurāciju?",

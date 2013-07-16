@@ -9,16 +9,17 @@
 class OC_Request {
 	/**
 	 * @brief Check overwrite condition
-	 * @returns true/false
+	 * @returns bool
 	 */
-	private static function isOverwriteCondition() {
+	private static function isOverwriteCondition($type = '') {
 		$regex = '/' . OC_Config::getValue('overwritecondaddr', '')  . '/';
-		return $regex === '//' or preg_match($regex, $_SERVER['REMOTE_ADDR']) === 1;
+		return $regex === '//' or preg_match($regex, $_SERVER['REMOTE_ADDR']) === 1
+			or ($type !== 'protocol' and OC_Config::getValue('forcessl', false));
 	}
 
 	/**
 	 * @brief Returns the server host
-	 * @returns the server host
+	 * @returns string the server host
 	 *
 	 * Returns the server host, even if the website uses one or more
 	 * reverse proxies
@@ -27,7 +28,7 @@ class OC_Request {
 		if(OC::$CLI) {
 			return 'localhost';
 		}
-		if(OC_Config::getValue('overwritehost', '')<>'' and self::isOverwriteCondition()) {
+		if(OC_Config::getValue('overwritehost', '') !== '' and self::isOverwriteCondition()) {
 			return OC_Config::getValue('overwritehost');
 		}
 		if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
@@ -39,7 +40,13 @@ class OC_Request {
 			}
 		}
 		else{
-			$host = $_SERVER['HTTP_HOST'];
+			if (isset($_SERVER['HTTP_HOST'])) {
+				return $_SERVER['HTTP_HOST'];
+			}
+			if (isset($_SERVER['SERVER_NAME'])) {
+				return $_SERVER['SERVER_NAME'];
+			}
+			return 'localhost';
 		}
 		return $host;
 	}
@@ -47,12 +54,12 @@ class OC_Request {
 
 	/**
 	* @brief Returns the server protocol
-	* @returns the server protocol
+	* @returns string the server protocol
 	*
 	* Returns the server protocol. It respects reverse proxy servers and load balancers
 	*/
 	public static function serverProtocol() {
-		if(OC_Config::getValue('overwriteprotocol', '')<>'' and self::isOverwriteCondition()) {
+		if(OC_Config::getValue('overwriteprotocol', '') !== '' and self::isOverwriteCondition('protocol')) {
 			return OC_Config::getValue('overwriteprotocol');
 		}
 		if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
@@ -69,14 +76,14 @@ class OC_Request {
 
 	/**
 	 * @brief Returns the request uri
-	 * @returns the request uri
+	 * @returns string the request uri
 	 *
 	 * Returns the request uri, even if the website uses one or more
 	 * reverse proxies
 	 */
 	public static function requestUri() {
 		$uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
-		if (OC_Config::getValue('overwritewebroot', '') <> '' and self::isOverwriteCondition()) {
+		if (OC_Config::getValue('overwritewebroot', '') !== '' and self::isOverwriteCondition()) {
 			$uri = self::scriptName() . substr($uri, strlen($_SERVER['SCRIPT_NAME']));
 		}
 		return $uri;
@@ -84,14 +91,14 @@ class OC_Request {
 
 	/**
 	 * @brief Returns the script name
-	 * @returns the script name
+	 * @returns string the script name
 	 *
 	 * Returns the script name, even if the website uses one or more
 	 * reverse proxies
 	 */
 	public static function scriptName() {
 		$name = $_SERVER['SCRIPT_NAME'];
-		if (OC_Config::getValue('overwritewebroot', '') <> '' and self::isOverwriteCondition()) {
+		if (OC_Config::getValue('overwritewebroot', '') !== '' and self::isOverwriteCondition()) {
 			$serverroot = str_replace("\\", '/', substr(__DIR__, 0, -4));
 			$suburi = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen($serverroot)));
 			$name = OC_Config::getValue('overwritewebroot', '') . $suburi;
@@ -138,7 +145,7 @@ class OC_Request {
 
 	/**
 	 * @brief Check if this is a no-cache request
-	 * @returns true for no-cache
+	 * @returns boolean true for no-cache
 	 */
 	static public function isNoCache() {
 		if (!isset($_SERVER['HTTP_CACHE_CONTROL'])) {
@@ -149,7 +156,7 @@ class OC_Request {
 
 	/**
 	 * @brief Check if the requestor understands gzip
-	 * @returns true for gzip encoding supported
+	 * @returns boolean true for gzip encoding supported
 	 */
 	static public function acceptGZip() {
 		if (!isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {

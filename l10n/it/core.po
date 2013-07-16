@@ -3,18 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <cosenal@gmail.com>, 2011.
-# Francesco Apruzzese <cescoap@gmail.com>, 2011, 2012.
-#   <marco@carnazzo.it>, 2011, 2012.
-#  <pgcloud@imballaggi.net>, 2013.
-#   <rb.colombo@gmail.com>, 2011.
-# Vincenzo Reale <vinx.reale@gmail.com>, 2012-2013.
+# idetao <marcxosm@gmail.com>, 2013
+# polxmod <paolo.velati@gmail.com>, 2013
+# Vincenzo Reale <vinx.reale@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-22 00:06+0100\n"
-"PO-Revision-Date: 2013-02-20 23:20+0000\n"
+"POT-Creation-Date: 2013-07-16 01:56-0400\n"
+"PO-Revision-Date: 2013-07-16 05:14+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -23,29 +20,10 @@ msgstr ""
 "Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:85
+#: ajax/share.php:97
 #, php-format
-msgid "User %s shared a file with you"
-msgstr "L'utente %s ha condiviso un file con te"
-
-#: ajax/share.php:87
-#, php-format
-msgid "User %s shared a folder with you"
-msgstr "L'utente %s ha condiviso una cartella con te"
-
-#: ajax/share.php:89
-#, php-format
-msgid ""
-"User %s shared the file \"%s\" with you. It is available for download here: "
-"%s"
-msgstr "L'utente %s ha condiviso il file \"%s\" con te. È disponibile per lo scaricamento qui: %s"
-
-#: ajax/share.php:91
-#, php-format
-msgid ""
-"User %s shared the folder \"%s\" with you. It is available for download "
-"here: %s"
-msgstr "L'utente %s ha condiviso la cartella \"%s\" con te. È disponibile per lo scaricamento qui: %s"
+msgid "%s shared »%s« with you"
+msgstr "%s ha condiviso «%s» con te"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -90,151 +68,155 @@ msgstr "Errore durante la rimozione di %s dai preferiti."
 msgid "Sunday"
 msgstr "Domenica"
 
-#: js/config.php:32
+#: js/config.php:33
 msgid "Monday"
 msgstr "Lunedì"
 
-#: js/config.php:32
+#: js/config.php:34
 msgid "Tuesday"
 msgstr "Martedì"
 
-#: js/config.php:32
+#: js/config.php:35
 msgid "Wednesday"
 msgstr "Mercoledì"
 
-#: js/config.php:32
+#: js/config.php:36
 msgid "Thursday"
 msgstr "Giovedì"
 
-#: js/config.php:32
+#: js/config.php:37
 msgid "Friday"
 msgstr "Venerdì"
 
-#: js/config.php:32
+#: js/config.php:38
 msgid "Saturday"
 msgstr "Sabato"
 
-#: js/config.php:33
+#: js/config.php:43
 msgid "January"
 msgstr "Gennaio"
 
-#: js/config.php:33
+#: js/config.php:44
 msgid "February"
 msgstr "Febbraio"
 
-#: js/config.php:33
+#: js/config.php:45
 msgid "March"
 msgstr "Marzo"
 
-#: js/config.php:33
+#: js/config.php:46
 msgid "April"
 msgstr "Aprile"
 
-#: js/config.php:33
+#: js/config.php:47
 msgid "May"
 msgstr "Maggio"
 
-#: js/config.php:33
+#: js/config.php:48
 msgid "June"
 msgstr "Giugno"
 
-#: js/config.php:33
+#: js/config.php:49
 msgid "July"
 msgstr "Luglio"
 
-#: js/config.php:33
+#: js/config.php:50
 msgid "August"
 msgstr "Agosto"
 
-#: js/config.php:33
+#: js/config.php:51
 msgid "September"
 msgstr "Settembre"
 
-#: js/config.php:33
+#: js/config.php:52
 msgid "October"
 msgstr "Ottobre"
 
-#: js/config.php:33
+#: js/config.php:53
 msgid "November"
 msgstr "Novembre"
 
-#: js/config.php:33
+#: js/config.php:54
 msgid "December"
 msgstr "Dicembre"
 
-#: js/js.js:286
+#: js/js.js:293
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: js/js.js:767
+#: js/js.js:725
 msgid "seconds ago"
 msgstr "secondi fa"
 
-#: js/js.js:768
+#: js/js.js:726
 msgid "1 minute ago"
 msgstr "Un minuto fa"
 
-#: js/js.js:769
+#: js/js.js:727
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minuti fa"
 
-#: js/js.js:770
+#: js/js.js:728
 msgid "1 hour ago"
 msgstr "1 ora fa"
 
-#: js/js.js:771
+#: js/js.js:729
 msgid "{hours} hours ago"
 msgstr "{hours} ore fa"
 
-#: js/js.js:772
+#: js/js.js:730
 msgid "today"
 msgstr "oggi"
 
-#: js/js.js:773
+#: js/js.js:731
 msgid "yesterday"
 msgstr "ieri"
 
-#: js/js.js:774
+#: js/js.js:732
 msgid "{days} days ago"
 msgstr "{days} giorni fa"
 
-#: js/js.js:775
+#: js/js.js:733
 msgid "last month"
 msgstr "mese scorso"
 
-#: js/js.js:776
+#: js/js.js:734
 msgid "{months} months ago"
 msgstr "{months} mesi fa"
 
-#: js/js.js:777
+#: js/js.js:735
 msgid "months ago"
 msgstr "mesi fa"
 
-#: js/js.js:778
+#: js/js.js:736
 msgid "last year"
 msgstr "anno scorso"
 
-#: js/js.js:779
+#: js/js.js:737
 msgid "years ago"
 msgstr "anni fa"
 
-#: js/oc-dialogs.js:126
+#: js/oc-dialogs.js:117
 msgid "Choose"
 msgstr "Scegli"
 
-#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+#: js/oc-dialogs.js:122
 msgid "Cancel"
 msgstr "Annulla"
 
-#: js/oc-dialogs.js:162
-msgid "No"
-msgstr "No"
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+msgid "Error loading file picker template"
+msgstr "Errore durante il caricamento del modello del selezionatore di file"
 
-#: js/oc-dialogs.js:163
+#: js/oc-dialogs.js:164
 msgid "Yes"
 msgstr "Sì"
 
-#: js/oc-dialogs.js:180
+#: js/oc-dialogs.js:172
+msgid "No"
+msgstr "No"
+
+#: js/oc-dialogs.js:185
 msgid "Ok"
 msgstr "Ok"
 
@@ -243,9 +225,11 @@ msgstr "Ok"
 msgid "The object type is not specified."
 msgstr "Il tipo di oggetto non è specificato."
 
-#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:582
-#: js/share.js:594
+#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
+#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:620
+#: js/share.js:632
 msgid "Error"
 msgstr "Errore"
 
@@ -257,142 +241,146 @@ msgstr "Il nome dell'applicazione non è specificato."
 msgid "The required file {file} is not installed!"
 msgstr "Il file richiesto {file} non è installato!"
 
-#: js/share.js:29 js/share.js:43 js/share.js:90
+#: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
 msgstr "Condivisi"
 
-#: js/share.js:93
+#: js/share.js:90
 msgid "Share"
 msgstr "Condividi"
 
-#: js/share.js:141 js/share.js:622
+#: js/share.js:125 js/share.js:660
 msgid "Error while sharing"
 msgstr "Errore durante la condivisione"
 
-#: js/share.js:152
+#: js/share.js:136
 msgid "Error while unsharing"
 msgstr "Errore durante la rimozione della condivisione"
 
-#: js/share.js:159
+#: js/share.js:143
 msgid "Error while changing permissions"
 msgstr "Errore durante la modifica dei permessi"
 
-#: js/share.js:168
+#: js/share.js:152
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Condiviso con te e con il gruppo {group} da {owner}"
 
-#: js/share.js:170
+#: js/share.js:154
 msgid "Shared with you by {owner}"
 msgstr "Condiviso con te da {owner}"
 
-#: js/share.js:175
+#: js/share.js:172
 msgid "Share with"
 msgstr "Condividi con"
 
-#: js/share.js:180
+#: js/share.js:177
 msgid "Share with link"
 msgstr "Condividi con collegamento"
 
-#: js/share.js:183
+#: js/share.js:180
 msgid "Password protect"
 msgstr "Proteggi con password"
 
-#: js/share.js:185 templates/installation.php:44 templates/login.php:35
+#: js/share.js:182 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Password"
 
-#: js/share.js:189
+#: js/share.js:187
+msgid "Allow Public Upload"
+msgstr "Consenti caricamento pubblico"
+
+#: js/share.js:191
 msgid "Email link to person"
 msgstr "Invia collegamento via email"
 
-#: js/share.js:190
+#: js/share.js:192
 msgid "Send"
 msgstr "Invia"
 
-#: js/share.js:194
+#: js/share.js:197
 msgid "Set expiration date"
 msgstr "Imposta data di scadenza"
 
-#: js/share.js:195
+#: js/share.js:198
 msgid "Expiration date"
 msgstr "Data di scadenza"
 
-#: js/share.js:227
+#: js/share.js:230
 msgid "Share via email:"
 msgstr "Condividi tramite email:"
 
-#: js/share.js:229
+#: js/share.js:232
 msgid "No people found"
 msgstr "Non sono state trovate altre persone"
 
-#: js/share.js:256
+#: js/share.js:270
 msgid "Resharing is not allowed"
 msgstr "La ri-condivisione non è consentita"
 
-#: js/share.js:292
+#: js/share.js:306
 msgid "Shared in {item} with {user}"
 msgstr "Condiviso in {item} con {user}"
 
-#: js/share.js:313
+#: js/share.js:327
 msgid "Unshare"
 msgstr "Rimuovi condivisione"
 
-#: js/share.js:325
+#: js/share.js:339
 msgid "can edit"
 msgstr "può modificare"
 
-#: js/share.js:327
+#: js/share.js:341
 msgid "access control"
 msgstr "controllo d'accesso"
 
-#: js/share.js:330
+#: js/share.js:344
 msgid "create"
 msgstr "creare"
 
-#: js/share.js:333
+#: js/share.js:347
 msgid "update"
 msgstr "aggiornare"
 
-#: js/share.js:336
+#: js/share.js:350
 msgid "delete"
-msgstr "eliminare"
+msgstr "elimina"
 
-#: js/share.js:339
+#: js/share.js:353
 msgid "share"
-msgstr "condividere"
+msgstr "condividi"
 
-#: js/share.js:373 js/share.js:569
+#: js/share.js:387 js/share.js:607
 msgid "Password protected"
 msgstr "Protetta da password"
 
-#: js/share.js:582
+#: js/share.js:620
 msgid "Error unsetting expiration date"
 msgstr "Errore durante la rimozione della data di scadenza"
 
-#: js/share.js:594
+#: js/share.js:632
 msgid "Error setting expiration date"
 msgstr "Errore durante l'impostazione della data di scadenza"
 
-#: js/share.js:609
+#: js/share.js:647
 msgid "Sending ..."
 msgstr "Invio in corso..."
 
-#: js/share.js:620
+#: js/share.js:658
 msgid "Email sent"
 msgstr "Messaggio inviato"
 
-#: js/update.js:14
+#: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
 msgstr "L'aggiornamento non è riuscito. Segnala il problema alla <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">comunità di ownCloud</a>."
 
-#: js/update.js:18
+#: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "L'aggiornamento è stato effettuato correttamente. Stai per essere reindirizzato a ownCloud."
 
-#: lostpassword/controller.php:48
+#: lostpassword/controller.php:60
 msgid "ownCloud password reset"
 msgstr "Ripristino password di ownCloud"
 
@@ -400,24 +388,39 @@ msgstr "Ripristino password di ownCloud"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Usa il collegamento seguente per ripristinare la password: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr "Il collegamento per ripristinare la password è stato inviato al tuo indirizzo di posta.<br>Se non lo ricevi in tempi ragionevoli, controlla le cartelle della posta indesiderata.<br>Se non dovesse essere nemmeno lì, contatta il tuo amministratore locale."
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr "Richiesta non riuscita!<br>Sei sicuro che l'indirizzo di posta/nome utente fosse corretto?"
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "Riceverai un collegamento per ripristinare la tua password via email"
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "Email di ripristino inviata."
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "Richiesta non riuscita!"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
 msgstr "Nome utente"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:22
+msgid ""
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset. If you "
+"are not sure what to do, please contact your administrator before you "
+"continue. Do you really want to continue?"
+msgstr "I file sono cifrati. Se non hai precedentemente abilitato la chiave di recupero, non sarà più possibile ritrovare i tuoi dati una volta che la password sarà ripristinata. Se non sei sicuro, per favore contatta l'amministratore prima di proseguire. Vuoi davvero continuare?"
+
+#: lostpassword/templates/lostpassword.php:24
+msgid "Yes, I really want to reset my password now"
+msgstr "Sì, voglio davvero ripristinare la mia password adesso"
+
+#: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
 msgstr "Richiesta di ripristino"
 
@@ -465,125 +468,154 @@ msgstr "Accesso negato"
 msgid "Cloud not found"
 msgstr "Nuvola non trovata"
 
+#: templates/altmail.php:4
+#, php-format
+msgid ""
+"Hey there,\n"
+"\n"
+"just letting you know that %s shared %s with you.\n"
+"View it: %s\n"
+"\n"
+"Cheers!"
+msgstr "Ehilà,\n\nvolevo solamente farti sapere che %s ha condiviso %s con te.\nGuarda: %s\n\nSaluti!"
+
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "Modifica le categorie"
+msgstr "Modifica categorie"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
 msgstr "Aggiungi"
 
-#: templates/installation.php:23 templates/installation.php:30
+#: templates/installation.php:24 templates/installation.php:31
+#: templates/installation.php:38
 msgid "Security Warning"
 msgstr "Avviso di sicurezza"
 
-#: templates/installation.php:24
+#: templates/installation.php:25
+msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
+msgstr "La tua versione di PHP è vulnerabile all'attacco NULL Byte (CVE-2006-7243)"
+
+#: templates/installation.php:26
+msgid "Please update your PHP installation to use ownCloud securely."
+msgstr "Aggiorna la tua installazione di PHP per utilizzare ownCloud in modo sicuro."
+
+#: templates/installation.php:32
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "Non è disponibile alcun generatore di numeri casuali sicuro. Abilita l'estensione OpenSSL di PHP"
 
-#: templates/installation.php:25
+#: templates/installation.php:33
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Senza un generatore di numeri casuali sicuro, un malintenzionato potrebbe riuscire a individuare i token di ripristino delle password e impossessarsi del tuo account."
 
-#: templates/installation.php:31
+#: templates/installation.php:39
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr "La cartella dei dati e i file sono probabilmente accessibili da Internet poiché il file .htaccess non funziona."
 
-#: templates/installation.php:32
+#: templates/installation.php:40
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
 msgstr "Per informazioni su come configurare correttamente il server, vedi la <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentazione</a>."
 
-#: templates/installation.php:36
+#: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
 msgstr "Crea un <strong>account amministratore</strong>"
 
-#: templates/installation.php:52
+#: templates/installation.php:62
 msgid "Advanced"
-msgstr "Avanzate"
+msgstr "Avanzat"
 
-#: templates/installation.php:54
+#: templates/installation.php:64
 msgid "Data folder"
 msgstr "Cartella dati"
 
-#: templates/installation.php:61
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Configura il database"
 
-#: templates/installation.php:66 templates/installation.php:77
-#: templates/installation.php:87 templates/installation.php:97
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "sarà utilizzato"
 
-#: templates/installation.php:109
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Utente del database"
 
-#: templates/installation.php:113
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Password del database"
 
-#: templates/installation.php:117
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Nome del database"
 
-#: templates/installation.php:125
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Spazio delle tabelle del database"
 
-#: templates/installation.php:131
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Host del database"
 
-#: templates/installation.php:136
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Termina la configurazione"
 
-#: templates/layout.guest.php:33
-msgid "web services under your control"
-msgstr "servizi web nelle tue mani"
+#: templates/layout.user.php:43
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr "%s è disponibile. Ottieni ulteriori informazioni sull'aggiornamento."
 
-#: templates/layout.user.php:48
+#: templates/layout.user.php:68
 msgid "Log out"
 msgstr "Esci"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Accesso automatico rifiutato."
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Se non hai cambiato la password recentemente, il tuo account potrebbe essere compromesso."
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Cambia la password per rendere nuovamente sicuro il tuo account."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Hai perso la password?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "ricorda"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Accedi"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Accessi alternativi"
+
+#: templates/mail.php:16
+#, php-format
+msgid ""
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
+"href=\"%s\">View it!</a><br><br>Cheers!"
+msgstr "Ehilà,<br><br>volevo solamente farti sapere che %s ha condiviso «%s» con te.<br><a href=\"%s\">Guarda!</a><br><br>Saluti!"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

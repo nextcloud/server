@@ -1,4 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Encryption" => "التشفير",
-"None" => "لا شيء"
+"Saving..." => "جاري الحفظ...",
+"Encryption" => "التشفير"
 );

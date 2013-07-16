@@ -3,22 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Axilleas Pi <axilleas@archlinux.gr>, 2013.
-# Dimitris M. <monopatis@gmail.com>, 2012-2013.
-# Efstathios Iosifidis <diamond_gr@freemail.gr>, 2012-2013.
-# Efstathios Iosifidis <iefstathios@gmail.com>, 2013.
-# Efstathios Iosifidis <iosifidis@opensuse.org>, 2012.
-# Konstantinos Tzanidis <tzanidis@gmail.com>, 2012.
-# Marios Bekatoros <>, 2012.
-# Petros Kyladitis <petros.kyladitis@gmail.com>, 2011-2012.
-# Γιάννης Ανθυμίδης <yannanth@gmail.com>, 2012.
+# Efstathios Iosifidis <iefstathios@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-16 22:17+0100\n"
-"PO-Revision-Date: 2013-03-15 06:40+0000\n"
-"Last-Translator: axil Pι <axilleas@archlinux.gr>\n"
+"POT-Creation-Date: 2013-07-16 01:56-0400\n"
+"PO-Revision-Date: 2013-07-16 05:14+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,50 +28,54 @@ msgstr "Αδυναμία μετακίνησης του %s - υπάρχει ήδ�
 msgid "Could not move %s"
 msgstr "Αδυναμία μετακίνησης του %s"
 
-#: ajax/rename.php:22 ajax/rename.php:25
-msgid "Unable to rename file"
-msgstr "Αδυναμία μετονομασίας αρχείου"
+#: ajax/upload.php:16 ajax/upload.php:45
+msgid "Unable to set upload directory."
+msgstr ""
 
-#: ajax/upload.php:19
+#: ajax/upload.php:22
+msgid "Invalid Token"
+msgstr ""
+
+#: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
 msgstr "Δεν ανέβηκε κάποιο αρχείο. Άγνωστο σφάλμα"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:66
 msgid "There is no error, the file uploaded with success"
 msgstr "Δεν υπάρχει σφάλμα, το αρχείο εστάλει επιτυχώς"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:67
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-msgstr "Το απεσταλμένο αρχείο ξεπερνά την οδηγία upload_max_filesize στο php.ini:"
+msgstr "Το αρχείο που εστάλει υπερβαίνει την οδηγία μέγιστου επιτρεπτού μεγέθους \"upload_max_filesize\" του php.ini"
 
-#: ajax/upload.php:29
+#: ajax/upload.php:69
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Το αρχείο υπερβαίνει την οδηγία μέγιστου επιτρεπτού μεγέθους \"MAX_FILE_SIZE\" που έχει οριστεί στην HTML φόρμα"
+msgstr "Το ανεβασμένο αρχείο υπερβαίνει το MAX_FILE_SIZE που ορίζεται στην  HTML φόρμα"
 
-#: ajax/upload.php:30
+#: ajax/upload.php:70
 msgid "The uploaded file was only partially uploaded"
 msgstr "Το αρχείο εστάλει μόνο εν μέρει"
 
-#: ajax/upload.php:31
+#: ajax/upload.php:71
 msgid "No file was uploaded"
 msgstr "Κανένα αρχείο δεν στάλθηκε"
 
-#: ajax/upload.php:32
+#: ajax/upload.php:72
 msgid "Missing a temporary folder"
 msgstr "Λείπει ο προσωρινός φάκελος"
 
-#: ajax/upload.php:33
+#: ajax/upload.php:73
 msgid "Failed to write to disk"
 msgstr "Αποτυχία εγγραφής στο δίσκο"
 
-#: ajax/upload.php:51
+#: ajax/upload.php:91
 msgid "Not enough storage available"
 msgstr "Μη επαρκής διαθέσιμος αποθηκευτικός χώρος"
 
-#: ajax/upload.php:82
+#: ajax/upload.php:123
 msgid "Invalid directory."
 msgstr "Μη έγκυρος φάκελος."
 
@@ -87,50 +83,91 @@ msgstr "Μη έγκυρος φάκελος."
 msgid "Files"
 msgstr "Αρχεία"
 
-#: js/fileactions.js:125
+#: js/file-upload.js:11
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr "Αδυναμία στην αποστολή του αρχείου σας αφού είναι φάκελος ή έχει 0 bytes"
+
+#: js/file-upload.js:24
+msgid "Not enough space available"
+msgstr "Δεν υπάρχει αρκετός διαθέσιμος χώρος"
+
+#: js/file-upload.js:64
+msgid "Upload cancelled."
+msgstr "Η αποστολή ακυρώθηκε."
+
+#: js/file-upload.js:167 js/files.js:266
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr "Η αποστολή του αρχείου βρίσκεται σε εξέλιξη. Το κλείσιμο της σελίδας θα ακυρώσει την αποστολή."
+
+#: js/file-upload.js:233 js/files.js:339
+msgid "URL cannot be empty."
+msgstr "Η URL δεν μπορεί να είναι κενή."
+
+#: js/file-upload.js:238 lib/app.php:53
+msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
+msgstr "Μη έγκυρο όνομα φακέλου. Η χρήση του 'Κοινόχρηστος' χρησιμοποιείται από το ownCloud"
+
+#: js/file-upload.js:267 js/file-upload.js:283 js/files.js:373 js/files.js:389
+#: js/files.js:693 js/files.js:731
+msgid "Error"
+msgstr "Σφάλμα"
+
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Διαμοιρασμός"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Μόνιμη διαγραφή"
 
-#: js/fileactions.js:127 templates/index.php:92 templates/index.php:93
+#: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
 msgid "Delete"
 msgstr "Διαγραφή"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Μετονομασία"
 
-#: js/filelist.js:49 js/filelist.js:52 js/files.js:293 js/files.js:409
-#: js/files.js:440
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:466
 msgid "Pending"
 msgstr "Εκκρεμεί"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:304 js/filelist.js:306
 msgid "{new_name} already exists"
 msgstr "{new_name} υπάρχει ήδη"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:304 js/filelist.js:306
 msgid "replace"
 msgstr "αντικατέστησε"
 
-#: js/filelist.js:251
+#: js/filelist.js:304
 msgid "suggest name"
 msgstr "συνιστώμενο όνομα"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:304 js/filelist.js:306
 msgid "cancel"
 msgstr "ακύρωση"
 
-#: js/filelist.js:298
+#: js/filelist.js:351
 msgid "replaced {new_name} with {old_name}"
 msgstr "αντικαταστάθηκε το {new_name} με {old_name}"
 
-#: js/filelist.js:298
+#: js/filelist.js:351
 msgid "undo"
 msgstr "αναίρεση"
 
-#: js/filelist.js:323
+#: js/filelist.js:376
 msgid "perform delete operation"
-msgstr "εκτέλεση διαδικασία διαγραφής"
+msgstr "εκτέλεση της διαδικασίας διαγραφής"
+
+#: js/filelist.js:458
+msgid "1 file uploading"
+msgstr "1 αρχείο ανεβαίνει"
+
+#: js/filelist.js:461 js/filelist.js:519
+msgid "files uploading"
+msgstr "αρχεία ανεβαίνουν"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -138,7 +175,7 @@ msgstr "'.' είναι μη έγκυρο όνομα αρχείου."
 
 #: js/files.js:56
 msgid "File name cannot be empty."
-msgstr "Το όνομα αρχείου δεν πρέπει να είναι κενό."
+msgstr "Το όνομα αρχείου δεν μπορεί να είναι κενό."
 
 #: js/files.js:64
 msgid ""
@@ -154,80 +191,52 @@ msgstr "Ο αποθηκευτικός σας χώρος είναι γεμάτο�
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Ο αποθηκευτικός χώρος είναι σχεδόν γεμάτος ({usedSpacePercent}%)"
 
-#: js/files.js:226
+#: js/files.js:231
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Η λήψη προετοιμάζεται. Αυτό μπορεί να πάρει ώρα εάν τα αρχεία έχουν μεγάλο μέγεθος."
 
-#: js/files.js:263
-msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Αδυναμία στην αποστολή του αρχείου σας αφού είναι φάκελος ή έχει 0 bytes"
-
-#: js/files.js:263
-msgid "Upload Error"
-msgstr "Σφάλμα Αποστολής"
-
-#: js/files.js:274
-msgid "Close"
-msgstr "Κλείσιμο"
-
-#: js/files.js:313
-msgid "1 file uploading"
-msgstr "1 αρχείο ανεβαίνει"
-
-#: js/files.js:316 js/files.js:371 js/files.js:386
-msgid "{count} files uploading"
-msgstr "{count} αρχεία ανεβαίνουν"
-
-#: js/files.js:389 js/files.js:424
-msgid "Upload cancelled."
-msgstr "Η αποστολή ακυρώθηκε."
-
-#: js/files.js:498
-msgid ""
-"File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "Η αποστολή του αρχείου βρίσκεται σε εξέλιξη. Το κλείσιμο της σελίδας θα ακυρώσει την αποστολή."
-
-#: js/files.js:571
-msgid "URL cannot be empty."
-msgstr "Η URL δεν πρέπει να είναι κενή."
-
-#: js/files.js:576
+#: js/files.js:344
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Μη έγκυρο όνομα φακέλου. Η χρήση του 'Κοινόχρηστος' χρησιμοποιείται από ο Owncloud"
 
-#: js/files.js:954 templates/index.php:68
+#: js/files.js:744 templates/index.php:69
 msgid "Name"
 msgstr "Όνομα"
 
-#: js/files.js:955 templates/index.php:79
+#: js/files.js:745
 msgid "Size"
 msgstr "Μέγεθος"
 
-#: js/files.js:956 templates/index.php:81
+#: js/files.js:746 templates/index.php:82
 msgid "Modified"
 msgstr "Τροποποιήθηκε"
 
-#: js/files.js:975
+#: js/files.js:765
 msgid "1 folder"
 msgstr "1 φάκελος"
 
-#: js/files.js:977
+#: js/files.js:767
 msgid "{count} folders"
 msgstr "{count} φάκελοι"
 
-#: js/files.js:985
+#: js/files.js:775
 msgid "1 file"
 msgstr "1 αρχείο"
 
-#: js/files.js:987
+#: js/files.js:777
 msgid "{count} files"
 msgstr "{count} αρχεία"
 
+#: lib/app.php:73
+#, php-format
+msgid "%s could not be renamed"
+msgstr ""
+
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr "Αποστολή"
+msgstr "Μεταφόρτωση"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -277,48 +286,68 @@ msgstr "Φάκελος"
 msgid "From link"
 msgstr "Από σύνδεσμο"
 
-#: templates/index.php:40
+#: templates/index.php:42
 msgid "Deleted files"
 msgstr "Διαγραμμένα αρχεία"
 
-#: templates/index.php:46
+#: templates/index.php:48
 msgid "Cancel upload"
 msgstr "Ακύρωση αποστολής"
 
-#: templates/index.php:53
+#: templates/index.php:54
 msgid "You don’t have write permissions here."
 msgstr "Δεν έχετε δικαιώματα εγγραφής εδώ."
 
-#: templates/index.php:60
+#: templates/index.php:61
 msgid "Nothing in here. Upload something!"
-msgstr "Δεν υπάρχει τίποτα εδώ. Μεταφορτώστε κάτι!"
+msgstr "Δεν υπάρχει τίποτα εδώ. Ανεβάστε κάτι!"
 
-#: templates/index.php:74
+#: templates/index.php:75
 msgid "Download"
 msgstr "Λήψη"
 
-#: templates/index.php:86 templates/index.php:87
-msgid "Unshare"
-msgstr "Διακοπή κοινής χρήσης"
+#: templates/index.php:80
+msgid "Size (MB)"
+msgstr ""
 
-#: templates/index.php:106
+#: templates/index.php:87 templates/index.php:88
+msgid "Unshare"
+msgstr "Σταμάτημα διαμοιρασμού"
+
+#: templates/index.php:107
 msgid "Upload too large"
 msgstr "Πολύ μεγάλο αρχείο προς αποστολή"
 
-#: templates/index.php:108
+#: templates/index.php:109
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Τα αρχεία που προσπαθείτε να ανεβάσετε υπερβαίνουν το μέγιστο μέγεθος αποστολής αρχείων σε αυτόν τον διακομιστή."
 
-#: templates/index.php:113
+#: templates/index.php:114
 msgid "Files are being scanned, please wait."
-msgstr "Τα αρχεία σαρώνονται, παρακαλώ περιμένετε"
+msgstr "Τα αρχεία σαρώνονται, παρακαλώ περιμένετε."
 
-#: templates/index.php:116
+#: templates/index.php:117
 msgid "Current scanning"
-msgstr "Τρέχουσα αναζήτηση "
+msgstr "Τρέχουσα ανίχνευση"
+
+#: templates/part.list.php:76
+msgid "directory"
+msgstr "κατάλογος"
+
+#: templates/part.list.php:78
+msgid "directories"
+msgstr "κατάλογοι"
+
+#: templates/part.list.php:87
+msgid "file"
+msgstr "αρχείο"
+
+#: templates/part.list.php:89
+msgid "files"
+msgstr "αρχεία"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr "Αναβάθμιση μνήμης cache του συστήματος αρχείων..."
+msgstr "Ενημέρωση της μνήμης cache του συστήματος αρχείων..."

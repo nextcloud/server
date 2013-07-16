@@ -46,6 +46,7 @@ class OC_Files {
 	public static function get($dir, $files, $only_header = false) {
 		$xsendfile = false;
 		if (isset($_SERVER['MOD_X_SENDFILE_ENABLED']) ||
+			isset($_SERVER['MOD_X_SENDFILE2_ENABLED']) ||
 			isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
 			$xsendfile = true;
 		}
@@ -59,11 +60,7 @@ class OC_Files {
 			$executionTime = intval(ini_get('max_execution_time'));
 			set_time_limit(0);
 			$zip = new ZipArchive();
-			if ($xsendfile) {
-				$filename = OC_Helper::tmpFileNoClean('.zip');
-			}else{
-				$filename = OC_Helper::tmpFile('.zip');
-			}
+			$filename = OC_Helper::tmpFile('.zip');
 			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
 				exit("cannot open <$filename>\n");
 			}
@@ -78,6 +75,9 @@ class OC_Files {
 				}
 			}
 			$zip->close();
+			if ($xsendfile) {
+				$filename = OC_Helper::moveToNoClean($filename);
+			}
 			$basename = basename($dir);
 			if ($basename) {
 				$name = $basename . '.zip';
@@ -91,17 +91,16 @@ class OC_Files {
 			$executionTime = intval(ini_get('max_execution_time'));
 			set_time_limit(0);
 			$zip = new ZipArchive();
-			if ($xsendfile) {
-				$filename = OC_Helper::tmpFileNoClean('.zip');
-			}else{
-				$filename = OC_Helper::tmpFile('.zip');
-			}
+			$filename = OC_Helper::tmpFile('.zip');
 			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
 				exit("cannot open <$filename>\n");
 			}
 			$file = $dir . '/' . $files;
 			self::zipAddDir($file, $zip);
 			$zip->close();
+			if ($xsendfile) {
+				$filename = OC_Helper::moveToNoClean($filename);
+			}
 			$name = $files . '.zip';
 			set_time_limit($executionTime);
 		} else {
@@ -125,8 +124,11 @@ class OC_Files {
 				header('Content-Length: ' . filesize($filename));
 				self::addSendfileHeader($filename);
 			}else{
+				$filesize = \OC\Files\Filesystem::filesize($filename);
 				header('Content-Type: '.\OC\Files\Filesystem::getMimeType($filename));
-				header("Content-Length: ".\OC\Files\Filesystem::filesize($filename));
+				if ($filesize > -1) {
+					header("Content-Length: ".$filesize);
+				}
 				list($storage) = \OC\Files\Filesystem::resolvePath($filename);
 				if ($storage instanceof \OC\Files\Storage\Local) {
 					self::addSendfileHeader(\OC\Files\Filesystem::getLocalFile($filename));
@@ -169,7 +171,22 @@ class OC_Files {
 	private static function addSendfileHeader($filename) {
 		if (isset($_SERVER['MOD_X_SENDFILE_ENABLED'])) {
 			header("X-Sendfile: " . $filename);
+ 		}
+ 		if (isset($_SERVER['MOD_X_SENDFILE2_ENABLED'])) {
+			if (isset($_SERVER['HTTP_RANGE']) && 
+				preg_match("/^bytes=([0-9]+)-([0-9]*)$/", $_SERVER['HTTP_RANGE'], $range)) {
+				$filelength = filesize($filename);
+ 				if ($range[2] == "") {
+ 					$range[2] = $filelength - 1;
+ 				}
+ 				header("Content-Range: bytes $range[1]-$range[2]/" . $filelength);
+ 				header("HTTP/1.1 206 Partial content");
+ 				header("X-Sendfile2: " . str_replace(",", "%2c", rawurlencode($filename)) . " $range[1]-$range[2]");
+ 			} else {
+ 				header("X-Sendfile: " . $filename);
+ 			}
 		}
+		
 		if (isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
 			header("X-Accel-Redirect: " . $filename);
 		}

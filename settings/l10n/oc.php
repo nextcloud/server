@@ -23,6 +23,13 @@
 "Delete" => "Escafa",
 "__language_name__" => "__language_name__",
 "Security Warning" => "Avertiment de securitat",
+"Cron" => "Cron",
+"Execute one task with each page loaded" => "Executa un prètfach amb cada pagina cargada",
+"Use systems cron service. Call the cron.php file in the owncloud folder via a system cronjob once a minute." => "Utiliza lo servici cron de ton sistèm operatiu. Executa lo fichièr cron.php dins lo dorsier owncloud tras cronjob del sistèm cada minuta.",
+"Sharing" => "Al partejar",
+"Enable Share API" => "Activa API partejada",
+"Log" => "Jornal",
+"More" => "Mai d'aquò",
 "Add your App" => "Ajusta ton App",
 "Select an App" => "Selecciona una applicacion",
 "See application page at apps.owncloud.com" => "Agacha la pagina d'applications en cò de apps.owncloud.com",
@@ -39,5 +46,6 @@
 "Language" => "Lenga",
 "Help translate" => "Ajuda a la revirada",
 "Create" => "Crea",
-"Other" => "Autres"
+"Other" => "Autres",
+"Username" => "Non d'usancièr"
 );

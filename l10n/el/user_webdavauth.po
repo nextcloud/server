@@ -3,17 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Dimitris M. <monopatis@gmail.com>, 2012.
-# Efstathios Iosifidis <diamond_gr@freemail.gr>, 2012.
-# Konstantinos Tzanidis <tzanidis@gmail.com>, 2012.
-# Marios Bekatoros <>, 2013.
+# Dimitris M. <monopatis@gmail.com>, 2012
+# Efstathios Iosifidis <iefstathios@gmail.com>, 2012
+# Efstathios Iosifidis <iefstathios@gmail.com>, 2013
+# Konstantinos Tzanidis <tzanidis@gmail.com>, 2012
+# Marios Bekatoros <>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-16 00:19+0100\n"
-"PO-Revision-Date: 2013-01-15 08:10+0000\n"
-"Last-Translator: Marios Bekatoros <>\n"
+"POT-Creation-Date: 2013-06-25 02:04+0200\n"
+"PO-Revision-Date: 2013-06-24 20:30+0000\n"
+"Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,10 +27,10 @@ msgid "WebDAV Authentication"
 msgstr "Αυθεντικοποίηση μέσω WebDAV "
 
 #: templates/settings.php:4
-msgid "URL: http://"
-msgstr "URL: http://"
+msgid "URL: "
+msgstr "URL:"
 
-#: templates/settings.php:6
+#: templates/settings.php:7
 msgid ""
 "ownCloud will send the user credentials to this URL. This plugin checks the "
 "response and will interpret the HTTP statuscodes 401 and 403 as invalid "

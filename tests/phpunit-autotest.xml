@@ -1,14 +1,38 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<phpunit bootstrap="bootstrap.php">
+<phpunit bootstrap="bootstrap.php"
+		 strict="true"
+		 timeoutForSmallTests="900"
+		 timeoutForMediumTests="900"
+		 timeoutForLargeTests="900"
+>
 	<testsuite name='ownCloud'>
 		<directory suffix='.php'>lib/</directory>
 		<file>apps.php</file>
 	</testsuite>
 	<!-- filters for code coverage -->
-	<whitelist processUncoveredFilesFromWhitelist="true">
-		<directory suffix=".php">..</directory>
-		<exclude>
-			<directory suffix=".php">../3rdparty</directory>
-		</exclude>
-	</whitelist>
+	<filter>
+		<!-- whitelist processUncoveredFilesFromWhitelist="true" -->
+		<whitelist>
+			<directory suffix=".php">..</directory>
+			<exclude>
+				<directory suffix=".php">../3rdparty</directory>
+				<directory suffix=".php">../apps/files/l10n</directory>
+				<directory suffix=".php">../apps/files_external/l10n</directory>
+				<directory suffix=".php">../apps/files_external/3rdparty</directory>
+				<directory suffix=".php">../apps/files_versions/l10n</directory>
+				<directory suffix=".php">../apps/files_encryption/l10n</directory>
+				<directory suffix=".php">../apps/files_encryption/3rdparty</directory>
+				<directory suffix=".php">../apps/files_sharing/l10n</directory>
+				<directory suffix=".php">../apps/files_trashbin/l10n</directory>
+				<directory suffix=".php">../apps/user_ldap/l10n</directory>
+				<directory suffix=".php">../apps/user_webdavauth/l10n</directory>
+				<directory suffix=".php">../lib/MDB2</directory>
+				<directory suffix=".php">../lib/l10n</directory>
+				<directory suffix=".php">../core/l10n</directory>
+				<directory suffix=".php">../settings/l10n</directory>
+				<directory suffix=".php">../tests</directory>
+			</exclude>
+		</whitelist>
+	</filter>
 </phpunit>
+

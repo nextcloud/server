@@ -37,6 +37,12 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		$result = OC_Util::sanitizeHTML($goodString);
 		$this->assertEquals("This is an harmless string.", $result);
 	}
+	
+	function testEncodePath(){
+		$component = '/§#@test%&^ä/-child';
+		$result = OC_Util::encodePath($component);
+		$this->assertEquals("/%C2%A7%23%40test%25%26%5E%C3%A4/-child", $result);
+	}
 
 	function testGenerate_random_bytes() {
 		$result = strlen(OC_Util::generate_random_bytes(59));
@@ -47,4 +53,16 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
 		$this->assertEquals('no-reply@localhost.localdomain', $email);
 	}
+
+	function testGetDefaultEmailAddressFromConfig() {
+		OC_Config::setValue('mail_domain', 'example.com');
+		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
+		$this->assertEquals('no-reply@example.com', $email);
+		OC_Config::deleteKey('mail_domain');
+	}
+
+  function testGetInstanceIdGeneratesValidId() {
+    OC_Config::deleteKey('instanceid');
+    $this->assertStringStartsWith('oc', OC_Util::getInstanceId());
+  }
 }

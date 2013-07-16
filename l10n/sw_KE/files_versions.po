@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-28 00:04+0100\n"
-"PO-Revision-Date: 2013-02-27 23:04+0000\n"
+"POT-Creation-Date: 2013-05-25 02:01+0200\n"
+"PO-Revision-Date: 2013-05-24 13:28+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swahili (Kenya) (http://www.transifex.com/projects/p/owncloud/language/sw_KE/)\n"
 "MIME-Version: 1.0\n"
@@ -40,11 +40,11 @@ msgstr ""
 msgid "File %s could not be reverted to version %s"
 msgstr ""
 
-#: history.php:68
+#: history.php:69
 msgid "No old versions available"
 msgstr ""
 
-#: history.php:73
+#: history.php:74
 msgid "No path specified"
 msgstr ""
 

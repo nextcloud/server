@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Rodrigo Tavares <rodrigo.st23@hotmail.com>, 2013.
-#   <thoriumbr@gmail.com>, 2012.
+# bjamalaro <bjamalaro@yahoo.com.br>, 2013
+# Rodrigo Tavares <rodrigo.st23@hotmail.com>, 2013
+# thoriumbr <thoriumbr@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 00:27+0100\n"
-"PO-Revision-Date: 2013-01-30 16:22+0000\n"
-"Last-Translator: rodrigost23 <rodrigo.st23@hotmail.com>\n"
+"POT-Creation-Date: 2013-06-21 08:49+0200\n"
+"PO-Revision-Date: 2013-06-20 21:50+0000\n"
+"Last-Translator: bjamalaro <bjamalaro@yahoo.com.br>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,10 +25,10 @@ msgid "WebDAV Authentication"
 msgstr "Autenticação WebDAV"
 
 #: templates/settings.php:4
-msgid "URL: http://"
-msgstr "URL: http://"
+msgid "URL: "
+msgstr "URL:"
 
-#: templates/settings.php:6
+#: templates/settings.php:7
 msgid ""
 "ownCloud will send the user credentials to this URL. This plugin checks the "
 "response and will interpret the HTTP statuscodes 401 and 403 as invalid "

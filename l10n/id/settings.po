@@ -3,16 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <mr.pige_ina@yahoo.co.id>, 2012.
-# Muhammad Fauzan <yosanpro@gmail.com>, 2012.
-# Muhammad Panji <sumodirjo@gmail.com>, 2012.
-# Muhammad Radifar <m_radifar05@yahoo.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 14:35+0100\n"
-"PO-Revision-Date: 2013-02-27 13:35+0000\n"
+"POT-Creation-Date: 2013-07-16 01:56-0400\n"
+"PO-Revision-Date: 2013-07-16 05:14+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -23,48 +19,52 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "Tidak dapat memuat daftar dari App Store"
 
-#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
+#: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr "autentikasi bermasalah"
+msgstr "Galat saat autentikasi"
 
-#: ajax/changedisplayname.php:32
-msgid "Unable to change display name"
+#: ajax/changedisplayname.php:31
+msgid "Your display name has been changed."
 msgstr ""
+
+#: ajax/changedisplayname.php:34
+msgid "Unable to change display name"
+msgstr "Tidak dapat mengubah nama tampilan"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr ""
+msgstr "Grup sudah ada"
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr ""
+msgstr "Tidak dapat menambah grup"
 
 #: ajax/enableapp.php:11
 msgid "Could not enable app. "
-msgstr ""
+msgstr "Tidak dapat mengaktifkan aplikasi."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr "Email tersimpan"
+msgstr "Email disimpan"
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr "Email tidak sah"
+msgstr "Email tidak valid"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Tidak dapat menghapus grup"
 
-#: ajax/removeuser.php:24
+#: ajax/removeuser.php:25
 msgid "Unable to delete user"
-msgstr ""
+msgstr "Tidak dapat menghapus pengguna"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr "Bahasa telah diganti"
+msgstr "Bahasa telah diubah"
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
@@ -72,158 +72,158 @@ msgstr "Permintaan tidak valid"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr ""
+msgstr "Admin tidak dapat menghapus dirinya sendiri dari grup admin"
 
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "Tidak dapat menambahkan pengguna ke grup %s"
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "Tidak dapat menghapus pengguna dari grup %s"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr ""
+msgstr "Tidak dapat memperbarui aplikasi."
 
-#: js/apps.js:30
+#: js/apps.js:35
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "Perbarui ke {appversion}"
 
-#: js/apps.js:36 js/apps.js:76
+#: js/apps.js:41 js/apps.js:81
 msgid "Disable"
-msgstr "NonAktifkan"
+msgstr "Nonaktifkan"
 
-#: js/apps.js:36 js/apps.js:64
+#: js/apps.js:41 js/apps.js:69 js/apps.js:88
 msgid "Enable"
-msgstr "Aktifkan"
+msgstr "aktifkan"
 
-#: js/apps.js:55
+#: js/apps.js:60
 msgid "Please wait...."
-msgstr ""
+msgstr "Mohon tunggu...."
 
-#: js/apps.js:84
-msgid "Updating...."
-msgstr ""
-
-#: js/apps.js:87
-msgid "Error while updating app"
-msgstr ""
-
-#: js/apps.js:87
+#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
 msgid "Error"
-msgstr "kesalahan"
+msgstr "Galat"
 
-#: js/apps.js:90
+#: js/apps.js:95
+msgid "Updating...."
+msgstr "Memperbarui...."
+
+#: js/apps.js:98
+msgid "Error while updating app"
+msgstr "Gagal ketika memperbarui aplikasi"
+
+#: js/apps.js:101
 msgid "Updated"
-msgstr ""
+msgstr "Diperbarui"
 
-#: js/personal.js:99
+#: js/personal.js:118
 msgid "Saving..."
 msgstr "Menyimpan..."
 
-#: js/users.js:30
+#: js/users.js:47
 msgid "deleted"
 msgstr "dihapus"
 
-#: js/users.js:30
+#: js/users.js:47
 msgid "undo"
-msgstr "batal dikerjakan"
+msgstr "urungkan"
 
-#: js/users.js:62
+#: js/users.js:79
 msgid "Unable to remove user"
-msgstr ""
+msgstr "Tidak dapat menghapus pengguna"
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:80
-#: templates/users.php:105
+#: js/users.js:92 templates/users.php:26 templates/users.php:87
+#: templates/users.php:112
 msgid "Groups"
-msgstr "Group"
+msgstr "Grup"
 
-#: js/users.js:78 templates/users.php:82 templates/users.php:119
+#: js/users.js:95 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "Admin Grup"
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:115 templates/users.php:164
 msgid "Delete"
 msgstr "Hapus"
 
-#: js/users.js:191
+#: js/users.js:269
 msgid "add group"
-msgstr ""
+msgstr "tambah grup"
 
-#: js/users.js:352
+#: js/users.js:428
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Tuliskan nama pengguna yang valid"
 
-#: js/users.js:353 js/users.js:359 js/users.js:374
+#: js/users.js:429 js/users.js:435 js/users.js:450
 msgid "Error creating user"
-msgstr ""
+msgstr "Gagal membuat pengguna"
 
-#: js/users.js:358
+#: js/users.js:434
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Tuliskan sandi yang valid"
 
-#: personal.php:29 personal.php:30
+#: personal.php:37 personal.php:38
 msgid "__language_name__"
 msgstr "__language_name__"
 
-#: templates/admin.php:15
+#: templates/admin.php:17
 msgid "Security Warning"
-msgstr "peringatan keamanan"
+msgstr "Peringatan Keamanan"
 
-#: templates/admin.php:18
+#: templates/admin.php:20
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file that ownCloud provides is not working. We "
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Mungkin direktori data dan berkas Anda dapat diakses dari internet. Berkas .htaccess yang disediakan oleh ownCloud tidak berfungsi. Kami sangat menyarankan Anda untuk mengonfigurasi webserver Anda agar direktori data tidak lagi dapat diakses atau pindahkan direktori data ke luar akar dokumen webserver."
 
-#: templates/admin.php:29
+#: templates/admin.php:31
 msgid "Setup Warning"
-msgstr ""
+msgstr "Peringatan Persiapan"
 
-#: templates/admin.php:32
+#: templates/admin.php:34
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Web server Anda belum dikonfigurasikan dengan baik untuk mengizinkan sinkronisasi berkas karena tampaknya antarmuka WebDAV rusak."
 
-#: templates/admin.php:33
+#: templates/admin.php:35
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Silakan periksa ulang <a href='%s'>panduan instalasi</a>."
 
-#: templates/admin.php:44
+#: templates/admin.php:46
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "Module 'fileinfo' tidak ada"
 
-#: templates/admin.php:47
+#: templates/admin.php:49
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr ""
+msgstr "Module 'fileinfo' pada PHP tidak ada. Kami sangat menyarankan untuk mengaktifkan modul ini untuk mendapatkan hasil terbaik pada proses pendeteksian mime-type."
 
-#: templates/admin.php:58
+#: templates/admin.php:60
 msgid "Locale not working"
-msgstr ""
+msgstr "Kode pelokalan tidak berfungsi"
 
-#: templates/admin.php:63
+#: templates/admin.php:65
 #, php-format
 msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
 "might be problems with certain characters in file names. We strongly suggest"
 " to install the required packages on your system to support %s."
-msgstr ""
+msgstr "Server ownCloud ini tidak dapat menyetel kode pelokalan sistem ke nilai %s. Ini berarti mungkin akan terjadi masalah pada karakter tertentu pada nama berkas. Kami sarankan untuk menginstal paket yang dibutuhkan pada sistem Anda untuk mendukung %s."
 
-#: templates/admin.php:75
+#: templates/admin.php:77
 msgid "Internet connection not working"
-msgstr ""
+msgstr "Koneksi internet tidak berfungsi"
 
-#: templates/admin.php:78
+#: templates/admin.php:80
 msgid ""
 "This ownCloud server has no working internet connection. This means that "
 "some of the features like mounting of external storage, notifications about "
@@ -231,100 +231,104 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "Server ownCloud ini tidak memiliki koneksi internet yang berfungsi. Artinya, beberapa fitur misalnya mengaitkan penyimpanan eksternal, notifikasi tentang pembaruan, atau instalasi aplikasi dari pihak ketiga tidak akan dapat berfungsi. Pengaksesan berkas secara online dan pengiriman email notifikasi mungkin juga tidak dapat berfungsi. Kami sarankan untuk mengaktifkan koneksi internet server ini agar mendapatkan semua fitur ownCloud."
 
-#: templates/admin.php:92
+#: templates/admin.php:94
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
-#: templates/admin.php:101
+#: templates/admin.php:103
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Jalankan tugas setiap kali halaman dimuat"
 
-#: templates/admin.php:111
+#: templates/admin.php:113
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php telah terdaftar sebagai layanan webcron. Panggil halaman cron.php pada akar direktori ownCloud tiap menit lewat http."
 
-#: templates/admin.php:121
+#: templates/admin.php:123
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Gunakan layanan cron sistem. Panggil berkas cron.php pada folder ownCloud lewat cronjob sistem tiap menit."
 
-#: templates/admin.php:128
+#: templates/admin.php:130
 msgid "Sharing"
-msgstr ""
+msgstr "Berbagi"
 
-#: templates/admin.php:134
+#: templates/admin.php:136
 msgid "Enable Share API"
-msgstr ""
+msgstr "Aktifkan API Pembagian"
 
-#: templates/admin.php:135
+#: templates/admin.php:137
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Izinkan aplikasi untuk menggunakan API Pembagian"
 
-#: templates/admin.php:142
+#: templates/admin.php:144
 msgid "Allow links"
-msgstr ""
+msgstr "Izinkan tautan"
 
-#: templates/admin.php:143
+#: templates/admin.php:145
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Izinkan pengguna untuk berbagi item kepada publik lewat tautan"
 
-#: templates/admin.php:150
+#: templates/admin.php:152
 msgid "Allow resharing"
-msgstr ""
+msgstr "Izinkan pembagian ulang"
 
-#: templates/admin.php:151
+#: templates/admin.php:153
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Izinkan pengguna untuk berbagi kembali item yang dibagikan kepada mereka."
 
-#: templates/admin.php:158
+#: templates/admin.php:160
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Izinkan pengguna untuk berbagi kepada siapa saja"
 
-#: templates/admin.php:161
+#: templates/admin.php:163
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Hanya izinkan pengguna untuk berbagi dengan pengguna pada grup mereka sendiri"
 
-#: templates/admin.php:168
+#: templates/admin.php:170
 msgid "Security"
-msgstr ""
+msgstr "Keamanan"
 
-#: templates/admin.php:181
+#: templates/admin.php:183
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "Selalu Gunakan HTTPS"
 
-#: templates/admin.php:182
+#: templates/admin.php:184
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "Paksa klien untuk tersambung ke ownCloud lewat koneksi yang dienkripsi."
 
-#: templates/admin.php:185
+#: templates/admin.php:187
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr ""
+msgstr "Silakan sambungkan ke instalasi ownCloud lewat HTTPS untuk mengaktifkan atau menonaktifkan fitur SSL."
 
-#: templates/admin.php:195
+#: templates/admin.php:197
 msgid "Log"
-msgstr ""
+msgstr "Catat"
 
-#: templates/admin.php:196
+#: templates/admin.php:198
 msgid "Log level"
-msgstr ""
+msgstr "Level pencatatan"
 
-#: templates/admin.php:223
+#: templates/admin.php:229
 msgid "More"
-msgstr "lagi"
+msgstr "Lainnya"
 
-#: templates/admin.php:230 templates/personal.php:102
+#: templates/admin.php:230
+msgid "Less"
+msgstr "Ciutkan"
+
+#: templates/admin.php:236 templates/personal.php:116
 msgid "Version"
-msgstr ""
+msgstr "Versi"
 
-#: templates/admin.php:233 templates/personal.php:105
+#: templates/admin.php:240 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -332,169 +336,174 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
+msgstr "Dikembangkan oleh <a href=\"http://ownCloud.org/contact\" target=\"_blank\">komunitas ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">kode sumber</a> dilisensikan di bawah <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/apps.php:11
+#: templates/apps.php:13
 msgid "Add your App"
-msgstr "Tambahkan App anda"
-
-#: templates/apps.php:12
-msgid "More Apps"
-msgstr ""
+msgstr "Tambahkan Aplikasi Anda"
 
 #: templates/apps.php:28
-msgid "Select an App"
-msgstr "Pilih satu aplikasi"
+msgid "More Apps"
+msgstr "Aplikasi Lainnya"
 
-#: templates/apps.php:34
+#: templates/apps.php:33
+msgid "Select an App"
+msgstr "Pilih Aplikasi"
+
+#: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
 msgstr "Lihat halaman aplikasi di apps.owncloud.com"
 
-#: templates/apps.php:36
+#: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-dilisensikan oleh <span class=\"author\"></span>"
 
-#: templates/apps.php:38
+#: templates/apps.php:43
 msgid "Update"
-msgstr "Pembaruan"
+msgstr "Perbarui"
 
 #: templates/help.php:4
 msgid "User Documentation"
-msgstr ""
+msgstr "Dokumentasi Pengguna"
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "Dokumentasi Administrator"
 
 #: templates/help.php:9
 msgid "Online Documentation"
-msgstr ""
+msgstr "Dokumentasi Online"
 
 #: templates/help.php:11
 msgid "Forum"
-msgstr ""
+msgstr "Forum"
 
 #: templates/help.php:14
 msgid "Bugtracker"
-msgstr ""
+msgstr "Bugtracker"
 
 #: templates/help.php:17
 msgid "Commercial Support"
-msgstr ""
+msgstr "Dukungan Komersial"
 
-#: templates/personal.php:8
+#: templates/personal.php:10
+msgid "Get the apps to sync your files"
+msgstr "Dapatkan aplikasi untuk sinkronisasi berkas Anda"
+
+#: templates/personal.php:21
+msgid "Show First Run Wizard again"
+msgstr "Tampilkan Penuntun Konfigurasi Awal"
+
+#: templates/personal.php:29
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "Anda telah menggunakan <strong>%s</strong> dari total <strong>%s</strong>"
 
-#: templates/personal.php:15
-msgid "Get the apps to sync your files"
-msgstr "Dapatkan aplikasi untuk sinkronisasi berkas anda"
-
-#: templates/personal.php:26
-msgid "Show First Run Wizard again"
-msgstr ""
-
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:79
+#: templates/personal.php:41 templates/users.php:23 templates/users.php:86
 msgid "Password"
-msgstr "Password"
-
-#: templates/personal.php:38
-msgid "Your password was changed"
-msgstr ""
-
-#: templates/personal.php:39
-msgid "Unable to change your password"
-msgstr "Tidak dapat merubah password anda"
-
-#: templates/personal.php:40
-msgid "Current password"
-msgstr "Password saat ini"
+msgstr "Sandi"
 
 #: templates/personal.php:42
-msgid "New password"
-msgstr "kata kunci baru"
+msgid "Your password was changed"
+msgstr "Sandi Anda telah diubah"
+
+#: templates/personal.php:43
+msgid "Unable to change your password"
+msgstr "Gagal mengubah sandi Anda"
 
 #: templates/personal.php:44
+msgid "Current password"
+msgstr "Sandi saat ini"
+
+#: templates/personal.php:46
+msgid "New password"
+msgstr "Sandi baru"
+
+#: templates/personal.php:48
 msgid "Change password"
-msgstr "Rubah password"
+msgstr "Ubah sandi"
 
-#: templates/personal.php:56 templates/users.php:78
+#: templates/personal.php:60 templates/users.php:85
 msgid "Display Name"
-msgstr ""
+msgstr "Nama Tampilan"
 
-#: templates/personal.php:57
-msgid "Your display name was changed"
-msgstr ""
-
-#: templates/personal.php:58
-msgid "Unable to change your display name"
-msgstr ""
-
-#: templates/personal.php:61
-msgid "Change display name"
-msgstr ""
-
-#: templates/personal.php:70
+#: templates/personal.php:75
 msgid "Email"
 msgstr "Email"
 
-#: templates/personal.php:72
+#: templates/personal.php:77
 msgid "Your email address"
-msgstr "Alamat email anda"
+msgstr "Alamat email Anda"
 
-#: templates/personal.php:73
+#: templates/personal.php:78
 msgid "Fill in an email address to enable password recovery"
-msgstr "Masukkan alamat email untuk mengaktifkan pemulihan password"
+msgstr "Masukkan alamat email untuk mengaktifkan pemulihan sandi"
 
-#: templates/personal.php:79 templates/personal.php:80
+#: templates/personal.php:87 templates/personal.php:88
 msgid "Language"
 msgstr "Bahasa"
 
-#: templates/personal.php:86
+#: templates/personal.php:100
 msgid "Help translate"
 msgstr "Bantu menerjemahkan"
 
-#: templates/personal.php:91
+#: templates/personal.php:106
 msgid "WebDAV"
+msgstr "WebDAV"
+
+#: templates/personal.php:108
+#, php-format
+msgid ""
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
+"target=\"_blank\">access your Files via WebDAV</a>"
 msgstr ""
 
-#: templates/personal.php:93
-msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
-
-#: templates/users.php:21 templates/users.php:77
+#: templates/users.php:21
 msgid "Login Name"
-msgstr ""
+msgstr "Nama Masuk"
 
-#: templates/users.php:32
+#: templates/users.php:30
 msgid "Create"
 msgstr "Buat"
 
-#: templates/users.php:35
+#: templates/users.php:36
+msgid "Admin Recovery Password"
+msgstr ""
+
+#: templates/users.php:37 templates/users.php:38
+msgid ""
+"Enter the recovery password in order to recover the users files during "
+"password change"
+msgstr ""
+
+#: templates/users.php:42
 msgid "Default Storage"
-msgstr ""
+msgstr "Penyimpanan Baku"
 
-#: templates/users.php:41 templates/users.php:139
+#: templates/users.php:48 templates/users.php:142
 msgid "Unlimited"
-msgstr ""
+msgstr "Tak terbatas"
 
-#: templates/users.php:59 templates/users.php:154
+#: templates/users.php:66 templates/users.php:157
 msgid "Other"
-msgstr "Lain-lain"
+msgstr "Lainnya"
 
 #: templates/users.php:84
+msgid "Username"
+msgstr "Nama pengguna"
+
+#: templates/users.php:91
 msgid "Storage"
-msgstr ""
+msgstr "Penyimpanan"
 
-#: templates/users.php:95
+#: templates/users.php:102
 msgid "change display name"
-msgstr ""
+msgstr "ubah nama tampilan"
 
-#: templates/users.php:99
+#: templates/users.php:106
 msgid "set new password"
-msgstr ""
+msgstr "setel sandi baru"
 
-#: templates/users.php:134
+#: templates/users.php:137
 msgid "Default"
-msgstr ""
+msgstr "Baku"

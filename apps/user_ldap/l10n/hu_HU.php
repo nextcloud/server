@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Failed to clear the mappings." => "Nem sikerült törölni a hozzárendeléseket.",
 "Failed to delete the server configuration" => "Nem sikerült törölni a kiszolgáló konfigurációját",
 "The configuration is valid and the connection could be established!" => "A konfiguráció érvényes, és a kapcsolat létrehozható!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "A konfiguráció érvényes, de a kapcsolat nem hozható létre. Kérem ellenőrizze a kiszolgáló beállításait, és az elérési adatokat.",
@@ -7,6 +8,9 @@
 "Take over settings from recent server configuration?" => "Vegyük át a beállításokat az előző konfigurációból?",
 "Keep settings?" => "Tartsuk meg a beállításokat?",
 "Cannot add server configuration" => "Az új  kiszolgáló konfigurációja nem hozható létre",
+"mappings cleared" => "Töröltük a hozzárendeléseket",
+"Success" => "Sikeres végrehajtás",
+"Error" => "Hiba",
 "Connection test succeeded" => "A kapcsolatellenőrzés eredménye: sikerült",
 "Connection test failed" => "A kapcsolatellenőrzés eredménye: nem sikerült",
 "Do you really want to delete the current Server Configuration?" => "Tényleg törölni szeretné a kiszolgáló beállításait?",
@@ -70,6 +74,13 @@
 "Email Field" => "Email mező",
 "User Home Folder Naming Rule" => "A home könyvtár elérési útvonala",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Hagyja üresen, ha a felhasználónevet kívánja használni. Ellenkező esetben adjon meg egy LDAP/AD attribútumot!",
+"Internal Username" => "Belső felhasználónév",
+"Internal Username Attribute:" => "A belső felhasználónév attribútuma:",
+"Override UUID detection" => "Az UUID-felismerés felülbírálása",
+"UUID Attribute:" => "UUID attribútum:",
+"Username-LDAP User Mapping" => "Felhasználó - LDAP felhasználó hozzárendelés",
+"Clear Username-LDAP User Mapping" => "A felhasználó - LDAP felhasználó hozzárendelés törlése",
+"Clear Groupname-LDAP Group Mapping" => "A csoport - LDAP csoport hozzárendelés törlése",
 "Test Configuration" => "A beállítások tesztelése",
 "Help" => "Súgó"
 );

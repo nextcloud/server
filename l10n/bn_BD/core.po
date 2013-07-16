@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#  <paul_shubhra@yahoo.com>, 2013.
-# Shubhra Paul <paul_shubhra@yahoo.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-22 00:06+0100\n"
-"PO-Revision-Date: 2013-02-20 23:20+0000\n"
+"POT-Creation-Date: 2013-07-16 01:56-0400\n"
+"PO-Revision-Date: 2013-07-16 05:14+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -19,29 +17,10 @@ msgstr ""
 "Language: bn_BD\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:85
+#: ajax/share.php:97
 #, php-format
-msgid "User %s shared a file with you"
-msgstr "%s নামের ব্যবহারকারি আপনার সাথে একটা ফাইল ভাগাভাগি করেছেন"
-
-#: ajax/share.php:87
-#, php-format
-msgid "User %s shared a folder with you"
-msgstr "%s নামের ব্যবহারকারি আপনার সাথে একটা ফোল্ডার ভাগাভাগি করেছেন"
-
-#: ajax/share.php:89
-#, php-format
-msgid ""
-"User %s shared the file \"%s\" with you. It is available for download here: "
-"%s"
-msgstr "%s নামের ব্যবহারকারী \"%s\" ফাইলটি আপনার সাথে ভাগাভাগি করেছেন। এটি এখন এখানে ডাউনলোড করার জন্য সুলভঃ %s"
-
-#: ajax/share.php:91
-#, php-format
-msgid ""
-"User %s shared the folder \"%s\" with you. It is available for download "
-"here: %s"
-msgstr "%s নামের ব্যবহারকারী \"%s\" ফোল্ডারটি আপনার সাথে ভাগাভাগি করেছেন। এটি এখন এখানে ডাউনলোড করার জন্য সুলভঃ %s"
+msgid "%s shared »%s« with you"
+msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -75,7 +54,7 @@ msgstr "প্রিয়তে %s যোগ করতে সমস্যা দ�
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "মুছে ফেলার জন্য কোন ক্যাটেগরি নির্বাচন করা হয় নি ।"
+msgstr "মুছে ফেলার জন্য কনো ক্যাটেগরি নির্বাচন করা হয় নি।"
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
@@ -86,151 +65,155 @@ msgstr "প্রিয় থেকে %s সরিয়ে ফেলতে সম�
 msgid "Sunday"
 msgstr "রবিবার"
 
-#: js/config.php:32
+#: js/config.php:33
 msgid "Monday"
 msgstr "সোমবার"
 
-#: js/config.php:32
+#: js/config.php:34
 msgid "Tuesday"
 msgstr "মঙ্গলবার"
 
-#: js/config.php:32
+#: js/config.php:35
 msgid "Wednesday"
 msgstr "বুধবার"
 
-#: js/config.php:32
+#: js/config.php:36
 msgid "Thursday"
-msgstr "বৃহষ্পতিবার"
+msgstr "বৃহস্পতিবার"
 
-#: js/config.php:32
+#: js/config.php:37
 msgid "Friday"
 msgstr "শুক্রবার"
 
-#: js/config.php:32
+#: js/config.php:38
 msgid "Saturday"
 msgstr "শনিবার"
 
-#: js/config.php:33
+#: js/config.php:43
 msgid "January"
 msgstr "জানুয়ারি"
 
-#: js/config.php:33
+#: js/config.php:44
 msgid "February"
 msgstr "ফেব্রুয়ারি"
 
-#: js/config.php:33
+#: js/config.php:45
 msgid "March"
 msgstr "মার্চ"
 
-#: js/config.php:33
+#: js/config.php:46
 msgid "April"
 msgstr "এপ্রিল"
 
-#: js/config.php:33
+#: js/config.php:47
 msgid "May"
 msgstr "মে"
 
-#: js/config.php:33
+#: js/config.php:48
 msgid "June"
 msgstr "জুন"
 
-#: js/config.php:33
+#: js/config.php:49
 msgid "July"
 msgstr "জুলাই"
 
-#: js/config.php:33
+#: js/config.php:50
 msgid "August"
 msgstr "অগাষ্ট"
 
-#: js/config.php:33
+#: js/config.php:51
 msgid "September"
 msgstr "সেপ্টেম্বর"
 
-#: js/config.php:33
+#: js/config.php:52
 msgid "October"
 msgstr "অক্টোবর"
 
-#: js/config.php:33
+#: js/config.php:53
 msgid "November"
 msgstr "নভেম্বর"
 
-#: js/config.php:33
+#: js/config.php:54
 msgid "December"
 msgstr "ডিসেম্বর"
 
-#: js/js.js:286
+#: js/js.js:293
 msgid "Settings"
 msgstr "নিয়ামকসমূহ"
 
-#: js/js.js:767
+#: js/js.js:725
 msgid "seconds ago"
 msgstr "সেকেন্ড পূর্বে"
 
-#: js/js.js:768
+#: js/js.js:726
 msgid "1 minute ago"
-msgstr "1 মিনিট পূর্বে"
+msgstr "১ মিনিট পূর্বে"
 
-#: js/js.js:769
+#: js/js.js:727
 msgid "{minutes} minutes ago"
 msgstr "{minutes} মিনিট পূর্বে"
 
-#: js/js.js:770
+#: js/js.js:728
 msgid "1 hour ago"
 msgstr "1 ঘন্টা পূর্বে"
 
-#: js/js.js:771
+#: js/js.js:729
 msgid "{hours} hours ago"
 msgstr "{hours} ঘন্টা পূর্বে"
 
-#: js/js.js:772
+#: js/js.js:730
 msgid "today"
 msgstr "আজ"
 
-#: js/js.js:773
+#: js/js.js:731
 msgid "yesterday"
 msgstr "গতকাল"
 
-#: js/js.js:774
+#: js/js.js:732
 msgid "{days} days ago"
 msgstr "{days} দিন পূর্বে"
 
-#: js/js.js:775
+#: js/js.js:733
 msgid "last month"
-msgstr "গতমাস"
+msgstr "গত মাস"
 
-#: js/js.js:776
+#: js/js.js:734
 msgid "{months} months ago"
 msgstr "{months} মাস পূর্বে"
 
-#: js/js.js:777
+#: js/js.js:735
 msgid "months ago"
 msgstr "মাস পূর্বে"
 
-#: js/js.js:778
+#: js/js.js:736
 msgid "last year"
 msgstr "গত বছর"
 
-#: js/js.js:779
+#: js/js.js:737
 msgid "years ago"
 msgstr "বছর পূর্বে"
 
-#: js/oc-dialogs.js:126
+#: js/oc-dialogs.js:117
 msgid "Choose"
 msgstr "বেছে নিন"
 
-#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+#: js/oc-dialogs.js:122
 msgid "Cancel"
 msgstr "বাতির"
 
-#: js/oc-dialogs.js:162
-msgid "No"
-msgstr "না"
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+msgid "Error loading file picker template"
+msgstr ""
 
-#: js/oc-dialogs.js:163
+#: js/oc-dialogs.js:164
 msgid "Yes"
 msgstr "হ্যাঁ"
 
-#: js/oc-dialogs.js:180
+#: js/oc-dialogs.js:172
+msgid "No"
+msgstr "না"
+
+#: js/oc-dialogs.js:185
 msgid "Ok"
 msgstr "তথাস্তু"
 
@@ -239,9 +222,11 @@ msgstr "তথাস্তু"
 msgid "The object type is not specified."
 msgstr "অবজেক্টের ধরণটি সুনির্দিষ্ট নয়।"
 
-#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:582
-#: js/share.js:594
+#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
+#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:620
+#: js/share.js:632
 msgid "Error"
 msgstr "সমস্যা"
 
@@ -253,142 +238,146 @@ msgstr "অ্যাপের নামটি  সুনির্দিষ্ট
 msgid "The required file {file} is not installed!"
 msgstr "আবশ্যিক {file} টি সংস্থাপিত নেই !"
 
-#: js/share.js:29 js/share.js:43 js/share.js:90
+#: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
 msgstr "ভাগাভাগিকৃত"
 
-#: js/share.js:93
+#: js/share.js:90
 msgid "Share"
 msgstr "ভাগাভাগি কর"
 
-#: js/share.js:141 js/share.js:622
+#: js/share.js:125 js/share.js:660
 msgid "Error while sharing"
 msgstr "ভাগাভাগি করতে সমস্যা দেখা দিয়েছে  "
 
-#: js/share.js:152
+#: js/share.js:136
 msgid "Error while unsharing"
 msgstr "ভাগাভাগি বাতিল করতে সমস্যা দেখা দিয়েছে"
 
-#: js/share.js:159
+#: js/share.js:143
 msgid "Error while changing permissions"
 msgstr "অনুমতিসমূহ  পরিবর্তন করতে সমস্যা দেখা দিয়েছে"
 
-#: js/share.js:168
+#: js/share.js:152
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "{owner} আপনার এবং {group} গোষ্ঠীর সাথে ভাগাভাগি করেছেন"
 
-#: js/share.js:170
+#: js/share.js:154
 msgid "Shared with you by {owner}"
 msgstr "{owner} আপনার সাথে ভাগাভাগি করেছেন"
 
-#: js/share.js:175
+#: js/share.js:172
 msgid "Share with"
 msgstr "যাদের সাথে ভাগাভাগি করা হয়েছে"
 
-#: js/share.js:180
+#: js/share.js:177
 msgid "Share with link"
 msgstr "লিংকের সাথে ভাগাভাগি কর"
 
-#: js/share.js:183
+#: js/share.js:180
 msgid "Password protect"
 msgstr "কূটশব্দ সুরক্ষিত"
 
-#: js/share.js:185 templates/installation.php:44 templates/login.php:35
+#: js/share.js:182 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "কূটশব্দ"
 
-#: js/share.js:189
+#: js/share.js:187
+msgid "Allow Public Upload"
+msgstr ""
+
+#: js/share.js:191
 msgid "Email link to person"
 msgstr "ব্যক্তির সাথে ই-মেইল যুক্ত কর"
 
-#: js/share.js:190
+#: js/share.js:192
 msgid "Send"
 msgstr "পাঠাও"
 
-#: js/share.js:194
+#: js/share.js:197
 msgid "Set expiration date"
 msgstr "মেয়াদোত্তীর্ণ হওয়ার তারিখ নির্ধারণ করুন"
 
-#: js/share.js:195
+#: js/share.js:198
 msgid "Expiration date"
 msgstr "মেয়াদোত্তীর্ণ হওয়ার তারিখ"
 
-#: js/share.js:227
+#: js/share.js:230
 msgid "Share via email:"
 msgstr "ই-মেইলের মাধ্যমে ভাগাভাগি করুনঃ"
 
-#: js/share.js:229
+#: js/share.js:232
 msgid "No people found"
 msgstr "কোন ব্যক্তি খুঁজে পাওয়া গেল না"
 
-#: js/share.js:256
+#: js/share.js:270
 msgid "Resharing is not allowed"
 msgstr "পূনঃরায় ভাগাভাগি অনুমোদিত নয়"
 
-#: js/share.js:292
+#: js/share.js:306
 msgid "Shared in {item} with {user}"
 msgstr "{user} এর সাথে {item} ভাগাভাগি করা হয়েছে"
 
-#: js/share.js:313
+#: js/share.js:327
 msgid "Unshare"
-msgstr "ভাগাভাগি বাতিল কর"
+msgstr "ভাগাভাগি বাতিল "
 
-#: js/share.js:325
+#: js/share.js:339
 msgid "can edit"
 msgstr "সম্পাদনা করতে পারবেন"
 
-#: js/share.js:327
+#: js/share.js:341
 msgid "access control"
 msgstr "অধিগম্যতা নিয়ন্ত্রণ"
 
-#: js/share.js:330
+#: js/share.js:344
 msgid "create"
 msgstr "তৈরী করুন"
 
-#: js/share.js:333
+#: js/share.js:347
 msgid "update"
 msgstr "পরিবর্ধন কর"
 
-#: js/share.js:336
+#: js/share.js:350
 msgid "delete"
 msgstr "মুছে ফেল"
 
-#: js/share.js:339
+#: js/share.js:353
 msgid "share"
 msgstr "ভাগাভাগি কর"
 
-#: js/share.js:373 js/share.js:569
+#: js/share.js:387 js/share.js:607
 msgid "Password protected"
 msgstr "কূটশব্দদ্বারা সুরক্ষিত"
 
-#: js/share.js:582
+#: js/share.js:620
 msgid "Error unsetting expiration date"
 msgstr "মেয়াদোত্তীর্ণ হওয়ার তারিখ নির্ধারণ বাতিল করতে সমস্যা দেখা দিয়েছে"
 
-#: js/share.js:594
+#: js/share.js:632
 msgid "Error setting expiration date"
 msgstr "মেয়াদোত্তীর্ণ হওয়ার তারিখ নির্ধারণ করতে সমস্যা দেখা দিয়েছে"
 
-#: js/share.js:609
+#: js/share.js:647
 msgid "Sending ..."
 msgstr "পাঠানো হচ্ছে......"
 
-#: js/share.js:620
+#: js/share.js:658
 msgid "Email sent"
 msgstr "ই-মেইল পাঠানো হয়েছে"
 
-#: js/update.js:14
+#: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
 msgstr ""
 
-#: js/update.js:18
+#: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr ""
 
-#: lostpassword/controller.php:48
+#: lostpassword/controller.php:60
 msgid "ownCloud password reset"
 msgstr "ownCloud কূটশব্দ পূনঃনির্ধারণ"
 
@@ -396,24 +385,39 @@ msgstr "ownCloud কূটশব্দ পূনঃনির্ধারণ"
 msgid "Use the following link to reset your password: {link}"
 msgstr "আপনার কূটশব্দটি পূনঃনির্ধারণ  করার জন্য নিম্নোক্ত লিংকটি ব্যবহার করুনঃ {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "কূটশব্দ পূনঃনির্ধারণের জন্য একটি টূনঃনির্ধারণ লিংকটি আপনাকে ই-মেইলে পাঠানো হয়েছে ।"
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "পূনঃনির্ধারণ ই-মেইল পাঠানো হয়েছে।"
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "অনুরোধ ব্যর্থ !"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
 msgstr "ব্যবহারকারী"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:22
+msgid ""
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset. If you "
+"are not sure what to do, please contact your administrator before you "
+"continue. Do you really want to continue?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:24
+msgid "Yes, I really want to reset my password now"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
 msgstr "অনুরোধ পূনঃনির্ধারণ"
 
@@ -443,7 +447,7 @@ msgstr "ব্যবহারকারী"
 
 #: strings.php:7
 msgid "Apps"
-msgstr "অ্যাপস"
+msgstr "অ্যাপ"
 
 #: strings.php:8
 msgid "Admin"
@@ -461,6 +465,17 @@ msgstr "অধিগমনের অনুমতি নেই"
 msgid "Cloud not found"
 msgstr "ক্লাউড খুঁজে পাওয়া গেল না"
 
+#: templates/altmail.php:4
+#, php-format
+msgid ""
+"Hey there,\n"
+"\n"
+"just letting you know that %s shared %s with you.\n"
+"View it: %s\n"
+"\n"
+"Cheers!"
+msgstr ""
+
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
 msgstr "ক্যাটেগরি সম্পাদনা"
@@ -469,116 +484,134 @@ msgstr "ক্যাটেগরি সম্পাদনা"
 msgid "Add"
 msgstr "যোগ কর"
 
-#: templates/installation.php:23 templates/installation.php:30
+#: templates/installation.php:24 templates/installation.php:31
+#: templates/installation.php:38
 msgid "Security Warning"
 msgstr "নিরাপত্তাজনিত সতর্কতা"
 
-#: templates/installation.php:24
+#: templates/installation.php:25
+msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
+msgstr ""
+
+#: templates/installation.php:26
+msgid "Please update your PHP installation to use ownCloud securely."
+msgstr ""
+
+#: templates/installation.php:32
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr ""
 
-#: templates/installation.php:25
+#: templates/installation.php:33
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr ""
 
-#: templates/installation.php:31
+#: templates/installation.php:39
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr ""
 
-#: templates/installation.php:32
+#: templates/installation.php:40
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
 msgstr ""
 
-#: templates/installation.php:36
+#: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
 msgstr "<strong>প্রশাসক একাউন্ট</strong> তৈরী করুন"
 
-#: templates/installation.php:52
+#: templates/installation.php:62
 msgid "Advanced"
 msgstr "সুচারু"
 
-#: templates/installation.php:54
+#: templates/installation.php:64
 msgid "Data folder"
 msgstr "ডাটা ফোল্ডার "
 
-#: templates/installation.php:61
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "ডাটাবেচ কনফিগার করুন"
 
-#: templates/installation.php:66 templates/installation.php:77
-#: templates/installation.php:87 templates/installation.php:97
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "ব্যবহৃত হবে"
 
-#: templates/installation.php:109
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "ডাটাবেজ ব্যবহারকারী"
 
-#: templates/installation.php:113
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "ডাটাবেজ কূটশব্দ"
 
-#: templates/installation.php:117
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "ডাটাবেজের নাম"
 
-#: templates/installation.php:125
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "ডাটাবেজ টেবলস্পেস"
 
-#: templates/installation.php:131
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "ডাটাবেজ হোস্ট"
 
-#: templates/installation.php:136
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "সেটআপ সুসম্পন্ন কর"
 
-#: templates/layout.guest.php:33
-msgid "web services under your control"
-msgstr "ওয়েব সার্ভিসের নিয়ন্ত্রণ আপনার হাতের মুঠোয়"
+#: templates/layout.user.php:43
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
 
-#: templates/layout.user.php:48
+#: templates/layout.user.php:68
 msgid "Log out"
 msgstr "প্রস্থান"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr ""
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr ""
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr ""
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "কূটশব্দ হারিয়েছেন?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "মনে রাখ"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "প্রবেশ"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
+msgstr ""
+
+#: templates/mail.php:16
+#, php-format
+msgid ""
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
+"href=\"%s\">View it!</a><br><br>Cheers!"
 msgstr ""
 
 #: templates/part.pagenavi.php:3

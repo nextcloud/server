@@ -217,6 +217,7 @@ class Util {
 	 */
 	public static function getDefaultEmailAddress($user_part) {
 		$host_name = self::getServerHostName();
+		$host_name = \OC_Config::getValue('mail_domain', $host_name);
 		$defaultEmailAddress = $user_part.'@'.$host_name;
 
 		if (\OC_Mail::ValidateAddress($defaultEmailAddress)) {
@@ -353,6 +354,20 @@ class Util {
 	 */
 	public static function sanitizeHTML( $value ) {
 		return(\OC_Util::sanitizeHTML($value));
+	}
+		
+	/**
+	 * @brief Public function to encode url parameters
+	 *
+	 * This function is used to encode path to file before output.
+	 * Encoding is done according to RFC 3986 with one exception:
+	 * Character '/' is preserved as is. 
+	 *
+	 * @param string $component part of URI to encode
+	 * @return string 
+	 */
+	public static function encodePath($component) {
+		return(\OC_Util::encodePath($component));
 	}
 
 	/**

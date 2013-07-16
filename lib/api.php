@@ -67,6 +67,8 @@ class OC_API {
 			OC::getRouter()->useCollection('ocs');
 			OC::getRouter()->create($name, $url)
 				->method($method)
+				->defaults($defaults)
+				->requirements($requirements)
 				->action('OC_API', 'call');
 			self::$actions[$name] = array();
 		}
@@ -89,7 +91,7 @@ class OC_API {
 		$responses = array();
 		foreach(self::$actions[$name] as $action) {
 			// Check authentication and availability
-			if(!self::isAuthorised(self::$actions[$name])) {
+			if(!self::isAuthorised($action)) {
 				$responses[] = array(
 					'app' => $action['app'],
 					'response' => new OC_OCS_Result(null, OC_API::RESPOND_UNAUTHORISED, 'Unauthorised'),
@@ -111,9 +113,11 @@ class OC_API {
 		}
 		$response = self::mergeResponses($responses);
 		$formats = array('json', 'xml');
+
 		$format = !empty($_GET['format']) && in_array($_GET['format'], $formats) ? $_GET['format'] : 'xml';
-		self::respond($response);
 		OC_User::logout();
+
+		self::respond($response, $format);
 	}
 	
 	/**
@@ -147,6 +151,7 @@ class OC_API {
 				}
 			}
 		}
+
 		// Remove any error responses if there is one shipped response that succeeded
 		if(!empty($shipped['succeeded'])) {
 			$responses = array_merge($shipped['succeeded'], $thirdparty['succeeded']);
@@ -155,16 +160,19 @@ class OC_API {
 			// They may have failed for different reasons (different status codes)
 			// Which reponse code should we return?
 			// Maybe any that are not OC_API::RESPOND_SERVER_ERROR
-			$response = $shipped['failed'][0];
+			$response = reset($shipped['failed']);
+			return $response;
+		} elseif(!empty($thirdparty['failed'])) {
+			// Return the third party failure result
+			$response = reset($thirdparty['failed']);
 			return $response;
 		} else {
-			// Return the third party failure result
-			$response = $thirdparty['failed'][0];
-			return $response;
+			$responses = array_merge($shipped['succeeded'], $thirdparty['succeeded']);
 		}
 		// Merge the successful responses
 		$meta = array();
 		$data = array();
+
 		foreach($responses as $app => $response) {
 			if(OC_App::isShipped($app)) {
 				$data = array_merge_recursive($response->getData(), $data);

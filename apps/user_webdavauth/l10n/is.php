@@ -1,3 +1,3 @@
 <?php $TRANSLATIONS = array(
-"URL: http://" => "Vefslóð: http://"
+"WebDAV Authentication" => "WebDAV Auðkenni"
 );

@@ -2,9 +2,9 @@
 <info>
 	<id>files_encryption</id>
 	<name>Encryption</name>
-	<description>Server side encryption of files. Warning: You will lose your data if you enable this App and forget your password. Encryption is not yet compatible with LDAP.</description>
+	<description>The new ownCloud 5 files encryption system. After the app was enabled you need to re-login to initialize your encryption keys.</description>
 	<licence>AGPL</licence>
-	<author>Sam Tuke</author>
+	<author>Sam Tuke, Bjoern Schiessle, Florin Peter</author>
 	<require>4</require>
 	<shipped>true</shipped>
 	<types>

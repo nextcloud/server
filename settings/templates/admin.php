@@ -4,6 +4,8 @@
  * See the COPYING-README file.
  */
 $levels = array('Debug', 'Info', 'Warning', 'Error', 'Fatal');
+
+$defaults = new OC_Defaults(); // initialize themable default strings and urls
 ?>
 
 <?php
@@ -201,7 +203,7 @@ if (!$_['internetconnectionworking']) {
 		<?php endif;
 endfor;?>
 </select>
-	<table id='log'>
+	<table id="log">
 		<?php foreach ($_['entries'] as $entry): ?>
 		<tr>
 			<td>
@@ -214,22 +216,33 @@ endfor;?>
 				<?php p($entry->message);?>
 			</td>
 			<td>
-				<?php p(OC_Util::formatDate($entry->time));?>
+				<?php if(is_int($entry->time)){
+					p(OC_Util::formatDate($entry->time)); 
+				} else {
+					p($entry->time);
+				}?>
 			</td>
 		</tr>
 		<?php endforeach;?>
 	</table>
 	<?php if ($_['entriesremain']): ?>
-	<input id='moreLog' type='button' value='<?php p($l->t('More'));?>...'>
+	<input id="moreLog" type="button" value="<?php p($l->t('More'));?>...">
+	<input id="lessLog" type="button" value="<?php p($l->t('Less'));?>...">
 	<?php endif; ?>
 
 </fieldset>
 
-
 <fieldset class="personalblock">
 	<legend><strong><?php p($l->t('Version'));?></strong></legend>
-	<strong>ownCloud</strong> <?php p(OC_Util::getVersionString()); ?> <?php p(OC_Util::getEditionString()); ?>
-	(<?php p(OC_Updater::ShowUpdatingHint()); ?>)<br/>
-	<?php print_unescaped($l->t('Developed by the <a href="http://ownCloud.org/contact" target="_blank">ownCloud community</a>, the <a href="https://github.com/owncloud" target="_blank">source code</a> is licensed under the <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank"><abbr title="Affero General Public License">AGPL</abbr></a>.')); ?>
+	<strong><?php p($defaults->getName()); ?></strong> <?php p(OC_Util::getVersionString()); ?>
+<?php if (OC_Util::getEditionString() === ''): ?>
+	<p>
+		<?php print_unescaped($l->t('Developed by the <a href="http://ownCloud.org/contact" target="_blank">ownCloud community</a>, the <a href="https://github.com/owncloud" target="_blank">source code</a> is licensed under the <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank"><abbr title="Affero General Public License">AGPL</abbr></a>.')); ?>
+	</p>
+<?php endif; ?>
 </fieldset>
-
+<fieldset class="personalblock credits-footer">
+<p>
+	<?php print_unescaped($defaults->getShortFooter()); ?>
+</p>
+</fieldset>

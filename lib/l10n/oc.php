@@ -5,6 +5,7 @@
 "Users" => "Usancièrs",
 "Apps" => "Apps",
 "Admin" => "Admin",
+"web services under your control" => "Services web jos ton contraròtle",
 "ZIP download is turned off." => "Avalcargar los ZIP es inactiu.",
 "Files need to be downloaded one by one." => "Los fichièrs devan èsser avalcargats un per un.",
 "Back to Files" => "Torna cap als fichièrs",
@@ -18,7 +19,5 @@
 "%d days ago" => "%d jorns a",
 "last month" => "mes passat",
 "last year" => "an passat",
-"years ago" => "ans a",
-"up to date" => "a jorn",
-"updates check is disabled" => "la verificacion de mesa a jorn es inactiva"
+"years ago" => "ans a"
 );

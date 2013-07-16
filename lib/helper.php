@@ -27,6 +27,7 @@
 class OC_Helper {
 	private static $mimetypes=array();
 	private static $tmpFiles=array();
+	private static $mimetypeIcons = array();
 
 	/**
 	 * @brief Creates an url using a defined route
@@ -159,7 +160,7 @@ class OC_Helper {
 	 */
 	public static function imagePath( $app, $image ) {
 		// Read the selected theme from the config file
-		$theme=OC_Config::getValue( "theme" );
+		$theme = OC_Util::getTheme();
 
 		// Check if the app is in the app folder
 		if( file_exists( OC::$SERVERROOT."/themes/$theme/apps/$app/img/$image" )) {
@@ -187,31 +188,38 @@ class OC_Helper {
 	 *
 	 * Returns the path to the image of this file type.
 	 */
-	public static function mimetypeIcon( $mimetype ) {
-		$alias=array('application/xml'=>'code/xml');
-		if(isset($alias[$mimetype])) {
-			$mimetype=$alias[$mimetype];
+	public static function mimetypeIcon($mimetype) {
+		$alias = array('application/xml' => 'code/xml');
+		if (isset($alias[$mimetype])) {
+			$mimetype = $alias[$mimetype];
+		}
+		if (isset(self::$mimetypeIcons[$mimetype])) {
+			return self::$mimetypeIcons[$mimetype];
 		}
 		// Replace slash and backslash with a minus
-		$mimetype = str_replace( "/", "-", $mimetype );
-		$mimetype = str_replace( "\\", "-", $mimetype );
+		$icon = str_replace('/', '-', $mimetype);
+		$icon = str_replace( '\\', '-', $icon);
 
 		// Is it a dir?
-		if( $mimetype == "dir" ) {
-			return OC::$WEBROOT."/core/img/filetypes/folder.png";
+		if ($mimetype === 'dir') {
+			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT.'/core/img/filetypes/folder.png';
+			return OC::$WEBROOT.'/core/img/filetypes/folder.png';
 		}
 
 		// Icon exists?
-		if( file_exists( OC::$SERVERROOT."/core/img/filetypes/$mimetype.png" )) {
-			return OC::$WEBROOT."/core/img/filetypes/$mimetype.png";
+		if (file_exists(OC::$SERVERROOT.'/core/img/filetypes/'.$icon.'.png')) {
+			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT.'/core/img/filetypes/'.$icon.'.png';
+			return OC::$WEBROOT.'/core/img/filetypes/'.$icon.'.png';
 		}
-		//try only the first part of the filetype
-		$mimetype=substr($mimetype, 0, strpos($mimetype, '-'));
-		if( file_exists( OC::$SERVERROOT."/core/img/filetypes/$mimetype.png" )) {
-			return OC::$WEBROOT."/core/img/filetypes/$mimetype.png";
-		}
-		else{
-			return OC::$WEBROOT."/core/img/filetypes/file.png";
+
+		// Try only the first part of the filetype
+		$mimePart = substr($icon, 0, strpos($icon, '-'));
+		if (file_exists(OC::$SERVERROOT.'/core/img/filetypes/'.$mimePart.'.png')) {
+			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT.'/core/img/filetypes/'.$mimePart.'.png';
+			return OC::$WEBROOT.'/core/img/filetypes/'.$mimePart.'.png';
+		} else {
+			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT.'/core/img/filetypes/file.png';
+			return OC::$WEBROOT.'/core/img/filetypes/file.png';
 		}
 	}
 
@@ -356,6 +364,26 @@ class OC_Helper {
 	}
 
 	/**
+	 * Try to guess the mimetype based on filename
+	 *
+	 * @param string $path
+	 * @return string
+	 */
+	static public function getFileNameMimeType($path){
+		if(strpos($path, '.')) {
+			//try to guess the type by the file extension
+			if(!self::$mimetypes || self::$mimetypes != include 'mimetypes.list.php') {
+				self::$mimetypes=include 'mimetypes.list.php';
+			}
+			$extension=strtolower(strrchr(basename($path), "."));
+			$extension=substr($extension, 1);//remove leading .
+			return (isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
+		}else{
+			return 'application/octet-stream';
+		}
+	}
+
+	/**
 	 * get the mimetype form a local file
 	 * @param string $path
 	 * @return string
@@ -369,17 +397,7 @@ class OC_Helper {
 			return "httpd/unix-directory";
 		}
 
-		if(strpos($path, '.')) {
-			//try to guess the type by the file extension
-			if(!self::$mimetypes || self::$mimetypes != include 'mimetypes.list.php') {
-				self::$mimetypes=include 'mimetypes.list.php';
-			}
-			$extension=strtolower(strrchr(basename($path), "."));
-			$extension=substr($extension, 1);//remove leading .
-			$mimeType=(isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
-		}else{
-			$mimeType='application/octet-stream';
-		}
+		$mimeType = self::getFileNameMimeType($path);
 
 		if($mimeType=='application/octet-stream' and function_exists('finfo_open')
 			and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)) {
@@ -541,13 +559,15 @@ class OC_Helper {
 	}
 
 	/**
-	 * create a temporary file with an unique filename. It will not be deleted
-	 * automatically
-	 * @param string $postfix
-	 * @return string
+	 * move a file to oc-noclean temp dir
+	 * @param string $filename
+	 * @return mixed
 	 *
 	 */
-	public static function tmpFileNoClean($postfix='') {
+	public static function moveToNoClean($filename='') {
+		if ($filename == '') {
+			return false;
+		}
 		$tmpDirNoClean=get_temp_dir().'/oc-noclean/';
 		if (!file_exists($tmpDirNoClean) || !is_dir($tmpDirNoClean)) {
 			if (file_exists($tmpDirNoClean)) {
@@ -555,10 +575,12 @@ class OC_Helper {
 			}
 			mkdir($tmpDirNoClean);
 		}
-		$file=$tmpDirNoClean.md5(time().rand()).$postfix;
-		$fh=fopen($file, 'w');
-		fclose($fh);
-		return $file;
+		$newname=$tmpDirNoClean.basename($filename);
+		if (rename($filename, $newname)) {
+			return $newname;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -597,7 +619,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * remove all files created by self::tmpFileNoClean
+	 * remove all files in PHP /oc-noclean temp dir
 	 */
 	public static function cleanTmpNoClean() {
 		$tmpDirNoCleanFile=get_temp_dir().'/oc-noclean/';
@@ -764,9 +786,15 @@ class OC_Helper {
 	public static function maxUploadFilesize($dir) {
 		$upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
 		$post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
-		$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
-
 		$freeSpace = \OC\Files\Filesystem::free_space($dir);
+		if ((int)$upload_max_filesize === 0 and (int)$post_max_size === 0) {
+			$maxUploadFilesize = \OC\Files\FREE_SPACE_UNLIMITED;
+		} elseif ((int)$upload_max_filesize === 0 or (int)$post_max_size === 0) {
+			$maxUploadFilesize = max($upload_max_filesize, $post_max_size); //only the non 0 value counts
+		} else {
+			$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
+		}
+
 		if($freeSpace !== \OC\Files\FREE_SPACE_UNKNOWN){
 			$freeSpace = max($freeSpace, 0);
 
@@ -806,11 +834,19 @@ class OC_Helper {
 			$used = 0;
 		}
 		$free = \OC\Files\Filesystem::free_space();
-		$total = $free + $used;
+		if ($free >= 0){
+			$total = $free + $used;
+		} else {
+			$total = $free; //either unknown or unlimited
+		}
 		if ($total == 0) {
 			$total = 1; // prevent division by zero
 		}
-		$relative = round(($used / $total) * 10000) / 100;
+		if ($total >= 0){
+			$relative = round(($used / $total) * 10000) / 100;
+		} else {
+			$relative = 0;
+		}
 
 		return array('free' => $free, 'used' => $used, 'total' => $total, 'relative' => $relative);
 	}

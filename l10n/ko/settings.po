@@ -3,17 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <aoiob4305@gmail.com>, 2013.
-# 남자사람  <cessnagi@gmail.com>, 2012.
-# Harim Park <fofwisdom@gmail.com>, 2013.
-#   <limonade83@gmail.com>, 2012.
-# Shinjo Park <kde@peremen.name>, 2012-2013.
+# Shinjo Park <kde@peremen.name>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 14:35+0100\n"
-"PO-Revision-Date: 2013-02-27 13:35+0000\n"
+"POT-Creation-Date: 2013-07-16 01:56-0400\n"
+"PO-Revision-Date: 2013-07-16 05:14+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -26,22 +22,26 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "앱 스토어에서 목록을 가져올 수 없습니다"
 
-#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
+#: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
 msgstr "인증 오류"
 
-#: ajax/changedisplayname.php:32
+#: ajax/changedisplayname.php:31
+msgid "Your display name has been changed."
+msgstr "표시 이름이 변경되었습니다."
+
+#: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
-msgstr ""
+msgstr "표시 이름을 변경할 수 없음"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr "그룹이 이미 존재합니다."
+msgstr "그룹이 이미 존재함"
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr "그룹을 추가할 수 없습니다."
+msgstr "그룹을 추가할 수 없음"
 
 #: ajax/enableapp.php:11
 msgid "Could not enable app. "
@@ -57,15 +57,15 @@ msgstr "잘못된 이메일 주소"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr "그룹을 삭제할 수 없습니다."
+msgstr "그룹을 삭제할 수 없음"
 
-#: ajax/removeuser.php:24
+#: ajax/removeuser.php:25
 msgid "Unable to delete user"
-msgstr "사용자를 삭제할 수 없습니다."
+msgstr "사용자를 삭제할 수 없음."
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr "언어가 변경되었습니다"
+msgstr "언어가 변경됨"
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
@@ -73,108 +73,108 @@ msgstr "잘못된 요청"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr "관리자 자신을 관리자 그룹에서 삭제할 수 없습니다"
+msgstr "관리자 자신을 관리자 그룹에서 삭제할 수 없음"
 
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr "그룹 %s에 사용자를 추가할 수 없습니다."
+msgstr "그룹 %s에 사용자를 추가할 수 없음"
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr "그룹 %s에서 사용자를 삭제할 수 없습니다."
+msgstr "그룹 %s에서 사용자를 삭제할 수 없음"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr ""
+msgstr "앱을 업데이트할 수 없습니다."
 
-#: js/apps.js:30
+#: js/apps.js:35
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "버전 {appversion}(으)로 업데이트"
 
-#: js/apps.js:36 js/apps.js:76
+#: js/apps.js:41 js/apps.js:81
 msgid "Disable"
 msgstr "비활성화"
 
-#: js/apps.js:36 js/apps.js:64
+#: js/apps.js:41 js/apps.js:69 js/apps.js:88
 msgid "Enable"
-msgstr "활성화"
+msgstr "사용함"
 
-#: js/apps.js:55
+#: js/apps.js:60
 msgid "Please wait...."
-msgstr ""
+msgstr "기다려 주십시오...."
 
-#: js/apps.js:84
-msgid "Updating...."
-msgstr ""
-
-#: js/apps.js:87
-msgid "Error while updating app"
-msgstr ""
-
-#: js/apps.js:87
+#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
 msgid "Error"
 msgstr "오류"
 
-#: js/apps.js:90
-msgid "Updated"
-msgstr ""
+#: js/apps.js:95
+msgid "Updating...."
+msgstr "업데이트 중...."
 
-#: js/personal.js:99
+#: js/apps.js:98
+msgid "Error while updating app"
+msgstr "앱을 업데이트하는 중 오류 발생"
+
+#: js/apps.js:101
+msgid "Updated"
+msgstr "업데이트됨"
+
+#: js/personal.js:118
 msgid "Saving..."
 msgstr "저장 중..."
 
-#: js/users.js:30
+#: js/users.js:47
 msgid "deleted"
-msgstr "삭제"
+msgstr "삭제됨"
 
-#: js/users.js:30
+#: js/users.js:47
 msgid "undo"
 msgstr "실행 취소"
 
-#: js/users.js:62
+#: js/users.js:79
 msgid "Unable to remove user"
-msgstr ""
+msgstr "사용자를 삭제할 수 없음"
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:80
-#: templates/users.php:105
+#: js/users.js:92 templates/users.php:26 templates/users.php:87
+#: templates/users.php:112
 msgid "Groups"
 msgstr "그룹"
 
-#: js/users.js:78 templates/users.php:82 templates/users.php:119
+#: js/users.js:95 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "그룹 관리자"
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:115 templates/users.php:164
 msgid "Delete"
 msgstr "삭제"
 
-#: js/users.js:191
+#: js/users.js:269
 msgid "add group"
-msgstr ""
+msgstr "그룹 추가"
 
-#: js/users.js:352
+#: js/users.js:428
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "올바른 사용자 이름을 입력해야 함"
 
-#: js/users.js:353 js/users.js:359 js/users.js:374
+#: js/users.js:429 js/users.js:435 js/users.js:450
 msgid "Error creating user"
-msgstr ""
+msgstr "사용자 생성 오류"
 
-#: js/users.js:358
+#: js/users.js:434
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "올바른 암호를 입력해야 함"
 
-#: personal.php:29 personal.php:30
+#: personal.php:37 personal.php:38
 msgid "__language_name__"
 msgstr "한국어"
 
-#: templates/admin.php:15
+#: templates/admin.php:17
 msgid "Security Warning"
 msgstr "보안 경고"
 
-#: templates/admin.php:18
+#: templates/admin.php:20
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file that ownCloud provides is not working. We "
@@ -183,48 +183,48 @@ msgid ""
 " webserver document root."
 msgstr "데이터 디렉터리와 파일을 인터넷에서 접근할 수 있는 것 같습니다. ownCloud에서 제공한 .htaccess 파일이 작동하지 않습니다. 웹 서버를 다시 설정하여 데이터 디렉터리에 접근할 수 없도록 하거나 문서 루트 바깥쪽으로 옮기는 것을 추천합니다."
 
-#: templates/admin.php:29
+#: templates/admin.php:31
 msgid "Setup Warning"
-msgstr ""
+msgstr "설정 경고"
 
-#: templates/admin.php:32
+#: templates/admin.php:34
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "WebDAV 인터페이스가 제대로 작동하지 않습니다. 웹 서버에서 파일 동기화를 사용할 수 있도록 설정이 제대로 되지 않은 것 같습니다."
 
-#: templates/admin.php:33
+#: templates/admin.php:35
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "<a href='%s'>설치 가이드</a>를 다시 한 번 확인하십시오."
 
-#: templates/admin.php:44
+#: templates/admin.php:46
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "모듈 'fileinfo'가 없음"
 
-#: templates/admin.php:47
+#: templates/admin.php:49
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr ""
+msgstr "PHP 모듈 'fileinfo'가 존재하지 않습니다. MIME 형식 감지 결과를 향상시키기 위하여 이 모듈을 활성화하는 것을 추천합니다."
 
-#: templates/admin.php:58
+#: templates/admin.php:60
 msgid "Locale not working"
-msgstr ""
+msgstr "로캘이 작동하지 않음"
 
-#: templates/admin.php:63
+#: templates/admin.php:65
 #, php-format
 msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
 "might be problems with certain characters in file names. We strongly suggest"
 " to install the required packages on your system to support %s."
-msgstr ""
+msgstr "ownCloud 서버의 시스템 로캘을 %s(으)로 설정할 수 없습니다. 파일 이름에 특정한 글자가 들어가 있는 경우 문제가 발생할 수 있습니다. %s을(를) 지원하기 위해서 시스템에 필요한 패키지를 설치하는 것을 추천합니다."
 
-#: templates/admin.php:75
+#: templates/admin.php:77
 msgid "Internet connection not working"
-msgstr ""
+msgstr "인터넷에 연결할 수 없음"
 
-#: templates/admin.php:78
+#: templates/admin.php:80
 msgid ""
 "This ownCloud server has no working internet connection. This means that "
 "some of the features like mounting of external storage, notifications about "
@@ -232,100 +232,104 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "ownCloud 서버에서 인터넷에 연결할 수 없습니다. 외부 저장소 마운트, 업데이트 알림, 외부 앱 설치 등이 작동하지 않을 것입니다. 외부에서 파일에 접근하거나, 알림 이메일을 보내지 못할 수도 있습니다. ownCloud의 모든 기능을 사용하려면 이 서버를 인터넷에 연결하는 것을 추천합니다."
 
-#: templates/admin.php:92
+#: templates/admin.php:94
 msgid "Cron"
-msgstr ""
+msgstr "크론"
 
-#: templates/admin.php:101
+#: templates/admin.php:103
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "개별 페이지를 불러올 때마다 실행"
 
-#: templates/admin.php:111
+#: templates/admin.php:113
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php가 webcron 서비스에 등록되어 있습니다. HTTP를 통하여 1분마다 ownCloud 루트에서 cron.php 페이지를 불러옵니다."
 
-#: templates/admin.php:121
+#: templates/admin.php:123
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "시스템 cron 서비스를 사용합니다. 시스템 cronjob을 사용하여 ownCloud 폴더의 cron.php 파일을 1분마다 불러옵니다."
 
-#: templates/admin.php:128
+#: templates/admin.php:130
 msgid "Sharing"
-msgstr ""
+msgstr "공유"
 
-#: templates/admin.php:134
+#: templates/admin.php:136
 msgid "Enable Share API"
-msgstr ""
+msgstr "공유 API 사용하기"
 
-#: templates/admin.php:135
+#: templates/admin.php:137
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "앱에서 공유 API를 사용할 수 있도록 허용"
 
-#: templates/admin.php:142
+#: templates/admin.php:144
 msgid "Allow links"
-msgstr ""
+msgstr "링크 허용"
 
-#: templates/admin.php:143
+#: templates/admin.php:145
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "사용자가 개별 항목의 링크를 공유할 수 있도록 허용"
 
-#: templates/admin.php:150
+#: templates/admin.php:152
 msgid "Allow resharing"
-msgstr ""
+msgstr "재공유 허용"
 
-#: templates/admin.php:151
+#: templates/admin.php:153
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "사용자에게 공유된 항목을 다시 공유할 수 있도록 허용"
 
-#: templates/admin.php:158
+#: templates/admin.php:160
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "누구나와 공유할 수 있도록 허용"
 
-#: templates/admin.php:161
+#: templates/admin.php:163
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "사용자가 속해 있는 그룹의 사용자와만 공유할 수 있도록 허용"
 
-#: templates/admin.php:168
+#: templates/admin.php:170
 msgid "Security"
-msgstr ""
+msgstr "보안"
 
-#: templates/admin.php:181
+#: templates/admin.php:183
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "HTTPS 강제 사용"
 
-#: templates/admin.php:182
+#: templates/admin.php:184
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "클라이언트가 ownCloud에 항상 암호화된 연결로 연결하도록 강제합니다."
 
-#: templates/admin.php:185
+#: templates/admin.php:187
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr ""
+msgstr "SSL 강제 사용 설정을 변경하려면 ownCloud 인스턴스에 HTTPS로 연결하십시오."
 
-#: templates/admin.php:195
+#: templates/admin.php:197
 msgid "Log"
-msgstr ""
+msgstr "로그"
 
-#: templates/admin.php:196
+#: templates/admin.php:198
 msgid "Log level"
-msgstr ""
+msgstr "로그 단계"
 
-#: templates/admin.php:223
+#: templates/admin.php:229
 msgid "More"
 msgstr "더 중요함"
 
-#: templates/admin.php:230 templates/personal.php:102
+#: templates/admin.php:230
+msgid "Less"
+msgstr "덜 중요함"
+
+#: templates/admin.php:236 templates/personal.php:116
 msgid "Version"
 msgstr "버전"
 
-#: templates/admin.php:233 templates/personal.php:105
+#: templates/admin.php:240 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -335,27 +339,27 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 커뮤니티</a>에 의해서 개발되었습니다. <a href=\"https://github.com/owncloud\" target=\"_blank\">원본 코드</a>는 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>에 따라 사용이 허가됩니다."
 
-#: templates/apps.php:11
+#: templates/apps.php:13
 msgid "Add your App"
-msgstr "앱 추가"
+msgstr "내 앱 추가"
 
-#: templates/apps.php:12
+#: templates/apps.php:28
 msgid "More Apps"
 msgstr "더 많은 앱"
 
-#: templates/apps.php:28
+#: templates/apps.php:33
 msgid "Select an App"
 msgstr "앱 선택"
 
-#: templates/apps.php:34
+#: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
 msgstr "apps.owncloud.com에 있는 앱 페이지를 참고하십시오"
 
-#: templates/apps.php:36
+#: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-라이선스됨: <span class=\"author\"></span>"
 
-#: templates/apps.php:38
+#: templates/apps.php:43
 msgid "Update"
 msgstr "업데이트"
 
@@ -383,119 +387,124 @@ msgstr "버그 트래커"
 msgid "Commercial Support"
 msgstr "상업용 지원"
 
-#: templates/personal.php:8
-#, php-format
-msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr "현재 공간 <strong>%s</strong>/<strong>%s</strong>을(를) 사용 중입니다"
-
-#: templates/personal.php:15
+#: templates/personal.php:10
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "파일 동기화 앱 가져오기"
 
-#: templates/personal.php:26
+#: templates/personal.php:21
 msgid "Show First Run Wizard again"
 msgstr "첫 실행 마법사 다시 보이기"
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:79
+#: templates/personal.php:29
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
+msgstr "현재 공간 중 <strong>%s</strong>/<strong>%s</strong>을(를) 사용 중입니다"
+
+#: templates/personal.php:41 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "암호"
 
-#: templates/personal.php:38
+#: templates/personal.php:42
 msgid "Your password was changed"
 msgstr "암호가 변경되었습니다"
 
-#: templates/personal.php:39
+#: templates/personal.php:43
 msgid "Unable to change your password"
 msgstr "암호를 변경할 수 없음"
 
-#: templates/personal.php:40
+#: templates/personal.php:44
 msgid "Current password"
 msgstr "현재 암호"
 
-#: templates/personal.php:42
+#: templates/personal.php:46
 msgid "New password"
 msgstr "새 암호"
 
-#: templates/personal.php:44
+#: templates/personal.php:48
 msgid "Change password"
 msgstr "암호 변경"
 
-#: templates/personal.php:56 templates/users.php:78
+#: templates/personal.php:60 templates/users.php:85
 msgid "Display Name"
 msgstr "표시 이름"
 
-#: templates/personal.php:57
-msgid "Your display name was changed"
-msgstr ""
-
-#: templates/personal.php:58
-msgid "Unable to change your display name"
-msgstr ""
-
-#: templates/personal.php:61
-msgid "Change display name"
-msgstr ""
-
-#: templates/personal.php:70
+#: templates/personal.php:75
 msgid "Email"
 msgstr "이메일"
 
-#: templates/personal.php:72
+#: templates/personal.php:77
 msgid "Your email address"
 msgstr "이메일 주소"
 
-#: templates/personal.php:73
+#: templates/personal.php:78
 msgid "Fill in an email address to enable password recovery"
-msgstr "암호 찾기 기능을 사용하려면 이메일 주소를 입력하십시오."
+msgstr "암호 찾기 기능을 사용하려면 이메일 주소를 입력하십시오"
 
-#: templates/personal.php:79 templates/personal.php:80
+#: templates/personal.php:87 templates/personal.php:88
 msgid "Language"
 msgstr "언어"
 
-#: templates/personal.php:86
+#: templates/personal.php:100
 msgid "Help translate"
 msgstr "번역 돕기"
 
-#: templates/personal.php:91
+#: templates/personal.php:106
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:93
-msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "파일 관리자에서 ownCloud에 접속하려면 이 주소를 사용하십시오."
+#: templates/personal.php:108
+#, php-format
+msgid ""
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
+"target=\"_blank\">access your Files via WebDAV</a>"
+msgstr ""
 
-#: templates/users.php:21 templates/users.php:77
+#: templates/users.php:21
 msgid "Login Name"
 msgstr "로그인 이름"
 
-#: templates/users.php:32
+#: templates/users.php:30
 msgid "Create"
 msgstr "만들기"
 
-#: templates/users.php:35
+#: templates/users.php:36
+msgid "Admin Recovery Password"
+msgstr "관리자 복구 암호"
+
+#: templates/users.php:37 templates/users.php:38
+msgid ""
+"Enter the recovery password in order to recover the users files during "
+"password change"
+msgstr "암호 변경 시 변경된 사용자 파일을 복구하려면 복구 암호를 입력하십시오"
+
+#: templates/users.php:42
 msgid "Default Storage"
 msgstr "기본 저장소"
 
-#: templates/users.php:41 templates/users.php:139
+#: templates/users.php:48 templates/users.php:142
 msgid "Unlimited"
 msgstr "무제한"
 
-#: templates/users.php:59 templates/users.php:154
+#: templates/users.php:66 templates/users.php:157
 msgid "Other"
 msgstr "기타"
 
 #: templates/users.php:84
+msgid "Username"
+msgstr "사용자 이름"
+
+#: templates/users.php:91
 msgid "Storage"
 msgstr "저장소"
 
-#: templates/users.php:95
+#: templates/users.php:102
 msgid "change display name"
 msgstr "표시 이름 변경"
 
-#: templates/users.php:99
+#: templates/users.php:106
 msgid "set new password"
 msgstr "새 암호 설정"
 
-#: templates/users.php:134
+#: templates/users.php:137
 msgid "Default"
 msgstr "기본값"

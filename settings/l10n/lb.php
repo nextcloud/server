@@ -16,6 +16,15 @@
 "Delete" => "Läschen",
 "__language_name__" => "__language_name__",
 "Security Warning" => "Sécherheets Warnung",
+"Cron" => "Cron",
+"Enable Share API" => "Share API aschalten",
+"Allow apps to use the Share API" => "Erlab Apps d'Share API ze benotzen",
+"Allow links" => "Links erlaben",
+"Allow resharing" => "Resharing erlaben",
+"Allow users to share with anyone" => "Useren erlaben mat egal wiem ze sharen",
+"Allow users to only share with users in their groups" => "Useren nëmmen erlaben mat Useren aus hirer Grupp ze sharen",
+"Log" => "Log",
+"More" => "Méi",
 "Add your App" => "Setz deng App bei",
 "Select an App" => "Wiel eng Applikatioun aus",
 "See application page at apps.owncloud.com" => "Kuck dir d'Applicatioun's Säit op apps.owncloud.com un",
@@ -30,5 +39,6 @@
 "Language" => "Sprooch",
 "Help translate" => "Hëllef iwwersetzen",
 "Create" => "Erstellen",
-"Other" => "Aner"
+"Other" => "Aner",
+"Username" => "Benotzernumm"
 );

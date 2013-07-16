@@ -5,6 +5,7 @@
 "Users" => "Notendur",
 "Apps" => "Forrit",
 "Admin" => "Stjórnun",
+"web services under your control" => "vefþjónusta undir þinni stjórn",
 "ZIP download is turned off." => "Slökkt á ZIP niðurhali.",
 "Files need to be downloaded one by one." => "Skrárnar verður að sækja eina og eina",
 "Back to Files" => "Aftur í skrár",
@@ -27,8 +28,5 @@
 "%d months ago" => "fyrir %d mánuðum",
 "last year" => "síðasta ári",
 "years ago" => "einhverjum árum",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s er í boði. Sækja <a href=\"%s\">meiri upplýsingar</a>",
-"up to date" => "nýjasta útgáfa",
-"updates check is disabled" => "uppfærslupróf er ekki virkjað",
 "Could not find category \"%s\"" => "Fann ekki flokkinn \"%s\""
 );

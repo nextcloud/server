@@ -1,0 +1,247 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-07-16 01:56-0400\n"
+"PO-Revision-Date: 2013-07-16 05:15+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Language-Team: Welsh (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/cy_GB/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: cy_GB\n"
+"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;\n"
+
+#: app.php:360
+msgid "Help"
+msgstr "Cymorth"
+
+#: app.php:373
+msgid "Personal"
+msgstr "Personol"
+
+#: app.php:384
+msgid "Settings"
+msgstr "Gosodiadau"
+
+#: app.php:396
+msgid "Users"
+msgstr "Defnyddwyr"
+
+#: app.php:409
+msgid "Apps"
+msgstr "Pecynnau"
+
+#: app.php:417
+msgid "Admin"
+msgstr "Gweinyddu"
+
+#: defaults.php:33
+msgid "web services under your control"
+msgstr "gwasanaethau gwe a reolir gennych"
+
+#: files.php:226
+msgid "ZIP download is turned off."
+msgstr "Mae llwytho ZIP wedi ei ddiffodd."
+
+#: files.php:227
+msgid "Files need to be downloaded one by one."
+msgstr "Mae angen llwytho ffeiliau i lawr fesul un."
+
+#: files.php:228 files.php:261
+msgid "Back to Files"
+msgstr "Nôl i Ffeiliau"
+
+#: files.php:258
+msgid "Selected files too large to generate zip file."
+msgstr "Mae'r ffeiliau ddewiswyd yn rhy fawr i gynhyrchu ffeil zip."
+
+#: helper.php:236
+msgid "couldn't be determined"
+msgstr "methwyd pennu"
+
+#: json.php:28
+msgid "Application is not enabled"
+msgstr "Nid yw'r pecyn wedi'i alluogi"
+
+#: json.php:39 json.php:62 json.php:73
+msgid "Authentication error"
+msgstr "Gwall dilysu"
+
+#: json.php:51
+msgid "Token expired. Please reload page."
+msgstr "Tocyn wedi dod i ben. Ail-lwythwch y dudalen."
+
+#: search/provider/file.php:17 search/provider/file.php:35
+msgid "Files"
+msgstr "Ffeiliau"
+
+#: search/provider/file.php:26 search/provider/file.php:33
+msgid "Text"
+msgstr "Testun"
+
+#: search/provider/file.php:29
+msgid "Images"
+msgstr "Delweddau"
+
+#: setup/abstractdatabase.php:22
+#, php-format
+msgid "%s enter the database username."
+msgstr "%s rhowch enw defnyddiwr y gronfa ddata."
+
+#: setup/abstractdatabase.php:25
+#, php-format
+msgid "%s enter the database name."
+msgstr "%s rhowch enw'r gronfa ddata."
+
+#: setup/abstractdatabase.php:28
+#, php-format
+msgid "%s you may not use dots in the database name"
+msgstr "%s does dim hawl defnyddio dot yn enw'r gronfa ddata"
+
+#: setup/mssql.php:20
+#, php-format
+msgid "MS SQL username and/or password not valid: %s"
+msgstr "Enw a/neu gyfrinair MS SQL annilys: %s"
+
+#: setup/mssql.php:21 setup/mysql.php:13 setup/oci.php:114
+#: setup/postgresql.php:24 setup/postgresql.php:70
+msgid "You need to enter either an existing account or the administrator."
+msgstr "Rhaid i chi naill ai gyflwyno cyfrif presennol neu'r gweinyddwr."
+
+#: setup/mysql.php:12
+msgid "MySQL username and/or password not valid"
+msgstr "Enw a/neu gyfrinair MySQL annilys"
+
+#: setup/mysql.php:67 setup/oci.php:54 setup/oci.php:121 setup/oci.php:147
+#: setup/oci.php:154 setup/oci.php:165 setup/oci.php:172 setup/oci.php:181
+#: setup/oci.php:189 setup/oci.php:198 setup/oci.php:204
+#: setup/postgresql.php:89 setup/postgresql.php:98 setup/postgresql.php:115
+#: setup/postgresql.php:125 setup/postgresql.php:134
+#, php-format
+msgid "DB Error: \"%s\""
+msgstr "Gwall DB: \"%s\""
+
+#: setup/mysql.php:68 setup/oci.php:55 setup/oci.php:122 setup/oci.php:148
+#: setup/oci.php:155 setup/oci.php:166 setup/oci.php:182 setup/oci.php:190
+#: setup/oci.php:199 setup/postgresql.php:90 setup/postgresql.php:99
+#: setup/postgresql.php:116 setup/postgresql.php:126 setup/postgresql.php:135
+#, php-format
+msgid "Offending command was: \"%s\""
+msgstr "Y gorchymyn wnaeth beri tramgwydd oedd: \"%s\""
+
+#: setup/mysql.php:85
+#, php-format
+msgid "MySQL user '%s'@'localhost' exists already."
+msgstr "Defnyddiwr MySQL '%s'@'localhost' yn bodoli eisoes."
+
+#: setup/mysql.php:86
+msgid "Drop this user from MySQL"
+msgstr "Gollwng y defnyddiwr hwn o MySQL"
+
+#: setup/mysql.php:91
+#, php-format
+msgid "MySQL user '%s'@'%%' already exists"
+msgstr "Defnyddiwr MySQL '%s'@'%%' eisoes yn bodoli"
+
+#: setup/mysql.php:92
+msgid "Drop this user from MySQL."
+msgstr "Gollwng y defnyddiwr hwn o MySQL."
+
+#: setup/oci.php:34
+msgid "Oracle connection could not be established"
+msgstr ""
+
+#: setup/oci.php:41 setup/oci.php:113
+msgid "Oracle username and/or password not valid"
+msgstr "Enw a/neu gyfrinair Oracle annilys"
+
+#: setup/oci.php:173 setup/oci.php:205
+#, php-format
+msgid "Offending command was: \"%s\", name: %s, password: %s"
+msgstr "Y gorchymyn wnaeth beri tramgwydd oedd: \"%s\", enw: %s, cyfrinair: %s"
+
+#: setup/postgresql.php:23 setup/postgresql.php:69
+msgid "PostgreSQL username and/or password not valid"
+msgstr "Enw a/neu gyfrinair PostgreSQL annilys"
+
+#: setup.php:28
+msgid "Set an admin username."
+msgstr "Creu enw defnyddiwr i'r gweinyddwr."
+
+#: setup.php:31
+msgid "Set an admin password."
+msgstr "Gosod cyfrinair y gweinyddwr."
+
+#: setup.php:184
+msgid ""
+"Your web server is not yet properly setup to allow files synchronization "
+"because the WebDAV interface seems to be broken."
+msgstr "Nid yw eich gweinydd wedi'i gyflunio eto i ganiatáu cydweddu ffeiliau oherwydd bod y rhyngwyneb WebDAV wedi torri."
+
+#: setup.php:185
+#, php-format
+msgid "Please double check the <a href='%s'>installation guides</a>."
+msgstr "Gwiriwch y <a href='%s'>canllawiau gosod</a> eto."
+
+#: template.php:113
+msgid "seconds ago"
+msgstr "eiliad yn ôl"
+
+#: template.php:114
+msgid "1 minute ago"
+msgstr "1 munud yn ôl"
+
+#: template.php:115
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d munud yn ôl"
+
+#: template.php:116
+msgid "1 hour ago"
+msgstr "1 awr yn ôl"
+
+#: template.php:117
+#, php-format
+msgid "%d hours ago"
+msgstr "%d awr yn ôl"
+
+#: template.php:118
+msgid "today"
+msgstr "heddiw"
+
+#: template.php:119
+msgid "yesterday"
+msgstr "ddoe"
+
+#: template.php:120
+#, php-format
+msgid "%d days ago"
+msgstr "%d diwrnod yn ôl"
+
+#: template.php:121
+msgid "last month"
+msgstr "mis diwethaf"
+
+#: template.php:122
+#, php-format
+msgid "%d months ago"
+msgstr "%d mis yn ôl"
+
+#: template.php:123
+msgid "last year"
+msgstr "y llynedd"
+
+#: template.php:124
+msgid "years ago"
+msgstr "blwyddyn yn ôl"
+
+#: vcategories.php:188 vcategories.php:249
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr "Methu canfod categori \"%s\""

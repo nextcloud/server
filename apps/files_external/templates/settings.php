@@ -102,7 +102,7 @@
 									<option value="<?php p($user); ?>"
 									<?php if (isset($mount['applicable']['users']) && in_array($user, $mount['applicable']['users'])): ?>
 											selected="selected"
-									<?php endif; ?>><?php p($user); ?></option>
+									<?php endif; ?>><?php p($_['userDisplayNames'][$user]); ?></option>
 								<?php endforeach; ?>
 								</optgroup>
 							</select>

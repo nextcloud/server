@@ -180,6 +180,11 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 	* @return boolean
 	*/
 	public function getHome($uid) {
+		// user Exists check required as it is not done in user proxy!
+		if(!$this->userExists($uid)) {
+			return false;
+		}
+
 		$cacheKey = 'getHome'.$uid;
 		if($this->connection->isCached($cacheKey)) {
 			return $this->connection->getFromCache($cacheKey);
@@ -192,9 +197,9 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 				//if attribute's value is an absolute path take this, otherwise append it to data dir
 				//check for / at the beginning or pattern c:\ resp. c:/
 				if(
-					'/' == $path[0]
+					'/' === $path[0]
 					|| (3 < strlen($path) && ctype_alpha($path[0])
-						&& $path[1] == ':' && ('\\' == $path[2] || '/' == $path[2]))
+						&& $path[1] === ':' && ('\\' === $path[2] || '/' === $path[2]))
 				) {
 					$homedir = $path;
 				} else {
@@ -217,6 +222,10 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 	 * @return display name
 	 */
 	public function getDisplayName($uid) {
+		if(!$this->userExists($uid)) {
+			return false;
+		}
+
 		$cacheKey = 'getDisplayName'.$uid;
 		if(!is_null($displayName = $this->connection->getFromCache($cacheKey))) {
 			return $displayName;

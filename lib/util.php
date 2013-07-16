@@ -1,4 +1,7 @@
 <?php
+
+require_once 'Patchwork/PHP/Shim/Normalizer.php';
+
 /**
  * Class for utility functions
  *
@@ -38,6 +41,7 @@ class OC_Util {
 
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		//first set up the local "root" storage
+		\OC\Files\Filesystem::initMounts();
 		if(!self::$rootMounted) {
 			\OC\Files\Filesystem::mount('\OC\Files\Storage\Local', array('datadir'=>$CONFIG_DATADIRECTORY), '/');
 			self::$rootMounted=true;
@@ -66,6 +70,7 @@ class OC_Util {
 	public static function tearDownFS() {
 		\OC\Files\Filesystem::tearDown();
 		self::$fsSetup=false;
+        self::$rootMounted=false;
 	}
 
 	/**
@@ -75,7 +80,7 @@ class OC_Util {
 	public static function getVersion() {
 		// hint: We only can count up. Reset minor/patchlevel when
 		// updating major/minor version number.
-		return array(5, 80, 00);
+		return array(5, 80, 05);
 	}
 
 	/**
@@ -149,10 +154,10 @@ class OC_Util {
 	 * @param bool dateOnly option to omit time from the result
 	 */
 	public static function formatDate( $timestamp, $dateOnly=false) {
-		if(isset($_SESSION['timezone'])) {//adjust to clients timezone if we know it
+		if(\OC::$session->exists('timezone')) {//adjust to clients timezone if we know it
 			$systemTimeZone = intval(date('O'));
 			$systemTimeZone=(round($systemTimeZone/100, 0)*60)+($systemTimeZone%100);
-			$clientTimeZone=$_SESSION['timezone']*60;
+			$clientTimeZone=\OC::$session->get('timezone')*60;
 			$offset=$clientTimeZone-$systemTimeZone;
 			$timestamp=$timestamp+$offset*60;
 		}
@@ -167,25 +172,30 @@ class OC_Util {
 	public static function checkServer() {
 		$errors=array();
 
+		$defaults = new \OC_Defaults();
+
 		$web_server_restart= false;
 		//check for database drivers
 		if(!(is_callable('sqlite_open') or class_exists('SQLite3'))
 			and !is_callable('mysql_connect')
-			and !is_callable('pg_connect')) {
+			and !is_callable('pg_connect')
+			and !is_callable('oci_connect')) {
 			$errors[]=array('error'=>'No database drivers (sqlite, mysql, or postgresql) installed.',
 				'hint'=>'');//TODO: sane hint
 			$web_server_restart= true;
 		}
 
 		//common hint for all file permissons error messages
-		$permissionsHint='Permissions can usually be fixed by giving the webserver write access'
-			.' to the ownCloud directory';
+		$permissionsHint = 'Permissions can usually be fixed by '
+			.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html#set-the-directory-permissions" target="_blank">giving the webserver write access to the root directory</a>.';
 
 		// Check if config folder is writable.
 		if(!is_writable(OC::$SERVERROOT."/config/") or !is_readable(OC::$SERVERROOT."/config/")) {
-			$errors[]=array('error'=>"Can't write into config directory 'config'",
-				'hint'=>'You can usually fix this by giving the webserver user write access'
-					.' to the config directory in owncloud');
+			$errors[] = array(
+				'error' => "Can't write into config directory",
+				'hint' => 'This can usually be fixed by '
+					.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html#set-the-directory-permissions" target="_blank">giving the webserver write access to the config directory</a>.'
+				);
 		}
 
 		// Check if there is a writable install folder.
@@ -193,9 +203,12 @@ class OC_Util {
 			if( OC_App::getInstallPath() === null
 				|| !is_writable(OC_App::getInstallPath())
 				|| !is_readable(OC_App::getInstallPath()) ) {
-				$errors[]=array('error'=>"Can't write into apps directory",
-					'hint'=>'You can usually fix this by giving the webserver user write access'
-					.' to the apps directory in owncloud or disabling the appstore in the config file.');
+				$errors[] = array(
+					'error' => "Can't write into apps directory",
+					'hint' => 'This can usually be fixed by '
+						.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html#set-the-directory-permissions" target="_blank">giving the webserver write access to the apps directory</a> '
+						.'or disabling the appstore in the config file.'
+					);
 			}
 		}
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
@@ -205,10 +218,11 @@ class OC_Util {
 			if ($success) {
 				$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
 			} else {
-				$errors[]=array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY.")",
-					'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '"
-						.OC::$SERVERROOT."' (in a terminal, use the command "
-						."'chown -R www-data:www-data /path/to/your/owncloud/install/data' ");
+				$errors[] = array(
+					'error' => "Can't create data directory (".$CONFIG_DATADIRECTORY.")",
+					'hint' => 'This can usually be fixed by '
+					.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html#set-the-directory-permissions" target="_blank">giving the webserver write access to the root directory</a>.'
+				);
 			}
 		} else if(!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
 			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') not writable by ownCloud',
@@ -220,68 +234,76 @@ class OC_Util {
 		if(!class_exists('ZipArchive')) {
 			$errors[]=array('error'=>'PHP module zip not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
-			$web_server_restart= false;
+			$web_server_restart=true;
 		}
 		if(!class_exists('DOMDocument')) {
 			$errors[] = array('error' => 'PHP module dom not installed.',
 				'hint' => 'Please ask your server administrator to install the module.');
-			$web_server_restart = false;
+			$web_server_restart =true;
 		}
 		if(!function_exists('xml_parser_create')) {
 			$errors[] = array('error' => 'PHP module libxml not installed.',
 				'hint' => 'Please ask your server administrator to install the module.');
-			$web_server_restart = false;
+			$web_server_restart =true;
 		}
 		if(!function_exists('mb_detect_encoding')) {
 			$errors[]=array('error'=>'PHP module mb multibyte not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
-			$web_server_restart= false;
+			$web_server_restart=true;
 		}
 		if(!function_exists('ctype_digit')) {
 			$errors[]=array('error'=>'PHP module ctype is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
-			$web_server_restart= false;
+			$web_server_restart=true;
 		}
 		if(!function_exists('json_encode')) {
 			$errors[]=array('error'=>'PHP module JSON is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
-			$web_server_restart= false;
+			$web_server_restart=true;
 		}
-		if(!function_exists('imagepng')) {
+		if(!extension_loaded('gd') || !function_exists('gd_info')) {
 			$errors[]=array('error'=>'PHP module GD is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
-			$web_server_restart= false;
+			$web_server_restart=true;
 		}
 		if(!function_exists('gzencode')) {
 			$errors[]=array('error'=>'PHP module zlib is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
-			$web_server_restart= false;
+			$web_server_restart=true;
 		}
 		if(!function_exists('iconv')) {
 			$errors[]=array('error'=>'PHP module iconv is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
-			$web_server_restart= false;
+			$web_server_restart=true;
 		}
 		if(!function_exists('simplexml_load_string')) {
 			$errors[]=array('error'=>'PHP module SimpleXML is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
-			$web_server_restart= false;
+			$web_server_restart=true;
 		}
 		if(floatval(phpversion())<5.3) {
 			$errors[]=array('error'=>'PHP 5.3 is required.',
 				'hint'=>'Please ask your server administrator to update PHP to version 5.3 or higher.'
 					.' PHP 5.2 is no longer supported by ownCloud and the PHP community.');
-			$web_server_restart= false;
+			$web_server_restart=true;
 		}
 		if(!defined('PDO::ATTR_DRIVER_NAME')) {
 			$errors[]=array('error'=>'PHP PDO module is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
-			$web_server_restart= false;
+			$web_server_restart=true;
 		}
-		if(ini_get('safe_mode')) {
+		if (((strtolower(@ini_get('safe_mode')) == 'on')
+			|| (strtolower(@ini_get('safe_mode')) == 'yes')
+			|| (strtolower(@ini_get('safe_mode')) == 'true')
+			|| (ini_get("safe_mode") == 1 ))) {
 			$errors[]=array('error'=>'PHP Safe Mode is enabled. ownCloud requires that it is disabled to work properly.',
 				'hint'=>'PHP Safe Mode is a deprecated and mostly useless setting that should be disabled. Please ask your server administrator to disable it in php.ini or in your webserver config.');
-			$web_server_restart= false;
+			$web_server_restart=true;
+		}
+		if (get_magic_quotes_gpc() == 1 ) {
+			$errors[]=array('error'=>'Magic Quotes is enabled. ownCloud requires that it is disabled to work properly.',
+				'hint'=>'Magic Quotes is a deprecated and mostly useless setting that should be disabled. Please ask your server administrator to disable it in php.ini or in your webserver config.');
+			$web_server_restart=true;
 		}
 
 		if($web_server_restart) {
@@ -408,18 +430,19 @@ class OC_Util {
 		exit();
 	}
 
-	/**
-	 * get an id unqiue for this instance
-	 * @return string
-	 */
-	public static function getInstanceId() {
-		$id=OC_Config::getValue('instanceid', null);
-		if(is_null($id)) {
-			$id=uniqid();
-			OC_Config::setValue('instanceid', $id);
-		}
-		return $id;
-	}
+    /**
+     * get an id unique for this instance
+     * @return string
+     */
+    public static function getInstanceId() {
+        $id = OC_Config::getValue('instanceid', null);
+        if(is_null($id)) {
+            // We need to guarantee at least one letter in instanceid so it can be used as the session_name
+            $id = 'oc' . OC_Util::generate_random_bytes(10);
+            OC_Config::setValue('instanceid', $id);
+        }
+        return $id;
+    }
 
 	/**
 	 * @brief Static lifespan (in seconds) when a request token expires.
@@ -446,13 +469,13 @@ class OC_Util {
 	 */
 	public static function callRegister() {
 		// Check if a token exists
-		if(!isset($_SESSION['requesttoken'])) {
+		if(!\OC::$session->exists('requesttoken')) {
 			// No valid token found, generate a new one.
 			$requestToken = self::generate_random_bytes(20);
-			$_SESSION['requesttoken']=$requestToken;
+			\OC::$session->set('requesttoken', $requestToken);
 		} else {
 			// Valid token already exists, send it
-			$requestToken = $_SESSION['requesttoken'];
+			$requestToken = \OC::$session->get('requesttoken');
 		}
 		return($requestToken);
 	}
@@ -464,7 +487,7 @@ class OC_Util {
 	 * @see OC_Util::callRegister()
 	 */
 	public static function isCallRegistered() {
-		if(!isset($_SESSION['requesttoken'])) {
+		if(!\OC::$session->exists('requesttoken')) {
 			return false;
 		}
 
@@ -480,7 +503,7 @@ class OC_Util {
 		}
 
 		// Check if the token is valid
-		if($token !== $_SESSION['requesttoken']) {
+		if($token !== \OC::$session->get('requesttoken')) {
 			// Not valid
 			return false;
 		} else {
@@ -516,7 +539,22 @@ class OC_Util {
 		}
 		return $value;
 	}
-
+	
+	/**
+	 * @brief Public function to encode url parameters
+	 *
+	 * This function is used to encode path to file before output.
+	 * Encoding is done according to RFC 3986 with one exception:
+	 * Character '/' is preserved as is. 
+	 *
+	 * @param string $component part of URI to encode
+	 * @return string 
+	 */
+	public static function encodePath($component) {
+		$encoded = rawurlencode($component);
+		$encoded = str_replace('%2F', '/', $encoded);
+		return $encoded;
+	}
 
 	/**
 	 * Check if the htaccess file is working by creating a test file in the data directory and trying to access via http
@@ -591,7 +629,7 @@ class OC_Util {
 		} catch(\Sabre_DAV_Exception_NotAuthenticated $e) {
 			$return = true;
 		} catch(\Exception $e) {
-			OC_Log::write('core', 'isWebDAVWorking: NO - Reason: '.$e, OC_Log::WARN);
+			OC_Log::write('core', 'isWebDAVWorking: NO - Reason: '.$e->getMessage(). ' ('.get_class($e).')', OC_Log::WARN);
 			$return = false;
 		}
 
@@ -614,8 +652,8 @@ class OC_Util {
 		$result = setlocale(LC_ALL, 'en_US.UTF-8', 'en_US.UTF8');
 		if($result == false) {
 			return false;
-        }
-        return true;
+		}
+		return true;
 	}
 
 	/**
@@ -629,7 +667,11 @@ class OC_Util {
 	/**
 	 * Check if the ownCloud server can connect to the internet
 	 */
-	public static function isinternetconnectionworking() {
+	public static function isInternetConnectionWorking() {
+		// in case there is no internet connection on purpose return false
+		if (self::isInternetConnectionEnabled() === false) {
+			return false;
+		}
 
 		// try to connect to owncloud.org to see if http connections to the internet are possible.
 		$connected = @fsockopen("www.owncloud.org", 80);
@@ -649,6 +691,13 @@ class OC_Util {
 
 		}
 
+	}
+	
+	/**
+	 * Check if the connection to the internet is disabled on purpose
+	 */
+	public static function isInternetConnectionEnabled(){
+		return \OC_Config::getValue("has_internet_connection", true);
 	}
 
 	/**
@@ -786,4 +835,61 @@ class OC_Util {
 		return (substr(PHP_OS, 0, 3) === "WIN");
 	}
 
+
+	/**
+	 * Handles the case that there may not be a theme, then check if a "default"
+	 * theme exists and take that one
+	 * @return string the theme
+	 */
+	public static function getTheme() {
+		$theme = OC_Config::getValue("theme", '');
+
+		if($theme === '') {
+			
+			if(is_dir(OC::$SERVERROOT . '/themes/default')) {
+				$theme = 'default';
+			}
+
+		}
+
+		return $theme;
+	}
+
+	/**
+	 * Clear the opcode cache if one exists
+	 * This is necessary for writing to the config file
+	 * in case the opcode cache doesn't revalidate files
+	 */
+	public static function clearOpcodeCache() {
+		// APC
+		if (function_exists('apc_clear_cache')) {
+			apc_clear_cache();
+		}
+		// Zend Opcache
+		if (function_exists('accelerator_reset')) {
+			accelerator_reset();
+		}
+		// XCache
+		if (function_exists('xcache_clear_cache')) {
+			xcache_clear_cache(XC_TYPE_VAR, 0);
+		}
+	}
+
+	/**
+	 * Normalize a unicode string
+	 * @param string $value a not normalized string
+	 * @return bool|string
+	 */
+	public static function normalizeUnicode($value) {
+		if(class_exists('Patchwork\PHP\Shim\Normalizer')) {
+			$normalizedValue = \Patchwork\PHP\Shim\Normalizer::normalize($value);
+			if($normalizedValue === false) {
+				\OC_Log::write( 'core', 'normalizing failed for "' . $value . '"', \OC_Log::WARN);
+			} else {
+				$value = $normalizedValue;
+			}
+		}
+
+		return $value;
+	}
 }

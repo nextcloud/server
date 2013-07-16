@@ -3,16 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Dimitris M. <monopatis@gmail.com>, 2013.
-# Efstathios Iosifidis <iefstathios@gmail.com>, 2013.
-# Efstathios Iosifidis <iosifidis@opensuse.org>, 2012.
-#  <vagelis@cyberdest.com>, 2013.
+# Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 14:35+0100\n"
-"PO-Revision-Date: 2013-02-27 13:35+0000\n"
+"POT-Creation-Date: 2013-07-16 01:56-0400\n"
+"PO-Revision-Date: 2013-07-16 05:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -21,47 +18,51 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:349
+#: app.php:360
 msgid "Help"
 msgstr "Βοήθεια"
 
-#: app.php:362
+#: app.php:373
 msgid "Personal"
 msgstr "Προσωπικά"
 
-#: app.php:373
+#: app.php:384
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: app.php:385
+#: app.php:396
 msgid "Users"
 msgstr "Χρήστες"
 
-#: app.php:398
+#: app.php:409
 msgid "Apps"
 msgstr "Εφαρμογές"
 
-#: app.php:406
+#: app.php:417
 msgid "Admin"
 msgstr "Διαχειριστής"
 
-#: files.php:202
+#: defaults.php:33
+msgid "web services under your control"
+msgstr "υπηρεσίες δικτύου υπό τον έλεγχό σας"
+
+#: files.php:226
 msgid "ZIP download is turned off."
 msgstr "Η λήψη ZIP απενεργοποιήθηκε."
 
-#: files.php:203
+#: files.php:227
 msgid "Files need to be downloaded one by one."
 msgstr "Τα αρχεία πρέπει να ληφθούν ένα-ένα."
 
-#: files.php:204 files.php:231
+#: files.php:228 files.php:261
 msgid "Back to Files"
 msgstr "Πίσω στα Αρχεία"
 
-#: files.php:228
+#: files.php:258
 msgid "Selected files too large to generate zip file."
 msgstr "Τα επιλεγμένα αρχεία είναι μεγάλα ώστε να δημιουργηθεί αρχείο zip."
 
-#: helper.php:228
+#: helper.php:236
 msgid "couldn't be determined"
 msgstr "δεν μπορούσε να προσδιορισθεί"
 
@@ -89,104 +90,102 @@ msgstr "Κείμενο"
 msgid "Images"
 msgstr "Εικόνες"
 
-#: setup.php:34
-msgid "Set an admin username."
-msgstr "Εισάγετε όνομα χρήστη διαχειριστή."
-
-#: setup.php:37
-msgid "Set an admin password."
-msgstr "Εισάγετε συνθηματικό διαχειριστή."
-
-#: setup.php:40
-msgid "Specify a data folder."
-msgstr "Καθορίστε τον φάκελο δεδομένων."
-
-#: setup.php:55
+#: setup/abstractdatabase.php:22
 #, php-format
 msgid "%s enter the database username."
 msgstr "%s εισάγετε το όνομα χρήστη της βάσης δεδομένων."
 
-#: setup.php:58
+#: setup/abstractdatabase.php:25
 #, php-format
 msgid "%s enter the database name."
 msgstr "%s εισάγετε το όνομα της βάσης δεδομένων."
 
-#: setup.php:61
+#: setup/abstractdatabase.php:28
 #, php-format
 msgid "%s you may not use dots in the database name"
 msgstr "%s μάλλον δεν χρησιμοποιείτε τελείες στο όνομα της βάσης δεδομένων"
 
-#: setup.php:64
+#: setup/mssql.php:20
 #, php-format
-msgid "%s set the database host."
-msgstr ""
+msgid "MS SQL username and/or password not valid: %s"
+msgstr "Το όνομα χρήστη και/ή ο κωδικός της MS SQL δεν είναι έγκυρα: %s"
 
-#: setup.php:128 setup.php:320 setup.php:365
-msgid "PostgreSQL username and/or password not valid"
-msgstr "Μη έγκυρος χρήστης και/ή συνθηματικό της PostgreSQL"
-
-#: setup.php:129 setup.php:152 setup.php:229
+#: setup/mssql.php:21 setup/mysql.php:13 setup/oci.php:114
+#: setup/postgresql.php:24 setup/postgresql.php:70
 msgid "You need to enter either an existing account or the administrator."
 msgstr "Χρειάζεται να εισάγετε είτε έναν υπάρχον λογαριασμό ή του διαχειριστή."
 
-#: setup.php:151 setup.php:453 setup.php:520
-msgid "Oracle username and/or password not valid"
-msgstr "Μη έγκυρος χρήστης και/ή συνθηματικό της Oracle"
-
-#: setup.php:228
+#: setup/mysql.php:12
 msgid "MySQL username and/or password not valid"
 msgstr "Μη έγκυρος χρήστης και/ή συνθηματικό της MySQL"
 
-#: setup.php:282 setup.php:386 setup.php:395 setup.php:413 setup.php:423
-#: setup.php:432 setup.php:461 setup.php:527 setup.php:553 setup.php:560
-#: setup.php:571 setup.php:578 setup.php:587 setup.php:595 setup.php:604
-#: setup.php:610
+#: setup/mysql.php:67 setup/oci.php:54 setup/oci.php:121 setup/oci.php:147
+#: setup/oci.php:154 setup/oci.php:165 setup/oci.php:172 setup/oci.php:181
+#: setup/oci.php:189 setup/oci.php:198 setup/oci.php:204
+#: setup/postgresql.php:89 setup/postgresql.php:98 setup/postgresql.php:115
+#: setup/postgresql.php:125 setup/postgresql.php:134
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "Σφάλμα Βάσης Δεδομένων: \"%s\""
 
-#: setup.php:283 setup.php:387 setup.php:396 setup.php:414 setup.php:424
-#: setup.php:433 setup.php:462 setup.php:528 setup.php:554 setup.php:561
-#: setup.php:572 setup.php:588 setup.php:596 setup.php:605
+#: setup/mysql.php:68 setup/oci.php:55 setup/oci.php:122 setup/oci.php:148
+#: setup/oci.php:155 setup/oci.php:166 setup/oci.php:182 setup/oci.php:190
+#: setup/oci.php:199 setup/postgresql.php:90 setup/postgresql.php:99
+#: setup/postgresql.php:116 setup/postgresql.php:126 setup/postgresql.php:135
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr ""
+msgstr "Η εντολη παραβατικοτητας ηταν: \"%s\""
 
-#: setup.php:299
+#: setup/mysql.php:85
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
 msgstr "Υπάρχει ήδη ο χρήστης '%s'@'localhost' της MySQL."
 
-#: setup.php:300
+#: setup/mysql.php:86
 msgid "Drop this user from MySQL"
 msgstr "Απόρριψη αυτού του χρήστη από την MySQL"
 
-#: setup.php:305
+#: setup/mysql.php:91
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
 msgstr "Ο χρήστης '%s'@'%%' της MySQL υπάρχει ήδη"
 
-#: setup.php:306
+#: setup/mysql.php:92
 msgid "Drop this user from MySQL."
 msgstr "Απόρριψη αυτού του χρήστη από την MySQL"
 
-#: setup.php:579 setup.php:611
+#: setup/oci.php:34
+msgid "Oracle connection could not be established"
+msgstr "Αδυναμία σύνδεσης Oracle"
+
+#: setup/oci.php:41 setup/oci.php:113
+msgid "Oracle username and/or password not valid"
+msgstr "Μη έγκυρος χρήστης και/ή συνθηματικό της Oracle"
+
+#: setup/oci.php:173 setup/oci.php:205
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr ""
+msgstr "Η εντολη παραβατικοτητας ηταν: \"%s\", ονομα: %s, κωδικος: %s"
 
-#: setup.php:631
-#, php-format
-msgid "MS SQL username and/or password not valid: %s"
-msgstr ""
+#: setup/postgresql.php:23 setup/postgresql.php:69
+msgid "PostgreSQL username and/or password not valid"
+msgstr "Μη έγκυρος χρήστης και/ή συνθηματικό της PostgreSQL"
 
-#: setup.php:849
+#: setup.php:28
+msgid "Set an admin username."
+msgstr "Εισάγετε όνομα χρήστη διαχειριστή."
+
+#: setup.php:31
+msgid "Set an admin password."
+msgstr "Εισάγετε συνθηματικό διαχειριστή."
+
+#: setup.php:184
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Ο διακομιστής σας δεν έχει ρυθμιστεί κατάλληλα ώστε να επιτρέπει τον συγχρονισμό αρχείων γιατί η διεπαφή WebDAV πιθανόν να είναι κατεστραμμένη."
 
-#: setup.php:850
+#: setup.php:185
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Ελέγξτε ξανά τις <a href='%s'>οδηγίες εγκατάστασης</a>."
@@ -219,7 +218,7 @@ msgstr "σήμερα"
 
 #: template.php:119
 msgid "yesterday"
-msgstr "χθές"
+msgstr "χτες"
 
 #: template.php:120
 #, php-format
@@ -228,7 +227,7 @@ msgstr "%d ημέρες πριν"
 
 #: template.php:121
 msgid "last month"
-msgstr "τον προηγούμενο μήνα"
+msgstr "τελευταίο μήνα"
 
 #: template.php:122
 #, php-format
@@ -237,24 +236,11 @@ msgstr "%d μήνες πριν"
 
 #: template.php:123
 msgid "last year"
-msgstr "τον προηγούμενο χρόνο"
+msgstr "τελευταίο χρόνο"
 
 #: template.php:124
 msgid "years ago"
 msgstr "χρόνια πριν"
-
-#: updater.php:78
-#, php-format
-msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr "%s είναι διαθέσιμο. Δείτε <a href=\"%s\">περισσότερες πληροφορίες</a>"
-
-#: updater.php:81
-msgid "up to date"
-msgstr "ενημερωμένο"
-
-#: updater.php:84
-msgid "updates check is disabled"
-msgstr "ο έλεγχος ενημερώσεων είναι απενεργοποιημένος"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format

@@ -3,20 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# André <lokal_profil@hotmail.com>, 2013.
-# Christer Eriksson <post@hc3web.com>, 2012.
-# Daniel Sandman <revoltism@gmail.com>, 2012.
-# Magnus Höglund <magnus@linux.com>, 2012-2013.
-#   <magnus@linux.com>, 2012.
-#   <revoltism@gmail.com>, 2011, 2012.
-#   <tscooter@hotmail.com>, 2012.
+# Gunnar Norin <blittan@xbmc.org>, 2013
+# Magnus Höglund <magnus@linux.com>, 2013
+# medialabs, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-16 22:17+0100\n"
-"PO-Revision-Date: 2013-03-14 23:20+0000\n"
-"Last-Translator: Lokal_Profil <lokal_profil@hotmail.com>\n"
+"POT-Creation-Date: 2013-07-16 01:56-0400\n"
+"PO-Revision-Date: 2013-07-16 05:14+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,50 +30,54 @@ msgstr "Kunde inte flytta %s - Det finns redan en fil med detta namn"
 msgid "Could not move %s"
 msgstr "Kan inte flytta %s"
 
-#: ajax/rename.php:22 ajax/rename.php:25
-msgid "Unable to rename file"
-msgstr "Kan inte byta namn på filen"
+#: ajax/upload.php:16 ajax/upload.php:45
+msgid "Unable to set upload directory."
+msgstr "Kan inte sätta mapp för uppladdning."
 
-#: ajax/upload.php:19
+#: ajax/upload.php:22
+msgid "Invalid Token"
+msgstr "Ogiltig token"
+
+#: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
 msgstr "Ingen fil uppladdad. Okänt fel"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:66
 msgid "There is no error, the file uploaded with success"
-msgstr "Inga fel uppstod. Filen laddades upp utan problem"
+msgstr "Inga fel uppstod. Filen laddades upp utan problem."
 
-#: ajax/upload.php:27
+#: ajax/upload.php:67
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Den uppladdade filen överskrider upload_max_filesize direktivet php.ini:"
 
-#: ajax/upload.php:29
+#: ajax/upload.php:69
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Den uppladdade filen överstiger MAX_FILE_SIZE direktivet som anges i HTML-formulär"
+msgstr "Den uppladdade filen överskrider MAX_FILE_SIZE direktivet som har angetts i HTML formuläret"
 
-#: ajax/upload.php:30
+#: ajax/upload.php:70
 msgid "The uploaded file was only partially uploaded"
 msgstr "Den uppladdade filen var endast delvis uppladdad"
 
-#: ajax/upload.php:31
+#: ajax/upload.php:71
 msgid "No file was uploaded"
-msgstr "Ingen fil blev uppladdad"
+msgstr "Ingen fil laddades upp"
 
-#: ajax/upload.php:32
+#: ajax/upload.php:72
 msgid "Missing a temporary folder"
-msgstr "Saknar en tillfällig mapp"
+msgstr "En temporär mapp saknas"
 
-#: ajax/upload.php:33
+#: ajax/upload.php:73
 msgid "Failed to write to disk"
 msgstr "Misslyckades spara till disk"
 
-#: ajax/upload.php:51
+#: ajax/upload.php:91
 msgid "Not enough storage available"
 msgstr "Inte tillräckligt med lagringsutrymme tillgängligt"
 
-#: ajax/upload.php:82
+#: ajax/upload.php:123
 msgid "Invalid directory."
 msgstr "Felaktig mapp."
 
@@ -85,50 +85,91 @@ msgstr "Felaktig mapp."
 msgid "Files"
 msgstr "Filer"
 
-#: js/fileactions.js:125
+#: js/file-upload.js:11
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr "Kan inte ladda upp din fil eftersom det är en katalog eller har 0 bytes"
+
+#: js/file-upload.js:24
+msgid "Not enough space available"
+msgstr "Inte tillräckligt med utrymme tillgängligt"
+
+#: js/file-upload.js:64
+msgid "Upload cancelled."
+msgstr "Uppladdning avbruten."
+
+#: js/file-upload.js:167 js/files.js:266
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr "Filuppladdning pågår. Lämnar du sidan så avbryts uppladdningen."
+
+#: js/file-upload.js:233 js/files.js:339
+msgid "URL cannot be empty."
+msgstr "URL kan inte vara tom."
+
+#: js/file-upload.js:238 lib/app.php:53
+msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
+msgstr "Ogiltigt mappnamn. Användning av 'Shared' är reserverad av ownCloud"
+
+#: js/file-upload.js:267 js/file-upload.js:283 js/files.js:373 js/files.js:389
+#: js/files.js:693 js/files.js:731
+msgid "Error"
+msgstr "Fel"
+
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Dela"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Radera permanent"
 
-#: js/fileactions.js:127 templates/index.php:92 templates/index.php:93
+#: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
 msgid "Delete"
 msgstr "Radera"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Byt namn"
 
-#: js/filelist.js:49 js/filelist.js:52 js/files.js:293 js/files.js:409
-#: js/files.js:440
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:466
 msgid "Pending"
 msgstr "Väntar"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:304 js/filelist.js:306
 msgid "{new_name} already exists"
 msgstr "{new_name} finns redan"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:304 js/filelist.js:306
 msgid "replace"
 msgstr "ersätt"
 
-#: js/filelist.js:251
+#: js/filelist.js:304
 msgid "suggest name"
 msgstr "föreslå namn"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:304 js/filelist.js:306
 msgid "cancel"
 msgstr "avbryt"
 
-#: js/filelist.js:298
+#: js/filelist.js:351
 msgid "replaced {new_name} with {old_name}"
 msgstr "ersatt {new_name} med {old_name}"
 
-#: js/filelist.js:298
+#: js/filelist.js:351
 msgid "undo"
 msgstr "ångra"
 
-#: js/filelist.js:323
+#: js/filelist.js:376
 msgid "perform delete operation"
 msgstr "utför raderingen"
+
+#: js/filelist.js:458
+msgid "1 file uploading"
+msgstr "1 filuppladdning"
+
+#: js/filelist.js:461 js/filelist.js:519
+msgid "files uploading"
+msgstr "filer laddas upp"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -146,82 +187,54 @@ msgstr "Ogiltigt namn, '\\', '/', '<', '>', ':', '\"', '|', '?' och '*' är inte
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr "Ditt lagringsutrymme är fullt, filer kan ej längre laddas upp eller synkas!"
+msgstr "Ditt lagringsutrymme är fullt, filer kan inte längre uppdateras eller synkroniseras!"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Ditt lagringsutrymme är nästan fullt ({usedSpacePercent}%)"
 
-#: js/files.js:226
+#: js/files.js:231
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Din nedladdning förbereds. Det kan ta tid om det är stora filer."
 
-#: js/files.js:263
-msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Kunde inte ladda upp dina filer eftersom det antingen är en mapp eller har 0 bytes."
-
-#: js/files.js:263
-msgid "Upload Error"
-msgstr "Uppladdningsfel"
-
-#: js/files.js:274
-msgid "Close"
-msgstr "Stäng"
-
-#: js/files.js:313
-msgid "1 file uploading"
-msgstr "1 filuppladdning"
-
-#: js/files.js:316 js/files.js:371 js/files.js:386
-msgid "{count} files uploading"
-msgstr "{count} filer laddas upp"
-
-#: js/files.js:389 js/files.js:424
-msgid "Upload cancelled."
-msgstr "Uppladdning avbruten."
-
-#: js/files.js:498
-msgid ""
-"File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "Filuppladdning pågår. Lämnar du sidan så avbryts uppladdningen."
-
-#: js/files.js:571
-msgid "URL cannot be empty."
-msgstr "URL kan inte vara tom."
-
-#: js/files.js:576
+#: js/files.js:344
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Ogiltigt mappnamn. Användande av 'Shared' är reserverat av ownCloud"
 
-#: js/files.js:954 templates/index.php:68
+#: js/files.js:744 templates/index.php:69
 msgid "Name"
 msgstr "Namn"
 
-#: js/files.js:955 templates/index.php:79
+#: js/files.js:745
 msgid "Size"
 msgstr "Storlek"
 
-#: js/files.js:956 templates/index.php:81
+#: js/files.js:746 templates/index.php:82
 msgid "Modified"
 msgstr "Ändrad"
 
-#: js/files.js:975
+#: js/files.js:765
 msgid "1 folder"
 msgstr "1 mapp"
 
-#: js/files.js:977
+#: js/files.js:767
 msgid "{count} folders"
 msgstr "{count} mappar"
 
-#: js/files.js:985
+#: js/files.js:775
 msgid "1 file"
 msgstr "1 fil"
 
-#: js/files.js:987
+#: js/files.js:777
 msgid "{count} files"
 msgstr "{count} filer"
+
+#: lib/app.php:73
+#, php-format
+msgid "%s could not be renamed"
+msgstr "%s kunde inte namnändras"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -275,47 +288,67 @@ msgstr "Mapp"
 msgid "From link"
 msgstr "Från länk"
 
-#: templates/index.php:40
+#: templates/index.php:42
 msgid "Deleted files"
 msgstr "Raderade filer"
 
-#: templates/index.php:46
+#: templates/index.php:48
 msgid "Cancel upload"
 msgstr "Avbryt uppladdning"
 
-#: templates/index.php:53
+#: templates/index.php:54
 msgid "You don’t have write permissions here."
 msgstr "Du saknar skrivbehörighet här."
 
-#: templates/index.php:60
+#: templates/index.php:61
 msgid "Nothing in here. Upload something!"
 msgstr "Ingenting här. Ladda upp något!"
 
-#: templates/index.php:74
+#: templates/index.php:75
 msgid "Download"
 msgstr "Ladda ner"
 
-#: templates/index.php:86 templates/index.php:87
+#: templates/index.php:80
+msgid "Size (MB)"
+msgstr ""
+
+#: templates/index.php:87 templates/index.php:88
 msgid "Unshare"
 msgstr "Sluta dela"
 
-#: templates/index.php:106
+#: templates/index.php:107
 msgid "Upload too large"
 msgstr "För stor uppladdning"
 
-#: templates/index.php:108
+#: templates/index.php:109
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Filerna du försöker ladda upp överstiger den maximala storleken för filöverföringar på servern."
 
-#: templates/index.php:113
+#: templates/index.php:114
 msgid "Files are being scanned, please wait."
 msgstr "Filer skannas, var god vänta"
 
-#: templates/index.php:116
+#: templates/index.php:117
 msgid "Current scanning"
 msgstr "Aktuell skanning"
+
+#: templates/part.list.php:76
+msgid "directory"
+msgstr "mapp"
+
+#: templates/part.list.php:78
+msgid "directories"
+msgstr "mappar"
+
+#: templates/part.list.php:87
+msgid "file"
+msgstr "fil"
+
+#: templates/part.list.php:89
+msgid "files"
+msgstr "filer"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

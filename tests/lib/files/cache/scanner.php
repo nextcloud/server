@@ -104,7 +104,7 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 		$this->assertNotEquals($cachedDataFolder['size'], -1);
 	}
 
-	function testBackgroundScan(){
+	function testBackgroundScan() {
 		$this->fillTestFolders();
 		$this->storage->mkdir('folder2');
 		$this->storage->file_put_contents('folder2/bar.txt', 'foobar');
@@ -126,6 +126,46 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->cache->getIncomplete());
 	}
 
+	public function testReuseExisting() {
+		$this->fillTestFolders();
+
+		$this->scanner->scan('');
+		$oldData = $this->cache->get('');
+		$this->storage->unlink('folder/bar.txt');
+		$this->cache->put('folder', array('mtime' => $this->storage->filemtime('folder')));
+		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW, \OC\Files\Cache\Scanner::REUSE_SIZE);
+		$newData = $this->cache->get('');
+		$this->assertNotEquals($oldData['etag'], $newData['etag']);
+		$this->assertEquals($oldData['size'], $newData['size']);
+
+		$oldData = $newData;
+		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW, \OC\Files\Cache\Scanner::REUSE_ETAG);
+		$newData = $this->cache->get('');
+		$this->assertEquals($oldData['etag'], $newData['etag']);
+		$this->assertEquals(-1, $newData['size']);
+	}
+
+	public function testRemovedFile() {
+		$this->fillTestFolders();
+
+		$this->scanner->scan('');
+		$this->assertTrue($this->cache->inCache('foo.txt'));
+		$this->storage->unlink('foo.txt');
+		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW);
+		$this->assertFalse($this->cache->inCache('foo.txt'));
+	}
+
+	public function testRemovedFolder() {
+		$this->fillTestFolders();
+
+		$this->scanner->scan('');
+		$this->assertTrue($this->cache->inCache('folder/bar.txt'));
+		$this->storage->unlink('/folder');
+		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW);
+		$this->assertFalse($this->cache->inCache('folder'));
+		$this->assertFalse($this->cache->inCache('folder/bar.txt'));
+	}
+
 	function setUp() {
 		$this->storage = new \OC\Files\Storage\Temporary(array());
 		$this->scanner = new \OC\Files\Cache\Scanner($this->storage);
@@ -133,9 +173,11 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 	}
 
 	function tearDown() {
-		$ids = $this->cache->getAll();
-		$permissionsCache = $this->storage->getPermissionsCache();
-		$permissionsCache->removeMultiple($ids, \OC_User::getUser());
-		$this->cache->clear();
+		if ($this->cache) {
+			$ids = $this->cache->getAll();
+			$permissionsCache = $this->storage->getPermissionsCache();
+			$permissionsCache->removeMultiple($ids, \OC_User::getUser());
+			$this->cache->clear();
+		}
 	}
 }

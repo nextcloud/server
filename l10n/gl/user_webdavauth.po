@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#  <mbouzada@gmail.com>, 2013.
-#   <mbouzada@gmail.com>, 2012.
-# Miguel Branco, 2012.
-# Xosé M. Lamas <correo.xmgz@gmail.com>, 2013.
+# mbouzada <mbouzada@gmail.com>, 2013
+# mbouzada <mbouzada@gmail.com>, 2012
+# Miguel Branco, 2012
+# Xosé M. Lamas <correo.xmgz@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-11 15:39+0100\n"
-"PO-Revision-Date: 2013-02-11 11:20+0000\n"
+"POT-Creation-Date: 2013-06-16 01:59+0200\n"
+"PO-Revision-Date: 2013-06-15 09:10+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -26,8 +26,8 @@ msgid "WebDAV Authentication"
 msgstr "Autenticación WebDAV"
 
 #: templates/settings.php:4
-msgid "URL: http://"
-msgstr "URL: http://"
+msgid "URL: "
+msgstr "URL: "
 
 #: templates/settings.php:7
 msgid ""

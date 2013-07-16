@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# sao sang <saosangmo@yahoo.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-09 00:05+0100\n"
-"PO-Revision-Date: 2013-03-07 23:40+0000\n"
+"POT-Creation-Date: 2013-07-16 01:56-0400\n"
+"PO-Revision-Date: 2013-07-16 05:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -18,49 +17,53 @@ msgstr ""
 "Language: vi\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/delete.php:40
+#: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
 msgstr "Không thể óa %s vĩnh viễn"
 
-#: ajax/undelete.php:41
+#: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
 msgstr "Không thể khôi phục %s"
 
-#: js/trash.js:7 js/trash.js:96
+#: js/trash.js:7 js/trash.js:97
 msgid "perform restore operation"
 msgstr "thực hiện phục hồi"
+
+#: js/trash.js:19 js/trash.js:46 js/trash.js:115 js/trash.js:141
+msgid "Error"
+msgstr "Lỗi"
 
 #: js/trash.js:34
 msgid "delete file permanently"
 msgstr "xóa file vĩnh viễn"
 
-#: js/trash.js:121
+#: js/trash.js:123
 msgid "Delete permanently"
 msgstr "Xóa vĩnh vễn"
 
-#: js/trash.js:174 templates/index.php:17
+#: js/trash.js:176 templates/index.php:17
 msgid "Name"
 msgstr "Tên"
 
-#: js/trash.js:175 templates/index.php:27
+#: js/trash.js:177 templates/index.php:27
 msgid "Deleted"
 msgstr "Đã xóa"
 
-#: js/trash.js:184
+#: js/trash.js:186
 msgid "1 folder"
 msgstr "1 thư mục"
 
-#: js/trash.js:186
+#: js/trash.js:188
 msgid "{count} folders"
 msgstr "{count} thư mục"
 
-#: js/trash.js:194
+#: js/trash.js:196
 msgid "1 file"
 msgstr "1 tập tin"
 
-#: js/trash.js:196
+#: js/trash.js:198
 msgid "{count} files"
 msgstr "{count} tập tin"
 

@@ -3,17 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <aoiob4305@gmail.com>, 2013.
-# 남자사람  <cessnagi@gmail.com>, 2012.
-#   <limonade83@gmail.com>, 2012.
-# Park Shinjo <kde@peremen.name>, 2013.
-# Shinjo Park <kde@peremen.name>, 2012.
+# Shinjo Park <kde@peremen.name>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-22 00:06+0100\n"
-"PO-Revision-Date: 2013-02-20 23:20+0000\n"
+"POT-Creation-Date: 2013-07-16 01:56-0400\n"
+"PO-Revision-Date: 2013-07-16 05:14+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -22,29 +18,10 @@ msgstr ""
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:85
+#: ajax/share.php:97
 #, php-format
-msgid "User %s shared a file with you"
-msgstr "%s 님이 파일을 공유하였습니다"
-
-#: ajax/share.php:87
-#, php-format
-msgid "User %s shared a folder with you"
-msgstr "%s 님이 폴더를 공유하였습니다"
-
-#: ajax/share.php:89
-#, php-format
-msgid ""
-"User %s shared the file \"%s\" with you. It is available for download here: "
-"%s"
-msgstr "%s 님이 파일 \"%s\"을(를) 공유하였습니다. 여기에서 다운로드할 수 있습니다: %s"
-
-#: ajax/share.php:91
-#, php-format
-msgid ""
-"User %s shared the folder \"%s\" with you. It is available for download "
-"here: %s"
-msgstr "%s 님이 폴더 \"%s\"을(를) 공유하였습니다. 여기에서 다운로드할 수 있습니다: %s"
+msgid "%s shared »%s« with you"
+msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -57,7 +34,7 @@ msgstr "추가할 분류가 없습니까?"
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr ""
+msgstr "분류가 이미 존재합니다: %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -78,7 +55,7 @@ msgstr "책갈피에 %s을(를) 추가할 수 없었습니다."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "삭제할 분류를 선택하지 않았습니다."
+msgstr "삭제할 분류를 선택하지 않았습니다. "
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
@@ -89,151 +66,155 @@ msgstr "책갈피에서 %s을(를) 삭제할 수 없었습니다."
 msgid "Sunday"
 msgstr "일요일"
 
-#: js/config.php:32
+#: js/config.php:33
 msgid "Monday"
 msgstr "월요일"
 
-#: js/config.php:32
+#: js/config.php:34
 msgid "Tuesday"
 msgstr "화요일"
 
-#: js/config.php:32
+#: js/config.php:35
 msgid "Wednesday"
 msgstr "수요일"
 
-#: js/config.php:32
+#: js/config.php:36
 msgid "Thursday"
 msgstr "목요일"
 
-#: js/config.php:32
+#: js/config.php:37
 msgid "Friday"
 msgstr "금요일"
 
-#: js/config.php:32
+#: js/config.php:38
 msgid "Saturday"
 msgstr "토요일"
 
-#: js/config.php:33
+#: js/config.php:43
 msgid "January"
 msgstr "1월"
 
-#: js/config.php:33
+#: js/config.php:44
 msgid "February"
 msgstr "2월"
 
-#: js/config.php:33
+#: js/config.php:45
 msgid "March"
 msgstr "3월"
 
-#: js/config.php:33
+#: js/config.php:46
 msgid "April"
 msgstr "4월"
 
-#: js/config.php:33
+#: js/config.php:47
 msgid "May"
 msgstr "5월"
 
-#: js/config.php:33
+#: js/config.php:48
 msgid "June"
 msgstr "6월"
 
-#: js/config.php:33
+#: js/config.php:49
 msgid "July"
 msgstr "7월"
 
-#: js/config.php:33
+#: js/config.php:50
 msgid "August"
 msgstr "8월"
 
-#: js/config.php:33
+#: js/config.php:51
 msgid "September"
 msgstr "9월"
 
-#: js/config.php:33
+#: js/config.php:52
 msgid "October"
 msgstr "10월"
 
-#: js/config.php:33
+#: js/config.php:53
 msgid "November"
 msgstr "11월"
 
-#: js/config.php:33
+#: js/config.php:54
 msgid "December"
 msgstr "12월"
 
-#: js/js.js:286
+#: js/js.js:293
 msgid "Settings"
 msgstr "설정"
 
-#: js/js.js:767
+#: js/js.js:725
 msgid "seconds ago"
 msgstr "초 전"
 
-#: js/js.js:768
+#: js/js.js:726
 msgid "1 minute ago"
 msgstr "1분 전"
 
-#: js/js.js:769
+#: js/js.js:727
 msgid "{minutes} minutes ago"
 msgstr "{minutes}분 전"
 
-#: js/js.js:770
+#: js/js.js:728
 msgid "1 hour ago"
 msgstr "1시간 전"
 
-#: js/js.js:771
+#: js/js.js:729
 msgid "{hours} hours ago"
 msgstr "{hours}시간 전"
 
-#: js/js.js:772
+#: js/js.js:730
 msgid "today"
 msgstr "오늘"
 
-#: js/js.js:773
+#: js/js.js:731
 msgid "yesterday"
 msgstr "어제"
 
-#: js/js.js:774
+#: js/js.js:732
 msgid "{days} days ago"
 msgstr "{days}일 전"
 
-#: js/js.js:775
+#: js/js.js:733
 msgid "last month"
 msgstr "지난 달"
 
-#: js/js.js:776
+#: js/js.js:734
 msgid "{months} months ago"
 msgstr "{months}개월 전"
 
-#: js/js.js:777
+#: js/js.js:735
 msgid "months ago"
 msgstr "개월 전"
 
-#: js/js.js:778
+#: js/js.js:736
 msgid "last year"
 msgstr "작년"
 
-#: js/js.js:779
+#: js/js.js:737
 msgid "years ago"
 msgstr "년 전"
 
-#: js/oc-dialogs.js:126
+#: js/oc-dialogs.js:117
 msgid "Choose"
 msgstr "선택"
 
-#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+#: js/oc-dialogs.js:122
 msgid "Cancel"
 msgstr "취소"
 
-#: js/oc-dialogs.js:162
-msgid "No"
-msgstr "아니요"
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+msgid "Error loading file picker template"
+msgstr ""
 
-#: js/oc-dialogs.js:163
+#: js/oc-dialogs.js:164
 msgid "Yes"
 msgstr "예"
 
-#: js/oc-dialogs.js:180
+#: js/oc-dialogs.js:172
+msgid "No"
+msgstr "아니요"
+
+#: js/oc-dialogs.js:185
 msgid "Ok"
 msgstr "승락"
 
@@ -242,9 +223,11 @@ msgstr "승락"
 msgid "The object type is not specified."
 msgstr "객체 유형이 지정되지 않았습니다."
 
-#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:582
-#: js/share.js:594
+#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
+#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:620
+#: js/share.js:632
 msgid "Error"
 msgstr "오류"
 
@@ -256,142 +239,146 @@ msgstr "앱 이름이 지정되지 않았습니다."
 msgid "The required file {file} is not installed!"
 msgstr "필요한 파일 {file}이(가) 설치되지 않았습니다!"
 
-#: js/share.js:29 js/share.js:43 js/share.js:90
+#: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
 msgstr "공유됨"
 
-#: js/share.js:93
+#: js/share.js:90
 msgid "Share"
 msgstr "공유"
 
-#: js/share.js:141 js/share.js:622
+#: js/share.js:125 js/share.js:660
 msgid "Error while sharing"
 msgstr "공유하는 중 오류 발생"
 
-#: js/share.js:152
+#: js/share.js:136
 msgid "Error while unsharing"
 msgstr "공유 해제하는 중 오류 발생"
 
-#: js/share.js:159
+#: js/share.js:143
 msgid "Error while changing permissions"
 msgstr "권한 변경하는 중 오류 발생"
 
-#: js/share.js:168
+#: js/share.js:152
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "{owner} 님이 여러분 및 그룹 {group}와(과) 공유 중"
 
-#: js/share.js:170
+#: js/share.js:154
 msgid "Shared with you by {owner}"
 msgstr "{owner} 님이 공유 중"
 
-#: js/share.js:175
+#: js/share.js:172
 msgid "Share with"
 msgstr "다음으로 공유"
 
-#: js/share.js:180
+#: js/share.js:177
 msgid "Share with link"
 msgstr "URL 링크로 공유"
 
-#: js/share.js:183
+#: js/share.js:180
 msgid "Password protect"
 msgstr "암호 보호"
 
-#: js/share.js:185 templates/installation.php:44 templates/login.php:35
+#: js/share.js:182 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "암호"
 
-#: js/share.js:189
+#: js/share.js:187
+msgid "Allow Public Upload"
+msgstr ""
+
+#: js/share.js:191
 msgid "Email link to person"
 msgstr "이메일 주소"
 
-#: js/share.js:190
+#: js/share.js:192
 msgid "Send"
 msgstr "전송"
 
-#: js/share.js:194
+#: js/share.js:197
 msgid "Set expiration date"
 msgstr "만료 날짜 설정"
 
-#: js/share.js:195
+#: js/share.js:198
 msgid "Expiration date"
 msgstr "만료 날짜"
 
-#: js/share.js:227
+#: js/share.js:230
 msgid "Share via email:"
 msgstr "이메일로 공유:"
 
-#: js/share.js:229
+#: js/share.js:232
 msgid "No people found"
 msgstr "발견된 사람 없음"
 
-#: js/share.js:256
+#: js/share.js:270
 msgid "Resharing is not allowed"
 msgstr "다시 공유할 수 없습니다"
 
-#: js/share.js:292
+#: js/share.js:306
 msgid "Shared in {item} with {user}"
 msgstr "{user} 님과 {item}에서 공유 중"
 
-#: js/share.js:313
+#: js/share.js:327
 msgid "Unshare"
 msgstr "공유 해제"
 
-#: js/share.js:325
+#: js/share.js:339
 msgid "can edit"
 msgstr "편집 가능"
 
-#: js/share.js:327
+#: js/share.js:341
 msgid "access control"
 msgstr "접근 제어"
 
-#: js/share.js:330
+#: js/share.js:344
 msgid "create"
-msgstr "만들기"
+msgstr "생성"
 
-#: js/share.js:333
+#: js/share.js:347
 msgid "update"
 msgstr "업데이트"
 
-#: js/share.js:336
+#: js/share.js:350
 msgid "delete"
 msgstr "삭제"
 
-#: js/share.js:339
+#: js/share.js:353
 msgid "share"
 msgstr "공유"
 
-#: js/share.js:373 js/share.js:569
+#: js/share.js:387 js/share.js:607
 msgid "Password protected"
 msgstr "암호로 보호됨"
 
-#: js/share.js:582
+#: js/share.js:620
 msgid "Error unsetting expiration date"
 msgstr "만료 날짜 해제 오류"
 
-#: js/share.js:594
+#: js/share.js:632
 msgid "Error setting expiration date"
 msgstr "만료 날짜 설정 오류"
 
-#: js/share.js:609
+#: js/share.js:647
 msgid "Sending ..."
 msgstr "전송 중..."
 
-#: js/share.js:620
+#: js/share.js:658
 msgid "Email sent"
 msgstr "이메일 발송됨"
 
-#: js/update.js:14
+#: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
 msgstr "업데이트가 실패하였습니다. 이 문제를 <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud 커뮤니티</a>에 보고해 주십시오."
 
-#: js/update.js:18
+#: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "업데이트가 성공하였습니다. ownCloud로 돌아갑니다."
 
-#: lostpassword/controller.php:48
+#: lostpassword/controller.php:60
 msgid "ownCloud password reset"
 msgstr "ownCloud 암호 재설정"
 
@@ -399,24 +386,39 @@ msgstr "ownCloud 암호 재설정"
 msgid "Use the following link to reset your password: {link}"
 msgstr "다음 링크를 사용하여 암호를 재설정할 수 있습니다: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "이메일로 암호 재설정 링크를 보냈습니다."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "초기화 이메일을 보냈습니다."
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "요청이 실패했습니다!"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
 msgstr "사용자 이름"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:22
+msgid ""
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset. If you "
+"are not sure what to do, please contact your administrator before you "
+"continue. Do you really want to continue?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:24
+msgid "Yes, I really want to reset my password now"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
 msgstr "요청 초기화"
 
@@ -464,124 +466,153 @@ msgstr "접근 금지됨"
 msgid "Cloud not found"
 msgstr "클라우드를 찾을 수 없습니다"
 
+#: templates/altmail.php:4
+#, php-format
+msgid ""
+"Hey there,\n"
+"\n"
+"just letting you know that %s shared %s with you.\n"
+"View it: %s\n"
+"\n"
+"Cheers!"
+msgstr ""
+
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "분류 편집"
+msgstr "분류 수정"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
 msgstr "추가"
 
-#: templates/installation.php:23 templates/installation.php:30
+#: templates/installation.php:24 templates/installation.php:31
+#: templates/installation.php:38
 msgid "Security Warning"
 msgstr "보안 경고"
 
-#: templates/installation.php:24
+#: templates/installation.php:25
+msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
+msgstr "사용 중인 PHP 버전이 NULL 바이트 공격에 취약합니다 (CVE-2006-7243)"
+
+#: templates/installation.php:26
+msgid "Please update your PHP installation to use ownCloud securely."
+msgstr "ownCloud의 보안을 위하여 PHP 버전을 업데이트하십시오."
+
+#: templates/installation.php:32
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "안전한 난수 생성기를 사용할 수 없습니다. PHP의 OpenSSL 확장을 활성화해 주십시오."
 
-#: templates/installation.php:25
+#: templates/installation.php:33
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "안전한 난수 생성기를 사용하지 않으면 공격자가 암호 초기화 토큰을 추측하여 계정을 탈취할 수 있습니다."
 
-#: templates/installation.php:31
+#: templates/installation.php:39
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr ".htaccess 파일이 처리되지 않아서 데이터 디렉터리와 파일을 인터넷에서 접근할 수 없을 수도 있습니다."
 
-#: templates/installation.php:32
+#: templates/installation.php:40
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "서버를 올바르게 설정하는 방법을 알아보려면 <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">문서</a>를 참고하십시오.."
 
-#: templates/installation.php:36
+#: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
 msgstr "<strong>관리자 계정</strong> 만들기"
 
-#: templates/installation.php:52
+#: templates/installation.php:62
 msgid "Advanced"
 msgstr "고급"
 
-#: templates/installation.php:54
+#: templates/installation.php:64
 msgid "Data folder"
 msgstr "데이터 폴더"
 
-#: templates/installation.php:61
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "데이터베이스 설정"
 
-#: templates/installation.php:66 templates/installation.php:77
-#: templates/installation.php:87 templates/installation.php:97
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "사용될 예정"
 
-#: templates/installation.php:109
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "데이터베이스 사용자"
 
-#: templates/installation.php:113
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "데이터베이스 암호"
 
-#: templates/installation.php:117
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "데이터베이스 이름"
 
-#: templates/installation.php:125
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "데이터베이스 테이블 공간"
 
-#: templates/installation.php:131
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "데이터베이스 호스트"
 
-#: templates/installation.php:136
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "설치 완료"
 
-#: templates/layout.guest.php:33
-msgid "web services under your control"
-msgstr "내가 관리하는 웹 서비스"
+#: templates/layout.user.php:43
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
 
-#: templates/layout.user.php:48
+#: templates/layout.user.php:68
 msgid "Log out"
 msgstr "로그아웃"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "자동 로그인이 거부되었습니다!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "최근에 암호를 변경하지 않았다면 계정이 탈취되었을 수도 있습니다!"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "계정의 안전을 위하여 암호를 변경하십시오."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "암호를 잊으셨습니까?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "기억하기"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "로그인"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
+msgstr "대체 "
+
+#: templates/mail.php:16
+#, php-format
+msgid ""
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
+"href=\"%s\">View it!</a><br><br>Cheers!"
 msgstr ""
 
 #: templates/part.pagenavi.php:3

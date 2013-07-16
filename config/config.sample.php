@@ -56,10 +56,10 @@ $CONFIG = array(
 /* Theme to use for ownCloud */
 "theme" => "",
 
-/* Path to the 3rdparty directory */
+/* Path to the parent directory of the 3rdparty directory */
 "3rdpartyroot" => "",
 
-/* URL to the 3rdparty directory, as seen by the browser */
+/* URL to the parent directory of the 3rdparty directory, as seen by the browser */
 "3rdpartyurl" => "",
 
 /* Default app to load on login */
@@ -76,6 +76,9 @@ $CONFIG = array(
 
 /* URL of the appstore to use, server should understand OCS */
 "appstoreurl" => "http://api.apps.owncloud.com/v1",
+
+/* Domain name used by ownCloud for the sender mail address, e.g. no-reply@example.com */
+"mail_domain" => "example.com",
 
 /* Enable SMTP class debugging */
 "mail_smtpdebug" => false,
@@ -123,21 +126,35 @@ $CONFIG = array(
 /* Check if ownCloud is up to date */
 "updatechecker" => true,
 
+/* Are we connected to the internet or are we running in a closed network? */
+"has_internet_connection" => true,
+
 /* Place to log to, can be owncloud and syslog (owncloud is log menu item in admin menu) */
 "log_type" => "owncloud",
 
-/* File for the owncloud logger to log to, (default is ownloud.log in the data dir */
+/* File for the owncloud logger to log to, (default is ownloud.log in the data dir) */
 "logfile" => "",
 
 /* Loglevel to start logging at. 0=DEBUG, 1=INFO, 2=WARN, 3=ERROR (default is WARN) */
 "loglevel" => "",
 
+/* Append all database queries and parameters to the log file.
+ (watch out, this option can increase the size of your log file)*/
+"log_query" => false,
+
 /* Lifetime of the remember login cookie, default is 15 days */
 "remember_login_cookie_lifetime" => 60*60*24*15,
 
-/* Custom CSP policy, changing this will overwrite the standard policy */
-"custom_csp_policy" => "default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; frame-src *; img-src *; font-src 'self' data:",
+/* Life time of a session after inactivity */
+"session_lifetime" => 60 * 60 * 24,
 
+/* Custom CSP policy, changing this will overwrite the standard policy */
+"custom_csp_policy" => "default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; frame-src *; img-src *; font-src 'self' data:; media-src *",
+
+/* Enable/disable X-Frame-Restriction */
+/* HIGH SECURITY RISK IF DISABLED*/
+"xframe_restriction" => true,
+	
 /* The directory where the user data is stored, default to data in the owncloud
  * directory. The sqlite database is also stored here, when sqlite is used.
  */
@@ -150,8 +167,8 @@ $CONFIG = array(
 
 /* Set an array of path for your apps directories
  key 'path' is for the fs path and the key 'url' is for the http path to your
- applications paths. 'writable' indicate if the user can install apps in this folder.
- You must have at least 1 app folder writable or you must set the parameter : appstoreenabled to false
+ applications paths. 'writable' indicates whether the user can install apps in this folder.
+ You must have at least 1 app folder writable or you must set the parameter 'appstoreenabled' to false
 */
 	array(
 		'path'=> '/var/www/owncloud/apps',

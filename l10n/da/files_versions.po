@@ -3,17 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Frederik Lassen <frederiklassen@gmail.com>, 2013.
-# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2012.
-#   <osos@openeyes.dk>, 2012.
-# Thomas <cronner@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-05 00:18+0100\n"
-"PO-Revision-Date: 2013-03-04 18:20+0000\n"
-"Last-Translator: cronner <cronner@gmail.com>\n"
+"POT-Creation-Date: 2013-05-25 02:01+0200\n"
+"PO-Revision-Date: 2013-05-24 13:28+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

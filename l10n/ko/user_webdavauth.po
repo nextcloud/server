@@ -3,16 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <aoiob4305@gmail.com>, 2013.
-# 남자사람  <cessnagi@gmail.com>, 2012.
-# Park Shinjo <kde@peremen.name>, 2013.
+# aoiob4305 <aoiob4305@gmail.com>, 2013
+# aoiob4305 <aoiob4305@gmail.com>, 2013
+# 남자사람 <cessnagi@gmail.com>, 2012
+# 남자사람 <cessnagi@gmail.com>, 2012
+# Shinjo Park <kde@peremen.name>, 2013
+# Shinjo Park <kde@peremen.name>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 17:02+0100\n"
-"PO-Revision-Date: 2013-01-31 08:10+0000\n"
-"Last-Translator: Shinjo Park <kde@peremen.name>\n"
+"POT-Creation-Date: 2013-06-15 01:59+0200\n"
+"PO-Revision-Date: 2013-06-15 00:00+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,10 +28,10 @@ msgid "WebDAV Authentication"
 msgstr "WebDAV 인증"
 
 #: templates/settings.php:4
-msgid "URL: http://"
-msgstr "URL: http://"
+msgid "URL: "
+msgstr ""
 
-#: templates/settings.php:6
+#: templates/settings.php:7
 msgid ""
 "ownCloud will send the user credentials to this URL. This plugin checks the "
 "response and will interpret the HTTP statuscodes 401 and 403 as invalid "

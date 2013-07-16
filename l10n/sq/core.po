@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Odeen <rapid_odeen@zoho.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-15 00:03+0100\n"
-"PO-Revision-Date: 2013-01-14 23:03+0000\n"
+"POT-Creation-Date: 2013-07-16 01:56-0400\n"
+"PO-Revision-Date: 2013-07-16 05:14+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -17,549 +18,612 @@ msgstr ""
 "Language: sq\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:84
+#: ajax/share.php:97
 #, php-format
-msgid "User %s shared a file with you"
-msgstr ""
-
-#: ajax/share.php:86
-#, php-format
-msgid "User %s shared a folder with you"
-msgstr ""
-
-#: ajax/share.php:88
-#, php-format
-msgid ""
-"User %s shared the file \"%s\" with you. It is available for download here: "
-"%s"
-msgstr ""
-
-#: ajax/share.php:90
-#, php-format
-msgid ""
-"User %s shared the folder \"%s\" with you. It is available for download "
-"here: %s"
+msgid "%s shared »%s« with you"
 msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr ""
+msgstr "Mungon tipi i kategorisë."
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
-msgstr ""
+msgstr "Asnjë kategori për të shtuar?"
 
 #: ajax/vcategories/add.php:37
-msgid "This category already exists: "
-msgstr ""
+#, php-format
+msgid "This category already exists: %s"
+msgstr "Kjo kategori tashmë ekziston: %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr ""
+msgstr "Mungon tipi i objektit."
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr ""
+msgstr "Mungon ID-ja e %s."
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "Veprim i gabuar gjatë shtimit të %s tek të parapëlqyerat."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "Nuk selektuar për tu eliminuar asnjë kategori."
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "Veprim i gabuar gjatë heqjes së %s nga të parapëlqyerat."
 
-#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/config.php:32
+msgid "Sunday"
+msgstr "E djelë"
+
+#: js/config.php:33
+msgid "Monday"
+msgstr "E hënë"
+
+#: js/config.php:34
+msgid "Tuesday"
+msgstr "E martë"
+
+#: js/config.php:35
+msgid "Wednesday"
+msgstr "E mërkurë"
+
+#: js/config.php:36
+msgid "Thursday"
+msgstr "E enjte"
+
+#: js/config.php:37
+msgid "Friday"
+msgstr "E premte"
+
+#: js/config.php:38
+msgid "Saturday"
+msgstr "E shtunë"
+
+#: js/config.php:43
+msgid "January"
+msgstr "Janar"
+
+#: js/config.php:44
+msgid "February"
+msgstr "Shkurt"
+
+#: js/config.php:45
+msgid "March"
+msgstr "Mars"
+
+#: js/config.php:46
+msgid "April"
+msgstr "Prill"
+
+#: js/config.php:47
+msgid "May"
+msgstr "Maj"
+
+#: js/config.php:48
+msgid "June"
+msgstr "Qershor"
+
+#: js/config.php:49
+msgid "July"
+msgstr "Korrik"
+
+#: js/config.php:50
+msgid "August"
+msgstr "Gusht"
+
+#: js/config.php:51
+msgid "September"
+msgstr "Shtator"
+
+#: js/config.php:52
+msgid "October"
+msgstr "Tetor"
+
+#: js/config.php:53
+msgid "November"
+msgstr "Nëntor"
+
+#: js/config.php:54
+msgid "December"
+msgstr "Dhjetor"
+
+#: js/js.js:293
 msgid "Settings"
-msgstr ""
+msgstr "Parametra"
 
-#: js/js.js:711
+#: js/js.js:725
 msgid "seconds ago"
-msgstr ""
+msgstr "sekonda më parë"
 
-#: js/js.js:712
+#: js/js.js:726
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 minutë më parë"
 
-#: js/js.js:713
+#: js/js.js:727
 msgid "{minutes} minutes ago"
-msgstr ""
+msgstr "{minutes} minuta më parë"
 
-#: js/js.js:714
+#: js/js.js:728
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 orë më parë"
 
-#: js/js.js:715
+#: js/js.js:729
 msgid "{hours} hours ago"
-msgstr ""
+msgstr "{hours} orë më parë"
 
-#: js/js.js:716
+#: js/js.js:730
 msgid "today"
-msgstr ""
+msgstr "sot"
 
-#: js/js.js:717
+#: js/js.js:731
 msgid "yesterday"
-msgstr ""
+msgstr "dje"
 
-#: js/js.js:718
+#: js/js.js:732
 msgid "{days} days ago"
-msgstr ""
+msgstr "{days} ditë më parë"
 
-#: js/js.js:719
+#: js/js.js:733
 msgid "last month"
-msgstr ""
+msgstr "muajin e shkuar"
 
-#: js/js.js:720
+#: js/js.js:734
 msgid "{months} months ago"
-msgstr ""
+msgstr "{months} muaj më parë"
 
-#: js/js.js:721
+#: js/js.js:735
 msgid "months ago"
-msgstr ""
+msgstr "muaj më parë"
 
-#: js/js.js:722
+#: js/js.js:736
 msgid "last year"
-msgstr ""
+msgstr "vitin e shkuar"
 
-#: js/js.js:723
+#: js/js.js:737
 msgid "years ago"
-msgstr ""
+msgstr "vite më parë"
 
-#: js/oc-dialogs.js:126
+#: js/oc-dialogs.js:117
 msgid "Choose"
-msgstr ""
+msgstr "Zgjidh"
 
-#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+#: js/oc-dialogs.js:122
 msgid "Cancel"
+msgstr "Anulo"
+
+#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+msgid "Error loading file picker template"
 msgstr ""
 
-#: js/oc-dialogs.js:162
-msgid "No"
-msgstr ""
-
-#: js/oc-dialogs.js:163
+#: js/oc-dialogs.js:164
 msgid "Yes"
-msgstr ""
+msgstr "Po"
 
-#: js/oc-dialogs.js:180
+#: js/oc-dialogs.js:172
+msgid "No"
+msgstr "Jo"
+
+#: js/oc-dialogs.js:185
 msgid "Ok"
-msgstr ""
+msgstr "Në rregull"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr ""
+msgstr "Nuk është specifikuar tipi i objektit."
 
-#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
-#: js/share.js:566
+#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
+#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:620
+#: js/share.js:632
 msgid "Error"
-msgstr ""
+msgstr "Veprim i gabuar"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr ""
+msgstr "Nuk është specifikuar emri i app-it."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "Skedari i nevojshëm {file} nuk është i instaluar!"
 
-#: js/share.js:124 js/share.js:594
+#: js/share.js:30 js/share.js:45 js/share.js:87
+msgid "Shared"
+msgstr "Ndarë"
+
+#: js/share.js:90
+msgid "Share"
+msgstr "Nda"
+
+#: js/share.js:125 js/share.js:660
 msgid "Error while sharing"
-msgstr ""
+msgstr "Veprim i gabuar gjatë ndarjes"
 
-#: js/share.js:135
+#: js/share.js:136
 msgid "Error while unsharing"
-msgstr ""
+msgstr "Veprim i gabuar gjatë heqjes së ndarjes"
 
-#: js/share.js:142
+#: js/share.js:143
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "Veprim i gabuar gjatë ndryshimit të lejeve"
 
-#: js/share.js:151
+#: js/share.js:152
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "Ndarë me ju dhe me grupin {group} nga {owner}"
 
-#: js/share.js:153
+#: js/share.js:154
 msgid "Shared with you by {owner}"
-msgstr ""
-
-#: js/share.js:158
-msgid "Share with"
-msgstr ""
-
-#: js/share.js:163
-msgid "Share with link"
-msgstr ""
-
-#: js/share.js:166
-msgid "Password protect"
-msgstr ""
-
-#: js/share.js:168 templates/installation.php:44 templates/login.php:35
-msgid "Password"
-msgstr ""
+msgstr "Ndarë me ju nga {owner}"
 
 #: js/share.js:172
-msgid "Email link to person"
-msgstr ""
-
-#: js/share.js:173
-msgid "Send"
-msgstr ""
+msgid "Share with"
+msgstr "Nda me"
 
 #: js/share.js:177
+msgid "Share with link"
+msgstr "Nda me lidhje"
+
+#: js/share.js:180
+msgid "Password protect"
+msgstr "Mbro me kod"
+
+#: js/share.js:182 templates/installation.php:54 templates/login.php:26
+msgid "Password"
+msgstr "Kodi"
+
+#: js/share.js:187
+msgid "Allow Public Upload"
+msgstr ""
+
+#: js/share.js:191
+msgid "Email link to person"
+msgstr "Dërgo email me lidhjen"
+
+#: js/share.js:192
+msgid "Send"
+msgstr "Dërgo"
+
+#: js/share.js:197
 msgid "Set expiration date"
-msgstr ""
+msgstr "Cakto datën e përfundimit"
 
-#: js/share.js:178
+#: js/share.js:198
 msgid "Expiration date"
-msgstr ""
+msgstr "Data e përfundimit"
 
-#: js/share.js:210
+#: js/share.js:230
 msgid "Share via email:"
-msgstr ""
+msgstr "Nda me email:"
 
-#: js/share.js:212
+#: js/share.js:232
 msgid "No people found"
-msgstr ""
+msgstr "Nuk u gjet asnjë person"
 
-#: js/share.js:239
+#: js/share.js:270
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "Rindarja nuk lejohet"
 
-#: js/share.js:275
+#: js/share.js:306
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "Ndarë në {item} me {user}"
 
-#: js/share.js:296
+#: js/share.js:327
 msgid "Unshare"
-msgstr ""
+msgstr "Hiq ndarjen"
 
-#: js/share.js:308
+#: js/share.js:339
 msgid "can edit"
-msgstr ""
+msgstr "mund të ndryshosh"
 
-#: js/share.js:310
+#: js/share.js:341
 msgid "access control"
-msgstr ""
+msgstr "kontrollimi i hyrjeve"
 
-#: js/share.js:313
+#: js/share.js:344
 msgid "create"
-msgstr ""
+msgstr "krijo"
 
-#: js/share.js:316
+#: js/share.js:347
 msgid "update"
-msgstr ""
+msgstr "azhurno"
 
-#: js/share.js:319
+#: js/share.js:350
 msgid "delete"
-msgstr ""
+msgstr "elimino"
 
-#: js/share.js:322
+#: js/share.js:353
 msgid "share"
-msgstr ""
+msgstr "nda"
 
-#: js/share.js:356 js/share.js:541
+#: js/share.js:387 js/share.js:607
 msgid "Password protected"
-msgstr ""
+msgstr "Mbrojtur me kod"
 
-#: js/share.js:554
+#: js/share.js:620
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Veprim i gabuar gjatë heqjes së datës së përfundimit"
 
-#: js/share.js:566
+#: js/share.js:632
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Veprim i gabuar gjatë caktimit të datës së përfundimit"
 
-#: js/share.js:581
+#: js/share.js:647
 msgid "Sending ..."
-msgstr ""
+msgstr "Duke dërguar..."
 
-#: js/share.js:592
+#: js/share.js:658
 msgid "Email sent"
-msgstr ""
+msgstr "Email-i u dërgua"
 
-#: lostpassword/controller.php:47
+#: js/update.js:17
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr "Azhurnimi dështoi. Ju lutemi njoftoni për këtë problem <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">komunitetin ownCloud</a>."
+
+#: js/update.js:21
+msgid "The update was successful. Redirecting you to ownCloud now."
+msgstr "Azhurnimi u krye. Tani do t'ju kaloj tek ownCloud-i."
+
+#: lostpassword/controller.php:60
 msgid "ownCloud password reset"
-msgstr ""
+msgstr "Rivendosja e kodit të ownCloud-it"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr ""
+msgstr "Përdorni lidhjen në vijim për të rivendosur kodin: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr "Lidhja për rivendosjen e kodit tuaj u dërgua tek email-i juaj.<br>Nëqoftëse nuk e merrni brenda një kohe të arsyeshme, kontrolloni dosjet e postës së padëshirueshme (spam).<br>Nëqoftëse nuk është as aty, pyesni administratorin tuaj lokal."
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr "Kërkesa dështoi!<br>A u siguruat që email-i/përdoruesi juaj ishte i saktë?"
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
-msgstr ""
+msgstr "Do t'iu vijë një email që përmban një lidhje për ta rivendosur kodin."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
+msgstr "Përdoruesi"
+
+#: lostpassword/templates/lostpassword.php:22
+msgid ""
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset. If you "
+"are not sure what to do, please contact your administrator before you "
+"continue. Do you really want to continue?"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:14
-msgid "Request reset"
+#: lostpassword/templates/lostpassword.php:24
+msgid "Yes, I really want to reset my password now"
 msgstr ""
+
+#: lostpassword/templates/lostpassword.php:27
+msgid "Request reset"
+msgstr "Bëj kërkesë për rivendosjen"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr ""
+msgstr "Kodi yt u rivendos"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr ""
+msgstr "Tek faqja e hyrjes"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr ""
+msgstr "Kodi i ri"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr ""
+msgstr "Rivendos kodin"
 
 #: strings.php:5
 msgid "Personal"
-msgstr ""
+msgstr "Personale"
 
 #: strings.php:6
 msgid "Users"
-msgstr ""
+msgstr "Përdoruesit"
 
 #: strings.php:7
 msgid "Apps"
-msgstr ""
+msgstr "App"
 
 #: strings.php:8
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: strings.php:9
 msgid "Help"
-msgstr ""
+msgstr "Ndihmë"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr ""
+msgstr "Ndalohet hyrja"
 
 #: templates/404.php:12
 msgid "Cloud not found"
+msgstr "Cloud-i nuk u gjet"
+
+#: templates/altmail.php:4
+#, php-format
+msgid ""
+"Hey there,\n"
+"\n"
+"just letting you know that %s shared %s with you.\n"
+"View it: %s\n"
+"\n"
+"Cheers!"
 msgstr ""
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "Ndrysho kategoritë"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr ""
+msgstr "Shto"
 
-#: templates/installation.php:23 templates/installation.php:31
+#: templates/installation.php:24 templates/installation.php:31
+#: templates/installation.php:38
 msgid "Security Warning"
-msgstr ""
+msgstr "Paralajmërim sigurie"
 
-#: templates/installation.php:24
-msgid ""
-"No secure random number generator is available, please enable the PHP "
-"OpenSSL extension."
-msgstr ""
+#: templates/installation.php:25
+msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
+msgstr "Versioni juaj i PHP-së është i cënueshëm nga sulmi NULL Byte (CVE-2006-7243)"
 
 #: templates/installation.php:26
-msgid ""
-"Without a secure random number generator an attacker may be able to predict "
-"password reset tokens and take over your account."
-msgstr ""
+msgid "Please update your PHP installation to use ownCloud securely."
+msgstr "Ju lutem azhurnoni instalimin tuaj të PHP-së që të përdorni ownCloud-in në mënyrë të sigurt."
 
 #: templates/installation.php:32
 msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr "Nuk disponohet asnjë krijues numrash të rastësishëm, ju lutem aktivizoni shtesën PHP OpenSSL."
 
-#: templates/installation.php:36
+#: templates/installation.php:33
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr "Pa një krijues numrash të rastësishëm të sigurt një person i huaj mund të jetë në gjendje të parashikojë kodin dhe të marri llogarinë tuaj."
+
+#: templates/installation.php:39
+msgid ""
+"Your data directory and files are probably accessible from the internet "
+"because the .htaccess file does not work."
+msgstr "Dosja dhe skedarët e të dhënave tuaja mbase janë të arritshme nga interneti sepse skedari .htaccess nuk po punon."
+
+#: templates/installation.php:40
+msgid ""
+"For information how to properly configure your server, please see the <a "
+"href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
+"target=\"_blank\">documentation</a>."
+msgstr "Për më shumë informacion mbi konfigurimin e duhur të serverit tuaj, ju lutem shikoni <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">dokumentacionin</a>."
+
+#: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
-msgstr ""
+msgstr "Krijo një <strong>llogari administruesi</strong>"
 
-#: templates/installation.php:50
+#: templates/installation.php:62
 msgid "Advanced"
-msgstr ""
+msgstr "Të përparuara"
 
-#: templates/installation.php:52
+#: templates/installation.php:64
 msgid "Data folder"
-msgstr ""
+msgstr "Emri i dosjes"
 
-#: templates/installation.php:59
+#: templates/installation.php:74
 msgid "Configure the database"
-msgstr ""
+msgstr "Konfiguro database-in"
 
-#: templates/installation.php:64 templates/installation.php:75
-#: templates/installation.php:85 templates/installation.php:95
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
-msgstr ""
+msgstr "do të përdoret"
 
-#: templates/installation.php:107
+#: templates/installation.php:137
 msgid "Database user"
-msgstr ""
+msgstr "Përdoruesi i database-it"
 
-#: templates/installation.php:111
+#: templates/installation.php:144
 msgid "Database password"
-msgstr ""
+msgstr "Kodi i database-it"
 
-#: templates/installation.php:115
+#: templates/installation.php:149
 msgid "Database name"
-msgstr ""
+msgstr "Emri i database-it"
 
-#: templates/installation.php:123
+#: templates/installation.php:159
 msgid "Database tablespace"
-msgstr ""
+msgstr "Tablespace-i i database-it"
 
-#: templates/installation.php:129
+#: templates/installation.php:166
 msgid "Database host"
-msgstr ""
+msgstr "Pozicioni (host) i database-it"
 
-#: templates/installation.php:134
+#: templates/installation.php:172
 msgid "Finish setup"
+msgstr "Mbaro setup-in"
+
+#: templates/layout.user.php:43
+#, php-format
+msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Sunday"
-msgstr ""
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Monday"
-msgstr ""
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Tuesday"
-msgstr ""
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Wednesday"
-msgstr ""
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Thursday"
-msgstr ""
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Friday"
-msgstr ""
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Saturday"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "January"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "February"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "March"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "April"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "May"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "June"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "July"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "August"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "September"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "October"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "November"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "December"
-msgstr ""
-
-#: templates/layout.guest.php:42
-msgid "web services under your control"
-msgstr ""
-
-#: templates/layout.user.php:45
+#: templates/layout.user.php:68
 msgid "Log out"
-msgstr ""
+msgstr "Dalje"
+
+#: templates/login.php:9
+msgid "Automatic logon rejected!"
+msgstr "Hyrja automatike u refuzua!"
 
 #: templates/login.php:10
-msgid "Automatic logon rejected!"
-msgstr ""
-
-#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "Nqse nuk keni ndryshuar kodin kohët e fundit, llogaria juaj mund të jetë komprometuar."
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Ju lutemi, ndryshoni kodin për ta siguruar përsëri llogarinë tuaj."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
-msgstr ""
+msgstr "Ke humbur kodin?"
 
 #: templates/login.php:39
 msgid "remember"
-msgstr ""
+msgstr "kujto"
 
 #: templates/login.php:41
 msgid "Log in"
+msgstr "Hyrje"
+
+#: templates/login.php:47
+msgid "Alternative Logins"
+msgstr "Hyrje alternative"
+
+#: templates/mail.php:16
+#, php-format
+msgid ""
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
+"href=\"%s\">View it!</a><br><br>Cheers!"
 msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr ""
+msgstr "mbrapa"
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr ""
+msgstr "para"
 
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
+msgstr "Po azhurnoj ownCloud-in me versionin %s. Mund të zgjasi pak."

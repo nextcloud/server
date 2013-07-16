@@ -3,6 +3,7 @@
 "Users" => "သုံးစွဲသူ",
 "Apps" => "Apps",
 "Admin" => "အက်ဒမင်",
+"web services under your control" => "သင်၏ထိန်းချုပ်မှု့အောက်တွင်ရှိသော Web services",
 "ZIP download is turned off." => "ZIP ဒေါင်းလုတ်ကိုပိတ်ထားသည်",
 "Files need to be downloaded one by one." => "ဖိုင်များသည် တစ်ခုပြီး တစ်ခုဒေါင်းလုတ်ချရန်လိုအပ်သည်",
 "Back to Files" => "ဖိုင်သို့ပြန်သွားမည်",
@@ -24,8 +25,5 @@
 "%d months ago" => "%d လအရင်က",
 "last year" => "မနှစ်က",
 "years ago" => "နှစ် အရင်က",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s ကိုရရှိနိုင်ပါပြီ။ <a href=\"%s\">နောက်ထပ်အချက်အလက်များ</a>ရယူပါ။",
-"up to date" => "နောက်ဆုံးပေါ်",
-"updates check is disabled" => "နောက်ဆုံးပေါ်စစ်ဆေးခြင်းကိုပိတ်ထားသည်",
 "Could not find category \"%s\"" => "\"%s\"ခေါင်းစဉ်ကို ရှာမတွေ့ပါ"
 );

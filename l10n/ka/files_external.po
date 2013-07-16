@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-28 00:04+0100\n"
-"PO-Revision-Date: 2013-02-27 23:04+0000\n"
+"POT-Creation-Date: 2013-05-25 02:01+0200\n"
+"PO-Revision-Date: 2013-05-24 13:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (http://www.transifex.com/projects/p/owncloud/language/ka/)\n"
 "MIME-Version: 1.0\n"
@@ -37,17 +37,24 @@ msgstr ""
 msgid "Error configuring Google Drive storage"
 msgstr ""
 
-#: lib/config.php:421
+#: lib/config.php:431
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:424
+#: lib/config.php:434
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
+msgstr ""
+
+#: lib/config.php:437
+msgid ""
+"<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
+"Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
+"your system administrator to install it."
 msgstr ""
 
 #: templates/settings.php:3

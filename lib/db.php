@@ -23,7 +23,8 @@
 class DatabaseException extends Exception{
 	private $query;
 
-	public function __construct($message, $query){
+	//FIXME getQuery seems to be unused, maybe use parent constructor with $message, $code and $previous
+	public function __construct($message, $query = null){
 		parent::__construct($message);
 		$this->query = $query;
 	}
@@ -179,28 +180,18 @@ class OC_DB {
 							$dsn = 'oci:dbname=//' . $host . '/' . $name;
 					}
 					break;
-                case 'mssql':
+				case 'mssql':
 					if ($port) {
 							$dsn='sqlsrv:Server='.$host.','.$port.';Database='.$name;
 					} else {
 							$dsn='sqlsrv:Server='.$host.';Database='.$name;
 					}
-					break;                    
+					break;
 				default:
 					return false;
 			}
-			try{
-				self::$PDO=new PDO($dsn, $user, $pass, $opts);
-			}catch(PDOException $e) {
-				OC_Log::write('core', $e->getMessage(), OC_Log::FATAL);
-				OC_User::setUserId(null);
-
-				// send http status 503
-				header('HTTP/1.1 503 Service Temporarily Unavailable');
-				header('Status: 503 Service Temporarily Unavailable');
-				OC_Template::printErrorPage('Failed to connect to database');
-				die();
-			}
+			self::$PDO=new PDO($dsn, $user, $pass, $opts);
+			
 			// We always, really always want associative arrays
 			self::$PDO->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 			self::$PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -273,18 +264,13 @@ class OC_DB {
 					break;
 				case 'oci':
 					$dsn = array(
-							'phptype'  => 'oci8',
-							'username' => $user,
-							'password' => $pass,
-							'charset' => 'AL32UTF8',
+						'phptype'  => 'oci8',
+						'username' => $user,
+						'password' => $pass,
+						'service'  => $name,
+						'hostspec' => $host,
+						'charset' => 'AL32UTF8',
 					);
-					if ($host != '') {
-						$dsn['hostspec'] = $host;
-						$dsn['database'] = $name;
-					} else { // use dbname for hostspec
-						$dsn['hostspec'] = $name;
-						$dsn['database'] = $user;
-					}
 					break;
 				case 'mssql':
 					$dsn = array(
@@ -303,19 +289,8 @@ class OC_DB {
 
 			// Try to establish connection
 			self::$MDB2 = MDB2::factory( $dsn, $options );
-
-			// Die if we could not connect
-			if( PEAR::isError( self::$MDB2 )) {
-				OC_Log::write('core', self::$MDB2->getUserInfo(), OC_Log::FATAL);
-				OC_Log::write('core', self::$MDB2->getMessage(), OC_Log::FATAL);
-				OC_User::setUserId(null);
-
-				// send http status 503
-				header('HTTP/1.1 503 Service Temporarily Unavailable');
-				header('Status: 503 Service Temporarily Unavailable');
-				OC_Template::printErrorPage('Failed to connect to database');
-				die();
-			}
+			
+			self::raiseExceptionOnError( self::$MDB2 );
 
 			// We always, really always want associative arrays
 			self::$MDB2->setFetchMode(MDB2_FETCHMODE_ASSOC);
@@ -330,11 +305,12 @@ class OC_DB {
 	 * @param string $query Query string
 	 * @param int $limit
 	 * @param int $offset
+	 * @param bool $isManipulation
 	 * @return MDB2_Statement_Common prepared SQL query
 	 *
 	 * SQL query via MDB2 prepare(), needs to be execute()'d!
 	 */
-	static public function prepare( $query , $limit=null, $offset=null ) {
+	static public function prepare( $query , $limit = null, $offset = null, $isManipulation = null) {
 
 		if (!is_null($limit) && $limit != -1) {
 			if (self::$backend == self::BACKEND_MDB2) {
@@ -367,14 +343,27 @@ class OC_DB {
 
 		// Optimize the query
 		$query = self::processQuery( $query );
-
+		if(OC_Config::getValue( "log_query", false)) {
+			OC_Log::write('core', 'DB prepare : '.$query, OC_Log::DEBUG);
+		}
 		self::connect();
+		
+		if ($isManipulation === null) {
+			//try to guess, so we return the number of rows on manipulations
+			$isManipulation = self::isManipulation($query);
+		}
+		
 		// return the result
 		if(self::$backend==self::BACKEND_MDB2) {
-			$result = self::$connection->prepare( $query );
+			// differentiate between query and manipulation
+			if ($isManipulation) {
+				$result = self::$connection->prepare( $query, null, MDB2_PREPARE_MANIP );
+			} else {
+				$result = self::$connection->prepare( $query, null, MDB2_PREPARE_RESULT );
+			}
 
 			// Die if we have an error (error means: bad query, not 0 results!)
-			if( PEAR::isError($result)) {
+			if( self::isError($result)) {
 				throw new DatabaseException($result->getMessage(), $query);
 			}
 		}else{
@@ -383,7 +372,8 @@ class OC_DB {
 			}catch(PDOException $e) {
 				throw new DatabaseException($e->getMessage(), $query);
 			}
-			$result=new PDOStatementWrapper($result);
+			// differentiate between query and manipulation
+			$result = new PDOStatementWrapper($result, $isManipulation);
 		}
 		if ((is_null($limit) || $limit == -1) and self::$cachingEnabled ) {
 			$type = OC_Config::getValue( "dbtype", "sqlite" );
@@ -393,11 +383,87 @@ class OC_DB {
 		}
 		return $result;
 	}
+	
+	/**
+	 * tries to guess the type of statement based on the first 10 characters
+	 * the current check allows some whitespace but does not work with IF EXISTS or other more complex statements
+	 * 
+	 * @param string $sql
+	 */
+	static public function isManipulation( $sql ) {
+		$selectOccurence = stripos ($sql, "SELECT");
+		if ($selectOccurence !== false && $selectOccurence < 10) {
+			return false;
+		}
+		$insertOccurence = stripos ($sql, "INSERT");
+		if ($insertOccurence !== false && $insertOccurence < 10) {
+			return true;
+		}
+		$updateOccurence = stripos ($sql, "UPDATE");
+		if ($updateOccurence !== false && $updateOccurence < 10) {
+			return true;
+		}
+		$deleteOccurance = stripos ($sql, "DELETE");
+		if ($deleteOccurance !== false && $deleteOccurance < 10) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * @brief execute a prepared statement, on error write log and throw exception
+	 * @param mixed $stmt PDOStatementWrapper | MDB2_Statement_Common ,
+	 *					  an array with 'sql' and optionally 'limit' and 'offset' keys
+	 *					.. or a simple sql query string
+	 * @param array $parameters
+	 * @return result
+	 * @throws DatabaseException
+	 */
+	static public function executeAudited( $stmt, array $parameters = null) {
+		if (is_string($stmt)) {
+			// convert to an array with 'sql'
+			if (stripos($stmt,'LIMIT') !== false) { //OFFSET requires LIMIT, se we only neet to check for LIMIT
+				// TODO try to convert LIMIT OFFSET notation to parameters, see fixLimitClauseForMSSQL
+				$message = 'LIMIT and OFFSET are forbidden for portability reasons,'
+						 . ' pass an array with \'limit\' and \'offset\' instead';
+				throw new DatabaseException($message);
+			}
+			$stmt = array('sql' => $stmt, 'limit' => null, 'offset' => null);
+		}
+		if (is_array($stmt)){
+			// convert to prepared statement
+			if ( ! array_key_exists('sql', $stmt) ) {
+				$message = 'statement array must at least contain key \'sql\'';
+				throw new DatabaseException($message);
+			}
+			if ( ! array_key_exists('limit', $stmt) ) {
+				$stmt['limit'] = null;
+			}
+			if ( ! array_key_exists('limit', $stmt) ) {
+				$stmt['offset'] = null;
+			}
+			$stmt = self::prepare($stmt['sql'], $stmt['limit'], $stmt['offset']);
+		}
+		self::raiseExceptionOnError($stmt, 'Could not prepare statement');
+		if ($stmt instanceof PDOStatementWrapper || $stmt instanceof MDB2_Statement_Common) {
+			$result = $stmt->execute($parameters);
+			self::raiseExceptionOnError($result, 'Could not execute statement');
+		} else {
+			if (is_object($stmt)) {
+				$message = 'Expected a prepared statement or array got ' . get_class($stmt);
+			} else {
+				$message = 'Expected a prepared statement or array got ' . gettype($stmt);
+			}
+			throw new DatabaseException($message);
+		}
+		return $result;
+	}
 
 	/**
 	 * @brief gets last value of autoincrement
 	 * @param string $table The optional table name (will replace *PREFIX*) and add sequence suffix
 	 * @return int id
+	 * @throws DatabaseException
 	 *
 	 * MDB2 lastInsertID()
 	 *
@@ -407,25 +473,27 @@ class OC_DB {
 	public static function insertid($table=null) {
 		self::connect();
 		$type = OC_Config::getValue( "dbtype", "sqlite" );
-		if( $type == 'pgsql' ) {
-			$query = self::prepare('SELECT lastval() AS id');
-			$row = $query->execute()->fetchRow();
+		if( $type === 'pgsql' ) {
+			$result = self::executeAudited('SELECT lastval() AS id');
+			$row = $result->fetchRow();
+			self::raiseExceptionOnError($row, 'fetching row for insertid failed');
 			return $row['id'];
-		}
-		if( $type == 'mssql' ) {
+		} else if( $type === 'mssql' || $type === 'oci') {
 			if($table !== null) {
 				$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
 				$table = str_replace( '*PREFIX*', $prefix, $table );
 			}
-			return self::$connection->lastInsertId($table);
-		}else{
+			$result = self::$connection->lastInsertId($table);
+		} else {
 			if($table !== null) {
 				$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
 				$suffix = OC_Config::getValue( "dbsequencesuffix", "_id_seq" );
 				$table = str_replace( '*PREFIX*', $prefix, $table ).$suffix;
 			}
-			return self::$connection->lastInsertId($table);
+			$result = self::$connection->lastInsertId($table);
 		}
+		self::raiseExceptionOnError($result, 'insertid failed');
+		return $result;
 	}
 
 	/**
@@ -515,11 +583,9 @@ class OC_DB {
 
 		//clean up memory
 		unlink( $file2 );
+		
+		self::raiseExceptionOnError($definition,'Failed to parse the database definition');
 
-		// Die in case something went wrong
-		if( $definition instanceof MDB2_Schema_Error ) {
-			OC_Template::printErrorPage( $definition->getMessage().': '.$definition->getUserInfo() );
-		}
 		if(OC_Config::getValue('dbtype', 'sqlite')==='oci') {
 			unset($definition['charset']); //or MDB2 tries SHUTDOWN IMMEDIATE
 			$oldname = $definition['name'];
@@ -531,11 +597,7 @@ class OC_DB {
 
 		$ret=self::$schema->createDatabase( $definition );
 
-		// Die in case something went wrong
-		if( $ret instanceof MDB2_Error ) {
-			OC_Template::printErrorPage( self::$MDB2->getDebugOutput().' '.$ret->getMessage() . ': '
-				. $ret->getUserInfo() );
-		}
+		self::raiseExceptionOnError($ret,'Failed to create the database structure');
 
 		return true;
 	}
@@ -550,18 +612,17 @@ class OC_DB {
 		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
 
 		self::connectScheme();
+		
+		if(OC_Config::getValue('dbtype', 'sqlite')==='oci') {
+			//set dbname, it is unset because oci uses 'service' to connect
+			self::$schema->db->database_name=self::$schema->db->dsn['username'];
+		}
 
 		// read file
 		$content = file_get_contents( $file );
 
 		$previousSchema = self::$schema->getDefinitionFromDatabase();
-		if (PEAR::isError($previousSchema)) {
-			$error = $previousSchema->getMessage();
-			$detail = $previousSchema->getDebugInfo();
-			$message = 'Failed to get existing database structure for updating ('.$error.', '.$detail.')';
-			OC_Log::write('core', $message, OC_Log::FATAL);
-			throw new Exception($message);
-		}
+		self::raiseExceptionOnError($previousSchema,'Failed to get existing database structure for updating');
 
 		// Make changes and save them to an in-memory file
 		$file2 = 'static://db_scheme';
@@ -579,19 +640,19 @@ class OC_DB {
 			$content = str_replace( '<default>0000-00-00 00:00:00</default>',
 				'<default>CURRENT_TIMESTAMP</default>', $content );
 		}
+		if(OC_Config::getValue('dbtype', 'sqlite')==='oci') {
+			unset($previousSchema['charset']); //or MDB2 tries SHUTDOWN IMMEDIATE
+			$oldname = $previousSchema['name'];
+			$previousSchema['name']=OC_Config::getValue( "dbuser", $oldname );
+			//TODO check identifiers are at most 30 chars long
+		}
 		file_put_contents( $file2, $content );
 		$op = self::$schema->updateDatabase($file2, $previousSchema, array(), false);
 
 		//clean up memory
 		unlink( $file2 );
 
-		if (PEAR::isError($op)) {
-			$error = $op->getMessage();
-			$detail = $op->getDebugInfo();
-			$message = 'Failed to update database structure ('.$error.', '.$detail.')';
-			OC_Log::write('core', $message, OC_Log::FATAL);
-			throw new Exception($message);
-		}
+		self::raiseExceptionOnError($op,'Failed to update database structure');
 		return true;
 	}
 
@@ -620,7 +681,7 @@ class OC_DB {
 	 * @brief Insert a row if a matching row doesn't exists.
 	 * @param string $table. The table to insert into in the form '*PREFIX*tableName'
 	 * @param array $input. An array of fieldname/value pairs
-	 * @returns The return value from PDOStatementWrapper->execute()
+	 * @returns int number of updated rows
 	 */
 	public static function insertIfNotExist($table, $input) {
 		self::connect();
@@ -633,59 +694,50 @@ class OC_DB {
 		$type = self::$type;
 
 		$query = '';
+		$inserts = array_values($input);
 		// differences in escaping of table names ('`' for mysql) and getting the current timestamp
 		if( $type == 'sqlite' || $type == 'sqlite3' ) {
 			// NOTE: For SQLite we have to use this clumsy approach
 			// otherwise all fieldnames used must have a unique key.
-			$query = 'SELECT * FROM "' . $table . '" WHERE ';
+			$query = 'SELECT * FROM `' . $table . '` WHERE ';
 			foreach($input as $key => $value) {
-				$query .= $key . " = '" . $value . '\' AND ';
+				$query .= '`' . $key . '` = ? AND ';
 			}
 			$query = substr($query, 0, strlen($query) - 5);
 			try {
-				$stmt = self::prepare($query);
-				$result = $stmt->execute();
-			} catch(PDOException $e) {
-				$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
-				$entry .= 'Offending command was: ' . $query . '<br />';
-				OC_Log::write('core', $entry, OC_Log::FATAL);
-				error_log('DB error: '.$entry);
-				OC_Template::printErrorPage( $entry );
+				$result = self::executeAudited($query, $inserts);
+			} catch(DatabaseException $e) {
+				OC_Template::printExceptionErrorPage( $e );
 			}
 
-			if($result->numRows() == 0) {
-				$query = 'INSERT INTO "' . $table . '" ("'
-					. implode('","', array_keys($input)) . '") VALUES("'
-					. implode('","', array_values($input)) . '")';
+			if((int)$result->numRows() === 0) {
+				$query = 'INSERT INTO `' . $table . '` (`'
+					. implode('`,`', array_keys($input)) . '`) VALUES('
+					. str_repeat('?,', count($input)-1).'? ' . ')';
 			} else {
-				return true;
+				return 0; //no rows updated
 			}
 		} elseif( $type == 'pgsql' || $type == 'oci' || $type == 'mysql' || $type == 'mssql') {
-			$query = 'INSERT INTO `' .$table . '` ('
-				. implode(',', array_keys($input)) . ') SELECT \''
-				. implode('\',\'', array_values($input)) . '\' FROM ' . $table . ' WHERE ';
+			$query = 'INSERT INTO `' .$table . '` (`'
+				. implode('`,`', array_keys($input)) . '`) SELECT '
+				. str_repeat('?,', count($input)-1).'? ' // Is there a prettier alternative?
+				. 'FROM `' . $table . '` WHERE ';
 
 			foreach($input as $key => $value) {
-				$query .= $key . " = '" . $value . '\' AND ';
+				$query .= '`' . $key . '` = ? AND ';
 			}
 			$query = substr($query, 0, strlen($query) - 5);
 			$query .= ' HAVING COUNT(*) = 0';
+			$inserts = array_merge($inserts, $inserts);
 		}
-
-		// TODO: oci should be use " (quote) instead of ` (backtick).
-		//OC_Log::write('core', __METHOD__ . ', type: ' . $type . ', query: ' . $query, OC_Log::DEBUG);
 
 		try {
-			$result = self::prepare($query);
+			$result = self::executeAudited($query, $inserts);
 		} catch(PDOException $e) {
-			$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
-			$entry .= 'Offending command was: ' . $query.'<br />';
-			OC_Log::write('core', $entry, OC_Log::FATAL);
-			error_log('DB error: ' . $entry);
-			OC_Template::printErrorPage( $entry );
+			OC_Template::printExceptionErrorPage( $e );
 		}
 
-		return $result->execute();
+		return $result;
 	}
 
 	/**
@@ -720,15 +772,16 @@ class OC_DB {
 		}elseif( $type == 'oci'  ) {
 			$query = str_replace( '`', '"', $query );
 			$query = str_ireplace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
+			$query = str_ireplace( 'UNIX_TIMESTAMP()', '((CAST(SYS_EXTRACT_UTC(systimestamp) AS DATE))-TO_DATE(\'1970101000000\',\'YYYYMMDDHH24MiSS\'))*24*3600', $query );
 		}elseif( $type == 'mssql' ) {
 			$query = preg_replace( "/\`(.*?)`/", "[$1]", $query );
 			$query = str_replace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
 			$query = str_replace( 'now()', 'CURRENT_TIMESTAMP', $query );
 			$query = str_replace( 'LENGTH(', 'LEN(', $query );
 			$query = str_replace( 'SUBSTR(', 'SUBSTRING(', $query );
-            
-            $query = self::fixLimitClauseForMSSQL($query);
-        }
+
+			$query = self::fixLimitClauseForMSSQL($query);
+		}
 
 		// replace table name prefix
 		$query = str_replace( '*PREFIX*', $prefix, $query );
@@ -736,60 +789,60 @@ class OC_DB {
 		return $query;
 	}
 
-    private static function fixLimitClauseForMSSQL($query) {
-        $limitLocation = stripos ($query, "LIMIT");
-        
-        if ( $limitLocation === false ) {
-            return $query;
-        } 
-        
-        // total == 0 means all results - not zero results
-        //
-        // First number is either total or offset, locate it by first space
-        //
-        $offset = substr ($query, $limitLocation + 5);
-        $offset = substr ($offset, 0, stripos ($offset, ' '));
-        $offset = trim ($offset);
+	private static function fixLimitClauseForMSSQL($query) {
+		$limitLocation = stripos ($query, "LIMIT");
 
-        // check for another parameter
-        if (stripos ($offset, ',') === false) {
-            // no more parameters
-            $offset = 0;
-            $total = intval ($offset);
-        } else {
-            // found another parameter
-            $offset = intval ($offset);
+		if ( $limitLocation === false ) {
+			return $query;
+		} 
 
-            $total = substr ($query, $limitLocation + 5);
-            $total = substr ($total, stripos ($total, ','));
+		// total == 0 means all results - not zero results
+		//
+		// First number is either total or offset, locate it by first space
+		//
+		$offset = substr ($query, $limitLocation + 5);
+		$offset = substr ($offset, 0, stripos ($offset, ' '));
+		$offset = trim ($offset);
 
-            $total = substr ($total, 0, stripos ($total, ' '));
-            $total = intval ($total);
-        }
+		// check for another parameter
+		if (stripos ($offset, ',') === false) {
+			// no more parameters
+			$offset = 0;
+			$total = intval ($offset);
+		} else {
+			// found another parameter
+			$offset = intval ($offset);
 
-        $query = trim (substr ($query, 0, $limitLocation));
+			$total = substr ($query, $limitLocation + 5);
+			$total = substr ($total, stripos ($total, ','));
 
-        if ($offset == 0 && $total !== 0) {
-            if (strpos($query, "SELECT") === false) {
-                $query = "TOP {$total} " . $query;
-            } else {
-                $query = preg_replace('/SELECT(\s*DISTINCT)?/Dsi', 'SELECT$1 TOP '.$total, $query);
-            }
-        } else if ($offset > 0) {
-            $query = preg_replace('/SELECT(\s*DISTINCT)?/Dsi', 'SELECT$1 TOP(10000000) ', $query);
-            $query = 'SELECT *
-                    FROM (SELECT sub2.*, ROW_NUMBER() OVER(ORDER BY sub2.line2) AS line3
-                    FROM (SELECT 1 AS line2, sub1.* FROM (' . $query . ') AS sub1) as sub2) AS sub3';
+			$total = substr ($total, 0, stripos ($total, ' '));
+			$total = intval ($total);
+		}
 
-            if ($total > 0) {
-                $query .= ' WHERE line3 BETWEEN ' . ($offset + 1) . ' AND ' . ($offset + $total);
-            } else {
-                $query .= ' WHERE line3 > ' . $offset;
-            }
-        }
-        return $query;
-    }
-    
+		$query = trim (substr ($query, 0, $limitLocation));
+
+		if ($offset == 0 && $total !== 0) {
+			if (strpos($query, "SELECT") === false) {
+				$query = "TOP {$total} " . $query;
+			} else {
+				$query = preg_replace('/SELECT(\s*DISTINCT)?/Dsi', 'SELECT$1 TOP '.$total, $query);
+			}
+		} else if ($offset > 0) {
+			$query = preg_replace('/SELECT(\s*DISTINCT)?/Dsi', 'SELECT$1 TOP(10000000) ', $query);
+			$query = 'SELECT *
+					FROM (SELECT sub2.*, ROW_NUMBER() OVER(ORDER BY sub2.line2) AS line3
+					FROM (SELECT 1 AS line2, sub1.* FROM (' . $query . ') AS sub1) as sub2) AS sub3';
+
+			if ($total > 0) {
+				$query .= ' WHERE line3 BETWEEN ' . ($offset + 1) . ' AND ' . ($offset + $total);
+			} else {
+				$query .= ' WHERE line3 > ' . $offset;
+			}
+		}
+		return $query;
+	}
+
 	/**
 	 * @brief drop a table
 	 * @param string $tableName the table to drop
@@ -885,15 +938,46 @@ class OC_DB {
 	 * @return bool
 	 */
 	public static function isError($result) {
-		if(!$result) {
+		//MDB2 returns an MDB2_Error object
+		if (class_exists('PEAR') === true && PEAR::isError($result)) {
 			return true;
-		}elseif(self::$backend==self::BACKEND_MDB2 and PEAR::isError($result)) {
+		}
+		//PDO returns false on error (and throws an exception)
+		if (self::$backend===self::BACKEND_PDO and $result === false) {
 			return true;
-		}else{
-			return false;
+		}
+
+		return false;
+	}
+	/**
+	 * check if a result is an error and throws an exception, works with MDB2 and PDOException
+	 * @param mixed $result
+	 * @param string $message
+	 * @return void
+	 * @throws DatabaseException
+	 */
+	public static function raiseExceptionOnError($result, $message = null) {
+		if(self::isError($result)) {
+			if ($message === null) {
+				$message = self::getErrorMessage($result);
+			} else {
+				$message .= ', Root cause:' . self::getErrorMessage($result);
+			}
+			throw new DatabaseException($message, self::getErrorCode($result));
 		}
 	}
 
+	public static function getErrorCode($error) {
+		if ( class_exists('PEAR') === true && PEAR::isError($error) ) {
+			/** @var $error PEAR_Error */
+			return $error->getCode();
+		}
+		if ( self::$backend==self::BACKEND_PDO and self::$PDO ) {
+			return self::$PDO->errorCode();
+		}
+
+		return -1;
+	}
 	/**
 	 * returns the error code and message as a string for logging
 	 * works with MDB2 and PDOException
@@ -901,25 +985,24 @@ class OC_DB {
 	 * @return string
 	 */
 	public static function getErrorMessage($error) {
-		if ( self::$backend==self::BACKEND_MDB2 and PEAR::isError($error) ) {
+		if ( class_exists('PEAR') === true && PEAR::isError($error) ) {
 			$msg = $error->getCode() . ': ' . $error->getMessage();
-			if (defined('DEBUG') && DEBUG) {
-				$msg .= '(' . $error->getDebugInfo() . ')';
-			}
-		} elseif (self::$backend==self::BACKEND_PDO and self::$PDO) {
+			$msg .= ' (' . $error->getDebugInfo() . ')';
+
+			return $msg;
+		}
+		if (self::$backend==self::BACKEND_PDO and self::$PDO) {
 			$msg = self::$PDO->errorCode() . ': ';
 			$errorInfo = self::$PDO->errorInfo();
 			if (is_array($errorInfo)) {
 				$msg .= 'SQLSTATE = '.$errorInfo[0] . ', ';
 				$msg .= 'Driver Code = '.$errorInfo[1] . ', ';
 				$msg .= 'Driver Message = '.$errorInfo[2];
-			}else{
-				$msg = '';
 			}
-		}else{
-			$msg = '';
+			return $msg;
 		}
-		return $msg;
+
+		return '';
 	}
 
 	/**
@@ -940,17 +1023,23 @@ class PDOStatementWrapper{
 	/**
 	 * @var PDOStatement
 	 */
-	private $statement=null;
-	private $lastArguments=array();
+	private $statement = null;
+	private $isManipulation = false;
+	private $lastArguments = array();
 
-	public function __construct($statement) {
-		$this->statement=$statement;
+	public function __construct($statement, $isManipulation = false) {
+		$this->statement = $statement;
+		$this->isManipulation = $isManipulation;
 	}
 
 	/**
-	 * make execute return the result instead of a bool
+	 * make execute return the result or updated row count instead of a bool
 	 */
 	public function execute($input=array()) {
+		if(OC_Config::getValue( "log_query", false)) {
+			$params_str = str_replace("\n"," ",var_export($input,true));
+			OC_Log::write('core', 'DB execute with arguments : '.$params_str, OC_Log::DEBUG);
+		}
 		$this->lastArguments = $input;
 		if (count($input) > 0) {
 
@@ -962,15 +1051,18 @@ class PDOStatementWrapper{
 				$input = $this->tryFixSubstringLastArgumentDataForMSSQL($input);
 			}
 
-			$result=$this->statement->execute($input);
+			$result = $this->statement->execute($input);
 		} else {
-			$result=$this->statement->execute();
+			$result = $this->statement->execute();
 		}
 		
-		if ($result) {
-			return $this;
-		} else {
+		if ($result === false) {
 			return false;
+		}
+		if ($this->isManipulation) {
+			return $this->statement->rowCount();
+		} else {
+			return $this;
 		}
 	}
 
@@ -1063,14 +1155,14 @@ class PDOStatementWrapper{
 			die ($entry);
 		}
 	}
-    
+
 	/**
 	 * provide numRows
 	 */
 	public function numRows() {
 		$regex = '/^SELECT\s+(?:ALL\s+|DISTINCT\s+)?(?:.*?)\s+FROM\s+(.*)$/i';
 		if (preg_match($regex, $this->statement->queryString, $output) > 0) {
-			$query = OC_DB::prepare("SELECT COUNT(*) FROM {$output[1]}", PDO::FETCH_NUM);
+			$query = OC_DB::prepare("SELECT COUNT(*) FROM {$output[1]}");
 			return $query->execute($this->lastArguments)->fetchColumn();
 		}else{
 			return $this->statement->rowCount();

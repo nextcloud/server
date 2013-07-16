@@ -2,6 +2,7 @@
 "Couldn't delete %s permanently" => "Impossible d'effacer %s de façon permanente",
 "Couldn't restore %s" => "Impossible de restaurer %s",
 "perform restore operation" => "effectuer l'opération de restauration",
+"Error" => "Erreur",
 "delete file permanently" => "effacer définitivement le fichier",
 "Delete permanently" => "Supprimer de façon définitive",
 "Name" => "Nom",

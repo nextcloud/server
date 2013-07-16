@@ -85,7 +85,7 @@ if($source) {
 	}elseif(\OC\Files\Filesystem::touch($dir . '/' . $filename)) {
 		$meta = \OC\Files\Filesystem::getFileInfo($dir.'/'.$filename);
 		$id = $meta['fileid'];
-		OCP\JSON::success(array("data" => array('content'=>$content, 'id' => $id)));
+		OCP\JSON::success(array("data" => array('content'=>$content, 'id' => $id, 'mime' => $meta['mimetype'])));
 		exit();
 	}
 }

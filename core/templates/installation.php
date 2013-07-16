@@ -19,6 +19,13 @@
 		<?php endforeach; ?>
 	</ul>
 	<?php endif; ?>
+	<?php if($_['vulnerableToNullByte']): ?>
+	<fieldset class="warning">
+		<legend><strong><?php p($l->t('Security Warning'));?></strong></legend>
+		<p><?php p($l->t('Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)'));?><br/>
+		<?php p($l->t('Please update your PHP installation to use ownCloud securely.'));?></p>
+	</fieldset>
+	<?php endif; ?>
 	<?php if(!$_['secureRNG']): ?>
 	<fieldset class="warning">
 		<legend><strong><?php p($l->t('Security Warning'));?></strong></legend>
@@ -56,6 +63,7 @@
 		<div id="datadirContent">
 			<label for="directory"><?php p($l->t( 'Data folder' )); ?></label>
 			<input type="text" name="directory" id="directory"
+				placeholder="<?php p(OC::$SERVERROOT."/data"); ?>"
 				value="<?php p(OC_Helper::init_var('directory', $_['directory'])); ?>" />
 		</div>
 	</fieldset>
@@ -131,9 +139,11 @@
 					value="<?php p(OC_Helper::init_var('dbuser')); ?>" autocomplete="off" />
 			</p>
 			<p class="infield groupmiddle">
-				<label for="dbpass" class="infield"><?php p($l->t( 'Database password' )); ?></label>
-				<input type="password" name="dbpass" id="dbpass" placeholder=""
+				<input type="password" name="dbpass" id="dbpass" placeholder="" data-typetoggle="#dbpassword" 
 					value="<?php p(OC_Helper::init_var('dbpass')); ?>" />
+				<label for="dbpass" class="infield"><?php p($l->t( 'Database password' )); ?></label>
+				<input type="checkbox" id="dbpassword" name="dbpassword" />
+				<label for="dbpassword"></label>
 			</p>
 			<p class="infield groupmiddle">
 				<label for="dbname" class="infield"><?php p($l->t( 'Database name' )); ?></label>
@@ -155,7 +165,7 @@
 		<p class="infield groupbottom">
 			<label for="dbhost" class="infield" id="dbhostlabel"><?php p($l->t( 'Database host' )); ?></label>
 			<input type="text" name="dbhost" id="dbhost" placeholder=""
-				value="<?php p(OC_Helper::init_var('dbhost', 'localhost')); ?>" />
+				value="<?php p(OC_Helper::init_var('dbhost')); ?>" />
 		</p>
 	</fieldset>
 

@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <dw4dev@gmail.com>, 2012.
+# chenanyeh <chnjsn1221@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-02 00:03+0100\n"
-"PO-Revision-Date: 2013-03-01 23:04+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-16 01:56-0400\n"
+"PO-Revision-Date: 2013-07-16 05:15+0000\n"
+"Last-Translator: chenanyeh <chnjsn1221@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,25 +18,29 @@ msgstr ""
 "Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#: ajax/clearMappings.php:34
+msgid "Failed to clear the mappings."
+msgstr "清除映射失敗"
+
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
-msgstr ""
+msgstr "刪除伺服器設定時失敗"
 
 #: ajax/testConfiguration.php:36
 msgid "The configuration is valid and the connection could be established!"
-msgstr ""
+msgstr "設定有效且連線可建立"
 
 #: ajax/testConfiguration.php:39
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
-msgstr ""
+msgstr "設定有效但連線無法建立。請檢查伺服器的設定與認證資料。"
 
 #: ajax/testConfiguration.php:43
 msgid ""
 "The configuration is invalid. Please look in the ownCloud log for further "
 "details."
-msgstr ""
+msgstr "設定無效。更多細節請參閱ownCloud的記錄檔。"
 
 #: js/settings.js:66
 msgid "Deletion failed"
@@ -44,291 +48,373 @@ msgstr "移除失敗"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
-msgstr ""
+msgstr "要使用最近一次的伺服器設定嗎?"
 
 #: js/settings.js:83
 msgid "Keep settings?"
-msgstr ""
+msgstr "維持設定嗎?"
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
-msgstr ""
+msgstr "無法新增伺服器設定"
 
-#: js/settings.js:121
+#: js/settings.js:111
+msgid "mappings cleared"
+msgstr "映射已清除"
+
+#: js/settings.js:112
+msgid "Success"
+msgstr "成功"
+
+#: js/settings.js:117
+msgid "Error"
+msgstr "錯誤"
+
+#: js/settings.js:141
 msgid "Connection test succeeded"
-msgstr ""
+msgstr "連線測試成功"
 
-#: js/settings.js:126
+#: js/settings.js:146
 msgid "Connection test failed"
-msgstr ""
+msgstr "連線測試失敗"
 
-#: js/settings.js:136
+#: js/settings.js:156
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr ""
+msgstr "您真的確定要刪除現在的伺服器設定嗎?"
 
-#: js/settings.js:137
+#: js/settings.js:157
 msgid "Confirm Deletion"
-msgstr ""
+msgstr "確認已刪除"
 
-#: templates/settings.php:8
+#: templates/settings.php:9
 msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behaviour. Please ask your system administrator to "
 "disable one of them."
-msgstr ""
+msgstr "<b>警告:</b> 應用程式user_ldap和user_webdavauth互不相容。可能會造成無法預期的結果。請要求您的系統管理員將兩者其中之一停用。"
 
-#: templates/settings.php:11
+#: templates/settings.php:12
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>警告:</b>沒有安裝 PHP LDAP 模組，後端系統將無法運作。請要求您的系統管理員安裝模組。"
 
-#: templates/settings.php:15
+#: templates/settings.php:16
 msgid "Server configuration"
-msgstr ""
+msgstr "伺服器設定"
 
-#: templates/settings.php:18
+#: templates/settings.php:32
 msgid "Add Server Configuration"
-msgstr ""
+msgstr "新增伺服器設定"
 
-#: templates/settings.php:23
+#: templates/settings.php:37
 msgid "Host"
 msgstr "主機"
 
-#: templates/settings.php:25
+#: templates/settings.php:39
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr ""
+msgstr "若您不需要SSL加密傳輸則可忽略通訊協定。若非如此請從ldaps://開始"
 
-#: templates/settings.php:26
+#: templates/settings.php:40
 msgid "Base DN"
 msgstr ""
 
-#: templates/settings.php:27
+#: templates/settings.php:41
 msgid "One Base DN per line"
-msgstr ""
+msgstr "一行一個Base DN"
 
-#: templates/settings.php:28
+#: templates/settings.php:42
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr ""
+msgstr "您可以在進階標籤頁裡面指定使用者及群組的Base DN"
 
-#: templates/settings.php:30
+#: templates/settings.php:44
 msgid "User DN"
 msgstr ""
 
-#: templates/settings.php:32
+#: templates/settings.php:46
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr ""
+msgstr "客戶端使用者的DN與特定字詞的連結需要完善，例如:uid=agent,dc=example,dc=com。若是匿名連接，則將DN與密碼欄位留白。"
 
-#: templates/settings.php:33
+#: templates/settings.php:47
 msgid "Password"
 msgstr "密碼"
 
-#: templates/settings.php:36
+#: templates/settings.php:50
 msgid "For anonymous access, leave DN and Password empty."
-msgstr ""
+msgstr "匿名連接時請將DN與密碼欄位留白"
 
-#: templates/settings.php:37
+#: templates/settings.php:51
 msgid "User Login Filter"
-msgstr ""
+msgstr "使用者登入過濾器"
 
-#: templates/settings.php:40
+#: templates/settings.php:54
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr ""
-
-#: templates/settings.php:41
-#, php-format
-msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr ""
-
-#: templates/settings.php:42
-msgid "User List Filter"
-msgstr ""
-
-#: templates/settings.php:45
-msgid "Defines the filter to apply, when retrieving users."
-msgstr ""
-
-#: templates/settings.php:46
-msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr ""
-
-#: templates/settings.php:47
-msgid "Group Filter"
-msgstr ""
-
-#: templates/settings.php:50
-msgid "Defines the filter to apply, when retrieving groups."
-msgstr ""
-
-#: templates/settings.php:51
-msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr ""
+msgstr "試圖登入時會定義要套用的篩選器。登入過程中%%uid會取代使用者名稱。"
 
 #: templates/settings.php:55
+#, php-format
+msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
+msgstr "請使用 %%uid placeholder，例如:\"uid=%%uid\""
+
+#: templates/settings.php:56
+msgid "User List Filter"
+msgstr "使用者名單篩選器"
+
+#: templates/settings.php:59
+msgid "Defines the filter to apply, when retrieving users."
+msgstr "檢索使用者時定義要套用的篩選器"
+
+#: templates/settings.php:60
+msgid "without any placeholder, e.g. \"objectClass=person\"."
+msgstr "請勿使用任何placeholder，例如:\"objectClass=person\"。"
+
+#: templates/settings.php:61
+msgid "Group Filter"
+msgstr "群組篩選器"
+
+#: templates/settings.php:64
+msgid "Defines the filter to apply, when retrieving groups."
+msgstr "檢索群組時，定義要套用的篩選器"
+
+#: templates/settings.php:65
+msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
+msgstr "請勿使用任何placeholder，例如:\"objectClass=posixGroup\"。"
+
+#: templates/settings.php:69
 msgid "Connection Settings"
-msgstr ""
+msgstr "連線設定"
 
-#: templates/settings.php:57
+#: templates/settings.php:71
 msgid "Configuration Active"
-msgstr ""
+msgstr "設定為主動模式"
 
-#: templates/settings.php:57
+#: templates/settings.php:71
 msgid "When unchecked, this configuration will be skipped."
-msgstr ""
+msgstr "沒有被勾選時，此設定會被略過。"
 
-#: templates/settings.php:58
+#: templates/settings.php:72
 msgid "Port"
 msgstr "連接阜"
 
-#: templates/settings.php:59
+#: templates/settings.php:73
 msgid "Backup (Replica) Host"
-msgstr ""
+msgstr "備用主機"
 
-#: templates/settings.php:59
+#: templates/settings.php:73
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
-msgstr ""
+msgstr "請給定一個可選的備用主機。必須是LDAP/AD中央伺服器的複本。"
 
-#: templates/settings.php:60
+#: templates/settings.php:74
 msgid "Backup (Replica) Port"
-msgstr ""
+msgstr "備用(複本)連接阜"
 
-#: templates/settings.php:61
+#: templates/settings.php:75
 msgid "Disable Main Server"
-msgstr ""
+msgstr "停用主伺服器"
 
-#: templates/settings.php:61
+#: templates/settings.php:75
 msgid "When switched on, ownCloud will only connect to the replica server."
-msgstr ""
+msgstr "當開關打開時，ownCloud將只會連接複本伺服器。"
 
-#: templates/settings.php:62
+#: templates/settings.php:76
 msgid "Use TLS"
 msgstr "使用TLS"
 
-#: templates/settings.php:62
+#: templates/settings.php:76
 msgid "Do not use it additionally for LDAPS connections, it will fail."
 msgstr ""
 
-#: templates/settings.php:63
+#: templates/settings.php:77
 msgid "Case insensitve LDAP server (Windows)"
-msgstr ""
+msgstr "不區分大小寫的LDAP伺服器(Windows)"
 
-#: templates/settings.php:64
+#: templates/settings.php:78
 msgid "Turn off SSL certificate validation."
 msgstr "關閉 SSL 憑證驗證"
 
-#: templates/settings.php:64
+#: templates/settings.php:78
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
-msgstr ""
+msgstr "若連線只有在此選項開啟時運作，請匯入LDAP伺服器的SSL認證到您的ownCloud伺服器。"
 
-#: templates/settings.php:64
+#: templates/settings.php:78
 msgid "Not recommended, use for testing only."
-msgstr ""
+msgstr "不推薦使用，僅供測試用途。"
 
-#: templates/settings.php:65
+#: templates/settings.php:79
 msgid "Cache Time-To-Live"
-msgstr ""
+msgstr "快取的存活時間"
 
-#: templates/settings.php:65
+#: templates/settings.php:79
 msgid "in seconds. A change empties the cache."
-msgstr ""
+msgstr "以秒為單位。更變後會清空快取。"
 
-#: templates/settings.php:67
+#: templates/settings.php:81
 msgid "Directory Settings"
-msgstr ""
+msgstr "目錄選項"
 
-#: templates/settings.php:69
+#: templates/settings.php:83
 msgid "User Display Name Field"
-msgstr ""
+msgstr "使用者名稱欄位"
 
-#: templates/settings.php:69
+#: templates/settings.php:83
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
-msgstr ""
+msgstr "用於產生ownCloud名稱"
 
-#: templates/settings.php:70
+#: templates/settings.php:84
 msgid "Base User Tree"
-msgstr ""
+msgstr "Base使用者數"
 
-#: templates/settings.php:70
+#: templates/settings.php:84
 msgid "One User Base DN per line"
-msgstr ""
+msgstr "一行一個使用者Base DN"
 
-#: templates/settings.php:71
+#: templates/settings.php:85
 msgid "User Search Attributes"
-msgstr ""
+msgstr "使用者搜索屬性"
 
-#: templates/settings.php:71 templates/settings.php:74
+#: templates/settings.php:85 templates/settings.php:88
 msgid "Optional; one attribute per line"
-msgstr ""
+msgstr "可選的; 一行一項屬性"
 
-#: templates/settings.php:72
+#: templates/settings.php:86
 msgid "Group Display Name Field"
-msgstr ""
+msgstr "群組顯示名稱欄位"
 
-#: templates/settings.php:72
+#: templates/settings.php:86
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
 msgstr ""
 
-#: templates/settings.php:73
+#: templates/settings.php:87
 msgid "Base Group Tree"
-msgstr ""
+msgstr "Base群組樹"
 
-#: templates/settings.php:73
+#: templates/settings.php:87
 msgid "One Group Base DN per line"
-msgstr ""
+msgstr "一行一個群組Base DN"
 
-#: templates/settings.php:74
+#: templates/settings.php:88
 msgid "Group Search Attributes"
-msgstr ""
+msgstr "群組搜索屬性"
 
-#: templates/settings.php:75
+#: templates/settings.php:89
 msgid "Group-Member association"
-msgstr ""
+msgstr "群組成員的關係"
 
-#: templates/settings.php:77
+#: templates/settings.php:91
 msgid "Special Attributes"
-msgstr ""
+msgstr "特殊屬性"
 
-#: templates/settings.php:79
+#: templates/settings.php:93
 msgid "Quota Field"
-msgstr ""
+msgstr "配額欄位"
 
-#: templates/settings.php:80
+#: templates/settings.php:94
 msgid "Quota Default"
-msgstr ""
+msgstr "預設配額"
 
-#: templates/settings.php:80
+#: templates/settings.php:94
 msgid "in bytes"
-msgstr ""
+msgstr "以位元組為單位"
 
-#: templates/settings.php:81
+#: templates/settings.php:95
 msgid "Email Field"
-msgstr ""
+msgstr "電郵欄位"
 
-#: templates/settings.php:82
+#: templates/settings.php:96
 msgid "User Home Folder Naming Rule"
-msgstr ""
+msgstr "使用者家目錄的命名規則"
 
-#: templates/settings.php:82
+#: templates/settings.php:96
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
+msgstr "使用者名稱請留白(預設)。若不留白請指定一個LDAP/AD屬性。"
+
+#: templates/settings.php:101
+msgid "Internal Username"
+msgstr "內部使用者名稱"
+
+#: templates/settings.php:102
+msgid ""
+"By default the internal username will be created from the UUID attribute. It"
+" makes sure that the username is unique and characters do not need to be "
+"converted. The internal username has the restriction that only these "
+"characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced "
+"with their ASCII correspondence or simply omitted. On collisions a number "
+"will be added/increased. The internal username is used to identify a user "
+"internally. It is also the default name for the user home folder in "
+"ownCloud. It is also a port of remote URLs, for instance for all *DAV "
+"services. With this setting, the default behaviour can be overriden. To "
+"achieve a similar behaviour as before ownCloud 5 enter the user display name"
+" attribute in the following field. Leave it empty for default behaviour. "
+"Changes will have effect only on newly mapped (added) LDAP users."
 msgstr ""
 
-#: templates/settings.php:86
+#: templates/settings.php:103
+msgid "Internal Username Attribute:"
+msgstr ""
+
+#: templates/settings.php:104
+msgid "Override UUID detection"
+msgstr ""
+
+#: templates/settings.php:105
+msgid ""
+"By default, ownCloud autodetects the UUID attribute. The UUID attribute is "
+"used to doubtlessly identify LDAP users and groups. Also, the internal "
+"username will be created based on the UUID, if not specified otherwise "
+"above. You can override the setting and pass an attribute of your choice. "
+"You must make sure that the attribute of your choice can be fetched for both"
+" users and groups and it is unique. Leave it empty for default behaviour. "
+"Changes will have effect only on newly mapped (added) LDAP users and groups."
+msgstr ""
+
+#: templates/settings.php:106
+msgid "UUID Attribute:"
+msgstr ""
+
+#: templates/settings.php:107
+msgid "Username-LDAP User Mapping"
+msgstr ""
+
+#: templates/settings.php:108
+msgid ""
+"ownCloud uses usernames to store and assign (meta) data. In order to "
+"precisely identify and recognize users, each LDAP user will have a internal "
+"username. This requires a mapping from ownCloud username to LDAP user. The "
+"created username is mapped to the UUID of the LDAP user. Additionally the DN"
+" is cached as well to reduce LDAP interaction, but it is not used for "
+"identification. If the DN changes, the changes will be found by ownCloud. "
+"The internal ownCloud name is used all over in ownCloud. Clearing the "
+"Mappings will have leftovers everywhere. Clearing the Mappings is not "
+"configuration sensitive, it affects all LDAP configurations! Do never clear "
+"the mappings in a production environment. Only clear mappings in a testing "
+"or experimental stage."
+msgstr ""
+
+#: templates/settings.php:109
+msgid "Clear Username-LDAP User Mapping"
+msgstr ""
+
+#: templates/settings.php:109
+msgid "Clear Groupname-LDAP Group Mapping"
+msgstr ""
+
+#: templates/settings.php:111
 msgid "Test Configuration"
-msgstr ""
+msgstr "測試此設定"
 
-#: templates/settings.php:86
+#: templates/settings.php:111
 msgid "Help"
 msgstr "說明"

@@ -3,15 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# André Koot <meneer@tken.net>, 2013.
-# Lennart Weijl <lenny@weijl.org>, 2013.
-# Richard Bos <radoeka@gmail.com>, 2012.
+# André Koot <meneer@tken.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-10 00:08+0100\n"
-"PO-Revision-Date: 2013-02-09 23:09+0000\n"
+"POT-Creation-Date: 2013-07-05 02:12+0200\n"
+"PO-Revision-Date: 2013-07-05 00:13+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -20,22 +18,156 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: templates/settings-personal.php:4 templates/settings.php:5
+#: ajax/adminrecovery.php:29
+msgid "Recovery key successfully enabled"
+msgstr "Herstelsleutel succesvol geactiveerd"
+
+#: ajax/adminrecovery.php:34
+msgid ""
+"Could not enable recovery key. Please check your recovery key password!"
+msgstr "Kon herstelsleutel niet activeren. Controleer het wachtwoord van uw herstelsleutel!"
+
+#: ajax/adminrecovery.php:48
+msgid "Recovery key successfully disabled"
+msgstr "Herstelsleutel succesvol gedeactiveerd"
+
+#: ajax/adminrecovery.php:53
+msgid ""
+"Could not disable recovery key. Please check your recovery key password!"
+msgstr "Kon herstelsleutel niet deactiveren. Controleer het wachtwoord van uw herstelsleutel!"
+
+#: ajax/changeRecoveryPassword.php:49
+msgid "Password successfully changed."
+msgstr "Wachtwoord succesvol gewijzigd."
+
+#: ajax/changeRecoveryPassword.php:51
+msgid "Could not change the password. Maybe the old password was not correct."
+msgstr "Kon wachtwoord niet wijzigen. Wellicht oude wachtwoord niet juist ingevoerd."
+
+#: ajax/updatePrivateKeyPassword.php:51
+msgid "Private key password successfully updated."
+msgstr "Privésleutel succesvol bijgewerkt."
+
+#: ajax/updatePrivateKeyPassword.php:53
+msgid ""
+"Could not update the private key password. Maybe the old password was not "
+"correct."
+msgstr "Kon het wachtwoord van de privésleutel niet wijzigen. Misschien was het oude wachtwoord onjuist."
+
+#: files/error.php:7
+msgid ""
+"Your private key is not valid! Likely your password was changed outside the "
+"ownCloud system (e.g. your corporate directory). You can update your private"
+" key password in your personal settings to recover access to your encrypted "
+"files."
+msgstr ""
+
+#: hooks/hooks.php:44
+msgid "Missing requirements."
+msgstr ""
+
+#: hooks/hooks.php:45
+msgid ""
+"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
+"PHP extension is enabled and configured properly. For now, the encryption "
+"app has been disabled."
+msgstr ""
+
+#: js/settings-admin.js:11
+msgid "Saving..."
+msgstr "Opslaan"
+
+#: templates/invalid_private_key.php:5
+msgid ""
+"Your private key is not valid! Maybe the your password was changed from "
+"outside."
+msgstr "Uw privésleutel is niet geldig. Misschien was uw wachtwoord van buitenaf gewijzigd."
+
+#: templates/invalid_private_key.php:7
+msgid "You can unlock your private key in your "
+msgstr "U kunt uw privésleutel deblokkeren in uw"
+
+#: templates/invalid_private_key.php:7
+msgid "personal settings"
+msgstr "persoonlijke instellingen"
+
+#: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
 msgstr "Versleuteling"
 
-#: templates/settings-personal.php:7
-msgid "File encryption is enabled."
-msgstr "Bestandsversleuteling geactiveerd."
+#: templates/settings-admin.php:10
+msgid ""
+"Enable recovery key (allow to recover users files in case of password loss):"
+msgstr "Activeren herstelsleutel (maakt het mogelijk om gebruikersbestanden terug te halen in geval van verlies van het wachtwoord):"
+
+#: templates/settings-admin.php:14
+msgid "Recovery key password"
+msgstr "Wachtwoord herstelsleulel"
+
+#: templates/settings-admin.php:21 templates/settings-personal.php:54
+msgid "Enabled"
+msgstr "Geactiveerd"
+
+#: templates/settings-admin.php:29 templates/settings-personal.php:62
+msgid "Disabled"
+msgstr "Gedeactiveerd"
+
+#: templates/settings-admin.php:34
+msgid "Change recovery key password:"
+msgstr "Wijzig wachtwoord herstelsleutel:"
+
+#: templates/settings-admin.php:41
+msgid "Old Recovery key password"
+msgstr "Oude wachtwoord herstelsleutel"
+
+#: templates/settings-admin.php:48
+msgid "New Recovery key password"
+msgstr "Nieuwe wachtwoord herstelsleutel"
+
+#: templates/settings-admin.php:53
+msgid "Change Password"
+msgstr "Wijzigen wachtwoord"
 
 #: templates/settings-personal.php:11
-msgid "The following file types will not be encrypted:"
-msgstr "De volgende bestandstypen zullen niet worden versleuteld:"
+msgid "Your private key password no longer match your log-in password:"
+msgstr "Het wachtwoord van uw privésleutel komt niet meer overeen met uw inlogwachtwoord:"
 
-#: templates/settings.php:7
-msgid "Exclude the following file types from encryption:"
-msgstr "Sluit de volgende bestandstypen uit van versleuteling:"
+#: templates/settings-personal.php:14
+msgid "Set your old private key password to your current log-in password."
+msgstr "Stel het wachtwoord van uw oude privésleutel in op uw huidige inlogwachtwoord."
 
-#: templates/settings.php:12
-msgid "None"
-msgstr "Geen"
+#: templates/settings-personal.php:16
+msgid ""
+" If you don't remember your old password you can ask your administrator to "
+"recover your files."
+msgstr "Als u uw oude wachtwoord niet meer weet, kunt u uw beheerder vragen uw bestanden terug te halen."
+
+#: templates/settings-personal.php:24
+msgid "Old log-in password"
+msgstr "Oude wachtwoord"
+
+#: templates/settings-personal.php:30
+msgid "Current log-in password"
+msgstr "Huidige wachtwoord"
+
+#: templates/settings-personal.php:35
+msgid "Update Private Key Password"
+msgstr "Bijwerken wachtwoord Privésleutel"
+
+#: templates/settings-personal.php:45
+msgid "Enable password recovery:"
+msgstr "Activeren wachtwoord herstel:"
+
+#: templates/settings-personal.php:47
+msgid ""
+"Enabling this option will allow you to reobtain access to your encrypted "
+"files in case of password loss"
+msgstr "Het activeren van deze optie maakt het mogelijk om uw versleutelde bestanden te benaderen als uw wachtwoord kwijt is"
+
+#: templates/settings-personal.php:63
+msgid "File recovery settings updated"
+msgstr "Bestandsherstel instellingen bijgewerkt"
+
+#: templates/settings-personal.php:64
+msgid "Could not update file recovery"
+msgstr "Kon bestandsherstel niet bijwerken"

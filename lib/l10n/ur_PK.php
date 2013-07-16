@@ -4,5 +4,6 @@
 "Settings" => "سیٹینگز",
 "Users" => "یوزرز",
 "Apps" => "ایپز",
-"Admin" => "ایڈمن"
+"Admin" => "ایڈمن",
+"web services under your control" => "آپ کے اختیار میں ویب سروسیز"
 );

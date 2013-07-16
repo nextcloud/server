@@ -133,14 +133,14 @@ OC.Share={
 					callback();
 				}
 			} else {
-				OC.dialogs.alert(t('core', 'Error'), t('core', 'Error while unsharing'));
+				OC.dialogs.alert(t('core', 'Error while unsharing'), t('core', 'Error'));
 			}
 		});
 	},
 	setPermissions:function(itemType, itemSource, shareType, shareWith, permissions) {
 		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'setPermissions', itemType: itemType, itemSource: itemSource, shareType: shareType, shareWith: shareWith, permissions: permissions }, function(result) {
 			if (!result || result.status !== 'success') {
-				OC.dialogs.alert(t('core', 'Error'), t('core', 'Error while changing permissions'));
+				OC.dialogs.alert(t('core', 'Error while changing permissions'), t('core', 'Error'));
 			}
 		});
 	},
@@ -149,13 +149,26 @@ OC.Share={
 		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item-source="'+itemSource+'">';
 		if (data !== false && data.reshare !== false && data.reshare.uid_owner !== undefined) {
 			if (data.reshare.share_type == OC.Share.SHARE_TYPE_GROUP) {
-				html += '<span class="reshare">'+t('core', 'Shared with you and the group {group} by {owner}', {group: data.reshare.share_with, owner: data.reshare.displayname_owner})+'</span>';
+				html += '<span class="reshare">'+t('core', 'Shared with you and the group {group} by {owner}', {group: escapeHTML(data.reshare.share_with), owner: escapeHTML(data.reshare.displayname_owner)})+'</span>';
 			} else {
-				html += '<span class="reshare">'+t('core', 'Shared with you by {owner}', {owner: data.reshare.displayname_owner})+'</span>';
+				html += '<span class="reshare">'+t('core', 'Shared with you by {owner}', {owner: escapeHTML(data.reshare.displayname_owner)})+'</span>';
 			}
 			html += '<br />';
 		}
 		if (possiblePermissions & OC.PERMISSION_SHARE) {
+			// Determine the Allow Public Upload status.
+			// Used later on to determine if the
+			// respective checkbox should be checked or
+			// not.
+
+			var allowPublicUploadStatus = false;
+			$.each(data.shares, function(key, value) {
+				if (allowPublicUploadStatus) {
+					return true;
+				}
+				allowPublicUploadStatus = (value.permissions & OC.PERMISSION_CREATE) ? true : false;
+			});
+
 			html += '<input id="shareWith" type="text" placeholder="'+t('core', 'Share with')+'" />';
 			html += '<ul id="shareWithList">';
 			html += '</ul>';
@@ -168,12 +181,18 @@ OC.Share={
 				html += '<div id="linkPass">';
 				html += '<input id="linkPassText" type="password" placeholder="'+t('core', 'Password')+'" />';
 				html += '</div>';
-				html += '</div>';
-				html += '<form id="emailPrivateLink" >';
+				if (itemType === 'folder' && (possiblePermissions & OC.PERMISSION_CREATE)) {
+					html += '<div id="allowPublicUploadWrapper" style="display:none;">';
+					html += '<input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload"' + ((allowPublicUploadStatus) ? 'checked="checked"' : '') + ' />';
+					html += '<label for="sharingDialogAllowPublicUpload">' + t('core', 'Allow Public Upload') + '</label>';
+					html += '</div>';
+				}
+				html += '</div><form id="emailPrivateLink" >';
 				html += '<input id="email" style="display:none; width:62%;" value="" placeholder="'+t('core', 'Email link to person')+'" type="text" />';
 				html += '<input id="emailButton" style="display:none;" type="submit" value="'+t('core', 'Send')+'" />';
 				html += '</form>';
 			}
+
 			html += '<div id="expiration">';
 			html += '<input type="checkbox" name="expirationCheckbox" id="expirationCheckbox" value="1" /><label for="expirationCheckbox">'+t('core', 'Set expiration date')+'</label>';
 			html += '<input id="expirationDate" type="text" placeholder="'+t('core', 'Expiration date')+'" style="display:none; width:90%;" />';
@@ -235,7 +254,18 @@ OC.Share={
 				});
 				return false;
 			}
-			});
+			})
+			// customize internal _renderItem function to display groups and users differently
+			.data("ui-autocomplete")._renderItem = function( ul, item ) {
+				var insert = $( "<a>" ).text( item.label );
+				if(item.label.length > 8 && item.label.substr(item.label.length-8) === ' (group)') {
+					// current label is group - wrap "strong" element
+					insert = insert.wrapInner('<strong>');
+				}
+				return $( "<li>" )
+					.append( insert )
+					.appendTo( ul );
+			};
 		} else {
 			html += '<input id="shareWith" type="text" placeholder="'+t('core', 'Resharing is not allowed')+'" style="width:90%;" disabled="disabled"/>';
 			html += '</div>';
@@ -271,7 +301,7 @@ OC.Share={
 			}
 			var collectionList = $('#shareWithList li').filterAttr('data-collection', item);
 			if (collectionList.length > 0) {
-				$(collectionList).append(', '+shareWith);
+				$(collectionList).append(', '+shareWithDisplayName);
 			} else {
 				var html = '<li style="clear: both;" data-collection="'+item+'">'+t('core', 'Shared in {item} with {user}', {'item': item, user: shareWithDisplayName})+'</li>';
 				$('#shareWithList').prepend(html);
@@ -359,6 +389,7 @@ OC.Share={
 		$('#expiration').show();
 		$('#emailPrivateLink #email').show();
 		$('#emailPrivateLink #emailButton').show();
+		$('#allowPublicUploadWrapper').show();
 	},
 	hideLink:function() {
 		$('#linkText').hide('blind');
@@ -367,6 +398,7 @@ OC.Share={
 		$('#linkPass').hide();
 		$('#emailPrivateLink #email').hide();
 		$('#emailPrivateLink #emailButton').hide();
+		$('#allowPublicUploadWrapper').hide();
 	},
 	dirname:function(path) {
 		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');
@@ -383,7 +415,7 @@ OC.Share={
 }
 
 $(document).ready(function() {
-	
+
 	if(typeof monthNames != 'undefined'){
 		$.datepicker.setDefaults({
 			monthNames: monthNames,
@@ -421,7 +453,7 @@ $(document).ready(function() {
 
 	$(this).click(function(event) {
 		var target = $(event.target);
-		var isMatched = !target.is('.drop, .ui-datepicker-next, .ui-datepicker-prev, .ui-icon') 
+		var isMatched = !target.is('.drop, .ui-datepicker-next, .ui-datepicker-prev, .ui-icon')
 			&& !target.closest('#ui-datepicker-div').length;
 		if (OC.Share.droppedDown && isMatched && $('#dropdown').has(event.target).length === 0) {
 			OC.Share.hideDropDown();
@@ -532,6 +564,28 @@ $(document).ready(function() {
 		$(this).select();
 	});
 
+	// Handle the Allow Public Upload Checkbox
+	$(document).on('click', '#sharingDialogAllowPublicUpload', function() {
+
+		// Gather data
+		var allowPublicUpload = $(this).is(':checked');
+		var itemType = $('#dropdown').data('item-type');
+		var itemSource = $('#dropdown').data('item-source');
+		var permissions = 0;
+
+		// Calculate permissions
+		if (allowPublicUpload) {
+			permissions = OC.PERMISSION_UPDATE + OC.PERMISSION_CREATE + OC.PERMISSION_READ;
+		} else {
+			permissions = OC.PERMISSION_READ;
+		}
+
+		// Update the share information
+		OC.Share.share(itemType, itemSource,	OC.Share.SHARE_TYPE_LINK, '', permissions, function(data) {
+			return;
+		});
+	});
+
 	$(document).on('click', '#dropdown #showPassword', function() {
 		$('#linkPass').toggle('blind');
 		if (!$('#showPassword').is(':checked') ) {
@@ -563,19 +617,19 @@ $(document).ready(function() {
 			var itemSource = $('#dropdown').data('item-source');
 			$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'setExpirationDate', itemType: itemType, itemSource: itemSource, date: '' }, function(result) {
 				if (!result || result.status !== 'success') {
-					OC.dialogs.alert(t('core', 'Error'), t('core', 'Error unsetting expiration date'));
+					OC.dialogs.alert(t('core', 'Error unsetting expiration date'), t('core', 'Error'));
 				}
 				$('#expirationDate').hide();
 			});
 		}
 	});
-	
+
 	$(document).on('change', '#dropdown #expirationDate', function() {
 		var itemType = $('#dropdown').data('item-type');
 		var itemSource = $('#dropdown').data('item-source');
 		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'setExpirationDate', itemType: itemType, itemSource: itemSource, date: $(this).val() }, function(result) {
 			if (!result || result.status !== 'success') {
-				OC.dialogs.alert(t('core', 'Error'), t('core', 'Error setting expiration date'));
+				OC.dialogs.alert(t('core', 'Error setting expiration date'), t('core', 'Error'));
 			}
 		});
 	});

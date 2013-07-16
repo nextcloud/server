@@ -20,6 +20,11 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		page.find('span.score').html(app.score);
 		page.find('p.description').text(app.description);
 		page.find('img.preview').attr('src', app.preview);
+		if (app.preview && app.preview.length) {
+			page.find('img.preview').show();
+		} else {
+			page.find('img.preview').hide();
+		}
 		page.find('small.externalapp').attr('style', 'visibility:visible');
 		page.find('span.author').text(app.author);
 		page.find('span.licence').text(app.licence);
@@ -56,7 +61,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		if(active) {
 			$.post(OC.filePath('settings','ajax','disableapp.php'),{appid:appid},function(result) {
 				if(!result || result.status!='success') {
-					OC.dialogs.alert('Error while disabling app','Error');
+					OC.dialogs.alert('Error while disabling app', t('core', 'Error'));
 				}
 				else {
 					element.data('active',false);
@@ -68,14 +73,20 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		} else {
 			$.post(OC.filePath('settings','ajax','enableapp.php'),{appid:appid},function(result) {
 				if(!result || result.status!='success') {
-					OC.dialogs.alert('Error while enabling app','Error');
+					OC.dialogs.alert('Error while enabling app', t('core', 'Error'));
 				}
 				else {
 					OC.Settings.Apps.addNavigation(appid);
 					element.data('active',true);
 					element.val(t('settings','Disable'));
 				}
-			},'json');
+			},'json')
+			.fail(function() { 
+				OC.dialogs.alert('Error while enabling app', t('core', 'Error'));
+				element.data('active',false);
+				OC.Settings.Apps.removeNavigation(appid);
+				element.val(t('settings','Enable'));
+			});
 			$('#leftcontent li[data-id="'+appid+'"]').addClass('active');
 		}
 	},
@@ -136,10 +147,16 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						li.attr('data-id', entry.id);
 						var img= $('<img class="icon"/>').attr({ src: entry.icon});
 						var a=$('<a></a>').attr('href', entry.href);
-						a.text(entry.name);
+						var filename=$('<span></span>');
+						filename.text(entry.name);
+						a.prepend(filename);
 						a.prepend(img);
 						li.append(a);
 						container.append(li);
+						if (!SVGSupport() && entry.icon.match(/\.svg$/i)) {
+							$(img).addClass('svg');
+							replaceSVG();
+						}
 					}
 				}
 			}

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-08 00:25+0100\n"
-"PO-Revision-Date: 2013-03-07 23:25+0000\n"
+"POT-Creation-Date: 2013-07-16 01:56-0400\n"
+"PO-Revision-Date: 2013-07-16 05:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -17,59 +17,63 @@ msgstr ""
 "Language: ar\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: ajax/delete.php:40
+#: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr ""
+msgstr "تعذّر حذف%s بشكل دائم"
 
-#: ajax/undelete.php:41
+#: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
-msgstr ""
+msgstr "تعذّر استرجاع %s "
 
-#: js/trash.js:7 js/trash.js:96
+#: js/trash.js:7 js/trash.js:97
 msgid "perform restore operation"
-msgstr ""
+msgstr "إبدء عملية الإستعادة"
+
+#: js/trash.js:19 js/trash.js:46 js/trash.js:115 js/trash.js:141
+msgid "Error"
+msgstr "خطأ"
 
 #: js/trash.js:34
 msgid "delete file permanently"
-msgstr ""
+msgstr "حذف بشكل دائم"
 
-#: js/trash.js:121
+#: js/trash.js:123
 msgid "Delete permanently"
-msgstr ""
+msgstr "حذف بشكل دائم"
 
-#: js/trash.js:174 templates/index.php:17
+#: js/trash.js:176 templates/index.php:17
 msgid "Name"
 msgstr "اسم"
 
-#: js/trash.js:175 templates/index.php:27
+#: js/trash.js:177 templates/index.php:27
 msgid "Deleted"
-msgstr ""
-
-#: js/trash.js:184
-msgid "1 folder"
-msgstr ""
+msgstr "تم الحذف"
 
 #: js/trash.js:186
-msgid "{count} folders"
-msgstr ""
+msgid "1 folder"
+msgstr "مجلد عدد 1"
 
-#: js/trash.js:194
-msgid "1 file"
-msgstr ""
+#: js/trash.js:188
+msgid "{count} folders"
+msgstr "{count} مجلدات"
 
 #: js/trash.js:196
+msgid "1 file"
+msgstr "ملف واحد"
+
+#: js/trash.js:198
 msgid "{count} files"
-msgstr ""
+msgstr "{count} ملفات"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr ""
+msgstr "لا يوجد شيء هنا. سلة المهملات خاليه."
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
-msgstr ""
+msgstr "استعيد"
 
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"
@@ -77,4 +81,4 @@ msgstr "إلغاء"
 
 #: templates/part.breadcrumb.php:9
 msgid "Deleted Files"
-msgstr ""
+msgstr "الملفات المحذوفه"

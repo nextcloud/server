@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <mr.pige_ina@yahoo.co.id>, 2012.
-# Widya Walesa <walecha99@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-28 00:04+0100\n"
-"PO-Revision-Date: 2013-02-27 23:04+0000\n"
+"POT-Creation-Date: 2013-05-25 02:01+0200\n"
+"PO-Revision-Date: 2013-05-24 13:28+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -42,18 +40,18 @@ msgstr "gagal"
 msgid "File %s could not be reverted to version %s"
 msgstr "Berkas %s gagal dikembalikan ke versi %s"
 
-#: history.php:68
+#: history.php:69
 msgid "No old versions available"
 msgstr "Versi lama tidak tersedia"
 
-#: history.php:73
+#: history.php:74
 msgid "No path specified"
 msgstr "Lokasi tidak ditentukan"
 
 #: js/versions.js:6
 msgid "Versions"
-msgstr ""
+msgstr "Versi"
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"
-msgstr "Kembalikan berkas ke versi sebelumnya dengan mengklik tombol kembalikan"
+msgstr "Kembalikan berkas ke versi sebelumnya dengan mengeklik tombol kembalikan"
