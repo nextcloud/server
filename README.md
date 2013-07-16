@@ -13,13 +13,10 @@ http://doc.owncloud.org/server/5.0/developer_manual/app/gettingstarted.html
 http://owncloud.org/dev/contribute/
 
 ### Get in touch
-Mailing list: https://mail.kde.org/mailman/listinfo/owncloud
-
-IRC channel: https://webchat.freenode.net/?channels=owncloud
-
-Diaspora: https://joindiaspora.com/u/owncloud
-
-Identi.ca: https://identi.ca/owncloud
+* [Forum](http://forum.owncloud.org)
+* [Mailing list](https://mail.kde.org/mailman/listinfo/owncloud)
+* [IRC channel](https://webchat.freenode.net/?channels=owncloud)
+* [Twitter](https://twitter.com/ownClouders)
 
 ### Important notice on translations
 Please submit translations via Transifex:
