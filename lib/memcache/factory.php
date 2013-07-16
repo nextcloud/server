@@ -12,16 +12,16 @@ class Factory {
 	/**
 	 * get a cache instance, will return null if no backend is available
 	 *
-	 * @param bool $global
+	 * @param string $prefix
 	 * @return \OC\Memcache\Cache
 	 */
-	function create($global = false) {
+	function create($prefix = '') {
 		if (XCache::isAvailable()) {
-			return new XCache($global);
+			return new XCache($prefix);
 		} elseif (APC::isAvailable()) {
-			return new APC($global);
+			return new APC($prefix);
 		} elseif (Memcached::isAvailable()) {
-			return new Memcached($global);
+			return new Memcached($prefix);
 		} else {
 			return null;
 		}
