@@ -180,31 +180,12 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($stat['size'], $this->instance->filesize('/lorem.txt'));
 		$this->assertEquals($stat['mtime'], $mTime);
 
-		$mtimeStart = time();
-		$supportsTouch = $this->instance->touch('/lorem.txt');
-		$mtimeEnd = time();
-		if ($supportsTouch !== false) {
+		if ($this->instance->touch('/lorem.txt', 100) !== false) {
 			$mTime = $this->instance->filemtime('/lorem.txt');
-			$this->assertTrue(($mtimeStart - 1) <= $mTime);
-			$this->assertTrue($mTime <= ($mtimeEnd + 1));
-
-			$this->assertTrue($this->instance->hasUpdated('/lorem.txt', $mtimeStart - 1));
-
-			if ($this->instance->touch('/lorem.txt', 100) !== false) {
-				$mTime = $this->instance->filemtime('/lorem.txt');
-				$this->assertEquals($mTime, 100);
-			}
+			$this->assertEquals($mTime, 100);
 		}
 
 		$mtimeStart = time();
-		$fh = $this->instance->fopen('/lorem.txt', 'a');
-		fwrite($fh, ' ');
-		fclose($fh);
-		clearstatcache();
-		$mtimeEnd = time();
-		$mTime = $this->instance->filemtime('/lorem.txt');
-		$this->assertTrue(($mtimeStart - 1) <= $mTime);
-		$this->assertTrue($mTime <= ($mtimeEnd + 1));
 
 		$this->instance->unlink('/lorem.txt');
 		$this->assertTrue($this->instance->hasUpdated('/', $mtimeStart - 1));
