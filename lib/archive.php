@@ -8,7 +8,7 @@
 
 abstract class OC_Archive{
 	/**
-	 * open any of the supporeted archive types
+	 * open any of the supported archive types
 	 * @param string path
 	 * @return OC_Archive
 	 */
@@ -69,7 +69,7 @@ abstract class OC_Archive{
 	 */
 	abstract function getFolder($path);
 	/**
-	 *get all files in the archive
+	 * get all files in the archive
 	 * @return array
 	 */
 	abstract function getFiles();
@@ -113,7 +113,7 @@ abstract class OC_Archive{
 	 */
 	abstract function getStream($path, $mode);
 	/**
-	 * add a folder and all it's content
+	 * add a folder and all its content
 	 * @param string $path
 	 * @param string source
 	 * @return bool
