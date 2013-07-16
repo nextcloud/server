@@ -176,13 +176,28 @@ class OC_L10N{
 	 *
 	 * Returns the translation. If no translation is found, $text will be
 	 * returned. %n will be replaced with the number of objects.
+	 *
+	 * In case there is more than one plural form you can add a function
+	 * "selectplural" in core/l10n/l10n-*.php
+	 *
+	 * Example:
+	 *
+	 *   [...]
+	 *   'selectplural' => function($i){return $i == 1 ? 0 : $i == 2 ? 1 : 2},
+	 *   [...]
 	 */
-	public function tp($text_singular, $text_plural, $count, $parameters = array()) {
-		if($count == 1){
-			return new OC_L10N_String($this, $text_singular, $parameters, $count);
+	public function n($text_singular, $text_plural, $count, $parameters = array()) {
+		$identifier = "_${text_singular}__${text_plural}_";
+		if(array_key_exists( $this->localizations, "selectplural") && array_key_exists($this->translations, $identifier)) {
+			return new OC_L10N_String( $this, $identifier, $parameters, $count );
 		}
 		else{
-			return new OC_L10N_String($this, $text_plural, $parameters, $count);
+			if($count === 1) {
+				return new OC_L10N_String($this, $text_singular, $parameters, $count);
+			}
+			else{
+				return new OC_L10N_String($this, $text_plural, $parameters, $count);
+			}
 		}
 	}
 
@@ -218,6 +233,17 @@ class OC_L10N{
 	public function getTranslations() {
 		$this->init();
 		return $this->translations;
+	}
+
+	/**
+	 * @brief get localizations
+	 * @returns Fetch all localizations
+	 *
+	 * Returns an associative array with all localizations
+	 */
+	public function getLocalizations() {
+		$this->init();
+		return $this->localizations;
 	}
 
 	/**

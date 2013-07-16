@@ -18,10 +18,17 @@ class OC_L10N_String{
 
 	public function __toString() {
 		$translations = $this->l10n->getTranslations();
+		$localizations = $this->l10n->getLocalizations();
 
 		$text = $this->text;
 		if(array_key_exists($this->text, $translations)) {
-			$text = $translations[$this->text];
+			if(is_array($translations[$this->text])) {
+				$id = $localizations["selectplural"]( $count );
+				$text = $translations[$this->text][$id]
+			}
+			else{
+				$text = $translations[$this->text];
+			}
 		}
 		// Replace %n first (won't interfere with vsprintf)
 		$text = str_replace('%n', $this->count, $text);

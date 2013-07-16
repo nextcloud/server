@@ -33,7 +33,7 @@ if (oc_debug !== true || typeof console === "undefined" || typeof console.log ==
  * @return string
  */
 function t(app, text, vars, count){
-	if( !( t.cache[app] )){
+	if( !( t.cache[app] )) {
 		$.ajax(OC.filePath('core','ajax','translations.php'),{
 			async:false,//todo a proper sollution for this without sync ajax calls
 			data:{'app': app},
@@ -49,8 +49,7 @@ function t(app, text, vars, count){
 		}
 	}
 	var _build = function (text, vars, count) {
-		// FIXME: replace %n with content of count
-		return text.replace(/{([^{}]*)}/g,
+		return text.replace(/%n/g, count).replace(/{([^{}]*)}/g,
 			function (a, b) {
 				var r = vars[b];
 				return typeof r === 'string' || typeof r === 'number' ? r : a;
@@ -62,7 +61,7 @@ function t(app, text, vars, count){
 		translation = t.cache[app][text];
 	}
 
-	if(typeof vars === 'object' || typeof count !== 'undefined' ) {
+	if(typeof vars === 'object' || count !== undefined ) {
 		return _build(translation, vars, count);
 	} else {
 		return translation;
@@ -79,8 +78,8 @@ t.cache={};
  * @param vars (optional) FIXME
  * @return string
  */
-function tp(app, text_singular, text_plural, count, vars){
-	if(count==1){
+function n(app, text_singular, text_plural, count, vars){
+	if(count === 1) {
 		return t(app, text_singular, vars, count);
 	}
 	else{
