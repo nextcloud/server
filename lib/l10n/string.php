@@ -24,7 +24,7 @@ class OC_L10N_String{
 		if(array_key_exists($this->text, $translations)) {
 			if(is_array($translations[$this->text])) {
 				$id = $localizations["selectplural"]( $count );
-				$text = $translations[$this->text][$id]
+				$text = $translations[$this->text][$id];
 			}
 			else{
 				$text = $translations[$this->text];
