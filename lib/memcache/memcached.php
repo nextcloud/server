@@ -9,18 +9,13 @@
 namespace OC\Memcache;
 
 class Memcached extends Cache {
-	protected $prefix;
-
 	/**
 	 * @var \Memcached $cache
 	 */
 	private static $cache = null;
 
-	public function __construct($global = false) {
-		$this->prefix = \OC_Util::getInstanceId() . '/';
-		if (!$global) {
-			$this->prefix .= \OC_User::getUser() . '/';
-		}
+	public function __construct($prefix = '') {
+		parent::__construct($prefix);
 		if (is_null(self::$cache)) {
 			self::$cache = new \Memcached();
 			list($host, $port) = \OC_Config::getValue('memcached_server', array('localhost', 11211));

@@ -9,15 +9,6 @@
 namespace OC\Memcache;
 
 class APC extends Cache {
-	protected $prefix;
-
-	public function __construct($global = false) {
-		$this->prefix = \OC_Util::getInstanceId() . '/';
-		if (!$global) {
-			$this->prefix .= \OC_User::getUser() . '/';
-		}
-	}
-
 	/**
 	 * entries in APC gets namespaced to prevent collisions between owncloud instances and users
 	 */
@@ -61,7 +52,7 @@ class APC extends Cache {
 			return false;
 		} elseif (!ini_get('apc.enable_cli') && \OC::$CLI) {
 			return false;
-		}else{
+		} else {
 			return true;
 		}
 	}

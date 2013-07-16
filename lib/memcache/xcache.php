@@ -9,15 +9,6 @@
 namespace OC\Memcache;
 
 class XCache extends Cache {
-	protected $prefix;
-
-	public function __construct($global = false) {
-		$this->prefix = \OC_Util::getInstanceId().'/';
-		if (!$global) {
-			$this->prefix .= \OC_User::getUser().'/';
-		}
-	}
-
 	/**
 	 * entries in XCache gets namespaced to prevent collisions between owncloud instances and users
 	 */

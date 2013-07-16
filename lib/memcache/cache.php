@@ -9,12 +9,21 @@
 namespace OC\Memcache;
 
 abstract class Cache {
-
+	/**
+	 * @var string $prefix
+	 */
+	protected $prefix;
 
 	/**
-	 * @param bool $global
+	 * @param string $prefix
 	 */
-	abstract public function __construct($global);
+	public function __construct($prefix = '') {
+		$this->prefix = \OC_Util::getInstanceId() . '/' . $prefix;
+	}
+
+	public function getPrefix() {
+		return $this->prefix;
+	}
 
 	/**
 	 * @param string $key
