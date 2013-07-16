@@ -8,7 +8,7 @@
 
 /**
  * Class for abstraction of filesystem functions
- * This class won't call any filesystem functions for itself but but will pass them to the correct OC_Filestorage object
+ * This class won't call any filesystem functions for itself but will pass them to the correct OC_Filestorage object
  * this class should also handle all the file permission related stuff
  *
  * Hooks provided:
@@ -717,7 +717,7 @@ class Filesystem {
 	/**
 	 * Get the path of a file by id
 	 *
-	 * Note that the resulting path is not guarantied to be unique for the id, multiple paths can point to the same file
+	 * Note that the resulting path is not guaranteed to be unique for the id, multiple paths can point to the same file
 	 *
 	 * @param int $id
 	 * @return string

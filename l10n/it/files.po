@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-12 02:03+0200\n"
-"PO-Revision-Date: 2013-07-11 23:14+0000\n"
+"POT-Creation-Date: 2013-07-16 01:56-0400\n"
+"PO-Revision-Date: 2013-07-16 05:14+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -130,43 +130,43 @@ msgstr "Elimina"
 msgid "Rename"
 msgstr "Rinomina"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:464
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:466
 msgid "Pending"
 msgstr "In corso"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:304 js/filelist.js:306
 msgid "{new_name} already exists"
 msgstr "{new_name} esiste già"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:304 js/filelist.js:306
 msgid "replace"
 msgstr "sostituisci"
 
-#: js/filelist.js:302
+#: js/filelist.js:304
 msgid "suggest name"
 msgstr "suggerisci nome"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:304 js/filelist.js:306
 msgid "cancel"
 msgstr "annulla"
 
-#: js/filelist.js:349
+#: js/filelist.js:351
 msgid "replaced {new_name} with {old_name}"
 msgstr "sostituito {new_name} con {old_name}"
 
-#: js/filelist.js:349
+#: js/filelist.js:351
 msgid "undo"
 msgstr "annulla"
 
-#: js/filelist.js:374
+#: js/filelist.js:376
 msgid "perform delete operation"
 msgstr "esegui l'operazione di eliminazione"
 
-#: js/filelist.js:456
+#: js/filelist.js:458
 msgid "1 file uploading"
 msgstr "1 file in fase di caricamento"
 
-#: js/filelist.js:459 js/filelist.js:517
+#: js/filelist.js:461 js/filelist.js:519
 msgid "files uploading"
 msgstr "caricamento file"
 

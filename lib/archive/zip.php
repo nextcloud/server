@@ -94,7 +94,7 @@ class OC_Archive_ZIP extends OC_Archive{
 		return $folderContent;
 	}
 	/**
-	 *get all files in the archive
+	 * get all files in the archive
 	 * @return array
 	 */
 	function getFiles() {

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-12 02:03+0200\n"
-"PO-Revision-Date: 2013-07-11 23:15+0000\n"
+"POT-Creation-Date: 2013-07-16 01:56-0400\n"
+"PO-Revision-Date: 2013-07-16 05:14+0000\n"
 "Last-Translator: pabook <pabook.32@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -132,43 +132,43 @@ msgstr "削除"
 msgid "Rename"
 msgstr "名前の変更"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:464
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:466
 msgid "Pending"
 msgstr "中断"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:304 js/filelist.js:306
 msgid "{new_name} already exists"
 msgstr "{new_name} はすでに存在しています"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:304 js/filelist.js:306
 msgid "replace"
 msgstr "置き換え"
 
-#: js/filelist.js:302
+#: js/filelist.js:304
 msgid "suggest name"
 msgstr "推奨名称"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:304 js/filelist.js:306
 msgid "cancel"
 msgstr "キャンセル"
 
-#: js/filelist.js:349
+#: js/filelist.js:351
 msgid "replaced {new_name} with {old_name}"
 msgstr "{old_name} を {new_name} に置換"
 
-#: js/filelist.js:349
+#: js/filelist.js:351
 msgid "undo"
 msgstr "元に戻す"
 
-#: js/filelist.js:374
+#: js/filelist.js:376
 msgid "perform delete operation"
 msgstr "削除を実行"
 
-#: js/filelist.js:456
+#: js/filelist.js:458
 msgid "1 file uploading"
 msgstr "ファイルを1つアップロード中"
 
-#: js/filelist.js:459 js/filelist.js:517
+#: js/filelist.js:461 js/filelist.js:519
 msgid "files uploading"
 msgstr "ファイルをアップロード中"
 

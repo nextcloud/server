@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-12 02:04+0200\n"
-"PO-Revision-Date: 2013-07-11 23:15+0000\n"
+"POT-Creation-Date: 2013-07-16 01:56-0400\n"
+"PO-Revision-Date: 2013-07-16 05:15+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -171,21 +171,21 @@ msgstr "A orde ofensiva foi: «%s», nome: %s, contrasinal: %s"
 msgid "PostgreSQL username and/or password not valid"
 msgstr "Nome de usuario e/ou contrasinal de PostgreSQL incorrecto"
 
-#: setup.php:42
+#: setup.php:28
 msgid "Set an admin username."
 msgstr "Estabeleza un nome de usuario administrador"
 
-#: setup.php:45
+#: setup.php:31
 msgid "Set an admin password."
 msgstr "Estabeleza un contrasinal de administrador"
 
-#: setup.php:198
+#: setup.php:184
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "O seu servidor web non está aínda configurado adecuadamente para permitir a sincronización de ficheiros xa que semella que a interface WebDAV non está a funcionar."
 
-#: setup.php:199
+#: setup.php:185
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Volva comprobar as <a href='%s'>guías de instalación</a>"

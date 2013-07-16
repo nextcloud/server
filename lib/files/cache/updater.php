@@ -26,7 +26,7 @@ class Updater {
 	}
 
 	/**
-	 * preform a write update
+	 * perform a write update
 	 *
 	 * @param string $path the relative path of the file
 	 */
@@ -46,7 +46,7 @@ class Updater {
 	}
 
 	/**
-	 * preform a delete update
+	 * perform a delete update
 	 *
 	 * @param string $path the relative path of the file
 	 */

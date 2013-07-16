@@ -434,9 +434,8 @@ class OC {
 		}
 
 		if (!defined('PHPUNIT_RUN') and !(defined('DEBUG') and DEBUG)) {
-			register_shutdown_function(array('OC_Log', 'onShutdown'));
-			set_error_handler(array('OC_Log', 'onError'));
-			set_exception_handler(array('OC_Log', 'onException'));
+			OC\Log\ErrorHandler::register();
+			OC\Log\ErrorHandler::setLogger(OC_Log::$object);
 		}
 
 		// register the stream wrappers
@@ -598,6 +597,9 @@ class OC {
 			self::checkUpgrade();
 		}
 
+		// Test it the user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
+		OC::tryBasicAuthLogin();
+
 		if (!self::$CLI) {
 			try {
 				if (!OC_Config::getValue('maintenance', false)) {
@@ -699,15 +701,11 @@ class OC {
 		// remember was checked after last login
 		if (OC::tryRememberLogin()) {
 			$error[] = 'invalidcookie';
-
 			// Someone wants to log in :
 		} elseif (OC::tryFormLogin()) {
 			$error[] = 'invalidpassword';
-
-			// The user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
-		} elseif (OC::tryBasicAuthLogin()) {
-			$error[] = 'invalidpassword';
 		}
+
 		OC_Util::displayLoginPage(array_unique($error));
 	}
 
@@ -805,8 +803,7 @@ class OC {
 		if (OC_User::login($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"])) {
 			//OC_Log::write('core',"Logged in with HTTP Authentication", OC_Log::DEBUG);
 			OC_User::unsetMagicInCookie();
-			$_REQUEST['redirect_url'] = OC_Request::requestUri();
-			OC_Util::redirectToDefaultPage();
+			$_SERVER['HTTP_REQUESTTOKEN'] = OC_Util::callRegister();
 		}
 		return true;
 	}
