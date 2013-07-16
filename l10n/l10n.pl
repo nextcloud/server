@@ -138,14 +138,14 @@ elsif( $task eq 'write' ){
 				# Do we use singular or plural?
 				if( defined( $string->msgstr_n() )){
 					my @variants = ();
-					my $identifier = $string->msgid()."::".$string->msgid_plural()
+					my $identifier = $string->msgid()."::".$string->msgid_plural();
 					$identifier =~ s/"/_/g;
 
 					foreach my $variant ( sort { $a <=> $b} keys( %{$string->msgstr_n()} )){
 						push( @variants, $string->msgstr_n()->{$variant} );
 					}
 
-					push( @strings, "\"$identifier\" => array(".join(@variants, ",").")";
+					push( @strings, "\"$identifier\" => array(".join(@variants, ",").")");
 				}
 				else{
 					next if $string->msgstr() eq '""';
