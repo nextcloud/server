@@ -89,7 +89,7 @@
 "Use the following link to reset your password: {link}" => "請至以下連結重設您的密碼： {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "重設密碼的連結已經寄至您的電子郵件信箱，如果您過了一段時間還是沒有收到它，請檢查看看它是不是被放到垃圾郵件了，如果還是沒有的話，請聯絡您的 ownCloud 系統管理員。",
 "Request failed!<br>Did you make sure your email/username was right?" => "請求失敗！<br>您確定填入的電子郵件地址或是帳號名稱是正確的嗎？",
-"You will receive a link to reset your password via Email." => "重設密碼的連結將會寄到你的電子郵件信箱。",
+"You will receive a link to reset your password via Email." => "重設密碼的連結將會寄到您的電子郵件信箱。",
 "Username" => "使用者名稱",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "您的檔案已加密，如果您沒有設定還原金鑰，未來重設密碼後將無法取回您的資料。如果您不確定該怎麼做，請洽詢系統管理員後再繼續。您確定要現在繼續嗎？",
 "Yes, I really want to reset my password now" => "對，我現在想要重設我的密碼。",
