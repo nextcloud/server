@@ -9,23 +9,7 @@
 namespace OC\Memcache;
 
 abstract class Cache {
-	/**
-	 * get a cache instance
-	 *
-	 * @param bool $global
-	 * @return Cache
-	 */
-	static function create($global = false) {
-		if (XCache::isAvailable()) {
-			return new XCache($global);
-		} elseif (APC::isAvailable()) {
-			return new APC($global);
-		} elseif (Memcached::isAvailable()) {
-			return new Memcached($global);
-		} else {
-			return null;
-		}
-	}
+
 
 	/**
 	 * @param bool $global
@@ -63,11 +47,4 @@ abstract class Cache {
 	 * @return mixed
 	 */
 	abstract public function clear($prefix = '');
-
-	/**
-	 * @return bool
-	 */
-	static public function isAvailable() {
-		return XCache::isAvailable() || APC::isAvailable() || Memcached::isAvailable();
-	}
 }
