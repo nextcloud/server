@@ -129,17 +129,17 @@ $CONFIG = array(
 /* Are we connected to the internet or are we running in a closed network? */
 "has_internet_connection" => true,
 
-	/* Place to log to, can be owncloud and syslog (owncloud is log menu item in admin menu) */
+/* Place to log to, can be owncloud and syslog (owncloud is log menu item in admin menu) */
 "log_type" => "owncloud",
 
-/* File for the owncloud logger to log to, (default is ownloud.log in the data dir */
+/* File for the owncloud logger to log to, (default is ownloud.log in the data dir) */
 "logfile" => "",
 
 /* Loglevel to start logging at. 0=DEBUG, 1=INFO, 2=WARN, 3=ERROR (default is WARN) */
 "loglevel" => "",
 
-/* Append All database query and parameters to the log file.
- (whatch out, this option can increase the size of your log file)*/
+/* Append all database queries and parameters to the log file.
+ (watch out, this option can increase the size of your log file)*/
 "log_query" => false,
 
 /* Lifetime of the remember login cookie, default is 15 days */
@@ -167,8 +167,8 @@ $CONFIG = array(
 
 /* Set an array of path for your apps directories
  key 'path' is for the fs path and the key 'url' is for the http path to your
- applications paths. 'writable' indicate if the user can install apps in this folder.
- You must have at least 1 app folder writable or you must set the parameter : appstoreenabled to false
+ applications paths. 'writable' indicates whether the user can install apps in this folder.
+ You must have at least 1 app folder writable or you must set the parameter 'appstoreenabled' to false
 */
 	array(
 		'path'=> '/var/www/owncloud/apps',
