@@ -636,6 +636,18 @@ class OC_Helper {
 	* @return string
 	*/
 	public static function buildNotExistingFileName($path, $filename) {
+		$view = \OC\Files\Filesystem::getView();
+		return self::buildNotExistingFileNameForView($path, $filename, $view);
+	}
+
+	/**
+	* Adds a suffix to the name in case the file exists
+	*
+	* @param $path
+	* @param $filename
+	* @return string
+	*/
+	public static function buildNotExistingFileNameForView($path, $filename, \OC\Files\View $view) {
 		if($path==='/') {
 			$path='';
 		}
@@ -648,11 +660,27 @@ class OC_Helper {
 		}
 
 		$newpath = $path . '/' . $filename;
-		$counter = 2;
-		while (\OC\Files\Filesystem::file_exists($newpath)) {
-			$newname = $name . ' (' . $counter . ')' . $ext;
-			$newpath = $path . '/' . $newname;
-			$counter++;
+		if ($view->file_exists($newpath)) {
+			if(preg_match_all('/\((\d+)\)/', $name, $matches, PREG_OFFSET_CAPTURE)) {
+				//Replace the last "(number)" with "(number+1)" 
+				$last_match = count($matches[0])-1;
+				$counter = $matches[1][$last_match][0]+1;
+				$offset = $matches[0][$last_match][1];
+				$match_length = strlen($matches[0][$last_match][0]);
+			} else {
+				$counter = 2;
+				$offset = false;
+			}
+			do {
+				if($offset) {
+					//Replace the last "(number)" with "(number+1)" 
+					$newname = substr_replace($name, '('.$counter.')', $offset, $match_length);
+				} else {
+					$newname = $name . ' (' . $counter . ')';
+				}
+				$newpath = $path . '/' . $newname . $ext;
+				$counter++;
+			} while ($view->file_exists($newpath));
 		}
 
 		return $newpath;
