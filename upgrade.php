@@ -33,29 +33,29 @@ if(!OC_Config::getValue('installed', false)) {
 $br = OC::$CLI ? PHP_EOL : '<br/>';
 
 if(OC::checkUpgrade(false)) {
-	$updater = new \OC\Updater();
+	$updater = new \OC_Updater();
 
-	$updater->listen('\OC\Updater', 'maintenanceStart', function () use ($br) {
+	$updater->listen('\OC_Updater', 'maintenanceStart', function () use ($br) {
 		echo 'Turned on maintenance mode'.$br;
 	});
-	$updater->listen('\OC\Updater', 'maintenanceEnd', function () use ($br) {
+	$updater->listen('\OC_Updater', 'maintenanceEnd', function () use ($br) {
 		echo 'Turned off maintenance mode'.$br;
 	});
-		$updater->listen('\OC\Updater', 'dbUpgrade', function () use ($br) {
+	$updater->listen('\OC_Updater', 'dbUpgrade', function () use ($br) {
 		echo 'Updated database'.$br;
 	});
-	$updater->listen('\OC\Updater', 'filecacheStart', function () use ($br) {
+	$updater->listen('\OC_Updater', 'filecacheStart', function () use ($br) {
 		echo 'Updating filecache, this may take really long...'.$br;
 	});
-	$updater->listen('\OC\Updater', 'filecacheDone', function () use ($br) {
+	$updater->listen('\OC_Updater', 'filecacheDone', function () use ($br) {
 		echo 'Updated filecache'.$br;
 	});
-	$updater->listen('\OC\Updater', 'filecacheProgress', function ($out)
+	$updater->listen('\OC_Updater', 'filecacheProgress', function ($out)
 		use ($br) {
 		echo '... ' . $out . '% done ...'.$br;
 	});
 
-	$updater->listen('\OC\Updater', 'failure', function ($message) use ($br) {
+	$updater->listen('\OC_Updater', 'failure', function ($message) use ($br) {
 		echo $message.$br;
 		OC_Config::setValue('maintenance', false);
 	});
