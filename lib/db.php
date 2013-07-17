@@ -775,10 +775,10 @@ class OC_DB {
 			$query = str_ireplace( 'UNIX_TIMESTAMP()', '((CAST(SYS_EXTRACT_UTC(systimestamp) AS DATE))-TO_DATE(\'1970101000000\',\'YYYYMMDDHH24MiSS\'))*24*3600', $query );
 		}elseif( $type == 'mssql' ) {
 			$query = preg_replace( "/\`(.*?)`/", "[$1]", $query );
-			$query = str_replace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
-			$query = str_replace( 'now()', 'CURRENT_TIMESTAMP', $query );
+			$query = str_ireplace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
 			$query = str_replace( 'LENGTH(', 'LEN(', $query );
 			$query = str_replace( 'SUBSTR(', 'SUBSTRING(', $query );
+			$query = str_ireplace( 'UNIX_TIMESTAMP()', 'DATEDIFF(second,{d \'1970-01-01\'},GETDATE())', $query );
 
 			$query = self::fixLimitClauseForMSSQL($query);
 		}
