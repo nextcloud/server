@@ -28,10 +28,10 @@ class JSResourceLocator extends ResourceLocator {
 		}
 		$app = substr($script, 0, strpos($script, '/'));
 		$script = substr($script, strpos($script, '/')+1);
-		$app_path = OC_App::getAppPath($app);
-		$app_url = OC_App::getAppWebPath($app);
+		$app_path = \OC_App::getAppPath($app);
+		$app_url = \OC_App::getAppWebPath($app);
 		if ($this->appendIfExist($app_path, $script.$this->form_factor.'.js', $app_url)
-			|| $this->appendIfExist($app_path, $script.'.js', $ap_url)
+			|| $this->appendIfExist($app_path, $script.'.js', $app_url)
 		) {
 			return;
 		}

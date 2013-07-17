@@ -11,6 +11,7 @@ namespace OC\Template;
 class TemplateFileLocator {
 	protected $form_factor;
 	protected $dirs;
+	private $path;
 
 	public function __construct( $form_factor, $dirs ) {
 		$this->form_factor = $form_factor;

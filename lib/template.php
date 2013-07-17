@@ -24,7 +24,7 @@
 require_once __DIR__.'/template/functions.php';
 
 /**
- * This class provides the templates for owncloud.
+ * This class provides the templates for ownCloud.
  */
 class OC_Template extends \OC\Template\Base {
 	private $renderas; // Create a full page?
@@ -34,7 +34,7 @@ class OC_Template extends \OC\Template\Base {
 	/**
 	 * @brief Constructor
 	 * @param string $app app providing the template
-	 * @param string $file name of the template file (without suffix)
+	 * @param string $name of the template file (without suffix)
 	 * @param string $renderas = ""; produce a full page
 	 * @return OC_Template object
 	 *
@@ -172,7 +172,7 @@ class OC_Template extends \OC\Template\Base {
 	/**
 	 * @brief Add a custom element to the header
 	 * @param string $tag tag name of the element
-	 * @param array $attributes array of attrobutes for the element
+	 * @param array $attributes array of attributes for the element
 	 * @param string $text the text content for the element
 	 */
 	public function addHeader( $tag, $attributes, $text='') {
@@ -264,8 +264,8 @@ class OC_Template extends \OC\Template\Base {
 
 	/**
 		* @brief Print a fatal error page and terminates the script
-		* @param string $error The error message to show
-		* @param string $hint An optional hint message 
+		* @param string $error_msg The error message to show
+		* @param string $hint An optional hint message
 		* Warning: All data passed to $hint needs to get sanitized using OC_Util::sanitizeHTML
 		*/
 	public static function printErrorPage( $error_msg, $hint = '' ) {
