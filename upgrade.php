@@ -40,6 +40,7 @@ if(OC::checkUpgrade(false)) {
 	});
 	$updater->listen('\OC_Updater', 'maintenanceEnd', function () use ($br) {
 		echo 'Turned off maintenance mode'.$br;
+		echo 'Update successful'.$br;
 	});
 	$updater->listen('\OC_Updater', 'dbUpgrade', function () use ($br) {
 		echo 'Updated database'.$br;
