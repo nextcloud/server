@@ -6,7 +6,6 @@
  * See the COPYING-README file.
  */
 
-namespace OC;
 use OC\Hooks\BasicEmitter;
 
 /**
@@ -21,13 +20,13 @@ use OC\Hooks\BasicEmitter;
  *  - filecacheDone()
  *  - failure(string $message)
  */
-class Updater extends BasicEmitter {
+class OC_Updater extends BasicEmitter {
 	/**
 	 * Check if a new version is available
 	 * @param string $updateUrl the url to check, i.e. 'http://apps.owncloud.com/updater.php'
 	 * @return array | bool
 	 */
-	public function check($updaterUrl) {
+	static public function check($updaterUrl='http://apps.owncloud.com/updater.php') {
 		OC_Appconfig::setValue('core', 'lastupdatedat', microtime(true));
 		if ((\OC_Appconfig::getValue('core', 'lastupdatedat') + 1800) > time()) {
 			return json_decode(\OC_Appconfig::getValue('core', 'lastupdateResult'), true);
@@ -71,6 +70,24 @@ class Updater extends BasicEmitter {
 		return $tmp;
 	}
 
+	public static function ShowUpdatingHint() {
+		$l = OC_L10N::get('lib');
+
+		if(OC_Config::getValue('updatechecker', true)==true) {
+			$data=OC_Updater::check();
+			if(isset($data['version']) and $data['version']<>'') {
+				$txt='<span style="color:#AA0000; font-weight:bold;">'
+				.$l->t('%s is available. Get <a href="%s">more information</a>',
+				array($data['versionstring'], $data['web'])).'</span>';
+			}else{
+				$txt=$l->t('up to date');
+			}
+		} else {
+			$txt=$l->t('updates check is disabled');
+		}
+		return($txt);
+	}
+
 	/**
 	 * runs the update actions in maintenance mode, does not upgrade the source files
 	 */
@@ -80,23 +97,23 @@ class Updater extends BasicEmitter {
 		$installedVersion = \OC_Config::getValue('version', '0.0.0');
 		$currentVersion = implode('.', \OC_Util::getVersion());
 		\OC_Log::write('core', 'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, \OC_Log::WARN);
-		$this->emit('\OC\Updater', 'maintenanceStart');
+		$this->emit('\OC_Updater', 'maintenanceStart');
 		try {
 			\OC_DB::updateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
-			$this->emit('\OC\Updater', 'dbUpgrade');
+			$this->emit('\OC_Updater', 'dbUpgrade');
 
 			// do a file cache upgrade for users with files
 			// this can take loooooooooooooooooooooooong
 			$this->upgradeFileCache();
 		} catch (\Exception $exception) {
-			$this->emit('\OC\Updater', 'failure', array($exception->getMessage()));
+			$this->emit('\OC_Updater', 'failure', array($exception->getMessage()));
 		}
 		\OC_Config::setValue('version', implode('.', \OC_Util::getVersion()));
 		\OC_App::checkAppsRequirements();
 		// load all apps to also upgrade enabled apps
 		\OC_App::loadApps();
 		\OC_Config::setValue('maintenance', false);
-		$this->emit('\OC\Updater', 'maintenanceEnd');
+		$this->emit('\OC_Updater', 'maintenanceEnd');
 	}
 
 	private function upgradeFileCache() {
@@ -124,16 +141,16 @@ class Updater extends BasicEmitter {
 			if (!$startInfoShown) {
 				//We show it only now, because otherwise Info about upgraded apps
 				//will appear between this and progress info
-				$this->emit('\OC\Updater', 'filecacheStart');
+				$this->emit('\OC_Updater', 'filecacheStart');
 				$startInfoShown = true;
 			}
 			$percentCompleted += $step;
 			$out = floor($percentCompleted);
 			if ($out != $lastPercentCompletedOutput) {
-				$this->emit('\OC\Updater', 'filecacheProgress', array($out));
+				$this->emit('\OC_Updater', 'filecacheProgress', array($out));
 				$lastPercentCompletedOutput = $out;
 			}
 		}
-		$this->emit('\OC\Updater', 'filecacheDone');
+		$this->emit('\OC_Updater', 'filecacheDone');
 	}
 }
