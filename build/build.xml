@@ -69,8 +69,6 @@ jQuery,$$,OC,$,oc_webroot,oc_appswebroots,oc_current_user,t,Files,FileList,FileA
    <arg value="--log-csv" />
    <arg value="${basedir}/build/logs/phploc.csv" />
    <arg path="${basedir}" />
-   <arg value="--exclude" />
-   <arg value="${basedir}/3rdparty/" />
   </exec>
  </target>
 
@@ -172,8 +170,6 @@ jQuery,$$,OC,$,oc_webroot,oc_appswebroots,oc_current_user,t,Files,FileList,FileA
    <arg path="${basedir}" />
    <arg value="--output" />
    <arg path="${basedir}/build/code-browser" />
-   <arg value="--exclude" />
-   <arg value="${basedir}/3rdparty/" />
   </exec>
  </target>
 </project>
