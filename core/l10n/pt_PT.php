@@ -134,6 +134,7 @@
 "remember" => "lembrar",
 "Log in" => "Entrar",
 "Alternative Logins" => "Contas de acesso alternativas",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Olá,<br><br>Apenas para lhe informar que %s partilhou »%s« consigo.<br><a href=\"%s\">Consulte-o aqui!</a><br><br>Cumprimentos!",
 "prev" => "anterior",
 "next" => "seguinte",
 "Updating ownCloud to version %s, this may take a while." => "A actualizar o ownCloud para a versão %s, esta operação pode demorar."
