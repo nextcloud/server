@@ -125,7 +125,7 @@ var FileActions = {
 			if (typeof trashBinApp !== 'undefined' && trashBinApp) {
 				var html = '<a href="#" original-title="' + t('files', 'Delete permanently') + '" class="action delete" />';
 			} else {
-				var html = '<a href="#" original-title="' + t('files', 'Delete') + '" class="action delete delete-icon" />';
+				var html = '<a href="#" class="action delete delete-icon" />';
 			}
 			var element = $(html);
 			element.data('action', actions['Delete']);
