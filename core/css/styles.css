@@ -659,6 +659,10 @@ div.crumb:active {
 }
 
 /* icons */
+.folder-icon, .delete-icon, .edit-icon {
+	background-repeat: no-repeat;
+	background-position: center;
+}
 .folder-icon { background-image: url('../img/places/folder.svg'); }
 .delete-icon { background-image: url('../img/actions/delete.svg'); }
 .delete-icon:hover, .delete-icon:focus {

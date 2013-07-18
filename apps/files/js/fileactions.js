@@ -125,12 +125,9 @@ var FileActions = {
 			if (typeof trashBinApp !== 'undefined' && trashBinApp) {
 				var html = '<a href="#" original-title="' + t('files', 'Delete permanently') + '" class="action delete" />';
 			} else {
-				var html = '<a href="#" original-title="' + t('files', 'Delete') + '" class="action delete" />';
+				var html = '<a href="#" original-title="' + t('files', 'Delete') + '" class="action delete delete-icon" />';
 			}
 			var element = $(html);
-			if (img) {
-				element.append($('<img class ="svg" src="' + img + '"/>'));
-			}
 			element.data('action', actions['Delete']);
 			element.on('click', {a: null, elem: parent, actionFunc: actions['Delete']}, actionHandler);
 			parent.parent().children().last().append(element);
