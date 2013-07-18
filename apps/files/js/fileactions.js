@@ -123,7 +123,7 @@ var FileActions = {
 				img = img(file);
 			}
 			if (typeof trashBinApp !== 'undefined' && trashBinApp) {
-				var html = '<a href="#" original-title="' + t('files', 'Delete permanently') + '" class="action delete" />';
+				var html = '<a href="#" original-title="' + t('files', 'Delete permanently') + '" class="action delete delete-icon" />';
 			} else {
 				var html = '<a href="#" class="action delete delete-icon" />';
 			}
