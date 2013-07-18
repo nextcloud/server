@@ -20,10 +20,19 @@ class View extends \PHPUnit_Framework_TestCase {
 	private $storages = array();
 
 	public function setUp() {
+		\OC_User::clearBackends();
+		\OC_User::useBackend(new \OC_User_Dummy());
+
+		//login
+		\OC_User::createUser('test', 'test');
+		$this->user=\OC_User::getUser();
+		\OC_User::setUserId('test');
+
 		\OC\Files\Filesystem::clearMounts();
 	}
 
 	public function tearDown() {
+		\OC_User::setUserId($this->user);
 		foreach ($this->storages as $storage) {
 			$cache = $storage->getCache();
 			$ids = $cache->getAll();
