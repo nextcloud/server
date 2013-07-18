@@ -68,6 +68,7 @@
 "You don’t have write permissions here." => "Siin puudvad sul kirjutamisõigused.",
 "Nothing in here. Upload something!" => "Siin pole midagi. Lae midagi üles!",
 "Download" => "Lae alla",
+"Size (MB)" => "Suurus (MB)",
 "Unshare" => "Lõpeta jagamine",
 "Upload too large" => "Üleslaadimine on liiga suur",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Failid, mida sa proovid üles laadida, ületab serveri poolt üleslaetavatele failidele määratud maksimaalse suuruse.",

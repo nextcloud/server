@@ -68,6 +68,7 @@
 "You don’t have write permissions here." => "Itt nincs írásjoga.",
 "Nothing in here. Upload something!" => "Itt nincs semmi. Töltsön fel valamit!",
 "Download" => "Letöltés",
+"Size (MB)" => "Méret (MB)",
 "Unshare" => "A megosztás visszavonása",
 "Upload too large" => "A feltöltés túl nagy",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "A feltöltendő állományok mérete meghaladja a kiszolgálón megengedett maximális méretet.",

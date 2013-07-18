@@ -68,6 +68,7 @@
 "You don’t have write permissions here." => "شما اجازه ی نوشتن در اینجا را ندارید",
 "Nothing in here. Upload something!" => "اینجا هیچ چیز نیست.",
 "Download" => "دانلود",
+"Size (MB)" => "اندازه(مگابایت)",
 "Unshare" => "لغو اشتراک",
 "Upload too large" => "سایز فایل برای آپلود زیاد است(م.تنظیمات در php.ini)",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "فایلها بیش از حد تعیین شده در این سرور هستند\nمترجم:با تغییر فایل php,ini میتوان این محدودیت را برطرف کرد",

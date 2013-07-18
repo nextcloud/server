@@ -182,7 +182,7 @@ class OC_Archive_TAR extends OC_Archive{
 		return $folderContent;
 	}
 	/**
-	 *get all files in the archive
+	 * get all files in the archive
 	 * @return array
 	 */
 	function getFiles() {

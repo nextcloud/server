@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# miki_mika1362 <miki_mika1362@yahoo.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-15 01:59+0200\n"
-"PO-Revision-Date: 2013-06-15 00:00+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-17 02:19-0400\n"
+"PO-Revision-Date: 2013-07-17 04:30+0000\n"
+"Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,15 +20,15 @@ msgstr ""
 
 #: templates/settings.php:3
 msgid "WebDAV Authentication"
-msgstr ""
+msgstr "اعتبار سنجی WebDAV "
 
 #: templates/settings.php:4
 msgid "URL: "
-msgstr ""
+msgstr "آدرس:"
 
 #: templates/settings.php:7
 msgid ""
 "ownCloud will send the user credentials to this URL. This plugin checks the "
 "response and will interpret the HTTP statuscodes 401 and 403 as invalid "
 "credentials, and all other responses as valid credentials."
-msgstr ""
+msgstr "ownCloud اعتبار کاربر را به این آدرس ارسال می کند. این افزونه پاسخ ها را بررسی می کند و کد وضعیت 401 و 403 HTTP را به عنوان اعتبار نامعتبر، و تمام پاسخ های دیگر را به عنوان اعتبار معتبر تفسیر می کند."

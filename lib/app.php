@@ -424,7 +424,7 @@ class OC_App{
 		return $navigation;
 	}
 
-	/// This is private as well. It simply works, so don't ask for more details
+	// This is private as well. It simply works, so don't ask for more details
 	private static function proceedNavigation( $list ) {
 		foreach( $list as &$naventry ) {
 			if( $naventry['id'] == self::$activeapp ) {
@@ -473,7 +473,7 @@ class OC_App{
 	}
 	/**
 	* Get the directory for the given app.
-	* If the app is defined in multiple directory, the first one is taken. (false if not found)
+	* If the app is defined in multiple directories, the first one is taken. (false if not found)
 	*/
 	public static function getAppPath($appid) {
 		if( ($dir = self::findAppInDirectories($appid)) != false) {
@@ -484,7 +484,7 @@ class OC_App{
 
 	/**
 	* Get the path for the given app on the access
-	* If the app is defined in multiple directory, the first one is taken. (false if not found)
+	* If the app is defined in multiple directories, the first one is taken. (false if not found)
 	*/
 	public static function getAppWebPath($appid) {
 		if( ($dir = self::findAppInDirectories($appid)) != false) {
@@ -818,7 +818,7 @@ class OC_App{
 	}
 
 	/**
-	 * check if the app need updating and update when needed
+	 * check if the app needs updating and update when needed
 	 */
 	public static function checkUpgrade($app) {
 		if (in_array($app, self::$checkedApps)) {
