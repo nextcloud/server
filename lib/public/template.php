@@ -77,16 +77,6 @@ function relative_modified_date($timestamp) {
 
 
 /**
- * @brief Return a human readable outout for a file size.
- * @param $byte size of a file in byte
- * @returns human readable interpretation of a file size
- */
-function simple_file_size($bytes) {
-	return(\simple_file_size($bytes));
-}
-
-
-/**
  * @brief Generate html code for an options block.
  * @param $options the options
  * @param $selected which one is selected?
