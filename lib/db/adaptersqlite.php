@@ -31,9 +31,9 @@ class AdapterSqlite extends Adapter {
 		} catch(\Doctrine\DBAL\DBALException $e) {
 			$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
 			$entry .= 'Offending command was: ' . $query . '<br />';
-			OC_Log::write('core', $entry, OC_Log::FATAL);
+			\OC_Log::write('core', $entry, \OC_Log::FATAL);
 			error_log('DB error: '.$entry);
-			OC_Template::printErrorPage( $entry );
+			\OC_Template::printErrorPage( $entry );
 		}
 
 		if ($stmt->fetchColumn() === 0) {
@@ -50,9 +50,9 @@ class AdapterSqlite extends Adapter {
 		} catch(\Doctrine\DBAL\DBALException $e) {
 			$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
 			$entry .= 'Offending command was: ' . $query.'<br />';
-			OC_Log::write('core', $entry, OC_Log::FATAL);
+			\OC_Log::write('core', $entry, \OC_Log::FATAL);
 			error_log('DB error: ' . $entry);
-			OC_Template::printErrorPage( $entry );
+			\OC_Template::printErrorPage( $entry );
 		}
 
 		return $result;
