@@ -225,7 +225,7 @@ class Group {
 			$this->emitter->emit('\OC\Group', 'preDelete', array($this));
 		}
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(OC_GROUP_BACKEND_DELETE_GROUP) and $backend->groupExists($this->gid)) {
+			if ($backend->implementsActions(OC_GROUP_BACKEND_DELETE_GROUP)) {
 				$result = true;
 				$backend->deleteGroup($this->gid);
 			}

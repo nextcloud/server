@@ -85,7 +85,13 @@ class Manager extends PublicEmitter {
 	}
 
 	protected function getGroupObject($gid) {
-		$this->cachedGroups[$gid] = new Group($gid, $this->backends, $this->userManager, $this);
+		$backends = array();
+		foreach ($this->backends as $backend) {
+			if ($backend->groupExists($gid)) {
+				$backends[] = $backend;
+			}
+		}
+		$this->cachedGroups[$gid] = new Group($gid, $backends, $this->userManager, $this);
 		return $this->cachedGroups[$gid];
 	}
 

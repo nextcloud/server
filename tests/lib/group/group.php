@@ -307,10 +307,6 @@ class Group extends \PHPUnit_Framework_TestCase {
 		$backend->expects($this->once())
 			->method('deleteGroup')
 			->with('group1');
-		$backend->expects($this->once())
-			->method('groupExists')
-			->with('group1')
-			->will($this->returnValue(true));
 		$backend->expects($this->any())
 			->method('implementsActions')
 			->will($this->returnValue(true));

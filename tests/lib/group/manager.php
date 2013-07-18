@@ -17,7 +17,7 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC_Group_Backend $backend
 		 */
 		$backend = $this->getMock('\OC_Group_Database');
-		$backend->expects($this->once())
+		$backend->expects($this->any())
 			->method('groupExists')
 			->with('group1')
 			->will($this->returnValue(true));
@@ -85,7 +85,7 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC_Group_Backend $backend1
 		 */
 		$backend1 = $this->getMock('\OC_Group_Database');
-		$backend1->expects($this->once())
+		$backend1->expects($this->any())
 			->method('groupExists')
 			->with('group1')
 			->will($this->returnValue(false));
@@ -94,7 +94,7 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC_Group_Backend $backend2
 		 */
 		$backend2 = $this->getMock('\OC_Group_Database');
-		$backend2->expects($this->once())
+		$backend2->expects($this->any())
 			->method('groupExists')
 			->with('group1')
 			->will($this->returnValue(true));
@@ -117,7 +117,7 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC_Group_Backend $backend
 		 */
 		$backend = $this->getMock('\OC_Group_Database');
-		$backend->expects($this->once())
+		$backend->expects($this->any())
 			->method('groupExists')
 			->with('group1')
 			->will($this->returnValue(false));
@@ -143,7 +143,7 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC_Group_Backend $backend
 		 */
 		$backend = $this->getMock('\OC_Group_Database');
-		$backend->expects($this->once())
+		$backend->expects($this->any())
 			->method('groupExists')
 			->with('group1')
 			->will($this->returnValue(true));
