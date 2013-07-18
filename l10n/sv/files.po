@@ -4,15 +4,16 @@
 # 
 # Translators:
 # Gunnar Norin <blittan@xbmc.org>, 2013
+# medialabs, 2013
 # Magnus Höglund <magnus@linux.com>, 2013
 # medialabs, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-17 02:19-0400\n"
-"PO-Revision-Date: 2013-07-17 05:25+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-18 01:54-0400\n"
+"PO-Revision-Date: 2013-07-18 05:15+0000\n"
+"Last-Translator: medialabs\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -310,7 +311,7 @@ msgstr "Ladda ner"
 
 #: templates/index.php:80
 msgid "Size (MB)"
-msgstr ""
+msgstr "Storlek (MB)"
 
 #: templates/index.php:87 templates/index.php:88
 msgid "Unshare"

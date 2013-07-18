@@ -72,6 +72,7 @@
 "Forum" => "Keskustelupalsta",
 "Bugtracker" => "Ohjelmistovirheiden jäljitys",
 "Commercial Support" => "Kaupallinen tuki",
+"Get the apps to sync your files" => "Aseta sovellukset synkronoimaan tiedostosi",
 "Show First Run Wizard again" => "Näytä ensimmäisen käyttökerran avustaja uudelleen",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Käytössäsi on <strong>%s</strong>/<strong>%s</strong>",
 "Password" => "Salasana",
