@@ -661,7 +661,11 @@ div.crumb:active {
 /* icons */
 .folder-icon { background-image: url('../img/places/folder.svg'); }
 .delete-icon { background-image: url('../img/actions/delete.svg'); }
+.delete-icon:hover, .delete-icon:focus {
+	background-image: url('../img/actions/delete-hover.svg');
+}
 .edit-icon { background-image: url('../img/actions/rename.svg'); }
+
 
 /* buttons */
 button.loading {
