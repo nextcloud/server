@@ -383,7 +383,7 @@
 				<name>user</name>
 				<type>text</type>
 				<default></default>
-				<notnull>false</notnull>
+				<notnull>true</notnull>
 				<length>64</length>
 			</field>
 

@@ -148,6 +148,8 @@ class OC_DB_MDB2SchemaReader {
 				if (empty($options['notnull']) || !$options['notnull']) {
 					unset($options['default']);
 					$options['notnull'] = false;
+				} else {
+					$options['default'] = '';
 				}
 				if ($type == 'integer') {
 					$options['default'] = 0;
@@ -165,9 +167,12 @@ class OC_DB_MDB2SchemaReader {
 					$type = 'bigint';
 				}
 			}
-			$table->addColumn($name, $type, $options);
 			if (!empty($options['autoincrement'])
 			    && !empty($options['notnull'])) {
+				$options['primary'] = true;
+			}
+			$table->addColumn($name, $type, $options);
+			if (!empty($options['primary']) && $options['primary']) {
 				$table->setPrimaryKey(array($name));
 			}
 		}
