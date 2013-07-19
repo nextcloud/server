@@ -8,6 +8,7 @@
 
 #$EXECUTOR_NUMBER is set by Jenkins and allows us to run autotest in parallel
 DATABASENAME=oc_autotest$EXECUTOR_NUMBER
+DATABASEUSER=oc_autotest$EXECUTOR_NUMBER
 ADMINLOGIN=admin$EXECUTOR_NUMBER
 DATADIR=data-autotest
 BASEDIR=$PWD
@@ -21,7 +22,7 @@ cat > ./tests/autoconfig-sqlite.php <<DELIM
   'installed' => false,
   'dbtype' => 'sqlite',
   'dbtableprefix' => 'oc_',
-  'adminlogin' => $ADMINLOGIN,
+  'adminlogin' => '$ADMINLOGIN',
   'adminpass' => 'admin',
   'directory' => '$BASEDIR/$DATADIR',
 );
@@ -33,11 +34,11 @@ cat > ./tests/autoconfig-mysql.php <<DELIM
   'installed' => false,
   'dbtype' => 'mysql',
   'dbtableprefix' => 'oc_',
-  'adminlogin' => $ADMINLOGIN,
+  'adminlogin' => '$ADMINLOGIN',
   'adminpass' => 'admin',
   'directory' => '$BASEDIR/$DATADIR',
-  'dbuser' => 'oc_autotest',
-  'dbname' => $DATABASENAME,
+  'dbuser' => '$DATABASEUSER',
+  'dbname' => '$DATABASENAME',
   'dbhost' => 'localhost',
   'dbpass' => 'owncloud',
 );
@@ -49,11 +50,11 @@ cat > ./tests/autoconfig-pgsql.php <<DELIM
   'installed' => false,
   'dbtype' => 'pgsql',
   'dbtableprefix' => 'oc_',
-  'adminlogin' => $ADMINLOGIN,
+  'adminlogin' => '$ADMINLOGIN',
   'adminpass' => 'admin',
   'directory' => '$BASEDIR/$DATADIR',
-  'dbuser' => 'oc_autotest',
-  'dbname' => $DATABASENAME,
+  'dbuser' => '$DATABASEUSER',
+  'dbname' => '$DATABASENAME',
   'dbhost' => 'localhost',
   'dbpass' => 'owncloud',
 );
@@ -65,10 +66,10 @@ cat > ./tests/autoconfig-oci.php <<DELIM
   'installed' => false,
   'dbtype' => 'oci',
   'dbtableprefix' => 'oc_',
-  'adminlogin' => $ADMINLOGIN,
+  'adminlogin' => '$ADMINLOGIN',
   'adminpass' => 'admin',
   'directory' => '$BASEDIR/$DATADIR',
-  'dbuser' => $DATABASENAME,
+  'dbuser' => '$DATABASENAME',
   'dbname' => 'XE',
   'dbhost' => 'localhost',
   'dbpass' => 'owncloud',
@@ -93,10 +94,10 @@ function execute_tests {
 
 	# drop database
 	if [ "$1" == "mysql" ] ; then
-		mysql -u oc_autotest -powncloud -e "DROP DATABASE $DATABASENAME"
+		mysql -u $DATABASEUSER -powncloud -e "DROP DATABASE $DATABASENAME"
 	fi
 	if [ "$1" == "pgsql" ] ; then
-		dropdb -U oc_autotest $DATABASENAME
+		dropdb -U $DATABASEUSER $DATABASENAME
 	fi
 	if [ "$1" == "oci" ] ; then
 		echo "drop the database"
@@ -158,8 +159,14 @@ fi
 
 #
 # NOTES on mysql:
+#  - CREATE DATABASE oc_autotest;
 #  - CREATE USER 'oc_autotest'@'localhost' IDENTIFIED BY 'owncloud';
-#  - grant access permissions: grant all on oc_autotest.* to 'oc_autotest'@'localhost';
+#  - grant all on oc_autotest.* to 'oc_autotest'@'localhost';
+#
+#  - for parallel executor support with EXECUTOR_NUMBER=0:
+#  - CREATE DATABASE oc_autotest0;
+#  - CREATE USER 'oc_autotest0'@'localhost' IDENTIFIED BY 'owncloud';
+#  - grant all on oc_autotest0.* to 'oc_autotest0'@'localhost';
 #
 # NOTES on pgsql:
 #  - su - postgres
