@@ -451,6 +451,7 @@ class OC_Installer{
 			'OC_Hook::',
 			'OC_Image::',
 			'OC_JSON::',
+			'OC_L10N::',
 			'OC_Log::',
 			'OC_Mail::',
 			'OC_Preferences::',
