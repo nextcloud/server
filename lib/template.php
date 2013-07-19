@@ -135,13 +135,13 @@ class OC_Template extends \OC\Template\Base {
 			\OC::$session->set('formfactor', $_GET['formfactor']);
 		}
 		$formfactor = \OC::$session->get('formfactor');
-		if($formfactor=='default') {
+		if($formfactor==='default') {
 			$fext='';
-		}elseif($formfactor=='mobile') {
+		}elseif($formfactor==='mobile') {
 			$fext='.mobile';
-		}elseif($formfactor=='tablet') {
+		}elseif($formfactor==='tablet') {
 			$fext='.tablet';
-		}elseif($formfactor=='standalone') {
+		}elseif($formfactor==='standalone') {
 			$fext='.standalone';
 		}else{
 			$fext='';
@@ -158,7 +158,7 @@ class OC_Template extends \OC\Template\Base {
 	 */
 	protected function findTemplate($theme, $app, $name, $fext) {
 		// Check if it is a app template or not.
-		if( $app != '' ) {
+		if( $app !== '' ) {
 			$dirs = $this->getAppTemplateDirs($theme, $app, OC::$SERVERROOT, OC_App::getAppPath($app));
 		} else {
 			$dirs = $this->getCoreTemplateDirs($theme, OC::$SERVERROOT);

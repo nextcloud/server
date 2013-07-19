@@ -19,7 +19,7 @@ class TemplateFileLocator {
 	}
 
 	public function find( $template ) {
-		if ($template == '') {
+		if ($template === '') {
 			throw new \InvalidArgumentException('Empty template name');
 		}
 
