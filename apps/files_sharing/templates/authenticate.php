@@ -1,6 +1,6 @@
 <form action="<?php p($_['URL']); ?>" method="post">
 	<fieldset>
-		<?php if ($_['wrongpw']): ?>
+		<?php if (isset($_['wrongpw'])): ?>
 		<div class="warning"><?php p($l->t('The password is wrong. Try again.')); ?></div>
 		<?php endif; ?>
 		<p class="infield">
