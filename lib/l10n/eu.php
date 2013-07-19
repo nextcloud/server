@@ -29,6 +29,7 @@
 "Drop this user from MySQL" => "Ezabatu erabiltzaile hau MySQLtik",
 "MySQL user '%s'@'%%' already exists" => "MySQL '%s'@'%%' erabiltzailea dagoeneko existitzen da",
 "Drop this user from MySQL." => "Ezabatu erabiltzaile hau MySQLtik.",
+"Oracle connection could not be established" => "Ezin da Oracle konexioa sortu",
 "Oracle username and/or password not valid" => "Oracle erabiltzaile edota pasahitza ez dira egokiak.",
 "Offending command was: \"%s\", name: %s, password: %s" => "Errorea komando honek sortu du: \"%s\", izena: %s, pasahitza: %s",
 "PostgreSQL username and/or password not valid" => "PostgreSQL erabiltzaile edota pasahitza ez dira egokiak.",

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-18 01:54-0400\n"
-"PO-Revision-Date: 2013-07-18 05:15+0000\n"
+"POT-Creation-Date: 2013-07-19 01:55-0400\n"
+"PO-Revision-Date: 2013-07-19 05:31+0000\n"
 "Last-Translator: cjtess <claudio.tessone@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -66,7 +66,7 @@ msgstr "No se subió ningún archivo "
 
 #: ajax/upload.php:72
 msgid "Missing a temporary folder"
-msgstr "Error en la carpera temporal"
+msgstr "Falta un directorio temporal"
 
 #: ajax/upload.php:73
 msgid "Failed to write to disk"
@@ -74,11 +74,11 @@ msgstr "Error al escribir en el disco"
 
 #: ajax/upload.php:91
 msgid "Not enough storage available"
-msgstr "No hay suficiente capacidad de almacenamiento"
+msgstr "No hay suficiente almacenamiento"
 
 #: ajax/upload.php:123
 msgid "Invalid directory."
-msgstr "Directorio invalido."
+msgstr "Directorio inválido."
 
 #: appinfo/app.php:12
 msgid "Files"
@@ -107,7 +107,7 @@ msgstr "La URL no puede estar vacía"
 
 #: js/file-upload.js:238 lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
-msgstr "Nombre de carpeta inválido. El uso de \"Shared\" está reservado por ownCloud"
+msgstr "Nombre de directorio inválido. El uso de \"Shared\" está reservado por ownCloud"
 
 #: js/file-upload.js:267 js/file-upload.js:283 js/files.js:373 js/files.js:389
 #: js/files.js:693 js/files.js:731
@@ -120,7 +120,7 @@ msgstr "Compartir"
 
 #: js/fileactions.js:126
 msgid "Delete permanently"
-msgstr "Borrar de manera permanente"
+msgstr "Borrar permanentemente"
 
 #: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
 msgid "Delete"
@@ -152,7 +152,7 @@ msgstr "cancelar"
 
 #: js/filelist.js:351
 msgid "replaced {new_name} with {old_name}"
-msgstr "reemplazado {new_name} con {old_name}"
+msgstr "se reemplazó {new_name} con {old_name}"
 
 #: js/filelist.js:351
 msgid "undo"
@@ -160,7 +160,7 @@ msgstr "deshacer"
 
 #: js/filelist.js:376
 msgid "perform delete operation"
-msgstr "Eliminar"
+msgstr "Llevar a cabo borrado"
 
 #: js/filelist.js:458
 msgid "1 file uploading"
@@ -196,7 +196,7 @@ msgstr "El almacenamiento está casi lleno ({usedSpacePercent}%)"
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr "Tu descarga esta siendo preparada. Esto puede tardar algun tiempo si los archivos son muy grandes."
+msgstr "Tu descarga se está preparando. Esto puede demorar si los archivos son muy grandes."
 
 #: js/files.js:344
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
@@ -233,7 +233,7 @@ msgstr "{count} archivos"
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr "%s no se pudo renombrar"
+msgstr "No se pudo renombrar %s"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -253,7 +253,7 @@ msgstr "máx. posible:"
 
 #: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
-msgstr "Es necesario para descargas multi-archivo y de carpetas"
+msgstr "Es necesario para descargas multi-archivo y de directorios."
 
 #: templates/admin.php:17
 msgid "Enable ZIP-download"
@@ -289,7 +289,7 @@ msgstr "Desde enlace"
 
 #: templates/index.php:42
 msgid "Deleted files"
-msgstr "Archivos Borrados"
+msgstr "Archivos borrados"
 
 #: templates/index.php:48
 msgid "Cancel upload"
