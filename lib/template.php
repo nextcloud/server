@@ -181,7 +181,7 @@ class OC_Template{
 		$this->renderas = $renderas;
 		$this->application = $app;
 		$this->vars = array();
-		$this->vars['requesttoken'] = OC::$session && OC_Util::callRegister();
+		$this->vars['requesttoken'] = OC::$session ? OC_Util::callRegister() : '';
 		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
 		$this->l10n = OC_L10N::get($parts[0]);
 
