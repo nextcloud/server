@@ -14,6 +14,7 @@ require_once realpath(dirname(__FILE__) . '/../lib/stream.php');
 require_once realpath(dirname(__FILE__) . '/../lib/util.php');
 require_once realpath(dirname(__FILE__) . '/../lib/helper.php');
 require_once realpath(dirname(__FILE__) . '/../appinfo/app.php');
+require_once realpath(dirname(__FILE__) . '/util.php');
 
 use OCA\Encryption;
 
@@ -21,6 +22,8 @@ use OCA\Encryption;
  * Class Test_Encryption_Keymanager
  */
 class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
+
+	const TEST_USER = "test-keymanager-user";
 
 	public $userId;
 	public $pass;
@@ -47,17 +50,9 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 		// disable file proxy by default
 		\OC_FileProxy::$enabled = false;
 
-		// setup filesystem
-		\OC_Util::tearDownFS();
-		\OC_User::setUserId('');
-		\OC\Files\Filesystem::tearDown();
-		\OC_Util::setupFS('admin');
-		\OC_User::setUserId('admin');
-
-		// login admin
-		$params['uid'] = 'admin';
-		$params['password'] = 'admin';
-		OCA\Encryption\Hooks::login($params);
+		// create test user
+		\OC_User::deleteUser(\Test_Encryption_Keymanager::TEST_USER);
+		\Test_Encryption_Util::loginHelper(\Test_Encryption_Keymanager::TEST_USER, true);
 	}
 
 	function setUp() {
@@ -75,9 +70,9 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 
 		$this->view = new \OC_FilesystemView('/');
 
-		\OC_User::setUserId('admin');
-		$this->userId = 'admin';
-		$this->pass = 'admin';
+		\OC_User::setUserId(\Test_Encryption_Keymanager::TEST_USER);
+		$this->userId = \Test_Encryption_Keymanager::TEST_USER;
+		$this->pass = \Test_Encryption_Keymanager::TEST_USER;
 
 		$userHome = \OC_User::getHome($this->userId);
 		$this->dataDir = str_replace('/' . $this->userId, '', $userHome);
@@ -101,6 +96,9 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 
 	public static function tearDownAfterClass() {
 		\OC_FileProxy::$enabled = true;
+
+		// cleanup test user
+		\OC_User::deleteUser(\Test_Encryption_Keymanager::TEST_USER);
 	}
 
 	/**
@@ -226,9 +224,9 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 		$filename = '/tmp-' . time() . '.txt';
 
 		// create folder structure
-		$this->view->mkdir('/admin/files/folder1');
-		$this->view->mkdir('/admin/files/folder1/subfolder');
-		$this->view->mkdir('/admin/files/folder1/subfolder/subsubfolder');
+		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1');
+		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1/subfolder');
+		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1/subfolder/subsubfolder');
 
 		// enable encryption proxy
 		$proxyStatus = \OC_FileProxy::$enabled;
