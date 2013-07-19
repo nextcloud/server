@@ -27,7 +27,7 @@ class AdapterSqlite extends Adapter {
 		$query = substr($query, 0, strlen($query) - 5);
 		try {
 			$stmt = $this->conn->prepare($query);
-			$result = $stmt->execute(array($input));
+			$result = $stmt->execute(array_values($input));
 		} catch(\Doctrine\DBAL\DBALException $e) {
 			$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
 			$entry .= 'Offending command was: ' . $query . '<br />';
@@ -36,7 +36,7 @@ class AdapterSqlite extends Adapter {
 			\OC_Template::printErrorPage( $entry );
 		}
 
-		if ($stmt->fetchColumn() === 0) {
+		if ($stmt->fetchColumn() === '0') {
 			$query = 'INSERT INTO `' . $table . '` (`'
 				. implode('`,`', array_keys($input)) . '`) VALUES('
 				. str_repeat('?,', count($input)-1).'? ' . ')';

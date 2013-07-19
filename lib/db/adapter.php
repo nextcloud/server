@@ -38,8 +38,7 @@ class Adapter {
 		$inserts = array_merge($inserts, $inserts);
 
 		try {
-			$statement = $this->conn->prepare($query);
-			$result = $statement->execute($inserts);
+			$result = $this->conn->executeUpdate($query, $inserts);
 		} catch(\Doctrine\DBAL\DBALException $e) {
 			$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
 			$entry .= 'Offending command was: ' . $query.'<br />';
