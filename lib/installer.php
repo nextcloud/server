@@ -449,6 +449,7 @@ class OC_Installer{
 			'OC_Files::',
 			'OC_Helper::',
 			'OC_Hook::',
+			'OC_Image::',
 			'OC_JSON::',
 			'OC_Log::',
 			'OC_Mail::',
