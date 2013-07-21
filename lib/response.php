@@ -7,7 +7,7 @@
  */
 
 class OC_Response {
-	const STATUS_FOUND = 304;
+	const STATUS_FOUND = 302;
 	const STATUS_NOT_MODIFIED = 304;
 	const STATUS_TEMPORARY_REDIRECT = 307;
 	const STATUS_NOT_FOUND = 404;
