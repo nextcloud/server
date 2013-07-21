@@ -62,7 +62,7 @@ class OC_Files {
 			$zip = new ZipArchive();
 			$filename = OC_Helper::tmpFile('.zip');
 			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
-				exit("cannot open <$filename>\n");
+				throw new Exception("cannot open '$filename'\n");
 			}
 			foreach ($files as $file) {
 				$file = $dir . '/' . $file;
@@ -93,7 +93,7 @@ class OC_Files {
 			$zip = new ZipArchive();
 			$filename = OC_Helper::tmpFile('.zip');
 			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
-				exit("cannot open <$filename>\n");
+				throw new Exception("cannot open '$filename'\n");
 			}
 			$file = $dir . '/' . $files;
 			self::zipAddDir($file, $zip);
