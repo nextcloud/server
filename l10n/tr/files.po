@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-20 01:54-0400\n"
-"PO-Revision-Date: 2013-07-20 05:24+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-21 01:54-0400\n"
+"PO-Revision-Date: 2013-07-21 05:15+0000\n"
+"Last-Translator: ismail yenigül <ismail.yenigul@surgate.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,11 +30,11 @@ msgstr "%s taşınamadı"
 
 #: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "Yükleme dizini tanımlanamadı."
 
 #: ajax/upload.php:22
 msgid "Invalid Token"
-msgstr ""
+msgstr "Geçeriz simge"
 
 #: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
@@ -232,7 +232,7 @@ msgstr "{count} dosya"
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "%s yeniden adlandırılamadı"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -308,7 +308,7 @@ msgstr "İndir"
 
 #: templates/index.php:80
 msgid "Size (MB)"
-msgstr ""
+msgstr "Boyut (MB)"
 
 #: templates/index.php:87 templates/index.php:88
 msgid "Unshare"
@@ -334,11 +334,11 @@ msgstr "Güncel tarama"
 
 #: templates/part.list.php:76
 msgid "directory"
-msgstr ""
+msgstr "dizin"
 
 #: templates/part.list.php:78
 msgid "directories"
-msgstr ""
+msgstr "dizinler"
 
 #: templates/part.list.php:87
 msgid "file"

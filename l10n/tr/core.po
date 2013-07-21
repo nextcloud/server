@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-20 01:55-0400\n"
-"PO-Revision-Date: 2013-07-20 05:24+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-21 01:54-0400\n"
+"PO-Revision-Date: 2013-07-21 05:14+0000\n"
+"Last-Translator: ismail yenigül <ismail.yenigul@surgate.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s  sizinle »%s« paylaşımında bulundu"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -285,7 +285,7 @@ msgstr "Parola"
 
 #: js/share.js:187
 msgid "Allow Public Upload"
-msgstr ""
+msgstr "Herkes tarafından yüklemeye izin ver"
 
 #: js/share.js:191
 msgid "Email link to person"
@@ -412,11 +412,11 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr ""
+msgstr "Dosyalarınız şifrelenmiş. Eğer kurtarma anahtarını aktif etmediyseniz parola sıfırlama işleminden sonra verilerinize erişmeniz imkansız olacak. Eğer ne yaptığınızdan emin değilseniz, devam etmeden önce sistem yöneticiniz ile irtibata geçiniz. Gerçekten devam etmek istiyor musunuz?"
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
-msgstr ""
+msgstr "Evet,Şu anda parolamı sıfırlamak istiyorum."
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
@@ -475,7 +475,7 @@ msgid ""
 "View it: %s\n"
 "\n"
 "Cheers!"
-msgstr ""
+msgstr "Merhaba\n\n%s sizinle %s dosyasını paylaştığı\nPaylaşımı gör:%s\n\nİyi günler!"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -613,7 +613,7 @@ msgstr "Alternatif Girişler"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr ""
+msgstr "Merhaba, <br><br> %s sizinle »%s« paylaşımında bulundu.<br><a href=\"%s\">Paylaşımı gör!</a><br><br>İyi günler!"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
