@@ -148,11 +148,18 @@ class Filesystem {
 	 */
 	private static $loader;
 
-	public static function getLoader(){
+	public static function getLoader() {
 		if (!self::$loader) {
 			self::$loader = new Loader();
 		}
 		return self::$loader;
+	}
+
+	public static function getMountManager() {
+		if (!self::$mounts) {
+			\OC_Util::setupFS();
+		}
+		return self::$mounts;
 	}
 
 	/**
