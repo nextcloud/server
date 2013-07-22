@@ -16,7 +16,7 @@ if(OC_User::isAdminUser(OC_User::getUser())) {
 				$groups[] = $group;
 			}
 		}
-		if(count($groups) == 0) {
+		if(count($groups) === 0) {
 			$groups = OC_SubAdmin::getSubAdminsGroups(OC_User::getUser());
 		}
 	}else{

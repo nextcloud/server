@@ -43,12 +43,12 @@ $_['subadmingroups'] = array_flip($items);
 			<?php if((bool) $_['isadmin']): ?>
 			<select class='quota'>
 				<option
-					<?php if($_['default_quota']=='none') print_unescaped('selected="selected"');?>
+					<?php if($_['default_quota'] === 'none') print_unescaped('selected="selected"');?>
 						value='none'>
 					<?php p($l->t('Unlimited'));?>
 				</option>
 				<?php foreach($_['quota_preset'] as $preset):?>
-				<?php if($preset!='default'):?>
+				<?php if($preset !== 'default'):?>
 				<option
 				<?php if($_['default_quota']==$preset) print_unescaped('selected="selected"');?>
 					value='<?php p($preset);?>'>
@@ -132,12 +132,12 @@ $_['subadmingroups'] = array_flip($items);
 			<td class="quota">
 				<select class='quota-user'>
 					<option
-						<?php if($user['quota']=='default') print_unescaped('selected="selected"');?>
+						<?php if($user['quota'] === 'default') print_unescaped('selected="selected"');?>
 							value='default'>
 						<?php p($l->t('Default'));?>
 					</option>
 					<option
-					<?php if($user['quota']=='none') print_unescaped('selected="selected"');?>
+					<?php if($user['quota'] === 'none') print_unescaped('selected="selected"');?>
 							value='none'>
 						<?php p($l->t('Unlimited'));?>
 					</option>

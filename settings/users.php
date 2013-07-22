@@ -52,7 +52,7 @@ foreach($accessibleusers as $uid => $displayName) {
 		&& array_search($quota, array('none', 'default'))===false;
 
 	$name = $displayName;
-	if ( $displayName != $uid ) {
+	if ( $displayName !== $uid ) {
 		$name = $name . ' ('.$uid.')';
 	} 
 	
