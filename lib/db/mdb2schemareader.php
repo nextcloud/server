@@ -138,6 +138,10 @@ class OC_DB_MDB2SchemaReader {
 					$comment = (string)$child;
 					$options['comment'] = $comment;
 					break;
+				case 'primary':
+					$primary = self::asBool($child);
+					$options['primary'] = $primary;
+					break;
 				default:
 					throw new DomainException('Unknown element: '.$child->getName());
 
