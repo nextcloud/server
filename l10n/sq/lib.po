@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-16 01:56-0400\n"
-"PO-Revision-Date: 2013-07-16 05:15+0000\n"
+"POT-Creation-Date: 2013-07-22 01:54-0400\n"
+"PO-Revision-Date: 2013-07-22 05:25+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -189,55 +189,55 @@ msgstr "Serveri web i juaji nuk është konfiguruar akoma për të lejuar sinkro
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Ju lutemi kontrolloni mirë <a href='%s'>shoqëruesin e instalimit</a>."
 
-#: template.php:113
+#: template.php:95
 msgid "seconds ago"
 msgstr "sekonda më parë"
 
-#: template.php:114
+#: template.php:96
 msgid "1 minute ago"
 msgstr "1 minutë më parë"
 
-#: template.php:115
+#: template.php:97
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d minuta më parë"
 
-#: template.php:116
+#: template.php:98
 msgid "1 hour ago"
 msgstr "1 orë më parë"
 
-#: template.php:117
+#: template.php:99
 #, php-format
 msgid "%d hours ago"
 msgstr "%d orë më parë"
 
-#: template.php:118
+#: template.php:100
 msgid "today"
 msgstr "sot"
 
-#: template.php:119
+#: template.php:101
 msgid "yesterday"
 msgstr "dje"
 
-#: template.php:120
+#: template.php:102
 #, php-format
 msgid "%d days ago"
 msgstr "%d ditë më parë"
 
-#: template.php:121
+#: template.php:103
 msgid "last month"
 msgstr "muajin e shkuar"
 
-#: template.php:122
+#: template.php:104
 #, php-format
 msgid "%d months ago"
 msgstr "%d muaj më parë"
 
-#: template.php:123
+#: template.php:105
 msgid "last year"
 msgstr "vitin e shkuar"
 
-#: template.php:124
+#: template.php:106
 msgid "years ago"
 msgstr "vite më parë"
 

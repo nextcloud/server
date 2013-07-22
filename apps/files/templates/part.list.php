@@ -9,7 +9,6 @@ $totalsize = 0; ?>
 	} else {
 		$totalfiles++;
 	}
-	$simple_file_size = OCP\simple_file_size($file['size']);
 	// the bigger the file, the darker the shade of grey; megabytes*2
 	$simple_size_color = intval(160-$file['size']/(1024*1024)*2);
 	if($simple_size_color<0) $simple_size_color = 0;
@@ -52,9 +51,8 @@ $totalsize = 0; ?>
 			</a>
 		</td>
 		<td class="filesize"
-			title="<?php p(OCP\human_file_size($file['size'])); ?>"
 			style="color:rgb(<?php p($simple_size_color.','.$simple_size_color.','.$simple_size_color) ?>)">
-				<?php print_unescaped($simple_file_size); ?>
+				<?php print_unescaped(OCP\human_file_size($file['size'])); ?>
 		</td>
 		<td class="date">
 			<span class="modified"
@@ -91,7 +89,7 @@ $totalsize = 0; ?>
 			} ?>
 		</span></td>
 		<td class="filesize">
-		<?php print_unescaped(OCP\simple_file_size($totalsize)); ?>
+		<?php print_unescaped(OCP\human_file_size($totalsize)); ?>
 		</td>
 		<td></td>
 	</tr>

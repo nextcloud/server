@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-16 01:56-0400\n"
-"PO-Revision-Date: 2013-07-16 05:14+0000\n"
+"POT-Creation-Date: 2013-07-22 01:54-0400\n"
+"PO-Revision-Date: 2013-07-22 05:24+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -144,55 +144,55 @@ msgstr "Decembrie"
 msgid "Settings"
 msgstr "Setări"
 
-#: js/js.js:725
+#: js/js.js:715
 msgid "seconds ago"
 msgstr "secunde în urmă"
 
-#: js/js.js:726
+#: js/js.js:716
 msgid "1 minute ago"
 msgstr "1 minut în urmă"
 
-#: js/js.js:727
+#: js/js.js:717
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minute in urma"
 
-#: js/js.js:728
+#: js/js.js:718
 msgid "1 hour ago"
 msgstr "Acum o ora"
 
-#: js/js.js:729
+#: js/js.js:719
 msgid "{hours} hours ago"
 msgstr "{hours} ore în urmă"
 
-#: js/js.js:730
+#: js/js.js:720
 msgid "today"
 msgstr "astăzi"
 
-#: js/js.js:731
+#: js/js.js:721
 msgid "yesterday"
 msgstr "ieri"
 
-#: js/js.js:732
+#: js/js.js:722
 msgid "{days} days ago"
 msgstr "{days} zile in urma"
 
-#: js/js.js:733
+#: js/js.js:723
 msgid "last month"
 msgstr "ultima lună"
 
-#: js/js.js:734
+#: js/js.js:724
 msgid "{months} months ago"
 msgstr "{months} luni în urmă"
 
-#: js/js.js:735
+#: js/js.js:725
 msgid "months ago"
 msgstr "luni în urmă"
 
-#: js/js.js:736
+#: js/js.js:726
 msgid "last year"
 msgstr "ultimul an"
 
-#: js/js.js:737
+#: js/js.js:727
 msgid "years ago"
 msgstr "ani în urmă"
 

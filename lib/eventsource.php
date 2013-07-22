@@ -53,7 +53,7 @@ class OC_EventSource{
 	/**
 	 * send a message to the client
 	 * @param string $type
-	 * @param object $data
+	 * @param mixed $data
 	 *
 	 * if only one parameter is given, a typeless message will be send with that parameter as data
 	 */

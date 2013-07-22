@@ -4,12 +4,13 @@
 # 
 # Translators:
 # bmgmatias <bmgmatias@gmail.com>, 2013
+# FernandoMASilva, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-16 01:56-0400\n"
-"PO-Revision-Date: 2013-07-16 05:14+0000\n"
+"POT-Creation-Date: 2013-07-22 01:54-0400\n"
+"PO-Revision-Date: 2013-07-22 05:55+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -30,11 +31,11 @@ msgstr "Não foi possível move o ficheiro %s"
 
 #: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "Não foi possível criar o diretório de upload"
 
 #: ajax/upload.php:22
 msgid "Invalid Token"
-msgstr ""
+msgstr "Token inválido"
 
 #: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
@@ -129,43 +130,43 @@ msgstr "Eliminar"
 msgid "Rename"
 msgstr "Renomear"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:466
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
 msgid "Pending"
 msgstr "Pendente"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "{new_name} already exists"
 msgstr "O nome {new_name} já existe"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "replace"
 msgstr "substituir"
 
-#: js/filelist.js:304
+#: js/filelist.js:303
 msgid "suggest name"
 msgstr "sugira um nome"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "cancel"
 msgstr "cancelar"
 
-#: js/filelist.js:351
+#: js/filelist.js:350
 msgid "replaced {new_name} with {old_name}"
 msgstr "substituido {new_name} por {old_name}"
 
-#: js/filelist.js:351
+#: js/filelist.js:350
 msgid "undo"
 msgstr "desfazer"
 
-#: js/filelist.js:376
+#: js/filelist.js:375
 msgid "perform delete operation"
 msgstr "Executar a tarefa de apagar"
 
-#: js/filelist.js:458
+#: js/filelist.js:457
 msgid "1 file uploading"
 msgstr "A enviar 1 ficheiro"
 
-#: js/filelist.js:461 js/filelist.js:519
+#: js/filelist.js:460 js/filelist.js:518
 msgid "files uploading"
 msgstr "A enviar os ficheiros"
 
@@ -205,7 +206,7 @@ msgstr "Nome de pasta inválido. O Uso de 'shared' é reservado para o ownCloud"
 msgid "Name"
 msgstr "Nome"
 
-#: js/files.js:745
+#: js/files.js:745 templates/index.php:80
 msgid "Size"
 msgstr "Tamanho"
 
@@ -213,26 +214,26 @@ msgstr "Tamanho"
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/files.js:765
+#: js/files.js:763
 msgid "1 folder"
 msgstr "1 pasta"
 
-#: js/files.js:767
+#: js/files.js:765
 msgid "{count} folders"
 msgstr "{count} pastas"
 
-#: js/files.js:775
+#: js/files.js:773
 msgid "1 file"
 msgstr "1 ficheiro"
 
-#: js/files.js:777
+#: js/files.js:775
 msgid "{count} files"
 msgstr "{count} ficheiros"
 
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "%s não pode ser renomeada"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -306,10 +307,6 @@ msgstr "Vazio. Envie alguma coisa!"
 msgid "Download"
 msgstr "Transferir"
 
-#: templates/index.php:80
-msgid "Size (MB)"
-msgstr ""
-
 #: templates/index.php:87 templates/index.php:88
 msgid "Unshare"
 msgstr "Deixar de partilhar"
@@ -332,19 +329,19 @@ msgstr "Os ficheiros estão a ser analisados, por favor aguarde."
 msgid "Current scanning"
 msgstr "Análise actual"
 
-#: templates/part.list.php:76
+#: templates/part.list.php:74
 msgid "directory"
-msgstr ""
+msgstr "diretório"
 
-#: templates/part.list.php:78
+#: templates/part.list.php:76
 msgid "directories"
-msgstr ""
+msgstr "diretórios"
 
-#: templates/part.list.php:87
+#: templates/part.list.php:85
 msgid "file"
 msgstr "ficheiro"
 
-#: templates/part.list.php:89
+#: templates/part.list.php:87
 msgid "files"
 msgstr "ficheiros"
 

@@ -43,26 +43,15 @@ class Test_Config extends PHPUnit_Framework_TestCase {
 		$this->config->setValue('foo', 'moo');
 		$this->assertAttributeEquals(array('foo' => 'moo'), 'cache', $this->config);
 		$content = file_get_contents(self::CONFIG_FILE);
-		$this->assertEquals(<<<EOL
-<?php
-\$CONFIG = array (
-  'foo' => 'moo',
-);
 
-EOL
-			, $content);
+		$expected = "<?php\n\$CONFIG = array (\n  'foo' => 'moo',\n);\n";
+		$this->assertEquals($expected, $content);
 		$this->config->setValue('bar', 'red');
 		$this->assertAttributeEquals(array('foo' => 'moo', 'bar' => 'red'), 'cache', $this->config);
 		$content = file_get_contents(self::CONFIG_FILE);
-		$this->assertEquals(<<<EOL
-<?php
-\$CONFIG = array (
-  'foo' => 'moo',
-  'bar' => 'red',
-);
 
-EOL
-			, $content);
+		$expected = "<?php\n\$CONFIG = array (\n  'foo' => 'moo',\n  'bar' => 'red',\n);\n";
+		$this->assertEquals($expected, $content);
 	}
 
 	public function testDeleteKey() {
@@ -70,13 +59,9 @@ EOL
 		$this->config->deleteKey('foo');
 		$this->assertAttributeEquals(array(), 'cache', $this->config);
 		$content = file_get_contents(self::CONFIG_FILE);
-		$this->assertEquals(<<<EOL
-<?php
-\$CONFIG = array (
-);
 
-EOL
-			, $content);
+		$expected = "<?php\n\$CONFIG = array (\n);\n";
+		$this->assertEquals($expected, $content);
 	}
 
 	public function testSavingDebugMode() {
@@ -85,14 +70,9 @@ EOL
 		$this->assertAttributeEquals(array(), 'cache', $this->config);
 		$this->assertAttributeEquals(true, 'debugMode', $this->config);
 		$content = file_get_contents(self::CONFIG_FILE);
-		$this->assertEquals(<<<EOL
-<?php
-define('DEBUG',true);
-\$CONFIG = array (
-);
 
-EOL
-			, $content);
+		$expected = "<?php\ndefine('DEBUG',true);\n\$CONFIG = array (\n);\n";
+		$this->assertEquals($expected, $content);
 	}
 
 	/**
@@ -100,6 +80,17 @@ EOL
 	 */
 	public function testWriteData() {
 		$config = new OC\Config('/non-writable');
+		// TODO never get's called, because the previous call throws the exception
+		// maybe include some more logic to create a readable dir and then try to
+		// write to this dir
+		//
+		// console commands:
+		// $ sudo touch /non-writableconfig.php
+		// $ sudo chmod go-rwx /non-writableconfig.php
+		// ---- call the tests now -> above statemant throws the exception
+		//
+		// $ sudo chmod go+r /non-writableconfig.php
+		// ---- call the tests now -> bellow statemant throws the exception
 		$config->setValue('foo', 'bar');
 	}
 }

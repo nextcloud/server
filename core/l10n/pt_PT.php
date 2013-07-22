@@ -91,6 +91,7 @@
 "Request failed!<br>Did you make sure your email/username was right?" => "O pedido falhou! <br> Tem a certeza que introduziu o seu email/username correcto?",
 "You will receive a link to reset your password via Email." => "Vai receber um endereço para repor a sua password",
 "Username" => "Nome de utilizador",
+"Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Os seus ficheiros estão encriptados. Se não activou a chave de recuperação, não vai ser possível recuperar os seus dados no caso da sua password ser reinicializada. Se não tem a certeza do que precisa de fazer, por favor contacte o seu administrador antes de continuar. Tem a certeza que quer continuar?",
 "Yes, I really want to reset my password now" => "Sim, tenho a certeza que pretendo redefinir a minha palavra-passe agora.",
 "Request reset" => "Pedir reposição",
 "Your password was reset" => "A sua password foi reposta",
@@ -134,6 +135,7 @@
 "remember" => "lembrar",
 "Log in" => "Entrar",
 "Alternative Logins" => "Contas de acesso alternativas",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Olá,<br><br>Apenas para lhe informar que %s partilhou »%s« consigo.<br><a href=\"%s\">Consulte-o aqui!</a><br><br>Cumprimentos!",
 "prev" => "anterior",
 "next" => "seguinte",
 "Updating ownCloud to version %s, this may take a while." => "A actualizar o ownCloud para a versão %s, esta operação pode demorar."

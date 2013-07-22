@@ -32,7 +32,7 @@ $tmpl->assign('backgroundjobs_mode', OC_Appconfig::getValue('core', 'backgroundj
 $tmpl->assign('shareAPIEnabled', OC_Appconfig::getValue('core', 'shareapi_enabled', 'yes'));
 
 // Check if connected using HTTPS
-if (OC_Request::serverProtocol() == 'https') {
+if (OC_Request::serverProtocol() === 'https') {
 	$connectedHTTPS = true; 
 } else {
 	$connectedHTTPS = false;

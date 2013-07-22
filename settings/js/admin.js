@@ -8,7 +8,7 @@ $(document).ready(function(){
 	$('#backgroundjobs input').change(function(){
 		if($(this).attr('checked')){
 			var mode = $(this).val();
-			if (mode == 'ajax' || mode == 'webcron' || mode == 'cron') {
+			if (mode === 'ajax' || mode === 'webcron' || mode === 'cron') {
 				OC.AppConfig.setValue('core', 'backgroundjobs_mode', mode);
 			}
 		}
@@ -19,7 +19,7 @@ $(document).ready(function(){
 	});
 
 	$('#shareAPI input').change(function() {
-		if ($(this).attr('type') == 'checkbox') {
+		if ($(this).attr('type') === 'checkbox') {
 			if (this.checked) {
 				var value = 'yes';
 			} else {

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-16 01:56-0400\n"
-"PO-Revision-Date: 2013-07-16 05:15+0000\n"
+"POT-Creation-Date: 2013-07-22 01:54-0400\n"
+"PO-Revision-Date: 2013-07-22 05:25+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -190,55 +190,55 @@ msgstr "El servidor web no està configurat correctament per permetre la sincron
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Comproveu les <a href='%s'>guies d'instal·lació</a>."
 
-#: template.php:113
+#: template.php:95
 msgid "seconds ago"
 msgstr "segons enrere"
 
-#: template.php:114
+#: template.php:96
 msgid "1 minute ago"
 msgstr "fa 1 minut"
 
-#: template.php:115
+#: template.php:97
 #, php-format
 msgid "%d minutes ago"
 msgstr "fa %d minuts"
 
-#: template.php:116
+#: template.php:98
 msgid "1 hour ago"
 msgstr "fa 1 hora"
 
-#: template.php:117
+#: template.php:99
 #, php-format
 msgid "%d hours ago"
 msgstr "fa %d hores"
 
-#: template.php:118
+#: template.php:100
 msgid "today"
 msgstr "avui"
 
-#: template.php:119
+#: template.php:101
 msgid "yesterday"
 msgstr "ahir"
 
-#: template.php:120
+#: template.php:102
 #, php-format
 msgid "%d days ago"
 msgstr "fa %d dies"
 
-#: template.php:121
+#: template.php:103
 msgid "last month"
 msgstr "el mes passat"
 
-#: template.php:122
+#: template.php:104
 #, php-format
 msgid "%d months ago"
 msgstr "fa %d mesos"
 
-#: template.php:123
+#: template.php:105
 msgid "last year"
 msgstr "l'any passat"
 
-#: template.php:124
+#: template.php:106
 msgid "years ago"
 msgstr "anys enrere"
 

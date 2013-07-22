@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-16 01:56-0400\n"
-"PO-Revision-Date: 2013-07-16 05:14+0000\n"
+"POT-Creation-Date: 2013-07-22 01:54-0400\n"
+"PO-Revision-Date: 2013-07-22 05:25+0000\n"
 "Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -78,12 +78,12 @@ msgstr "管理者帳號無法從管理者群組中移除"
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr "使用者加入群組%s錯誤"
+msgstr "使用者加入群組 %s 錯誤"
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr "使用者移出群組%s錯誤"
+msgstr "使用者移出群組 %s 錯誤"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
@@ -144,7 +144,7 @@ msgstr "群組"
 
 #: js/users.js:95 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
-msgstr "群組 管理員"
+msgstr "群組管理員"
 
 #: js/users.js:115 templates/users.php:164
 msgid "Delete"
@@ -156,11 +156,11 @@ msgstr "新增群組"
 
 #: js/users.js:428
 msgid "A valid username must be provided"
-msgstr "一定要提供一個有效的用戶名"
+msgstr "必須提供一個有效的用戶名"
 
 #: js/users.js:429 js/users.js:435 js/users.js:450
 msgid "Error creating user"
-msgstr "創建用戶時出現錯誤"
+msgstr "建立用戶時出現錯誤"
 
 #: js/users.js:434
 msgid "A valid password must be provided"
@@ -168,7 +168,7 @@ msgstr "一定要提供一個有效的密碼"
 
 #: personal.php:37 personal.php:38
 msgid "__language_name__"
-msgstr "__語言_名稱__"
+msgstr "__language_name__"
 
 #: templates/admin.php:17
 msgid "Security Warning"
@@ -222,7 +222,7 @@ msgstr "ownCloud 伺服器無法將系統語系設為 %s ，可能有一些檔�
 
 #: templates/admin.php:77
 msgid "Internet connection not working"
-msgstr "去連線"
+msgstr "無網際網路存取"
 
 #: templates/admin.php:80
 msgid ""
@@ -236,7 +236,7 @@ msgstr "這臺 ownCloud 伺服器沒有連接到網際網路，因此有些功�
 
 #: templates/admin.php:94
 msgid "Cron"
-msgstr "定期執行"
+msgstr "Cron"
 
 #: templates/admin.php:103
 msgid "Execute one task with each page loaded"
@@ -272,7 +272,7 @@ msgstr "允許連結"
 
 #: templates/admin.php:145
 msgid "Allow users to share items to the public with links"
-msgstr "允許使用者透過公開的連結分享檔案"
+msgstr "允許使用者以結連公開分享檔案"
 
 #: templates/admin.php:152
 msgid "Allow resharing"
@@ -301,7 +301,7 @@ msgstr "強制啟用 HTTPS"
 #: templates/admin.php:184
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr "強制指定用戶端使用加密的連線連接到 ownCloud"
+msgstr "強制用戶端使用加密的連線連接到 ownCloud"
 
 #: templates/admin.php:187
 msgid ""
@@ -323,7 +323,7 @@ msgstr "更多"
 
 #: templates/admin.php:230
 msgid "Less"
-msgstr "少"
+msgstr "更少"
 
 #: templates/admin.php:236 templates/personal.php:116
 msgid "Version"
@@ -337,7 +337,7 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr "由<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 社區</a>開發，<a href=\"https://github.com/owncloud\" target=\"_blank\">源代碼</a>在<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>許可證下發布。"
+msgstr "由 <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 社群</a>開發，<a href=\"https://github.com/owncloud\" target=\"_blank\">原始碼</a>在 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> 許可證下發布。"
 
 #: templates/apps.php:13
 msgid "Add your App"
