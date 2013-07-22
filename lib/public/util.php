@@ -83,7 +83,7 @@ class Util {
 	 * @return OC_L10N
 	 */
 	public static function getL10N( $application ) {
-		\OC_L10N::get( $application );
+		return \OC_L10N::get( $application );
 	}
 
 	/**
