@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-12 02:04+0200\n"
-"PO-Revision-Date: 2013-07-11 23:15+0000\n"
+"POT-Creation-Date: 2013-07-22 01:54-0400\n"
+"PO-Revision-Date: 2013-07-22 05:25+0000\n"
 "Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -171,74 +171,74 @@ msgstr "دستور متخلف عبارت است از: \"%s\"، نام: \"%s\"، 
 msgid "PostgreSQL username and/or password not valid"
 msgstr "PostgreSQL نام کاربری و / یا رمزعبور معتبر نیست."
 
-#: setup.php:42
+#: setup.php:28
 msgid "Set an admin username."
 msgstr "یک نام کاربری برای مدیر تنظیم نمایید."
 
-#: setup.php:45
+#: setup.php:31
 msgid "Set an admin password."
 msgstr "یک رمزعبور برای مدیر تنظیم نمایید."
 
-#: setup.php:198
+#: setup.php:184
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "احتمالاً وب سرور شما طوری تنظیم نشده است که اجازه ی همگام سازی فایلها را بدهد زیرا به نظر میرسد رابط WebDAV از کار افتاده است."
 
-#: setup.php:199
+#: setup.php:185
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "لطفاً دوباره <a href='%s'>راهنمای نصب</a>را بررسی کنید."
 
-#: template.php:113
+#: template.php:95
 msgid "seconds ago"
 msgstr "ثانیه‌ها پیش"
 
-#: template.php:114
+#: template.php:96
 msgid "1 minute ago"
 msgstr "1 دقیقه پیش"
 
-#: template.php:115
+#: template.php:97
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d دقیقه پیش"
 
-#: template.php:116
+#: template.php:98
 msgid "1 hour ago"
 msgstr "1 ساعت پیش"
 
-#: template.php:117
+#: template.php:99
 #, php-format
 msgid "%d hours ago"
 msgstr "%d ساعت پیش"
 
-#: template.php:118
+#: template.php:100
 msgid "today"
 msgstr "امروز"
 
-#: template.php:119
+#: template.php:101
 msgid "yesterday"
 msgstr "دیروز"
 
-#: template.php:120
+#: template.php:102
 #, php-format
 msgid "%d days ago"
 msgstr "%d روز  پیش"
 
-#: template.php:121
+#: template.php:103
 msgid "last month"
 msgstr "ماه قبل"
 
-#: template.php:122
+#: template.php:104
 #, php-format
 msgid "%d months ago"
 msgstr "%dماه پیش"
 
-#: template.php:123
+#: template.php:105
 msgid "last year"
 msgstr "سال قبل"
 
-#: template.php:124
+#: template.php:106
 msgid "years ago"
 msgstr "سال‌های قبل"
 

@@ -134,21 +134,19 @@ class Jobs extends \OC\BackgroundJob\TimedJob {
 			\OCP\Util::DEBUG);
 	}
 
-	static private function getConnector() {
-		if(!is_null(self::$connector)) {
-			return self::$connector;
-		}
-		self::$connector = new \OCA\user_ldap\lib\Connection('user_ldap');
-		return self::$connector;
-	}
-
 	static private function getGroupBE() {
 		if(!is_null(self::$groupBE)) {
 			return self::$groupBE;
 		}
-		self::getConnector();
-		self::$groupBE = new \OCA\user_ldap\GROUP_LDAP();
-		self::$groupBE->setConnector(self::$connector);
+		$configPrefixes = Helper::getServerConfigurationPrefixes(true);
+		if(count($configPrefixes) == 1) {
+			//avoid the proxy when there is only one LDAP server configured
+			$connector = new Connection($configPrefixes[0]);
+			self::$groupBE = new \OCA\user_ldap\GROUP_LDAP();
+			self::$groupBE->setConnector($connector);
+		} else {
+			self::$groupBE = new \OCA\user_ldap\Group_Proxy($configPrefixes);
+		}
 
 		return self::$groupBE;
 	}

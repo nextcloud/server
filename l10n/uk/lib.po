@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-12 02:04+0200\n"
-"PO-Revision-Date: 2013-07-11 23:15+0000\n"
+"POT-Creation-Date: 2013-07-22 01:54-0400\n"
+"PO-Revision-Date: 2013-07-22 05:25+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -170,74 +170,74 @@ msgstr "Команда, що викликала проблему: \"%s\", ім'�
 msgid "PostgreSQL username and/or password not valid"
 msgstr "PostgreSQL ім'я користувача та/або пароль не дійсні"
 
-#: setup.php:42
+#: setup.php:28
 msgid "Set an admin username."
 msgstr "Встановіть ім'я адміністратора."
 
-#: setup.php:45
+#: setup.php:31
 msgid "Set an admin password."
 msgstr "Встановіть пароль адміністратора."
 
-#: setup.php:198
+#: setup.php:184
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Ваш Web-сервер ще не налаштований належним чином для того, щоб дозволити синхронізацію файлів, через те що інтерфейс WebDAV, здається, зламаний."
 
-#: setup.php:199
+#: setup.php:185
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Будь ласка, перевірте <a href='%s'>інструкції по встановленню</a>."
 
-#: template.php:113
+#: template.php:95
 msgid "seconds ago"
 msgstr "секунди тому"
 
-#: template.php:114
+#: template.php:96
 msgid "1 minute ago"
 msgstr "1 хвилину тому"
 
-#: template.php:115
+#: template.php:97
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d хвилин тому"
 
-#: template.php:116
+#: template.php:98
 msgid "1 hour ago"
 msgstr "1 годину тому"
 
-#: template.php:117
+#: template.php:99
 #, php-format
 msgid "%d hours ago"
 msgstr "%d годин тому"
 
-#: template.php:118
+#: template.php:100
 msgid "today"
 msgstr "сьогодні"
 
-#: template.php:119
+#: template.php:101
 msgid "yesterday"
 msgstr "вчора"
 
-#: template.php:120
+#: template.php:102
 #, php-format
 msgid "%d days ago"
 msgstr "%d днів тому"
 
-#: template.php:121
+#: template.php:103
 msgid "last month"
 msgstr "минулого місяця"
 
-#: template.php:122
+#: template.php:104
 #, php-format
 msgid "%d months ago"
 msgstr "%d місяців тому"
 
-#: template.php:123
+#: template.php:105
 msgid "last year"
 msgstr "минулого року"
 
-#: template.php:124
+#: template.php:106
 msgid "years ago"
 msgstr "роки тому"
 

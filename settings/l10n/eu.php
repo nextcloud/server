@@ -98,6 +98,7 @@
 "Language" => "Hizkuntza",
 "Help translate" => "Lagundu itzultzen",
 "WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "<a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">helbidea erabili zure fitxategiak WebDAV bidez eskuratzeko</a>",
 "Login Name" => "Sarrera Izena",
 "Create" => "Sortu",
 "Admin Recovery Password" => "Kudeatzaile pasahitz berreskuratzea",

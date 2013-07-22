@@ -2,8 +2,8 @@
 /**
 * ownCloud
 *
-* @author Robin Appelman
-* @copyright 2012 Robin Appelman icewind@owncloud.com
+* @author Bart Visscher
+* @copyright 2013 Bart Visscher <bartv@thisnet.nl>
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -20,12 +20,10 @@
 *
 */
 
-class Test_Cache_XCache extends Test_Cache {
-	public function setUp() {
-		if(!function_exists('xcache_get')) {
-			$this->markTestSkipped('The xcache extension is not available.');
-			return;
-		}
-		$this->instance=new OC_Cache_XCache();
-	}
+namespace OCP;
+
+/**
+ * This class provides functions to handle images
+ */
+class Image extends OC_Image {
 }

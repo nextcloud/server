@@ -98,6 +98,7 @@
 "Language" => "Språk",
 "Help translate" => "Bidra til oversettelsen",
 "WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "Bruk denne adressen for å <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">få tilgang til filene dine via WebDAV</a>",
 "Login Name" => "Logginn navn",
 "Create" => "Opprett",
 "Default Storage" => "Standard lager",

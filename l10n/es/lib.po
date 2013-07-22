@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-12 02:04+0200\n"
-"PO-Revision-Date: 2013-07-11 23:15+0000\n"
+"POT-Creation-Date: 2013-07-22 01:54-0400\n"
+"PO-Revision-Date: 2013-07-22 05:25+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -171,74 +171,74 @@ msgstr "Comando infractor: \"%s\", nombre: %s, contraseña: %s"
 msgid "PostgreSQL username and/or password not valid"
 msgstr "Usuario y/o contraseña de PostgreSQL no válidos"
 
-#: setup.php:42
+#: setup.php:28
 msgid "Set an admin username."
 msgstr "Configurar un nombre de usuario del administrador"
 
-#: setup.php:45
+#: setup.php:31
 msgid "Set an admin password."
 msgstr "Configurar la contraseña del administrador."
 
-#: setup.php:198
+#: setup.php:184
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Su servidor web aún no está configurado adecuadamente para permitir sincronización de archivos ya que la interfaz WebDAV parece no estar funcionando."
 
-#: setup.php:199
+#: setup.php:185
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Por favor, vuelva a comprobar las <a href='%s'>guías de instalación</a>."
 
-#: template.php:113
+#: template.php:95
 msgid "seconds ago"
 msgstr "hace segundos"
 
-#: template.php:114
+#: template.php:96
 msgid "1 minute ago"
 msgstr "hace 1 minuto"
 
-#: template.php:115
+#: template.php:97
 #, php-format
 msgid "%d minutes ago"
 msgstr "hace %d minutos"
 
-#: template.php:116
+#: template.php:98
 msgid "1 hour ago"
 msgstr "Hace 1 hora"
 
-#: template.php:117
+#: template.php:99
 #, php-format
 msgid "%d hours ago"
 msgstr "Hace %d horas"
 
-#: template.php:118
+#: template.php:100
 msgid "today"
 msgstr "hoy"
 
-#: template.php:119
+#: template.php:101
 msgid "yesterday"
 msgstr "ayer"
 
-#: template.php:120
+#: template.php:102
 #, php-format
 msgid "%d days ago"
 msgstr "hace %d días"
 
-#: template.php:121
+#: template.php:103
 msgid "last month"
 msgstr "mes pasado"
 
-#: template.php:122
+#: template.php:104
 #, php-format
 msgid "%d months ago"
 msgstr "Hace %d meses"
 
-#: template.php:123
+#: template.php:105
 msgid "last year"
 msgstr "año pasado"
 
-#: template.php:124
+#: template.php:106
 msgid "years ago"
 msgstr "hace años"
 

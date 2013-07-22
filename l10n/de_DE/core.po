@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-12 02:03+0200\n"
-"PO-Revision-Date: 2013-07-11 23:14+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-22 01:54-0400\n"
+"PO-Revision-Date: 2013-07-22 05:24+0000\n"
+"Last-Translator: traductor <transifex-2.7.mensaje@spamgourmet.com>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -147,55 +147,55 @@ msgstr "Dezember"
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: js/js.js:725
+#: js/js.js:715
 msgid "seconds ago"
 msgstr "Gerade eben"
 
-#: js/js.js:726
+#: js/js.js:716
 msgid "1 minute ago"
 msgstr "Vor 1 Minute"
 
-#: js/js.js:727
+#: js/js.js:717
 msgid "{minutes} minutes ago"
 msgstr "Vor {minutes} Minuten"
 
-#: js/js.js:728
+#: js/js.js:718
 msgid "1 hour ago"
 msgstr "Vor einer Stunde"
 
-#: js/js.js:729
+#: js/js.js:719
 msgid "{hours} hours ago"
 msgstr "Vor {hours} Stunden"
 
-#: js/js.js:730
+#: js/js.js:720
 msgid "today"
 msgstr "Heute"
 
-#: js/js.js:731
+#: js/js.js:721
 msgid "yesterday"
 msgstr "Gestern"
 
-#: js/js.js:732
+#: js/js.js:722
 msgid "{days} days ago"
 msgstr "Vor {days} Tag(en)"
 
-#: js/js.js:733
+#: js/js.js:723
 msgid "last month"
 msgstr "Letzten Monat"
 
-#: js/js.js:734
+#: js/js.js:724
 msgid "{months} months ago"
 msgstr "Vor {months} Monaten"
 
-#: js/js.js:735
+#: js/js.js:725
 msgid "months ago"
 msgstr "Vor Monaten"
 
-#: js/js.js:736
+#: js/js.js:726
 msgid "last year"
 msgstr "Letztes Jahr"
 
-#: js/js.js:737
+#: js/js.js:727
 msgid "years ago"
 msgstr "Vor Jahren"
 
@@ -290,7 +290,7 @@ msgstr "Passwort"
 
 #: js/share.js:187
 msgid "Allow Public Upload"
-msgstr "Erlaube öffentliches hochladen"
+msgstr "Öffentliches Hochladen erlauben"
 
 #: js/share.js:191
 msgid "Email link to person"
@@ -417,7 +417,7 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr "Ihre Dateien sind verschlüsselt. Wenn Sie den Wiederherstellungsschlüssel nicht aktiviert haben, wird es keinen Weg geben, um Ihre Daten wieder zu bekommen, nachdem Ihr Passwort zurückgesetzt wurde. Wenn Sie sich nicht sicher sind, was Sie tun sollen, wenden Sie sich bitte an Ihren Administrator, bevor Sie fortfahren. Wollen Sie wirklich fortfahren?"
+msgstr "Ihre Dateien sind verschlüsselt. Wenn Sie den Wiederherstellungsschlüssel nicht aktiviert haben, wird es keine Möglichkeit geben, um Ihre Daten wiederzubekommen, nachdem Ihr Passwort zurückgesetzt wurde. Wenn Sie sich nicht sicher sind, was Sie tun sollen, wenden Sie sich bitte an Ihren Administrator, bevor Sie fortfahren. Wollen Sie wirklich fortfahren?"
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Piarres Beobide <pi@beobide.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-12 02:03+0200\n"
-"PO-Revision-Date: 2013-07-11 23:14+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-22 01:54-0400\n"
+"PO-Revision-Date: 2013-07-22 05:24+0000\n"
+"Last-Translator: Piarres Beobide <pi@beobide.net>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s-ek »%s« zurekin partekatu du"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -141,55 +142,55 @@ msgstr "Abendua"
 msgid "Settings"
 msgstr "Ezarpenak"
 
-#: js/js.js:725
+#: js/js.js:715
 msgid "seconds ago"
 msgstr "segundu"
 
-#: js/js.js:726
+#: js/js.js:716
 msgid "1 minute ago"
 msgstr "orain dela minutu 1"
 
-#: js/js.js:727
+#: js/js.js:717
 msgid "{minutes} minutes ago"
 msgstr "orain dela {minutes} minutu"
 
-#: js/js.js:728
+#: js/js.js:718
 msgid "1 hour ago"
 msgstr "orain dela ordu bat"
 
-#: js/js.js:729
+#: js/js.js:719
 msgid "{hours} hours ago"
 msgstr "orain dela {hours} ordu"
 
-#: js/js.js:730
+#: js/js.js:720
 msgid "today"
 msgstr "gaur"
 
-#: js/js.js:731
+#: js/js.js:721
 msgid "yesterday"
 msgstr "atzo"
 
-#: js/js.js:732
+#: js/js.js:722
 msgid "{days} days ago"
 msgstr "orain dela {days} egun"
 
-#: js/js.js:733
+#: js/js.js:723
 msgid "last month"
 msgstr "joan den hilabetean"
 
-#: js/js.js:734
+#: js/js.js:724
 msgid "{months} months ago"
 msgstr "orain dela {months} hilabete"
 
-#: js/js.js:735
+#: js/js.js:725
 msgid "months ago"
 msgstr "hilabete"
 
-#: js/js.js:736
+#: js/js.js:726
 msgid "last year"
 msgstr "joan den urtean"
 
-#: js/js.js:737
+#: js/js.js:727
 msgid "years ago"
 msgstr "urte"
 
@@ -203,7 +204,7 @@ msgstr "Ezeztatu"
 
 #: js/oc-dialogs.js:141 js/oc-dialogs.js:200
 msgid "Error loading file picker template"
-msgstr ""
+msgstr "Errorea fitxategi hautatzaile txantiloiak kargatzerakoan"
 
 #: js/oc-dialogs.js:164
 msgid "Yes"
@@ -284,7 +285,7 @@ msgstr "Pasahitza"
 
 #: js/share.js:187
 msgid "Allow Public Upload"
-msgstr ""
+msgstr "Gaitu igotze publikoa"
 
 #: js/share.js:191
 msgid "Email link to person"
@@ -390,11 +391,11 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr ""
+msgstr "Zure pasahitza berrezartzeko lotura zure postara bidalia izan da.<br>Ez baduzu arrazoizko denbora \nepe batean jasotzen begiratu zure zabor-posta karpetan.<br>Hor ere ez badago kudeatzailearekin harremanetan ipini."
 
 #: lostpassword/templates/lostpassword.php:12
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
+msgstr "Eskaerak huts egin du!<br>Ziur zaude posta/pasahitza zuzenak direla?"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
@@ -411,11 +412,11 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr ""
+msgstr "Zure fitxategiak enkriptaturik daude. Ez baduzu berreskuratze gakoa gaitzen pasahitza berrabiaraztean ez da zure fitxategiak berreskuratzeko modurik egongo. Zer egin ziur ez bazaude kudeatzailearekin harremanetan ipini jarraitu aurretik. Ziur zaude aurrera jarraitu nahi duzula?"
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
-msgstr ""
+msgstr "Bai, nire pasahitza orain berrabiarazi nahi dut"
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
@@ -474,7 +475,7 @@ msgid ""
 "View it: %s\n"
 "\n"
 "Cheers!"
-msgstr ""
+msgstr "Kaixo\n\n%s-ek %s zurekin partekatu duela jakin dezazun.\nIkusi ezazu: %s\n\nOngi jarraitu!"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -571,7 +572,7 @@ msgstr "Bukatu konfigurazioa"
 #: templates/layout.user.php:43
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr ""
+msgstr "%s erabilgarri dago. Eguneratzeaz argibide gehiago eskuratu."
 
 #: templates/layout.user.php:68
 msgid "Log out"
@@ -612,7 +613,7 @@ msgstr "Beste erabiltzaile izenak"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr ""
+msgstr "Kaixo<br><br>%s-ek %s zurekin partekatu duela jakin dezazun.<br><a href=\"%s\">\nIkusi ezazu</a><br><br>Ongi jarraitu!"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

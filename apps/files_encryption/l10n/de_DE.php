@@ -29,7 +29,7 @@
 "Old log-in password" => "Altes Login-Passwort",
 "Current log-in password" => "Momentanes Login-Passwort",
 "Update Private Key Password" => "Das Passwort des privaten Schlüssels aktualisieren",
-"Enable password recovery:" => "Passwort-Wiederherstellung aktivieren:",
+"Enable password recovery:" => "Die Passwort-Wiederherstellung aktivieren:",
 "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Durch die Aktivierung dieser Option haben Sie die Möglichkeit, wieder auf Ihre verschlüsselten Dateien zugreifen zu können, wenn Sie Ihr Passwort verloren haben.",
 "File recovery settings updated" => "Die Einstellungen für die Dateiwiederherstellung wurden aktualisiert.",
 "Could not update file recovery" => "Die Dateiwiederherstellung konnte nicht aktualisiert werden."

@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Could not move %s - File with this name already exists" => "Konnte %s nicht verschieben. Eine Datei mit diesem Namen existiert bereits",
+"Could not move %s - File with this name already exists" => "%s konnte nicht verschoben werden. Eine Datei mit diesem Namen existiert bereits.",
 "Could not move %s" => "Konnte %s nicht verschieben",
 "Unable to set upload directory." => "Das Upload-Verzeichnis konnte nicht gesetzt werden.",
 "Invalid Token" => "Ungültiges Merkmal",
@@ -68,7 +68,6 @@
 "You don’t have write permissions here." => "Sie haben hier keine Schreib-Berechtigungen.",
 "Nothing in here. Upload something!" => "Alles leer. Laden Sie etwas hoch!",
 "Download" => "Herunterladen",
-"Size (MB)" => "Größe (MB)",
 "Unshare" => "Freigabe aufheben",
 "Upload too large" => "Der Upload ist zu groß",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Server.",
