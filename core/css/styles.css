@@ -119,12 +119,16 @@ a.disabled, a.disabled:hover, a.disabled:focus {
 	.primary:focus, input[type="submit"].primary:focus, input[type="button"].primary:focus, button.primary:focus, .button.primary:focus {
 		border:1px solid #1d2d44;
 		background:#2d3d54; color:#fff; text-shadow:#000 0 -1px 0;
-		-moz-box-shadow:0 0 1px #000,0 1px 1px #5d6d84 inset; -webkit-box-shadow:0 0 1px #000,0 1px 1px #5d6d84 inset; box-shadow:0 0 1px #000,0 1px 1px #5d6d84 inset;
+		-moz-box-shadow: 0 0 1px #000, 0 1px 1px #4d5d74 inset;
+		-webkit-box-shadow: 0 0 1px #000, 0 1px 1px #4d5d74 inset;
+		box-shadow: 0 0 1px #000, 0 1px 1px #4d5d74 inset;
 	}
 	.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active {
 		border:1px solid #1d2d44;
 		background:#1d2d44; color:#bbb; text-shadow:#000 0 -1px 0;
-		-moz-box-shadow:0 1px 1px #fff,0 1px 1px 0 rgba(0,0,0,.2) inset; -webkit-box-shadow:0 1px 1px #fff,0 1px 1px 0 rgba(0,0,0,.2) inset; box-shadow:0 1px 1px #fff,0 1px 1px 0 rgba(0,0,0,.2) inset;
+		-moz-box-shadow: 0 1px 1px #3d4d64, 0 1px 1px 0 rgba(0,0,0,.2) inset;
+		-webkit-box-shadow: 0 1px 1px #3d4d64, 0 1px 1px 0 rgba(0,0,0,.2) inset;
+		box-shadow: 0 1px 1px #3d4d64, 0 1px 1px 0 rgba(0,0,0,.2) inset;
 	}
 
 
