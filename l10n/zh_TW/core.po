@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-15 02:25+0200\n"
-"PO-Revision-Date: 2013-07-15 00:22+0000\n"
+"POT-Creation-Date: 2013-07-22 01:54-0400\n"
+"PO-Revision-Date: 2013-07-22 05:24+0000\n"
 "Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -143,55 +143,55 @@ msgstr "十二月"
 msgid "Settings"
 msgstr "設定"
 
-#: js/js.js:725
+#: js/js.js:715
 msgid "seconds ago"
 msgstr "幾秒前"
 
-#: js/js.js:726
+#: js/js.js:716
 msgid "1 minute ago"
 msgstr "1 分鐘前"
 
-#: js/js.js:727
+#: js/js.js:717
 msgid "{minutes} minutes ago"
 msgstr "{minutes} 分鐘前"
 
-#: js/js.js:728
+#: js/js.js:718
 msgid "1 hour ago"
 msgstr "1 小時之前"
 
-#: js/js.js:729
+#: js/js.js:719
 msgid "{hours} hours ago"
 msgstr "{hours} 小時前"
 
-#: js/js.js:730
+#: js/js.js:720
 msgid "today"
 msgstr "今天"
 
-#: js/js.js:731
+#: js/js.js:721
 msgid "yesterday"
 msgstr "昨天"
 
-#: js/js.js:732
+#: js/js.js:722
 msgid "{days} days ago"
 msgstr "{days} 天前"
 
-#: js/js.js:733
+#: js/js.js:723
 msgid "last month"
 msgstr "上個月"
 
-#: js/js.js:734
+#: js/js.js:724
 msgid "{months} months ago"
 msgstr "{months} 個月前"
 
-#: js/js.js:735
+#: js/js.js:725
 msgid "months ago"
 msgstr "幾個月前"
 
-#: js/js.js:736
+#: js/js.js:726
 msgid "last year"
 msgstr "去年"
 
-#: js/js.js:737
+#: js/js.js:727
 msgid "years ago"
 msgstr "幾年前"
 
@@ -400,7 +400,7 @@ msgstr "請求失敗！<br>您確定填入的電子郵件地址或是帳號名�
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
-msgstr "重設密碼的連結將會寄到你的電子郵件信箱。"
+msgstr "重設密碼的連結將會寄到您的電子郵件信箱。"
 
 #: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
 #: templates/login.php:19

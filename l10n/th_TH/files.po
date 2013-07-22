@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-15 02:24+0200\n"
-"PO-Revision-Date: 2013-07-14 23:25+0000\n"
+"POT-Creation-Date: 2013-07-22 01:54-0400\n"
+"PO-Revision-Date: 2013-07-22 05:55+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -128,43 +128,43 @@ msgstr "ลบ"
 msgid "Rename"
 msgstr "เปลี่ยนชื่อ"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:466
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
 msgid "Pending"
 msgstr "อยู่ระหว่างดำเนินการ"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "{new_name} already exists"
 msgstr "{new_name} มีอยู่แล้วในระบบ"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "replace"
 msgstr "แทนที่"
 
-#: js/filelist.js:304
+#: js/filelist.js:303
 msgid "suggest name"
 msgstr "แนะนำชื่อ"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "cancel"
 msgstr "ยกเลิก"
 
-#: js/filelist.js:351
+#: js/filelist.js:350
 msgid "replaced {new_name} with {old_name}"
 msgstr "แทนที่ {new_name} ด้วย {old_name} แล้ว"
 
-#: js/filelist.js:351
+#: js/filelist.js:350
 msgid "undo"
 msgstr "เลิกทำ"
 
-#: js/filelist.js:376
+#: js/filelist.js:375
 msgid "perform delete operation"
 msgstr "ดำเนินการตามคำสั่งลบ"
 
-#: js/filelist.js:458
+#: js/filelist.js:457
 msgid "1 file uploading"
 msgstr "กำลังอัพโหลดไฟล์ 1 ไฟล์"
 
-#: js/filelist.js:461 js/filelist.js:519
+#: js/filelist.js:460 js/filelist.js:518
 msgid "files uploading"
 msgstr "การอัพโหลดไฟล์"
 
@@ -204,7 +204,7 @@ msgstr "ชื่อโฟลเดอร์ไม่ถูกต้อง ก�
 msgid "Name"
 msgstr "ชื่อ"
 
-#: js/files.js:745
+#: js/files.js:745 templates/index.php:80
 msgid "Size"
 msgstr "ขนาด"
 
@@ -212,19 +212,19 @@ msgstr "ขนาด"
 msgid "Modified"
 msgstr "แก้ไขแล้ว"
 
-#: js/files.js:765
+#: js/files.js:763
 msgid "1 folder"
 msgstr "1 โฟลเดอร์"
 
-#: js/files.js:767
+#: js/files.js:765
 msgid "{count} folders"
 msgstr "{count} โฟลเดอร์"
 
-#: js/files.js:775
+#: js/files.js:773
 msgid "1 file"
 msgstr "1 ไฟล์"
 
-#: js/files.js:777
+#: js/files.js:775
 msgid "{count} files"
 msgstr "{count} ไฟล์"
 
@@ -305,10 +305,6 @@ msgstr "ยังไม่มีไฟล์ใดๆอยู่ที่นี
 msgid "Download"
 msgstr "ดาวน์โหลด"
 
-#: templates/index.php:80
-msgid "Size (MB)"
-msgstr ""
-
 #: templates/index.php:87 templates/index.php:88
 msgid "Unshare"
 msgstr "ยกเลิกการแชร์"
@@ -331,19 +327,19 @@ msgstr "ไฟล์กำลังอยู่ระหว่างการส
 msgid "Current scanning"
 msgstr "ไฟล์ที่กำลังสแกนอยู่ขณะนี้"
 
-#: templates/part.list.php:76
+#: templates/part.list.php:74
 msgid "directory"
 msgstr ""
 
-#: templates/part.list.php:78
+#: templates/part.list.php:76
 msgid "directories"
 msgstr ""
 
-#: templates/part.list.php:87
+#: templates/part.list.php:85
 msgid "file"
 msgstr "ไฟล์"
 
-#: templates/part.list.php:89
+#: templates/part.list.php:87
 msgid "files"
 msgstr "ไฟล์"
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-15 02:25+0200\n"
-"PO-Revision-Date: 2013-07-15 00:22+0000\n"
+"POT-Creation-Date: 2013-07-22 01:54-0400\n"
+"PO-Revision-Date: 2013-07-22 05:25+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -189,55 +189,55 @@ msgstr "თქვენი web სერვერი არ არის კო�
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "გთხოვთ გადაათვალიეროთ <a href='%s'>ინსტალაციის გზამკვლევი</a>."
 
-#: template.php:113
+#: template.php:95
 msgid "seconds ago"
 msgstr "წამის წინ"
 
-#: template.php:114
+#: template.php:96
 msgid "1 minute ago"
 msgstr "1 წუთის წინ"
 
-#: template.php:115
+#: template.php:97
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d წუთის წინ"
 
-#: template.php:116
+#: template.php:98
 msgid "1 hour ago"
 msgstr "1 საათის წინ"
 
-#: template.php:117
+#: template.php:99
 #, php-format
 msgid "%d hours ago"
 msgstr "%d საათის წინ"
 
-#: template.php:118
+#: template.php:100
 msgid "today"
 msgstr "დღეს"
 
-#: template.php:119
+#: template.php:101
 msgid "yesterday"
 msgstr "გუშინ"
 
-#: template.php:120
+#: template.php:102
 #, php-format
 msgid "%d days ago"
 msgstr "%d  დღის წინ"
 
-#: template.php:121
+#: template.php:103
 msgid "last month"
 msgstr "გასულ თვეში"
 
-#: template.php:122
+#: template.php:104
 #, php-format
 msgid "%d months ago"
 msgstr "%d თვის წინ"
 
-#: template.php:123
+#: template.php:105
 msgid "last year"
 msgstr "ბოლო წელს"
 
-#: template.php:124
+#: template.php:106
 msgid "years ago"
 msgstr "წლის წინ"
 

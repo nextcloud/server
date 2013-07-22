@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-11 02:16+0200\n"
-"PO-Revision-Date: 2013-07-11 00:18+0000\n"
+"POT-Creation-Date: 2013-07-22 01:54-0400\n"
+"PO-Revision-Date: 2013-07-22 05:55+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Nepali (http://www.transifex.com/projects/p/owncloud/language/ne/)\n"
 "MIME-Version: 1.0\n"
@@ -128,43 +128,43 @@ msgstr ""
 msgid "Rename"
 msgstr ""
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:464
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
 msgid "Pending"
 msgstr ""
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:303 js/filelist.js:305
 msgid "{new_name} already exists"
 msgstr ""
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:303 js/filelist.js:305
 msgid "replace"
 msgstr ""
 
-#: js/filelist.js:302
+#: js/filelist.js:303
 msgid "suggest name"
 msgstr ""
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:303 js/filelist.js:305
 msgid "cancel"
 msgstr ""
 
-#: js/filelist.js:349
+#: js/filelist.js:350
 msgid "replaced {new_name} with {old_name}"
 msgstr ""
 
-#: js/filelist.js:349
+#: js/filelist.js:350
 msgid "undo"
 msgstr ""
 
-#: js/filelist.js:374
+#: js/filelist.js:375
 msgid "perform delete operation"
 msgstr ""
 
-#: js/filelist.js:456
+#: js/filelist.js:457
 msgid "1 file uploading"
 msgstr ""
 
-#: js/filelist.js:459 js/filelist.js:517
+#: js/filelist.js:460 js/filelist.js:518
 msgid "files uploading"
 msgstr ""
 
@@ -204,7 +204,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: js/files.js:745
+#: js/files.js:745 templates/index.php:80
 msgid "Size"
 msgstr ""
 
@@ -212,19 +212,19 @@ msgstr ""
 msgid "Modified"
 msgstr ""
 
-#: js/files.js:765
+#: js/files.js:763
 msgid "1 folder"
 msgstr ""
 
-#: js/files.js:767
+#: js/files.js:765
 msgid "{count} folders"
 msgstr ""
 
-#: js/files.js:775
+#: js/files.js:773
 msgid "1 file"
 msgstr ""
 
-#: js/files.js:777
+#: js/files.js:775
 msgid "{count} files"
 msgstr ""
 
@@ -305,10 +305,6 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: templates/index.php:80
-msgid "Size (MB)"
-msgstr ""
-
 #: templates/index.php:87 templates/index.php:88
 msgid "Unshare"
 msgstr ""
@@ -331,19 +327,19 @@ msgstr ""
 msgid "Current scanning"
 msgstr ""
 
-#: templates/part.list.php:76
+#: templates/part.list.php:74
 msgid "directory"
 msgstr ""
 
-#: templates/part.list.php:78
+#: templates/part.list.php:76
 msgid "directories"
 msgstr ""
 
-#: templates/part.list.php:87
+#: templates/part.list.php:85
 msgid "file"
 msgstr ""
 
-#: templates/part.list.php:89
+#: templates/part.list.php:87
 msgid "files"
 msgstr ""
 

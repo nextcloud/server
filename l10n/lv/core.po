@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-15 02:25+0200\n"
-"PO-Revision-Date: 2013-07-15 00:22+0000\n"
+"POT-Creation-Date: 2013-07-22 01:54-0400\n"
+"PO-Revision-Date: 2013-07-22 05:24+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -141,55 +141,55 @@ msgstr "Decembris"
 msgid "Settings"
 msgstr "Iestatījumi"
 
-#: js/js.js:725
+#: js/js.js:715
 msgid "seconds ago"
 msgstr "sekundes atpakaļ"
 
-#: js/js.js:726
+#: js/js.js:716
 msgid "1 minute ago"
 msgstr "pirms 1 minūtes"
 
-#: js/js.js:727
+#: js/js.js:717
 msgid "{minutes} minutes ago"
 msgstr "pirms {minutes} minūtēm"
 
-#: js/js.js:728
+#: js/js.js:718
 msgid "1 hour ago"
 msgstr "pirms 1 stundas"
 
-#: js/js.js:729
+#: js/js.js:719
 msgid "{hours} hours ago"
 msgstr "pirms {hours} stundām"
 
-#: js/js.js:730
+#: js/js.js:720
 msgid "today"
 msgstr "šodien"
 
-#: js/js.js:731
+#: js/js.js:721
 msgid "yesterday"
 msgstr "vakar"
 
-#: js/js.js:732
+#: js/js.js:722
 msgid "{days} days ago"
 msgstr "pirms {days} dienām"
 
-#: js/js.js:733
+#: js/js.js:723
 msgid "last month"
 msgstr "pagājušajā mēnesī"
 
-#: js/js.js:734
+#: js/js.js:724
 msgid "{months} months ago"
 msgstr "pirms {months} mēnešiem"
 
-#: js/js.js:735
+#: js/js.js:725
 msgid "months ago"
 msgstr "mēnešus atpakaļ"
 
-#: js/js.js:736
+#: js/js.js:726
 msgid "last year"
 msgstr "gājušajā gadā"
 
-#: js/js.js:737
+#: js/js.js:727
 msgid "years ago"
 msgstr "gadus atpakaļ"
 

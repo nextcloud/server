@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-15 02:25+0200\n"
-"PO-Revision-Date: 2013-07-14 23:25+0000\n"
+"POT-Creation-Date: 2013-07-22 01:54-0400\n"
+"PO-Revision-Date: 2013-07-22 05:25+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -389,7 +389,7 @@ msgstr "Kaupallinen tuki"
 
 #: templates/personal.php:10
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "Aseta sovellukset synkronoimaan tiedostosi"
 
 #: templates/personal.php:21
 msgid "Show First Run Wizard again"

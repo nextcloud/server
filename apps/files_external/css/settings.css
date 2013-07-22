@@ -1,7 +1,21 @@
-td.status>span { display:inline-block; height:16px; width:16px; }
-span.success { background-image: url('../img/success.png'); background-repeat:no-repeat; }
-span.error { background-image: url('../img/error.png'); background-repeat:no-repeat; }
-span.waiting { background-image: url('../img/waiting.png'); background-repeat:no-repeat; }
+td.status > span {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	vertical-align: text-bottom;
+}
+
+span.success {
+	background: #37ce02;
+	border-radius: 8px;
+}
+span.error {
+	background: #ce3702;
+}
+span.waiting {
+	background: none;
+}
+
 td.mountPoint, td.backend { width:10em; }
 td.remove>img { visibility:hidden; padding-top:0.8em; }
 tr:hover>td.remove>img { visibility:visible; cursor:pointer; }
