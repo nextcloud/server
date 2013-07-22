@@ -331,24 +331,38 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 }
 #body-login form #selectDbType label.ui-state-hover, #body-login form #selectDbType label.ui-state-active { color:#000; background-color:#e8e8e8; }
 
-/* Warnings, for information */
-.warning {
+
+/* Warnings and errors are the same */
+.warning, .update, .error {
 	display: block;
-	background-color: #f2dede;
-	color: #b94a48;
-	padding: 8px;
-	margin: 0 7px 5px;
-	border: 1px solid #eed3d7;
+	padding: 10px;
+	color: #dd3b3b;
+	background-color: rgba(0,0,0,.3);
+	text-align: center;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
 	border-radius: 5px;
+	cursor: default;
 }
 .warning legend,
-.warning a {
-	color: #b94a48 !important;
+.warning a,
+.error a {
+	color: #dd3b3b !important;
 	font-weight: bold;
 }
-/* Errors, for grave states */
-li.update, li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; background:#ffe .8em .8em no-repeat;  border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; cursor:default; }
-.error { color:#FF3B3B; }
+/* Fixes for log in page, TODO should be removed some time */
+#body-login .update,
+#body-login .error {
+	margin: 35px auto;
+}
+#body-login .warning {
+	margin: 0 7px 5px;
+	font-weight: bold;
+}
+#body-login a.warning {
+	cursor: pointer;
+}
+
 
 /* Alternative Logins */
 #alternative-logins legend { margin-bottom:10px; }
@@ -376,6 +390,7 @@ li.update, li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; bac
 #body-login .wrapper {
 	min-height: 100%;
 	margin: 0 auto -50px;
+	width: 300px;
 }
 #body-login footer, #body-login .push {
 	height: 50px;
@@ -495,7 +510,6 @@ div.jp-play-bar, div.jp-seek-bar { padding:0; }
 .pager li { display:inline-block; }
 
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { overflow:hidden; text-overflow:ellipsis; }
-.hint { background-image:url('../img/actions/info.png'); background-repeat:no-repeat; color:#777; padding-left:25px; background-position:0 0.3em;}
 .separator { display:inline; border-left:1px solid #d3d3d3; border-right:1px solid #fff; height:10px; width:0px; margin:4px; }
 
 a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;padding-top:0px;padding-bottom:2px; text-decoration:none; margin-top:5px }
