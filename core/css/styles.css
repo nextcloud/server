@@ -278,18 +278,48 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 #body-login .success { background:#d7fed7; border:1px solid #0f0; width: 35%; margin: 30px auto; padding:1em; text-align: center;}
 
 /* Show password toggle */
-#show, #dbpassword { position:absolute; right:1em; top:.8em; float:right; }
-#show, #dbpassword, #personal-show { display:none; }
-#show + label, #dbpassword + label { right:1em; top:1.25em!important; }
-#show:checked + label, #dbpassword:checked + label, #personal-show:checked + label { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; filter:alpha(opacity=80); opacity:.8; }
-#show + label, #dbpassword + label, #personal-show + label {
-	position:absolute!important; height:14px; width:24px;
-	background-image:url("../img/actions/toggle.png"); background-repeat:no-repeat;
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"; filter:alpha(opacity=30); opacity:.3;
+#show, #dbpassword {
+	position: absolute;
+	right: 1em;
+	top: .8em;
+	float: right;
 }
-#pass2, input[name="personal-password-clone"] { padding:0.6em 2.5em 0.4em 0.4em; width:8em;}
-#personal-show + label { margin-top:1em; margin-left:-3em; }
-#passwordbutton { margin-left:0.5em; }
+#show, #dbpassword, #personal-show {
+	display: none;
+}
+#show + label, #dbpassword + label {
+	right: 21px;
+	top: 15px !important;
+	margin: -14px !important;
+	padding: 14px !important;
+}
+#show:checked + label, #dbpassword:checked + label, #personal-show:checked + label {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+	filter: alpha(opacity=80);
+	opacity: .8;
+}
+#show + label, #dbpassword + label, #personal-show + label {
+	position: absolute !important;
+	height: 14px;
+	width: 24px;
+	background-image: url("../img/actions/toggle.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+	filter: alpha(opacity=30);
+	opacity: .3;
+}
+#pass2, input[name="personal-password-clone"] {
+	padding: .6em 2.5em .4em .4em;
+	width: 8em;
+}
+#personal-show + label {
+	margin-top: 1em;
+	margin-left: -3em;
+}
+#passwordbutton {
+	margin-left: .5em;
+}
 
 /* Database selector */
 #body-login form #selectDbType { text-align:center; }
