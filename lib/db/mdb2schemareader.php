@@ -171,7 +171,7 @@ class OC_DB_MDB2SchemaReader {
 					$type = 'bigint';
 				}
 			}
-			if ($type == 'boolean' && isset($options['default'])){
+			if ($type === 'boolean' && isset($options['default'])){
 				$options['default'] = self::asBool($options['default']);
 			}
 			if (!empty($options['autoincrement'])
