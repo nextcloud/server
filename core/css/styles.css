@@ -210,18 +210,41 @@ input[name="adminpass-clone"] { padding-left:1.8em; width:11.7em !important; }
 
 /* Nicely grouping input field sets */
 .grouptop input {
-	margin-bottom:0;
-	border-bottom:0; border-bottom-left-radius:0; border-bottom-right-radius:0;
+	margin-bottom: 0;
+	border-bottom: 0;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
 }
 .groupmiddle input {
-	margin-top:0; margin-bottom:0;
-	border-top:0; border-bottom:0; border-radius:0;
-	box-shadow:0 1px 1px #fff,0 1px 0 #ddd inset;
+	margin-top: 0;
+	margin-bottom: 0;
+	border-top: 0;
+	border-bottom: 0;
+	border-radius: 0;
+	box-shadow: 0 1px 1px #fff, 0 1px 0 #ddd inset;
 }
 .groupbottom input {
-	margin-top:0;
-	border-top:0; border-top-right-radius:0; border-top-left-radius:0;
-	box-shadow:0 1px 1px #fff,0 1px 0 #ddd inset;
+	margin-top: 0;
+	border-top: 0;
+	border-top-right-radius: 0;
+	border-top-left-radius: 0;
+	box-shadow: 0 1px 1px #fff, 0 1px 0 #ddd inset;
+}
+
+/* Adjustments for new full-color background on log in */
+#body-login .grouptop input {
+	-moz-box-shadow: 0 -1px 0 #3d4d65, 0 1px 0 #1d2d44 inset;
+	-webkit-box-shadow: 0 -1px 0 #3d4d65, 0 1px 0 #1d2d44 inset;
+	box-shadow: 0 -1px 0 #3d4d65, 0 1px 0 #1d2d44 inset;
+	border: 1px solid #3d4d64;
+	border-bottom: 0;
+}
+#body-login .groupbottom input {
+	-moz-box-shadow: 0 1px 0 #3d4d65, 0 1px 0 #ddd inset;
+	-webkit-box-shadow: 0 1px 0 #3d4d65, 0 1px 0 #ddd inset;
+	box-shadow: 0 1px 0 #3d4d65, 0 1px 0 #ddd inset;
+	border: 1px solid #3d4d64;
+	border-top: 0;
 }
 
 /* In field labels. No, HTML placeholder does not work as well. */

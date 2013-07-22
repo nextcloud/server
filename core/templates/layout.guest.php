@@ -45,6 +45,7 @@
 		<footer>
 			<p class="info">
 				<?php print_unescaped($defaults->getLongFooter()); ?>
-			</p></footer>
+			</p>
+		</footer>
 	</body>
 </html>
