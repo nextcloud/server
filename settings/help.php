@@ -13,7 +13,7 @@ OC_Util::addStyle( "settings", "settings" );
 OC_App::setActiveNavigationEntry( "help" );
 
 
-if(isset($_GET['mode']) and $_GET['mode']=='admin') {
+if(isset($_GET['mode']) and $_GET['mode'] === 'admin') {
 	$url=OC_Helper::linkToAbsolute( 'core', 'doc/admin' );
 	$style1='';
 	$style2=' pressed';

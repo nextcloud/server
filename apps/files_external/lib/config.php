@@ -47,9 +47,14 @@ class OC_Mount_Config {
 		$backends['\OC\Files\Storage\AmazonS3']=array(
 			'backend' => 'Amazon S3',
 			'configuration' => array(
-				'key' => 'Key',
-				'secret' => '*Secret',
-				'bucket' => 'Bucket'));
+				'key' => 'Access Key',
+				'secret' => '*Secret Key',
+				'bucket' => 'Bucket',
+				'hostname' => 'Hostname (optional)',
+				'port' => 'Port (optional)',
+				'region' => 'Region (optional)',
+				'use_ssl' => '!Enable SSL',
+				'use_path_style' => '!Enable Path Style'));
 
 		$backends['\OC\Files\Storage\Dropbox']=array(
 			'backend' => 'Dropbox',
