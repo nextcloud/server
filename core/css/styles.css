@@ -335,10 +335,10 @@ li.update, li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; bac
 #body-login input.login {
 	width: auto;
 	float: right;
-	padding: 7px 9px 6px;
+	padding: 10px 22px 9px;
 }
 #remember_login {
-	margin: .8em .2em 0 1em;
+	margin: 18px 5px 0 18px;
 	vertical-align: text-bottom;
 }
 
