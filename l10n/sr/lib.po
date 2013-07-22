@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-21 01:54-0400\n"
-"PO-Revision-Date: 2013-07-21 05:15+0000\n"
+"POT-Creation-Date: 2013-07-22 01:54-0400\n"
+"PO-Revision-Date: 2013-07-22 05:25+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -189,55 +189,55 @@ msgstr "Ваш веб сервер тренутно не подржава син
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Погледајте <a href='%s'>водиче за инсталацију</a>."
 
-#: template.php:113
+#: template.php:95
 msgid "seconds ago"
 msgstr "пре неколико секунди"
 
-#: template.php:114
+#: template.php:96
 msgid "1 minute ago"
 msgstr "пре 1 минут"
 
-#: template.php:115
+#: template.php:97
 #, php-format
 msgid "%d minutes ago"
 msgstr "пре %d минута"
 
-#: template.php:116
+#: template.php:98
 msgid "1 hour ago"
 msgstr "Пре једног сата"
 
-#: template.php:117
+#: template.php:99
 #, php-format
 msgid "%d hours ago"
 msgstr "пре %d сата/и"
 
-#: template.php:118
+#: template.php:100
 msgid "today"
 msgstr "данас"
 
-#: template.php:119
+#: template.php:101
 msgid "yesterday"
 msgstr "јуче"
 
-#: template.php:120
+#: template.php:102
 #, php-format
 msgid "%d days ago"
 msgstr "пре %d дана"
 
-#: template.php:121
+#: template.php:103
 msgid "last month"
 msgstr "прошлог месеца"
 
-#: template.php:122
+#: template.php:104
 #, php-format
 msgid "%d months ago"
 msgstr "пре %d месеца/и"
 
-#: template.php:123
+#: template.php:105
 msgid "last year"
 msgstr "прошле године"
 
-#: template.php:124
+#: template.php:106
 msgid "years ago"
 msgstr "година раније"
 

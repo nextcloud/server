@@ -60,7 +60,6 @@
 "You don’t have write permissions here." => "Tunnuksellasi ei ole kirjoitusoikeuksia tänne.",
 "Nothing in here. Upload something!" => "Täällä ei ole mitään. Lähetä tänne jotakin!",
 "Download" => "Lataa",
-"Size (MB)" => "Koko (Mt)",
 "Unshare" => "Peru jakaminen",
 "Upload too large" => "Lähetettävä tiedosto on liian suuri",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan.",
