@@ -140,11 +140,21 @@ if (!$_['internetconnectionworking']) {
 		<tr>
 			<td <?php if ($_['shareAPIEnabled'] == 'no') print_unescaped('style="display:none"');?>>
 				<input type="checkbox" name="shareapi_allow_links" id="allowLinks"
-					   value="1" <?php if ($_['allowLinks'] == 'yes') print_unescaped('checked="checked"'); ?> />
+				       value="1" <?php if ($_['allowLinks'] == 'yes') print_unescaped('checked="checked"'); ?> />
 				<label for="allowLinks"><?php p($l->t('Allow links'));?></label><br/>
 				<em><?php p($l->t('Allow users to share items to the public with links')); ?></em>
 			</td>
 		</tr>
+		<?php if (!\OCP\App::isEnabled('files_encryption')) { ?>
+		<tr>
+			<td <?php if ($_['shareAPIEnabled'] == 'no') print_unescaped('style="display:none"');?>>
+				<input type="checkbox" name="shareapi_allow_public_upload" id="allowPublicUpload"
+				       value="1" <?php if ($_['allowPublicUpload'] == 'yes') print_unescaped('checked="checked"'); ?> />
+				<label for="allowPublicUpload"><?php p($l->t('Allow public uploads'));?></label><br/>
+				<em><?php p($l->t('Allow users to enable others to upload into their publicly shared folders')); ?></em>
+			</td>
+		</tr>
+		<?php } ?>
 		<tr>
 			<td <?php if ($_['shareAPIEnabled'] == 'no') print_unescaped('style="display:none"');?>>
 				<input type="checkbox" name="shareapi_allow_resharing" id="allowResharing"
