@@ -536,8 +536,9 @@ class OC_Template{
 			if (!empty($hint)) {
 				$hint = '<pre>'.$hint.'</pre>';
 			}
-			while (method_exists($exception,'previous') && $exception = $exception->previous()) {
-				$error_msg .= '<br/>Caused by: ';
+			$l = OC_L10N::get('lib');
+			while (method_exists($exception, 'previous') && $exception = $exception->previous()) {
+				$error_msg .= '<br/>'.$l->t('Caused by:').' ';
 				if ($exception->getCode()) {
 					$error_msg .= '['.$exception->getCode().'] ';
 				}

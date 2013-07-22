@@ -840,7 +840,8 @@ class OC_App{
 				}
 				catch (Exception $e) {
 					OC_Hook::emit('update', 'failure', 'Failed to update '.$info['name'].' app: '.$e->getMessage());
-					throw new RuntimeException('Failed to upgrade "'.$app.'". Exception="'.$e->getMessage().'"');
+					$l = OC_L10N::get('lib');
+					throw new RuntimeException($l->t('Failed to upgrade "%s".', array($app)), 0, $e);
 				}
 				OC_Appconfig::setValue($app, 'installed_version', OC_App::getAppVersion($app));
 			}

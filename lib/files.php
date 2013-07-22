@@ -62,7 +62,8 @@ class OC_Files {
 			$zip = new ZipArchive();
 			$filename = OC_Helper::tmpFile('.zip');
 			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
-				throw new Exception("cannot open '$filename'\n");
+				$l = OC_L10N::get('lib');
+				throw new Exception($l->t('cannot open "%s"', array($filename)));
 			}
 			foreach ($files as $file) {
 				$file = $dir . '/' . $file;
@@ -93,7 +94,8 @@ class OC_Files {
 			$zip = new ZipArchive();
 			$filename = OC_Helper::tmpFile('.zip');
 			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
-				throw new Exception("cannot open '$filename'\n");
+				$l = OC_L10N::get('lib');
+				throw new Exception($l->t('cannot open "%s"', array($filename)));
 			}
 			$file = $dir . '/' . $files;
 			self::zipAddDir($file, $zip);
@@ -249,8 +251,8 @@ class OC_Files {
 				header("HTTP/1.0 409 Conflict");
 				OC_Template::printErrorPage(
 						$l->t('Selected files too large to generate zip file.'),
-						'Download the files in smaller chunks, seperately'
-						.' or kindly ask your administrator.<br/><a href="javascript:history.back()">'
+						$l->t('Download the files in smaller chunks, seperately or kindly ask your administrator.')
+						.'<br/><a href="javascript:history.back()">'
 						. $l->t('Back to Files') . '</a>'
 				);
 				exit;
