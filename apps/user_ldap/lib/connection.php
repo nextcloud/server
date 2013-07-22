@@ -416,7 +416,11 @@ class Connection {
 				continue;
 			} else if((strpos($classKey, 'ldapBase') !== false)
 					|| (strpos($classKey, 'ldapAttributes') !== false)) {
-				$config[$dbKey] = implode("\n", $this->config[$classKey]);
+				if(!empty($this->config[$classKey])) {
+					$config[$dbKey] = implode("\n", $this->config[$classKey]);
+				} else {
+					$config[$dbKey] = '';
+				}
 				continue;
 			}
 			$config[$dbKey] = $this->config[$classKey];
