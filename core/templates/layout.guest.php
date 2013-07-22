@@ -35,12 +35,16 @@
 	</head>
 
 	<body id="body-login">
-		<header><div id="header">
-			<img src="<?php print_unescaped(image_path('', 'logo.svg')); ?>" class="svg" alt="ownCloud" />
-			<div id="logo-claim" style="display:none;"><?php p($defaults->getLogoClaim()); ?></div>
-		</div></header>
+		<div class="wrapper"><!-- for sticky footer -->
+			<header><div id="header">
+				<img src="<?php print_unescaped(image_path('', 'logo.svg')); ?>" class="svg" alt="ownCloud" />
+				<div id="logo-claim" style="display:none;"><?php p($defaults->getLogoClaim()); ?></div>
+			</div></header>
 
-		<?php print_unescaped($_['content']); ?>
+			<?php print_unescaped($_['content']); ?>
+
+			<div class="push"></div><!-- for sticky footer -->
+		</div>
 
 		<footer>
 			<p class="info">

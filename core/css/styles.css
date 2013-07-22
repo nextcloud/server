@@ -3,7 +3,8 @@
  See the COPYING-README file. */
 
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section { margin:0; padding:0; border:0; outline:0; font-weight:inherit; font-size:100%; font-family:inherit; vertical-align:baseline; cursor:default; }
-html, body { min-height:100%; overflow:auto; }
+html { height:100%; }
+body { height:100%; background-attachment:fixed !important; }
 article, aside, dialog, figure, footer, header, hgroup, nav, section { display:block; }
 body { line-height:1.5; }
 table { border-collapse:separate; border-spacing:0; white-space:nowrap; }
@@ -171,11 +172,14 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 
 
 /* LOG IN & INSTALLATION ------------------------------------------------------------ */
+#body-login #header {
+	padding-top: 100px;
+}
 #body-login div.buttons { text-align:center; }
 #body-login p.info {
 	width: 22em;
 	text-align: center;
-	margin: 55px auto;
+	margin: 0 auto;
 	color: #030303;
 	text-shadow: #3d4d64 0 1px 0;
 }
@@ -185,9 +189,6 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 }
 #body-login #submit.login { margin-right:7px; } /* quick fix for log in button not being aligned with input fields, should be properly fixed by input field width later */
 
-#body-login {
-	margin-top: 100px;
-}
 #body-login form { width:22em; margin:2em auto 2em; padding:0; }
 #body-login form fieldset {
 	margin-bottom: 20px;
@@ -318,6 +319,17 @@ li.update, li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; bac
 /* Alternative Logins */
 #alternative-logins legend { margin-bottom:10px; }
 #alternative-logins li { height:40px; display:inline-block; white-space:nowrap; }
+
+/* Sticky footer */
+#body-login .wrapper {
+	min-height: 100%;
+	margin: 0 auto -50px;
+}
+#body-login footer, #body-login .push {
+	height: 50px;
+}
+
+
 
 
 /* NAVIGATION ------------------------------------------------------------- */
