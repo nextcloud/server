@@ -92,6 +92,7 @@ OC.Share={
 			}
 		}
 		if (shares) {
+			OC.Share.statuses[itemSource] = OC.Share.statuses[itemSource] || {};
 			OC.Share.statuses[itemSource]['link'] = link;
 		} else {
 			delete OC.Share.statuses[itemSource];
