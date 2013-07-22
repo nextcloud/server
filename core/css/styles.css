@@ -23,7 +23,6 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 
 #body-login {
 	text-align:center;
-	-moz-box-shadow:0 0 1em rgba(0, 0, 0, .5); -webkit-box-shadow:0 0 1em rgba(0, 0, 0, .5); box-shadow:0 0 1em rgba(0, 0, 0, .5);
 	background:#1d2d44; /* Old browsers */
 	background:-moz-linear-gradient(top, #35537a 0%, #1d2d44 100%); /* FF3.6+ */
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#35537a), color-stop(100%,#1d2d44)); /* Chrome,Safari4+ */
@@ -168,23 +167,36 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 
 
 /* LOG IN & INSTALLATION ------------------------------------------------------------ */
-#body-login { background:#ddd; }
 #body-login div.buttons { text-align:center; }
-#body-login p.info { width:22em; text-align:center; margin:2em auto; color:#777; text-shadow:#fff 0 1px 0; }
-#body-login p.info a { font-weight:bold; color:#777; }
+#body-login p.info {
+	width: 22em;
+	text-align: center;
+	margin: 55px auto;
+	color: #030303;
+	text-shadow: #3d4d64 0 1px 0;
+}
+#body-login p.info a {
+	font-weight: bold;
+	color: #070707;
+}
 #body-login #submit.login { margin-right:7px; } /* quick fix for log in button not being aligned with input fields, should be properly fixed by input field width later */
 
-#login { min-height:30em; }
-#login form { width:22em; margin:2em auto 2em; padding:0; }
-#login form fieldset { margin-bottom:20px; }
-#login form #adminaccount { margin-bottom:5px; }
-#login form fieldset legend, #datadirContent label {
+#body-login {
+	margin-top: 100px;
+}
+#body-login form { width:22em; margin:2em auto 2em; padding:0; }
+#body-login form fieldset {
+	margin-bottom: 20px;
+	text-align: left;
+}
+#body-login form #adminaccount { margin-bottom:5px; }
+#body-login form fieldset legend, #datadirContent label {
 	width:100%; text-align:center;
 	font-weight:bold; color:#999; text-shadow:0 1px 0 white;
 }
-#login form fieldset legend a { color:#999; }
-#login #datadirContent label { display:block; margin:0; color:#999;  }
-#login form #datadirField legend { margin-bottom:15px; }
+#body-login form fieldset legend a { color:#999; }
+#body-login #datadirContent label { display:block; margin:0; color:#999;  }
+#body-login form #datadirField legend { margin-bottom:15px; }
 
 /* Icons for username and password fields to better recognize them */
 #adminlogin, #adminpass, #user, #password { width:11.7em!important; padding-left:1.8em; }
@@ -213,19 +225,25 @@ input[name="adminpass-clone"] { padding-left:1.8em; width:11.7em !important; }
 }
 
 /* In field labels. No, HTML placeholder does not work as well. */
-#login form label { color:#666; }
-#login .groupmiddle label, #login .groupbottom label { top:.65em; }
+#body-login form label { color:#666; }
+#body-login .groupmiddle label, #body-login .groupbottom label { top:.65em; }
 p.infield { position:relative; }
 label.infield { cursor:text !important; top:1.05em; left:.85em; }
-#login form label.infield { /* labels are ellipsized when too long, keep them short */
+#body-login form label.infield { /* labels are ellipsized when too long, keep them short */
 	position:absolute; width:90%; padding-left:1.4em;
 	font-size:19px; color:#aaa;
 	white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
-#login #databaseField .infield { padding-left:0; }
-#login form input[type="checkbox"]+label { position:relative; margin:0; font-size:1em; text-shadow:#fff 0 1px 0; }
-#login form .errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 2em; padding:1em; }
-#login .success { background:#d7fed7; border:1px solid #0f0; width: 35%; margin: 30px auto; padding:1em; text-align: center;}
+#body-login #databaseField .infield { padding-left:0; }
+#body-login form input[type="checkbox"]+label {
+	position: relative;
+	margin: 0;
+	font-size: 1em;
+	color: #030303;
+	text-shadow: #3d4d64 0 1px 0;
+}
+#body-login form .errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 2em; padding:1em; }
+#body-login .success { background:#d7fed7; border:1px solid #0f0; width: 35%; margin: 30px auto; padding:1em; text-align: center;}
 
 /* Show password toggle */
 #show, #dbpassword { position:absolute; right:1em; top:.8em; float:right; }
@@ -242,14 +260,14 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 #passwordbutton { margin-left:0.5em; }
 
 /* Database selector */
-#login form #selectDbType { text-align:center; }
-#login form #selectDbType label {
+#body-login form #selectDbType { text-align:center; }
+#body-login form #selectDbType label {
 	position:static; margin:0 -3px 5px; padding:.4em;
 	font-size:12px; font-weight:bold; background:#f8f8f8; color:#888; cursor:pointer;
 	border:1px solid #ddd; text-shadow:#eee 0 1px 0;
 	-moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset;
 }
-#login form #selectDbType label.ui-state-hover, #login form #selectDbType label.ui-state-active { color:#000; background-color:#e8e8e8; }
+#body-login form #selectDbType label.ui-state-hover, #body-login form #selectDbType label.ui-state-active { color:#000; background-color:#e8e8e8; }
 
 /* Warnings, for information */
 .warning {
