@@ -61,7 +61,7 @@
 	<div id="emptyfolder"><?php p($l->t('Nothing in here. Upload something!'))?></div>
 <?php endif; ?>
 
-<table id="filestable">
+<table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>">
 	<thead>
 		<tr>
 			<th id='headerName'>
