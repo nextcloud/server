@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-18 01:54-0400\n"
-"PO-Revision-Date: 2013-07-18 05:15+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Burmese (Myanmar) (http://www.transifex.com/projects/p/owncloud/language/my_MM/)\n"
 "MIME-Version: 1.0\n"
@@ -189,55 +189,55 @@ msgstr ""
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""
 
-#: template.php:113
+#: template.php:95
 msgid "seconds ago"
 msgstr "စက္ကန့်အနည်းငယ်က"
 
-#: template.php:114
+#: template.php:96
 msgid "1 minute ago"
 msgstr "၁ မိနစ်အရင်က"
 
-#: template.php:115
+#: template.php:97
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d မိနစ်အရင်က"
 
-#: template.php:116
+#: template.php:98
 msgid "1 hour ago"
 msgstr "၁ နာရီ အရင်က"
 
-#: template.php:117
+#: template.php:99
 #, php-format
 msgid "%d hours ago"
 msgstr "%d နာရီအရင်က"
 
-#: template.php:118
+#: template.php:100
 msgid "today"
 msgstr "ယနေ့"
 
-#: template.php:119
+#: template.php:101
 msgid "yesterday"
 msgstr "မနေ့က"
 
-#: template.php:120
+#: template.php:102
 #, php-format
 msgid "%d days ago"
 msgstr "%d ရက် အရင်က"
 
-#: template.php:121
+#: template.php:103
 msgid "last month"
 msgstr "ပြီးခဲ့သောလ"
 
-#: template.php:122
+#: template.php:104
 #, php-format
 msgid "%d months ago"
 msgstr "%d လအရင်က"
 
-#: template.php:123
+#: template.php:105
 msgid "last year"
 msgstr "မနှစ်က"
 
-#: template.php:124
+#: template.php:106
 msgid "years ago"
 msgstr "နှစ် အရင်က"
 

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-18 01:54-0400\n"
-"PO-Revision-Date: 2013-07-18 05:15+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -129,43 +129,43 @@ msgstr "Ištrinti"
 msgid "Rename"
 msgstr "Pervadinti"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:466
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
 msgid "Pending"
 msgstr "Laukiantis"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "{new_name} already exists"
 msgstr "{new_name} jau egzistuoja"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "replace"
 msgstr "pakeisti"
 
-#: js/filelist.js:304
+#: js/filelist.js:303
 msgid "suggest name"
 msgstr "pasiūlyti pavadinimą"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "cancel"
 msgstr "atšaukti"
 
-#: js/filelist.js:351
+#: js/filelist.js:350
 msgid "replaced {new_name} with {old_name}"
 msgstr "pakeiskite {new_name} į {old_name}"
 
-#: js/filelist.js:351
+#: js/filelist.js:350
 msgid "undo"
 msgstr "anuliuoti"
 
-#: js/filelist.js:376
+#: js/filelist.js:375
 msgid "perform delete operation"
 msgstr "ištrinti"
 
-#: js/filelist.js:458
+#: js/filelist.js:457
 msgid "1 file uploading"
 msgstr "įkeliamas 1 failas"
 
-#: js/filelist.js:461 js/filelist.js:519
+#: js/filelist.js:460 js/filelist.js:518
 msgid "files uploading"
 msgstr "įkeliami failai"
 
@@ -205,7 +205,7 @@ msgstr "Negalimas aplanko pavadinimas. 'Shared' pavadinimas yra rezervuotas ownC
 msgid "Name"
 msgstr "Pavadinimas"
 
-#: js/files.js:745
+#: js/files.js:745 templates/index.php:80
 msgid "Size"
 msgstr "Dydis"
 
@@ -213,19 +213,19 @@ msgstr "Dydis"
 msgid "Modified"
 msgstr "Pakeista"
 
-#: js/files.js:765
+#: js/files.js:763
 msgid "1 folder"
 msgstr "1 aplankalas"
 
-#: js/files.js:767
+#: js/files.js:765
 msgid "{count} folders"
 msgstr "{count} aplankalai"
 
-#: js/files.js:775
+#: js/files.js:773
 msgid "1 file"
 msgstr "1 failas"
 
-#: js/files.js:777
+#: js/files.js:775
 msgid "{count} files"
 msgstr "{count} failai"
 
@@ -306,10 +306,6 @@ msgstr "Čia tuščia. Įkelkite ką nors!"
 msgid "Download"
 msgstr "Atsisiųsti"
 
-#: templates/index.php:80
-msgid "Size (MB)"
-msgstr ""
-
 #: templates/index.php:87 templates/index.php:88
 msgid "Unshare"
 msgstr "Nebesidalinti"
@@ -332,19 +328,19 @@ msgstr "Skenuojami failai, prašome palaukti."
 msgid "Current scanning"
 msgstr "Šiuo metu skenuojama"
 
-#: templates/part.list.php:76
+#: templates/part.list.php:74
 msgid "directory"
 msgstr ""
 
-#: templates/part.list.php:78
+#: templates/part.list.php:76
 msgid "directories"
 msgstr ""
 
-#: templates/part.list.php:87
+#: templates/part.list.php:85
 msgid "file"
 msgstr "failas"
 
-#: templates/part.list.php:89
+#: templates/part.list.php:87
 msgid "files"
 msgstr "failai"
 

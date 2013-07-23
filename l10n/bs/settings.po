@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-09 02:04+0200\n"
-"PO-Revision-Date: 2013-07-09 00:04+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:55+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bosnian (http://www.transifex.com/projects/p/owncloud/language/bs/)\n"
 "MIME-Version: 1.0\n"
@@ -273,62 +273,71 @@ msgstr ""
 msgid "Allow users to share items to the public with links"
 msgstr ""
 
-#: templates/admin.php:152
+#: templates/admin.php:153
+msgid "Allow public uploads"
+msgstr ""
+
+#: templates/admin.php:154
+msgid ""
+"Allow users to enable others to upload into their publicly shared folders"
+msgstr ""
+
+#: templates/admin.php:162
 msgid "Allow resharing"
 msgstr ""
 
-#: templates/admin.php:153
+#: templates/admin.php:163
 msgid "Allow users to share items shared with them again"
 msgstr ""
 
-#: templates/admin.php:160
+#: templates/admin.php:170
 msgid "Allow users to share with anyone"
 msgstr ""
 
-#: templates/admin.php:163
+#: templates/admin.php:173
 msgid "Allow users to only share with users in their groups"
 msgstr ""
 
-#: templates/admin.php:170
+#: templates/admin.php:180
 msgid "Security"
 msgstr ""
 
-#: templates/admin.php:183
+#: templates/admin.php:193
 msgid "Enforce HTTPS"
 msgstr ""
 
-#: templates/admin.php:184
+#: templates/admin.php:194
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
 msgstr ""
 
-#: templates/admin.php:187
+#: templates/admin.php:197
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
 msgstr ""
 
-#: templates/admin.php:197
+#: templates/admin.php:207
 msgid "Log"
 msgstr ""
 
-#: templates/admin.php:198
+#: templates/admin.php:208
 msgid "Log level"
 msgstr ""
 
-#: templates/admin.php:229
+#: templates/admin.php:239
 msgid "More"
 msgstr ""
 
-#: templates/admin.php:230
+#: templates/admin.php:240
 msgid "Less"
 msgstr ""
 
-#: templates/admin.php:236 templates/personal.php:116
+#: templates/admin.php:246 templates/personal.php:116
 msgid "Version"
 msgstr ""
 
-#: templates/admin.php:240 templates/personal.php:119
+#: templates/admin.php:250 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

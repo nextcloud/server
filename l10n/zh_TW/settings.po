@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-18 01:54-0400\n"
-"PO-Revision-Date: 2013-07-18 05:15+0000\n"
-"Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:55+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -78,12 +78,12 @@ msgstr "管理者帳號無法從管理者群組中移除"
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr "使用者加入群組%s錯誤"
+msgstr "使用者加入群組 %s 錯誤"
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr "使用者移出群組%s錯誤"
+msgstr "使用者移出群組 %s 錯誤"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
@@ -144,7 +144,7 @@ msgstr "群組"
 
 #: js/users.js:95 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
-msgstr "群組 管理員"
+msgstr "群組管理員"
 
 #: js/users.js:115 templates/users.php:164
 msgid "Delete"
@@ -156,11 +156,11 @@ msgstr "新增群組"
 
 #: js/users.js:428
 msgid "A valid username must be provided"
-msgstr "一定要提供一個有效的用戶名"
+msgstr "必須提供一個有效的用戶名"
 
 #: js/users.js:429 js/users.js:435 js/users.js:450
 msgid "Error creating user"
-msgstr "創建用戶時出現錯誤"
+msgstr "建立用戶時出現錯誤"
 
 #: js/users.js:434
 msgid "A valid password must be provided"
@@ -168,7 +168,7 @@ msgstr "一定要提供一個有效的密碼"
 
 #: personal.php:37 personal.php:38
 msgid "__language_name__"
-msgstr "__語言_名稱__"
+msgstr "__language_name__"
 
 #: templates/admin.php:17
 msgid "Security Warning"
@@ -222,7 +222,7 @@ msgstr "ownCloud 伺服器無法將系統語系設為 %s ，可能有一些檔�
 
 #: templates/admin.php:77
 msgid "Internet connection not working"
-msgstr "去連線"
+msgstr "無網際網路存取"
 
 #: templates/admin.php:80
 msgid ""
@@ -236,7 +236,7 @@ msgstr "這臺 ownCloud 伺服器沒有連接到網際網路，因此有些功�
 
 #: templates/admin.php:94
 msgid "Cron"
-msgstr "定期執行"
+msgstr "Cron"
 
 #: templates/admin.php:103
 msgid "Execute one task with each page loaded"
@@ -272,64 +272,73 @@ msgstr "允許連結"
 
 #: templates/admin.php:145
 msgid "Allow users to share items to the public with links"
-msgstr "允許使用者透過公開的連結分享檔案"
+msgstr "允許使用者以結連公開分享檔案"
 
-#: templates/admin.php:152
+#: templates/admin.php:153
+msgid "Allow public uploads"
+msgstr ""
+
+#: templates/admin.php:154
+msgid ""
+"Allow users to enable others to upload into their publicly shared folders"
+msgstr ""
+
+#: templates/admin.php:162
 msgid "Allow resharing"
 msgstr "允許轉貼分享"
 
-#: templates/admin.php:153
+#: templates/admin.php:163
 msgid "Allow users to share items shared with them again"
 msgstr "允許使用者分享其他使用者分享給他的檔案"
 
-#: templates/admin.php:160
+#: templates/admin.php:170
 msgid "Allow users to share with anyone"
 msgstr "允許使用者與任何人分享檔案"
 
-#: templates/admin.php:163
+#: templates/admin.php:173
 msgid "Allow users to only share with users in their groups"
 msgstr "僅允許使用者在群組內分享"
 
-#: templates/admin.php:170
+#: templates/admin.php:180
 msgid "Security"
 msgstr "安全性"
 
-#: templates/admin.php:183
+#: templates/admin.php:193
 msgid "Enforce HTTPS"
 msgstr "強制啟用 HTTPS"
 
-#: templates/admin.php:184
+#: templates/admin.php:194
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr "強制指定用戶端使用加密的連線連接到 ownCloud"
+msgstr "強制用戶端使用加密的連線連接到 ownCloud"
 
-#: templates/admin.php:187
+#: templates/admin.php:197
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
 msgstr "請使用 HTTPS 連線到 ownCloud，或是關閉強制使用 SSL 的選項。"
 
-#: templates/admin.php:197
+#: templates/admin.php:207
 msgid "Log"
 msgstr "紀錄"
 
-#: templates/admin.php:198
+#: templates/admin.php:208
 msgid "Log level"
 msgstr "紀錄層級"
 
-#: templates/admin.php:229
+#: templates/admin.php:239
 msgid "More"
 msgstr "更多"
 
-#: templates/admin.php:230
+#: templates/admin.php:240
 msgid "Less"
-msgstr "少"
+msgstr "更少"
 
-#: templates/admin.php:236 templates/personal.php:116
+#: templates/admin.php:246 templates/personal.php:116
 msgid "Version"
 msgstr "版本"
 
-#: templates/admin.php:240 templates/personal.php:119
+#: templates/admin.php:250 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -337,7 +346,7 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr "由<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 社區</a>開發，<a href=\"https://github.com/owncloud\" target=\"_blank\">源代碼</a>在<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>許可證下發布。"
+msgstr "由 <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 社群</a>開發，<a href=\"https://github.com/owncloud\" target=\"_blank\">原始碼</a>在 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> 許可證下發布。"
 
 #: templates/apps.php:13
 msgid "Add your App"

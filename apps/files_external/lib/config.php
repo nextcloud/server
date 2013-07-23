@@ -34,7 +34,7 @@ class OC_Mount_Config {
 	* If the configuration parameter should be secret, add a '*' to the beginning of the value
 	* If the configuration parameter is a boolean, add a '!' to the beginning of the value
 	* If the configuration parameter is optional, add a '&' to the beginning of the value
-	* If the configuration parameter is hidden, add a '#' to the begining of the value
+	* If the configuration parameter is hidden, add a '#' to the beginning of the value
 	* @return array
 	*/
 	public static function getBackends() {
@@ -47,9 +47,14 @@ class OC_Mount_Config {
 		$backends['\OC\Files\Storage\AmazonS3']=array(
 			'backend' => 'Amazon S3',
 			'configuration' => array(
-				'key' => 'Key',
-				'secret' => '*Secret',
-				'bucket' => 'Bucket'));
+				'key' => 'Access Key',
+				'secret' => '*Secret Key',
+				'bucket' => 'Bucket',
+				'hostname' => 'Hostname (optional)',
+				'port' => 'Port (optional)',
+				'region' => 'Region (optional)',
+				'use_ssl' => '!Enable SSL',
+				'use_path_style' => '!Enable Path Style'));
 
 		$backends['\OC\Files\Storage\Dropbox']=array(
 			'backend' => 'Dropbox',
@@ -112,6 +117,17 @@ class OC_Mount_Config {
 				'user' => 'Username',
 				'password' => '*Password',
 				'root' => '&Root'));
+
+		$backends['\OC\Files\Storage\iRODS']=array(
+			'backend' => 'iRODS',
+			'configuration' => array(
+				'host' => 'Host',
+				'port' => 'Port',
+				'use_logon_credentials' => '!Use ownCloud login',
+				'user' => 'Username',
+				'password' => '*Password',
+				'auth_mode' => 'Authentication Mode',
+				'zone' => 'Zone'));
 
 		return($backends);
 	}

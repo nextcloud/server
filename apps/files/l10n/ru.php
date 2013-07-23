@@ -68,7 +68,6 @@
 "You don’t have write permissions here." => "У вас нет разрешений на запись здесь.",
 "Nothing in here. Upload something!" => "Здесь ничего нет. Загрузите что-нибудь!",
 "Download" => "Скачать",
-"Size (MB)" => "Размер (Мб)",
 "Unshare" => "Закрыть общий доступ",
 "Upload too large" => "Файл слишком велик",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Файлы, которые вы пытаетесь загрузить, превышают лимит для файлов на этом сервере.",

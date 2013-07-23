@@ -681,11 +681,20 @@ button.loading {
 
 
 
+
+
 /* ---- BROWSER-SPECIFIC FIXES ---- */
+
 ::-moz-focus-inner {
 	border: 0; /* remove dotted outlines in Firefox */
 }
 .lte8 .delete-icon { background-image: url('../img/actions/delete.png'); }
 .lte8 .delete-icon:hover, .delete-icon:focus {
 	background-image: url('../img/actions/delete-hover.png');
+}
+
+/* deactivate show password toggle for IE. Does not work for 8 and 9+ have their own implementation. */
+.ie #show, .ie #show+label {
+	display: none;
+	visibility: hidden;
 }

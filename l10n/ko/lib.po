@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# smallsnail <bjh13579@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-18 01:54-0400\n"
-"PO-Revision-Date: 2013-07-18 05:15+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:05+0000\n"
+"Last-Translator: smallsnail <bjh13579@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -92,17 +93,17 @@ msgstr "그림"
 #: setup/abstractdatabase.php:22
 #, php-format
 msgid "%s enter the database username."
-msgstr ""
+msgstr "데이터베이스 사용자 명을 %s 에 입력해주십시오"
 
 #: setup/abstractdatabase.php:25
 #, php-format
 msgid "%s enter the database name."
-msgstr ""
+msgstr "데이터베이스 명을 %s 에 입력해주십시오"
 
 #: setup/abstractdatabase.php:28
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr ""
+msgstr "%s 에 적으신 데이터베이스 이름에는 점을 사용할수 없습니다"
 
 #: setup/mssql.php:20
 #, php-format
@@ -125,7 +126,7 @@ msgstr ""
 #: setup/postgresql.php:125 setup/postgresql.php:134
 #, php-format
 msgid "DB Error: \"%s\""
-msgstr ""
+msgstr "DB 오류: \"%s\""
 
 #: setup/mysql.php:68 setup/oci.php:55 setup/oci.php:122 setup/oci.php:148
 #: setup/oci.php:155 setup/oci.php:166 setup/oci.php:182 setup/oci.php:190
@@ -168,15 +169,15 @@ msgstr ""
 
 #: setup/postgresql.php:23 setup/postgresql.php:69
 msgid "PostgreSQL username and/or password not valid"
-msgstr ""
+msgstr "PostgreSQL의 사용자 명 혹은 비밀번호가 잘못되었습니다"
 
 #: setup.php:28
 msgid "Set an admin username."
-msgstr ""
+msgstr "관리자 이름 설정"
 
 #: setup.php:31
 msgid "Set an admin password."
-msgstr ""
+msgstr "관리자 비밀번호 설정"
 
 #: setup.php:184
 msgid ""
@@ -189,55 +190,55 @@ msgstr "WebDAV 인터페이스가 제대로 작동하지 않습니다. 웹 서�
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "<a href='%s'>설치 가이드</a>를 다시 한 번 확인하십시오."
 
-#: template.php:113
+#: template.php:95
 msgid "seconds ago"
 msgstr "초 전"
 
-#: template.php:114
+#: template.php:96
 msgid "1 minute ago"
 msgstr "1분 전"
 
-#: template.php:115
+#: template.php:97
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d분 전"
 
-#: template.php:116
+#: template.php:98
 msgid "1 hour ago"
 msgstr "1시간 전"
 
-#: template.php:117
+#: template.php:99
 #, php-format
 msgid "%d hours ago"
 msgstr "%d시간 전"
 
-#: template.php:118
+#: template.php:100
 msgid "today"
 msgstr "오늘"
 
-#: template.php:119
+#: template.php:101
 msgid "yesterday"
 msgstr "어제"
 
-#: template.php:120
+#: template.php:102
 #, php-format
 msgid "%d days ago"
 msgstr "%d일 전"
 
-#: template.php:121
+#: template.php:103
 msgid "last month"
 msgstr "지난 달"
 
-#: template.php:122
+#: template.php:104
 #, php-format
 msgid "%d months ago"
 msgstr "%d개월 전"
 
-#: template.php:123
+#: template.php:105
 msgid "last year"
 msgstr "작년"
 
-#: template.php:124
+#: template.php:106
 msgid "years ago"
 msgstr "년 전"
 
