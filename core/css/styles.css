@@ -204,6 +204,7 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 #body-login p.info {
 	width: 22em;
 	margin: 0 auto;
+	padding-top: 20px;
 }
 #body-login p.info a {
 	font-weight: bold;
@@ -421,14 +422,11 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 /* Sticky footer */
 #body-login .wrapper {
 	min-height: 100%;
-	margin: 0 auto -50px;
+	margin: 0 auto -70px;
 	width: 300px;
 }
 #body-login footer, #body-login .push {
-	height: 50px;
-}
-#body-login footer {
-	padding-top: 20px;
+	height: 70px;
 }
 
 
