@@ -51,6 +51,7 @@ function createVersionsDropdown(filename, files) {
 		async: false,
 		success: function( versions ) {
 
+			// first decide which kind of dialog we need
 			if (versions) {
 
 				var html = '<div id="dropdown" class="drop drop-versions" data-file="'+escapeHTML(files)+'">';
@@ -62,9 +63,6 @@ function createVersionsDropdown(filename, files) {
 				html += '<input type="button" value="All versions..." name="makelink" id="makelink" />';
 				html += '<input id="link" style="display:none; width:90%;" />';
 
-				$.each( versions, function(index, row ) {
-					addVersion( row );
-				});
 			} else {
 				var html = '<div id="dropdown" class="drop drop-versions" data-file="'+escapeHTML(files)+'">';
 				html += '<div style="text-align:center;">No other versions available</div></div>';
@@ -75,6 +73,13 @@ function createVersionsDropdown(filename, files) {
 				$(html).appendTo($('tr').filterAttr('data-file',filename).find('td.filename'));
 			} else {
 				$(html).appendTo($('thead .share'));
+			}
+
+			// if versions are available populate the dialog
+			if (versions) {
+				$.each( versions, function(index, row ) {
+					addVersion( row );
+				});
 			}
 
 			$('#found_versions').change(function(){
