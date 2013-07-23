@@ -53,7 +53,6 @@ class Google extends \OC\Files\Storage\Common {
 			$client->setUseObjects(true);
 			$client->setAccessToken($params['token']);
 			$this->service = new \Google_DriveService($client);
-			$this->root = isset($params['root']) ? $params['root'] : '';
 			$token = json_decode($params['token'], true);
 			$this->id = 'google::'.substr($params['client_id'], 0, 30).$token['created'];
 		} else {
@@ -72,7 +71,7 @@ class Google extends \OC\Files\Storage\Common {
 	 */
 	private function getDriveFile($path) {
 		// Remove leading and trailing slashes
-		$path = trim($this->root.$path, '/');
+		$path = trim($path, '/');
 		if (isset($this->driveFiles[$path])) {
 			return $this->driveFiles[$path];
 		} else if ($path === '') {
@@ -138,7 +137,7 @@ class Google extends \OC\Files\Storage\Common {
 	 * @param Google_DriveFile|false $file
 	 */
 	private function setDriveFile($path, $file) {
-		$path = trim($this->root.$path, '/');
+		$path = trim($path, '/');
 		$this->driveFiles[$path] = $file;
 		if ($file === false) {
 			// Set all child paths as false
@@ -205,7 +204,7 @@ class Google extends \OC\Files\Storage\Common {
 	}
 
 	public function rmdir($path) {
-		if (trim($this->root.$path, '/') === '') {
+		if (trim($path, '/') === '') {
 			$dir = $this->opendir($path);
 			while ($file = readdir($dir)) {
 				if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
