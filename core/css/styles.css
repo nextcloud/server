@@ -685,3 +685,7 @@ button.loading {
 ::-moz-focus-inner {
 	border: 0; /* remove dotted outlines in Firefox */
 }
+.lte8 .delete-icon { background-image: url('../img/actions/delete.png'); }
+.lte8 .delete-icon:hover, .delete-icon:focus {
+	background-image: url('../img/actions/delete-hover.png');
+}
