@@ -412,7 +412,9 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 #body-login input.login {
 	width: auto;
 	float: right;
-	padding: 10px 22px 9px;
+}
+#body-login input[type="submit"] {
+	padding: 10px 20px; /* larger log in and installation buttons */
 }
 #remember_login {
 	margin: 18px 5px 0 18px;
