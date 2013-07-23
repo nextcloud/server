@@ -144,7 +144,8 @@ class Config {
 				continue;
 			}
 			unset($CONFIG);
-			include $file;
+			// ignore errors on include, this can happen when doing a fresh install
+			@include $file;
 			if (isset($CONFIG) && is_array($CONFIG)) {
 				$this->cache = array_merge($this->cache, $CONFIG);
 			}
