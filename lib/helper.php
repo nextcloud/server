@@ -176,8 +176,7 @@ class OC_Helper {
 		}elseif( file_exists( OC::$SERVERROOT."/core/img/$image" )) {
 			return OC::$WEBROOT."/core/img/$image";
 		}else{
-			echo('image not found: image:'.$image.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
-			die();
+			throw new RuntimeException('image not found: image:'.$image.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
 		}
 	}
 

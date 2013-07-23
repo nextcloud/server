@@ -531,17 +531,25 @@ class OC_Template{
 		if ($exception->getCode()) {
 			$error_msg = '['.$exception->getCode().'] '.$error_msg;
 		}
-		$hint = $exception->getTraceAsString();
-		if (!empty($hint)) {
-			$hint = '<pre>'.$hint.'</pre>';
-		}
-		while (method_exists($exception,'previous') && $exception = $exception->previous()) {
-			$error_msg .= '<br/>Caused by: ';
-			if ($exception->getCode()) {
-				$error_msg .= '['.$exception->getCode().'] ';
+		if (defined('DEBUG') and DEBUG) {
+			$hint = $exception->getTraceAsString();
+			if (!empty($hint)) {
+				$hint = '<pre>'.$hint.'</pre>';
 			}
-			$error_msg .= $exception->getMessage();
-		};
+			$l = OC_L10N::get('lib');
+			while (method_exists($exception, 'previous') && $exception = $exception->previous()) {
+				$error_msg .= '<br/>'.$l->t('Caused by:').' ';
+				if ($exception->getCode()) {
+					$error_msg .= '['.$exception->getCode().'] ';
+				}
+				$error_msg .= $exception->getMessage();
+			};
+		} else {
+			$hint = '';
+			if ($exception instanceof \OC\HintException) {
+				$hint = $exception->getHint();
+			}
+		}
 		self::printErrorPage($error_msg, $hint);
 	}
 }
