@@ -14,9 +14,8 @@ class AdapterOCI8 extends Adapter {
 		if($table !== null) {
 			$suffix = '_SEQ';
 			$table = '"'.$table.$suffix.'"';
-			$table = $this->conn->replaceTablePrefix( $table );
 		}
-		return $this->conn->lastInsertId($table);
+		return $this->conn->realLastInsertId($table);
 	}
 
 	public function fixupStatement($statement) {
