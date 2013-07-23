@@ -8,6 +8,10 @@
 
 namespace OC\DB;
 
+/**
+ * This handles the way we use to write queries, into something that can be
+ * handled by the database abstraction layer.
+ */
 class Adapter {
 	protected $conn;
 
@@ -15,14 +19,28 @@ class Adapter {
 		$this->conn = $conn;
 	}
 
+	/**
+	 * @param string $table name
+	 * @return int id of last insert statement
+	 */
 	public function lastInsertId($table) {
 		return $this->conn->realLastInsertId($table);
 	}
 
+	/**
+	 * @param $statement that needs to be changed so the db can handle it
+	 * @return string changed statement
+	 */
 	public function fixupStatement($statement) {
 		return $statement;
 	}
 
+	/**
+	 * @brief insert the @input values when they do not exist yet
+	 * @param string $table name
+	 * @param array key->value pairs 
+	 * @return count of inserted rows
+	 */
 	public function insertIfNotExist($table, $input) {
 		$query = 'INSERT INTO `' .$table . '` (`'
 			. implode('`,`', array_keys($input)) . '`) SELECT '
