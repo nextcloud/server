@@ -1,7 +1,5 @@
 <?php
 
-require_once 'Patchwork/PHP/Shim/Normalizer.php';
-
 /**
  * Class for utility functions
  *
@@ -539,7 +537,22 @@ class OC_Util {
 		}
 		return $value;
 	}
-
+	
+	/**
+	 * @brief Public function to encode url parameters
+	 *
+	 * This function is used to encode path to file before output.
+	 * Encoding is done according to RFC 3986 with one exception:
+	 * Character '/' is preserved as is. 
+	 *
+	 * @param string $component part of URI to encode
+	 * @return string 
+	 */
+	public static function encodePath($component) {
+		$encoded = rawurlencode($component);
+		$encoded = str_replace('%2F', '/', $encoded);
+		return $encoded;
+	}
 
 	/**
 	 * Check if the htaccess file is working by creating a test file in the data directory and trying to access via http

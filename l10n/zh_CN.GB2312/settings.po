@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# hlx98007 <hlx98007@gmail.com>, 2013
 # hyy0591 <yangyu.huang@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-08 02:03+0200\n"
-"PO-Revision-Date: 2013-07-07 23:14+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:55+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
@@ -232,7 +233,7 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "服务器没有可用的Internet连接。这意味着像挂载外部储存、更新提示和安装第三方插件等功能会失效。远程访问文件和发送邮件提醒也可能会失效。建议开启服务器的英特网网络。"
 
 #: templates/admin.php:94
 msgid "Cron"
@@ -274,62 +275,71 @@ msgstr "允许链接"
 msgid "Allow users to share items to the public with links"
 msgstr "允许用户通过链接共享内容"
 
-#: templates/admin.php:152
+#: templates/admin.php:153
+msgid "Allow public uploads"
+msgstr ""
+
+#: templates/admin.php:154
+msgid ""
+"Allow users to enable others to upload into their publicly shared folders"
+msgstr ""
+
+#: templates/admin.php:162
 msgid "Allow resharing"
 msgstr "允许转帖"
 
-#: templates/admin.php:153
+#: templates/admin.php:163
 msgid "Allow users to share items shared with them again"
 msgstr "允许用户再次共享已共享的内容"
 
-#: templates/admin.php:160
+#: templates/admin.php:170
 msgid "Allow users to share with anyone"
 msgstr "允许用户向任何人分享"
 
-#: templates/admin.php:163
+#: templates/admin.php:173
 msgid "Allow users to only share with users in their groups"
 msgstr "只允许用户向所在群组中的其他用户分享"
 
-#: templates/admin.php:170
+#: templates/admin.php:180
 msgid "Security"
 msgstr "安全"
 
-#: templates/admin.php:183
+#: templates/admin.php:193
 msgid "Enforce HTTPS"
 msgstr "强制HTTPS"
 
-#: templates/admin.php:184
+#: templates/admin.php:194
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
 msgstr "强制客户端通过加密连接与ownCloud连接"
 
-#: templates/admin.php:187
+#: templates/admin.php:197
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr ""
+msgstr "请先使用HTTPS访问本站以设置强制SSL的开关。"
 
-#: templates/admin.php:197
+#: templates/admin.php:207
 msgid "Log"
 msgstr "日志"
 
-#: templates/admin.php:198
+#: templates/admin.php:208
 msgid "Log level"
-msgstr ""
+msgstr "日志等级"
 
-#: templates/admin.php:229
+#: templates/admin.php:239
 msgid "More"
 msgstr "更多"
 
-#: templates/admin.php:230
+#: templates/admin.php:240
 msgid "Less"
 msgstr "更少"
 
-#: templates/admin.php:236 templates/personal.php:116
+#: templates/admin.php:246 templates/personal.php:116
 msgid "Version"
 msgstr "版本"
 
-#: templates/admin.php:240 templates/personal.php:119
+#: templates/admin.php:250 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -453,8 +463,11 @@ msgid "WebDAV"
 msgstr "WebDAV"
 
 #: templates/personal.php:108
-msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "使用此地址来在您的文件管理器中连接您的ownCloud"
+#, php-format
+msgid ""
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
+"target=\"_blank\">access your Files via WebDAV</a>"
+msgstr "访问WebDAV请点击 <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">此处</a>"
 
 #: templates/users.php:21
 msgid "Login Name"
@@ -466,13 +479,13 @@ msgstr "新建"
 
 #: templates/users.php:36
 msgid "Admin Recovery Password"
-msgstr ""
+msgstr "管理员恢复密码"
 
 #: templates/users.php:37 templates/users.php:38
 msgid ""
 "Enter the recovery password in order to recover the users files during "
 "password change"
-msgstr ""
+msgstr "在恢复密码的过程中请输入恢复密钥来恢复用户数据"
 
 #: templates/users.php:42
 msgid "Default Storage"

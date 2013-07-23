@@ -62,6 +62,7 @@
 "Share with link" => "Поделиться с ссылкой",
 "Password protect" => "Защитить паролем",
 "Password" => "Пароль",
+"Allow Public Upload" => "Разрешить открытую загрузку",
 "Email link to person" => "Почтовая ссылка на персону",
 "Send" => "Отправить",
 "Set expiration date" => "Установить срок доступа",

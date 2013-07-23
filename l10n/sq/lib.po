@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-08 02:03+0200\n"
-"PO-Revision-Date: 2013-07-08 00:02+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -45,19 +45,19 @@ msgstr "Admin"
 msgid "web services under your control"
 msgstr "shërbime web nën kontrollin tënd"
 
-#: files.php:210
+#: files.php:226
 msgid "ZIP download is turned off."
 msgstr "Shkarimi i skedarëve ZIP është i çaktivizuar."
 
-#: files.php:211
+#: files.php:227
 msgid "Files need to be downloaded one by one."
 msgstr "Skedarët duhet të shkarkohen një nga një."
 
-#: files.php:212 files.php:245
+#: files.php:228 files.php:261
 msgid "Back to Files"
 msgstr "Kthehu tek skedarët"
 
-#: files.php:242
+#: files.php:258
 msgid "Selected files too large to generate zip file."
 msgstr "Skedarët e selektuar janë shumë të mëdhenj për të krijuar një skedar ZIP."
 
@@ -170,74 +170,74 @@ msgstr "Komanda e gabuar ishte: \"%s\", përdoruesi: %s, kodi: %s"
 msgid "PostgreSQL username and/or password not valid"
 msgstr "Përdoruesi dhe/apo kodi i PostgreSQL i pavlefshëm"
 
-#: setup.php:42
+#: setup.php:28
 msgid "Set an admin username."
 msgstr "Cakto emrin e administratorit."
 
-#: setup.php:45
+#: setup.php:31
 msgid "Set an admin password."
 msgstr "Cakto kodin e administratorit."
 
-#: setup.php:198
+#: setup.php:184
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Serveri web i juaji nuk është konfiguruar akoma për të lejuar sinkronizimin e skedarëve sepse ndërfaqja WebDAV mund të jetë e dëmtuar."
 
-#: setup.php:199
+#: setup.php:185
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Ju lutemi kontrolloni mirë <a href='%s'>shoqëruesin e instalimit</a>."
 
-#: template.php:113
+#: template.php:95
 msgid "seconds ago"
 msgstr "sekonda më parë"
 
-#: template.php:114
+#: template.php:96
 msgid "1 minute ago"
 msgstr "1 minutë më parë"
 
-#: template.php:115
+#: template.php:97
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d minuta më parë"
 
-#: template.php:116
+#: template.php:98
 msgid "1 hour ago"
 msgstr "1 orë më parë"
 
-#: template.php:117
+#: template.php:99
 #, php-format
 msgid "%d hours ago"
 msgstr "%d orë më parë"
 
-#: template.php:118
+#: template.php:100
 msgid "today"
 msgstr "sot"
 
-#: template.php:119
+#: template.php:101
 msgid "yesterday"
 msgstr "dje"
 
-#: template.php:120
+#: template.php:102
 #, php-format
 msgid "%d days ago"
 msgstr "%d ditë më parë"
 
-#: template.php:121
+#: template.php:103
 msgid "last month"
 msgstr "muajin e shkuar"
 
-#: template.php:122
+#: template.php:104
 #, php-format
 msgid "%d months ago"
 msgstr "%d muaj më parë"
 
-#: template.php:123
+#: template.php:105
 msgid "last year"
 msgstr "vitin e shkuar"
 
-#: template.php:124
+#: template.php:106
 msgid "years ago"
 msgstr "vite më parë"
 

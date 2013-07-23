@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-08 02:03+0200\n"
-"PO-Revision-Date: 2013-07-08 00:02+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Icelandic (http://www.transifex.com/projects/p/owncloud/language/is/)\n"
 "MIME-Version: 1.0\n"
@@ -45,19 +45,19 @@ msgstr "Stjórnun"
 msgid "web services under your control"
 msgstr "vefþjónusta undir þinni stjórn"
 
-#: files.php:210
+#: files.php:226
 msgid "ZIP download is turned off."
 msgstr "Slökkt á ZIP niðurhali."
 
-#: files.php:211
+#: files.php:227
 msgid "Files need to be downloaded one by one."
 msgstr "Skrárnar verður að sækja eina og eina"
 
-#: files.php:212 files.php:245
+#: files.php:228 files.php:261
 msgid "Back to Files"
 msgstr "Aftur í skrár"
 
-#: files.php:242
+#: files.php:258
 msgid "Selected files too large to generate zip file."
 msgstr "Valdar skrár eru of stórar til að búa til ZIP skrá."
 
@@ -170,74 +170,74 @@ msgstr ""
 msgid "PostgreSQL username and/or password not valid"
 msgstr ""
 
-#: setup.php:42
+#: setup.php:28
 msgid "Set an admin username."
 msgstr ""
 
-#: setup.php:45
+#: setup.php:31
 msgid "Set an admin password."
 msgstr ""
 
-#: setup.php:198
+#: setup.php:184
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr ""
 
-#: setup.php:199
+#: setup.php:185
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""
 
-#: template.php:113
+#: template.php:95
 msgid "seconds ago"
 msgstr "sek."
 
-#: template.php:114
+#: template.php:96
 msgid "1 minute ago"
 msgstr "Fyrir 1 mínútu"
 
-#: template.php:115
+#: template.php:97
 #, php-format
 msgid "%d minutes ago"
 msgstr "fyrir %d mínútum"
 
-#: template.php:116
+#: template.php:98
 msgid "1 hour ago"
 msgstr "Fyrir 1 klst."
 
-#: template.php:117
+#: template.php:99
 #, php-format
 msgid "%d hours ago"
 msgstr "fyrir %d klst."
 
-#: template.php:118
+#: template.php:100
 msgid "today"
 msgstr "í dag"
 
-#: template.php:119
+#: template.php:101
 msgid "yesterday"
 msgstr "í gær"
 
-#: template.php:120
+#: template.php:102
 #, php-format
 msgid "%d days ago"
 msgstr "fyrir %d dögum"
 
-#: template.php:121
+#: template.php:103
 msgid "last month"
 msgstr "síðasta mánuði"
 
-#: template.php:122
+#: template.php:104
 #, php-format
 msgid "%d months ago"
 msgstr "fyrir %d mánuðum"
 
-#: template.php:123
+#: template.php:105
 msgid "last year"
 msgstr "síðasta ári"
 
-#: template.php:124
+#: template.php:106
 msgid "years ago"
 msgstr "einhverjum árum"
 

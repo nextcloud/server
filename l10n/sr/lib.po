@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-08 02:03+0200\n"
-"PO-Revision-Date: 2013-07-08 00:02+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -45,19 +45,19 @@ msgstr "Администратор"
 msgid "web services under your control"
 msgstr "веб сервиси под контролом"
 
-#: files.php:210
+#: files.php:226
 msgid "ZIP download is turned off."
 msgstr "Преузимање ZIP-а је искључено."
 
-#: files.php:211
+#: files.php:227
 msgid "Files need to be downloaded one by one."
 msgstr "Датотеке морате преузимати једну по једну."
 
-#: files.php:212 files.php:245
+#: files.php:228 files.php:261
 msgid "Back to Files"
 msgstr "Назад на датотеке"
 
-#: files.php:242
+#: files.php:258
 msgid "Selected files too large to generate zip file."
 msgstr "Изабране датотеке су превелике да бисте направили ZIP датотеку."
 
@@ -170,74 +170,74 @@ msgstr ""
 msgid "PostgreSQL username and/or password not valid"
 msgstr ""
 
-#: setup.php:42
+#: setup.php:28
 msgid "Set an admin username."
 msgstr ""
 
-#: setup.php:45
+#: setup.php:31
 msgid "Set an admin password."
 msgstr ""
 
-#: setup.php:198
+#: setup.php:184
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Ваш веб сервер тренутно не подржава синхронизацију датотека јер се чини да је WebDAV сучеље неисправно."
 
-#: setup.php:199
+#: setup.php:185
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Погледајте <a href='%s'>водиче за инсталацију</a>."
 
-#: template.php:113
+#: template.php:95
 msgid "seconds ago"
 msgstr "пре неколико секунди"
 
-#: template.php:114
+#: template.php:96
 msgid "1 minute ago"
 msgstr "пре 1 минут"
 
-#: template.php:115
+#: template.php:97
 #, php-format
 msgid "%d minutes ago"
 msgstr "пре %d минута"
 
-#: template.php:116
+#: template.php:98
 msgid "1 hour ago"
 msgstr "Пре једног сата"
 
-#: template.php:117
+#: template.php:99
 #, php-format
 msgid "%d hours ago"
 msgstr "пре %d сата/и"
 
-#: template.php:118
+#: template.php:100
 msgid "today"
 msgstr "данас"
 
-#: template.php:119
+#: template.php:101
 msgid "yesterday"
 msgstr "јуче"
 
-#: template.php:120
+#: template.php:102
 #, php-format
 msgid "%d days ago"
 msgstr "пре %d дана"
 
-#: template.php:121
+#: template.php:103
 msgid "last month"
 msgstr "прошлог месеца"
 
-#: template.php:122
+#: template.php:104
 #, php-format
 msgid "%d months ago"
 msgstr "пре %d месеца/и"
 
-#: template.php:123
+#: template.php:105
 msgid "last year"
 msgstr "прошле године"
 
-#: template.php:124
+#: template.php:106
 msgid "years ago"
 msgstr "година раније"
 

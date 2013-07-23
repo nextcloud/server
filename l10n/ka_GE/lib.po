@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-08 02:03+0200\n"
-"PO-Revision-Date: 2013-07-08 00:02+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -45,19 +45,19 @@ msgstr "ადმინისტრატორი"
 msgid "web services under your control"
 msgstr "web services under your control"
 
-#: files.php:210
+#: files.php:226
 msgid "ZIP download is turned off."
 msgstr "ZIP download–ი გათიშულია"
 
-#: files.php:211
+#: files.php:227
 msgid "Files need to be downloaded one by one."
 msgstr "ფაილები უნდა გადმოიტვირთოს სათითაოდ."
 
-#: files.php:212 files.php:245
+#: files.php:228 files.php:261
 msgid "Back to Files"
 msgstr "უკან ფაილებში"
 
-#: files.php:242
+#: files.php:258
 msgid "Selected files too large to generate zip file."
 msgstr "არჩეული ფაილები ძალიან დიდია zip ფაილის გენერაციისთვის."
 
@@ -170,74 +170,74 @@ msgstr "Offending ბრძანება იყო: \"%s\", სახელი
 msgid "PostgreSQL username and/or password not valid"
 msgstr "PostgreSQL იუზერნეიმი და/ან პაროლი არ არის სწორი"
 
-#: setup.php:42
+#: setup.php:28
 msgid "Set an admin username."
 msgstr "დააყენეთ ადმინისტრატორის სახელი."
 
-#: setup.php:45
+#: setup.php:31
 msgid "Set an admin password."
 msgstr "დააყენეთ ადმინისტრატორის პაროლი."
 
-#: setup.php:198
+#: setup.php:184
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "თქვენი web სერვერი არ არის კონფიგურირებული ფაილ სინქრონიზაციისთვის, რადგან WebDAV ინტერფეისი შეიძლება იყოს გატეხილი."
 
-#: setup.php:199
+#: setup.php:185
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "გთხოვთ გადაათვალიეროთ <a href='%s'>ინსტალაციის გზამკვლევი</a>."
 
-#: template.php:113
+#: template.php:95
 msgid "seconds ago"
 msgstr "წამის წინ"
 
-#: template.php:114
+#: template.php:96
 msgid "1 minute ago"
 msgstr "1 წუთის წინ"
 
-#: template.php:115
+#: template.php:97
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d წუთის წინ"
 
-#: template.php:116
+#: template.php:98
 msgid "1 hour ago"
 msgstr "1 საათის წინ"
 
-#: template.php:117
+#: template.php:99
 #, php-format
 msgid "%d hours ago"
 msgstr "%d საათის წინ"
 
-#: template.php:118
+#: template.php:100
 msgid "today"
 msgstr "დღეს"
 
-#: template.php:119
+#: template.php:101
 msgid "yesterday"
 msgstr "გუშინ"
 
-#: template.php:120
+#: template.php:102
 #, php-format
 msgid "%d days ago"
 msgstr "%d  დღის წინ"
 
-#: template.php:121
+#: template.php:103
 msgid "last month"
 msgstr "გასულ თვეში"
 
-#: template.php:122
+#: template.php:104
 #, php-format
 msgid "%d months ago"
 msgstr "%d თვის წინ"
 
-#: template.php:123
+#: template.php:105
 msgid "last year"
 msgstr "ბოლო წელს"
 
-#: template.php:124
+#: template.php:106
 msgid "years ago"
 msgstr "წლის წინ"
 

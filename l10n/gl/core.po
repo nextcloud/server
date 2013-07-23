@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-08 02:02+0200\n"
-"PO-Revision-Date: 2013-07-08 00:02+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:04+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -138,59 +138,59 @@ msgstr "novembro"
 msgid "December"
 msgstr "decembro"
 
-#: js/js.js:289
+#: js/js.js:293
 msgid "Settings"
 msgstr "Axustes"
 
-#: js/js.js:721
+#: js/js.js:715
 msgid "seconds ago"
 msgstr "segundos atrás"
 
-#: js/js.js:722
+#: js/js.js:716
 msgid "1 minute ago"
 msgstr "hai 1 minuto"
 
-#: js/js.js:723
+#: js/js.js:717
 msgid "{minutes} minutes ago"
 msgstr "hai {minutes} minutos"
 
-#: js/js.js:724
+#: js/js.js:718
 msgid "1 hour ago"
 msgstr "Vai 1 hora"
 
-#: js/js.js:725
+#: js/js.js:719
 msgid "{hours} hours ago"
 msgstr "hai {hours} horas"
 
-#: js/js.js:726
+#: js/js.js:720
 msgid "today"
 msgstr "hoxe"
 
-#: js/js.js:727
+#: js/js.js:721
 msgid "yesterday"
 msgstr "onte"
 
-#: js/js.js:728
+#: js/js.js:722
 msgid "{days} days ago"
 msgstr "hai {days} días"
 
-#: js/js.js:729
+#: js/js.js:723
 msgid "last month"
 msgstr "último mes"
 
-#: js/js.js:730
+#: js/js.js:724
 msgid "{months} months ago"
 msgstr "hai {months} meses"
 
-#: js/js.js:731
+#: js/js.js:725
 msgid "months ago"
 msgstr "meses atrás"
 
-#: js/js.js:732
+#: js/js.js:726
 msgid "last year"
 msgstr "último ano"
 
-#: js/js.js:733
+#: js/js.js:727
 msgid "years ago"
 msgstr "anos atrás"
 
@@ -226,8 +226,8 @@ msgstr "Non se especificou o tipo de obxecto."
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:620
-#: js/share.js:632
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:625
+#: js/share.js:637
 msgid "Error"
 msgstr "Erro"
 
@@ -247,7 +247,7 @@ msgstr "Compartir"
 msgid "Share"
 msgstr "Compartir"
 
-#: js/share.js:125 js/share.js:660
+#: js/share.js:125 js/share.js:665
 msgid "Error while sharing"
 msgstr "Produciuse un erro ao compartir"
 
@@ -267,114 +267,114 @@ msgstr "Compartido con vostede e co grupo {group} por {owner}"
 msgid "Shared with you by {owner}"
 msgstr "Compartido con vostede por {owner}"
 
-#: js/share.js:172
+#: js/share.js:177
 msgid "Share with"
 msgstr "Compartir con"
 
-#: js/share.js:177
+#: js/share.js:182
 msgid "Share with link"
 msgstr "Compartir coa ligazón"
 
-#: js/share.js:180
+#: js/share.js:185
 msgid "Password protect"
 msgstr "Protexido con contrasinais"
 
-#: js/share.js:182 templates/installation.php:54 templates/login.php:26
+#: js/share.js:187 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Contrasinal"
 
-#: js/share.js:187
+#: js/share.js:192
 msgid "Allow Public Upload"
 msgstr "Permitir o envío público"
 
-#: js/share.js:191
+#: js/share.js:196
 msgid "Email link to person"
 msgstr "Enviar ligazón por correo"
 
-#: js/share.js:192
+#: js/share.js:197
 msgid "Send"
 msgstr "Enviar"
 
-#: js/share.js:197
+#: js/share.js:202
 msgid "Set expiration date"
 msgstr "Definir a data de caducidade"
 
-#: js/share.js:198
+#: js/share.js:203
 msgid "Expiration date"
 msgstr "Data de caducidade"
 
-#: js/share.js:230
+#: js/share.js:235
 msgid "Share via email:"
 msgstr "Compartir por correo:"
 
-#: js/share.js:232
+#: js/share.js:237
 msgid "No people found"
 msgstr "Non se atopou xente"
 
-#: js/share.js:270
+#: js/share.js:275
 msgid "Resharing is not allowed"
 msgstr "Non se permite volver a compartir"
 
-#: js/share.js:306
+#: js/share.js:311
 msgid "Shared in {item} with {user}"
 msgstr "Compartido en {item} con {user}"
 
-#: js/share.js:327
+#: js/share.js:332
 msgid "Unshare"
 msgstr "Deixar de compartir"
 
-#: js/share.js:339
+#: js/share.js:344
 msgid "can edit"
 msgstr "pode editar"
 
-#: js/share.js:341
+#: js/share.js:346
 msgid "access control"
 msgstr "control de acceso"
 
-#: js/share.js:344
+#: js/share.js:349
 msgid "create"
 msgstr "crear"
 
-#: js/share.js:347
+#: js/share.js:352
 msgid "update"
 msgstr "actualizar"
 
-#: js/share.js:350
+#: js/share.js:355
 msgid "delete"
 msgstr "eliminar"
 
-#: js/share.js:353
+#: js/share.js:358
 msgid "share"
 msgstr "compartir"
 
-#: js/share.js:387 js/share.js:607
+#: js/share.js:392 js/share.js:612
 msgid "Password protected"
 msgstr "Protexido con contrasinal"
 
-#: js/share.js:620
+#: js/share.js:625
 msgid "Error unsetting expiration date"
 msgstr "Produciuse un erro ao retirar a data de caducidade"
 
-#: js/share.js:632
+#: js/share.js:637
 msgid "Error setting expiration date"
 msgstr "Produciuse un erro ao definir a data de caducidade"
 
-#: js/share.js:647
+#: js/share.js:652
 msgid "Sending ..."
 msgstr "Enviando..."
 
-#: js/share.js:658
+#: js/share.js:663
 msgid "Email sent"
 msgstr "Correo enviado"
 
-#: js/update.js:14
+#: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
 msgstr "A actualización non foi satisfactoria, informe deste problema á  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">comunidade de ownCloud</a>."
 
-#: js/update.js:18
+#: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "A actualización realizouse correctamente. Redirixíndoo agora á ownCloud."
 

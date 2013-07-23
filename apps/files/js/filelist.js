@@ -47,7 +47,7 @@ var FileList={
 
 		//size column
 		if(size!=t('files', 'Pending')){
-			simpleSize=simpleFileSize(size);
+			simpleSize = humanFileSize(size);
 		}else{
 			simpleSize=t('files', 'Pending');
 		}
@@ -55,7 +55,6 @@ var FileList={
 		var lastModifiedTime = Math.round(lastModified.getTime() / 1000);
 		td = $('<td></td>').attr({
 			"class": "filesize",
-			"title": humanFileSize(size),
 			"style": 'color:rgb('+sizeColor+','+sizeColor+','+sizeColor+')'
 		}).text(simpleSize);
 		tr.append(td);
@@ -171,6 +170,8 @@ var FileList={
 			}
 		}else if(type=='dir' && $('tr[data-file]').length>0){
 			$('tr[data-file]').first().before(element);
+		} else if(type=='file' && $('tr[data-file]').length>0) {
+			$('tr[data-file]').last().before(element);
 		}else{
 			$('#fileList').append(element);
 		}

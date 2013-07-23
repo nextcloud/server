@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-08 02:03+0200\n"
-"PO-Revision-Date: 2013-07-07 23:14+0000\n"
-"Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:55+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -236,7 +236,7 @@ msgstr "این سرور OwnCloud ارتباط اینترنتی ندارد.این
 
 #: templates/admin.php:94
 msgid "Cron"
-msgstr ""
+msgstr "زمانبند"
 
 #: templates/admin.php:103
 msgid "Execute one task with each page loaded"
@@ -246,13 +246,13 @@ msgstr "اجرای یک وظیفه با هر بار بارگذاری صفحه"
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php در یک سرویس webcron ثبت شده است. تماس یک بار در دقیقه بر روی http با صفحه  cron.php در ریشه owncloud ."
 
 #: templates/admin.php:123
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "استفاده از سیستم های سرویس cron . تماس یک بار در دقیقه با فایل cron.php در پوشه owncloud از طریق یک سیستم cronjob ."
 
 #: templates/admin.php:130
 msgid "Sharing"
@@ -274,62 +274,71 @@ msgstr "اجازه ی لینک ها"
 msgid "Allow users to share items to the public with links"
 msgstr "اجازه دادن به کاربران برای اشتراک گذاری آیتم ها با عموم از طریق پیوند ها"
 
-#: templates/admin.php:152
+#: templates/admin.php:153
+msgid "Allow public uploads"
+msgstr ""
+
+#: templates/admin.php:154
+msgid ""
+"Allow users to enable others to upload into their publicly shared folders"
+msgstr ""
+
+#: templates/admin.php:162
 msgid "Allow resharing"
 msgstr "مجوز اشتراک گذاری مجدد"
 
-#: templates/admin.php:153
+#: templates/admin.php:163
 msgid "Allow users to share items shared with them again"
 msgstr "اجازه به کاربران برای اشتراک گذاری دوباره با آنها"
 
-#: templates/admin.php:160
+#: templates/admin.php:170
 msgid "Allow users to share with anyone"
 msgstr "اجازه به کابران برای اشتراک گذاری با همه"
 
-#: templates/admin.php:163
+#: templates/admin.php:173
 msgid "Allow users to only share with users in their groups"
 msgstr "اجازه به کاربران برای اشتراک گذاری ، تنها با دیگر کابران گروه خودشان"
 
-#: templates/admin.php:170
+#: templates/admin.php:180
 msgid "Security"
 msgstr "امنیت"
 
-#: templates/admin.php:183
+#: templates/admin.php:193
 msgid "Enforce HTTPS"
 msgstr "وادار کردن HTTPS"
 
-#: templates/admin.php:184
+#: templates/admin.php:194
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
 msgstr "وادار کردن مشتریان برای ارتباط با ownCloud از طریق رمزگذاری ارتباط"
 
-#: templates/admin.php:187
+#: templates/admin.php:197
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
 msgstr "از طریق HTTPS به این نسخه از ownCloud متصل شوید تا بتوانید SSL  را فعال یا غیر فعال نمایید."
 
-#: templates/admin.php:197
+#: templates/admin.php:207
 msgid "Log"
 msgstr "کارنامه"
 
-#: templates/admin.php:198
+#: templates/admin.php:208
 msgid "Log level"
 msgstr "سطح ورود"
 
-#: templates/admin.php:229
+#: templates/admin.php:239
 msgid "More"
 msgstr "بیش‌تر"
 
-#: templates/admin.php:230
+#: templates/admin.php:240
 msgid "Less"
 msgstr "کم‌تر"
 
-#: templates/admin.php:236 templates/personal.php:116
+#: templates/admin.php:246 templates/personal.php:116
 msgid "Version"
 msgstr "نسخه"
 
-#: templates/admin.php:240 templates/personal.php:119
+#: templates/admin.php:250 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -450,11 +459,14 @@ msgstr "به ترجمه آن کمک کنید"
 
 #: templates/personal.php:106
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/personal.php:108
-msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "از این نشانی برای اتصال به ownCloud خودتان در بخش مدیریت فایل خودتان استفاده کنید"
+#, php-format
+msgid ""
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
+"target=\"_blank\">access your Files via WebDAV</a>"
+msgstr "استفاده ابن آدرس <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\"> برای دسترسی فایل های شما از طریق WebDAV </a>"
 
 #: templates/users.php:21
 msgid "Login Name"

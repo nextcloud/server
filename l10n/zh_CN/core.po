@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-08 02:02+0200\n"
-"PO-Revision-Date: 2013-07-08 00:02+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -139,59 +139,59 @@ msgstr "十一月"
 msgid "December"
 msgstr "十二月"
 
-#: js/js.js:289
+#: js/js.js:293
 msgid "Settings"
 msgstr "设置"
 
-#: js/js.js:721
+#: js/js.js:715
 msgid "seconds ago"
 msgstr "秒前"
 
-#: js/js.js:722
+#: js/js.js:716
 msgid "1 minute ago"
 msgstr "一分钟前"
 
-#: js/js.js:723
+#: js/js.js:717
 msgid "{minutes} minutes ago"
 msgstr "{minutes} 分钟前"
 
-#: js/js.js:724
+#: js/js.js:718
 msgid "1 hour ago"
 msgstr "1小时前"
 
-#: js/js.js:725
+#: js/js.js:719
 msgid "{hours} hours ago"
 msgstr "{hours} 小时前"
 
-#: js/js.js:726
+#: js/js.js:720
 msgid "today"
 msgstr "今天"
 
-#: js/js.js:727
+#: js/js.js:721
 msgid "yesterday"
 msgstr "昨天"
 
-#: js/js.js:728
+#: js/js.js:722
 msgid "{days} days ago"
 msgstr "{days} 天前"
 
-#: js/js.js:729
+#: js/js.js:723
 msgid "last month"
 msgstr "上月"
 
-#: js/js.js:730
+#: js/js.js:724
 msgid "{months} months ago"
 msgstr "{months} 月前"
 
-#: js/js.js:731
+#: js/js.js:725
 msgid "months ago"
 msgstr "月前"
 
-#: js/js.js:732
+#: js/js.js:726
 msgid "last year"
 msgstr "去年"
 
-#: js/js.js:733
+#: js/js.js:727
 msgid "years ago"
 msgstr "年前"
 
@@ -227,8 +227,8 @@ msgstr "未指定对象类型。"
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:620
-#: js/share.js:632
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:625
+#: js/share.js:637
 msgid "Error"
 msgstr "错误"
 
@@ -248,7 +248,7 @@ msgstr "已共享"
 msgid "Share"
 msgstr "分享"
 
-#: js/share.js:125 js/share.js:660
+#: js/share.js:125 js/share.js:665
 msgid "Error while sharing"
 msgstr "共享时出错"
 
@@ -268,114 +268,114 @@ msgstr "{owner} 共享给您及 {group} 组"
 msgid "Shared with you by {owner}"
 msgstr "{owner} 与您共享"
 
-#: js/share.js:172
+#: js/share.js:177
 msgid "Share with"
 msgstr "分享之"
 
-#: js/share.js:177
+#: js/share.js:182
 msgid "Share with link"
 msgstr "共享链接"
 
-#: js/share.js:180
+#: js/share.js:185
 msgid "Password protect"
 msgstr "密码保护"
 
-#: js/share.js:182 templates/installation.php:54 templates/login.php:26
+#: js/share.js:187 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "密码"
 
-#: js/share.js:187
+#: js/share.js:192
 msgid "Allow Public Upload"
 msgstr "允许公开上传"
 
-#: js/share.js:191
+#: js/share.js:196
 msgid "Email link to person"
 msgstr "发送链接到个人"
 
-#: js/share.js:192
+#: js/share.js:197
 msgid "Send"
 msgstr "发送"
 
-#: js/share.js:197
+#: js/share.js:202
 msgid "Set expiration date"
 msgstr "设置过期日期"
 
-#: js/share.js:198
+#: js/share.js:203
 msgid "Expiration date"
 msgstr "过期日期"
 
-#: js/share.js:230
+#: js/share.js:235
 msgid "Share via email:"
 msgstr "通过Email共享"
 
-#: js/share.js:232
+#: js/share.js:237
 msgid "No people found"
 msgstr "未找到此人"
 
-#: js/share.js:270
+#: js/share.js:275
 msgid "Resharing is not allowed"
 msgstr "不允许二次共享"
 
-#: js/share.js:306
+#: js/share.js:311
 msgid "Shared in {item} with {user}"
 msgstr "在 {item} 与 {user} 共享。"
 
-#: js/share.js:327
+#: js/share.js:332
 msgid "Unshare"
 msgstr "取消共享"
 
-#: js/share.js:339
+#: js/share.js:344
 msgid "can edit"
 msgstr "可以修改"
 
-#: js/share.js:341
+#: js/share.js:346
 msgid "access control"
 msgstr "访问控制"
 
-#: js/share.js:344
+#: js/share.js:349
 msgid "create"
 msgstr "创建"
 
-#: js/share.js:347
+#: js/share.js:352
 msgid "update"
 msgstr "更新"
 
-#: js/share.js:350
+#: js/share.js:355
 msgid "delete"
 msgstr "删除"
 
-#: js/share.js:353
+#: js/share.js:358
 msgid "share"
 msgstr "共享"
 
-#: js/share.js:387 js/share.js:607
+#: js/share.js:392 js/share.js:612
 msgid "Password protected"
 msgstr "密码已受保护"
 
-#: js/share.js:620
+#: js/share.js:625
 msgid "Error unsetting expiration date"
 msgstr "取消设置过期日期时出错"
 
-#: js/share.js:632
+#: js/share.js:637
 msgid "Error setting expiration date"
 msgstr "设置过期日期时出错"
 
-#: js/share.js:647
+#: js/share.js:652
 msgid "Sending ..."
 msgstr "正在发送..."
 
-#: js/share.js:658
+#: js/share.js:663
 msgid "Email sent"
 msgstr "邮件已发送"
 
-#: js/update.js:14
+#: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
 msgstr "更新不成功。请汇报将此问题汇报给  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud 社区</a>。"
 
-#: js/update.js:18
+#: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "更新成功。正在重定向至 ownCloud。"
 

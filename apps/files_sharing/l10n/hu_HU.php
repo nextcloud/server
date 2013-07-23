@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"The password is wrong. Try again." => "A megadott jelszó nem megfelelő. Próbálja újra!",
 "Password" => "Jelszó",
 "Submit" => "Elküld",
 "%s shared the folder %s with you" => "%s megosztotta Önnel ezt a mappát: %s",

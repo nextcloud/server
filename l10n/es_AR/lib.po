@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-08 02:03+0200\n"
-"PO-Revision-Date: 2013-07-08 00:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:05+0000\n"
+"Last-Translator: cjtess <claudio.tessone@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,7 +36,7 @@ msgstr "Usuarios"
 
 #: app.php:409
 msgid "Apps"
-msgstr "Aplicaciones"
+msgstr "Apps"
 
 #: app.php:417
 msgid "Admin"
@@ -44,27 +44,27 @@ msgstr "Administración"
 
 #: defaults.php:33
 msgid "web services under your control"
-msgstr "servicios web que controlás"
+msgstr "servicios web sobre los que tenés control"
 
-#: files.php:210
+#: files.php:226
 msgid "ZIP download is turned off."
 msgstr "La descarga en ZIP está desactivada."
 
-#: files.php:211
+#: files.php:227
 msgid "Files need to be downloaded one by one."
 msgstr "Los archivos deben ser descargados de a uno."
 
-#: files.php:212 files.php:245
+#: files.php:228 files.php:261
 msgid "Back to Files"
-msgstr "Volver a archivos"
+msgstr "Volver a Archivos"
 
-#: files.php:242
+#: files.php:258
 msgid "Selected files too large to generate zip file."
 msgstr "Los archivos seleccionados son demasiado grandes para generar el archivo zip."
 
 #: helper.php:236
 msgid "couldn't be determined"
-msgstr "no pudo ser determinado"
+msgstr "no se pudo determinar"
 
 #: json.php:28
 msgid "Application is not enabled"
@@ -93,17 +93,17 @@ msgstr "Imágenes"
 #: setup/abstractdatabase.php:22
 #, php-format
 msgid "%s enter the database username."
-msgstr "%s Entre el Usuario de la Base de Datos"
+msgstr "%s Entrá el usuario de la base de datos"
 
 #: setup/abstractdatabase.php:25
 #, php-format
 msgid "%s enter the database name."
-msgstr "%s Entre el Nombre de la Base de Datos"
+msgstr "%s Entrá el nombre de la base de datos."
 
 #: setup/abstractdatabase.php:28
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr "%s no puede usar puntos en el nombre de la Base de Datos"
+msgstr "%s no podés usar puntos en el nombre de la base de datos"
 
 #: setup/mssql.php:20
 #, php-format
@@ -113,7 +113,7 @@ msgstr "Nombre de usuario y contraseña de MS SQL no son válidas: %s"
 #: setup/mssql.php:21 setup/mysql.php:13 setup/oci.php:114
 #: setup/postgresql.php:24 setup/postgresql.php:70
 msgid "You need to enter either an existing account or the administrator."
-msgstr "Debe ingresar una cuenta existente o el administrador"
+msgstr "Tenés que ingresar una cuenta existente o el administrador."
 
 #: setup/mysql.php:12
 msgid "MySQL username and/or password not valid"
@@ -139,7 +139,7 @@ msgstr "El comando no comprendido es: \"%s\""
 #: setup/mysql.php:85
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
-msgstr "Usuario MySQL '%s'@'localhost' ya existente"
+msgstr "Usuario MySQL '%s'@'localhost' ya existe."
 
 #: setup/mysql.php:86
 msgid "Drop this user from MySQL"
@@ -148,7 +148,7 @@ msgstr "Borrar este usuario de MySQL"
 #: setup/mysql.php:91
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
-msgstr "Usuario MySQL '%s'@'%%' ya existente"
+msgstr "Usuario MySQL '%s'@'%%' ya existe"
 
 #: setup/mysql.php:92
 msgid "Drop this user from MySQL."
@@ -160,7 +160,7 @@ msgstr "No fue posible establecer la conexión a Oracle"
 
 #: setup/oci.php:41 setup/oci.php:113
 msgid "Oracle username and/or password not valid"
-msgstr "El nombre de usuario y contraseña no son válidos"
+msgstr "El nombre de usuario y/o contraseña no son válidos"
 
 #: setup/oci.php:173 setup/oci.php:205
 #, php-format
@@ -169,76 +169,76 @@ msgstr "El comando no comprendido es: \"%s\", nombre: \"%s\", contraseña: \"%s\
 
 #: setup/postgresql.php:23 setup/postgresql.php:69
 msgid "PostgreSQL username and/or password not valid"
-msgstr "Nombre de usuario o contraseña de PostgradeSQL no válido."
+msgstr "Nombre de usuario o contraseña PostgradeSQL inválido."
 
-#: setup.php:42
+#: setup.php:28
 msgid "Set an admin username."
-msgstr "Configurar un nombre de administrador"
+msgstr "Configurar un nombre de administrador."
 
-#: setup.php:45
+#: setup.php:31
 msgid "Set an admin password."
-msgstr "Configurar una palabra clave de administrador"
+msgstr "Configurar una contraseña de administrador."
 
-#: setup.php:198
+#: setup.php:184
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Tu servidor web no está configurado todavía para permitir sincronización de archivos porque la interfaz WebDAV parece no funcionar."
 
-#: setup.php:199
+#: setup.php:185
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Por favor, comprobá nuevamente la <a href='%s'>guía de instalación</a>."
 
-#: template.php:113
+#: template.php:95
 msgid "seconds ago"
 msgstr "segundos atrás"
 
-#: template.php:114
+#: template.php:96
 msgid "1 minute ago"
 msgstr "hace 1 minuto"
 
-#: template.php:115
+#: template.php:97
 #, php-format
 msgid "%d minutes ago"
 msgstr "hace %d minutos"
 
-#: template.php:116
+#: template.php:98
 msgid "1 hour ago"
-msgstr "1 hora atrás"
+msgstr "hace 1 hora"
 
-#: template.php:117
+#: template.php:99
 #, php-format
 msgid "%d hours ago"
-msgstr "%d horas atrás"
+msgstr "hace %d horas"
 
-#: template.php:118
+#: template.php:100
 msgid "today"
 msgstr "hoy"
 
-#: template.php:119
+#: template.php:101
 msgid "yesterday"
 msgstr "ayer"
 
-#: template.php:120
+#: template.php:102
 #, php-format
 msgid "%d days ago"
 msgstr "hace %d días"
 
-#: template.php:121
+#: template.php:103
 msgid "last month"
 msgstr "el mes pasado"
 
-#: template.php:122
+#: template.php:104
 #, php-format
 msgid "%d months ago"
-msgstr "%d meses atrás"
+msgstr "hace %d meses"
 
-#: template.php:123
+#: template.php:105
 msgid "last year"
 msgstr "el año pasado"
 
-#: template.php:124
+#: template.php:106
 msgid "years ago"
 msgstr "años atrás"
 

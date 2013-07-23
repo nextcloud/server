@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-08 02:02+0200\n"
-"PO-Revision-Date: 2013-07-07 23:14+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr "Impossible de déplacer %s - Un fichier possédant ce nom existe déjà"
 msgid "Could not move %s"
 msgstr "Impossible de déplacer %s"
 
-#: ajax/upload.php:16 ajax/upload.php:36 ajax/upload.php:48
+#: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
 msgstr "Impossible de définir le dossier pour l'upload, charger."
 
@@ -38,46 +38,46 @@ msgstr "Impossible de définir le dossier pour l'upload, charger."
 msgid "Invalid Token"
 msgstr "Jeton non valide"
 
-#: ajax/upload.php:62
+#: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
 msgstr "Aucun fichier n'a été envoyé. Erreur inconnue"
 
-#: ajax/upload.php:69
+#: ajax/upload.php:66
 msgid "There is no error, the file uploaded with success"
 msgstr "Aucune erreur, le fichier a été envoyé avec succès."
 
-#: ajax/upload.php:70
+#: ajax/upload.php:67
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Le fichier envoyé dépasse la valeur upload_max_filesize située dans le fichier php.ini:"
 
-#: ajax/upload.php:72
+#: ajax/upload.php:69
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Le fichier envoyé dépasse la directive MAX_FILE_SIZE qui est spécifiée dans le formulaire HTML."
 
-#: ajax/upload.php:73
+#: ajax/upload.php:70
 msgid "The uploaded file was only partially uploaded"
 msgstr "Le fichier n'a été que partiellement envoyé."
 
-#: ajax/upload.php:74
+#: ajax/upload.php:71
 msgid "No file was uploaded"
 msgstr "Pas de fichier envoyé."
 
-#: ajax/upload.php:75
+#: ajax/upload.php:72
 msgid "Missing a temporary folder"
 msgstr "Absence de dossier temporaire."
 
-#: ajax/upload.php:76
+#: ajax/upload.php:73
 msgid "Failed to write to disk"
 msgstr "Erreur d'écriture sur le disque"
 
-#: ajax/upload.php:94
+#: ajax/upload.php:91
 msgid "Not enough storage available"
 msgstr "Plus assez d'espace de stockage disponible"
 
-#: ajax/upload.php:126
+#: ajax/upload.php:123
 msgid "Invalid directory."
 msgstr "Dossier invalide."
 
@@ -131,43 +131,43 @@ msgstr "Supprimer"
 msgid "Rename"
 msgstr "Renommer"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:464
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
 msgid "Pending"
 msgstr "En attente"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:303 js/filelist.js:305
 msgid "{new_name} already exists"
 msgstr "{new_name} existe déjà"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:303 js/filelist.js:305
 msgid "replace"
 msgstr "remplacer"
 
-#: js/filelist.js:302
+#: js/filelist.js:303
 msgid "suggest name"
 msgstr "Suggérer un nom"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:303 js/filelist.js:305
 msgid "cancel"
 msgstr "annuler"
 
-#: js/filelist.js:349
+#: js/filelist.js:350
 msgid "replaced {new_name} with {old_name}"
 msgstr "{new_name} a été remplacé par {old_name}"
 
-#: js/filelist.js:349
+#: js/filelist.js:350
 msgid "undo"
 msgstr "annuler"
 
-#: js/filelist.js:374
+#: js/filelist.js:375
 msgid "perform delete operation"
 msgstr "effectuer l'opération de suppression"
 
-#: js/filelist.js:456
+#: js/filelist.js:457
 msgid "1 file uploading"
 msgstr "1 fichier en cours d'envoi"
 
-#: js/filelist.js:459 js/filelist.js:517
+#: js/filelist.js:460 js/filelist.js:518
 msgid "files uploading"
 msgstr "fichiers en cours d'envoi"
 
@@ -215,19 +215,19 @@ msgstr "Taille"
 msgid "Modified"
 msgstr "Modifié"
 
-#: js/files.js:765
+#: js/files.js:763
 msgid "1 folder"
 msgstr "1 dossier"
 
-#: js/files.js:767
+#: js/files.js:765
 msgid "{count} folders"
 msgstr "{count} dossiers"
 
-#: js/files.js:775
+#: js/files.js:773
 msgid "1 file"
 msgstr "1 fichier"
 
-#: js/files.js:777
+#: js/files.js:775
 msgid "{count} files"
 msgstr "{count} fichiers"
 
@@ -330,19 +330,19 @@ msgstr "Les fichiers sont en cours d'analyse, veuillez patienter."
 msgid "Current scanning"
 msgstr "Analyse en cours"
 
-#: templates/part.list.php:78
+#: templates/part.list.php:74
 msgid "directory"
-msgstr ""
+msgstr "dossier"
 
-#: templates/part.list.php:80
+#: templates/part.list.php:76
 msgid "directories"
-msgstr ""
+msgstr "dossiers"
 
-#: templates/part.list.php:89
+#: templates/part.list.php:85
 msgid "file"
 msgstr "fichier"
 
-#: templates/part.list.php:91
+#: templates/part.list.php:87
 msgid "files"
 msgstr "fichiers"
 

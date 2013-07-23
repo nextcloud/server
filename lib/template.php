@@ -84,24 +84,6 @@ function human_file_size( $bytes ) {
 	return OC_Helper::humanFileSize( $bytes );
 }
 
-function simple_file_size($bytes) {
-	if ($bytes < 0) {
-		return '?';
-	}
-	$mbytes = round($bytes / (1024 * 1024), 1);
-	if ($bytes == 0) {
-		return '0';
-	}
-	if ($mbytes < 0.1) {
-		return '&lt; 0.1';
-	}
-	if ($mbytes > 1000) {
-		return '&gt; 1000';
-	} else {
-		return number_format($mbytes, 1);
-	}
-}
-
 function relative_modified_date($timestamp) {
 	$l=OC_L10N::get('lib');
 	$timediff = time() - $timestamp;
@@ -181,7 +163,7 @@ class OC_Template{
 		$this->renderas = $renderas;
 		$this->application = $app;
 		$this->vars = array();
-		$this->vars['requesttoken'] = OC_Util::callRegister();
+		$this->vars['requesttoken'] = OC::$session ? OC_Util::callRegister() : '';
 		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
 		$this->l10n = OC_L10N::get($parts[0]);
 
@@ -243,6 +225,9 @@ class OC_Template{
 	 */
 	static public function getFormFactorExtension()
 	{
+		if (!\OC::$session) {
+			return '';
+		}
 		// if the formfactor is not yet autodetected do the
 		// autodetection now. For possible formfactors check the
 		// detectFormfactor documentation
@@ -546,14 +531,25 @@ class OC_Template{
 		if ($exception->getCode()) {
 			$error_msg = '['.$exception->getCode().'] '.$error_msg;
 		}
-		$hint = $exception->getTraceAsString();
-		while (method_exists($exception,'previous') && $exception = $exception->previous()) {
-			$error_msg .= '<br/>Caused by: ';
-			if ($exception->getCode()) {
-				$error_msg .= '['.$exception->getCode().'] ';
+		if (defined('DEBUG') and DEBUG) {
+			$hint = $exception->getTraceAsString();
+			if (!empty($hint)) {
+				$hint = '<pre>'.$hint.'</pre>';
 			}
-			$error_msg .= $exception->getMessage();
-		};
+			$l = OC_L10N::get('lib');
+			while (method_exists($exception, 'previous') && $exception = $exception->previous()) {
+				$error_msg .= '<br/>'.$l->t('Caused by:').' ';
+				if ($exception->getCode()) {
+					$error_msg .= '['.$exception->getCode().'] ';
+				}
+				$error_msg .= $exception->getMessage();
+			};
+		} else {
+			$hint = '';
+			if ($exception instanceof \OC\HintException) {
+				$hint = $exception->getHint();
+			}
+		}
 		self::printErrorPage($error_msg, $hint);
 	}
 }

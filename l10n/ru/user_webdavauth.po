@@ -7,13 +7,14 @@
 # Denis <reg.transifex.net@demitel.ru>, 2013
 # adol <sharov3@gmail.com>, 2012
 # skoptev <skoptev@ukr.net>, 2012
+# Victor Bravo <>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-29 02:03+0200\n"
-"PO-Revision-Date: 2013-06-28 19:50+0000\n"
-"Last-Translator: lord93 <lordakryl@gmail.com>\n"
+"POT-Creation-Date: 2013-07-09 02:03+0200\n"
+"PO-Revision-Date: 2013-07-08 10:40+0000\n"
+"Last-Translator: Victor Bravo <>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +28,7 @@ msgstr "Идентификация WebDAV"
 
 #: templates/settings.php:4
 msgid "URL: "
-msgstr ""
+msgstr "URL:"
 
 #: templates/settings.php:7
 msgid ""

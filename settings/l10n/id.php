@@ -97,7 +97,6 @@
 "Language" => "Bahasa",
 "Help translate" => "Bantu menerjemahkan",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "Gunakan alamat ini untuk terhubung ke ownCloud Anda pada manajer berkas ",
 "Login Name" => "Nama Masuk",
 "Create" => "Buat",
 "Default Storage" => "Penyimpanan Baku",

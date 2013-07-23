@@ -61,7 +61,7 @@
 	<div id="emptyfolder"><?php p($l->t('Nothing in here. Upload something!'))?></div>
 <?php endif; ?>
 
-<table id="filestable">
+<table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>">
 	<thead>
 		<tr>
 			<th id='headerName'>
@@ -77,7 +77,7 @@
 					<?php endif; ?>
 				</span>
 			</th>
-			<th id="headerSize"><?php p($l->t( 'Size' )); ?></th>
+			<th id="headerSize"><?php p($l->t('Size')); ?></th>
 			<th id="headerDate">
 				<span id="modified"><?php p($l->t( 'Modified' )); ?></span>
 				<?php if ($_['permissions'] & OCP\PERMISSION_DELETE): ?>

@@ -59,7 +59,7 @@ class OC_Preferences{
 	}
 
 	/**
-	 * @brief Get all apps of a user
+	 * @brief Get all apps of an user
 	 * @param string $user user
 	 * @return array with app ids
 	 *

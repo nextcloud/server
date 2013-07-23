@@ -62,7 +62,7 @@
 "Share with link" => "URLリンクで共有",
 "Password protect" => "パスワード保護",
 "Password" => "パスワード",
-"Allow Public Upload" => "パブリックなアップロードを許可",
+"Allow Public Upload" => "アップロードを許可",
 "Email link to person" => "メールリンク",
 "Send" => "送信",
 "Set expiration date" => "有効期限を設定",
