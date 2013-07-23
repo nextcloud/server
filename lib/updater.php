@@ -123,7 +123,12 @@ class OC_Updater extends BasicEmitter {
 				FROM `*PREFIX*fscache`
 			');
 			$result = $query->execute();
+			if(\OCP\DB::isError($result)) {
+				//MDB2 does not throw Exception by itself
+				throw new \Exception($result->getMessage());
+			}
 		} catch (\Exception $e) {
+			//No such table, i.e. filecache upgrade already proceeded
 			return;
 		}
 		$users = $result->fetchAll();
