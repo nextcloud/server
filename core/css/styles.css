@@ -167,21 +167,35 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 #rightcontent, .rightcontent { position:fixed; top:6.4em; left:24.5em; overflow:auto }
 
 
+
+
 /* LOG IN & INSTALLATION ------------------------------------------------------------ */
+
+/* Some whitespace to the top */
 #body-login #header {
 	padding-top: 100px;
 }
+
+/* Dark subtle label text */
+#body-login p.info,
+#body-login form fieldset legend,
+#body-login #datadirContent label,
+#body-login form input[type="checkbox"]+label {
+	text-align: center;
+	color: #000;
+	text-shadow: 0 1px 0 rgba(255,255,255,.1);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+	filter: alpha(opacity=80);
+	opacity: .8;
+}
+
 #body-login div.buttons { text-align:center; }
 #body-login p.info {
 	width: 22em;
-	text-align: center;
 	margin: 0 auto;
-	color: #000a20;
-	text-shadow: #3d4d64 0 1px 0;
 }
 #body-login p.info a {
 	font-weight: bold;
-	color: #000d24;
 }
 #body-login #submit.login { margin-right:7px; } /* quick fix for log in button not being aligned with input fields, should be properly fixed by input field width later */
 
@@ -192,12 +206,23 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 }
 #body-login form #adminaccount { margin-bottom:5px; }
 #body-login form fieldset legend, #datadirContent label {
-	width:100%; text-align:center;
-	font-weight:bold; color:#999; text-shadow:0 1px 0 white;
+	width: 100%;
+	font-weight: bold;
 }
-#body-login form fieldset legend a { color:#999; }
-#body-login #datadirContent label { display:block; margin:0; color:#999;  }
-#body-login form #datadirField legend { margin-bottom:15px; }
+#body-login #datadirContent label {
+	display: block;
+	margin: 0;
+}
+#body-login form #datadirField legend {
+	margin-bottom: 15px;
+}
+#body-login #showAdvanced {
+	padding: 13px; /* increase clickable area of Advanced dropdown */
+}
+#body-login #showAdvanced img {
+	vertical-align: bottom; /* adjust position of Advanced dropdown arrow */
+	margin-left: -4px;
+}
 
 /* Icons for username and password fields to better recognize them */
 #adminlogin, #adminpass, #user, #password { width:11.7em!important; padding-left:1.8em; }
@@ -215,6 +240,10 @@ input[name="adminpass-clone"] { padding-left:1.8em; width:11.7em !important; }
 	border-bottom: 0;
 	border-bottom-left-radius: 0;
 	border-bottom-right-radius: 0;
+	-moz-box-shadow: 0 -1px 0 rgba(0,0,0,.5), 0 1px 0 rgba(0,0,0,.25) inset;
+	-webkit-box-shadow: 0 -1px 0 rgba(0,0,0,.5), 0 1px 0 rgba(0,0,0,.25) inset;
+	box-shadow: 0 -1px 0 rgba(0,0,0,.5), 0 1px 0 rgba(0,0,0,.25) inset;
+	border: none;
 }
 .groupmiddle input {
 	margin-top: 0;
@@ -222,34 +251,23 @@ input[name="adminpass-clone"] { padding-left:1.8em; width:11.7em !important; }
 	border-top: 0;
 	border-bottom: 0;
 	border-radius: 0;
-	box-shadow: 0 1px 1px #fff, 0 1px 0 #ddd inset;
+	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.4), 0 1px 0 rgba(0,0,0,.1) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.4), 0 1px 0 rgba(0,0,0,.1) inset;
+	box-shadow: 0 1px 0 rgba(255,255,255,.4), 0 1px 0 rgba(0,0,0,.1) inset;
+	border: none;
 }
 .groupbottom input {
 	margin-top: 0;
 	border-top: 0;
 	border-top-right-radius: 0;
 	border-top-left-radius: 0;
-	box-shadow: 0 1px 1px #fff, 0 1px 0 #ddd inset;
-}
-
-/* Adjustments for new full-color background on log in */
-#body-login .grouptop input {
-	-moz-box-shadow: 0 -1px 0 #3d4d65, 0 1px 0 #1d2d44 inset;
-	-webkit-box-shadow: 0 -1px 0 #3d4d65, 0 1px 0 #1d2d44 inset;
-	box-shadow: 0 -1px 0 #3d4d65, 0 1px 0 #1d2d44 inset;
-	border: 1px solid #3d4d64;
-	border-bottom: 0;
-}
-#body-login .groupbottom input {
-	-moz-box-shadow: 0 1px 0 #3d4d65, 0 1px 0 #ddd inset;
-	-webkit-box-shadow: 0 1px 0 #3d4d65, 0 1px 0 #ddd inset;
-	box-shadow: 0 1px 0 #3d4d65, 0 1px 0 #ddd inset;
-	border: 1px solid #3d4d64;
-	border-top: 0;
+	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.4), 0 1px 0 rgba(0,0,0,.1) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.4), 0 1px 0 rgba(0,0,0,.1) inset;
+	box-shadow: 0 1px 0 rgba(255,255,255,.4), 0 1px 0 rgba(0,0,0,.1) inset;
+	border: none;
 }
 
 /* In field labels. No, HTML placeholder does not work as well. */
-#body-login form label { color:#666; }
 #body-login .groupmiddle label, #body-login .groupbottom label { top:.65em; }
 p.infield { position:relative; }
 label.infield { cursor:text !important; top:1.05em; left:.85em; }
@@ -263,16 +281,9 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	position: relative;
 	margin: 0;
 	font-size: 1em;
-	color: #000d24;
-	text-shadow: #3d4d64 0 1px 0;
 	padding: 14px;
 	padding-left: 28px;
 	margin-left: -28px;
-}
-#body-login form input[type="checkbox"]+label:hover,
-#body-login form input[type="checkbox"]+label:focus {
-	color: #000 !important;
-	text-shadow: #3d4d64 0 1px 0;
 }
 #body-login form .errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 2em; padding:1em; }
 #body-login .success { background:#d7fed7; border:1px solid #0f0; width: 35%; margin: 30px auto; padding:1em; text-align: center;}
@@ -358,6 +369,12 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 #body-login .warning {
 	margin: 0 7px 5px;
 	font-weight: bold;
+}
+#body-login .warning legend {
+	text-shadow: none;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+	opacity: 1;
 }
 #body-login a.warning {
 	cursor: pointer;
