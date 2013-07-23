@@ -32,7 +32,7 @@
 			<field>
 				<name>configvalue</name>
 				<type>clob</type>
-				<notnull>false</notnull>
+				<notnull>true</notnull>
 			</field>
 
 			<index>
