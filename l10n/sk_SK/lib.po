@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-16 01:56-0400\n"
-"PO-Revision-Date: 2013-07-16 05:15+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -190,55 +190,55 @@ msgstr "Váš webový server nie je správne nastavený na synchronizáciu, pret
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Prosím skontrolujte <a href='%s'>inštalačnú príručku</a>."
 
-#: template.php:113
+#: template.php:95
 msgid "seconds ago"
 msgstr "pred sekundami"
 
-#: template.php:114
+#: template.php:96
 msgid "1 minute ago"
 msgstr "pred minútou"
 
-#: template.php:115
+#: template.php:97
 #, php-format
 msgid "%d minutes ago"
 msgstr "pred %d minútami"
 
-#: template.php:116
+#: template.php:98
 msgid "1 hour ago"
 msgstr "Pred 1 hodinou"
 
-#: template.php:117
+#: template.php:99
 #, php-format
 msgid "%d hours ago"
 msgstr "Pred %d hodinami."
 
-#: template.php:118
+#: template.php:100
 msgid "today"
 msgstr "dnes"
 
-#: template.php:119
+#: template.php:101
 msgid "yesterday"
 msgstr "včera"
 
-#: template.php:120
+#: template.php:102
 #, php-format
 msgid "%d days ago"
 msgstr "pred %d dňami"
 
-#: template.php:121
+#: template.php:103
 msgid "last month"
 msgstr "minulý mesiac"
 
-#: template.php:122
+#: template.php:104
 #, php-format
 msgid "%d months ago"
 msgstr "Pred %d mesiacmi."
 
-#: template.php:123
+#: template.php:105
 msgid "last year"
 msgstr "minulý rok"
 
-#: template.php:124
+#: template.php:106
 msgid "years ago"
 msgstr "pred rokmi"
 

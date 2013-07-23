@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-16 01:56-0400\n"
-"PO-Revision-Date: 2013-07-16 05:14+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -141,55 +141,55 @@ msgstr "დეკემბერი"
 msgid "Settings"
 msgstr "პარამეტრები"
 
-#: js/js.js:725
+#: js/js.js:715
 msgid "seconds ago"
 msgstr "წამის წინ"
 
-#: js/js.js:726
+#: js/js.js:716
 msgid "1 minute ago"
 msgstr "1 წუთის წინ"
 
-#: js/js.js:727
+#: js/js.js:717
 msgid "{minutes} minutes ago"
 msgstr "{minutes} წუთის წინ"
 
-#: js/js.js:728
+#: js/js.js:718
 msgid "1 hour ago"
 msgstr "1 საათის წინ"
 
-#: js/js.js:729
+#: js/js.js:719
 msgid "{hours} hours ago"
 msgstr "{hours} საათის წინ"
 
-#: js/js.js:730
+#: js/js.js:720
 msgid "today"
 msgstr "დღეს"
 
-#: js/js.js:731
+#: js/js.js:721
 msgid "yesterday"
 msgstr "გუშინ"
 
-#: js/js.js:732
+#: js/js.js:722
 msgid "{days} days ago"
 msgstr "{days} დღის წინ"
 
-#: js/js.js:733
+#: js/js.js:723
 msgid "last month"
 msgstr "გასულ თვეში"
 
-#: js/js.js:734
+#: js/js.js:724
 msgid "{months} months ago"
 msgstr "{months} თვის წინ"
 
-#: js/js.js:735
+#: js/js.js:725
 msgid "months ago"
 msgstr "თვის წინ"
 
-#: js/js.js:736
+#: js/js.js:726
 msgid "last year"
 msgstr "ბოლო წელს"
 
-#: js/js.js:737
+#: js/js.js:727
 msgid "years ago"
 msgstr "წლის წინ"
 
@@ -225,8 +225,8 @@ msgstr "ობიექტის ტიპი არ არის მითი�
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:620
-#: js/share.js:632
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:625
+#: js/share.js:637
 msgid "Error"
 msgstr "შეცდომა"
 
@@ -246,7 +246,7 @@ msgstr "გაზიარებული"
 msgid "Share"
 msgstr "გაზიარება"
 
-#: js/share.js:125 js/share.js:660
+#: js/share.js:125 js/share.js:665
 msgid "Error while sharing"
 msgstr "შეცდომა გაზიარების დროს"
 
@@ -266,103 +266,103 @@ msgstr "გაზიარდა თქვენთვის და ჯგუფ
 msgid "Shared with you by {owner}"
 msgstr "გაზიარდა თქვენთვის {owner}–ის მიერ"
 
-#: js/share.js:172
+#: js/share.js:177
 msgid "Share with"
 msgstr "გააზიარე შემდეგით:"
 
-#: js/share.js:177
+#: js/share.js:182
 msgid "Share with link"
 msgstr "გაუზიარე ლინკით"
 
-#: js/share.js:180
+#: js/share.js:185
 msgid "Password protect"
 msgstr "პაროლით დაცვა"
 
-#: js/share.js:182 templates/installation.php:54 templates/login.php:26
+#: js/share.js:187 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "პაროლი"
 
-#: js/share.js:187
+#: js/share.js:192
 msgid "Allow Public Upload"
 msgstr ""
 
-#: js/share.js:191
+#: js/share.js:196
 msgid "Email link to person"
 msgstr "ლინკის პიროვნების იმეილზე გაგზავნა"
 
-#: js/share.js:192
+#: js/share.js:197
 msgid "Send"
 msgstr "გაგზავნა"
 
-#: js/share.js:197
+#: js/share.js:202
 msgid "Set expiration date"
 msgstr "მიუთითე ვადის გასვლის დრო"
 
-#: js/share.js:198
+#: js/share.js:203
 msgid "Expiration date"
 msgstr "ვადის გასვლის დრო"
 
-#: js/share.js:230
+#: js/share.js:235
 msgid "Share via email:"
 msgstr "გააზიარე მეილზე"
 
-#: js/share.js:232
+#: js/share.js:237
 msgid "No people found"
 msgstr "მომხმარებელი არ არის ნაპოვნი"
 
-#: js/share.js:270
+#: js/share.js:275
 msgid "Resharing is not allowed"
 msgstr "მეორეჯერ გაზიარება არ არის დაშვებული"
 
-#: js/share.js:306
+#: js/share.js:311
 msgid "Shared in {item} with {user}"
 msgstr "გაზიარდა {item}–ში  {user}–ის მიერ"
 
-#: js/share.js:327
+#: js/share.js:332
 msgid "Unshare"
 msgstr "გაუზიარებადი"
 
-#: js/share.js:339
+#: js/share.js:344
 msgid "can edit"
 msgstr "შეგიძლია შეცვლა"
 
-#: js/share.js:341
+#: js/share.js:346
 msgid "access control"
 msgstr "დაშვების კონტროლი"
 
-#: js/share.js:344
+#: js/share.js:349
 msgid "create"
 msgstr "შექმნა"
 
-#: js/share.js:347
+#: js/share.js:352
 msgid "update"
 msgstr "განახლება"
 
-#: js/share.js:350
+#: js/share.js:355
 msgid "delete"
 msgstr "წაშლა"
 
-#: js/share.js:353
+#: js/share.js:358
 msgid "share"
 msgstr "გაზიარება"
 
-#: js/share.js:387 js/share.js:607
+#: js/share.js:392 js/share.js:612
 msgid "Password protected"
 msgstr "პაროლით დაცული"
 
-#: js/share.js:620
+#: js/share.js:625
 msgid "Error unsetting expiration date"
 msgstr "შეცდომა ვადის გასვლის მოხსნის დროს"
 
-#: js/share.js:632
+#: js/share.js:637
 msgid "Error setting expiration date"
 msgstr "შეცდომა ვადის გასვლის მითითების დროს"
 
-#: js/share.js:647
+#: js/share.js:652
 msgid "Sending ..."
 msgstr "გაგზავნა ...."
 
-#: js/share.js:658
+#: js/share.js:663
 msgid "Email sent"
 msgstr "იმეილი გაიგზავნა"
 

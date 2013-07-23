@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-16 01:56-0400\n"
-"PO-Revision-Date: 2013-07-16 05:14+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:04+0000\n"
+"Last-Translator: medialabs\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -145,55 +145,55 @@ msgstr "December"
 msgid "Settings"
 msgstr "Inställningar"
 
-#: js/js.js:725
+#: js/js.js:715
 msgid "seconds ago"
 msgstr "sekunder sedan"
 
-#: js/js.js:726
+#: js/js.js:716
 msgid "1 minute ago"
 msgstr "1 minut sedan"
 
-#: js/js.js:727
+#: js/js.js:717
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minuter sedan"
 
-#: js/js.js:728
+#: js/js.js:718
 msgid "1 hour ago"
 msgstr "1 timme sedan"
 
-#: js/js.js:729
+#: js/js.js:719
 msgid "{hours} hours ago"
 msgstr "{hours} timmar sedan"
 
-#: js/js.js:730
+#: js/js.js:720
 msgid "today"
 msgstr "i dag"
 
-#: js/js.js:731
+#: js/js.js:721
 msgid "yesterday"
 msgstr "i går"
 
-#: js/js.js:732
+#: js/js.js:722
 msgid "{days} days ago"
 msgstr "{days} dagar sedan"
 
-#: js/js.js:733
+#: js/js.js:723
 msgid "last month"
 msgstr "förra månaden"
 
-#: js/js.js:734
+#: js/js.js:724
 msgid "{months} months ago"
 msgstr "{months} månader sedan"
 
-#: js/js.js:735
+#: js/js.js:725
 msgid "months ago"
 msgstr "månader sedan"
 
-#: js/js.js:736
+#: js/js.js:726
 msgid "last year"
 msgstr "förra året"
 
-#: js/js.js:737
+#: js/js.js:727
 msgid "years ago"
 msgstr "år sedan"
 
@@ -229,8 +229,8 @@ msgstr "Objekttypen är inte specificerad."
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:620
-#: js/share.js:632
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:625
+#: js/share.js:637
 msgid "Error"
 msgstr "Fel"
 
@@ -250,7 +250,7 @@ msgstr "Delad"
 msgid "Share"
 msgstr "Dela"
 
-#: js/share.js:125 js/share.js:660
+#: js/share.js:125 js/share.js:665
 msgid "Error while sharing"
 msgstr "Fel vid delning"
 
@@ -270,103 +270,103 @@ msgstr "Delad med dig och gruppen {group} av {owner}"
 msgid "Shared with you by {owner}"
 msgstr "Delad med dig av {owner}"
 
-#: js/share.js:172
+#: js/share.js:177
 msgid "Share with"
 msgstr "Delad med"
 
-#: js/share.js:177
+#: js/share.js:182
 msgid "Share with link"
 msgstr "Delad med länk"
 
-#: js/share.js:180
+#: js/share.js:185
 msgid "Password protect"
 msgstr "Lösenordsskydda"
 
-#: js/share.js:182 templates/installation.php:54 templates/login.php:26
+#: js/share.js:187 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Lösenord"
 
-#: js/share.js:187
+#: js/share.js:192
 msgid "Allow Public Upload"
 msgstr "Tillåt publik uppladdning"
 
-#: js/share.js:191
+#: js/share.js:196
 msgid "Email link to person"
 msgstr "E-posta länk till person"
 
-#: js/share.js:192
+#: js/share.js:197
 msgid "Send"
 msgstr "Skicka"
 
-#: js/share.js:197
+#: js/share.js:202
 msgid "Set expiration date"
 msgstr "Sätt utgångsdatum"
 
-#: js/share.js:198
+#: js/share.js:203
 msgid "Expiration date"
 msgstr "Utgångsdatum"
 
-#: js/share.js:230
+#: js/share.js:235
 msgid "Share via email:"
 msgstr "Dela via e-post:"
 
-#: js/share.js:232
+#: js/share.js:237
 msgid "No people found"
 msgstr "Hittar inga användare"
 
-#: js/share.js:270
+#: js/share.js:275
 msgid "Resharing is not allowed"
 msgstr "Dela vidare är inte tillåtet"
 
-#: js/share.js:306
+#: js/share.js:311
 msgid "Shared in {item} with {user}"
 msgstr "Delad i {item} med {user}"
 
-#: js/share.js:327
+#: js/share.js:332
 msgid "Unshare"
 msgstr "Sluta dela"
 
-#: js/share.js:339
+#: js/share.js:344
 msgid "can edit"
 msgstr "kan redigera"
 
-#: js/share.js:341
+#: js/share.js:346
 msgid "access control"
 msgstr "åtkomstkontroll"
 
-#: js/share.js:344
+#: js/share.js:349
 msgid "create"
 msgstr "skapa"
 
-#: js/share.js:347
+#: js/share.js:352
 msgid "update"
 msgstr "uppdatera"
 
-#: js/share.js:350
+#: js/share.js:355
 msgid "delete"
 msgstr "radera"
 
-#: js/share.js:353
+#: js/share.js:358
 msgid "share"
 msgstr "dela"
 
-#: js/share.js:387 js/share.js:607
+#: js/share.js:392 js/share.js:612
 msgid "Password protected"
 msgstr "Lösenordsskyddad"
 
-#: js/share.js:620
+#: js/share.js:625
 msgid "Error unsetting expiration date"
 msgstr "Fel vid borttagning av utgångsdatum"
 
-#: js/share.js:632
+#: js/share.js:637
 msgid "Error setting expiration date"
 msgstr "Fel vid sättning av utgångsdatum"
 
-#: js/share.js:647
+#: js/share.js:652
 msgid "Sending ..."
 msgstr "Skickar ..."
 
-#: js/share.js:658
+#: js/share.js:663
 msgid "Email sent"
 msgstr "E-post skickat"
 
@@ -375,7 +375,7 @@ msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr "Uppdateringen misslyckades. Rapportera detta problem till <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud-gemenskapen</a>."
+msgstr "Uppdateringen misslyckades. Rapportera detta problem till <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud Community</a>."
 
 #: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."

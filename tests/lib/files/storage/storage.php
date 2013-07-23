@@ -168,10 +168,10 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($this->instance->isReadable('/lorem.txt'));
 		$ctimeEnd = time();
 		$mTime = $this->instance->filemtime('/lorem.txt');
-		$this->assertTrue($this->instance->hasUpdated('/lorem.txt', $ctimeStart - 1));
-		$this->assertTrue($this->instance->hasUpdated('/', $ctimeStart - 1));
+		$this->assertTrue($this->instance->hasUpdated('/lorem.txt', $ctimeStart - 5));
+		$this->assertTrue($this->instance->hasUpdated('/', $ctimeStart - 5));
 
-		$this->assertTrue(($ctimeStart - 1) <= $mTime);
+		$this->assertTrue(($ctimeStart - 5) <= $mTime);
 		$this->assertTrue($mTime <= ($ctimeEnd + 1));
 		$this->assertEquals(filesize($textFile), $this->instance->filesize('/lorem.txt'));
 
@@ -188,7 +188,7 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$mtimeStart = time();
 
 		$this->instance->unlink('/lorem.txt');
-		$this->assertTrue($this->instance->hasUpdated('/', $mtimeStart - 1));
+		$this->assertTrue($this->instance->hasUpdated('/', $mtimeStart - 5));
 	}
 
 	public function testFOpen() {

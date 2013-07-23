@@ -15,6 +15,13 @@
 !/apps/files_versions
 !/apps/user_ldap
 !/apps/user_webdavauth
+/apps/files_external/3rdparty/irodsphp/PHPUnitTest
+/apps/files_external/3rdparty/irodsphp/web
+/apps/files_external/3rdparty/irodsphp/prods/test
+/apps/files_external/3rdparty/irodsphp/prods/tutorials
+/apps/files_external/3rdparty/irodsphp/prods/test*
+
+
 
 # ignore themes except the README
 /themes/*

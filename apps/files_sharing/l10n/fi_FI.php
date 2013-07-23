@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"The password is wrong. Try again." => "Väärä salasana. Yritä uudelleen.",
 "Password" => "Salasana",
 "Submit" => "Lähetä",
 "%s shared the folder %s with you" => "%s jakoi kansion %s kanssasi",

@@ -436,10 +436,30 @@ class OC_Installer{
 
 		$blacklist=array(
 			'exec(',
-			'eval('
+			'eval(',
 			// more evil pattern will go here later
-			// will will also check if an app is using private api once the public api is in place
 
+			// classes replaced by the public api
+			'OC_API::',
+			'OC_App::',
+			'OC_AppConfig::',
+			'OC_BackgroundJob::',
+			'OC_Config::',
+			'OC_DB::',
+			'OC_Files::',
+			'OC_Helper::',
+			'OC_Hook::',
+			'OC_Image::',
+			'OC_JSON::',
+			'OC_L10N::',
+			'OC_Log::',
+			'OC_Mail::',
+			'OC_Preferences::',
+			'OC_Request::',
+			'OC_Response::',
+			'OC_Template::',
+			'OC_User::',
+			'OC_Util::',
 		);
 
 		// is the code checker enabled?

@@ -68,7 +68,6 @@
 "You don’t have write permissions here." => "您在這裡沒有編輯權。",
 "Nothing in here. Upload something!" => "這裡什麼也沒有，上傳一些東西吧！",
 "Download" => "下載",
-"Size (MB)" => "大小 (MB)",
 "Unshare" => "取消共享",
 "Upload too large" => "上傳過大",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "您試圖上傳的檔案已超過伺服器的最大檔案大小限制。",

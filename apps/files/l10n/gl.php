@@ -68,7 +68,6 @@
 "You don’t have write permissions here." => "Non ten permisos para escribir aquí.",
 "Nothing in here. Upload something!" => "Aquí non hai nada. Envíe algo.",
 "Download" => "Descargar",
-"Size (MB)" => "Tamaño (MB)",
 "Unshare" => "Deixar de compartir",
 "Upload too large" => "Envío demasiado grande",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Os ficheiros que tenta enviar exceden do tamaño máximo permitido neste servidor",

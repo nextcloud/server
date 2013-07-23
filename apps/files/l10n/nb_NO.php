@@ -66,7 +66,6 @@
 "You don’t have write permissions here." => "Du har ikke skrivetilgang her.",
 "Nothing in here. Upload something!" => "Ingenting her. Last opp noe!",
 "Download" => "Last ned",
-"Size (MB)" => "Størrelse (MB)",
 "Unshare" => "Avslutt deling",
 "Upload too large" => "Filen er for stor",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Filene du prøver å laste opp er for store for å laste opp til denne serveren.",

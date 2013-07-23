@@ -83,21 +83,6 @@ class OC_TemplateLayout extends OC_Template {
 		}
 	}
 
-	/*
-	 * @brief append the $file-url if exist at $root
-	 * @param $files array to append file info to
-	 * @param $root path to check
-	 * @param $web base for path
-	 * @param $file the filename
-	 */
-	static public function appendIfExist(&$files, $root, $webroot, $file) {
-		if (is_file($root.'/'.$file)) {
-			$files[] = array($root, $webroot, $file);
-			return true;
-		}
-		return false;
-	}
-
 	static public function findStylesheetFiles($styles) {
 		// Read the selected theme from the config file
 		$theme = OC_Util::getTheme();
@@ -105,51 +90,11 @@ class OC_TemplateLayout extends OC_Template {
 		// Read the detected formfactor and use the right file name.
 		$fext = self::getFormFactorExtension();
 
-		$files = array();
-		foreach($styles as $style) {
-			// is it in 3rdparty?
-			if(strpos($style, '3rdparty') === 0 &&
-				self::appendIfExist($files, OC::$THIRDPARTYROOT, OC::$THIRDPARTYWEBROOT, $style.'.css')) {
-
-			// or in the owncloud root?
-			}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "$style$fext.css" )) {
-			}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "$style.css" )) {
-
-			// or in core ?
-			}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "core/$style$fext.css" )) {
-			}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "core/$style.css" )) {
-
-			}else{
-				$app = substr($style, 0, strpos($style, '/'));
-				$style = substr($style, strpos($style, '/')+1);
-				$app_path = OC_App::getAppPath($app);
-				$app_url = OC::$WEBROOT . '/index.php/apps/' . $app;
-				if(self::appendIfExist($files, $app_path, $app_url, "$style$fext.css")) {
-				}
-				elseif(self::appendIfExist($files, $app_path, $app_url, "$style.css")) {
-				}
-				else {
-					echo('css file not found: style:'.$style.' formfactor:'.$fext
-						.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
-					die();
-				}
-			}
-		}
-		// Add the theme css files. you can override the default values here
-		if(!empty($theme)) {
-			foreach($styles as $style) {
-				     if(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "themes/$theme/apps/$style$fext.css" )) {
-				}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "themes/$theme/apps/$style.css" )) {
-
-				}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "themes/$theme/$style$fext.css" )) {
-				}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "themes/$theme/$style.css" )) {
-
-				}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "themes/$theme/core/$style$fext.css" )) {
-				}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "themes/$theme/core/$style.css" )) {
-				}
-			}
-		}
-		return $files;
+		$locator = new \OC\Template\CSSResourceLocator( $theme, $fext,
+			array( OC::$SERVERROOT => OC::$WEBROOT ),
+			array( OC::$THIRDPARTYROOT => OC::$THIRDPARTYWEBROOT ));
+		$locator->find($styles);
+		return $locator->getResources();
 	}
 
 	static public function findJavascriptFiles($scripts) {
@@ -159,49 +104,10 @@ class OC_TemplateLayout extends OC_Template {
 		// Read the detected formfactor and use the right file name.
 		$fext = self::getFormFactorExtension();
 
-		$files = array();
-		foreach($scripts as $script) {
-			// Is it in 3rd party?
-			if(strpos($script, '3rdparty') === 0 &&
-				self::appendIfExist($files, OC::$THIRDPARTYROOT, OC::$THIRDPARTYWEBROOT, $script.'.js')) {
-
-			// Is it in apps and overwritten by the theme?
-			}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "themes/$theme/apps/$script$fext.js" )) {
-			}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "themes/$theme/apps/$script.js" )) {
-
-			// Is it in the owncloud root but overwritten by the theme?
-			}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "themes/$theme/$script$fext.js" )) {
-			}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "themes/$theme/$script.js" )) {
-
-			// Is it in the owncloud root ?
-			}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "$script$fext.js" )) {
-			}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "$script.js" )) {
-
-			// Is in core but overwritten by a theme?
-			}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "themes/$theme/core/$script$fext.js" )) {
-			}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "themes/$theme/core/$script.js" )) {
-
-			// Is it in core?
-			}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "core/$script$fext.js" )) {
-			}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "core/$script.js" )) {
-
-			}else{
-				// Is it part of an app?
-				$app = substr($script, 0, strpos($script, '/'));
-				$script = substr($script, strpos($script, '/')+1);
-				$app_path = OC_App::getAppPath($app);
-				$app_url = OC_App::getAppWebPath($app);
-				if(self::appendIfExist($files, $app_path, $app_url, "$script$fext.js")) {
-				}
-				elseif(self::appendIfExist($files, $app_path, $app_url, "$script.js")) {
-				}
-				else {
-					echo('js file not found: script:'.$script.' formfactor:'.$fext
-						.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
-					die();
-				}
-			}
-		}
-		return $files;
+		$locator = new \OC\Template\JSResourceLocator( $theme, $fext,
+			array( OC::$SERVERROOT => OC::$WEBROOT ),
+			array( OC::$THIRDPARTYROOT => OC::$THIRDPARTYWEBROOT ));
+		$locator->find($scripts);
+		return $locator->getResources();
 	}
 }

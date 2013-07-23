@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-16 01:56-0400\n"
-"PO-Revision-Date: 2013-07-16 05:14+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:55+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -274,62 +274,71 @@ msgstr "Bağlantıları izin ver."
 msgid "Allow users to share items to the public with links"
 msgstr "Kullanıcıların nesneleri paylaşımı için herkese açık bağlantılara izin ver"
 
-#: templates/admin.php:152
+#: templates/admin.php:153
+msgid "Allow public uploads"
+msgstr ""
+
+#: templates/admin.php:154
+msgid ""
+"Allow users to enable others to upload into their publicly shared folders"
+msgstr ""
+
+#: templates/admin.php:162
 msgid "Allow resharing"
 msgstr "Paylaşıma izin ver"
 
-#: templates/admin.php:153
+#: templates/admin.php:163
 msgid "Allow users to share items shared with them again"
 msgstr "Kullanıcıların kendileri ile paylaşılan öğeleri yeniden paylaşmasına izin ver"
 
-#: templates/admin.php:160
+#: templates/admin.php:170
 msgid "Allow users to share with anyone"
 msgstr "Kullanıcıların herşeyi paylaşmalarına izin ver"
 
-#: templates/admin.php:163
+#: templates/admin.php:173
 msgid "Allow users to only share with users in their groups"
 msgstr "Kullanıcıların sadece kendi gruplarındaki kullanıcılarla paylaşmasına izin ver"
 
-#: templates/admin.php:170
+#: templates/admin.php:180
 msgid "Security"
 msgstr "Güvenlik"
 
-#: templates/admin.php:183
+#: templates/admin.php:193
 msgid "Enforce HTTPS"
 msgstr "HTTPS bağlantısına zorla"
 
-#: templates/admin.php:184
+#: templates/admin.php:194
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
 msgstr "İstemcileri ownCloud'a şifreli bir bağlantı ile bağlanmaya zorlar."
 
-#: templates/admin.php:187
+#: templates/admin.php:197
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
 msgstr "SSL zorlamasını etkinleştirmek ya da devre dışı bırakmak için lütfen bu ownCloud örneğine HTTPS ile bağlanın."
 
-#: templates/admin.php:197
+#: templates/admin.php:207
 msgid "Log"
 msgstr "Kayıtlar"
 
-#: templates/admin.php:198
+#: templates/admin.php:208
 msgid "Log level"
 msgstr "Günlük seviyesi"
 
-#: templates/admin.php:229
+#: templates/admin.php:239
 msgid "More"
 msgstr "Daha fazla"
 
-#: templates/admin.php:230
+#: templates/admin.php:240
 msgid "Less"
 msgstr "Az"
 
-#: templates/admin.php:236 templates/personal.php:116
+#: templates/admin.php:246 templates/personal.php:116
 msgid "Version"
 msgstr "Sürüm"
 
-#: templates/admin.php:240 templates/personal.php:119
+#: templates/admin.php:250 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -457,7 +466,7 @@ msgstr "WebDAV"
 msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
 "target=\"_blank\">access your Files via WebDAV</a>"
-msgstr ""
+msgstr " <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">Dosyalarınıza WebDAV üzerinen erişme </a> için  bu adresi kullanın"
 
 #: templates/users.php:21
 msgid "Login Name"
@@ -475,7 +484,7 @@ msgstr "Yönetici kurtarma parolası"
 msgid ""
 "Enter the recovery password in order to recover the users files during "
 "password change"
-msgstr ""
+msgstr "Parola değiştirme sırasında kullanıcı dosyalarını kurtarmak için bir kurtarma paroalsı girin"
 
 #: templates/users.php:42
 msgid "Default Storage"

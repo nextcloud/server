@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-16 01:56-0400\n"
-"PO-Revision-Date: 2013-07-16 05:14+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -129,43 +129,43 @@ msgstr "Izbriši"
 msgid "Rename"
 msgstr "Preimenuj"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:466
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
 msgid "Pending"
 msgstr "V čakanju ..."
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "{new_name} already exists"
 msgstr "{new_name} že obstaja"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "replace"
 msgstr "zamenjaj"
 
-#: js/filelist.js:304
+#: js/filelist.js:303
 msgid "suggest name"
 msgstr "predlagaj ime"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "cancel"
 msgstr "prekliči"
 
-#: js/filelist.js:351
+#: js/filelist.js:350
 msgid "replaced {new_name} with {old_name}"
 msgstr "preimenovano ime {new_name} z imenom {old_name}"
 
-#: js/filelist.js:351
+#: js/filelist.js:350
 msgid "undo"
 msgstr "razveljavi"
 
-#: js/filelist.js:376
+#: js/filelist.js:375
 msgid "perform delete operation"
 msgstr "izvedi opravilo brisanja"
 
-#: js/filelist.js:458
+#: js/filelist.js:457
 msgid "1 file uploading"
 msgstr "Pošiljanje 1 datoteke"
 
-#: js/filelist.js:461 js/filelist.js:519
+#: js/filelist.js:460 js/filelist.js:518
 msgid "files uploading"
 msgstr "poteka pošiljanje datotek"
 
@@ -205,7 +205,7 @@ msgstr "Neveljavno ime mape. Uporaba oznake \"Souporaba\" je zadržan za sistem 
 msgid "Name"
 msgstr "Ime"
 
-#: js/files.js:745
+#: js/files.js:745 templates/index.php:80
 msgid "Size"
 msgstr "Velikost"
 
@@ -213,19 +213,19 @@ msgstr "Velikost"
 msgid "Modified"
 msgstr "Spremenjeno"
 
-#: js/files.js:765
+#: js/files.js:763
 msgid "1 folder"
 msgstr "1 mapa"
 
-#: js/files.js:767
+#: js/files.js:765
 msgid "{count} folders"
 msgstr "{count} map"
 
-#: js/files.js:775
+#: js/files.js:773
 msgid "1 file"
 msgstr "1 datoteka"
 
-#: js/files.js:777
+#: js/files.js:775
 msgid "{count} files"
 msgstr "{count} datotek"
 
@@ -306,10 +306,6 @@ msgstr "Tukaj še ni ničesar. Najprej je treba kakšno datoteko poslati v oblak
 msgid "Download"
 msgstr "Prejmi"
 
-#: templates/index.php:80
-msgid "Size (MB)"
-msgstr ""
-
 #: templates/index.php:87 templates/index.php:88
 msgid "Unshare"
 msgstr "Prekliči souporabo"
@@ -332,19 +328,19 @@ msgstr "Poteka preučevanje datotek, počakajte ..."
 msgid "Current scanning"
 msgstr "Trenutno poteka preučevanje"
 
-#: templates/part.list.php:76
+#: templates/part.list.php:74
 msgid "directory"
 msgstr "direktorij"
 
-#: templates/part.list.php:78
+#: templates/part.list.php:76
 msgid "directories"
 msgstr "direktoriji"
 
-#: templates/part.list.php:87
+#: templates/part.list.php:85
 msgid "file"
 msgstr "datoteka"
 
-#: templates/part.list.php:89
+#: templates/part.list.php:87
 msgid "files"
 msgstr "datoteke"
 

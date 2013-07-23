@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-16 01:56-0400\n"
-"PO-Revision-Date: 2013-07-16 05:14+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -143,55 +143,55 @@ msgstr "Desembre"
 msgid "Settings"
 msgstr "Configuració"
 
-#: js/js.js:725
+#: js/js.js:715
 msgid "seconds ago"
 msgstr "segons enrere"
 
-#: js/js.js:726
+#: js/js.js:716
 msgid "1 minute ago"
 msgstr "fa 1 minut"
 
-#: js/js.js:727
+#: js/js.js:717
 msgid "{minutes} minutes ago"
 msgstr "fa {minutes} minuts"
 
-#: js/js.js:728
+#: js/js.js:718
 msgid "1 hour ago"
 msgstr "fa 1 hora"
 
-#: js/js.js:729
+#: js/js.js:719
 msgid "{hours} hours ago"
 msgstr "fa {hours} hores"
 
-#: js/js.js:730
+#: js/js.js:720
 msgid "today"
 msgstr "avui"
 
-#: js/js.js:731
+#: js/js.js:721
 msgid "yesterday"
 msgstr "ahir"
 
-#: js/js.js:732
+#: js/js.js:722
 msgid "{days} days ago"
 msgstr "fa {days} dies"
 
-#: js/js.js:733
+#: js/js.js:723
 msgid "last month"
 msgstr "el mes passat"
 
-#: js/js.js:734
+#: js/js.js:724
 msgid "{months} months ago"
 msgstr "fa {months} mesos"
 
-#: js/js.js:735
+#: js/js.js:725
 msgid "months ago"
 msgstr "mesos enrere"
 
-#: js/js.js:736
+#: js/js.js:726
 msgid "last year"
 msgstr "l'any passat"
 
-#: js/js.js:737
+#: js/js.js:727
 msgid "years ago"
 msgstr "anys enrere"
 
@@ -227,8 +227,8 @@ msgstr "No s'ha especificat el tipus d'objecte."
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:620
-#: js/share.js:632
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:625
+#: js/share.js:637
 msgid "Error"
 msgstr "Error"
 
@@ -248,7 +248,7 @@ msgstr "Compartit"
 msgid "Share"
 msgstr "Comparteix"
 
-#: js/share.js:125 js/share.js:660
+#: js/share.js:125 js/share.js:665
 msgid "Error while sharing"
 msgstr "Error en compartir"
 
@@ -268,103 +268,103 @@ msgstr "Compartit amb vos i amb el grup {group} per {owner}"
 msgid "Shared with you by {owner}"
 msgstr "Compartit amb vos per {owner}"
 
-#: js/share.js:172
+#: js/share.js:177
 msgid "Share with"
 msgstr "Comparteix amb"
 
-#: js/share.js:177
+#: js/share.js:182
 msgid "Share with link"
 msgstr "Comparteix amb enllaç"
 
-#: js/share.js:180
+#: js/share.js:185
 msgid "Password protect"
 msgstr "Protegir amb contrasenya"
 
-#: js/share.js:182 templates/installation.php:54 templates/login.php:26
+#: js/share.js:187 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Contrasenya"
 
-#: js/share.js:187
+#: js/share.js:192
 msgid "Allow Public Upload"
 msgstr "Permet pujada pública"
 
-#: js/share.js:191
+#: js/share.js:196
 msgid "Email link to person"
 msgstr "Enllaç per correu electrónic amb la persona"
 
-#: js/share.js:192
+#: js/share.js:197
 msgid "Send"
 msgstr "Envia"
 
-#: js/share.js:197
+#: js/share.js:202
 msgid "Set expiration date"
 msgstr "Estableix la data de venciment"
 
-#: js/share.js:198
+#: js/share.js:203
 msgid "Expiration date"
 msgstr "Data de venciment"
 
-#: js/share.js:230
+#: js/share.js:235
 msgid "Share via email:"
 msgstr "Comparteix per correu electrònic"
 
-#: js/share.js:232
+#: js/share.js:237
 msgid "No people found"
 msgstr "No s'ha trobat ningú"
 
-#: js/share.js:270
+#: js/share.js:275
 msgid "Resharing is not allowed"
 msgstr "No es permet compartir de nou"
 
-#: js/share.js:306
+#: js/share.js:311
 msgid "Shared in {item} with {user}"
 msgstr "Compartit en {item} amb {user}"
 
-#: js/share.js:327
+#: js/share.js:332
 msgid "Unshare"
 msgstr "Deixa de compartir"
 
-#: js/share.js:339
+#: js/share.js:344
 msgid "can edit"
 msgstr "pot editar"
 
-#: js/share.js:341
+#: js/share.js:346
 msgid "access control"
 msgstr "control d'accés"
 
-#: js/share.js:344
+#: js/share.js:349
 msgid "create"
 msgstr "crea"
 
-#: js/share.js:347
+#: js/share.js:352
 msgid "update"
 msgstr "actualitza"
 
-#: js/share.js:350
+#: js/share.js:355
 msgid "delete"
 msgstr "elimina"
 
-#: js/share.js:353
+#: js/share.js:358
 msgid "share"
 msgstr "comparteix"
 
-#: js/share.js:387 js/share.js:607
+#: js/share.js:392 js/share.js:612
 msgid "Password protected"
 msgstr "Protegeix amb contrasenya"
 
-#: js/share.js:620
+#: js/share.js:625
 msgid "Error unsetting expiration date"
 msgstr "Error en eliminar la data de venciment"
 
-#: js/share.js:632
+#: js/share.js:637
 msgid "Error setting expiration date"
 msgstr "Error en establir la data de venciment"
 
-#: js/share.js:647
+#: js/share.js:652
 msgid "Sending ..."
 msgstr "Enviant..."
 
-#: js/share.js:658
+#: js/share.js:663
 msgid "Email sent"
 msgstr "El correu electrónic s'ha enviat"
 

@@ -9,7 +9,7 @@
 
 namespace Test\Memcache;
 
-class Cache extends \Test_Cache {
+abstract class Cache extends \Test_Cache {
 	public function testExistsAfterSet() {
 		$this->assertFalse($this->instance->hasKey('foo'));
 		$this->instance->set('foo', 'bar');

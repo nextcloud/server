@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-16 01:56-0400\n"
-"PO-Revision-Date: 2013-07-16 05:15+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -190,55 +190,55 @@ msgstr "您的Web服务器尚未正确设置以允许文件同步, 因为WebDAV�
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "请认真检查<a href='%s'>安装指南</a>."
 
-#: template.php:113
+#: template.php:95
 msgid "seconds ago"
 msgstr "秒前"
 
-#: template.php:114
+#: template.php:96
 msgid "1 minute ago"
 msgstr "一分钟前"
 
-#: template.php:115
+#: template.php:97
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d 分钟前"
 
-#: template.php:116
+#: template.php:98
 msgid "1 hour ago"
 msgstr "1小时前"
 
-#: template.php:117
+#: template.php:99
 #, php-format
 msgid "%d hours ago"
 msgstr "%d小时前"
 
-#: template.php:118
+#: template.php:100
 msgid "today"
 msgstr "今天"
 
-#: template.php:119
+#: template.php:101
 msgid "yesterday"
 msgstr "昨天"
 
-#: template.php:120
+#: template.php:102
 #, php-format
 msgid "%d days ago"
 msgstr "%d 天前"
 
-#: template.php:121
+#: template.php:103
 msgid "last month"
 msgstr "上月"
 
-#: template.php:122
+#: template.php:104
 #, php-format
 msgid "%d months ago"
 msgstr "%d 月前"
 
-#: template.php:123
+#: template.php:105
 msgid "last year"
 msgstr "去年"
 
-#: template.php:124
+#: template.php:106
 msgid "years ago"
 msgstr "年前"
 

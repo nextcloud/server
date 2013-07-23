@@ -68,7 +68,6 @@
 "You don’t have write permissions here." => "您没有写入权限。",
 "Nothing in here. Upload something!" => "这里没有东西.上传点什么!",
 "Download" => "下载",
-"Size (MB)" => "大小 (MB)",
 "Unshare" => "取消分享",
 "Upload too large" => "上传过大",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "你正在试图上传的文件超过了此服务器支持的最大的文件大小.",

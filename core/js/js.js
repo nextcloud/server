@@ -666,8 +666,6 @@ $(document).ready(function(){
 	$('.selectedActions a').tipsy({gravity:'s', fade:true, live:true});
 	$('a.delete').tipsy({gravity: 'e', fade:true, live:true});
 	$('a.action').tipsy({gravity:'s', fade:true, live:true});
-	$('#headerSize').tipsy({gravity:'s', fade:true, live:true});
-	$('td.filesize').tipsy({gravity:'s', fade:true, live:true});
 	$('td .modified').tipsy({gravity:'s', fade:true, live:true});
 
 	$('input').tipsy({gravity:'w', fade:true});
@@ -695,14 +693,6 @@ function humanFileSize(size) {
 		relativeSize=relativeSize.substr(0,relativeSize.length-2);
 	}
 	return relativeSize + ' ' + readableFormat;
-}
-
-function simpleFileSize(bytes) {
-	var mbytes = Math.round(bytes/(1024*1024/10))/10;
-	if(bytes == 0) { return '0'; }
-	else if(mbytes < 0.1) { return '< 0.1'; }
-	else if(mbytes > 1000) { return '> 1000'; }
-	else { return mbytes.toFixed(1); }
 }
 
 function formatDate(date){
