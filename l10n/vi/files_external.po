@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-22 01:54-0400\n"
-"PO-Revision-Date: 2013-07-22 05:25+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:05+0000\n"
 "Last-Translator: xtdv <truong.tx8@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -38,20 +38,20 @@ msgstr "Xin vui lòng cung cấp một ứng dụng Dropbox hợp lệ và mã b
 msgid "Error configuring Google Drive storage"
 msgstr "Lỗi cấu hình lưu trữ Google Drive"
 
-#: lib/config.php:431
+#: lib/config.php:447
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Cảnh báo:</b> \"smbclient\" chưa được cài đặt. Mount CIFS/SMB shares là không thể thực hiện được. Hãy hỏi người quản trị hệ thống để cài đặt nó."
 
-#: lib/config.php:434
+#: lib/config.php:450
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
 msgstr "<b>Cảnh báo:</b> FTP trong PHP chưa được cài đặt hoặc chưa được  mở. Mount FTP shares là không thể. Xin hãy yêu cầu quản trị hệ thống của bạn cài đặt nó."
 
-#: lib/config.php:437
+#: lib/config.php:453
 msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "

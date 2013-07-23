@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-22 01:54-0400\n"
-"PO-Revision-Date: 2013-07-22 05:25+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:05+0000\n"
 "Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -38,20 +38,20 @@ msgstr "لطفا یک کلید و کد امنیتی صحیح دراپ باکس �
 msgid "Error configuring Google Drive storage"
 msgstr "خطا به هنگام تنظیم فضای Google Drive"
 
-#: lib/config.php:431
+#: lib/config.php:447
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "خطا: \"smbclient\" نصب نشده است. نصب و راه اندازی سهام  CIFS/SMB امکان پذیر نمیباشد. لطفا از مدیریت سازمان خود برای راه اندازی آن درخواست نمایید."
 
-#: lib/config.php:434
+#: lib/config.php:450
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
 msgstr "خطا: پشتیبانی FTP در PHP فعال نمی باشد یا نصب نشده است. نصب و راه اندازی از سهم های FTP امکان پذیر نمی باشد. لطفا از مدیر سیستم خود برای راه اندازی آن درخواست\nکنید."
 
-#: lib/config.php:437
+#: lib/config.php:453
 msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
