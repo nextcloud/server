@@ -250,7 +250,7 @@ input[name="adminpass-clone"] { padding-left:1.8em; width:11.7em !important; }
 #body-login input[type="text"],
 #body-login input[type="password"],
 #body-login input[type="email"] {
-	border: 1px solid rgba(0,0,0,.8);
+	border: 1px solid #323233;
 	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.15), 0 1px 3px rgba(0,0,0,.25) inset;
 	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.15), 0 1px 3px rgba(0,0,0,.25) inset;
 	box-shadow: 0 1px 0 rgba(255,255,255,.15), 0 1px 3px rgba(0,0,0,.25) inset;
@@ -838,12 +838,18 @@ button.loading {
 
 /* ---- BROWSER-SPECIFIC FIXES ---- */
 
+/* remove dotted outlines in Firefox */
 ::-moz-focus-inner {
-	border: 0; /* remove dotted outlines in Firefox */
+	border: 0;
 }
 
 /* deactivate show password toggle for IE. Does not work for 8 and 9+ have their own implementation. */
 .ie #show, .ie #show+label {
 	display: none;
 	visibility: hidden;
+}
+
+/* fix installation screen rendering issue for IE8+9 */
+.lte9 #body-login {
+	height: auto !important;
 }
