@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# sergiu_sechel <sergiu.sechel@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-05 02:13+0200\n"
-"PO-Revision-Date: 2013-07-04 07:56+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:55+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr "Imposibil de încărcat lista din App Store"
+msgstr "Imposibil de actualizat lista din  App Store."
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
@@ -28,11 +29,11 @@ msgstr "Eroare la autentificare"
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
-msgstr ""
+msgstr "Numele afişat a fost schimbat."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
-msgstr ""
+msgstr "Imposibil de schimbat numele afişat."
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -86,11 +87,11 @@ msgstr "Nu s-a putut elimina utilizatorul din grupul %s"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr ""
+msgstr "Aplicaţia nu s-a putut actualiza."
 
 #: js/apps.js:35
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "Actualizat la {versiuneaaplicaţiei}"
 
 #: js/apps.js:41 js/apps.js:81
 msgid "Disable"
@@ -102,7 +103,7 @@ msgstr "Activare"
 
 #: js/apps.js:60
 msgid "Please wait...."
-msgstr ""
+msgstr "Aşteptaţi vă rog...."
 
 #: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
 msgid "Error"
@@ -110,15 +111,15 @@ msgstr "Eroare"
 
 #: js/apps.js:95
 msgid "Updating...."
-msgstr ""
+msgstr "Actualizare în curs...."
 
 #: js/apps.js:98
 msgid "Error while updating app"
-msgstr ""
+msgstr "Eroare în timpul actualizării aplicaţiei"
 
 #: js/apps.js:101
 msgid "Updated"
-msgstr ""
+msgstr "Actualizat"
 
 #: js/personal.js:118
 msgid "Saving..."
@@ -134,7 +135,7 @@ msgstr "Anulează ultima acțiune"
 
 #: js/users.js:79
 msgid "Unable to remove user"
-msgstr ""
+msgstr "Imposibil de eliminat utilizatorul"
 
 #: js/users.js:92 templates/users.php:26 templates/users.php:87
 #: templates/users.php:112
@@ -151,19 +152,19 @@ msgstr "Șterge"
 
 #: js/users.js:269
 msgid "add group"
-msgstr ""
+msgstr "adăugaţi grupul"
 
 #: js/users.js:428
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Trebuie să furnizaţi un nume de utilizator valid"
 
 #: js/users.js:429 js/users.js:435 js/users.js:450
 msgid "Error creating user"
-msgstr ""
+msgstr "Eroare la crearea utilizatorului"
 
 #: js/users.js:434
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Trebuie să furnizaţi o parolă validă"
 
 #: personal.php:37 personal.php:38
 msgid "__language_name__"
@@ -184,32 +185,32 @@ msgstr "Directorul tău de date și fișierele tale probabil sunt accesibile pri
 
 #: templates/admin.php:31
 msgid "Setup Warning"
-msgstr ""
+msgstr "Atenţie la implementare"
 
 #: templates/admin.php:34
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Serverul de web nu este încă setat corespunzător pentru a permite sincronizarea fișierelor deoarece interfața WebDAV pare a fi întreruptă."
 
 #: templates/admin.php:35
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Vă rugăm să verificați <a href='%s'>ghiduri de instalare</ a>."
 
 #: templates/admin.php:46
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "Modulul \"Fileinfo\" lipsește"
 
 #: templates/admin.php:49
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr ""
+msgstr "Modulul PHP \"Fileinfo\" lipsește. Va recomandam sa activaţi acest modul pentru a obține cele mai bune rezultate cu detectarea mime-type."
 
 #: templates/admin.php:60
 msgid "Locale not working"
-msgstr ""
+msgstr "Localizarea nu funcționează"
 
 #: templates/admin.php:65
 #, php-format
@@ -217,11 +218,11 @@ msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
 "might be problems with certain characters in file names. We strongly suggest"
 " to install the required packages on your system to support %s."
-msgstr ""
+msgstr "Acest server ownCloud nu poate seta sistemul de localizare pentru% s. Acest lucru înseamnă că ar putea exista probleme cu anumite caractere în numele de fișiere. Vă recomandăm să instalați pachetele necesare pe sistemul dumneavoastră pentru a sprijini% s."
 
 #: templates/admin.php:77
 msgid "Internet connection not working"
-msgstr ""
+msgstr "Conexiunea la internet nu funcționează"
 
 #: templates/admin.php:80
 msgid ""
@@ -231,7 +232,7 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "Acest server ownCloud nu are nici o conexiune la internet activă. Acest lucru înseamnă că anumite caracteristici, cum ar fi montarea mediilor de stocare externe, notificări despre actualizări sau instalarea de aplicatii tereţe nu funcționează. Accesarea fișierelor de la distanță și trimiterea de e-mailuri de notificare s-ar putea, de asemenea, să nu funcționeze. Vă sugerăm să permiteţi conectarea la Internet pentru acest server, dacă doriți să aveți toate caracteristicile de oferite de ownCloud."
 
 #: templates/admin.php:94
 msgid "Cron"
@@ -273,62 +274,71 @@ msgstr "Pemite legături"
 msgid "Allow users to share items to the public with links"
 msgstr "Permite utilizatorilor să partajeze fișiere în mod public prin legături"
 
-#: templates/admin.php:152
+#: templates/admin.php:153
+msgid "Allow public uploads"
+msgstr ""
+
+#: templates/admin.php:154
+msgid ""
+"Allow users to enable others to upload into their publicly shared folders"
+msgstr ""
+
+#: templates/admin.php:162
 msgid "Allow resharing"
 msgstr "Permite repartajarea"
 
-#: templates/admin.php:153
+#: templates/admin.php:163
 msgid "Allow users to share items shared with them again"
 msgstr "Permite utilizatorilor să repartajeze fișiere partajate cu ei"
 
-#: templates/admin.php:160
+#: templates/admin.php:170
 msgid "Allow users to share with anyone"
 msgstr "Permite utilizatorilor să partajeze cu oricine"
 
-#: templates/admin.php:163
+#: templates/admin.php:173
 msgid "Allow users to only share with users in their groups"
 msgstr "Permite utilizatorilor să partajeze doar cu utilizatori din același grup"
 
-#: templates/admin.php:170
+#: templates/admin.php:180
 msgid "Security"
-msgstr ""
+msgstr "Securitate"
 
-#: templates/admin.php:183
+#: templates/admin.php:193
 msgid "Enforce HTTPS"
 msgstr ""
 
-#: templates/admin.php:184
+#: templates/admin.php:194
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
 msgstr ""
 
-#: templates/admin.php:187
+#: templates/admin.php:197
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
 msgstr ""
 
-#: templates/admin.php:197
+#: templates/admin.php:207
 msgid "Log"
 msgstr "Jurnal de activitate"
 
-#: templates/admin.php:198
+#: templates/admin.php:208
 msgid "Log level"
 msgstr "Nivel jurnal"
 
-#: templates/admin.php:229
+#: templates/admin.php:239
 msgid "More"
 msgstr "Mai mult"
 
-#: templates/admin.php:230
+#: templates/admin.php:240
 msgid "Less"
 msgstr "Mai puțin"
 
-#: templates/admin.php:236 templates/personal.php:116
+#: templates/admin.php:246 templates/personal.php:116
 msgid "Version"
 msgstr "Versiunea"
 
-#: templates/admin.php:240 templates/personal.php:119
+#: templates/admin.php:250 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -452,8 +462,11 @@ msgid "WebDAV"
 msgstr "WebDAV"
 
 #: templates/personal.php:108
-msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "Folosește această adresă pentru a conecta ownCloud cu managerul de fișiere"
+#, php-format
+msgid ""
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
+"target=\"_blank\">access your Files via WebDAV</a>"
+msgstr ""
 
 #: templates/users.php:21
 msgid "Login Name"

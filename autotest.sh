@@ -3,11 +3,17 @@
 # ownCloud
 #
 # @author Thomas Müller
-# @copyright 2012 Thomas Müller thomas.mueller@tmit.eu
+# @copyright 2012, 2013 Thomas Müller thomas.mueller@tmit.eu
 #
 
+#$EXECUTOR_NUMBER is set by Jenkins and allows us to run autotest in parallel
+DATABASENAME=oc_autotest$EXECUTOR_NUMBER
+DATABASEUSER=oc_autotest$EXECUTOR_NUMBER
+ADMINLOGIN=admin$EXECUTOR_NUMBER
 DATADIR=data-autotest
 BASEDIR=$PWD
+
+echo "Using database $DATABASENAME"
 
 # create autoconfig for sqlite, mysql and postgresql
 cat > ./tests/autoconfig-sqlite.php <<DELIM
@@ -16,7 +22,7 @@ cat > ./tests/autoconfig-sqlite.php <<DELIM
   'installed' => false,
   'dbtype' => 'sqlite',
   'dbtableprefix' => 'oc_',
-  'adminlogin' => 'admin',
+  'adminlogin' => '$ADMINLOGIN',
   'adminpass' => 'admin',
   'directory' => '$BASEDIR/$DATADIR',
 );
@@ -28,13 +34,13 @@ cat > ./tests/autoconfig-mysql.php <<DELIM
   'installed' => false,
   'dbtype' => 'mysql',
   'dbtableprefix' => 'oc_',
-  'adminlogin' => 'admin',
+  'adminlogin' => '$ADMINLOGIN',
   'adminpass' => 'admin',
   'directory' => '$BASEDIR/$DATADIR',
-  'dbuser' => 'oc_autotest',	
-  'dbname' => 'oc_autotest',	
+  'dbuser' => '$DATABASEUSER',
+  'dbname' => '$DATABASENAME',
   'dbhost' => 'localhost',
-  'dbpass' => 'owncloud',	
+  'dbpass' => 'owncloud',
 );
 DELIM
 
@@ -44,13 +50,13 @@ cat > ./tests/autoconfig-pgsql.php <<DELIM
   'installed' => false,
   'dbtype' => 'pgsql',
   'dbtableprefix' => 'oc_',
-  'adminlogin' => 'admin',
+  'adminlogin' => '$ADMINLOGIN',
   'adminpass' => 'admin',
   'directory' => '$BASEDIR/$DATADIR',
-  'dbuser' => 'oc_autotest',	
-  'dbname' => 'oc_autotest',	
+  'dbuser' => '$DATABASEUSER',
+  'dbname' => '$DATABASENAME',
   'dbhost' => 'localhost',
-  'dbpass' => 'owncloud',	
+  'dbpass' => 'owncloud',
 );
 DELIM
 
@@ -60,10 +66,10 @@ cat > ./tests/autoconfig-oci.php <<DELIM
   'installed' => false,
   'dbtype' => 'oci',
   'dbtableprefix' => 'oc_',
-  'adminlogin' => 'admin',
+  'adminlogin' => '$ADMINLOGIN',
   'adminpass' => 'admin',
   'directory' => '$BASEDIR/$DATADIR',
-  'dbuser' => 'oc_autotest',
+  'dbuser' => '$DATABASENAME',
   'dbname' => 'XE',
   'dbhost' => 'localhost',
   'dbpass' => 'owncloud',
@@ -88,21 +94,21 @@ function execute_tests {
 
 	# drop database
 	if [ "$1" == "mysql" ] ; then
-		mysql -u oc_autotest -powncloud -e "DROP DATABASE oc_autotest"
+		mysql -u $DATABASEUSER -powncloud -e "DROP DATABASE $DATABASENAME"
 	fi
 	if [ "$1" == "pgsql" ] ; then
-		dropdb -U oc_autotest oc_autotest
+		dropdb -U $DATABASEUSER $DATABASENAME
 	fi
 	if [ "$1" == "oci" ] ; then
 		echo "drop the database"
 		sqlplus -s -l / as sysdba <<EOF
-			drop user oc_autotest cascade;
+			drop user $DATABASENAME cascade;
 EOF
 
 		echo "create the database"
 		sqlplus -s -l / as sysdba <<EOF
-			create user oc_autotest identified by owncloud;
-			alter user oc_autotest default tablespace users
+			create user $DATABASENAME identified by owncloud;
+			alter user $DATABASENAME default tablespace users
 			temporary tablespace temp
 			quota unlimited on users;
 			grant create session
@@ -113,7 +119,7 @@ EOF
 			, create view
 			, create synonym
 			, alter session
-			to oc_autotest;
+			to $DATABASENAME;
 			exit;
 EOF
 	fi
@@ -143,25 +149,33 @@ EOF
 #
 if [ -z "$1" ]
   then
-	execute_tests "sqlite"
+	execute_tests 'sqlite'
 	execute_tests 'mysql'
 	execute_tests 'pgsql'
-	# we will add oci as soon as it's stable
-	#execute_tests 'oci'
+	execute_tests 'oci'
 else
 	execute_tests $1 $2 $3
 fi
 
 #
 # NOTES on mysql:
+#  - CREATE DATABASE oc_autotest;
 #  - CREATE USER 'oc_autotest'@'localhost' IDENTIFIED BY 'owncloud';
-#  - grant access permissions: grant all on oc_autotest.* to 'oc_autotest'@'localhost';
+#  - grant all on oc_autotest.* to 'oc_autotest'@'localhost';
+#
+#  - for parallel executor support with EXECUTOR_NUMBER=0:
+#  - CREATE DATABASE oc_autotest0;
+#  - CREATE USER 'oc_autotest0'@'localhost' IDENTIFIED BY 'owncloud';
+#  - grant all on oc_autotest0.* to 'oc_autotest0'@'localhost';
 #
 # NOTES on pgsql:
 #  - su - postgres
-#  - createuser -P (enter username and password and enable superuser)
+#  - createuser -P oc_autotest (enter password and enable superuser)
 #  - to enable dropdb I decided to add following line to pg_hba.conf (this is not the safest way but I don't care for the testing machine):
 # local	all	all	trust
+#
+#  - for parallel executor support with EXECUTOR_NUMBER=0:
+#  - createuser -P oc_autotest0 (enter password and enable superuser)
 #
 # NOTES on oci:
 #  - it's a pure nightmare to install Oracle on a Linux-System

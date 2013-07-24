@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-05 02:13+0200\n"
-"PO-Revision-Date: 2013-07-05 00:13+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -40,18 +40,18 @@ msgstr "%s delte mappa %s med deg"
 msgid "%s shared the file %s with you"
 msgstr "%s delte fila %s med deg"
 
-#: templates/public.php:28 templates/public.php:86
+#: templates/public.php:28 templates/public.php:90
 msgid "Download"
 msgstr "Last ned"
 
-#: templates/public.php:44
+#: templates/public.php:45 templates/public.php:48
 msgid "Upload"
 msgstr "Last opp"
 
-#: templates/public.php:54
+#: templates/public.php:58
 msgid "Cancel upload"
 msgstr "Avbryt opplasting"
 
-#: templates/public.php:83
+#: templates/public.php:87
 msgid "No preview available for"
 msgstr "Inga førehandsvising tilgjengeleg for"

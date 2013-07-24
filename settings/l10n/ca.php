@@ -98,7 +98,7 @@
 "Language" => "Idioma",
 "Help translate" => "Ajudeu-nos amb la traducció",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "Useu aquesta adreça per connectar amb ownCloud des del gestor de fitxers",
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "Useu aquesta adreça per <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">accedir als fitxers via WebDAV</a>",
 "Login Name" => "Nom d'accés",
 "Create" => "Crea",
 "Admin Recovery Password" => "Recuperació de contrasenya d'administrador",

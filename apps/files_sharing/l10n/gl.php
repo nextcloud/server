@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"The password is wrong. Try again." => "O contrasinal é incorrecto. Ténteo de novo.",
 "Password" => "Contrasinal",
 "Submit" => "Enviar",
 "%s shared the folder %s with you" => "%s compartiu o cartafol %s con vostede",

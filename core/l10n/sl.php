@@ -106,7 +106,6 @@
 "Access forbidden" => "Dostop je prepovedan",
 "Cloud not found" => "Oblaka ni mogoče najti",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Pozdravljen/a,⏎\n⏎\nsporočam, da je %s delil %s s teboj.⏎\nPoglej na: %s⏎\n⏎\nLep pozdrav!",
-"web services under your control" => "spletne storitve pod vašim nadzorom",
 "Edit categories" => "Uredi kategorije",
 "Add" => "Dodaj",
 "Security Warning" => "Varnostno opozorilo",

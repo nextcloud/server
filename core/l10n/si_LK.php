@@ -66,7 +66,6 @@
 "Help" => "උදව්",
 "Access forbidden" => "ඇතුල් වීම තහනම්",
 "Cloud not found" => "සොයා ගත නොහැක",
-"web services under your control" => "ඔබට පාලනය කළ හැකි වෙබ් සේවාවන්",
 "Edit categories" => "ප්‍රභේදයන් සංස්කරණය",
 "Add" => "එකතු කරන්න",
 "Security Warning" => "ආරක්ෂක නිවේදනයක්",

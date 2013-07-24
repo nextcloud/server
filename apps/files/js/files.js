@@ -756,9 +756,7 @@ function procesSelection(){
 		for(var i=0;i<selectedFolders.length;i++){
 			totalSize+=selectedFolders[i].size;
 		};
-		simpleSize=simpleFileSize(totalSize);
-		$('#headerSize').text(simpleSize);
-		$('#headerSize').attr('title',humanFileSize(totalSize));
+		$('#headerSize').text(humanFileSize(totalSize));
 		var selection='';
 		if(selectedFolders.length>0){
 			if(selectedFolders.length==1){

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"The password is wrong. Try again." => "Неверный пароль. Попробуйте еще раз.",
 "Password" => "Пароль",
 "Submit" => "Отправить",
 "%s shared the folder %s with you" => "%s открыл доступ к папке %s для Вас",

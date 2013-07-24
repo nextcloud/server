@@ -9,8 +9,18 @@
 namespace OC\Files\Cache;
 
 use OC\Files\Filesystem;
+use OC\Hooks\BasicEmitter;
 
-class Scanner {
+/**
+ * Class Scanner
+ *
+ * Hooks available in scope \OC\Files\Cache\Scanner:
+ *  - scanFile(string $path, string $storageId)
+ *  - scanFolder(string $path, string $storageId)
+ *
+ * @package OC\Files\Cache
+ */
+class Scanner extends BasicEmitter {
 	/**
 	 * @var \OC\Files\Storage\Storage $storage
 	 */
@@ -71,6 +81,7 @@ class Scanner {
 		if (!self::isPartialFile($file)
 			and !Filesystem::isFileBlacklisted($file)
 		) {
+			$this->emit('\OC\Files\Cache\Scanner', 'scanFile', array($file, $this->storageId));
 			\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', array('path' => $file, 'storage' => $this->storageId));
 			$data = $this->getData($file);
 			if ($data) {
@@ -134,7 +145,7 @@ class Scanner {
 		if ($reuse === -1) {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : 0;
 		}
-		\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_folder', array('path' => $path, 'storage' => $this->storageId));
+		$this->emit('\OC\Files\Cache\Scanner', 'scanFolder', array($path, $this->storageId));
 		$size = 0;
 		$childQueue = array();
 		$existingChildren = array();

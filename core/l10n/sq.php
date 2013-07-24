@@ -100,7 +100,6 @@
 "Help" => "Ndihmë",
 "Access forbidden" => "Ndalohet hyrja",
 "Cloud not found" => "Cloud-i nuk u gjet",
-"web services under your control" => "shërbime web nën kontrollin tënd",
 "Edit categories" => "Ndrysho kategoritë",
 "Add" => "Shto",
 "Security Warning" => "Paralajmërim sigurie",

@@ -37,10 +37,10 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$result = $query->execute(array('uri_1'));
 		$this->assertTrue((bool)$result);
 		$row = $result->fetchRow();
-		$this->assertFalse((bool)$row); //PDO returns false, MDB2 returns null
+		$this->assertFalse($row);
 		$query = OC_DB::prepare('INSERT INTO `*PREFIX*'.$this->table2.'` (`fullname`,`uri`) VALUES (?,?)');
 		$result = $query->execute(array('fullname test', 'uri_1'));
-		$this->assertEquals('1', $result);
+		$this->assertEquals(1, $result);
 		$query = OC_DB::prepare('SELECT `fullname`,`uri` FROM `*PREFIX*'.$this->table2.'` WHERE `uri` = ?');
 		$result = $query->execute(array('uri_1'));
 		$this->assertTrue((bool)$result);
@@ -57,7 +57,7 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 	public function testNOW() {
 		$query = OC_DB::prepare('INSERT INTO `*PREFIX*'.$this->table2.'` (`fullname`,`uri`) VALUES (NOW(),?)');
 		$result = $query->execute(array('uri_2'));
-		$this->assertEquals('1', $result);
+		$this->assertEquals(1, $result);
 		$query = OC_DB::prepare('SELECT `fullname`,`uri` FROM `*PREFIX*'.$this->table2.'` WHERE `uri` = ?');
 		$result = $query->execute(array('uri_2'));
 		$this->assertTrue((bool)$result);
@@ -66,7 +66,7 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 	public function testUNIX_TIMESTAMP() {
 		$query = OC_DB::prepare('INSERT INTO `*PREFIX*'.$this->table2.'` (`fullname`,`uri`) VALUES (UNIX_TIMESTAMP(),?)');
 		$result = $query->execute(array('uri_3'));
-		$this->assertEquals('1', $result);
+		$this->assertEquals(1, $result);
 		$query = OC_DB::prepare('SELECT `fullname`,`uri` FROM `*PREFIX*'.$this->table2.'` WHERE `uri` = ?');
 		$result = $query->execute(array('uri_3'));
 		$this->assertTrue((bool)$result);
@@ -74,11 +74,11 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 
 	public function testinsertIfNotExist() {
 		$categoryentries = array(
-				array('user' => 'test', 'type' => 'contact', 'category' => 'Family'),
-				array('user' => 'test', 'type' => 'contact', 'category' => 'Friends'),
-				array('user' => 'test', 'type' => 'contact', 'category' => 'Coworkers'),
-				array('user' => 'test', 'type' => 'contact', 'category' => 'Coworkers'),
-				array('user' => 'test', 'type' => 'contact', 'category' => 'School'),
+				array('user' => 'test', 'type' => 'contact', 'category' => 'Family',    'expectedResult' => 1),
+				array('user' => 'test', 'type' => 'contact', 'category' => 'Friends',   'expectedResult' => 1),
+				array('user' => 'test', 'type' => 'contact', 'category' => 'Coworkers', 'expectedResult' => 1),
+				array('user' => 'test', 'type' => 'contact', 'category' => 'Coworkers', 'expectedResult' => 0),
+				array('user' => 'test', 'type' => 'contact', 'category' => 'School',    'expectedResult' => 1),
 			);
 
 		foreach($categoryentries as $entry) {
@@ -88,13 +88,13 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 					'type' => $entry['type'],
 					'category' => $entry['category'],
 				));
-			$this->assertTrue((bool)$result);
+			$this->assertEquals($entry['expectedResult'], $result);
 		}
 
 		$query = OC_DB::prepare('SELECT * FROM `*PREFIX*'.$this->table3.'`');
 		$result = $query->execute();
 		$this->assertTrue((bool)$result);
-		$this->assertEquals('4', $result->numRows());
+		$this->assertEquals(4, count($result->fetchAll()));
 	}
 
 	public function testinsertIfNotExistDontOverwrite() {
@@ -105,14 +105,14 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		// Normal test to have same known data inserted.
 		$query = OC_DB::prepare('INSERT INTO `*PREFIX*'.$this->table2.'` (`fullname`, `uri`, `carddata`) VALUES (?, ?, ?)');
 		$result = $query->execute(array($fullname, $uri, $carddata));
-		$this->assertEquals('1', $result);
+		$this->assertEquals(1, $result);
 		$query = OC_DB::prepare('SELECT `fullname`, `uri`, `carddata` FROM `*PREFIX*'.$this->table2.'` WHERE `uri` = ?');
 		$result = $query->execute(array($uri));
 		$this->assertTrue((bool)$result);
 		$row = $result->fetchRow();
 		$this->assertArrayHasKey('carddata', $row);
 		$this->assertEquals($carddata, $row['carddata']);
-		$this->assertEquals('1', $result->numRows());
+		$this->assertEquals(1, $result->numRows());
 
 		// Try to insert a new row
 		$result = OC_DB::insertIfNotExist('*PREFIX*'.$this->table2,
@@ -120,7 +120,7 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 				'fullname' => $fullname,
 				'uri' => $uri,
 			));
-		$this->assertTrue((bool)$result);
+		$this->assertEquals(0, $result);
 
 		$query = OC_DB::prepare('SELECT `fullname`, `uri`, `carddata` FROM `*PREFIX*'.$this->table2.'` WHERE `uri` = ?');
 		$result = $query->execute(array($uri));
@@ -130,7 +130,7 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		// Test that previously inserted data isn't overwritten
 		$this->assertEquals($carddata, $row['carddata']);
 		// And that a new row hasn't been inserted.
-		$this->assertEquals('1', $result->numRows());
+		$this->assertEquals(1, $result->numRows());
 
 	}
 }

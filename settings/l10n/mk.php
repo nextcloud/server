@@ -54,7 +54,6 @@
 "Language" => "Јазик",
 "Help translate" => "Помогни во преводот",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "Користете ја оваа адреса да ",
 "Create" => "Создај",
 "Other" => "Останато",
 "Username" => "Корисничко име"

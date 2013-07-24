@@ -100,7 +100,6 @@
 "Help" => "Cymorth",
 "Access forbidden" => "Mynediad wedi'i wahardd",
 "Cloud not found" => "Methwyd canfod cwmwl",
-"web services under your control" => "gwasanaethau gwe a reolir gennych",
 "Edit categories" => "Golygu categorïau",
 "Add" => "Ychwanegu",
 "Security Warning" => "Rhybudd Diogelwch",

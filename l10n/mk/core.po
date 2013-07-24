@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-05 02:13+0200\n"
-"PO-Revision-Date: 2013-07-05 00:12+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -137,59 +137,59 @@ msgstr "Ноември"
 msgid "December"
 msgstr "Декември"
 
-#: js/js.js:289
+#: js/js.js:293
 msgid "Settings"
 msgstr "Подесувања"
 
-#: js/js.js:721
+#: js/js.js:715
 msgid "seconds ago"
 msgstr "пред секунди"
 
-#: js/js.js:722
+#: js/js.js:716
 msgid "1 minute ago"
 msgstr "пред 1 минута"
 
-#: js/js.js:723
+#: js/js.js:717
 msgid "{minutes} minutes ago"
 msgstr "пред {minutes} минути"
 
-#: js/js.js:724
+#: js/js.js:718
 msgid "1 hour ago"
 msgstr "пред 1 час"
 
-#: js/js.js:725
+#: js/js.js:719
 msgid "{hours} hours ago"
 msgstr "пред {hours} часови"
 
-#: js/js.js:726
+#: js/js.js:720
 msgid "today"
 msgstr "денеска"
 
-#: js/js.js:727
+#: js/js.js:721
 msgid "yesterday"
 msgstr "вчера"
 
-#: js/js.js:728
+#: js/js.js:722
 msgid "{days} days ago"
 msgstr "пред {days} денови"
 
-#: js/js.js:729
+#: js/js.js:723
 msgid "last month"
 msgstr "минатиот месец"
 
-#: js/js.js:730
+#: js/js.js:724
 msgid "{months} months ago"
 msgstr "пред {months} месеци"
 
-#: js/js.js:731
+#: js/js.js:725
 msgid "months ago"
 msgstr "пред месеци"
 
-#: js/js.js:732
+#: js/js.js:726
 msgid "last year"
 msgstr "минатата година"
 
-#: js/js.js:733
+#: js/js.js:727
 msgid "years ago"
 msgstr "пред години"
 
@@ -225,8 +225,8 @@ msgstr "Не е специфициран типот на објект."
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:618
-#: js/share.js:630
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:625
+#: js/share.js:637
 msgid "Error"
 msgstr "Грешка"
 
@@ -246,7 +246,7 @@ msgstr ""
 msgid "Share"
 msgstr "Сподели"
 
-#: js/share.js:125 js/share.js:658
+#: js/share.js:125 js/share.js:665
 msgid "Error while sharing"
 msgstr "Грешка при споделување"
 
@@ -266,114 +266,114 @@ msgstr "Споделено со Вас и групата {group} од {owner}"
 msgid "Shared with you by {owner}"
 msgstr "Споделено со Вас од {owner}"
 
-#: js/share.js:172
+#: js/share.js:177
 msgid "Share with"
 msgstr "Сподели со"
 
-#: js/share.js:177
+#: js/share.js:182
 msgid "Share with link"
 msgstr "Сподели со врска"
 
-#: js/share.js:180
+#: js/share.js:185
 msgid "Password protect"
 msgstr "Заштити со лозинка"
 
-#: js/share.js:182 templates/installation.php:54 templates/login.php:26
+#: js/share.js:187 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Лозинка"
 
-#: js/share.js:186
+#: js/share.js:192
 msgid "Allow Public Upload"
 msgstr ""
 
-#: js/share.js:189
+#: js/share.js:196
 msgid "Email link to person"
 msgstr "Прати врска по е-пошта на личност"
 
-#: js/share.js:190
+#: js/share.js:197
 msgid "Send"
 msgstr "Прати"
 
-#: js/share.js:195
+#: js/share.js:202
 msgid "Set expiration date"
 msgstr "Постави рок на траење"
 
-#: js/share.js:196
+#: js/share.js:203
 msgid "Expiration date"
 msgstr "Рок на траење"
 
-#: js/share.js:228
+#: js/share.js:235
 msgid "Share via email:"
 msgstr "Сподели по е-пошта:"
 
-#: js/share.js:230
+#: js/share.js:237
 msgid "No people found"
 msgstr "Не се најдени луѓе"
 
-#: js/share.js:268
+#: js/share.js:275
 msgid "Resharing is not allowed"
 msgstr "Повторно споделување не е дозволено"
 
-#: js/share.js:304
+#: js/share.js:311
 msgid "Shared in {item} with {user}"
 msgstr "Споделено во {item} со {user}"
 
-#: js/share.js:325
+#: js/share.js:332
 msgid "Unshare"
 msgstr "Не споделувај"
 
-#: js/share.js:337
+#: js/share.js:344
 msgid "can edit"
 msgstr "може да се измени"
 
-#: js/share.js:339
+#: js/share.js:346
 msgid "access control"
 msgstr "контрола на пристап"
 
-#: js/share.js:342
+#: js/share.js:349
 msgid "create"
 msgstr "креирај"
 
-#: js/share.js:345
+#: js/share.js:352
 msgid "update"
 msgstr "ажурирај"
 
-#: js/share.js:348
+#: js/share.js:355
 msgid "delete"
 msgstr "избриши"
 
-#: js/share.js:351
+#: js/share.js:358
 msgid "share"
 msgstr "сподели"
 
-#: js/share.js:385 js/share.js:605
+#: js/share.js:392 js/share.js:612
 msgid "Password protected"
 msgstr "Заштитено со лозинка"
 
-#: js/share.js:618
+#: js/share.js:625
 msgid "Error unsetting expiration date"
 msgstr "Грешка при тргање на рокот на траење"
 
-#: js/share.js:630
+#: js/share.js:637
 msgid "Error setting expiration date"
 msgstr "Грешка при поставување на рок на траење"
 
-#: js/share.js:645
+#: js/share.js:652
 msgid "Sending ..."
 msgstr "Праќање..."
 
-#: js/share.js:656
+#: js/share.js:663
 msgid "Email sent"
 msgstr "Е-порака пратена"
 
-#: js/update.js:14
+#: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
 msgstr ""
 
-#: js/update.js:18
+#: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr ""
 
@@ -465,7 +465,7 @@ msgstr "Забранет пристап"
 msgid "Cloud not found"
 msgstr "Облакот не е најден"
 
-#: templates/altmail.php:2
+#: templates/altmail.php:4
 #, php-format
 msgid ""
 "Hey there,\n"
@@ -475,10 +475,6 @@ msgid ""
 "\n"
 "Cheers!"
 msgstr ""
-
-#: templates/altmail.php:7 templates/mail.php:24
-msgid "web services under your control"
-msgstr "веб сервиси под Ваша контрола"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -611,7 +607,7 @@ msgstr "Најава"
 msgid "Alternative Logins"
 msgstr ""
 
-#: templates/mail.php:15
+#: templates/mail.php:16
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "

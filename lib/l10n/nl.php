@@ -5,6 +5,7 @@
 "Users" => "Gebruikers",
 "Apps" => "Apps",
 "Admin" => "Beheerder",
+"web services under your control" => "Webdiensten in eigen beheer",
 "ZIP download is turned off." => "ZIP download is uitgeschakeld.",
 "Files need to be downloaded one by one." => "Bestanden moeten één voor één worden gedownload.",
 "Back to Files" => "Terug naar bestanden",

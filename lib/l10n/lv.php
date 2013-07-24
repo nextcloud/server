@@ -5,6 +5,7 @@
 "Users" => "Lietotāji",
 "Apps" => "Lietotnes",
 "Admin" => "Administratori",
+"web services under your control" => "tīmekļa servisi tavā varā",
 "ZIP download is turned off." => "ZIP lejupielādēšana ir izslēgta.",
 "Files need to be downloaded one by one." => "Datnes var lejupielādēt tikai katru atsevišķi.",
 "Back to Files" => "Atpakaļ pie datnēm",

@@ -8,6 +8,8 @@
 "Private key password successfully updated." => "Mot de passe de la clé privé mis à jour avec succès.",
 "Could not update the private key password. Maybe the old password was not correct." => "Impossible de mettre à jour le mot de passe de la clé privé. Peut-être que l'ancien mot de passe n'était pas correcte.",
 "Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Votre clé de sécurité privée n'est pas valide! Il est probable que votre mot de passe ait été changé sans passer par le système ownCloud (par éxemple: le serveur de votre entreprise). Ain d'avoir à nouveau accès à vos fichiers cryptés, vous pouvez mettre à jour votre clé de sécurité privée dans les paramètres personnels de votre compte.",
+"Missing requirements." => "Système minimum requis non respecté.",
+"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Veuillez vous assurer qu'une version de PHP 5.3.3 ou plus récente est installée et que l'extension OpenSSL de PHP est activée et configurée correctement. En attendant, l'application de cryptage a été désactivée.",
 "Saving..." => "Enregistrement...",
 "Your private key is not valid! Maybe the your password was changed from outside." => "Votre clef privée est invalide ! Votre mot de passe a peut-être été modifié depuis l'extérieur.",
 "You can unlock your private key in your " => "Vous pouvez déverrouiller votre clé privée dans votre",

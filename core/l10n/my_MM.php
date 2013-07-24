@@ -46,7 +46,6 @@
 "Admin" => "အက်ဒမင်",
 "Help" => "အကူအညီ",
 "Cloud not found" => "မတွေ့ရှိမိပါ",
-"web services under your control" => "သင်၏ထိန်းချုပ်မှု့အောက်တွင်ရှိသော Web services",
 "Add" => "ပေါင်းထည့်",
 "Security Warning" => "လုံခြုံရေးသတိပေးချက်",
 "Create an <strong>admin account</strong>" => "<strong>အက်ဒမင်အကောင့်</strong>တစ်ခုဖန်တီးမည်",

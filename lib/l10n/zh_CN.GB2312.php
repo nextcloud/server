@@ -5,6 +5,7 @@
 "Users" => "用户",
 "Apps" => "程序",
 "Admin" => "管理员",
+"web services under your control" => "您控制的网络服务",
 "ZIP download is turned off." => "ZIP 下载已关闭",
 "Files need to be downloaded one by one." => "需要逐个下载文件。",
 "Back to Files" => "返回到文件",

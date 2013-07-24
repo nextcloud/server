@@ -23,7 +23,7 @@
 	<fieldset class="warning">
 		<legend><strong><?php p($l->t('Security Warning'));?></strong></legend>
 		<p><?php p($l->t('Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)'));?><br/>
-		<?php p($l->t('Please update your PHP installation to use ownCloud securely.'));?></p>
+		<?php p($l->t('Please update your PHP installation to use %s securely.', $theme->getName() )); ?></p>
 	</fieldset>
 	<?php endif; ?>
 	<?php if(!$_['secureRNG']): ?>
@@ -37,7 +37,10 @@
 	<fieldset class="warning">
 		<legend><strong><?php p($l->t('Security Warning'));?></strong></legend>
 		<p><?php p($l->t('Your data directory and files are probably accessible from the internet because the .htaccess file does not work.'));?><br>
-		<?php print_unescaped($l->t('For information how to properly configure your server, please see the <a href="http://doc.owncloud.org/server/5.0/admin_manual/installation.html" target="_blank">documentation</a>.'));?></p>
+		<?php print_unescaped($l->t(
+			'For information how to properly configure your server, please see the <a href="%s" target="_blank">documentation</a>.',
+			$theme->getDocBaseUrl().'/server/5.0/admin_manual/installation.html'
+		)); ?></p>
 	</fieldset>
 	<?php endif; ?>
 	<fieldset id="adminaccount">

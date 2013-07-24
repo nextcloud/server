@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-05 02:13+0200\n"
-"PO-Revision-Date: 2013-07-05 00:12+0000\n"
-"Last-Translator: saskarip <saskarip@gmail.com>\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:04+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -144,59 +144,59 @@ msgstr "Noviembre"
 msgid "December"
 msgstr "Diciembre"
 
-#: js/js.js:289
+#: js/js.js:293
 msgid "Settings"
 msgstr "Ajustes"
 
-#: js/js.js:721
+#: js/js.js:715
 msgid "seconds ago"
 msgstr "hace segundos"
 
-#: js/js.js:722
+#: js/js.js:716
 msgid "1 minute ago"
 msgstr "hace 1 minuto"
 
-#: js/js.js:723
+#: js/js.js:717
 msgid "{minutes} minutes ago"
 msgstr "hace {minutes} minutos"
 
-#: js/js.js:724
+#: js/js.js:718
 msgid "1 hour ago"
 msgstr "Hace 1 hora"
 
-#: js/js.js:725
+#: js/js.js:719
 msgid "{hours} hours ago"
 msgstr "Hace {hours} horas"
 
-#: js/js.js:726
+#: js/js.js:720
 msgid "today"
 msgstr "hoy"
 
-#: js/js.js:727
+#: js/js.js:721
 msgid "yesterday"
 msgstr "ayer"
 
-#: js/js.js:728
+#: js/js.js:722
 msgid "{days} days ago"
 msgstr "hace {days} días"
 
-#: js/js.js:729
+#: js/js.js:723
 msgid "last month"
 msgstr "el mes pasado"
 
-#: js/js.js:730
+#: js/js.js:724
 msgid "{months} months ago"
 msgstr "Hace {months} meses"
 
-#: js/js.js:731
+#: js/js.js:725
 msgid "months ago"
 msgstr "hace meses"
 
-#: js/js.js:732
+#: js/js.js:726
 msgid "last year"
 msgstr "el año pasado"
 
-#: js/js.js:733
+#: js/js.js:727
 msgid "years ago"
 msgstr "hace años"
 
@@ -232,8 +232,8 @@ msgstr "El tipo de objeto no está especificado."
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:618
-#: js/share.js:630
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:625
+#: js/share.js:637
 msgid "Error"
 msgstr "Error"
 
@@ -253,7 +253,7 @@ msgstr "Compartido"
 msgid "Share"
 msgstr "Compartir"
 
-#: js/share.js:125 js/share.js:658
+#: js/share.js:125 js/share.js:665
 msgid "Error while sharing"
 msgstr "Error mientras comparte"
 
@@ -273,114 +273,114 @@ msgstr "Compartido contigo y el grupo {group} por {owner}"
 msgid "Shared with you by {owner}"
 msgstr "Compartido contigo por {owner}"
 
-#: js/share.js:172
+#: js/share.js:177
 msgid "Share with"
 msgstr "Compartir con"
 
-#: js/share.js:177
+#: js/share.js:182
 msgid "Share with link"
 msgstr "Compartir con enlace"
 
-#: js/share.js:180
+#: js/share.js:185
 msgid "Password protect"
 msgstr "Protección con contraseña"
 
-#: js/share.js:182 templates/installation.php:54 templates/login.php:26
+#: js/share.js:187 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Contraseña"
 
-#: js/share.js:186
+#: js/share.js:192
 msgid "Allow Public Upload"
 msgstr "Permitir Subida Pública"
 
-#: js/share.js:189
+#: js/share.js:196
 msgid "Email link to person"
 msgstr "Enviar enlace por correo electrónico a una persona"
 
-#: js/share.js:190
+#: js/share.js:197
 msgid "Send"
 msgstr "Enviar"
 
-#: js/share.js:195
+#: js/share.js:202
 msgid "Set expiration date"
 msgstr "Establecer fecha de caducidad"
 
-#: js/share.js:196
+#: js/share.js:203
 msgid "Expiration date"
 msgstr "Fecha de caducidad"
 
-#: js/share.js:228
+#: js/share.js:235
 msgid "Share via email:"
 msgstr "Compartir por correo electrónico:"
 
-#: js/share.js:230
+#: js/share.js:237
 msgid "No people found"
 msgstr "No se encontró gente"
 
-#: js/share.js:268
+#: js/share.js:275
 msgid "Resharing is not allowed"
 msgstr "No se permite compartir de nuevo"
 
-#: js/share.js:304
+#: js/share.js:311
 msgid "Shared in {item} with {user}"
 msgstr "Compartido en {item} con {user}"
 
-#: js/share.js:325
+#: js/share.js:332
 msgid "Unshare"
 msgstr "Dejar de compartir"
 
-#: js/share.js:337
+#: js/share.js:344
 msgid "can edit"
 msgstr "puede editar"
 
-#: js/share.js:339
+#: js/share.js:346
 msgid "access control"
 msgstr "control de acceso"
 
-#: js/share.js:342
+#: js/share.js:349
 msgid "create"
 msgstr "crear"
 
-#: js/share.js:345
+#: js/share.js:352
 msgid "update"
 msgstr "actualizar"
 
-#: js/share.js:348
+#: js/share.js:355
 msgid "delete"
 msgstr "eliminar"
 
-#: js/share.js:351
+#: js/share.js:358
 msgid "share"
 msgstr "compartir"
 
-#: js/share.js:385 js/share.js:605
+#: js/share.js:392 js/share.js:612
 msgid "Password protected"
 msgstr "Protegido con contraseña"
 
-#: js/share.js:618
+#: js/share.js:625
 msgid "Error unsetting expiration date"
 msgstr "Error eliminando fecha de caducidad"
 
-#: js/share.js:630
+#: js/share.js:637
 msgid "Error setting expiration date"
 msgstr "Error estableciendo fecha de caducidad"
 
-#: js/share.js:645
+#: js/share.js:652
 msgid "Sending ..."
 msgstr "Enviando..."
 
-#: js/share.js:656
+#: js/share.js:663
 msgid "Email sent"
 msgstr "Correo electrónico enviado"
 
-#: js/update.js:14
+#: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
 msgstr "La actualización ha fracasado. Por favor, informe de este problema a la <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">Comunidad de ownCloud</ a>."
 
-#: js/update.js:18
+#: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "La actualización se ha realizado con éxito. Redireccionando a ownCloud ahora."
 
@@ -472,7 +472,7 @@ msgstr "Acceso prohibido"
 msgid "Cloud not found"
 msgstr "No se encuentra la nube"
 
-#: templates/altmail.php:2
+#: templates/altmail.php:4
 #, php-format
 msgid ""
 "Hey there,\n"
@@ -482,10 +482,6 @@ msgid ""
 "\n"
 "Cheers!"
 msgstr "Oye,⏎ sólo te hago saber que %s compartido %s contigo.⏎ Míralo: %s ⏎Disfrutalo!"
-
-#: templates/altmail.php:7 templates/mail.php:24
-msgid "web services under your control"
-msgstr "Servicios web bajo su control"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -618,7 +614,7 @@ msgstr "Entrar"
 msgid "Alternative Logins"
 msgstr "Inicios de sesión alternativos"
 
-#: templates/mail.php:15
+#: templates/mail.php:16
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "

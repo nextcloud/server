@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Could not move %s - File with this name already exists" => "Ni mogoče premakniti %s - datoteka s tem imenom že obstaja",
+"Could not move %s - File with this name already exists" => "%s ni mogoče premakniti  - datoteka s tem imenom že obstaja",
 "Could not move %s" => "Ni mogoče premakniti %s",
 "Unable to set upload directory." => "Mapo, v katero boste prenašali dokumente, ni mogoče določiti",
 "Invalid Token" => "Neveljaven žeton",
@@ -49,6 +49,7 @@
 "{count} folders" => "{count} map",
 "1 file" => "1 datoteka",
 "{count} files" => "{count} datotek",
+"%s could not be renamed" => "%s ni bilo mogoče preimenovati",
 "Upload" => "Pošlji",
 "File handling" => "Upravljanje z datotekami",
 "Maximum upload size" => "Največja velikost za pošiljanja",
@@ -72,6 +73,8 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Datoteke, ki jih želite poslati, presegajo največjo dovoljeno velikost na strežniku.",
 "Files are being scanned, please wait." => "Poteka preučevanje datotek, počakajte ...",
 "Current scanning" => "Trenutno poteka preučevanje",
+"directory" => "direktorij",
+"directories" => "direktoriji",
 "file" => "datoteka",
 "files" => "datoteke",
 "Upgrading filesystem cache..." => "Nadgrajevanje predpomnilnika datotečnega sistema ..."

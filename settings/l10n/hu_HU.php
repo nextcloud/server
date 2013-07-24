@@ -98,7 +98,7 @@
 "Language" => "Nyelv",
 "Help translate" => "Segítsen a fordításban!",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "Ennek a címnek a megadásával a WebDAV-protokollon keresztül saját gépének fájlkezelőjével is is elérheti az állományait.",
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "Ezt a címet használja, ha <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">WebDAV-on keresztül szeretné elérni az állományait</a>",
 "Login Name" => "Bejelentkezési név",
 "Create" => "Létrehozás",
 "Admin Recovery Password" => "A jelszóvisszaállítás adminisztrációja",

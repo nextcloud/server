@@ -5,6 +5,7 @@
 "Users" => "Χρήστες",
 "Apps" => "Εφαρμογές",
 "Admin" => "Διαχειριστής",
+"web services under your control" => "υπηρεσίες δικτύου υπό τον έλεγχό σας",
 "ZIP download is turned off." => "Η λήψη ZIP απενεργοποιήθηκε.",
 "Files need to be downloaded one by one." => "Τα αρχεία πρέπει να ληφθούν ένα-ένα.",
 "Back to Files" => "Πίσω στα Αρχεία",

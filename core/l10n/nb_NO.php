@@ -1,5 +1,7 @@
 <?php $TRANSLATIONS = array(
+"%s shared »%s« with you" => "%s delte »%s« med deg",
 "No category to add?" => "Ingen kategorier å legge til?",
+"This category already exists: %s" => "Denne kategorien finnes allerede: %s",
 "No categories selected for deletion." => "Ingen kategorier merket for sletting.",
 "Sunday" => "Søndag",
 "Monday" => "Mandag",
@@ -40,8 +42,10 @@
 "No" => "Nei",
 "Ok" => "Ok",
 "Error" => "Feil",
+"Shared" => "Delt",
 "Share" => "Del",
 "Error while sharing" => "Feil under deling",
+"Shared with you by {owner}" => "Delt med deg av {owner}",
 "Share with" => "Del med",
 "Share with link" => "Del med link",
 "Password protect" => "Passordbeskyttet",
@@ -78,7 +82,7 @@
 "Help" => "Hjelp",
 "Access forbidden" => "Tilgang nektet",
 "Cloud not found" => "Sky ikke funnet",
-"web services under your control" => "web tjenester du kontrollerer",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Hei der.⏎\n⏎\nVille bare gjøre deg oppmerksom på at %s delte %s med deg.⏎\nVis den: %s⏎\n⏎\nVI ses!",
 "Edit categories" => "Rediger kategorier",
 "Add" => "Legg til",
 "Security Warning" => "Sikkerhetsadvarsel",
@@ -101,5 +105,6 @@
 "remember" => "husk",
 "Log in" => "Logg inn",
 "prev" => "forrige",
-"next" => "neste"
+"next" => "neste",
+"Updating ownCloud to version %s, this may take a while." => "Oppdaterer ownCloud til versjon %s, dette kan ta en stund."
 );

@@ -30,6 +30,9 @@ class Manager extends PublicEmitter {
 	 */
 	private $backends = array();
 
+	/**
+	 * @var \OC\User\User[] $cachedUsers
+	 */
 	private $cachedUsers = array();
 
 	public function __construct() {

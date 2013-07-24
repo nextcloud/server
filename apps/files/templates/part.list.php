@@ -9,7 +9,6 @@ $totalsize = 0; ?>
 	} else {
 		$totalfiles++;
 	}
-	$simple_file_size = OCP\simple_file_size($file['size']);
 	// the bigger the file, the darker the shade of grey; megabytes*2
 	$simple_size_color = intval(160-$file['size']/(1024*1024)*2);
 	if($simple_size_color<0) $simple_size_color = 0;
@@ -17,10 +16,8 @@ $totalsize = 0; ?>
 	// the older the file, the brighter the shade of grey; days*14
 	$relative_date_color = round((time()-$file['mtime'])/60/60/24*14);
 	if($relative_date_color>160) $relative_date_color = 160;
-	$name = rawurlencode($file['name']);
-	$name = str_replace('%2F', '/', $name);
-	$directory = rawurlencode($file['directory']);
-	$directory = str_replace('%2F', '/', $directory); ?>
+	$name = \OCP\Util::encodePath($file['name']);
+	$directory = \OCP\Util::encodePath($file['directory']); ?>
 	<tr data-id="<?php p($file['fileid']); ?>"
 		data-file="<?php p($name);?>"
 		data-type="<?php ($file['type'] == 'dir')?p('dir'):p('file')?>"
@@ -54,9 +51,8 @@ $totalsize = 0; ?>
 			</a>
 		</td>
 		<td class="filesize"
-			title="<?php p(OCP\human_file_size($file['size'])); ?>"
 			style="color:rgb(<?php p($simple_size_color.','.$simple_size_color.','.$simple_size_color) ?>)">
-				<?php print_unescaped($simple_file_size); ?>
+				<?php print_unescaped(OCP\human_file_size($file['size'])); ?>
 		</td>
 		<td class="date">
 			<span class="modified"
@@ -93,7 +89,7 @@ $totalsize = 0; ?>
 			} ?>
 		</span></td>
 		<td class="filesize">
-		<?php print_unescaped(OCP\simple_file_size($totalsize)); ?>
+		<?php print_unescaped(OCP\human_file_size($totalsize)); ?>
 		</td>
 		<td></td>
 	</tr>

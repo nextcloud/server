@@ -98,7 +98,6 @@
 "Access forbidden" => "Pääsy estetty",
 "Cloud not found" => "Pilveä ei löydy",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Hei!\n\n%s jakoi kohteen %s kanssasi.\nKatso se tästä: %s\n\nNäkemiin!",
-"web services under your control" => "verkkopalvelut hallinnassasi",
 "Edit categories" => "Muokkaa luokkia",
 "Add" => "Lisää",
 "Security Warning" => "Turvallisuusvaroitus",

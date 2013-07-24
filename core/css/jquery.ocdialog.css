@@ -35,7 +35,7 @@
 	position:absolute;
 	top:7px; right:7px;
 	height:20px; width:20px;
-	background:url('../img/actions/delete.svg') no-repeat center;
+	background:url('../img/actions/close.svg') no-repeat center;
 }
 
 .oc-dialog-dim {

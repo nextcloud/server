@@ -102,7 +102,6 @@
 "Access forbidden" => "Aliro estas malpermesata",
 "Cloud not found" => "La nubo ne estas trovita",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Saluton:\n\nNi nur sciigas vin, ke %s kunhavigis %s kun vi.\nVidu ĝin: %s\n\nĜis!",
-"web services under your control" => "TTT-servoj regataj de vi",
 "Edit categories" => "Redakti kategoriojn",
 "Add" => "Aldoni",
 "Security Warning" => "Sekureca averto",

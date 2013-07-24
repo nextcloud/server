@@ -5,6 +5,7 @@
 "Users" => "Usuaris",
 "Apps" => "Aplicacions",
 "Admin" => "Administració",
+"web services under your control" => "controleu els vostres serveis web",
 "ZIP download is turned off." => "La baixada en ZIP està desactivada.",
 "Files need to be downloaded one by one." => "Els fitxers s'han de baixar d'un en un.",
 "Back to Files" => "Torna a Fitxers",

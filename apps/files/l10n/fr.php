@@ -73,6 +73,8 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Les fichiers que vous essayez d'envoyer dépassent la taille maximale permise par ce serveur.",
 "Files are being scanned, please wait." => "Les fichiers sont en cours d'analyse, veuillez patienter.",
 "Current scanning" => "Analyse en cours",
+"directory" => "dossier",
+"directories" => "dossiers",
 "file" => "fichier",
 "files" => "fichiers",
 "Upgrading filesystem cache..." => "Mise à niveau du cache du système de fichier"

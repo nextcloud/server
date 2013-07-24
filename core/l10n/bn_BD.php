@@ -95,7 +95,6 @@
 "Help" => "সহায়িকা",
 "Access forbidden" => "অধিগমনের অনুমতি নেই",
 "Cloud not found" => "ক্লাউড খুঁজে পাওয়া গেল না",
-"web services under your control" => "ওয়েব সার্ভিস আপনার হাতের মুঠোয়",
 "Edit categories" => "ক্যাটেগরি সম্পাদনা",
 "Add" => "যোগ কর",
 "Security Warning" => "নিরাপত্তাজনিত সতর্কতা",
