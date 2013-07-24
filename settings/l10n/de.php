@@ -56,6 +56,8 @@
 "Allow apps to use the Share API" => "Erlaubt Apps die Nutzung der Share-API",
 "Allow links" => "Erlaubt Links",
 "Allow users to share items to the public with links" => "Erlaubt Benutzern, Inhalte über öffentliche Links zu teilen",
+"Allow public uploads" => "Öffentliches Hochladen erlauben",
+"Allow users to enable others to upload into their publicly shared folders" => "Erlaubt Benutzern die Freigabe anderer Benutzer in ihren öffentlich freigegebene Ordner hochladen zu dürfen",
 "Allow resharing" => "Erlaubt erneutes Teilen",
 "Allow users to share items shared with them again" => "Erlaubt Benutzern, mit ihnen geteilte Inhalte erneut zu teilen",
 "Allow users to share with anyone" => "Erlaubt Benutzern, mit jedem zu teilen",

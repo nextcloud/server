@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:05+0000\n"
+"POT-Creation-Date: 2013-07-24 01:55-0400\n"
+"PO-Revision-Date: 2013-07-24 05:55+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -42,9 +42,19 @@ msgstr "Program"
 msgid "Admin"
 msgstr "Admin"
 
+#: app.php:844
+#, php-format
+msgid "Failed to upgrade \"%s\"."
+msgstr ""
+
 #: defaults.php:33
 msgid "web services under your control"
 msgstr "webbtjänster under din kontroll"
+
+#: files.php:66 files.php:98
+#, php-format
+msgid "cannot open \"%s\""
+msgstr ""
 
 #: files.php:226
 msgid "ZIP download is turned off."
@@ -54,15 +64,21 @@ msgstr "Nerladdning av ZIP är avstängd."
 msgid "Files need to be downloaded one by one."
 msgstr "Filer laddas ner en åt gången."
 
-#: files.php:228 files.php:261
+#: files.php:228 files.php:256
 msgid "Back to Files"
 msgstr "Tillbaka till Filer"
 
-#: files.php:258
+#: files.php:253
 msgid "Selected files too large to generate zip file."
 msgstr "Valda filer är för stora för att skapa zip-fil."
 
-#: helper.php:236
+#: files.php:254
+msgid ""
+"Download the files in smaller chunks, seperately or kindly ask your "
+"administrator."
+msgstr ""
+
+#: helper.php:235
 msgid "couldn't be determined"
 msgstr "kunde inte bestämmas"
 
@@ -190,57 +206,61 @@ msgstr "Din webbserver är inte korrekt konfigurerad för att tillåta filsynkro
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Var god kontrollera <a href='%s'>installationsguiden</a>."
 
-#: template.php:95
+#: template/functions.php:80
 msgid "seconds ago"
 msgstr "sekunder sedan"
 
-#: template.php:96
+#: template/functions.php:81
 msgid "1 minute ago"
 msgstr "1 minut sedan"
 
-#: template.php:97
+#: template/functions.php:82
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d minuter sedan"
 
-#: template.php:98
+#: template/functions.php:83
 msgid "1 hour ago"
 msgstr "1 timme sedan"
 
-#: template.php:99
+#: template/functions.php:84
 #, php-format
 msgid "%d hours ago"
 msgstr "%d timmar sedan"
 
-#: template.php:100
+#: template/functions.php:85
 msgid "today"
 msgstr "i dag"
 
-#: template.php:101
+#: template/functions.php:86
 msgid "yesterday"
 msgstr "i går"
 
-#: template.php:102
+#: template/functions.php:87
 #, php-format
 msgid "%d days ago"
 msgstr "%d dagar sedan"
 
-#: template.php:103
+#: template/functions.php:88
 msgid "last month"
 msgstr "förra månaden"
 
-#: template.php:104
+#: template/functions.php:89
 #, php-format
 msgid "%d months ago"
 msgstr "%d månader sedan"
 
-#: template.php:105
+#: template/functions.php:90
 msgid "last year"
 msgstr "förra året"
 
-#: template.php:106
+#: template/functions.php:91
 msgid "years ago"
 msgstr "år sedan"
+
+#: template.php:296
+msgid "Caused by:"
+msgstr ""
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format
