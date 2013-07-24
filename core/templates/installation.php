@@ -121,7 +121,7 @@
 			<?php OC_Helper::init_radio('dbtype', 'oci', 'sqlite'); ?>/>
 		<?php endif; ?>
 		<?php endif; ?>
-        
+
 		<?php if($_['hasMSSQL']): ?>
 		<input type='hidden' id='hasMSSQL' value='true'/>
 		<?php if(!$_['hasSQLite'] and !$_['hasMySQL'] and !$_['hasPostgreSQL'] and !$_['hasOracle']): ?>
@@ -131,7 +131,7 @@
 		<label class="mssql" for="mssql">MS SQL</label>
 		<input type="radio" name="dbtype" value='mssql' id="mssql" <?php OC_Helper::init_radio('dbtype', 'mssql', 'sqlite'); ?>/>
 		<?php endif; ?>
-		<?php endif; ?>        
+		<?php endif; ?>
 		</div>
 
 		<?php if($hasOtherDB): ?>
@@ -154,22 +154,22 @@
 					value="<?php p(OC_Helper::init_var('dbname')); ?>"
 					autocomplete="off" pattern="[0-9a-zA-Z$_-]+" />
 			</p>
-		</div>
-		<?php endif; ?>
-		<?php if($_['hasOracle']): ?>
-		<div id="use_oracle_db">
-			<p class="infield groupmiddle">
-				<label for="dbtablespace" class="infield"><?php p($l->t( 'Database tablespace' )); ?></label>
-				<input type="text" name="dbtablespace" id="dbtablespace" placeholder=""
-					value="<?php p(OC_Helper::init_var('dbtablespace')); ?>" autocomplete="off" />
+			<?php if($_['hasOracle']): ?>
+			<div id="use_oracle_db">
+				<p class="infield groupmiddle">
+					<label for="dbtablespace" class="infield"><?php p($l->t( 'Database tablespace' )); ?></label>
+					<input type="text" name="dbtablespace" id="dbtablespace" placeholder=""
+						value="<?php p(OC_Helper::init_var('dbtablespace')); ?>" autocomplete="off" />
+				</p>
+			</div>
+			<?php endif; ?>
+			<p class="infield groupbottom">
+				<label for="dbhost" class="infield"><?php p($l->t( 'Database host' )); ?></label>
+				<input type="text" name="dbhost" id="dbhost" placeholder=""
+					value="<?php p(OC_Helper::init_var('dbhost')); ?>" />
 			</p>
 		</div>
 		<?php endif; ?>
-		<p class="infield groupbottom">
-			<label for="dbhost" class="infield" id="dbhostlabel"><?php p($l->t( 'Database host' )); ?></label>
-			<input type="text" name="dbhost" id="dbhost" placeholder=""
-				value="<?php p(OC_Helper::init_var('dbhost')); ?>" />
-		</p>
 	</fieldset>
 
 	<div class="buttons"><input type="submit" class="primary" value="<?php p($l->t( 'Finish setup' )); ?>" /></div>
