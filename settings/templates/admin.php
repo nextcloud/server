@@ -4,8 +4,6 @@
  * See the COPYING-README file.
  */
 $levels = array('Debug', 'Info', 'Warning', 'Error', 'Fatal');
-
-$defaults = new OC_Defaults(); // initialize themable default strings and urls
 ?>
 
 <?php
@@ -32,7 +30,7 @@ if (!$_['isWebDavWorking']) {
 
 	<span class="securitywarning">
 		<?php p($l->t('Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken.')); ?>
-		<?php print_unescaped($l->t('Please double check the <a href="%s">installation guides</a>.', $defaults->getDocBaseUrl().'/server/5.0/admin_manual/installation.html')); ?>
+		<?php print_unescaped($l->t('Please double check the <a href="%s">installation guides</a>.', $theme->getDocBaseUrl().'/server/5.0/admin_manual/installation.html')); ?>
 	</span>
 
 </fieldset>
@@ -193,13 +191,13 @@ if (!$_['internetconnectionworking']) {
 				<label for="forcessl"><?php p($l->t('Enforce HTTPS'));?></label><br/>
 				<em><?php p($l->t(
 					'Forces the clients to connect to %s via an encrypted connection.',
-					$defaults->getName()
+					$theme->getName()
 				)); ?></em>
 				<?php if (!$_['isConnectedViaHTTPS']) {
 					print_unescaped("<br/><em>");
 					p($l->t(
 						'Please connect to your %s via HTTPS to enable or disable the SSL enforcement.',
-						$defaults->getName()
+						$theme->getName()
 					));
 					print_unescaped("</em>");
 				}
@@ -250,7 +248,7 @@ endfor;?>
 
 <fieldset class="personalblock">
 	<legend><strong><?php p($l->t('Version'));?></strong></legend>
-	<strong><?php p($defaults->getTitle()); ?></strong> <?php p(OC_Util::getVersionString()); ?>
+	<strong><?php p($theme->getTitle()); ?></strong> <?php p(OC_Util::getVersionString()); ?>
 <?php if (OC_Util::getEditionString() === ''): ?>
 	<p>
 		<?php print_unescaped($l->t('Developed by the <a href="http://ownCloud.org/contact" target="_blank">ownCloud community</a>, the <a href="https://github.com/owncloud" target="_blank">source code</a> is licensed under the <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank"><abbr title="Affero General Public License">AGPL</abbr></a>.')); ?>
@@ -259,6 +257,6 @@ endfor;?>
 </fieldset>
 <fieldset class="personalblock credits-footer">
 <p>
-	<?php print_unescaped($defaults->getShortFooter()); ?>
+	<?php print_unescaped($theme->getShortFooter()); ?>
 </p>
 </fieldset>

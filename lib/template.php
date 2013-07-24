@@ -55,6 +55,7 @@ class OC_Template extends \OC\Template\Base {
 
 		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
 		$l10n = OC_L10N::get($parts[0]);
+		$themeDefaults = new OC_Defaults();
 
 		list($path, $template) = $this->findTemplate($theme, $app, $name, $fext);
 
@@ -62,7 +63,7 @@ class OC_Template extends \OC\Template\Base {
 		$this->renderas = $renderas;
 		$this->path = $path;
 
-		parent::__construct($template, $requesttoken, $l10n);
+		parent::__construct($template, $requesttoken, $l10n, $themeDefaults);
 
 		// Some headers to enhance security
 		header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters

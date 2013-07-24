@@ -6,11 +6,9 @@
 <!--[if gt IE 9]><html class="ng-csp ie"><![endif]-->
 <!--[if !IE]><!--><html class="ng-csp"><!--<![endif]-->
 
-	<?php $defaults = new OC_Defaults(); // initialize themable default strings and urls ?>
-
 	<head>
 		<title>
-		<?php p($defaults->getTitle()); ?>
+		<?php p($theme->getTitle()); ?>
 		</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="shortcut icon" href="<?php print_unescaped(image_path('', 'favicon.png')); ?>" />

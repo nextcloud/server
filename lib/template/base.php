@@ -12,12 +12,14 @@ class Base {
 	private $template; // The template
 	private $vars; // Vars
 	private $l10n; // The l10n-Object
+	private $theme; // theme defaults
 
-	public function __construct( $template, $requesttoken, $l10n ) {
+	public function __construct( $template, $requesttoken, $l10n, $theme ) {
 		$this->vars = array();
 		$this->vars['requesttoken'] = $requesttoken;
 		$this->l10n = $l10n;
 		$this->template = $template;
+		$this->theme = $theme;
 	}
 
 	protected function getAppTemplateDirs($theme, $app, $serverroot, $app_dir) {
@@ -113,6 +115,7 @@ class Base {
 		// Register the variables
 		$_ = $this->vars;
 		$l = $this->l10n;
+		$theme = $this->theme;
 
 		if( !is_null($additionalparams)) {
 			$_ = array_merge( $additionalparams, $this->vars );
