@@ -33,16 +33,21 @@
 	</head>
 
 	<body id="body-login">
-		<div id="login">
+		<div class="wrapper"><!-- for sticky footer -->
 			<header><div id="header">
 				<img src="<?php print_unescaped(image_path('', 'logo.svg')); ?>" class="svg" alt="<?php p($theme->getName()); ?>" />
 				<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 			</div></header>
+
 			<?php print_unescaped($_['content']); ?>
+
+			<div class="push"></div><!-- for sticky footer -->
 		</div>
+
 		<footer>
 			<p class="info">
 				<?php print_unescaped($theme->getLongFooter()); ?>
-			</p></footer>
+			</p>
+		</footer>
 	</body>
 </html>
