@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-11 02:17+0200\n"
-"PO-Revision-Date: 2013-07-10 23:35+0000\n"
-"Last-Translator: Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:55+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -275,62 +275,71 @@ msgstr "Tillad links"
 msgid "Allow users to share items to the public with links"
 msgstr "Tillad brugere at dele elementer til offentligheden med links"
 
-#: templates/admin.php:152
+#: templates/admin.php:153
+msgid "Allow public uploads"
+msgstr ""
+
+#: templates/admin.php:154
+msgid ""
+"Allow users to enable others to upload into their publicly shared folders"
+msgstr ""
+
+#: templates/admin.php:162
 msgid "Allow resharing"
 msgstr "Tillad videredeling"
 
-#: templates/admin.php:153
+#: templates/admin.php:163
 msgid "Allow users to share items shared with them again"
 msgstr "Tillad brugere at dele elementer delt med dem igen"
 
-#: templates/admin.php:160
+#: templates/admin.php:170
 msgid "Allow users to share with anyone"
 msgstr "Tillad brugere at dele med alle"
 
-#: templates/admin.php:163
+#: templates/admin.php:173
 msgid "Allow users to only share with users in their groups"
 msgstr "Tillad brugere at kun dele med brugerne i deres grupper"
 
-#: templates/admin.php:170
+#: templates/admin.php:180
 msgid "Security"
 msgstr "Sikkerhed"
 
-#: templates/admin.php:183
+#: templates/admin.php:193
 msgid "Enforce HTTPS"
 msgstr "Gennemtving HTTPS"
 
-#: templates/admin.php:184
+#: templates/admin.php:194
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
 msgstr "Håndhæver klienter at oprette forbindelse til ownCloud via en krypteret forbindelse."
 
-#: templates/admin.php:187
+#: templates/admin.php:197
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
 msgstr "Opret forbindelse til denne ownCloud enhed via HTTPS for at aktivere eller deaktivere SSL håndhævelse."
 
-#: templates/admin.php:197
+#: templates/admin.php:207
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:198
+#: templates/admin.php:208
 msgid "Log level"
 msgstr "Log niveau"
 
-#: templates/admin.php:229
+#: templates/admin.php:239
 msgid "More"
 msgstr "Mere"
 
-#: templates/admin.php:230
+#: templates/admin.php:240
 msgid "Less"
 msgstr "Mindre"
 
-#: templates/admin.php:236 templates/personal.php:116
+#: templates/admin.php:246 templates/personal.php:116
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin.php:240 templates/personal.php:119
+#: templates/admin.php:250 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

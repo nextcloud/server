@@ -32,7 +32,7 @@
 "cancel" => "отмена",
 "replaced {new_name} with {old_name}" => "заменено {new_name} на {old_name}",
 "undo" => "отмена",
-"perform delete operation" => "выполняется операция удаления",
+"perform delete operation" => "выполнить операцию удаления",
 "1 file uploading" => "загружается 1 файл",
 "files uploading" => "файлы загружаются",
 "'.' is an invalid file name." => "'.' - неправильное имя файла.",

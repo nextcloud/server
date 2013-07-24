@@ -4,13 +4,16 @@
 # 
 # Translators:
 # Marcel Kühlhorn <susefan93@gmx.de>, 2013
+# Mario Siegmann <mario_siegmann@web.de>, 2013
+# Pwnicorn <pwnicorndev@gmail.com>, 2013
+# kabum <uu.kabum@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-11 02:16+0200\n"
-"PO-Revision-Date: 2013-07-10 23:36+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:05+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +23,7 @@ msgstr ""
 
 #: ajax/clearMappings.php:34
 msgid "Failed to clear the mappings."
-msgstr ""
+msgstr "Löschen der Zuordnung fehlgeschlagen."
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
@@ -60,7 +63,7 @@ msgstr "Das Hinzufügen der Serverkonfiguration schlug fehl"
 
 #: js/settings.js:111
 msgid "mappings cleared"
-msgstr ""
+msgstr "Zuordnungen gelöscht"
 
 #: js/settings.js:112
 msgid "Success"
@@ -343,7 +346,7 @@ msgstr "Ohne Eingabe wird der Benutzername (Standard) verwendet. Anderenfall tra
 
 #: templates/settings.php:101
 msgid "Internal Username"
-msgstr ""
+msgstr "Interner Benutzername"
 
 #: templates/settings.php:102
 msgid ""
@@ -359,15 +362,15 @@ msgid ""
 "achieve a similar behaviour as before ownCloud 5 enter the user display name"
 " attribute in the following field. Leave it empty for default behaviour. "
 "Changes will have effect only on newly mapped (added) LDAP users."
-msgstr ""
+msgstr "Standardmäßig wird der interne Benutzername aus der UUID erstellt. Dies stellt sicher, daß der Name einmalig ist und keine Zeichen umgewandelt werden müssen. Für den internen Benutzernamen sind nur die folgenden Zeichen zulässig: [ a-zA-Z0-9_.@- ]. Andere Zeichen werden durch ihr ASCII-Äquivalent ersetzt oder ausgelassen. Bei Kollisionen wird eine Nummer hinzugefügt/erhöht. Der interne Benutzername wird verwendet, um einen Benutzer intern zu identifizieren. Er ist auch der Standardname für das Benutzerverzeichnis in ownCloud und Teil von Remote-URLs, unter anderem für alle *DAV-Dienste. Mit dieser Einstellung kann das Standardverhalten geändert werden. Um ein ähnliches Verhalten wie in ownCloud 5 zu erreichen, geben Sie das Benutzer-Anzeige-Namen-Attribut in das folgende Feld ein. Änderungen betreffen nur neu angelegte LDAP-Benutzer."
 
 #: templates/settings.php:103
 msgid "Internal Username Attribute:"
-msgstr ""
+msgstr "Attribut für interne Benutzernamen:"
 
 #: templates/settings.php:104
 msgid "Override UUID detection"
-msgstr ""
+msgstr "UUID-Erkennung überschreiben"
 
 #: templates/settings.php:105
 msgid ""
@@ -378,15 +381,15 @@ msgid ""
 "You must make sure that the attribute of your choice can be fetched for both"
 " users and groups and it is unique. Leave it empty for default behaviour. "
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
-msgstr ""
+msgstr "Standardmäßig erkennt ownCloud das UUID-Attribut automatisch. Das UUID-Attribut wird benutzt, um LDAP-Benutzer und Gruppen eindeutig zu identifizieren. Außerdem wird der interne Benutzername basierend auf der UUID erstellt, wenn nicht anders angegeben. Sie können dieses Verhalten ändern und ein Attribut Ihrer Wahl angeben. Sie müssen sichergehen, dass das Attribut Ihrer Wahl auf Benutzer und Gruppen anwendbar und einzigartig ist. Für das Standardverhalten lassen Sie das Feld leer. Änderungen betreffen nur neu angelegte LDAP-Benutzer und Gruppen."
 
 #: templates/settings.php:106
 msgid "UUID Attribute:"
-msgstr ""
+msgstr "UUID-Attribut:"
 
 #: templates/settings.php:107
 msgid "Username-LDAP User Mapping"
-msgstr ""
+msgstr "LDAP-Benutzernamenzuordnung"
 
 #: templates/settings.php:108
 msgid ""
@@ -401,15 +404,15 @@ msgid ""
 "configuration sensitive, it affects all LDAP configurations! Do never clear "
 "the mappings in a production environment. Only clear mappings in a testing "
 "or experimental stage."
-msgstr ""
+msgstr "OwnCloud nutzt die Benutzernamen, um (Meta)Daten zuzuordnen und zu speichern. Um Benutzer eindeutig und präzise zu identifizieren, hat jeder LDAP-Benutzer einen internen Benutzernamen. Dies erfordert eine Zuordnung vom OwnCloud-Benutzernamen zum LDAP-Benutzer. Der erstellte Benutzername wird der UUID des LDAP-Benutzernamens zugeordnet. Zusätzlich wird der DN zwischengespeichert, um die Interaktion mit LDAP zu minimieren, was aber nicht der Identifikation dient. Ändert sich der DN, werden die Änderungen durch OwnCloud gefunden. Der interne OwnCloud-Name, wird in der gesamten OwnCloud verwendet. Werden die Zuordnungen gelöscht, bleiben überall Reste in der OwnCloud. Die Löschung der Zuordnungen kann nicht in der Konfiguration vorgenommen werden, beeinflusst aber die LDAP-Konfiguration! Lösche niemals die Zuordnungen in einer produktiven Umgebung. Lösche die Zuordnungen nur in einer Test- oder Experimentierumgebung."
 
 #: templates/settings.php:109
 msgid "Clear Username-LDAP User Mapping"
-msgstr ""
+msgstr "Lösche LDAP-Benutzernamenzuordnung"
 
 #: templates/settings.php:109
 msgid "Clear Groupname-LDAP Group Mapping"
-msgstr ""
+msgstr "Lösche LDAP-Gruppennamenzuordnung"
 
 #: templates/settings.php:111
 msgid "Test Configuration"

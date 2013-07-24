@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-11 02:17+0200\n"
-"PO-Revision-Date: 2013-07-11 00:12+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:04+0000\n"
+"Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s 與您分享了 %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -143,55 +143,55 @@ msgstr "十二月"
 msgid "Settings"
 msgstr "設定"
 
-#: js/js.js:725
+#: js/js.js:715
 msgid "seconds ago"
 msgstr "幾秒前"
 
-#: js/js.js:726
+#: js/js.js:716
 msgid "1 minute ago"
 msgstr "1 分鐘前"
 
-#: js/js.js:727
+#: js/js.js:717
 msgid "{minutes} minutes ago"
 msgstr "{minutes} 分鐘前"
 
-#: js/js.js:728
+#: js/js.js:718
 msgid "1 hour ago"
 msgstr "1 小時之前"
 
-#: js/js.js:729
+#: js/js.js:719
 msgid "{hours} hours ago"
 msgstr "{hours} 小時前"
 
-#: js/js.js:730
+#: js/js.js:720
 msgid "today"
 msgstr "今天"
 
-#: js/js.js:731
+#: js/js.js:721
 msgid "yesterday"
 msgstr "昨天"
 
-#: js/js.js:732
+#: js/js.js:722
 msgid "{days} days ago"
 msgstr "{days} 天前"
 
-#: js/js.js:733
+#: js/js.js:723
 msgid "last month"
 msgstr "上個月"
 
-#: js/js.js:734
+#: js/js.js:724
 msgid "{months} months ago"
 msgstr "{months} 個月前"
 
-#: js/js.js:735
+#: js/js.js:725
 msgid "months ago"
 msgstr "幾個月前"
 
-#: js/js.js:736
+#: js/js.js:726
 msgid "last year"
 msgstr "去年"
 
-#: js/js.js:737
+#: js/js.js:727
 msgid "years ago"
 msgstr "幾年前"
 
@@ -227,8 +227,8 @@ msgstr "未指定物件類型。"
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:620
-#: js/share.js:632
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:625
+#: js/share.js:637
 msgid "Error"
 msgstr "錯誤"
 
@@ -248,7 +248,7 @@ msgstr "已分享"
 msgid "Share"
 msgstr "分享"
 
-#: js/share.js:125 js/share.js:660
+#: js/share.js:125 js/share.js:665
 msgid "Error while sharing"
 msgstr "分享時發生錯誤"
 
@@ -268,114 +268,114 @@ msgstr "由 {owner} 分享給您和 {group}"
 msgid "Shared with you by {owner}"
 msgstr "{owner} 已經和您分享"
 
-#: js/share.js:172
+#: js/share.js:177
 msgid "Share with"
 msgstr "與...分享"
 
-#: js/share.js:177
+#: js/share.js:182
 msgid "Share with link"
 msgstr "使用連結分享"
 
-#: js/share.js:180
+#: js/share.js:185
 msgid "Password protect"
 msgstr "密碼保護"
 
-#: js/share.js:182 templates/installation.php:54 templates/login.php:26
+#: js/share.js:187 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "密碼"
 
-#: js/share.js:187
+#: js/share.js:192
 msgid "Allow Public Upload"
-msgstr ""
+msgstr "允許任何人上傳"
 
-#: js/share.js:191
+#: js/share.js:196
 msgid "Email link to person"
 msgstr "將連結 email 給別人"
 
-#: js/share.js:192
+#: js/share.js:197
 msgid "Send"
 msgstr "寄出"
 
-#: js/share.js:197
+#: js/share.js:202
 msgid "Set expiration date"
 msgstr "設置到期日"
 
-#: js/share.js:198
+#: js/share.js:203
 msgid "Expiration date"
 msgstr "到期日"
 
-#: js/share.js:230
+#: js/share.js:235
 msgid "Share via email:"
 msgstr "透過電子郵件分享："
 
-#: js/share.js:232
+#: js/share.js:237
 msgid "No people found"
 msgstr "沒有找到任何人"
 
-#: js/share.js:270
+#: js/share.js:275
 msgid "Resharing is not allowed"
 msgstr "不允許重新分享"
 
-#: js/share.js:306
+#: js/share.js:311
 msgid "Shared in {item} with {user}"
 msgstr "已和 {user} 分享 {item}"
 
-#: js/share.js:327
+#: js/share.js:332
 msgid "Unshare"
 msgstr "取消共享"
 
-#: js/share.js:339
+#: js/share.js:344
 msgid "can edit"
 msgstr "可編輯"
 
-#: js/share.js:341
+#: js/share.js:346
 msgid "access control"
 msgstr "存取控制"
 
-#: js/share.js:344
+#: js/share.js:349
 msgid "create"
 msgstr "建立"
 
-#: js/share.js:347
+#: js/share.js:352
 msgid "update"
 msgstr "更新"
 
-#: js/share.js:350
+#: js/share.js:355
 msgid "delete"
 msgstr "刪除"
 
-#: js/share.js:353
+#: js/share.js:358
 msgid "share"
 msgstr "分享"
 
-#: js/share.js:387 js/share.js:607
+#: js/share.js:392 js/share.js:612
 msgid "Password protected"
 msgstr "受密碼保護"
 
-#: js/share.js:620
+#: js/share.js:625
 msgid "Error unsetting expiration date"
 msgstr "解除過期日設定失敗"
 
-#: js/share.js:632
+#: js/share.js:637
 msgid "Error setting expiration date"
 msgstr "錯誤的到期日設定"
 
-#: js/share.js:647
+#: js/share.js:652
 msgid "Sending ..."
 msgstr "正在傳送..."
 
-#: js/share.js:658
+#: js/share.js:663
 msgid "Email sent"
 msgstr "Email 已寄出"
 
-#: js/update.js:14
+#: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
 msgstr "升級失敗，請將此問題回報 <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud 社群</a>。"
 
-#: js/update.js:18
+#: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "升級成功，正將您重新導向至 ownCloud 。"
 
@@ -400,7 +400,7 @@ msgstr "請求失敗！<br>您確定填入的電子郵件地址或是帳號名�
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
-msgstr "重設密碼的連結將會寄到你的電子郵件信箱。"
+msgstr "重設密碼的連結將會寄到您的電子郵件信箱。"
 
 #: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
 #: templates/login.php:19
@@ -413,7 +413,7 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr ""
+msgstr "您的檔案已加密，如果您沒有設定還原金鑰，未來重設密碼後將無法取回您的資料。如果您不確定該怎麼做，請洽詢系統管理員後再繼續。您確定要現在繼續嗎？"
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
@@ -476,7 +476,7 @@ msgid ""
 "View it: %s\n"
 "\n"
 "Cheers!"
-msgstr ""
+msgstr "嗨，\n\n通知您，%s 與您分享了 %s 。\n看一下：%s"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -614,7 +614,7 @@ msgstr "替代登入方法"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr ""
+msgstr "嗨，<br><br>通知您，%s 與您分享了 %s ，<br><a href=\"%s\">看一下吧</a>"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

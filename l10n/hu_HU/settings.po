@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-11 02:17+0200\n"
-"PO-Revision-Date: 2013-07-10 23:35+0000\n"
-"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:55+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -275,62 +275,71 @@ msgstr "Linkek engedélyezése"
 msgid "Allow users to share items to the public with links"
 msgstr "Lehetővé teszi, hogy a felhasználók linkek segítségével külsősökkel is megoszthassák az adataikat"
 
-#: templates/admin.php:152
+#: templates/admin.php:153
+msgid "Allow public uploads"
+msgstr ""
+
+#: templates/admin.php:154
+msgid ""
+"Allow users to enable others to upload into their publicly shared folders"
+msgstr ""
+
+#: templates/admin.php:162
 msgid "Allow resharing"
 msgstr "A továbbosztás engedélyezése"
 
-#: templates/admin.php:153
+#: templates/admin.php:163
 msgid "Allow users to share items shared with them again"
 msgstr "Lehetővé teszi, hogy a felhasználók a velük megosztott állományokat megosszák egy további, harmadik féllel"
 
-#: templates/admin.php:160
+#: templates/admin.php:170
 msgid "Allow users to share with anyone"
 msgstr "A felhasználók bárkivel megoszthatják állományaikat"
 
-#: templates/admin.php:163
+#: templates/admin.php:173
 msgid "Allow users to only share with users in their groups"
 msgstr "A felhasználók csak olyanokkal oszthatják meg állományaikat, akikkel közös csoportban vannak"
 
-#: templates/admin.php:170
+#: templates/admin.php:180
 msgid "Security"
 msgstr "Biztonság"
 
-#: templates/admin.php:183
+#: templates/admin.php:193
 msgid "Enforce HTTPS"
 msgstr "Kötelező HTTPS"
 
-#: templates/admin.php:184
+#: templates/admin.php:194
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
 msgstr "Kötelezővé teszi, hogy a böngészőprogramok titkosított csatornán kapcsolódjanak az ownCloud szolgáltatáshoz."
 
-#: templates/admin.php:187
+#: templates/admin.php:197
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
 msgstr "Kérjük, hogy HTTPS protokollt használjon, ha be vagy ki  akarja kapcsolni a kötelező SSL beállítást."
 
-#: templates/admin.php:197
+#: templates/admin.php:207
 msgid "Log"
 msgstr "Naplózás"
 
-#: templates/admin.php:198
+#: templates/admin.php:208
 msgid "Log level"
 msgstr "Naplózási szint"
 
-#: templates/admin.php:229
+#: templates/admin.php:239
 msgid "More"
 msgstr "Több"
 
-#: templates/admin.php:230
+#: templates/admin.php:240
 msgid "Less"
 msgstr "Kevesebb"
 
-#: templates/admin.php:236 templates/personal.php:116
+#: templates/admin.php:246 templates/personal.php:116
 msgid "Version"
 msgstr "Verzió"
 
-#: templates/admin.php:240 templates/personal.php:119
+#: templates/admin.php:250 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

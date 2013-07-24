@@ -1,7 +1,5 @@
 <?php
 
-require_once 'Patchwork/PHP/Shim/Normalizer.php';
-
 /**
  * Class for utility functions
  *

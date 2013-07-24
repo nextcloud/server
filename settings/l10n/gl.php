@@ -56,6 +56,8 @@
 "Allow apps to use the Share API" => "Permitir que os aplicativos empreguen o API para compartir",
 "Allow links" => "Permitir ligazóns",
 "Allow users to share items to the public with links" => "Permitir que os usuarios compartan elementos ao público con ligazóns",
+"Allow public uploads" => "Permitir os envíos públicos",
+"Allow users to enable others to upload into their publicly shared folders" => "Permitir que os usuarios lle permitan a outros enviar aos seus cartafoles compartidos publicamente",
 "Allow resharing" => "Permitir compartir",
 "Allow users to share items shared with them again" => "Permitir que os usuarios compartan de novo os elementos compartidos con eles",
 "Allow users to share with anyone" => "Permitir que os usuarios compartan con calquera",

@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# fizikiukas <fizikiukas@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-11 02:17+0200\n"
-"PO-Revision-Date: 2013-07-10 23:35+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:55+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -36,11 +37,11 @@ msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr ""
+msgstr "Grupė jau egzistuoja"
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr ""
+msgstr "Nepavyko pridėti grupės"
 
 #: ajax/enableapp.php:11
 msgid "Could not enable app. "
@@ -56,11 +57,11 @@ msgstr "Netinkamas el. paštas"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Nepavyko ištrinti grupės"
 
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
-msgstr ""
+msgstr "Nepavyko ištrinti vartotojo"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -77,20 +78,20 @@ msgstr ""
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "Nepavyko pridėti vartotojo prie grupės %s"
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "Nepavyko ištrinti vartotojo iš grupės %s"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr ""
+msgstr "Nepavyko atnaujinti programos."
 
 #: js/apps.js:35
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "Atnaujinti iki {appversion}"
 
 #: js/apps.js:41 js/apps.js:81
 msgid "Disable"
@@ -102,7 +103,7 @@ msgstr "Įjungti"
 
 #: js/apps.js:60
 msgid "Please wait...."
-msgstr ""
+msgstr "Prašome palaukti..."
 
 #: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
 msgid "Error"
@@ -110,15 +111,15 @@ msgstr "Klaida"
 
 #: js/apps.js:95
 msgid "Updating...."
-msgstr ""
+msgstr "Atnaujinama..."
 
 #: js/apps.js:98
 msgid "Error while updating app"
-msgstr ""
+msgstr "Įvyko klaida atnaujinant programą"
 
 #: js/apps.js:101
 msgid "Updated"
-msgstr ""
+msgstr "Atnaujinta"
 
 #: js/personal.js:118
 msgid "Saving..."
@@ -126,7 +127,7 @@ msgstr "Saugoma..."
 
 #: js/users.js:47
 msgid "deleted"
-msgstr ""
+msgstr "ištrinta"
 
 #: js/users.js:47
 msgid "undo"
@@ -134,7 +135,7 @@ msgstr "anuliuoti"
 
 #: js/users.js:79
 msgid "Unable to remove user"
-msgstr ""
+msgstr "Nepavyko ištrinti vartotojo"
 
 #: js/users.js:92 templates/users.php:26 templates/users.php:87
 #: templates/users.php:112
@@ -151,19 +152,19 @@ msgstr "Ištrinti"
 
 #: js/users.js:269
 msgid "add group"
-msgstr ""
+msgstr "pridėti grupę"
 
 #: js/users.js:428
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Vartotojo vardas turi būti tinkamas"
 
 #: js/users.js:429 js/users.js:435 js/users.js:450
 msgid "Error creating user"
-msgstr ""
+msgstr "Klaida kuriant vartotoją"
 
 #: js/users.js:434
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Slaptažodis turi būti tinkamas"
 
 #: personal.php:37 personal.php:38
 msgid "__language_name__"
@@ -199,7 +200,7 @@ msgstr ""
 
 #: templates/admin.php:46
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "Trūksta 'fileinfo' modulio"
 
 #: templates/admin.php:49
 msgid ""
@@ -267,68 +268,77 @@ msgstr ""
 
 #: templates/admin.php:144
 msgid "Allow links"
-msgstr ""
+msgstr "Lesti nuorodas"
 
 #: templates/admin.php:145
 msgid "Allow users to share items to the public with links"
 msgstr ""
 
-#: templates/admin.php:152
-msgid "Allow resharing"
+#: templates/admin.php:153
+msgid "Allow public uploads"
 msgstr ""
 
-#: templates/admin.php:153
+#: templates/admin.php:154
+msgid ""
+"Allow users to enable others to upload into their publicly shared folders"
+msgstr ""
+
+#: templates/admin.php:162
+msgid "Allow resharing"
+msgstr "Leisti dalintis"
+
+#: templates/admin.php:163
 msgid "Allow users to share items shared with them again"
 msgstr ""
 
-#: templates/admin.php:160
+#: templates/admin.php:170
 msgid "Allow users to share with anyone"
 msgstr ""
 
-#: templates/admin.php:163
+#: templates/admin.php:173
 msgid "Allow users to only share with users in their groups"
 msgstr ""
 
-#: templates/admin.php:170
+#: templates/admin.php:180
 msgid "Security"
-msgstr ""
+msgstr "Saugumas"
 
-#: templates/admin.php:183
+#: templates/admin.php:193
 msgid "Enforce HTTPS"
 msgstr ""
 
-#: templates/admin.php:184
+#: templates/admin.php:194
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
 msgstr ""
 
-#: templates/admin.php:187
+#: templates/admin.php:197
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
 msgstr ""
 
-#: templates/admin.php:197
+#: templates/admin.php:207
 msgid "Log"
 msgstr "Žurnalas"
 
-#: templates/admin.php:198
+#: templates/admin.php:208
 msgid "Log level"
 msgstr "Žurnalo išsamumas"
 
-#: templates/admin.php:229
+#: templates/admin.php:239
 msgid "More"
 msgstr "Daugiau"
 
-#: templates/admin.php:230
+#: templates/admin.php:240
 msgid "Less"
 msgstr "Mažiau"
 
-#: templates/admin.php:236 templates/personal.php:116
+#: templates/admin.php:246 templates/personal.php:116
 msgid "Version"
-msgstr ""
+msgstr "Versija"
 
-#: templates/admin.php:240 templates/personal.php:119
+#: templates/admin.php:250 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -376,11 +386,11 @@ msgstr ""
 
 #: templates/help.php:11
 msgid "Forum"
-msgstr ""
+msgstr "Forumas"
 
 #: templates/help.php:14
 msgid "Bugtracker"
-msgstr ""
+msgstr "Klaidų sekimas"
 
 #: templates/help.php:17
 msgid "Commercial Support"
@@ -449,7 +459,7 @@ msgstr "Padėkite išversti"
 
 #: templates/personal.php:106
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/personal.php:108
 #, php-format
@@ -460,7 +470,7 @@ msgstr ""
 
 #: templates/users.php:21
 msgid "Login Name"
-msgstr ""
+msgstr "Vartotojo vardas"
 
 #: templates/users.php:30
 msgid "Create"
@@ -482,7 +492,7 @@ msgstr ""
 
 #: templates/users.php:48 templates/users.php:142
 msgid "Unlimited"
-msgstr ""
+msgstr "Neribota"
 
 #: templates/users.php:66 templates/users.php:157
 msgid "Other"
@@ -502,8 +512,8 @@ msgstr ""
 
 #: templates/users.php:106
 msgid "set new password"
-msgstr ""
+msgstr "nustatyti naują slaptažodį"
 
 #: templates/users.php:137
 msgid "Default"
-msgstr ""
+msgstr "Numatytasis"

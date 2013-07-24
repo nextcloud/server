@@ -60,6 +60,8 @@ abstract class StreamWrapper extends Common{
 			$fh = $this->fopen($path, 'a');
 			fwrite($fh, '');
 			fclose($fh);
+
+			return true;
 		} else {
 			return false;//not supported
 		}

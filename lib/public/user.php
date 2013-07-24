@@ -40,7 +40,7 @@ class User {
 	 * @return string uid or false
 	 */
 	public static function getUser() {
-		return \OC_USER::getUser();
+		return \OC_User::getUser();
 	}
 
 	/**
@@ -50,7 +50,7 @@ class User {
 	 * Get a list of all users.
 	 */
 	public static function getUsers($search = '', $limit = null, $offset = null) {
-		return \OC_USER::getUsers();
+		return \OC_User::getUsers($search, $limit, $offset);
 	}
 
 	/**
@@ -58,7 +58,7 @@ class User {
 	 * @return string display name
 	 */
 	public static function getDisplayName($user=null) {
-		return \OC_USER::getDisplayName($user);
+		return \OC_User::getDisplayName($user);
 	}
 
 	/**
@@ -68,7 +68,7 @@ class User {
 	 * Get a list of all display names and user ids.
 	 */
 	public static function getDisplayNames($search = '', $limit = null, $offset = null) {
-		return \OC_USER::getDisplayNames($search, $limit, $offset);
+		return \OC_User::getDisplayNames($search, $limit, $offset);
 	}
 
 	/**
@@ -78,7 +78,7 @@ class User {
 	 * Checks if the user is logged in
 	 */
 	public static function isLoggedIn() {
-		return \OC_USER::isLoggedIn();
+		return \OC_User::isLoggedIn();
 	}
 
 	/**
@@ -88,14 +88,14 @@ class User {
 	 * @return boolean
 	 */
 	public static function userExists( $uid, $excludingBackend = null ) {
-		return \OC_USER::userExists( $uid, $excludingBackend );
+		return \OC_User::userExists( $uid, $excludingBackend );
 	}
 	/**
 	 * @brief Loggs the user out including all the session data
 	 * Logout, destroys session
 	 */
 	public static function logout() {
-		\OC_USER::logout();
+		\OC_User::logout();
 	}
 
 	/**
@@ -107,7 +107,7 @@ class User {
 	 * Check if the password is correct without logging in the user
 	 */
 	public static function checkPassword( $uid, $password ) {
-		return \OC_USER::checkPassword( $uid, $password );
+		return \OC_User::checkPassword( $uid, $password );
 	}
 
 	/**

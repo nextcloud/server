@@ -124,10 +124,9 @@ class OC {
 			OC::$THIRDPARTYWEBROOT = rtrim(dirname(OC::$WEBROOT), '/');
 			OC::$THIRDPARTYROOT = rtrim(dirname(OC::$SERVERROOT), '/');
 		} else {
-			echo('3rdparty directory not found! Please put the ownCloud 3rdparty'
+			throw new Exception('3rdparty directory not found! Please put the ownCloud 3rdparty'
 				.' folder in the ownCloud folder or the folder above.'
 				.' You can also configure the location in the config.php file.');
-			exit;
 		}
 		// search the apps folder
 		$config_paths = OC_Config::getValue('apps_paths', array());
@@ -150,9 +149,8 @@ class OC {
 		}
 
 		if (empty(OC::$APPSROOTS)) {
-			echo('apps directory not found! Please put the ownCloud apps folder in the ownCloud folder'
+			throw new Exception('apps directory not found! Please put the ownCloud apps folder in the ownCloud folder'
 				.' or the folder above. You can also configure the location in the config.php file.');
-			exit;
 		}
 		$paths = array();
 		foreach (OC::$APPSROOTS as $path) {
@@ -174,14 +172,11 @@ class OC {
 		if (file_exists(OC::$SERVERROOT . "/config/config.php")
 			and !is_writable(OC::$SERVERROOT . "/config/config.php")) {
 			$defaults = new OC_Defaults();
-			$tmpl = new OC_Template('', 'error', 'guest');
-			$tmpl->assign('errors', array(1 => array(
-				'error' => "Can't write into config directory 'config'",
-				'hint' => 'This can usually be fixed by '
+			OC_Template::printErrorPage(
+				"Can't write into config directory 'config'",
+				'This can usually be fixed by '
 					.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html#set-the-directory-permissions" target="_blank">giving the webserver write access to the config directory</a>.'
-			)));
-			$tmpl->printPage();
-			exit();
+			);
 		}
 	}
 
@@ -223,10 +218,7 @@ class OC {
 			header('Retry-After: 120');
 
 			// render error page
-			$tmpl = new OC_Template('', 'error', 'guest');
-			$tmpl->assign('errors', array(1 => array('error' => 'ownCloud is in maintenance mode')));
-			$tmpl->printPage();
-			exit();
+			OC_Template::printErrorPage('ownCloud is in maintenance mode');
 		}
 	}
 
@@ -305,11 +297,7 @@ class OC {
 			$error = 'Session could not be initialized. Please contact your ';
 			$error .= 'system administrator';
 
-			$tmpl = new OC_Template('', 'error', 'guest');
-			$tmpl->assign('errors', array(1 => array('error' => $error)));
-			$tmpl->printPage();
-
-			exit();
+			OC_Template::printErrorPage($error);
 		}
 
 		$sessionLifeTime = self::getSessionLifeTime();
@@ -370,6 +358,7 @@ class OC {
 		self::$loader->registerPrefix('Symfony\\Component\\Routing', 'symfony/routing');
 		self::$loader->registerPrefix('Sabre\\VObject', '3rdparty');
 		self::$loader->registerPrefix('Sabre_', '3rdparty');
+		self::$loader->registerPrefix('Patchwork', '3rdparty');
 		spl_autoload_register(array(self::$loader, 'load'));
 
 		// set some stuff
@@ -433,10 +422,13 @@ class OC {
 			}
 		}
 
-		if (!defined('PHPUNIT_RUN') and !(defined('DEBUG') and DEBUG)) {
-			register_shutdown_function(array('OC_Log', 'onShutdown'));
-			set_error_handler(array('OC_Log', 'onError'));
-			set_exception_handler(array('OC_Log', 'onException'));
+		if (!defined('PHPUNIT_RUN')) {
+			if (defined('DEBUG') and DEBUG) {
+				set_exception_handler(array('OC_Template', 'printExceptionErrorPage'));
+			} else {
+				OC\Log\ErrorHandler::register();
+				OC\Log\ErrorHandler::setLogger(OC_Log::$object);
+			}
 		}
 
 		// register the stream wrappers
@@ -598,6 +590,9 @@ class OC {
 			self::checkUpgrade();
 		}
 
+		// Test it the user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
+		OC::tryBasicAuthLogin();
+
 		if (!self::$CLI) {
 			try {
 				if (!OC_Config::getValue('maintenance', false)) {
@@ -699,15 +694,11 @@ class OC {
 		// remember was checked after last login
 		if (OC::tryRememberLogin()) {
 			$error[] = 'invalidcookie';
-
 			// Someone wants to log in :
 		} elseif (OC::tryFormLogin()) {
 			$error[] = 'invalidpassword';
-
-			// The user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
-		} elseif (OC::tryBasicAuthLogin()) {
-			$error[] = 'invalidpassword';
 		}
+
 		OC_Util::displayLoginPage(array_unique($error));
 	}
 
@@ -805,8 +796,7 @@ class OC {
 		if (OC_User::login($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"])) {
 			//OC_Log::write('core',"Logged in with HTTP Authentication", OC_Log::DEBUG);
 			OC_User::unsetMagicInCookie();
-			$_REQUEST['redirect_url'] = OC_Request::requestUri();
-			OC_Util::redirectToDefaultPage();
+			$_SERVER['HTTP_REQUESTTOKEN'] = OC_Util::callRegister();
 		}
 		return true;
 	}

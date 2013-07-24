@@ -56,6 +56,8 @@
 "Allow apps to use the Share API" => "Luba rakendustel kasutada Share API-t",
 "Allow links" => "Luba lingid",
 "Allow users to share items to the public with links" => "Luba kasutajatel jagada kirjeid avalike linkidega",
+"Allow public uploads" => "Luba avalikud üleslaadimised",
+"Allow users to enable others to upload into their publicly shared folders" => "Luba kasutajatel üleslaadimine teiste poolt oma avalikult jagatud kataloogidesse ",
 "Allow resharing" => "Luba edasijagamine",
 "Allow users to share items shared with them again" => "Luba kasutajatel jagada edasi kirjeid, mida on neile jagatud",
 "Allow users to share with anyone" => "Luba kasutajatel kõigiga jagada",

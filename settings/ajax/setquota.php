@@ -10,7 +10,7 @@ OCP\JSON::callCheck();
 
 $username = isset($_POST["username"])?$_POST["username"]:'';
 
-if(($username == '' && !OC_User::isAdminUser(OC_User::getUser()))
+if(($username === '' && !OC_User::isAdminUser(OC_User::getUser()))
 	|| (!OC_User::isAdminUser(OC_User::getUser())
 		&& !OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username))) {
 	$l = OC_L10N::get('core');
@@ -20,7 +20,7 @@ if(($username == '' && !OC_User::isAdminUser(OC_User::getUser()))
 
 //make sure the quota is in the expected format
 $quota=$_POST["quota"];
-if($quota!='none' and $quota!='default') {
+if($quota !== 'none' and $quota !== 'default') {
 	$quota= OC_Helper::computerFileSize($quota);
 	$quota=OC_Helper::humanFileSize($quota);
 }
@@ -29,7 +29,7 @@ if($quota!='none' and $quota!='default') {
 if($username) {
 	OC_Preferences::setValue($username, 'files', 'quota', $quota);
 }else{//set the default quota when no username is specified
-	if($quota=='default') {//'default' as default quota makes no sense
+	if($quota === 'default') {//'default' as default quota makes no sense
 		$quota='none';
 	}
 	OC_Appconfig::setValue('files', 'default_quota', $quota);

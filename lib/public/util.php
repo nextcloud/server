@@ -78,6 +78,15 @@ class Util {
 	}
 
 	/**
+	 * @brief get l10n object
+	 * @param string $app
+	 * @return OC_L10N
+	 */
+	public static function getL10N( $application ) {
+		return \OC_L10N::get( $application );
+	}
+
+	/**
 	 * @brief add a css file
 	 * @param string $url
 	 */
