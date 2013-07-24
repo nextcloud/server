@@ -34,7 +34,7 @@ class OC_Mount_Config {
 	* If the configuration parameter should be secret, add a '*' to the beginning of the value
 	* If the configuration parameter is a boolean, add a '!' to the beginning of the value
 	* If the configuration parameter is optional, add a '&' to the beginning of the value
-	* If the configuration parameter is hidden, add a '#' to the begining of the value
+	* If the configuration parameter is hidden, add a '#' to the beginning of the value
 	* @return array
 	*/
 	public static function getBackends() {
@@ -112,6 +112,17 @@ class OC_Mount_Config {
 				'user' => 'Username',
 				'password' => '*Password',
 				'root' => '&Root'));
+
+		$backends['\OC\Files\Storage\iRODS']=array(
+			'backend' => 'iRODS',
+			'configuration' => array(
+				'host' => 'Host',
+				'port' => 'Port',
+				'use_logon_credentials' => '!Use ownCloud login',
+				'user' => 'Username',
+				'password' => '*Password',
+				'auth_mode' => 'Authentication Mode',
+				'zone' => 'Zone'));
 
 		return($backends);
 	}
