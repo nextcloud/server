@@ -23,7 +23,7 @@
  *
  */
 // load needed apps
-$RUNTIME_APPTYPES=array('filesystem', 'authentication', 'logging');
+$RUNTIME_APPTYPES = array('filesystem', 'authentication', 'logging');
 
 OC_App::loadApps($RUNTIME_APPTYPES);
 
@@ -35,10 +35,11 @@ $lockBackend = new OC_Connector_Sabre_Locks();
 $requestBackend = new OC_Connector_Sabre_Request();
 
 // Create ownCloud Dir
-$publicDir = new OC_Connector_Sabre_Directory('');
+$rootDir = new OC_Connector_Sabre_Directory('');
+$objectTree = new \OC\Connector\Sabre\ObjectTree($rootDir);
 
 // Fire up server
-$server = new Sabre_DAV_Server($publicDir);
+$server = new Sabre_DAV_Server($objectTree);
 $server->httpRequest = $requestBackend;
 $server->setBaseUri($baseuri);
 
