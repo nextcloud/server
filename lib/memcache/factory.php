@@ -18,6 +18,8 @@ class Factory {
 	function create($prefix = '') {
 		if (XCache::isAvailable()) {
 			return new XCache($prefix);
+		} elseif (APCu::isAvailable()) {
+			return new APCu($prefix);
 		} elseif (APC::isAvailable()) {
 			return new APC($prefix);
 		} elseif (Memcached::isAvailable()) {
@@ -33,6 +35,6 @@ class Factory {
 	 * @return bool
 	 */
 	public function isAvailable() {
-		return XCache::isAvailable() || APC::isAvailable() || Memcached::isAvailable();
+		return XCache::isAvailable() || APCu::isAvailable() || APC::isAvailable() || Memcached::isAvailable();
 	}
 }
