@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:05+0000\n"
+"POT-Creation-Date: 2013-07-24 01:55-0400\n"
+"PO-Revision-Date: 2013-07-24 05:55+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -42,9 +42,19 @@ msgstr "应用"
 msgid "Admin"
 msgstr "管理"
 
+#: app.php:844
+#, php-format
+msgid "Failed to upgrade \"%s\"."
+msgstr ""
+
 #: defaults.php:33
 msgid "web services under your control"
 msgstr "您控制的web服务"
+
+#: files.php:66 files.php:98
+#, php-format
+msgid "cannot open \"%s\""
+msgstr ""
 
 #: files.php:226
 msgid "ZIP download is turned off."
@@ -54,15 +64,21 @@ msgstr "ZIP 下载已经关闭"
 msgid "Files need to be downloaded one by one."
 msgstr "需要逐一下载文件"
 
-#: files.php:228 files.php:261
+#: files.php:228 files.php:256
 msgid "Back to Files"
 msgstr "回到文件"
 
-#: files.php:258
+#: files.php:253
 msgid "Selected files too large to generate zip file."
 msgstr "选择的文件太大，无法生成 zip 文件。"
 
-#: helper.php:236
+#: files.php:254
+msgid ""
+"Download the files in smaller chunks, seperately or kindly ask your "
+"administrator."
+msgstr ""
+
+#: helper.php:235
 msgid "couldn't be determined"
 msgstr "无法确定"
 
@@ -190,57 +206,61 @@ msgstr "您的Web服务器尚未正确设置以允许文件同步, 因为WebDAV�
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "请认真检查<a href='%s'>安装指南</a>."
 
-#: template.php:95
+#: template/functions.php:80
 msgid "seconds ago"
 msgstr "秒前"
 
-#: template.php:96
+#: template/functions.php:81
 msgid "1 minute ago"
 msgstr "一分钟前"
 
-#: template.php:97
+#: template/functions.php:82
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d 分钟前"
 
-#: template.php:98
+#: template/functions.php:83
 msgid "1 hour ago"
 msgstr "1小时前"
 
-#: template.php:99
+#: template/functions.php:84
 #, php-format
 msgid "%d hours ago"
 msgstr "%d小时前"
 
-#: template.php:100
+#: template/functions.php:85
 msgid "today"
 msgstr "今天"
 
-#: template.php:101
+#: template/functions.php:86
 msgid "yesterday"
 msgstr "昨天"
 
-#: template.php:102
+#: template/functions.php:87
 #, php-format
 msgid "%d days ago"
 msgstr "%d 天前"
 
-#: template.php:103
+#: template/functions.php:88
 msgid "last month"
 msgstr "上月"
 
-#: template.php:104
+#: template/functions.php:89
 #, php-format
 msgid "%d months ago"
 msgstr "%d 月前"
 
-#: template.php:105
+#: template/functions.php:90
 msgid "last year"
 msgstr "去年"
 
-#: template.php:106
+#: template/functions.php:91
 msgid "years ago"
 msgstr "年前"
+
+#: template.php:296
+msgid "Caused by:"
+msgstr ""
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format

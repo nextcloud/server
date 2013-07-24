@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:05+0000\n"
+"POT-Creation-Date: 2013-07-24 01:55-0400\n"
+"PO-Revision-Date: 2013-07-24 05:55+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -42,9 +42,19 @@ msgstr "Aplicacions"
 msgid "Admin"
 msgstr "Administració"
 
+#: app.php:844
+#, php-format
+msgid "Failed to upgrade \"%s\"."
+msgstr ""
+
 #: defaults.php:33
 msgid "web services under your control"
 msgstr "controleu els vostres serveis web"
+
+#: files.php:66 files.php:98
+#, php-format
+msgid "cannot open \"%s\""
+msgstr ""
 
 #: files.php:226
 msgid "ZIP download is turned off."
@@ -54,15 +64,21 @@ msgstr "La baixada en ZIP està desactivada."
 msgid "Files need to be downloaded one by one."
 msgstr "Els fitxers s'han de baixar d'un en un."
 
-#: files.php:228 files.php:261
+#: files.php:228 files.php:256
 msgid "Back to Files"
 msgstr "Torna a Fitxers"
 
-#: files.php:258
+#: files.php:253
 msgid "Selected files too large to generate zip file."
 msgstr "Els fitxers seleccionats son massa grans per generar un fitxer zip."
 
-#: helper.php:236
+#: files.php:254
+msgid ""
+"Download the files in smaller chunks, seperately or kindly ask your "
+"administrator."
+msgstr ""
+
+#: helper.php:235
 msgid "couldn't be determined"
 msgstr "no s'ha pogut determinar"
 
@@ -190,57 +206,61 @@ msgstr "El servidor web no està configurat correctament per permetre la sincron
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Comproveu les <a href='%s'>guies d'instal·lació</a>."
 
-#: template.php:95
+#: template/functions.php:80
 msgid "seconds ago"
 msgstr "segons enrere"
 
-#: template.php:96
+#: template/functions.php:81
 msgid "1 minute ago"
 msgstr "fa 1 minut"
 
-#: template.php:97
+#: template/functions.php:82
 #, php-format
 msgid "%d minutes ago"
 msgstr "fa %d minuts"
 
-#: template.php:98
+#: template/functions.php:83
 msgid "1 hour ago"
 msgstr "fa 1 hora"
 
-#: template.php:99
+#: template/functions.php:84
 #, php-format
 msgid "%d hours ago"
 msgstr "fa %d hores"
 
-#: template.php:100
+#: template/functions.php:85
 msgid "today"
 msgstr "avui"
 
-#: template.php:101
+#: template/functions.php:86
 msgid "yesterday"
 msgstr "ahir"
 
-#: template.php:102
+#: template/functions.php:87
 #, php-format
 msgid "%d days ago"
 msgstr "fa %d dies"
 
-#: template.php:103
+#: template/functions.php:88
 msgid "last month"
 msgstr "el mes passat"
 
-#: template.php:104
+#: template/functions.php:89
 #, php-format
 msgid "%d months ago"
 msgstr "fa %d mesos"
 
-#: template.php:105
+#: template/functions.php:90
 msgid "last year"
 msgstr "l'any passat"
 
-#: template.php:106
+#: template/functions.php:91
 msgid "years ago"
 msgstr "anys enrere"
+
+#: template.php:296
+msgid "Caused by:"
+msgstr ""
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format

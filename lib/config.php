@@ -144,11 +144,8 @@ class Config {
 				continue;
 			}
 			unset($CONFIG);
-			if((@include $file) === false)
-			{
-				throw new HintException("Can't read from config file '" . $file . "'. ".
-					'This is usually caused by the wrong file permission.');
-			}
+			// ignore errors on include, this can happen when doing a fresh install
+			@include $file;
 			if (isset($CONFIG) && is_array($CONFIG)) {
 				$this->cache = array_merge($this->cache, $CONFIG);
 			}

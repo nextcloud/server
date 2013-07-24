@@ -16,6 +16,7 @@ class OC_Defaults {
 
 	private $defaultEntity;
 	private $defaultName;
+	private $defaultTitle;
 	private $defaultBaseUrl;
 	private $defaultSyncClientUrl;
 	private $defaultDocBaseUrl;
@@ -25,8 +26,9 @@ class OC_Defaults {
 	function __construct() {
 		$l = OC_L10N::get('core');
 
-		$this->defaultEntity = "ownCloud";
-		$this->defaultName = "ownCloud";
+		$this->defaultEntity = "ownCloud"; /* e.g. company name, used for footers and copyright notices */
+		$this->defaultName = "ownCloud"; /* short name, used when referring to the software */
+		$this->defaultTitle = "ownCloud"; /* can be a longer name, for titles */
 		$this->defaultBaseUrl = "http://owncloud.org";
 		$this->defaultSyncClientUrl = " http://owncloud.org/sync-clients/";
 		$this->defaultDocBaseUrl = "http://doc.owncloud.org";
@@ -66,6 +68,14 @@ class OC_Defaults {
 			return $this->theme->getDocBaseUrl();
 		} else {
 			return $this->defaultDocBaseUrl;
+		}
+	}
+
+	public function getTitle() {
+		if ($this->themeExist('getTitle')) {
+			return $this->theme->getTitle();
+		} else {
+			return $this->defaultTitle;
 		}
 	}
 

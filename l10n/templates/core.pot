@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"POT-Creation-Date: 2013-07-24 01:55-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -225,8 +225,8 @@ msgstr ""
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:625
-#: js/share.js:637
+#: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
+#: js/share.js:631 js/share.js:643
 msgid "Error"
 msgstr ""
 
@@ -246,123 +246,123 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
-#: js/share.js:125 js/share.js:665
+#: js/share.js:131 js/share.js:671
 msgid "Error while sharing"
 msgstr ""
 
-#: js/share.js:136
+#: js/share.js:142
 msgid "Error while unsharing"
 msgstr ""
 
-#: js/share.js:143
+#: js/share.js:149
 msgid "Error while changing permissions"
 msgstr ""
 
-#: js/share.js:152
+#: js/share.js:158
 msgid "Shared with you and the group {group} by {owner}"
 msgstr ""
 
-#: js/share.js:154
+#: js/share.js:160
 msgid "Shared with you by {owner}"
 msgstr ""
 
-#: js/share.js:177
+#: js/share.js:183
 msgid "Share with"
 msgstr ""
 
-#: js/share.js:182
+#: js/share.js:188
 msgid "Share with link"
 msgstr ""
 
-#: js/share.js:185
+#: js/share.js:191
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:187 templates/installation.php:54 templates/login.php:26
+#: js/share.js:193 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr ""
 
-#: js/share.js:192
+#: js/share.js:198
 msgid "Allow Public Upload"
 msgstr ""
 
-#: js/share.js:196
+#: js/share.js:202
 msgid "Email link to person"
 msgstr ""
 
-#: js/share.js:197
+#: js/share.js:203
 msgid "Send"
 msgstr ""
 
-#: js/share.js:202
+#: js/share.js:208
 msgid "Set expiration date"
 msgstr ""
 
-#: js/share.js:203
+#: js/share.js:209
 msgid "Expiration date"
 msgstr ""
 
-#: js/share.js:235
+#: js/share.js:241
 msgid "Share via email:"
 msgstr ""
 
-#: js/share.js:237
+#: js/share.js:243
 msgid "No people found"
 msgstr ""
 
-#: js/share.js:275
+#: js/share.js:281
 msgid "Resharing is not allowed"
 msgstr ""
 
-#: js/share.js:311
+#: js/share.js:317
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:332
+#: js/share.js:338
 msgid "Unshare"
 msgstr ""
 
-#: js/share.js:344
+#: js/share.js:350
 msgid "can edit"
 msgstr ""
 
-#: js/share.js:346
+#: js/share.js:352
 msgid "access control"
 msgstr ""
 
-#: js/share.js:349
+#: js/share.js:355
 msgid "create"
 msgstr ""
 
-#: js/share.js:352
+#: js/share.js:358
 msgid "update"
 msgstr ""
 
-#: js/share.js:355
+#: js/share.js:361
 msgid "delete"
 msgstr ""
 
-#: js/share.js:358
+#: js/share.js:364
 msgid "share"
 msgstr ""
 
-#: js/share.js:392 js/share.js:612
+#: js/share.js:398 js/share.js:618
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:625
+#: js/share.js:631
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:637
+#: js/share.js:643
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:652
+#: js/share.js:658
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:663
+#: js/share.js:669
 msgid "Email sent"
 msgstr ""
 

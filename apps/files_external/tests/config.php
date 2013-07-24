@@ -24,12 +24,11 @@ return array(
 		'root'=>'/owncloud/files/webdav.php',
 	),
 	'google'=>array(
-		'run'=>false,
-		'consumer_key'=>'anonymous',
-		'consumer_secret'=>'anonymous',
-		'token'=>'test',
-		'token_secret'=>'test',
-		'root'=>'/google',
+		'run'=> false,
+		'configured' => 'true',
+		'client_id' => '',
+		'client_secret' => '',
+		'token' => '',
 	),
 	'swift'=>array(
 		'run'=>false,

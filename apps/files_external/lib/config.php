@@ -79,8 +79,9 @@ class OC_Mount_Config {
 			'backend' => 'Google Drive',
 			'configuration' => array(
 				'configured' => '#configured',
-				'token' => '#token',
-				'token_secret' => '#token secret'),
+				'client_id' => 'Client ID',
+				'client_secret' => 'Client secret',
+				'token' => '#token'),
 				'custom' => 'google');
 
 		$backends['\OC\Files\Storage\SWIFT']=array(

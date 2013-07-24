@@ -56,6 +56,8 @@
 "Allow apps to use the Share API" => "Consenti alle applicazioni di utilizzare le API di condivisione",
 "Allow links" => "Consenti collegamenti",
 "Allow users to share items to the public with links" => "Consenti agli utenti di condividere pubblicamente elementi tramite collegamenti",
+"Allow public uploads" => "Consenti caricamenti pubblici",
+"Allow users to enable others to upload into their publicly shared folders" => "Consenti agli utenti di abilitare altri al caricamento nelle loro cartelle pubbliche condivise",
 "Allow resharing" => "Consenti la ri-condivisione",
 "Allow users to share items shared with them again" => "Consenti agli utenti di condividere a loro volta elementi condivisi da altri",
 "Allow users to share with anyone" => "Consenti agli utenti di condividere con chiunque",

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:05+0000\n"
+"POT-Creation-Date: 2013-07-24 01:55-0400\n"
+"PO-Revision-Date: 2013-07-24 05:55+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -41,9 +41,19 @@ msgstr "แอปฯ"
 msgid "Admin"
 msgstr "ผู้ดูแล"
 
+#: app.php:844
+#, php-format
+msgid "Failed to upgrade \"%s\"."
+msgstr ""
+
 #: defaults.php:33
 msgid "web services under your control"
 msgstr "เว็บเซอร์วิสที่คุณควบคุมการใช้งานได้"
+
+#: files.php:66 files.php:98
+#, php-format
+msgid "cannot open \"%s\""
+msgstr ""
 
 #: files.php:226
 msgid "ZIP download is turned off."
@@ -53,15 +63,21 @@ msgstr "คุณสมบัติการดาวน์โหลด zip ถ�
 msgid "Files need to be downloaded one by one."
 msgstr "ไฟล์สามารถดาวน์โหลดได้ทีละครั้งเท่านั้น"
 
-#: files.php:228 files.php:261
+#: files.php:228 files.php:256
 msgid "Back to Files"
 msgstr "กลับไปที่ไฟล์"
 
-#: files.php:258
+#: files.php:253
 msgid "Selected files too large to generate zip file."
 msgstr "ไฟล์ที่เลือกมีขนาดใหญ่เกินกว่าที่จะสร้างเป็นไฟล์ zip"
 
-#: helper.php:236
+#: files.php:254
+msgid ""
+"Download the files in smaller chunks, seperately or kindly ask your "
+"administrator."
+msgstr ""
+
+#: helper.php:235
 msgid "couldn't be determined"
 msgstr "ไม่สามารถกำหนดได้"
 
@@ -189,57 +205,61 @@ msgstr ""
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""
 
-#: template.php:95
+#: template/functions.php:80
 msgid "seconds ago"
 msgstr "วินาที ก่อนหน้านี้"
 
-#: template.php:96
+#: template/functions.php:81
 msgid "1 minute ago"
 msgstr "1 นาทีก่อนหน้านี้"
 
-#: template.php:97
+#: template/functions.php:82
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d นาทีที่ผ่านมา"
 
-#: template.php:98
+#: template/functions.php:83
 msgid "1 hour ago"
 msgstr "1 ชั่วโมงก่อนหน้านี้"
 
-#: template.php:99
+#: template/functions.php:84
 #, php-format
 msgid "%d hours ago"
 msgstr "%d ชั่วโมงก่อนหน้านี้"
 
-#: template.php:100
+#: template/functions.php:85
 msgid "today"
 msgstr "วันนี้"
 
-#: template.php:101
+#: template/functions.php:86
 msgid "yesterday"
 msgstr "เมื่อวานนี้"
 
-#: template.php:102
+#: template/functions.php:87
 #, php-format
 msgid "%d days ago"
 msgstr "%d วันที่ผ่านมา"
 
-#: template.php:103
+#: template/functions.php:88
 msgid "last month"
 msgstr "เดือนที่แล้ว"
 
-#: template.php:104
+#: template/functions.php:89
 #, php-format
 msgid "%d months ago"
 msgstr "%d เดือนมาแล้ว"
 
-#: template.php:105
+#: template/functions.php:90
 msgid "last year"
 msgstr "ปีที่แล้ว"
 
-#: template.php:106
+#: template/functions.php:91
 msgid "years ago"
 msgstr "ปี ที่ผ่านมา"
+
+#: template.php:296
+msgid "Caused by:"
+msgstr ""
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format
