@@ -13,7 +13,7 @@ class Group {
 	/**
 	 * @var string $id
 	 */
-	private $fid;
+	private $gid;
 
 	/**
 	 * @var \OC\User\User[] $users
