@@ -11,8 +11,10 @@ namespace OC\Files\Storage;
 set_include_path(get_include_path() . PATH_SEPARATOR .
 	\OC_App::getAppPath('files_external') . '/3rdparty/irodsphp/prods/src');
 
+ob_start();
 require_once 'ProdsConfig.inc.php';
 require_once 'ProdsStreamer.class.php';
+ob_end_clean();
 
 class iRODS extends \OC\Files\Storage\StreamWrapper{
 	private $password;
