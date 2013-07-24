@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-29 02:03+0200\n"
-"PO-Revision-Date: 2013-06-29 00:04+0000\n"
+"POT-Creation-Date: 2013-07-22 01:54-0400\n"
+"PO-Revision-Date: 2013-07-22 05:55+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/owncloud/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -27,54 +27,54 @@ msgstr ""
 msgid "Could not move %s"
 msgstr ""
 
-#: ajax/upload.php:16 ajax/upload.php:39
+#: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
 msgstr ""
 
-#: ajax/upload.php:23
+#: ajax/upload.php:22
 msgid "Invalid Token"
 msgstr ""
 
-#: ajax/upload.php:55
+#: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
 msgstr ""
 
-#: ajax/upload.php:62
+#: ajax/upload.php:66
 msgid "There is no error, the file uploaded with success"
 msgstr ""
 
-#: ajax/upload.php:63
+#: ajax/upload.php:67
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr ""
 
-#: ajax/upload.php:65
+#: ajax/upload.php:69
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr ""
 
-#: ajax/upload.php:66
+#: ajax/upload.php:70
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: ajax/upload.php:67
+#: ajax/upload.php:71
 msgid "No file was uploaded"
 msgstr ""
 
-#: ajax/upload.php:68
+#: ajax/upload.php:72
 msgid "Missing a temporary folder"
 msgstr ""
 
-#: ajax/upload.php:69
+#: ajax/upload.php:73
 msgid "Failed to write to disk"
 msgstr ""
 
-#: ajax/upload.php:87
+#: ajax/upload.php:91
 msgid "Not enough storage available"
 msgstr ""
 
-#: ajax/upload.php:119
+#: ajax/upload.php:123
 msgid "Invalid directory."
 msgstr ""
 
@@ -128,43 +128,43 @@ msgstr ""
 msgid "Rename"
 msgstr ""
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:433
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
 msgid "Pending"
 msgstr ""
 
-#: js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:303 js/filelist.js:305
 msgid "{new_name} already exists"
 msgstr ""
 
-#: js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:303 js/filelist.js:305
 msgid "replace"
 msgstr ""
 
-#: js/filelist.js:271
+#: js/filelist.js:303
 msgid "suggest name"
 msgstr ""
 
-#: js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:303 js/filelist.js:305
 msgid "cancel"
 msgstr ""
 
-#: js/filelist.js:318
+#: js/filelist.js:350
 msgid "replaced {new_name} with {old_name}"
 msgstr ""
 
-#: js/filelist.js:318
+#: js/filelist.js:350
 msgid "undo"
 msgstr ""
 
-#: js/filelist.js:343
+#: js/filelist.js:375
 msgid "perform delete operation"
 msgstr ""
 
-#: js/filelist.js:425
+#: js/filelist.js:457
 msgid "1 file uploading"
 msgstr ""
 
-#: js/filelist.js:428 js/filelist.js:486
+#: js/filelist.js:460 js/filelist.js:518
 msgid "files uploading"
 msgstr ""
 
@@ -212,24 +212,25 @@ msgstr ""
 msgid "Modified"
 msgstr ""
 
-#: js/files.js:765
+#: js/files.js:763
 msgid "1 folder"
 msgstr ""
 
-#: js/files.js:767
+#: js/files.js:765
 msgid "{count} folders"
 msgstr ""
 
-#: js/files.js:775
+#: js/files.js:773
 msgid "1 file"
 msgstr ""
 
-#: js/files.js:777
+#: js/files.js:775
 msgid "{count} files"
 msgstr ""
 
 #: lib/app.php:73
-msgid "Unable to rename file"
+#, php-format
+msgid "%s could not be renamed"
 msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18
@@ -324,6 +325,22 @@ msgstr ""
 
 #: templates/index.php:117
 msgid "Current scanning"
+msgstr ""
+
+#: templates/part.list.php:74
+msgid "directory"
+msgstr ""
+
+#: templates/part.list.php:76
+msgid "directories"
+msgstr ""
+
+#: templates/part.list.php:85
+msgid "file"
+msgstr ""
+
+#: templates/part.list.php:87
+msgid "files"
 msgstr ""
 
 #: templates/upgrade.php:2

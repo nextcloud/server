@@ -5,6 +5,7 @@
 "Users" => "Používatelia",
 "Apps" => "Aplikácie",
 "Admin" => "Administrátor",
+"web services under your control" => "webové služby pod Vašou kontrolou",
 "ZIP download is turned off." => "Sťahovanie súborov ZIP je vypnuté.",
 "Files need to be downloaded one by one." => "Súbory musia byť nahrávané jeden za druhým.",
 "Back to Files" => "Späť na súbory",

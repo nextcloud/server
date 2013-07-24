@@ -12,6 +12,7 @@
 "November" => "नवंबर",
 "December" => "दिसम्बर",
 "Settings" => "सेटिंग्स",
+"Error" => "त्रुटि",
 "Share" => "साझा करें",
 "Share with" => "के साथ साझा",
 "Password" => "पासवर्ड",

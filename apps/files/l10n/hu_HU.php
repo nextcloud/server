@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s áthelyezése nem sikerült - már létezik másik fájl ezzel a névvel",
 "Could not move %s" => "Nem sikerült %s áthelyezése",
+"Unable to set upload directory." => "Nem található a mappa, ahova feltölteni szeretne.",
+"Invalid Token" => "Hibás mappacím",
 "No file was uploaded. Unknown error" => "Nem történt feltöltés. Ismeretlen hiba",
 "There is no error, the file uploaded with success" => "A fájlt sikerült feltölteni",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "A feltöltött fájl mérete meghaladja a php.ini állományban megadott upload_max_filesize paraméter értékét.",
@@ -47,7 +49,7 @@
 "{count} folders" => "{count} mappa",
 "1 file" => "1 fájl",
 "{count} files" => "{count} fájl",
-"Unable to rename file" => "Nem lehet átnevezni a fájlt",
+"%s could not be renamed" => "%s átnevezése nem sikerült",
 "Upload" => "Feltöltés",
 "File handling" => "Fájlkezelés",
 "Maximum upload size" => "Maximális feltölthető fájlméret",
@@ -71,5 +73,9 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "A feltöltendő állományok mérete meghaladja a kiszolgálón megengedett maximális méretet.",
 "Files are being scanned, please wait." => "A fájllista ellenőrzése zajlik, kis türelmet!",
 "Current scanning" => "Ellenőrzés alatt",
+"directory" => "mappa",
+"directories" => "mappa",
+"file" => "fájl",
+"files" => "fájlok",
 "Upgrading filesystem cache..." => "A fájlrendszer gyorsítótárának frissítése zajlik..."
 );

@@ -27,23 +27,9 @@ if (isset($_GET['t'])) {
 		$type = $linkItem['item_type'];
 		$fileSource = $linkItem['file_source'];
 		$shareOwner = $linkItem['uid_owner'];
-		$fileOwner = null;
 		$path = null;
-		if (isset($linkItem['parent'])) {
-			$parent = $linkItem['parent'];
-			while (isset($parent)) {
-				$query = \OC_DB::prepare('SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1);
-				$item = $query->execute(array($parent))->fetchRow();
-				if (isset($item['parent'])) {
-					$parent = $item['parent'];
-				} else {
-					$fileOwner = $item['uid_owner'];
-					break;
-				}
-			}
-		} else {
-			$fileOwner = $shareOwner;
-		}
+		$rootLinkItem = OCP\Share::resolveReShare($linkItem);
+		$fileOwner = $rootLinkItem['uid_owner'];
 		if (isset($fileOwner)) {
 			OC_Util::tearDownFS();
 			OC_Util::setupFS($fileOwner);
@@ -79,7 +65,7 @@ if (isset($path)) {
 											 $linkItem['share_with']))) {
 					$tmpl = new OCP\Template('files_sharing', 'authenticate', 'guest');
 					$tmpl->assign('URL', $url);
-					$tmpl->assign('error', true);
+					$tmpl->assign('wrongpw', true);
 					$tmpl->printPage();
 					exit();
 				} else {
@@ -151,6 +137,12 @@ if (isset($path)) {
 		if (\OCP\App::isEnabled('files_encryption')) {
 			$allowPublicUploadEnabled = false;
 		}
+		if (OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes') === 'no') {
+			$allowPublicUploadEnabled = false;
+		}
+		if ($linkItem['item_type'] !== 'folder') {
+			$allowPublicUploadEnabled = false;
+		}
 		$tmpl->assign('allowPublicUploadEnabled', $allowPublicUploadEnabled);
 		$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 		$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
@@ -213,6 +205,7 @@ if (isset($path)) {
 			$folder->assign('isCreatable', false);
 			$folder->assign('permissions', OCP\PERMISSION_READ);
 			$folder->assign('isPublic',true);
+			$folder->assign('publicUploadEnabled', 'no');
 			$folder->assign('files', $files);
 			$folder->assign('uploadMaxFilesize', $maxUploadFilesize);
 			$folder->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));

@@ -47,7 +47,6 @@
 "{count} folders" => "{count} aplankalai",
 "1 file" => "1 failas",
 "{count} files" => "{count} failai",
-"Unable to rename file" => "Nepavyko pervadinti failo",
 "Upload" => "Įkelti",
 "File handling" => "Failų tvarkymas",
 "Maximum upload size" => "Maksimalus įkeliamo failo dydis",
@@ -71,5 +70,7 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Bandomų įkelti failų dydis viršija maksimalų, kuris leidžiamas šiame serveryje",
 "Files are being scanned, please wait." => "Skenuojami failai, prašome palaukti.",
 "Current scanning" => "Šiuo metu skenuojama",
+"file" => "failas",
+"files" => "failai",
 "Upgrading filesystem cache..." => "Atnaujinamas sistemos kešavimas..."
 );

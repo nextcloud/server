@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-26 01:59+0200\n"
-"PO-Revision-Date: 2013-06-25 14:40+0000\n"
+"POT-Creation-Date: 2013-07-19 01:55-0400\n"
+"PO-Revision-Date: 2013-07-18 12:20+0000\n"
 "Last-Translator: cjtess <claudio.tessone@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -52,24 +52,26 @@ msgstr "Contraseña de clave privada actualizada con éxito."
 msgid ""
 "Could not update the private key password. Maybe the old password was not "
 "correct."
-msgstr "No fue posible actualizar la contraseña de la clave privada. Tal vez la contraseña antigua no es correcta."
+msgstr "No fue posible actualizar la contraseña de clave privada. Tal vez la contraseña anterior no es correcta."
 
 #: files/error.php:7
 msgid ""
-"Your private key is not valid! Maybe your password was changed from outside."
-" You can update your private key password in your personal settings to "
-"regain access to your files"
-msgstr "¡Tu clave privada no es válida! Tal vez tu contraseña fue cambiada de alguna manera. Podés actualizar tu clave privada de contraseña en 'configuración personal' para tener acceso nuevamente a tus archivos"
+"Your private key is not valid! Likely your password was changed outside the "
+"ownCloud system (e.g. your corporate directory). You can update your private"
+" key password in your personal settings to recover access to your encrypted "
+"files."
+msgstr "¡Tu clave privada no es válida! Tal vez tu contraseña fue cambiada desde fuera del sistema de ownCloud (por ej. desde tu cuenta de sistema). Podés actualizar tu clave privada en la sección de \"configuración personal\", para recuperar el acceso a tus archivos."
 
 #: hooks/hooks.php:44
-msgid "PHP module OpenSSL is not installed."
-msgstr "El módulo OpenSSL para PHP no está instalado."
+msgid "Missing requirements."
+msgstr "Requisitos incompletos."
 
 #: hooks/hooks.php:45
 msgid ""
-"Please ask your server administrator to install the module. For now the "
-"encryption app was disabled."
-msgstr "Pedile al administrador del servidor que instale el módulo. Por ahora la App de encriptación está deshabilitada."
+"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
+"PHP extension is enabled and configured properly. For now, the encryption "
+"app has been disabled."
+msgstr "Por favor, asegurate que PHP 5.3.3 o posterior esté instalado y que la extensión OpenSSL de PHP esté habilitada y configurada correctamente. Por el momento, la aplicación de encriptación está deshabilitada."
 
 #: js/settings-admin.js:11
 msgid "Saving..."
@@ -96,7 +98,7 @@ msgstr "Encriptación"
 #: templates/settings-admin.php:10
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
-msgstr "Habilitar clave de recuperación (te permite recuperar los archivos de usuario en el caso en que pierdas la contraseña):"
+msgstr "Habilitar clave de recuperación (te permite recuperar los archivos de usuario en el caso que pierdas la contraseña):"
 
 #: templates/settings-admin.php:14
 msgid "Recovery key password"
@@ -128,11 +130,11 @@ msgstr "Cambiar contraseña"
 
 #: templates/settings-personal.php:11
 msgid "Your private key password no longer match your log-in password:"
-msgstr "Tu contraseña de recuperación de clave ya no coincide con la contraseña de ingreso:"
+msgstr "Tu contraseña de clave privada ya no coincide con la contraseña de ingreso:"
 
 #: templates/settings-personal.php:14
 msgid "Set your old private key password to your current log-in password."
-msgstr "Usá tu contraseña de recuperación de clave antigua para tu contraseña de ingreso actual."
+msgstr "Usá tu contraseña de clave privada antigua para tu contraseña de ingreso actual."
 
 #: templates/settings-personal.php:16
 msgid ""
@@ -154,13 +156,13 @@ msgstr "Actualizar contraseña de la clave privada"
 
 #: templates/settings-personal.php:45
 msgid "Enable password recovery:"
-msgstr "Habilitar contraseña de recuperación:"
+msgstr "Habilitar recuperación de contraseña:"
 
 #: templates/settings-personal.php:47
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
-msgstr "Habilitando esta opción te va a permitir tener acceso a tus archivos encriptados incluso si perdés la contraseña"
+msgstr "Habilitando esta opción, vas a tener acceso a tus archivos encriptados, incluso si perdés la contraseña"
 
 #: templates/settings-personal.php:63
 msgid "File recovery settings updated"

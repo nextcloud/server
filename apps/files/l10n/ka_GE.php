@@ -46,7 +46,6 @@
 "{count} folders" => "{count} საქაღალდე",
 "1 file" => "1 ფაილი",
 "{count} files" => "{count} ფაილი",
-"Unable to rename file" => "ფაილის სახელის გადარქმევა ვერ მოხერხდა",
 "Upload" => "ატვირთვა",
 "File handling" => "ფაილის დამუშავება",
 "Maximum upload size" => "მაქსიმუმ ატვირთის ზომა",

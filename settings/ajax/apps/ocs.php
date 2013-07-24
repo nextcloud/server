@@ -33,18 +33,18 @@ if(is_array($categoryNames)) {
 		// show only external apps that aren't enabled yet
 		$local=false;
 		foreach($enabledApps as $a) {
-			if($a == $app['name']) {
+			if($a === $app['name']) {
 				$local=true;
 			}
 		}
 
 		if(!$local) {
-			if($app['preview']=='') {
+			if($app['preview'] === '') {
 				$pre=OC_Helper::imagePath('settings', 'trans.png');
 			} else {
 				$pre=$app['preview'];
 			}
-			if($app['label']=='recommended') {
+			if($app['label'] === 'recommended') {
 				$label='3rd Party';
 			} else {
 				$label='Recommended';

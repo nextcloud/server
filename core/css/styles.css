@@ -416,7 +416,13 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 #oc-dialog-filepicker-content .filepicker_element_selected { background-color:lightblue;}
 .ui-dialog {position:fixed !important;}
 span.ui-icon {float: left; margin: 3px 7px 30px 0;}
+
 .loading { background: url('../img/loading.gif') no-repeat center; cursor: wait; }
+.move2trash { /* decrease spinner size */
+	width: 16px;
+	height: 16px;
+}
+
 
 /* ---- CATEGORIES ---- */
 #categoryform .scrollarea { position:absolute; left:10px; top:10px; right:10px; bottom:50px; overflow:auto; border:1px solid #ddd; background:#f8f8f8; }
@@ -431,7 +437,7 @@ span.ui-icon {float: left; margin: 3px 7px 30px 0;}
 .popup { background-color:white; border-radius:10px 10px 10px 10px; box-shadow:0 0 20px #888; color:#333; padding:10px; position:fixed !important; z-index:200; }
 .popup.topright { top:7em; right:1em; }
 .popup.bottomleft { bottom:1em; left:33em; }
-.popup .close { position:absolute; top:0.2em; right:0.2em; height:20px; width:20px; background:url('../img/actions/delete.svg') no-repeat center; }
+.popup .close { position:absolute; top:0.2em; right:0.2em; height:20px; width:20px; background:url('../img/actions/close.svg') no-repeat center; }
 .popup h2 { font-weight:bold; font-size:1.2em; }
 .arrow { border-bottom:10px solid white; border-left:10px solid transparent; border-right:10px solid transparent; display:block; height:0; position:absolute; width:0; z-index:201; }
 .arrow.left { left:-13px; bottom:1.2em; -webkit-transform:rotate(270deg); -moz-transform:rotate(270deg); -o-transform:rotate(270deg); -ms-transform:rotate(270deg); transform:rotate(270deg); }
@@ -655,19 +661,28 @@ div.crumb:active {
 /* icons */
 .folder-icon { background-image: url('../img/places/folder.svg'); }
 .delete-icon { background-image: url('../img/actions/delete.svg'); }
-.delete-icon:hover { background-image: url('../img/actions/delete-hover.svg'); }
 .edit-icon { background-image: url('../img/actions/rename.svg'); }
 
 /* buttons */
 button.loading {
 	background-image: url('../img/loading.gif');
 	background-position: right 10px center; background-repeat: no-repeat;
+	background-size: 16px;
 	padding-right: 30px;
 }
 
 
 
+
+
 /* ---- BROWSER-SPECIFIC FIXES ---- */
+
 ::-moz-focus-inner {
 	border: 0; /* remove dotted outlines in Firefox */
+}
+
+/* deactivate show password toggle for IE. Does not work for 8 and 9+ have their own implementation. */
+.ie #show, .ie #show+label {
+	display: none;
+	visibility: hidden;
 }

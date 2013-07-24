@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
-"Could not move %s - File with this name already exists" => "Konnte %s nicht verschieben. Eine Datei mit diesem Namen existiert bereits",
+"Could not move %s - File with this name already exists" => "%s konnte nicht verschoben werden. Eine Datei mit diesem Namen existiert bereits.",
 "Could not move %s" => "Konnte %s nicht verschieben",
+"Unable to set upload directory." => "Das Upload-Verzeichnis konnte nicht gesetzt werden.",
+"Invalid Token" => "Ungültiges Merkmal",
 "No file was uploaded. Unknown error" => "Keine Datei hochgeladen. Unbekannter Fehler",
 "There is no error, the file uploaded with success" => "Es ist kein Fehler aufgetreten. Die Datei wurde erfolgreich hochgeladen.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Die hochgeladene Datei überschreitet die upload_max_filesize Vorgabe in php.ini",
@@ -47,7 +49,7 @@
 "{count} folders" => "{count} Ordner",
 "1 file" => "1 Datei",
 "{count} files" => "{count} Dateien",
-"Unable to rename file" => "Konnte Datei nicht umbenennen",
+"%s could not be renamed" => "%s konnte nicht umbenannt werden",
 "Upload" => "Hochladen",
 "File handling" => "Dateibehandlung",
 "Maximum upload size" => "Maximale Upload-Größe",
@@ -71,5 +73,9 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Server.",
 "Files are being scanned, please wait." => "Dateien werden gescannt, bitte warten.",
 "Current scanning" => "Scanne",
+"directory" => "Verzeichnis",
+"directories" => "Verzeichnisse",
+"file" => "Datei",
+"files" => "Dateien",
 "Upgrading filesystem cache..." => "Dateisystem-Cache wird aktualisiert ..."
 );

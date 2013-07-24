@@ -44,7 +44,6 @@
 "{count} folders" => "{count} مجلدات",
 "1 file" => "ملف واحد",
 "{count} files" => "{count} ملفات",
-"Unable to rename file" => "فشل في اعادة تسمية الملف",
 "Upload" => "رفع",
 "File handling" => "التعامل مع الملف",
 "Maximum upload size" => "الحد الأقصى لحجم الملفات التي يمكن رفعها",

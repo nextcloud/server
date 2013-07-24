@@ -34,16 +34,34 @@
  *
  */
 
+namespace OC;
+
 /**
  * This class is responsible for reading and writing config.php, the very basic
- * configuration file of owncloud.
+ * configuration file of ownCloud.
  */
-class OC_Config{
+class Config {
 	// associative array key => value
-	private static $cache = array();
+	protected $cache = array();
 
-	// Is the cache filled?
-	private static $init = false;
+	protected $configDir;
+	protected $configFilename;
+
+	protected $debugMode;
+
+	/**
+	 * @param $configDir path to the config dir, needs to end with '/'
+	 */
+	public function __construct($configDir) {
+		$this->configDir = $configDir;
+		$this->configFilename = $this->configDir.'config.php';
+		$this->readData();
+		$this->setDebugMode(defined('DEBUG') && DEBUG);
+	}
+
+	public function setDebugMode($enable) {
+		$this->debugMode = $enable;
+	}
 
 	/**
 	 * @brief Lists all available config keys
@@ -52,10 +70,8 @@ class OC_Config{
 	 * This function returns all keys saved in config.php. Please note that it
 	 * does not return the values.
 	 */
-	public static function getKeys() {
-		self::readData();
-
-		return array_keys( self::$cache );
+	public function getKeys() {
+		return array_keys($this->cache);
 	}
 
 	/**
@@ -67,11 +83,9 @@ class OC_Config{
 	 * This function gets the value from config.php. If it does not exist,
 	 * $default will be returned.
 	 */
-	public static function getValue( $key, $default = null ) {
-		self::readData();
-
-		if( array_key_exists( $key, self::$cache )) {
-			return self::$cache[$key];
+	public function getValue($key, $default = null) {
+		if (isset($this->cache[$key])) {
+			return $this->cache[$key];
 		}
 
 		return $default;
@@ -81,113 +95,91 @@ class OC_Config{
 	 * @brief Sets a value
 	 * @param string $key key
 	 * @param string $value value
-	 * @return bool
 	 *
-	 * This function sets the value and writes the config.php. If the file can
-	 * not be written, false will be returned.
+	 * This function sets the value and writes the config.php.
+	 *
 	 */
-	public static function setValue( $key, $value ) {
-		self::readData();
-
+	public function setValue($key, $value) {
 		// Add change
-		self::$cache[$key] = $value;
+		$this->cache[$key] = $value;
 
 		// Write changes
-		self::writeData();
-		return true;
+		$this->writeData();
 	}
 
 	/**
 	 * @brief Removes a key from the config
 	 * @param string $key key
-	 * @return bool
 	 *
-	 * This function removes a key from the config.php. If owncloud has no
-	 * write access to config.php, the function will return false.
+	 * This function removes a key from the config.php.
+	 *
 	 */
-	public static function deleteKey( $key ) {
-		self::readData();
-
-		if( array_key_exists( $key, self::$cache )) {
+	public function deleteKey($key) {
+		if (isset($this->cache[$key])) {
 			// Delete key from cache
-			unset( self::$cache[$key] );
+			unset($this->cache[$key]);
 
 			// Write changes
-			self::writeData();
+			$this->writeData();
 		}
-
-		return true;
 	}
 
 	/**
 	 * @brief Loads the config file
-	 * @return bool
 	 *
 	 * Reads the config file and saves it to the cache
 	 */
-	private static function readData() {
-		if( self::$init ) {
-			return true;
+	private function readData() {
+		// Default config
+		$configFiles = array($this->configFilename);
+		// Add all files in the config dir ending with config.php
+		$extra = glob($this->configDir.'*.config.php');
+		if (is_array($extra)) {
+			natsort($extra);
+			$configFiles = array_merge($configFiles, $extra);
 		}
-
-		// read all file in config dir ending by config.php
-		$config_files = glob( OC::$SERVERROOT."/config/*.config.php");
-
-		//Filter only regular files
-		$config_files = array_filter($config_files, 'is_file');
-
-		//Sort array naturally :
-		natsort($config_files);
-
-		// Add default config
-		array_unshift($config_files,OC::$SERVERROOT."/config/config.php");
-
-		//Include file and merge config
-		foreach($config_files as $file){
-			include $file;
-			if( isset( $CONFIG ) && is_array( $CONFIG )) {
-				self::$cache = array_merge(self::$cache, $CONFIG);
+		// Include file and merge config
+		foreach ($configFiles as $file) {
+			if (!file_exists($file)) {
+				continue;
+			}
+			unset($CONFIG);
+			// ignore errors on include, this can happen when doing a fresh install
+			@include $file;
+			if (isset($CONFIG) && is_array($CONFIG)) {
+				$this->cache = array_merge($this->cache, $CONFIG);
 			}
 		}
-
-		// We cached everything
-		self::$init = true;
-
-		return true;
 	}
 
 	/**
 	 * @brief Writes the config file
-	 * @return bool
 	 *
 	 * Saves the config to the config file.
 	 *
 	 */
-	public static function writeData() {
+	private function writeData() {
 		// Create a php file ...
-		$content = "<?php\n ";
-		if (defined('DEBUG') && DEBUG) {
+		$defaults = new \OC_Defaults;
+		$content = "<?php\n";
+		if ($this->debugMode) {
 			$content .= "define('DEBUG',true);\n";
 		}
-		$content .= "\$CONFIG = ";
-		$content .= var_export(self::$cache, true);
+		$content .= '$CONFIG = ';
+		$content .= var_export($this->cache, true);
 		$content .= ";\n";
 
-		$filename = OC::$SERVERROOT."/config/config.php";
 		// Write the file
-		$result=@file_put_contents( $filename, $content );
-		if(!$result) {
-			$tmpl = new OC_Template( '', 'error', 'guest' );
-			$tmpl->assign('errors', array(1=>array(
-				'error'=>"Can't write into config directory 'config'",
-				'hint'=>'You can usually fix this by giving the webserver user write access'
-					.' to the config directory in owncloud')));
-			$tmpl->printPage();
-			exit;
+		$result = @file_put_contents($this->configFilename, $content);
+		if (!$result) {
+			$url = $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html#set-the-directory-permissions';
+			throw new HintException(
+				"Can't write into config directory 'config'",
+				'This can usually be fixed by '
+					.'<a href="' . $url . '" target="_blank">giving the webserver write access to the config directory</a>.');
 		}
 		// Prevent others not to read the config
-		@chmod($filename, 0640);
-		OC_Util::clearOpcodeCache();
-		return true;
+		@chmod($this->configFilename, 0640);
+		\OC_Util::clearOpcodeCache();
 	}
 }

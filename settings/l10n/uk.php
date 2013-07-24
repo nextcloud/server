@@ -97,7 +97,6 @@
 "Language" => "Мова",
 "Help translate" => "Допомогти з перекладом",
 "WebDAV" => "WebDAV",
-"Use this address to connect to your ownCloud in your file manager" => "Використовуйте цю адресу для під'єднання до вашого ownCloud у вашому файловому менеджері",
 "Login Name" => "Ім'я Логіну",
 "Create" => "Створити",
 "Default Storage" => "сховище за замовчуванням",

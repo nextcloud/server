@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Kan ikke flytte %s - En fil med samme navn finnes allerede",
 "Could not move %s" => "Kunne ikke flytte %s",
+"Unable to set upload directory." => "Kunne ikke sette opplastingskatalog.",
 "No file was uploaded. Unknown error" => "Ingen filer ble lastet opp. Ukjent feil.",
 "There is no error, the file uploaded with success" => "Pust ut, ingen feil. Filen ble lastet opp problemfritt",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Filstørrelsen overskrider maksgrensedirektivet upload_max_filesize i php.ini-konfigurasjonen.",
@@ -47,7 +48,6 @@
 "{count} folders" => "{count} mapper",
 "1 file" => "1 fil",
 "{count} files" => "{count} filer",
-"Unable to rename file" => "Kan ikke gi nytt navn",
 "Upload" => "Last opp",
 "File handling" => "Filhåndtering",
 "Maximum upload size" => "Maksimum opplastingsstørrelse",
@@ -71,5 +71,9 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Filene du prøver å laste opp er for store for å laste opp til denne serveren.",
 "Files are being scanned, please wait." => "Skanner etter filer, vennligst vent.",
 "Current scanning" => "Pågående skanning",
+"directory" => "katalog",
+"directories" => "kataloger",
+"file" => "fil",
+"files" => "filer",
 "Upgrading filesystem cache..." => "Oppgraderer filsystemets  mellomlager..."
 );

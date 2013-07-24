@@ -50,7 +50,6 @@
 "Help" => "Помощ",
 "Access forbidden" => "Достъпът е забранен",
 "Cloud not found" => "облакът не намерен",
-"web services under your control" => "уеб услуги под Ваш контрол",
 "Edit categories" => "Редактиране на категориите",
 "Add" => "Добавяне",
 "Create an <strong>admin account</strong>" => "Създаване на <strong>админ профил</strong>",

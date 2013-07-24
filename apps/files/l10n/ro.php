@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
-"Could not move %s - File with this name already exists" => "Nu se poate de mutat %s - Fișier cu acest nume deja există",
+"Could not move %s - File with this name already exists" => "%s nu se poate muta - Fișierul cu acest nume există deja ",
 "Could not move %s" => "Nu s-a putut muta %s",
+"Unable to set upload directory." => "Imposibil de a seta directorul pentru incărcare.",
+"Invalid Token" => "Jeton Invalid",
 "No file was uploaded. Unknown error" => "Nici un fișier nu a fost încărcat. Eroare necunoscută",
 "There is no error, the file uploaded with success" => "Nu a apărut nici o eroare, fișierul a fost încărcat cu succes",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Fisierul incarcat depaseste upload_max_filesize permisi in php.ini: ",
@@ -47,7 +49,7 @@
 "{count} folders" => "{count} foldare",
 "1 file" => "1 fisier",
 "{count} files" => "{count} fisiere",
-"Unable to rename file" => "Nu s-a putut redenumi fișierul",
+"%s could not be renamed" => "%s nu a putut fi redenumit",
 "Upload" => "Încărcare",
 "File handling" => "Manipulare fișiere",
 "Maximum upload size" => "Dimensiune maximă admisă la încărcare",
@@ -71,5 +73,9 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Fișierul care l-ai încărcat a depășită limita maximă admisă la încărcare pe acest server.",
 "Files are being scanned, please wait." => "Fișierele sunt scanate, te rog așteptă.",
 "Current scanning" => "În curs de scanare",
+"directory" => "catalog",
+"directories" => "cataloage",
+"file" => "fișier",
+"files" => "fișiere",
 "Upgrading filesystem cache..." => "Modernizare fisiere de sistem cache.."
 );

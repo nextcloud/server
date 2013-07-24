@@ -5,6 +5,7 @@
 "Users" => "Përdoruesit",
 "Apps" => "App",
 "Admin" => "Admin",
+"web services under your control" => "shërbime web nën kontrollin tënd",
 "ZIP download is turned off." => "Shkarimi i skedarëve ZIP është i çaktivizuar.",
 "Files need to be downloaded one by one." => "Skedarët duhet të shkarkohen një nga një.",
 "Back to Files" => "Kthehu tek skedarët",

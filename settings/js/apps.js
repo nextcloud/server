@@ -20,11 +20,16 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		page.find('span.score').html(app.score);
 		page.find('p.description').text(app.description);
 		page.find('img.preview').attr('src', app.preview);
+		if (app.preview && app.preview.length) {
+			page.find('img.preview').show();
+		} else {
+			page.find('img.preview').hide();
+		}
 		page.find('small.externalapp').attr('style', 'visibility:visible');
 		page.find('span.author').text(app.author);
 		page.find('span.licence').text(app.licence);
 
-		if (app.update != false) {
+		if (app.update !== false) {
 			page.find('input.update').show();
 			page.find('input.update').data('appid', app.id);
 			page.find('input.update').attr('value',t('settings', 'Update to {appversion}', {appversion:app.update}));
@@ -36,7 +41,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		page.find('input.enable').val((app.active) ? t('settings', 'Disable') : t('settings', 'Enable'));
 		page.find('input.enable').data('appid', app.id);
 		page.find('input.enable').data('active', app.active);
-		if (app.internal == false) {
+		if (app.internal === false) {
 			page.find('span.score').show();
 			page.find('p.appslink').show();
 			page.find('a').attr('href', 'http://apps.owncloud.com/content/show.php?content=' + app.id);
@@ -55,7 +60,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		element.val(t('settings','Please wait....'));
 		if(active) {
 			$.post(OC.filePath('settings','ajax','disableapp.php'),{appid:appid},function(result) {
-				if(!result || result.status!='success') {
+				if(!result || result.status !== 'success') {
 					OC.dialogs.alert('Error while disabling app', t('core', 'Error'));
 				}
 				else {
@@ -67,7 +72,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			$('#leftcontent li[data-id="'+appid+'"]').removeClass('active');
 		} else {
 			$.post(OC.filePath('settings','ajax','enableapp.php'),{appid:appid},function(result) {
-				if(!result || result.status!='success') {
+				if(!result || result.status !== 'success') {
 					OC.dialogs.alert('Error while enabling app', t('core', 'Error'));
 				}
 				else {
@@ -89,7 +94,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		console.log('updateApp:', appid, element);
 		element.val(t('settings','Updating....'));
 		$.post(OC.filePath('settings','ajax','updateapp.php'),{appid:appid},function(result) {
-			if(!result || result.status!='success') {
+			if(!result || result.status !== 'success') {
 				OC.dialogs.alert(t('settings','Error while updating app'),t('settings','Error'));
 			}
 			else {
@@ -142,12 +147,16 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						li.attr('data-id', entry.id);
 						var img= $('<img class="icon"/>').attr({ src: entry.icon});
 						var a=$('<a></a>').attr('href', entry.href);
-						var filename=$('<span></span>')
+						var filename=$('<span></span>');
 						filename.text(entry.name);
 						a.prepend(filename);
 						a.prepend(img);
 						li.append(a);
 						container.append(li);
+						if (!SVGSupport() && entry.icon.match(/\.svg$/i)) {
+							$(img).addClass('svg');
+							replaceSVG();
+						}
 					}
 				}
 			}
@@ -162,7 +171,7 @@ $(document).ready(function(){
 		$(this).find('span.hidden').remove();
 	});
 	$('#leftcontent li').keydown(function(event) {
-		if (event.which == 13 || event.which == 32) {
+		if (event.which === 13 || event.which === 32) {
 			$(event.target).click();
 		}
 		return false;

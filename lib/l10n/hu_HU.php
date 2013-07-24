@@ -5,6 +5,7 @@
 "Users" => "Felhasználók",
 "Apps" => "Alkalmazások",
 "Admin" => "Adminsztráció",
+"web services under your control" => "webszolgáltatások saját kézben",
 "ZIP download is turned off." => "A ZIP-letöltés nincs engedélyezve.",
 "Files need to be downloaded one by one." => "A fájlokat egyenként kell letölteni.",
 "Back to Files" => "Vissza a Fájlokhoz",

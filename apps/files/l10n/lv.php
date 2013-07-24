@@ -45,7 +45,6 @@
 "{count} folders" => "{count} mapes",
 "1 file" => "1 datne",
 "{count} files" => "{count} datnes",
-"Unable to rename file" => "Nevarēja pārsaukt datni",
 "Upload" => "Augšupielādēt",
 "File handling" => "Datņu pārvaldība",
 "Maximum upload size" => "Maksimālais datņu augšupielādes apjoms",
@@ -69,5 +68,7 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Augšupielādējamās datnes pārsniedz servera pieļaujamo datņu augšupielādes apjomu",
 "Files are being scanned, please wait." => "Datnes šobrīd tiek caurskatītas, lūdzu, uzgaidiet.",
 "Current scanning" => "Šobrīd tiek caurskatīts",
+"file" => "fails",
+"files" => "faili",
 "Upgrading filesystem cache..." => "Uzlabo datņu sistēmas kešatmiņu..."
 );

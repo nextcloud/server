@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Ei saa liigutada faili %s - samanimeline fail on juba olemas",
 "Could not move %s" => "%s liigutamine ebaõnnestus",
+"Unable to set upload directory." => "Üleslaadimiste kausta määramine ebaõnnestus.",
+"Invalid Token" => "Vigane kontrollkood",
 "No file was uploaded. Unknown error" => "Ühtegi faili ei laetud üles. Tundmatu viga",
 "There is no error, the file uploaded with success" => "Ühtegi tõrget polnud, fail on üles laetud",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Üleslaetava faili suurus ületab php.ini poolt määratud upload_max_filesize suuruse:",
@@ -47,7 +49,7 @@
 "{count} folders" => "{count} kausta",
 "1 file" => "1 fail",
 "{count} files" => "{count} faili",
-"Unable to rename file" => "Faili ümbernimetamine ebaõnnestus",
+"%s could not be renamed" => "%s ümbernimetamine ebaõnnestus",
 "Upload" => "Lae üles",
 "File handling" => "Failide käsitlemine",
 "Maximum upload size" => "Maksimaalne üleslaadimise suurus",
@@ -71,5 +73,9 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Failid, mida sa proovid üles laadida, ületab serveri poolt üleslaetavatele failidele määratud maksimaalse suuruse.",
 "Files are being scanned, please wait." => "Faile skannitakse, palun oota.",
 "Current scanning" => "Praegune skannimine",
+"directory" => "kaust",
+"directories" => "kaustad",
+"file" => "fail",
+"files" => "faili",
 "Upgrading filesystem cache..." => "Failisüsteemi puhvri uuendamine..."
 );

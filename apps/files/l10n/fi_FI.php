@@ -42,7 +42,6 @@
 "{count} folders" => "{count} kansiota",
 "1 file" => "1 tiedosto",
 "{count} files" => "{count} tiedostoa",
-"Unable to rename file" => "Tiedoston nimeäminen uudelleen ei onnistunut",
 "Upload" => "Lähetä",
 "File handling" => "Tiedostonhallinta",
 "Maximum upload size" => "Lähetettävän tiedoston suurin sallittu koko",
@@ -66,5 +65,9 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan.",
 "Files are being scanned, please wait." => "Tiedostoja tarkistetaan, odota hetki.",
 "Current scanning" => "Tämänhetkinen tutkinta",
+"directory" => "kansio",
+"directories" => "kansiota",
+"file" => "tiedosto",
+"files" => "tiedostoa",
 "Upgrading filesystem cache..." => "Päivitetään tiedostojärjestelmän välimuistia..."
 );

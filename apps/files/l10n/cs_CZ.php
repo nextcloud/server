@@ -49,7 +49,6 @@
 "{count} folders" => "{count} složky",
 "1 file" => "1 soubor",
 "{count} files" => "{count} soubory",
-"Unable to rename file" => "Nelze přejmenovat soubor",
 "Upload" => "Odeslat",
 "File handling" => "Zacházení se soubory",
 "Maximum upload size" => "Maximální velikost pro odesílání",
@@ -73,5 +72,7 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Soubory, které se snažíte odeslat, překračují limit velikosti odesílání na tomto serveru.",
 "Files are being scanned, please wait." => "Soubory se prohledávají, prosím čekejte.",
 "Current scanning" => "Aktuální prohledávání",
+"file" => "soubor",
+"files" => "soubory",
 "Upgrading filesystem cache..." => "Aktualizuji mezipaměť souborového systému..."
 );

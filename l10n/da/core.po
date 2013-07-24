@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-30 02:05+0200\n"
-"PO-Revision-Date: 2013-06-30 00:02+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -139,59 +139,59 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: js/js.js:289
+#: js/js.js:293
 msgid "Settings"
 msgstr "Indstillinger"
 
-#: js/js.js:721
+#: js/js.js:715
 msgid "seconds ago"
 msgstr "sekunder siden"
 
-#: js/js.js:722
+#: js/js.js:716
 msgid "1 minute ago"
 msgstr "1 minut siden"
 
-#: js/js.js:723
+#: js/js.js:717
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minutter siden"
 
-#: js/js.js:724
+#: js/js.js:718
 msgid "1 hour ago"
 msgstr "1 time siden"
 
-#: js/js.js:725
+#: js/js.js:719
 msgid "{hours} hours ago"
 msgstr "{hours} timer siden"
 
-#: js/js.js:726
+#: js/js.js:720
 msgid "today"
 msgstr "i dag"
 
-#: js/js.js:727
+#: js/js.js:721
 msgid "yesterday"
 msgstr "i går"
 
-#: js/js.js:728
+#: js/js.js:722
 msgid "{days} days ago"
 msgstr "{days} dage siden"
 
-#: js/js.js:729
+#: js/js.js:723
 msgid "last month"
 msgstr "sidste måned"
 
-#: js/js.js:730
+#: js/js.js:724
 msgid "{months} months ago"
 msgstr "{months} måneder siden"
 
-#: js/js.js:731
+#: js/js.js:725
 msgid "months ago"
 msgstr "måneder siden"
 
-#: js/js.js:732
+#: js/js.js:726
 msgid "last year"
 msgstr "sidste år"
 
-#: js/js.js:733
+#: js/js.js:727
 msgid "years ago"
 msgstr "år siden"
 
@@ -227,8 +227,8 @@ msgstr "Objekttypen er ikke angivet."
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:618
-#: js/share.js:630
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:625
+#: js/share.js:637
 msgid "Error"
 msgstr "Fejl"
 
@@ -248,7 +248,7 @@ msgstr "Delt"
 msgid "Share"
 msgstr "Del"
 
-#: js/share.js:125 js/share.js:658
+#: js/share.js:125 js/share.js:665
 msgid "Error while sharing"
 msgstr "Fejl under deling"
 
@@ -268,114 +268,114 @@ msgstr "Delt med dig og gruppen {group} af {owner}"
 msgid "Shared with you by {owner}"
 msgstr "Delt med dig af {owner}"
 
-#: js/share.js:172
+#: js/share.js:177
 msgid "Share with"
 msgstr "Del med"
 
-#: js/share.js:177
+#: js/share.js:182
 msgid "Share with link"
 msgstr "Del med link"
 
-#: js/share.js:180
+#: js/share.js:185
 msgid "Password protect"
 msgstr "Beskyt med adgangskode"
 
-#: js/share.js:182 templates/installation.php:54 templates/login.php:26
+#: js/share.js:187 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Kodeord"
 
-#: js/share.js:186
+#: js/share.js:192
 msgid "Allow Public Upload"
 msgstr ""
 
-#: js/share.js:189
+#: js/share.js:196
 msgid "Email link to person"
 msgstr "E-mail link til person"
 
-#: js/share.js:190
+#: js/share.js:197
 msgid "Send"
 msgstr "Send"
 
-#: js/share.js:195
+#: js/share.js:202
 msgid "Set expiration date"
 msgstr "Vælg udløbsdato"
 
-#: js/share.js:196
+#: js/share.js:203
 msgid "Expiration date"
 msgstr "Udløbsdato"
 
-#: js/share.js:228
+#: js/share.js:235
 msgid "Share via email:"
 msgstr "Del via email:"
 
-#: js/share.js:230
+#: js/share.js:237
 msgid "No people found"
 msgstr "Ingen personer fundet"
 
-#: js/share.js:268
+#: js/share.js:275
 msgid "Resharing is not allowed"
 msgstr "Videredeling ikke tilladt"
 
-#: js/share.js:304
+#: js/share.js:311
 msgid "Shared in {item} with {user}"
 msgstr "Delt i {item} med {user}"
 
-#: js/share.js:325
+#: js/share.js:332
 msgid "Unshare"
 msgstr "Fjern deling"
 
-#: js/share.js:337
+#: js/share.js:344
 msgid "can edit"
 msgstr "kan redigere"
 
-#: js/share.js:339
+#: js/share.js:346
 msgid "access control"
 msgstr "Adgangskontrol"
 
-#: js/share.js:342
+#: js/share.js:349
 msgid "create"
 msgstr "opret"
 
-#: js/share.js:345
+#: js/share.js:352
 msgid "update"
 msgstr "opdater"
 
-#: js/share.js:348
+#: js/share.js:355
 msgid "delete"
 msgstr "slet"
 
-#: js/share.js:351
+#: js/share.js:358
 msgid "share"
 msgstr "del"
 
-#: js/share.js:385 js/share.js:605
+#: js/share.js:392 js/share.js:612
 msgid "Password protected"
 msgstr "Beskyttet med adgangskode"
 
-#: js/share.js:618
+#: js/share.js:625
 msgid "Error unsetting expiration date"
 msgstr "Fejl ved fjernelse af udløbsdato"
 
-#: js/share.js:630
+#: js/share.js:637
 msgid "Error setting expiration date"
 msgstr "Fejl under sætning af udløbsdato"
 
-#: js/share.js:645
+#: js/share.js:652
 msgid "Sending ..."
 msgstr "Sender ..."
 
-#: js/share.js:656
+#: js/share.js:663
 msgid "Email sent"
 msgstr "E-mail afsendt"
 
-#: js/update.js:14
+#: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
 msgstr "Opdateringen blev ikke udført korrekt. Rapporter venligst problemet til <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownClouds community</a>."
 
-#: js/update.js:18
+#: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Opdateringen blev udført korrekt. Du bliver nu viderestillet til ownCloud."
 
@@ -467,7 +467,7 @@ msgstr "Adgang forbudt"
 msgid "Cloud not found"
 msgstr "Sky ikke fundet"
 
-#: templates/altmail.php:2
+#: templates/altmail.php:4
 #, php-format
 msgid ""
 "Hey there,\n"
@@ -477,10 +477,6 @@ msgid ""
 "\n"
 "Cheers!"
 msgstr ""
-
-#: templates/altmail.php:7 templates/mail.php:24
-msgid "web services under your control"
-msgstr "Webtjenester under din kontrol"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -574,12 +570,12 @@ msgstr "Databasehost"
 msgid "Finish setup"
 msgstr "Afslut opsætning"
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:43
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s er tilgængelig. Få mere information om, hvordan du opdaterer."
 
-#: templates/layout.user.php:67
+#: templates/layout.user.php:68
 msgid "Log out"
 msgstr "Log ud"
 
@@ -613,7 +609,7 @@ msgstr "Log ind"
 msgid "Alternative Logins"
 msgstr "Alternative logins"
 
-#: templates/mail.php:15
+#: templates/mail.php:16
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "

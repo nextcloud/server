@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"The password is wrong. Try again." => "パスワードが間違っています。再試行してください。",
 "Password" => "パスワード",
 "Submit" => "送信",
 "%s shared the folder %s with you" => "%s はフォルダー %s をあなたと共有中です",

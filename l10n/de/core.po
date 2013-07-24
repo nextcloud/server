@@ -7,14 +7,15 @@
 # Marcel Kühlhorn <susefan93@gmx.de>, 2013
 # JamFX <niko@nik-o-mat.de>, 2013
 # ninov <ninovdl@ymail.com>, 2013
+# Pwnicorn <pwnicorndev@gmail.com>, 2013
 # Mirodin <blobbyjj@ymail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-30 02:05+0200\n"
-"PO-Revision-Date: 2013-06-30 00:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:04+0000\n"
+"Last-Translator: Pwnicorn <pwnicorndev@gmail.com>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -142,59 +143,59 @@ msgstr "November"
 msgid "December"
 msgstr "Dezember"
 
-#: js/js.js:289
+#: js/js.js:293
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: js/js.js:721
+#: js/js.js:715
 msgid "seconds ago"
 msgstr "Gerade eben"
 
-#: js/js.js:722
+#: js/js.js:716
 msgid "1 minute ago"
 msgstr "vor einer Minute"
 
-#: js/js.js:723
+#: js/js.js:717
 msgid "{minutes} minutes ago"
 msgstr "Vor {minutes} Minuten"
 
-#: js/js.js:724
+#: js/js.js:718
 msgid "1 hour ago"
 msgstr "Vor einer Stunde"
 
-#: js/js.js:725
+#: js/js.js:719
 msgid "{hours} hours ago"
 msgstr "Vor {hours} Stunden"
 
-#: js/js.js:726
+#: js/js.js:720
 msgid "today"
 msgstr "Heute"
 
-#: js/js.js:727
+#: js/js.js:721
 msgid "yesterday"
 msgstr "Gestern"
 
-#: js/js.js:728
+#: js/js.js:722
 msgid "{days} days ago"
 msgstr "Vor {days} Tag(en)"
 
-#: js/js.js:729
+#: js/js.js:723
 msgid "last month"
 msgstr "Letzten Monat"
 
-#: js/js.js:730
+#: js/js.js:724
 msgid "{months} months ago"
 msgstr "Vor {months} Monaten"
 
-#: js/js.js:731
+#: js/js.js:725
 msgid "months ago"
 msgstr "Vor Monaten"
 
-#: js/js.js:732
+#: js/js.js:726
 msgid "last year"
 msgstr "Letztes Jahr"
 
-#: js/js.js:733
+#: js/js.js:727
 msgid "years ago"
 msgstr "Vor Jahren"
 
@@ -230,8 +231,8 @@ msgstr "Der Objekttyp ist nicht angegeben."
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:618
-#: js/share.js:630
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:625
+#: js/share.js:637
 msgid "Error"
 msgstr "Fehler"
 
@@ -251,7 +252,7 @@ msgstr "Geteilt"
 msgid "Share"
 msgstr "Teilen"
 
-#: js/share.js:125 js/share.js:658
+#: js/share.js:125 js/share.js:665
 msgid "Error while sharing"
 msgstr "Fehler beim Teilen"
 
@@ -271,114 +272,114 @@ msgstr "{owner} hat dies mit Dir und der Gruppe {group} geteilt"
 msgid "Shared with you by {owner}"
 msgstr "{owner} hat dies mit Dir geteilt"
 
-#: js/share.js:172
+#: js/share.js:177
 msgid "Share with"
 msgstr "Teilen mit"
 
-#: js/share.js:177
+#: js/share.js:182
 msgid "Share with link"
 msgstr "Über einen Link freigegeben"
 
-#: js/share.js:180
+#: js/share.js:185
 msgid "Password protect"
 msgstr "Passwortschutz"
 
-#: js/share.js:182 templates/installation.php:54 templates/login.php:26
+#: js/share.js:187 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Passwort"
 
-#: js/share.js:186
+#: js/share.js:192
 msgid "Allow Public Upload"
-msgstr ""
+msgstr "Öffentliches Hochladen erlauben"
 
-#: js/share.js:189
+#: js/share.js:196
 msgid "Email link to person"
 msgstr "Link per E-Mail verschicken"
 
-#: js/share.js:190
+#: js/share.js:197
 msgid "Send"
 msgstr "Senden"
 
-#: js/share.js:195
+#: js/share.js:202
 msgid "Set expiration date"
 msgstr "Setze ein Ablaufdatum"
 
-#: js/share.js:196
+#: js/share.js:203
 msgid "Expiration date"
 msgstr "Ablaufdatum"
 
-#: js/share.js:228
+#: js/share.js:235
 msgid "Share via email:"
 msgstr "Über eine E-Mail teilen:"
 
-#: js/share.js:230
+#: js/share.js:237
 msgid "No people found"
 msgstr "Niemand gefunden"
 
-#: js/share.js:268
+#: js/share.js:275
 msgid "Resharing is not allowed"
 msgstr "Weiterverteilen ist nicht erlaubt"
 
-#: js/share.js:304
+#: js/share.js:311
 msgid "Shared in {item} with {user}"
 msgstr "Für {user} in {item} freigegeben"
 
-#: js/share.js:325
+#: js/share.js:332
 msgid "Unshare"
 msgstr "Freigabe aufheben"
 
-#: js/share.js:337
+#: js/share.js:344
 msgid "can edit"
 msgstr "kann bearbeiten"
 
-#: js/share.js:339
+#: js/share.js:346
 msgid "access control"
 msgstr "Zugriffskontrolle"
 
-#: js/share.js:342
+#: js/share.js:349
 msgid "create"
 msgstr "erstellen"
 
-#: js/share.js:345
+#: js/share.js:352
 msgid "update"
 msgstr "aktualisieren"
 
-#: js/share.js:348
+#: js/share.js:355
 msgid "delete"
 msgstr "löschen"
 
-#: js/share.js:351
+#: js/share.js:358
 msgid "share"
 msgstr "teilen"
 
-#: js/share.js:385 js/share.js:605
+#: js/share.js:392 js/share.js:612
 msgid "Password protected"
 msgstr "Durch ein Passwort geschützt"
 
-#: js/share.js:618
+#: js/share.js:625
 msgid "Error unsetting expiration date"
 msgstr "Fehler beim Entfernen des Ablaufdatums"
 
-#: js/share.js:630
+#: js/share.js:637
 msgid "Error setting expiration date"
 msgstr "Fehler beim Setzen des Ablaufdatums"
 
-#: js/share.js:645
+#: js/share.js:652
 msgid "Sending ..."
 msgstr "Sende ..."
 
-#: js/share.js:656
+#: js/share.js:663
 msgid "Email sent"
 msgstr "E-Mail wurde verschickt"
 
-#: js/update.js:14
+#: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
 msgstr "Das Update ist fehlgeschlagen. Bitte melde dieses Problem an die <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud Community</a>."
 
-#: js/update.js:18
+#: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Das Update war erfolgreich. Du wirst nun zu ownCloud weitergeleitet."
 
@@ -470,7 +471,7 @@ msgstr "Zugriff verboten"
 msgid "Cloud not found"
 msgstr "Cloud nicht gefunden"
 
-#: templates/altmail.php:2
+#: templates/altmail.php:4
 #, php-format
 msgid ""
 "Hey there,\n"
@@ -480,10 +481,6 @@ msgid ""
 "\n"
 "Cheers!"
 msgstr "Hallo,\n\nwollte dich nur kurz informieren, dass %s gerade %s mit dir geteilt hat.\nSchau es dir an: %s\n\nGruß!"
-
-#: templates/altmail.php:7 templates/mail.php:24
-msgid "web services under your control"
-msgstr "Web-Services unter Deiner Kontrolle"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -577,12 +574,12 @@ msgstr "Datenbank-Host"
 msgid "Finish setup"
 msgstr "Installation abschließen"
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:43
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s ist verfügbar. Holen Sie weitere Informationen zu Aktualisierungen ein."
 
-#: templates/layout.user.php:67
+#: templates/layout.user.php:68
 msgid "Log out"
 msgstr "Abmelden"
 
@@ -616,7 +613,7 @@ msgstr "Einloggen"
 msgid "Alternative Logins"
 msgstr "Alternative Logins"
 
-#: templates/mail.php:15
+#: templates/mail.php:16
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "

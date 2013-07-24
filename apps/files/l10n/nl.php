@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Kon %s niet verplaatsen - Er bestaat al een bestand met deze naam",
 "Could not move %s" => "Kon %s niet verplaatsen",
+"Unable to set upload directory." => "Kan upload map niet instellen.",
+"Invalid Token" => "Ongeldig Token",
 "No file was uploaded. Unknown error" => "Er was geen bestand geladen.  Onbekende fout",
 "There is no error, the file uploaded with success" => "De upload van het bestand is goedgegaan.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Het geüploade bestand overscheidt de upload_max_filesize optie in php.ini:",
@@ -47,7 +49,7 @@
 "{count} folders" => "{count} mappen",
 "1 file" => "1 bestand",
 "{count} files" => "{count} bestanden",
-"Unable to rename file" => "Kan bestand niet hernoemen",
+"%s could not be renamed" => "%s kon niet worden hernoemd",
 "Upload" => "Uploaden",
 "File handling" => "Bestand",
 "Maximum upload size" => "Maximale bestandsgrootte voor uploads",
@@ -71,5 +73,9 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "De bestanden die u probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server.",
 "Files are being scanned, please wait." => "Bestanden worden gescand, even wachten.",
 "Current scanning" => "Er wordt gescand",
+"directory" => "directory",
+"directories" => "directories",
+"file" => "bestand",
+"files" => "bestanden",
 "Upgrading filesystem cache..." => "Upgraden bestandssysteem cache..."
 );

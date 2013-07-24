@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Non se moveu %s - Xa existe un ficheiro con ese nome.",
 "Could not move %s" => "Non foi posíbel mover %s",
+"Unable to set upload directory." => "Non é posíbel configurar o directorio de envíos.",
+"Invalid Token" => "Marca incorrecta",
 "No file was uploaded. Unknown error" => "Non se enviou ningún ficheiro. Produciuse un erro descoñecido.",
 "There is no error, the file uploaded with success" => "Non houbo erros, o ficheiro enviouse correctamente",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "O ficheiro enviado excede a directiva indicada por upload_max_filesize de php.ini:",
@@ -47,7 +49,7 @@
 "{count} folders" => "{count} cartafoles",
 "1 file" => "1 ficheiro",
 "{count} files" => "{count} ficheiros",
-"Unable to rename file" => "Non é posíbel renomear o ficheiro",
+"%s could not be renamed" => "%s non pode cambiar de nome",
 "Upload" => "Enviar",
 "File handling" => "Manexo de ficheiro",
 "Maximum upload size" => "Tamaño máximo do envío",
@@ -71,5 +73,9 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Os ficheiros que tenta enviar exceden do tamaño máximo permitido neste servidor",
 "Files are being scanned, please wait." => "Estanse analizando os ficheiros. Agarde.",
 "Current scanning" => "Análise actual",
+"directory" => "directorio",
+"directories" => "directorios",
+"file" => "ficheiro",
+"files" => "ficheiros",
 "Upgrading filesystem cache..." => "Anovando a caché do sistema de ficheiros..."
 );

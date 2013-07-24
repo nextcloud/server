@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-30 02:04+0200\n"
-"PO-Revision-Date: 2013-06-29 23:14+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -27,54 +27,54 @@ msgstr "Не могу да преместим %s – датотека с ови�
 msgid "Could not move %s"
 msgstr "Не могу да преместим %s"
 
-#: ajax/upload.php:16 ajax/upload.php:39
+#: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
 msgstr ""
 
-#: ajax/upload.php:23
+#: ajax/upload.php:22
 msgid "Invalid Token"
 msgstr ""
 
-#: ajax/upload.php:55
+#: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
 msgstr "Ниједна датотека није отпремљена услед непознате грешке"
 
-#: ajax/upload.php:62
+#: ajax/upload.php:66
 msgid "There is no error, the file uploaded with success"
 msgstr "Није дошло до грешке. Датотека је успешно отпремљена."
 
-#: ajax/upload.php:63
+#: ajax/upload.php:67
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Отпремљена датотека прелази смерницу upload_max_filesize у датотеци php.ini:"
 
-#: ajax/upload.php:65
+#: ajax/upload.php:69
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Отпремљена датотека прелази смерницу MAX_FILE_SIZE која је наведена у HTML обрасцу"
 
-#: ajax/upload.php:66
+#: ajax/upload.php:70
 msgid "The uploaded file was only partially uploaded"
 msgstr "Датотека је делимично отпремљена"
 
-#: ajax/upload.php:67
+#: ajax/upload.php:71
 msgid "No file was uploaded"
 msgstr "Датотека није отпремљена"
 
-#: ajax/upload.php:68
+#: ajax/upload.php:72
 msgid "Missing a temporary folder"
 msgstr "Недостаје привремена фасцикла"
 
-#: ajax/upload.php:69
+#: ajax/upload.php:73
 msgid "Failed to write to disk"
 msgstr "Не могу да пишем на диск"
 
-#: ajax/upload.php:87
+#: ajax/upload.php:91
 msgid "Not enough storage available"
 msgstr "Нема довољно простора"
 
-#: ajax/upload.php:119
+#: ajax/upload.php:123
 msgid "Invalid directory."
 msgstr "неисправна фасцикла."
 
@@ -128,43 +128,43 @@ msgstr "Обриши"
 msgid "Rename"
 msgstr "Преименуј"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:433
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
 msgid "Pending"
 msgstr "На чекању"
 
-#: js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:303 js/filelist.js:305
 msgid "{new_name} already exists"
 msgstr "{new_name} већ постоји"
 
-#: js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:303 js/filelist.js:305
 msgid "replace"
 msgstr "замени"
 
-#: js/filelist.js:271
+#: js/filelist.js:303
 msgid "suggest name"
 msgstr "предложи назив"
 
-#: js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:303 js/filelist.js:305
 msgid "cancel"
 msgstr "откажи"
 
-#: js/filelist.js:318
+#: js/filelist.js:350
 msgid "replaced {new_name} with {old_name}"
 msgstr "замењено {new_name} са {old_name}"
 
-#: js/filelist.js:318
+#: js/filelist.js:350
 msgid "undo"
 msgstr "опозови"
 
-#: js/filelist.js:343
+#: js/filelist.js:375
 msgid "perform delete operation"
 msgstr "обриши"
 
-#: js/filelist.js:425
+#: js/filelist.js:457
 msgid "1 file uploading"
 msgstr "Отпремам 1 датотеку"
 
-#: js/filelist.js:428 js/filelist.js:486
+#: js/filelist.js:460 js/filelist.js:518
 msgid "files uploading"
 msgstr "датотеке се отпремају"
 
@@ -212,25 +212,26 @@ msgstr "Величина"
 msgid "Modified"
 msgstr "Измењено"
 
-#: js/files.js:765
+#: js/files.js:763
 msgid "1 folder"
 msgstr "1 фасцикла"
 
-#: js/files.js:767
+#: js/files.js:765
 msgid "{count} folders"
 msgstr "{count} фасцикле/и"
 
-#: js/files.js:775
+#: js/files.js:773
 msgid "1 file"
 msgstr "1 датотека"
 
-#: js/files.js:777
+#: js/files.js:775
 msgid "{count} files"
 msgstr "{count} датотеке/а"
 
 #: lib/app.php:73
-msgid "Unable to rename file"
-msgstr "Не могу да преименујем датотеку"
+#, php-format
+msgid "%s could not be renamed"
+msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -325,6 +326,22 @@ msgstr "Скенирам датотеке…"
 #: templates/index.php:117
 msgid "Current scanning"
 msgstr "Тренутно скенирање"
+
+#: templates/part.list.php:74
+msgid "directory"
+msgstr ""
+
+#: templates/part.list.php:76
+msgid "directories"
+msgstr ""
+
+#: templates/part.list.php:85
+msgid "file"
+msgstr ""
+
+#: templates/part.list.php:87
+msgid "files"
+msgstr ""
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

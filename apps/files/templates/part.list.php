@@ -1,7 +1,14 @@
 <input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>">
-
+<?php $totalfiles = 0;
+$totaldirs = 0;
+$totalsize = 0; ?>
 <?php foreach($_['files'] as $file):
-	$simple_file_size = OCP\simple_file_size($file['size']);
+	$totalsize += $file['size'];
+	if ($file['type'] === 'dir') {
+		$totaldirs++;
+	} else {
+		$totalfiles++;
+	}
 	// the bigger the file, the darker the shade of grey; megabytes*2
 	$simple_size_color = intval(160-$file['size']/(1024*1024)*2);
 	if($simple_size_color<0) $simple_size_color = 0;
@@ -9,10 +16,8 @@
 	// the older the file, the brighter the shade of grey; days*14
 	$relative_date_color = round((time()-$file['mtime'])/60/60/24*14);
 	if($relative_date_color>160) $relative_date_color = 160;
-	$name = rawurlencode($file['name']);
-	$name = str_replace('%2F', '/', $name);
-	$directory = rawurlencode($file['directory']);
-	$directory = str_replace('%2F', '/', $directory); ?>
+	$name = \OCP\Util::encodePath($file['name']);
+	$directory = \OCP\Util::encodePath($file['directory']); ?>
 	<tr data-id="<?php p($file['fileid']); ?>"
 		data-file="<?php p($name);?>"
 		data-type="<?php ($file['type'] == 'dir')?p('dir'):p('file')?>"
@@ -46,9 +51,8 @@
 			</a>
 		</td>
 		<td class="filesize"
-			title="<?php p(OCP\human_file_size($file['size'])); ?>"
 			style="color:rgb(<?php p($simple_size_color.','.$simple_size_color.','.$simple_size_color) ?>)">
-				<?php print_unescaped($simple_file_size); ?>
+				<?php print_unescaped(OCP\human_file_size($file['size'])); ?>
 		</td>
 		<td class="date">
 			<span class="modified"
@@ -60,4 +64,33 @@
 			</span>
 		</td>
 	</tr>
-<?php endforeach;
+<?php endforeach; ?>
+	<?php if ($totaldirs !== 0 || $totalfiles !== 0): ?>
+	<tr class="summary">
+		<td><span class="info">
+			<?php if ($totaldirs !== 0) {
+				p($totaldirs.' ');
+				if ($totaldirs === 1) {
+					p($l->t('directory'));
+				} else {
+					p($l->t('directories'));
+				}
+			}
+			if ($totaldirs !== 0 && $totalfiles !== 0) {
+				p(' & ');
+			}
+			if ($totalfiles !== 0) {
+				p($totalfiles.' ');
+				if ($totalfiles === 1) {
+					p($l->t('file'));
+				} else {
+					p($l->t('files'));
+				}
+			} ?>
+		</span></td>
+		<td class="filesize">
+		<?php print_unescaped(OCP\human_file_size($totalsize)); ?>
+		</td>
+		<td></td>
+	</tr>
+	<?php endif;

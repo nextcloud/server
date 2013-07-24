@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-30 02:04+0200\n"
-"PO-Revision-Date: 2013-06-29 23:15+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -28,54 +28,54 @@ msgstr "Αδυναμία μετακίνησης του %s - υπάρχει ήδ�
 msgid "Could not move %s"
 msgstr "Αδυναμία μετακίνησης του %s"
 
-#: ajax/upload.php:16 ajax/upload.php:39
+#: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
 msgstr ""
 
-#: ajax/upload.php:23
+#: ajax/upload.php:22
 msgid "Invalid Token"
 msgstr ""
 
-#: ajax/upload.php:55
+#: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
 msgstr "Δεν ανέβηκε κάποιο αρχείο. Άγνωστο σφάλμα"
 
-#: ajax/upload.php:62
+#: ajax/upload.php:66
 msgid "There is no error, the file uploaded with success"
 msgstr "Δεν υπάρχει σφάλμα, το αρχείο εστάλει επιτυχώς"
 
-#: ajax/upload.php:63
+#: ajax/upload.php:67
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Το αρχείο που εστάλει υπερβαίνει την οδηγία μέγιστου επιτρεπτού μεγέθους \"upload_max_filesize\" του php.ini"
 
-#: ajax/upload.php:65
+#: ajax/upload.php:69
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Το ανεβασμένο αρχείο υπερβαίνει το MAX_FILE_SIZE που ορίζεται στην  HTML φόρμα"
 
-#: ajax/upload.php:66
+#: ajax/upload.php:70
 msgid "The uploaded file was only partially uploaded"
 msgstr "Το αρχείο εστάλει μόνο εν μέρει"
 
-#: ajax/upload.php:67
+#: ajax/upload.php:71
 msgid "No file was uploaded"
 msgstr "Κανένα αρχείο δεν στάλθηκε"
 
-#: ajax/upload.php:68
+#: ajax/upload.php:72
 msgid "Missing a temporary folder"
 msgstr "Λείπει ο προσωρινός φάκελος"
 
-#: ajax/upload.php:69
+#: ajax/upload.php:73
 msgid "Failed to write to disk"
 msgstr "Αποτυχία εγγραφής στο δίσκο"
 
-#: ajax/upload.php:87
+#: ajax/upload.php:91
 msgid "Not enough storage available"
 msgstr "Μη επαρκής διαθέσιμος αποθηκευτικός χώρος"
 
-#: ajax/upload.php:119
+#: ajax/upload.php:123
 msgid "Invalid directory."
 msgstr "Μη έγκυρος φάκελος."
 
@@ -129,43 +129,43 @@ msgstr "Διαγραφή"
 msgid "Rename"
 msgstr "Μετονομασία"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:433
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
 msgid "Pending"
 msgstr "Εκκρεμεί"
 
-#: js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:303 js/filelist.js:305
 msgid "{new_name} already exists"
 msgstr "{new_name} υπάρχει ήδη"
 
-#: js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:303 js/filelist.js:305
 msgid "replace"
 msgstr "αντικατέστησε"
 
-#: js/filelist.js:271
+#: js/filelist.js:303
 msgid "suggest name"
 msgstr "συνιστώμενο όνομα"
 
-#: js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:303 js/filelist.js:305
 msgid "cancel"
 msgstr "ακύρωση"
 
-#: js/filelist.js:318
+#: js/filelist.js:350
 msgid "replaced {new_name} with {old_name}"
 msgstr "αντικαταστάθηκε το {new_name} με {old_name}"
 
-#: js/filelist.js:318
+#: js/filelist.js:350
 msgid "undo"
 msgstr "αναίρεση"
 
-#: js/filelist.js:343
+#: js/filelist.js:375
 msgid "perform delete operation"
 msgstr "εκτέλεση της διαδικασίας διαγραφής"
 
-#: js/filelist.js:425
+#: js/filelist.js:457
 msgid "1 file uploading"
 msgstr "1 αρχείο ανεβαίνει"
 
-#: js/filelist.js:428 js/filelist.js:486
+#: js/filelist.js:460 js/filelist.js:518
 msgid "files uploading"
 msgstr "αρχεία ανεβαίνουν"
 
@@ -213,25 +213,26 @@ msgstr "Μέγεθος"
 msgid "Modified"
 msgstr "Τροποποιήθηκε"
 
-#: js/files.js:765
+#: js/files.js:763
 msgid "1 folder"
 msgstr "1 φάκελος"
 
-#: js/files.js:767
+#: js/files.js:765
 msgid "{count} folders"
 msgstr "{count} φάκελοι"
 
-#: js/files.js:775
+#: js/files.js:773
 msgid "1 file"
 msgstr "1 αρχείο"
 
-#: js/files.js:777
+#: js/files.js:775
 msgid "{count} files"
 msgstr "{count} αρχεία"
 
 #: lib/app.php:73
-msgid "Unable to rename file"
-msgstr "Αδυναμία μετονομασίας αρχείου"
+#, php-format
+msgid "%s could not be renamed"
+msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -326,6 +327,22 @@ msgstr "Τα αρχεία σαρώνονται, παρακαλώ περιμέν�
 #: templates/index.php:117
 msgid "Current scanning"
 msgstr "Τρέχουσα ανίχνευση"
+
+#: templates/part.list.php:74
+msgid "directory"
+msgstr "κατάλογος"
+
+#: templates/part.list.php:76
+msgid "directories"
+msgstr "κατάλογοι"
+
+#: templates/part.list.php:85
+msgid "file"
+msgstr "αρχείο"
+
+#: templates/part.list.php:87
+msgid "files"
+msgstr "αρχεία"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

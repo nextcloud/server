@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "無法移動 %s - 同名的檔案已經存在",
 "Could not move %s" => "無法移動 %s",
+"Unable to set upload directory." => "無法設定上傳目錄。",
+"Invalid Token" => "無效的 token",
 "No file was uploaded. Unknown error" => "沒有檔案被上傳。未知的錯誤。",
 "There is no error, the file uploaded with success" => "無錯誤，檔案上傳成功",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "上傳的檔案大小超過 php.ini 當中 upload_max_filesize 參數的設定：",
@@ -47,7 +49,7 @@
 "{count} folders" => "{count} 個資料夾",
 "1 file" => "1 個檔案",
 "{count} files" => "{count} 個檔案",
-"Unable to rename file" => "無法重新命名檔案",
+"%s could not be renamed" => "無法重新命名 %s",
 "Upload" => "上傳",
 "File handling" => "檔案處理",
 "Maximum upload size" => "最大上傳檔案大小",
@@ -71,5 +73,9 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "您試圖上傳的檔案已超過伺服器的最大檔案大小限制。",
 "Files are being scanned, please wait." => "正在掃描檔案，請稍等。",
 "Current scanning" => "目前掃描",
+"directory" => "目錄",
+"directories" => "目錄",
+"file" => "檔案",
+"files" => "檔案",
 "Upgrading filesystem cache..." => "正在升級檔案系統快取..."
 );

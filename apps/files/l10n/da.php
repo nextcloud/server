@@ -47,7 +47,6 @@
 "{count} folders" => "{count} mapper",
 "1 file" => "1 fil",
 "{count} files" => "{count} filer",
-"Unable to rename file" => "Kunne ikke omdøbe fil",
 "Upload" => "Upload",
 "File handling" => "Filhåndtering",
 "Maximum upload size" => "Maksimal upload-størrelse",
@@ -71,5 +70,7 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Filerne, du prøver at uploade, er større end den maksimale størrelse for fil-upload på denne server.",
 "Files are being scanned, please wait." => "Filerne bliver indlæst, vent venligst.",
 "Current scanning" => "Indlæser",
+"file" => "fil",
+"files" => "filer",
 "Upgrading filesystem cache..." => "Opgraderer filsystems cachen..."
 );

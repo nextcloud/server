@@ -159,6 +159,14 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 	display:inline;
 }
 
+.summary {
+	opacity: .5;
+}
+
+.summary .info {
+	margin-left: 3em;
+}
+
 #scanning-message{ top:40%; left:40%; position:absolute; display:none; }
 
 div.crumb a{ padding:0.9em 0 0.7em 0; color:#555; }

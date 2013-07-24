@@ -47,7 +47,6 @@
 "{count} folders" => "{count} dosierujoj",
 "1 file" => "1 dosiero",
 "{count} files" => "{count} dosierujoj",
-"Unable to rename file" => "Ne eblis alinomigi dosieron",
 "Upload" => "Alŝuti",
 "File handling" => "Dosieradministro",
 "Maximum upload size" => "Maksimuma alŝutogrando",
@@ -71,5 +70,7 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "La dosieroj, kiujn vi provas alŝuti, transpasas la maksimuman grandon por dosieralŝutoj en ĉi tiu servilo.",
 "Files are being scanned, please wait." => "Dosieroj estas skanataj, bonvolu atendi.",
 "Current scanning" => "Nuna skano",
+"file" => "dosiero",
+"files" => "dosieroj",
 "Upgrading filesystem cache..." => "Ĝisdatiĝas dosiersistema kaŝmemoro..."
 );

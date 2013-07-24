@@ -3,7 +3,5 @@ print_unescaped($l->t("Hey there,\n\njust letting you know that %s shared %s wit
 ?>
 
 --
-ownCloud - <?php
-print_unescaped($l->t("web services under your control"));
-?>
-http://ownCloud.org
+<?php p($theme->getName() . ' - ' . $theme->getSlogan()); ?>
+<?php print_unescaped("\n".$theme->getBaseUrl());

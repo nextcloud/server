@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Nie można było przenieść %s - Plik o takiej nazwie już istnieje",
 "Could not move %s" => "Nie można było przenieść %s",
+"Unable to set upload directory." => "Nie można ustawić katalog wczytywania.",
+"Invalid Token" => "Nieprawidłowy Token",
 "No file was uploaded. Unknown error" => "Żaden plik nie został załadowany. Nieznany błąd",
 "There is no error, the file uploaded with success" => "Nie było błędów, plik wysłano poprawnie.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Wgrany plik przekracza wartość upload_max_filesize zdefiniowaną w php.ini: ",
@@ -47,7 +49,7 @@
 "{count} folders" => "Ilość folderów: {count}",
 "1 file" => "1 plik",
 "{count} files" => "Ilość plików: {count}",
-"Unable to rename file" => "Nie można zmienić nazwy pliku",
+"%s could not be renamed" => "%s nie można zmienić nazwy",
 "Upload" => "Wyślij",
 "File handling" => "Zarządzanie plikami",
 "Maximum upload size" => "Maksymalny rozmiar wysyłanego pliku",
@@ -71,5 +73,9 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Pliki, które próbujesz przesłać, przekraczają maksymalną dopuszczalną wielkość.",
 "Files are being scanned, please wait." => "Skanowanie plików, proszę czekać.",
 "Current scanning" => "Aktualnie skanowane",
+"directory" => "Katalog",
+"directories" => "Katalogi",
+"file" => "plik",
+"files" => "pliki",
 "Upgrading filesystem cache..." => "Uaktualnianie plików pamięci podręcznej..."
 );

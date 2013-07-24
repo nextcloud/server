@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "No s'ha pogut moure %s - Ja hi ha un fitxer amb aquest nom",
 "Could not move %s" => " No s'ha pogut moure %s",
+"Unable to set upload directory." => "No es pot establir la carpeta de pujada.",
+"Invalid Token" => "Testimoni no vàlid",
 "No file was uploaded. Unknown error" => "No s'ha carregat cap fitxer. Error desconegut",
 "There is no error, the file uploaded with success" => "No hi ha errors, el fitxer s'ha carregat correctament",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "L’arxiu que voleu carregar supera el màxim definit en la directiva upload_max_filesize del php.ini:",
@@ -47,7 +49,7 @@
 "{count} folders" => "{count} carpetes",
 "1 file" => "1 fitxer",
 "{count} files" => "{count} fitxers",
-"Unable to rename file" => "No es pot canviar el nom del fitxer",
+"%s could not be renamed" => "%s no es pot canviar el nom",
 "Upload" => "Puja",
 "File handling" => "Gestió de fitxers",
 "Maximum upload size" => "Mida màxima de pujada",
@@ -71,5 +73,9 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Els fitxers que esteu intentant pujar excedeixen la mida màxima de pujada del servidor",
 "Files are being scanned, please wait." => "S'estan escanejant els fitxers, espereu",
 "Current scanning" => "Actualment escanejant",
+"directory" => "directori",
+"directories" => "directoris",
+"file" => "fitxer",
+"files" => "fitxers",
 "Upgrading filesystem cache..." => "Actualitzant la memòria de cau del sistema de fitxers..."
 );

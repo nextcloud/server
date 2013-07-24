@@ -39,7 +39,6 @@
 "{count} folders" => "{count} möppur",
 "1 file" => "1 skrá",
 "{count} files" => "{count} skrár",
-"Unable to rename file" => "Gat ekki endurskýrt skrá",
 "Upload" => "Senda inn",
 "File handling" => "Meðhöndlun skrár",
 "Maximum upload size" => "Hámarks stærð innsendingar",

@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s taşınamadı. Bu isimde dosya zaten var.",
 "Could not move %s" => "%s taşınamadı",
+"Unable to set upload directory." => "Yükleme dizini tanımlanamadı.",
+"Invalid Token" => "Geçeriz simge",
 "No file was uploaded. Unknown error" => "Dosya yüklenmedi. Bilinmeyen hata",
 "There is no error, the file uploaded with success" => "Dosya başarıyla yüklendi, hata oluşmadı",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "php.ini dosyasında upload_max_filesize ile belirtilen dosya yükleme sınırı aşıldı.",
@@ -47,7 +49,7 @@
 "{count} folders" => "{count} dizin",
 "1 file" => "1 dosya",
 "{count} files" => "{count} dosya",
-"Unable to rename file" => "Dosya adı değiştirilemedi",
+"%s could not be renamed" => "%s yeniden adlandırılamadı",
 "Upload" => "Yükle",
 "File handling" => "Dosya taşıma",
 "Maximum upload size" => "Maksimum yükleme boyutu",
@@ -71,5 +73,9 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Yüklemeye çalıştığınız dosyalar bu sunucudaki maksimum yükleme boyutunu aşıyor.",
 "Files are being scanned, please wait." => "Dosyalar taranıyor, lütfen bekleyin.",
 "Current scanning" => "Güncel tarama",
+"directory" => "dizin",
+"directories" => "dizinler",
+"file" => "dosya",
+"files" => "dosyalar",
 "Upgrading filesystem cache..." => "Sistem dosyası önbelleği güncelleniyor"
 );

@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s نمی تواند حرکت کند - در حال حاضر پرونده با این نام وجود دارد. ",
 "Could not move %s" => "%s نمی تواند حرکت کند ",
+"Unable to set upload directory." => "قادر به تنظیم پوشه آپلود نمی باشد.",
+"Invalid Token" => "رمز نامعتبر",
 "No file was uploaded. Unknown error" => "هیچ فایلی آپلود نشد.خطای ناشناس",
 "There is no error, the file uploaded with success" => "هیچ خطایی نیست بارگذاری پرونده موفقیت آمیز بود",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "پرونده آپلود شده بیش ازدستور  ماکزیمم_حجم فایل_برای آپلود در   php.ini استفاده کرده است.",
@@ -17,6 +19,7 @@
 "Upload cancelled." => "بار گذاری لغو شد",
 "File upload is in progress. Leaving the page now will cancel the upload." => "آپلودکردن پرونده در حال پیشرفت است. در صورت خروج از صفحه آپلود لغو میگردد. ",
 "URL cannot be empty." => "URL  نمی تواند خالی باشد.",
+"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "نام پوشه نامعتبر است. استفاده از 'به اشتراک گذاشته شده' متعلق به ownCloud میباشد.",
 "Error" => "خطا",
 "Share" => "اشتراک‌گذاری",
 "Delete permanently" => "حذف قطعی",
@@ -46,7 +49,7 @@
 "{count} folders" => "{ شمار} پوشه ها",
 "1 file" => "1 پرونده",
 "{count} files" => "{ شمار } فایل ها",
-"Unable to rename file" => "قادر به تغییر نام پرونده نیست.",
+"%s could not be renamed" => "%s نمیتواند تغییر نام دهد.",
 "Upload" => "بارگزاری",
 "File handling" => "اداره پرونده ها",
 "Maximum upload size" => "حداکثر اندازه بارگزاری",
@@ -70,5 +73,9 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "فایلها بیش از حد تعیین شده در این سرور هستند\nمترجم:با تغییر فایل php,ini میتوان این محدودیت را برطرف کرد",
 "Files are being scanned, please wait." => "پرونده ها در حال بازرسی هستند لطفا صبر کنید",
 "Current scanning" => "بازرسی کنونی",
+"directory" => "پوشه",
+"directories" => "پوشه ها",
+"file" => "پرونده",
+"files" => "پرونده ها",
 "Upgrading filesystem cache..." => "بهبود فایل سیستمی ذخیره گاه..."
 );

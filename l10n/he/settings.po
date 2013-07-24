@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-30 02:06+0200\n"
-"PO-Revision-Date: 2013-06-29 23:15+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:55+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -89,35 +89,35 @@ msgstr "לא ניתן להסיר משתמש מהקבוצה %s"
 msgid "Couldn't update app."
 msgstr "לא ניתן לעדכן את היישום."
 
-#: js/apps.js:30
+#: js/apps.js:35
 msgid "Update to {appversion}"
 msgstr "עדכון לגרסה {appversion}"
 
-#: js/apps.js:36 js/apps.js:76
+#: js/apps.js:41 js/apps.js:81
 msgid "Disable"
 msgstr "בטל"
 
-#: js/apps.js:36 js/apps.js:64 js/apps.js:83
+#: js/apps.js:41 js/apps.js:69 js/apps.js:88
 msgid "Enable"
 msgstr "הפעלה"
 
-#: js/apps.js:55
+#: js/apps.js:60
 msgid "Please wait...."
 msgstr "נא להמתין…"
 
-#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
+#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
 msgid "Error"
 msgstr "שגיאה"
 
-#: js/apps.js:90
+#: js/apps.js:95
 msgid "Updating...."
 msgstr "מתבצע עדכון…"
 
-#: js/apps.js:93
+#: js/apps.js:98
 msgid "Error while updating app"
 msgstr "אירעה שגיאה בעת עדכון היישום"
 
-#: js/apps.js:96
+#: js/apps.js:101
 msgid "Updated"
 msgstr "מעודכן"
 
@@ -166,15 +166,15 @@ msgstr "יצירת המשתמש נכשלה"
 msgid "A valid password must be provided"
 msgstr "יש לספק ססמה תקנית"
 
-#: personal.php:35 personal.php:36
+#: personal.php:37 personal.php:38
 msgid "__language_name__"
 msgstr "עברית"
 
-#: templates/admin.php:15
+#: templates/admin.php:17
 msgid "Security Warning"
 msgstr "אזהרת אבטחה"
 
-#: templates/admin.php:18
+#: templates/admin.php:20
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file that ownCloud provides is not working. We "
@@ -183,36 +183,36 @@ msgid ""
 " webserver document root."
 msgstr "יתכן שתיקיית הנתונים והקבצים שלך נגישים דרך האינטרנט. קובץ ה־‎.htaccess שמסופק על ידי ownCloud כנראה אינו עובד. אנו ממליצים בחום להגדיר את שרת האינטרנט שלך בדרך שבה תיקיית הנתונים לא תהיה זמינה עוד או להעביר את תיקיית הנתונים מחוץ לספריית העל של שרת האינטרנט."
 
-#: templates/admin.php:29
+#: templates/admin.php:31
 msgid "Setup Warning"
 msgstr "שגיאת הגדרה"
 
-#: templates/admin.php:32
+#: templates/admin.php:34
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "שרת האינטרנט שלך אינו מוגדר לצורכי סנכרון קבצים עדיין כיוון שמנשק ה־WebDAV כנראה אינו תקין."
 
-#: templates/admin.php:33
+#: templates/admin.php:35
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "נא לעיין שוב ב<a href='%s'>מדריכי ההתקנה</a>."
 
-#: templates/admin.php:44
+#: templates/admin.php:46
 msgid "Module 'fileinfo' missing"
 msgstr "המודול „fileinfo“ חסר"
 
-#: templates/admin.php:47
+#: templates/admin.php:49
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr ""
 
-#: templates/admin.php:58
+#: templates/admin.php:60
 msgid "Locale not working"
 msgstr ""
 
-#: templates/admin.php:63
+#: templates/admin.php:65
 #, php-format
 msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
@@ -220,11 +220,11 @@ msgid ""
 " to install the required packages on your system to support %s."
 msgstr ""
 
-#: templates/admin.php:75
+#: templates/admin.php:77
 msgid "Internet connection not working"
 msgstr "החיבור לאינטרנט אינו פעיל"
 
-#: templates/admin.php:78
+#: templates/admin.php:80
 msgid ""
 "This ownCloud server has no working internet connection. This means that "
 "some of the features like mounting of external storage, notifications about "
@@ -234,102 +234,111 @@ msgid ""
 " of ownCloud."
 msgstr ""
 
-#: templates/admin.php:92
+#: templates/admin.php:94
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:101
+#: templates/admin.php:103
 msgid "Execute one task with each page loaded"
 msgstr "יש להפעיל משימה אחת עם כל עמוד שנטען"
 
-#: templates/admin.php:111
+#: templates/admin.php:113
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
 msgstr ""
 
-#: templates/admin.php:121
+#: templates/admin.php:123
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
 msgstr ""
 
-#: templates/admin.php:128
+#: templates/admin.php:130
 msgid "Sharing"
 msgstr "שיתוף"
 
-#: templates/admin.php:134
+#: templates/admin.php:136
 msgid "Enable Share API"
 msgstr "הפעלת API השיתוף"
 
-#: templates/admin.php:135
+#: templates/admin.php:137
 msgid "Allow apps to use the Share API"
 msgstr "לאפשר ליישום להשתמש ב־API השיתוף"
 
-#: templates/admin.php:142
+#: templates/admin.php:144
 msgid "Allow links"
 msgstr "לאפשר קישורים"
 
-#: templates/admin.php:143
+#: templates/admin.php:145
 msgid "Allow users to share items to the public with links"
 msgstr "לאפשר למשתמשים לשתף פריטים "
 
-#: templates/admin.php:150
+#: templates/admin.php:153
+msgid "Allow public uploads"
+msgstr ""
+
+#: templates/admin.php:154
+msgid ""
+"Allow users to enable others to upload into their publicly shared folders"
+msgstr ""
+
+#: templates/admin.php:162
 msgid "Allow resharing"
 msgstr "לאפשר שיתוף מחדש"
 
-#: templates/admin.php:151
+#: templates/admin.php:163
 msgid "Allow users to share items shared with them again"
 msgstr "לאפשר למשתמשים לשתף הלאה פריטים ששותפו אתם"
 
-#: templates/admin.php:158
+#: templates/admin.php:170
 msgid "Allow users to share with anyone"
 msgstr "לאפשר למשתמשים לשתף עם כל אחד"
 
-#: templates/admin.php:161
+#: templates/admin.php:173
 msgid "Allow users to only share with users in their groups"
 msgstr "לאפשר למשתמשים לשתף עם משתמשים בקבוצות שלהם בלבד"
 
-#: templates/admin.php:168
+#: templates/admin.php:180
 msgid "Security"
 msgstr "אבטחה"
 
-#: templates/admin.php:181
+#: templates/admin.php:193
 msgid "Enforce HTTPS"
 msgstr "לאלץ HTTPS"
 
-#: templates/admin.php:182
+#: templates/admin.php:194
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
 msgstr ""
 
-#: templates/admin.php:185
+#: templates/admin.php:197
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
 msgstr ""
 
-#: templates/admin.php:195
+#: templates/admin.php:207
 msgid "Log"
 msgstr "יומן"
 
-#: templates/admin.php:196
+#: templates/admin.php:208
 msgid "Log level"
 msgstr "רמת הדיווח"
 
-#: templates/admin.php:227
+#: templates/admin.php:239
 msgid "More"
 msgstr "יותר"
 
-#: templates/admin.php:228
+#: templates/admin.php:240
 msgid "Less"
 msgstr "פחות"
 
-#: templates/admin.php:235 templates/personal.php:116
+#: templates/admin.php:246 templates/personal.php:116
 msgid "Version"
 msgstr "גרסא"
 
-#: templates/admin.php:237 templates/personal.php:119
+#: templates/admin.php:250 templates/personal.php:119
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -387,74 +396,77 @@ msgstr "עוקב תקלות"
 msgid "Commercial Support"
 msgstr "תמיכה בתשלום"
 
-#: templates/personal.php:9
+#: templates/personal.php:10
 msgid "Get the apps to sync your files"
 msgstr "השג את האפליקציות על מנת לסנכרן את הקבצים שלך"
 
-#: templates/personal.php:20
+#: templates/personal.php:21
 msgid "Show First Run Wizard again"
 msgstr "הצגת אשף ההפעלה הראשונית שוב"
 
-#: templates/personal.php:28
+#: templates/personal.php:29
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "השתמשת ב־<strong>%s</strong> מתוך <strong>%s</strong> הזמינים לך"
 
-#: templates/personal.php:40 templates/users.php:23 templates/users.php:86
+#: templates/personal.php:41 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "סיסמא"
 
-#: templates/personal.php:41
+#: templates/personal.php:42
 msgid "Your password was changed"
 msgstr "הססמה שלך הוחלפה"
 
-#: templates/personal.php:42
+#: templates/personal.php:43
 msgid "Unable to change your password"
 msgstr "לא ניתן לשנות את הססמה שלך"
 
-#: templates/personal.php:43
+#: templates/personal.php:44
 msgid "Current password"
 msgstr "ססמה נוכחית"
 
-#: templates/personal.php:45
+#: templates/personal.php:46
 msgid "New password"
 msgstr "ססמה חדשה"
 
-#: templates/personal.php:47
+#: templates/personal.php:48
 msgid "Change password"
 msgstr "שינוי ססמה"
 
-#: templates/personal.php:59 templates/users.php:85
+#: templates/personal.php:60 templates/users.php:85
 msgid "Display Name"
 msgstr "שם תצוגה"
 
-#: templates/personal.php:74
+#: templates/personal.php:75
 msgid "Email"
 msgstr "דואר אלקטרוני"
 
-#: templates/personal.php:76
+#: templates/personal.php:77
 msgid "Your email address"
 msgstr "כתובת הדוא״ל שלך"
 
-#: templates/personal.php:77
+#: templates/personal.php:78
 msgid "Fill in an email address to enable password recovery"
 msgstr "נא למלא את כתובת הדוא״ל שלך כדי לאפשר שחזור ססמה"
 
-#: templates/personal.php:86 templates/personal.php:87
+#: templates/personal.php:87 templates/personal.php:88
 msgid "Language"
 msgstr "פה"
 
-#: templates/personal.php:99
+#: templates/personal.php:100
 msgid "Help translate"
 msgstr "עזרה בתרגום"
 
-#: templates/personal.php:105
+#: templates/personal.php:106
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:107
-msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "השתמש בכתובת זאת על מנת להתחבר אל ownCloud דרך סייר קבצים."
+#: templates/personal.php:108
+#, php-format
+msgid ""
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
+"target=\"_blank\">access your Files via WebDAV</a>"
+msgstr ""
 
 #: templates/users.php:21
 msgid "Login Name"

@@ -292,6 +292,29 @@ class Share {
 	}
 
 	/**
+	 * @brief resolves reshares down to the last real share
+	 * @param $linkItem
+	 * @return $fileOwner
+	 */
+	public static function resolveReShare($linkItem)
+	{
+		if (isset($linkItem['parent'])) {
+			$parent = $linkItem['parent'];
+			while (isset($parent)) {
+				$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*share` WHERE `id` = ?', 1);
+				$item = $query->execute(array($parent))->fetchRow();
+				if (isset($item['parent'])) {
+					$parent = $item['parent'];
+				} else {
+					return $item;
+				}
+			}
+		}
+		return $linkItem;
+	}
+
+
+	/**
 	* @brief Get the shared items of item type owned by the current user
 	* @param string Item type
 	* @param int Format (optional) Format type must be defined by the backend
@@ -312,7 +335,7 @@ class Share {
 	* @return Return depends on format
 	*/
 	public static function getItemShared($itemType, $itemSource, $format = self::FORMAT_NONE,
-		$parameters = null, $includeCollections = false) {
+	                                     $parameters = null, $includeCollections = false) {
 		return self::getItems($itemType, $itemSource, null, null, \OC_User::getUser(), $format,
 			$parameters, -1, $includeCollections);
 	}
@@ -634,6 +657,17 @@ class Share {
 			}
 			$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `permissions` = ? WHERE `id` = ?');
 			$query->execute(array($permissions, $item['id']));
+			if ($itemType === 'file' || $itemType === 'folder') {
+				\OC_Hook::emit('OCP\Share', 'post_update_permissions', array(
+					'itemType' => $itemType,
+					'itemSource' => $itemSource,
+					'shareType' => $shareType,
+					'shareWith' => $shareWith,
+					'uidOwner' => \OC_User::getUser(),
+					'permissions' => $permissions,
+					'path' => $item['path'],
+				));
+			}
 			// Check if permissions were removed
 			if ($item['permissions'] & ~$permissions) {
 				// If share permission is removed all reshares must be deleted

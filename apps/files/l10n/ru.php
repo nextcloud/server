@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Невозможно переместить %s - файл с таким именем уже существует",
 "Could not move %s" => "Невозможно переместить %s",
+"Unable to set upload directory." => "Не удалось установить каталог загрузки.",
+"Invalid Token" => "Недопустимый маркер",
 "No file was uploaded. Unknown error" => "Файл не был загружен. Неизвестная ошибка",
 "There is no error, the file uploaded with success" => "Файл загружен успешно.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Файл превышает размер установленный upload_max_filesize в php.ini:",
@@ -30,7 +32,7 @@
 "cancel" => "отмена",
 "replaced {new_name} with {old_name}" => "заменено {new_name} на {old_name}",
 "undo" => "отмена",
-"perform delete operation" => "выполняется операция удаления",
+"perform delete operation" => "выполнить операцию удаления",
 "1 file uploading" => "загружается 1 файл",
 "files uploading" => "файлы загружаются",
 "'.' is an invalid file name." => "'.' - неправильное имя файла.",
@@ -47,7 +49,7 @@
 "{count} folders" => "{count} папок",
 "1 file" => "1 файл",
 "{count} files" => "{count} файлов",
-"Unable to rename file" => "Невозможно переименовать файл",
+"%s could not be renamed" => "%s не может быть переименован",
 "Upload" => "Загрузка",
 "File handling" => "Управление файлами",
 "Maximum upload size" => "Максимальный размер загружаемого файла",
@@ -71,5 +73,9 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Файлы, которые вы пытаетесь загрузить, превышают лимит для файлов на этом сервере.",
 "Files are being scanned, please wait." => "Подождите, файлы сканируются.",
 "Current scanning" => "Текущее сканирование",
+"directory" => "директория",
+"directories" => "директории",
+"file" => "файл",
+"files" => "файлы",
 "Upgrading filesystem cache..." => "Обновление кэша файловой системы..."
 );

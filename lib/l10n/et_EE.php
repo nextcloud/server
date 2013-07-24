@@ -5,6 +5,7 @@
 "Users" => "Kasutajad",
 "Apps" => "Rakendused",
 "Admin" => "Admin",
+"web services under your control" => "veebitenused sinu kontrolli all",
 "ZIP download is turned off." => "ZIP-ina allalaadimine on välja lülitatud.",
 "Files need to be downloaded one by one." => "Failid tuleb alla laadida ükshaaval.",
 "Back to Files" => "Tagasi failide juurde",

@@ -24,12 +24,11 @@ return array(
 		'root'=>'/owncloud/files/webdav.php',
 	),
 	'google'=>array(
-		'run'=>false,
-		'consumer_key'=>'anonymous',
-		'consumer_secret'=>'anonymous',
-		'token'=>'test',
-		'token_secret'=>'test',
-		'root'=>'/google',
+		'run'=> false,
+		'configured' => 'true',
+		'client_id' => '',
+		'client_secret' => '',
+		'token' => '',
 	),
 	'swift'=>array(
 		'run'=>false,
@@ -50,7 +49,13 @@ return array(
 		'run'=>false,
 		'key'=>'test',
 		'secret'=>'test',
-		'bucket'=>'bucket',
+		'bucket'=>'bucket'
+		//'hostname' => 'your.host.name',
+		//'port' => '443',
+		//'use_ssl' => 'true',
+		//'region' => 'eu-west-1',
+		//'test'=>'true',
+		//'timeout'=>20
 	),
 	'dropbox' => array (
 		'run'=>false,

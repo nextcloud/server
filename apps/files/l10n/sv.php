@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Kunde inte flytta %s - Det finns redan en fil med detta namn",
 "Could not move %s" => "Kan inte flytta %s",
+"Unable to set upload directory." => "Kan inte sätta mapp för uppladdning.",
+"Invalid Token" => "Ogiltig token",
 "No file was uploaded. Unknown error" => "Ingen fil uppladdad. Okänt fel",
 "There is no error, the file uploaded with success" => "Inga fel uppstod. Filen laddades upp utan problem.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Den uppladdade filen överskrider upload_max_filesize direktivet php.ini:",
@@ -47,7 +49,7 @@
 "{count} folders" => "{count} mappar",
 "1 file" => "1 fil",
 "{count} files" => "{count} filer",
-"Unable to rename file" => "Kan inte byta namn på filen",
+"%s could not be renamed" => "%s kunde inte namnändras",
 "Upload" => "Ladda upp",
 "File handling" => "Filhantering",
 "Maximum upload size" => "Maximal storlek att ladda upp",
@@ -71,5 +73,9 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Filerna du försöker ladda upp överstiger den maximala storleken för filöverföringar på servern.",
 "Files are being scanned, please wait." => "Filer skannas, var god vänta",
 "Current scanning" => "Aktuell skanning",
+"directory" => "mapp",
+"directories" => "mappar",
+"file" => "fil",
+"files" => "filer",
 "Upgrading filesystem cache..." => "Uppgraderar filsystemets cache..."
 );

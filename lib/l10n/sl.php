@@ -5,6 +5,7 @@
 "Users" => "Uporabniki",
 "Apps" => "Programi",
 "Admin" => "Skrbništvo",
+"web services under your control" => "spletne storitve pod vašim nadzorom",
 "ZIP download is turned off." => "Prejemanje datotek v paketu ZIP je onemogočeno.",
 "Files need to be downloaded one by one." => "Datoteke je mogoče prejeti le posamično.",
 "Back to Files" => "Nazaj na datoteke",

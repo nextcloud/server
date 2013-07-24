@@ -13,7 +13,7 @@ abstract class BasicEmitter implements Emitter {
 	/**
 	 * @var (callable[])[] $listeners
 	 */
-	private $listeners = array();
+	protected $listeners = array();
 
 	/**
 	 * @param string $scope

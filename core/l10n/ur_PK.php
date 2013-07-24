@@ -55,7 +55,6 @@
 "Help" => "مدد",
 "Access forbidden" => "پہنچ کی اجازت نہیں",
 "Cloud not found" => "نہیں مل سکا",
-"web services under your control" => "آپ کے اختیار میں ویب سروسیز",
 "Edit categories" => "زمرہ جات کی تدوین کریں",
 "Add" => "شامل کریں",
 "Create an <strong>admin account</strong>" => "ایک<strong> ایڈمن اکاؤنٹ</strong> بنائیں",

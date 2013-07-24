@@ -39,7 +39,6 @@
 "{count} folders" => "{count} תיקיות",
 "1 file" => "קובץ אחד",
 "{count} files" => "{count} קבצים",
-"Unable to rename file" => "לא ניתן לשנות את שם הקובץ",
 "Upload" => "העלאה",
 "File handling" => "טיפול בקבצים",
 "Maximum upload size" => "גודל העלאה מקסימלי",
@@ -60,5 +59,7 @@
 "Upload too large" => "העלאה גדולה מידי",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "הקבצים שניסית להעלות חרגו מהגודל המקסימלי להעלאת קבצים על שרת זה.",
 "Files are being scanned, please wait." => "הקבצים נסרקים, נא להמתין.",
-"Current scanning" => "הסריקה הנוכחית"
+"Current scanning" => "הסריקה הנוכחית",
+"file" => "קובץ",
+"files" => "קבצים"
 );

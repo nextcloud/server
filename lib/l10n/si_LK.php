@@ -5,6 +5,7 @@
 "Users" => "පරිශීලකයන්",
 "Apps" => "යෙදුම්",
 "Admin" => "පරිපාලක",
+"web services under your control" => "ඔබට පාලනය කළ හැකි වෙබ් සේවාවන්",
 "ZIP download is turned off." => "ZIP භාගත කිරීම් අක්‍රියයි",
 "Files need to be downloaded one by one." => "ගොනු එකින් එක භාගත යුතුයි",
 "Back to Files" => "ගොනු වෙතට නැවත යන්න",

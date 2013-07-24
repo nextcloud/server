@@ -92,6 +92,7 @@ OC.Share={
 			}
 		}
 		if (shares) {
+			OC.Share.statuses[itemSource] = OC.Share.statuses[itemSource] || {};
 			OC.Share.statuses[itemSource]['link'] = link;
 		} else {
 			delete OC.Share.statuses[itemSource];
@@ -122,7 +123,12 @@ OC.Share={
 					callback(result.data);
 				}
 			} else {
-				OC.dialogs.alert(result.data.message, t('core', 'Error while sharing'));
+				if (result.data && result.data.message) {
+					var msg = result.data.message;
+				} else {
+					var msg = t('core', 'Error');
+				}
+				OC.dialogs.alert(msg, t('core', 'Error while sharing'));
 			}
 		});
 	},
@@ -161,12 +167,17 @@ OC.Share={
 			// respective checkbox should be checked or
 			// not.
 
+			var publicUploadEnabled = $('#filestable').data('allow-public-upload');
+			if (typeof publicUploadEnabled == 'undefined') {
+				publicUploadEnabled = 'no';
+			}
 			var allowPublicUploadStatus = false;
+
 			$.each(data.shares, function(key, value) {
-			  if (allowPublicUploadStatus) {
-                            return true;
-                          }
-			  allowPublicUploadStatus = (value.permissions & OC.PERMISSION_CREATE) ? true : false;
+				if (allowPublicUploadStatus) {
+					return true;
+				}
+				allowPublicUploadStatus = (value.permissions & OC.PERMISSION_CREATE) ? true : false;
 			});
 
 			html += '<input id="shareWith" type="text" placeholder="'+t('core', 'Share with')+'" />';
@@ -181,11 +192,13 @@ OC.Share={
 				html += '<div id="linkPass">';
 				html += '<input id="linkPassText" type="password" placeholder="'+t('core', 'Password')+'" />';
 				html += '</div>';
-				html += '<div id="allowPublicUploadWrapper" style="display:none;">';
-				html += '<input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload"' + ((allowPublicUploadStatus) ? 'checked="checked"' : '') + ' />';
-				html += '<label for="sharingDialogAllowPublicUpload">' + t('core', 'Allow Public Upload') + '</label>';
-				html += '</div></div>';
-				html += '<form id="emailPrivateLink" >';
+				if (itemType === 'folder' && (possiblePermissions & OC.PERMISSION_CREATE) && publicUploadEnabled === 'yes') {
+					html += '<div id="allowPublicUploadWrapper" style="display:none;">';
+					html += '<input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload"' + ((allowPublicUploadStatus) ? 'checked="checked"' : '') + ' />';
+					html += '<label for="sharingDialogAllowPublicUpload">' + t('core', 'Allow Public Upload') + '</label>';
+					html += '</div>';
+				}
+				html += '</div><form id="emailPrivateLink" >';
 				html += '<input id="email" style="display:none; width:62%;" value="" placeholder="'+t('core', 'Email link to person')+'" type="text" />';
 				html += '<input id="emailButton" style="display:none;" type="submit" value="'+t('core', 'Send')+'" />';
 				html += '</form>';

@@ -67,7 +67,7 @@ var UserList = {
 				async: false,
 				data: { username: UserList.deleteUid },
 				success: function (result) {
-					if (result.status == 'success') {
+					if (result.status === 'success') {
 						// Remove undo option, & remove user from table
 						OC.Notification.hide();
 						$('tr').filterAttr('data-uid', UserList.deleteUid).remove();
@@ -76,7 +76,7 @@ var UserList = {
 							ready();
 						}
 					} else {
-						oc.dialogs.alert(result.data.message, t('settings', 'Unable to remove user'));
+						OC.dialogs.alert(result.data.message, t('settings', 'Unable to remove user'));
 					}
 				}
 			});
@@ -97,7 +97,7 @@ var UserList = {
 		}
 		$.each(this.availableGroups, function (i, group) {
 			groupsSelect.append($('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>'));
-			if (typeof subadminSelect !== 'undefined' && group != 'admin') {
+			if (typeof subadminSelect !== 'undefined' && group !== 'admin') {
 				subadminSelect.append($('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>'));
 			}
 		});
@@ -107,7 +107,7 @@ var UserList = {
 			tr.find('td.subadmins').append(subadminSelect);
 			UserList.applyMultiplySelect(subadminSelect);
 		}
-		if (tr.find('td.remove img').length == 0 && OC.currentUser != username) {
+		if (tr.find('td.remove img').length === 0 && OC.currentUser !== username) {
 			var rm_img = $('<img class="svg action">').attr({
 				src: OC.imagePath('core', 'actions/delete')
 			});
@@ -115,11 +115,11 @@ var UserList = {
 				.attr({ href: '#', 'original-title': t('settings', 'Delete')})
 				.append(rm_img);
 			tr.find('td.remove').append(rm_link);
-		} else if (OC.currentUser == username) {
+		} else if (OC.currentUser === username) {
 			tr.find('td.remove a').remove();
 		}
 		var quotaSelect = tr.find('select.quota-user');
-		if (quota == 'default') {
+		if (quota === 'default') {
 			quotaSelect.find('option').attr('selected', null);
 			quotaSelect.find('option').first().attr('selected', 'selected');
 			quotaSelect.data('previous', 'default');
@@ -148,7 +148,7 @@ var UserList = {
 			var tz = [], x = 0, y = -1, n = 0, i, j;
 
 			while (i = (j = t.charAt(x++)).charCodeAt(0)) {
-			var m = (i == 46 || (i >=48 && i <= 57));
+			var m = (i === 46 || (i >=48 && i <= 57));
 			if (m !== n) {
 				tz[++y] = "";
 				n = m;
@@ -164,7 +164,7 @@ var UserList = {
 		for (x = 0; aa[x] && bb[x]; x++) {
 			if (aa[x] !== bb[x]) {
 			var c = Number(aa[x]), d = Number(bb[x]);
-			if (c == aa[x] && d == bb[x]) {
+			if (c === aa[x] && d === bb[x]) {
 				return c - d;
 			} else return (aa[x] > bb[x]) ? 1 : -1;
 			}
@@ -207,7 +207,7 @@ var UserList = {
 						return true;
 					}
 					var tr = UserList.add(user.name, user.displayname, user.groups, user.subadmin, user.quota, false);
-					if (index == 9) {
+					if (index === 9) {
 						$(tr).bind('inview', function (event, isInView, visiblePartX, visiblePartY) {
 							$(this).unbind(event);
 							UserList.update();
@@ -225,16 +225,16 @@ var UserList = {
 	applyMultiplySelect: function (element) {
 		var checked = [];
 		var user = element.attr('data-username');
-		if ($(element).attr('class') == 'groupsselect') {
+		if ($(element).attr('class') === 'groupsselect') {
 			if (element.data('userGroups')) {
 				checked = String(element.data('userGroups')).split(', ');
 			}
 			if (user) {
 				var checkHandeler = function (group) {
-					if (user == OC.currentUser && group == 'admin') {
+					if (user === OC.currentUser && group === 'admin') {
 						return false;
 					}
-					if (!isadmin && checked.length == 1 && checked[0] == group) {
+					if (!isadmin && checked.length === 1 && checked[0] === group) {
 						return false;
 					}
 					$.post(
@@ -280,12 +280,12 @@ var UserList = {
 				minWidth: 100
 			});
 		}
-		if ($(element).attr('class') == 'subadminsselect') {
+		if ($(element).attr('class') === 'subadminsselect') {
 			if (element.data('subadmin')) {
 				checked = String(element.data('subadmin')).split(', ');
 			}
 			var checkHandeler = function (group) {
-				if (group == 'admin') {
+				if (group === 'admin') {
 					return false;
 				}
 				$.post(
@@ -301,7 +301,7 @@ var UserList = {
 
 			var addSubAdmin = function (group) {
 				$('select[multiple]').each(function (index, element) {
-					if ($(element).find('option[value="' + group + '"]').length == 0) {
+					if ($(element).find('option[value="' + group + '"]').length === 0) {
 						$(element).append('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>');
 					}
 				})
@@ -349,7 +349,7 @@ $(document).ready(function () {
 		img.parent().children('span').replaceWith(input);
 		input.focus();
 		input.keypress(function (event) {
-			if (event.keyCode == 13) {
+			if (event.keyCode === 13) {
 				if ($(this).val().length > 0) {
 					var recoveryPasswordVal = $('input:password[id="recoveryPassword"]').val();
 					$.post(
@@ -390,7 +390,7 @@ $(document).ready(function () {
 		img.parent().children('span').replaceWith(input);
 		input.focus();
 		input.keypress(function (event) {
-			if (event.keyCode == 13) {
+			if (event.keyCode === 13) {
 				if ($(this).val().length > 0) {
 					$.post(
 						OC.filePath('settings', 'ajax', 'changedisplayname.php'),
@@ -423,13 +423,13 @@ $(document).ready(function () {
 		event.preventDefault();
 		var username = $('#newusername').val();
 		var password = $('#newuserpassword').val();
-		if ($.trim(username) == '') {
+		if ($.trim(username) === '') {
 			OC.dialogs.alert(
 				t('settings', 'A valid username must be provided'),
 				t('settings', 'Error creating user'));
 			return false;
 		}
-		if ($.trim(password) == '') {
+		if ($.trim(password) === '') {
 			OC.dialogs.alert(
 				t('settings', 'A valid password must be provided'),
 				t('settings', 'Error creating user'));
@@ -445,12 +445,14 @@ $(document).ready(function () {
 				groups: groups
 			},
 			function (result) {
-				if (result.status != 'success') {
+				if (result.status !== 'success') {
 					OC.dialogs.alert(result.data.message,
 						t('settings', 'Error creating user'));
 				} else {
-					var addedGroups = result.data.groups.split(', ');
-					UserList.availableGroups = $.unique($.merge(UserList.availableGroups, addedGroups));
+					if (result.data.groups) {
+						var addedGroups = result.data.groups.split(', ');
+						UserList.availableGroups = $.unique($.merge(UserList.availableGroups, addedGroups));
+					}
 					if($('tr[data-uid="' + username + '"]').length === 0) {
 						UserList.add(username, username, result.data.groups, null, 'default', true);
 					}

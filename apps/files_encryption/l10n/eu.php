@@ -1,7 +1,24 @@
 <?php $TRANSLATIONS = array(
+"Recovery key successfully enabled" => "Berreskuratze gakoa behar bezala gaitua",
+"Could not enable recovery key. Please check your recovery key password!" => "Ezin da berreskuratze gako gaitu. Egiaztatu berreskuratze gako pasahitza!",
+"Recovery key successfully disabled" => "Berreskuratze gakoa behar bezala desgaitu da",
+"Could not disable recovery key. Please check your recovery key password!" => "Ezin da berreskuratze gako desgaitu. Egiaztatu berreskuratze gako pasahitza!",
+"Password successfully changed." => "Pasahitza behar bezala aldatu da.",
+"Could not change the password. Maybe the old password was not correct." => "Ezin izan da pasahitza aldatu. Agian pasahitz zaharra okerrekoa da.",
+"Private key password successfully updated." => "Gako pasahitz pribatu behar bezala eguneratu da.",
+"Could not update the private key password. Maybe the old password was not correct." => "Ezin izan da gako pribatu pasahitza eguneratu. Agian pasahitz zaharra okerrekoa da.",
 "Saving..." => "Gordetzen...",
+"personal settings" => "ezarpen pertsonalak",
 "Encryption" => "Enkriptazioa",
+"Recovery key password" => "Berreskuratze gako pasahitza",
 "Enabled" => "Gaitua",
 "Disabled" => "Ez-gaitua",
-"Change Password" => "Aldatu Pasahitza"
+"Change recovery key password:" => "Aldatu berreskuratze gako pasahitza:",
+"Old Recovery key password" => "Berreskuratze gako pasahitz zaharra",
+"New Recovery key password" => "Berreskuratze gako pasahitz berria",
+"Change Password" => "Aldatu Pasahitza",
+"Update Private Key Password" => "Eguneratu gako pribatu pasahitza",
+"Enable password recovery:" => "Gaitu pasahitz berreskuratzea:",
+"File recovery settings updated" => "Fitxategi berreskuratze ezarpenak eguneratuak",
+"Could not update file recovery" => "Ezin da fitxategi berreskuratzea eguneratu"
 );

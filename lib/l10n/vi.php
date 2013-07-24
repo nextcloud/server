@@ -5,6 +5,7 @@
 "Users" => "Người dùng",
 "Apps" => "Ứng dụng",
 "Admin" => "Quản trị",
+"web services under your control" => "dịch vụ web dưới sự kiểm soát của bạn",
 "ZIP download is turned off." => "Tải về ZIP đã bị tắt.",
 "Files need to be downloaded one by one." => "Tập tin cần phải được tải về từng người một.",
 "Back to Files" => "Trở lại tập tin",

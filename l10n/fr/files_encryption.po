@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-27 02:04+0200\n"
-"PO-Revision-Date: 2013-06-26 12:22+0000\n"
-"Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
+"POT-Creation-Date: 2013-07-11 02:16+0200\n"
+"PO-Revision-Date: 2013-07-10 18:30+0000\n"
+"Last-Translator: Adalberto Rodrigues <rodrigues_adalberto@yahoo.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -59,20 +59,22 @@ msgstr "Impossible de mettre à jour le mot de passe de la clé privé. Peut-êt
 
 #: files/error.php:7
 msgid ""
-"Your private key is not valid! Maybe your password was changed from outside."
-" You can update your private key password in your personal settings to "
-"regain access to your files"
-msgstr "Votre clef privée est invalide ! Votre mot de passe a peut-être été modifié depuis l'extérieur. Vous pouvez mettre à jour le mot de passe de votre clef privée dans vos paramètres personnels pour récupérer l'accès à vos fichiers"
+"Your private key is not valid! Likely your password was changed outside the "
+"ownCloud system (e.g. your corporate directory). You can update your private"
+" key password in your personal settings to recover access to your encrypted "
+"files."
+msgstr "Votre clé de sécurité privée n'est pas valide! Il est probable que votre mot de passe ait été changé sans passer par le système ownCloud (par éxemple: le serveur de votre entreprise). Ain d'avoir à nouveau accès à vos fichiers cryptés, vous pouvez mettre à jour votre clé de sécurité privée dans les paramètres personnels de votre compte."
 
 #: hooks/hooks.php:44
-msgid "PHP module OpenSSL is not installed."
-msgstr "Le module OpenSSL de PHP n'est pas installé."
+msgid "Missing requirements."
+msgstr "Système minimum requis non respecté."
 
 #: hooks/hooks.php:45
 msgid ""
-"Please ask your server administrator to install the module. For now the "
-"encryption app was disabled."
-msgstr "Veuillez demander à l'administrateur du serveur d'installer le module. Pour l'instant l'application de chiffrement a été désactivé."
+"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
+"PHP extension is enabled and configured properly. For now, the encryption "
+"app has been disabled."
+msgstr "Veuillez vous assurer qu'une version de PHP 5.3.3 ou plus récente est installée et que l'extension OpenSSL de PHP est activée et configurée correctement. En attendant, l'application de cryptage a été désactivée."
 
 #: js/settings-admin.js:11
 msgid "Saving..."

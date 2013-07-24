@@ -5,6 +5,7 @@
 "Users" => "Uživatelé",
 "Apps" => "Aplikace",
 "Admin" => "Administrace",
+"web services under your control" => "služby webu pod Vaší kontrolou",
 "ZIP download is turned off." => "Stahování ZIPu je vypnuto.",
 "Files need to be downloaded one by one." => "Soubory musí být stahovány jednotlivě.",
 "Back to Files" => "Zpět k souborům",

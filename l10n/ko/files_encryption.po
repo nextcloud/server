@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# smallsnail <bjh13579@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-22 02:06+0200\n"
-"PO-Revision-Date: 2013-06-22 00:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-22 09:20+0000\n"
+"Last-Translator: smallsnail <bjh13579@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,15 +38,15 @@ msgstr ""
 
 #: ajax/changeRecoveryPassword.php:49
 msgid "Password successfully changed."
-msgstr ""
+msgstr "암호가 성공적으로 변경되었습니다"
 
 #: ajax/changeRecoveryPassword.php:51
 msgid "Could not change the password. Maybe the old password was not correct."
-msgstr ""
+msgstr "암호를 변경할수 없습니다. 아마도 예전 암호가 정확하지 않은것 같습니다."
 
 #: ajax/updatePrivateKeyPassword.php:51
 msgid "Private key password successfully updated."
-msgstr ""
+msgstr "개인키 암호가 성공적으로 업데이트 됨."
 
 #: ajax/updatePrivateKeyPassword.php:53
 msgid ""
@@ -55,19 +56,21 @@ msgstr ""
 
 #: files/error.php:7
 msgid ""
-"Your private key is not valid! Maybe your password was changed from outside."
-" You can update your private key password in your personal settings to "
-"regain access to your files"
+"Your private key is not valid! Likely your password was changed outside the "
+"ownCloud system (e.g. your corporate directory). You can update your private"
+" key password in your personal settings to recover access to your encrypted "
+"files."
 msgstr ""
 
 #: hooks/hooks.php:44
-msgid "PHP module OpenSSL is not installed."
+msgid "Missing requirements."
 msgstr ""
 
 #: hooks/hooks.php:45
 msgid ""
-"Please ask your server administrator to install the module. For now the "
-"encryption app was disabled."
+"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
+"PHP extension is enabled and configured properly. For now, the encryption "
+"app has been disabled."
 msgstr ""
 
 #: js/settings-admin.js:11
@@ -86,7 +89,7 @@ msgstr ""
 
 #: templates/invalid_private_key.php:7
 msgid "personal settings"
-msgstr ""
+msgstr "개인 설정"
 
 #: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
@@ -99,7 +102,7 @@ msgstr ""
 
 #: templates/settings-admin.php:14
 msgid "Recovery key password"
-msgstr ""
+msgstr "키 비밀번호 복구"
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
@@ -111,19 +114,19 @@ msgstr ""
 
 #: templates/settings-admin.php:34
 msgid "Change recovery key password:"
-msgstr ""
+msgstr "복구 키 비밀번호 변경"
 
 #: templates/settings-admin.php:41
 msgid "Old Recovery key password"
-msgstr ""
+msgstr "예전 복구 키 비밀번호"
 
 #: templates/settings-admin.php:48
 msgid "New Recovery key password"
-msgstr ""
+msgstr "새 복구 키 비밀번호"
 
 #: templates/settings-admin.php:53
 msgid "Change Password"
-msgstr ""
+msgstr "암호 변경"
 
 #: templates/settings-personal.php:11
 msgid "Your private key password no longer match your log-in password:"
@@ -141,15 +144,15 @@ msgstr ""
 
 #: templates/settings-personal.php:24
 msgid "Old log-in password"
-msgstr ""
+msgstr "예전 로그인 암호"
 
 #: templates/settings-personal.php:30
 msgid "Current log-in password"
-msgstr ""
+msgstr "현재 로그인 암호"
 
 #: templates/settings-personal.php:35
 msgid "Update Private Key Password"
-msgstr ""
+msgstr "개인 키 암호 업데이트"
 
 #: templates/settings-personal.php:45
 msgid "Enable password recovery:"
@@ -163,8 +166,8 @@ msgstr ""
 
 #: templates/settings-personal.php:63
 msgid "File recovery settings updated"
-msgstr ""
+msgstr "파일 복구 설정 업데이트됨"
 
 #: templates/settings-personal.php:64
 msgid "Could not update file recovery"
-msgstr ""
+msgstr "파일 복구를 업데이트 할수 없습니다"

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-22 02:06+0200\n"
-"PO-Revision-Date: 2013-06-22 00:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-14 02:02+0200\n"
+"PO-Revision-Date: 2013-07-13 21:40+0000\n"
+"Last-Translator: Honza K. <honza889@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,19 +57,21 @@ msgstr "Nelze aktualizovat heslo soukromého klíče. Možná nebylo staré hesl
 
 #: files/error.php:7
 msgid ""
-"Your private key is not valid! Maybe your password was changed from outside."
-" You can update your private key password in your personal settings to "
-"regain access to your files"
-msgstr "Váš soukromý klíč není platný. Možná bylo vaše heslo změněno z venku. Můžete aktualizovat heslo soukromého klíče v osobním nastavení pro opětovné získání přístupu k souborům"
+"Your private key is not valid! Likely your password was changed outside the "
+"ownCloud system (e.g. your corporate directory). You can update your private"
+" key password in your personal settings to recover access to your encrypted "
+"files."
+msgstr ""
 
 #: hooks/hooks.php:44
-msgid "PHP module OpenSSL is not installed."
+msgid "Missing requirements."
 msgstr ""
 
 #: hooks/hooks.php:45
 msgid ""
-"Please ask your server administrator to install the module. For now the "
-"encryption app was disabled."
+"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
+"PHP extension is enabled and configured properly. For now, the encryption "
+"app has been disabled."
 msgstr ""
 
 #: js/settings-admin.js:11
@@ -88,7 +90,7 @@ msgstr ""
 
 #: templates/invalid_private_key.php:7
 msgid "personal settings"
-msgstr ""
+msgstr "osobní nastavení"
 
 #: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
@@ -143,11 +145,11 @@ msgstr ""
 
 #: templates/settings-personal.php:24
 msgid "Old log-in password"
-msgstr ""
+msgstr "Staré přihlašovací heslo"
 
 #: templates/settings-personal.php:30
 msgid "Current log-in password"
-msgstr ""
+msgstr "Aktuální přihlašovací heslo"
 
 #: templates/settings-personal.php:35
 msgid "Update Private Key Password"

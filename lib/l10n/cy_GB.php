@@ -5,6 +5,7 @@
 "Users" => "Defnyddwyr",
 "Apps" => "Pecynnau",
 "Admin" => "Gweinyddu",
+"web services under your control" => "gwasanaethau gwe a reolir gennych",
 "ZIP download is turned off." => "Mae llwytho ZIP wedi ei ddiffodd.",
 "Files need to be downloaded one by one." => "Mae angen llwytho ffeiliau i lawr fesul un.",
 "Back to Files" => "Nôl i Ffeiliau",
