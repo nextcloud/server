@@ -80,17 +80,6 @@ class Test_Config extends PHPUnit_Framework_TestCase {
 	 */
 	public function testWriteData() {
 		$config = new OC\Config('/non-writable');
-		// TODO never get's called, because the previous call throws the exception
-		// maybe include some more logic to create a readable dir and then try to
-		// write to this dir
-		//
-		// console commands:
-		// $ sudo touch /non-writableconfig.php
-		// $ sudo chmod go-rwx /non-writableconfig.php
-		// ---- call the tests now -> above statemant throws the exception
-		//
-		// $ sudo chmod go+r /non-writableconfig.php
-		// ---- call the tests now -> bellow statemant throws the exception
 		$config->setValue('foo', 'bar');
 	}
 }
