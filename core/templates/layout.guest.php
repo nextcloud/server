@@ -6,11 +6,9 @@
 <!--[if gt IE 9]><html class="ng-csp ie"><![endif]-->
 <!--[if !IE]><!--><html class="ng-csp"><!--<![endif]-->
 
-	<?php $defaults = new OC_Defaults(); // initialize themable default strings and urls ?>
-
 	<head data-requesttoken="<?php p($_['requesttoken']); ?>">
 		<title>
-		<?php p($defaults->getTitle()); ?>
+		<?php p($theme->getTitle()); ?>
 		</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="apple-itunes-app" content="app-id=543672169">
@@ -37,14 +35,14 @@
 	<body id="body-login">
 		<div id="login">
 			<header><div id="header">
-				<img src="<?php print_unescaped(image_path('', 'logo.svg')); ?>" class="svg" alt="<?php p($defaults->getName()); ?>" />
-				<div id="logo-claim" style="display:none;"><?php p($defaults->getLogoClaim()); ?></div>
+				<img src="<?php print_unescaped(image_path('', 'logo.svg')); ?>" class="svg" alt="<?php p($theme->getName()); ?>" />
+				<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 			</div></header>
 			<?php print_unescaped($_['content']); ?>
 		</div>
 		<footer>
 			<p class="info">
-				<?php print_unescaped($defaults->getLongFooter()); ?>
+				<?php print_unescaped($theme->getLongFooter()); ?>
 			</p></footer>
 	</body>
 </html>

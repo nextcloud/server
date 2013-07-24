@@ -4,8 +4,6 @@
  * See the COPYING-README file.
  */?>
 
-<?php $defaults = new OC_Defaults(); // initialize themable default strings and urls ?>
-
 <div class="clientsbox">
 	<h2><?php p($l->t('Get the apps to sync your files'));?></h2>
 	<a href="<?php p($_['clients']['desktop']); ?>" target="_blank">
@@ -105,7 +103,7 @@ if($_['passwordChangeSupported']) {
 <fieldset class="personalblock">
 	<legend><strong><?php p($l->t('WebDAV'));?></strong></legend>
 	<code><?php print_unescaped(OC_Helper::linkToRemote('webdav')); ?></code><br />
-	<em><?php print_unescaped($l->t('Use this address to <a href="%s/server/5.0/user_manual/files/files.html" target="_blank">access your Files via WebDAV</a>', array($defaults->getDocBaseUrl())));?></em>
+	<em><?php print_unescaped($l->t('Use this address to <a href="%s/server/5.0/user_manual/files/files.html" target="_blank">access your Files via WebDAV</a>', array($theme->getDocBaseUrl())));?></em>
 </fieldset>
 
 <?php foreach($_['forms'] as $form) {
@@ -114,13 +112,13 @@ if($_['passwordChangeSupported']) {
 
 <fieldset class="personalblock">
 	<legend><strong><?php p($l->t('Version'));?></strong></legend>
-	<strong><?php p($defaults->getName()); ?></strong> <?php p(OC_Util::getVersionString()); ?><br/>
+	<strong><?php p($theme->getName()); ?></strong> <?php p(OC_Util::getVersionString()); ?><br/>
 <?php if (OC_Util::getEditionString() === ''): ?>
 	<?php print_unescaped($l->t('Developed by the <a href="http://ownCloud.org/contact" target="_blank">ownCloud community</a>, the <a href="https://github.com/owncloud" target="_blank">source code</a> is licensed under the <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank"><abbr title="Affero General Public License">AGPL</abbr></a>.')); ?>
 <?php endif; ?>
 </fieldset>
 <fieldset class="personalblock credits-footer">
 <p>
-	<?php print_unescaped($defaults->getShortFooter()); ?>
+	<?php print_unescaped($theme->getShortFooter()); ?>
 </p>
 </fieldset>
