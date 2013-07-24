@@ -17,7 +17,7 @@ if (!$_['htaccessworking']) {
 	<legend><strong><?php p($l->t('Security Warning'));?></strong></legend>
 
 	<span class="securitywarning">
-		<?php p($l->t('Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root.')); ?>
+		<?php p($l->t('Your data directory and your files are probably accessible from the internet. The .htaccess file is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root.')); ?>
 	</span>
 
 </fieldset>
@@ -32,7 +32,7 @@ if (!$_['isWebDavWorking']) {
 
 	<span class="securitywarning">
 		<?php p($l->t('Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken.')); ?>
-		<?php print_unescaped($l->t('Please double check the <a href=\'%s\'>installation guides</a>.', 'http://doc.owncloud.org/server/5.0/admin_manual/installation.html')); ?>
+		<?php print_unescaped($l->t('Please double check the <a href="%s">installation guides</a>.', $defaults->getDocBaseUrl().'/server/5.0/admin_manual/installation.html')); ?>
 	</span>
 
 </fieldset>
@@ -62,7 +62,7 @@ if (!$_['islocaleworking']) {
 		<span class="connectionwarning">
 		<?php
 			$locales = 'en_US.UTF-8/en_US.UTF8';
-			p($l->t('This ownCloud server can\'t set system locale to %s. This means that there might be problems with certain characters in file names. We strongly suggest to install the required packages on your system to support %s.', array($locales, $locales)));
+			p($l->t('System locale can\'t be set to %s. This means that there might be problems with certain characters in file names. We strongly suggest to install the required packages on your system to support %s.', array($locales, $locales)));
 			?>
 	</span>
 
@@ -77,7 +77,7 @@ if (!$_['internetconnectionworking']) {
 	<legend><strong><?php p($l->t('Internet connection not working'));?></strong></legend>
 
 		<span class="connectionwarning">
-		<?php p($l->t('This ownCloud server has no working internet connection. This means that some of the features like mounting of external storage, notifications about updates or installation of 3rd party apps don´t work. Accessing files from remote and sending of notification emails might also not work. We suggest to enable internet connection for this server if you want to have all features of ownCloud.')); ?>
+		<?php p($l->t('This server has no working internet connection. This means that some of the features like mounting of external storage, notifications about updates or installation of 3rd party apps don´t work. Accessing files from remote and sending of notification emails might also not work. We suggest to enable internet connection for this server if you want to have all features.')); ?>
 	</span>
 
 </fieldset>
@@ -110,7 +110,7 @@ if (!$_['internetconnectionworking']) {
 					print_unescaped('checked="checked"');
 				} ?>>
 				<label for="backgroundjobs_webcron">Webcron</label><br/>
-				<em><?php p($l->t("cron.php is registered at a webcron service. Call the cron.php page in the owncloud root once a minute over http.")); ?></em>
+				<em><?php p($l->t("cron.php is registered at a webcron service to call cron.php once a minute over http.")); ?></em>
 			</td>
 		</tr>
 		<tr>
@@ -120,7 +120,7 @@ if (!$_['internetconnectionworking']) {
 					print_unescaped('checked="checked"');
 				} ?>>
 				<label for="backgroundjobs_cron">Cron</label><br/>
-				<em><?php p($l->t("Use systems cron service. Call the cron.php file in the owncloud folder via a system cronjob once a minute.")); ?></em>
+				<em><?php p($l->t("Use systems cron service to call the cron.php file once a minute.")); ?></em>
 			</td>
 		</tr>
 	</table>
@@ -191,10 +191,16 @@ if (!$_['internetconnectionworking']) {
 					?>
 					<?php if (!$_['isConnectedViaHTTPS']) p('disabled'); ?> />
 				<label for="forcessl"><?php p($l->t('Enforce HTTPS'));?></label><br/>
-				<em><?php p($l->t('Enforces the clients to connect to ownCloud via an encrypted connection.')); ?></em>
+				<em><?php p($l->t(
+					'Forces the clients to connect to %s via an encrypted connection.',
+					$defaults->getName()
+				)); ?></em>
 				<?php if (!$_['isConnectedViaHTTPS']) {
 					print_unescaped("<br/><em>");
-					p($l->t('Please connect to this ownCloud instance via HTTPS to enable or disable the SSL enforcement.'));
+					p($l->t(
+						'Please connect to your %s via HTTPS to enable or disable the SSL enforcement.',
+						$defaults->getName()
+					));
 					print_unescaped("</em>");
 				}
 				?>
@@ -244,7 +250,7 @@ endfor;?>
 
 <fieldset class="personalblock">
 	<legend><strong><?php p($l->t('Version'));?></strong></legend>
-	<strong><?php p($defaults->getName()); ?></strong> <?php p(OC_Util::getVersionString()); ?>
+	<strong><?php p($defaults->getTitle()); ?></strong> <?php p(OC_Util::getVersionString()); ?>
 <?php if (OC_Util::getEditionString() === ''): ?>
 	<p>
 		<?php print_unescaped($l->t('Developed by the <a href="http://ownCloud.org/contact" target="_blank">ownCloud community</a>, the <a href="https://github.com/owncloud" target="_blank">source code</a> is licensed under the <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank"><abbr title="Affero General Public License">AGPL</abbr></a>.')); ?>

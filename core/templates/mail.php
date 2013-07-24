@@ -5,7 +5,7 @@
 <tr>
 <td bgcolor="#1d2d44" width="20px">&nbsp;</td>
 <td bgcolor="#1d2d44">
-<img src="<?php print_unescaped(OC_Helper::makeURLAbsolute(image_path('', 'logo-mail.gif'))); ?>" alt="ownCloud"/>
+<img src="<?php print_unescaped(OC_Helper::makeURLAbsolute(image_path('', 'logo-mail.gif'))); ?>" alt="<?php p($defaults->getName()); ?>"/>
 </td>
 </tr>
 <tr><td bgcolor="#f8f8f8" colspan="2">&nbsp;</td></tr>

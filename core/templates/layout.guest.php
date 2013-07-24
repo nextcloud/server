@@ -10,7 +10,7 @@
 
 	<head data-requesttoken="<?php p($_['requesttoken']); ?>">
 		<title>
-		<?php p($defaults->getName()); ?>
+		<?php p($defaults->getTitle()); ?>
 		</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="apple-itunes-app" content="app-id=543672169">
@@ -22,7 +22,7 @@
 		<?php foreach($_['jsfiles'] as $jsfile): ?>
 			<script type="text/javascript" src="<?php print_unescaped($jsfile); ?>"></script>
 		<?php endforeach; ?>
-	
+
 		<?php foreach($_['headers'] as $header): ?>
 			<?php
 				print_unescaped('<'.$header['tag'].' ');
@@ -37,7 +37,7 @@
 	<body id="body-login">
 		<div id="login">
 			<header><div id="header">
-				<img src="<?php print_unescaped(image_path('', 'logo.svg')); ?>" class="svg" alt="ownCloud" />
+				<img src="<?php print_unescaped(image_path('', 'logo.svg')); ?>" class="svg" alt="<?php p($defaults->getName()); ?>" />
 				<div id="logo-claim" style="display:none;"><?php p($defaults->getLogoClaim()); ?></div>
 			</div></header>
 			<?php print_unescaped($_['content']); ?>
