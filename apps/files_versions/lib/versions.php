@@ -239,10 +239,9 @@ class Storage {
 	 * @brief get a list of all available versions of a file in descending chronological order
 	 * @param $uid user id from the owner of the file
 	 * @param $filename file to find versions of, relative to the user files dir
-	 * @param $count number of versions to return
 	 * @returns array
 	 */
-	public static function getVersions($uid, $filename, $count = 0 ) {
+	public static function getVersions($uid, $filename ) {
 		if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
 			$versions_fileview = new \OC\Files\View('/' . $uid . '/files_versions');
 			$versionsName = $versions_fileview->getLocalFile($filename).'.v';
@@ -268,6 +267,7 @@ class Storage {
 				$key = $version.'#'.$filename;
 				$versions[$key]['cur'] = 0;
 				$versions[$key]['version'] = $version;
+				$versions[$key]['humanReadableTimestamp'] = self::getHumanReadableTimestamp($version);
 				$versions[$key]['path'] = $filename;
 				$versions[$key]['size'] = $versions_fileview->filesize($filename.'.v'.$version);
 
@@ -276,6 +276,7 @@ class Storage {
 
 			}
 
+			// newest versions first
 			$versions = array_reverse( $versions );
 
 			foreach( $versions as $key => $value ) {
@@ -284,13 +285,6 @@ class Storage {
 					$value['cur'] = 1;
 					break;
 				}
-			}
-
-			$versions = array_reverse( $versions );
-
-			// only show the newest commits
-			if( $count != 0 and ( count( $versions )>$count ) ) {
-				$versions = array_slice( $versions, count( $versions ) - $count );
 			}
 
 			return( $versions );
@@ -302,6 +296,32 @@ class Storage {
 
 	}
 
+	/**
+	 * @brief translate a timestamp into a string like "5 days ago"
+	 * @param int $timestamp
+	 * @return string for example "5 days ago"
+	 */
+	private static function getHumanReadableTimestamp($timestamp) {
+
+		$diff = time() - $timestamp;
+
+		if ($diff < 60) { // first minute
+			return  $diff . " seconds ago";
+		} elseif ($diff < 3600) { //first hour
+			return round($diff / 60) . " minutes ago";
+		} elseif ($diff < 86400) { // first day
+			return round($diff / 3600) . " hours ago";
+		} elseif ($diff < 604800) { //first week
+			return round($diff / 86400) . " days ago";
+		} elseif ($diff < 2419200) { //first month
+			return round($diff / 604800) . " weeks ago";
+		} elseif ($diff < 29030400) { // first year
+			return round($diff / 2419200) . " months ago";
+		} else {
+			return round($diff / 29030400) . " years ago";
+		}
+
+	}
 
 	/**
 	 * @brief deletes used space for files versions in db if user was deleted
