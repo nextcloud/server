@@ -138,4 +138,11 @@ class Mount {
 		}
 		return $path;
 	}
+
+	/**
+	 * @param callable $wrapper
+	 */
+	public function wrapStorage($wrapper) {
+		$this->storage = $wrapper($this->mountPoint, $this->storage);
+	}
 }
