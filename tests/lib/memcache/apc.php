@@ -15,6 +15,10 @@ class APC extends Cache {
 			$this->markTestSkipped('The apc extension is not available.');
 			return;
 		}
+		if(\OC\Memcache\APCu::isAvailable()) {
+			$this->markTestSkipped('The apc extension is emulated by ACPu.');
+			return;
+		}
 		$this->instance=new \OC\Memcache\APC(uniqid());
 	}
 }
