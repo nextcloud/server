@@ -283,11 +283,11 @@ class Trashbin {
 			$location = '';
 		}
 
-		$source = \OC\Files\Filesystem::normalizePath('files_trashbin/files/' . $file);
-		$target = \OC\Files\Filesystem::normalizePath('files/' . $location . '/' . $filename);
-
 		// we need a  extension in case a file/dir with the same name already exists
-		$ext = self::getUniqueExtension($location, $filename, $view);
+		$uniqueFilename = self::getUniqueFilename($location, $filename, $view);
+
+		$source = \OC\Files\Filesystem::normalizePath('files_trashbin/files/' . $file);
+		$target = \OC\Files\Filesystem::normalizePath('files/' . $location . '/' . $uniqueFilename);
 		$mtime = $view->filemtime($source);
 
 		// disable proxy to prevent recursive calls
@@ -295,24 +295,24 @@ class Trashbin {
 		\OC_FileProxy::$enabled = false;
 
 		// restore file
-		$restoreResult = $view->rename($source, $target . $ext);
+		$restoreResult = $view->rename($source, $target);
 
 		// handle the restore result
 		if ($restoreResult) {
 			$fakeRoot = $view->getRoot();
 			$view->chroot('/' . $user . '/files');
-			$view->touch('/' . $location . '/' . $filename . $ext, $mtime);
+			$view->touch('/' . $location . '/' . $uniqueFilename, $mtime);
 			$view->chroot($fakeRoot);
-			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', array('filePath' => \OC\Files\Filesystem::normalizePath('/' . $location . '/' . $filename . $ext),
+			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', array('filePath' => \OC\Files\Filesystem::normalizePath('/' . $location . '/' . $uniqueFilename),
 				'trashPath' => \OC\Files\Filesystem::normalizePath($file)));
-			if ($view->is_dir($target . $ext)) {
-				$trashbinSize -= self::calculateSize(new \OC\Files\View('/' . $user . '/' . $target . $ext));
+			if ($view->is_dir($target)) {
+				$trashbinSize -= self::calculateSize(new \OC\Files\View('/' . $user . '/' . $target));
 			} else {
-				$trashbinSize -= $view->filesize($target . $ext);
+				$trashbinSize -= $view->filesize($target);
 			}
 
-			$trashbinSize -= self::restoreVersions($view, $file, $filename, $ext, $location, $timestamp);
-			$trashbinSize -= self::restoreEncryptionKeys($view, $file, $filename, $ext, $location, $timestamp);
+			$trashbinSize -= self::restoreVersions($view, $file, $filename, $uniqueFilename, $location, $timestamp);
+			$trashbinSize -= self::restoreEncryptionKeys($view, $file, $filename, $uniqueFilename, $location, $timestamp);
 
 			if ($timestamp) {
 				$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trash` WHERE `user`=? AND `id`=? AND `timestamp`=?');
@@ -338,15 +338,16 @@ class Trashbin {
 	 *
 	 * @param \OC\Files\View $view file view
 	 * @param $file complete path to file
-	 * @param $filename name of file
-	 * @param $ext file extension in case a file with the same $filename already exists
+	 * @param $filename name of file once it was deleted
+	 * @param $uniqueFilename new file name to restore the file without overwriting existing files
 	 * @param $location location if file
 	 * @param $timestamp deleteion time
 	 *
 	 * @return size of restored versions
 	 */
-	private static function restoreVersions($view, $file, $filename, $ext, $location, $timestamp) {
+	private static function restoreVersions($view, $file, $filename, $uniqueFilename, $location, $timestamp) {
 		$size = 0;
+
 		if (\OCP\App::isEnabled('files_versions')) {
 			// disable proxy to prevent recursive calls
 			$proxyStatus = \OC_FileProxy::$enabled;
@@ -355,7 +356,7 @@ class Trashbin {
 			$user = \OCP\User::getUser();
 			$rootView = new \OC\Files\View('/');
 
-			$target = \OC\Files\Filesystem::normalizePath('/' . $location . '/' . $filename . $ext);
+			$target = \OC\Files\Filesystem::normalizePath('/' . $location . '/' . $uniqueFilename);
 
 			list($owner, $ownerPath) = self::getUidAndFilename($target);
 
@@ -392,20 +393,20 @@ class Trashbin {
 	 * @param \OC\Files\View $view
 	 * @param $file complete path to file
 	 * @param $filename name of file
-	 * @param $ext file extension in case a file with the same $filename already exists
+	 * @param $uniqueFilename new file name to restore the file without overwriting existing files
 	 * @param $location location of file
 	 * @param $timestamp deleteion time
 	 *
 	 * @return size of restored encrypted file
 	 */
-	private static function restoreEncryptionKeys($view, $file, $filename, $ext, $location, $timestamp) {
+	private static function restoreEncryptionKeys($view, $file, $filename, $uniqueFilename, $location, $timestamp) {
 		// Take care of encryption keys TODO! Get '.key' in file between file name and delete date (also for permanent delete!)
 		$size = 0;
 		if (\OCP\App::isEnabled('files_encryption')) {
 			$user = \OCP\User::getUser();
 			$rootView = new \OC\Files\View('/');
 
-			$target = \OC\Files\Filesystem::normalizePath('/' . $location . '/' . $filename . $ext);
+			$target = \OC\Files\Filesystem::normalizePath('/' . $location . '/' . $uniqueFilename);
 
 			list($owner, $ownerPath) = self::getUidAndFilename($target);
 
@@ -482,14 +483,11 @@ class Trashbin {
 					// get current sharing state
 					$sharingEnabled = \OCP\Share::isEnabled();
 
-					// get the final filename
-					$target = \OC\Files\Filesystem::normalizePath($location . '/' . $filename);
-
 					// get users sharing this file
-					$usersSharing = $util->getSharingUsersArray($sharingEnabled, $target . $ext, $user);
+					$usersSharing = $util->getSharingUsersArray($sharingEnabled, $target, $user);
 
 					// Attempt to set shareKey
-					$util->setSharedFileKeyfiles($session, $usersSharing, $target . $ext);
+					$util->setSharedFileKeyfiles($session, $usersSharing, $target);
 				}
 			}
 
@@ -780,18 +778,27 @@ class Trashbin {
 	 * @param $view filesystem view relative to users root directory
 	 * @return string with unique extension
 	 */
-	private static function getUniqueExtension($location, $filename, $view) {
-		$ext = '';
+	private static function getUniqueFilename($location, $filename, $view) {
+		$ext = pathinfo($filename, PATHINFO_EXTENSION);
+		$name = pathinfo($filename, PATHINFO_FILENAME);
+
+		// if extension is not empty we set a dot in front of it
+		if ($ext !== '') {
+			$ext = '.' . $ext;
+		}
+
 		if ($view->file_exists('files' . $location . '/' . $filename)) {
-			$tmpext = '.restored';
-			$ext = $tmpext;
-			$i = 1;
-			while ($view->file_exists('files' . $location . '/' . $filename . $ext)) {
-				$ext = $tmpext . $i;
+			$i = 2;
+			$uniqueName = $name . " (restored)" . $ext;
+			while ($view->file_exists('files' . $location . '/' . $uniqueName)) {
+				$uniqueName = $name . " (restored " . $i . ")" . $ext;
 				$i++;
 			}
+
+			return $uniqueName;
 		}
-		return $ext;
+
+		return $filename;
 	}
 
 	/**
