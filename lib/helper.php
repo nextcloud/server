@@ -815,14 +815,14 @@ class OC_Helper {
 		$post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
 		$freeSpace = \OC\Files\Filesystem::free_space($dir);
 		if ((int)$upload_max_filesize === 0 and (int)$post_max_size === 0) {
-			$maxUploadFilesize = \OC\Files\FREE_SPACE_UNLIMITED;
+			$maxUploadFilesize = \OC\Files\SPACE_UNLIMITED;
 		} elseif ((int)$upload_max_filesize === 0 or (int)$post_max_size === 0) {
 			$maxUploadFilesize = max($upload_max_filesize, $post_max_size); //only the non 0 value counts
 		} else {
 			$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 		}
 
-		if($freeSpace !== \OC\Files\FREE_SPACE_UNKNOWN){
+		if($freeSpace !== \OC\Files\SPACE_UNKNOWN){
 			$freeSpace = max($freeSpace, 0);
 
 			return min($maxUploadFilesize, $freeSpace);
