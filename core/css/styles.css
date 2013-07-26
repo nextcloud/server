@@ -844,6 +844,27 @@ button.loading {
 	border: 0;
 }
 
+/* IE8 needs background to be set to same color to make transparency look good. */
+.lte9 #body-login form input[type="text"] {
+	border: 1px solid lightgrey; /* use border to add 1px line between input fields */
+	background-color: white; /* don't change background on hover */
+}
+.lte9 #body-login form input[type="password"] {
+	/* leave out top border for 1px line between input fields*/
+	border-left: 1px solid lightgrey;
+	border-right: 1px solid lightgrey;
+	border-bottom: 1px solid lightgrey;
+	background-color: white; /* don't change background on hover */
+}
+.lte9 #body-login form label.infield {
+	background-color: white; /* don't change background on hover */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Chroma(color='white')";
+}
+/* disable opacity of info text on gradient
+   sice we cannot set a good backround color to use the filter&background hack as with the input labels */
+.lte9 #body-login p.info {
+	filter: initial;
+}
 /* deactivate show password toggle for IE. Does not work for 8 and 9+ have their own implementation. */
 .ie #show, .ie #show+label {
 	display: none;
