@@ -105,8 +105,8 @@ class Trashbin {
 			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash', array('filePath' => \OC\Files\Filesystem::normalizePath($file_path),
 				'trashPath' => \OC\Files\Filesystem::normalizePath($filename . '.d' . $timestamp)));
 
-			$trashbinSize += self::retainVersions($view, $file_path, $filename, $timestamp);
-			$trashbinSize += self::retainEncryptionKeys($view, $file_path, $filename, $timestamp);
+			$trashbinSize += self::retainVersions($file_path, $filename, $timestamp);
+			$trashbinSize += self::retainEncryptionKeys($file_path, $filename, $timestamp);
 		} else {
 			\OC_Log::write('files_trashbin', 'Couldn\'t move ' . $file_path . ' to the trash bin', \OC_log::ERROR);
 		}
@@ -119,14 +119,13 @@ class Trashbin {
 	/**
 	 * Move file versions to trash so that they can be restored later
 	 *
-	 * @param \OC\Files\View $view
 	 * @param $file_path path to original file
 	 * @param $filename of deleted file
 	 * @param $timestamp when the file was deleted
 	 *
 	 * @return size of stored versions
 	 */
-	private static function retainVersions($view, $file_path, $filename, $timestamp) {
+	private static function retainVersions($file_path, $filename, $timestamp) {
 		$size = 0;
 		if (\OCP\App::isEnabled('files_versions')) {
 
@@ -159,14 +158,13 @@ class Trashbin {
 	/**
 	 * Move encryption keys to trash so that they can be restored later
 	 *
-	 * @param \OC\Files\View $view
 	 * @param $file_path path to original file
 	 * @param $filename of deleted file
 	 * @param $timestamp when the file was deleted
 	 *
 	 * @return size of encryption keys
 	 */
-	private static function retainEncryptionKeys($view, $file_path, $filename, $timestamp) {
+	private static function retainEncryptionKeys($file_path, $filename, $timestamp) {
 		$size = 0;
 
 		if (\OCP\App::isEnabled('files_encryption')) {
@@ -671,8 +669,31 @@ class Trashbin {
 	}
 
 	/**
+	 * @brief resize trash bin if necessary after a new file was added to ownCloud
+	 * @param string $user user id
+	 */
+	public static function resizeTrash($user) {
+
+		$size = self::getTrashbinSize($user);
+
+		if ($size === false || $size < 0) {
+			$size = self::calculateSize(new \OC\Files\View('/' . $user . '/files_trashbin'));
+		}
+
+		$freeSpace = self::calculateFreeSpace($size);
+
+		if ($freeSpace < 0) {
+			$newSize = $size - self::expire($size);
+			if ($newSize !== $size) {
+				self::setTrashbinSize($user, $newSize);
+			}
+		}
+	}
+	
+	/**
 	 * clean up the trash bin
 	 * @param current size of the trash bin
+	 * @return size of expired files
 	 */
 	private static function expire($trashbinSize) {
 
@@ -839,7 +860,7 @@ class Trashbin {
 		$result = $query->execute(array($user))->fetchAll();
 
 		if ($result) {
-			return $result[0]['size'];
+			return (int)$result[0]['size'];
 		}
 		return false;
 	}
@@ -867,6 +888,8 @@ class Trashbin {
 		\OCP\Util::connectHook('OC_Filesystem', 'delete', "OCA\Files_Trashbin\Hooks", "remove_hook");
 		//Listen to delete user signal
 		\OCP\Util::connectHook('OC_User', 'pre_deleteUser', "OCA\Files_Trashbin\Hooks", "deleteUser_hook");
+		//Listen to post write hook
+		\OCP\Util::connectHook('OC_Filesystem', 'post_write', "OCA\Files_Trashbin\Hooks", "post_write_hook");
 	}
 	
 	/**
