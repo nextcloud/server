@@ -807,6 +807,7 @@ class Trashbin {
 	private static function getUniqueFilename($location, $filename, $view) {
 		$ext = pathinfo($filename, PATHINFO_EXTENSION);
 		$name = pathinfo($filename, PATHINFO_FILENAME);
+		$l = \OC_L10N::get('files_trashbin');
 
 		// if extension is not empty we set a dot in front of it
 		if ($ext !== '') {
@@ -815,9 +816,9 @@ class Trashbin {
 
 		if ($view->file_exists('files' . $location . '/' . $filename)) {
 			$i = 2;
-			$uniqueName = $name . " (restored)" . $ext;
+			$uniqueName = $name . " (".$l->t("restored").")". $ext;
 			while ($view->file_exists('files' . $location . '/' . $uniqueName)) {
-				$uniqueName = $name . " (restored " . $i . ")" . $ext;
+				$uniqueName = $name . " (".$l->t("restored") . " " . $i . ")" . $ext;
 				$i++;
 			}
 
