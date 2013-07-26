@@ -8,6 +8,8 @@ $(document).ready(function() {
 			var undeleteAction = $('tr').filterAttr('data-file',filename).children("td.date");
 			var files = tr.attr('data-file');
 			undeleteAction[0].innerHTML = undeleteAction[0].innerHTML+spinner;
+			$(".action").css("display", "none");
+			$(":input:checkbox").css("display", "none");
 			$.post(OC.filePath('files_trashbin','ajax','undelete.php'),
 				{files:JSON.stringify([files]), dirlisting:tr.attr('data-dirlisting') },
 				function(result){
@@ -18,6 +20,8 @@ $(document).ready(function() {
 					if (result.status != 'success') {
 						OC.dialogs.alert(result.data.message, t('core', 'Error'));
 					}
+					$(".action").css("display", "inline");
+					$(":input:checkbox").css("display", "inline");
 				});
 
 			});
