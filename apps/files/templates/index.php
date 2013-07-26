@@ -38,7 +38,7 @@
 				</form>
 			</div>
 			<?php if ($_['trash'] ): ?>
-			<input id="trash" type="button" value="<?php p($l->t('Deleted Files'));?>" class="button" <?php $_['trashEmpty'] ? p('disabled') : '' ?>></input>
+			<input id="trash" type="button" value="<?php p($l->t('Deleted files'));?>" class="button" <?php $_['trashEmpty'] ? p('disabled') : '' ?>></input>
 			<?php endif; ?>
 			<div id="uploadprogresswrapper">
 				<div id="uploadprogressbar"></div>
