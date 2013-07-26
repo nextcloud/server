@@ -25,7 +25,7 @@ namespace OCA\Files_Trashbin;
 class Trashbin {
 	// how long do we keep files in the trash bin if no other value is defined in the config file (unit: days)
 
-	const DEFAULT_RETENTION_OBLIGATION = 180;
+	const DEFAULT_RETENTION_OBLIGATION = 30;
 
 	// unit: percentage; 50% of available disk space/quota
 	const DEFAULTMAXSIZE = 50;
