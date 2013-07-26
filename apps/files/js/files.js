@@ -121,10 +121,10 @@ $(document).ready(function() {
 	});
 
 	// Show trash bin
-	$('#trash a').live('click', function() {
+	$('#trash').on('click', function() {
 		window.location=OC.filePath('files_trashbin', '', 'index.php');
 	});
-
+	
 	var lastChecked;
 
 	// Sets the file link behaviour :
@@ -844,4 +844,12 @@ function getUniqueName(name){
 		return getUniqueName(name);
 	}
 	return name;
+}
+
+function checkTrashStatus() {
+	$.post(OC.filePath('files_trashbin', 'ajax', 'isEmpty.php'), function(result){
+		if (result.data.isEmpty === false) {
+			$("input[type=button][id=trash]").removeAttr("disabled");
+		}
+	});
 }

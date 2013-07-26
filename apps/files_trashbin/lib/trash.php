@@ -868,5 +868,20 @@ class Trashbin {
 		//Listen to delete user signal
 		\OCP\Util::connectHook('OC_User', 'pre_deleteUser', "OCA\Files_Trashbin\Hooks", "deleteUser_hook");
 	}
+	
+	/**
+	 * @brief check if trash bin is empty for a given user
+	 * @param string $user
+	 */
+	public static function isEmpty($user) {
+
+		$trashSize = self::getTrashbinSize($user);
+
+		if ($trashSize !== false && $trashSize > 0) {
+			return false;
+		}
+
+		return true;
+	}
 
 }
