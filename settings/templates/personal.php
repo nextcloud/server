@@ -74,11 +74,24 @@ if($_['passwordChangeSupported']) {
 		<input type="text" name="email" id="email" value="<?php p($_['email']); ?>"
 			placeholder="<?php p($l->t('Your email address'));?>" /><span class="msg"></span><br />
 		<em><?php p($l->t('Fill in an email address to enable password recovery'));?></em>
+		<?php if($_['avatar'] === "gravatar") {
+			print_unescaped($l->t('<br><em>Your Email will be used for your gravatar<em>'));
+		} ?>
 	</fieldset>
 </form>
 <?php
 }
 ?>
+
+<?php if ($_['avatar'] === "local"): ?>
+<form id="avatar">
+	<fieldset class="personalblock">
+		<legend><strong><?php p($l->t('Avatar')); ?></strong></legend>
+		<img src="<?php print_unescaped(\OC_Avatar::get(\OC_User::getUser())); ?>"><br>
+		<button><?php p($l->t('Upload a new avatar')); ?></button>
+	</fieldset>
+</form>
+<?php endif; ?>
 
 <form>
 	<fieldset class="personalblock">

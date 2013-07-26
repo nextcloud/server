@@ -47,6 +47,7 @@
 			<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 			<ul id="settings" class="svg">
 				<span id="expand" tabindex="0" role="link">
+					<?php if (isset($_['avatar'])) { print_unescaped($_['avatar']); } ?>
 					<span id="expandDisplayName"><?php  p(trim($_['user_displayname']) != '' ? $_['user_displayname'] : $_['user_uid']) ?></span>
 					<img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" />
 				</span>

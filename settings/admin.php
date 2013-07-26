@@ -30,6 +30,7 @@ $tmpl->assign('isWebDavWorking', OC_Util::isWebDAVWorking());
 $tmpl->assign('has_fileinfo', OC_Util::fileInfoLoaded());
 $tmpl->assign('backgroundjobs_mode', OC_Appconfig::getValue('core', 'backgroundjobs_mode', 'ajax'));
 $tmpl->assign('shareAPIEnabled', OC_Appconfig::getValue('core', 'shareapi_enabled', 'yes'));
+$tmpl->assign('avatar', OC_Config::getValue("avatar", "local"));
 
 // Check if connected using HTTPS
 if (OC_Request::serverProtocol() === 'https') {
