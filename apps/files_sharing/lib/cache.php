@@ -226,7 +226,31 @@ class Shared_Cache extends Cache {
 	 * @return array of file data
 	 */
 	public function search($pattern) {
-		// TODO
+
+		// normalize pattern
+		$pattern = $this->normalize($pattern);
+
+		$ids = \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_GET_ALL);
+		foreach ($ids as $file) {
+			$folderBackend = \OCP\Share::getBackend('folder');
+			$children = $folderBackend->getChildren($file);
+			foreach ($children as $child) {
+				$ids[] = (int)$child['source'];
+			}
+			
+		}
+		$placeholders = join(',', array_fill(0, count($ids), '?'));
+		
+		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `unencrypted_size`, `etag`
+				FROM `*PREFIX*filecache` WHERE `name` LIKE ? AND `fileid` IN (' . $placeholders . ')';
+		$result = \OC_DB::executeAudited($sql, array_merge(array($pattern), $ids));
+		$files = array();
+		while ($row = $result->fetchRow()) {
+			$row['mimetype'] = $this->getMimetype($row['mimetype']);
+			$row['mimepart'] = $this->getMimetype($row['mimepart']);
+			$files[] = $row;
+		}
+		return $files;
 	}
 
 	/**
