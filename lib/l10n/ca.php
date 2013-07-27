@@ -5,11 +5,14 @@
 "Users" => "Usuaris",
 "Apps" => "Aplicacions",
 "Admin" => "Administració",
+"Failed to upgrade \"%s\"." => "Ha fallat l'actualització \"%s\".",
 "web services under your control" => "controleu els vostres serveis web",
+"cannot open \"%s\"" => "no es pot obrir \"%s\"",
 "ZIP download is turned off." => "La baixada en ZIP està desactivada.",
 "Files need to be downloaded one by one." => "Els fitxers s'han de baixar d'un en un.",
 "Back to Files" => "Torna a Fitxers",
 "Selected files too large to generate zip file." => "Els fitxers seleccionats son massa grans per generar un fitxer zip.",
+"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Baixeu els fitxers en trossos petits, de forma separada, o pregunteu a l'administrador.",
 "couldn't be determined" => "no s'ha pogut determinar",
 "Application is not enabled" => "L'aplicació no està habilitada",
 "Authentication error" => "Error d'autenticació",
@@ -49,5 +52,6 @@
 "%d months ago" => "fa %d mesos",
 "last year" => "l'any passat",
 "years ago" => "anys enrere",
+"Caused by:" => "Provocat per:",
 "Could not find category \"%s\"" => "No s'ha trobat la categoria \"%s\""
 );

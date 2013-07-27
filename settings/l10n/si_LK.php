@@ -20,7 +20,6 @@
 "Group Admin" => "කාණ්ඩ පරිපාලක",
 "Delete" => "මකා දමන්න",
 "Security Warning" => "ආරක්ෂක නිවේදනයක්",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "ඔබගේ දත්ත ඩිරෙක්ටරිය හා ගොනුවලට අන්තර්ජාලයෙන් පිවිසිය හැක. ownCloud සපයා ඇති .htaccess ගොනුව ක්‍රියාකරන්නේ නැත. අපි තරයේ කියා සිටිනුයේ නම්, මෙම දත්ත හා ගොනු එසේ පිවිසීමට නොහැකි වන ලෙස ඔබේ වෙබ් සේවාදායකයා  වින්‍යාස කරන ලෙස හෝ එම ඩිරෙක්ටරිය වෙබ් මූලයෙන් පිටතට ගෙනයන ලෙසය.",
 "Sharing" => "හුවමාරු කිරීම",
 "Allow links" => "යොමු සලසන්න",
 "Allow resharing" => "යළි යළිත් හුවමාරුවට අවසර දෙමි",

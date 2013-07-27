@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:55+0000\n"
+"POT-Creation-Date: 2013-07-27 01:56-0400\n"
+"PO-Revision-Date: 2013-07-25 05:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -170,175 +170,173 @@ msgstr "Geçerli bir parola mutlaka sağlanmalı"
 msgid "__language_name__"
 msgstr "Türkçe"
 
-#: templates/admin.php:17
+#: templates/admin.php:15
 msgid "Security Warning"
 msgstr "Güvenlik Uyarisi"
 
-#: templates/admin.php:20
+#: templates/admin.php:18
 msgid ""
 "Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr "data dizininiz ve dosyalarınız büyük ihtimalle internet üzerinden erişilebilir. Owncloud tarafından sağlanan .htaccess  dosyası çalışmıyor. Web sunucunuzu yapılandırarak data dizinine erişimi kapatmanızı veya data dizinini web sunucu döküman dizini dışına almanızı şiddetle tavsiye ederiz."
+"internet. The .htaccess file is not working. We strongly suggest that you "
+"configure your webserver in a way that the data directory is no longer "
+"accessible or you move the data directory outside the webserver document "
+"root."
+msgstr ""
 
-#: templates/admin.php:31
+#: templates/admin.php:29
 msgid "Setup Warning"
 msgstr "Kurulum Uyarısı"
 
-#: templates/admin.php:34
+#: templates/admin.php:32
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Web sunucunuz dosya transferi için düzgün bir şekilde yapılandırılmamış. WevDAV arabirimini sorunlu gözüküyor."
 
-#: templates/admin.php:35
+#: templates/admin.php:33
 #, php-format
-msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr "Lütfen <a href='%s'>kurulum kılavuzlarını</a> iki kez kontrol edin."
+msgid "Please double check the <a href=\"%s\">installation guides</a>."
+msgstr ""
 
-#: templates/admin.php:46
+#: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
 msgstr "Modül 'fileinfo' kayıp"
 
-#: templates/admin.php:49
+#: templates/admin.php:47
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "PHP modülü 'fileinfo' kayıp. MIME-tip tanıma ile en iyi sonuçları elde etmek için bu modülü etkinleştirmenizi öneririz."
 
-#: templates/admin.php:60
+#: templates/admin.php:58
 msgid "Locale not working"
 msgstr "Locale çalışmıyor."
 
-#: templates/admin.php:65
+#: templates/admin.php:63
 #, php-format
 msgid ""
-"This ownCloud server can't set system locale to %s. This means that there "
-"might be problems with certain characters in file names. We strongly suggest"
-" to install the required packages on your system to support %s."
-msgstr "Bu ownCloud sunucusu sistem yerelini %s olarak değiştiremedi. Bu, dosya adlarındaki bazı karakterler ile sorun yaşanabileceği anlamına gelir. %s yerelini desteklemek için gerekli paketleri kurmanızı şiddetle öneririz."
+"System locale can't be set to %s. This means that there might be problems "
+"with certain characters in file names. We strongly suggest to install the "
+"required packages on your system to support %s."
+msgstr ""
 
-#: templates/admin.php:77
+#: templates/admin.php:75
 msgid "Internet connection not working"
 msgstr "İnternet bağlantısı çalışmıyor"
 
-#: templates/admin.php:80
+#: templates/admin.php:78
 msgid ""
-"This ownCloud server has no working internet connection. This means that "
-"some of the features like mounting of external storage, notifications about "
-"updates or installation of 3rd party apps don´t work. Accessing files from "
-"remote and sending of notification emails might also not work. We suggest to"
-" enable internet connection for this server if you want to have all features"
-" of ownCloud."
-msgstr "ownCloud sunucusunun internet bağlantısı yok. Bu nedenle harici depolama bağlantısı, güncelleştirme bildirimleri veya 3. parti uygulama kurma gibi bazı özellikler çalışmayacaktır. Uzak dosyalara erişim ve e-posta ile bildirim gönderme çalışmayacak. Eğer ownCloud tüm özelliklerini kullanmak istiyorsanız, internet bağlantısı gerekmektedir."
+"This server has no working internet connection. This means that some of the "
+"features like mounting of external storage, notifications about updates or "
+"installation of 3rd party apps don´t work. Accessing files from remote and "
+"sending of notification emails might also not work. We suggest to enable "
+"internet connection for this server if you want to have all features."
+msgstr ""
 
-#: templates/admin.php:94
+#: templates/admin.php:92
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:103
+#: templates/admin.php:101
 msgid "Execute one task with each page loaded"
 msgstr "Yüklenen her sayfa ile bir görev çalıştır"
 
-#: templates/admin.php:113
+#: templates/admin.php:111
 msgid ""
-"cron.php is registered at a webcron service. Call the cron.php page in the "
-"owncloud root once a minute over http."
-msgstr "cron.php bir webcron hizmetinde kaydedilir. Owncloud kökündeki cron.php sayfasını http üzerinden dakikada bir çağır."
+"cron.php is registered at a webcron service to call cron.php once a minute "
+"over http."
+msgstr ""
 
-#: templates/admin.php:123
-msgid ""
-"Use systems cron service. Call the cron.php file in the owncloud folder via "
-"a system cronjob once a minute."
-msgstr "Sistemin cron hizmetini kullan. Bir sistem cronjob'ı ile owncloud klasöründeki cron.php dosyasını dakikada bir çağır."
+#: templates/admin.php:121
+msgid "Use systems cron service to call the cron.php file once a minute."
+msgstr ""
 
-#: templates/admin.php:130
+#: templates/admin.php:128
 msgid "Sharing"
 msgstr "Paylaşım"
 
-#: templates/admin.php:136
+#: templates/admin.php:134
 msgid "Enable Share API"
 msgstr "Paylaşım API'sini etkinleştir."
 
-#: templates/admin.php:137
+#: templates/admin.php:135
 msgid "Allow apps to use the Share API"
 msgstr "Uygulamaların paylaşım API'sini kullanmasına izin ver"
 
-#: templates/admin.php:144
+#: templates/admin.php:142
 msgid "Allow links"
 msgstr "Bağlantıları izin ver."
 
-#: templates/admin.php:145
+#: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
 msgstr "Kullanıcıların nesneleri paylaşımı için herkese açık bağlantılara izin ver"
 
-#: templates/admin.php:153
+#: templates/admin.php:151
 msgid "Allow public uploads"
 msgstr ""
 
-#: templates/admin.php:154
+#: templates/admin.php:152
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr ""
 
-#: templates/admin.php:162
+#: templates/admin.php:160
 msgid "Allow resharing"
 msgstr "Paylaşıma izin ver"
 
-#: templates/admin.php:163
+#: templates/admin.php:161
 msgid "Allow users to share items shared with them again"
 msgstr "Kullanıcıların kendileri ile paylaşılan öğeleri yeniden paylaşmasına izin ver"
 
-#: templates/admin.php:170
+#: templates/admin.php:168
 msgid "Allow users to share with anyone"
 msgstr "Kullanıcıların herşeyi paylaşmalarına izin ver"
 
-#: templates/admin.php:173
+#: templates/admin.php:171
 msgid "Allow users to only share with users in their groups"
 msgstr "Kullanıcıların sadece kendi gruplarındaki kullanıcılarla paylaşmasına izin ver"
 
-#: templates/admin.php:180
+#: templates/admin.php:178
 msgid "Security"
 msgstr "Güvenlik"
 
-#: templates/admin.php:193
+#: templates/admin.php:191
 msgid "Enforce HTTPS"
 msgstr "HTTPS bağlantısına zorla"
 
-#: templates/admin.php:194
-msgid ""
-"Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr "İstemcileri ownCloud'a şifreli bir bağlantı ile bağlanmaya zorlar."
+#: templates/admin.php:193
+#, php-format
+msgid "Forces the clients to connect to %s via an encrypted connection."
+msgstr ""
 
-#: templates/admin.php:197
+#: templates/admin.php:199
+#, php-format
 msgid ""
-"Please connect to this ownCloud instance via HTTPS to enable or disable the "
-"SSL enforcement."
-msgstr "SSL zorlamasını etkinleştirmek ya da devre dışı bırakmak için lütfen bu ownCloud örneğine HTTPS ile bağlanın."
+"Please connect to your %s via HTTPS to enable or disable the SSL "
+"enforcement."
+msgstr ""
 
-#: templates/admin.php:207
+#: templates/admin.php:211
 msgid "Log"
 msgstr "Kayıtlar"
 
-#: templates/admin.php:208
+#: templates/admin.php:212
 msgid "Log level"
 msgstr "Günlük seviyesi"
 
-#: templates/admin.php:239
+#: templates/admin.php:243
 msgid "More"
 msgstr "Daha fazla"
 
-#: templates/admin.php:240
+#: templates/admin.php:244
 msgid "Less"
 msgstr "Az"
 
-#: templates/admin.php:246 templates/personal.php:116
+#: templates/admin.php:250 templates/personal.php:114
 msgid "Version"
 msgstr "Sürüm"
 
-#: templates/admin.php:250 templates/personal.php:119
+#: templates/admin.php:254 templates/personal.php:117
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -396,72 +394,72 @@ msgstr "Hata Takip Sistemi"
 msgid "Commercial Support"
 msgstr "Ticari Destek"
 
-#: templates/personal.php:10
+#: templates/personal.php:8
 msgid "Get the apps to sync your files"
 msgstr "Dosyalarınızı senkronize etmek için uygulamayı indirin"
 
-#: templates/personal.php:21
+#: templates/personal.php:19
 msgid "Show First Run Wizard again"
 msgstr "İlk Çalıştırma Sihirbazını yeniden göster"
 
-#: templates/personal.php:29
+#: templates/personal.php:27
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Kullandığınız:<strong>%s</strong> seçilebilecekler: <strong>%s</strong>"
 
-#: templates/personal.php:41 templates/users.php:23 templates/users.php:86
+#: templates/personal.php:39 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "Parola"
 
-#: templates/personal.php:42
+#: templates/personal.php:40
 msgid "Your password was changed"
 msgstr "Şifreniz değiştirildi"
 
-#: templates/personal.php:43
+#: templates/personal.php:41
 msgid "Unable to change your password"
 msgstr "Parolanız değiştirilemiyor"
 
-#: templates/personal.php:44
+#: templates/personal.php:42
 msgid "Current password"
 msgstr "Mevcut parola"
 
-#: templates/personal.php:46
+#: templates/personal.php:44
 msgid "New password"
 msgstr "Yeni parola"
 
-#: templates/personal.php:48
+#: templates/personal.php:46
 msgid "Change password"
 msgstr "Parola değiştir"
 
-#: templates/personal.php:60 templates/users.php:85
+#: templates/personal.php:58 templates/users.php:85
 msgid "Display Name"
 msgstr "Ekran Adı"
 
-#: templates/personal.php:75
+#: templates/personal.php:73
 msgid "Email"
 msgstr "Eposta"
 
-#: templates/personal.php:77
+#: templates/personal.php:75
 msgid "Your email address"
 msgstr "Eposta adresiniz"
 
-#: templates/personal.php:78
+#: templates/personal.php:76
 msgid "Fill in an email address to enable password recovery"
 msgstr "Parola kurtarmayı etkinleştirmek için bir eposta adresi girin"
 
-#: templates/personal.php:87 templates/personal.php:88
+#: templates/personal.php:85 templates/personal.php:86
 msgid "Language"
 msgstr "Dil"
 
-#: templates/personal.php:100
+#: templates/personal.php:98
 msgid "Help translate"
 msgstr "Çevirilere yardım edin"
 
-#: templates/personal.php:106
+#: templates/personal.php:104
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:108
+#: templates/personal.php:106
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "

@@ -70,6 +70,8 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Filerne, du prøver at uploade, er større end den maksimale størrelse for fil-upload på denne server.",
 "Files are being scanned, please wait." => "Filerne bliver indlæst, vent venligst.",
 "Current scanning" => "Indlæser",
+"directory" => "mappe",
+"directories" => "Mapper",
 "file" => "fil",
 "files" => "filer",
 "Upgrading filesystem cache..." => "Opgraderer filsystems cachen..."

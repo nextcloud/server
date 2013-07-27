@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Sappe <mail@sappe.org>, 2013
 # Ole Holm Frandsen <froksen@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-24 01:55-0400\n"
-"PO-Revision-Date: 2013-07-24 05:55+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-27 01:56-0400\n"
+"PO-Revision-Date: 2013-07-25 15:40+0000\n"
+"Last-Translator: Sappe <mail@sappe.org>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,14 +48,14 @@ msgstr "Admin"
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
 
-#: defaults.php:33
+#: defaults.php:35
 msgid "web services under your control"
 msgstr "Webtjenester under din kontrol"
 
 #: files.php:66 files.php:98
 #, php-format
 msgid "cannot open \"%s\""
-msgstr ""
+msgstr "Kan ikke åbne \"%s\""
 
 #: files.php:226
 msgid "ZIP download is turned off."
@@ -258,7 +259,7 @@ msgstr "sidste år"
 msgid "years ago"
 msgstr "år siden"
 
-#: template.php:296
+#: template.php:297
 msgid "Caused by:"
 msgstr ""
 

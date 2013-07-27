@@ -6,6 +6,7 @@
 "Apps" => "Apps",
 "Admin" => "Admin",
 "web services under your control" => "Webtjenester under din kontrol",
+"cannot open \"%s\"" => "Kan ikke åbne \"%s\"",
 "ZIP download is turned off." => "ZIP-download er slået fra.",
 "Files need to be downloaded one by one." => "Filer skal downloades en for en.",
 "Back to Files" => "Tilbage til Filer",

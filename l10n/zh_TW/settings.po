@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:55+0000\n"
+"POT-Creation-Date: 2013-07-27 01:56-0400\n"
+"PO-Revision-Date: 2013-07-25 05:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -170,175 +170,173 @@ msgstr "一定要提供一個有效的密碼"
 msgid "__language_name__"
 msgstr "__language_name__"
 
-#: templates/admin.php:17
+#: templates/admin.php:15
 msgid "Security Warning"
 msgstr "安全性警告"
 
-#: templates/admin.php:20
+#: templates/admin.php:18
 msgid ""
 "Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr "您的資料目錄 (Data Directory) 和檔案可能可以由網際網路上面公開存取。Owncloud 所提供的 .htaccess 設定檔並未生效，我們強烈建議您設定您的網頁伺服器以防止資料目錄被公開存取，或將您的資料目錄移出網頁伺服器的 document root 。"
+"internet. The .htaccess file is not working. We strongly suggest that you "
+"configure your webserver in a way that the data directory is no longer "
+"accessible or you move the data directory outside the webserver document "
+"root."
+msgstr ""
 
-#: templates/admin.php:31
+#: templates/admin.php:29
 msgid "Setup Warning"
 msgstr "設定警告"
 
-#: templates/admin.php:34
+#: templates/admin.php:32
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "您的網頁伺服器尚未被正確設定來進行檔案同步，因為您的 WebDAV 界面似乎無法使用。"
 
-#: templates/admin.php:35
+#: templates/admin.php:33
 #, php-format
-msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr "請參考<a href='%s'>安裝指南</a>。"
+msgid "Please double check the <a href=\"%s\">installation guides</a>."
+msgstr ""
 
-#: templates/admin.php:46
+#: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
 msgstr "遺失 'fileinfo' 模組"
 
-#: templates/admin.php:49
+#: templates/admin.php:47
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "未偵測到 PHP 模組 'fileinfo'。我們強烈建議啟用這個模組以取得最好的 mime-type 支援。"
 
-#: templates/admin.php:60
+#: templates/admin.php:58
 msgid "Locale not working"
 msgstr "語系無法運作"
 
-#: templates/admin.php:65
+#: templates/admin.php:63
 #, php-format
 msgid ""
-"This ownCloud server can't set system locale to %s. This means that there "
-"might be problems with certain characters in file names. We strongly suggest"
-" to install the required packages on your system to support %s."
-msgstr "ownCloud 伺服器無法將系統語系設為 %s ，可能有一些檔名中的字元有問題，建議您安裝所有所需的套件以支援 %s 。"
+"System locale can't be set to %s. This means that there might be problems "
+"with certain characters in file names. We strongly suggest to install the "
+"required packages on your system to support %s."
+msgstr ""
 
-#: templates/admin.php:77
+#: templates/admin.php:75
 msgid "Internet connection not working"
 msgstr "無網際網路存取"
 
-#: templates/admin.php:80
+#: templates/admin.php:78
 msgid ""
-"This ownCloud server has no working internet connection. This means that "
-"some of the features like mounting of external storage, notifications about "
-"updates or installation of 3rd party apps don´t work. Accessing files from "
-"remote and sending of notification emails might also not work. We suggest to"
-" enable internet connection for this server if you want to have all features"
-" of ownCloud."
-msgstr "這臺 ownCloud 伺服器沒有連接到網際網路，因此有些功能像是掛載外部儲存空間、更新 ownCloud 或應用程式的通知沒有辦法運作。透過網際網路存取檔案還有電子郵件通知可能也無法運作。如果想要 ownCloud 完整的功能，建議您將這臺伺服器連接至網際網路。"
+"This server has no working internet connection. This means that some of the "
+"features like mounting of external storage, notifications about updates or "
+"installation of 3rd party apps don´t work. Accessing files from remote and "
+"sending of notification emails might also not work. We suggest to enable "
+"internet connection for this server if you want to have all features."
+msgstr ""
 
-#: templates/admin.php:94
+#: templates/admin.php:92
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:103
+#: templates/admin.php:101
 msgid "Execute one task with each page loaded"
 msgstr "當頁面載入時，執行"
 
-#: templates/admin.php:113
+#: templates/admin.php:111
 msgid ""
-"cron.php is registered at a webcron service. Call the cron.php page in the "
-"owncloud root once a minute over http."
-msgstr "cron.php 已經在 webcron 服務當中註冊，請每分鐘透過 HTTP 呼叫 ownCloud 根目錄當中的 cron.php 一次。"
+"cron.php is registered at a webcron service to call cron.php once a minute "
+"over http."
+msgstr ""
 
-#: templates/admin.php:123
-msgid ""
-"Use systems cron service. Call the cron.php file in the owncloud folder via "
-"a system cronjob once a minute."
-msgstr "使用系統的 cron 服務，每分鐘執行一次 owncloud 資料夾中的 cron.php 。"
+#: templates/admin.php:121
+msgid "Use systems cron service to call the cron.php file once a minute."
+msgstr ""
 
-#: templates/admin.php:130
+#: templates/admin.php:128
 msgid "Sharing"
 msgstr "分享"
 
-#: templates/admin.php:136
+#: templates/admin.php:134
 msgid "Enable Share API"
 msgstr "啟用分享 API"
 
-#: templates/admin.php:137
+#: templates/admin.php:135
 msgid "Allow apps to use the Share API"
 msgstr "允許 apps 使用分享 API"
 
-#: templates/admin.php:144
+#: templates/admin.php:142
 msgid "Allow links"
 msgstr "允許連結"
 
-#: templates/admin.php:145
+#: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
 msgstr "允許使用者以結連公開分享檔案"
 
-#: templates/admin.php:153
+#: templates/admin.php:151
 msgid "Allow public uploads"
 msgstr ""
 
-#: templates/admin.php:154
+#: templates/admin.php:152
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr ""
 
-#: templates/admin.php:162
+#: templates/admin.php:160
 msgid "Allow resharing"
 msgstr "允許轉貼分享"
 
-#: templates/admin.php:163
+#: templates/admin.php:161
 msgid "Allow users to share items shared with them again"
 msgstr "允許使用者分享其他使用者分享給他的檔案"
 
-#: templates/admin.php:170
+#: templates/admin.php:168
 msgid "Allow users to share with anyone"
 msgstr "允許使用者與任何人分享檔案"
 
-#: templates/admin.php:173
+#: templates/admin.php:171
 msgid "Allow users to only share with users in their groups"
 msgstr "僅允許使用者在群組內分享"
 
-#: templates/admin.php:180
+#: templates/admin.php:178
 msgid "Security"
 msgstr "安全性"
 
-#: templates/admin.php:193
+#: templates/admin.php:191
 msgid "Enforce HTTPS"
 msgstr "強制啟用 HTTPS"
 
-#: templates/admin.php:194
-msgid ""
-"Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr "強制用戶端使用加密的連線連接到 ownCloud"
+#: templates/admin.php:193
+#, php-format
+msgid "Forces the clients to connect to %s via an encrypted connection."
+msgstr ""
 
-#: templates/admin.php:197
+#: templates/admin.php:199
+#, php-format
 msgid ""
-"Please connect to this ownCloud instance via HTTPS to enable or disable the "
-"SSL enforcement."
-msgstr "請使用 HTTPS 連線到 ownCloud，或是關閉強制使用 SSL 的選項。"
+"Please connect to your %s via HTTPS to enable or disable the SSL "
+"enforcement."
+msgstr ""
 
-#: templates/admin.php:207
+#: templates/admin.php:211
 msgid "Log"
 msgstr "紀錄"
 
-#: templates/admin.php:208
+#: templates/admin.php:212
 msgid "Log level"
 msgstr "紀錄層級"
 
-#: templates/admin.php:239
+#: templates/admin.php:243
 msgid "More"
 msgstr "更多"
 
-#: templates/admin.php:240
+#: templates/admin.php:244
 msgid "Less"
 msgstr "更少"
 
-#: templates/admin.php:246 templates/personal.php:116
+#: templates/admin.php:250 templates/personal.php:114
 msgid "Version"
 msgstr "版本"
 
-#: templates/admin.php:250 templates/personal.php:119
+#: templates/admin.php:254 templates/personal.php:117
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -396,72 +394,72 @@ msgstr "Bugtracker"
 msgid "Commercial Support"
 msgstr "商用支援"
 
-#: templates/personal.php:10
+#: templates/personal.php:8
 msgid "Get the apps to sync your files"
 msgstr "下載應用程式來同步您的檔案"
 
-#: templates/personal.php:21
+#: templates/personal.php:19
 msgid "Show First Run Wizard again"
 msgstr "再次顯示首次使用精靈"
 
-#: templates/personal.php:29
+#: templates/personal.php:27
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "您已經使用了 <strong>%s</strong> ，目前可用空間為 <strong>%s</strong>"
 
-#: templates/personal.php:41 templates/users.php:23 templates/users.php:86
+#: templates/personal.php:39 templates/users.php:23 templates/users.php:86
 msgid "Password"
 msgstr "密碼"
 
-#: templates/personal.php:42
+#: templates/personal.php:40
 msgid "Your password was changed"
 msgstr "你的密碼已更改"
 
-#: templates/personal.php:43
+#: templates/personal.php:41
 msgid "Unable to change your password"
 msgstr "無法變更您的密碼"
 
-#: templates/personal.php:44
+#: templates/personal.php:42
 msgid "Current password"
 msgstr "目前密碼"
 
-#: templates/personal.php:46
+#: templates/personal.php:44
 msgid "New password"
 msgstr "新密碼"
 
-#: templates/personal.php:48
+#: templates/personal.php:46
 msgid "Change password"
 msgstr "變更密碼"
 
-#: templates/personal.php:60 templates/users.php:85
+#: templates/personal.php:58 templates/users.php:85
 msgid "Display Name"
 msgstr "顯示名稱"
 
-#: templates/personal.php:75
+#: templates/personal.php:73
 msgid "Email"
 msgstr "信箱"
 
-#: templates/personal.php:77
+#: templates/personal.php:75
 msgid "Your email address"
 msgstr "您的電子郵件信箱"
 
-#: templates/personal.php:78
+#: templates/personal.php:76
 msgid "Fill in an email address to enable password recovery"
 msgstr "請填入電子郵件信箱以便回復密碼"
 
-#: templates/personal.php:87 templates/personal.php:88
+#: templates/personal.php:85 templates/personal.php:86
 msgid "Language"
 msgstr "語言"
 
-#: templates/personal.php:100
+#: templates/personal.php:98
 msgid "Help translate"
 msgstr "幫助翻譯"
 
-#: templates/personal.php:106
+#: templates/personal.php:104
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:108
+#: templates/personal.php:106
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-07-24 01:55-0400\n"
+"POT-Creation-Date: 2013-07-27 01:56-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -278,7 +278,7 @@ msgstr ""
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:193 templates/installation.php:54 templates/login.php:26
+#: js/share.js:193 templates/installation.php:57 templates/login.php:26
 msgid "Password"
 msgstr ""
 
@@ -400,7 +400,7 @@ msgstr ""
 msgid "You will receive a link to reset your password via Email."
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
 #: templates/login.php:19
 msgid "Username"
 msgstr ""
@@ -465,7 +465,7 @@ msgstr ""
 msgid "Cloud not found"
 msgstr ""
 
-#: templates/altmail.php:4
+#: templates/altmail.php:2
 #, php-format
 msgid ""
 "Hey there,\n"
@@ -494,7 +494,8 @@ msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 msgstr ""
 
 #: templates/installation.php:26
-msgid "Please update your PHP installation to use ownCloud securely."
+#, php-format
+msgid "Please update your PHP installation to use %s securely."
 msgstr ""
 
 #: templates/installation.php:32
@@ -515,65 +516,65 @@ msgid ""
 "because the .htaccess file does not work."
 msgstr ""
 
-#: templates/installation.php:40
+#: templates/installation.php:41
+#, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
-"href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
-"target=\"_blank\">documentation</a>."
+"href=\"%s\" target=\"_blank\">documentation</a>."
 msgstr ""
 
-#: templates/installation.php:44
+#: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
 msgstr ""
 
-#: templates/installation.php:62
+#: templates/installation.php:65
 msgid "Advanced"
 msgstr ""
 
-#: templates/installation.php:64
+#: templates/installation.php:67
 msgid "Data folder"
 msgstr ""
 
-#: templates/installation.php:74
+#: templates/installation.php:77
 msgid "Configure the database"
 msgstr ""
 
-#: templates/installation.php:79 templates/installation.php:91
-#: templates/installation.php:102 templates/installation.php:113
-#: templates/installation.php:125
+#: templates/installation.php:82 templates/installation.php:94
+#: templates/installation.php:105 templates/installation.php:116
+#: templates/installation.php:128
 msgid "will be used"
 msgstr ""
 
-#: templates/installation.php:137
+#: templates/installation.php:140
 msgid "Database user"
 msgstr ""
 
-#: templates/installation.php:144
+#: templates/installation.php:147
 msgid "Database password"
 msgstr ""
 
-#: templates/installation.php:149
+#: templates/installation.php:152
 msgid "Database name"
 msgstr ""
 
-#: templates/installation.php:159
+#: templates/installation.php:160
 msgid "Database tablespace"
 msgstr ""
 
-#: templates/installation.php:166
+#: templates/installation.php:167
 msgid "Database host"
 msgstr ""
 
-#: templates/installation.php:172
+#: templates/installation.php:175
 msgid "Finish setup"
 msgstr ""
 
-#: templates/layout.user.php:43
+#: templates/layout.user.php:41
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:68
+#: templates/layout.user.php:66
 msgid "Log out"
 msgstr ""
 
@@ -607,7 +608,7 @@ msgstr ""
 msgid "Alternative Logins"
 msgstr ""
 
-#: templates/mail.php:16
+#: templates/mail.php:15
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "

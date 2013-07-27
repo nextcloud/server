@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-06 02:02+0200\n"
-"PO-Revision-Date: 2013-07-06 00:02+0000\n"
+"POT-Creation-Date: 2013-07-27 01:56-0400\n"
+"PO-Revision-Date: 2013-07-25 05:56+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Belarusian (http://www.transifex.com/projects/p/owncloud/language/be/)\n"
 "MIME-Version: 1.0\n"
@@ -137,59 +137,59 @@ msgstr ""
 msgid "December"
 msgstr ""
 
-#: js/js.js:289
+#: js/js.js:293
 msgid "Settings"
 msgstr ""
 
-#: js/js.js:721
+#: js/js.js:715
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:722
+#: js/js.js:716
 msgid "1 minute ago"
 msgstr ""
 
-#: js/js.js:723
+#: js/js.js:717
 msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/js.js:724
+#: js/js.js:718
 msgid "1 hour ago"
 msgstr ""
 
-#: js/js.js:725
+#: js/js.js:719
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:726
+#: js/js.js:720
 msgid "today"
 msgstr ""
 
-#: js/js.js:727
+#: js/js.js:721
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:728
+#: js/js.js:722
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:729
+#: js/js.js:723
 msgid "last month"
 msgstr ""
 
-#: js/js.js:730
+#: js/js.js:724
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:731
+#: js/js.js:725
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:732
+#: js/js.js:726
 msgid "last year"
 msgstr ""
 
-#: js/js.js:733
+#: js/js.js:727
 msgid "years ago"
 msgstr ""
 
@@ -225,8 +225,8 @@ msgstr ""
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:620
-#: js/share.js:632
+#: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
+#: js/share.js:631 js/share.js:643
 msgid "Error"
 msgstr ""
 
@@ -246,134 +246,134 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
-#: js/share.js:125 js/share.js:660
+#: js/share.js:131 js/share.js:671
 msgid "Error while sharing"
 msgstr ""
 
-#: js/share.js:136
+#: js/share.js:142
 msgid "Error while unsharing"
 msgstr ""
 
-#: js/share.js:143
+#: js/share.js:149
 msgid "Error while changing permissions"
 msgstr ""
 
-#: js/share.js:152
+#: js/share.js:158
 msgid "Shared with you and the group {group} by {owner}"
 msgstr ""
 
-#: js/share.js:154
+#: js/share.js:160
 msgid "Shared with you by {owner}"
 msgstr ""
 
-#: js/share.js:172
+#: js/share.js:183
 msgid "Share with"
 msgstr ""
 
-#: js/share.js:177
+#: js/share.js:188
 msgid "Share with link"
 msgstr ""
 
-#: js/share.js:180
+#: js/share.js:191
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:182 templates/installation.php:54 templates/login.php:26
+#: js/share.js:193 templates/installation.php:57 templates/login.php:26
 msgid "Password"
 msgstr ""
 
-#: js/share.js:187
+#: js/share.js:198
 msgid "Allow Public Upload"
 msgstr ""
 
-#: js/share.js:191
+#: js/share.js:202
 msgid "Email link to person"
 msgstr ""
 
-#: js/share.js:192
+#: js/share.js:203
 msgid "Send"
 msgstr ""
 
-#: js/share.js:197
+#: js/share.js:208
 msgid "Set expiration date"
 msgstr ""
 
-#: js/share.js:198
+#: js/share.js:209
 msgid "Expiration date"
 msgstr ""
 
-#: js/share.js:230
+#: js/share.js:241
 msgid "Share via email:"
 msgstr ""
 
-#: js/share.js:232
+#: js/share.js:243
 msgid "No people found"
 msgstr ""
 
-#: js/share.js:270
+#: js/share.js:281
 msgid "Resharing is not allowed"
 msgstr ""
 
-#: js/share.js:306
+#: js/share.js:317
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:327
+#: js/share.js:338
 msgid "Unshare"
 msgstr ""
 
-#: js/share.js:339
+#: js/share.js:350
 msgid "can edit"
 msgstr ""
 
-#: js/share.js:341
+#: js/share.js:352
 msgid "access control"
 msgstr ""
 
-#: js/share.js:344
+#: js/share.js:355
 msgid "create"
 msgstr ""
 
-#: js/share.js:347
+#: js/share.js:358
 msgid "update"
 msgstr ""
 
-#: js/share.js:350
+#: js/share.js:361
 msgid "delete"
 msgstr ""
 
-#: js/share.js:353
+#: js/share.js:364
 msgid "share"
 msgstr ""
 
-#: js/share.js:387 js/share.js:607
+#: js/share.js:398 js/share.js:618
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:620
+#: js/share.js:631
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:632
+#: js/share.js:643
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:647
+#: js/share.js:658
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:658
+#: js/share.js:669
 msgid "Email sent"
 msgstr ""
 
-#: js/update.js:14
+#: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
 msgstr ""
 
-#: js/update.js:18
+#: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr ""
 
@@ -400,7 +400,7 @@ msgstr ""
 msgid "You will receive a link to reset your password via Email."
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
 #: templates/login.php:19
 msgid "Username"
 msgstr ""
@@ -465,7 +465,7 @@ msgstr ""
 msgid "Cloud not found"
 msgstr ""
 
-#: templates/altmail.php:4
+#: templates/altmail.php:2
 #, php-format
 msgid ""
 "Hey there,\n"
@@ -494,7 +494,8 @@ msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 msgstr ""
 
 #: templates/installation.php:26
-msgid "Please update your PHP installation to use ownCloud securely."
+#, php-format
+msgid "Please update your PHP installation to use %s securely."
 msgstr ""
 
 #: templates/installation.php:32
@@ -515,65 +516,65 @@ msgid ""
 "because the .htaccess file does not work."
 msgstr ""
 
-#: templates/installation.php:40
+#: templates/installation.php:41
+#, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
-"href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
-"target=\"_blank\">documentation</a>."
+"href=\"%s\" target=\"_blank\">documentation</a>."
 msgstr ""
 
-#: templates/installation.php:44
+#: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
 msgstr ""
 
-#: templates/installation.php:62
+#: templates/installation.php:65
 msgid "Advanced"
 msgstr "Дасведчаны"
 
-#: templates/installation.php:64
+#: templates/installation.php:67
 msgid "Data folder"
 msgstr ""
 
-#: templates/installation.php:74
+#: templates/installation.php:77
 msgid "Configure the database"
 msgstr ""
 
-#: templates/installation.php:79 templates/installation.php:91
-#: templates/installation.php:102 templates/installation.php:113
-#: templates/installation.php:125
+#: templates/installation.php:82 templates/installation.php:94
+#: templates/installation.php:105 templates/installation.php:116
+#: templates/installation.php:128
 msgid "will be used"
 msgstr ""
 
-#: templates/installation.php:137
+#: templates/installation.php:140
 msgid "Database user"
 msgstr ""
 
-#: templates/installation.php:144
+#: templates/installation.php:147
 msgid "Database password"
 msgstr ""
 
-#: templates/installation.php:149
+#: templates/installation.php:152
 msgid "Database name"
 msgstr ""
 
-#: templates/installation.php:159
+#: templates/installation.php:160
 msgid "Database tablespace"
 msgstr ""
 
-#: templates/installation.php:166
+#: templates/installation.php:167
 msgid "Database host"
 msgstr ""
 
-#: templates/installation.php:172
+#: templates/installation.php:175
 msgid "Finish setup"
 msgstr "Завяршыць ўстаноўку."
 
-#: templates/layout.user.php:43
+#: templates/layout.user.php:41
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:68
+#: templates/layout.user.php:66
 msgid "Log out"
 msgstr ""
 
@@ -607,7 +608,7 @@ msgstr ""
 msgid "Alternative Logins"
 msgstr ""
 
-#: templates/mail.php:16
+#: templates/mail.php:15
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "

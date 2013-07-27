@@ -5,11 +5,14 @@
 "Users" => "Felhasználók",
 "Apps" => "Alkalmazások",
 "Admin" => "Adminsztráció",
+"Failed to upgrade \"%s\"." => "Sikertelen Frissítés \"%s\".",
 "web services under your control" => "webszolgáltatások saját kézben",
+"cannot open \"%s\"" => "nem sikerült megnyitni \"%s\"",
 "ZIP download is turned off." => "A ZIP-letöltés nincs engedélyezve.",
 "Files need to be downloaded one by one." => "A fájlokat egyenként kell letölteni.",
 "Back to Files" => "Vissza a Fájlokhoz",
 "Selected files too large to generate zip file." => "A kiválasztott fájlok túl nagyok a zip tömörítéshez.",
+"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Tölts le a fileokat kisebb chunkokban, kölün vagy kérj segitséget a rendszergazdádtól.",
 "couldn't be determined" => "nem határozható meg",
 "Application is not enabled" => "Az alkalmazás nincs engedélyezve",
 "Authentication error" => "Azonosítási hiba",
@@ -49,5 +52,6 @@
 "%d months ago" => "%d hónapja",
 "last year" => "tavaly",
 "years ago" => "több éve",
+"Caused by:" => "Okozta:",
 "Could not find category \"%s\"" => "Ez a kategória nem található: \"%s\""
 );
