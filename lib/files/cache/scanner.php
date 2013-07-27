@@ -74,9 +74,10 @@ class Scanner extends BasicEmitter {
 	 *
 	 * @param string $file
 	 * @param int $reuseExisting
+	 * @param bool $parentExists
 	 * @return array with metadata of the scanned file
 	 */
-	public function scanFile($file, $reuseExisting = 0) {
+	public function scanFile($file, $reuseExisting = 0, $parentExists = false) {
 		if (!self::isPartialFile($file)
 			and !Filesystem::isFileBlacklisted($file)
 		) {
@@ -84,7 +85,7 @@ class Scanner extends BasicEmitter {
 			\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', array('path' => $file, 'storage' => $this->storageId));
 			$data = $this->getData($file);
 			if ($data) {
-				if ($file) {
+				if ($file and !$parentExists) {
 					$parent = dirname($file);
 					if ($parent === '.' or $parent === '/') {
 						$parent = '';
@@ -161,7 +162,7 @@ class Scanner extends BasicEmitter {
 				$child = ($path) ? $path . '/' . $file : $file;
 				if (!Filesystem::isIgnoredDir($file)) {
 					$newChildren[] = $file;
-					$data = $this->scanFile($child, $reuse);
+					$data = $this->scanFile($child, $reuse, true);
 					if ($data) {
 						if ($data['size'] === -1) {
 							if ($recursive === self::SCAN_RECURSIVE) {
