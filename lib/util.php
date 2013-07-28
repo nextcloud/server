@@ -871,6 +871,10 @@ class OC_Util {
 		if (function_exists('xcache_clear_cache')) {
 			xcache_clear_cache(XC_TYPE_VAR, 0);
 		}
+		// Opcache (PHP >= 5.5)
+		if (function_exists('opcache_reset')) {
+			opcache_reset();
+		}
 	}
 
 	/**
