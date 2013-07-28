@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-27 01:56-0400\n"
-"PO-Revision-Date: 2013-07-25 05:57+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-28 01:56-0400\n"
+"PO-Revision-Date: 2013-07-27 22:00+0000\n"
+"Last-Translator: medialabs\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -200,7 +200,7 @@ msgstr "Din webbserver är inte korrekt konfigurerad för att tillåta filsynkro
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
-msgstr ""
+msgstr "Vänligen dubbelkolla igenom <a href=\"%s\">installationsguiden</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
@@ -311,7 +311,7 @@ msgstr "Kräv HTTPS"
 #: templates/admin.php:193
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
-msgstr ""
+msgstr "Tvingar klienterna att ansluta till %s via en krypterad anslutning."
 
 #: templates/admin.php:199
 #, php-format

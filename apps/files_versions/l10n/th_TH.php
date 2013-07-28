@@ -1,3 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Versions" => "รุ่น"
+"Versions" => "รุ่น",
+"Restore" => "คืนค่า"
 );

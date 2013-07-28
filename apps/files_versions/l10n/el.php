@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Could not revert: %s" => "Αδυναμία επαναφοράς του: %s",
-"Versions" => "Εκδόσεις"
+"Versions" => "Εκδόσεις",
+"Restore" => "Επαναφορά"
 );

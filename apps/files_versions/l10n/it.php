@@ -1,5 +1,8 @@
 <?php $TRANSLATIONS = array(
-"Could not revert: %s" => "Impossibild ripristinare: %s",
+"Could not revert: %s" => "Impossibile ripristinare: %s",
 "Versions" => "Versioni",
+"Failed to revert {file} to revision {timestamp}." => "Ripristino di {file} alla revisione {timestamp} non riuscito.",
+"More versions..." => "Altre versioni...",
+"No other versions available" => "Non sono disponibili altre versioni",
 "Restore" => "Ripristina"
 );

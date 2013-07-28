@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Could not revert: %s" => "Nepavyko atstatyti: %s",
-"Versions" => "Versijos"
+"Versions" => "Versijos",
+"Restore" => "Atstatyti"
 );

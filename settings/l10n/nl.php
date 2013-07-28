@@ -50,6 +50,7 @@
 "Allow apps to use the Share API" => "Apps toestaan de Share API te gebruiken",
 "Allow links" => "Toestaan links",
 "Allow users to share items to the public with links" => "Toestaan dat gebruikers objecten met links delen met anderen",
+"Allow public uploads" => "Sta publieke uploads toe",
 "Allow resharing" => "Toestaan opnieuw delen",
 "Allow users to share items shared with them again" => "Toestaan dat gebruikers objecten die anderen met hun gedeeld hebben zelf ook weer delen met anderen",
 "Allow users to share with anyone" => "Toestaan dat gebruikers met iedereen delen",

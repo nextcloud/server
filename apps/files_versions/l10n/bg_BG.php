@@ -1,3 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Versions" => "Версии"
+"Versions" => "Версии",
+"Restore" => "Възтановяване"
 );

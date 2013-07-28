@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Could not revert: %s" => "Konnte %s nicht zurücksetzen",
-"Versions" => "Versionen"
+"Versions" => "Versionen",
+"Restore" => "Wiederherstellen"
 );

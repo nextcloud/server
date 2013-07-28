@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Could not revert: %s" => "Geri alınamıyor: %s",
-"Versions" => "Sürümler"
+"Versions" => "Sürümler",
+"Restore" => "Geri yükle"
 );

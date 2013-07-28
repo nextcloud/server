@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-27 01:56-0400\n"
-"PO-Revision-Date: 2013-07-27 05:56+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-28 01:56-0400\n"
+"PO-Revision-Date: 2013-07-27 11:00+0000\n"
+"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -91,7 +91,7 @@ msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behavior. Please ask your system administrator to "
 "disable one of them."
-msgstr ""
+msgstr "<b>Aviso:</b> Os aplicativos user_ldap e user_webdavauth son incompatíbeis. Pode acontecer un comportamento estraño. Consulte co administrador do sistema para desactivar un deles."
 
 #: templates/settings.php:12
 msgid ""
@@ -223,7 +223,7 @@ msgstr "Desactivar o servidor principal"
 
 #: templates/settings.php:75
 msgid "Only connect to the replica server."
-msgstr ""
+msgstr "Conectar só co servidor de réplica."
 
 #: templates/settings.php:76
 msgid "Use TLS"
@@ -246,7 +246,7 @@ msgstr "Desactiva a validación do certificado SSL."
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your %s server."
-msgstr ""
+msgstr "Se a conexión só funciona con esta opción importa o certificado SSL do servidor LDAP no teu servidor %s."
 
 #: templates/settings.php:78
 msgid "Not recommended, use for testing only."
@@ -270,7 +270,7 @@ msgstr "Campo de mostra do nome de usuario"
 
 #: templates/settings.php:83
 msgid "The LDAP attribute to use to generate the user's display name."
-msgstr ""
+msgstr "O atributo LDAP a empregar para xerar o nome de usuario para amosar."
 
 #: templates/settings.php:84
 msgid "Base User Tree"
@@ -294,7 +294,7 @@ msgstr "Campo de mostra do nome de grupo"
 
 #: templates/settings.php:86
 msgid "The LDAP attribute to use to generate the groups's display name."
-msgstr ""
+msgstr "O atributo LDAP úsase para xerar os nomes dos grupos que amosar."
 
 #: templates/settings.php:87
 msgid "Base Group Tree"
@@ -360,7 +360,7 @@ msgid ""
 "behavior as before ownCloud 5 enter the user display name attribute in the "
 "following field. Leave it empty for default behavior. Changes will have "
 "effect only on newly mapped (added) LDAP users."
-msgstr ""
+msgstr "De xeito predeterminado, o nome de usuario interno crease a partires do atributo UUID. Asegurase de que o nome de usuario é único e de non ter que converter os caracteres. O nome de usuario interno ten a limitación de que só están permitidos estes caracteres: [ a-zA-Z0-9_.@- ].  Os outros caracteres substitúense pola súa correspondencia ASCII ou simplemente omítense. Nas colisións engadirase/incrementarase un número. O nome de usuario interno utilizase para identificar a un usuario interno. É tamén o nome predeterminado do cartafol persoal do usuario. Tamén é parte dun URL remoto, por exemplo, para todos os servizos *DAV. Con este axuste, o comportamento predeterminado pode ser sobrescrito. Para lograr un comportamento semellante ao anterior ownCloud 5 introduza o atributo do nome para amosar do usuario no seguinte campo. Déixeo baleiro para o comportamento predeterminado. Os cambios terán efecto só nas novas asignacións (engadidos) de usuarios de LDAP."
 
 #: templates/settings.php:103
 msgid "Internal Username Attribute:"
@@ -379,7 +379,7 @@ msgid ""
 "You must make sure that the attribute of your choice can be fetched for both"
 " users and groups and it is unique. Leave it empty for default behavior. "
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
-msgstr ""
+msgstr "De xeito predeterminado, o atributo UUID é detectado automaticamente. O atributo UUID utilizase para identificar, sen dúbida, aos usuarios e grupos LDAP. Ademais, crearase o usuario interno baseado no UUID, se non se especifica anteriormente o contrario. Pode anular a configuración e pasar un atributo da súa escolla. Vostede debe asegurarse de que o atributo da súa escolla pode ser recuperado polos usuarios e grupos e de que é único. Déixeo baleiro para o comportamento predeterminado. Os cambios terán efecto só nas novas asignacións (engadidos) de usuarios de LDAP."
 
 #: templates/settings.php:106
 msgid "UUID Attribute:"
@@ -401,7 +401,7 @@ msgid ""
 " is not configuration sensitive, it affects all LDAP configurations! Never "
 "clear the mappings in a production environment, only in a testing or "
 "experimental stage."
-msgstr ""
+msgstr "Os nomes de usuario empreganse para almacenar e asignar (meta) datos. Coa fin de identificar con precisión e recoñecer aos usuarios, cada usuario LDAP terá un nome de usuario interno. Isto require unha asignación de ownCloud nome de usuario a usuario LDAP. O nome de usuario creado asignase ao UUID do usuario LDAP. Ademais o DN almacenase na caché, para así reducir a interacción do LDAP, mais non se utiliza para a identificación. Se o DN cambia, os cambios poden ser atopados polo ownCloud. O nome interno no ownCloud utilizase en todo o ownCloud. A limpeza das asignacións deixará rastros en todas partes. A limpeza das asignacións non é sensíbel á configuración, afecta a todas as configuracións de LDAP! Non limpar nunca as asignacións nun entorno de produción. Limpar as asignacións só en fases de proba ou experimentais."
 
 #: templates/settings.php:109
 msgid "Clear Username-LDAP User Mapping"
