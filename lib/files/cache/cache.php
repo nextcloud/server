@@ -485,27 +485,24 @@ class Cache {
 	 * @return int
 	 */
 	public function calculateFolderSize($path) {
-		$id = $this->getId($path);
-		if ($id === -1) {
-			return 0;
-		}
-		$sql = 'SELECT `size` FROM `*PREFIX*filecache` WHERE `parent` = ? AND `storage` = ?';
-		$result = \OC_DB::executeAudited($sql, array($id, $this->getNumericStorageId()));
 		$totalSize = 0;
-		$hasChilds = 0;
-		while ($row = $result->fetchRow()) {
-			$hasChilds = true;
-			$size = (int)$row['size'];
-			if ($size === -1) {
-				$totalSize = -1;
-				break;
-			} else {
-				$totalSize += $size;
+		$entry = $this->get($path);
+		if ($entry && $entry['mimetype'] === 'httpd/unix-directory') {
+			$id = $entry['fileid'];
+			$sql = 'SELECT `size` FROM `*PREFIX*filecache` WHERE `parent` = ? AND `storage` = ?';
+			$result = \OC_DB::executeAudited($sql, array($id, $this->getNumericStorageId()));
+			while ($row = $result->fetchRow()) {
+				$size = (int)$row['size'];
+				if ($size === -1) {
+					$totalSize = -1;
+					break;
+				} else {
+					$totalSize += $size;
+				}
 			}
-		}
-
-		if ($hasChilds) {
-			$this->update($id, array('size' => $totalSize));
+			if ($entry['size'] !== $totalSize) {
+				$this->update($id, array('size' => $totalSize));
+			}
 		}
 		return $totalSize;
 	}
