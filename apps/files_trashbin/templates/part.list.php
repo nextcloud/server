@@ -25,7 +25,11 @@
 		<?php if($file['type'] == 'dir'): ?>
 			style="background-image:url(<?php print_unescaped(OCP\mimetype_icon('dir')); ?>)"
 		<?php else: ?>
-			style="background-image:url(<?php print_unescaped(OCA\Files_Trashbin\Trashbin::preview_icon(!$_['dirlisting'] ? ($file['name'].'.d'.$file['timestamp']) : ($file['directory'].'/'.$file['name']))); ?>)"
+				<?php if(\OCP\Preview::isMimeSupported($file['mimetype'])): ?>
+				style="background-image:url(<?php print_unescaped(OCA\Files_Trashbin\Trashbin::preview_icon(!$_['dirlisting'] ? ($file['name'].'.d'.$file['timestamp']) : ($file['directory'].'/'.$file['name']))); ?>)" class="preview-icon"
+				<?php else: ?>
+				style="background-image:url(<?php print_unescaped(OCP\mimetype_icon($file['mimetype'])); ?>)"
+				<?php endif; ?>
 		<?php endif; ?>
 			>
 		<?php if(!isset($_['readonly']) || !$_['readonly']): ?><input type="checkbox" /><?php endif; ?>
