@@ -58,6 +58,7 @@ foreach($accessibleusers as $uid => $displayName) {
 
 	$users[] = array(
 		"name" => $uid,
+		"avatar" => \OC_Avatar::get($uid, 32),
 		"displayName" => $displayName,
 		"groups" => OC_Group::getUserGroups($uid),
 		'quota' => $quota,

@@ -81,6 +81,9 @@ $_['subadmingroups'] = array_flip($items);
 <table class="hascontrols" data-groups="<?php p(json_encode($allGroups));?>">
 	<thead>
 		<tr>
+			<?php if(\OC_Avatar::getMode() !== "none"): ?>
+				<th id='headerAvatar'><?php p($l->t('Avatar')); ?></th>
+			<?php endif; ?>
 			<th id='headerName'><?php p($l->t('Username'))?></th>
 			<th id="headerDisplayName"><?php p($l->t( 'Display Name' )); ?></th>
 			<th id="headerPassword"><?php p($l->t( 'Password' )); ?></th>
@@ -96,6 +99,9 @@ $_['subadmingroups'] = array_flip($items);
 		<?php foreach($_["users"] as $user): ?>
 		<tr data-uid="<?php p($user["name"]) ?>"
 			data-displayName="<?php p($user["displayName"]) ?>">
+			<?php if(\OC_Avatar::getMode() !== "none"): ?>
+				<td class="avatar"><img src="<?php p($user["avatar"]); ?>"></td>
+			<?php endif; ?>
 			<td class="name"><?php p($user["name"]); ?></td>
 			<td class="displayName"><span><?php p($user["displayName"]); ?></span> <img class="svg action"
 				src="<?php p(image_path('core', 'actions/rename.svg'))?>"

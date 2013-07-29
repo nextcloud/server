@@ -12,4 +12,8 @@ class Avatar {
 	public static function get ($user, $size = 64) {
 		\OC_Avatar::get($user, $size);
 	}
+
+	public static function getMode () {
+		\OC_Avatar::getMode();
+	}
 }

@@ -72,3 +72,5 @@ $this->create('isadmin', '/settings/js/isadmin.js')
 	->actionInclude('settings/js/isadmin.php');
 $this->create('settings_ajax_setavatarmode', '/settings/ajax/setavatarmode.php')
 	->actionInclude('settings/ajax/setavatarmode.php');
+$this->create('settings_ajax_newavatar', '/settings/ajax/newavatar.php')
+	->actionInclude('settings/ajax/newavatar.php');

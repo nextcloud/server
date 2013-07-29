@@ -128,6 +128,9 @@ if (!$_['internetconnectionworking']) {
 				<label for="avatar_gravatar">Gravatar</label><br>
 				<em><?php print_unescaped($l->t('Use <a href="http://gravatar.com/">gravatar</a> for avatars')); ?></em><br>
 				<em><?php p($l->t('This sends data to gravatar')); ?></em>
+				<?php if (!$_['internetconnectionworking']): ?>
+				<br><em><?php p($l->t('Gravatar needs an internet connection!')); ?></em>
+				<?php endif; ?>
 			</td>
 		</tr>
 		<tr>
