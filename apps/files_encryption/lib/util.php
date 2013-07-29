@@ -661,6 +661,69 @@ class Util {
 		}
 
 	}
+	
+	/**
+	 * @brief Decrypt all files
+	 * @return bool
+	 */
+	public function decryptAll() {
+
+		$found = $this->findEncFiles($this->userId . '/files');
+
+		if ($found) {
+
+			// Disable proxy to prevent file being encrypted twice
+			\OC_FileProxy::$enabled = false;
+
+			// Encrypt unencrypted files
+			foreach ($found['encrypted'] as $encryptedFile) {
+
+				//relative to data/<user>/file
+				$relPath = Helper::stripUserFilesPath($encryptedFile['path']);
+
+				//relative to /data
+				$rawPath = $encryptedFile['path'];
+
+				// Open enc file handle for binary reading
+				$encHandle = fopen('crypt://' . $rawPath, 'rb');
+
+				// Open plain file handle for binary writing, with same filename as original plain file
+				$plainHandle = $this->view->fopen($rawPath . '.part', 'wb');
+
+				// Move plain file to a temporary location
+				$size = stream_copy_to_stream($encHandle, $plainHandle);
+
+				fclose($encHandle);
+				fclose($plainHandle);
+
+				$fakeRoot = $this->view->getRoot();
+				$this->view->chroot('/' . $this->userId . '/files');
+
+				$this->view->rename($relPath . '.part', $relPath);
+
+				$this->view->chroot($fakeRoot);
+
+				// Add the file to the cache
+				\OC\Files\Filesystem::putFileInfo($relPath, array(
+					'encrypted' => false,
+					'size' => $size,
+					'unencrypted_size' => $size
+				));
+			}
+
+			$this->view->deleteAll($this->keyfilesPath);
+			$this->view->deleteAll($this->shareKeysPath);
+
+			\OC_FileProxy::$enabled = true;
+
+			// If files were found, return true
+			return true;
+		} else {
+
+			// If no files were found, return false
+			return false;
+		}
+	}
 
 	/**
 	 * @brief Encrypt all files in a directory
@@ -672,7 +735,9 @@ class Util {
 	 */
 	public function encryptAll($dirPath, $legacyPassphrase = null, $newPassphrase = null) {
 
-		if ($found = $this->findEncFiles($dirPath)) {
+		$found = $this->findEncFiles($dirPath);
+		
+		if ($found) {
 
 			// Disable proxy to prevent file being encrypted twice
 			\OC_FileProxy::$enabled = false;
@@ -690,12 +755,13 @@ class Util {
 				$plainHandle = $this->view->fopen($rawPath, 'rb');
 
 				// Open enc file handle for binary writing, with same filename as original plain file
-				$encHandle = fopen('crypt://' . $relPath . '.part', 'wb');
+				$encHandle = fopen('crypt://' . $rawPath . '.part', 'wb');
 
 				// Move plain file to a temporary location
 				$size = stream_copy_to_stream($plainHandle, $encHandle);
 
 				fclose($encHandle);
+				fclose($plainHandle);
 
 				$fakeRoot = $this->view->getRoot();
 				$this->view->chroot('/' . $this->userId . '/files');
@@ -706,10 +772,10 @@ class Util {
 
 				// Add the file to the cache
 				\OC\Files\Filesystem::putFileInfo($relPath, array(
-																 'encrypted' => true,
-																 'size' => $size,
-																 'unencrypted_size' => $size
-															));
+					'encrypted' => true,
+					'size' => $size,
+					'unencrypted_size' => $size
+				));
 			}
 
 			// Encrypt legacy encrypted files
@@ -1579,4 +1645,28 @@ class Util {
 		return false;
 	}
 
+	/**
+	 * @brief decrypt private key and add it to the current session
+	 * @param array $params with 'uid' and 'password'
+	 * @return mixed session or false
+	 */
+	public function initEncryption($params) {
+
+		$encryptedKey = Keymanager::getPrivateKey($this->view, $params['uid']);
+
+		$privateKey = Crypt::decryptPrivateKey($encryptedKey, $params['password']);
+
+		if ($privateKey === false) {
+			\OCP\Util::writeLog('Encryption library', 'Private key for user "' . $params['uid']
+					. '" is not valid! Maybe the user password was changed from outside if so please change it back to gain access', \OCP\Util::ERROR);
+			return false;
+		}
+
+		$session = new \OCA\Encryption\Session($this->view);
+
+		$session->setPrivateKey($privateKey);
+		
+		return $session;
+	}
+	
 }

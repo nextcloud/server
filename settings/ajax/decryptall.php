@@ -1,14 +1,21 @@
 <?php
+sleep(10);
+//encryption app needs to be loaded
+OC_App::loadApp('files_encryption');
 
-$status = OC_App::isEnabled('files_encryption');
-OC_App::enable('files_encryption');
+// init encryption app
+$params = array('uid' => \OCP\User::getUser(),
+				'password' => $_POST['password']);
 
-OCA\Encryption\Crypt::decryptAll();
+$view = new OC_FilesystemView('/');
+$util = new \OCA\Encryption\Util($view, \OCP\User::getUser());
 
-if ($status === false) {
-	OC_App::disable('files_encryption');
+$result = $util->initEncryption($params);
+
+if ($result !== false) {
+	$util->decryptAll();
+	\OCP\JSON::success(array('data' => array('message' => 'Files decrypted successfully')));
+} else {
+	\OCP\JSON::error(array('data' => array('message' => 'Couldn\'t decrypt files, check your password and try again')));
 }
-
-
-\OCP\JSON::success(array('data' => array('message' => 'looks good')));
 
