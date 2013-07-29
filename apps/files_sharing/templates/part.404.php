@@ -5,7 +5,7 @@
 		<ul>
 			<li><?php p($l->t('the item was removed')); ?></li>
 			<li><?php p($l->t('the link expired')); ?></li>
-			<li><?php p($l->t('sharing is disabled for this ownCloud')); ?></li>
+			<li><?php p($l->t('sharing is disabled')); ?></li>
 		</ul>
 		<p><?php p($l->t('For more info, please ask the person who sent this link.')); ?></p>
 	</li>
