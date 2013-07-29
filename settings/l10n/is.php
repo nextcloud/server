@@ -27,7 +27,6 @@
 "Delete" => "Eyða",
 "__language_name__" => "__nafn_tungumáls__",
 "Security Warning" => "Öryggis aðvörun",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Gagnamappan þín er að öllum líkindum aðgengileg frá internetinu. Skráin .htaccess sem fylgir með ownCloud er ekki að virka. Við mælum eindregið með því að þú stillir vefþjóninn þannig að gagnamappan verði ekki aðgengileg frá internetinu eða færir hana út fyrir vefrótina.",
 "More" => "Meira",
 "Less" => "Minna",
 "Version" => "Útgáfa",

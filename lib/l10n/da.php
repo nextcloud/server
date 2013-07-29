@@ -5,11 +5,14 @@
 "Users" => "Brugere",
 "Apps" => "Apps",
 "Admin" => "Admin",
+"Failed to upgrade \"%s\"." => "Upgradering af \"%s\" fejlede",
 "web services under your control" => "Webtjenester under din kontrol",
+"cannot open \"%s\"" => "Kan ikke åbne \"%s\"",
 "ZIP download is turned off." => "ZIP-download er slået fra.",
 "Files need to be downloaded one by one." => "Filer skal downloades en for en.",
 "Back to Files" => "Tilbage til Filer",
 "Selected files too large to generate zip file." => "De markerede filer er for store til at generere en ZIP-fil.",
+"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Download filerne i små bider, seperat, eller kontakt venligst din administrator.",
 "couldn't be determined" => "kunne ikke fastslås",
 "Application is not enabled" => "Programmet er ikke aktiveret",
 "Authentication error" => "Adgangsfejl",
@@ -49,5 +52,6 @@
 "%d months ago" => "%d måneder siden",
 "last year" => "sidste år",
 "years ago" => "år siden",
+"Caused by:" => "Forårsaget af:",
 "Could not find category \"%s\"" => "Kunne ikke finde kategorien \"%s\""
 );

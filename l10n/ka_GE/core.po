@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-17 02:19-0400\n"
-"PO-Revision-Date: 2013-07-17 05:25+0000\n"
+"POT-Creation-Date: 2013-07-27 01:56-0400\n"
+"PO-Revision-Date: 2013-07-25 05:56+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -141,55 +141,55 @@ msgstr "დეკემბერი"
 msgid "Settings"
 msgstr "პარამეტრები"
 
-#: js/js.js:725
+#: js/js.js:715
 msgid "seconds ago"
 msgstr "წამის წინ"
 
-#: js/js.js:726
+#: js/js.js:716
 msgid "1 minute ago"
 msgstr "1 წუთის წინ"
 
-#: js/js.js:727
+#: js/js.js:717
 msgid "{minutes} minutes ago"
 msgstr "{minutes} წუთის წინ"
 
-#: js/js.js:728
+#: js/js.js:718
 msgid "1 hour ago"
 msgstr "1 საათის წინ"
 
-#: js/js.js:729
+#: js/js.js:719
 msgid "{hours} hours ago"
 msgstr "{hours} საათის წინ"
 
-#: js/js.js:730
+#: js/js.js:720
 msgid "today"
 msgstr "დღეს"
 
-#: js/js.js:731
+#: js/js.js:721
 msgid "yesterday"
 msgstr "გუშინ"
 
-#: js/js.js:732
+#: js/js.js:722
 msgid "{days} days ago"
 msgstr "{days} დღის წინ"
 
-#: js/js.js:733
+#: js/js.js:723
 msgid "last month"
 msgstr "გასულ თვეში"
 
-#: js/js.js:734
+#: js/js.js:724
 msgid "{months} months ago"
 msgstr "{months} თვის წინ"
 
-#: js/js.js:735
+#: js/js.js:725
 msgid "months ago"
 msgstr "თვის წინ"
 
-#: js/js.js:736
+#: js/js.js:726
 msgid "last year"
 msgstr "ბოლო წელს"
 
-#: js/js.js:737
+#: js/js.js:727
 msgid "years ago"
 msgstr "წლის წინ"
 
@@ -225,8 +225,8 @@ msgstr "ობიექტის ტიპი არ არის მითი�
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:620
-#: js/share.js:632
+#: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
+#: js/share.js:631 js/share.js:643
 msgid "Error"
 msgstr "შეცდომა"
 
@@ -246,123 +246,123 @@ msgstr "გაზიარებული"
 msgid "Share"
 msgstr "გაზიარება"
 
-#: js/share.js:125 js/share.js:660
+#: js/share.js:131 js/share.js:671
 msgid "Error while sharing"
 msgstr "შეცდომა გაზიარების დროს"
 
-#: js/share.js:136
+#: js/share.js:142
 msgid "Error while unsharing"
 msgstr "შეცდომა გაზიარების გაუქმების დროს"
 
-#: js/share.js:143
+#: js/share.js:149
 msgid "Error while changing permissions"
 msgstr "შეცდომა დაშვების ცვლილების დროს"
 
-#: js/share.js:152
+#: js/share.js:158
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "გაზიარდა თქვენთვის და ჯგუფისთვის {group}, {owner}–ის მიერ"
 
-#: js/share.js:154
+#: js/share.js:160
 msgid "Shared with you by {owner}"
 msgstr "გაზიარდა თქვენთვის {owner}–ის მიერ"
 
-#: js/share.js:172
+#: js/share.js:183
 msgid "Share with"
 msgstr "გააზიარე შემდეგით:"
 
-#: js/share.js:177
+#: js/share.js:188
 msgid "Share with link"
 msgstr "გაუზიარე ლინკით"
 
-#: js/share.js:180
+#: js/share.js:191
 msgid "Password protect"
 msgstr "პაროლით დაცვა"
 
-#: js/share.js:182 templates/installation.php:54 templates/login.php:26
+#: js/share.js:193 templates/installation.php:57 templates/login.php:26
 msgid "Password"
 msgstr "პაროლი"
 
-#: js/share.js:187
+#: js/share.js:198
 msgid "Allow Public Upload"
 msgstr ""
 
-#: js/share.js:191
+#: js/share.js:202
 msgid "Email link to person"
 msgstr "ლინკის პიროვნების იმეილზე გაგზავნა"
 
-#: js/share.js:192
+#: js/share.js:203
 msgid "Send"
 msgstr "გაგზავნა"
 
-#: js/share.js:197
+#: js/share.js:208
 msgid "Set expiration date"
 msgstr "მიუთითე ვადის გასვლის დრო"
 
-#: js/share.js:198
+#: js/share.js:209
 msgid "Expiration date"
 msgstr "ვადის გასვლის დრო"
 
-#: js/share.js:230
+#: js/share.js:241
 msgid "Share via email:"
 msgstr "გააზიარე მეილზე"
 
-#: js/share.js:232
+#: js/share.js:243
 msgid "No people found"
 msgstr "მომხმარებელი არ არის ნაპოვნი"
 
-#: js/share.js:270
+#: js/share.js:281
 msgid "Resharing is not allowed"
 msgstr "მეორეჯერ გაზიარება არ არის დაშვებული"
 
-#: js/share.js:306
+#: js/share.js:317
 msgid "Shared in {item} with {user}"
 msgstr "გაზიარდა {item}–ში  {user}–ის მიერ"
 
-#: js/share.js:327
+#: js/share.js:338
 msgid "Unshare"
 msgstr "გაუზიარებადი"
 
-#: js/share.js:339
+#: js/share.js:350
 msgid "can edit"
 msgstr "შეგიძლია შეცვლა"
 
-#: js/share.js:341
+#: js/share.js:352
 msgid "access control"
 msgstr "დაშვების კონტროლი"
 
-#: js/share.js:344
+#: js/share.js:355
 msgid "create"
 msgstr "შექმნა"
 
-#: js/share.js:347
+#: js/share.js:358
 msgid "update"
 msgstr "განახლება"
 
-#: js/share.js:350
+#: js/share.js:361
 msgid "delete"
 msgstr "წაშლა"
 
-#: js/share.js:353
+#: js/share.js:364
 msgid "share"
 msgstr "გაზიარება"
 
-#: js/share.js:387 js/share.js:607
+#: js/share.js:398 js/share.js:618
 msgid "Password protected"
 msgstr "პაროლით დაცული"
 
-#: js/share.js:620
+#: js/share.js:631
 msgid "Error unsetting expiration date"
 msgstr "შეცდომა ვადის გასვლის მოხსნის დროს"
 
-#: js/share.js:632
+#: js/share.js:643
 msgid "Error setting expiration date"
 msgstr "შეცდომა ვადის გასვლის მითითების დროს"
 
-#: js/share.js:647
+#: js/share.js:658
 msgid "Sending ..."
 msgstr "გაგზავნა ...."
 
-#: js/share.js:658
+#: js/share.js:669
 msgid "Email sent"
 msgstr "იმეილი გაიგზავნა"
 
@@ -400,7 +400,7 @@ msgstr ""
 msgid "You will receive a link to reset your password via Email."
 msgstr "თქვენ მოგივათ პაროლის შესაცვლელი ლინკი მეილზე"
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
 #: templates/login.php:19
 msgid "Username"
 msgstr "მომხმარებლის სახელი"
@@ -465,7 +465,7 @@ msgstr "წვდომა აკრძალულია"
 msgid "Cloud not found"
 msgstr "ღრუბელი არ არსებობს"
 
-#: templates/altmail.php:4
+#: templates/altmail.php:2
 #, php-format
 msgid ""
 "Hey there,\n"
@@ -494,8 +494,9 @@ msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 msgstr "თქვენი PHP ვერსია შეიცავს საფრთხეს  NULL Byte შეტევებისთვის (CVE-2006-7243)"
 
 #: templates/installation.php:26
-msgid "Please update your PHP installation to use ownCloud securely."
-msgstr "იმისათვის რომ გამოიყენოთ ownCloud უსაფრთხოდ, გთხოვთ განაახლოთ თქვენი  PHP ვერსია."
+#, php-format
+msgid "Please update your PHP installation to use %s securely."
+msgstr ""
 
 #: templates/installation.php:32
 msgid ""
@@ -515,65 +516,65 @@ msgid ""
 "because the .htaccess file does not work."
 msgstr "თქვენი data დირექტორია და ფაილები დაშვებადია ინტერნეტში რადგან  .htaccess ფაილი არ მუშაობს."
 
-#: templates/installation.php:40
+#: templates/installation.php:41
+#, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
-"href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
-"target=\"_blank\">documentation</a>."
-msgstr "სერვერის კორექტულად დასაკონფიგურირებლად, ნახეთ შემდეგი  <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">დოკუმენტაცია</a>."
+"href=\"%s\" target=\"_blank\">documentation</a>."
+msgstr ""
 
-#: templates/installation.php:44
+#: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
 msgstr "შექმენი <strong>ადმინ ექაუნტი</strong>"
 
-#: templates/installation.php:62
+#: templates/installation.php:65
 msgid "Advanced"
 msgstr "დამატებითი ფუნქციები"
 
-#: templates/installation.php:64
+#: templates/installation.php:67
 msgid "Data folder"
 msgstr "მონაცემთა საქაღალდე"
 
-#: templates/installation.php:74
+#: templates/installation.php:77
 msgid "Configure the database"
 msgstr "მონაცემთა ბაზის კონფიგურირება"
 
-#: templates/installation.php:79 templates/installation.php:91
-#: templates/installation.php:102 templates/installation.php:113
-#: templates/installation.php:125
+#: templates/installation.php:82 templates/installation.php:94
+#: templates/installation.php:105 templates/installation.php:116
+#: templates/installation.php:128
 msgid "will be used"
 msgstr "გამოყენებული იქნება"
 
-#: templates/installation.php:137
+#: templates/installation.php:140
 msgid "Database user"
 msgstr "მონაცემთა ბაზის მომხმარებელი"
 
-#: templates/installation.php:144
+#: templates/installation.php:147
 msgid "Database password"
 msgstr "მონაცემთა ბაზის პაროლი"
 
-#: templates/installation.php:149
+#: templates/installation.php:152
 msgid "Database name"
 msgstr "მონაცემთა ბაზის სახელი"
 
-#: templates/installation.php:159
+#: templates/installation.php:160
 msgid "Database tablespace"
 msgstr "ბაზის ცხრილის ზომა"
 
-#: templates/installation.php:166
+#: templates/installation.php:167
 msgid "Database host"
 msgstr "მონაცემთა ბაზის ჰოსტი"
 
-#: templates/installation.php:172
+#: templates/installation.php:175
 msgid "Finish setup"
 msgstr "კონფიგურაციის დასრულება"
 
-#: templates/layout.user.php:43
+#: templates/layout.user.php:41
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:68
+#: templates/layout.user.php:66
 msgid "Log out"
 msgstr "გამოსვლა"
 
@@ -607,7 +608,7 @@ msgstr "შესვლა"
 msgid "Alternative Logins"
 msgstr "ალტერნატიული Login–ი"
 
-#: templates/mail.php:16
+#: templates/mail.php:15
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "

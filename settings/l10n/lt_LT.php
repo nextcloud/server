@@ -33,7 +33,6 @@
 "A valid password must be provided" => "Slaptažodis turi būti tinkamas",
 "__language_name__" => "Kalba",
 "Security Warning" => "Saugumo pranešimas",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Jūsų duomenų aplankalas ir Jūsų failai turbūt yra pasiekiami per internetą. Failas .htaccess, kuris duodamas, neveikia. Mes rekomenduojame susitvarkyti savo nustatymsu taip, kad failai nebūtų pasiekiami per internetą, arba persikelti juos kitur.",
 "Module 'fileinfo' missing" => "Trūksta 'fileinfo' modulio",
 "Cron" => "Cron",
 "Sharing" => "Dalijimasis",

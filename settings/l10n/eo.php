@@ -25,7 +25,6 @@
 "__language_name__" => "Esperanto",
 "Security Warning" => "Sekureca averto",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Via TTT-servilo ankoraŭ ne ĝuste agordiĝis por permesi sinkronigi dosierojn ĉar la WebDAV-interfaco ŝajnas rompita.",
-"Please double check the <a href='%s'>installation guides</a>." => "Bonvolu duoble kontroli la <a href='%s'>gvidilon por instalo</a>.",
 "Cron" => "Cron",
 "Sharing" => "Kunhavigo",
 "Enable Share API" => "Kapabligi API-on por Kunhavigo",

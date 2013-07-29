@@ -19,7 +19,7 @@ OC.Log={
 	getMore:function(count){
 		count = count || 10;
 		$.get(OC.filePath('settings','ajax','getlog.php'),{offset:OC.Log.loaded,count:count},function(result){
-			if(result.status=='success'){
+			if(result.status === 'success'){
 				OC.Log.addEntries(result.data);
 				if(!result.remain){
 					$('#moreLog').hide();

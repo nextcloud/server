@@ -1,437 +1,409 @@
 <?php
-
 /**
-* ownCloud
-*
-* @author Michael Gapczynski
-* @copyright 2012 Michael Gapczynski mtgap@owncloud.com
-*
-* This library is free software; you can redistribute it and/or
-* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*
-* You should have received a copy of the GNU Affero General Public
-* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * ownCloud
+ *
+ * @author Michael Gapczynski
+ * @copyright 2012 Michael Gapczynski mtgap@owncloud.com
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 namespace OC\Files\Storage;
 
-require_once 'Google/common.inc.php';
+set_include_path(get_include_path().PATH_SEPARATOR.
+	\OC_App::getAppPath('files_external').'/3rdparty/google-api-php-client/src');
+require_once 'Google_Client.php';
+require_once 'contrib/Google_DriveService.php';
 
 class Google extends \OC\Files\Storage\Common {
 
-	private $consumer;
-	private $oauth_token;
-	private $sig_method;
-	private $entries;
 	private $id;
+	private $service;
+	private $driveFiles;
 
 	private static $tempFiles = array();
 
+	// Google Doc mimetypes
+	const FOLDER = 'application/vnd.google-apps.folder';
+	const DOCUMENT = 'application/vnd.google-apps.document';
+	const SPREADSHEET = 'application/vnd.google-apps.spreadsheet';
+	const DRAWING = 'application/vnd.google-apps.drawing';
+	const PRESENTATION = 'application/vnd.google-apps.presentation';
+
 	public function __construct($params) {
-		if (isset($params['configured']) && $params['configured'] == 'true'
+		if (isset($params['configured']) && $params['configured'] === 'true'
+			&& isset($params['client_id']) && isset($params['client_secret'])
 			&& isset($params['token'])
-			&& isset($params['token_secret'])
 		) {
-			$consumer_key = isset($params['consumer_key']) ? $params['consumer_key'] : 'anonymous';
-			$consumer_secret = isset($params['consumer_secret']) ? $params['consumer_secret'] : 'anonymous';
-			$this->id = 'google::' . $params['token'];
-			$this->consumer = new \OAuthConsumer($consumer_key, $consumer_secret);
-			$this->oauth_token = new \OAuthToken($params['token'], $params['token_secret']);
-			$this->sig_method = new \OAuthSignatureMethod_HMAC_SHA1();
-			$this->entries = array();
+			$client = new \Google_Client();
+			$client->setClientId($params['client_id']);
+			$client->setClientSecret($params['client_secret']);
+			$client->setScopes(array('https://www.googleapis.com/auth/drive'));
+			$client->setUseObjects(true);
+			$client->setAccessToken($params['token']);
+			$this->service = new \Google_DriveService($client);
+			$token = json_decode($params['token'], true);
+			$this->id = 'google::'.substr($params['client_id'], 0, 30).$token['created'];
 		} else {
 			throw new \Exception('Creating \OC\Files\Storage\Google storage failed');
 		}
 	}
 
-	private function sendRequest($uri,
-								 $httpMethod,
-								 $postData = null,
-								 $extraHeaders = null,
-								 $isDownload = false,
-								 $returnHeaders = false,
-								 $isContentXML = true,
-								 $returnHTTPCode = false) {
-		$uri = trim($uri);
-		// create an associative array from each key/value url query param pair.
-		$params = array();
-		$pieces = explode('?', $uri);
-		if (isset($pieces[1])) {
-			$params = explode_assoc('=', '&', $pieces[1]);
-		}
-		// urlencode each url parameter key/value pair
-		$tempStr = $pieces[0];
-		foreach ($params as $key => $value) {
-			$tempStr .= '&' . urlencode($key) . '=' . urlencode($value);
-		}
-		$uri = preg_replace('/&/', '?', $tempStr, 1);
-		$request = \OAuthRequest::from_consumer_and_token($this->consumer,
-														 $this->oauth_token,
-														 $httpMethod,
-														 $uri,
-														 $params);
-		$request->sign_request($this->sig_method, $this->consumer, $this->oauth_token);
-		$auth_header = $request->to_header();
-		$headers = array($auth_header, 'GData-Version: 3.0');
-		if ($isContentXML) {
-			$headers = array_merge($headers, array('Content-Type: application/atom+xml'));
-		}
-		if (is_array($extraHeaders)) {
-			$headers = array_merge($headers, $extraHeaders);
-		}
-		$curl = curl_init($uri);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_FAILONERROR, false);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-		switch ($httpMethod) {
-			case 'GET':
-				curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-				break;
-			case 'POST':
-				curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-				curl_setopt($curl, CURLOPT_POST, 1);
-				curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
-				break;
-			case 'PUT':
-				$headers[] = 'If-Match: *';
-				curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $httpMethod);
-				curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
-				break;
-			case 'DELETE':
-				$headers[] = 'If-Match: *';
-				curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $httpMethod);
-				break;
-			default:
-				curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-		}
-		if ($isDownload) {
-			$tmpFile = \OC_Helper::tmpFile();
-			$handle = fopen($tmpFile, 'w');
-			curl_setopt($curl, CURLOPT_FILE, $handle);
-		}
-		if ($returnHeaders) {
-			curl_setopt($curl, CURLOPT_HEADER, true);
-		}
-		$result = curl_exec($curl);
-		$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-		curl_close($curl);
-		if ($result) {
-			// TODO https://developers.google.com/google-apps/documents-list/#handling_api_errors
-			// TODO Log error messages
-			if ($httpCode <= 308) {
-				if ($isDownload) {
-					return $tmpFile;
-				} else if ($returnHTTPCode) {
-					return array('result' => $result, 'code' => $httpCode);
-				} else {
-					return $result;
-				}
-			}
-		}
-		return false;
-	}
-
-	private function getFeed($feedUri, $httpMethod, $postData = null) {
-		$result = $this->sendRequest($feedUri, $httpMethod, $postData);
-		if ($result) {
-			$dom = new \DOMDocument();
-			$dom->loadXML($result);
-			return $dom;
-		}
-		return false;
-	}
-
-	/**
-	 * Base url for google docs feeds
-	 */
-	const BASE_URI='https://docs.google.com/feeds';
-
-	private function getResource($path) {
-		$file = basename($path);
-		if (array_key_exists($file, $this->entries)) {
-			return $this->entries[$file];
-		} else {
-			// Strip the file extension; file could be a native Google Docs resource
-			if ($pos = strpos($file, '.')) {
-				$title = substr($file, 0, $pos);
-				$dom = $this->getFeed(self::BASE_URI.'/default/private/full?showfolders=true&title='.$title, 'GET');
-				// Check if request was successful and entry exists
-				if ($dom && $entry = $dom->getElementsByTagName('entry')->item(0)) {
-					$this->entries[$file] = $entry;
-					return $entry;
-				}
-			}
-			$dom = $this->getFeed(self::BASE_URI.'/default/private/full?showfolders=true&title='.$file, 'GET');
-			// Check if request was successful and entry exists
-			if ($dom && $entry = $dom->getElementsByTagName('entry')->item(0)) {
-				$this->entries[$file] = $entry;
-				return $entry;
-			}
-			return false;
-		}
-	}
-
-	private function getExtension($entry) {
-		$mimetype = $this->getMimeType('', $entry);
-		switch ($mimetype) {
-			case 'httpd/unix-directory':
-				return '';
-			case 'application/vnd.oasis.opendocument.text':
-				return 'odt';
-			case 'application/vnd.oasis.opendocument.spreadsheet':
-				return 'ods';
-			case 'application/vnd.oasis.opendocument.presentation':
-				return 'pptx';
-			case 'text/html':
-				return 'html';
-			default:
-				return 'html';
-		}
-	}
-
-	public function getId(){
+	public function getId() {
 		return $this->id;
 	}
 
-	public function mkdir($path) {
-		$collection = dirname($path);
-		// Check if path parent is root directory
-		if ($collection == '/' || $collection == '\.' || $collection == '.') {
-			$uri = self::BASE_URI.'/default/private/full';
+	/**
+	 * Get the Google_DriveFile object for the specified path
+	 * @param string $path
+	 * @return Google_DriveFile
+	 */
+	private function getDriveFile($path) {
+		// Remove leading and trailing slashes
+		$path = trim($path, '/');
+		if (isset($this->driveFiles[$path])) {
+			return $this->driveFiles[$path];
+		} else if ($path === '') {
+			$root = $this->service->files->get('root');
+			$this->driveFiles[$path] = $root;
+			return $root;
 		} else {
-			// Get parent content link
-			$dom = $this->getResource(basename($collection));
-			if ($dom) {
-				$uri = $dom->getElementsByTagName('content')->item(0)->getAttribute('src');
+			// Google Drive SDK does not have methods for retrieving files by path
+			// Instead we must find the id of the parent folder of the file
+			$parentId = $this->getDriveFile('')->getId();
+			$folderNames = explode('/', $path);
+			$path = '';
+			// Loop through each folder of this path to get to the file
+			foreach ($folderNames as $name) {
+				// Reconstruct path from beginning
+				if ($path === '') {
+					$path .= $name;
+				} else {
+					$path .= '/'.$name;
+				}
+				if (isset($this->driveFiles[$path])) {
+					$parentId = $this->driveFiles[$path]->getId();
+				} else {
+					$q = "title='".$name."' and '".$parentId."' in parents and trashed = false";
+					$result = $this->service->files->listFiles(array('q' => $q))->getItems();
+					if (!empty($result)) {
+						// Google Drive allows files with the same name, ownCloud doesn't
+						if (count($result) > 1) {
+							$this->onDuplicateFileDetected($path);
+							return false;
+						} else {
+							$file = current($result);
+							$this->driveFiles[$path] = $file;
+							$parentId = $file->getId();
+						}
+					} else {
+						// Google Docs have no extension in their title, so try without extension
+						$pos = strrpos($path, '.');
+						if ($pos !== false) {
+							$pathWithoutExt = substr($path, 0, $pos);
+							$file = $this->getDriveFile($pathWithoutExt);
+							if ($file) {
+								// Switch cached Google_DriveFile to the correct index
+								unset($this->driveFiles[$pathWithoutExt]);
+								$this->driveFiles[$path] = $file;
+								$parentId = $file->getId();
+							} else {
+								return false;
+							}
+						} else {
+							return false;
+						}
+					}
+				}
+			}
+			return $this->driveFiles[$path];
+		}
+	}
+
+	/**
+	 * Set the Google_DriveFile object in the cache
+	 * @param string $path
+	 * @param Google_DriveFile|false $file
+	 */
+	private function setDriveFile($path, $file) {
+		$path = trim($path, '/');
+		$this->driveFiles[$path] = $file;
+		if ($file === false) {
+			// Set all child paths as false
+			$len = strlen($path);
+			foreach ($this->driveFiles as $key => $file) {
+				if (substr($key, 0, $len) === $path) {
+					$this->driveFiles[$key] = false;
+				}
 			}
 		}
-		if (isset($uri)) {
-			$title = basename($path);
-			// Construct post data
-			$postData = '<?xml version="1.0" encoding="UTF-8"?>';
-			$postData .= '<entry xmlns="http://www.w3.org/2005/Atom">';
-			$postData .= '<category scheme="http://schemas.google.com/g/2005#kind"';
-			$postData .=          ' term="http://schemas.google.com/docs/2007#folder"/>';
-			$postData .= '<title>'.$title.'</title>';
-			$postData .= '</entry>';
-			$dom = $this->sendRequest($uri, 'POST', $postData);
-			if ($dom) {
-				return true;
+	}
+
+	/**
+	 * Write a log message to inform about duplicate file names
+	 * @param string $path
+	 */
+	private function onDuplicateFileDetected($path) {
+		$about = $this->service->about->get();
+		$user = $about->getName();
+		\OCP\Util::writeLog('files_external',
+			'Ignoring duplicate file name: '.$path.' on Google Drive for Google user: '.$user,
+			\OCP\Util::INFO
+		);
+	}
+
+	/**
+	 * Generate file extension for a Google Doc, choosing Open Document formats for download
+	 * @param string $mimetype
+	 * @return string
+	 */
+	private function getGoogleDocExtension($mimetype) {
+		if ($mimetype === self::DOCUMENT) {
+			return 'odt';
+		} else if ($mimetype === self::SPREADSHEET) {
+			return 'ods';
+		} else if ($mimetype === self::DRAWING) {
+			return 'jpg';
+		} else if ($mimetype === self::PRESENTATION) {
+			// Download as .odp is not available
+			return 'pdf';
+		} else {
+			return '';
+		}
+	}
+
+	public function mkdir($path) {
+		if (!$this->is_dir($path)) {
+			$parentFolder = $this->getDriveFile(dirname($path));
+			if ($parentFolder) {
+				$folder = new \Google_DriveFile();
+				$folder->setTitle(basename($path));
+				$folder->setMimeType(self::FOLDER);
+				$parent = new \Google_ParentReference();
+				$parent->setId($parentFolder->getId());
+				$folder->setParents(array($parent));
+				$result = $this->service->files->insert($folder);
+				if ($result) {
+					$this->setDriveFile($path, $result);
+				}
+				return (bool)$result;
 			}
 		}
 		return false;
 	}
 
 	public function rmdir($path) {
-		return $this->unlink($path);
+		if (trim($path, '/') === '') {
+			$dir = $this->opendir($path);
+			while ($file = readdir($dir)) {
+				if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
+					if (!$this->unlink($path.'/'.$file)) {
+						return false;
+					}
+				}
+			}
+			closedir($dir);
+			$this->driveFiles = array();
+			return true;
+		} else {
+			return $this->unlink($path);
+		}
 	}
 
 	public function opendir($path) {
-		if ($path == '' || $path == '/') {
-			$next = self::BASE_URI.'/default/private/full/folder%3Aroot/contents';
+		// Remove leading and trailing slashes
+		$path = trim($path, '/');
+		$folder = $this->getDriveFile($path);
+		if ($folder) {
+			$files = array();
+			$duplicates = array();
+			$pageToken = true;
+			while ($pageToken) {
+				$params = array();
+				if ($pageToken !== true) {
+					$params['pageToken'] = $pageToken;
+				}
+				$params['q'] = "'".$folder->getId()."' in parents and trashed = false";
+				$children = $this->service->files->listFiles($params);
+				foreach ($children->getItems() as $child) {
+					$name = $child->getTitle();
+					// Check if this is a Google Doc i.e. no extension in name
+					if ($child->getFileExtension() === ''
+						&& $child->getMimeType() !== self::FOLDER
+					) {
+						$name .= '.'.$this->getGoogleDocExtension($child->getMimeType());
+					}
+					if ($path === '') {
+						$filepath = $name;
+					} else {
+						$filepath = $path.'/'.$name;
+					}
+					// Google Drive allows files with the same name, ownCloud doesn't
+					// Prevent opendir() from returning any duplicate files
+					$key = array_search($name, $files);
+					if ($key !== false || isset($duplicates[$filepath])) {
+						if (!isset($duplicates[$filepath])) {
+							$duplicates[$filepath] = true;
+							$this->setDriveFile($filepath, false);
+							unset($files[$key]);
+							$this->onDuplicateFileDetected($filepath);
+						}
+					} else {
+						// Cache the Google_DriveFile for future use
+						$this->setDriveFile($filepath, $child);
+						$files[] = $name;
+					}
+				}
+				$pageToken = $children->getNextPageToken();
+			}
+			\OC\Files\Stream\Dir::register('google'.$path, $files);
+			return opendir('fakedir://google'.$path);
 		} else {
-			$entry = $this->getResource($path);
-			if ($entry) {
-				$next = $entry->getElementsByTagName('content')->item(0)->getAttribute('src');
+			return false;
+		}
+	}
+
+	public function stat($path) {
+		$file = $this->getDriveFile($path);
+		if ($file) {
+			$stat = array();
+			if ($this->filetype($path) === 'dir') {
+				$stat['size'] = 0;
+			} else {
+				// Check if this is a Google Doc
+				if ($this->getMimeType($path) !== $file->getMimeType()) {
+					// Return unknown file size
+					$stat['size'] = \OC\Files\FREE_SPACE_UNKNOWN;
+				} else {
+					$stat['size'] = $file->getFileSize();
+				}
+			}
+			$stat['atime'] = strtotime($file->getLastViewedByMeDate());
+			$stat['mtime'] = strtotime($file->getModifiedDate());
+			$stat['ctime'] = strtotime($file->getCreatedDate());
+			return $stat;
+		} else {
+			return false;
+		}
+	}
+
+	public function filetype($path) {
+		if ($path === '') {
+			return 'dir';
+		} else {
+			$file = $this->getDriveFile($path);
+			if ($file) {
+				if ($file->getMimeType() === self::FOLDER) {
+					return 'dir';
+				} else {
+					return 'file';
+				}
 			} else {
 				return false;
 			}
 		}
-		$files = array();
-		while ($next) {
-			$dom = $this->getFeed($next, 'GET');
-			$links = $dom->getElementsByTagName('link');
-			foreach ($links as $link) {
-				if ($link->getAttribute('rel') == 'next') {
-					$next = $link->getAttribute('src');
-					break;
-				} else {
-					$next = false;
-				}
-			}
-			$entries = $dom->getElementsByTagName('entry');
-			foreach ($entries as $entry) {
-				$name = $entry->getElementsByTagName('title')->item(0)->nodeValue;
-				// Google Docs resources don't always include extensions in title
-				if ( ! strpos($name, '.')) {
-					$extension = $this->getExtension($entry);
-					if ($extension != '') {
-						$name .= '.'.$extension;
-					}
-				}
-				$files[] = basename($name);
-				// Cache entry for future use
-				$this->entries[$name] = $entry;
-			}
-		}
-		\OC\Files\Stream\Dir::register('google'.$path, $files);
-		return opendir('fakedir://google'.$path);
-	}
-
-	public function stat($path) {
-		if ($path == '' || $path == '/') {
-			$stat['size'] = $this->free_space($path);
-			$stat['atime'] = time();
-			$stat['mtime'] = time();
-			$stat['ctime'] = time();
-		} else {
-			$entry = $this->getResource($path);
-			if ($entry) {
-				// NOTE: Native resources don't have a file size
-				$stat['size'] = $entry->getElementsByTagNameNS('http://schemas.google.com/g/2005',
-															   'quotaBytesUsed')->item(0)->nodeValue;
-				//if (isset($atime = $entry->getElementsByTagNameNS('http://schemas.google.com/g/2005',
-				//													'lastViewed')->item(0)->nodeValue))
-				//$stat['atime'] = strtotime($entry->getElementsByTagNameNS('http://schemas.google.com/g/2005',
-				//															'lastViewed')->item(0)->nodeValue);
-				$stat['mtime'] = strtotime($entry->getElementsByTagName('updated')->item(0)->nodeValue);
-			}
-		}
-		if (isset($stat)) {
-			return $stat;
-		}
-		return false;
-	}
-
-	public function filetype($path) {
-		if ($path == '' || $path == '/') {
-			return 'dir';
-		} else {
-			$entry = $this->getResource($path);
-			if ($entry) {
-				$categories = $entry->getElementsByTagName('category');
-				foreach ($categories as $category) {
-					if ($category->getAttribute('scheme') == 'http://schemas.google.com/g/2005#kind') {
-						$type = $category->getAttribute('label');
-						if (strlen(strstr($type, 'folder')) > 0) {
-							return 'dir';
-						} else {
-							return 'file';
-						}
-					}
-				}
-			}
-		}
-		return false;
 	}
 
 	public function isReadable($path) {
-		return true;
+		return $this->file_exists($path);
 	}
 
 	public function isUpdatable($path) {
-		if ($path == '' || $path == '/') {
-			return true;
+		$file = $this->getDriveFile($path);
+		if ($file) {
+			return $file->getEditable();
 		} else {
-			$entry = $this->getResource($path);
-			if ($entry) {
-				// Check if edit or edit-media links exist
-				$links = $entry->getElementsByTagName('link');
-				foreach ($links as $link) {
-					if ($link->getAttribute('rel') == 'edit') {
-						return true;
-					} else if ($link->getAttribute('rel') == 'edit-media') {
-						return true;
-					}
-				}
-			}
+			return false;
 		}
-		return false;
 	}
 
 	public function file_exists($path) {
-		if ($path == '' || $path == '/') {
-			return true;
-		} else if ($this->getResource($path)) {
-			return true;
-		}
-		return false;
+		return (bool)$this->getDriveFile($path);
 	}
 
 	public function unlink($path) {
-		// Get resource self link to trash resource
-		$entry = $this->getResource($path);
-		if ($entry) {
-			$links = $entry->getElementsByTagName('link');
-			foreach ($links as $link) {
-				if ($link->getAttribute('rel') == 'self') {
-					$uri = $link->getAttribute('href');
-					break;
-				}
+		$file = $this->getDriveFile($path);
+		if ($file) {
+			$result = $this->service->files->trash($file->getId());
+			if ($result) {
+				$this->setDriveFile($path, false);
 			}
+			return (bool)$result;
+		} else {
+			return false;
 		}
-		if (isset($uri)) {
-			$this->sendRequest($uri, 'DELETE');
-			return true;
-		}
-		return false;
 	}
 
 	public function rename($path1, $path2) {
-		$entry = $this->getResource($path1);
-		if ($entry) {
-			$collection = dirname($path2);
-			if (dirname($path1) == $collection) {
-				// Get resource edit link to rename resource
-				$etag = $entry->getAttribute('gd:etag');
-				$links = $entry->getElementsByTagName('link');
-				foreach ($links as $link) {
-					if ($link->getAttribute('rel') == 'edit') {
-						$uri = $link->getAttribute('href');
-						break;
-					}
-				}
-				$title = basename($path2);
-				// Construct post data
-				$postData = '<?xml version="1.0" encoding="UTF-8"?>';
-				$postData .= '<entry xmlns="http://www.w3.org/2005/Atom"';
-				$postData .=       ' xmlns:docs="http://schemas.google.com/docs/2007"';
-				$postData .=       ' xmlns:gd="http://schemas.google.com/g/2005"';
-				$postData .=       ' gd:etag='.$etag.'>';
-				$postData .= '<title>'.$title.'</title>';
-				$postData .= '</entry>';
-				$this->sendRequest($uri, 'PUT', $postData);
-				return true;
+		$file = $this->getDriveFile($path1);
+		if ($file) {
+			if (dirname($path1) === dirname($path2)) {
+				$file->setTitle(basename(($path2)));
 			} else {
-				// Move to different collection
-				$collectionEntry = $this->getResource($collection);
-				if ($collectionEntry) {
-					$feedUri = $collectionEntry->getElementsByTagName('content')->item(0)->getAttribute('src');
-					// Construct post data
-					$postData = '<?xml version="1.0" encoding="UTF-8"?>';
-					$postData .= '<entry xmlns="http://www.w3.org/2005/Atom">';
-					$postData .= '<id>'.$entry->getElementsByTagName('id')->item(0).'</id>';
-					$postData .= '</entry>';
-					$this->sendRequest($feedUri, 'POST', $postData);
-					return true;
+				// Change file parent
+				$parentFolder2 = $this->getDriveFile(dirname($path2));
+				if ($parentFolder2) {
+					$parent = new \Google_ParentReference();
+					$parent->setId($parentFolder2->getId());
+					$file->setParents(array($parent));
+				} else {
+					return false;
 				}
 			}
+			$result = $this->service->files->patch($file->getId(), $file);
+			if ($result) {
+				$this->setDriveFile($path1, false);
+				$this->setDriveFile($path2, $result);
+			}
+			return (bool)$result;
+		} else {
+			return false;
 		}
-		return false;
 	}
 
 	public function fopen($path, $mode) {
+		$pos = strrpos($path, '.');
+		if ($pos !== false) {
+			$ext = substr($path, $pos);
+		} else {
+			$ext = '';
+		}
 		switch ($mode) {
 			case 'r':
 			case 'rb':
-				$entry = $this->getResource($path);
-				if ($entry) {
-					$extension = $this->getExtension($entry);
-					$downloadUri = $entry->getElementsByTagName('content')->item(0)->getAttribute('src');
-					// TODO Non-native documents don't need these additional parameters
-					$downloadUri .= '&exportFormat='.$extension.'&format='.$extension;
-					$tmpFile = $this->sendRequest($downloadUri, 'GET', null, null, true);
-					return fopen($tmpFile, 'r');
+				$file = $this->getDriveFile($path);
+				if ($file) {
+					$exportLinks = $file->getExportLinks();
+					$mimetype = $this->getMimeType($path);
+					$downloadUrl = null;
+					if ($exportLinks && isset($exportLinks[$mimetype])) {
+						$downloadUrl = $exportLinks[$mimetype];
+					} else {
+						$downloadUrl = $file->getDownloadUrl();
+					}
+					if (isset($downloadUrl)) {
+						$request = new \Google_HttpRequest($downloadUrl, 'GET', null, null);
+						$httpRequest = \Google_Client::$io->authenticatedRequest($request);
+						if ($httpRequest->getResponseHttpCode() == 200) {
+							$tmpFile = \OC_Helper::tmpFile($ext);
+							$data = $httpRequest->getResponseBody();
+							file_put_contents($tmpFile, $data);
+							return fopen($tmpFile, $mode);
+						}
+					}
 				}
+				return false;
 			case 'w':
 			case 'wb':
 			case 'a':
@@ -444,161 +416,173 @@ class Google extends \OC\Files\Storage\Common {
 			case 'x+':
 			case 'c':
 			case 'c+':
-				if (strrpos($path, '.') !== false) {
-					$ext = substr($path, strrpos($path, '.'));
-				} else {
-					$ext = '';
-				}
 				$tmpFile = \OC_Helper::tmpFile($ext);
 				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				if ($this->file_exists($path)) {
-					$source = $this->fopen($path, 'r');
+					$source = $this->fopen($path, 'rb');
 					file_put_contents($tmpFile, $source);
 				}
 				self::$tempFiles[$tmpFile] = $path;
 				return fopen('close://'.$tmpFile, $mode);
 		}
-		return false;
 	}
 
 	public function writeBack($tmpFile) {
 		if (isset(self::$tempFiles[$tmpFile])) {
-			$this->uploadFile($tmpFile, self::$tempFiles[$tmpFile]);
+			$path = self::$tempFiles[$tmpFile];
+			$parentFolder = $this->getDriveFile(dirname($path));
+			if ($parentFolder) {
+				// TODO Research resumable upload
+				$mimetype = \OC_Helper::getMimeType($tmpFile);
+				$data = file_get_contents($tmpFile);
+				$params = array(
+					'data' => $data,
+					'mimeType' => $mimetype,
+				);
+				$result = false;
+				if ($this->file_exists($path)) {
+					$file = $this->getDriveFile($path);
+					$result = $this->service->files->update($file->getId(), $file, $params);
+				} else {
+					$file = new \Google_DriveFile();
+					$file->setTitle(basename($path));
+					$file->setMimeType($mimetype);
+					$parent = new \Google_ParentReference();
+					$parent->setId($parentFolder->getId());
+					$file->setParents(array($parent));
+					$result = $this->service->files->insert($file, $params);
+				}
+				if ($result) {
+					$this->setDriveFile($path, $result);
+				}
+			}
 			unlink($tmpFile);
 		}
 	}
 
-	private function uploadFile($path, $target) {
-		$entry = $this->getResource($target);
-		if ( ! $entry) {
-			if (dirname($target) == '.' || dirname($target) == '/') {
-				$uploadUri = self::BASE_URI.'/upload/create-session/default/private/full/folder%3Aroot/contents';
-			} else {
-				$entry = $this->getResource(dirname($target));
-			}
-		}
-		if ( ! isset($uploadUri) && $entry) {
-			$links = $entry->getElementsByTagName('link');
-			foreach ($links as $link) {
-				if ($link->getAttribute('rel') == 'http://schemas.google.com/g/2005#resumable-create-media') {
-					$uploadUri = $link->getAttribute('href');
-					break;
-				}
-			}
-		}
-		if (isset($uploadUri) && $handle = fopen($path, 'r')) {
-			$uploadUri .= '?convert=false';
-			$mimetype = \OC_Helper::getMimeType($path);
-			$size = filesize($path);
-			$headers = array('X-Upload-Content-Type: ' => $mimetype, 'X-Upload-Content-Length: ' => $size);
-			$postData = '<?xml version="1.0" encoding="UTF-8"?>';
-			$postData .= '<entry xmlns="http://www.w3.org/2005/Atom" xmlns:docs="http://schemas.google.com/docs/2007">';
-			$postData .= '<title>'.basename($target).'</title>';
-			$postData .= '</entry>';
-			$result = $this->sendRequest($uploadUri, 'POST', $postData, $headers, false, true);
-			if ($result) {
-				// Get location to upload file
-				if (preg_match('@^Location: (.*)$@m', $result, $matches)) {
-					$uploadUri = trim($matches[1]);
-				}
-			} else {
-				return false;
-			}
-			// 512 kB chunks
-			$chunkSize = 524288;
-			$i = 0;
-			while (!feof($handle)) {
-				if ($i + $chunkSize > $size) {
-					if ($i == 0) {
-						$chunkSize = $size;
-					} else {
-						$chunkSize = $size % $i;
-					}
-				}
-				$end = $i + $chunkSize - 1;
-				$headers = array('Content-Length: '.$chunkSize,
-								 'Content-Type: '.$mimetype,
-								 'Content-Range: bytes '.$i.'-'.$end.'/'.$size);
-				$postData = fread($handle, $chunkSize);
-				$result = $this->sendRequest($uploadUri, 'PUT', $postData, $headers, false, true, false, true);
-				if ($result['code'] == '308') {
-					if (preg_match('@^Location: (.*)$@m', $result['result'], $matches)) {
-						// Get next location to upload file chunk
-						$uploadUri = trim($matches[1]);
-					}
-					$i += $chunkSize;
-				} else {
-					return false;
-				}
-			}
-			// TODO Wait for resource entry
-		}
-	}
-
-	public function getMimeType($path, $entry = null) {
-		// Entry can be passed, because extension is required for opendir
-		// and the entry can't be cached without the extension
-		if ($entry == null) {
-			if ($path == '' || $path == '/') {
+	public function getMimeType($path) {
+		$file = $this->getDriveFile($path);
+		if ($file) {
+			$mimetype = $file->getMimeType();
+			// Convert Google Doc mimetypes, choosing Open Document formats for download
+			if ($mimetype === self::FOLDER) {
 				return 'httpd/unix-directory';
+			} else if ($mimetype === self::DOCUMENT) {
+				return 'application/vnd.oasis.opendocument.text';
+			} else if ($mimetype === self::SPREADSHEET) {
+				return 'application/x-vnd.oasis.opendocument.spreadsheet';
+			} else if ($mimetype === self::DRAWING) {
+				return 'image/jpeg';
+			} else if ($mimetype === self::PRESENTATION) {
+				// Download as .odp is not available
+				return 'application/pdf';
 			} else {
-				$entry = $this->getResource($path);
+				return $mimetype;
 			}
+		} else {
+			return false;
 		}
-		if ($entry) {
-			$mimetype = $entry->getElementsByTagName('content')->item(0)->getAttribute('type');
-			// Native Google Docs resources often default to text/html,
-			// but it may be more useful to default to a corresponding ODF mimetype
-			// Collections get reported as application/atom+xml,
-			// make sure it actually is a folder and fix the mimetype
-			if ($mimetype == 'text/html' || $mimetype == 'application/atom+xml;type=feed') {
-				$categories = $entry->getElementsByTagName('category');
-				foreach ($categories as $category) {
-					if ($category->getAttribute('scheme') == 'http://schemas.google.com/g/2005#kind') {
-						$type = $category->getAttribute('label');
-						if (strlen(strstr($type, 'folder')) > 0) {
-							return 'httpd/unix-directory';
-						} else if (strlen(strstr($type, 'document')) > 0) {
-							return 'application/vnd.oasis.opendocument.text';
-						} else if (strlen(strstr($type, 'spreadsheet')) > 0) {
-							return 'application/vnd.oasis.opendocument.spreadsheet';
-						} else if (strlen(strstr($type, 'presentation')) > 0) {
-							return 'application/vnd.oasis.opendocument.presentation';
-						} else if (strlen(strstr($type, 'drawing')) > 0) {
-							return 'application/vnd.oasis.opendocument.graphics';
-						} else {
-							// If nothing matches return text/html,
-							// all native Google Docs resources can be exported as text/html
-							return 'text/html';
-						}
-					}
-				}
-			}
-			return $mimetype;
-		}
-		return false;
 	}
 
 	public function free_space($path) {
-		$dom = $this->getFeed(self::BASE_URI.'/metadata/default', 'GET');
-		if ($dom) {
-			// NOTE: Native Google Docs resources don't count towards quota
-			$total = $dom->getElementsByTagNameNS('http://schemas.google.com/g/2005',
-												  'quotaBytesTotal')->item(0)->nodeValue;
-			$used = $dom->getElementsByTagNameNS('http://schemas.google.com/g/2005',
-												  'quotaBytesUsed')->item(0)->nodeValue;
-			return $total - $used;
-		}
-		return false;
+		$about = $this->service->about->get();
+		return $about->getQuotaBytesTotal() - $about->getQuotaBytesUsed();
 	}
 
 	public function touch($path, $mtime = null) {
-
+		$file = $this->getDriveFile($path);
+		$result = false;
+		if ($file) {
+			if (isset($mtime)) {
+				$file->setModifiedDate($mtime);
+				$result = $this->service->files->patch($file->getId(), $file, array(
+					'setModifiedDate' => true,
+				));
+			} else {
+				$result = $this->service->files->touch($file->getId());
+			}
+		} else {
+			$parentFolder = $this->getDriveFile(dirname($path));
+			if ($parentFolder) {
+				$file = new \Google_DriveFile();
+				$file->setTitle(basename($path));
+				$parent = new \Google_ParentReference();
+				$parent->setId($parentFolder->getId());
+				$file->setParents(array($parent));
+				$result = $this->service->files->insert($file);
+			}
+		}
+		if ($result) {
+			$this->setDriveFile($path, $result);
+		}
+		return (bool)$result;
 	}
 
 	public function test() {
 		if ($this->free_space('')) {
 			return true;
+		}
+		return false;
+	}
+
+	public function hasUpdated($path, $time) {
+		if ($this->is_file($path)) {
+			return parent::hasUpdated($path, $time);
+		} else {
+			// Google Drive doesn't change modified times of folders when files inside are updated
+			// Instead we use the Changes API to see if folders have been updated, and it's a pain
+			$folder = $this->getDriveFile($path);
+			if ($folder) {
+				$result = false;
+				$folderId = $folder->getId();
+				$startChangeId = \OC_Appconfig::getValue('files_external', $this->getId().'cId');
+				$params = array(
+					'includeDeleted' => true,
+					'includeSubscribed' => true,
+				);
+				if (isset($startChangeId)) {
+					$startChangeId = (int)$startChangeId;
+					$largestChangeId = $startChangeId;
+					$params['startChangeId'] = $startChangeId + 1;
+				} else {
+					$largestChangeId = 0;
+				}
+				$pageToken = true;
+				while ($pageToken) {
+					if ($pageToken !== true) {
+						$params['pageToken'] = $pageToken;
+					}
+					$changes = $this->service->changes->listChanges($params);
+					if ($largestChangeId === 0 || $largestChangeId === $startChangeId) {
+						$largestChangeId = $changes->getLargestChangeId();
+					}
+					if (isset($startChangeId)) {
+						// Check if a file in this folder has been updated
+						// There is no way to filter by folder at the API level...
+						foreach ($changes->getItems() as $change) {
+							$file = $change->getFile();
+							if ($file) {
+								foreach ($file->getParents() as $parent) {
+									if ($parent->getId() === $folderId) {
+										$result = true;
+									// Check if there are changes in different folders
+									} else if ($change->getId() <= $largestChangeId) {
+										// Decrement id so this change is fetched when called again
+										$largestChangeId = $change->getId();
+										$largestChangeId--;
+									}
+								}
+							}
+						}
+						$pageToken = $changes->getNextPageToken();
+					} else {
+						// Assuming the initial scan just occurred and changes are negligible
+						break;
+					}
+				}
+				\OC_Appconfig::setValue('files_external', $this->getId().'cId', $largestChangeId);
+				return $result;
+			}
 		}
 		return false;
 	}

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-17 02:19-0400\n"
-"PO-Revision-Date: 2013-07-17 05:25+0000\n"
-"Last-Translator: hlx98007 <hlx98007@gmail.com>\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:04+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -129,43 +129,43 @@ msgstr "删除"
 msgid "Rename"
 msgstr "重命名"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:466
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
 msgid "Pending"
 msgstr "等待中"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "{new_name} already exists"
 msgstr "{new_name} 已存在"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "replace"
 msgstr "替换"
 
-#: js/filelist.js:304
+#: js/filelist.js:303
 msgid "suggest name"
 msgstr "推荐名称"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "cancel"
 msgstr "取消"
 
-#: js/filelist.js:351
+#: js/filelist.js:350
 msgid "replaced {new_name} with {old_name}"
 msgstr "已用 {old_name} 替换 {new_name}"
 
-#: js/filelist.js:351
+#: js/filelist.js:350
 msgid "undo"
 msgstr "撤销"
 
-#: js/filelist.js:376
+#: js/filelist.js:375
 msgid "perform delete operation"
 msgstr "执行删除"
 
-#: js/filelist.js:458
+#: js/filelist.js:457
 msgid "1 file uploading"
 msgstr "1 个文件正在上传"
 
-#: js/filelist.js:461 js/filelist.js:519
+#: js/filelist.js:460 js/filelist.js:518
 msgid "files uploading"
 msgstr "个文件正在上传"
 
@@ -205,7 +205,7 @@ msgstr "不正确文件夹名。Shared是保留名，不能使用。"
 msgid "Name"
 msgstr "名称"
 
-#: js/files.js:745
+#: js/files.js:745 templates/index.php:80
 msgid "Size"
 msgstr "大小"
 
@@ -213,19 +213,19 @@ msgstr "大小"
 msgid "Modified"
 msgstr "修改日期"
 
-#: js/files.js:765
+#: js/files.js:763
 msgid "1 folder"
 msgstr "1 个文件夹"
 
-#: js/files.js:767
+#: js/files.js:765
 msgid "{count} folders"
 msgstr "{count} 个文件夹"
 
-#: js/files.js:775
+#: js/files.js:773
 msgid "1 file"
 msgstr "1 个文件"
 
-#: js/files.js:777
+#: js/files.js:775
 msgid "{count} files"
 msgstr "{count} 个文件"
 
@@ -306,10 +306,6 @@ msgstr "这里没有东西.上传点什么!"
 msgid "Download"
 msgstr "下载"
 
-#: templates/index.php:80
-msgid "Size (MB)"
-msgstr "大小 (MB)"
-
 #: templates/index.php:87 templates/index.php:88
 msgid "Unshare"
 msgstr "取消分享"
@@ -332,19 +328,19 @@ msgstr "正在扫描文件,请稍候."
 msgid "Current scanning"
 msgstr "正在扫描"
 
-#: templates/part.list.php:76
+#: templates/part.list.php:74
 msgid "directory"
 msgstr "文件夹"
 
-#: templates/part.list.php:78
+#: templates/part.list.php:76
 msgid "directories"
 msgstr "文件夹"
 
-#: templates/part.list.php:87
+#: templates/part.list.php:85
 msgid "file"
 msgstr "文件"
 
-#: templates/part.list.php:89
+#: templates/part.list.php:87
 msgid "files"
 msgstr "文件"
 

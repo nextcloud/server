@@ -5,11 +5,14 @@
 "Users" => "Kasutajad",
 "Apps" => "Rakendused",
 "Admin" => "Admin",
+"Failed to upgrade \"%s\"." => "Ebaõnnestunud uuendus \"%s\".",
 "web services under your control" => "veebitenused sinu kontrolli all",
+"cannot open \"%s\"" => "ei suuda avada \"%s\"",
 "ZIP download is turned off." => "ZIP-ina allalaadimine on välja lülitatud.",
 "Files need to be downloaded one by one." => "Failid tuleb alla laadida ükshaaval.",
 "Back to Files" => "Tagasi failide juurde",
 "Selected files too large to generate zip file." => "Valitud failid on ZIP-faili loomiseks liiga suured.",
+"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Laadi failid alla eraldi väiksemate osadena või küsi nõu oma süsteemiadminstraatorilt.",
 "couldn't be determined" => "ei suudetud tuvastada",
 "Application is not enabled" => "Rakendus pole sisse lülitatud",
 "Authentication error" => "Autentimise viga",
@@ -49,5 +52,6 @@
 "%d months ago" => "%d kuud tagasi",
 "last year" => "viimasel aastal",
 "years ago" => "aastat tagasi",
+"Caused by:" => "Põhjustaja:",
 "Could not find category \"%s\"" => "Ei leia kategooriat \"%s\""
 );

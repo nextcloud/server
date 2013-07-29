@@ -114,8 +114,8 @@ $CONFIG = array(
 /* Password to use for sendmail mail, depends on mail_smtpauth if this is used */
 "mail_smtppassword" => "",
 
-/* How long should ownCloud keep deleted files in the trash bin, default value:  180 days */
-'trashbin_retention_obligation' => 180,
+/* How long should ownCloud keep deleted files in the trash bin, default value:  30 days */
+'trashbin_retention_obligation' => 30,
 
 /* allow user to change his display name, if it is supported by the back-end */
 'allow_user_to_change_display_name' => true,

@@ -1,3 +1,4 @@
 <?php $TRANSLATIONS = array(
-"WebDAV Authentication" => "WebDAV-todennus"
+"WebDAV Authentication" => "WebDAV-todennus",
+"Address: " => "Osoite:"
 );

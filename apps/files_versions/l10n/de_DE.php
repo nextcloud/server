@@ -1,11 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Could not revert: %s" => "Konnte %s nicht zurücksetzen",
-"success" => "Erfolgreich",
-"File %s was reverted to version %s" => "Die Datei %s wurde auf die Version %s zurückgesetzt",
-"failure" => "Fehlgeschlagen",
-"File %s could not be reverted to version %s" => "Die Datei %s konnte nicht auf die Version %s zurückgesetzt werden",
-"No old versions available" => "Keine älteren Versionen verfügbar",
-"No path specified" => "Kein Pfad angegeben",
 "Versions" => "Versionen",
-"Revert a file to a previous version by clicking on its revert button" => "Setze eine Datei durch Klicken auf den Zurücksetzen-Button auf eine frühere Version zurück"
+"Failed to revert {file} to revision {timestamp}." => "Konnte {file} der Revision {timestamp} nicht rückgänging machen.",
+"More versions..." => "Mehrere Versionen...",
+"No other versions available" => "Keine anderen Versionen verfügbar",
+"Restore" => "Wiederherstellen"
 );

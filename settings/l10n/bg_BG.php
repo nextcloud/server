@@ -23,7 +23,6 @@
 "add group" => "нова група",
 "__language_name__" => "__language_name__",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Вашият web сървър все още не е удачно настроен да позволява синхронизация на файлове, защото WebDAV интерфейсът изглежда не работи.",
-"Please double check the <a href='%s'>installation guides</a>." => "Моля направете повторна справка с <a href='%s'>ръководството за инсталиране</a>.",
 "Cron" => "Крон",
 "Sharing" => "Споделяне",
 "More" => "Още",

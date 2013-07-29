@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-17 02:19-0400\n"
-"PO-Revision-Date: 2013-07-17 05:25+0000\n"
-"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
+"POT-Creation-Date: 2013-07-27 01:56-0400\n"
+"PO-Revision-Date: 2013-07-25 05:56+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -143,55 +143,55 @@ msgstr "12月"
 msgid "Settings"
 msgstr "設定"
 
-#: js/js.js:725
+#: js/js.js:715
 msgid "seconds ago"
 msgstr "数秒前"
 
-#: js/js.js:726
+#: js/js.js:716
 msgid "1 minute ago"
 msgstr "1 分前"
 
-#: js/js.js:727
+#: js/js.js:717
 msgid "{minutes} minutes ago"
 msgstr "{minutes} 分前"
 
-#: js/js.js:728
+#: js/js.js:718
 msgid "1 hour ago"
 msgstr "1 時間前"
 
-#: js/js.js:729
+#: js/js.js:719
 msgid "{hours} hours ago"
 msgstr "{hours} 時間前"
 
-#: js/js.js:730
+#: js/js.js:720
 msgid "today"
 msgstr "今日"
 
-#: js/js.js:731
+#: js/js.js:721
 msgid "yesterday"
 msgstr "昨日"
 
-#: js/js.js:732
+#: js/js.js:722
 msgid "{days} days ago"
 msgstr "{days} 日前"
 
-#: js/js.js:733
+#: js/js.js:723
 msgid "last month"
 msgstr "一月前"
 
-#: js/js.js:734
+#: js/js.js:724
 msgid "{months} months ago"
 msgstr "{months} 月前"
 
-#: js/js.js:735
+#: js/js.js:725
 msgid "months ago"
 msgstr "月前"
 
-#: js/js.js:736
+#: js/js.js:726
 msgid "last year"
 msgstr "一年前"
 
-#: js/js.js:737
+#: js/js.js:727
 msgid "years ago"
 msgstr "年前"
 
@@ -227,8 +227,8 @@ msgstr "オブジェクタイプが指定されていません。"
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:620
-#: js/share.js:632
+#: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
+#: js/share.js:631 js/share.js:643
 msgid "Error"
 msgstr "エラー"
 
@@ -248,123 +248,123 @@ msgstr "共有中"
 msgid "Share"
 msgstr "共有"
 
-#: js/share.js:125 js/share.js:660
+#: js/share.js:131 js/share.js:671
 msgid "Error while sharing"
 msgstr "共有でエラー発生"
 
-#: js/share.js:136
+#: js/share.js:142
 msgid "Error while unsharing"
 msgstr "共有解除でエラー発生"
 
-#: js/share.js:143
+#: js/share.js:149
 msgid "Error while changing permissions"
 msgstr "権限変更でエラー発生"
 
-#: js/share.js:152
+#: js/share.js:158
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "あなたと {owner} のグループ {group} で共有中"
 
-#: js/share.js:154
+#: js/share.js:160
 msgid "Shared with you by {owner}"
 msgstr "{owner} と共有中"
 
-#: js/share.js:172
+#: js/share.js:183
 msgid "Share with"
 msgstr "共有者"
 
-#: js/share.js:177
+#: js/share.js:188
 msgid "Share with link"
 msgstr "URLリンクで共有"
 
-#: js/share.js:180
+#: js/share.js:191
 msgid "Password protect"
 msgstr "パスワード保護"
 
-#: js/share.js:182 templates/installation.php:54 templates/login.php:26
+#: js/share.js:193 templates/installation.php:57 templates/login.php:26
 msgid "Password"
 msgstr "パスワード"
 
-#: js/share.js:187
+#: js/share.js:198
 msgid "Allow Public Upload"
 msgstr "アップロードを許可"
 
-#: js/share.js:191
+#: js/share.js:202
 msgid "Email link to person"
 msgstr "メールリンク"
 
-#: js/share.js:192
+#: js/share.js:203
 msgid "Send"
 msgstr "送信"
 
-#: js/share.js:197
+#: js/share.js:208
 msgid "Set expiration date"
 msgstr "有効期限を設定"
 
-#: js/share.js:198
+#: js/share.js:209
 msgid "Expiration date"
 msgstr "有効期限"
 
-#: js/share.js:230
+#: js/share.js:241
 msgid "Share via email:"
 msgstr "メール経由で共有:"
 
-#: js/share.js:232
+#: js/share.js:243
 msgid "No people found"
 msgstr "ユーザーが見つかりません"
 
-#: js/share.js:270
+#: js/share.js:281
 msgid "Resharing is not allowed"
 msgstr "再共有は許可されていません"
 
-#: js/share.js:306
+#: js/share.js:317
 msgid "Shared in {item} with {user}"
 msgstr "{item} 内で {user} と共有中"
 
-#: js/share.js:327
+#: js/share.js:338
 msgid "Unshare"
 msgstr "共有解除"
 
-#: js/share.js:339
+#: js/share.js:350
 msgid "can edit"
 msgstr "編集可能"
 
-#: js/share.js:341
+#: js/share.js:352
 msgid "access control"
 msgstr "アクセス権限"
 
-#: js/share.js:344
+#: js/share.js:355
 msgid "create"
 msgstr "作成"
 
-#: js/share.js:347
+#: js/share.js:358
 msgid "update"
 msgstr "更新"
 
-#: js/share.js:350
+#: js/share.js:361
 msgid "delete"
 msgstr "削除"
 
-#: js/share.js:353
+#: js/share.js:364
 msgid "share"
 msgstr "共有"
 
-#: js/share.js:387 js/share.js:607
+#: js/share.js:398 js/share.js:618
 msgid "Password protected"
 msgstr "パスワード保護"
 
-#: js/share.js:620
+#: js/share.js:631
 msgid "Error unsetting expiration date"
 msgstr "有効期限の未設定エラー"
 
-#: js/share.js:632
+#: js/share.js:643
 msgid "Error setting expiration date"
 msgstr "有効期限の設定でエラー発生"
 
-#: js/share.js:647
+#: js/share.js:658
 msgid "Sending ..."
 msgstr "送信中..."
 
-#: js/share.js:658
+#: js/share.js:669
 msgid "Email sent"
 msgstr "メールを送信しました"
 
@@ -402,7 +402,7 @@ msgstr "リクエストに失敗しました！<br>あなたのメール／ユ�
 msgid "You will receive a link to reset your password via Email."
 msgstr "メールでパスワードをリセットするリンクが届きます。"
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
 #: templates/login.php:19
 msgid "Username"
 msgstr "ユーザー名"
@@ -467,7 +467,7 @@ msgstr "アクセスが禁止されています"
 msgid "Cloud not found"
 msgstr "見つかりません"
 
-#: templates/altmail.php:4
+#: templates/altmail.php:2
 #, php-format
 msgid ""
 "Hey there,\n"
@@ -496,8 +496,9 @@ msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 msgstr "あなたのPHPのバージョンには、Null Byte攻撃(CVE-2006-7243)という脆弱性が含まれています。"
 
 #: templates/installation.php:26
-msgid "Please update your PHP installation to use ownCloud securely."
-msgstr "ownCloud を安全に利用するに、PHPの更新を行なってください。"
+#, php-format
+msgid "Please update your PHP installation to use %s securely."
+msgstr ""
 
 #: templates/installation.php:32
 msgid ""
@@ -517,65 +518,65 @@ msgid ""
 "because the .htaccess file does not work."
 msgstr ".htaccess ファイルが動作していないため、おそらくあなたのデータディレクトリもしくはファイルはインターネットからアクセス可能です。"
 
-#: templates/installation.php:40
+#: templates/installation.php:41
+#, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
-"href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
-"target=\"_blank\">documentation</a>."
-msgstr "あなたのサーバの適切な設定に関する情報として、<a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">ドキュメント</a>を参照して下さい。"
+"href=\"%s\" target=\"_blank\">documentation</a>."
+msgstr ""
 
-#: templates/installation.php:44
+#: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
 msgstr "<strong>管理者アカウント</strong>を作成してください"
 
-#: templates/installation.php:62
+#: templates/installation.php:65
 msgid "Advanced"
 msgstr "詳細設定"
 
-#: templates/installation.php:64
+#: templates/installation.php:67
 msgid "Data folder"
 msgstr "データフォルダ"
 
-#: templates/installation.php:74
+#: templates/installation.php:77
 msgid "Configure the database"
 msgstr "データベースを設定してください"
 
-#: templates/installation.php:79 templates/installation.php:91
-#: templates/installation.php:102 templates/installation.php:113
-#: templates/installation.php:125
+#: templates/installation.php:82 templates/installation.php:94
+#: templates/installation.php:105 templates/installation.php:116
+#: templates/installation.php:128
 msgid "will be used"
 msgstr "が使用されます"
 
-#: templates/installation.php:137
+#: templates/installation.php:140
 msgid "Database user"
 msgstr "データベースのユーザ名"
 
-#: templates/installation.php:144
+#: templates/installation.php:147
 msgid "Database password"
 msgstr "データベースのパスワード"
 
-#: templates/installation.php:149
+#: templates/installation.php:152
 msgid "Database name"
 msgstr "データベース名"
 
-#: templates/installation.php:159
+#: templates/installation.php:160
 msgid "Database tablespace"
 msgstr "データベースの表領域"
 
-#: templates/installation.php:166
+#: templates/installation.php:167
 msgid "Database host"
 msgstr "データベースのホスト名"
 
-#: templates/installation.php:172
+#: templates/installation.php:175
 msgid "Finish setup"
 msgstr "セットアップを完了します"
 
-#: templates/layout.user.php:43
+#: templates/layout.user.php:41
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s が利用可能です。更新方法に関してさらに情報を取得して下さい。"
 
-#: templates/layout.user.php:68
+#: templates/layout.user.php:66
 msgid "Log out"
 msgstr "ログアウト"
 
@@ -609,7 +610,7 @@ msgstr "ログイン"
 msgid "Alternative Logins"
 msgstr "代替ログイン"
 
-#: templates/mail.php:16
+#: templates/mail.php:15
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "

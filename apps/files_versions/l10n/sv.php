@@ -1,11 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Could not revert: %s" => "Kunde inte återställa: %s",
-"success" => "lyckades",
-"File %s was reverted to version %s" => "Filen %s återställdes till version %s",
-"failure" => "misslyckades",
-"File %s could not be reverted to version %s" => "Filen %s kunde inte återställas till version %s",
-"No old versions available" => "Inga gamla versioner finns tillgängliga",
-"No path specified" => "Ingen sökväg angiven",
 "Versions" => "Versioner",
-"Revert a file to a previous version by clicking on its revert button" => "Återställ en fil till en tidigare version genom att klicka på återställningsknappen"
+"Failed to revert {file} to revision {timestamp}." => "Kunde inte återställa {file} till revision {timestamp}.",
+"More versions..." => "Fler versioner...",
+"No other versions available" => "Inga andra versioner tillgängliga",
+"Restore" => "Återskapa"
 );

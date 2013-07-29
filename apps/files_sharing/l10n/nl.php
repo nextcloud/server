@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"The password is wrong. Try again." => "Wachtwoord ongeldig. Probeer het nogmaals.",
 "Password" => "Wachtwoord",
 "Submit" => "Verzenden",
 "%s shared the folder %s with you" => "%s deelt de map %s met u",
