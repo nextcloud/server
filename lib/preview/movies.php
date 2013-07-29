@@ -39,5 +39,5 @@ if(!is_null(shell_exec('ffmpeg -version'))) {
 		}
 	}
 
-	\OC\PreviewManager::registerProvider('OC\Preview\Movie');
+	\OC\Preview::registerProvider('OC\Preview\Movie');
 }

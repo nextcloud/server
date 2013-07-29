@@ -36,5 +36,5 @@ if (extension_loaded('imagick')) {
 		}
 	}
 
-	\OC\PreviewManager::registerProvider('OC\Preview\PDF');
+	\OC\Preview::registerProvider('OC\Preview\PDF');
 }

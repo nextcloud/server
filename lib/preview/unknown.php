@@ -40,4 +40,4 @@ class Unknown extends Provider {
 	}
 }
 
-\OC\PreviewManager::registerProvider('OC\Preview\Unknown');
+\OC\Preview::registerProvider('OC\Preview\Unknown');

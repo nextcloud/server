@@ -20,7 +20,7 @@ class DOC extends Provider {
 
 }
 
-\OC\PreviewManager::registerProvider('OC\Preview\DOC');
+\OC\Preview::registerProvider('OC\Preview\DOC');
 */
 
 class DOCX extends Provider {
@@ -50,7 +50,7 @@ class DOCX extends Provider {
 
 }
 
-\OC\PreviewManager::registerProvider('OC\Preview\DOCX');
+\OC\Preview::registerProvider('OC\Preview\DOCX');
 
 class MSOfficeExcel extends Provider {
 
@@ -95,7 +95,7 @@ class XLS extends MSOfficeExcel {
 
 }
 
-\OC\PreviewManager::registerProvider('OC\Preview\XLS');
+\OC\Preview::registerProvider('OC\Preview\XLS');
 
 class XLSX extends MSOfficeExcel {
 
@@ -105,7 +105,7 @@ class XLSX extends MSOfficeExcel {
 
 }
 
-\OC\PreviewManager::registerProvider('OC\Preview\XLSX');
+\OC\Preview::registerProvider('OC\Preview\XLSX');
 
 /* //There is no (good) php-only solution for converting powerpoint documents to pdfs / pngs ...
 class MSOfficePowerPoint extends Provider {
@@ -128,7 +128,7 @@ class PPT extends MSOfficePowerPoint {
 
 }
 
-\OC\PreviewManager::registerProvider('OC\Preview\PPT');
+\OC\Preview::registerProvider('OC\Preview\PPT');
 
 class PPTX extends MSOfficePowerPoint {
 
@@ -138,5 +138,5 @@ class PPTX extends MSOfficePowerPoint {
 
 }
 
-\OC\PreviewManager::registerProvider('OC\Preview\PPTX');
+\OC\Preview::registerProvider('OC\Preview\PPTX');
 */
