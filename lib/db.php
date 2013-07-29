@@ -397,7 +397,8 @@ class OC_DB {
 	 */
 	public static function getDbStructure( $file, $mode=MDB2_SCHEMA_DUMP_STRUCTURE) {
 		self::connectDoctrine();
-		return OC_DB_Schema::getDbStructure(self::$DOCTRINE, $file);
+		$schema = new \OC\DB\Schema(self::$connection);
+		return $schema->getDbStructure($file);
 	}
 
 	/**
@@ -409,7 +410,9 @@ class OC_DB {
 	 */
 	public static function createDbFromStructure( $file ) {
 		self::connectDoctrine();
-		return OC_DB_Schema::createDbFromStructure(self::$DOCTRINE, $file);
+		$schema = new \OC\DB\Schema(self::$connection);
+		$result = $schema->createDbFromStructure($file);
+		return $result;
 	}
 
 	/**
@@ -420,8 +423,9 @@ class OC_DB {
 	 */
 	public static function updateDbFromStructure($file) {
 		self::connectDoctrine();
+		$schema = new \OC\DB\Schema(self::$connection);
 		try {
-			$result = OC_DB_Schema::updateDbFromStructure(self::$DOCTRINE, $file);
+			$result = $schema->updateDbFromStructure($file);
 		} catch (Exception $e) {
 			OC_Log::write('core', 'Failed to update database structure ('.$e.')', OC_Log::FATAL);
 			throw $e;
@@ -601,7 +605,8 @@ class OC_DB {
 	 */
 	public static function dropTable($tableName) {
 		self::connectDoctrine();
-		OC_DB_Schema::dropTable(self::$DOCTRINE, $tableName);
+		$schema = new \OC\DB\Schema(self::$connection);
+		$schema->dropTable($tableName);
 	}
 
 	/**
@@ -610,7 +615,8 @@ class OC_DB {
 	 */
 	public static function removeDBStructure($file) {
 		self::connectDoctrine();
-		OC_DB_Schema::removeDBStructure(self::$DOCTRINE, $file);
+		$schema = new \OC\DB\Schema(self::$connection);
+		$schema->removeDBStructure($file);
 	}
 
 	/**
@@ -619,7 +625,8 @@ class OC_DB {
 	 */
 	public static function replaceDB( $file ) {
 		self::connectDoctrine();
-		OC_DB_Schema::replaceDB(self::$DOCTRINE, $file);
+		$schema = new \OC\DB\Schema(self::$connection);
+		$schema->replaceDB($file);
 	}
 
 	/**
