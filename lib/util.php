@@ -895,6 +895,7 @@ class OC_Util {
 
 	public static function basename($file)
 	{
+		$file = rtrim($file, '/');
 		$t = explode('/', $file);
 		return array_pop($t);
 	}
