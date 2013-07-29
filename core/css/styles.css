@@ -659,7 +659,7 @@ div.crumb:active {
 }
 
 /* icons */
-.folder-icon, .delete-icon, .edit-icon {
+.folder-icon, .delete-icon, .edit-icon, .progress-icon {
 	background-repeat: no-repeat;
 	background-position: center;
 }
@@ -669,7 +669,7 @@ div.crumb:active {
 	background-image: url('../img/actions/delete-hover.svg');
 }
 .edit-icon { background-image: url('../img/actions/rename.svg'); }
-
+.progress-icon { background-image: url('../img/loading.gif'); }
 
 /* buttons */
 button.loading {

@@ -371,9 +371,7 @@ var FileList={
 		}
 		for (var i=0; i<files.length; i++) {
 			var deleteAction = $('tr').filterAttr('data-file',files[i]).children("td.date").children(".action.delete");
-			var oldHTML = deleteAction.html();
-			var newHTML = '<img class="move2trash" data-action="Delete" title="'+t('files', 'perform delete operation')+'" src="'+ OC.imagePath('core', 'loading.gif') +'"></a>';
-			deleteAction.html(newHTML);
+			deleteAction.removeClass('delete-icon').addClass('progress-icon');
 		}
 		// Finish any existing actions
 		if (FileList.lastAction) {
@@ -394,8 +392,8 @@ var FileList={
 						procesSelection();
 					} else {
 						$.each(files,function(index,file) {
-							var deleteAction = $('tr').filterAttr('data-file',file).children("td.date").children(".move2trash");
-							deleteAction.html(oldHTML);
+							var deleteAction = $('tr').filterAttr('data-file',files[i]).children("td.date").children(".action.delete");
+							deleteAction.removeClass('progress-icon').addClass('delete-icon');
 						});
 					}
 				});
