@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Kunne ikke flytte %s - der findes allerede en fil med dette navn",
 "Could not move %s" => "Kunne ikke flytte %s",
+"Unable to set upload directory." => "Ude af stand til at vælge upload mappe.",
+"Invalid Token" => "Ugyldig Token ",
 "No file was uploaded. Unknown error" => "Ingen fil blev uploadet. Ukendt fejl.",
 "There is no error, the file uploaded with success" => "Der skete ingen fejl, filen blev succesfuldt uploadet",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Den uploadede fil overstiger upload_max_filesize direktivet i php.ini",
@@ -47,6 +49,7 @@
 "{count} folders" => "{count} mapper",
 "1 file" => "1 fil",
 "{count} files" => "{count} filer",
+"%s could not be renamed" => "%s kunne ikke omdøbes",
 "Upload" => "Upload",
 "File handling" => "Filhåndtering",
 "Maximum upload size" => "Maksimal upload-størrelse",
