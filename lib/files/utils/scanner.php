@@ -62,10 +62,10 @@ class Scanner extends PublicEmitter {
 	protected function attachListener($mount) {
 		$scanner = $mount->getStorage()->getScanner();
 		$emitter = $this;
-		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFile', function ($path) use ($mount, &$emitter) {
+		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFile', function ($path) use ($mount, $emitter) {
 			$emitter->emit('\OC\Files\Utils\Scanner', 'scanFile', array($mount->getMountPoint() . $path));
 		});
-		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFolder', function ($path) use ($mount, &$emitter) {
+		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFolder', function ($path) use ($mount, $emitter) {
 			$emitter->emit('\OC\Files\Utils\Scanner', 'scanFolder', array($mount->getMountPoint() . $path));
 		});
 	}
