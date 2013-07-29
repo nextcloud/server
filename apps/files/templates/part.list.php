@@ -34,9 +34,17 @@ $totalsize = 0; ?>
 				<?php
 				$relativePath = substr($relativePath, strlen($_['sharingroot']));
 				?>
-				style="background-image:url(<?php print_unescaped(OCP\publicPreview_icon($relativePath, $_['sharingtoken'])); ?>)"
+				<?php if(\OCP\Preview::isMimeSupported($file['mimetype'])): ?>
+				style="background-image:url(<?php print_unescaped(OCP\publicPreview_icon($relativePath, $_['sharingtoken'])); ?>)" class="preview-icon"
+				<?php else: ?>
+				style="background-image:url(<?php print_unescaped(OCP\mimetype_icon($file['mimetype'])); ?>)"
+				<?php endif; ?>
 			<?php else: ?>
-				style="background-image:url(<?php print_unescaped(OCP\preview_icon($relativePath)); ?>)"
+				<?php if(\OCP\Preview::isMimeSupported($file['mimetype'])): ?>	
+				style="background-image:url(<?php print_unescaped(OCP\preview_icon($relativePath)); ?>)" class="preview-icon"
+				<?php else: ?>
+				style="background-image:url(<?php print_unescaped(OCP\mimetype_icon($file['mimetype'])); ?>)"
+				<?php endif; ?>
 			<?php endif; ?>
 		<?php endif; ?>
 			>

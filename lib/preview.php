@@ -771,7 +771,23 @@ class Preview {
 		$preview = new Preview(\OC_User::getUser(), 'files/', $path, 0, 0, false, true);
 		$preview->deleteAllPreviews();
 	}
-	
+
+	public static function isMimeSupported($mimetype) {
+		//check if there are preview backends
+		if(empty(self::$providers)) {
+			self::initProviders();
+		}
+
+		//remove last element because it has the mimetype *
+		$providers = array_slice(self::$providers, 0, -1);
+		foreach($providers as $supportedmimetype => $provider) {
+			if(preg_match($supportedmimetype, $mimetype)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private static function showErrorPreview() {
 		$path = \OC::$SERVERROOT . '/core/img/actions/delete.png';
 		$preview = new \OC_Image($path);
