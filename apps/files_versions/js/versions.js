@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
 	if (typeof FileActions !== 'undefined') {
 		// Add versions button to 'files/index.php'
 		FileActions.register(
@@ -14,22 +15,53 @@ $(document).ready(function(){
 				if (scanFiles.scanning){return;}//workaround to prevent additional http request block scanning feedback
 
 				var file = $('#dir').val()+'/'+filename;
+				var createDropDown = true;
 				// Check if drop down is already visible for a different file
-				if (($('#dropdown').length > 0) && $('#dropdown').hasClass('drop-versions') ) {
-					if (file != $('#dropdown').data('file')) {
-						$('#dropdown').hide('blind', function() {
-							$('#dropdown').remove();
-							$('tr').removeClass('mouseOver');
-							createVersionsDropdown(filename, file);
-						});
+				if (($('#dropdown').length > 0) ) {
+					if ( $('#dropdown').hasClass('drop-versions') && file == $('#dropdown').data('file')) {
+						createDropDown = false;
 					}
-				} else {
+					$('#dropdown').remove();
+					$('tr').removeClass('mouseOver');
+				}
+
+				if(createDropDown === true) {
 					createVersionsDropdown(filename, file);
 				}
 			}
 		);
 	}
+
+	$(document).on("click", 'span[class="revertVersion"]', function() {
+		var revision = $(this).attr('id');
+		var file = $(this).attr('value');
+		revertFile(file, revision);
+	});
+
 });
+
+function revertFile(file, revision) {
+
+	$.ajax({
+		type: 'GET',
+		url: OC.linkTo('files_versions', 'ajax/rollbackVersion.php'),
+		dataType: 'json',
+		data: {file: file, revision: revision},
+		async: false,
+		success: function(response) {
+			if (response.status === 'error') {
+				OC.Notification.show( t('files_version', 'Failed to revert {file} to revision {timestamp}.', {file:file, timestamp:formatDate(revision * 1000)}) );
+			} else {
+				$('#dropdown').hide('blind', function() {
+					$('#dropdown').remove();
+					$('tr').removeClass('mouseOver');
+					// TODO also update the modified time in the web ui
+				});
+			}
+		}
+	});
+
+}
 
 function goToVersionPage(url){
 	window.location.assign(url);
@@ -37,16 +69,14 @@ function goToVersionPage(url){
 
 function createVersionsDropdown(filename, files) {
 
-	var historyUrl = OC.linkTo('files_versions', 'history.php') + '?path='+encodeURIComponent( $( '#dir' ).val() ).replace( /%2F/g, '/' )+'/'+encodeURIComponent( filename );
+	var start = 0;
 
 	var html = '<div id="dropdown" class="drop drop-versions" data-file="'+escapeHTML(files)+'">';
 	html += '<div id="private">';
-	html += '<select data-placeholder="Saved versions" id="found_versions" class="chzen-select" style="width:16em;">';
-	html += '<option value=""></option>';
-	html += '</select>';
+	html += '<ul id="found_versions">';
+	html += '</ul>';
 	html += '</div>';
-	html += '<input type="button" value="All versions..." name="makelink" id="makelink" />';
-	html += '<input id="link" style="display:none; width:90%;" />';
+	html += '<input type="button" value="'+ t('files_versions', 'More versions...') + '" name="show-more-versions" id="show-more-versions" style="display: none;" />';
 
 	if (filename) {
 		$('tr').filterAttr('data-file',filename).addClass('mouseOver');
@@ -55,73 +85,72 @@ function createVersionsDropdown(filename, files) {
 		$(html).appendTo($('thead .share'));
 	}
 
-	$("#makelink").click(function() {
-		goToVersionPage(historyUrl);
+	getVersions(start);
+	start = start + 5;
+
+	$("#show-more-versions").click(function() {
+		//get more versions
+		getVersions(start);
+		start = start + 5;
 	});
 
-	$.ajax({
-		type: 'GET',
-		url: OC.filePath('files_versions', 'ajax', 'getVersions.php'),
-		dataType: 'json',
-		data: { source: files },
-		async: false,
-		success: function( versions ) {
-
-			if (versions) {
-				$.each( versions, function(index, row ) {
-					addVersion( row );
-				});
-			} else {
-				$('#found_versions').hide();
-				$('#makelink').hide();
-				$('<div style="text-align:center;">No other versions available</div>').appendTo('#dropdown');
-			}
-			$('#found_versions').change(function(){
-				var revision=parseInt($(this).val());
-				revertFile(files,revision);
-			});
-		}
-	});
-
-	function revertFile(file, revision) {
-
+	function getVersions(start) {
 		$.ajax({
 			type: 'GET',
-			url: OC.linkTo('files_versions', 'ajax/rollbackVersion.php'),
+			url: OC.filePath('files_versions', 'ajax', 'getVersions.php'),
 			dataType: 'json',
-			data: {file: file, revision: revision},
+			data: {source: files, start: start},
 			async: false,
-			success: function(response) {
-				if (response.status=='error') {
-					OC.dialogs.alert('Failed to revert '+file+' to revision '+formatDate(revision*1000)+'.','Failed to revert');
+			success: function(result) {
+				var versions = result.data.versions;
+				if (result.data.endReached === true) {
+					document.getElementById("show-more-versions").style.display="none";
 				} else {
-					$('#dropdown').hide('blind', function() {
-						$('#dropdown').remove();
-						$('tr').removeClass('mouseOver');
-						// TODO also update the modified time in the web ui
-					});
+					document.getElementById("show-more-versions").style.display="block";
 				}
+				if (versions) {
+					$.each(versions, function(index, row) {
+						addVersion(row);
+					});
+				} else {
+					$('<div style="text-align:center;">'+ t('files_versions', 'No other versions available') + '</div>').appendTo('#dropdown');
+				}
+				$('#found_versions').change(function() {
+					var revision = parseInt($(this).val());
+					revertFile(files, revision);
+				});
 			}
 		});
-
 	}
 
 	function addVersion( revision ) {
-		name=formatDate(revision.version*1000);
-		var version=$('<option/>');
-		version.attr('value',revision.version);
-		version.text(name);
+		title = formatDate(revision.version*1000);
+		name ='<span class="versionDate" title="' + title + '">' + revision.humanReadableTimestamp + '</span>';
 
-// 		} else {
-// 			var checked = ((permissions > 0) ? 'checked="checked"' : 'style="display:none;"');
-// 			var style = ((permissions == 0) ? 'style="display:none;"' : '');
-// 			var user = '<li data-uid_shared_with="'+uid_shared_with+'">';
-// 			user += '<a href="" class="unshare" style="display:none;"><img class="svg" alt="Unshare" src="'+OC.imagePath('core','actions/delete')+'"/></a>';
-// 			user += uid_shared_with;
-// 			user += '<input type="checkbox" name="permissions" id="'+uid_shared_with+'" class="permissions" '+checked+' />';
-// 			user += '<label for="'+uid_shared_with+'" '+style+'>can edit</label>';
-// 			user += '</li>';
-// 		}
+		path = OC.filePath('files_versions', '', 'download.php');
+
+		download ='<a href="' + path + "?file=" + files + '&revision=' + revision.version + '">';
+		download+='<img';
+		download+=' src="' + OC.imagePath('core', 'actions/download') + '"';
+		download+=' id="' + revision.version + '"';
+		download+=' value="' + files + '"';
+		download+=' name="downloadVersion" />';
+		download+=name;
+		download+='</a>';
+
+		revert='<span class="revertVersion"';
+		revert+=' id="' + revision.version + '"';
+		revert+=' value="' + files + '">';
+		revert+='<img';
+		revert+=' src="' + OC.imagePath('core', 'actions/history') + '"';
+		revert+=' id="' + revision.version + '"';
+		revert+=' value="' + files + '"';
+		revert+=' name="revertVersion"';
+		revert+='/>'+t('files_versions', 'Restore')+'</span>';
+
+		var version=$('<li/>');
+		version.attr('value', revision.version);
+		version.html(download + revert);
 
 		version.appendTo('#found_versions');
 	}

@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Sungjin Gang <potopro@gmail.com>, 2013
-# Sungjin Gang <potopro@gmail.com>, 2013
+# ujuc Gang <potopro@gmail.com>, 2013
+# ujuc Gang <potopro@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-10 02:13+0200\n"
-"PO-Revision-Date: 2013-07-09 23:15+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -130,43 +130,43 @@ msgstr "삭제"
 msgid "Rename"
 msgstr "이름 바꾸기"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:464
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
 msgid "Pending"
 msgstr "대기 중"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:303 js/filelist.js:305
 msgid "{new_name} already exists"
 msgstr "{new_name}이(가) 이미 존재함"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:303 js/filelist.js:305
 msgid "replace"
 msgstr "바꾸기"
 
-#: js/filelist.js:302
+#: js/filelist.js:303
 msgid "suggest name"
 msgstr "이름 제안"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:303 js/filelist.js:305
 msgid "cancel"
 msgstr "취소"
 
-#: js/filelist.js:349
+#: js/filelist.js:350
 msgid "replaced {new_name} with {old_name}"
 msgstr "{old_name}이(가) {new_name}(으)로 대체됨"
 
-#: js/filelist.js:349
+#: js/filelist.js:350
 msgid "undo"
 msgstr "되돌리기"
 
-#: js/filelist.js:374
+#: js/filelist.js:375
 msgid "perform delete operation"
 msgstr "삭제 작업중"
 
-#: js/filelist.js:456
+#: js/filelist.js:457
 msgid "1 file uploading"
 msgstr "파일 1개 업로드 중"
 
-#: js/filelist.js:459 js/filelist.js:517
+#: js/filelist.js:460 js/filelist.js:518
 msgid "files uploading"
 msgstr "파일 업로드중"
 
@@ -214,19 +214,19 @@ msgstr "크기"
 msgid "Modified"
 msgstr "수정됨"
 
-#: js/files.js:765
+#: js/files.js:763
 msgid "1 folder"
 msgstr "폴더 1개"
 
-#: js/files.js:767
+#: js/files.js:765
 msgid "{count} folders"
 msgstr "폴더 {count}개"
 
-#: js/files.js:775
+#: js/files.js:773
 msgid "1 file"
 msgstr "파일 1개"
 
-#: js/files.js:777
+#: js/files.js:775
 msgid "{count} files"
 msgstr "파일 {count}개"
 
@@ -329,19 +329,19 @@ msgstr "파일을 검색하고 있습니다. 기다려 주십시오."
 msgid "Current scanning"
 msgstr "현재 검색"
 
-#: templates/part.list.php:76
+#: templates/part.list.php:74
 msgid "directory"
 msgstr ""
 
-#: templates/part.list.php:78
+#: templates/part.list.php:76
 msgid "directories"
 msgstr ""
 
-#: templates/part.list.php:87
+#: templates/part.list.php:85
 msgid "file"
 msgstr "파일"
 
-#: templates/part.list.php:89
+#: templates/part.list.php:87
 msgid "files"
 msgstr "파일"
 

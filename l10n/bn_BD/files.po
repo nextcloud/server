@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-10 02:13+0200\n"
-"PO-Revision-Date: 2013-07-09 23:15+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -128,43 +128,43 @@ msgstr "মুছে"
 msgid "Rename"
 msgstr "পূনঃনামকরণ"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:464
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
 msgid "Pending"
 msgstr "মুলতুবি"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:303 js/filelist.js:305
 msgid "{new_name} already exists"
 msgstr "{new_name} টি বিদ্যমান"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:303 js/filelist.js:305
 msgid "replace"
 msgstr "প্রতিস্থাপন"
 
-#: js/filelist.js:302
+#: js/filelist.js:303
 msgid "suggest name"
 msgstr "নাম সুপারিশ করুন"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:303 js/filelist.js:305
 msgid "cancel"
 msgstr "বাতিল"
 
-#: js/filelist.js:349
+#: js/filelist.js:350
 msgid "replaced {new_name} with {old_name}"
 msgstr "{new_name} কে {old_name} নামে প্রতিস্থাপন করা হয়েছে"
 
-#: js/filelist.js:349
+#: js/filelist.js:350
 msgid "undo"
 msgstr "ক্রিয়া প্রত্যাহার"
 
-#: js/filelist.js:374
+#: js/filelist.js:375
 msgid "perform delete operation"
 msgstr ""
 
-#: js/filelist.js:456
+#: js/filelist.js:457
 msgid "1 file uploading"
 msgstr "১টি ফাইল আপলোড করা হচ্ছে"
 
-#: js/filelist.js:459 js/filelist.js:517
+#: js/filelist.js:460 js/filelist.js:518
 msgid "files uploading"
 msgstr ""
 
@@ -212,19 +212,19 @@ msgstr "আকার"
 msgid "Modified"
 msgstr "পরিবর্তিত"
 
-#: js/files.js:765
+#: js/files.js:763
 msgid "1 folder"
 msgstr "১টি ফোল্ডার"
 
-#: js/files.js:767
+#: js/files.js:765
 msgid "{count} folders"
 msgstr "{count} টি ফোল্ডার"
 
-#: js/files.js:775
+#: js/files.js:773
 msgid "1 file"
 msgstr "১টি ফাইল"
 
-#: js/files.js:777
+#: js/files.js:775
 msgid "{count} files"
 msgstr "{count} টি ফাইল"
 
@@ -327,19 +327,19 @@ msgstr "ফাইলগুলো স্ক্যান করা হচ্ছে
 msgid "Current scanning"
 msgstr "বর্তমান স্ক্যানিং"
 
-#: templates/part.list.php:76
+#: templates/part.list.php:74
 msgid "directory"
 msgstr ""
 
-#: templates/part.list.php:78
+#: templates/part.list.php:76
 msgid "directories"
 msgstr ""
 
-#: templates/part.list.php:87
+#: templates/part.list.php:85
 msgid "file"
 msgstr ""
 
-#: templates/part.list.php:89
+#: templates/part.list.php:87
 msgid "files"
 msgstr ""
 

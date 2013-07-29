@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Could not move %s - File with this name already exists" => "Konnte %s nicht verschieben. Eine Datei mit diesem Namen existiert bereits",
+"Could not move %s - File with this name already exists" => "%s konnte nicht verschoben werden. Eine Datei mit diesem Namen existiert bereits.",
 "Could not move %s" => "Konnte %s nicht verschieben",
 "Unable to set upload directory." => "Das Upload-Verzeichnis konnte nicht gesetzt werden.",
 "Invalid Token" => "Ungültiges Merkmal",

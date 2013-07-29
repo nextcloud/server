@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Piarres Beobide <pi@beobide.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-10 02:13+0200\n"
-"PO-Revision-Date: 2013-07-09 23:15+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -29,11 +30,11 @@ msgstr "Ezin dira fitxategiak mugitu %s"
 
 #: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "Ezin da igoera direktorioa ezarri."
 
 #: ajax/upload.php:22
 msgid "Invalid Token"
-msgstr ""
+msgstr "Lekuko baliogabea"
 
 #: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
@@ -105,7 +106,7 @@ msgstr "URLa ezin da hutsik egon."
 
 #: js/file-upload.js:238 lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
-msgstr ""
+msgstr "Karpeta izne baliogabea. \"Shared\" karpeta erabilpena OwnCloudentzat erreserbaturik dago."
 
 #: js/file-upload.js:267 js/file-upload.js:283 js/files.js:373 js/files.js:389
 #: js/files.js:693 js/files.js:731
@@ -128,43 +129,43 @@ msgstr "Ezabatu"
 msgid "Rename"
 msgstr "Berrizendatu"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:464
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
 msgid "Pending"
 msgstr "Zain"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:303 js/filelist.js:305
 msgid "{new_name} already exists"
 msgstr "{new_name} dagoeneko existitzen da"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:303 js/filelist.js:305
 msgid "replace"
 msgstr "ordeztu"
 
-#: js/filelist.js:302
+#: js/filelist.js:303
 msgid "suggest name"
 msgstr "aholkatu izena"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:303 js/filelist.js:305
 msgid "cancel"
 msgstr "ezeztatu"
 
-#: js/filelist.js:349
+#: js/filelist.js:350
 msgid "replaced {new_name} with {old_name}"
 msgstr " {new_name}-k {old_name} ordezkatu du"
 
-#: js/filelist.js:349
+#: js/filelist.js:350
 msgid "undo"
 msgstr "desegin"
 
-#: js/filelist.js:374
+#: js/filelist.js:375
 msgid "perform delete operation"
 msgstr "Ezabatu"
 
-#: js/filelist.js:456
+#: js/filelist.js:457
 msgid "1 file uploading"
 msgstr "fitxategi 1 igotzen"
 
-#: js/filelist.js:459 js/filelist.js:517
+#: js/filelist.js:460 js/filelist.js:518
 msgid "files uploading"
 msgstr "fitxategiak igotzen"
 
@@ -212,26 +213,26 @@ msgstr "Tamaina"
 msgid "Modified"
 msgstr "Aldatuta"
 
-#: js/files.js:765
+#: js/files.js:763
 msgid "1 folder"
 msgstr "karpeta bat"
 
-#: js/files.js:767
+#: js/files.js:765
 msgid "{count} folders"
 msgstr "{count} karpeta"
 
-#: js/files.js:775
+#: js/files.js:773
 msgid "1 file"
 msgstr "fitxategi bat"
 
-#: js/files.js:777
+#: js/files.js:775
 msgid "{count} files"
 msgstr "{count} fitxategi"
 
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "%s ezin da berrizendatu"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -327,19 +328,19 @@ msgstr "Fitxategiak eskaneatzen ari da, itxoin mezedez."
 msgid "Current scanning"
 msgstr "Orain eskaneatzen ari da"
 
-#: templates/part.list.php:76
+#: templates/part.list.php:74
 msgid "directory"
-msgstr ""
+msgstr "direktorioa"
 
-#: templates/part.list.php:78
+#: templates/part.list.php:76
 msgid "directories"
-msgstr ""
+msgstr "direktorioak"
 
-#: templates/part.list.php:87
+#: templates/part.list.php:85
 msgid "file"
 msgstr "fitxategia"
 
-#: templates/part.list.php:89
+#: templates/part.list.php:87
 msgid "files"
 msgstr "fitxategiak"
 

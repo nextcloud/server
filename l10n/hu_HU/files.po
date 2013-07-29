@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-10 02:13+0200\n"
-"PO-Revision-Date: 2013-07-09 23:15+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -30,11 +30,11 @@ msgstr "Nem sikerült %s áthelyezése"
 
 #: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "Nem található a mappa, ahova feltölteni szeretne."
 
 #: ajax/upload.php:22
 msgid "Invalid Token"
-msgstr ""
+msgstr "Hibás mappacím"
 
 #: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
@@ -129,43 +129,43 @@ msgstr "Törlés"
 msgid "Rename"
 msgstr "Átnevezés"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:464
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
 msgid "Pending"
 msgstr "Folyamatban"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:303 js/filelist.js:305
 msgid "{new_name} already exists"
 msgstr "{new_name} már létezik"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:303 js/filelist.js:305
 msgid "replace"
 msgstr "írjuk fölül"
 
-#: js/filelist.js:302
+#: js/filelist.js:303
 msgid "suggest name"
 msgstr "legyen más neve"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:303 js/filelist.js:305
 msgid "cancel"
 msgstr "mégse"
 
-#: js/filelist.js:349
+#: js/filelist.js:350
 msgid "replaced {new_name} with {old_name}"
 msgstr "{new_name} fájlt kicseréltük ezzel:  {old_name}"
 
-#: js/filelist.js:349
+#: js/filelist.js:350
 msgid "undo"
 msgstr "visszavonás"
 
-#: js/filelist.js:374
+#: js/filelist.js:375
 msgid "perform delete operation"
 msgstr "a törlés végrehajtása"
 
-#: js/filelist.js:456
+#: js/filelist.js:457
 msgid "1 file uploading"
 msgstr "1 fájl töltődik föl"
 
-#: js/filelist.js:459 js/filelist.js:517
+#: js/filelist.js:460 js/filelist.js:518
 msgid "files uploading"
 msgstr "fájl töltődik föl"
 
@@ -213,26 +213,26 @@ msgstr "Méret"
 msgid "Modified"
 msgstr "Módosítva"
 
-#: js/files.js:765
+#: js/files.js:763
 msgid "1 folder"
 msgstr "1 mappa"
 
-#: js/files.js:767
+#: js/files.js:765
 msgid "{count} folders"
 msgstr "{count} mappa"
 
-#: js/files.js:775
+#: js/files.js:773
 msgid "1 file"
 msgstr "1 fájl"
 
-#: js/files.js:777
+#: js/files.js:775
 msgid "{count} files"
 msgstr "{count} fájl"
 
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "%s átnevezése nem sikerült"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -328,19 +328,19 @@ msgstr "A fájllista ellenőrzése zajlik, kis türelmet!"
 msgid "Current scanning"
 msgstr "Ellenőrzés alatt"
 
-#: templates/part.list.php:76
+#: templates/part.list.php:74
 msgid "directory"
-msgstr ""
+msgstr "mappa"
 
-#: templates/part.list.php:78
+#: templates/part.list.php:76
 msgid "directories"
-msgstr ""
+msgstr "mappa"
 
-#: templates/part.list.php:87
+#: templates/part.list.php:85
 msgid "file"
 msgstr "fájl"
 
-#: templates/part.list.php:89
+#: templates/part.list.php:87
 msgid "files"
 msgstr "fájlok"
 

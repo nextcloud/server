@@ -1,21 +1,7 @@
 <?php
 
-class DatabaseSetupException extends Exception
+class DatabaseSetupException extends \OC\HintException
 {
-	private $hint;
-
-	public function __construct($message, $hint = '', $code = 0, Exception $previous = null) {
-		$this->hint = $hint;
-		parent::__construct($message, $code, $previous);
-	}
-
-	public function __toString() {
-		return __CLASS__ . ": [{$this->code}]: {$this->message} ({$this->hint})\n";
-	}
-
-	public function getHint() {
-		return $this->hint;
-	}
 }
 
 class OC_Setup {
@@ -199,9 +185,7 @@ class OC_Setup {
 			$hint = $l->t('Please double check the <a href=\'%s\'>installation guides</a>.',
 				'http://doc.owncloud.org/server/5.0/admin_manual/installation.html');
 
-			$tmpl = new OC_Template('', 'error', 'guest');
-			$tmpl->assign('errors', array(1 => array('error' => $error, 'hint' => $hint)));
-			$tmpl->printPage();
+			OC_Template::printErrorPage($error, $hint);
 			exit();
 		}
 	}

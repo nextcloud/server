@@ -56,4 +56,8 @@ class Hooks {
 			Trashbin::deleteUser($uid);
 			}
 	}
+	
+	public static function post_write_hook($params) {
+		Trashbin::resizeTrash(\OCP\User::getUser());
+	}
 }

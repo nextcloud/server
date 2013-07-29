@@ -1,3 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Versions" => "Versjoner"
+"Versions" => "Versjoner",
+"Restore" => "Gjenopprett"
 );

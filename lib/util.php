@@ -1,7 +1,5 @@
 <?php
 
-require_once 'Patchwork/PHP/Shim/Normalizer.php';
-
 /**
  * Class for utility functions
  *
@@ -872,6 +870,10 @@ class OC_Util {
 		// XCache
 		if (function_exists('xcache_clear_cache')) {
 			xcache_clear_cache(XC_TYPE_VAR, 0);
+		}
+		// Opcache (PHP >= 5.5)
+		if (function_exists('opcache_reset')) {
+			opcache_reset();
 		}
 	}
 

@@ -4,12 +4,13 @@
 # 
 # Translators:
 # Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2013
+# cjtess <claudio.tessone@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-10 02:13+0200\n"
-"PO-Revision-Date: 2013-07-09 23:15+0000\n"
+"POT-Creation-Date: 2013-07-23 01:55-0400\n"
+"PO-Revision-Date: 2013-07-23 05:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -30,11 +31,11 @@ msgstr "No se pudo mover %s "
 
 #: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "No fue posible crear el directorio de subida."
 
 #: ajax/upload.php:22
 msgid "Invalid Token"
-msgstr ""
+msgstr "Token Inválido"
 
 #: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
@@ -65,7 +66,7 @@ msgstr "No se subió ningún archivo "
 
 #: ajax/upload.php:72
 msgid "Missing a temporary folder"
-msgstr "Error en la carpera temporal"
+msgstr "Falta un directorio temporal"
 
 #: ajax/upload.php:73
 msgid "Failed to write to disk"
@@ -73,11 +74,11 @@ msgstr "Error al escribir en el disco"
 
 #: ajax/upload.php:91
 msgid "Not enough storage available"
-msgstr "No hay suficiente capacidad de almacenamiento"
+msgstr "No hay suficiente almacenamiento"
 
 #: ajax/upload.php:123
 msgid "Invalid directory."
-msgstr "Directorio invalido."
+msgstr "Directorio inválido."
 
 #: appinfo/app.php:12
 msgid "Files"
@@ -106,7 +107,7 @@ msgstr "La URL no puede estar vacía"
 
 #: js/file-upload.js:238 lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
-msgstr "Nombre de carpeta inválido. El uso de \"Shared\" está reservado por ownCloud"
+msgstr "Nombre de directorio inválido. El uso de \"Shared\" está reservado por ownCloud"
 
 #: js/file-upload.js:267 js/file-upload.js:283 js/files.js:373 js/files.js:389
 #: js/files.js:693 js/files.js:731
@@ -119,7 +120,7 @@ msgstr "Compartir"
 
 #: js/fileactions.js:126
 msgid "Delete permanently"
-msgstr "Borrar de manera permanente"
+msgstr "Borrar permanentemente"
 
 #: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
 msgid "Delete"
@@ -129,43 +130,43 @@ msgstr "Borrar"
 msgid "Rename"
 msgstr "Cambiar nombre"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:464
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
 msgid "Pending"
 msgstr "Pendientes"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:303 js/filelist.js:305
 msgid "{new_name} already exists"
 msgstr "{new_name} ya existe"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:303 js/filelist.js:305
 msgid "replace"
 msgstr "reemplazar"
 
-#: js/filelist.js:302
+#: js/filelist.js:303
 msgid "suggest name"
 msgstr "sugerir nombre"
 
-#: js/filelist.js:302 js/filelist.js:304
+#: js/filelist.js:303 js/filelist.js:305
 msgid "cancel"
 msgstr "cancelar"
 
-#: js/filelist.js:349
+#: js/filelist.js:350
 msgid "replaced {new_name} with {old_name}"
-msgstr "reemplazado {new_name} con {old_name}"
+msgstr "se reemplazó {new_name} con {old_name}"
 
-#: js/filelist.js:349
+#: js/filelist.js:350
 msgid "undo"
 msgstr "deshacer"
 
-#: js/filelist.js:374
+#: js/filelist.js:375
 msgid "perform delete operation"
-msgstr "Eliminar"
+msgstr "Llevar a cabo borrado"
 
-#: js/filelist.js:456
+#: js/filelist.js:457
 msgid "1 file uploading"
 msgstr "Subiendo 1 archivo"
 
-#: js/filelist.js:459 js/filelist.js:517
+#: js/filelist.js:460 js/filelist.js:518
 msgid "files uploading"
 msgstr "Subiendo archivos"
 
@@ -195,7 +196,7 @@ msgstr "El almacenamiento está casi lleno ({usedSpacePercent}%)"
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr "Tu descarga esta siendo preparada. Esto puede tardar algun tiempo si los archivos son muy grandes."
+msgstr "Tu descarga se está preparando. Esto puede demorar si los archivos son muy grandes."
 
 #: js/files.js:344
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
@@ -213,26 +214,26 @@ msgstr "Tamaño"
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/files.js:765
+#: js/files.js:763
 msgid "1 folder"
 msgstr "1 directorio"
 
-#: js/files.js:767
+#: js/files.js:765
 msgid "{count} folders"
 msgstr "{count} directorios"
 
-#: js/files.js:775
+#: js/files.js:773
 msgid "1 file"
 msgstr "1 archivo"
 
-#: js/files.js:777
+#: js/files.js:775
 msgid "{count} files"
 msgstr "{count} archivos"
 
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "No se pudo renombrar %s"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -252,7 +253,7 @@ msgstr "máx. posible:"
 
 #: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
-msgstr "Es necesario para descargas multi-archivo y de carpetas"
+msgstr "Es necesario para descargas multi-archivo y de directorios."
 
 #: templates/admin.php:17
 msgid "Enable ZIP-download"
@@ -288,7 +289,7 @@ msgstr "Desde enlace"
 
 #: templates/index.php:42
 msgid "Deleted files"
-msgstr "Archivos Borrados"
+msgstr "Archivos borrados"
 
 #: templates/index.php:48
 msgid "Cancel upload"
@@ -328,19 +329,19 @@ msgstr "Se están escaneando los archivos, por favor esperá."
 msgid "Current scanning"
 msgstr "Escaneo actual"
 
-#: templates/part.list.php:76
+#: templates/part.list.php:74
 msgid "directory"
-msgstr ""
+msgstr "directorio"
 
-#: templates/part.list.php:78
+#: templates/part.list.php:76
 msgid "directories"
-msgstr ""
+msgstr "directorios"
 
-#: templates/part.list.php:87
+#: templates/part.list.php:85
 msgid "file"
 msgstr "archivo"
 
-#: templates/part.list.php:89
+#: templates/part.list.php:87
 msgid "files"
 msgstr "archivos"
 

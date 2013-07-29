@@ -1,4 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Saving..." => "Gemmer...",
-"Encryption" => "Kryptering"
+"personal settings" => "Personlige indstillinger",
+"Encryption" => "Kryptering",
+"Enabled" => "Aktiveret",
+"Disabled" => "Deaktiveret",
+"Change Password" => "Skift Kodeord"
 );

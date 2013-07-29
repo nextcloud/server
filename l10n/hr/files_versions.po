@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-25 02:01+0200\n"
-"PO-Revision-Date: 2013-05-24 13:28+0000\n"
+"POT-Creation-Date: 2013-07-27 01:56-0400\n"
+"PO-Revision-Date: 2013-07-27 05:56+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/owncloud/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -17,41 +17,27 @@ msgstr ""
 "Language: hr\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: ajax/rollbackVersion.php:15
+#: ajax/rollbackVersion.php:13
 #, php-format
 msgid "Could not revert: %s"
 msgstr ""
 
-#: history.php:40
-msgid "success"
-msgstr ""
-
-#: history.php:42
-#, php-format
-msgid "File %s was reverted to version %s"
-msgstr ""
-
-#: history.php:49
-msgid "failure"
-msgstr ""
-
-#: history.php:51
-#, php-format
-msgid "File %s could not be reverted to version %s"
-msgstr ""
-
-#: history.php:69
-msgid "No old versions available"
-msgstr ""
-
-#: history.php:74
-msgid "No path specified"
-msgstr ""
-
-#: js/versions.js:6
+#: js/versions.js:7
 msgid "Versions"
 msgstr ""
 
-#: templates/history.php:20
-msgid "Revert a file to a previous version by clicking on its revert button"
+#: js/versions.js:53
+msgid "Failed to revert {file} to revision {timestamp}."
+msgstr ""
+
+#: js/versions.js:79
+msgid "More versions..."
+msgstr ""
+
+#: js/versions.js:116
+msgid "No other versions available"
+msgstr ""
+
+#: js/versions.js:149
+msgid "Restore"
 msgstr ""

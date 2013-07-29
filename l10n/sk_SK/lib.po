@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-10 02:13+0200\n"
-"PO-Revision-Date: 2013-07-09 23:15+0000\n"
+"POT-Creation-Date: 2013-07-24 01:55-0400\n"
+"PO-Revision-Date: 2013-07-24 05:55+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -42,9 +42,19 @@ msgstr "Aplikácie"
 msgid "Admin"
 msgstr "Administrátor"
 
+#: app.php:844
+#, php-format
+msgid "Failed to upgrade \"%s\"."
+msgstr ""
+
 #: defaults.php:33
 msgid "web services under your control"
 msgstr "webové služby pod Vašou kontrolou"
+
+#: files.php:66 files.php:98
+#, php-format
+msgid "cannot open \"%s\""
+msgstr ""
 
 #: files.php:226
 msgid "ZIP download is turned off."
@@ -54,15 +64,21 @@ msgstr "Sťahovanie súborov ZIP je vypnuté."
 msgid "Files need to be downloaded one by one."
 msgstr "Súbory musia byť nahrávané jeden za druhým."
 
-#: files.php:228 files.php:261
+#: files.php:228 files.php:256
 msgid "Back to Files"
 msgstr "Späť na súbory"
 
-#: files.php:258
+#: files.php:253
 msgid "Selected files too large to generate zip file."
 msgstr "Zvolené súbory sú príliš veľké na vygenerovanie zip súboru."
 
-#: helper.php:236
+#: files.php:254
+msgid ""
+"Download the files in smaller chunks, seperately or kindly ask your "
+"administrator."
+msgstr ""
+
+#: helper.php:235
 msgid "couldn't be determined"
 msgstr "nedá sa zistiť"
 
@@ -171,76 +187,80 @@ msgstr "Podozrivý príkaz bol: \"%s\", meno: %s, heslo: %s"
 msgid "PostgreSQL username and/or password not valid"
 msgstr "Používateľské meno a/alebo heslo pre PostgreSQL databázu je neplatné"
 
-#: setup.php:42
+#: setup.php:28
 msgid "Set an admin username."
 msgstr "Zadajte používateľské meno administrátora."
 
-#: setup.php:45
+#: setup.php:31
 msgid "Set an admin password."
 msgstr "Zadajte heslo administrátora."
 
-#: setup.php:198
+#: setup.php:184
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Váš webový server nie je správne nastavený na synchronizáciu, pretože rozhranie WebDAV je poškodené."
 
-#: setup.php:199
+#: setup.php:185
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Prosím skontrolujte <a href='%s'>inštalačnú príručku</a>."
 
-#: template.php:113
+#: template/functions.php:80
 msgid "seconds ago"
 msgstr "pred sekundami"
 
-#: template.php:114
+#: template/functions.php:81
 msgid "1 minute ago"
 msgstr "pred minútou"
 
-#: template.php:115
+#: template/functions.php:82
 #, php-format
 msgid "%d minutes ago"
 msgstr "pred %d minútami"
 
-#: template.php:116
+#: template/functions.php:83
 msgid "1 hour ago"
 msgstr "Pred 1 hodinou"
 
-#: template.php:117
+#: template/functions.php:84
 #, php-format
 msgid "%d hours ago"
 msgstr "Pred %d hodinami."
 
-#: template.php:118
+#: template/functions.php:85
 msgid "today"
 msgstr "dnes"
 
-#: template.php:119
+#: template/functions.php:86
 msgid "yesterday"
 msgstr "včera"
 
-#: template.php:120
+#: template/functions.php:87
 #, php-format
 msgid "%d days ago"
 msgstr "pred %d dňami"
 
-#: template.php:121
+#: template/functions.php:88
 msgid "last month"
 msgstr "minulý mesiac"
 
-#: template.php:122
+#: template/functions.php:89
 #, php-format
 msgid "%d months ago"
 msgstr "Pred %d mesiacmi."
 
-#: template.php:123
+#: template/functions.php:90
 msgid "last year"
 msgstr "minulý rok"
 
-#: template.php:124
+#: template/functions.php:91
 msgid "years ago"
 msgstr "pred rokmi"
+
+#: template.php:296
+msgid "Caused by:"
+msgstr ""
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format

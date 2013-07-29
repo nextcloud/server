@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"The password is wrong. Try again." => "Pasahitza ez da egokia. Saiatu berriro.",
 "Password" => "Pasahitza",
 "Submit" => "Bidali",
 "%s shared the folder %s with you" => "%sk zurekin %s karpeta elkarbanatu du",

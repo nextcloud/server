@@ -5,11 +5,14 @@
 "Users" => "Usuarios",
 "Apps" => "Aplicativos",
 "Admin" => "Administración",
+"Failed to upgrade \"%s\"." => "Non foi posíbel anovar «%s».",
 "web services under your control" => "servizos web baixo o seu control",
+"cannot open \"%s\"" => "non foi posíbel abrir «%s»",
 "ZIP download is turned off." => "As descargas ZIP están desactivadas.",
 "Files need to be downloaded one by one." => "Os ficheiros necesitan seren descargados dun en un.",
 "Back to Files" => "Volver aos ficheiros",
 "Selected files too large to generate zip file." => "Os ficheiros seleccionados son demasiado grandes como para xerar un ficheiro zip.",
+"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Descargue os ficheiros en cachos máis pequenos e por separado, ou pídallos amabelmente ao seu administrador.",
 "couldn't be determined" => "non foi posíbel determinalo",
 "Application is not enabled" => "O aplicativo non está activado",
 "Authentication error" => "Produciuse un erro de autenticación",
@@ -49,5 +52,6 @@
 "%d months ago" => "Vai %d meses",
 "last year" => "último ano",
 "years ago" => "anos atrás",
+"Caused by:" => "Causado por:",
 "Could not find category \"%s\"" => "Non foi posíbel atopar a categoría «%s»"
 );

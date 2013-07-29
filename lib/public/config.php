@@ -49,7 +49,7 @@ class Config {
 	 * $default will be returned.
 	 */
 	public static function getSystemValue( $key, $default = null ) {
-		return(\OC_Config::getValue( $key, $default ));
+		return \OC_Config::getValue( $key, $default );
 	}
 
 	/**
@@ -62,7 +62,12 @@ class Config {
 	 * not be written, false will be returned.
 	 */
 	public static function setSystemValue( $key, $value ) {
-		return(\OC_Config::setValue( $key, $value ));
+		try {
+			\OC_Config::setValue( $key, $value );
+		} catch (Exception $e) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -76,7 +81,7 @@ class Config {
 	 * not exist the default value will be returned
 	 */
 	public static function getAppValue( $app, $key, $default = null ) {
-		return(\OC_Appconfig::getValue( $app, $key, $default ));
+		return \OC_Appconfig::getValue( $app, $key, $default );
 	}
 
 	/**
@@ -89,7 +94,12 @@ class Config {
 	 * Sets a value. If the key did not exist before it will be created.
 	 */
 	public static function setAppValue( $app, $key, $value ) {
-		return(\OC_Appconfig::setValue( $app, $key, $value ));
+		try {
+			\OC_Appconfig::setValue( $app, $key, $value );
+		} catch (Exception $e) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -104,7 +114,7 @@ class Config {
 	 * not exist the default value will be returned
 	 */
 	public static function getUserValue( $user, $app, $key, $default = null ) {
-		return(\OC_Preferences::getValue( $user, $app, $key, $default ));
+		return \OC_Preferences::getValue( $user, $app, $key, $default );
 	}
 
 	/**
@@ -119,6 +129,11 @@ class Config {
 	 * will be added automagically.
 	 */
 	public static function setUserValue( $user, $app, $key, $value ) {
-		return(\OC_Preferences::setValue( $user, $app, $key, $value ));
+		try {
+			\OC_Preferences::setValue( $user, $app, $key, $value );
+		} catch (Exception $e) {
+			return false;
+		}
+		return true;
 	}
 }

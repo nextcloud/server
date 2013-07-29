@@ -34,28 +34,43 @@
  *   post_removeFromGroup(uid, gid)
  */
 class OC_Group {
-	// The backend used for group management
 	/**
-	 * @var OC_Group_Interface[]
+	 * @var \OC\Group\Manager $manager
 	 */
-	private static $_usedBackends = array();
+	private static $manager;
+
+	/**
+	 * @var \OC\User\Manager
+	 */
+	private static $userManager;
+
+	/**
+	 * @return \OC\Group\Manager
+	 */
+	public static function getManager() {
+		if (self::$manager) {
+			return self::$manager;
+		}
+		self::$userManager = \OC_User::getManager();
+		self::$manager = new \OC\Group\Manager(self::$userManager);
+		return self::$manager;
+	}
 
 	/**
 	 * @brief set the group backend
-	 * @param  string  $backend  The backend to use for user managment
+	 * @param  \OC_Group_Backend $backend  The backend to use for user managment
 	 * @return bool
 	 */
-	public static function useBackend( $backend ) {
-		if($backend instanceof OC_Group_Interface) {
-			self::$_usedBackends[]=$backend;
-		}
+	public static function useBackend($backend) {
+		self::getManager()->addBackend($backend);
+		return true;
 	}
 
 	/**
 	 * remove all used backends
 	 */
 	public static function clearBackends() {
-		self::$_usedBackends=array();
+		self::getManager()->clearBackends();
 	}
 
 	/**
@@ -66,32 +81,13 @@ class OC_Group {
 	 * Tries to create a new group. If the group name already exists, false will
 	 * be returned. Basic checking of Group name
 	 */
-	public static function createGroup( $gid ) {
-		// No empty group names!
-		if( !$gid ) {
-			return false;
-		}
-		// No duplicate group names
-		if( in_array( $gid, self::getGroups())) {
-			return false;
-		}
+	public static function createGroup($gid) {
+		OC_Hook::emit("OC_Group", "pre_createGroup", array("run" => true, "gid" => $gid));
 
-		$run = true;
-		OC_Hook::emit( "OC_Group", "pre_createGroup", array( "run" => &$run, "gid" => $gid ));
-
-		if($run) {
-			//create the group in the first backend that supports creating groups
-			foreach(self::$_usedBackends as $backend) {
-				if(!$backend->implementsActions(OC_GROUP_BACKEND_CREATE_GROUP))
-					continue;
-
-				$backend->createGroup($gid);
-				OC_Hook::emit( "OC_User", "post_createGroup", array( "gid" => $gid ));
-
-				return true;
-			}
-			return false;
-		}else{
+		if (self::getManager()->createGroup($gid)) {
+			OC_Hook::emit("OC_User", "post_createGroup", array("gid" => $gid));
+			return true;
+		} else {
 			return false;
 		}
 	}
@@ -103,30 +99,22 @@ class OC_Group {
 	 *
 	 * Deletes a group and removes it from the group_user-table
 	 */
-	public static function deleteGroup( $gid ) {
+	public static function deleteGroup($gid) {
 		// Prevent users from deleting group admin
-		if( $gid == "admin" ) {
+		if ($gid == "admin") {
 			return false;
 		}
 
-		$run = true;
-		OC_Hook::emit( "OC_Group", "pre_deleteGroup", array( "run" => &$run, "gid" => $gid ));
+		OC_Hook::emit("OC_Group", "pre_deleteGroup", array("run" => true, "gid" => $gid));
 
-		if($run) {
-			//delete the group from all backends
-			foreach(self::$_usedBackends as $backend) {
-				if(!$backend->implementsActions(OC_GROUP_BACKEND_DELETE_GROUP))
-					continue;
-
-				$backend->deleteGroup($gid);
-				OC_Hook::emit( "OC_User", "post_deleteGroup", array( "gid" => $gid ));
-
+		$group = self::getManager()->get($gid);
+		if ($group) {
+			if ($group->delete()) {
+				OC_Hook::emit("OC_User", "post_deleteGroup", array("gid" => $gid));
 				return true;
 			}
-			return false;
-		}else{
-			return false;
 		}
+		return false;
 	}
 
 	/**
@@ -137,11 +125,11 @@ class OC_Group {
 	 *
 	 * Checks whether the user is member of a group or not.
 	 */
-	public static function inGroup( $uid, $gid ) {
-		foreach(self::$_usedBackends as $backend) {
-			if($backend->inGroup($uid, $gid)) {
-				return true;
-			}
+	public static function inGroup($uid, $gid) {
+		$group = self::getManager()->get($gid);
+		$user = self::$userManager->get($uid);
+		if ($group and $user) {
+			return $group->inGroup($user);
 		}
 		return false;
 	}
@@ -154,33 +142,15 @@ class OC_Group {
 	 *
 	 * Adds a user to a group.
 	 */
-	public static function addToGroup( $uid, $gid ) {
-		// Does the group exist?
-		if( !OC_Group::groupExists($gid)) {
-			return false;
-		}
-
-		// Go go go
-		$run = true;
-		OC_Hook::emit( "OC_Group", "pre_addToGroup", array( "run" => &$run, "uid" => $uid, "gid" => $gid ));
-
-		if($run) {
-			$success=false;
-
-			//add the user to the all backends that have the group
-			foreach(self::$_usedBackends as $backend) {
-				if(!$backend->implementsActions(OC_GROUP_BACKEND_ADD_TO_GROUP))
-					continue;
-
-				if($backend->groupExists($gid)) {
-					$success|=$backend->addToGroup($uid, $gid);
-				}
-			}
-			if($success) {
-				OC_Hook::emit( "OC_User", "post_addToGroup", array( "uid" => $uid, "gid" => $gid ));
-			}
-			return $success;
-		}else{
+	public static function addToGroup($uid, $gid) {
+		$group = self::getManager()->get($gid);
+		$user = self::$userManager->get($uid);
+		if ($group and $user) {
+			OC_Hook::emit("OC_Group", "pre_addToGroup", array("run" => true, "uid" => $uid, "gid" => $gid));
+			$group->addUser($user);
+			OC_Hook::emit("OC_User", "post_addToGroup", array("uid" => $uid, "gid" => $gid));
+			return true;
+		} else {
 			return false;
 		}
 	}
@@ -193,21 +163,15 @@ class OC_Group {
 	 *
 	 * removes the user from a group.
 	 */
-	public static function removeFromGroup( $uid, $gid ) {
-		$run = true;
-		OC_Hook::emit( "OC_Group", "pre_removeFromGroup", array( "run" => &$run, "uid" => $uid, "gid" => $gid ));
-
-		if($run) {
-			//remove the user from the all backends that have the group
-			foreach(self::$_usedBackends as $backend) {
-				if(!$backend->implementsActions(OC_GROUP_BACKEND_REMOVE_FROM_GOUP))
-					continue;
-
-				$backend->removeFromGroup($uid, $gid);
-				OC_Hook::emit( "OC_User", "post_removeFromGroup", array( "uid" => $uid, "gid" => $gid ));
-			}
+	public static function removeFromGroup($uid, $gid) {
+		$group = self::getManager()->get($gid);
+		$user = self::$userManager->get($uid);
+		if ($group and $user) {
+			OC_Hook::emit("OC_Group", "pre_removeFromGroup", array("run" => true, "uid" => $uid, "gid" => $gid));
+			$group->removeUser($user);
+			OC_Hook::emit("OC_User", "post_removeFromGroup", array("uid" => $uid, "gid" => $gid));
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -220,13 +184,18 @@ class OC_Group {
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
 	 */
-	public static function getUserGroups( $uid ) {
-		$groups=array();
-		foreach(self::$_usedBackends as $backend) {
-			$groups=array_merge($backend->getUserGroups($uid), $groups);
+	public static function getUserGroups($uid) {
+		$user = self::$userManager->get($uid);
+		if ($user) {
+			$groups = self::getManager()->getUserGroups($user);
+			$groupIds = array();
+			foreach ($groups as $group) {
+				$groupIds[] = $group->getGID();
+			}
+			return $groupIds;
+		} else {
+			return array();
 		}
-		asort($groups);
-		return $groups;
 	}
 
 	/**
@@ -235,27 +204,23 @@ class OC_Group {
 	 *
 	 * Returns a list with all groups
 	 */
-	public static function getGroups($search = '', $limit = -1, $offset = 0) {
-		$groups = array();
-		foreach (self::$_usedBackends as $backend) {
-			$groups = array_merge($backend->getGroups($search, $limit, $offset), $groups);
+	public static function getGroups($search = '', $limit = null, $offset = null) {
+		$groups = self::getManager()->search($search, $limit, $offset);
+		$groupIds = array();
+		foreach ($groups as $group) {
+			$groupIds[] = $group->getGID();
 		}
-		asort($groups);
-		return $groups;
+		return $groupIds;
 	}
 
 	/**
 	 * check if a group exists
+	 *
 	 * @param string $gid
 	 * @return bool
 	 */
 	public static function groupExists($gid) {
-		foreach(self::$_usedBackends as $backend) {
-			if ($backend->groupExists($gid)) {
-				return true;
-			}
-		}
-		return false;
+		return self::getManager()->groupExists($gid);
 	}
 
 	/**
@@ -263,11 +228,17 @@ class OC_Group {
 	 * @returns array with user ids
 	 */
 	public static function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
-		$users=array();
-		foreach(self::$_usedBackends as $backend) {
-			$users = array_merge($backend->usersInGroup($gid, $search, $limit, $offset), $users);
+		$group = self::getManager()->get($gid);
+		if ($group) {
+			$users = $group->searchUsers($search . $limit, $offset);
+			$userIds = array();
+			foreach ($users as $user) {
+				$userIds[] = $user->getUID();
+			}
+			return $userIds;
+		} else {
+			return array();
 		}
-		return $users;
 	}
 
 	/**
@@ -292,17 +263,17 @@ class OC_Group {
 	 * @returns array with display names (value) and user ids(key)
 	 */
 	public static function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
-		$displayNames=array();
-		foreach(self::$_usedBackends as $backend) {
-			if($backend->implementsActions(OC_GROUP_BACKEND_GET_DISPLAYNAME)) {
-				$displayNames = array_merge($backend->displayNamesInGroup($gid, $search, $limit, $offset), $displayNames);
-			} else {
-				$users = $backend->usersInGroup($gid, $search, $limit, $offset);
-				$names = array_combine($users, $users);
-				$displayNames = array_merge($names, $displayNames);
+		$group = self::getManager()->get($gid);
+		if ($group) {
+			$users = $group->searchDisplayName($search . $limit, $offset);
+			$displayNames = array();
+			foreach ($users as $user) {
+				$displayNames[] = $user->getDisplayName();
 			}
+			return $displayNames;
+		} else {
+			return array();
 		}
-		return $displayNames;
 	}
 
 	/**

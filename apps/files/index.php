@@ -122,7 +122,17 @@ if ($needUpgrade) {
 	// information about storage capacities
 	$storageInfo=OC_Helper::getStorageInfo();
 	$maxUploadFilesize=OCP\Util::maxUploadFilesize($dir);
+	$publicUploadEnabled = \OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes');
+	if (OC_App::isEnabled('files_encryption')) {
+		$publicUploadEnabled = 'no';
+	}
 
+	$trashEnabled = \OCP\App::isEnabled('files_trashbin');
+	$trashEmpty = true;
+	if ($trashEnabled) {
+		$trashEmpty = \OCA\Files_Trashbin\Trashbin::isEmpty($user);
+	}
+	
 	OCP\Util::addscript('files', 'fileactions');
 	OCP\Util::addscript('files', 'files');
 	OCP\Util::addscript('files', 'keyboardshortcuts');
@@ -133,11 +143,13 @@ if ($needUpgrade) {
 	$tmpl->assign('isCreatable', \OC\Files\Filesystem::isCreatable($dir . '/'));
 	$tmpl->assign('permissions', $permissions);
 	$tmpl->assign('files', $files);
-	$tmpl->assign('trash', \OCP\App::isEnabled('files_trashbin'));
+	$tmpl->assign('trash', $trashEnabled);
+	$tmpl->assign('trashEmpty', $trashEmpty);
 	$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 	$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 	$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 	$tmpl->assign('usedSpacePercent', (int)$storageInfo['relative']);
 	$tmpl->assign('isPublic', false);
+	$tmpl->assign('publicUploadEnabled', $publicUploadEnabled);
 	$tmpl->printPage();
 }

@@ -5,11 +5,14 @@
 "Users" => "Gebruikers",
 "Apps" => "Apps",
 "Admin" => "Beheerder",
+"Failed to upgrade \"%s\"." => "Upgrade \"%s\" mislukt.",
 "web services under your control" => "Webdiensten in eigen beheer",
+"cannot open \"%s\"" => "Kon \"%s\" niet openen",
 "ZIP download is turned off." => "ZIP download is uitgeschakeld.",
 "Files need to be downloaded one by one." => "Bestanden moeten één voor één worden gedownload.",
 "Back to Files" => "Terug naar bestanden",
 "Selected files too large to generate zip file." => "De geselecteerde bestanden zijn te groot om een zip bestand te maken.",
+"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Download de bestanden in kleinere brokken, appart of vraag uw administrator.",
 "couldn't be determined" => "kon niet worden vastgesteld",
 "Application is not enabled" => "De applicatie is niet actief",
 "Authentication error" => "Authenticatie fout",
@@ -49,5 +52,6 @@
 "%d months ago" => "%d maanden geleden",
 "last year" => "vorig jaar",
 "years ago" => "jaar geleden",
+"Caused by:" => "Gekomen door:",
 "Could not find category \"%s\"" => "Kon categorie \"%s\" niet vinden"
 );
