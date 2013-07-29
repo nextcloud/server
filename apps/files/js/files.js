@@ -124,7 +124,7 @@ $(document).ready(function() {
 	$('#trash').on('click', function() {
 		window.location=OC.filePath('files_trashbin', '', 'index.php');
 	});
-	
+
 	var lastChecked;
 
 	// Sets the file link behaviour :
