@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class for utility functions
  *
@@ -854,4 +855,23 @@ class OC_Util {
 		}
 	}
 
+	/**
+	 * Normalize a unicode string
+	 * @param string $value a not normalized string
+	 * @return bool|string
+	 */
+	public static function normalizeUnicode($value) {
+		require_once 'Patchwork/PHP/Shim/Normalizer.php';
+
+		if(class_exists('Patchwork\PHP\Shim\Normalizer')) {
+			$normalizedValue = \Patchwork\PHP\Shim\Normalizer::normalize($value);
+			if($normalizedValue === false) {
+				\OC_Log::write( 'core', 'normalizing failed for "' . $value . '"', \OC_Log::WARN);
+			} else {
+				$value = $normalizedValue;
+			}
+		}
+
+		return $value;
+	}
 }
