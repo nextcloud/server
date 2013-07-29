@@ -8,7 +8,6 @@
 
 namespace OC\Files\Utils;
 
-use OC\Hooks\BasicEmitter;
 use OC\Files\Filesystem;
 use OC\Hooks\PublicEmitter;
 
