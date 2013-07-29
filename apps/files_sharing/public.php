@@ -239,6 +239,7 @@ $errorTemplate = new OCP\Template('files_sharing', 'part.404', '');
 $errorContent = $errorTemplate->fetchPage();
 
 header('HTTP/1.0 404 Not Found');
+OCP\Util::addStyle('files_sharing', '404');
 $tmpl = new OCP\Template('', '404', 'guest');
 $tmpl->assign('content', $errorContent);
 $tmpl->printPage();
