@@ -892,4 +892,10 @@ class OC_Util {
 
 		return $value;
 	}
+
+	public static function basename($file)
+	{
+		$t = explode('/', $file);
+		return array_pop($t);
+	}
 }
