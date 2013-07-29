@@ -185,7 +185,7 @@ $CONFIG = array(
 //links to custom clients
 'customclient_desktop' => '', //http://owncloud.org/sync-clients/
 'customclient_android' => '', //https://play.google.com/store/apps/details?id=com.owncloud.android
-'customclient_ios' => '' //https://itunes.apple.com/us/app/owncloud/id543672169?mt=8
+'customclient_ios' => '', //https://itunes.apple.com/us/app/owncloud/id543672169?mt=8
 
 // PREVIEW
 /* the max width of a generated preview, if value is null, there is no limit */
