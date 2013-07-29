@@ -392,6 +392,7 @@ var FileList={
 							files.removeClass('selected');
 						});
 						procesSelection();
+						checkTrashStatus();
 					} else {
 						$.each(files,function(index,file) {
 							var deleteAction = $('tr').filterAttr('data-file',file).children("td.date").children(".move2trash");
