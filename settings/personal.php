@@ -28,8 +28,7 @@ $languageCodes=OC_L10N::findAvailableLanguages();
 $enableDecryptAll = false;
 if (OC_App::isEnabled('files_encryption') === false) {
 	$view = new OC\Files\View('/'.OCP\User::getUser());
-	$remainingKeys = $view->getDirectoryContent('/files_encryption/keyfiles');
-	if (!empty($remainingKeys)) {
+	if($view->file_exists('/files_encryption/keyfiles')) {
 		$enableDecryptAll = true;
 	}
 }
