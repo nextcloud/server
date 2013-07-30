@@ -592,8 +592,7 @@ $(document).ready(function() {
 		}
 
 		// Update the share information
-		OC.Share.share(itemType, itemSource,	OC.Share.SHARE_TYPE_LINK, '', permissions, function(data) {
-			return;
+		OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', permissions, function(data) {
 		});
 	});
 
@@ -609,13 +608,26 @@ $(document).ready(function() {
 	});
 
 	$(document).on('focusout keyup', '#dropdown #linkPassText', function(event) {
-		if ( $('#linkPassText').val() != '' && (event.type == 'focusout' || event.keyCode == 13) ) {
-			var itemType = $('#dropdown').data('item-type');
-			var itemSource = $('#dropdown').data('item-source');
-			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $('#linkPassText').val(), OC.PERMISSION_READ, function() {
-				console.log("password set to: '" + $('#linkPassText').val() +"' by event: " + event.type);
-				$('#linkPassText').val('');
-				$('#linkPassText').attr('placeholder', t('core', 'Password protected'));
+		var linkPassText = $('#linkPassText');
+		if ( linkPassText.val() != '' && (event.type == 'focusout' || event.keyCode == 13) ) {
+
+			var allowPublicUpload = $('#sharingDialogAllowPublicUpload').is(':checked');
+			var dropDown = $('#dropdown');
+			var itemType = dropDown.data('item-type');
+			var itemSource = dropDown.data('item-source');
+			var permissions = 0;
+
+			// Calculate permissions
+			if (allowPublicUpload) {
+				permissions = OC.PERMISSION_UPDATE + OC.PERMISSION_CREATE + OC.PERMISSION_READ;
+			} else {
+				permissions = OC.PERMISSION_READ;
+			}
+
+			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $('#linkPassText').val(), permissions, function() {
+				console.log("password set to: '" + linkPassText.val() +"' by event: " + event.type);
+				linkPassText.val('');
+				linkPassText.attr('placeholder', t('core', 'Password protected'));
 			});
 		}
 	});
