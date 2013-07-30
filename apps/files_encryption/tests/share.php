@@ -136,7 +136,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
 
 		// save file with content
-		$cryptedFile = file_put_contents('crypt://' . $this->filename, $this->dataShort);
+		$cryptedFile = file_put_contents('crypt:///' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename, $this->dataShort);
 
 		// test that data was successfully written
 		$this->assertTrue(is_int($cryptedFile));
@@ -293,7 +293,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 			. $this->subsubfolder);
 
 		// save file with content
-		$cryptedFile = file_put_contents('crypt://' . $this->folder1 . $this->subfolder . $this->subsubfolder . '/'
+		$cryptedFile = file_put_contents('crypt:///' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/'  . $this->folder1 . $this->subfolder . $this->subsubfolder . '/'
 										 . $this->filename, $this->dataShort);
 
 		// test that data was successfully written
@@ -499,7 +499,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
 
 		// save file with content
-		$cryptedFile = file_put_contents('crypt://' . $this->filename, $this->dataShort);
+		$cryptedFile = file_put_contents('crypt:///' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/'  . $this->filename, $this->dataShort);
 
 		// test that data was successfully written
 		$this->assertTrue(is_int($cryptedFile));
@@ -540,7 +540,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		\OC_User::setUserId(false);
 
 		// get file contents
-		$retrievedCryptedFile = file_get_contents('crypt://' . $this->filename);
+		$retrievedCryptedFile = file_get_contents('crypt:///' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/'  . $this->filename);
 
 		// check if data is the same as we previously written
 		$this->assertEquals($this->dataShort, $retrievedCryptedFile);
@@ -575,7 +575,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
 
 		// save file with content
-		$cryptedFile = file_put_contents('crypt://' . $this->filename, $this->dataShort);
+		$cryptedFile = file_put_contents('crypt:///' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename, $this->dataShort);
 
 		// test that data was successfully written
 		$this->assertTrue(is_int($cryptedFile));
@@ -675,8 +675,8 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 			. $this->subsubfolder);
 
 		// save file with content
-		$cryptedFile1 = file_put_contents('crypt://' . $this->filename, $this->dataShort);
-		$cryptedFile2 = file_put_contents('crypt://' . $this->folder1 . $this->subfolder . $this->subsubfolder . '/'
+		$cryptedFile1 = file_put_contents('crypt:///' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename, $this->dataShort);
+		$cryptedFile2 = file_put_contents('crypt:///' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->folder1 . $this->subfolder . $this->subsubfolder . '/'
 										  . $this->filename, $this->dataShort);
 
 		// test that data was successfully written
@@ -777,8 +777,8 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 			. $this->subsubfolder);
 
 		// save file with content
-		$cryptedFile1 = file_put_contents('crypt://' . $this->filename, $this->dataShort);
-		$cryptedFile2 = file_put_contents('crypt://' . $this->folder1 . $this->subfolder . $this->subsubfolder . '/'
+		$cryptedFile1 = file_put_contents('crypt:///' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename, $this->dataShort);
+		$cryptedFile2 = file_put_contents('crypt:///' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->folder1 . $this->subfolder . $this->subsubfolder . '/'
 										  . $this->filename, $this->dataShort);
 
 		// test that data was successfully written
@@ -811,9 +811,9 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2, false, 'test');
 
 		// get file contents
-		$retrievedCryptedFile1 = file_get_contents('crypt://' . $this->filename);
+		$retrievedCryptedFile1 = file_get_contents('crypt:///' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
 		$retrievedCryptedFile2 = file_get_contents(
-			'crypt://' . $this->folder1 . $this->subfolder . $this->subsubfolder . '/' . $this->filename);
+			'crypt:///' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->folder1 . $this->subfolder . $this->subsubfolder . '/' . $this->filename);
 
 		// check if data is the same as we previously written
 		$this->assertEquals($this->dataShort, $retrievedCryptedFile1);
@@ -854,7 +854,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
 
 		// save file with content
-		$cryptedFile = file_put_contents('crypt://' . $this->filename, $this->dataShort);
+		$cryptedFile = file_put_contents('crypt:///' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename, $this->dataShort);
 
 		// test that data was successfully written
 		$this->assertTrue(is_int($cryptedFile));

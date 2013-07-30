@@ -153,7 +153,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue(Encryption\Crypt::isCatfileContent($encryptedContent));
 
 		// get decrypted file contents
-		$decrypt = file_get_contents('crypt://' . $filename);
+		$decrypt = file_get_contents('crypt:///' . $this->userId . '/files'. $filename);
 
 		// check if file content match with the written content
 		$this->assertEquals($this->dataShort, $decrypt);

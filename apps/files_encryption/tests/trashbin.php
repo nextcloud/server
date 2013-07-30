@@ -122,7 +122,7 @@ class Test_Encryption_Trashbin extends \PHPUnit_Framework_TestCase {
 		$filename = 'tmp-' . time() . '.txt';
 
 		// save file with content
-		$cryptedFile = file_put_contents('crypt:///' . $filename, $this->dataShort);
+		$cryptedFile = file_put_contents('crypt:///' .$this->userId. '/files/'. $filename, $this->dataShort);
 
 		// test that data was successfully written
 		$this->assertTrue(is_int($cryptedFile));
@@ -223,10 +223,10 @@ class Test_Encryption_Trashbin extends \PHPUnit_Framework_TestCase {
 	function testPermanentDeleteFile() {
 
 		// generate filename
-		$filename = 'tmp-' . time() . '.txt';
+		$filename = '/tmp-' . time() . '.txt';
 
 		// save file with content
-		$cryptedFile = file_put_contents('crypt:///' . $filename, $this->dataShort);
+		$cryptedFile = file_put_contents('crypt:///' .$this->userId. '/files/' . $filename, $this->dataShort);
 
 		// test that data was successfully written
 		$this->assertTrue(is_int($cryptedFile));
