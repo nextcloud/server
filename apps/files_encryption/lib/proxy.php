@@ -154,9 +154,6 @@ class Proxy extends \OC_FileProxy {
 		$plainData = null;
 		$view = new \OC_FilesystemView('/');
 
-		// get relative path
-		$relativePath = \OCA\Encryption\Helper::stripUserFilesPath($path);
-
 		// init session
 		$session = new \OCA\Encryption\Session($view);
 
@@ -166,7 +163,7 @@ class Proxy extends \OC_FileProxy {
 			&& Crypt::isCatfileContent($data)
 		) {
 
-			$handle = fopen('crypt://' . $relativePath, 'r');
+			$handle = fopen('crypt://' . $path, 'r');
 
 			if (is_resource($handle)) {
 				while (($plainDataChunk = fgets($handle, 8192)) !== false) {
