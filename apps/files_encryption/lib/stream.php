@@ -107,6 +107,11 @@ class Stream {
 			$this->relPath = Helper::getPathToRealFile($this->rawPath);
 		}
 		
+		if($this->relPath === false) {
+			\OCP\Util::writeLog('Encryption library', 'failed to open file "' . $this->rawPath . '" expecting a path to user/files or to user/files_versions', \OCP\Util::ERROR);
+			return false;
+		}
+		
 		// Disable fileproxies so we can get the file size and open the source file without recursive encryption
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;

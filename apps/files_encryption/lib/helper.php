@@ -201,7 +201,7 @@ class Helper {
 		$split = explode('/', $trimmed);
 		
 		// it is not a file relative to data/user/files
-		if ($split[1] !== 'files') {
+		if (count($split) < 3 || $split[1] !== 'files') {
 			return false;
 		}
 		
@@ -220,7 +220,7 @@ class Helper {
 		$trimmed = ltrim($path, '/');
 		$split = explode('/', $trimmed);
 		
-		if ($split[1] !== "files_versions") {
+		if (count($split) < 3 || $split[1] !== "files_versions") {
 			return false;
 		}
 		
