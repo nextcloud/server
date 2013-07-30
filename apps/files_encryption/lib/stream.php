@@ -62,6 +62,7 @@ class Stream {
 	private $unencryptedSize;
 	private $publicKey;
 	private $encKeyfile;
+	private $newFile; // helper var, we only need to write the keyfile for new files
 	/**
 	 * @var \OC\Files\View
 	 */
@@ -80,6 +81,9 @@ class Stream {
 	 * @return bool
 	 */
 	public function stream_open($path, $mode, $options, &$opened_path) {
+		
+		// assume that the file already exist before we decide it finally in getKey()
+		$this->newFile = false;
 
 		if (!isset($this->rootView)) {
 			$this->rootView = new \OC_FilesystemView('/');
@@ -262,6 +266,8 @@ class Stream {
 
 		} else {
 
+			$this->newFile = true;
+			
 			return false;
 
 		}
@@ -440,9 +446,7 @@ class Stream {
 			fwrite($this->handle, $encrypted);
 
 			$this->writeCache = '';
-
 		}
-
 	}
 
 	/**
@@ -455,65 +459,69 @@ class Stream {
 		// if there is no valid private key return false
 		if ($this->privateKey === false) {
 
-				// cleanup
-				if ($this->meta['mode'] !== 'r' && $this->meta['mode'] !== 'rb') {
+			// cleanup
+			if ($this->meta['mode'] !== 'r' && $this->meta['mode'] !== 'rb') {
 
-					// Disable encryption proxy to prevent recursive calls
-					$proxyStatus = \OC_FileProxy::$enabled;
-					\OC_FileProxy::$enabled = false;
+				// Disable encryption proxy to prevent recursive calls
+				$proxyStatus = \OC_FileProxy::$enabled;
+				\OC_FileProxy::$enabled = false;
 
-					if ($this->rootView->file_exists($this->rawPath) && $this->size === 0) {
-						$this->rootView->unlink($this->rawPath);
-					}
-
-					// Re-enable proxy - our work is done
-					\OC_FileProxy::$enabled = $proxyStatus;
+				if ($this->rootView->file_exists($this->rawPath) && $this->size === 0) {
+					$this->rootView->unlink($this->rawPath);
 				}
+
+				// Re-enable proxy - our work is done
+				\OC_FileProxy::$enabled = $proxyStatus;
+			}
 
 			// if private key is not valid redirect user to a error page
 			\OCA\Encryption\Helper::redirectToErrorPage();
 		}
 
 		if (
-			$this->meta['mode'] !== 'r'
-			and $this->meta['mode'] !== 'rb'
-				and $this->size > 0
+				$this->meta['mode'] !== 'r' &&
+				$this->meta['mode'] !== 'rb' &&
+				$this->size > 0
 		) {
-			// Disable encryption proxy to prevent recursive calls
-			$proxyStatus = \OC_FileProxy::$enabled;
-			\OC_FileProxy::$enabled = false;
+			// only write keyfiles if it was a new file
+			if ($this->newFile === true) {
 
-			// Fetch user's public key
-			$this->publicKey = Keymanager::getPublicKey($this->rootView, $this->userId);
+				// Disable encryption proxy to prevent recursive calls
+				$proxyStatus = \OC_FileProxy::$enabled;
+				\OC_FileProxy::$enabled = false;
 
-			// Check if OC sharing api is enabled
-			$sharingEnabled = \OCP\Share::isEnabled();
+				// Fetch user's public key
+				$this->publicKey = Keymanager::getPublicKey($this->rootView, $this->userId);
 
-			$util = new Util($this->rootView, $this->userId);
+				// Check if OC sharing api is enabled
+				$sharingEnabled = \OCP\Share::isEnabled();
 
-			// Get all users sharing the file includes current user
-			$uniqueUserIds = $util->getSharingUsersArray($sharingEnabled, $this->relPath, $this->userId);
+				$util = new Util($this->rootView, $this->userId);
 
-			// Fetch public keys for all sharing users
-			$publicKeys = Keymanager::getPublicKeys($this->rootView, $uniqueUserIds);
+				// Get all users sharing the file includes current user
+				$uniqueUserIds = $util->getSharingUsersArray($sharingEnabled, $this->relPath, $this->userId);
 
-			// Encrypt enc key for all sharing users
-			$this->encKeyfiles = Crypt::multiKeyEncrypt($this->plainKey, $publicKeys);
+				// Fetch public keys for all sharing users
+				$publicKeys = Keymanager::getPublicKeys($this->rootView, $uniqueUserIds);
 
-			// Save the new encrypted file key
-			Keymanager::setFileKey($this->rootView, $this->relPath, $this->userId, $this->encKeyfiles['data']);
+				// Encrypt enc key for all sharing users
+				$this->encKeyfiles = Crypt::multiKeyEncrypt($this->plainKey, $publicKeys);
 
-			// Save the sharekeys
-			Keymanager::setShareKeys($this->rootView, $this->relPath, $this->encKeyfiles['keys']);
+				// Save the new encrypted file key
+				Keymanager::setFileKey($this->rootView, $this->relPath, $this->userId, $this->encKeyfiles['data']);
+
+				// Save the sharekeys
+				Keymanager::setShareKeys($this->rootView, $this->relPath, $this->encKeyfiles['keys']);
+
+				// Re-enable proxy - our work is done
+				\OC_FileProxy::$enabled = $proxyStatus;
+			}
 
 			// get file info
 			$fileInfo = $this->rootView->getFileInfo($this->rawPath);
 			if (!is_array($fileInfo)) {
 				$fileInfo = array();
 			}
-
-			// Re-enable proxy - our work is done
-			\OC_FileProxy::$enabled = $proxyStatus;
 
 			// set encryption data
 			$fileInfo['encrypted'] = true;
@@ -525,7 +533,6 @@ class Stream {
 		}
 
 		return fclose($this->handle);
-
 	}
 
 }
