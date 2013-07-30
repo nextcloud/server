@@ -37,7 +37,7 @@
 			<input type="checkbox" id="show" name="show" />
 			<label for="show"></label>
 		</p>
-		<input type="checkbox" name="remember_login" value="1" id="remember_login"/><label
+		<input type="checkbox" name="remember_login" value="1" id="remember_login" checked /><label
 			for="remember_login"><?php p($l->t('remember')); ?></label>
 		<input type="hidden" name="timezone-offset" id="timezone-offset"/>
 		<input type="submit" id="submit" class="login primary" value="<?php p($l->t('Log in')); ?>"/>
