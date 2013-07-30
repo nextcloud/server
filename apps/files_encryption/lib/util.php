@@ -565,9 +565,6 @@ class Util {
 		// split the path parts
 		$pathParts = explode('/', $path);
 
-		// get relative path
-		$relativePath = \OCA\Encryption\Helper::stripUserFilesPath($path);
-
 		if (isset($pathParts[2]) && $pathParts[2] === 'files' && $this->view->file_exists($path)
 			&& $this->isEncryptedPath($path)
 		) {
@@ -580,7 +577,7 @@ class Util {
 			$lastChunkNr = floor($size / 8192);
 
 			// open stream
-			$stream = fopen('crypt://' . $relativePath, "r");
+			$stream = fopen('crypt://' . $path, "r");
 
 			if (is_resource($stream)) {
 				// calculate last chunk position
