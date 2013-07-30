@@ -141,9 +141,6 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 	 */
 	function testSetFileKey() {
 
-		# NOTE: This cannot be tested until we are able to break out 
-		# of the FileSystemView data directory root
-
 		$key = Encryption\Crypt::symmetricEncryptFileContentKeyfile($this->randomKey, 'hat');
 
 		$file = 'unittest-' . time() . '.txt';
@@ -159,6 +156,9 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 
 		//$view = new \OC_FilesystemView( '/' . $this->userId . '/files_encryption/keyfiles' );
 		Encryption\Keymanager::setFileKey($this->view, $file, $this->userId, $key['key']);
+		
+		$this->assertTrue($this->view->file_exists(
+			'/' . $this->userId . '/files_encryption/keyfiles/' . $file . '.key'));
 
 		// enable encryption proxy
 		$proxyStatus = \OC_FileProxy::$enabled;
@@ -233,7 +233,7 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 		\OC_FileProxy::$enabled = true;
 
 		// save file with content
-		$cryptedFile = file_put_contents('crypt://'.'/'.Test_Encryption_Keymanager::TEST_USER.'files//folder1/subfolder/subsubfolder/' . $filename, $this->dataShort);
+		$cryptedFile = file_put_contents('crypt:///'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1/subfolder/subsubfolder' . $filename, $this->dataShort);
 
 		// test that data was successfully written
 		$this->assertTrue(is_int($cryptedFile));
