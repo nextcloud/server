@@ -101,8 +101,11 @@ class Storage {
 				return false;
 			}
 
-			// we should have a source file to work with
-			if (!$files_view->file_exists($filename)) {
+			// we should have a source file to work with, and the file shouldn't
+			// be empty
+			$fileExists = $files_view->file_exists($filename);
+			$fileSize = $files_view->filesize($filename);
+			if ($fileExists === false || $fileSize === 0) {
 				return false;
 			}
 
