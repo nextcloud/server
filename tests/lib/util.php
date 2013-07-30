@@ -78,6 +78,7 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 			array('public_html', '/home/user/public_html/'),
 			array('public_html', '/home/user/public_html'),
 			array('', '/'),
+			array('public_html', 'public_html'),
 			array('442aa682de2a64db1e010f50e60fd9c9', 'local::C:\Users\ADMINI~1\AppData\Local\Temp\2/442aa682de2a64db1e010f50e60fd9c9/')
 		);
 	}
