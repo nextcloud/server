@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Alexander Shashkevych <alex@stunpix.com>, 2013
 # alfsoft <alfsoft@gmail.com>, 2013
 # lord93 <lordakryl@gmail.com>, 2013
 # eurekafag <eurekafag@eureka7.ru>, 2013
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-27 01:56-0400\n"
-"PO-Revision-Date: 2013-07-25 05:57+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-30 01:55-0400\n"
+"PO-Revision-Date: 2013-07-29 11:40+0000\n"
+"Last-Translator: Alexander Shashkevych <alex@stunpix.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -185,7 +186,7 @@ msgid ""
 "configure your webserver in a way that the data directory is no longer "
 "accessible or you move the data directory outside the webserver document "
 "root."
-msgstr ""
+msgstr "Похоже, что папка с Вашими данными и Ваши файлы доступны из интернета. Файл .htaccess не работает. Мы настойчиво предлагаем Вам сконфигурировать вебсервер таким образом, чтобы папка с Вашими данными более не была доступна или переместите папку с данными куда-нибудь в другое место вне основной папки документов вебсервера."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -200,7 +201,7 @@ msgstr "Веб-сервер до сих пор не настроен для во
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
-msgstr ""
+msgstr "Пожалуйста, дважды просмотрите <a href='%s'>инструкции по установке</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
@@ -222,7 +223,7 @@ msgid ""
 "System locale can't be set to %s. This means that there might be problems "
 "with certain characters in file names. We strongly suggest to install the "
 "required packages on your system to support %s."
-msgstr ""
+msgstr "Системный язык не может быть установлен в %s. Это значит, что могут возникнуть проблемы с некоторыми символами в именах файлов. Мы настойчиво предлагаем установить требуемые пакеты в Вашей системе для поддержки %s."
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
@@ -235,7 +236,7 @@ msgid ""
 "installation of 3rd party apps don´t work. Accessing files from remote and "
 "sending of notification emails might also not work. We suggest to enable "
 "internet connection for this server if you want to have all features."
-msgstr ""
+msgstr "Этот сервер не имеет подключения к сети интернет. Это значит, что некоторые возможности, такие как подключение внешних дисков, уведомления об обновлениях или установка сторонних приложений – не работают. Удалённый доступ к файлам и отправка уведомлений по электронной почте вероятнее всего тоже не будут работать. Предлагаем включить соединение с интернетом для этого сервера, если Вы хотите иметь все возможности."
 
 #: templates/admin.php:92
 msgid "Cron"
@@ -249,11 +250,11 @@ msgstr "Выполнять одно задание с каждой загруж�
 msgid ""
 "cron.php is registered at a webcron service to call cron.php once a minute "
 "over http."
-msgstr ""
+msgstr "cron.php зарегистрирован в сервисе webcron, чтобы cron.php вызывался раз в минуту используя http."
 
 #: templates/admin.php:121
 msgid "Use systems cron service to call the cron.php file once a minute."
-msgstr ""
+msgstr "Использовать системный сервис cron для вызова cron.php раз в минуту."
 
 #: templates/admin.php:128
 msgid "Sharing"
@@ -277,12 +278,12 @@ msgstr "Разрешить пользователям открывать в об
 
 #: templates/admin.php:151
 msgid "Allow public uploads"
-msgstr ""
+msgstr "Разрешить открытые загрузки"
 
 #: templates/admin.php:152
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
-msgstr ""
+msgstr "Разрешить пользователям позволять другим загружать в их открытые папки"
 
 #: templates/admin.php:160
 msgid "Allow resharing"
@@ -311,14 +312,14 @@ msgstr "Принудить к HTTPS"
 #: templates/admin.php:193
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
-msgstr ""
+msgstr "Принудить клиентов подключаться к %s через шифрованное соединение."
 
 #: templates/admin.php:199
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
-msgstr ""
+msgstr "Пожалуйста, подключитесь к %s используя HTTPS чтобы включить или отключить принудительное SSL."
 
 #: templates/admin.php:211
 msgid "Log"

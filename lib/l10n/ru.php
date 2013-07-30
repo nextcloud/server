@@ -5,11 +5,14 @@
 "Users" => "Пользователи",
 "Apps" => "Приложения",
 "Admin" => "Admin",
+"Failed to upgrade \"%s\"." => "Не смог обновить \"%s\".",
 "web services under your control" => "веб-сервисы под вашим управлением",
+"cannot open \"%s\"" => "не могу открыть \"%s\"",
 "ZIP download is turned off." => "ZIP-скачивание отключено.",
 "Files need to be downloaded one by one." => "Файлы должны быть загружены по одному.",
 "Back to Files" => "Назад к файлам",
 "Selected files too large to generate zip file." => "Выбранные файлы слишком велики, чтобы создать zip файл.",
+"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Загрузите файл маленьшими порциями, раздельно или вежливо попросите Вашего администратора.",
 "couldn't be determined" => "Невозможно установить",
 "Application is not enabled" => "Приложение не разрешено",
 "Authentication error" => "Ошибка аутентификации",
@@ -49,5 +52,6 @@
 "%d months ago" => "%d месяцев назад",
 "last year" => "в прошлом году",
 "years ago" => "несколько лет назад",
+"Caused by:" => "Вызвано:",
 "Could not find category \"%s\"" => "Категория \"%s\"  не найдена"
 );
