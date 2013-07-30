@@ -196,7 +196,7 @@ if (isset($path)) {
 				OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=');
 			$list->assign('isPublic', true);
 			$list->assign('sharingtoken', $token);
-			$list->assign('sharingroot', ($path));
+			$list->assign('sharingroot', $basePath);
 			$breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
 			$breadcrumbNav->assign('breadcrumb', $breadcrumb);
 			$breadcrumbNav->assign('baseURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&path=');

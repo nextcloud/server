@@ -18,19 +18,21 @@ class MP3 extends Provider {
 
 		$getID3 = new \getID3();
 
-		$tmppath = $fileview->toTmpFile($path);
+		$tmpPath = $fileview->toTmpFile($path);
 
-		$tags = $getID3->analyze($tmppath); 
-		\getid3_lib::CopyTagsToComments($tags); 
-		$picture = @$tags['id3v2']['APIC'][0]['data'];
+		$tags = $getID3->analyze($tmpPath);
+		\getid3_lib::CopyTagsToComments($tags);
+		if(isset($tags['id3v2']['APIC'][0]['data'])) {
+			$picture = @$tags['id3v2']['APIC'][0]['data'];
+			unlink($tmpPath);
+			$image = new \OC_Image($picture);
+			return $image->valid() ? $image : $this->getNoCoverThumbnail();
+		}
 
-		unlink($tmppath);
-
-		$image = new \OC_Image($picture);
-		return $image->valid() ? $image : $this->getNoCoverThumbnail($maxX, $maxY);
+		return $this->getNoCoverThumbnail();
 	}
 
-	public function getNoCoverThumbnail($maxX, $maxY) {
+	private function getNoCoverThumbnail() {
 		$icon = \OC::$SERVERROOT . '/core/img/filetypes/audio.png';
 
 		if(!file_exists($icon)) {

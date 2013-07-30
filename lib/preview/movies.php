@@ -8,7 +8,11 @@
  */
 namespace OC\Preview;
 
-if(!is_null(shell_exec('ffmpeg -version'))) {
+$isShellExecEnabled = !in_array('shell_exec', explode(', ', ini_get('disable_functions')));
+$whichFFMPEG = shell_exec('which ffmpeg');
+$isFFMPEGAvailable = !empty($whichFFMPEG);
+
+if($isShellExecEnabled && $isFFMPEGAvailable) {
 
 	class Movie extends Provider {
 
@@ -17,23 +21,23 @@ if(!is_null(shell_exec('ffmpeg -version'))) {
 		}
 
 		public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-			$abspath = \OC_Helper::tmpFile();
-			$tmppath = \OC_Helper::tmpFile();
+			$absPath = \OC_Helper::tmpFile();
+			$tmpPath = \OC_Helper::tmpFile();
 
 			$handle = $fileview->fopen($path, 'rb');
 
 			$firstmb = stream_get_contents($handle, 1048576); //1024 * 1024 = 1048576
-			file_put_contents($abspath, $firstmb);
+			file_put_contents($absPath, $firstmb);
 
-			//$cmd = 'ffmpeg -y  -i ' . escapeshellarg($abspath) . ' -f mjpeg -vframes 1 -ss 1 -s ' . escapeshellarg($maxX) . 'x' . escapeshellarg($maxY) . ' ' . $tmppath;
-			$cmd = 'ffmpeg -an -y  -i ' . escapeshellarg($abspath) . ' -f mjpeg -vframes 1 -ss 1 ' . escapeshellarg($tmppath);
+			//$cmd = 'ffmpeg -y  -i ' . escapeshellarg($absPath) . ' -f mjpeg -vframes 1 -ss 1 -s ' . escapeshellarg($maxX) . 'x' . escapeshellarg($maxY) . ' ' . $tmpPath;
+			$cmd = 'ffmpeg -an -y  -i ' . escapeshellarg($absPath) . ' -f mjpeg -vframes 1 -ss 1 ' . escapeshellarg($tmpPath);
 			
 			shell_exec($cmd);
 
-			$image = new \OC_Image($tmppath);
+			$image = new \OC_Image($tmpPath);
 
-			unlink($abspath);
-			unlink($tmppath);
+			unlink($absPath);
+			unlink($tmpPath);
 
 			return $image->valid() ? $image : false;
 		}

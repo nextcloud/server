@@ -16,10 +16,13 @@ class Image extends Provider {
 
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
 		//get fileinfo
-		$fileinfo = $fileview->getFileInfo($path);
+		$fileInfo = $fileview->getFileInfo($path);
+		if(!$fileInfo) {
+			return false;
+		}
 
 		//check if file is encrypted
-		if($fileinfo['encrypted'] === true) {
+		if($fileInfo['encrypted'] === true) {
 			$image = new \OC_Image(stream_get_contents($fileview->fopen($path, 'r')));
 		}else{
 			$image = new \OC_Image();

@@ -55,12 +55,12 @@ class Preview {
 	 * @param string $file The path to the file where you want a thumbnail from
 	 * @param int $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
 	 * @param int $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
-	 * @param bool $scalingup Disable/Enable upscaling of previews
+	 * @param bool $scalingUp Disable/Enable upscaling of previews
 	 * @return mixed (bool / string) 
 	 *					false if thumbnail does not exist
 	 *					path to thumbnail if thumbnail exists
 	*/
-	public function __construct($user='', $root='/', $file='', $maxX=1, $maxY=1, $scalingup=true) {
+	public function __construct($user='', $root='/', $file='', $maxX=1, $maxY=1, $scalingUp=true) {
 		//set config
 		$this->configMaxX = \OC_Config::getValue('preview_max_x', null);
 		$this->configMaxY = \OC_Config::getValue('preview_max_y', null);
@@ -70,11 +70,11 @@ class Preview {
 		$this->setFile($file);
 		$this->setMaxX($maxX);
 		$this->setMaxY($maxY);
-		$this->setScalingUp($scalingup);
+		$this->setScalingUp($scalingUp);
 
 		//init fileviews
 		if($user === ''){
-			$user = OC_User::getUser();
+			$user = \OC_User::getUser();
 		}
 		$this->fileview = new \OC\Files\View('/' . $user . '/' . $root);
 		$this->userview = new \OC\Files\View('/' . $user);
@@ -120,7 +120,7 @@ class Preview {
 	 * @brief returns whether or not scalingup is enabled
 	 * @return bool
 	*/
-	public function getScalingup() {
+	public function getScalingUp() {
 		return $this->scalingup;
 	}
 
@@ -172,8 +172,8 @@ class Preview {
 	 * @return $this
 	*/
 	public function setMaxX($maxX=1) {
-		if($maxX === 0) {
-			throw new \Exception('Cannot set width of 0!');
+		if($maxX <= 0) {
+			throw new \Exception('Cannot set width of 0 or smaller!');
 		}
 		$configMaxX = $this->getConfigMaxX();
 		if(!is_null($configMaxX)) {
@@ -192,8 +192,8 @@ class Preview {
 	 * @return $this
 	*/
 	public function setMaxY($maxY=1) {
-		if($maxY === 0) {
-			throw new \Exception('Cannot set height of 0!');
+		if($maxY <= 0) {
+			throw new \Exception('Cannot set height of 0 or smaller!');
 		}
 		$configMaxY = $this->getConfigMaxY();
 		if(!is_null($configMaxY)) {
@@ -208,14 +208,14 @@ class Preview {
 
 	/**
 	 * @brief set whether or not scalingup is enabled
-	 * @param bool $scalingup
+	 * @param bool $scalingUp
 	 * @return $this
 	*/
-	public function setScalingup($scalingup) {
+	public function setScalingup($scalingUp) {
 		if($this->getMaxScaleFactor() === 1) {
-			$scalingup = false;
+			$scalingUp = false;
 		}
-		$this->scalingup = $scalingup;
+		$this->scalingup = $scalingUp;
 		return $this;
 	}
 
@@ -245,12 +245,12 @@ class Preview {
 	public function deletePreview() {
 		$file = $this->getFile();
 
-		$fileinfo = $this->fileview->getFileInfo($file);
-		$fileid = $fileinfo['fileid'];
+		$fileInfo = $this->fileview->getFileInfo($file);
+		$fileId = $fileInfo['fileid'];
 
-		$previewpath = $this->getThumbnailsFolder() . '/' . $fileid . '/' . $this->getMaxX() . '-' . $this->getMaxY() . '.png';
-		$this->userview->unlink($previewpath);
-		return !$this->userview->file_exists($previewpath);
+		$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/' . $this->getMaxX() . '-' . $this->getMaxY() . '.png';
+		$this->userview->unlink($previewPath);
+		return !$this->userview->file_exists($previewPath);
 	}
 
 	/**
@@ -260,13 +260,13 @@ class Preview {
 	public function deleteAllPreviews() {
 		$file = $this->getFile();
 
-		$fileinfo = $this->fileview->getFileInfo($file);
-		$fileid = $fileinfo['fileid'];
+		$fileInfo = $this->fileview->getFileInfo($file);
+		$fileId = $fileInfo['fileid'];
 		
-		$previewpath = $this->getThumbnailsFolder() . '/' . $fileid . '/';
-		$this->userview->deleteAll($previewpath);
-		$this->userview->rmdir($previewpath);
-		return !$this->userview->is_dir($previewpath);
+		$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
+		$this->userview->deleteAll($previewPath);
+		$this->userview->rmdir($previewPath);
+		return !$this->userview->is_dir($previewPath);
 	}
 
 	/**
@@ -279,45 +279,45 @@ class Preview {
 		$file = $this->getFile();
 		$maxX = $this->getMaxX();
 		$maxY = $this->getMaxY();
-		$scalingup = $this->getScalingup();
+		$scalingUp = $this->getScalingUp();
 		$maxscalefactor = $this->getMaxScaleFactor();
 
-		$fileinfo = $this->fileview->getFileInfo($file);
-		$fileid = $fileinfo['fileid'];
+		$fileInfo = $this->fileview->getFileInfo($file);
+		$fileId = $fileInfo['fileid'];
 
-		if(is_null($fileid)) {
+		if(is_null($fileId)) {
 			return false;
 		}
 
-		$previewpath = $this->getThumbnailsFolder() . '/' . $fileid . '/';
-		if(!$this->userview->is_dir($previewpath)) {
+		$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
+		if(!$this->userview->is_dir($previewPath)) {
 			return false;
 		}
 
 		//does a preview with the wanted height and width already exist?
-		if($this->userview->file_exists($previewpath . $maxX . '-' . $maxY . '.png')) {
-			return $previewpath . $maxX . '-' . $maxY . '.png';
+		if($this->userview->file_exists($previewPath . $maxX . '-' . $maxY . '.png')) {
+			return $previewPath . $maxX . '-' . $maxY . '.png';
 		}
 
-		$wantedaspectratio = (float) ($maxX / $maxY);
+		$wantedAspectRatio = (float) ($maxX / $maxY);
 
 		//array for usable cached thumbnails
-		$possiblethumbnails = array();
+		$possibleThumbnails = array();
 
-		$allthumbnails = $this->userview->getDirectoryContent($previewpath);
-		foreach($allthumbnails as $thumbnail) {
+		$allThumbnails = $this->userview->getDirectoryContent($previewPath);
+		foreach($allThumbnails as $thumbnail) {
 			$name = rtrim($thumbnail['name'], '.png');
 			$size = explode('-', $name);
 			$x = (int) $size[0];
 			$y = (int) $size[1];
 
-			$aspectratio = (float) ($x / $y);
-			if($aspectratio !== $wantedaspectratio) {
+			$aspectRatio = (float) ($x / $y);
+			if($aspectRatio !== $wantedAspectRatio) {
 				continue;
 			}
 
 			if($x < $maxX || $y < $maxY) {
-				if($scalingup) {
+				if($scalingUp) {
 					$scalefactor = $maxX / $x;
 					if($scalefactor > $maxscalefactor) {
 						continue;
@@ -326,28 +326,28 @@ class Preview {
 					continue;
 				}
 			}
-			$possiblethumbnails[$x] = $thumbnail['path'];
+			$possibleThumbnails[$x] = $thumbnail['path'];
 		}
 
-		if(count($possiblethumbnails) === 0) {
+		if(count($possibleThumbnails) === 0) {
 			return false;
 		}
 
-		if(count($possiblethumbnails) === 1) {
-			return current($possiblethumbnails);
+		if(count($possibleThumbnails) === 1) {
+			return current($possibleThumbnails);
 		}
 
-		ksort($possiblethumbnails);
+		ksort($possibleThumbnails);
 
-		if(key(reset($possiblethumbnails)) > $maxX) {
-			return current(reset($possiblethumbnails));
+		if(key(reset($possibleThumbnails)) > $maxX) {
+			return current(reset($possibleThumbnails));
 		}
 
-		if(key(end($possiblethumbnails)) < $maxX) {
-			return current(end($possiblethumbnails));
+		if(key(end($possibleThumbnails)) < $maxX) {
+			return current(end($possibleThumbnails));
 		}
 
-		foreach($possiblethumbnails as $width => $path) {
+		foreach($possibleThumbnails as $width => $path) {
 			if($width < $maxX) {
 				continue;
 			}else{
@@ -358,7 +358,7 @@ class Preview {
 
 	/**
 	 * @brief return a preview of a file
-	 * @return image
+	 * @return \OC_Image
 	*/
 	public function getPreview() {
 		if(!is_null($this->preview) && $this->preview->valid()){
@@ -369,10 +369,10 @@ class Preview {
 		$file = $this->getFile();
 		$maxX = $this->getMaxX();
 		$maxY = $this->getMaxY();
-		$scalingup = $this->getScalingup();
+		$scalingUp = $this->getScalingUp();
 
-		$fileinfo = $this->fileview->getFileInfo($file);
-		$fileid = $fileinfo['fileid'];
+		$fileInfo = $this->fileview->getFileInfo($file);
+		$fileId = $fileInfo['fileid'];
 
 		$cached = $this->isCached();
 
@@ -386,12 +386,12 @@ class Preview {
 			$mimetype = $this->fileview->getMimeType($file);
 			$preview = null;
 
-			foreach(self::$providers as $supportedmimetype => $provider) {
-				if(!preg_match($supportedmimetype, $mimetype)) {
+			foreach(self::$providers as $supportedMimetype => $provider) {
+				if(!preg_match($supportedMimetype, $mimetype)) {
 					continue;
 				}
 
-				$preview = $provider->getThumbnail($file, $maxX, $maxY, $scalingup, $this->fileview);
+				$preview = $provider->getThumbnail($file, $maxX, $maxY, $scalingUp, $this->fileview);
 
 				if(!($preview instanceof \OC_Image)) {
 					continue;
@@ -400,18 +400,18 @@ class Preview {
 				$this->preview = $preview;
 				$this->resizeAndCrop();
 
-				$previewpath = $this->getThumbnailsFolder() . '/' . $fileid . '/';
-				$cachepath = $previewpath . $maxX . '-' . $maxY . '.png';
+				$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
+				$cachePath = $previewPath . $maxX . '-' . $maxY . '.png';
 
 				if($this->userview->is_dir($this->getThumbnailsFolder() . '/') === false) {
 					$this->userview->mkdir($this->getThumbnailsFolder() . '/');
 				}
 
-				if($this->userview->is_dir($previewpath) === false) {
-					$this->userview->mkdir($previewpath);
+				if($this->userview->is_dir($previewPath) === false) {
+					$this->userview->mkdir($previewPath);
 				}
 
-				$this->userview->file_put_contents($cachepath, $preview->data());
+				$this->userview->file_put_contents($cachePath, $preview->data());
 
 				break;
 			}
@@ -447,13 +447,13 @@ class Preview {
 
 	/**
 	 * @brief resize, crop and fix orientation
-	 * @return image
+	 * @return void
 	*/
 	private function resizeAndCrop() {
 		$image = $this->preview;
 		$x = $this->getMaxX();
 		$y = $this->getMaxY();
-		$scalingup = $this->getScalingup();
+		$scalingUp = $this->getScalingUp();
 		$maxscalefactor = $this->getMaxScaleFactor();
 
 		if(!($image instanceof \OC_Image)) {
@@ -480,7 +480,7 @@ class Preview {
 			$factor = $factorY;
 		}
 
-		if($scalingup === false) {
+		if($scalingUp === false) {
 			if($factor > 1) {
 				$factor = 1;
 			}
@@ -583,182 +583,6 @@ class Preview {
 		array_multisort($keys, SORT_DESC, self::$providers);
 	}
 
-	/**
-	 * @brief method that handles preview requests from users that are logged in
-	 * @return void
-	*/
-	public static function previewRouter() {
-		\OC_Util::checkLoggedIn();
-
-		$file = array_key_exists('file', $_GET) ? (string) urldecode($_GET['file']) : '';
-		$maxX = array_key_exists('x', $_GET) ? (int) $_GET['x'] : '36';
-		$maxY = array_key_exists('y', $_GET) ? (int) $_GET['y'] : '36';
-		$scalingup = array_key_exists('scalingup', $_GET) ? (bool) $_GET['scalingup'] : true;
-
-		if($file === '') {
-			\OC_Response::setStatus(400); //400 Bad Request
-			\OC_Log::write('core-preview', 'No file parameter was passed', \OC_Log::DEBUG);
-			self::showErrorPreview();
-			exit;
-		}
-
-		if($maxX === 0 || $maxY === 0) {
-			\OC_Response::setStatus(400); //400 Bad Request
-			\OC_Log::write('core-preview', 'x and/or y set to 0', \OC_Log::DEBUG);
-			self::showErrorPreview();
-			exit;
-		}
-
-		try{
-			$preview = new Preview(\OC_User::getUser(), 'files');
-			$preview->setFile($file);
-			$preview->setMaxX($maxX);
-			$preview->setMaxY($maxY);
-			$preview->setScalingUp($scalingup);
-
-			$preview->show();
-		}catch(\Exception $e) {
-			\OC_Response::setStatus(500);
-			\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
-			self::showErrorPreview();
-			exit;
-		}
-	}
-
-	/**
-	 * @brief method that handles preview requests from users that are not logged in / view shared folders that are public
-	 * @return void
-	*/
-	public static function publicPreviewRouter() {
-		if(!\OC_App::isEnabled('files_sharing')){
-			exit;
-		}
-
-		$file = array_key_exists('file', $_GET) ? (string) urldecode($_GET['file']) : '';
-		$maxX = array_key_exists('x', $_GET) ? (int) $_GET['x'] : '36';
-		$maxY = array_key_exists('y', $_GET) ? (int) $_GET['y'] : '36';
-		$scalingup = array_key_exists('scalingup', $_GET) ? (bool) $_GET['scalingup'] : true;
-		$token = array_key_exists('t', $_GET) ? (string) $_GET['t'] : '';
-
-		if($token === ''){
-			\OC_Response::setStatus(400); //400 Bad Request
-			\OC_Log::write('core-preview', 'No token parameter was passed', \OC_Log::DEBUG);
-			self::showErrorPreview();
-			exit;
-		}
-
-		$linkedItem = \OCP\Share::getShareByToken($token);
-		if($linkedItem === false || ($linkedItem['item_type'] !== 'file' && $linkedItem['item_type'] !== 'folder')) {
-			\OC_Response::setStatus(404);
-			\OC_Log::write('core-preview', 'Passed token parameter is not valid', \OC_Log::DEBUG);
-			self::showErrorPreview();
-			exit;
-		}
-
-		if(!isset($linkedItem['uid_owner']) || !isset($linkedItem['file_source'])) {
-			\OC_Response::setStatus(500);
-			\OC_Log::write('core-preview', 'Passed token seems to be valid, but it does not contain all necessary information . ("' . $token . '")');
-			self::showErrorPreview();
-			exit;
-		}
-
-		$userid = $linkedItem['uid_owner'];
-		\OC_Util::setupFS($userid);
-
-		$pathid = $linkedItem['file_source'];
-		$path = \OC\Files\Filesystem::getPath($pathid);
-		$pathinfo = \OC\Files\Filesystem::getFileInfo($path);
-		$sharedfile = null;
-
-		if($linkedItem['item_type'] === 'folder') {
-			$isvalid = \OC\Files\Filesystem::isValidPath($file);
-			if(!$isvalid) {
-				\OC_Response::setStatus(400); //400 Bad Request
-				\OC_Log::write('core-preview', 'Passed filename is not valid, might be malicious (file:"' . $file . '";ip:"' . $_SERVER['REMOTE_ADDR'] . '")', \OC_Log::WARN);
-				self::showErrorPreview();
-				exit;
-			}
-			$sharedfile = \OC\Files\Filesystem::normalizePath($file);
-		}
-
-		if($linkedItem['item_type'] === 'file') {
-			$parent = $pathinfo['parent'];
-			$path = \OC\Files\Filesystem::getPath($parent);
-			$sharedfile = $pathinfo['name'];
-		}
-
-		$path = \OC\Files\Filesystem::normalizePath($path, false);
-		if(substr($path, 0, 1) === '/') {
-			$path = substr($path, 1);
-		}
-
-		if($maxX === 0 || $maxY === 0) {
-			\OC_Response::setStatus(400); //400 Bad Request
-			\OC_Log::write('core-preview', 'x and/or y set to 0', \OC_Log::DEBUG);
-			self::showErrorPreview();
-			exit;
-		}
-
-		$root = 'files/' . $path;
-
-		try{
-			$preview = new Preview($userid, $root);
-			$preview->setFile($file);
-			$preview->setMaxX($maxX);
-			$preview->setMaxY($maxY);
-			$preview->setScalingUp($scalingup);
-
-			$preview->show();
-		}catch(\Exception $e) {
-			\OC_Response::setStatus(500);
-			\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
-			self::showErrorPreview();
-			exit;
-		}
-	}
-
-	public static function trashbinPreviewRouter() {
-		\OC_Util::checkLoggedIn();
-
-		if(!\OC_App::isEnabled('files_trashbin')){
-			exit;
-		}
-
-		$file = array_key_exists('file', $_GET) ? (string) urldecode($_GET['file']) : '';
-		$maxX = array_key_exists('x', $_GET) ? (int) $_GET['x'] : '44';
-		$maxY = array_key_exists('y', $_GET) ? (int) $_GET['y'] : '44';
-		$scalingup = array_key_exists('scalingup', $_GET) ? (bool) $_GET['scalingup'] : true;
-
-		if($file === '') {
-			\OC_Response::setStatus(400); //400 Bad Request
-			\OC_Log::write('core-preview', 'No file parameter was passed', \OC_Log::DEBUG);
-			self::showErrorPreview();
-			exit;
-		}
-
-		if($maxX === 0 || $maxY === 0) {
-			\OC_Response::setStatus(400); //400 Bad Request
-			\OC_Log::write('core-preview', 'x and/or y set to 0', \OC_Log::DEBUG);
-			self::showErrorPreview();
-			exit;
-		}
-
-		try{
-			$preview = new Preview(\OC_User::getUser(), 'files_trashbin/files');
-			$preview->setFile($file);
-			$preview->setMaxX($maxX);
-			$preview->setMaxY($maxY);
-			$preview->setScalingUp($scalingup);
-
-			$preview->showPreview();
-		}catch(\Exception $e) {
-			\OC_Response::setStatus(500);
-			\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
-			self::showErrorPreview();
-			exit;
-		}
-	}
-
 	public static function post_write($args) {
 		self::post_delete($args);
 	}
@@ -780,8 +604,8 @@ class Preview {
 
 		//remove last element because it has the mimetype *
 		$providers = array_slice(self::$providers, 0, -1);
-		foreach($providers as $supportedmimetype => $provider) {
-			if(preg_match($supportedmimetype, $mimetype)) {
+		foreach($providers as $supportedMimetype => $provider) {
+			if(preg_match($supportedMimetype, $mimetype)) {
 				return true;
 			}
 		}

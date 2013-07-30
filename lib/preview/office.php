@@ -7,8 +7,13 @@
  */
 //both, libreoffice backend and php fallback, need imagick
 if (extension_loaded('imagick')) {
+	$isShellExecEnabled = !in_array('shell_exec', explode(', ', ini_get('disable_functions')));
+	$whichLibreOffice = shell_exec('which libreoffice');
+	$isLibreOfficeAvailable = !empty($whichLibreOffice);
+	$whichOpenOffice = shell_exec('which libreoffice');
+	$isOpenOfficeAvailable = !empty($whichOpenOffice);
 	//let's see if there is libreoffice or openoffice on this machine
-	if(shell_exec('libreoffice --headless --version') || shell_exec('openoffice --headless --version') || is_string(\OC_Config::getValue('preview_libreoffice_path', null))) {
+	if($isShellExecEnabled && ($isLibreOfficeAvailable || $isOpenOfficeAvailable || is_string(\OC_Config::getValue('preview_libreoffice_path', null)))) {
 		require_once('libreoffice-cl.php');
 	}else{
 		//in case there isn't, use our fallback

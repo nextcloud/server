@@ -23,6 +23,9 @@
 
 require_once __DIR__.'/template/functions.php';
 
+/**
+ * This class provides the templates for ownCloud.
+ */
 class OC_Template extends \OC\Template\Base {
 	private $renderas; // Create a full page?
 	private $path; // The path to the template

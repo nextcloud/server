@@ -20,7 +20,7 @@ class Unknown extends Provider {
 			list($type, $subtype) = explode('/', $mimetype);
 		}
 
-		$iconsroot = \OC::$SERVERROOT . '/core/img/filetypes/';
+		$iconsRoot = \OC::$SERVERROOT . '/core/img/filetypes/';
 
 		if(isset($type)){
 			$icons = array($mimetype, $type, 'text');
@@ -30,10 +30,10 @@ class Unknown extends Provider {
 		foreach($icons as $icon) {
 			$icon = str_replace('/', '-', $icon);
 
-			$iconpath = $iconsroot . $icon . '.png';
+			$iconPath = $iconsRoot . $icon . '.png';
 
-			if(file_exists($iconpath)) {
-				return new \OC_Image($iconpath);
+			if(file_exists($iconPath)) {
+				return new \OC_Image($iconPath);
 			}
 		}
 		return false;

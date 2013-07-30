@@ -233,7 +233,7 @@ class OC_Helper {
 		return self::linkToRoute( 'core_ajax_preview', array('x' => 36, 'y' => 36, 'file' => urlencode($path) ));
 	}
 
-	public static function publicPreview_icon( $path, $token ) {
+	public static function publicPreviewIcon( $path, $token ) {
 		return self::linkToRoute( 'core_ajax_public_preview', array('x' => 36, 'y' => 36, 'file' => urlencode($path), 't' => $token));
 	}
 

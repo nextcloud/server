@@ -18,24 +18,23 @@ class TXT extends Provider {
 		$content = stream_get_contents($content);
 
 		$lines = preg_split("/\r\n|\n|\r/", $content);
-		$numoflines = count($lines);
 
-		$fontsize = 5; //5px
-		$linesize = ceil($fontsize * 1.25);
+		$fontSize = 5; //5px
+		$lineSize = ceil($fontSize * 1.25);
 
 		$image = imagecreate($maxX, $maxY);
-		$imagecolor = imagecolorallocate($image, 255, 255, 255);
-		$textcolor = imagecolorallocate($image, 0, 0, 0);
+		imagecolorallocate($image, 255, 255, 255);
+		$textColor = imagecolorallocate($image, 0, 0, 0);
 
 		foreach($lines as $index => $line) {
 			$index = $index + 1;
 
 			$x = (int) 1;
-			$y = (int) ($index * $linesize) - $fontsize;
+			$y = (int) ($index * $lineSize) - $fontSize;
 
-			imagestring($image, 1, $x, $y, $line, $textcolor);
+			imagestring($image, 1, $x, $y, $line, $textColor);
 
-			if(($index * $linesize) >= $maxY) {
+			if(($index * $lineSize) >= $maxY) {
 				break;
 			}
 		}

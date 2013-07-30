@@ -22,28 +22,30 @@ class Office extends Provider {
 			return false;
 		}
 
-		$abspath = $fileview->toTmpFile($path);
+		$absPath = $fileview->toTmpFile($path);
 
-		$tmpdir = get_temp_dir();
+		$tmpDir = get_temp_dir();
 
-		$exec = $this->cmd . ' --headless --nologo --nofirststartwizard --invisible --norestore -convert-to pdf -outdir ' . escapeshellarg($tmpdir) . ' ' . escapeshellarg($abspath);
-		$export = 'export HOME=/' . $tmpdir;
+		$exec = $this->cmd . ' --headless --nologo --nofirststartwizard --invisible --norestore -convert-to pdf -outdir ' . escapeshellarg($tmpDir) . ' ' . escapeshellarg($absPath);
+		$export = 'export HOME=/' . $tmpDir;
 
 		shell_exec($export . "\n" . $exec);
 
 		//create imagick object from pdf
 		try{
-			$pdf = new \imagick($abspath . '.pdf' . '[0]');
+			$pdf = new \imagick($absPath . '.pdf' . '[0]');
 			$pdf->setImageFormat('jpg');
-		}catch(\Exception $e){
+		}catch (\Exception $e) {
+			unlink($absPath);
+			unlink($absPath . '.pdf');
 			\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
 			return false;
 		}
 
 		$image = new \OC_Image($pdf);
 
-		unlink($abspath);
-		unlink($abspath . '.pdf');
+		unlink($absPath);
+		unlink($absPath . '.pdf');
 
 		return $image->valid() ? $image : false;
 	}
@@ -55,11 +57,13 @@ class Office extends Provider {
 			$cmd = \OC_Config::getValue('preview_libreoffice_path', null);
 		}
 
-		if($cmd === '' && shell_exec('libreoffice --headless --version')) {
+		$whichLibreOffice = shell_exec('which libreoffice');
+		if($cmd === '' && !empty($whichLibreOffice)) {
 			$cmd = 'libreoffice';
 		}
 
-		if($cmd === '' && shell_exec('openoffice --headless --version')) {
+		$whichOpenOffice = shell_exec('which openoffice');
+		if($cmd === '' && !empty($whichOpenOffice)) {
 			$cmd = 'openoffice';
 		}
 

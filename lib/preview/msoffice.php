@@ -32,16 +32,16 @@ class DOCX extends Provider {
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
 		require_once('phpdocx/classes/TransformDoc.inc');
 
-		$tmpdoc = $fileview->toTmpFile($path);
+		$tmpDoc = $fileview->toTmpFile($path);
 
 		$transformdoc = new \TransformDoc();
-		$transformdoc->setStrFile($tmpdoc);
-		$transformdoc->generatePDF($tmpdoc);
+		$transformdoc->setStrFile($tmpDoc);
+		$transformdoc->generatePDF($tmpDoc);
 
-		$pdf = new \imagick($tmpdoc . '[0]');
+		$pdf = new \imagick($tmpDoc . '[0]');
 		$pdf->setImageFormat('jpg');
 
-		unlink($tmpdoc);
+		unlink($tmpDoc);
 
 		$image = new \OC_Image($pdf);
 
@@ -62,23 +62,23 @@ class MSOfficeExcel extends Provider {
 		require_once('PHPExcel/Classes/PHPExcel.php');
 		require_once('PHPExcel/Classes/PHPExcel/IOFactory.php');
 
-		$abspath = $fileview->toTmpFile($path);
-		$tmppath = \OC_Helper::tmpFile();
+		$absPath = $fileview->toTmpFile($path);
+		$tmpPath = \OC_Helper::tmpFile();
 
 		$rendererName = \PHPExcel_Settings::PDF_RENDERER_DOMPDF;
 		$rendererLibraryPath = \OC::$THIRDPARTYROOT . '/3rdparty/dompdf';
 
 		\PHPExcel_Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
 
-		$phpexcel = new \PHPExcel($abspath);
+		$phpexcel = new \PHPExcel($absPath);
 		$excel = \PHPExcel_IOFactory::createWriter($phpexcel, 'PDF');
-		$excel->save($tmppath);
+		$excel->save($tmpPath);
 
-		$pdf = new \imagick($tmppath . '[0]');
+		$pdf = new \imagick($tmpPath . '[0]');
 		$pdf->setImageFormat('jpg');
 
-		unlink($abspath);
-		unlink($tmppath);
+		unlink($absPath);
+		unlink($tmpPath);
 
 		$image = new \OC_Image($pdf);
 

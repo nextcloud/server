@@ -16,18 +16,18 @@ if (extension_loaded('imagick')) {
 		}
 
 		public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {	
-			$tmppath = $fileview->toTmpFile($path);
+			$tmpPath = $fileview->toTmpFile($path);
 
 			//create imagick object from pdf
 			try{
-				$pdf = new \imagick($tmppath . '[0]');
+				$pdf = new \imagick($tmpPath . '[0]');
 				$pdf->setImageFormat('jpg');
-			}catch(\Exception $e){
+			}catch (\Exception $e) {
 				\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
 				return false;
 			}
 
-			unlink($tmppath);
+			unlink($tmpPath);
 
 			//new image object
 			$image = new \OC_Image($pdf);
