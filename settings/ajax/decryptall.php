@@ -1,5 +1,5 @@
 <?php
-sleep(10);
+
 //encryption app needs to be loaded
 OC_App::loadApp('files_encryption');
 
@@ -13,9 +13,13 @@ $util = new \OCA\Encryption\Util($view, \OCP\User::getUser());
 $result = $util->initEncryption($params);
 
 if ($result !== false) {
-	$util->decryptAll();
-	\OCP\JSON::success(array('data' => array('message' => 'Files decrypted successfully')));
+	$successful = $util->decryptAll();
+	if ($successful === true) {
+		\OCP\JSON::success(array('data' => array('message' => 'Files decrypted successfully')));
+	} else {
+		\OCP\JSON::error(array('data' => array('message' => 'Couldn\'t decrypt your files, please check your owncloud.log or ask your administrator')));
+	}
 } else {
-	\OCP\JSON::error(array('data' => array('message' => 'Couldn\'t decrypt files, check your password and try again')));
+	\OCP\JSON::error(array('data' => array('message' => 'Couldn\'t decrypt your files, check your password and try again')));
 }
 

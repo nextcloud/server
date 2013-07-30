@@ -661,7 +661,7 @@ class Util {
 		}
 
 	}
-	
+
 	/**
 	 * @brief Decrypt all files
 	 * @return bool
@@ -669,6 +669,8 @@ class Util {
 	public function decryptAll() {
 
 		$found = $this->findEncFiles($this->userId . '/files');
+
+		$successful = true;
 
 		if ($found) {
 
@@ -687,11 +689,28 @@ class Util {
 				// Open enc file handle for binary reading
 				$encHandle = fopen('crypt://' . $rawPath, 'rb');
 
+				if ($encHandle === false) {
+					\OCP\Util::writeLog('Encryption library', 'couldn\'t open "' . $rawPath . '", decryption failed!', \OCP\Util::FATAL);
+					$successful = false;
+					continue;
+				}
+
 				// Open plain file handle for binary writing, with same filename as original plain file
 				$plainHandle = $this->view->fopen($rawPath . '.part', 'wb');
+				if ($plainHandle === false) {
+					\OCP\Util::writeLog('Encryption library', 'couldn\'t open "' . $rawPath . '.part", decryption failed!', \OCP\Util::FATAL);
+					$successful = false;
+					continue;
+				}
 
 				// Move plain file to a temporary location
 				$size = stream_copy_to_stream($encHandle, $plainHandle);
+				if ($size === 0) {
+					\OCP\Util::writeLog('Encryption library', 'Zero bytes copied of "' . $rawPath . '", decryption failed!', \OCP\Util::FATAL);
+					$successful = false;
+					continue;
+				}
+
 
 				fclose($encHandle);
 				fclose($plainHandle);
@@ -711,18 +730,15 @@ class Util {
 				));
 			}
 
-			$this->view->deleteAll($this->keyfilesPath);
-			$this->view->deleteAll($this->shareKeysPath);
+			if ($successful) {
+				$this->view->deleteAll($this->keyfilesPath);
+				$this->view->deleteAll($this->shareKeysPath);
+			}
 
 			\OC_FileProxy::$enabled = true;
-
-			// If files were found, return true
-			return true;
-		} else {
-
-			// If no files were found, return false
-			return false;
 		}
+
+		return $successful;
 	}
 
 	/**
