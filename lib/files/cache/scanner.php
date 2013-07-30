@@ -96,9 +96,9 @@ class Scanner {
 					// Only update metadata that has changed
 					$newData = array_diff($data, $cacheData);
 				}
-			}
-			if (!empty($newData)) {
-				$this->cache->put($file, $newData);
+				if (!empty($newData)) {
+					$this->cache->put($file, $newData);
+				}
 			}
 			return $data;
 		}

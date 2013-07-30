@@ -598,9 +598,7 @@ class Filesystem {
 			$path = substr($path, 0, -1);
 		}
 		//normalize unicode if possible
-		if (class_exists('Normalizer')) {
-			$path = \Normalizer::normalize($path);
-		}
+		$path = \OC_Util::normalizeUnicode($path);
 		return $path;
 	}
 
