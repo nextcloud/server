@@ -43,11 +43,11 @@ class OC_Avatar {
 	 * @brief sets the users local avatar
 	 * @param $user string user to set the avatar for
 	 * @param $img mixed imagedata to set a new avatar, or false to delete the current avatar
-	 * @param $type string fileextension
+	 * @throws Exception if the provided file is not a jpg or png image
 	 * @throws Exception if the provided image is not valid, or not a square
 	 * @return true on success
 	*/
-	public static function setLocalAvatar ($user, $img, $type) {
+	public static function setLocalAvatar ($user, $img) {
 		$view = new \OC\Files\View('/'.$user);
 
 		if ($img === false) {
@@ -56,6 +56,12 @@ class OC_Avatar {
 			return true;
 		} else {
 			$img = new OC_Image($img);
+			// FIXME this always says "image/png"
+			$type = substr($img->mimeType(), -3);
+			if ($type === 'peg') { $type = 'jpg'; }
+			if ($type !== 'jpg' && $type !== 'png') {
+				throw new Exception();
+			}
 
 			if (!( $img->valid() && ($img->height() === $img->width()) )) {
 				throw new Exception();

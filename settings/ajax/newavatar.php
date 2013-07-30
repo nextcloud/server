@@ -7,18 +7,16 @@ $user = OC_User::getUser();
 if(isset($_POST['path'])) {
 	$path = $_POST['path'];
 	if ($path === "false") { // delete avatar
-		\OC_Avatar::setLocalAvatar($user, false, false);
+		\OC_Avatar::setLocalAvatar($user, false);
 	} else { // select an image from own files
 		$view = new \OC\Files\View('/'.$user.'/files');
 		$img = $view->file_get_contents($path);
 
 		$type = substr($path, -3);
-		if ($type === 'peg') { $type = 'jpg'; }
-
-		if ($type === 'jpg' or $type === 'png') {
-			\OC_Avatar::setLocalAvatar($user, $img, $type);
+		try {
+			\OC_Avatar::setLocalAvatar($user, $img);
 			OC_JSON::success();
-		} else {
+		} catch (Exception $e) {
 			OC_JSON::error();
 		}
 	}
