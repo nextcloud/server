@@ -10,8 +10,14 @@
 DATABASENAME=oc_autotest$EXECUTOR_NUMBER
 DATABASEUSER=oc_autotest$EXECUTOR_NUMBER
 ADMINLOGIN=admin$EXECUTOR_NUMBER
-DATADIR=data-autotest
 BASEDIR=$PWD
+
+# use tmpfs for datadir - should speedup unit test execution
+if [ -d /dev/shm ]; then
+  DATADIR=/dev/shm/data-autotest$EXECUTOR_NUMBER
+else
+  DATADIR=$BASEDIR/data-autotest
+fi
 
 echo "Using database $DATABASENAME"
 
@@ -24,7 +30,7 @@ cat > ./tests/autoconfig-sqlite.php <<DELIM
   'dbtableprefix' => 'oc_',
   'adminlogin' => '$ADMINLOGIN',
   'adminpass' => 'admin',
-  'directory' => '$BASEDIR/$DATADIR',
+  'directory' => '$DATADIR',
 );
 DELIM
 
@@ -36,7 +42,7 @@ cat > ./tests/autoconfig-mysql.php <<DELIM
   'dbtableprefix' => 'oc_',
   'adminlogin' => '$ADMINLOGIN',
   'adminpass' => 'admin',
-  'directory' => '$BASEDIR/$DATADIR',
+  'directory' => '$DATADIR',
   'dbuser' => '$DATABASEUSER',
   'dbname' => '$DATABASENAME',
   'dbhost' => 'localhost',
@@ -52,7 +58,7 @@ cat > ./tests/autoconfig-pgsql.php <<DELIM
   'dbtableprefix' => 'oc_',
   'adminlogin' => '$ADMINLOGIN',
   'adminpass' => 'admin',
-  'directory' => '$BASEDIR/$DATADIR',
+  'directory' => '$DATADIR',
   'dbuser' => '$DATABASEUSER',
   'dbname' => '$DATABASENAME',
   'dbhost' => 'localhost',
@@ -68,7 +74,7 @@ cat > ./tests/autoconfig-oci.php <<DELIM
   'dbtableprefix' => 'oc_',
   'adminlogin' => '$ADMINLOGIN',
   'adminpass' => 'admin',
-  'directory' => '$BASEDIR/$DATADIR',
+  'directory' => '$DATADIR',
   'dbuser' => '$DATABASENAME',
   'dbname' => 'XE',
   'dbhost' => 'localhost',
