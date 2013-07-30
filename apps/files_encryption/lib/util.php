@@ -663,6 +663,98 @@ class Util {
 	}
 
 	/**
+	 * @brief encrypt versions from given file
+	 * @param array $filelist list of encrypted files, relative to data/user/files
+	 * @return boolean
+	 */
+	private function encryptVersions($filelist) {
+
+		$successful = true;
+
+		if (\OCP\App::isEnabled('files_versions')) {
+
+			foreach ($filelist as $filename) {
+
+				$versions = \OCA\Files_Versions\Storage::getVersions($this->userId, $filename);
+				foreach ($versions as $version) {
+
+					$path = '/' . $this->userId . '/files_versions/' . $version['path'] . '.v' . $version['version'];
+
+					$encHandle = fopen('crypt://' . $path . '.part', 'wb');
+
+					if ($encHandle === false) {
+						\OCP\Util::writeLog('Encryption library', 'couldn\'t open "' . $path . '", decryption failed!', \OCP\Util::FATAL);
+						$successful = false;
+						continue;
+					}
+
+					$plainHandle = $this->view->fopen($path, 'rb');
+					if ($plainHandle === false) {
+						\OCP\Util::writeLog('Encryption library', 'couldn\'t open "' . $path . '.part", decryption failed!', \OCP\Util::FATAL);
+						$successful = false;
+						continue;
+					}
+
+					stream_copy_to_stream($plainHandle, $encHandle);
+
+					fclose($encHandle);
+					fclose($plainHandle);
+
+					$this->view->rename($path . '.part', $path);
+				}
+			}
+		}
+
+		return $successful;
+	}
+
+	/**
+	 * @brief decrypt versions from given file
+	 * @param string $filelist list of decrypted files, relative to data/user/files
+	 * @return boolean
+	 */
+	private function decryptVersions($filelist) {
+
+		$successful = true;
+
+		if (\OCP\App::isEnabled('files_versions')) {
+
+			foreach ($filelist as $filename) {
+
+				$versions = \OCA\Files_Versions\Storage::getVersions($this->userId, $filename);
+				foreach ($versions as $version) {
+
+					$path = '/' . $this->userId . '/files_versions/' . $version['path'] . '.v' . $version['version'];
+
+					$encHandle = fopen('crypt://' . $path, 'rb');
+
+					if ($encHandle === false) {
+						\OCP\Util::writeLog('Encryption library', 'couldn\'t open "' . $path . '", decryption failed!', \OCP\Util::FATAL);
+						$successful = false;
+						continue;
+					}
+
+					$plainHandle = $this->view->fopen($path . '.part', 'wb');
+					if ($plainHandle === false) {
+						\OCP\Util::writeLog('Encryption library', 'couldn\'t open "' . $path . '.part", decryption failed!', \OCP\Util::FATAL);
+						$successful = false;
+						continue;
+					}
+
+					stream_copy_to_stream($encHandle, $plainHandle);
+
+					fclose($encHandle);
+					fclose($plainHandle);
+
+					$this->view->rename($path . '.part', $path);
+				}
+			}
+		}
+
+		return $successful;
+	}
+	
+	/**
 	 * @brief Decrypt all files
 	 * @return bool
 	 */
@@ -673,6 +765,11 @@ class Util {
 		$successful = true;
 
 		if ($found) {
+
+			$versionStatus = \OCP\App::isEnabled('files_versions');
+			\OC_App::disable('files_versions');
+			
+			$decryptedFiles[] = array();
 
 			// Disable proxy to prevent file being encrypted twice
 			\OC_FileProxy::$enabled = false;
@@ -685,7 +782,7 @@ class Util {
 
 				//relative to /data
 				$rawPath = $encryptedFile['path'];
-
+				
 				// Open enc file handle for binary reading
 				$encHandle = fopen('crypt://' . $rawPath, 'rb');
 
@@ -711,7 +808,6 @@ class Util {
 					continue;
 				}
 
-
 				fclose($encHandle);
 				fclose($plainHandle);
 
@@ -728,8 +824,19 @@ class Util {
 					'size' => $size,
 					'unencrypted_size' => $size
 				));
+				
+				$decryptedFiles[] = $relPath;
+
 			}
 
+			if ($versionStatus) {
+				\OC_App::enable('files_versions');
+			}
+			
+			if (!$this->decryptVersions($decryptedFiles)) {
+				$successful = false;
+			}
+			
 			if ($successful) {
 				$this->view->deleteAll($this->keyfilesPath);
 				$this->view->deleteAll($this->shareKeysPath);
@@ -752,11 +859,16 @@ class Util {
 	public function encryptAll($dirPath, $legacyPassphrase = null, $newPassphrase = null) {
 
 		$found = $this->findEncFiles($dirPath);
-		
+
 		if ($found) {
 
 			// Disable proxy to prevent file being encrypted twice
 			\OC_FileProxy::$enabled = false;
+			
+			$versionStatus = \OCP\App::isEnabled('files_versions');
+			\OC_App::disable('files_versions');
+			
+			$encryptedFiles = array();
 
 			// Encrypt unencrypted files
 			foreach ($found['plain'] as $plainFile) {
@@ -792,6 +904,9 @@ class Util {
 					'size' => $size,
 					'unencrypted_size' => $size
 				));
+				
+				$encryptedFiles[] = $relPath;
+
 			}
 
 			// Encrypt legacy encrypted files
@@ -832,6 +947,12 @@ class Util {
 
 			\OC_FileProxy::$enabled = true;
 
+			if ($versionStatus) {
+				\OC_App::enable('files_versions');
+			}
+			
+			$this->encryptVersions($encryptedFiles);
+			
 			// If files were found, return true
 			return true;
 		} else {
