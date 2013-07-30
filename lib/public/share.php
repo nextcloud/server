@@ -454,6 +454,9 @@ class Share {
 					$forcePortable = (CRYPT_BLOWFISH != 1);
 					$hasher = new \PasswordHash(8, $forcePortable);
 					$shareWith = $hasher->HashPassword($shareWith.\OC_Config::getValue('passwordsalt', ''));
+				} else {
+					// reuse the already set password
+					$shareWith = $checkExists['share_with'];
 				}
 
 				// Generate token
