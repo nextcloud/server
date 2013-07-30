@@ -200,7 +200,7 @@ class Cache {
 
 			$data['path'] = $file;
 			$data['parent'] = $this->getParentId($file);
-			$data['name'] = basename($file);
+			$data['name'] = \OC_Util::basename($file);
 			$data['encrypted'] = isset($data['encrypted']) ? ((int)$data['encrypted']) : 0;
 
 			list($queryParts, $params) = $this->buildParts($data);

@@ -8,12 +8,9 @@
 
 class Test_Util extends PHPUnit_Framework_TestCase {
 
-	// Constructor
-	function Test_Util() {
-		date_default_timezone_set("UTC");
-	}
-
 	function testFormatDate() {
+		date_default_timezone_set("UTC");
+
 		$result = OC_Util::formatDate(1350129205);
 		$expected = 'October 13, 2012 11:53';
 		$this->assertEquals($expected, $result);
@@ -61,8 +58,28 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		OC_Config::deleteKey('mail_domain');
 	}
 
-  function testGetInstanceIdGeneratesValidId() {
-    OC_Config::deleteKey('instanceid');
-    $this->assertStringStartsWith('oc', OC_Util::getInstanceId());
-  }
+	function testGetInstanceIdGeneratesValidId() {
+		OC_Config::deleteKey('instanceid');
+		$this->assertStringStartsWith('oc', OC_Util::getInstanceId());
+	}
+
+	/**
+	 * @dataProvider baseNameProvider
+	 */
+	public function testBaseName($expected, $file)
+	{
+		$base = \OC_Util::basename($file);
+		$this->assertEquals($expected, $base);
+	}
+
+	public function baseNameProvider()
+	{
+		return array(
+			array('public_html', '/home/user/public_html/'),
+			array('public_html', '/home/user/public_html'),
+			array('', '/'),
+			array('public_html', 'public_html'),
+			array('442aa682de2a64db1e010f50e60fd9c9', 'local::C:\Users\ADMINI~1\AppData\Local\Temp\2/442aa682de2a64db1e010f50e60fd9c9/')
+		);
+	}
 }
