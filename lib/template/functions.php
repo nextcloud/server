@@ -48,22 +48,6 @@ function image_path( $app, $image ) {
 }
 
 /**
- * @brief make preview_icon available as a simple function
- * Returns the path to the preview of the image.
- * @param $path path of file
- * @returns link to the preview
- *
- * For further information have a look at OC_Helper::previewIcon
- */
-function preview_icon( $path ) {
-	return OC_Helper::previewIcon( $path );
-}
-
-function publicPreview_icon ( $path, $token ) {
-	return OC_Helper::publicPreviewIcon( $path, $token );
-}
-
-/**
  * @brief make OC_Helper::mimetypeIcon available as a simple function
  * @param string $mimetype mimetype
  * @return string link to the image
@@ -87,7 +71,7 @@ function preview_icon( $path ) {
 }
 
 function publicPreview_icon ( $path, $token ) {
-	return OC_Helper::publicPreview_icon( $path, $token );
+	return OC_Helper::publicPreviewIcon( $path, $token );
 }
 
 /**
