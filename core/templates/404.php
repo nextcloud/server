@@ -7,9 +7,13 @@ if(!isset($_)) {//also provide standalone error page
 	exit;
 }
 ?>
-<ul>
-	<li class='error'>
-		<?php p($l->t( 'Cloud not found' )); ?><br/>
-		<p class='hint'><?php if(isset($_['file'])) p($_['file'])?></p>
-	</li>
-</ul>
+<?php if (isset($_['content'])): ?>
+	<?php print_unescaped($_['content']) ?>
+<?php else: ?>
+	<ul>
+		<li class="error">
+			<?php p($l->t( 'Cloud not found' )); ?><br/>
+			<p class='hint'><?php if(isset($_['file'])) p($_['file'])?></p>
+		</li>
+	</ul>
+<?php endif; ?>
