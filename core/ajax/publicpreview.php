@@ -84,7 +84,7 @@ try{
 	$preview->setScalingUp($scalingUp);
 
 	$preview->show();
-}catch(\Exception $e) {
+} catch (\Exception $e) {
 	\OC_Response::setStatus(500);
 	\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
 	\OC\Preview::showErrorPreview();

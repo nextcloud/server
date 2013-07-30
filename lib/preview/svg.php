@@ -27,7 +27,7 @@ if (extension_loaded('imagick')) {
 
 				$svg->readImageBlob($content);
 				$svg->setImageFormat('jpg');
-			}catch(\Exception $e){
+			} catch (\Exception $e) {
 				\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
 				return false;
 			}

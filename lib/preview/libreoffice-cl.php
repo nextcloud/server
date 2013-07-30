@@ -35,7 +35,7 @@ class Office extends Provider {
 		try{
 			$pdf = new \imagick($absPath . '.pdf' . '[0]');
 			$pdf->setImageFormat('jpg');
-		}catch (\Exception $e) {
+		} catch (\Exception $e) {
 			unlink($absPath);
 			unlink($absPath . '.pdf');
 			\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);

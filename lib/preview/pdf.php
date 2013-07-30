@@ -22,7 +22,7 @@ if (extension_loaded('imagick')) {
 			try{
 				$pdf = new \imagick($tmpPath . '[0]');
 				$pdf->setImageFormat('jpg');
-			}catch (\Exception $e) {
+			} catch (\Exception $e) {
 				\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
 				return false;
 			}
