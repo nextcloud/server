@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:04+0000\n"
+"POT-Creation-Date: 2013-07-30 01:55-0400\n"
+"PO-Revision-Date: 2013-07-29 13:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -122,7 +122,7 @@ msgstr "Sdílet"
 msgid "Delete permanently"
 msgstr "Trvale odstranit"
 
-#: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
+#: js/fileactions.js:128 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "Smazat"
 
@@ -130,7 +130,7 @@ msgstr "Smazat"
 msgid "Rename"
 msgstr "Přejmenovat"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:466
 msgid "Pending"
 msgstr "Nevyřízené"
 
@@ -162,11 +162,11 @@ msgstr "zpět"
 msgid "perform delete operation"
 msgstr "provést smazání"
 
-#: js/filelist.js:457
+#: js/filelist.js:458
 msgid "1 file uploading"
 msgstr "odesílá se 1 soubor"
 
-#: js/filelist.js:460 js/filelist.js:518
+#: js/filelist.js:461 js/filelist.js:519
 msgid "files uploading"
 msgstr "soubory se odesílají"
 
@@ -202,15 +202,15 @@ msgstr "Vaše soubory ke stažení se připravují. Pokud jsou velké může to 
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Neplatný název složky. Použití 'Shared' je rezervováno pro vnitřní potřeby Owncloud"
 
-#: js/files.js:744 templates/index.php:69
+#: js/files.js:744 templates/index.php:67
 msgid "Name"
 msgstr "Název"
 
-#: js/files.js:745 templates/index.php:80
+#: js/files.js:745 templates/index.php:78
 msgid "Size"
 msgstr "Velikost"
 
-#: js/files.js:746 templates/index.php:82
+#: js/files.js:746 templates/index.php:80
 msgid "Modified"
 msgstr "Upraveno"
 
@@ -287,45 +287,45 @@ msgstr "Složka"
 msgid "From link"
 msgstr "Z odkazu"
 
-#: templates/index.php:42
+#: templates/index.php:41
 msgid "Deleted files"
 msgstr "Odstraněné soubory"
 
-#: templates/index.php:48
+#: templates/index.php:46
 msgid "Cancel upload"
 msgstr "Zrušit odesílání"
 
-#: templates/index.php:54
+#: templates/index.php:52
 msgid "You don’t have write permissions here."
 msgstr "Nemáte zde práva zápisu."
 
-#: templates/index.php:61
+#: templates/index.php:59
 msgid "Nothing in here. Upload something!"
 msgstr "Žádný obsah. Nahrajte něco."
 
-#: templates/index.php:75
+#: templates/index.php:73
 msgid "Download"
 msgstr "Stáhnout"
 
-#: templates/index.php:87 templates/index.php:88
+#: templates/index.php:85 templates/index.php:86
 msgid "Unshare"
 msgstr "Zrušit sdílení"
 
-#: templates/index.php:107
+#: templates/index.php:105
 msgid "Upload too large"
 msgstr "Odesílaný soubor je příliš velký"
 
-#: templates/index.php:109
+#: templates/index.php:107
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Soubory, které se snažíte odeslat, překračují limit velikosti odesílání na tomto serveru."
 
-#: templates/index.php:114
+#: templates/index.php:112
 msgid "Files are being scanned, please wait."
 msgstr "Soubory se prohledávají, prosím čekejte."
 
-#: templates/index.php:117
+#: templates/index.php:115
 msgid "Current scanning"
 msgstr "Aktuální prohledávání"
 

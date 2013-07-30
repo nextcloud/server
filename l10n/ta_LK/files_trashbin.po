@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:05+0000\n"
+"POT-Creation-Date: 2013-07-30 01:55-0400\n"
+"PO-Revision-Date: 2013-07-30 05:56+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -27,45 +27,49 @@ msgstr ""
 msgid "Couldn't restore %s"
 msgstr ""
 
-#: js/trash.js:7 js/trash.js:97
+#: js/trash.js:7 js/trash.js:100
 msgid "perform restore operation"
 msgstr ""
 
-#: js/trash.js:19 js/trash.js:46 js/trash.js:115 js/trash.js:141
+#: js/trash.js:20 js/trash.js:48 js/trash.js:118 js/trash.js:146
 msgid "Error"
 msgstr "வழு"
 
-#: js/trash.js:34
+#: js/trash.js:36
 msgid "delete file permanently"
 msgstr ""
 
-#: js/trash.js:123
+#: js/trash.js:127
 msgid "Delete permanently"
 msgstr ""
 
-#: js/trash.js:176 templates/index.php:17
+#: js/trash.js:182 templates/index.php:17
 msgid "Name"
 msgstr "பெயர்"
 
-#: js/trash.js:177 templates/index.php:27
+#: js/trash.js:183 templates/index.php:27
 msgid "Deleted"
 msgstr ""
 
-#: js/trash.js:186
+#: js/trash.js:192
 msgid "1 folder"
 msgstr "1 கோப்புறை"
 
-#: js/trash.js:188
+#: js/trash.js:194
 msgid "{count} folders"
 msgstr "{எண்ணிக்கை} கோப்புறைகள்"
 
-#: js/trash.js:196
+#: js/trash.js:202
 msgid "1 file"
 msgstr "1 கோப்பு"
 
-#: js/trash.js:198
+#: js/trash.js:204
 msgid "{count} files"
 msgstr "{எண்ணிக்கை} கோப்புகள்"
+
+#: lib/trash.php:819 lib/trash.php:821
+msgid "restored"
+msgstr ""
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"

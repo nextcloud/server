@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"The password is wrong. Try again." => "Heslo není správné. Zkuste to znovu.",
 "Password" => "Heslo",
 "Submit" => "Odeslat",
 "%s shared the folder %s with you" => "%s s Vámi sdílí složku %s",

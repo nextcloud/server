@@ -15,6 +15,7 @@
 "Connection test failed" => "Проверка соединения не удалась",
 "Do you really want to delete the current Server Configuration?" => "Вы действительно хотите удалить существующую конфигурацию сервера?",
 "Confirm Deletion" => "Подтверждение удаления",
+"<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." => "<b>Предупреждение:</b> Приложения user_ldap и user_webdavauth не совместимы. Вы можете наблюдать некорректное поведение. Пожалуйста попросите Вашего системного администратора отключить одно из них.",
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." => "<b>Внимание:</b> Модуль LDAP для PHP не установлен, бэкенд не будет работать. Пожалуйста, попросите вашего системного администратора его установить. ",
 "Server configuration" => "Конфигурация сервера",
 "Add Server Configuration" => "Добавить конфигурацию сервера",
