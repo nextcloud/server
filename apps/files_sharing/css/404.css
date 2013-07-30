@@ -8,5 +8,5 @@
 }
 
 #body-login .error-broken-link ul li{
-	list-style: disc;list-style-position:inside;	
+	list-style: disc;list-style-position:inside;cursor:default;	
 }
