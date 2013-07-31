@@ -31,19 +31,19 @@ $(document).ready(function() {
 			}
 		}
 		FileActions.register('dir', 'Open', OC.PERMISSION_READ, '', function(filename) {
-			var tr = $('tr').filterAttr('data-file', filename)
+			var tr = $('tr').filterAttr('data-file', filename);
 			if (tr.length > 0) {
 				window.location = $(tr).find('a.name').attr('href');
 			}
 		});
 		FileActions.register('file', 'Download', OC.PERMISSION_READ, '', function(filename) {
-			var tr = $('tr').filterAttr('data-file', filename)
+			var tr = $('tr').filterAttr('data-file', filename);
 			if (tr.length > 0) {
 				window.location = $(tr).find('a.name').attr('href');
 			}
 		});
 		FileActions.register('dir', 'Download', OC.PERMISSION_READ, '', function(filename) {
-			var tr = $('tr').filterAttr('data-file', filename)
+			var tr = $('tr').filterAttr('data-file', filename);
 			if (tr.length > 0) {
 				window.location = $(tr).find('a.name').attr('href')+'&download';
 			}
@@ -51,7 +51,7 @@ $(document).ready(function() {
 	}
 
   // Add some form data to the upload handler
-  file_upload_param.formData = {
+  var file_upload_param.formData = {
     MAX_FILE_SIZE: $('#uploadMaxFilesize').val(),
     requesttoken: $('#publicUploadRequestToken').val(),
     dirToken: $('#dirToken').val(),

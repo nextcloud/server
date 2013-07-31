@@ -8,7 +8,7 @@
  * Post the email address change to the server.
  */
 function changeEmailAddress(){
-    emailInfo = $('#email');
+    var emailInfo = $('#email');
     if (emailInfo.val() === emailInfo.defaultValue){
         return;
     }

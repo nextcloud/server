@@ -120,7 +120,7 @@ var LdapConfiguration = {
 			}
 		);
 	}
-}
+};
 
 $(document).ready(function() {
 	$('#ldapAdvancedAccordion').accordion({ heightStyle: 'content', animate: 'easeInOutCirc'});

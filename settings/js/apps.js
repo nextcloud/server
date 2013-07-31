@@ -54,7 +54,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 	enableApp:function(appid, active, element) {
 		console.log('enableApp:', appid, active, element);
 		var appitem=$('#leftcontent li[data-id="'+appid+'"]');
-		appData = appitem.data('app');
+		var appData = appitem.data('app');
 		appData.active = !active;
 		appitem.data('app', appData);
 		element.val(t('settings','Please wait....'));

@@ -166,7 +166,7 @@ var UserList = {
 			var c = Number(aa[x]), d = Number(bb[x]);
 			if (c === aa[x] && d === bb[x]) {
 				return c - d;
-			} else return (aa[x] > bb[x]) ? 1 : -1;
+			} else { return (aa[x] > bb[x]) ? 1 : -1; }
 			}
 		}
 		return aa.length - bb.length;
@@ -262,7 +262,7 @@ var UserList = {
 					if ($(element).find('option[value="' + group + '"]').length === 0 && select.data('msid') !== $(element).data('msid')) {
 						$(element).append('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>');
 					}
-				})
+				});
 			};
 			var label;
 			if (isadmin) {
@@ -304,7 +304,7 @@ var UserList = {
 					if ($(element).find('option[value="' + group + '"]').length === 0) {
 						$(element).append('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>');
 					}
-				})
+				});
 			};
 			element.multiSelect({
 				createCallback: addSubAdmin,
@@ -469,7 +469,7 @@ $(document).ready(function () {
 		}
 		OC.Notification.hide();
 	});
-	UserList.useUndo = ('onbeforeunload' in window)
+	UserList.useUndo = ('onbeforeunload' in window);
 	$(window).bind('beforeunload', function () {
 		UserList.finishDelete(null);
 	});

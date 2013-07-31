@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-  file_upload_param = {
+  var file_upload_param = {
 	dropZone: $('#content'), // restrict dropZone to content div
 	//singleFileUploads is on by default, so the data.files array will always have length 1
 	add: function(e, data) {
@@ -142,7 +142,7 @@ $(document).ready(function() {
 	  $('#uploadprogressbar').progressbar('value',100);
 	  $('#uploadprogressbar').fadeOut();
 	}
-  }
+  };
   var file_upload_handler = function() {
 	$('#file_upload_start').fileupload(file_upload_param);
   };
@@ -156,20 +156,21 @@ $(document).ready(function() {
 	// http://stackoverflow.com/a/6700/11236
 	var size = 0, key;
 	for (key in obj) {
-	  if (obj.hasOwnProperty(key)) size++;
+	  if (obj.hasOwnProperty(key)) { size++; }
 	}
 	return size;
   };
 
   // warn user not to leave the page while upload is in progress
   $(window).bind('beforeunload', function(e) {
-	if ($.assocArraySize(uploadingFiles) > 0)
+	if ($.assocArraySize(uploadingFiles) > 0) {
 	  return t('files','File upload is in progress. Leaving the page now will cancel the upload.');
+	}
   });
 
   //add multiply file upload attribute to all browsers except konqueror (which crashes when it's used)
   if(navigator.userAgent.search(/konqueror/i)==-1){
-	$('#file_upload_start').attr('multiple','multiple')
+	$('#file_upload_start').attr('multiple','multiple');
   }
 
   //if the breadcrumb is to long, start by replacing foldernames with '...' except for the current folder
@@ -179,7 +180,7 @@ $(document).ready(function() {
 	crumb=crumb.next('div.crumb');
   }
   //if that isn't enough, start removing items from the breacrumb except for the current folder and it's parent
-  var crumb=$('div.crumb').first();
+  crumb=$('div.crumb').first();
   var next=crumb.next('div.crumb');
   while($('div.controls').height()>40 && next.next('div.crumb').length>0){
 	crumb.remove();
@@ -189,7 +190,7 @@ $(document).ready(function() {
   //still not enough, start shorting down the current folder name
   var crumb=$('div.crumb>a').last();
   while($('div.controls').height()>40 && crumb.text().length>6){
-	var text=crumb.text()
+	var text=crumb.text();
 	text=text.substr(0,text.length-6)+'...';
 	crumb.text(text);
   }
@@ -291,7 +292,7 @@ $(document).ready(function() {
 		}
 		var localName=name;
 		if(localName.substr(localName.length-1,1)=='/'){//strip /
-		  localName=localName.substr(0,localName.length-1)
+		  localName=localName.substr(0,localName.length-1);
 		}
 		if(localName.indexOf('/')){//use last part of url
 		  localName=localName.split('/').pop();
@@ -300,8 +301,7 @@ $(document).ready(function() {
 		}
 		localName = getUniqueName(localName);
 		//IE < 10 does not fire the necessary events for the progress bar.
-		if($('html.lte9').length > 0) {
-		} else {
+		if($('html.lte9').length === 0) {
 		  $('#uploadprogressbar').progressbar({value:0});
 		  $('#uploadprogressbar').fadeIn();
 		}
@@ -309,8 +309,7 @@ $(document).ready(function() {
 		var eventSource=new OC.EventSource(OC.filePath('files','ajax','newfile.php'),{dir:$('#dir').val(),source:name,filename:localName});
 		eventSource.listen('progress',function(progress){
 		  //IE < 10 does not fire the necessary events for the progress bar.
-		  if($('html.lte9').length > 0) {
-		  } else {
+		  if($('html.lte9').length === 0) {
 			$('#uploadprogressbar').progressbar('value',progress);
 		  }
 		});
