@@ -4,18 +4,18 @@
 
 #searchresults {
 	background-color:#fff;
-	border-bottom-left-radius:1em;
+	border-bottom-left-radius:11px;
 	box-shadow:0 0 10px #000;
 	list-style:none;
 	max-height:80%;
 	overflow-x:hidden;
 	overflow-y: scroll;
-	padding-bottom:1em;
+	padding-bottom:6px;
 	position:fixed;
 	right:0;
 	text-overflow:ellipsis;
-	top:3.5em;
-	width:26.5em;
+	top:20px;
+	width:380px;
 	z-index:75;
 }
 
