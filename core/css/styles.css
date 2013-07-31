@@ -381,6 +381,10 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	color: #dd3b3b !important;
 	font-weight: bold;
 }
+.error pre {
+	white-space: pre-wrap;
+	text-align: left;
+}
 /* Fixes for log in page, TODO should be removed some time */
 #body-login .update,
 #body-login .error {
