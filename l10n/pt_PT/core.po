@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-27 01:56-0400\n"
-"PO-Revision-Date: 2013-07-25 11:30+0000\n"
+"POT-Creation-Date: 2013-07-31 01:55-0400\n"
+"PO-Revision-Date: 2013-07-30 12:13+0000\n"
 "Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -230,7 +230,7 @@ msgstr "O tipo de objecto não foi especificado"
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:631 js/share.js:643
+#: js/share.js:643 js/share.js:655
 msgid "Error"
 msgstr "Erro"
 
@@ -250,7 +250,7 @@ msgstr "Partilhado"
 msgid "Share"
 msgstr "Partilhar"
 
-#: js/share.js:131 js/share.js:671
+#: js/share.js:131 js/share.js:683
 msgid "Error while sharing"
 msgstr "Erro ao partilhar"
 
@@ -350,23 +350,23 @@ msgstr "apagar"
 msgid "share"
 msgstr "partilhar"
 
-#: js/share.js:398 js/share.js:618
+#: js/share.js:398 js/share.js:630
 msgid "Password protected"
 msgstr "Protegido com palavra-passe"
 
-#: js/share.js:631
+#: js/share.js:643
 msgid "Error unsetting expiration date"
 msgstr "Erro ao retirar a data de expiração"
 
-#: js/share.js:643
+#: js/share.js:655
 msgid "Error setting expiration date"
 msgstr "Erro ao aplicar a data de expiração"
 
-#: js/share.js:658
+#: js/share.js:670
 msgid "Sending ..."
 msgstr "A Enviar..."
 
-#: js/share.js:669
+#: js/share.js:681
 msgid "Email sent"
 msgstr "E-mail enviado"
 
@@ -465,7 +465,7 @@ msgstr "Ajuda"
 msgid "Access forbidden"
 msgstr "Acesso interdito"
 
-#: templates/404.php:12
+#: templates/404.php:15
 msgid "Cloud not found"
 msgstr "Cloud nao encontrada"
 

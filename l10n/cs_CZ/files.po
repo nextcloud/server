@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-30 01:55-0400\n"
-"PO-Revision-Date: 2013-07-29 13:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-31 01:55-0400\n"
+"PO-Revision-Date: 2013-07-31 05:41+0000\n"
+"Last-Translator: Honza K. <honza889@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -233,7 +233,7 @@ msgstr "{count} soubory"
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "%s nemůže být přejmenován"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -331,11 +331,11 @@ msgstr "Aktuální prohledávání"
 
 #: templates/part.list.php:74
 msgid "directory"
-msgstr ""
+msgstr "adresář"
 
 #: templates/part.list.php:76
 msgid "directories"
-msgstr ""
+msgstr "adresáře"
 
 #: templates/part.list.php:85
 msgid "file"

@@ -11,6 +11,7 @@
 "{count} folders" => "{count} složky",
 "1 file" => "1 soubor",
 "{count} files" => "{count} soubory",
+"restored" => "obnoveno",
 "Nothing in here. Your trash bin is empty!" => "Žádný obsah. Váš koš je prázdný.",
 "Restore" => "Obnovit",
 "Delete" => "Smazat",

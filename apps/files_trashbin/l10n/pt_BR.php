@@ -11,6 +11,7 @@
 "{count} folders" => "{count} pastas",
 "1 file" => "1 arquivo",
 "{count} files" => "{count} arquivos",
+"restored" => "restaurado",
 "Nothing in here. Your trash bin is empty!" => "Nada aqui. Sua lixeira está vazia!",
 "Restore" => "Restaurar",
 "Delete" => "Excluir",
