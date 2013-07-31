@@ -239,16 +239,25 @@ class Shared_Cache extends Cache {
 			}
 			
 		}
-		$placeholders = join(',', array_fill(0, count($ids), '?'));
-		
-		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `unencrypted_size`, `etag`
-				FROM `*PREFIX*filecache` WHERE `name` LIKE ? AND `fileid` IN (' . $placeholders . ')';
-		$result = \OC_DB::executeAudited($sql, array_merge(array($pattern), $ids));
+
 		$files = array();
-		while ($row = $result->fetchRow()) {
-			$row['mimetype'] = $this->getMimetype($row['mimetype']);
-			$row['mimepart'] = $this->getMimetype($row['mimepart']);
-			$files[] = $row;
+		
+		// divide into 1k chunks
+		$chunks = array_chunk($ids, 1000);
+		
+		foreach ($chunks as $chunk) {
+			$placeholders = join(',', array_fill(0, count($chunk), '?'));
+
+			$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `unencrypted_size`, `etag`
+					FROM `*PREFIX*filecache` WHERE `name` LIKE ? AND `fileid` IN (' . $placeholders . ')';
+			
+			$result = \OC_DB::executeAudited($sql, array_merge(array($pattern), $chunk));
+			
+			while ($row = $result->fetchRow()) {
+				$row['mimetype'] = $this->getMimetype($row['mimetype']);
+				$row['mimepart'] = $this->getMimetype($row['mimepart']);
+				$files[] = $row;
+			}
 		}
 		return $files;
 	}
