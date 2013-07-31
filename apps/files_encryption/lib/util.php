@@ -768,9 +768,6 @@ class Util {
 			
 			$decryptedFiles[] = array();
 
-			// Disable proxy to prevent file being encrypted twice
-			\OC_FileProxy::$enabled = false;
-
 			// Encrypt unencrypted files
 			foreach ($found['encrypted'] as $encryptedFile) {
 
@@ -780,8 +777,14 @@ class Util {
 				//relative to /data
 				$rawPath = $encryptedFile['path'];
 				
+				//enable proxy to use OC\Files\View to access the original file
+				\OC_FileProxy::$enabled = true;
+
 				// Open enc file handle for binary reading
-				$encHandle = fopen('crypt://' . $rawPath, 'rb');
+				$encHandle = $this->view->fopen($rawPath, 'rb');
+
+				// Disable proxy to prevent file being encrypted again
+				\OC_FileProxy::$enabled = false;
 
 				if ($encHandle === false) {
 					\OCP\Util::writeLog('Encryption library', 'couldn\'t open "' . $rawPath . '", decryption failed!', \OCP\Util::FATAL);
