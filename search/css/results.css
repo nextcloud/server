@@ -2,67 +2,68 @@
  This file is licensed under the Affero General Public License version 3 or later.
  See the COPYING-README file. */
 
- #searchresults {
- 	background-color:#fff;
- 	border-bottom-left-radius:1em;
- 	box-shadow:0 0 10px #000;
- 	list-style:none;
- 	max-height:80%;
- 	overflow:hidden;
- 	padding-bottom:1em;
- 	position:fixed;
- 	right:0;
- 	text-overflow:ellipsis;
- 	top:3.5em;
- 	width:26.5em;
- 	z-index:75;
- }
- 
- .ie8 #searchresults {
-	 border: 1px solid #666 !important;
- }
+#searchresults {
+	background-color:#fff;
+	border-bottom-left-radius:11px;
+	box-shadow:0 0 10px #000;
+	list-style:none;
+	max-height:80%;
+	overflow-x:hidden;
+	overflow-y: scroll;
+	padding-bottom:6px;
+	position:fixed;
+	right:0;
+	text-overflow:ellipsis;
+	top:20px;
+	width:380px;
+	z-index:75;
+}
 
- #searchresults li.resultHeader {
- 	background-color:#eee;
- 	border-bottom:solid 1px #CCC;
- 	font-size:1.2em;
- 	font-weight:700;
- 	padding:.2em;
- }
+.ie8 #searchresults {
+	border: 1px solid #666 !important;
+}
 
- #searchresults li.result {
- 	margin-left:2em;
- }
+#searchresults li.resultHeader {
+	background-color:#eee;
+	border-bottom:solid 1px #CCC;
+	font-size:1.2em;
+	font-weight:700;
+	padding:.2em;
+}
 
- #searchresults table {
- 	border-spacing:0;
- 	table-layout:fixed;
- 	top:0;
- 	width:100%;
- }
+#searchresults li.result {
+	margin-left:2em;
+}
 
- #searchresults td {
- 	vertical-align:top;
- 	padding:0 .3em;
- }
+#searchresults table {
+	border-spacing:0;
+	table-layout:fixed;
+	top:0;
+	width:100%;
+}
 
- #searchresults td.result div.text {
- 	padding-left:1em;
- 	white-space:nowrap;
- }
+#searchresults td {
+	vertical-align:top;
+	padding:0 .3em;
+}
 
- #searchresults td.result * {
- 	cursor:pointer;
- }
+#searchresults td.result div.text {
+	padding-left:1em;
+	white-space:nowrap;
+}
 
- #searchresults td.type {
- 	border-bottom:none;
- 	border-right:1px solid #aaa;
- 	font-weight:700;
- 	text-align:right;
- 	width:3.5em;
- }
+#searchresults td.result * {
+	cursor:pointer;
+}
 
- #searchresults tr.current {
- 	background-color:#ddd;
- }
+#searchresults td.type {
+	border-bottom:none;
+	border-right:1px solid #aaa;
+	font-weight:700;
+	text-align:right;
+	width:3.5em;
+}
+
+#searchresults tr.current {
+	background-color:#ddd;
+}
