@@ -238,6 +238,7 @@ class Hooks {
 	 */
 	public static function preShared($params) {
 
+		$l = new \OC_L10N('files_encryption');
 		$users = array();
 		$view = new \OC\Files\View('/public-keys/');
 
@@ -259,7 +260,7 @@ class Hooks {
 
 		if (count($notConfigured) > 0) {
 			$params['run'] = false;
-			$params['error'] = 'Following users are not set up for encryption: ' . join(', ' , $notConfigured);
+			$params['error'] = $l->t('Following users are not set up for encryption:') . ' ' . join(', ' , $notConfigured);
 		}
 		
 	}
