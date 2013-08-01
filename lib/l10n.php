@@ -320,7 +320,7 @@ class OC_L10N{
 	 *
 	 * returned function accepts the argument $n
 	 */
-	public function getPluralFormString() {
+	public function getPluralFormFunction() {
 		$this->init();
 		if(is_null($this->plural_form_function)) {
 			$this->plural_form_function = createPluralFormFunction($this->plural_form_string);
