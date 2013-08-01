@@ -250,21 +250,18 @@ class Hooks {
 				break;
 		}
 
-		$error = false;
+		$notConfigured = array();
 		foreach ($users as $user) {
 			if (!$view->file_exists($user . '.public.key')) {
-				$error = true;
-				break;
+				$notConfigured[] = $user;
 			}
 		}
 
-		if ($error) // Set flag var 'run' to notify emitting
-			// script that hook execution failed
-		{
-			$params['run']->run = false;
+		if (count($notConfigured) > 0) {
+			$params['run'] = false;
+			$params['error'] = 'Following users are not set up for encryption: ' . join(', ' , $notConfigured);
 		}
-		// TODO: Make sure files_sharing provides user
-		// feedback on failed share
+		
 	}
 
 	/**

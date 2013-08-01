@@ -1284,6 +1284,8 @@ class Share {
 			.' `file_target`, `token`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)');
 		// Share with a group
 		if ($shareType == self::SHARE_TYPE_GROUP) {
+			$run = true;
+			$error = '';
 			$groupItemTarget = self::generateTarget($itemType, $itemSource, $shareType, $shareWith['group'], $uidOwner, $suggestedItemTarget);
 			\OC_Hook::emit('OCP\Share', 'pre_shared', array(
 				'itemType' => $itemType,
@@ -1294,8 +1296,15 @@ class Share {
 				'uidOwner' => $uidOwner,
 				'permissions' => $permissions,
 				'fileSource' => $fileSource,
-				'token' => $token
+				'token' => $token,
+				'run' => &$run,
+				'error' => &$error
 			));
+			
+			if ($run === false) {
+				throw new \Exception($error);
+			}
+			
 			if (isset($fileSource)) {
 				if ($parentFolder) {
 					if ($parentFolder === true) {
@@ -1369,6 +1378,8 @@ class Share {
 				return $parentFolders;
 			}
 		} else {
+			$run = true;
+			$error = '';
 			$itemTarget = self::generateTarget($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $suggestedItemTarget);
 			\OC_Hook::emit('OCP\Share', 'pre_shared', array(
 				'itemType' => $itemType,
@@ -1379,8 +1390,15 @@ class Share {
 				'uidOwner' => $uidOwner,
 				'permissions' => $permissions,
 				'fileSource' => $fileSource,
-				'token' => $token
+				'token' => $token,
+				'run' => &$run,
+				'error' => &$error
 			));
+			
+			if ($run === false) {
+				throw new \Exception($error);
+			}
+			
 			if (isset($fileSource)) {
 				if ($parentFolder) {
 					if ($parentFolder === true) {
