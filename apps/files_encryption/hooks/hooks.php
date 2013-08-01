@@ -238,6 +238,7 @@ class Hooks {
 	 */
 	public static function preShared($params) {
 
+		$l = new \OC_L10N('files_encryption');
 		$users = array();
 		$view = new \OC\Files\View('/public-keys/');
 
@@ -250,21 +251,18 @@ class Hooks {
 				break;
 		}
 
-		$error = false;
+		$notConfigured = array();
 		foreach ($users as $user) {
 			if (!$view->file_exists($user . '.public.key')) {
-				$error = true;
-				break;
+				$notConfigured[] = $user;
 			}
 		}
 
-		if ($error) // Set flag var 'run' to notify emitting
-			// script that hook execution failed
-		{
-			$params['run']->run = false;
+		if (count($notConfigured) > 0) {
+			$params['run'] = false;
+			$params['error'] = $l->t('Following users are not set up for encryption:') . ' ' . join(', ' , $notConfigured);
 		}
-		// TODO: Make sure files_sharing provides user
-		// feedback on failed share
+		
 	}
 
 	/**
