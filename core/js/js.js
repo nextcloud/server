@@ -370,6 +370,68 @@ OC.Notification={
 OC.Breadcrumb={
 	container:null,
 	crumbs:[],
+	show:function(dir, filename, link){
+		OC.Breadcrumb.clear();
+		var path = dir.split('/');
+		
+		//add home
+		var link = OC.linkTo('files','index.php');
+		
+		var crumb=$('<div/>');
+		crumb.addClass('crumb');
+
+		var crumbLink=$('<a/>');
+		crumbLink.attr('href',link);
+		
+		var crumbImg=$('<img/>');
+		crumbImg.attr('src',OC.imagePath('core','places/home'));
+		crumbLink.append(crumbImg);
+		crumb.append(crumbLink);
+		OC.Breadcrumb.crumbs.push(crumb);
+		
+		//add path parts
+		var pathurl = '';
+		jQuery.each(path, function(i,name) {
+			if (name !== '') {
+				pathurl = pathurl+'/'+name;
+				var link = OC.linkTo('files','index.php')+'?dir='+encodeURIComponent(pathurl);
+				
+				var crumb=$('<div/>');
+				crumb.addClass('crumb');
+
+				var crumbLink=$('<a/>');
+				crumbLink.attr('href',link);
+				crumbLink.text(name);
+				crumb.append(crumbLink);
+				OC.Breadcrumb.crumbs.push(crumb);
+			}
+		});
+		
+		//add filename (optional)
+		if (filename && link) {
+				pathurl = pathurl+'/'+filename;
+				
+				var crumb=$('<div/>');
+				crumb.addClass('crumb');
+
+				var crumbLink=$('<a/>');
+				crumbLink.attr('href',link);
+				crumbLink.text(filename);
+				crumb.append(crumbLink);
+				OC.Breadcrumb.crumbs.push(crumb);
+		}
+		
+		// update crumb array
+		var lastCrumb = OC.Breadcrumb.crumbs.pop();
+		lastCrumb = jQuery(lastCrumb).addClass('last');
+		OC.Breadcrumb.crumbs.push(lastCrumb);
+		var crumbs = OC.Breadcrumb.crumbs;
+		crumbs.reverse();
+		jQuery.each(crumbs, function(i,crumb){
+			OC.Breadcrumb.container.prepend(crumb);
+		});
+		
+	},
 	push:function(name, link){
 		if(!OC.Breadcrumb.container){//default
 			OC.Breadcrumb.container=$('#controls');
