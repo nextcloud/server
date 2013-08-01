@@ -55,6 +55,11 @@ class OC_L10N{
 	private $translations = array();
 
 	/**
+	 * Plural forms
+	 */
+	private $plural_forms = "";
+
+	/**
 	 * Localization
 	 */
 	private $localizations = array(
@@ -138,6 +143,9 @@ class OC_L10N{
 						}
 					}
 				}
+				if(isset($PLURAL_FORMS)) {
+					$this->plural_forms = $PLURAL_FORMS;
+				}
 			}
 
 			if(file_exists(OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php')) {
@@ -177,18 +185,13 @@ class OC_L10N{
 	 * Returns the translation. If no translation is found, $text will be
 	 * returned. %n will be replaced with the number of objects.
 	 *
-	 * In case there is more than one plural form you can add a function
-	 * "selectplural" in core/l10n/l10n-*.php
+	 * The correct plural is determined by the plural_forms-function
+	 * provided by the po file.
 	 *
-	 * Example:
-	 *
-	 *   [...]
-	 *   'selectplural' => function($i){return $i == 1 ? 0 : $i == 2 ? 1 : 2},
-	 *   [...]
 	 */
 	public function n($text_singular, $text_plural, $count, $parameters = array()) {
 		$identifier = "_${text_singular}__${text_plural}_";
-		if(array_key_exists( $this->localizations, "selectplural") && array_key_exists($this->translations, $identifier)) {
+		if( array_key_exists($this->translations, $identifier)) {
 			return new OC_L10N_String( $this, $identifier, $parameters, $count );
 		}
 		else{
@@ -233,6 +236,17 @@ class OC_L10N{
 	public function getTranslations() {
 		$this->init();
 		return $this->translations;
+	}
+
+	/**
+	 * @brief getPluralForms
+	 * @returns Fetches the gettext "Plural-Forms"-string
+	 *
+	 * Returns a string like "nplurals=2; plural=(n != 1);"
+	 */
+	public function getPluralForms() {
+		$this->init();
+		return $this->plural_forms;
 	}
 
 	/**
