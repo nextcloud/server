@@ -42,21 +42,21 @@ class OC_Avatar {
 	/**
 	 * @brief sets the users local avatar
 	 * @param $user string user to set the avatar for
-	 * @param $img mixed imagedata to set a new avatar, or false to delete the current avatar
+	 * @param $data mixed imagedata or path to set a new avatar, or false to delete the current avatar
 	 * @throws Exception if the provided file is not a jpg or png image
 	 * @throws Exception if the provided image is not valid, or not a square
 	 * @return true on success
 	*/
-	public static function setLocalAvatar ($user, $img) {
+	public static function setLocalAvatar ($user, $data) {
 		$view = new \OC\Files\View('/'.$user);
 
-		if ($img === false) {
+		if ($data === false) {
 			$view->unlink('avatar.jpg');
 			$view->unlink('avatar.png');
 			return true;
 		} else {
-			$img = new OC_Image($img);
-			// FIXME this always says "image/png"
+			$img = new OC_Image($data);
+			// FIXME this always says "image/png", when loading from data
 			$type = substr($img->mimeType(), -3);
 			if ($type === 'peg') { $type = 'jpg'; }
 			if ($type !== 'jpg' && $type !== 'png') {
@@ -69,7 +69,7 @@ class OC_Avatar {
 
 			$view->unlink('avatar.jpg');
 			$view->unlink('avatar.png');
-			$view->file_put_contents('avatar.'.$type, $img);
+			$view->file_put_contents('avatar.'.$type, $data);
 			return true;
 		}
 	}

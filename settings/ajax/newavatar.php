@@ -5,16 +5,12 @@ OC_JSON::callCheck();
 $user = OC_User::getUser();
 
 if(isset($_POST['path'])) {
-	$path = $_POST['path'];
-	if ($path === "false") { // delete avatar
+	if ($_POST['path'] === "false") { // delete avatar
 		\OC_Avatar::setLocalAvatar($user, false);
 	} else { // select an image from own files
-		$view = new \OC\Files\View('/'.$user.'/files');
-		$img = $view->file_get_contents($path);
-
-		$type = substr($path, -3);
 		try {
-			\OC_Avatar::setLocalAvatar($user, $img);
+			$path = OC::$SERVERROOT.'/data/'.$user.'/files'.$_POST['path'];
+			\OC_Avatar::setLocalAvatar($user, $path);
 			OC_JSON::success();
 		} catch (Exception $e) {
 			OC_JSON::error();
