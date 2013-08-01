@@ -127,6 +127,11 @@ class Cache extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(1025, $this->cache->calculateFolderSize($file1));
 
+		$this->cache->remove($file2);
+		$this->cache->remove($file3);
+		$this->cache->remove($file4);
+		$this->assertEquals(0, $this->cache->calculateFolderSize($file1));
+
 		$this->cache->remove('folder');
 		$this->assertFalse($this->cache->inCache('folder/foo'));
 		$this->assertFalse($this->cache->inCache('folder/bar'));
