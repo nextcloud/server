@@ -23,7 +23,8 @@ class OC_L10N_String{
 		$text = $this->text;
 		if(array_key_exists($this->text, $translations)) {
 			if(is_array($translations[$this->text])) {
-				$id = $l10n->getPluralFormFunction()($count);
+				$fn = $l10n->getPluralFormFunction();
+				$id = $fn($count);
 				$text = $translations[$this->text][$id];
 			}
 			else{
