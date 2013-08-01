@@ -114,6 +114,7 @@
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Na voljo ni nobenega varnega ustvarjalnika naključnih števil. Omogočiti je treba razširitev PHP OpenSSL.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Brez varnega ustvarjalnika naključnih števil je mogoče napovedati žetone za ponastavitev gesla, s čimer je mogoče prevzeti nadzor nad računom.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Podatkovna mapa in datoteke so najverjetneje javno dostopni preko interneta, saj datoteka .htaccess ni ustrezno nastavljena.",
+"For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Za navodila, kako pravilno nastaviti vaš strežnik, kliknite na povezavo do <a href=\"%s\" target=\"_blank\">dokumentacije</a>.",
 "Create an <strong>admin account</strong>" => "Ustvari <strong>skrbniški račun</strong>",
 "Advanced" => "Napredne možnosti",
 "Data folder" => "Podatkovna mapa",
