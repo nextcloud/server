@@ -33,10 +33,25 @@ use Aws\S3\Exception\S3Exception;
 
 class AmazonS3 extends \OC\Files\Storage\Common {
 
+	/**
+	 * @var \Aws\S3\S3Client
+	 */
 	private $connection;
+	/**
+	 * @var string
+	 */
 	private $bucket;
+	/**
+	 * @var array
+	 */
 	private static $tmpFiles = array();
+	/**
+	 * @var bool
+	 */
 	private $test = false;
+	/**
+	 * @var int
+	 */
 	private $timeout = 15;
 
 	private function normalizePath($path) {
