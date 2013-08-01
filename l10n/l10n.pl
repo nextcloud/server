@@ -64,6 +64,16 @@ sub readIgnorelist{
 	return %ignore;
 }
 
+sub getPluralInfo {
+	my( $info ) = @_;
+
+	# get string
+	$info =~ s/.*Plural-Forms: (.+)\\n.*/$1/;
+	$info =~ s/^(.*)\\n.*/$1/g;
+
+	return $info;
+}
+
 my $task = shift( @ARGV );
 my $place = '..';
 
@@ -132,11 +142,15 @@ elsif( $task eq 'write' ){
 			my $array = Locale::PO->load_file_asarray( $input );
 			# Create array
 			my @strings = ();
-			foreach my $string ( @{$array} ){
-				next if $string->msgid() eq '""';
+			my $plurals;
 
-				# Do we use singular or plural?
-				if( defined( $string->msgstr_n() )){
+			foreach my $string ( @{$array} ){
+				if( $string->msgid() eq '""' ){
+					# Translator information
+					$plurals = getPluralInfo( $string->msgstr());
+				}
+				elsif( defined( $string->msgstr_n() )){
+					# plural translations
 					my @variants = ();
 					my $identifier = $string->msgid()."::".$string->msgid_plural();
 					$identifier =~ s/"/_/g;
@@ -148,6 +162,7 @@ elsif( $task eq 'write' ){
 					push( @strings, "\"$identifier\" => array(".join(@variants, ",").")");
 				}
 				else{
+					# singular translations
 					next if $string->msgstr() eq '""';
 					push( @strings, $string->msgid()." => ".$string->msgstr());
 				}
@@ -158,7 +173,7 @@ elsif( $task eq 'write' ){
 			open( OUT, ">$language.php" );
 			print OUT "<?php \$TRANSLATIONS = array(\n";
 			print OUT join( ",\n", @strings );
-			print OUT "\n);\n";
+			print OUT "\n); \$PLURAL_FORMS = \"$plurals\";\n";
 			close( OUT );
 		}
 		chdir( $whereami );
