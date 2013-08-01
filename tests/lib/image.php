@@ -58,10 +58,10 @@ class Test_Image extends PHPUnit_Framework_TestCase {
 		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$this->assertEquals('image/png', $img->mimeType());
 
-		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.jpg');
+		$img = new \OC_Image(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
 		$this->assertEquals('image/jpeg', $img->mimeType());
 
-		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.gif');
+		$img = new \OC_Image(base64_encode(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.gif')));
 		$this->assertEquals('image/gif', $img->mimeType());
 
 		$img = new \OC_Image(null);
@@ -72,10 +72,10 @@ class Test_Image extends PHPUnit_Framework_TestCase {
 		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$this->assertEquals(128, $img->width());
 
-		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.jpg');
+		$img = new \OC_Image(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
 		$this->assertEquals(1680, $img->width());
 
-		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.gif');
+		$img = new \OC_Image(base64_encode(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.gif')));
 		$this->assertEquals(64, $img->width());
 
 		$img = new \OC_Image(null);
@@ -86,10 +86,10 @@ class Test_Image extends PHPUnit_Framework_TestCase {
 		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$this->assertEquals(128, $img->height());
 
-		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.jpg');
+		$img = new \OC_Image(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
 		$this->assertEquals(1050, $img->height());
 
-		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.gif');
+		$img = new \OC_Image(base64_encode(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.gif')));
 		$this->assertEquals(64, $img->height());
 
 		$img = new \OC_Image(null);
@@ -124,7 +124,7 @@ class Test_Image extends PHPUnit_Framework_TestCase {
 		$expected = base64_encode(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.png'));
 		$this->assertEquals($expected, (string)$img);
 
-		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.jpg');
+		$img = new \OC_Image(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
 		$expected = base64_encode(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
 		$this->assertEquals($expected, (string)$img);
 
@@ -139,12 +139,12 @@ class Test_Image extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(32, $img->width());
 		$this->assertEquals(32, $img->height());
 
-		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.jpg');
+		$img = new \OC_Image(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
 		$this->assertTrue($img->resize(840));
 		$this->assertEquals(840, $img->width());
 		$this->assertEquals(525, $img->height());
 
-		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.gif');
+		$img = new \OC_Image(base64_encode(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.gif')));
 		$this->assertTrue($img->resize(100));
 		$this->assertEquals(100, $img->width());
 		$this->assertEquals(100, $img->height());
@@ -156,12 +156,12 @@ class Test_Image extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(128, $img->width());
 		$this->assertEquals(512, $img->height());
 
-		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.jpg');
+		$img = new \OC_Image(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
 		$this->assertTrue($img->preciseResize(64, 840));
 		$this->assertEquals(64, $img->width());
 		$this->assertEquals(840, $img->height());
 
-		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.gif');
+		$img = new \OC_Image(base64_encode(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.gif')));
 		$this->assertTrue($img->preciseResize(1000, 1337));
 		$this->assertEquals(1000, $img->width());
 		$this->assertEquals(1337, $img->height());
@@ -173,12 +173,12 @@ class Test_Image extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(128, $img->width());
 		$this->assertEquals(128, $img->height());
 
-		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.jpg');
+		$img = new \OC_Image(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
 		$img->centerCrop();
 		$this->assertEquals(1050, $img->width());
 		$this->assertEquals(1050, $img->height());
 
-		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.gif');
+		$img = new \OC_Image(base64_encode(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.gif')));
 		$img->centerCrop(512);
 		$this->assertEquals(512, $img->width());
 		$this->assertEquals(512, $img->height());
@@ -190,12 +190,12 @@ class Test_Image extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(50, $img->width());
 		$this->assertEquals(20, $img->height());
 
-		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.jpg');
+		$img = new \OC_Image(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
 		$this->assertTrue($img->crop(500, 700, 550, 300));
 		$this->assertEquals(550, $img->width());
 		$this->assertEquals(300, $img->height());
 
-		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.gif');
+		$img = new \OC_Image(base64_encode(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.gif')));
 		$this->assertTrue($img->crop(10, 10, 15, 15));
 		$this->assertEquals(15, $img->width());
 		$this->assertEquals(15, $img->height());
@@ -207,12 +207,12 @@ class Test_Image extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(100, $img->width());
 		$this->assertEquals(100, $img->height());
 
-		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.jpg');
+		$img = new \OC_Image(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
 		$this->assertTrue($img->fitIn(840, 840));
 		$this->assertEquals(840, $img->width());
 		$this->assertEquals(525, $img->height());
 
-		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.gif');
+		$img = new \OC_Image(base64_encode(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.gif')));
 		$this->assertTrue($img->fitIn(200, 250));
 		$this->assertEquals(200, $img->width());
 		$this->assertEquals(200, $img->height());
