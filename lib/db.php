@@ -589,7 +589,7 @@ class OC_DB {
 			self::$schema->db->database_name=self::$schema->db->dsn['username'];
 
 			$installedVersion = \OC_Config::getValue('version', '0.0.0');
-			if (version_compare('5.0.15', $installedVersion, '<=')) {
+			if (version_compare($installedVersion, '5.0.15', '<=')) {
 				//configvalue in oc_appconfig must be allowed to contain NULL
 				//because it is a CLOB, we need to move heaven and earth a bit
 				//i.e. rename it and copy values
