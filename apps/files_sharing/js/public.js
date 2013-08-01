@@ -51,7 +51,7 @@ $(document).ready(function() {
 	}
 
   // Add some form data to the upload handler
-  var file_upload_param.formData = {
+  file_upload_param.formData = {
     MAX_FILE_SIZE: $('#uploadMaxFilesize').val(),
     requesttoken: $('#publicUploadRequestToken').val(),
     dirToken: $('#dirToken').val(),

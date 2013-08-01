@@ -166,7 +166,9 @@ var UserList = {
 			var c = Number(aa[x]), d = Number(bb[x]);
 			if (c === aa[x] && d === bb[x]) {
 				return c - d;
-			} else { return (aa[x] > bb[x]) ? 1 : -1; }
+			} else {
+				return (aa[x] > bb[x]) ? 1 : -1;
+			}
 			}
 		}
 		return aa.length - bb.length;

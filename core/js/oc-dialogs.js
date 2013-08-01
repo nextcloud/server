@@ -79,9 +79,15 @@ var OCdialogs = {
 				title: title
 			}).data('path', '');
 
-			if (modal === undefined) { modal = false; }
-			if (multiselect === undefined) { multiselect = false; }
-			if (mimetype_filter === undefined) { mimetype_filter = ''; }
+			if (modal === undefined) {
+				modal = false;
+			}
+			if (multiselect === undefined) {
+				multiselect = false;
+			}
+			if (mimetype_filter === undefined) {
+				mimetype_filter = '';
+			}
 
 			$('body').append(self.$filePicker);
 
@@ -155,7 +161,9 @@ var OCdialogs = {
 				message: content,
 				type: dialog_type
 			});
-			if (modal === undefined) { modal = false; }
+			if (modal === undefined) {
+				modal = false;
+			}
 			$('body').append($dlg);
 			var buttonlist = [];
 			switch (buttons) {
@@ -163,7 +171,9 @@ var OCdialogs = {
 					buttonlist = [{
 						text: t('core', 'Yes'),
 						click: function(){
-							if (callback !== undefined) { callback(true); }
+							if (callback !== undefined) {
+								callback(true);
+							}
 							$(dialog_id).ocdialog('close');
 						},
 						defaultButton: true
@@ -171,7 +181,9 @@ var OCdialogs = {
 					{
 						text: t('core', 'No'),
 						click: function(){
-							if (callback !== undefined) { callback(false); }
+							if (callback !== undefined) {
+								callback(false);
+							}
 							$(dialog_id).ocdialog('close');
 						}
 					}];
@@ -179,7 +191,9 @@ var OCdialogs = {
 				case OCdialogs.OK_BUTTON:
 					var functionToCall = function() {
 						$(dialog_id).ocdialog('close');
-						if(callback !== undefined) { callback(); }
+						if(callback !== undefined) {
+							callback();
+						}
 					};
 					buttonlist[0] = {
 						text: t('core', 'Ok'),
