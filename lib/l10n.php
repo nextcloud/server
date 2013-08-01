@@ -55,9 +55,14 @@ class OC_L10N{
 	private $translations = array();
 
 	/**
-	 * Plural forms
+	 * Plural forms (string)
 	 */
-	private $plural_forms = "";
+	private $plural_form_string;
+
+	/**
+	 * Plural forms (function)
+	 */
+	private $plural_form_function = null;
 
 	/**
 	 * Localization
@@ -144,7 +149,7 @@ class OC_L10N{
 					}
 				}
 				if(isset($PLURAL_FORMS)) {
-					$this->plural_forms = $PLURAL_FORMS;
+					$this->plural_form_string = $PLURAL_FORMS;
 				}
 			}
 
@@ -158,6 +163,66 @@ class OC_L10N{
 
 			self::$cache[$app.'::'.$lang]['t'] = $this->translations;
 			self::$cache[$app.'::'.$lang]['l'] = $this->localizations;
+		}
+	}
+
+	/**
+	 * @brief Creates a function that The constructor
+	 * @param $app the app requesting l10n
+	 * @param $lang default: null Language
+	 * @returns OC_L10N-Object
+	 *
+	 * If language is not set, the constructor tries to find the right
+	 * language.
+	 *
+	 * Parts of the code is copied from Habari:
+	 * https://github.com/habari/system/blob/master/classes/locale.php
+	 */
+	protected function createPluralFormFunction($string){
+		if(preg_match( '/^\s*nplurals\s*=\s*(\d+)\s*;\s*plural=(.*)$/u', $string, $matches)) {
+			// sanitize
+			$nplurals = preg_replace( '/[^0-9]/', '', $matches[1] );
+			$plural = preg_replace( '#[^n0-9:\(\)\?\|\&=!<>+*/\%-]#', '', $matches[2] );
+
+			$body = str_replace(
+				array( 'plural', 'n', '$n$plurals', ),
+				array( '$plural', '$n', '$nplurals', ),
+				'nplurals='. $nplurals . '; plural=' . $plural
+			);
+
+			// add parens
+			// important since PHP's ternary evaluates from left to right
+			$body .= ';';
+			$res = '';
+			$p = 0;
+			for($i = 0; $i < strlen($body); $i++) {
+				$ch = $body[$i];
+				switch ( $ch ) {
+				case '?':
+					$res .= ' ? (';
+					$p++;
+					break;
+				case ':':
+					$res .= ') : (';
+					break;
+				case ';':
+					$res .= str_repeat( ')', $p ) . ';';
+					$p = 0;
+					break;
+				default:
+					$res .= $ch;
+				}
+			}
+
+			$body = $res . 'return ($plural>=$nplurals?$nplurals-1:$plural);';
+			return create_function('$n', $body);
+		}
+		else {
+			// default: one plural form for all cases but n==1 (english)
+			return create_function(
+				'$n',
+				'$nplurals=2;$plural=($n==1?0:1);return ($plural>=$nplurals?$nplurals-1:$plural);'
+			);
 		}
 	}
 
@@ -239,14 +304,28 @@ class OC_L10N{
 	}
 
 	/**
-	 * @brief getPluralForms
+	 * @brief getPluralFormString
 	 * @returns Fetches the gettext "Plural-Forms"-string
 	 *
 	 * Returns a string like "nplurals=2; plural=(n != 1);"
 	 */
-	public function getPluralForms() {
+	public function getPluralFormString() {
 		$this->init();
-		return $this->plural_forms;
+		return $this->plural_form_string;
+	}
+
+	/**
+	 * @brief getPluralFormFunction
+	 * @returns returns the plural form function
+	 *
+	 * returned function accepts the argument $n
+	 */
+	public function getPluralFormString() {
+		$this->init();
+		if(is_null($this->plural_form_function)) {
+			$this->plural_form_function = createPluralFormFunction($this->plural_form_string);
+		}
+		return $this->plural_form_function;
 	}
 
 	/**
