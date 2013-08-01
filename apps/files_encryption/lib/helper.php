@@ -232,6 +232,18 @@ class Helper {
 
 		return (bool) $result;
 	}
+	
+	/**
+	 * check some common errors if the server isn't configured properly for encryption
+	 * @return bool true if configuration seems to be OK
+	 */
+	public static function checkConfiguration() {
+		if(openssl_pkey_new(array('private_key_bits' => 4096))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	/**
 	 * @brief glob uses different pattern than regular expressions, escape glob pattern only
