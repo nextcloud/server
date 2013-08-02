@@ -49,7 +49,9 @@ class OC_Log_Owncloud {
 	public static function write($app, $message, $level) {
 		$minLevel=min(OC_Config::getValue( "loglevel", OC_Log::WARN ), OC_Log::ERROR);
 		if($level>=$minLevel) {
-			$time = date("F d, Y H:i:s", time());
+			// default to ISO8601
+			$format = OC_Config::getValue('logdateformat', 'c');
+			$time = date($format, time());
 			$entry=array('app'=>$app, 'message'=>$message, 'level'=>$level, 'time'=> $time);
 			$handle = @fopen(self::$logFile, 'a');
 			if ($handle) {
