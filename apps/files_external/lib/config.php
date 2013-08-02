@@ -524,50 +524,85 @@ class OC_Mount_Config {
 	 * check dependencies
 	 */
 	public static function checkDependencies() {
-		$dependencyMessages = array();
+		$dependencies = array();
 		foreach (OC_Mount_Config::$backends as $class => $backend) {
 			if (isset($backend['has_dependencies']) and $backend['has_dependencies'] === true) {
 				$result = $class::checkDependencies();
-				if ($result !== true and OC_Mount_Config::findFirstSentence($dependencyMessages, $result) < 0) {
-					$dependencyMessages[] = $result;
+				if ($result !== true) {
+					foreach ($result as $key => $value) {
+						if (is_numeric($key)) {
+							OC_Mount_Config::addDependency($dependencies, $value, $backend['backend']);
+						} else {
+							OC_Mount_Config::addDependency($dependencies, $key, $backend['backend'], $value);
+						}
+					}
 				}
 			}
 		}
 
-		if (count($dependencyMessages) > 0) {
-			return implode('<br />', $dependencyMessages);
+		if (count($dependencies) > 0) {
+			return OC_Mount_Config::generateDependencyMessage($dependencies);
 		}
 		return '';
 	}
 
-	/**
-	 * Finds the first string in an array that has the same first sentence (or part thereof)
-	 * as a given comparison string
-	 * @param $arr array An array of strings
-	 * @param $str string The string to find
-	 * @return int The position of the first occurrence or -1 if not found
-	 */
-	private static function findFirstSentence($arr, $str) {
-		foreach ($arr as $i => $item) {
-			$itemPos = strpos($item, '.');
-			$strPos = strpos($str, '.');
+	private static function addDependency(&$dependencies, $module, $backend, $message=null) {
+		if (!isset($dependencies[$module])) {
+			$dependencies[$module] = array();
+		}
 
-			if ($itemPos < 0 && $strPos < 0) {
-				$itemPos = strpos($item, ',');
-				$strPos = strpos($str, ',');
+		if ($message === null) {
+			$dependencies[$module][] = $backend;
+		} else {
+			$dependencies[$module][] = array('backend' => $backend, 'message' => $message);
+		}
+	}
 
-				if ($itemPos < 0 && $strPos < 0) {
-					$itemPos = strlen($item);
-					$strPos = strlen($str);
+	private static function generateDependencyMessage($dependencies) {
+		$l = new \OC_L10N('files_external');
+		$dependencyMessage = '';
+		foreach ($dependencies as $module => $backends) {
+			$dependencyGroup = array();
+			foreach ($backends as $backend) {
+				if (is_array($backend)) {
+					$dependencyMessage .= '<br />' . $l->t('<b>Note:</b> ') . $backend['message'];
+				} else {
+					$dependencyGroup[] = $backend;
 				}
 			}
 
-			if ($itemPos === $strPos and strncasecmp($item, $str, $itemPos) === 0) {
-				return $i;
+			if (count($dependencyGroup) > 0) {
+				$backends = '';
+				for ($i = 0; $i < count($dependencyGroup); $i++) {
+					if ($i > 0 && $i === count($dependencyGroup) - 1) {
+						$backends .= $l->t(' and ');
+					} elseif ($i > 0) {
+						$backends .= ', ';
+					}
+					$backends .= '<i>' . $dependencyGroup[$i] . '</i>';
+				}
+				$dependencyMessage .= '<br />' . OC_Mount_Config::getSingleDependencyMessage($l, $module, $backends);
 			}
 		}
+		return $dependencyMessage;
+	}
 
-		return -1;
+	/**
+	 * Returns a dependency missing message
+	 * @param $l OC_L10N
+	 * @param $module string
+	 * @param $backend string
+	 * @return string
+	 */
+	private static function getSingleDependencyMessage($l, $module, $backend) {
+		switch (strtolower($module)) {
+			case 'curl':
+				return $l->t('<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.', $backend);
+			case 'ftp':
+				return $l->t('<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.', $backend);
+			default:
+				return $l->t('<b>Note:</b> "%s" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it.', array($module, $backend));
+		}
 	}
 
 	/**

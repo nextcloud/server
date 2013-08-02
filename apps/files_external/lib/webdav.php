@@ -23,18 +23,6 @@ class DAV extends \OC\Files\Storage\Common {
 
 	private static $tempFiles = array();
 
-	/**
-	 * check if curl is installed
-	 */
-	public static function checkDependencies() {
-		if (function_exists('curl_init')) {
-			return true;
-		} else {
-			$l = new \OC_L10N('files_external');
-			return $l->t('<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of ownCloud / WebDAV is not possible. Please ask your system administrator to install it.');
-		}
-	}
-
 	public function __construct($params) {
 		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
 			$host = $params['host'];
@@ -395,6 +383,17 @@ class DAV extends \OC\Files\Storage\Common {
 			return $response['statusCode'] == $expected;
 		} catch (\Exception $e) {
 			return false;
+		}
+	}
+
+	/**
+	 * check if curl is installed
+	 */
+	public static function checkDependencies() {
+		if (function_exists('curl_init')) {
+			return true;
+		} else {
+			return array('curl');
 		}
 	}
 }
