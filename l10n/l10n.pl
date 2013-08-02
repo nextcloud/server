@@ -171,7 +171,7 @@ elsif( $task eq 'write' ){
 
 			# Write PHP file
 			open( OUT, ">$language.php" );
-			print OUT "<?php \$TRANSLATIONS = array(\n";
+			print OUT "<?php\n\$TRANSLATIONS = array(\n";
 			print OUT join( ",\n", @strings );
 			print OUT "\n);\n\$PLURAL_FORMS = \"$plurals\";\n";
 			close( OUT );
