@@ -86,6 +86,20 @@ class Test_Appconfig extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('somevalue', $value['configvalue']);
 	}
 
+	/**
+	 * @expectedException \Doctrine\DBAL\DBALException
+	*/
+	public function testSetValueNull() {
+		\OC_Appconfig::setValue('testapp', 'installed_version', null);
+	}
+
+	/**
+	 * @expectedException \Doctrine\DBAL\DBALException
+	*/
+	public function testSetValueEmptyString() {
+		\OC_Appconfig::setValue('testapp', '', '1.33.7');
+	}
+
 	public function testDeleteKey() {
 		\OC_Appconfig::deleteKey('testapp', 'deletethis');
 		$query = \OC_DB::prepare('SELECT `configvalue` FROM `*PREFIX*appconfig` WHERE `appid` = ? AND `configkey` = ?');
