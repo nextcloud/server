@@ -1,7 +1,5 @@
 <?php
 
-require_once __DIR__ . '/lib/base.php';
-
 if (!OC::$CLI) {
 	echo "This script can be run from the command line only\n";
 	return;
