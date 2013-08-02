@@ -56,7 +56,7 @@ $CONFIG = array(
 /* Theme to use for ownCloud */
 "theme" => "",
 
-/* Optional ownCloud default language - overrides automatic language detection on public pages like login or shared items. This has no effect on the users's language preference configured under "personal -> language" once they have logged in */
+/* Optional ownCloud default language - overrides automatic language detection on public pages like login or shared items. This has no effect on the user's language preference configured under "personal -> language" once they have logged in */
 "default_language" => "en",
 
 /* Path to the parent directory of the 3rdparty directory */
