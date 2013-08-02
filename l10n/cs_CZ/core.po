@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Honza K. <honza889@gmail.com>, 2013
+# pstast <petr@stastny.eu>, 2013
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-31 01:55-0400\n"
-"PO-Revision-Date: 2013-07-30 12:13+0000\n"
-"Last-Translator: Honza K. <honza889@gmail.com>\n"
+"POT-Creation-Date: 2013-08-02 01:57-0400\n"
+"PO-Revision-Date: 2013-08-01 18:00+0000\n"
+"Last-Translator: pstast <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -238,7 +239,7 @@ msgstr "Není určen název aplikace."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr "Požadovaný soubor {file} není nainstalován."
+msgstr "Požadovaný soubor {file} není nainstalován!"
 
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
@@ -396,11 +397,11 @@ msgstr "Odkaz na obnovení hesla byl odeslán na vaši e-mailovou adresu.<br>Pok
 
 #: lostpassword/templates/lostpassword.php:12
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr "Požadavek selhal.<br>Ujistili jste se, že vaše uživatelské jméno a e-mail jsou správně?"
+msgstr "Požadavek selhal!<br>Ujistili jste se, že vaše uživatelské jméno a e-mail jsou správně?"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
-msgstr "Bude Vám e-mailem zaslán odkaz pro obnovu hesla."
+msgstr "E-mailem Vám bude zaslán odkaz pro obnovu hesla."
 
 #: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
 #: templates/login.php:19
@@ -413,11 +414,11 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr "Vaše soubory jsou šifrovány. Pokud nemáte povolen klíč obnovy, neexistuje způsob jak získat po obnově hesla vaše data. Pokud si nejste jisti co dělat, kontaktujte nejprve svého správce. Opravdu si přejete pokračovat?"
+msgstr "Vaše soubory jsou šifrovány. Pokud nemáte povolen klíč pro obnovu, neexistuje způsob jak získat po změně hesla vaše data. Pokud si nejste jisti co dělat, kontaktujte nejprve svého správce. Opravdu si přejete pokračovat?"
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
-msgstr "Ano, opravdu si nyní přeji obnovit své heslo"
+msgstr "Ano, opravdu si nyní přeji obnovit mé heslo"
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
@@ -476,7 +477,7 @@ msgid ""
 "View it: %s\n"
 "\n"
 "Cheers!"
-msgstr "Ahoj,\n\njenom vám chci oznámit že %s s vámi sdílí %s.\nPodívat se můžete zde: %s\n\nDíky"
+msgstr "Ahoj,\n\njenom vám chci oznámit, že %s s vámi sdílí %s.\nPodívat se můžete zde: %s\n\nDíky"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -523,7 +524,7 @@ msgstr "Váš adresář s daty a soubory jsou dostupné z internetu, protože so
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr "Pro informace jak správně nastavit váš server se podívejte do <a href=\"%s\" target=\"_blank\">dokumentace</a>."
+msgstr "Pro informace, jak správně nastavit váš server, se podívejte do <a href=\"%s\" target=\"_blank\">dokumentace</a>."
 
 #: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
@@ -582,13 +583,13 @@ msgstr "Odhlásit se"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
-msgstr "Automatické přihlášení odmítnuto."
+msgstr "Automatické přihlášení odmítnuto!"
 
 #: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr "V nedávné době jste nezměnili své heslo, Váš účet může být kompromitován."
+msgstr "Pokud jste v nedávné době neměnili své heslo, Váš účet může být kompromitován!"
 
 #: templates/login.php:12
 msgid "Please change your password to secure your account again."
@@ -615,7 +616,7 @@ msgstr "Alternativní přihlášení"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr "Ahoj,<br><br>jenom vám chci oznámit že %s s vámi sdílí %s.\nPodívat se můžete <br><a href=\"%s\">zde</a>.<br><br>Díky"
+msgstr "Ahoj,<br><br>jenom vám chci oznámit, že %s s vámi sdílí %s.\nPodívat se můžete <br><a href=\"%s\">zde</a>.<br><br>Díky"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

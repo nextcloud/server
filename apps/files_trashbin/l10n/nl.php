@@ -11,6 +11,7 @@
 "{count} folders" => "{count} mappen",
 "1 file" => "1 bestand",
 "{count} files" => "{count} bestanden",
+"restored" => "hersteld",
 "Nothing in here. Your trash bin is empty!" => "Niets te vinden. Uw prullenbak is leeg!",
 "Restore" => "Herstellen",
 "Delete" => "Verwijder",
