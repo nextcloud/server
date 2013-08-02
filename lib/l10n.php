@@ -2,8 +2,10 @@
 /**
  * ownCloud
  *
+ * @author Frank Karlitschek
  * @author Jakob Sack
  * @copyright 2012 Frank Karlitschek frank@owncloud.org
+ * @copyright 2013 Jakob Sack
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -76,6 +78,8 @@ class OC_L10N{
 
 	/**
 	 * get an L10N instance
+	 * @param $app string
+	 * @param $lang string|null
 	 * @return OC_L10N
 	 */
 	public static function get($app, $lang=null) {
@@ -91,8 +95,8 @@ class OC_L10N{
 
 	/**
 	 * @brief The constructor
-	 * @param $app the app requesting l10n
-	 * @param $lang default: null Language
+	 * @param $app string app requesting l10n
+	 * @param $lang string default: null Language
 	 * @returns OC_L10N-Object
 	 *
 	 * If language is not set, the constructor tries to find the right
@@ -168,15 +172,14 @@ class OC_L10N{
 
 	/**
 	 * @brief Creates a function that The constructor
-	 * @param $app the app requesting l10n
-	 * @param $lang default: null Language
-	 * @returns OC_L10N-Object
 	 *
 	 * If language is not set, the constructor tries to find the right
 	 * language.
 	 *
 	 * Parts of the code is copied from Habari:
 	 * https://github.com/habari/system/blob/master/classes/locale.php
+	 * @param $string string
+	 * @return string
 	 */
 	protected function createPluralFormFunction($string){
 		if(preg_match( '/^\s*nplurals\s*=\s*(\d+)\s*;\s*plural=(.*)$/u', $string, $matches)) {
@@ -190,7 +193,7 @@ class OC_L10N{
 				'nplurals='. $nplurals . '; plural=' . $plural
 			);
 
-			// add parens
+			// add parents
 			// important since PHP's ternary evaluates from left to right
 			$body .= ';';
 			$res = '';
@@ -305,7 +308,7 @@ class OC_L10N{
 
 	/**
 	 * @brief getPluralFormString
-	 * @returns Fetches the gettext "Plural-Forms"-string
+	 * @returns string containing the gettext "Plural-Forms"-string
 	 *
 	 * Returns a string like "nplurals=2; plural=(n != 1);"
 	 */
@@ -316,14 +319,14 @@ class OC_L10N{
 
 	/**
 	 * @brief getPluralFormFunction
-	 * @returns returns the plural form function
+	 * @returns string the plural form function
 	 *
 	 * returned function accepts the argument $n
 	 */
 	public function getPluralFormFunction() {
 		$this->init();
 		if(is_null($this->plural_form_function)) {
-			$this->plural_form_function = createPluralFormFunction($this->plural_form_string);
+			$this->plural_form_function = $this->createPluralFormFunction($this->plural_form_string);
 		}
 		return $this->plural_form_function;
 	}
@@ -369,8 +372,12 @@ class OC_L10N{
 			case 'date':
 			case 'datetime':
 			case 'time':
-				if($data instanceof DateTime) return $data->format($this->localizations[$type]);
-				elseif(is_string($data)) $data = strtotime($data);
+				if($data instanceof DateTime) {
+					return $data->format($this->localizations[$type]);
+				}
+				elseif(is_string($data)) {
+					$data = strtotime($data);
+				}
 				$locales = array(self::findLanguage());
 				if (strlen($locales[0]) == 2) {
 					$locales[] = $locales[0].'_'.strtoupper($locales[0]);
