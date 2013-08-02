@@ -7,7 +7,7 @@
 	$name = \OCP\Util::encodePath($file['name']);
 	$directory = \OCP\Util::encodePath($file['directory']); ?>
 	<tr data-filename="<?php p($file['name']);?>"
-		data-type="<?php ($file['type'] == 'dir')?p('dir'):p('file')?>"
+		data-type="<?php ($file['type'] === 'dir')?p('dir'):p('file')?>"
 		data-mime="<?php p($file['mimetype'])?>"
 		data-permissions='<?php p($file['permissions']); ?>'
 		<?php if ( $_['dirlisting'] ): ?>
@@ -22,14 +22,14 @@
 		data-dirlisting=0
 		<?php endif; ?>>
 		<td class="filename svg"
-		<?php if($file['type'] == 'dir'): ?>
+		<?php if($file['type'] === 'dir'): ?>
 			style="background-image:url(<?php print_unescaped(OCP\mimetype_icon('dir')); ?>)"
 		<?php else: ?>
 			style="background-image:url(<?php print_unescaped(OCP\mimetype_icon($file['mimetype'])); ?>)"
 		<?php endif; ?>
 			>
 		<?php if(!isset($_['readonly']) || !$_['readonly']): ?><input type="checkbox" /><?php endif; ?>
-		<?php if($file['type'] == 'dir'): ?>
+		<?php if($file['type'] === 'dir'): ?>
 			<?php if( $_['dirlisting'] ): ?>
 				<a class="name" href="<?php p($_['baseURL'].'/'.$name); ?>" title="">
 			<?php else: ?>
@@ -43,14 +43,14 @@
 			<?php endif; ?>
 		<?php endif; ?>
 			<span class="nametext">
-				<?php if($file['type'] == 'dir'):?>
+				<?php if($file['type'] === 'dir'):?>
 					<?php print_unescaped(htmlspecialchars($file['name']));?>
 				<?php else:?>
 					<?php print_unescaped(htmlspecialchars($file['basename']));?><span
 						class='extension'><?php p($file['extension']);?></span>
 				<?php endif;?>
 			</span>
-			<?php if($file['type'] == 'dir'):?>
+			<?php if($file['type'] === 'dir'):?>
 				<span class="uploadtext" currentUploads="0">
 				</span>
 			<?php endif;?>
