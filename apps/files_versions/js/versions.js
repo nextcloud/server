@@ -39,10 +39,6 @@ function createVersionsDropdown(filename, files) {
 
 	var historyUrl = OC.linkTo('files_versions', 'history.php') + '?path='+encodeURIComponent( $( '#dir' ).val() ).replace( /%2F/g, '/' )+'/'+encodeURIComponent( filename );
 
-	$("#makelink").click(function() {
-		goToVersionPage(historyUrl);
-	});
-
 	$.ajax({
 		type: 'GET',
 		url: OC.filePath('files_versions', 'ajax', 'getVersions.php'),
@@ -74,6 +70,10 @@ function createVersionsDropdown(filename, files) {
 			} else {
 				$(html).appendTo($('thead .share'));
 			}
+
+			$("#makelink").click(function() {
+				goToVersionPage(historyUrl);
+			});
 
 			// if versions are available populate the dialog
 			if (versions) {
