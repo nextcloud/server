@@ -370,6 +370,44 @@ OC.Notification={
 OC.Breadcrumb={
 	container:null,
 	crumbs:[],
+	show:function(dir, leafname, leaflink){
+		OC.Breadcrumb.clear();
+		
+		// show home + path in subdirectories
+		if (dir && dir !== '/') {
+			//add home
+			var link = OC.linkTo('files','index.php');
+
+			var crumb=$('<div/>');
+			crumb.addClass('crumb');
+
+			var crumbLink=$('<a/>');
+			crumbLink.attr('href',link);
+
+			var crumbImg=$('<img/>');
+			crumbImg.attr('src',OC.imagePath('core','places/home'));
+			crumbLink.append(crumbImg);
+			crumb.append(crumbLink);
+			OC.Breadcrumb.container.prepend(crumb);
+			OC.Breadcrumb.crumbs.push(crumb);
+
+			//add path parts
+			var segments = dir.split('/');
+			var pathurl = '';
+			jQuery.each(segments, function(i,name) {
+				if (name !== '') {
+					pathurl = pathurl+'/'+name;
+					var link = OC.linkTo('files','index.php')+'?dir='+encodeURIComponent(pathurl);
+					OC.Breadcrumb.push(name, link);
+				}
+			});
+		}
+		
+		//add leafname
+		if (leafname && leaflink) {
+				OC.Breadcrumb.push(leafname, leaflink);
+		}
+	},
 	push:function(name, link){
 		if(!OC.Breadcrumb.container){//default
 			OC.Breadcrumb.container=$('#controls');
@@ -387,7 +425,7 @@ OC.Breadcrumb={
 			existing.removeClass('last');
 			existing.last().after(crumb);
 		}else{
-			OC.Breadcrumb.container.append(crumb);
+			OC.Breadcrumb.container.prepend(crumb);
 		}
 		OC.Breadcrumb.crumbs.push(crumb);
 		return crumb;
