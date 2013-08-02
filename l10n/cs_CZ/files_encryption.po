@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-14 02:02+0200\n"
-"PO-Revision-Date: 2013-07-13 21:40+0000\n"
-"Last-Translator: Honza K. <honza889@gmail.com>\n"
+"POT-Creation-Date: 2013-08-02 01:55-0400\n"
+"PO-Revision-Date: 2013-08-02 05:57+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -61,17 +61,21 @@ msgid ""
 "ownCloud system (e.g. your corporate directory). You can update your private"
 " key password in your personal settings to recover access to your encrypted "
 "files."
-msgstr ""
+msgstr "Váš soukromý klíč není platný! Pravděpodobně bylo heslo změněno zvně systému ownCloud (např. ve vašem firemním adresáři). Můžete opravit vaše heslo soukromého klíče ve svém osobním nastavení pro obnovení přístupu k vašim zašifrovaným souborům."
 
 #: hooks/hooks.php:44
 msgid "Missing requirements."
-msgstr ""
+msgstr "Nesplněné závislosti."
 
 #: hooks/hooks.php:45
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
 "PHP extension is enabled and configured properly. For now, the encryption "
 "app has been disabled."
+msgstr "Ujistěte se prosím, že máte nainstalované PHP verze PHP 5.3.3 s nainstalovaným a správně nastaveným rozšířením OpenSSL. Prozatím byla šifrovací aplikace zablokována."
+
+#: hooks/hooks.php:263
+msgid "Following users are not set up for encryption:"
 msgstr ""
 
 #: js/settings-admin.js:11
@@ -82,11 +86,11 @@ msgstr "Ukládám..."
 msgid ""
 "Your private key is not valid! Maybe the your password was changed from "
 "outside."
-msgstr ""
+msgstr "Váš soukromý klíč není platný! Pravděpodobně bylo vaše heslo změněno zvenčí."
 
 #: templates/invalid_private_key.php:7
 msgid "You can unlock your private key in your "
-msgstr ""
+msgstr "Můžete odemknout váš soukromý klíč ve vašem"
 
 #: templates/invalid_private_key.php:7
 msgid "personal settings"
@@ -99,11 +103,11 @@ msgstr "Šifrování"
 #: templates/settings-admin.php:10
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
-msgstr ""
+msgstr "Povolit klíč pro obnovu (dovoluje obnovu uživatelských souborů v případě ztráty hesla)"
 
 #: templates/settings-admin.php:14
 msgid "Recovery key password"
-msgstr ""
+msgstr "Heslo klíče pro obnovu"
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
@@ -115,15 +119,15 @@ msgstr "Zakázáno"
 
 #: templates/settings-admin.php:34
 msgid "Change recovery key password:"
-msgstr ""
+msgstr "Změna hesla klíče pro obnovu:"
 
 #: templates/settings-admin.php:41
 msgid "Old Recovery key password"
-msgstr ""
+msgstr "Původní heslo klíče pro obnovu"
 
 #: templates/settings-admin.php:48
 msgid "New Recovery key password"
-msgstr ""
+msgstr "Nové heslo klíče pro obnovu"
 
 #: templates/settings-admin.php:53
 msgid "Change Password"
@@ -131,17 +135,17 @@ msgstr "Změnit heslo"
 
 #: templates/settings-personal.php:11
 msgid "Your private key password no longer match your log-in password:"
-msgstr ""
+msgstr "Heslo vašeho soukromého klíče se již neshoduje s vaším přihlašovacím heslem:"
 
 #: templates/settings-personal.php:14
 msgid "Set your old private key password to your current log-in password."
-msgstr ""
+msgstr "Jako původní heslo soukromého klíče použít stávající přihlašovací heslo."
 
 #: templates/settings-personal.php:16
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
-msgstr ""
+msgstr "Pokud si nevzpomínáte vaše původní heslo, můžete požádat správce o obnovu vašich souborů."
 
 #: templates/settings-personal.php:24
 msgid "Old log-in password"
@@ -153,7 +157,7 @@ msgstr "Aktuální přihlašovací heslo"
 
 #: templates/settings-personal.php:35
 msgid "Update Private Key Password"
-msgstr ""
+msgstr "Změnit heslo soukromého klíče"
 
 #: templates/settings-personal.php:45
 msgid "Enable password recovery:"

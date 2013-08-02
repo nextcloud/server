@@ -68,7 +68,6 @@
 "You don’t have write permissions here." => "Buraya erişim hakkınız yok.",
 "Nothing in here. Upload something!" => "Burada hiçbir şey yok. Birşeyler yükleyin!",
 "Download" => "İndir",
-"Size (MB)" => "Boyut (MB)",
 "Unshare" => "Paylaşılmayan",
 "Upload too large" => "Yükleme çok büyük",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Yüklemeye çalıştığınız dosyalar bu sunucudaki maksimum yükleme boyutunu aşıyor.",

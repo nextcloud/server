@@ -62,7 +62,8 @@ class OC_Files {
 			$zip = new ZipArchive();
 			$filename = OC_Helper::tmpFile('.zip');
 			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
-				exit("cannot open <$filename>\n");
+				$l = OC_L10N::get('lib');
+				throw new Exception($l->t('cannot open "%s"', array($filename)));
 			}
 			foreach ($files as $file) {
 				$file = $dir . '/' . $file;
@@ -93,7 +94,8 @@ class OC_Files {
 			$zip = new ZipArchive();
 			$filename = OC_Helper::tmpFile('.zip');
 			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
-				exit("cannot open <$filename>\n");
+				$l = OC_L10N::get('lib');
+				throw new Exception($l->t('cannot open "%s"', array($filename)));
 			}
 			$file = $dir . '/' . $files;
 			self::zipAddDir($file, $zip);
@@ -220,16 +222,11 @@ class OC_Files {
 		if (!OC_Config::getValue('allowZipDownload', true)) {
 			$l = OC_L10N::get('lib');
 			header("HTTP/1.0 409 Conflict");
-			$tmpl = new OC_Template('', 'error', 'user');
-			$errors = array(
-				array(
-					'error' => $l->t('ZIP download is turned off.'),
-					'hint' => $l->t('Files need to be downloaded one by one.')
-						. '<br/><a href="javascript:history.back()">' . $l->t('Back to Files') . '</a>',
-				)
+			OC_Template::printErrorPage(
+					$l->t('ZIP download is turned off.'),
+					$l->t('Files need to be downloaded one by one.')
+						. '<br/><a href="javascript:history.back()">' . $l->t('Back to Files') . '</a>'
 			);
-			$tmpl->assign('errors', $errors);
-			$tmpl->printPage();
 			exit;
 		}
 
@@ -252,17 +249,12 @@ class OC_Files {
 			if ($totalsize > $zipLimit) {
 				$l = OC_L10N::get('lib');
 				header("HTTP/1.0 409 Conflict");
-				$tmpl = new OC_Template('', 'error', 'user');
-				$errors = array(
-					array(
-						'error' => $l->t('Selected files too large to generate zip file.'),
-						'hint' => 'Download the files in smaller chunks, seperately'
-							.' or kindly ask your administrator.<br/><a href="javascript:history.back()">'
-							. $l->t('Back to Files') . '</a>',
-					)
+				OC_Template::printErrorPage(
+						$l->t('Selected files too large to generate zip file.'),
+						$l->t('Download the files in smaller chunks, seperately or kindly ask your administrator.')
+						.'<br/><a href="javascript:history.back()">'
+						. $l->t('Back to Files') . '</a>'
 				);
-				$tmpl->assign('errors', $errors);
-				$tmpl->printPage();
 				exit;
 			}
 		}

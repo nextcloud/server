@@ -173,7 +173,7 @@ class OC {
 			and !is_writable(OC::$SERVERROOT . "/config/config.php")) {
 			$defaults = new OC_Defaults();
 			OC_Template::printErrorPage(
-				"Can't write into config directory 'config'",
+				"Can't write into config directory!",
 				'This can usually be fixed by '
 					.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html#set-the-directory-permissions" target="_blank">giving the webserver write access to the config directory</a>.'
 			);
@@ -422,9 +422,13 @@ class OC {
 			}
 		}
 
-		if (!defined('PHPUNIT_RUN') and !(defined('DEBUG') and DEBUG)) {
-			OC\Log\ErrorHandler::register();
-			OC\Log\ErrorHandler::setLogger(OC_Log::$object);
+		if (!defined('PHPUNIT_RUN')) {
+			if (defined('DEBUG') and DEBUG) {
+				set_exception_handler(array('OC_Template', 'printExceptionErrorPage'));
+			} else {
+				OC\Log\ErrorHandler::register();
+				OC\Log\ErrorHandler::setLogger(OC_Log::$object);
+			}
 		}
 
 		// register the stream wrappers
@@ -822,3 +826,4 @@ if (!function_exists('get_temp_dir')) {
 }
 
 OC::init();
+

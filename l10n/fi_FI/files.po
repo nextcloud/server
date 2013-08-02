@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-21 01:54-0400\n"
-"PO-Revision-Date: 2013-07-21 05:15+0000\n"
-"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"POT-Creation-Date: 2013-08-02 01:55-0400\n"
+"PO-Revision-Date: 2013-08-02 05:40+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -121,7 +121,7 @@ msgstr "Jaa"
 msgid "Delete permanently"
 msgstr "Poista pysyvästi"
 
-#: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
+#: js/fileactions.js:128 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "Poista"
 
@@ -133,31 +133,31 @@ msgstr "Nimeä uudelleen"
 msgid "Pending"
 msgstr "Odottaa"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "{new_name} already exists"
 msgstr "{new_name} on jo olemassa"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "replace"
 msgstr "korvaa"
 
-#: js/filelist.js:304
+#: js/filelist.js:303
 msgid "suggest name"
 msgstr "ehdota nimeä"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "cancel"
 msgstr "peru"
 
-#: js/filelist.js:351
+#: js/filelist.js:350
 msgid "replaced {new_name} with {old_name}"
 msgstr ""
 
-#: js/filelist.js:351
+#: js/filelist.js:350
 msgid "undo"
 msgstr "kumoa"
 
-#: js/filelist.js:376
+#: js/filelist.js:375
 msgid "perform delete operation"
 msgstr "suorita poistotoiminto"
 
@@ -201,31 +201,31 @@ msgstr "Lataustasi valmistellaan. Tämä saattaa kestää hetken, jos tiedostot 
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr ""
 
-#: js/files.js:744 templates/index.php:69
+#: js/files.js:744 templates/index.php:67
 msgid "Name"
 msgstr "Nimi"
 
-#: js/files.js:745
+#: js/files.js:745 templates/index.php:78
 msgid "Size"
 msgstr "Koko"
 
-#: js/files.js:746 templates/index.php:82
+#: js/files.js:746 templates/index.php:80
 msgid "Modified"
 msgstr "Muokattu"
 
-#: js/files.js:765
+#: js/files.js:763
 msgid "1 folder"
 msgstr "1 kansio"
 
-#: js/files.js:767
+#: js/files.js:765
 msgid "{count} folders"
 msgstr "{count} kansiota"
 
-#: js/files.js:775
+#: js/files.js:773
 msgid "1 file"
 msgstr "1 tiedosto"
 
-#: js/files.js:777
+#: js/files.js:775
 msgid "{count} files"
 msgstr "{count} tiedostoa"
 
@@ -286,65 +286,61 @@ msgstr "Kansio"
 msgid "From link"
 msgstr "Linkistä"
 
-#: templates/index.php:42
+#: templates/index.php:41
 msgid "Deleted files"
 msgstr "Poistetut tiedostot"
 
-#: templates/index.php:48
+#: templates/index.php:46
 msgid "Cancel upload"
 msgstr "Peru lähetys"
 
-#: templates/index.php:54
+#: templates/index.php:52
 msgid "You don’t have write permissions here."
 msgstr "Tunnuksellasi ei ole kirjoitusoikeuksia tänne."
 
-#: templates/index.php:61
+#: templates/index.php:59
 msgid "Nothing in here. Upload something!"
 msgstr "Täällä ei ole mitään. Lähetä tänne jotakin!"
 
-#: templates/index.php:75
+#: templates/index.php:73
 msgid "Download"
 msgstr "Lataa"
 
-#: templates/index.php:80
-msgid "Size (MB)"
-msgstr "Koko (Mt)"
-
-#: templates/index.php:87 templates/index.php:88
+#: templates/index.php:85 templates/index.php:86
 msgid "Unshare"
 msgstr "Peru jakaminen"
 
-#: templates/index.php:107
+#: templates/index.php:105
 msgid "Upload too large"
 msgstr "Lähetettävä tiedosto on liian suuri"
 
-#: templates/index.php:109
+#: templates/index.php:107
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan."
 
-#: templates/index.php:114
+#: templates/index.php:112
 msgid "Files are being scanned, please wait."
 msgstr "Tiedostoja tarkistetaan, odota hetki."
 
-#: templates/index.php:117
+#: templates/index.php:115
 msgid "Current scanning"
 msgstr "Tämänhetkinen tutkinta"
 
-#: templates/part.list.php:76
+#: templates/part.list.php:74
 msgid "directory"
 msgstr "kansio"
 
-#: templates/part.list.php:78
+#: templates/part.list.php:76
 msgid "directories"
 msgstr "kansiota"
 
-#: templates/part.list.php:87
+#: templates/part.list.php:85
 msgid "file"
 msgstr "tiedosto"
 
-#: templates/part.list.php:89
+#: templates/part.list.php:87
 msgid "files"
 msgstr "tiedostoa"
 

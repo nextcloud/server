@@ -185,9 +185,7 @@ class OC_Setup {
 			$hint = $l->t('Please double check the <a href=\'%s\'>installation guides</a>.',
 				'http://doc.owncloud.org/server/5.0/admin_manual/installation.html');
 
-			$tmpl = new OC_Template('', 'error', 'guest');
-			$tmpl->assign('errors', array(1 => array('error' => $error, 'hint' => $hint)));
-			$tmpl->printPage();
+			OC_Template::printErrorPage($error, $hint);
 			exit();
 		}
 	}

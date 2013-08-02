@@ -5,11 +5,14 @@
 "Users" => "Erabiltzaileak",
 "Apps" => "Aplikazioak",
 "Admin" => "Admin",
+"Failed to upgrade \"%s\"." => "Ezin izan da \"%s\" eguneratu.",
 "web services under your control" => "web zerbitzuak zure kontrolpean",
+"cannot open \"%s\"" => "ezin da \"%s\" ireki",
 "ZIP download is turned off." => "ZIP deskarga ez dago gaituta.",
 "Files need to be downloaded one by one." => "Fitxategiak banan-banan deskargatu behar dira.",
 "Back to Files" => "Itzuli fitxategietara",
 "Selected files too large to generate zip file." => "Hautatuko fitxategiak oso handiak dira zip fitxategia sortzeko.",
+"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Deskargatu fitzategiak zati txikiagoetan, banan-banan edo eskatu mesedez zure administradoreari",
 "couldn't be determined" => "ezin izan da zehaztu",
 "Application is not enabled" => "Aplikazioa ez dago gaituta",
 "Authentication error" => "Autentifikazio errorea",
@@ -49,5 +52,6 @@
 "%d months ago" => "orain dela %d hilabete",
 "last year" => "joan den urtean",
 "years ago" => "urte",
+"Caused by:" => "Honek eraginda:",
 "Could not find category \"%s\"" => "Ezin da \"%s\" kategoria aurkitu"
 );

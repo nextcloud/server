@@ -23,7 +23,6 @@
 "Delete" => "Избриши",
 "__language_name__" => "__language_name__",
 "Security Warning" => "Безбедносно предупредување",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Вашата папка со податоци и датотеките е најверојатно достапна од интернет. .htaccess датотеката што ја овозможува ownCloud не фунционира. Силно препорачуваме да го исконфигурирате вашиот сервер за вашата папка со податоци не е достапна преку интернетт или преместете ја надвор од коренот на веб серверот.",
 "Log" => "Записник",
 "Log level" => "Ниво на логирање",
 "More" => "Повеќе",

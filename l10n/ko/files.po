@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-21 01:54-0400\n"
-"PO-Revision-Date: 2013-07-21 05:15+0000\n"
+"POT-Creation-Date: 2013-08-02 01:55-0400\n"
+"PO-Revision-Date: 2013-08-02 05:40+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -122,7 +122,7 @@ msgstr "공유"
 msgid "Delete permanently"
 msgstr "영원히 삭제"
 
-#: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
+#: js/fileactions.js:128 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "삭제"
 
@@ -134,31 +134,31 @@ msgstr "이름 바꾸기"
 msgid "Pending"
 msgstr "대기 중"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "{new_name} already exists"
 msgstr "{new_name}이(가) 이미 존재함"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "replace"
 msgstr "바꾸기"
 
-#: js/filelist.js:304
+#: js/filelist.js:303
 msgid "suggest name"
 msgstr "이름 제안"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "cancel"
 msgstr "취소"
 
-#: js/filelist.js:351
+#: js/filelist.js:350
 msgid "replaced {new_name} with {old_name}"
 msgstr "{old_name}이(가) {new_name}(으)로 대체됨"
 
-#: js/filelist.js:351
+#: js/filelist.js:350
 msgid "undo"
 msgstr "되돌리기"
 
-#: js/filelist.js:376
+#: js/filelist.js:375
 msgid "perform delete operation"
 msgstr "삭제 작업중"
 
@@ -202,31 +202,31 @@ msgstr "다운로드가 준비 중입니다. 파일 크기가 크다면 시간�
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "폴더 이름이 유효하지 않습니다. "
 
-#: js/files.js:744 templates/index.php:69
+#: js/files.js:744 templates/index.php:67
 msgid "Name"
 msgstr "이름"
 
-#: js/files.js:745
+#: js/files.js:745 templates/index.php:78
 msgid "Size"
 msgstr "크기"
 
-#: js/files.js:746 templates/index.php:82
+#: js/files.js:746 templates/index.php:80
 msgid "Modified"
 msgstr "수정됨"
 
-#: js/files.js:765
+#: js/files.js:763
 msgid "1 folder"
 msgstr "폴더 1개"
 
-#: js/files.js:767
+#: js/files.js:765
 msgid "{count} folders"
 msgstr "폴더 {count}개"
 
-#: js/files.js:775
+#: js/files.js:773
 msgid "1 file"
 msgstr "파일 1개"
 
-#: js/files.js:777
+#: js/files.js:775
 msgid "{count} files"
 msgstr "파일 {count}개"
 
@@ -287,65 +287,61 @@ msgstr "폴더"
 msgid "From link"
 msgstr "링크에서"
 
-#: templates/index.php:42
+#: templates/index.php:41
 msgid "Deleted files"
 msgstr "파일 삭제됨"
 
-#: templates/index.php:48
+#: templates/index.php:46
 msgid "Cancel upload"
 msgstr "업로드 취소"
 
-#: templates/index.php:54
+#: templates/index.php:52
 msgid "You don’t have write permissions here."
 msgstr "당신은 여기에 쓰기를 할 수 있는 권한이 없습니다."
 
-#: templates/index.php:61
+#: templates/index.php:59
 msgid "Nothing in here. Upload something!"
 msgstr "내용이 없습니다. 업로드할 수 있습니다!"
 
-#: templates/index.php:75
+#: templates/index.php:73
 msgid "Download"
 msgstr "다운로드"
 
-#: templates/index.php:80
-msgid "Size (MB)"
-msgstr ""
-
-#: templates/index.php:87 templates/index.php:88
+#: templates/index.php:85 templates/index.php:86
 msgid "Unshare"
 msgstr "공유 해제"
 
-#: templates/index.php:107
+#: templates/index.php:105
 msgid "Upload too large"
 msgstr "업로드한 파일이 너무 큼"
 
-#: templates/index.php:109
+#: templates/index.php:107
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "이 파일이 서버에서 허용하는 최대 업로드 가능 용량보다 큽니다."
 
-#: templates/index.php:114
+#: templates/index.php:112
 msgid "Files are being scanned, please wait."
 msgstr "파일을 검색하고 있습니다. 기다려 주십시오."
 
-#: templates/index.php:117
+#: templates/index.php:115
 msgid "Current scanning"
 msgstr "현재 검색"
 
-#: templates/part.list.php:76
+#: templates/part.list.php:74
 msgid "directory"
 msgstr ""
 
-#: templates/part.list.php:78
+#: templates/part.list.php:76
 msgid "directories"
 msgstr ""
 
-#: templates/part.list.php:87
+#: templates/part.list.php:85
 msgid "file"
 msgstr "파일"
 
-#: templates/part.list.php:89
+#: templates/part.list.php:87
 msgid "files"
 msgstr "파일"
 

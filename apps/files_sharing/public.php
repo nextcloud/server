@@ -137,6 +137,9 @@ if (isset($path)) {
 		if (\OCP\App::isEnabled('files_encryption')) {
 			$allowPublicUploadEnabled = false;
 		}
+		if (OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes') === 'no') {
+			$allowPublicUploadEnabled = false;
+		}
 		if ($linkItem['item_type'] !== 'folder') {
 			$allowPublicUploadEnabled = false;
 		}
@@ -202,6 +205,7 @@ if (isset($path)) {
 			$folder->assign('isCreatable', false);
 			$folder->assign('permissions', OCP\PERMISSION_READ);
 			$folder->assign('isPublic',true);
+			$folder->assign('publicUploadEnabled', 'no');
 			$folder->assign('files', $files);
 			$folder->assign('uploadMaxFilesize', $maxUploadFilesize);
 			$folder->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
@@ -230,6 +234,12 @@ if (isset($path)) {
 } else {
 	OCP\Util::writeLog('share', 'could not resolve linkItem', \OCP\Util::DEBUG);
 }
+
+$errorTemplate = new OCP\Template('files_sharing', 'part.404', '');
+$errorContent = $errorTemplate->fetchPage();
+
 header('HTTP/1.0 404 Not Found');
+OCP\Util::addStyle('files_sharing', '404');
 $tmpl = new OCP\Template('', '404', 'guest');
+$tmpl->assign('content', $errorContent);
 $tmpl->printPage();

@@ -6,6 +6,7 @@ OC::$CLASSPATH['OCA\Files_Versions\Hooks'] = 'files_versions/lib/hooks.php';
 OC::$CLASSPATH['OCA\Files_Versions\Capabilities'] = 'files_versions/lib/capabilities.php';
 
 OCP\Util::addscript('files_versions', 'versions');
+OCP\Util::addStyle('files_versions', 'versions');
 
 // Listen to write signals
 OCP\Util::connectHook('OC_Filesystem', 'write', "OCA\Files_Versions\Hooks", "write_hook");

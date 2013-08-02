@@ -11,6 +11,7 @@
 "{count} folders" => "{count} cartafoles",
 "1 file" => "1 ficheiro",
 "{count} files" => "{count} ficheiros",
+"restored" => "restaurado",
 "Nothing in here. Your trash bin is empty!" => "Aquí non hai nada. O cesto do lixo está baleiro!",
 "Restore" => "Restablecer",
 "Delete" => "Eliminar",

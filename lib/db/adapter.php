@@ -13,6 +13,10 @@ namespace OC\DB;
  * handled by the database abstraction layer.
  */
 class Adapter {
+
+	/**
+	 * @var \OC\DB\Connection $conn
+	 */
 	protected $conn;
 
 	public function __construct($conn) {
@@ -28,7 +32,7 @@ class Adapter {
 	}
 
 	/**
-	 * @param $statement that needs to be changed so the db can handle it
+	 * @param string $statement that needs to be changed so the db can handle it
 	 * @return string changed statement
 	 */
 	public function fixupStatement($statement) {
@@ -38,8 +42,8 @@ class Adapter {
 	/**
 	 * @brief insert the @input values when they do not exist yet
 	 * @param string $table name
-	 * @param array key->value pairs 
-	 * @return count of inserted rows
+	 * @param array $input key->value pairs
+	 * @return int count of inserted rows
 	 */
 	public function insertIfNotExist($table, $input) {
 		$query = 'INSERT INTO `' .$table . '` (`'
@@ -56,7 +60,7 @@ class Adapter {
 		$inserts = array_merge($inserts, $inserts);
 
 		try {
-			$result = $this->conn->executeUpdate($query, $inserts);
+			return $this->conn->executeUpdate($query, $inserts);
 		} catch(\Doctrine\DBAL\DBALException $e) {
 			$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
 			$entry .= 'Offending command was: ' . $query.'<br />';
@@ -64,7 +68,5 @@ class Adapter {
 			error_log('DB error: ' . $entry);
 			\OC_Template::printErrorPage( $entry );
 		}
-
-		return $result;
 	}
 }

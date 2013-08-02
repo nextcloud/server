@@ -39,7 +39,7 @@
 class OC_User {
 	public static $userSession = null;
 
-	private static function getUserSession() {
+	public static function getUserSession() {
 		if (!self::$userSession) {
 			$manager = new \OC\User\Manager();
 			self::$userSession = new \OC\User\Session($manager, \OC::$session);
@@ -83,7 +83,7 @@ class OC_User {
 	/**
 	 * @return \OC\User\Manager
 	 */
-	private static function getManager() {
+	public static function getManager() {
 		return self::getUserSession()->getManager();
 	}
 

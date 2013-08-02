@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-25 02:01+0200\n"
-"PO-Revision-Date: 2013-05-24 13:28+0000\n"
+"POT-Creation-Date: 2013-07-28 01:56-0400\n"
+"PO-Revision-Date: 2013-07-27 06:10+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -17,41 +17,27 @@ msgstr ""
 "Language: sk_SK\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: ajax/rollbackVersion.php:15
+#: ajax/rollbackVersion.php:13
 #, php-format
 msgid "Could not revert: %s"
 msgstr "Nemožno obnoviť: %s"
 
-#: history.php:40
-msgid "success"
-msgstr "úspech"
-
-#: history.php:42
-#, php-format
-msgid "File %s was reverted to version %s"
-msgstr "Súbor %s bol obnovený na verziu %s"
-
-#: history.php:49
-msgid "failure"
-msgstr "chyba"
-
-#: history.php:51
-#, php-format
-msgid "File %s could not be reverted to version %s"
-msgstr "Súbor %s nemohol byť obnovený na verziu %s"
-
-#: history.php:69
-msgid "No old versions available"
-msgstr "Nie sú dostupné žiadne staršie verzie"
-
-#: history.php:74
-msgid "No path specified"
-msgstr "Nevybrali ste cestu"
-
-#: js/versions.js:6
+#: js/versions.js:7
 msgid "Versions"
 msgstr "Verzie"
 
-#: templates/history.php:20
-msgid "Revert a file to a previous version by clicking on its revert button"
-msgstr "Obnovte súbor do predošlej verzie kliknutím na tlačítko obnoviť"
+#: js/versions.js:53
+msgid "Failed to revert {file} to revision {timestamp}."
+msgstr ""
+
+#: js/versions.js:79
+msgid "More versions..."
+msgstr ""
+
+#: js/versions.js:116
+msgid "No other versions available"
+msgstr ""
+
+#: js/versions.js:149
+msgid "Restore"
+msgstr "Obnoviť"

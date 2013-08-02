@@ -6,12 +6,13 @@
 # medialabs, 2013
 # Magnus Höglund <magnus@linux.com>, 2013
 # medialabs, 2013
+# Stefan Gagner <stefan@mei-ya.se>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-05 02:12+0200\n"
-"PO-Revision-Date: 2013-07-05 00:13+0000\n"
+"POT-Creation-Date: 2013-08-02 01:55-0400\n"
+"PO-Revision-Date: 2013-08-02 05:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -66,13 +67,17 @@ msgstr "Din privata lösenordsnyckel är inte giltig! Troligen har ditt lösenor
 
 #: hooks/hooks.php:44
 msgid "Missing requirements."
-msgstr ""
+msgstr "Krav som saknas"
 
 #: hooks/hooks.php:45
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
 "PHP extension is enabled and configured properly. For now, the encryption "
 "app has been disabled."
+msgstr "Kontrollera att PHP 5.3.3 eller senare är installerad och att tillägget OpenSSL PHP är aktiverad och rätt inställd. Kryperingsappen är därför tillsvidare inaktiverad."
+
+#: hooks/hooks.php:263
+msgid "Following users are not set up for encryption:"
 msgstr ""
 
 #: js/settings-admin.js:11

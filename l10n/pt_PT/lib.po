@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-21 01:54-0400\n"
-"PO-Revision-Date: 2013-07-21 05:15+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-31 01:55-0400\n"
+"PO-Revision-Date: 2013-07-30 12:13+0000\n"
+"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,9 +42,19 @@ msgstr "Aplicações"
 msgid "Admin"
 msgstr "Admin"
 
-#: defaults.php:33
+#: app.php:844
+#, php-format
+msgid "Failed to upgrade \"%s\"."
+msgstr "A actualização \"%s\" falhou."
+
+#: defaults.php:35
 msgid "web services under your control"
 msgstr "serviços web sob o seu controlo"
+
+#: files.php:66 files.php:98
+#, php-format
+msgid "cannot open \"%s\""
+msgstr "Não foi possível abrir \"%s\""
 
 #: files.php:226
 msgid "ZIP download is turned off."
@@ -54,15 +64,21 @@ msgstr "Descarregamento em ZIP está desligado."
 msgid "Files need to be downloaded one by one."
 msgstr "Os ficheiros precisam de ser descarregados um por um."
 
-#: files.php:228 files.php:261
+#: files.php:228 files.php:256
 msgid "Back to Files"
 msgstr "Voltar a Ficheiros"
 
-#: files.php:258
+#: files.php:253
 msgid "Selected files too large to generate zip file."
 msgstr "Os ficheiros seleccionados são grandes demais para gerar um ficheiro zip."
 
-#: helper.php:236
+#: files.php:254
+msgid ""
+"Download the files in smaller chunks, seperately or kindly ask your "
+"administrator."
+msgstr "Descarregue os ficheiros em partes menores, separados ou peça gentilmente ao seu administrador."
+
+#: helper.php:235
 msgid "couldn't be determined"
 msgstr "Não foi possível determinar"
 
@@ -190,57 +206,61 @@ msgstr "O seu servidor web não está configurado correctamente para autorizar s
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Por favor verifique <a href='%s'>installation guides</a>."
 
-#: template.php:113
+#: template/functions.php:80
 msgid "seconds ago"
 msgstr "Minutos atrás"
 
-#: template.php:114
+#: template/functions.php:81
 msgid "1 minute ago"
 msgstr "Há 1 minuto"
 
-#: template.php:115
+#: template/functions.php:82
 #, php-format
 msgid "%d minutes ago"
 msgstr "há %d minutos"
 
-#: template.php:116
+#: template/functions.php:83
 msgid "1 hour ago"
 msgstr "Há 1 horas"
 
-#: template.php:117
+#: template/functions.php:84
 #, php-format
 msgid "%d hours ago"
 msgstr "Há %d horas"
 
-#: template.php:118
+#: template/functions.php:85
 msgid "today"
 msgstr "hoje"
 
-#: template.php:119
+#: template/functions.php:86
 msgid "yesterday"
 msgstr "ontem"
 
-#: template.php:120
+#: template/functions.php:87
 #, php-format
 msgid "%d days ago"
 msgstr "há %d dias"
 
-#: template.php:121
+#: template/functions.php:88
 msgid "last month"
 msgstr "ultímo mês"
 
-#: template.php:122
+#: template/functions.php:89
 #, php-format
 msgid "%d months ago"
 msgstr "Há %d meses atrás"
 
-#: template.php:123
+#: template/functions.php:90
 msgid "last year"
 msgstr "ano passado"
 
-#: template.php:124
+#: template/functions.php:91
 msgid "years ago"
 msgstr "anos atrás"
+
+#: template.php:297
+msgid "Caused by:"
+msgstr "Causado por:"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format

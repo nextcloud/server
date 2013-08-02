@@ -42,10 +42,7 @@ class DatabaseException extends Exception {
  */
 class OC_DB {
 	/**
-	 * @var \Doctrine\DBAL\Connection
-	 */
-	/**
-	 * @var \Doctrine\DBAL\Connection
+	 * @var \OC\DB\Connection $connection
 	 */
 	static private $connection; //the prefered connection to use, only Doctrine
 
@@ -164,6 +161,9 @@ class OC_DB {
 		return true;
 	}
 
+	/**
+	 * @return \OC\DB\Connection
+	 */
 	static public function getConnection() {
 		self::connect();
 		return self::$connection;

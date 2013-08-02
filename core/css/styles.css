@@ -3,7 +3,7 @@
  See the COPYING-README file. */
 
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section { margin:0; padding:0; border:0; outline:0; font-weight:inherit; font-size:100%; font-family:inherit; vertical-align:baseline; cursor:default; }
-html, body { height:100%; overflow:auto; }
+html, body { height:100%; }
 article, aside, dialog, figure, footer, header, hgroup, nav, section { display:block; }
 body { line-height:1.5; }
 table { border-collapse:separate; border-spacing:0; white-space:nowrap; }
@@ -20,16 +20,18 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 	position:fixed; top:0; left:0; right:0; z-index:100; height:45px; line-height:2.5em;
 	background:#1d2d44 url('../img/noise.png') repeat;
 	-moz-box-shadow:0 0 10px rgba(0, 0, 0, .5), inset 0 -2px 10px #222; -webkit-box-shadow:0 0 10px rgba(0, 0, 0, .5), inset 0 -2px 10px #222; box-shadow:0 0 10px rgba(0, 0, 0, .5), inset 0 -2px 10px #222; }
-#body-login #header { margin: -2em auto 0; text-align:center; height:10em; padding:1em 0 .5em;
- -moz-box-shadow:0 0 1em rgba(0, 0, 0, .5); -webkit-box-shadow:0 0 1em rgba(0, 0, 0, .5); box-shadow:0 0 1em rgba(0, 0, 0, .5);
-background:#1d2d44; /* Old browsers */
-background:-moz-linear-gradient(top, #35537a 0%, #1d2d44 100%); /* FF3.6+ */
-background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#35537a), color-stop(100%,#1d2d44)); /* Chrome,Safari4+ */
-background:-webkit-linear-gradient(top, #35537a 0%,#1d2d44 100%); /* Chrome10+,Safari5.1+ */
-background:-o-linear-gradient(top, #35537a 0%,#1d2d44 100%); /* Opera11.10+ */
-background:-ms-linear-gradient(top, #35537a 0%,#1d2d44 100%); /* IE10+ */
-background:linear-gradient(top, #35537a 0%,#1d2d44 100%); /* W3C */
-filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endColorstr='#1d2d44',GradientType=0 ); /* IE6-9 */ }
+
+#body-login {
+	text-align: center;
+	background: #1d2d44; /* Old browsers */
+	background: url('../img/noise.png'), -moz-linear-gradient(top, #35537a 0%, #1d2d44 100%); /* FF3.6+ */
+	background: url('../img/noise.png'), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#35537a), color-stop(100%,#1d2d44)); /* Chrome,Safari4+ */
+	background: url('../img/noise.png'), -webkit-linear-gradient(top, #35537a 0%,#1d2d44 100%); /* Chrome10+,Safari5.1+ */
+	background: url('../img/noise.png'), -o-linear-gradient(top, #35537a 0%,#1d2d44 100%); /* Opera11.10+ */
+	background: url('../img/noise.png'), -ms-linear-gradient(top, #35537a 0%,#1d2d44 100%); /* IE10+ */
+	background: url('../img/noise.png'), linear-gradient(top, #35537a 0%,#1d2d44 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endColorstr='#1d2d44',GradientType=0 ); /* IE6-9 */
+}
 
 #owncloud { position:absolute; top:0; left:0; padding:6px; padding-bottom:0; }
 .header-right { float:right; vertical-align:middle; padding:0.5em; }
@@ -109,27 +111,35 @@ a.disabled, a.disabled:hover, a.disabled:focus {
 
 /* Primary action button, use sparingly */
 .primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary {
-	border:1px solid #1d2d44;
-	background:#35537a; color:#ddd; text-shadow:#000 0 -1px 0;
-	-moz-box-shadow:0 0 1px #000,0 1px 1px #6d7d94 inset; -webkit-box-shadow:0 0 1px #000,0 1px 1px #6d7d94 inset; box-shadow:0 0 1px #000,0 1px 1px #6d7d94 inset;
+	border: 1px solid #1d2d44;
+	background: #35537a;
+	color: #ddd;
+	text-shadow: #000 0 -1px 0;
+	-moz-box-shadow: 0 0 1px #000, 0 1px 0 #6d7d94 inset;
+	-webkit-box-shadow: 0 0 1px #000, 0 1px 0 #6d7d94 inset;
+	box-shadow: 0 0 1px #000, 0 1px 0 #6d7d94 inset;
 }
 	.primary:hover, input[type="submit"].primary:hover, input[type="button"].primary:hover, button.primary:hover, .button.primary:hover,
 	.primary:focus, input[type="submit"].primary:focus, input[type="button"].primary:focus, button.primary:focus, .button.primary:focus {
-		border:1px solid #1d2d44;
-		background:#2d3d54; color:#fff; text-shadow:#000 0 -1px 0;
-		-moz-box-shadow:0 0 1px #000,0 1px 1px #5d6d84 inset; -webkit-box-shadow:0 0 1px #000,0 1px 1px #5d6d84 inset; box-shadow:0 0 1px #000,0 1px 1px #5d6d84 inset;
+		border: 1px solid #1d2d44;
+		background: #304d76;
+		color: #fff;
+		text-shadow: #000 0 -1px 0;
+		-moz-box-shadow: 0 0 1px #000, 0 1px 0 #4d5d74 inset;
+		-webkit-box-shadow: 0 0 1px #000, 0 1px 0 #4d5d74 inset;
+		box-shadow: 0 0 1px #000, 0 1px 0 #4d5d74 inset;
 	}
 	.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active {
-		border:1px solid #1d2d44;
-		background:#1d2d44; color:#bbb; text-shadow:#000 0 -1px 0;
-		-moz-box-shadow:0 1px 1px #fff,0 1px 1px 0 rgba(0,0,0,.2) inset; -webkit-box-shadow:0 1px 1px #fff,0 1px 1px 0 rgba(0,0,0,.2) inset; box-shadow:0 1px 1px #fff,0 1px 1px 0 rgba(0,0,0,.2) inset;
+		border: 1px solid #1d2d44;
+		background: #1d2d44;
+		color: #bbb;
+		text-shadow: #000 0 -1px 0;
+		-moz-box-shadow: 0 1px 1px #3d4d64, 0 1px 1px 0 rgba(0,0,0,.2) inset;
+		-webkit-box-shadow: 0 1px 1px #3d4d64, 0 1px 1px 0 rgba(0,0,0,.2) inset;
+		box-shadow: 0 1px 1px #3d4d64, 0 1px 1px 0 rgba(0,0,0,.2) inset;
 	}
 
 
-#body-login input { font-size:1.5em; }
-#body-login input[type="text"], #body-login input[type="password"] { width:13em; }
-#body-login input.login { width:auto; float:right; padding:7px 9px 6px; }
-#remember_login { margin:.8em .2em 0 1em; vertical-align:text-bottom; }
 .searchbox input[type="search"] { font-size:1.2em; padding:.2em .5em .2em 1.5em; background:#fff url('../img/actions/search.svg') no-repeat .5em center; border:0; -moz-border-radius:1em; -webkit-border-radius:1em; border-radius:1em; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70);opacity:.7; -webkit-transition:opacity 300ms; -moz-transition:opacity 300ms; -o-transition:opacity 300ms; transition:opacity 300ms; margin-top:10px; float:right; }
 input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; }
 #select_all{ margin-top:.4em !important;}
@@ -164,24 +174,67 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 #rightcontent, .rightcontent { position:fixed; top:6.4em; left:24.5em; overflow:auto }
 
 
+
+
 /* LOG IN & INSTALLATION ------------------------------------------------------------ */
-#body-login { background:#ddd; }
+
+/* Some whitespace to the top */
+#body-login #header {
+	padding-top: 100px;
+}
+/* Fix background gradient */
+#body-login {
+	background-attachment: fixed;
+}
+
+/* Dark subtle label text */
+#body-login p.info,
+#body-login form fieldset legend,
+#body-login #datadirContent label,
+#body-login form input[type="checkbox"]+label {
+	text-align: center;
+	color: #000;
+	text-shadow: 0 1px 0 rgba(255,255,255,.1);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+	filter: alpha(opacity=80);
+	opacity: .8;
+}
+
 #body-login div.buttons { text-align:center; }
-#body-login p.info { width:22em; text-align:center; margin:2em auto; color:#777; text-shadow:#fff 0 1px 0; }
-#body-login p.info a { font-weight:bold; color:#777; }
+#body-login p.info {
+	width: 22em;
+	margin: 0 auto;
+	padding-top: 20px;
+}
+#body-login p.info a {
+	font-weight: bold;
+}
 #body-login #submit.login { margin-right:7px; } /* quick fix for log in button not being aligned with input fields, should be properly fixed by input field width later */
 
-#login { min-height:30em; margin:2em auto 0; border-bottom:1px solid #f8f8f8; background:#eee; }
-#login form { width:22em; margin:2em auto 2em; padding:0; }
-#login form fieldset { margin-bottom:20px; }
-#login form #adminaccount { margin-bottom:5px; }
-#login form fieldset legend, #datadirContent label {
-	width:100%; text-align:center;
-	font-weight:bold; color:#999; text-shadow:0 1px 0 white;
+#body-login form { width:22em; margin:2em auto 2em; padding:0; }
+#body-login form fieldset {
+	margin-bottom: 20px;
+	text-align: left;
 }
-#login form fieldset legend a { color:#999; }
-#login #datadirContent label { display:block; margin:0; color:#999;  }
-#login form #datadirField legend { margin-bottom:15px; }
+#body-login form #adminaccount { margin-bottom:5px; }
+#body-login form fieldset legend, #datadirContent label {
+	width: 100%;
+	font-weight: bold;
+}
+#body-login #datadirContent label {
+	display: block;
+	margin: 0;
+}
+#body-login form #datadirField legend {
+	margin-bottom: 15px;
+}
+#body-login #showAdvanced {
+	padding: 13px; /* increase clickable area of Advanced dropdown */
+}
+#body-login #showAdvanced img {
+	vertical-align: bottom; /* adjust position of Advanced dropdown arrow */
+	margin-left: -4px;
+}
 
 /* Icons for username and password fields to better recognize them */
 #adminlogin, #adminpass, #user, #password { width:11.7em!important; padding-left:1.8em; }
@@ -193,83 +246,193 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 input[name="password-clone"] { padding-left:1.8em; width:11.7em !important; }
 input[name="adminpass-clone"] { padding-left:1.8em; width:11.7em !important; }
 
+/* General new input field look */
+#body-login input[type="text"],
+#body-login input[type="password"],
+#body-login input[type="email"] {
+	border: 1px solid #323233;
+	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.15), 0 1px 3px rgba(0,0,0,.25) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.15), 0 1px 3px rgba(0,0,0,.25) inset;
+	box-shadow: 0 1px 0 rgba(255,255,255,.15), 0 1px 3px rgba(0,0,0,.25) inset;
+}
+
 /* Nicely grouping input field sets */
-.grouptop input {
-	margin-bottom:0;
-	border-bottom:0; border-bottom-left-radius:0; border-bottom-right-radius:0;
+#body-login .grouptop input {
+	margin-bottom: 0;
+	border-bottom: 0;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
 }
-.groupmiddle input {
-	margin-top:0; margin-bottom:0;
-	border-top:0; border-bottom:0; border-radius:0;
-	box-shadow:0 1px 1px #fff,0 1px 0 #ddd inset;
+#body-login .groupmiddle input {
+	margin-top: 0;
+	margin-bottom: 0;
+	border-top: 0;
+	border-bottom: 0;
+	border-radius: 0;
+	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(0,0,0,.1) inset !important;
+	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(0,0,0,.1) inset !important;
+	box-shadow: 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(0,0,0,.1) inset !important;
 }
-.groupbottom input {
-	margin-top:0;
-	border-top:0; border-top-right-radius:0; border-top-left-radius:0;
-	box-shadow:0 1px 1px #fff,0 1px 0 #ddd inset;
+#body-login .groupbottom input {
+	margin-top: 0;
+	border-top: 0;
+	border-top-right-radius: 0;
+	border-top-left-radius: 0;
+	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(0,0,0,.1) inset !important;
+	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(0,0,0,.1) inset !important;
+	box-shadow: 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(0,0,0,.1) inset !important;
 }
 
 /* In field labels. No, HTML placeholder does not work as well. */
-#login form label { color:#666; }
-#login .groupmiddle label, #login .groupbottom label { top:.65em; }
+#body-login .groupmiddle label, #body-login .groupbottom label { top:.65em; }
 p.infield { position:relative; }
 label.infield { cursor:text !important; top:1.05em; left:.85em; }
-#login form label.infield { /* labels are ellipsized when too long, keep them short */
+#body-login form label.infield { /* labels are ellipsized when too long, keep them short */
 	position:absolute; width:90%; padding-left:1.4em;
 	font-size:19px; color:#aaa;
 	white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
-#login #databaseField .infield { padding-left:0; }
-#login form input[type="checkbox"]+label { position:relative; margin:0; font-size:1em; text-shadow:#fff 0 1px 0; }
-#login form .errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 2em; padding:1em; }
-#login .success { background:#d7fed7; border:1px solid #0f0; width: 35%; margin: 30px auto; padding:1em; text-align: center;}
+#body-login #databaseField .infield { padding-left:0; }
+#body-login form input[type="checkbox"]+label {
+	position: relative;
+	margin: 0;
+	font-size: 1em;
+	padding: 14px;
+	padding-left: 28px;
+	margin-left: -28px;
+}
+#body-login form .errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 2em; padding:1em; }
+#body-login .success { background:#d7fed7; border:1px solid #0f0; width: 35%; margin: 30px auto; padding:1em; text-align: center;}
 
 /* Show password toggle */
-#show, #dbpassword { position:absolute; right:1em; top:.8em; float:right; }
-#show, #dbpassword, #personal-show { display:none; }
-#show + label, #dbpassword + label { right:1em; top:1.25em!important; }
-#show:checked + label, #dbpassword:checked + label, #personal-show:checked + label { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; filter:alpha(opacity=80); opacity:.8; }
-#show + label, #dbpassword + label, #personal-show + label {
-	position:absolute!important; height:14px; width:24px;
-	background-image:url("../img/actions/toggle.png"); background-repeat:no-repeat;
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"; filter:alpha(opacity=30); opacity:.3;
+#show, #dbpassword {
+	position: absolute;
+	right: 1em;
+	top: .8em;
+	float: right;
 }
-#pass2, input[name="personal-password-clone"] { padding:0.6em 2.5em 0.4em 0.4em; width:8em;}
-#personal-show + label { margin-top:1em; margin-left:-3em; }
-#passwordbutton { margin-left:0.5em; }
+#show, #dbpassword, #personal-show {
+	display: none;
+}
+#show + label, #dbpassword + label {
+	right: 21px;
+	top: 15px !important;
+	margin: -14px !important;
+	padding: 14px !important;
+}
+#show:checked + label, #dbpassword:checked + label, #personal-show:checked + label {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+	filter: alpha(opacity=80);
+	opacity: .8;
+}
+#show + label, #dbpassword + label, #personal-show + label {
+	position: absolute !important;
+	height: 14px;
+	width: 24px;
+	background-image: url("../img/actions/toggle.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+	filter: alpha(opacity=30);
+	opacity: .3;
+}
+#pass2, input[name="personal-password-clone"] {
+	padding: .6em 2.5em .4em .4em;
+	width: 8em;
+}
+#personal-show + label {
+	margin-top: 1em;
+	margin-left: -3em;
+}
+#passwordbutton {
+	margin-left: .5em;
+}
 
 /* Database selector */
-#login form #selectDbType { text-align:center; }
-#login form #selectDbType label {
+#body-login form #selectDbType { text-align:center; white-space: nowrap; }
+#body-login form #selectDbType label {
 	position:static; margin:0 -3px 5px; padding:.4em;
 	font-size:12px; font-weight:bold; background:#f8f8f8; color:#888; cursor:pointer;
 	border:1px solid #ddd; text-shadow:#eee 0 1px 0;
 	-moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset;
 }
-#login form #selectDbType label.ui-state-hover, #login form #selectDbType label.ui-state-active { color:#000; background-color:#e8e8e8; }
+#body-login form #selectDbType label.ui-state-hover, #body-login form #selectDbType label.ui-state-active { color:#000; background-color:#e8e8e8; }
 
-/* Warnings, for information */
-.warning {
+
+/* Warnings and errors are the same */
+.warning, .update, .error {
 	display: block;
-	background-color: #f2dede;
-	color: #b94a48;
-	padding: 8px;
-	margin: 0 7px 5px;
-	border: 1px solid #eed3d7;
+	padding: 10px;
+	color: #dd3b3b;
+	text-shadow: 0 -1px 0 rgba(0,0,0,.3);
+	background-color: rgba(0,0,0,.3);
+	text-align: center;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
 	border-radius: 5px;
+	cursor: default;
 }
 .warning legend,
-.warning a {
-	color: #b94a48 !important;
+.warning a,
+.error a {
+	color: #dd3b3b !important;
 	font-weight: bold;
 }
-/* Errors, for grave states */
-li.update, li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; background:#ffe .8em .8em no-repeat;  border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; cursor:default; }
-.error { color:#FF3B3B; }
+/* Fixes for log in page, TODO should be removed some time */
+#body-login .update,
+#body-login .error {
+	margin: 35px auto;
+}
+#body-login .warning {
+	margin: 0 7px 5px;
+	font-weight: bold;
+}
+#body-login .warning legend {
+	text-shadow: none;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+#body-login a.warning {
+	cursor: pointer;
+}
+
 
 /* Alternative Logins */
 #alternative-logins legend { margin-bottom:10px; }
 #alternative-logins li { height:40px; display:inline-block; white-space:nowrap; }
+
+/* Log in and install button */
+#body-login input {
+	font-size: 1.5em;
+}
+#body-login input[type="text"],
+#body-login input[type="password"] {
+	width: 13em;
+}
+#body-login input.login {
+	width: auto;
+	float: right;
+}
+#body-login input[type="submit"] {
+	padding: 10px 20px; /* larger log in and installation buttons */
+}
+#remember_login {
+	margin: 18px 5px 0 18px;
+	vertical-align: text-bottom;
+}
+
+/* Sticky footer */
+#body-login .wrapper {
+	min-height: 100%;
+	margin: 0 auto -70px;
+	width: 300px;
+}
+#body-login footer, #body-login .push {
+	height: 70px;
+}
+
+
 
 
 /* NAVIGATION ------------------------------------------------------------- */
@@ -383,7 +546,6 @@ div.jp-play-bar, div.jp-seek-bar { padding:0; }
 .pager li { display:inline-block; }
 
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { overflow:hidden; text-overflow:ellipsis; }
-.hint { background-image:url('../img/actions/info.png'); background-repeat:no-repeat; color:#777; padding-left:25px; background-position:0 0.3em;}
 .separator { display:inline; border-left:1px solid #d3d3d3; border-right:1px solid #fff; height:10px; width:0px; margin:4px; }
 
 a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;padding-top:0px;padding-bottom:2px; text-decoration:none; margin-top:5px }
@@ -677,12 +839,39 @@ button.loading {
 
 /* ---- BROWSER-SPECIFIC FIXES ---- */
 
+/* remove dotted outlines in Firefox */
 ::-moz-focus-inner {
-	border: 0; /* remove dotted outlines in Firefox */
+	border: 0;
 }
 
+/* IE8 needs background to be set to same color to make transparency look good. */
+.lte9 #body-login form input[type="text"] {
+	border: 1px solid lightgrey; /* use border to add 1px line between input fields */
+	background-color: white; /* don't change background on hover */
+}
+.lte9 #body-login form input[type="password"] {
+	/* leave out top border for 1px line between input fields*/
+	border-left: 1px solid lightgrey;
+	border-right: 1px solid lightgrey;
+	border-bottom: 1px solid lightgrey;
+	background-color: white; /* don't change background on hover */
+}
+.lte9 #body-login form label.infield {
+	background-color: white; /* don't change background on hover */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Chroma(color='white')";
+}
+/* disable opacity of info text on gradient
+   sice we cannot set a good backround color to use the filter&background hack as with the input labels */
+.lte9 #body-login p.info {
+	filter: initial;
+}
 /* deactivate show password toggle for IE. Does not work for 8 and 9+ have their own implementation. */
 .ie #show, .ie #show+label {
 	display: none;
 	visibility: hidden;
+}
+
+/* fix installation screen rendering issue for IE8+9 */
+.lte9 #body-login {
+	height: auto !important;
 }

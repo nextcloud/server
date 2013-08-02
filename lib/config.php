@@ -144,11 +144,8 @@ class Config {
 				continue;
 			}
 			unset($CONFIG);
-			if((@include $file) === false)
-			{
-				throw new HintException("Can't read from config file '" . $file . "'. ".
-					'This is usually caused by the wrong file permission.');
-			}
+			// ignore errors on include, this can happen when doing a fresh install
+			@include $file;
 			if (isset($CONFIG) && is_array($CONFIG)) {
 				$this->cache = array_merge($this->cache, $CONFIG);
 			}
@@ -177,7 +174,7 @@ class Config {
 		if (!$result) {
 			$url = $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html#set-the-directory-permissions';
 			throw new HintException(
-				"Can't write into config directory 'config'",
+				"Can't write into config directory!",
 				'This can usually be fixed by '
 					.'<a href="' . $url . '" target="_blank">giving the webserver write access to the config directory</a>.');
 		}
@@ -186,3 +183,4 @@ class Config {
 		\OC_Util::clearOpcodeCache();
 	}
 }
+

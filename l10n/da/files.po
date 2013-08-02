@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Sappe, 2013
 # Ole Holm Frandsen <froksen@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-21 01:54-0400\n"
-"PO-Revision-Date: 2013-07-21 05:15+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-02 01:55-0400\n"
+"PO-Revision-Date: 2013-08-02 05:40+0000\n"
+"Last-Translator: Sappe\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,11 +31,11 @@ msgstr "Kunne ikke flytte %s"
 
 #: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "Ude af stand til at vælge upload mappe."
 
 #: ajax/upload.php:22
 msgid "Invalid Token"
-msgstr ""
+msgstr "Ugyldig Token "
 
 #: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
@@ -121,7 +122,7 @@ msgstr "Del"
 msgid "Delete permanently"
 msgstr "Slet permanent"
 
-#: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
+#: js/fileactions.js:128 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "Slet"
 
@@ -133,31 +134,31 @@ msgstr "Omdøb"
 msgid "Pending"
 msgstr "Afventer"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "{new_name} already exists"
 msgstr "{new_name} eksisterer allerede"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "replace"
 msgstr "erstat"
 
-#: js/filelist.js:304
+#: js/filelist.js:303
 msgid "suggest name"
 msgstr "foreslå navn"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "cancel"
 msgstr "fortryd"
 
-#: js/filelist.js:351
+#: js/filelist.js:350
 msgid "replaced {new_name} with {old_name}"
 msgstr "erstattede {new_name} med {old_name}"
 
-#: js/filelist.js:351
+#: js/filelist.js:350
 msgid "undo"
 msgstr "fortryd"
 
-#: js/filelist.js:376
+#: js/filelist.js:375
 msgid "perform delete operation"
 msgstr "udfør slet operation"
 
@@ -201,38 +202,38 @@ msgstr "Dit download forberedes. Dette kan tage lidt tid ved større filer."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Ugyldigt mappenavn. Brug af \"Shared\" er forbeholdt Owncloud"
 
-#: js/files.js:744 templates/index.php:69
+#: js/files.js:744 templates/index.php:67
 msgid "Name"
 msgstr "Navn"
 
-#: js/files.js:745
+#: js/files.js:745 templates/index.php:78
 msgid "Size"
 msgstr "Størrelse"
 
-#: js/files.js:746 templates/index.php:82
+#: js/files.js:746 templates/index.php:80
 msgid "Modified"
 msgstr "Ændret"
 
-#: js/files.js:765
+#: js/files.js:763
 msgid "1 folder"
 msgstr "1 mappe"
 
-#: js/files.js:767
+#: js/files.js:765
 msgid "{count} folders"
 msgstr "{count} mapper"
 
-#: js/files.js:775
+#: js/files.js:773
 msgid "1 file"
 msgstr "1 fil"
 
-#: js/files.js:777
+#: js/files.js:775
 msgid "{count} files"
 msgstr "{count} filer"
 
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "%s kunne ikke omdøbes"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -286,65 +287,61 @@ msgstr "Mappe"
 msgid "From link"
 msgstr "Fra link"
 
-#: templates/index.php:42
+#: templates/index.php:41
 msgid "Deleted files"
 msgstr "Slettede filer"
 
-#: templates/index.php:48
+#: templates/index.php:46
 msgid "Cancel upload"
 msgstr "Fortryd upload"
 
-#: templates/index.php:54
+#: templates/index.php:52
 msgid "You don’t have write permissions here."
 msgstr "Du har ikke skriverettigheder her."
 
-#: templates/index.php:61
+#: templates/index.php:59
 msgid "Nothing in here. Upload something!"
 msgstr "Her er tomt. Upload noget!"
 
-#: templates/index.php:75
+#: templates/index.php:73
 msgid "Download"
 msgstr "Download"
 
-#: templates/index.php:80
-msgid "Size (MB)"
-msgstr ""
-
-#: templates/index.php:87 templates/index.php:88
+#: templates/index.php:85 templates/index.php:86
 msgid "Unshare"
 msgstr "Fjern deling"
 
-#: templates/index.php:107
+#: templates/index.php:105
 msgid "Upload too large"
 msgstr "Upload er for stor"
 
-#: templates/index.php:109
+#: templates/index.php:107
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Filerne, du prøver at uploade, er større end den maksimale størrelse for fil-upload på denne server."
 
-#: templates/index.php:114
+#: templates/index.php:112
 msgid "Files are being scanned, please wait."
 msgstr "Filerne bliver indlæst, vent venligst."
 
-#: templates/index.php:117
+#: templates/index.php:115
 msgid "Current scanning"
 msgstr "Indlæser"
 
-#: templates/part.list.php:76
+#: templates/part.list.php:74
 msgid "directory"
-msgstr ""
+msgstr "mappe"
 
-#: templates/part.list.php:78
+#: templates/part.list.php:76
 msgid "directories"
-msgstr ""
+msgstr "Mapper"
 
-#: templates/part.list.php:87
+#: templates/part.list.php:85
 msgid "file"
 msgstr "fil"
 
-#: templates/part.list.php:89
+#: templates/part.list.php:87
 msgid "files"
 msgstr "filer"
 

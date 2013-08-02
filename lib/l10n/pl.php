@@ -5,11 +5,14 @@
 "Users" => "Użytkownicy",
 "Apps" => "Aplikacje",
 "Admin" => "Administrator",
+"Failed to upgrade \"%s\"." => "Błąd przy aktualizacji \"%s\".",
 "web services under your control" => "Kontrolowane serwisy",
+"cannot open \"%s\"" => "Nie można otworzyć \"%s\"",
 "ZIP download is turned off." => "Pobieranie ZIP jest wyłączone.",
 "Files need to be downloaded one by one." => "Pliki muszą zostać pobrane pojedynczo.",
 "Back to Files" => "Wróć do plików",
 "Selected files too large to generate zip file." => "Wybrane pliki są zbyt duże, aby wygenerować plik zip.",
+"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Pobierz pliki w mniejszy kawałkach, oddzielnie lub poproś administratora o zwiększenie limitu.",
 "couldn't be determined" => "nie może zostać znaleziony",
 "Application is not enabled" => "Aplikacja nie jest włączona",
 "Authentication error" => "Błąd uwierzytelniania",
@@ -49,5 +52,6 @@
 "%d months ago" => "%d miesiecy temu",
 "last year" => "w zeszłym roku",
 "years ago" => "lat temu",
+"Caused by:" => "Spowodowane przez:",
 "Could not find category \"%s\"" => "Nie można odnaleźć kategorii \"%s\""
 );

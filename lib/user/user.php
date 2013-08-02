@@ -44,7 +44,7 @@ class User {
 	 */
 	public function __construct($uid, $backend, $emitter = null) {
 		$this->uid = $uid;
-		if ($backend->implementsActions(OC_USER_BACKEND_GET_DISPLAYNAME)) {
+		if ($backend and $backend->implementsActions(OC_USER_BACKEND_GET_DISPLAYNAME)) {
 			$this->displayName = $backend->getDisplayName($uid);
 		} else {
 			$this->displayName = $uid;

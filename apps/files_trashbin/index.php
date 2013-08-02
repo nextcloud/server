@@ -24,7 +24,7 @@ if ($dir) {
 	$dirContent = $view->opendir($dir);
 	$i = 0;
 	while($entryName = readdir($dirContent)) {
-		if ( $entryName != '.' && $entryName != '..' ) {
+		if (!\OC\Files\Filesystem::isIgnoredDir($entryName)) {
 			$pos = strpos($dir.'/', '/', 1);
 			$tmp = substr($dir, 0, $pos);
 			$pos = strrpos($tmp, '.d');
@@ -54,13 +54,13 @@ foreach ($result as $r) {
 	$i['timestamp'] = $r['timestamp'];
 	$i['mimetype'] = $r['mime'];
 	$i['type'] = $r['type'];
-	if ($i['type'] == 'file') {
+	if ($i['type'] === 'file') {
 		$fileinfo = pathinfo($r['id']);
 		$i['basename'] = $fileinfo['filename'];
 		$i['extension'] = isset($fileinfo['extension']) ? ('.'.$fileinfo['extension']) : '';
 	}
 	$i['directory'] = $r['location'];
-	if ($i['directory'] == '/') {
+	if ($i['directory'] === '/') {
 		$i['directory'] = '';
 	}
 	$i['permissions'] = OCP\PERMISSION_READ;
@@ -68,9 +68,9 @@ foreach ($result as $r) {
 }
 
 function fileCmp($a, $b) {
-	if ($a['type'] == 'dir' and $b['type'] != 'dir') {
+	if ($a['type'] === 'dir' and $b['type'] !== 'dir') {
 		return -1;
-	} elseif ($a['type'] != 'dir' and $b['type'] == 'dir') {
+	} elseif ($a['type'] !== 'dir' and $b['type'] === 'dir') {
 		return 1;
 	} else {
 		return strnatcasecmp($a['name'], $b['name']);
@@ -83,7 +83,7 @@ usort($files, "fileCmp");
 $pathtohere = '';
 $breadcrumb = array();
 foreach (explode('/', $dir) as $i) {
-	if ($i != '') {
+	if ($i !== '') {
 		if ( preg_match('/^(.+)\.d[0-9]+$/', $i, $match) ) {
 			$name = $match[1];
 		} else {

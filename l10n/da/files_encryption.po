@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Sappe, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-05 02:12+0200\n"
-"PO-Revision-Date: 2013-07-05 00:13+0000\n"
+"POT-Creation-Date: 2013-08-02 01:55-0400\n"
+"PO-Revision-Date: 2013-08-02 05:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -19,39 +20,39 @@ msgstr ""
 
 #: ajax/adminrecovery.php:29
 msgid "Recovery key successfully enabled"
-msgstr ""
+msgstr "Gendannelsesnøgle aktiveret med succes"
 
 #: ajax/adminrecovery.php:34
 msgid ""
 "Could not enable recovery key. Please check your recovery key password!"
-msgstr ""
+msgstr "Kunne ikke aktivere gendannelsesnøgle. Kontroller venligst dit gendannelsesnøgle kodeord!"
 
 #: ajax/adminrecovery.php:48
 msgid "Recovery key successfully disabled"
-msgstr ""
+msgstr "Gendannelsesnøgle deaktiveret succesfuldt"
 
 #: ajax/adminrecovery.php:53
 msgid ""
 "Could not disable recovery key. Please check your recovery key password!"
-msgstr ""
+msgstr "Kunne ikke deaktivere gendannelsesnøgle. Kontroller din gendannelsesnøgle kodeord!"
 
 #: ajax/changeRecoveryPassword.php:49
 msgid "Password successfully changed."
-msgstr ""
+msgstr "Kodeordet blev ændret succesfuldt"
 
 #: ajax/changeRecoveryPassword.php:51
 msgid "Could not change the password. Maybe the old password was not correct."
-msgstr ""
+msgstr "Kunne ikke ændre kodeordet. Måske var det gamle kodeord ikke korrekt."
 
 #: ajax/updatePrivateKeyPassword.php:51
 msgid "Private key password successfully updated."
-msgstr ""
+msgstr "Privat nøgle kodeord succesfuldt opdateret."
 
 #: ajax/updatePrivateKeyPassword.php:53
 msgid ""
 "Could not update the private key password. Maybe the old password was not "
 "correct."
-msgstr ""
+msgstr "Kunne ikke opdatere det private nøgle kodeord-. Måske var det gamle kodeord forkert."
 
 #: files/error.php:7
 msgid ""
@@ -59,17 +60,21 @@ msgid ""
 "ownCloud system (e.g. your corporate directory). You can update your private"
 " key password in your personal settings to recover access to your encrypted "
 "files."
-msgstr ""
+msgstr "Din private nøgle er gyldig! Sandsynligvis blev dit kodeord ændre uden for ownCloud systemet (f.eks. dit firmas register). Du kan opdatere dit private nøgle kodeord under personlige indstillinger, for at generhverve adgang til dine krypterede filer."
 
 #: hooks/hooks.php:44
 msgid "Missing requirements."
-msgstr ""
+msgstr "Manglende betingelser."
 
 #: hooks/hooks.php:45
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
 "PHP extension is enabled and configured properly. For now, the encryption "
 "app has been disabled."
+msgstr "Sikker dig venligst at PHP 5.3.3 eller nyere er installeret og at OpenSSL PHP udvidelsen er aktiveret og konfigureret korrekt. Indtil videre er krypterings app'en deaktiveret. "
+
+#: hooks/hooks.php:263
+msgid "Following users are not set up for encryption:"
 msgstr ""
 
 #: js/settings-admin.js:11
@@ -80,15 +85,15 @@ msgstr "Gemmer..."
 msgid ""
 "Your private key is not valid! Maybe the your password was changed from "
 "outside."
-msgstr ""
+msgstr "Din private nøgle er ikke gyldig. Måske blev dit kodeord ændre udefra."
 
 #: templates/invalid_private_key.php:7
 msgid "You can unlock your private key in your "
-msgstr ""
+msgstr "Du kan låse din private nøgle op i din "
 
 #: templates/invalid_private_key.php:7
 msgid "personal settings"
-msgstr ""
+msgstr "Personlige indstillinger"
 
 #: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
@@ -97,76 +102,76 @@ msgstr "Kryptering"
 #: templates/settings-admin.php:10
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
-msgstr ""
+msgstr "Aktiver gendannelsesnøgle (Tillad gendannelse af brugerfiler i tilfælde af tab af kodeord):"
 
 #: templates/settings-admin.php:14
 msgid "Recovery key password"
-msgstr ""
+msgstr "Gendannelsesnøgle kodeord"
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
-msgstr ""
+msgstr "Aktiveret"
 
 #: templates/settings-admin.php:29 templates/settings-personal.php:62
 msgid "Disabled"
-msgstr ""
+msgstr "Deaktiveret"
 
 #: templates/settings-admin.php:34
 msgid "Change recovery key password:"
-msgstr ""
+msgstr "Skift gendannelsesnøgle kodeord:"
 
 #: templates/settings-admin.php:41
 msgid "Old Recovery key password"
-msgstr ""
+msgstr "Gammel Gendannelsesnøgle kodeord"
 
 #: templates/settings-admin.php:48
 msgid "New Recovery key password"
-msgstr ""
+msgstr "Ny Gendannelsesnøgle kodeord"
 
 #: templates/settings-admin.php:53
 msgid "Change Password"
-msgstr ""
+msgstr "Skift Kodeord"
 
 #: templates/settings-personal.php:11
 msgid "Your private key password no longer match your log-in password:"
-msgstr ""
+msgstr "Dit private nøgle kodeord stemmer ikke længere overens med dit login kodeord:"
 
 #: templates/settings-personal.php:14
 msgid "Set your old private key password to your current log-in password."
-msgstr ""
+msgstr "Sæt dit gamle private nøgle kodeord til at være dit nuværende login kodeord. "
 
 #: templates/settings-personal.php:16
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
-msgstr ""
+msgstr "Hvis du ikke kan huske dit gamle kodeord kan du bede din administrator om at gendanne dine filer."
 
 #: templates/settings-personal.php:24
 msgid "Old log-in password"
-msgstr ""
+msgstr "Gammelt login kodeord"
 
 #: templates/settings-personal.php:30
 msgid "Current log-in password"
-msgstr ""
+msgstr "Nuvrende login kodeord"
 
 #: templates/settings-personal.php:35
 msgid "Update Private Key Password"
-msgstr ""
+msgstr "Opdater Privat Nøgle Kodeord"
 
 #: templates/settings-personal.php:45
 msgid "Enable password recovery:"
-msgstr ""
+msgstr "Aktiver kodeord gendannelse:"
 
 #: templates/settings-personal.php:47
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
-msgstr ""
+msgstr "Aktivering af denne valgmulighed tillader dig at generhverve adgang til dine krypterede filer i tilfælde af tab af kodeord"
 
 #: templates/settings-personal.php:63
 msgid "File recovery settings updated"
-msgstr ""
+msgstr "Filgendannelsesindstillinger opdateret"
 
 #: templates/settings-personal.php:64
 msgid "Could not update file recovery"
-msgstr ""
+msgstr "Kunne ikke opdatere filgendannelse"

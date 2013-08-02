@@ -4,12 +4,13 @@
 # 
 # Translators:
 # André Koot <meneer@tken.net>, 2013
+# Len <lenny@weijl.org>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-05 02:12+0200\n"
-"PO-Revision-Date: 2013-07-05 00:13+0000\n"
+"POT-Creation-Date: 2013-08-02 01:55-0400\n"
+"PO-Revision-Date: 2013-08-02 05:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -60,17 +61,21 @@ msgid ""
 "ownCloud system (e.g. your corporate directory). You can update your private"
 " key password in your personal settings to recover access to your encrypted "
 "files."
-msgstr ""
+msgstr "Uw privésleutel is niet geldig! Misschien was uw wachtwoord van buitenaf gewijzigd. U kunt het wachtwoord van uw privésleutel aanpassen in uw persoonlijke instellingen om toegang tot uw versleutelde bestanden te vergaren."
 
 #: hooks/hooks.php:44
 msgid "Missing requirements."
-msgstr ""
+msgstr "Missende benodigdheden."
 
 #: hooks/hooks.php:45
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
 "PHP extension is enabled and configured properly. For now, the encryption "
 "app has been disabled."
+msgstr "Wees er zeker van dat PHP5.3.3 of nieuwer is geïstalleerd en dat de OpenSSL PHP extensie is ingeschakeld en correct geconfigureerd. De versleutel-app is voorlopig uitgeschakeld."
+
+#: hooks/hooks.php:263
+msgid "Following users are not set up for encryption:"
 msgstr ""
 
 #: js/settings-admin.js:11

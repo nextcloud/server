@@ -24,18 +24,21 @@ class OC_DB_Schema {
 
 	/**
 	 * @brief Creates tables from XML file
+	 * @param \Doctrine\DBAL\Connection $conn
 	 * @param string $file file to read structure from
 	 * @return bool
 	 *
 	 * TODO: write more documentation
 	 */
 	public static function createDbFromStructure( $conn, $file ) {
-		$toSchema = OC_DB_MDB2SchemaReader::loadSchemaFromFile($file, $conn->getDatabasePlatform());
+		$schemaReader = new \OC\DB\MDB2SchemaReader(\OC_Config::getObject(), $conn->getDatabasePlatform());
+		$toSchema = $schemaReader->loadSchemaFromFile($file);
 		return self::executeSchemaChange($conn, $toSchema);
 	}
 
 	/**
 	 * @brief update the database scheme
+	 * @param \Doctrine\DBAL\Connection $conn
 	 * @param string $file file to read structure from
 	 * @return bool
 	 */
@@ -43,7 +46,8 @@ class OC_DB_Schema {
 		$sm = $conn->getSchemaManager();
 		$fromSchema = $sm->createSchema();
 
-		$toSchema = OC_DB_MDB2SchemaReader::loadSchemaFromFile($file, $conn->getDatabasePlatform());
+		$schemaReader = new \OC\DB\MDB2SchemaReader(\OC_Config::getObject(), $conn->getDatabasePlatform());
+		$toSchema = $schemaReader->loadSchemaFromFile($file);
 
 		// remove tables we don't know about
 		foreach($fromSchema->getTables() as $table) {
@@ -79,6 +83,7 @@ class OC_DB_Schema {
 
 	/**
 	 * @brief drop a table
+	 * @param \Doctrine\DBAL\Connection $conn
 	 * @param string $tableName the table to drop
 	 */
 	public static function dropTable($conn, $tableName) {
@@ -92,10 +97,12 @@ class OC_DB_Schema {
 
 	/**
 	 * remove all tables defined in a database structure xml file
+	 * @param \Doctrine\DBAL\Connection $conn
 	 * @param string $file the xml file describing the tables
 	 */
 	public static function removeDBStructure($conn, $file) {
-		$fromSchema = OC_DB_MDB2SchemaReader::loadSchemaFromFile($file, $conn->getDatabasePlatform());
+		$schemaReader = new \OC\DB\MDB2SchemaReader(\OC_Config::getObject(), $conn->getDatabasePlatform());
+		$fromSchema = $schemaReader->loadSchemaFromFile($file);
 		$toSchema = clone $fromSchema;
 		foreach($toSchema->getTables() as $table) {
 			$toSchema->dropTable($table->getName());
@@ -107,6 +114,7 @@ class OC_DB_Schema {
 
 	/**
 	 * @brief replaces the ownCloud tables with a new set
+	 * @param \Doctrine\DBAL\Connection $conn
 	 * @param $file string path to the MDB2 xml db export file
 	 */
 	public static function replaceDB( $conn, $file ) {
@@ -126,11 +134,17 @@ class OC_DB_Schema {
 		self::commit();
 	}
 
+	/**
+	 * @param \Doctrine\DBAL\Connection $conn
+	 * @param \Doctrine\DBAL\Schema\Schema $schema
+	 * @return bool
+	 */
 	private static function executeSchemaChange($conn, $schema) {
 		$conn->beginTransaction();
 		foreach($schema->toSql($conn->getDatabasePlatform()) as $sql) {
 			$conn->query($sql);
 		}
 		$conn->commit();
+		return true;
 	}
 }

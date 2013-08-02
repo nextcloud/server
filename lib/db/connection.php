@@ -13,29 +13,40 @@ use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\Common\EventManager;
 
 class Connection extends \Doctrine\DBAL\Connection {
+	/**
+	 * @var string $table_prefix
+	 */
 	protected $table_prefix;
 
+	/**
+	 * @var \OC\DB\Adapter $adapter
+	 */
 	protected $adapter;
 
+	/**
+	 * @var \Doctrine\DBAL\Driver\Statement[] $preparedQueries
+	 */
 	protected $preparedQueries = array();
+
 	protected $cachingQueryStatementEnabled = true;
 
 	/**
 	 * Initializes a new instance of the Connection class.
 	 *
 	 * @param array $params  The connection parameters.
-	 * @param Driver $driver
-	 * @param Configuration $config
-	 * @param EventManager $eventManager
+	 * @param \Doctrine\DBAL\Driver $driver
+	 * @param \Doctrine\DBAL\Configuration $config
+	 * @param \Doctrine\Common\EventManager $eventManager
+	 * @throws \Exception
 	 */
 	public function __construct(array $params, Driver $driver, Configuration $config = null,
 		EventManager $eventManager = null)
 	{
 		if (!isset($params['adapter'])) {
-			throw new Exception('adapter not set');
+			throw new \Exception('adapter not set');
 		}
 		if (!isset($params['table_prefix'])) {
-			throw new Exception('table_prefix not set');
+			throw new \Exception('table_prefix not set');
 		}
 		parent::__construct($params, $driver, $config, $eventManager);
 		$this->adapter = new $params['adapter']($this);
@@ -46,6 +57,8 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * Prepares an SQL statement.
 	 *
 	 * @param string $statement The SQL statement to prepare.
+	 * @param int $limit
+	 * @param int $offset
 	 * @return \Doctrine\DBAL\Driver\Statement The prepared statement.
 	 */
 	public function prepare( $statement, $limit=null, $offset=null ) {
@@ -142,7 +155,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * @brief Insert a row if a matching row doesn't exists.
 	 * @param string $table. The table to insert into in the form '*PREFIX*tableName'
 	 * @param array $input. An array of fieldname/value pairs
-	 * @returns bool The return value from execute()
+	 * @return bool The return value from execute()
 	 */
 	public function insertIfNotExist($table, $input) {
 		return $this->adapter->insertIfNotExist($table, $input);
@@ -151,7 +164,6 @@ class Connection extends \Doctrine\DBAL\Connection {
 	/**
 	 * returns the error code and message as a string for logging
 	 * works with DoctrineException
-	 * @param mixed $error
 	 * @return string
 	 */
 	public function getError() {
@@ -166,6 +178,10 @@ class Connection extends \Doctrine\DBAL\Connection {
 	}
 
 	// internal use
+	/**
+	 * @param string $statement
+	 * @return string
+	 */
 	protected function replaceTablePrefix($statement) {
 		return str_replace( '*PREFIX*', $this->table_prefix, $statement );
 	}

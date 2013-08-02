@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-21 01:54-0400\n"
-"PO-Revision-Date: 2013-07-21 05:15+0000\n"
-"Last-Translator: hlx98007 <hlx98007@gmail.com>\n"
+"POT-Creation-Date: 2013-08-02 01:55-0400\n"
+"PO-Revision-Date: 2013-08-02 05:40+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -121,7 +121,7 @@ msgstr "分享"
 msgid "Delete permanently"
 msgstr "永久删除"
 
-#: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
+#: js/fileactions.js:128 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "删除"
 
@@ -133,31 +133,31 @@ msgstr "重命名"
 msgid "Pending"
 msgstr "等待中"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "{new_name} already exists"
 msgstr "{new_name} 已存在"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "replace"
 msgstr "替换"
 
-#: js/filelist.js:304
+#: js/filelist.js:303
 msgid "suggest name"
 msgstr "推荐名称"
 
-#: js/filelist.js:304 js/filelist.js:306
+#: js/filelist.js:303 js/filelist.js:305
 msgid "cancel"
 msgstr "取消"
 
-#: js/filelist.js:351
+#: js/filelist.js:350
 msgid "replaced {new_name} with {old_name}"
 msgstr "已用 {old_name} 替换 {new_name}"
 
-#: js/filelist.js:351
+#: js/filelist.js:350
 msgid "undo"
 msgstr "撤销"
 
-#: js/filelist.js:376
+#: js/filelist.js:375
 msgid "perform delete operation"
 msgstr "执行删除"
 
@@ -201,31 +201,31 @@ msgstr "正在下载，可能会花点时间，跟文件大小有关"
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "不正确文件夹名。Shared是保留名，不能使用。"
 
-#: js/files.js:744 templates/index.php:69
+#: js/files.js:744 templates/index.php:67
 msgid "Name"
 msgstr "名称"
 
-#: js/files.js:745
+#: js/files.js:745 templates/index.php:78
 msgid "Size"
 msgstr "大小"
 
-#: js/files.js:746 templates/index.php:82
+#: js/files.js:746 templates/index.php:80
 msgid "Modified"
 msgstr "修改日期"
 
-#: js/files.js:765
+#: js/files.js:763
 msgid "1 folder"
 msgstr "1 个文件夹"
 
-#: js/files.js:767
+#: js/files.js:765
 msgid "{count} folders"
 msgstr "{count} 个文件夹"
 
-#: js/files.js:775
+#: js/files.js:773
 msgid "1 file"
 msgstr "1 个文件"
 
-#: js/files.js:777
+#: js/files.js:775
 msgid "{count} files"
 msgstr "{count} 个文件"
 
@@ -286,65 +286,61 @@ msgstr "文件夹"
 msgid "From link"
 msgstr "来自链接"
 
-#: templates/index.php:42
+#: templates/index.php:41
 msgid "Deleted files"
 msgstr "已删除的文件"
 
-#: templates/index.php:48
+#: templates/index.php:46
 msgid "Cancel upload"
 msgstr "取消上传"
 
-#: templates/index.php:54
+#: templates/index.php:52
 msgid "You don’t have write permissions here."
 msgstr "您没有写入权限。"
 
-#: templates/index.php:61
+#: templates/index.php:59
 msgid "Nothing in here. Upload something!"
 msgstr "这里没有东西.上传点什么!"
 
-#: templates/index.php:75
+#: templates/index.php:73
 msgid "Download"
 msgstr "下载"
 
-#: templates/index.php:80
-msgid "Size (MB)"
-msgstr "大小 (MB)"
-
-#: templates/index.php:87 templates/index.php:88
+#: templates/index.php:85 templates/index.php:86
 msgid "Unshare"
 msgstr "取消分享"
 
-#: templates/index.php:107
+#: templates/index.php:105
 msgid "Upload too large"
 msgstr "上传过大"
 
-#: templates/index.php:109
+#: templates/index.php:107
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "你正在试图上传的文件超过了此服务器支持的最大的文件大小."
 
-#: templates/index.php:114
+#: templates/index.php:112
 msgid "Files are being scanned, please wait."
 msgstr "正在扫描文件,请稍候."
 
-#: templates/index.php:117
+#: templates/index.php:115
 msgid "Current scanning"
 msgstr "正在扫描"
 
-#: templates/part.list.php:76
+#: templates/part.list.php:74
 msgid "directory"
 msgstr "文件夹"
 
-#: templates/part.list.php:78
+#: templates/part.list.php:76
 msgid "directories"
 msgstr "文件夹"
 
-#: templates/part.list.php:87
+#: templates/part.list.php:85
 msgid "file"
 msgstr "文件"
 
-#: templates/part.list.php:89
+#: templates/part.list.php:87
 msgid "files"
 msgstr "文件"
 

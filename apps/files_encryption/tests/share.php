@@ -881,8 +881,13 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		\OC_FileProxy::$enabled = $proxyStatus;
 
 		// share the file
-		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_GROUP1, OCP\PERMISSION_ALL);
-
+		try {
+			\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_GROUP1, OCP\PERMISSION_ALL);
+		} catch (Exception $e) {
+			$this->assertEquals(0, strpos($e->getMessage(), "Following users are not set up for encryption"));
+		}
+		
+		
 		// login as admin
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
 

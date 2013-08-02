@@ -106,7 +106,6 @@
 "Add" => "Aldoni",
 "Security Warning" => "Sekureca averto",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Via PHP versio estas sendefenda je la NULL bajto atako (CVE-2006-7243)",
-"Please update your PHP installation to use ownCloud securely." => "Bonvolu ĝisdatigi vian instalon de PHP por uzi ownCloud-on sekure.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Ne disponeblas sekura generilo de hazardaj numeroj; bonvolu kapabligi la OpenSSL-kromaĵon por PHP.",
 "Create an <strong>admin account</strong>" => "Krei <strong>administran konton</strong>",
 "Advanced" => "Progresinta",

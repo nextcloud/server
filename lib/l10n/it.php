@@ -5,11 +5,14 @@
 "Users" => "Utenti",
 "Apps" => "Applicazioni",
 "Admin" => "Admin",
+"Failed to upgrade \"%s\"." => "Aggiornamento non riuscito \"%s\".",
 "web services under your control" => "servizi web nelle tue mani",
+"cannot open \"%s\"" => "impossibile aprire \"%s\"",
 "ZIP download is turned off." => "Lo scaricamento in formato ZIP è stato disabilitato.",
 "Files need to be downloaded one by one." => "I file devono essere scaricati uno alla volta.",
 "Back to Files" => "Torna ai file",
 "Selected files too large to generate zip file." => "I  file selezionati sono troppo grandi per generare un file zip.",
+"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Scarica i file in blocchi più piccoli, separatamente o chiedi al tuo amministratore.",
 "couldn't be determined" => "non può essere determinato",
 "Application is not enabled" => "L'applicazione  non è abilitata",
 "Authentication error" => "Errore di autenticazione",
@@ -49,5 +52,6 @@
 "%d months ago" => "%d mesi fa",
 "last year" => "anno scorso",
 "years ago" => "anni fa",
+"Caused by:" => "Causato da:",
 "Could not find category \"%s\"" => "Impossibile trovare la categoria \"%s\""
 );

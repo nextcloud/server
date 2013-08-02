@@ -4,12 +4,13 @@
 # 
 # Translators:
 # pellaeon <nfsmwlin@gmail.com>, 2013
+# Flymok <transifex@flymok.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-05 02:12+0200\n"
-"PO-Revision-Date: 2013-07-05 00:13+0000\n"
+"POT-Creation-Date: 2013-08-02 01:55-0400\n"
+"PO-Revision-Date: 2013-08-02 05:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +61,7 @@ msgid ""
 "ownCloud system (e.g. your corporate directory). You can update your private"
 " key password in your personal settings to recover access to your encrypted "
 "files."
-msgstr ""
+msgstr "您的私鑰不正確! 感覺像是密碼在 ownCloud 系統之外被改變(例：您的目錄)。 您可以在個人設定中更新私鑰密碼取回已加密的檔案。"
 
 #: hooks/hooks.php:44
 msgid "Missing requirements."
@@ -71,6 +72,10 @@ msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
 "PHP extension is enabled and configured properly. For now, the encryption "
 "app has been disabled."
+msgstr "請確認已安裝 PHP 5.3.3 或更新的版本並啟用 OpenSSL PHP 且正確設定。目前 encryption app 不可使用。"
+
+#: hooks/hooks.php:263
+msgid "Following users are not set up for encryption:"
 msgstr ""
 
 #: js/settings-admin.js:11
@@ -140,15 +145,15 @@ msgstr ""
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
-msgstr ""
+msgstr "如果您忘記舊密碼，可以請求管理員協助取回檔案。"
 
 #: templates/settings-personal.php:24
 msgid "Old log-in password"
-msgstr ""
+msgstr "舊登入密碼"
 
 #: templates/settings-personal.php:30
 msgid "Current log-in password"
-msgstr ""
+msgstr "目前的登入密碼"
 
 #: templates/settings-personal.php:35
 msgid "Update Private Key Password"

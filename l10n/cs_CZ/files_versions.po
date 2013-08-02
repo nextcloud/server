@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Honza K. <honza889@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-25 02:01+0200\n"
-"PO-Revision-Date: 2013-05-24 13:28+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-30 01:55-0400\n"
+"PO-Revision-Date: 2013-07-29 18:50+0000\n"
+"Last-Translator: Honza K. <honza889@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,41 +18,27 @@ msgstr ""
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: ajax/rollbackVersion.php:15
+#: ajax/rollbackVersion.php:13
 #, php-format
 msgid "Could not revert: %s"
 msgstr "Nelze navrátit: %s"
 
-#: history.php:40
-msgid "success"
-msgstr "úspěch"
-
-#: history.php:42
-#, php-format
-msgid "File %s was reverted to version %s"
-msgstr "Soubor %s byl navrácen na verzi %s"
-
-#: history.php:49
-msgid "failure"
-msgstr "sehlhání"
-
-#: history.php:51
-#, php-format
-msgid "File %s could not be reverted to version %s"
-msgstr "Soubor %s nemohl být navrácen na verzi %s"
-
-#: history.php:69
-msgid "No old versions available"
-msgstr "Nejsou dostupné žádné starší verze"
-
-#: history.php:74
-msgid "No path specified"
-msgstr "Nezadána cesta"
-
-#: js/versions.js:6
+#: js/versions.js:7
 msgid "Versions"
 msgstr "Verze"
 
-#: templates/history.php:20
-msgid "Revert a file to a previous version by clicking on its revert button"
-msgstr "Navraťte soubor do předchozí verze kliknutím na tlačítko navrátit"
+#: js/versions.js:53
+msgid "Failed to revert {file} to revision {timestamp}."
+msgstr "Selhalo navrácení souboru {file} na verzi {timestamp}."
+
+#: js/versions.js:79
+msgid "More versions..."
+msgstr "Více verzí..."
+
+#: js/versions.js:116
+msgid "No other versions available"
+msgstr "Žádné další verze nejsou dostupné"
+
+#: js/versions.js:149
+msgid "Restore"
+msgstr "Obnovit"
