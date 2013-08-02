@@ -6,9 +6,9 @@ if (!OC::$CLI) {
 }
 if (count($argv) !== 2) {
 	echo "Usage:" . PHP_EOL;
-	echo " php scanFiles.php <user_id>" . PHP_EOL;
+	echo " files:scan <user_id>" . PHP_EOL;
 	echo "  will rescan all files of the given user" . PHP_EOL;
-	echo " php scanFiles.php --all" . PHP_EOL;
+	echo " files:scan --all" . PHP_EOL;
 	echo "  will rescan all files of all known users" . PHP_EOL;
 	return;
 }
