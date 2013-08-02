@@ -55,7 +55,7 @@ class Test_Image extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testMimeType() {
-		$this->markTestSkipped("When loading an image from anything, but a file, the imagetype is always png");
+		$this->markTestSkipped("When loading from data or base64, imagetype is always image/png, see #4258.");
 		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$this->assertEquals('image/png', $img->mimeType());
 
@@ -105,7 +105,7 @@ class Test_Image extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testData() {
-		$this->markTestSkipped("Somehow data() doesn't equal file_get_contents's data");
+		$this->markTestSkipped("\OC_Image->data() converts to png before outputting data, see #4258.");
 		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$expected = file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$this->assertEquals($expected, $img->data());
@@ -120,7 +120,7 @@ class Test_Image extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testToString() {
-		$this->markTestSkipped("Somehow data() doesn't equal file_get_contents's data");
+		$this->markTestSkipped("\OC_Image->data() converts to png before outputting data, see #4258.");
 		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$expected = base64_encode(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.png'));
 		$this->assertEquals($expected, (string)$img);
