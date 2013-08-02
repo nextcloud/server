@@ -1,9 +1,5 @@
 <?php
 
-if (!OC::$CLI) {
-	echo "This script can be run from the command line only\n";
-	return;
-}
 if (count($argv) !== 2) {
 	echo "Usage:" . PHP_EOL;
 	echo " files:scan <user_id>" . PHP_EOL;
