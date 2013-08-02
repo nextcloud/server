@@ -592,7 +592,7 @@ class OC_DB {
 		// read file
 		$content = file_get_contents( $file );
 
-		$previousSchema = self::$schema->getDefinitionFromDatabase();
+		$previousSchema = self::$schema->getDefinitionFromDatabase($CONFIG_DBTABLEPREFIX);
 		if (PEAR::isError($previousSchema)) {
 			$error = $previousSchema->getMessage();
 			$detail = $previousSchema->getDebugInfo();
