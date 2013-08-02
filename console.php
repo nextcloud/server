@@ -11,15 +11,26 @@ require_once 'lib/base.php';
 
 // Don't do anything if ownCloud has not been installed yet
 if (!OC_Config::getValue('installed', false)) {
+	echo "Console can only be used once ownCloud has been installed" . PHP_EOL;
 	exit(0);
 }
 
-if (OC::$CLI) {
-	if ($argc > 1 && $argv[1] === 'files:scan') {
-		require_once 'apps/files/console/scan.php';
-	}
+if (!OC::$CLI) {
+	echo "This script can be run from the command line only" . PHP_EOL;
+	exit(0);
 }
-else
-{
-	echo "This script can be run from the command line only\n";
+
+if ($argc < 1) {
+	echo "Usage:" . PHP_EOL;
+	echo " php console.php <command>" . PHP_EOL;
+	exit(0);
+}
+
+$command = $argv[1];
+array_shift($argv);
+
+if ($command === 'files:scan') {
+	require_once 'apps/files/console/scan.php';
+} else {
+	echo "Unknown command '$command'" . PHP_EOL;
 }
