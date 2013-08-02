@@ -387,7 +387,7 @@ OC.Breadcrumb={
 			existing.removeClass('last');
 			existing.last().after(crumb);
 		}else{
-			OC.Breadcrumb.container.append(crumb);
+			OC.Breadcrumb.container.prepend(crumb);
 		}
 		OC.Breadcrumb.crumbs.push(crumb);
 		return crumb;
