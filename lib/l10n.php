@@ -25,7 +25,7 @@
 /**
  * This class is for i18n and l10n
  */
-class OC_L10N{
+class OC_L10N {
 	/**
 	 * cached instances
 	 */
@@ -105,6 +105,17 @@ class OC_L10N{
 	public function __construct($app, $lang = null) {
 		$this->app = $app;
 		$this->lang = $lang;
+	}
+
+	public function load($transFile) {
+		$this->app = true;
+		include $transFile;
+		if(isset($TRANSLATIONS) && is_array($TRANSLATIONS)) {
+			$this->translations = $TRANSLATIONS;
+		}
+		if(isset($PLURAL_FORMS)) {
+			$this->plural_form_string = $PLURAL_FORMS;
+		}
 	}
 
 	protected function init() {
@@ -258,8 +269,9 @@ class OC_L10N{
 	 *
 	 */
 	public function n($text_singular, $text_plural, $count, $parameters = array()) {
+		$this->init();
 		$identifier = "_${text_singular}__${text_plural}_";
-		if( array_key_exists($this->translations, $identifier)) {
+		if( array_key_exists($identifier, $this->translations)) {
 			return new OC_L10N_String( $this, $identifier, $parameters, $count );
 		}
 		else{

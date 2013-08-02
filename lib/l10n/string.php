@@ -7,30 +7,48 @@
  */
 
 class OC_L10N_String{
+	/**
+	 * @var OC_L10N
+	 */
 	protected $l10n;
+
+	/**
+	 * @var string
+	 */
+	protected $text;
+
+	/**
+	 * @var array
+	 */
+	protected $parameters;
+
+	/**
+	 * @var integer
+	 */
+	protected $count;
+
 	public function __construct($l10n, $text, $parameters, $count = 1) {
 		$this->l10n = $l10n;
 		$this->text = $text;
 		$this->parameters = $parameters;
 		$this->count = $count;
-
 	}
 
 	public function __toString() {
 		$translations = $this->l10n->getTranslations();
-		$localizations = $this->l10n->getLocalizations();
 
 		$text = $this->text;
 		if(array_key_exists($this->text, $translations)) {
 			if(is_array($translations[$this->text])) {
-				$fn = $l10n->getPluralFormFunction();
-				$id = $fn($count);
+				$fn = $this->l10n->getPluralFormFunction();
+				$id = $fn($this->count);
 				$text = $translations[$this->text][$id];
 			}
 			else{
 				$text = $translations[$this->text];
 			}
 		}
+
 		// Replace %n first (won't interfere with vsprintf)
 		$text = str_replace('%n', $this->count, $text);
 		return vsprintf($text, $this->parameters);
