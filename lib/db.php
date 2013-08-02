@@ -397,7 +397,7 @@ class OC_DB {
 	 */
 	public static function getDbStructure( $file, $mode=MDB2_SCHEMA_DUMP_STRUCTURE) {
 		self::connectDoctrine();
-		$schema = new \OC\DB\Schema(self::$connection);
+		$schema = new \OC\DB\MDB2SchemaManager(self::$connection);
 		return $schema->getDbStructure($file);
 	}
 
@@ -410,7 +410,7 @@ class OC_DB {
 	 */
 	public static function createDbFromStructure( $file ) {
 		self::connectDoctrine();
-		$schema = new \OC\DB\Schema(self::$connection);
+		$schema = new \OC\DB\MDB2SchemaManager(self::$connection);
 		$result = $schema->createDbFromStructure($file);
 		return $result;
 	}
@@ -423,7 +423,7 @@ class OC_DB {
 	 */
 	public static function updateDbFromStructure($file) {
 		self::connectDoctrine();
-		$schema = new \OC\DB\Schema(self::$connection);
+		$schema = new \OC\DB\MDB2SchemaManager(self::$connection);
 		try {
 			$result = $schema->updateDbFromStructure($file);
 		} catch (Exception $e) {
@@ -605,7 +605,7 @@ class OC_DB {
 	 */
 	public static function dropTable($tableName) {
 		self::connectDoctrine();
-		$schema = new \OC\DB\Schema(self::$connection);
+		$schema = new \OC\DB\MDB2SchemaManager(self::$connection);
 		$schema->dropTable($tableName);
 	}
 
@@ -615,7 +615,7 @@ class OC_DB {
 	 */
 	public static function removeDBStructure($file) {
 		self::connectDoctrine();
-		$schema = new \OC\DB\Schema(self::$connection);
+		$schema = new \OC\DB\MDB2SchemaManager(self::$connection);
 		$schema->removeDBStructure($file);
 	}
 
@@ -625,7 +625,7 @@ class OC_DB {
 	 */
 	public static function replaceDB( $file ) {
 		self::connectDoctrine();
-		$schema = new \OC\DB\Schema(self::$connection);
+		$schema = new \OC\DB\MDB2SchemaManager(self::$connection);
 		$schema->replaceDB($file);
 	}
 

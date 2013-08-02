@@ -8,7 +8,7 @@
 
 namespace OC\DB;
 
-class Schema {
+class MDB2SchemaManager {
 	/**
 	 * @var \Doctrine\DBAL\Connection $conn
 	 */
