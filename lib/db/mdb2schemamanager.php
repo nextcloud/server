@@ -14,7 +14,10 @@ class MDB2SchemaManager {
 	 */
 	protected $conn;
 
-	public function __construct(Connection $conn) {
+	/**
+	 * @param \Doctrine\DBAL\Connection $conn
+	 */
+	public function __construct($conn) {
 		$this->conn = $conn;
 	}
 
@@ -26,7 +29,7 @@ class MDB2SchemaManager {
 	 *
 	 * TODO: write more documentation
 	 */
-	public function getDbStructure( $file, $mode=MDB2_SCHEMA_DUMP_STRUCTURE) {
+	public function getDbStructure( $file, $mode = MDB2_SCHEMA_DUMP_STRUCTURE) {
 		$sm = $this->conn->getSchemaManager();
 
 		return \OC_DB_MDB2SchemaWriter::saveSchemaToFile($file, $sm);
@@ -40,7 +43,7 @@ class MDB2SchemaManager {
 	 * TODO: write more documentation
 	 */
 	public function createDbFromStructure( $file ) {
-		$schemaReader = new \OC\DB\MDB2SchemaReader(\OC_Config::getObject(), $this->conn->getDatabasePlatform());
+		$schemaReader = new MDB2SchemaReader(\OC_Config::getObject(), $this->conn->getDatabasePlatform());
 		$toSchema = $schemaReader->loadSchemaFromFile($file);
 		return $this->executeSchemaChange($toSchema);
 	}
@@ -54,7 +57,7 @@ class MDB2SchemaManager {
 		$sm = $this->conn->getSchemaManager();
 		$fromSchema = $sm->createSchema();
 
-		$schemaReader = new \OC\DB\MDB2SchemaReader(\OC_Config::getObject(), $this->conn->getDatabasePlatform());
+		$schemaReader = new MDB2SchemaReader(\OC_Config::getObject(), $this->conn->getDatabasePlatform());
 		$toSchema = $schemaReader->loadSchemaFromFile($file);
 
 		// remove tables we don't know about
@@ -100,7 +103,7 @@ class MDB2SchemaManager {
 	 * @param string $file the xml file describing the tables
 	 */
 	public function removeDBStructure($file) {
-		$schemaReader = new \OC\DB\MDB2SchemaReader(\OC_Config::getObject(), $this->conn->getDatabasePlatform());
+		$schemaReader = new MDB2SchemaReader(\OC_Config::getObject(), $this->conn->getDatabasePlatform());
 		$fromSchema = $schemaReader->loadSchemaFromFile($file);
 		$toSchema = clone $fromSchema;
 		foreach($toSchema->getTables() as $table) {
