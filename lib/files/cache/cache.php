@@ -503,9 +503,9 @@ class Cache {
 		$entry = $this->get($path);
 		if ($entry && $entry['mimetype'] === 'httpd/unix-directory') {
 			$id = $entry['fileid'];
-			$sql = 'SELECT SUM(`size`), MIN(`size`) FROM `*PREFIX*filecache` '.
-				'WHERE `parent` = ? AND `storage` = ?';
-			$result = \OC_DB::executeAudited($sql, array($id, $this->getNumericStorageId()));
+			$query = \OC_DB::prepare('SELECT SUM(`size`), MIN(`size`) FROM `*PREFIX*filecache` '.
+				'WHERE `parent` = ? AND `storage` = ?');
+			$result = $query->execute(array($id, $this->getNumericStorageId()));
 			if ($row = $result->fetchRow()) {
 				list($sum, $min) = array_values($row);
 				$sum = (int)$sum;
