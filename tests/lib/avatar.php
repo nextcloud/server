@@ -13,7 +13,7 @@ class Test_Avatar extends PHPUnit_Framework_TestCase {
 
 		\OC_Config::setValue('avatar', 'local');
 		$this->assertEquals('local', \OC_Avatar::getMode());
-		
+
 		\OC_Config::setValue('avatar', 'gravatar');
 		$this->assertEquals('gravatar', \OC_Avatar::getMode());
 

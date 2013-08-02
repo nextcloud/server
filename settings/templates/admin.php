@@ -121,10 +121,9 @@ if (!$_['internetconnectionworking']) {
 	<table class="nostyle">
 		<tr>
 			<td>
-				<input type="radio" name="avatarmode" value="gravatar"
-					id="avatar_gravatar" <?php if ($_['avatar'] === "gravatar") {
-						print_unescaped('checked="checked"');
-					} ?>>
+				<input type="radio" name="avatarmode" value="gravatar" id="avatar_gravatar"
+					<?php if ($_['avatar'] === "gravatar") { p('checked'); } ?>
+					<?php if (!$_['internetconnectionworking']) { p('disabled'); } ?>>
 				<label for="avatar_gravatar">Gravatar</label><br>
 				<em><?php print_unescaped($l->t('Use <a href="http://gravatar.com/">gravatar</a> for avatars')); ?></em><br>
 				<em><?php p($l->t('This sends data to gravatar')); ?></em>
@@ -135,22 +134,18 @@ if (!$_['internetconnectionworking']) {
 		</tr>
 		<tr>
 			<td>
-				<input type="radio" name="avatarmode" value="local"
-					id="avatar_local" <?php if ($_['avatar'] === "local") {
-						print_unescaped('checked="checked"');
-					} ?>>
+				<input type="radio" name="avatarmode" value="local" id="avatar_local"
+					<?php if ($_['avatar'] === "local") { p('checked'); } ?>>
 				<label for="avatar_local"><?php p($l->t('Local avatars')); ?></label><br>
 				<em><?php p($l->t('Use local avatars, which each user has to upload themselves')); ?></em>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<input type="radio" name="avatarmode" value="none"
-					id="avatar_none" <?php if ($_['avatar'] === "none") {
-						print_unescaped('checked="checked"');
-					} ?>>
+				<input type="radio" name="avatarmode" value="none" id="avatar_none"
+					<?php if ($_['avatar'] === "none") { p('checked'); } ?>>
 				<label for="avatar_none"><?php p($l->t('No avatars')); ?></label><br>
-				<em><?php print_unescaped($l->t('Do not provide avatars')); ?></em>
+				<em><?php p($l->t('Do not provide avatars')); ?></em>
 			</td>
 		</tr>
 	</table>

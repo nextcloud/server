@@ -144,6 +144,14 @@ $(document).ready(function(){
 		updateAvatar();
 	});
 
+	var uploadparms = {
+		done: function(e) {
+			updateAvatar();
+		}
+	};
+
+	$('#uploadavatar').fileupload(uploadparms);
+
 	$('#selectavatar').click(function(){
 		OC.dialogs.filepicker(t('settings', "Select an avatar"), selectAvatar, false, "image");
 	});

@@ -40,6 +40,11 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 .header-right { float:right; vertical-align:middle; padding:0.5em; }
 .header-right > * { vertical-align:middle; }
 
+header .avatar {
+	float:right;
+	margin-top: 6px;
+	margin-right: 6px;
+}
 
 /* INPUTS */
 input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"], input[type="url"],
