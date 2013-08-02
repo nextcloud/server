@@ -173,7 +173,7 @@ elsif( $task eq 'write' ){
 			open( OUT, ">$language.php" );
 			print OUT "<?php \$TRANSLATIONS = array(\n";
 			print OUT join( ",\n", @strings );
-			print OUT "\n); \$PLURAL_FORMS = \"$plurals\";\n";
+			print OUT "\n);\n\$PLURAL_FORMS = \"$plurals\";\n";
 			close( OUT );
 		}
 		chdir( $whereami );
