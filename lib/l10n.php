@@ -59,7 +59,7 @@ class OC_L10N {
 	/**
 	 * Plural forms (string)
 	 */
-	private $plural_form_string;
+	private $plural_form_string = 'nplurals=2; plural=(n != 1);';
 
 	/**
 	 * Plural forms (function)
