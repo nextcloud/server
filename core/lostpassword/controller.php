@@ -58,7 +58,7 @@ class OC_Core_LostPassword_Controller {
 				$from = OCP\Util::getDefaultEmailAddress('lostpassword-noreply');
 				try {
 					$defaults = new OC_Defaults();
-					OC_Mail::send($email, $_POST['user'], $l->t($defaults->getTitle(); . ' password reset'), $msg, $from, $defaults->getName());
+					OC_Mail::send($email, $_POST['user'], $l->t('%s password reset', array($defaults->getTitle())), $msg, $from, $defaults->getName());
 				} catch (Exception $e) {
 					OC_Template::printErrorPage( 'A problem occurs during sending the e-mail please contact your administrator.');
 				}
