@@ -44,7 +44,7 @@ class OC_Log_Owncloud {
 	 * write a message in the log
 	 * @param string $app
 	 * @param string $message
-	 * @param int level
+	 * @param int $level
 	 */
 	public static function write($app, $message, $level) {
 		$minLevel=min(OC_Config::getValue( "loglevel", OC_Log::WARN ), OC_Log::ERROR);
@@ -63,8 +63,8 @@ class OC_Log_Owncloud {
 
 	/**
 	 * get entries from the log in reverse chronological order
-	 * @param int limit
-	 * @param int offset
+	 * @param int $limit
+	 * @param int $offset
 	 * @return array
 	 */
 	public static function getEntries($limit=50, $offset=0) {
