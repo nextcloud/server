@@ -188,5 +188,8 @@ $CONFIG = array(
 //links to custom clients
 'customclient_desktop' => '', //http://owncloud.org/sync-clients/
 'customclient_android' => '', //https://play.google.com/store/apps/details?id=com.owncloud.android
-'customclient_ios' => '' //https://itunes.apple.com/us/app/owncloud/id543672169?mt=8
+'customclient_ios' => '', //https://itunes.apple.com/us/app/owncloud/id543672169?mt=8
+
+// date format to be used while writing to the owncloud logfile
+'logdateformat' => 'F d, Y H:i:s'
 );
