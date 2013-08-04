@@ -91,7 +91,7 @@
 "Request failed!<br>Did you make sure your email/username was right?" => "Požadavek selhal!<br>Ujistili jste se, že vaše uživatelské jméno a e-mail jsou správně?",
 "You will receive a link to reset your password via Email." => "E-mailem Vám bude zaslán odkaz pro obnovu hesla.",
 "Username" => "Uživatelské jméno",
-"Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Vaše soubory jsou šifrovány. Pokud nemáte povolen klíč pro obnovu, neexistuje způsob jak získat po změně hesla vaše data. Pokud si nejste jisti co dělat, kontaktujte nejprve svého správce. Opravdu si přejete pokračovat?",
+"Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Vaše soubory jsou šifrovány. Pokud nemáte povolen klíč pro obnovu, neexistuje způsob jak získat, po změně hesla, vaše data. Pokud si nejste jisti co dělat, kontaktujte nejprve svého správce. Opravdu si přejete pokračovat?",
 "Yes, I really want to reset my password now" => "Ano, opravdu si nyní přeji obnovit mé heslo",
 "Request reset" => "Vyžádat obnovu",
 "Your password was reset" => "Vaše heslo bylo obnoveno",
