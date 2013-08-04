@@ -77,7 +77,7 @@ class OC_Util {
 	public static function getVersion() {
 		// hint: We only can count up. Reset minor/patchlevel when
 		// updating major/minor version number.
-		return array(5, 00, 15, 1);
+		return array(5, 00, 16);
 	}
 
 	/**
@@ -85,7 +85,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString() {
-		return '5.0.9';
+		return '5.0.10 RC1';
 	}
 
 	/**
