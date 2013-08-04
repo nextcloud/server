@@ -39,26 +39,6 @@ function createVersionsDropdown(filename, files) {
 
 	var historyUrl = OC.linkTo('files_versions', 'history.php') + '?path='+encodeURIComponent( $( '#dir' ).val() ).replace( /%2F/g, '/' )+'/'+encodeURIComponent( filename );
 
-	var html = '<div id="dropdown" class="drop drop-versions" data-file="'+escapeHTML(files)+'">';
-	html += '<div id="private">';
-	html += '<select data-placeholder="Saved versions" id="found_versions" class="chzen-select" style="width:16em;">';
-	html += '<option value=""></option>';
-	html += '</select>';
-	html += '</div>';
-	html += '<input type="button" value="All versions..." name="makelink" id="makelink" />';
-	html += '<input id="link" style="display:none; width:90%;" />';
-
-	if (filename) {
-		$('tr').filterAttr('data-file',filename).addClass('mouseOver');
-		$(html).appendTo($('tr').filterAttr('data-file',filename).find('td.filename'));
-	} else {
-		$(html).appendTo($('thead .share'));
-	}
-
-	$("#makelink").click(function() {
-		goToVersionPage(historyUrl);
-	});
-
 	$.ajax({
 		type: 'GET',
 		url: OC.filePath('files_versions', 'ajax', 'getVersions.php'),
@@ -67,15 +47,41 @@ function createVersionsDropdown(filename, files) {
 		async: false,
 		success: function( versions ) {
 
+			// first decide which kind of dialog we need
+			if (versions) {
+
+				var html = '<div id="dropdown" class="drop drop-versions" data-file="'+escapeHTML(files)+'">';
+				html += '<div id="private">';
+				html += '<select data-placeholder="Saved versions" id="found_versions" class="chzen-select" style="width:16em;">';
+				html += '<option value=""></option>';
+				html += '</select>';
+				html += '</div>';
+				html += '<input type="button" value="All versions..." name="makelink" id="makelink" />';
+				html += '<input id="link" style="display:none; width:90%;" />';
+
+			} else {
+				var html = '<div id="dropdown" class="drop drop-versions" data-file="'+escapeHTML(files)+'">';
+				html += '<div style="text-align:center;">No other versions available</div></div>';
+			}
+
+			if (filename) {
+				$('tr').filterAttr('data-file',filename).addClass('mouseOver');
+				$(html).appendTo($('tr').filterAttr('data-file',filename).find('td.filename'));
+			} else {
+				$(html).appendTo($('thead .share'));
+			}
+
+			$("#makelink").click(function() {
+				goToVersionPage(historyUrl);
+			});
+
+			// if versions are available populate the dialog
 			if (versions) {
 				$.each( versions, function(index, row ) {
 					addVersion( row );
 				});
-			} else {
-				$('#found_versions').hide();
-				$('#makelink').hide();
-				$('<div style="text-align:center;">No other versions available</div>').appendTo('#dropdown');
 			}
+
 			$('#found_versions').change(function(){
 				var revision=parseInt($(this).val());
 				revertFile(files,revision);

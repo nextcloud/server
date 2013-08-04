@@ -56,7 +56,10 @@ $CONFIG = array(
 /* Theme to use for ownCloud */
 "theme" => "",
 
-/* Path to the 3rdparty directory */
+/* Optional ownCLoud default language - overrides automatic language detection on public pages like login or shared items. This has no effect on the users's language preference configured under "personal -> language" once they have logged in */
+"default_language" => "en",
+
+/* Path to the parent directory of the 3rdparty directory */
 "3rdpartyroot" => "",
 
 /* URL to the 3rdparty directory, as seen by the browser */
@@ -144,7 +147,7 @@ $CONFIG = array(
 /* Enable/disable X-Frame-Restriction */
 /* HIGH SECURITY RISK IF DISABLED*/
 "xframe_restriction" => true,
-	
+
 /* The directory where the user data is stored, default to data in the owncloud
  * directory. The sqlite database is also stored here, when sqlite is used.
  */
