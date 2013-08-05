@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-27 01:56-0400\n"
-"PO-Revision-Date: 2013-07-25 05:56+0000\n"
+"POT-Creation-Date: 2013-08-04 01:55-0400\n"
+"PO-Revision-Date: 2013-08-04 05:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -148,55 +148,55 @@ msgstr "Δεκέμβριος"
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:715
+#: js/js.js:753
 msgid "seconds ago"
 msgstr "δευτερόλεπτα πριν"
 
-#: js/js.js:716
+#: js/js.js:754
 msgid "1 minute ago"
 msgstr "1 λεπτό πριν"
 
-#: js/js.js:717
+#: js/js.js:755
 msgid "{minutes} minutes ago"
 msgstr "{minutes} λεπτά πριν"
 
-#: js/js.js:718
+#: js/js.js:756
 msgid "1 hour ago"
 msgstr "1 ώρα πριν"
 
-#: js/js.js:719
+#: js/js.js:757
 msgid "{hours} hours ago"
 msgstr "{hours} ώρες πριν"
 
-#: js/js.js:720
+#: js/js.js:758
 msgid "today"
 msgstr "σήμερα"
 
-#: js/js.js:721
+#: js/js.js:759
 msgid "yesterday"
 msgstr "χτες"
 
-#: js/js.js:722
+#: js/js.js:760
 msgid "{days} days ago"
 msgstr "{days} ημέρες πριν"
 
-#: js/js.js:723
+#: js/js.js:761
 msgid "last month"
 msgstr "τελευταίο μήνα"
 
-#: js/js.js:724
+#: js/js.js:762
 msgid "{months} months ago"
 msgstr "{months} μήνες πριν"
 
-#: js/js.js:725
+#: js/js.js:763
 msgid "months ago"
 msgstr "μήνες πριν"
 
-#: js/js.js:726
+#: js/js.js:764
 msgid "last year"
 msgstr "τελευταίο χρόνο"
 
-#: js/js.js:727
+#: js/js.js:765
 msgid "years ago"
 msgstr "χρόνια πριν"
 
@@ -233,7 +233,7 @@ msgstr "Δεν καθορίστηκε ο τύπος του αντικειμέν�
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:631 js/share.js:643
+#: js/share.js:643 js/share.js:655
 msgid "Error"
 msgstr "Σφάλμα"
 
@@ -253,7 +253,7 @@ msgstr "Κοινόχρηστα"
 msgid "Share"
 msgstr "Διαμοιρασμός"
 
-#: js/share.js:131 js/share.js:671
+#: js/share.js:131 js/share.js:683
 msgid "Error while sharing"
 msgstr "Σφάλμα κατά τον διαμοιρασμό"
 
@@ -353,23 +353,23 @@ msgstr "διαγραφή"
 msgid "share"
 msgstr "διαμοιρασμός"
 
-#: js/share.js:398 js/share.js:618
+#: js/share.js:398 js/share.js:630
 msgid "Password protected"
 msgstr "Προστασία με συνθηματικό"
 
-#: js/share.js:631
+#: js/share.js:643
 msgid "Error unsetting expiration date"
 msgstr "Σφάλμα κατά την διαγραφή της ημ. λήξης"
 
-#: js/share.js:643
+#: js/share.js:655
 msgid "Error setting expiration date"
 msgstr "Σφάλμα κατά τον ορισμό ημ. λήξης"
 
-#: js/share.js:658
+#: js/share.js:670
 msgid "Sending ..."
 msgstr "Αποστολή..."
 
-#: js/share.js:669
+#: js/share.js:681
 msgid "Email sent"
 msgstr "Το Email απεστάλη "
 
@@ -468,7 +468,7 @@ msgstr "Βοήθεια"
 msgid "Access forbidden"
 msgstr "Δεν επιτρέπεται η πρόσβαση"
 
-#: templates/404.php:12
+#: templates/404.php:15
 msgid "Cloud not found"
 msgstr "Δεν βρέθηκε νέφος"
 

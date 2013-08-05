@@ -11,6 +11,7 @@
 "{count} folders" => "{count} mapper",
 "1 file" => "1 fil",
 "{count} files" => "{count} filer",
+"restored" => "Gendannet",
 "Nothing in here. Your trash bin is empty!" => "Intet at se her. Din papirkurv er tom!",
 "Restore" => "Gendan",
 "Delete" => "Slet",

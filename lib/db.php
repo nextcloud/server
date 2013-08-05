@@ -56,7 +56,6 @@ class OC_DB {
 	 */
 	static private $DOCTRINE=null;
 
-	static private $inTransaction=false;
 	static private $prefix=null;
 	static private $type=null;
 
@@ -344,7 +343,7 @@ class OC_DB {
 			$result = self::executeAudited('SELECT lastval() AS id');
 			$row = $result->fetchRow();
 			self::raiseExceptionOnError($row, 'fetching row for insertid failed');
-			return $row['id'];
+			return (int)$row['id'];
 		} else if( $type === 'mssql') {
 			if($table !== null) {
 				$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
@@ -368,7 +367,7 @@ class OC_DB {
 			$result = self::$connection->lastInsertId($table);
 		}
 		self::raiseExceptionOnError($result, 'insertid failed');
-		return $result;
+		return (int)$result;
 	}
 
 	/**
@@ -624,27 +623,18 @@ class OC_DB {
 
 	/**
 	 * Start a transaction
-	 * @return bool
 	 */
 	public static function beginTransaction() {
 		self::connect();
 		self::$connection->beginTransaction();
-		self::$inTransaction=true;
-		return true;
 	}
 
 	/**
 	 * Commit the database changes done during a transaction that is in progress
-	 * @return bool
 	 */
 	public static function commit() {
 		self::connect();
-		if(!self::$inTransaction) {
-			return false;
-		}
 		self::$connection->commit();
-		self::$inTransaction=false;
-		return true;
 	}
 
 	/**

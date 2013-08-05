@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Helder Meneses <helder.meneses@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-30 01:55-0400\n"
-"PO-Revision-Date: 2013-07-30 05:56+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-03 01:55-0400\n"
+"PO-Revision-Date: 2013-08-02 14:30+0000\n"
+"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -69,7 +70,7 @@ msgstr "{count} ficheiros"
 
 #: lib/trash.php:819 lib/trash.php:821
 msgid "restored"
-msgstr ""
+msgstr "Restaurado"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"

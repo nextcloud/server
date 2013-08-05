@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-27 01:56-0400\n"
-"PO-Revision-Date: 2013-07-25 05:56+0000\n"
+"POT-Creation-Date: 2013-08-04 01:55-0400\n"
+"PO-Revision-Date: 2013-08-04 05:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -146,55 +146,55 @@ msgstr "décembre"
 msgid "Settings"
 msgstr "Paramètres"
 
-#: js/js.js:715
+#: js/js.js:753
 msgid "seconds ago"
 msgstr "il y a quelques secondes"
 
-#: js/js.js:716
+#: js/js.js:754
 msgid "1 minute ago"
 msgstr "il y a une minute"
 
-#: js/js.js:717
+#: js/js.js:755
 msgid "{minutes} minutes ago"
 msgstr "il y a {minutes} minutes"
 
-#: js/js.js:718
+#: js/js.js:756
 msgid "1 hour ago"
 msgstr "Il y a une heure"
 
-#: js/js.js:719
+#: js/js.js:757
 msgid "{hours} hours ago"
 msgstr "Il y a {hours} heures"
 
-#: js/js.js:720
+#: js/js.js:758
 msgid "today"
 msgstr "aujourd'hui"
 
-#: js/js.js:721
+#: js/js.js:759
 msgid "yesterday"
 msgstr "hier"
 
-#: js/js.js:722
+#: js/js.js:760
 msgid "{days} days ago"
 msgstr "il y a {days} jours"
 
-#: js/js.js:723
+#: js/js.js:761
 msgid "last month"
 msgstr "le mois dernier"
 
-#: js/js.js:724
+#: js/js.js:762
 msgid "{months} months ago"
 msgstr "Il y a {months} mois"
 
-#: js/js.js:725
+#: js/js.js:763
 msgid "months ago"
 msgstr "il y a plusieurs mois"
 
-#: js/js.js:726
+#: js/js.js:764
 msgid "last year"
 msgstr "l'année dernière"
 
-#: js/js.js:727
+#: js/js.js:765
 msgid "years ago"
 msgstr "il y a plusieurs années"
 
@@ -231,7 +231,7 @@ msgstr "Le type d'objet n'est pas spécifié."
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:631 js/share.js:643
+#: js/share.js:643 js/share.js:655
 msgid "Error"
 msgstr "Erreur"
 
@@ -251,7 +251,7 @@ msgstr "Partagé"
 msgid "Share"
 msgstr "Partager"
 
-#: js/share.js:131 js/share.js:671
+#: js/share.js:131 js/share.js:683
 msgid "Error while sharing"
 msgstr "Erreur lors de la mise en partage"
 
@@ -351,23 +351,23 @@ msgstr "supprimer"
 msgid "share"
 msgstr "partager"
 
-#: js/share.js:398 js/share.js:618
+#: js/share.js:398 js/share.js:630
 msgid "Password protected"
 msgstr "Protégé par un mot de passe"
 
-#: js/share.js:631
+#: js/share.js:643
 msgid "Error unsetting expiration date"
 msgstr "Une erreur est survenue pendant la suppression de la date d'expiration"
 
-#: js/share.js:643
+#: js/share.js:655
 msgid "Error setting expiration date"
 msgstr "Erreur lors de la spécification de la date d'expiration"
 
-#: js/share.js:658
+#: js/share.js:670
 msgid "Sending ..."
 msgstr "En cours d'envoi ..."
 
-#: js/share.js:669
+#: js/share.js:681
 msgid "Email sent"
 msgstr "Email envoyé"
 
@@ -466,7 +466,7 @@ msgstr "Aide"
 msgid "Access forbidden"
 msgstr "Accès interdit"
 
-#: templates/404.php:12
+#: templates/404.php:15
 msgid "Cloud not found"
 msgstr "Introuvable"
 

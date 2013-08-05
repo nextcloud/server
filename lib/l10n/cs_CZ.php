@@ -5,11 +5,14 @@
 "Users" => "Uživatelé",
 "Apps" => "Aplikace",
 "Admin" => "Administrace",
+"Failed to upgrade \"%s\"." => "Selhalo povýšení verze \"%s\".",
 "web services under your control" => "služby webu pod Vaší kontrolou",
+"cannot open \"%s\"" => "nelze otevřít \"%s\"",
 "ZIP download is turned off." => "Stahování ZIPu je vypnuto.",
 "Files need to be downloaded one by one." => "Soubory musí být stahovány jednotlivě.",
 "Back to Files" => "Zpět k souborům",
 "Selected files too large to generate zip file." => "Vybrané soubory jsou příliš velké pro vytvoření zip souboru.",
+"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Stáhněte soubory po menších částech, samostatně, nebo se obraťte na správce.",
 "couldn't be determined" => "nelze zjistit",
 "Application is not enabled" => "Aplikace není povolena",
 "Authentication error" => "Chyba ověření",
@@ -49,5 +52,6 @@
 "%d months ago" => "Před %d měsíci",
 "last year" => "minulý rok",
 "years ago" => "před lety",
+"Caused by:" => "Příčina:",
 "Could not find category \"%s\"" => "Nelze nalézt kategorii \"%s\""
 );

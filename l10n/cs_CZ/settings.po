@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Honza K. <honza889@gmail.com>, 2013
+# pstast <petr@stastny.eu>, 2013
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-30 01:55-0400\n"
-"PO-Revision-Date: 2013-07-29 19:30+0000\n"
-"Last-Translator: Honza K. <honza889@gmail.com>\n"
+"POT-Creation-Date: 2013-08-05 07:52-0400\n"
+"PO-Revision-Date: 2013-08-05 11:10+0000\n"
+"Last-Translator: pstast <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +27,7 @@ msgstr "Nelze načíst seznam z App Store"
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr "Chyba ověření"
+msgstr "Chyba přihlášení"
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
@@ -84,7 +85,7 @@ msgstr "Nelze přidat uživatele do skupiny %s"
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr "Nelze odstranit uživatele ze skupiny %s"
+msgstr "Nelze odebrat uživatele ze skupiny %s"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
@@ -132,7 +133,7 @@ msgstr "smazáno"
 
 #: js/users.js:47
 msgid "undo"
-msgstr "zpět"
+msgstr "vrátit zpět"
 
 #: js/users.js:79
 msgid "Unable to remove user"
@@ -182,7 +183,7 @@ msgid ""
 "configure your webserver in a way that the data directory is no longer "
 "accessible or you move the data directory outside the webserver document "
 "root."
-msgstr ""
+msgstr "Váš datový adresář i vaše soubory jsou pravděpodobně přístupné z internetu. Soubor .htaccess nefunguje. Důrazně doporučujeme nakonfigurovat webový server tak, aby datový adresář nebyl nadále přístupný, nebo přesunout datový adresář mimo prostor zpřístupňovaný webovým serverem."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -192,7 +193,7 @@ msgstr "Upozornění nastavení"
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr "Váš webový server není správně nastaven pro umožnění synchronizace, protože rozhraní WebDAV je rozbité."
+msgstr "Váš webový server není správně nastaven pro umožnění synchronizace, protože rozhraní WebDAV se zdá nefunkční."
 
 #: templates/admin.php:33
 #, php-format
@@ -207,11 +208,11 @@ msgstr "Schází modul 'fileinfo'"
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr "Schází modul PHP 'fileinfo'. Doporučujeme jej povolit pro nejlepší výsledky detekce typů MIME."
+msgstr "Schází PHP modul 'fileinfo'. Doporučujeme jej povolit pro nejlepší výsledky detekce typů MIME."
 
 #: templates/admin.php:58
 msgid "Locale not working"
-msgstr "Locale nefunguje"
+msgstr "Lokalizace nefunguje"
 
 #: templates/admin.php:63
 #, php-format
@@ -219,11 +220,11 @@ msgid ""
 "System locale can't be set to %s. This means that there might be problems "
 "with certain characters in file names. We strongly suggest to install the "
 "required packages on your system to support %s."
-msgstr ""
+msgstr "Systémové nastavení lokalizace nemohlo být nastaveno na %s. To znamená, že se mohou vyskytnout problémy s některými znaky v názvech souborů. Důrazně doporučujeme nainstalovat do vašeho systému balíčky potřebné pro podporu %s."
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
-msgstr "Spojení s internetem nefujguje"
+msgstr "Připojení k internetu nefunguje"
 
 #: templates/admin.php:78
 msgid ""
@@ -232,7 +233,7 @@ msgid ""
 "installation of 3rd party apps don´t work. Accessing files from remote and "
 "sending of notification emails might also not work. We suggest to enable "
 "internet connection for this server if you want to have all features."
-msgstr ""
+msgstr "Server nemá funkční připojení k internetu. Některé moduly jako např. externí úložiště, oznámení o dostupných aktualizacích nebo instalace aplikací třetích stran nebudou fungovat. Přístup k souborům z jiných míst a odesílání oznamovacích e-mailů také nemusí fungovat. Pokud si přejete využívat všech vlastností ownCloud, doporučujeme povolit připojení k internetu tomuto serveru."
 
 #: templates/admin.php:92
 msgid "Cron"
@@ -240,17 +241,17 @@ msgstr "Cron"
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
-msgstr "Spustit jednu úlohu s každou načtenou stránkou"
+msgstr "Spustit jednu úlohu s každým načtením stránky"
 
 #: templates/admin.php:111
 msgid ""
 "cron.php is registered at a webcron service to call cron.php once a minute "
 "over http."
-msgstr ""
+msgstr "cron.php je registrován u služby webcron pro zavolání stránky cron.php jednou za minutu přes HTTP."
 
 #: templates/admin.php:121
 msgid "Use systems cron service to call the cron.php file once a minute."
-msgstr "Použijte systémovou službu cron pro spouštění souboru cron.php jednou za minutu."
+msgstr "Použít systémovou službu cron pro spouštění souboru cron.php jednou za minutu."
 
 #: templates/admin.php:128
 msgid "Sharing"
@@ -270,16 +271,16 @@ msgstr "Povolit odkazy"
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
-msgstr "Povolit uživatelům sdílet položky s veřejností pomocí odkazů"
+msgstr "Povolit uživatelům sdílet položky veřejně pomocí odkazů"
 
 #: templates/admin.php:151
 msgid "Allow public uploads"
-msgstr "Povolit veřejné soubory"
+msgstr "Povolit veřejné nahrávání souborů"
 
 #: templates/admin.php:152
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
-msgstr "Povolit uživatelům umožnit ostatním nahrávat do jejich veřejně sdílené složky"
+msgstr "Povolit uživatelům, aby mohli ostatním umožnit nahrávat do jejich veřejně sdílené složky"
 
 #: templates/admin.php:160
 msgid "Allow resharing"
@@ -323,7 +324,7 @@ msgstr "Záznam"
 
 #: templates/admin.php:212
 msgid "Log level"
-msgstr "Úroveň záznamu"
+msgstr "Úroveň zaznamenávání"
 
 #: templates/admin.php:243
 msgid "More"
@@ -349,7 +350,7 @@ msgstr "Vyvinuto <a href=\"http://ownCloud.org/contact\" target=\"_blank\">komun
 
 #: templates/apps.php:13
 msgid "Add your App"
-msgstr "Přidat Vaší aplikaci"
+msgstr "Přidat Vaši aplikaci"
 
 #: templates/apps.php:28
 msgid "More Apps"
@@ -418,7 +419,7 @@ msgstr "Vaše heslo bylo změněno"
 
 #: templates/personal.php:41
 msgid "Unable to change your password"
-msgstr "Vaše heslo nelze změnit"
+msgstr "Změna vašeho hesla se nezdařila"
 
 #: templates/personal.php:42
 msgid "Current password"
@@ -446,7 +447,7 @@ msgstr "Vaše e-mailová adresa"
 
 #: templates/personal.php:76
 msgid "Fill in an email address to enable password recovery"
-msgstr "Pro povolení změny hesla vyplňte adresu e-mailu"
+msgstr "Pro povolení obnovy hesla vyplňte e-mailovou adresu"
 
 #: templates/personal.php:85 templates/personal.php:86
 msgid "Language"

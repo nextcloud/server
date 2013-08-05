@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:04+0000\n"
+"POT-Creation-Date: 2013-08-02 01:55-0400\n"
+"PO-Revision-Date: 2013-08-02 05:40+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -122,7 +122,7 @@ msgstr "Condividi"
 msgid "Delete permanently"
 msgstr "Elimina definitivamente"
 
-#: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
+#: js/fileactions.js:128 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "Elimina"
 
@@ -130,7 +130,7 @@ msgstr "Elimina"
 msgid "Rename"
 msgstr "Rinomina"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:466
 msgid "Pending"
 msgstr "In corso"
 
@@ -162,11 +162,11 @@ msgstr "annulla"
 msgid "perform delete operation"
 msgstr "esegui l'operazione di eliminazione"
 
-#: js/filelist.js:457
+#: js/filelist.js:458
 msgid "1 file uploading"
 msgstr "1 file in fase di caricamento"
 
-#: js/filelist.js:460 js/filelist.js:518
+#: js/filelist.js:461 js/filelist.js:519
 msgid "files uploading"
 msgstr "caricamento file"
 
@@ -202,15 +202,15 @@ msgstr "Il tuo scaricamento è in fase di preparazione. Ciò potrebbe richiedere
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Nome della cartella non valido. L'uso di 'Shared' è riservato da ownCloud"
 
-#: js/files.js:744 templates/index.php:69
+#: js/files.js:744 templates/index.php:67
 msgid "Name"
 msgstr "Nome"
 
-#: js/files.js:745 templates/index.php:80
+#: js/files.js:745 templates/index.php:78
 msgid "Size"
 msgstr "Dimensione"
 
-#: js/files.js:746 templates/index.php:82
+#: js/files.js:746 templates/index.php:80
 msgid "Modified"
 msgstr "Modificato"
 
@@ -287,45 +287,45 @@ msgstr "Cartella"
 msgid "From link"
 msgstr "Da collegamento"
 
-#: templates/index.php:42
+#: templates/index.php:41
 msgid "Deleted files"
 msgstr "File eliminati"
 
-#: templates/index.php:48
+#: templates/index.php:46
 msgid "Cancel upload"
 msgstr "Annulla invio"
 
-#: templates/index.php:54
+#: templates/index.php:52
 msgid "You don’t have write permissions here."
 msgstr "Qui non hai i permessi di scrittura."
 
-#: templates/index.php:61
+#: templates/index.php:59
 msgid "Nothing in here. Upload something!"
 msgstr "Non c'è niente qui. Carica qualcosa!"
 
-#: templates/index.php:75
+#: templates/index.php:73
 msgid "Download"
 msgstr "Scarica"
 
-#: templates/index.php:87 templates/index.php:88
+#: templates/index.php:85 templates/index.php:86
 msgid "Unshare"
 msgstr "Rimuovi condivisione"
 
-#: templates/index.php:107
+#: templates/index.php:105
 msgid "Upload too large"
 msgstr "Caricamento troppo grande"
 
-#: templates/index.php:109
+#: templates/index.php:107
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "I file che stai provando a caricare superano la dimensione massima consentita su questo server."
 
-#: templates/index.php:114
+#: templates/index.php:112
 msgid "Files are being scanned, please wait."
 msgstr "Scansione dei file in corso, attendi"
 
-#: templates/index.php:117
+#: templates/index.php:115
 msgid "Current scanning"
 msgstr "Scansione corrente"
 

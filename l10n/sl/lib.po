@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-24 01:55-0400\n"
-"PO-Revision-Date: 2013-07-24 05:55+0000\n"
+"POT-Creation-Date: 2013-08-04 01:55-0400\n"
+"PO-Revision-Date: 2013-08-04 05:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgstr "Skrbništvo"
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
 
-#: defaults.php:33
+#: defaults.php:35
 msgid "web services under your control"
 msgstr "spletne storitve pod vašim nadzorom"
 
@@ -258,7 +258,7 @@ msgstr "lansko leto"
 msgid "years ago"
 msgstr "let nazaj"
 
-#: template.php:296
+#: template.php:297
 msgid "Caused by:"
 msgstr ""
 

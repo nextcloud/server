@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:04+0000\n"
+"POT-Creation-Date: 2013-08-02 01:55-0400\n"
+"PO-Revision-Date: 2013-08-02 05:40+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -120,7 +120,7 @@ msgstr "Nda"
 msgid "Delete permanently"
 msgstr "Elimino përfundimisht"
 
-#: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
+#: js/fileactions.js:128 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "Elimino"
 
@@ -128,7 +128,7 @@ msgstr "Elimino"
 msgid "Rename"
 msgstr "Riemërto"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:466
 msgid "Pending"
 msgstr "Pezulluar"
 
@@ -160,11 +160,11 @@ msgstr "anulo"
 msgid "perform delete operation"
 msgstr "ekzekuto operacionin e eliminimit"
 
-#: js/filelist.js:457
+#: js/filelist.js:458
 msgid "1 file uploading"
 msgstr "Po ngarkohet 1 skedar"
 
-#: js/filelist.js:460 js/filelist.js:518
+#: js/filelist.js:461 js/filelist.js:519
 msgid "files uploading"
 msgstr "po ngarkoj skedarët"
 
@@ -200,15 +200,15 @@ msgstr "Shkarkimi juaj po përgatitet. Mund të duhet pak kohë nqse skedarët j
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Emri i dosjes është i pavlefshëm. Përdorimi i \"Shared\" është i rezervuar nga Owncloud-i."
 
-#: js/files.js:744 templates/index.php:69
+#: js/files.js:744 templates/index.php:67
 msgid "Name"
 msgstr "Emri"
 
-#: js/files.js:745 templates/index.php:80
+#: js/files.js:745 templates/index.php:78
 msgid "Size"
 msgstr "Dimensioni"
 
-#: js/files.js:746 templates/index.php:82
+#: js/files.js:746 templates/index.php:80
 msgid "Modified"
 msgstr "Modifikuar"
 
@@ -285,45 +285,45 @@ msgstr "Dosje"
 msgid "From link"
 msgstr "Nga lidhja"
 
-#: templates/index.php:42
+#: templates/index.php:41
 msgid "Deleted files"
 msgstr "Skedarë të eliminuar"
 
-#: templates/index.php:48
+#: templates/index.php:46
 msgid "Cancel upload"
 msgstr "Anulo ngarkimin"
 
-#: templates/index.php:54
+#: templates/index.php:52
 msgid "You don’t have write permissions here."
 msgstr "Nuk keni të drejta për të shkruar këtu."
 
-#: templates/index.php:61
+#: templates/index.php:59
 msgid "Nothing in here. Upload something!"
 msgstr "Këtu nuk ka asgjë. Ngarkoni diçka!"
 
-#: templates/index.php:75
+#: templates/index.php:73
 msgid "Download"
 msgstr "Shkarko"
 
-#: templates/index.php:87 templates/index.php:88
+#: templates/index.php:85 templates/index.php:86
 msgid "Unshare"
 msgstr "Hiq ndarjen"
 
-#: templates/index.php:107
+#: templates/index.php:105
 msgid "Upload too large"
 msgstr "Ngarkimi është shumë i madh"
 
-#: templates/index.php:109
+#: templates/index.php:107
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Skedarët që doni të ngarkoni tejkalojnë dimensionet maksimale për ngarkimet në këtë server."
 
-#: templates/index.php:114
+#: templates/index.php:112
 msgid "Files are being scanned, please wait."
 msgstr "Skedarët po analizohen, ju lutemi pritni."
 
-#: templates/index.php:117
+#: templates/index.php:115
 msgid "Current scanning"
 msgstr "Analizimi aktual"
 

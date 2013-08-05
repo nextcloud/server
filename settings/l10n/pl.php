@@ -50,6 +50,7 @@
 "Allow apps to use the Share API" => "Zezwalaj aplikacjom na korzystanie z API udostępniania",
 "Allow links" => "Zezwalaj na odnośniki",
 "Allow users to share items to the public with links" => "Zezwalaj użytkownikom na publiczne współdzielenie zasobów za pomocą odnośników",
+"Allow public uploads" => "Pozwól na  publiczne wczytywanie",
 "Allow resharing" => "Zezwalaj na ponowne udostępnianie",
 "Allow users to share items shared with them again" => "Zezwalaj użytkownikom na ponowne współdzielenie zasobów już z nimi współdzielonych",
 "Allow users to share with anyone" => "Zezwalaj użytkownikom na współdzielenie z kimkolwiek",

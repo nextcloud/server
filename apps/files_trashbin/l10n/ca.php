@@ -11,6 +11,7 @@
 "{count} folders" => "{count} carpetes",
 "1 file" => "1 fitxer",
 "{count} files" => "{count} fitxers",
+"restored" => "restaurat",
 "Nothing in here. Your trash bin is empty!" => "La paperera està buida!",
 "Restore" => "Recupera",
 "Delete" => "Esborra",

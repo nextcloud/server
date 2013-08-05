@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-22 15:30+0000\n"
-"Last-Translator: moura232 <moura232@gmail.com>\n"
+"POT-Creation-Date: 2013-08-02 01:55-0400\n"
+"PO-Revision-Date: 2013-08-02 05:57+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -54,7 +54,7 @@ msgstr ""
 msgid ""
 "Could not update the private key password. Maybe the old password was not "
 "correct."
-msgstr ""
+msgstr "Não foi possível alterar a chave. Possivelmente a password antiga não está correcta."
 
 #: files/error.php:7
 msgid ""
@@ -66,7 +66,7 @@ msgstr "Chave privada não é válida! Provavelmente senha foi alterada fora do 
 
 #: hooks/hooks.php:44
 msgid "Missing requirements."
-msgstr ""
+msgstr "Faltam alguns requisitos."
 
 #: hooks/hooks.php:45
 msgid ""
@@ -74,6 +74,10 @@ msgid ""
 "PHP extension is enabled and configured properly. For now, the encryption "
 "app has been disabled."
 msgstr "Por favor, certifique-se que PHP 5.3.3 ou mais recente está instalado e que a extensão PHP OpenSSL está ativada e corretamente configurada. Por agora, a encripitação está desativado."
+
+#: hooks/hooks.php:263
+msgid "Following users are not set up for encryption:"
+msgstr ""
 
 #: js/settings-admin.js:11
 msgid "Saving..."
@@ -100,11 +104,11 @@ msgstr "Encriptação"
 #: templates/settings-admin.php:10
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
-msgstr ""
+msgstr "Active a chave de recuperação (permite recuperar os ficheiros no caso de perda da password):"
 
 #: templates/settings-admin.php:14
 msgid "Recovery key password"
-msgstr ""
+msgstr "Chave de recuperação da conta"
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
@@ -116,15 +120,15 @@ msgstr "Desactivado"
 
 #: templates/settings-admin.php:34
 msgid "Change recovery key password:"
-msgstr ""
+msgstr "Alterar a chave de recuperação:"
 
 #: templates/settings-admin.php:41
 msgid "Old Recovery key password"
-msgstr ""
+msgstr "Chave anterior de recuperação da conta"
 
 #: templates/settings-admin.php:48
 msgid "New Recovery key password"
-msgstr ""
+msgstr "Nova chave de recuperação da conta"
 
 #: templates/settings-admin.php:53
 msgid "Change Password"
@@ -146,11 +150,11 @@ msgstr ""
 
 #: templates/settings-personal.php:24
 msgid "Old log-in password"
-msgstr ""
+msgstr "Password anterior da conta"
 
 #: templates/settings-personal.php:30
 msgid "Current log-in password"
-msgstr ""
+msgstr "Password actual da conta"
 
 #: templates/settings-personal.php:35
 msgid "Update Private Key Password"
@@ -164,7 +168,7 @@ msgstr "ativar recuperação do password:"
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
-msgstr ""
+msgstr "Ao activar esta opção, tornar-lhe-a possível a obtenção de acesso aos seus ficheiros encriptados caso perca a password."
 
 #: templates/settings-personal.php:63
 msgid "File recovery settings updated"

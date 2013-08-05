@@ -11,6 +11,7 @@
 "{count} folders" => "Ilość folderów: {count}",
 "1 file" => "1 plik",
 "{count} files" => "Ilość plików: {count}",
+"restored" => "przywrócony",
 "Nothing in here. Your trash bin is empty!" => "Nic tu nie ma. Twój kosz jest pusty!",
 "Restore" => "Przywróć",
 "Delete" => "Usuń",

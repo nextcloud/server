@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:04+0000\n"
+"POT-Creation-Date: 2013-08-02 01:55-0400\n"
+"PO-Revision-Date: 2013-08-02 05:40+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -121,7 +121,7 @@ msgstr "Souporaba"
 msgid "Delete permanently"
 msgstr "Izbriši dokončno"
 
-#: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
+#: js/fileactions.js:128 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "Izbriši"
 
@@ -129,7 +129,7 @@ msgstr "Izbriši"
 msgid "Rename"
 msgstr "Preimenuj"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:466
 msgid "Pending"
 msgstr "V čakanju ..."
 
@@ -161,11 +161,11 @@ msgstr "razveljavi"
 msgid "perform delete operation"
 msgstr "izvedi opravilo brisanja"
 
-#: js/filelist.js:457
+#: js/filelist.js:458
 msgid "1 file uploading"
 msgstr "Pošiljanje 1 datoteke"
 
-#: js/filelist.js:460 js/filelist.js:518
+#: js/filelist.js:461 js/filelist.js:519
 msgid "files uploading"
 msgstr "poteka pošiljanje datotek"
 
@@ -201,15 +201,15 @@ msgstr "Postopek priprave datoteke za prejem je lahko dolgotrajen, če je datote
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Neveljavno ime mape. Uporaba oznake \"Souporaba\" je zadržan za sistem ownCloud."
 
-#: js/files.js:744 templates/index.php:69
+#: js/files.js:744 templates/index.php:67
 msgid "Name"
 msgstr "Ime"
 
-#: js/files.js:745 templates/index.php:80
+#: js/files.js:745 templates/index.php:78
 msgid "Size"
 msgstr "Velikost"
 
-#: js/files.js:746 templates/index.php:82
+#: js/files.js:746 templates/index.php:80
 msgid "Modified"
 msgstr "Spremenjeno"
 
@@ -286,45 +286,45 @@ msgstr "Mapa"
 msgid "From link"
 msgstr "Iz povezave"
 
-#: templates/index.php:42
+#: templates/index.php:41
 msgid "Deleted files"
 msgstr "Izbrisane datoteke"
 
-#: templates/index.php:48
+#: templates/index.php:46
 msgid "Cancel upload"
 msgstr "Prekliči pošiljanje"
 
-#: templates/index.php:54
+#: templates/index.php:52
 msgid "You don’t have write permissions here."
 msgstr "Za to mesto ni ustreznih dovoljenj za pisanje."
 
-#: templates/index.php:61
+#: templates/index.php:59
 msgid "Nothing in here. Upload something!"
 msgstr "Tukaj še ni ničesar. Najprej je treba kakšno datoteko poslati v oblak!"
 
-#: templates/index.php:75
+#: templates/index.php:73
 msgid "Download"
 msgstr "Prejmi"
 
-#: templates/index.php:87 templates/index.php:88
+#: templates/index.php:85 templates/index.php:86
 msgid "Unshare"
 msgstr "Prekliči souporabo"
 
-#: templates/index.php:107
+#: templates/index.php:105
 msgid "Upload too large"
 msgstr "Prekoračenje omejitve velikosti"
 
-#: templates/index.php:109
+#: templates/index.php:107
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Datoteke, ki jih želite poslati, presegajo največjo dovoljeno velikost na strežniku."
 
-#: templates/index.php:114
+#: templates/index.php:112
 msgid "Files are being scanned, please wait."
 msgstr "Poteka preučevanje datotek, počakajte ..."
 
-#: templates/index.php:117
+#: templates/index.php:115
 msgid "Current scanning"
 msgstr "Trenutno poteka preučevanje"
 

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-24 01:55-0400\n"
-"PO-Revision-Date: 2013-07-24 05:55+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-04 01:55-0400\n"
+"PO-Revision-Date: 2013-08-04 05:01+0000\n"
+"Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,16 +45,16 @@ msgstr "Administrator"
 #: app.php:844
 #, php-format
 msgid "Failed to upgrade \"%s\"."
-msgstr ""
+msgstr "Błąd przy aktualizacji \"%s\"."
 
-#: defaults.php:33
+#: defaults.php:35
 msgid "web services under your control"
 msgstr "Kontrolowane serwisy"
 
 #: files.php:66 files.php:98
 #, php-format
 msgid "cannot open \"%s\""
-msgstr ""
+msgstr "Nie można otworzyć \"%s\""
 
 #: files.php:226
 msgid "ZIP download is turned off."
@@ -76,7 +76,7 @@ msgstr "Wybrane pliki są zbyt duże, aby wygenerować plik zip."
 msgid ""
 "Download the files in smaller chunks, seperately or kindly ask your "
 "administrator."
-msgstr ""
+msgstr "Pobierz pliki w mniejszy kawałkach, oddzielnie lub poproś administratora o zwiększenie limitu."
 
 #: helper.php:235
 msgid "couldn't be determined"
@@ -258,9 +258,9 @@ msgstr "w zeszłym roku"
 msgid "years ago"
 msgstr "lat temu"
 
-#: template.php:296
+#: template.php:297
 msgid "Caused by:"
-msgstr ""
+msgstr "Spowodowane przez:"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format

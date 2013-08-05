@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-06 02:01+0200\n"
-"PO-Revision-Date: 2013-07-05 15:50+0000\n"
-"Last-Translator: Josep Tomàs <jtomas.binsoft@gmail.com>\n"
+"POT-Creation-Date: 2013-08-02 01:55-0400\n"
+"PO-Revision-Date: 2013-08-02 05:57+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,6 +74,10 @@ msgid ""
 "PHP extension is enabled and configured properly. For now, the encryption "
 "app has been disabled."
 msgstr "Assegureu-vos que teniu instal·lada la versió de PHP 5.3.3 o posterior, i que teniu l'extensió OpenSSL PHP activada i configurada correctament. Per ara, l'aplicació de xifrat esta desactivada."
+
+#: hooks/hooks.php:263
+msgid "Following users are not set up for encryption:"
+msgstr ""
 
 #: js/settings-admin.js:11
 msgid "Saving..."

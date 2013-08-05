@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:04+0000\n"
+"POT-Creation-Date: 2013-08-02 01:55-0400\n"
+"PO-Revision-Date: 2013-08-02 05:40+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -121,7 +121,7 @@ msgstr "Zdieľať"
 msgid "Delete permanently"
 msgstr "Zmazať  trvalo"
 
-#: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
+#: js/fileactions.js:128 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "Zmazať"
 
@@ -129,7 +129,7 @@ msgstr "Zmazať"
 msgid "Rename"
 msgstr "Premenovať"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:466
 msgid "Pending"
 msgstr "Prebieha"
 
@@ -161,11 +161,11 @@ msgstr "vrátiť"
 msgid "perform delete operation"
 msgstr "vykonať zmazanie"
 
-#: js/filelist.js:457
+#: js/filelist.js:458
 msgid "1 file uploading"
 msgstr "1 súbor sa posiela "
 
-#: js/filelist.js:460 js/filelist.js:518
+#: js/filelist.js:461 js/filelist.js:519
 msgid "files uploading"
 msgstr "nahrávanie súborov"
 
@@ -201,15 +201,15 @@ msgstr "Vaše sťahovanie sa pripravuje. Ak sú sťahované súbory veľké, mô
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Neplatné meno priečinka. Používanie mena 'Shared' je vyhradené len pre Owncloud"
 
-#: js/files.js:744 templates/index.php:69
+#: js/files.js:744 templates/index.php:67
 msgid "Name"
 msgstr "Názov"
 
-#: js/files.js:745 templates/index.php:80
+#: js/files.js:745 templates/index.php:78
 msgid "Size"
 msgstr "Veľkosť"
 
-#: js/files.js:746 templates/index.php:82
+#: js/files.js:746 templates/index.php:80
 msgid "Modified"
 msgstr "Upravené"
 
@@ -286,45 +286,45 @@ msgstr "Priečinok"
 msgid "From link"
 msgstr "Z odkazu"
 
-#: templates/index.php:42
+#: templates/index.php:41
 msgid "Deleted files"
 msgstr "Zmazané súbory"
 
-#: templates/index.php:48
+#: templates/index.php:46
 msgid "Cancel upload"
 msgstr "Zrušiť odosielanie"
 
-#: templates/index.php:54
+#: templates/index.php:52
 msgid "You don’t have write permissions here."
 msgstr "Nemáte oprávnenie na zápis."
 
-#: templates/index.php:61
+#: templates/index.php:59
 msgid "Nothing in here. Upload something!"
 msgstr "Žiadny súbor. Nahrajte niečo!"
 
-#: templates/index.php:75
+#: templates/index.php:73
 msgid "Download"
 msgstr "Sťahovanie"
 
-#: templates/index.php:87 templates/index.php:88
+#: templates/index.php:85 templates/index.php:86
 msgid "Unshare"
 msgstr "Zrušiť zdieľanie"
 
-#: templates/index.php:107
+#: templates/index.php:105
 msgid "Upload too large"
 msgstr "Nahrávanie je príliš veľké"
 
-#: templates/index.php:109
+#: templates/index.php:107
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Súbory, ktoré sa snažíte nahrať, presahujú maximálnu veľkosť pre nahratie súborov na tento server."
 
-#: templates/index.php:114
+#: templates/index.php:112
 msgid "Files are being scanned, please wait."
 msgstr "Čakajte, súbory sú prehľadávané."
 
-#: templates/index.php:117
+#: templates/index.php:115
 msgid "Current scanning"
 msgstr "Práve prezerané"
 

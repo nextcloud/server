@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-24 01:55-0400\n"
-"PO-Revision-Date: 2013-07-24 05:55+0000\n"
+"POT-Creation-Date: 2013-08-04 01:55-0400\n"
+"PO-Revision-Date: 2013-08-04 05:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +46,7 @@ msgstr "Admin"
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
 
-#: defaults.php:33
+#: defaults.php:35
 msgid "web services under your control"
 msgstr "layanan web dalam kontrol Anda"
 
@@ -257,7 +257,7 @@ msgstr "tahun kemarin"
 msgid "years ago"
 msgstr "beberapa tahun lalu"
 
-#: template.php:296
+#: template.php:297
 msgid "Caused by:"
 msgstr ""
 

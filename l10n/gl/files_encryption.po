@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-07 01:58+0200\n"
-"PO-Revision-Date: 2013-07-06 09:11+0000\n"
+"POT-Creation-Date: 2013-08-03 01:55-0400\n"
+"PO-Revision-Date: 2013-08-02 10:20+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -74,6 +74,10 @@ msgid ""
 "PHP extension is enabled and configured properly. For now, the encryption "
 "app has been disabled."
 msgstr "Asegúrese de que está instalado o  PHP 5.3.3 ou posterior e de que a extensión OpenSSL PHP estea activada e configurada correctamente. Polo de agora foi desactivado o aplicativo de cifrado."
+
+#: hooks/hooks.php:263
+msgid "Following users are not set up for encryption:"
+msgstr "Os seguintes usuarios non teñen configuración para o cifrado:"
 
 #: js/settings-admin.js:11
 msgid "Saving..."

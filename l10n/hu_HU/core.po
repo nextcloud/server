@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-27 01:56-0400\n"
-"PO-Revision-Date: 2013-07-26 18:30+0000\n"
+"POT-Creation-Date: 2013-08-04 01:55-0400\n"
+"PO-Revision-Date: 2013-08-04 05:01+0000\n"
 "Last-Translator: ebela <bela@dandre.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -143,55 +143,55 @@ msgstr "december"
 msgid "Settings"
 msgstr "Beállítások"
 
-#: js/js.js:715
+#: js/js.js:753
 msgid "seconds ago"
 msgstr "pár másodperce"
 
-#: js/js.js:716
+#: js/js.js:754
 msgid "1 minute ago"
 msgstr "1 perce"
 
-#: js/js.js:717
+#: js/js.js:755
 msgid "{minutes} minutes ago"
 msgstr "{minutes} perce"
 
-#: js/js.js:718
+#: js/js.js:756
 msgid "1 hour ago"
 msgstr "1 órája"
 
-#: js/js.js:719
+#: js/js.js:757
 msgid "{hours} hours ago"
 msgstr "{hours} órája"
 
-#: js/js.js:720
+#: js/js.js:758
 msgid "today"
 msgstr "ma"
 
-#: js/js.js:721
+#: js/js.js:759
 msgid "yesterday"
 msgstr "tegnap"
 
-#: js/js.js:722
+#: js/js.js:760
 msgid "{days} days ago"
 msgstr "{days} napja"
 
-#: js/js.js:723
+#: js/js.js:761
 msgid "last month"
 msgstr "múlt hónapban"
 
-#: js/js.js:724
+#: js/js.js:762
 msgid "{months} months ago"
 msgstr "{months} hónapja"
 
-#: js/js.js:725
+#: js/js.js:763
 msgid "months ago"
 msgstr "több hónapja"
 
-#: js/js.js:726
+#: js/js.js:764
 msgid "last year"
 msgstr "tavaly"
 
-#: js/js.js:727
+#: js/js.js:765
 msgid "years ago"
 msgstr "több éve"
 
@@ -228,7 +228,7 @@ msgstr "Az objektum típusa nincs megadva."
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:631 js/share.js:643
+#: js/share.js:643 js/share.js:655
 msgid "Error"
 msgstr "Hiba"
 
@@ -248,7 +248,7 @@ msgstr "Megosztott"
 msgid "Share"
 msgstr "Megosztás"
 
-#: js/share.js:131 js/share.js:671
+#: js/share.js:131 js/share.js:683
 msgid "Error while sharing"
 msgstr "Nem sikerült létrehozni a megosztást"
 
@@ -348,23 +348,23 @@ msgstr "töröl"
 msgid "share"
 msgstr "megoszt"
 
-#: js/share.js:398 js/share.js:618
+#: js/share.js:398 js/share.js:630
 msgid "Password protected"
 msgstr "Jelszóval van védve"
 
-#: js/share.js:631
+#: js/share.js:643
 msgid "Error unsetting expiration date"
 msgstr "Nem sikerült a lejárati időt törölni"
 
-#: js/share.js:643
+#: js/share.js:655
 msgid "Error setting expiration date"
 msgstr "Nem sikerült a lejárati időt beállítani"
 
-#: js/share.js:658
+#: js/share.js:670
 msgid "Sending ..."
 msgstr "Küldés ..."
 
-#: js/share.js:669
+#: js/share.js:681
 msgid "Email sent"
 msgstr "Az emailt elküldtük"
 
@@ -463,7 +463,7 @@ msgstr "Súgó"
 msgid "Access forbidden"
 msgstr "A hozzáférés nem engedélyezett"
 
-#: templates/404.php:12
+#: templates/404.php:15
 msgid "Cloud not found"
 msgstr "A felhő nem található"
 

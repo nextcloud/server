@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-30 01:55-0400\n"
-"PO-Revision-Date: 2013-07-29 08:10+0000\n"
+"POT-Creation-Date: 2013-08-04 01:55-0400\n"
+"PO-Revision-Date: 2013-08-04 05:01+0000\n"
 "Last-Translator: corneliu.e <corneliueva@yahoo.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -145,55 +145,55 @@ msgstr "Decembrie"
 msgid "Settings"
 msgstr "Setări"
 
-#: js/js.js:715
+#: js/js.js:753
 msgid "seconds ago"
 msgstr "secunde în urmă"
 
-#: js/js.js:716
+#: js/js.js:754
 msgid "1 minute ago"
 msgstr "1 minut în urmă"
 
-#: js/js.js:717
+#: js/js.js:755
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minute in urmă"
 
-#: js/js.js:718
+#: js/js.js:756
 msgid "1 hour ago"
 msgstr "Acum o oră"
 
-#: js/js.js:719
+#: js/js.js:757
 msgid "{hours} hours ago"
 msgstr "{hours} ore în urmă"
 
-#: js/js.js:720
+#: js/js.js:758
 msgid "today"
 msgstr "astăzi"
 
-#: js/js.js:721
+#: js/js.js:759
 msgid "yesterday"
 msgstr "ieri"
 
-#: js/js.js:722
+#: js/js.js:760
 msgid "{days} days ago"
 msgstr "{days} zile in urmă"
 
-#: js/js.js:723
+#: js/js.js:761
 msgid "last month"
 msgstr "ultima lună"
 
-#: js/js.js:724
+#: js/js.js:762
 msgid "{months} months ago"
 msgstr "{months} luni în urmă"
 
-#: js/js.js:725
+#: js/js.js:763
 msgid "months ago"
 msgstr "luni în urmă"
 
-#: js/js.js:726
+#: js/js.js:764
 msgid "last year"
 msgstr "ultimul an"
 
-#: js/js.js:727
+#: js/js.js:765
 msgid "years ago"
 msgstr "ani în urmă"
 
@@ -230,7 +230,7 @@ msgstr "Tipul obiectului nu este specificat."
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:631 js/share.js:643
+#: js/share.js:643 js/share.js:655
 msgid "Error"
 msgstr "Eroare"
 
@@ -250,7 +250,7 @@ msgstr "Partajat"
 msgid "Share"
 msgstr "Partajează"
 
-#: js/share.js:131 js/share.js:671
+#: js/share.js:131 js/share.js:683
 msgid "Error while sharing"
 msgstr "Eroare la partajare"
 
@@ -350,23 +350,23 @@ msgstr "ștergere"
 msgid "share"
 msgstr "partajare"
 
-#: js/share.js:398 js/share.js:618
+#: js/share.js:398 js/share.js:630
 msgid "Password protected"
 msgstr "Protejare cu parolă"
 
-#: js/share.js:631
+#: js/share.js:643
 msgid "Error unsetting expiration date"
 msgstr "Eroare la anularea datei de expirare"
 
-#: js/share.js:643
+#: js/share.js:655
 msgid "Error setting expiration date"
 msgstr "Eroare la specificarea datei de expirare"
 
-#: js/share.js:658
+#: js/share.js:670
 msgid "Sending ..."
 msgstr "Se expediază..."
 
-#: js/share.js:669
+#: js/share.js:681
 msgid "Email sent"
 msgstr "Mesajul a fost expediat"
 
@@ -465,7 +465,7 @@ msgstr "Ajutor"
 msgid "Access forbidden"
 msgstr "Acces restricționat"
 
-#: templates/404.php:12
+#: templates/404.php:15
 msgid "Cloud not found"
 msgstr "Nu s-a găsit"
 

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Sappe, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-27 01:56-0400\n"
-"PO-Revision-Date: 2013-07-27 05:56+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-04 01:55-0400\n"
+"PO-Revision-Date: 2013-08-04 05:02+0000\n"
+"Last-Translator: Sappe\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,11 +24,11 @@ msgstr ""
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
-msgstr ""
+msgstr "Kunne ikke slette server konfigurationen"
 
 #: ajax/testConfiguration.php:36
 msgid "The configuration is valid and the connection could be established!"
-msgstr ""
+msgstr "Konfigurationen er korrekt og forbindelsen kunne etableres!"
 
 #: ajax/testConfiguration.php:39
 msgid ""
@@ -39,7 +40,7 @@ msgstr ""
 msgid ""
 "The configuration is invalid. Please look in the ownCloud log for further "
 "details."
-msgstr ""
+msgstr "Konfigurationen er ugyldig. Se venligst ownCloud loggen for yderligere detaljer."
 
 #: js/settings.js:66
 msgid "Deletion failed"
@@ -51,11 +52,11 @@ msgstr ""
 
 #: js/settings.js:83
 msgid "Keep settings?"
-msgstr ""
+msgstr "Behold indstillinger?"
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
-msgstr ""
+msgstr "Kan ikke tilføje serverkonfiguration"
 
 #: js/settings.js:111
 msgid "mappings cleared"
@@ -71,19 +72,19 @@ msgstr "Fejl"
 
 #: js/settings.js:141
 msgid "Connection test succeeded"
-msgstr ""
+msgstr "Forbindelsestest lykkedes"
 
 #: js/settings.js:146
 msgid "Connection test failed"
-msgstr ""
+msgstr "Forbindelsestest mislykkedes"
 
 #: js/settings.js:156
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr ""
+msgstr "Ønsker du virkelig at slette den nuværende Server Konfiguration?"
 
 #: js/settings.js:157
 msgid "Confirm Deletion"
-msgstr ""
+msgstr "Bekræft Sletning"
 
 #: templates/settings.php:9
 msgid ""
@@ -100,11 +101,11 @@ msgstr ""
 
 #: templates/settings.php:16
 msgid "Server configuration"
-msgstr ""
+msgstr "Server konfiguration"
 
 #: templates/settings.php:32
 msgid "Add Server Configuration"
-msgstr ""
+msgstr "Tilføj Server Konfiguration"
 
 #: templates/settings.php:37
 msgid "Host"
@@ -172,7 +173,7 @@ msgstr "Definere filteret der bruges ved indlæsning af brugere."
 
 #: templates/settings.php:60
 msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr ""
+msgstr "Uden stedfortræder, f.eks. \"objectClass=person\"."
 
 #: templates/settings.php:61
 msgid "Group Filter"
@@ -184,15 +185,15 @@ msgstr "Definere filteret der bruges når der indlæses grupper."
 
 #: templates/settings.php:65
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr ""
+msgstr "Uden stedfortræder, f.eks. \"objectClass=posixGroup\"."
 
 #: templates/settings.php:69
 msgid "Connection Settings"
-msgstr ""
+msgstr "Forbindelsesindstillinger "
 
 #: templates/settings.php:71
 msgid "Configuration Active"
-msgstr ""
+msgstr "Konfiguration Aktiv"
 
 #: templates/settings.php:71
 msgid "When unchecked, this configuration will be skipped."
@@ -204,7 +205,7 @@ msgstr "Port"
 
 #: templates/settings.php:73
 msgid "Backup (Replica) Host"
-msgstr ""
+msgstr "Backup (Replika) Vært"
 
 #: templates/settings.php:73
 msgid ""
@@ -214,15 +215,15 @@ msgstr ""
 
 #: templates/settings.php:74
 msgid "Backup (Replica) Port"
-msgstr ""
+msgstr "Backup (Replika) Port"
 
 #: templates/settings.php:75
 msgid "Disable Main Server"
-msgstr ""
+msgstr "Deaktiver Hovedserver"
 
 #: templates/settings.php:75
 msgid "Only connect to the replica server."
-msgstr ""
+msgstr "Forbind kun til replika serveren."
 
 #: templates/settings.php:76
 msgid "Use TLS"
@@ -230,7 +231,7 @@ msgstr "Brug TLS"
 
 #: templates/settings.php:76
 msgid "Do not use it additionally for LDAPS connections, it will fail."
-msgstr ""
+msgstr "Benyt ikke flere LDAPS forbindelser, det vil mislykkeds. "
 
 #: templates/settings.php:77
 msgid "Case insensitve LDAP server (Windows)"
@@ -329,7 +330,7 @@ msgstr "i bytes"
 
 #: templates/settings.php:95
 msgid "Email Field"
-msgstr ""
+msgstr "Email Felt"
 
 #: templates/settings.php:96
 msgid "User Home Folder Naming Rule"
@@ -343,7 +344,7 @@ msgstr ""
 
 #: templates/settings.php:101
 msgid "Internal Username"
-msgstr ""
+msgstr "Internt Brugernavn"
 
 #: templates/settings.php:102
 msgid ""
@@ -412,7 +413,7 @@ msgstr ""
 
 #: templates/settings.php:111
 msgid "Test Configuration"
-msgstr ""
+msgstr "Test Konfiguration"
 
 #: templates/settings.php:111
 msgid "Help"
