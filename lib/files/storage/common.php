@@ -21,6 +21,10 @@ namespace OC\Files\Storage;
  */
 
 abstract class Common implements \OC\Files\Storage\Storage {
+	private $cache;
+	private $scanner;
+	private $permissioncache;
+	private $watcher;
 
 	public function __construct($parameters) {
 	}
@@ -263,19 +267,31 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	}
 
 	public function getCache($path = '') {
-		return new \OC\Files\Cache\Cache($this);
+		if (!isset($this->cache)) {
+			$this->cache = new \OC\Files\Cache\Cache($this);
+		}
+		return $this->cache;
 	}
 
 	public function getScanner($path = '') {
-		return new \OC\Files\Cache\Scanner($this);
+		if (!isset($this->scanner)) {
+			$this->scanner = new \OC\Files\Cache\Scanner($this);
+		}
+		return $this->scanner;
 	}
 
 	public function getPermissionsCache($path = '') {
-		return new \OC\Files\Cache\Permissions($this);
+		if (!isset($this->permissioncache)) {
+			$this->permissioncache = new \OC\Files\Cache\Permissions($this);
+		}
+		return $this->permissioncache;
 	}
 
 	public function getWatcher($path = '') {
-		return new \OC\Files\Cache\Watcher($this);
+		if (!isset($this->watcher)) {
+			$this->watcher = new \OC\Files\Cache\Watcher($this);
+		}
+		return $this->watcher;
 	}
 
 	/**
