@@ -21,6 +21,7 @@ function scanFiles($user) {
 }
 
 if ($argv[1] === '--all') {
+	\OC_App::loadApps('authentication');
 	$users = OC_User::getUsers();
 } else {
 	$users = array($argv[1]);
