@@ -20,9 +20,9 @@ if (!OC::$CLI) {
 	exit(0);
 }
 
-if ($argc < 1) {
+if ($argc <= 1) {
 	echo "Usage:" . PHP_EOL;
-	echo " php console.php <command>" . PHP_EOL;
+	echo " " . basename($argv[0]) . " <command>" . PHP_EOL;
 	exit(0);
 }
 
