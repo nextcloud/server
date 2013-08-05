@@ -194,6 +194,27 @@ class OC_DB {
 	}
 
 	/**
+	 * get the database connection object
+	 *
+	 * @return \Doctrine\DBAL\Connection
+	 */
+	private static function getConnection()
+	{
+		self::connect();
+		return self::$connection;
+	}
+
+	/**
+	 * get MDB2 schema manager
+	 *
+	 * @return \OC\DB\MDB2SchemaManager
+	 */
+	private static function getMDB2SchemaManager()
+	{
+		return new \OC\DB\MDB2SchemaManager(self::getConnection());
+	}
+
+	/**
 	 * @brief Prepare a SQL query
 	 * @param string $query Query string
 	 * @param int $limit
@@ -387,7 +408,7 @@ class OC_DB {
 	}
 
 	/** else {
-	 * @brief saves database scheme to xml file
+	 * @brief saves database schema to xml file
 	 * @param string $file name of file
 	 * @param int $mode
 	 * @return bool
@@ -395,8 +416,8 @@ class OC_DB {
 	 * TODO: write more documentation
 	 */
 	public static function getDbStructure( $file, $mode=MDB2_SCHEMA_DUMP_STRUCTURE) {
-		self::connectDoctrine();
-		return OC_DB_Schema::getDbStructure(self::$DOCTRINE, $file);
+		$schemaManager = self::getMDB2SchemaManager();
+		return $schemaManager->getDbStructure($file);
 	}
 
 	/**
@@ -407,20 +428,21 @@ class OC_DB {
 	 * TODO: write more documentation
 	 */
 	public static function createDbFromStructure( $file ) {
-		self::connectDoctrine();
-		return OC_DB_Schema::createDbFromStructure(self::$DOCTRINE, $file);
+		$schemaManager = self::getMDB2SchemaManager();
+		$result = $schemaManager->createDbFromStructure($file);
+		return $result;
 	}
 
 	/**
-	 * @brief update the database scheme
+	 * @brief update the database schema
 	 * @param string $file file to read structure from
 	 * @throws Exception
 	 * @return bool
 	 */
 	public static function updateDbFromStructure($file) {
-		self::connectDoctrine();
+		$schemaManager = self::getMDB2SchemaManager();
 		try {
-			$result = OC_DB_Schema::updateDbFromStructure(self::$DOCTRINE, $file);
+			$result = $schemaManager->updateDbFromStructure($file);
 		} catch (Exception $e) {
 			OC_Log::write('core', 'Failed to update database structure ('.$e.')', OC_Log::FATAL);
 			throw $e;
@@ -599,8 +621,8 @@ class OC_DB {
 	 * @param string $tableName the table to drop
 	 */
 	public static function dropTable($tableName) {
-		self::connectDoctrine();
-		OC_DB_Schema::dropTable(self::$DOCTRINE, $tableName);
+		$schemaManager = self::getMDB2SchemaManager();
+		$schemaManager->dropTable($tableName);
 	}
 
 	/**
@@ -608,8 +630,8 @@ class OC_DB {
 	 * @param string $file the xml file describing the tables
 	 */
 	public static function removeDBStructure($file) {
-		self::connectDoctrine();
-		OC_DB_Schema::removeDBStructure(self::$DOCTRINE, $file);
+		$schemaManager = self::getMDB2SchemaManager();
+		$schemaManager->removeDBStructure($file);
 	}
 
 	/**
@@ -617,8 +639,8 @@ class OC_DB {
 	 * @param $file string path to the MDB2 xml db export file
 	 */
 	public static function replaceDB( $file ) {
-		self::connectDoctrine();
-		OC_DB_Schema::replaceDB(self::$DOCTRINE, $file);
+		$schemaManager = self::getMDB2SchemaManager();
+		$schemaManager->replaceDB($file);
 	}
 
 	/**
