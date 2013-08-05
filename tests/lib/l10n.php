@@ -13,8 +13,8 @@ class Test_L10n extends PHPUnit_Framework_TestCase {
 		$transFile = OC::$SERVERROOT.'/tests/data/l10n/de.php';
 
 		$l->load($transFile);
-		$this->assertEquals('1 Datei', (string)$l->n('%n file', '%n files', 1, array(1)));
-		$this->assertEquals('2 Dateien', (string)$l->n('%n file', '%n files', 2, array(2)));
+		$this->assertEquals('1 Datei', (string)$l->n('%n file', '%n files', 1));
+		$this->assertEquals('2 Dateien', (string)$l->n('%n file', '%n files', 2));
 	}
 
 	public function testRussianPluralTranslations() {
