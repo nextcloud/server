@@ -98,7 +98,7 @@ class Scanner extends BasicEmitter {
 				$newData = $data;
 				if ($reuseExisting and $cacheData = $this->cache->get($file)) {
 					// only reuse data if the file hasn't explicitly changed
-					if ($data['mtime'] === $cacheData['mtime']) {
+					if (isset($data['mtime']) && isset($cacheData['mtime']) && $data['mtime'] === $cacheData['mtime']) {
 						if (($reuseExisting & self::REUSE_SIZE) && ($data['size'] === -1)) {
 							$data['size'] = $cacheData['size'];
 						}
