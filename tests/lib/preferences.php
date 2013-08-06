@@ -28,6 +28,13 @@ class Test_Preferences extends PHPUnit_Framework_TestCase {
 		$query->execute(array("Deleteuser", "someapp", "somekey", "somevalue"));
 	}
 
+	private function cleanDb() {
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*preferences` WHERE `user` = ?');
+		$query->execute(array('Someuser'));
+		$query->execute(array('Anotheruser'));
+		$query->execute(array('Anuser'));
+	}
+
 	public function testGetUsers() {
 		$this->fillDb();
 
@@ -117,5 +124,7 @@ class Test_Preferences extends PHPUnit_Framework_TestCase {
 		$query = \OC_DB::prepare('SELECT `configvalue` FROM `*PREFIX*preferences` WHERE `appid` = ?');
 		$result = $query->execute(array('someapp'));
 		$this->assertEquals(0, $result->numRows());
+
+		$this->cleanDb();
 	}
 }
