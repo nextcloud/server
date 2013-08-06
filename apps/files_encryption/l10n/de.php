@@ -10,6 +10,7 @@
 "Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Dein privater Schlüssel ist ungültig. Möglicher Weise wurde von außerhalb Dein Passwort geändert (z.B. in deinem gemeinsamen Verzeichnis). Du kannst das Passwort deines privaten Schlüssels in den persönlichen Einstellungen aktualisieren, um wieder an deine Dateien zu gelangen.",
 "Missing requirements." => "Fehlende Vorraussetzungen",
 "Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Bitte stellen Sie sicher, dass PHP 5.3.3 oder neuer installiert ist und die OpenSSL-PHP-Erweiterung aktiviert und richtig konfiguriert ist. Die Verschlüsselungsanwendung wurde vorerst deaktiviert.",
+"Following users are not set up for encryption:" => "Für folgende Nutzer ist keine Verschlüsselung eingerichtet:",
 "Saving..." => "Speichern...",
 "Your private key is not valid! Maybe the your password was changed from outside." => "Ihr privater Schlüssel ist ungültig! Eventuell wurde Ihr Passwort von außerhalb geändert.",
 "You can unlock your private key in your " => "Du kannst den privaten Schlüssel ändern und zwar in deinem",

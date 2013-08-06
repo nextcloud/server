@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-31 01:55-0400\n"
-"PO-Revision-Date: 2013-07-30 12:13+0000\n"
+"POT-Creation-Date: 2013-08-04 01:55-0400\n"
+"PO-Revision-Date: 2013-08-04 05:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Luxembourgish (http://www.transifex.com/projects/p/owncloud/language/lb/)\n"
 "MIME-Version: 1.0\n"
@@ -142,55 +142,55 @@ msgstr "Dezember"
 msgid "Settings"
 msgstr "Astellungen"
 
-#: js/js.js:715
+#: js/js.js:753
 msgid "seconds ago"
 msgstr "Sekonnen hir"
 
-#: js/js.js:716
+#: js/js.js:754
 msgid "1 minute ago"
 msgstr "1 Minutt hir"
 
-#: js/js.js:717
+#: js/js.js:755
 msgid "{minutes} minutes ago"
 msgstr "virun {minutes} Minutten"
 
-#: js/js.js:718
+#: js/js.js:756
 msgid "1 hour ago"
 msgstr "virun 1 Stonn"
 
-#: js/js.js:719
+#: js/js.js:757
 msgid "{hours} hours ago"
 msgstr "virun {hours} Stonnen"
 
-#: js/js.js:720
+#: js/js.js:758
 msgid "today"
 msgstr "haut"
 
-#: js/js.js:721
+#: js/js.js:759
 msgid "yesterday"
 msgstr "gëschter"
 
-#: js/js.js:722
+#: js/js.js:760
 msgid "{days} days ago"
 msgstr "virun {days} Deeg"
 
-#: js/js.js:723
+#: js/js.js:761
 msgid "last month"
 msgstr "leschte Mount"
 
-#: js/js.js:724
+#: js/js.js:762
 msgid "{months} months ago"
 msgstr "virun {months} Méint"
 
-#: js/js.js:725
+#: js/js.js:763
 msgid "months ago"
 msgstr "Méint hir"
 
-#: js/js.js:726
+#: js/js.js:764
 msgid "last year"
 msgstr "Lescht Joer"
 
-#: js/js.js:727
+#: js/js.js:765
 msgid "years ago"
 msgstr "Joren hir"
 

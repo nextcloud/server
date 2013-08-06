@@ -46,6 +46,7 @@ class OC_DB {
 	 */
 	static private $connection; //the prefered connection to use, only Doctrine
 
+	static private $prefix=null;
 	static private $type=null;
 
 	/**
@@ -170,6 +171,16 @@ class OC_DB {
 	}
 
 	/**
+	 * get MDB2 schema manager
+	 *
+	 * @return \OC\DB\MDB2SchemaManager
+	 */
+	private static function getMDB2SchemaManager()
+	{
+		return new \OC\DB\MDB2SchemaManager(self::getConnection());
+	}
+
+	/**
 	 * @brief Prepare a SQL query
 	 * @param string $query Query string
 	 * @param int $limit
@@ -204,22 +215,23 @@ class OC_DB {
 	 * the current check allows some whitespace but does not work with IF EXISTS or other more complex statements
 	 * 
 	 * @param string $sql
+	 * @return bool
 	 */
 	static public function isManipulation( $sql ) {
-		$selectOccurence = stripos ($sql, "SELECT");
-		if ($selectOccurence !== false && $selectOccurence < 10) {
+		$selectOccurrence = stripos ($sql, "SELECT");
+		if ($selectOccurrence !== false && $selectOccurrence < 10) {
 			return false;
 		}
-		$insertOccurence = stripos ($sql, "INSERT");
-		if ($insertOccurence !== false && $insertOccurence < 10) {
+		$insertOccurrence = stripos ($sql, "INSERT");
+		if ($insertOccurrence !== false && $insertOccurrence < 10) {
 			return true;
 		}
-		$updateOccurence = stripos ($sql, "UPDATE");
-		if ($updateOccurence !== false && $updateOccurence < 10) {
+		$updateOccurrence = stripos ($sql, "UPDATE");
+		if ($updateOccurrence !== false && $updateOccurrence < 10) {
 			return true;
 		}
-		$deleteOccurance = stripos ($sql, "DELETE");
-		if ($deleteOccurance !== false && $deleteOccurance < 10) {
+		$deleteOccurrence = stripos ($sql, "DELETE");
+		if ($deleteOccurrence !== false && $deleteOccurrence < 10) {
 			return true;
 		}
 		return false;
@@ -294,7 +306,7 @@ class OC_DB {
 	 * @brief Insert a row if a matching row doesn't exists.
 	 * @param string $table. The table to insert into in the form '*PREFIX*tableName'
 	 * @param array $input. An array of fieldname/value pairs
-	 * @returns int number of updated rows
+	 * @return int number of updated rows
 	 */
 	public static function insertIfNotExist($table, $input) {
 		self::connect();
@@ -329,17 +341,17 @@ class OC_DB {
 		}
 	}
 
-	/** else {
-	 * @brief saves database scheme to xml file
+	/**
+	 * @brief saves database schema to xml file
 	 * @param string $file name of file
 	 * @param int $mode
 	 * @return bool
 	 *
 	 * TODO: write more documentation
 	 */
-	public static function getDbStructure( $file, $mode=MDB2_SCHEMA_DUMP_STRUCTURE) {
-		self::connect();
-		return OC_DB_Schema::getDbStructure(self::$connection, $file);
+	public static function getDbStructure( $file, $mode = 0) {
+		$schemaManager = self::getMDB2SchemaManager();
+		return $schemaManager->getDbStructure($file);
 	}
 
 	/**
@@ -350,21 +362,21 @@ class OC_DB {
 	 * TODO: write more documentation
 	 */
 	public static function createDbFromStructure( $file ) {
-		self::connect();
-		$result = OC_DB_Schema::createDbFromStructure(self::$connection, $file);
+		$schemaManager = self::getMDB2SchemaManager();
+		$result = $schemaManager->createDbFromStructure($file);
 		return $result;
 	}
 
 	/**
-	 * @brief update the database scheme
+	 * @brief update the database schema
 	 * @param string $file file to read structure from
 	 * @throws Exception
 	 * @return bool
 	 */
 	public static function updateDbFromStructure($file) {
-		self::connect();
+		$schemaManager = self::getMDB2SchemaManager();
 		try {
-			$result = OC_DB_Schema::updateDbFromStructure(self::$connection, $file);
+			$result = $schemaManager->updateDbFromStructure($file);
 		} catch (Exception $e) {
 			OC_Log::write('core', 'Failed to update database structure ('.$e.')', OC_Log::FATAL);
 			throw $e;
@@ -377,8 +389,8 @@ class OC_DB {
 	 * @param string $tableName the table to drop
 	 */
 	public static function dropTable($tableName) {
-		self::connect();
-		OC_DB_Schema::dropTable(self::$connection, $tableName);
+		$schemaManager = self::getMDB2SchemaManager();
+		$schemaManager->dropTable($tableName);
 	}
 
 	/**
@@ -386,8 +398,8 @@ class OC_DB {
 	 * @param string $file the xml file describing the tables
 	 */
 	public static function removeDBStructure($file) {
-		self::connect();
-		OC_DB_Schema::removeDBStructure(self::$connection, $file);
+		$schemaManager = self::getMDB2SchemaManager();
+		$schemaManager->removeDBStructure($file);
 	}
 
 	/**
@@ -395,8 +407,8 @@ class OC_DB {
 	 * @param $file string path to the MDB2 xml db export file
 	 */
 	public static function replaceDB( $file ) {
-		self::connect();
-		OC_DB_Schema::replaceDB(self::$connection, $file);
+		$schemaManager = self::getMDB2SchemaManager();
+		$schemaManager->replaceDB($file);
 	}
 
 	/**

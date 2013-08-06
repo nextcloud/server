@@ -76,13 +76,12 @@ class Connection extends \Doctrine\DBAL\Connection {
 				return $this->preparedQueries[$statement];
 			}
 		}
-		$rawQuery = $statement;
 		if(\OC_Config::getValue( "log_query", false)) {
 			\OC_Log::write('core', 'DB prepare : '.$statement, \OC_Log::DEBUG);
 		}
 		$result = parent::prepare($statement);
 		if (is_null($limit) && $this->cachingQueryStatementEnabled) {
-			$this->preparedQueries[$rawQuery] = $result;
+			$this->preparedQueries[$statement] = $result;
 		}
 		return $result;
 	}
