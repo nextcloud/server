@@ -55,7 +55,12 @@ class Helper {
 				AND `configkey` LIKE ?
 		';
 		if($activeConfigurations) {
-			$query .= ' AND `configvalue` = \'1\'';
+			if(\OC_Config::getValue( 'dbtype', 'sqlite' ) === 'oci') {
+				//FIXME oracle hack: need to explicitly cast CLOB to CHAR for comparison
+				$query .= ' AND to_char(`configvalue`) = \'1\'';
+			} else {
+				$query .= ' AND `configvalue` = \'1\'';
+			}
 		}
 		$query = \OCP\DB::prepare($query);
 
@@ -118,7 +123,9 @@ class Helper {
 			return false;
 		}
 
-		if(strpos(\OCP\Config::getSystemValue('dbtype'), 'sqlite') !== false) {
+		$dbtype = \OCP\Config::getSystemValue('dbtype');
+		if(strpos($dbtype, 'sqlite') !== false
+			|| $dbtype === 'oci') {
 			$query = \OCP\DB::prepare('DELETE FROM '.$table);
 		} else {
 			$query = \OCP\DB::prepare('TRUNCATE '.$table);

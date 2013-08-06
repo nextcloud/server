@@ -77,7 +77,7 @@ class OC_Util {
 	public static function getVersion() {
 		// hint: We only can count up. Reset minor/patchlevel when
 		// updating major/minor version number.
-		return array(5, 00, 15);
+		return array(5, 00, 15, 1);
 	}
 
 	/**
@@ -825,7 +825,7 @@ class OC_Util {
 		$theme = OC_Config::getValue("theme", '');
 
 		if($theme === '') {
-			
+
 			if(is_dir(OC::$SERVERROOT . '/themes/default')) {
 				$theme = 'default';
 			}
