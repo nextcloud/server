@@ -7,6 +7,23 @@
  */
 
 class Test_Util extends PHPUnit_Framework_TestCase {
+	public function testGetVersion() {
+		$version = \OC_Util::getVersion();
+		$this->assertTrue(is_array($version));
+		foreach ($version as $num) {
+			$this->assertTrue(is_int($num));
+		}
+	}
+
+	public function testGetVersionString() {
+		$version = \OC_Util::getVersionString();
+		$this->assertTrue(is_string($version));
+	}
+
+	public function testGetEditionString() {
+		$edition = \OC_Util::getEditionString();
+		$this->assertTrue(is_string($edition));
+	}
 
 	function testFormatDate() {
 		date_default_timezone_set("UTC");
@@ -39,6 +56,19 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		$component = '/§#@test%&^ä/-child';
 		$result = OC_Util::encodePath($component);
 		$this->assertEquals("/%C2%A7%23%40test%25%26%5E%C3%A4/-child", $result);
+	}
+
+	public function testFileInfoLoaded() {
+		$expected = function_exists('finfo_open');
+		$this->assertEquals($expected, \OC_Util::fileInfoLoaded());
+	}
+
+	public function testIsInternetConnectionEnabled() {
+		\OC_Config::setValue("has_internet_connection", false);
+		$this->assertFalse(\OC_Util::isInternetConnectionEnabled());
+
+		\OC_Config::setValue("has_internet_connection", true);
+		$this->assertTrue(\OC_Util::isInternetConnectionEnabled());
 	}
 
 	function testGenerate_random_bytes() {
