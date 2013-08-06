@@ -29,7 +29,7 @@ class Test_Preferences extends PHPUnit_Framework_TestCase {
 	}
 
 	public static function tearDownAfterClass() {
-		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*preferences` WHERE `user` = ?');
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*preferences` WHERE `userid` = ?');
 		$query->execute(array('Someuser'));
 		$query->execute(array('Anotheruser'));
 		$query->execute(array('Anuser'));
