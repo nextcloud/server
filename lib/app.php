@@ -210,7 +210,8 @@ class OC_App{
 	/**
 	 * @brief enables an app
 	 * @param mixed $app app
-	 * @return bool
+	 * @throws \Exception
+	 * @return void
 	 *
 	 * This function set an app as enabled in appconfig.
 	 */
@@ -228,6 +229,7 @@ class OC_App{
 				}
 			}
 		}
+		$l = OC_L10N::get('core');
 		if($app!==false) {
 			// check if the app is compatible with this version of ownCloud
 			$info=OC_App::getAppInfo($app);
@@ -237,16 +239,15 @@ class OC_App{
 					'App "'.$info['name'].'" can\'t be installed because it is'
 					.' not compatible with this version of ownCloud',
 					OC_Log::ERROR);
-				return false;
+				throw new \Exception($l->t("App can't be installed because it is not compatible with this version of ownCloud."));
 			}else{
 				OC_Appconfig::setValue( $app, 'enabled', 'yes' );
 				if(isset($appdata['id'])) {
 					OC_Appconfig::setValue( $app, 'ocsid', $appdata['id'] );
 				}
-				return true;
 			}
 		}else{
-			return false;
+			throw new \Exception($l->t("No app name specified"));
 		}
 	}
 

@@ -61,7 +61,11 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		if(active) {
 			$.post(OC.filePath('settings','ajax','disableapp.php'),{appid:appid},function(result) {
 				if(!result || result.status !== 'success') {
-					OC.dialogs.alert('Error while disabling app', t('core', 'Error'));
+					if (result.data && result.data.message) {
+						OC.dialogs.alert(result.data.message, t('core', 'Error'));
+					} else {
+						OC.dialogs.alert(t('settings', 'Error while disabling app'), t('core', 'Error'));
+					}
 				}
 				else {
 					element.data('active',false);
@@ -73,16 +77,20 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		} else {
 			$.post(OC.filePath('settings','ajax','enableapp.php'),{appid:appid},function(result) {
 				if(!result || result.status !== 'success') {
-					OC.dialogs.alert('Error while enabling app', t('core', 'Error'));
-				}
-				else {
+					if (result.data && result.data.message) {
+						OC.dialogs.alert(result.data.message, t('core', 'Error'));
+					} else {
+						OC.dialogs.alert(t('settings', 'Error while enabling app'), t('core', 'Error'));
+					}
+					element.val(t('settings','Enable'));
+				} else {
 					OC.Settings.Apps.addNavigation(appid);
 					element.data('active',true);
 					element.val(t('settings','Disable'));
 				}
 			},'json')
 			.fail(function() { 
-				OC.dialogs.alert('Error while enabling app', t('core', 'Error'));
+				OC.dialogs.alert(t('settings', 'Error while enabling app'), t('core', 'Error'));
 				element.data('active',false);
 				OC.Settings.Apps.removeNavigation(appid);
 				element.val(t('settings','Enable'));
