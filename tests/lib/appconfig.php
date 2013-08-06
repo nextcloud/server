@@ -7,7 +7,7 @@
  */
 
 class Test_Appconfig extends PHPUnit_Framework_TestCase {
-	private function fillDb() {
+	public static function setUpBeforeClass() {
 		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*appconfig` VALUES (?, ?, ?)');
 
 		$query->execute(array('testapp', 'enabled', 'true'));
@@ -26,9 +26,15 @@ class Test_Appconfig extends PHPUnit_Framework_TestCase {
 		$query->execute(array('anotherapp', 'enabled', 'false'));
 	}
 
-	public function testGetApps() {
-		$this->fillDb();
+	public static function tearDownAfterClass() {
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*appconfig` WHERE `appid` = ?');
+		$query->execute(array('testapp'));
+		$query->execute(array('someapp'));
+		$query->execute(array('123456'));
+		$query->execute(array('anotherapp'));
+	}
 
+	public function testGetApps() {
 		$query = \OC_DB::prepare('SELECT DISTINCT `appid` FROM `*PREFIX*appconfig`');
 		$result = $query->execute();
 		$expected = array();
