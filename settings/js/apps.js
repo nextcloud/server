@@ -152,7 +152,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						a.prepend(filename);
 						a.prepend(img);
 						li.append(a);
-						container.append(li);
+						// prepend the new app before the 'More apps' function
+						$('#apps-management').before(li);
 						if (!SVGSupport() && entry.icon.match(/\.svg$/i)) {
 							$(img).addClass('svg');
 							replaceSVG();
