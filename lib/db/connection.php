@@ -14,9 +14,9 @@ use Doctrine\Common\EventManager;
 
 class Connection extends \Doctrine\DBAL\Connection {
 	/**
-	 * @var string $table_prefix
+	 * @var string $tablePrefix
 	 */
-	protected $table_prefix;
+	protected $tablePrefix;
 
 	/**
 	 * @var \OC\DB\Adapter $adapter
@@ -45,12 +45,12 @@ class Connection extends \Doctrine\DBAL\Connection {
 		if (!isset($params['adapter'])) {
 			throw new \Exception('adapter not set');
 		}
-		if (!isset($params['table_prefix'])) {
-			throw new \Exception('table_prefix not set');
+		if (!isset($params['tablePrefix'])) {
+			throw new \Exception('tablePrefix not set');
 		}
 		parent::__construct($params, $driver, $config, $eventManager);
 		$this->adapter = new $params['adapter']($this);
-		$this->table_prefix = $params['table_prefix'];
+		$this->tablePrefix = $params['tablePrefix'];
 	}
 
 	/**
@@ -183,7 +183,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * @return string
 	 */
 	protected function replaceTablePrefix($statement) {
-		return str_replace( '*PREFIX*', $this->table_prefix, $statement );
+		return str_replace( '*PREFIX*', $this->tablePrefix, $statement );
 	}
 
 	public function enableQueryStatementCaching() {

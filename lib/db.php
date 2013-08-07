@@ -73,7 +73,7 @@ class OC_DB {
 		}
 
 		// do nothing if the connection already has been established
-		if(!self::$connection) {
+		if (!self::$connection) {
 			$config = new \Doctrine\DBAL\Configuration();
 			switch($type) {
 				case 'sqlite':
@@ -140,7 +140,7 @@ class OC_DB {
 					return false;
 			}
 			$connectionParams['wrapperClass'] = 'OC\DB\Connection';
-			$connectionParams['table_prefix'] = OC_Config::getValue( "dbtableprefix", "oc_" );
+			$connectionParams['tablePrefix'] = OC_Config::getValue('dbtableprefix', 'oc_' );
 			try {
 				self::$connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
 				if ($type === 'sqlite' || $type === 'sqlite3') {
@@ -201,12 +201,12 @@ class OC_DB {
 		
 		// return the result
 		try {
-			$result=self::$connection->prepare($query, $limit, $offset);
-		} catch(\Doctrine\DBAL\DBALException $e) {
+			$result = self::$connection->prepare($query, $limit, $offset);
+		} catch (\Doctrine\DBAL\DBALException $e) {
 			throw new \DatabaseException($e->getMessage(), $query);
 		}
 		// differentiate between query and manipulation
-		$result=new OC_DB_StatementWrapper($result, $isManipulation);
+		$result = new OC_DB_StatementWrapper($result, $isManipulation);
 		return $result;
 	}
 
@@ -218,19 +218,19 @@ class OC_DB {
 	 * @return bool
 	 */
 	static public function isManipulation( $sql ) {
-		$selectOccurrence = stripos ($sql, "SELECT");
+		$selectOccurrence = stripos($sql, 'SELECT');
 		if ($selectOccurrence !== false && $selectOccurrence < 10) {
 			return false;
 		}
-		$insertOccurrence = stripos ($sql, "INSERT");
+		$insertOccurrence = stripos($sql, 'INSERT');
 		if ($insertOccurrence !== false && $insertOccurrence < 10) {
 			return true;
 		}
-		$updateOccurrence = stripos ($sql, "UPDATE");
+		$updateOccurrence = stripos($sql, 'UPDATE');
 		if ($updateOccurrence !== false && $updateOccurrence < 10) {
 			return true;
 		}
-		$deleteOccurrence = stripos ($sql, "DELETE");
+		$deleteOccurrence = stripos($sql, 'DELETE');
 		if ($deleteOccurrence !== false && $deleteOccurrence < 10) {
 			return true;
 		}
