@@ -62,9 +62,6 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * @return \Doctrine\DBAL\Driver\Statement The prepared statement.
 	 */
 	public function prepare( $statement, $limit=null, $offset=null ) {
-		$statement = $this->replaceTablePrefix($statement);
-		$statement = $this->adapter->fixupStatement($statement);
-
 		if ($limit === -1) {
 			$limit = null;
 		}
@@ -76,7 +73,10 @@ class Connection extends \Doctrine\DBAL\Connection {
 				return $this->preparedQueries[$statement];
 			}
 		}
-		if(\OC_Config::getValue( "log_query", false)) {
+		$statement = $this->replaceTablePrefix($statement);
+		$statement = $this->adapter->fixupStatement($statement);
+
+		if(\OC_Config::getValue( 'log_query', false)) {
 			\OC_Log::write('core', 'DB prepare : '.$statement, \OC_Log::DEBUG);
 		}
 		$result = parent::prepare($statement);
