@@ -43,8 +43,7 @@ class OC_Connector_Sabre_QuotaPlugin extends Sabre_DAV_ServerPlugin {
 		* @return bool
 		*/
 	public function checkQuota($uri, $data = null) {
-		$expected = $this->server->httpRequest->getHeader('X-Expected-Entity-Length');
-		$length = $expected ? $expected : $this->server->httpRequest->getHeader('Content-Length');
+		$length = $this->getLength();
 		if ($length) {
 			if (substr($uri, 0, 1)!=='/') {
 				$uri='/'.$uri;
@@ -56,5 +55,20 @@ class OC_Connector_Sabre_QuotaPlugin extends Sabre_DAV_ServerPlugin {
 			}
 		}
 		return true;
+	}
+
+	private function getLength()
+	{
+		$expected = $this->server->httpRequest->getHeader('X-Expected-Entity-Length');
+		if ($expected)
+			return $expected;
+
+		$length = $this->server->httpRequest->getHeader('Content-Length');
+		$ocLength = $this->server->httpRequest->getHeader('OC-Total-Length');
+
+		if ($length && $ocLength)
+			return max($length, $ocLength);
+
+		return $length;
 	}
 }
