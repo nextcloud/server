@@ -249,7 +249,7 @@ class OC_DB {
 	static public function executeAudited( $stmt, array $parameters = null) {
 		if (is_string($stmt)) {
 			// convert to an array with 'sql'
-			if (stripos($stmt,'LIMIT') !== false) { //OFFSET requires LIMIT, se we only neet to check for LIMIT
+			if (stripos($stmt, 'LIMIT') !== false) { //OFFSET requires LIMIT, so we only need to check for LIMIT
 				// TODO try to convert LIMIT OFFSET notation to parameters, see fixLimitClauseForMSSQL
 				$message = 'LIMIT and OFFSET are forbidden for portability reasons,'
 						 . ' pass an array with \'limit\' and \'offset\' instead';
@@ -257,7 +257,7 @@ class OC_DB {
 			}
 			$stmt = array('sql' => $stmt, 'limit' => null, 'offset' => null);
 		}
-		if (is_array($stmt)){
+		if (is_array($stmt)) {
 			// convert to prepared statement
 			if ( ! array_key_exists('sql', $stmt) ) {
 				$message = 'statement array must at least contain key \'sql\'';

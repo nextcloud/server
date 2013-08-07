@@ -53,7 +53,7 @@ class OC_DB_StatementWrapper {
 	 */
 	public function execute($input=array()) {
 		if(OC_Config::getValue( "log_query", false)) {
-			$params_str = str_replace("\n"," ",var_export($input,true));
+			$params_str = str_replace("\n", " ", var_export($input, true));
 			OC_Log::write('core', 'DB execute with arguments : '.$params_str, OC_Log::DEBUG);
 		}
 		$this->lastArguments = $input;
@@ -134,7 +134,7 @@ class OC_DB_StatementWrapper {
 			$host = OC_Config::getValue( "dbhost", "" );
 			$user = OC_Config::getValue( "dbuser", "" );
 			$pass = OC_Config::getValue( "dbpassword", "" );
-			if (strpos($host,':')) {
+			if (strpos($host, ':')) {
 				list($host, $port) = explode(':', $host, 2);
 			} else {
 				$port = false;
