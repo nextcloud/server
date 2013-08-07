@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Αδυναμία μετακίνησης του %s - υπάρχει ήδη αρχείο με αυτό το όνομα",
 "Could not move %s" => "Αδυναμία μετακίνησης του %s",
+"Unable to set upload directory." => "Αδυναμία ορισμού καταλόγου αποστολής.",
+"Invalid Token" => "Μη έγκυρο Token",
 "No file was uploaded. Unknown error" => "Δεν ανέβηκε κάποιο αρχείο. Άγνωστο σφάλμα",
 "There is no error, the file uploaded with success" => "Δεν υπάρχει σφάλμα, το αρχείο εστάλει επιτυχώς",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Το αρχείο που εστάλει υπερβαίνει την οδηγία μέγιστου επιτρεπτού μεγέθους \"upload_max_filesize\" του php.ini",
@@ -47,6 +49,7 @@
 "{count} folders" => "{count} φάκελοι",
 "1 file" => "1 αρχείο",
 "{count} files" => "{count} αρχεία",
+"%s could not be renamed" => "Αδυναμία μετονομασίας του %s",
 "Upload" => "Μεταφόρτωση",
 "File handling" => "Διαχείριση αρχείων",
 "Maximum upload size" => "Μέγιστο μέγεθος αποστολής",

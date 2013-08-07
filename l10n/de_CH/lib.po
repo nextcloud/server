@@ -1,0 +1,267 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-08-07 08:59-0400\n"
+"PO-Revision-Date: 2013-08-07 09:02+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Language-Team: German (Switzerland) (http://www.transifex.com/projects/p/owncloud/language/de_CH/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de_CH\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: app.php:360
+msgid "Help"
+msgstr ""
+
+#: app.php:373
+msgid "Personal"
+msgstr ""
+
+#: app.php:384
+msgid "Settings"
+msgstr ""
+
+#: app.php:396
+msgid "Users"
+msgstr ""
+
+#: app.php:409
+msgid "Apps"
+msgstr ""
+
+#: app.php:417
+msgid "Admin"
+msgstr ""
+
+#: app.php:844
+#, php-format
+msgid "Failed to upgrade \"%s\"."
+msgstr ""
+
+#: defaults.php:35
+msgid "web services under your control"
+msgstr ""
+
+#: files.php:66 files.php:98
+#, php-format
+msgid "cannot open \"%s\""
+msgstr ""
+
+#: files.php:226
+msgid "ZIP download is turned off."
+msgstr ""
+
+#: files.php:227
+msgid "Files need to be downloaded one by one."
+msgstr ""
+
+#: files.php:228 files.php:256
+msgid "Back to Files"
+msgstr ""
+
+#: files.php:253
+msgid "Selected files too large to generate zip file."
+msgstr ""
+
+#: files.php:254
+msgid ""
+"Download the files in smaller chunks, seperately or kindly ask your "
+"administrator."
+msgstr ""
+
+#: helper.php:235
+msgid "couldn't be determined"
+msgstr ""
+
+#: json.php:28
+msgid "Application is not enabled"
+msgstr ""
+
+#: json.php:39 json.php:62 json.php:73
+msgid "Authentication error"
+msgstr ""
+
+#: json.php:51
+msgid "Token expired. Please reload page."
+msgstr ""
+
+#: search/provider/file.php:17 search/provider/file.php:35
+msgid "Files"
+msgstr ""
+
+#: search/provider/file.php:26 search/provider/file.php:33
+msgid "Text"
+msgstr ""
+
+#: search/provider/file.php:29
+msgid "Images"
+msgstr ""
+
+#: setup/abstractdatabase.php:22
+#, php-format
+msgid "%s enter the database username."
+msgstr ""
+
+#: setup/abstractdatabase.php:25
+#, php-format
+msgid "%s enter the database name."
+msgstr ""
+
+#: setup/abstractdatabase.php:28
+#, php-format
+msgid "%s you may not use dots in the database name"
+msgstr ""
+
+#: setup/mssql.php:20
+#, php-format
+msgid "MS SQL username and/or password not valid: %s"
+msgstr ""
+
+#: setup/mssql.php:21 setup/mysql.php:13 setup/oci.php:114
+#: setup/postgresql.php:24 setup/postgresql.php:70
+msgid "You need to enter either an existing account or the administrator."
+msgstr ""
+
+#: setup/mysql.php:12
+msgid "MySQL username and/or password not valid"
+msgstr ""
+
+#: setup/mysql.php:67 setup/oci.php:54 setup/oci.php:121 setup/oci.php:147
+#: setup/oci.php:154 setup/oci.php:165 setup/oci.php:172 setup/oci.php:181
+#: setup/oci.php:189 setup/oci.php:198 setup/oci.php:204
+#: setup/postgresql.php:89 setup/postgresql.php:98 setup/postgresql.php:115
+#: setup/postgresql.php:125 setup/postgresql.php:134
+#, php-format
+msgid "DB Error: \"%s\""
+msgstr ""
+
+#: setup/mysql.php:68 setup/oci.php:55 setup/oci.php:122 setup/oci.php:148
+#: setup/oci.php:155 setup/oci.php:166 setup/oci.php:182 setup/oci.php:190
+#: setup/oci.php:199 setup/postgresql.php:90 setup/postgresql.php:99
+#: setup/postgresql.php:116 setup/postgresql.php:126 setup/postgresql.php:135
+#, php-format
+msgid "Offending command was: \"%s\""
+msgstr ""
+
+#: setup/mysql.php:85
+#, php-format
+msgid "MySQL user '%s'@'localhost' exists already."
+msgstr ""
+
+#: setup/mysql.php:86
+msgid "Drop this user from MySQL"
+msgstr ""
+
+#: setup/mysql.php:91
+#, php-format
+msgid "MySQL user '%s'@'%%' already exists"
+msgstr ""
+
+#: setup/mysql.php:92
+msgid "Drop this user from MySQL."
+msgstr ""
+
+#: setup/oci.php:34
+msgid "Oracle connection could not be established"
+msgstr ""
+
+#: setup/oci.php:41 setup/oci.php:113
+msgid "Oracle username and/or password not valid"
+msgstr ""
+
+#: setup/oci.php:173 setup/oci.php:205
+#, php-format
+msgid "Offending command was: \"%s\", name: %s, password: %s"
+msgstr ""
+
+#: setup/postgresql.php:23 setup/postgresql.php:69
+msgid "PostgreSQL username and/or password not valid"
+msgstr ""
+
+#: setup.php:28
+msgid "Set an admin username."
+msgstr ""
+
+#: setup.php:31
+msgid "Set an admin password."
+msgstr ""
+
+#: setup.php:184
+msgid ""
+"Your web server is not yet properly setup to allow files synchronization "
+"because the WebDAV interface seems to be broken."
+msgstr ""
+
+#: setup.php:185
+#, php-format
+msgid "Please double check the <a href='%s'>installation guides</a>."
+msgstr ""
+
+#: template/functions.php:80
+msgid "seconds ago"
+msgstr ""
+
+#: template/functions.php:81
+msgid "1 minute ago"
+msgstr ""
+
+#: template/functions.php:82
+#, php-format
+msgid "%d minutes ago"
+msgstr ""
+
+#: template/functions.php:83
+msgid "1 hour ago"
+msgstr ""
+
+#: template/functions.php:84
+#, php-format
+msgid "%d hours ago"
+msgstr ""
+
+#: template/functions.php:85
+msgid "today"
+msgstr ""
+
+#: template/functions.php:86
+msgid "yesterday"
+msgstr ""
+
+#: template/functions.php:87
+#, php-format
+msgid "%d days ago"
+msgstr ""
+
+#: template/functions.php:88
+msgid "last month"
+msgstr ""
+
+#: template/functions.php:89
+#, php-format
+msgid "%d months ago"
+msgstr ""
+
+#: template/functions.php:90
+msgid "last year"
+msgstr ""
+
+#: template/functions.php:91
+msgid "years ago"
+msgstr ""
+
+#: template.php:297
+msgid "Caused by:"
+msgstr ""
+
+#: vcategories.php:188 vcategories.php:249
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr ""

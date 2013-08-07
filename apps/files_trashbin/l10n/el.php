@@ -11,6 +11,7 @@
 "{count} folders" => "{count} φάκελοι",
 "1 file" => "1 αρχείο",
 "{count} files" => "{count} αρχεία",
+"restored" => "έγινε επαναφορά",
 "Nothing in here. Your trash bin is empty!" => "Δεν υπάρχει τίποτα εδώ. Ο κάδος σας είναι άδειος!",
 "Restore" => "Επαναφορά",
 "Delete" => "Διαγραφή",
