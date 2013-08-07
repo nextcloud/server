@@ -28,6 +28,7 @@ class OC_Helper {
 	private static $tmpFiles = array();
 	private static $mimetypeIcons = array();
 	private static $mimetypeDetector;
+	private static $templateManager;
 
 	/**
 	 * @brief Creates an url using a defined route
@@ -357,12 +358,25 @@ class OC_Helper {
 		}
 	}
 
+	/**
+	 * @return \OC\Files\Type\Detection
+	 */
 	static public function getMimetypeDetector() {
 		if (!self::$mimetypeDetector) {
 			self::$mimetypeDetector = new \OC\Files\Type\Detection();
 			self::$mimetypeDetector->registerTypeArray(include 'mimetypes.list.php');
 		}
 		return self::$mimetypeDetector;
+	}
+
+	/**
+	 * @return \OC\Files\Type\TemplateManager
+	 */
+	static public function getFileTemplateManager() {
+		if (!self::$templateManager) {
+			self::$templateManager = new \OC\Files\Type\TemplateManager();
+		}
+		return self::$templateManager;
 	}
 
 	/**
