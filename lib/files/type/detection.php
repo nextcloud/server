@@ -61,7 +61,7 @@ class Detection {
 	 * @return string
 	 */
 	public function detect($path) {
-		$isWrapped = (strpos($path, '://') !== false) and (substr($path, 0, 7) == 'file://');
+		$isWrapped = (strpos($path, '://') !== false) and (substr($path, 0, 7) === 'file://');
 
 		if (@is_dir($path)) {
 			// directories are easy
@@ -70,7 +70,7 @@ class Detection {
 
 		$mimeType = $this->detectPath($path);
 
-		if ($mimeType == 'application/octet-stream' and function_exists('finfo_open')
+		if ($mimeType === 'application/octet-stream' and function_exists('finfo_open')
 			and function_exists('finfo_file') and $finfo = finfo_open(FILEINFO_MIME)
 		) {
 			$info = @strtolower(finfo_file($finfo, $path));
@@ -79,11 +79,11 @@ class Detection {
 			}
 			finfo_close($finfo);
 		}
-		if (!$isWrapped and $mimeType == 'application/octet-stream' && function_exists("mime_content_type")) {
+		if (!$isWrapped and $mimeType === 'application/octet-stream' && function_exists("mime_content_type")) {
 			// use mime magic extension if available
 			$mimeType = mime_content_type($path);
 		}
-		if (!$isWrapped and $mimeType == 'application/octet-stream' && \OC_Helper::canExecute("file")) {
+		if (!$isWrapped and $mimeType === 'application/octet-stream' && \OC_Helper::canExecute("file")) {
 			// it looks like we have a 'file' command,
 			// lets see if it does have mime support
 			$path = escapeshellarg($path);
