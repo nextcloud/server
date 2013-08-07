@@ -401,15 +401,7 @@ class OC_App{
 
 			// if the user is an admin
 			if(OC_User::isAdminUser(OC_User::getUser())) {
-				// admin apps menu
-				$settings[] = array(
-					"id" => "core_apps",
-					"order" => 3,
-					"href" => OC_Helper::linkToRoute( "settings_apps" ).'?installed',
-					"name" => $l->t("Apps"),
-					"icon" => OC_Helper::imagePath( "settings", "apps.svg" )
-				);
-
+				// admin settings
 				$settings[]=array(
 					"id" => "admin",
 					"order" => 1000,
