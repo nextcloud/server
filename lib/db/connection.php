@@ -72,6 +72,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 			if (isset($this->preparedQueries[$statement]) && $this->cachingQueryStatementEnabled) {
 				return $this->preparedQueries[$statement];
 			}
+			$origStatement = $statement;
 		}
 		$statement = $this->replaceTablePrefix($statement);
 		$statement = $this->adapter->fixupStatement($statement);
@@ -81,7 +82,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 		}
 		$result = parent::prepare($statement);
 		if (is_null($limit) && $this->cachingQueryStatementEnabled) {
-			$this->preparedQueries[$statement] = $result;
+			$this->preparedQueries[$origStatement] = $result;
 		}
 		return $result;
 	}
