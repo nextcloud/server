@@ -57,7 +57,9 @@ class Crypt {
 
 		if ($res === false) {
 			\OCP\Util::writeLog('Encryption library', 'couldn\'t generate users key-pair for ' . \OCP\User::getUser(), \OCP\Util::ERROR);
-			\OCP\Util::writeLog('Encryption library', openssl_error_string(), \OCP\Util::ERROR);
+			while ($msg = openssl_error_string()) {
+				\OCP\Util::writeLog('Encryption library', 'openssl_pkey_new() fails:  ' . $msg, \OCP\Util::ERROR);
+			}
 		} elseif (openssl_pkey_export($res, $privateKey)) {
 			// Get public key
 			$keyDetails = openssl_pkey_get_details($res);
