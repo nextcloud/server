@@ -54,6 +54,8 @@ function progress($notification_code, $severity, $message, $message_code, $bytes
 	}
 }
 
+$target = $dir.'/'.$filename;
+
 if($source) {
 	if(substr($source, 0, 8)!='https://' and substr($source, 0, 7)!='http://') {
 		OCP\JSON::error(array("data" => array( "message" => "Not a valid source" )));
@@ -62,7 +64,6 @@ if($source) {
 
 	$ctx = stream_context_create(null, array('notification' =>'progress'));
 	$sourceStream=fopen($source, 'rb', false, $ctx);
-	$target=$dir.'/'.$filename;
 	$result=\OC\Files\Filesystem::file_put_contents($target, $sourceStream);
 	if($result) {
 		$meta = \OC\Files\Filesystem::getFileInfo($target);
@@ -76,14 +77,14 @@ if($source) {
 	exit();
 } else {
 	if($content) {
-		if(\OC\Files\Filesystem::file_put_contents($dir.'/'.$filename, $content)) {
-			$meta = \OC\Files\Filesystem::getFileInfo($dir.'/'.$filename);
+		if(\OC\Files\Filesystem::file_put_contents($target, $content)) {
+			$meta = \OC\Files\Filesystem::getFileInfo($target);
 			$id = $meta['fileid'];
 			OCP\JSON::success(array("data" => array('content'=>$content, 'id' => $id)));
 			exit();
 		}
-	}elseif(\OC\Files\Filesystem::touch($dir . '/' . $filename)) {
-		$meta = \OC\Files\Filesystem::getFileInfo($dir.'/'.$filename);
+	}elseif(\OC\Files\Filesystem::touch($target)) {
+		$meta = \OC\Files\Filesystem::getFileInfo($target);
 		$id = $meta['fileid'];
 		OCP\JSON::success(array("data" => array('content'=>$content, 'id' => $id, 'mime' => $meta['mimetype'])));
 		exit();
