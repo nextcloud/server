@@ -57,7 +57,7 @@ class OC_Connector_Sabre_QuotaPlugin extends Sabre_DAV_ServerPlugin {
 		return true;
 	}
 
-	private function getLength()
+	public function getLength()
 	{
 		$expected = $this->server->httpRequest->getHeader('X-Expected-Entity-Length');
 		if ($expected)
