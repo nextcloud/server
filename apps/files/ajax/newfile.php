@@ -87,7 +87,11 @@ if($source) {
 		$meta = \OC\Files\Filesystem::getFileInfo($target);
 		$id = $meta['fileid'];
 		$mime = $meta['mimetype'];
-		OCP\JSON::success(array("data" => array('mime'=>$mime, 'content'=>$content, 'id' => $id)));
+		OCP\JSON::success(array('data' => array(
+			'id' => $id,
+			'mime' => $mime,
+			'content' => $content,
+		)));
 		exit();
 	}
 }
