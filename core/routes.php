@@ -36,9 +36,6 @@ $this->create('core_ajax_vcategories_favorites', '/core/ajax/vcategories/favorit
 	->actionInclude('core/ajax/vcategories/favorites.php');
 $this->create('core_ajax_vcategories_edit', '/core/ajax/vcategories/edit.php')
 	->actionInclude('core/ajax/vcategories/edit.php');
-// Avatars
-$this->create('core_ajax_getavatar', '/core/ajax/getavatar.php')
-	->actionInclude('core/ajax/getavatar.php');
 // oC JS config
 $this->create('js_config', '/core/js/config.js')
 	->actionInclude('core/js/config.php');

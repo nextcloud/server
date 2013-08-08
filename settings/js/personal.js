@@ -50,9 +50,7 @@ function selectAvatar (path) {
 }
 
 function updateAvatar () {
-	$.post(OC.filePath('core', 'ajax', 'getavatar.php'), {user: OC.currentUser, size: 128}, function(data){
-		$('#avatar img').attr('src', data.data);
-	});
+	$('#avatar img').attr('src', OC.filePath('', '', 'avatar.php?user='+OC.currentUser+'&size=128'));
 }
 
 $(document).ready(function(){

@@ -84,12 +84,12 @@ if($_['passwordChangeSupported']) {
 ?>
 
 <?php if ($_['avatar'] === "local"): ?>
-<form id="avatar">
+<form id="avatar" method="post" action="<?php p(\OC_Helper::linkToRoute('settings_ajax_newavatar')); ?>">
 	<fieldset class="personalblock">
 		<legend><strong><?php p($l->t('Avatar')); ?></strong></legend>
 		<img src="<?php print_unescaped(link_to('', 'avatar.php').'?user='.OC_User::getUser().'&size=128'); ?>"><br>
 		<em><?php p($l->t('Your avatar has to be a square and either a PNG or JPG image')); ?></em><br>
-		<div class="inlineblock button" id="uploadavatar"><?php p($l->t('Upload a new avatar')); ?></div>
+		<input type="file" class="inlineblock button" name="files[]" id="uploadavatar" value="<?php p($l->t('Upload a new avatar')); ?>">
 		<div class="inlineblock button" id="selectavatar"><?php p($l->t('Select a new avatar from your files')); ?></div>
 		<div class="inlineblock button" id="removeavatar"><?php p($l->t('Remove my avatar')); ?></div>
 	</fieldset>

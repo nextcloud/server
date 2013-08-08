@@ -29,15 +29,17 @@ class Test_Avatar extends PHPUnit_Framework_TestCase {
 
 	public function testLocalAvatar() {
 		\OC_Config::setValue('avatar', 'local');
-		$this->assertEquals(\OC_Avatar::get(\OC_User::getUser()), \OC_Avatar::wrapIntoImg(\OC_Avatar::getDefaultAvatar(), 'png'));
+		$expected = \OC_Avatar::getDefaultAvatar()->data();
+		$this->assertEquals($expected, \OC_Avatar::get(\OC_User::getUser())->data());
 
 		$expected = new OC_Image(\OC::$SERVERROOT.'/tests/data/testavatar.png');
 		\OC_Avatar::setLocalAvatar(\OC_User::getUser(), $expected->data());
-		$expected->resize(32);
-		$this->assertEquals($expected, \OC_Avatar::get(\OC_User::getUser()));
+		$expected->resize(64);
+		$this->assertEquals($expected->data(), \OC_Avatar::get(\OC_User::getUser())->data());
 
 		\OC_Avatar::setLocalAvatar(\OC_User::getUser(), false);
-		$this->assertEquals(\OC_Avatar::get(\OC_User::getUser()), \OC_Avatar::wrapIntoImg(\OC_Avatar::getDefaultAvatar(), 'png'));
+		$expected = \OC_Avatar::getDefaultAvatar()->data();
+		$this->assertEquals($expected, \OC_Avatar::get(\OC_User::getUser())->data());
 	}
 
 	public function testGravatar() {
@@ -51,11 +53,6 @@ class Test_Avatar extends PHPUnit_Framework_TestCase {
 	public function testDefaultAvatar() {
 		$img = new \OC_Image(OC::$SERVERROOT.'/core/img/defaultavatar.png');
 		$img->resize(128);
-		$this->assertEquals((string)$img, \OC_Avatar::getDefaultAvatar(128));
-	}
-
-	public function testWrapIntoImg() {
-		$expected = "data:image/test;base64,DUMMY==123==";
-		$this->assertEquals($expected, \OC_Avatar::wrapIntoImg("DUMMY==123==", "test"));
+		$this->assertEquals($img->data(), \OC_Avatar::getDefaultAvatar(128)->data());
 	}
 }

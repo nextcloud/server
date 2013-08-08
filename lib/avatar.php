@@ -14,20 +14,26 @@
 
 class OC_Avatar {
 	/**
-	 * @brief gets a link to the users avatar
-	 * @param $user string username
+	 * @brief gets the users avatar
+	 * @param $user string username, if not provided, the default avatar will be returned
 	 * @param $size integer size in px of the avatar, defaults to 64
-	 * @return mixed link to the avatar, false if avatars are disabled
+	 * @return mixed \OC_Image containing the avatar, a link to the avatar, false if avatars are disabled
 	*/
-	public static function get ($user, $size = 64) {
-		$mode = OC_Config::getValue("avatar", "local");
+	public static function get ($user = false, $size = 64) {
+		$mode = self::getMode();
 		if ($mode === "none") {
 			// avatars are disabled
 			return false;
-		} elseif ($mode === "gravatar") {
-			return \OC_Avatar::getGravatar($user, $size);
-		} elseif ($mode === "local") {
-			return \OC_Avatar::getLocalAvatar($user, $size);
+		} else {
+			if ($user === false) {
+				return self::getDefaultAvatar($size);
+			} elseif ($mode === "gravatar") {
+				return self::getGravatar($user, $size);
+			} elseif ($mode === "local") {
+				return self::getLocalAvatar($user, $size);
+			} elseif ($mode === "custom") {
+				return self::getCustomAvatar($user, $size);
+			}
 		}
 	}
 
@@ -36,7 +42,7 @@ class OC_Avatar {
 	 * @return string active avatar mode
 	*/
 	public static function getMode () {
-		return OC_Config::getValue("avatar", "local");
+		return \OC_Config::getValue("avatar", "local");
 	}
 
 	/**
@@ -56,15 +62,14 @@ class OC_Avatar {
 			return true;
 		} else {
 			$img = new OC_Image($data);
-			// FIXME this always says "image/png", when loading from data
 			$type = substr($img->mimeType(), -3);
 			if ($type === 'peg') { $type = 'jpg'; }
 			if ($type !== 'jpg' && $type !== 'png') {
-				throw new Exception();
+				throw new Exception("Unknown filetype for avatar");
 			}
 
 			if (!( $img->valid() && ($img->height() === $img->width()) )) {
-				throw new Exception();
+				throw new Exception("Invalid image, or the provided image is not square");
 			}
 
 			$view->unlink('avatar.jpg');
@@ -78,16 +83,16 @@ class OC_Avatar {
 	 * @brief get the users gravatar
 	 * @param $user string which user to get the gravatar for
 	 * @param size integer size in px of the avatar, defaults to 64
-	 * @return string link to the gravatar, or base64encoded, html-ready image
+	 * @return string link to the gravatar, or \OC_Image with the default avatar
 	*/
 	public static function getGravatar ($user, $size = 64) {
-		$email = OC_Preferences::getValue($user, 'settings', 'email');
+		$email = \OC_Preferences::getValue($user, 'settings', 'email');
 		if ($email !== null) {
 			$emailhash = md5(strtolower(trim($email)));
 			$url = "http://www.gravatar.com/avatar/".$emailhash."?s=".$size;
 			return $url;
 		} else {
-			return \OC_Avatar::wrapIntoImg(\OC_Avatar::getDefaultAvatar($size), 'png');
+			return self::getDefaultAvatar($size);
 		}
 	}
 
@@ -95,42 +100,39 @@ class OC_Avatar {
 	 * @brief get the local avatar
 	 * @param $user string which user to get the avatar for
 	 * @param $size integer size in px of the avatar, defaults to 64
-	 * @return string base64encoded encoded, html-ready image
+	 * @return string \OC_Image containing the avatar
 	*/
 	public static function getLocalAvatar ($user, $size = 64) {
 		$view = new \OC\Files\View('/'.$user);
 
 		if ($view->file_exists('avatar.jpg')) {
-			$type = 'jpg';
+			$ext = 'jpg';
 		} elseif ($view->file_exists('avatar.png')) {
-			$type = 'png';
+			$ext = 'png';
 		} else {
-			return \OC_Avatar::wrapIntoImg(\OC_Avatar::getDefaultAvatar($size), 'png');
+			return self::getDefaultAvatar($size);
 		}
 
-		$avatar = new OC_Image($view->file_get_contents('avatar.'.$type));
+		$avatar = new OC_Image($view->file_get_contents('avatar.'.$ext));
 		$avatar->resize($size);
-		return \OC_Avatar::wrapIntoImg((string)$avatar, $type);
+		return $avatar;
+	}
+
+	/**
+	 *
+	*/
+	public static function getCustomAvatar($user, $size) {
+		// TODO
 	}
 
 	/**
 	 * @brief gets the default avatar
 	 * @param $size integer size of the avatar in px, defaults to 64
-	 * @return string base64 encoded default avatar
+	 * @return \OC_Image containing the default avatar
 	*/
 	public static function getDefaultAvatar ($size = 64) {
 		$default = new OC_Image(OC::$SERVERROOT."/core/img/defaultavatar.png");
 		$default->resize($size);
-		return (string)$default;
-	}
-
-	/**
-	 * @brief wrap a base64encoded image, so it can be used in html
-	 * @param $img string base64encoded image
-	 * @param $type string imagetype
-	 * @return string wrapped image
-	*/
-	public static function wrapIntoImg($img, $type) {
-		return 'data:image/'.$type.';base64,'.$img;
+		return $default;
 	}
 }
