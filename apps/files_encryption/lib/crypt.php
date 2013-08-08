@@ -23,10 +23,6 @@
  *
  */
 
-/*
- * TODO: Check if methods really need to be public
- */
-
 namespace OCA\Encryption;
 
 //require_once '../3rdparty/Crypt_Blowfish/Blowfish.php';
