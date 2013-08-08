@@ -76,20 +76,19 @@ if($source) {
 	$eventSource->close();
 	exit();
 } else {
+	$success = false;
 	if($content) {
-		if(\OC\Files\Filesystem::file_put_contents($target, $content)) {
-			$meta = \OC\Files\Filesystem::getFileInfo($target);
-			$id = $meta['fileid'];
-			OCP\JSON::success(array("data" => array('content'=>$content, 'id' => $id)));
-			exit();
-		}
-	}elseif(\OC\Files\Filesystem::touch($target)) {
+		$success = \OC\Files\Filesystem::file_put_contents($target, $content);
+	} else {
+		$success = \OC\Files\Filesystem::touch($target);
+	}
+
+	if($success) {
 		$meta = \OC\Files\Filesystem::getFileInfo($target);
 		$id = $meta['fileid'];
 		OCP\JSON::success(array("data" => array('content'=>$content, 'id' => $id, 'mime' => $meta['mimetype'])));
 		exit();
 	}
 }
-
 
 OCP\JSON::error(array("data" => array( "message" => "Error when creating the file" )));
