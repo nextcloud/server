@@ -79,13 +79,15 @@ if($source) {
 		if(\OC\Files\Filesystem::file_put_contents($dir.'/'.$filename, $content)) {
 			$meta = \OC\Files\Filesystem::getFileInfo($dir.'/'.$filename);
 			$id = $meta['fileid'];
-			OCP\JSON::success(array("data" => array('content'=>$content, 'id' => $id)));
+			$mime = $meta['mimetype'];
+			OCP\JSON::success(array("data" => array('mime'=>$mime, 'content'=>$content, 'id' => $id)));
 			exit();
 		}
 	}elseif(\OC\Files\Filesystem::touch($dir . '/' . $filename)) {
 		$meta = \OC\Files\Filesystem::getFileInfo($dir.'/'.$filename);
 		$id = $meta['fileid'];
-		OCP\JSON::success(array("data" => array('content'=>$content, 'id' => $id)));
+		$mime = $meta['mimetype'];
+		OCP\JSON::success(array("data" => array('mime'=>$mime, 'content'=>$content, 'id' => $id)));
 		exit();
 	}
 }
