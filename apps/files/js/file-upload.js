@@ -91,38 +91,35 @@ $(document).ready(function() {
 	 * @param data
 	 */
 	done:function(e, data) {
-	  // handle different responses (json or body from iframe for ie)
-	  var response;
-	  if (typeof data.result === 'string') {
-		response = data.result;
-	  } else {
-		//fetch response from iframe
-		response = data.result[0].body.innerText;
-	  }
-	  var result=$.parseJSON(response);
-
-	  if(typeof result[0] !== 'undefined' && result[0].status === 'success') {
-		var file = result[0];
-	  } else {
-		data.textStatus = 'servererror';
-		data.errorThrown = t('files', result.data.message);
-		var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
-		fu._trigger('fail', e, data);
-	  }
-
-	  var filename = result[0].originalname;
-
-	  // delete jqXHR reference
-	  if (typeof data.context !== 'undefined' && data.context.data('type') === 'dir') {
-		var dirName = data.context.data('file');
-		delete uploadingFiles[dirName][filename];
-		if ($.assocArraySize(uploadingFiles[dirName]) == 0) {
-	  delete uploadingFiles[dirName];
+		// handle different responses (json or body from iframe for ie)
+		var response;
+		if (typeof data.result === 'string') {
+			response = data.result;
+		} else {
+			//fetch response from iframe
+			response = data.result[0].body.innerText;
 		}
-	  } else {
-		delete uploadingFiles[filename];
-	  }
+		var result=$.parseJSON(response);
 
+		if(typeof result[0] !== 'undefined' && result[0].status === 'success') {
+			var filename = result[0].originalname;
+
+			// delete jqXHR reference
+			if (typeof data.context !== 'undefined' && data.context.data('type') === 'dir') {
+				var dirName = data.context.data('file');
+				delete uploadingFiles[dirName][filename];
+				if ($.assocArraySize(uploadingFiles[dirName]) == 0) {
+					delete uploadingFiles[dirName];
+				}
+			} else {
+				delete uploadingFiles[filename];
+			}
+		} else {
+			data.textStatus = 'servererror';
+			data.errorThrown = t('files', result.data.message);
+			var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
+			fu._trigger('fail', e, data);
+		}
 	},
 	/**
 	 * called after last upload
