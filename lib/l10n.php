@@ -2,8 +2,10 @@
 /**
  * ownCloud
  *
+ * @author Frank Karlitschek
  * @author Jakob Sack
  * @copyright 2012 Frank Karlitschek frank@owncloud.org
+ * @copyright 2013 Jakob Sack
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -23,7 +25,7 @@
 /**
  * This class is for i18n and l10n
  */
-class OC_L10N{
+class OC_L10N {
 	/**
 	 * cached instances
 	 */
@@ -55,6 +57,16 @@ class OC_L10N{
 	private $translations = array();
 
 	/**
+	 * Plural forms (string)
+	 */
+	private $plural_form_string = 'nplurals=2; plural=(n != 1);';
+
+	/**
+	 * Plural forms (function)
+	 */
+	private $plural_form_function = null;
+
+	/**
 	 * Localization
 	 */
 	private $localizations = array(
@@ -66,6 +78,8 @@ class OC_L10N{
 
 	/**
 	 * get an L10N instance
+	 * @param $app string
+	 * @param $lang string|null
 	 * @return OC_L10N
 	 */
 	public static function get($app, $lang=null) {
@@ -81,8 +95,8 @@ class OC_L10N{
 
 	/**
 	 * @brief The constructor
-	 * @param $app the app requesting l10n
-	 * @param $lang default: null Language
+	 * @param $app string app requesting l10n
+	 * @param $lang string default: null Language
 	 * @returns OC_L10N-Object
 	 *
 	 * If language is not set, the constructor tries to find the right
@@ -91,6 +105,17 @@ class OC_L10N{
 	public function __construct($app, $lang = null) {
 		$this->app = $app;
 		$this->lang = $lang;
+	}
+
+	public function load($transFile) {
+		$this->app = true;
+		include $transFile;
+		if(isset($TRANSLATIONS) && is_array($TRANSLATIONS)) {
+			$this->translations = $TRANSLATIONS;
+		}
+		if(isset($PLURAL_FORMS)) {
+			$this->plural_form_string = $PLURAL_FORMS;
+		}
 	}
 
 	protected function init() {
@@ -138,6 +163,9 @@ class OC_L10N{
 						}
 					}
 				}
+				if(isset($PLURAL_FORMS)) {
+					$this->plural_form_string = $PLURAL_FORMS;
+				}
 			}
 
 			if(file_exists(OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php')) {
@@ -154,6 +182,65 @@ class OC_L10N{
 	}
 
 	/**
+	 * @brief Creates a function that The constructor
+	 *
+	 * If language is not set, the constructor tries to find the right
+	 * language.
+	 *
+	 * Parts of the code is copied from Habari:
+	 * https://github.com/habari/system/blob/master/classes/locale.php
+	 * @param $string string
+	 * @return string
+	 */
+	protected function createPluralFormFunction($string){
+		if(preg_match( '/^\s*nplurals\s*=\s*(\d+)\s*;\s*plural=(.*)$/u', $string, $matches)) {
+			// sanitize
+			$nplurals = preg_replace( '/[^0-9]/', '', $matches[1] );
+			$plural = preg_replace( '#[^n0-9:\(\)\?\|\&=!<>+*/\%-]#', '', $matches[2] );
+
+			$body = str_replace(
+				array( 'plural', 'n', '$n$plurals', ),
+				array( '$plural', '$n', '$nplurals', ),
+				'nplurals='. $nplurals . '; plural=' . $plural
+			);
+
+			// add parents
+			// important since PHP's ternary evaluates from left to right
+			$body .= ';';
+			$res = '';
+			$p = 0;
+			for($i = 0; $i < strlen($body); $i++) {
+				$ch = $body[$i];
+				switch ( $ch ) {
+				case '?':
+					$res .= ' ? (';
+					$p++;
+					break;
+				case ':':
+					$res .= ') : (';
+					break;
+				case ';':
+					$res .= str_repeat( ')', $p ) . ';';
+					$p = 0;
+					break;
+				default:
+					$res .= $ch;
+				}
+			}
+
+			$body = $res . 'return ($plural>=$nplurals?$nplurals-1:$plural);';
+			return create_function('$n', $body);
+		}
+		else {
+			// default: one plural form for all cases but n==1 (english)
+			return create_function(
+				'$n',
+				'$nplurals=2;$plural=($n==1?0:1);return ($plural>=$nplurals?$nplurals-1:$plural);'
+			);
+		}
+	}
+
+	/**
 	 * @brief Translating
 	 * @param $text String The text we need a translation for
 	 * @param array $parameters default:array() Parameters for sprintf
@@ -164,6 +251,37 @@ class OC_L10N{
 	 */
 	public function t($text, $parameters = array()) {
 		return new OC_L10N_String($this, $text, $parameters);
+	}
+
+	/**
+	 * @brief Translating
+	 * @param $text_singular String the string to translate for exactly one object
+	 * @param $text_plural String the string to translate for n objects
+	 * @param $count Integer Number of objects
+	 * @param array $parameters default:array() Parameters for sprintf
+	 * @return \OC_L10N_String Translation or the same text
+	 *
+	 * Returns the translation. If no translation is found, $text will be
+	 * returned. %n will be replaced with the number of objects.
+	 *
+	 * The correct plural is determined by the plural_forms-function
+	 * provided by the po file.
+	 *
+	 */
+	public function n($text_singular, $text_plural, $count, $parameters = array()) {
+		$this->init();
+		$identifier = "_${text_singular}__${text_plural}_";
+		if( array_key_exists($identifier, $this->translations)) {
+			return new OC_L10N_String( $this, $identifier, $parameters, $count );
+		}
+		else{
+			if($count === 1) {
+				return new OC_L10N_String($this, $text_singular, $parameters, $count);
+			}
+			else{
+				return new OC_L10N_String($this, $text_plural, $parameters, $count);
+			}
+		}
 	}
 
 	/**
@@ -201,6 +319,42 @@ class OC_L10N{
 	}
 
 	/**
+	 * @brief getPluralFormString
+	 * @returns string containing the gettext "Plural-Forms"-string
+	 *
+	 * Returns a string like "nplurals=2; plural=(n != 1);"
+	 */
+	public function getPluralFormString() {
+		$this->init();
+		return $this->plural_form_string;
+	}
+
+	/**
+	 * @brief getPluralFormFunction
+	 * @returns string the plural form function
+	 *
+	 * returned function accepts the argument $n
+	 */
+	public function getPluralFormFunction() {
+		$this->init();
+		if(is_null($this->plural_form_function)) {
+			$this->plural_form_function = $this->createPluralFormFunction($this->plural_form_string);
+		}
+		return $this->plural_form_function;
+	}
+
+	/**
+	 * @brief get localizations
+	 * @returns Fetch all localizations
+	 *
+	 * Returns an associative array with all localizations
+	 */
+	public function getLocalizations() {
+		$this->init();
+		return $this->localizations;
+	}
+
+	/**
 	 * @brief Localization
 	 * @param $type Type of localization
 	 * @param $params parameters for this localization
@@ -230,8 +384,12 @@ class OC_L10N{
 			case 'date':
 			case 'datetime':
 			case 'time':
-				if($data instanceof DateTime) return $data->format($this->localizations[$type]);
-				elseif(is_string($data)) $data = strtotime($data);
+				if($data instanceof DateTime) {
+					return $data->format($this->localizations[$type]);
+				}
+				elseif(is_string($data)) {
+					$data = strtotime($data);
+				}
 				$locales = array(self::findLanguage());
 				if (strlen($locales[0]) == 2) {
 					$locales[] = $locales[0].'_'.strtoupper($locales[0]);
