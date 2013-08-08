@@ -387,7 +387,7 @@ class OC_L10N {
 				if($data instanceof DateTime) {
 					return $data->format($this->localizations[$type]);
 				}
-				elseif(is_string($data)) {
+				elseif(is_string($data) && !is_numeric($data)) {
 					$data = strtotime($data);
 				}
 				$locales = array(self::findLanguage());
