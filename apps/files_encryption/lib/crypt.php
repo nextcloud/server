@@ -25,7 +25,6 @@
 
 namespace OCA\Encryption;
 
-//require_once '../3rdparty/Crypt_Blowfish/Blowfish.php';
 require_once realpath(dirname(__FILE__) . '/../3rdparty/Crypt_Blowfish/Blowfish.php');
 
 /**
@@ -514,11 +513,11 @@ class Crypt {
 	}
 
 	/**
-	 * @brief Get the blowfish encryption handeler for a key
+	 * @brief Get the blowfish encryption handler for a key
 	 * @param $key string (optional)
 	 * @return \Crypt_Blowfish blowfish object
 	 *
-	 * if the key is left out, the default handeler will be used
+	 * if the key is left out, the default handler will be used
 	 */
 	private static function getBlowfish($key = '') {
 
