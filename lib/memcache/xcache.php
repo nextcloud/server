@@ -10,7 +10,7 @@ namespace OC\Memcache;
 
 class XCache extends Cache {
 	/**
-	 * entries in XCache gets namespaced to prevent collisions between owncloud instances and users
+	 * entries in XCache gets namespaced to prevent collisions between ownCloud instances and users
 	 */
 	protected function getNameSpace() {
 		return $this->prefix;
@@ -44,11 +44,16 @@ class XCache extends Cache {
 	static public function isAvailable(){
 		if (!extension_loaded('xcache')) {
 			return false;
-		} elseif (\OC::$CLI) {
-			return false;
-		}else{
-			return true;
 		}
+		if (\OC::$CLI) {
+			return false;
+		}
+		// as soon as admin auth is enabled we can run into issues with admin ops like xcache_clear_cache
+		if (ini_get('xcache.admin.enable_auth')) {
+			return false;
+		}
+
+		return true;
 	}
 }
 
