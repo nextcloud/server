@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "无法移动 %s - 存在同名文件",
 "Could not move %s" => "无法移动 %s",
 "Unable to set upload directory." => "无法设置上传文件夹",
@@ -79,3 +80,4 @@
 "files" => "文件",
 "Upgrading filesystem cache..." => "升级系统缓存..."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

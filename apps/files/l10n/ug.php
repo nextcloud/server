@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s" => "%s يۆتكىيەلمەيدۇ",
 "No file was uploaded. Unknown error" => "ھېچقانداق ھۆججەت يۈكلەنمىدى. يوچۇن خاتالىق",
 "No file was uploaded" => "ھېچقانداق ھۆججەت يۈكلەنمىدى",
@@ -41,3 +42,4 @@
 "Upload too large" => "يۈكلەندىغىنى بەك چوڭ",
 "Upgrading filesystem cache..." => "ھۆججەت سىستېما غەملىكىنى يۈكسەلدۈرۈۋاتىدۇ…"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

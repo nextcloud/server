@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Kohteen %s siirto ei onnistunut - Tiedosto samalla nimellä on jo olemassa",
 "Could not move %s" => "Kohteen %s siirto ei onnistunut",
 "No file was uploaded. Unknown error" => "Tiedostoa ei lähetetty. Tuntematon virhe",
@@ -71,3 +72,4 @@
 "files" => "tiedostoa",
 "Upgrading filesystem cache..." => "Päivitetään tiedostojärjestelmän välimuistia..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

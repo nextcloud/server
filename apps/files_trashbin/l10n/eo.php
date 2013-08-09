@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Error" => "Eraro",
 "Delete permanently" => "Forigi por ĉiam",
 "Name" => "Nomo",
@@ -10,3 +11,4 @@
 "Delete" => "Forigi",
 "Deleted Files" => "Forigitaj dosieroj"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

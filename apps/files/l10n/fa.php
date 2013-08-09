@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s نمی تواند حرکت کند - در حال حاضر پرونده با این نام وجود دارد. ",
 "Could not move %s" => "%s نمی تواند حرکت کند ",
 "Unable to set upload directory." => "قادر به تنظیم پوشه آپلود نمی باشد.",
@@ -79,3 +80,4 @@
 "files" => "پرونده ها",
 "Upgrading filesystem cache..." => "بهبود فایل سیستمی ذخیره گاه..."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

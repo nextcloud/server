@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to clear the mappings." => "Selhalo zrušení mapování.",
 "Failed to delete the server configuration" => "Selhalo smazání nastavení serveru",
 "The configuration is valid and the connection could be established!" => "Nastavení je v pořádku a spojení bylo navázáno.",
@@ -87,3 +88,4 @@
 "Test Configuration" => "Vyzkoušet nastavení",
 "Help" => "Nápověda"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

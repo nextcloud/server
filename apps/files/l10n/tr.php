@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s taşınamadı. Bu isimde dosya zaten var.",
 "Could not move %s" => "%s taşınamadı",
 "Unable to set upload directory." => "Yükleme dizini tanımlanamadı.",
@@ -79,3 +80,4 @@
 "files" => "dosyalar",
 "Upgrading filesystem cache..." => "Sistem dosyası önbelleği güncelleniyor"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

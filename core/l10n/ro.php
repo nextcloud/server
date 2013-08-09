@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s Partajat »%s« cu tine de",
 "Category type not provided." => "Tipul de categorie nu a fost specificat.",
 "No category to add?" => "Nici o categorie de adăugat?",
@@ -140,3 +141,4 @@
 "next" => "următorul",
 "Updating ownCloud to version %s, this may take a while." => "Actualizăm ownCloud la versiunea %s, aceasta poate dura câteva momente."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));";

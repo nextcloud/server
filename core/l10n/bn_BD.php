@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "ক্যাটেগরির ধরণটি প্রদান করা হয় নি।",
 "No category to add?" => "যোগ করার মত কোন ক্যাটেগরি নেই ?",
 "Object type not provided." => "অবজেক্টের ধরণটি প্রদান করা হয় নি।",
@@ -117,3 +118,4 @@
 "next" => "পরবর্তী",
 "Updating ownCloud to version %s, this may take a while." => "%s ভার্সনে ownCloud পরিবর্ধন করা হচ্ছে, এজন্য কিছু সময় প্রয়োজন।"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

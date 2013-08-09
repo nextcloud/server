@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "ช่วยเหลือ",
 "Personal" => "ส่วนตัว",
 "Settings" => "ตั้งค่า",
@@ -31,3 +32,4 @@
 "years ago" => "ปี ที่ผ่านมา",
 "Could not find category \"%s\"" => "ไม่พบหมวดหมู่ \"%s\""
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

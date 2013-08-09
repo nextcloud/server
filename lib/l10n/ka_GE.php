@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "დახმარება",
 "Personal" => "პირადი",
 "Settings" => "პარამეტრები",
@@ -50,3 +51,4 @@
 "years ago" => "წლის წინ",
 "Could not find category \"%s\"" => "\"%s\" კატეგორიის მოძებნა ვერ მოხერხდა"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

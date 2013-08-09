@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "උදව්",
 "Personal" => "පෞද්ගලික",
 "Settings" => "සිටුවම්",
@@ -26,3 +27,4 @@
 "last year" => "පෙර අවුරුද්දේ",
 "years ago" => "අවුරුදු කීපයකට පෙර"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

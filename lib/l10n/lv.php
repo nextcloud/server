@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Palīdzība",
 "Personal" => "Personīgi",
 "Settings" => "Iestatījumi",
@@ -50,3 +51,4 @@
 "years ago" => "gadus atpakaļ",
 "Could not find category \"%s\"" => "Nevarēja atrast kategoriju “%s”"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);";

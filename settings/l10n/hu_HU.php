@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Nem tölthető le a lista az App Store-ból",
 "Authentication error" => "Azonosítási hiba",
 "Your display name has been changed." => "Az Ön megjelenítési neve megváltozott.",
@@ -114,3 +115,4 @@
 "set new password" => "új jelszó beállítása",
 "Default" => "Alapértelmezett"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

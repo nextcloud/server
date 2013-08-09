@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Settings" => "Instellings",
 "Password" => "Wagwoord",
 "Use the following link to reset your password: {link}" => "Gebruik die volgende skakel om jou wagwoord te herstel: {link}",
@@ -30,3 +31,4 @@
 "prev" => "vorige",
 "next" => "volgende"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

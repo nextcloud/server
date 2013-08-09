@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "ياردەم",
 "Personal" => "شەخسىي",
 "Settings" => "تەڭشەكلەر",
@@ -17,3 +18,4 @@
 "%d days ago" => "%d كۈن ئىلگىرى",
 "%d months ago" => "%d ئاي ئىلگىرى"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

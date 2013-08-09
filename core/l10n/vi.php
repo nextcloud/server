@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "Kiểu hạng mục không được cung cấp.",
 "No category to add?" => "Không có danh mục được thêm?",
 "This category already exists: %s" => "Danh mục này đã tồn tại: %s",
@@ -131,3 +132,4 @@
 "next" => "Kế tiếp",
 "Updating ownCloud to version %s, this may take a while." => "Cập nhật ownCloud lên phiên bản %s, có thể sẽ mất thời gian"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

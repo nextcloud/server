@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-04 01:55-0400\n"
-"PO-Revision-Date: 2013-08-04 05:01+0000\n"
+"POT-Creation-Date: 2013-08-09 07:59-0400\n"
+"PO-Revision-Date: 2013-08-09 11:21+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/owncloud/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -137,59 +137,59 @@ msgstr "Studeni"
 msgid "December"
 msgstr "Prosinac"
 
-#: js/js.js:293
+#: js/js.js:354
 msgid "Settings"
 msgstr "Postavke"
 
-#: js/js.js:753
+#: js/js.js:814
 msgid "seconds ago"
 msgstr "sekundi prije"
 
-#: js/js.js:754
+#: js/js.js:815
 msgid "1 minute ago"
 msgstr ""
 
-#: js/js.js:755
+#: js/js.js:816
 msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/js.js:756
+#: js/js.js:817
 msgid "1 hour ago"
 msgstr ""
 
-#: js/js.js:757
+#: js/js.js:818
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:758
+#: js/js.js:819
 msgid "today"
 msgstr "danas"
 
-#: js/js.js:759
+#: js/js.js:820
 msgid "yesterday"
 msgstr "jučer"
 
-#: js/js.js:760
+#: js/js.js:821
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:761
+#: js/js.js:822
 msgid "last month"
 msgstr "prošli mjesec"
 
-#: js/js.js:762
+#: js/js.js:823
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:763
+#: js/js.js:824
 msgid "months ago"
 msgstr "mjeseci"
 
-#: js/js.js:764
+#: js/js.js:825
 msgid "last year"
 msgstr "prošlu godinu"
 
-#: js/js.js:765
+#: js/js.js:826
 msgid "years ago"
 msgstr "godina"
 

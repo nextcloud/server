@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "Kategorijas tips nav norādīts.",
 "No category to add?" => "Nav kategoriju, ko pievienot?",
 "This category already exists: %s" => "Šāda kategorija jau eksistē — %s",
@@ -127,3 +128,4 @@
 "next" => "nākamā",
 "Updating ownCloud to version %s, this may take a while." => "Atjaunina ownCloud uz versiju %s. Tas var aizņemt kādu laiciņu."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);";

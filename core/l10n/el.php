@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "Ο %s διαμοιράστηκε μαζί σας το »%s«",
 "Category type not provided." => "Δεν δώθηκε τύπος κατηγορίας.",
 "No category to add?" => "Δεν έχετε κατηγορία να προσθέσετε;",
@@ -43,6 +44,7 @@
 "years ago" => "χρόνια πριν",
 "Choose" => "Επιλέξτε",
 "Cancel" => "Άκυρο",
+"Error loading file picker template" => "Σφάλμα φόρτωσης αρχείου επιλογέα προτύπου",
 "Yes" => "Ναι",
 "No" => "Όχι",
 "Ok" => "Οκ",
@@ -61,6 +63,7 @@
 "Share with link" => "Διαμοιρασμός με σύνδεσμο",
 "Password protect" => "Προστασία συνθηματικού",
 "Password" => "Συνθηματικό",
+"Allow Public Upload" => "Να επιτρέπεται η Δημόσια Αποστολή",
 "Email link to person" => "Αποστολή συνδέσμου με email ",
 "Send" => "Αποστολή",
 "Set expiration date" => "Ορισμός ημ. λήξης",
@@ -108,9 +111,11 @@
 "Add" => "Προσθήκη",
 "Security Warning" => "Προειδοποίηση Ασφαλείας",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Η PHP ειναι ευαλωτη στην NULL Byte επιθεση (CVE-2006-7243)",
+"Please update your PHP installation to use %s securely." => "Παρακαλώ ενημερώστε την εγκατάσταση της PHP ώστε να χρησιμοποιήσετε το %s με ασφάλεια.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Δεν είναι διαθέσιμο το πρόσθετο δημιουργίας τυχαίων αριθμών ασφαλείας, παρακαλώ ενεργοποιήστε το πρόσθετο της PHP, OpenSSL.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Χωρίς το πρόσθετο δημιουργίας τυχαίων αριθμών ασφαλείας, μπορεί να διαρρεύσει ο λογαριασμός σας από επιθέσεις στο διαδίκτυο.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Ο κατάλογος δεδομένων και τα αρχεία σας είναι πιθανό προσβάσιμα από το internet γιατί δεν δουλεύει το αρχείο .htaccess.",
+"For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Για πληροφορίες πως να ρυθμίσετε ορθά τον διακομιστή σας, παρακαλώ δείτε την <a href=\"%s\" target=\"_blank\">τεκμηρίωση</a>.",
 "Create an <strong>admin account</strong>" => "Δημιουργήστε έναν <strong>λογαριασμό διαχειριστή</strong>",
 "Advanced" => "Για προχωρημένους",
 "Data folder" => "Φάκελος δεδομένων",
@@ -136,3 +141,4 @@
 "next" => "επόμενο",
 "Updating ownCloud to version %s, this may take a while." => "Ενημερώνοντας το ownCloud στην έκδοση %s,μπορεί να πάρει λίγο χρόνο."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

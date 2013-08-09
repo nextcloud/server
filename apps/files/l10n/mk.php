@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "No file was uploaded. Unknown error" => "Ниту еден фајл не се вчита. Непозната грешка",
 "There is no error, the file uploaded with success" => "Датотеката беше успешно подигната.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Подигнатата датотека ја надминува upload_max_filesize директивата во php.ini:",
@@ -56,3 +57,4 @@
 "file" => "датотека",
 "files" => "датотеки"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;";

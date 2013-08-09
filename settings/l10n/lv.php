@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Nevar lejupielādēt sarakstu no lietotņu veikala",
 "Authentication error" => "Autentifikācijas kļūda",
 "Unable to change display name" => "Nevarēja mainīt redzamo vārdu",
@@ -100,3 +101,4 @@
 "set new password" => "iestatīt jaunu paroli",
 "Default" => "Noklusējuma"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "%s را نمی توان برای همیشه حذف کرد",
 "Couldn't restore %s" => "%s را نمی توان بازگرداند",
 "perform restore operation" => "انجام عمل بازگرداندن",
@@ -16,3 +17,4 @@
 "Delete" => "حذف",
 "Deleted Files" => "فایلهای حذف شده"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Kohdetta %s ei voitu poistaa pysyvästi",
 "Couldn't restore %s" => "Kohteen %s palautus epäonnistui",
 "perform restore operation" => "suorita palautustoiminto",
@@ -17,3 +18,4 @@
 "Delete" => "Poista",
 "Deleted Files" => "Poistetut tiedostot"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

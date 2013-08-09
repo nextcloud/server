@@ -1,6 +1,6 @@
 /**
  * Disable console output unless DEBUG mode is enabled.
- * Add 
+ * Add
  *	 define('DEBUG', true);
  * To the end of config/config.php to enable debug mode.
  * The undefined checks fix the broken ie8 console
@@ -24,60 +24,121 @@ if (oc_debug !== true || typeof console === "undefined" || typeof console.log ==
 	}
 }
 
-/**
- * translate a string
- * @param app the id of the app for which to translate the string
- * @param text the string to translate
- * @return string
- */
-function t(app,text, vars){
-	if( !( t.cache[app] )){
-		$.ajax(OC.filePath('core','ajax','translations.php'),{
-			async:false,//todo a proper sollution for this without sync ajax calls
-			data:{'app': app},
-			type:'POST',
-			success:function(jsondata){
+function initL10N(app) {
+	if (!( t.cache[app] )) {
+		$.ajax(OC.filePath('core', 'ajax', 'translations.php'), {
+			async: false,//todo a proper solution for this without sync ajax calls
+			data: {'app': app},
+			type: 'POST',
+			success: function (jsondata) {
 				t.cache[app] = jsondata.data;
+				t.plural_form = jsondata.plural_form;
 			}
 		});
 
 		// Bad answer ...
-		if( !( t.cache[app] )){
+		if (!( t.cache[app] )) {
 			t.cache[app] = [];
 		}
 	}
-	var _build = function (text, vars) {
-		return text.replace(/{([^{}]*)}/g,
+	if (typeof t.plural_function == 'undefined') {
+		t.plural_function = function (n) {
+			var p = (n != 1) ? 1 : 0;
+			return { 'nplural' : 2, 'plural' : p };
+		};
+
+		/**
+		 * code below has been taken from jsgettext - which is LGPL licensed
+		 * https://developer.berlios.de/projects/jsgettext/
+		 * http://cvs.berlios.de/cgi-bin/viewcvs.cgi/jsgettext/jsgettext/lib/Gettext.js
+		 */
+		var pf_re = new RegExp('^(\\s*nplurals\\s*=\\s*[0-9]+\\s*;\\s*plural\\s*=\\s*(?:\\s|[-\\?\\|&=!<>+*/%:;a-zA-Z0-9_\(\)])+)', 'm');
+		if (pf_re.test(t.plural_form)) {
+			//ex english: "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+			//pf = "nplurals=2; plural=(n != 1);";
+			//ex russian: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10< =4 && (n%100<10 or n%100>=20) ? 1 : 2)
+			//pf = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)";
+			var pf = t.plural_form;
+			if (! /;\s*$/.test(pf)) pf = pf.concat(';');
+			/* We used to use eval, but it seems IE has issues with it.
+			 * We now use "new Function", though it carries a slightly
+			 * bigger performance hit.
+			 var code = 'function (n) { var plural; var nplurals; '+pf+' return { "nplural" : nplurals, "plural" : (plural === true ? 1 : plural ? plural : 0) }; };';
+			 Gettext._locale_data[domain].head.plural_func = eval("("+code+")");
+			 */
+			var code = 'var plural; var nplurals; '+pf+' return { "nplural" : nplurals, "plural" : (plural === true ? 1 : plural ? plural : 0) };';
+			t.plural_function = new Function("n", code);
+		} else {
+			console.log("Syntax error in language file. Plural-Forms header is invalid ["+plural_forms+"]");
+		}
+	}
+}
+/**
+ * translate a string
+ * @param app the id of the app for which to translate the string
+ * @param text the string to translate
+ * @param vars (optional) FIXME
+ * @param count (optional) number to replace %n with
+ * @return string
+ */
+function t(app, text, vars, count){
+	initL10N(app);
+	var _build = function (text, vars, count) {
+		return text.replace(/%n/g, count).replace(/{([^{}]*)}/g,
 			function (a, b) {
 				var r = vars[b];
 				return typeof r === 'string' || typeof r === 'number' ? r : a;
 			}
 		);
 	};
+	var translation = text;
 	if( typeof( t.cache[app][text] ) !== 'undefined' ){
-		if(typeof vars === 'object') {
-			return _build(t.cache[app][text], vars);
-		} else {
-			return t.cache[app][text];
-		}
+		translation = t.cache[app][text];
 	}
-	else{
-		if(typeof vars === 'object') {
-			return _build(text, vars);
-		} else {
-			return text;
-		}
+
+	if(typeof vars === 'object' || count !== undefined ) {
+		return _build(translation, vars, count);
+	} else {
+		return translation;
 	}
 }
-t.cache={};
+t.cache = {};
 
-/*
+/**
+ * translate a string
+ * @param app the id of the app for which to translate the string
+ * @param text_singular the string to translate for exactly one object
+ * @param text_plural the string to translate for n objects
+ * @param count number to determine whether to use singular or plural
+ * @param vars (optional) FIXME
+ * @return string
+ */
+function n(app, text_singular, text_plural, count, vars) {
+	initL10N(app);
+	var identifier = '_' + text_singular + '__' + text_plural + '_';
+	if( typeof( t.cache[app][identifier] ) !== 'undefined' ){
+		var translation = t.cache[app][identifier];
+		if ($.isArray(translation)) {
+			var plural = t.plural_function(count);
+			return t(app, translation[plural.plural], vars, count);
+		}
+	}
+
+	if(count === 1) {
+		return t(app, text_singular, vars, count);
+	}
+	else{
+		return t(app, text_plural, vars, count);
+	}
+}
+
+/**
 * Sanitizes a HTML string
-* @param string
+* @param s string
 * @return Sanitized string
 */
 function escapeHTML(s) {
-		return s.toString().split('&').join('&amp;').split('<').join('&lt;').split('"').join('&quot;');
+	return s.toString().split('&').join('&amp;').split('<').join('&lt;').split('"').join('&quot;');
 }
 
 /**
@@ -773,7 +834,7 @@ OC.get=function(name) {
 	var namespaces = name.split(".");
 	var tail = namespaces.pop();
 	var context=window;
-	
+
 	for(var i = 0; i < namespaces.length; i++) {
 		context = context[namespaces[i]];
 		if(!context){
@@ -792,7 +853,7 @@ OC.set=function(name, value) {
 	var namespaces = name.split(".");
 	var tail = namespaces.pop();
 	var context=window;
-	
+
 	for(var i = 0; i < namespaces.length; i++) {
 		if(!context[namespaces[i]]){
 			context[namespaces[i]]={};

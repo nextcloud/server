@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Deletion failed" => "删除失败",
 "Success" => "成功",
 "Error" => "出错",
@@ -34,3 +35,4 @@
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "用户名请留空 (默认)。否则，请指定一个 LDAP/AD 属性。",
 "Help" => "帮助"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Ohje",
 "Personal" => "Henkilökohtainen",
 "Settings" => "Asetukset",
@@ -47,3 +48,4 @@
 "years ago" => "vuotta sitten",
 "Could not find category \"%s\"" => "Luokkaa \"%s\" ei löytynyt"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

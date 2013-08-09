@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "ไม่สามารถย้าย %s ได้ - ไฟล์ที่ใช้ชื่อนี้มีอยู่แล้ว",
 "Could not move %s" => "ไม่สามารถย้าย %s ได้",
 "No file was uploaded. Unknown error" => "ยังไม่มีไฟล์ใดที่ถูกอัพโหลด เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ",
@@ -70,3 +71,4 @@
 "files" => "ไฟล์",
 "Upgrading filesystem cache..." => "กำลังอัพเกรดหน่วยความจำแคชของระบบไฟล์..."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

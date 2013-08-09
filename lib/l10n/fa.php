@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "راه‌نما",
 "Personal" => "شخصی",
 "Settings" => "تنظیمات",
@@ -51,3 +52,4 @@
 "years ago" => "سال‌های قبل",
 "Could not find category \"%s\"" => "دسته بندی %s یافت نشد"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

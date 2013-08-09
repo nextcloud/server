@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "No file was uploaded. Unknown error" => "ගොනුවක් උඩුගත නොවුනි. නොහැඳිනු දෝෂයක්",
 "There is no error, the file uploaded with success" => "දෝෂයක් නොමැත. සාර්ථකව ගොනුව උඩුගත කෙරුණි",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "උඩුගත කළ ගොනුවේ විශාලත්වය HTML පෝරමයේ නියම කළ ඇති MAX_FILE_SIZE විශාලත්වයට වඩා වැඩිය",
@@ -48,3 +49,4 @@
 "file" => "ගොනුව",
 "files" => "ගොනු"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

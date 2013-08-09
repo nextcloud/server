@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not revert: %s" => "Non foi posíbel reverter: %s",
 "Versions" => "Versións",
 "Failed to revert {file} to revision {timestamp}." => "Non foi posíbel reverter {file} á revisión {timestamp}.",
@@ -6,3 +7,4 @@
 "No other versions available" => "Non hai outras versións dispoñíbeis",
 "Restore" => "Restablecer"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

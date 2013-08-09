@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Bantuan",
 "Personal" => "Pribadi",
 "Settings" => "Setelan",
@@ -50,3 +51,4 @@
 "years ago" => "beberapa tahun lalu",
 "Could not find category \"%s\"" => "Tidak dapat menemukan kategori \"%s\""
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

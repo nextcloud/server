@@ -10,12 +10,12 @@ namespace OC\DB;
 
 class MDB2SchemaManager {
 	/**
-	 * @var \Doctrine\DBAL\Connection $conn
+	 * @var \OC\DB\Connection $conn
 	 */
 	protected $conn;
 
 	/**
-	 * @param \Doctrine\DBAL\Connection $conn
+	 * @param \OC\DB\Connection $conn
 	 */
 	public function __construct($conn) {
 		$this->conn = $conn;
@@ -95,7 +95,7 @@ class MDB2SchemaManager {
 		$toSchema = clone $fromSchema;
 		$toSchema->dropTable($tableName);
 		$sql = $fromSchema->getMigrateToSql($toSchema, $this->conn->getDatabasePlatform());
-		$this->conn->execute($sql);
+		$this->conn->executeQuery($sql);
 	}
 
 	/**
@@ -122,7 +122,7 @@ class MDB2SchemaManager {
 		$apps = \OC_App::getAllApps();
 		$this->conn->beginTransaction();
 		// Delete the old tables
-		$this->removeDBStructure( OC::$SERVERROOT . '/db_structure.xml' );
+		$this->removeDBStructure( \OC::$SERVERROOT . '/db_structure.xml' );
 
 		foreach($apps as $app) {
 			$path = \OC_App::getAppPath($app).'/appinfo/database.xml';

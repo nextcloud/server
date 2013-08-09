@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "No file was uploaded. Unknown error" => "Tiada fail dimuatnaik. Ralat tidak diketahui.",
 "There is no error, the file uploaded with success" => "Tiada ralat berlaku, fail berjaya dimuatnaik",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Saiz fail yang dimuatnaik melebihi MAX_FILE_SIZE yang ditetapkan dalam borang HTML",
@@ -40,3 +41,4 @@
 "file" => "fail",
 "files" => "fail"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

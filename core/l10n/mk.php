@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "Не беше доставен тип на категорија.",
 "No category to add?" => "Нема категорија да се додаде?",
 "Object type not provided." => "Не беше доставен тип на објект.",
@@ -120,3 +121,4 @@
 "prev" => "претходно",
 "next" => "следно"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;";

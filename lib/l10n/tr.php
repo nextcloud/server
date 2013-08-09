@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Yardım",
 "Personal" => "Kişisel",
 "Settings" => "Ayarlar",
@@ -51,3 +52,4 @@
 "years ago" => "yıl önce",
 "Could not find category \"%s\"" => "\"%s\" kategorisi bulunamadı"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

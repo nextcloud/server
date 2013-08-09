@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "ფაილი %s–ის სრულად წაშლა ვერ მოხერხდა",
 "Couldn't restore %s" => "%s–ის აღდგენა ვერ მოხერხდა",
 "perform restore operation" => "მიმდინარეობს აღდგენის ოპერაცია",
@@ -16,3 +17,4 @@
 "Delete" => "წაშლა",
 "Deleted Files" => "წაშლილი ფაილები"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

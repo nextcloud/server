@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Tidak dapat memindahkan %s - Berkas dengan nama ini sudah ada",
 "Could not move %s" => "Tidak dapat memindahkan %s",
 "No file was uploaded. Unknown error" => "Tidak ada berkas yang diunggah. Galat tidak dikenal.",
@@ -73,3 +74,4 @@
 "files" => "berkas-berkas",
 "Upgrading filesystem cache..." => "Meningkatkan tembolok sistem berkas..."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

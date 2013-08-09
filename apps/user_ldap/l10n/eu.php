@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Zerbitzariaren konfigurazioa ezabatzeak huts egin du",
 "The configuration is valid and the connection could be established!" => "Konfigurazioa egokia da eta konexioa ezarri daiteke!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Konfigurazioa ongi dago, baina Bind-ek huts egin du. Mesedez egiaztatu zerbitzariaren ezarpenak eta kredentzialak.",
@@ -71,3 +72,4 @@
 "Test Configuration" => "Egiaztatu Konfigurazioa",
 "Help" => "Laguntza"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Gat ekki fært %s - Skrá með þessu nafni er þegar til",
 "Could not move %s" => "Gat ekki fært %s",
 "No file was uploaded. Unknown error" => "Engin skrá var send inn. Óþekkt villa.",
@@ -61,3 +62,4 @@
 "Files are being scanned, please wait." => "Verið er að skima skrár, vinsamlegast hinkraðu.",
 "Current scanning" => "Er að skima"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

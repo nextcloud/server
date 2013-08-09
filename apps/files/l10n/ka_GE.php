@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s –ის გადატანა ვერ მოხერხდა – ფაილი ამ სახელით უკვე არსებობს",
 "Could not move %s" => "%s –ის გადატანა ვერ მოხერხდა",
 "No file was uploaded. Unknown error" => "ფაილი არ აიტვირთა. უცნობი შეცდომა",
@@ -71,3 +72,4 @@
 "Current scanning" => "მიმდინარე სკანირება",
 "Upgrading filesystem cache..." => "ფაილური სისტემის ქეშის განახლება...."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

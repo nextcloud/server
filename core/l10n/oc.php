@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "No category to add?" => "Pas de categoria d'ajustar ?",
 "No categories selected for deletion." => "Pas de categorias seleccionadas per escafar.",
 "Sunday" => "Dimenge",
@@ -95,3 +96,4 @@
 "prev" => "dariièr",
 "next" => "venent"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

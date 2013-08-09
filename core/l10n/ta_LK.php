@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "பிரிவு வகைகள் வழங்கப்படவில்லை",
 "No category to add?" => "சேர்ப்பதற்கான வகைகள் இல்லையா?",
 "Object type not provided." => "பொருள் வகை வழங்கப்படவில்லை",
@@ -116,3 +117,4 @@
 "prev" => "முந்தைய",
 "next" => "அடுத்து"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

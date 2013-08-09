@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s jakoi kohteen »%s« kanssasi",
 "Category type not provided." => "Luokan tyyppiä ei määritelty.",
 "No category to add?" => "Ei lisättävää luokkaa?",
@@ -58,6 +59,7 @@
 "Share with link" => "Jaa linkillä",
 "Password protect" => "Suojaa salasanalla",
 "Password" => "Salasana",
+"Allow Public Upload" => "Salli julkinen lähetys",
 "Email link to person" => "Lähetä linkki sähköpostitse",
 "Send" => "Lähetä",
 "Set expiration date" => "Aseta päättymispäivä",
@@ -132,3 +134,4 @@
 "next" => "seuraava",
 "Updating ownCloud to version %s, this may take a while." => "Päivitetään ownCloud versioon %s, tämä saattaa kestää hetken."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Sunday" => "星期日",
 "Monday" => "星期一",
 "Tuesday" => "星期二",
@@ -86,3 +87,4 @@
 "next" => "下一步",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud (ver. %s)更新中, 請耐心等侯"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Ezin izan da %s betirako ezabatu",
 "Couldn't restore %s" => "Ezin izan da %s berreskuratu",
 "perform restore operation" => "berreskuratu",
@@ -16,3 +17,4 @@
 "Delete" => "Ezabatu",
 "Deleted Files" => "Ezabatutako Fitxategiak"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

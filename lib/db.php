@@ -41,68 +41,25 @@ class DatabaseException extends Exception {
  * Doctrine with some adaptions.
  */
 class OC_DB {
-	const BACKEND_DOCTRINE=2;
-
-	static private $preparedQueries = array();
-	static private $cachingEnabled = true;
-
 	/**
-	 * @var \Doctrine\DBAL\Connection
+	 * @var \OC\DB\Connection $connection
 	 */
-	static private $connection; //the preferred connection to use, only Doctrine
-	static private $backend=null;
-	/**
-	 * @var \Doctrine\DBAL\Connection
-	 */
-	static private $DOCTRINE=null;
+	static private $connection; //the prefered connection to use, only Doctrine
 
 	static private $prefix=null;
 	static private $type=null;
 
 	/**
-	 * check which backend we should use
-	 * @return int BACKEND_DOCTRINE
-	 */
-	private static function getDBBackend() {
-		return self::BACKEND_DOCTRINE;
-	}
-
-	/**
 	 * @brief connects to the database
-	 * @param int $backend
 	 * @return bool true if connection can be established or false on error
 	 *
 	 * Connects to the database as specified in config.php
 	 */
-	public static function connect($backend=null) {
+	public static function connect() {
 		if(self::$connection) {
 			return true;
 		}
-		if(is_null($backend)) {
-			$backend=self::getDBBackend();
-		}
-		if($backend==self::BACKEND_DOCTRINE) {
-			$success = self::connectDoctrine();
-			self::$connection=self::$DOCTRINE;
-			self::$backend=self::BACKEND_DOCTRINE;
-		}
-		return $success;
-	}
 
-	/**
-	 * connect to the database using doctrine
-	 *
-	 * @return bool
-	 */
-	public static function connectDoctrine() {
-		if(self::$connection) {
-			if(self::$backend!=self::BACKEND_DOCTRINE) {
-				self::disconnect();
-			} else {
-				return true;
-			}
-		}
-		self::$preparedQueries = array();
 		// The global data we need
 		$name = OC_Config::getValue( "dbname", "owncloud" );
 		$host = OC_Config::getValue( "dbhost", "" );
@@ -116,7 +73,7 @@ class OC_DB {
 		}
 
 		// do nothing if the connection already has been established
-		if(!self::$DOCTRINE) {
+		if (!self::$connection) {
 			$config = new \Doctrine\DBAL\Configuration();
 			switch($type) {
 				case 'sqlite':
@@ -128,6 +85,7 @@ class OC_DB {
 							'path' => $datadir.'/'.$name.'.db',
 							'driver' => 'pdo_sqlite',
 					);
+					$connectionParams['adapter'] = '\OC\DB\AdapterSqlite';
 					break;
 				case 'mysql':
 					$connectionParams = array(
@@ -139,6 +97,7 @@ class OC_DB {
 							'charset' => 'UTF8',
 							'driver' => 'pdo_mysql',
 					);
+					$connectionParams['adapter'] = '\OC\DB\Adapter';
 					break;
 				case 'pgsql':
 					$connectionParams = array(
@@ -149,6 +108,7 @@ class OC_DB {
 							'dbname' => $name,
 							'driver' => 'pdo_pgsql',
 					);
+					$connectionParams['adapter'] = '\OC\DB\AdapterPgSql';
 					break;
 				case 'oci':
 					$connectionParams = array(
@@ -162,6 +122,7 @@ class OC_DB {
 					if (!empty($port)) {
 						$connectionParams['port'] = $port;
 					}
+					$connectionParams['adapter'] = '\OC\DB\AdapterOCI8';
 					break;
 				case 'mssql':
 					$connectionParams = array(
@@ -173,12 +134,20 @@ class OC_DB {
 							'charset' => 'UTF8',
 							'driver' => 'pdo_sqlsrv',
 					);
+					$connectionParams['adapter'] = '\OC\DB\AdapterSQLSrv';
 					break;
 				default:
 					return false;
 			}
+			$connectionParams['wrapperClass'] = 'OC\DB\Connection';
+			$connectionParams['tablePrefix'] = OC_Config::getValue('dbtableprefix', 'oc_' );
 			try {
-				self::$DOCTRINE = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+				self::$connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+				if ($type === 'sqlite' || $type === 'sqlite3') {
+					// Sqlite doesn't handle query caching and schema changes
+					// TODO: find a better way to handle this
+					self::$connection->disableQueryStatementCaching();
+				}
 			} catch(\Doctrine\DBAL\DBALException $e) {
 				OC_Log::write('core', $e->getMessage(), OC_Log::FATAL);
 				OC_User::setUserId(null);
@@ -194,12 +163,9 @@ class OC_DB {
 	}
 
 	/**
-	 * get the database connection object
-	 *
-	 * @return \Doctrine\DBAL\Connection
+	 * @return \OC\DB\Connection
 	 */
-	private static function getConnection()
-	{
+	static public function getConnection() {
 		self::connect();
 		return self::$connection;
 	}
@@ -226,25 +192,6 @@ class OC_DB {
 	 * SQL query via Doctrine prepare(), needs to be execute()'d!
 	 */
 	static public function prepare( $query , $limit = null, $offset = null, $isManipulation = null) {
-
-		if (!is_null($limit) && $limit != -1) {
-			if ($limit === -1) {
-				$limit = null;
-			}
-			$platform = self::$connection->getDatabasePlatform();
-			$query = $platform->modifyLimitQuery($query, $limit, $offset);
-		} else {
-			if (isset(self::$preparedQueries[$query]) and self::$cachingEnabled) {
-				return self::$preparedQueries[$query];
-			}
-		}
-		$rawQuery = $query;
-
-		// Optimize the query
-		$query = self::processQuery( $query );
-		if(OC_Config::getValue( "log_query", false)) {
-			OC_Log::write('core', 'DB prepare : '.$query, OC_Log::DEBUG);
-		}
 		self::connect();
 		
 		if ($isManipulation === null) {
@@ -253,45 +200,38 @@ class OC_DB {
 		}
 		
 		// return the result
-		if (self::$backend == self::BACKEND_DOCTRINE) {
-			try {
-				$result=self::$connection->prepare($query);
-			} catch(\Doctrine\DBAL\DBALException $e) {
-				throw new \DatabaseException($e->getMessage(), $query);
-			}
-			// differentiate between query and manipulation
-			$result=new OC_DB_StatementWrapper($result, $isManipulation);
+		try {
+			$result = self::$connection->prepare($query, $limit, $offset);
+		} catch (\Doctrine\DBAL\DBALException $e) {
+			throw new \DatabaseException($e->getMessage(), $query);
 		}
-		if ((is_null($limit) || $limit == -1) and self::$cachingEnabled ) {
-			$type = OC_Config::getValue( "dbtype", "sqlite" );
-			if( $type != 'sqlite' && $type != 'sqlite3' ) {
-				self::$preparedQueries[$rawQuery] = $result;
-			}
-		}
+		// differentiate between query and manipulation
+		$result = new OC_DB_StatementWrapper($result, $isManipulation);
 		return $result;
 	}
-	
+
 	/**
 	 * tries to guess the type of statement based on the first 10 characters
 	 * the current check allows some whitespace but does not work with IF EXISTS or other more complex statements
 	 * 
 	 * @param string $sql
+	 * @return bool
 	 */
 	static public function isManipulation( $sql ) {
-		$selectOccurence = stripos ($sql, "SELECT");
-		if ($selectOccurence !== false && $selectOccurence < 10) {
+		$selectOccurrence = stripos($sql, 'SELECT');
+		if ($selectOccurrence !== false && $selectOccurrence < 10) {
 			return false;
 		}
-		$insertOccurence = stripos ($sql, "INSERT");
-		if ($insertOccurence !== false && $insertOccurence < 10) {
+		$insertOccurrence = stripos($sql, 'INSERT');
+		if ($insertOccurrence !== false && $insertOccurrence < 10) {
 			return true;
 		}
-		$updateOccurence = stripos ($sql, "UPDATE");
-		if ($updateOccurence !== false && $updateOccurence < 10) {
+		$updateOccurrence = stripos($sql, 'UPDATE');
+		if ($updateOccurrence !== false && $updateOccurrence < 10) {
 			return true;
 		}
-		$deleteOccurance = stripos ($sql, "DELETE");
-		if ($deleteOccurance !== false && $deleteOccurance < 10) {
+		$deleteOccurrence = stripos($sql, 'DELETE');
+		if ($deleteOccurrence !== false && $deleteOccurrence < 10) {
 			return true;
 		}
 		return false;
@@ -309,7 +249,7 @@ class OC_DB {
 	static public function executeAudited( $stmt, array $parameters = null) {
 		if (is_string($stmt)) {
 			// convert to an array with 'sql'
-			if (stripos($stmt,'LIMIT') !== false) { //OFFSET requires LIMIT, se we only neet to check for LIMIT
+			if (stripos($stmt, 'LIMIT') !== false) { //OFFSET requires LIMIT, so we only need to check for LIMIT
 				// TODO try to convert LIMIT OFFSET notation to parameters, see fixLimitClauseForMSSQL
 				$message = 'LIMIT and OFFSET are forbidden for portability reasons,'
 						 . ' pass an array with \'limit\' and \'offset\' instead';
@@ -317,7 +257,7 @@ class OC_DB {
 			}
 			$stmt = array('sql' => $stmt, 'limit' => null, 'offset' => null);
 		}
-		if (is_array($stmt)){
+		if (is_array($stmt)) {
 			// convert to prepared statement
 			if ( ! array_key_exists('sql', $stmt) ) {
 				$message = 'statement array must at least contain key \'sql\'';
@@ -359,55 +299,49 @@ class OC_DB {
 	 */
 	public static function insertid($table=null) {
 		self::connect();
-		$type = OC_Config::getValue( "dbtype", "sqlite" );
-		if( $type === 'pgsql' ) {
-			$result = self::executeAudited('SELECT lastval() AS id');
-			$row = $result->fetchRow();
-			self::raiseExceptionOnError($row, 'fetching row for insertid failed');
-			return (int)$row['id'];
-		} else if( $type === 'mssql') {
-			if($table !== null) {
-				$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
-				$table = str_replace( '*PREFIX*', $prefix, $table );
-			}
-			return self::$connection->lastInsertId($table);
-		}
-		if( $type === 'oci' ) {
-			if($table !== null) {
-				$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
-				$suffix = '_SEQ';
-				$table = '"'.str_replace( '*PREFIX*', $prefix, $table ).$suffix.'"';
-			}
-			return self::$connection->lastInsertId($table);
-		} else {
-			if($table !== null) {
-				$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
-				$suffix = OC_Config::getValue( "dbsequencesuffix", "_id_seq" );
-				$table = str_replace( '*PREFIX*', $prefix, $table ).$suffix;
-			}
-			$result = self::$connection->lastInsertId($table);
-		}
-		self::raiseExceptionOnError($result, 'insertid failed');
-		return (int)$result;
+		return self::$connection->lastInsertId($table);
+	}
+
+	/**
+	 * @brief Insert a row if a matching row doesn't exists.
+	 * @param string $table. The table to insert into in the form '*PREFIX*tableName'
+	 * @param array $input. An array of fieldname/value pairs
+	 * @return int number of updated rows
+	 */
+	public static function insertIfNotExist($table, $input) {
+		self::connect();
+		return self::$connection->insertIfNotExist($table, $input);
+	}
+
+	/**
+	 * Start a transaction
+	 */
+	public static function beginTransaction() {
+		self::connect();
+		self::$connection->beginTransaction();
+	}
+
+	/**
+	 * Commit the database changes done during a transaction that is in progress
+	 */
+	public static function commit() {
+		self::connect();
+		self::$connection->commit();
 	}
 
 	/**
 	 * @brief Disconnect
-	 * @return bool
 	 *
 	 * This is good bye, good bye, yeah!
 	 */
 	public static function disconnect() {
 		// Cut connection if required
 		if(self::$connection) {
-			self::$connection=false;
-			self::$DOCTRINE=false;
+			self::$connection->close();
 		}
-
-		return true;
 	}
 
-	/** else {
+	/**
 	 * @brief saves database schema to xml file
 	 * @param string $file name of file
 	 * @param int $mode
@@ -415,7 +349,7 @@ class OC_DB {
 	 *
 	 * TODO: write more documentation
 	 */
-	public static function getDbStructure( $file, $mode=MDB2_SCHEMA_DUMP_STRUCTURE) {
+	public static function getDbStructure( $file, $mode = 0) {
 		$schemaManager = self::getMDB2SchemaManager();
 		return $schemaManager->getDbStructure($file);
 	}
@@ -451,172 +385,6 @@ class OC_DB {
 	}
 
 	/**
-	 * @brief Insert a row if a matching row doesn't exists.
-	 * @param string $table. The table to insert into in the form '*PREFIX*tableName'
-	 * @param array $input. An array of fieldname/value pairs
-	 * @returns int number of updated rows
-	 */
-	public static function insertIfNotExist($table, $input) {
-		self::connect();
-		$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
-		$table = str_replace( '*PREFIX*', $prefix, $table );
-
-		if(is_null(self::$type)) {
-			self::$type=OC_Config::getValue( "dbtype", "sqlite" );
-		}
-		$type = self::$type;
-
-		$query = '';
-		$inserts = array_values($input);
-		// differences in escaping of table names ('`' for mysql) and getting the current timestamp
-		if( $type == 'sqlite' || $type == 'sqlite3' ) {
-			// NOTE: For SQLite we have to use this clumsy approach
-			// otherwise all fieldnames used must have a unique key.
-			$query = 'SELECT * FROM `' . $table . '` WHERE ';
-			foreach($input as $key => $value) {
-				$query .= '`' . $key . '` = ? AND ';
-			}
-			$query = substr($query, 0, strlen($query) - 5);
-			try {
-				$result = self::executeAudited($query, $inserts);
-			} catch(DatabaseException $e) {
-				OC_Template::printExceptionErrorPage( $e );
-			}
-
-			if((int)$result->numRows() === 0) {
-				$query = 'INSERT INTO `' . $table . '` (`'
-					. implode('`,`', array_keys($input)) . '`) VALUES('
-					. str_repeat('?,', count($input)-1).'? ' . ')';
-			} else {
-				return 0; //no rows updated
-			}
-		} elseif( $type == 'pgsql' || $type == 'oci' || $type == 'mysql' || $type == 'mssql') {
-			$query = 'INSERT INTO `' .$table . '` (`'
-				. implode('`,`', array_keys($input)) . '`) SELECT '
-				. str_repeat('?,', count($input)-1).'? ' // Is there a prettier alternative?
-				. 'FROM `' . $table . '` WHERE ';
-
-			foreach($input as $key => $value) {
-				$query .= '`' . $key . '` = ? AND ';
-			}
-			$query = substr($query, 0, strlen($query) - 5);
-			$query .= ' HAVING COUNT(*) = 0';
-			$inserts = array_merge($inserts, $inserts);
-		}
-
-		try {
-			$result = self::executeAudited($query, $inserts);
-		} catch(\Doctrine\DBAL\DBALException $e) {
-			OC_Template::printExceptionErrorPage( $e );
-		}
-
-		return $result;
-	}
-
-	/**
-	 * @brief does minor changes to query
-	 * @param string $query Query string
-	 * @return string corrected query string
-	 *
-	 * This function replaces *PREFIX* with the value of $CONFIG_DBTABLEPREFIX
-	 * and replaces the ` with ' or " according to the database driver.
-	 */
-	private static function processQuery( $query ) {
-		self::connect();
-		// We need Database type and table prefix
-		if(is_null(self::$type)) {
-			self::$type=OC_Config::getValue( "dbtype", "sqlite" );
-		}
-		$type = self::$type;
-		if(is_null(self::$prefix)) {
-			self::$prefix=OC_Config::getValue( "dbtableprefix", "oc_" );
-		}
-		$prefix = self::$prefix;
-
-		// differences in escaping of table names ('`' for mysql) and getting the current timestamp
-		if( $type == 'sqlite' || $type == 'sqlite3' ) {
-			$query = str_replace( '`', '"', $query );
-			$query = str_ireplace( 'NOW()', 'datetime(\'now\')', $query );
-			$query = str_ireplace( 'UNIX_TIMESTAMP()', 'strftime(\'%s\',\'now\')', $query );
-		} elseif( $type == 'pgsql' ) {
-			$query = str_replace( '`', '"', $query );
-			$query = str_ireplace( 'UNIX_TIMESTAMP()', 'cast(extract(epoch from current_timestamp) as integer)',
-				$query );
-		} elseif( $type == 'oci'  ) {
-			$query = str_replace( '`', '"', $query );
-			$query = str_ireplace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
-			$query = str_ireplace( 'UNIX_TIMESTAMP()', "(cast(sys_extract_utc(systimestamp) as date) - date'1970-01-01') * 86400", $query );
-		}elseif( $type == 'mssql' ) {
-			$query = preg_replace( "/\`(.*?)`/", "[$1]", $query );
-			$query = str_ireplace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
-			$query = str_replace( 'LENGTH(', 'LEN(', $query );
-			$query = str_replace( 'SUBSTR(', 'SUBSTRING(', $query );
-			$query = str_ireplace( 'UNIX_TIMESTAMP()', 'DATEDIFF(second,{d \'1970-01-01\'},GETDATE())', $query );
-
-			$query = self::fixLimitClauseForMSSQL($query);
-		}
-
-		// replace table name prefix
-		$query = str_replace( '*PREFIX*', $prefix, $query );
-
-		return $query;
-	}
-
-	private static function fixLimitClauseForMSSQL($query) {
-		$limitLocation = stripos ($query, "LIMIT");
-
-		if ( $limitLocation === false ) {
-			return $query;
-		} 
-
-		// total == 0 means all results - not zero results
-		//
-		// First number is either total or offset, locate it by first space
-		//
-		$offset = substr ($query, $limitLocation + 5);
-		$offset = substr ($offset, 0, stripos ($offset, ' '));
-		$offset = trim ($offset);
-
-		// check for another parameter
-		if (stripos ($offset, ',') === false) {
-			// no more parameters
-			$offset = 0;
-			$total = intval ($offset);
-		} else {
-			// found another parameter
-			$offset = intval ($offset);
-
-			$total = substr ($query, $limitLocation + 5);
-			$total = substr ($total, stripos ($total, ','));
-
-			$total = substr ($total, 0, stripos ($total, ' '));
-			$total = intval ($total);
-		}
-
-		$query = trim (substr ($query, 0, $limitLocation));
-
-		if ($offset == 0 && $total !== 0) {
-			if (strpos($query, "SELECT") === false) {
-				$query = "TOP {$total} " . $query;
-			} else {
-				$query = preg_replace('/SELECT(\s*DISTINCT)?/Dsi', 'SELECT$1 TOP '.$total, $query);
-			}
-		} else if ($offset > 0) {
-			$query = preg_replace('/SELECT(\s*DISTINCT)?/Dsi', 'SELECT$1 TOP(10000000) ', $query);
-			$query = 'SELECT *
-					FROM (SELECT sub2.*, ROW_NUMBER() OVER(ORDER BY sub2.line2) AS line3
-					FROM (SELECT 1 AS line2, sub1.* FROM (' . $query . ') AS sub1) as sub2) AS sub3';
-
-			if ($total > 0) {
-				$query .= ' WHERE line3 BETWEEN ' . ($offset + 1) . ' AND ' . ($offset + $total);
-			} else {
-				$query .= ' WHERE line3 > ' . $offset;
-			}
-		}
-		return $query;
-	}
-
-	/**
 	 * @brief drop a table
 	 * @param string $tableName the table to drop
 	 */
@@ -641,22 +409,6 @@ class OC_DB {
 	public static function replaceDB( $file ) {
 		$schemaManager = self::getMDB2SchemaManager();
 		$schemaManager->replaceDB($file);
-	}
-
-	/**
-	 * Start a transaction
-	 */
-	public static function beginTransaction() {
-		self::connect();
-		self::$connection->beginTransaction();
-	}
-
-	/**
-	 * Commit the database changes done during a transaction that is in progress
-	 */
-	public static function commit() {
-		self::connect();
-		self::$connection->commit();
 	}
 
 	/**
@@ -697,17 +449,9 @@ class OC_DB {
 	 * @return string
 	 */
 	public static function getErrorMessage($error) {
-		if (self::$backend==self::BACKEND_DOCTRINE and self::$DOCTRINE) {
-			$msg = self::$DOCTRINE->errorCode() . ': ';
-			$errorInfo = self::$DOCTRINE->errorInfo();
-			if (is_array($errorInfo)) {
-				$msg .= 'SQLSTATE = '.$errorInfo[0] . ', ';
-				$msg .= 'Driver Code = '.$errorInfo[1] . ', ';
-				$msg .= 'Driver Message = '.$errorInfo[2];
-			}
-			return $msg;
+		if (self::$connection) {
+			return self::$connection->getError();
 		}
-
 		return '';
 	}
 
@@ -715,9 +459,10 @@ class OC_DB {
 	 * @param bool $enabled
 	 */
 	static public function enableCaching($enabled) {
-		if (!$enabled) {
-			self::$preparedQueries = array();
+		if ($enabled) {
+			self::$connection->enableQueryStatementCaching();
+		} else {
+			self::$connection->disableQueryStatementCaching();
 		}
-		self::$cachingEnabled = $enabled;
 	}
 }

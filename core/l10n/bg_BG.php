@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "No categories selected for deletion." => "Няма избрани категории за изтриване",
 "Sunday" => "Неделя",
 "Monday" => "Понеделник",
@@ -69,3 +70,4 @@
 "prev" => "пред.",
 "next" => "следващо"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

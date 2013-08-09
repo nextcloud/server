@@ -1,15 +1,19 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Βοήθεια",
 "Personal" => "Προσωπικά",
 "Settings" => "Ρυθμίσεις",
 "Users" => "Χρήστες",
 "Apps" => "Εφαρμογές",
 "Admin" => "Διαχειριστής",
+"Failed to upgrade \"%s\"." => "Αποτυχία αναβάθμισης του \"%s\".",
 "web services under your control" => "υπηρεσίες δικτύου υπό τον έλεγχό σας",
+"cannot open \"%s\"" => "αδυναμία ανοίγματος \"%s\"",
 "ZIP download is turned off." => "Η λήψη ZIP απενεργοποιήθηκε.",
 "Files need to be downloaded one by one." => "Τα αρχεία πρέπει να ληφθούν ένα-ένα.",
 "Back to Files" => "Πίσω στα Αρχεία",
 "Selected files too large to generate zip file." => "Τα επιλεγμένα αρχεία είναι μεγάλα ώστε να δημιουργηθεί αρχείο zip.",
+"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Λήψη των αρχείων σε μικρότερα κομμάτια, χωριστά ή ρωτήστε τον διαχειριστή σας.",
 "couldn't be determined" => "δεν μπορούσε να προσδιορισθεί",
 "Application is not enabled" => "Δεν ενεργοποιήθηκε η εφαρμογή",
 "Authentication error" => "Σφάλμα πιστοποίησης",
@@ -49,5 +53,7 @@
 "%d months ago" => "%d μήνες πριν",
 "last year" => "τελευταίο χρόνο",
 "years ago" => "χρόνια πριν",
+"Caused by:" => "Προκλήθηκε από:",
 "Could not find category \"%s\"" => "Αδυναμία εύρεσης κατηγορίας \"%s\""
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

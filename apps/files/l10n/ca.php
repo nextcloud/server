@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "No s'ha pogut moure %s - Ja hi ha un fitxer amb aquest nom",
 "Could not move %s" => " No s'ha pogut moure %s",
 "Unable to set upload directory." => "No es pot establir la carpeta de pujada.",
@@ -79,3 +80,4 @@
 "files" => "fitxers",
 "Upgrading filesystem cache..." => "Actualitzant la memòria de cau del sistema de fitxers..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

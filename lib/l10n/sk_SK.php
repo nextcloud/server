@@ -1,15 +1,19 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Pomoc",
 "Personal" => "Osobné",
 "Settings" => "Nastavenia",
 "Users" => "Používatelia",
 "Apps" => "Aplikácie",
 "Admin" => "Administrátor",
+"Failed to upgrade \"%s\"." => "Zlyhala aktualizácia \"%s\".",
 "web services under your control" => "webové služby pod Vašou kontrolou",
+"cannot open \"%s\"" => "nemožno otvoriť \"%s\"",
 "ZIP download is turned off." => "Sťahovanie súborov ZIP je vypnuté.",
 "Files need to be downloaded one by one." => "Súbory musia byť nahrávané jeden za druhým.",
 "Back to Files" => "Späť na súbory",
 "Selected files too large to generate zip file." => "Zvolené súbory sú príliš veľké na vygenerovanie zip súboru.",
+"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Stiahnite súbory po menších častiach, samostatne, alebo sa obráťte na správcu.",
 "couldn't be determined" => "nedá sa zistiť",
 "Application is not enabled" => "Aplikácia nie je zapnutá",
 "Authentication error" => "Chyba autentifikácie",
@@ -49,5 +53,7 @@
 "%d months ago" => "Pred %d mesiacmi.",
 "last year" => "minulý rok",
 "years ago" => "pred rokmi",
+"Caused by:" => "Príčina:",
 "Could not find category \"%s\"" => "Nemožno nájsť danú kategóriu \"%s\""
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

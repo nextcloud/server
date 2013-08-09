@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "No category to add?" => "Tiada kategori untuk di tambah?",
 "No categories selected for deletion." => "Tiada kategori dipilih untuk dibuang.",
 "Sunday" => "Ahad",
@@ -64,3 +65,4 @@
 "prev" => "sebelum",
 "next" => "seterus"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

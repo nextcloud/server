@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Ekki tókst að hlaða lista frá forrita síðu",
 "Authentication error" => "Villa við auðkenningu",
 "Group already exists" => "Hópur er þegar til",
@@ -65,3 +66,4 @@
 "Storage" => "gagnapláss",
 "Default" => "Sjálfgefið"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

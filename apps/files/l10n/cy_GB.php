@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Methwyd symud %s - Mae ffeil gyda'r enw hwn eisoes yn bodoli",
 "Could not move %s" => "Methwyd symud %s",
 "No file was uploaded. Unknown error" => "Ni lwythwyd ffeil i fyny. Gwall anhysbys.",
@@ -71,3 +72,4 @@
 "Current scanning" => "Sganio cyfredol",
 "Upgrading filesystem cache..." => "Uwchraddio storfa system ffeiliau..."
 );
+$PLURAL_FORMS = "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;";

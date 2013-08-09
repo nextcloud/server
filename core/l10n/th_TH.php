@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "ยังไม่ได้ระบุชนิดของหมวดหมู่",
 "No category to add?" => "ไม่มีหมวดหมู่ที่ต้องการเพิ่ม?",
 "Object type not provided." => "ชนิดของวัตถุยังไม่ได้ถูกระบุ",
@@ -124,3 +125,4 @@
 "next" => "ถัดไป",
 "Updating ownCloud to version %s, this may take a while." => "กำลังอัพเดท ownCloud ไปเป็นรุ่น %s, กรุณารอสักครู่"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

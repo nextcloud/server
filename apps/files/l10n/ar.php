@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "فشل في نقل الملف %s - يوجد ملف بنفس هذا الاسم",
 "Could not move %s" => "فشل في نقل %s",
 "No file was uploaded. Unknown error" => "لم يتم رفع أي ملف , خطأ غير معروف",
@@ -69,3 +70,4 @@
 "Current scanning" => "الفحص الحالي",
 "Upgrading filesystem cache..." => "تحديث ذاكرة التخزين المؤقت(الكاش)  الخاصة بملفات النظام ..."
 );
+$PLURAL_FORMS = "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;";

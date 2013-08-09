@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s ni mogoče premakniti  - datoteka s tem imenom že obstaja",
 "Could not move %s" => "Ni mogoče premakniti %s",
 "Unable to set upload directory." => "Mapo, v katero boste prenašali dokumente, ni mogoče določiti",
@@ -79,3 +80,4 @@
 "files" => "datoteke",
 "Upgrading filesystem cache..." => "Nadgrajevanje predpomnilnika datotečnega sistema ..."
 );
+$PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

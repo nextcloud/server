@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Kunne ikke slette %s permanent",
 "Couldn't restore %s" => "Kunne ikke gendanne %s",
 "perform restore operation" => "udfør gendannelsesoperation",
@@ -17,3 +18,4 @@
 "Delete" => "Slet",
 "Deleted Files" => "Slettede filer"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

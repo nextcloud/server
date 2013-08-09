@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to clear the mappings." => "Preslikav ni bilo mogoče izbrisati",
 "Failed to delete the server configuration" => "Brisanje nastavitev strežnika je spodletelo.",
 "The configuration is valid and the connection could be established!" => "Nastavitev je veljavna, zato je povezavo mogoče vzpostaviti!",
@@ -79,3 +80,4 @@
 "Test Configuration" => "Preizkusne nastavitve",
 "Help" => "Pomoč"
 );
+$PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

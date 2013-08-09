@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "შველა",
 "Personal" => "პერსონა",
 "Users" => "მომხმარებლები",
@@ -13,3 +14,4 @@
 "yesterday" => "გუშინ",
 "%d days ago" => "%d დღის წინ"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";
