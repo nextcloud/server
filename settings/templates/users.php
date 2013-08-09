@@ -100,7 +100,7 @@ $_['subadmingroups'] = array_flip($items);
 		<tr data-uid="<?php p($user["name"]) ?>"
 			data-displayName="<?php p($user["displayName"]) ?>">
 			<?php if(\OC_Avatar::getMode() !== "none"): ?>
-				<td class="avatar"><img src="<?php p($user["avatar"]); ?>"></td>
+				<td class="avatar"><img src="<?php print_unescaped(link_to('', 'avatar.php')); ?>?user=<?php p($user['name']); ?>&size=32"></td>
 			<?php endif; ?>
 			<td class="name"><?php p($user["name"]); ?></td>
 			<td class="displayName"><span><?php p($user["displayName"]); ?></span> <img class="svg action"
