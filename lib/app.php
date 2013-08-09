@@ -235,11 +235,11 @@ class OC_App{
 			$info=OC_App::getAppInfo($app);
 			$version=OC_Util::getVersion();
 			if(!isset($info['require']) or !self::isAppVersionCompatible($version, $info['require'])) {
-				OC_Log::write('core',
-					'App "'.$info['name'].'" can\'t be installed because it is'
-					.' not compatible with this version of ownCloud',
-					OC_Log::ERROR);
-				throw new \Exception($l->t("App can't be installed because it is not compatible with this version of ownCloud."));
+				throw new \Exception(
+					$l->t("App \"%s\" can't be installed because it is not compatible with this version of ownCloud.",
+						array($info['name'])
+					)
+				);
 			}else{
 				OC_Appconfig::setValue( $app, 'enabled', 'yes' );
 				if(isset($appdata['id'])) {
