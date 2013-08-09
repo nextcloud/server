@@ -484,6 +484,10 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	}
 	#navigation li:first-child a { padding-top:16px; }
 
+#apps-management {
+	opacity: .6;
+}
+
 
 /* USER MENU */
 #settings { float:right; margin-top:7px; color:#bbb; text-shadow:0 -1px 0 #000; }
