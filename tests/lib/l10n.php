@@ -52,4 +52,16 @@ class Test_L10n extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('5 oken', (string)$l->n('%n window', '%n windows', 5));
 	}
 
+	/**
+	 * Issue #4360: Do not call strtotime() on numeric strings.
+	 */
+	public function testNumericStringToDateTime() {
+		$l = new OC_L10N('test');
+		$this->assertSame('February 13, 2009 23:31', $l->l('datetime', '1234567890'));
+	}
+
+	public function testNumericToDateTime() {
+		$l = new OC_L10N('test');
+		$this->assertSame('February 13, 2009 23:31', $l->l('datetime', 1234567890));
+	}
 }
