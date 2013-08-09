@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "კატეგორიის ტიპი არ არის განხილული.",
 "No category to add?" => "არ არის კატეგორია დასამატებლად?",
 "This category already exists: %s" => "კატეგორია უკვე არსებობს: %s",
@@ -128,3 +129,4 @@
 "next" => "შემდეგი",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud–ის განახლება %s–ვერსიამდე. ეს მოითხოვს გარკვეულ დროს."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

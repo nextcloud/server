@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "סוג הקטגוריה לא סופק.",
 "No category to add?" => "אין קטגוריה להוספה?",
 "This category already exists: %s" => "הקטגוריה הבאה כבר קיימת: %s",
@@ -132,3 +133,4 @@
 "next" => "הבא",
 "Updating ownCloud to version %s, this may take a while." => "מעדכן את ownCloud אל גרסא %s, זה עלול לקחת זמן מה."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

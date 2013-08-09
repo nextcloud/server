@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Không thể óa %s vĩnh viễn",
 "Couldn't restore %s" => "Không thể khôi phục %s",
 "perform restore operation" => "thực hiện phục hồi",
@@ -16,3 +17,4 @@
 "Delete" => "Xóa",
 "Deleted Files" => "File đã xóa"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

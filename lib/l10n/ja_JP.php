@@ -1,15 +1,19 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "ヘルプ",
 "Personal" => "個人",
 "Settings" => "設定",
 "Users" => "ユーザ",
 "Apps" => "アプリ",
 "Admin" => "管理",
+"Failed to upgrade \"%s\"." => "\"%s\" へのアップグレードに失敗しました。",
 "web services under your control" => "管理下のウェブサービス",
+"cannot open \"%s\"" => "\"%s\" が開けません",
 "ZIP download is turned off." => "ZIPダウンロードは無効です。",
 "Files need to be downloaded one by one." => "ファイルは1つずつダウンロードする必要があります。",
 "Back to Files" => "ファイルに戻る",
 "Selected files too large to generate zip file." => "選択したファイルはZIPファイルの生成には大きすぎます。",
+"Download the files in smaller chunks, seperately or kindly ask your administrator." => "ファイルは、小さいファイルに分割されてダウンロードされます。もしくは、管理者にお尋ねください。",
 "couldn't be determined" => "測定できませんでした",
 "Application is not enabled" => "アプリケーションは無効です",
 "Authentication error" => "認証エラー",
@@ -49,5 +53,7 @@
 "%d months ago" => "%d 分前",
 "last year" => "一年前",
 "years ago" => "年前",
+"Caused by:" => "原因は以下:",
 "Could not find category \"%s\"" => "カテゴリ \"%s\" が見つかりませんでした"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

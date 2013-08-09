@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to clear the mappings." => "Vastendususte puhastamine ebaõnnestus.",
 "Failed to delete the server configuration" => "Serveri seadistuse kustutamine ebaõnnestus",
 "The configuration is valid and the connection could be established!" => "Seadistus on korrektne ning ühendus on olemas!",
@@ -79,3 +80,4 @@
 "Test Configuration" => "Testi seadistust",
 "Help" => "Abiinfo"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

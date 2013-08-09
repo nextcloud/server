@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Klucz odzyskiwania włączony",
 "Could not enable recovery key. Please check your recovery key password!" => "Nie można włączyć klucza odzyskiwania. Proszę sprawdzić swoje hasło odzyskiwania!",
 "Recovery key successfully disabled" => "Klucz odzyskiwania wyłączony",
@@ -31,3 +32,4 @@
 "File recovery settings updated" => "Ustawienia odzyskiwania plików zmienione",
 "Could not update file recovery" => "Nie można zmienić pliku odzyskiwania"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "perform restore operation" => "ดำเนินการคืนค่า",
 "Error" => "ข้อผิดพลาด",
 "Name" => "ชื่อ",
@@ -12,3 +13,4 @@
 "Delete" => "ลบ",
 "Deleted Files" => "ไฟล์ที่ลบทิ้ง"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

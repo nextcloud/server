@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Nelze trvale odstranit %s",
 "Couldn't restore %s" => "Nelze obnovit %s",
 "perform restore operation" => "provést obnovu",
@@ -17,3 +18,4 @@
 "Delete" => "Smazat",
 "Deleted Files" => "Smazané soubory"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

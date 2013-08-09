@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Password" => "கடவுச்சொல்",
 "Submit" => "சமர்ப்பிக்குக",
 "%s shared the folder %s with you" => "%s கோப்புறையானது %s உடன் பகிரப்பட்டது",
@@ -8,3 +9,4 @@
 "Cancel upload" => "பதிவேற்றலை இரத்து செய்க",
 "No preview available for" => "அதற்கு முன்னோக்கு ஒன்றும் இல்லை"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Αδύνατη η μόνιμη διαγραφή του %s",
 "Couldn't restore %s" => "Αδυναμία επαναφοράς %s",
 "perform restore operation" => "εκτέλεση λειτουργία επαναφοράς",
@@ -17,3 +18,4 @@
 "Delete" => "Διαγραφή",
 "Deleted Files" => "Διαγραμμένα Αρχεία"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

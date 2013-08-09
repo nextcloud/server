@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Error" => "పొరపాటు",
 "Delete permanently" => "శాశ్వతంగా తొలగించు",
 "Delete" => "తొలగించు",
@@ -8,3 +9,4 @@
 "Save" => "భద్రపరచు",
 "Folder" => "సంచయం"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

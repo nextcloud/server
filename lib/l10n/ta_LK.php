@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "உதவி",
 "Personal" => "தனிப்பட்ட",
 "Settings" => "அமைப்புகள்",
@@ -30,3 +31,4 @@
 "years ago" => "வருடங்களுக்கு முன்",
 "Could not find category \"%s\"" => "பிரிவு \"%s\" ஐ கண்டுப்பிடிக்க முடியவில்லை"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Не вдалося перемістити %s - Файл з таким ім'ям вже існує",
 "Could not move %s" => "Не вдалося перемістити %s",
 "No file was uploaded. Unknown error" => "Не завантажено жодного файлу. Невідома помилка",
@@ -73,3 +74,4 @@
 "files" => "файли",
 "Upgrading filesystem cache..." => "Оновлення кеша файлової системи..."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

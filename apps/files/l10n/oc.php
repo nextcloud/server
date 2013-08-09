@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Amontcargament capitat, pas d'errors",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Lo fichièr amontcargat es mai gròs que la directiva «MAX_FILE_SIZE» especifiada dins lo formulari HTML",
 "The uploaded file was only partially uploaded" => "Lo fichièr foguèt pas completament amontcargat",
@@ -46,3 +47,4 @@
 "file" => "fichièr",
 "files" => "fichièrs"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

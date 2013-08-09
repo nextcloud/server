@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Hulp",
 "Personal" => "Persoonlik",
 "Settings" => "Instellings",
@@ -7,3 +8,4 @@
 "Admin" => "Admin",
 "web services under your control" => "webdienste onder jou beheer"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Ajuda",
 "Personal" => "Pessoal",
 "Settings" => "Configurações",
@@ -55,3 +56,4 @@
 "Caused by:" => "Causado por:",
 "Could not find category \"%s\"" => "Não foi encontrado a categoria \"%s\""
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

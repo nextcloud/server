@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Nie można wczytać listy aplikacji",
 "Authentication error" => "Błąd uwierzytelniania",
 "Your display name has been changed." => "Twoje wyświetlana nazwa została zmieniona.",
@@ -104,3 +105,4 @@
 "set new password" => "ustaw nowe hasło",
 "Default" => "Domyślny"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

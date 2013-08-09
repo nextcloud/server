@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Access granted" => "Adgang godkendt",
 "Error configuring Dropbox storage" => "Fejl ved konfiguration af Dropbox plads",
 "Grant access" => "Godkend adgang",
@@ -24,3 +25,4 @@
 "SSL root certificates" => "SSL-rodcertifikater",
 "Import Root Certificate" => "Importer rodcertifikat"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

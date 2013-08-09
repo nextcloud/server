@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Sunday" => "Dominica",
 "Monday" => "Lunedi",
 "Tuesday" => "Martedi",
@@ -56,3 +57,4 @@
 "prev" => "prev",
 "next" => "prox"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

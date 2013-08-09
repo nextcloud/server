@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "This category already exists: %s" => "ఈ వర్గం ఇప్పటికే ఉంది: %s",
 "Sunday" => "ఆదివారం",
 "Monday" => "సోమవారం",
@@ -50,3 +51,4 @@
 "Log out" => "నిష్క్రమించు",
 "Lost your password?" => "మీ సంకేతపదం పోయిందా?"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

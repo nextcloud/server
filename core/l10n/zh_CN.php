@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s 向您分享了 »%s«",
 "Category type not provided." => "未提供分类类型。",
 "No category to add?" => "没有可添加分类？",
@@ -138,3 +139,4 @@
 "next" => "下一页",
 "Updating ownCloud to version %s, this may take a while." => "更新 ownCloud 到版本 %s，这可能需要一些时间。"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Hjálp",
 "Personal" => "Um mig",
 "Settings" => "Stillingar",
@@ -30,3 +31,4 @@
 "years ago" => "einhverjum árum",
 "Could not find category \"%s\"" => "Fann ekki flokkinn \"%s\""
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

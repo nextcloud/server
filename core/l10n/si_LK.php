@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "No categories selected for deletion." => "මකා දැමීම සඳහා ප්‍රවර්ගයන් තෝරා නොමැත.",
 "Sunday" => "ඉරිදා",
 "Monday" => "සඳුදා",
@@ -86,3 +87,4 @@
 "prev" => "පෙර",
 "next" => "ඊළඟ"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

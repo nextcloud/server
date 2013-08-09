@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Nelze přesunout %s - již existuje soubor se stejným názvem",
 "Could not move %s" => "Nelze přesunout %s",
 "Unable to set upload directory." => "Nelze nastavit adresář pro nahrané soubory.",
@@ -79,3 +80,4 @@
 "files" => "soubory",
 "Upgrading filesystem cache..." => "Aktualizuji mezipaměť souborového systému..."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s delte »%s« med sig",
 "Category type not provided." => "Kategori typen ikke er fastsat.",
 "No category to add?" => "Ingen kategori at tilføje?",
@@ -136,3 +137,4 @@
 "next" => "næste",
 "Updating ownCloud to version %s, this may take a while." => "Opdatere Owncloud til version %s, dette kan tage et stykke tid."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

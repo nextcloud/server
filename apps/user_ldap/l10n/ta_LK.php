@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Deletion failed" => "நீக்கம் தோல்வியடைந்தது",
 "Error" => "வழு",
 "Host" => "ஓம்புனர்",
@@ -23,3 +24,4 @@
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "பயனாளர் பெயரிற்கு வெற்றிடமாக விடவும் (பொது இருப்பு). இல்லாவிடின் LDAP/AD பண்புக்கூறை குறிப்பிடவும்.",
 "Help" => "உதவி"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

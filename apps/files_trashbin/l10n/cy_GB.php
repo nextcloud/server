@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Methwyd dileu %s yn barhaol",
 "Couldn't restore %s" => "Methwyd adfer %s",
 "perform restore operation" => "gweithrediad adfer",
@@ -16,3 +17,4 @@
 "Delete" => "Dileu",
 "Deleted Files" => "Ffeiliau Ddilewyd"
 );
+$PLURAL_FORMS = "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;";

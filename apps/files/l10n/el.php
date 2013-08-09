@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Αδυναμία μετακίνησης του %s - υπάρχει ήδη αρχείο με αυτό το όνομα",
 "Could not move %s" => "Αδυναμία μετακίνησης του %s",
 "Unable to set upload directory." => "Αδυναμία ορισμού καταλόγου αποστολής.",
@@ -79,3 +80,4 @@
 "files" => "αρχεία",
 "Upgrading filesystem cache..." => "Ενημέρωση της μνήμης cache του συστήματος αρχείων..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

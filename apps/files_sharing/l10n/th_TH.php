@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Password" => "รหัสผ่าน",
 "Submit" => "ส่ง",
 "%s shared the folder %s with you" => "%s ได้แชร์โฟลเดอร์ %s ให้กับคุณ",
@@ -8,3 +9,4 @@
 "Cancel upload" => "ยกเลิกการอัพโหลด",
 "No preview available for" => "ไม่สามารถดูตัวอย่างได้สำหรับ"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

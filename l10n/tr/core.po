@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-07 08:59-0400\n"
-"PO-Revision-Date: 2013-08-07 12:22+0000\n"
+"POT-Creation-Date: 2013-08-09 07:59-0400\n"
+"PO-Revision-Date: 2013-08-09 11:21+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -138,59 +138,59 @@ msgstr "Kasım"
 msgid "December"
 msgstr "Aralık"
 
-#: js/js.js:293
+#: js/js.js:354
 msgid "Settings"
 msgstr "Ayarlar"
 
-#: js/js.js:753
+#: js/js.js:814
 msgid "seconds ago"
 msgstr "saniye önce"
 
-#: js/js.js:754
+#: js/js.js:815
 msgid "1 minute ago"
 msgstr "1 dakika önce"
 
-#: js/js.js:755
+#: js/js.js:816
 msgid "{minutes} minutes ago"
 msgstr "{minutes} dakika önce"
 
-#: js/js.js:756
+#: js/js.js:817
 msgid "1 hour ago"
 msgstr "1 saat önce"
 
-#: js/js.js:757
+#: js/js.js:818
 msgid "{hours} hours ago"
 msgstr "{hours} saat önce"
 
-#: js/js.js:758
+#: js/js.js:819
 msgid "today"
 msgstr "bugün"
 
-#: js/js.js:759
+#: js/js.js:820
 msgid "yesterday"
 msgstr "dün"
 
-#: js/js.js:760
+#: js/js.js:821
 msgid "{days} days ago"
 msgstr "{days} gün önce"
 
-#: js/js.js:761
+#: js/js.js:822
 msgid "last month"
 msgstr "geçen ay"
 
-#: js/js.js:762
+#: js/js.js:823
 msgid "{months} months ago"
 msgstr "{months} ay önce"
 
-#: js/js.js:763
+#: js/js.js:824
 msgid "months ago"
 msgstr "ay önce"
 
-#: js/js.js:764
+#: js/js.js:825
 msgid "last year"
 msgstr "geçen yıl"
 
-#: js/js.js:765
+#: js/js.js:826
 msgid "years ago"
 msgstr "yıl önce"
 

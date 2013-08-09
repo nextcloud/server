@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "အကူအညီ",
 "Users" => "သုံးစွဲသူ",
 "Apps" => "Apps",
@@ -27,3 +28,4 @@
 "years ago" => "နှစ် အရင်က",
 "Could not find category \"%s\"" => "\"%s\"ခေါင်းစဉ်ကို ရှာမတွေ့ပါ"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

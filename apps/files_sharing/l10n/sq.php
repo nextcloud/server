@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Password" => "Kodi",
 "Submit" => "Parashtro",
 "%s shared the folder %s with you" => "%s ndau me ju dosjen %s",
@@ -8,3 +9,4 @@
 "Cancel upload" => "Anulo ngarkimin",
 "No preview available for" => "Shikimi paraprak nuk është i mundur për"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

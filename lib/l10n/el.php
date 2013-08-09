@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Βοήθεια",
 "Personal" => "Προσωπικά",
 "Settings" => "Ρυθμίσεις",
@@ -55,3 +56,4 @@
 "Caused by:" => "Προκλήθηκε από:",
 "Could not find category \"%s\"" => "Αδυναμία εύρεσης κατηγορίας \"%s\""
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

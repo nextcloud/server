@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Kan de lijst niet van de App store laden",
 "Authentication error" => "Authenticatie fout",
 "Your display name has been changed." => "Uw weergavenaam is gewijzigd.",
@@ -105,3 +106,4 @@
 "set new password" => "Instellen nieuw wachtwoord",
 "Default" => "Standaard"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

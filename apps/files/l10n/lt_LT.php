@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Nepavyko perkelti %s - failas su tokiu pavadinimu jau egzistuoja",
 "Could not move %s" => "Nepavyko perkelti %s",
 "No file was uploaded. Unknown error" => "Failai nebuvo įkelti dėl nežinomos priežasties",
@@ -74,3 +75,4 @@
 "files" => "failai",
 "Upgrading filesystem cache..." => "Atnaujinamas sistemos kešavimas..."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);";

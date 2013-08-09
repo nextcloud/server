@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Sunday" => "يەكشەنبە",
 "Monday" => "دۈشەنبە",
 "Tuesday" => "سەيشەنبە",
@@ -46,3 +47,4 @@
 "Finish setup" => "تەڭشەك تامام",
 "Log out" => "تىزىمدىن چىق"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

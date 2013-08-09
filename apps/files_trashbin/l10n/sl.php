@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Datoteke %s ni mogoče dokončno izbrisati.",
 "Couldn't restore %s" => "Ni mogoče obnoviti %s",
 "perform restore operation" => "izvedi opravilo obnavljanja",
@@ -16,3 +17,4 @@
 "Delete" => "Izbriši",
 "Deleted Files" => "Izbrisane datoteke"
 );
+$PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

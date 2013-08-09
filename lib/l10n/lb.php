@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Hëllef",
 "Personal" => "Perséinlech",
 "Settings" => "Astellungen",
@@ -18,3 +19,4 @@
 "last year" => "Läscht Joer",
 "years ago" => "Joren hier"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

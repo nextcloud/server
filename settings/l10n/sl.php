@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Ni mogoče naložiti seznama iz programskega središča",
 "Authentication error" => "Napaka med overjanjem",
 "Your display name has been changed." => "Prikazano ime je bilo spremenjeno.",
@@ -103,3 +104,4 @@
 "set new password" => "nastavi novo geslo",
 "Default" => "Privzeto"
 );
+$PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

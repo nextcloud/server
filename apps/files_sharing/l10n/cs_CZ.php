@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "The password is wrong. Try again." => "Heslo není správné. Zkuste to znovu.",
 "Password" => "Heslo",
 "Submit" => "Odeslat",
@@ -15,3 +16,4 @@
 "Cancel upload" => "Zrušit odesílání",
 "No preview available for" => "Náhled není dostupný pro"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

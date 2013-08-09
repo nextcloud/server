@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Giúp đỡ",
 "Personal" => "Cá nhân",
 "Settings" => "Cài đặt",
@@ -31,3 +32,4 @@
 "years ago" => "năm trước",
 "Could not find category \"%s\"" => "không thể tìm thấy mục \"%s\""
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Taastevõtme lubamine õnnestus",
 "Could not enable recovery key. Please check your recovery key password!" => "Ei suutnud lubada taastevõtit. Palun kontrolli oma taastevõtme parooli!",
 "Recovery key successfully disabled" => "Taastevõtme keelamine õnnestus",
@@ -9,7 +10,6 @@
 "Could not update the private key password. Maybe the old password was not correct." => "Ei suutnud uuendada privaatse võtme parooli. Võib-olla polnud vana parool õige.",
 "Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Sinu privaatne võti pole toimiv! Tõenäoliselt on sinu parool muutunud väljaspool ownCloud süsteemi (näiteks ettevõtte keskhaldus). Sa saad uuendada oma privaatse võtme parooli seadete all taastamaks ligipääsu oma krüpteeritud failidele.",
 "Missing requirements." => "Nõutavad on puudu.",
-"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Veendu, et kasutusel oleks PHP 5.3.3 või uuem versioon ning kasutusel oleks OpenSSL PHP laiendus ja see on korrektselt seadistatud. Hetkel on krüpteerimise rakenduse kasutamine peatatud.",
 "Saving..." => "Salvestamine...",
 "Your private key is not valid! Maybe the your password was changed from outside." => "Sinu privaatne võti ei ole õige. Võib-olla on parool vahetatud süsteemi väliselt.",
 "You can unlock your private key in your " => "Saad avada oma privaatse võtme oma",
@@ -34,3 +34,4 @@
 "File recovery settings updated" => "Faili taaste seaded uuendatud",
 "Could not update file recovery" => "Ei suuda uuendada taastefaili"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

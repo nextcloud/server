@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "帮助",
 "Personal" => "私人",
 "Settings" => "设置",
@@ -29,3 +30,4 @@
 "last year" => "去年",
 "years ago" => "年前"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

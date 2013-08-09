@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Kunde inte radera %s permanent",
 "Couldn't restore %s" => "Kunde inte återställa %s",
 "perform restore operation" => "utför återställning",
@@ -17,3 +18,4 @@
 "Delete" => "Radera",
 "Deleted Files" => "Raderade filer"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

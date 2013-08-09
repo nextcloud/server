@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s jagas sinuga »%s«",
 "Category type not provided." => "Kategooria tüüp puudub.",
 "No category to add?" => "Pole kategooriat, mida lisada?",
@@ -140,3 +141,4 @@
 "next" => "järgm",
 "Updating ownCloud to version %s, this may take a while." => "ownCloudi uuendamine versioonile %s. See võib veidi aega võtta."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

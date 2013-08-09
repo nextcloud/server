@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "幫助",
 "Personal" => "個人",
 "Settings" => "設定",
@@ -11,3 +12,4 @@
 "yesterday" => "昨日",
 "last month" => "前一月"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

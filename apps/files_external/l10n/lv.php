@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Access granted" => "Piešķirta pieeja",
 "Error configuring Dropbox storage" => "Kļūda, konfigurējot Dropbox krātuvi",
 "Grant access" => "Piešķirt pieeju",
@@ -23,3 +24,4 @@
 "SSL root certificates" => "SSL saknes sertifikāti",
 "Import Root Certificate" => "Importēt saknes sertifikātus"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);";

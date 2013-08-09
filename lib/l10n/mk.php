@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Помош",
 "Personal" => "Лично",
 "Settings" => "Подесувања",
@@ -30,3 +31,4 @@
 "years ago" => "пред години",
 "Could not find category \"%s\"" => "Не можам да најдам категорија „%s“"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to clear the mappings." => "Nem sikerült törölni a hozzárendeléseket.",
 "Failed to delete the server configuration" => "Nem sikerült törölni a kiszolgáló konfigurációját",
 "The configuration is valid and the connection could be established!" => "A konfiguráció érvényes, és a kapcsolat létrehozható!",
@@ -79,3 +80,4 @@
 "Test Configuration" => "A beállítások tesztelése",
 "Help" => "Súgó"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

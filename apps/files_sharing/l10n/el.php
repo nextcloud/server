@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "The password is wrong. Try again." => "Εσφαλμένο συνθηματικό. Προσπαθήστε ξανά.",
 "Password" => "Συνθηματικό",
 "Submit" => "Καταχώρηση",
@@ -15,3 +16,4 @@
 "Cancel upload" => "Ακύρωση αποστολής",
 "No preview available for" => "Δεν υπάρχει διαθέσιμη προεπισκόπηση για"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

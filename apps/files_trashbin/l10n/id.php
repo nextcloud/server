@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Tidak dapat menghapus permanen %s",
 "Couldn't restore %s" => "Tidak dapat memulihkan %s",
 "perform restore operation" => "jalankan operasi pemulihan",
@@ -16,3 +17,4 @@
 "Delete" => "Hapus",
 "Deleted Files" => "Berkas yang Dihapus"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

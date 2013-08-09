@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "לא ניתן להעביר את %s - קובץ בשם הזה כבר קיים",
 "Could not move %s" => "לא ניתן להעביר את %s",
 "No file was uploaded. Unknown error" => "לא הועלה קובץ. טעות בלתי מזוהה.",
@@ -63,3 +64,4 @@
 "file" => "קובץ",
 "files" => "קבצים"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

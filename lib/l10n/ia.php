@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Adjuta",
 "Personal" => "Personal",
 "Settings" => "Configurationes",
@@ -9,3 +10,4 @@
 "Files" => "Files",
 "Text" => "Texto"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

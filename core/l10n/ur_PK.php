@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "No category to add?" => "شامل کرنے کے لیے کوئی زمرہ نہیں؟",
 "No categories selected for deletion." => "ختم کرنے کے لیے کسی زمرہ جات کا انتخاب نہیں کیا گیا۔",
 "January" => "جنوری",
@@ -75,3 +76,4 @@
 "prev" => "پچھلا",
 "next" => "اگلا"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

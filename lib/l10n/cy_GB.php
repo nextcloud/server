@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Cymorth",
 "Personal" => "Personol",
 "Settings" => "Gosodiadau",
@@ -50,3 +51,4 @@
 "years ago" => "blwyddyn yn ôl",
 "Could not find category \"%s\"" => "Methu canfod categori \"%s\""
 );
+$PLURAL_FORMS = "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;";

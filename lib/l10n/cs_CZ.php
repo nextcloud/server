@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Nápověda",
 "Personal" => "Osobní",
 "Settings" => "Nastavení",
@@ -55,3 +56,4 @@
 "Caused by:" => "Příčina:",
 "Could not find category \"%s\"" => "Nelze nalézt kategorii \"%s\""
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

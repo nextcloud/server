@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Невъзможно перманентното изтриване на %s",
 "Couldn't restore %s" => "Невъзможно възтановяване на %s",
 "perform restore operation" => "извършване на действие по възстановяване",
@@ -16,3 +17,4 @@
 "Delete" => "Изтриване",
 "Deleted Files" => "Изтрити файлове"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

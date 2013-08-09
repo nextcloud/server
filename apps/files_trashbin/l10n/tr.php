@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "%s Kalıcı olarak silinemedi",
 "Couldn't restore %s" => "%s Geri yüklenemedi",
 "perform restore operation" => "Geri yükleme işlemini gerçekleştir",
@@ -16,3 +17,4 @@
 "Delete" => "Sil",
 "Deleted Files" => "Silinen Dosyalar"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

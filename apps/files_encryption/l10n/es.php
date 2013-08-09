@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Se ha habilitado la recuperación de archivos",
 "Could not enable recovery key. Please check your recovery key password!" => "No se pudo habilitar la clave de recuperación. Por favor compruebe su contraseña.",
 "Recovery key successfully disabled" => "Clave de recuperación deshabilitada",
@@ -9,7 +10,6 @@
 "Could not update the private key password. Maybe the old password was not correct." => "No se pudo cambiar la contraseña. Puede que la contraseña antigua no sea correcta.",
 "Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "¡Su clave privada no es válida! Tal vez su contraseña ha sido cambiada desde fuera. Puede actualizar su clave privada en sus opciones personales para recuperar el acceso a sus ficheros.",
 "Missing requirements." => "Requisitos incompletos.",
-"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Por favor, asegúrese de que PHP 5.3.3 o posterior está instalado y que la extensión OpenSSL de PHP está habilitada y configurada correctamente. Por el momento, la aplicación de cifrado ha sido deshabilitada.",
 "Saving..." => "Guardando...",
 "Your private key is not valid! Maybe the your password was changed from outside." => "¡Su clave privada no es válida! Tal vez su contraseña ha sido cambiada desde fuera.",
 "You can unlock your private key in your " => "Puede desbloquear su clave privada en su",
@@ -34,3 +34,4 @@
 "File recovery settings updated" => "Opciones de recuperación de archivos actualizada",
 "Could not update file recovery" => "No se pudo actualizar la recuperación de archivos"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

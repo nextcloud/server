@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Helpo",
 "Personal" => "Persona",
 "Settings" => "Agordo",
@@ -47,3 +48,4 @@
 "years ago" => "jaroj antaŭe",
 "Could not find category \"%s\"" => "Ne troviĝis kategorio “%s”"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

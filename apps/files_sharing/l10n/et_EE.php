@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "The password is wrong. Try again." => "Parool on vale. Proovi uuesti.",
 "Password" => "Parool",
 "Submit" => "Saada",
@@ -9,3 +10,4 @@
 "Cancel upload" => "Tühista üleslaadimine",
 "No preview available for" => "Eelvaadet pole saadaval"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

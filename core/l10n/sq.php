@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "Mungon tipi i kategorisë.",
 "No category to add?" => "Asnjë kategori për të shtuar?",
 "This category already exists: %s" => "Kjo kategori tashmë ekziston: %s",
@@ -134,3 +135,4 @@
 "next" => "para",
 "Updating ownCloud to version %s, this may take a while." => "Po azhurnoj ownCloud-in me versionin %s. Mund të zgjasi pak."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

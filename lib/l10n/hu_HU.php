@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Súgó",
 "Personal" => "Személyes",
 "Settings" => "Beállítások",
@@ -55,3 +56,4 @@
 "Caused by:" => "Okozta:",
 "Could not find category \"%s\"" => "Ez a kategória nem található: \"%s\""
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Access granted" => "დაშვება მინიჭებულია",
 "Error configuring Dropbox storage" => "შეცდომა Dropbox საცავის კონფიგურირების დროს",
 "Grant access" => "დაშვების მინიჭება",
@@ -24,3 +25,4 @@
 "SSL root certificates" => "SSL root სერთიფიკატები",
 "Import Root Certificate" => "Root სერთიფიკატის იმპორტირება"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

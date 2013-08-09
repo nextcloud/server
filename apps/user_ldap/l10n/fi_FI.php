@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Deletion failed" => "Poisto epäonnistui",
 "Keep settings?" => "Säilytetäänkö asetukset?",
 "Cannot add server configuration" => "Palvelinasetusten lisäys epäonnistui",
@@ -43,3 +44,4 @@
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Jätä tyhjäksi käyttäjänimi (oletusasetus). Muutoin anna LDAP/AD-atribuutti.",
 "Help" => "Ohje"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

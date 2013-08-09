@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Error" => "সমস্যা",
 "Name" => "রাম",
 "1 folder" => "১টি ফোল্ডার",
@@ -7,3 +8,4 @@
 "{count} files" => "{count} টি ফাইল",
 "Delete" => "মুছে"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

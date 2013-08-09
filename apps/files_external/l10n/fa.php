@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Access granted" => "مجوز دسترسی صادر شد",
 "Error configuring Dropbox storage" => "خطا به هنگام تنظیم فضای دراپ باکس",
 "Grant access" => " مجوز اعطا دسترسی",
@@ -24,3 +25,4 @@
 "SSL root certificates" => "گواهی های اصلی SSL ",
 "Import Root Certificate" => "وارد کردن گواهی اصلی"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

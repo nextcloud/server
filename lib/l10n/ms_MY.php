@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Bantuan",
 "Personal" => "Peribadi",
 "Settings" => "Tetapan",
@@ -10,3 +11,4 @@
 "Files" => "Fail-fail",
 "Text" => "Teks"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

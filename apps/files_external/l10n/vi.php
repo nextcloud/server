@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Access granted" => "Đã cấp quyền truy cập",
 "Error configuring Dropbox storage" => "Lỗi cấu hình lưu trữ Dropbox ",
 "Grant access" => "Cấp quyền truy cập",
@@ -24,3 +25,4 @@
 "SSL root certificates" => "Chứng chỉ SSL root",
 "Import Root Certificate" => "Nhập Root Certificate"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

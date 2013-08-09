@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-07 08:59-0400\n"
-"PO-Revision-Date: 2013-08-07 12:22+0000\n"
+"POT-Creation-Date: 2013-08-09 07:59-0400\n"
+"PO-Revision-Date: 2013-08-09 11:21+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -138,59 +138,59 @@ msgstr "marraskuu"
 msgid "December"
 msgstr "joulukuu"
 
-#: js/js.js:293
+#: js/js.js:354
 msgid "Settings"
 msgstr "Asetukset"
 
-#: js/js.js:753
+#: js/js.js:814
 msgid "seconds ago"
 msgstr "sekuntia sitten"
 
-#: js/js.js:754
+#: js/js.js:815
 msgid "1 minute ago"
 msgstr "1 minuutti sitten"
 
-#: js/js.js:755
+#: js/js.js:816
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minuuttia sitten"
 
-#: js/js.js:756
+#: js/js.js:817
 msgid "1 hour ago"
 msgstr "1 tunti sitten"
 
-#: js/js.js:757
+#: js/js.js:818
 msgid "{hours} hours ago"
 msgstr "{hours} tuntia sitten"
 
-#: js/js.js:758
+#: js/js.js:819
 msgid "today"
 msgstr "tänään"
 
-#: js/js.js:759
+#: js/js.js:820
 msgid "yesterday"
 msgstr "eilen"
 
-#: js/js.js:760
+#: js/js.js:821
 msgid "{days} days ago"
 msgstr "{days} päivää sitten"
 
-#: js/js.js:761
+#: js/js.js:822
 msgid "last month"
 msgstr "viime kuussa"
 
-#: js/js.js:762
+#: js/js.js:823
 msgid "{months} months ago"
 msgstr "{months} kuukautta sitten"
 
-#: js/js.js:763
+#: js/js.js:824
 msgid "months ago"
 msgstr "kuukautta sitten"
 
-#: js/js.js:764
+#: js/js.js:825
 msgid "last year"
 msgstr "viime vuonna"
 
-#: js/js.js:765
+#: js/js.js:826
 msgid "years ago"
 msgstr "vuotta sitten"
 
@@ -285,7 +285,7 @@ msgstr "Salasana"
 
 #: js/share.js:198
 msgid "Allow Public Upload"
-msgstr ""
+msgstr "Salli julkinen lähetys"
 
 #: js/share.js:202
 msgid "Email link to person"

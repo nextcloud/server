@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "The password is wrong. Try again." => "La contraseña introducida es errónea. Inténtelo de nuevo.",
 "Password" => "Contraseña",
 "Submit" => "Enviar",
@@ -15,3 +16,4 @@
 "Cancel upload" => "Cancelar subida",
 "No preview available for" => "No hay vista previa disponible para"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

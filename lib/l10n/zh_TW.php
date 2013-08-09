@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "說明",
 "Personal" => "個人",
 "Settings" => "設定",
@@ -51,3 +52,4 @@
 "years ago" => "幾年前",
 "Could not find category \"%s\"" => "找不到分類：\"%s\""
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";
