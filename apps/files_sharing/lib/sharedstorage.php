@@ -366,7 +366,7 @@ class Shared extends \OC\Files\Storage\Common {
 					if ($exists && !$this->isUpdatable($path)) {
 						return false;
 					}
-					if (!$exists && !$this->isCreatable($path)) {
+					if (!$exists && !$this->isCreatable(dirname($path))) {
 						return false;
 					}
 			}
