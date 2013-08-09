@@ -397,8 +397,6 @@
 
 			<index>
 				<name>id_user_index</name>
-				<unique>true</unique>
-				<primary>true</primary>
 				<field>
 					<name>fileid</name>
 					<sorting>ascending</sorting>
