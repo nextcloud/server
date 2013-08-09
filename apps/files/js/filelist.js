@@ -452,13 +452,14 @@ $(document).ready(function(){
 				var currentUploads = parseInt(uploadtext.attr('currentUploads'));
 				currentUploads += 1;
 				uploadtext.attr('currentUploads', currentUploads);
+				var translatedText = n('files', '%n file uploading', '%n files uploading', currentUploads);
 				if(currentUploads === 1) {
 					var img = OC.imagePath('core', 'loading.gif');
 					data.context.find('td.filename').attr('style','background-image:url('+img+')');
-					uploadtext.text(t('files', '1 file uploading'));
+					uploadtext.text(translatedText);
 					uploadtext.show();
 				} else {
-					uploadtext.text(currentUploads + ' ' + t('files', 'files uploading'));
+					uploadtext.text(translatedText);
 				}
 			} else {
 				// add as stand-alone row to filelist
