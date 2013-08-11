@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "شخصي",
 "Settings" => "إعدادات",
 "Users" => "المستخدمين",
-"Apps" => "التطبيقات",
 "Admin" => "المدير",
 "web services under your control" => "خدمات الشبكة تحت سيطرتك",
 "ZIP download is turned off." => "تحميل ملفات ZIP متوقف",

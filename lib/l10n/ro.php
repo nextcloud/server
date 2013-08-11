@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "Personal",
 "Settings" => "Setări",
 "Users" => "Utilizatori",
-"Apps" => "Aplicații",
 "Admin" => "Admin",
 "web services under your control" => "servicii web controlate de tine",
 "ZIP download is turned off." => "Descărcarea ZIP este dezactivată.",

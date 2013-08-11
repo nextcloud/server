@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "Лични",
 "Settings" => "Настройки",
 "Users" => "Потребители",
-"Apps" => "Приложения",
 "Admin" => "Админ",
 "web services under your control" => "уеб услуги под Ваш контрол",
 "ZIP download is turned off." => "Изтеглянето като ZIP е изключено.",

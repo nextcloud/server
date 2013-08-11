@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "Personol",
 "Settings" => "Gosodiadau",
 "Users" => "Defnyddwyr",
-"Apps" => "Pecynnau",
 "Admin" => "Gweinyddu",
 "web services under your control" => "gwasanaethau gwe a reolir gennych",
 "ZIP download is turned off." => "Mae llwytho ZIP wedi ei ddiffodd.",

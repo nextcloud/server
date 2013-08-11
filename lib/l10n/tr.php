@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "Kişisel",
 "Settings" => "Ayarlar",
 "Users" => "Kullanıcılar",
-"Apps" => "Uygulamalar",
 "Admin" => "Yönetici",
 "web services under your control" => "Bilgileriniz güvenli ve şifreli",
 "ZIP download is turned off." => "ZIP indirmeleri kapatılmıştır.",

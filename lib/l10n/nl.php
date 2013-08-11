@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "Persoonlijk",
 "Settings" => "Instellingen",
 "Users" => "Gebruikers",
-"Apps" => "Apps",
 "Admin" => "Beheerder",
 "Failed to upgrade \"%s\"." => "Upgrade \"%s\" mislukt.",
 "web services under your control" => "Webdiensten in eigen beheer",

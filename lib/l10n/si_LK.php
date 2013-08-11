@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "පෞද්ගලික",
 "Settings" => "සිටුවම්",
 "Users" => "පරිශීලකයන්",
-"Apps" => "යෙදුම්",
 "Admin" => "පරිපාලක",
 "web services under your control" => "ඔබට පාලනය කළ හැකි වෙබ් සේවාවන්",
 "ZIP download is turned off." => "ZIP භාගත කිරීම් අක්‍රියයි",

@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "شەخسىي",
 "Settings" => "تەڭشەكلەر",
 "Users" => "ئىشلەتكۈچىلەر",
-"Apps" => "ئەپلەر",
 "Authentication error" => "سالاھىيەت دەلىللەش خاتالىقى",
 "Files" => "ھۆججەتلەر",
 "Text" => "قىسقا ئۇچۇر",

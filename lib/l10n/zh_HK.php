@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "個人",
 "Settings" => "設定",
 "Users" => "用戶",
-"Apps" => "軟件",
 "Admin" => "管理",
 "Files" => "文件",
 "Text" => "文字",

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 09:37+0000\n"
-"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
+"POT-Creation-Date: 2013-08-11 08:07-0400\n"
+"PO-Revision-Date: 2013-08-11 12:08+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,14 +35,10 @@ msgid "Users"
 msgstr "ユーザ"
 
 #: app.php:409
-msgid "Apps"
-msgstr "アプリ"
-
-#: app.php:417
 msgid "Admin"
 msgstr "管理"
 
-#: app.php:844
+#: app.php:836
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "\"%s\" へのアップグレードに失敗しました。"

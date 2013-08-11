@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "私人",
 "Settings" => "设置",
 "Users" => "用户",
-"Apps" => "程序",
 "Admin" => "管理员",
 "web services under your control" => "您控制的网络服务",
 "ZIP download is turned off." => "ZIP 下载已关闭",

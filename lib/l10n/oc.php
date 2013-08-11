@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "Personal",
 "Settings" => "Configuracion",
 "Users" => "Usancièrs",
-"Apps" => "Apps",
 "Admin" => "Admin",
 "web services under your control" => "Services web jos ton contraròtle",
 "ZIP download is turned off." => "Avalcargar los ZIP es inactiu.",

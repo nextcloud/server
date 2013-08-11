@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "Pribadi",
 "Settings" => "Setelan",
 "Users" => "Pengguna",
-"Apps" => "Aplikasi",
 "Admin" => "Admin",
 "web services under your control" => "layanan web dalam kontrol Anda",
 "ZIP download is turned off." => "Pengunduhan ZIP dimatikan.",

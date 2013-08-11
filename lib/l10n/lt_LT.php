@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "Asmeniniai",
 "Settings" => "Nustatymai",
 "Users" => "Vartotojai",
-"Apps" => "Programos",
 "Admin" => "Administravimas",
 "web services under your control" => "jūsų valdomos web paslaugos",
 "ZIP download is turned off." => "ZIP atsisiuntimo galimybė yra išjungta.",

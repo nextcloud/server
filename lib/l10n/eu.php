@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "Pertsonala",
 "Settings" => "Ezarpenak",
 "Users" => "Erabiltzaileak",
-"Apps" => "Aplikazioak",
 "Admin" => "Admin",
 "Failed to upgrade \"%s\"." => "Ezin izan da \"%s\" eguneratu.",
 "web services under your control" => "web zerbitzuak zure kontrolpean",

@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "Osebno",
 "Settings" => "Nastavitve",
 "Users" => "Uporabniki",
-"Apps" => "Programi",
 "Admin" => "Skrbništvo",
 "web services under your control" => "spletne storitve pod vašim nadzorom",
 "ZIP download is turned off." => "Prejemanje datotek v paketu ZIP je onemogočeno.",

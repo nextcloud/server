@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "Personlig",
 "Settings" => "Innstillinger",
 "Users" => "Brukere",
-"Apps" => "Apper",
 "Admin" => "Admin",
 "web services under your control" => "web tjenester du kontrollerer",
 "ZIP download is turned off." => "ZIP-nedlasting av avslått",

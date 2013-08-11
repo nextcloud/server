@@ -10,6 +10,7 @@ $TRANSLATIONS = array(
 "Could not update the private key password. Maybe the old password was not correct." => "秘密鍵のパスワードを更新できませんでした。古いパスワードが正確でない場合があります。",
 "Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "秘密鍵が有効ではありません。パスワードがownCloudシステムの外部(例えば、企業ディレクトリ)から変更された恐れがあります。個人設定で秘密鍵のパスワードを更新して、暗号化されたファイルを回復出来ます。",
 "Missing requirements." => "必要要件が満たされていません。",
+"Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "必ず、PHP 5.3.3もしくはそれ以上をインストールし、同時にOpenSSLのPHP拡張を有効にした上でOpenSSLも同様にインストール、適切に設定してください。現時点では暗号化アプリは無効になっています。",
 "Following users are not set up for encryption:" => "以下のユーザーは、暗号化設定がされていません：",
 "Saving..." => "保存中...",
 "Your private key is not valid! Maybe the your password was changed from outside." => "秘密鍵が有効ではありません。パスワードが外部から変更された恐れがあります。",

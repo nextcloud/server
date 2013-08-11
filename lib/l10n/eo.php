@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "Persona",
 "Settings" => "Agordo",
 "Users" => "Uzantoj",
-"Apps" => "Aplikaĵoj",
 "Admin" => "Administranto",
 "web services under your control" => "TTT-servoj regataj de vi",
 "ZIP download is turned off." => "ZIP-elŝuto estas malkapabligita.",

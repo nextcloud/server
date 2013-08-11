@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "Cá nhân",
 "Settings" => "Cài đặt",
 "Users" => "Người dùng",
-"Apps" => "Ứng dụng",
 "Admin" => "Quản trị",
 "web services under your control" => "dịch vụ web dưới sự kiểm soát của bạn",
 "ZIP download is turned off." => "Tải về ZIP đã bị tắt.",

@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "Um mig",
 "Settings" => "Stillingar",
 "Users" => "Notendur",
-"Apps" => "Forrit",
 "Admin" => "Stjórnun",
 "web services under your control" => "vefþjónusta undir þinni stjórn",
 "ZIP download is turned off." => "Slökkt á ZIP niðurhali.",

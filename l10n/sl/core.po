@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:21+0000\n"
-"Last-Translator: barbarak <barbarak@arnes.si>\n"
+"POT-Creation-Date: 2013-08-11 08:07-0400\n"
+"PO-Revision-Date: 2013-08-11 12:07+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -579,6 +579,10 @@ msgstr "%s je na voljo. Pridobite več podrobnosti za posodobitev."
 #: templates/layout.user.php:66
 msgid "Log out"
 msgstr "Odjava"
+
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr ""
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"

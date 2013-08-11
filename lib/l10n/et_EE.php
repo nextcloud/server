@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "Isiklik",
 "Settings" => "Seaded",
 "Users" => "Kasutajad",
-"Apps" => "Rakendused",
 "Admin" => "Admin",
 "Failed to upgrade \"%s\"." => "Ebaõnnestunud uuendus \"%s\".",
 "web services under your control" => "veebitenused sinu kontrolli all",

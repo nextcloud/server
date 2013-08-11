@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "Personale",
 "Settings" => "Parametra",
 "Users" => "Përdoruesit",
-"Apps" => "App",
 "Admin" => "Admin",
 "web services under your control" => "shërbime web nën kontrollin tënd",
 "ZIP download is turned off." => "Shkarimi i skedarëve ZIP është i çaktivizuar.",

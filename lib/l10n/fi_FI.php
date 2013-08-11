@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "Henkilökohtainen",
 "Settings" => "Asetukset",
 "Users" => "Käyttäjät",
-"Apps" => "Sovellukset",
 "Admin" => "Ylläpitäjä",
 "web services under your control" => "verkkopalvelut hallinnassasi",
 "ZIP download is turned off." => "ZIP-lataus on poistettu käytöstä.",

@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "ব্যক্তিগত",
 "Settings" => "নিয়ামকসমূহ",
 "Users" => "ব্যবহারকারী",
-"Apps" => "অ্যাপ",
 "Admin" => "প্রশাসন",
 "web services under your control" => "ওয়েব সার্ভিস আপনার হাতের মুঠোয়",
 "ZIP download is turned off." => "ZIP ডাউনলোড বন্ধ করা আছে।",

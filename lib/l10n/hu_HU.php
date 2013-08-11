@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "Személyes",
 "Settings" => "Beállítások",
 "Users" => "Felhasználók",
-"Apps" => "Alkalmazások",
 "Admin" => "Adminsztráció",
 "Failed to upgrade \"%s\"." => "Sikertelen Frissítés \"%s\".",
 "web services under your control" => "webszolgáltatások saját kézben",

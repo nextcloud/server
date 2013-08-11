@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "პირადი",
 "Settings" => "პარამეტრები",
 "Users" => "მომხმარებელი",
-"Apps" => "აპლიკაციები",
 "Admin" => "ადმინისტრატორი",
 "web services under your control" => "web services under your control",
 "ZIP download is turned off." => "ZIP download–ი გათიშულია",
