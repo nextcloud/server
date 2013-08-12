@@ -815,46 +815,22 @@ class Util {
 	}
 
 	/**
-	 * @brief Decrypt a keyfile without knowing how it was encrypted
+	 * @brief Decrypt a keyfile
 	 * @param string $filePath
-	 * @param string $fileOwner
 	 * @param string $privateKey
 	 * @return bool|string
-	 * @note Checks whether file was encrypted with openssl_seal or
-	 *       openssl_encrypt, and decrypts accrdingly
-	 * @note This was used when 2 types of encryption for keyfiles was used,
-	 *       but now we've switched to exclusively using openssl_seal()
 	 */
-	public function decryptUnknownKeyfile($filePath, $fileOwner, $privateKey) {
+	private function decryptKeyfile($filePath, $privateKey) {
 
 		// Get the encrypted keyfile
-		// NOTE: the keyfile format depends on how it was encrypted! At
-		// this stage we don't know how it was encrypted
 		$encKeyfile = Keymanager::getFileKey($this->view, $this->userId, $filePath);
 
-		// We need to decrypt the keyfile
-		// Has the file been shared yet?
-		if (
-			$this->userId === $fileOwner
-			&& !Keymanager::getShareKey($this->view, $this->userId, $filePath) // NOTE: we can't use isShared() here because it's a post share hook so it always returns true
-		) {
+		// The file has a shareKey and must use it for decryption
+		$shareKey = Keymanager::getShareKey($this->view, $this->userId, $filePath);
 
-			// The file has no shareKey, and its keyfile must be 
-			// decrypted conventionally
-			$plainKeyfile = Crypt::keyDecrypt($encKeyfile, $privateKey);
-
-
-		} else {
-
-			// The file has a shareKey and must use it for decryption
-			$shareKey = Keymanager::getShareKey($this->view, $this->userId, $filePath);
-
-			$plainKeyfile = Crypt::multiKeyDecrypt($encKeyfile, $shareKey, $privateKey);
-
-		}
+		$plainKeyfile = Crypt::multiKeyDecrypt($encKeyfile, $shareKey, $privateKey);
 
 		return $plainKeyfile;
-
 	}
 
 	/**
@@ -893,7 +869,7 @@ class Util {
 		$fileOwner = \OC\Files\Filesystem::getOwner($filePath);
 
 		// Decrypt keyfile
-		$plainKeyfile = $this->decryptUnknownKeyfile($filePath, $fileOwner, $privateKey);
+		$plainKeyfile = $this->decryptKeyfile($filePath, $privateKey);
 
 		// Re-enc keyfile to (additional) sharekeys
 		$multiEncKey = Crypt::multiKeyEncrypt($plainKeyfile, $userPubKeys);
