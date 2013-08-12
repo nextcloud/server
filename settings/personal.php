@@ -25,13 +25,7 @@ $userLang=OC_Preferences::getValue( OC_User::getUser(), 'core', 'lang', OC_L10N:
 $languageCodes=OC_L10N::findAvailableLanguages();
 
 //check if encryption was enabled in the past
-$enableDecryptAll = false;
-if (OC_App::isEnabled('files_encryption') === false) {
-	$view = new OC\Files\View('/'.OCP\User::getUser());
-	if($view->file_exists('/files_encryption/keyfiles')) {
-		$enableDecryptAll = true;
-	}
-}
+$enableDecryptAll = OC_Util::encryptedFiles();
 
 // array of common languages
 $commonlangcodes = array(
