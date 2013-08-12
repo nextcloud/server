@@ -184,7 +184,7 @@ class Scanner extends BasicEmitter {
 			}
 			\OC_DB::commit();
 			foreach ($childQueue as $child) {
-				$childSize = $this->scanChildren($child, self::SCAN_RECURSIVE);
+				$childSize = $this->scanChildren($child, self::SCAN_RECURSIVE, $reuse);
 				if ($childSize === -1) {
 					$size = -1;
 				} else {
