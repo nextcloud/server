@@ -45,8 +45,13 @@ function changeDisplayName(){
 }
 
 function selectAvatar (path) {
-	$.post(OC.filePath('settings', 'ajax', 'newavatar.php'), {path: path});
-	updateAvatar();
+	$.post(OC.filePath('settings', 'ajax', 'newavatar.php'), {path: path}, function(data) {
+		if (data.status === "success") {
+			updateAvatar();
+		} else {
+			OC.dialogs.alert(data.data.message, t('core', "Error"));
+		}
+	});
 }
 
 function updateAvatar () {
@@ -143,8 +148,12 @@ $(document).ready(function(){
 	});
 
 	var uploadparms = {
-		done: function(e) {
-			updateAvatar();
+		done: function(e, data) {
+			if (data.result.status === "success") {
+				updateAvatar();
+			} else {
+				OC.dialogs.alert(data.result.data.message, t('core', "Error"));
+			}
 		}
 	};
 

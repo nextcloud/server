@@ -65,11 +65,13 @@ class OC_Avatar {
 			$type = substr($img->mimeType(), -3);
 			if ($type === 'peg') { $type = 'jpg'; }
 			if ($type !== 'jpg' && $type !== 'png') {
-				throw new Exception("Unknown filetype for avatar");
+				$l = \OC_L10N::get('lib');
+				throw new \Exception($l->t("Unknown filetype for avatar"));
 			}
 
 			if (!( $img->valid() && ($img->height() === $img->width()) )) {
-				throw new Exception("Invalid image, or the provided image is not square");
+				$l = \OC_L10N::get('lib');
+				throw new \Exception($l->t("Invalid image, or the provided image is not square"));
 			}
 
 			$view->unlink('avatar.jpg');
