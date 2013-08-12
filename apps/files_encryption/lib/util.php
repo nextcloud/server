@@ -766,7 +766,7 @@ class Util {
 			$versionStatus = \OCP\App::isEnabled('files_versions');
 			\OC_App::disable('files_versions');
 			
-			$decryptedFiles[] = array();
+			$decryptedFiles = array();
 
 			// Encrypt unencrypted files
 			foreach ($found['encrypted'] as $encryptedFile) {
