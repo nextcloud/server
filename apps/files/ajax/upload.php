@@ -98,23 +98,46 @@ $result = array();
 if (strpos($dir, '..') === false) {
 	$fileCount = count($files['name']);
 	for ($i = 0; $i < $fileCount; $i++) {
-		$target = OCP\Files::buildNotExistingFileName(stripslashes($dir), $files['name'][$i]);
 		// $path needs to be normalized - this failed within drag'n'drop upload to a sub-folder
-		$target = \OC\Files\Filesystem::normalizePath($target);
-		if (is_uploaded_file($files['tmp_name'][$i]) and \OC\Files\Filesystem::fromTmpFile($files['tmp_name'][$i], $target)) {
+		if (isset($_POST['new_name'])) {
+			$newName = $_POST['new_name'];
+		} else {
+			$newName = $files['name'][$i];
+		}
+		if (isset($_POST['replace']) && $_POST['replace'] == true) {
+			$replace = true;
+		} else {
+			$replace = false;
+		}
+		$target = \OC\Files\Filesystem::normalizePath(stripslashes($dir).$newName);
+		if ( ! $replace && \OC\Files\Filesystem::file_exists($target)) {
 			$meta = \OC\Files\Filesystem::getFileInfo($target);
-			// updated max file size after upload
-			$storageStats = \OCA\files\lib\Helper::buildFileStorageStatistics($dir);
-
-			$result[] = array('status' => 'success',
+			$result[] = array('status' => 'existserror',
 				'mime' => $meta['mimetype'],
 				'size' => $meta['size'],
 				'id' => $meta['fileid'],
 				'name' => basename($target),
-				'originalname' => $files['name'][$i],
+				'originalname' => $newName,
 				'uploadMaxFilesize' => $maxUploadFileSize,
 				'maxHumanFilesize' => $maxHumanFileSize
 			);
+		} else {
+			//$target = OCP\Files::buildNotExistingFileName(stripslashes($dir), $files['name'][$i]);
+			if (is_uploaded_file($files['tmp_name'][$i]) and \OC\Files\Filesystem::fromTmpFile($files['tmp_name'][$i], $target)) {
+				$meta = \OC\Files\Filesystem::getFileInfo($target);
+				// updated max file size after upload
+				$storageStats = \OCA\files\lib\Helper::buildFileStorageStatistics($dir);
+
+				$result[] = array('status' => 'success',
+					'mime' => $meta['mimetype'],
+					'size' => $meta['size'],
+					'id' => $meta['fileid'],
+					'name' => basename($target),
+					'originalname' => $newName,
+					'uploadMaxFilesize' => $maxUploadFileSize,
+					'maxHumanFilesize' => $maxHumanFileSize
+				);
+			}
 		}
 	}
 	OCP\JSON::encodedPrint($result);

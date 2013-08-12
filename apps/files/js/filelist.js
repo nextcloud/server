@@ -308,7 +308,7 @@ var FileList={
 			html.attr('data-oldName', oldName);
 			html.attr('data-newName', newName);
 			html.attr('data-isNewFile', isNewFile);
-            OC.Notification.showHtml(html);
+			OC.Notification.showHtml(html);
 			return true;
 		} else {
 			return false;

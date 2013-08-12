@@ -189,3 +189,44 @@ table.dragshadow td.size {
 	text-align: center;
 	margin-left: -200px;
 }
+
+.oc-dialog .fileexists .original .icon {
+	width: 64px;
+	height: 64px;
+	margin: 5px 5px 5px 0px;
+	background-repeat: no-repeat;
+	background-size: 64px 64px;
+	float: left;
+}
+
+.oc-dialog .fileexists .replacement {
+	margin-top: 20px;
+}
+
+.oc-dialog .fileexists .replacement .icon {
+	width: 64px;
+	height: 64px;
+	margin: 5px 5px 5px 0px;
+	background-repeat: no-repeat;
+	background-size: 64px 64px;
+	float: left;
+	clear: both;
+}
+
+.oc-dialog .fileexists label[for="new-name"] {
+	margin-top: 20px;
+	display: block;
+}
+.oc-dialog .fileexists h3 {
+	font-weight: bold;
+}
+
+
+.oc-dialog .oc-dialog-buttonrow {
+	width:100%;
+	text-align:right;
+}
+
+.oc-dialog .oc-dialog-buttonrow .cancel {
+	float:left;
+}

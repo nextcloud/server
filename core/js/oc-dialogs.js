@@ -197,7 +197,121 @@ var OCdialogs = {
 			OCdialogs.dialogs_counter++;
 		})
 		.fail(function() {
-			alert(t('core', 'Error loading file picker template'));
+			alert(t('core', 'Error loading message template'));
+		});
+	},
+	/**
+	 * Displays file exists dialog
+	 * @param {object} original a file with name, size and mtime
+	 * @param {object} replacement a file with name, size and mtime
+	 * @param {object} controller a controller with onCancel, onSkip, onReplace and onRename methods
+	*/
+	fileexists:function(data, original, replacement, controller) {
+		if (typeof controller !== 'object') {
+			controller = {};
+		}
+		var self = this;
+		$.when(this._getFileExistsTemplate()).then(function($tmpl) {
+			var dialog_name = 'oc-dialog-fileexists-' + OCdialogs.dialogs_counter + '-content';
+			var dialog_id = '#' + dialog_name;
+			var title = t('files','Replace »{filename}«?',{filename: original.name});
+			var $dlg = $tmpl.octemplate({
+				dialog_name: dialog_name,
+				title: title,
+				type: 'fileexists',
+				
+				why: t('files','Another file with the same name already exists in "{dir}".',{dir:'somedir'}),
+				what: t('files','Replacing it will overwrite it\'s contents.'),
+				original_heading: t('files','Original file'),
+				original_size: t('files','Size: {size}',{size: original.size}),
+				original_mtime: t('files','Last changed: {mtime}',{mtime: original.mtime}),
+
+				replacement_heading: t('files','Replace with'),
+				replacement_size: t('files','Size: {size}',{size: replacement.size}),
+				replacement_mtime: t('files','Last changed: {mtime}',{mtime: replacement.mtime}),
+
+				new_name_label: t('files','Choose a new name for the target.'),
+				all_files_label: t('files','Use this action for all files.')
+			});
+			$('body').append($dlg);
+			
+			$(dialog_id + ' .original .icon').css('background-image','url('+OC.imagePath('core', 'filetypes/file.png')+')');
+			$(dialog_id + ' .replacement .icon').css('background-image','url('+OC.imagePath('core', 'filetypes/file.png')+')');
+			$(dialog_id + ' #new-name').val(original.name);
+			
+			
+			$(dialog_id + ' #new-name').on('keyup', function(e){
+				if ($(dialog_id + ' #new-name').val() === original.name) {
+					
+					$(dialog_id + ' + div .rename').removeClass('primary').hide();
+					$(dialog_id + ' + div .replace').addClass('primary').show();
+				} else {
+					$(dialog_id + ' + div .rename').addClass('primary').show();
+					$(dialog_id + ' + div .replace').removeClass('primary').hide();
+				}
+			});
+
+			buttonlist = [{
+					text: t('core', 'Cancel'),
+					classes: 'cancel',
+					click: function(){
+						if ( typeof controller.onCancel !== 'undefined') {
+							controller.onCancel(data);
+						}
+						$(dialog_id).ocdialog('close');
+					}
+				},
+				{
+					text: t('core', 'Skip'),
+					classes: 'skip',
+					click: function(){
+						if ( typeof controller.onSkip !== 'undefined') {
+							controller.onSkip(data);
+						}
+						$(dialog_id).ocdialog('close');
+					}
+				},
+				{
+					text: t('core', 'Replace'),
+					classes: 'replace',
+					click: function(){
+						if ( typeof controller.onReplace !== 'undefined') {
+							controller.onReplace(data);
+						}
+						$(dialog_id).ocdialog('close');
+					},
+					defaultButton: true
+				},
+				{
+					text: t('core', 'Rename'),
+					classes: 'rename',
+					click: function(){
+						if ( typeof controller.onRename !== 'undefined') {
+							controller.onRename(data, $(dialog_id + ' #new-name').val());
+						}
+						$(dialog_id).ocdialog('close');
+					}
+				}];
+
+			$(dialog_id).ocdialog({
+				closeOnEscape: true,
+				modal: true,
+				buttons: buttonlist,
+				close: function(event, ui) {
+					try {
+						$(this).ocdialog('destroy').remove();
+					} catch(e) {
+						alert (e);
+					}
+					self.$ = null;
+				}
+			});
+			OCdialogs.dialogs_counter++;
+			
+			$(dialog_id + ' + div .rename').hide();
+		})
+		.fail(function() {
+			alert(t('core', 'Error loading file exists template'));
 		});
 	},
 	_getFilePickerTemplate: function() {
@@ -230,6 +344,22 @@ var OCdialogs = {
 			});
 		} else {
 			defer.resolve(this.$messageTemplate);
+		}
+		return defer.promise();
+	},
+	_getFileExistsTemplate: function () {
+		var defer = $.Deferred();
+		if (!this.$fileexistsTemplate) {
+			var self = this;
+			$.get(OC.filePath('files', 'templates', 'fileexists.html'), function (tmpl) {
+				self.$fileexistsTemplate = $(tmpl);
+				defer.resolve(self.$fileexistsTemplate);
+			})
+			.fail(function () {
+				defer.reject();
+			});
+		} else {
+			defer.resolve(this.$fileexistsTemplate);
 		}
 		return defer.promise();
 	},
@@ -287,7 +417,7 @@ var OCdialogs = {
 	*/
 	_fillSlug: function() {
 		this.$dirTree.empty();
-		var self = this
+		var self = this;
 		var path = this.$filePicker.data('path');
 		var $template = $('<span data-dir="{dir}">{name}</span>');
 		if(path) {
