@@ -143,6 +143,24 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 		$newData = $this->cache->get('');
 		$this->assertEquals($oldData['etag'], $newData['etag']);
 		$this->assertEquals(-1, $newData['size']);
+
+		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_RECURSIVE);
+		$oldData = $this->cache->get('');
+		$this->assertNotEquals(-1, $oldData['size']);
+		$this->scanner->scanFile('', \OC\Files\Cache\Scanner::REUSE_ETAG + \OC\Files\Cache\Scanner::REUSE_SIZE);
+		$newData = $this->cache->get('');
+		$this->assertEquals($oldData['etag'], $newData['etag']);
+		$this->assertEquals($oldData['size'], $newData['size']);
+
+		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG + \OC\Files\Cache\Scanner::REUSE_SIZE);
+		$newData = $this->cache->get('');
+		$this->assertEquals($oldData['etag'], $newData['etag']);
+		$this->assertEquals($oldData['size'], $newData['size']);
+
+		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW, \OC\Files\Cache\Scanner::REUSE_ETAG + \OC\Files\Cache\Scanner::REUSE_SIZE);
+		$newData = $this->cache->get('');
+		$this->assertEquals($oldData['etag'], $newData['etag']);
+		$this->assertEquals($oldData['size'], $newData['size']);
 	}
 
 	public function testRemovedFile() {
