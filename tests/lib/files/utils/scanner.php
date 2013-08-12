@@ -8,17 +8,17 @@
 
 namespace Test\Files\Utils;
 
-use OC\Files\Mount\Mount;
+use OC\Files\Mount;
 use OC\Files\Storage\Temporary;
 
 class TestScanner extends \OC\Files\Utils\Scanner {
 	/**
-	 * @var \OC\Files\Mount\Mount[] $mounts
+	 * @var \OC\Files\Mount[] $mounts
 	 */
 	private $mounts = array();
 
 	/**
-	 * @param \OC\Files\Mount\Mount $mount
+	 * @param \OC\Files\Mount $mount
 	 */
 	public function addMount($mount) {
 		$this->mounts[] = $mount;
