@@ -256,8 +256,8 @@ OC.Share={
 				var shareType = selected.item.value.shareType;
 				var shareWith = selected.item.value.shareWith;
 				$(this).val(shareWith);
-				// Default permissions are Read and Share
-				var permissions = OC.PERMISSION_READ | OC.PERMISSION_SHARE;
+				// Default permissions are Edit (CRUD) and Share
+				var permissions = OC.PERMISSION_ALL;
 				OC.Share.share(itemType, itemSource, shareType, shareWith, permissions, function() {
 					OC.Share.addShareWith(shareType, shareWith, selected.item.label, permissions, possiblePermissions);
 					$('#shareWith').val('');
