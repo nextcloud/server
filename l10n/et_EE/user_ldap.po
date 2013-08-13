@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:22+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-13 09:11-0400\n"
+"PO-Revision-Date: 2013-08-12 11:00+0000\n"
+"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -92,7 +92,7 @@ msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behavior. Please ask your system administrator to "
 "disable one of them."
-msgstr ""
+msgstr "<b>Hoiatus:</b> rakendused user_ldap ja user_webdavauht ei ole ühilduvad. Töös võib esineda ootamatuid tõrkeid.\nPalu oma süsteemihalduril üks neist rakendustest kasutusest eemaldada."
 
 #: templates/settings.php:12
 msgid ""
@@ -224,7 +224,7 @@ msgstr "Ära kasuta peaserverit"
 
 #: templates/settings.php:75
 msgid "Only connect to the replica server."
-msgstr ""
+msgstr "Ühendu ainult replitseeriva serveriga."
 
 #: templates/settings.php:76
 msgid "Use TLS"
@@ -247,7 +247,7 @@ msgstr "Lülita SSL sertifikaadi kontrollimine välja."
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your %s server."
-msgstr ""
+msgstr "Kui ühendus toimib ainult selle valikuga, siis impordi LDAP serveri SSL sertifikaat oma %s serverisse."
 
 #: templates/settings.php:78
 msgid "Not recommended, use for testing only."
@@ -271,7 +271,7 @@ msgstr "Kasutaja näidatava nime väli"
 
 #: templates/settings.php:83
 msgid "The LDAP attribute to use to generate the user's display name."
-msgstr ""
+msgstr "LDAP atribuut, mida kasutatakse kasutaja kuvatava nime loomiseks."
 
 #: templates/settings.php:84
 msgid "Base User Tree"
@@ -295,7 +295,7 @@ msgstr "Grupi näidatava nime väli"
 
 #: templates/settings.php:86
 msgid "The LDAP attribute to use to generate the groups's display name."
-msgstr ""
+msgstr "LDAP atribuut, mida kasutatakse ownCloudi grupi kuvatava nime loomiseks."
 
 #: templates/settings.php:87
 msgid "Base Group Tree"
@@ -361,7 +361,7 @@ msgid ""
 "behavior as before ownCloud 5 enter the user display name attribute in the "
 "following field. Leave it empty for default behavior. Changes will have "
 "effect only on newly mapped (added) LDAP users."
-msgstr ""
+msgstr "Vaikimisi tekitatakse sisemine kasutajanimi UUID atribuudist. See tagab, et kasutajanimi on unikaalne ja sümboleid pole vaja muuta. Sisemisel kasutajatunnuse puhul on lubatud ainult järgmised sümbolid: [ a-zA-Z0-9_.@- ]. Muud sümbolid asendatakse nende ASCII vastega või lihtsalt hüljatakse. Tõrgete korral lisatakse number või suurendatakse seda. Sisemist kasutajatunnust kasutatakse kasutaja sisemiseks tuvastamiseks. Ühtlasi on see ownCloudis kasutaja vaikimisi kodukataloogi nimeks. See on ka serveri URLi osaks, näiteks kõikidel *DAV teenustel. Selle seadistusega saab tühistada vaikimisi käitumise. Saavutamaks sarnast käitumist eelnevate ownCloud 5 versioonidega, sisesta kasutaja kuvatava nime atribuut järgnevale väljale. Vaikimisi seadistuseks jäta tühjaks. Muudatused mõjutavad ainult uusi (lisatud) LDAP kasutajate vastendusi."
 
 #: templates/settings.php:103
 msgid "Internal Username Attribute:"
@@ -380,7 +380,7 @@ msgid ""
 "You must make sure that the attribute of your choice can be fetched for both"
 " users and groups and it is unique. Leave it empty for default behavior. "
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
-msgstr ""
+msgstr "Vaikimis ownCloud tuvastab automaatselt UUID atribuudi. UUID atribuuti kasutatakse LDAP kasutajate ja gruppide kindlaks tuvastamiseks. Samuti tekitatakse sisemine kasutajanimi UUID alusel, kui pole määratud teisiti. Sa saad tühistada selle seadistuse ning määrata atribuudi omal valikul. Pead veenduma, et valitud atribuut toimib nii kasutajate kui gruppide puhul ning on unikaalne. Vaikimisi seadistuseks jäta tühjaks. Muudatused mõjutavad ainult uusi (lisatud) LDAP kasutajate vastendusi."
 
 #: templates/settings.php:106
 msgid "UUID Attribute:"
@@ -402,7 +402,7 @@ msgid ""
 " is not configuration sensitive, it affects all LDAP configurations! Never "
 "clear the mappings in a production environment, only in a testing or "
 "experimental stage."
-msgstr ""
+msgstr "ownCloud kasutab kasutajanime talletamaks ja omistamaks (pseudo) andmeid. Et täpselt tuvastada ja määratleda kasutajaid, peab iga LDAP kasutaja omama sisemist kasutajatunnust. See vajab ownCloud kasutajatunnuse vastendust LDAP kasutajaks. Tekitatud kasutajanimi vastendatakse LDAP kasutaja UUID-iks. Lisaks puhverdatakse DN vähendamaks LDAP päringuid, kuid seda ei kasutata tuvastamisel. ownCloud suudab tuvastada ka DN muutumise. ownCloud sisemist kasutajatunnust kasutatakse üle kogu ownCloudi. Eemaldates vastenduse tekivad kõikjal andmejäägid. Vastenduste eemaldamine ei ole konfiguratsiooni tundlik, see mõjutab kõiki LDAP seadistusi! Ära kunagi eemalda vastendusi produktsioonis! Seda võid teha ainult testis või katsetuste masinas."
 
 #: templates/settings.php:109
 msgid "Clear Username-LDAP User Mapping"

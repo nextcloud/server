@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:22+0000\n"
-"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
+"POT-Creation-Date: 2013-08-13 09:11-0400\n"
+"PO-Revision-Date: 2013-08-13 04:30+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -247,7 +247,7 @@ msgstr "SSL証明書の確認を無効にする。"
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your %s server."
-msgstr ""
+msgstr "接続がこのオプションでのみ動作する場合は、LDAPサーバのSSL証明書を %s サーバにインポートしてください。"
 
 #: templates/settings.php:78
 msgid "Not recommended, use for testing only."
@@ -271,7 +271,7 @@ msgstr "ユーザ表示名のフィールド"
 
 #: templates/settings.php:83
 msgid "The LDAP attribute to use to generate the user's display name."
-msgstr ""
+msgstr "ユーザの表示名の生成に利用するLDAP属性"
 
 #: templates/settings.php:84
 msgid "Base User Tree"
@@ -295,7 +295,7 @@ msgstr "グループ表示名のフィールド"
 
 #: templates/settings.php:86
 msgid "The LDAP attribute to use to generate the groups's display name."
-msgstr ""
+msgstr "ユーザのグループ表示名の生成に利用するLDAP属性"
 
 #: templates/settings.php:87
 msgid "Base Group Tree"
@@ -361,7 +361,7 @@ msgid ""
 "behavior as before ownCloud 5 enter the user display name attribute in the "
 "following field. Leave it empty for default behavior. Changes will have "
 "effect only on newly mapped (added) LDAP users."
-msgstr ""
+msgstr "デフォルトでは、内部ユーザ名はUUID属性から作成されます。これにより、ユーザ名がユニークであり、かつ文字の変換が不要であることを保証します。内部ユーザ名には、[ a-zA-Z0-9_.@- ] の文字のみが有効であるという制限があり、その他の文字は対応する ASCII コードに変換されるか単に無視されます。そのため、他のユーザ名との衝突の回数が増加するでしょう。内部ユーザ名は、内部的にユーザを識別するために用いられ、また、ownCloudにおけるデフォルトのホームフォルダ名としても用いられます。例えば*DAVサービスのように、リモートURLの一部でもあります。この設定により、デフォルトの振る舞いを再定義します。ownCloud 5 以前と同じような振る舞いにするためには、以下のフィールドにユーザ表示名の属性を入力します。空にするとデフォルトの振る舞いとなります。変更は新しくマッピング（追加）されたLDAPユーザにおいてのみ有効となります。"
 
 #: templates/settings.php:103
 msgid "Internal Username Attribute:"
@@ -380,7 +380,7 @@ msgid ""
 "You must make sure that the attribute of your choice can be fetched for both"
 " users and groups and it is unique. Leave it empty for default behavior. "
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
-msgstr ""
+msgstr "デフォルトでは、UUID 属性は自動的に検出されます。UUID属性は、LDAPユーザとLDAPグループを間違いなく識別するために利用されます。また、もしこれを指定しない場合は、内部ユーザ名はUUIDに基づいて作成されます。この設定は再定義することができ、あなたの選択した属性を用いることができます。選択した属性がユーザとグループの両方に対して適用でき、かつユニークであることを確認してください。空であればデフォルトの振る舞いとなります。変更は、新しくマッピング（追加）されたLDAPユーザとLDAPグループに対してのみ有効となります。"
 
 #: templates/settings.php:106
 msgid "UUID Attribute:"
@@ -402,7 +402,7 @@ msgid ""
 " is not configuration sensitive, it affects all LDAP configurations! Never "
 "clear the mappings in a production environment, only in a testing or "
 "experimental stage."
-msgstr ""
+msgstr "ユーザ名は（メタ）データの保存と割り当てに使用されます。ユーザを正確に識別して認識するために、個々のLDAPユーザは内部ユーザ名を持っています。これは、ユーザ名からLDAPユーザへのマッピングが必要であることを意味しています。この生成されたユーザ名は、LDAPユーザのUUIDにマッピングされます。加えて、DNがLDAPとのインタラクションを削減するためにキャッシュされますが、識別には利用されません。DNが変わった場合は、変更が検出されます。内部ユーザ名は全体に亘って利用されます。マッピングをクリアすると、いたるところに使われないままの物が残るでしょう。マッピングのクリアは設定に敏感ではありませんが、全てのLDAPの設定に影響を与えます！本番の環境では決してマッピングをクリアしないでください。テストもしくは実験の段階でのみマッピングのクリアを行なってください。"
 
 #: templates/settings.php:109
 msgid "Clear Username-LDAP User Mapping"

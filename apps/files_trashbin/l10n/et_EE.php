@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "{count} folders" => "{count} kausta",
 "1 file" => "1 fail",
 "{count} files" => "{count} faili",
+"restored" => "taastatud",
 "Nothing in here. Your trash bin is empty!" => "Siin pole midagi. Sinu prügikast on tühi!",
 "Restore" => "Taasta",
 "Delete" => "Kustuta",

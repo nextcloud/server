@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-11 08:07-0400\n"
-"PO-Revision-Date: 2013-08-11 12:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-13 09:11-0400\n"
+"PO-Revision-Date: 2013-08-11 15:10+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -587,7 +587,7 @@ msgstr "Abmelden"
 
 #: templates/layout.user.php:100
 msgid "More apps"
-msgstr ""
+msgstr "Weitere Anwendungen"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
