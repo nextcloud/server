@@ -157,6 +157,7 @@ var OC={
 	PERMISSION_UPDATE:2,
 	PERMISSION_DELETE:8,
 	PERMISSION_SHARE:16,
+	PERMISSION_ALL:31,
 	webroot:oc_webroot,
 	appswebroots:(typeof oc_appswebroots !== 'undefined') ? oc_appswebroots:false,
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
