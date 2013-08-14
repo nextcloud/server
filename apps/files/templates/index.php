@@ -59,7 +59,7 @@
 	<div id="emptyfolder"><?php p($l->t('Nothing in here. Upload something!'))?></div>
 <?php endif; ?>
 
-<table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>">
+<table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="36" data-preview-y="36">
 	<thead>
 		<tr>
 			<th id='headerName'>
