@@ -592,7 +592,7 @@ class Preview {
 		if(substr($path, 0, 1) === '/') {
 			$path = substr($path, 1);
 		}
-		$preview = new Preview(\OC_User::getUser(), 'files/', $path, 0, 0, false, true);
+		$preview = new Preview(\OC_User::getUser(), 'files/', $path);
 		$preview->deleteAllPreviews();
 	}
 
