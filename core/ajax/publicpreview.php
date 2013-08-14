@@ -18,7 +18,6 @@ $token = array_key_exists('t', $_GET) ? (string) $_GET['t'] : '';
 if($token === ''){
 	\OC_Response::setStatus(400); //400 Bad Request
 	\OC_Log::write('core-preview', 'No token parameter was passed', \OC_Log::DEBUG);
-	\OC\Preview::showErrorPreview();
 	exit;
 }
 
@@ -26,14 +25,12 @@ $linkedItem = \OCP\Share::getShareByToken($token);
 if($linkedItem === false || ($linkedItem['item_type'] !== 'file' && $linkedItem['item_type'] !== 'folder')) {
 	\OC_Response::setStatus(404);
 	\OC_Log::write('core-preview', 'Passed token parameter is not valid', \OC_Log::DEBUG);
-	\OC\Preview::showErrorPreview();
 	exit;
 }
 
 if(!isset($linkedItem['uid_owner']) || !isset($linkedItem['file_source'])) {
 	\OC_Response::setStatus(500);
 	\OC_Log::write('core-preview', 'Passed token seems to be valid, but it does not contain all necessary information . ("' . $token . '")', \OC_Log::WARN);
-	\OC\Preview::showErrorPreview();
 	exit;
 }
 
@@ -50,7 +47,6 @@ if($linkedItem['item_type'] === 'folder') {
 	if(!$isvalid) {
 		\OC_Response::setStatus(400); //400 Bad Request
 		\OC_Log::write('core-preview', 'Passed filename is not valid, might be malicious (file:"' . $file . '";ip:"' . $_SERVER['REMOTE_ADDR'] . '")', \OC_Log::WARN);
-		\OC\Preview::showErrorPreview();
 		exit;
 	}
 	$sharedFile = \OC\Files\Filesystem::normalizePath($file);
@@ -70,7 +66,6 @@ if(substr($path, 0, 1) === '/') {
 if($maxX === 0 || $maxY === 0) {
 	\OC_Response::setStatus(400); //400 Bad Request
 	\OC_Log::write('core-preview', 'x and/or y set to 0', \OC_Log::DEBUG);
-	\OC\Preview::showErrorPreview();
 	exit;
 }
 
@@ -87,6 +82,5 @@ try{
 } catch (\Exception $e) {
 	\OC_Response::setStatus(500);
 	\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
-	\OC\Preview::showErrorPreview();
 	exit;
 }
