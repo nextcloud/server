@@ -40,6 +40,9 @@
 				}
 				// Escape
 				if(event.keyCode === 27 && self.options.closeOnEscape) {
+					if (self.closeCB) {
+						self.closeCB();
+					}
 					self.close();
 					return false;
 				}
@@ -190,7 +193,7 @@
 			}
 		},
 		widget: function() {
-			return this.$dialog
+			return this.$dialog;
 		},
 		close: function() {
 			this._destroyOverlay();
@@ -203,10 +206,10 @@
 		},
 		destroy: function() {
 			if(this.$title) {
-				this.$title.remove()
+				this.$title.remove();
 			}
 			if(this.$buttonrow) {
-				this.$buttonrow.remove()
+				this.$buttonrow.remove();
 			}
 
 			if(this.originalTitle) {

@@ -1,3 +1,30 @@
+/**
+ * 
+ * when versioning app is active -> always overwrite
+ * 
+ * fileupload scenario: empty folder & d&d 20 files
+ *		queue the 20 files
+ *		check list of files for duplicates -> empty
+ *		start uploading the queue (show progress dialog?)
+ *		- no duplicates -> all good, add files to list
+ *		- server reports duplicate -> show skip, replace or rename dialog (for individual files)
+ *
+ * fileupload scenario: files uploaded & d&d 20 files again
+ *		queue the 20 files
+ *		check list of files for duplicates -> find n duplicates ->
+ *			show skip, replace or rename dialog as general option
+ *				- show list of differences with preview (win 8)
+ *			remember action for each file
+ *		start uploading the queue (show progress dialog?)
+ *		- no duplicates -> all good, add files to list
+ *		- server reports duplicate -> use remembered action
+ *		
+ * dialoge:
+ *	-> skip, replace, choose (or abort) ()
+ *	-> choose left or right (with skip) (when only one file in list also show rename option and remember for all option)
+ */
+
+
 OC.upload = {
 	_isProcessing:false,
 	isProcessing:function(){
