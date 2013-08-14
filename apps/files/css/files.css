@@ -281,9 +281,8 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 .summary {
 	opacity: .5;
 }
-
 .summary .info {
-	margin-left: 3em;
+	margin-left: 55px;
 }
 
 #scanning-message{ top:40%; left:40%; position:absolute; display:none; }
