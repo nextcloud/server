@@ -10,7 +10,7 @@
 						data-type='file'><p><?php p($l->t('Text file'));?></p></li>
 					<li style="background-image:url('<?php p(OCP\mimetype_icon('dir')) ?>')"
 						data-type='folder'><p><?php p($l->t('Folder'));?></p></li>
-					<li style="background-image:url('<?php p(OCP\image_path('core', 'web.png')) ?>')"
+					<li style="background-image:url('<?php p(OCP\image_path('core', 'web.svg')) ?>')"
 						data-type='web'><p><?php p($l->t('From link'));?></p></li>
 				</ul>
 			</div>
@@ -59,7 +59,7 @@
 	<div id="emptyfolder"><?php p($l->t('Nothing in here. Upload something!'))?></div>
 <?php endif; ?>
 
-<table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>">
+<table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="36" data-preview-y="36">
 	<thead>
 		<tr>
 			<th id='headerName'>

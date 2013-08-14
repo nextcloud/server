@@ -611,11 +611,4 @@ class Preview {
 		}
 		return false;
 	}
-
-	private static function showErrorPreview() {
-		$path = \OC::$SERVERROOT . '/core/img/actions/delete.png';
-		$preview = new \OC_Image($path);
-		$preview->preciseResize(36, 36);
-		$preview->show();
-	}
 }

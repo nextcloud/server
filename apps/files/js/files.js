@@ -825,7 +825,9 @@ function getMimeIcon(mime, ready){
 getMimeIcon.cache={};
 
 function getPreviewIcon(path, ready){
-	ready(OC.Router.generate('core_ajax_preview', {file: encodeURIComponent(path), x:36, y:36}));
+	var x = $('#filestable').data('preview-x');
+	var y = $('#filestable').data('preview-y');
+	ready(OC.Router.generate('core_ajax_preview', {file: encodeURIComponent(path), x:x, y:y}));
 }
 
 function getUniqueName(name){
