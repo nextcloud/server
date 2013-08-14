@@ -452,7 +452,7 @@ $(document).ready(function(){
 				var currentUploads = parseInt(uploadtext.attr('currentUploads'));
 				currentUploads += 1;
 				uploadtext.attr('currentUploads', currentUploads);
-				var translatedText = n('files', '%n file uploading', '%n files uploading', currentUploads);
+				var translatedText = n('files', 'Uploading %n file', 'Uploading %n files', currentUploads);
 				if(currentUploads === 1) {
 					var img = OC.imagePath('core', 'loading.gif');
 					data.context.find('td.filename').attr('style','background-image:url('+img+')');
