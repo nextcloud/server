@@ -10,7 +10,7 @@
 						data-type='file'><p><?php p($l->t('Text file'));?></p></li>
 					<li style="background-image:url('<?php p(OCP\mimetype_icon('dir')) ?>')"
 						data-type='folder'><p><?php p($l->t('Folder'));?></p></li>
-					<li style="background-image:url('<?php p(OCP\image_path('core', 'web.png')) ?>')"
+					<li style="background-image:url('<?php p(OCP\image_path('core', 'web.svg')) ?>')"
 						data-type='web'><p><?php p($l->t('From link'));?></p></li>
 				</ul>
 			</div>
