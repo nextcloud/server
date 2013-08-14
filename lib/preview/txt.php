@@ -17,6 +17,10 @@ class TXT extends Provider {
 		$content = $fileview->fopen($path, 'r');
 		$content = stream_get_contents($content);
 
+		if(trim($content) === '') {
+			return false;
+		}
+
 		$lines = preg_split("/\r\n|\n|\r/", $content);
 
 		$fontSize = 5; //5px
