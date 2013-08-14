@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Ayuda",
 "Personal" => "Personal",
 "Settings" => "Configuración",
 "Users" => "Usuarios",
-"Apps" => "Apps",
 "Admin" => "Administración",
 "Failed to upgrade \"%s\"." => "No se pudo actualizar \"%s\".",
 "web services under your control" => "servicios web sobre los que tenés control",
@@ -55,3 +55,4 @@
 "Caused by:" => "Provocado por:",
 "Could not find category \"%s\"" => "No fue posible encontrar la categoría \"%s\""
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

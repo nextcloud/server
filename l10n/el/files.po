@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Efstathios Iosifidis <iefstathios@gmail.com>, 2013
+# Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-02 01:55-0400\n"
-"PO-Revision-Date: 2013-08-02 05:40+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-09 07:59-0400\n"
+"PO-Revision-Date: 2013-08-09 11:21+0000\n"
+"Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,11 +31,11 @@ msgstr "Αδυναμία μετακίνησης του %s"
 
 #: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "Αδυναμία ορισμού καταλόγου αποστολής."
 
 #: ajax/upload.php:22
 msgid "Invalid Token"
-msgstr ""
+msgstr "Μη έγκυρο Token"
 
 #: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
@@ -232,7 +233,7 @@ msgstr "{count} αρχεία"
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "Αδυναμία μετονομασίας του %s"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"

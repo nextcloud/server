@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s megosztotta Önnel ezt:  »%s«",
 "Category type not provided." => "Nincs megadva a kategória típusa.",
 "No category to add?" => "Nincs hozzáadandó kategória?",
@@ -140,3 +141,4 @@
 "next" => "következő",
 "Updating ownCloud to version %s, this may take a while." => "Owncloud frissítés a %s verzióra folyamatban. Kis türelmet."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

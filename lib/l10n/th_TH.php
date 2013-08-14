@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "ช่วยเหลือ",
 "Personal" => "ส่วนตัว",
 "Settings" => "ตั้งค่า",
 "Users" => "ผู้ใช้งาน",
-"Apps" => "แอปฯ",
 "Admin" => "ผู้ดูแล",
 "web services under your control" => "เว็บเซอร์วิสที่คุณควบคุมการใช้งานได้",
 "ZIP download is turned off." => "คุณสมบัติการดาวน์โหลด zip ถูกปิดการใช้งานไว้",
@@ -31,3 +31,4 @@
 "years ago" => "ปี ที่ผ่านมา",
 "Could not find category \"%s\"" => "ไม่พบหมวดหมู่ \"%s\""
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

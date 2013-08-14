@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s s Vami zdieľa »%s«",
 "Category type not provided." => "Neposkytnutý typ kategórie.",
 "No category to add?" => "Žiadna kategória pre pridanie?",
@@ -110,9 +111,11 @@
 "Add" => "Pridať",
 "Security Warning" => "Bezpečnostné varovanie",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Verzia Vášho PHP je napadnuteľná pomocou techniky \"NULL Byte\" (CVE-2006-7243)",
+"Please update your PHP installation to use %s securely." => "Aktualizujte prosím vašu inštanciu PHP pre bezpečné používanie %s.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Nie je dostupný žiadny bezpečný generátor náhodných čísel, prosím, povoľte rozšírenie OpenSSL v PHP.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Bez bezpečného generátora náhodných čísel môže útočník predpovedať token pre obnovu hesla a prevziať kontrolu nad vaším kontom.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Váš priečinok s dátami a súbormi je dostupný z internetu, lebo súbor .htaccess nefunguje.",
+"For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Pre informácie, ako správne nastaviť váš server, sa pozrite do <a href=\"%s\" target=\"_blank\">dokumentácie</a>.",
 "Create an <strong>admin account</strong>" => "Vytvoriť <strong>administrátorský účet</strong>",
 "Advanced" => "Rozšírené",
 "Data folder" => "Priečinok dát",
@@ -138,3 +141,4 @@
 "next" => "ďalej",
 "Updating ownCloud to version %s, this may take a while." => "Aktualizujem ownCloud na verziu %s, môže to chvíľu trvať."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

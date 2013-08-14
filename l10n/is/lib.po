@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-04 01:55-0400\n"
-"PO-Revision-Date: 2013-08-04 05:01+0000\n"
+"POT-Creation-Date: 2013-08-11 08:07-0400\n"
+"PO-Revision-Date: 2013-08-11 12:08+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Icelandic (http://www.transifex.com/projects/p/owncloud/language/is/)\n"
 "MIME-Version: 1.0\n"
@@ -34,14 +34,10 @@ msgid "Users"
 msgstr "Notendur"
 
 #: app.php:409
-msgid "Apps"
-msgstr "Forrit"
-
-#: app.php:417
 msgid "Admin"
 msgstr "Stjórnun"
 
-#: app.php:844
+#: app.php:836
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr ""

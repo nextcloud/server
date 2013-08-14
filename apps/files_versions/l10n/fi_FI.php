@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not revert: %s" => "Palautus epäonnistui: %s",
 "Versions" => "Versiot",
 "Failed to revert {file} to revision {timestamp}." => "Tiedoston {file} palautus versioon {timestamp} epäonnistui.",
@@ -6,3 +7,4 @@
 "No other versions available" => "Ei muita versioita saatavilla",
 "Restore" => "Palauta"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Helpo",
 "Personal" => "Persona",
 "Settings" => "Agordo",
 "Users" => "Uzantoj",
-"Apps" => "Aplikaĵoj",
 "Admin" => "Administranto",
 "web services under your control" => "TTT-servoj regataj de vi",
 "ZIP download is turned off." => "ZIP-elŝuto estas malkapabligita.",
@@ -47,3 +47,4 @@
 "years ago" => "jaroj antaŭe",
 "Could not find category \"%s\"" => "Ne troviĝis kategorio “%s”"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

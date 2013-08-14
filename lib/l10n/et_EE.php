@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Abiinfo",
 "Personal" => "Isiklik",
 "Settings" => "Seaded",
 "Users" => "Kasutajad",
-"Apps" => "Rakendused",
 "Admin" => "Admin",
 "Failed to upgrade \"%s\"." => "Ebaõnnestunud uuendus \"%s\".",
 "web services under your control" => "veebitenused sinu kontrolli all",
@@ -55,3 +55,4 @@
 "Caused by:" => "Põhjustaja:",
 "Could not find category \"%s\"" => "Ei leia kategooriat \"%s\""
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

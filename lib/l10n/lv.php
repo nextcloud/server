@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Palīdzība",
 "Personal" => "Personīgi",
 "Settings" => "Iestatījumi",
 "Users" => "Lietotāji",
-"Apps" => "Lietotnes",
 "Admin" => "Administratori",
 "web services under your control" => "tīmekļa servisi tavā varā",
 "ZIP download is turned off." => "ZIP lejupielādēšana ir izslēgta.",
@@ -50,3 +50,4 @@
 "years ago" => "gadus atpakaļ",
 "Could not find category \"%s\"" => "Nevarēja atrast kategoriju “%s”"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);";

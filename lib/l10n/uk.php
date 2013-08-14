@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Допомога",
 "Personal" => "Особисте",
 "Settings" => "Налаштування",
 "Users" => "Користувачі",
-"Apps" => "Додатки",
 "Admin" => "Адмін",
 "web services under your control" => "підконтрольні Вам веб-сервіси",
 "ZIP download is turned off." => "ZIP завантаження вимкнено.",
@@ -50,3 +50,4 @@
 "years ago" => "роки тому",
 "Could not find category \"%s\"" => "Не вдалося знайти категорію \"%s\""
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Nevarēja pārvietot %s — jau eksistē datne ar tādu nosaukumu",
 "Could not move %s" => "Nevarēja pārvietot %s",
 "No file was uploaded. Unknown error" => "Netika augšupielādēta neviena datne. Nezināma kļūda",
@@ -72,3 +73,4 @@
 "files" => "faili",
 "Upgrading filesystem cache..." => "Uzlabo datņu sistēmas kešatmiņu..."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);";

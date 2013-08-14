@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Files" => "文件",
 "Error" => "錯誤",
 "Share" => "分享",
@@ -10,3 +11,4 @@
 "Download" => "下載",
 "Unshare" => "取消分享"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s compartiu «%s» con vostede",
 "Category type not provided." => "Non se indicou o tipo de categoría",
 "No category to add?" => "Sen categoría que engadir?",
@@ -128,6 +129,7 @@
 "Finish setup" => "Rematar a configuración",
 "%s is available. Get more information on how to update." => "%s está dispoñíbel. Obteña máis información sobre como actualizar.",
 "Log out" => "Desconectar",
+"More apps" => "Máis aplicativos",
 "Automatic logon rejected!" => "Rexeitouse a entrada automática",
 "If you did not change your password recently, your account may be compromised!" => "Se non fixo recentemente cambios de contrasinal é posíbel que a súa conta estea comprometida!",
 "Please change your password to secure your account again." => "Cambie de novo o seu contrasinal para asegurar a súa conta.",
@@ -140,3 +142,4 @@
 "next" => "seguinte",
 "Updating ownCloud to version %s, this may take a while." => "Actualizando ownCloud a versión %s,  esto pode levar un anaco."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

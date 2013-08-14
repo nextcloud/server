@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s s vámi sdílí »%s«",
 "Category type not provided." => "Nezadán typ kategorie.",
 "No category to add?" => "Žádná kategorie k přidání?",
@@ -140,3 +141,4 @@
 "next" => "následující",
 "Updating ownCloud to version %s, this may take a while." => "Aktualizuji ownCloud na verzi %s, bude to chvíli trvat."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

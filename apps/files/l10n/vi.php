@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Không thể di chuyển %s - Đã có tên tập tin này trên hệ thống",
 "Could not move %s" => "Không thể di chuyển %s",
 "No file was uploaded. Unknown error" => "Không có tập tin nào được tải lên. Lỗi không xác định",
@@ -73,3 +74,4 @@
 "files" => "files",
 "Upgrading filesystem cache..." => "Đang nâng cấp bộ nhớ đệm cho tập tin hệ thống..."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

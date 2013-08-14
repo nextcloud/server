@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s به اشتراک گذاشته شده است »%s« توسط شما",
 "Category type not provided." => "نوع دسته بندی ارائه نشده است.",
 "No category to add?" => "آیا گروه دیگری برای افزودن ندارید",
@@ -138,3 +139,4 @@
 "next" => "بعدی",
 "Updating ownCloud to version %s, this may take a while." => "به روز رسانی OwnCloud به نسخه ی %s، این عملیات ممکن است زمان بر باشد."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

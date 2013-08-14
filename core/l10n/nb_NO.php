@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s delte »%s« med deg",
 "No category to add?" => "Ingen kategorier å legge til?",
 "This category already exists: %s" => "Denne kategorien finnes allerede: %s",
@@ -108,3 +109,4 @@
 "next" => "neste",
 "Updating ownCloud to version %s, this may take a while." => "Oppdaterer ownCloud til versjon %s, dette kan ta en stund."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

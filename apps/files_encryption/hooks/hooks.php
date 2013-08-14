@@ -40,9 +40,9 @@ class Hooks {
 	public static function login($params) {
 		$l = new \OC_L10N('files_encryption');
 		//check if all requirements are met
-		if(!Helper::checkRequirements() ) {
+		if(!Helper::checkRequirements() || !Helper::checkConfiguration() ) {
 			$error_msg = $l->t("Missing requirements.");
-			$hint = $l->t('Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL PHP extension is enabled and configured properly. For now, the encryption app has been disabled.');
+			$hint = $l->t('Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled.');
 			\OC_App::disable('files_encryption');
 			\OCP\Util::writeLog('Encryption library', $error_msg . ' ' . $hint, \OCP\Util::ERROR);
 			\OCP\Template::printErrorPage($error_msg, $hint);

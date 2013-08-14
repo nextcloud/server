@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Ajuda",
 "Personal" => "Personal",
 "Settings" => "Configuracion",
 "Users" => "Usancièrs",
-"Apps" => "Apps",
 "Admin" => "Admin",
 "web services under your control" => "Services web jos ton contraròtle",
 "ZIP download is turned off." => "Avalcargar los ZIP es inactiu.",
@@ -21,3 +21,4 @@
 "last year" => "an passat",
 "years ago" => "ans a"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

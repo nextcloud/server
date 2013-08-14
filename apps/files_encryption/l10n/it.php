@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Chiave di ripristino abilitata correttamente",
 "Could not enable recovery key. Please check your recovery key password!" => "Impossibile abilitare la chiave di ripristino. Verifica la password della chiave di ripristino.",
 "Recovery key successfully disabled" => "Chiave di ripristinata disabilitata correttamente",
@@ -9,7 +10,7 @@
 "Could not update the private key password. Maybe the old password was not correct." => "Impossibile aggiornare la password della chiave privata. Forse la vecchia password non era corretta.",
 "Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "La chiave privata non è valida! Forse la password è stata cambiata esternamente al sistema di ownCloud (ad es. la directory aziendale). Puoi aggiornare la password della chiave privata nelle impostazioni personali per ottenere nuovamente l'accesso ai file.",
 "Missing requirements." => "Requisiti mancanti.",
-"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Assicurati che sia installato PHP 5.3.3 o versioni successive e che l'estensione OpenSSL di PHP sia abilitata e configurata correttamente. Per ora, l'applicazione di cifratura è disabilitata.",
+"Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Assicurati che sia installato PHP 5.3.3 o versioni successive e che l'estensione OpenSSL di PHP sia abilitata e configurata correttamente. Per ora, l'applicazione di cifratura è disabilitata.",
 "Following users are not set up for encryption:" => "I seguenti utenti non sono configurati per la cifratura:",
 "Saving..." => "Salvataggio in corso...",
 "Your private key is not valid! Maybe the your password was changed from outside." => "La tua chiave privata non è valida! Forse è stata modifica dall'esterno.",
@@ -35,3 +36,4 @@
 "File recovery settings updated" => "Impostazioni di ripristino dei file aggiornate",
 "Could not update file recovery" => "Impossibile aggiornare il ripristino dei file"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

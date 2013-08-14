@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "No category to add?" => "ထည့်ရန်ခေါင်းစဉ်မရှိဘူးလား",
 "No categories selected for deletion." => "ဖျက်ရန်အတွက်ခေါင်းစဉ်မရွေးထားပါ",
 "January" => "ဇန်နဝါရီ",
@@ -61,3 +62,4 @@
 "prev" => "ယခင်",
 "next" => "နောက်သို့"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

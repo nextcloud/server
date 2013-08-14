@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "App Store'dan liste yüklenemiyor",
 "Authentication error" => "Kimlik doğrulama hatası",
 "Your display name has been changed." => "Görüntülenen isminiz değiştirildi.",
@@ -104,3 +105,4 @@
 "set new password" => "yeni parola belirle",
 "Default" => "Varsayılan"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

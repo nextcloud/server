@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s কে স্থানান্তর করা সম্ভব হলো না -  এই নামের ফাইল বিদ্যমান",
 "Could not move %s" => "%s  কে স্থানান্তর করা সম্ভব হলো না",
 "No file was uploaded. Unknown error" => "কোন ফাইল আপলোড করা হয় নি। সমস্যার কারণটি অজ্ঞাত।",
@@ -61,3 +62,4 @@
 "Files are being scanned, please wait." => "ফাইলগুলো স্ক্যান করা হচ্ছে, দয়া করে অপেক্ষা করুন।",
 "Current scanning" => "বর্তমান স্ক্যানিং"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

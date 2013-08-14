@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "تعذّر حذف%s بشكل دائم",
 "Couldn't restore %s" => "تعذّر استرجاع %s ",
 "perform restore operation" => "إبدء عملية الإستعادة",
@@ -16,3 +17,4 @@
 "Delete" => "إلغاء",
 "Deleted Files" => "الملفات المحذوفه"
 );
+$PLURAL_FORMS = "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;";

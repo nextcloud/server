@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Ndihmë",
 "Personal" => "Personale",
 "Settings" => "Parametra",
 "Users" => "Përdoruesit",
-"Apps" => "App",
 "Admin" => "Admin",
 "web services under your control" => "shërbime web nën kontrollin tënd",
 "ZIP download is turned off." => "Shkarimi i skedarëve ZIP është i çaktivizuar.",
@@ -50,3 +50,4 @@
 "years ago" => "vite më parë",
 "Could not find category \"%s\"" => "Kategoria \"%s\" nuk u gjet"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

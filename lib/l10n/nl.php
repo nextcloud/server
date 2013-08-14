@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Help",
 "Personal" => "Persoonlijk",
 "Settings" => "Instellingen",
 "Users" => "Gebruikers",
-"Apps" => "Apps",
 "Admin" => "Beheerder",
 "Failed to upgrade \"%s\"." => "Upgrade \"%s\" mislukt.",
 "web services under your control" => "Webdiensten in eigen beheer",
@@ -55,3 +55,4 @@
 "Caused by:" => "Gekomen door:",
 "Could not find category \"%s\"" => "Kon categorie \"%s\" niet vinden"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

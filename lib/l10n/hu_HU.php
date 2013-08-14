@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Súgó",
 "Personal" => "Személyes",
 "Settings" => "Beállítások",
 "Users" => "Felhasználók",
-"Apps" => "Alkalmazások",
 "Admin" => "Adminsztráció",
 "Failed to upgrade \"%s\"." => "Sikertelen Frissítés \"%s\".",
 "web services under your control" => "webszolgáltatások saját kézben",
@@ -55,3 +55,4 @@
 "Caused by:" => "Okozta:",
 "Could not find category \"%s\"" => "Ez a kategória nem található: \"%s\""
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

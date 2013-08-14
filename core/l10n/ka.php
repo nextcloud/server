@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "seconds ago" => "წამის წინ",
 "1 minute ago" => "1 წუთის წინ",
 "1 hour ago" => "1 საათის წინ",
@@ -10,3 +11,4 @@
 "Admin" => "ადმინისტრატორი",
 "Help" => "შველა"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

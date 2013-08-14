@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "Math o gategori heb ei ddarparu.",
 "No category to add?" => "Dim categori i'w ychwanegu?",
 "This category already exists: %s" => "Mae'r categori hwn eisoes yn bodoli: %s",
@@ -131,3 +132,4 @@
 "next" => "nesaf",
 "Updating ownCloud to version %s, this may take a while." => "Yn diweddaru owncloud i fersiwn %s, gall hyn gymryd amser."
 );
+$PLURAL_FORMS = "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;";

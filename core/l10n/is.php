@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "Flokkur ekki gefin",
 "No category to add?" => "Enginn flokkur til að bæta við?",
 "Object type not provided." => "Tegund ekki í boði.",
@@ -124,3 +125,4 @@
 "next" => "næsta",
 "Updating ownCloud to version %s, this may take a while." => "Uppfæri ownCloud í útgáfu %s, það gæti tekið smá stund."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

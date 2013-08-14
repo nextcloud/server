@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Hjelp",
 "Personal" => "Personlig",
 "Settings" => "Innstillinger",
 "Users" => "Brukere",
-"Apps" => "Apper",
 "Admin" => "Admin",
 "web services under your control" => "web tjenester du kontrollerer",
 "ZIP download is turned off." => "ZIP-nedlasting av avslått",
@@ -32,3 +32,4 @@
 "years ago" => "år siden",
 "Could not find category \"%s\"" => "Kunne ikke finne kategori \"%s\""
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

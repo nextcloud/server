@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to clear the mappings." => "Не удалось очистить соотвествия.",
 "Failed to delete the server configuration" => "Не удалось удалить конфигурацию сервера",
 "The configuration is valid and the connection could be established!" => "Конфигурация правильная и подключение может быть установлено!",
@@ -80,3 +81,4 @@
 "Test Configuration" => "Тестовая конфигурация",
 "Help" => "Помощь"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

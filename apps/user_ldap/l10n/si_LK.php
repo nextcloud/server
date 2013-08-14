@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Deletion failed" => "මකාදැමීම අසාර්ථකයි",
 "Success" => "සාර්ථකයි",
 "Error" => "දෝෂයක්",
@@ -14,3 +15,4 @@
 "Not recommended, use for testing only." => "නිර්දේශ කළ නොහැක. පරීක්ෂණ සඳහා පමණක් භාවිත කරන්න",
 "Help" => "උදව්"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

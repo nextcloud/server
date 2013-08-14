@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "도움말",
 "Personal" => "개인",
 "Settings" => "설정",
 "Users" => "사용자",
-"Apps" => "앱",
 "Admin" => "관리자",
 "web services under your control" => "내가 관리하는 웹 서비스",
 "ZIP download is turned off." => "ZIP 다운로드가 비활성화되었습니다.",
@@ -40,3 +40,4 @@
 "years ago" => "년 전",
 "Could not find category \"%s\"" => "분류 \"%s\"을(를) 찾을 수 없습니다."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Ohje",
 "Personal" => "Henkilökohtainen",
 "Settings" => "Asetukset",
 "Users" => "Käyttäjät",
-"Apps" => "Sovellukset",
 "Admin" => "Ylläpitäjä",
 "web services under your control" => "verkkopalvelut hallinnassasi",
 "ZIP download is turned off." => "ZIP-lataus on poistettu käytöstä.",
@@ -47,3 +47,4 @@
 "years ago" => "vuotta sitten",
 "Could not find category \"%s\"" => "Luokkaa \"%s\" ei löytynyt"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

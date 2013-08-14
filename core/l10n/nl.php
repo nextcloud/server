@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s deelde »%s« met jou",
 "Category type not provided." => "Categorie type niet opgegeven.",
 "No category to add?" => "Geen categorie om toe te voegen?",
@@ -110,9 +111,11 @@
 "Add" => "Toevoegen",
 "Security Warning" => "Beveiligingswaarschuwing",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Je PHP-versie is kwetsbaar voor de NULL byte aanval (CVE-2006-7243)",
+"Please update your PHP installation to use %s securely." => "Werk uw PHP installatie bij om %s veilig te kunnen gebruiken.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Er kon geen willekeurig nummer worden gegenereerd. Zet de PHP OpenSSL-extentie aan.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Zonder random nummer generator is het mogelijk voor een aanvaller om de resettokens van wachtwoorden te voorspellen. Dit kan leiden tot het inbreken op uw account.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Je gegevensdirectory en bestanden zijn vermoedelijk bereikbaar vanaf het internet omdat het .htaccess-bestand niet werkt.",
+"For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Bekijk de <a href=\"%s\" target=\"_blank\">documentatie</a> voor Informatie over het correct configureren van uw server.",
 "Create an <strong>admin account</strong>" => "Maak een <strong>beheerdersaccount</strong> aan",
 "Advanced" => "Geavanceerd",
 "Data folder" => "Gegevensmap",
@@ -126,6 +129,7 @@
 "Finish setup" => "Installatie afronden",
 "%s is available. Get more information on how to update." => "%s is beschikbaar. Verkrijg meer informatie over het bijwerken.",
 "Log out" => "Afmelden",
+"More apps" => "Meer applicaties",
 "Automatic logon rejected!" => "Automatische aanmelding geweigerd!",
 "If you did not change your password recently, your account may be compromised!" => "Als je je wachtwoord niet onlangs heeft aangepast, kan je account overgenomen zijn!",
 "Please change your password to secure your account again." => "Wijzig je wachtwoord zodat je account weer beveiligd is.",
@@ -138,3 +142,4 @@
 "next" => "volgende",
 "Updating ownCloud to version %s, this may take a while." => "Updaten ownCloud naar versie %s, dit kan even duren..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

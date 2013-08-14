@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Nema pogreške, datoteka je poslana uspješno.",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Poslana datoteka prelazi veličinu prikazanu u MAX_FILE_SIZE direktivi u HTML formi",
 "The uploaded file was only partially uploaded" => "Poslana datoteka je parcijalno poslana",
@@ -46,3 +47,4 @@
 "file" => "datoteka",
 "files" => "datoteke"
 );
+$PLURAL_FORMS = "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;";

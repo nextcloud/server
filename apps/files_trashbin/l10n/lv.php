@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Nevarēja pilnībā izdzēst %s",
 "Couldn't restore %s" => "Nevarēja atjaunot %s",
 "perform restore operation" => "veikt atjaunošanu",
@@ -16,3 +17,4 @@
 "Delete" => "Dzēst",
 "Deleted Files" => "Dzēstās datnes"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);";

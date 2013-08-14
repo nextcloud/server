@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Ei saa liigutada faili %s - samanimeline fail on juba olemas",
 "Could not move %s" => "%s liigutamine ebaõnnestus",
 "Unable to set upload directory." => "Üleslaadimiste kausta määramine ebaõnnestus.",
@@ -79,3 +80,4 @@
 "files" => "faili",
 "Upgrading filesystem cache..." => "Failisüsteemi puhvri uuendamine..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s partagé »%s« avec vous",
 "Category type not provided." => "Type de catégorie non spécifié.",
 "No category to add?" => "Pas de catégorie à ajouter ?",
@@ -138,3 +139,4 @@
 "next" => "suivant",
 "Updating ownCloud to version %s, this may take a while." => "Mise à jour en cours d'ownCloud vers la version %s, cela peut prendre du temps."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

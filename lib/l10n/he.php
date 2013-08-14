@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "עזרה",
 "Personal" => "אישי",
 "Settings" => "הגדרות",
 "Users" => "משתמשים",
-"Apps" => "יישומים",
 "Admin" => "מנהל",
 "web services under your control" => "שירותי רשת תחת השליטה שלך",
 "ZIP download is turned off." => "הורדת ZIP כבויה",
@@ -32,3 +32,4 @@
 "years ago" => "שנים",
 "Could not find category \"%s\"" => "לא ניתן למצוא את הקטגוריה „%s“"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

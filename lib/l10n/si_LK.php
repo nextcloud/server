@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "උදව්",
 "Personal" => "පෞද්ගලික",
 "Settings" => "සිටුවම්",
 "Users" => "පරිශීලකයන්",
-"Apps" => "යෙදුම්",
 "Admin" => "පරිපාලක",
 "web services under your control" => "ඔබට පාලනය කළ හැකි වෙබ් සේවාවන්",
 "ZIP download is turned off." => "ZIP භාගත කිරීම් අක්‍රියයි",
@@ -26,3 +26,4 @@
 "last year" => "පෙර අවුරුද්දේ",
 "years ago" => "අවුරුදු කීපයකට පෙර"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

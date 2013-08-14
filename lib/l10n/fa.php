@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "راه‌نما",
 "Personal" => "شخصی",
 "Settings" => "تنظیمات",
 "Users" => "کاربران",
-"Apps" => "  برنامه ها",
 "Admin" => "مدیر",
 "web services under your control" => "سرویس های تحت وب در کنترل شما",
 "ZIP download is turned off." => "دانلود به صورت فشرده غیر فعال است",
@@ -51,3 +51,4 @@
 "years ago" => "سال‌های قبل",
 "Could not find category \"%s\"" => "دسته بندی %s یافت نشد"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Hjelp",
 "Personal" => "Personleg",
 "Settings" => "Innstillingar",
 "Users" => "Brukarar",
-"Apps" => "Program",
 "Admin" => "Administrer",
 "web services under your control" => "Vev tjenester under din kontroll",
 "Authentication error" => "Feil i autentisering",
@@ -20,3 +20,4 @@
 "last year" => "i fjor",
 "years ago" => "år sidan"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

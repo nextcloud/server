@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Ne eblis movi %s: dosiero kun ĉi tiu nomo jam ekzistas",
 "Could not move %s" => "Ne eblis movi %s",
 "No file was uploaded. Unknown error" => "Neniu dosiero alŝutiĝis. Nekonata eraro.",
@@ -74,3 +75,4 @@
 "files" => "dosieroj",
 "Upgrading filesystem cache..." => "Ĝisdatiĝas dosiersistema kaŝmemoro..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

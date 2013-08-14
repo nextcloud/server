@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-04 01:55-0400\n"
-"PO-Revision-Date: 2013-08-04 05:01+0000\n"
+"POT-Creation-Date: 2013-08-11 08:07-0400\n"
+"PO-Revision-Date: 2013-08-11 12:07+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -138,59 +138,59 @@ msgstr "noviembre"
 msgid "December"
 msgstr "diciembre"
 
-#: js/js.js:293
+#: js/js.js:354
 msgid "Settings"
 msgstr "Configuración"
 
-#: js/js.js:753
+#: js/js.js:814
 msgid "seconds ago"
 msgstr "segundos atrás"
 
-#: js/js.js:754
+#: js/js.js:815
 msgid "1 minute ago"
 msgstr "hace 1 minuto"
 
-#: js/js.js:755
+#: js/js.js:816
 msgid "{minutes} minutes ago"
 msgstr "hace {minutes} minutos"
 
-#: js/js.js:756
+#: js/js.js:817
 msgid "1 hour ago"
 msgstr "1 hora atrás"
 
-#: js/js.js:757
+#: js/js.js:818
 msgid "{hours} hours ago"
 msgstr "hace {hours} horas"
 
-#: js/js.js:758
+#: js/js.js:819
 msgid "today"
 msgstr "hoy"
 
-#: js/js.js:759
+#: js/js.js:820
 msgid "yesterday"
 msgstr "ayer"
 
-#: js/js.js:760
+#: js/js.js:821
 msgid "{days} days ago"
 msgstr "hace {days} días"
 
-#: js/js.js:761
+#: js/js.js:822
 msgid "last month"
 msgstr "el mes pasado"
 
-#: js/js.js:762
+#: js/js.js:823
 msgid "{months} months ago"
 msgstr "{months} meses atrás"
 
-#: js/js.js:763
+#: js/js.js:824
 msgid "months ago"
 msgstr "meses atrás"
 
-#: js/js.js:764
+#: js/js.js:825
 msgid "last year"
 msgstr "el año pasado"
 
-#: js/js.js:765
+#: js/js.js:826
 msgid "years ago"
 msgstr "años atrás"
 
@@ -578,6 +578,10 @@ msgstr "%s está disponible. Obtené más información sobre cómo actualizar."
 #: templates/layout.user.php:66
 msgid "Log out"
 msgstr "Cerrar la sesión"
+
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr ""
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"

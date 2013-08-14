@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "نوع التصنيف لم يدخل",
 "No category to add?" => "ألا توجد فئة للإضافة؟",
 "This category already exists: %s" => "هذا التصنيف موجود مسبقا :  %s",
@@ -128,3 +129,4 @@
 "next" => "التالي",
 "Updating ownCloud to version %s, this may take a while." => "جاري تحديث Owncloud الى اصدار %s , قد يستغرق هذا بعض الوقت."
 );
+$PLURAL_FORMS = "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;";

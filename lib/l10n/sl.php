@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Pomoč",
 "Personal" => "Osebno",
 "Settings" => "Nastavitve",
 "Users" => "Uporabniki",
-"Apps" => "Programi",
 "Admin" => "Skrbništvo",
 "web services under your control" => "spletne storitve pod vašim nadzorom",
 "ZIP download is turned off." => "Prejemanje datotek v paketu ZIP je onemogočeno.",
@@ -51,3 +51,4 @@
 "years ago" => "let nazaj",
 "Could not find category \"%s\"" => "Kategorije \"%s\" ni mogoče najti."
 );
+$PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

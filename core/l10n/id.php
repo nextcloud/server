@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "Tipe kategori tidak diberikan.",
 "No category to add?" => "Tidak ada kategori yang akan ditambahkan?",
 "This category already exists: %s" => "Kategori ini sudah ada: %s",
@@ -128,3 +129,4 @@
 "next" => "selanjutnya",
 "Updating ownCloud to version %s, this may take a while." => "Memperbarui ownCloud ke versi %s, prosesnya akan berlangsung beberapa saat."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

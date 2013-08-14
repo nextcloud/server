@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Giúp đỡ",
 "Personal" => "Cá nhân",
 "Settings" => "Cài đặt",
 "Users" => "Người dùng",
-"Apps" => "Ứng dụng",
 "Admin" => "Quản trị",
 "web services under your control" => "dịch vụ web dưới sự kiểm soát của bạn",
 "ZIP download is turned off." => "Tải về ZIP đã bị tắt.",
@@ -31,3 +31,4 @@
 "years ago" => "năm trước",
 "Could not find category \"%s\"" => "không thể tìm thấy mục \"%s\""
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

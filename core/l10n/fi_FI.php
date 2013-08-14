@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s jakoi kohteen »%s« kanssasi",
 "Category type not provided." => "Luokan tyyppiä ei määritelty.",
 "No category to add?" => "Ei lisättävää luokkaa?",
@@ -58,6 +59,7 @@
 "Share with link" => "Jaa linkillä",
 "Password protect" => "Suojaa salasanalla",
 "Password" => "Salasana",
+"Allow Public Upload" => "Salli julkinen lähetys",
 "Email link to person" => "Lähetä linkki sähköpostitse",
 "Send" => "Lähetä",
 "Set expiration date" => "Aseta päättymispäivä",
@@ -120,6 +122,7 @@
 "Finish setup" => "Viimeistele asennus",
 "%s is available. Get more information on how to update." => "%s on saatavilla. Lue lisätietoja, miten päivitys asennetaan.",
 "Log out" => "Kirjaudu ulos",
+"More apps" => "Lisää sovelluksia",
 "Automatic logon rejected!" => "Automaattinen sisäänkirjautuminen hylättiin!",
 "If you did not change your password recently, your account may be compromised!" => "Jos et vaihtanut salasanaasi äskettäin, tilisi saattaa olla murrettu.",
 "Please change your password to secure your account again." => "Vaihda salasanasi suojataksesi tilisi uudelleen.",
@@ -132,3 +135,4 @@
 "next" => "seuraava",
 "Updating ownCloud to version %s, this may take a while." => "Päivitetään ownCloud versioon %s, tämä saattaa kestää hetken."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

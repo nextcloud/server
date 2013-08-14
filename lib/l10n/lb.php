@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Hëllef",
 "Personal" => "Perséinlech",
 "Settings" => "Astellungen",
 "Users" => "Benotzer",
-"Apps" => "Applikatiounen",
 "Admin" => "Admin",
 "web services under your control" => "Web-Servicer ënnert denger Kontroll",
 "Authentication error" => "Authentifikatioun's Fehler",
@@ -18,3 +18,4 @@
 "last year" => "Läscht Joer",
 "years ago" => "Joren hier"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

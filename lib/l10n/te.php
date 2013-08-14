@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "సహాయం",
 "Settings" => "అమరికలు",
 "Users" => "వాడుకరులు",
@@ -11,3 +12,4 @@
 "last year" => "పోయిన సంవత్సరం",
 "years ago" => "సంవత్సరాల క్రితం"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Error" => "出错",
 "Delete permanently" => "永久删除",
 "Name" => "名称",
@@ -8,3 +9,4 @@
 "{count} files" => "{count} 个文件",
 "Delete" => "删除"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s áthelyezése nem sikerült - már létezik másik fájl ezzel a névvel",
 "Could not move %s" => "Nem sikerült %s áthelyezése",
 "Unable to set upload directory." => "Nem található a mappa, ahova feltölteni szeretne.",
@@ -79,3 +80,4 @@
 "files" => "fájlok",
 "Upgrading filesystem cache..." => "A fájlrendszer gyorsítótárának frissítése zajlik..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

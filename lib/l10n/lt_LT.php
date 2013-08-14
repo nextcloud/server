@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Pagalba",
 "Personal" => "Asmeniniai",
 "Settings" => "Nustatymai",
 "Users" => "Vartotojai",
-"Apps" => "Programos",
 "Admin" => "Administravimas",
 "web services under your control" => "jūsų valdomos web paslaugos",
 "ZIP download is turned off." => "ZIP atsisiuntimo galimybė yra išjungta.",
@@ -29,3 +29,4 @@
 "last year" => "praeitais metais",
 "years ago" => "prieš metus"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);";

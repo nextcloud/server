@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-04 01:55-0400\n"
-"PO-Revision-Date: 2013-08-04 05:01+0000\n"
+"POT-Creation-Date: 2013-08-13 09:11-0400\n"
+"PO-Revision-Date: 2013-08-12 11:00+0000\n"
 "Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -139,59 +139,59 @@ msgstr "November"
 msgid "December"
 msgstr "Detsember"
 
-#: js/js.js:293
+#: js/js.js:354
 msgid "Settings"
 msgstr "Seaded"
 
-#: js/js.js:753
+#: js/js.js:814
 msgid "seconds ago"
 msgstr "sekundit tagasi"
 
-#: js/js.js:754
+#: js/js.js:815
 msgid "1 minute ago"
 msgstr "1 minut tagasi"
 
-#: js/js.js:755
+#: js/js.js:816
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minutit tagasi"
 
-#: js/js.js:756
+#: js/js.js:817
 msgid "1 hour ago"
 msgstr "1 tund tagasi"
 
-#: js/js.js:757
+#: js/js.js:818
 msgid "{hours} hours ago"
 msgstr "{hours} tundi tagasi"
 
-#: js/js.js:758
+#: js/js.js:819
 msgid "today"
 msgstr "täna"
 
-#: js/js.js:759
+#: js/js.js:820
 msgid "yesterday"
 msgstr "eile"
 
-#: js/js.js:760
+#: js/js.js:821
 msgid "{days} days ago"
 msgstr "{days} päeva tagasi"
 
-#: js/js.js:761
+#: js/js.js:822
 msgid "last month"
 msgstr "viimasel kuul"
 
-#: js/js.js:762
+#: js/js.js:823
 msgid "{months} months ago"
 msgstr "{months} kuud tagasi"
 
-#: js/js.js:763
+#: js/js.js:824
 msgid "months ago"
 msgstr "kuu tagasi"
 
-#: js/js.js:764
+#: js/js.js:825
 msgid "last year"
 msgstr "viimasel aastal"
 
-#: js/js.js:765
+#: js/js.js:826
 msgid "years ago"
 msgstr "aastat tagasi"
 
@@ -579,6 +579,10 @@ msgstr "%s on saadaval. Vaata lähemalt kuidas uuendada."
 #: templates/layout.user.php:66
 msgid "Log out"
 msgstr "Logi välja"
+
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr "Rohkem rakendusi"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"

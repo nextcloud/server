@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "January" => "जनवरी",
 "February" => "फरवरी",
 "March" => "मार्च",
@@ -40,3 +41,4 @@
 "prev" => "पिछला",
 "next" => "अगला"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s nuk u spostua - Aty ekziston një skedar me të njëjtin emër",
 "Could not move %s" => "%s nuk u spostua",
 "No file was uploaded. Unknown error" => "Nuk u ngarkua asnjë skedar. Veprim i gabuar i panjohur",
@@ -71,3 +72,4 @@
 "Current scanning" => "Analizimi aktual",
 "Upgrading filesystem cache..." => "Po përmirësoj memorjen e filesystem-it..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

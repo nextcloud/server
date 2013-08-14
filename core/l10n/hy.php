@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Sunday" => "Կիրակի",
 "Monday" => "Երկուշաբթի",
 "Tuesday" => "Երեքշաբթի",
@@ -19,3 +20,4 @@
 "November" => "Նոյեմբեր",
 "December" => "Դեկտեմբեր"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

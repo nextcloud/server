@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Αποτυχία διαγραφής ρυθμίσεων διακομιστή",
 "The configuration is valid and the connection could be established!" => "Οι ρυθμίσεις είναι έγκυρες και η σύνδεση μπορεί να πραγματοποιηθεί!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Οι ρυθμίσεις είναι έγκυρες, αλλά απέτυχε η σύνδεση. Παρακαλώ ελέγξτε τις ρυθμίσεις του διακομιστή και τα διαπιστευτήρια.",
@@ -70,3 +71,4 @@
 "Test Configuration" => "Δοκιμαστικες ρυθμισεις",
 "Help" => "Βοήθεια"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

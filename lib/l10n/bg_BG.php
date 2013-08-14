@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Помощ",
 "Personal" => "Лични",
 "Settings" => "Настройки",
 "Users" => "Потребители",
-"Apps" => "Приложения",
 "Admin" => "Админ",
 "web services under your control" => "уеб услуги под Ваш контрол",
 "ZIP download is turned off." => "Изтеглянето като ZIP е изключено.",
@@ -51,3 +51,4 @@
 "years ago" => "последните години",
 "Could not find category \"%s\"" => "Невъзможно откриване на категорията \"%s\""
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

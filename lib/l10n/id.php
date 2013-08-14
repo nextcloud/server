@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Bantuan",
 "Personal" => "Pribadi",
 "Settings" => "Setelan",
 "Users" => "Pengguna",
-"Apps" => "Aplikasi",
 "Admin" => "Admin",
 "web services under your control" => "layanan web dalam kontrol Anda",
 "ZIP download is turned off." => "Pengunduhan ZIP dimatikan.",
@@ -50,3 +50,4 @@
 "years ago" => "beberapa tahun lalu",
 "Could not find category \"%s\"" => "Tidak dapat menemukan kategori \"%s\""
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

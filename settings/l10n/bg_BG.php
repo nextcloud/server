@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Authentication error" => "Възникна проблем с идентификацията",
 "Group already exists" => "Групата вече съществува",
 "Unable to add group" => "Невъзможно добавяне на група",
@@ -60,3 +61,4 @@
 "Storage" => "Хранилище",
 "Default" => "По подразбиране"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

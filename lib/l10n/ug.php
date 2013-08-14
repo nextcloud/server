@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "ياردەم",
 "Personal" => "شەخسىي",
 "Settings" => "تەڭشەكلەر",
 "Users" => "ئىشلەتكۈچىلەر",
-"Apps" => "ئەپلەر",
 "Authentication error" => "سالاھىيەت دەلىللەش خاتالىقى",
 "Files" => "ھۆججەتلەر",
 "Text" => "قىسقا ئۇچۇر",
@@ -17,3 +17,4 @@
 "%d days ago" => "%d كۈن ئىلگىرى",
 "%d months ago" => "%d ئاي ئىلگىرى"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

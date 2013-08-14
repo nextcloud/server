@@ -1,7 +1,7 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "အကူအညီ",
 "Users" => "သုံးစွဲသူ",
-"Apps" => "Apps",
 "Admin" => "အက်ဒမင်",
 "web services under your control" => "သင်၏ထိန်းချုပ်မှု့အောက်တွင်ရှိသော Web services",
 "ZIP download is turned off." => "ZIP ဒေါင်းလုတ်ကိုပိတ်ထားသည်",
@@ -27,3 +27,4 @@
 "years ago" => "နှစ် အရင်က",
 "Could not find category \"%s\"" => "\"%s\"ခေါင်းစဉ်ကို ရှာမတွေ့ပါ"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

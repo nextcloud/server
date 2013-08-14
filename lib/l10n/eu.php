@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Laguntza",
 "Personal" => "Pertsonala",
 "Settings" => "Ezarpenak",
 "Users" => "Erabiltzaileak",
-"Apps" => "Aplikazioak",
 "Admin" => "Admin",
 "Failed to upgrade \"%s\"." => "Ezin izan da \"%s\" eguneratu.",
 "web services under your control" => "web zerbitzuak zure kontrolpean",
@@ -55,3 +55,4 @@
 "Caused by:" => "Honek eraginda:",
 "Could not find category \"%s\"" => "Ezin da \"%s\" kategoria aurkitu"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "帮助",
 "Personal" => "个人",
 "Settings" => "设置",
 "Users" => "用户",
-"Apps" => "应用",
 "Admin" => "管理",
 "web services under your control" => "您控制的web服务",
 "ZIP download is turned off." => "ZIP 下载已经关闭",
@@ -51,3 +51,4 @@
 "years ago" => "年前",
 "Could not find category \"%s\"" => "无法找到分类 \"%s\""
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

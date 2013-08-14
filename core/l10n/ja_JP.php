@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%sが あなたと »%s«を共有しました",
 "Category type not provided." => "カテゴリタイプは提供されていません。",
 "No category to add?" => "追加するカテゴリはありませんか？",
@@ -110,9 +111,11 @@
 "Add" => "追加",
 "Security Warning" => "セキュリティ警告",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "あなたのPHPのバージョンには、Null Byte攻撃(CVE-2006-7243)という脆弱性が含まれています。",
+"Please update your PHP installation to use %s securely." => "%s を安全に利用する為に インストールされているPHPをアップデートしてください。",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "セキュアな乱数生成器が利用可能ではありません。PHPのOpenSSL拡張を有効にして下さい。",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "セキュアな乱数生成器が無い場合、攻撃者がパスワードリセットのトークンを予測してアカウントを乗っ取られる可能性があります。",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => ".htaccess ファイルが動作していないため、おそらくあなたのデータディレクトリもしくはファイルはインターネットからアクセス可能です。",
+"For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "サーバーを適正に設定する情報は、こちらの<a href=\"%s\" target=\"_blank\">ドキュメント</a>を参照してください。",
 "Create an <strong>admin account</strong>" => "<strong>管理者アカウント</strong>を作成してください",
 "Advanced" => "詳細設定",
 "Data folder" => "データフォルダ",
@@ -126,6 +129,7 @@
 "Finish setup" => "セットアップを完了します",
 "%s is available. Get more information on how to update." => "%s が利用可能です。更新方法に関してさらに情報を取得して下さい。",
 "Log out" => "ログアウト",
+"More apps" => "他のアプリ",
 "Automatic logon rejected!" => "自動ログインは拒否されました！",
 "If you did not change your password recently, your account may be compromised!" => "最近パスワードを変更していない場合、あなたのアカウントは危険にさらされているかもしれません。",
 "Please change your password to secure your account again." => "アカウント保護の為、パスワードを再度の変更をお願いいたします。",
@@ -138,3 +142,4 @@
 "next" => "次",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud をバージョン %s に更新しています、しばらくお待ち下さい。"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

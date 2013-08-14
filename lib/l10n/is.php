@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Hjálp",
 "Personal" => "Um mig",
 "Settings" => "Stillingar",
 "Users" => "Notendur",
-"Apps" => "Forrit",
 "Admin" => "Stjórnun",
 "web services under your control" => "vefþjónusta undir þinni stjórn",
 "ZIP download is turned off." => "Slökkt á ZIP niðurhali.",
@@ -30,3 +30,4 @@
 "years ago" => "einhverjum árum",
 "Could not find category \"%s\"" => "Fann ekki flokkinn \"%s\""
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

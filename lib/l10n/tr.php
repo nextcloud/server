@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Yardım",
 "Personal" => "Kişisel",
 "Settings" => "Ayarlar",
 "Users" => "Kullanıcılar",
-"Apps" => "Uygulamalar",
 "Admin" => "Yönetici",
 "web services under your control" => "Bilgileriniz güvenli ve şifreli",
 "ZIP download is turned off." => "ZIP indirmeleri kapatılmıştır.",
@@ -51,3 +51,4 @@
 "years ago" => "yıl önce",
 "Could not find category \"%s\"" => "\"%s\" kategorisi bulunamadı"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

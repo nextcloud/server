@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Berreskuratze gakoa behar bezala gaitua",
 "Could not enable recovery key. Please check your recovery key password!" => "Ezin da berreskuratze gako gaitu. Egiaztatu berreskuratze gako pasahitza!",
 "Recovery key successfully disabled" => "Berreskuratze gakoa behar bezala desgaitu da",
@@ -9,7 +10,6 @@
 "Could not update the private key password. Maybe the old password was not correct." => "Ezin izan da gako pribatu pasahitza eguneratu. Agian pasahitz zaharra okerrekoa da.",
 "Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Zure gako pribatua ez da egokia! Seguruaski zure pasahitza ownCloud sistematik kanpo aldatu da (adb. zure direktorio korporatiboa). Zure gako pribatuaren pasahitza eguneratu dezakezu zure ezarpen pertsonaletan zure enkriptatutako fitxategiak berreskuratzeko.",
 "Missing requirements." => "Eskakizun batzuk ez dira betetzen.",
-"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Ziurtatu PHP 5.3.3 edo berriagoa instalatuta dagoela eta PHPren OpenSSL gehigarria gaituta eta ongi konfiguratuta dagoela. Oraingoz enkriptazio programa ez dago gaituta.",
 "Saving..." => "Gordetzen...",
 "Your private key is not valid! Maybe the your password was changed from outside." => "Zure gako pribatua ez da egokia! Agian zure pasahitza kanpotik aldatu da.",
 "You can unlock your private key in your " => "Zure gako pribatua desblokeatu dezakezu zure",
@@ -34,3 +34,4 @@
 "File recovery settings updated" => "Fitxategi berreskuratze ezarpenak eguneratuak",
 "Could not update file recovery" => "Ezin da fitxategi berreskuratzea eguneratu"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

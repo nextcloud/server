@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Не вдалося перемістити %s - Файл з таким ім'ям вже існує",
 "Could not move %s" => "Не вдалося перемістити %s",
 "No file was uploaded. Unknown error" => "Не завантажено жодного файлу. Невідома помилка",
@@ -46,6 +47,7 @@
 "{count} folders" => "{count} папок",
 "1 file" => "1 файл",
 "{count} files" => "{count} файлів",
+"%s could not be renamed" => "%s не може бути перейменований",
 "Upload" => "Вивантажити",
 "File handling" => "Робота з файлами",
 "Maximum upload size" => "Максимальний розмір відвантажень",
@@ -69,7 +71,10 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Файли,що ви намагаєтесь відвантажити перевищують максимальний дозволений розмір файлів на цьому сервері.",
 "Files are being scanned, please wait." => "Файли скануються, зачекайте, будь-ласка.",
 "Current scanning" => "Поточне сканування",
+"directory" => "каталог",
+"directories" => "каталоги",
 "file" => "файл",
 "files" => "файли",
 "Upgrading filesystem cache..." => "Оновлення кеша файлової системи..."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

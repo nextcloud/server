@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Activada satisfactoriamente a chave de recuperación",
 "Could not enable recovery key. Please check your recovery key password!" => "Non foi posíbel activar a chave de recuperación. Comprobe o contrasinal da chave de recuperación!",
 "Recovery key successfully disabled" => "Desactivada satisfactoriamente a chave de recuperación",
@@ -9,7 +10,7 @@
 "Could not update the private key password. Maybe the old password was not correct." => "Non foi posíbel actualizar o contrasinal da chave privada. É probábel que o contrasinal antigo non sexa correcto.",
 "Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "A chave privada non é correcta! É probábel que o seu contrasinal teña sido cambiado desde o exterior (p.ex. o seu directorio corporativo). Vostede pode actualizar o contrasinal da súa chave privada nos seus axustes persoais para recuperar o acceso aos seus ficheiros",
 "Missing requirements." => "Non se cumpren os requisitos.",
-"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Asegúrese de que está instalado o  PHP 5.3.3 ou posterior e de que a extensión OpenSSL PHP estea activada e configurada correctamente. Polo de agora foi desactivado o aplicativo de cifrado.",
+"Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Asegúrese de que está instalado o PHP 5.3.3 ou posterior e de o OpenSSL xunto coa extensión PHP estean activados e configurados correctamente. Polo de agora foi desactivado o aplicativo de cifrado.",
 "Following users are not set up for encryption:" => "Os seguintes usuarios non teñen configuración para o cifrado:",
 "Saving..." => "Gardando...",
 "Your private key is not valid! Maybe the your password was changed from outside." => "A chave privada non é correcta! É probábel que o seu contrasinal teña sido cambiado desde o exterior. ",
@@ -35,3 +36,4 @@
 "File recovery settings updated" => "Actualizouse o ficheiro de axustes de recuperación",
 "Could not update file recovery" => "Non foi posíbel actualizar o ficheiro de recuperación"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
