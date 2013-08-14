@@ -51,18 +51,15 @@
 		<p><label for="ldap_login_filter"><?php p($l->t('User Login Filter'));?></label>
 		<input type="text" id="ldap_login_filter" name="ldap_login_filter"
 			data-default="<?php p($_['ldap_login_filter_default']); ?>"
-			title="<?php p($l->t('Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action.'));?>" />
-				<br /><small><?php p($l->t('use %%uid placeholder, e.g. "uid=%%uid"'));?></small></p>
+			title="<?php p($l->t('Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: "uid=%%uid"'));?>" /></p>
 		<p><label for="ldap_userlist_filter"><?php p($l->t('User List Filter'));?></label>
 		<input type="text" id="ldap_userlist_filter" name="ldap_userlist_filter"
 			data-default="<?php p($_['ldap_userlist_filter_default']); ?>"
-			title="<?php p($l->t('Defines the filter to apply, when retrieving users.'));?>" />
-			<br /><small><?php p($l->t('without any placeholder, e.g. "objectClass=person".'));?></small></p>
+			title="<?php p($l->t('Defines the filter to apply, when retrieving users (no placeholders). Example: "objectClass=person"'));?>" /></p>
 		<p><label for="ldap_group_filter"><?php p($l->t('Group Filter'));?></label>
 		<input type="text" id="ldap_group_filter" name="ldap_group_filter"
 			data-default="<?php p($_['ldap_group_filter_default']); ?>"
-			title="<?php p($l->t('Defines the filter to apply, when retrieving groups.'));?>" />
-			<br /><small><?php p($l->t('without any placeholder, e.g. "objectClass=posixGroup".'));?></small></p>
+			title="<?php p($l->t('Defines the filter to apply, when retrieving groups (no placeholders). Example: "objectClass=posixGroup"'));?>" /></p>
 	</fieldset>
 	<fieldset id="ldapSettings-2">
 		<div id="ldapAdvancedAccordion">
@@ -75,7 +72,7 @@
 				<p><label for="ldap_override_main_server"><?php p($l->t('Disable Main Server'));?></label><input type="checkbox" id="ldap_override_main_server" name="ldap_override_main_server" value="1" data-default="<?php p($_['ldap_override_main_server_default']); ?>"  title="<?php p($l->t('Only connect to the replica server.'));?>" /></p>
 				<p><label for="ldap_tls"><?php p($l->t('Use TLS'));?></label><input type="checkbox" id="ldap_tls" name="ldap_tls" value="1" data-default="<?php p($_['ldap_tls_default']); ?>" title="<?php p($l->t('Do not use it additionally for LDAPS connections, it will fail.'));?>" /></p>
 				<p><label for="ldap_nocase"><?php p($l->t('Case insensitve LDAP server (Windows)'));?></label><input type="checkbox" id="ldap_nocase" name="ldap_nocase" data-default="<?php p($_['ldap_nocase_default']); ?>"  value="1"<?php if (isset($_['ldap_nocase']) && ($_['ldap_nocase'])) p(' checked'); ?>></p>
-				<p><label for="ldap_turn_off_cert_check"><?php p($l->t('Turn off SSL certificate validation.'));?></label><input type="checkbox" id="ldap_turn_off_cert_check" name="ldap_turn_off_cert_check" title="<?php p($l->t('If connection only works with this option, import the LDAP server\'s SSL certificate in your %s server.', $theme->getName() ));?>" data-default="<?php p($_['ldap_turn_off_cert_check_default']); ?>" value="1"><br/><small><?php p($l->t('Not recommended, use for testing only.'));?></small></p>
+				<p><label for="ldap_turn_off_cert_check"><?php p($l->t('Turn off SSL certificate validation.'));?></label><input type="checkbox" id="ldap_turn_off_cert_check" name="ldap_turn_off_cert_check" title="<?php p($l->t('Not recommended, use it for testing only! If connection only works with this option, import the LDAP server\'s SSL certificate in your %s server.', $theme->getName() ));?>" data-default="<?php p($_['ldap_turn_off_cert_check_default']); ?>" value="1"><br/></p>
 				<p><label for="ldap_cache_ttl"><?php p($l->t('Cache Time-To-Live'));?></label><input type="number" id="ldap_cache_ttl" name="ldap_cache_ttl" title="<?php p($l->t('in seconds. A change empties the cache.'));?>" data-default="<?php p($_['ldap_cache_ttl_default']); ?>" /></p>
 			</div>
 			<h3><?php p($l->t('Directory Settings'));?></h3>
