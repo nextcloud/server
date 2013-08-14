@@ -759,21 +759,13 @@ function procesSelection(){
 		$('#headerSize').text(humanFileSize(totalSize));
 		var selection='';
 		if(selectedFolders.length>0){
-			if(selectedFolders.length==1){
-				selection+=t('files','1 folder');
-			}else{
-				selection+=t('files','{count} folders',{count: selectedFolders.length});
-			}
+			selection += n('files', '%n folder', '%n folders', selectedFolders.length);
 			if(selectedFiles.length>0){
 				selection+=' & ';
 			}
 		}
 		if(selectedFiles.length>0){
-			if(selectedFiles.length==1){
-				selection+=t('files','1 file');
-			}else{
-				selection+=t('files','{count} files',{count: selectedFiles.length});
-			}
+			selection += n('files', '%n file', '%n files', selectedFiles.length);
 		}
 		$('#headerName>span.name').text(selection);
 		$('#modified').text('');

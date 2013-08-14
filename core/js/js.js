@@ -813,15 +813,13 @@ function relative_modified_date(timestamp) {
 	var diffdays = Math.round(diffhours/24);
 	var diffmonths = Math.round(diffdays/31);
 	if(timediff < 60) { return t('core','seconds ago'); }
-	else if(timediff < 120) { return t('core','1 minute ago'); }
-	else if(timediff < 3600) { return t('core','{minutes} minutes ago',{minutes: diffminutes}); }
-	else if(timediff < 7200) { return t('core','1 hour ago'); }
-	else if(timediff < 86400) { return t('core','{hours} hours ago',{hours: diffhours}); }
+	else if(timediff < 3600) { return n('core','%n minute ago', '%n minutes ago', diffminutes); }
+	else if(timediff < 86400) { return n('core', '%n hour ago', '%n hours ago', diffhours); }
 	else if(timediff < 86400) { return t('core','today'); }
 	else if(timediff < 172800) { return t('core','yesterday'); }
-	else if(timediff < 2678400) { return t('core','{days} days ago',{days: diffdays}); }
+	else if(timediff < 2678400) { return n('core', '%n day ago', '%n days ago', diffdays); }
 	else if(timediff < 5184000) { return t('core','last month'); }
-	else if(timediff < 31556926) { return t('core','{months} months ago',{months: diffmonths}); }
+	else if(timediff < 31556926) { return n('core', '%n month ago', '%n months ago', diffmonths); }
 	//else if(timediff < 31556926) { return t('core','months ago'); }
 	else if(timediff < 63113852) { return t('core','last year'); }
 	else { return t('core','years ago'); }
