@@ -110,10 +110,13 @@ class Storage {
 			}
 
 			// create all parent folders
-			$info=pathinfo($filename);
-			$versionsFolderName=$versions_view->getLocalFolder('');
-			if(!file_exists($versionsFolderName.'/'.$info['dirname'])) {
-				mkdir($versionsFolderName.'/'.$info['dirname'], 0750, true);
+			$dirname=  \OC_Filesystem::normalizePath(pathinfo($filename, PATHINFO_DIRNAME));
+			$dirParts = explode('/', $dirname);
+			foreach ($dirParts as $part) {
+				$dir = $dir.'/'.$part;
+				if(!$versions_view->file_exists($dir)) {
+					$versions_view->mkdir($dir);
+				}
 			}
 
 			$versionsSize = self::getVersionsSize($uid);
