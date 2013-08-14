@@ -112,10 +112,11 @@ class Storage {
 			// create all parent folders
 			$dirname=  \OC_Filesystem::normalizePath(pathinfo($filename, PATHINFO_DIRNAME));
 			$dirParts = explode('/', $dirname);
+			$dir = "/files_versions";
 			foreach ($dirParts as $part) {
 				$dir = $dir.'/'.$part;
-				if(!$versions_view->file_exists($dir)) {
-					$versions_view->mkdir($dir);
+				if(!$users_view->file_exists($dir)) {
+					$users_view->mkdir($dir);
 				}
 			}
 
@@ -186,13 +187,19 @@ class Storage {
 
 		self::expire($newpath);
 
-		$abs_newpath = $versions_view->getLocalFile($newpath);
-
 		if ( $files_view->is_dir($oldpath) && $versions_view->is_dir($oldpath) ) {
 			$versions_view->rename($oldpath, $newpath);
 		} else  if ( ($versions = Storage::getVersions($uid, $oldpath)) ) {
-			$info=pathinfo($abs_newpath);
-			if(!file_exists($info['dirname'])) mkdir($info['dirname'], 0750, true);
+			// create missing dirs if necessary
+			$dirname = \OC_Filesystem::normalizePath(pathinfo($newpath, PATHINFO_DIRNAME));
+			$dirParts = explode('/', $dirname);
+			$dir = "/files_versions";
+			foreach ($dirParts as $part) {
+				$dir = $dir.'/'.$part;
+				if(!$users_view->file_exists($dir)) {
+					$users_view->mkdir($dir);
+				}
+			}
 			foreach ($versions as $v) {
 				$versions_view->rename($oldpath.'.v'.$v['version'], $newpath.'.v'.$v['version']);
 			}
