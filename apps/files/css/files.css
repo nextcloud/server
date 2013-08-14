@@ -64,7 +64,7 @@
 #filestable { position: relative; top:37px; width:100%; }
 tbody tr {
 	background-color: #fff;
-	height: 44px;
+	height: 50px;
 }
 tbody tr:hover, tbody tr:active {
 	background-color: rgb(240,240,240);
@@ -79,8 +79,9 @@ tr:hover span.extension { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Op
 table tr.mouseOver td { background-color:#eee; }
 table th { height:2em; padding:0 .5em; color:#999; }
 table th .name {
-	float: left;
-	margin-left: 17px;
+	position: absolute;
+	left: 55px;
+	top: 15px;
 }
 table th, table td { border-bottom:1px solid #ddd; text-align:left; font-weight:normal; }
 table td {
@@ -89,17 +90,33 @@ table td {
 	background-position: 8px center;
 	background-repeat: no-repeat;
 }
-table th#headerName { width:100em; /* not really sure why this works better than 100% … table styling */ }
-table th#headerSize, table td.filesize { min-width:3em; padding:0 1em; text-align:right; }
+table th#headerName {
+	position: relative;
+	width: 100em; /* not really sure why this works better than 100% … table styling */
+	padding: 0;
+}
+#headerName-container {
+	position: relative;
+	height: 50px;
+}
+table th#headerSize, table td.filesize {
+	min-width: 3em;
+	padding: 0 1em;
+	text-align: right;
+}
 table th#headerDate, table td.date {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 	position: relative;
 	min-width: 11em;
-	padding:0 .1em 0 1em;
-	text-align:left;
+	display: block;
+	height: 51px;
 }
 
 /* Multiselect bar */
-#filestable.multiselect { top:63px; }
+#filestable.multiselect {
+	top: 88px;
+}
 table.multiselect thead { position:fixed; top:82px; z-index:1; -moz-box-sizing: border-box; box-sizing: border-box; left: 0; padding-left: 64px; width:100%; }
 table.multiselect thead th {
 	background-color: rgba(210,210,210,.7);
@@ -107,27 +124,41 @@ table.multiselect thead th {
 	font-weight: bold;
 	border-bottom: 0;
 }
-table.multiselect #headerName { width: 100%; }
+table.multiselect #headerName {
+	position: relative;
+	width: 100%;
+}
 table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
 table td.filename a.name {
+	position:relative; /* Firefox needs to explicitly have this default set … */
+	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	display: block;
-	height: 44px;
+	height: 50px;
 	vertical-align: middle;
-	margin-left: 50px;
+	padding: 0;
 }
 table tr[data-type="dir"] td.filename a.name span.nametext {font-weight:bold; }
 table td.filename input.filename { width:100%; cursor:text; }
 table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:.2em .5em .5em .3em; }
 table td.filename .nametext, .uploadtext, .modified { float:left; padding:.3em 0; }
-.modified {
+
+#modified {
 	position: absolute;
-	top: 10px;
+	top: 15px;
 }
+.modified {
+	position: relative;
+	top: 11px;
+	left: 5px;
+}
+
 /* TODO fix usability bug (accidental file/folder selection) */
 table td.filename .nametext {
 	position: absolute;
-	top: 10px;
+	top: 16px;
+	left: 55px;
+	padding: 0;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	max-width: 800px;
@@ -135,28 +166,58 @@ table td.filename .nametext {
 table td.filename .uploadtext { font-weight:normal; margin-left:.5em; }
 table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 
+
 /* File checkboxes */
-#fileList tr td.filename>input[type="checkbox"]:first-child { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0; float:left; margin:.7em 0 0 1em; /* bigger clickable area doesn’t work in FF width:2.8em; height:2.4em;*/ -webkit-transition:opacity 200ms; -moz-transition:opacity 200ms; -o-transition:opacity 200ms; transition:opacity 200ms; }
-#fileList tr td.filename>input[type="checkbox"]:hover:first-child { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; filter:alpha(opacity=80); opacity:.8; }
-/* Always show checkbox when selected */
-#fileList tr td.filename>input[type="checkbox"]:checked:first-child { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
-#fileList tr.selected td.filename>input[type="checkbox"]:first-child { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
+#fileList tr td.filename>input[type="checkbox"]:first-child {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: alpha(opacity=0);
+	opacity: 0;
+	float: left;
+	margin: 32px 0 0 32px; /* bigger clickable area doesn’t work in FF width:2.8em; height:2.4em;*/
+}
+/* Show checkbox when hovering, checked, or selected */
+#fileList tr:hover td.filename>input[type="checkbox"]:first-child,
+#fileList tr td.filename>input[type="checkbox"]:checked:first-child,
+#fileList tr.selected td.filename>input[type="checkbox"]:first-child {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+/* Use label to have bigger clickable size for checkbox */
+#fileList tr td.filename>input[type="checkbox"] + label,
+#select_all + label {
+	height: 50px;
+	position: absolute;
+	width: 50px;
+	z-index: 100;
+}
+#fileList tr td.filename>input[type="checkbox"] + label {
+	left: 0;
+}
+#select_all + label {
+	top: 0;
+}
+#select_all {
+	position: absolute;
+	top: 18px;
+	left: 18px;
+}
+
 
 #fileList tr td.filename {
 	position:relative; width:100%;
 	-webkit-transition:background-image 500ms; -moz-transition:background-image 500ms; -o-transition:background-image 500ms; transition:background-image 500ms;
 }
-#select_all { float:left; margin:.3em 0.6em 0 .5em; }
+
 #uploadsize-message,#delete-confirm { display:none; }
 
 /* File actions */
 .fileactions {
 	position: absolute;
-	top: 13px;
+	top: 16px;
 	right: 0;
 	font-size: 11px;
 }
-#fileList .name { position:relative; /* Firefox needs to explicitly have this default set … */ }
 #fileList tr:hover .fileactions { /* background to distinguish when overlaying with file names */
 	background-color: rgba(240,240,240,0.898);
 	box-shadow: -5px 0 7px rgba(240,240,240,0.898);
@@ -166,19 +227,39 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 	box-shadow: -5px 0 7px rgba(230,230,230,.9);
 }
 #fileList .fileactions a.action img { position:relative; top:.2em; }
+
+#fileList img.move2trash { display:inline; margin:-.5em 0; padding:1em .5em 1em .5em !important; float:right; }
+#fileList a.action.delete {
+	position: absolute;
+	right: 0;
+	top: 0;
+	margin: 0;
+	padding: 15px 14px 19px !important;
+}
+a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
+
+/* Actions for selected files */
+.selectedActions {
+	display: none;
+	position: absolute;
+	top: -1px;
+	right: 0;
+	padding: 15px 8px;
+}
+.selectedActions a {
+	display: inline;
+	padding: 17px 5px;
+}
+.selectedActions a img {
+	position:relative;
+	top:.3em;
+}
+
+
 #fileList a.action {
 	display: inline;
 	margin: -.5em 0;
-	padding: 16px 8px !important;
-}
-#fileList img.move2trash { display:inline; margin:-.5em 0; padding:1em .5em 1em .5em !important; float:right; }
-a.action.delete { float:right; }
-a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
-.selectedActions { display:none; float:right; }
-.selectedActions a { display:inline; margin:-.5em 0; padding:.5em !important; }
-.selectedActions a img { position:relative; top:.3em; }
-
-#fileList a.action {
+	padding: 18px 8px !important;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	filter: alpha(opacity=0);
 	opacity: 0;

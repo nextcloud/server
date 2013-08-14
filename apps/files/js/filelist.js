@@ -17,7 +17,7 @@ var FileList={
 			"class": "filename",
 			"style": 'background-image:url('+iconurl+')'
 		});
-		td.append('<input type="checkbox" />');
+		td.append('<input id="select-"'+name+'" type="checkbox" /><label for="select-"'+name+'"></label>');
 		var link_elem = $('<a></a>').attr({
 			"class": "name",
 			"href": linktarget

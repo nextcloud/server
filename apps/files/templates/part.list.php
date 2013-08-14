@@ -47,7 +47,10 @@ $totalsize = 0; ?>
 			<?php endif; ?>
 		<?php endif; ?>
 			>
-		<?php if(!isset($_['readonly']) || !$_['readonly']): ?><input type="checkbox" /><?php endif; ?>
+		<?php if(!isset($_['readonly']) || !$_['readonly']): ?>
+			<input id="select-<?php p($file['fileid']); ?>" type="checkbox" />
+			<label for="select-<?php p($file['fileid']); ?>"></label>
+		<?php endif; ?>
 		<?php if($file['type'] == 'dir'): ?>
 			<a class="name" href="<?php p(rtrim($_['baseURL'],'/').'/'.trim($directory,'/').'/'.$name); ?>" title="">
 		<?php else: ?>

@@ -63,17 +63,20 @@
 	<thead>
 		<tr>
 			<th id='headerName'>
-				<input type="checkbox" id="select_all" />
-				<span class='name'><?php p($l->t( 'Name' )); ?></span>
-				<span class='selectedActions'>
-					<?php if($_['allowZipDownload']) : ?>
-						<a href="" class="download">
-							<img class="svg" alt="Download"
-								 src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>" />
-							<?php p($l->t('Download'))?>
-						</a>
-					<?php endif; ?>
-				</span>
+				<div id="headerName-container">
+					<input type="checkbox" id="select_all" />
+					<label for="select_all"></label>
+					<span class="name"><?php p($l->t( 'Name' )); ?></span>
+					<span class="selectedActions">
+						<?php if($_['allowZipDownload']) : ?>
+							<a href="" class="download">
+								<img class="svg" alt="Download"
+									 src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>" />
+								<?php p($l->t('Download'))?>
+							</a>
+						<?php endif; ?>
+					</span>
+				</div>
 			</th>
 			<th id="headerSize"><?php p($l->t('Size')); ?></th>
 			<th id="headerDate">
