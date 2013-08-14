@@ -366,8 +366,8 @@ $(document).ready(function() {
 								var tr=$('tr').filterAttr('data-file',name);
 								tr.attr('data-mime',result.data.mime);
 								tr.attr('data-id', result.data.id);
-								var path = $('#dir').val()+'/'+name;
-								getPreviewIcon(path, function(previewpath){
+								var path = $('#dir').val() + '/' + name;
+								lazyLoadPreview(path, result.data.mime, function(previewpath){
 									tr.find('td.filename').attr('style','background-image:url('+previewpath+')');
 								});
 							} else {
@@ -432,7 +432,7 @@ $(document).ready(function() {
 						tr.data('mime',mime).data('id',id);
 						tr.attr('data-id', id);
 						var path = $('#dir').val()+'/'+localName;
-						getPreviewIcon(path, function(previewpath){
+						lazyLoadPreview(path, mime, function(previewpath){
 							tr.find('td.filename').attr('style','background-image:url('+previewpath+')');
 						});
 					});
@@ -639,7 +639,7 @@ var createDragShadow = function(event){
 			newtr.find('td.filename').attr('style','background-image:url('+OC.imagePath('core', 'filetypes/folder.png')+')');
 		} else {
 			var path = $('#dir').val()+'/'+elem.name;
-			getPreviewIcon(path, function(previewpath){
+			lazyLoadPreview(path, elem.mime, function(previewpath){
 				newtr.find('td.filename').attr('style','background-image:url('+previewpath+')');
 			});
 		}
@@ -824,10 +824,18 @@ function getMimeIcon(mime, ready){
 }
 getMimeIcon.cache={};
 
-function getPreviewIcon(path, ready){
+function lazyLoadPreview(path, mime, ready) {
+	getMimeIcon(mime,ready);
 	var x = $('#filestable').data('preview-x');
 	var y = $('#filestable').data('preview-y');
-	ready(OC.Router.generate('core_ajax_preview', {file: encodeURIComponent(path), x:x, y:y}));
+	var previewURL = OC.Router.generate('core_ajax_preview', {file: encodeURIComponent(path), x:x, y:y});
+	$.ajax({
+		url: previewURL,
+		type: 'GET',
+		success: function() {
+			ready(previewURL);
+		}
+	});
 }
 
 function getUniqueName(name){

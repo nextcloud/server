@@ -186,7 +186,7 @@ var FileList={
 			tr.attr('data-id', id);
 		}
 		var path = $('#dir').val()+'/'+name;
-		getPreviewIcon(path, function(previewpath){
+		lazyLoadPreview(path, mime, function(previewpath){
 			tr.find('td.filename').attr('style','background-image:url('+previewpath+')');
 		});
 		tr.find('td.filename').draggable(dragOptions);
