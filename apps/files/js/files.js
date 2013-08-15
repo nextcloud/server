@@ -91,7 +91,7 @@ Files={
 
 		var encryptedFiles = $('#encryptedFiles').val();
 		if (encryptedFiles === '1') {
-			OC.Notification.show(t('files_encryption', 'Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files.', "www.schiessle.org"));
+			OC.Notification.show(t('files_encryption', 'Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files.'));
 			return;
 		}
 	}

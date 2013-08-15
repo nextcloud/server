@@ -662,5 +662,5 @@ class Crypt {
 			return rtrim($result, "\0");
 		}
 	}
-	
+
 }
