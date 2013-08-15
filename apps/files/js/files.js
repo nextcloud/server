@@ -365,7 +365,9 @@ $(document).ready(function() {
 								FileList.addFile(name,0,date,false,hidden);
 								var tr=$('tr').filterAttr('data-file',name);
 								tr.attr('data-mime',result.data.mime);
+								tr.attr('data-size',result.data.size);
 								tr.attr('data-id', result.data.id);
+								tr.find('.filesize').text(humanFileSize(result.data.size));
 								getMimeIcon(result.data.mime,function(path){
 									tr.find('td.filename').attr('style','background-image:url('+path+')');
 								});
