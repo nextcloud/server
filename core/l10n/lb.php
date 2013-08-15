@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "Den/D' %s huet »%s« mat dir gedeelt",
 "Category type not provided." => "Typ vun der Kategorie net uginn.",
 "No category to add?" => "Keng Kategorie fir bäizesetzen?",
@@ -29,15 +30,13 @@
 "December" => "Dezember",
 "Settings" => "Astellungen",
 "seconds ago" => "Sekonnen hir",
-"1 minute ago" => "1 Minutt hir",
-"{minutes} minutes ago" => "virun {minutes} Minutten",
-"1 hour ago" => "virun 1 Stonn",
-"{hours} hours ago" => "virun {hours} Stonnen",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "haut",
 "yesterday" => "gëschter",
-"{days} days ago" => "virun {days} Deeg",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "leschte Mount",
-"{months} months ago" => "virun {months} Méint",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "Méint hir",
 "last year" => "Lescht Joer",
 "years ago" => "Joren hir",
@@ -85,7 +84,6 @@
 "Email sent" => "Email geschéckt",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Den Update war net erfollegräich. Mell dëse Problem w.e.gl der<a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud-Community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Den Update war erfollegräich.  Du gëss elo bei d'ownCloud ëmgeleet.",
-"ownCloud password reset" => "Passwuert-Zrécksetzung vun der ownCloud",
 "Use the following link to reset your password: {link}" => "Benotz folgende Link fir däi Passwuert zréckzesetzen: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "De Link fir d'Passwuert zréckzesetzen gouf un deng E-Mail-Adress geschéckt.<br>Falls du d'Mail net an den nächste Minutte kriss, kuck w.e.gl. an dengem Spam-Dossier.<br>Wann do och keng Mail ass, fro w.e.gl. däin Adminstrateur.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Ufro feelfeschloen!<br>Hues du séchergestallt dass deng Email respektiv däi Benotzernumm korrekt sinn?",
@@ -110,11 +108,9 @@
 "Add" => "Dobäisetzen",
 "Security Warning" => "Sécherheets-Warnung",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Deng PHP-Versioun ass verwonnbar duerch d'NULL-Byte-Attack (CVE-2006-7243)",
-"Please update your PHP installation to use ownCloud securely." => "Aktualiséier w.e.gl deng PHP-Installatioun fir ownCloud sécher benotzen ze kënnen.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Et ass kee sécheren Zoufallsgenerator verfügbar. Aktivéier w.e.gl d'OpenSSL-Erweiderung vu PHP.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Ouni e sécheren Zoufallsgenerator kann en Ugräifer d'Passwuert-Zrécksetzungs-Schlësselen viraussoen an en Account iwwerhuelen.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Däin Daten-Dossier an deng Fichieren si wahrscheinlech iwwert den Internet accessibel well den .htaccess-Fichier net funktionnéiert.",
-"For information how to properly configure your server, please see the <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>." => "Kuck w.e.gl. an der <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">Dokumentatioun</a> fir Informatiounen iwwert eng uerdentlech Konfiguratioun vum Server.",
 "Create an <strong>admin account</strong>" => "En <strong>Admin-Account</strong> uleeën",
 "Advanced" => "Avancéiert",
 "Data folder" => "Daten-Dossier",
@@ -140,3 +136,4 @@
 "next" => "weider",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud gëtt op d'Versioun %s aktualiséiert, dat kéint e Moment daueren."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

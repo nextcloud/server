@@ -1,5 +1,8 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
+"%s shared »%s« with you" => "%s delte »%s« med deg",
 "No category to add?" => "Ingen kategorier å legge til?",
+"This category already exists: %s" => "Denne kategorien finnes allerede: %s",
 "No categories selected for deletion." => "Ingen kategorier merket for sletting.",
 "Sunday" => "Søndag",
 "Monday" => "Mandag",
@@ -22,15 +25,13 @@
 "December" => "Desember",
 "Settings" => "Innstillinger",
 "seconds ago" => "sekunder siden",
-"1 minute ago" => "1 minutt siden",
-"{minutes} minutes ago" => "{minutes} minutter siden",
-"1 hour ago" => "1 time siden",
-"{hours} hours ago" => "{hours} timer siden",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "i dag",
 "yesterday" => "i går",
-"{days} days ago" => "{days} dager siden",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "forrige måned",
-"{months} months ago" => "{months} måneder siden",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "måneder siden",
 "last year" => "forrige år",
 "years ago" => "år siden",
@@ -40,8 +41,10 @@
 "No" => "Nei",
 "Ok" => "Ok",
 "Error" => "Feil",
+"Shared" => "Delt",
 "Share" => "Del",
 "Error while sharing" => "Feil under deling",
+"Shared with you by {owner}" => "Delt med deg av {owner}",
 "Share with" => "Del med",
 "Share with link" => "Del med link",
 "Password protect" => "Passordbeskyttet",
@@ -62,7 +65,6 @@
 "Error setting expiration date" => "Kan ikke sette utløpsdato",
 "Sending ..." => "Sender...",
 "Email sent" => "E-post sendt",
-"ownCloud password reset" => "Tilbakestill ownCloud passord",
 "Use the following link to reset your password: {link}" => "Bruk følgende lenke for å tilbakestille passordet ditt: {link}",
 "You will receive a link to reset your password via Email." => "Du burde motta detaljer om å tilbakestille passordet ditt via epost.",
 "Username" => "Brukernavn",
@@ -78,6 +80,7 @@
 "Help" => "Hjelp",
 "Access forbidden" => "Tilgang nektet",
 "Cloud not found" => "Sky ikke funnet",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Hei der.⏎\n⏎\nVille bare gjøre deg oppmerksom på at %s delte %s med deg.⏎\nVis den: %s⏎\n⏎\nVI ses!",
 "Edit categories" => "Rediger kategorier",
 "Add" => "Legg til",
 "Security Warning" => "Sikkerhetsadvarsel",
@@ -100,5 +103,7 @@
 "remember" => "husk",
 "Log in" => "Logg inn",
 "prev" => "forrige",
-"next" => "neste"
+"next" => "neste",
+"Updating ownCloud to version %s, this may take a while." => "Oppdaterer ownCloud til versjon %s, dette kan ta en stund."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

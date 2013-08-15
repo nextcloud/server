@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Password" => "암호",
 "Submit" => "제출",
 "%s shared the folder %s with you" => "%s 님이 폴더 %s을(를) 공유하였습니다",
@@ -8,3 +9,4 @@
 "Cancel upload" => "업로드 취소",
 "No preview available for" => "다음 항목을 미리 볼 수 없음:"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

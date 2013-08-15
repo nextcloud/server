@@ -37,7 +37,7 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$result = $query->execute(array('uri_1'));
 		$this->assertTrue((bool)$result);
 		$row = $result->fetchRow();
-		$this->assertFalse((bool)$row); //PDO returns false, MDB2 returns null
+		$this->assertFalse($row);
 		$query = OC_DB::prepare('INSERT INTO `*PREFIX*'.$this->table2.'` (`fullname`,`uri`) VALUES (?,?)');
 		$result = $query->execute(array('fullname test', 'uri_1'));
 		$this->assertEquals(1, $result);
@@ -71,7 +71,19 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$result = $query->execute(array('uri_3'));
 		$this->assertTrue((bool)$result);
 	}
-
+	
+	public function testLastInsertId() {
+		$query = OC_DB::prepare('INSERT INTO `*PREFIX*'.$this->table2.'` (`fullname`,`uri`) VALUES (?,?)');
+		$result1 = OC_DB::executeAudited($query, array('insertid 1','uri_1'));
+		$id1 = OC_DB::insertid('*PREFIX*'.$this->table2);
+		
+		// we don't know the id we should expect, so insert another row
+		$result2 = OC_DB::executeAudited($query, array('insertid 2','uri_2'));
+		$id2 = OC_DB::insertid('*PREFIX*'.$this->table2);
+		// now we can check if the two ids are in correct order
+		$this->assertGreaterThan($id1, $id2);
+	}
+	
 	public function testinsertIfNotExist() {
 		$categoryentries = array(
 				array('user' => 'test', 'type' => 'contact', 'category' => 'Family',    'expectedResult' => 1),
@@ -94,7 +106,7 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$query = OC_DB::prepare('SELECT * FROM `*PREFIX*'.$this->table3.'`');
 		$result = $query->execute();
 		$this->assertTrue((bool)$result);
-		$this->assertEquals(4, $result->numRows());
+		$this->assertEquals(4, count($result->fetchAll()));
 	}
 
 	public function testinsertIfNotExistDontOverwrite() {

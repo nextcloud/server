@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Не могу да преместим %s – датотека с овим именом већ постоји",
 "Could not move %s" => "Не могу да преместим %s",
 "No file was uploaded. Unknown error" => "Ниједна датотека није отпремљена услед непознате грешке",
@@ -30,7 +31,7 @@
 "replaced {new_name} with {old_name}" => "замењено {new_name} са {old_name}",
 "undo" => "опозови",
 "perform delete operation" => "обриши",
-"1 file uploading" => "Отпремам 1 датотеку",
+"_Uploading %n file_::_Uploading %n files_" => array("","",""),
 "files uploading" => "датотеке се отпремају",
 "'.' is an invalid file name." => "Датотека „.“ је неисправног имена.",
 "File name cannot be empty." => "Име датотеке не може бити празно.",
@@ -42,10 +43,8 @@
 "Name" => "Име",
 "Size" => "Величина",
 "Modified" => "Измењено",
-"1 folder" => "1 фасцикла",
-"{count} folders" => "{count} фасцикле/и",
-"1 file" => "1 датотека",
-"{count} files" => "{count} датотеке/а",
+"_%n folder_::_%n folders_" => array("","",""),
+"_%n file_::_%n files_" => array("","",""),
 "Upload" => "Отпреми",
 "File handling" => "Управљање датотекама",
 "Maximum upload size" => "Највећа величина датотеке",
@@ -71,3 +70,4 @@
 "Current scanning" => "Тренутно скенирање",
 "Upgrading filesystem cache..." => "Дограђујем кеш система датотека…"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

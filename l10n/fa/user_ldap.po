@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# miki_mika1362 <miki_mika1362@yahoo.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-09 02:03+0200\n"
-"PO-Revision-Date: 2013-07-08 23:15+0000\n"
+"POT-Creation-Date: 2013-08-09 07:59-0400\n"
+"PO-Revision-Date: 2013-08-09 11:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: ajax/clearMappings.php:34
 msgid "Failed to clear the mappings."
-msgstr ""
+msgstr "عدم موفقیت در پاک کردن نگاشت."
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
@@ -33,7 +34,7 @@ msgstr "پیکربندی معتبر است و ارتباط می تواند بر�
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
-msgstr ""
+msgstr "پیکربندی معتبراست، اما اتصال شکست خورد. لطفا تنظیمات و اعتبارهای سرور را بررسی کنید."
 
 #: ajax/testConfiguration.php:43
 msgid ""
@@ -55,15 +56,15 @@ msgstr "آیا تنظیمات ذخیره شود ؟"
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
-msgstr ""
+msgstr "نمی توان پیکربندی سرور را اضافه نمود"
 
 #: js/settings.js:111
 msgid "mappings cleared"
-msgstr ""
+msgstr "نگاشت پاک شده است"
 
 #: js/settings.js:112
 msgid "Success"
-msgstr ""
+msgstr "موفقیت"
 
 #: js/settings.js:117
 msgid "Error"
@@ -88,7 +89,7 @@ msgstr "تایید حذف"
 #: templates/settings.php:9
 msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
-" experience unexpected behaviour. Please ask your system administrator to "
+" experience unexpected behavior. Please ask your system administrator to "
 "disable one of them."
 msgstr ""
 
@@ -117,19 +118,19 @@ msgstr ""
 
 #: templates/settings.php:40
 msgid "Base DN"
-msgstr ""
+msgstr "پایه DN"
 
 #: templates/settings.php:41
 msgid "One Base DN per line"
-msgstr ""
+msgstr "یک پایه DN در هر خط"
 
 #: templates/settings.php:42
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr ""
+msgstr "شما می توانید پایه DN را برای کاربران و گروه ها در زبانه Advanced مشخص کنید."
 
 #: templates/settings.php:44
 msgid "User DN"
-msgstr ""
+msgstr "کاربر DN"
 
 #: templates/settings.php:46
 msgid ""
@@ -144,11 +145,11 @@ msgstr "گذرواژه"
 
 #: templates/settings.php:50
 msgid "For anonymous access, leave DN and Password empty."
-msgstr ""
+msgstr "برای دسترسی ناشناس، DN را رها نموده و رمزعبور را خالی بگذارید."
 
 #: templates/settings.php:51
 msgid "User Login Filter"
-msgstr ""
+msgstr "فیلتر ورودی کاربر"
 
 #: templates/settings.php:54
 #, php-format
@@ -184,19 +185,19 @@ msgstr ""
 
 #: templates/settings.php:65
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr ""
+msgstr "بدون هیچ گونه حفره یا سوراخ، به عنوان مثال، \"objectClass = posixGroup\"."
 
 #: templates/settings.php:69
 msgid "Connection Settings"
-msgstr ""
+msgstr "تنظیمات اتصال"
 
 #: templates/settings.php:71
 msgid "Configuration Active"
-msgstr ""
+msgstr "پیکربندی فعال"
 
 #: templates/settings.php:71
 msgid "When unchecked, this configuration will be skipped."
-msgstr ""
+msgstr "زمانیکه انتخاب نشود، این پیکربندی نادیده گرفته خواهد شد."
 
 #: templates/settings.php:72
 msgid "Port"
@@ -204,7 +205,7 @@ msgstr "درگاه"
 
 #: templates/settings.php:73
 msgid "Backup (Replica) Host"
-msgstr ""
+msgstr "پشتیبان گیری (بدل) میزبان"
 
 #: templates/settings.php:73
 msgid ""
@@ -214,41 +215,42 @@ msgstr ""
 
 #: templates/settings.php:74
 msgid "Backup (Replica) Port"
-msgstr ""
+msgstr "پشتیبان گیری (بدل) پورت"
 
 #: templates/settings.php:75
 msgid "Disable Main Server"
-msgstr ""
+msgstr "غیر فعال کردن سرور اصلی"
 
 #: templates/settings.php:75
-msgid "When switched on, ownCloud will only connect to the replica server."
+msgid "Only connect to the replica server."
 msgstr ""
 
 #: templates/settings.php:76
 msgid "Use TLS"
-msgstr ""
+msgstr "استفاده ازTLS"
 
 #: templates/settings.php:76
 msgid "Do not use it additionally for LDAPS connections, it will fail."
-msgstr ""
+msgstr "علاوه بر این برای اتصالات LDAPS  از آن استفاده نکنید، با شکست مواجه خواهد شد."
 
 #: templates/settings.php:77
 msgid "Case insensitve LDAP server (Windows)"
-msgstr ""
+msgstr "غیر حساس به بزرگی و کوچکی حروف LDAP سرور (ویندوز)"
 
 #: templates/settings.php:78
 msgid "Turn off SSL certificate validation."
-msgstr ""
+msgstr "غیرفعال کردن اعتبار گواهی نامه SSL ."
 
 #: templates/settings.php:78
+#, php-format
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
-"certificate in your ownCloud server."
+"certificate in your %s server."
 msgstr ""
 
 #: templates/settings.php:78
 msgid "Not recommended, use for testing only."
-msgstr ""
+msgstr "توصیه نمی شود، تنها برای آزمایش استفاده کنید."
 
 #: templates/settings.php:79
 msgid "Cache Time-To-Live"
@@ -260,67 +262,67 @@ msgstr ""
 
 #: templates/settings.php:81
 msgid "Directory Settings"
-msgstr ""
+msgstr "تنظیمات پوشه"
 
 #: templates/settings.php:83
 msgid "User Display Name Field"
-msgstr ""
+msgstr "فیلد نام کاربر"
 
 #: templates/settings.php:83
-msgid "The LDAP attribute to use to generate the user`s ownCloud name."
+msgid "The LDAP attribute to use to generate the user's display name."
 msgstr ""
 
 #: templates/settings.php:84
 msgid "Base User Tree"
-msgstr ""
+msgstr "کاربر درخت پایه"
 
 #: templates/settings.php:84
 msgid "One User Base DN per line"
-msgstr ""
+msgstr "یک کاربر پایه DN در هر خط"
 
 #: templates/settings.php:85
 msgid "User Search Attributes"
-msgstr ""
+msgstr "ویژگی های جستجوی کاربر"
 
 #: templates/settings.php:85 templates/settings.php:88
 msgid "Optional; one attribute per line"
-msgstr ""
+msgstr "اختیاری؛ یک ویژگی در هر خط"
 
 #: templates/settings.php:86
 msgid "Group Display Name Field"
-msgstr ""
+msgstr "فیلد نام گروه"
 
 #: templates/settings.php:86
-msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
+msgid "The LDAP attribute to use to generate the groups's display name."
 msgstr ""
 
 #: templates/settings.php:87
 msgid "Base Group Tree"
-msgstr ""
+msgstr "گروه درخت پایه "
 
 #: templates/settings.php:87
 msgid "One Group Base DN per line"
-msgstr ""
+msgstr "یک گروه پایه DN در هر خط"
 
 #: templates/settings.php:88
 msgid "Group Search Attributes"
-msgstr ""
+msgstr "گروه صفات جستجو"
 
 #: templates/settings.php:89
 msgid "Group-Member association"
-msgstr ""
+msgstr "انجمن گروه کاربران"
 
 #: templates/settings.php:91
 msgid "Special Attributes"
-msgstr ""
+msgstr "ویژگی های مخصوص"
 
 #: templates/settings.php:93
 msgid "Quota Field"
-msgstr ""
+msgstr "سهمیه بندی انجام نشد."
 
 #: templates/settings.php:94
 msgid "Quota Default"
-msgstr ""
+msgstr "سهمیه بندی پیش فرض"
 
 #: templates/settings.php:94
 msgid "in bytes"
@@ -328,21 +330,21 @@ msgstr "در بایت"
 
 #: templates/settings.php:95
 msgid "Email Field"
-msgstr ""
+msgstr "ایمیل ارسال نشد."
 
 #: templates/settings.php:96
 msgid "User Home Folder Naming Rule"
-msgstr ""
+msgstr "قانون نامگذاری پوشه خانه کاربر"
 
 #: templates/settings.php:96
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
-msgstr ""
+msgstr "خالی گذاشتن برای نام کاربری (پیش فرض). در غیر این صورت، تعیین یک ویژگی LDAP/AD."
 
 #: templates/settings.php:101
 msgid "Internal Username"
-msgstr ""
+msgstr "نام کاربری داخلی"
 
 #: templates/settings.php:102
 msgid ""
@@ -352,67 +354,66 @@ msgid ""
 "characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced "
 "with their ASCII correspondence or simply omitted. On collisions a number "
 "will be added/increased. The internal username is used to identify a user "
-"internally. It is also the default name for the user home folder in "
-"ownCloud. It is also a port of remote URLs, for instance for all *DAV "
-"services. With this setting, the default behaviour can be overriden. To "
-"achieve a similar behaviour as before ownCloud 5 enter the user display name"
-" attribute in the following field. Leave it empty for default behaviour. "
-"Changes will have effect only on newly mapped (added) LDAP users."
+"internally. It is also the default name for the user home folder. It is also"
+" a part of remote URLs, for instance for all *DAV services. With this "
+"setting, the default behavior can be overridden. To achieve a similar "
+"behavior as before ownCloud 5 enter the user display name attribute in the "
+"following field. Leave it empty for default behavior. Changes will have "
+"effect only on newly mapped (added) LDAP users."
 msgstr ""
 
 #: templates/settings.php:103
 msgid "Internal Username Attribute:"
-msgstr ""
+msgstr "ویژگی نام کاربری داخلی:"
 
 #: templates/settings.php:104
 msgid "Override UUID detection"
-msgstr ""
+msgstr "نادیده گرفتن تشخیص UUID "
 
 #: templates/settings.php:105
 msgid ""
-"By default, ownCloud autodetects the UUID attribute. The UUID attribute is "
-"used to doubtlessly identify LDAP users and groups. Also, the internal "
+"By default, the UUID attribute is automatically detected. The UUID attribute"
+" is used to doubtlessly identify LDAP users and groups. Also, the internal "
 "username will be created based on the UUID, if not specified otherwise "
 "above. You can override the setting and pass an attribute of your choice. "
 "You must make sure that the attribute of your choice can be fetched for both"
-" users and groups and it is unique. Leave it empty for default behaviour. "
+" users and groups and it is unique. Leave it empty for default behavior. "
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
 msgstr ""
 
 #: templates/settings.php:106
 msgid "UUID Attribute:"
-msgstr ""
+msgstr "صفت UUID:"
 
 #: templates/settings.php:107
 msgid "Username-LDAP User Mapping"
-msgstr ""
+msgstr "نام کاربری - نگاشت کاربر LDAP "
 
 #: templates/settings.php:108
 msgid ""
-"ownCloud uses usernames to store and assign (meta) data. In order to "
-"precisely identify and recognize users, each LDAP user will have a internal "
-"username. This requires a mapping from ownCloud username to LDAP user. The "
-"created username is mapped to the UUID of the LDAP user. Additionally the DN"
-" is cached as well to reduce LDAP interaction, but it is not used for "
-"identification. If the DN changes, the changes will be found by ownCloud. "
-"The internal ownCloud name is used all over in ownCloud. Clearing the "
-"Mappings will have leftovers everywhere. Clearing the Mappings is not "
-"configuration sensitive, it affects all LDAP configurations! Do never clear "
-"the mappings in a production environment. Only clear mappings in a testing "
-"or experimental stage."
+"Usernames are used to store and assign (meta) data. In order to precisely "
+"identify and recognize users, each LDAP user will have a internal username. "
+"This requires a mapping from username to LDAP user. The created username is "
+"mapped to the UUID of the LDAP user. Additionally the DN is cached as well "
+"to reduce LDAP interaction, but it is not used for identification. If the DN"
+" changes, the changes will be found. The internal username is used all over."
+" Clearing the mappings will have leftovers everywhere. Clearing the mappings"
+" is not configuration sensitive, it affects all LDAP configurations! Never "
+"clear the mappings in a production environment, only in a testing or "
+"experimental stage."
 msgstr ""
 
 #: templates/settings.php:109
 msgid "Clear Username-LDAP User Mapping"
-msgstr ""
+msgstr "پاک کردن نام کاربری- LDAP  نگاشت کاربر "
 
 #: templates/settings.php:109
 msgid "Clear Groupname-LDAP Group Mapping"
-msgstr ""
+msgstr "پاک کردن نام گروه -LDAP گروه نقشه برداری"
 
 #: templates/settings.php:111
 msgid "Test Configuration"
-msgstr ""
+msgstr "امتحان پیکربندی"
 
 #: templates/settings.php:111
 msgid "Help"

@@ -1,4 +1,6 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
+"The password is wrong. Try again." => "Pasahitza ez da egokia. Saiatu berriro.",
 "Password" => "Pasahitza",
 "Submit" => "Bidali",
 "%s shared the folder %s with you" => "%sk zurekin %s karpeta elkarbanatu du",
@@ -8,3 +10,4 @@
 "Cancel upload" => "Ezeztatu igoera",
 "No preview available for" => "Ez dago aurrebista eskuragarririk hauentzat "
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

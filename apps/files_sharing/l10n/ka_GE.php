@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Password" => "პაროლი",
 "Submit" => "გაგზავნა",
 "%s shared the folder %s with you" => "%s–მა გაგიზიარათ ფოლდერი %s",
@@ -8,3 +9,4 @@
 "Cancel upload" => "ატვირთვის გაუქმება",
 "No preview available for" => "წინასწარი დათვალიერება შეუძლებელია"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

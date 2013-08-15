@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "No file was uploaded. Unknown error" => "Ниту еден фајл не се вчита. Непозната грешка",
 "There is no error, the file uploaded with success" => "Датотеката беше успешно подигната.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Подигнатата датотека ја надминува upload_max_filesize директивата во php.ini:",
@@ -23,15 +24,13 @@
 "cancel" => "откажи",
 "replaced {new_name} with {old_name}" => "заменета {new_name} со {old_name}",
 "undo" => "врати",
-"1 file uploading" => "1 датотека се подига",
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Неправилно име. , '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' не се дозволени.",
 "Name" => "Име",
 "Size" => "Големина",
 "Modified" => "Променето",
-"1 folder" => "1 папка",
-"{count} folders" => "{count} папки",
-"1 file" => "1 датотека",
-"{count} files" => "{count} датотеки",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "Upload" => "Подигни",
 "File handling" => "Ракување со датотеки",
 "Maximum upload size" => "Максимална големина за подигање",
@@ -56,3 +55,4 @@
 "file" => "датотека",
 "files" => "датотеки"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;";

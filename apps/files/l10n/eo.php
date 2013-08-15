@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Ne eblis movi %s: dosiero kun ĉi tiu nomo jam ekzistas",
 "Could not move %s" => "Ne eblis movi %s",
 "No file was uploaded. Unknown error" => "Neniu dosiero alŝutiĝis. Nekonata eraro.",
@@ -31,7 +32,7 @@
 "replaced {new_name} with {old_name}" => "anstataŭiĝis {new_name} per {old_name}",
 "undo" => "malfari",
 "perform delete operation" => "plenumi forigan operacion",
-"1 file uploading" => "1 dosiero estas alŝutata",
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
 "files uploading" => "dosieroj estas alŝutataj",
 "'.' is an invalid file name." => "'.' ne estas valida dosiernomo.",
 "File name cannot be empty." => "Dosiernomo devas ne malpleni.",
@@ -43,10 +44,8 @@
 "Name" => "Nomo",
 "Size" => "Grando",
 "Modified" => "Modifita",
-"1 folder" => "1 dosierujo",
-"{count} folders" => "{count} dosierujoj",
-"1 file" => "1 dosiero",
-"{count} files" => "{count} dosierujoj",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "Upload" => "Alŝuti",
 "File handling" => "Dosieradministro",
 "Maximum upload size" => "Maksimuma alŝutogrando",
@@ -74,3 +73,4 @@
 "files" => "dosieroj",
 "Upgrading filesystem cache..." => "Ĝisdatiĝas dosiersistema kaŝmemoro..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

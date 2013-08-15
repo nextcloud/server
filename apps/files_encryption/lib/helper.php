@@ -232,6 +232,21 @@ class Helper {
 
 		return (bool) $result;
 	}
+	
+	/**
+	 * check some common errors if the server isn't configured properly for encryption
+	 * @return bool true if configuration seems to be OK
+	 */
+	public static function checkConfiguration() {
+		if(openssl_pkey_new(array('private_key_bits' => 4096))) {
+			return true;
+		} else {
+			while ($msg = openssl_error_string()) {
+				\OCP\Util::writeLog('Encryption library', 'openssl_pkey_new() fails:  ' . $msg, \OCP\Util::ERROR);
+			}
+			return false;
+		}
+	}
 
 	/**
 	 * @brief glob uses different pattern than regular expressions, escape glob pattern only

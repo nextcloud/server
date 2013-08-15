@@ -173,6 +173,7 @@ class DAV extends \OC\Files\Storage\Common{
 				curl_setopt($curl, CURLOPT_USERPWD, $this->user.':'.$this->password);
 				curl_setopt($curl, CURLOPT_URL, $this->createBaseUri().$path);
 				curl_setopt($curl, CURLOPT_FILE, $fp);
+				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 
 				curl_exec ($curl);
 				curl_close ($curl);
@@ -234,7 +235,13 @@ class DAV extends \OC\Files\Storage\Common{
 			$mtime=time();
 		}
 		$path=$this->cleanPath($path);
-		$this->client->proppatch($path, array('{DAV:}lastmodified' => $mtime));
+
+		// if file exists, update the mtime, else create a new empty file
+		if ($this->file_exists($path)) {
+			$this->client->proppatch($path, array('{DAV:}lastmodified' => $mtime));
+		} else {
+			$this->file_put_contents($path, '');
+		}
 	}
 
 	public function getFile($path, $target) {

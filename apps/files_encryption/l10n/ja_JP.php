@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Recovery key successfully enabled" => "リカバリ用のキーは正常に有効化されました",
 "Could not enable recovery key. Please check your recovery key password!" => "リカバリ用のキーを有効にできませんでした。リカバリ用のキーのパスワードを確認して下さい！",
 "Recovery key successfully disabled" => "リカバリ用のキーを正常に無効化しました",
@@ -9,7 +10,8 @@
 "Could not update the private key password. Maybe the old password was not correct." => "秘密鍵のパスワードを更新できませんでした。古いパスワードが正確でない場合があります。",
 "Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "秘密鍵が有効ではありません。パスワードがownCloudシステムの外部(例えば、企業ディレクトリ)から変更された恐れがあります。個人設定で秘密鍵のパスワードを更新して、暗号化されたファイルを回復出来ます。",
 "Missing requirements." => "必要要件が満たされていません。",
-"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "必ず、PHP 5.3.3以上をインストールし、OpenSSLのPHP拡張を有効にして適切に設定してください。現時点では暗号化アプリは無効になっています。",
+"Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "必ず、PHP 5.3.3もしくはそれ以上をインストールし、同時にOpenSSLのPHP拡張を有効にした上でOpenSSLも同様にインストール、適切に設定してください。現時点では暗号化アプリは無効になっています。",
+"Following users are not set up for encryption:" => "以下のユーザーは、暗号化設定がされていません：",
 "Saving..." => "保存中...",
 "Your private key is not valid! Maybe the your password was changed from outside." => "秘密鍵が有効ではありません。パスワードが外部から変更された恐れがあります。",
 "You can unlock your private key in your " => "個人設定で",
@@ -34,3 +36,4 @@
 "File recovery settings updated" => "ファイル復旧設定が更新されました",
 "Could not update file recovery" => "ファイル復旧を更新できませんでした"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

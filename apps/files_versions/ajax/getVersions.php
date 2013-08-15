@@ -2,24 +2,22 @@
 OCP\JSON::checkAppEnabled('files_versions');
 
 $source = $_GET['source'];
+$start = $_GET['start'];
 list ($uid, $filename) = OCA\Files_Versions\Storage::getUidAndFilename($source);
 $count = 5; //show the newest revisions
-if( ($versions = OCA\Files_Versions\Storage::getVersions($uid, $filename, $count)) ) {
+if( ($versions = OCA\Files_Versions\Storage::getVersions($uid, $filename)) ) {
 
-	$versionsFormatted = array();
-
-	foreach ( $versions AS $version ) {
-		$versionsFormatted[] = OCP\Util::formatDate( $version['version'] );
+	$endReached = false;
+	if (count($versions) <= $start+$count) {
+		$endReached = true;
 	}
 
-	$versionsSorted = array_reverse( $versions );
+	$versions = array_slice($versions, $start, $count);
 
-	if ( !empty( $versionsSorted ) ) {
-		OCP\JSON::encodedPrint($versionsSorted);
-	}
+	\OCP\JSON::success(array('data' => array('versions' => $versions, 'endReached' => $endReached)));
 
 } else {
 
-	return;
+	\OCP\JSON::success(array('data' => array('versions' => false, 'endReached' => true)));
 
 }

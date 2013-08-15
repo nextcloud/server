@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Vincenzo Reale <vinx.reale@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-25 02:01+0200\n"
-"PO-Revision-Date: 2013-05-24 13:28+0000\n"
+"POT-Creation-Date: 2013-07-28 01:56-0400\n"
+"PO-Revision-Date: 2013-07-27 06:30+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -17,41 +18,27 @@ msgstr ""
 "Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/rollbackVersion.php:15
+#: ajax/rollbackVersion.php:13
 #, php-format
 msgid "Could not revert: %s"
-msgstr "Impossibild ripristinare: %s"
+msgstr "Impossibile ripristinare: %s"
 
-#: history.php:40
-msgid "success"
-msgstr "completata"
-
-#: history.php:42
-#, php-format
-msgid "File %s was reverted to version %s"
-msgstr "Il file %s è stato ripristinato alla versione %s"
-
-#: history.php:49
-msgid "failure"
-msgstr "non riuscita"
-
-#: history.php:51
-#, php-format
-msgid "File %s could not be reverted to version %s"
-msgstr "Il file %s non può essere ripristinato alla versione %s"
-
-#: history.php:69
-msgid "No old versions available"
-msgstr "Non sono disponibili versioni precedenti"
-
-#: history.php:74
-msgid "No path specified"
-msgstr "Nessun percorso specificato"
-
-#: js/versions.js:6
+#: js/versions.js:7
 msgid "Versions"
 msgstr "Versioni"
 
-#: templates/history.php:20
-msgid "Revert a file to a previous version by clicking on its revert button"
-msgstr "Ripristina un file a una versione precedente facendo clic sul rispettivo pulsante di ripristino"
+#: js/versions.js:53
+msgid "Failed to revert {file} to revision {timestamp}."
+msgstr "Ripristino di {file} alla revisione {timestamp} non riuscito."
+
+#: js/versions.js:79
+msgid "More versions..."
+msgstr "Altre versioni..."
+
+#: js/versions.js:116
+msgid "No other versions available"
+msgstr "Non sono disponibili altre versioni"
+
+#: js/versions.js:149
+msgid "Restore"
+msgstr "Ripristina"

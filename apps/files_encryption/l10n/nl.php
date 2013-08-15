@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Herstelsleutel succesvol geactiveerd",
 "Could not enable recovery key. Please check your recovery key password!" => "Kon herstelsleutel niet activeren. Controleer het wachtwoord van uw herstelsleutel!",
 "Recovery key successfully disabled" => "Herstelsleutel succesvol gedeactiveerd",
@@ -7,6 +8,10 @@
 "Could not change the password. Maybe the old password was not correct." => "Kon wachtwoord niet wijzigen. Wellicht oude wachtwoord niet juist ingevoerd.",
 "Private key password successfully updated." => "Privésleutel succesvol bijgewerkt.",
 "Could not update the private key password. Maybe the old password was not correct." => "Kon het wachtwoord van de privésleutel niet wijzigen. Misschien was het oude wachtwoord onjuist.",
+"Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Uw privésleutel is niet geldig! Misschien was uw wachtwoord van buitenaf gewijzigd. U kunt het wachtwoord van uw privésleutel aanpassen in uw persoonlijke instellingen om toegang tot uw versleutelde bestanden te vergaren.",
+"Missing requirements." => "Missende benodigdheden.",
+"Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Wees er zeker van dat PHP5.3.3 of nieuwer is geïstalleerd en dat de OpenSSL PHP extensie is ingeschakeld en correct geconfigureerd. De versleutel-app is voorlopig uitgeschakeld.",
+"Following users are not set up for encryption:" => "De volgende gebruikers hebben geen configuratie voor encryptie:",
 "Saving..." => "Opslaan",
 "Your private key is not valid! Maybe the your password was changed from outside." => "Uw privésleutel is niet geldig. Misschien was uw wachtwoord van buitenaf gewijzigd.",
 "You can unlock your private key in your " => "U kunt uw privésleutel deblokkeren in uw",
@@ -31,3 +36,4 @@
 "File recovery settings updated" => "Bestandsherstel instellingen bijgewerkt",
 "Could not update file recovery" => "Kon bestandsherstel niet bijwerken"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

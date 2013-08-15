@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Error" => "Villa",
 "Name" => "Nafn",
-"1 folder" => "1 mappa",
-"{count} folders" => "{count} möppur",
-"1 file" => "1 skrá",
-"{count} files" => "{count} skrár",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "Delete" => "Eyða"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

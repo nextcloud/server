@@ -39,7 +39,7 @@
 class OC_User {
 	public static $userSession = null;
 
-	private static function getUserSession() {
+	public static function getUserSession() {
 		if (!self::$userSession) {
 			$manager = new \OC\User\Manager();
 			self::$userSession = new \OC\User\Session($manager, \OC::$session);
@@ -83,7 +83,7 @@ class OC_User {
 	/**
 	 * @return \OC\User\Manager
 	 */
-	private static function getManager() {
+	public static function getManager() {
 		return self::getUserSession()->getManager();
 	}
 
@@ -137,7 +137,6 @@ class OC_User {
 	 */
 	public static function useBackend($backend = 'database') {
 		if ($backend instanceof OC_User_Interface) {
-			OC_Log::write('core', 'Adding user backend instance of ' . get_class($backend) . '.', OC_Log::DEBUG);
 			self::$_usedBackends[get_class($backend)] = $backend;
 			self::getManager()->registerBackend($backend);
 		} else {
@@ -316,7 +315,7 @@ class OC_User {
 	 * @return string uid or false
 	 */
 	public static function getUser() {
-		$uid = OC::$session->get('user_id');
+		$uid = OC::$session ? OC::$session->get('user_id') : null;
 		if (!is_null($uid)) {
 			return $uid;
 		} else {

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Access granted" => "පිවිසීමට හැක",
 "Error configuring Dropbox storage" => "Dropbox ගබඩාව වින්‍යාස කිරීමේ දෝශයක් ඇත",
 "Grant access" => "පිවිසුම ලබාදෙන්න",
@@ -19,3 +20,4 @@
 "SSL root certificates" => "SSL මූල සහතිකයන්",
 "Import Root Certificate" => "මූල සහතිකය ආයාත කරන්න"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

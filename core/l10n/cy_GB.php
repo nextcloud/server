@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "Math o gategori heb ei ddarparu.",
 "No category to add?" => "Dim categori i'w ychwanegu?",
 "This category already exists: %s" => "Mae'r categori hwn eisoes yn bodoli: %s",
@@ -28,15 +29,13 @@
 "December" => "Rhagfyr",
 "Settings" => "Gosodiadau",
 "seconds ago" => "eiliad yn ôl",
-"1 minute ago" => "1 munud yn ôl",
-"{minutes} minutes ago" => "{minutes} munud yn ôl",
-"1 hour ago" => "1 awr yn ôl",
-"{hours} hours ago" => "{hours} awr yn ôl",
+"_%n minute ago_::_%n minutes ago_" => array("","","",""),
+"_%n hour ago_::_%n hours ago_" => array("","","",""),
 "today" => "heddiw",
 "yesterday" => "ddoe",
-"{days} days ago" => "{days} diwrnod yn ôl",
+"_%n day ago_::_%n days ago_" => array("","","",""),
 "last month" => "mis diwethaf",
-"{months} months ago" => "{months} mis yn ôl",
+"_%n month ago_::_%n months ago_" => array("","","",""),
 "months ago" => "misoedd yn ôl",
 "last year" => "y llynedd",
 "years ago" => "blwyddyn yn ôl",
@@ -82,7 +81,6 @@
 "Email sent" => "Anfonwyd yr e-bost",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Methodd y diweddariad. Adroddwch y mater hwn i <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">gymuned ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Roedd y diweddariad yn llwyddiannus. Cewch eich ailgyfeirio i ownCloud nawr.",
-"ownCloud password reset" => "ailosod cyfrinair ownCloud",
 "Use the following link to reset your password: {link}" => "Defnyddiwch y ddolen hon i ailosod eich cyfrinair: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Anfonwyd y ddolen i ailosod eich cyfrinair i'ch cyfeiriad ebost.<br>Os nad yw'n cyrraedd o fewn amser rhesymol gwiriwch eich plygell spam/sothach.<br>Os nad yw yno, cysylltwch â'ch gweinyddwr lleol.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Methodd y cais!<br>Gwiriwch eich enw defnyddiwr ac ebost.",
@@ -104,11 +102,9 @@
 "Add" => "Ychwanegu",
 "Security Warning" => "Rhybudd Diogelwch",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Mae eich fersiwn PHP yn agored i ymosodiad NULL Byte (CVE-2006-7243)",
-"Please update your PHP installation to use ownCloud securely." => "Diweddarwch eich PHP i ddefnyddio ownCloud yn ddiogel.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Does dim cynhyrchydd rhifau hap diogel ar gael, galluogwch estyniad PHP OpenSSL.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Heb gynhyrchydd rhifau hap diogel efallai y gall ymosodwr ragweld tocynnau ailosod cyfrinair a meddiannu eich cyfrif.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Mwy na thebyg fod modd cyrraedd eich cyfeiriadur data a ffeilau o'r rhyngrwyd oherwydd nid yw'r ffeil .htaccess yn gweithio. ",
-"For information how to properly configure your server, please see the <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>." => "Am wybodaeth ar sut i gyflunio'r gweinydd yn gywir, cyfeiriwch at y <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">ddogfennaeth</a>.",
 "Create an <strong>admin account</strong>" => "Crewch <strong>gyfrif gweinyddol</strong>",
 "Advanced" => "Uwch",
 "Data folder" => "Plygell data",
@@ -133,3 +129,4 @@
 "next" => "nesaf",
 "Updating ownCloud to version %s, this may take a while." => "Yn diweddaru owncloud i fersiwn %s, gall hyn gymryd amser."
 );
+$PLURAL_FORMS = "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;";

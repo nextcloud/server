@@ -1,6 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Ezin da %s mugitu - Izen hau duen fitxategia dagoeneko existitzen da",
 "Could not move %s" => "Ezin dira fitxategiak mugitu %s",
+"Unable to set upload directory." => "Ezin da igoera direktorioa ezarri.",
+"Invalid Token" => "Lekuko baliogabea",
 "No file was uploaded. Unknown error" => "Ez da fitxategirik igo. Errore ezezaguna",
 "There is no error, the file uploaded with success" => "Ez da errorerik egon, fitxategia ongi igo da",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Igotako fitxategiak php.ini fitxategian ezarritako upload_max_filesize muga gainditu du:",
@@ -17,6 +20,7 @@
 "Upload cancelled." => "Igoera ezeztatuta",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Fitxategien igoera martxan da. Orria orain uzteak igoera ezeztatutko du.",
 "URL cannot be empty." => "URLa ezin da hutsik egon.",
+"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Karpeta izne baliogabea. \"Shared\" karpeta erabilpena OwnCloudentzat erreserbaturik dago.",
 "Error" => "Errorea",
 "Share" => "Elkarbanatu",
 "Delete permanently" => "Ezabatu betirako",
@@ -30,7 +34,7 @@
 "replaced {new_name} with {old_name}" => " {new_name}-k {old_name} ordezkatu du",
 "undo" => "desegin",
 "perform delete operation" => "Ezabatu",
-"1 file uploading" => "fitxategi 1 igotzen",
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
 "files uploading" => "fitxategiak igotzen",
 "'.' is an invalid file name." => "'.' ez da fitxategi izen baliogarria.",
 "File name cannot be empty." => "Fitxategi izena ezin da hutsa izan.",
@@ -42,10 +46,9 @@
 "Name" => "Izena",
 "Size" => "Tamaina",
 "Modified" => "Aldatuta",
-"1 folder" => "karpeta bat",
-"{count} folders" => "{count} karpeta",
-"1 file" => "fitxategi bat",
-"{count} files" => "{count} fitxategi",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
+"%s could not be renamed" => "%s ezin da berrizendatu",
 "Upload" => "Igo",
 "File handling" => "Fitxategien kudeaketa",
 "Maximum upload size" => "Igo daitekeen gehienezko tamaina",
@@ -69,7 +72,10 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Igotzen saiatzen ari zaren fitxategiak zerbitzari honek igotzeko onartzen duena baino handiagoak dira.",
 "Files are being scanned, please wait." => "Fitxategiak eskaneatzen ari da, itxoin mezedez.",
 "Current scanning" => "Orain eskaneatzen ari da",
+"directory" => "direktorioa",
+"directories" => "direktorioak",
 "file" => "fitxategia",
 "files" => "fitxategiak",
 "Upgrading filesystem cache..." => "Fitxategi sistemaren katxea eguneratzen..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

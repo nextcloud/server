@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Error" => "সমস্যা",
 "Host" => "হোস্ট",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "SSL আবশ্যক  না হলে  আপনি এই প্রটোকলটি মুছে ফেলতে পারেন । এরপর শুরু করুন এটা দিয়ে ldaps://",
@@ -21,17 +22,15 @@
 "Use TLS" => "TLS ব্যবহার কর",
 "Case insensitve LDAP server (Windows)" => "বর্ণ অসংবেদী LDAP  সার্ভার (উইন্ডোজ)",
 "Turn off SSL certificate validation." => "SSL সনদপত্র যাচাইকরণ বন্ধ রাক।",
-"If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "শুধুমাত্র যদি এই বিকল্পটি ব্যবহার করেই সংযোগ কার্যকরী হয় তবে আপনার ownCloud সার্ভারে LDAP সার্ভারের SSL সনদপত্রটি আমদানি করুন।",
 "Not recommended, use for testing only." => "অনুমোদিত নয়, শুধুমাত্র পরীক্ষামূলক ব্যবহারের জন্য।",
 "in seconds. A change empties the cache." => "সেকেন্ডে। কোন পরিবর্তন ক্যাসে খালি করবে।",
 "User Display Name Field" => "ব্যবহারকারীর প্রদর্শিতব্য নামের ক্ষেত্র",
-"The LDAP attribute to use to generate the user`s ownCloud name." => "ব্যবহারকারীর ownCloud নাম তৈরি করার জন্য ব্যভহৃত LDAP বৈশিষ্ট্য।",
 "Base User Tree" => "ভিত্তি ব্যবহারকারি বৃক্ষাকারে",
 "Group Display Name Field" => "গোষ্ঠীর প্রদর্শিতব্য নামের ক্ষেত্র",
-"The LDAP attribute to use to generate the groups`s ownCloud name." => "গোষ্ঠীর ownCloud নাম তৈরি করার জন্য ব্যভহৃত LDAP বৈশিষ্ট্য।",
 "Base Group Tree" => "ভিত্তি গোষ্ঠী বৃক্ষাকারে",
 "Group-Member association" => "গোষ্ঠী-সদস্য সংস্থাপন",
 "in bytes" => "বাইটে",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "ব্যবহারকারী নামের জন্য ফাঁকা রাখুন (পূর্বনির্ধারিত)। অন্যথায়, LDAP/AD বৈশিষ্ট্য নির্ধারণ করুন।",
 "Help" => "সহায়িকা"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

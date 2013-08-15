@@ -9,8 +9,18 @@
 namespace OC\Files\Cache;
 
 use OC\Files\Filesystem;
+use OC\Hooks\BasicEmitter;
 
-class Scanner {
+/**
+ * Class Scanner
+ *
+ * Hooks available in scope \OC\Files\Cache\Scanner:
+ *  - scanFile(string $path, string $storageId)
+ *  - scanFolder(string $path, string $storageId)
+ *
+ * @package OC\Files\Cache
+ */
+class Scanner extends BasicEmitter {
 	/**
 	 * @var \OC\Files\Storage\Storage $storage
 	 */
@@ -65,16 +75,18 @@ class Scanner {
 	 *
 	 * @param string $file
 	 * @param int $reuseExisting
+	 * @param bool $parentExistsInCache
 	 * @return array with metadata of the scanned file
 	 */
-	public function scanFile($file, $reuseExisting = 0) {
+	public function scanFile($file, $reuseExisting = 0, $parentExistsInCache = false) {
 		if (!self::isPartialFile($file)
 			and !Filesystem::isFileBlacklisted($file)
 		) {
+			$this->emit('\OC\Files\Cache\Scanner', 'scanFile', array($file, $this->storageId));
 			\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', array('path' => $file, 'storage' => $this->storageId));
 			$data = $this->getData($file);
 			if ($data) {
-				if ($file) {
+				if ($file and !$parentExistsInCache) {
 					$parent = dirname($file);
 					if ($parent === '.' or $parent === '/') {
 						$parent = '';
@@ -86,7 +98,7 @@ class Scanner {
 				$newData = $data;
 				if ($reuseExisting and $cacheData = $this->cache->get($file)) {
 					// only reuse data if the file hasn't explicitly changed
-					if ($data['mtime'] === $cacheData['mtime']) {
+					if (isset($data['mtime']) && isset($cacheData['mtime']) && $data['mtime'] === $cacheData['mtime']) {
 						if (($reuseExisting & self::REUSE_SIZE) && ($data['size'] === -1)) {
 							$data['size'] = $cacheData['size'];
 						}
@@ -97,9 +109,9 @@ class Scanner {
 					// Only update metadata that has changed
 					$newData = array_diff($data, $cacheData);
 				}
-			}
-			if (!empty($newData)) {
-				$this->cache->put($file, $newData);
+				if (!empty($newData)) {
+					$this->cache->put($file, $newData);
+				}
 			}
 			return $data;
 		}
@@ -134,7 +146,7 @@ class Scanner {
 		if ($reuse === -1) {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : 0;
 		}
-		\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_folder', array('path' => $path, 'storage' => $this->storageId));
+		$this->emit('\OC\Files\Cache\Scanner', 'scanFolder', array($path, $this->storageId));
 		$size = 0;
 		$childQueue = array();
 		$existingChildren = array();
@@ -151,7 +163,7 @@ class Scanner {
 				$child = ($path) ? $path . '/' . $file : $file;
 				if (!Filesystem::isIgnoredDir($file)) {
 					$newChildren[] = $file;
-					$data = $this->scanFile($child, $reuse);
+					$data = $this->scanFile($child, $reuse, true);
 					if ($data) {
 						if ($data['size'] === -1) {
 							if ($recursive === self::SCAN_RECURSIVE) {
@@ -172,7 +184,7 @@ class Scanner {
 			}
 			\OC_DB::commit();
 			foreach ($childQueue as $child) {
-				$childSize = $this->scanChildren($child, self::SCAN_RECURSIVE);
+				$childSize = $this->scanChildren($child, self::SCAN_RECURSIVE, $reuse);
 				if ($childSize === -1) {
 					$size = -1;
 				} else {

@@ -4,7 +4,9 @@
  * ownCloud
  *
  * @author Michael Gapczynski
+ * @author Christian Berendt 
  * @copyright 2012 Michael Gapczynski mtgap@owncloud.com
+ * @copyright 2013 Christian Berendt berendt@b1-systems.de
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -25,25 +27,40 @@ namespace Test\Files\Storage;
 class AmazonS3 extends Storage {
 
 	private $config;
-	private $id;
 
 	public function setUp() {
-		$id = uniqid();
 		$this->config = include('files_external/tests/config.php');
 		if ( ! is_array($this->config) or ! isset($this->config['amazons3']) or ! $this->config['amazons3']['run']) {
 			$this->markTestSkipped('AmazonS3 backend not configured');
 		}
-		$this->config['amazons3']['bucket'] = $id; // Make sure we have a new empty bucket to work in
 		$this->instance = new \OC\Files\Storage\AmazonS3($this->config['amazons3']);
 	}
 
 	public function tearDown() {
 		if ($this->instance) {
-			$s3 = new \AmazonS3(array('key' => $this->config['amazons3']['key'],
-									 'secret' => $this->config['amazons3']['secret']));
-			if ($s3->delete_all_objects($this->id)) {
-				$s3->delete_bucket($this->id);
+			$connection = $this->instance->getConnection();
+
+			try {
+				// NOTE(berendt): clearBucket() is not working with Ceph
+				$iterator = $connection->getIterator('ListObjects', array(
+					'Bucket' => $this->config['amazons3']['bucket']
+				));
+
+				foreach ($iterator as $object) {
+					$connection->deleteObject(array(
+						'Bucket' => $this->config['amazons3']['bucket'],
+						'Key' => $object['Key']
+					));
+				}
+			} catch (S3Exception $e) {
 			}
+
+			$connection->deleteBucket(array(
+				'Bucket' => $this->config['amazons3']['bucket']
+			));
+
+			//wait some seconds for completing the replication
+			sleep(30);
 		}
 	}
 }

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "Kiểu hạng mục không được cung cấp.",
 "No category to add?" => "Không có danh mục được thêm?",
 "This category already exists: %s" => "Danh mục này đã tồn tại: %s",
@@ -28,15 +29,13 @@
 "December" => "Tháng 12",
 "Settings" => "Cài đặt",
 "seconds ago" => "vài giây trước",
-"1 minute ago" => "1 phút trước",
-"{minutes} minutes ago" => "{minutes} phút trước",
-"1 hour ago" => "1 giờ trước",
-"{hours} hours ago" => "{hours} giờ trước",
+"_%n minute ago_::_%n minutes ago_" => array(""),
+"_%n hour ago_::_%n hours ago_" => array(""),
 "today" => "hôm nay",
 "yesterday" => "hôm qua",
-"{days} days ago" => "{days} ngày trước",
+"_%n day ago_::_%n days ago_" => array(""),
 "last month" => "tháng trước",
-"{months} months ago" => "{months} tháng trước",
+"_%n month ago_::_%n months ago_" => array(""),
 "months ago" => "tháng trước",
 "last year" => "năm trước",
 "years ago" => "năm trước",
@@ -82,7 +81,6 @@
 "Email sent" => "Email đã được gửi",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Cập nhật không thành công . Vui lòng thông báo đến <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\"> Cộng đồng ownCloud </a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Cập nhật thành công .Hệ thống sẽ đưa bạn tới ownCloud.",
-"ownCloud password reset" => "Khôi phục mật khẩu Owncloud ",
 "Use the following link to reset your password: {link}" => "Dùng đường dẫn sau để khôi phục lại mật khẩu : {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Liên kết tạo lại mật khẩu đã được gửi tới hộp thư của bạn.<br>Nếu bạn không thấy nó sau một khoảng thời gian, vui lòng kiểm tra trong thư mục Spam/Rác.<br>Nếu vẫn không thấy, vui lòng hỏi người quản trị hệ thống.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Yêu cầu thất bại!<br>Bạn có chắc là email/tên đăng nhập của bạn chính xác?",
@@ -104,11 +102,9 @@
 "Add" => "Thêm",
 "Security Warning" => "Cảnh bảo bảo mật",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Phiên bản PHP của bạn có lỗ hổng NULL Byte attack (CVE-2006-7243)",
-"Please update your PHP installation to use ownCloud securely." => "Vui lòng cập nhật bản cài đặt PHP để sử dụng ownCloud một cách an toàn.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Không an toàn ! chức năng random number generator đã có sẵn ,vui lòng bật  PHP OpenSSL extension.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Nếu không có random number generator , Hacker có thể  thiết lập lại mật khẩu và chiếm tài khoản của bạn.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Thư mục và file dữ liệu của bạn có thể được truy cập từ internet bởi vì file .htaccess không hoạt động",
-"For information how to properly configure your server, please see the <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>." => "Để biết thêm cách cấu hình máy chủ của bạn, xin xem <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">tài liệu</a>.",
 "Create an <strong>admin account</strong>" => "Tạo một <strong>tài khoản quản trị</strong>",
 "Advanced" => "Nâng cao",
 "Data folder" => "Thư mục dữ liệu",
@@ -133,3 +129,4 @@
 "next" => "Kế tiếp",
 "Updating ownCloud to version %s, this may take a while." => "Cập nhật ownCloud lên phiên bản %s, có thể sẽ mất thời gian"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

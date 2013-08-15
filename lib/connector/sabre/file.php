@@ -115,8 +115,11 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 */
 	public function getSize() {
 		$this->getFileinfoCache();
-		return $this->fileinfo_cache['size'];
-
+		if ($this->fileinfo_cache['size'] > -1) {
+			return $this->fileinfo_cache['size'];
+		} else {
+			return null;
+		}
 	}
 
 	/**

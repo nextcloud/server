@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Error" => "పొరపాటు",
 "Delete" => "తొలగించు",
 "More" => "మరిన్ని",
@@ -9,3 +10,4 @@
 "Language" => "భాష",
 "Username" => "వాడుకరి పేరు"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

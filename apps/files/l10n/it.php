@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Impossibile spostare %s - un file con questo nome esiste già",
 "Could not move %s" => "Impossibile spostare %s",
 "Unable to set upload directory." => "Impossibile impostare una cartella di caricamento.",
@@ -33,7 +34,7 @@
 "replaced {new_name} with {old_name}" => "sostituito {new_name} con {old_name}",
 "undo" => "annulla",
 "perform delete operation" => "esegui l'operazione di eliminazione",
-"1 file uploading" => "1 file in fase di caricamento",
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
 "files uploading" => "caricamento file",
 "'.' is an invalid file name." => "'.' non è un nome file valido.",
 "File name cannot be empty." => "Il nome del file non può essere vuoto.",
@@ -45,10 +46,8 @@
 "Name" => "Nome",
 "Size" => "Dimensione",
 "Modified" => "Modificato",
-"1 folder" => "1 cartella",
-"{count} folders" => "{count} cartelle",
-"1 file" => "1 file",
-"{count} files" => "{count} file",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "%s could not be renamed" => "%s non può essere rinominato",
 "Upload" => "Carica",
 "File handling" => "Gestione file",
@@ -79,3 +78,4 @@
 "files" => "file",
 "Upgrading filesystem cache..." => "Aggiornamento della cache del filesystem in corso..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

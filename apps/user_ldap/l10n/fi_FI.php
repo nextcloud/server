@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Deletion failed" => "Poisto epäonnistui",
 "Keep settings?" => "Säilytetäänkö asetukset?",
 "Cannot add server configuration" => "Palvelinasetusten lisäys epäonnistui",
@@ -30,15 +31,12 @@
 "Use TLS" => "Käytä TLS:ää",
 "Case insensitve LDAP server (Windows)" => "Kirjainkoosta piittamaton LDAP-palvelin (Windows)",
 "Turn off SSL certificate validation." => "Poista käytöstä SSL-varmenteen vahvistus",
-"If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Jos yhteys toimii vain tällä valinnalla, siirrä LDAP-palvelimen SSL-varmenne ownCloud-palvelimellesi.",
 "Not recommended, use for testing only." => "Ei suositella, käytä vain testausta varten.",
 "in seconds. A change empties the cache." => "sekunneissa. Muutos tyhjentää välimuistin.",
 "Directory Settings" => "Hakemistoasetukset",
 "User Display Name Field" => "Käyttäjän näytettävän nimen kenttä",
-"The LDAP attribute to use to generate the user`s ownCloud name." => "LDAP-attribuutti, jota käytetään käyttäjän ownCloud-käyttäjänimenä ",
 "Base User Tree" => "Oletuskäyttäjäpuu",
 "Group Display Name Field" => "Ryhmän \"näytettävä nimi\"-kenttä",
-"The LDAP attribute to use to generate the groups`s ownCloud name." => "LDAP-attribuutti, jota käytetään luomaan ryhmän ownCloud-nimi",
 "Base Group Tree" => "Ryhmien juuri",
 "Group-Member association" => "Ryhmän ja jäsenen assosiaatio (yhteys)",
 "in bytes" => "tavuissa",
@@ -46,3 +44,4 @@
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Jätä tyhjäksi käyttäjänimi (oletusasetus). Muutoin anna LDAP/AD-atribuutti.",
 "Help" => "Ohje"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "No s'ha pogut moure %s - Ja hi ha un fitxer amb aquest nom",
 "Could not move %s" => " No s'ha pogut moure %s",
 "Unable to set upload directory." => "No es pot establir la carpeta de pujada.",
@@ -33,7 +34,7 @@
 "replaced {new_name} with {old_name}" => "s'ha substituït {old_name} per {new_name}",
 "undo" => "desfés",
 "perform delete operation" => "executa d'operació d'esborrar",
-"1 file uploading" => "1 fitxer pujant",
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
 "files uploading" => "fitxers pujant",
 "'.' is an invalid file name." => "'.' és un nom no vàlid per un fitxer.",
 "File name cannot be empty." => "El nom del fitxer no pot ser buit.",
@@ -45,10 +46,8 @@
 "Name" => "Nom",
 "Size" => "Mida",
 "Modified" => "Modificat",
-"1 folder" => "1 carpeta",
-"{count} folders" => "{count} carpetes",
-"1 file" => "1 fitxer",
-"{count} files" => "{count} fitxers",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "%s could not be renamed" => "%s no es pot canviar el nom",
 "Upload" => "Puja",
 "File handling" => "Gestió de fitxers",
@@ -79,3 +78,4 @@
 "files" => "fitxers",
 "Upgrading filesystem cache..." => "Actualitzant la memòria de cau del sistema de fitxers..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

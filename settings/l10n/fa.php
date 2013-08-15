@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "قادر به بارگذاری لیست از فروشگاه اپ نیستم",
 "Authentication error" => "خطا در اعتبار سنجی",
 "Your display name has been changed." => "نام نمایش شما تغییر یافته است.",
@@ -37,16 +38,13 @@
 "A valid password must be provided" => "رمز عبور صحیح باید وارد شود",
 "__language_name__" => "__language_name__",
 "Security Warning" => "اخطار امنیتی",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "احتمالاً فهرست و فایلهای شما از طریق اینترنت قابل دسترسی هستند. فایل با فرمت .htaccess که ownCloud اراده کرده است دیگر کار نمی کند. ما قویاً توصیه می کنیم که شما وب سرور خودتان را طوری تنظیم کنید که فهرست اطلاعات شما غیر قابل دسترسی باشند یا فهرست اطلاعات را به خارج از ریشه ی اصلی وب سرور انتقال دهید.",
 "Setup Warning" => "هشدار راه اندازی",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "احتمالاً وب سرور شما طوری تنظیم نشده است که اجازه ی همگام سازی فایلها را بدهد زیرا به نظر میرسد رابط WebDAV از کار افتاده است.",
-"Please double check the <a href='%s'>installation guides</a>." => "لطفاً دوباره <a href='%s'>راهنمای نصب</a>را بررسی کنید.",
 "Module 'fileinfo' missing" => "ماژول 'fileinfo' از کار افتاده",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "ماژول 'fileinfo' PHP از کار افتاده است.ما اکیدا توصیه می کنیم که این ماژول را فعال کنید تا نتایج بهتری به وسیله ی mime-type detection دریافت کنید.",
 "Locale not working" => "زبان محلی کار نمی کند.",
-"This ownCloud server can't set system locale to %s. This means that there might be problems with certain characters in file names. We strongly suggest to install the required packages on your system to support %s." => "این سرور ownCloud نمی تواند سیستم محلی را بر روی %s تنظیم کند.این به این معنی ست که ممکن است با کاراکترهای خاصی در نام فایل ها مشکل داشته باشد.ما اکیداً نصب کردن بسته های لازم را بر روی سیستم خودتان برای پشتیبانی %s توصیه می کنیم.",
 "Internet connection not working" => "اتصال اینترنت کار نمی کند",
-"This ownCloud server has no working internet connection. This means that some of the features like mounting of external storage, notifications about updates or installation of 3rd party apps don´t work. Accessing files from remote and sending of notification emails might also not work. We suggest to enable internet connection for this server if you want to have all features of ownCloud." => "این سرور OwnCloud ارتباط اینترنتی ندارد.این بدین معناست که بعضی از خصوصیات نظیر خارج کردن منبع ذخیره ی خارجی، اطلاعات در مورد بروزرسانی ها یا نصب برنامه های نوع 3ام کار نمی کنند.دسترسی به فایل ها از راه دور و ارسال آگاه سازی ایمیل ها ممکن است همچنان کار نکنند.اگرشما همه ی خصوصیات OwnCloud می خواهید ما پیشنهاد می کنیم تا ارتباط اینترنتی مربوط به این سرور را فعال کنید.",
+"Cron" => "زمانبند",
 "Execute one task with each page loaded" => "اجرای یک وظیفه با هر بار بارگذاری صفحه",
 "Sharing" => "اشتراک گذاری",
 "Enable Share API" => "فعال کردن API اشتراک گذاری",
@@ -59,8 +57,6 @@
 "Allow users to only share with users in their groups" => "اجازه به کاربران برای اشتراک گذاری ، تنها با دیگر کابران گروه خودشان",
 "Security" => "امنیت",
 "Enforce HTTPS" => "وادار کردن HTTPS",
-"Enforces the clients to connect to ownCloud via an encrypted connection." => "وادار کردن مشتریان برای ارتباط با ownCloud از طریق رمزگذاری ارتباط",
-"Please connect to this ownCloud instance via HTTPS to enable or disable the SSL enforcement." => "از طریق HTTPS به این نسخه از ownCloud متصل شوید تا بتوانید SSL  را فعال یا غیر فعال نمایید.",
 "Log" => "کارنامه",
 "Log level" => "سطح ورود",
 "More" => "بیش‌تر",
@@ -94,6 +90,8 @@
 "Fill in an email address to enable password recovery" => "پست الکترونیکی را پرکنید  تا بازیابی گذرواژه فعال شود",
 "Language" => "زبان",
 "Help translate" => "به ترجمه آن کمک کنید",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "استفاده ابن آدرس <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\"> برای دسترسی فایل های شما از طریق WebDAV </a>",
 "Login Name" => "نام کاربری",
 "Create" => "ایجاد کردن",
 "Admin Recovery Password" => "مدیریت بازیابی رمز عبور",
@@ -107,3 +105,4 @@
 "set new password" => "تنظیم کلمه عبور جدید",
 "Default" => "پیش فرض"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

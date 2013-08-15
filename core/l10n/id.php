@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "Tipe kategori tidak diberikan.",
 "No category to add?" => "Tidak ada kategori yang akan ditambahkan?",
 "This category already exists: %s" => "Kategori ini sudah ada: %s",
@@ -28,15 +29,13 @@
 "December" => "Desember",
 "Settings" => "Setelan",
 "seconds ago" => "beberapa detik yang lalu",
-"1 minute ago" => "1 menit yang lalu",
-"{minutes} minutes ago" => "{minutes} menit yang lalu",
-"1 hour ago" => "1 jam yang lalu",
-"{hours} hours ago" => "{hours} jam yang lalu",
+"_%n minute ago_::_%n minutes ago_" => array(""),
+"_%n hour ago_::_%n hours ago_" => array(""),
 "today" => "hari ini",
 "yesterday" => "kemarin",
-"{days} days ago" => "{days} hari yang lalu",
+"_%n day ago_::_%n days ago_" => array(""),
 "last month" => "bulan kemarin",
-"{months} months ago" => "{months} bulan yang lalu",
+"_%n month ago_::_%n months ago_" => array(""),
 "months ago" => "beberapa bulan lalu",
 "last year" => "tahun kemarin",
 "years ago" => "beberapa tahun lalu",
@@ -82,7 +81,6 @@
 "Email sent" => "Email terkirim",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Pembaruan gagal. Silakan laporkan masalah ini ke <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">komunitas ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Pembaruan sukses. Anda akan diarahkan ulang ke ownCloud.",
-"ownCloud password reset" => "Setel ulang sandi ownCloud",
 "Use the following link to reset your password: {link}" => "Gunakan tautan berikut untuk menyetel ulang sandi Anda: {link}",
 "You will receive a link to reset your password via Email." => "Anda akan menerima tautan penyetelan ulang sandi lewat Email.",
 "Username" => "Nama pengguna",
@@ -102,11 +100,9 @@
 "Add" => "Tambah",
 "Security Warning" => "Peringatan Keamanan",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Versi PHP Anda rentan terhadap serangan NULL Byte (CVE-2006-7243)",
-"Please update your PHP installation to use ownCloud securely." => "Silakan perbarui instalasi PHP untuk dapat menggunakan ownCloud secara aman.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Generator acak yang aman tidak tersedia, silakan aktifkan ekstensi OpenSSL pada PHP.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Tanpa generator acak, penyerang mungkin dapat menebak token penyetelan sandi dan mengambil alih akun Anda.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Kemungkinan direktori data dan berkas Anda dapat diakses dari internet karena berkas .htaccess tidak berfungsi.",
-"For information how to properly configure your server, please see the <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>." => "Untuk informasi lebih lanjut tentang pengaturan server yang benar, silakan lihat <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">dokumentasi</a>.",
 "Create an <strong>admin account</strong>" => "Buat sebuah <strong>akun admin</strong>",
 "Advanced" => "Lanjutan",
 "Data folder" => "Folder data",
@@ -130,3 +126,4 @@
 "next" => "selanjutnya",
 "Updating ownCloud to version %s, this may take a while." => "Memperbarui ownCloud ke versi %s, prosesnya akan berlangsung beberapa saat."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

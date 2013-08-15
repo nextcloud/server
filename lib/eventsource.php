@@ -25,7 +25,7 @@
  * wrapper for server side events (http://en.wikipedia.org/wiki/Server-sent_events)
  * includes a fallback for older browsers and IE
  *
- * use server side events with causion, to many open requests can hang the server
+ * use server side events with caution, to many open requests can hang the server
  */
 class OC_EventSource{
 	private $fallback;
@@ -43,6 +43,7 @@ class OC_EventSource{
 			header("Content-Type: text/event-stream");
 		}
 		if( !OC_Util::isCallRegistered()) {
+			$this->send('error', 'Possible CSRF attack. Connection will be closed.');
 			exit();
 		}
 		flush();
@@ -51,10 +52,10 @@ class OC_EventSource{
 
 	/**
 	 * send a message to the client
-	 * @param string type
-	 * @param object data
+	 * @param string $type
+	 * @param mixed $data
 	 *
-	 * if only one paramater is given, a typeless message will be send with that paramater as data
+	 * if only one parameter is given, a typeless message will be send with that parameter as data
 	 */
 	public function send($type, $data=null) {
 		if(is_null($data)) {

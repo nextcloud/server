@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Не вдалося видалити конфігурацію сервера",
 "The configuration is valid and the connection could be established!" => "Конфігурація вірна і зв'язок може бути встановлений ​​!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Конфігурація вірна, але встановити зв'язок не вдалося. Будь ласка, перевірте налаштування сервера і облікові дані.",
@@ -13,7 +14,6 @@
 "Connection test failed" => "Перевірка з'єднання завершилась неуспішно",
 "Do you really want to delete the current Server Configuration?" => "Ви дійсно бажаєте видалити поточну конфігурацію сервера ?",
 "Confirm Deletion" => "Підтвердіть Видалення",
-"<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour. Please ask your system administrator to disable one of them." => "<b>Увага:</b> Застосунки user_ldap та user_webdavauth не сумісні. Ви можете зіткнутися з несподіваною поведінкою. Будь ласка, зверніться до системного адміністратора, щоб відключити одну з них.",
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." => "<b>Увага:</ b> Потрібний модуль PHP LDAP не встановлено, базова програма працювати не буде. Будь ласка, зверніться до системного адміністратора, щоб встановити його.",
 "Server configuration" => "Налаштування Сервера",
 "Add Server Configuration" => "Додати налаштування Сервера",
@@ -43,24 +43,20 @@
 "Give an optional backup host. It must be a replica of the main LDAP/AD server." => "Вкажіть додатковий резервний сервер. Він повинен бути копією головного LDAP/AD сервера.",
 "Backup (Replica) Port" => "Порт сервера для резервних копій",
 "Disable Main Server" => "Вимкнути Головний Сервер",
-"When switched on, ownCloud will only connect to the replica server." => "Коли увімкнуто, ownCloud  буде приєднуватись лише до сервера з резервними копіями.",
 "Use TLS" => "Використовуйте TLS",
 "Do not use it additionally for LDAPS connections, it will fail." => "Не використовуйте це додатково для під'єднання до LDAP, бо виконано не буде.",
 "Case insensitve LDAP server (Windows)" => "Нечутливий до регістру LDAP сервер (Windows)",
 "Turn off SSL certificate validation." => "Вимкнути перевірку SSL сертифіката.",
-"If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Якщо з'єднання працює лише з цією опцією, імпортуйте SSL сертифікат LDAP сервера у ваший ownCloud сервер.",
 "Not recommended, use for testing only." => "Не рекомендується, використовуйте лише для тестів.",
 "Cache Time-To-Live" => "Час актуальності Кеша",
 "in seconds. A change empties the cache." => "в секундах. Зміна очищує кеш.",
 "Directory Settings" => "Налаштування Каталога",
 "User Display Name Field" => "Поле, яке відображає Ім'я Користувача",
-"The LDAP attribute to use to generate the user`s ownCloud name." => "Атрибут LDAP, який використовується для генерації імен користувачів ownCloud.",
 "Base User Tree" => "Основне Дерево Користувачів",
 "One User Base DN per line" => "Один Користувач Base DN на одній строчці",
 "User Search Attributes" => "Пошукові Атрибути Користувача",
 "Optional; one attribute per line" => "Додатково; один атрибут на строчку",
 "Group Display Name Field" => "Поле, яке відображає Ім'я Групи",
-"The LDAP attribute to use to generate the groups`s ownCloud name." => "Атрибут LDAP, який використовується для генерації імен груп ownCloud.",
 "Base Group Tree" => "Основне Дерево Груп",
 "One Group Base DN per line" => "Одна Група Base DN на одній строчці",
 "Group Search Attributes" => "Пошукові Атрибути Групи",
@@ -75,3 +71,4 @@
 "Test Configuration" => "Тестове налаштування",
 "Help" => "Допомога"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

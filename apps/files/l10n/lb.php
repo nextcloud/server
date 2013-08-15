@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Keen Feeler, Datei ass komplett ropgelueden ginn",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Déi ropgelueden Datei ass méi grouss wei d'MAX_FILE_SIZE Eegenschaft déi an der HTML form uginn ass",
 "The uploaded file was only partially uploaded" => "Déi ropgelueden Datei ass nëmmen hallef ropgelueden ginn",
@@ -15,9 +16,12 @@
 "replace" => "ersetzen",
 "cancel" => "ofbriechen",
 "undo" => "réckgängeg man",
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
 "Name" => "Numm",
 "Size" => "Gréisst",
 "Modified" => "Geännert",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "Upload" => "Eroplueden",
 "File handling" => "Fichier handling",
 "Maximum upload size" => "Maximum Upload Gréisst ",
@@ -41,3 +45,4 @@
 "file" => "Datei",
 "files" => "Dateien"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

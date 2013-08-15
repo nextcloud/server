@@ -24,7 +24,7 @@
 #new>ul>li>p { cursor:pointer; }
 #new>ul>li>form>input { padding:0.3em; margin:-0.3em; }
 
-#trash { height:17px; margin: 0 1em; z-index:1010; float: right; }
+#trash { margin: 0 1em; z-index:1010; float: right; }
 
 #upload {
 	height:27px; padding:0; margin-left:0.2em; overflow:hidden;
@@ -114,7 +114,7 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 	position:relative; width:100%;
 	-webkit-transition:background-image 500ms; -moz-transition:background-image 500ms; -o-transition:background-image 500ms; transition:background-image 500ms;
 }
-#select_all { float:left; margin:.3em 0.6em 0 .5em; }
+#select_all { float:left; margin:.4em 0.6em 0 .5em; }
 #uploadsize-message,#delete-confirm { display:none; }
 
 /* File actions */

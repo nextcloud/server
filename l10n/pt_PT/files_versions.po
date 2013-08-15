@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Helder Meneses <helder.meneses@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-25 02:01+0200\n"
-"PO-Revision-Date: 2013-05-24 13:28+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-07-30 01:55-0400\n"
+"PO-Revision-Date: 2013-07-29 15:40+0000\n"
+"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,41 +18,27 @@ msgstr ""
 "Language: pt_PT\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/rollbackVersion.php:15
+#: ajax/rollbackVersion.php:13
 #, php-format
 msgid "Could not revert: %s"
 msgstr "Não foi possível reverter: %s"
 
-#: history.php:40
-msgid "success"
-msgstr "Sucesso"
-
-#: history.php:42
-#, php-format
-msgid "File %s was reverted to version %s"
-msgstr "O ficheiro %s foi revertido para a versão %s"
-
-#: history.php:49
-msgid "failure"
-msgstr "Falha"
-
-#: history.php:51
-#, php-format
-msgid "File %s could not be reverted to version %s"
-msgstr "Não foi possível reverter o ficheiro %s para a versão %s"
-
-#: history.php:69
-msgid "No old versions available"
-msgstr "Não existem versões mais antigas"
-
-#: history.php:74
-msgid "No path specified"
-msgstr "Nenhum caminho especificado"
-
-#: js/versions.js:6
+#: js/versions.js:7
 msgid "Versions"
 msgstr "Versões"
 
-#: templates/history.php:20
-msgid "Revert a file to a previous version by clicking on its revert button"
-msgstr "Reverter um ficheiro para uma versão anterior clicando no seu botão reverter."
+#: js/versions.js:53
+msgid "Failed to revert {file} to revision {timestamp}."
+msgstr "Falhou a recuperação do ficheiro {file} para a revisão {timestamp}."
+
+#: js/versions.js:79
+msgid "More versions..."
+msgstr "Mais versões..."
+
+#: js/versions.js:116
+msgid "No other versions available"
+msgstr "Não existem versões mais antigas"
+
+#: js/versions.js:149
+msgid "Restore"
+msgstr "Restaurar"

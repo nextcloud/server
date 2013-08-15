@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s jagas sinuga »%s«",
 "Category type not provided." => "Kategooria tüüp puudub.",
 "No category to add?" => "Pole kategooriat, mida lisada?",
@@ -29,15 +30,13 @@
 "December" => "Detsember",
 "Settings" => "Seaded",
 "seconds ago" => "sekundit tagasi",
-"1 minute ago" => "1 minut tagasi",
-"{minutes} minutes ago" => "{minutes} minutit tagasi",
-"1 hour ago" => "1 tund tagasi",
-"{hours} hours ago" => "{hours} tundi tagasi",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "täna",
 "yesterday" => "eile",
-"{days} days ago" => "{days} päeva tagasi",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "viimasel kuul",
-"{months} months ago" => "{months} kuud tagasi",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "kuu tagasi",
 "last year" => "viimasel aastal",
 "years ago" => "aastat tagasi",
@@ -85,7 +84,6 @@
 "Email sent" => "E-kiri on saadetud",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Uuendus ebaõnnestus. Palun teavita probleemidest  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud kogukonda</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Uuendus oli edukas. Kohe suunatakse Sind ownCloudi.",
-"ownCloud password reset" => "ownCloud parooli taastamine",
 "Use the following link to reset your password: {link}" => "Kasuta järgnevat linki oma parooli taastamiseks: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Link parooli vahetuseks on saadetud Sinu e-posti aadressile.<br>Kui kiri pole saabunud mõistliku aja jooksul, siis kontrolli oma spam-/rämpskirjade katalooge.<br>Kui kirja pole ka seal, siis küsi abi süsteemihaldurilt.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Päring ebaõnnestus!<br>Oled sa veendunud, et e-post/kasutajanimi on õiged?",
@@ -110,11 +108,11 @@
 "Add" => "Lisa",
 "Security Warning" => "Turvahoiatus",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Sinu PHP versioon on haavatav NULL Baidi (CVE-2006-7243) rünnakuga.",
-"Please update your PHP installation to use ownCloud securely." => "Palun uuenda oma paigaldatud PHP-d tagamaks ownCloudi turvalisus.",
+"Please update your PHP installation to use %s securely." => "Palun uuenda oma paigaldatud PHP-d tagamaks %s turvalisus.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Turvalist juhuslike numbrite generaatorit pole saadaval. Palun luba PHP-s OpenSSL laiendus.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Ilma turvalise juhuslike numbrite generaatorita võib ründaja ennustada paroolivahetuse võtme ning hõivata su konto.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Su andmete kataloog ja failid on tõenäoliselt internetist vabalt saadaval kuna .htaccess fail ei toimi.",
-"For information how to properly configure your server, please see the <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>." => "Serveri korrektseks seadistuseks tutvu palun <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">dokumentatsiooniga</a>.",
+"For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Serveri korrektseks seadistuseks palun tutvu <a href=\"%s\" target=\"_blank\">dokumentatsiooniga</a>.",
 "Create an <strong>admin account</strong>" => "Loo <strong>admini konto</strong>",
 "Advanced" => "Täpsem",
 "Data folder" => "Andmete kaust",
@@ -128,6 +126,7 @@
 "Finish setup" => "Lõpeta seadistamine",
 "%s is available. Get more information on how to update." => "%s on saadaval. Vaata lähemalt kuidas uuendada.",
 "Log out" => "Logi välja",
+"More apps" => "Rohkem rakendusi",
 "Automatic logon rejected!" => "Automaatne sisselogimine lükati tagasi!",
 "If you did not change your password recently, your account may be compromised!" => "Kui sa ei muutnud oma parooli hiljuti, siis võib su kasutajakonto olla ohustatud!",
 "Please change your password to secure your account again." => "Palun muuda parooli, et oma kasutajakonto uuesti turvata.",
@@ -140,3 +139,4 @@
 "next" => "järgm",
 "Updating ownCloud to version %s, this may take a while." => "ownCloudi uuendamine versioonile %s. See võib veidi aega võtta."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

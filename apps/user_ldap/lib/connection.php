@@ -210,6 +210,22 @@ class Connection {
 	}
 
 	/**
+	 * Special handling for reading Base Configuration
+	 *
+	 * @param $base the internal name of the config key
+	 * @param $value the value stored for the base
+	 */
+	private function readBase($base, $value) {
+		if(empty($value)) {
+			$value = '';
+		} else {
+			$value = preg_split('/\r\n|\r|\n/', $value);
+		}
+
+		$this->config[$base] = $value;
+	}
+
+	/**
 	 * Caches the general LDAP configuration.
 	 */
 	private function readConfiguration($force = false) {
@@ -224,14 +240,9 @@ class Connection {
 			$this->config['ldapAgentName']  = $this->$v('ldap_dn');
 			$this->config['ldapAgentPassword']
 				= base64_decode($this->$v('ldap_agent_password'));
-			$rawLdapBase                    = $this->$v('ldap_base');
-			$this->config['ldapBase']
-				= preg_split('/\r\n|\r|\n/', $rawLdapBase);
-			$this->config['ldapBaseUsers']
-				= preg_split('/\r\n|\r|\n/', ($this->$v('ldap_base_users')));
-			$this->config['ldapBaseGroups']
-				= preg_split('/\r\n|\r|\n/', $this->$v('ldap_base_groups'));
-			unset($rawLdapBase);
+			$this->readBase('ldapBase',       $this->$v('ldap_base'));
+			$this->readBase('ldapBaseUsers',  $this->$v('ldap_base_users'));
+			$this->readBase('ldapBaseGroups', $this->$v('ldap_base_groups'));
 			$this->config['ldapTLS']        = $this->$v('ldap_tls');
 			$this->config['ldapNoCase']     = $this->$v('ldap_nocase');
 			$this->config['turnOffCertCheck']

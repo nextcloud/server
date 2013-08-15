@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Tidak dapat memindahkan %s - Berkas dengan nama ini sudah ada",
 "Could not move %s" => "Tidak dapat memindahkan %s",
 "No file was uploaded. Unknown error" => "Tidak ada berkas yang diunggah. Galat tidak dikenal.",
@@ -30,7 +31,7 @@
 "replaced {new_name} with {old_name}" => "mengganti {new_name} dengan {old_name}",
 "undo" => "urungkan",
 "perform delete operation" => "Lakukan operasi penghapusan",
-"1 file uploading" => "1 berkas diunggah",
+"_Uploading %n file_::_Uploading %n files_" => array(""),
 "files uploading" => "berkas diunggah",
 "'.' is an invalid file name." => "'.' bukan nama berkas yang valid.",
 "File name cannot be empty." => "Nama berkas tidak boleh kosong.",
@@ -42,10 +43,8 @@
 "Name" => "Nama",
 "Size" => "Ukuran",
 "Modified" => "Dimodifikasi",
-"1 folder" => "1 folder",
-"{count} folders" => "{count} folder",
-"1 file" => "1 berkas",
-"{count} files" => "{count} berkas",
+"_%n folder_::_%n folders_" => array(""),
+"_%n file_::_%n files_" => array(""),
 "Upload" => "Unggah",
 "File handling" => "Penanganan berkas",
 "Maximum upload size" => "Ukuran pengunggahan maksimum",
@@ -73,3 +72,4 @@
 "files" => "berkas-berkas",
 "Upgrading filesystem cache..." => "Meningkatkan tembolok sistem berkas..."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Access granted" => "Érvényes hozzáférés",
 "Error configuring Dropbox storage" => "A Dropbox tárolót nem sikerült beállítani",
 "Grant access" => "Megadom a hozzáférést",
@@ -24,3 +25,4 @@
 "SSL root certificates" => "SSL tanúsítványok",
 "Import Root Certificate" => "SSL tanúsítványok importálása"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

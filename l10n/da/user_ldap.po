@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Sappe, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-09 02:03+0200\n"
-"PO-Revision-Date: 2013-07-08 23:16+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-09 07:59-0400\n"
+"PO-Revision-Date: 2013-08-09 11:22+0000\n"
+"Last-Translator: Sappe\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,11 +24,11 @@ msgstr ""
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
-msgstr ""
+msgstr "Kunne ikke slette server konfigurationen"
 
 #: ajax/testConfiguration.php:36
 msgid "The configuration is valid and the connection could be established!"
-msgstr ""
+msgstr "Konfigurationen er korrekt og forbindelsen kunne etableres!"
 
 #: ajax/testConfiguration.php:39
 msgid ""
@@ -39,7 +40,7 @@ msgstr ""
 msgid ""
 "The configuration is invalid. Please look in the ownCloud log for further "
 "details."
-msgstr ""
+msgstr "Konfigurationen er ugyldig. Se venligst ownCloud loggen for yderligere detaljer."
 
 #: js/settings.js:66
 msgid "Deletion failed"
@@ -51,11 +52,11 @@ msgstr ""
 
 #: js/settings.js:83
 msgid "Keep settings?"
-msgstr ""
+msgstr "Behold indstillinger?"
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
-msgstr ""
+msgstr "Kan ikke tilføje serverkonfiguration"
 
 #: js/settings.js:111
 msgid "mappings cleared"
@@ -71,24 +72,24 @@ msgstr "Fejl"
 
 #: js/settings.js:141
 msgid "Connection test succeeded"
-msgstr ""
+msgstr "Forbindelsestest lykkedes"
 
 #: js/settings.js:146
 msgid "Connection test failed"
-msgstr ""
+msgstr "Forbindelsestest mislykkedes"
 
 #: js/settings.js:156
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr ""
+msgstr "Ønsker du virkelig at slette den nuværende Server Konfiguration?"
 
 #: js/settings.js:157
 msgid "Confirm Deletion"
-msgstr ""
+msgstr "Bekræft Sletning"
 
 #: templates/settings.php:9
 msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
-" experience unexpected behaviour. Please ask your system administrator to "
+" experience unexpected behavior. Please ask your system administrator to "
 "disable one of them."
 msgstr ""
 
@@ -100,11 +101,11 @@ msgstr ""
 
 #: templates/settings.php:16
 msgid "Server configuration"
-msgstr ""
+msgstr "Server konfiguration"
 
 #: templates/settings.php:32
 msgid "Add Server Configuration"
-msgstr ""
+msgstr "Tilføj Server Konfiguration"
 
 #: templates/settings.php:37
 msgid "Host"
@@ -172,7 +173,7 @@ msgstr "Definere filteret der bruges ved indlæsning af brugere."
 
 #: templates/settings.php:60
 msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr ""
+msgstr "Uden stedfortræder, f.eks. \"objectClass=person\"."
 
 #: templates/settings.php:61
 msgid "Group Filter"
@@ -184,15 +185,15 @@ msgstr "Definere filteret der bruges når der indlæses grupper."
 
 #: templates/settings.php:65
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr ""
+msgstr "Uden stedfortræder, f.eks. \"objectClass=posixGroup\"."
 
 #: templates/settings.php:69
 msgid "Connection Settings"
-msgstr ""
+msgstr "Forbindelsesindstillinger "
 
 #: templates/settings.php:71
 msgid "Configuration Active"
-msgstr ""
+msgstr "Konfiguration Aktiv"
 
 #: templates/settings.php:71
 msgid "When unchecked, this configuration will be skipped."
@@ -204,7 +205,7 @@ msgstr "Port"
 
 #: templates/settings.php:73
 msgid "Backup (Replica) Host"
-msgstr ""
+msgstr "Backup (Replika) Vært"
 
 #: templates/settings.php:73
 msgid ""
@@ -214,15 +215,15 @@ msgstr ""
 
 #: templates/settings.php:74
 msgid "Backup (Replica) Port"
-msgstr ""
+msgstr "Backup (Replika) Port"
 
 #: templates/settings.php:75
 msgid "Disable Main Server"
-msgstr ""
+msgstr "Deaktiver Hovedserver"
 
 #: templates/settings.php:75
-msgid "When switched on, ownCloud will only connect to the replica server."
-msgstr ""
+msgid "Only connect to the replica server."
+msgstr "Forbind kun til replika serveren."
 
 #: templates/settings.php:76
 msgid "Use TLS"
@@ -230,7 +231,7 @@ msgstr "Brug TLS"
 
 #: templates/settings.php:76
 msgid "Do not use it additionally for LDAPS connections, it will fail."
-msgstr ""
+msgstr "Benyt ikke flere LDAPS forbindelser, det vil mislykkeds. "
 
 #: templates/settings.php:77
 msgid "Case insensitve LDAP server (Windows)"
@@ -241,9 +242,10 @@ msgid "Turn off SSL certificate validation."
 msgstr "Deaktiver SSL certifikat validering"
 
 #: templates/settings.php:78
+#, php-format
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
-"certificate in your ownCloud server."
+"certificate in your %s server."
 msgstr ""
 
 #: templates/settings.php:78
@@ -267,7 +269,7 @@ msgid "User Display Name Field"
 msgstr "User Display Name Field"
 
 #: templates/settings.php:83
-msgid "The LDAP attribute to use to generate the user`s ownCloud name."
+msgid "The LDAP attribute to use to generate the user's display name."
 msgstr ""
 
 #: templates/settings.php:84
@@ -291,7 +293,7 @@ msgid "Group Display Name Field"
 msgstr ""
 
 #: templates/settings.php:86
-msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
+msgid "The LDAP attribute to use to generate the groups's display name."
 msgstr ""
 
 #: templates/settings.php:87
@@ -328,7 +330,7 @@ msgstr "i bytes"
 
 #: templates/settings.php:95
 msgid "Email Field"
-msgstr ""
+msgstr "Email Felt"
 
 #: templates/settings.php:96
 msgid "User Home Folder Naming Rule"
@@ -342,7 +344,7 @@ msgstr ""
 
 #: templates/settings.php:101
 msgid "Internal Username"
-msgstr ""
+msgstr "Internt Brugernavn"
 
 #: templates/settings.php:102
 msgid ""
@@ -352,12 +354,12 @@ msgid ""
 "characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced "
 "with their ASCII correspondence or simply omitted. On collisions a number "
 "will be added/increased. The internal username is used to identify a user "
-"internally. It is also the default name for the user home folder in "
-"ownCloud. It is also a port of remote URLs, for instance for all *DAV "
-"services. With this setting, the default behaviour can be overriden. To "
-"achieve a similar behaviour as before ownCloud 5 enter the user display name"
-" attribute in the following field. Leave it empty for default behaviour. "
-"Changes will have effect only on newly mapped (added) LDAP users."
+"internally. It is also the default name for the user home folder. It is also"
+" a part of remote URLs, for instance for all *DAV services. With this "
+"setting, the default behavior can be overridden. To achieve a similar "
+"behavior as before ownCloud 5 enter the user display name attribute in the "
+"following field. Leave it empty for default behavior. Changes will have "
+"effect only on newly mapped (added) LDAP users."
 msgstr ""
 
 #: templates/settings.php:103
@@ -370,12 +372,12 @@ msgstr ""
 
 #: templates/settings.php:105
 msgid ""
-"By default, ownCloud autodetects the UUID attribute. The UUID attribute is "
-"used to doubtlessly identify LDAP users and groups. Also, the internal "
+"By default, the UUID attribute is automatically detected. The UUID attribute"
+" is used to doubtlessly identify LDAP users and groups. Also, the internal "
 "username will be created based on the UUID, if not specified otherwise "
 "above. You can override the setting and pass an attribute of your choice. "
 "You must make sure that the attribute of your choice can be fetched for both"
-" users and groups and it is unique. Leave it empty for default behaviour. "
+" users and groups and it is unique. Leave it empty for default behavior. "
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
 msgstr ""
 
@@ -389,17 +391,16 @@ msgstr ""
 
 #: templates/settings.php:108
 msgid ""
-"ownCloud uses usernames to store and assign (meta) data. In order to "
-"precisely identify and recognize users, each LDAP user will have a internal "
-"username. This requires a mapping from ownCloud username to LDAP user. The "
-"created username is mapped to the UUID of the LDAP user. Additionally the DN"
-" is cached as well to reduce LDAP interaction, but it is not used for "
-"identification. If the DN changes, the changes will be found by ownCloud. "
-"The internal ownCloud name is used all over in ownCloud. Clearing the "
-"Mappings will have leftovers everywhere. Clearing the Mappings is not "
-"configuration sensitive, it affects all LDAP configurations! Do never clear "
-"the mappings in a production environment. Only clear mappings in a testing "
-"or experimental stage."
+"Usernames are used to store and assign (meta) data. In order to precisely "
+"identify and recognize users, each LDAP user will have a internal username. "
+"This requires a mapping from username to LDAP user. The created username is "
+"mapped to the UUID of the LDAP user. Additionally the DN is cached as well "
+"to reduce LDAP interaction, but it is not used for identification. If the DN"
+" changes, the changes will be found. The internal username is used all over."
+" Clearing the mappings will have leftovers everywhere. Clearing the mappings"
+" is not configuration sensitive, it affects all LDAP configurations! Never "
+"clear the mappings in a production environment, only in a testing or "
+"experimental stage."
 msgstr ""
 
 #: templates/settings.php:109
@@ -412,7 +413,7 @@ msgstr ""
 
 #: templates/settings.php:111
 msgid "Test Configuration"
-msgstr ""
+msgstr "Test Konfiguration"
 
 #: templates/settings.php:111
 msgid "Help"

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "კატეგორიის ტიპი არ არის განხილული.",
 "No category to add?" => "არ არის კატეგორია დასამატებლად?",
 "This category already exists: %s" => "კატეგორია უკვე არსებობს: %s",
@@ -28,15 +29,13 @@
 "December" => "დეკემბერი",
 "Settings" => "პარამეტრები",
 "seconds ago" => "წამის წინ",
-"1 minute ago" => "1 წუთის წინ",
-"{minutes} minutes ago" => "{minutes} წუთის წინ",
-"1 hour ago" => "1 საათის წინ",
-"{hours} hours ago" => "{hours} საათის წინ",
+"_%n minute ago_::_%n minutes ago_" => array(""),
+"_%n hour ago_::_%n hours ago_" => array(""),
 "today" => "დღეს",
 "yesterday" => "გუშინ",
-"{days} days ago" => "{days} დღის წინ",
+"_%n day ago_::_%n days ago_" => array(""),
 "last month" => "გასულ თვეში",
-"{months} months ago" => "{months} თვის წინ",
+"_%n month ago_::_%n months ago_" => array(""),
 "months ago" => "თვის წინ",
 "last year" => "ბოლო წელს",
 "years ago" => "წლის წინ",
@@ -82,7 +81,6 @@
 "Email sent" => "იმეილი გაიგზავნა",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "განახლება ვერ განხორციელდა. გთხოვთ შეგვატყობინოთ ამ პრობლემის შესახებ აქ: <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "განახლება ვერ განხორციელდა. გადამისამართება თქვენს ownCloud–ზე.",
-"ownCloud password reset" => "ownCloud პაროლის შეცვლა",
 "Use the following link to reset your password: {link}" => "გამოიყენე შემდეგი ლინკი პაროლის შესაცვლელად: {link}",
 "You will receive a link to reset your password via Email." => "თქვენ მოგივათ პაროლის შესაცვლელი ლინკი მეილზე",
 "Username" => "მომხმარებლის სახელი",
@@ -102,11 +100,9 @@
 "Add" => "დამატება",
 "Security Warning" => "უსაფრთხოების გაფრთხილება",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "თქვენი PHP ვერსია შეიცავს საფრთხეს  NULL Byte შეტევებისთვის (CVE-2006-7243)",
-"Please update your PHP installation to use ownCloud securely." => "იმისათვის რომ გამოიყენოთ ownCloud უსაფრთხოდ, გთხოვთ განაახლოთ თქვენი  PHP ვერსია.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "შემთხვევითი სიმბოლოების გენერატორი არ არსებობს, გთხოვთ ჩართოთ PHP OpenSSL გაფართოება.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "შემთხვევითი სიმბოლოების გენერატორის გარეშე, შემტევმა შეიძლება ამოიცნოს თქვენი პაროლი შეგიცვალოთ ის და დაეუფლოს თქვენს ექაუნთს.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "თქვენი data დირექტორია და ფაილები დაშვებადია ინტერნეტში რადგან  .htaccess ფაილი არ მუშაობს.",
-"For information how to properly configure your server, please see the <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>." => "სერვერის კორექტულად დასაკონფიგურირებლად, ნახეთ შემდეგი  <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">დოკუმენტაცია</a>.",
 "Create an <strong>admin account</strong>" => "შექმენი <strong>ადმინ ექაუნტი</strong>",
 "Advanced" => "დამატებითი ფუნქციები",
 "Data folder" => "მონაცემთა საქაღალდე",
@@ -130,3 +126,4 @@
 "next" => "შემდეგი",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud–ის განახლება %s–ვერსიამდე. ეს მოითხოვს გარკვეულ დროს."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

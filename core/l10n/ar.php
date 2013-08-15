@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "نوع التصنيف لم يدخل",
 "No category to add?" => "ألا توجد فئة للإضافة؟",
 "This category already exists: %s" => "هذا التصنيف موجود مسبقا :  %s",
@@ -28,15 +29,13 @@
 "December" => "كانون الاول",
 "Settings" => "إعدادات",
 "seconds ago" => "منذ ثواني",
-"1 minute ago" => "منذ دقيقة",
-"{minutes} minutes ago" => "{minutes} منذ دقائق",
-"1 hour ago" => "قبل ساعة مضت",
-"{hours} hours ago" => "{hours} ساعة مضت",
+"_%n minute ago_::_%n minutes ago_" => array("","","","","",""),
+"_%n hour ago_::_%n hours ago_" => array("","","","","",""),
 "today" => "اليوم",
 "yesterday" => "يوم أمس",
-"{days} days ago" => "{days} يوم سابق",
+"_%n day ago_::_%n days ago_" => array("","","","","",""),
 "last month" => "الشهر الماضي",
-"{months} months ago" => "{months} شهر مضت",
+"_%n month ago_::_%n months ago_" => array("","","","","",""),
 "months ago" => "شهر مضى",
 "last year" => "السنةالماضية",
 "years ago" => "سنة مضت",
@@ -82,7 +81,6 @@
 "Email sent" => "تم ارسال البريد الالكتروني",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "حصل خطأ في عملية التحديث, يرجى ارسال تقرير بهذه المشكلة الى <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "تم التحديث بنجاح , يتم اعادة توجيهك الان الى Owncloud",
-"ownCloud password reset" => "إعادة تعيين كلمة سر ownCloud",
 "Use the following link to reset your password: {link}" => "استخدم هذه الوصلة لاسترجاع كلمة السر: {link}",
 "You will receive a link to reset your password via Email." => "سوف نرسل لك بريد يحتوي على وصلة لتجديد كلمة السر.",
 "Username" => "إسم المستخدم",
@@ -102,11 +100,9 @@
 "Add" => "اضف",
 "Security Warning" => "تحذير أمان",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)",
-"Please update your PHP installation to use ownCloud securely." => "Please update your PHP installation to use ownCloud securely.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "لا يوجد مولّد أرقام عشوائية ، الرجاء تفعيل الـ PHP OpenSSL extension.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "بدون وجود مولد أرقام عشوائية آمن قد يتمكن المهاجم من التنبؤ بكلمات اعادة ضبط كلمة المرور والتمكن من السيطرة على حسابك",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "مجلدات البيانات والملفات الخاصة قد تكون قابلة للوصول اليها عن طريق شبكة الانترنت وذلك بسبب ان ملف .htaccess  لا يعمل بشكل صحيح.",
-"For information how to properly configure your server, please see the <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>." => "للحصول على معلومات عن كيفية اعداد الخادم الخاص بك , يرجى زيارة الرابط  التالي  <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>.",
 "Create an <strong>admin account</strong>" => "أضف </strong>مستخدم رئيسي <strong>",
 "Advanced" => "تعديلات متقدمه",
 "Data folder" => "مجلد المعلومات",
@@ -130,3 +126,4 @@
 "next" => "التالي",
 "Updating ownCloud to version %s, this may take a while." => "جاري تحديث Owncloud الى اصدار %s , قد يستغرق هذا بعض الوقت."
 );
+$PLURAL_FORMS = "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;";

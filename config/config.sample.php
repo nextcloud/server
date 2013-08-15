@@ -56,6 +56,9 @@ $CONFIG = array(
 /* Theme to use for ownCloud */
 "theme" => "",
 
+/* Optional ownCloud default language - overrides automatic language detection on public pages like login or shared items. This has no effect on the user's language preference configured under "personal -> language" once they have logged in */
+"default_language" => "en",
+
 /* Path to the parent directory of the 3rdparty directory */
 "3rdpartyroot" => "",
 
@@ -114,8 +117,8 @@ $CONFIG = array(
 /* Password to use for sendmail mail, depends on mail_smtpauth if this is used */
 "mail_smtppassword" => "",
 
-/* How long should ownCloud keep deleted files in the trash bin, default value:  180 days */
-'trashbin_retention_obligation' => 180,
+/* How long should ownCloud keep deleted files in the trash bin, default value:  30 days */
+'trashbin_retention_obligation' => 30,
 
 /* allow user to change his display name, if it is supported by the back-end */
 'allow_user_to_change_display_name' => true,
@@ -129,17 +132,17 @@ $CONFIG = array(
 /* Are we connected to the internet or are we running in a closed network? */
 "has_internet_connection" => true,
 
-	/* Place to log to, can be owncloud and syslog (owncloud is log menu item in admin menu) */
+/* Place to log to, can be owncloud and syslog (owncloud is log menu item in admin menu) */
 "log_type" => "owncloud",
 
-/* File for the owncloud logger to log to, (default is ownloud.log in the data dir */
+/* File for the owncloud logger to log to, (default is ownloud.log in the data dir) */
 "logfile" => "",
 
 /* Loglevel to start logging at. 0=DEBUG, 1=INFO, 2=WARN, 3=ERROR (default is WARN) */
 "loglevel" => "",
 
-/* Append All database query and parameters to the log file.
- (whatch out, this option can increase the size of your log file)*/
+/* Append all database queries and parameters to the log file.
+ (watch out, this option can increase the size of your log file)*/
 "log_query" => false,
 
 /* Lifetime of the remember login cookie, default is 15 days */
@@ -154,7 +157,7 @@ $CONFIG = array(
 /* Enable/disable X-Frame-Restriction */
 /* HIGH SECURITY RISK IF DISABLED*/
 "xframe_restriction" => true,
-	
+
 /* The directory where the user data is stored, default to data in the owncloud
  * directory. The sqlite database is also stored here, when sqlite is used.
  */
@@ -167,8 +170,8 @@ $CONFIG = array(
 
 /* Set an array of path for your apps directories
  key 'path' is for the fs path and the key 'url' is for the http path to your
- applications paths. 'writable' indicate if the user can install apps in this folder.
- You must have at least 1 app folder writable or you must set the parameter : appstoreenabled to false
+ applications paths. 'writable' indicates whether the user can install apps in this folder.
+ You must have at least 1 app folder writable or you must set the parameter 'appstoreenabled' to false
 */
 	array(
 		'path'=> '/var/www/owncloud/apps',
@@ -185,5 +188,8 @@ $CONFIG = array(
 //links to custom clients
 'customclient_desktop' => '', //http://owncloud.org/sync-clients/
 'customclient_android' => '', //https://play.google.com/store/apps/details?id=com.owncloud.android
-'customclient_ios' => '' //https://itunes.apple.com/us/app/owncloud/id543672169?mt=8
+'customclient_ios' => '', //https://itunes.apple.com/us/app/owncloud/id543672169?mt=8
+
+// date format to be used while writing to the owncloud logfile
+'logdateformat' => 'F d, Y H:i:s'
 );

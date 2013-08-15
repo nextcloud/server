@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-07 01:58+0200\n"
-"PO-Revision-Date: 2013-07-06 01:30+0000\n"
+"POT-Creation-Date: 2013-08-11 08:07-0400\n"
+"PO-Revision-Date: 2013-08-10 01:40+0000\n"
 "Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -70,10 +70,14 @@ msgstr "必要要件が満たされていません。"
 
 #: hooks/hooks.php:45
 msgid ""
-"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
-"PHP extension is enabled and configured properly. For now, the encryption "
-"app has been disabled."
-msgstr "必ず、PHP 5.3.3以上をインストールし、OpenSSLのPHP拡張を有効にして適切に設定してください。現時点では暗号化アプリは無効になっています。"
+"Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
+"together with the PHP extension is enabled and configured properly. For now,"
+" the encryption app has been disabled."
+msgstr "必ず、PHP 5.3.3もしくはそれ以上をインストールし、同時にOpenSSLのPHP拡張を有効にした上でOpenSSLも同様にインストール、適切に設定してください。現時点では暗号化アプリは無効になっています。"
+
+#: hooks/hooks.php:263
+msgid "Following users are not set up for encryption:"
+msgstr "以下のユーザーは、暗号化設定がされていません："
 
 #: js/settings-admin.js:11
 msgid "Saving..."

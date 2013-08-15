@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Ei pystytä lataamaan listaa sovellusvarastosta (App Store)",
 "Authentication error" => "Tunnistautumisvirhe",
 "Your display name has been changed." => "Näyttönimesi on muutettu.",
@@ -32,11 +33,11 @@
 "Group Admin" => "Ryhmän ylläpitäjä",
 "Delete" => "Poista",
 "add group" => "lisää ryhmä",
+"A valid username must be provided" => "Anna kelvollinen käyttäjätunnus",
 "Error creating user" => "Virhe käyttäjää luotaessa",
+"A valid password must be provided" => "Anna kelvollinen salasana",
 "__language_name__" => "_kielen_nimi_",
 "Security Warning" => "Turvallisuusvaroitus",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Data-kansio ja tiedostot ovat ehkä saavutettavissa Internetistä. .htaccess-tiedosto, jolla kontrolloidaan pääsyä, ei toimi. Suosittelemme, että muutat web-palvelimesi asetukset niin ettei data-kansio ole enää pääsyä tai siirrät data-kansion pois web-palvelimen tiedostojen juuresta.",
-"Please double check the <a href='%s'>installation guides</a>." => "Lue tarkasti <a href='%s'>asennusohjeet</a>.",
 "Module 'fileinfo' missing" => "Moduuli 'fileinfo' puuttuu",
 "Internet connection not working" => "Internet-yhteys ei toimi",
 "Cron" => "Cron",
@@ -51,7 +52,6 @@
 "Allow users to only share with users in their groups" => "Salli jakaminen vain samoissa ryhmissä olevien käyttäjien kesken",
 "Security" => "Tietoturva",
 "Enforce HTTPS" => "Pakota HTTPS",
-"Enforces the clients to connect to ownCloud via an encrypted connection." => "Pakottaa salaamaan ownCloudiin kohdistuvat yhteydet.",
 "Log" => "Loki",
 "Log level" => "Lokitaso",
 "More" => "Enemmän",
@@ -70,6 +70,7 @@
 "Forum" => "Keskustelupalsta",
 "Bugtracker" => "Ohjelmistovirheiden jäljitys",
 "Commercial Support" => "Kaupallinen tuki",
+"Get the apps to sync your files" => "Aseta sovellukset synkronoimaan tiedostosi",
 "Show First Run Wizard again" => "Näytä ensimmäisen käyttökerran avustaja uudelleen",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Käytössäsi on <strong>%s</strong>/<strong>%s</strong>",
 "Password" => "Salasana",
@@ -85,6 +86,7 @@
 "Language" => "Kieli",
 "Help translate" => "Auta kääntämisessä",
 "WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "Käytä tätä osoitetta <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">päästäksesi käsiksi tiedostoihisi WebDAVin kautta</a>",
 "Login Name" => "Kirjautumisnimi",
 "Create" => "Luo",
 "Default Storage" => "Oletustallennustila",
@@ -96,3 +98,4 @@
 "set new password" => "aseta uusi salasana",
 "Default" => "Oletus"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

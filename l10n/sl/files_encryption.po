@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-05 02:12+0200\n"
-"PO-Revision-Date: 2013-07-05 00:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-11 08:07-0400\n"
+"PO-Revision-Date: 2013-08-11 08:50+0000\n"
+"Last-Translator: barbarak <barbarak@arnes.si>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,14 +64,18 @@ msgstr "Vaš zasebni ključ ni veljaven. Morda je bilo vaše geslo spremenjeno z
 
 #: hooks/hooks.php:44
 msgid "Missing requirements."
-msgstr ""
+msgstr "Manjkajoče zahteve"
 
 #: hooks/hooks.php:45
 msgid ""
-"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
-"PHP extension is enabled and configured properly. For now, the encryption "
-"app has been disabled."
-msgstr ""
+"Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
+"together with the PHP extension is enabled and configured properly. For now,"
+" the encryption app has been disabled."
+msgstr "Preverite, da imate na strežniku nameščen paket PHP 5.3.3 ali novejši in da je omogočen in pravilno nastavljen PHP OpenSSL . Zaenkrat je šifriranje onemogočeno."
+
+#: hooks/hooks.php:263
+msgid "Following users are not set up for encryption:"
+msgstr "Naslednji uporabniki še nimajo nastavljenega šifriranja:"
 
 #: js/settings-admin.js:11
 msgid "Saving..."

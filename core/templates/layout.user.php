@@ -6,12 +6,10 @@
 <!--[if gt IE 9]><html class="ng-csp ie"><![endif]-->
 <!--[if !IE]><!--><html class="ng-csp"><!--<![endif]-->
 
-	<?php $defaults = new OC_Defaults(); // initialize themable default strings and urls ?>
-	
 	<head data-user="<?php p($_['user_uid']); ?>" data-requesttoken="<?php p($_['requesttoken']); ?>">
 		<title>
 			<?php p(!empty($_['application'])?$_['application'].' | ':'');
-			p($defaults->getName());
+			p($theme->getTitle());
 			p(trim($_['user_displayname']) != '' ?' ('.$_['user_displayname'].') ':'') ?>
 		</title>
 		<meta charset="utf-8">
@@ -45,8 +43,8 @@
 	</div>
 	<header><div id="header">
 			<a href="<?php print_unescaped(link_to('', 'index.php')); ?>" title="" id="owncloud"><img class="svg"
-				src="<?php print_unescaped(image_path('', 'logo-wide.svg')); ?>" alt="ownCloud" /></a>
-			<div id="logo-claim" style="display:none;"><?php p($defaults->getLogoClaim()); ?></div>
+				src="<?php print_unescaped(image_path('', 'logo-wide.svg')); ?>" alt="<?php p($theme->getName()); ?>" /></a>
+			<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 			<ul id="settings" class="svg">
 				<span id="expand" tabindex="0" role="link">
 					<span id="expandDisplayName"><?php  p(trim($_['user_displayname']) != '' ? $_['user_displayname'] : $_['user_uid']) ?></span>
@@ -91,6 +89,19 @@
 						</a>
 					</li>
 				<?php endforeach; ?>
+
+				<!-- show "More apps" link to app administration directly in app navigation -->
+				<?php if(OC_User::isAdminUser(OC_User::getUser())): ?>
+					<li id="apps-management">
+						<a href="<?php print_unescaped(OC_Helper::linkToRoute('settings_apps').'?installed'); ?>" title=""
+							<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
+							<img class="icon svg" src="<?php print_unescaped(OC_Helper::imagePath('settings', 'apps.svg')); ?>"/>
+							<span>
+								<?php p($l->t('More apps')); ?>
+							</span>
+						</a>
+					</li>
+				<?php endif; ?>
 			</ul>
 		</div></nav>
 

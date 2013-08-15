@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s поделился »%s« с вами",
 "Category type not provided." => "Тип категории не предоставлен",
 "No category to add?" => "Нет категорий для добавления?",
@@ -29,15 +30,13 @@
 "December" => "Декабрь",
 "Settings" => "Конфигурация",
 "seconds ago" => "несколько секунд назад",
-"1 minute ago" => "1 минуту назад",
-"{minutes} minutes ago" => "{minutes} минут назад",
-"1 hour ago" => "час назад",
-"{hours} hours ago" => "{hours} часов назад",
+"_%n minute ago_::_%n minutes ago_" => array("","",""),
+"_%n hour ago_::_%n hours ago_" => array("","",""),
 "today" => "сегодня",
 "yesterday" => "вчера",
-"{days} days ago" => "{days} дней назад",
+"_%n day ago_::_%n days ago_" => array("","",""),
 "last month" => "в прошлом месяце",
-"{months} months ago" => "{months} месяцев назад",
+"_%n month ago_::_%n months ago_" => array("","",""),
 "months ago" => "несколько месяцев назад",
 "last year" => "в прошлом году",
 "years ago" => "несколько лет назад",
@@ -85,7 +84,6 @@
 "Email sent" => "Письмо отправлено",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "При обновлении произошла ошибка. Пожалуйста сообщите об этом в <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud сообщество</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Обновление прошло успешно. Перенаправляемся в Ваш ownCloud...",
-"ownCloud password reset" => "Сброс пароля ",
 "Use the following link to reset your password: {link}" => "Используйте следующую ссылку чтобы сбросить пароль: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Ссылка для сброса пароля отправлена вам ​​по электронной почте.<br>Если вы не получите письмо в пределах одной-двух минут, проверьте папку Спам. <br>Если письма там нет, обратитесь к своему администратору.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Запрос не удался. Вы уверены, что email или имя пользователя указаны верно?",
@@ -110,11 +108,11 @@
 "Add" => "Добавить",
 "Security Warning" => "Предупреждение безопасности",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Ваша версия PHP уязвима к атаке NULL Byte (CVE-2006-7243)",
-"Please update your PHP installation to use ownCloud securely." => "Пожалуйста обновите Ваш PHP чтобы использовать ownCloud безопасно.",
+"Please update your PHP installation to use %s securely." => "Пожалуйста обновите Вашу PHP конфигурацию для безопасного использования %s.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Отсутствует защищенный генератор случайных чисел, пожалуйста, включите расширение PHP OpenSSL.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Без защищенного генератора случайных чисел злоумышленник может предугадать токены сброса пароля и завладеть Вашей учетной записью.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Ваша папка с данными и файлы возможно доступны из интернета потому что файл .htaccess не работает.",
-"For information how to properly configure your server, please see the <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>." => "Для информации как правильно настроить Ваш сервер, пожалйста загляните в <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">документацию</a>.",
+"For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Для информации, как правильно настроить Ваш сервер, пожалуйста загляните в <a hrev=\"%s\"target=\"blank\">документацию</a>.",
 "Create an <strong>admin account</strong>" => "Создать <strong>учётную запись администратора</strong>",
 "Advanced" => "Дополнительно",
 "Data folder" => "Директория с данными",
@@ -140,3 +138,4 @@
 "next" => "след",
 "Updating ownCloud to version %s, this may take a while." => "Идёт обновление ownCloud до версии %s. Это может занять некоторое время."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";
