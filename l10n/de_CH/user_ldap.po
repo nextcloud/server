@@ -1,0 +1,426 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# a.tangemann <a.tangemann@web.de>, 2013
+# FlorianScholz <work@bgstyle.de>, 2013
+# JamFX <niko@nik-o-mat.de>, 2013
+# Marcel Kühlhorn <susefan93@gmx.de>, 2013
+# Mario Siegmann <mario_siegmann@web.de>, 2013
+# multimill <multimill@gmail.com>, 2012
+# traductor <transifex-2.7.mensaje@spamgourmet.com>, 2012-2013
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-08-09 07:59-0400\n"
+"PO-Revision-Date: 2013-08-09 11:22+0000\n"
+"Last-Translator: FlorianScholz <work@bgstyle.de>\n"
+"Language-Team: German (Switzerland) (http://www.transifex.com/projects/p/owncloud/language/de_CH/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de_CH\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/clearMappings.php:34
+msgid "Failed to clear the mappings."
+msgstr "Löschen der Zuordnung fehlgeschlagen."
+
+#: ajax/deleteConfiguration.php:34
+msgid "Failed to delete the server configuration"
+msgstr "Löschen der Serverkonfiguration fehlgeschlagen"
+
+#: ajax/testConfiguration.php:36
+msgid "The configuration is valid and the connection could be established!"
+msgstr "Die Konfiguration ist gültig und die Verbindung konnte hergestellt werden!"
+
+#: ajax/testConfiguration.php:39
+msgid ""
+"The configuration is valid, but the Bind failed. Please check the server "
+"settings and credentials."
+msgstr "Die Konfiguration ist gültig aber die Verbindung ist fehlgeschlagen. Bitte überprüfen Sie die Servereinstellungen und die Anmeldeinformationen."
+
+#: ajax/testConfiguration.php:43
+msgid ""
+"The configuration is invalid. Please look in the ownCloud log for further "
+"details."
+msgstr "Die Konfiguration ist ungültig, sehen Sie für weitere Details bitte im ownCloud Log nach"
+
+#: js/settings.js:66
+msgid "Deletion failed"
+msgstr "Löschen fehlgeschlagen"
+
+#: js/settings.js:82
+msgid "Take over settings from recent server configuration?"
+msgstr "Einstellungen von letzter Konfiguration übernehmen?"
+
+#: js/settings.js:83
+msgid "Keep settings?"
+msgstr "Einstellungen beibehalten?"
+
+#: js/settings.js:97
+msgid "Cannot add server configuration"
+msgstr "Das Hinzufügen der Serverkonfiguration schlug fehl"
+
+#: js/settings.js:111
+msgid "mappings cleared"
+msgstr "Zuordnungen gelöscht"
+
+#: js/settings.js:112
+msgid "Success"
+msgstr "Erfolg"
+
+#: js/settings.js:117
+msgid "Error"
+msgstr "Fehler"
+
+#: js/settings.js:141
+msgid "Connection test succeeded"
+msgstr "Verbindungstest erfolgreich"
+
+#: js/settings.js:146
+msgid "Connection test failed"
+msgstr "Verbindungstest fehlgeschlagen"
+
+#: js/settings.js:156
+msgid "Do you really want to delete the current Server Configuration?"
+msgstr "Möchten Sie die aktuelle Serverkonfiguration wirklich löschen?"
+
+#: js/settings.js:157
+msgid "Confirm Deletion"
+msgstr "Löschung bestätigen"
+
+#: templates/settings.php:9
+msgid ""
+"<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
+" experience unexpected behavior. Please ask your system administrator to "
+"disable one of them."
+msgstr "<b>Warnung:</b> Die Anwendungen user_ldap und user_webdavauth sind inkompatibel. Es kann demzufolge zu unerwarteten Verhalten kommen. Bitten Sie Ihren Systemadministator eine der beiden Anwendungen zu deaktivieren."
+
+#: templates/settings.php:12
+msgid ""
+"<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
+"work. Please ask your system administrator to install it."
+msgstr "<b>Warnung:</b> Da das PHP-Modul für LDAP nicht installiert ist, wird das Backend nicht funktionieren. Bitten Sie Ihren Systemadministrator das Modul zu installieren."
+
+#: templates/settings.php:16
+msgid "Server configuration"
+msgstr "Serverkonfiguration"
+
+#: templates/settings.php:32
+msgid "Add Server Configuration"
+msgstr "Serverkonfiguration hinzufügen"
+
+#: templates/settings.php:37
+msgid "Host"
+msgstr "Host"
+
+#: templates/settings.php:39
+msgid ""
+"You can omit the protocol, except you require SSL. Then start with ldaps://"
+msgstr "Sie können das Protokoll auslassen, ausser wenn Sie SSL benötigen. Beginnen Sie dann mit ldaps://"
+
+#: templates/settings.php:40
+msgid "Base DN"
+msgstr "Basis-DN"
+
+#: templates/settings.php:41
+msgid "One Base DN per line"
+msgstr "Ein Basis-DN pro Zeile"
+
+#: templates/settings.php:42
+msgid "You can specify Base DN for users and groups in the Advanced tab"
+msgstr "Sie können Basis-DN für Benutzer und Gruppen in dem «Erweitert»-Reiter konfigurieren"
+
+#: templates/settings.php:44
+msgid "User DN"
+msgstr "Benutzer-DN"
+
+#: templates/settings.php:46
+msgid ""
+"The DN of the client user with which the bind shall be done, e.g. "
+"uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
+"empty."
+msgstr "Der DN des Benutzers für LDAP-Bind, z.B.: uid=agent,dc=example,dc=com. Für einen anonymen Zugriff lassen Sie DN und Passwort leer."
+
+#: templates/settings.php:47
+msgid "Password"
+msgstr "Passwort"
+
+#: templates/settings.php:50
+msgid "For anonymous access, leave DN and Password empty."
+msgstr "Lassen Sie die Felder DN und Passwort für einen anonymen Zugang leer."
+
+#: templates/settings.php:51
+msgid "User Login Filter"
+msgstr "Benutzer-Login-Filter"
+
+#: templates/settings.php:54
+#, php-format
+msgid ""
+"Defines the filter to apply, when login is attempted. %%uid replaces the "
+"username in the login action."
+msgstr "Bestimmt den angewendeten Filter, wenn eine Anmeldung durchgeführt wird. %%uid ersetzt den Benutzernamen beim Anmeldeversuch."
+
+#: templates/settings.php:55
+#, php-format
+msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
+msgstr "verwenden Sie %%uid Platzhalter, z. B. «uid=%%uid»"
+
+#: templates/settings.php:56
+msgid "User List Filter"
+msgstr "Benutzer-Filter-Liste"
+
+#: templates/settings.php:59
+msgid "Defines the filter to apply, when retrieving users."
+msgstr "Definiert den Filter für die Anfrage der Benutzer."
+
+#: templates/settings.php:60
+msgid "without any placeholder, e.g. \"objectClass=person\"."
+msgstr "ohne Platzhalter, z.B.: «objectClass=person»"
+
+#: templates/settings.php:61
+msgid "Group Filter"
+msgstr "Gruppen-Filter"
+
+#: templates/settings.php:64
+msgid "Defines the filter to apply, when retrieving groups."
+msgstr "Definiert den Filter für die Anfrage der Gruppen."
+
+#: templates/settings.php:65
+msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
+msgstr "ohne Platzhalter, z.B.: «objectClass=posixGroup»"
+
+#: templates/settings.php:69
+msgid "Connection Settings"
+msgstr "Verbindungseinstellungen"
+
+#: templates/settings.php:71
+msgid "Configuration Active"
+msgstr "Konfiguration aktiv"
+
+#: templates/settings.php:71
+msgid "When unchecked, this configuration will be skipped."
+msgstr "Wenn nicht angehakt, wird diese Konfiguration übersprungen."
+
+#: templates/settings.php:72
+msgid "Port"
+msgstr "Port"
+
+#: templates/settings.php:73
+msgid "Backup (Replica) Host"
+msgstr "Backup Host (Kopie)"
+
+#: templates/settings.php:73
+msgid ""
+"Give an optional backup host. It must be a replica of the main LDAP/AD "
+"server."
+msgstr "Geben Sie einen optionalen Backup Host an. Es muss sich um eine Kopie des Haupt LDAP/AD Servers handeln."
+
+#: templates/settings.php:74
+msgid "Backup (Replica) Port"
+msgstr "Backup Port"
+
+#: templates/settings.php:75
+msgid "Disable Main Server"
+msgstr "Hauptserver deaktivieren"
+
+#: templates/settings.php:75
+msgid "Only connect to the replica server."
+msgstr "Nur zum Replikat-Server verbinden."
+
+#: templates/settings.php:76
+msgid "Use TLS"
+msgstr "Nutze TLS"
+
+#: templates/settings.php:76
+msgid "Do not use it additionally for LDAPS connections, it will fail."
+msgstr "Benutzen Sie es nicht in Verbindung mit LDAPS Verbindungen, es wird fehlschlagen."
+
+#: templates/settings.php:77
+msgid "Case insensitve LDAP server (Windows)"
+msgstr "LDAP-Server (Windows: Gross- und Kleinschreibung bleibt unbeachtet)"
+
+#: templates/settings.php:78
+msgid "Turn off SSL certificate validation."
+msgstr "Schalten Sie die SSL-Zertifikatsprüfung aus."
+
+#: templates/settings.php:78
+#, php-format
+msgid ""
+"If connection only works with this option, import the LDAP server's SSL "
+"certificate in your %s server."
+msgstr "Falls die Verbindung nur mit dieser Option funktioniert, importieren Sie das SSL-Zertifikat des LDAP-Servers in Ihren %s Server."
+
+#: templates/settings.php:78
+msgid "Not recommended, use for testing only."
+msgstr "Nicht empfohlen, nur zu Testzwecken."
+
+#: templates/settings.php:79
+msgid "Cache Time-To-Live"
+msgstr "Speichere Time-To-Live zwischen"
+
+#: templates/settings.php:79
+msgid "in seconds. A change empties the cache."
+msgstr "in Sekunden. Eine Änderung leert den Cache."
+
+#: templates/settings.php:81
+msgid "Directory Settings"
+msgstr "Ordnereinstellungen"
+
+#: templates/settings.php:83
+msgid "User Display Name Field"
+msgstr "Feld für den Anzeigenamen des Benutzers"
+
+#: templates/settings.php:83
+msgid "The LDAP attribute to use to generate the user's display name."
+msgstr "Das LDAP-Attribut zur Generierung des Anzeigenamens des Benutzers."
+
+#: templates/settings.php:84
+msgid "Base User Tree"
+msgstr "Basis-Benutzerbaum"
+
+#: templates/settings.php:84
+msgid "One User Base DN per line"
+msgstr "Ein Benutzer Basis-DN pro Zeile"
+
+#: templates/settings.php:85
+msgid "User Search Attributes"
+msgstr "Benutzersucheigenschaften"
+
+#: templates/settings.php:85 templates/settings.php:88
+msgid "Optional; one attribute per line"
+msgstr "Optional; ein Attribut pro Zeile"
+
+#: templates/settings.php:86
+msgid "Group Display Name Field"
+msgstr "Feld für den Anzeigenamen der Gruppe"
+
+#: templates/settings.php:86
+msgid "The LDAP attribute to use to generate the groups's display name."
+msgstr "Das LDAP-Attribut zur Generierung des Anzeigenamens der Gruppen."
+
+#: templates/settings.php:87
+msgid "Base Group Tree"
+msgstr "Basis-Gruppenbaum"
+
+#: templates/settings.php:87
+msgid "One Group Base DN per line"
+msgstr "Ein Gruppen Basis-DN pro Zeile"
+
+#: templates/settings.php:88
+msgid "Group Search Attributes"
+msgstr "Gruppensucheigenschaften"
+
+#: templates/settings.php:89
+msgid "Group-Member association"
+msgstr "Assoziation zwischen Gruppe und Benutzer"
+
+#: templates/settings.php:91
+msgid "Special Attributes"
+msgstr "Spezielle Eigenschaften"
+
+#: templates/settings.php:93
+msgid "Quota Field"
+msgstr "Kontingent-Feld"
+
+#: templates/settings.php:94
+msgid "Quota Default"
+msgstr "Standard-Kontingent"
+
+#: templates/settings.php:94
+msgid "in bytes"
+msgstr "in Bytes"
+
+#: templates/settings.php:95
+msgid "Email Field"
+msgstr "E-Mail-Feld"
+
+#: templates/settings.php:96
+msgid "User Home Folder Naming Rule"
+msgstr "Benennungsregel für das Home-Verzeichnis des Benutzers"
+
+#: templates/settings.php:96
+msgid ""
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD "
+"attribute."
+msgstr "Ohne Eingabe wird der Benutzername (Standard) verwendet. Anderenfalls tragen Sie bitte ein LDAP/AD-Attribut ein."
+
+#: templates/settings.php:101
+msgid "Internal Username"
+msgstr "Interner Benutzername"
+
+#: templates/settings.php:102
+msgid ""
+"By default the internal username will be created from the UUID attribute. It"
+" makes sure that the username is unique and characters do not need to be "
+"converted. The internal username has the restriction that only these "
+"characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced "
+"with their ASCII correspondence or simply omitted. On collisions a number "
+"will be added/increased. The internal username is used to identify a user "
+"internally. It is also the default name for the user home folder. It is also"
+" a part of remote URLs, for instance for all *DAV services. With this "
+"setting, the default behavior can be overridden. To achieve a similar "
+"behavior as before ownCloud 5 enter the user display name attribute in the "
+"following field. Leave it empty for default behavior. Changes will have "
+"effect only on newly mapped (added) LDAP users."
+msgstr "Standardmässig wird der interne Benutzername mittels des UUID-Attributes erzeugt. Dies stellt sicher, dass der Benutzername einzigartig ist und keinerlei Zeichen konvertiert werden müssen. Der interne Benutzername unterliegt Beschränkungen, die nur die nachfolgenden Zeichen erlauben: [ a-zA-Z0-9_.@- ]. Andere Zeichen werden mittels ihrer korrespondierenden Zeichen ersetzt oder einfach ausgelassen. Bei Kollisionen wird ein Zähler hinzugefügt bzw. der Zähler um einen Wert erhöht. Der interne Benutzername wird benutzt, um einen Benutzer intern zu identifizieren. Es ist ebenso der standardmässig vorausgewählte Namen des Heimatverzeichnisses. Es ist auch ein Teil der Remote-URLs - zum Beispiel für alle *DAV-Dienste. Mit dieser Einstellung kann das Standardverhalten überschrieben werden. Um ein ähnliches Verhalten wie vor ownCloud 5 zu erzielen, fügen Sie das anzuzeigende Attribut des Benutzernamens in das nachfolgende Feld ein. Lassen Sie dies hingegen für das Standardverhalten leer. Die Änderungen werden sich nur auf neu gemappte (hinzugefügte) LDAP-Benutzer auswirken."
+
+#: templates/settings.php:103
+msgid "Internal Username Attribute:"
+msgstr "Interne Eigenschaften des Benutzers:"
+
+#: templates/settings.php:104
+msgid "Override UUID detection"
+msgstr "UUID-Erkennung überschreiben"
+
+#: templates/settings.php:105
+msgid ""
+"By default, the UUID attribute is automatically detected. The UUID attribute"
+" is used to doubtlessly identify LDAP users and groups. Also, the internal "
+"username will be created based on the UUID, if not specified otherwise "
+"above. You can override the setting and pass an attribute of your choice. "
+"You must make sure that the attribute of your choice can be fetched for both"
+" users and groups and it is unique. Leave it empty for default behavior. "
+"Changes will have effect only on newly mapped (added) LDAP users and groups."
+msgstr "Standardmässig wird die UUID-Eigenschaft automatisch erkannt. Die UUID-Eigenschaft wird genutzt, um einen LDAP-Benutzer und Gruppen einwandfrei zu identifizieren. Ausserdem wird der interne Benutzername erzeugt, der auf Eigenschaften der UUID basiert, wenn es oben nicht anders angegeben wurde. Sie müssen allerdings sicherstellen, dass Ihre gewählten Eigenschaften zur Identifikation der Benutzer und Gruppen eindeutig sind und zugeordnet werden können. Lassen Sie es frei, um es beim Standardverhalten zu belassen. Änderungen wirken sich nur auf neu gemappte (hinzugefügte) LDAP-Benutzer und -Gruppen aus."
+
+#: templates/settings.php:106
+msgid "UUID Attribute:"
+msgstr "UUID-Attribut:"
+
+#: templates/settings.php:107
+msgid "Username-LDAP User Mapping"
+msgstr "LDAP-Benutzernamenzuordnung"
+
+#: templates/settings.php:108
+msgid ""
+"Usernames are used to store and assign (meta) data. In order to precisely "
+"identify and recognize users, each LDAP user will have a internal username. "
+"This requires a mapping from username to LDAP user. The created username is "
+"mapped to the UUID of the LDAP user. Additionally the DN is cached as well "
+"to reduce LDAP interaction, but it is not used for identification. If the DN"
+" changes, the changes will be found. The internal username is used all over."
+" Clearing the mappings will have leftovers everywhere. Clearing the mappings"
+" is not configuration sensitive, it affects all LDAP configurations! Never "
+"clear the mappings in a production environment, only in a testing or "
+"experimental stage."
+msgstr "Die Benutzernamen werden genutzt, um (Meta)Daten zuzuordnen und zu speichern. Um Benutzer eindeutig und präzise zu identifizieren, hat jeder LDAP-Benutzer einen internen Benutzernamen. Dies erfordert eine Zuordnung (mappen) von Benutzernamen zum LDAP-Benutzer. Der erstellte Benutzername wird der UUID des LDAP-Benutzernamens zugeordnet. Zusätzlich wird der DN zwischengespeichert, um die Interaktion mit dem LDAP zu minimieren, was aber nicht der Identifikation dient. Ändert sich der DN, werden die Änderungen durch gefunden. Der interne Benutzername, wird in überall verwendet. Werden die Zuordnungen gelöscht, bleiben überall Reste zurück. Die Löschung der Zuordnungen kann nicht in der Konfiguration vorgenommen werden, beeinflusst aber die LDAP-Konfiguration! Löschen Sie niemals die Zuordnungen in einer produktiven Umgebung. Löschen Sie die Zuordnungen nur in einer Test- oder Experimentierumgebung."
+
+#: templates/settings.php:109
+msgid "Clear Username-LDAP User Mapping"
+msgstr "Lösche LDAP-Benutzernamenzuordnung"
+
+#: templates/settings.php:109
+msgid "Clear Groupname-LDAP Group Mapping"
+msgstr "Lösche LDAP-Gruppennamenzuordnung"
+
+#: templates/settings.php:111
+msgid "Test Configuration"
+msgstr "Testkonfiguration"
+
+#: templates/settings.php:111
+msgid "Help"
+msgstr "Hilfe"

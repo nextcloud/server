@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Password" => "Parola",
 "Submit" => "Gönder",
 "%s shared the folder %s with you" => "%s sizinle paylaşılan  %s klasör",
@@ -8,3 +9,4 @@
 "Cancel upload" => "Yüklemeyi iptal et",
 "No preview available for" => "Kullanılabilir önizleme yok"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Файлът е качен успешно",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Файлът който се опитвате да качите надвишава стойностите в MAX_FILE_SIZE в HTML формата.",
 "The uploaded file was only partially uploaded" => "Файлът е качен частично",
@@ -17,13 +18,12 @@
 "replace" => "препокриване",
 "cancel" => "отказ",
 "undo" => "възтановяване",
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
 "Name" => "Име",
 "Size" => "Размер",
 "Modified" => "Променено",
-"1 folder" => "1 папка",
-"{count} folders" => "{count} папки",
-"1 file" => "1 файл",
-"{count} files" => "{count} файла",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "Upload" => "Качване",
 "Maximum upload size" => "Максимален размер за качване",
 "0 is unlimited" => "Ползвайте 0 за без ограничения",
@@ -39,3 +39,4 @@
 "Files are being scanned, please wait." => "Файловете се претърсват, изчакайте.",
 "file" => "файл"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

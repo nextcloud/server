@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Не вдалося перемістити %s - Файл з таким ім'ям вже існує",
 "Could not move %s" => "Не вдалося перемістити %s",
 "No file was uploaded. Unknown error" => "Не завантажено жодного файлу. Невідома помилка",
@@ -30,7 +31,7 @@
 "replaced {new_name} with {old_name}" => "замінено {new_name} на {old_name}",
 "undo" => "відмінити",
 "perform delete operation" => "виконати операцію видалення",
-"1 file uploading" => "1 файл завантажується",
+"_Uploading %n file_::_Uploading %n files_" => array("","",""),
 "files uploading" => "файли завантажуються",
 "'.' is an invalid file name." => "'.' це невірне ім'я файлу.",
 "File name cannot be empty." => " Ім'я файлу не може бути порожнім.",
@@ -42,10 +43,9 @@
 "Name" => "Ім'я",
 "Size" => "Розмір",
 "Modified" => "Змінено",
-"1 folder" => "1 папка",
-"{count} folders" => "{count} папок",
-"1 file" => "1 файл",
-"{count} files" => "{count} файлів",
+"_%n folder_::_%n folders_" => array("","",""),
+"_%n file_::_%n files_" => array("","",""),
+"%s could not be renamed" => "%s не може бути перейменований",
 "Upload" => "Вивантажити",
 "File handling" => "Робота з файлами",
 "Maximum upload size" => "Максимальний розмір відвантажень",
@@ -69,7 +69,10 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Файли,що ви намагаєтесь відвантажити перевищують максимальний дозволений розмір файлів на цьому сервері.",
 "Files are being scanned, please wait." => "Файли скануються, зачекайте, будь-ласка.",
 "Current scanning" => "Поточне сканування",
+"directory" => "каталог",
+"directories" => "каталоги",
 "file" => "файл",
 "files" => "файли",
 "Upgrading filesystem cache..." => "Оновлення кеша файлової системи..."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

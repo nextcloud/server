@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Password" => "密码",
 "Submit" => "提交",
 "%s shared the folder %s with you" => "%s 与您分享了文件夹 %s",
@@ -8,3 +9,4 @@
 "Cancel upload" => "取消上传",
 "No preview available for" => "没有预览可用于"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

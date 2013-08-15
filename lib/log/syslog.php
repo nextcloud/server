@@ -28,10 +28,13 @@ class OC_Log_Syslog {
 	 * write a message in the log
 	 * @param string $app
 	 * @param string $message
-	 * @param int level
+	 * @param int $level
 	 */
 	public static function write($app, $message, $level) {
-		$syslog_level = self::$levels[$level];
-		syslog($syslog_level, '{'.$app.'} '.$message);
+		$minLevel = min(OC_Config::getValue("loglevel", OC_Log::WARN), OC_Log::ERROR);
+		if ($level >= $minLevel) {
+			$syslog_level = self::$levels[$level];
+			syslog($syslog_level, '{'.$app.'} '.$message);
+		}
 	}
 }

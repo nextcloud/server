@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Access granted" => "Пристапот е дозволен",
 "Error configuring Dropbox storage" => "Грешка при конфигурација на Dropbox",
 "Grant access" => "Дозволи пристап",
@@ -21,3 +22,4 @@
 "SSL root certificates" => "SSL root сертификати",
 "Import Root Certificate" => "Увези"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;";

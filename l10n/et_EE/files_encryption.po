@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-06 02:01+0200\n"
-"PO-Revision-Date: 2013-07-05 09:30+0000\n"
+"POT-Creation-Date: 2013-08-13 09:11-0400\n"
+"PO-Revision-Date: 2013-08-12 11:10+0000\n"
 "Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -69,10 +69,14 @@ msgstr "Nõutavad on puudu."
 
 #: hooks/hooks.php:45
 msgid ""
-"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
-"PHP extension is enabled and configured properly. For now, the encryption "
-"app has been disabled."
-msgstr "Veendu, et kasutusel oleks PHP 5.3.3 või uuem versioon ning kasutusel oleks OpenSSL PHP laiendus ja see on korrektselt seadistatud. Hetkel on krüpteerimise rakenduse kasutamine peatatud."
+"Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
+"together with the PHP extension is enabled and configured properly. For now,"
+" the encryption app has been disabled."
+msgstr "Palun veendu, et on paigaldatud PHP 5.3.3 või uuem ning PHP OpenSSL laiendus on lubatud ning seadistatud korrektselt. Hetkel krüpteerimise rakendus on peatatud."
+
+#: hooks/hooks.php:263
+msgid "Following users are not set up for encryption:"
+msgstr "Järgmised kasutajad pole seadistatud krüpteeringuks:"
 
 #: js/settings-admin.js:11
 msgid "Saving..."

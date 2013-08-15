@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Deletion failed" => "Ștergerea a eșuat",
 "Success" => "Succes",
 "Error" => "Eroare",
@@ -38,3 +39,4 @@
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Lăsați gol pentru numele de utilizator (implicit). În caz contrar, specificați un atribut LDAP / AD.",
 "Help" => "Ajutor"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));";

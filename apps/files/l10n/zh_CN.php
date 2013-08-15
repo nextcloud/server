@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "无法移动 %s - 同名文件已存在",
 "Could not move %s" => "无法移动 %s",
 "Unable to set upload directory." => "无法设置上传文件夹。",
@@ -33,7 +34,7 @@
 "replaced {new_name} with {old_name}" => "已将 {old_name}替换成 {new_name}",
 "undo" => "撤销",
 "perform delete operation" => "进行删除操作",
-"1 file uploading" => "1个文件上传中",
+"_Uploading %n file_::_Uploading %n files_" => array(""),
 "files uploading" => "文件上传中",
 "'.' is an invalid file name." => "'.' 是一个无效的文件名。",
 "File name cannot be empty." => "文件名不能为空。",
@@ -45,10 +46,8 @@
 "Name" => "名称",
 "Size" => "大小",
 "Modified" => "修改日期",
-"1 folder" => "1个文件夹",
-"{count} folders" => "{count} 个文件夹",
-"1 file" => "1 个文件",
-"{count} files" => "{count} 个文件",
+"_%n folder_::_%n folders_" => array(""),
+"_%n file_::_%n files_" => array(""),
 "%s could not be renamed" => "%s 不能被重命名",
 "Upload" => "上传",
 "File handling" => "文件处理",
@@ -77,3 +76,4 @@
 "files" => "文件",
 "Upgrading filesystem cache..." => "正在更新文件系统缓存..."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

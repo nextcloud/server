@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Невозможно переместить %s - файл с таким именем уже существует",
 "Could not move %s" => "Невозможно переместить %s",
 "Unable to set upload directory." => "Не удалось установить каталог загрузки.",
@@ -33,7 +34,7 @@
 "replaced {new_name} with {old_name}" => "заменено {new_name} на {old_name}",
 "undo" => "отмена",
 "perform delete operation" => "выполнить операцию удаления",
-"1 file uploading" => "загружается 1 файл",
+"_Uploading %n file_::_Uploading %n files_" => array("","",""),
 "files uploading" => "файлы загружаются",
 "'.' is an invalid file name." => "'.' - неправильное имя файла.",
 "File name cannot be empty." => "Имя файла не может быть пустым.",
@@ -45,10 +46,8 @@
 "Name" => "Имя",
 "Size" => "Размер",
 "Modified" => "Изменён",
-"1 folder" => "1 папка",
-"{count} folders" => "{count} папок",
-"1 file" => "1 файл",
-"{count} files" => "{count} файлов",
+"_%n folder_::_%n folders_" => array("","",""),
+"_%n file_::_%n files_" => array("","",""),
 "%s could not be renamed" => "%s не может быть переименован",
 "Upload" => "Загрузка",
 "File handling" => "Управление файлами",
@@ -79,3 +78,4 @@
 "files" => "файлы",
 "Upgrading filesystem cache..." => "Обновление кэша файловой системы..."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

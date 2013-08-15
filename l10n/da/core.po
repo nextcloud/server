@@ -4,15 +4,16 @@
 # 
 # Translators:
 # Sappe, 2013
+# claus_chr <claus_chr@webspeed.dk>, 2013
 # Ole Holm Frandsen <froksen@gmail.com>, 2013
 # Peter Jespersen <flywheeldk@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-29 01:56-0400\n"
-"PO-Revision-Date: 2013-07-28 13:50+0000\n"
-"Last-Translator: Sappe\n"
+"POT-Creation-Date: 2013-08-15 04:47-0400\n"
+"PO-Revision-Date: 2013-08-15 08:48+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -140,59 +141,59 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: js/js.js:293
+#: js/js.js:355
 msgid "Settings"
 msgstr "Indstillinger"
 
-#: js/js.js:715
+#: js/js.js:815
 msgid "seconds ago"
 msgstr "sekunder siden"
 
-#: js/js.js:716
-msgid "1 minute ago"
-msgstr "1 minut siden"
+#: js/js.js:816
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: js/js.js:717
-msgid "{minutes} minutes ago"
-msgstr "{minutes} minutter siden"
+#: js/js.js:817
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: js/js.js:718
-msgid "1 hour ago"
-msgstr "1 time siden"
-
-#: js/js.js:719
-msgid "{hours} hours ago"
-msgstr "{hours} timer siden"
-
-#: js/js.js:720
+#: js/js.js:818
 msgid "today"
 msgstr "i dag"
 
-#: js/js.js:721
+#: js/js.js:819
 msgid "yesterday"
 msgstr "i går"
 
-#: js/js.js:722
-msgid "{days} days ago"
-msgstr "{days} dage siden"
+#: js/js.js:820
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: js/js.js:723
+#: js/js.js:821
 msgid "last month"
 msgstr "sidste måned"
 
-#: js/js.js:724
-msgid "{months} months ago"
-msgstr "{months} måneder siden"
+#: js/js.js:822
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: js/js.js:725
+#: js/js.js:823
 msgid "months ago"
 msgstr "måneder siden"
 
-#: js/js.js:726
+#: js/js.js:824
 msgid "last year"
 msgstr "sidste år"
 
-#: js/js.js:727
+#: js/js.js:825
 msgid "years ago"
 msgstr "år siden"
 
@@ -229,7 +230,7 @@ msgstr "Objekttypen er ikke angivet."
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:631 js/share.js:643
+#: js/share.js:643 js/share.js:655
 msgid "Error"
 msgstr "Fejl"
 
@@ -249,7 +250,7 @@ msgstr "Delt"
 msgid "Share"
 msgstr "Del"
 
-#: js/share.js:131 js/share.js:671
+#: js/share.js:131 js/share.js:683
 msgid "Error while sharing"
 msgstr "Fejl under deling"
 
@@ -349,23 +350,23 @@ msgstr "slet"
 msgid "share"
 msgstr "del"
 
-#: js/share.js:398 js/share.js:618
+#: js/share.js:398 js/share.js:630
 msgid "Password protected"
 msgstr "Beskyttet med adgangskode"
 
-#: js/share.js:631
+#: js/share.js:643
 msgid "Error unsetting expiration date"
 msgstr "Fejl ved fjernelse af udløbsdato"
 
-#: js/share.js:643
+#: js/share.js:655
 msgid "Error setting expiration date"
 msgstr "Fejl under sætning af udløbsdato"
 
-#: js/share.js:658
+#: js/share.js:670
 msgid "Sending ..."
 msgstr "Sender ..."
 
-#: js/share.js:669
+#: js/share.js:681
 msgid "Email sent"
 msgstr "E-mail afsendt"
 
@@ -380,9 +381,10 @@ msgstr "Opdateringen blev ikke udført korrekt. Rapporter venligst problemet til
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Opdateringen blev udført korrekt. Du bliver nu viderestillet til ownCloud."
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
-msgstr "Nulstil ownCloud kodeord"
+#: lostpassword/controller.php:61
+#, php-format
+msgid "%s password reset"
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -414,7 +416,7 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr ""
+msgstr "Dine filer er krypterede. Hvis du ikke har aktiveret gendannelsesnøglen kan du ikke få dine data tilbage efter at du har ændret adgangskode. HVis du ikke er sikker på, hvad du skal gøre så kontakt din administrator før du fortsætter. Vil du fortsætte?"
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
@@ -464,7 +466,7 @@ msgstr "Hjælp"
 msgid "Access forbidden"
 msgstr "Adgang forbudt"
 
-#: templates/404.php:12
+#: templates/404.php:15
 msgid "Cloud not found"
 msgstr "Sky ikke fundet"
 
@@ -477,7 +479,7 @@ msgid ""
 "View it: %s\n"
 "\n"
 "Cheers!"
-msgstr ""
+msgstr "Hallo\n\ndette blot for at lade dig vide, at %s har delt %s med dig.\nSe det: %s\n\nHej"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -524,7 +526,7 @@ msgstr "Dine data mappe og filer er sandsynligvis tilgængelige fra internettet 
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "For information om, hvordan du konfigurerer din server korrekt se <a href=\"%s\" target=\"_blank\">dokumentationen</a>."
 
 #: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
@@ -581,6 +583,10 @@ msgstr "%s er tilgængelig. Få mere information om, hvordan du opdaterer."
 msgid "Log out"
 msgstr "Log ud"
 
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr "Flere programmer"
+
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Automatisk login afvist!"
@@ -616,7 +622,7 @@ msgstr "Alternative logins"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr ""
+msgstr "Hallo,<br><br>dette blot for at lade dig vide, at %s har delt \"%s\" med dig.<br><a href=\"%s\">Se det!</a><br><br>Hej"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

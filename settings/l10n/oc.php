@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Pas possible de cargar la tièra dempuèi App Store",
 "Authentication error" => "Error d'autentificacion",
 "Group already exists" => "Lo grop existís ja",
@@ -48,3 +49,4 @@
 "Other" => "Autres",
 "Username" => "Non d'usancièr"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

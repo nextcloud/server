@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Nie można trwale usunąć %s",
 "Couldn't restore %s" => "Nie można przywrócić %s",
 "perform restore operation" => "wykonywanie operacji przywracania",
@@ -7,12 +8,12 @@
 "Delete permanently" => "Trwale usuń",
 "Name" => "Nazwa",
 "Deleted" => "Usunięte",
-"1 folder" => "1 folder",
-"{count} folders" => "Ilość folderów: {count}",
-"1 file" => "1 plik",
-"{count} files" => "Ilość plików: {count}",
+"_%n folder_::_%n folders_" => array("","",""),
+"_%n file_::_%n files_" => array("","",""),
+"restored" => "przywrócony",
 "Nothing in here. Your trash bin is empty!" => "Nic tu nie ma. Twój kosz jest pusty!",
 "Restore" => "Przywróć",
 "Delete" => "Usuń",
 "Deleted Files" => "Usunięte pliki"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

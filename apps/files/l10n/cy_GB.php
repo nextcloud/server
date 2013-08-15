@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Methwyd symud %s - Mae ffeil gyda'r enw hwn eisoes yn bodoli",
 "Could not move %s" => "Methwyd symud %s",
 "No file was uploaded. Unknown error" => "Ni lwythwyd ffeil i fyny. Gwall anhysbys.",
@@ -30,7 +31,7 @@
 "replaced {new_name} with {old_name}" => "newidiwyd {new_name} yn lle {old_name}",
 "undo" => "dadwneud",
 "perform delete operation" => "cyflawni gweithred dileu",
-"1 file uploading" => "1 ffeil yn llwytho i fyny",
+"_Uploading %n file_::_Uploading %n files_" => array("","","",""),
 "files uploading" => "ffeiliau'n llwytho i fyny",
 "'.' is an invalid file name." => "Mae '.' yn enw ffeil annilys.",
 "File name cannot be empty." => "Does dim hawl cael enw ffeil gwag.",
@@ -42,10 +43,8 @@
 "Name" => "Enw",
 "Size" => "Maint",
 "Modified" => "Addaswyd",
-"1 folder" => "1 blygell",
-"{count} folders" => "{count} plygell",
-"1 file" => "1 ffeil",
-"{count} files" => "{count} ffeil",
+"_%n folder_::_%n folders_" => array("","","",""),
+"_%n file_::_%n files_" => array("","","",""),
 "Upload" => "Llwytho i fyny",
 "File handling" => "Trafod ffeiliau",
 "Maximum upload size" => "Maint mwyaf llwytho i fyny",
@@ -71,3 +70,4 @@
 "Current scanning" => "Sganio cyfredol",
 "Upgrading filesystem cache..." => "Uwchraddio storfa system ffeiliau..."
 );
+$PLURAL_FORMS = "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;";

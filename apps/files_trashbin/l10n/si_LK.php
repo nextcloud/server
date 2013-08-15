@@ -1,7 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Error" => "දෝෂයක්",
 "Name" => "නම",
-"1 folder" => "1 ෆොල්ඩරයක්",
-"1 file" => "1 ගොනුවක්",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "Delete" => "මකා දමන්න"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

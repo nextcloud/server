@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Nie je možné nahrať zoznam z App Store",
 "Authentication error" => "Chyba autentifikácie",
 "Your display name has been changed." => "Vaše zobrazované meno bolo zmenené.",
@@ -104,3 +105,4 @@
 "set new password" => "nastaviť nové heslo",
 "Default" => "Predvolené"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

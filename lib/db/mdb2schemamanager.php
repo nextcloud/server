@@ -6,20 +6,33 @@
  * See the COPYING-README file.
  */
 
-class OC_DB_Schema {
+namespace OC\DB;
+
+class MDB2SchemaManager {
+	/**
+	 * @var \OC\DB\Connection $conn
+	 */
+	protected $conn;
+
+	/**
+	 * @param \OC\DB\Connection $conn
+	 */
+	public function __construct($conn) {
+		$this->conn = $conn;
+	}
+
 	/**
 	 * @brief saves database scheme to xml file
-	 * @param \Doctrine\DBAL\Connection $conn
 	 * @param string $file name of file
 	 * @param int|string $mode
 	 * @return bool
 	 *
 	 * TODO: write more documentation
 	 */
-	public static function getDbStructure( $conn, $file, $mode=MDB2_SCHEMA_DUMP_STRUCTURE) {
-		$sm = $conn->getSchemaManager();
+	public function getDbStructure( $file, $mode = MDB2_SCHEMA_DUMP_STRUCTURE) {
+		$sm = $this->conn->getSchemaManager();
 
-		return OC_DB_MDB2SchemaWriter::saveSchemaToFile($file, $sm);
+		return \OC_DB_MDB2SchemaWriter::saveSchemaToFile($file, $sm);
 	}
 
 	/**
@@ -29,9 +42,10 @@ class OC_DB_Schema {
 	 *
 	 * TODO: write more documentation
 	 */
-	public static function createDbFromStructure( $conn, $file ) {
-		$toSchema = OC_DB_MDB2SchemaReader::loadSchemaFromFile($file, $conn->getDatabasePlatform());
-		return self::executeSchemaChange($conn, $toSchema);
+	public function createDbFromStructure( $file ) {
+		$schemaReader = new MDB2SchemaReader(\OC_Config::getObject(), $this->conn->getDatabasePlatform());
+		$toSchema = $schemaReader->loadSchemaFromFile($file);
+		return $this->executeSchemaChange($toSchema);
 	}
 
 	/**
@@ -39,11 +53,12 @@ class OC_DB_Schema {
 	 * @param string $file file to read structure from
 	 * @return bool
 	 */
-	public static function updateDbFromStructure($conn, $file) {
-		$sm = $conn->getSchemaManager();
+	public function updateDbFromStructure($file) {
+		$sm = $this->conn->getSchemaManager();
 		$fromSchema = $sm->createSchema();
 
-		$toSchema = OC_DB_MDB2SchemaReader::loadSchemaFromFile($file, $conn->getDatabasePlatform());
+		$schemaReader = new MDB2SchemaReader(\OC_Config::getObject(), $this->conn->getDatabasePlatform());
+		$toSchema = $schemaReader->loadSchemaFromFile($file);
 
 		// remove tables we don't know about
 		foreach($fromSchema->getTables() as $table) {
@@ -61,76 +76,75 @@ class OC_DB_Schema {
 		$comparator = new \Doctrine\DBAL\Schema\Comparator();
 		$schemaDiff = $comparator->compare($fromSchema, $toSchema);
 
-		$platform = $conn->getDatabasePlatform();
+		$platform = $this->conn->getDatabasePlatform();
 		$tables = $schemaDiff->newTables + $schemaDiff->changedTables + $schemaDiff->removedTables;
 		foreach($tables as $tableDiff) {
 			$tableDiff->name = $platform->quoteIdentifier($tableDiff->name);
 		}
 
-
-		//$from = $fromSchema->toSql($conn->getDatabasePlatform());
-		//$to = $toSchema->toSql($conn->getDatabasePlatform());
-		//echo($from[9]);
-		//echo '<br>';
-		//echo($to[9]);
-		//var_dump($from, $to);
-		return self::executeSchemaChange($conn, $schemaDiff);
+		return $this->executeSchemaChange($schemaDiff);
 	}
 
 	/**
 	 * @brief drop a table
 	 * @param string $tableName the table to drop
 	 */
-	public static function dropTable($conn, $tableName) {
-		$sm = $conn->getSchemaManager();
+	public function dropTable($tableName) {
+		$sm = $this->conn->getSchemaManager();
 		$fromSchema = $sm->createSchema();
 		$toSchema = clone $fromSchema;
 		$toSchema->dropTable($tableName);
-		$sql = $fromSchema->getMigrateToSql($toSchema, $conn->getDatabasePlatform());
-		$conn->execute($sql);
+		$sql = $fromSchema->getMigrateToSql($toSchema, $this->conn->getDatabasePlatform());
+		$this->conn->executeQuery($sql);
 	}
 
 	/**
 	 * remove all tables defined in a database structure xml file
 	 * @param string $file the xml file describing the tables
 	 */
-	public static function removeDBStructure($conn, $file) {
-		$fromSchema = OC_DB_MDB2SchemaReader::loadSchemaFromFile($file, $conn->getDatabasePlatform());
+	public function removeDBStructure($file) {
+		$schemaReader = new MDB2SchemaReader(\OC_Config::getObject(), $this->conn->getDatabasePlatform());
+		$fromSchema = $schemaReader->loadSchemaFromFile($file);
 		$toSchema = clone $fromSchema;
 		foreach($toSchema->getTables() as $table) {
 			$toSchema->dropTable($table->getName());
 		}
 		$comparator = new \Doctrine\DBAL\Schema\Comparator();
 		$schemaDiff = $comparator->compare($fromSchema, $toSchema);
-		self::executeSchemaChange($conn, $schemaDiff);
+		$this->executeSchemaChange($schemaDiff);
 	}
 
 	/**
 	 * @brief replaces the ownCloud tables with a new set
 	 * @param $file string path to the MDB2 xml db export file
 	 */
-	public static function replaceDB( $conn, $file ) {
-		$apps = OC_App::getAllApps();
-		self::beginTransaction();
+	public function replaceDB( $file ) {
+		$apps = \OC_App::getAllApps();
+		$this->conn->beginTransaction();
 		// Delete the old tables
-		self::removeDBStructure( $conn, OC::$SERVERROOT . '/db_structure.xml' );
+		$this->removeDBStructure( \OC::$SERVERROOT . '/db_structure.xml' );
 
 		foreach($apps as $app) {
-			$path = OC_App::getAppPath($app).'/appinfo/database.xml';
+			$path = \OC_App::getAppPath($app).'/appinfo/database.xml';
 			if(file_exists($path)) {
-				self::removeDBStructure( $conn, $path );
+				$this->removeDBStructure( $path );
 			}
 		}
 
 		// Create new tables
-		self::commit();
+		$this->conn->commit();
 	}
 
-	private static function executeSchemaChange($conn, $schema) {
-		$conn->beginTransaction();
-		foreach($schema->toSql($conn->getDatabasePlatform()) as $sql) {
-			$conn->query($sql);
+	/**
+	 * @param \Doctrine\DBAL\Schema\Schema $schema
+	 * @return bool
+	 */
+	private function executeSchemaChange($schema) {
+		$this->conn->beginTransaction();
+		foreach($schema->toSql($this->conn->getDatabasePlatform()) as $sql) {
+			$this->conn->query($sql);
 		}
-		$conn->commit();
+		$this->conn->commit();
+		return true;
 	}
 }

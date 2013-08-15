@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Nevarēja pārvietot %s — jau eksistē datne ar tādu nosaukumu",
 "Could not move %s" => "Nevarēja pārvietot %s",
 "No file was uploaded. Unknown error" => "Netika augšupielādēta neviena datne. Nezināma kļūda",
@@ -30,7 +31,7 @@
 "replaced {new_name} with {old_name}" => "aizvietoja {new_name} ar {old_name}",
 "undo" => "atsaukt",
 "perform delete operation" => "veikt dzēšanas darbību",
-"1 file uploading" => "Augšupielādē 1 datni",
+"_Uploading %n file_::_Uploading %n files_" => array("","",""),
 "'.' is an invalid file name." => "'.' ir nederīgs datnes nosaukums.",
 "File name cannot be empty." => "Datnes nosaukums nevar būt tukšs.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nederīgs nosaukums, nav atļauti '\\', '/', '<', '>', ':', '\"', '|', '?' un '*'.",
@@ -41,10 +42,8 @@
 "Name" => "Nosaukums",
 "Size" => "Izmērs",
 "Modified" => "Mainīts",
-"1 folder" => "1 mape",
-"{count} folders" => "{count} mapes",
-"1 file" => "1 datne",
-"{count} files" => "{count} datnes",
+"_%n folder_::_%n folders_" => array("","",""),
+"_%n file_::_%n files_" => array("","",""),
 "Upload" => "Augšupielādēt",
 "File handling" => "Datņu pārvaldība",
 "Maximum upload size" => "Maksimālais datņu augšupielādes apjoms",
@@ -72,3 +71,4 @@
 "files" => "faili",
 "Upgrading filesystem cache..." => "Uzlabo datņu sistēmas kešatmiņu..."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);";

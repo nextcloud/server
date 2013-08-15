@@ -8,8 +8,8 @@
 
 namespace OC\Files\Utils;
 
-use OC\Hooks\BasicEmitter;
 use OC\Files\Filesystem;
+use OC\Hooks\PublicEmitter;
 
 /**
  * Class Scanner
@@ -20,7 +20,7 @@ use OC\Files\Filesystem;
  *
  * @package OC\Files\Utils
  */
-class Scanner extends BasicEmitter {
+class Scanner extends PublicEmitter {
 	/**
 	 * @var string $user
 	 */
@@ -60,11 +60,12 @@ class Scanner extends BasicEmitter {
 	 */
 	protected function attachListener($mount) {
 		$scanner = $mount->getStorage()->getScanner();
-		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFile', function ($path) use ($mount) {
-			$this->emit('\OC\Files\Utils\Scanner', 'scanFile', array($mount->getMountPoint() . $path));
+		$emitter = $this;
+		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFile', function ($path) use ($mount, $emitter) {
+			$emitter->emit('\OC\Files\Utils\Scanner', 'scanFile', array($mount->getMountPoint() . $path));
 		});
-		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFolder', function ($path) use ($mount) {
-			$this->emit('\OC\Files\Utils\Scanner', 'scanFolder', array($mount->getMountPoint() . $path));
+		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFolder', function ($path) use ($mount, $emitter) {
+			$emitter->emit('\OC\Files\Utils\Scanner', 'scanFolder', array($mount->getMountPoint() . $path));
 		});
 	}
 

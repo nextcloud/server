@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Hjælp",
 "Personal" => "Personligt",
 "Settings" => "Indstillinger",
 "Users" => "Brugere",
-"Apps" => "Apps",
 "Admin" => "Admin",
 "Failed to upgrade \"%s\"." => "Upgradering af \"%s\" fejlede",
 "web services under your control" => "Webtjenester under din kontrol",
@@ -41,17 +41,16 @@
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Din webserver er endnu ikke sat op til at tillade fil synkronisering fordi WebDAV grænsefladen virker ødelagt.",
 "Please double check the <a href='%s'>installation guides</a>." => "Dobbelttjek venligst <a href='%s'>installations vejledningerne</a>.",
 "seconds ago" => "sekunder siden",
-"1 minute ago" => "1 minut siden",
-"%d minutes ago" => "%d minutter siden",
-"1 hour ago" => "1 time siden",
-"%d hours ago" => "%d timer siden",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "i dag",
 "yesterday" => "i går",
-"%d days ago" => "%d dage siden",
+"_%n day go_::_%n days ago_" => array("",""),
 "last month" => "sidste måned",
-"%d months ago" => "%d måneder siden",
+"_%n month ago_::_%n months ago_" => array("",""),
 "last year" => "sidste år",
 "years ago" => "år siden",
 "Caused by:" => "Forårsaget af:",
 "Could not find category \"%s\"" => "Kunne ikke finde kategorien \"%s\""
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

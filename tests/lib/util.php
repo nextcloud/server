@@ -7,13 +7,27 @@
  */
 
 class Test_Util extends PHPUnit_Framework_TestCase {
+	public function testGetVersion() {
+		$version = \OC_Util::getVersion();
+		$this->assertTrue(is_array($version));
+		foreach ($version as $num) {
+			$this->assertTrue(is_int($num));
+		}
+	}
 
-	// Constructor
-	function Test_Util() {
-		date_default_timezone_set("UTC");
+	public function testGetVersionString() {
+		$version = \OC_Util::getVersionString();
+		$this->assertTrue(is_string($version));
+	}
+
+	public function testGetEditionString() {
+		$edition = \OC_Util::getEditionString();
+		$this->assertTrue(is_string($edition));
 	}
 
 	function testFormatDate() {
+		date_default_timezone_set("UTC");
+
 		$result = OC_Util::formatDate(1350129205);
 		$expected = 'October 13, 2012 11:53';
 		$this->assertEquals($expected, $result);
@@ -44,6 +58,19 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		$this->assertEquals("/%C2%A7%23%40test%25%26%5E%C3%A4/-child", $result);
 	}
 
+	public function testFileInfoLoaded() {
+		$expected = function_exists('finfo_open');
+		$this->assertEquals($expected, \OC_Util::fileInfoLoaded());
+	}
+
+	public function testIsInternetConnectionEnabled() {
+		\OC_Config::setValue("has_internet_connection", false);
+		$this->assertFalse(\OC_Util::isInternetConnectionEnabled());
+
+		\OC_Config::setValue("has_internet_connection", true);
+		$this->assertTrue(\OC_Util::isInternetConnectionEnabled());
+	}
+
 	function testGenerate_random_bytes() {
 		$result = strlen(OC_Util::generate_random_bytes(59));
 		$this->assertEquals(59, $result);
@@ -61,8 +88,28 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		OC_Config::deleteKey('mail_domain');
 	}
 
-  function testGetInstanceIdGeneratesValidId() {
-    OC_Config::deleteKey('instanceid');
-    $this->assertStringStartsWith('oc', OC_Util::getInstanceId());
-  }
+	function testGetInstanceIdGeneratesValidId() {
+		OC_Config::deleteKey('instanceid');
+		$this->assertStringStartsWith('oc', OC_Util::getInstanceId());
+	}
+
+	/**
+	 * @dataProvider baseNameProvider
+	 */
+	public function testBaseName($expected, $file)
+	{
+		$base = \OC_Util::basename($file);
+		$this->assertEquals($expected, $base);
+	}
+
+	public function baseNameProvider()
+	{
+		return array(
+			array('public_html', '/home/user/public_html/'),
+			array('public_html', '/home/user/public_html'),
+			array('', '/'),
+			array('public_html', 'public_html'),
+			array('442aa682de2a64db1e010f50e60fd9c9', 'local::C:\Users\ADMINI~1\AppData\Local\Temp\2/442aa682de2a64db1e010f50e60fd9c9/')
+		);
+	}
 }

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to clear the mappings." => "عدم موفقیت در پاک کردن نگاشت.",
 "Failed to delete the server configuration" => "عملیات حذف پیکربندی سرور ناموفق ماند",
 "The configuration is valid and the connection could be established!" => "پیکربندی معتبر است و ارتباط می تواند برقرار شود",
@@ -65,3 +66,4 @@
 "Test Configuration" => "امتحان پیکربندی",
 "Help" => "راه‌نما"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to clear the mappings." => "Hubo un error al borrar las asignaciones.",
 "Failed to delete the server configuration" => "Fallo al borrar la configuración del servidor",
 "The configuration is valid and the connection could be established!" => "La configuración es válida y la conexión pudo ser establecida.",
@@ -79,3 +80,4 @@
 "Test Configuration" => "Probar configuración",
 "Help" => "Ayuda"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

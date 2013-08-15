@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to delete the server configuration" => "การลบการกำหนดค่าเซิร์ฟเวอร์ล้มเหลว",
 "The configuration is valid and the connection could be established!" => "การกำหนดค่าถูกต้องและการเชื่อมต่อสามารถเชื่อมต่อได้!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "การกำหนดค่าถูกต้อง, แต่การผูกข้อมูลล้มเหลว, กรุณาตรวจสอบการตั้งค่าเซิร์ฟเวอร์และข้อมูลการเข้าใช้งาน",
@@ -57,3 +58,4 @@
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "เว้นว่างไว้สำหรับ ชื่อผู้ใช้ (ค่าเริ่มต้น) หรือไม่กรุณาระบุคุณลักษณะของ LDAP/AD",
 "Help" => "ช่วยเหลือ"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

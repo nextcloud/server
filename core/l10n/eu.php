@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s-ek »%s« zurekin partekatu du",
 "Category type not provided." => "Kategoria mota ez da zehaztu.",
 "No category to add?" => "Ez dago gehitzeko kategoriarik?",
@@ -29,15 +30,13 @@
 "December" => "Abendua",
 "Settings" => "Ezarpenak",
 "seconds ago" => "segundu",
-"1 minute ago" => "orain dela minutu 1",
-"{minutes} minutes ago" => "orain dela {minutes} minutu",
-"1 hour ago" => "orain dela ordu bat",
-"{hours} hours ago" => "orain dela {hours} ordu",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "gaur",
 "yesterday" => "atzo",
-"{days} days ago" => "orain dela {days} egun",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "joan den hilabetean",
-"{months} months ago" => "orain dela {months} hilabete",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "hilabete",
 "last year" => "joan den urtean",
 "years ago" => "urte",
@@ -85,7 +84,6 @@
 "Email sent" => "Eposta bidalia",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Eguneraketa ez da ongi egin. Mesedez egin arazoaren txosten bat <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud komunitatearentzako</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Eguneraketa ongi egin da. Orain zure ownClouderea berbideratua izango zara.",
-"ownCloud password reset" => "ownCloud-en pasahitza berrezarri",
 "Use the following link to reset your password: {link}" => "Eribili hurrengo lotura zure pasahitza berrezartzeko: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Zure pasahitza berrezartzeko lotura zure postara bidalia izan da.<br>Ez baduzu arrazoizko denbora \nepe batean jasotzen begiratu zure zabor-posta karpetan.<br>Hor ere ez badago kudeatzailearekin harremanetan ipini.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Eskaerak huts egin du!<br>Ziur zaude posta/pasahitza zuzenak direla?",
@@ -140,3 +138,4 @@
 "next" => "hurrengoa",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud %s bertsiora eguneratzen, denbora har dezake."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

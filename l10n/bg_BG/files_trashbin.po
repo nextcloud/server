@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-30 01:55-0400\n"
-"PO-Revision-Date: 2013-07-30 05:56+0000\n"
+"POT-Creation-Date: 2013-08-15 04:47-0400\n"
+"PO-Revision-Date: 2013-08-15 08:48+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -52,21 +52,17 @@ msgstr "Име"
 msgid "Deleted"
 msgstr "Изтрито"
 
-#: js/trash.js:192
-msgid "1 folder"
-msgstr "1 папка"
+#: js/trash.js:191
+msgid "%n folder"
+msgid_plural "%n folders"
+msgstr[0] ""
+msgstr[1] ""
 
-#: js/trash.js:194
-msgid "{count} folders"
-msgstr "{count} папки"
-
-#: js/trash.js:202
-msgid "1 file"
-msgstr "1 файл"
-
-#: js/trash.js:204
-msgid "{count} files"
-msgstr "{count} файла"
+#: js/trash.js:197
+msgid "%n file"
+msgid_plural "%n files"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lib/trash.php:819 lib/trash.php:821
 msgid "restored"

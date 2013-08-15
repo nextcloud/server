@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s 與您分享了 %s",
 "Category type not provided." => "未提供分類類型。",
 "No category to add?" => "沒有可增加的分類？",
@@ -29,15 +30,13 @@
 "December" => "十二月",
 "Settings" => "設定",
 "seconds ago" => "幾秒前",
-"1 minute ago" => "1 分鐘前",
-"{minutes} minutes ago" => "{minutes} 分鐘前",
-"1 hour ago" => "1 小時之前",
-"{hours} hours ago" => "{hours} 小時前",
+"_%n minute ago_::_%n minutes ago_" => array(""),
+"_%n hour ago_::_%n hours ago_" => array(""),
 "today" => "今天",
 "yesterday" => "昨天",
-"{days} days ago" => "{days} 天前",
+"_%n day ago_::_%n days ago_" => array(""),
 "last month" => "上個月",
-"{months} months ago" => "{months} 個月前",
+"_%n month ago_::_%n months ago_" => array(""),
 "months ago" => "幾個月前",
 "last year" => "去年",
 "years ago" => "幾年前",
@@ -85,7 +84,6 @@
 "Email sent" => "Email 已寄出",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "升級失敗，請將此問題回報 <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud 社群</a>。",
 "The update was successful. Redirecting you to ownCloud now." => "升級成功，正將您重新導向至 ownCloud 。",
-"ownCloud password reset" => "ownCloud 密碼重設",
 "Use the following link to reset your password: {link}" => "請至以下連結重設您的密碼： {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "重設密碼的連結已經寄至您的電子郵件信箱，如果您過了一段時間還是沒有收到它，請檢查看看它是不是被放到垃圾郵件了，如果還是沒有的話，請聯絡您的 ownCloud 系統管理員。",
 "Request failed!<br>Did you make sure your email/username was right?" => "請求失敗！<br>您確定填入的電子郵件地址或是帳號名稱是正確的嗎？",
@@ -110,9 +108,11 @@
 "Add" => "增加",
 "Security Warning" => "安全性警告",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "您的 PHP 版本無法抵抗 NULL Byte 攻擊 (CVE-2006-7243)",
+"Please update your PHP installation to use %s securely." => "請更新 PHP 以安全地使用 %s。",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "沒有可用的亂數產生器，請啟用 PHP 中的 OpenSSL 擴充功能。",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "若沒有安全的亂數產生器，攻擊者可能可以預測密碼重設信物，然後控制您的帳戶。",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "您的資料目錄看起來可以被 Internet 公開存取，因為 .htaccess 設定並未生效。",
+"For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "請參考<a href=\"%s\" target=\"_blank\">說明文件</a>以瞭解如何正確設定您的伺服器。",
 "Create an <strong>admin account</strong>" => "建立一個<strong>管理者帳號</strong>",
 "Advanced" => "進階",
 "Data folder" => "資料夾",
@@ -138,3 +138,4 @@
 "next" => "下一頁",
 "Updating ownCloud to version %s, this may take a while." => "正在將 Owncloud 升級至版本 %s ，這可能需要一點時間。"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

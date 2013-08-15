@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Klarte ikkje flytta %s – det finst allereie ei fil med dette namnet",
 "Could not move %s" => "Klarte ikkje flytta %s",
 "No file was uploaded. Unknown error" => "Ingen filer lasta opp. Ukjend feil",
@@ -31,7 +32,7 @@
 "replaced {new_name} with {old_name}" => "bytte ut {new_name} med {old_name}",
 "undo" => "angre",
 "perform delete operation" => "utfør sletting",
-"1 file uploading" => "1 fil lastar opp",
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
 "files uploading" => "filer lastar opp",
 "'.' is an invalid file name." => "«.» er eit ugyldig filnamn.",
 "File name cannot be empty." => "Filnamnet kan ikkje vera tomt.",
@@ -43,10 +44,8 @@
 "Name" => "Namn",
 "Size" => "Storleik",
 "Modified" => "Endra",
-"1 folder" => "1 mappe",
-"{count} folders" => "{count} mapper",
-"1 file" => "1 fil",
-"{count} files" => "{count} filer",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "Upload" => "Last opp",
 "File handling" => "Filhandtering",
 "Maximum upload size" => "Maksimal opplastingsstorleik",
@@ -72,3 +71,4 @@
 "Current scanning" => "Køyrande skanning",
 "Upgrading filesystem cache..." => "Oppgraderer mellomlageret av filsystemet …"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

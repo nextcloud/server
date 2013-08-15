@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s を移動できませんでした ― この名前のファイルはすでに存在します",
 "Could not move %s" => "%s を移動できませんでした",
 "Unable to set upload directory." => "アップロードディレクトリを設定出来ません。",
@@ -33,7 +34,7 @@
 "replaced {new_name} with {old_name}" => "{old_name} を {new_name} に置換",
 "undo" => "元に戻す",
 "perform delete operation" => "削除を実行",
-"1 file uploading" => "ファイルを1つアップロード中",
+"_Uploading %n file_::_Uploading %n files_" => array(""),
 "files uploading" => "ファイルをアップロード中",
 "'.' is an invalid file name." => "'.' は無効なファイル名です。",
 "File name cannot be empty." => "ファイル名を空にすることはできません。",
@@ -45,10 +46,8 @@
 "Name" => "名前",
 "Size" => "サイズ",
 "Modified" => "変更",
-"1 folder" => "1 フォルダ",
-"{count} folders" => "{count} フォルダ",
-"1 file" => "1 ファイル",
-"{count} files" => "{count} ファイル",
+"_%n folder_::_%n folders_" => array(""),
+"_%n file_::_%n files_" => array(""),
 "%s could not be renamed" => "%sの名前を変更できませんでした",
 "Upload" => "アップロード",
 "File handling" => "ファイル操作",
@@ -79,3 +78,4 @@
 "files" => "ファイル",
 "Upgrading filesystem cache..." => "ファイルシステムキャッシュを更新中..."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

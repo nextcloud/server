@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Neizdevās izdzēst servera konfigurāciju",
 "The configuration is valid and the connection could be established!" => "Konfigurācija ir derīga un varēja izveidot savienojumu!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Konfigurācija ir derīga, bet sasaiste neizdevās. Lūdzu, pārbaudiet servera iestatījumus un akreditācijas datus.",
@@ -69,3 +70,4 @@
 "Test Configuration" => "Testa konfigurācija",
 "Help" => "Palīdzība"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);";

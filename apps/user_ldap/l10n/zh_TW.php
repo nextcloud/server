@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to clear the mappings." => "清除映射失敗",
 "Failed to delete the server configuration" => "刪除伺服器設定時失敗",
 "The configuration is valid and the connection could be established!" => "設定有效且連線可建立",
@@ -70,3 +71,4 @@
 "Test Configuration" => "測試此設定",
 "Help" => "說明"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

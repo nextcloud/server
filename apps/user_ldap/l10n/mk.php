@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Deletion failed" => "Бришењето е неуспешно",
 "Error" => "Грешка",
 "Host" => "Домаќин",
@@ -6,3 +7,4 @@
 "Password" => "Лозинка",
 "Help" => "Помош"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;";
