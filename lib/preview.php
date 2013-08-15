@@ -391,6 +391,8 @@ class Preview {
 					continue;
 				}
 
+				\OC_Log::write('core', 'Generating preview for "' . $file . '" with "' . get_class($provider) . '"', \OC_Log::DEBUG);
+
 				$preview = $provider->getThumbnail($file, $maxX, $maxY, $scalingUp, $this->fileview);
 
 				if(!($preview instanceof \OC_Image)) {

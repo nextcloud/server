@@ -18,7 +18,7 @@ if (extension_loaded('imagick')) {
 		public function getThumbnail($path,$maxX,$maxY,$scalingup,$fileview) {
 			try{
 				$svg = new \Imagick();
-				$svg->setResolution($maxX, $maxY);
+				$svg->setBackgroundColor(new \ImagickPixel('transparent'));
 
 				$content = stream_get_contents($fileview->fopen($path, 'r'));
 				if(substr($content, 0, 5) !== '<?xml') {
@@ -26,14 +26,16 @@ if (extension_loaded('imagick')) {
 				}
 
 				$svg->readImageBlob($content);
-				$svg->setImageFormat('jpg');
+				$svg->setImageFormat('png32');
 			} catch (\Exception $e) {
 				\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
 				return false;
 			}
 
+
 			//new image object
-			$image = new \OC_Image($svg);
+			$image = new \OC_Image();
+			$image->loadFromData($svg);
 			//check if image object is valid
 			return $image->valid() ? $image : false;
 		}
