@@ -53,8 +53,10 @@ class XCache extends Cache {
 		if (\OC::$CLI) {
 			return false;
 		}
-		// as soon as admin auth is enabled we can run into issues with admin ops like xcache_clear_cache
-		if (ini_get('xcache.admin.enable_auth')) {
+		if (!function_exists('xcache_unset_by_prefix') && ini_get('xcache.admin.enable_auth')) {
+			// We do not want to use xCache if we can not clear it without
+			// using the administration function xcache_clear_cache()
+			// AND administration functions are password-protected.
 			return false;
 		}
 
