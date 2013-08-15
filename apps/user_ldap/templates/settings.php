@@ -24,7 +24,7 @@
 			$sel = ' selected';
 			foreach($_['serverConfigurationPrefixes'] as $prefix) {
 				?>
-				<option value="<?php p($prefix); ?>"<?php p($sel); ?>><?php p($i++); ?>. Server</option>
+				<option value="<?php p($prefix); ?>"<?php p($sel); $sel = ''; ?>><?php p($i++); ?>. Server: <?php p($_['serverConfigurationHosts'][$prefix]); ?></option>
 				<?php
 			}
 		}
