@@ -8,6 +8,10 @@
 
 namespace OC\Memcache;
 
+/**
+ * See http://xcache.lighttpd.net/wiki/XcacheApi for provided constants and
+ * functions etc.
+ */
 class XCache extends Cache {
 	/**
 	 * entries in XCache gets namespaced to prevent collisions between ownCloud instances and users
