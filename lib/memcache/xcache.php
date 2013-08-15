@@ -38,7 +38,7 @@ class XCache extends Cache {
 
 	public function clear($prefix='') {
 		if (function_exists('xcache_unset_by_prefix')) {
-			xcache_unset_by_prefix($this->getNamespace().$prefix);
+			return xcache_unset_by_prefix($this->getNamespace().$prefix);
 		} else {
 			// Since we can not clear by prefix, we just clear the whole cache.
 			xcache_clear_cache(\XC_TYPE_VAR, 0);
