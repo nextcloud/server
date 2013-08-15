@@ -90,7 +90,8 @@ if($_['passwordChangeSupported']) {
 		<img src="<?php print_unescaped(link_to('', 'avatar.php').'?user='.OC_User::getUser().'&size=128'); ?>"><br>
 		<?php if ($_['avatar'] === "local"): ?>
 			<em><?php p($l->t('Your avatar has to be a square and either a PNG or JPG image')); ?></em><br>
-			<input type="file" class="inlineblock button" name="files[]" id="uploadavatar" value="<?php p($l->t('Upload a new avatar')); ?>">
+			<div class="inlineblock button" id="uploadavatarbutton"><?php p($l->t('Upload a new avatar')); ?></div>
+			<input type="file" class="hidden" name="files[]" id="uploadavatar">
 			<div class="inlineblock button" id="selectavatar"><?php p($l->t('Select a new avatar from your files')); ?></div>
 			<div class="inlineblock button" id="removeavatar"><?php p($l->t('Remove my avatar')); ?></div>
 		<?php elseif ($_['avatar'] === "gravatar"): ?>
