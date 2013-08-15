@@ -22,7 +22,10 @@
 #new>ul>li { height:36px; margin:.3em; padding-left:3em; padding-bottom:0.1em;
 		background-repeat:no-repeat; cursor:pointer; }
 #new>ul>li>p { cursor:pointer; padding-top: 7px; padding-bottom: 7px;}
-#new>ul>li>form>input { padding:0.3em; margin:-0.3em; }
+#new>ul>li>form>input {
+	padding: 5px;
+	margin: 2px 0;
+}
 
 #trash { margin: 0 1em; z-index:1010; float: right; }
 
@@ -189,7 +192,7 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 	height: 50px;
 	position: absolute;
 	width: 50px;
-	z-index: 100;
+	z-index: 5;
 }
 #fileList tr td.filename>input[type="checkbox"] + label {
 	left: 0;

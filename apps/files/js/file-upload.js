@@ -221,7 +221,7 @@ $(document).ready(function() {
 	$(this).data('text',text);
 	$(this).children('p').remove();
 	var form=$('<form></form>');
-	var input=$('<input>');
+	var input=$('<input type="text">');
 	form.append(input);
 	$(this).append(form);
 	input.focus();
