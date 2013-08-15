@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-24 01:55-0400\n"
-"PO-Revision-Date: 2013-07-24 05:55+0000\n"
+"POT-Creation-Date: 2013-08-15 04:47-0400\n"
+"PO-Revision-Date: 2013-08-15 08:48+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Pirate English (http://www.transifex.com/projects/p/owncloud/language/en@pirate/)\n"
 "MIME-Version: 1.0\n"
@@ -34,19 +34,15 @@ msgid "Users"
 msgstr ""
 
 #: app.php:409
-msgid "Apps"
-msgstr ""
-
-#: app.php:417
 msgid "Admin"
 msgstr ""
 
-#: app.php:844
+#: app.php:836
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
 
-#: defaults.php:33
+#: defaults.php:35
 msgid "web services under your control"
 msgstr "web services under your control"
 
@@ -210,54 +206,50 @@ msgid "seconds ago"
 msgstr ""
 
 #: template/functions.php:81
-msgid "1 minute ago"
-msgstr ""
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
 
 #: template/functions.php:82
-#, php-format
-msgid "%d minutes ago"
-msgstr ""
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
 
 #: template/functions.php:83
-msgid "1 hour ago"
-msgstr ""
-
-#: template/functions.php:84
-#, php-format
-msgid "%d hours ago"
-msgstr ""
-
-#: template/functions.php:85
 msgid "today"
 msgstr ""
 
-#: template/functions.php:86
+#: template/functions.php:84
 msgid "yesterday"
 msgstr ""
 
-#: template/functions.php:87
-#, php-format
-msgid "%d days ago"
-msgstr ""
+#: template/functions.php:85
+msgid "%n day go"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: template/functions.php:88
+#: template/functions.php:86
 msgid "last month"
 msgstr ""
 
-#: template/functions.php:89
-#, php-format
-msgid "%d months ago"
-msgstr ""
+#: template/functions.php:87
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: template/functions.php:90
+#: template/functions.php:88
 msgid "last year"
 msgstr ""
 
-#: template/functions.php:91
+#: template/functions.php:89
 msgid "years ago"
 msgstr ""
 
-#: template.php:296
+#: template.php:297
 msgid "Caused by:"
 msgstr ""
 

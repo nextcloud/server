@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not revert: %s" => "Nelze navrátit: %s",
 "Versions" => "Verze",
 "Failed to revert {file} to revision {timestamp}." => "Selhalo navrácení souboru {file} na verzi {timestamp}.",
@@ -6,3 +7,4 @@
 "No other versions available" => "Žádné další verze nejsou dostupné",
 "Restore" => "Obnovit"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

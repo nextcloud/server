@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# pstast <petr@stastny.eu>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-07 08:59-0400\n"
+"PO-Revision-Date: 2013-08-05 18:50+0000\n"
+"Last-Translator: pstast <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: js/dropbox.js:7 js/dropbox.js:28 js/google.js:16 js/google.js:34
+#: js/dropbox.js:7 js/dropbox.js:28 js/google.js:8 js/google.js:39
 msgid "Access granted"
 msgstr "Přístup povolen"
 
@@ -25,7 +26,7 @@ msgstr "Přístup povolen"
 msgid "Error configuring Dropbox storage"
 msgstr "Chyba při nastavení úložiště Dropbox"
 
-#: js/dropbox.js:65 js/google.js:66
+#: js/dropbox.js:65 js/google.js:86
 msgid "Grant access"
 msgstr "Povolit přístup"
 
@@ -33,29 +34,29 @@ msgstr "Povolit přístup"
 msgid "Please provide a valid Dropbox app key and secret."
 msgstr "Zadejte, prosím, platný klíč a bezpečnostní frázi aplikace Dropbox."
 
-#: js/google.js:36 js/google.js:93
+#: js/google.js:42 js/google.js:121
 msgid "Error configuring Google Drive storage"
 msgstr "Chyba při nastavení úložiště Google Drive"
 
-#: lib/config.php:447
+#: lib/config.php:448
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Varování:</b> není nainstalován program \"smbclient\". Není možné připojení oddílů CIFS/SMB. Prosím požádejte svého správce systému ať jej nainstaluje."
 
-#: lib/config.php:450
+#: lib/config.php:451
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
-msgstr "<b>Varování:</b> není nainstalována, nebo povolena, podpora FTP v PHP. Není možné připojení oddílů FTP. Prosím požádejte svého správce systému ať ji nainstaluje."
+msgstr "<b>Varování:</b> podpora FTP v PHP není povolena nebo není nainstalována. Není možné připojení oddílů FTP. Prosím požádejte svého správce systému ať ji nainstaluje."
 
-#: lib/config.php:453
+#: lib/config.php:454
 msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
 "your system administrator to install it."
-msgstr "<b>Varování:</b> není nainstalována, nebo povolena, podpora Curl v PHP. Není možné připojení oddílů ownCloud, WebDAV, či GoogleDrive. Prosím požádejte svého správce systému ať ji nainstaluje."
+msgstr "<b>Varování:</b> podpora CURL v PHP není povolena nebo není nainstalována. Není možné připojení oddílů ownCloud, WebDAV, či GoogleDrive. Prosím požádejte svého správce systému ať ji nainstaluje."
 
 #: templates/settings.php:3
 msgid "External Storage"

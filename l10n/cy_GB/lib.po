@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-04 01:55-0400\n"
-"PO-Revision-Date: 2013-08-04 05:01+0000\n"
+"POT-Creation-Date: 2013-08-15 04:47-0400\n"
+"PO-Revision-Date: 2013-08-15 08:48+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Welsh (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/cy_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -34,14 +34,10 @@ msgid "Users"
 msgstr "Defnyddwyr"
 
 #: app.php:409
-msgid "Apps"
-msgstr "Pecynnau"
-
-#: app.php:417
 msgid "Admin"
 msgstr "Gweinyddu"
 
-#: app.php:844
+#: app.php:836
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
@@ -210,50 +206,54 @@ msgid "seconds ago"
 msgstr "eiliad yn ôl"
 
 #: template/functions.php:81
-msgid "1 minute ago"
-msgstr "1 munud yn ôl"
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: template/functions.php:82
-#, php-format
-msgid "%d minutes ago"
-msgstr "%d munud yn ôl"
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: template/functions.php:83
-msgid "1 hour ago"
-msgstr "1 awr yn ôl"
-
-#: template/functions.php:84
-#, php-format
-msgid "%d hours ago"
-msgstr "%d awr yn ôl"
-
-#: template/functions.php:85
 msgid "today"
 msgstr "heddiw"
 
-#: template/functions.php:86
+#: template/functions.php:84
 msgid "yesterday"
 msgstr "ddoe"
 
-#: template/functions.php:87
-#, php-format
-msgid "%d days ago"
-msgstr "%d diwrnod yn ôl"
+#: template/functions.php:85
+msgid "%n day go"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
-#: template/functions.php:88
+#: template/functions.php:86
 msgid "last month"
 msgstr "mis diwethaf"
 
-#: template/functions.php:89
-#, php-format
-msgid "%d months ago"
-msgstr "%d mis yn ôl"
+#: template/functions.php:87
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
-#: template/functions.php:90
+#: template/functions.php:88
 msgid "last year"
 msgstr "y llynedd"
 
-#: template/functions.php:91
+#: template/functions.php:89
 msgid "years ago"
 msgstr "blwyddyn yn ôl"
 

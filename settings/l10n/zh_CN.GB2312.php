@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "不能从App Store 中加载列表",
 "Authentication error" => "验证错误",
 "Your display name has been changed." => "您的显示名称已修改",
@@ -114,3 +115,4 @@
 "set new password" => "设置新的密码",
 "Default" => "默认"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

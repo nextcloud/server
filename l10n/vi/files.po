@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-02 01:55-0400\n"
-"PO-Revision-Date: 2013-08-02 05:40+0000\n"
+"POT-Creation-Date: 2013-08-15 04:47-0400\n"
+"PO-Revision-Date: 2013-08-15 08:48+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -129,7 +129,7 @@ msgstr "Xóa"
 msgid "Rename"
 msgstr "Sửa tên"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:466
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:467
 msgid "Pending"
 msgstr "Đang chờ"
 
@@ -161,11 +161,12 @@ msgstr "lùi lại"
 msgid "perform delete operation"
 msgstr "thực hiện việc xóa"
 
-#: js/filelist.js:458
-msgid "1 file uploading"
-msgstr "1 tệp tin đang được tải lên"
+#: js/filelist.js:455
+msgid "Uploading %n file"
+msgid_plural "Uploading %n files"
+msgstr[0] ""
 
-#: js/filelist.js:461 js/filelist.js:519
+#: js/filelist.js:520
 msgid "files uploading"
 msgstr "tệp tin đang được tải lên"
 
@@ -213,21 +214,15 @@ msgstr "Kích cỡ"
 msgid "Modified"
 msgstr "Thay đổi"
 
-#: js/files.js:763
-msgid "1 folder"
-msgstr "1 thư mục"
+#: js/files.js:762
+msgid "%n folder"
+msgid_plural "%n folders"
+msgstr[0] ""
 
-#: js/files.js:765
-msgid "{count} folders"
-msgstr "{count} thư mục"
-
-#: js/files.js:773
-msgid "1 file"
-msgstr "1 tập tin"
-
-#: js/files.js:775
-msgid "{count} files"
-msgstr "{count} tập tin"
+#: js/files.js:768
+msgid "%n file"
+msgid_plural "%n files"
+msgstr[0] ""
 
 #: lib/app.php:73
 #, php-format

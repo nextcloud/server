@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Nelze přesunout %s - již existuje soubor se stejným názvem",
 "Could not move %s" => "Nelze přesunout %s",
 "Unable to set upload directory." => "Nelze nastavit adresář pro nahrané soubory.",
@@ -33,7 +34,7 @@
 "replaced {new_name} with {old_name}" => "nahrazeno {new_name} s {old_name}",
 "undo" => "vrátit zpět",
 "perform delete operation" => "provést smazání",
-"1 file uploading" => "odesílá se 1 soubor",
+"_Uploading %n file_::_Uploading %n files_" => array("","",""),
 "files uploading" => "soubory se odesílají",
 "'.' is an invalid file name." => "'.' je neplatným názvem souboru.",
 "File name cannot be empty." => "Název souboru nemůže být prázdný řetězec.",
@@ -45,10 +46,8 @@
 "Name" => "Název",
 "Size" => "Velikost",
 "Modified" => "Upraveno",
-"1 folder" => "1 složka",
-"{count} folders" => "{count} složek",
-"1 file" => "1 soubor",
-"{count} files" => "{count} souborů",
+"_%n folder_::_%n folders_" => array("","",""),
+"_%n file_::_%n files_" => array("","",""),
 "%s could not be renamed" => "%s nemůže být přejmenován",
 "Upload" => "Odeslat",
 "File handling" => "Zacházení se soubory",
@@ -79,3 +78,4 @@
 "files" => "soubory",
 "Upgrading filesystem cache..." => "Aktualizuji mezipaměť souborového systému..."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

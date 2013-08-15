@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Hilfe",
 "Personal" => "Persönlich",
 "Settings" => "Einstellungen",
 "Users" => "Benutzer",
-"Apps" => "Apps",
 "Admin" => "Administrator",
 "Failed to upgrade \"%s\"." => "Konnte \"%s\" nicht aktualisieren.",
 "web services under your control" => "Web-Services unter Ihrer Kontrolle",
@@ -41,17 +41,16 @@
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Ihr Web-Server ist noch nicht für eine Datei-Synchronisation konfiguriert, weil die WebDAV-Schnittstelle vermutlich defekt ist.",
 "Please double check the <a href='%s'>installation guides</a>." => "Bitte prüfen Sie die <a href='%s'>Installationsanleitungen</a>.",
 "seconds ago" => "Gerade eben",
-"1 minute ago" => "Vor 1 Minute",
-"%d minutes ago" => "Vor %d Minuten",
-"1 hour ago" => "Vor einer Stunde",
-"%d hours ago" => "Vor %d Stunden",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "Heute",
 "yesterday" => "Gestern",
-"%d days ago" => "Vor %d Tag(en)",
+"_%n day go_::_%n days ago_" => array("",""),
 "last month" => "Letzten Monat",
-"%d months ago" => "Vor %d Monaten",
+"_%n month ago_::_%n months ago_" => array("",""),
 "last year" => "Letztes Jahr",
 "years ago" => "Vor  Jahren",
 "Caused by:" => "Verursacht durch:",
 "Could not find category \"%s\"" => "Die Kategorie \"%s\" konnte nicht gefunden werden."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Password" => "Parole",
 "Submit" => "Iesniegt",
 "%s shared the folder %s with you" => "%s ar jums dalījās ar mapi %s",
@@ -8,3 +9,4 @@
 "Cancel upload" => "Atcelt augšupielādi",
 "No preview available for" => "Nav pieejams priekšskatījums priekš"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);";

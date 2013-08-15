@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s 항목을 이동시키지 못하였음 - 파일 이름이 이미 존재함",
 "Could not move %s" => "%s 항목을 이딩시키지 못하였음",
 "No file was uploaded. Unknown error" => "파일이 업로드되지 않았습니다. 알 수 없는 오류입니다",
@@ -30,7 +31,7 @@
 "replaced {new_name} with {old_name}" => "{old_name}이(가) {new_name}(으)로 대체됨",
 "undo" => "되돌리기",
 "perform delete operation" => "삭제 작업중",
-"1 file uploading" => "파일 1개 업로드 중",
+"_Uploading %n file_::_Uploading %n files_" => array(""),
 "files uploading" => "파일 업로드중",
 "'.' is an invalid file name." => "'.' 는 올바르지 않은 파일 이름 입니다.",
 "File name cannot be empty." => "파일 이름이 비어 있을 수 없습니다.",
@@ -42,10 +43,8 @@
 "Name" => "이름",
 "Size" => "크기",
 "Modified" => "수정됨",
-"1 folder" => "폴더 1개",
-"{count} folders" => "폴더 {count}개",
-"1 file" => "파일 1개",
-"{count} files" => "파일 {count}개",
+"_%n folder_::_%n folders_" => array(""),
+"_%n file_::_%n files_" => array(""),
 "Upload" => "업로드",
 "File handling" => "파일 처리",
 "Maximum upload size" => "최대 업로드 크기",
@@ -73,3 +72,4 @@
 "files" => "파일",
 "Upgrading filesystem cache..." => "파일 시스템 캐시 업그레이드 중..."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

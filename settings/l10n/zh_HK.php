@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Error" => "錯誤",
 "Groups" => "群組",
 "Delete" => "刪除",
@@ -7,3 +8,4 @@
 "Email" => "電郵",
 "Username" => "用戶名稱"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

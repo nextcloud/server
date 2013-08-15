@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Kunde inte flytta %s - Det finns redan en fil med detta namn",
 "Could not move %s" => "Kan inte flytta %s",
 "Unable to set upload directory." => "Kan inte sätta mapp för uppladdning.",
@@ -33,7 +34,7 @@
 "replaced {new_name} with {old_name}" => "ersatt {new_name} med {old_name}",
 "undo" => "ångra",
 "perform delete operation" => "utför raderingen",
-"1 file uploading" => "1 filuppladdning",
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
 "files uploading" => "filer laddas upp",
 "'.' is an invalid file name." => "'.' är ett ogiltigt filnamn.",
 "File name cannot be empty." => "Filnamn kan inte vara tomt.",
@@ -45,10 +46,8 @@
 "Name" => "Namn",
 "Size" => "Storlek",
 "Modified" => "Ändrad",
-"1 folder" => "1 mapp",
-"{count} folders" => "{count} mappar",
-"1 file" => "1 fil",
-"{count} files" => "{count} filer",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "%s could not be renamed" => "%s kunde inte namnändras",
 "Upload" => "Ladda upp",
 "File handling" => "Filhantering",
@@ -79,3 +78,4 @@
 "files" => "filer",
 "Upgrading filesystem cache..." => "Uppgraderar filsystemets cache..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

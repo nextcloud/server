@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s nu se poate muta - Fișierul cu acest nume există deja ",
 "Could not move %s" => "Nu s-a putut muta %s",
 "Unable to set upload directory." => "Imposibil de a seta directorul pentru incărcare.",
@@ -33,7 +34,7 @@
 "replaced {new_name} with {old_name}" => "{new_name} inlocuit cu {old_name}",
 "undo" => "Anulează ultima acțiune",
 "perform delete operation" => "efectueaza operatiunea de stergere",
-"1 file uploading" => "un fișier se încarcă",
+"_Uploading %n file_::_Uploading %n files_" => array("","",""),
 "files uploading" => "fișiere se încarcă",
 "'.' is an invalid file name." => "'.' este un nume invalid de fișier.",
 "File name cannot be empty." => "Numele fișierului nu poate rămâne gol.",
@@ -45,10 +46,8 @@
 "Name" => "Nume",
 "Size" => "Dimensiune",
 "Modified" => "Modificat",
-"1 folder" => "1 folder",
-"{count} folders" => "{count} foldare",
-"1 file" => "1 fisier",
-"{count} files" => "{count} fisiere",
+"_%n folder_::_%n folders_" => array("","",""),
+"_%n file_::_%n files_" => array("","",""),
 "%s could not be renamed" => "%s nu a putut fi redenumit",
 "Upload" => "Încărcare",
 "File handling" => "Manipulare fișiere",
@@ -79,3 +78,4 @@
 "files" => "fișiere",
 "Upgrading filesystem cache..." => "Modernizare fisiere de sistem cache.."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));";

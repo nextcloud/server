@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "앱 스토어에서 목록을 가져올 수 없습니다",
 "Authentication error" => "인증 오류",
 "Your display name has been changed." => "표시 이름이 변경되었습니다.",
@@ -103,3 +104,4 @@
 "set new password" => "새 암호 설정",
 "Default" => "기본값"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

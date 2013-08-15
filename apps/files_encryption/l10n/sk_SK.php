@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Záchranný kľúč bol úspešne povolený",
 "Could not enable recovery key. Please check your recovery key password!" => "Nepodarilo sa povoliť záchranný kľúč. Skontrolujte prosím Vaše heslo záchranného kľúča!",
 "Recovery key successfully disabled" => "Záchranný kľúč bol úspešne zakázaný",
@@ -25,3 +26,4 @@
 "File recovery settings updated" => "Nastavenie obnovy súborov aktualizované",
 "Could not update file recovery" => "Nemožno aktualizovať obnovenie súborov"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

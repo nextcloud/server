@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Kunne ikke slette server konfigurationen",
 "The configuration is valid and the connection could be established!" => "Konfigurationen er korrekt og forbindelsen kunne etableres!",
 "The configuration is invalid. Please look in the ownCloud log for further details." => "Konfigurationen er ugyldig. Se venligst ownCloud loggen for yderligere detaljer.",
@@ -48,3 +49,4 @@
 "Test Configuration" => "Test Konfiguration",
 "Help" => "Hjælp"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

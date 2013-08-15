@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-04 01:55-0400\n"
-"PO-Revision-Date: 2013-08-04 05:01+0000\n"
+"POT-Creation-Date: 2013-08-15 04:47-0400\n"
+"PO-Revision-Date: 2013-08-15 08:48+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -138,59 +138,63 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: js/js.js:293
+#: js/js.js:355
 msgid "Settings"
 msgstr "Nastavenia"
 
-#: js/js.js:753
+#: js/js.js:815
 msgid "seconds ago"
 msgstr "pred sekundami"
 
-#: js/js.js:754
-msgid "1 minute ago"
-msgstr "pred minútou"
+#: js/js.js:816
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: js/js.js:755
-msgid "{minutes} minutes ago"
-msgstr "pred {minutes} minútami"
+#: js/js.js:817
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: js/js.js:756
-msgid "1 hour ago"
-msgstr "Pred 1 hodinou"
-
-#: js/js.js:757
-msgid "{hours} hours ago"
-msgstr "Pred {hours} hodinami."
-
-#: js/js.js:758
+#: js/js.js:818
 msgid "today"
 msgstr "dnes"
 
-#: js/js.js:759
+#: js/js.js:819
 msgid "yesterday"
 msgstr "včera"
 
-#: js/js.js:760
-msgid "{days} days ago"
-msgstr "pred {days} dňami"
+#: js/js.js:820
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: js/js.js:761
+#: js/js.js:821
 msgid "last month"
 msgstr "minulý mesiac"
 
-#: js/js.js:762
-msgid "{months} months ago"
-msgstr "Pred {months} mesiacmi."
+#: js/js.js:822
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: js/js.js:763
+#: js/js.js:823
 msgid "months ago"
 msgstr "pred mesiacmi"
 
-#: js/js.js:764
+#: js/js.js:824
 msgid "last year"
 msgstr "minulý rok"
 
-#: js/js.js:765
+#: js/js.js:825
 msgid "years ago"
 msgstr "pred rokmi"
 
@@ -378,9 +382,10 @@ msgstr "Aktualizácia nebola úspešná. Problém nahláste na <a href=\"https:/
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Aktualizácia bola úspešná. Presmerovávam na prihlasovaciu stránku."
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
-msgstr "Obnovenie hesla pre ownCloud"
+#: lostpassword/controller.php:61
+#, php-format
+msgid "%s password reset"
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -497,7 +502,7 @@ msgstr "Verzia Vášho PHP je napadnuteľná pomocou techniky \"NULL Byte\" (CVE
 #: templates/installation.php:26
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "Aktualizujte prosím vašu inštanciu PHP pre bezpečné používanie %s."
 
 #: templates/installation.php:32
 msgid ""
@@ -522,7 +527,7 @@ msgstr "Váš priečinok s dátami a súbormi je dostupný z internetu, lebo sú
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Pre informácie, ako správne nastaviť váš server, sa pozrite do <a href=\"%s\" target=\"_blank\">dokumentácie</a>."
 
 #: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
@@ -578,6 +583,10 @@ msgstr "%s je dostupná. Získajte viac informácií k postupu aktualizáce."
 #: templates/layout.user.php:66
 msgid "Log out"
 msgstr "Odhlásiť"
+
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr ""
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"

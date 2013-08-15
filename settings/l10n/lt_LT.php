@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Neįmanoma įkelti sąrašo iš Programų Katalogo",
 "Authentication error" => "Autentikacijos klaida",
 "Group already exists" => "Grupė jau egzistuoja",
@@ -72,3 +73,4 @@
 "set new password" => "nustatyti naują slaptažodį",
 "Default" => "Numatytasis"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);";

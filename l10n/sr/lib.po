@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-04 01:55-0400\n"
-"PO-Revision-Date: 2013-08-04 05:01+0000\n"
+"POT-Creation-Date: 2013-08-15 04:47-0400\n"
+"PO-Revision-Date: 2013-08-15 08:48+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -34,14 +34,10 @@ msgid "Users"
 msgstr "Корисници"
 
 #: app.php:409
-msgid "Apps"
-msgstr "Апликације"
-
-#: app.php:417
 msgid "Admin"
 msgstr "Администратор"
 
-#: app.php:844
+#: app.php:836
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
@@ -210,50 +206,50 @@ msgid "seconds ago"
 msgstr "пре неколико секунди"
 
 #: template/functions.php:81
-msgid "1 minute ago"
-msgstr "пре 1 минут"
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: template/functions.php:82
-#, php-format
-msgid "%d minutes ago"
-msgstr "пре %d минута"
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: template/functions.php:83
-msgid "1 hour ago"
-msgstr "Пре једног сата"
-
-#: template/functions.php:84
-#, php-format
-msgid "%d hours ago"
-msgstr "пре %d сата/и"
-
-#: template/functions.php:85
 msgid "today"
 msgstr "данас"
 
-#: template/functions.php:86
+#: template/functions.php:84
 msgid "yesterday"
 msgstr "јуче"
 
-#: template/functions.php:87
-#, php-format
-msgid "%d days ago"
-msgstr "пре %d дана"
+#: template/functions.php:85
+msgid "%n day go"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: template/functions.php:88
+#: template/functions.php:86
 msgid "last month"
 msgstr "прошлог месеца"
 
-#: template/functions.php:89
-#, php-format
-msgid "%d months ago"
-msgstr "пре %d месеца/и"
+#: template/functions.php:87
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: template/functions.php:90
+#: template/functions.php:88
 msgid "last year"
 msgstr "прошле године"
 
-#: template/functions.php:91
+#: template/functions.php:89
 msgid "years ago"
 msgstr "година раније"
 

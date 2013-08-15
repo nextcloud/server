@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Pomoč",
 "Personal" => "Osebno",
 "Settings" => "Nastavitve",
 "Users" => "Uporabniki",
-"Apps" => "Programi",
 "Admin" => "Skrbništvo",
 "web services under your control" => "spletne storitve pod vašim nadzorom",
 "ZIP download is turned off." => "Prejemanje datotek v paketu ZIP je onemogočeno.",
@@ -38,16 +38,15 @@
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Spletni stražnik še ni ustrezno nastavljen in ne omogoča usklajevanja, saj je nastavitev WebDAV okvarjena.",
 "Please double check the <a href='%s'>installation guides</a>." => "Preverite <a href='%s'>navodila namestitve</a>.",
 "seconds ago" => "pred nekaj sekundami",
-"1 minute ago" => "pred minuto",
-"%d minutes ago" => "pred %d minutami",
-"1 hour ago" => "Pred 1 uro",
-"%d hours ago" => "Pred %d urami",
+"_%n minute ago_::_%n minutes ago_" => array("","","",""),
+"_%n hour ago_::_%n hours ago_" => array("","","",""),
 "today" => "danes",
 "yesterday" => "včeraj",
-"%d days ago" => "pred %d dnevi",
+"_%n day go_::_%n days ago_" => array("","","",""),
 "last month" => "zadnji mesec",
-"%d months ago" => "Pred %d meseci",
+"_%n month ago_::_%n months ago_" => array("","","",""),
 "last year" => "lansko leto",
 "years ago" => "let nazaj",
 "Could not find category \"%s\"" => "Kategorije \"%s\" ni mogoče najti."
 );
+$PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

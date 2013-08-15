@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Authentication error" => "Veprim i gabuar gjatë vërtetimit të identitetit",
 "Error" => "Veprim i gabuar",
 "undo" => "anulo",
@@ -12,3 +13,4 @@
 "Email" => "Email-i",
 "Username" => "Përdoruesi"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

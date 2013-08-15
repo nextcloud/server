@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Se habilitó la recuperación de archivos",
 "Could not enable recovery key. Please check your recovery key password!" => "No se pudo habilitar la clave de recuperación. Por favor, comprobá tu contraseña.",
 "Recovery key successfully disabled" => "Clave de recuperación deshabilitada",
@@ -9,7 +10,6 @@
 "Could not update the private key password. Maybe the old password was not correct." => "No fue posible actualizar la contraseña de clave privada. Tal vez la contraseña anterior no es correcta.",
 "Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "¡Tu clave privada no es válida! Tal vez tu contraseña fue cambiada desde fuera del sistema de ownCloud (por ej. desde tu cuenta de sistema). Podés actualizar tu clave privada en la sección de \"configuración personal\", para recuperar el acceso a tus archivos.",
 "Missing requirements." => "Requisitos incompletos.",
-"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Por favor, asegurate que PHP 5.3.3 o posterior esté instalado y que la extensión OpenSSL de PHP esté habilitada y configurada correctamente. Por el momento, la aplicación de encriptación está deshabilitada.",
 "Saving..." => "Guardando...",
 "Your private key is not valid! Maybe the your password was changed from outside." => "¡Tu clave privada no es válida! Tal vez tu contraseña fue cambiada desde afuera.",
 "You can unlock your private key in your " => "Podés desbloquear tu clave privada en tu",
@@ -34,3 +34,4 @@
 "File recovery settings updated" => "Las opciones de recuperación de archivos fueron actualizadas",
 "Could not update file recovery" => "No fue posible actualizar la recuperación de archivos"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

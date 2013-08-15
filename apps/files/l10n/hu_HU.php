@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s áthelyezése nem sikerült - már létezik másik fájl ezzel a névvel",
 "Could not move %s" => "Nem sikerült %s áthelyezése",
 "Unable to set upload directory." => "Nem található a mappa, ahova feltölteni szeretne.",
@@ -33,7 +34,7 @@
 "replaced {new_name} with {old_name}" => "{new_name} fájlt kicseréltük ezzel:  {old_name}",
 "undo" => "visszavonás",
 "perform delete operation" => "a törlés végrehajtása",
-"1 file uploading" => "1 fájl töltődik föl",
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
 "files uploading" => "fájl töltődik föl",
 "'.' is an invalid file name." => "'.' fájlnév érvénytelen.",
 "File name cannot be empty." => "A fájlnév nem lehet semmi.",
@@ -45,10 +46,8 @@
 "Name" => "Név",
 "Size" => "Méret",
 "Modified" => "Módosítva",
-"1 folder" => "1 mappa",
-"{count} folders" => "{count} mappa",
-"1 file" => "1 fájl",
-"{count} files" => "{count} fájl",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "%s could not be renamed" => "%s átnevezése nem sikerült",
 "Upload" => "Feltöltés",
 "File handling" => "Fájlkezelés",
@@ -79,3 +78,4 @@
 "files" => "fájlok",
 "Upgrading filesystem cache..." => "A fájlrendszer gyorsítótárának frissítése zajlik..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

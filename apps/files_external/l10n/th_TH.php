@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Access granted" => "การเข้าถึงได้รับอนุญาตแล้ว",
 "Error configuring Dropbox storage" => "เกิดข้อผิดพลาดในการกำหนดค่าพื้นที่จัดเก็บข้อมูล Dropbox",
 "Grant access" => "อนุญาตให้เข้าถึงได้",
@@ -21,3 +22,4 @@
 "SSL root certificates" => "ใบรับรองความปลอดภัยด้วยระบบ SSL จาก Root",
 "Import Root Certificate" => "นำเข้าข้อมูลใบรับรองความปลอดภัยจาก Root"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

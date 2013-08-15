@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Deletion failed" => "מחיקה נכשלה",
 "Keep settings?" => "האם לשמור את ההגדרות?",
 "Cannot add server configuration" => "לא ניתן להוסיף את הגדרות השרת",
@@ -21,3 +22,4 @@
 "in bytes" => "בבתים",
 "Help" => "עזרה"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

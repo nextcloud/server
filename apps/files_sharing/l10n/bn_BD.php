@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Password" => "কূটশব্দ",
 "Submit" => "জমা দিন",
 "%s shared the folder %s with you" => "%s আপনার সাথে %s ফোল্ডারটি ভাগাভাগি করেছেন",
@@ -8,3 +9,4 @@
 "Cancel upload" => "আপলোড বাতিল কর",
 "No preview available for" => "এর জন্য কোন প্রাকবীক্ষণ সুলভ নয়"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

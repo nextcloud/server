@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-04 01:55-0400\n"
-"PO-Revision-Date: 2013-08-04 05:02+0000\n"
+"POT-Creation-Date: 2013-08-15 04:47-0400\n"
+"PO-Revision-Date: 2013-08-15 08:48+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -35,14 +35,10 @@ msgid "Users"
 msgstr "Utilisateurs"
 
 #: app.php:409
-msgid "Apps"
-msgstr "Applications"
-
-#: app.php:417
 msgid "Admin"
 msgstr "Administration"
 
-#: app.php:844
+#: app.php:836
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
@@ -211,50 +207,46 @@ msgid "seconds ago"
 msgstr "il y a quelques secondes"
 
 #: template/functions.php:81
-msgid "1 minute ago"
-msgstr "il y a une minute"
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
 
 #: template/functions.php:82
-#, php-format
-msgid "%d minutes ago"
-msgstr "il y a %d minutes"
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
 
 #: template/functions.php:83
-msgid "1 hour ago"
-msgstr "Il y a une heure"
-
-#: template/functions.php:84
-#, php-format
-msgid "%d hours ago"
-msgstr "Il y a %d heures"
-
-#: template/functions.php:85
 msgid "today"
 msgstr "aujourd'hui"
 
-#: template/functions.php:86
+#: template/functions.php:84
 msgid "yesterday"
 msgstr "hier"
 
-#: template/functions.php:87
-#, php-format
-msgid "%d days ago"
-msgstr "il y a %d jours"
+#: template/functions.php:85
+msgid "%n day go"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: template/functions.php:88
+#: template/functions.php:86
 msgid "last month"
 msgstr "le mois dernier"
 
-#: template/functions.php:89
-#, php-format
-msgid "%d months ago"
-msgstr "Il y a %d mois"
+#: template/functions.php:87
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: template/functions.php:90
+#: template/functions.php:88
 msgid "last year"
 msgstr "l'année dernière"
 
-#: template/functions.php:91
+#: template/functions.php:89
 msgid "years ago"
 msgstr "il y a plusieurs années"
 

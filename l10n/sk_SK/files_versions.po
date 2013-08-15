@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# mhh <marian.hvolka@stuba.sk>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-28 01:56-0400\n"
-"PO-Revision-Date: 2013-07-27 06:10+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-09 07:59-0400\n"
+"PO-Revision-Date: 2013-08-07 19:40+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,15 +29,15 @@ msgstr "Verzie"
 
 #: js/versions.js:53
 msgid "Failed to revert {file} to revision {timestamp}."
-msgstr ""
+msgstr "Zlyhalo obnovenie súboru {file} na verziu {timestamp}."
 
 #: js/versions.js:79
 msgid "More versions..."
-msgstr ""
+msgstr "Viac verzií..."
 
 #: js/versions.js:116
 msgid "No other versions available"
-msgstr ""
+msgstr "Žiadne ďalšie verzie nie sú dostupné"
 
 #: js/versions.js:149
 msgid "Restore"

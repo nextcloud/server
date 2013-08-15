@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "قادر به بارگذاری لیست از فروشگاه اپ نیستم",
 "Authentication error" => "خطا در اعتبار سنجی",
 "Your display name has been changed." => "نام نمایش شما تغییر یافته است.",
@@ -104,3 +105,4 @@
 "set new password" => "تنظیم کلمه عبور جدید",
 "Default" => "پیش فرض"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

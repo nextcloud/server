@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Kohteen %s siirto ei onnistunut - Tiedosto samalla nimellä on jo olemassa",
 "Could not move %s" => "Kohteen %s siirto ei onnistunut",
 "No file was uploaded. Unknown error" => "Tiedostoa ei lähetetty. Tuntematon virhe",
@@ -29,6 +30,7 @@
 "cancel" => "peru",
 "undo" => "kumoa",
 "perform delete operation" => "suorita poistotoiminto",
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
 "'.' is an invalid file name." => "'.' on virheellinen nimi tiedostolle.",
 "File name cannot be empty." => "Tiedoston nimi ei voi olla tyhjä.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Virheellinen nimi, merkit '\\', '/', '<', '>', ':', '\"', '|', '?' ja '*' eivät ole sallittuja.",
@@ -38,10 +40,8 @@
 "Name" => "Nimi",
 "Size" => "Koko",
 "Modified" => "Muokattu",
-"1 folder" => "1 kansio",
-"{count} folders" => "{count} kansiota",
-"1 file" => "1 tiedosto",
-"{count} files" => "{count} tiedostoa",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "Upload" => "Lähetä",
 "File handling" => "Tiedostonhallinta",
 "Maximum upload size" => "Lähetettävän tiedoston suurin sallittu koko",
@@ -71,3 +71,4 @@
 "files" => "tiedostoa",
 "Upgrading filesystem cache..." => "Päivitetään tiedostojärjestelmän välimuistia..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

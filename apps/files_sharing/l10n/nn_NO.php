@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Password" => "Passord",
 "Submit" => "Send",
 "%s shared the folder %s with you" => "%s delte mappa %s med deg",
@@ -8,3 +9,4 @@
 "Cancel upload" => "Avbryt opplasting",
 "No preview available for" => "Inga førehandsvising tilgjengeleg for"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

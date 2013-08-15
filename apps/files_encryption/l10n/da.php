@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Gendannelsesnøgle aktiveret med succes",
 "Could not enable recovery key. Please check your recovery key password!" => "Kunne ikke aktivere gendannelsesnøgle. Kontroller venligst dit gendannelsesnøgle kodeord!",
 "Recovery key successfully disabled" => "Gendannelsesnøgle deaktiveret succesfuldt",
@@ -9,7 +10,8 @@
 "Could not update the private key password. Maybe the old password was not correct." => "Kunne ikke opdatere det private nøgle kodeord-. Måske var det gamle kodeord forkert.",
 "Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Din private nøgle er gyldig! Sandsynligvis blev dit kodeord ændre uden for ownCloud systemet (f.eks. dit firmas register). Du kan opdatere dit private nøgle kodeord under personlige indstillinger, for at generhverve adgang til dine krypterede filer.",
 "Missing requirements." => "Manglende betingelser.",
-"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Sikker dig venligst at PHP 5.3.3 eller nyere er installeret og at OpenSSL PHP udvidelsen er aktiveret og konfigureret korrekt. Indtil videre er krypterings app'en deaktiveret. ",
+"Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Sørg for at PHP 5.3.3 eller nyere er installeret og at OpenSSL sammen med PHP-udvidelsen er aktiveret og korrekt konfigureret. Indtil videre er krypteringsprogrammet deaktiveret.",
+"Following users are not set up for encryption:" => "Følgende brugere er ikke sat op til kryptering:",
 "Saving..." => "Gemmer...",
 "Your private key is not valid! Maybe the your password was changed from outside." => "Din private nøgle er ikke gyldig. Måske blev dit kodeord ændre udefra.",
 "You can unlock your private key in your " => "Du kan låse din private nøgle op i din ",
@@ -34,3 +36,4 @@
 "File recovery settings updated" => "Filgendannelsesindstillinger opdateret",
 "Could not update file recovery" => "Kunne ikke opdatere filgendannelse"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

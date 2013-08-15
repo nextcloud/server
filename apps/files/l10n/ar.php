@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "فشل في نقل الملف %s - يوجد ملف بنفس هذا الاسم",
 "Could not move %s" => "فشل في نقل %s",
 "No file was uploaded. Unknown error" => "لم يتم رفع أي ملف , خطأ غير معروف",
@@ -29,7 +30,7 @@
 "replaced {new_name} with {old_name}" => "استبدل {new_name}  بـ  {old_name}",
 "undo" => "تراجع",
 "perform delete operation" => "جاري تنفيذ عملية الحذف",
-"1 file uploading" => "جاري رفع 1 ملف",
+"_Uploading %n file_::_Uploading %n files_" => array("","","","","",""),
 "'.' is an invalid file name." => "\".\" اسم ملف غير صحيح.",
 "File name cannot be empty." => "اسم الملف لا يجوز أن يكون فارغا",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "اسم غير صحيح , الرموز  '\\', '/', '<', '>', ':', '\"', '|', '?' و \"*\" غير مسموح استخدامها",
@@ -40,10 +41,8 @@
 "Name" => "اسم",
 "Size" => "حجم",
 "Modified" => "معدل",
-"1 folder" => "مجلد عدد 1",
-"{count} folders" => "{count} مجلدات",
-"1 file" => "ملف واحد",
-"{count} files" => "{count} ملفات",
+"_%n folder_::_%n folders_" => array("","","","","",""),
+"_%n file_::_%n files_" => array("","","","","",""),
 "Upload" => "رفع",
 "File handling" => "التعامل مع الملف",
 "Maximum upload size" => "الحد الأقصى لحجم الملفات التي يمكن رفعها",
@@ -69,3 +68,4 @@
 "Current scanning" => "الفحص الحالي",
 "Upgrading filesystem cache..." => "تحديث ذاكرة التخزين المؤقت(الكاش)  الخاصة بملفات النظام ..."
 );
+$PLURAL_FORMS = "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;";

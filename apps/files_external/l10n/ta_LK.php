@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Access granted" => "அனுமதி வழங்கப்பட்டது",
 "Error configuring Dropbox storage" => "Dropbox சேமிப்பை தகவமைப்பதில் வழு",
 "Grant access" => "அனுமதியை வழங்கல்",
@@ -19,3 +20,4 @@
 "SSL root certificates" => "SSL வேர் சான்றிதழ்கள்",
 "Import Root Certificate" => "வேர் சான்றிதழை இறக்குமதி செய்க"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

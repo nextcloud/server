@@ -7,7 +7,7 @@
  */
 
 class Test_Preferences extends PHPUnit_Framework_TestCase {
-	private function fillDb() {
+	public static function setUpBeforeClass() {
 		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*preferences` VALUES(?, ?, ?, ?)');
 		$query->execute(array("Someuser", "someapp", "somekey", "somevalue"));
 
@@ -28,9 +28,14 @@ class Test_Preferences extends PHPUnit_Framework_TestCase {
 		$query->execute(array("Deleteuser", "someapp", "somekey", "somevalue"));
 	}
 
-	public function testGetUsers() {
-		$this->fillDb();
+	public static function tearDownAfterClass() {
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*preferences` WHERE `userid` = ?');
+		$query->execute(array('Someuser'));
+		$query->execute(array('Anotheruser'));
+		$query->execute(array('Anuser'));
+	}
 
+	public function testGetUsers() {
 		$query = \OC_DB::prepare('SELECT DISTINCT `userid` FROM `*PREFIX*preferences`');
 		$result = $query->execute();
 		$expected = array();

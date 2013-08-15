@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "לא ניתן להעביר את %s - קובץ בשם הזה כבר קיים",
 "Could not move %s" => "לא ניתן להעביר את %s",
 "No file was uploaded. Unknown error" => "לא הועלה קובץ. טעות בלתי מזוהה.",
@@ -29,16 +30,14 @@
 "replaced {new_name} with {old_name}" => "{new_name} הוחלף ב־{old_name}",
 "undo" => "ביטול",
 "perform delete operation" => "ביצוע פעולת מחיקה",
-"1 file uploading" => "קובץ אחד נשלח",
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
 "files uploading" => "קבצים בהעלאה",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "השם שגוי, אסור להשתמש בתווים '\\', '/', '<', '>', ':', '\"', '|', '?' ו־'*'.",
 "Name" => "שם",
 "Size" => "גודל",
 "Modified" => "זמן שינוי",
-"1 folder" => "תיקייה אחת",
-"{count} folders" => "{count} תיקיות",
-"1 file" => "קובץ אחד",
-"{count} files" => "{count} קבצים",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "Upload" => "העלאה",
 "File handling" => "טיפול בקבצים",
 "Maximum upload size" => "גודל העלאה מקסימלי",
@@ -63,3 +62,4 @@
 "file" => "קובץ",
 "files" => "קבצים"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

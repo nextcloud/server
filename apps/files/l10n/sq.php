@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s nuk u spostua - Aty ekziston një skedar me të njëjtin emër",
 "Could not move %s" => "%s nuk u spostua",
 "No file was uploaded. Unknown error" => "Nuk u ngarkua asnjë skedar. Veprim i gabuar i panjohur",
@@ -30,7 +31,7 @@
 "replaced {new_name} with {old_name}" => "U zëvëndësua {new_name} me {old_name}",
 "undo" => "anulo",
 "perform delete operation" => "ekzekuto operacionin e eliminimit",
-"1 file uploading" => "Po ngarkohet 1 skedar",
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
 "files uploading" => "po ngarkoj skedarët",
 "'.' is an invalid file name." => "'.' është emër i pavlefshëm.",
 "File name cannot be empty." => "Emri i skedarit nuk mund të jetë bosh.",
@@ -42,10 +43,8 @@
 "Name" => "Emri",
 "Size" => "Dimensioni",
 "Modified" => "Modifikuar",
-"1 folder" => "1 dosje",
-"{count} folders" => "{count} dosje",
-"1 file" => "1 skedar",
-"{count} files" => "{count} skedarë",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "Upload" => "Ngarko",
 "File handling" => "Trajtimi i skedarit",
 "Maximum upload size" => "Dimensioni maksimal i ngarkimit",
@@ -71,3 +70,4 @@
 "Current scanning" => "Analizimi aktual",
 "Upgrading filesystem cache..." => "Po përmirësoj memorjen e filesystem-it..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

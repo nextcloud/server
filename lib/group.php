@@ -230,7 +230,7 @@ class OC_Group {
 	public static function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$group = self::getManager()->get($gid);
 		if ($group) {
-			$users = $group->searchUsers($search . $limit, $offset);
+			$users = $group->searchUsers($search, $limit, $offset);
 			$userIds = array();
 			foreach ($users as $user) {
 				$userIds[] = $user->getUID();

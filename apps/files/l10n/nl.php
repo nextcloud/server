@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Kon %s niet verplaatsen - Er bestaat al een bestand met deze naam",
 "Could not move %s" => "Kon %s niet verplaatsen",
 "Unable to set upload directory." => "Kan upload map niet instellen.",
@@ -33,7 +34,7 @@
 "replaced {new_name} with {old_name}" => "verving {new_name} met {old_name}",
 "undo" => "ongedaan maken",
 "perform delete operation" => "uitvoeren verwijderactie",
-"1 file uploading" => "1 bestand wordt ge-upload",
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
 "files uploading" => "bestanden aan het uploaden",
 "'.' is an invalid file name." => "'.' is een ongeldige bestandsnaam.",
 "File name cannot be empty." => "Bestandsnaam kan niet leeg zijn.",
@@ -45,10 +46,8 @@
 "Name" => "Naam",
 "Size" => "Grootte",
 "Modified" => "Aangepast",
-"1 folder" => "1 map",
-"{count} folders" => "{count} mappen",
-"1 file" => "1 bestand",
-"{count} files" => "{count} bestanden",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "%s could not be renamed" => "%s kon niet worden hernoemd",
 "Upload" => "Uploaden",
 "File handling" => "Bestand",
@@ -79,3 +78,4 @@
 "files" => "bestanden",
 "Upgrading filesystem cache..." => "Upgraden bestandssysteem cache..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Deletion failed" => "Forigo malsukcesis",
 "Success" => "Sukceso",
 "Error" => "Eraro",
@@ -32,3 +33,4 @@
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Lasu malplena por uzantonomo (defaŭlto). Alie, specifu LDAP/AD-atributon.",
 "Help" => "Helpo"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
