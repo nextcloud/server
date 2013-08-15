@@ -17,6 +17,7 @@ class TXT extends Provider {
 		$content = $fileview->fopen($path, 'r');
 		$content = stream_get_contents($content);
 
+		//don't create previews of empty text files
 		if(trim($content) === '') {
 			return false;
 		}
