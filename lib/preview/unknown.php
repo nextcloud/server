@@ -16,27 +16,11 @@ class Unknown extends Provider {
 
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
 		$mimetype = $fileview->getMimeType($path);
-		if(substr_count($mimetype, '/')) {
-			list($type, $subtype) = explode('/', $mimetype);
-		}
 
-		$iconsRoot = \OC::$SERVERROOT . '/core/img/filetypes/';
+		$path = \OC_Helper::mimetypeIcon($mimetype);
+		$path = \OC::$SERVERROOT . substr($path, strlen(\OC::$WEBROOT));
 
-		if(isset($type)){
-			$icons = array($mimetype, $type, 'text');
-		}else{
-			$icons = array($mimetype, 'text');
-		}
-		foreach($icons as $icon) {
-			$icon = str_replace('/', '-', $icon);
-
-			$iconPath = $iconsRoot . $icon . '.png';
-
-			if(file_exists($iconPath)) {
-				return new \OC_Image($iconPath);
-			}
-		}
-		return false;
+		return new \OC_Image($path);
 	}
 }
 
