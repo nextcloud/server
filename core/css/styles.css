@@ -673,6 +673,8 @@ div.crumb:active {
 	background-image: url('../img/loading.gif');
 	background-size: 16px;
 	/* force show the loading icon, not only on hover */
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter:alpha(opacity=100);
 	opacity: 1 !important;
 	display: inline !important;
 }
