@@ -176,6 +176,13 @@ $(document).ready(function() {
 					$('#ldap_submit').effect('highlight', {'color':'#A8FA87'}, 5000, function() {
 						$('#ldap_submit').css('background', bgcolor);
 					});
+					//update the Label in the config chooser
+					caption = $('#ldap_serverconfig_chooser option:selected:first').text();
+					pretext = '. Server: ';
+					caption = caption.slice(0, caption.indexOf(pretext) + pretext.length);
+					caption = caption + $('#ldap_host').val();
+					$('#ldap_serverconfig_chooser option:selected:first').text(caption);
+
 				} else {
 					$('#ldap_submit').css('background', '#fff');
 					$('#ldap_submit').effect('highlight', {'color':'#E97'}, 5000, function() {
