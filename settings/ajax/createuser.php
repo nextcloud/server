@@ -41,7 +41,7 @@ try {
 	OC_JSON::success(array("data" =>
 				array(
 					"username" => $username,
-					"groups" => implode( ", ", OC_Group::getUserGroups( $username )))));
+					"groups" => OC_Group::getUserGroups( $username ))));
 } catch (Exception $exception) {
 	OC_JSON::error(array("data" => array( "message" => $exception->getMessage())));
 }

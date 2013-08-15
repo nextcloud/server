@@ -78,7 +78,7 @@ $_['subadmingroups'] = array_flip($items);
 	</div>
 </div>
 
-<table class="hascontrols" data-groups="<?php p(implode(', ', $allGroups));?>">
+<table class="hascontrols" data-groups="<?php p(json_encode($allGroups));?>">
 	<thead>
 		<tr>
 			<th id='headerName'><?php p($l->t('Username'))?></th>
@@ -108,7 +108,7 @@ $_['subadmingroups'] = array_flip($items);
 			<td class="groups"><select
 				class="groupsselect"
 				data-username="<?php p($user['name']) ;?>"
-				data-user-groups="<?php p($user['groups']) ;?>"
+				data-user-groups="<?php p(json_encode($user['groups'])) ;?>"
 				data-placeholder="groups" title="<?php p($l->t('Groups'))?>"
 				multiple="multiple">
 					<?php foreach($_["groups"] as $group): ?>
@@ -120,7 +120,7 @@ $_['subadmingroups'] = array_flip($items);
 			<td class="subadmins"><select
 				class="subadminsselect"
 				data-username="<?php p($user['name']) ;?>"
-				data-subadmin="<?php p($user['subadmin']);?>"
+				data-subadmin="<?php p(json_encode($user['subadmin']));?>"
 				data-placeholder="subadmins" title="<?php p($l->t('Group Admin'))?>"
 				multiple="multiple">
 					<?php foreach($_["subadmingroups"] as $group): ?>
