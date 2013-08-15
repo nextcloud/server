@@ -23,8 +23,8 @@ $totalsize = 0; ?>
 		data-file="<?php p($name);?>"
 		data-type="<?php ($file['type'] == 'dir')?p('dir'):p('file')?>"
 		data-mime="<?php p($file['mimetype'])?>"
-		data-size='<?php p($file['size']);?>'
-		data-permissions='<?php p($file['permissions']); ?>'>
+		data-size="<?php p($file['size']);?>"
+		data-permissions="<?php p($file['permissions']); ?>">
 		<?php if(\OCP\Preview::isMimeSupported($file['mimetype'])): ?>
 		<td class="filename svg preview-icon"
 		<?php else: ?>
