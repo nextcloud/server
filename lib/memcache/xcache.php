@@ -37,7 +37,12 @@ class XCache extends Cache {
 	}
 
 	public function clear($prefix='') {
-		xcache_unset_by_prefix($this->getNamespace().$prefix);
+		if (function_exists('xcache_unset_by_prefix')) {
+			xcache_unset_by_prefix($this->getNamespace().$prefix);
+		} else {
+			// Since we can not clear by prefix, we just clear the whole cache.
+			xcache_clear_cache(\XC_TYPE_VAR, 0);
+		}
 		return true;
 	}
 
@@ -54,12 +59,5 @@ class XCache extends Cache {
 		}
 
 		return true;
-	}
-}
-
-if(!function_exists('xcache_unset_by_prefix')) {
-	function xcache_unset_by_prefix($prefix) {
-		// Since we can't clear targetted cache, we'll clear all. :(
-		xcache_clear_cache(\XC_TYPE_VAR, 0);
 	}
 }
