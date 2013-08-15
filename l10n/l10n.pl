@@ -159,7 +159,7 @@ elsif( $task eq 'write' ){
 						push( @variants, $string->msgstr_n()->{$variant} );
 					}
 
-					push( @strings, "\"$identifier\" => array(".join(@variants, ",").")");
+					push( @strings, "\"$identifier\" => array(".join(",", @variants).")");
 				}
 				else{
 					# singular translations
