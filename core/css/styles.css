@@ -45,7 +45,7 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"], input[type="url"],
 textarea, select,
 button, .button,
-#quota, div.jp-progress, .pager li a {
+#quota, .pager li a {
 	width:10em; margin:.3em; padding:.6em .5em .4em;
 	font-size:1em;
 	background:#fff; color:#333; border:1px solid #ddd; outline:none;
@@ -85,7 +85,7 @@ input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#
 /* BUTTONS */
 input[type="submit"], input[type="button"],
 button, .button,
-#quota, div.jp-progress, select, .pager li a {
+#quota, select, .pager li a {
 	width:auto; padding:.4em;
 	background-color:rgba(240,240,240,.9); font-weight:bold; color:#555; text-shadow:rgba(255,255,255,.9) 0 1px 0; border:1px solid rgba(190,190,190,.9); cursor:pointer;
 	-moz-box-shadow:0 1px 1px rgba(255,255,255,.9), 0 1px 1px rgba(255,255,255,.9) inset; -webkit-box-shadow:0 1px 1px rgba(255,255,255,.9), 0 1px 1px rgba(255,255,255,.9) inset; box-shadow:0 1px 1px rgba(255,255,255,.9), 0 1px 1px rgba(255,255,255,.9) inset;
@@ -545,7 +545,7 @@ tbody tr:hover, tr:active { background-color:#f8f8f8; }
 .personalblock > legend, th, dt, label { font-weight:bold; }
 code { font-family:"Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", monospace; }
 
-#quota div, div.jp-play-bar, div.jp-seek-bar {
+#quota div {
 	padding: 0;
 	background-color: rgb(220,220,220);
 	font-weight: normal;
@@ -553,7 +553,6 @@ code { font-family:"Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono
 	-moz-border-radius-bottomleft: .4em; -webkit-border-bottom-left-radius: .4em; border-bottom-left-radius:.4em;
 	-moz-border-radius-topleft: .4em; -webkit-border-top-left-radius: .4em; border-top-left-radius: .4em; }
 #quotatext {padding:.6em 1em;}
-div.jp-play-bar, div.jp-seek-bar { padding:0; }
 
 .pager { list-style:none; float:right; display:inline; margin:.7em 13em 0 0; }
 .pager li { display:inline-block; }
