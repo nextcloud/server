@@ -19,13 +19,13 @@ $TRANSLATIONS = array(
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "因WebDAV接口故障，您的网络服务器好像并未允许文件同步。",
 "Please double check the <a href='%s'>installation guides</a>." => "请双击<a href='%s'>安装向导</a>。",
 "seconds ago" => "秒前",
-"_%n minute ago_::_%n minutes ago_" => array(,),
-"_%n hour ago_::_%n hours ago_" => array(,),
+"_%n minute ago_::_%n minutes ago_" => array(""),
+"_%n hour ago_::_%n hours ago_" => array(""),
 "today" => "今天",
 "yesterday" => "昨天",
-"_%n day go_::_%n days ago_" => array(,),
+"_%n day go_::_%n days ago_" => array(""),
 "last month" => "上个月",
-"_%n month ago_::_%n months ago_" => array(,),
+"_%n month ago_::_%n months ago_" => array(""),
 "last year" => "去年",
 "years ago" => "年前"
 );

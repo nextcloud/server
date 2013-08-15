@@ -17,13 +17,13 @@ $TRANSLATIONS = array(
 "Text" => "Žinučių",
 "Images" => "Paveikslėliai",
 "seconds ago" => "prieš sekundę",
-"_%n minute ago_::_%n minutes ago_" => array(,),
-"_%n hour ago_::_%n hours ago_" => array(,),
+"_%n minute ago_::_%n minutes ago_" => array("","",""),
+"_%n hour ago_::_%n hours ago_" => array("","",""),
 "today" => "šiandien",
 "yesterday" => "vakar",
-"_%n day go_::_%n days ago_" => array(,),
+"_%n day go_::_%n days ago_" => array("","",""),
 "last month" => "praeitą mėnesį",
-"_%n month ago_::_%n months ago_" => array(,),
+"_%n month ago_::_%n months ago_" => array("","",""),
 "last year" => "praeitais metais",
 "years ago" => "prieš metus"
 );

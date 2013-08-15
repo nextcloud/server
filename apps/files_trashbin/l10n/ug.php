@@ -4,8 +4,8 @@ $TRANSLATIONS = array(
 "Delete permanently" => "مەڭگۈلۈك ئۆچۈر",
 "Name" => "ئاتى",
 "Deleted" => "ئۆچۈرۈلدى",
-"_%n folder_::_%n folders_" => array(,),
-"_%n file_::_%n files_" => array(,),
+"_%n folder_::_%n folders_" => array(""),
+"_%n file_::_%n files_" => array(""),
 "Nothing in here. Your trash bin is empty!" => "بۇ جايدا ھېچنېمە يوق. Your trash bin is empty!",
 "Delete" => "ئۆچۈر"
 );
