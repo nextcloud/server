@@ -161,7 +161,7 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 #content { position:relative; height:100%; width:100%; }
 #content .hascontrols { position: relative; top: 2.9em; }
 #content-wrapper {
-	position:absolute; height:100%; width:100%; padding-top:3.5em; padding-left:64px;
+	position:absolute; height:100%; width:100%; padding-top:3.5em; padding-left:80px;
 	-moz-box-sizing:border-box; box-sizing:border-box;
 }
 #leftcontent, .leftcontent {
@@ -440,17 +440,30 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 
 /* NAVIGATION ------------------------------------------------------------- */
 #navigation {
-	position:fixed; float:left; width:64px; padding-top:3.5em; z-index:75; height:100%;
+	position: fixed;
+	float: left;
+	width: 80px;
+	padding-top: 3.5em;
+	z-index: 75;
+	height: 100%;
 	background:#383c43 url('../img/noise.png') repeat;
 	-moz-box-shadow:0 0 7px #000; -webkit-box-shadow:0 0 7px #000; box-shadow:0 0 7px #000;
 	overflow:hidden; box-sizing:border-box; -moz-box-sizing:border-box;
+	/* prevent ugly selection effect on accidental selection */
+	-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
 }
-#navigation:hover { overflow-y:auto; } /* show scrollbar only on hover */
+#navigation:hover {
+	overflow-y: auto; /* show scrollbar only on hover */
+}
 #navigation a span {
-	display:block;
-	text-decoration:none; font-size:10px; text-align:center;
-	color:#fff; text-shadow:#000 0 -1px 0;
+	display: block;
+	text-decoration: none;
+	font-size: 11px;
+	text-align: center;
+	color: #fff;
+	text-shadow: #000 0 -1px 0;
 	white-space:nowrap; overflow:hidden; text-overflow:ellipsis; /* ellipsize long app names */
+	padding-bottom: 10px;
 }
 
 	/* icon opacity and hover effect */
@@ -475,14 +488,16 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 		filter: alpha(opacity=100);
 		opacity: 1;
 	}
-
-	/* positioning */
 	#navigation .icon {
-		display:block;
-		width:32px; height:32px;
-		margin:0 16px 0; padding:8px 0 4px;
+		display: block;
+		width: 32px;
+		height: 32px;
+		margin-left: 24px;
+		padding: 10px 0 4px;
 	}
-	#navigation li:first-child a { padding-top:16px; }
+	#navigation li:first-child .icon { /* special rule for Files icon as it's first */
+		padding-top: 20px;
+	}
 
 #apps-management {
 	opacity: .6;
@@ -500,18 +515,30 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	background:#383c43 url('../img/noise.png') repeat;
 	border-bottom-left-radius:7px; border-bottom:1px #333 solid; border-left:1px #333 solid;
 	-moz-box-shadow:0 0 7px rgb(29,45,68); -webkit-box-shadow:0 0 7px rgb(29,45,68); box-shadow:0 0 7px rgb(29,45,68);
+	-moz-box-sizing: border-box; box-sizing: border-box;
+	/* prevent ugly selection effect on accidental selection */
+	-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
 }
 	#expanddiv a {
-		display:block; color:#fff; text-shadow:0 -1px 0 #000; padding:0 8px;
-		-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
-		filter:alpha(opacity=70);
-		opacity:.7;
+		display: block;
+		height: 40px;
+		color: #fff;
+		text-shadow: 0 -1px 0 #000;
+		padding: 4px 12px 0;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+		filter: alpha(opacity=70);
+		opacity: .7;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
 	}
-	#expanddiv a img { margin-bottom:-3px; }
+	#expanddiv a img {
+		margin-bottom: -3px;
+		margin-right: 6px;
+	}
 	#expanddiv a:hover, #expanddiv a:focus, #expanddiv a:active {
-		-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-		filter:alpha(opacity=100);
-		opacity:1;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+		filter: alpha(opacity=100);
+		opacity: 1;
 	}
 
 
@@ -643,13 +670,15 @@ div.crumb:active {
 	height: 100%;
 	width: 100%;
 }
+#app * {
+	-moz-box-sizing: border-box; box-sizing: border-box;
+}
 
 /* Navigation: folder like structure */
 #app-navigation {
-	width: 250px;
+	width: 300px;
 	height: 100%;
 	float: left;
-	padding-bottom: 32px;
 	-moz-box-sizing: border-box; box-sizing: border-box;
 	background-color: #f8f8f8;
 	border-right: 1px solid #ccc;
@@ -666,7 +695,8 @@ div.crumb:active {
 	text-shadow: 0 1px 0 rgba(255,255,255,.9);
 }
 #app-navigation .active,
-#app-navigation .active a { /* active navigation entry or folder */
+#app-navigation .active a,
+#app-navigation li:hover > a {
 	background-color: #ddd;
 	text-shadow: 0 1px 0 rgba(255,255,255,.7);
 }
@@ -674,36 +704,25 @@ div.crumb:active {
 /* special rules for first-level entries and folders */
 #app-navigation > ul > li {
 	background-color: #eee;
-	border-top: 1px solid #fff;
-	border-bottom: 1px solid #ddd;
-}
-#app-navigation > ul > .active {
-	border-top: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
 }
 
 #app-navigation .with-icon a {
-	padding-left: 32px;
-	background-size: 16px 16px; background-position: 10px center; background-repeat: no-repeat;
+	padding-left: 44px;
+	background-size: 16px 16px;
+	background-position: 14px center;
+	background-repeat: no-repeat;
 }
 
 #app-navigation li > a {
 	display: block;
 	width: 100%;
-	padding: 0 16px;
+	height: 44px;
+	padding: 12px;
 	overflow: hidden;
 	-moz-box-sizing: border-box; box-sizing: border-box;
-	line-height: 32px;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	color: #333;
-}
-#app-navigation li:hover > a {
-	background-color: #ddd;
-}
-#app-navigation > ul > li:hover {
-	border-top: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
 }
 
 #app-navigation .collapse {
@@ -711,12 +730,12 @@ div.crumb:active {
 }
 #app-navigation .collapsible > .collapse {
 	position: absolute;
-	left: 6px;
-	top: 5px;
-	height: 16px;
-	width: 16px;
+	height: 44px;
+	width: 44px;
+	margin: 0;
+	padding: 0;
 	background: none; background-image: url('../img/actions/triangle-s.svg');
-	background-size: 16px 16px; background-repeat: no-repeat;
+	background-size: 16px; background-repeat: no-repeat; background-position: center;
 	border: none;
 	border-radius: 0;
 	outline: none !important;
@@ -766,12 +785,28 @@ div.crumb:active {
 
 #app-navigation > ul .open:hover {
 	-moz-box-shadow: inset 0 0 3px #ccc; -webkit-box-shadow: inset 0 0 3px #ccc; box-shadow: inset 0 0 3px #ccc;
-	border-top: 1px solid #ccc;
 }
 
 #app-navigation > ul .open ul {
 	display: block;
 }
+
+
+/* counter and actions */
+#app-navigation .utils {
+	position: absolute;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	font-size: 12px;
+}
+	#app-navigation .utils button,
+	#app-navigation .utils .counter {
+		width: 44px;
+		height: 44px;
+		padding-top: 12px;
+	}
+
 
 /* drag and drop */
 #app-navigation .drag-and-drop {
@@ -800,7 +835,7 @@ div.crumb:active {
 /* settings area */
 #app-settings {
 	position: fixed;
-	width: 249px;
+	width: 299px;
 	bottom: 0;
 	border-top: 1px solid #ccc;
 }
