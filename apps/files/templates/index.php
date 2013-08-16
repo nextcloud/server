@@ -101,7 +101,6 @@
 		<?php print_unescaped($_['fileList']); ?>
 	</tbody>
 </table>
-<div id="editor"></div>
 <div id="uploadsize-message" title="<?php p($l->t('Upload too large'))?>">
 	<p>
 	<?php p($l->t('The files you are trying to upload exceed the maximum size for file uploads on this server.'));?>
