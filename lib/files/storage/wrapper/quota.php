@@ -48,7 +48,7 @@ class Quota extends Wrapper {
 				return \OC\Files\SPACE_NOT_COMPUTED;
 			} else {
 				$free = $this->storage->free_space($path);
-				return min($free, ($this->quota - $used));
+				return min($free, (max($this->quota - $used, 0)));
 			}
 		}
 	}
