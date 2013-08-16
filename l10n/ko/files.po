@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-15 04:47-0400\n"
-"PO-Revision-Date: 2013-08-15 08:48+0000\n"
+"POT-Creation-Date: 2013-08-16 01:29-0400\n"
+"PO-Revision-Date: 2013-08-16 05:29+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -122,15 +122,11 @@ msgstr "공유"
 msgid "Delete permanently"
 msgstr "영원히 삭제"
 
-#: js/fileactions.js:128 templates/index.php:91 templates/index.php:92
-msgid "Delete"
-msgstr "삭제"
-
-#: js/fileactions.js:194
+#: js/fileactions.js:192
 msgid "Rename"
 msgstr "이름 바꾸기"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:467
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
 msgid "Pending"
 msgstr "대기 중"
 
@@ -158,16 +154,12 @@ msgstr "{old_name}이(가) {new_name}(으)로 대체됨"
 msgid "undo"
 msgstr "되돌리기"
 
-#: js/filelist.js:375
-msgid "perform delete operation"
-msgstr "삭제 작업중"
-
-#: js/filelist.js:455
+#: js/filelist.js:453
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] ""
 
-#: js/filelist.js:520
+#: js/filelist.js:518
 msgid "files uploading"
 msgstr "파일 업로드중"
 
@@ -305,6 +297,10 @@ msgstr "다운로드"
 #: templates/index.php:85 templates/index.php:86
 msgid "Unshare"
 msgstr "공유 해제"
+
+#: templates/index.php:91 templates/index.php:92
+msgid "Delete"
+msgstr "삭제"
 
 #: templates/index.php:105
 msgid "Upload too large"

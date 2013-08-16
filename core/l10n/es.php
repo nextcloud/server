@@ -82,7 +82,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Error estableciendo fecha de caducidad",
 "Sending ..." => "Enviando...",
 "Email sent" => "Correo electrónico enviado",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "La actualización ha fracasado. Por favor, informe de este problema a la <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">Comunidad de ownCloud</ a>.",
+"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "La actualización ha fracasado. Por favor, informe de este problema a la <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">Comunidad de ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "La actualización se ha realizado con éxito. Redireccionando a ownCloud ahora.",
 "Use the following link to reset your password: {link}" => "Utilice el siguiente enlace para restablecer su contraseña: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "El enlace para restablecer la contraseña ha sido enviada a su correo electrónico. <br> Si no lo recibe en un plazo razonable de tiempo, revise su carpeta de spam / correo no deseado. <br> Si no está allí, pregunte a su administrador local.",

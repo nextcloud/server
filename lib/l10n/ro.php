@@ -18,7 +18,7 @@ $TRANSLATIONS = array(
 "Text" => "Text",
 "Images" => "Imagini",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Serverul de web nu este încă setat corespunzător pentru a permite sincronizarea fișierelor deoarece interfața WebDAV pare a fi întreruptă.",
-"Please double check the <a href='%s'>installation guides</a>." => "Vă rugăm să verificați <a href='%s'>ghiduri de instalare</ a>.",
+"Please double check the <a href='%s'>installation guides</a>." => "Vă rugăm să verificați <a href='%s'>ghiduri de instalare</a>.",
 "seconds ago" => "secunde în urmă",
 "_%n minute ago_::_%n minutes ago_" => array("","",""),
 "_%n hour ago_::_%n hours ago_" => array("","",""),

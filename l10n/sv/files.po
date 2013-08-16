@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-15 04:47-0400\n"
-"PO-Revision-Date: 2013-08-15 08:48+0000\n"
+"POT-Creation-Date: 2013-08-16 01:29-0400\n"
+"PO-Revision-Date: 2013-08-16 05:29+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -124,15 +124,11 @@ msgstr "Dela"
 msgid "Delete permanently"
 msgstr "Radera permanent"
 
-#: js/fileactions.js:128 templates/index.php:91 templates/index.php:92
-msgid "Delete"
-msgstr "Radera"
-
-#: js/fileactions.js:194
+#: js/fileactions.js:192
 msgid "Rename"
 msgstr "Byt namn"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:467
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
 msgid "Pending"
 msgstr "Väntar"
 
@@ -160,17 +156,13 @@ msgstr "ersatt {new_name} med {old_name}"
 msgid "undo"
 msgstr "ångra"
 
-#: js/filelist.js:375
-msgid "perform delete operation"
-msgstr "utför raderingen"
-
-#: js/filelist.js:455
+#: js/filelist.js:453
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/filelist.js:520
+#: js/filelist.js:518
 msgid "files uploading"
 msgstr "filer laddas upp"
 
@@ -310,6 +302,10 @@ msgstr "Ladda ner"
 #: templates/index.php:85 templates/index.php:86
 msgid "Unshare"
 msgstr "Sluta dela"
+
+#: templates/index.php:91 templates/index.php:92
+msgid "Delete"
+msgstr "Radera"
 
 #: templates/index.php:105
 msgid "Upload too large"

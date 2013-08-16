@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-15 04:47-0400\n"
-"PO-Revision-Date: 2013-08-15 08:48+0000\n"
+"POT-Creation-Date: 2013-08-16 01:29-0400\n"
+"PO-Revision-Date: 2013-08-16 05:29+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -122,15 +122,11 @@ msgstr "Jaga"
 msgid "Delete permanently"
 msgstr "Kustuta jäädavalt"
 
-#: js/fileactions.js:128 templates/index.php:91 templates/index.php:92
-msgid "Delete"
-msgstr "Kustuta"
-
-#: js/fileactions.js:194
+#: js/fileactions.js:192
 msgid "Rename"
 msgstr "Nimeta ümber"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:467
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
 msgid "Pending"
 msgstr "Ootel"
 
@@ -158,17 +154,13 @@ msgstr "asendas nime {old_name} nimega {new_name}"
 msgid "undo"
 msgstr "tagasi"
 
-#: js/filelist.js:375
-msgid "perform delete operation"
-msgstr "teosta kustutamine"
-
-#: js/filelist.js:455
+#: js/filelist.js:453
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/filelist.js:520
+#: js/filelist.js:518
 msgid "files uploading"
 msgstr "faili üleslaadimisel"
 
@@ -308,6 +300,10 @@ msgstr "Lae alla"
 #: templates/index.php:85 templates/index.php:86
 msgid "Unshare"
 msgstr "Lõpeta jagamine"
+
+#: templates/index.php:91 templates/index.php:92
+msgid "Delete"
+msgstr "Kustuta"
 
 #: templates/index.php:105
 msgid "Upload too large"

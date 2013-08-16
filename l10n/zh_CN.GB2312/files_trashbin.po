@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-15 04:47-0400\n"
-"PO-Revision-Date: 2013-08-15 08:48+0000\n"
+"POT-Creation-Date: 2013-08-16 01:29-0400\n"
+"PO-Revision-Date: 2013-08-15 10:40+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
@@ -54,12 +54,12 @@ msgstr ""
 #: js/trash.js:191
 msgid "%n folder"
 msgid_plural "%n folders"
-msgstr[0] ""
+msgstr[0] "%n 个文件夹"
 
 #: js/trash.js:197
 msgid "%n file"
 msgid_plural "%n files"
-msgstr[0] ""
+msgstr[0] "%n 个文件"
 
 #: lib/trash.php:819 lib/trash.php:821
 msgid "restored"
@@ -71,7 +71,7 @@ msgstr ""
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
-msgstr ""
+msgstr "恢复"
 
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"
@@ -79,4 +79,4 @@ msgstr "删除"
 
 #: templates/part.breadcrumb.php:9
 msgid "Deleted Files"
-msgstr ""
+msgstr "删除的文件"

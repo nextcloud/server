@@ -6,7 +6,6 @@ $TRANSLATIONS = array(
 "No file was uploaded" => "Nijedan fajl nije poslat",
 "Missing a temporary folder" => "Nedostaje privremena fascikla",
 "Files" => "Fajlovi",
-"Delete" => "Obriši",
 "_Uploading %n file_::_Uploading %n files_" => array("","",""),
 "Name" => "Ime",
 "Size" => "Veličina",
@@ -18,6 +17,7 @@ $TRANSLATIONS = array(
 "Save" => "Snimi",
 "Nothing in here. Upload something!" => "Ovde nema ničeg. Pošaljite nešto!",
 "Download" => "Preuzmi",
+"Delete" => "Obriši",
 "Upload too large" => "Pošiljka je prevelika",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Fajlovi koje želite da pošaljete prevazilaze ograničenje maksimalne veličine pošiljke na ovom serveru."
 );

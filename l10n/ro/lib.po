@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# I Robot <owncloud-bot@tmit.eu>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-15 04:47-0400\n"
-"PO-Revision-Date: 2013-08-15 08:48+0000\n"
+"POT-Creation-Date: 2013-08-16 01:29-0400\n"
+"PO-Revision-Date: 2013-08-15 13:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -199,7 +200,7 @@ msgstr "Serverul de web nu este încă setat corespunzător pentru a permite sin
 #: setup.php:185
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr "Vă rugăm să verificați <a href='%s'>ghiduri de instalare</ a>."
+msgstr "Vă rugăm să verificați <a href='%s'>ghiduri de instalare</a>."
 
 #: template/functions.php:80
 msgid "seconds ago"

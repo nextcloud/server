@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# aivier <iaivier@126.com>, 2013
 # hlx98007 <hlx98007@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-15 04:47-0400\n"
-"PO-Revision-Date: 2013-08-15 08:48+0000\n"
+"POT-Creation-Date: 2013-08-16 01:29-0400\n"
+"PO-Revision-Date: 2013-08-16 05:29+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
@@ -121,15 +122,11 @@ msgstr "分享"
 msgid "Delete permanently"
 msgstr "永久删除"
 
-#: js/fileactions.js:128 templates/index.php:91 templates/index.php:92
-msgid "Delete"
-msgstr "删除"
-
-#: js/fileactions.js:194
+#: js/fileactions.js:192
 msgid "Rename"
 msgstr "重命名"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:467
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
 msgid "Pending"
 msgstr "等待中"
 
@@ -157,16 +154,12 @@ msgstr "已用 {old_name} 替换 {new_name}"
 msgid "undo"
 msgstr "撤销"
 
-#: js/filelist.js:375
-msgid "perform delete operation"
-msgstr "执行删除"
-
-#: js/filelist.js:455
+#: js/filelist.js:453
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
-msgstr[0] ""
+msgstr[0] "正在上传 %n 个文件"
 
-#: js/filelist.js:520
+#: js/filelist.js:518
 msgid "files uploading"
 msgstr "个文件正在上传"
 
@@ -217,12 +210,12 @@ msgstr "修改日期"
 #: js/files.js:762
 msgid "%n folder"
 msgid_plural "%n folders"
-msgstr[0] ""
+msgstr[0] "%n 个文件夹"
 
 #: js/files.js:768
 msgid "%n file"
 msgid_plural "%n files"
-msgstr[0] ""
+msgstr[0] "%n 个文件"
 
 #: lib/app.php:73
 #, php-format
@@ -304,6 +297,10 @@ msgstr "下载"
 #: templates/index.php:85 templates/index.php:86
 msgid "Unshare"
 msgstr "取消分享"
+
+#: templates/index.php:91 templates/index.php:92
+msgid "Delete"
+msgstr "删除"
 
 #: templates/index.php:105
 msgid "Upload too large"

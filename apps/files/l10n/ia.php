@@ -6,7 +6,6 @@ $TRANSLATIONS = array(
 "Files" => "Files",
 "Error" => "Error",
 "Share" => "Compartir",
-"Delete" => "Deler",
 "_Uploading %n file_::_Uploading %n files_" => array("",""),
 "Name" => "Nomine",
 "Size" => "Dimension",
@@ -21,6 +20,7 @@ $TRANSLATIONS = array(
 "Folder" => "Dossier",
 "Nothing in here. Upload something!" => "Nihil hic. Incarga alcun cosa!",
 "Download" => "Discargar",
+"Delete" => "Deler",
 "Upload too large" => "Incargamento troppo longe"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

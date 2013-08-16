@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-15 04:47-0400\n"
-"PO-Revision-Date: 2013-08-15 08:48+0000\n"
+"POT-Creation-Date: 2013-08-16 01:29-0400\n"
+"PO-Revision-Date: 2013-08-16 05:29+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -122,15 +122,11 @@ msgstr "Udostępnij"
 msgid "Delete permanently"
 msgstr "Trwale usuń"
 
-#: js/fileactions.js:128 templates/index.php:91 templates/index.php:92
-msgid "Delete"
-msgstr "Usuń"
-
-#: js/fileactions.js:194
+#: js/fileactions.js:192
 msgid "Rename"
 msgstr "Zmień nazwę"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:467
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
 msgid "Pending"
 msgstr "Oczekujące"
 
@@ -158,18 +154,14 @@ msgstr "zastąpiono {new_name} przez {old_name}"
 msgid "undo"
 msgstr "cofnij"
 
-#: js/filelist.js:375
-msgid "perform delete operation"
-msgstr "wykonaj operację usunięcia"
-
-#: js/filelist.js:455
+#: js/filelist.js:453
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: js/filelist.js:520
+#: js/filelist.js:518
 msgid "files uploading"
 msgstr "pliki wczytane"
 
@@ -311,6 +303,10 @@ msgstr "Pobierz"
 #: templates/index.php:85 templates/index.php:86
 msgid "Unshare"
 msgstr "Zatrzymaj współdzielenie"
+
+#: templates/index.php:91 templates/index.php:92
+msgid "Delete"
+msgstr "Usuń"
 
 #: templates/index.php:105
 msgid "Upload too large"

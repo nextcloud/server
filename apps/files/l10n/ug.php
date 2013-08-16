@@ -13,7 +13,6 @@ $TRANSLATIONS = array(
 "Error" => "خاتالىق",
 "Share" => "ھەمبەھىر",
 "Delete permanently" => "مەڭگۈلۈك ئۆچۈر",
-"Delete" => "ئۆچۈر",
 "Rename" => "ئات ئۆزگەرت",
 "Pending" => "كۈتۈۋاتىدۇ",
 "{new_name} already exists" => "{new_name} مەۋجۇت",
@@ -38,6 +37,7 @@ $TRANSLATIONS = array(
 "Nothing in here. Upload something!" => "بۇ جايدا ھېچنېمە يوق. Upload something!",
 "Download" => "چۈشۈر",
 "Unshare" => "ھەمبەھىرلىمە",
+"Delete" => "ئۆچۈر",
 "Upload too large" => "يۈكلەندىغىنى بەك چوڭ",
 "Upgrading filesystem cache..." => "ھۆججەت سىستېما غەملىكىنى يۈكسەلدۈرۈۋاتىدۇ…"
 );
