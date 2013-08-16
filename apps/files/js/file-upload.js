@@ -1,4 +1,30 @@
 /**
+ * 1. tracking which file to upload next -> upload queue with data elements added whenever add is called
+ * 2. tracking progress for each folder individually -> track progress in a progress[dirname] object
+ *   - every new selection increases the total size and number of files for a directory
+ *   - add increases, successful done decreases, skip decreases, cancel decreases
+ * 3. track selections -> the general skip / overwrite decision is selection based and can change
+ *    - server might send already exists error -> show dialog & remember decision for selection again
+ *    - server sends error, how do we find collection?
+ * 4. track jqXHR object to prevent browser from navigationg away -> track in a uploads[dirname][filename] object [x]
+ * 
+ * selections can progress in parrallel but each selection progresses sequentially
+ * 
+ * -> store everything in context?
+ * context.folder
+ * context.element?
+ * context.progressui?
+ * context.jqXHR
+ * context.selection
+ * context.selection.onExistsAction?
+ * 
+ * context available in what events?
+ * build in drop() add dir
+ * latest in add() add file? add selection!
+ * progress? -> update progress?
+ * onsubmit -> context.jqXHR?
+ * fail() -> 
+ * done()
  * 
  * when versioning app is active -> always overwrite
  * 
@@ -22,24 +48,74 @@
  * dialoge:
  *	-> skip, replace, choose (or abort) ()
  *	-> choose left or right (with skip) (when only one file in list also show rename option and remember for all option)
+ *	
+ *	progress always based on filesize
+ *	number of files as text, bytes as bar
+ *	
  */
 
 
-OC.upload = {
+
+//TODO clean uploads when all progress has completed
+OC.Upload = {
+	/**
+	 * map to lookup the selections for a given directory.
+	 * @type Array
+	 */
+	_selections: {},
+	/*
+	 * queue which progress tracker to use for the next upload
+	 * @type Array
+	 */
+	_queue: [],
+	queueUpload:function(data) {
+		// add to queue
+		this._queue.push(data); //remember what to upload next
+		if ( ! this.isProcessing() ) {
+			this.startUpload();
+		}
+	},
+	getSelection:function(originalFiles) {
+		if (!originalFiles.selectionKey) {
+			originalFiles.selectionKey = 'selection-' + $.assocArraySize(this._selections);
+			this._selections[originalFiles.selectionKey] = {
+				selectionKey:originalFiles.selectionKey,
+				files:{},
+				totalBytes:0,
+				loadedBytes:0,
+				currentFile:0,
+				uploads:{},
+				checked:false
+			};
+		}
+		return this._selections[originalFiles.selectionKey];
+	},
+	cancelUpload:function(dir, filename) {
+		var deleted = false;
+		jQuery.each(this._selections, function(i, selection) {
+			if (selection.dir === dir && selection.uploads[filename]) {
+				delete selection.uploads[filename];
+				deleted = true;
+				return false; // end searching through selections
+			}
+		});
+		return deleted;
+	},
+	cancelUploads:function() {
+		jQuery.each(this._selections,function(i,selection){
+			jQuery.each(selection.uploads, function (j, jqXHR) {
+				delete jqXHR;
+			});
+		});
+		this._queue = [];
+		this._isProcessing = false;
+	},
 	_isProcessing:false,
 	isProcessing:function(){
 		return this._isProcessing;
 	},
-	_uploadQueue:[],
-	addUpload:function(data){
-		this._uploadQueue.push(data);
-
-		if ( ! OC.upload.isProcessing() ) {
-			OC.upload.startUpload();
-		}
-	},
 	startUpload:function(){
-		if (this._uploadQueue.length > 0) {
+		if (this._queue.length > 0) {
 			this._isProcessing = true;
 			this.nextUpload();
 			return true;
@@ -48,32 +124,50 @@ OC.upload = {
 		}
 	},
 	nextUpload:function(){
-		if (this._uploadQueue.length > 0) {
-			var data = this._uploadQueue.pop();
-			var jqXHR = data.submit();
-
-			// remember jqXHR to show warning to user when he navigates away but an upload is still in progress
-			if (typeof data.context !== 'undefined' && data.context.data('type') === 'dir') {
-				var dirName = data.context.data('file');
-				if(typeof uploadingFiles[dirName] === 'undefined') {
-					uploadingFiles[dirName] = {};
-				}
-				uploadingFiles[dirName][data.files[0].name] = jqXHR;
-			} else {
-				uploadingFiles[data.files[0].name] = jqXHR;
-			}
+		if (this._queue.length > 0) {
+			var data = this._queue.pop();
+			var selection = this.getSelection(data.originalFiles);
+			selection.uploads[data.files[0]] = data.submit();
+			
 		} else {
 			//queue is empty, we are done
 			this._isProcessing = false;
+			//TODO free data
 		}
+	},
+	progressBytes: function() {
+		var total = 0;
+		var loaded = 0;
+		jQuery.each(this._selections, function (i, selection) {
+			total += selection.totalBytes;
+			loaded += selection.loadedBytes;
+		});
+		return (loaded/total)*100;
+	},
+	loadedBytes: function() {
+		var loaded = 0;
+		jQuery.each(this._selections, function (i, selection) {
+			loaded += selection.loadedBytes;
+		});
+		return loaded;
+	},
+	totalBytes: function() {
+		var total = 0;
+		jQuery.each(this._selections, function (i, selection) {
+			total += selection.totalBytes;
+		});
+		return total;
+	},
+	handleExists:function(data) {
+
 	},
 	onCancel:function(data){
 		//TODO cancel all uploads
-		Files.cancelUploads();
-		this._uploadQueue = [];
-		this._isProcessing = false;
+		OC.Upload.cancelUploads();
 	},
 	onSkip:function(data){
+		var selection = this.getSelection(data.originalFiles);
+		selection.loadedBytes += data.loaded;
 		this.nextUpload();
 	},
 	onReplace:function(data){
@@ -83,8 +177,14 @@ OC.upload = {
 	},
 	onRename:function(data, newName){
 		//TODO rename file in filelist, stop spinner
-		data.data.append('new_name', newName);
+		data.data.append('newname', newName);
 		data.submit();
+	},
+	setAction:function(data, action) {
+		
+	},
+	setDefaultAction:function(action) {
+		
 	}
 };
 
@@ -92,15 +192,23 @@ $(document).ready(function() {
 
 	var file_upload_param = {
 		dropZone: $('#content'), // restrict dropZone to content div
+		
 		//singleFileUploads is on by default, so the data.files array will always have length 1
 		add: function(e, data) {
 			var that = $(this);
-
-			if (typeof data.originalFiles.checked === 'undefined') {
+			
+			// lookup selection for dir
+			var selection = OC.Upload.getSelection(data.originalFiles);
+			
+			if (!selection.dir) {
+				selection.dir = $('#dir').val();
+			}
+			
+			if ( ! selection.checked ) {
 				
-				var totalSize = 0;
+				selection.totalBytes = 0;
 				$.each(data.originalFiles, function(i, file) {
-					totalSize += file.size;
+					selection.totalBytes += file.size;
 
 					if (file.type === '' && file.size === 4096) {
 						data.textStatus = 'dirorzero';
@@ -111,11 +219,10 @@ $(document).ready(function() {
 					}
 				});
 
-				if (totalSize > $('#max_upload').val()) {
+				if (selection.totalBytes > $('#max_upload').val()) {
 					data.textStatus = 'notenoughspace';
 					data.errorThrown = t('files', 'Not enough space available');
 				}
-
 				if (data.errorThrown) {
 					//don't upload anything
 					var fu = that.data('blueimp-fileupload') || that.data('fileupload');
@@ -123,8 +230,21 @@ $(document).ready(function() {
 					return false;
 				}
 				
-				data.originalFiles.checked = true; // this will skip the checks on subsequent adds
+				//TODO refactor away:
+				//show cancel button
+				if($('html.lte9').length === 0 && data.dataType !== 'iframe') {
+					$('#uploadprogresswrapper input.stop').show();
+				}
 			}
+			
+			//all subsequent add calls for this selection can be ignored
+			//allow navigating to the selection from a context
+			//context.selection = data.originalFiles.selection;
+			
+			//allow navigating to contexts / files of a selection
+			selection.files[data.files[0].name] = data;
+			
+			OC.Upload.queueUpload(data);
 			
 			//TODO check filename already exists
 			/*
@@ -140,14 +260,6 @@ $(document).ready(function() {
 			}
 			*/
 
-			//add files to queue
-			OC.upload.addUpload(data);
-			
-			//TODO refactor away:
-			//show cancel button
-			if($('html.lte9').length === 0 && data.dataType !== 'iframe') {
-				$('#uploadprogresswrapper input.stop').show();
-			}
 			return true;
 		},
 		/**
@@ -176,7 +288,8 @@ $(document).ready(function() {
 					$('#notification').fadeOut();
 				}, 5000);
 			}
-			delete uploadingFiles[data.files[0].name];
+			var selection = OC.Upload.getSelection(data.originalFiles);
+			delete selection.uploads[data.files[0]];
 		},
 		progress: function(e, data) {
 			// TODO: show nice progress bar in file row
@@ -186,7 +299,8 @@ $(document).ready(function() {
 			if($('html.lte9').length > 0) {
 				return;
 			}
-			var progress = (data.loaded/data.total)*100;
+			//var progress = (data.loaded/data.total)*100;
+			var progress = OC.Upload.progressBytes();
 			$('#uploadprogressbar').progressbar('value', progress);
 		},
 		/**
@@ -204,45 +318,27 @@ $(document).ready(function() {
 				response = data.result[0].body.innerText;
 			}
 			var result=$.parseJSON(response);
+			var selection = OC.Upload.getSelection(data.originalFiles);
 
-			if(typeof result[0] !== 'undefined' && result[0].status === 'success') {
-				OC.upload.nextUpload();
+			if(typeof result[0] !== 'undefined'
+				&& result[0].status === 'success'
+			) {
+				selection.loadedBytes+=data.loaded;
+				OC.Upload.nextUpload();
 			} else {
 				if (result[0].status === 'existserror') {
-					//TODO open dialog and retry with other name?
-					// get jqXHR reference
-					if (typeof data.context !== 'undefined' && data.context.data('type') === 'dir') {
-						var dirName = data.context.data('file');
-						var jqXHR = uploadingFiles[dirName][filename];
-					} else {
-						var jqXHR = uploadingFiles[filename];
-					}
-					//filenames can only be changed on the server side
-					//TODO show "file already exists" dialog
-					//options: abort | skip | replace / rename
-							//TODO reset all-files flag? when done with selection?
+					//show "file already exists" dialog
 					var original = result[0];
 					var replacement = data.files[0];
-					OC.dialogs.fileexists(data, original, replacement, OC.upload);
+					var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
+					OC.dialogs.fileexists(data, original, replacement, OC.Upload, fu);
 				} else {
+					delete selection.uploads[data.files[0]];
 					data.textStatus = 'servererror';
 					data.errorThrown = t('files', result.data.message);
 					var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
 					fu._trigger('fail', e, data);
 				}
-			}
-
-			var filename = result[0].originalname;
-
-			// delete jqXHR reference
-			if (typeof data.context !== 'undefined' && data.context.data('type') === 'dir') {
-				var dirName = data.context.data('file');
-				delete uploadingFiles[dirName][filename];
-				if ($.assocArraySize(uploadingFiles[dirName]) === 0) {
-					delete uploadingFiles[dirName];
-				}
-			} else {
-				delete uploadingFiles[filename];
 			}
 
 		},
@@ -252,17 +348,20 @@ $(document).ready(function() {
 		 * @param data
 		 */
 		stop: function(e, data) {
-			if(data.dataType !== 'iframe') {
-				$('#uploadprogresswrapper input.stop').hide();
-			}
+			if(OC.Upload.progressBytes()>=100) {
 
-			//IE < 10 does not fire the necessary events for the progress bar.
-			if($('html.lte9').length > 0) {
-				return;
-			}
+				if(data.dataType !== 'iframe') {
+					$('#uploadprogresswrapper input.stop').hide();
+				}
 
-			$('#uploadprogressbar').progressbar('value', 100);
-			$('#uploadprogressbar').fadeOut();
+				//IE < 10 does not fire the necessary events for the progress bar.
+				if($('html.lte9').length > 0) {
+					return;
+				}
+
+				$('#uploadprogressbar').progressbar('value', 100);
+				$('#uploadprogressbar').fadeOut();
+			}
 		}
 	};
 	

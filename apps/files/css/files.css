@@ -190,6 +190,9 @@ table.dragshadow td.size {
 	margin-left: -200px;
 }
 
+.oc-dialog .fileexists table {
+	width: 100%;
+}
 .oc-dialog .fileexists .original .icon {
 	width: 64px;
 	height: 64px;
@@ -201,6 +204,7 @@ table.dragshadow td.size {
 
 .oc-dialog .fileexists .replacement {
 	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 .oc-dialog .fileexists .replacement .icon {
@@ -213,10 +217,23 @@ table.dragshadow td.size {
 	clear: both;
 }
 
-.oc-dialog .fileexists label[for="new-name"] {
-	margin-top: 20px;
-	display: block;
+.oc-dialog .fileexists .toggle {
+	background-image: url('%webroot%/core/img/actions/triangle-e.png');
+	width: 16px;
+	height: 16px;
 }
+.oc-dialog .fileexists #allfileslabel {
+	float:right;
+}
+.oc-dialog .fileexists #allfiles {
+	vertical-align: bottom;
+	position: relative;
+	top: -3px;
+}
+.oc-dialog .fileexists #allfiles + span{
+	vertical-align: bottom;
+}
+
 .oc-dialog .fileexists h3 {
 	font-weight: bold;
 }

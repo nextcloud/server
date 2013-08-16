@@ -407,151 +407,212 @@ $(document).ready(function(){
 
 	// handle upload events
 	var file_upload_start = $('#file_upload_start');
+	
 	file_upload_start.on('fileuploaddrop', function(e, data) {
-		// only handle drop to dir if fileList exists
-		if ($('#fileList').length > 0) {
-			var dropTarget = $(e.originalEvent.target).closest('tr');
-			if(dropTarget && dropTarget.data('type') === 'dir') { // drag&drop upload to folder
-				data.context = dropTarget;
-				var dirName = dropTarget.data('file');
-				// update folder in form
-				data.formData = function(form) {
-					var formArray = form.serializeArray();
-					// array index 0 contains the max files size
-					// array index 1 contains the request token
-					// array index 2 contains the directory
-					var parentDir = formArray[2]['value'];
-					if (parentDir === '/') {
-						formArray[2]['value'] += dirName;
-					} else {
-						formArray[2]['value'] += '/'+dirName;
-					}
-					return formArray;
-				};
+		console.log('fileuploaddrop ' +OC.Upload.loadedBytes()+' / '+OC.Upload.totalBytes());
+		
+		var dropTarget = $(e.originalEvent.target).closest('tr');
+		if(dropTarget && dropTarget.data('type') === 'dir') { // drag&drop upload to folder
+			
+			// lookup selection for dir
+			var selection = OC.Upload.getSelection(data.files);
+			
+			// remember drop target
+			selection.dropTarget = dropTarget;
+			
+			selection.dir = dropTarget.data('file');
+			if (selection.dir !== '/') {
+				if ($('#dir').val() === '/') {
+					selection.dir = '/' + selection.dir;
+				} else {
+					selection.dir = $('#dir').val() + '/' + selection.dir;
+				}
 			}
-		}
+			
+			// update folder in form
+			data.formData = function(form) {
+				var formArray = form.serializeArray();
+				// array index 0 contains the max files size
+				// array index 1 contains the request token
+				// array index 2 contains the directory
+				var parentDir = formArray[2]['value'];
+				if (parentDir === '/') {
+					formArray[2]['value'] += selection.dir;
+				} else {
+					formArray[2]['value'] += '/' + selection.dir;
+				}
+				
+				return formArray;
+			};
+		} 
+		
 	});
 	file_upload_start.on('fileuploadadd', function(e, data) {
-		// only add to fileList if it exists
-		if ($('#fileList').length > 0) {
+		console.log('fileuploadadd ' +OC.Upload.loadedBytes()+' / '+OC.Upload.totalBytes());
 
-			if(FileList.deleteFiles && FileList.deleteFiles.indexOf(data.files[0].name)!==-1){//finish delete if we are uploading a deleted file
-				FileList.finishDelete(null, true); //delete file before continuing
+		// lookup selection for dir
+		var selection = OC.Upload.getSelection(data.originalFiles);
+			
+		if(FileList.deleteFiles && FileList.deleteFiles.indexOf(data.files[0].name)!==-1){//finish delete if we are uploading a deleted file
+			FileList.finishDelete(null, true); //delete file before continuing
+		}
+		
+		// add ui visualization to existing folder
+		if(selection.dropTarget && selection.dropTarget.data('type') === 'dir') {
+			// add to existing folder
+			var dirName = selection.dropTarget.data('file');
+
+			// set dir context
+			data.context = $('tr').filterAttr('data-type', 'dir').filterAttr('data-file', dirName);
+
+			// update upload counter ui
+			var uploadtext = data.context.find('.uploadtext');
+			var currentUploads = parseInt(uploadtext.attr('currentUploads'));
+			currentUploads += 1;
+			uploadtext.attr('currentUploads', currentUploads);
+			
+			if(currentUploads === 1) {
+				var img = OC.imagePath('core', 'loading.gif');
+				data.context.find('td.filename').attr('style','background-image:url('+img+')');
+				uploadtext.text(t('files', '1 file uploading'));
+				uploadtext.show();
+			} else {
+				uploadtext.text(currentUploads + ' ' + t('files', 'files uploading'));
 			}
+		}
+		
+	});
+	file_upload_start.on('fileuploaddone', function(e, data) {
+		console.log('fileuploaddone ' +OC.Upload.loadedBytes()+' / '+OC.Upload.totalBytes());
+		
+		var response;
+		if (typeof data.result === 'string') {
+			response = data.result;
+		} else {
+			// fetch response from iframe
+			response = data.result[0].body.innerText;
+		}
+		var result=$.parseJSON(response);
 
-			// add ui visualization to existing folder
-			var dropTarget = $(e.originalEvent.target).closest('tr');
-			if(dropTarget && dropTarget.data('type') === 'dir') {
-				// add to existing folder
-				var dirName = dropTarget.data('file');
+		if(typeof result[0] !== 'undefined' && result[0].status === 'success') {
+			var file = result[0];
 
-				// set dir context
-				data.context = $('tr').filterAttr('data-type', 'dir').filterAttr('data-file', dirName);
+			if (data.context && data.context.data('type') === 'dir') {
 
 				// update upload counter ui
 				var uploadtext = data.context.find('.uploadtext');
 				var currentUploads = parseInt(uploadtext.attr('currentUploads'));
-				currentUploads += 1;
+				currentUploads -= 1;
 				uploadtext.attr('currentUploads', currentUploads);
-				if(currentUploads === 1) {
-					var img = OC.imagePath('core', 'loading.gif');
+				if(currentUploads === 0) {
+					var img = OC.imagePath('core', 'filetypes/folder.png');
 					data.context.find('td.filename').attr('style','background-image:url('+img+')');
-					uploadtext.text(t('files', '1 file uploading'));
-					uploadtext.show();
+					uploadtext.text('');
+					uploadtext.hide();
 				} else {
 					uploadtext.text(currentUploads + ' ' + t('files', 'files uploading'));
 				}
+				
+				// update folder size
+				var size = parseInt(data.context.data('size'));
+				size += parseInt(file.size);
+				data.context.attr('data-size', size);
+				data.context.find('td.filesize').text(humanFileSize(size));
+				
+			} else {
+
+				// add as stand-alone row to filelist
+				var size=t('files','Pending');
+				if (data.files[0].size>=0){
+					size=data.files[0].size;
+				}
+				var date=new Date();
+				var param = {};
+				if ($('#publicUploadRequestToken').length) {
+					param.download_url = document.location.href + '&download&path=/' + $('#dir').val() + '/' + file.name;
+				}
+				//should the file exist in the list remove it
+				FileList.remove(file.name);
+				
+				// create new file context
+				data.context = FileList.addFile(file.name, file.size, date, false, false, param);
+
+				// update file data
+				data.context.attr('data-mime',file.mime).attr('data-id',file.id);
+
+				getMimeIcon(file.mime, function(path){
+					data.context.find('td.filename').attr('style','background-image:url('+path+')');
+				});
 			}
 		}
 	});
-	file_upload_start.on('fileuploaddone', function(e, data) {
-		// only update the fileList if it exists
-		if ($('#fileList').length > 0) {
-			var response;
-			if (typeof data.result === 'string') {
-				response = data.result;
-			} else {
-				// fetch response from iframe
-				response = data.result[0].body.innerText;
-			}
-			var result=$.parseJSON(response);
-
-			if(typeof result[0] !== 'undefined' && result[0].status === 'success') {
-				var file = result[0];
-
-				if (data.context && data.context.data('type') === 'dir') {
-					
-					// update upload counter ui
-					var uploadtext = data.context.find('.uploadtext');
-					var currentUploads = parseInt(uploadtext.attr('currentUploads'));
-					currentUploads -= 1;
-					uploadtext.attr('currentUploads', currentUploads);
-					if(currentUploads === 0) {
-						var img = OC.imagePath('core', 'filetypes/folder.png');
-						data.context.find('td.filename').attr('style','background-image:url('+img+')');
-						uploadtext.text('');
-						uploadtext.hide();
-					} else {
-						uploadtext.text(currentUploads + ' ' + t('files', 'files uploading'));
-					}
-
-					// update folder size
-					var size =  parseInt(data.context.data('size'));
-					size +=  parseInt(file.size)	;
-					data.context.attr('data-size', size);
-					data.context.find('td.filesize').text(humanFileSize(size));
-
-				} else {
-					
-					// add as stand-alone row to filelist
-					var uniqueName = getUniqueName(data.files[0].name);
-					var size=t('files','Pending');
-					if (data.files[0].size>=0){
-						size=data.files[0].size;
-					}
-					var date=new Date();
-					var param = {};
-					if ($('#publicUploadRequestToken').length) {
-						param.download_url = document.location.href + '&download&path=/' + $('#dir').val() + '/' + uniqueName;
-					}
-					
-					//should the file exist in the list remove it
-					FileList.remove(file.name);
-
-					// create new file context
-					data.context = FileList.addFile(file.name, file.size, date, false, false, param);
-				
-					// update file data
-					data.context.attr('data-mime',file.mime).attr('data-id',file.id);
-					
-					getMimeIcon(file.mime, function(path){
-						data.context.find('td.filename').attr('style','background-image:url('+path+')');
-					});
-				}
-			}
-		}
+	
+	file_upload_start.on('fileuploadalways', function(e, data) {
+		console.log('fileuploadalways ' +OC.Upload.loadedBytes()+' / '+OC.Upload.totalBytes());
+	});
+	file_upload_start.on('fileuploadsend', function(e, data) {
+		console.log('fileuploadsend ' +OC.Upload.loadedBytes()+' / '+OC.Upload.totalBytes());
+		
+		// TODOD add vis
+		//data.context.element = 
+	});
+	file_upload_start.on('fileuploadprogress', function(e, data) {
+		console.log('fileuploadprogress ' +OC.Upload.loadedBytes()+' / '+OC.Upload.totalBytes());
+	});
+	file_upload_start.on('fileuploadprogressall', function(e, data) {
+		console.log('fileuploadprogressall ' +OC.Upload.loadedBytes()+' / '+OC.Upload.totalBytes());
+	});
+	file_upload_start.on('fileuploadstop', function(e, data) {
+		console.log('fileuploadstop ' +OC.Upload.loadedBytes()+' / '+OC.Upload.totalBytes());
 	});
 	file_upload_start.on('fileuploadfail', function(e, data) {
-		// only update the fileList if it exists
+		console.log('fileuploadfail ' +OC.Upload.loadedBytes()+' / '+OC.Upload.totalBytes());
+	});
+	/*
+	file_upload_start.on('fileuploadfail', function(e, data) {
+		console.log('fileuploadfail'+((data.files&&data.files.length>0)?' '+data.files[0].name:''));
+		
+		// if we are uploading to a subdirectory
+		if (data.context && data.context.data('type') === 'dir') {
+
+			// update upload counter ui
+			var uploadtext = data.context.find('.uploadtext');
+			var currentUploads = parseInt(uploadtext.attr('currentUploads'));
+			currentUploads -= 1;
+			uploadtext.attr('currentUploads', currentUploads);
+			if(currentUploads === 0) {
+				var img = OC.imagePath('core', 'filetypes/folder.png');
+				data.context.find('td.filename').attr('style','background-image:url('+img+')');
+				uploadtext.text('');
+				uploadtext.hide();
+			} else {
+				uploadtext.text(currentUploads + ' ' + t('files', 'files uploading'));
+			}
+
+		}
+		
 		// cleanup files, error notification has been shown by fileupload code
 		var tr = data.context;
 		if (typeof tr === 'undefined') {
 			tr = $('tr').filterAttr('data-file', data.files[0].name);
 		}
 		if (tr.attr('data-type') === 'dir') {
+			
 			//cleanup uploading to a dir
 			var uploadtext = tr.find('.uploadtext');
 			var img = OC.imagePath('core', 'filetypes/folder.png');
 			tr.find('td.filename').attr('style','background-image:url('+img+')');
 			uploadtext.text('');
 			uploadtext.hide(); //TODO really hide already
+			
 		} else {
+			//TODO add row when sending file
 			//remove file
 			tr.fadeOut();
 			tr.remove();
 		}
 	});
-
+*/
 	$('#notification').hide();
 	$('#notification').on('click', '.undo', function(){
 		if (FileList.deleteFiles) {

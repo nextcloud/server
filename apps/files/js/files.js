@@ -1,31 +1,5 @@
 var uploadingFiles = {};
 Files={
-	cancelUpload:function(filename) {
-		if(uploadingFiles[filename]) {
-			uploadingFiles[filename].abort();
-			delete uploadingFiles[filename];
-			return true;
-		}
-		return false;
-	},
-	cancelUploads:function() {
-		$.each(uploadingFiles,function(index,file) {
-			if(typeof file['abort'] === 'function') {
-				file.abort();
-				var filename = $('tr').filterAttr('data-file',index);
-				filename.hide();
-				filename.find('input[type="checkbox"]').removeAttr('checked');
-				filename.removeClass('selected');
-			} else {
-				$.each(file,function(i,f) {
-					f.abort();
-					delete file[i];
-				});
-			}
-			delete uploadingFiles[index];
-		});
-		procesSelection();
-	},
 	updateMaxUploadFilesize:function(response) {
 		if(response == undefined) {
 			return;
@@ -117,7 +91,8 @@ $(document).ready(function() {
 
 	// Trigger cancelling of file upload
 	$('#uploadprogresswrapper .stop').on('click', function() {
-		Files.cancelUploads();
+		OC.Upload.cancelUploads();
+		procesSelection();
 	});
 
 	// Show trash bin

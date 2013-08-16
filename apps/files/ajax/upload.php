@@ -99,8 +99,8 @@ if (strpos($dir, '..') === false) {
 	$fileCount = count($files['name']);
 	for ($i = 0; $i < $fileCount; $i++) {
 		// $path needs to be normalized - this failed within drag'n'drop upload to a sub-folder
-		if (isset($_POST['new_name'])) {
-			$newName = $_POST['new_name'];
+		if (isset($_POST['newname'])) {
+			$newName = $_POST['newname'];
 		} else {
 			$newName = $files['name'][$i];
 		}
@@ -109,11 +109,12 @@ if (strpos($dir, '..') === false) {
 		} else {
 			$replace = false;
 		}
-		$target = \OC\Files\Filesystem::normalizePath(stripslashes($dir).$newName);
+		$target = \OC\Files\Filesystem::normalizePath(stripslashes($dir).'/'.$newName);
 		if ( ! $replace && \OC\Files\Filesystem::file_exists($target)) {
 			$meta = \OC\Files\Filesystem::getFileInfo($target);
 			$result[] = array('status' => 'existserror',
-				'mime' => $meta['mimetype'],
+				'type' => $meta['mimetype'],
+				'mtime' => $meta['mtime'],
 				'size' => $meta['size'],
 				'id' => $meta['fileid'],
 				'name' => basename($target),

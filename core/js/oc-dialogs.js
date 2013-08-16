@@ -207,105 +207,142 @@ var OCdialogs = {
 	 * @param {object} controller a controller with onCancel, onSkip, onReplace and onRename methods
 	*/
 	fileexists:function(data, original, replacement, controller) {
-		if (typeof controller !== 'object') {
-			controller = {};
-		}
-		var self = this;
-		$.when(this._getFileExistsTemplate()).then(function($tmpl) {
-			var dialog_name = 'oc-dialog-fileexists-' + OCdialogs.dialogs_counter + '-content';
-			var dialog_id = '#' + dialog_name;
-			var title = t('files','Replace »{filename}«?',{filename: original.name});
-			var $dlg = $tmpl.octemplate({
-				dialog_name: dialog_name,
-				title: title,
-				type: 'fileexists',
-				
-				why: t('files','Another file with the same name already exists in "{dir}".',{dir:'somedir'}),
-				what: t('files','Replacing it will overwrite it\'s contents.'),
-				original_heading: t('files','Original file'),
-				original_size: t('files','Size: {size}',{size: original.size}),
-				original_mtime: t('files','Last changed: {mtime}',{mtime: original.mtime}),
+		var selection = controller.getSelection(data.originalFiles);
+		if (selection.defaultAction) {
+			controller[selection.defaultAction](data);
+		} else {
+			$.when(this._getFileExistsTemplate()).then(function($tmpl) {
+				var dialog_name = 'oc-dialog-fileexists-' + OCdialogs.dialogs_counter + '-content';
+				var dialog_id = '#' + dialog_name;
+				var title = t('files','Replace »{filename}«?',{filename: original.name});
+				var original_size= t('files','Size: {size}',{size: original.size});
+				var original_mtime = t('files','Last changed: {mtime}',{mtime: original.mtime});
+				var replacement_size= t('files','Size: {size}',{size: replacement.size});
+				var replacement_mtime = t('files','Last changed: {mtime}',{mtime: replacement.mtime});
+				var $dlg = $tmpl.octemplate({
+					dialog_name: dialog_name,
+					title: title,
+					type: 'fileexists',
 
-				replacement_heading: t('files','Replace with'),
-				replacement_size: t('files','Size: {size}',{size: replacement.size}),
-				replacement_mtime: t('files','Last changed: {mtime}',{mtime: replacement.mtime}),
+					why: t('files','Another file with the same name already exists in "{dir}".',{dir:'somedir'}),
+					what: t('files','Replacing it will overwrite it\'s contents.'),
+					original_heading: t('files','Original file'),
+					original_size: original_size,
+					original_mtime: original_mtime,
 
-				new_name_label: t('files','Choose a new name for the target.'),
-				all_files_label: t('files','Use this action for all files.')
-			});
-			$('body').append($dlg);
-			
-			$(dialog_id + ' .original .icon').css('background-image','url('+OC.imagePath('core', 'filetypes/file.png')+')');
-			$(dialog_id + ' .replacement .icon').css('background-image','url('+OC.imagePath('core', 'filetypes/file.png')+')');
-			$(dialog_id + ' #new-name').val(original.name);
-			
-			
-			$(dialog_id + ' #new-name').on('keyup', function(e){
-				if ($(dialog_id + ' #new-name').val() === original.name) {
-					
-					$(dialog_id + ' + div .rename').removeClass('primary').hide();
-					$(dialog_id + ' + div .replace').addClass('primary').show();
-				} else {
-					$(dialog_id + ' + div .rename').addClass('primary').show();
-					$(dialog_id + ' + div .replace').removeClass('primary').hide();
-				}
-			});
+					replacement_heading: t('files','Replace with'),
+					replacement_size: replacement_size,
+					replacement_mtime: replacement_mtime,
 
-			buttonlist = [{
-					text: t('core', 'Cancel'),
-					classes: 'cancel',
-					click: function(){
-						if ( typeof controller.onCancel !== 'undefined') {
-							controller.onCancel(data);
-						}
-						$(dialog_id).ocdialog('close');
+					new_name_label: t('files','Choose a new name for the target.'),
+					all_files_label: t('files','Use this action for all files.')
+				});
+				$('body').append($dlg);
+
+				getMimeIcon(original.type,function(path){
+					$(dialog_id + ' .original .icon').css('background-image','url('+path+')');
+				});
+				getMimeIcon(replacement.type,function(path){
+					$(dialog_id + ' .replacement .icon').css('background-image','url('+path+')');
+				});
+				$(dialog_id + ' #newname').val(original.name);
+
+
+				$(dialog_id + ' #newname').on('keyup', function(e){
+					if ($(dialog_id + ' #newname').val() === original.name) {
+						$(dialog_id + ' + div .rename').removeClass('primary').hide();
+						$(dialog_id + ' + div .replace').addClass('primary').show();
+					} else {
+						$(dialog_id + ' + div .rename').addClass('primary').show();
+						$(dialog_id + ' + div .replace').removeClass('primary').hide();
 					}
-				},
-				{
-					text: t('core', 'Skip'),
-					classes: 'skip',
-					click: function(){
-						if ( typeof controller.onSkip !== 'undefined') {
-							controller.onSkip(data);
+				});
+
+				buttonlist = [{
+						text: t('core', 'Cancel'),
+						classes: 'cancel',
+						click: function(){
+							if ( typeof controller.onCancel !== 'undefined') {
+								controller.onCancel(data);
+							}
+							$(dialog_id).ocdialog('close');
 						}
-						$(dialog_id).ocdialog('close');
-					}
-				},
-				{
-					text: t('core', 'Replace'),
-					classes: 'replace',
-					click: function(){
-						if ( typeof controller.onReplace !== 'undefined') {
-							controller.onReplace(data);
-						}
-						$(dialog_id).ocdialog('close');
 					},
-					defaultButton: true
-				},
-				{
-					text: t('core', 'Rename'),
-					classes: 'rename',
-					click: function(){
-						if ( typeof controller.onRename !== 'undefined') {
-							controller.onRename(data, $(dialog_id + ' #new-name').val());
+					{
+						text: t('core', 'Skip'),
+						classes: 'skip',
+						click: function(){
+							if ( typeof controller.onSkip !== 'undefined') {
+								if($(dialog_id + ' #allfiles').prop('checked')){
+									selection.defaultAction = 'onSkip';
+									/*selection.defaultAction = function(){
+										controller.onSkip(data);
+									};*/
+								}
+								controller.onSkip(data);
+							}
+							// trigger fileupload done with status skip
+							//data.result[0].status = 'skip';
+							//fileupload._trigger('done', data.e, data);
+							$(dialog_id).ocdialog('close');
 						}
-						$(dialog_id).ocdialog('close');
-					}
-				}];
+					},
+					{
+						text: t('core', 'Replace'),
+						classes: 'replace',
+						click: function(){
+							if ( typeof controller.onReplace !== 'undefined') {
+								if($(dialog_id + ' #allfiles').prop('checked')){
+									selection.defaultAction = 'onReplace';
+									/*selection.defaultAction = function(){
+										controller.onReplace(data);
+									};*/
+								}
+								controller.onReplace(data);
+							}
+							$(dialog_id).ocdialog('close');
+						},
+						defaultButton: true
+					},
+					{
+						text: t('core', 'Rename'),
+						classes: 'rename',
+						click: function(){
+							if ( typeof controller.onRename !== 'undefined') {
+								//TODO use autorename when repeat is checked
+								controller.onRename(data, $(dialog_id + ' #newname').val());
+							}
+							$(dialog_id).ocdialog('close');
+						}
+					}];
 
-			$(dialog_id).ocdialog({
-				closeOnEscape: true,
-				modal: true,
-				buttons: buttonlist,
-				closeButton: null
+				$(dialog_id).ocdialog({
+					width: 500,
+					closeOnEscape: true,
+					modal: true,
+					buttons: buttonlist,
+					closeButton: null
+				});
+				OCdialogs.dialogs_counter++;
+
+				$(dialog_id + ' + div .rename').hide();
+				$(dialog_id + ' #newname').hide();
+				
+				$(dialog_id + ' #newnamecb').on('change', function(){
+					if ($(dialog_id + ' #newnamecb').prop('checked')) {
+						$(dialog_id + ' #newname').fadeIn();
+					} else {
+						$(dialog_id + ' #newname').fadeOut();
+						$(dialog_id + ' #newname').val(original.name);
+					}
+				});
+				
+				
+			})
+			.fail(function() {
+				alert(t('core', 'Error loading file exists template'));
 			});
-			OCdialogs.dialogs_counter++;
-			
-			$(dialog_id + ' + div .rename').hide();
-		})
-		.fail(function() {
-			alert(t('core', 'Error loading file exists template'));
-		});
+		}
 	},
 	_getFilePickerTemplate: function() {
 		var defer = $.Deferred();

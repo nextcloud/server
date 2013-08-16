@@ -62,7 +62,10 @@ $(document).ready(function() {
   // Add Uploadprogress Wrapper to controls bar
   $('#controls').append($('#additional_controls div#uploadprogresswrapper'));
 
-  // Cancel upload trigger
-  $('#cancel_upload_button').click(Files.cancelUploads);
+	// Cancel upload trigger
+	$('#cancel_upload_button').click(function() {
+		OC.Upload.cancelUploads();
+		procesSelection();
+	});
 
 });
