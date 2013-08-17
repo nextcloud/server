@@ -184,7 +184,7 @@ class Storage {
 		} else  if ( ($versions = Storage::getVersions($uid, $oldpath)) ) {
 			// create missing dirs if necessary
 			self::createMissingDirectories($newpath, new \OC\Files\View('/'. $uidn));
-			
+
 			foreach ($versions as $v) {
 				$versions_view->rename($oldpath.'.v'.$v['version'], $newpath.'.v'.$v['version']);
 			}
@@ -566,6 +566,7 @@ class Storage {
 	/**
 	 * @brief create recursively missing directories
 	 * @param string $filename $path to a file
+	 * @param \OC\Files\View $view view on data/user/
 	 */
 	private static function createMissingDirectories($filename, $view) {
 		$dirname = \OC_Filesystem::normalizePath(pathinfo($filename, PATHINFO_DIRNAME));
