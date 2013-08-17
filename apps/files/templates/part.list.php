@@ -1,4 +1,6 @@
-<input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>">
+<?php $totalfiles = 0;
+$totaldirs = 0;
+$totalsize = 0; ?>
 <?php foreach($_['files'] as $file):
 	// the bigger the file, the darker the shade of grey; megabytes*2
 	$simple_size_color = intval(160-$file['size']/(1024*1024)*2);

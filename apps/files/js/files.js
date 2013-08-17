@@ -94,29 +94,34 @@ Files={
 			OC.Notification.show(t('files_encryption', 'Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files.'));
 			return;
 		}
+	},
+
+	setupDragAndDrop: function(){
+		var $fileList = $('#fileList');
+
+		//drag/drop of files
+		$fileList.find('tr td.filename').each(function(i,e){
+			if ($(e).parent().data('permissions') & OC.PERMISSION_DELETE) {
+				$(e).draggable(dragOptions);
+			}
+		});
+
+		$fileList.find('tr[data-type="dir"] td.filename').each(function(i,e){
+			if ($(e).parent().data('permissions') & OC.PERMISSION_CREATE){
+				$(e).droppable(folderDropOptions);
+			}
+		});
 	}
 };
 $(document).ready(function() {
 	Files.displayEncryptionWarning();
 	Files.bindKeyboardShortcuts(document, jQuery);
-	$('#fileList tr').each(function(){
-		//little hack to set unescape filenames in attribute
-		$(this).attr('data-file',decodeURIComponent($(this).attr('data-file')));
-	});
+
+	FileList.postProcessList();
+	Files.setupDragAndDrop();
 
 	$('#file_action_panel').attr('activeAction', false);
 
-	//drag/drop of files
-	$('#fileList tr td.filename').each(function(i,e){
-		if ($(e).parent().data('permissions') & OC.PERMISSION_DELETE) {
-			$(e).draggable(dragOptions);
-		}
-	});
-	$('#fileList tr[data-type="dir"] td.filename').each(function(i,e){
-		if ($(e).parent().data('permissions') & OC.PERMISSION_CREATE){
-			$(e).droppable(folderDropOptions);
-		}
-	});
 	$('div.crumb:not(.last)').droppable(crumbDropOptions);
 	$('ul#apps>li:first-child').data('dir','');
 	if($('div.crumb').length){
@@ -335,6 +340,9 @@ $(document).ready(function() {
 
 	resizeBreadcrumbs(true);
 
+	// event handlers for breadcrumb items
+	$('#controls').delegate('.crumb a', 'click', onClickBreadcrumb);
+
 	// display storage warnings
 	setTimeout ( "Files.displayStorageWarnings()", 100 );
 	OC.Notification.setDefault(Files.displayStorageWarnings);
@@ -413,10 +421,6 @@ function boolOperationFinished(data, callback) {
 	} else {
 		alert(result.data.message);
 	}
-}
-
-function updateBreadcrumb(breadcrumbHtml) {
-	$('p.nav').empty().html(breadcrumbHtml);
 }
 
 var createDragShadow = function(event){
@@ -680,4 +684,10 @@ function checkTrashStatus() {
 			$("input[type=button][id=trash]").removeAttr("disabled");
 		}
 	});
+}
+
+function onClickBreadcrumb(e){
+	var $el = $(e.target).closest('.crumb');
+	e.preventDefault();
+	FileList.changeDirectory(decodeURIComponent($el.data('dir')));
 }

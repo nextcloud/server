@@ -41,62 +41,25 @@ if (!\OC\Files\Filesystem::is_dir($dir . '/')) {
 	exit();
 }
 
-function fileCmp($a, $b) {
-	if ($a['type'] == 'dir' and $b['type'] != 'dir') {
-		return -1;
-	} elseif ($a['type'] != 'dir' and $b['type'] == 'dir') {
-		return 1;
-	} else {
-		return strnatcasecmp($a['name'], $b['name']);
-	}
-}
-
 $files = array();
 $user = OC_User::getUser();
 if (\OC\Files\Cache\Upgrade::needUpgrade($user)) { //dont load anything if we need to upgrade the cache
-	$content = array();
 	$needUpgrade = true;
 	$freeSpace = 0;
 } else {
-	$content = \OC\Files\Filesystem::getDirectoryContent($dir);
+	$files = \OCA\files\lib\Helper::getFiles($dir);
 	$freeSpace = \OC\Files\Filesystem::free_space($dir);
 	$needUpgrade = false;
 }
-foreach ($content as $i) {
-	$i['date'] = OCP\Util::formatDate($i['mtime']);
-	if ($i['type'] == 'file') {
-		$fileinfo = pathinfo($i['name']);
-		$i['basename'] = $fileinfo['filename'];
-		if (!empty($fileinfo['extension'])) {
-			$i['extension'] = '.' . $fileinfo['extension'];
-		} else {
-			$i['extension'] = '';
-		}
-	}
-	$i['directory'] = $dir;
-	$i['isPreviewAvailable'] = \OCP\Preview::isMimeSupported($i['mimetype']);
-	$i['icon'] = \OCA\files\lib\Helper::determineIcon($i);
-	$files[] = $i;
-}
-
-usort($files, "fileCmp");
 
 // Make breadcrumb
-$breadcrumb = array();
-$pathtohere = '';
-foreach (explode('/', $dir) as $i) {
-	if ($i != '') {
-		$pathtohere .= '/' . $i;
-		$breadcrumb[] = array('dir' => $pathtohere, 'name' => $i);
-	}
-}
+$breadcrumb = \OCA\files\lib\Helper::makeBreadcrumb($dir);
 
 // make breadcrumb und filelist markup
 $list = new OCP\Template('files', 'part.list', '');
 $list->assign('files', $files);
 $list->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir=');
 $list->assign('downloadURL', OCP\Util::linkToRoute('download', array('file' => '/')));
-$list->assign('disableSharing', false);
 $list->assign('isPublic', false);
 $breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
 $breadcrumbNav->assign('breadcrumb', $breadcrumb);
@@ -154,5 +117,6 @@ if ($needUpgrade) {
 	$tmpl->assign('isPublic', false);
 	$tmpl->assign('publicUploadEnabled', $publicUploadEnabled);
 	$tmpl->assign("encryptedFiles", \OCP\Util::encryptedFiles());
+	$tmpl->assign('disableSharing', false);
 	$tmpl->printPage();
 }
