@@ -10,7 +10,7 @@ OCP\JSON::checkLoggedIn();
 
 // Load the files
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
-$doBreadcrumb = isset( $_GET['breadcrumb'] );
+$doBreadcrumb = isset($_GET['breadcrumb']);
 $data = array();
 
 // Make breadcrumb
