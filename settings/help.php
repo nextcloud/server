@@ -14,11 +14,11 @@ OC_App::setActiveNavigationEntry( "help" );
 
 
 if(isset($_GET['mode']) and $_GET['mode'] === 'admin') {
-	$url=OC_Helper::linkToAbsolute( 'core', 'doc/admin' );
+	$url=OC_Helper::linkToAbsolute( 'core', 'doc/admin/index.html' );
 	$style1='';
 	$style2=' pressed';
 }else{
-	$url=OC_Helper::linkToAbsolute( 'core', 'doc/user' );
+	$url=OC_Helper::linkToAbsolute( 'core', 'doc/user/index.html' );
 	$style1=' pressed';
 	$style2='';
 }
