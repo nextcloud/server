@@ -48,14 +48,14 @@ class Storage {
 
 	/**
 	 * get current size of all versions from a given user
-	 * 
+	 *
 	 * @param $user user who owns the versions
 	 * @return mixed versions size or false if no versions size is stored
 	 */
 	private static function getVersionsSize($user) {
 		$query = \OC_DB::prepare('SELECT `size` FROM `*PREFIX*files_versions` WHERE `user`=?');
 		$result = $query->execute(array($user))->fetchAll();
-		
+
 		if ($result) {
 			return $result[0]['size'];
 		}
@@ -64,7 +64,7 @@ class Storage {
 
 	/**
 	 * write to the database how much space is in use for versions
-	 * 
+	 *
 	 * @param $user owner of the versions
 	 * @param $size size of the versions
 	 */
@@ -76,20 +76,20 @@ class Storage {
 		}
 		$query->execute(array($size, $user));
 	}
-	
+
 	/**
 	 * store a new version of a file.
 	 */
 	public static function store($filename) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-			
+
 			// if the file gets streamed we need to remove the .part extension
 			// to get the right target
 			$ext = pathinfo($filename, PATHINFO_EXTENSION);
 			if ($ext === 'part') {
 				$filename = substr($filename, 0, strlen($filename)-5);
 			}
-			
+
 			list($uid, $filename) = self::getUidAndFilename($filename);
 
 			$files_view = new \OC\Files\View('/'.$uid .'/files');
@@ -110,15 +110,7 @@ class Storage {
 			}
 
 			// create all parent folders
-			$dirname=  \OC_Filesystem::normalizePath(pathinfo($filename, PATHINFO_DIRNAME));
-			$dirParts = explode('/', $dirname);
-			$dir = "/files_versions";
-			foreach ($dirParts as $part) {
-				$dir = $dir.'/'.$part;
-				if(!$users_view->file_exists($dir)) {
-					$users_view->mkdir($dir);
-				}
-			}
+			self::createMissingDirectories($filename, $users_view);
 
 			$versionsSize = self::getVersionsSize($uid);
 			if (  $versionsSize === false || $versionsSize < 0 ) {
@@ -178,7 +170,7 @@ class Storage {
 		list($uidn, $newpath) = self::getUidAndFilename($new_path);
 		$versions_view = new \OC\Files\View('/'.$uid .'/files_versions');
 		$files_view = new \OC\Files\View('/'.$uid .'/files');
-		
+
 		// if the file already exists than it was a upload of a existing file
 		// over the web interface -> store() is the right function we need here
 		if ($files_view->file_exists($newpath)) {
@@ -191,15 +183,8 @@ class Storage {
 			$versions_view->rename($oldpath, $newpath);
 		} else  if ( ($versions = Storage::getVersions($uid, $oldpath)) ) {
 			// create missing dirs if necessary
-			$dirname = \OC_Filesystem::normalizePath(pathinfo($newpath, PATHINFO_DIRNAME));
-			$dirParts = explode('/', $dirname);
-			$dir = "/files_versions";
-			foreach ($dirParts as $part) {
-				$dir = $dir.'/'.$part;
-				if(!$users_view->file_exists($dir)) {
-					$users_view->mkdir($dir);
-				}
-			}
+			self::createMissingDirectories($newpath, new \OC\Files\View('/'. $uidn));
+			
 			foreach ($versions as $v) {
 				$versions_view->rename($oldpath.'.v'.$v['version'], $newpath.'.v'.$v['version']);
 			}
@@ -445,7 +430,7 @@ class Storage {
 			} else {
 				$quota = \OCP\Util::computerFileSize($quota);
 			}
-			
+
 			// make sure that we have the current size of the version history
 			if ( $versionsSize === null ) {
 				$versionsSize = self::getVersionsSize($uid);
@@ -576,6 +561,22 @@ class Storage {
 			}
 		}
 		return $size;
+	}
+
+	/**
+	 * @brief create recursively missing directories
+	 * @param string $filename $path to a file
+	 */
+	private static function createMissingDirectories($filename, $view) {
+		$dirname = \OC_Filesystem::normalizePath(pathinfo($filename, PATHINFO_DIRNAME));
+		$dirParts = explode('/', $dirname);
+		$dir = "/files_versions";
+		foreach ($dirParts as $part) {
+			$dir = $dir . '/' . $part;
+			if (!$view->file_exists($dir)) {
+				$view->mkdir($dir);
+			}
+		}
 	}
 
 }
