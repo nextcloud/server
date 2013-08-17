@@ -320,16 +320,16 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	box-sizing: border-box;
 }
 
-#body-login footer p.info a, #body-login #showAdvanced {
+#body-login p.info a, #body-login #showAdvanced {
 	color: #ccc;
 }
 
-#body-login footer p.info a:hover, #body-login footer p.info a:focus {
+#body-login p.info a:hover, #body-login p.info a:focus {
 	color: #fff;
 }
 
 
-#body-login footer {
+#body-login p.info{
 	white-space: nowrap;
 }
 
