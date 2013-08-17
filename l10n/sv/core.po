@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-31 01:55-0400\n"
-"PO-Revision-Date: 2013-07-30 12:13+0000\n"
+"POT-Creation-Date: 2013-08-15 04:47-0400\n"
+"PO-Revision-Date: 2013-08-15 08:48+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -141,59 +141,59 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: js/js.js:293
+#: js/js.js:355
 msgid "Settings"
 msgstr "Inställningar"
 
-#: js/js.js:715
+#: js/js.js:815
 msgid "seconds ago"
 msgstr "sekunder sedan"
 
-#: js/js.js:716
-msgid "1 minute ago"
-msgstr "1 minut sedan"
+#: js/js.js:816
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: js/js.js:717
-msgid "{minutes} minutes ago"
-msgstr "{minutes} minuter sedan"
+#: js/js.js:817
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: js/js.js:718
-msgid "1 hour ago"
-msgstr "1 timme sedan"
-
-#: js/js.js:719
-msgid "{hours} hours ago"
-msgstr "{hours} timmar sedan"
-
-#: js/js.js:720
+#: js/js.js:818
 msgid "today"
 msgstr "i dag"
 
-#: js/js.js:721
+#: js/js.js:819
 msgid "yesterday"
 msgstr "i går"
 
-#: js/js.js:722
-msgid "{days} days ago"
-msgstr "{days} dagar sedan"
+#: js/js.js:820
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: js/js.js:723
+#: js/js.js:821
 msgid "last month"
 msgstr "förra månaden"
 
-#: js/js.js:724
-msgid "{months} months ago"
-msgstr "{months} månader sedan"
+#: js/js.js:822
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: js/js.js:725
+#: js/js.js:823
 msgid "months ago"
 msgstr "månader sedan"
 
-#: js/js.js:726
+#: js/js.js:824
 msgid "last year"
 msgstr "förra året"
 
-#: js/js.js:727
+#: js/js.js:825
 msgid "years ago"
 msgstr "år sedan"
 
@@ -381,9 +381,10 @@ msgstr "Uppdateringen misslyckades. Rapportera detta problem till <a href=\"http
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Uppdateringen lyckades. Du omdirigeras nu till OwnCloud."
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
-msgstr "ownCloud lösenordsåterställning"
+#: lostpassword/controller.php:61
+#, php-format
+msgid "%s password reset"
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -500,7 +501,7 @@ msgstr "Din version av PHP är sårbar för NULL byte attack (CVE-2006-7243)"
 #: templates/installation.php:26
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "Var god uppdatera din PHP-installation för att använda %s säkert."
 
 #: templates/installation.php:32
 msgid ""
@@ -525,7 +526,7 @@ msgstr "Din datakatalog och filer är förmodligen tillgängliga från Internet,
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "För information hur du korrekt konfigurerar din servern, se ownCloud <a href=\"%s\" target=\"_blank\">dokumentationen</a>."
 
 #: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
@@ -581,6 +582,10 @@ msgstr "%s är tillgänglig. Få mer information om hur du går tillväga för a
 #: templates/layout.user.php:66
 msgid "Log out"
 msgstr "Logga ut"
+
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr ""
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"

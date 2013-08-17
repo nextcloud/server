@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-31 01:55-0400\n"
-"PO-Revision-Date: 2013-07-30 12:13+0000\n"
+"POT-Creation-Date: 2013-08-15 04:47-0400\n"
+"PO-Revision-Date: 2013-08-15 08:48+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -144,59 +144,59 @@ msgstr "Νοέμβριος"
 msgid "December"
 msgstr "Δεκέμβριος"
 
-#: js/js.js:293
+#: js/js.js:355
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:715
+#: js/js.js:815
 msgid "seconds ago"
 msgstr "δευτερόλεπτα πριν"
 
-#: js/js.js:716
-msgid "1 minute ago"
-msgstr "1 λεπτό πριν"
+#: js/js.js:816
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: js/js.js:717
-msgid "{minutes} minutes ago"
-msgstr "{minutes} λεπτά πριν"
+#: js/js.js:817
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: js/js.js:718
-msgid "1 hour ago"
-msgstr "1 ώρα πριν"
-
-#: js/js.js:719
-msgid "{hours} hours ago"
-msgstr "{hours} ώρες πριν"
-
-#: js/js.js:720
+#: js/js.js:818
 msgid "today"
 msgstr "σήμερα"
 
-#: js/js.js:721
+#: js/js.js:819
 msgid "yesterday"
 msgstr "χτες"
 
-#: js/js.js:722
-msgid "{days} days ago"
-msgstr "{days} ημέρες πριν"
+#: js/js.js:820
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: js/js.js:723
+#: js/js.js:821
 msgid "last month"
 msgstr "τελευταίο μήνα"
 
-#: js/js.js:724
-msgid "{months} months ago"
-msgstr "{months} μήνες πριν"
+#: js/js.js:822
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: js/js.js:725
+#: js/js.js:823
 msgid "months ago"
 msgstr "μήνες πριν"
 
-#: js/js.js:726
+#: js/js.js:824
 msgid "last year"
 msgstr "τελευταίο χρόνο"
 
-#: js/js.js:727
+#: js/js.js:825
 msgid "years ago"
 msgstr "χρόνια πριν"
 
@@ -210,7 +210,7 @@ msgstr "Άκυρο"
 
 #: js/oc-dialogs.js:141 js/oc-dialogs.js:200
 msgid "Error loading file picker template"
-msgstr ""
+msgstr "Σφάλμα φόρτωσης αρχείου επιλογέα προτύπου"
 
 #: js/oc-dialogs.js:164
 msgid "Yes"
@@ -291,7 +291,7 @@ msgstr "Συνθηματικό"
 
 #: js/share.js:198
 msgid "Allow Public Upload"
-msgstr ""
+msgstr "Να επιτρέπεται η Δημόσια Αποστολή"
 
 #: js/share.js:202
 msgid "Email link to person"
@@ -384,9 +384,10 @@ msgstr "Η ενημέρωση ήταν ανεπιτυχής. Παρακαλώ σ
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Η ενημέρωση ήταν επιτυχής. Μετάβαση στο ownCloud."
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
-msgstr "Επαναφορά συνθηματικού ownCloud"
+#: lostpassword/controller.php:61
+#, php-format
+msgid "%s password reset"
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -503,7 +504,7 @@ msgstr "Η PHP ειναι ευαλωτη στην NULL Byte επιθεση (CVE-
 #: templates/installation.php:26
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "Παρακαλώ ενημερώστε την εγκατάσταση της PHP ώστε να χρησιμοποιήσετε το %s με ασφάλεια."
 
 #: templates/installation.php:32
 msgid ""
@@ -528,7 +529,7 @@ msgstr "Ο κατάλογος δεδομένων και τα αρχεία σας
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Για πληροφορίες πως να ρυθμίσετε ορθά τον διακομιστή σας, παρακαλώ δείτε την <a href=\"%s\" target=\"_blank\">τεκμηρίωση</a>."
 
 #: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
@@ -584,6 +585,10 @@ msgstr "%s είναι διαθέσιμη. Δείτε περισσότερες π
 #: templates/layout.user.php:66
 msgid "Log out"
 msgstr "Αποσύνδεση"
+
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr ""
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"

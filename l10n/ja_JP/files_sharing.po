@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-31 01:55-0400\n"
-"PO-Revision-Date: 2013-07-31 05:56+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-09 07:59-0400\n"
+"PO-Revision-Date: 2013-08-09 09:37+0000\n"
+"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,27 +32,27 @@ msgstr "送信"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
-msgstr ""
+msgstr "申し訳ございません。このリンクはもう利用できません。"
 
 #: templates/part.404.php:4
 msgid "Reasons might be:"
-msgstr ""
+msgstr "理由は以下の通りと考えられます："
 
 #: templates/part.404.php:6
 msgid "the item was removed"
-msgstr ""
+msgstr "アイテムが削除されました"
 
 #: templates/part.404.php:7
 msgid "the link expired"
-msgstr ""
+msgstr "リンクの期限が切れています"
 
 #: templates/part.404.php:8
 msgid "sharing is disabled"
-msgstr ""
+msgstr "共有が無効になっています"
 
 #: templates/part.404.php:10
 msgid "For more info, please ask the person who sent this link."
-msgstr ""
+msgstr "不明な点は、こちらのリンクの提供者に確認をお願いします。"
 
 #: templates/public.php:15
 #, php-format

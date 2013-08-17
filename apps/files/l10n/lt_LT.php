@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Nepavyko perkelti %s - failas su tokiu pavadinimu jau egzistuoja",
 "Could not move %s" => "Nepavyko perkelti %s",
 "No file was uploaded. Unknown error" => "Failai nebuvo įkelti dėl nežinomos priežasties",
@@ -21,7 +22,6 @@
 "Error" => "Klaida",
 "Share" => "Dalintis",
 "Delete permanently" => "Ištrinti negrįžtamai",
-"Delete" => "Ištrinti",
 "Rename" => "Pervadinti",
 "Pending" => "Laukiantis",
 "{new_name} already exists" => "{new_name} jau egzistuoja",
@@ -30,8 +30,7 @@
 "cancel" => "atšaukti",
 "replaced {new_name} with {old_name}" => "pakeiskite {new_name} į {old_name}",
 "undo" => "anuliuoti",
-"perform delete operation" => "ištrinti",
-"1 file uploading" => "įkeliamas 1 failas",
+"_Uploading %n file_::_Uploading %n files_" => array("","",""),
 "files uploading" => "įkeliami failai",
 "'.' is an invalid file name." => "'.' yra neleidžiamas failo pavadinime.",
 "File name cannot be empty." => "Failo pavadinimas negali būti tuščias.",
@@ -43,10 +42,8 @@
 "Name" => "Pavadinimas",
 "Size" => "Dydis",
 "Modified" => "Pakeista",
-"1 folder" => "1 aplankalas",
-"{count} folders" => "{count} aplankalai",
-"1 file" => "1 failas",
-"{count} files" => "{count} failai",
+"_%n folder_::_%n folders_" => array("","",""),
+"_%n file_::_%n files_" => array("","",""),
 "Upload" => "Įkelti",
 "File handling" => "Failų tvarkymas",
 "Maximum upload size" => "Maksimalus įkeliamo failo dydis",
@@ -66,6 +63,7 @@
 "Nothing in here. Upload something!" => "Čia tuščia. Įkelkite ką nors!",
 "Download" => "Atsisiųsti",
 "Unshare" => "Nebesidalinti",
+"Delete" => "Ištrinti",
 "Upload too large" => "Įkėlimui failas per didelis",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Bandomų įkelti failų dydis viršija maksimalų, kuris leidžiamas šiame serveryje",
 "Files are being scanned, please wait." => "Skenuojami failai, prašome palaukti.",
@@ -74,3 +72,4 @@
 "files" => "failai",
 "Upgrading filesystem cache..." => "Atnaujinamas sistemos kešavimas..."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);";

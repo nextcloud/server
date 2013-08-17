@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s partagé »%s« avec vous",
 "Category type not provided." => "Type de catégorie non spécifié.",
 "No category to add?" => "Pas de catégorie à ajouter ?",
@@ -29,15 +30,13 @@
 "December" => "décembre",
 "Settings" => "Paramètres",
 "seconds ago" => "il y a quelques secondes",
-"1 minute ago" => "il y a une minute",
-"{minutes} minutes ago" => "il y a {minutes} minutes",
-"1 hour ago" => "Il y a une heure",
-"{hours} hours ago" => "Il y a {hours} heures",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "aujourd'hui",
 "yesterday" => "hier",
-"{days} days ago" => "il y a {days} jours",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "le mois dernier",
-"{months} months ago" => "Il y a {months} mois",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "il y a plusieurs mois",
 "last year" => "l'année dernière",
 "years ago" => "il y a plusieurs années",
@@ -85,7 +84,6 @@
 "Email sent" => "Email envoyé",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "La mise à jour a échoué. Veuillez signaler ce problème à la <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">communauté ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "La mise à jour a réussi. Vous êtes redirigé maintenant vers ownCloud.",
-"ownCloud password reset" => "Réinitialisation de votre mot de passe Owncloud",
 "Use the following link to reset your password: {link}" => "Utilisez le lien suivant pour réinitialiser votre mot de passe : {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Le lien permettant de réinitialiser votre mot de passe vous a été transmis.<br>Si vous ne le recevez pas dans un délai raisonnable, vérifier votre boîte de pourriels.<br>Au besoin, contactez votre administrateur local.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Requête en échec!<br>Avez-vous vérifié vos courriel/nom d'utilisateur?",
@@ -138,3 +136,4 @@
 "next" => "suivant",
 "Updating ownCloud to version %s, this may take a while." => "Mise à jour en cours d'ownCloud vers la version %s, cela peut prendre du temps."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "অ্যাপস্টোর থেকে তালিকা লোড করতে সক্ষম নয়",
 "Authentication error" => "অনুমোদন ঘটিত সমস্যা",
 "Group already exists" => "গোষ্ঠীটি পূর্ব থেকেই বিদ্যমান",
@@ -61,3 +62,4 @@
 "Storage" => "সংরক্ষণাগার",
 "Default" => "পূর্বনির্ধারিত"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

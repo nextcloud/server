@@ -152,7 +152,13 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						a.prepend(filename);
 						a.prepend(img);
 						li.append(a);
-						container.append(li);
+						// prepend the new app before the 'More apps' function
+						$('#apps-management').before(li);
+						// scroll the app navigation down so the newly added app is seen
+						$('#navigation').animate({ scrollTop: $('#apps').height() }, 'slow');
+						// draw attention to the newly added app entry by flashing it twice
+						container.children('li[data-id="'+entry.id+'"]').animate({opacity:.3}).animate({opacity:1}).animate({opacity:.3}).animate({opacity:1});
+
 						if (!SVGSupport() && entry.icon.match(/\.svg$/i)) {
 							$(img).addClass('svg');
 							replaceSVG();

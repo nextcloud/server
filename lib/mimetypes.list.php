@@ -102,5 +102,6 @@ return array(
 	'md' => 'text/markdown',
 	'markdown' => 'text/markdown',
 	'mdown' => 'text/markdown',
-	'mdwn' => 'text/markdown'
+	'mdwn' => 'text/markdown',
+	'reveal' => 'text/reveal'
 );

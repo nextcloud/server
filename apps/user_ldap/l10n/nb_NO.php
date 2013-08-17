@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Klarte ikke å slette tjener-konfigurasjonen.",
 "The configuration is valid and the connection could be established!" => "Konfigurasjonen er i orden og tilkoblingen skal være etablert!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Konfigurasjonen er i orden, men Bind mislyktes. Vennligst sjekk tjener-konfigurasjonen og påloggingsinformasjonen.",
@@ -54,3 +55,4 @@
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "La stå tom for brukernavn (standard). Ellers, spesifiser en LDAP/AD attributt.",
 "Help" => "Hjelp"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-31 01:55-0400\n"
-"PO-Revision-Date: 2013-07-30 12:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-09 07:59-0400\n"
+"PO-Revision-Date: 2013-08-09 11:22+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -91,7 +91,7 @@ msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behavior. Please ask your system administrator to "
 "disable one of them."
-msgstr ""
+msgstr "<b>Upozornenie:</b> Aplikácie user_ldap a user_webdavauth sú navzájom nekompatibilné. Môžete zaznamenať neočakávané správanie. Požiadajte prosím vášho systémového administrátora pre zakázanie jedného z nich."
 
 #: templates/settings.php:12
 msgid ""
@@ -223,7 +223,7 @@ msgstr "Zakázať hlavný server"
 
 #: templates/settings.php:75
 msgid "Only connect to the replica server."
-msgstr ""
+msgstr "Pripojiť sa len k záložnému serveru."
 
 #: templates/settings.php:76
 msgid "Use TLS"
@@ -246,7 +246,7 @@ msgstr "Vypnúť overovanie SSL certifikátu."
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your %s server."
-msgstr ""
+msgstr "Ak pripojenie pracuje len s touto možnosťou, tak naimportujte SSL certifikát LDAP servera do vášho %s servera."
 
 #: templates/settings.php:78
 msgid "Not recommended, use for testing only."
@@ -270,7 +270,7 @@ msgstr "Pole pre zobrazenia mena používateľa"
 
 #: templates/settings.php:83
 msgid "The LDAP attribute to use to generate the user's display name."
-msgstr ""
+msgstr "Atribút LDAP použitý na vygenerovanie zobrazovaného mena používateľa. "
 
 #: templates/settings.php:84
 msgid "Base User Tree"
@@ -294,7 +294,7 @@ msgstr "Pole pre zobrazenie mena skupiny"
 
 #: templates/settings.php:86
 msgid "The LDAP attribute to use to generate the groups's display name."
-msgstr ""
+msgstr "Atribút LDAP použitý na vygenerovanie zobrazovaného mena skupiny."
 
 #: templates/settings.php:87
 msgid "Base Group Tree"
@@ -360,7 +360,7 @@ msgid ""
 "behavior as before ownCloud 5 enter the user display name attribute in the "
 "following field. Leave it empty for default behavior. Changes will have "
 "effect only on newly mapped (added) LDAP users."
-msgstr ""
+msgstr "V predvolenom nastavení bude interné používateľské meno vytvorené z UUID atribútu. Zabezpečí sa to, že používateľské meno bude jedinečné a znaky nemusia byť prevedené. Interné meno má obmedzenie, iba tieto znaky sú povolené: [a-zA-Z0-9_ @ -.]. Ostatné znaky sú nahradené ich ASCII alebo jednoducho vynechané. Pri kolíziách používateľských mien bude číslo pridané / odobrané. Interné používateľské meno sa používa na internú identifikáciu používateľa. Je tiež predvoleným názvom používateľského domovského priečinka v ownCloud. Je tiež súčasťou URL pre vzdialený prístup, napríklad pre všetky služby * DAV. S týmto nastavením sa dá prepísať predvolené správanie. Pre dosiahnutie podobného správania sa ako pred verziou ownCloud 5 zadajte atribút zobrazenia používateľského mena v tomto poli. Ponechajte prázdne pre predvolené správanie. Zmeny budú mať vplyv iba na novo namapovaných (pridaných) LDAP používateľov."
 
 #: templates/settings.php:103
 msgid "Internal Username Attribute:"
@@ -379,7 +379,7 @@ msgid ""
 "You must make sure that the attribute of your choice can be fetched for both"
 " users and groups and it is unique. Leave it empty for default behavior. "
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
-msgstr ""
+msgstr "V predvolenom nastavení je UUID atribút detekovaný automaticky. UUID atribút je použitý na jedinečnú identifikáciu používateľov a skupín z LDAP. Naviac je na základe UUID vytvorené tiež interné použivateľské meno, ak nie je nastavené inak. Môžete predvolené nastavenie prepísať a použiť atribút ktorý si sami zvolíte. Musíte sa ale ubezpečiť, že atribút ktorý vyberiete bude uvedený pri použivateľoch, aj pri skupinách a je jedinečný. Ponechajte prázdne pre predvolené správanie. Zmena bude mať vplyv len na novo namapovaných (pridaných) používateľov a skupiny z LDAP."
 
 #: templates/settings.php:106
 msgid "UUID Attribute:"
@@ -401,7 +401,7 @@ msgid ""
 " is not configuration sensitive, it affects all LDAP configurations! Never "
 "clear the mappings in a production environment, only in a testing or "
 "experimental stage."
-msgstr ""
+msgstr "Použivateľské mená sa používajú pre uchovávanie a priraďovanie (meta)dát. Pre správnu identifikáciu a rozpoznanie používateľov bude mať každý používateľ z LDAP interné používateľské meno. To je nevyhnutné pre namapovanie používateľských mien na používateľov v LDAP. Vytvorené používateľské meno je namapované na UUID používateľa v LDAP. Naviac je cachovaná DN pre obmedzenie interakcie s LDAP, ale nie je používaná pre identifikáciu. Ak sa DN zmení, bude to správne rozpoznané. Interné používateľské meno sa používa všade. Vyčistenie namapování vymaže zvyšky všade. Vyčistenie naviac nie je špecifické, bude mať vplyv na všetky LDAP konfigurácie! Nikdy nečistite namapovanie v produkčnom prostredí, len v testovacej alebo experimentálnej fáze."
 
 #: templates/settings.php:109
 msgid "Clear Username-LDAP User Mapping"

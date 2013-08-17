@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "No se pudo mover %s - Un archivo con ese nombre ya existe.",
 "Could not move %s" => "No se pudo mover %s",
 "Unable to set upload directory." => "Incapaz de crear directorio de subida.",
@@ -23,7 +24,6 @@
 "Error" => "Error",
 "Share" => "Compartir",
 "Delete permanently" => "Eliminar permanentemente",
-"Delete" => "Eliminar",
 "Rename" => "Renombrar",
 "Pending" => "Pendiente",
 "{new_name} already exists" => "{new_name} ya existe",
@@ -32,8 +32,7 @@
 "cancel" => "cancelar",
 "replaced {new_name} with {old_name}" => "reemplazado {new_name} con {old_name}",
 "undo" => "deshacer",
-"perform delete operation" => "Realizar operación de borrado",
-"1 file uploading" => "subiendo 1 archivo",
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
 "files uploading" => "subiendo archivos",
 "'.' is an invalid file name." => "'.' no es un nombre de archivo válido.",
 "File name cannot be empty." => "El nombre de archivo no puede estar vacío.",
@@ -45,10 +44,8 @@
 "Name" => "Nombre",
 "Size" => "Tamaño",
 "Modified" => "Modificado",
-"1 folder" => "1 carpeta",
-"{count} folders" => "{count} carpetas",
-"1 file" => "1 archivo",
-"{count} files" => "{count} archivos",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "%s could not be renamed" => "%s no se pudo renombrar",
 "Upload" => "Subir",
 "File handling" => "Manejo de archivos",
@@ -69,6 +66,7 @@
 "Nothing in here. Upload something!" => "No hay nada aquí. ¡Suba algo!",
 "Download" => "Descargar",
 "Unshare" => "Dejar de compartir",
+"Delete" => "Eliminar",
 "Upload too large" => "Subida demasido grande",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Los archivos que estás intentando subir sobrepasan el tamaño máximo permitido en este servidor.",
 "Files are being scanned, please wait." => "Los archivos están siendo escaneados,  por favor espere.",
@@ -79,3 +77,4 @@
 "files" => "archivos",
 "Upgrading filesystem cache..." => "Actualizando caché del sistema de archivos"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

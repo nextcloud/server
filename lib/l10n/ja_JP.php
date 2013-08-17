@@ -1,15 +1,18 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "ヘルプ",
 "Personal" => "個人",
 "Settings" => "設定",
 "Users" => "ユーザ",
-"Apps" => "アプリ",
 "Admin" => "管理",
+"Failed to upgrade \"%s\"." => "\"%s\" へのアップグレードに失敗しました。",
 "web services under your control" => "管理下のウェブサービス",
+"cannot open \"%s\"" => "\"%s\" が開けません",
 "ZIP download is turned off." => "ZIPダウンロードは無効です。",
 "Files need to be downloaded one by one." => "ファイルは1つずつダウンロードする必要があります。",
 "Back to Files" => "ファイルに戻る",
 "Selected files too large to generate zip file." => "選択したファイルはZIPファイルの生成には大きすぎます。",
+"Download the files in smaller chunks, seperately or kindly ask your administrator." => "ファイルは、小さいファイルに分割されてダウンロードされます。もしくは、管理者にお尋ねください。",
 "couldn't be determined" => "測定できませんでした",
 "Application is not enabled" => "アプリケーションは無効です",
 "Authentication error" => "認証エラー",
@@ -38,16 +41,16 @@
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "WebDAVインタフェースが動作していないと考えられるため、あなたのWEBサーバはまだファイルの同期を許可するように適切な設定がされていません。",
 "Please double check the <a href='%s'>installation guides</a>." => "<a href='%s'>インストールガイド</a>をよく確認してください。",
 "seconds ago" => "数秒前",
-"1 minute ago" => "1 分前",
-"%d minutes ago" => "%d 分前",
-"1 hour ago" => "1 時間前",
-"%d hours ago" => "%d 時間前",
+"_%n minute ago_::_%n minutes ago_" => array(""),
+"_%n hour ago_::_%n hours ago_" => array(""),
 "today" => "今日",
 "yesterday" => "昨日",
-"%d days ago" => "%d 日前",
+"_%n day go_::_%n days ago_" => array(""),
 "last month" => "一月前",
-"%d months ago" => "%d 分前",
+"_%n month ago_::_%n months ago_" => array(""),
 "last year" => "一年前",
 "years ago" => "年前",
+"Caused by:" => "原因は以下:",
 "Could not find category \"%s\"" => "カテゴリ \"%s\" が見つかりませんでした"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

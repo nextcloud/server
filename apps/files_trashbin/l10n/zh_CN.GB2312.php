@@ -1,10 +1,12 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Error" => "出错",
 "Delete permanently" => "永久删除",
 "Name" => "名称",
-"1 folder" => "1 个文件夹",
-"{count} folders" => "{count} 个文件夹",
-"1 file" => "1 个文件",
-"{count} files" => "{count} 个文件",
-"Delete" => "删除"
+"_%n folder_::_%n folders_" => array("%n 个文件夹"),
+"_%n file_::_%n files_" => array("%n 个文件"),
+"Restore" => "恢复",
+"Delete" => "删除",
+"Deleted Files" => "删除的文件"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

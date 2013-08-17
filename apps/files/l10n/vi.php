@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Không thể di chuyển %s - Đã có tên tập tin này trên hệ thống",
 "Could not move %s" => "Không thể di chuyển %s",
 "No file was uploaded. Unknown error" => "Không có tập tin nào được tải lên. Lỗi không xác định",
@@ -20,7 +21,6 @@
 "Error" => "Lỗi",
 "Share" => "Chia sẻ",
 "Delete permanently" => "Xóa vĩnh vễn",
-"Delete" => "Xóa",
 "Rename" => "Sửa tên",
 "Pending" => "Đang chờ",
 "{new_name} already exists" => "{new_name} đã tồn tại",
@@ -29,8 +29,7 @@
 "cancel" => "hủy",
 "replaced {new_name} with {old_name}" => "đã thay thế {new_name} bằng {old_name}",
 "undo" => "lùi lại",
-"perform delete operation" => "thực hiện việc xóa",
-"1 file uploading" => "1 tệp tin đang được tải lên",
+"_Uploading %n file_::_Uploading %n files_" => array(""),
 "files uploading" => "tệp tin đang được tải lên",
 "'.' is an invalid file name." => "'.' là một tên file không hợp lệ",
 "File name cannot be empty." => "Tên file không được rỗng",
@@ -42,10 +41,8 @@
 "Name" => "Tên",
 "Size" => "Kích cỡ",
 "Modified" => "Thay đổi",
-"1 folder" => "1 thư mục",
-"{count} folders" => "{count} thư mục",
-"1 file" => "1 tập tin",
-"{count} files" => "{count} tập tin",
+"_%n folder_::_%n folders_" => array(""),
+"_%n file_::_%n files_" => array(""),
 "Upload" => "Tải lên",
 "File handling" => "Xử lý tập tin",
 "Maximum upload size" => "Kích thước tối đa ",
@@ -65,6 +62,7 @@
 "Nothing in here. Upload something!" => "Không có gì ở đây .Hãy tải lên một cái gì đó !",
 "Download" => "Tải về",
 "Unshare" => "Bỏ chia sẻ",
+"Delete" => "Xóa",
 "Upload too large" => "Tập tin tải lên quá lớn",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Các tập tin bạn đang tải lên vượt quá kích thước tối đa cho phép trên máy chủ .",
 "Files are being scanned, please wait." => "Tập tin đang được quét ,vui lòng chờ.",
@@ -73,3 +71,4 @@
 "files" => "files",
 "Upgrading filesystem cache..." => "Đang nâng cấp bộ nhớ đệm cho tập tin hệ thống..."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -168,6 +168,10 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer() {
+		// Assume that if checkServer() succeeded before in this session, then all is fine.
+		if(\OC::$session->exists('checkServer_suceeded') && \OC::$session->get('checkServer_suceeded'))
+			return array();
+
 		$errors=array();
 
 		$defaults = new \OC_Defaults();
@@ -308,6 +312,9 @@ class OC_Util {
 			$errors[]=array('error'=>'PHP modules have been installed, but they are still listed as missing?',
 				'hint'=>'Please ask your server administrator to restart the web server.');
 		}
+
+		// Cache the result of this function
+		\OC::$session->set('checkServer_suceeded', count($errors) == 0);
 
 		return $errors;
 	}

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Access granted" => "アクセスは許可されました",
 "Error configuring Dropbox storage" => "Dropboxストレージの設定エラー",
 "Grant access" => "アクセスを許可",
@@ -24,3 +25,4 @@
 "SSL root certificates" => "SSLルート証明書",
 "Import Root Certificate" => "ルート証明書をインポート"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

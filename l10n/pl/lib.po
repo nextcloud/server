@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-31 01:55-0400\n"
-"PO-Revision-Date: 2013-07-30 12:13+0000\n"
+"POT-Creation-Date: 2013-08-15 04:47-0400\n"
+"PO-Revision-Date: 2013-08-15 08:48+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -35,17 +35,13 @@ msgid "Users"
 msgstr "Użytkownicy"
 
 #: app.php:409
-msgid "Apps"
-msgstr "Aplikacje"
-
-#: app.php:417
 msgid "Admin"
 msgstr "Administrator"
 
-#: app.php:844
+#: app.php:836
 #, php-format
 msgid "Failed to upgrade \"%s\"."
-msgstr ""
+msgstr "Błąd przy aktualizacji \"%s\"."
 
 #: defaults.php:35
 msgid "web services under your control"
@@ -54,7 +50,7 @@ msgstr "Kontrolowane serwisy"
 #: files.php:66 files.php:98
 #, php-format
 msgid "cannot open \"%s\""
-msgstr ""
+msgstr "Nie można otworzyć \"%s\""
 
 #: files.php:226
 msgid "ZIP download is turned off."
@@ -76,7 +72,7 @@ msgstr "Wybrane pliki są zbyt duże, aby wygenerować plik zip."
 msgid ""
 "Download the files in smaller chunks, seperately or kindly ask your "
 "administrator."
-msgstr ""
+msgstr "Pobierz pliki w mniejszy kawałkach, oddzielnie lub poproś administratora o zwiększenie limitu."
 
 #: helper.php:235
 msgid "couldn't be determined"
@@ -211,56 +207,56 @@ msgid "seconds ago"
 msgstr "sekund temu"
 
 #: template/functions.php:81
-msgid "1 minute ago"
-msgstr "1 minutę temu"
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: template/functions.php:82
-#, php-format
-msgid "%d minutes ago"
-msgstr "%d minut temu"
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: template/functions.php:83
-msgid "1 hour ago"
-msgstr "1 godzinę temu"
-
-#: template/functions.php:84
-#, php-format
-msgid "%d hours ago"
-msgstr "%d godzin temu"
-
-#: template/functions.php:85
 msgid "today"
 msgstr "dziś"
 
-#: template/functions.php:86
+#: template/functions.php:84
 msgid "yesterday"
 msgstr "wczoraj"
 
-#: template/functions.php:87
-#, php-format
-msgid "%d days ago"
-msgstr "%d dni temu"
+#: template/functions.php:85
+msgid "%n day go"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: template/functions.php:88
+#: template/functions.php:86
 msgid "last month"
 msgstr "w zeszłym miesiącu"
 
-#: template/functions.php:89
-#, php-format
-msgid "%d months ago"
-msgstr "%d miesiecy temu"
+#: template/functions.php:87
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: template/functions.php:90
+#: template/functions.php:88
 msgid "last year"
 msgstr "w zeszłym roku"
 
-#: template/functions.php:91
+#: template/functions.php:89
 msgid "years ago"
 msgstr "lat temu"
 
 #: template.php:297
 msgid "Caused by:"
-msgstr ""
+msgstr "Spowodowane przez:"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format

@@ -5,12 +5,13 @@
 # Translators:
 # Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
 # plazmism <gomidori@live.jp>, 2013
+# tt yn <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-31 01:55-0400\n"
-"PO-Revision-Date: 2013-07-30 12:13+0000\n"
+"POT-Creation-Date: 2013-08-15 04:47-0400\n"
+"PO-Revision-Date: 2013-08-15 08:48+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -139,59 +140,55 @@ msgstr "11月"
 msgid "December"
 msgstr "12月"
 
-#: js/js.js:293
+#: js/js.js:355
 msgid "Settings"
 msgstr "設定"
 
-#: js/js.js:715
+#: js/js.js:815
 msgid "seconds ago"
 msgstr "数秒前"
 
-#: js/js.js:716
-msgid "1 minute ago"
-msgstr "1 分前"
+#: js/js.js:816
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
 
-#: js/js.js:717
-msgid "{minutes} minutes ago"
-msgstr "{minutes} 分前"
+#: js/js.js:817
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
 
-#: js/js.js:718
-msgid "1 hour ago"
-msgstr "1 時間前"
-
-#: js/js.js:719
-msgid "{hours} hours ago"
-msgstr "{hours} 時間前"
-
-#: js/js.js:720
+#: js/js.js:818
 msgid "today"
 msgstr "今日"
 
-#: js/js.js:721
+#: js/js.js:819
 msgid "yesterday"
 msgstr "昨日"
 
-#: js/js.js:722
-msgid "{days} days ago"
-msgstr "{days} 日前"
+#: js/js.js:820
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] ""
 
-#: js/js.js:723
+#: js/js.js:821
 msgid "last month"
 msgstr "一月前"
 
-#: js/js.js:724
-msgid "{months} months ago"
-msgstr "{months} 月前"
+#: js/js.js:822
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
 
-#: js/js.js:725
+#: js/js.js:823
 msgid "months ago"
 msgstr "月前"
 
-#: js/js.js:726
+#: js/js.js:824
 msgid "last year"
 msgstr "一年前"
 
-#: js/js.js:727
+#: js/js.js:825
 msgid "years ago"
 msgstr "年前"
 
@@ -379,9 +376,10 @@ msgstr "更新に成功しました。この問題を <a href=\"https://github.c
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "更新に成功しました。今すぐownCloudにリダイレクトします。"
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
-msgstr "ownCloudのパスワードをリセットします"
+#: lostpassword/controller.php:61
+#, php-format
+msgid "%s password reset"
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -498,7 +496,7 @@ msgstr "あなたのPHPのバージョンには、Null Byte攻撃(CVE-2006-7243)
 #: templates/installation.php:26
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "%s を安全に利用する為に インストールされているPHPをアップデートしてください。"
 
 #: templates/installation.php:32
 msgid ""
@@ -523,7 +521,7 @@ msgstr ".htaccess ファイルが動作していないため、おそらくあ�
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "サーバーを適正に設定する情報は、こちらの<a href=\"%s\" target=\"_blank\">ドキュメント</a>を参照してください。"
 
 #: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
@@ -579,6 +577,10 @@ msgstr "%s が利用可能です。更新方法に関してさらに情報を取
 #: templates/layout.user.php:66
 msgid "Log out"
 msgstr "ログアウト"
+
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr "他のアプリ"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"

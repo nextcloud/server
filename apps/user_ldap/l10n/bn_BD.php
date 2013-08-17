@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Error" => "সমস্যা",
 "Host" => "হোস্ট",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "SSL আবশ্যক  না হলে  আপনি এই প্রটোকলটি মুছে ফেলতে পারেন । এরপর শুরু করুন এটা দিয়ে ldaps://",
@@ -32,3 +33,4 @@
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "ব্যবহারকারী নামের জন্য ফাঁকা রাখুন (পূর্বনির্ধারিত)। অন্যথায়, LDAP/AD বৈশিষ্ট্য নির্ধারণ করুন।",
 "Help" => "সহায়িকা"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

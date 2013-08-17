@@ -98,7 +98,7 @@ class Scanner extends BasicEmitter {
 				$newData = $data;
 				if ($reuseExisting and $cacheData = $this->cache->get($file)) {
 					// only reuse data if the file hasn't explicitly changed
-					if ($data['mtime'] === $cacheData['mtime']) {
+					if (isset($data['mtime']) && isset($cacheData['mtime']) && $data['mtime'] === $cacheData['mtime']) {
 						if (($reuseExisting & self::REUSE_SIZE) && ($data['size'] === -1)) {
 							$data['size'] = $cacheData['size'];
 						}
@@ -184,7 +184,7 @@ class Scanner extends BasicEmitter {
 			}
 			\OC_DB::commit();
 			foreach ($childQueue as $child) {
-				$childSize = $this->scanChildren($child, self::SCAN_RECURSIVE);
+				$childSize = $this->scanChildren($child, self::SCAN_RECURSIVE, $reuse);
 				if ($childSize === -1) {
 					$size = -1;
 				} else {

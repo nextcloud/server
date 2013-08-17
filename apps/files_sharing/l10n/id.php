@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Password" => "Sandi",
 "Submit" => "Kirim",
 "%s shared the folder %s with you" => "%s membagikan folder %s dengan Anda",
@@ -8,3 +9,4 @@
 "Cancel upload" => "Batal pengunggahan",
 "No preview available for" => "Tidak ada pratinjau tersedia untuk"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

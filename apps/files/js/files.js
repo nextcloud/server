@@ -365,7 +365,9 @@ $(document).ready(function() {
 								FileList.addFile(name,0,date,false,hidden);
 								var tr=$('tr').filterAttr('data-file',name);
 								tr.attr('data-mime',result.data.mime);
+								tr.attr('data-size',result.data.size);
 								tr.attr('data-id', result.data.id);
+								tr.find('.filesize').text(humanFileSize(result.data.size));
 								getMimeIcon(result.data.mime,function(path){
 									tr.find('td.filename').attr('style','background-image:url('+path+')');
 								});
@@ -759,21 +761,13 @@ function procesSelection(){
 		$('#headerSize').text(humanFileSize(totalSize));
 		var selection='';
 		if(selectedFolders.length>0){
-			if(selectedFolders.length==1){
-				selection+=t('files','1 folder');
-			}else{
-				selection+=t('files','{count} folders',{count: selectedFolders.length});
-			}
+			selection += n('files', '%n folder', '%n folders', selectedFolders.length);
 			if(selectedFiles.length>0){
 				selection+=' & ';
 			}
 		}
 		if(selectedFiles.length>0){
-			if(selectedFiles.length==1){
-				selection+=t('files','1 file');
-			}else{
-				selection+=t('files','{count} files',{count: selectedFiles.length});
-			}
+			selection += n('files', '%n file', '%n files', selectedFiles.length);
 		}
 		$('#headerName>span.name').text(selection);
 		$('#modified').text('');

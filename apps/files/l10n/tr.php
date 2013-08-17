@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s taşınamadı. Bu isimde dosya zaten var.",
 "Could not move %s" => "%s taşınamadı",
 "Unable to set upload directory." => "Yükleme dizini tanımlanamadı.",
@@ -23,7 +24,6 @@
 "Error" => "Hata",
 "Share" => "Paylaş",
 "Delete permanently" => "Kalıcı olarak sil",
-"Delete" => "Sil",
 "Rename" => "İsim değiştir.",
 "Pending" => "Bekliyor",
 "{new_name} already exists" => "{new_name} zaten mevcut",
@@ -32,8 +32,7 @@
 "cancel" => "iptal",
 "replaced {new_name} with {old_name}" => "{new_name} ismi {old_name} ile değiştirildi",
 "undo" => "geri al",
-"perform delete operation" => "Silme işlemini gerçekleştir",
-"1 file uploading" => "1 dosya yüklendi",
+"_Uploading %n file_::_Uploading %n files_" => array("%n dosya yükleniyor","%n dosya yükleniyor"),
 "files uploading" => "Dosyalar yükleniyor",
 "'.' is an invalid file name." => "'.' geçersiz dosya adı.",
 "File name cannot be empty." => "Dosya adı boş olamaz.",
@@ -45,10 +44,8 @@
 "Name" => "İsim",
 "Size" => "Boyut",
 "Modified" => "Değiştirilme",
-"1 folder" => "1 dizin",
-"{count} folders" => "{count} dizin",
-"1 file" => "1 dosya",
-"{count} files" => "{count} dosya",
+"_%n folder_::_%n folders_" => array("%n dizin","%n dizin"),
+"_%n file_::_%n files_" => array("%n dosya","%n dosya"),
 "%s could not be renamed" => "%s yeniden adlandırılamadı",
 "Upload" => "Yükle",
 "File handling" => "Dosya taşıma",
@@ -69,6 +66,7 @@
 "Nothing in here. Upload something!" => "Burada hiçbir şey yok. Birşeyler yükleyin!",
 "Download" => "İndir",
 "Unshare" => "Paylaşılmayan",
+"Delete" => "Sil",
 "Upload too large" => "Yükleme çok büyük",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Yüklemeye çalıştığınız dosyalar bu sunucudaki maksimum yükleme boyutunu aşıyor.",
 "Files are being scanned, please wait." => "Dosyalar taranıyor, lütfen bekleyin.",
@@ -79,3 +77,4 @@
 "files" => "dosyalar",
 "Upgrading filesystem cache..." => "Sistem dosyası önbelleği güncelleniyor"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

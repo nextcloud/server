@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Kohdetta %s ei voitu poistaa pysyvästi",
 "Couldn't restore %s" => "Kohteen %s palautus epäonnistui",
 "perform restore operation" => "suorita palautustoiminto",
@@ -7,13 +8,12 @@
 "Delete permanently" => "Poista pysyvästi",
 "Name" => "Nimi",
 "Deleted" => "Poistettu",
-"1 folder" => "1 kansio",
-"{count} folders" => "{count} kansiota",
-"1 file" => "1 tiedosto",
-"{count} files" => "{count} tiedostoa",
+"_%n folder_::_%n folders_" => array("%n kansio","%n kansiota"),
+"_%n file_::_%n files_" => array("%n tiedosto","%n tiedostoa"),
 "restored" => "palautettu",
 "Nothing in here. Your trash bin is empty!" => "Tyhjää täynnä! Roskakorissa ei ole mitään.",
 "Restore" => "Palauta",
 "Delete" => "Poista",
 "Deleted Files" => "Poistetut tiedostot"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Sunucu yapılandırmasını silme başarısız oldu",
 "The configuration is valid and the connection could be established!" => "Yapılandırma geçerli ve bağlantı kuruldu!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Yapılandırma geçerli fakat bağlanma(bind) başarısız. Lütfen Sunucu ayarları ve kimlik bilgilerini kontrol ediniz.",
@@ -61,3 +62,4 @@
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Kullanıcı adı bölümünü boş bırakın (varsayılan). ",
 "Help" => "Yardım"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Kunne ikke flytte %s - der findes allerede en fil med dette navn",
 "Could not move %s" => "Kunne ikke flytte %s",
 "Unable to set upload directory." => "Ude af stand til at vælge upload mappe.",
@@ -23,7 +24,6 @@
 "Error" => "Fejl",
 "Share" => "Del",
 "Delete permanently" => "Slet permanent",
-"Delete" => "Slet",
 "Rename" => "Omdøb",
 "Pending" => "Afventer",
 "{new_name} already exists" => "{new_name} eksisterer allerede",
@@ -32,8 +32,7 @@
 "cancel" => "fortryd",
 "replaced {new_name} with {old_name}" => "erstattede {new_name} med {old_name}",
 "undo" => "fortryd",
-"perform delete operation" => "udfør slet operation",
-"1 file uploading" => "1 fil uploades",
+"_Uploading %n file_::_Uploading %n files_" => array("Uploader %n fil","Uploader %n filer"),
 "files uploading" => "uploader filer",
 "'.' is an invalid file name." => "'.' er et ugyldigt filnavn.",
 "File name cannot be empty." => "Filnavnet kan ikke stå tomt.",
@@ -45,10 +44,8 @@
 "Name" => "Navn",
 "Size" => "Størrelse",
 "Modified" => "Ændret",
-"1 folder" => "1 mappe",
-"{count} folders" => "{count} mapper",
-"1 file" => "1 fil",
-"{count} files" => "{count} filer",
+"_%n folder_::_%n folders_" => array("%n mappe","%n mapper"),
+"_%n file_::_%n files_" => array("%n fil","%n filer"),
 "%s could not be renamed" => "%s kunne ikke omdøbes",
 "Upload" => "Upload",
 "File handling" => "Filhåndtering",
@@ -69,6 +66,7 @@
 "Nothing in here. Upload something!" => "Her er tomt. Upload noget!",
 "Download" => "Download",
 "Unshare" => "Fjern deling",
+"Delete" => "Slet",
 "Upload too large" => "Upload er for stor",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Filerne, du prøver at uploade, er større end den maksimale størrelse for fil-upload på denne server.",
 "Files are being scanned, please wait." => "Filerne bliver indlæst, vent venligst.",
@@ -79,3 +77,4 @@
 "files" => "filer",
 "Upgrading filesystem cache..." => "Opgraderer filsystems cachen..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

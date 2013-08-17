@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Kan inte ladda listan från App Store",
 "Authentication error" => "Fel vid autentisering",
 "Your display name has been changed." => "Ditt visningsnamn har ändrats.",
@@ -37,15 +38,20 @@
 "A valid password must be provided" => "Ett giltigt lösenord måste anges",
 "__language_name__" => "__language_name__",
 "Security Warning" => "Säkerhetsvarning",
+"Your data directory and your files are probably accessible from the internet. The .htaccess file is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Din datakatalog och dina filer är förmodligen åtkomliga från internet. Filen .htaccess fungerar inte. Vi rekommenderar starkt att du konfigurerar din webbserver så att datakatalogen inte längre är åtkomlig eller du flyttar datakatalogen utanför webbserverns rotkatalog.",
 "Setup Warning" => "Installationsvarning",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Din webbserver är inte korrekt konfigurerad för att tillåta filsynkronisering eftersom WebDAV inte verkar fungera.",
 "Please double check the <a href=\"%s\">installation guides</a>." => "Vänligen dubbelkolla igenom <a href=\"%s\">installationsguiden</a>.",
 "Module 'fileinfo' missing" => "Modulen \"fileinfo\" saknas",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "PHP-modulen 'fileinfo' saknas. Vi rekommenderar starkt att aktivera den här modulen för att kunna upptäcka korrekt mime-typ.",
 "Locale not working" => "Locale fungerar inte",
+"System locale can't be set to %s. This means that there might be problems with certain characters in file names. We strongly suggest to install the required packages on your system to support %s." => "Systemets språk kan inte sättas till %s. Detta innebär att det kan vara problem med vissa tecken i filnamn. Det är starkt rekommenderat att installera nödvändiga paket så att systemet får stöd för %s.",
 "Internet connection not working" => "Internetförbindelsen fungerar inte",
+"This server has no working internet connection. This means that some of the features like mounting of external storage, notifications about updates or installation of 3rd party apps don´t work. Accessing files from remote and sending of notification emails might also not work. We suggest to enable internet connection for this server if you want to have all features." => "Servern har ingen fungerande internetanslutning. Detta innebär att en del av de funktioner som montering av extern lagring, notifieringar om uppdateringar eller installation av 3: e part appar inte fungerar. Åtkomst till filer och skicka e-postmeddelanden fungerar troligen inte heller. Vi rekommenderar starkt att aktivera en internetuppkoppling för denna server om du vill ha alla funktioner.",
 "Cron" => "Cron",
 "Execute one task with each page loaded" => "Exekvera en uppgift vid varje sidladdning",
+"cron.php is registered at a webcron service to call cron.php once a minute over http." => "cron.php är registrerad som en webcron-tjänst för att anropa cron.php varje minut över http.",
+"Use systems cron service to call the cron.php file once a minute." => "Använd system-tjänsten cron för att anropa cron.php varje minut.",
 "Sharing" => "Dela",
 "Enable Share API" => "Aktivera delat API",
 "Allow apps to use the Share API" => "Tillåt applikationer att använda delat API",
@@ -60,6 +66,7 @@
 "Security" => "Säkerhet",
 "Enforce HTTPS" => "Kräv HTTPS",
 "Forces the clients to connect to %s via an encrypted connection." => "Tvingar klienterna att ansluta till %s via en krypterad anslutning.",
+"Please connect to your %s via HTTPS to enable or disable the SSL enforcement." => "Anslut till din %s via HTTPS för att aktivera/deaktivera SSL",
 "Log" => "Logg",
 "Log level" => "Nivå på loggning",
 "More" => "Mer",
@@ -108,3 +115,4 @@
 "set new password" => "ange nytt lösenord",
 "Default" => "Förvald"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

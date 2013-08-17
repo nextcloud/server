@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Deletion failed" => "삭제 실패",
 "Keep settings?" => "설정을 유지합니까?",
 "Error" => "오류",
@@ -48,3 +49,4 @@
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "사용자 이름을 사용하려면 비워 두십시오(기본값). 기타 경우 LDAP/AD 속성을 지정하십시오.",
 "Help" => "도움말"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

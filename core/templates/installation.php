@@ -62,7 +62,7 @@
 	</fieldset>
 
 	<fieldset id="datadirField">
-		<legend><a id="showAdvanced"><?php p($l->t( 'Advanced' )); ?> <img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret-dark.svg')); ?>" /></a></legend>
+		<legend><a id="showAdvanced"><?php p($l->t( 'Advanced' )); ?> <img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" /></a></legend>
 		<div id="datadirContent">
 			<label for="directory"><?php p($l->t( 'Data folder' )); ?></label>
 			<input type="text" name="directory" id="directory"

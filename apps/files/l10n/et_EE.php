@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Ei saa liigutada faili %s - samanimeline fail on juba olemas",
 "Could not move %s" => "%s liigutamine ebaõnnestus",
 "Unable to set upload directory." => "Üleslaadimiste kausta määramine ebaõnnestus.",
@@ -23,7 +24,6 @@
 "Error" => "Viga",
 "Share" => "Jaga",
 "Delete permanently" => "Kustuta jäädavalt",
-"Delete" => "Kustuta",
 "Rename" => "Nimeta ümber",
 "Pending" => "Ootel",
 "{new_name} already exists" => "{new_name} on juba olemas",
@@ -32,8 +32,7 @@
 "cancel" => "loobu",
 "replaced {new_name} with {old_name}" => "asendas nime {old_name} nimega {new_name}",
 "undo" => "tagasi",
-"perform delete operation" => "teosta kustutamine",
-"1 file uploading" => "1 fail üleslaadimisel",
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
 "files uploading" => "faili üleslaadimisel",
 "'.' is an invalid file name." => "'.' on vigane failinimi.",
 "File name cannot be empty." => "Faili nimi ei saa olla tühi.",
@@ -45,10 +44,8 @@
 "Name" => "Nimi",
 "Size" => "Suurus",
 "Modified" => "Muudetud",
-"1 folder" => "1 kaust",
-"{count} folders" => "{count} kausta",
-"1 file" => "1 fail",
-"{count} files" => "{count} faili",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "%s could not be renamed" => "%s ümbernimetamine ebaõnnestus",
 "Upload" => "Lae üles",
 "File handling" => "Failide käsitlemine",
@@ -69,6 +66,7 @@
 "Nothing in here. Upload something!" => "Siin pole midagi. Lae midagi üles!",
 "Download" => "Lae alla",
 "Unshare" => "Lõpeta jagamine",
+"Delete" => "Kustuta",
 "Upload too large" => "Üleslaadimine on liiga suur",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Failid, mida sa proovid üles laadida, ületab serveri poolt üleslaetavatele failidele määratud maksimaalse suuruse.",
 "Files are being scanned, please wait." => "Faile skannitakse, palun oota.",
@@ -79,3 +77,4 @@
 "files" => "faili",
 "Upgrading filesystem cache..." => "Failisüsteemi puhvri uuendamine..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

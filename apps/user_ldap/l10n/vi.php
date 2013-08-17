@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Deletion failed" => "Xóa thất bại",
 "Success" => "Thành công",
 "Error" => "Lỗi",
@@ -43,3 +44,4 @@
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Để trống tên người dùng (mặc định). Nếu không chỉ định thuộc tính LDAP/AD",
 "Help" => "Giúp đỡ"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

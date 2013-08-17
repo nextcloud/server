@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Access granted" => "Giriş kabul edildi",
 "Error configuring Dropbox storage" => "Dropbox depo yapılandırma hatası",
 "Grant access" => "Erişim sağlandı",
@@ -24,3 +25,4 @@
 "SSL root certificates" => "SSL kök sertifikaları",
 "Import Root Certificate" => "Kök Sertifikalarını İçe Aktar"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

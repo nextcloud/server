@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Honza K. <honza889@gmail.com>, 2013
+# pstast <petr@stastny.eu>, 2013
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-31 01:55-0400\n"
-"PO-Revision-Date: 2013-07-30 21:21+0000\n"
-"Last-Translator: Honza K. <honza889@gmail.com>\n"
+"POT-Creation-Date: 2013-08-15 04:47-0400\n"
+"PO-Revision-Date: 2013-08-15 08:48+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,21 +37,17 @@ msgid "Users"
 msgstr "Uživatelé"
 
 #: app.php:409
-msgid "Apps"
-msgstr "Aplikace"
-
-#: app.php:417
 msgid "Admin"
 msgstr "Administrace"
 
-#: app.php:844
+#: app.php:836
 #, php-format
 msgid "Failed to upgrade \"%s\"."
-msgstr "Selhalo povýšení verze \"%s\"."
+msgstr "Selhala aktualizace verze \"%s\"."
 
 #: defaults.php:35
 msgid "web services under your control"
-msgstr "služby webu pod Vaší kontrolou"
+msgstr "webové služby pod Vaší kontrolou"
 
 #: files.php:66 files.php:98
 #, php-format
@@ -59,7 +56,7 @@ msgstr "nelze otevřít \"%s\""
 
 #: files.php:226
 msgid "ZIP download is turned off."
-msgstr "Stahování ZIPu je vypnuto."
+msgstr "Stahování v ZIPu je vypnuto."
 
 #: files.php:227
 msgid "Files need to be downloaded one by one."
@@ -71,7 +68,7 @@ msgstr "Zpět k souborům"
 
 #: files.php:253
 msgid "Selected files too large to generate zip file."
-msgstr "Vybrané soubory jsou příliš velké pro vytvoření zip souboru."
+msgstr "Vybrané soubory jsou příliš velké pro vytvoření ZIP souboru."
 
 #: files.php:254
 msgid ""
@@ -125,16 +122,16 @@ msgstr "V názvu databáze %s nesmíte používat tečky."
 #: setup/mssql.php:20
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr "Uživatelské jméno, či heslo MSSQL není platné: %s"
+msgstr "Uživatelské jméno či heslo MSSQL není platné: %s"
 
 #: setup/mssql.php:21 setup/mysql.php:13 setup/oci.php:114
 #: setup/postgresql.php:24 setup/postgresql.php:70
 msgid "You need to enter either an existing account or the administrator."
-msgstr "Musíte zadat existující účet, či správce."
+msgstr "Musíte zadat existující účet či správce."
 
 #: setup/mysql.php:12
 msgid "MySQL username and/or password not valid"
-msgstr "Uživatelské jméno, či heslo MySQL není platné"
+msgstr "Uživatelské jméno či heslo MySQL není platné"
 
 #: setup/mysql.php:67 setup/oci.php:54 setup/oci.php:121 setup/oci.php:147
 #: setup/oci.php:154 setup/oci.php:165 setup/oci.php:172 setup/oci.php:181
@@ -143,7 +140,7 @@ msgstr "Uživatelské jméno, či heslo MySQL není platné"
 #: setup/postgresql.php:125 setup/postgresql.php:134
 #, php-format
 msgid "DB Error: \"%s\""
-msgstr "Chyba DB: \"%s\""
+msgstr "Chyba databáze: \"%s\""
 
 #: setup/mysql.php:68 setup/oci.php:55 setup/oci.php:122 setup/oci.php:148
 #: setup/oci.php:155 setup/oci.php:166 setup/oci.php:182 setup/oci.php:190
@@ -151,7 +148,7 @@ msgstr "Chyba DB: \"%s\""
 #: setup/postgresql.php:116 setup/postgresql.php:126 setup/postgresql.php:135
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr "Podezřelý příkaz byl: \"%s\""
+msgstr "Příslušný příkaz byl: \"%s\""
 
 #: setup/mysql.php:85
 #, php-format
@@ -160,7 +157,7 @@ msgstr "Uživatel '%s'@'localhost' již v MySQL existuje."
 
 #: setup/mysql.php:86
 msgid "Drop this user from MySQL"
-msgstr "Zahodit uživatele z MySQL"
+msgstr "Zrušte tohoto uživatele z MySQL"
 
 #: setup/mysql.php:91
 #, php-format
@@ -169,7 +166,7 @@ msgstr "Uživatel '%s'@'%%' již v MySQL existuje"
 
 #: setup/mysql.php:92
 msgid "Drop this user from MySQL."
-msgstr "Zahodit uživatele z MySQL."
+msgstr "Zrušte tohoto uživatele z MySQL"
 
 #: setup/oci.php:34
 msgid "Oracle connection could not be established"
@@ -177,16 +174,16 @@ msgstr "Spojení s Oracle nemohlo být navázáno"
 
 #: setup/oci.php:41 setup/oci.php:113
 msgid "Oracle username and/or password not valid"
-msgstr "Uživatelské jméno, či heslo Oracle není platné"
+msgstr "Uživatelské jméno či heslo Oracle není platné"
 
 #: setup/oci.php:173 setup/oci.php:205
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr "Podezřelý příkaz byl: \"%s\", jméno: %s, heslo: %s"
+msgstr "Příslušný příkaz byl: \"%s\", jméno: %s, heslo: %s"
 
 #: setup/postgresql.php:23 setup/postgresql.php:69
 msgid "PostgreSQL username and/or password not valid"
-msgstr "Uživatelské jméno, či heslo PostgreSQL není platné"
+msgstr "Uživatelské jméno či heslo PostgreSQL není platné"
 
 #: setup.php:28
 msgid "Set an admin username."
@@ -200,7 +197,7 @@ msgstr "Zadejte heslo správce."
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr "Váš webový server není správně nastaven pro umožnění synchronizace, protože rozhraní WebDAV je rozbité."
+msgstr "Váš webový server není správně nastaven pro umožnění synchronizace, rozhraní WebDAV se zdá být rozbité."
 
 #: setup.php:185
 #, php-format
@@ -209,53 +206,53 @@ msgstr "Zkonzultujte, prosím, <a href='%s'>průvodce instalací</a>."
 
 #: template/functions.php:80
 msgid "seconds ago"
-msgstr "před pár vteřinami"
+msgstr "před pár sekundami"
 
 #: template/functions.php:81
-msgid "1 minute ago"
-msgstr "před minutou"
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: template/functions.php:82
-#, php-format
-msgid "%d minutes ago"
-msgstr "před %d minutami"
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: template/functions.php:83
-msgid "1 hour ago"
-msgstr "před hodinou"
-
-#: template/functions.php:84
-#, php-format
-msgid "%d hours ago"
-msgstr "před %d hodinami"
-
-#: template/functions.php:85
 msgid "today"
 msgstr "dnes"
 
-#: template/functions.php:86
+#: template/functions.php:84
 msgid "yesterday"
 msgstr "včera"
 
-#: template/functions.php:87
-#, php-format
-msgid "%d days ago"
-msgstr "před %d dny"
+#: template/functions.php:85
+msgid "%n day go"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: template/functions.php:88
+#: template/functions.php:86
 msgid "last month"
 msgstr "minulý měsíc"
 
-#: template/functions.php:89
-#, php-format
-msgid "%d months ago"
-msgstr "Před %d měsíci"
+#: template/functions.php:87
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: template/functions.php:90
+#: template/functions.php:88
 msgid "last year"
 msgstr "minulý rok"
 
-#: template/functions.php:91
+#: template/functions.php:89
 msgid "years ago"
 msgstr "před lety"
 

@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Helder Meneses <helder.meneses@gmail.com>, 2013
 # moliveira <manuel.oliveira@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-31 01:55-0400\n"
-"PO-Revision-Date: 2013-07-31 05:56+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-09 07:59-0400\n"
+"PO-Revision-Date: 2013-08-08 11:00+0000\n"
+"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,27 +33,27 @@ msgstr "Submeter"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
-msgstr ""
+msgstr "Desculpe, mas este link parece não estar a funcionar."
 
 #: templates/part.404.php:4
 msgid "Reasons might be:"
-msgstr ""
+msgstr "As razões poderão ser:"
 
 #: templates/part.404.php:6
 msgid "the item was removed"
-msgstr ""
+msgstr "O item foi removido"
 
 #: templates/part.404.php:7
 msgid "the link expired"
-msgstr ""
+msgstr "O link expirou"
 
 #: templates/part.404.php:8
 msgid "sharing is disabled"
-msgstr ""
+msgstr "A partilha está desativada"
 
 #: templates/part.404.php:10
 msgid "For more info, please ask the person who sent this link."
-msgstr ""
+msgstr "Para mais informações, por favor questione a pessoa que lhe enviou este link"
 
 #: templates/public.php:15
 #, php-format

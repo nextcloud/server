@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "App Store'i nimekirja laadimine ebaõnnestus",
 "Authentication error" => "Autentimise viga",
 "Your display name has been changed." => "Sinu näidatav nimi on muudetud.",
@@ -114,3 +115,4 @@
 "set new password" => "määra uus parool",
 "Default" => "Vaikeväärtus"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Ezin izan da App Dendatik zerrenda kargatu",
 "Authentication error" => "Autentifikazio errorea",
 "Your display name has been changed." => "Zure bistaratze izena aldatu egin da.",
@@ -111,3 +112,4 @@
 "set new password" => "ezarri pasahitz berria",
 "Default" => "Lehenetsia"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

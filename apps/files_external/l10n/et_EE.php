@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Access granted" => "Ligipääs on antud",
 "Error configuring Dropbox storage" => "Viga Dropboxi salvestusruumi seadistamisel",
 "Grant access" => "Anna ligipääs",
@@ -24,3 +25,4 @@
 "SSL root certificates" => "SSL root sertifikaadid",
 "Import Root Certificate" => "Impordi root sertifikaadid"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

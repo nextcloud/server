@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Klarer ikkje å lasta inn liste fra app-butikken",
 "Authentication error" => "Autentiseringsfeil",
 "Your display name has been changed." => "Visingsnamnet ditt er endra.",
@@ -101,3 +102,4 @@
 "set new password" => "lag nytt passord",
 "Default" => "Standard"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
