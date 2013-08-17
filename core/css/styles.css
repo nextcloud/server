@@ -196,11 +196,12 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 #body-login #datadirContent label,
 #body-login form input[type="checkbox"]+label {
 	text-align: center;
-	color: #000;
+	color: #ccc;
 	text-shadow: 0 1px 0 rgba(255,255,255,.1);
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-	filter: alpha(opacity=80);
-	opacity: .8;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+	filter: alpha(opacity=60);
+	opacity: .6;
+	text-shadow: 0 -1px 0 rgba(0,0,0,.5);
 }
 
 #body-login div.buttons { text-align:center; }
@@ -306,6 +307,31 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 }
 #body-login form .errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 2em; padding:1em; }
 #body-login .success { background:#d7fed7; border:1px solid #0f0; width: 35%; margin: 30px auto; padding:1em; text-align: center;}
+
+#body-login #remember_login:hover+label,
+#body-login #remember_login:focus+label  {
+	color: #fff !important;
+}
+
+#body-login #showAdvanced > img {
+	height: 16px;
+	width: 16px;
+	padding: 4px;
+	box-sizing: border-box;
+}
+
+#body-login p.info a, #body-login #showAdvanced {
+	color: #ccc;
+}
+
+#body-login p.info a:hover, #body-login p.info a:focus {
+	color: #fff;
+}
+
+
+#body-login p.info{
+	white-space: nowrap;
+}
 
 /* Show password toggle */
 #show, #dbpassword {
