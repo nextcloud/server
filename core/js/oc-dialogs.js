@@ -117,10 +117,6 @@ var OCdialogs = {
 				text: t('core', 'Choose'),
 				click: functionToCall,
 				defaultButton: true
-				},
-				{
-				text: t('core', 'Cancel'),
-				click: function(){self.$filePicker.ocdialog('close'); }
 			}];
 
 			self.$filePicker.ocdialog({
