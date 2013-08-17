@@ -30,9 +30,6 @@ use OC\Files\Filesystem;
  */
 class Hooks {
 
-	// TODO: use passphrase for encrypting private key that is separate to 
-	// the login password
-
 	/**
 	 * @brief Startup encryption backend upon user login
 	 * @note This method should never be called for users using client side encryption
