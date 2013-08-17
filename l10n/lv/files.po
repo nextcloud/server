@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:04+0000\n"
+"POT-Creation-Date: 2013-08-16 01:29-0400\n"
+"PO-Revision-Date: 2013-08-16 05:29+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -120,11 +120,7 @@ msgstr "Dalīties"
 msgid "Delete permanently"
 msgstr "Dzēst pavisam"
 
-#: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
-msgid "Delete"
-msgstr "Dzēst"
-
-#: js/fileactions.js:194
+#: js/fileactions.js:192
 msgid "Rename"
 msgstr "Pārsaukt"
 
@@ -156,15 +152,14 @@ msgstr "aizvietoja {new_name} ar {old_name}"
 msgid "undo"
 msgstr "atsaukt"
 
-#: js/filelist.js:375
-msgid "perform delete operation"
-msgstr "veikt dzēšanas darbību"
+#: js/filelist.js:453
+msgid "Uploading %n file"
+msgid_plural "Uploading %n files"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: js/filelist.js:457
-msgid "1 file uploading"
-msgstr "Augšupielādē 1 datni"
-
-#: js/filelist.js:460 js/filelist.js:518
+#: js/filelist.js:518
 msgid "files uploading"
 msgstr ""
 
@@ -200,33 +195,31 @@ msgstr "Tiek sagatavota lejupielāde. Tas var aizņemt kādu laiciņu, ja datnes
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Nederīgs mapes nosaukums. “Koplietots” izmantojums ir rezervēts ownCloud servisam."
 
-#: js/files.js:744 templates/index.php:69
+#: js/files.js:744 templates/index.php:67
 msgid "Name"
 msgstr "Nosaukums"
 
-#: js/files.js:745 templates/index.php:80
+#: js/files.js:745 templates/index.php:78
 msgid "Size"
 msgstr "Izmērs"
 
-#: js/files.js:746 templates/index.php:82
+#: js/files.js:746 templates/index.php:80
 msgid "Modified"
 msgstr "Mainīts"
 
-#: js/files.js:763
-msgid "1 folder"
-msgstr "1 mape"
+#: js/files.js:762
+msgid "%n folder"
+msgid_plural "%n folders"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: js/files.js:765
-msgid "{count} folders"
-msgstr "{count} mapes"
-
-#: js/files.js:773
-msgid "1 file"
-msgstr "1 datne"
-
-#: js/files.js:775
-msgid "{count} files"
-msgstr "{count} datnes"
+#: js/files.js:768
+msgid "%n file"
+msgid_plural "%n files"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lib/app.php:73
 #, php-format
@@ -285,45 +278,49 @@ msgstr "Mape"
 msgid "From link"
 msgstr "No saites"
 
-#: templates/index.php:42
+#: templates/index.php:41
 msgid "Deleted files"
 msgstr "Dzēstās datnes"
 
-#: templates/index.php:48
+#: templates/index.php:46
 msgid "Cancel upload"
 msgstr "Atcelt augšupielādi"
 
-#: templates/index.php:54
+#: templates/index.php:52
 msgid "You don’t have write permissions here."
 msgstr "Jums nav tiesību šeit rakstīt."
 
-#: templates/index.php:61
+#: templates/index.php:59
 msgid "Nothing in here. Upload something!"
 msgstr "Te vēl nekas nav. Rīkojies, sāc augšupielādēt!"
 
-#: templates/index.php:75
+#: templates/index.php:73
 msgid "Download"
 msgstr "Lejupielādēt"
 
-#: templates/index.php:87 templates/index.php:88
+#: templates/index.php:85 templates/index.php:86
 msgid "Unshare"
 msgstr "Pārtraukt dalīšanos"
 
-#: templates/index.php:107
+#: templates/index.php:91 templates/index.php:92
+msgid "Delete"
+msgstr "Dzēst"
+
+#: templates/index.php:105
 msgid "Upload too large"
 msgstr "Datne ir par lielu, lai to augšupielādētu"
 
-#: templates/index.php:109
+#: templates/index.php:107
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Augšupielādējamās datnes pārsniedz servera pieļaujamo datņu augšupielādes apjomu"
 
-#: templates/index.php:114
+#: templates/index.php:112
 msgid "Files are being scanned, please wait."
 msgstr "Datnes šobrīd tiek caurskatītas, lūdzu, uzgaidiet."
 
-#: templates/index.php:117
+#: templates/index.php:115
 msgid "Current scanning"
 msgstr "Šobrīd tiek caurskatīts"
 

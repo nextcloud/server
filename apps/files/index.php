@@ -126,6 +126,12 @@ if ($needUpgrade) {
 		$publicUploadEnabled = 'no';
 	}
 
+	$trashEnabled = \OCP\App::isEnabled('files_trashbin');
+	$trashEmpty = true;
+	if ($trashEnabled) {
+		$trashEmpty = \OCA\Files_Trashbin\Trashbin::isEmpty($user);
+	}
+	
 	OCP\Util::addscript('files', 'fileactions');
 	OCP\Util::addscript('files', 'files');
 	OCP\Util::addscript('files', 'keyboardshortcuts');
@@ -136,7 +142,8 @@ if ($needUpgrade) {
 	$tmpl->assign('isCreatable', \OC\Files\Filesystem::isCreatable($dir . '/'));
 	$tmpl->assign('permissions', $permissions);
 	$tmpl->assign('files', $files);
-	$tmpl->assign('trash', \OCP\App::isEnabled('files_trashbin'));
+	$tmpl->assign('trash', $trashEnabled);
+	$tmpl->assign('trashEmpty', $trashEmpty);
 	$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 	$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 	$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));

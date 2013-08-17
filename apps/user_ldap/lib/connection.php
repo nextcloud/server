@@ -29,6 +29,9 @@ class Connection {
 	private $configID;
 	private $configured = false;
 
+	//whether connection should be kept on __destruct
+	private $dontDestruct = false;
+
 	//cache handler
 	protected $cache;
 
@@ -83,9 +86,18 @@ class Connection {
 	}
 
 	public function __destruct() {
-		if(is_resource($this->ldapConnectionRes)) {
+		if(!$this->dontDestruct && is_resource($this->ldapConnectionRes)) {
 			@ldap_unbind($this->ldapConnectionRes);
 		};
+	}
+
+	/**
+	 * @brief defines behaviour when the instance is cloned
+	 */
+	public function __clone() {
+		//a cloned instance inherits the connection resource. It may use it,
+		//but it may not disconnect it
+		$this->dontDestruct = true;
 	}
 
 	public function __get($name) {

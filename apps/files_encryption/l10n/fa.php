@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Recovery key successfully enabled" => "کلید بازیابی با موفقیت فعال شده است.",
 "Could not enable recovery key. Please check your recovery key password!" => "کلید بازیابی نمی تواند فعال شود. لطفا رمزعبور کلید بازیابی خود را بررسی نمایید!",
 "Recovery key successfully disabled" => "کلید بازیابی با موفقیت غیر فعال شده است.",
@@ -9,7 +10,6 @@
 "Could not update the private key password. Maybe the old password was not correct." => "رمزعبور کلید خصوصی را نمی تواند به روز کند. شاید رمزعبور قدیمی صحیح نمی باشد.",
 "Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "کلید خصوصی شما معتبر نمی باشد!  ظاهرا رمزعبور شما بیرون از سیستم ownCloud تغییر یافته است( به عنوان مثال پوشه سازمان شما ). شما میتوانید رمزعبور کلید خصوصی خود را در تنظیمات شخصیتان به روز کنید تا بتوانید به  فایل های رمزگذاری شده خود را دسترسی داشته باشید.",
 "Missing requirements." => "نیازمندی های گمشده",
-"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "لطفا مطمئن شوید که PHP 5.3.3 یا جدیدتر نصب شده و پسوند OpenSSL PHP فعال است و به درستی پیکربندی شده است. در حال حاضر، برنامه رمزگذاری غیر فعال شده است.",
 "Saving..." => "در حال ذخیره سازی...",
 "Your private key is not valid! Maybe the your password was changed from outside." => "کلید خصوصی شما معتبر نیست! شاید رمزعبوراز بیرون تغییر یافته است.",
 "You can unlock your private key in your " => "شما میتوانید کلید خصوصی خود را باز نمایید.",
@@ -34,3 +34,4 @@
 "File recovery settings updated" => "تنظیمات بازیابی فایل به روز شده است.",
 "Could not update file recovery" => "به روز رسانی بازیابی فایل را نمی تواند انجام دهد."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

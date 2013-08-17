@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Authentication error" => "Ralat pengesahan",
 "Email saved" => "Emel disimpan",
 "Invalid email" => "Emel tidak sah",
@@ -34,3 +35,4 @@
 "Other" => "Lain",
 "Username" => "Nama pengguna"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

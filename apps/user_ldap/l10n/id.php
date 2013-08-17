@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Gagal menghapus konfigurasi server",
 "The configuration is valid and the connection could be established!" => "Konfigurasi valid dan koneksi dapat dilakukan!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Konfigurasi valid, tetapi Bind gagal. Silakan cek pengaturan server dan keamanan.",
@@ -70,3 +71,4 @@
 "Test Configuration" => "Uji Konfigurasi",
 "Help" => "Bantuan"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

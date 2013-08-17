@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:04+0000\n"
+"POT-Creation-Date: 2013-08-16 01:29-0400\n"
+"PO-Revision-Date: 2013-08-16 05:29+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -124,11 +124,7 @@ msgstr "Открыть доступ"
 msgid "Delete permanently"
 msgstr "Удалено навсегда"
 
-#: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
-msgid "Delete"
-msgstr "Удалить"
-
-#: js/fileactions.js:194
+#: js/fileactions.js:192
 msgid "Rename"
 msgstr "Переименовать"
 
@@ -160,15 +156,14 @@ msgstr "заменено {new_name} на {old_name}"
 msgid "undo"
 msgstr "отмена"
 
-#: js/filelist.js:375
-msgid "perform delete operation"
-msgstr "выполнить операцию удаления"
+#: js/filelist.js:453
+msgid "Uploading %n file"
+msgid_plural "Uploading %n files"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: js/filelist.js:457
-msgid "1 file uploading"
-msgstr "загружается 1 файл"
-
-#: js/filelist.js:460 js/filelist.js:518
+#: js/filelist.js:518
 msgid "files uploading"
 msgstr "файлы загружаются"
 
@@ -204,33 +199,31 @@ msgstr "Загрузка началась. Это может потребова�
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Неправильное имя каталога. Имя 'Shared' зарезервировано."
 
-#: js/files.js:744 templates/index.php:69
+#: js/files.js:744 templates/index.php:67
 msgid "Name"
 msgstr "Имя"
 
-#: js/files.js:745 templates/index.php:80
+#: js/files.js:745 templates/index.php:78
 msgid "Size"
 msgstr "Размер"
 
-#: js/files.js:746 templates/index.php:82
+#: js/files.js:746 templates/index.php:80
 msgid "Modified"
 msgstr "Изменён"
 
-#: js/files.js:763
-msgid "1 folder"
-msgstr "1 папка"
+#: js/files.js:762
+msgid "%n folder"
+msgid_plural "%n folders"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: js/files.js:765
-msgid "{count} folders"
-msgstr "{count} папок"
-
-#: js/files.js:773
-msgid "1 file"
-msgstr "1 файл"
-
-#: js/files.js:775
-msgid "{count} files"
-msgstr "{count} файлов"
+#: js/files.js:768
+msgid "%n file"
+msgid_plural "%n files"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lib/app.php:73
 #, php-format
@@ -289,45 +282,49 @@ msgstr "Папка"
 msgid "From link"
 msgstr "Из ссылки"
 
-#: templates/index.php:42
+#: templates/index.php:41
 msgid "Deleted files"
 msgstr "Удалённые файлы"
 
-#: templates/index.php:48
+#: templates/index.php:46
 msgid "Cancel upload"
 msgstr "Отмена загрузки"
 
-#: templates/index.php:54
+#: templates/index.php:52
 msgid "You don’t have write permissions here."
 msgstr "У вас нет разрешений на запись здесь."
 
-#: templates/index.php:61
+#: templates/index.php:59
 msgid "Nothing in here. Upload something!"
 msgstr "Здесь ничего нет. Загрузите что-нибудь!"
 
-#: templates/index.php:75
+#: templates/index.php:73
 msgid "Download"
 msgstr "Скачать"
 
-#: templates/index.php:87 templates/index.php:88
+#: templates/index.php:85 templates/index.php:86
 msgid "Unshare"
 msgstr "Закрыть общий доступ"
 
-#: templates/index.php:107
+#: templates/index.php:91 templates/index.php:92
+msgid "Delete"
+msgstr "Удалить"
+
+#: templates/index.php:105
 msgid "Upload too large"
 msgstr "Файл слишком велик"
 
-#: templates/index.php:109
+#: templates/index.php:107
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Файлы, которые вы пытаетесь загрузить, превышают лимит для файлов на этом сервере."
 
-#: templates/index.php:114
+#: templates/index.php:112
 msgid "Files are being scanned, please wait."
 msgstr "Подождите, файлы сканируются."
 
-#: templates/index.php:117
+#: templates/index.php:115
 msgid "Current scanning"
 msgstr "Текущее сканирование"
 

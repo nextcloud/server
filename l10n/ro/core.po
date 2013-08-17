@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# corneliu.e <corneliueva@yahoo.com>, 2013
 # dimaursu16 <dima@ceata.org>, 2013
 # ripkid666 <ripkid666@gmail.com>, 2013
 # sergiu_sechel <sergiu.sechel@gmail.com>, 2013
@@ -10,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-27 01:56-0400\n"
-"PO-Revision-Date: 2013-07-25 05:56+0000\n"
+"POT-Creation-Date: 2013-08-15 04:47-0400\n"
+"PO-Revision-Date: 2013-08-15 08:48+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +43,7 @@ msgstr "Această categorie deja există: %s"
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr "Tipul obiectului nu este prevazut"
+msgstr "Tipul obiectului nu este prevăzut"
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
@@ -53,16 +54,16 @@ msgstr "ID-ul %s nu a fost introdus"
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr "Eroare la adăugarea %s la favorite"
+msgstr "Eroare la adăugarea %s la favorite."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "Nici o categorie selectată pentru ștergere."
+msgstr "Nicio categorie selectată pentru ștergere."
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr "Eroare la ștergerea %s din favorite"
+msgstr "Eroare la ștergerea %s din favorite."
 
 #: js/config.php:32
 msgid "Sunday"
@@ -140,59 +141,63 @@ msgstr "Noiembrie"
 msgid "December"
 msgstr "Decembrie"
 
-#: js/js.js:293
+#: js/js.js:355
 msgid "Settings"
 msgstr "Setări"
 
-#: js/js.js:715
+#: js/js.js:815
 msgid "seconds ago"
 msgstr "secunde în urmă"
 
-#: js/js.js:716
-msgid "1 minute ago"
-msgstr "1 minut în urmă"
+#: js/js.js:816
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: js/js.js:717
-msgid "{minutes} minutes ago"
-msgstr "{minutes} minute in urma"
+#: js/js.js:817
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: js/js.js:718
-msgid "1 hour ago"
-msgstr "Acum o ora"
-
-#: js/js.js:719
-msgid "{hours} hours ago"
-msgstr "{hours} ore în urmă"
-
-#: js/js.js:720
+#: js/js.js:818
 msgid "today"
 msgstr "astăzi"
 
-#: js/js.js:721
+#: js/js.js:819
 msgid "yesterday"
 msgstr "ieri"
 
-#: js/js.js:722
-msgid "{days} days ago"
-msgstr "{days} zile in urma"
+#: js/js.js:820
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: js/js.js:723
+#: js/js.js:821
 msgid "last month"
 msgstr "ultima lună"
 
-#: js/js.js:724
-msgid "{months} months ago"
-msgstr "{months} luni în urmă"
+#: js/js.js:822
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: js/js.js:725
+#: js/js.js:823
 msgid "months ago"
 msgstr "luni în urmă"
 
-#: js/js.js:726
+#: js/js.js:824
 msgid "last year"
 msgstr "ultimul an"
 
-#: js/js.js:727
+#: js/js.js:825
 msgid "years ago"
 msgstr "ani în urmă"
 
@@ -223,19 +228,19 @@ msgstr "Ok"
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr "Tipul obiectului nu a fost specificat"
+msgstr "Tipul obiectului nu este specificat."
 
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:631 js/share.js:643
+#: js/share.js:643 js/share.js:655
 msgid "Error"
 msgstr "Eroare"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr "Numele aplicației nu a fost specificat"
+msgstr "Numele aplicației nu este specificat."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
@@ -249,7 +254,7 @@ msgstr "Partajat"
 msgid "Share"
 msgstr "Partajează"
 
-#: js/share.js:131 js/share.js:671
+#: js/share.js:131 js/share.js:683
 msgid "Error while sharing"
 msgstr "Eroare la partajare"
 
@@ -349,23 +354,23 @@ msgstr "ștergere"
 msgid "share"
 msgstr "partajare"
 
-#: js/share.js:398 js/share.js:618
+#: js/share.js:398 js/share.js:630
 msgid "Password protected"
 msgstr "Protejare cu parolă"
 
-#: js/share.js:631
+#: js/share.js:643
 msgid "Error unsetting expiration date"
 msgstr "Eroare la anularea datei de expirare"
 
-#: js/share.js:643
+#: js/share.js:655
 msgid "Error setting expiration date"
 msgstr "Eroare la specificarea datei de expirare"
 
-#: js/share.js:658
+#: js/share.js:670
 msgid "Sending ..."
 msgstr "Se expediază..."
 
-#: js/share.js:669
+#: js/share.js:681
 msgid "Email sent"
 msgstr "Mesajul a fost expediat"
 
@@ -374,15 +379,16 @@ msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr "Modernizarea a eșuat! <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">Te rugam sa raportezi problema aici.</a>."
+msgstr "Actualizarea a eșuat! Raportați problema către <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">comunitatea ownCloud</a>."
 
 #: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr "Modernizare reusita! Vei fii redirectionat!"
+msgstr "Actualizare reușită. Ești redirecționat către ownCloud."
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
-msgstr "Resetarea parolei ownCloud "
+#: lostpassword/controller.php:61
+#, php-format
+msgid "%s password reset"
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -401,7 +407,7 @@ msgstr "Cerere esuata!<br>Esti sigur ca email-ul/numele de utilizator sunt corec
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
-msgstr "Vei primi un mesaj prin care vei putea reseta parola via email"
+msgstr "Vei primi un mesaj prin care vei putea reseta parola via email."
 
 #: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
 #: templates/login.php:19
@@ -454,7 +460,7 @@ msgstr "Aplicații"
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Admin"
+msgstr "Administrator"
 
 #: strings.php:9
 msgid "Help"
@@ -462,9 +468,9 @@ msgstr "Ajutor"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr "Acces interzis"
+msgstr "Acces restricționat"
 
-#: templates/404.php:12
+#: templates/404.php:15
 msgid "Cloud not found"
 msgstr "Nu s-a găsit"
 
@@ -494,37 +500,37 @@ msgstr "Avertisment de securitate"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr "Versiunea dvs. PHP este vulnerabil la acest atac un octet null  (CVE-2006-7243)"
+msgstr "Versiunea dvs. PHP este vulnerabilă la un atac cu un octet NULL  (CVE-2006-7243)"
 
 #: templates/installation.php:26
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "Te rog actualizează versiunea PHP pentru a utiliza %s în mod securizat."
 
 #: templates/installation.php:32
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr "Generatorul de numere pentru securitate nu este disponibil, va rog activati extensia PHP OpenSSL"
+msgstr "Nu este disponibil niciun generator securizat de numere aleatoare, vă rog activați extensia PHP OpenSSL."
 
 #: templates/installation.php:33
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr "Fara generatorul pentru numere de securitate , un atacator poate afla parola si reseta contul tau"
+msgstr "Fără generatorul securizat de numere aleatoare , un atacator poate anticipa simbolurile de resetare a parolei și poate prelua controlul asupra contului tău."
 
 #: templates/installation.php:39
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr "Directorul de date și fișiere sunt, probabil, accesibile de pe Internet, deoarece .htaccess nu funcționează."
+msgstr "Directorul tău de date și fișiere sunt probabil accesibile de pe Internet, deoarece fișierul .htaccess nu funcționează."
 
 #: templates/installation.php:41
 #, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Pentru informații despre cum să configurezi serverul, vezi <a href=\"%s\" target=\"_blank\">documentația</a>."
 
 #: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
@@ -581,19 +587,23 @@ msgstr "%s este disponibil. Vezi mai multe informații despre procesul de actual
 msgid "Log out"
 msgstr "Ieșire"
 
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr ""
+
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
-msgstr "Logare automata respinsa"
+msgstr "Autentificare automată respinsă!"
 
 #: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr "Daca nu schimbi parola cand de curand , contul tau poate fi conpromis"
+msgstr "Dacă nu ți-ai schimbat parola recent, contul tău ar putea fi compromis!"
 
 #: templates/login.php:12
 msgid "Please change your password to secure your account again."
-msgstr "Te rog schimba parola pentru ca, contul tau sa fie securizat din nou."
+msgstr "Te rog schimbă-ți parola pentru a-ți securiza din nou contul."
 
 #: templates/login.php:34
 msgid "Lost your password?"

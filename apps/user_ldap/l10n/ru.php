@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to clear the mappings." => "Не удалось очистить соотвествия.",
 "Failed to delete the server configuration" => "Не удалось удалить конфигурацию сервера",
 "The configuration is valid and the connection could be established!" => "Конфигурация правильная и подключение может быть установлено!",
@@ -15,6 +16,7 @@
 "Connection test failed" => "Проверка соединения не удалась",
 "Do you really want to delete the current Server Configuration?" => "Вы действительно хотите удалить существующую конфигурацию сервера?",
 "Confirm Deletion" => "Подтверждение удаления",
+"<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." => "<b>Предупреждение:</b> Приложения user_ldap и user_webdavauth не совместимы. Вы можете наблюдать некорректное поведение. Пожалуйста попросите Вашего системного администратора отключить одно из них.",
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." => "<b>Внимание:</b> Модуль LDAP для PHP не установлен, бэкенд не будет работать. Пожалуйста, попросите вашего системного администратора его установить. ",
 "Server configuration" => "Конфигурация сервера",
 "Add Server Configuration" => "Добавить конфигурацию сервера",
@@ -79,3 +81,4 @@
 "Test Configuration" => "Тестовая конфигурация",
 "Help" => "Помощь"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Помощ",
 "Personal" => "Лични",
 "Settings" => "Настройки",
 "Users" => "Потребители",
-"Apps" => "Приложения",
 "Admin" => "Админ",
 "web services under your control" => "уеб услуги под Ваш контрол",
 "ZIP download is turned off." => "Изтеглянето като ZIP е изключено.",
@@ -38,16 +38,15 @@
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Вашият web сървър все още не е удачно настроен да позволява синхронизация на файлове, защото WebDAV интерфейсът изглежда не работи.",
 "Please double check the <a href='%s'>installation guides</a>." => "Моля направете повторна справка с <a href='%s'>ръководството за инсталиране</a>.",
 "seconds ago" => "преди секунди",
-"1 minute ago" => "преди 1 минута",
-"%d minutes ago" => "преди %d минути",
-"1 hour ago" => "преди 1 час",
-"%d hours ago" => "преди %d часа",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "днес",
 "yesterday" => "вчера",
-"%d days ago" => "преди %d дни",
+"_%n day go_::_%n days ago_" => array("",""),
 "last month" => "последният месец",
-"%d months ago" => "преди %d месеца",
+"_%n month ago_::_%n months ago_" => array("",""),
 "last year" => "последната година",
 "years ago" => "последните години",
 "Could not find category \"%s\"" => "Невъзможно откриване на категорията \"%s\""
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

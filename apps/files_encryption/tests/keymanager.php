@@ -141,7 +141,7 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 	 */
 	function testSetFileKey() {
 
-		$key = Encryption\Crypt::symmetricEncryptFileContentKeyfile($this->randomKey, 'hat');
+		$key = $this->randomKey;
 
 		$file = 'unittest-' . time() . '.txt';
 
@@ -149,27 +149,17 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
-		$this->view->file_put_contents($this->userId . '/files/' . $file, $key['encrypted']);
+		$this->view->file_put_contents($this->userId . '/files/' . $file, $this->dataShort);
 
-		// Re-enable proxy - our work is done
-		\OC_FileProxy::$enabled = $proxyStatus;
+		Encryption\Keymanager::setFileKey($this->view, $file, $this->userId, $key);
 
-		//$view = new \OC_FilesystemView( '/' . $this->userId . '/files_encryption/keyfiles' );
-		Encryption\Keymanager::setFileKey($this->view, $file, $this->userId, $key['key']);
-		
-		$this->assertTrue($this->view->file_exists(
-			'/' . $this->userId . '/files_encryption/keyfiles/' . $file . '.key'));
-
-		// enable encryption proxy
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = true;
+		$this->assertTrue($this->view->file_exists('/' . $this->userId . '/files_encryption/keyfiles/' . $file . '.key'));
 
 		// cleanup
 		$this->view->unlink('/' . $this->userId . '/files/' . $file);
 
 		// change encryption proxy to previous state
 		\OC_FileProxy::$enabled = $proxyStatus;
-
 	}
 
 	/**

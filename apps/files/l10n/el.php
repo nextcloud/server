@@ -1,6 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Αδυναμία μετακίνησης του %s - υπάρχει ήδη αρχείο με αυτό το όνομα",
 "Could not move %s" => "Αδυναμία μετακίνησης του %s",
+"Unable to set upload directory." => "Αδυναμία ορισμού καταλόγου αποστολής.",
+"Invalid Token" => "Μη έγκυρο Token",
 "No file was uploaded. Unknown error" => "Δεν ανέβηκε κάποιο αρχείο. Άγνωστο σφάλμα",
 "There is no error, the file uploaded with success" => "Δεν υπάρχει σφάλμα, το αρχείο εστάλει επιτυχώς",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Το αρχείο που εστάλει υπερβαίνει την οδηγία μέγιστου επιτρεπτού μεγέθους \"upload_max_filesize\" του php.ini",
@@ -21,7 +24,6 @@
 "Error" => "Σφάλμα",
 "Share" => "Διαμοιρασμός",
 "Delete permanently" => "Μόνιμη διαγραφή",
-"Delete" => "Διαγραφή",
 "Rename" => "Μετονομασία",
 "Pending" => "Εκκρεμεί",
 "{new_name} already exists" => "{new_name} υπάρχει ήδη",
@@ -30,8 +32,7 @@
 "cancel" => "ακύρωση",
 "replaced {new_name} with {old_name}" => "αντικαταστάθηκε το {new_name} με {old_name}",
 "undo" => "αναίρεση",
-"perform delete operation" => "εκτέλεση της διαδικασίας διαγραφής",
-"1 file uploading" => "1 αρχείο ανεβαίνει",
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
 "files uploading" => "αρχεία ανεβαίνουν",
 "'.' is an invalid file name." => "'.' είναι μη έγκυρο όνομα αρχείου.",
 "File name cannot be empty." => "Το όνομα αρχείου δεν μπορεί να είναι κενό.",
@@ -43,10 +44,9 @@
 "Name" => "Όνομα",
 "Size" => "Μέγεθος",
 "Modified" => "Τροποποιήθηκε",
-"1 folder" => "1 φάκελος",
-"{count} folders" => "{count} φάκελοι",
-"1 file" => "1 αρχείο",
-"{count} files" => "{count} αρχεία",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
+"%s could not be renamed" => "Αδυναμία μετονομασίας του %s",
 "Upload" => "Μεταφόρτωση",
 "File handling" => "Διαχείριση αρχείων",
 "Maximum upload size" => "Μέγιστο μέγεθος αποστολής",
@@ -66,6 +66,7 @@
 "Nothing in here. Upload something!" => "Δεν υπάρχει τίποτα εδώ. Ανεβάστε κάτι!",
 "Download" => "Λήψη",
 "Unshare" => "Σταμάτημα διαμοιρασμού",
+"Delete" => "Διαγραφή",
 "Upload too large" => "Πολύ μεγάλο αρχείο προς αποστολή",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Τα αρχεία που προσπαθείτε να ανεβάσετε υπερβαίνουν το μέγιστο μέγεθος αποστολής αρχείων σε αυτόν τον διακομιστή.",
 "Files are being scanned, please wait." => "Τα αρχεία σαρώνονται, παρακαλώ περιμένετε.",
@@ -76,3 +77,4 @@
 "files" => "αρχεία",
 "Upgrading filesystem cache..." => "Ενημέρωση της μνήμης cache του συστήματος αρχείων..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

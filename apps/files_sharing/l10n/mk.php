@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Password" => "Лозинка",
 "Submit" => "Прати",
 "%s shared the folder %s with you" => "%s ја сподели папката %s со Вас",
@@ -8,3 +9,4 @@
 "Cancel upload" => "Откажи прикачување",
 "No preview available for" => "Нема достапно преглед за"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;";

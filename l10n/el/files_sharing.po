@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-07 08:59-0400\n"
+"PO-Revision-Date: 2013-08-07 12:22+0000\n"
+"Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: templates/authenticate.php:4
 msgid "The password is wrong. Try again."
-msgstr ""
+msgstr "Εσφαλμένο συνθηματικό. Προσπαθήστε ξανά."
 
 #: templates/authenticate.php:7
 msgid "Password"
@@ -29,28 +30,52 @@ msgstr "Συνθηματικό"
 msgid "Submit"
 msgstr "Καταχώρηση"
 
-#: templates/public.php:17
+#: templates/part.404.php:3
+msgid "Sorry, this link doesn’t seem to work anymore."
+msgstr "Συγγνώμη, αυτός ο σύνδεσμος μοιάζει να μην ισχύει πια."
+
+#: templates/part.404.php:4
+msgid "Reasons might be:"
+msgstr "Οι λόγοι μπορεί να είναι:"
+
+#: templates/part.404.php:6
+msgid "the item was removed"
+msgstr "το αντικείμενο απομακρύνθηκε"
+
+#: templates/part.404.php:7
+msgid "the link expired"
+msgstr "ο σύνδεσμος έληξε"
+
+#: templates/part.404.php:8
+msgid "sharing is disabled"
+msgstr "ο διαμοιρασμός απενεργοποιήθηκε"
+
+#: templates/part.404.php:10
+msgid "For more info, please ask the person who sent this link."
+msgstr "Για περισσότερες πληροφορίες, παρακαλώ ρωτήστε το άτομο που σας έστειλε αυτόν τον σύνδεσμο."
+
+#: templates/public.php:15
 #, php-format
 msgid "%s shared the folder %s with you"
 msgstr "%s μοιράστηκε τον φάκελο %s μαζί σας"
 
-#: templates/public.php:20
+#: templates/public.php:18
 #, php-format
 msgid "%s shared the file %s with you"
 msgstr "%s μοιράστηκε το αρχείο %s μαζί σας"
 
-#: templates/public.php:28 templates/public.php:90
+#: templates/public.php:26 templates/public.php:88
 msgid "Download"
 msgstr "Λήψη"
 
-#: templates/public.php:45 templates/public.php:48
+#: templates/public.php:43 templates/public.php:46
 msgid "Upload"
 msgstr "Μεταφόρτωση"
 
-#: templates/public.php:58
+#: templates/public.php:56
 msgid "Cancel upload"
 msgstr "Ακύρωση αποστολής"
 
-#: templates/public.php:87
+#: templates/public.php:85
 msgid "No preview available for"
 msgstr "Δεν υπάρχει διαθέσιμη προεπισκόπηση για"

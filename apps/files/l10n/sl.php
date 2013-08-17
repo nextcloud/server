@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s ni mogoče premakniti  - datoteka s tem imenom že obstaja",
 "Could not move %s" => "Ni mogoče premakniti %s",
 "Unable to set upload directory." => "Mapo, v katero boste prenašali dokumente, ni mogoče določiti",
@@ -23,7 +24,6 @@
 "Error" => "Napaka",
 "Share" => "Souporaba",
 "Delete permanently" => "Izbriši dokončno",
-"Delete" => "Izbriši",
 "Rename" => "Preimenuj",
 "Pending" => "V čakanju ...",
 "{new_name} already exists" => "{new_name} že obstaja",
@@ -32,8 +32,7 @@
 "cancel" => "prekliči",
 "replaced {new_name} with {old_name}" => "preimenovano ime {new_name} z imenom {old_name}",
 "undo" => "razveljavi",
-"perform delete operation" => "izvedi opravilo brisanja",
-"1 file uploading" => "Pošiljanje 1 datoteke",
+"_Uploading %n file_::_Uploading %n files_" => array("","","",""),
 "files uploading" => "poteka pošiljanje datotek",
 "'.' is an invalid file name." => "'.' je neveljavno ime datoteke.",
 "File name cannot be empty." => "Ime datoteke ne sme biti prazno polje.",
@@ -45,10 +44,8 @@
 "Name" => "Ime",
 "Size" => "Velikost",
 "Modified" => "Spremenjeno",
-"1 folder" => "1 mapa",
-"{count} folders" => "{count} map",
-"1 file" => "1 datoteka",
-"{count} files" => "{count} datotek",
+"_%n folder_::_%n folders_" => array("","","",""),
+"_%n file_::_%n files_" => array("","","",""),
 "%s could not be renamed" => "%s ni bilo mogoče preimenovati",
 "Upload" => "Pošlji",
 "File handling" => "Upravljanje z datotekami",
@@ -69,6 +66,7 @@
 "Nothing in here. Upload something!" => "Tukaj še ni ničesar. Najprej je treba kakšno datoteko poslati v oblak!",
 "Download" => "Prejmi",
 "Unshare" => "Prekliči souporabo",
+"Delete" => "Izbriši",
 "Upload too large" => "Prekoračenje omejitve velikosti",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Datoteke, ki jih želite poslati, presegajo največjo dovoljeno velikost na strežniku.",
 "Files are being scanned, please wait." => "Poteka preučevanje datotek, počakajte ...",
@@ -79,3 +77,4 @@
 "files" => "datoteke",
 "Upgrading filesystem cache..." => "Nadgrajevanje predpomnilnika datotečnega sistema ..."
 );
+$PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

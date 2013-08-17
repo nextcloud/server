@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-28 01:56-0400\n"
-"PO-Revision-Date: 2013-07-27 15:10+0000\n"
+"POT-Creation-Date: 2013-07-29 01:56-0400\n"
+"PO-Revision-Date: 2013-07-28 18:20+0000\n"
 "Last-Translator: Sappe\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr "Versioner"
 
 #: js/versions.js:53
 msgid "Failed to revert {file} to revision {timestamp}."
-msgstr ""
+msgstr "Kunne ikke tilbagerulle {file} til den tidligere udgave: {timestamp}."
 
 #: js/versions.js:79
 msgid "More versions..."

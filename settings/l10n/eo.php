@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Ne eblis ŝargi liston el aplikaĵovendejo",
 "Authentication error" => "Aŭtentiga eraro",
 "Group already exists" => "La grupo jam ekzistas",
@@ -75,3 +76,4 @@
 "Storage" => "Konservejo",
 "Default" => "Defaŭlta"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

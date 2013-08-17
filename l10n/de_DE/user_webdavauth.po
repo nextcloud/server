@@ -3,8 +3,10 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# a.tangemann <a.tangemann@web.de>, 2013
 # a.tangemann <a.tangemann@web.de>, 2012-2013
 # Marcel Kühlhorn <susefan93@gmx.de>, 2013
+# Mario Siegmann <mario_siegmann@web.de>, 2013
 # multimill <multimill@gmail.com>, 2012
 # traductor <transifex-2.7.mensaje@spamgourmet.com>, 2013
 # traductor <transifex-2.7.mensaje@spamgourmet.com>, 2012
@@ -12,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-27 01:56-0400\n"
-"PO-Revision-Date: 2013-07-27 05:57+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-01 01:55-0400\n"
+"PO-Revision-Date: 2013-07-31 21:30+0000\n"
+"Last-Translator: a.tangemann <a.tangemann@web.de>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,11 +30,11 @@ msgstr "WebDAV-Authentifizierung"
 
 #: templates/settings.php:4
 msgid "Address: "
-msgstr ""
+msgstr "Adresse:"
 
 #: templates/settings.php:7
 msgid ""
 "The user credentials will be sent to this address. This plugin checks the "
 "response and will interpret the HTTP statuscodes 401 and 403 as invalid "
 "credentials, and all other responses as valid credentials."
-msgstr ""
+msgstr "Die Benutzerdaten werden an diese Adresse gesendet. Dieses Plugin prüft die Antwort und wird die HTTP-Statuscodes 401 und 403 als ungültige Daten interpretieren und alle anderen Antworten als gültige Daten."

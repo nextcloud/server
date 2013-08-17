@@ -1,12 +1,12 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Error" => "Eraro",
 "Delete permanently" => "Forigi por ĉiam",
 "Name" => "Nomo",
-"1 folder" => "1 dosierujo",
-"{count} folders" => "{count} dosierujoj",
-"1 file" => "1 dosiero",
-"{count} files" => "{count} dosierujoj",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "Restore" => "Restaŭri",
 "Delete" => "Forigi",
 "Deleted Files" => "Forigitaj dosieroj"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

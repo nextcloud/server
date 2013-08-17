@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Tidak dapat memuat daftar dari App Store",
 "Authentication error" => "Galat saat autentikasi",
 "Unable to change display name" => "Tidak dapat mengubah nama tampilan",
@@ -100,3 +101,4 @@
 "set new password" => "setel sandi baru",
 "Default" => "Baku"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

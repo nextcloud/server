@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Impossible de déplacer %s - Un fichier possédant ce nom existe déjà",
 "Could not move %s" => "Impossible de déplacer %s",
 "Unable to set upload directory." => "Impossible de définir le dossier pour l'upload, charger.",
@@ -23,7 +24,6 @@
 "Error" => "Erreur",
 "Share" => "Partager",
 "Delete permanently" => "Supprimer de façon définitive",
-"Delete" => "Supprimer",
 "Rename" => "Renommer",
 "Pending" => "En attente",
 "{new_name} already exists" => "{new_name} existe déjà",
@@ -32,8 +32,7 @@
 "cancel" => "annuler",
 "replaced {new_name} with {old_name}" => "{new_name} a été remplacé par {old_name}",
 "undo" => "annuler",
-"perform delete operation" => "effectuer l'opération de suppression",
-"1 file uploading" => "1 fichier en cours d'envoi",
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
 "files uploading" => "fichiers en cours d'envoi",
 "'.' is an invalid file name." => "'.' n'est pas un nom de fichier valide.",
 "File name cannot be empty." => "Le nom de fichier ne peut être vide.",
@@ -45,10 +44,8 @@
 "Name" => "Nom",
 "Size" => "Taille",
 "Modified" => "Modifié",
-"1 folder" => "1 dossier",
-"{count} folders" => "{count} dossiers",
-"1 file" => "1 fichier",
-"{count} files" => "{count} fichiers",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "%s could not be renamed" => "%s ne peut être renommé",
 "Upload" => "Envoyer",
 "File handling" => "Gestion des fichiers",
@@ -69,6 +66,7 @@
 "Nothing in here. Upload something!" => "Il n'y a rien ici ! Envoyez donc quelque chose :)",
 "Download" => "Télécharger",
 "Unshare" => "Ne plus partager",
+"Delete" => "Supprimer",
 "Upload too large" => "Téléversement trop volumineux",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Les fichiers que vous essayez d'envoyer dépassent la taille maximale permise par ce serveur.",
 "Files are being scanned, please wait." => "Les fichiers sont en cours d'analyse, veuillez patienter.",
@@ -79,3 +77,4 @@
 "files" => "fichiers",
 "Upgrading filesystem cache..." => "Mise à niveau du cache du système de fichier"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

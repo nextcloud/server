@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "ไม่สามารถโหลดรายการจาก App Store ได้",
 "Authentication error" => "เกิดข้อผิดพลาดในสิทธิ์การเข้าใช้งาน",
 "Group already exists" => "มีกลุ่มดังกล่าวอยู่ในระบบอยู่แล้ว",
@@ -85,3 +86,4 @@
 "set new password" => "ตั้งค่ารหัสผ่านใหม่",
 "Default" => "ค่าเริ่มต้น"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -46,6 +46,10 @@ class OC_Config {
 	 */
 	public static $object;
 
+	public static function getObject() {
+		return self::$object;
+	}
+
 	/**
 	 * @brief Lists all available config keys
 	 * @return array with key names

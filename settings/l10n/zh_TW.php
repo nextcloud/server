@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "無法從 App Store 讀取清單",
 "Authentication error" => "認證錯誤",
 "Your display name has been changed." => "已更改顯示名稱",
@@ -37,25 +38,35 @@
 "A valid password must be provided" => "一定要提供一個有效的密碼",
 "__language_name__" => "__language_name__",
 "Security Warning" => "安全性警告",
+"Your data directory and your files are probably accessible from the internet. The .htaccess file is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "您的資料目錄 (Data Directory) 和檔案可能可以由網際網路上面公開存取。Owncloud 所提供的 .htaccess 設定檔並未生效，我們強烈建議您設定您的網頁伺服器以防止資料目錄被公開存取，或將您的資料目錄移出網頁伺服器的 document root 。",
 "Setup Warning" => "設定警告",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "您的網頁伺服器尚未被正確設定來進行檔案同步，因為您的 WebDAV 界面似乎無法使用。",
+"Please double check the <a href=\"%s\">installation guides</a>." => "請參考<a href='%s'>安裝指南</a>。",
 "Module 'fileinfo' missing" => "遺失 'fileinfo' 模組",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "未偵測到 PHP 模組 'fileinfo'。我們強烈建議啟用這個模組以取得最好的 mime-type 支援。",
 "Locale not working" => "語系無法運作",
+"System locale can't be set to %s. This means that there might be problems with certain characters in file names. We strongly suggest to install the required packages on your system to support %s." => "ownCloud 伺服器無法將系統語系設為 %s ，可能有一些檔名中的字元有問題，建議您安裝所有所需的套件以支援 %s 。",
 "Internet connection not working" => "無網際網路存取",
+"This server has no working internet connection. This means that some of the features like mounting of external storage, notifications about updates or installation of 3rd party apps don´t work. Accessing files from remote and sending of notification emails might also not work. We suggest to enable internet connection for this server if you want to have all features." => "這臺 ownCloud 伺服器沒有連接到網際網路，因此有些功能像是掛載外部儲存空間、更新 ownCloud 或應用程式的通知沒有辦法運作。透過網際網路存取檔案還有電子郵件通知可能也無法運作。如果想要 ownCloud 完整的功能，建議您將這臺伺服器連接至網際網路。",
 "Cron" => "Cron",
 "Execute one task with each page loaded" => "當頁面載入時，執行",
+"cron.php is registered at a webcron service to call cron.php once a minute over http." => "cron.php 已經註冊 webcron 服務，webcron 每分鐘會呼叫 cron.php 一次。",
+"Use systems cron service to call the cron.php file once a minute." => "使用系統的 cron 服務來呼叫 cron.php 每分鐘一次。",
 "Sharing" => "分享",
 "Enable Share API" => "啟用分享 API",
 "Allow apps to use the Share API" => "允許 apps 使用分享 API",
 "Allow links" => "允許連結",
 "Allow users to share items to the public with links" => "允許使用者以結連公開分享檔案",
+"Allow public uploads" => "允許任何人上傳",
+"Allow users to enable others to upload into their publicly shared folders" => "允許使用者將他們公開分享的資料夾設定為「任何人皆可上傳」",
 "Allow resharing" => "允許轉貼分享",
 "Allow users to share items shared with them again" => "允許使用者分享其他使用者分享給他的檔案",
 "Allow users to share with anyone" => "允許使用者與任何人分享檔案",
 "Allow users to only share with users in their groups" => "僅允許使用者在群組內分享",
 "Security" => "安全性",
 "Enforce HTTPS" => "強制啟用 HTTPS",
+"Forces the clients to connect to %s via an encrypted connection." => "強迫用戶端使用加密連線連接到 %s",
+"Please connect to your %s via HTTPS to enable or disable the SSL enforcement." => "請使用 HTTPS 連線到 %s 以啓用或停用強制 SSL 加密。",
 "Log" => "紀錄",
 "Log level" => "紀錄層級",
 "More" => "更多",
@@ -104,3 +115,4 @@
 "set new password" => "設定新密碼",
 "Default" => "預設"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

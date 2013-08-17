@@ -8,14 +8,15 @@
 # I Robot <owncloud-bot@tmit.eu>, 2013
 # Marcel Kühlhorn <susefan93@gmx.de>, 2013
 # traductor <transifex-2.7.mensaje@spamgourmet.com>, 2013
+# noxin <transifex.com@davidmainzer.com>, 2013
 # Mirodin <blobbyjj@ymail.com>, 2013
 # kabum <uu.kabum@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:04+0000\n"
+"POT-Creation-Date: 2013-08-16 01:29-0400\n"
+"PO-Revision-Date: 2013-08-16 05:29+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -127,11 +128,7 @@ msgstr "Teilen"
 msgid "Delete permanently"
 msgstr "Endgültig löschen"
 
-#: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
-msgid "Delete"
-msgstr "Löschen"
-
-#: js/fileactions.js:194
+#: js/fileactions.js:192
 msgid "Rename"
 msgstr "Umbenennen"
 
@@ -163,15 +160,13 @@ msgstr "{old_name} wurde ersetzt durch {new_name}"
 msgid "undo"
 msgstr "rückgängig machen"
 
-#: js/filelist.js:375
-msgid "perform delete operation"
-msgstr "Löschvorgang ausführen"
+#: js/filelist.js:453
+msgid "Uploading %n file"
+msgid_plural "Uploading %n files"
+msgstr[0] "%n Datei wird hoch geladen"
+msgstr[1] "%n Dateien werden hoch geladen"
 
-#: js/filelist.js:457
-msgid "1 file uploading"
-msgstr "1 Datei wird hochgeladen"
-
-#: js/filelist.js:460 js/filelist.js:518
+#: js/filelist.js:518
 msgid "files uploading"
 msgstr "Dateien werden hoch geladen"
 
@@ -207,33 +202,29 @@ msgstr "Ihr Download wird vorbereitet. Dies kann bei größeren Dateien etwas da
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Ungültiger Verzeichnisname. Die Nutzung von \"Shared\" ist ownCloud vorbehalten"
 
-#: js/files.js:744 templates/index.php:69
+#: js/files.js:744 templates/index.php:67
 msgid "Name"
 msgstr "Name"
 
-#: js/files.js:745 templates/index.php:80
+#: js/files.js:745 templates/index.php:78
 msgid "Size"
 msgstr "Größe"
 
-#: js/files.js:746 templates/index.php:82
+#: js/files.js:746 templates/index.php:80
 msgid "Modified"
 msgstr "Geändert"
 
-#: js/files.js:763
-msgid "1 folder"
-msgstr "1 Ordner"
+#: js/files.js:762
+msgid "%n folder"
+msgid_plural "%n folders"
+msgstr[0] "%n Ordner"
+msgstr[1] "%n Ordner"
 
-#: js/files.js:765
-msgid "{count} folders"
-msgstr "{count} Ordner"
-
-#: js/files.js:773
-msgid "1 file"
-msgstr "1 Datei"
-
-#: js/files.js:775
-msgid "{count} files"
-msgstr "{count} Dateien"
+#: js/files.js:768
+msgid "%n file"
+msgid_plural "%n files"
+msgstr[0] "%n Datei"
+msgstr[1] "%n Dateien"
 
 #: lib/app.php:73
 #, php-format
@@ -292,45 +283,49 @@ msgstr "Ordner"
 msgid "From link"
 msgstr "Von einem Link"
 
-#: templates/index.php:42
+#: templates/index.php:41
 msgid "Deleted files"
 msgstr "Gelöschte Dateien"
 
-#: templates/index.php:48
+#: templates/index.php:46
 msgid "Cancel upload"
 msgstr "Upload abbrechen"
 
-#: templates/index.php:54
+#: templates/index.php:52
 msgid "You don’t have write permissions here."
 msgstr "Sie haben hier keine Schreib-Berechtigungen."
 
-#: templates/index.php:61
+#: templates/index.php:59
 msgid "Nothing in here. Upload something!"
 msgstr "Alles leer. Laden Sie etwas hoch!"
 
-#: templates/index.php:75
+#: templates/index.php:73
 msgid "Download"
 msgstr "Herunterladen"
 
-#: templates/index.php:87 templates/index.php:88
+#: templates/index.php:85 templates/index.php:86
 msgid "Unshare"
 msgstr "Freigabe aufheben"
 
-#: templates/index.php:107
+#: templates/index.php:91 templates/index.php:92
+msgid "Delete"
+msgstr "Löschen"
+
+#: templates/index.php:105
 msgid "Upload too large"
 msgstr "Der Upload ist zu groß"
 
-#: templates/index.php:109
+#: templates/index.php:107
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Server."
 
-#: templates/index.php:114
+#: templates/index.php:112
 msgid "Files are being scanned, please wait."
 msgstr "Dateien werden gescannt, bitte warten."
 
-#: templates/index.php:117
+#: templates/index.php:115
 msgid "Current scanning"
 msgstr "Scanne"
 

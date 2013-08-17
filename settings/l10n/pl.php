@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Nie można wczytać listy aplikacji",
 "Authentication error" => "Błąd uwierzytelniania",
 "Your display name has been changed." => "Twoje wyświetlana nazwa została zmieniona.",
@@ -39,6 +40,7 @@
 "Security Warning" => "Ostrzeżenie o zabezpieczeniach",
 "Setup Warning" => "Ostrzeżenia konfiguracji",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Serwer internetowy nie jest jeszcze poprawnie skonfigurowany, aby umożliwić synchronizację plików, ponieważ interfejs WebDAV wydaje się być uszkodzony.",
+"Please double check the <a href=\"%s\">installation guides</a>." => "Proszę sprawdź ponownie <a href=\"%s\">przewodnik instalacji</a>.",
 "Module 'fileinfo' missing" => "Brak modułu „fileinfo”",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "Brak modułu PHP „fileinfo”. Zalecamy włączenie tego modułu, aby uzyskać najlepsze wyniki podczas wykrywania typów MIME.",
 "Locale not working" => "Lokalizacja nie działa",
@@ -50,12 +52,14 @@
 "Allow apps to use the Share API" => "Zezwalaj aplikacjom na korzystanie z API udostępniania",
 "Allow links" => "Zezwalaj na odnośniki",
 "Allow users to share items to the public with links" => "Zezwalaj użytkownikom na publiczne współdzielenie zasobów za pomocą odnośników",
+"Allow public uploads" => "Pozwól na  publiczne wczytywanie",
 "Allow resharing" => "Zezwalaj na ponowne udostępnianie",
 "Allow users to share items shared with them again" => "Zezwalaj użytkownikom na ponowne współdzielenie zasobów już z nimi współdzielonych",
 "Allow users to share with anyone" => "Zezwalaj użytkownikom na współdzielenie z kimkolwiek",
 "Allow users to only share with users in their groups" => "Zezwalaj użytkownikom współdzielić z użytkownikami ze swoich grup",
 "Security" => "Bezpieczeństwo",
 "Enforce HTTPS" => "Wymuś HTTPS",
+"Forces the clients to connect to %s via an encrypted connection." => "Wymusza na klientach na łączenie się %s za pośrednictwem połączenia szyfrowanego.",
 "Log" => "Logi",
 "Log level" => "Poziom logów",
 "More" => "Więcej",
@@ -103,3 +107,4 @@
 "set new password" => "ustaw nowe hasło",
 "Default" => "Domyślny"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

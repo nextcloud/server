@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "无法移动 %s - 存在同名文件",
 "Could not move %s" => "无法移动 %s",
 "Unable to set upload directory." => "无法设置上传文件夹",
@@ -23,7 +24,6 @@
 "Error" => "出错",
 "Share" => "分享",
 "Delete permanently" => "永久删除",
-"Delete" => "删除",
 "Rename" => "重命名",
 "Pending" => "等待中",
 "{new_name} already exists" => "{new_name} 已存在",
@@ -32,8 +32,7 @@
 "cancel" => "取消",
 "replaced {new_name} with {old_name}" => "已用 {old_name} 替换 {new_name}",
 "undo" => "撤销",
-"perform delete operation" => "执行删除",
-"1 file uploading" => "1 个文件正在上传",
+"_Uploading %n file_::_Uploading %n files_" => array("正在上传 %n 个文件"),
 "files uploading" => "个文件正在上传",
 "'.' is an invalid file name." => "'.' 文件名不正确",
 "File name cannot be empty." => "文件名不能为空",
@@ -45,10 +44,8 @@
 "Name" => "名称",
 "Size" => "大小",
 "Modified" => "修改日期",
-"1 folder" => "1 个文件夹",
-"{count} folders" => "{count} 个文件夹",
-"1 file" => "1 个文件",
-"{count} files" => "{count} 个文件",
+"_%n folder_::_%n folders_" => array("%n 个文件夹"),
+"_%n file_::_%n files_" => array("%n 个文件"),
 "%s could not be renamed" => "不能重命名 %s",
 "Upload" => "上传",
 "File handling" => "文件处理中",
@@ -69,6 +66,7 @@
 "Nothing in here. Upload something!" => "这里没有东西.上传点什么!",
 "Download" => "下载",
 "Unshare" => "取消分享",
+"Delete" => "删除",
 "Upload too large" => "上传过大",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "你正在试图上传的文件超过了此服务器支持的最大的文件大小.",
 "Files are being scanned, please wait." => "正在扫描文件,请稍候.",
@@ -79,3 +77,4 @@
 "files" => "文件",
 "Upgrading filesystem cache..." => "升级系统缓存..."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

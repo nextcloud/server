@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# pstast <petr@stastny.eu>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-07 08:59-0400\n"
+"PO-Revision-Date: 2013-08-07 12:22+0000\n"
+"Last-Translator: pstast <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: templates/authenticate.php:4
 msgid "The password is wrong. Try again."
-msgstr ""
+msgstr "Heslo není správné. Zkuste to znovu."
 
 #: templates/authenticate.php:7
 msgid "Password"
@@ -29,28 +30,52 @@ msgstr "Heslo"
 msgid "Submit"
 msgstr "Odeslat"
 
-#: templates/public.php:17
+#: templates/part.404.php:3
+msgid "Sorry, this link doesn’t seem to work anymore."
+msgstr "Je nám líto, ale tento odkaz již není funkční."
+
+#: templates/part.404.php:4
+msgid "Reasons might be:"
+msgstr "Možné důvody:"
+
+#: templates/part.404.php:6
+msgid "the item was removed"
+msgstr "položka byla odebrána"
+
+#: templates/part.404.php:7
+msgid "the link expired"
+msgstr "platnost odkazu vypršela"
+
+#: templates/part.404.php:8
+msgid "sharing is disabled"
+msgstr "sdílení je zakázané"
+
+#: templates/part.404.php:10
+msgid "For more info, please ask the person who sent this link."
+msgstr "Pro více informací kontaktujte osobu, která vám zaslala tento odkaz."
+
+#: templates/public.php:15
 #, php-format
 msgid "%s shared the folder %s with you"
 msgstr "%s s Vámi sdílí složku %s"
 
-#: templates/public.php:20
+#: templates/public.php:18
 #, php-format
 msgid "%s shared the file %s with you"
 msgstr "%s s Vámi sdílí soubor %s"
 
-#: templates/public.php:28 templates/public.php:90
+#: templates/public.php:26 templates/public.php:88
 msgid "Download"
 msgstr "Stáhnout"
 
-#: templates/public.php:45 templates/public.php:48
+#: templates/public.php:43 templates/public.php:46
 msgid "Upload"
 msgstr "Odeslat"
 
-#: templates/public.php:58
+#: templates/public.php:56
 msgid "Cancel upload"
 msgstr "Zrušit odesílání"
 
-#: templates/public.php:87
+#: templates/public.php:85
 msgid "No preview available for"
 msgstr "Náhled není dostupný pro"
