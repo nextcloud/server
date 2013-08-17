@@ -109,11 +109,7 @@ class Storage {
 			}
 
 			// create all parent folders
-			$info=pathinfo($filename);
-			$versionsFolderName=$versions_view->getLocalFolder('');
-			if(!file_exists($versionsFolderName.'/'.$info['dirname'])) {
-				mkdir($versionsFolderName.'/'.$info['dirname'], 0750, true);
-			}
+			self::createMissingDirectories($filename, $users_view);
 
 			$versionsSize = self::getVersionsSize($uid);
 			if (  $versionsSize === false || $versionsSize < 0 ) {
@@ -182,13 +178,12 @@ class Storage {
 
 		self::expire($newpath);
 
-		$abs_newpath = $versions_view->getLocalFile($newpath);
-
 		if ( $files_view->is_dir($oldpath) && $versions_view->is_dir($oldpath) ) {
 			$versions_view->rename($oldpath, $newpath);
 		} else  if ( ($versions = Storage::getVersions($uid, $oldpath)) ) {
-			$info=pathinfo($abs_newpath);
-			if(!file_exists($info['dirname'])) mkdir($info['dirname'], 0750, true);
+			// create missing dirs if necessary
+			self::createMissingDirectories($newpath, new \OC\Files\View('/'. $uidn));
+
 			foreach ($versions as $v) {
 				$versions_view->rename($oldpath.'.v'.$v['version'], $newpath.'.v'.$v['version']);
 			}
@@ -565,6 +560,23 @@ class Storage {
 			}
 		}
 		return $size;
+	}
+
+	/**
+	 * @brief create recursively missing directories
+	 * @param string $filename $path to a file
+	 * @param \OC\Files\View $view view on data/user/
+	 */
+	private static function createMissingDirectories($filename, $view) {
+		$dirname = \OC_Filesystem::normalizePath(dirname($filename));
+		$dirParts = explode('/', $dirname);
+		$dir = "/files_versions";
+		foreach ($dirParts as $part) {
+			$dir = $dir . '/' . $part;
+			if (!$view->file_exists($dir)) {
+				$view->mkdir($dir);
+			}
+		}
 	}
 
 }
