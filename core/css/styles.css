@@ -124,6 +124,7 @@ a.disabled, a.disabled:hover, a.disabled:focus {
 #body-login input { font-size:1.5em; }
 #body-login input[type="text"], #body-login input[type="password"] { width:13em; }
 #body-login input.login { width:auto; float:right; padding:7px 9px 6px; }
+#body-login .warning {color: #dd3b3b; text-align:center; font-weight: bold; }
 #remember_login { margin:.8em .2em 0 1em; vertical-align:text-bottom; }
 .searchbox input[type="search"] { font-size:1.2em; padding:.2em .5em .2em 1.5em; background:#fff url('../img/actions/search.svg') no-repeat .5em center; border:0; -moz-border-radius:1em; -webkit-border-radius:1em; border-radius:1em; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70);opacity:.7; -webkit-transition:opacity 300ms; -moz-transition:opacity 300ms; -o-transition:opacity 300ms; transition:opacity 300ms; margin-top:10px; float:right; }
 input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; }
