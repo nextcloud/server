@@ -117,38 +117,30 @@ if (!$_['internetconnectionworking']) {
 </fieldset>
 
 <fieldset class="personalblock" id="avatar">
-	<legend><strong><?php p($l->t('Avatars')); ?></strong></legend>
-	<table class="nostyle">
-		<tr>
-			<td>
-				<input type="radio" name="avatarmode" value="gravatar" id="avatar_gravatar"
-					<?php if ($_['avatar'] === "gravatar") { p('checked'); } ?>
-					<?php if (!$_['internetconnectionworking']) { p('disabled'); } ?>>
-				<label for="avatar_gravatar">Gravatar</label><br>
-				<em><?php print_unescaped($l->t('Use <a href="http://gravatar.com/">gravatar</a> for avatars')); ?></em><br>
-				<em><?php p($l->t('This sends data to gravatar')); ?></em>
-				<?php if (!$_['internetconnectionworking']): ?>
-				<br><em><?php p($l->t('Gravatar needs an internet connection!')); ?></em>
-				<?php endif; ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<input type="radio" name="avatarmode" value="local" id="avatar_local"
-					<?php if ($_['avatar'] === "local") { p('checked'); } ?>>
-				<label for="avatar_local"><?php p($l->t('Local avatars')); ?></label><br>
-				<em><?php p($l->t('Use local avatars, which each user has to upload themselves')); ?></em>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<input type="radio" name="avatarmode" value="none" id="avatar_none"
-					<?php if ($_['avatar'] === "none") { p('checked'); } ?>>
-				<label for="avatar_none"><?php p($l->t('No avatars')); ?></label><br>
-				<em><?php p($l->t('Do not provide avatars')); ?></em>
-			</td>
-		</tr>
-	</table>
+	<legend><strong><?php p($l->t('Profile images')); ?></strong></legend>
+	<p>
+		<input type="radio" name="avatarmode" value="gravatar" id="avatar_gravatar"
+			<?php if ($_['avatar'] === "gravatar") { p('checked'); } ?>
+			<?php if (!$_['internetconnectionworking']) { p('disabled'); } ?>>
+		<label for="avatar_gravatar">Gravatar</label><br>
+		<em><?php print_unescaped($l->t('Use <a href="http://gravatar.com/">gravatar</a> for profile images')); ?></em><br>
+		<em><?php p($l->t('This sends data to gravatar and may slow down loading')); ?></em>
+		<?php if (!$_['internetconnectionworking']): ?>
+		<br><em><?php p($l->t('Gravatar needs an internet connection!')); ?></em>
+		<?php endif; ?>
+	</p>
+	<p>
+		<input type="radio" name="avatarmode" value="local" id="avatar_local"
+			<?php if ($_['avatar'] === "local") { p('checked'); } ?>>
+		<label for="avatar_local"><?php p($l->t('Local avatars')); ?></label><br>
+		<em><?php p($l->t('Use local avatars, which each user has to upload themselves')); ?></em>
+	</p>
+	<p>
+		<input type="radio" name="avatarmode" value="none" id="avatar_none"
+			<?php if ($_['avatar'] === "none") { p('checked'); } ?>>
+		<label for="avatar_none"><?php p($l->t('No avatars')); ?></label><br>
+		<em><?php p($l->t('Do not provide avatars')); ?></em>
+	</p>
 </fieldset>
 
 <fieldset class="personalblock" id="shareAPI">

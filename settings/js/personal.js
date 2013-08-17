@@ -55,7 +55,7 @@ function selectAvatar (path) {
 }
 
 function updateAvatar () {
-	$('#avatar img').attr('src', OC.filePath('', '', 'avatar.php?user='+OC.currentUser+'&size=128'));
+	$('#avatar img').attr('src', $('#avatar img').attr('src') + '#');
 }
 
 $(document).ready(function(){

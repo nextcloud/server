@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * * @todo work on hashing userstrings, so one can't guess usernames
+ */
+
 require_once 'lib/base.php';
 
 $mode = \OC_Avatar::getMode();

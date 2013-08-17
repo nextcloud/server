@@ -82,7 +82,7 @@ $_['subadmingroups'] = array_flip($items);
 	<thead>
 		<tr>
 			<?php if(\OC_Avatar::getMode() !== "none"): ?>
-				<th id='headerAvatar'><?php p($l->t('Avatar')); ?></th>
+				<th id='headerAvatar'></th>
 			<?php endif; ?>
 			<th id='headerName'><?php p($l->t('Username'))?></th>
 			<th id="headerDisplayName"><?php p($l->t( 'Display Name' )); ?></th>

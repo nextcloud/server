@@ -86,16 +86,19 @@ class OC_Avatar {
 	 * @param $user string which user to get the gravatar for
 	 * @param size integer size in px of the avatar, defaults to 64
 	 * @return string link to the gravatar, or \OC_Image with the default avatar
+	 * @todo work on hashing userstrings, so one can't guess usernames
 	*/
 	public static function getGravatar ($user, $size = 64) {
 		$email = \OC_Preferences::getValue($user, 'settings', 'email');
 		if ($email !== null) {
 			$emailhash = md5(strtolower(trim($email)));
-			$url = "http://www.gravatar.com/avatar/".$emailhash."?s=".$size;
-			return $url;
-		} else {
-			return self::getDefaultAvatar($size);
+			$url = "http://secure.gravatar.com/avatar/".$emailhash."?d=404&s=".$size;
+			$headers = get_headers($url, 1);
+			if (strpos($headers[0], "404 Not Found") === false) {
+				return $url;
+			}
 		}
+		return self::getDefaultAvatar($size);
 	}
 
 	/**
@@ -121,7 +124,7 @@ class OC_Avatar {
 	}
 
 	/**
-	 *
+	 * @todo todo
 	*/
 	public static function getCustomAvatar($user, $size) {
 		// TODO
@@ -129,8 +132,10 @@ class OC_Avatar {
 
 	/**
 	 * @brief gets the default avatar
+	 * @todo when custom default images arive @param $user string which user to get the avatar for
 	 * @param $size integer size of the avatar in px, defaults to 64
 	 * @return \OC_Image containing the default avatar
+	 * @todo use custom default images, when they arive
 	*/
 	public static function getDefaultAvatar ($size = 64) {
 		$default = new OC_Image(OC::$SERVERROOT."/core/img/defaultavatar.png");
