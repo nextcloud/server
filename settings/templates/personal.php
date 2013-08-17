@@ -96,6 +96,7 @@ if($_['passwordChangeSupported']) {
 			<div class="inlineblock button" id="removeavatar"><?php p($l->t('Remove my image')); ?></div>
 		<?php elseif ($_['avatar'] === "gravatar"): ?>
 			<em><?php p($l->t('Your profile image is provided by gravatar, which is based on your Email.')); ?></em>
+			<div class?"inlineblock button" id="overridegravatar"><?php p($l->t('Use my local avatar instead')); ?></div>
 		<?php else: ?>
 			<em><?php p($l->t('Your profile image is provided by a custom service, ask your administrator, on how to change your image.')); ?></em>
 		<?php endif; ?>

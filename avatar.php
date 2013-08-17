@@ -6,6 +6,11 @@
 
 require_once 'lib/base.php';
 
+if (!\OC_User::isLoggedIn()) {
+	header("HTTP/1.0 403 Forbidden");
+	\OC_Template::printErrorPage("Permission denied");
+}
+
 $mode = \OC_Avatar::getMode();
 if ($mode === "none") {
 	exit();
