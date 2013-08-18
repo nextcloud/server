@@ -93,3 +93,7 @@ table.shareAPI td { padding-bottom: 0.8em; }
 /* HELP */
 .pressed {background-color:#DDD;}
 
+/* fix hidden groups in firefox */
+ul.multiselectoptions > li {
+	overflow: visible !important;
+}
