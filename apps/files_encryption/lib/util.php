@@ -42,7 +42,7 @@
 // Old Todo:
 //  - Crypt/decrypt button in the userinterface
 //  - Setting if crypto should be on by default
-//  - Add a setting "Don´t encrypt files larger than xx because of performance 
+//  - Add a setting "Don´t encrypt files larger than xx because of performance
 //    reasons"
 
 namespace OCA\Encryption;
@@ -68,7 +68,7 @@ class Util {
 
 	//// DONE: new data filled files added via webdav get encrypted
 	//// DONE: new data filled files added via webdav are readable via webdav
-	//// DONE: reading unencrypted files when encryption is enabled works via 
+	//// DONE: reading unencrypted files when encryption is enabled works via
 	////       webdav
 	//// DONE: files created & encrypted via web ui are readable via webdav
 
@@ -368,16 +368,16 @@ class Util {
 			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($query), \OCP\Util::ERROR);
 			return false;
 		}
-		
+
 		$result = $query->execute($args);
 
 		if (\OCP\DB::isError($result)) {
 			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 			return false;
 		}
-		
+
 		return is_numeric($result);
-		
+
 	}
 
 	/**
@@ -417,7 +417,7 @@ class Util {
 					$filePath = $directory . '/' . $this->view->getRelativePath('/' . $file);
 					$relPath = \OCA\Encryption\Helper::stripUserFilesPath($filePath);
 
-					// If the path is a directory, search 
+					// If the path is a directory, search
 					// its contents
 					if ($this->view->is_dir($filePath)) {
 
@@ -433,8 +433,8 @@ class Util {
 
 						$isEncryptedPath = $this->isEncryptedPath($filePath);
 						// If the file is encrypted
-						// NOTE: If the userId is 
-						// empty or not set, file will 
+						// NOTE: If the userId is
+						// empty or not set, file will
 						// detected as plain
 						// NOTE: This is inefficient;
 						// scanning every file like this
@@ -697,6 +697,9 @@ class Util {
 				//relative to data/<user>/file
 				$relPath = $plainFile['path'];
 
+				//get file info
+				$fileInfo = \OC\Files\Filesystem::getFileInfo($plainFile['path']);
+
 				//relative to /data
 				$rawPath = '/' . $this->userId . '/files/' . $plainFile['path'];
 
@@ -720,10 +723,11 @@ class Util {
 
 				// Add the file to the cache
 				\OC\Files\Filesystem::putFileInfo($relPath, array(
-																 'encrypted' => true,
-																 'size' => $size,
-																 'unencrypted_size' => $size
-															));
+					'encrypted' => true,
+					'size' => $size,
+					'unencrypted_size' => $size,
+					'etag' => $fileInfo['etag']
+				));
 			}
 
 			// Encrypt legacy encrypted files
@@ -916,7 +920,7 @@ class Util {
 			&& !Keymanager::getShareKey($this->view, $this->userId, $filePath) // NOTE: we can't use isShared() here because it's a post share hook so it always returns true
 		) {
 
-			// The file has no shareKey, and its keyfile must be 
+			// The file has no shareKey, and its keyfile must be
 			// decrypted conventionally
 			$plainKeyfile = Crypt::keyDecrypt($encKeyfile, $privateKey);
 
@@ -1026,7 +1030,7 @@ class Util {
 
 		}
 
-		// If recovery is enabled, add the 
+		// If recovery is enabled, add the
 		// Admin UID to list of users to share to
 		if ($recoveryEnabled) {
 			// Find recoveryAdmin user ID
