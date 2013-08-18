@@ -340,7 +340,7 @@ class Util {
 					$filePath = $directory . '/' . $this->view->getRelativePath('/' . $file);
 					$relPath = \OCA\Encryption\Helper::stripUserFilesPath($filePath);
 
-					// If the path is a directory, search 
+					// If the path is a directory, search
 					// its contents
 					if ($this->view->is_dir($filePath)) {
 
@@ -356,8 +356,8 @@ class Util {
 
 						$isEncryptedPath = $this->isEncryptedPath($filePath);
 						// If the file is encrypted
-						// NOTE: If the userId is 
-						// empty or not set, file will 
+						// NOTE: If the userId is
+						// empty or not set, file will
 						// detected as plain
 						// NOTE: This is inefficient;
 						// scanning every file like this
@@ -687,7 +687,7 @@ class Util {
 
 		return $successful;
 	}
-	
+
 	/**
 	 * @brief Decrypt all files
 	 * @return bool
@@ -702,21 +702,24 @@ class Util {
 
 			$versionStatus = \OCP\App::isEnabled('files_versions');
 			\OC_App::disable('files_versions');
-			
+
 			$decryptedFiles = array();
 
 			// Encrypt unencrypted files
 			foreach ($found['encrypted'] as $encryptedFile) {
+
+				//get file info
+				$fileInfo = \OC\Files\Filesystem::getFileInfo($encryptedFile['path']);
 
 				//relative to data/<user>/file
 				$relPath = Helper::stripUserFilesPath($encryptedFile['path']);
 
 				//relative to /data
 				$rawPath = $encryptedFile['path'];
-				
+
 				//get timestamp
 				$timestamp = $this->view->filemtime($rawPath);
-				
+
 				//enable proxy to use OC\Files\View to access the original file
 				\OC_FileProxy::$enabled = true;
 
@@ -760,14 +763,15 @@ class Util {
 
 				//set timestamp
 				$this->view->touch($rawPath, $timestamp);
-				
+
 				// Add the file to the cache
 				\OC\Files\Filesystem::putFileInfo($relPath, array(
 					'encrypted' => false,
 					'size' => $size,
-					'unencrypted_size' => $size
+					'unencrypted_size' => $size,
+					'etag' => $fileInfo['etag']
 				));
-				
+
 				$decryptedFiles[] = $relPath;
 
 			}
@@ -775,11 +779,11 @@ class Util {
 			if ($versionStatus) {
 				\OC_App::enable('files_versions');
 			}
-			
+
 			if (!$this->decryptVersions($decryptedFiles)) {
 				$successful = false;
 			}
-			
+
 			if ($successful) {
 				$this->view->deleteAll($this->keyfilesPath);
 				$this->view->deleteAll($this->shareKeysPath);
@@ -807,24 +811,27 @@ class Util {
 
 			// Disable proxy to prevent file being encrypted twice
 			\OC_FileProxy::$enabled = false;
-			
+
 			$versionStatus = \OCP\App::isEnabled('files_versions');
 			\OC_App::disable('files_versions');
-			
+
 			$encryptedFiles = array();
 
 			// Encrypt unencrypted files
 			foreach ($found['plain'] as $plainFile) {
 
+				//get file info
+				$fileInfo = \OC\Files\Filesystem::getFileInfo($plainFile['path']);
+
 				//relative to data/<user>/file
 				$relPath = $plainFile['path'];
-				
+
 				//relative to /data
 				$rawPath = '/' . $this->userId . '/files/' . $plainFile['path'];
 
 				// keep timestamp
 				$timestamp = $this->view->filemtime($rawPath);
-				
+
 				// Open plain file handle for binary reading
 				$plainHandle = $this->view->fopen($rawPath, 'rb');
 
@@ -843,7 +850,7 @@ class Util {
 				$this->view->rename($relPath . '.part', $relPath);
 
 				$this->view->chroot($fakeRoot);
-				
+
 				// set timestamp
 				$this->view->touch($rawPath, $timestamp);
 
@@ -851,9 +858,10 @@ class Util {
 				\OC\Files\Filesystem::putFileInfo($relPath, array(
 					'encrypted' => true,
 					'size' => $size,
-					'unencrypted_size' => $size
+					'unencrypted_size' => $size,
+					'etag' => $fileInfo['etag']
 				));
-				
+
 				$encryptedFiles[] = $relPath;
 
 			}
@@ -899,9 +907,9 @@ class Util {
 			if ($versionStatus) {
 				\OC_App::enable('files_versions');
 			}
-			
+
 			$this->encryptVersions($encryptedFiles);
-			
+
 			// If files were found, return true
 			return true;
 		} else {
@@ -1140,7 +1148,7 @@ class Util {
 
 		}
 
-		// If recovery is enabled, add the 
+		// If recovery is enabled, add the
 		// Admin UID to list of users to share to
 		if ($recoveryEnabled) {
 			// Find recoveryAdmin user ID
@@ -1727,8 +1735,8 @@ class Util {
 		$session = new \OCA\Encryption\Session($this->view);
 
 		$session->setPrivateKey($privateKey);
-		
+
 		return $session;
 	}
-	
+
 }
