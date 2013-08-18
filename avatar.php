@@ -1,9 +1,5 @@
 <?php
 
-/**
- * * @todo work on hashing userstrings, so one can't guess usernames
- */
-
 require_once 'lib/base.php';
 
 if (!\OC_User::isLoggedIn()) {
@@ -40,6 +36,6 @@ if ($image instanceof \OC_Image) {
 } elseif (is_string($image)) { // Gravatar alike services
 	header("Location: ".$image);
 } else {
-	$image = \OC_Avatar::getDefaultAvatar($size);
+	$image = \OC_Avatar::getDefaultAvatar($user, $size);
 	$image->show();
 }

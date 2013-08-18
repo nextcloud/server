@@ -8,7 +8,7 @@
 
 /**
  * This class gets and sets users avatars.
- * Avalaible backends are local (saved in users root at avatar.[png|jpg]) and gravatar.
+ * Available backends are local (saved in users root at avatar.[png|jpg]), gravatar TODO and custom backends.
  * However the get function is easy to extend with further backends.
 */
 
@@ -84,9 +84,8 @@ class OC_Avatar {
 	/**
 	 * @brief get the users gravatar
 	 * @param $user string which user to get the gravatar for
-	 * @param size integer size in px of the avatar, defaults to 64
+	 * @param $size integer size in px of the avatar, defaults to 64
 	 * @return string link to the gravatar, or \OC_Image with the default avatar
-	 * @todo work on hashing userstrings, so one can't guess usernames
 	*/
 	public static function getGravatar ($user, $size = 64) {
 		$email = \OC_Preferences::getValue($user, 'settings', 'email');
@@ -98,7 +97,7 @@ class OC_Avatar {
 				return $url;
 			}
 		}
-		return self::getDefaultAvatar($size);
+		return self::getDefaultAvatar($user, $size);
 	}
 
 	/**
@@ -115,7 +114,7 @@ class OC_Avatar {
 		} elseif ($view->file_exists('avatar.png')) {
 			$ext = 'png';
 		} else {
-			return self::getDefaultAvatar($size);
+			return self::getDefaultAvatar($user, $size);
 		}
 
 		$avatar = new OC_Image($view->file_get_contents('avatar.'.$ext));
@@ -132,12 +131,12 @@ class OC_Avatar {
 
 	/**
 	 * @brief gets the default avatar
-	 * @todo when custom default images arive @param $user string which user to get the avatar for
+	 * @brief $user string which user to get the avatar for
 	 * @param $size integer size of the avatar in px, defaults to 64
 	 * @return \OC_Image containing the default avatar
 	 * @todo use custom default images, when they arive
 	*/
-	public static function getDefaultAvatar ($size = 64) {
+	public static function getDefaultAvatar ($user, $size = 64) {
 		$default = new OC_Image(OC::$SERVERROOT."/core/img/defaultavatar.png");
 		$default->resize($size);
 		return $default;
