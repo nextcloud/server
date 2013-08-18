@@ -52,6 +52,7 @@ class Crypt {
 
 		$return = false;
 
+		$res = \OCA\Encryption\Helper::getOpenSSLPkey();
 		$res = openssl_pkey_new(array('private_key_bits' => 4096));
 
 		if ($res === false) {
