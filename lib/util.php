@@ -18,9 +18,11 @@ class OC_Util {
 	 * @brief Can be set up
 	 * @param user string
 	 * @return boolean
+	 * @description configure the initial filesystem based on the configuration
 	 */
-	public static function setupFS( $user = '' ) { // configure the initial filesystem based on the configuration
-		if(self::$fsSetup) { //setting up the filesystem twice can only lead to trouble
+	public static function setupFS( $user = '' ) {
+		//setting up the filesystem twice can only lead to trouble
+		if(self::$fsSetup) {
 			return false;
 		}
 
@@ -71,11 +73,11 @@ class OC_Util {
 
 	/**
 	 * @return void
-         */
+	 */
 	public static function tearDownFS() {
 		\OC\Files\Filesystem::tearDown();
 		self::$fsSetup=false;
-	        self::$rootMounted=false;
+		self::$rootMounted=false;
 	}
 
 	/**
@@ -165,9 +167,10 @@ class OC_Util {
 	 * @param int timestamp $timestamp
 	 * @param bool dateOnly option to omit time from the result
 	 * @return string timestamp
+	 * @description adjust to clients timezone if we know it
 	 */
 	public static function formatDate( $timestamp, $dateOnly=false) {
-		if(\OC::$session->exists('timezone')) { //adjust to clients timezone if we know it
+		if(\OC::$session->exists('timezone')) {
 			$systemTimeZone = intval(date('O'));
 			$systemTimeZone = (round($systemTimeZone/100, 0)*60) + ($systemTimeZone%100);
 			$clientTimeZone = \OC::$session->get('timezone')*60;
@@ -629,13 +632,15 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Check if the htaccess file is working by creating a test file in the data directory and trying to access via http
+	 * @brief Check if the htaccess file is working
 	 * @return bool
+	 * @description Check if the htaccess file is working by creating a test
+	 * file in the data directory and trying to access via http
 	 */
-	public static function isHtaccessWorking() {
+	public static function isHtAccessWorking() {
 		// testdata
-		$filename = '/htaccesstest.txt';
-		$testcontent = 'testcontent';
+		$fileName = '/htaccesstest.txt';
+		$testContent = 'testcontent';
 
 		// creating a test file
 		$testfile = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ).'/'.$filename;
@@ -718,7 +723,7 @@ class OC_Util {
 	 * local packages are not available on the server.
 	 * @return bool
 	 */
-	public static function isSetlocaleWorking() {
+	public static function isSetLocaleWorking() {
 		// setlocale test is pointless on Windows
 		if (OC_Util::runningOnWindows() ) {
 			return true;

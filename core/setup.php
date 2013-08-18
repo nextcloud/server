@@ -34,7 +34,7 @@ $opts = array(
 	'hasMSSQL' => $hasMSSQL,
 	'directory' => $datadir,
 	'secureRNG' => OC_Util::secureRNGAvailable(),
-	'htaccessWorking' => OC_Util::isHtaccessWorking(),
+	'htaccessWorking' => OC_Util::isHtAccessWorking(),
 	'vulnerableToNullByte' => $vulnerableToNullByte,
 	'errors' => array(),
 );
