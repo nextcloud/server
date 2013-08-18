@@ -157,7 +157,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 		$filename = 'tmp-' . time() . '.test';
 
-		$cryptedFile = file_put_contents('crypt://' . $filename, $this->dataShort);
+		$cryptedFile = file_put_contents('crypt:///' . $this->userId . '/files/'. $filename, $this->dataShort);
 
 		// Test that data was successfully written
 		$this->assertTrue(is_int($cryptedFile));
@@ -215,7 +215,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$filename = 'tmp-' . time() . '.test';
 
 		// Save long data as encrypted file using stream wrapper
-		$cryptedFile = file_put_contents('crypt://' . $filename, $this->dataLong . $this->dataLong);
+		$cryptedFile = file_put_contents('crypt:///' . $this->userId . '/files/' . $filename, $this->dataLong . $this->dataLong);
 
 		// Test that data was successfully written
 		$this->assertTrue(is_int($cryptedFile));
@@ -296,7 +296,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$filename = 'tmp-' . time();
 
 		// Save long data as encrypted file using stream wrapper
-		$cryptedFile = file_put_contents('crypt://' . $filename, $this->dataShort);
+		$cryptedFile = file_put_contents('crypt:///'. $this->userId . '/files/' . $filename, $this->dataShort);
 
 		// Test that data was successfully written
 		$this->assertTrue(is_int($cryptedFile));
@@ -310,7 +310,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		\OC_FileProxy::$enabled = $proxyStatus;
 
 		// Get file decrypted contents
-		$decrypt = file_get_contents('crypt://' . $filename);
+		$decrypt = file_get_contents('crypt:///' . $this->userId . '/files/' . $filename);
 
 		$this->assertEquals($this->dataShort, $decrypt);
 
@@ -326,13 +326,13 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$filename = 'tmp-' . time();
 
 		// Save long data as encrypted file using stream wrapper
-		$cryptedFile = file_put_contents('crypt://' . $filename, $this->dataLong);
+		$cryptedFile = file_put_contents('crypt:///' . $this->userId . '/files/' . $filename, $this->dataLong);
 
 		// Test that data was successfully written
 		$this->assertTrue(is_int($cryptedFile));
 
 		// Get file decrypted contents
-		$decrypt = file_get_contents('crypt://' . $filename);
+		$decrypt = file_get_contents('crypt:///' . $this->userId . '/files/' . $filename);
 
 		$this->assertEquals($this->dataLong, $decrypt);
 
@@ -417,13 +417,13 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$filename = 'tmp-' . time();
 
 		// Save long data as encrypted file using stream wrapper
-		$cryptedFile = file_put_contents('crypt://' . $filename, $this->dataLong);
+		$cryptedFile = file_put_contents('crypt:///' . $this->userId . '/files/' . $filename, $this->dataLong);
 
 		// Test that data was successfully written
 		$this->assertTrue(is_int($cryptedFile));
 
 		// Get file decrypted contents
-		$decrypt = file_get_contents('crypt://' . $filename);
+		$decrypt = file_get_contents('crypt:///' . $this->userId . '/files/' . $filename);
 
 		$this->assertEquals($this->dataLong, $decrypt);
 
@@ -432,7 +432,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$view->rename($filename, $newFilename);
 
 		// Get file decrypted contents
-		$newDecrypt = file_get_contents('crypt://' . $newFilename);
+		$newDecrypt = file_get_contents('crypt:///'. $this->userId . '/files/' . $newFilename);
 
 		$this->assertEquals($this->dataLong, $newDecrypt);
 
@@ -448,13 +448,13 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$filename = 'tmp-' . time();
 
 		// Save long data as encrypted file using stream wrapper
-		$cryptedFile = file_put_contents('crypt://' . $filename, $this->dataLong);
+		$cryptedFile = file_put_contents('crypt:///' . $this->userId . '/files/' . $filename, $this->dataLong);
 
 		// Test that data was successfully written
 		$this->assertTrue(is_int($cryptedFile));
 
 		// Get file decrypted contents
-		$decrypt = file_get_contents('crypt://' . $filename);
+		$decrypt = file_get_contents('crypt:///' . $this->userId . '/files/' . $filename);
 
 		$this->assertEquals($this->dataLong, $decrypt);
 
@@ -465,7 +465,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$view->rename($filename, $newFolder . '/' . $newFilename);
 
 		// Get file decrypted contents
-		$newDecrypt = file_get_contents('crypt://' . $newFolder . '/' . $newFilename);
+		$newDecrypt = file_get_contents('crypt:///' . $this->userId . '/files/' . $newFolder . '/' . $newFilename);
 
 		$this->assertEquals($this->dataLong, $newDecrypt);
 
@@ -486,13 +486,13 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$view->mkdir($folder);
 
 		// Save long data as encrypted file using stream wrapper
-		$cryptedFile = file_put_contents('crypt://' . $folder . $filename, $this->dataLong);
+		$cryptedFile = file_put_contents('crypt:///' . $this->userId . '/files/' . $folder . $filename, $this->dataLong);
 
 		// Test that data was successfully written
 		$this->assertTrue(is_int($cryptedFile));
 
 		// Get file decrypted contents
-		$decrypt = file_get_contents('crypt://' . $folder . $filename);
+		$decrypt = file_get_contents('crypt:///' . $this->userId . '/files/' . $folder . $filename);
 
 		$this->assertEquals($this->dataLong, $decrypt);
 
@@ -502,7 +502,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$view->rename($folder, $newFolder);
 
 		// Get file decrypted contents
-		$newDecrypt = file_get_contents('crypt://' . $newFolder . $filename);
+		$newDecrypt = file_get_contents('crypt:///' . $this->userId . '/files/' . $newFolder . $filename);
 
 		$this->assertEquals($this->dataLong, $newDecrypt);
 
@@ -518,13 +518,13 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$filename = 'tmp-' . time();
 
 		// Save long data as encrypted file using stream wrapper
-		$cryptedFile = file_put_contents('crypt://' . $filename, $this->dataLong);
+		$cryptedFile = file_put_contents('crypt:///' . $this->userId . '/files/' . $filename, $this->dataLong);
 
 		// Test that data was successfully written
 		$this->assertTrue(is_int($cryptedFile));
 
 		// Get file decrypted contents
-		$decrypt = file_get_contents('crypt://' . $filename);
+		$decrypt = file_get_contents('crypt:///' . $this->userId . '/files/' . $filename);
 
 		$this->assertEquals($this->dataLong, $decrypt);
 
@@ -537,7 +537,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		OCA\Encryption\Hooks::login($params);
 
 		// Get file decrypted contents
-		$newDecrypt = file_get_contents('crypt://' . $filename);
+		$newDecrypt = file_get_contents('crypt:///' . $this->userId . '/files/' . $filename);
 
 		$this->assertEquals($this->dataLong, $newDecrypt);
 

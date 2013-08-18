@@ -19,7 +19,7 @@ class Hooks {
 	 */
 	public static function write_hook( $params ) {
 
-		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+		if (\OCP\App::isEnabled('files_versions')) {
 			$path = $params[\OC\Files\Filesystem::signal_param_path];
 			if($path<>'') {
 				Storage::store($path);
@@ -36,12 +36,12 @@ class Hooks {
 	 * cleanup the versions directory if the actual file gets deleted
 	 */
 	public static function remove_hook($params) {
-		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+
+		if (\OCP\App::isEnabled('files_versions')) {
 			$path = $params[\OC\Files\Filesystem::signal_param_path];
 			if($path<>'') {
 				Storage::delete($path);
 			}
-
 		}
 	}
 
@@ -53,13 +53,13 @@ class Hooks {
 	 * of the stored versions along the actual file
 	 */
 	public static function rename_hook($params) {
-		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+		
+		if (\OCP\App::isEnabled('files_versions')) {
 			$oldpath = $params['oldpath'];
 			$newpath = $params['newpath'];
 			if($oldpath<>'' && $newpath<>'') {
 				Storage::rename( $oldpath, $newpath );
 			}
-
 		}
 	}
 
@@ -71,10 +71,11 @@ class Hooks {
 	 * to remove the used space for versions stored in the database
 	 */
 	public static function deleteUser_hook($params) {
-		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+		
+		if (\OCP\App::isEnabled('files_versions')) {
 			$uid = $params['uid'];
 			Storage::deleteUser($uid);
-			}
+		}
 	}
 
 }

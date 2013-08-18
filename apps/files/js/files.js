@@ -81,9 +81,23 @@ Files={
 		if (usedSpacePercent > 90) {
 			OC.Notification.show(t('files', 'Your storage is almost full ({usedSpacePercent}%)', {usedSpacePercent: usedSpacePercent}));
 		}
+	},
+
+	displayEncryptionWarning: function() {
+
+		if (!OC.Notification.isHidden()) {
+			return;
+		}
+
+		var encryptedFiles = $('#encryptedFiles').val();
+		if (encryptedFiles === '1') {
+			OC.Notification.show(t('files_encryption', 'Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files.'));
+			return;
+		}
 	}
 };
 $(document).ready(function() {
+	Files.displayEncryptionWarning();
 	Files.bindKeyboardShortcuts(document, jQuery);
 	$('#fileList tr').each(function(){
 		//little hack to set unescape filenames in attribute
