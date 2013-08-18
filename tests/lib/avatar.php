@@ -53,6 +53,6 @@ class Test_Avatar extends PHPUnit_Framework_TestCase {
 	public function testDefaultAvatar() {
 		$img = new \OC_Image(OC::$SERVERROOT.'/core/img/defaultavatar.png');
 		$img->resize(128);
-		$this->assertEquals($img->data(), \OC_Avatar::getDefaultAvatar(128)->data());
+		$this->assertEquals($img->data(), \OC_Avatar::getDefaultAvatar(\OC_User::getUser(), 128)->data());
 	}
 }
