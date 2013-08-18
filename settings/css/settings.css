@@ -92,14 +92,6 @@ span.version { margin-left:1em; margin-right:1em; color:#555; }
 
 .appslink { text-decoration: underline; }
 .score { color:#666; font-weight:bold; font-size:0.8em; }
-.errormsg {
-	margin: 20px;
-	padding: 5px;
-	background: #fdd;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-}
 
 /* LOG */
 #log { white-space:normal; }

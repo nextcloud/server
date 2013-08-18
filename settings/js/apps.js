@@ -51,10 +51,10 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			page.find('span.score').hide();
 		}
 		if (typeof($('#leftcontent li[data-id="'+app.id+'"]').data('errormsg')) !== "undefined") {
-			page.find(".errormsg").show();
-			page.find(".errormsg").text($('#leftcontent li[data-id="'+app.id+'"]').data('errormsg'));
+			page.find(".warning").show();
+			page.find(".warning").text($('#leftcontent li[data-id="'+app.id+'"]').data('errormsg'));
 		} else {
-			page.find(".errormsg").hide();
+			page.find(".warning").hide();
 		}
 	},
 	enableApp:function(appid, active, element) {
@@ -190,8 +190,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		});
 	},
 	showErrorMessage: function(message) {
-		$('#rightcontent .errormsg').show();
-		$('#rightcontent .errormsg').text(message);
+		$('.appinfo .warning').show();
+		$('.appinfo .warning').text(message);
 	}
 };
 

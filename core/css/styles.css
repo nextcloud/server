@@ -389,7 +389,7 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 
 
 /* Warnings and errors are the same */
-.warning, .update, .error {
+#body-login .warning, #body-login .update, #body-login .error {
 	display: block;
 	padding: 10px;
 	color: #dd3b3b;
@@ -401,6 +401,16 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	border-radius: 5px;
 	cursor: default;
 }
+
+#body-user .warning, #body-settings .warning {
+        margin-top: 8px;
+        padding: 5px;
+        background: #fdd;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+}
+
 .warning legend,
 .warning a,
 .error a {
