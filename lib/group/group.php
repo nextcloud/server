@@ -75,7 +75,10 @@ class Group {
 		}
 
 		foreach ($userIds as $userId) {
-			$users[] = $this->userManager->get($userId);
+			$user = $this->userManager->get($userId);
+			if(!is_null($user)) {
+				$users[$userId] = $user;
+			}
 		}
 		$this->users = $users;
 		return $users;
@@ -173,7 +176,10 @@ class Group {
 				$offset -= count($userIds);
 			}
 			foreach ($userIds as $userId) {
-				$users[$userId] = $this->userManager->get($userId);
+				$user = $this->userManager->get($userId);
+				if(!is_null($user)) {
+					$users[$userId] = $user;
+				}
 			}
 			if (!is_null($limit) and $limit <= 0) {
 				return array_values($users);
@@ -205,7 +211,10 @@ class Group {
 				$offset -= count($userIds);
 			}
 			foreach ($userIds as $userId) {
-				$users[$userId] = $this->userManager->get($userId);
+				$user = $this->userManager->get($userId);
+				if(!is_null($user)) {
+					$users[$userId] = $user;
+				}
 			}
 			if (!is_null($limit) and $limit <= 0) {
 				return array_values($users);
