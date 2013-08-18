@@ -84,7 +84,7 @@ if($_['passwordChangeSupported']) {
 ?>
 
 <?php if ($_['avatar'] !== "none"): ?>
-<form id="avatar" method="post" action="<?php p(\OC_Helper::linkToRoute('settings_ajax_newavatar')); ?>">
+<form id="avatar" method="post" action="<?php p(\OC_Helper::linkTo('', 'avatar.php')); ?>">
 	<fieldset class="personalblock">
 		<legend><strong><?php p($l->t('Profile Image')); ?></strong></legend>
 		<img src="<?php print_unescaped(link_to('', 'avatar.php').'?user='.OC_User::getUser().'&size=128'); ?>"><br>
