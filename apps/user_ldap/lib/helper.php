@@ -71,6 +71,34 @@ class Helper {
 	}
 
 	/**
+	 *
+	 * @brief determines the host for every configured connection
+	 * @return an array with configprefix as keys
+	 *
+	 */
+	static public function getServerConfigurationHosts() {
+		$referenceConfigkey = 'ldap_host';
+
+		$query = '
+			SELECT DISTINCT `configkey`, `configvalue`
+			FROM `*PREFIX*appconfig`
+			WHERE `appid` = \'user_ldap\'
+				AND `configkey` LIKE ?
+		';
+		$query = \OCP\DB::prepare($query);
+		$configHosts = $query->execute(array('%'.$referenceConfigkey))->fetchAll();
+		$result = array();
+
+		foreach($configHosts as $configHost) {
+			$len = strlen($configHost['configkey']) - strlen($referenceConfigkey);
+			$prefix = substr($configHost['configkey'], 0, $len);
+			$result[$prefix] = $configHost['configvalue'];
+		}
+
+		return $result;
+	}
+
+	/**
 	 * @brief deletes a given saved LDAP/AD server configuration.
 	 * @param string the configuration prefix of the config to delete
 	 * @return bool true on success, false otherwise
