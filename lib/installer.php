@@ -141,7 +141,7 @@ class OC_Installer{
 		// check if shipped tag is set which is only allowed for apps that are shipped with ownCloud
 		if(isset($info['shipped']) and ($info['shipped']=='true')) {
 			OC_Helper::rmdirr($extractDir);
-			throw new \Exception($l->t("App can't be installed because it contains the &lt;shipped&gt;true&lt;/shipped&gt; tag which is not allowed for non shipped apps"));
+			throw new \Exception($l->t("App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps"));
 		}
 
 		// check if the ocs version is the same as the version in info.xml/version
