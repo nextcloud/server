@@ -60,27 +60,24 @@ OC.Settings.Apps = OC.Settings.Apps || {
 	enableApp:function(appid, active, element) {
 		console.log('enableApp:', appid, active, element);
 		var appitem=$('#leftcontent li[data-id="'+appid+'"]');
-		appData = appitem.data('app');
-		appData.active = !active;
-		appitem.data('app', appData);
 		element.val(t('settings','Please wait....'));
 		if(active) {
 			$.post(OC.filePath('settings','ajax','disableapp.php'),{appid:appid},function(result) {
 				if(!result || result.status !== 'success') {
 					if (result.data && result.data.message) {
 						OC.Settings.Apps.showErrorMessage(result.data.message);
-						$('#leftcontent li[data-id="'+appid+'"]').data('errormsg', result.data.message);
+						appitem.data('errormsg', result.data.message);
 					} else {
 						OC.Settings.Apps.showErrorMessage(t('settings', 'Error while disabling app'));
-						$('#leftcontent li[data-id="'+appid+'"]').data('errormsg', t('settings', 'Error while disabling app'));
+						appitem.data('errormsg', t('settings', 'Error while disabling app'));
 					}
 					element.val(t('settings','Disable'));
-					$('#leftcontent li[data-id="'+appid+'"]').addClass('appwarning');
+					appitem.addClass('appwarning');
 				}
 				else {
-					element.data('active',false);
+					appitem.data('active',false);
 					OC.Settings.Apps.removeNavigation(appid);
-					$('#leftcontent li[data-id="'+appid+'"]').removeClass('active');
+					appitem.removeClass('active');
 					element.val(t('settings','Enable'));
 				}
 			},'json');
@@ -89,24 +86,25 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				if(!result || result.status !== 'success') {
 					if (result.data && result.data.message) {
 						OC.Settings.Apps.showErrorMessage(result.data.message);
-						$('#leftcontent li[data-id="'+appid+'"]').data('errormsg', result.data.message);
+						appitem.data('errormsg', result.data.message);
 					} else {
 						OC.Settings.Apps.showErrorMessage(t('settings', 'Error while enabling app'));
-						$('#leftcontent li[data-id="'+appid+'"]').data('errormsg', t('settings', 'Error while disabling app'));
+						appitem.data('errormsg', t('settings', 'Error while disabling app'));
 					}
 					element.val(t('settings','Enable'));
-					$('#leftcontent li[data-id="'+appid+'"]').addClass('appwarning');
+					appitem.addClass('appwarning');
 				} else {
 					OC.Settings.Apps.addNavigation(appid);
-					element.data('active',true);
-					$('#leftcontent li[data-id="'+appid+'"]').addClass('active');
+					appitem.data('active',true);
+					appitem.addClass('active');
 					element.val(t('settings','Disable'));
 				}
 			},'json')
 			.fail(function() { 
 				OC.Settings.Apps.showErrorMessage(t('settings', 'Error while enabling app'));
-				$('#leftcontent li[data-id="'+appid+'"]').data('errormsg', t('settings', 'Error while enabling app'));
-				element.data('active',false);
+				appitem.data('errormsg', t('settings', 'Error while enabling app'));
+				appitem.data('active',false);
+				appitem.addClass('appwarning');
 				OC.Settings.Apps.removeNavigation(appid);
 				element.val(t('settings','Enable'));
 			});
