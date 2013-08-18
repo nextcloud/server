@@ -414,6 +414,7 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 
 .error-wide {
 	width: 800px;
+	margin-left: -250px;
 }
 
 /* Fixes for log in page, TODO should be removed some time */
