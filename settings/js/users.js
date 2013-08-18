@@ -89,10 +89,15 @@ var UserList = {
 		tr.attr('data-displayName', displayname);
 		tr.find('td.name').text(username);
 		tr.find('td.displayName > span').text(displayname);
-		var groupsSelect = $('<select multiple="multiple" class="groupsselect" data-placehoder="Groups" title="' + t('settings', 'Groups') + '"></select>').attr('data-username', username).attr('data-user-groups', [groups]);
+		var groupsSelect = $('<select multiple="multiple" class="groupsselect" data-placehoder="Groups" title="' + t('settings', 'Groups') + '"></select>')
+			.attr('data-username', username)
+			.attr('data-user-groups', [groups]);
 		tr.find('td.groups').empty();
 		if (tr.find('td.subadmins').length > 0) {
-			var subadminSelect = $('<select multiple="multiple" class="subadminsselect" data-placehoder="subadmins" title="' + t('settings', 'Group Admin') + '">').attr('data-username', username).attr('data-user-groups', [groups]).attr('data-subadmin', [subadmin]);
+			var subadminSelect = $('<select multiple="multiple" class="subadminsselect" data-placehoder="subadmins" title="' + t('settings', 'Group Admin') + '">')
+				.attr('data-username', username)
+				.attr('data-user-groups', [groups])
+				.attr('data-subadmin', [subadmin]);
 			tr.find('td.subadmins').empty();
 		}
 		$.each(this.availableGroups, function (i, group) {
@@ -244,7 +249,9 @@ var UserList = {
 							group: group
 						},
 						function (response) {
-							if(response.status === 'success' && UserList.availableGroups.indexOf(response.data.groupname) === -1 && response.data.action === 'add') {
+							if(response.status === 'success'
+									&& UserList.availableGroups.indexOf(response.data.groupname) === -1
+									&& response.data.action === 'add') {
 								UserList.availableGroups.push(response.data.groupname);
 							}
 							if(response.data.message) {
