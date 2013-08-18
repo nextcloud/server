@@ -10,6 +10,7 @@ $TRANSLATIONS = array(
 "Could not update the private key password. Maybe the old password was not correct." => "No s'ha pogut actualitzar la contrasenya de la clau privada. Potser la contrasenya anterior no era correcta.",
 "Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "La clau privada no és vàlida! Probablement la contrasenya va ser canviada des de fora del sistema ownCloud (per exemple, en el directori de l'empresa). Vostè pot actualitzar la contrasenya de clau privada en la seva configuració personal per poder recuperar l'accés en els arxius xifrats.",
 "Missing requirements." => "Manca de requisits.",
+"Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Assegureu-vos que teniu instal·lat PHP 5.3.3 o una versió superior i que està activat Open SSL i habilitada i configurada correctament l'extensió de PHP. De moment, l'aplicació d'encriptació s'ha desactivat.",
 "Following users are not set up for encryption:" => "Els usuaris següents no estan configurats per a l'encriptació:",
 "Saving..." => "Desant...",
 "Your private key is not valid! Maybe the your password was changed from outside." => "La vostra clau privada no és vàlida! Potser la vostra contrasenya ha canviat des de fora.",

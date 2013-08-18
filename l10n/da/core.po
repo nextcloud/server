@@ -4,15 +4,16 @@
 # 
 # Translators:
 # Sappe, 2013
+# claus_chr <claus_chr@webspeed.dk>, 2013
 # Ole Holm Frandsen <froksen@gmail.com>, 2013
 # Peter Jespersen <flywheeldk@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:21+0000\n"
-"Last-Translator: Sappe\n"
+"POT-Creation-Date: 2013-08-16 01:29-0400\n"
+"PO-Revision-Date: 2013-08-16 05:00+0000\n"
+"Last-Translator: claus_chr <claus_chr@webspeed.dk>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -140,59 +141,59 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: js/js.js:354
+#: js/js.js:355
 msgid "Settings"
 msgstr "Indstillinger"
 
-#: js/js.js:814
+#: js/js.js:812
 msgid "seconds ago"
 msgstr "sekunder siden"
 
+#: js/js.js:813
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] "%n minut siden"
+msgstr[1] "%n minutter siden"
+
+#: js/js.js:814
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] "%n time siden"
+msgstr[1] "%n timer siden"
+
 #: js/js.js:815
-msgid "1 minute ago"
-msgstr "1 minut siden"
-
-#: js/js.js:816
-msgid "{minutes} minutes ago"
-msgstr "{minutes} minutter siden"
-
-#: js/js.js:817
-msgid "1 hour ago"
-msgstr "1 time siden"
-
-#: js/js.js:818
-msgid "{hours} hours ago"
-msgstr "{hours} timer siden"
-
-#: js/js.js:819
 msgid "today"
 msgstr "i dag"
 
-#: js/js.js:820
+#: js/js.js:816
 msgid "yesterday"
 msgstr "i går"
 
-#: js/js.js:821
-msgid "{days} days ago"
-msgstr "{days} dage siden"
+#: js/js.js:817
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] "%n dag siden"
+msgstr[1] "%n dage siden"
 
-#: js/js.js:822
+#: js/js.js:818
 msgid "last month"
 msgstr "sidste måned"
 
-#: js/js.js:823
-msgid "{months} months ago"
-msgstr "{months} måneder siden"
+#: js/js.js:819
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] "%n måned siden"
+msgstr[1] "%n måneder siden"
 
-#: js/js.js:824
+#: js/js.js:820
 msgid "months ago"
 msgstr "måneder siden"
 
-#: js/js.js:825
+#: js/js.js:821
 msgid "last year"
 msgstr "sidste år"
 
-#: js/js.js:826
+#: js/js.js:822
 msgid "years ago"
 msgstr "år siden"
 
@@ -380,9 +381,10 @@ msgstr "Opdateringen blev ikke udført korrekt. Rapporter venligst problemet til
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Opdateringen blev udført korrekt. Du bliver nu viderestillet til ownCloud."
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
-msgstr "Nulstil ownCloud kodeord"
+#: lostpassword/controller.php:61
+#, php-format
+msgid "%s password reset"
+msgstr "%s adgangskode nulstillet"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -414,7 +416,7 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr ""
+msgstr "Dine filer er krypterede. Hvis du ikke har aktiveret gendannelsesnøglen kan du ikke få dine data tilbage efter at du har ændret adgangskode. HVis du ikke er sikker på, hvad du skal gøre så kontakt din administrator før du fortsætter. Vil du fortsætte?"
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
@@ -477,7 +479,7 @@ msgid ""
 "View it: %s\n"
 "\n"
 "Cheers!"
-msgstr ""
+msgstr "Hallo\n\ndette blot for at lade dig vide, at %s har delt %s med dig.\nSe det: %s\n\nHej"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -524,7 +526,7 @@ msgstr "Dine data mappe og filer er sandsynligvis tilgængelige fra internettet 
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "For information om, hvordan du konfigurerer din server korrekt se <a href=\"%s\" target=\"_blank\">dokumentationen</a>."
 
 #: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
@@ -581,6 +583,10 @@ msgstr "%s er tilgængelig. Få mere information om, hvordan du opdaterer."
 msgid "Log out"
 msgstr "Log ud"
 
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr "Flere programmer"
+
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Automatisk login afvist!"
@@ -616,7 +622,7 @@ msgstr "Alternative logins"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr ""
+msgstr "Hallo,<br><br>dette blot for at lade dig vide, at %s har delt \"%s\" med dig.<br><a href=\"%s\">Se det!</a><br><br>Hej"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

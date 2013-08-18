@@ -147,14 +147,14 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 	display:none;
 }
 #fileList tr:hover a.action, #fileList a.action.permanent {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=.5)";
-	filter: alpha(opacity=.5);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
 	opacity: .5;
 	display:inline;
 }
 #fileList tr:hover a.action:hover {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=1)";
-	filter: alpha(opacity=1);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
 	opacity: 1;
 	display:inline;
 }

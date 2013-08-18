@@ -21,30 +21,6 @@
  *
  */
 
-# Bugs
-# ----
-# Sharing a file to a user without encryption set up will not provide them with access but won't notify the sharer
-# Sharing all files to admin for recovery purposes still in progress
-# Possibly public links are broken (not tested since last merge of master)
-
-
-# Missing features
-# ----------------
-# Make sure user knows if large files weren't encrypted
-
-
-# Test
-# ----
-# Test that writing files works when recovery is enabled, and sharing API is disabled
-# Test trashbin support
-
-
-// Old Todo:
-//  - Crypt/decrypt button in the userinterface
-//  - Setting if crypto should be on by default
-//  - Add a setting "Don´t encrypt files larger than xx because of performance 
-//    reasons"
-
 namespace OCA\Encryption;
 
 /**
@@ -56,45 +32,6 @@ namespace OCA\Encryption;
  */
 
 class Util {
-
-	// Web UI:
-
-	//// DONE: files created via web ui are encrypted
-	//// DONE: file created & encrypted via web ui are readable in web ui
-	//// DONE: file created & encrypted via web ui are readable via webdav
-
-
-	// WebDAV:
-
-	//// DONE: new data filled files added via webdav get encrypted
-	//// DONE: new data filled files added via webdav are readable via webdav
-	//// DONE: reading unencrypted files when encryption is enabled works via 
-	////       webdav
-	//// DONE: files created & encrypted via web ui are readable via webdav
-
-
-	// Legacy support:
-
-	//// DONE: add method to check if file is encrypted using new system
-	//// DONE: add method to check if file is encrypted using old system
-	//// DONE: add method to fetch legacy key
-	//// DONE: add method to decrypt legacy encrypted data
-
-
-	// Admin UI:
-
-	//// DONE: changing user password also changes encryption passphrase
-
-	//// TODO: add support for optional recovery in case of lost passphrase / keys
-	//// TODO: add admin optional required long passphrase for users
-	//// TODO: implement flag system to allow user to specify encryption by folder, subfolder, etc.
-
-
-	// Integration testing:
-
-	//// TODO: test new encryption with versioning
-	//// DONE: test new encryption with sharing
-	//// TODO: test new encryption with proxies
 
 	const MIGRATION_COMPLETED = 1;    // migration to new encryption completed
 	const MIGRATION_IN_PROGRESS = -1; // migration is running
@@ -878,46 +815,22 @@ class Util {
 	}
 
 	/**
-	 * @brief Decrypt a keyfile without knowing how it was encrypted
+	 * @brief Decrypt a keyfile
 	 * @param string $filePath
-	 * @param string $fileOwner
 	 * @param string $privateKey
 	 * @return bool|string
-	 * @note Checks whether file was encrypted with openssl_seal or
-	 *       openssl_encrypt, and decrypts accrdingly
-	 * @note This was used when 2 types of encryption for keyfiles was used,
-	 *       but now we've switched to exclusively using openssl_seal()
 	 */
-	public function decryptUnknownKeyfile($filePath, $fileOwner, $privateKey) {
+	private function decryptKeyfile($filePath, $privateKey) {
 
 		// Get the encrypted keyfile
-		// NOTE: the keyfile format depends on how it was encrypted! At
-		// this stage we don't know how it was encrypted
 		$encKeyfile = Keymanager::getFileKey($this->view, $this->userId, $filePath);
 
-		// We need to decrypt the keyfile
-		// Has the file been shared yet?
-		if (
-			$this->userId === $fileOwner
-			&& !Keymanager::getShareKey($this->view, $this->userId, $filePath) // NOTE: we can't use isShared() here because it's a post share hook so it always returns true
-		) {
+		// The file has a shareKey and must use it for decryption
+		$shareKey = Keymanager::getShareKey($this->view, $this->userId, $filePath);
 
-			// The file has no shareKey, and its keyfile must be 
-			// decrypted conventionally
-			$plainKeyfile = Crypt::keyDecrypt($encKeyfile, $privateKey);
-
-
-		} else {
-
-			// The file has a shareKey and must use it for decryption
-			$shareKey = Keymanager::getShareKey($this->view, $this->userId, $filePath);
-
-			$plainKeyfile = Crypt::multiKeyDecrypt($encKeyfile, $shareKey, $privateKey);
-
-		}
+		$plainKeyfile = Crypt::multiKeyDecrypt($encKeyfile, $shareKey, $privateKey);
 
 		return $plainKeyfile;
-
 	}
 
 	/**
@@ -956,7 +869,7 @@ class Util {
 		$fileOwner = \OC\Files\Filesystem::getOwner($filePath);
 
 		// Decrypt keyfile
-		$plainKeyfile = $this->decryptUnknownKeyfile($filePath, $fileOwner, $privateKey);
+		$plainKeyfile = $this->decryptKeyfile($filePath, $privateKey);
 
 		// Re-enc keyfile to (additional) sharekeys
 		$multiEncKey = Crypt::multiKeyEncrypt($plainKeyfile, $userPubKeys);

@@ -115,130 +115,6 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 	}
 
-	/**
-	 * @large
-	 * @return String
-	 */
-	function testGenerateIv() {
-
-		$iv = Encryption\Crypt::generateIv();
-
-		$this->assertEquals(16, strlen($iv));
-
-		return $iv;
-
-	}
-
-	/**
-	 * @large
-	 * @depends testGenerateIv
-	 */
-	function testConcatIv($iv) {
-
-		$catFile = Encryption\Crypt::concatIv($this->dataLong, $iv);
-
-		// Fetch encryption metadata from end of file
-		$meta = substr($catFile, -22);
-
-		$identifier = substr($meta, 0, 6);
-
-		// Fetch IV from end of file
-		$foundIv = substr($meta, 6);
-
-		$this->assertEquals('00iv00', $identifier);
-
-		$this->assertEquals($iv, $foundIv);
-
-		// Remove IV and IV identifier text to expose encrypted content
-		$data = substr($catFile, 0, -22);
-
-		$this->assertEquals($this->dataLong, $data);
-
-		return array(
-			'iv' => $iv
-		,
-			'catfile' => $catFile
-		);
-
-	}
-
-	/**
-	 * @medium
-	 * @depends testConcatIv
-	 */
-	function testSplitIv($testConcatIv) {
-
-		// Split catfile into components
-		$splitCatfile = Encryption\Crypt::splitIv($testConcatIv['catfile']);
-
-		// Check that original IV and split IV match
-		$this->assertEquals($testConcatIv['iv'], $splitCatfile['iv']);
-
-		// Check that original data and split data match
-		$this->assertEquals($this->dataLong, $splitCatfile['encrypted']);
-
-	}
-
-	/**
-	 * @medium
-	 * @return string padded
-	 */
-	function testAddPadding() {
-
-		$padded = Encryption\Crypt::addPadding($this->dataLong);
-
-		$padding = substr($padded, -2);
-
-		$this->assertEquals('xx', $padding);
-
-		return $padded;
-
-	}
-
-	/**
-	 * @medium
-	 * @depends testAddPadding
-	 */
-	function testRemovePadding($padded) {
-
-		$noPadding = Encryption\Crypt::RemovePadding($padded);
-
-		$this->assertEquals($this->dataLong, $noPadding);
-
-	}
-
-	/**
-	 * @medium
-	 */
-	function testEncrypt() {
-
-		$random = openssl_random_pseudo_bytes(13);
-
-		$iv = substr(base64_encode($random), 0, -4); // i.e. E5IG033j+mRNKrht
-
-		$crypted = Encryption\Crypt::encrypt($this->dataUrl, $iv, 'hat');
-
-		$this->assertNotEquals($this->dataUrl, $crypted);
-
-	}
-
-	/**
-	 * @medium
-	 */
-	function testDecrypt() {
-
-		$random = openssl_random_pseudo_bytes(13);
-
-		$iv = substr(base64_encode($random), 0, -4); // i.e. E5IG033j+mRNKrht
-
-		$crypted = Encryption\Crypt::encrypt($this->dataUrl, $iv, 'hat');
-
-		$decrypt = Encryption\Crypt::decrypt($crypted, $iv, 'hat');
-
-		$this->assertEquals($this->dataUrl, $decrypt);
-
-	}
-
 	function testDecryptPrivateKey() {
 
 		// test successful decrypt
@@ -364,14 +240,12 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		//print_r($r);
 
 		// Join IVs and their respective data chunks
-		$e = array(
-			$r[0] . $r[1],
-			$r[2] . $r[3],
-			$r[4] . $r[5],
-			$r[6] . $r[7],
-			$r[8] . $r[9],
-			$r[10] . $r[11]
-		); //.$r[11], $r[12].$r[13], $r[14] );
+		$e = array();
+		$i = 0;
+		while ($i < count($r)-1) {
+			$e[] = $r[$i] . $r[$i+1];
+			$i = $i + 2; 
+		}
 
 		//print_r($e);
 
@@ -469,24 +343,6 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @medium
 	 */
-	function testSymmetricEncryptFileContentKeyfile() {
-
-		# TODO: search in keyfile for actual content as IV will ensure this test always passes
-
-		$crypted = Encryption\Crypt::symmetricEncryptFileContentKeyfile($this->dataUrl);
-
-		$this->assertNotEquals($this->dataUrl, $crypted['encrypted']);
-
-
-		$decrypt = Encryption\Crypt::symmetricDecryptFileContent($crypted['encrypted'], $crypted['key']);
-
-		$this->assertEquals($this->dataUrl, $decrypt);
-
-	}
-
-	/**
-	 * @medium
-	 */
 	function testIsEncryptedContent() {
 
 		$this->assertFalse(Encryption\Crypt::isCatfileContent($this->dataUrl));
@@ -528,47 +384,11 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @medium
-	 */
-	function testKeyEncrypt() {
-
-		// Generate keypair
-		$pair1 = Encryption\Crypt::createKeypair();
-
-		// Encrypt data
-		$crypted = Encryption\Crypt::keyEncrypt($this->dataUrl, $pair1['publicKey']);
-
-		$this->assertNotEquals($this->dataUrl, $crypted);
-
-		// Decrypt data
-		$decrypt = Encryption\Crypt::keyDecrypt($crypted, $pair1['privateKey']);
-
-		$this->assertEquals($this->dataUrl, $decrypt);
-
-	}
-
-	/**
-	 * @medium
-	 * @brief test encryption using legacy blowfish method
-	 */
-	function testLegacyEncryptShort() {
-
-		$crypted = Encryption\Crypt::legacyEncrypt($this->dataShort, $this->pass);
-
-		$this->assertNotEquals($this->dataShort, $crypted);
-
-		# TODO: search inencrypted text for actual content to ensure it
-		# genuine transformation
-
-		return $crypted;
-
-	}
-
-	/**
-	 * @medium
 	 * @brief test decryption using legacy blowfish method
-	 * @depends testLegacyEncryptShort
 	 */
-	function testLegacyDecryptShort($crypted) {
+	function testLegacyDecryptShort() {
+		
+		$crypted = $this->legacyEncrypt($this->dataShort, $this->pass);
 
 		$decrypted = Encryption\Crypt::legacyBlockDecrypt($crypted, $this->pass);
 
@@ -578,53 +398,15 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @medium
-	 * @brief test encryption using legacy blowfish method
-	 */
-	function testLegacyEncryptLong() {
-
-		$crypted = Encryption\Crypt::legacyEncrypt($this->dataLong, $this->pass);
-
-		$this->assertNotEquals($this->dataLong, $crypted);
-
-		# TODO: search inencrypted text for actual content to ensure it
-		# genuine transformation
-
-		return $crypted;
-
-	}
-
-	/**
-	 * @medium
 	 * @brief test decryption using legacy blowfish method
-	 * @depends testLegacyEncryptLong
 	 */
-	function testLegacyDecryptLong($crypted) {
+	function testLegacyDecryptLong() {
+		
+		$crypted = $this->legacyEncrypt($this->dataLong, $this->pass);
 
 		$decrypted = Encryption\Crypt::legacyBlockDecrypt($crypted, $this->pass);
 
 		$this->assertEquals($this->dataLong, $decrypted);
-
-		$this->assertFalse(Encryption\Crypt::getBlowfish(''));
-	}
-
-	/**
-	 * @medium
-	 * @brief test generation of legacy encryption key
-	 * @depends testLegacyDecryptShort
-	 */
-	function testLegacyCreateKey() {
-
-		// Create encrypted key
-		$encKey = Encryption\Crypt::legacyCreateKey($this->pass);
-
-		// Decrypt key
-		$key = Encryption\Crypt::legacyBlockDecrypt($encKey, $this->pass);
-
-		$this->assertTrue(is_numeric($key));
-
-		// Check that key is correct length
-		$this->assertEquals(20, strlen($key));
-
 	}
 
 	/**
@@ -871,4 +653,20 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		// tear down
 		$view->unlink($filename);
 	}
+	
+	
+	/**
+	 * @brief encryption using legacy blowfish method
+	 * @param $data string data to encrypt
+	 * @param $passwd string password
+	 * @return string
+	 */
+	function legacyEncrypt($data, $passwd) {
+
+		$bf = new \Crypt_Blowfish($passwd);
+		$crypted = $bf->encrypt($data);
+
+		return $crypted;
+	}
+
 }

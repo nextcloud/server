@@ -5,6 +5,7 @@
 # Translators:
 # arkascha <foss@christian-reiner.info>, 2013
 # FlorianScholz <work@bgstyle.de>, 2013
+# I Robot <owncloud-bot@tmit.eu>, 2013
 # Marcel Kühlhorn <susefan93@gmx.de>, 2013
 # Mario Siegmann <mario_siegmann@web.de>, 2013
 # Mirodin <blobbyjj@ymail.com>, 2013
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:21+0000\n"
-"Last-Translator: FlorianScholz <work@bgstyle.de>\n"
+"POT-Creation-Date: 2013-08-15 04:47-0400\n"
+"PO-Revision-Date: 2013-08-15 08:48+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Switzerland) (http://www.transifex.com/projects/p/owncloud/language/de_CH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -144,59 +145,59 @@ msgstr "November"
 msgid "December"
 msgstr "Dezember"
 
-#: js/js.js:354
+#: js/js.js:355
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: js/js.js:814
+#: js/js.js:815
 msgid "seconds ago"
 msgstr "Gerade eben"
 
-#: js/js.js:815
-msgid "1 minute ago"
-msgstr "Vor 1 Minute"
-
 #: js/js.js:816
-msgid "{minutes} minutes ago"
-msgstr "Vor {minutes} Minuten"
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
 
 #: js/js.js:817
-msgid "1 hour ago"
-msgstr "Vor einer Stunde"
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
 
 #: js/js.js:818
-msgid "{hours} hours ago"
-msgstr "Vor {hours} Stunden"
-
-#: js/js.js:819
 msgid "today"
 msgstr "Heute"
 
-#: js/js.js:820
+#: js/js.js:819
 msgid "yesterday"
 msgstr "Gestern"
 
-#: js/js.js:821
-msgid "{days} days ago"
-msgstr "Vor {days} Tag(en)"
+#: js/js.js:820
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: js/js.js:822
+#: js/js.js:821
 msgid "last month"
 msgstr "Letzten Monat"
 
-#: js/js.js:823
-msgid "{months} months ago"
-msgstr "Vor {months} Monaten"
+#: js/js.js:822
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: js/js.js:824
+#: js/js.js:823
 msgid "months ago"
 msgstr "Vor Monaten"
 
-#: js/js.js:825
+#: js/js.js:824
 msgid "last year"
 msgstr "Letztes Jahr"
 
-#: js/js.js:826
+#: js/js.js:825
 msgid "years ago"
 msgstr "Vor Jahren"
 
@@ -384,9 +385,10 @@ msgstr "Das Update ist fehlgeschlagen. Bitte melden Sie dieses Problem an die <a
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Das Update war erfolgreich. Sie werden nun zu ownCloud weitergeleitet."
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
-msgstr "ownCloud-Passwort zurücksetzen"
+#: lostpassword/controller.php:61
+#, php-format
+msgid "%s password reset"
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -584,6 +586,10 @@ msgstr "%s ist verfügbar. Holen Sie weitere Informationen zu Aktualisierungen e
 #: templates/layout.user.php:66
 msgid "Log out"
 msgstr "Abmelden"
+
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr "Mehr Apps"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"

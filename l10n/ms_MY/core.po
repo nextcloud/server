@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:21+0000\n"
+"POT-Creation-Date: 2013-08-15 04:47-0400\n"
+"PO-Revision-Date: 2013-08-15 08:48+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Malay (Malaysia) (http://www.transifex.com/projects/p/owncloud/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
@@ -137,59 +137,55 @@ msgstr "November"
 msgid "December"
 msgstr "Disember"
 
-#: js/js.js:354
+#: js/js.js:355
 msgid "Settings"
 msgstr "Tetapan"
 
-#: js/js.js:814
+#: js/js.js:815
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:815
-msgid "1 minute ago"
-msgstr ""
-
 #: js/js.js:816
-msgid "{minutes} minutes ago"
-msgstr ""
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
 
 #: js/js.js:817
-msgid "1 hour ago"
-msgstr ""
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
 
 #: js/js.js:818
-msgid "{hours} hours ago"
-msgstr ""
-
-#: js/js.js:819
 msgid "today"
 msgstr ""
 
-#: js/js.js:820
+#: js/js.js:819
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:821
-msgid "{days} days ago"
-msgstr ""
+#: js/js.js:820
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] ""
 
-#: js/js.js:822
+#: js/js.js:821
 msgid "last month"
 msgstr ""
 
-#: js/js.js:823
-msgid "{months} months ago"
-msgstr ""
+#: js/js.js:822
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
 
-#: js/js.js:824
+#: js/js.js:823
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:825
+#: js/js.js:824
 msgid "last year"
 msgstr ""
 
-#: js/js.js:826
+#: js/js.js:825
 msgid "years ago"
 msgstr ""
 
@@ -377,9 +373,10 @@ msgstr ""
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr ""
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
-msgstr "Set semula kata lalaun ownCloud"
+#: lostpassword/controller.php:61
+#, php-format
+msgid "%s password reset"
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -577,6 +574,10 @@ msgstr ""
 #: templates/layout.user.php:66
 msgid "Log out"
 msgstr "Log keluar"
+
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr ""
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"

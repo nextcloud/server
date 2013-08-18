@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:21+0000\n"
+"POT-Creation-Date: 2013-08-16 01:29-0400\n"
+"PO-Revision-Date: 2013-08-15 10:30+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -138,59 +138,59 @@ msgstr "novembro"
 msgid "December"
 msgstr "decembro"
 
-#: js/js.js:354
+#: js/js.js:355
 msgid "Settings"
 msgstr "Axustes"
 
-#: js/js.js:814
+#: js/js.js:812
 msgid "seconds ago"
 msgstr "segundos atrás"
 
+#: js/js.js:813
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] "hai %n minuto"
+msgstr[1] "hai %n minutos"
+
+#: js/js.js:814
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] "hai %n hora"
+msgstr[1] "hai %n horas"
+
 #: js/js.js:815
-msgid "1 minute ago"
-msgstr "hai 1 minuto"
-
-#: js/js.js:816
-msgid "{minutes} minutes ago"
-msgstr "hai {minutes} minutos"
-
-#: js/js.js:817
-msgid "1 hour ago"
-msgstr "Vai 1 hora"
-
-#: js/js.js:818
-msgid "{hours} hours ago"
-msgstr "hai {hours} horas"
-
-#: js/js.js:819
 msgid "today"
 msgstr "hoxe"
 
-#: js/js.js:820
+#: js/js.js:816
 msgid "yesterday"
 msgstr "onte"
 
-#: js/js.js:821
-msgid "{days} days ago"
-msgstr "hai {days} días"
+#: js/js.js:817
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] "hai %n día"
+msgstr[1] "hai %n días"
 
-#: js/js.js:822
+#: js/js.js:818
 msgid "last month"
 msgstr "último mes"
 
-#: js/js.js:823
-msgid "{months} months ago"
-msgstr "hai {months} meses"
+#: js/js.js:819
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] "hai %n mes"
+msgstr[1] "hai %n meses"
 
-#: js/js.js:824
+#: js/js.js:820
 msgid "months ago"
 msgstr "meses atrás"
 
-#: js/js.js:825
+#: js/js.js:821
 msgid "last year"
 msgstr "último ano"
 
-#: js/js.js:826
+#: js/js.js:822
 msgid "years ago"
 msgstr "anos atrás"
 
@@ -378,9 +378,10 @@ msgstr "A actualización non foi satisfactoria, informe deste problema á  <a hr
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "A actualización realizouse correctamente. Redirixíndoo agora á ownCloud."
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
-msgstr "Restabelecer o contrasinal de ownCloud"
+#: lostpassword/controller.php:61
+#, php-format
+msgid "%s password reset"
+msgstr "Restabelecer o contrasinal %s"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -578,6 +579,10 @@ msgstr "%s está dispoñíbel. Obteña máis información sobre como actualizar.
 #: templates/layout.user.php:66
 msgid "Log out"
 msgstr "Desconectar"
+
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr "Máis aplicativos"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"

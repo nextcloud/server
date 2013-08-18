@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Connection test failed" => "Verbindingstest mislukt",
 "Do you really want to delete the current Server Configuration?" => "Wilt u werkelijk de huidige Serverconfiguratie verwijderen?",
 "Confirm Deletion" => "Bevestig verwijderen",
+"<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." => "<b>Waarschuwing:</b> De Apps user_ldap en user_webdavauth zijn incompatible. U kunt onverwacht gedrag ervaren. Vraag uw beheerder om een van beide apps de deactiveren.",
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." => "<b>Waarschuwing:</b> De PHP LDAP module is niet geïnstalleerd, het backend zal niet werken. Vraag uw systeembeheerder om de module te installeren.",
 "Server configuration" => "Serverconfiguratie",
 "Add Server Configuration" => "Toevoegen serverconfiguratie",

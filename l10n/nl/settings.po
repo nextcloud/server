@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:21+0000\n"
+"POT-Creation-Date: 2013-08-13 09:11-0400\n"
+"PO-Revision-Date: 2013-08-12 10:30+0000\n"
 "Last-Translator: Len <lenny@weijl.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -198,7 +198,7 @@ msgstr "Uw webserver is nog niet goed ingesteld voor bestandssynchronisatie omda
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
-msgstr ""
+msgstr "Conntroleer de <a href='%s'>installatie handleiding</a> goed."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
@@ -247,11 +247,11 @@ msgstr "Bij laden van elke pagina één taak uitvoeren"
 msgid ""
 "cron.php is registered at a webcron service to call cron.php once a minute "
 "over http."
-msgstr ""
+msgstr "cron.php is geregistreerd bij een webcron service om cron.php eens per minuut aan te roepen via http."
 
 #: templates/admin.php:121
 msgid "Use systems cron service to call the cron.php file once a minute."
-msgstr ""
+msgstr "Gebruik de systeem cron service om het bestand cron.php eens per minuut aan te roepen."
 
 #: templates/admin.php:128
 msgid "Sharing"
@@ -280,7 +280,7 @@ msgstr "Sta publieke uploads toe"
 #: templates/admin.php:152
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
-msgstr ""
+msgstr "Sta gebruikers toe anderen in hun publiek gedeelde mappen bestanden te uploaden"
 
 #: templates/admin.php:160
 msgid "Allow resharing"
@@ -309,14 +309,14 @@ msgstr "Afdwingen HTTPS"
 #: templates/admin.php:193
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
-msgstr ""
+msgstr "Dwingt de clients om een versleutelde verbinding te maken met %s"
 
 #: templates/admin.php:199
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
-msgstr ""
+msgstr "Maak verbinding naar uw %s via HTTPS om een geforceerde versleutelde verbinding in- of uit te schakelen."
 
 #: templates/admin.php:211
 msgid "Log"

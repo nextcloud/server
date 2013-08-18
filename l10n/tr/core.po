@@ -4,13 +4,14 @@
 # 
 # Translators:
 # ismail yenigül <ismail.yenigul@surgate.com>, 2013
+# tridinebandim, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:21+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-16 01:29-0400\n"
+"PO-Revision-Date: 2013-08-15 10:20+0000\n"
+"Last-Translator: tridinebandim\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +26,7 @@ msgstr "%s  sizinle »%s« paylaşımında bulundu"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr "Kategori türü desteklenmemektedir."
+msgstr "Kategori türü girilmedi."
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
@@ -138,59 +139,59 @@ msgstr "Kasım"
 msgid "December"
 msgstr "Aralık"
 
-#: js/js.js:354
+#: js/js.js:355
 msgid "Settings"
 msgstr "Ayarlar"
 
-#: js/js.js:814
+#: js/js.js:812
 msgid "seconds ago"
 msgstr "saniye önce"
 
+#: js/js.js:813
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] "%n dakika önce"
+msgstr[1] "%n dakika önce"
+
+#: js/js.js:814
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] "%n saat önce"
+msgstr[1] "%n saat önce"
+
 #: js/js.js:815
-msgid "1 minute ago"
-msgstr "1 dakika önce"
-
-#: js/js.js:816
-msgid "{minutes} minutes ago"
-msgstr "{minutes} dakika önce"
-
-#: js/js.js:817
-msgid "1 hour ago"
-msgstr "1 saat önce"
-
-#: js/js.js:818
-msgid "{hours} hours ago"
-msgstr "{hours} saat önce"
-
-#: js/js.js:819
 msgid "today"
 msgstr "bugün"
 
-#: js/js.js:820
+#: js/js.js:816
 msgid "yesterday"
 msgstr "dün"
 
-#: js/js.js:821
-msgid "{days} days ago"
-msgstr "{days} gün önce"
+#: js/js.js:817
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] "%n gün önce"
+msgstr[1] "%n gün önce"
 
-#: js/js.js:822
+#: js/js.js:818
 msgid "last month"
 msgstr "geçen ay"
 
-#: js/js.js:823
-msgid "{months} months ago"
-msgstr "{months} ay önce"
+#: js/js.js:819
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] "%n ay önce"
+msgstr[1] "%n ay önce"
 
-#: js/js.js:824
+#: js/js.js:820
 msgid "months ago"
 msgstr "ay önce"
 
-#: js/js.js:825
+#: js/js.js:821
 msgid "last year"
 msgstr "geçen yıl"
 
-#: js/js.js:826
+#: js/js.js:822
 msgid "years ago"
 msgstr "yıl önce"
 
@@ -378,9 +379,10 @@ msgstr "Güncelleme başarılı olmadı. Lütfen bu hatayı bildirin <a href=\"h
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Güncelleme başarılı. ownCloud'a yönlendiriliyor."
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
-msgstr "ownCloud parola sıfırlama"
+#: lostpassword/controller.php:61
+#, php-format
+msgid "%s password reset"
+msgstr "%s parola sıfırlama"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -497,7 +499,7 @@ msgstr "PHP sürümünüz NULL Byte saldırısına açık (CVE-2006-7243)"
 #: templates/installation.php:26
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "%s güvenli olarak kullanmak için, lütfen PHP kurulumunuzu güncelleyin."
 
 #: templates/installation.php:32
 msgid ""
@@ -522,7 +524,7 @@ msgstr "Veri klasörünüz ve dosyalarınız .htaccess dosyası çalışmadığ�
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Server'ınızı nasıl ayarlayacağınıza dair bilgi için, lütfen <a href=\"%s\" target=\"_blank\">dokümantasyon sayfasını</a> ziyaret edin."
 
 #: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
@@ -578,6 +580,10 @@ msgstr "%s mevcuttur. Güncelleştirme hakkında daha fazla bilgi alın."
 #: templates/layout.user.php:66
 msgid "Log out"
 msgstr "Çıkış yap"
+
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr "Daha fazla Uygulama"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"

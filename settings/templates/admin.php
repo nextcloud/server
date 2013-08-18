@@ -90,38 +90,30 @@ if (!$_['internetconnectionworking']) {
 
 <fieldset class="personalblock" id="backgroundjobs">
 	<legend><strong><?php p($l->t('Cron'));?></strong></legend>
-	<table class="nostyle">
-		<tr>
-			<td>
+	<p>
 				<input type="radio" name="mode" value="ajax"
 					   id="backgroundjobs_ajax" <?php if ($_['backgroundjobs_mode'] === "ajax") {
 					print_unescaped('checked="checked"');
 				} ?>>
 				<label for="backgroundjobs_ajax">AJAX</label><br/>
 				<em><?php p($l->t("Execute one task with each page loaded")); ?></em>
-			</td>
-		</tr>
-		<tr>
-			<td>
+	</p>
+	<p>
 				<input type="radio" name="mode" value="webcron"
 					   id="backgroundjobs_webcron" <?php if ($_['backgroundjobs_mode'] === "webcron") {
 					print_unescaped('checked="checked"');
 				} ?>>
 				<label for="backgroundjobs_webcron">Webcron</label><br/>
 				<em><?php p($l->t("cron.php is registered at a webcron service to call cron.php once a minute over http.")); ?></em>
-			</td>
-		</tr>
-		<tr>
-			<td>
+	</p>
+	<p>
 				<input type="radio" name="mode" value="cron"
 					   id="backgroundjobs_cron" <?php if ($_['backgroundjobs_mode'] === "cron") {
 					print_unescaped('checked="checked"');
 				} ?>>
 				<label for="backgroundjobs_cron">Cron</label><br/>
 				<em><?php p($l->t("Use systems cron service to call the cron.php file once a minute.")); ?></em>
-			</td>
-		</tr>
-	</table>
+	</p>
 </fieldset>
 
 <fieldset class="personalblock" id="shareAPI">

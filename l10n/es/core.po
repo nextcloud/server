@@ -5,6 +5,7 @@
 # Translators:
 # Art O. Pal <artopal@fastmail.fm>, 2013
 # ggam <ggam@brainleakage.com>, 2013
+# I Robot <owncloud-bot@tmit.eu>, 2013
 # msoko <sokolovitch@yahoo.com>, 2013
 # pablomillaquen <pablomillaquen@gmail.com>, 2013
 # saskarip <saskarip@gmail.com>, 2013
@@ -15,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:21+0000\n"
-"Last-Translator: pablomillaquen <pablomillaquen@gmail.com>\n"
+"POT-Creation-Date: 2013-08-16 01:29-0400\n"
+"PO-Revision-Date: 2013-08-15 13:50+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -145,59 +146,59 @@ msgstr "Noviembre"
 msgid "December"
 msgstr "Diciembre"
 
-#: js/js.js:354
+#: js/js.js:355
 msgid "Settings"
 msgstr "Ajustes"
 
-#: js/js.js:814
+#: js/js.js:812
 msgid "seconds ago"
 msgstr "hace segundos"
 
+#: js/js.js:813
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: js/js.js:814
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
+
 #: js/js.js:815
-msgid "1 minute ago"
-msgstr "hace 1 minuto"
-
-#: js/js.js:816
-msgid "{minutes} minutes ago"
-msgstr "hace {minutes} minutos"
-
-#: js/js.js:817
-msgid "1 hour ago"
-msgstr "Hace 1 hora"
-
-#: js/js.js:818
-msgid "{hours} hours ago"
-msgstr "Hace {hours} horas"
-
-#: js/js.js:819
 msgid "today"
 msgstr "hoy"
 
-#: js/js.js:820
+#: js/js.js:816
 msgid "yesterday"
 msgstr "ayer"
 
-#: js/js.js:821
-msgid "{days} days ago"
-msgstr "hace {days} días"
+#: js/js.js:817
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: js/js.js:822
+#: js/js.js:818
 msgid "last month"
 msgstr "el mes pasado"
 
-#: js/js.js:823
-msgid "{months} months ago"
-msgstr "Hace {months} meses"
+#: js/js.js:819
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: js/js.js:824
+#: js/js.js:820
 msgid "months ago"
 msgstr "hace meses"
 
-#: js/js.js:825
+#: js/js.js:821
 msgid "last year"
 msgstr "el año pasado"
 
-#: js/js.js:826
+#: js/js.js:822
 msgid "years ago"
 msgstr "hace años"
 
@@ -379,15 +380,16 @@ msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr "La actualización ha fracasado. Por favor, informe de este problema a la <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">Comunidad de ownCloud</ a>."
+msgstr "La actualización ha fracasado. Por favor, informe de este problema a la <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">Comunidad de ownCloud</a>."
 
 #: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "La actualización se ha realizado con éxito. Redireccionando a ownCloud ahora."
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
-msgstr "Reseteo contraseña de ownCloud"
+#: lostpassword/controller.php:61
+#, php-format
+msgid "%s password reset"
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -585,6 +587,10 @@ msgstr "%s esta disponible. Obtener mas información de como actualizar."
 #: templates/layout.user.php:66
 msgid "Log out"
 msgstr "Salir"
+
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr ""
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"

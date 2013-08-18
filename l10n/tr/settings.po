@@ -4,13 +4,14 @@
 # 
 # Translators:
 # ismail yenigül <ismail.yenigul@surgate.com>, 2013
+# tridinebandim, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:21+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-16 01:29-0400\n"
+"PO-Revision-Date: 2013-08-15 11:00+0000\n"
+"Last-Translator: tridinebandim\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -181,7 +182,7 @@ msgid ""
 "configure your webserver in a way that the data directory is no longer "
 "accessible or you move the data directory outside the webserver document "
 "root."
-msgstr ""
+msgstr "data dizininiz ve dosyalarınız büyük ihtimalle internet üzerinden erişilebilir. .htaccess  dosyası çalışmıyor. Web sunucunuzu yapılandırarak data dizinine erişimi kapatmanızı veya data dizinini web sunucu döküman dizini dışına almanızı şiddetle tavsiye ederiz."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -196,7 +197,7 @@ msgstr "Web sunucunuz dosya transferi için düzgün bir şekilde yapılandırı
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
-msgstr ""
+msgstr "Lütfen <a href='%s'>kurulum kılavuzlarını</a> tekrar kontrol edin."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
@@ -218,7 +219,7 @@ msgid ""
 "System locale can't be set to %s. This means that there might be problems "
 "with certain characters in file names. We strongly suggest to install the "
 "required packages on your system to support %s."
-msgstr ""
+msgstr "Sistem yereli %s olarak değiştirilemedi. Bu, dosya adlarındaki bazı karakterlerde sorun olabileceği anlamına gelir. %s desteklemek için gerekli paketleri kurmanızı şiddetle öneririz."
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
@@ -231,7 +232,7 @@ msgid ""
 "installation of 3rd party apps don´t work. Accessing files from remote and "
 "sending of notification emails might also not work. We suggest to enable "
 "internet connection for this server if you want to have all features."
-msgstr ""
+msgstr "Bu sunucunun çalışan bir internet bağlantısı yok. Bu, harici depolama alanı bağlama, güncelleştirme bildirimleri veya 3. parti uygulama kurma gibi bazı özellikler çalışmayacak demektir. Uzak dosyalara erişim ve e-posta ile bildirim gönderme de çalışmayacaktır. Eğer bu özelliklerin tamamını kullanmak istiyorsanız, sunucu için internet bağlantısını etkinleştirmenizi öneriyoruz."
 
 #: templates/admin.php:92
 msgid "Cron"
@@ -245,11 +246,11 @@ msgstr "Yüklenen her sayfa ile bir görev çalıştır"
 msgid ""
 "cron.php is registered at a webcron service to call cron.php once a minute "
 "over http."
-msgstr ""
+msgstr "Http üzerinden dakikada bir çalıştırılmak üzere, cron.php bir webcron hizmetine kaydedildi."
 
 #: templates/admin.php:121
 msgid "Use systems cron service to call the cron.php file once a minute."
-msgstr ""
+msgstr "cron.php dosyasını dakikada bir çağırmak için sistemin cron hizmetini kullan. "
 
 #: templates/admin.php:128
 msgid "Sharing"
@@ -273,7 +274,7 @@ msgstr "Kullanıcıların nesneleri paylaşımı için herkese açık bağlantı
 
 #: templates/admin.php:151
 msgid "Allow public uploads"
-msgstr ""
+msgstr "Herkes tarafından yüklemeye izin ver"
 
 #: templates/admin.php:152
 msgid ""
@@ -307,14 +308,14 @@ msgstr "HTTPS bağlantısına zorla"
 #: templates/admin.php:193
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
-msgstr ""
+msgstr "İstemcileri %s a şifreli bir bağlantı ile bağlanmaya zorlar."
 
 #: templates/admin.php:199
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
-msgstr ""
+msgstr "SSL zorlamasını etkinleştirmek ya da devre dışı bırakmak için lütfen ,%s a HTTPS ile bağlanın."
 
 #: templates/admin.php:211
 msgid "Log"

@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# janinko <janinko.g@gmail.com>, 2013
 # Honza K. <honza889@gmail.com>, 2013
 # Martin <fireball@atlas.cz>, 2013
 # pstast <petr@stastny.eu>, 2013
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:21+0000\n"
-"Last-Translator: Martin <fireball@atlas.cz>\n"
+"POT-Creation-Date: 2013-08-16 01:29-0400\n"
+"PO-Revision-Date: 2013-08-15 18:33+0000\n"
+"Last-Translator: pstast <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -141,59 +142,63 @@ msgstr "Listopad"
 msgid "December"
 msgstr "Prosinec"
 
-#: js/js.js:354
+#: js/js.js:355
 msgid "Settings"
 msgstr "Nastavení"
 
-#: js/js.js:814
+#: js/js.js:812
 msgid "seconds ago"
 msgstr "před pár vteřinami"
 
+#: js/js.js:813
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: js/js.js:814
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
 #: js/js.js:815
-msgid "1 minute ago"
-msgstr "před minutou"
-
-#: js/js.js:816
-msgid "{minutes} minutes ago"
-msgstr "před {minutes} minutami"
-
-#: js/js.js:817
-msgid "1 hour ago"
-msgstr "před hodinou"
-
-#: js/js.js:818
-msgid "{hours} hours ago"
-msgstr "před {hours} hodinami"
-
-#: js/js.js:819
 msgid "today"
 msgstr "dnes"
 
-#: js/js.js:820
+#: js/js.js:816
 msgid "yesterday"
 msgstr "včera"
 
-#: js/js.js:821
-msgid "{days} days ago"
-msgstr "před {days} dny"
+#: js/js.js:817
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: js/js.js:822
+#: js/js.js:818
 msgid "last month"
 msgstr "minulý měsíc"
 
-#: js/js.js:823
-msgid "{months} months ago"
-msgstr "před {months} měsíci"
+#: js/js.js:819
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: js/js.js:824
+#: js/js.js:820
 msgid "months ago"
 msgstr "před měsíci"
 
-#: js/js.js:825
+#: js/js.js:821
 msgid "last year"
 msgstr "minulý rok"
 
-#: js/js.js:826
+#: js/js.js:822
 msgid "years ago"
 msgstr "před lety"
 
@@ -381,9 +386,10 @@ msgstr "Aktualizace neproběhla úspěšně. Nahlaste prosím problém do <a hre
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Aktualizace byla úspěšná. Přesměrovávám na ownCloud."
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
-msgstr "Obnovení hesla pro ownCloud"
+#: lostpassword/controller.php:61
+#, php-format
+msgid "%s password reset"
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -581,6 +587,10 @@ msgstr "%s je dostupná. Získejte více informací k postupu aktualizace."
 #: templates/layout.user.php:66
 msgid "Log out"
 msgstr "Odhlásit se"
+
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr "Více aplikací"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"

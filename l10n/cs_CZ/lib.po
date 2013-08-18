@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-07 08:59-0400\n"
-"PO-Revision-Date: 2013-08-05 18:00+0000\n"
-"Last-Translator: pstast <petr@stastny.eu>\n"
+"POT-Creation-Date: 2013-08-15 04:47-0400\n"
+"PO-Revision-Date: 2013-08-15 08:48+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,14 +37,10 @@ msgid "Users"
 msgstr "Uživatelé"
 
 #: app.php:409
-msgid "Apps"
-msgstr "Aplikace"
-
-#: app.php:417
 msgid "Admin"
 msgstr "Administrace"
 
-#: app.php:844
+#: app.php:836
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Selhala aktualizace verze \"%s\"."
@@ -213,50 +209,50 @@ msgid "seconds ago"
 msgstr "před pár sekundami"
 
 #: template/functions.php:81
-msgid "1 minute ago"
-msgstr "před minutou"
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: template/functions.php:82
-#, php-format
-msgid "%d minutes ago"
-msgstr "před %d minutami"
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: template/functions.php:83
-msgid "1 hour ago"
-msgstr "před hodinou"
-
-#: template/functions.php:84
-#, php-format
-msgid "%d hours ago"
-msgstr "před %d hodinami"
-
-#: template/functions.php:85
 msgid "today"
 msgstr "dnes"
 
-#: template/functions.php:86
+#: template/functions.php:84
 msgid "yesterday"
 msgstr "včera"
 
-#: template/functions.php:87
-#, php-format
-msgid "%d days ago"
-msgstr "před %d dny"
+#: template/functions.php:85
+msgid "%n day go"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: template/functions.php:88
+#: template/functions.php:86
 msgid "last month"
 msgstr "minulý měsíc"
 
-#: template/functions.php:89
-#, php-format
-msgid "%d months ago"
-msgstr "před %d měsíci"
+#: template/functions.php:87
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: template/functions.php:90
+#: template/functions.php:88
 msgid "last year"
 msgstr "minulý rok"
 
-#: template/functions.php:91
+#: template/functions.php:89
 msgid "years ago"
 msgstr "před lety"
 

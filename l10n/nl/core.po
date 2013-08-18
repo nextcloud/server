@@ -4,13 +4,14 @@
 # 
 # Translators:
 # André Koot <meneer@tken.net>, 2013
+# kwillems <kwillems@zonnet.nl>, 2013
 # Jorcee <mail@jordyc.nl>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:21+0000\n"
+"POT-Creation-Date: 2013-08-15 04:47-0400\n"
+"PO-Revision-Date: 2013-08-15 08:48+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -139,59 +140,59 @@ msgstr "november"
 msgid "December"
 msgstr "december"
 
-#: js/js.js:354
+#: js/js.js:355
 msgid "Settings"
 msgstr "Instellingen"
 
-#: js/js.js:814
+#: js/js.js:815
 msgid "seconds ago"
 msgstr "seconden geleden"
 
-#: js/js.js:815
-msgid "1 minute ago"
-msgstr "1 minuut geleden"
-
 #: js/js.js:816
-msgid "{minutes} minutes ago"
-msgstr "{minutes} minuten geleden"
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
 
 #: js/js.js:817
-msgid "1 hour ago"
-msgstr "1 uur geleden"
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
 
 #: js/js.js:818
-msgid "{hours} hours ago"
-msgstr "{hours} uren geleden"
-
-#: js/js.js:819
 msgid "today"
 msgstr "vandaag"
 
-#: js/js.js:820
+#: js/js.js:819
 msgid "yesterday"
 msgstr "gisteren"
 
-#: js/js.js:821
-msgid "{days} days ago"
-msgstr "{days} dagen geleden"
+#: js/js.js:820
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: js/js.js:822
+#: js/js.js:821
 msgid "last month"
 msgstr "vorige maand"
 
-#: js/js.js:823
-msgid "{months} months ago"
-msgstr "{months} maanden geleden"
+#: js/js.js:822
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: js/js.js:824
+#: js/js.js:823
 msgid "months ago"
 msgstr "maanden geleden"
 
-#: js/js.js:825
+#: js/js.js:824
 msgid "last year"
 msgstr "vorig jaar"
 
-#: js/js.js:826
+#: js/js.js:825
 msgid "years ago"
 msgstr "jaar geleden"
 
@@ -379,9 +380,10 @@ msgstr "De update is niet geslaagd. Meld dit probleem aan bij de <a href=\"https
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "De update is geslaagd. Je wordt teruggeleid naar je eigen ownCloud."
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
-msgstr "ownCloud-wachtwoord herstellen"
+#: lostpassword/controller.php:61
+#, php-format
+msgid "%s password reset"
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -498,7 +500,7 @@ msgstr "Je PHP-versie is kwetsbaar voor de NULL byte aanval (CVE-2006-7243)"
 #: templates/installation.php:26
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "Werk uw PHP installatie bij om %s veilig te kunnen gebruiken."
 
 #: templates/installation.php:32
 msgid ""
@@ -523,7 +525,7 @@ msgstr "Je gegevensdirectory en bestanden zijn vermoedelijk bereikbaar vanaf het
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Bekijk de <a href=\"%s\" target=\"_blank\">documentatie</a> voor Informatie over het correct configureren van uw server."
 
 #: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
@@ -579,6 +581,10 @@ msgstr "%s is beschikbaar. Verkrijg meer informatie over het bijwerken."
 #: templates/layout.user.php:66
 msgid "Log out"
 msgstr "Afmelden"
+
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr "Meer applicaties"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
