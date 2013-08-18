@@ -50,7 +50,7 @@
 	position: relative;
 	display: inline;
 }
-#uploadprogresswrapper #uploadprogressbar {
+#uploadprogressbar {
 	position:relative;
 	float: left;
 	margin-left: 12px;
@@ -58,7 +58,7 @@
 	height: 26px;
 	display:inline-block;
 }
-#uploadprogresswrapper #uploadprogressbar + stop {
+#uploadprogressbar + stop {
 	font-size: 13px;
 }
 
