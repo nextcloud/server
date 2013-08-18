@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Access granted" => "允許存取",
 "Error configuring Dropbox storage" => "設定 Dropbox 儲存時發生錯誤",
 "Grant access" => "允許存取",
@@ -24,3 +25,4 @@
 "SSL root certificates" => "SSL 根憑證",
 "Import Root Certificate" => "匯入根憑證"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

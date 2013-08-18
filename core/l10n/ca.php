@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s ha compartit »%s« amb tu",
 "Category type not provided." => "No s'ha especificat el tipus de categoria.",
 "No category to add?" => "No voleu afegir cap categoria?",
@@ -29,15 +30,13 @@
 "December" => "Desembre",
 "Settings" => "Configuració",
 "seconds ago" => "segons enrere",
-"1 minute ago" => "fa 1 minut",
-"{minutes} minutes ago" => "fa {minutes} minuts",
-"1 hour ago" => "fa 1 hora",
-"{hours} hours ago" => "fa {hours} hores",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "avui",
 "yesterday" => "ahir",
-"{days} days ago" => "fa {days} dies",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "el mes passat",
-"{months} months ago" => "fa {months} mesos",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "mesos enrere",
 "last year" => "l'any passat",
 "years ago" => "anys enrere",
@@ -85,7 +84,6 @@
 "Email sent" => "El correu electrónic s'ha enviat",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "L'actualització ha estat incorrecte. Comuniqueu aquest error a <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">la comunitat ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "L'actualització ha estat correcte. Ara us redirigim a ownCloud.",
-"ownCloud password reset" => "estableix de nou la contrasenya Owncloud",
 "Use the following link to reset your password: {link}" => "Useu l'enllaç següent per restablir la contrasenya: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "L'enllaç per reiniciar la vostra contrasenya s'ha enviat al vostre correu.<br>Si no el rebeu en un temps raonable comproveu les carpetes de spam. <br>Si no és allà, pregunteu a l'administrador local.",
 "Request failed!<br>Did you make sure your email/username was right?" => "La petició ha fallat!<br>Esteu segur que el correu/nom d'usuari és correcte?",
@@ -110,11 +108,11 @@
 "Add" => "Afegeix",
 "Security Warning" => "Avís de seguretat",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "La versió de PHP que useu és vulnerable a l'atac per NULL Byte (CVE-2006-7243)",
-"Please update your PHP installation to use ownCloud securely." => "Actualitzeu la instal·lació de PHP per usar ownCloud de forma segura.",
+"Please update your PHP installation to use %s securely." => "Actualitzeu la instal·lació de PHP per usar %s de forma segura.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "No està disponible el generador de nombres aleatoris segurs, habiliteu l'extensió de PHP OpenSSL.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Sense un generador de nombres aleatoris segurs un atacant podria predir els senyals per restablir la contrasenya i prendre-us el compte.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "La carpeta de dades i els seus fitxers probablement són accessibles des d'internet perquè el fitxer .htaccess no funciona.",
-"For information how to properly configure your server, please see the <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>." => "Per més informació sobre com configurar correctament el servidor, mireu la <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentació</a>.",
+"For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Per informació de com configurar el servidor, comproveu la <a href=\"%s\" target=\"_blank\">documentació</a>.",
 "Create an <strong>admin account</strong>" => "Crea un <strong>compte d'administrador</strong>",
 "Advanced" => "Avançat",
 "Data folder" => "Carpeta de dades",
@@ -140,3 +138,4 @@
 "next" => "següent",
 "Updating ownCloud to version %s, this may take a while." => "S'està actualitzant ownCloud a la versió %s, pot trigar una estona."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

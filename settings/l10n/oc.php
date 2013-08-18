@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Pas possible de cargar la tièra dempuèi App Store",
 "Authentication error" => "Error d'autentificacion",
 "Group already exists" => "Lo grop existís ja",
@@ -25,7 +26,6 @@
 "Security Warning" => "Avertiment de securitat",
 "Cron" => "Cron",
 "Execute one task with each page loaded" => "Executa un prètfach amb cada pagina cargada",
-"Use systems cron service. Call the cron.php file in the owncloud folder via a system cronjob once a minute." => "Utiliza lo servici cron de ton sistèm operatiu. Executa lo fichièr cron.php dins lo dorsier owncloud tras cronjob del sistèm cada minuta.",
 "Sharing" => "Al partejar",
 "Enable Share API" => "Activa API partejada",
 "Log" => "Jornal",
@@ -49,3 +49,4 @@
 "Other" => "Autres",
 "Username" => "Non d'usancièr"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

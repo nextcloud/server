@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "סוג הקטגוריה לא סופק.",
 "No category to add?" => "אין קטגוריה להוספה?",
 "This category already exists: %s" => "הקטגוריה הבאה כבר קיימת: %s",
@@ -28,15 +29,13 @@
 "December" => "דצמבר",
 "Settings" => "הגדרות",
 "seconds ago" => "שניות",
-"1 minute ago" => "לפני דקה אחת",
-"{minutes} minutes ago" => "לפני {minutes} דקות",
-"1 hour ago" => "לפני שעה",
-"{hours} hours ago" => "לפני {hours} שעות",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "היום",
 "yesterday" => "אתמול",
-"{days} days ago" => "לפני {days} ימים",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "חודש שעבר",
-"{months} months ago" => "לפני {months} חודשים",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "חודשים",
 "last year" => "שנה שעברה",
 "years ago" => "שנים",
@@ -83,7 +82,6 @@
 "Email sent" => "הודעת הדוא״ל נשלחה",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "תהליך העדכון לא הושלם בהצלחה. נא דווח את הבעיה ב<a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">קהילת ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "תהליך העדכון הסתיים בהצלחה. עכשיו מנתב אותך אל ownCloud.",
-"ownCloud password reset" => "איפוס הססמה של ownCloud",
 "Use the following link to reset your password: {link}" => "יש להשתמש בקישור הבא כדי לאפס את הססמה שלך: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "הקישור לאיפוס הססמה שלך נשלח אליך בדוא״ל.<br>אם לא קיבלת את הקישור תוך זמן סביר, מוטב לבדוק את תיבת הזבל שלך.<br>אם ההודעה לא שם, כדאי לשאול את מנהל הרשת שלך .",
 "Request failed!<br>Did you make sure your email/username was right?" => "הבקשה נכשלה!<br>האם כתובת הדוא״ל/שם המשתמש שלך נכונים?",
@@ -105,11 +103,9 @@
 "Add" => "הוספה",
 "Security Warning" => "אזהרת אבטחה",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "גרסת ה־PHP פגיעה בפני התקפת בית NULL/ריק (CVE-2006-7243)",
-"Please update your PHP installation to use ownCloud securely." => "נא לעדכן את התקנת ה־PHP שלך כדי להשתמש ב־PHP בבטחה.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "אין מחולל מספרים אקראיים מאובטח, נא להפעיל את ההרחבה OpenSSL ב־PHP.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "ללא מחולל מספרים אקראיים מאובטח תוקף יכול לנבא את מחרוזות איפוס הססמה ולהשתלט על החשבון שלך.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "תיקיית וקבצי המידע שלך כנראה נגישים מהאינטרנט מכיוון שקובץ ה.htaccess לא עובד.",
-"For information how to properly configure your server, please see the <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>." => "לקבלת מידע להגדרה נכונה של השרת שלך, ראה את ה<a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">תיעוד</a>.",
 "Create an <strong>admin account</strong>" => "יצירת <strong>חשבון מנהל</strong>",
 "Advanced" => "מתקדם",
 "Data folder" => "תיקיית נתונים",
@@ -134,3 +130,4 @@
 "next" => "הבא",
 "Updating ownCloud to version %s, this may take a while." => "מעדכן את ownCloud אל גרסא %s, זה עלול לקחת זמן מה."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

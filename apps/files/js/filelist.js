@@ -15,7 +15,7 @@ var FileList={
 		// filename td
 		td = $('<td></td>').attr({
 			"class": "filename",
-			"style": 'background-image:url('+iconurl+')'
+			"style": 'background-image:url('+iconurl+'); background-size: 16px;'
 		});
 		td.append('<input type="checkbox" />');
 		var link_elem = $('<a></a>').attr({
@@ -371,9 +371,7 @@ var FileList={
 		}
 		for (var i=0; i<files.length; i++) {
 			var deleteAction = $('tr').filterAttr('data-file',files[i]).children("td.date").children(".action.delete");
-			var oldHTML = deleteAction.html();
-			var newHTML = '<img class="move2trash" data-action="Delete" title="'+t('files', 'perform delete operation')+'" src="'+ OC.imagePath('core', 'loading.gif') +'"></a>';
-			deleteAction.html(newHTML);
+			deleteAction.removeClass('delete-icon').addClass('progress-icon');
 		}
 		// Finish any existing actions
 		if (FileList.lastAction) {
@@ -392,10 +390,11 @@ var FileList={
 							files.removeClass('selected');
 						});
 						procesSelection();
+						checkTrashStatus();
 					} else {
 						$.each(files,function(index,file) {
-							var deleteAction = $('tr').filterAttr('data-file',file).children("td.date").children(".move2trash");
-							deleteAction.html(oldHTML);
+							var deleteAction = $('tr').filterAttr('data-file',files[i]).children("td.date").children(".action.delete");
+							deleteAction.removeClass('progress-icon').addClass('delete-icon');
 						});
 					}
 				});
@@ -451,13 +450,14 @@ $(document).ready(function(){
 				var currentUploads = parseInt(uploadtext.attr('currentUploads'));
 				currentUploads += 1;
 				uploadtext.attr('currentUploads', currentUploads);
+				var translatedText = n('files', 'Uploading %n file', 'Uploading %n files', currentUploads);
 				if(currentUploads === 1) {
 					var img = OC.imagePath('core', 'loading.gif');
 					data.context.find('td.filename').attr('style','background-image:url('+img+')');
-					uploadtext.text(t('files', '1 file uploading'));
+					uploadtext.text(translatedText);
 					uploadtext.show();
 				} else {
-					uploadtext.text(currentUploads + ' ' + t('files', 'files uploading'));
+					uploadtext.text(translatedText);
 				}
 			} else {
 				// add as stand-alone row to filelist

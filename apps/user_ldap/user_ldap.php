@@ -77,11 +77,6 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 		}
 		$dn = $ldap_users[0];
 
-		//are the credentials OK?
-		if(!$this->areCredentialsValid($dn, $password)) {
-			return false;
-		}
-
 		//do we have a username for him/her?
 		$ocname = $this->dn2username($dn);
 
@@ -89,6 +84,11 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 			//update some settings, if necessary
 			$this->updateQuota($dn);
 			$this->updateEmail($dn);
+
+			//are the credentials OK?
+			if(!$this->areCredentialsValid($dn, $password)) {
+				return false;
+			}
 
 			//give back the display name
 			return $ocname;

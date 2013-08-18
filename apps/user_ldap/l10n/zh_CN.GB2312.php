@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Deletion failed" => "删除失败",
 "Success" => "成功",
 "Error" => "出错",
@@ -23,17 +24,15 @@
 "Use TLS" => "使用 TLS",
 "Case insensitve LDAP server (Windows)" => "大小写不敏感的 LDAP 服务器 (Windows)",
 "Turn off SSL certificate validation." => "关闭 SSL 证书校验。",
-"If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "如果只有使用此选项才能连接，请导入 LDAP 服务器的 SSL 证书到您的 ownCloud 服务器。",
 "Not recommended, use for testing only." => "不推荐，仅供测试",
 "in seconds. A change empties the cache." => "以秒计。修改会清空缓存。",
 "User Display Name Field" => "用户显示名称字段",
-"The LDAP attribute to use to generate the user`s ownCloud name." => "用于生成用户的 ownCloud 名称的 LDAP 属性。",
 "Base User Tree" => "基本用户树",
 "Group Display Name Field" => "群组显示名称字段",
-"The LDAP attribute to use to generate the groups`s ownCloud name." => "用于生成群组的 ownCloud 名称的 LDAP 属性。",
 "Base Group Tree" => "基本群组树",
 "Group-Member association" => "群组-成员组合",
 "in bytes" => "以字节计",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "用户名请留空 (默认)。否则，请指定一个 LDAP/AD 属性。",
 "Help" => "帮助"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

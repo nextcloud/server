@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# asieriko <asieriko@gmail.com>, 2013
 # Piarres Beobide <pi@beobide.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-24 01:55-0400\n"
-"PO-Revision-Date: 2013-07-24 05:55+0000\n"
+"POT-Creation-Date: 2013-08-15 04:47-0400\n"
+"PO-Revision-Date: 2013-08-15 08:48+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -35,26 +36,22 @@ msgid "Users"
 msgstr "Erabiltzaileak"
 
 #: app.php:409
-msgid "Apps"
-msgstr "Aplikazioak"
-
-#: app.php:417
 msgid "Admin"
 msgstr "Admin"
 
-#: app.php:844
+#: app.php:836
 #, php-format
 msgid "Failed to upgrade \"%s\"."
-msgstr ""
+msgstr "Ezin izan da \"%s\" eguneratu."
 
-#: defaults.php:33
+#: defaults.php:35
 msgid "web services under your control"
 msgstr "web zerbitzuak zure kontrolpean"
 
 #: files.php:66 files.php:98
 #, php-format
 msgid "cannot open \"%s\""
-msgstr ""
+msgstr "ezin da \"%s\" ireki"
 
 #: files.php:226
 msgid "ZIP download is turned off."
@@ -76,7 +73,7 @@ msgstr "Hautatuko fitxategiak oso handiak dira zip fitxategia sortzeko."
 msgid ""
 "Download the files in smaller chunks, seperately or kindly ask your "
 "administrator."
-msgstr ""
+msgstr "Deskargatu fitzategiak zati txikiagoetan, banan-banan edo eskatu mesedez zure administradoreari"
 
 #: helper.php:235
 msgid "couldn't be determined"
@@ -211,56 +208,52 @@ msgid "seconds ago"
 msgstr "segundu"
 
 #: template/functions.php:81
-msgid "1 minute ago"
-msgstr "orain dela minutu 1"
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
 
 #: template/functions.php:82
-#, php-format
-msgid "%d minutes ago"
-msgstr "orain dela %d minutu"
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
 
 #: template/functions.php:83
-msgid "1 hour ago"
-msgstr "orain dela ordu bat"
-
-#: template/functions.php:84
-#, php-format
-msgid "%d hours ago"
-msgstr "orain dela %d ordu"
-
-#: template/functions.php:85
 msgid "today"
 msgstr "gaur"
 
-#: template/functions.php:86
+#: template/functions.php:84
 msgid "yesterday"
 msgstr "atzo"
 
-#: template/functions.php:87
-#, php-format
-msgid "%d days ago"
-msgstr "orain dela %d egun"
+#: template/functions.php:85
+msgid "%n day go"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: template/functions.php:88
+#: template/functions.php:86
 msgid "last month"
 msgstr "joan den hilabetean"
 
-#: template/functions.php:89
-#, php-format
-msgid "%d months ago"
-msgstr "orain dela %d hilabete"
+#: template/functions.php:87
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: template/functions.php:90
+#: template/functions.php:88
 msgid "last year"
 msgstr "joan den urtean"
 
-#: template/functions.php:91
+#: template/functions.php:89
 msgid "years ago"
 msgstr "urte"
 
-#: template.php:296
+#: template.php:297
 msgid "Caused by:"
-msgstr ""
+msgstr "Honek eraginda:"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format

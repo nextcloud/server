@@ -173,6 +173,7 @@ class DAV extends \OC\Files\Storage\Common{
 				curl_setopt($curl, CURLOPT_USERPWD, $this->user.':'.$this->password);
 				curl_setopt($curl, CURLOPT_URL, $this->createBaseUri().$path);
 				curl_setopt($curl, CURLOPT_FILE, $fp);
+				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 
 				curl_exec ($curl);
 				curl_close ($curl);

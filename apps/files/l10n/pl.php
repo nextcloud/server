@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Nie można było przenieść %s - Plik o takiej nazwie już istnieje",
 "Could not move %s" => "Nie można było przenieść %s",
 "Unable to set upload directory." => "Nie można ustawić katalog wczytywania.",
@@ -23,7 +24,6 @@
 "Error" => "Błąd",
 "Share" => "Udostępnij",
 "Delete permanently" => "Trwale usuń",
-"Delete" => "Usuń",
 "Rename" => "Zmień nazwę",
 "Pending" => "Oczekujące",
 "{new_name} already exists" => "{new_name} już istnieje",
@@ -32,8 +32,7 @@
 "cancel" => "anuluj",
 "replaced {new_name} with {old_name}" => "zastąpiono {new_name} przez {old_name}",
 "undo" => "cofnij",
-"perform delete operation" => "wykonaj operację usunięcia",
-"1 file uploading" => "1 plik wczytywany",
+"_Uploading %n file_::_Uploading %n files_" => array("","",""),
 "files uploading" => "pliki wczytane",
 "'.' is an invalid file name." => "„.” jest nieprawidłową nazwą pliku.",
 "File name cannot be empty." => "Nazwa pliku nie może być pusta.",
@@ -45,10 +44,8 @@
 "Name" => "Nazwa",
 "Size" => "Rozmiar",
 "Modified" => "Modyfikacja",
-"1 folder" => "1 folder",
-"{count} folders" => "Ilość folderów: {count}",
-"1 file" => "1 plik",
-"{count} files" => "Ilość plików: {count}",
+"_%n folder_::_%n folders_" => array("","",""),
+"_%n file_::_%n files_" => array("","",""),
 "%s could not be renamed" => "%s nie można zmienić nazwy",
 "Upload" => "Wyślij",
 "File handling" => "Zarządzanie plikami",
@@ -69,6 +66,7 @@
 "Nothing in here. Upload something!" => "Pusto. Wyślij coś!",
 "Download" => "Pobierz",
 "Unshare" => "Zatrzymaj współdzielenie",
+"Delete" => "Usuń",
 "Upload too large" => "Ładowany plik jest za duży",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Pliki, które próbujesz przesłać, przekraczają maksymalną dopuszczalną wielkość.",
 "Files are being scanned, please wait." => "Skanowanie plików, proszę czekać.",
@@ -79,3 +77,4 @@
 "files" => "pliki",
 "Upgrading filesystem cache..." => "Uaktualnianie plików pamięci podręcznej..."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

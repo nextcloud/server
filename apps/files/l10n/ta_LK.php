@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "No file was uploaded. Unknown error" => "ஒரு கோப்பும் பதிவேற்றப்படவில்லை. அறியப்படாத வழு",
 "There is no error, the file uploaded with success" => "இங்கு வழு இல்லை, கோப்பு வெற்றிகரமாக பதிவேற்றப்பட்டது",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "பதிவேற்றப்பட்ட கோப்பானது HTML  படிவத்தில் குறிப்பிடப்பட்டுள்ள MAX_FILE_SIZE  directive ஐ விட கூடியது",
@@ -13,7 +14,6 @@
 "URL cannot be empty." => "URL  வெறுமையாக இருக்கமுடியாது.",
 "Error" => "வழு",
 "Share" => "பகிர்வு",
-"Delete" => "நீக்குக",
 "Rename" => "பெயர்மாற்றம்",
 "Pending" => "நிலுவையிலுள்ள",
 "{new_name} already exists" => "{new_name} ஏற்கனவே உள்ளது",
@@ -22,15 +22,13 @@
 "cancel" => "இரத்து செய்க",
 "replaced {new_name} with {old_name}" => "{new_name} ஆனது {old_name} இனால் மாற்றப்பட்டது",
 "undo" => "முன் செயல் நீக்கம் ",
-"1 file uploading" => "1 கோப்பு பதிவேற்றப்படுகிறது",
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "செல்லுபடியற்ற பெயர்,'\\', '/', '<', '>', ':', '\"', '|', '?' மற்றும் '*' ஆகியன அனுமதிக்கப்படமாட்டாது.",
 "Name" => "பெயர்",
 "Size" => "அளவு",
 "Modified" => "மாற்றப்பட்டது",
-"1 folder" => "1 கோப்புறை",
-"{count} folders" => "{எண்ணிக்கை} கோப்புறைகள்",
-"1 file" => "1 கோப்பு",
-"{count} files" => "{எண்ணிக்கை} கோப்புகள்",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "Upload" => "பதிவேற்றுக",
 "File handling" => "கோப்பு கையாளுதல்",
 "Maximum upload size" => "பதிவேற்றக்கூடிய ஆகக்கூடிய அளவு ",
@@ -48,8 +46,10 @@
 "Nothing in here. Upload something!" => "இங்கு ஒன்றும் இல்லை. ஏதாவது பதிவேற்றுக!",
 "Download" => "பதிவிறக்குக",
 "Unshare" => "பகிரப்படாதது",
+"Delete" => "நீக்குக",
 "Upload too large" => "பதிவேற்றல் மிகப்பெரியது",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "நீங்கள் பதிவேற்ற முயற்சிக்கும் கோப்புகளானது இந்த சேவையகத்தில் கோப்பு பதிவேற்றக்கூடிய ஆகக்கூடிய அளவிலும் கூடியது.",
 "Files are being scanned, please wait." => "கோப்புகள் வருடப்படுகின்றன, தயவுசெய்து காத்திருங்கள்.",
 "Current scanning" => "தற்போது வருடப்படுபவை"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

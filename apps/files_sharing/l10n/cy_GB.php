@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Password" => "Cyfrinair",
 "Submit" => "Cyflwyno",
 "%s shared the folder %s with you" => "Rhannodd %s blygell %s â chi",
@@ -8,3 +9,4 @@
 "Cancel upload" => "Diddymu llwytho i fyny",
 "No preview available for" => "Does dim rhagolwg ar gael ar gyfer"
 );
+$PLURAL_FORMS = "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;";

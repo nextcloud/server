@@ -1,6 +1,5 @@
-<?php $TRANSLATIONS = array(
-"success" => "成功",
-"failure" => "失敗",
-"No old versions available" => "沒有以往版本",
+<?php
+$TRANSLATIONS = array(
 "Versions" => "版本"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "분류 형식이 제공되지 않았습니다.",
 "No category to add?" => "추가할 분류가 없습니까?",
 "This category already exists: %s" => "분류가 이미 존재합니다: %s",
@@ -28,15 +29,13 @@
 "December" => "12월",
 "Settings" => "설정",
 "seconds ago" => "초 전",
-"1 minute ago" => "1분 전",
-"{minutes} minutes ago" => "{minutes}분 전",
-"1 hour ago" => "1시간 전",
-"{hours} hours ago" => "{hours}시간 전",
+"_%n minute ago_::_%n minutes ago_" => array(""),
+"_%n hour ago_::_%n hours ago_" => array(""),
 "today" => "오늘",
 "yesterday" => "어제",
-"{days} days ago" => "{days}일 전",
+"_%n day ago_::_%n days ago_" => array(""),
 "last month" => "지난 달",
-"{months} months ago" => "{months}개월 전",
+"_%n month ago_::_%n months ago_" => array(""),
 "months ago" => "개월 전",
 "last year" => "작년",
 "years ago" => "년 전",
@@ -83,7 +82,6 @@
 "Email sent" => "이메일 발송됨",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "업데이트가 실패하였습니다. 이 문제를 <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud 커뮤니티</a>에 보고해 주십시오.",
 "The update was successful. Redirecting you to ownCloud now." => "업데이트가 성공하였습니다. ownCloud로 돌아갑니다.",
-"ownCloud password reset" => "ownCloud 암호 재설정",
 "Use the following link to reset your password: {link}" => "다음 링크를 사용하여 암호를 재설정할 수 있습니다: {link}",
 "Request failed!<br>Did you make sure your email/username was right?" => "요청이 실패했습니다!<br>email 주소와 사용자 명을 정확하게 넣으셨나요?",
 "You will receive a link to reset your password via Email." => "이메일로 암호 재설정 링크를 보냈습니다.",
@@ -105,11 +103,9 @@
 "Add" => "추가",
 "Security Warning" => "보안 경고",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "사용 중인 PHP 버전이 NULL 바이트 공격에 취약합니다 (CVE-2006-7243)",
-"Please update your PHP installation to use ownCloud securely." => "ownCloud의 보안을 위하여 PHP 버전을 업데이트하십시오.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "안전한 난수 생성기를 사용할 수 없습니다. PHP의 OpenSSL 확장을 활성화해 주십시오.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "안전한 난수 생성기를 사용하지 않으면 공격자가 암호 초기화 토큰을 추측하여 계정을 탈취할 수 있습니다.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => ".htaccess 파일이 처리되지 않아서 데이터 디렉터리와 파일을 인터넷에서 접근할 수 없을 수도 있습니다.",
-"For information how to properly configure your server, please see the <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>." => "서버를 올바르게 설정하는 방법을 알아보려면 <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">문서</a>를 참고하십시오..",
 "Create an <strong>admin account</strong>" => "<strong>관리자 계정</strong> 만들기",
 "Advanced" => "고급",
 "Data folder" => "데이터 폴더",
@@ -133,3 +129,4 @@
 "next" => "다음",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud를 버전 %s(으)로 업데이트합니다. 잠시 기다려 주십시오."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

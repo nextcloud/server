@@ -61,7 +61,7 @@ class Files {
 	 * @param string $query
 	 * @return array
 	 */
-	public function searchByMime($mimetype) {
+	static public function searchByMime($mimetype) {
 		return(\OC\Files\Filesystem::searchByMime( $mimetype ));
 	}
 

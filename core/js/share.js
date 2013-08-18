@@ -22,9 +22,9 @@ OC.Share={
 					if (itemType != 'file' && itemType != 'folder') {
 						$('a.share[data-item="'+item+'"]').css('background', 'url('+image+') no-repeat center');
 					} else {
-						var file = $('tr').filterAttr('data-id', item);
+						var file = $('tr[data-id="'+item+'"]');
 						if (file.length > 0) {
-							var action = $(file).find('.fileactions .action').filterAttr('data-action', 'Share');
+							var action = $(file).find('.fileactions .action[data-action="Share"]');
 							var img = action.find('img').attr('src', image);
 							action.addClass('permanent');
 							action.html(' '+t('core', 'Shared')).prepend(img);
@@ -36,7 +36,7 @@ OC.Share={
 								// Search for possible parent folders that are shared
 								while (path != last) {
 									if (path == data['path']) {
-										var actions = $('.fileactions .action').filterAttr('data-action', 'Share');
+										var actions = $('.fileactions .action[data-action="Share"]');
 										$.each(actions, function(index, action) {
 											var img = $(action).find('img');
 											if (img.attr('src') != OC.imagePath('core', 'actions/public')) {
@@ -256,8 +256,8 @@ OC.Share={
 				var shareType = selected.item.value.shareType;
 				var shareWith = selected.item.value.shareWith;
 				$(this).val(shareWith);
-				// Default permissions are Read and Share
-				var permissions = OC.PERMISSION_READ | OC.PERMISSION_SHARE;
+				// Default permissions are Edit (CRUD) and Share
+				var permissions = OC.PERMISSION_ALL;
 				OC.Share.share(itemType, itemSource, shareType, shareWith, permissions, function() {
 					OC.Share.addShareWith(shareType, shareWith, selected.item.label, permissions, possiblePermissions);
 					$('#shareWith').val('');
@@ -592,8 +592,7 @@ $(document).ready(function() {
 		}
 
 		// Update the share information
-		OC.Share.share(itemType, itemSource,	OC.Share.SHARE_TYPE_LINK, '', permissions, function(data) {
-			return;
+		OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', permissions, function(data) {
 		});
 	});
 
@@ -609,13 +608,26 @@ $(document).ready(function() {
 	});
 
 	$(document).on('focusout keyup', '#dropdown #linkPassText', function(event) {
-		if ( $('#linkPassText').val() != '' && (event.type == 'focusout' || event.keyCode == 13) ) {
-			var itemType = $('#dropdown').data('item-type');
-			var itemSource = $('#dropdown').data('item-source');
-			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $('#linkPassText').val(), OC.PERMISSION_READ, function() {
-				console.log("password set to: '" + $('#linkPassText').val() +"' by event: " + event.type);
-				$('#linkPassText').val('');
-				$('#linkPassText').attr('placeholder', t('core', 'Password protected'));
+		var linkPassText = $('#linkPassText');
+		if ( linkPassText.val() != '' && (event.type == 'focusout' || event.keyCode == 13) ) {
+
+			var allowPublicUpload = $('#sharingDialogAllowPublicUpload').is(':checked');
+			var dropDown = $('#dropdown');
+			var itemType = dropDown.data('item-type');
+			var itemSource = dropDown.data('item-source');
+			var permissions = 0;
+
+			// Calculate permissions
+			if (allowPublicUpload) {
+				permissions = OC.PERMISSION_UPDATE + OC.PERMISSION_CREATE + OC.PERMISSION_READ;
+			} else {
+				permissions = OC.PERMISSION_READ;
+			}
+
+			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $('#linkPassText').val(), permissions, function() {
+				console.log("password set to: '" + linkPassText.val() +"' by event: " + event.type);
+				linkPassText.val('');
+				linkPassText.attr('placeholder', t('core', 'Password protected'));
 			});
 		}
 	});

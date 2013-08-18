@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "Kategorijas tips nav norādīts.",
 "No category to add?" => "Nav kategoriju, ko pievienot?",
 "This category already exists: %s" => "Šāda kategorija jau eksistē — %s",
@@ -28,15 +29,13 @@
 "December" => "Decembris",
 "Settings" => "Iestatījumi",
 "seconds ago" => "sekundes atpakaļ",
-"1 minute ago" => "pirms 1 minūtes",
-"{minutes} minutes ago" => "pirms {minutes} minūtēm",
-"1 hour ago" => "pirms 1 stundas",
-"{hours} hours ago" => "pirms {hours} stundām",
+"_%n minute ago_::_%n minutes ago_" => array("","",""),
+"_%n hour ago_::_%n hours ago_" => array("","",""),
 "today" => "šodien",
 "yesterday" => "vakar",
-"{days} days ago" => "pirms {days} dienām",
+"_%n day ago_::_%n days ago_" => array("","",""),
 "last month" => "pagājušajā mēnesī",
-"{months} months ago" => "pirms {months} mēnešiem",
+"_%n month ago_::_%n months ago_" => array("","",""),
 "months ago" => "mēnešus atpakaļ",
 "last year" => "gājušajā gadā",
 "years ago" => "gadus atpakaļ",
@@ -82,7 +81,6 @@
 "Email sent" => "Vēstule nosūtīta",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Atjaunināšana beidzās nesekmīgi. Lūdzu, ziņojiet par šo problēmu <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud kopienai</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Atjaunināšana beidzās sekmīgi. Tagad pārsūta jūs uz ownCloud.",
-"ownCloud password reset" => "ownCloud paroles maiņa",
 "Use the following link to reset your password: {link}" => "Izmantojiet šo saiti, lai mainītu paroli: {link}",
 "You will receive a link to reset your password via Email." => "Jūs savā epastā saņemsiet interneta saiti, caur kuru varēsiet atjaunot paroli.",
 "Username" => "Lietotājvārds",
@@ -104,7 +102,6 @@
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Nav pieejams drošs nejaušu skaitļu ģenerators. Lūdzu, aktivējiet PHP OpenSSL paplašinājumu.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Bez droša nejaušu skaitļu ģeneratora uzbrucējs var paredzēt paroļu atjaunošanas marķierus un pārņem jūsu kontu.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Visticamāk, jūsu datu direktorija un datnes ir pieejamas no interneta, jo .htaccess datne nedarbojas.",
-"For information how to properly configure your server, please see the <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>." => "Lai uzzinātu, kā pareizi jākonfigurē šis serveris, skatiet <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">dokumentāciju</a>.",
 "Create an <strong>admin account</strong>" => "Izveidot <strong>administratora kontu</strong>",
 "Advanced" => "Paplašināti",
 "Data folder" => "Datu mape",
@@ -128,3 +125,4 @@
 "next" => "nākamā",
 "Updating ownCloud to version %s, this may take a while." => "Atjaunina ownCloud uz versiju %s. Tas var aizņemt kādu laiciņu."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);";

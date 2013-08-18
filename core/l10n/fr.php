@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s partagé »%s« avec vous",
 "Category type not provided." => "Type de catégorie non spécifié.",
 "No category to add?" => "Pas de catégorie à ajouter ?",
@@ -29,15 +30,13 @@
 "December" => "décembre",
 "Settings" => "Paramètres",
 "seconds ago" => "il y a quelques secondes",
-"1 minute ago" => "il y a une minute",
-"{minutes} minutes ago" => "il y a {minutes} minutes",
-"1 hour ago" => "Il y a une heure",
-"{hours} hours ago" => "Il y a {hours} heures",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "aujourd'hui",
 "yesterday" => "hier",
-"{days} days ago" => "il y a {days} jours",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "le mois dernier",
-"{months} months ago" => "Il y a {months} mois",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "il y a plusieurs mois",
 "last year" => "l'année dernière",
 "years ago" => "il y a plusieurs années",
@@ -85,7 +84,6 @@
 "Email sent" => "Email envoyé",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "La mise à jour a échoué. Veuillez signaler ce problème à la <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">communauté ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "La mise à jour a réussi. Vous êtes redirigé maintenant vers ownCloud.",
-"ownCloud password reset" => "Réinitialisation de votre mot de passe Owncloud",
 "Use the following link to reset your password: {link}" => "Utilisez le lien suivant pour réinitialiser votre mot de passe : {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Le lien permettant de réinitialiser votre mot de passe vous a été transmis.<br>Si vous ne le recevez pas dans un délai raisonnable, vérifier votre boîte de pourriels.<br>Au besoin, contactez votre administrateur local.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Requête en échec!<br>Avez-vous vérifié vos courriel/nom d'utilisateur?",
@@ -110,11 +108,9 @@
 "Add" => "Ajouter",
 "Security Warning" => "Avertissement de sécurité",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Votre version de PHP est vulnérable à l'attaque par caractère NULL (CVE-2006-7243)",
-"Please update your PHP installation to use ownCloud securely." => "Veuillez mettre à jour votre installation PHP pour utiliser ownCloud de façon sécurisée.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Aucun générateur de nombre aléatoire sécurisé n'est disponible, veuillez activer l'extension PHP OpenSSL",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Sans générateur de nombre aléatoire sécurisé, un attaquant peut être en mesure de prédire les jetons de réinitialisation du mot de passe, et ainsi prendre le contrôle de votre compte utilisateur.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Votre répertoire data est certainement accessible depuis l'internet car le fichier .htaccess ne semble pas fonctionner",
-"For information how to properly configure your server, please see the <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>." => "Pour les informations de configuration de votre serveur, veuillez lire la <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>.",
 "Create an <strong>admin account</strong>" => "Créer un <strong>compte administrateur</strong>",
 "Advanced" => "Avancé",
 "Data folder" => "Répertoire des données",
@@ -140,3 +136,4 @@
 "next" => "suivant",
 "Updating ownCloud to version %s, this may take a while." => "Mise à jour en cours d'ownCloud vers la version %s, cela peut prendre du temps."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

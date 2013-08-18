@@ -9,10 +9,10 @@ input#openid, input#webdav { width:20em; }
 /* PERSONAL */
 
 /* Sync clients */
-.clientsbox { margin:12px; text-align:center; }
+.clientsbox { margin:12px; }
 .clientsbox h1 { font-size:40px; font-weight:bold; margin:50px 0 20px; }
 .clientsbox h2 { font-size:20px; font-weight:bold; margin:35px 0 10px; }
-.clientsbox center { margin-top:10px; }
+.clientsbox .center { margin-top:10px; }
 
 #passworderror { display:none; }
 #passwordchanged { display:none; }
@@ -57,6 +57,8 @@ select.quota.active { background: #fff; }
 #newuser .multiselect { top:1px; }
 #headerGroups, #headerSubAdmins, #headerQuota { padding-left:18px; }
 
+.ie8 table.hascontrols{border-collapse:collapse;width: 100%;}
+.ie8 table.hascontrols tbody tr{border-collapse:collapse;border: 1px solid #ddd !important;}
 
 /* APPS */
 .appinfo { margin: 1em; }

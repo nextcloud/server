@@ -1,6 +1,6 @@
 <?php
 if (!isset($_)) { //also provide standalone error page
-	require_once '../../../lib/base.php';
+	require_once __DIR__ . '/../../../lib/base.php';
 
 	$l = OC_L10N::get('files_encryption');
 

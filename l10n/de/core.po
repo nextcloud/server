@@ -4,7 +4,9 @@
 # 
 # Translators:
 # arkascha <foss@christian-reiner.info>, 2013
+# I Robot <owncloud-bot@tmit.eu>, 2013
 # Marcel Kühlhorn <susefan93@gmx.de>, 2013
+# Mario Siegmann <mario_siegmann@web.de>, 2013
 # JamFX <niko@nik-o-mat.de>, 2013
 # ninov <ninovdl@ymail.com>, 2013
 # Pwnicorn <pwnicorndev@gmail.com>, 2013
@@ -13,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:04+0000\n"
-"Last-Translator: Pwnicorn <pwnicorndev@gmail.com>\n"
+"POT-Creation-Date: 2013-08-16 01:29-0400\n"
+"PO-Revision-Date: 2013-08-15 09:20+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -143,59 +145,59 @@ msgstr "November"
 msgid "December"
 msgstr "Dezember"
 
-#: js/js.js:293
+#: js/js.js:355
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: js/js.js:715
+#: js/js.js:812
 msgid "seconds ago"
 msgstr "Gerade eben"
 
-#: js/js.js:716
-msgid "1 minute ago"
-msgstr "vor einer Minute"
+#: js/js.js:813
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] "Vor %n Minute"
+msgstr[1] "Vor %n Minuten"
 
-#: js/js.js:717
-msgid "{minutes} minutes ago"
-msgstr "Vor {minutes} Minuten"
+#: js/js.js:814
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] "Vor %n Stunde"
+msgstr[1] "Vor %n Stunden"
 
-#: js/js.js:718
-msgid "1 hour ago"
-msgstr "Vor einer Stunde"
-
-#: js/js.js:719
-msgid "{hours} hours ago"
-msgstr "Vor {hours} Stunden"
-
-#: js/js.js:720
+#: js/js.js:815
 msgid "today"
 msgstr "Heute"
 
-#: js/js.js:721
+#: js/js.js:816
 msgid "yesterday"
 msgstr "Gestern"
 
-#: js/js.js:722
-msgid "{days} days ago"
-msgstr "Vor {days} Tag(en)"
+#: js/js.js:817
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] "Vor %n Tag"
+msgstr[1] "Vor %n Tagen"
 
-#: js/js.js:723
+#: js/js.js:818
 msgid "last month"
 msgstr "Letzten Monat"
 
-#: js/js.js:724
-msgid "{months} months ago"
-msgstr "Vor {months} Monaten"
+#: js/js.js:819
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] "Vor %n Monat"
+msgstr[1] "Vor %n Monaten"
 
-#: js/js.js:725
+#: js/js.js:820
 msgid "months ago"
 msgstr "Vor Monaten"
 
-#: js/js.js:726
+#: js/js.js:821
 msgid "last year"
 msgstr "Letztes Jahr"
 
-#: js/js.js:727
+#: js/js.js:822
 msgid "years ago"
 msgstr "Vor Jahren"
 
@@ -231,8 +233,8 @@ msgstr "Der Objekttyp ist nicht angegeben."
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:625
-#: js/share.js:637
+#: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
+#: js/share.js:643 js/share.js:655
 msgid "Error"
 msgstr "Fehler"
 
@@ -252,123 +254,123 @@ msgstr "Geteilt"
 msgid "Share"
 msgstr "Teilen"
 
-#: js/share.js:125 js/share.js:665
+#: js/share.js:131 js/share.js:683
 msgid "Error while sharing"
 msgstr "Fehler beim Teilen"
 
-#: js/share.js:136
+#: js/share.js:142
 msgid "Error while unsharing"
 msgstr "Fehler beim Aufheben der Freigabe"
 
-#: js/share.js:143
+#: js/share.js:149
 msgid "Error while changing permissions"
 msgstr "Fehler beim Ändern der Rechte"
 
-#: js/share.js:152
+#: js/share.js:158
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "{owner} hat dies mit Dir und der Gruppe {group} geteilt"
 
-#: js/share.js:154
+#: js/share.js:160
 msgid "Shared with you by {owner}"
 msgstr "{owner} hat dies mit Dir geteilt"
 
-#: js/share.js:177
+#: js/share.js:183
 msgid "Share with"
 msgstr "Teilen mit"
 
-#: js/share.js:182
+#: js/share.js:188
 msgid "Share with link"
 msgstr "Über einen Link freigegeben"
 
-#: js/share.js:185
+#: js/share.js:191
 msgid "Password protect"
 msgstr "Passwortschutz"
 
-#: js/share.js:187 templates/installation.php:54 templates/login.php:26
+#: js/share.js:193 templates/installation.php:57 templates/login.php:26
 msgid "Password"
 msgstr "Passwort"
 
-#: js/share.js:192
+#: js/share.js:198
 msgid "Allow Public Upload"
 msgstr "Öffentliches Hochladen erlauben"
 
-#: js/share.js:196
+#: js/share.js:202
 msgid "Email link to person"
 msgstr "Link per E-Mail verschicken"
 
-#: js/share.js:197
+#: js/share.js:203
 msgid "Send"
 msgstr "Senden"
 
-#: js/share.js:202
+#: js/share.js:208
 msgid "Set expiration date"
 msgstr "Setze ein Ablaufdatum"
 
-#: js/share.js:203
+#: js/share.js:209
 msgid "Expiration date"
 msgstr "Ablaufdatum"
 
-#: js/share.js:235
+#: js/share.js:241
 msgid "Share via email:"
 msgstr "Über eine E-Mail teilen:"
 
-#: js/share.js:237
+#: js/share.js:243
 msgid "No people found"
 msgstr "Niemand gefunden"
 
-#: js/share.js:275
+#: js/share.js:281
 msgid "Resharing is not allowed"
 msgstr "Weiterverteilen ist nicht erlaubt"
 
-#: js/share.js:311
+#: js/share.js:317
 msgid "Shared in {item} with {user}"
 msgstr "Für {user} in {item} freigegeben"
 
-#: js/share.js:332
+#: js/share.js:338
 msgid "Unshare"
 msgstr "Freigabe aufheben"
 
-#: js/share.js:344
+#: js/share.js:350
 msgid "can edit"
 msgstr "kann bearbeiten"
 
-#: js/share.js:346
+#: js/share.js:352
 msgid "access control"
 msgstr "Zugriffskontrolle"
 
-#: js/share.js:349
+#: js/share.js:355
 msgid "create"
 msgstr "erstellen"
 
-#: js/share.js:352
+#: js/share.js:358
 msgid "update"
 msgstr "aktualisieren"
 
-#: js/share.js:355
+#: js/share.js:361
 msgid "delete"
 msgstr "löschen"
 
-#: js/share.js:358
+#: js/share.js:364
 msgid "share"
 msgstr "teilen"
 
-#: js/share.js:392 js/share.js:612
+#: js/share.js:398 js/share.js:630
 msgid "Password protected"
 msgstr "Durch ein Passwort geschützt"
 
-#: js/share.js:625
+#: js/share.js:643
 msgid "Error unsetting expiration date"
 msgstr "Fehler beim Entfernen des Ablaufdatums"
 
-#: js/share.js:637
+#: js/share.js:655
 msgid "Error setting expiration date"
 msgstr "Fehler beim Setzen des Ablaufdatums"
 
-#: js/share.js:652
+#: js/share.js:670
 msgid "Sending ..."
 msgstr "Sende ..."
 
-#: js/share.js:663
+#: js/share.js:681
 msgid "Email sent"
 msgstr "E-Mail wurde verschickt"
 
@@ -383,9 +385,10 @@ msgstr "Das Update ist fehlgeschlagen. Bitte melde dieses Problem an die <a href
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Das Update war erfolgreich. Du wirst nun zu ownCloud weitergeleitet."
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
-msgstr "ownCloud-Passwort zurücksetzen"
+#: lostpassword/controller.php:61
+#, php-format
+msgid "%s password reset"
+msgstr "%s-Passwort zurücksetzen"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -406,7 +409,7 @@ msgstr "Anfrage fehlgeschlagen!<br>Hast Du darauf geachtet, dass Deine E-Mail/De
 msgid "You will receive a link to reset your password via Email."
 msgstr "Du erhältst einen Link per E-Mail, um Dein Passwort zurückzusetzen."
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
 #: templates/login.php:19
 msgid "Username"
 msgstr "Benutzername"
@@ -467,11 +470,11 @@ msgstr "Hilfe"
 msgid "Access forbidden"
 msgstr "Zugriff verboten"
 
-#: templates/404.php:12
+#: templates/404.php:15
 msgid "Cloud not found"
 msgstr "Cloud nicht gefunden"
 
-#: templates/altmail.php:4
+#: templates/altmail.php:2
 #, php-format
 msgid ""
 "Hey there,\n"
@@ -500,8 +503,9 @@ msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 msgstr "Deine PHP Version ist durch die NULL Byte Attacke (CVE-2006-7243) angreifbar"
 
 #: templates/installation.php:26
-msgid "Please update your PHP installation to use ownCloud securely."
-msgstr "Bitte bringe Deine PHP Installation auf den neuesten Stand, um ownCloud sicher nutzen zu können."
+#, php-format
+msgid "Please update your PHP installation to use %s securely."
+msgstr "Bitte aktualisiere deine PHP-Installation um %s sicher nutzen zu können."
 
 #: templates/installation.php:32
 msgid ""
@@ -521,67 +525,71 @@ msgid ""
 "because the .htaccess file does not work."
 msgstr "Dein Datenverzeichnis und Deine Dateien sind wahrscheinlich vom Internet aus erreichbar, weil die .htaccess-Datei nicht funktioniert."
 
-#: templates/installation.php:40
+#: templates/installation.php:41
+#, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
-"href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
-"target=\"_blank\">documentation</a>."
-msgstr "Bitte ließ die <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">Dokumentation</a> für Informationen, wie Du Deinen Server konfigurierst."
+"href=\"%s\" target=\"_blank\">documentation</a>."
+msgstr "Für Informationen, wie du deinen Server richtig konfigurierst lese bitte die <a href=\"%s\" target=\"_blank\">Dokumentation</a>."
 
-#: templates/installation.php:44
+#: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
 msgstr "<strong>Administrator-Konto</strong> anlegen"
 
-#: templates/installation.php:62
+#: templates/installation.php:65
 msgid "Advanced"
 msgstr "Fortgeschritten"
 
-#: templates/installation.php:64
+#: templates/installation.php:67
 msgid "Data folder"
 msgstr "Datenverzeichnis"
 
-#: templates/installation.php:74
+#: templates/installation.php:77
 msgid "Configure the database"
 msgstr "Datenbank einrichten"
 
-#: templates/installation.php:79 templates/installation.php:91
-#: templates/installation.php:102 templates/installation.php:113
-#: templates/installation.php:125
+#: templates/installation.php:82 templates/installation.php:94
+#: templates/installation.php:105 templates/installation.php:116
+#: templates/installation.php:128
 msgid "will be used"
 msgstr "wird verwendet"
 
-#: templates/installation.php:137
+#: templates/installation.php:140
 msgid "Database user"
 msgstr "Datenbank-Benutzer"
 
-#: templates/installation.php:144
+#: templates/installation.php:147
 msgid "Database password"
 msgstr "Datenbank-Passwort"
 
-#: templates/installation.php:149
+#: templates/installation.php:152
 msgid "Database name"
 msgstr "Datenbank-Name"
 
-#: templates/installation.php:159
+#: templates/installation.php:160
 msgid "Database tablespace"
 msgstr "Datenbank-Tablespace"
 
-#: templates/installation.php:166
+#: templates/installation.php:167
 msgid "Database host"
 msgstr "Datenbank-Host"
 
-#: templates/installation.php:172
+#: templates/installation.php:175
 msgid "Finish setup"
 msgstr "Installation abschließen"
 
-#: templates/layout.user.php:43
+#: templates/layout.user.php:41
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s ist verfügbar. Holen Sie weitere Informationen zu Aktualisierungen ein."
 
-#: templates/layout.user.php:68
+#: templates/layout.user.php:66
 msgid "Log out"
 msgstr "Abmelden"
+
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr "Mehr Apps"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
@@ -613,7 +621,7 @@ msgstr "Einloggen"
 msgid "Alternative Logins"
 msgstr "Alternative Logins"
 
-#: templates/mail.php:16
+#: templates/mail.php:15
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "

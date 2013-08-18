@@ -1,5 +1,7 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "WebDAV Authentication" => "Autenticación de WevDAV",
-"URL: " => "URL:",
-"ownCloud will send the user credentials to this URL. This plugin checks the response and will interpret the HTTP statuscodes 401 and 403 as invalid credentials, and all other responses as valid credentials." => "onwCloud enviará las credenciales de usuario a esta URL. Este complemento verifica la respuesta e interpretará los códigos de respuesta HTTP 401 y 403 como credenciales inválidas y todas las otras respuestas como credenciales válidas."
+"Address: " => "Dirección:",
+"The user credentials will be sent to this address. This plugin checks the response and will interpret the HTTP statuscodes 401 and 403 as invalid credentials, and all other responses as valid credentials." => "onwCloud enviará las credenciales de usuario a esta dirección. Este complemento verifica la respuesta e interpretará los códigos de respuesta HTTP 401 y 403 como credenciales inválidas y todas las otras respuestas como credenciales válidas."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

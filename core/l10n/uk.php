@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "Не вказано тип категорії.",
 "No category to add?" => "Відсутні категорії для додавання?",
 "This category already exists: %s" => "Ця категорія вже існує: %s",
@@ -28,15 +29,13 @@
 "December" => "Грудень",
 "Settings" => "Налаштування",
 "seconds ago" => "секунди тому",
-"1 minute ago" => "1 хвилину тому",
-"{minutes} minutes ago" => "{minutes} хвилин тому",
-"1 hour ago" => "1 годину тому",
-"{hours} hours ago" => "{hours} години тому",
+"_%n minute ago_::_%n minutes ago_" => array("","",""),
+"_%n hour ago_::_%n hours ago_" => array("","",""),
 "today" => "сьогодні",
 "yesterday" => "вчора",
-"{days} days ago" => "{days} днів тому",
+"_%n day ago_::_%n days ago_" => array("","",""),
 "last month" => "минулого місяця",
-"{months} months ago" => "{months} місяців тому",
+"_%n month ago_::_%n months ago_" => array("","",""),
 "months ago" => "місяці тому",
 "last year" => "минулого року",
 "years ago" => "роки тому",
@@ -82,7 +81,6 @@
 "Email sent" => "Ел. пошта надіслана",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Оновлення виконалось неуспішно. Будь ласка, повідомте про цю проблему в <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">спільноті ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Оновлення виконалось успішно. Перенаправляємо вас на  ownCloud.",
-"ownCloud password reset" => "скидання пароля ownCloud",
 "Use the following link to reset your password: {link}" => "Використовуйте наступне посилання для скидання пароля: {link}",
 "You will receive a link to reset your password via Email." => "Ви отримаєте посилання для скидання вашого паролю на Ел. пошту.",
 "Username" => "Ім'я користувача",
@@ -102,11 +100,9 @@
 "Add" => "Додати",
 "Security Warning" => "Попередження про небезпеку",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Ваша версія PHP вразлива для атак NULL Byte (CVE-2006-7243)",
-"Please update your PHP installation to use ownCloud securely." => "Будь ласка, оновіть інсталяцію PHP для безпечного використання ownCloud.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Не доступний безпечний генератор випадкових чисел, будь ласка, активуйте PHP OpenSSL додаток.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Без безпечного генератора випадкових чисел зловмисник може визначити токени скидання пароля і заволодіти Вашим обліковим записом.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Ваші дані каталогів і файлів, ймовірно, доступні з інтернету, тому що  .htaccess файл не працює.",
-"For information how to properly configure your server, please see the <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>." => "Для отримання інформації, як правильно налаштувати сервер, зверніться до  <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">документації</a>.",
 "Create an <strong>admin account</strong>" => "Створити <strong>обліковий запис адміністратора</strong>",
 "Advanced" => "Додатково",
 "Data folder" => "Каталог даних",
@@ -130,3 +126,4 @@
 "next" => "наступний",
 "Updating ownCloud to version %s, this may take a while." => "Оновлення ownCloud до версії %s, це може зайняти деякий час."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Mario Siegmann <mario_siegmann@web.de>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:05+0000\n"
-"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
+"POT-Creation-Date: 2013-08-16 01:29-0400\n"
+"PO-Revision-Date: 2013-08-15 09:10+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,45 +28,45 @@ msgstr "Konnte %s nicht dauerhaft löschen"
 msgid "Couldn't restore %s"
 msgstr "Konnte %s nicht wiederherstellen"
 
-#: js/trash.js:7 js/trash.js:97
+#: js/trash.js:7 js/trash.js:100
 msgid "perform restore operation"
 msgstr "Wiederherstellung ausführen"
 
-#: js/trash.js:19 js/trash.js:46 js/trash.js:115 js/trash.js:141
+#: js/trash.js:20 js/trash.js:48 js/trash.js:118 js/trash.js:146
 msgid "Error"
 msgstr "Fehler"
 
-#: js/trash.js:34
+#: js/trash.js:36
 msgid "delete file permanently"
 msgstr "Datei dauerhaft löschen"
 
-#: js/trash.js:123
+#: js/trash.js:127
 msgid "Delete permanently"
 msgstr "Endgültig löschen"
 
-#: js/trash.js:176 templates/index.php:17
+#: js/trash.js:182 templates/index.php:17
 msgid "Name"
 msgstr "Name"
 
-#: js/trash.js:177 templates/index.php:27
+#: js/trash.js:183 templates/index.php:27
 msgid "Deleted"
 msgstr "gelöscht"
 
-#: js/trash.js:186
-msgid "1 folder"
-msgstr "1 Ordner"
+#: js/trash.js:191
+msgid "%n folder"
+msgid_plural "%n folders"
+msgstr[0] ""
+msgstr[1] "%n Ordner"
 
-#: js/trash.js:188
-msgid "{count} folders"
-msgstr "{count} Ordner"
+#: js/trash.js:197
+msgid "%n file"
+msgid_plural "%n files"
+msgstr[0] ""
+msgstr[1] "%n Dateien"
 
-#: js/trash.js:196
-msgid "1 file"
-msgstr "1 Datei"
-
-#: js/trash.js:198
-msgid "{count} files"
-msgstr "{count} Dateien"
+#: lib/trash.php:819 lib/trash.php:821
+msgid "restored"
+msgstr "Wiederhergestellt"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"

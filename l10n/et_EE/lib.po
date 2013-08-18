@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-24 01:55-0400\n"
-"PO-Revision-Date: 2013-07-24 05:55+0000\n"
+"POT-Creation-Date: 2013-08-15 04:47-0400\n"
+"PO-Revision-Date: 2013-08-15 08:48+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -36,26 +36,22 @@ msgid "Users"
 msgstr "Kasutajad"
 
 #: app.php:409
-msgid "Apps"
-msgstr "Rakendused"
-
-#: app.php:417
 msgid "Admin"
 msgstr "Admin"
 
-#: app.php:844
+#: app.php:836
 #, php-format
 msgid "Failed to upgrade \"%s\"."
-msgstr ""
+msgstr "Ebaõnnestunud uuendus \"%s\"."
 
-#: defaults.php:33
+#: defaults.php:35
 msgid "web services under your control"
 msgstr "veebitenused sinu kontrolli all"
 
 #: files.php:66 files.php:98
 #, php-format
 msgid "cannot open \"%s\""
-msgstr ""
+msgstr "ei suuda avada \"%s\""
 
 #: files.php:226
 msgid "ZIP download is turned off."
@@ -77,7 +73,7 @@ msgstr "Valitud failid on ZIP-faili loomiseks liiga suured."
 msgid ""
 "Download the files in smaller chunks, seperately or kindly ask your "
 "administrator."
-msgstr ""
+msgstr "Laadi failid alla eraldi väiksemate osadena või küsi nõu oma süsteemiadminstraatorilt."
 
 #: helper.php:235
 msgid "couldn't be determined"
@@ -212,56 +208,52 @@ msgid "seconds ago"
 msgstr "sekundit tagasi"
 
 #: template/functions.php:81
-msgid "1 minute ago"
-msgstr "1 minut tagasi"
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
 
 #: template/functions.php:82
-#, php-format
-msgid "%d minutes ago"
-msgstr "%d minutit tagasi"
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
 
 #: template/functions.php:83
-msgid "1 hour ago"
-msgstr "1 tund tagasi"
-
-#: template/functions.php:84
-#, php-format
-msgid "%d hours ago"
-msgstr "%d tundi tagasi"
-
-#: template/functions.php:85
 msgid "today"
 msgstr "täna"
 
-#: template/functions.php:86
+#: template/functions.php:84
 msgid "yesterday"
 msgstr "eile"
 
-#: template/functions.php:87
-#, php-format
-msgid "%d days ago"
-msgstr "%d päeva tagasi"
+#: template/functions.php:85
+msgid "%n day go"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: template/functions.php:88
+#: template/functions.php:86
 msgid "last month"
 msgstr "viimasel kuul"
 
-#: template/functions.php:89
-#, php-format
-msgid "%d months ago"
-msgstr "%d kuud tagasi"
+#: template/functions.php:87
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: template/functions.php:90
+#: template/functions.php:88
 msgid "last year"
 msgstr "viimasel aastal"
 
-#: template/functions.php:91
+#: template/functions.php:89
 msgid "years ago"
 msgstr "aastat tagasi"
 
-#: template.php:296
+#: template.php:297
 msgid "Caused by:"
-msgstr ""
+msgstr "Põhjustaja:"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format

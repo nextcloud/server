@@ -89,6 +89,19 @@
 						</a>
 					</li>
 				<?php endforeach; ?>
+
+				<!-- show "More apps" link to app administration directly in app navigation -->
+				<?php if(OC_User::isAdminUser(OC_User::getUser())): ?>
+					<li id="apps-management">
+						<a href="<?php print_unescaped(OC_Helper::linkToRoute('settings_apps').'?installed'); ?>" title=""
+							<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
+							<img class="icon svg" src="<?php print_unescaped(OC_Helper::imagePath('settings', 'apps.svg')); ?>"/>
+							<span>
+								<?php p($l->t('More apps')); ?>
+							</span>
+						</a>
+					</li>
+				<?php endif; ?>
 			</ul>
 		</div></nav>
 

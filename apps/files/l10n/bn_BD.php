@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s কে স্থানান্তর করা সম্ভব হলো না -  এই নামের ফাইল বিদ্যমান",
 "Could not move %s" => "%s  কে স্থানান্তর করা সম্ভব হলো না",
 "No file was uploaded. Unknown error" => "কোন ফাইল আপলোড করা হয় নি। সমস্যার কারণটি অজ্ঞাত।",
@@ -18,7 +19,6 @@
 "URL cannot be empty." => "URL ফাঁকা রাখা যাবে না।",
 "Error" => "সমস্যা",
 "Share" => "ভাগাভাগি কর",
-"Delete" => "মুছে",
 "Rename" => "পূনঃনামকরণ",
 "Pending" => "মুলতুবি",
 "{new_name} already exists" => "{new_name} টি বিদ্যমান",
@@ -27,7 +27,7 @@
 "cancel" => "বাতিল",
 "replaced {new_name} with {old_name}" => "{new_name} কে {old_name} নামে প্রতিস্থাপন করা হয়েছে",
 "undo" => "ক্রিয়া প্রত্যাহার",
-"1 file uploading" => "১টি ফাইল আপলোড করা হচ্ছে",
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
 "'.' is an invalid file name." => "টি একটি অননুমোদিত নাম।",
 "File name cannot be empty." => "ফাইলের নামটি ফাঁকা রাখা যাবে না।",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "নামটি সঠিক নয়,  '\\', '/', '<', '>', ':', '\"', '|', '?' এবং  '*'  অনুমোদিত নয়।",
@@ -35,10 +35,8 @@
 "Name" => "রাম",
 "Size" => "আকার",
 "Modified" => "পরিবর্তিত",
-"1 folder" => "১টি ফোল্ডার",
-"{count} folders" => "{count} টি ফোল্ডার",
-"1 file" => "১টি ফাইল",
-"{count} files" => "{count} টি ফাইল",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "Upload" => "আপলোড",
 "File handling" => "ফাইল হ্যার্ডলিং",
 "Maximum upload size" => "আপলোডের সর্বোচ্চ আকার",
@@ -56,8 +54,10 @@
 "Nothing in here. Upload something!" => "এখানে কিছুই নেই। কিছু আপলোড করুন !",
 "Download" => "ডাউনলোড",
 "Unshare" => "ভাগাভাগি বাতিল ",
+"Delete" => "মুছে",
 "Upload too large" => "আপলোডের আকারটি অনেক বড়",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "আপনি এই সার্ভারে আপলোড করার জন্য অনুমোদিত ফাইলের সর্বোচ্চ আকারের চেয়ে বৃহদাকার ফাইল আপলোড করার চেষ্টা করছেন ",
 "Files are being scanned, please wait." => "ফাইলগুলো স্ক্যান করা হচ্ছে, দয়া করে অপেক্ষা করুন।",
 "Current scanning" => "বর্তমান স্ক্যানিং"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

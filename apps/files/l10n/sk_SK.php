@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Nie je možné presunúť %s - súbor s týmto menom už existuje",
 "Could not move %s" => "Nie je možné presunúť %s",
 "Unable to set upload directory." => "Nemožno nastaviť priečinok pre nahrané súbory.",
@@ -23,7 +24,6 @@
 "Error" => "Chyba",
 "Share" => "Zdieľať",
 "Delete permanently" => "Zmazať  trvalo",
-"Delete" => "Zmazať",
 "Rename" => "Premenovať",
 "Pending" => "Prebieha",
 "{new_name} already exists" => "{new_name} už existuje",
@@ -32,8 +32,7 @@
 "cancel" => "zrušiť",
 "replaced {new_name} with {old_name}" => "prepísaný {new_name} súborom {old_name}",
 "undo" => "vrátiť",
-"perform delete operation" => "vykonať zmazanie",
-"1 file uploading" => "1 súbor sa posiela ",
+"_Uploading %n file_::_Uploading %n files_" => array("","",""),
 "files uploading" => "nahrávanie súborov",
 "'.' is an invalid file name." => "'.' je neplatné meno súboru.",
 "File name cannot be empty." => "Meno súboru nemôže byť prázdne",
@@ -45,10 +44,8 @@
 "Name" => "Názov",
 "Size" => "Veľkosť",
 "Modified" => "Upravené",
-"1 folder" => "1 priečinok",
-"{count} folders" => "{count} priečinkov",
-"1 file" => "1 súbor",
-"{count} files" => "{count} súborov",
+"_%n folder_::_%n folders_" => array("","",""),
+"_%n file_::_%n files_" => array("","",""),
 "%s could not be renamed" => "%s nemohol byť premenovaný",
 "Upload" => "Odoslať",
 "File handling" => "Nastavenie správania sa k súborom",
@@ -69,6 +66,7 @@
 "Nothing in here. Upload something!" => "Žiadny súbor. Nahrajte niečo!",
 "Download" => "Sťahovanie",
 "Unshare" => "Zrušiť zdieľanie",
+"Delete" => "Zmazať",
 "Upload too large" => "Nahrávanie je príliš veľké",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Súbory, ktoré sa snažíte nahrať, presahujú maximálnu veľkosť pre nahratie súborov na tento server.",
 "Files are being scanned, please wait." => "Čakajte, súbory sú prehľadávané.",
@@ -79,3 +77,4 @@
 "files" => "súbory",
 "Upgrading filesystem cache..." => "Aktualizujem medzipamäť súborového systému..."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

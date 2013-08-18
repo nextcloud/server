@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Password" => "Mật khẩu",
 "Submit" => "Xác nhận",
 "%s shared the folder %s with you" => "%s đã chia sẻ thư mục %s với bạn",
@@ -8,3 +9,4 @@
 "Cancel upload" => "Hủy upload",
 "No preview available for" => "Không có xem trước cho"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

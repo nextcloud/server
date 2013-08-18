@@ -176,66 +176,19 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(filesize($textFile), $this->instance->filesize('/lorem.txt'));
 
 		$stat = $this->instance->stat('/lorem.txt');
-		//only size and mtime are requered in the result
+		//only size and mtime are required in the result
 		$this->assertEquals($stat['size'], $this->instance->filesize('/lorem.txt'));
 		$this->assertEquals($stat['mtime'], $mTime);
 
-		$mtimeStart = time();
-		$supportsTouch = $this->instance->touch('/lorem.txt');
-		$mtimeEnd = time();
-		if ($supportsTouch !== false) {
+		if ($this->instance->touch('/lorem.txt', 100) !== false) {
 			$mTime = $this->instance->filemtime('/lorem.txt');
-			$this->assertTrue(($mtimeStart - 5) <= $mTime);
-			$this->assertTrue($mTime <= ($mtimeEnd + 5));
-
-			$this->assertTrue($this->instance->hasUpdated('/lorem.txt', $mtimeStart - 5));
-
-			if ($this->instance->touch('/lorem.txt', 100) !== false) {
-				$mTime = $this->instance->filemtime('/lorem.txt');
-				$this->assertEquals($mTime, 100);
-			}
+			$this->assertEquals($mTime, 100);
 		}
 
 		$mtimeStart = time();
-		$fh = $this->instance->fopen('/lorem.txt', 'a');
-		fwrite($fh, ' ');
-		fclose($fh);
-		clearstatcache();
-		$mtimeEnd = time();
-		$mTime = $this->instance->filemtime('/lorem.txt');
-		$this->assertTrue(($mtimeStart - 5) <= $mTime);
-		$this->assertTrue($mTime <= ($mtimeEnd + 5));
 
 		$this->instance->unlink('/lorem.txt');
 		$this->assertTrue($this->instance->hasUpdated('/', $mtimeStart - 5));
-	}
-
-	public function testSearch() {
-		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
-		$this->instance->file_put_contents('/lorem.txt', file_get_contents($textFile, 'r'));
-		$pngFile = \OC::$SERVERROOT . '/tests/data/logo-wide.png';
-		$this->instance->file_put_contents('/logo-wide.png', file_get_contents($pngFile, 'r'));
-		$svgFile = \OC::$SERVERROOT . '/tests/data/logo-wide.svg';
-		$this->instance->file_put_contents('/logo-wide.svg', file_get_contents($svgFile, 'r'));
-		$result = $this->instance->search('logo');
-		$this->assertEquals(2, count($result));
-		$this->assertContains('/logo-wide.svg', $result);
-		$this->assertContains('/logo-wide.png', $result);
-	}
-
-	public function testSearchInSubFolder() {
-		$this->instance->mkdir('sub');
-		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
-		$this->instance->file_put_contents('/sub/lorem.txt', file_get_contents($textFile, 'r'));
-		$pngFile = \OC::$SERVERROOT . '/tests/data/logo-wide.png';
-		$this->instance->file_put_contents('/sub/logo-wide.png', file_get_contents($pngFile, 'r'));
-		$svgFile = \OC::$SERVERROOT . '/tests/data/logo-wide.svg';
-		$this->instance->file_put_contents('/sub/logo-wide.svg', file_get_contents($svgFile, 'r'));
-
-		$result = $this->instance->search('logo');
-		$this->assertEquals(2, count($result));
-		$this->assertContains('/sub/logo-wide.svg', $result);
-		$this->assertContains('/sub/logo-wide.png', $result);
 	}
 
 	public function testFOpen() {

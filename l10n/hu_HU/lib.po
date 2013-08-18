@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# ebela <bela@dandre.hu>, 2013
 # Laszlo Tornoci <torlasz@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-24 01:55-0400\n"
-"PO-Revision-Date: 2013-07-24 05:55+0000\n"
+"POT-Creation-Date: 2013-08-15 04:47-0400\n"
+"PO-Revision-Date: 2013-08-15 08:48+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -35,26 +36,22 @@ msgid "Users"
 msgstr "Felhasználók"
 
 #: app.php:409
-msgid "Apps"
-msgstr "Alkalmazások"
-
-#: app.php:417
 msgid "Admin"
 msgstr "Adminsztráció"
 
-#: app.php:844
+#: app.php:836
 #, php-format
 msgid "Failed to upgrade \"%s\"."
-msgstr ""
+msgstr "Sikertelen Frissítés \"%s\"."
 
-#: defaults.php:33
+#: defaults.php:35
 msgid "web services under your control"
 msgstr "webszolgáltatások saját kézben"
 
 #: files.php:66 files.php:98
 #, php-format
 msgid "cannot open \"%s\""
-msgstr ""
+msgstr "nem sikerült megnyitni \"%s\""
 
 #: files.php:226
 msgid "ZIP download is turned off."
@@ -76,7 +73,7 @@ msgstr "A kiválasztott fájlok túl nagyok a zip tömörítéshez."
 msgid ""
 "Download the files in smaller chunks, seperately or kindly ask your "
 "administrator."
-msgstr ""
+msgstr "Tölts le a fileokat kisebb chunkokban, kölün vagy kérj segitséget a rendszergazdádtól."
 
 #: helper.php:235
 msgid "couldn't be determined"
@@ -211,56 +208,52 @@ msgid "seconds ago"
 msgstr "pár másodperce"
 
 #: template/functions.php:81
-msgid "1 minute ago"
-msgstr "1 perce"
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
 
 #: template/functions.php:82
-#, php-format
-msgid "%d minutes ago"
-msgstr "%d perce"
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
 
 #: template/functions.php:83
-msgid "1 hour ago"
-msgstr "1 órája"
-
-#: template/functions.php:84
-#, php-format
-msgid "%d hours ago"
-msgstr "%d órája"
-
-#: template/functions.php:85
 msgid "today"
 msgstr "ma"
 
-#: template/functions.php:86
+#: template/functions.php:84
 msgid "yesterday"
 msgstr "tegnap"
 
-#: template/functions.php:87
-#, php-format
-msgid "%d days ago"
-msgstr "%d napja"
+#: template/functions.php:85
+msgid "%n day go"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: template/functions.php:88
+#: template/functions.php:86
 msgid "last month"
 msgstr "múlt hónapban"
 
-#: template/functions.php:89
-#, php-format
-msgid "%d months ago"
-msgstr "%d hónapja"
+#: template/functions.php:87
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
 
-#: template/functions.php:90
+#: template/functions.php:88
 msgid "last year"
 msgstr "tavaly"
 
-#: template/functions.php:91
+#: template/functions.php:89
 msgid "years ago"
 msgstr "több éve"
 
-#: template.php:296
+#: template.php:297
 msgid "Caused by:"
-msgstr ""
+msgstr "Okozta:"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format

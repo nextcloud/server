@@ -5,12 +5,13 @@
 # Translators:
 # bjamalaro <bjamalaro@yahoo.com.br>, 2013
 # Flávio Veras <flaviove@gmail.com>, 2013
+# wcavassin <cavassin@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-06 02:01+0200\n"
-"PO-Revision-Date: 2013-07-05 23:10+0000\n"
+"POT-Creation-Date: 2013-08-11 08:07-0400\n"
+"PO-Revision-Date: 2013-08-09 12:30+0000\n"
 "Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -65,14 +66,18 @@ msgstr "Sua chave privada não é válida! Provavelmente sua senha foi alterada 
 
 #: hooks/hooks.php:44
 msgid "Missing requirements."
-msgstr "Requisitos em falta."
+msgstr "Requisitos não encontrados."
 
 #: hooks/hooks.php:45
 msgid ""
-"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
-"PHP extension is enabled and configured properly. For now, the encryption "
-"app has been disabled."
+"Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
+"together with the PHP extension is enabled and configured properly. For now,"
+" the encryption app has been disabled."
 msgstr "Por favor, certifique-se que o PHP 5.3.3 ou mais recente está instalado e que a extensão PHP OpenSSL está habilitado e configurado corretamente. Por enquanto, o aplicativo de criptografia foi desativado."
+
+#: hooks/hooks.php:263
+msgid "Following users are not set up for encryption:"
+msgstr "Seguintes usuários não estão configurados para criptografia:"
 
 #: js/settings-admin.js:11
 msgid "Saving..."
@@ -107,7 +112,7 @@ msgstr "Senha da chave de recuperação"
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
-msgstr "Habilidado"
+msgstr "Habilitado"
 
 #: templates/settings-admin.php:29 templates/settings-personal.php:62
 msgid "Disabled"
@@ -149,7 +154,7 @@ msgstr "Senha antiga de login"
 
 #: templates/settings-personal.php:30
 msgid "Current log-in password"
-msgstr "Atual senha de login"
+msgstr "Senha de login atual"
 
 #: templates/settings-personal.php:35
 msgid "Update Private Key Password"

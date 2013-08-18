@@ -1,15 +1,18 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Aiuto",
 "Personal" => "Personale",
 "Settings" => "Impostazioni",
 "Users" => "Utenti",
-"Apps" => "Applicazioni",
 "Admin" => "Admin",
+"Failed to upgrade \"%s\"." => "Aggiornamento non riuscito \"%s\".",
 "web services under your control" => "servizi web nelle tue mani",
+"cannot open \"%s\"" => "impossibile aprire \"%s\"",
 "ZIP download is turned off." => "Lo scaricamento in formato ZIP è stato disabilitato.",
 "Files need to be downloaded one by one." => "I file devono essere scaricati uno alla volta.",
 "Back to Files" => "Torna ai file",
 "Selected files too large to generate zip file." => "I  file selezionati sono troppo grandi per generare un file zip.",
+"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Scarica i file in blocchi più piccoli, separatamente o chiedi al tuo amministratore.",
 "couldn't be determined" => "non può essere determinato",
 "Application is not enabled" => "L'applicazione  non è abilitata",
 "Authentication error" => "Errore di autenticazione",
@@ -38,16 +41,16 @@
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Il tuo server web non è configurato correttamente per consentire la sincronizzazione dei file poiché l'interfaccia WebDAV sembra essere danneggiata.",
 "Please double check the <a href='%s'>installation guides</a>." => "Leggi attentamente le <a href='%s'>guide d'installazione</a>.",
 "seconds ago" => "secondi fa",
-"1 minute ago" => "Un minuto fa",
-"%d minutes ago" => "%d minuti fa",
-"1 hour ago" => "1 ora fa",
-"%d hours ago" => "%d ore fa",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "oggi",
 "yesterday" => "ieri",
-"%d days ago" => "%d giorni fa",
+"_%n day go_::_%n days ago_" => array("",""),
 "last month" => "mese scorso",
-"%d months ago" => "%d mesi fa",
+"_%n month ago_::_%n months ago_" => array("",""),
 "last year" => "anno scorso",
 "years ago" => "anni fa",
+"Caused by:" => "Causato da:",
 "Could not find category \"%s\"" => "Impossibile trovare la categoria \"%s\""
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

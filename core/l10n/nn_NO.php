@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "Ingen kategoritype.",
 "No category to add?" => "Ingen kategori å leggja til?",
 "This category already exists: %s" => "Denne kategorien finst alt: %s",
@@ -28,15 +29,13 @@
 "December" => "Desember",
 "Settings" => "Innstillingar",
 "seconds ago" => "sekund sidan",
-"1 minute ago" => "1 minutt sidan",
-"{minutes} minutes ago" => "{minutes} minutt sidan",
-"1 hour ago" => "1 time sidan",
-"{hours} hours ago" => "{hours} timar sidan",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "i dag",
 "yesterday" => "i går",
-"{days} days ago" => "{days} dagar sidan",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "førre månad",
-"{months} months ago" => "{months} månadar sidan",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "månadar sidan",
 "last year" => "i fjor",
 "years ago" => "år sidan",
@@ -82,7 +81,6 @@
 "Email sent" => "E-post sendt",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Oppdateringa feila. Ver venleg og rapporter feilen til <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud-fellesskapet</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Oppdateringa er fullført. Sender deg vidare til ownCloud no.",
-"ownCloud password reset" => "Nullstilling av ownCloud-passord",
 "Use the following link to reset your password: {link}" => "Klikk følgjande lenkje til å nullstilla passordet ditt: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Lenkja til å nullstilla passordet med er sendt til e-posten din.<br>Sjå i spam-/søppelmappa di viss du ikkje ser e-posten innan rimeleg tid.<br>Spør din lokale administrator viss han ikkje er der heller.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Førespurnaden feila!<br>Er du viss på at du skreiv inn rett e-post/brukarnamn?",
@@ -104,11 +102,9 @@
 "Add" => "Legg til",
 "Security Warning" => "Tryggleiksåtvaring",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "PHP-utgåva di er sårbar for NULL-byteåtaket (CVE-2006-7243)",
-"Please update your PHP installation to use ownCloud securely." => "Ver venleg og oppdater PHP-installasjonen din så han køyrer ownCloud på ein trygg måte.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Ingen tilgjengeleg tilfeldig nummer-generator, ver venleg og aktiver OpenSSL-utvidinga i PHP.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Utan ein trygg tilfeldig nummer-generator er det enklare for ein åtakar å gjetta seg fram til passordnullstillingskodar og dimed ta over kontoen din.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Datamappa og filene dine er sannsynlegvis tilgjengelege frå Internett sidan .htaccess-fila ikkje fungerer.",
-"For information how to properly configure your server, please see the <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>." => "Ver venleg og les <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">dokumentasjonen</a> for å læra korleis du set opp tenaren din på rett måte.",
 "Create an <strong>admin account</strong>" => "Lag ein <strong>admin-konto</strong>",
 "Advanced" => "Avansert",
 "Data folder" => "Datamappe",
@@ -133,3 +129,4 @@
 "next" => "neste",
 "Updating ownCloud to version %s, this may take a while." => "Oppdaterer ownCloud til utgåve %s, dette kan ta ei stund."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -48,14 +48,14 @@ class Storage {
 
 	/**
 	 * get current size of all versions from a given user
-	 * 
+	 *
 	 * @param $user user who owns the versions
 	 * @return mixed versions size or false if no versions size is stored
 	 */
 	private static function getVersionsSize($user) {
 		$query = \OC_DB::prepare('SELECT `size` FROM `*PREFIX*files_versions` WHERE `user`=?');
 		$result = $query->execute(array($user))->fetchAll();
-		
+
 		if ($result) {
 			return $result[0]['size'];
 		}
@@ -64,7 +64,7 @@ class Storage {
 
 	/**
 	 * write to the database how much space is in use for versions
-	 * 
+	 *
 	 * @param $user owner of the versions
 	 * @param $size size of the versions
 	 */
@@ -76,20 +76,20 @@ class Storage {
 		}
 		$query->execute(array($size, $user));
 	}
-	
+
 	/**
 	 * store a new version of a file.
 	 */
 	public static function store($filename) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-			
+
 			// if the file gets streamed we need to remove the .part extension
 			// to get the right target
 			$ext = pathinfo($filename, PATHINFO_EXTENSION);
 			if ($ext === 'part') {
 				$filename = substr($filename, 0, strlen($filename)-5);
 			}
-			
+
 			list($uid, $filename) = self::getUidAndFilename($filename);
 
 			$files_view = new \OC\Files\View('/'.$uid .'/files');
@@ -101,17 +101,15 @@ class Storage {
 				return false;
 			}
 
-			// we should have a source file to work with
-			if (!$files_view->file_exists($filename)) {
+			// we should have a source file to work with, and the file shouldn't
+			// be empty
+			$fileExists = $files_view->file_exists($filename);
+			if (!($fileExists && $files_view->filesize($filename) > 0)) {
 				return false;
 			}
 
 			// create all parent folders
-			$info=pathinfo($filename);
-			$versionsFolderName=$versions_view->getLocalFolder('');
-			if(!file_exists($versionsFolderName.'/'.$info['dirname'])) {
-				mkdir($versionsFolderName.'/'.$info['dirname'], 0750, true);
-			}
+			self::createMissingDirectories($filename, $users_view);
 
 			$versionsSize = self::getVersionsSize($uid);
 			if (  $versionsSize === false || $versionsSize < 0 ) {
@@ -171,7 +169,7 @@ class Storage {
 		list($uidn, $newpath) = self::getUidAndFilename($new_path);
 		$versions_view = new \OC\Files\View('/'.$uid .'/files_versions');
 		$files_view = new \OC\Files\View('/'.$uid .'/files');
-		
+
 		// if the file already exists than it was a upload of a existing file
 		// over the web interface -> store() is the right function we need here
 		if ($files_view->file_exists($newpath)) {
@@ -180,13 +178,12 @@ class Storage {
 
 		self::expire($newpath);
 
-		$abs_newpath = $versions_view->getLocalFile($newpath);
-
 		if ( $files_view->is_dir($oldpath) && $versions_view->is_dir($oldpath) ) {
 			$versions_view->rename($oldpath, $newpath);
 		} else  if ( ($versions = Storage::getVersions($uid, $oldpath)) ) {
-			$info=pathinfo($abs_newpath);
-			if(!file_exists($info['dirname'])) mkdir($info['dirname'], 0750, true);
+			// create missing dirs if necessary
+			self::createMissingDirectories($newpath, new \OC\Files\View('/'. $uidn));
+
 			foreach ($versions as $v) {
 				$versions_view->rename($oldpath.'.v'.$v['version'], $newpath.'.v'.$v['version']);
 			}
@@ -239,10 +236,9 @@ class Storage {
 	 * @brief get a list of all available versions of a file in descending chronological order
 	 * @param $uid user id from the owner of the file
 	 * @param $filename file to find versions of, relative to the user files dir
-	 * @param $count number of versions to return
 	 * @returns array
 	 */
-	public static function getVersions($uid, $filename, $count = 0 ) {
+	public static function getVersions($uid, $filename ) {
 		if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
 			$versions_fileview = new \OC\Files\View('/' . $uid . '/files_versions');
 			$versionsName = $versions_fileview->getLocalFile($filename).'.v';
@@ -268,6 +264,7 @@ class Storage {
 				$key = $version.'#'.$filename;
 				$versions[$key]['cur'] = 0;
 				$versions[$key]['version'] = $version;
+				$versions[$key]['humanReadableTimestamp'] = self::getHumanReadableTimestamp($version);
 				$versions[$key]['path'] = $filename;
 				$versions[$key]['size'] = $versions_fileview->filesize($filename.'.v'.$version);
 
@@ -276,6 +273,7 @@ class Storage {
 
 			}
 
+			// newest versions first
 			$versions = array_reverse( $versions );
 
 			foreach( $versions as $key => $value ) {
@@ -284,13 +282,6 @@ class Storage {
 					$value['cur'] = 1;
 					break;
 				}
-			}
-
-			$versions = array_reverse( $versions );
-
-			// only show the newest commits
-			if( $count != 0 and ( count( $versions )>$count ) ) {
-				$versions = array_slice( $versions, count( $versions ) - $count );
 			}
 
 			return( $versions );
@@ -302,6 +293,32 @@ class Storage {
 
 	}
 
+	/**
+	 * @brief translate a timestamp into a string like "5 days ago"
+	 * @param int $timestamp
+	 * @return string for example "5 days ago"
+	 */
+	private static function getHumanReadableTimestamp($timestamp) {
+
+		$diff = time() - $timestamp;
+
+		if ($diff < 60) { // first minute
+			return  $diff . " seconds ago";
+		} elseif ($diff < 3600) { //first hour
+			return round($diff / 60) . " minutes ago";
+		} elseif ($diff < 86400) { // first day
+			return round($diff / 3600) . " hours ago";
+		} elseif ($diff < 604800) { //first week
+			return round($diff / 86400) . " days ago";
+		} elseif ($diff < 2419200) { //first month
+			return round($diff / 604800) . " weeks ago";
+		} elseif ($diff < 29030400) { // first year
+			return round($diff / 2419200) . " months ago";
+		} else {
+			return round($diff / 29030400) . " years ago";
+		}
+
+	}
 
 	/**
 	 * @brief deletes used space for files versions in db if user was deleted
@@ -412,7 +429,7 @@ class Storage {
 			} else {
 				$quota = \OCP\Util::computerFileSize($quota);
 			}
-			
+
 			// make sure that we have the current size of the version history
 			if ( $versionsSize === null ) {
 				$versionsSize = self::getVersionsSize($uid);
@@ -543,6 +560,23 @@ class Storage {
 			}
 		}
 		return $size;
+	}
+
+	/**
+	 * @brief create recursively missing directories
+	 * @param string $filename $path to a file
+	 * @param \OC\Files\View $view view on data/user/
+	 */
+	private static function createMissingDirectories($filename, $view) {
+		$dirname = \OC_Filesystem::normalizePath(dirname($filename));
+		$dirParts = explode('/', $dirname);
+		$dir = "/files_versions";
+		foreach ($dirParts as $part) {
+			$dir = $dir . '/' . $part;
+			if (!$view->file_exists($dir)) {
+				$view->mkdir($dir);
+			}
+		}
 	}
 
 }

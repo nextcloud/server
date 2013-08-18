@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s به اشتراک گذاشته شده است »%s« توسط شما",
 "Category type not provided." => "نوع دسته بندی ارائه نشده است.",
 "No category to add?" => "آیا گروه دیگری برای افزودن ندارید",
@@ -29,15 +30,13 @@
 "December" => "دسامبر",
 "Settings" => "تنظیمات",
 "seconds ago" => "ثانیه‌ها پیش",
-"1 minute ago" => "1 دقیقه پیش",
-"{minutes} minutes ago" => "{دقیقه ها} دقیقه های پیش",
-"1 hour ago" => "1 ساعت پیش",
-"{hours} hours ago" => "{ساعت ها} ساعت ها پیش",
+"_%n minute ago_::_%n minutes ago_" => array(""),
+"_%n hour ago_::_%n hours ago_" => array(""),
 "today" => "امروز",
 "yesterday" => "دیروز",
-"{days} days ago" => "{روزها} روزهای پیش",
+"_%n day ago_::_%n days ago_" => array(""),
 "last month" => "ماه قبل",
-"{months} months ago" => "{ماه ها} ماه ها پیش",
+"_%n month ago_::_%n months ago_" => array(""),
 "months ago" => "ماه‌های قبل",
 "last year" => "سال قبل",
 "years ago" => "سال‌های قبل",
@@ -85,7 +84,6 @@
 "Email sent" => "ایمیل ارسال شد",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "به روز رسانی ناموفق بود. لطفا این خطا را به  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">جامعه ی OwnCloud</a> گزارش نمایید.",
 "The update was successful. Redirecting you to ownCloud now." => "به روزرسانی موفقیت آمیز بود. در حال انتقال شما به OwnCloud.",
-"ownCloud password reset" => "پسورد ابرهای شما تغییرکرد",
 "Use the following link to reset your password: {link}" => "از لینک زیر جهت دوباره سازی پسورد استفاده کنید :\n{link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "لینک تنظیم مجدد رمز عبور به ایمیل شما ارسال شده است.<br>اگر آن رادر یک زمان مشخصی دریافت نکرده اید، لطفا هرزنامه/ پوشه های ناخواسته را بررسی کنید.<br>در صورت نبودن از مدیر خود بپرسید.",
 "Request failed!<br>Did you make sure your email/username was right?" => "درخواست رد شده است !<br> آیا مطمئن هستید که ایمیل/ نام کاربری شما صحیح میباشد ؟",
@@ -110,11 +108,9 @@
 "Add" => "افزودن",
 "Security Warning" => "اخطار امنیتی",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "نسخه ی PHP شما در برابر حملات NULL Byte آسیب پذیر است.(CVE-2006-7243)",
-"Please update your PHP installation to use ownCloud securely." => "لطفا برنامه ی PHP خودتان را بروز کنید تا بتوانید ایمن تر از ownCloud استفاده کنید.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "هیچ مولد تصادفی امن در دسترس نیست، لطفا فرمت PHP OpenSSL را فعال نمایید.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "بدون وجود یک تولید کننده اعداد تصادفی امن ، یک مهاجم ممکن است این قابلیت را داشته باشد که پیشگویی کند پسوورد های راه انداز گرفته شده و کنترلی روی حساب کاربری شما داشته باشد .",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "فایلها و فهرست های داده های شما قابل از اینترنت قابل دسترسی هستند، چونکه فایل htacces. کار نمی کند.",
-"For information how to properly configure your server, please see the <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>." => "برای مطلع شدن از چگونگی تنظیم سرورتان،لطفا <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">این</a> را ببینید.",
 "Create an <strong>admin account</strong>" => "لطفا یک <strong> شناسه برای مدیر</strong> بسازید",
 "Advanced" => "پیشرفته",
 "Data folder" => "پوشه اطلاعاتی",
@@ -140,3 +136,4 @@
 "next" => "بعدی",
 "Updating ownCloud to version %s, this may take a while." => "به روز رسانی OwnCloud به نسخه ی %s، این عملیات ممکن است زمان بر باشد."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

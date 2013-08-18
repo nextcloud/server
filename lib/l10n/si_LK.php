@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "උදව්",
 "Personal" => "පෞද්ගලික",
 "Settings" => "සිටුවම්",
 "Users" => "පරිශීලකයන්",
-"Apps" => "යෙදුම්",
 "Admin" => "පරිපාලක",
 "web services under your control" => "ඔබට පාලනය කළ හැකි වෙබ් සේවාවන්",
 "ZIP download is turned off." => "ZIP භාගත කිරීම් අක්‍රියයි",
@@ -17,12 +17,14 @@
 "Text" => "පෙළ",
 "Images" => "අනු රූ",
 "seconds ago" => "තත්පරයන්ට පෙර",
-"1 minute ago" => "1 මිනිත්තුවකට පෙර",
-"%d minutes ago" => "%d මිනිත්තුවන්ට පෙර",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "අද",
 "yesterday" => "ඊයේ",
-"%d days ago" => "%d දිනකට පෙර",
+"_%n day go_::_%n days ago_" => array("",""),
 "last month" => "පෙර මාසයේ",
+"_%n month ago_::_%n months ago_" => array("",""),
 "last year" => "පෙර අවුරුද්දේ",
 "years ago" => "අවුරුදු කීපයකට පෙර"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

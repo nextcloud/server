@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s 向您分享了 »%s«",
 "Category type not provided." => "未提供分类类型。",
 "No category to add?" => "没有可添加分类？",
@@ -29,15 +30,13 @@
 "December" => "十二月",
 "Settings" => "设置",
 "seconds ago" => "秒前",
-"1 minute ago" => "一分钟前",
-"{minutes} minutes ago" => "{minutes} 分钟前",
-"1 hour ago" => "1小时前",
-"{hours} hours ago" => "{hours} 小时前",
+"_%n minute ago_::_%n minutes ago_" => array(""),
+"_%n hour ago_::_%n hours ago_" => array(""),
 "today" => "今天",
 "yesterday" => "昨天",
-"{days} days ago" => "{days} 天前",
+"_%n day ago_::_%n days ago_" => array(""),
 "last month" => "上月",
-"{months} months ago" => "{months} 月前",
+"_%n month ago_::_%n months ago_" => array(""),
 "months ago" => "月前",
 "last year" => "去年",
 "years ago" => "年前",
@@ -85,7 +84,6 @@
 "Email sent" => "邮件已发送",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "更新不成功。请汇报将此问题汇报给  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud 社区</a>。",
 "The update was successful. Redirecting you to ownCloud now." => "更新成功。正在重定向至 ownCloud。",
-"ownCloud password reset" => "重置 ownCloud 密码",
 "Use the following link to reset your password: {link}" => "使用以下链接重置您的密码：{link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "重置密码的链接已发送到您的邮箱。<br>如果您觉得在合理的时间内还未收到邮件，请查看 spam/junk 目录。<br>如果没有在那里，请询问您的本地管理员。",
 "Request failed!<br>Did you make sure your email/username was right?" => "请求失败<br>您确定您的邮箱/用户名是正确的？",
@@ -110,11 +108,9 @@
 "Add" => "增加",
 "Security Warning" => "安全警告",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "你的PHP版本容易受到空字节攻击 (CVE-2006-7243)",
-"Please update your PHP installation to use ownCloud securely." => "为保证安全使用 ownCloud 请更新您的PHP。",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "随机数生成器无效，请启用PHP的OpenSSL扩展",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "没有安全随机码生成器，攻击者可能会猜测密码重置信息从而窃取您的账户",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "您的数据目录和文件可能可以直接被互联网访问，因为 .htaccess 并未正常工作。",
-"For information how to properly configure your server, please see the <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>." => "关于如何配置服务器，请参见 <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">此文档</a>。",
 "Create an <strong>admin account</strong>" => "创建<strong>管理员账号</strong>",
 "Advanced" => "高级",
 "Data folder" => "数据目录",
@@ -140,3 +136,4 @@
 "next" => "下一页",
 "Updating ownCloud to version %s, this may take a while." => "更新 ownCloud 到版本 %s，这可能需要一些时间。"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

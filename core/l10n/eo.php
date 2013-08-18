@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s kunhavigis “%s” kun vi",
 "Category type not provided." => "Ne proviziĝis tipon de kategorio.",
 "No category to add?" => "Ĉu neniu kategorio estas aldonota?",
@@ -29,15 +30,13 @@
 "December" => "Decembro",
 "Settings" => "Agordo",
 "seconds ago" => "sekundoj antaŭe",
-"1 minute ago" => "antaŭ 1 minuto",
-"{minutes} minutes ago" => "antaŭ {minutes} minutoj",
-"1 hour ago" => "antaŭ 1 horo",
-"{hours} hours ago" => "antaŭ {hours} horoj",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "hodiaŭ",
 "yesterday" => "hieraŭ",
-"{days} days ago" => "antaŭ {days} tagoj",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "lastamonate",
-"{months} months ago" => "antaŭ {months} monatoj",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "monatoj antaŭe",
 "last year" => "lastajare",
 "years ago" => "jaroj antaŭe",
@@ -83,7 +82,6 @@
 "Email sent" => "La retpoŝtaĵo sendiĝis",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "La ĝisdatigo estis malsukcese. Bonvolu raporti tiun problemon al la <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownClouda komunumo</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "La ĝisdatigo estis sukcesa. Alidirektante nun al ownCloud.",
-"ownCloud password reset" => "La pasvorto de ownCloud restariĝis.",
 "Use the following link to reset your password: {link}" => "Uzu la jenan ligilon por restarigi vian pasvorton: {link}",
 "Request failed!<br>Did you make sure your email/username was right?" => "La peto malsukcesis!<br />Ĉu vi certiĝis, ke via retpoŝto/uzantonomo ĝustas?",
 "You will receive a link to reset your password via Email." => "Vi ricevos ligilon retpoŝte por rekomencigi vian pasvorton.",
@@ -106,7 +104,6 @@
 "Add" => "Aldoni",
 "Security Warning" => "Sekureca averto",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Via PHP versio estas sendefenda je la NULL bajto atako (CVE-2006-7243)",
-"Please update your PHP installation to use ownCloud securely." => "Bonvolu ĝisdatigi vian instalon de PHP por uzi ownCloud-on sekure.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Ne disponeblas sekura generilo de hazardaj numeroj; bonvolu kapabligi la OpenSSL-kromaĵon por PHP.",
 "Create an <strong>admin account</strong>" => "Krei <strong>administran konton</strong>",
 "Advanced" => "Progresinta",
@@ -133,3 +130,4 @@
 "next" => "jena",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud ĝisdatiĝas al eldono %s, tio ĉi povas daŭri je iom da tempo."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

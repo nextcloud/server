@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
-"WebDAV Authentication" => "Autentificare WebDAV",
-"ownCloud will send the user credentials to this URL. This plugin checks the response and will interpret the HTTP statuscodes 401 and 403 as invalid credentials, and all other responses as valid credentials." => "ownCloud va trimite datele de autentificare la acest URL. Acest modul verifică răspunsul și va interpreta codurile de status HTTP 401 sau 403 ca fiind date de autentificare invalide, și orice alt răspuns ca fiind date valide."
+<?php
+$TRANSLATIONS = array(
+"WebDAV Authentication" => "Autentificare WebDAV"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));";

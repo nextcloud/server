@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Password successfully changed." => "암호가 성공적으로 변경되었습니다",
 "Could not change the password. Maybe the old password was not correct." => "암호를 변경할수 없습니다. 아마도 예전 암호가 정확하지 않은것 같습니다.",
 "Private key password successfully updated." => "개인키 암호가 성공적으로 업데이트 됨.",
@@ -16,3 +17,4 @@
 "File recovery settings updated" => "파일 복구 설정 업데이트됨",
 "Could not update file recovery" => "파일 복구를 업데이트 할수 없습니다"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

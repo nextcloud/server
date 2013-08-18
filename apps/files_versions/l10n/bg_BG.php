@@ -1,5 +1,6 @@
-<?php $TRANSLATIONS = array(
-"success" => "успешно",
-"File %s was reverted to version %s" => "Файлът %s бе върнат към версия %s",
-"Versions" => "Версии"
+<?php
+$TRANSLATIONS = array(
+"Versions" => "Версии",
+"Restore" => "Възтановяване"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

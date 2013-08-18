@@ -6,13 +6,14 @@
 # bjamalaro <bjamalaro@yahoo.com.br>, 2013
 # Rodrigo Tavares <rodrigo.st23@hotmail.com>, 2013
 # thoriumbr <thoriumbr@gmail.com>, 2012
+# tuliouel, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-06-21 08:49+0200\n"
-"PO-Revision-Date: 2013-06-20 21:50+0000\n"
-"Last-Translator: bjamalaro <bjamalaro@yahoo.com.br>\n"
+"POT-Creation-Date: 2013-07-28 01:56-0400\n"
+"PO-Revision-Date: 2013-07-27 11:40+0000\n"
+"Last-Translator: tuliouel\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,12 +26,12 @@ msgid "WebDAV Authentication"
 msgstr "Autenticação WebDAV"
 
 #: templates/settings.php:4
-msgid "URL: "
-msgstr "URL:"
+msgid "Address: "
+msgstr "Endereço:"
 
 #: templates/settings.php:7
 msgid ""
-"ownCloud will send the user credentials to this URL. This plugin checks the "
+"The user credentials will be sent to this address. This plugin checks the "
 "response and will interpret the HTTP statuscodes 401 and 403 as invalid "
 "credentials, and all other responses as valid credentials."
-msgstr "O ownCloud enviará as credenciais do usuário para esta URL. Este plugin verifica a resposta e interpreta o os códigos de status do HTTP 401 e 403 como credenciais inválidas, e todas as outras respostas como credenciais válidas."
+msgstr "As credenciais de usuário serão enviadas para este endereço. Este plugin verifica a resposta e interpretará os códigos de status HTTP 401 e 403 como \"credenciais inválidas\", e todas as outras respostas como \"credenciais válidas\"."

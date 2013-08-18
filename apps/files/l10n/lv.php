@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Nevarēja pārvietot %s — jau eksistē datne ar tādu nosaukumu",
 "Could not move %s" => "Nevarēja pārvietot %s",
 "No file was uploaded. Unknown error" => "Netika augšupielādēta neviena datne. Nezināma kļūda",
@@ -20,7 +21,6 @@
 "Error" => "Kļūda",
 "Share" => "Dalīties",
 "Delete permanently" => "Dzēst pavisam",
-"Delete" => "Dzēst",
 "Rename" => "Pārsaukt",
 "Pending" => "Gaida savu kārtu",
 "{new_name} already exists" => "{new_name} jau eksistē",
@@ -29,8 +29,7 @@
 "cancel" => "atcelt",
 "replaced {new_name} with {old_name}" => "aizvietoja {new_name} ar {old_name}",
 "undo" => "atsaukt",
-"perform delete operation" => "veikt dzēšanas darbību",
-"1 file uploading" => "Augšupielādē 1 datni",
+"_Uploading %n file_::_Uploading %n files_" => array("","",""),
 "'.' is an invalid file name." => "'.' ir nederīgs datnes nosaukums.",
 "File name cannot be empty." => "Datnes nosaukums nevar būt tukšs.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nederīgs nosaukums, nav atļauti '\\', '/', '<', '>', ':', '\"', '|', '?' un '*'.",
@@ -41,10 +40,8 @@
 "Name" => "Nosaukums",
 "Size" => "Izmērs",
 "Modified" => "Mainīts",
-"1 folder" => "1 mape",
-"{count} folders" => "{count} mapes",
-"1 file" => "1 datne",
-"{count} files" => "{count} datnes",
+"_%n folder_::_%n folders_" => array("","",""),
+"_%n file_::_%n files_" => array("","",""),
 "Upload" => "Augšupielādēt",
 "File handling" => "Datņu pārvaldība",
 "Maximum upload size" => "Maksimālais datņu augšupielādes apjoms",
@@ -64,6 +61,7 @@
 "Nothing in here. Upload something!" => "Te vēl nekas nav. Rīkojies, sāc augšupielādēt!",
 "Download" => "Lejupielādēt",
 "Unshare" => "Pārtraukt dalīšanos",
+"Delete" => "Dzēst",
 "Upload too large" => "Datne ir par lielu, lai to augšupielādētu",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Augšupielādējamās datnes pārsniedz servera pieļaujamo datņu augšupielādes apjomu",
 "Files are being scanned, please wait." => "Datnes šobrīd tiek caurskatītas, lūdzu, uzgaidiet.",
@@ -72,3 +70,4 @@
 "files" => "faili",
 "Upgrading filesystem cache..." => "Uzlabo datņu sistēmas kešatmiņu..."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s partilhado »%s« contigo",
 "Category type not provided." => "Tipo de categoria não fornecido",
 "No category to add?" => "Nenhuma categoria para adicionar?",
@@ -29,15 +30,13 @@
 "December" => "Dezembro",
 "Settings" => "Configurações",
 "seconds ago" => "Minutos atrás",
-"1 minute ago" => "Há 1 minuto",
-"{minutes} minutes ago" => "{minutes} minutos atrás",
-"1 hour ago" => "Há 1 horas",
-"{hours} hours ago" => "Há {hours} horas atrás",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "hoje",
 "yesterday" => "ontem",
-"{days} days ago" => "{days} dias atrás",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "ultímo mês",
-"{months} months ago" => "Há {months} meses atrás",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "meses atrás",
 "last year" => "ano passado",
 "years ago" => "anos atrás",
@@ -85,7 +84,6 @@
 "Email sent" => "E-mail enviado",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "A actualização falhou. Por favor reporte este incidente seguindo este link <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "A actualização foi concluída com sucesso. Vai ser redireccionado para o ownCloud agora.",
-"ownCloud password reset" => "Reposição da password ownCloud",
 "Use the following link to reset your password: {link}" => "Use o seguinte endereço para repor a sua password: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "O link para fazer reset à sua password foi enviado para o seu e-mail. <br> Se não o recebeu dentro um espaço de tempo aceitável, por favor verifique a sua pasta de SPAM.<br> Se não o encontrar, por favor contacte o seu administrador.",
 "Request failed!<br>Did you make sure your email/username was right?" => "O pedido falhou! <br> Tem a certeza que introduziu o seu email/username correcto?",
@@ -110,11 +108,11 @@
 "Add" => "Adicionar",
 "Security Warning" => "Aviso de Segurança",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "A sua versão do PHP é vulnerável ao ataque Byte Null (CVE-2006-7243)",
-"Please update your PHP installation to use ownCloud securely." => "Por favor atualize a sua versão PHP instalada para usar o ownCloud com segurança.",
+"Please update your PHP installation to use %s securely." => "Por favor atualize a sua versão PHP instalada para usar o %s com segurança.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Não existe nenhum gerador seguro de números aleatórios, por favor, active a extensão OpenSSL no PHP.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Sem nenhum gerador seguro de números aleatórios, uma pessoa mal intencionada pode prever a sua password, reiniciar as seguranças adicionais e tomar conta da sua conta. ",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "A pasta de dados do ownCloud e os respectivos ficheiros, estarão provavelmente acessíveis a partir da internet, pois o ficheiros .htaccess não funciona.",
-"For information how to properly configure your server, please see the <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>." => "Para obter informações de como configurar correctamente o servidor, veja em: <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>.",
+"For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Para obter informações de como configurar correctamente o servidor, veja em: <a href=\"%s\" target=\"_blank\">documentação</a>.",
 "Create an <strong>admin account</strong>" => "Criar uma <strong>conta administrativa</strong>",
 "Advanced" => "Avançado",
 "Data folder" => "Pasta de dados",
@@ -140,3 +138,4 @@
 "next" => "seguinte",
 "Updating ownCloud to version %s, this may take a while." => "A actualizar o ownCloud para a versão %s, esta operação pode demorar."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

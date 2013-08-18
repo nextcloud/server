@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s s Vami zdieľa »%s«",
 "Category type not provided." => "Neposkytnutý typ kategórie.",
 "No category to add?" => "Žiadna kategória pre pridanie?",
@@ -29,15 +30,13 @@
 "December" => "December",
 "Settings" => "Nastavenia",
 "seconds ago" => "pred sekundami",
-"1 minute ago" => "pred minútou",
-"{minutes} minutes ago" => "pred {minutes} minútami",
-"1 hour ago" => "Pred 1 hodinou",
-"{hours} hours ago" => "Pred {hours} hodinami.",
+"_%n minute ago_::_%n minutes ago_" => array("","",""),
+"_%n hour ago_::_%n hours ago_" => array("","",""),
 "today" => "dnes",
 "yesterday" => "včera",
-"{days} days ago" => "pred {days} dňami",
+"_%n day ago_::_%n days ago_" => array("","",""),
 "last month" => "minulý mesiac",
-"{months} months ago" => "Pred {months} mesiacmi.",
+"_%n month ago_::_%n months ago_" => array("","",""),
 "months ago" => "pred mesiacmi",
 "last year" => "minulý rok",
 "years ago" => "pred rokmi",
@@ -85,7 +84,6 @@
 "Email sent" => "Email odoslaný",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Aktualizácia nebola úspešná. Problém nahláste na <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Aktualizácia bola úspešná. Presmerovávam na prihlasovaciu stránku.",
-"ownCloud password reset" => "Obnovenie hesla pre ownCloud",
 "Use the following link to reset your password: {link}" => "Použite nasledujúci odkaz pre obnovenie vášho hesla: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Odkaz na obnovenie hesla bol odoslaný na Vašu emailovú adresu.<br>Ak ho v krátkej dobe neobdržíte, skontrolujte si Váš kôš a priečinok spam.<br>Ak ho ani tam nenájdete, kontaktujte svojho administrátora.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Požiadavka zlyhala.<br>Uistili ste sa, že Vaše používateľské meno a email sú správne?",
@@ -110,11 +108,11 @@
 "Add" => "Pridať",
 "Security Warning" => "Bezpečnostné varovanie",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Verzia Vášho PHP je napadnuteľná pomocou techniky \"NULL Byte\" (CVE-2006-7243)",
-"Please update your PHP installation to use ownCloud securely." => "Aktualizujte prosím Vašu inštanciu PHP pre bezpečné používanie ownCloud.",
+"Please update your PHP installation to use %s securely." => "Aktualizujte prosím vašu inštanciu PHP pre bezpečné používanie %s.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Nie je dostupný žiadny bezpečný generátor náhodných čísel, prosím, povoľte rozšírenie OpenSSL v PHP.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Bez bezpečného generátora náhodných čísel môže útočník predpovedať token pre obnovu hesla a prevziať kontrolu nad vaším kontom.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Váš priečinok s dátami a súbormi je dostupný z internetu, lebo súbor .htaccess nefunguje.",
-"For information how to properly configure your server, please see the <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>." => "Pre informácie, ako správne nastaviť Váš server sa pozrite do <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">dokumentácie</a>.",
+"For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Pre informácie, ako správne nastaviť váš server, sa pozrite do <a href=\"%s\" target=\"_blank\">dokumentácie</a>.",
 "Create an <strong>admin account</strong>" => "Vytvoriť <strong>administrátorský účet</strong>",
 "Advanced" => "Rozšírené",
 "Data folder" => "Priečinok dát",
@@ -140,3 +138,4 @@
 "next" => "ďalej",
 "Updating ownCloud to version %s, this may take a while." => "Aktualizujem ownCloud na verziu %s, môže to chvíľu trvať."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Kurtarma anahtarı başarıyla etkinleştirildi",
 "Could not enable recovery key. Please check your recovery key password!" => "Kurtarma anahtarı etkinleştirilemedi. Lütfen kurtarma anahtarı parolanızı kontrol edin!",
 "Recovery key successfully disabled" => "Kurtarma anahtarı başarıyla devre dışı bırakıldı",
@@ -13,3 +14,4 @@
 "File recovery settings updated" => "Dosya kurtarma ayarları güncellendi",
 "Could not update file recovery" => "Dosya kurtarma güncellenemedi"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

@@ -392,7 +392,7 @@ class OC_Image {
 	*/
 	public function loadFromFile($imagepath=false) {
 		// exif_imagetype throws "read error!" if file is less than 12 byte
-		if(!is_file($imagepath) || !file_exists($imagepath) || filesize($imagepath) < 12 || !is_readable($imagepath)) {
+		if(!@is_file($imagepath) || !file_exists($imagepath) || filesize($imagepath) < 12 || !is_readable($imagepath)) {
 			// Debug output disabled because this method is tried before loadFromBase64?
 			OC_Log::write('core', 'OC_Image->loadFromFile, couldn\'t load: '.$imagepath, OC_Log::DEBUG);
 			return false;

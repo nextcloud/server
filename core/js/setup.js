@@ -11,42 +11,36 @@ $(document).ready(function() {
 	$('#selectDbType').buttonset();
 	$('#datadirContent').hide(250);
 	$('#databaseField').hide(250);
-	if($('#hasSQLite').val()=='true'){
+	if($('#hasSQLite').val()){
 		$('#use_other_db').hide();
-		$('#dbhost').hide();
-		$('#dbhostlabel').hide();
+		$('#use_oracle_db').hide();
 	}
 	$('#adminlogin').change(function(){
 		$('#adminlogin').val($.trim($('#adminlogin').val()));
 	});
 	$('#sqlite').click(function() {
 		$('#use_other_db').slideUp(250);
-		$('#dbhost').hide(250);
-		$('#dbhostlabel').hide(250);
+		$('#use_oracle_db').slideUp(250);
 	});
 
 	$('#mysql').click(function() {
 		$('#use_other_db').slideDown(250);
-		$('#dbhost').show(250);
-		$('#dbhostlabel').show(250);
+		$('#use_oracle_db').slideUp(250);
 	});
-	
+
 	$('#pgsql').click(function() {
 		$('#use_other_db').slideDown(250);
-		$('#dbhost').show(250);
-		$('#dbhostlabel').show(250);
+		$('#use_oracle_db').slideUp(250);
 	});
-	
+
 	$('#oci').click(function() {
 		$('#use_other_db').slideDown(250);
-		$('#dbhost').show(250);
-		$('#dbhostlabel').show(250);
+		$('#use_oracle_db').show(250);
 	});
-    
+
 	$('#mssql').click(function() {
 		$('#use_other_db').slideDown(250);
-		$('#dbhost').show(250);
-		$('#dbhostlabel').show(250);
+		$('#use_oracle_db').slideUp(250);
 	});
 
 	$('input[checked]').trigger('click');

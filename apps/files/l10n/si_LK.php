@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "No file was uploaded. Unknown error" => "ගොනුවක් උඩුගත නොවුනි. නොහැඳිනු දෝෂයක්",
 "There is no error, the file uploaded with success" => "දෝෂයක් නොමැත. සාර්ථකව ගොනුව උඩුගත කෙරුණි",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "උඩුගත කළ ගොනුවේ විශාලත්වය HTML පෝරමයේ නියම කළ ඇති MAX_FILE_SIZE විශාලත්වයට වඩා වැඩිය",
@@ -12,18 +13,17 @@
 "URL cannot be empty." => "යොමුව හිස් විය නොහැක",
 "Error" => "දෝෂයක්",
 "Share" => "බෙදා හදා ගන්න",
-"Delete" => "මකා දමන්න",
 "Rename" => "නැවත නම් කරන්න",
 "replace" => "ප්‍රතිස්ථාපනය කරන්න",
 "suggest name" => "නමක් යෝජනා කරන්න",
 "cancel" => "අත් හරින්න",
 "undo" => "නිෂ්ප්‍රභ කරන්න",
-"1 file uploading" => "1 ගොනුවක් උඩගත කෙරේ",
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
 "Name" => "නම",
 "Size" => "ප්‍රමාණය",
 "Modified" => "වෙනස් කළ",
-"1 folder" => "1 ෆොල්ඩරයක්",
-"1 file" => "1 ගොනුවක්",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "Upload" => "උඩුගත කරන්න",
 "File handling" => "ගොනු පරිහරණය",
 "Maximum upload size" => "උඩුගත කිරීමක උපරිම ප්‍රමාණය",
@@ -41,6 +41,7 @@
 "Nothing in here. Upload something!" => "මෙහි කිසිවක් නොමැත. යමක් උඩුගත කරන්න",
 "Download" => "බාන්න",
 "Unshare" => "නොබෙදු",
+"Delete" => "මකා දමන්න",
 "Upload too large" => "උඩුගත කිරීම විශාල වැඩිය",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "ඔබ උඩුගත කිරීමට තැත් කරන ගොනු මෙම සේවාදායකයා උඩුගත කිරීමට ඉඩදී ඇති උපරිම ගොනු විශාලත්වයට වඩා වැඩිය",
 "Files are being scanned, please wait." => "ගොනු පරික්ෂා කෙරේ. මඳක් රැඳී සිටින්න",
@@ -48,3 +49,4 @@
 "file" => "ගොනුව",
 "files" => "ගොනු"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

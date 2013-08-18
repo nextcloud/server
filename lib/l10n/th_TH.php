@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "ช่วยเหลือ",
 "Personal" => "ส่วนตัว",
 "Settings" => "ตั้งค่า",
 "Users" => "ผู้ใช้งาน",
-"Apps" => "แอปฯ",
 "Admin" => "ผู้ดูแล",
 "web services under your control" => "เว็บเซอร์วิสที่คุณควบคุมการใช้งานได้",
 "ZIP download is turned off." => "คุณสมบัติการดาวน์โหลด zip ถูกปิดการใช้งานไว้",
@@ -18,16 +18,15 @@
 "Text" => "ข้อความ",
 "Images" => "รูปภาพ",
 "seconds ago" => "วินาที ก่อนหน้านี้",
-"1 minute ago" => "1 นาทีก่อนหน้านี้",
-"%d minutes ago" => "%d นาทีที่ผ่านมา",
-"1 hour ago" => "1 ชั่วโมงก่อนหน้านี้",
-"%d hours ago" => "%d ชั่วโมงก่อนหน้านี้",
+"_%n minute ago_::_%n minutes ago_" => array(""),
+"_%n hour ago_::_%n hours ago_" => array(""),
 "today" => "วันนี้",
 "yesterday" => "เมื่อวานนี้",
-"%d days ago" => "%d วันที่ผ่านมา",
+"_%n day go_::_%n days ago_" => array(""),
 "last month" => "เดือนที่แล้ว",
-"%d months ago" => "%d เดือนมาแล้ว",
+"_%n month ago_::_%n months ago_" => array(""),
 "last year" => "ปีที่แล้ว",
 "years ago" => "ปี ที่ผ่านมา",
 "Could not find category \"%s\"" => "ไม่พบหมวดหมู่ \"%s\""
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

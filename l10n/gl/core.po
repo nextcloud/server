@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:04+0000\n"
+"POT-Creation-Date: 2013-08-16 01:29-0400\n"
+"PO-Revision-Date: 2013-08-15 10:30+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -138,59 +138,59 @@ msgstr "novembro"
 msgid "December"
 msgstr "decembro"
 
-#: js/js.js:293
+#: js/js.js:355
 msgid "Settings"
 msgstr "Axustes"
 
-#: js/js.js:715
+#: js/js.js:812
 msgid "seconds ago"
 msgstr "segundos atrás"
 
-#: js/js.js:716
-msgid "1 minute ago"
-msgstr "hai 1 minuto"
+#: js/js.js:813
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] "hai %n minuto"
+msgstr[1] "hai %n minutos"
 
-#: js/js.js:717
-msgid "{minutes} minutes ago"
-msgstr "hai {minutes} minutos"
+#: js/js.js:814
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] "hai %n hora"
+msgstr[1] "hai %n horas"
 
-#: js/js.js:718
-msgid "1 hour ago"
-msgstr "Vai 1 hora"
-
-#: js/js.js:719
-msgid "{hours} hours ago"
-msgstr "hai {hours} horas"
-
-#: js/js.js:720
+#: js/js.js:815
 msgid "today"
 msgstr "hoxe"
 
-#: js/js.js:721
+#: js/js.js:816
 msgid "yesterday"
 msgstr "onte"
 
-#: js/js.js:722
-msgid "{days} days ago"
-msgstr "hai {days} días"
+#: js/js.js:817
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] "hai %n día"
+msgstr[1] "hai %n días"
 
-#: js/js.js:723
+#: js/js.js:818
 msgid "last month"
 msgstr "último mes"
 
-#: js/js.js:724
-msgid "{months} months ago"
-msgstr "hai {months} meses"
+#: js/js.js:819
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] "hai %n mes"
+msgstr[1] "hai %n meses"
 
-#: js/js.js:725
+#: js/js.js:820
 msgid "months ago"
 msgstr "meses atrás"
 
-#: js/js.js:726
+#: js/js.js:821
 msgid "last year"
 msgstr "último ano"
 
-#: js/js.js:727
+#: js/js.js:822
 msgid "years ago"
 msgstr "anos atrás"
 
@@ -226,8 +226,8 @@ msgstr "Non se especificou o tipo de obxecto."
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:625
-#: js/share.js:637
+#: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
+#: js/share.js:643 js/share.js:655
 msgid "Error"
 msgstr "Erro"
 
@@ -247,123 +247,123 @@ msgstr "Compartir"
 msgid "Share"
 msgstr "Compartir"
 
-#: js/share.js:125 js/share.js:665
+#: js/share.js:131 js/share.js:683
 msgid "Error while sharing"
 msgstr "Produciuse un erro ao compartir"
 
-#: js/share.js:136
+#: js/share.js:142
 msgid "Error while unsharing"
 msgstr "Produciuse un erro ao deixar de compartir"
 
-#: js/share.js:143
+#: js/share.js:149
 msgid "Error while changing permissions"
 msgstr "Produciuse un erro ao cambiar os permisos"
 
-#: js/share.js:152
+#: js/share.js:158
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Compartido con vostede e co grupo {group} por {owner}"
 
-#: js/share.js:154
+#: js/share.js:160
 msgid "Shared with you by {owner}"
 msgstr "Compartido con vostede por {owner}"
 
-#: js/share.js:177
+#: js/share.js:183
 msgid "Share with"
 msgstr "Compartir con"
 
-#: js/share.js:182
+#: js/share.js:188
 msgid "Share with link"
 msgstr "Compartir coa ligazón"
 
-#: js/share.js:185
+#: js/share.js:191
 msgid "Password protect"
 msgstr "Protexido con contrasinais"
 
-#: js/share.js:187 templates/installation.php:54 templates/login.php:26
+#: js/share.js:193 templates/installation.php:57 templates/login.php:26
 msgid "Password"
 msgstr "Contrasinal"
 
-#: js/share.js:192
+#: js/share.js:198
 msgid "Allow Public Upload"
 msgstr "Permitir o envío público"
 
-#: js/share.js:196
+#: js/share.js:202
 msgid "Email link to person"
 msgstr "Enviar ligazón por correo"
 
-#: js/share.js:197
+#: js/share.js:203
 msgid "Send"
 msgstr "Enviar"
 
-#: js/share.js:202
+#: js/share.js:208
 msgid "Set expiration date"
 msgstr "Definir a data de caducidade"
 
-#: js/share.js:203
+#: js/share.js:209
 msgid "Expiration date"
 msgstr "Data de caducidade"
 
-#: js/share.js:235
+#: js/share.js:241
 msgid "Share via email:"
 msgstr "Compartir por correo:"
 
-#: js/share.js:237
+#: js/share.js:243
 msgid "No people found"
 msgstr "Non se atopou xente"
 
-#: js/share.js:275
+#: js/share.js:281
 msgid "Resharing is not allowed"
 msgstr "Non se permite volver a compartir"
 
-#: js/share.js:311
+#: js/share.js:317
 msgid "Shared in {item} with {user}"
 msgstr "Compartido en {item} con {user}"
 
-#: js/share.js:332
+#: js/share.js:338
 msgid "Unshare"
 msgstr "Deixar de compartir"
 
-#: js/share.js:344
+#: js/share.js:350
 msgid "can edit"
 msgstr "pode editar"
 
-#: js/share.js:346
+#: js/share.js:352
 msgid "access control"
 msgstr "control de acceso"
 
-#: js/share.js:349
+#: js/share.js:355
 msgid "create"
 msgstr "crear"
 
-#: js/share.js:352
+#: js/share.js:358
 msgid "update"
 msgstr "actualizar"
 
-#: js/share.js:355
+#: js/share.js:361
 msgid "delete"
 msgstr "eliminar"
 
-#: js/share.js:358
+#: js/share.js:364
 msgid "share"
 msgstr "compartir"
 
-#: js/share.js:392 js/share.js:612
+#: js/share.js:398 js/share.js:630
 msgid "Password protected"
 msgstr "Protexido con contrasinal"
 
-#: js/share.js:625
+#: js/share.js:643
 msgid "Error unsetting expiration date"
 msgstr "Produciuse un erro ao retirar a data de caducidade"
 
-#: js/share.js:637
+#: js/share.js:655
 msgid "Error setting expiration date"
 msgstr "Produciuse un erro ao definir a data de caducidade"
 
-#: js/share.js:652
+#: js/share.js:670
 msgid "Sending ..."
 msgstr "Enviando..."
 
-#: js/share.js:663
+#: js/share.js:681
 msgid "Email sent"
 msgstr "Correo enviado"
 
@@ -378,9 +378,10 @@ msgstr "A actualización non foi satisfactoria, informe deste problema á  <a hr
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "A actualización realizouse correctamente. Redirixíndoo agora á ownCloud."
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
-msgstr "Restabelecer o contrasinal de ownCloud"
+#: lostpassword/controller.php:61
+#, php-format
+msgid "%s password reset"
+msgstr "Restabelecer o contrasinal %s"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -401,7 +402,7 @@ msgstr "Non foi posíbel facer a petición!<br>Asegúrese de que o seu enderezo 
 msgid "You will receive a link to reset your password via Email."
 msgstr "Recibirá unha ligazón por correo para restabelecer o contrasinal"
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
 #: templates/login.php:19
 msgid "Username"
 msgstr "Nome de usuario"
@@ -462,11 +463,11 @@ msgstr "Axuda"
 msgid "Access forbidden"
 msgstr "Acceso denegado"
 
-#: templates/404.php:12
+#: templates/404.php:15
 msgid "Cloud not found"
 msgstr "Nube non atopada"
 
-#: templates/altmail.php:4
+#: templates/altmail.php:2
 #, php-format
 msgid ""
 "Hey there,\n"
@@ -495,8 +496,9 @@ msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 msgstr "A súa versión de PHP é vulnerábel a un ataque de byte nulo (CVE-2006-7243)"
 
 #: templates/installation.php:26
-msgid "Please update your PHP installation to use ownCloud securely."
-msgstr "Actualice a instalación de PHP para empregar ownCloud de xeito seguro."
+#, php-format
+msgid "Please update your PHP installation to use %s securely."
+msgstr "Actualice a instalación de PHP para empregar %s de xeito seguro."
 
 #: templates/installation.php:32
 msgid ""
@@ -516,67 +518,71 @@ msgid ""
 "because the .htaccess file does not work."
 msgstr "O seu directorio de datos e os ficheiros probabelmente sexan accesíbeis desde a Internet xa que o ficheiro .htaccess non está a traballar."
 
-#: templates/installation.php:40
+#: templates/installation.php:41
+#, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
-"href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
-"target=\"_blank\">documentation</a>."
-msgstr "Para obter información sobre como como configurar axeitadamente o seu servidor, vexa a <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentación</a>."
+"href=\"%s\" target=\"_blank\">documentation</a>."
+msgstr "Para obter información sobre como como configurar axeitadamente o seu servidor, vexa a <a href=\"%s\" target=\"_blank\">documentación</a>."
 
-#: templates/installation.php:44
+#: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
 msgstr "Crear unha <strong>contra de administrador</strong>"
 
-#: templates/installation.php:62
+#: templates/installation.php:65
 msgid "Advanced"
 msgstr "Avanzado"
 
-#: templates/installation.php:64
+#: templates/installation.php:67
 msgid "Data folder"
 msgstr "Cartafol de datos"
 
-#: templates/installation.php:74
+#: templates/installation.php:77
 msgid "Configure the database"
 msgstr "Configurar a base de datos"
 
-#: templates/installation.php:79 templates/installation.php:91
-#: templates/installation.php:102 templates/installation.php:113
-#: templates/installation.php:125
+#: templates/installation.php:82 templates/installation.php:94
+#: templates/installation.php:105 templates/installation.php:116
+#: templates/installation.php:128
 msgid "will be used"
 msgstr "vai ser utilizado"
 
-#: templates/installation.php:137
+#: templates/installation.php:140
 msgid "Database user"
 msgstr "Usuario da base de datos"
 
-#: templates/installation.php:144
+#: templates/installation.php:147
 msgid "Database password"
 msgstr "Contrasinal da base de datos"
 
-#: templates/installation.php:149
+#: templates/installation.php:152
 msgid "Database name"
 msgstr "Nome da base de datos"
 
-#: templates/installation.php:159
+#: templates/installation.php:160
 msgid "Database tablespace"
 msgstr "Táboa de espazos da base de datos"
 
-#: templates/installation.php:166
+#: templates/installation.php:167
 msgid "Database host"
 msgstr "Servidor da base de datos"
 
-#: templates/installation.php:172
+#: templates/installation.php:175
 msgid "Finish setup"
 msgstr "Rematar a configuración"
 
-#: templates/layout.user.php:43
+#: templates/layout.user.php:41
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s está dispoñíbel. Obteña máis información sobre como actualizar."
 
-#: templates/layout.user.php:68
+#: templates/layout.user.php:66
 msgid "Log out"
 msgstr "Desconectar"
+
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr "Máis aplicativos"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
@@ -608,7 +614,7 @@ msgstr "Conectar"
 msgid "Alternative Logins"
 msgstr "Accesos alternativos"
 
-#: templates/mail.php:16
+#: templates/mail.php:15
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "

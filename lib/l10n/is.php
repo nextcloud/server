@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Hjálp",
 "Personal" => "Um mig",
 "Settings" => "Stillingar",
 "Users" => "Notendur",
-"Apps" => "Forrit",
 "Admin" => "Stjórnun",
 "web services under your control" => "vefþjónusta undir þinni stjórn",
 "ZIP download is turned off." => "Slökkt á ZIP niðurhali.",
@@ -17,16 +17,15 @@
 "Text" => "Texti",
 "Images" => "Myndir",
 "seconds ago" => "sek.",
-"1 minute ago" => "Fyrir 1 mínútu",
-"%d minutes ago" => "fyrir %d mínútum",
-"1 hour ago" => "Fyrir 1 klst.",
-"%d hours ago" => "fyrir %d klst.",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "í dag",
 "yesterday" => "í gær",
-"%d days ago" => "fyrir %d dögum",
+"_%n day go_::_%n days ago_" => array("",""),
 "last month" => "síðasta mánuði",
-"%d months ago" => "fyrir %d mánuðum",
+"_%n month ago_::_%n months ago_" => array("",""),
 "last year" => "síðasta ári",
 "years ago" => "einhverjum árum",
 "Could not find category \"%s\"" => "Fann ekki flokkinn \"%s\""
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
