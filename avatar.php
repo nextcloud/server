@@ -7,11 +7,6 @@ if (!\OC_User::isLoggedIn()) {
 	\OC_Template::printErrorPage("Permission denied");
 }
 
-$mode = \OC_Avatar::getMode();
-if ($mode === "none") {
-	exit();
-}
-
 if ($_SERVER['REQUEST_METHOD'] === "GET") {
 	if (isset($_GET['user'])) {
 		//SECURITY TODO does this fully eliminate directory traversals?
@@ -33,8 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
 
 	if ($image instanceof \OC_Image) {
 		$image->show();
-	} elseif (is_string($image)) { // Gravatar alike services
-		header("Location: ".$image);
 	} else {
 		$image = \OC_Avatar::getDefaultAvatar($user, $size);
 		$image->show();
@@ -60,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
 	}
 
 	try {
-		\OC_Avatar::setLocalAvatar($user, $avatar);
+		\OC_Avatar::set($user, $avatar);
 		OC_JSON::success();
 	} catch (\Exception $e) {
 		OC_JSON::error(array("data" => array ("message" => $e->getMessage()) ));
@@ -69,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
 	$user = OC_User::getUser();
 
 	try {
-		\OC_Avatar::setLocalAvatar($user, false);
+		\OC_Avatar::set($user, false);
 		OC_JSON::success();
 	} catch (\Exception $e) {
 		OC_JSON::error(array("data" => array ("message" => $e->getMessage()) ));

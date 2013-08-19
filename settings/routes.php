@@ -70,5 +70,3 @@ $this->create('settings_ajax_setsecurity', '/settings/ajax/setsecurity.php')
 	->actionInclude('settings/ajax/setsecurity.php');
 $this->create('isadmin', '/settings/js/isadmin.js')
 	->actionInclude('settings/js/isadmin.php');
-$this->create('settings_ajax_setavatarmode', '/settings/ajax/setavatarmode.php')
-	->actionInclude('settings/ajax/setavatarmode.php');

@@ -14,12 +14,6 @@ $(document).ready(function(){
 		}
 	});
 
-	$('#avatar input').change(function(){
-		if ($(this).attr('checked')) {
-			$.post(OC.filePath('settings', 'ajax', 'setavatarmode.php'), {mode: $(this).val()});
-		}
-	});
-
 	$('#shareAPIEnabled').change(function() {
 		$('.shareAPI td:not(#enable)').toggle();
 	});

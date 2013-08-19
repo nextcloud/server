@@ -65,12 +65,6 @@ $CONFIG = array(
 /* URL to the parent directory of the 3rdparty directory, as seen by the browser */
 "3rdpartyurl" => "",
 
-/* What avatars to use.
- * May be "none" for none, "local" for uploaded avatars, or "gravatar" for gravatars.
- * Default is "local".
- */
-"avatars" => "local",
-
 /* Default app to load on login */
 "defaultapp" => "files",
 
