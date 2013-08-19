@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-16 01:29-0400\n"
-"PO-Revision-Date: 2013-08-16 05:00+0000\n"
-"Last-Translator: claus_chr <claus_chr@webspeed.dk>\n"
+"POT-Creation-Date: 2013-08-19 15:06-0400\n"
+"PO-Revision-Date: 2013-08-19 19:06+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -201,23 +201,19 @@ msgstr "år siden"
 msgid "Choose"
 msgstr "Vælg"
 
-#: js/oc-dialogs.js:122
-msgid "Cancel"
-msgstr "Annuller"
-
-#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
 msgid "Error loading file picker template"
 msgstr "Fejl ved indlæsning af filvælger skabelon"
 
-#: js/oc-dialogs.js:164
+#: js/oc-dialogs.js:160
 msgid "Yes"
 msgstr "Ja"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:168
 msgid "No"
 msgstr "Nej"
 
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:181
 msgid "Ok"
 msgstr "OK"
 
@@ -623,14 +619,6 @@ msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
 msgstr "Hallo,<br><br>dette blot for at lade dig vide, at %s har delt \"%s\" med dig.<br><a href=\"%s\">Se det!</a><br><br>Hej"
-
-#: templates/part.pagenavi.php:3
-msgid "prev"
-msgstr "forrige"
-
-#: templates/part.pagenavi.php:20
-msgid "next"
-msgstr "næste"
 
 #: templates/update.php:3
 #, php-format

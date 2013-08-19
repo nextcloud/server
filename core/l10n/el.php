@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "last year" => "τελευταίο χρόνο",
 "years ago" => "χρόνια πριν",
 "Choose" => "Επιλέξτε",
-"Cancel" => "Άκυρο",
 "Error loading file picker template" => "Σφάλμα φόρτωσης αρχείου επιλογέα προτύπου",
 "Yes" => "Ναι",
 "No" => "Όχι",
@@ -134,8 +133,6 @@ $TRANSLATIONS = array(
 "Log in" => "Είσοδος",
 "Alternative Logins" => "Εναλλακτικές Συνδέσεις",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Γεια σας,<br><br>σας ενημερώνουμε ότι ο %s διαμοιράστηκε μαζί σας το »%s«.<br><a href=\"%s\">Δείτε το!</a><br><br>Γεια χαρά!",
-"prev" => "προηγούμενο",
-"next" => "επόμενο",
 "Updating ownCloud to version %s, this may take a while." => "Ενημερώνοντας το ownCloud στην έκδοση %s,μπορεί να πάρει λίγο χρόνο."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

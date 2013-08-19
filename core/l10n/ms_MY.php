@@ -26,7 +26,6 @@ $TRANSLATIONS = array(
 "_%n hour ago_::_%n hours ago_" => array(""),
 "_%n day ago_::_%n days ago_" => array(""),
 "_%n month ago_::_%n months ago_" => array(""),
-"Cancel" => "Batal",
 "Yes" => "Ya",
 "No" => "Tidak",
 "Ok" => "Ok",
@@ -64,8 +63,6 @@ $TRANSLATIONS = array(
 "Log out" => "Log keluar",
 "Lost your password?" => "Hilang kata laluan?",
 "remember" => "ingat",
-"Log in" => "Log masuk",
-"prev" => "sebelum",
-"next" => "seterus"
+"Log in" => "Log masuk"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

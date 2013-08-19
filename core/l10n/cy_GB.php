@@ -40,7 +40,6 @@ $TRANSLATIONS = array(
 "last year" => "y llynedd",
 "years ago" => "blwyddyn yn ôl",
 "Choose" => "Dewisiwch",
-"Cancel" => "Diddymu",
 "Yes" => "Ie",
 "No" => "Na",
 "Ok" => "Iawn",
@@ -125,8 +124,6 @@ $TRANSLATIONS = array(
 "remember" => "cofio",
 "Log in" => "Mewngofnodi",
 "Alternative Logins" => "Mewngofnodiadau Amgen",
-"prev" => "blaenorol",
-"next" => "nesaf",
 "Updating ownCloud to version %s, this may take a while." => "Yn diweddaru owncloud i fersiwn %s, gall hyn gymryd amser."
 );
 $PLURAL_FORMS = "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;";

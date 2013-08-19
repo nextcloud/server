@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# stendec <stendec@inbox.lv>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-19 15:06-0400\n"
+"PO-Revision-Date: 2013-08-16 07:00+0000\n"
+"Last-Translator: stendec <stendec@inbox.lv>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Language: lv\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);\n"
 
-#: js/dropbox.js:7 js/dropbox.js:28 js/google.js:16 js/google.js:34
+#: js/dropbox.js:7 js/dropbox.js:28 js/google.js:8 js/google.js:39
 msgid "Access granted"
 msgstr "Piešķirta pieeja"
 
@@ -25,7 +26,7 @@ msgstr "Piešķirta pieeja"
 msgid "Error configuring Dropbox storage"
 msgstr "Kļūda, konfigurējot Dropbox krātuvi"
 
-#: js/dropbox.js:65 js/google.js:66
+#: js/dropbox.js:65 js/google.js:86
 msgid "Grant access"
 msgstr "Piešķirt pieeju"
 
@@ -33,29 +34,29 @@ msgstr "Piešķirt pieeju"
 msgid "Please provide a valid Dropbox app key and secret."
 msgstr "Lūdzu, norādiet derīgu Dropbox lietotnes atslēgu un noslēpumu."
 
-#: js/google.js:36 js/google.js:93
+#: js/google.js:42 js/google.js:121
 msgid "Error configuring Google Drive storage"
 msgstr "Kļūda, konfigurējot Google Drive krātuvi"
 
-#: lib/config.php:447
+#: lib/config.php:453
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Brīdinājums:</b> nav uzinstalēts “smbclient”. Nevar montēt CIFS/SMB koplietojumus. Lūdzu, vaicājiet savam sistēmas administratoram, lai to uzinstalē."
 
-#: lib/config.php:450
+#: lib/config.php:457
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
 msgstr "<b>Brīdinājums: </b> uz PHP nav aktivēts vai instalēts FTP atbalsts. Nevar montēt FTP koplietojumus. Lūdzu, vaicājiet savam sistēmas administratoram, lai to uzinstalē."
 
-#: lib/config.php:453
+#: lib/config.php:460
 msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
 "your system administrator to install it."
-msgstr ""
+msgstr "<b>Brīdinājums:</b> PHP Curl atbalsts nav instalēts.  OwnCloud / WebDAV vai GoogleDrive montēšana nav iespējama. Lūdziet sistēmas administratoram lai tas tiek uzstādīts."
 
 #: templates/settings.php:3
 msgid "External Storage"

@@ -13,7 +13,6 @@ $TRANSLATIONS = array(
 "Back to Files" => "Späť na súbory",
 "Selected files too large to generate zip file." => "Zvolené súbory sú príliš veľké na vygenerovanie zip súboru.",
 "Download the files in smaller chunks, seperately or kindly ask your administrator." => "Stiahnite súbory po menších častiach, samostatne, alebo sa obráťte na správcu.",
-"couldn't be determined" => "nedá sa zistiť",
 "Application is not enabled" => "Aplikácia nie je zapnutá",
 "Authentication error" => "Chyba autentifikácie",
 "Token expired. Please reload page." => "Token vypršal. Obnovte, prosím, stránku.",

@@ -10,7 +10,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "Файловете трябва да се изтеглят един по един.",
 "Back to Files" => "Назад към файловете",
 "Selected files too large to generate zip file." => "Избраните файлове са прекалено големи за генерирането на ZIP архив.",
-"couldn't be determined" => "не може да се определи",
 "Application is not enabled" => "Приложението не е включено.",
 "Authentication error" => "Възникна проблем с идентификацията",
 "Token expired. Please reload page." => "Ключът е изтекъл, моля презаредете страницата",

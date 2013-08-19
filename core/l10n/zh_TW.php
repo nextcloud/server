@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "last year" => "去年",
 "years ago" => "幾年前",
 "Choose" => "選擇",
-"Cancel" => "取消",
 "Error loading file picker template" => "載入檔案選擇器樣板發生錯誤",
 "Yes" => "是",
 "No" => "否",
@@ -134,8 +133,6 @@ $TRANSLATIONS = array(
 "Log in" => "登入",
 "Alternative Logins" => "替代登入方法",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "嗨，<br><br>通知您，%s 與您分享了 %s ，<br><a href=\"%s\">看一下吧</a>",
-"prev" => "上一頁",
-"next" => "下一頁",
 "Updating ownCloud to version %s, this may take a while." => "正在將 Owncloud 升級至版本 %s ，這可能需要一點時間。"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

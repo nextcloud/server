@@ -40,7 +40,6 @@ $TRANSLATIONS = array(
 "last year" => "vitin e shkuar",
 "years ago" => "vite më parë",
 "Choose" => "Zgjidh",
-"Cancel" => "Anulo",
 "Error loading file picker template" => "Veprim i gabuar gjatë ngarkimit të modelit të zgjedhësit të skedarëve",
 "Yes" => "Po",
 "No" => "Jo",
@@ -128,8 +127,6 @@ $TRANSLATIONS = array(
 "remember" => "kujto",
 "Log in" => "Hyrje",
 "Alternative Logins" => "Hyrje alternative",
-"prev" => "mbrapa",
-"next" => "para",
 "Updating ownCloud to version %s, this may take a while." => "Po azhurnoj ownCloud-in me versionin %s. Mund të zgjasi pak."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

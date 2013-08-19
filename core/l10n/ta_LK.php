@@ -39,7 +39,6 @@ $TRANSLATIONS = array(
 "last year" => "கடந்த வருடம்",
 "years ago" => "வருடங்களுக்கு முன்",
 "Choose" => "தெரிவுசெய்க ",
-"Cancel" => "இரத்து செய்க",
 "Yes" => "ஆம்",
 "No" => "இல்லை",
 "Ok" => "சரி",
@@ -110,8 +109,6 @@ $TRANSLATIONS = array(
 "Please change your password to secure your account again." => "உங்களுடைய கணக்கை மீண்டும் பாதுகாக்க தயவுசெய்து உங்களுடைய கடவுச்சொல்லை மாற்றவும்.",
 "Lost your password?" => "உங்கள் கடவுச்சொல்லை தொலைத்துவிட்டீர்களா?",
 "remember" => "ஞாபகப்படுத்துக",
-"Log in" => "புகுபதிகை",
-"prev" => "முந்தைய",
-"next" => "அடுத்து"
+"Log in" => "புகுபதிகை"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

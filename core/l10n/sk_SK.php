@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "last year" => "minulý rok",
 "years ago" => "pred rokmi",
 "Choose" => "Výber",
-"Cancel" => "Zrušiť",
 "Error loading file picker template" => "Chyba pri načítaní šablóny výberu súborov",
 "Yes" => "Áno",
 "No" => "Nie",
@@ -134,8 +133,6 @@ $TRANSLATIONS = array(
 "Log in" => "Prihlásiť sa",
 "Alternative Logins" => "Alternatívne prihlasovanie",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Ahoj,<br><br>chcem Vám oznámiť, že %s s Vami zdieľa %s.\nPozrieť si to môžete tu: <br><a href=\"%s\">zde</a>.<br><br>Vďaka",
-"prev" => "späť",
-"next" => "ďalej",
 "Updating ownCloud to version %s, this may take a while." => "Aktualizujem ownCloud na verziu %s, môže to chvíľu trvať."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

@@ -13,7 +13,6 @@ $TRANSLATIONS = array(
 "Back to Files" => "Dosyalara dön",
 "Selected files too large to generate zip file." => "Seçilen dosyalar bir zip dosyası oluşturmak için fazla büyüktür.",
 "Download the files in smaller chunks, seperately or kindly ask your administrator." => "Dosyaları ayrı ayrı, küçük parçalar halinde indirin ya da yöneticinizden yardım isteyin. ",
-"couldn't be determined" => "tespit edilemedi",
 "Application is not enabled" => "Uygulama etkinleştirilmedi",
 "Authentication error" => "Kimlik doğrulama hatası",
 "Token expired. Please reload page." => "Jetonun süresi geçti. Lütfen sayfayı yenileyin.",

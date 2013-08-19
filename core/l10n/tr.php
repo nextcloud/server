@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "last year" => "geçen yıl",
 "years ago" => "yıl önce",
 "Choose" => "seç",
-"Cancel" => "İptal",
 "Error loading file picker template" => "Seçici şablon dosya yüklemesinde hata",
 "Yes" => "Evet",
 "No" => "Hayır",
@@ -136,8 +135,6 @@ $TRANSLATIONS = array(
 "Log in" => "Giriş yap",
 "Alternative Logins" => "Alternatif Girişler",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Merhaba, <br><br> %s sizinle »%s« paylaşımında bulundu.<br><a href=\"%s\">Paylaşımı gör!</a><br><br>İyi günler!",
-"prev" => "önceki",
-"next" => "sonraki",
 "Updating ownCloud to version %s, this may take a while." => "Owncloud %s versiyonuna güncelleniyor. Biraz zaman alabilir."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

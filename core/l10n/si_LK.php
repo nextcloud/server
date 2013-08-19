@@ -33,7 +33,6 @@ $TRANSLATIONS = array(
 "last year" => "පෙර අවුරුද්දේ",
 "years ago" => "අවුරුදු කීපයකට පෙර",
 "Choose" => "තෝරන්න",
-"Cancel" => "එපා",
 "Yes" => "ඔව්",
 "No" => "එපා",
 "Ok" => "හරි",
@@ -85,8 +84,6 @@ $TRANSLATIONS = array(
 "Log out" => "නික්මීම",
 "Lost your password?" => "මුරපදය අමතකද?",
 "remember" => "මතක තබාගන්න",
-"Log in" => "ප්‍රවේශවන්න",
-"prev" => "පෙර",
-"next" => "ඊළඟ"
+"Log in" => "ප්‍රවේශවන්න"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

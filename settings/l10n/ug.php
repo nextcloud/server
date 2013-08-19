@@ -60,6 +60,7 @@ $TRANSLATIONS = array(
 "Language" => "تىل",
 "Help translate" => "تەرجىمىگە ياردەم",
 "WebDAV" => "WebDAV",
+"Encryption" => "شىفىرلاش",
 "Login Name" => "تىزىمغا كىرىش ئاتى",
 "Create" => "قۇر",
 "Default Storage" => "كۆڭۈلدىكى ساقلىغۇچ",

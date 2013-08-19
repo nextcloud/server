@@ -13,7 +13,6 @@ $TRANSLATIONS = array(
 "Back to Files" => "Vissza a Fájlokhoz",
 "Selected files too large to generate zip file." => "A kiválasztott fájlok túl nagyok a zip tömörítéshez.",
 "Download the files in smaller chunks, seperately or kindly ask your administrator." => "Tölts le a fileokat kisebb chunkokban, kölün vagy kérj segitséget a rendszergazdádtól.",
-"couldn't be determined" => "nem határozható meg",
 "Application is not enabled" => "Az alkalmazás nincs engedélyezve",
 "Authentication error" => "Azonosítási hiba",
 "Token expired. Please reload page." => "A token lejárt. Frissítse az oldalt.",

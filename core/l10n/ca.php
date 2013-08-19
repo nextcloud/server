@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "last year" => "l'any passat",
 "years ago" => "anys enrere",
 "Choose" => "Escull",
-"Cancel" => "Cancel·la",
 "Error loading file picker template" => "Error en carregar la plantilla del seleccionador de fitxers",
 "Yes" => "Sí",
 "No" => "No",
@@ -134,8 +133,6 @@ $TRANSLATIONS = array(
 "Log in" => "Inici de sessió",
 "Alternative Logins" => "Acreditacions alternatives",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Ei,<br><br>només fer-te saber que %s ha compartit %s amb tu.<br><a href=\"%s\">Mira-ho:</a><br><br>Salut!",
-"prev" => "anterior",
-"next" => "següent",
 "Updating ownCloud to version %s, this may take a while." => "S'està actualitzant ownCloud a la versió %s, pot trigar una estona."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

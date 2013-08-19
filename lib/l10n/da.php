@@ -13,7 +13,6 @@ $TRANSLATIONS = array(
 "Back to Files" => "Tilbage til Filer",
 "Selected files too large to generate zip file." => "De markerede filer er for store til at generere en ZIP-fil.",
 "Download the files in smaller chunks, seperately or kindly ask your administrator." => "Download filerne i små bider, seperat, eller kontakt venligst din administrator.",
-"couldn't be determined" => "kunne ikke fastslås",
 "Application is not enabled" => "Programmet er ikke aktiveret",
 "Authentication error" => "Adgangsfejl",
 "Token expired. Please reload page." => "Adgang er udløbet. Genindlæs siden.",

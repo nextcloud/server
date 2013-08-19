@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-15 04:47-0400\n"
-"PO-Revision-Date: 2013-08-15 08:48+0000\n"
+"POT-Creation-Date: 2013-08-19 15:06-0400\n"
+"PO-Revision-Date: 2013-08-19 19:06+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -144,55 +144,55 @@ msgstr "december"
 msgid "Settings"
 msgstr "Instellingen"
 
-#: js/js.js:815
+#: js/js.js:812
 msgid "seconds ago"
 msgstr "seconden geleden"
 
-#: js/js.js:816
+#: js/js.js:813
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n minuten geleden"
 
-#: js/js.js:817
+#: js/js.js:814
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n uur geleden"
 
-#: js/js.js:818
+#: js/js.js:815
 msgid "today"
 msgstr "vandaag"
 
-#: js/js.js:819
+#: js/js.js:816
 msgid "yesterday"
 msgstr "gisteren"
 
-#: js/js.js:820
+#: js/js.js:817
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n dagen geleden"
 
-#: js/js.js:821
+#: js/js.js:818
 msgid "last month"
 msgstr "vorige maand"
 
-#: js/js.js:822
+#: js/js.js:819
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n maanden geleden"
 
-#: js/js.js:823
+#: js/js.js:820
 msgid "months ago"
 msgstr "maanden geleden"
 
-#: js/js.js:824
+#: js/js.js:821
 msgid "last year"
 msgstr "vorig jaar"
 
-#: js/js.js:825
+#: js/js.js:822
 msgid "years ago"
 msgstr "jaar geleden"
 
@@ -200,23 +200,19 @@ msgstr "jaar geleden"
 msgid "Choose"
 msgstr "Kies"
 
-#: js/oc-dialogs.js:122
-msgid "Cancel"
-msgstr "Annuleer"
-
-#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
 msgid "Error loading file picker template"
 msgstr "Fout bij laden van bestandsselectie sjabloon"
 
-#: js/oc-dialogs.js:164
+#: js/oc-dialogs.js:160
 msgid "Yes"
 msgstr "Ja"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:168
 msgid "No"
 msgstr "Nee"
 
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:181
 msgid "Ok"
 msgstr "Ok"
 
@@ -383,7 +379,7 @@ msgstr "De update is geslaagd. Je wordt teruggeleid naar je eigen ownCloud."
 #: lostpassword/controller.php:61
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "%s wachtwoord reset"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -622,14 +618,6 @@ msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
 msgstr "Hallo daar,<br><br> %s deelde »%s« met jou.<br><a href=\"%s\">Bekijk!</a><br><br>Veel plezier!"
-
-#: templates/part.pagenavi.php:3
-msgid "prev"
-msgstr "vorige"
-
-#: templates/part.pagenavi.php:20
-msgid "next"
-msgstr "volgende"
 
 #: templates/update.php:3
 #, php-format

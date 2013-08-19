@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# waterone <suiy02@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-07 08:59-0400\n"
-"PO-Revision-Date: 2013-08-07 12:22+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-19 15:06-0400\n"
+"PO-Revision-Date: 2013-08-19 18:23+0000\n"
+"Last-Translator: waterone <suiy02@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: templates/authenticate.php:4
 msgid "The password is wrong. Try again."
-msgstr ""
+msgstr "用户名或密码错误！请重试"
 
 #: templates/authenticate.php:7
 msgid "Password"
@@ -31,27 +32,27 @@ msgstr "提交"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
-msgstr ""
+msgstr "抱歉，此链接已失效"
 
 #: templates/part.404.php:4
 msgid "Reasons might be:"
-msgstr ""
+msgstr "可能原因是："
 
 #: templates/part.404.php:6
 msgid "the item was removed"
-msgstr ""
+msgstr "此项已移除"
 
 #: templates/part.404.php:7
 msgid "the link expired"
-msgstr ""
+msgstr "链接过期"
 
 #: templates/part.404.php:8
 msgid "sharing is disabled"
-msgstr ""
+msgstr "共享已禁用"
 
 #: templates/part.404.php:10
 msgid "For more info, please ask the person who sent this link."
-msgstr ""
+msgstr "欲知详情，请联系发给你链接的人。"
 
 #: templates/public.php:15
 #, php-format

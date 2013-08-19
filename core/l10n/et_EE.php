@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "last year" => "viimasel aastal",
 "years ago" => "aastat tagasi",
 "Choose" => "Vali",
-"Cancel" => "Loobu",
 "Error loading file picker template" => "Viga failivalija malli laadimisel",
 "Yes" => "Jah",
 "No" => "Ei",
@@ -135,8 +134,6 @@ $TRANSLATIONS = array(
 "Log in" => "Logi sisse",
 "Alternative Logins" => "Alternatiivsed sisselogimisviisid",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Hei,<br><br>lihtsalt annan sulle teada, et %s jagas sinuga »%s«.<br><a href=\"%s\">Vaata seda!</a><br><br>Tervitades!",
-"prev" => "eelm",
-"next" => "järgm",
 "Updating ownCloud to version %s, this may take a while." => "ownCloudi uuendamine versioonile %s. See võib veidi aega võtta."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

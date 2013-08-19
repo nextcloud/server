@@ -13,7 +13,6 @@ $TRANSLATIONS = array(
 "Back to Files" => "Tagasi failide juurde",
 "Selected files too large to generate zip file." => "Valitud failid on ZIP-faili loomiseks liiga suured.",
 "Download the files in smaller chunks, seperately or kindly ask your administrator." => "Laadi failid alla eraldi väiksemate osadena või küsi nõu oma süsteemiadminstraatorilt.",
-"couldn't be determined" => "ei suudetud tuvastada",
 "Application is not enabled" => "Rakendus pole sisse lülitatud",
 "Authentication error" => "Autentimise viga",
 "Token expired. Please reload page." => "Kontrollkood aegus. Paelun lae leht uuesti.",
