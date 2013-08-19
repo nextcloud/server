@@ -141,7 +141,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 			return false;
 		} else {
 			$directoryHandle = $this->opendir($directory);
-			while ($contents = readdir($directoryHandle)) {
+			while (($contents = readdir($directoryHandle)) !== false) {
 				if (!\OC\Files\Filesystem::isIgnoredDir($contents)) {
 					$path = $directory . '/' . $contents;
 					if ($this->is_dir($path)) {
@@ -224,7 +224,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 
 	private function addLocalFolder($path, $target) {
 		if ($dh = $this->opendir($path)) {
-			while ($file = readdir($dh)) {
+			while (($file = readdir($dh)) !== false) {
 				if ($file !== '.' and $file !== '..') {
 					if ($this->is_dir($path . '/' . $file)) {
 						mkdir($target . '/' . $file);
@@ -242,7 +242,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		$files = array();
 		$dh = $this->opendir($dir);
 		if ($dh) {
-			while ($item = readdir($dh)) {
+			while (($item = readdir($dh)) !== false) {
 				if ($item == '.' || $item == '..') continue;
 				if (strstr(strtolower($item), strtolower($query)) !== false) {
 					$files[] = $dir . '/' . $item;

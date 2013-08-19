@@ -23,7 +23,7 @@ if ($dir) {
 	$dirlisting = true;
 	$dirContent = $view->opendir($dir);
 	$i = 0;
-	while($entryName = readdir($dirContent)) {
+	while(($entryName = readdir($dirContent)) !== false) {
 		if ( $entryName != '.' && $entryName != '..' ) {
 			$pos = strpos($dir.'/', '/', 1);
 			$tmp = substr($dir, 0, $pos);

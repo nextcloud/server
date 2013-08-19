@@ -489,7 +489,7 @@ class View {
 				} else {
 					if ($this->is_dir($path1) && ($dh = $this->opendir($path1))) {
 						$result = $this->mkdir($path2);
-						while ($file = readdir($dh)) {
+						while (($file = readdir($dh)) !== false) {
 							if (!Filesystem::isIgnoredDir($file)) {
 								$result = $this->copy($path1 . '/' . $file, $path2 . '/' . $file);
 							}
