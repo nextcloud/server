@@ -168,6 +168,10 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer() {
+		// Assume that if checkServer() succeeded before in this session, then all is fine.
+		if(\OC::$session->exists('checkServer_suceeded') && \OC::$session->get('checkServer_suceeded'))
+			return array();
+
 		$errors=array();
 
 		$defaults = new \OC_Defaults();
@@ -309,9 +313,29 @@ class OC_Util {
 				'hint'=>'Please ask your server administrator to restart the web server.');
 		}
 
+		// Cache the result of this function
+		\OC::$session->set('checkServer_suceeded', count($errors) == 0);
+
 		return $errors;
 	}
 
+	/**
+	 * @brief check if there are still some encrypted files stored
+	 * @return boolean
+	 */
+	public static function encryptedFiles() {
+		//check if encryption was enabled in the past
+		$encryptedFiles = false;
+		if (OC_App::isEnabled('files_encryption') === false) {
+			$view = new OC\Files\View('/' . OCP\User::getUser());
+			if ($view->file_exists('/files_encryption/keyfiles')) {
+				$encryptedFiles = true;
+			}
+		}
+		
+		return $encryptedFiles;
+	}
+	
 	/**
 	* Check for correct file permissions of data directory
 	* @return array arrays with error messages and hints

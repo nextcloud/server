@@ -170,7 +170,7 @@ class SFTP extends \OC\Files\Storage\Common {
 
 	public function file_exists($path) {
 		try {
-			return $this->client->stat($this->abs_path($path)) === false ? false : true;
+			return $this->client->stat($this->abs_path($path)) !== false;
 		} catch (\Exception $e) {
 			return false;
 		}

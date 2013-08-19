@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:21+0000\n"
+"POT-Creation-Date: 2013-08-16 01:29-0400\n"
+"PO-Revision-Date: 2013-08-16 05:29+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -122,15 +122,11 @@ msgstr "Compartir"
 msgid "Delete permanently"
 msgstr "Borrar permanentemente"
 
-#: js/fileactions.js:128 templates/index.php:91 templates/index.php:92
-msgid "Delete"
-msgstr "Borrar"
-
-#: js/fileactions.js:194
+#: js/fileactions.js:192
 msgid "Rename"
 msgstr "Cambiar nombre"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:466
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
 msgid "Pending"
 msgstr "Pendientes"
 
@@ -158,15 +154,13 @@ msgstr "se reemplazó {new_name} con {old_name}"
 msgid "undo"
 msgstr "deshacer"
 
-#: js/filelist.js:375
-msgid "perform delete operation"
-msgstr "Llevar a cabo borrado"
+#: js/filelist.js:453
+msgid "Uploading %n file"
+msgid_plural "Uploading %n files"
+msgstr[0] ""
+msgstr[1] ""
 
-#: js/filelist.js:458
-msgid "1 file uploading"
-msgstr "Subiendo 1 archivo"
-
-#: js/filelist.js:461 js/filelist.js:519
+#: js/filelist.js:518
 msgid "files uploading"
 msgstr "Subiendo archivos"
 
@@ -214,21 +208,17 @@ msgstr "Tamaño"
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/files.js:763
-msgid "1 folder"
-msgstr "1 directorio"
+#: js/files.js:762
+msgid "%n folder"
+msgid_plural "%n folders"
+msgstr[0] ""
+msgstr[1] ""
 
-#: js/files.js:765
-msgid "{count} folders"
-msgstr "{count} directorios"
-
-#: js/files.js:773
-msgid "1 file"
-msgstr "1 archivo"
-
-#: js/files.js:775
-msgid "{count} files"
-msgstr "{count} archivos"
+#: js/files.js:768
+msgid "%n file"
+msgid_plural "%n files"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lib/app.php:73
 #, php-format
@@ -310,6 +300,10 @@ msgstr "Descargar"
 #: templates/index.php:85 templates/index.php:86
 msgid "Unshare"
 msgstr "Dejar de compartir"
+
+#: templates/index.php:91 templates/index.php:92
+msgid "Delete"
+msgstr "Borrar"
 
 #: templates/index.php:105
 msgid "Upload too large"

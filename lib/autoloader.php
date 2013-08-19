@@ -111,14 +111,38 @@ class Autoloader {
 	 * @param string $class
 	 * @return bool
 	 */
+	protected $memoryCache = null;
+	protected $constructingMemoryCache = true; // hack to prevent recursion
 	public function load($class) {
-		$paths = $this->findClass($class);
+		// Does this PHP have an in-memory cache? We cache the paths there
+		if ($this->constructingMemoryCache && !$this->memoryCache) {
+			$this->constructingMemoryCache = false;
+			$this->memoryCache = \OC\Memcache\Factory::createLowLatency('Autoloader');
+		}
+		if ($this->memoryCache) {
+			$pathsToRequire = $this->memoryCache->get($class);
+			if (is_array($pathsToRequire)) {
+				foreach ($pathsToRequire as $path) {
+					require_once $path;
+				}
+				return false;
+			}
+		}
 
+		// Use the normal class loading path
+		$paths = $this->findClass($class);
 		if (is_array($paths)) {
+			$pathsToRequire = array();
 			foreach ($paths as $path) {
 				if ($fullPath = stream_resolve_include_path($path)) {
 					require_once $fullPath;
+					$pathsToRequire[] = $fullPath;
 				}
+			}
+
+			// Save in our memory cache
+			if ($this->memoryCache) {
+				$this->memoryCache->set($class, $pathsToRequire, 60); // cache 60 sec
 			}
 		}
 		return false;

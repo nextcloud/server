@@ -4,6 +4,10 @@ $(document).ready(function() {
 
 	if (typeof OC.Share !== 'undefined' && typeof FileActions !== 'undefined'  && !disableSharing) {
 
+		$('#fileList').one('fileActionsReady',function(){
+			OC.Share.loadIcons('file');
+		});
+
 		FileActions.register('all', 'Share', OC.PERMISSION_READ, OC.imagePath('core', 'actions/share'), function(filename) {
 			if ($('#dir').val() == '/') {
 				var item = $('#dir').val() + filename;
@@ -33,6 +37,5 @@ $(document).ready(function() {
 				OC.Share.showDropDown(itemType, $(tr).data('id'), appendTo, true, possiblePermissions);
 			}
 		});
-		OC.Share.loadIcons('file');
 	}
 });

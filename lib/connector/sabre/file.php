@@ -50,6 +50,11 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 			throw new \Sabre_DAV_Exception_Forbidden();
 		}
 
+		// throw an exception if encryption was disabled but the files are still encrypted
+		if (\OC_Util::encryptedFiles()) {
+			throw new \Sabre_DAV_Exception_ServiceUnavailable();
+		}
+		
 		// mark file as partial while uploading (ignored by the scanner)
 		$partpath = $this->path . '.part';
 
@@ -89,7 +94,12 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 */
 	public function get() {
 
-		return \OC\Files\Filesystem::fopen($this->path, 'rb');
+		//throw execption if encryption is disabled but files are still encrypted
+		if (\OC_Util::encryptedFiles()) {
+			throw new \Sabre_DAV_Exception_ServiceUnavailable();
+		} else {
+			return \OC\Files\Filesystem::fopen($this->path, 'rb');
+		}
 
 	}
 

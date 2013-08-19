@@ -81,9 +81,23 @@ Files={
 		if (usedSpacePercent > 90) {
 			OC.Notification.show(t('files', 'Your storage is almost full ({usedSpacePercent}%)', {usedSpacePercent: usedSpacePercent}));
 		}
+	},
+
+	displayEncryptionWarning: function() {
+
+		if (!OC.Notification.isHidden()) {
+			return;
+		}
+
+		var encryptedFiles = $('#encryptedFiles').val();
+		if (encryptedFiles === '1') {
+			OC.Notification.show(t('files_encryption', 'Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files.'));
+			return;
+		}
 	}
 };
 $(document).ready(function() {
+	Files.displayEncryptionWarning();
 	Files.bindKeyboardShortcuts(document, jQuery);
 	$('#fileList tr').each(function(){
 		//little hack to set unescape filenames in attribute
@@ -365,7 +379,9 @@ $(document).ready(function() {
 								FileList.addFile(name,0,date,false,hidden);
 								var tr=$('tr').filterAttr('data-file',name);
 								tr.attr('data-mime',result.data.mime);
+								tr.attr('data-size',result.data.size);
 								tr.attr('data-id', result.data.id);
+								tr.find('.filesize').text(humanFileSize(result.data.size));
 								var path = $('#dir').val() + '/' + name;
 								lazyLoadPreview(path, result.data.mime, function(previewpath){
 									tr.find('td.filename').attr('style','background-image:url('+previewpath+')');
