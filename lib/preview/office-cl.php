@@ -7,7 +7,7 @@
  */
 namespace OC\Preview;
 
-//we need imagick to convert 
+//we need imagick to convert
 class Office extends Provider {
 
 	private $cmd;
@@ -26,7 +26,10 @@ class Office extends Provider {
 
 		$tmpDir = get_temp_dir();
 
-		$exec = $this->cmd . ' --headless --nologo --nofirststartwizard --invisible --norestore -convert-to pdf -outdir ' . escapeshellarg($tmpDir) . ' ' . escapeshellarg($absPath);
+		$defaultParameters = ' --headless --nologo --nofirststartwizard --invisible --norestore -convert-to pdf -outdir ';
+		$clParameters = \OCP\Config::getSystemValue('preview_office_cl_parameters', $defaultParameters);
+
+		$exec = $this->cmd . $clParameters . escapeshellarg($tmpDir) . ' ' . escapeshellarg($absPath);
 		$export = 'export HOME=/' . $tmpDir;
 
 		shell_exec($export . "\n" . $exec);
@@ -110,7 +113,7 @@ class MSOffice2007 extends Office {
 
 //.odt, .ott, .oth, .odm, .odg, .otg, .odp, .otp, .ods, .ots, .odc, .odf, .odb, .odi, .oxt
 class OpenDocument extends Office {
-	
+
 	public function getMimeType() {
 		return '/application\/vnd.oasis.opendocument.*/';
 	}

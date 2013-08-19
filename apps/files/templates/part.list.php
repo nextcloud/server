@@ -3,7 +3,8 @@
 $totaldirs = 0;
 $totalsize = 0; ?>
 <?php foreach($_['files'] as $file):
-	$relativePath = substr($file['path'], 6); //strlen('files/') => 6
+	//strlen('files/') => 6
+	$relativePath = substr($file['path'], 6);
 	$totalsize += $file['size'];
 	if ($file['type'] === 'dir') {
 		$totaldirs++;

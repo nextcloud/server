@@ -13,14 +13,14 @@
  */
 namespace OC;
 
-require_once('preview/images.php');
-require_once('preview/movies.php');
-require_once('preview/mp3.php');
-require_once('preview/pdf.php');
-require_once('preview/svg.php');
-require_once('preview/txt.php');
-require_once('preview/unknown.php');
-require_once('preview/office.php');
+require_once 'preview/image.php';
+require_once 'preview/movies.php';
+require_once 'preview/mp3.php';
+require_once 'preview/pdf.php';
+require_once 'preview/svg.php';
+require_once 'preview/txt.php';
+require_once 'preview/unknown.php';
+require_once 'preview/office.php';
 
 class Preview {
 	//the thumbnail folder
@@ -32,8 +32,8 @@ class Preview {
 	private $configMaxY;
 
 	//fileview object
-	private $fileview = null;
-	private $userview = null;
+	private $fileView = null;
+	private $userView = null;
 
 	//vars
 	private $file;
@@ -76,8 +76,8 @@ class Preview {
 		if($user === ''){
 			$user = \OC_User::getUser();
 		}
-		$this->fileview = new \OC\Files\View('/' . $user . '/' . $root);
-		$this->userview = new \OC\Files\View('/' . $user);
+		$this->fileView = new \OC\Files\View('/' . $user . '/' . $root);
+		$this->userView = new \OC\Files\View('/' . $user);
 		
 		$this->preview = null;
 
@@ -226,12 +226,12 @@ class Preview {
 	public function isFileValid() {
 		$file = $this->getFile();
 		if($file === '') {
-			\OC_Log::write('core', 'No filename passed', \OC_Log::ERROR);
+			\OC_Log::write('core', 'No filename passed', \OC_Log::DEBUG);
 			return false;
 		}
 
-		if(!$this->fileview->file_exists($file)) {
-			\OC_Log::write('core', 'File:"' . $file . '" not found', \OC_Log::ERROR);
+		if(!$this->fileView->file_exists($file)) {
+			\OC_Log::write('core', 'File:"' . $file . '" not found', \OC_Log::DEBUG);
 			return false;
 		}
 
@@ -245,12 +245,12 @@ class Preview {
 	public function deletePreview() {
 		$file = $this->getFile();
 
-		$fileInfo = $this->fileview->getFileInfo($file);
+		$fileInfo = $this->fileView->getFileInfo($file);
 		$fileId = $fileInfo['fileid'];
 
 		$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/' . $this->getMaxX() . '-' . $this->getMaxY() . '.png';
-		$this->userview->unlink($previewPath);
-		return !$this->userview->file_exists($previewPath);
+		$this->userView->unlink($previewPath);
+		return !$this->userView->file_exists($previewPath);
 	}
 
 	/**
@@ -260,13 +260,13 @@ class Preview {
 	public function deleteAllPreviews() {
 		$file = $this->getFile();
 
-		$fileInfo = $this->fileview->getFileInfo($file);
+		$fileInfo = $this->fileView->getFileInfo($file);
 		$fileId = $fileInfo['fileid'];
 		
 		$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
-		$this->userview->deleteAll($previewPath);
-		$this->userview->rmdir($previewPath);
-		return !$this->userview->is_dir($previewPath);
+		$this->userView->deleteAll($previewPath);
+		$this->userView->rmdir($previewPath);
+		return !$this->userView->is_dir($previewPath);
 	}
 
 	/**
@@ -280,9 +280,9 @@ class Preview {
 		$maxX = $this->getMaxX();
 		$maxY = $this->getMaxY();
 		$scalingUp = $this->getScalingUp();
-		$maxscalefactor = $this->getMaxScaleFactor();
+		$maxScaleFactor = $this->getMaxScaleFactor();
 
-		$fileInfo = $this->fileview->getFileInfo($file);
+		$fileInfo = $this->fileView->getFileInfo($file);
 		$fileId = $fileInfo['fileid'];
 
 		if(is_null($fileId)) {
@@ -290,12 +290,12 @@ class Preview {
 		}
 
 		$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
-		if(!$this->userview->is_dir($previewPath)) {
+		if(!$this->userView->is_dir($previewPath)) {
 			return false;
 		}
 
 		//does a preview with the wanted height and width already exist?
-		if($this->userview->file_exists($previewPath . $maxX . '-' . $maxY . '.png')) {
+		if($this->userView->file_exists($previewPath . $maxX . '-' . $maxY . '.png')) {
 			return $previewPath . $maxX . '-' . $maxY . '.png';
 		}
 
@@ -304,7 +304,7 @@ class Preview {
 		//array for usable cached thumbnails
 		$possibleThumbnails = array();
 
-		$allThumbnails = $this->userview->getDirectoryContent($previewPath);
+		$allThumbnails = $this->userView->getDirectoryContent($previewPath);
 		foreach($allThumbnails as $thumbnail) {
 			$name = rtrim($thumbnail['name'], '.png');
 			$size = explode('-', $name);
@@ -319,7 +319,7 @@ class Preview {
 			if($x < $maxX || $y < $maxY) {
 				if($scalingUp) {
 					$scalefactor = $maxX / $x;
-					if($scalefactor > $maxscalefactor) {
+					if($scalefactor > $maxScaleFactor) {
 						continue;
 					}
 				}else{
@@ -371,19 +371,19 @@ class Preview {
 		$maxY = $this->getMaxY();
 		$scalingUp = $this->getScalingUp();
 
-		$fileInfo = $this->fileview->getFileInfo($file);
+		$fileInfo = $this->fileView->getFileInfo($file);
 		$fileId = $fileInfo['fileid'];
 
 		$cached = $this->isCached();
 
 		if($cached) {
-			$image = new \OC_Image($this->userview->file_get_contents($cached, 'r'));
+			$image = new \OC_Image($this->userView->file_get_contents($cached, 'r'));
 			$this->preview = $image->valid() ? $image : null;
 			$this->resizeAndCrop();
 		}
 
 		if(is_null($this->preview)) {
-			$mimetype = $this->fileview->getMimeType($file);
+			$mimetype = $this->fileView->getMimeType($file);
 			$preview = null;
 
 			foreach(self::$providers as $supportedMimetype => $provider) {
@@ -393,7 +393,7 @@ class Preview {
 
 				\OC_Log::write('core', 'Generating preview for "' . $file . '" with "' . get_class($provider) . '"', \OC_Log::DEBUG);
 
-				$preview = $provider->getThumbnail($file, $maxX, $maxY, $scalingUp, $this->fileview);
+				$preview = $provider->getThumbnail($file, $maxX, $maxY, $scalingUp, $this->fileView);
 
 				if(!($preview instanceof \OC_Image)) {
 					continue;
@@ -405,15 +405,15 @@ class Preview {
 				$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
 				$cachePath = $previewPath . $maxX . '-' . $maxY . '.png';
 
-				if($this->userview->is_dir($this->getThumbnailsFolder() . '/') === false) {
-					$this->userview->mkdir($this->getThumbnailsFolder() . '/');
+				if($this->userView->is_dir($this->getThumbnailsFolder() . '/') === false) {
+					$this->userView->mkdir($this->getThumbnailsFolder() . '/');
 				}
 
-				if($this->userview->is_dir($previewPath) === false) {
-					$this->userview->mkdir($previewPath);
+				if($this->userView->is_dir($previewPath) === false) {
+					$this->userView->mkdir($previewPath);
 				}
 
-				$this->userview->file_put_contents($cachePath, $preview->data());
+				$this->userView->file_put_contents($cachePath, $preview->data());
 
 				break;
 			}
@@ -470,7 +470,7 @@ class Preview {
 
 		if($x === $realx && $y === $realy) {
 			$this->preview = $image;
-			return true;
+			return;
 		}
 
 		$factorX = $x / $realx;

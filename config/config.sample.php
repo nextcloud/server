@@ -199,6 +199,8 @@ $CONFIG = array(
 'preview_max_scale_factor' => 10,
 /* custom path for libreoffice / openoffice binary */
 'preview_libreoffice_path' => '/usr/bin/libreoffice',
+/* cl parameters for libreoffice / openoffice */
+'preview_office_cl_parameters' => '',
 // date format to be used while writing to the owncloud logfile
 'logdateformat' => 'F d, Y H:i:s',
 );
