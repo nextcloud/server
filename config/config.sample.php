@@ -217,6 +217,6 @@ $CONFIG = array(
 
 // Extra SSL options to be used for configuration
 'openssl' => array(
-	//'config' => '/path/to/openssl.cnf',
+	//'config' => '/absolute/location/of/openssl.cnf',
 ),
 );

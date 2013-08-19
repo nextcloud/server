@@ -280,9 +280,22 @@ class Helper {
 	 * @return resource The pkey resource created
 	 */
 	public static function getOpenSSLPkey() {
+		static $res = null;
+		if (is_null($res)) {
+			$res = openssl_pkey_new(self::getOpenSSLConfig());
+		}
+		return $res;
+	}
+
+	/**
+	 * Return an array of OpenSSL config options, default + config
+	 * Used for multiple OpenSSL functions
+	 * @return array The combined defaults and config settings
+	 */
+	public static function getOpenSSLConfig() {
 		$config = array('private_key_bits' => 4096);
-		$config = array_merge(\OCP\Config::getSystemValue('openssl'), $config);
-		return openssl_pkey_new($config);
+		$config = array_merge(\OCP\Config::getSystemValue('openssl', array()), $config);
+		return $config;
 	}
 
 	/**
