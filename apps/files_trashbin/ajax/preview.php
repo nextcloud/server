@@ -38,6 +38,5 @@ try{
 	$preview->showPreview();
 }catch(\Exception $e) {
 	\OC_Response::setStatus(500);
-	\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
-	exit;
+	\OC_Log::write('core', $e->getmessage(), \OC_Log::DEBUG);
 }
