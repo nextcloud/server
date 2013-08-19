@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
 		//SECURITY TODO does this fully eliminate directory traversals?
 		$user = stripslashes($_GET['user']);
 	} else {
-		$user = false;
+		exit();
 	}
 
 	if (isset($_GET['size']) && ((int)$_GET['size'] > 0)) {
@@ -28,17 +28,16 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
 
 	if ($image instanceof \OC_Image) {
 		$image->show();
-	} else {
-		$image = \OC_Avatar::getDefaultAvatar($user, $size);
-		$image->show();
+	} elseif ($image === false) {
+		OC_JSON::success(array('user' => $user, 'size' => $size));
 	}
 } elseif ($_SERVER['REQUEST_METHOD'] === "POST") {
 	$user = OC_User::getUser();
 
 	// Select an image from own files
 	if (isset($_POST['path'])) {
-		//SECURITY TODO FIXME possible directory traversal here
-		$path = $_POST['path'];
+		//SECURITY TODO does this fully eliminate directory traversals?
+		$path = stripslashes($_POST['path']);
 		$avatar = OC::$SERVERROOT.'/data/'.$user.'/files'.$path;
 	}
 	// Upload a new image
@@ -62,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
 	$user = OC_User::getUser();
 
 	try {
-		\OC_Avatar::set($user, false);
+		\OC_Avatar::remove($user);
 		OC_JSON::success();
 	} catch (\Exception $e) {
 		OC_JSON::error(array("data" => array ("message" => $e->getMessage()) ));
