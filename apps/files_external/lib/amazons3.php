@@ -183,7 +183,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		$dh = $this->opendir($path);
-		while ($file = readdir($dh)) {
+		while (($file = readdir($dh)) !== false) {
 			if ($file === '.' || $file === '..') {
 				continue;
 			}
@@ -464,7 +464,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			}
 
 			$dh = $this->opendir($path1);
-			while ($file = readdir($dh)) {
+			while (($file = readdir($dh)) !== false) {
 				if ($file === '.' || $file === '..') {
 					continue;
 				}

@@ -159,7 +159,7 @@ class Scanner extends BasicEmitter {
 		$newChildren = array();
 		if ($this->storage->is_dir($path) && ($dh = $this->storage->opendir($path))) {
 			\OC_DB::beginTransaction();
-			while ($file = readdir($dh)) {
+			while (($file = readdir($dh)) !== false) {
 				$child = ($path) ? $path . '/' . $file : $file;
 				if (!Filesystem::isIgnoredDir($file)) {
 					$newChildren[] = $file;
