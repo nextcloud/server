@@ -77,7 +77,7 @@ class Group {
 		foreach ($userIds as $userId) {
 			$user = $this->userManager->get($userId);
 			if(!is_null($user)) {
-				$users[$userId] = $user;
+				$users[] = $user;
 			}
 		}
 		$this->users = $users;
