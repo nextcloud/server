@@ -58,6 +58,16 @@ class LDAP {
 		return $hasSupport;
 	}
 
+	/**
+	 * Checks whether the submitted parameter is a resource
+	 *
+	 * @param $resource the resource variable to check
+	 * @return true if it is a resource, false otherwise
+	 */
+	public function isResource($resource) {
+		return is_resource($resource);
+	}
+
 	private function preFunctionCall($functionName, $args) {
 		$this->curFunc = $functionName;
 		$this->curArgs = $args;

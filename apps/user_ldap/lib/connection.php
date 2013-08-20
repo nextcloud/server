@@ -92,7 +92,8 @@ class Connection extends BackendBase {
 	}
 
 	public function __destruct() {
-		if(!$this->dontDestruct && is_resource($this->ldapConnectionRes)) {
+		if(!$this->dontDestruct &&
+			$this->ldap->isResource($this->ldapConnectionRes)) {
 			@$this->ldap->unbind($this->ldapConnectionRes);
 		};
 	}
@@ -149,7 +150,7 @@ class Connection extends BackendBase {
 	public function getConnectionResource() {
 		if(!$this->ldapConnectionRes) {
 			$this->init();
-		} else if(!is_resource($this->ldapConnectionRes)) {
+		} else if(!$this->ldap->isResource($this->ldapConnectionRes)) {
 			$this->ldapConnectionRes = null;
 			$this->establishConnection();
 		}
@@ -624,7 +625,7 @@ class Connection extends BackendBase {
 			if(!$this->config['ldapOverrideMainServer'] && !$this->getFromCache('overrideMainServer')) {
 				$this->doConnect($this->config['ldapHost'], $this->config['ldapPort']);
 				$bindStatus = $this->bind();
-				$error = is_resource($this->ldapConnectionRes) ? ldap_errno($this->ldapConnectionRes) : -1;
+				$error = $this->ldap->isResource($this->ldapConnectionRes) ? ldap_errno($this->ldapConnectionRes) : -1;
 			} else {
 				$bindStatus = false;
 				$error = null;
@@ -679,7 +680,7 @@ class Connection extends BackendBase {
 		$getConnectionResourceAttempt = true;
 		$cr = $this->getConnectionResource();
 		$getConnectionResourceAttempt = false;
-		if(!is_resource($cr)) {
+		if(!$this->ldap->isResource($cr)) {
 			return false;
 		}
 		$ldapLogin = @$this->ldap->bind($cr, $this->config['ldapAgentName'], $this->config['ldapAgentPassword']);

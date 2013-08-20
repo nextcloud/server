@@ -54,14 +54,14 @@ abstract class Access extends BackendBase {
 			return false;
 		}
 		$cr = $this->connection->getConnectionResource();
-		if(!is_resource($cr)) {
+		if(!$this->ldap->isResource($cr)) {
 			//LDAP not available
 			\OCP\Util::writeLog('user_ldap', 'LDAP resource not available.', \OCP\Util::DEBUG);
 			return false;
 		}
 		$dn = $this->DNasBaseParameter($dn);
 		$rr = @$this->ldap->read($cr, $dn, $filter, array($attr));
-		if(!is_resource($rr)) {
+		if(!$this->ldap->isResource($rr)) {
 			if(!empty($attr)) {
 				//do not throw this message on userExists check, irritates
 				\OCP\Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, \OCP\Util::DEBUG);
@@ -74,7 +74,7 @@ abstract class Access extends BackendBase {
 			return array();
 		}
 		$er = $this->ldap->first_entry($cr, $rr);
-		if(!is_resource($er)) {
+		if(!$this->ldap->isResource($er)) {
 			//did not match the filter, return false
 			return false;
 		}
@@ -653,7 +653,7 @@ abstract class Access extends BackendBase {
 
 		// See if we have a resource, in case not cancel with message
 		$link_resource = $this->connection->getConnectionResource();
-		if(!is_resource($link_resource)) {
+		if(!$this->ldap->isResource($link_resource)) {
 			// Seems like we didn't find any resource.
 			// Return an empty array just like before.
 			\OCP\Util::writeLog('user_ldap', 'Could not search, because resource is missing.', \OCP\Util::DEBUG);
