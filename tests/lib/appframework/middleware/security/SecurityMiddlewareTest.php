@@ -80,58 +80,11 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @IsLoggedInExemption
-	 * @CSRFExemption
-	 * @IsAdminExemption
-	 * @IsSubAdminExemption
+	 * @PublicPage
+	 * @NoCSRFRequired
 	 */
 	public function testSetNavigationEntry(){
 		$this->checkNavEntry('testSetNavigationEntry', true);
-	}
-
-
-	private function ajaxExceptionCheck($method, $shouldBeAjax=false){
-		$api = $this->getAPI();
-		$api->expects($this->any())
-				->method('passesCSRFCheck')
-				->will($this->returnValue(false));
-
-		$sec = new SecurityMiddleware($api, $this->request);
-
-		try {
-			$sec->beforeController('\OC\AppFramework\Middleware\Security\SecurityMiddlewareTest',
-					$method);
-		} catch (SecurityException $ex){
-			if($shouldBeAjax){
-				$this->assertTrue($ex->isAjax());
-			} else {
-				$this->assertFalse($ex->isAjax());
-			}
-
-		}
-	}
-
-
-	/**
-	 * @Ajax
-	 * @IsLoggedInExemption
-	 * @CSRFExemption
-	 * @IsAdminExemption
-	 * @IsSubAdminExemption
-	 */
-	public function testAjaxException(){
-		$this->ajaxExceptionCheck('testAjaxException');
-	}
-
-
-	/**
-	 * @IsLoggedInExemption
-	 * @CSRFExemption
-	 * @IsAdminExemption
-	 * @IsSubAdminExemption
-	 */
-	public function testNoAjaxException(){
-		$this->ajaxExceptionCheck('testNoAjaxException');
 	}
 
 
@@ -140,6 +93,13 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 		$api->expects($this->any())
 				->method($test)
 				->will($this->returnValue(false));
+
+		// isAdminUser requires isLoggedIn call to return true
+		if ($test === 'isAdminUser') {
+			$api->expects($this->any())
+				->method('isLoggedIn')
+				->will($this->returnValue(true));
+		}
 
 		$sec = new SecurityMiddleware($api, $this->request);
 
@@ -151,9 +111,6 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 		}
 	}
 
-	/**
-	 * @Ajax
-	 */
 	public function testAjaxStatusLoggedInCheck() {
 		$this->ajaxExceptionStatus(
 			'testAjaxStatusLoggedInCheck',
@@ -163,8 +120,8 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @Ajax
-	 * @IsLoggedInExemption
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
 	 */
 	public function testAjaxNotAdminCheck() {
 		$this->ajaxExceptionStatus(
@@ -175,23 +132,7 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @Ajax
-	 * @IsLoggedInExemption
-	 * @IsAdminExemption
-	 */
-	public function testAjaxNotSubAdminCheck() {
-		$this->ajaxExceptionStatus(
-			'testAjaxNotSubAdminCheck',
-			'isSubAdminUser',
-			Http::STATUS_FORBIDDEN
-		);
-	}
-
-	/**
-	 * @Ajax
-	 * @IsLoggedInExemption
-	 * @IsAdminExemption
-	 * @IsSubAdminExemption
+	 * @PublicPage
 	 */
 	public function testAjaxStatusCSRFCheck() {
 		$this->ajaxExceptionStatus(
@@ -202,11 +143,8 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @Ajax
-	 * @CSRFExemption
-	 * @IsLoggedInExemption
-	 * @IsAdminExemption
-	 * @IsSubAdminExemption
+	 * @PublicPage
+	 * @NoCSRFRequired
 	 */
 	public function testAjaxStatusAllGood() {
 		$this->ajaxExceptionStatus(
@@ -231,11 +169,10 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
+
 	/**
-	 * @IsLoggedInExemption
-	 * @CSRFExemption
-	 * @IsAdminExemption
-	 * @IsSubAdminExemption
+	 * @PublicPage
+	 * @NoCSRFRequired
 	 */
 	public function testNoChecks(){
 		$api = $this->getAPI();
@@ -244,9 +181,6 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 				->will($this->returnValue(true));
 		$api->expects($this->never())
 				->method('isAdminUser')
-				->will($this->returnValue(true));
-		$api->expects($this->never())
-				->method('isSubAdminUser')
 				->will($this->returnValue(true));
 		$api->expects($this->never())
 				->method('isLoggedIn')
@@ -264,10 +198,19 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 				->method($expects)
 				->will($this->returnValue(!$shouldFail));
 
+		// admin check requires login
+		if ($expects === 'isAdminUser') {
+			$api->expects($this->once())
+				->method('isLoggedIn')
+				->will($this->returnValue(true));
+		}
+
 		$sec = new SecurityMiddleware($api, $this->request);
 
 		if($shouldFail){
 			$this->setExpectedException('\OC\AppFramework\Middleware\Security\SecurityException');
+		} else {
+			$this->setExpectedException(null);
 		}
 
 		$sec->beforeController('\OC\AppFramework\Middleware\Security\SecurityMiddlewareTest', $method);
@@ -275,9 +218,7 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @IsLoggedInExemption
-	 * @IsAdminExemption
-	 * @IsSubAdminExemption
+	 * @PublicPage
 	 */
 	public function testCsrfCheck(){
 		$this->securityCheck('testCsrfCheck', 'passesCSRFCheck');
@@ -285,9 +226,7 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @IsLoggedInExemption
-	 * @IsAdminExemption
-	 * @IsSubAdminExemption
+	 * @PublicPage
 	 */
 	public function testFailCsrfCheck(){
 		$this->securityCheck('testFailCsrfCheck', 'passesCSRFCheck', true);
@@ -295,9 +234,8 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @CSRFExemption
-	 * @IsAdminExemption
-	 * @IsSubAdminExemption
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
 	 */
 	public function testLoggedInCheck(){
 		$this->securityCheck('testLoggedInCheck', 'isLoggedIn');
@@ -305,9 +243,8 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @CSRFExemption
-	 * @IsAdminExemption
-	 * @IsSubAdminExemption
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
 	 */
 	public function testFailLoggedInCheck(){
 		$this->securityCheck('testFailLoggedInCheck', 'isLoggedIn', true);
@@ -315,9 +252,7 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @IsLoggedInExemption
-	 * @CSRFExemption
-	 * @IsSubAdminExemption
+	 * @NoCSRFRequired
 	 */
 	public function testIsAdminCheck(){
 		$this->securityCheck('testIsAdminCheck', 'isAdminUser');
@@ -325,34 +260,11 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @IsLoggedInExemption
-	 * @CSRFExemption
-	 * @IsSubAdminExemption
+	 * @NoCSRFRequired
 	 */
 	public function testFailIsAdminCheck(){
 		$this->securityCheck('testFailIsAdminCheck', 'isAdminUser', true);
 	}
-
-
-	/**
-	 * @IsLoggedInExemption
-	 * @CSRFExemption
-	 * @IsAdminExemption
-	 */
-	public function testIsSubAdminCheck(){
-		$this->securityCheck('testIsSubAdminCheck', 'isSubAdminUser');
-	}
-
-
-	/**
-	 * @IsLoggedInExemption
-	 * @CSRFExemption
-	 * @IsAdminExemption
-	 */
-	public function testFailIsSubAdminCheck(){
-		$this->securityCheck('testFailIsSubAdminCheck', 'isSubAdminUser', true);
-	}
-
 
 
 	public function testAfterExceptionNotCaughtThrowsItAgain(){

@@ -77,25 +77,20 @@ class SecurityMiddleware extends Middleware {
 		$this->api->activateNavigationEntry();
 
 		// security checks
-		if(!$annotationReader->hasAnnotation('IsLoggedInExemption')) {
+		$isPublicPage = $annotationReader->hasAnnotation('PublicPage');
+		if(!$isPublicPage) {
 			if(!$this->api->isLoggedIn()) {
 				throw new SecurityException('Current user is not logged in', Http::STATUS_UNAUTHORIZED);
 			}
-		}
 
-		if(!$annotationReader->hasAnnotation('IsAdminExemption')) {
-			if(!$this->api->isAdminUser($this->api->getUserId())) {
-				throw new SecurityException('Logged in user must be an admin', Http::STATUS_FORBIDDEN);
+			if(!$annotationReader->hasAnnotation('NoAdminRequired')) {
+				if(!$this->api->isAdminUser($this->api->getUserId())) {
+					throw new SecurityException('Logged in user must be an admin', Http::STATUS_FORBIDDEN);
+				}
 			}
 		}
 
-		if(!$annotationReader->hasAnnotation('IsSubAdminExemption')) {
-			if(!$this->api->isSubAdminUser($this->api->getUserId())) {
-				throw new SecurityException('Logged in user must be a subadmin', Http::STATUS_FORBIDDEN);
-			}
-		}
-
-		if(!$annotationReader->hasAnnotation('CSRFExemption')) {
+		if(!$annotationReader->hasAnnotation('NoCSRFRequired')) {
 			if(!$this->api->passesCSRFCheck()) {
 				throw new SecurityException('CSRF check failed', Http::STATUS_PRECONDITION_FAILED);
 			}
