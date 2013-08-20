@@ -88,6 +88,7 @@ $TRANSLATIONS = array(
 "Language" => "Limba",
 "Help translate" => "Ajută la traducere",
 "WebDAV" => "WebDAV",
+"Encryption" => "Încriptare",
 "Create" => "Crează",
 "Default Storage" => "Stocare implicită",
 "Unlimited" => "Nelimitată",

@@ -54,6 +54,7 @@ $TRANSLATIONS = array(
 "Language" => "Јазик",
 "Help translate" => "Помогни во преводот",
 "WebDAV" => "WebDAV",
+"Encryption" => "Енкрипција",
 "Create" => "Создај",
 "Other" => "Останато",
 "Username" => "Корисничко име"

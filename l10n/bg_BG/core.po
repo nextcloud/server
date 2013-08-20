@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-15 04:47-0400\n"
-"PO-Revision-Date: 2013-08-15 08:48+0000\n"
+"POT-Creation-Date: 2013-08-19 15:06-0400\n"
+"PO-Revision-Date: 2013-08-19 19:06+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -141,55 +141,55 @@ msgstr "Декември"
 msgid "Settings"
 msgstr "Настройки"
 
-#: js/js.js:815
+#: js/js.js:812
 msgid "seconds ago"
 msgstr "преди секунди"
 
-#: js/js.js:816
+#: js/js.js:813
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:817
+#: js/js.js:814
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:818
+#: js/js.js:815
 msgid "today"
 msgstr "днес"
 
-#: js/js.js:819
+#: js/js.js:816
 msgid "yesterday"
 msgstr "вчера"
 
-#: js/js.js:820
+#: js/js.js:817
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:821
+#: js/js.js:818
 msgid "last month"
 msgstr "последният месец"
 
-#: js/js.js:822
+#: js/js.js:819
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:823
+#: js/js.js:820
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:824
+#: js/js.js:821
 msgid "last year"
 msgstr "последната година"
 
-#: js/js.js:825
+#: js/js.js:822
 msgid "years ago"
 msgstr "последните години"
 
@@ -197,23 +197,19 @@ msgstr "последните години"
 msgid "Choose"
 msgstr ""
 
-#: js/oc-dialogs.js:122
-msgid "Cancel"
-msgstr "Отказ"
-
-#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
 msgid "Error loading file picker template"
 msgstr ""
 
-#: js/oc-dialogs.js:164
+#: js/oc-dialogs.js:160
 msgid "Yes"
 msgstr "Да"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:168
 msgid "No"
 msgstr "Не"
 
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:181
 msgid "Ok"
 msgstr "Добре"
 
@@ -619,14 +615,6 @@ msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
 msgstr ""
-
-#: templates/part.pagenavi.php:3
-msgid "prev"
-msgstr "пред."
-
-#: templates/part.pagenavi.php:20
-msgid "next"
-msgstr "следващо"
 
 #: templates/update.php:3
 #, php-format

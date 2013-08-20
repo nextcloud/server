@@ -199,12 +199,39 @@ class Helper {
 	public static function stripUserFilesPath($path) {
 		$trimmed = ltrim($path, '/');
 		$split = explode('/', $trimmed);
+		
+		// it is not a file relative to data/user/files
+		if (count($split) < 3 || $split[1] !== 'files') {
+			return false;
+		}
+		
 		$sliced = array_slice($split, 2);
 		$relPath = implode('/', $sliced);
 
 		return $relPath;
 	}
 
+	/**
+	 * @brief get path to the correspondig file in data/user/files
+	 * @param string $path path to a version or a file in the trash
+	 * @return string path to correspondig file relative to data/user/files
+	 */
+	public static function getPathToRealFile($path) {
+		$trimmed = ltrim($path, '/');
+		$split = explode('/', $trimmed);
+		
+		if (count($split) < 3 || $split[1] !== "files_versions") {
+			return false;
+		}
+		
+		$sliced = array_slice($split, 2);
+		$realPath = implode('/', $sliced);
+		//remove the last .v
+		$realPath = substr($realPath, 0, strrpos($realPath, '.v'));
+
+		return $realPath;
+	}	
+	
 	/**
 	 * @brief redirect to a error page
 	 */

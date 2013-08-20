@@ -29,6 +29,9 @@ class Connection {
 	private $configID;
 	private $configured = false;
 
+	//whether connection should be kept on __destruct
+	private $dontDestruct = false;
+
 	//cache handler
 	protected $cache;
 
@@ -77,15 +80,29 @@ class Connection {
 	public function __construct($configPrefix = '', $configID = 'user_ldap') {
 		$this->configPrefix = $configPrefix;
 		$this->configID = $configID;
-		$this->cache = \OC_Cache::getGlobalCache();
+		$memcache = new \OC\Memcache\Factory();
+		if($memcache->isAvailable()) {
+			$this->cache = $memcache->create();
+		} else {
+			$this->cache = \OC_Cache::getGlobalCache();
+		}
 		$this->config['hasPagedResultSupport'] = (function_exists('ldap_control_paged_result')
 			&& function_exists('ldap_control_paged_result_response'));
 	}
 
 	public function __destruct() {
-		if(is_resource($this->ldapConnectionRes)) {
+		if(!$this->dontDestruct && is_resource($this->ldapConnectionRes)) {
 			@ldap_unbind($this->ldapConnectionRes);
 		};
+	}
+
+	/**
+	 * @brief defines behaviour when the instance is cloned
+	 */
+	public function __clone() {
+		//a cloned instance inherits the connection resource. It may use it,
+		//but it may not disconnect it
+		$this->dontDestruct = true;
 	}
 
 	public function __get($name) {

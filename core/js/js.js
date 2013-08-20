@@ -69,7 +69,7 @@ function initL10N(app) {
 			var code = 'var plural; var nplurals; '+pf+' return { "nplural" : nplurals, "plural" : (plural === true ? 1 : plural ? plural : 0) };';
 			t.plural_function = new Function("n", code);
 		} else {
-			console.log("Syntax error in language file. Plural-Forms header is invalid ["+plural_forms+"]");
+			console.log("Syntax error in language file. Plural-Forms header is invalid ["+t.plural_forms+"]");
 		}
 	}
 }
@@ -758,13 +758,10 @@ $(document).ready(function(){
 	});
 
 	// all the tipsy stuff needs to be here (in reverse order) to work
-	$('.jp-controls .jp-previous').tipsy({gravity:'nw', fade:true, live:true});
-	$('.jp-controls .jp-next').tipsy({gravity:'n', fade:true, live:true});
 	$('.displayName .action').tipsy({gravity:'se', fade:true, live:true});
 	$('.password .action').tipsy({gravity:'se', fade:true, live:true});
 	$('#upload').tipsy({gravity:'w', fade:true});
 	$('.selectedActions a').tipsy({gravity:'s', fade:true, live:true});
-	$('a.delete').tipsy({gravity: 'e', fade:true, live:true});
 	$('a.action').tipsy({gravity:'s', fade:true, live:true});
 	$('td .modified').tipsy({gravity:'s', fade:true, live:true});
 

@@ -10,7 +10,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "Tiedostot on ladattava yksittäin.",
 "Back to Files" => "Takaisin tiedostoihin",
 "Selected files too large to generate zip file." => "Valitut tiedostot ovat liian suurikokoisia mahtuakseen zip-tiedostoon.",
-"couldn't be determined" => "ei voitu määrittää",
 "Application is not enabled" => "Sovellusta ei ole otettu käyttöön",
 "Authentication error" => "Tunnistautumisvirhe",
 "Token expired. Please reload page." => "Valtuutus vanheni. Lataa sivu uudelleen.",
@@ -34,15 +33,16 @@ $TRANSLATIONS = array(
 "Set an admin password." => "Aseta ylläpitäjän salasana.",
 "Please double check the <a href='%s'>installation guides</a>." => "Lue tarkasti <a href='%s'>asennusohjeet</a>.",
 "seconds ago" => "sekuntia sitten",
-"_%n minute ago_::_%n minutes ago_" => array(,),
-"_%n hour ago_::_%n hours ago_" => array(,),
+"_%n minute ago_::_%n minutes ago_" => array("%n minuutti sitten","%n minuuttia sitten"),
+"_%n hour ago_::_%n hours ago_" => array("%n tunti sitten","%n tuntia sitten"),
 "today" => "tänään",
 "yesterday" => "eilen",
-"_%n day go_::_%n days ago_" => array(,),
+"_%n day go_::_%n days ago_" => array("%n päivä sitten","%n päivää sitten"),
 "last month" => "viime kuussa",
-"_%n month ago_::_%n months ago_" => array(,),
+"_%n month ago_::_%n months ago_" => array("%n kuukausi sitten","%n kuukautta sitten"),
 "last year" => "viime vuonna",
 "years ago" => "vuotta sitten",
+"Caused by:" => "Aiheuttaja:",
 "Could not find category \"%s\"" => "Luokkaa \"%s\" ei löytynyt"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

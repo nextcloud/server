@@ -52,6 +52,16 @@ class OC_Util {
 		}
 
 		if( $user != "" ) { //if we aren't logged in, there is no use to set up the filesystem
+			$quota = self::getUserQuota($user);
+			if ($quota !== \OC\Files\SPACE_UNLIMITED) {
+				\OC\Files\Filesystem::addStorageWrapper(function($mountPoint, $storage) use ($quota, $user) {
+					if ($mountPoint === '/' . $user . '/'){
+						return new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => $quota));
+					} else {
+						return $storage;
+					}
+				});
+			}
 			$userDir = '/'.$user.'/files';
 			$userRoot = OC_User::getHome($user);
 			$userDirectory = $userRoot . '/files';
@@ -61,14 +71,24 @@ class OC_Util {
 			//jail the user into his "home" directory
 			\OC\Files\Filesystem::init($user, $userDir);
 
-			$quotaProxy = new OC_FileProxy_Quota();
 			$fileOperationProxy = new OC_FileProxy_FileOperations();
-			OC_FileProxy::register($quotaProxy);
 			OC_FileProxy::register($fileOperationProxy);
 
 			OC_Hook::emit('OC_Filesystem', 'setup', array('user' => $user, 'user_dir' => $userDir));
 		}
 		return true;
+	}
+
+	public static function getUserQuota($user){
+		$userQuota = OC_Preferences::getValue($user, 'files', 'quota', 'default');
+		if($userQuota === 'default') {
+			$userQuota = OC_AppConfig::getValue('files', 'default_quota', 'none');
+		}
+		if($userQuota === 'none') {
+			return \OC\Files\SPACE_UNLIMITED;
+		}else{
+			return OC_Helper::computerFileSize($userQuota);
+		}
 	}
 
 	/**
@@ -380,6 +400,23 @@ class OC_Util {
 		return $errors;
 	}
 
+	/**
+	 * @brief check if there are still some encrypted files stored
+	 * @return boolean
+	 */
+	public static function encryptedFiles() {
+		//check if encryption was enabled in the past
+		$encryptedFiles = false;
+		if (OC_App::isEnabled('files_encryption') === false) {
+			$view = new OC\Files\View('/' . OCP\User::getUser());
+			if ($view->file_exists('/files_encryption/keyfiles')) {
+				$encryptedFiles = true;
+			}
+		}
+		
+		return $encryptedFiles;
+	}
+	
 	/**
 	* Check for correct file permissions of data directory
 	* @return array arrays with error messages and hints

@@ -92,6 +92,7 @@ $TRANSLATIONS = array(
 "Help translate" => "Pomôcť s prekladom",
 "WebDAV" => "WebDAV",
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "Použite túto adresu <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">pre prístup k súborom cez WebDAV</a>",
+"Encryption" => "Šifrovanie",
 "Login Name" => "Prihlasovacie meno",
 "Create" => "Vytvoriť",
 "Admin Recovery Password" => "Obnovenie hesla administrátora",

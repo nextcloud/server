@@ -91,7 +91,7 @@ class OC {
 		// ensure we can find OC_Config
 		set_include_path(
 			OC::$SERVERROOT . '/lib' . PATH_SEPARATOR .
-				get_include_path()
+			get_include_path()
 		);
 
 		OC::$SUBURI = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen(OC::$SERVERROOT)));
@@ -160,11 +160,11 @@ class OC {
 		// set the right include path
 		set_include_path(
 			OC::$SERVERROOT . '/lib' . PATH_SEPARATOR .
-				OC::$SERVERROOT . '/config' . PATH_SEPARATOR .
-				OC::$THIRDPARTYROOT . '/3rdparty' . PATH_SEPARATOR .
-				implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR .
-				get_include_path() . PATH_SEPARATOR .
-				OC::$SERVERROOT
+			OC::$SERVERROOT . '/config' . PATH_SEPARATOR .
+			OC::$THIRDPARTYROOT . '/3rdparty' . PATH_SEPARATOR .
+			implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR .
+			get_include_path() . PATH_SEPARATOR .
+			OC::$SERVERROOT
 		);
 	}
 
@@ -278,17 +278,17 @@ class OC {
 		ini_set('session.cookie_httponly', '1;');
 
 		// set the cookie path to the ownCloud directory
-		$cookie_path = OC::$WEBROOT ?: '/';
+		$cookie_path = OC::$WEBROOT ? : '/';
 		ini_set('session.cookie_path', $cookie_path);
 
 		//set the session object to a dummy session so code relying on the session existing still works
 		self::$session = new \OC\Session\Memory('');
-		
-		try{
+
+		try {
 			// set the session name to the instance id - which is unique
 			self::$session = new \OC\Session\Internal(OC_Util::getInstanceId());
 			// if session cant be started break with http 500 error
-		}catch (Exception $e){
+		} catch (Exception $e) {
 			OC_Log::write('core', 'Session could not be initialized',
 				OC_Log::ERROR);
 
@@ -352,7 +352,7 @@ class OC {
 	public static function init() {
 		// register autoloader
 		require_once __DIR__ . '/autoloader.php';
-		self::$loader=new \OC\Autoloader();
+		self::$loader = new \OC\Autoloader();
 		self::$loader->registerPrefix('Doctrine\\Common', 'doctrine/common/lib');
 		self::$loader->registerPrefix('Doctrine\\DBAL', 'doctrine/dbal/lib');
 		self::$loader->registerPrefix('Symfony\\Component\\Routing', 'symfony/routing');
@@ -373,7 +373,7 @@ class OC {
 		ini_set('arg_separator.output', '&amp;');
 
 		// try to switch magic quotes off.
-		if (get_magic_quotes_gpc()==1) {
+		if (get_magic_quotes_gpc() == 1) {
 			ini_set('magic_quotes_runtime', 0);
 		}
 
@@ -398,7 +398,8 @@ class OC {
 
 		//set http auth headers for apache+php-cgi work around
 		if (isset($_SERVER['HTTP_AUTHORIZATION'])
-			&& preg_match('/Basic\s+(.*)$/i', $_SERVER['HTTP_AUTHORIZATION'], $matches)) {
+			&& preg_match('/Basic\s+(.*)$/i', $_SERVER['HTTP_AUTHORIZATION'], $matches)
+		) {
 			list($name, $password) = explode(':', base64_decode($matches[1]), 2);
 			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
 			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
@@ -406,7 +407,8 @@ class OC {
 
 		//set http auth headers for apache+php-cgi work around if variable gets renamed by apache
 		if (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])
-			&& preg_match('/Basic\s+(.*)$/i', $_SERVER['REDIRECT_HTTP_AUTHORIZATION'], $matches)) {
+			&& preg_match('/Basic\s+(.*)$/i', $_SERVER['REDIRECT_HTTP_AUTHORIZATION'], $matches)
+		) {
 			list($name, $password) = explode(':', base64_decode($matches[1]), 2);
 			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
 			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
@@ -435,10 +437,11 @@ class OC {
 		stream_wrapper_register('fakedir', 'OC\Files\Stream\Dir');
 		stream_wrapper_register('static', 'OC\Files\Stream\StaticStream');
 		stream_wrapper_register('close', 'OC\Files\Stream\Close');
+		stream_wrapper_register('quota', 'OC\Files\Stream\Quota');
 		stream_wrapper_register('oc', 'OC\Files\Stream\OC');
 
 		self::initTemplateEngine();
-		if ( !self::$CLI ) {
+		if (!self::$CLI) {
 			self::initSession();
 		} else {
 			self::$session = new \OC\Session\Memory('');
@@ -459,7 +462,7 @@ class OC {
 
 		// User and Groups
 		if (!OC_Config::getValue("installed", false)) {
-			self::$session->set('user_id','');
+			self::$session->set('user_id', '');
 		}
 
 		OC_User::useBackend(new OC_User_Database());

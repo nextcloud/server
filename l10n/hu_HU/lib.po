@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-15 04:47-0400\n"
-"PO-Revision-Date: 2013-08-15 08:48+0000\n"
+"POT-Creation-Date: 2013-08-19 15:06-0400\n"
+"PO-Revision-Date: 2013-08-19 19:07+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -74,10 +74,6 @@ msgid ""
 "Download the files in smaller chunks, seperately or kindly ask your "
 "administrator."
 msgstr "Tölts le a fileokat kisebb chunkokban, kölün vagy kérj segitséget a rendszergazdádtól."
-
-#: helper.php:235
-msgid "couldn't be determined"
-msgstr "nem határozható meg"
 
 #: json.php:28
 msgid "Application is not enabled"

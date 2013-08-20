@@ -7,6 +7,7 @@ $TRANSLATIONS = array(
 "Password" => "وشەی تێپەربو",
 "New password" => "وشەی نهێنی نوێ",
 "Email" => "ئیمه‌یل",
+"Encryption" => "نهێنیکردن",
 "Username" => "ناوی به‌کارهێنه‌ر"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

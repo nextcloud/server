@@ -3,12 +3,18 @@
 	max-width: 200px;
 	display: inline-block;
 	vertical-align: top;
+	text-align: right;
 	padding-top: 9px;
+	padding-right: 5px;
 }
 
 #ldap fieldset input, #ldap fieldset textarea {
-	width: 70%;
+	width: 60%;
 	display: inline-block;
+}
+
+#ldap fieldset p input[type=checkbox] {
+	vertical-align: bottom;
 }
 
 .ldapIndent {

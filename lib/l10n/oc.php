@@ -12,13 +12,13 @@ $TRANSLATIONS = array(
 "Authentication error" => "Error d'autentificacion",
 "Files" => "Fichièrs",
 "seconds ago" => "segonda a",
-"_%n minute ago_::_%n minutes ago_" => array(,),
-"_%n hour ago_::_%n hours ago_" => array(,),
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "uèi",
 "yesterday" => "ièr",
-"_%n day go_::_%n days ago_" => array(,),
+"_%n day go_::_%n days ago_" => array("",""),
 "last month" => "mes passat",
-"_%n month ago_::_%n months ago_" => array(,),
+"_%n month ago_::_%n months ago_" => array("",""),
 "last year" => "an passat",
 "years ago" => "ans a"
 );

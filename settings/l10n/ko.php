@@ -91,6 +91,7 @@ $TRANSLATIONS = array(
 "Language" => "언어",
 "Help translate" => "번역 돕기",
 "WebDAV" => "WebDAV",
+"Encryption" => "암호화",
 "Login Name" => "로그인 이름",
 "Create" => "만들기",
 "Admin Recovery Password" => "관리자 복구 암호",

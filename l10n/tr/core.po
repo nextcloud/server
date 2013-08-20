@@ -4,12 +4,13 @@
 # 
 # Translators:
 # ismail yenigül <ismail.yenigul@surgate.com>, 2013
+# tridinebandim, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-15 04:47-0400\n"
-"PO-Revision-Date: 2013-08-15 08:48+0000\n"
+"POT-Creation-Date: 2013-08-19 15:06-0400\n"
+"PO-Revision-Date: 2013-08-19 19:06+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +26,7 @@ msgstr "%s  sizinle »%s« paylaşımında bulundu"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr "Kategori türü desteklenmemektedir."
+msgstr "Kategori türü girilmedi."
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
@@ -142,55 +143,55 @@ msgstr "Aralık"
 msgid "Settings"
 msgstr "Ayarlar"
 
-#: js/js.js:815
+#: js/js.js:812
 msgid "seconds ago"
 msgstr "saniye önce"
 
-#: js/js.js:816
+#: js/js.js:813
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n dakika önce"
+msgstr[1] "%n dakika önce"
 
-#: js/js.js:817
+#: js/js.js:814
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n saat önce"
+msgstr[1] "%n saat önce"
 
-#: js/js.js:818
+#: js/js.js:815
 msgid "today"
 msgstr "bugün"
 
-#: js/js.js:819
+#: js/js.js:816
 msgid "yesterday"
 msgstr "dün"
 
-#: js/js.js:820
+#: js/js.js:817
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n gün önce"
+msgstr[1] "%n gün önce"
 
-#: js/js.js:821
+#: js/js.js:818
 msgid "last month"
 msgstr "geçen ay"
 
-#: js/js.js:822
+#: js/js.js:819
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n ay önce"
+msgstr[1] "%n ay önce"
 
-#: js/js.js:823
+#: js/js.js:820
 msgid "months ago"
 msgstr "ay önce"
 
-#: js/js.js:824
+#: js/js.js:821
 msgid "last year"
 msgstr "geçen yıl"
 
-#: js/js.js:825
+#: js/js.js:822
 msgid "years ago"
 msgstr "yıl önce"
 
@@ -198,23 +199,19 @@ msgstr "yıl önce"
 msgid "Choose"
 msgstr "seç"
 
-#: js/oc-dialogs.js:122
-msgid "Cancel"
-msgstr "İptal"
-
-#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
 msgid "Error loading file picker template"
 msgstr "Seçici şablon dosya yüklemesinde hata"
 
-#: js/oc-dialogs.js:164
+#: js/oc-dialogs.js:160
 msgid "Yes"
 msgstr "Evet"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:168
 msgid "No"
 msgstr "Hayır"
 
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:181
 msgid "Ok"
 msgstr "Tamam"
 
@@ -381,7 +378,7 @@ msgstr "Güncelleme başarılı. ownCloud'a yönlendiriliyor."
 #: lostpassword/controller.php:61
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "%s parola sıfırlama"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -498,7 +495,7 @@ msgstr "PHP sürümünüz NULL Byte saldırısına açık (CVE-2006-7243)"
 #: templates/installation.php:26
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "%s güvenli olarak kullanmak için, lütfen PHP kurulumunuzu güncelleyin."
 
 #: templates/installation.php:32
 msgid ""
@@ -523,7 +520,7 @@ msgstr "Veri klasörünüz ve dosyalarınız .htaccess dosyası çalışmadığ�
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Server'ınızı nasıl ayarlayacağınıza dair bilgi için, lütfen <a href=\"%s\" target=\"_blank\">dokümantasyon sayfasını</a> ziyaret edin."
 
 #: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
@@ -582,7 +579,7 @@ msgstr "Çıkış yap"
 
 #: templates/layout.user.php:100
 msgid "More apps"
-msgstr ""
+msgstr "Daha fazla Uygulama"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
@@ -620,14 +617,6 @@ msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
 msgstr "Merhaba, <br><br> %s sizinle »%s« paylaşımında bulundu.<br><a href=\"%s\">Paylaşımı gör!</a><br><br>İyi günler!"
-
-#: templates/part.pagenavi.php:3
-msgid "prev"
-msgstr "önceki"
-
-#: templates/part.pagenavi.php:20
-msgid "next"
-msgstr "sonraki"
 
 #: templates/update.php:3
 #, php-format

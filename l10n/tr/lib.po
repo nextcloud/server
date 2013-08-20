@@ -4,12 +4,13 @@
 # 
 # Translators:
 # ismail yenigül <ismail.yenigul@surgate.com>, 2013
+# tridinebandim, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-15 04:47-0400\n"
-"PO-Revision-Date: 2013-08-15 08:48+0000\n"
+"POT-Creation-Date: 2013-08-19 15:06-0400\n"
+"PO-Revision-Date: 2013-08-19 19:07+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +42,7 @@ msgstr "Yönetici"
 #: app.php:836
 #, php-format
 msgid "Failed to upgrade \"%s\"."
-msgstr ""
+msgstr "\"%s\" yükseltme başarısız oldu."
 
 #: defaults.php:35
 msgid "web services under your control"
@@ -50,7 +51,7 @@ msgstr "Bilgileriniz güvenli ve şifreli"
 #: files.php:66 files.php:98
 #, php-format
 msgid "cannot open \"%s\""
-msgstr ""
+msgstr "\"%s\" açılamıyor"
 
 #: files.php:226
 msgid "ZIP download is turned off."
@@ -72,11 +73,7 @@ msgstr "Seçilen dosyalar bir zip dosyası oluşturmak için fazla büyüktür."
 msgid ""
 "Download the files in smaller chunks, seperately or kindly ask your "
 "administrator."
-msgstr ""
-
-#: helper.php:235
-msgid "couldn't be determined"
-msgstr "tespit edilemedi"
+msgstr "Dosyaları ayrı ayrı, küçük parçalar halinde indirin ya da yöneticinizden yardım isteyin. "
 
 #: json.php:28
 msgid "Application is not enabled"
@@ -210,13 +207,13 @@ msgstr "saniye önce"
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n dakika önce"
 
 #: template/functions.php:82
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n saat önce"
 
 #: template/functions.php:83
 msgid "today"
@@ -230,7 +227,7 @@ msgstr "dün"
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n gün önce"
 
 #: template/functions.php:86
 msgid "last month"
@@ -240,7 +237,7 @@ msgstr "geçen ay"
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n ay önce"
 
 #: template/functions.php:88
 msgid "last year"
@@ -252,7 +249,7 @@ msgstr "yıl önce"
 
 #: template.php:297
 msgid "Caused by:"
-msgstr ""
+msgstr "Neden olan:"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format
