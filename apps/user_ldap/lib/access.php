@@ -73,13 +73,13 @@ abstract class Access extends BackendBase {
 			\OCP\Util::writeLog('user_ldap', 'readAttribute: '.$dn.' found', \OCP\Util::DEBUG);
 			return array();
 		}
-		$er = $this->ldap->first_entry($cr, $rr);
+		$er = $this->ldap->firstEntry($cr, $rr);
 		if(!$this->ldap->isResource($er)) {
 			//did not match the filter, return false
 			return false;
 		}
 		//LDAP attributes are not case sensitive
-		$result = \OCP\Util::mb_array_change_key_case($this->ldap->get_attributes($cr, $er), MB_CASE_LOWER, 'UTF-8');
+		$result = \OCP\Util::mb_array_change_key_case($this->ldap->getAttributes($cr, $er), MB_CASE_LOWER, 'UTF-8');
 		$attr = mb_strtolower($attr, 'UTF-8');
 
 		if(isset($result[$attr]) && $result[$attr]['count'] > 0) {
@@ -683,13 +683,13 @@ abstract class Access extends BackendBase {
 
 		$findings = array();
 		foreach($sr as $key => $res) {
-		    $findings = array_merge($findings, $this->ldap->get_entries($link_resource, $res ));
+		    $findings = array_merge($findings, $this->ldap->getEntries($link_resource, $res ));
 		}
 		if($pagedSearchOK) {
 			\OCP\Util::writeLog('user_ldap', 'Paged search successful', \OCP\Util::INFO);
 			foreach($sr as $key => $res) {
 				$cookie = null;
-				if($this->ldap->control_paged_result_response($link_resource, $res, $cookie)) {
+				if($this->ldap->controlPagedResultResponse($link_resource, $res, $cookie)) {
 					\OCP\Util::writeLog('user_ldap', 'Set paged search cookie', \OCP\Util::INFO);
 					$this->setPagedResultCookie($base[$key], $filter, $limit, $offset, $cookie);
 				}
@@ -1103,8 +1103,9 @@ abstract class Access extends BackendBase {
 					if($offset > 0) {
 						\OCP\Util::writeLog('user_ldap', 'Cookie '.$cookie, \OCP\Util::INFO);
 					}
-					$pagedSearchOK = $this->ldap->control_paged_result($this->connection->getConnectionResource(),
-						$limit, false, $cookie);
+					$pagedSearchOK = $this->ldap->controlPagedResult(
+						$this->connection->getConnectionResource(), $limit,
+						false, $cookie);
 					if(!$pagedSearchOK) {
 						return false;
 					}

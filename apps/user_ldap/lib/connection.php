@@ -656,10 +656,10 @@ class Connection extends BackendBase {
 			$host .= ':' . $port;
 		}
 		$this->ldapConnectionRes = $this->ldap->connect($host, $port);
-		if($this->ldap->set_option($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
-			if($this->ldap->set_option($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
+		if($this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
+			if($this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
 				if($this->config['ldapTLS']) {
-					$this->ldap->start_tls($this->ldapConnectionRes);
+					$this->ldap->startTls($this->ldapConnectionRes);
 				}
 			}
 		}
