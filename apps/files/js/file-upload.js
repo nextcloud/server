@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	file_upload_param = {
+	var file_upload_param = {
 		dropZone: $('#content'), // restrict dropZone to content div
 		//singleFileUploads is on by default, so the data.files array will always have length 1
 		add: function(e, data) {
@@ -142,7 +142,7 @@ $(document).ready(function() {
 			$('#uploadprogressbar').progressbar('value',100);
 			$('#uploadprogressbar').fadeOut();
 		}
-	}
+	};
 	var file_upload_handler = function() {
 		$('#file_upload_start').fileupload(file_upload_param);
 	};
@@ -163,13 +163,14 @@ $(document).ready(function() {
 
 	// warn user not to leave the page while upload is in progress
 	$(window).bind('beforeunload', function(e) {
-		if ($.assocArraySize(uploadingFiles) > 0)
+		if ($.assocArraySize(uploadingFiles) > 0) {
 			return t('files','File upload is in progress. Leaving the page now will cancel the upload.');
+		}
 	});
 
 	//add multiply file upload attribute to all browsers except konqueror (which crashes when it's used)
 	if(navigator.userAgent.search(/konqueror/i)==-1){
-		$('#file_upload_start').attr('multiple','multiple')
+		$('#file_upload_start').attr('multiple','multiple');
 	}
 
 	//if the breadcrumb is to long, start by replacing foldernames with '...' except for the current folder
@@ -302,8 +303,7 @@ $(document).ready(function() {
 					}
 					localName = getUniqueName(localName);
 					//IE < 10 does not fire the necessary events for the progress bar.
-					if($('html.lte9').length > 0) {
-					} else {
+					if($('html.lte9').length === 0) {
 						$('#uploadprogressbar').progressbar({value:0});
 						$('#uploadprogressbar').fadeIn();
 					}
@@ -311,8 +311,7 @@ $(document).ready(function() {
 					var eventSource=new OC.EventSource(OC.filePath('files','ajax','newfile.php'),{dir:$('#dir').val(),source:name,filename:localName});
 					eventSource.listen('progress',function(progress){
 						//IE < 10 does not fire the necessary events for the progress bar.
-						if($('html.lte9').length > 0) {
-						} else {
+						if($('html.lte9').length === 0) {
 							$('#uploadprogressbar').progressbar('value',progress);
 						}
 					});
