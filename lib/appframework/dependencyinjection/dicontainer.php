@@ -32,9 +32,11 @@ use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
+use OCP\AppFramework\IApi;
+use OCP\AppFramework\IAppContainer;
 
 
-class DIContainer extends SimpleContainer {
+class DIContainer extends SimpleContainer implements IAppContainer{
 
 
 	/**
@@ -44,6 +46,8 @@ class DIContainer extends SimpleContainer {
 	public function __construct($appName){
 
 		$this['AppName'] = $appName;
+
+		$this->registerParameter('ServerContainer', \OC::$server);
 
 		$this['API'] = $this->share(function($c){
 			return new API($c['AppName']);
@@ -119,4 +123,19 @@ class DIContainer extends SimpleContainer {
 	}
 
 
+	/**
+	 * @return IApi
+	 */
+	function getCoreApi()
+	{
+		return $this->query('API');
+	}
+
+	/**
+	 * @return \OCP\Core\IServerContainer
+	 */
+	function getServer()
+	{
+		return $this->query('ServerContainer');
+	}
 }

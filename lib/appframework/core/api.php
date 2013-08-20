@@ -23,6 +23,7 @@
 
 
 namespace OC\AppFramework\Core;
+use OCP\AppFramework\IApi;
 
 
 /**
@@ -32,7 +33,7 @@ namespace OC\AppFramework\Core;
  * Should you find yourself in need for more methods, simply inherit from this
  * class and add your methods
  */
-class API {
+class API implements IApi{
 
 	private $appName;
 

@@ -25,6 +25,7 @@
 namespace OC\AppFramework;
 
 use OC\AppFramework\DependencyInjection\DIContainer;
+use OCP\AppFramework\IAppContainer;
 
 
 /**
@@ -45,7 +46,7 @@ class App {
 	 * @param DIContainer $container an instance of a pimple container.
 	 */
 	public static function main($controllerName, $methodName, array $urlParams,
-								DIContainer $container) {
+	                            IAppContainer $container) {
 		$container['urlParams'] = $urlParams;
 		$controller = $container[$controllerName];
 
