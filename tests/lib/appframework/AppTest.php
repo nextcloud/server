@@ -46,7 +46,7 @@ class AppTest extends \PHPUnit_Framework_TestCase {
 	private $controllerMethod;
 
 	protected function setUp() {
-		$this->container = new \Pimple();
+		$this->container = new \OC\AppFramework\DependencyInjection\DIContainer('test');
 		$this->controller = $this->getMockBuilder(
 			'OC\AppFramework\Controller\Controller')
 			->disableOriginalConstructor()
