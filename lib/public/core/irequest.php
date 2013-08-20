@@ -32,7 +32,7 @@ interface IRequest {
 
 	/**
 	 * Returns all params that were received, be it from the request
-	 * (as GET or POST) or throuh the URL by the route
+	 * (as GET or POST) or through the URL by the route
 	 * @return array the array with all parameters
 	 */
 	public function getParams();
