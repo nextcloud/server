@@ -28,7 +28,7 @@ namespace OC\AppFramework\Http;
 /**
  * Prompts the user to download the a file
  */
-abstract class DownloadResponse extends Response {
+class DownloadResponse extends \OCP\AppFramework\Http\Response {
 
 	private $filename;
 	private $contentType;

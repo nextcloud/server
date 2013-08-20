@@ -27,12 +27,12 @@ namespace OC\AppFramework\Middleware\Security;
 use OC\AppFramework\Controller\Controller;
 use OC\AppFramework\Http\Http;
 use OC\AppFramework\Http\Request;
-use OC\AppFramework\Http\Response;
-use OC\AppFramework\Http\JSONResponse;
 use OC\AppFramework\Http\RedirectResponse;
 use OC\AppFramework\Utility\MethodAnnotationReader;
 use OC\AppFramework\Middleware\Middleware;
 use OC\AppFramework\Core\API;
+use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http\JSONResponse;
 
 
 /**

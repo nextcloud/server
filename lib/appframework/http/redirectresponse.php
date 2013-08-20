@@ -24,6 +24,8 @@
 
 namespace OC\AppFramework\Http;
 
+use OCP\AppFramework\Http\Response;
+
 
 /**
  * Redirects to a different URL

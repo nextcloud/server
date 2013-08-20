@@ -24,9 +24,9 @@
 
 namespace OC\AppFramework\Controller;
 
-use OC\AppFramework\Http\TemplateResponse;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Core\API;
+use OCP\AppFramework\Http\TemplateResponse;
 
 
 /**
@@ -133,7 +133,7 @@ abstract class Controller {
 	 * @param string $renderAs user renders a full page, blank only your template
 	 *                          admin an entry in the admin settings
 	 * @param array $headers set additional headers in name/value pairs
-	 * @return \OC\AppFramework\Http\TemplateResponse containing the page
+	 * @return \OCP\AppFramework\Http\TemplateResponse containing the page
 	 */
 	public function render($templateName, array $params=array(),
 							$renderAs='user', array $headers=array()){

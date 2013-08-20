@@ -74,6 +74,9 @@ class Dispatcher {
 		} catch(\Exception $exception){
 			$response = $this->middlewareDispatcher->afterException(
 				$controller, $methodName, $exception);
+			if (is_null($response)) {
+				throw $exception;
+			}
 		}
 
 		$response = $this->middlewareDispatcher->afterController(

@@ -24,7 +24,7 @@
 
 namespace OC\AppFramework\Middleware;
 
-use OC\AppFramework\Http\Response;
+use OCP\AppFramework\Http\Response;
 
 
 /**
