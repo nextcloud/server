@@ -63,9 +63,7 @@ abstract class Controller {
 	 * @return mixed the content of the array
 	 */
 	public function params($key, $default=null){
-		return isset($this->request->parameters[$key])
-			? $this->request->parameters[$key]
-			: $default;
+		return $this->request->getParam($key, $default);
 	}
 
 
@@ -75,7 +73,7 @@ abstract class Controller {
 	 * @return array the array with all parameters
 	 */
 	public function getParams() {
-		return $this->request->parameters;
+		return $this->request->getParams();
 	}
 
 
@@ -84,7 +82,7 @@ abstract class Controller {
 	 * @return string the method of the request (POST, GET, etc)
 	 */
 	public function method() {
-		return $this->request->method;
+		return $this->request->getMethod();
 	}
 
 
@@ -94,7 +92,7 @@ abstract class Controller {
 	 * @return array the file in the $_FILES element
 	 */
 	public function getUploadedFile($key) {
-		return isset($this->request->files[$key]) ? $this->request->files[$key] : null;
+		return $this->request->getUploadedFile($key);
 	}
 
 
@@ -104,7 +102,7 @@ abstract class Controller {
 	 * @return array the value in the $_ENV element
 	 */
 	public function env($key) {
-		return isset($this->request->env[$key]) ? $this->request->env[$key] : null;
+		return $this->request->getEnv($key);
 	}
 
 
@@ -114,7 +112,7 @@ abstract class Controller {
 	 * @return array the value in the $_SESSION element
 	 */
 	public function session($key) {
-		return isset($this->request->session[$key]) ? $this->request->session[$key] : null;
+		return $this->request->getSession($key);
 	}
 
 
@@ -124,7 +122,7 @@ abstract class Controller {
 	 * @return array the value in the $_COOKIE element
 	 */
 	public function cookie($key) {
-		return isset($this->request->cookies[$key]) ? $this->request->cookies[$key] : null;
+		return $this->request->getCookie($key);
 	}
 
 
