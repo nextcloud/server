@@ -34,7 +34,7 @@ use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Utility\TimeFactory;
 
 // register 3rdparty autoloaders
-require_once __DIR__ . '/../../../../3rdparty/Pimple/Pimple.php';
+require_once __DIR__ . '/../../../3rdparty/Pimple/Pimple.php';
 
 
 /**
