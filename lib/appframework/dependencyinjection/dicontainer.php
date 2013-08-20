@@ -30,19 +30,11 @@ use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Core\API;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
+use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
 
-// register 3rdparty autoloaders
-require_once __DIR__ . '/../../../3rdparty/Pimple/Pimple.php';
 
-
-/**
- * This class extends Pimple (http://pimple.sensiolabs.org/) for reusability
- * To use this class, extend your own container from this. Should you require it
- * you can overwrite the dependencies with your own classes by simply redefining
- * a dependency
- */
-class DIContainer extends \Pimple {
+class DIContainer extends SimpleContainer {
 
 
 	/**
@@ -61,8 +53,14 @@ class DIContainer extends \Pimple {
 		 * Http
 		 */
 		$this['Request'] = $this->share(function($c) {
-			$params = json_decode(file_get_contents('php://input'), true);
-			$params = is_array($params) ? $params: array();
+
+			$params = array();
+
+			// we json decode the body only in case of content type json
+			if (isset($_SERVER['CONTENT_TYPE']) && stripos($_SERVER['CONTENT_TYPE'],'json') === true ) {
+				$params = json_decode(file_get_contents('php://input'), true);
+				$params = is_array($params) ? $params: array();
+			}
 
 			return new Request(
 				array(

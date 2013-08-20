@@ -32,6 +32,15 @@ spl_autoload_register(function ($className){
 		}
 	}
 
+	if (strpos($className, 'OCP\\') === 0) {
+		$path = strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
+		$relPath = __DIR__ . '/../../../lib/public' . $path;
+
+		if(file_exists($relPath)){
+			require_once $relPath;
+		}
+	}
+
 	// FIXME: this will most probably not work anymore
 	if (strpos($className, 'OCA\\') === 0) {
 
