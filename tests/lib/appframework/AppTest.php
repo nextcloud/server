@@ -24,14 +24,6 @@
 
 namespace OC\AppFramework;
 
-use OC\AppFramework\Http\Request;
-use OC\AppFramework\Core\API;
-use OC\AppFramework\Middleware\MiddlewareDispatcher;
-
-// FIXME: loading pimpl correctly from 3rdparty repo
-require_once __DIR__ . '/../../../3rdparty/Pimple/Pimple.php';
-//require_once __DIR__ . "/classloader.php";
-
 
 class AppTest extends \PHPUnit_Framework_TestCase {
 

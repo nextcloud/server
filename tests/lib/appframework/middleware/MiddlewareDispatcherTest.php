@@ -99,6 +99,15 @@ class TestMiddleware extends Middleware {
 
 class MiddlewareDispatcherTest extends \PHPUnit_Framework_TestCase {
 
+	public $exception;
+	public $response;
+	private $out;
+	private $method;
+	private $controller;
+
+	/**
+	 * @var MiddlewareDispatcher
+	 */
 	private $dispatcher;
 
 
@@ -107,7 +116,7 @@ class MiddlewareDispatcherTest extends \PHPUnit_Framework_TestCase {
 		$this->controller = $this->getControllerMock();
 		$this->method = 'method';
 		$this->response = new Response();
-		$this->output = 'hi';
+		$this->out = 'hi';
 		$this->exception = new \Exception();
 	}
 
@@ -202,11 +211,11 @@ class MiddlewareDispatcherTest extends \PHPUnit_Framework_TestCase {
 	public function testBeforeOutputCorrectArguments(){
 		$m1 = $this->getMiddleware();
 
-		$this->dispatcher->beforeOutput($this->controller, $this->method, $this->output);
+		$this->dispatcher->beforeOutput($this->controller, $this->method, $this->out);
 
 		$this->assertEquals($this->controller, $m1->controller);
 		$this->assertEquals($this->method, $m1->methodName);
-		$this->assertEquals($this->output, $m1->output);
+		$this->assertEquals($this->out, $m1->output);
 	}
 
 
@@ -248,7 +257,7 @@ class MiddlewareDispatcherTest extends \PHPUnit_Framework_TestCase {
 		$m1 = $this->getMiddleware();
 		$m2 = $this->getMiddleware();
 
-		$this->dispatcher->beforeOutput($this->controller, $this->method, $this->output);
+		$this->dispatcher->beforeOutput($this->controller, $this->method, $this->out);
 
 		$this->assertEquals(2, $m1->beforeOutputOrder);
 		$this->assertEquals(1, $m2->beforeOutputOrder);
@@ -268,7 +277,7 @@ class MiddlewareDispatcherTest extends \PHPUnit_Framework_TestCase {
 
 		$this->dispatcher->registerMiddleware($m3);
 
-		$this->dispatcher->beforeOutput($this->controller, $this->method, $this->output);
+		$this->dispatcher->beforeOutput($this->controller, $this->method, $this->out);
 
 		$this->assertEquals(2, $m1->beforeOutputOrder);
 		$this->assertEquals(1, $m2->beforeOutputOrder);
