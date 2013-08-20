@@ -29,7 +29,7 @@ use \OC\AppFramework\Middleware\MiddlewareDispatcher;
 
 
 /**
- * Class to dispatch the request to the middleware disptacher
+ * Class to dispatch the request to the middleware dispatcher
  */
 class Dispatcher {
 
@@ -67,11 +67,10 @@ class Dispatcher {
 				$methodName);
 			$response = $controller->$methodName();
 
-
-		// if an exception appears, the middleware checks if it can handle the
-		// exception and creates a response. If no response is created, it is
-		// assumed that theres no middleware who can handle it and the error is
-		// thrown again
+			// if an exception appears, the middleware checks if it can handle the
+			// exception and creates a response. If no response is created, it is
+			// assumed that theres no middleware who can handle it and the error is
+			// thrown again
 		} catch(\Exception $exception){
 			$response = $this->middlewareDispatcher->afterException(
 				$controller, $methodName, $exception);

@@ -30,7 +30,6 @@ namespace OC\AppFramework\Http;
  */
 abstract class DownloadResponse extends Response {
 
-	private $content;
 	private $filename;
 	private $contentType;
 
