@@ -24,14 +24,10 @@
 
 namespace OC\AppFramework;
 
-use OC\AppFramework\Controller\Controller;
 use OC\AppFramework\Http\Request;
-use OC\AppFramework\Http\Response;
 use OC\AppFramework\Middleware\Middleware;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
-
-
-require_once(__DIR__ . "/../classloader.php");
+use OCP\AppFramework\Http\Response;
 
 
 // needed to test ordering

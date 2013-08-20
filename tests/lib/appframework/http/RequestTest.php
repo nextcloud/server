@@ -9,8 +9,6 @@
 namespace OC\AppFramework\Http;
 
 
-require_once(__DIR__ . "/../classloader.php");
-
 class RequestTest extends \PHPUnit_Framework_TestCase {
 
 	public function testRequestAccessors() {

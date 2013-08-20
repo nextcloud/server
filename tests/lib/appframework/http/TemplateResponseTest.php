@@ -24,15 +24,19 @@
 
 namespace OC\AppFramework\Http;
 
-use OC\AppFramework\Core\API;
-
-
-require_once(__DIR__ . "/../classloader.php");
+use OCP\AppFramework\Http\TemplateResponse;
 
 
 class TemplateResponseTest extends \PHPUnit_Framework_TestCase {
 
+	/**
+	 * @var \OCP\AppFramework\Http\TemplateResponse
+	 */
 	private $tpl;
+
+	/**
+	 * @var \OCP\AppFramework\IApi
+	 */
 	private $api;
 
 	protected function setUp() {

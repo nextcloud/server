@@ -28,14 +28,14 @@ use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\Middleware;
 
 
-require_once(__DIR__ . "/../classloader.php");
-
-
 class ChildMiddleware extends Middleware {};
 
 
 class MiddlewareTest extends \PHPUnit_Framework_TestCase {
 
+	/**
+	 * @var Middleware
+	 */
 	private $middleware;
 	private $controller;
 	private $exception;
@@ -50,12 +50,13 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase {
 		$this->controller = $this->getMock('OC\AppFramework\Controller\Controller',
 				array(), array($this->api, new Request()));
 		$this->exception = new \Exception();
-		$this->response = $this->getMock('OC\AppFramework\Http\Response');
+		$this->response = $this->getMock('OCP\AppFramework\Http\Response');
 	}
 
 
 	public function testBeforeController() {
-		$this->middleware->beforeController($this->controller, null, $this->exception);
+		$this->middleware->beforeController($this->controller, null);
+		$this->assertNull(null);
 	}
 
 

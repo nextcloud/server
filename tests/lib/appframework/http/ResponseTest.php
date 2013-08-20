@@ -25,13 +25,14 @@
 namespace OC\AppFramework\Http;
 
 
-require_once(__DIR__ . "/../classloader.php");
-
+use OCP\AppFramework\Http\Response;
 
 
 class ResponseTest extends \PHPUnit_Framework_TestCase {
 
-
+	/**
+	 * @var \OCP\AppFramework\Http\Response
+	 */
 	private $childResponse;
 
 	protected function setUp(){

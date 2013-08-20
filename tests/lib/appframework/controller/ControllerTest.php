@@ -25,12 +25,11 @@
 namespace Test\AppFramework\Controller;
 
 use OC\AppFramework\Http\Request;
-use OC\AppFramework\Http\JSONResponse;
-use OC\AppFramework\Http\TemplateResponse;
 use OC\AppFramework\Controller\Controller;
+use OCP\AppFramework\Http\TemplateResponse;
 
 
-require_once(__DIR__ . "/../classloader.php");
+//require_once __DIR__ . "/../classloader.php";
 
 
 class ChildController extends Controller {};

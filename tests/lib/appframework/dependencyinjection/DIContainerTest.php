@@ -29,7 +29,7 @@ namespace OC\AppFramework\DependencyInjection;
 use \OC\AppFramework\Http\Request;
 
 
-require_once(__DIR__ . "/../classloader.php");
+//require_once(__DIR__ . "/../classloader.php");
 
 
 class DIContainerTest extends \PHPUnit_Framework_TestCase {

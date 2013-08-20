@@ -27,11 +27,7 @@ namespace OC\AppFramework\Middleware\Security;
 use OC\AppFramework\Http\Http;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\RedirectResponse;
-use OC\AppFramework\Http\JSONResponse;
-use OC\AppFramework\Middleware\Middleware;
-
-
-require_once(__DIR__ . "/../../classloader.php");
+use OCP\AppFramework\Http\JSONResponse;
 
 
 class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {

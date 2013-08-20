@@ -5,7 +5,6 @@ namespace OC\AppFramework\Routing;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\routing\RouteConfig;
 
-require_once(__DIR__ . "/../classloader.php");
 
 class RouteConfigTest extends \PHPUnit_Framework_TestCase
 {

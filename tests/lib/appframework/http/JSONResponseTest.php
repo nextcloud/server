@@ -27,7 +27,9 @@
 namespace OC\AppFramework\Http;
 
 
-require_once(__DIR__ . "/../classloader.php");
+use OCP\AppFramework\Http\JSONResponse;
+
+//require_once(__DIR__ . "/../classloader.php");
 
 
 

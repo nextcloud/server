@@ -27,7 +27,7 @@ namespace OC\AppFramework\Http;
 use OC\AppFramework\Core\API;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
 
-require_once(__DIR__ . "/../classloader.php");
+//require_once(__DIR__ . "/../classloader.php");
 
 
 class DispatcherTest extends \PHPUnit_Framework_TestCase {
@@ -69,7 +69,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 			$this->http, $this->middlewareDispatcher);
 		
 		$this->response = $this->getMockBuilder(
-			'\OC\AppFramework\Http\Response')
+			'\OCP\AppFramework\Http\Response')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -207,7 +207,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 		$out = 'yo';
 		$httpHeaders = 'Http';
 		$responseHeaders = array('hell' => 'yeah');
-		$this->setMiddlewareExpections($out, $httpHeaders, $responseHeaders, true, false);		
+		$this->setMiddlewareExpections($out, $httpHeaders, $responseHeaders, true, false);
 
 		$this->setExpectedException('\Exception');
 		$response = $this->dispatcher->dispatch($this->controller, 
