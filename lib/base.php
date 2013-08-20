@@ -84,6 +84,11 @@ class OC {
 	 */
 	public static $loader = null;
 
+	/**
+	 * @var \OC\Server
+	 */
+	public static $server = null;
+
 	public static function initPaths() {
 		// calculate the root directories
 		OC::$SERVERROOT = str_replace("\\", '/', substr(__DIR__, 0, -4));
@@ -360,6 +365,9 @@ class OC {
 		self::$loader->registerPrefix('Sabre_', '3rdparty');
 		self::$loader->registerPrefix('Patchwork', '3rdparty');
 		spl_autoload_register(array(self::$loader, 'load'));
+
+		// setup the basic server
+		self::$server = new \OC\Server();
 
 		// set some stuff
 		//ob_start();
