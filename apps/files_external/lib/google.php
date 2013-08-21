@@ -206,7 +206,7 @@ class Google extends \OC\Files\Storage\Common {
 	public function rmdir($path) {
 		if (trim($path, '/') === '') {
 			$dir = $this->opendir($path);
-			while ($file = readdir($dir)) {
+			while (($file = readdir($dh)) !== false) {
 				if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
 					if (!$this->unlink($path.'/'.$file)) {
 						return false;

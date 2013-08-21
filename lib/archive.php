@@ -121,7 +121,7 @@ abstract class OC_Archive{
 	function addRecursive($path, $source) {
 		if($dh=opendir($source)) {
 			$this->addFolder($path);
-			while($file=readdir($dh)) {
+			while (($file = readdir($dh)) !== false) {
 				if($file=='.' or $file=='..') {
 					continue;
 				}
