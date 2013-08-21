@@ -13,7 +13,6 @@ $TRANSLATIONS = array(
 "Back to Files" => "Itzuli fitxategietara",
 "Selected files too large to generate zip file." => "Hautatuko fitxategiak oso handiak dira zip fitxategia sortzeko.",
 "Download the files in smaller chunks, seperately or kindly ask your administrator." => "Deskargatu fitzategiak zati txikiagoetan, banan-banan edo eskatu mesedez zure administradoreari",
-"couldn't be determined" => "ezin izan da zehaztu",
 "Application is not enabled" => "Aplikazioa ez dago gaituta",
 "Authentication error" => "Autentifikazio errorea",
 "Token expired. Please reload page." => "Tokena iraungitu da. Mesedez birkargatu orria.",

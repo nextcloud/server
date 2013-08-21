@@ -9,7 +9,7 @@ OC.AppConfig={
 	getCall:function(action,data,callback){
 		data.action=action;
 		$.getJSON(OC.AppConfig.url,data,function(result){
-			if(result.status='success'){
+			if(result.status==='success'){
 				if(callback){
 					callback(result.data);
 				}
@@ -19,7 +19,7 @@ OC.AppConfig={
 	postCall:function(action,data,callback){
 		data.action=action;
 		$.post(OC.AppConfig.url,data,function(result){
-			if(result.status='success'){
+			if(result.status==='success'){
 				if(callback){
 					callback(result.data);
 				}

@@ -13,7 +13,7 @@
 			this.originalCss = {
 				display: this.element[0].style.display,
 				width: this.element[0].style.width,
-				height: this.element[0].style.height,
+				height: this.element[0].style.height
 			};
 
 			this.originalTitle = this.element.attr('title');
@@ -152,7 +152,7 @@
 				content_height -= this.$buttonrow.outerHeight(true);
 			}
 			this.parent = this.$dialog.parent().length > 0 ? this.$dialog.parent() : $('body');
-			content_height = Math.min(content_height, this.parent.height()-20)
+			content_height = Math.min(content_height, this.parent.height()-20);
 			this.element.css({
 				height: content_height + 'px',
 				width: this.$dialog.innerWidth()-20 + 'px'
@@ -187,7 +187,7 @@
 			}
 		},
 		widget: function() {
-			return this.$dialog
+			return this.$dialog;
 		},
 		close: function() {
 			this._destroyOverlay();
@@ -200,10 +200,10 @@
 		},
 		destroy: function() {
 			if(this.$title) {
-				this.$title.remove()
+				this.$title.remove();
 			}
 			if(this.$buttonrow) {
-				this.$buttonrow.remove()
+				this.$buttonrow.remove();
 			}
 
 			if(this.originalTitle) {

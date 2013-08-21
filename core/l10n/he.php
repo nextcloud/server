@@ -40,7 +40,6 @@ $TRANSLATIONS = array(
 "last year" => "שנה שעברה",
 "years ago" => "שנים",
 "Choose" => "בחירה",
-"Cancel" => "ביטול",
 "Error loading file picker template" => "שגיאה בטעינת תבנית בחירת הקבצים",
 "Yes" => "כן",
 "No" => "לא",
@@ -126,8 +125,6 @@ $TRANSLATIONS = array(
 "remember" => "שמירת הססמה",
 "Log in" => "כניסה",
 "Alternative Logins" => "כניסות אלטרנטיביות",
-"prev" => "הקודם",
-"next" => "הבא",
 "Updating ownCloud to version %s, this may take a while." => "מעדכן את ownCloud אל גרסא %s, זה עלול לקחת זמן מה."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

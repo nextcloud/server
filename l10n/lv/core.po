@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# stendec <stendec@inbox.lv>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-15 04:47-0400\n"
-"PO-Revision-Date: 2013-08-15 08:48+0000\n"
+"POT-Creation-Date: 2013-08-19 15:06-0400\n"
+"PO-Revision-Date: 2013-08-19 19:06+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +21,7 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s kopīgots »%s« ar jums"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -141,59 +142,59 @@ msgstr "Decembris"
 msgid "Settings"
 msgstr "Iestatījumi"
 
-#: js/js.js:815
+#: js/js.js:812
 msgid "seconds ago"
 msgstr "sekundes atpakaļ"
 
-#: js/js.js:816
+#: js/js.js:813
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Tagad, %n minūtes"
+msgstr[1] "Pirms %n minūtes"
+msgstr[2] "Pirms %n minūtēm"
 
-#: js/js.js:817
+#: js/js.js:814
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Šodien, %n stundas"
+msgstr[1] "Pirms %n stundas"
+msgstr[2] "Pirms %n stundām"
 
-#: js/js.js:818
+#: js/js.js:815
 msgid "today"
 msgstr "šodien"
 
-#: js/js.js:819
+#: js/js.js:816
 msgid "yesterday"
 msgstr "vakar"
 
-#: js/js.js:820
+#: js/js.js:817
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Šodien, %n dienas"
+msgstr[1] "Pirms %n dienas"
+msgstr[2] "Pirms %n dienām"
 
-#: js/js.js:821
+#: js/js.js:818
 msgid "last month"
 msgstr "pagājušajā mēnesī"
 
-#: js/js.js:822
+#: js/js.js:819
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Šomēnes, %n mēneši"
+msgstr[1] "Pirms %n mēneša"
+msgstr[2] "Pirms %n mēnešiem"
 
-#: js/js.js:823
+#: js/js.js:820
 msgid "months ago"
 msgstr "mēnešus atpakaļ"
 
-#: js/js.js:824
+#: js/js.js:821
 msgid "last year"
 msgstr "gājušajā gadā"
 
-#: js/js.js:825
+#: js/js.js:822
 msgid "years ago"
 msgstr "gadus atpakaļ"
 
@@ -201,23 +202,19 @@ msgstr "gadus atpakaļ"
 msgid "Choose"
 msgstr "Izvēlieties"
 
-#: js/oc-dialogs.js:122
-msgid "Cancel"
-msgstr "Atcelt"
-
-#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
 msgid "Error loading file picker template"
-msgstr ""
+msgstr "Kļūda ielādējot datņu ņēmēja veidni"
 
-#: js/oc-dialogs.js:164
+#: js/oc-dialogs.js:160
 msgid "Yes"
 msgstr "Jā"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:168
 msgid "No"
 msgstr "Nē"
 
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:181
 msgid "Ok"
 msgstr "Labi"
 
@@ -288,7 +285,7 @@ msgstr "Parole"
 
 #: js/share.js:198
 msgid "Allow Public Upload"
-msgstr ""
+msgstr "Ļaut publisko augšupielādi."
 
 #: js/share.js:202
 msgid "Email link to person"
@@ -384,7 +381,7 @@ msgstr "Atjaunināšana beidzās sekmīgi. Tagad pārsūta jūs uz ownCloud."
 #: lostpassword/controller.php:61
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "%s paroles maiņa"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -395,11 +392,11 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr ""
+msgstr "Saite uz paroles atjaunošanas vietu ir nosūtīta uz epastu.<br>Ja vēstu nav atnākusi, pārbaudiet epasta mēstuļu mapi.<br>Jā tās tur nav, jautājiet sistēmas administratoram."
 
 #: lostpassword/templates/lostpassword.php:12
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
+msgstr "Pieprasījums neizdevās!<br>Vai Jūs pārliecinājāties ka epasts/lietotājvārds ir pareizi?"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
@@ -416,11 +413,11 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr ""
+msgstr "Jūsu faili ir šifrēti. Ja nav iespējota atgūšanas kods, tad nebūs iespēja atjaunot jūsu failus pēc tam kad tiks mainīta parole. ja neesat pārliecināts kā rīkoties, jautājiet administratoram. Vai tiešam vēlaties turpināt?"
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
-msgstr ""
+msgstr "Jā, Es tiešām vēlos mainīt savu paroli"
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
@@ -479,7 +476,7 @@ msgid ""
 "View it: %s\n"
 "\n"
 "Cheers!"
-msgstr ""
+msgstr "Sveiks,\nTikai daru tev zināmu ka %s dalās %s ar tevi.\nApskati to: %s\n\nJaukiņi Labiņi!"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -496,12 +493,12 @@ msgstr "Brīdinājums par drošību"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "Jūsu PHP ir ievainojamība pret NULL Byte uzbrukumiem (CVE-2006-7243)"
 
 #: templates/installation.php:26
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "Lūdzu atjauniniet PHP instalāciju lai varētu droši izmantot %s."
 
 #: templates/installation.php:32
 msgid ""
@@ -526,7 +523,7 @@ msgstr "Visticamāk, jūsu datu direktorija un datnes ir pieejamas no interneta,
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Vairāk informācijai kā konfigurēt serveri, lūdzu skatiet <a href=\"%s\" target=\"_blank\">dokumentāciju</a>."
 
 #: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
@@ -577,7 +574,7 @@ msgstr "Pabeigt iestatīšanu"
 #: templates/layout.user.php:41
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr ""
+msgstr "%s ir pieejams. Uzziniet vairāk kā atjaunināt."
 
 #: templates/layout.user.php:66
 msgid "Log out"
@@ -585,7 +582,7 @@ msgstr "Izrakstīties"
 
 #: templates/layout.user.php:100
 msgid "More apps"
-msgstr ""
+msgstr "Vairāk programmu"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
@@ -622,15 +619,7 @@ msgstr "Alternatīvās pieteikšanās"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr ""
-
-#: templates/part.pagenavi.php:3
-msgid "prev"
-msgstr "iepriekšējā"
-
-#: templates/part.pagenavi.php:20
-msgid "next"
-msgstr "nākamā"
+msgstr "Sveiks,<br><br>Tikai daru tev zināmu ka %s dalās %s ar tevi.<br><a href=\"%s\">Apskati to!</a><br><br>Jaukiņi Labiņi!"
 
 #: templates/update.php:3
 #, php-format

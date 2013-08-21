@@ -94,6 +94,7 @@ $TRANSLATIONS = array(
 "Language" => "Język",
 "Help translate" => "Pomóż w tłumaczeniu",
 "WebDAV" => "WebDAV",
+"Encryption" => "Szyfrowanie",
 "Login Name" => "Login",
 "Create" => "Utwórz",
 "Admin Recovery Password" => "Odzyskiwanie hasła administratora",

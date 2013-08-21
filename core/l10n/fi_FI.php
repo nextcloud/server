@@ -39,7 +39,6 @@ $TRANSLATIONS = array(
 "last year" => "viime vuonna",
 "years ago" => "vuotta sitten",
 "Choose" => "Valitse",
-"Cancel" => "Peru",
 "Yes" => "Kyllä",
 "No" => "Ei",
 "Ok" => "Ok",
@@ -128,8 +127,6 @@ $TRANSLATIONS = array(
 "Log in" => "Kirjaudu sisään",
 "Alternative Logins" => "Vaihtoehtoiset kirjautumiset",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Hei!<br><br>%s jakoi kohteen »%s« kanssasi.<br><a href=\"%s\">Katso se tästä!</a><br><br>Näkemiin!",
-"prev" => "edellinen",
-"next" => "seuraava",
 "Updating ownCloud to version %s, this may take a while." => "Päivitetään ownCloud versioon %s, tämä saattaa kestää hetken."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

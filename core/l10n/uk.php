@@ -40,7 +40,6 @@ $TRANSLATIONS = array(
 "last year" => "минулого року",
 "years ago" => "роки тому",
 "Choose" => "Обрати",
-"Cancel" => "Відмінити",
 "Yes" => "Так",
 "No" => "Ні",
 "Ok" => "Ok",
@@ -122,8 +121,6 @@ $TRANSLATIONS = array(
 "remember" => "запам'ятати",
 "Log in" => "Вхід",
 "Alternative Logins" => "Альтернативні Логіни",
-"prev" => "попередній",
-"next" => "наступний",
 "Updating ownCloud to version %s, this may take a while." => "Оновлення ownCloud до версії %s, це може зайняти деякий час."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

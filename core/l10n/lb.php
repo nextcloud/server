@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "last year" => "Lescht Joer",
 "years ago" => "Joren hir",
 "Choose" => "Auswielen",
-"Cancel" => "Ofbriechen",
 "Error loading file picker template" => "Feeler beim Luede vun der Virlag fir d'Fichiers-Selektioun",
 "Yes" => "Jo",
 "No" => "Nee",
@@ -132,8 +131,6 @@ $TRANSLATIONS = array(
 "Log in" => "Umellen",
 "Alternative Logins" => "Alternativ Umeldungen",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Hallo,<br><br>ech wëll just Bescheed soen dass den/d' %s,  »%s« mat dir gedeelt huet.<br><a href=\"%s\">Kucken!</a><br><br>E schéine Bonjour!",
-"prev" => "zeréck",
-"next" => "weider",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud gëtt op d'Versioun %s aktualiséiert, dat kéint e Moment daueren."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

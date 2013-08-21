@@ -58,6 +58,7 @@ $TRANSLATIONS = array(
 "Language" => "Tungumál",
 "Help translate" => "Hjálpa við þýðingu",
 "WebDAV" => "WebDAV",
+"Encryption" => "Dulkóðun",
 "Create" => "Búa til",
 "Default Storage" => "Sjálfgefin gagnageymsla",
 "Unlimited" => "Ótakmarkað",

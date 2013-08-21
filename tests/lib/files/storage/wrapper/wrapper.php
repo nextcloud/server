@@ -6,9 +6,9 @@
  * See the COPYING-README file.
  */
 
-namespace Test\Files\Storage;
+namespace Test\Files\Storage\Wrapper;
 
-class Wrapper extends Storage {
+class Wrapper extends \Test\Files\Storage\Storage {
 	/**
 	 * @var string tmpDir
 	 */

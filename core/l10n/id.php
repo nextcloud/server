@@ -40,7 +40,6 @@ $TRANSLATIONS = array(
 "last year" => "tahun kemarin",
 "years ago" => "beberapa tahun lalu",
 "Choose" => "Pilih",
-"Cancel" => "Batal",
 "Yes" => "Ya",
 "No" => "Tidak",
 "Ok" => "Oke",
@@ -122,8 +121,6 @@ $TRANSLATIONS = array(
 "remember" => "selalu masuk",
 "Log in" => "Masuk",
 "Alternative Logins" => "Cara Alternatif untuk Masuk",
-"prev" => "sebelumnya",
-"next" => "selanjutnya",
 "Updating ownCloud to version %s, this may take a while." => "Memperbarui ownCloud ke versi %s, prosesnya akan berlangsung beberapa saat."
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

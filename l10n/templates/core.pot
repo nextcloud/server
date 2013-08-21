@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-08-16 01:29-0400\n"
+"POT-Creation-Date: 2013-08-21 08:11-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -194,27 +194,23 @@ msgstr ""
 msgid "years ago"
 msgstr ""
 
-#: js/oc-dialogs.js:117
+#: js/oc-dialogs.js:123
 msgid "Choose"
 msgstr ""
 
-#: js/oc-dialogs.js:122
-msgid "Cancel"
-msgstr ""
-
-#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+#: js/oc-dialogs.js:143 js/oc-dialogs.js:210
 msgid "Error loading file picker template"
 msgstr ""
 
-#: js/oc-dialogs.js:164
+#: js/oc-dialogs.js:168
 msgid "Yes"
 msgstr ""
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:178
 msgid "No"
 msgstr ""
 
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:195
 msgid "Ok"
 msgstr ""
 
@@ -619,14 +615,6 @@ msgstr ""
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr ""
-
-#: templates/part.pagenavi.php:3
-msgid "prev"
-msgstr ""
-
-#: templates/part.pagenavi.php:20
-msgid "next"
 msgstr ""
 
 #: templates/update.php:3

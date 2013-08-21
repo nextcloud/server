@@ -25,7 +25,7 @@
 			'labels':[],
 			'oncheck':false,
 			'onuncheck':false,
-			'minWidth': 'default;',
+			'minWidth': 'default;'
 		};
 		$(this).attr('data-msid', multiSelectId);
 		$.extend(settings,options);
@@ -200,7 +200,7 @@
 								return false;
 							}
 							var li=$(this).parent();
-							var val = $(this).val()
+							var val = $(this).val();
 							var select=button.parent().next();
 							if(typeof settings.createCallback === 'function') {
 								var response = settings.createCallback(select, val);

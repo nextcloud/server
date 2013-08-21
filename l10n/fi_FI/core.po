@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-16 01:29-0400\n"
-"PO-Revision-Date: 2013-08-15 09:10+0000\n"
-"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"POT-Creation-Date: 2013-08-19 15:06-0400\n"
+"PO-Revision-Date: 2013-08-19 19:06+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -198,23 +198,19 @@ msgstr "vuotta sitten"
 msgid "Choose"
 msgstr "Valitse"
 
-#: js/oc-dialogs.js:122
-msgid "Cancel"
-msgstr "Peru"
-
-#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
 msgid "Error loading file picker template"
 msgstr ""
 
-#: js/oc-dialogs.js:164
+#: js/oc-dialogs.js:160
 msgid "Yes"
 msgstr "Kyllä"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:168
 msgid "No"
 msgstr "Ei"
 
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:181
 msgid "Ok"
 msgstr "Ok"
 
@@ -620,14 +616,6 @@ msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
 msgstr "Hei!<br><br>%s jakoi kohteen »%s« kanssasi.<br><a href=\"%s\">Katso se tästä!</a><br><br>Näkemiin!"
-
-#: templates/part.pagenavi.php:3
-msgid "prev"
-msgstr "edellinen"
-
-#: templates/part.pagenavi.php:20
-msgid "next"
-msgstr "seuraava"
 
 #: templates/update.php:3
 #, php-format

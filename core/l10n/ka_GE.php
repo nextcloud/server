@@ -40,7 +40,6 @@ $TRANSLATIONS = array(
 "last year" => "ბოლო წელს",
 "years ago" => "წლის წინ",
 "Choose" => "არჩევა",
-"Cancel" => "უარყოფა",
 "Yes" => "კი",
 "No" => "არა",
 "Ok" => "დიახ",
@@ -122,8 +121,6 @@ $TRANSLATIONS = array(
 "remember" => "დამახსოვრება",
 "Log in" => "შესვლა",
 "Alternative Logins" => "ალტერნატიული Login–ი",
-"prev" => "წინა",
-"next" => "შემდეგი",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud–ის განახლება %s–ვერსიამდე. ეს მოითხოვს გარკვეულ დროს."
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

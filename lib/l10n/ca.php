@@ -13,7 +13,6 @@ $TRANSLATIONS = array(
 "Back to Files" => "Torna a Fitxers",
 "Selected files too large to generate zip file." => "Els fitxers seleccionats son massa grans per generar un fitxer zip.",
 "Download the files in smaller chunks, seperately or kindly ask your administrator." => "Baixeu els fitxers en trossos petits, de forma separada, o pregunteu a l'administrador.",
-"couldn't be determined" => "no s'ha pogut determinar",
 "Application is not enabled" => "L'aplicació no està habilitada",
 "Authentication error" => "Error d'autenticació",
 "Token expired. Please reload page." => "El testimoni ha expirat. Torneu a carregar la pàgina.",

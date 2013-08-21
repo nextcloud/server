@@ -10,7 +10,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "الملفات بحاجة الى ان يتم تحميلها واحد تلو الاخر",
 "Back to Files" => "العودة الى الملفات",
 "Selected files too large to generate zip file." => "الملفات المحددة كبيرة جدا ليتم ضغطها في ملف zip",
-"couldn't be determined" => "تعذّر تحديده",
 "Application is not enabled" => "التطبيق غير مفعّل",
 "Authentication error" => "لم يتم التأكد من الشخصية بنجاح",
 "Token expired. Please reload page." => "انتهت صلاحية الكلمة , يرجى اعادة تحميل الصفحة",

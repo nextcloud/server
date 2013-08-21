@@ -89,6 +89,7 @@ $TRANSLATIONS = array(
 "Language" => "פה",
 "Help translate" => "עזרה בתרגום",
 "WebDAV" => "WebDAV",
+"Encryption" => "הצפנה",
 "Login Name" => "שם כניסה",
 "Create" => "יצירה",
 "Admin Recovery Password" => "ססמת השחזור של המנהל",

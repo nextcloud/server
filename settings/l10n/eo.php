@@ -68,6 +68,7 @@ $TRANSLATIONS = array(
 "Language" => "Lingvo",
 "Help translate" => "Helpu traduki",
 "WebDAV" => "WebDAV",
+"Encryption" => "Ĉifrado",
 "Create" => "Krei",
 "Default Storage" => "Defaŭlta konservejo",
 "Unlimited" => "Senlima",

@@ -110,6 +110,32 @@ if($_['passwordChangeSupported']) {
 	print_unescaped($form);
 };?>
 
+<?php if($_['enableDecryptAll']): ?>
+<form id="decryptAll">
+	<fieldset class="personalblock">
+		<legend>
+			<?php p( $l->t( 'Encryption' ) ); ?>
+		</legend>
+		<?php p($l->t( "The encryption app is no longer enabled, decrypt all your file" )); ?>
+		<p>
+			<input
+				type="password"
+				name="privateKeyPassword"
+				id="privateKeyPassword" />
+			<label for="privateKeyPassword"><?php p($l->t( "Log-in password" )); ?></label>
+			<br />
+			<button
+				type="button"
+				disabled
+				name="submitDecryptAll"><?php p($l->t( "Decrypt all Files" )); ?>
+			</button>
+			<span class="msg"></span>
+		</p>
+		<br />
+	</fieldset>
+</form>
+<?php endif; ?>
+
 <fieldset class="personalblock">
 	<legend><strong><?php p($l->t('Version'));?></strong></legend>
 	<strong><?php p($theme->getName()); ?></strong> <?php p(OC_Util::getVersionString()); ?><br/>

@@ -44,6 +44,7 @@ $TRANSLATIONS = array(
 "Fill in an email address to enable password recovery" => "கடவுச்சொல் மீள் பெறுவதை இயலுமைப்படுத்துவதற்கு மின்னஞ்சல் முகவரியை இயலுமைப்படுத்துக",
 "Language" => "மொழி",
 "Help translate" => "மொழிபெயர்க்க உதவி",
+"Encryption" => "மறைக்குறியீடு",
 "Create" => "உருவாக்குக",
 "Other" => "மற்றவை",
 "Username" => "பயனாளர் பெயர்"

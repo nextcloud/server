@@ -10,7 +10,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "檔案需要逐一下載。",
 "Back to Files" => "回到檔案列表",
 "Selected files too large to generate zip file." => "選擇的檔案太大以致於無法產生壓縮檔。",
-"couldn't be determined" => "無法判斷",
 "Application is not enabled" => "應用程式未啟用",
 "Authentication error" => "認證錯誤",
 "Token expired. Please reload page." => "Token 過期，請重新整理頁面。",

@@ -10,7 +10,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "Datoteke je mogoče prejeti le posamično.",
 "Back to Files" => "Nazaj na datoteke",
 "Selected files too large to generate zip file." => "Izbrane datoteke so prevelike za ustvarjanje datoteke arhiva zip.",
-"couldn't be determined" => "ni mogoče določiti",
 "Application is not enabled" => "Program ni omogočen",
 "Authentication error" => "Napaka pri overjanju",
 "Token expired. Please reload page." => "Žeton je potekel. Stran je treba ponovno naložiti.",

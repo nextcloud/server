@@ -13,7 +13,6 @@ $TRANSLATIONS = array(
 "Back to Files" => "Wróć do plików",
 "Selected files too large to generate zip file." => "Wybrane pliki są zbyt duże, aby wygenerować plik zip.",
 "Download the files in smaller chunks, seperately or kindly ask your administrator." => "Pobierz pliki w mniejszy kawałkach, oddzielnie lub poproś administratora o zwiększenie limitu.",
-"couldn't be determined" => "nie może zostać znaleziony",
 "Application is not enabled" => "Aplikacja nie jest włączona",
 "Authentication error" => "Błąd uwierzytelniania",
 "Token expired. Please reload page." => "Token wygasł. Proszę ponownie załadować stronę.",

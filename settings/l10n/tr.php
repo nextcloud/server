@@ -101,6 +101,7 @@ $TRANSLATIONS = array(
 "Help translate" => "Çevirilere yardım edin",
 "WebDAV" => "WebDAV",
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => " <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">Dosyalarınıza WebDAV üzerinen erişme </a> için  bu adresi kullanın",
+"Encryption" => "Şifreleme",
 "Login Name" => "Giriş Adı",
 "Create" => "Oluştur",
 "Admin Recovery Password" => "Yönetici kurtarma parolası",

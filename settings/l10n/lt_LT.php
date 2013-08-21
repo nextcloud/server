@@ -65,6 +65,7 @@ $TRANSLATIONS = array(
 "Language" => "Kalba",
 "Help translate" => "Padėkite išversti",
 "WebDAV" => "WebDAV",
+"Encryption" => "Šifravimas",
 "Login Name" => "Vartotojo vardas",
 "Create" => "Sukurti",
 "Unlimited" => "Neribota",

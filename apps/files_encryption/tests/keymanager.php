@@ -223,7 +223,7 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 		\OC_FileProxy::$enabled = true;
 
 		// save file with content
-		$cryptedFile = file_put_contents('crypt:///folder1/subfolder/subsubfolder/' . $filename, $this->dataShort);
+		$cryptedFile = file_put_contents('crypt:///'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1/subfolder/subsubfolder' . $filename, $this->dataShort);
 
 		// test that data was successfully written
 		$this->assertTrue(is_int($cryptedFile));

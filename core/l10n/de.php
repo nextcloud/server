@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "last year" => "Letztes Jahr",
 "years ago" => "Vor Jahren",
 "Choose" => "Auswählen",
-"Cancel" => "Abbrechen",
 "Error loading file picker template" => "Dateiauswahltemplate konnte nicht geladen werden",
 "Yes" => "Ja",
 "No" => "Nein",
@@ -136,8 +135,6 @@ $TRANSLATIONS = array(
 "Log in" => "Einloggen",
 "Alternative Logins" => "Alternative Logins",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Hallo,<br/><br/>wollte dich nur kurz informieren, dass %s gerade %s mit dir geteilt hat.<br/><a href=\"%s\">Schau es dir an.</a><br/><br/>Gruß!",
-"prev" => "Zurück",
-"next" => "Weiter",
 "Updating ownCloud to version %s, this may take a while." => "Aktualisiere ownCloud auf Version %s. Dies könnte eine Weile dauern."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

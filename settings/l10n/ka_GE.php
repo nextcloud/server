@@ -91,6 +91,7 @@ $TRANSLATIONS = array(
 "Language" => "ენა",
 "Help translate" => "თარგმნის დახმარება",
 "WebDAV" => "WebDAV",
+"Encryption" => "ენკრიპცია",
 "Login Name" => "მომხმარებლის სახელი",
 "Create" => "შექმნა",
 "Default Storage" => "საწყისი საცავი",

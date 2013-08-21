@@ -87,6 +87,7 @@ $TRANSLATIONS = array(
 "Help translate" => "Auta kääntämisessä",
 "WebDAV" => "WebDAV",
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "Käytä tätä osoitetta <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">päästäksesi käsiksi tiedostoihisi WebDAVin kautta</a>",
+"Encryption" => "Salaus",
 "Login Name" => "Kirjautumisnimi",
 "Create" => "Luo",
 "Default Storage" => "Oletustallennustila",

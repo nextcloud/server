@@ -40,7 +40,6 @@ $TRANSLATIONS = array(
 "last year" => "작년",
 "years ago" => "년 전",
 "Choose" => "선택",
-"Cancel" => "취소",
 "Yes" => "예",
 "No" => "아니요",
 "Ok" => "승락",
@@ -125,8 +124,6 @@ $TRANSLATIONS = array(
 "remember" => "기억하기",
 "Log in" => "로그인",
 "Alternative Logins" => "대체 ",
-"prev" => "이전",
-"next" => "다음",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud를 버전 %s(으)로 업데이트합니다. 잠시 기다려 주십시오."
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

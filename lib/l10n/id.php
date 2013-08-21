@@ -10,7 +10,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "Berkas harus diunduh satu persatu.",
 "Back to Files" => "Kembali ke Daftar Berkas",
 "Selected files too large to generate zip file." => "Berkas yang dipilih terlalu besar untuk dibuat berkas zip-nya.",
-"couldn't be determined" => "tidak dapat ditentukan",
 "Application is not enabled" => "Aplikasi tidak diaktifkan",
 "Authentication error" => "Galat saat autentikasi",
 "Token expired. Please reload page." => "Token kedaluwarsa. Silakan muat ulang halaman.",

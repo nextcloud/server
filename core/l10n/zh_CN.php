@@ -30,7 +30,7 @@ $TRANSLATIONS = array(
 "December" => "十二月",
 "Settings" => "设置",
 "seconds ago" => "秒前",
-"_%n minute ago_::_%n minutes ago_" => array(""),
+"_%n minute ago_::_%n minutes ago_" => array("%n 分钟前"),
 "_%n hour ago_::_%n hours ago_" => array(""),
 "today" => "今天",
 "yesterday" => "昨天",
@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "last year" => "去年",
 "years ago" => "年前",
 "Choose" => "选择(&C)...",
-"Cancel" => "取消",
 "Error loading file picker template" => "加载文件选择器模板出错",
 "Yes" => "是",
 "No" => "否",
@@ -132,8 +131,6 @@ $TRANSLATIONS = array(
 "Log in" => "登录",
 "Alternative Logins" => "其他登录方式",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "您好，<br><br>%s 向您分享了 »%s«。<br><a href=\"%s\">查看</a>",
-"prev" => "上一页",
-"next" => "下一页",
 "Updating ownCloud to version %s, this may take a while." => "更新 ownCloud 到版本 %s，这可能需要一些时间。"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

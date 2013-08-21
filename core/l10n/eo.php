@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "last year" => "lastajare",
 "years ago" => "jaroj antaŭe",
 "Choose" => "Elekti",
-"Cancel" => "Nuligi",
 "Yes" => "Jes",
 "No" => "Ne",
 "Ok" => "Akcepti",
@@ -126,8 +125,6 @@ $TRANSLATIONS = array(
 "Log in" => "Ensaluti",
 "Alternative Logins" => "Alternativaj ensalutoj",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Saluton:<br /><br />Ni nur sciigas vin, ke %s kunhavigis “%s” kun vi.<br /><a href=\"%s\">Vidu ĝin</a><br /><br />Ĝis!",
-"prev" => "maljena",
-"next" => "jena",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud ĝisdatiĝas al eldono %s, tio ĉi povas daŭri je iom da tempo."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
