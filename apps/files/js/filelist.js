@@ -409,7 +409,7 @@ $(document).ready(function(){
 	var file_upload_start = $('#file_upload_start');
 	
 	file_upload_start.on('fileuploaddrop', function(e, data) {
-		console.log('fileuploaddrop ' +OC.Upload.loadedBytes()+' / '+OC.Upload.totalBytes());
+		OC.Upload.logStatus('fileuploaddrop', e, data);
 		
 		var dropTarget = $(e.originalEvent.target).closest('tr');
 		if(dropTarget && dropTarget.data('type') === 'dir') { // drag&drop upload to folder
@@ -448,7 +448,7 @@ $(document).ready(function(){
 		
 	});
 	file_upload_start.on('fileuploadadd', function(e, data) {
-		console.log('fileuploadadd ' +OC.Upload.loadedBytes()+' / '+OC.Upload.totalBytes());
+		OC.Upload.logStatus('fileuploadadd', e, data);
 
 		// lookup selection for dir
 		var selection = OC.Upload.getSelection(data.originalFiles);
@@ -482,8 +482,11 @@ $(document).ready(function(){
 		}
 		
 	});
+	file_upload_start.on('fileuploadstart', function(e, data) {
+		OC.Upload.logStatus('fileuploadstart', e, data);
+	});
 	file_upload_start.on('fileuploaddone', function(e, data) {
-		console.log('fileuploaddone ' +OC.Upload.loadedBytes()+' / '+OC.Upload.totalBytes());
+		OC.Upload.logStatus('fileuploaddone', e, data);
 		
 		var response;
 		if (typeof data.result === 'string') {
@@ -545,28 +548,58 @@ $(document).ready(function(){
 				});
 			}
 		}
+		
+		//if user pressed cancel hide upload chrome
+		if (! OC.Upload.isProcessing()) {
+			//cleanup uploading to a dir
+			var uploadtext = $('tr .uploadtext');
+			var img = OC.imagePath('core', 'filetypes/folder.png');
+			uploadtext.parents('td.filename').attr('style','background-image:url('+img+')');
+			uploadtext.fadeOut();
+			uploadtext.attr('currentUploads', 0);
+		}
 	});
 	
 	file_upload_start.on('fileuploadalways', function(e, data) {
-		console.log('fileuploadalways ' +OC.Upload.loadedBytes()+' / '+OC.Upload.totalBytes());
+		OC.Upload.logStatus('fileuploadalways', e, data);
 	});
 	file_upload_start.on('fileuploadsend', function(e, data) {
-		console.log('fileuploadsend ' +OC.Upload.loadedBytes()+' / '+OC.Upload.totalBytes());
+		OC.Upload.logStatus('fileuploadsend', e, data);
 		
 		// TODOD add vis
 		//data.context.element = 
 	});
 	file_upload_start.on('fileuploadprogress', function(e, data) {
-		console.log('fileuploadprogress ' +OC.Upload.loadedBytes()+' / '+OC.Upload.totalBytes());
+		OC.Upload.logStatus('fileuploadprogress', e, data);
 	});
 	file_upload_start.on('fileuploadprogressall', function(e, data) {
-		console.log('fileuploadprogressall ' +OC.Upload.loadedBytes()+' / '+OC.Upload.totalBytes());
+		OC.Upload.logStatus('fileuploadprogressall', e, data);
 	});
 	file_upload_start.on('fileuploadstop', function(e, data) {
-		console.log('fileuploadstop ' +OC.Upload.loadedBytes()+' / '+OC.Upload.totalBytes());
+		OC.Upload.logStatus('fileuploadstop', e, data);
+		
+		//if user pressed cancel hide upload chrome
+		if (! OC.Upload.isProcessing()) {
+			//cleanup uploading to a dir
+			var uploadtext = $('tr .uploadtext');
+			var img = OC.imagePath('core', 'filetypes/folder.png');
+			uploadtext.parents('td.filename').attr('style','background-image:url('+img+')');
+			uploadtext.fadeOut();
+			uploadtext.attr('currentUploads', 0);
+		}
 	});
 	file_upload_start.on('fileuploadfail', function(e, data) {
-		console.log('fileuploadfail ' +OC.Upload.loadedBytes()+' / '+OC.Upload.totalBytes());
+		OC.Upload.logStatus('fileuploadfail', e, data);
+		
+		//if user pressed cancel hide upload chrome
+		if (data.errorThrown === 'abort') {
+			//cleanup uploading to a dir
+			var uploadtext = $('tr .uploadtext');
+			var img = OC.imagePath('core', 'filetypes/folder.png');
+			uploadtext.parents('td.filename').attr('style','background-image:url('+img+')');
+			uploadtext.fadeOut();
+			uploadtext.attr('currentUploads', 0);
+		}
 	});
 	/*
 	file_upload_start.on('fileuploadfail', function(e, data) {

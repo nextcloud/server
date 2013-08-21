@@ -1,7 +1,8 @@
 <input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>">
 <?php $totalfiles = 0;
 $totaldirs = 0;
-$totalsize = 0; ?>
+$totalsize = 0;
+$pc = 0; ?>
 <?php foreach($_['files'] as $file):
 	$totalsize += $file['size'];
 	if ($file['type'] === 'dir') {
@@ -17,7 +18,9 @@ $totalsize = 0; ?>
 	$relative_date_color = round((time()-$file['mtime'])/60/60/24*14);
 	if($relative_date_color>160) $relative_date_color = 160;
 	$name = \OCP\Util::encodePath($file['name']);
-	$directory = \OCP\Util::encodePath($file['directory']); ?>
+	$directory = \OCP\Util::encodePath($file['directory']);
+	?>
+	<!--<tr style="position:absolute; width:100%"><td colspan="3" style="display:block;"><div style="width: <?php echo $pc++; ?>%; height: 31px;background-color: green;"/></td></tr>-->
 	<tr data-id="<?php p($file['fileid']); ?>"
 		data-file="<?php p($name);?>"
 		data-type="<?php ($file['type'] == 'dir')?p('dir'):p('file')?>"
@@ -52,12 +55,14 @@ $totalsize = 0; ?>
 		</td>
 		<td class="filesize"
 			style="color:rgb(<?php p($simple_size_color.','.$simple_size_color.','.$simple_size_color) ?>)">
+			<span style="position:relative;">
 				<?php print_unescaped(OCP\human_file_size($file['size'])); ?>
+			</span>
 		</td>
 		<td class="date">
 			<span class="modified"
 				  title="<?php p($file['date']); ?>"
-				  style="color:rgb(<?php p($relative_date_color.','
+				  style="position:relative; color:rgb(<?php p($relative_date_color.','
 												.$relative_date_color.','
 												.$relative_date_color) ?>)">
 				<?php p($relative_modified_date); ?>

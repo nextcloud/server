@@ -1,4 +1,7 @@
 /**
+ * 
+ * use put t ocacnel upload before it starts? use chunked uploads?
+ * 
  * 1. tracking which file to upload next -> upload queue with data elements added whenever add is called
  * 2. tracking progress for each folder individually -> track progress in a progress[dirname] object
  *   - every new selection increases the total size and number of files for a directory
@@ -63,6 +66,7 @@ OC.Upload = {
 	 * @type Array
 	 */
 	_selections: {},
+	_selectionCount: 0,
 	/*
 	 * queue which progress tracker to use for the next upload
 	 * @type Array
@@ -77,7 +81,7 @@ OC.Upload = {
 	},
 	getSelection:function(originalFiles) {
 		if (!originalFiles.selectionKey) {
-			originalFiles.selectionKey = 'selection-' + $.assocArraySize(this._selections);
+			originalFiles.selectionKey = 'selection-' + this._selectionCount++;
 			this._selections[originalFiles.selectionKey] = {
 				selectionKey:originalFiles.selectionKey,
 				files:{},
@@ -90,22 +94,41 @@ OC.Upload = {
 		}
 		return this._selections[originalFiles.selectionKey];
 	},
+	deleteSelection:function(selectionKey) {
+		if (this._selections[selectionKey]) {
+			jQuery.each(this._selections[selectionKey].uploads, function(i, upload) {
+				upload.abort();
+			});
+			delete this._selections[selectionKey];
+		} else {
+			console.log('OC.Upload: selection ' + selectionKey + ' does not exist');
+		}
+	},
+	deleteSelectionUpload:function(selection, filename) {
+		if(selection.uploads[filename]) {
+			selection.uploads[filename].abort();
+			return true;
+		} else {
+			console.log('OC.Upload: selection ' + selection.selectionKey + ' does not contain upload for ' + filename);
+		}
+		return false;
+	},
 	cancelUpload:function(dir, filename) {
+		var self = this;
 		var deleted = false;
 		jQuery.each(this._selections, function(i, selection) {
 			if (selection.dir === dir && selection.uploads[filename]) {
-				delete selection.uploads[filename];
-				deleted = true;
+				deleted = self.deleteSelectionUpload(selection, filename);
 				return false; // end searching through selections
 			}
 		});
 		return deleted;
 	},
 	cancelUploads:function() {
-		jQuery.each(this._selections,function(i,selection){
-			jQuery.each(selection.uploads, function (j, jqXHR) {
-				delete jqXHR;
-			});
+		console.log('canceling uploads');
+		var self = this;
+		jQuery.each(this._selections,function(i, selection){
+			self.deleteSelection(selection.selectionKey);
 		});
 		this._queue = [];
 		this._isProcessing = false;
@@ -132,7 +155,7 @@ OC.Upload = {
 		} else {
 			//queue is empty, we are done
 			this._isProcessing = false;
-			//TODO free data
+			OC.Upload.cancelUploads();
 		}
 	},
 	progressBytes: function() {
@@ -158,12 +181,12 @@ OC.Upload = {
 		});
 		return total;
 	},
-	handleExists:function(data) {
-
-	},
 	onCancel:function(data){
-		//TODO cancel all uploads
-		OC.Upload.cancelUploads();
+		//TODO cancel all uploads of this selection
+		
+		var selection = this.getSelection(data.originalFiles);
+		OC.Upload.deleteSelection(selection.selectionKey);
+		//FIXME hide progressbar
 	},
 	onSkip:function(data){
 		var selection = this.getSelection(data.originalFiles);
@@ -171,20 +194,19 @@ OC.Upload = {
 		this.nextUpload();
 	},
 	onReplace:function(data){
-		//TODO overwrite file
 		data.data.append('replace', true);
 		data.submit();
 	},
 	onRename:function(data, newName){
-		//TODO rename file in filelist, stop spinner
 		data.data.append('newname', newName);
 		data.submit();
 	},
-	setAction:function(data, action) {
-		
-	},
-	setDefaultAction:function(action) {
-		
+	logStatus:function(caption, e, data) {
+		console.log(caption+' ' +OC.Upload.loadedBytes()+' / '+OC.Upload.totalBytes());
+		if (data) {
+			console.log(data);
+		}
+		console.log(e);
 	}
 };
 
@@ -195,6 +217,7 @@ $(document).ready(function() {
 		
 		//singleFileUploads is on by default, so the data.files array will always have length 1
 		add: function(e, data) {
+			OC.Upload.logStatus('add', e, data);
 			var that = $(this);
 			
 			// lookup selection for dir
@@ -267,14 +290,17 @@ $(document).ready(function() {
 		 * @param e
 		 */
 		start: function(e) {
+			OC.Upload.logStatus('start', e, null);
 			//IE < 10 does not fire the necessary events for the progress bar.
 			if($('html.lte9').length > 0) {
 				return true;
 			}
+			$('#uploadprogresswrapper input.stop').show();
 			$('#uploadprogressbar').progressbar({value:0});
 			$('#uploadprogressbar').fadeIn();
 		},
 		fail: function(e, data) {
+			OC.Upload.logStatus('fail', e, data);
 			if (typeof data.textStatus !== 'undefined' && data.textStatus !== 'success' ) {
 				if (data.textStatus === 'abort') {
 					$('#notification').text(t('files', 'Upload cancelled.'));
@@ -289,12 +315,26 @@ $(document).ready(function() {
 				}, 5000);
 			}
 			var selection = OC.Upload.getSelection(data.originalFiles);
-			delete selection.uploads[data.files[0]];
+			OC.Upload.deleteSelectionUpload(selection, data.files[0].name);
+			
+			//if user pressed cancel hide upload progress bar and cancel button
+			if (data.errorThrown === 'abort') {
+				$('#uploadprogresswrapper input.stop').fadeOut();
+				$('#uploadprogressbar').fadeOut();
+			}
 		},
 		progress: function(e, data) {
+			OC.Upload.logStatus('progress', e, data);
 			// TODO: show nice progress bar in file row
 		},
+		/**
+		 * 
+		 * @param {type} e
+		 * @param {type} data (only has loaded, total and lengthComputable)
+		 * @returns {unresolved}
+		 */
 		progressall: function(e, data) {
+			OC.Upload.logStatus('progressall', e, data);
 			//IE < 10 does not fire the necessary events for the progress bar.
 			if($('html.lte9').length > 0) {
 				return;
@@ -309,6 +349,7 @@ $(document).ready(function() {
 		 * @param data
 		 */
 		done:function(e, data) {
+			OC.Upload.logStatus('done', e, data);
 			// handle different responses (json or body from iframe for ie)
 			var response;
 			if (typeof data.result === 'string') {
@@ -323,7 +364,9 @@ $(document).ready(function() {
 			if(typeof result[0] !== 'undefined'
 				&& result[0].status === 'success'
 			) {
-				selection.loadedBytes+=data.loaded;
+				if (selection) {
+					selection.loadedBytes+=data.loaded;
+				}
 				OC.Upload.nextUpload();
 			} else {
 				if (result[0].status === 'existserror') {
@@ -333,12 +376,18 @@ $(document).ready(function() {
 					var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
 					OC.dialogs.fileexists(data, original, replacement, OC.Upload, fu);
 				} else {
-					delete selection.uploads[data.files[0]];
+					OC.Upload.deleteSelectionUpload(selection, data.files[0].name);
 					data.textStatus = 'servererror';
 					data.errorThrown = t('files', result.data.message);
 					var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
 					fu._trigger('fail', e, data);
 				}
+			}
+			
+			//if user pressed cancel hide upload chrome
+			if (! OC.Upload.isProcessing()) {
+				$('#uploadprogresswrapper input.stop').fadeOut();
+				$('#uploadprogressbar').fadeOut();
 			}
 
 		},
@@ -348,7 +397,10 @@ $(document).ready(function() {
 		 * @param data
 		 */
 		stop: function(e, data) {
-			if(OC.Upload.progressBytes()>=100) {
+			OC.Upload.logStatus('stop', e, data);
+			if(OC.Upload.progressBytes()>=100) { //only hide controls when all selections have ended uploading
+				
+				OC.Upload.cancelUploads(); //cleanup
 
 				if(data.dataType !== 'iframe') {
 					$('#uploadprogresswrapper input.stop').hide();
@@ -360,6 +412,11 @@ $(document).ready(function() {
 				}
 
 				$('#uploadprogressbar').progressbar('value', 100);
+				$('#uploadprogressbar').fadeOut();
+			}
+			//if user pressed cancel hide upload chrome
+			if (! OC.Upload.isProcessing()) {
+				$('#uploadprogresswrapper input.stop').fadeOut();
 				$('#uploadprogressbar').fadeOut();
 			}
 		}
@@ -384,8 +441,8 @@ $(document).ready(function() {
 	};
 
 	// warn user not to leave the page while upload is in progress
-	$(window).bind('beforeunload', function(e) {
-		if ($.assocArraySize(uploadingFiles) > 0) {
+	$(window).on('beforeunload', function(e) {
+		if (OC.Upload.isProcessing()) {
 			return t('files', 'File upload is in progress. Leaving the page now will cancel the upload.');
 		}
 	});
