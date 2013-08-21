@@ -33,7 +33,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 					if ($shareType === OCP\Share::SHARE_TYPE_LINK && $shareWith == '') {
 						$shareWith = null;
 					}
-					
+
 					$token = OCP\Share::shareItem(
 						$_POST['itemType'],
 						$_POST['itemSource'],
@@ -41,7 +41,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 						$shareWith,
 						$_POST['permissions']
 					);
-					
+
 					if (is_string($token)) {
 						OC_JSON::success(array('data' => array('token' => $token)));
 					} else {
