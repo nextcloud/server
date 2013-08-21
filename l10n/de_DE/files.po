@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-21 08:10-0400\n"
+"PO-Revision-Date: 2013-08-20 06:50+0000\n"
+"Last-Translator: traductor <transifex-2.7.mensaje@spamgourmet.com>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -107,15 +107,15 @@ msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Dateiupload läuft. Wenn Sie die Seite jetzt verlassen, wird der Upload abgebrochen."
 
-#: js/file-upload.js:233 js/files.js:353
+#: js/file-upload.js:234 js/files.js:353
 msgid "URL cannot be empty."
 msgstr "Die URL darf nicht leer sein."
 
-#: js/file-upload.js:238 lib/app.php:53
+#: js/file-upload.js:239 lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
 msgstr "Ungültiger Ordnername. Die Verwendung von \"Shared\" ist ownCloud vorbehalten."
 
-#: js/file-upload.js:269 js/file-upload.js:285 js/files.js:389 js/files.js:405
+#: js/file-upload.js:270 js/file-upload.js:286 js/files.js:389 js/files.js:405
 #: js/files.js:709 js/files.js:747
 msgid "Error"
 msgstr "Fehler"
@@ -196,7 +196,7 @@ msgstr "Ihr Speicher ist fast voll ({usedSpacePercent}%)"
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
-msgstr ""
+msgstr "Die Verschlüsselung wurde deaktiviert, jedoch sind Ihre Dateien nach wie vor verschlüsselt. Bitte gehen Sie zu Ihren persönlichen Einstellungen, um Ihre Dateien zu entschlüsseln."
 
 #: js/files.js:245
 msgid ""

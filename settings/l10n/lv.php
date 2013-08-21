@@ -102,6 +102,7 @@ $TRANSLATIONS = array(
 "Help translate" => "Palīdzi tulkot",
 "WebDAV" => "WebDAV",
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "Lietojiet šo adresi <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">lai piekļūtu saviem failiem ar WebDAV</a>",
+"Encryption" => "Šifrēšana",
 "Login Name" => "Ierakstīšanās vārds",
 "Create" => "Izveidot",
 "Admin Recovery Password" => "Administratora atgūšanas parole",

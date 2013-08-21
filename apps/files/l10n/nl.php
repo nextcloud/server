@@ -39,6 +39,7 @@ $TRANSLATIONS = array(
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Onjuiste naam; '\\', '/', '<', '>', ':', '\"', '|', '?' en '*' zijn niet toegestaan.",
 "Your storage is full, files can not be updated or synced anymore!" => "Uw opslagruimte zit vol, Bestanden kunnen niet meer worden ge-upload of gesynchroniseerd!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Uw opslagruimte zit bijna vol ({usedSpacePercent}%)",
+"Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Encryptie is uitgeschakeld maar uw bestanden zijn nog steeds versleuteld. Ga naar uw persoonlijke instellingen om uw bestanden te decoderen.",
 "Your download is being prepared. This might take some time if the files are big." => "Uw download wordt voorbereid. Dit kan enige tijd duren bij grote bestanden.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Ongeldige mapnaam. Gebruik van'Gedeeld' is voorbehouden aan Owncloud",
 "Name" => "Naam",

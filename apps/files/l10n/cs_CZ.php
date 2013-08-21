@@ -39,6 +39,7 @@ $TRANSLATIONS = array(
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Neplatný název, znaky '\\', '/', '<', '>', ':', '\"', '|', '?' a '*' nejsou povoleny.",
 "Your storage is full, files can not be updated or synced anymore!" => "Vaše úložiště je plné, nelze aktualizovat ani synchronizovat soubory.",
 "Your storage is almost full ({usedSpacePercent}%)" => "Vaše úložiště je téměř plné ({usedSpacePercent}%)",
+"Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Šifrování bylo zrušeno, soubory jsou však stále zašifrované. Běžte prosím do osobního nastavení, kde si složky odšifrujete.",
 "Your download is being prepared. This might take some time if the files are big." => "Vaše soubory ke stažení se připravují. Pokud jsou velké, může to chvíli trvat.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Neplatný název složky. Pojmenování 'Shared' je rezervováno pro vnitřní potřeby ownCloud",
 "Name" => "Název",

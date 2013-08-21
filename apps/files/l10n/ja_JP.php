@@ -39,6 +39,7 @@ $TRANSLATIONS = array(
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "無効な名前、'\\', '/', '<', '>', ':', '\"', '|', '?', '*' は使用できません。",
 "Your storage is full, files can not be updated or synced anymore!" => "あなたのストレージは一杯です。ファイルの更新と同期はもうできません！",
 "Your storage is almost full ({usedSpacePercent}%)" => "あなたのストレージはほぼ一杯です（{usedSpacePercent}%）",
+"Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "暗号化の機能は無効化されましたが、ファイルはすでに暗号化されています。個人設定からファイルを複合を行ってください。",
 "Your download is being prepared. This might take some time if the files are big." => "ダウンロードの準備中です。ファイルサイズが大きい場合は少し時間がかかるかもしれません。",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "無効なフォルダ名です。'Shared' の利用は ownCloud が予約済みです。",
 "Name" => "名前",

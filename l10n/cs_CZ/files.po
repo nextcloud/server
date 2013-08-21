@@ -4,15 +4,16 @@
 # 
 # Translators:
 # Honza K. <honza889@gmail.com>, 2013
+# cvanca <mrs.jenkins.oh.yeah@gmail.com>, 2013
 # pstast <petr@stastny.eu>, 2013
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-21 08:10-0400\n"
+"PO-Revision-Date: 2013-08-20 15:51+0000\n"
+"Last-Translator: cvanca <mrs.jenkins.oh.yeah@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -102,15 +103,15 @@ msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Probíhá odesílání souboru. Opuštění stránky způsobí zrušení nahrávání."
 
-#: js/file-upload.js:233 js/files.js:353
+#: js/file-upload.js:234 js/files.js:353
 msgid "URL cannot be empty."
 msgstr "URL nemůže být prázdná."
 
-#: js/file-upload.js:238 lib/app.php:53
+#: js/file-upload.js:239 lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
 msgstr "Název složky nelze použít. Použití názvu 'Shared' je ownCloudem rezervováno"
 
-#: js/file-upload.js:269 js/file-upload.js:285 js/files.js:389 js/files.js:405
+#: js/file-upload.js:270 js/file-upload.js:286 js/files.js:389 js/files.js:405
 #: js/files.js:709 js/files.js:747
 msgid "Error"
 msgstr "Chyba"
@@ -192,7 +193,7 @@ msgstr "Vaše úložiště je téměř plné ({usedSpacePercent}%)"
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
-msgstr ""
+msgstr "Šifrování bylo zrušeno, soubory jsou však stále zašifrované. Běžte prosím do osobního nastavení, kde si složky odšifrujete."
 
 #: js/files.js:245
 msgid ""

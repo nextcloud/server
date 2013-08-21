@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:07+0000\n"
+"POT-Creation-Date: 2013-08-21 08:11-0400\n"
+"PO-Revision-Date: 2013-08-19 19:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Switzerland) (http://www.transifex.com/projects/p/owncloud/language/de_CH/)\n"
 "MIME-Version: 1.0\n"
@@ -152,27 +152,27 @@ msgstr "Der Benutzer konnte nicht entfernt werden."
 msgid "Groups"
 msgstr "Gruppen"
 
-#: js/users.js:95 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "Gruppenadministrator"
 
-#: js/users.js:115 templates/users.php:164
+#: js/users.js:120 templates/users.php:164
 msgid "Delete"
 msgstr "Löschen"
 
-#: js/users.js:269
+#: js/users.js:277
 msgid "add group"
 msgstr "Gruppe hinzufügen"
 
-#: js/users.js:428
+#: js/users.js:436
 msgid "A valid username must be provided"
 msgstr "Es muss ein gültiger Benutzername angegeben werden"
 
-#: js/users.js:429 js/users.js:435 js/users.js:450
+#: js/users.js:437 js/users.js:443 js/users.js:458
 msgid "Error creating user"
 msgstr "Beim Erstellen des Benutzers ist ein Fehler aufgetreten"
 
-#: js/users.js:434
+#: js/users.js:442
 msgid "A valid password must be provided"
 msgstr "Es muss ein gültiges Passwort angegeben werden"
 
@@ -478,7 +478,7 @@ msgstr "Verwenden Sie diese Adresse, um <a href=\"%s/server/5.0/user_manual/file
 
 #: templates/personal.php:117
 msgid "Encryption"
-msgstr ""
+msgstr "Verschlüsselung"
 
 #: templates/personal.php:119
 msgid "The encryption app is no longer enabled, decrypt all your file"

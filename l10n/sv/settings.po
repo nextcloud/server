@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:10+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-21 08:11-0400\n"
+"PO-Revision-Date: 2013-08-19 20:40+0000\n"
+"Last-Translator: medialabs\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -128,7 +128,7 @@ msgstr "Uppdaterad"
 
 #: js/personal.js:150
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "Dekrypterar filer... Vänligen vänta, detta kan ta en stund."
 
 #: js/personal.js:172
 msgid "Saving..."
@@ -151,27 +151,27 @@ msgstr "Kan inte ta bort användare"
 msgid "Groups"
 msgstr "Grupper"
 
-#: js/users.js:95 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "Gruppadministratör"
 
-#: js/users.js:115 templates/users.php:164
+#: js/users.js:120 templates/users.php:164
 msgid "Delete"
 msgstr "Radera"
 
-#: js/users.js:269
+#: js/users.js:277
 msgid "add group"
 msgstr "lägg till grupp"
 
-#: js/users.js:428
+#: js/users.js:436
 msgid "A valid username must be provided"
 msgstr "Ett giltigt användarnamn måste anges"
 
-#: js/users.js:429 js/users.js:435 js/users.js:450
+#: js/users.js:437 js/users.js:443 js/users.js:458
 msgid "Error creating user"
 msgstr "Fel vid skapande av användare"
 
-#: js/users.js:434
+#: js/users.js:442
 msgid "A valid password must be provided"
 msgstr "Ett giltigt lösenord måste anges"
 
@@ -481,15 +481,15 @@ msgstr "Kryptering"
 
 #: templates/personal.php:119
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr ""
+msgstr "Appen för kryptering är inte längre aktiverad, dekryptera alla dina filer"
 
 #: templates/personal.php:125
 msgid "Log-in password"
-msgstr ""
+msgstr "Inloggningslösenord"
 
 #: templates/personal.php:130
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Dekryptera alla filer"
 
 #: templates/users.php:21
 msgid "Login Name"
