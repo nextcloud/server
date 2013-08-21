@@ -65,7 +65,7 @@ class MappedLocal extends \OC\Files\Storage\Common{
 
 		$logicalPath = $this->mapper->physicalToLogic($physicalPath);
 		$dh = opendir($physicalPath);
-		while ($file = readdir($dh)) {
+		while (($file = readdir($dh)) !== false) {
 			if ($file === '.' or $file === '..') {
 				continue;
 			}
