@@ -20,14 +20,14 @@
  *
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../lib/base.php');
-require_once realpath(dirname(__FILE__) . '/../lib/crypt.php');
-require_once realpath(dirname(__FILE__) . '/../lib/keymanager.php');
-require_once realpath(dirname(__FILE__) . '/../lib/proxy.php');
-require_once realpath(dirname(__FILE__) . '/../lib/stream.php');
-require_once realpath(dirname(__FILE__) . '/../lib/util.php');
-require_once realpath(dirname(__FILE__) . '/../appinfo/app.php');
-require_once realpath(dirname(__FILE__) . '/util.php');
+require_once dirname(__FILE__) . '/../../../lib/base.php';
+require_once dirname(__FILE__) . '/../lib/crypt.php';
+require_once dirname(__FILE__) . '/../lib/keymanager.php';
+require_once dirname(__FILE__) . '/../lib/proxy.php';
+require_once dirname(__FILE__) . '/../lib/stream.php';
+require_once dirname(__FILE__) . '/../lib/util.php';
+require_once dirname(__FILE__) . '/../appinfo/app.php';
+require_once dirname(__FILE__) . '/util.php';
 
 use OCA\Encryption;
 
