@@ -228,7 +228,7 @@ class OC_Util {
 			$webServerRestart = true;
 		}
 
-		//common hint for all file permissons error messages
+		//common hint for all file permissions error messages
 		$permissionsHint = 'Permissions can usually be fixed by '
 			.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html'
 			.'#set-the-directory-permissions" target="_blank">giving the webserver write access to the root directory</a>.';
@@ -560,9 +560,9 @@ class OC_Util {
 	 * @see OC_Util::callRegister()
 	 * @see OC_Util::isCallRegistered()
 	 * @description
-	 * Also required for the client side to compute the piont in time when to
+	 * Also required for the client side to compute the point in time when to
 	 * request a fresh token. The client will do so when nearly 97% of the
-	 * timespan coded here has expired.
+	 * time span coded here has expired.
 	 */
 	public static $callLifespan = 3600; // 3600 secs = 1 hour
 
@@ -640,14 +640,15 @@ class OC_Util {
 	 * This function is used to sanitize HTML and should be applied on any
 	 * string or array of strings before displaying it on a web page.
 	 *
-	 * @param string or array of strings
+	 * @param string|array of strings
 	 * @return array with sanitized strings or a single sanitized string, depends on the input parameter.
 	 */
 	public static function sanitizeHTML( &$value ) {
 		if (is_array($value)) {
 			array_walk_recursive($value, 'OC_Util::sanitizeHTML');
 		} else {
-			$value = htmlentities((string)$value, ENT_QUOTES, 'UTF-8'); //Specify encoding for PHP<5.4
+			//Specify encoding for PHP<5.4
+			$value = htmlentities((string)$value, ENT_QUOTES, 'UTF-8');
 		}
 		return $value;
 	}
@@ -756,7 +757,7 @@ class OC_Util {
 	}
 
 	/**
-	 * Check if the setlocal call doesn't work. This can happen if the right
+	 * Check if the setlocal call does not work. This can happen if the right
 	 * local packages are not available on the server.
 	 * @return bool
 	 */
@@ -828,8 +829,8 @@ class OC_Util {
 
 
 	/**
-	 * @brief Generates a cryptographical secure pseudorandom string
-	 * @param Int with the length of the random string
+	 * @brief Generates a cryptographic secure pseudo-random string
+	 * @param Int $length of the random string
 	 * @return String
 	 * Please also update secureRNGAvailable if you change something here
 	 */
@@ -970,7 +971,7 @@ class OC_Util {
 	/**
 	 * @brief Clear the opcode cache if one exists
 	 * This is necessary for writing to the config file
-	 * in case the opcode cache doesn't revalidate files
+	 * in case the opcode cache does not re-validate files
 	 * @return void
 	 */
 	public static function clearOpcodeCache() {
