@@ -61,6 +61,7 @@ interface ILDAPWrapper {
 	 * @param $link LDAP link resource
 	 * @param $result LDAP result resource
 	 * @param $cookie structure sent by LDAP server
+	 * @return true on success, false otherwise
 	 *
 	 * Corresponds to ldap_control_paged_result_response
 	 */
