@@ -67,12 +67,12 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->pass = \Test_Encryption_Crypt::TEST_ENCRYPTION_CRYPT_USER1;
 
 		// set content for encrypting / decrypting in tests
-		$this->dataLong = file_get_contents(realpath(dirname(__FILE__) . '/../lib/crypt.php'));
+		$this->dataLong = file_get_contents(dirname(__FILE__) . '/../lib/crypt.php');
 		$this->dataShort = 'hats';
-		$this->dataUrl = realpath(dirname(__FILE__) . '/../lib/crypt.php');
-		$this->legacyData = realpath(dirname(__FILE__) . '/legacy-text.txt');
-		$this->legacyEncryptedData = realpath(dirname(__FILE__) . '/legacy-encrypted-text.txt');
-		$this->legacyEncryptedDataKey = realpath(dirname(__FILE__) . '/encryption.key');
+		$this->dataUrl = dirname(__FILE__) . '/../lib/crypt.php';
+		$this->legacyData = dirname(__FILE__) . '/legacy-text.txt';
+		$this->legacyEncryptedData = dirname(__FILE__) . '/legacy-encrypted-text.txt';
+		$this->legacyEncryptedDataKey = dirname(__FILE__) . '/encryption.key';
 		$this->randomKey = Encryption\Crypt::generateKey();
 
 		$keypair = Encryption\Crypt::createKeypair();
