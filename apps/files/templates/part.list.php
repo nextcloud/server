@@ -26,7 +26,7 @@ $totalsize = 0; ?>
 		data-mime="<?php p($file['mimetype'])?>"
 		data-size="<?php p($file['size']);?>"
 		data-permissions="<?php p($file['permissions']); ?>">
-		<?php if(\OCP\Preview::isMimeSupported($file['mimetype'])): ?>
+		<?php if($file['isPreviewAvailable']): ?>
 		<td class="filename svg preview-icon"
 		<?php else: ?>
 		<td class="filename svg"
@@ -38,13 +38,13 @@ $totalsize = 0; ?>
 				<?php
 				$relativePath = substr($relativePath, strlen($_['sharingroot']));
 				?>
-				<?php if(\OCP\Preview::isMimeSupported($file['mimetype'])): ?>
+				<?php if($file['isPreviewAvailable']): ?>
 				style="background-image:url(<?php print_unescaped(OCP\publicPreview_icon($relativePath, $_['sharingtoken'])); ?>)"
 				<?php else: ?>
 				style="background-image:url(<?php print_unescaped(OCP\mimetype_icon($file['mimetype'])); ?>)"
 				<?php endif; ?>
 			<?php else: ?>
-				<?php if(\OCP\Preview::isMimeSupported($file['mimetype'])): ?>	
+				<?php if($file['isPreviewAvailable']): ?>
 				style="background-image:url(<?php print_unescaped(OCP\preview_icon($relativePath)); ?>)"
 				<?php else: ?>
 				style="background-image:url(<?php print_unescaped(OCP\mimetype_icon($file['mimetype'])); ?>)"

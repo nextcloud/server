@@ -74,6 +74,7 @@ foreach ($content as $i) {
 		}
 	}
 	$i['directory'] = $dir;
+	$i['isPreviewAvailable'] = \OCP\Preview::isMimeSupported($i['mimetype']);
 	$files[] = $i;
 }
 
