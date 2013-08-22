@@ -200,148 +200,221 @@ var OCdialogs = {
 			alert(t('core', 'Error loading message template'));
 		});
 	},
+	_fileexistsshown: false,
 	/**
 	 * Displays file exists dialog
-	 * @param {object} original a file with name, size and mtime
-	 * @param {object} replacement a file with name, size and mtime
-	 * @param {object} controller a controller with onCancel, onSkip, onReplace and onRename methods
+	 * @param {object} data upload object
+	 * @param {object} original file with name, size and mtime
+	 * @param {object} replacement file with name, size and mtime
+	 * @param {object} controller with onCancel, onSkip, onReplace and onRename methods
 	*/
 	fileexists:function(data, original, replacement, controller) {
+		var self = this;
 		var selection = controller.getSelection(data.originalFiles);
 		if (selection.defaultAction) {
 			controller[selection.defaultAction](data);
 		} else {
-			$.when(this._getFileExistsTemplate()).then(function($tmpl) {
-				var dialog_name = 'oc-dialog-fileexists-' + OCdialogs.dialogs_counter + '-content';
-				var dialog_id = '#' + dialog_name;
-				var title = t('files','Replace »{filename}«?',{filename: original.name});
-				var original_size= t('files','Size: {size}',{size: original.size});
-				var original_mtime = t('files','Last changed: {mtime}',{mtime: original.mtime});
-				var replacement_size= t('files','Size: {size}',{size: replacement.size});
-				var replacement_mtime = t('files','Last changed: {mtime}',{mtime: replacement.mtime});
-				var $dlg = $tmpl.octemplate({
-					dialog_name: dialog_name,
-					title: title,
-					type: 'fileexists',
-
-					why: t('files','Another file with the same name already exists in "{dir}".',{dir:'somedir'}),
-					what: t('files','Replacing it will overwrite it\'s contents.'),
-					original_heading: t('files','Original file'),
-					original_size: original_size,
-					original_mtime: original_mtime,
-
-					replacement_heading: t('files','Replace with'),
-					replacement_size: replacement_size,
-					replacement_mtime: replacement_mtime,
-
-					new_name_label: t('files','Choose a new name for the target.'),
-					all_files_label: t('files','Use this action for all files.')
-				});
-				$('body').append($dlg);
-
+			var dialog_name = 'oc-dialog-fileexists-content';
+			var dialog_id = '#' + dialog_name;
+			if (this._fileexistsshown) {
+				// add row
+				var conflict = $(dialog_id+ ' .conflict').last().clone();
+				conflict.find('.name').text(original.name);
+				conflict.find('.original .size').text(humanFileSize(original.size));
+				conflict.find('.original .mtime').text(formatDate(original.mtime*1000));
+				conflict.find('.replacement .size').text(humanFileSize(replacement.size));
+				conflict.find('.replacement .mtime').text(formatDate(replacement.lastModifiedDate));
 				getMimeIcon(original.type,function(path){
-					$(dialog_id + ' .original .icon').css('background-image','url('+path+')');
+					conflict.find('.original .icon').css('background-image','url('+path+')');
 				});
 				getMimeIcon(replacement.type,function(path){
-					$(dialog_id + ' .replacement .icon').css('background-image','url('+path+')');
+					conflict.find('.replacement .icon').css('background-image','url('+path+')');
 				});
-				$(dialog_id + ' #newname').val(original.name);
+				$(dialog_id+' .conflict').last().after(conflict);
+				$(dialog_id).parent().children('.oc-dialog-title').text(t('files','{count} file conflicts',{count:$(dialog_id+ ' .conflict').length}));
+				
+				//set more recent mtime bold
+				if (replacement.lastModifiedDate.getTime() > original.mtime*1000) {
+					conflict.find('.replacement .mtime').css('font-weight', 'bold');
+				} else if (replacement.lastModifiedDate.getTime() < original.mtime*1000) {
+					conflict.find('.original .mtime').css('font-weight', 'bold');
+				} else {
+					//TODO add to same mtime colletion?
+				}
+				
+				// set bigger size bold
+				if (replacement.size > original.size) {
+					conflict.find('.replacement .size').css('font-weight','bold');
+				} else if (replacement.size < original.size) {
+					conflict.find('.original .size').css('font-weight','bold');
+				} else {
+					//TODO add to same size colletion?
+				}
+				
+				//add checkbox toggling actions
+				conflict.find('.replacement,.original').on('click', function(){
+					var checkbox = $(this).find('input[type="checkbox"]');
+					checkbox.prop('checkbox', !checkbox.prop('checkbox'));
+				}).find('input[type="checkbox"]').prop('checkbox',false);
+				
+				//TODO show skip action for files with same size and mtime
+				
+				$(window).trigger('resize');
+			} else {
+				//create dialog
+				this._fileexistsshown = true;
+				$.when(this._getFileExistsTemplate()).then(function($tmpl) {
+					var title = t('files','One file conflict');
+					var original_size = humanFileSize(original.size);
+					var original_mtime = formatDate(original.mtime*1000);
+					var replacement_size= humanFileSize(replacement.size);
+					var replacement_mtime = formatDate(replacement.lastModifiedDate);
+					var $dlg = $tmpl.octemplate({
+						dialog_name: dialog_name,
+						title: title,
+						type: 'fileexists',
 
+						why: t('files','Which files do you want to keep?'),
+						what: t('files','If you select both versions, the copied file will have a number added to its name.'),
+						filename: original.name,
+						
+						original_size: original_size,
+						original_mtime: original_mtime,
 
-				$(dialog_id + ' #newname').on('keyup', function(e){
-					if ($(dialog_id + ' #newname').val() === original.name) {
-						$(dialog_id + ' + div .rename').removeClass('primary').hide();
-						$(dialog_id + ' + div .replace').addClass('primary').show();
-					} else {
-						$(dialog_id + ' + div .rename').addClass('primary').show();
-						$(dialog_id + ' + div .replace').removeClass('primary').hide();
-					}
-				});
+						replacement_size: replacement_size,
+						replacement_mtime: replacement_mtime
+					});
+					$('body').append($dlg);
 
-				buttonlist = [{
-						text: t('core', 'Cancel'),
-						classes: 'cancel',
-						click: function(){
-							if ( typeof controller.onCancel !== 'undefined') {
-								controller.onCancel(data);
-							}
-							$(dialog_id).ocdialog('close');
+					getMimeIcon(original.type,function(path){
+						$(dialog_id + ' .original .icon').css('background-image','url('+path+')');
+					});
+					getMimeIcon(replacement.type,function(path){
+						$(dialog_id + ' .replacement .icon').css('background-image','url('+path+')');
+					});
+					$(dialog_id + ' #newname').val(original.name);
+
+					$(dialog_id + ' #newname').on('keyup', function(e){
+						if ($(dialog_id + ' #newname').val() === original.name) {
+							$(dialog_id + ' + div .rename').removeClass('primary').hide();
+							$(dialog_id + ' + div .replace').addClass('primary').show();
+						} else {
+							$(dialog_id + ' + div .rename').addClass('primary').show();
+							$(dialog_id + ' + div .replace').removeClass('primary').hide();
 						}
-					},
-					{
-						text: t('core', 'Skip'),
-						classes: 'skip',
-						click: function(){
-							if ( typeof controller.onSkip !== 'undefined') {
-								if($(dialog_id + ' #allfiles').prop('checked')){
-									selection.defaultAction = 'onSkip';
-									/*selection.defaultAction = function(){
-										controller.onSkip(data);
-									};*/
+					});
+
+					buttonlist = [{
+							text: t('core', 'Cancel'),
+							classes: 'cancel',
+							click: function(){
+								self._fileexistsshown = false;
+								if ( typeof controller.onCancel !== 'undefined') {
+									controller.onCancel(data);
 								}
-								controller.onSkip(data);
+								$(dialog_id).ocdialog('close');
 							}
-							// trigger fileupload done with status skip
-							//data.result[0].status = 'skip';
-							//fileupload._trigger('done', data.e, data);
-							$(dialog_id).ocdialog('close');
-						}
-					},
-					{
-						text: t('core', 'Replace'),
-						classes: 'replace',
-						click: function(){
-							if ( typeof controller.onReplace !== 'undefined') {
-								if($(dialog_id + ' #allfiles').prop('checked')){
-									selection.defaultAction = 'onReplace';
-									/*selection.defaultAction = function(){
-										controller.onReplace(data);
-									};*/
-								}
-								controller.onReplace(data);
-							}
-							$(dialog_id).ocdialog('close');
 						},
-						defaultButton: true
-					},
-					{
-						text: t('core', 'Rename'),
-						classes: 'rename',
-						click: function(){
-							if ( typeof controller.onRename !== 'undefined') {
-								//TODO use autorename when repeat is checked
-								controller.onRename(data, $(dialog_id + ' #newname').val());
+						{
+							text: t('core', 'Continue'),
+							classes: 'continue',
+							click: function(){
+								self._fileexistsshown = false;
+								if ( typeof controller.onRename !== 'undefined') {
+									//TODO use autorename when repeat is checked
+									controller.onRename(data, $(dialog_id + ' #newname').val());
+								}
+								$(dialog_id).ocdialog('close');
 							}
-							$(dialog_id).ocdialog('close');
+						}];
+
+					$(dialog_id).ocdialog({
+						width: 500,
+						closeOnEscape: true,
+						modal: true,
+						buttons: buttonlist,
+						closeButton: null
+					});
+					
+					$(dialog_id + ' + div .rename').hide();
+					$(dialog_id + ' #newname').hide();
+
+					$(dialog_id + ' #newnamecb').on('change', function(){
+						if ($(dialog_id + ' #newnamecb').prop('checked')) {
+							$(dialog_id + ' #newname').fadeIn();
+						} else {
+							$(dialog_id + ' #newname').fadeOut();
+							$(dialog_id + ' #newname').val(original.name);
 						}
-					}];
+					});
+					$(dialog_id).css('height','auto');
 
-				$(dialog_id).ocdialog({
-					width: 500,
-					closeOnEscape: true,
-					modal: true,
-					buttons: buttonlist,
-					closeButton: null
-				});
-				OCdialogs.dialogs_counter++;
-
-				$(dialog_id + ' + div .rename').hide();
-				$(dialog_id + ' #newname').hide();
-				
-				$(dialog_id + ' #newnamecb').on('change', function(){
-					if ($(dialog_id + ' #newnamecb').prop('checked')) {
-						$(dialog_id + ' #newname').fadeIn();
+					var conflict = $(dialog_id + ' .conflict').last();
+					//set more recent mtime bold
+					if (replacement.lastModifiedDate.getTime() > original.mtime*1000) {
+						conflict.find('.replacement .mtime').css('font-weight','bold');
+					} else if (replacement.lastModifiedDate.getTime() < original.mtime*1000) {
+						conflict.find('.original .mtime').css('font-weight','bold');
 					} else {
-						$(dialog_id + ' #newname').fadeOut();
-						$(dialog_id + ' #newname').val(original.name);
+						//TODO add to same mtime colletion?
 					}
+
+					// set bigger size bold
+					if (replacement.size > original.size) {
+						conflict.find('.replacement .size').css('font-weight','bold');
+					} else if (replacement.size < original.size) {
+						conflict.find('.original .size').css('font-weight','bold');
+					} else {
+						//TODO add to same size colletion?
+					}
+				
+					//add checkbox toggling actions
+					//add checkbox toggling actions
+					$(dialog_id).find('.allnewfiles').on('click', function(){
+						var checkboxes = $(dialog_id).find('.replacement input[type="checkbox"]');
+						checkboxes.prop('checked', $(this).prop('checked'));
+					});
+					$(dialog_id).find('.allexistingfiles').on('click', function(){
+						var checkboxes = $(dialog_id).find('.original input[type="checkbox"]');
+						checkboxes.prop('checked', $(this).prop('checked'));
+					});
+					conflict.find('.replacement,.original').on('click', function(){
+						var checkbox = $(this).find('input[type="checkbox"]');
+						checkbox.prop('checked', !checkbox.prop('checked'));
+					});
+					
+					//update counters
+					$(dialog_id).on('click', '.replacement,.allnewfiles', function(){
+						var count = $(dialog_id).find('.replacement input[type="checkbox"]:checked').length;
+						if (count === $(dialog_id+ ' .conflict').length) {
+							$(dialog_id).find('.allnewfiles').prop('checked', true);
+							$(dialog_id).find('.allnewfiles + .count').text(t('files','(all selected)'));
+						} else if (count > 0) {
+							$(dialog_id).find('.allnewfiles').prop('checked', false);
+							$(dialog_id).find('.allnewfiles + .count').text(t('files','({count} selected)',{count:count}));
+						} else {
+							$(dialog_id).find('.allnewfiles').prop('checked', false);
+							$(dialog_id).find('.allnewfiles + .count').text('');
+						}
+					});
+					$(dialog_id).on('click', '.original,.allexistingfiles', function(){
+						var count = $(dialog_id).find('.original input[type="checkbox"]:checked').length;
+						if (count === $(dialog_id+ ' .conflict').length) {
+							$(dialog_id).find('.allexistingfiles').prop('checked', true);
+							$(dialog_id).find('.allexistingfiles + .count').text(t('files','(all selected)'));
+						} else if (count > 0) {
+							$(dialog_id).find('.allexistingfiles').prop('checked', false);
+							$(dialog_id).find('.allexistingfiles + .count').text(t('files','({count} selected)',{count:count}));
+						} else {
+							$(dialog_id).find('.allexistingfiles').prop('checked', false);
+							$(dialog_id).find('.allexistingfiles + .count').text('');
+						}
+					});
+				})
+				.fail(function() {
+					alert(t('core', 'Error loading file exists template'));
 				});
-				
-				
-			})
-			.fail(function() {
-				alert(t('core', 'Error loading file exists template'));
-			});
+			}
 		}
 	},
 	_getFilePickerTemplate: function() {

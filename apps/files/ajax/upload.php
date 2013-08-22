@@ -131,6 +131,7 @@ if (strpos($dir, '..') === false) {
 
 				$result[] = array('status' => 'success',
 					'mime' => $meta['mimetype'],
+					'mtime' => $meta['mtime'],
 					'size' => $meta['size'],
 					'id' => $meta['fileid'],
 					'name' => basename($target),
