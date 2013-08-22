@@ -1289,8 +1289,24 @@ class Util {
 	 */
 	public function getUidAndFilename($path) {
 
+		$pathinfo = pathinfo($path);
+		$partfile = false;
+		$parentFolder = false;
+		if ($pathinfo['extension'] === 'part') {
+			// if the real file exists we check this file
+			if ($this->view->file_exists($this->userFilesDir . '/' . $pathinfo['dirname'] . '/' . $pathinfo['filename'])) {
+				$pathToCheck = $pathinfo['dirname'] . '/' . $pathinfo['filename'];
+			} else { // otherwise we look for the parent
+				$pathToCheck = $pathinfo['dirname'];
+				$parentFolder = true;
+			}
+			$partfile = true;
+		} else {
+			$pathToCheck = $path;
+		}
+
 		$view = new \OC\Files\View($this->userFilesDir);
-		$fileOwnerUid = $view->getOwner($path);
+		$fileOwnerUid = $view->getOwner($pathToCheck);
 
 		// handle public access
 		if ($this->isPublic) {
@@ -1319,12 +1335,18 @@ class Util {
 				$filename = $path;
 
 			} else {
-
-				$info = $view->getFileInfo($path);
+				$info = $view->getFileInfo($pathToCheck);
 				$ownerView = new \OC\Files\View('/' . $fileOwnerUid . '/files');
 
 				// Fetch real file path from DB
-				$filename = $ownerView->getPath($info['fileid']); // TODO: Check that this returns a path without including the user data dir
+				$filename = $ownerView->getPath($info['fileid']);
+				if ($parentFolder) {
+					$filename = $filename . '/'. $pathinfo['filename'];
+				}
+
+				if ($partfile) {
+					$filename = $filename . '.' . $pathinfo['extension'];
+				}
 
 			}
 
@@ -1333,9 +1355,8 @@ class Util {
 				\OC_Filesystem::normalizePath($filename)
 			);
 		}
-
-
 	}
+
 
 	/**
 	 * @brief go recursively through a dir and collect all files and sub files.
