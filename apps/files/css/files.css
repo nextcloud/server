@@ -46,12 +46,22 @@
 	z-index:20; position:relative; cursor:pointer; overflow:hidden;
 }
 
-#uploadprogresswrapper { float: right; position: relative; }
-#uploadprogresswrapper #uploadprogressbar {
-	position:relative; float: right;
-	margin-left: 12px; width:10em; height:1.5em; top:.4em;
+#uploadprogresswrapper {
+	position: relative;
+	display: inline;
+}
+#uploadprogressbar {
+	position:relative;
+	float: left;
+	margin-left: 12px;
+	width: 130px;
+	height: 26px;
 	display:inline-block;
 }
+#uploadprogressbar + stop {
+	font-size: 13px;
+}
+
 
 /* FILE TABLE */
 
@@ -114,7 +124,7 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 	position:relative; width:100%;
 	-webkit-transition:background-image 500ms; -moz-transition:background-image 500ms; -o-transition:background-image 500ms; transition:background-image 500ms;
 }
-#select_all { float:left; margin:.3em 0.6em 0 .5em; }
+#select_all { float:left; margin:.4em 0.6em 0 .5em; }
 #uploadsize-message,#delete-confirm { display:none; }
 
 /* File actions */
@@ -147,14 +157,14 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 	display:none;
 }
 #fileList tr:hover a.action, #fileList a.action.permanent {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=.5)";
-	filter: alpha(opacity=.5);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
 	opacity: .5;
 	display:inline;
 }
 #fileList tr:hover a.action:hover {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=1)";
-	filter: alpha(opacity=1);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
 	opacity: 1;
 	display:inline;
 }

@@ -1,16 +1,15 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "المساعدة",
 "Personal" => "شخصي",
 "Settings" => "إعدادات",
 "Users" => "المستخدمين",
-"Apps" => "التطبيقات",
 "Admin" => "المدير",
 "web services under your control" => "خدمات الشبكة تحت سيطرتك",
 "ZIP download is turned off." => "تحميل ملفات ZIP متوقف",
 "Files need to be downloaded one by one." => "الملفات بحاجة الى ان يتم تحميلها واحد تلو الاخر",
 "Back to Files" => "العودة الى الملفات",
 "Selected files too large to generate zip file." => "الملفات المحددة كبيرة جدا ليتم ضغطها في ملف zip",
-"couldn't be determined" => "تعذّر تحديده",
 "Application is not enabled" => "التطبيق غير مفعّل",
 "Authentication error" => "لم يتم التأكد من الشخصية بنجاح",
 "Token expired. Please reload page." => "انتهت صلاحية الكلمة , يرجى اعادة تحميل الصفحة",
@@ -37,16 +36,15 @@
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "اعدادات خادمك غير صحيحة بشكل تسمح لك بمزامنة ملفاتك وذلك بسبب أن واجهة WebDAV تبدو معطلة",
 "Please double check the <a href='%s'>installation guides</a>." => "الرجاء التحقق من <a href='%s'>دليل التنصيب</a>.",
 "seconds ago" => "منذ ثواني",
-"1 minute ago" => "منذ دقيقة",
-"%d minutes ago" => "%d دقيقة مضت",
-"1 hour ago" => "قبل ساعة مضت",
-"%d hours ago" => "%d ساعة مضت",
+"_%n minute ago_::_%n minutes ago_" => array("","","","","",""),
+"_%n hour ago_::_%n hours ago_" => array("","","","","",""),
 "today" => "اليوم",
 "yesterday" => "يوم أمس",
-"%d days ago" => "%d يوم مضى",
+"_%n day go_::_%n days ago_" => array("","","","","",""),
 "last month" => "الشهر الماضي",
-"%d months ago" => "%d شهر مضت",
+"_%n month ago_::_%n months ago_" => array("","","","","",""),
 "last year" => "السنةالماضية",
 "years ago" => "سنة مضت",
 "Could not find category \"%s\"" => "تعذر العثور على المجلد \"%s\""
 );
+$PLURAL_FORMS = "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;";

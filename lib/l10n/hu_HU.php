@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Súgó",
 "Personal" => "Személyes",
 "Settings" => "Beállítások",
 "Users" => "Felhasználók",
-"Apps" => "Alkalmazások",
 "Admin" => "Adminsztráció",
 "Failed to upgrade \"%s\"." => "Sikertelen Frissítés \"%s\".",
 "web services under your control" => "webszolgáltatások saját kézben",
@@ -13,7 +13,6 @@
 "Back to Files" => "Vissza a Fájlokhoz",
 "Selected files too large to generate zip file." => "A kiválasztott fájlok túl nagyok a zip tömörítéshez.",
 "Download the files in smaller chunks, seperately or kindly ask your administrator." => "Tölts le a fileokat kisebb chunkokban, kölün vagy kérj segitséget a rendszergazdádtól.",
-"couldn't be determined" => "nem határozható meg",
 "Application is not enabled" => "Az alkalmazás nincs engedélyezve",
 "Authentication error" => "Azonosítási hiba",
 "Token expired. Please reload page." => "A token lejárt. Frissítse az oldalt.",
@@ -41,17 +40,16 @@
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Az Ön webkiszolgálója nincs megfelelően beállítva az állományok szinkronizálásához, mert a WebDAV-elérés úgy tűnik, nem működik.",
 "Please double check the <a href='%s'>installation guides</a>." => "Kérjük tüzetesen tanulmányozza át a <a href='%s'>telepítési útmutatót</a>.",
 "seconds ago" => "pár másodperce",
-"1 minute ago" => "1 perce",
-"%d minutes ago" => "%d perce",
-"1 hour ago" => "1 órája",
-"%d hours ago" => "%d órája",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "ma",
 "yesterday" => "tegnap",
-"%d days ago" => "%d napja",
+"_%n day go_::_%n days ago_" => array("",""),
 "last month" => "múlt hónapban",
-"%d months ago" => "%d hónapja",
+"_%n month ago_::_%n months ago_" => array("",""),
 "last year" => "tavaly",
 "years ago" => "több éve",
 "Caused by:" => "Okozta:",
 "Could not find category \"%s\"" => "Ez a kategória nem található: \"%s\""
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

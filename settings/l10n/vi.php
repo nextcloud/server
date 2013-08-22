@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Không thể tải danh sách ứng dụng từ App Store",
 "Authentication error" => "Lỗi xác thực",
 "Unable to change display name" => "Không thể thay đổi tên hiển thị",
@@ -75,6 +76,7 @@
 "Language" => "Ngôn ngữ",
 "Help translate" => "Hỗ trợ dịch thuật",
 "WebDAV" => "WebDAV",
+"Encryption" => "Mã hóa",
 "Login Name" => "Tên đăng nhập",
 "Create" => "Tạo",
 "Default Storage" => "Bộ nhớ mặc định",
@@ -86,3 +88,4 @@
 "set new password" => "đặt mật khẩu mới",
 "Default" => "Mặc định"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s compartió \"%s\" con vos",
 "Category type not provided." => "Tipo de categoría no provisto. ",
 "No category to add?" => "¿Ninguna categoría para añadir?",
@@ -29,20 +30,17 @@
 "December" => "diciembre",
 "Settings" => "Configuración",
 "seconds ago" => "segundos atrás",
-"1 minute ago" => "hace 1 minuto",
-"{minutes} minutes ago" => "hace {minutes} minutos",
-"1 hour ago" => "1 hora atrás",
-"{hours} hours ago" => "hace {hours} horas",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "hoy",
 "yesterday" => "ayer",
-"{days} days ago" => "hace {days} días",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "el mes pasado",
-"{months} months ago" => "{months} meses atrás",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "meses atrás",
 "last year" => "el año pasado",
 "years ago" => "años atrás",
 "Choose" => "Elegir",
-"Cancel" => "Cancelar",
 "Error loading file picker template" => "Error al cargar la plantilla del seleccionador de archivos",
 "Yes" => "Sí",
 "No" => "No",
@@ -85,7 +83,6 @@
 "Email sent" => "e-mail mandado",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "La actualización no pudo ser completada. Por favor, reportá el inconveniente a la comunidad <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "La actualización fue exitosa. Estás siendo redirigido a ownCloud.",
-"ownCloud password reset" => "Restablecer contraseña de ownCloud",
 "Use the following link to reset your password: {link}" => "Usá este enlace para restablecer tu contraseña: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "El enlace para restablecer la contraseña fue enviada a tu e-mail. <br> Si no lo recibís en un plazo de tiempo razonable,  revisá tu carpeta de spam / correo no deseado. <br> Si no está ahí, preguntale a tu administrador.",
 "Request failed!<br>Did you make sure your email/username was right?" => "¡Error en el pedido! <br> ¿Estás seguro de que tu dirección de correo electrónico o nombre de usuario son correcto?",
@@ -134,7 +131,6 @@
 "Log in" => "Iniciar sesión",
 "Alternative Logins" => "Nombre alternativos de usuarios",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Hola,<br><br>Simplemente te informo que %s compartió %s con vos.<br><a href=\"%s\">Miralo acá:</a><br><br>¡Chau!",
-"prev" => "anterior",
-"next" => "siguiente",
 "Updating ownCloud to version %s, this may take a while." => "Actualizando ownCloud a la versión %s, puede demorar un rato."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

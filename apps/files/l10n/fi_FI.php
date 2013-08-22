@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Kohteen %s siirto ei onnistunut - Tiedosto samalla nimellä on jo olemassa",
 "Could not move %s" => "Kohteen %s siirto ei onnistunut",
 "No file was uploaded. Unknown error" => "Tiedostoa ei lähetetty. Tuntematon virhe",
@@ -20,7 +21,6 @@
 "Error" => "Virhe",
 "Share" => "Jaa",
 "Delete permanently" => "Poista pysyvästi",
-"Delete" => "Poista",
 "Rename" => "Nimeä uudelleen",
 "Pending" => "Odottaa",
 "{new_name} already exists" => "{new_name} on jo olemassa",
@@ -28,7 +28,7 @@
 "suggest name" => "ehdota nimeä",
 "cancel" => "peru",
 "undo" => "kumoa",
-"perform delete operation" => "suorita poistotoiminto",
+"_Uploading %n file_::_Uploading %n files_" => array("Lähetetään %n tiedosto","Lähetetään %n tiedostoa"),
 "'.' is an invalid file name." => "'.' on virheellinen nimi tiedostolle.",
 "File name cannot be empty." => "Tiedoston nimi ei voi olla tyhjä.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Virheellinen nimi, merkit '\\', '/', '<', '>', ':', '\"', '|', '?' ja '*' eivät ole sallittuja.",
@@ -38,10 +38,8 @@
 "Name" => "Nimi",
 "Size" => "Koko",
 "Modified" => "Muokattu",
-"1 folder" => "1 kansio",
-"{count} folders" => "{count} kansiota",
-"1 file" => "1 tiedosto",
-"{count} files" => "{count} tiedostoa",
+"_%n folder_::_%n folders_" => array("%n kansio","%n kansiota"),
+"_%n file_::_%n files_" => array("%n tiedosto","%n tiedostoa"),
 "Upload" => "Lähetä",
 "File handling" => "Tiedostonhallinta",
 "Maximum upload size" => "Lähetettävän tiedoston suurin sallittu koko",
@@ -61,6 +59,7 @@
 "Nothing in here. Upload something!" => "Täällä ei ole mitään. Lähetä tänne jotakin!",
 "Download" => "Lataa",
 "Unshare" => "Peru jakaminen",
+"Delete" => "Poista",
 "Upload too large" => "Lähetettävä tiedosto on liian suuri",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan.",
 "Files are being scanned, please wait." => "Tiedostoja tarkistetaan, odota hetki.",
@@ -71,3 +70,4 @@
 "files" => "tiedostoa",
 "Upgrading filesystem cache..." => "Päivitetään tiedostojärjestelmän välimuistia..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

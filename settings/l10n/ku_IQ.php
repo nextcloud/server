@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Enable" => "چالاککردن",
 "Error" => "هه‌ڵه",
 "Saving..." => "پاشکه‌وتده‌کات...",
@@ -6,5 +7,7 @@
 "Password" => "وشەی تێپەربو",
 "New password" => "وشەی نهێنی نوێ",
 "Email" => "ئیمه‌یل",
+"Encryption" => "نهێنیکردن",
 "Username" => "ناوی به‌کارهێنه‌ر"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

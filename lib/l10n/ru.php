@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Помощь",
 "Personal" => "Личное",
 "Settings" => "Конфигурация",
 "Users" => "Пользователи",
-"Apps" => "Приложения",
 "Admin" => "Admin",
 "Failed to upgrade \"%s\"." => "Не смог обновить \"%s\".",
 "web services under your control" => "веб-сервисы под вашим управлением",
@@ -13,7 +13,6 @@
 "Back to Files" => "Назад к файлам",
 "Selected files too large to generate zip file." => "Выбранные файлы слишком велики, чтобы создать zip файл.",
 "Download the files in smaller chunks, seperately or kindly ask your administrator." => "Загрузите файл маленьшими порциями, раздельно или вежливо попросите Вашего администратора.",
-"couldn't be determined" => "Невозможно установить",
 "Application is not enabled" => "Приложение не разрешено",
 "Authentication error" => "Ошибка аутентификации",
 "Token expired. Please reload page." => "Токен просрочен. Перезагрузите страницу.",
@@ -41,17 +40,16 @@
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Ваш веб сервер до сих пор не настроен правильно для возможности синхронизации файлов, похоже что проблема в неисправности интерфейса WebDAV.",
 "Please double check the <a href='%s'>installation guides</a>." => "Пожалуйста, дважды просмотрите <a href='%s'>инструкции по установке</a>.",
 "seconds ago" => "несколько секунд назад",
-"1 minute ago" => "1 минуту назад",
-"%d minutes ago" => "%d минут назад",
-"1 hour ago" => "час назад",
-"%d hours ago" => "%d часов назад",
+"_%n minute ago_::_%n minutes ago_" => array("%n минута назад","%n минуты назад","%n минут назад"),
+"_%n hour ago_::_%n hours ago_" => array("%n час назад","%n часа назад","%n часов назад"),
 "today" => "сегодня",
 "yesterday" => "вчера",
-"%d days ago" => "%d дней назад",
+"_%n day go_::_%n days ago_" => array("%n день назад","%n дня назад","%n дней назад"),
 "last month" => "в прошлом месяце",
-"%d months ago" => "%d месяцев назад",
+"_%n month ago_::_%n months ago_" => array("%n месяц назад","%n месяца назад","%n месяцев назад"),
 "last year" => "в прошлом году",
 "years ago" => "несколько лет назад",
 "Caused by:" => "Вызвано:",
 "Could not find category \"%s\"" => "Категория \"%s\"  не найдена"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

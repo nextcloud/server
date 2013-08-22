@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "பிரிவு வகைகள் வழங்கப்படவில்லை",
 "No category to add?" => "சேர்ப்பதற்கான வகைகள் இல்லையா?",
 "Object type not provided." => "பொருள் வகை வழங்கப்படவில்லை",
@@ -27,20 +28,17 @@
 "December" => "மார்கழி",
 "Settings" => "அமைப்புகள்",
 "seconds ago" => "செக்கன்களுக்கு முன்",
-"1 minute ago" => "1 நிமிடத்திற்கு முன் ",
-"{minutes} minutes ago" => "{நிமிடங்கள்} நிமிடங்களுக்கு முன் ",
-"1 hour ago" => "1 மணித்தியாலத்திற்கு முன்",
-"{hours} hours ago" => "{மணித்தியாலங்கள்} மணித்தியாலங்களிற்கு முன்",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "இன்று",
 "yesterday" => "நேற்று",
-"{days} days ago" => "{நாட்கள்} நாட்களுக்கு முன்",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "கடந்த மாதம்",
-"{months} months ago" => "{மாதங்கள்} மாதங்களிற்கு முன்",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "மாதங்களுக்கு முன்",
 "last year" => "கடந்த வருடம்",
 "years ago" => "வருடங்களுக்கு முன்",
 "Choose" => "தெரிவுசெய்க ",
-"Cancel" => "இரத்து செய்க",
 "Yes" => "ஆம்",
 "No" => "இல்லை",
 "Ok" => "சரி",
@@ -74,7 +72,6 @@
 "Password protected" => "கடவுச்சொல் பாதுகாக்கப்பட்டது",
 "Error unsetting expiration date" => "காலாவதியாகும் திகதியை குறிப்பிடாமைக்கான வழு",
 "Error setting expiration date" => "காலாவதியாகும் திகதியை குறிப்பிடுவதில் வழு",
-"ownCloud password reset" => "ownCloud இன் கடவுச்சொல் மீளமைப்பு",
 "Use the following link to reset your password: {link}" => "உங்கள் கடவுச்சொல்லை மீளமைக்க பின்வரும் இணைப்பை பயன்படுத்தவும் : {இணைப்பு}",
 "You will receive a link to reset your password via Email." => "நீங்கள் மின்னஞ்சல் மூலம் உங்களுடைய கடவுச்சொல்லை மீளமைப்பதற்கான இணைப்பை பெறுவீர்கள். ",
 "Username" => "பயனாளர் பெயர்",
@@ -112,7 +109,6 @@
 "Please change your password to secure your account again." => "உங்களுடைய கணக்கை மீண்டும் பாதுகாக்க தயவுசெய்து உங்களுடைய கடவுச்சொல்லை மாற்றவும்.",
 "Lost your password?" => "உங்கள் கடவுச்சொல்லை தொலைத்துவிட்டீர்களா?",
 "remember" => "ஞாபகப்படுத்துக",
-"Log in" => "புகுபதிகை",
-"prev" => "முந்தைய",
-"next" => "அடுத்து"
+"Log in" => "புகுபதிகை"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

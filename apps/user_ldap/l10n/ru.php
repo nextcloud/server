@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to clear the mappings." => "Не удалось очистить соотвествия.",
 "Failed to delete the server configuration" => "Не удалось удалить конфигурацию сервера",
 "The configuration is valid and the connection could be established!" => "Конфигурация правильная и подключение может быть установлено!",
@@ -29,14 +30,8 @@
 "Password" => "Пароль",
 "For anonymous access, leave DN and Password empty." => "Для анонимного доступа оставьте DN и пароль пустыми.",
 "User Login Filter" => "Фильтр входа пользователей",
-"Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action." => "Определяет фильтр для применения при попытке входа. %%uid заменяет имя пользователя при входе в систему.",
-"use %%uid placeholder, e.g. \"uid=%%uid\"" => "используйте заполнитель %%uid, например: \"uid=%%uid\"",
 "User List Filter" => "Фильтр списка пользователей",
-"Defines the filter to apply, when retrieving users." => "Определяет фильтр для применения при получении пользователей.",
-"without any placeholder, e.g. \"objectClass=person\"." => "без заполнителя, например: \"objectClass=person\".",
 "Group Filter" => "Фильтр группы",
-"Defines the filter to apply, when retrieving groups." => "Определяет фильтр для применения при получении группы.",
-"without any placeholder, e.g. \"objectClass=posixGroup\"." => "без заполнения, например \"objectClass=posixGroup\".",
 "Connection Settings" => "Настройки подключения",
 "Configuration Active" => "Конфигурация активна",
 "When unchecked, this configuration will be skipped." => "Когда галочка снята, эта конфигурация будет пропущена.",
@@ -49,7 +44,6 @@
 "Do not use it additionally for LDAPS connections, it will fail." => "Не используйте совместно с безопасными подключениями (LDAPS), это не сработает.",
 "Case insensitve LDAP server (Windows)" => "Нечувствительный к регистру сервер LDAP (Windows)",
 "Turn off SSL certificate validation." => "Отключить проверку сертификата SSL.",
-"Not recommended, use for testing only." => "Не рекомендуется, используйте только для тестирования.",
 "Cache Time-To-Live" => "Кэш времени жизни",
 "in seconds. A change empties the cache." => "в секундах. Изменение очистит кэш.",
 "Directory Settings" => "Настройки каталога",
@@ -80,3 +74,4 @@
 "Test Configuration" => "Тестовая конфигурация",
 "Help" => "Помощь"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

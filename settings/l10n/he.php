@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "לא ניתן לטעון רשימה מה־App Store",
 "Authentication error" => "שגיאת הזדהות",
 "Your display name has been changed." => "שם התצוגה שלך הוחלף.",
@@ -88,6 +89,7 @@
 "Language" => "פה",
 "Help translate" => "עזרה בתרגום",
 "WebDAV" => "WebDAV",
+"Encryption" => "הצפנה",
 "Login Name" => "שם כניסה",
 "Create" => "יצירה",
 "Admin Recovery Password" => "ססמת השחזור של המנהל",
@@ -100,3 +102,4 @@
 "set new password" => "הגדרת ססמה חדשה",
 "Default" => "בררת מחדל"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

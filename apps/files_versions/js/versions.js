@@ -104,9 +104,9 @@ function createVersionsDropdown(filename, files) {
 			success: function(result) {
 				var versions = result.data.versions;
 				if (result.data.endReached === true) {
-					document.getElementById("show-more-versions").style.display="none";
+					$("#show-more-versions").css("display", "none");
 				} else {
-					document.getElementById("show-more-versions").style.display="block";
+					$("#show-more-versions").css("display", "block");
 				}
 				if (versions) {
 					$.each(versions, function(index, row) {
@@ -124,27 +124,23 @@ function createVersionsDropdown(filename, files) {
 	}
 
 	function addVersion( revision ) {
-		title = formatDate(revision.version*1000);
-		name ='<span class="versionDate" title="' + title + '">' + revision.humanReadableTimestamp + '</span>';
+		var title = formatDate(revision.version*1000);
+		var name ='<span class="versionDate" title="' + title + '">' + revision.humanReadableTimestamp + '</span>';
 
-		path = OC.filePath('files_versions', '', 'download.php');
+		var path = OC.filePath('files_versions', '', 'download.php');
 
-		download ='<a href="' + path + "?file=" + files + '&revision=' + revision.version + '">';
+		var download ='<a href="' + path + "?file=" + files + '&revision=' + revision.version + '">';
 		download+='<img';
 		download+=' src="' + OC.imagePath('core', 'actions/download') + '"';
-		download+=' id="' + revision.version + '"';
-		download+=' value="' + files + '"';
 		download+=' name="downloadVersion" />';
 		download+=name;
 		download+='</a>';
 
-		revert='<span class="revertVersion"';
+		var revert='<span class="revertVersion"';
 		revert+=' id="' + revision.version + '"';
 		revert+=' value="' + files + '">';
 		revert+='<img';
 		revert+=' src="' + OC.imagePath('core', 'actions/history') + '"';
-		revert+=' id="' + revision.version + '"';
-		revert+=' value="' + files + '"';
 		revert+=' name="revertVersion"';
 		revert+='/>'+t('files_versions', 'Restore')+'</span>';
 

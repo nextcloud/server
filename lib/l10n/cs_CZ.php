@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Nápověda",
 "Personal" => "Osobní",
 "Settings" => "Nastavení",
 "Users" => "Uživatelé",
-"Apps" => "Aplikace",
 "Admin" => "Administrace",
 "Failed to upgrade \"%s\"." => "Selhala aktualizace verze \"%s\".",
 "web services under your control" => "webové služby pod Vaší kontrolou",
@@ -13,7 +13,6 @@
 "Back to Files" => "Zpět k souborům",
 "Selected files too large to generate zip file." => "Vybrané soubory jsou příliš velké pro vytvoření ZIP souboru.",
 "Download the files in smaller chunks, seperately or kindly ask your administrator." => "Stáhněte soubory po menších částech, samostatně, nebo se obraťte na správce.",
-"couldn't be determined" => "nelze zjistit",
 "Application is not enabled" => "Aplikace není povolena",
 "Authentication error" => "Chyba ověření",
 "Token expired. Please reload page." => "Token vypršel. Obnovte prosím stránku.",
@@ -41,17 +40,16 @@
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Váš webový server není správně nastaven pro umožnění synchronizace, rozhraní WebDAV se zdá být rozbité.",
 "Please double check the <a href='%s'>installation guides</a>." => "Zkonzultujte, prosím, <a href='%s'>průvodce instalací</a>.",
 "seconds ago" => "před pár sekundami",
-"1 minute ago" => "před minutou",
-"%d minutes ago" => "před %d minutami",
-"1 hour ago" => "před hodinou",
-"%d hours ago" => "před %d hodinami",
+"_%n minute ago_::_%n minutes ago_" => array("před %n minutou","před %n minutami","před %n minutami"),
+"_%n hour ago_::_%n hours ago_" => array("před %n hodinou","před %n hodinami","před %n hodinami"),
 "today" => "dnes",
 "yesterday" => "včera",
-"%d days ago" => "před %d dny",
+"_%n day go_::_%n days ago_" => array("před %n dnem","před %n dny","před %n dny"),
 "last month" => "minulý měsíc",
-"%d months ago" => "před %d měsíci",
+"_%n month ago_::_%n months ago_" => array("před %n měsícem","před %n měsíci","před %n měsíci"),
 "last year" => "minulý rok",
 "years ago" => "před lety",
 "Caused by:" => "Příčina:",
 "Could not find category \"%s\"" => "Nelze nalézt kategorii \"%s\""
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

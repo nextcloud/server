@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s jagas sinuga »%s«",
 "Category type not provided." => "Kategooria tüüp puudub.",
 "No category to add?" => "Pole kategooriat, mida lisada?",
@@ -29,20 +30,17 @@
 "December" => "Detsember",
 "Settings" => "Seaded",
 "seconds ago" => "sekundit tagasi",
-"1 minute ago" => "1 minut tagasi",
-"{minutes} minutes ago" => "{minutes} minutit tagasi",
-"1 hour ago" => "1 tund tagasi",
-"{hours} hours ago" => "{hours} tundi tagasi",
+"_%n minute ago_::_%n minutes ago_" => array("%n minut tagasi","%n minutit tagasi"),
+"_%n hour ago_::_%n hours ago_" => array("%n tund tagasi","%n tundi tagasi"),
 "today" => "täna",
 "yesterday" => "eile",
-"{days} days ago" => "{days} päeva tagasi",
+"_%n day ago_::_%n days ago_" => array("%n päev tagasi","%n päeva tagasi"),
 "last month" => "viimasel kuul",
-"{months} months ago" => "{months} kuud tagasi",
+"_%n month ago_::_%n months ago_" => array("%n kuu tagasi","%n kuud tagasi"),
 "months ago" => "kuu tagasi",
 "last year" => "viimasel aastal",
 "years ago" => "aastat tagasi",
 "Choose" => "Vali",
-"Cancel" => "Loobu",
 "Error loading file picker template" => "Viga failivalija malli laadimisel",
 "Yes" => "Jah",
 "No" => "Ei",
@@ -85,7 +83,7 @@
 "Email sent" => "E-kiri on saadetud",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Uuendus ebaõnnestus. Palun teavita probleemidest  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud kogukonda</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Uuendus oli edukas. Kohe suunatakse Sind ownCloudi.",
-"ownCloud password reset" => "ownCloud parooli taastamine",
+"%s password reset" => "%s parooli lähtestus",
 "Use the following link to reset your password: {link}" => "Kasuta järgnevat linki oma parooli taastamiseks: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Link parooli vahetuseks on saadetud Sinu e-posti aadressile.<br>Kui kiri pole saabunud mõistliku aja jooksul, siis kontrolli oma spam-/rämpskirjade katalooge.<br>Kui kirja pole ka seal, siis küsi abi süsteemihaldurilt.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Päring ebaõnnestus!<br>Oled sa veendunud, et e-post/kasutajanimi on õiged?",
@@ -128,6 +126,7 @@
 "Finish setup" => "Lõpeta seadistamine",
 "%s is available. Get more information on how to update." => "%s on saadaval. Vaata lähemalt kuidas uuendada.",
 "Log out" => "Logi välja",
+"More apps" => "Rohkem rakendusi",
 "Automatic logon rejected!" => "Automaatne sisselogimine lükati tagasi!",
 "If you did not change your password recently, your account may be compromised!" => "Kui sa ei muutnud oma parooli hiljuti, siis võib su kasutajakonto olla ohustatud!",
 "Please change your password to secure your account again." => "Palun muuda parooli, et oma kasutajakonto uuesti turvata.",
@@ -136,7 +135,6 @@
 "Log in" => "Logi sisse",
 "Alternative Logins" => "Alternatiivsed sisselogimisviisid",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Hei,<br><br>lihtsalt annan sulle teada, et %s jagas sinuga »%s«.<br><a href=\"%s\">Vaata seda!</a><br><br>Tervitades!",
-"prev" => "eelm",
-"next" => "järgm",
 "Updating ownCloud to version %s, this may take a while." => "ownCloudi uuendamine versioonile %s. See võib veidi aega võtta."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

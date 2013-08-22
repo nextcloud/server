@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to clear the mappings." => "清除映射失敗",
 "Failed to delete the server configuration" => "刪除伺服器設定時失敗",
 "The configuration is valid and the connection could be established!" => "設定有效且連線可建立",
@@ -26,14 +27,8 @@
 "Password" => "密碼",
 "For anonymous access, leave DN and Password empty." => "匿名連接時請將DN與密碼欄位留白",
 "User Login Filter" => "使用者登入過濾器",
-"Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action." => "試圖登入時會定義要套用的篩選器。登入過程中%%uid會取代使用者名稱。",
-"use %%uid placeholder, e.g. \"uid=%%uid\"" => "請使用 %%uid placeholder，例如:\"uid=%%uid\"",
 "User List Filter" => "使用者名單篩選器",
-"Defines the filter to apply, when retrieving users." => "檢索使用者時定義要套用的篩選器",
-"without any placeholder, e.g. \"objectClass=person\"." => "請勿使用任何placeholder，例如:\"objectClass=person\"。",
 "Group Filter" => "群組篩選器",
-"Defines the filter to apply, when retrieving groups." => "檢索群組時，定義要套用的篩選器",
-"without any placeholder, e.g. \"objectClass=posixGroup\"." => "請勿使用任何placeholder，例如:\"objectClass=posixGroup\"。",
 "Connection Settings" => "連線設定",
 "Configuration Active" => "設定為主動模式",
 "When unchecked, this configuration will be skipped." => "沒有被勾選時，此設定會被略過。",
@@ -45,7 +40,6 @@
 "Use TLS" => "使用TLS",
 "Case insensitve LDAP server (Windows)" => "不區分大小寫的LDAP伺服器(Windows)",
 "Turn off SSL certificate validation." => "關閉 SSL 憑證驗證",
-"Not recommended, use for testing only." => "不推薦使用，僅供測試用途。",
 "Cache Time-To-Live" => "快取的存活時間",
 "in seconds. A change empties the cache." => "以秒為單位。更變後會清空快取。",
 "Directory Settings" => "目錄選項",
@@ -70,3 +64,4 @@
 "Test Configuration" => "測試此設定",
 "Help" => "說明"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

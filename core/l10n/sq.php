@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "Mungon tipi i kategorisë.",
 "No category to add?" => "Asnjë kategori për të shtuar?",
 "This category already exists: %s" => "Kjo kategori tashmë ekziston: %s",
@@ -28,20 +29,17 @@
 "December" => "Dhjetor",
 "Settings" => "Parametra",
 "seconds ago" => "sekonda më parë",
-"1 minute ago" => "1 minutë më parë",
-"{minutes} minutes ago" => "{minutes} minuta më parë",
-"1 hour ago" => "1 orë më parë",
-"{hours} hours ago" => "{hours} orë më parë",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "sot",
 "yesterday" => "dje",
-"{days} days ago" => "{days} ditë më parë",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "muajin e shkuar",
-"{months} months ago" => "{months} muaj më parë",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "muaj më parë",
 "last year" => "vitin e shkuar",
 "years ago" => "vite më parë",
 "Choose" => "Zgjidh",
-"Cancel" => "Anulo",
 "Error loading file picker template" => "Veprim i gabuar gjatë ngarkimit të modelit të zgjedhësit të skedarëve",
 "Yes" => "Po",
 "No" => "Jo",
@@ -84,7 +82,6 @@
 "Email sent" => "Email-i u dërgua",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Azhurnimi dështoi. Ju lutemi njoftoni për këtë problem <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">komunitetin ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Azhurnimi u krye. Tani do t'ju kaloj tek ownCloud-i.",
-"ownCloud password reset" => "Rivendosja e kodit të ownCloud-it",
 "Use the following link to reset your password: {link}" => "Përdorni lidhjen në vijim për të rivendosur kodin: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Lidhja për rivendosjen e kodit tuaj u dërgua tek email-i juaj.<br>Nëqoftëse nuk e merrni brenda një kohe të arsyeshme, kontrolloni dosjet e postës së padëshirueshme (spam).<br>Nëqoftëse nuk është as aty, pyesni administratorin tuaj lokal.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Kërkesa dështoi!<br>A u siguruat që email-i/përdoruesi juaj ishte i saktë?",
@@ -130,7 +127,6 @@
 "remember" => "kujto",
 "Log in" => "Hyrje",
 "Alternative Logins" => "Hyrje alternative",
-"prev" => "mbrapa",
-"next" => "para",
 "Updating ownCloud to version %s, this may take a while." => "Po azhurnoj ownCloud-in me versionin %s. Mund të zgjasi pak."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

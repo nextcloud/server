@@ -717,7 +717,7 @@ class Trashbin {
 				\OC_Log::write('files_trashbin', 'remove "' . $filename . '" fom trash bin because it is older than ' . $retention_obligation, \OC_log::INFO);
 			}
 		}
-		$availableSpace = $availableSpace + $size;
+		$availableSpace += $size;
 		// if size limit for trash bin reached, delete oldest files in trash bin
 		if ($availableSpace < 0) {
 			$query = \OC_DB::prepare('SELECT `location`,`type`,`id`,`timestamp` FROM `*PREFIX*files_trash`'

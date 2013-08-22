@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-07 08:59-0400\n"
-"PO-Revision-Date: 2013-08-07 12:22+0000\n"
-"Last-Translator: barbarak <barbarak@arnes.si>\n"
+"POT-Creation-Date: 2013-08-19 15:06-0400\n"
+"PO-Revision-Date: 2013-08-19 19:06+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -139,59 +139,67 @@ msgstr "november"
 msgid "December"
 msgstr "december"
 
-#: js/js.js:293
+#: js/js.js:355
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: js/js.js:753
+#: js/js.js:812
 msgid "seconds ago"
 msgstr "pred nekaj sekundami"
 
-#: js/js.js:754
-msgid "1 minute ago"
-msgstr "pred minuto"
+#: js/js.js:813
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
-#: js/js.js:755
-msgid "{minutes} minutes ago"
-msgstr "pred {minutes} minutami"
+#: js/js.js:814
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
-#: js/js.js:756
-msgid "1 hour ago"
-msgstr "Pred 1 uro"
-
-#: js/js.js:757
-msgid "{hours} hours ago"
-msgstr "pred {hours} urami"
-
-#: js/js.js:758
+#: js/js.js:815
 msgid "today"
 msgstr "danes"
 
-#: js/js.js:759
+#: js/js.js:816
 msgid "yesterday"
 msgstr "včeraj"
 
-#: js/js.js:760
-msgid "{days} days ago"
-msgstr "pred {days} dnevi"
+#: js/js.js:817
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
-#: js/js.js:761
+#: js/js.js:818
 msgid "last month"
 msgstr "zadnji mesec"
 
-#: js/js.js:762
-msgid "{months} months ago"
-msgstr "pred {months} meseci"
+#: js/js.js:819
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
-#: js/js.js:763
+#: js/js.js:820
 msgid "months ago"
 msgstr "mesecev nazaj"
 
-#: js/js.js:764
+#: js/js.js:821
 msgid "last year"
 msgstr "lansko leto"
 
-#: js/js.js:765
+#: js/js.js:822
 msgid "years ago"
 msgstr "let nazaj"
 
@@ -199,23 +207,19 @@ msgstr "let nazaj"
 msgid "Choose"
 msgstr "Izbor"
 
-#: js/oc-dialogs.js:122
-msgid "Cancel"
-msgstr "Prekliči"
-
-#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
 msgid "Error loading file picker template"
 msgstr "Napaka pri nalaganju predloge za izbor dokumenta"
 
-#: js/oc-dialogs.js:164
+#: js/oc-dialogs.js:160
 msgid "Yes"
 msgstr "Da"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:168
 msgid "No"
 msgstr "Ne"
 
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:181
 msgid "Ok"
 msgstr "V redu"
 
@@ -379,9 +383,10 @@ msgstr "Posodobitev ni uspela. Pošljite poročilo o napaki na sistemu <a href=\
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Posodobitev je uspešno končana. Stran bo preusmerjena na oblak ownCloud."
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
-msgstr "Ponastavitev gesla za oblak ownCloud"
+#: lostpassword/controller.php:61
+#, php-format
+msgid "%s password reset"
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -580,6 +585,10 @@ msgstr "%s je na voljo. Pridobite več podrobnosti za posodobitev."
 msgid "Log out"
 msgstr "Odjava"
 
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr ""
+
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Samodejno prijavljanje je zavrnjeno!"
@@ -616,14 +625,6 @@ msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
 msgstr "Pozdravljen/a,<br><br>sporočam, da je %s delil »%s« s teboj.<br><a href=\"%s\">Poglej vsebine!</a><br><br>Lep pozdrav!"
-
-#: templates/part.pagenavi.php:3
-msgid "prev"
-msgstr "nazaj"
-
-#: templates/part.pagenavi.php:20
-msgid "next"
-msgstr "naprej"
 
 #: templates/update.php:3
 #, php-format

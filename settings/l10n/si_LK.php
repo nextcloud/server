@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Authentication error" => "සත්‍යාපන දෝෂයක්",
 "Group already exists" => "කණ්ඩායම දැනටමත් තිබේ",
 "Unable to add group" => "කාණඩයක් එක් කළ නොහැකි විය",
@@ -45,7 +46,9 @@
 "Fill in an email address to enable password recovery" => "මුරපද ප්‍රතිස්ථාපනය සඳහා විද්‍යුත් තැපැල් විස්තර ලබා දෙන්න",
 "Language" => "භාෂාව",
 "Help translate" => "පරිවර්ථන සහය",
+"Encryption" => "ගුප්ත කේතනය",
 "Create" => "තනන්න",
 "Other" => "වෙනත්",
 "Username" => "පරිශීලක නම"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s teilte »%s« mit Ihnen",
 "Category type not provided." => "Kategorie nicht angegeben.",
 "No category to add?" => "Keine Kategorie hinzuzufügen?",
@@ -29,20 +30,17 @@
 "December" => "Dezember",
 "Settings" => "Einstellungen",
 "seconds ago" => "Gerade eben",
-"1 minute ago" => "vor einer Minute",
-"{minutes} minutes ago" => "Vor {minutes} Minuten",
-"1 hour ago" => "Vor einer Stunde",
-"{hours} hours ago" => "Vor {hours} Stunden",
+"_%n minute ago_::_%n minutes ago_" => array("Vor %n Minute","Vor %n Minuten"),
+"_%n hour ago_::_%n hours ago_" => array("Vor %n Stunde","Vor %n Stunden"),
 "today" => "Heute",
 "yesterday" => "Gestern",
-"{days} days ago" => "Vor {days} Tag(en)",
+"_%n day ago_::_%n days ago_" => array("Vor %n Tag","Vor %n Tagen"),
 "last month" => "Letzten Monat",
-"{months} months ago" => "Vor {months} Monaten",
+"_%n month ago_::_%n months ago_" => array("Vor %n Monat","Vor %n Monaten"),
 "months ago" => "Vor Monaten",
 "last year" => "Letztes Jahr",
 "years ago" => "Vor Jahren",
 "Choose" => "Auswählen",
-"Cancel" => "Abbrechen",
 "Error loading file picker template" => "Dateiauswahltemplate konnte nicht geladen werden",
 "Yes" => "Ja",
 "No" => "Nein",
@@ -85,7 +83,7 @@
 "Email sent" => "E-Mail wurde verschickt",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Das Update ist fehlgeschlagen. Bitte melde dieses Problem an die <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud Community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Das Update war erfolgreich. Du wirst nun zu ownCloud weitergeleitet.",
-"ownCloud password reset" => "ownCloud-Passwort zurücksetzen",
+"%s password reset" => "%s-Passwort zurücksetzen",
 "Use the following link to reset your password: {link}" => "Nutze den nachfolgenden Link, um Dein Passwort zurückzusetzen: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Der Link zum Rücksetzen Deines Passwort ist an Deine E-Mail-Adresse geschickt worden.<br>Wenn Du ihn nicht innerhalb einer vernünftigen Zeit empfängst, prüfe Deine Spam-Verzeichnisse.<br>Wenn er nicht dort ist, frage Deinen lokalen Administrator.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Anfrage fehlgeschlagen!<br>Hast Du darauf geachtet, dass Deine E-Mail/Dein Benutzername korrekt war?",
@@ -128,6 +126,7 @@
 "Finish setup" => "Installation abschließen",
 "%s is available. Get more information on how to update." => "%s ist verfügbar. Holen Sie weitere Informationen zu Aktualisierungen ein.",
 "Log out" => "Abmelden",
+"More apps" => "Mehr Apps",
 "Automatic logon rejected!" => "Automatischer Login zurückgewiesen!",
 "If you did not change your password recently, your account may be compromised!" => "Wenn Du Dein Passwort nicht vor kurzem geändert hast, könnte Dein\nAccount kompromittiert sein!",
 "Please change your password to secure your account again." => "Bitte ändere Dein Passwort, um Deinen Account wieder zu schützen.",
@@ -136,7 +135,6 @@
 "Log in" => "Einloggen",
 "Alternative Logins" => "Alternative Logins",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Hallo,<br/><br/>wollte dich nur kurz informieren, dass %s gerade %s mit dir geteilt hat.<br/><a href=\"%s\">Schau es dir an.</a><br/><br/>Gruß!",
-"prev" => "Zurück",
-"next" => "Weiter",
 "Updating ownCloud to version %s, this may take a while." => "Aktualisiere ownCloud auf Version %s. Dies könnte eine Weile dauern."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

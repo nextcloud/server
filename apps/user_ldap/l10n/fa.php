@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to clear the mappings." => "عدم موفقیت در پاک کردن نگاشت.",
 "Failed to delete the server configuration" => "عملیات حذف پیکربندی سرور ناموفق ماند",
 "The configuration is valid and the connection could be established!" => "پیکربندی معتبر است و ارتباط می تواند برقرار شود",
@@ -24,7 +25,6 @@
 "For anonymous access, leave DN and Password empty." => "برای دسترسی ناشناس، DN را رها نموده و رمزعبور را خالی بگذارید.",
 "User Login Filter" => "فیلتر ورودی کاربر",
 "Group Filter" => "فیلتر گروه",
-"without any placeholder, e.g. \"objectClass=posixGroup\"." => "بدون هیچ گونه حفره یا سوراخ، به عنوان مثال، \"objectClass = posixGroup\".",
 "Connection Settings" => "تنظیمات اتصال",
 "Configuration Active" => "پیکربندی فعال",
 "When unchecked, this configuration will be skipped." => "زمانیکه انتخاب نشود، این پیکربندی نادیده گرفته خواهد شد.",
@@ -36,7 +36,6 @@
 "Do not use it additionally for LDAPS connections, it will fail." => "علاوه بر این برای اتصالات LDAPS  از آن استفاده نکنید، با شکست مواجه خواهد شد.",
 "Case insensitve LDAP server (Windows)" => "غیر حساس به بزرگی و کوچکی حروف LDAP سرور (ویندوز)",
 "Turn off SSL certificate validation." => "غیرفعال کردن اعتبار گواهی نامه SSL .",
-"Not recommended, use for testing only." => "توصیه نمی شود، تنها برای آزمایش استفاده کنید.",
 "Directory Settings" => "تنظیمات پوشه",
 "User Display Name Field" => "فیلد نام کاربر",
 "Base User Tree" => "کاربر درخت پایه",
@@ -65,3 +64,4 @@
 "Test Configuration" => "امتحان پیکربندی",
 "Help" => "راه‌نما"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

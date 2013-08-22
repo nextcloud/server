@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Klarte ikke å slette tjener-konfigurasjonen.",
 "The configuration is valid and the connection could be established!" => "Konfigurasjonen er i orden og tilkoblingen skal være etablert!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Konfigurasjonen er i orden, men Bind mislyktes. Vennligst sjekk tjener-konfigurasjonen og påloggingsinformasjonen.",
@@ -26,14 +27,8 @@
 "Password" => "Passord",
 "For anonymous access, leave DN and Password empty." => "For anonym tilgang, la DN- og passord-feltet stå tomt.",
 "User Login Filter" => "Brukerpålogging filter",
-"Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action." => "Definerer filteret som skal brukes når et påloggingsforsøk blir utført. %%uid erstatter brukernavnet i innloggingshandlingen.",
-"use %%uid placeholder, e.g. \"uid=%%uid\"" => "bruk %%uid plassholder, f.eks. \"uid=%%uid\"",
 "User List Filter" => "Brukerliste filter",
-"Defines the filter to apply, when retrieving users." => "Definerer filteret som skal brukes, når systemet innhenter brukere.",
-"without any placeholder, e.g. \"objectClass=person\"." => "uten noe plassholder, f.eks. \"objectClass=person\".",
 "Group Filter" => "Gruppefilter",
-"Defines the filter to apply, when retrieving groups." => "Definerer filteret som skal brukes, når systemet innhenter grupper.",
-"without any placeholder, e.g. \"objectClass=posixGroup\"." => "uten noe plassholder, f.eks. \"objectClass=posixGroup\".",
 "Configuration Active" => "Konfigurasjon aktiv",
 "When unchecked, this configuration will be skipped." => "Når ikke huket av så vil denne konfigurasjonen bli hoppet over.",
 "Port" => "Port",
@@ -41,7 +36,6 @@
 "Use TLS" => "Bruk TLS",
 "Case insensitve LDAP server (Windows)" => "Case-insensitiv LDAP tjener (Windows)",
 "Turn off SSL certificate validation." => "Slå av SSL-sertifikat validering",
-"Not recommended, use for testing only." => "Ikke anbefalt, bruk kun for testing",
 "in seconds. A change empties the cache." => "i sekunder. En endring tømmer bufferen.",
 "User Display Name Field" => "Vis brukerens navnfelt",
 "Base User Tree" => "Hovedbruker tre",
@@ -54,3 +48,4 @@
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "La stå tom for brukernavn (standard). Ellers, spesifiser en LDAP/AD attributt.",
 "Help" => "Hjelp"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

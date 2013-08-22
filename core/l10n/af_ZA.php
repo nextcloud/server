@@ -1,5 +1,10 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Settings" => "Instellings",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
+"_%n day ago_::_%n days ago_" => array("",""),
+"_%n month ago_::_%n months ago_" => array("",""),
 "Password" => "Wagwoord",
 "Use the following link to reset your password: {link}" => "Gebruik die volgende skakel om jou wagwoord te herstel: {link}",
 "You will receive a link to reset your password via Email." => "Jy sal `n skakel via e-pos ontvang om jou wagwoord te herstel.",
@@ -26,7 +31,6 @@
 "Log out" => "Teken uit",
 "Lost your password?" => "Jou wagwoord verloor?",
 "remember" => "onthou",
-"Log in" => "Teken aan",
-"prev" => "vorige",
-"next" => "volgende"
+"Log in" => "Teken aan"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "Flokkur ekki gefin",
 "No category to add?" => "Enginn flokkur til að bæta við?",
 "Object type not provided." => "Tegund ekki í boði.",
@@ -27,20 +28,17 @@
 "December" => "Desember",
 "Settings" => "Stillingar",
 "seconds ago" => "sek.",
-"1 minute ago" => "Fyrir 1 mínútu",
-"{minutes} minutes ago" => "{minutes} min síðan",
-"1 hour ago" => "Fyrir 1 klst.",
-"{hours} hours ago" => "fyrir {hours} klst.",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "í dag",
 "yesterday" => "í gær",
-"{days} days ago" => "{days} dagar síðan",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "síðasta mánuði",
-"{months} months ago" => "fyrir {months} mánuðum",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "mánuðir síðan",
 "last year" => "síðasta ári",
 "years ago" => "einhverjum árum",
 "Choose" => "Veldu",
-"Cancel" => "Hætta við",
 "Yes" => "Já",
 "No" => "Nei",
 "Ok" => "Í lagi",
@@ -80,7 +78,6 @@
 "Sending ..." => "Sendi ...",
 "Email sent" => "Tölvupóstur sendur",
 "The update was successful. Redirecting you to ownCloud now." => "Uppfærslan heppnaðist. Beini þér til ownCloud nú.",
-"ownCloud password reset" => "endursetja ownCloud lykilorð",
 "Use the following link to reset your password: {link}" => "Notað eftirfarandi veftengil til að endursetja lykilorðið þitt: {link}",
 "You will receive a link to reset your password via Email." => "Þú munt fá veftengil í tölvupósti til að endursetja lykilorðið.",
 "Username" => "Notendanafn",
@@ -120,7 +117,6 @@
 "Lost your password?" => "Týndir þú lykilorðinu?",
 "remember" => "muna eftir mér",
 "Log in" => "<strong>Skrá inn</strong>",
-"prev" => "fyrra",
-"next" => "næsta",
 "Updating ownCloud to version %s, this may take a while." => "Uppfæri ownCloud í útgáfu %s, það gæti tekið smá stund."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

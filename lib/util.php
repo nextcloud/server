@@ -46,6 +46,16 @@ class OC_Util {
 		}
 
 		if( $user != "" ) { //if we aren't logged in, there is no use to set up the filesystem
+			$quota = self::getUserQuota($user);
+			if ($quota !== \OC\Files\SPACE_UNLIMITED) {
+				\OC\Files\Filesystem::addStorageWrapper(function($mountPoint, $storage) use ($quota, $user) {
+					if ($mountPoint === '/' . $user . '/'){
+						return new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => $quota));
+					} else {
+						return $storage;
+					}
+				});
+			}
 			$user_dir = '/'.$user.'/files';
 			$user_root = OC_User::getHome($user);
 			$userdirectory = $user_root . '/files';
@@ -55,14 +65,24 @@ class OC_Util {
 			//jail the user into his "home" directory
 			\OC\Files\Filesystem::init($user, $user_dir);
 
-			$quotaProxy=new OC_FileProxy_Quota();
 			$fileOperationProxy = new OC_FileProxy_FileOperations();
-			OC_FileProxy::register($quotaProxy);
 			OC_FileProxy::register($fileOperationProxy);
 
 			OC_Hook::emit('OC_Filesystem', 'setup', array('user' => $user, 'user_dir' => $user_dir));
 		}
 		return true;
+	}
+
+	public static function getUserQuota($user){
+		$userQuota = OC_Preferences::getValue($user, 'files', 'quota', 'default');
+		if($userQuota === 'default') {
+			$userQuota = OC_AppConfig::getValue('files', 'default_quota', 'none');
+		}
+		if($userQuota === 'none') {
+			return \OC\Files\SPACE_UNLIMITED;
+		}else{
+			return OC_Helper::computerFileSize($userQuota);
+		}
 	}
 
 	public static function tearDownFS() {
@@ -168,6 +188,10 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer() {
+		// Assume that if checkServer() succeeded before in this session, then all is fine.
+		if(\OC::$session->exists('checkServer_suceeded') && \OC::$session->get('checkServer_suceeded'))
+			return array();
+
 		$errors=array();
 
 		$defaults = new \OC_Defaults();
@@ -309,9 +333,29 @@ class OC_Util {
 				'hint'=>'Please ask your server administrator to restart the web server.');
 		}
 
+		// Cache the result of this function
+		\OC::$session->set('checkServer_suceeded', count($errors) == 0);
+
 		return $errors;
 	}
 
+	/**
+	 * @brief check if there are still some encrypted files stored
+	 * @return boolean
+	 */
+	public static function encryptedFiles() {
+		//check if encryption was enabled in the past
+		$encryptedFiles = false;
+		if (OC_App::isEnabled('files_encryption') === false) {
+			$view = new OC\Files\View('/' . OCP\User::getUser());
+			if ($view->file_exists('/files_encryption/keyfiles')) {
+				$encryptedFiles = true;
+			}
+		}
+		
+		return $encryptedFiles;
+	}
+	
 	/**
 	* Check for correct file permissions of data directory
 	* @return array arrays with error messages and hints

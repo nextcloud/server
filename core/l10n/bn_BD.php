@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "ক্যাটেগরির ধরণটি প্রদান করা হয় নি।",
 "No category to add?" => "যোগ করার মত কোন ক্যাটেগরি নেই ?",
 "Object type not provided." => "অবজেক্টের ধরণটি প্রদান করা হয় নি।",
@@ -27,20 +28,17 @@
 "December" => "ডিসেম্বর",
 "Settings" => "নিয়ামকসমূহ",
 "seconds ago" => "সেকেন্ড পূর্বে",
-"1 minute ago" => "১ মিনিট পূর্বে",
-"{minutes} minutes ago" => "{minutes} মিনিট পূর্বে",
-"1 hour ago" => "1 ঘন্টা পূর্বে",
-"{hours} hours ago" => "{hours} ঘন্টা পূর্বে",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "আজ",
 "yesterday" => "গতকাল",
-"{days} days ago" => "{days} দিন পূর্বে",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "গত মাস",
-"{months} months ago" => "{months} মাস পূর্বে",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "মাস পূর্বে",
 "last year" => "গত বছর",
 "years ago" => "বছর পূর্বে",
 "Choose" => "বেছে নিন",
-"Cancel" => "বাতির",
 "Yes" => "হ্যাঁ",
 "No" => "না",
 "Ok" => "তথাস্তু",
@@ -79,7 +77,6 @@
 "Error setting expiration date" => "মেয়াদোত্তীর্ণ হওয়ার তারিখ নির্ধারণ করতে সমস্যা দেখা দিয়েছে",
 "Sending ..." => "পাঠানো হচ্ছে......",
 "Email sent" => "ই-মেইল পাঠানো হয়েছে",
-"ownCloud password reset" => "ownCloud কূটশব্দ পূনঃনির্ধারণ",
 "Use the following link to reset your password: {link}" => "আপনার কূটশব্দটি পূনঃনির্ধারণ  করার জন্য নিম্নোক্ত লিংকটি ব্যবহার করুনঃ {link}",
 "You will receive a link to reset your password via Email." => "কূটশব্দ পূনঃনির্ধারণের জন্য একটি টূনঃনির্ধারণ লিংকটি আপনাকে ই-মেইলে পাঠানো হয়েছে ।",
 "Username" => "ব্যবহারকারী",
@@ -113,7 +110,6 @@
 "Lost your password?" => "কূটশব্দ হারিয়েছেন?",
 "remember" => "মনে রাখ",
 "Log in" => "প্রবেশ",
-"prev" => "পূর্ববর্তী",
-"next" => "পরবর্তী",
 "Updating ownCloud to version %s, this may take a while." => "%s ভার্সনে ownCloud পরিবর্ধন করা হচ্ছে, এজন্য কিছু সময় প্রয়োজন।"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

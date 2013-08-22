@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s Partajat »%s« cu tine de",
 "Category type not provided." => "Tipul de categorie nu a fost specificat.",
 "No category to add?" => "Nici o categorie de adăugat?",
@@ -29,20 +30,17 @@
 "December" => "Decembrie",
 "Settings" => "Setări",
 "seconds ago" => "secunde în urmă",
-"1 minute ago" => "1 minut în urmă",
-"{minutes} minutes ago" => "{minutes} minute in urmă",
-"1 hour ago" => "Acum o oră",
-"{hours} hours ago" => "{hours} ore în urmă",
+"_%n minute ago_::_%n minutes ago_" => array("","",""),
+"_%n hour ago_::_%n hours ago_" => array("","",""),
 "today" => "astăzi",
 "yesterday" => "ieri",
-"{days} days ago" => "{days} zile in urmă",
+"_%n day ago_::_%n days ago_" => array("","",""),
 "last month" => "ultima lună",
-"{months} months ago" => "{months} luni în urmă",
+"_%n month ago_::_%n months ago_" => array("","",""),
 "months ago" => "luni în urmă",
 "last year" => "ultimul an",
 "years ago" => "ani în urmă",
 "Choose" => "Alege",
-"Cancel" => "Anulare",
 "Error loading file picker template" => "Eroare la încărcarea șablonului selectorului de fișiere",
 "Yes" => "Da",
 "No" => "Nu",
@@ -85,7 +83,6 @@
 "Email sent" => "Mesajul a fost expediat",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Actualizarea a eșuat! Raportați problema către <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">comunitatea ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Actualizare reușită. Ești redirecționat către ownCloud.",
-"ownCloud password reset" => "Resetarea parolei ownCloud ",
 "Use the following link to reset your password: {link}" => "Folosește următorul link pentru a reseta parola: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Linkul pentru resetarea parolei tale a fost trimis pe email. <br>Daca nu ai primit email-ul intr-un timp rezonabil, verifica folderul spam/junk. <br>Daca nu sunt acolo intreaba administratorul local.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Cerere esuata!<br>Esti sigur ca email-ul/numele de utilizator sunt corecte?",
@@ -136,7 +133,6 @@
 "Log in" => "Autentificare",
 "Alternative Logins" => "Conectări alternative",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Salutare, <br><br>Vă aduc la cunoștință că %s a partajat %s cu tine.<br><a href=\"%s\">Accesează-l!</a><br><br>Numai bine!",
-"prev" => "precedentul",
-"next" => "următorul",
 "Updating ownCloud to version %s, this may take a while." => "Actualizăm ownCloud la versiunea %s, aceasta poate dura câteva momente."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Deletion failed" => "删除失败",
 "Success" => "成功",
 "Error" => "出错",
@@ -11,19 +12,12 @@
 "Password" => "密码",
 "For anonymous access, leave DN and Password empty." => "匿名访问请留空判别名和密码。",
 "User Login Filter" => "用户登录过滤器",
-"Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action." => "定义尝试登录时要应用的过滤器。用 %%uid 替换登录操作中使用的用户名。",
-"use %%uid placeholder, e.g. \"uid=%%uid\"" => "使用 %%uid 占位符，例如 \"uid=%%uid\"",
 "User List Filter" => "用户列表过滤器",
-"Defines the filter to apply, when retrieving users." => "定义撷取用户时要应用的过滤器。",
-"without any placeholder, e.g. \"objectClass=person\"." => "不能使用占位符，例如 \"objectClass=person\"。",
 "Group Filter" => "群组过滤器",
-"Defines the filter to apply, when retrieving groups." => "定义撷取群组时要应用的过滤器",
-"without any placeholder, e.g. \"objectClass=posixGroup\"." => "不能使用占位符，例如 \"objectClass=posixGroup\"。",
 "Port" => "端口",
 "Use TLS" => "使用 TLS",
 "Case insensitve LDAP server (Windows)" => "大小写不敏感的 LDAP 服务器 (Windows)",
 "Turn off SSL certificate validation." => "关闭 SSL 证书校验。",
-"Not recommended, use for testing only." => "不推荐，仅供测试",
 "in seconds. A change empties the cache." => "以秒计。修改会清空缓存。",
 "User Display Name Field" => "用户显示名称字段",
 "Base User Tree" => "基本用户树",
@@ -34,3 +28,4 @@
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "用户名请留空 (默认)。否则，请指定一个 LDAP/AD 属性。",
 "Help" => "帮助"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

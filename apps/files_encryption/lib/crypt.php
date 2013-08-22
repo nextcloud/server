@@ -25,8 +25,7 @@
 
 namespace OCA\Encryption;
 
-//require_once '../3rdparty/Crypt_Blowfish/Blowfish.php';
-require_once realpath(dirname(__FILE__) . '/../3rdparty/Crypt_Blowfish/Blowfish.php');
+require_once __DIR__ . '/../3rdparty/Crypt_Blowfish/Blowfish.php';
 
 /**
  * Class for common cryptography functionality
@@ -57,7 +56,9 @@ class Crypt {
 
 		if ($res === false) {
 			\OCP\Util::writeLog('Encryption library', 'couldn\'t generate users key-pair for ' . \OCP\User::getUser(), \OCP\Util::ERROR);
-			\OCP\Util::writeLog('Encryption library', openssl_error_string(), \OCP\Util::ERROR);
+			while ($msg = openssl_error_string()) {
+				\OCP\Util::writeLog('Encryption library', 'openssl_pkey_new() fails:  ' . $msg, \OCP\Util::ERROR);
+			}
 		} elseif (openssl_pkey_export($res, $privateKey)) {
 			// Get public key
 			$keyDetails = openssl_pkey_get_details($res);
@@ -84,7 +85,7 @@ class Crypt {
 	 * blocks with encryption alone, hence padding is added to achieve the
 	 * required length.
 	 */
-	public static function addPadding($data) {
+	private static function addPadding($data) {
 
 		$padded = $data . 'xx';
 
@@ -97,7 +98,7 @@ class Crypt {
 	 * @param string $padded padded data to remove padding from
 	 * @return string unpadded data on success, false on error
 	 */
-	public static function removePadding($padded) {
+	private static function removePadding($padded) {
 
 		if (substr($padded, -2) === 'xx') {
 
@@ -205,7 +206,7 @@ class Crypt {
 	 * @param string $passphrase
 	 * @return string encrypted file content
 	 */
-	public static function encrypt($plainContent, $iv, $passphrase = '') {
+	private static function encrypt($plainContent, $iv, $passphrase = '') {
 
 		if ($encryptedContent = openssl_encrypt($plainContent, 'AES-128-CFB', $passphrase, false, $iv)) {
 			return $encryptedContent;
@@ -226,7 +227,7 @@ class Crypt {
 	 * @throws \Exception
 	 * @return string decrypted file content
 	 */
-	public static function decrypt($encryptedContent, $iv, $passphrase) {
+	private static function decrypt($encryptedContent, $iv, $passphrase) {
 
 		if ($plainContent = openssl_decrypt($encryptedContent, 'AES-128-CFB', $passphrase, false, $iv)) {
 
@@ -246,7 +247,7 @@ class Crypt {
 	 * @param string $iv IV to be concatenated
 	 * @returns string concatenated content
 	 */
-	public static function concatIv($content, $iv) {
+	private static function concatIv($content, $iv) {
 
 		$combined = $content . '00iv00' . $iv;
 
@@ -259,7 +260,7 @@ class Crypt {
 	 * @param string $catFile concatenated data to be split
 	 * @returns array keys: encrypted, iv
 	 */
-	public static function splitIv($catFile) {
+	private static function splitIv($catFile) {
 
 		// Fetch encryption metadata from end of file
 		$meta = substr($catFile, -22);
@@ -376,34 +377,6 @@ class Crypt {
 
 	}
 
-
-	/**
-	 * @brief Creates symmetric keyfile content using a generated key
-	 * @param string $plainContent content to be encrypted
-	 * @returns array keys: key, encrypted
-	 * @note symmetricDecryptFileContent() can be used to decrypt files created using this method
-	 *
-	 * This function decrypts a file
-	 */
-	public static function symmetricEncryptFileContentKeyfile($plainContent) {
-
-		$key = self::generateKey();
-
-		if ($encryptedContent = self::symmetricEncryptFileContent($plainContent, $key)) {
-
-			return array(
-				'key' => $key,
-				'encrypted' => $encryptedContent
-			);
-
-		} else {
-
-			return false;
-
-		}
-
-	}
-
 	/**
 	 * @brief Create asymmetrically encrypted keyfile content using a generated key
 	 * @param string $plainContent content to be encrypted
@@ -487,42 +460,10 @@ class Crypt {
 	}
 
 	/**
-	 * @brief Asymetrically encrypt a string using a public key
-	 * @param $plainContent
-	 * @param $publicKey
-	 * @return string encrypted file
-	 */
-	public static function keyEncrypt($plainContent, $publicKey) {
-
-		openssl_public_encrypt($plainContent, $encryptedContent, $publicKey);
-
-		return $encryptedContent;
-
-	}
-
-	/**
-	 * @brief Asymetrically decrypt a file using a private key
-	 * @param $encryptedContent
-	 * @param $privatekey
-	 * @return string decrypted file
-	 */
-	public static function keyDecrypt($encryptedContent, $privatekey) {
-
-		$result = @openssl_private_decrypt($encryptedContent, $plainContent, $privatekey);
-
-		if ($result) {
-			return $plainContent;
-		}
-
-		return $result;
-
-	}
-
-	/**
 	 * @brief Generates a pseudo random initialisation vector
 	 * @return String $iv generated IV
 	 */
-	public static function generateIv() {
+	private static function generateIv() {
 
 		if ($random = openssl_random_pseudo_bytes(12, $strong)) {
 
@@ -548,7 +489,7 @@ class Crypt {
 	}
 
 	/**
-	 * @brief Generate a pseudo random 1024kb ASCII key
+	 * @brief Generate a pseudo random 1024kb ASCII key, used as file key
 	 * @returns $key Generated key
 	 */
 	public static function generateKey() {
@@ -574,13 +515,13 @@ class Crypt {
 	}
 
 	/**
-	 * @brief Get the blowfish encryption handeler for a key
+	 * @brief Get the blowfish encryption handler for a key
 	 * @param $key string (optional)
 	 * @return \Crypt_Blowfish blowfish object
 	 *
-	 * if the key is left out, the default handeler will be used
+	 * if the key is left out, the default handler will be used
 	 */
-	public static function getBlowfish($key = '') {
+	private static function getBlowfish($key = '') {
 
 		if ($key) {
 
@@ -591,38 +532,6 @@ class Crypt {
 			return false;
 
 		}
-
-	}
-
-	/**
-	 * @param $passphrase
-	 * @return mixed
-	 */
-	public static function legacyCreateKey($passphrase) {
-
-		// Generate a random integer
-		$key = mt_rand(10000, 99999) . mt_rand(10000, 99999) . mt_rand(10000, 99999) . mt_rand(10000, 99999);
-
-		// Encrypt the key with the passphrase
-		$legacyEncKey = self::legacyEncrypt($key, $passphrase);
-
-		return $legacyEncKey;
-
-	}
-
-	/**
-	 * @brief encrypts content using legacy blowfish system
-	 * @param string $content the cleartext message you want to encrypt
-	 * @param string $passphrase
-	 * @returns string encrypted content
-	 *
-	 * This function encrypts an content
-	 */
-	public static function legacyEncrypt($content, $passphrase = '') {
-
-		$bf = self::getBlowfish($passphrase);
-
-		return $bf->encrypt($content);
 
 	}
 

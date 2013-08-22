@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "No categories selected for deletion." => "මකා දැමීම සඳහා ප්‍රවර්ගයන් තෝරා නොමැත.",
 "Sunday" => "ඉරිදා",
 "Monday" => "සඳුදා",
@@ -21,15 +22,17 @@
 "December" => "දෙසැම්බර්",
 "Settings" => "සිටුවම්",
 "seconds ago" => "තත්පරයන්ට පෙර",
-"1 minute ago" => "1 මිනිත්තුවකට පෙර",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "අද",
 "yesterday" => "ඊයේ",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "පෙර මාසයේ",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "මාස කීපයකට පෙර",
 "last year" => "පෙර අවුරුද්දේ",
 "years ago" => "අවුරුදු කීපයකට පෙර",
 "Choose" => "තෝරන්න",
-"Cancel" => "එපා",
 "Yes" => "ඔව්",
 "No" => "එපා",
 "Ok" => "හරි",
@@ -52,7 +55,6 @@
 "Password protected" => "මුර පදයකින් ආරක්ශාකර ඇත",
 "Error unsetting expiration date" => "කල් ඉකුත් දිනය ඉවත් කිරීමේ දෝෂයක්",
 "Error setting expiration date" => "කල් ඉකුත් දිනය ස්ථාපනය කිරීමේ දෝෂයක්",
-"ownCloud password reset" => "ownCloud මුරපදය ප්‍රත්‍යාරම්භ කරන්න",
 "You will receive a link to reset your password via Email." => "ඔබගේ මුරපදය ප්‍රත්‍යාරම්භ කිරීම සඳහා යොමුව විද්‍යුත් තැපෑලෙන් ලැබෙනු ඇත",
 "Username" => "පරිශීලක නම",
 "Your password was reset" => "ඔබේ මුරපදය ප්‍රත්‍යාරම්භ කරන ලදී",
@@ -82,7 +84,6 @@
 "Log out" => "නික්මීම",
 "Lost your password?" => "මුරපදය අමතකද?",
 "remember" => "මතක තබාගන්න",
-"Log in" => "ප්‍රවේශවන්න",
-"prev" => "පෙර",
-"next" => "ඊළඟ"
+"Log in" => "ප්‍රවේශවන්න"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

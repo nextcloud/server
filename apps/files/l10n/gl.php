@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Non se moveu %s - Xa existe un ficheiro con ese nome.",
 "Could not move %s" => "Non foi posíbel mover %s",
 "Unable to set upload directory." => "Non é posíbel configurar o directorio de envíos.",
@@ -23,7 +24,6 @@
 "Error" => "Erro",
 "Share" => "Compartir",
 "Delete permanently" => "Eliminar permanentemente",
-"Delete" => "Eliminar",
 "Rename" => "Renomear",
 "Pending" => "Pendentes",
 "{new_name} already exists" => "Xa existe un {new_name}",
@@ -32,23 +32,21 @@
 "cancel" => "cancelar",
 "replaced {new_name} with {old_name}" => "substituír {new_name} por {old_name}",
 "undo" => "desfacer",
-"perform delete operation" => "realizar a operación de eliminación",
-"1 file uploading" => "Enviándose 1 ficheiro",
+"_Uploading %n file_::_Uploading %n files_" => array("Cargando %n ficheiro","Cargando %n ficheiros"),
 "files uploading" => "ficheiros enviándose",
 "'.' is an invalid file name." => "«.» é un nome de ficheiro incorrecto",
 "File name cannot be empty." => "O nome de ficheiro non pode estar baleiro",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nome incorrecto, non se permite «\\», «/», «<», «>», «:», «\"», «|», «?» e «*».",
 "Your storage is full, files can not be updated or synced anymore!" => "O seu espazo de almacenamento está cheo, non é posíbel actualizar ou sincronizar máis os ficheiros!",
 "Your storage is almost full ({usedSpacePercent}%)" => "O seu espazo de almacenamento está case cheo ({usedSpacePercent}%)",
+"Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "O cifrado foi desactivado, mais os ficheiros están cifrados. Vaia á configuración persoal para descifrar os ficheiros.",
 "Your download is being prepared. This might take some time if the files are big." => "Está a prepararse a súa descarga. Isto pode levar bastante tempo se os ficheiros son grandes.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Nome de cartafol incorrecto. O uso de «Shared» está reservado por Owncloud",
 "Name" => "Nome",
 "Size" => "Tamaño",
 "Modified" => "Modificado",
-"1 folder" => "1 cartafol",
-"{count} folders" => "{count} cartafoles",
-"1 file" => "1 ficheiro",
-"{count} files" => "{count} ficheiros",
+"_%n folder_::_%n folders_" => array("%n cartafol","%n cartafoles"),
+"_%n file_::_%n files_" => array("%n ficheiro","%n ficheiros"),
 "%s could not be renamed" => "%s non pode cambiar de nome",
 "Upload" => "Enviar",
 "File handling" => "Manexo de ficheiro",
@@ -69,6 +67,7 @@
 "Nothing in here. Upload something!" => "Aquí non hai nada. Envíe algo.",
 "Download" => "Descargar",
 "Unshare" => "Deixar de compartir",
+"Delete" => "Eliminar",
 "Upload too large" => "Envío demasiado grande",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Os ficheiros que tenta enviar exceden do tamaño máximo permitido neste servidor",
 "Files are being scanned, please wait." => "Estanse analizando os ficheiros. Agarde.",
@@ -79,3 +78,4 @@
 "files" => "ficheiros",
 "Upgrading filesystem cache..." => "Anovando a caché do sistema de ficheiros..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

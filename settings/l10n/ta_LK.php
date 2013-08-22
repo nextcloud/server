@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "செயலி சேமிப்பிலிருந்து பட்டியலை ஏற்றமுடியாதுள்ளது",
 "Authentication error" => "அத்தாட்சிப்படுத்தலில் வழு",
 "Group already exists" => "குழு ஏற்கனவே உள்ளது",
@@ -43,7 +44,9 @@
 "Fill in an email address to enable password recovery" => "கடவுச்சொல் மீள் பெறுவதை இயலுமைப்படுத்துவதற்கு மின்னஞ்சல் முகவரியை இயலுமைப்படுத்துக",
 "Language" => "மொழி",
 "Help translate" => "மொழிபெயர்க்க உதவி",
+"Encryption" => "மறைக்குறியீடு",
 "Create" => "உருவாக்குக",
 "Other" => "மற்றவை",
 "Username" => "பயனாளர் பெயர்"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

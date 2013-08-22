@@ -4,14 +4,16 @@
 # 
 # Translators:
 # Honza K. <honza889@gmail.com>, 2013
+# cvanca <mrs.jenkins.oh.yeah@gmail.com>, 2013
+# pstast <petr@stastny.eu>, 2013
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-04 01:55-0400\n"
-"PO-Revision-Date: 2013-08-04 05:02+0000\n"
-"Last-Translator: Honza K. <honza889@gmail.com>\n"
+"POT-Creation-Date: 2013-08-21 08:11-0400\n"
+"PO-Revision-Date: 2013-08-20 17:00+0000\n"
+"Last-Translator: cvanca <mrs.jenkins.oh.yeah@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,15 +43,15 @@ msgstr "Konfigurace je v pořádku, ale spojení selhalo. Zkontrolujte, prosím,
 msgid ""
 "The configuration is invalid. Please look in the ownCloud log for further "
 "details."
-msgstr "Nastavení je neplatné. Zkontrolujte, prosím, záznam ownCloud pro další podrobnosti."
+msgstr "Nastavení je neplatné. Zkontrolujte, prosím, záznamy ownCloud pro další podrobnosti."
 
 #: js/settings.js:66
 msgid "Deletion failed"
-msgstr "Mazání selhalo."
+msgstr "Mazání selhalo"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
-msgstr "Převzít nastavení z nedávného nastavení serveru?"
+msgstr "Převzít nastavení z nedávné konfigurace serveru?"
 
 #: js/settings.js:83
 msgid "Keep settings?"
@@ -98,7 +100,7 @@ msgstr "<b>Varování:</b> Aplikace user_ldap a user_webdavauth jsou vzájemně 
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr "<b>Varování:</b> není nainstalován LDAP modul pro PHP, podpůrná vrstva nebude fungovat. Požádejte, prosím, správce systému aby jej nainstaloval."
+msgstr "<b>Varování:</b> není nainstalován LDAP modul pro PHP, podpůrná vrstva nebude fungovat. Požádejte, prosím, správce systému, aby jej nainstaloval."
 
 #: templates/settings.php:16
 msgid "Server configuration"
@@ -138,7 +140,7 @@ msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr "DN klentského uživatele ke kterému tvoříte vazbu, např. uid=agent,dc=example,dc=com. Pro anonymní přístup ponechte údaje DN and Heslo prázdné."
+msgstr "DN klientského uživatele, ke kterému tvoříte vazbu, např. uid=agent,dc=example,dc=com. Pro anonymní přístup ponechte DN a heslo prázdné."
 
 #: templates/settings.php:47
 msgid "Password"
@@ -146,7 +148,7 @@ msgstr "Heslo"
 
 #: templates/settings.php:50
 msgid "For anonymous access, leave DN and Password empty."
-msgstr "Pro anonymní přístup, ponechte údaje DN and heslo prázdné."
+msgstr "Pro anonymní přístup ponechte údaje DN and heslo prázdné."
 
 #: templates/settings.php:51
 msgid "User Login Filter"
@@ -156,198 +158,185 @@ msgstr "Filtr přihlášení uživatelů"
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
-"username in the login action."
-msgstr "Určuje použitý filtr, při pokusu o přihlášení. %%uid nahrazuje uživatelské jméno v činnosti přihlášení."
+"username in the login action. Example: \"uid=%%uid\""
+msgstr "Určuje použitý filtr, při pokusu o přihlášení. %%uid nahrazuje uživatelské jméno v činnosti přihlášení. Příklad \"uid=%%uid\""
 
 #: templates/settings.php:55
-#, php-format
-msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr "použijte zástupný vzor %%uid, např. \"uid=%%uid\""
-
-#: templates/settings.php:56
 msgid "User List Filter"
-msgstr "Filtr uživatelských seznamů"
+msgstr "Filtr seznamu uživatelů"
+
+#: templates/settings.php:58
+msgid ""
+"Defines the filter to apply, when retrieving users (no placeholders). "
+"Example: \"objectClass=person\""
+msgstr "Určuje použitý filtr pro získávaní uživatelů (bez zástupných znaků). Příklad: \"objectClass=person\""
 
 #: templates/settings.php:59
-msgid "Defines the filter to apply, when retrieving users."
-msgstr "Určuje použitý filtr, pro získávaní uživatelů."
-
-#: templates/settings.php:60
-msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr "bez zástupných znaků, např. \"objectClass=person\"."
-
-#: templates/settings.php:61
 msgid "Group Filter"
 msgstr "Filtr skupin"
 
-#: templates/settings.php:64
-msgid "Defines the filter to apply, when retrieving groups."
-msgstr "Určuje použitý filtr, pro získávaní skupin."
+#: templates/settings.php:62
+msgid ""
+"Defines the filter to apply, when retrieving groups (no placeholders). "
+"Example: \"objectClass=posixGroup\""
+msgstr "Určuje použitý filtr, pro získávaní skupin (bez zástupných znaků). Příklad: \"objectClass=posixGroup\""
 
-#: templates/settings.php:65
-msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr "bez zástupných znaků, např. \"objectClass=posixGroup\"."
-
-#: templates/settings.php:69
+#: templates/settings.php:66
 msgid "Connection Settings"
 msgstr "Nastavení spojení"
 
-#: templates/settings.php:71
+#: templates/settings.php:68
 msgid "Configuration Active"
 msgstr "Nastavení aktivní"
 
-#: templates/settings.php:71
+#: templates/settings.php:68
 msgid "When unchecked, this configuration will be skipped."
-msgstr "Pokud není zaškrtnuto, bude nastavení přeskočeno."
+msgstr "Pokud není zaškrtnuto, bude toto nastavení přeskočeno."
 
-#: templates/settings.php:72
+#: templates/settings.php:69
 msgid "Port"
 msgstr "Port"
 
-#: templates/settings.php:73
+#: templates/settings.php:70
 msgid "Backup (Replica) Host"
 msgstr "Záložní (kopie) hostitel"
 
-#: templates/settings.php:73
+#: templates/settings.php:70
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
 msgstr "Zadejte volitelného záložního hostitele. Musí to být kopie hlavního serveru LDAP/AD."
 
-#: templates/settings.php:74
+#: templates/settings.php:71
 msgid "Backup (Replica) Port"
 msgstr "Záložní (kopie) port"
 
-#: templates/settings.php:75
+#: templates/settings.php:72
 msgid "Disable Main Server"
-msgstr "Zakázat hlavní serveru"
+msgstr "Zakázat hlavní server"
 
-#: templates/settings.php:75
+#: templates/settings.php:72
 msgid "Only connect to the replica server."
-msgstr "Připojit jen k replikujícímu serveru."
+msgstr "Připojit jen k záložnímu serveru."
 
-#: templates/settings.php:76
+#: templates/settings.php:73
 msgid "Use TLS"
 msgstr "Použít TLS"
 
-#: templates/settings.php:76
+#: templates/settings.php:73
 msgid "Do not use it additionally for LDAPS connections, it will fail."
-msgstr "Nepoužívejte pro spojení LDAP, selže."
+msgstr "Nepoužívejte v kombinaci s LDAPS spojením, nebude to fungovat."
 
-#: templates/settings.php:77
+#: templates/settings.php:74
 msgid "Case insensitve LDAP server (Windows)"
 msgstr "LDAP server nerozlišující velikost znaků (Windows)"
 
-#: templates/settings.php:78
+#: templates/settings.php:75
 msgid "Turn off SSL certificate validation."
 msgstr "Vypnout ověřování SSL certifikátu."
 
-#: templates/settings.php:78
+#: templates/settings.php:75
 #, php-format
 msgid ""
-"If connection only works with this option, import the LDAP server's SSL "
-"certificate in your %s server."
-msgstr "Pokud spojení funguje jen s touto volbou, importujte SSL certifikát vašeho LDAP serveru na server %s."
+"Not recommended, use it for testing only! If connection only works with this"
+" option, import the LDAP server's SSL certificate in your %s server."
+msgstr "Nedoporučuje se, určeno pouze k testovacímu použití. Pokud spojení funguje jen s touto volbou, importujte SSL certifikát vašeho LDAP serveru na server %s."
 
-#: templates/settings.php:78
-msgid "Not recommended, use for testing only."
-msgstr "Není doporučeno, pouze pro testovací účely."
-
-#: templates/settings.php:79
+#: templates/settings.php:76
 msgid "Cache Time-To-Live"
 msgstr "TTL vyrovnávací paměti"
 
-#: templates/settings.php:79
+#: templates/settings.php:76
 msgid "in seconds. A change empties the cache."
-msgstr "ve vteřinách. Změna vyprázdní vyrovnávací paměť."
+msgstr "v sekundách. Změna vyprázdní vyrovnávací paměť."
 
-#: templates/settings.php:81
+#: templates/settings.php:78
 msgid "Directory Settings"
 msgstr "Nastavení adresáře"
 
-#: templates/settings.php:83
+#: templates/settings.php:80
 msgid "User Display Name Field"
 msgstr "Pole zobrazovaného jména uživatele"
 
-#: templates/settings.php:83
+#: templates/settings.php:80
 msgid "The LDAP attribute to use to generate the user's display name."
 msgstr "LDAP atribut použitý k vytvoření zobrazovaného jména uživatele."
 
-#: templates/settings.php:84
+#: templates/settings.php:81
 msgid "Base User Tree"
 msgstr "Základní uživatelský strom"
 
-#: templates/settings.php:84
+#: templates/settings.php:81
 msgid "One User Base DN per line"
 msgstr "Jedna uživatelská základní DN na řádku"
 
-#: templates/settings.php:85
+#: templates/settings.php:82
 msgid "User Search Attributes"
 msgstr "Atributy vyhledávání uživatelů"
 
-#: templates/settings.php:85 templates/settings.php:88
+#: templates/settings.php:82 templates/settings.php:85
 msgid "Optional; one attribute per line"
-msgstr "Volitelné, atribut na řádku"
+msgstr "Volitelné, jeden atribut na řádku"
 
-#: templates/settings.php:86
+#: templates/settings.php:83
 msgid "Group Display Name Field"
 msgstr "Pole zobrazovaného jména skupiny"
 
-#: templates/settings.php:86
+#: templates/settings.php:83
 msgid "The LDAP attribute to use to generate the groups's display name."
 msgstr "LDAP atribut použitý k vytvoření zobrazovaného jména skupiny."
 
-#: templates/settings.php:87
+#: templates/settings.php:84
 msgid "Base Group Tree"
 msgstr "Základní skupinový strom"
 
-#: templates/settings.php:87
+#: templates/settings.php:84
 msgid "One Group Base DN per line"
 msgstr "Jedna skupinová základní DN na řádku"
 
-#: templates/settings.php:88
+#: templates/settings.php:85
 msgid "Group Search Attributes"
 msgstr "Atributy vyhledávání skupin"
 
-#: templates/settings.php:89
+#: templates/settings.php:86
 msgid "Group-Member association"
 msgstr "Asociace člena skupiny"
 
-#: templates/settings.php:91
+#: templates/settings.php:88
 msgid "Special Attributes"
 msgstr "Speciální atributy"
 
-#: templates/settings.php:93
+#: templates/settings.php:90
 msgid "Quota Field"
 msgstr "Pole pro kvótu"
 
-#: templates/settings.php:94
+#: templates/settings.php:91
 msgid "Quota Default"
 msgstr "Výchozí kvóta"
 
-#: templates/settings.php:94
+#: templates/settings.php:91
 msgid "in bytes"
 msgstr "v bajtech"
 
-#: templates/settings.php:95
+#: templates/settings.php:92
 msgid "Email Field"
 msgstr "Pole e-mailu"
 
-#: templates/settings.php:96
+#: templates/settings.php:93
 msgid "User Home Folder Naming Rule"
 msgstr "Pravidlo pojmenování domovské složky uživatele"
 
-#: templates/settings.php:96
+#: templates/settings.php:93
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "Ponechte prázdné pro uživatelské jméno (výchozí). Jinak uveďte LDAP/AD parametr."
 
-#: templates/settings.php:101
+#: templates/settings.php:98
 msgid "Internal Username"
 msgstr "Interní uživatelské jméno"
 
-#: templates/settings.php:102
+#: templates/settings.php:99
 msgid ""
 "By default the internal username will be created from the UUID attribute. It"
 " makes sure that the username is unique and characters do not need to be "
@@ -361,17 +350,17 @@ msgid ""
 "behavior as before ownCloud 5 enter the user display name attribute in the "
 "following field. Leave it empty for default behavior. Changes will have "
 "effect only on newly mapped (added) LDAP users."
-msgstr "Ve výchozím nastavení bude uživatelské jméno vytvořeno z UUID atributu. To zajistí unikátnost uživatelského jména bez potřeby konverze znaků. Interní uživatelské jméno je omezena na znaky: [ a-zA-Z0-9_.@- ]. Ostatní znaky jsou nahrazeny jejich ASCII ekvivalentem nebo jednoduše vynechány. V případě kolize uživatelských jmen bude přidáno/navýšeno číslo. Interní uživatelské jméno je používáno k interní identifikaci uživatele. Je také výchozím názvem uživatelského domovského adresáře. Je také součástí URL pro vzdálený přístup, například všech *DAV služeb. S tímto nastavením bude výchozí chování přepsáno. Pro dosažení podobného chování jako před ownCloudem 5 uveďte atribut zobrazovaného jména do pole níže. Ponechte prázdné pro výchozí chování. Změna bude mít vliv jen na nově namapované (přidané) uživatele z LDAP."
+msgstr "Ve výchozím nastavení bude uživatelské jméno vytvořeno z UUID atributu. To zajistí unikátnost uživatelského jména a není potřeba provádět konverzi znaků. Interní uživatelské jméno je omezeno na znaky: [ a-zA-Z0-9_.@- ]. Ostatní znaky jsou nahrazeny jejich ASCII ekvivalentem nebo jednoduše vynechány. V případě kolize uživatelských jmen bude přidáno/navýšeno číslo. Interní uživatelské jméno je používáno k interní identifikaci uživatele. Je také výchozím názvem uživatelského domovského adresáře. Je také součástí URL pro vzdálený přístup, například všech *DAV služeb. S tímto nastavením může být výchozí chování změněno. Pro dosažení podobného chování jako před ownCloudem 5 uveďte atribut zobrazovaného jména do pole níže. Ponechte prázdné pro výchozí chování. Změna bude mít vliv jen na nově namapované (přidané) uživatele z LDAP."
 
-#: templates/settings.php:103
+#: templates/settings.php:100
 msgid "Internal Username Attribute:"
 msgstr "Atribut interního uživatelského jména:"
 
-#: templates/settings.php:104
+#: templates/settings.php:101
 msgid "Override UUID detection"
 msgstr "Nastavit ručně UUID atribut"
 
-#: templates/settings.php:105
+#: templates/settings.php:102
 msgid ""
 "By default, the UUID attribute is automatically detected. The UUID attribute"
 " is used to doubtlessly identify LDAP users and groups. Also, the internal "
@@ -380,17 +369,17 @@ msgid ""
 "You must make sure that the attribute of your choice can be fetched for both"
 " users and groups and it is unique. Leave it empty for default behavior. "
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
-msgstr "Ve výchozím nastavení je UUID atribut nalezen automaticky. UUID atribut je používán pro nezpochybnitelnou identifikaci uživatelů a skupin z LDAP. Navíc je na základě UUID tvořeno také interní uživatelské jméno, pokud není nastaveno jinak. Můžete výchozí nastavení přepsat a použít atribut který sami zvolíte. Musíte se ale ujistit že atribut který vyberete bude uveden jak u uživatelů, tak i u skupin a je unikátní. Ponechte prázdné pro výchozí chování. Změna bude mít vliv jen na nově namapované (přidané) uživatele a skupiny z LDAP."
+msgstr "Ve výchozím nastavení je UUID atribut nalezen automaticky. UUID atribut je používán pro nezpochybnitelnou identifikaci uživatelů a skupin z LDAP. Navíc je na základě UUID tvořeno také interní uživatelské jméno, pokud není nastaveno jinak. Můžete výchozí nastavení přepsat a použít atribut, který sami zvolíte. Musíte se ale ujistit, že atribut, který vyberete, bude uveden jak u uživatelů, tak i u skupin a je unikátní. Ponechte prázdné pro výchozí chování. Změna bude mít vliv jen na nově namapované (přidané) uživatele a skupiny z LDAP."
 
-#: templates/settings.php:106
+#: templates/settings.php:103
 msgid "UUID Attribute:"
 msgstr "Atribut UUID:"
 
-#: templates/settings.php:107
+#: templates/settings.php:104
 msgid "Username-LDAP User Mapping"
 msgstr "Mapování uživatelských jmen z LDAPu"
 
-#: templates/settings.php:108
+#: templates/settings.php:105
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -402,20 +391,20 @@ msgid ""
 " is not configuration sensitive, it affects all LDAP configurations! Never "
 "clear the mappings in a production environment, only in a testing or "
 "experimental stage."
-msgstr "Uživatelská jména jsou používány pro uchovávání a přiřazování (meta)dat. Pro správnou identifikaci a rozpoznání uživatelů bude mít každý uživatel z LDAP interní uživatelské jméno. To je nezbytné pro mapování uživatelských jmen na uživatele LDAP. Vytvořené uživatelské jméno je mapováno na UUID uživatele v LDAP. Navíc je cachována DN pro reprodukci interakce s LDAP, ale není používána pro identifikaci. Pokud se DN změní, bude to správně rozpoznáno. Vyčištění mapování zanechá zbytky všude. Vyčištění navíc není specifické konfiguraci, bude mít vliv na všechny LDAP konfigurace! Nikdy nečistěte mapování v produkčním prostředí, jen v testovací nebo experimentální fázi."
+msgstr "Uživatelská jména jsou používány pro uchovávání a přiřazování (meta)dat. Pro správnou identifikaci a rozpoznání uživatelů bude mít každý uživatel z LDAP interní uživatelské jméno. To vyžaduje mapování uživatelských jmen na uživatele LDAP. Vytvořené uživatelské jméno je mapováno na UUID uživatele v LDAP. Navíc je cachována DN pro zmenšení interakce s LDAP, ale není používána pro identifikaci. Pokud se DN změní, bude to správně rozpoznáno. Interní uživatelské jméno se používá celé. Vyčištění mapování zanechá zbytky všude. Vyčištění navíc není specifické konfiguraci, bude mít vliv na všechny LDAP konfigurace! Nikdy nečistěte mapování v produkčním prostředí, jen v testovací nebo experimentální fázi."
 
-#: templates/settings.php:109
+#: templates/settings.php:106
 msgid "Clear Username-LDAP User Mapping"
 msgstr "Zrušit mapování uživatelských jmen LDAPu"
 
-#: templates/settings.php:109
+#: templates/settings.php:106
 msgid "Clear Groupname-LDAP Group Mapping"
 msgstr "Zrušit mapování názvů skupin LDAPu"
 
-#: templates/settings.php:111
+#: templates/settings.php:108
 msgid "Test Configuration"
 msgstr "Vyzkoušet nastavení"
 
-#: templates/settings.php:111
+#: templates/settings.php:108
 msgid "Help"
 msgstr "Nápověda"

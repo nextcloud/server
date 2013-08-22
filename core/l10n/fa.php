@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s به اشتراک گذاشته شده است »%s« توسط شما",
 "Category type not provided." => "نوع دسته بندی ارائه نشده است.",
 "No category to add?" => "آیا گروه دیگری برای افزودن ندارید",
@@ -29,20 +30,17 @@
 "December" => "دسامبر",
 "Settings" => "تنظیمات",
 "seconds ago" => "ثانیه‌ها پیش",
-"1 minute ago" => "1 دقیقه پیش",
-"{minutes} minutes ago" => "{دقیقه ها} دقیقه های پیش",
-"1 hour ago" => "1 ساعت پیش",
-"{hours} hours ago" => "{ساعت ها} ساعت ها پیش",
+"_%n minute ago_::_%n minutes ago_" => array(""),
+"_%n hour ago_::_%n hours ago_" => array(""),
 "today" => "امروز",
 "yesterday" => "دیروز",
-"{days} days ago" => "{روزها} روزهای پیش",
+"_%n day ago_::_%n days ago_" => array(""),
 "last month" => "ماه قبل",
-"{months} months ago" => "{ماه ها} ماه ها پیش",
+"_%n month ago_::_%n months ago_" => array(""),
 "months ago" => "ماه‌های قبل",
 "last year" => "سال قبل",
 "years ago" => "سال‌های قبل",
 "Choose" => "انتخاب کردن",
-"Cancel" => "منصرف شدن",
 "Error loading file picker template" => "خطا در بارگذاری قالب انتخاب کننده فایل",
 "Yes" => "بله",
 "No" => "نه",
@@ -85,7 +83,6 @@
 "Email sent" => "ایمیل ارسال شد",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "به روز رسانی ناموفق بود. لطفا این خطا را به  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">جامعه ی OwnCloud</a> گزارش نمایید.",
 "The update was successful. Redirecting you to ownCloud now." => "به روزرسانی موفقیت آمیز بود. در حال انتقال شما به OwnCloud.",
-"ownCloud password reset" => "پسورد ابرهای شما تغییرکرد",
 "Use the following link to reset your password: {link}" => "از لینک زیر جهت دوباره سازی پسورد استفاده کنید :\n{link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "لینک تنظیم مجدد رمز عبور به ایمیل شما ارسال شده است.<br>اگر آن رادر یک زمان مشخصی دریافت نکرده اید، لطفا هرزنامه/ پوشه های ناخواسته را بررسی کنید.<br>در صورت نبودن از مدیر خود بپرسید.",
 "Request failed!<br>Did you make sure your email/username was right?" => "درخواست رد شده است !<br> آیا مطمئن هستید که ایمیل/ نام کاربری شما صحیح میباشد ؟",
@@ -134,7 +131,6 @@
 "Log in" => "ورود",
 "Alternative Logins" => "ورود متناوب",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "اینجا<br><br> فقط به شما اجازه میدهد که بدانید %s به اشتراک گذاشته شده»%s« توسط شما.<br><a href=\"%s\"> مشاهده آن!</a><br><br> به سلامتی!",
-"prev" => "بازگشت",
-"next" => "بعدی",
 "Updating ownCloud to version %s, this may take a while." => "به روز رسانی OwnCloud به نسخه ی %s، این عملیات ممکن است زمان بر باشد."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

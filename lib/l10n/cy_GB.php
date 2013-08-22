@@ -1,16 +1,15 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Cymorth",
 "Personal" => "Personol",
 "Settings" => "Gosodiadau",
 "Users" => "Defnyddwyr",
-"Apps" => "Pecynnau",
 "Admin" => "Gweinyddu",
 "web services under your control" => "gwasanaethau gwe a reolir gennych",
 "ZIP download is turned off." => "Mae llwytho ZIP wedi ei ddiffodd.",
 "Files need to be downloaded one by one." => "Mae angen llwytho ffeiliau i lawr fesul un.",
 "Back to Files" => "Nôl i Ffeiliau",
 "Selected files too large to generate zip file." => "Mae'r ffeiliau ddewiswyd yn rhy fawr i gynhyrchu ffeil zip.",
-"couldn't be determined" => "methwyd pennu",
 "Application is not enabled" => "Nid yw'r pecyn wedi'i alluogi",
 "Authentication error" => "Gwall dilysu",
 "Token expired. Please reload page." => "Tocyn wedi dod i ben. Ail-lwythwch y dudalen.",
@@ -37,16 +36,15 @@
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Nid yw eich gweinydd wedi'i gyflunio eto i ganiatáu cydweddu ffeiliau oherwydd bod y rhyngwyneb WebDAV wedi torri.",
 "Please double check the <a href='%s'>installation guides</a>." => "Gwiriwch y <a href='%s'>canllawiau gosod</a> eto.",
 "seconds ago" => "eiliad yn ôl",
-"1 minute ago" => "1 munud yn ôl",
-"%d minutes ago" => "%d munud yn ôl",
-"1 hour ago" => "1 awr yn ôl",
-"%d hours ago" => "%d awr yn ôl",
+"_%n minute ago_::_%n minutes ago_" => array("","","",""),
+"_%n hour ago_::_%n hours ago_" => array("","","",""),
 "today" => "heddiw",
 "yesterday" => "ddoe",
-"%d days ago" => "%d diwrnod yn ôl",
+"_%n day go_::_%n days ago_" => array("","","",""),
 "last month" => "mis diwethaf",
-"%d months ago" => "%d mis yn ôl",
+"_%n month ago_::_%n months ago_" => array("","","",""),
 "last year" => "y llynedd",
 "years ago" => "blwyddyn yn ôl",
 "Could not find category \"%s\"" => "Methu canfod categori \"%s\""
 );
+$PLURAL_FORMS = "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;";

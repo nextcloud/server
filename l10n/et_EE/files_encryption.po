@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-02 01:55-0400\n"
-"PO-Revision-Date: 2013-08-02 05:57+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-21 08:10-0400\n"
+"PO-Revision-Date: 2013-08-19 19:20+0000\n"
+"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,20 +63,20 @@ msgid ""
 "files."
 msgstr "Sinu privaatne võti pole toimiv! Tõenäoliselt on sinu parool muutunud väljaspool ownCloud süsteemi (näiteks ettevõtte keskhaldus). Sa saad uuendada oma privaatse võtme parooli seadete all taastamaks ligipääsu oma krüpteeritud failidele."
 
-#: hooks/hooks.php:44
+#: hooks/hooks.php:41
 msgid "Missing requirements."
 msgstr "Nõutavad on puudu."
 
-#: hooks/hooks.php:45
+#: hooks/hooks.php:42
 msgid ""
-"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL "
-"PHP extension is enabled and configured properly. For now, the encryption "
-"app has been disabled."
-msgstr "Veendu, et kasutusel oleks PHP 5.3.3 või uuem versioon ning kasutusel oleks OpenSSL PHP laiendus ja see on korrektselt seadistatud. Hetkel on krüpteerimise rakenduse kasutamine peatatud."
+"Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
+"together with the PHP extension is enabled and configured properly. For now,"
+" the encryption app has been disabled."
+msgstr "Palun veendu, et on paigaldatud PHP 5.3.3 või uuem ning PHP OpenSSL laiendus on lubatud ning seadistatud korrektselt. Hetkel krüpteerimise rakendus on peatatud."
 
-#: hooks/hooks.php:263
+#: hooks/hooks.php:249
 msgid "Following users are not set up for encryption:"
-msgstr ""
+msgstr "Järgmised kasutajad pole seadistatud krüpteeringuks:"
 
 #: js/settings-admin.js:11
 msgid "Saving..."

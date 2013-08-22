@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Não foi possível carregar lista da App Store",
 "Authentication error" => "Erro de autenticação",
 "Your display name has been changed." => "A exibição de seu nome foi alterada.",
@@ -24,6 +25,7 @@
 "Updating...." => "Atualizando...",
 "Error while updating app" => "Erro ao atualizar aplicativo",
 "Updated" => "Atualizado",
+"Decrypting files... Please wait, this can take some time." => "Decriptando arquivos... Por favor aguarde, isso pode levar algum tempo.",
 "Saving..." => "Salvando...",
 "deleted" => "excluído",
 "undo" => "desfazer",
@@ -101,6 +103,10 @@
 "Help translate" => "Ajude a traduzir",
 "WebDAV" => "WebDAV",
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "Use esse endereço para <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">acessar seus arquivos via WebDAV</a>",
+"Encryption" => "Criptografia",
+"The encryption app is no longer enabled, decrypt all your file" => "O aplicativo de encriptação não está mais ativo, decripti todos os seus arquivos",
+"Log-in password" => "Senha de login",
+"Decrypt all Files" => "Decripti todos os Arquivos",
 "Login Name" => "Nome de Login",
 "Create" => "Criar",
 "Admin Recovery Password" => "Recuperação da Senha do Administrador",
@@ -114,3 +120,4 @@
 "set new password" => "definir nova senha",
 "Default" => "Padrão"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

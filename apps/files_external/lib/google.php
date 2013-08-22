@@ -206,7 +206,7 @@ class Google extends \OC\Files\Storage\Common {
 	public function rmdir($path) {
 		if (trim($path, '/') === '') {
 			$dir = $this->opendir($path);
-			while ($file = readdir($dir)) {
+			while (($file = readdir($dh)) !== false) {
 				if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
 					if (!$this->unlink($path.'/'.$file)) {
 						return false;
@@ -284,7 +284,7 @@ class Google extends \OC\Files\Storage\Common {
 				// Check if this is a Google Doc
 				if ($this->getMimeType($path) !== $file->getMimeType()) {
 					// Return unknown file size
-					$stat['size'] = \OC\Files\FREE_SPACE_UNKNOWN;
+					$stat['size'] = \OC\Files\SPACE_UNKNOWN;
 				} else {
 					$stat['size'] = $file->getFileSize();
 				}

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s" => "%s يۆتكىيەلمەيدۇ",
 "No file was uploaded. Unknown error" => "ھېچقانداق ھۆججەت يۈكلەنمىدى. يوچۇن خاتالىق",
 "No file was uploaded" => "ھېچقانداق ھۆججەت يۈكلەنمىدى",
@@ -12,7 +13,6 @@
 "Error" => "خاتالىق",
 "Share" => "ھەمبەھىر",
 "Delete permanently" => "مەڭگۈلۈك ئۆچۈر",
-"Delete" => "ئۆچۈر",
 "Rename" => "ئات ئۆزگەرت",
 "Pending" => "كۈتۈۋاتىدۇ",
 "{new_name} already exists" => "{new_name} مەۋجۇت",
@@ -20,14 +20,13 @@
 "suggest name" => "تەۋسىيە ئات",
 "cancel" => "ۋاز كەچ",
 "undo" => "يېنىۋال",
-"1 file uploading" => "1 ھۆججەت يۈكلىنىۋاتىدۇ",
+"_Uploading %n file_::_Uploading %n files_" => array(""),
 "files uploading" => "ھۆججەت يۈكلىنىۋاتىدۇ",
 "Name" => "ئاتى",
 "Size" => "چوڭلۇقى",
 "Modified" => "ئۆزگەرتكەن",
-"1 folder" => "1 قىسقۇچ",
-"1 file" => "1 ھۆججەت",
-"{count} files" => "{count} ھۆججەت",
+"_%n folder_::_%n folders_" => array(""),
+"_%n file_::_%n files_" => array(""),
 "Upload" => "يۈكلە",
 "Save" => "ساقلا",
 "New" => "يېڭى",
@@ -38,6 +37,8 @@
 "Nothing in here. Upload something!" => "بۇ جايدا ھېچنېمە يوق. Upload something!",
 "Download" => "چۈشۈر",
 "Unshare" => "ھەمبەھىرلىمە",
+"Delete" => "ئۆچۈر",
 "Upload too large" => "يۈكلەندىغىنى بەك چوڭ",
 "Upgrading filesystem cache..." => "ھۆججەت سىستېما غەملىكىنى يۈكسەلدۈرۈۋاتىدۇ…"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

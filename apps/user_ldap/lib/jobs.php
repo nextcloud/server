@@ -82,7 +82,7 @@ class Jobs extends \OC\BackgroundJob\TimedJob {
 		        $hasChanged = true;
 		    }
 		    foreach(array_diff($actualUsers, $knownUsers) as $addedUser) {
-		        \OCP\Util::emitHook('OC_User', 'post_addFromGroup', array('uid' => $addedUser, 'gid' => $group));
+		        \OCP\Util::emitHook('OC_User', 'post_addToGroup', array('uid' => $addedUser, 'gid' => $group));
 		        \OCP\Util::writeLog('user_ldap',
 				'bgJ "updateGroups" – "'.$addedUser.'" added to "'.$group.'".',
 				\OCP\Util::INFO);

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "ไม่สามารถย้าย %s ได้ - ไฟล์ที่ใช้ชื่อนี้มีอยู่แล้ว",
 "Could not move %s" => "ไม่สามารถย้าย %s ได้",
 "No file was uploaded. Unknown error" => "ยังไม่มีไฟล์ใดที่ถูกอัพโหลด เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ",
@@ -19,7 +20,6 @@
 "URL cannot be empty." => "URL ไม่สามารถเว้นว่างได้",
 "Error" => "ข้อผิดพลาด",
 "Share" => "แชร์",
-"Delete" => "ลบ",
 "Rename" => "เปลี่ยนชื่อ",
 "Pending" => "อยู่ระหว่างดำเนินการ",
 "{new_name} already exists" => "{new_name} มีอยู่แล้วในระบบ",
@@ -28,8 +28,7 @@
 "cancel" => "ยกเลิก",
 "replaced {new_name} with {old_name}" => "แทนที่ {new_name} ด้วย {old_name} แล้ว",
 "undo" => "เลิกทำ",
-"perform delete operation" => "ดำเนินการตามคำสั่งลบ",
-"1 file uploading" => "กำลังอัพโหลดไฟล์ 1 ไฟล์",
+"_Uploading %n file_::_Uploading %n files_" => array(""),
 "files uploading" => "การอัพโหลดไฟล์",
 "'.' is an invalid file name." => "'.' เป็นชื่อไฟล์ที่ไม่ถูกต้อง",
 "File name cannot be empty." => "ชื่อไฟล์ไม่สามารถเว้นว่างได้",
@@ -41,10 +40,8 @@
 "Name" => "ชื่อ",
 "Size" => "ขนาด",
 "Modified" => "แก้ไขแล้ว",
-"1 folder" => "1 โฟลเดอร์",
-"{count} folders" => "{count} โฟลเดอร์",
-"1 file" => "1 ไฟล์",
-"{count} files" => "{count} ไฟล์",
+"_%n folder_::_%n folders_" => array(""),
+"_%n file_::_%n files_" => array(""),
 "Upload" => "อัพโหลด",
 "File handling" => "การจัดกาไฟล์",
 "Maximum upload size" => "ขนาดไฟล์สูงสุดที่อัพโหลดได้",
@@ -62,6 +59,7 @@
 "Nothing in here. Upload something!" => "ยังไม่มีไฟล์ใดๆอยู่ที่นี่ กรุณาอัพโหลดไฟล์!",
 "Download" => "ดาวน์โหลด",
 "Unshare" => "ยกเลิกการแชร์",
+"Delete" => "ลบ",
 "Upload too large" => "ไฟล์ที่อัพโหลดมีขนาดใหญ่เกินไป",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "ไฟล์ที่คุณพยายามที่จะอัพโหลดมีขนาดเกินกว่าขนาดสูงสุดที่กำหนดไว้ให้อัพโหลดได้สำหรับเซิร์ฟเวอร์นี้",
 "Files are being scanned, please wait." => "ไฟล์กำลังอยู่ระหว่างการสแกน, กรุณารอสักครู่.",
@@ -70,3 +68,4 @@
 "files" => "ไฟล์",
 "Upgrading filesystem cache..." => "กำลังอัพเกรดหน่วยความจำแคชของระบบไฟล์..."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -44,7 +44,9 @@ OCP\Util::addstyle('user_ldap', 'settings');
 $tmpl = new OCP\Template('user_ldap', 'settings');
 
 $prefixes = \OCA\user_ldap\lib\Helper::getServerConfigurationPrefixes();
+$hosts = \OCA\user_ldap\lib\Helper::getServerConfigurationHosts();
 $tmpl->assign('serverConfigurationPrefixes', $prefixes);
+$tmpl->assign('serverConfigurationHosts', $hosts);
 
 // assign default values
 if(!isset($ldap)) {

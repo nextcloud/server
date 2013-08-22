@@ -30,9 +30,6 @@ use OC\Files\Filesystem;
  */
 class Hooks {
 
-	// TODO: use passphrase for encrypting private key that is separate to 
-	// the login password
-
 	/**
 	 * @brief Startup encryption backend upon user login
 	 * @note This method should never be called for users using client side encryption
@@ -40,9 +37,9 @@ class Hooks {
 	public static function login($params) {
 		$l = new \OC_L10N('files_encryption');
 		//check if all requirements are met
-		if(!Helper::checkRequirements() ) {
+		if(!Helper::checkRequirements() || !Helper::checkConfiguration() ) {
 			$error_msg = $l->t("Missing requirements.");
-			$hint = $l->t('Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL PHP extension is enabled and configured properly. For now, the encryption app has been disabled.');
+			$hint = $l->t('Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled.');
 			\OC_App::disable('files_encryption');
 			\OCP\Util::writeLog('Encryption library', $error_msg . ' ' . $hint, \OCP\Util::ERROR);
 			\OCP\Template::printErrorPage($error_msg, $hint);
@@ -62,18 +59,7 @@ class Hooks {
 			return false;
 		}
 
-		$encryptedKey = Keymanager::getPrivateKey($view, $params['uid']);
-
-		$privateKey = Crypt::decryptPrivateKey($encryptedKey, $params['password']);
-
-		if ($privateKey === false) {
-			\OCP\Util::writeLog('Encryption library', 'Private key for user "' . $params['uid']
-													  . '" is not valid! Maybe the user password was changed from outside if so please change it back to gain access', \OCP\Util::ERROR);
-		}
-
-		$session = new \OCA\Encryption\Session($view);
-
-		$session->setPrivateKey($privateKey);
+		$session = $util->initEncryption($params);
 
 		// Check if first-run file migration has already been performed
 		$ready = false;

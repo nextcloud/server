@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Pomoc",
 "Personal" => "Osobiste",
 "Settings" => "Ustawienia",
 "Users" => "Użytkownicy",
-"Apps" => "Aplikacje",
 "Admin" => "Administrator",
 "Failed to upgrade \"%s\"." => "Błąd przy aktualizacji \"%s\".",
 "web services under your control" => "Kontrolowane serwisy",
@@ -13,7 +13,6 @@
 "Back to Files" => "Wróć do plików",
 "Selected files too large to generate zip file." => "Wybrane pliki są zbyt duże, aby wygenerować plik zip.",
 "Download the files in smaller chunks, seperately or kindly ask your administrator." => "Pobierz pliki w mniejszy kawałkach, oddzielnie lub poproś administratora o zwiększenie limitu.",
-"couldn't be determined" => "nie może zostać znaleziony",
 "Application is not enabled" => "Aplikacja nie jest włączona",
 "Authentication error" => "Błąd uwierzytelniania",
 "Token expired. Please reload page." => "Token wygasł. Proszę ponownie załadować stronę.",
@@ -41,17 +40,16 @@
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Serwer internetowy nie jest jeszcze poprawnie skonfigurowany, aby umożliwić synchronizację plików, ponieważ interfejs WebDAV wydaje się być uszkodzony.",
 "Please double check the <a href='%s'>installation guides</a>." => "Sprawdź ponownie <a href='%s'>przewodniki instalacji</a>.",
 "seconds ago" => "sekund temu",
-"1 minute ago" => "1 minutę temu",
-"%d minutes ago" => "%d minut temu",
-"1 hour ago" => "1 godzinę temu",
-"%d hours ago" => "%d godzin temu",
+"_%n minute ago_::_%n minutes ago_" => array("","",""),
+"_%n hour ago_::_%n hours ago_" => array("","",""),
 "today" => "dziś",
 "yesterday" => "wczoraj",
-"%d days ago" => "%d dni temu",
+"_%n day go_::_%n days ago_" => array("","",""),
 "last month" => "w zeszłym miesiącu",
-"%d months ago" => "%d miesiecy temu",
+"_%n month ago_::_%n months ago_" => array("","",""),
 "last year" => "w zeszłym roku",
 "years ago" => "lat temu",
 "Caused by:" => "Spowodowane przez:",
 "Could not find category \"%s\"" => "Nie można odnaleźć kategorii \"%s\""
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

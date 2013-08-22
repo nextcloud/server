@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Kon %s niet permanent verwijderen",
 "Couldn't restore %s" => "Kon %s niet herstellen",
 "perform restore operation" => "uitvoeren restore operatie",
@@ -7,13 +8,12 @@
 "Delete permanently" => "Verwijder definitief",
 "Name" => "Naam",
 "Deleted" => "Verwijderd",
-"1 folder" => "1 map",
-"{count} folders" => "{count} mappen",
-"1 file" => "1 bestand",
-"{count} files" => "{count} bestanden",
+"_%n folder_::_%n folders_" => array("%n map","%n mappen"),
+"_%n file_::_%n files_" => array("%n bestand","%n bestanden"),
 "restored" => "hersteld",
 "Nothing in here. Your trash bin is empty!" => "Niets te vinden. Uw prullenbak is leeg!",
 "Restore" => "Herstellen",
 "Delete" => "Verwijder",
 "Deleted Files" => "Verwijderde bestanden"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

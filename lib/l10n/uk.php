@@ -1,16 +1,15 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Допомога",
 "Personal" => "Особисте",
 "Settings" => "Налаштування",
 "Users" => "Користувачі",
-"Apps" => "Додатки",
 "Admin" => "Адмін",
 "web services under your control" => "підконтрольні Вам веб-сервіси",
 "ZIP download is turned off." => "ZIP завантаження вимкнено.",
 "Files need to be downloaded one by one." => "Файли повинні бути завантаженні послідовно.",
 "Back to Files" => "Повернутися до файлів",
 "Selected files too large to generate zip file." => "Вибрані фали завеликі для генерування zip файлу.",
-"couldn't be determined" => "не може бути визначено",
 "Application is not enabled" => "Додаток не увімкнений",
 "Authentication error" => "Помилка автентифікації",
 "Token expired. Please reload page." => "Строк дії токена скінчився. Будь ласка, перезавантажте сторінку.",
@@ -37,16 +36,15 @@
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Ваш Web-сервер ще не налаштований належним чином для того, щоб дозволити синхронізацію файлів, через те що інтерфейс WebDAV, здається, зламаний.",
 "Please double check the <a href='%s'>installation guides</a>." => "Будь ласка, перевірте <a href='%s'>інструкції по встановленню</a>.",
 "seconds ago" => "секунди тому",
-"1 minute ago" => "1 хвилину тому",
-"%d minutes ago" => "%d хвилин тому",
-"1 hour ago" => "1 годину тому",
-"%d hours ago" => "%d годин тому",
+"_%n minute ago_::_%n minutes ago_" => array("","",""),
+"_%n hour ago_::_%n hours ago_" => array("","",""),
 "today" => "сьогодні",
 "yesterday" => "вчора",
-"%d days ago" => "%d днів тому",
+"_%n day go_::_%n days ago_" => array("","",""),
 "last month" => "минулого місяця",
-"%d months ago" => "%d місяців тому",
+"_%n month ago_::_%n months ago_" => array("","",""),
 "last year" => "минулого року",
 "years ago" => "роки тому",
 "Could not find category \"%s\"" => "Не вдалося знайти категорію \"%s\""
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

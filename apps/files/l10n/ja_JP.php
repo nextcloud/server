@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s を移動できませんでした ― この名前のファイルはすでに存在します",
 "Could not move %s" => "%s を移動できませんでした",
 "Unable to set upload directory." => "アップロードディレクトリを設定出来ません。",
@@ -23,7 +24,6 @@
 "Error" => "エラー",
 "Share" => "共有",
 "Delete permanently" => "完全に削除する",
-"Delete" => "削除",
 "Rename" => "名前の変更",
 "Pending" => "中断",
 "{new_name} already exists" => "{new_name} はすでに存在しています",
@@ -32,23 +32,21 @@
 "cancel" => "キャンセル",
 "replaced {new_name} with {old_name}" => "{old_name} を {new_name} に置換",
 "undo" => "元に戻す",
-"perform delete operation" => "削除を実行",
-"1 file uploading" => "ファイルを1つアップロード中",
+"_Uploading %n file_::_Uploading %n files_" => array("%n 個のファイルをアップロード中"),
 "files uploading" => "ファイルをアップロード中",
 "'.' is an invalid file name." => "'.' は無効なファイル名です。",
 "File name cannot be empty." => "ファイル名を空にすることはできません。",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "無効な名前、'\\', '/', '<', '>', ':', '\"', '|', '?', '*' は使用できません。",
 "Your storage is full, files can not be updated or synced anymore!" => "あなたのストレージは一杯です。ファイルの更新と同期はもうできません！",
 "Your storage is almost full ({usedSpacePercent}%)" => "あなたのストレージはほぼ一杯です（{usedSpacePercent}%）",
+"Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "暗号化の機能は無効化されましたが、ファイルはすでに暗号化されています。個人設定からファイルを複合を行ってください。",
 "Your download is being prepared. This might take some time if the files are big." => "ダウンロードの準備中です。ファイルサイズが大きい場合は少し時間がかかるかもしれません。",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "無効なフォルダ名です。'Shared' の利用は ownCloud が予約済みです。",
 "Name" => "名前",
 "Size" => "サイズ",
 "Modified" => "変更",
-"1 folder" => "1 フォルダ",
-"{count} folders" => "{count} フォルダ",
-"1 file" => "1 ファイル",
-"{count} files" => "{count} ファイル",
+"_%n folder_::_%n folders_" => array("%n個のフォルダ"),
+"_%n file_::_%n files_" => array("%n個のファイル"),
 "%s could not be renamed" => "%sの名前を変更できませんでした",
 "Upload" => "アップロード",
 "File handling" => "ファイル操作",
@@ -69,6 +67,7 @@
 "Nothing in here. Upload something!" => "ここには何もありません。何かアップロードしてください。",
 "Download" => "ダウンロード",
 "Unshare" => "共有解除",
+"Delete" => "削除",
 "Upload too large" => "アップロードには大きすぎます。",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "アップロードしようとしているファイルは、サーバで規定された最大サイズを超えています。",
 "Files are being scanned, please wait." => "ファイルをスキャンしています、しばらくお待ちください。",
@@ -79,3 +78,4 @@
 "files" => "ファイル",
 "Upgrading filesystem cache..." => "ファイルシステムキャッシュを更新中..."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

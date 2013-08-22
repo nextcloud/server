@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "Tipe kategori tidak diberikan.",
 "No category to add?" => "Tidak ada kategori yang akan ditambahkan?",
 "This category already exists: %s" => "Kategori ini sudah ada: %s",
@@ -28,20 +29,17 @@
 "December" => "Desember",
 "Settings" => "Setelan",
 "seconds ago" => "beberapa detik yang lalu",
-"1 minute ago" => "1 menit yang lalu",
-"{minutes} minutes ago" => "{minutes} menit yang lalu",
-"1 hour ago" => "1 jam yang lalu",
-"{hours} hours ago" => "{hours} jam yang lalu",
+"_%n minute ago_::_%n minutes ago_" => array(""),
+"_%n hour ago_::_%n hours ago_" => array(""),
 "today" => "hari ini",
 "yesterday" => "kemarin",
-"{days} days ago" => "{days} hari yang lalu",
+"_%n day ago_::_%n days ago_" => array(""),
 "last month" => "bulan kemarin",
-"{months} months ago" => "{months} bulan yang lalu",
+"_%n month ago_::_%n months ago_" => array(""),
 "months ago" => "beberapa bulan lalu",
 "last year" => "tahun kemarin",
 "years ago" => "beberapa tahun lalu",
 "Choose" => "Pilih",
-"Cancel" => "Batal",
 "Yes" => "Ya",
 "No" => "Tidak",
 "Ok" => "Oke",
@@ -82,7 +80,6 @@
 "Email sent" => "Email terkirim",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Pembaruan gagal. Silakan laporkan masalah ini ke <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">komunitas ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Pembaruan sukses. Anda akan diarahkan ulang ke ownCloud.",
-"ownCloud password reset" => "Setel ulang sandi ownCloud",
 "Use the following link to reset your password: {link}" => "Gunakan tautan berikut untuk menyetel ulang sandi Anda: {link}",
 "You will receive a link to reset your password via Email." => "Anda akan menerima tautan penyetelan ulang sandi lewat Email.",
 "Username" => "Nama pengguna",
@@ -124,7 +121,6 @@
 "remember" => "selalu masuk",
 "Log in" => "Masuk",
 "Alternative Logins" => "Cara Alternatif untuk Masuk",
-"prev" => "sebelumnya",
-"next" => "selanjutnya",
 "Updating ownCloud to version %s, this may take a while." => "Memperbarui ownCloud ke versi %s, prosesnya akan berlangsung beberapa saat."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

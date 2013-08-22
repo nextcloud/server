@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s ha compartit »%s« amb tu",
 "Category type not provided." => "No s'ha especificat el tipus de categoria.",
 "No category to add?" => "No voleu afegir cap categoria?",
@@ -29,20 +30,17 @@
 "December" => "Desembre",
 "Settings" => "Configuració",
 "seconds ago" => "segons enrere",
-"1 minute ago" => "fa 1 minut",
-"{minutes} minutes ago" => "fa {minutes} minuts",
-"1 hour ago" => "fa 1 hora",
-"{hours} hours ago" => "fa {hours} hores",
+"_%n minute ago_::_%n minutes ago_" => array("fa %n minut","fa %n minuts"),
+"_%n hour ago_::_%n hours ago_" => array("fa %n hora","fa %n hores"),
 "today" => "avui",
 "yesterday" => "ahir",
-"{days} days ago" => "fa {days} dies",
+"_%n day ago_::_%n days ago_" => array("fa %n dies","fa %n dies"),
 "last month" => "el mes passat",
-"{months} months ago" => "fa {months} mesos",
+"_%n month ago_::_%n months ago_" => array("fa %n mes","fa %n mesos"),
 "months ago" => "mesos enrere",
 "last year" => "l'any passat",
 "years ago" => "anys enrere",
 "Choose" => "Escull",
-"Cancel" => "Cancel·la",
 "Error loading file picker template" => "Error en carregar la plantilla del seleccionador de fitxers",
 "Yes" => "Sí",
 "No" => "No",
@@ -85,7 +83,7 @@
 "Email sent" => "El correu electrónic s'ha enviat",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "L'actualització ha estat incorrecte. Comuniqueu aquest error a <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">la comunitat ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "L'actualització ha estat correcte. Ara us redirigim a ownCloud.",
-"ownCloud password reset" => "estableix de nou la contrasenya Owncloud",
+"%s password reset" => "restableix la contrasenya %s",
 "Use the following link to reset your password: {link}" => "Useu l'enllaç següent per restablir la contrasenya: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "L'enllaç per reiniciar la vostra contrasenya s'ha enviat al vostre correu.<br>Si no el rebeu en un temps raonable comproveu les carpetes de spam. <br>Si no és allà, pregunteu a l'administrador local.",
 "Request failed!<br>Did you make sure your email/username was right?" => "La petició ha fallat!<br>Esteu segur que el correu/nom d'usuari és correcte?",
@@ -128,6 +126,7 @@
 "Finish setup" => "Acaba la configuració",
 "%s is available. Get more information on how to update." => "%s està disponible. Obtingueu més informació de com actualitzar.",
 "Log out" => "Surt",
+"More apps" => "Més aplicacions",
 "Automatic logon rejected!" => "L'ha rebutjat l'acceditació automàtica!",
 "If you did not change your password recently, your account may be compromised!" => "Se no heu canviat la contrasenya recentment el vostre compte pot estar compromès!",
 "Please change your password to secure your account again." => "Canvieu la contrasenya de nou per assegurar el vostre compte.",
@@ -136,7 +135,6 @@
 "Log in" => "Inici de sessió",
 "Alternative Logins" => "Acreditacions alternatives",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Ei,<br><br>només fer-te saber que %s ha compartit %s amb tu.<br><a href=\"%s\">Mira-ho:</a><br><br>Salut!",
-"prev" => "anterior",
-"next" => "següent",
 "Updating ownCloud to version %s, this may take a while." => "S'està actualitzant ownCloud a la versió %s, pot trigar una estona."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

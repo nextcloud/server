@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "No s'ha pogut moure %s - Ja hi ha un fitxer amb aquest nom",
 "Could not move %s" => " No s'ha pogut moure %s",
 "Unable to set upload directory." => "No es pot establir la carpeta de pujada.",
@@ -23,7 +24,6 @@
 "Error" => "Error",
 "Share" => "Comparteix",
 "Delete permanently" => "Esborra permanentment",
-"Delete" => "Esborra",
 "Rename" => "Reanomena",
 "Pending" => "Pendent",
 "{new_name} already exists" => "{new_name} ja existeix",
@@ -32,23 +32,21 @@
 "cancel" => "cancel·la",
 "replaced {new_name} with {old_name}" => "s'ha substituït {old_name} per {new_name}",
 "undo" => "desfés",
-"perform delete operation" => "executa d'operació d'esborrar",
-"1 file uploading" => "1 fitxer pujant",
+"_Uploading %n file_::_Uploading %n files_" => array("Pujant %n fitxer","Pujant %n fitxers"),
 "files uploading" => "fitxers pujant",
 "'.' is an invalid file name." => "'.' és un nom no vàlid per un fitxer.",
 "File name cannot be empty." => "El nom del fitxer no pot ser buit.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "El nóm no és vàlid, '\\', '/', '<', '>', ':', '\"', '|', '?' i '*' no estan permesos.",
 "Your storage is full, files can not be updated or synced anymore!" => "El vostre espai d'emmagatzemament és ple, els fitxers ja no es poden actualitzar o sincronitzar!",
 "Your storage is almost full ({usedSpacePercent}%)" => "El vostre espai d'emmagatzemament és gairebé ple ({usedSpacePercent}%)",
+"Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "L'encriptació s'ha desactivat però els vostres fitxers segueixen encriptats. Aneu a la vostra configuració personal per desencriptar els vostres fitxers.",
 "Your download is being prepared. This might take some time if the files are big." => "S'està preparant la baixada. Pot trigar una estona si els fitxers són grans.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Nom de carpeta no vàlid. L'ús de 'Shared' està reservat per Owncloud",
 "Name" => "Nom",
 "Size" => "Mida",
 "Modified" => "Modificat",
-"1 folder" => "1 carpeta",
-"{count} folders" => "{count} carpetes",
-"1 file" => "1 fitxer",
-"{count} files" => "{count} fitxers",
+"_%n folder_::_%n folders_" => array("%n carpeta","%n carpetes"),
+"_%n file_::_%n files_" => array("%n fitxer","%n fitxers"),
 "%s could not be renamed" => "%s no es pot canviar el nom",
 "Upload" => "Puja",
 "File handling" => "Gestió de fitxers",
@@ -69,6 +67,7 @@
 "Nothing in here. Upload something!" => "Res per aquí. Pugeu alguna cosa!",
 "Download" => "Baixa",
 "Unshare" => "Deixa de compartir",
+"Delete" => "Esborra",
 "Upload too large" => "La pujada és massa gran",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Els fitxers que esteu intentant pujar excedeixen la mida màxima de pujada del servidor",
 "Files are being scanned, please wait." => "S'estan escanejant els fitxers, espereu",
@@ -79,3 +78,4 @@
 "files" => "fitxers",
 "Upgrading filesystem cache..." => "Actualitzant la memòria de cau del sistema de fitxers..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

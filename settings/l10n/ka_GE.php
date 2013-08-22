@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "აპლიკაციების სია ვერ ჩამოიტვირთა App Store",
 "Authentication error" => "ავთენტიფიკაციის შეცდომა",
 "Your display name has been changed." => "თქვენი დისფლეის სახელი უკვე შეიცვალა",
@@ -90,6 +91,7 @@
 "Language" => "ენა",
 "Help translate" => "თარგმნის დახმარება",
 "WebDAV" => "WebDAV",
+"Encryption" => "ენკრიპცია",
 "Login Name" => "მომხმარებლის სახელი",
 "Create" => "შექმნა",
 "Default Storage" => "საწყისი საცავი",
@@ -101,3 +103,4 @@
 "set new password" => "დააყენეთ ახალი პაროლი",
 "Default" => "საწყისი პარამეტრები"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

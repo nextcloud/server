@@ -66,13 +66,13 @@ class OC_Connector_Sabre_Principal implements Sabre_DAVACL_IPrincipalBackend {
 	 */
 	public function getGroupMemberSet($principal) {
 		// TODO: for now the group principal has only one member, the user itself
-		list($prefix, $name) = Sabre_DAV_URLUtil::splitPath($principal);
-
-		$principal = $this->getPrincipalByPath($prefix);
-		if (!$principal) throw new Sabre_DAV_Exception('Principal not found');
+		$principal = $this->getPrincipalByPath($principal);
+		if (!$principal) {
+			throw new Sabre_DAV_Exception('Principal not found');
+		}
 
 		return array(
-			$prefix
+			$principal['uri']
 		);
 	}
 
@@ -88,7 +88,9 @@ class OC_Connector_Sabre_Principal implements Sabre_DAVACL_IPrincipalBackend {
 		$group_membership = array();
 		if ($prefix == 'principals') {
 			$principal = $this->getPrincipalByPath($principal);
-			if (!$principal) throw new Sabre_DAV_Exception('Principal not found');
+			if (!$principal) {
+				throw new Sabre_DAV_Exception('Principal not found');
+			}
 
 			// TODO: for now the user principal has only its own groups
 			return array(

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s поделился »%s« с вами",
 "Category type not provided." => "Тип категории не предоставлен",
 "No category to add?" => "Нет категорий для добавления?",
@@ -29,20 +30,17 @@
 "December" => "Декабрь",
 "Settings" => "Конфигурация",
 "seconds ago" => "несколько секунд назад",
-"1 minute ago" => "1 минуту назад",
-"{minutes} minutes ago" => "{minutes} минут назад",
-"1 hour ago" => "час назад",
-"{hours} hours ago" => "{hours} часов назад",
+"_%n minute ago_::_%n minutes ago_" => array("%n минуту назад","%n минуты назад","%n минут назад"),
+"_%n hour ago_::_%n hours ago_" => array("%n час назад","%n часа назад","%n часов назад"),
 "today" => "сегодня",
 "yesterday" => "вчера",
-"{days} days ago" => "{days} дней назад",
+"_%n day ago_::_%n days ago_" => array("%n день назад","%n дня назад","%n дней назад"),
 "last month" => "в прошлом месяце",
-"{months} months ago" => "{months} месяцев назад",
+"_%n month ago_::_%n months ago_" => array("%n месяц назад","%n месяца назад","%n месяцев назад"),
 "months ago" => "несколько месяцев назад",
 "last year" => "в прошлом году",
 "years ago" => "несколько лет назад",
 "Choose" => "Выбрать",
-"Cancel" => "Отменить",
 "Error loading file picker template" => "Ошибка при загрузке файла выбора шаблона",
 "Yes" => "Да",
 "No" => "Нет",
@@ -85,7 +83,7 @@
 "Email sent" => "Письмо отправлено",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "При обновлении произошла ошибка. Пожалуйста сообщите об этом в <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud сообщество</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Обновление прошло успешно. Перенаправляемся в Ваш ownCloud...",
-"ownCloud password reset" => "Сброс пароля ",
+"%s password reset" => "%s сброс пароля",
 "Use the following link to reset your password: {link}" => "Используйте следующую ссылку чтобы сбросить пароль: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Ссылка для сброса пароля отправлена вам ​​по электронной почте.<br>Если вы не получите письмо в пределах одной-двух минут, проверьте папку Спам. <br>Если письма там нет, обратитесь к своему администратору.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Запрос не удался. Вы уверены, что email или имя пользователя указаны верно?",
@@ -128,6 +126,7 @@
 "Finish setup" => "Завершить установку",
 "%s is available. Get more information on how to update." => "%s доступно. Получить дополнительную информацию о порядке обновления.",
 "Log out" => "Выйти",
+"More apps" => "Ещё приложения",
 "Automatic logon rejected!" => "Автоматический вход в систему отключен!",
 "If you did not change your password recently, your account may be compromised!" => "Если Вы недавно не меняли свой пароль, то Ваша учетная запись может быть скомпрометирована!",
 "Please change your password to secure your account again." => "Пожалуйста, смените пароль, чтобы обезопасить свою учетную запись.",
@@ -136,7 +135,6 @@
 "Log in" => "Войти",
 "Alternative Logins" => "Альтернативные имена пользователя",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Приветствую,<br><br>просто даю знать, что %s поделился »%s« с вами.<br><a href=\"%s\">Посмотреть!</a><br><br>Удачи!",
-"prev" => "пред",
-"next" => "след",
 "Updating ownCloud to version %s, this may take a while." => "Идёт обновление ownCloud до версии %s. Это может занять некоторое время."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

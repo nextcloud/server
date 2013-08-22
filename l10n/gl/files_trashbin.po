@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-01 01:55-0400\n"
-"PO-Revision-Date: 2013-07-31 09:20+0000\n"
+"POT-Creation-Date: 2013-08-16 01:29-0400\n"
+"PO-Revision-Date: 2013-08-15 10:20+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -52,21 +52,17 @@ msgstr "Nome"
 msgid "Deleted"
 msgstr "Eliminado"
 
-#: js/trash.js:192
-msgid "1 folder"
-msgstr "1 cartafol"
+#: js/trash.js:191
+msgid "%n folder"
+msgid_plural "%n folders"
+msgstr[0] "%n cartafol"
+msgstr[1] "%n cartafoles"
 
-#: js/trash.js:194
-msgid "{count} folders"
-msgstr "{count} cartafoles"
-
-#: js/trash.js:202
-msgid "1 file"
-msgstr "1 ficheiro"
-
-#: js/trash.js:204
-msgid "{count} files"
-msgstr "{count} ficheiros"
+#: js/trash.js:197
+msgid "%n file"
+msgid_plural "%n files"
+msgstr[0] "%n ficheiro"
+msgstr[1] "%n ficheiros"
 
 #: lib/trash.php:819 lib/trash.php:821
 msgid "restored"

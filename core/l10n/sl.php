@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s je delil »%s« z vami",
 "Category type not provided." => "Vrsta kategorije ni podana.",
 "No category to add?" => "Ali ni kategorije za dodajanje?",
@@ -29,20 +30,17 @@
 "December" => "december",
 "Settings" => "Nastavitve",
 "seconds ago" => "pred nekaj sekundami",
-"1 minute ago" => "pred minuto",
-"{minutes} minutes ago" => "pred {minutes} minutami",
-"1 hour ago" => "Pred 1 uro",
-"{hours} hours ago" => "pred {hours} urami",
+"_%n minute ago_::_%n minutes ago_" => array("","","",""),
+"_%n hour ago_::_%n hours ago_" => array("","","",""),
 "today" => "danes",
 "yesterday" => "včeraj",
-"{days} days ago" => "pred {days} dnevi",
+"_%n day ago_::_%n days ago_" => array("","","",""),
 "last month" => "zadnji mesec",
-"{months} months ago" => "pred {months} meseci",
+"_%n month ago_::_%n months ago_" => array("","","",""),
 "months ago" => "mesecev nazaj",
 "last year" => "lansko leto",
 "years ago" => "let nazaj",
 "Choose" => "Izbor",
-"Cancel" => "Prekliči",
 "Error loading file picker template" => "Napaka pri nalaganju predloge za izbor dokumenta",
 "Yes" => "Da",
 "No" => "Ne",
@@ -85,7 +83,6 @@
 "Email sent" => "Elektronska pošta je poslana",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Posodobitev ni uspela. Pošljite poročilo o napaki na sistemu <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Posodobitev je uspešno končana. Stran bo preusmerjena na oblak ownCloud.",
-"ownCloud password reset" => "Ponastavitev gesla za oblak ownCloud",
 "Use the following link to reset your password: {link}" => "Za ponastavitev gesla uporabite povezavo: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Povezava za ponastavitev gesla je bila poslana na elektronski naslov.<br>V kolikor sporočila ne prejmete v doglednem času, preverite tudi mape vsiljene pošte.<br>Če ne bo niti tam, stopite v stik s skrbnikom.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Zahteva je spodletela!<br>Ali sta elektronski naslov oziroma uporabniško ime navedena pravilno?",
@@ -136,7 +133,6 @@
 "Log in" => "Prijava",
 "Alternative Logins" => "Druge prijavne možnosti",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Pozdravljen/a,<br><br>sporočam, da je %s delil »%s« s teboj.<br><a href=\"%s\">Poglej vsebine!</a><br><br>Lep pozdrav!",
-"prev" => "nazaj",
-"next" => "naprej",
 "Updating ownCloud to version %s, this may take a while." => "Posodabljanje sistema ownCloud na različico %s je lahko dolgotrajno."
 );
+$PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

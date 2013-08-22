@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-04 01:55-0400\n"
-"PO-Revision-Date: 2013-08-04 05:01+0000\n"
+"POT-Creation-Date: 2013-08-19 15:06-0400\n"
+"PO-Revision-Date: 2013-08-19 19:06+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Serbian (Latin) (http://www.transifex.com/projects/p/owncloud/language/sr@latin/)\n"
 "MIME-Version: 1.0\n"
@@ -137,59 +137,63 @@ msgstr "Novembar"
 msgid "December"
 msgstr "Decembar"
 
-#: js/js.js:293
+#: js/js.js:355
 msgid "Settings"
 msgstr "Podešavanja"
 
-#: js/js.js:753
+#: js/js.js:812
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:754
-msgid "1 minute ago"
-msgstr ""
+#: js/js.js:813
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: js/js.js:755
-msgid "{minutes} minutes ago"
-msgstr ""
+#: js/js.js:814
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: js/js.js:756
-msgid "1 hour ago"
-msgstr ""
-
-#: js/js.js:757
-msgid "{hours} hours ago"
-msgstr ""
-
-#: js/js.js:758
+#: js/js.js:815
 msgid "today"
 msgstr ""
 
-#: js/js.js:759
+#: js/js.js:816
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:760
-msgid "{days} days ago"
-msgstr ""
+#: js/js.js:817
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: js/js.js:761
+#: js/js.js:818
 msgid "last month"
 msgstr ""
 
-#: js/js.js:762
-msgid "{months} months ago"
-msgstr ""
+#: js/js.js:819
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: js/js.js:763
+#: js/js.js:820
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:764
+#: js/js.js:821
 msgid "last year"
 msgstr ""
 
-#: js/js.js:765
+#: js/js.js:822
 msgid "years ago"
 msgstr ""
 
@@ -197,23 +201,19 @@ msgstr ""
 msgid "Choose"
 msgstr ""
 
-#: js/oc-dialogs.js:122
-msgid "Cancel"
-msgstr "Otkaži"
-
-#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
 msgid "Error loading file picker template"
 msgstr ""
 
-#: js/oc-dialogs.js:164
+#: js/oc-dialogs.js:160
 msgid "Yes"
 msgstr ""
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:168
 msgid "No"
 msgstr ""
 
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:181
 msgid "Ok"
 msgstr ""
 
@@ -377,8 +377,9 @@ msgstr ""
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr ""
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
+#: lostpassword/controller.php:61
+#, php-format
+msgid "%s password reset"
 msgstr ""
 
 #: lostpassword/templates/email.php:2
@@ -578,6 +579,10 @@ msgstr ""
 msgid "Log out"
 msgstr "Odjava"
 
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr ""
+
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr ""
@@ -614,14 +619,6 @@ msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
 msgstr ""
-
-#: templates/part.pagenavi.php:3
-msgid "prev"
-msgstr "prethodno"
-
-#: templates/part.pagenavi.php:20
-msgid "next"
-msgstr "sledeće"
 
 #: templates/update.php:3
 #, php-format

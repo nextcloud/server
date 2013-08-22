@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to clear the mappings." => "Preslikav ni bilo mogoče izbrisati",
 "Failed to delete the server configuration" => "Brisanje nastavitev strežnika je spodletelo.",
 "The configuration is valid and the connection could be established!" => "Nastavitev je veljavna, zato je povezavo mogoče vzpostaviti!",
@@ -28,14 +29,8 @@
 "Password" => "Geslo",
 "For anonymous access, leave DN and Password empty." => "Za brezimni dostop sta polji DN in geslo prazni.",
 "User Login Filter" => "Filter prijav uporabnikov",
-"Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action." => "Določi filter, uporabljen pri prijavi. %%uid nadomesti uporabniško ime v postopku prijave.",
-"use %%uid placeholder, e.g. \"uid=%%uid\"" => "Uporabite vsebnik %%uid, npr. \"uid=%%uid\".",
 "User List Filter" => "Filter seznama uporabnikov",
-"Defines the filter to apply, when retrieving users." => "Določi filter za uporabo med pridobivanjem uporabnikov.",
-"without any placeholder, e.g. \"objectClass=person\"." => "Brez kateregakoli vsebnika, npr. \"objectClass=person\".",
 "Group Filter" => "Filter skupin",
-"Defines the filter to apply, when retrieving groups." => "Določi filter za uporabo med pridobivanjem skupin.",
-"without any placeholder, e.g. \"objectClass=posixGroup\"." => "Brez katerekoli vsebnika, npr. \"objectClass=posixGroup\".",
 "Connection Settings" => "Nastavitve povezave",
 "Configuration Active" => "Dejavna nastavitev",
 "When unchecked, this configuration will be skipped." => "Neizbrana možnost preskoči nastavitev.",
@@ -48,7 +43,6 @@
 "Do not use it additionally for LDAPS connections, it will fail." => "Strežnika ni priporočljivo uporabljati za povezave LDAPS. Povezava bo spodletela.",
 "Case insensitve LDAP server (Windows)" => "Strežnik LDAP ne upošteva velikosti črk (Windows)",
 "Turn off SSL certificate validation." => "Onemogoči določanje veljavnosti potrdila SSL.",
-"Not recommended, use for testing only." => "Dejanje ni priporočeno; uporabljeno naj bo le za preizkušanje delovanja.",
 "Cache Time-To-Live" => "Predpomni podatke TTL",
 "in seconds. A change empties the cache." => "v sekundah. Sprememba izprazni predpomnilnik.",
 "Directory Settings" => "Nastavitve mape",
@@ -79,3 +73,4 @@
 "Test Configuration" => "Preizkusne nastavitve",
 "Help" => "Pomoč"
 );
+$PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

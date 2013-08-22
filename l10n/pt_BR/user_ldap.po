@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-04 01:55-0400\n"
-"PO-Revision-Date: 2013-08-04 05:02+0000\n"
-"Last-Translator: tuliouel\n"
+"POT-Creation-Date: 2013-08-19 15:06-0400\n"
+"PO-Revision-Date: 2013-08-19 19:07+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -156,198 +156,185 @@ msgstr "Filtro de Login de Usuário"
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
-"username in the login action."
-msgstr "Define o filtro pra aplicar ao efetuar uma tentativa de login. %%uuid substitui o nome de usuário na ação de login."
+"username in the login action. Example: \"uid=%%uid\""
+msgstr ""
 
 #: templates/settings.php:55
-#, php-format
-msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr "use %%uid placeholder, ex. \"uid=%%uid\""
-
-#: templates/settings.php:56
 msgid "User List Filter"
 msgstr "Filtro de Lista de Usuário"
 
+#: templates/settings.php:58
+msgid ""
+"Defines the filter to apply, when retrieving users (no placeholders). "
+"Example: \"objectClass=person\""
+msgstr ""
+
 #: templates/settings.php:59
-msgid "Defines the filter to apply, when retrieving users."
-msgstr "Define filtro a ser aplicado ao obter usuários."
-
-#: templates/settings.php:60
-msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr "sem nenhum espaço reservado, ex. \"objectClass=person\"."
-
-#: templates/settings.php:61
 msgid "Group Filter"
 msgstr "Filtro de Grupo"
 
-#: templates/settings.php:64
-msgid "Defines the filter to apply, when retrieving groups."
-msgstr "Define o filtro a aplicar ao obter grupos."
+#: templates/settings.php:62
+msgid ""
+"Defines the filter to apply, when retrieving groups (no placeholders). "
+"Example: \"objectClass=posixGroup\""
+msgstr ""
 
-#: templates/settings.php:65
-msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr "sem nenhum espaço reservado, ex.  \"objectClass=posixGroup\""
-
-#: templates/settings.php:69
+#: templates/settings.php:66
 msgid "Connection Settings"
 msgstr "Configurações de Conexão"
 
-#: templates/settings.php:71
+#: templates/settings.php:68
 msgid "Configuration Active"
 msgstr "Configuração ativa"
 
-#: templates/settings.php:71
+#: templates/settings.php:68
 msgid "When unchecked, this configuration will be skipped."
 msgstr "Quando não marcada, esta configuração será ignorada."
 
-#: templates/settings.php:72
+#: templates/settings.php:69
 msgid "Port"
 msgstr "Porta"
 
-#: templates/settings.php:73
+#: templates/settings.php:70
 msgid "Backup (Replica) Host"
 msgstr "Servidor de Backup (Réplica)"
 
-#: templates/settings.php:73
+#: templates/settings.php:70
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
 msgstr "Defina um servidor de backup opcional. Ele deverá ser uma réplica do servidor LDAP/AD principal."
 
-#: templates/settings.php:74
+#: templates/settings.php:71
 msgid "Backup (Replica) Port"
 msgstr "Porta do Backup (Réplica)"
 
-#: templates/settings.php:75
+#: templates/settings.php:72
 msgid "Disable Main Server"
 msgstr "Desativar Servidor Principal"
 
-#: templates/settings.php:75
+#: templates/settings.php:72
 msgid "Only connect to the replica server."
 msgstr "Conectar-se somente ao servidor de réplica."
 
-#: templates/settings.php:76
+#: templates/settings.php:73
 msgid "Use TLS"
 msgstr "Usar TLS"
 
-#: templates/settings.php:76
+#: templates/settings.php:73
 msgid "Do not use it additionally for LDAPS connections, it will fail."
 msgstr "Não use adicionalmente para conexões LDAPS, pois falhará."
 
-#: templates/settings.php:77
+#: templates/settings.php:74
 msgid "Case insensitve LDAP server (Windows)"
 msgstr "Servidor LDAP sensível à caixa alta (Windows)"
 
-#: templates/settings.php:78
+#: templates/settings.php:75
 msgid "Turn off SSL certificate validation."
 msgstr "Desligar validação de certificado SSL."
 
-#: templates/settings.php:78
+#: templates/settings.php:75
 #, php-format
 msgid ""
-"If connection only works with this option, import the LDAP server's SSL "
-"certificate in your %s server."
-msgstr "Se a conexão só funciona com esta opção, importe o certificado SSL do servidor LDAP no seu servidor %s."
+"Not recommended, use it for testing only! If connection only works with this"
+" option, import the LDAP server's SSL certificate in your %s server."
+msgstr ""
 
-#: templates/settings.php:78
-msgid "Not recommended, use for testing only."
-msgstr "Não recomendado, use somente para testes."
-
-#: templates/settings.php:79
+#: templates/settings.php:76
 msgid "Cache Time-To-Live"
 msgstr "Cache Time-To-Live"
 
-#: templates/settings.php:79
+#: templates/settings.php:76
 msgid "in seconds. A change empties the cache."
 msgstr "em segundos. Uma mudança esvaziará o cache."
 
-#: templates/settings.php:81
+#: templates/settings.php:78
 msgid "Directory Settings"
 msgstr "Configurações de Diretório"
 
-#: templates/settings.php:83
+#: templates/settings.php:80
 msgid "User Display Name Field"
 msgstr "Campo Nome de Exibição de Usuário"
 
-#: templates/settings.php:83
+#: templates/settings.php:80
 msgid "The LDAP attribute to use to generate the user's display name."
 msgstr "O atributo LDAP para usar para gerar o nome de exibição do usuário."
 
-#: templates/settings.php:84
+#: templates/settings.php:81
 msgid "Base User Tree"
 msgstr "Árvore de Usuário Base"
 
-#: templates/settings.php:84
+#: templates/settings.php:81
 msgid "One User Base DN per line"
 msgstr "Um usuário-base DN por linha"
 
-#: templates/settings.php:85
+#: templates/settings.php:82
 msgid "User Search Attributes"
 msgstr "Atributos de Busca de Usuário"
 
-#: templates/settings.php:85 templates/settings.php:88
+#: templates/settings.php:82 templates/settings.php:85
 msgid "Optional; one attribute per line"
 msgstr "Opcional; um atributo por linha"
 
-#: templates/settings.php:86
+#: templates/settings.php:83
 msgid "Group Display Name Field"
 msgstr "Campo Nome de Exibição de Grupo"
 
-#: templates/settings.php:86
+#: templates/settings.php:83
 msgid "The LDAP attribute to use to generate the groups's display name."
 msgstr "O atributo LDAP para usar para gerar o nome de apresentação do grupo."
 
-#: templates/settings.php:87
+#: templates/settings.php:84
 msgid "Base Group Tree"
 msgstr "Árvore de Grupo Base"
 
-#: templates/settings.php:87
+#: templates/settings.php:84
 msgid "One Group Base DN per line"
 msgstr "Um grupo-base DN por linha"
 
-#: templates/settings.php:88
+#: templates/settings.php:85
 msgid "Group Search Attributes"
 msgstr "Atributos de Busca de Grupo"
 
-#: templates/settings.php:89
+#: templates/settings.php:86
 msgid "Group-Member association"
 msgstr "Associação Grupo-Membro"
 
-#: templates/settings.php:91
+#: templates/settings.php:88
 msgid "Special Attributes"
 msgstr "Atributos Especiais"
 
-#: templates/settings.php:93
+#: templates/settings.php:90
 msgid "Quota Field"
 msgstr "Campo de Cota"
 
-#: templates/settings.php:94
+#: templates/settings.php:91
 msgid "Quota Default"
 msgstr "Cota Padrão"
 
-#: templates/settings.php:94
+#: templates/settings.php:91
 msgid "in bytes"
 msgstr "em bytes"
 
-#: templates/settings.php:95
+#: templates/settings.php:92
 msgid "Email Field"
 msgstr "Campo de Email"
 
-#: templates/settings.php:96
+#: templates/settings.php:93
 msgid "User Home Folder Naming Rule"
 msgstr "Regra para Nome da Pasta Pessoal do Usuário"
 
-#: templates/settings.php:96
+#: templates/settings.php:93
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "Deixe vazio para nome de usuário (padrão). Caso contrário, especifique um atributo LDAP/AD."
 
-#: templates/settings.php:101
+#: templates/settings.php:98
 msgid "Internal Username"
 msgstr "Nome de usuário interno"
 
-#: templates/settings.php:102
+#: templates/settings.php:99
 msgid ""
 "By default the internal username will be created from the UUID attribute. It"
 " makes sure that the username is unique and characters do not need to be "
@@ -363,15 +350,15 @@ msgid ""
 "effect only on newly mapped (added) LDAP users."
 msgstr "Por padrão, o nome de usuário interno será criado a partir do atributo UUID. Ele garante que o nome de usuário é único e que caracteres não precisam ser convertidos. O nome de usuário interno tem a restrição de que apenas estes caracteres são permitidos: [a-zA-Z0-9_.@- ]. Outros caracteres são substituídos por seus correspondentes em ASCII ou simplesmente serão omitidos. Em caso de colisão um número será adicionado/aumentado. O nome de usuário interno é usado para identificar um usuário internamente. É também o nome padrão da pasta \"home\" do usuário. É também parte de URLs remotas, por exemplo, para todos as instâncias *DAV. Com esta definição, o comportamento padrão pode ser sobrescrito. Para alcançar um comportamento semelhante ao de antes do ownCloud 5, forneça o atributo do nome de exibição do usuário no campo seguinte. Deixe-o vazio para o comportamento padrão. As alterações terão efeito apenas para usuários LDAP recém mapeados (adicionados)."
 
-#: templates/settings.php:103
+#: templates/settings.php:100
 msgid "Internal Username Attribute:"
 msgstr "Atributo Interno de Nome de Usuário:"
 
-#: templates/settings.php:104
+#: templates/settings.php:101
 msgid "Override UUID detection"
 msgstr "Substituir detecção UUID"
 
-#: templates/settings.php:105
+#: templates/settings.php:102
 msgid ""
 "By default, the UUID attribute is automatically detected. The UUID attribute"
 " is used to doubtlessly identify LDAP users and groups. Also, the internal "
@@ -382,15 +369,15 @@ msgid ""
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
 msgstr "Por padrão, o atributo UUID é detectado automaticamente. O atributo UUID é usado para identificar, sem dúvidas, os usuários e grupos LDAP. Além disso, o nome de usuário interno será criado com base no UUID, se não especificado acima. Você pode substituir a configuração e passar um atributo de sua escolha. Você deve certificar-se de que o atributo de sua escolha pode ser lido tanto para usuários como para grupos, e que seja único. Deixe-o vazio para o comportamento padrão. As alterações terão efeito apenas para usuários e grupos LDAP recém mapeados (adicionados)."
 
-#: templates/settings.php:106
+#: templates/settings.php:103
 msgid "UUID Attribute:"
 msgstr "Atributo UUID:"
 
-#: templates/settings.php:107
+#: templates/settings.php:104
 msgid "Username-LDAP User Mapping"
 msgstr "Usuário-LDAP Mapeamento de Usuário"
 
-#: templates/settings.php:108
+#: templates/settings.php:105
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -404,18 +391,18 @@ msgid ""
 "experimental stage."
 msgstr "Nomes de usuários sãi usados para armazenar e atribuir (meta) dados. A fim de identificar com precisão e reconhecer usuários, cada usuário LDAP terá um nome de usuário interno. Isso requer um mapeamento nome de usuário para usuário LDAP. O nome de usuário criado é mapeado para o UUID do usuário LDAP. Adicionalmente, o DN fica em cache, assim como para reduzir a interação LDAP, mas não é utilizado para a identificação. Se o DN muda, as mudanças serão encontradas. O nome de usuário interno é utilizado em todo lugar. Limpar os mapeamentos não influencia a configuração. Limpar os mapeamentos deixará rastros em todo lugar. Limpar os mapeamentos não influencia a configuração, mas afeta as configurações LDAP! Somente limpe os mapeamentos em embiente de testes ou em estágio experimental."
 
-#: templates/settings.php:109
+#: templates/settings.php:106
 msgid "Clear Username-LDAP User Mapping"
 msgstr "Limpar Mapeamento de Usuário Nome de Usuário-LDAP"
 
-#: templates/settings.php:109
+#: templates/settings.php:106
 msgid "Clear Groupname-LDAP Group Mapping"
 msgstr "Limpar NomedoGrupo-LDAP Mapeamento do Grupo"
 
-#: templates/settings.php:111
+#: templates/settings.php:108
 msgid "Test Configuration"
 msgstr "Teste de Configuração"
 
-#: templates/settings.php:111
+#: templates/settings.php:108
 msgid "Help"
 msgstr "Ajuda"

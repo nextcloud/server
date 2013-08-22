@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Ei pystytä lataamaan listaa sovellusvarastosta (App Store)",
 "Authentication error" => "Tunnistautumisvirhe",
 "Your display name has been changed." => "Näyttönimesi on muutettu.",
@@ -24,6 +25,7 @@
 "Updating...." => "Päivitetään...",
 "Error while updating app" => "Virhe sovellusta päivittäessä",
 "Updated" => "Päivitetty",
+"Decrypting files... Please wait, this can take some time." => "Puretaan tiedostojen salausta... Odota, tämä voi kestää jonkin aikaa.",
 "Saving..." => "Tallennetaan...",
 "deleted" => "poistettu",
 "undo" => "kumoa",
@@ -86,6 +88,9 @@
 "Help translate" => "Auta kääntämisessä",
 "WebDAV" => "WebDAV",
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "Käytä tätä osoitetta <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">päästäksesi käsiksi tiedostoihisi WebDAVin kautta</a>",
+"Encryption" => "Salaus",
+"The encryption app is no longer enabled, decrypt all your file" => "Salaussovellus ei ole enää käytössä, pura kaikkien tiedostojesi salaus",
+"Decrypt all Files" => "Pura kaikkien tiedostojen salaus",
 "Login Name" => "Kirjautumisnimi",
 "Create" => "Luo",
 "Default Storage" => "Oletustallennustila",
@@ -97,3 +102,4 @@
 "set new password" => "aseta uusi salasana",
 "Default" => "Oletus"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

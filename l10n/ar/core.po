@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-07 08:59-0400\n"
-"PO-Revision-Date: 2013-08-07 12:22+0000\n"
+"POT-Creation-Date: 2013-08-19 15:06-0400\n"
+"PO-Revision-Date: 2013-08-19 19:06+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -137,59 +137,75 @@ msgstr "تشرين الثاني"
 msgid "December"
 msgstr "كانون الاول"
 
-#: js/js.js:293
+#: js/js.js:355
 msgid "Settings"
 msgstr "إعدادات"
 
-#: js/js.js:753
+#: js/js.js:812
 msgid "seconds ago"
 msgstr "منذ ثواني"
 
-#: js/js.js:754
-msgid "1 minute ago"
-msgstr "منذ دقيقة"
+#: js/js.js:813
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
-#: js/js.js:755
-msgid "{minutes} minutes ago"
-msgstr "{minutes} منذ دقائق"
+#: js/js.js:814
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
-#: js/js.js:756
-msgid "1 hour ago"
-msgstr "قبل ساعة مضت"
-
-#: js/js.js:757
-msgid "{hours} hours ago"
-msgstr "{hours} ساعة مضت"
-
-#: js/js.js:758
+#: js/js.js:815
 msgid "today"
 msgstr "اليوم"
 
-#: js/js.js:759
+#: js/js.js:816
 msgid "yesterday"
 msgstr "يوم أمس"
 
-#: js/js.js:760
-msgid "{days} days ago"
-msgstr "{days} يوم سابق"
+#: js/js.js:817
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
-#: js/js.js:761
+#: js/js.js:818
 msgid "last month"
 msgstr "الشهر الماضي"
 
-#: js/js.js:762
-msgid "{months} months ago"
-msgstr "{months} شهر مضت"
+#: js/js.js:819
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
 
-#: js/js.js:763
+#: js/js.js:820
 msgid "months ago"
 msgstr "شهر مضى"
 
-#: js/js.js:764
+#: js/js.js:821
 msgid "last year"
 msgstr "السنةالماضية"
 
-#: js/js.js:765
+#: js/js.js:822
 msgid "years ago"
 msgstr "سنة مضت"
 
@@ -197,23 +213,19 @@ msgstr "سنة مضت"
 msgid "Choose"
 msgstr "اختيار"
 
-#: js/oc-dialogs.js:122
-msgid "Cancel"
-msgstr "الغاء"
-
-#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
 msgid "Error loading file picker template"
 msgstr ""
 
-#: js/oc-dialogs.js:164
+#: js/oc-dialogs.js:160
 msgid "Yes"
 msgstr "نعم"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:168
 msgid "No"
 msgstr "لا"
 
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:181
 msgid "Ok"
 msgstr "موافق"
 
@@ -377,9 +389,10 @@ msgstr "حصل خطأ في عملية التحديث, يرجى ارسال تقر
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "تم التحديث بنجاح , يتم اعادة توجيهك الان الى Owncloud"
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
-msgstr "إعادة تعيين كلمة سر ownCloud"
+#: lostpassword/controller.php:61
+#, php-format
+msgid "%s password reset"
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -578,6 +591,10 @@ msgstr ""
 msgid "Log out"
 msgstr "الخروج"
 
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr ""
+
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "تم رفض تسجيل الدخول التلقائي!"
@@ -614,14 +631,6 @@ msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
 msgstr ""
-
-#: templates/part.pagenavi.php:3
-msgid "prev"
-msgstr "السابق"
-
-#: templates/part.pagenavi.php:20
-msgid "next"
-msgstr "التالي"
 
 #: templates/update.php:3
 #, php-format

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Konnt Lescht net vum App Store lueden",
 "Authentication error" => "Authentifikatioun's Fehler",
 "Email saved" => "E-mail gespäichert",
@@ -42,3 +43,4 @@
 "Other" => "Aner",
 "Username" => "Benotzernumm"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

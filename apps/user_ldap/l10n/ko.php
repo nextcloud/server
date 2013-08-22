@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Deletion failed" => "삭제 실패",
 "Keep settings?" => "설정을 유지합니까?",
 "Error" => "오류",
@@ -15,14 +16,8 @@
 "Password" => "암호",
 "For anonymous access, leave DN and Password empty." => "익명 접근을 허용하려면 DN과 암호를 비워 두십시오.",
 "User Login Filter" => "사용자 로그인 필터",
-"Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action." => "로그인을 시도할 때 적용할 필터입니다. %%uid는 로그인 작업에서의 사용자 이름으로 대체됩니다.",
-"use %%uid placeholder, e.g. \"uid=%%uid\"" => "%%uid 자리 비움자를 사용하십시오. 예제: \"uid=%%uid\"\"",
 "User List Filter" => "사용자 목록 필터",
-"Defines the filter to apply, when retrieving users." => "사용자를 검색할 때 적용할 필터를 정의합니다.",
-"without any placeholder, e.g. \"objectClass=person\"." => "자리 비움자를 사용할 수 없습니다. 예제: \"objectClass=person\"",
 "Group Filter" => "그룹 필터",
-"Defines the filter to apply, when retrieving groups." => "그룹을 검색할 때 적용할 필터를 정의합니다.",
-"without any placeholder, e.g. \"objectClass=posixGroup\"." => "자리 비움자를 사용할 수 없습니다. 예제: \"objectClass=posixGroup\"",
 "Connection Settings" => "연결 설정",
 "Configuration Active" => "구성 활성화",
 "Port" => "포트",
@@ -32,7 +27,6 @@
 "Use TLS" => "TLS 사용",
 "Case insensitve LDAP server (Windows)" => "서버에서 대소문자를 구분하지 않음 (Windows)",
 "Turn off SSL certificate validation." => "SSL 인증서 유효성 검사를 해제합니다.",
-"Not recommended, use for testing only." => "추천하지 않음, 테스트로만 사용하십시오.",
 "in seconds. A change empties the cache." => "초. 항목 변경 시 캐시가 갱신됩니다.",
 "Directory Settings" => "디렉토리 설정",
 "User Display Name Field" => "사용자의 표시 이름 필드",
@@ -48,3 +42,4 @@
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "사용자 이름을 사용하려면 비워 두십시오(기본값). 기타 경우 LDAP/AD 속성을 지정하십시오.",
 "Help" => "도움말"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -131,7 +131,9 @@ var Files = Files || {};
                 return;
             }
 			var preventDefault = false;
-			if ($.inArray(event.keyCode, keys) === -1) keys.push(event.keyCode);
+			if ($.inArray(event.keyCode, keys) === -1) {
+				keys.push(event.keyCode);
+			}
 			if (
 			$.inArray(keyCodes.n, keys) !== -1 && ($.inArray(keyCodes.cmdFirefox, keys) !== -1 || $.inArray(keyCodes.cmdOpera, keys) !== -1 || $.inArray(keyCodes.leftCmdWebKit, keys) !== -1 || $.inArray(keyCodes.rightCmdWebKit, keys) !== -1 || $.inArray(keyCodes.ctrl, keys) !== -1 || event.ctrlKey)) {
 				preventDefault = true; //new file/folder prevent browser from responding

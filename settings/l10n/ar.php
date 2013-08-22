@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "فشل تحميل القائمة من الآب ستور",
 "Authentication error" => "لم يتم التأكد من الشخصية بنجاح",
 "Unable to change display name" => "تعذر تغيير اسم الحساب",
@@ -89,6 +90,7 @@
 "Language" => "اللغة",
 "Help translate" => "ساعد في الترجمه",
 "WebDAV" => "WebDAV",
+"Encryption" => "التشفير",
 "Login Name" => "اسم الدخول",
 "Create" => "انشئ",
 "Default Storage" => "وحدة التخزين الافتراضية",
@@ -100,3 +102,4 @@
 "set new password" => "اعداد كلمة مرور جديدة",
 "Default" => "افتراضي"
 );
+$PLURAL_FORMS = "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;";

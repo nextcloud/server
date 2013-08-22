@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-04 01:55-0400\n"
-"PO-Revision-Date: 2013-08-04 05:02+0000\n"
+"POT-Creation-Date: 2013-08-19 15:06-0400\n"
+"PO-Revision-Date: 2013-08-19 19:07+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Hong Kong) (http://www.transifex.com/projects/p/owncloud/language/zh_HK/)\n"
 "MIME-Version: 1.0\n"
@@ -154,198 +154,185 @@ msgstr ""
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
-"username in the login action."
+"username in the login action. Example: \"uid=%%uid\""
 msgstr ""
 
 #: templates/settings.php:55
-#, php-format
-msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr ""
-
-#: templates/settings.php:56
 msgid "User List Filter"
 msgstr ""
 
+#: templates/settings.php:58
+msgid ""
+"Defines the filter to apply, when retrieving users (no placeholders). "
+"Example: \"objectClass=person\""
+msgstr ""
+
 #: templates/settings.php:59
-msgid "Defines the filter to apply, when retrieving users."
-msgstr ""
-
-#: templates/settings.php:60
-msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr ""
-
-#: templates/settings.php:61
 msgid "Group Filter"
 msgstr ""
 
-#: templates/settings.php:64
-msgid "Defines the filter to apply, when retrieving groups."
+#: templates/settings.php:62
+msgid ""
+"Defines the filter to apply, when retrieving groups (no placeholders). "
+"Example: \"objectClass=posixGroup\""
 msgstr ""
 
-#: templates/settings.php:65
-msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr ""
-
-#: templates/settings.php:69
+#: templates/settings.php:66
 msgid "Connection Settings"
 msgstr ""
 
-#: templates/settings.php:71
+#: templates/settings.php:68
 msgid "Configuration Active"
 msgstr ""
 
-#: templates/settings.php:71
+#: templates/settings.php:68
 msgid "When unchecked, this configuration will be skipped."
 msgstr ""
 
-#: templates/settings.php:72
+#: templates/settings.php:69
 msgid "Port"
 msgstr "連接埠"
 
-#: templates/settings.php:73
+#: templates/settings.php:70
 msgid "Backup (Replica) Host"
 msgstr ""
 
-#: templates/settings.php:73
+#: templates/settings.php:70
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
 msgstr ""
 
-#: templates/settings.php:74
+#: templates/settings.php:71
 msgid "Backup (Replica) Port"
 msgstr ""
 
-#: templates/settings.php:75
+#: templates/settings.php:72
 msgid "Disable Main Server"
 msgstr ""
 
-#: templates/settings.php:75
+#: templates/settings.php:72
 msgid "Only connect to the replica server."
 msgstr ""
 
-#: templates/settings.php:76
+#: templates/settings.php:73
 msgid "Use TLS"
 msgstr ""
 
-#: templates/settings.php:76
+#: templates/settings.php:73
 msgid "Do not use it additionally for LDAPS connections, it will fail."
 msgstr ""
 
-#: templates/settings.php:77
+#: templates/settings.php:74
 msgid "Case insensitve LDAP server (Windows)"
 msgstr ""
 
-#: templates/settings.php:78
+#: templates/settings.php:75
 msgid "Turn off SSL certificate validation."
 msgstr ""
 
-#: templates/settings.php:78
+#: templates/settings.php:75
 #, php-format
 msgid ""
-"If connection only works with this option, import the LDAP server's SSL "
-"certificate in your %s server."
+"Not recommended, use it for testing only! If connection only works with this"
+" option, import the LDAP server's SSL certificate in your %s server."
 msgstr ""
 
-#: templates/settings.php:78
-msgid "Not recommended, use for testing only."
-msgstr ""
-
-#: templates/settings.php:79
+#: templates/settings.php:76
 msgid "Cache Time-To-Live"
 msgstr ""
 
-#: templates/settings.php:79
+#: templates/settings.php:76
 msgid "in seconds. A change empties the cache."
 msgstr ""
 
-#: templates/settings.php:81
+#: templates/settings.php:78
 msgid "Directory Settings"
 msgstr ""
 
-#: templates/settings.php:83
+#: templates/settings.php:80
 msgid "User Display Name Field"
 msgstr ""
 
-#: templates/settings.php:83
+#: templates/settings.php:80
 msgid "The LDAP attribute to use to generate the user's display name."
 msgstr ""
 
-#: templates/settings.php:84
+#: templates/settings.php:81
 msgid "Base User Tree"
 msgstr ""
 
-#: templates/settings.php:84
+#: templates/settings.php:81
 msgid "One User Base DN per line"
 msgstr ""
 
-#: templates/settings.php:85
+#: templates/settings.php:82
 msgid "User Search Attributes"
 msgstr ""
 
-#: templates/settings.php:85 templates/settings.php:88
+#: templates/settings.php:82 templates/settings.php:85
 msgid "Optional; one attribute per line"
 msgstr ""
 
-#: templates/settings.php:86
+#: templates/settings.php:83
 msgid "Group Display Name Field"
 msgstr ""
 
-#: templates/settings.php:86
+#: templates/settings.php:83
 msgid "The LDAP attribute to use to generate the groups's display name."
 msgstr ""
 
-#: templates/settings.php:87
+#: templates/settings.php:84
 msgid "Base Group Tree"
 msgstr ""
 
-#: templates/settings.php:87
+#: templates/settings.php:84
 msgid "One Group Base DN per line"
 msgstr ""
 
-#: templates/settings.php:88
+#: templates/settings.php:85
 msgid "Group Search Attributes"
 msgstr ""
 
-#: templates/settings.php:89
+#: templates/settings.php:86
 msgid "Group-Member association"
 msgstr ""
 
-#: templates/settings.php:91
+#: templates/settings.php:88
 msgid "Special Attributes"
 msgstr ""
 
-#: templates/settings.php:93
+#: templates/settings.php:90
 msgid "Quota Field"
 msgstr ""
 
-#: templates/settings.php:94
+#: templates/settings.php:91
 msgid "Quota Default"
 msgstr ""
 
-#: templates/settings.php:94
+#: templates/settings.php:91
 msgid "in bytes"
 msgstr ""
 
-#: templates/settings.php:95
+#: templates/settings.php:92
 msgid "Email Field"
 msgstr ""
 
-#: templates/settings.php:96
+#: templates/settings.php:93
 msgid "User Home Folder Naming Rule"
 msgstr ""
 
-#: templates/settings.php:96
+#: templates/settings.php:93
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr ""
 
-#: templates/settings.php:101
+#: templates/settings.php:98
 msgid "Internal Username"
 msgstr ""
 
-#: templates/settings.php:102
+#: templates/settings.php:99
 msgid ""
 "By default the internal username will be created from the UUID attribute. It"
 " makes sure that the username is unique and characters do not need to be "
@@ -361,15 +348,15 @@ msgid ""
 "effect only on newly mapped (added) LDAP users."
 msgstr ""
 
-#: templates/settings.php:103
+#: templates/settings.php:100
 msgid "Internal Username Attribute:"
 msgstr ""
 
-#: templates/settings.php:104
+#: templates/settings.php:101
 msgid "Override UUID detection"
 msgstr ""
 
-#: templates/settings.php:105
+#: templates/settings.php:102
 msgid ""
 "By default, the UUID attribute is automatically detected. The UUID attribute"
 " is used to doubtlessly identify LDAP users and groups. Also, the internal "
@@ -380,15 +367,15 @@ msgid ""
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
 msgstr ""
 
-#: templates/settings.php:106
+#: templates/settings.php:103
 msgid "UUID Attribute:"
 msgstr ""
 
-#: templates/settings.php:107
+#: templates/settings.php:104
 msgid "Username-LDAP User Mapping"
 msgstr ""
 
-#: templates/settings.php:108
+#: templates/settings.php:105
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -402,18 +389,18 @@ msgid ""
 "experimental stage."
 msgstr ""
 
-#: templates/settings.php:109
+#: templates/settings.php:106
 msgid "Clear Username-LDAP User Mapping"
 msgstr ""
 
-#: templates/settings.php:109
+#: templates/settings.php:106
 msgid "Clear Groupname-LDAP Group Mapping"
 msgstr ""
 
-#: templates/settings.php:111
+#: templates/settings.php:108
 msgid "Test Configuration"
 msgstr ""
 
-#: templates/settings.php:111
+#: templates/settings.php:108
 msgid "Help"
 msgstr "幫助"

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to clear the mappings." => "Cancellazione delle associazioni non riuscita.",
 "Failed to delete the server configuration" => "Eliminazione della configurazione del server non riuscita",
 "The configuration is valid and the connection could be established!" => "La configurazione è valida e la connessione può essere stabilita.",
@@ -29,14 +30,8 @@
 "Password" => "Password",
 "For anonymous access, leave DN and Password empty." => "Per l'accesso anonimo, lasciare vuoti i campi DN e Password",
 "User Login Filter" => "Filtro per l'accesso utente",
-"Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action." => "Specifica quale filtro utilizzare quando si tenta l'accesso. %%uid sostituisce il nome utente all'atto dell'accesso.",
-"use %%uid placeholder, e.g. \"uid=%%uid\"" => "utilizza il segnaposto %%uid, ad esempio \"uid=%%uid\"",
 "User List Filter" => "Filtro per l'elenco utenti",
-"Defines the filter to apply, when retrieving users." => "Specifica quale filtro utilizzare durante il recupero degli utenti.",
-"without any placeholder, e.g. \"objectClass=person\"." => "senza nessun segnaposto, per esempio \"objectClass=person\".",
 "Group Filter" => "Filtro per il gruppo",
-"Defines the filter to apply, when retrieving groups." => "Specifica quale filtro utilizzare durante il recupero dei gruppi.",
-"without any placeholder, e.g. \"objectClass=posixGroup\"." => "senza nessun segnaposto, per esempio \"objectClass=posixGroup\".",
 "Connection Settings" => "Impostazioni di connessione",
 "Configuration Active" => "Configurazione attiva",
 "When unchecked, this configuration will be skipped." => "Se deselezionata, questa configurazione sarà saltata.",
@@ -50,8 +45,6 @@
 "Do not use it additionally for LDAPS connections, it will fail." => "Da non utilizzare per le connessioni LDAPS, non funzionerà.",
 "Case insensitve LDAP server (Windows)" => "Case insensitve LDAP server (Windows)",
 "Turn off SSL certificate validation." => "Disattiva il controllo del certificato SSL.",
-"If connection only works with this option, import the LDAP server's SSL certificate in your %s server." => "Se la connessione funziona esclusivamente con questa opzione, importa il certificato SSL del server LDAP nel tuo server %s.",
-"Not recommended, use for testing only." => "Non consigliato, utilizzare solo per test.",
 "Cache Time-To-Live" => "Tempo di vita della cache",
 "in seconds. A change empties the cache." => "in secondi. Il cambio svuota la cache.",
 "Directory Settings" => "Impostazioni delle cartelle",
@@ -87,3 +80,4 @@
 "Test Configuration" => "Prova configurazione",
 "Help" => "Aiuto"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

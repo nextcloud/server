@@ -35,8 +35,8 @@ $dir = $_GET["dir"];
 
 $files_list = json_decode($files);
 // in case we get only a single file
-if ($files_list === NULL ) {
+if (!is_array($files_list)) {
 	$files_list = array($files);
 }
 
-OC_Files::get($dir, $files_list, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
+OC_Files::get($dir, $files_list, $_SERVER['REQUEST_METHOD'] == 'HEAD');

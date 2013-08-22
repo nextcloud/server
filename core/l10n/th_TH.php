@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "ยังไม่ได้ระบุชนิดของหมวดหมู่",
 "No category to add?" => "ไม่มีหมวดหมู่ที่ต้องการเพิ่ม?",
 "Object type not provided." => "ชนิดของวัตถุยังไม่ได้ถูกระบุ",
@@ -27,20 +28,17 @@
 "December" => "ธันวาคม",
 "Settings" => "ตั้งค่า",
 "seconds ago" => "วินาที ก่อนหน้านี้",
-"1 minute ago" => "1 นาทีก่อนหน้านี้",
-"{minutes} minutes ago" => "{minutes} นาทีก่อนหน้านี้",
-"1 hour ago" => "1 ชั่วโมงก่อนหน้านี้",
-"{hours} hours ago" => "{hours} ชั่วโมงก่อนหน้านี้",
+"_%n minute ago_::_%n minutes ago_" => array(""),
+"_%n hour ago_::_%n hours ago_" => array(""),
 "today" => "วันนี้",
 "yesterday" => "เมื่อวานนี้",
-"{days} days ago" => "{day} วันก่อนหน้านี้",
+"_%n day ago_::_%n days ago_" => array(""),
 "last month" => "เดือนที่แล้ว",
-"{months} months ago" => "{months} เดือนก่อนหน้านี้",
+"_%n month ago_::_%n months ago_" => array(""),
 "months ago" => "เดือน ที่ผ่านมา",
 "last year" => "ปีที่แล้ว",
 "years ago" => "ปี ที่ผ่านมา",
 "Choose" => "เลือก",
-"Cancel" => "ยกเลิก",
 "Yes" => "ตกลง",
 "No" => "ไม่ตกลง",
 "Ok" => "ตกลง",
@@ -81,7 +79,6 @@
 "Email sent" => "ส่งอีเมล์แล้ว",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "การอัพเดทไม่เป็นผลสำเร็จ กรุณาแจ้งปัญหาที่เกิดขึ้นไปยัง <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">คอมมูนิตี้ผู้ใช้งาน ownCloud</a>",
 "The update was successful. Redirecting you to ownCloud now." => "การอัพเดทเสร็จเรียบร้อยแล้ว กำลังเปลี่ยนเส้นทางไปที่ ownCloud อยู่ในขณะนี้",
-"ownCloud password reset" => "รีเซ็ตรหัสผ่าน ownCloud",
 "Use the following link to reset your password: {link}" => "ใช้ลิงค์ต่อไปนี้เพื่อเปลี่ยนรหัสผ่านของคุณใหม่: {link}",
 "You will receive a link to reset your password via Email." => "คุณจะได้รับลิงค์เพื่อกำหนดรหัสผ่านใหม่ทางอีเมล์",
 "Username" => "ชื่อผู้ใช้งาน",
@@ -120,7 +117,6 @@
 "Lost your password?" => "ลืมรหัสผ่าน?",
 "remember" => "จำรหัสผ่าน",
 "Log in" => "เข้าสู่ระบบ",
-"prev" => "ก่อนหน้า",
-"next" => "ถัดไป",
 "Updating ownCloud to version %s, this may take a while." => "กำลังอัพเดท ownCloud ไปเป็นรุ่น %s, กรุณารอสักครู่"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

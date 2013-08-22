@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "Ο %s διαμοιράστηκε μαζί σας το »%s«",
 "Category type not provided." => "Δεν δώθηκε τύπος κατηγορίας.",
 "No category to add?" => "Δεν έχετε κατηγορία να προσθέσετε;",
@@ -29,20 +30,17 @@
 "December" => "Δεκέμβριος",
 "Settings" => "Ρυθμίσεις",
 "seconds ago" => "δευτερόλεπτα πριν",
-"1 minute ago" => "1 λεπτό πριν",
-"{minutes} minutes ago" => "{minutes} λεπτά πριν",
-"1 hour ago" => "1 ώρα πριν",
-"{hours} hours ago" => "{hours} ώρες πριν",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "σήμερα",
 "yesterday" => "χτες",
-"{days} days ago" => "{days} ημέρες πριν",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "τελευταίο μήνα",
-"{months} months ago" => "{months} μήνες πριν",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "μήνες πριν",
 "last year" => "τελευταίο χρόνο",
 "years ago" => "χρόνια πριν",
 "Choose" => "Επιλέξτε",
-"Cancel" => "Άκυρο",
 "Error loading file picker template" => "Σφάλμα φόρτωσης αρχείου επιλογέα προτύπου",
 "Yes" => "Ναι",
 "No" => "Όχι",
@@ -85,7 +83,6 @@
 "Email sent" => "Το Email απεστάλη ",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Η ενημέρωση ήταν ανεπιτυχής. Παρακαλώ στείλτε αναφορά στην <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">κοινότητα ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Η ενημέρωση ήταν επιτυχής. Μετάβαση στο ownCloud.",
-"ownCloud password reset" => "Επαναφορά συνθηματικού ownCloud",
 "Use the following link to reset your password: {link}" => "Χρησιμοποιήστε τον ακόλουθο σύνδεσμο για να επανεκδόσετε τον κωδικό: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Ο σύνδεσμος για να επανακτήσετε τον κωδικό σας έχει σταλεί στο email <br>αν δεν το λάβετε μέσα σε ορισμένο διάστημα, ελέγξετε τους φακελλους σας spam/junk <br> αν δεν είναι εκεί ρωτήστε τον τοπικό σας διαχειριστή ",
 "Request failed!<br>Did you make sure your email/username was right?" => "Η αίτηση απέτυχε! Βεβαιωθηκατε ότι το email σας / username ειναι σωστο? ",
@@ -136,7 +133,6 @@
 "Log in" => "Είσοδος",
 "Alternative Logins" => "Εναλλακτικές Συνδέσεις",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Γεια σας,<br><br>σας ενημερώνουμε ότι ο %s διαμοιράστηκε μαζί σας το »%s«.<br><a href=\"%s\">Δείτε το!</a><br><br>Γεια χαρά!",
-"prev" => "προηγούμενο",
-"next" => "επόμενο",
 "Updating ownCloud to version %s, this may take a while." => "Ενημερώνοντας το ownCloud στην έκδοση %s,μπορεί να πάρει λίγο χρόνο."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

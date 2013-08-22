@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s partilhado »%s« contigo",
 "Category type not provided." => "Tipo de categoria não fornecido",
 "No category to add?" => "Nenhuma categoria para adicionar?",
@@ -29,20 +30,17 @@
 "December" => "Dezembro",
 "Settings" => "Configurações",
 "seconds ago" => "Minutos atrás",
-"1 minute ago" => "Há 1 minuto",
-"{minutes} minutes ago" => "{minutes} minutos atrás",
-"1 hour ago" => "Há 1 horas",
-"{hours} hours ago" => "Há {hours} horas atrás",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "hoje",
 "yesterday" => "ontem",
-"{days} days ago" => "{days} dias atrás",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "ultímo mês",
-"{months} months ago" => "Há {months} meses atrás",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "meses atrás",
 "last year" => "ano passado",
 "years ago" => "anos atrás",
 "Choose" => "Escolha",
-"Cancel" => "Cancelar",
 "Error loading file picker template" => "Erro ao carregar arquivo do separador modelo",
 "Yes" => "Sim",
 "No" => "Não",
@@ -85,7 +83,6 @@
 "Email sent" => "E-mail enviado",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "A actualização falhou. Por favor reporte este incidente seguindo este link <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "A actualização foi concluída com sucesso. Vai ser redireccionado para o ownCloud agora.",
-"ownCloud password reset" => "Reposição da password ownCloud",
 "Use the following link to reset your password: {link}" => "Use o seguinte endereço para repor a sua password: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "O link para fazer reset à sua password foi enviado para o seu e-mail. <br> Se não o recebeu dentro um espaço de tempo aceitável, por favor verifique a sua pasta de SPAM.<br> Se não o encontrar, por favor contacte o seu administrador.",
 "Request failed!<br>Did you make sure your email/username was right?" => "O pedido falhou! <br> Tem a certeza que introduziu o seu email/username correcto?",
@@ -136,7 +133,6 @@
 "Log in" => "Entrar",
 "Alternative Logins" => "Contas de acesso alternativas",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Olá,<br><br>Apenas para lhe informar que %s partilhou »%s« consigo.<br><a href=\"%s\">Consulte-o aqui!</a><br><br>Cumprimentos!",
-"prev" => "anterior",
-"next" => "seguinte",
 "Updating ownCloud to version %s, this may take a while." => "A actualizar o ownCloud para a versão %s, esta operação pode demorar."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

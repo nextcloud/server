@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Incapaz de carregar a lista da App Store",
 "Authentication error" => "Erro na autenticação",
 "Your display name has been changed." => "O seu nome foi alterado",
@@ -101,6 +102,7 @@
 "Help translate" => "Ajude a traduzir",
 "WebDAV" => "WebDAV",
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "Use este endereço para <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">aceder aos seus ficheiros via WebDav</a>",
+"Encryption" => "Encriptação",
 "Login Name" => "Nome de utilizador",
 "Create" => "Criar",
 "Admin Recovery Password" => "Recuperar password de administrador",
@@ -114,3 +116,4 @@
 "set new password" => "definir nova palavra-passe",
 "Default" => "Padrão"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

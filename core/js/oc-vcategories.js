@@ -23,7 +23,7 @@ var OCCategories= {
 						d.css('cursor', 'wait').find('input,button:not(#category_addbutton)')
 							.prop('disabled', true).css('cursor', 'wait');
 					}
-				}
+				};
 				var dlg = $('#edit_categories_dialog').dialog({
 						modal: true,
 						height: 350, minHeight:200, width: 250, minWidth: 200,

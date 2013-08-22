@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "ئەپ بازىرىدىن تىزىمنى يۈكلىيەلمىدى",
 "Authentication error" => "سالاھىيەت دەلىللەش خاتالىقى",
 "Your display name has been changed." => "كۆرسىتىدىغان ئىسمىڭىز ئۆزگەردى.",
@@ -59,6 +60,7 @@
 "Language" => "تىل",
 "Help translate" => "تەرجىمىگە ياردەم",
 "WebDAV" => "WebDAV",
+"Encryption" => "شىفىرلاش",
 "Login Name" => "تىزىمغا كىرىش ئاتى",
 "Create" => "قۇر",
 "Default Storage" => "كۆڭۈلدىكى ساقلىغۇچ",
@@ -70,3 +72,4 @@
 "set new password" => "يېڭى ئىم تەڭشە",
 "Default" => "كۆڭۈلدىكى"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

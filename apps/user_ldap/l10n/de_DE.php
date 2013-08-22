@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to clear the mappings." => "Löschen der Zuordnung fehlgeschlagen.",
 "Failed to delete the server configuration" => "Löschen der Serverkonfiguration fehlgeschlagen",
 "The configuration is valid and the connection could be established!" => "Die Konfiguration ist gültig und die Verbindung konnte hergestellt werden!",
@@ -29,14 +30,11 @@
 "Password" => "Passwort",
 "For anonymous access, leave DN and Password empty." => "Lassen Sie die Felder DN und Passwort für einen anonymen Zugang leer.",
 "User Login Filter" => "Benutzer-Login-Filter",
-"Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action." => "Bestimmt den angewendeten Filter, wenn eine Anmeldung durchgeführt wird. %%uid ersetzt den Benutzernamen beim Anmeldeversuch.",
-"use %%uid placeholder, e.g. \"uid=%%uid\"" => "verwenden Sie %%uid Platzhalter, z. B. \"uid=%%uid\"",
+"Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" => "Bestimmt den Filter, welcher bei einer Anmeldung angewandt wird. %%uid ersetzt den Benutzernamen bei der Anmeldung. Beispiel: \"uid=%%uid\"",
 "User List Filter" => "Benutzer-Filter-Liste",
-"Defines the filter to apply, when retrieving users." => "Definiert den Filter für die Anfrage der Benutzer.",
-"without any placeholder, e.g. \"objectClass=person\"." => "ohne Platzhalter, z.B.: \"objectClass=person\"",
+"Defines the filter to apply, when retrieving users (no placeholders). Example: \"objectClass=person\"" => "Definiert den Filter für die Wiederherstellung eines Benutzers (kein Platzhalter). Beispiel: \"objectClass=person\"",
 "Group Filter" => "Gruppen-Filter",
-"Defines the filter to apply, when retrieving groups." => "Definiert den Filter für die Anfrage der Gruppen.",
-"without any placeholder, e.g. \"objectClass=posixGroup\"." => "ohne Platzhalter, z.B.: \"objectClass=posixGroup\"",
+"Defines the filter to apply, when retrieving groups (no placeholders). Example: \"objectClass=posixGroup\"" => "Definiert den Filter für die Wiederherstellung einer Gruppe (kein Platzhalter). Beispiel: \"objectClass=posixGroup\"",
 "Connection Settings" => "Verbindungseinstellungen",
 "Configuration Active" => "Konfiguration aktiv",
 "When unchecked, this configuration will be skipped." => "Wenn nicht angehakt, wird diese Konfiguration übersprungen.",
@@ -50,8 +48,7 @@
 "Do not use it additionally for LDAPS connections, it will fail." => "Benutzen Sie es nicht in Verbindung mit LDAPS Verbindungen, es wird fehlschlagen.",
 "Case insensitve LDAP server (Windows)" => "LDAP-Server (Windows: Groß- und Kleinschreibung bleibt unbeachtet)",
 "Turn off SSL certificate validation." => "Schalten Sie die SSL-Zertifikatsprüfung aus.",
-"If connection only works with this option, import the LDAP server's SSL certificate in your %s server." => "Falls die Verbindung nur mit dieser Option funktioniert, importieren Sie das SSL-Zertifikat des LDAP-Servers in Ihren %s Server.",
-"Not recommended, use for testing only." => "Nicht empfohlen, nur zu Testzwecken.",
+"Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." => "Nur für Testzwecke geeignet, sollte Standardmäßig nicht verwendet werden. Falls die Verbindung nur mit dieser Option funktioniert, importieren Sie das SSL-Zertifikat des LDAP-Servers in Ihren %s Server.",
 "Cache Time-To-Live" => "Speichere Time-To-Live zwischen",
 "in seconds. A change empties the cache." => "in Sekunden. Eine Änderung leert den Cache.",
 "Directory Settings" => "Ordnereinstellungen",
@@ -87,3 +84,4 @@
 "Test Configuration" => "Testkonfiguration",
 "Help" => "Hilfe"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "Kiểu hạng mục không được cung cấp.",
 "No category to add?" => "Không có danh mục được thêm?",
 "This category already exists: %s" => "Danh mục này đã tồn tại: %s",
@@ -28,20 +29,17 @@
 "December" => "Tháng 12",
 "Settings" => "Cài đặt",
 "seconds ago" => "vài giây trước",
-"1 minute ago" => "1 phút trước",
-"{minutes} minutes ago" => "{minutes} phút trước",
-"1 hour ago" => "1 giờ trước",
-"{hours} hours ago" => "{hours} giờ trước",
+"_%n minute ago_::_%n minutes ago_" => array(""),
+"_%n hour ago_::_%n hours ago_" => array(""),
 "today" => "hôm nay",
 "yesterday" => "hôm qua",
-"{days} days ago" => "{days} ngày trước",
+"_%n day ago_::_%n days ago_" => array(""),
 "last month" => "tháng trước",
-"{months} months ago" => "{months} tháng trước",
+"_%n month ago_::_%n months ago_" => array(""),
 "months ago" => "tháng trước",
 "last year" => "năm trước",
 "years ago" => "năm trước",
 "Choose" => "Chọn",
-"Cancel" => "Hủy",
 "Yes" => "Có",
 "No" => "Không",
 "Ok" => "Đồng ý",
@@ -82,7 +80,6 @@
 "Email sent" => "Email đã được gửi",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Cập nhật không thành công . Vui lòng thông báo đến <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\"> Cộng đồng ownCloud </a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Cập nhật thành công .Hệ thống sẽ đưa bạn tới ownCloud.",
-"ownCloud password reset" => "Khôi phục mật khẩu Owncloud ",
 "Use the following link to reset your password: {link}" => "Dùng đường dẫn sau để khôi phục lại mật khẩu : {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Liên kết tạo lại mật khẩu đã được gửi tới hộp thư của bạn.<br>Nếu bạn không thấy nó sau một khoảng thời gian, vui lòng kiểm tra trong thư mục Spam/Rác.<br>Nếu vẫn không thấy, vui lòng hỏi người quản trị hệ thống.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Yêu cầu thất bại!<br>Bạn có chắc là email/tên đăng nhập của bạn chính xác?",
@@ -127,7 +124,6 @@
 "remember" => "ghi nhớ",
 "Log in" => "Đăng nhập",
 "Alternative Logins" => "Đăng nhập khác",
-"prev" => "Lùi lại",
-"next" => "Kế tiếp",
 "Updating ownCloud to version %s, this may take a while." => "Cập nhật ownCloud lên phiên bản %s, có thể sẽ mất thời gian"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -171,8 +171,9 @@ class DAV extends \OC\Files\Storage\Common{
 				$curl = curl_init();
 				$fp = fopen('php://temp', 'r+');
 				curl_setopt($curl, CURLOPT_USERPWD, $this->user.':'.$this->password);
-				curl_setopt($curl, CURLOPT_URL, $this->createBaseUri().$path);
+				curl_setopt($curl, CURLOPT_URL, $this->createBaseUri().str_replace(' ', '%20', $path));
 				curl_setopt($curl, CURLOPT_FILE, $fp);
+				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 
 				curl_exec ($curl);
 				curl_close ($curl);
@@ -224,7 +225,7 @@ class DAV extends \OC\Files\Storage\Common{
 				return 0;
 			}
 		} catch(\Exception $e) {
-			return \OC\Files\FREE_SPACE_UNKNOWN;
+			return \OC\Files\SPACE_UNKNOWN;
 		}
 	}
 
@@ -255,7 +256,7 @@ class DAV extends \OC\Files\Storage\Common{
 
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_USERPWD, $this->user.':'.$this->password);
-		curl_setopt($curl, CURLOPT_URL, $this->createBaseUri().$target);
+		curl_setopt($curl, CURLOPT_URL, $this->createBaseUri().str_replace(' ', '%20', $target));
 		curl_setopt($curl, CURLOPT_BINARYTRANSFER, true);
 		curl_setopt($curl, CURLOPT_INFILE, $source); // file pointer
 		curl_setopt($curl, CURLOPT_INFILESIZE, filesize($path));

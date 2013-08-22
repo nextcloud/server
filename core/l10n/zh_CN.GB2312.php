@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s 与您共享了 »%s« ",
 "Category type not provided." => "未选择分类类型。",
 "No category to add?" => "没有分类添加了?",
@@ -29,20 +30,17 @@
 "December" => "十二月",
 "Settings" => "设置",
 "seconds ago" => "秒前",
-"1 minute ago" => "1 分钟前",
-"{minutes} minutes ago" => "{minutes} 分钟前",
-"1 hour ago" => "1小时前",
-"{hours} hours ago" => "{hours}小时前",
+"_%n minute ago_::_%n minutes ago_" => array("%n 分钟以前"),
+"_%n hour ago_::_%n hours ago_" => array("%n 小时以前"),
 "today" => "今天",
 "yesterday" => "昨天",
-"{days} days ago" => "{days} 天前",
+"_%n day ago_::_%n days ago_" => array("%n 天以前"),
 "last month" => "上个月",
-"{months} months ago" => "{months}月前",
+"_%n month ago_::_%n months ago_" => array("%n 个月以前"),
 "months ago" => "月前",
 "last year" => "去年",
 "years ago" => "年前",
 "Choose" => "选择",
-"Cancel" => "取消",
 "Error loading file picker template" => "加载文件选取模板出错",
 "Yes" => "是",
 "No" => "否",
@@ -85,7 +83,7 @@
 "Email sent" => "电子邮件已发送",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "升级失败。请向<a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud社区</a>报告此问题。",
 "The update was successful. Redirecting you to ownCloud now." => "升级成功。现在为您跳转到ownCloud。",
-"ownCloud password reset" => "私有云密码重置",
+"%s password reset" => "%s 密码重置",
 "Use the following link to reset your password: {link}" => "使用下面的链接来重置你的密码:{link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "重置密码的连接已经通过邮件到您的邮箱。<br> 如果你没有收到邮件，可能是由于要再等一下，或者检查一下您的垃圾邮件夹。<br> 如果还是没有收到，请联系您的系统管理员。",
 "Request failed!<br>Did you make sure your email/username was right?" => "请求失败！<br> 你确定你的邮件地址/用户名是正确的？",
@@ -128,6 +126,7 @@
 "Finish setup" => "完成安装",
 "%s is available. Get more information on how to update." => "%s 是可用的。获取更多关于升级的信息。",
 "Log out" => "注销",
+"More apps" => "更多应用",
 "Automatic logon rejected!" => "自动登录被拒绝！",
 "If you did not change your password recently, your account may be compromised!" => "如果您最近没有修改您的密码，那您的帐号可能被攻击了！",
 "Please change your password to secure your account again." => "请修改您的密码以保护账户。",
@@ -136,7 +135,6 @@
 "Log in" => "登陆",
 "Alternative Logins" => "备选登录",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "你好！<br><br>温馨提示： %s 与您共享了 %s 。<br><br>\n查看： %s <br><br> 祝顺利！",
-"prev" => "后退",
-"next" => "前进",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud正在升级至 %s 版，这可能需要一点时间。"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

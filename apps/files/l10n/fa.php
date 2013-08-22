@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s نمی تواند حرکت کند - در حال حاضر پرونده با این نام وجود دارد. ",
 "Could not move %s" => "%s نمی تواند حرکت کند ",
 "Unable to set upload directory." => "قادر به تنظیم پوشه آپلود نمی باشد.",
@@ -23,7 +24,6 @@
 "Error" => "خطا",
 "Share" => "اشتراک‌گذاری",
 "Delete permanently" => "حذف قطعی",
-"Delete" => "حذف",
 "Rename" => "تغییرنام",
 "Pending" => "در انتظار",
 "{new_name} already exists" => "{نام _جدید} در حال حاضر وجود دارد.",
@@ -32,8 +32,7 @@
 "cancel" => "لغو",
 "replaced {new_name} with {old_name}" => "{نام_جدید} با { نام_قدیمی} جایگزین شد.",
 "undo" => "بازگشت",
-"perform delete operation" => "انجام عمل حذف",
-"1 file uploading" => "1 پرونده آپلود شد.",
+"_Uploading %n file_::_Uploading %n files_" => array(""),
 "files uploading" => "بارگذاری فایل ها",
 "'.' is an invalid file name." => "'.'   یک نام پرونده نامعتبر است.",
 "File name cannot be empty." => "نام پرونده نمی تواند خالی باشد.",
@@ -45,10 +44,8 @@
 "Name" => "نام",
 "Size" => "اندازه",
 "Modified" => "تاریخ",
-"1 folder" => "1 پوشه",
-"{count} folders" => "{ شمار} پوشه ها",
-"1 file" => "1 پرونده",
-"{count} files" => "{ شمار } فایل ها",
+"_%n folder_::_%n folders_" => array(""),
+"_%n file_::_%n files_" => array(""),
 "%s could not be renamed" => "%s نمیتواند تغییر نام دهد.",
 "Upload" => "بارگزاری",
 "File handling" => "اداره پرونده ها",
@@ -69,6 +66,7 @@
 "Nothing in here. Upload something!" => "اینجا هیچ چیز نیست.",
 "Download" => "دانلود",
 "Unshare" => "لغو اشتراک",
+"Delete" => "حذف",
 "Upload too large" => "سایز فایل برای آپلود زیاد است(م.تنظیمات در php.ini)",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "فایلها بیش از حد تعیین شده در این سرور هستند\nمترجم:با تغییر فایل php,ini میتوان این محدودیت را برطرف کرد",
 "Files are being scanned, please wait." => "پرونده ها در حال بازرسی هستند لطفا صبر کنید",
@@ -79,3 +77,4 @@
 "files" => "پرونده ها",
 "Upgrading filesystem cache..." => "بهبود فایل سیستمی ذخیره گاه..."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

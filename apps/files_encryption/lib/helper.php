@@ -199,12 +199,39 @@ class Helper {
 	public static function stripUserFilesPath($path) {
 		$trimmed = ltrim($path, '/');
 		$split = explode('/', $trimmed);
+		
+		// it is not a file relative to data/user/files
+		if (count($split) < 3 || $split[1] !== 'files') {
+			return false;
+		}
+		
 		$sliced = array_slice($split, 2);
 		$relPath = implode('/', $sliced);
 
 		return $relPath;
 	}
 
+	/**
+	 * @brief get path to the correspondig file in data/user/files
+	 * @param string $path path to a version or a file in the trash
+	 * @return string path to correspondig file relative to data/user/files
+	 */
+	public static function getPathToRealFile($path) {
+		$trimmed = ltrim($path, '/');
+		$split = explode('/', $trimmed);
+		
+		if (count($split) < 3 || $split[1] !== "files_versions") {
+			return false;
+		}
+		
+		$sliced = array_slice($split, 2);
+		$realPath = implode('/', $sliced);
+		//remove the last .v
+		$realPath = substr($realPath, 0, strrpos($realPath, '.v'));
+
+		return $realPath;
+	}	
+	
 	/**
 	 * @brief redirect to a error page
 	 */
@@ -231,6 +258,21 @@ class Helper {
 		$result &= version_compare(phpversion(), '5.3.3', '>=');
 
 		return (bool) $result;
+	}
+	
+	/**
+	 * check some common errors if the server isn't configured properly for encryption
+	 * @return bool true if configuration seems to be OK
+	 */
+	public static function checkConfiguration() {
+		if(openssl_pkey_new(array('private_key_bits' => 4096))) {
+			return true;
+		} else {
+			while ($msg = openssl_error_string()) {
+				\OCP\Util::writeLog('Encryption library', 'openssl_pkey_new() fails:  ' . $msg, \OCP\Util::ERROR);
+			}
+			return false;
+		}
 	}
 
 	/**

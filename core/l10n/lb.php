@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "Den/D' %s huet »%s« mat dir gedeelt",
 "Category type not provided." => "Typ vun der Kategorie net uginn.",
 "No category to add?" => "Keng Kategorie fir bäizesetzen?",
@@ -29,20 +30,17 @@
 "December" => "Dezember",
 "Settings" => "Astellungen",
 "seconds ago" => "Sekonnen hir",
-"1 minute ago" => "1 Minutt hir",
-"{minutes} minutes ago" => "virun {minutes} Minutten",
-"1 hour ago" => "virun 1 Stonn",
-"{hours} hours ago" => "virun {hours} Stonnen",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "haut",
 "yesterday" => "gëschter",
-"{days} days ago" => "virun {days} Deeg",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "leschte Mount",
-"{months} months ago" => "virun {months} Méint",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "Méint hir",
 "last year" => "Lescht Joer",
 "years ago" => "Joren hir",
 "Choose" => "Auswielen",
-"Cancel" => "Ofbriechen",
 "Error loading file picker template" => "Feeler beim Luede vun der Virlag fir d'Fichiers-Selektioun",
 "Yes" => "Jo",
 "No" => "Nee",
@@ -85,7 +83,6 @@
 "Email sent" => "Email geschéckt",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Den Update war net erfollegräich. Mell dëse Problem w.e.gl der<a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud-Community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Den Update war erfollegräich.  Du gëss elo bei d'ownCloud ëmgeleet.",
-"ownCloud password reset" => "Passwuert-Zrécksetzung vun der ownCloud",
 "Use the following link to reset your password: {link}" => "Benotz folgende Link fir däi Passwuert zréckzesetzen: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "De Link fir d'Passwuert zréckzesetzen gouf un deng E-Mail-Adress geschéckt.<br>Falls du d'Mail net an den nächste Minutte kriss, kuck w.e.gl. an dengem Spam-Dossier.<br>Wann do och keng Mail ass, fro w.e.gl. däin Adminstrateur.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Ufro feelfeschloen!<br>Hues du séchergestallt dass deng Email respektiv däi Benotzernumm korrekt sinn?",
@@ -134,7 +131,6 @@
 "Log in" => "Umellen",
 "Alternative Logins" => "Alternativ Umeldungen",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Hallo,<br><br>ech wëll just Bescheed soen dass den/d' %s,  »%s« mat dir gedeelt huet.<br><a href=\"%s\">Kucken!</a><br><br>E schéine Bonjour!",
-"prev" => "zeréck",
-"next" => "weider",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud gëtt op d'Versioun %s aktualiséiert, dat kéint e Moment daueren."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

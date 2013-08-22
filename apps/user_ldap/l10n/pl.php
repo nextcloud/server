@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to clear the mappings." => "Nie udało się wyczyścić mapowania.",
 "Failed to delete the server configuration" => "Nie można usunąć konfiguracji serwera",
 "The configuration is valid and the connection could be established!" => "Konfiguracja jest prawidłowa i można ustanowić połączenie!",
@@ -28,14 +29,8 @@
 "Password" => "Hasło",
 "For anonymous access, leave DN and Password empty." => "Dla dostępu anonimowego pozostawić DN i hasło puste.",
 "User Login Filter" => "Filtr logowania użytkownika",
-"Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action." => "Definiuje filtr do zastosowania, gdy podejmowana jest próba logowania. %%uid zastępuje nazwę użytkownika w działaniu logowania.",
-"use %%uid placeholder, e.g. \"uid=%%uid\"" => "Użyj %%uid zastępczy, np. \"uid=%%uid\"",
 "User List Filter" => "Lista filtrów użytkownika",
-"Defines the filter to apply, when retrieving users." => "Definiuje filtry do zastosowania, podczas pobierania użytkowników.",
-"without any placeholder, e.g. \"objectClass=person\"." => "bez żadnych symboli zastępczych np. \"objectClass=person\".",
 "Group Filter" => "Grupa filtrów",
-"Defines the filter to apply, when retrieving groups." => "Definiuje filtry do zastosowania, podczas pobierania grup.",
-"without any placeholder, e.g. \"objectClass=posixGroup\"." => "bez żadnych symboli zastępczych np. \"objectClass=posixGroup\".",
 "Connection Settings" => "Konfiguracja połączeń",
 "Configuration Active" => "Konfiguracja archiwum",
 "When unchecked, this configuration will be skipped." => "Gdy niezaznaczone, ta konfiguracja zostanie pominięta.",
@@ -48,7 +43,6 @@
 "Do not use it additionally for LDAPS connections, it will fail." => "Nie używaj go dodatkowo dla połączeń protokołu LDAPS, zakończy się niepowodzeniem.",
 "Case insensitve LDAP server (Windows)" => "Wielkość liter serwera LDAP (Windows)",
 "Turn off SSL certificate validation." => "Wyłączyć sprawdzanie poprawności certyfikatu SSL.",
-"Not recommended, use for testing only." => "Niezalecane, użyj tylko testowo.",
 "Cache Time-To-Live" => "Przechowuj czas życia",
 "in seconds. A change empties the cache." => "w sekundach. Zmiana opróżnia pamięć podręczną.",
 "Directory Settings" => "Ustawienia katalogów",
@@ -79,3 +73,4 @@
 "Test Configuration" => "Konfiguracja testowa",
 "Help" => "Pomoc"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "Kategorija nenurodyta.",
 "No category to add?" => "Nepridėsite jokios kategorijos?",
 "This category already exists: %s" => "Ši kategorija jau egzistuoja: %s",
@@ -28,20 +29,17 @@
 "December" => "Gruodis",
 "Settings" => "Nustatymai",
 "seconds ago" => "prieš sekundę",
-"1 minute ago" => "Prieš 1 minutę",
-"{minutes} minutes ago" => "Prieš {count} minutes",
-"1 hour ago" => "prieš 1 valandą",
-"{hours} hours ago" => "prieš {hours} valandas",
+"_%n minute ago_::_%n minutes ago_" => array("","",""),
+"_%n hour ago_::_%n hours ago_" => array("","",""),
 "today" => "šiandien",
 "yesterday" => "vakar",
-"{days} days ago" => "Prieš {days}  dienas",
+"_%n day ago_::_%n days ago_" => array("","",""),
 "last month" => "praeitą mėnesį",
-"{months} months ago" => "prieš {months} mėnesių",
+"_%n month ago_::_%n months ago_" => array("","",""),
 "months ago" => "prieš mėnesį",
 "last year" => "praeitais metais",
 "years ago" => "prieš metus",
 "Choose" => "Pasirinkite",
-"Cancel" => "Atšaukti",
 "Error loading file picker template" => "Klaida pakraunant failų naršyklę",
 "Yes" => "Taip",
 "No" => "Ne",
@@ -83,7 +81,6 @@
 "Email sent" => "Laiškas išsiųstas",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Atnaujinimas buvo nesėkmingas. PApie tai prašome pranešti the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud bendruomenei</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Atnaujinimas buvo sėkmingas. Nukreipiame į jūsų ownCloud.",
-"ownCloud password reset" => "ownCloud slaptažodžio atkūrimas",
 "Use the following link to reset your password: {link}" => "Slaptažodio atkūrimui naudokite šią nuorodą: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Nuorodą su jūsų slaptažodžio atkūrimu buvo nusiųsta jums į paštą.<br>Jei jo negausite per atitinkamą laiką, pasižiūrėkite brukalo aplankale.<br> Jei jo ir ten nėra, teiraukitės administratoriaus.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Klaida!<br>Ar tikrai jūsų el paštas/vartotojo vardas buvo teisingi?",
@@ -128,7 +125,6 @@
 "remember" => "prisiminti",
 "Log in" => "Prisijungti",
 "Alternative Logins" => "Alternatyvūs prisijungimai",
-"prev" => "atgal",
-"next" => "kitas",
 "Updating ownCloud to version %s, this may take a while." => "Atnaujinama ownCloud į %s versiją. tai gali šiek tiek užtrukti."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);";

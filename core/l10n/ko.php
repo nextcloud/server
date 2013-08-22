@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "분류 형식이 제공되지 않았습니다.",
 "No category to add?" => "추가할 분류가 없습니까?",
 "This category already exists: %s" => "분류가 이미 존재합니다: %s",
@@ -28,20 +29,17 @@
 "December" => "12월",
 "Settings" => "설정",
 "seconds ago" => "초 전",
-"1 minute ago" => "1분 전",
-"{minutes} minutes ago" => "{minutes}분 전",
-"1 hour ago" => "1시간 전",
-"{hours} hours ago" => "{hours}시간 전",
+"_%n minute ago_::_%n minutes ago_" => array(""),
+"_%n hour ago_::_%n hours ago_" => array(""),
 "today" => "오늘",
 "yesterday" => "어제",
-"{days} days ago" => "{days}일 전",
+"_%n day ago_::_%n days ago_" => array(""),
 "last month" => "지난 달",
-"{months} months ago" => "{months}개월 전",
+"_%n month ago_::_%n months ago_" => array(""),
 "months ago" => "개월 전",
 "last year" => "작년",
 "years ago" => "년 전",
 "Choose" => "선택",
-"Cancel" => "취소",
 "Yes" => "예",
 "No" => "아니요",
 "Ok" => "승락",
@@ -83,7 +81,6 @@
 "Email sent" => "이메일 발송됨",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "업데이트가 실패하였습니다. 이 문제를 <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud 커뮤니티</a>에 보고해 주십시오.",
 "The update was successful. Redirecting you to ownCloud now." => "업데이트가 성공하였습니다. ownCloud로 돌아갑니다.",
-"ownCloud password reset" => "ownCloud 암호 재설정",
 "Use the following link to reset your password: {link}" => "다음 링크를 사용하여 암호를 재설정할 수 있습니다: {link}",
 "Request failed!<br>Did you make sure your email/username was right?" => "요청이 실패했습니다!<br>email 주소와 사용자 명을 정확하게 넣으셨나요?",
 "You will receive a link to reset your password via Email." => "이메일로 암호 재설정 링크를 보냈습니다.",
@@ -127,7 +124,6 @@
 "remember" => "기억하기",
 "Log in" => "로그인",
 "Alternative Logins" => "대체 ",
-"prev" => "이전",
-"next" => "다음",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud를 버전 %s(으)로 업데이트합니다. 잠시 기다려 주십시오."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

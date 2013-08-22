@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Kunne ikke slette server konfigurationen",
 "The configuration is valid and the connection could be established!" => "Konfigurationen er korrekt og forbindelsen kunne etableres!",
 "The configuration is invalid. Please look in the ownCloud log for further details." => "Konfigurationen er ugyldig. Se venligst ownCloud loggen for yderligere detaljer.",
@@ -22,11 +23,7 @@
 "For anonymous access, leave DN and Password empty." => "For anonym adgang, skal du lade DN og Adgangskode tomme.",
 "User Login Filter" => "Bruger Login Filter",
 "User List Filter" => "Brugerliste Filter",
-"Defines the filter to apply, when retrieving users." => "Definere filteret der bruges ved indlæsning af brugere.",
-"without any placeholder, e.g. \"objectClass=person\"." => "Uden stedfortræder, f.eks. \"objectClass=person\".",
 "Group Filter" => "Gruppe Filter",
-"Defines the filter to apply, when retrieving groups." => "Definere filteret der bruges når der indlæses grupper.",
-"without any placeholder, e.g. \"objectClass=posixGroup\"." => "Uden stedfortræder, f.eks. \"objectClass=posixGroup\".",
 "Connection Settings" => "Forbindelsesindstillinger ",
 "Configuration Active" => "Konfiguration Aktiv",
 "Port" => "Port",
@@ -37,7 +34,6 @@
 "Use TLS" => "Brug TLS",
 "Do not use it additionally for LDAPS connections, it will fail." => "Benyt ikke flere LDAPS forbindelser, det vil mislykkeds. ",
 "Turn off SSL certificate validation." => "Deaktiver SSL certifikat validering",
-"Not recommended, use for testing only." => "Anbefales ikke, brug kun for at teste.",
 "User Display Name Field" => "User Display Name Field",
 "Base User Tree" => "Base Bruger Træ",
 "Base Group Tree" => "Base Group Tree",
@@ -48,3 +44,4 @@
 "Test Configuration" => "Test Konfiguration",
 "Help" => "Hjælp"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

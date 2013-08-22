@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Nem tölthető le a lista az App Store-ból",
 "Authentication error" => "Azonosítási hiba",
 "Your display name has been changed." => "Az Ön megjelenítési neve megváltozott.",
@@ -101,6 +102,7 @@
 "Help translate" => "Segítsen a fordításban!",
 "WebDAV" => "WebDAV",
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "Ezt a címet használja, ha <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">WebDAV-on keresztül szeretné elérni az állományait</a>",
+"Encryption" => "Titkosítás",
 "Login Name" => "Bejelentkezési név",
 "Create" => "Létrehozás",
 "Admin Recovery Password" => "A jelszóvisszaállítás adminisztrációja",
@@ -114,3 +116,4 @@
 "set new password" => "új jelszó beállítása",
 "Default" => "Alapértelmezett"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

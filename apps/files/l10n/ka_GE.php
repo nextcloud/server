@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s –ის გადატანა ვერ მოხერხდა – ფაილი ამ სახელით უკვე არსებობს",
 "Could not move %s" => "%s –ის გადატანა ვერ მოხერხდა",
 "No file was uploaded. Unknown error" => "ფაილი არ აიტვირთა. უცნობი შეცდომა",
@@ -20,7 +21,6 @@
 "Error" => "შეცდომა",
 "Share" => "გაზიარება",
 "Delete permanently" => "სრულად წაშლა",
-"Delete" => "წაშლა",
 "Rename" => "გადარქმევა",
 "Pending" => "მოცდის რეჟიმში",
 "{new_name} already exists" => "{new_name} უკვე არსებობს",
@@ -29,8 +29,7 @@
 "cancel" => "უარყოფა",
 "replaced {new_name} with {old_name}" => "{new_name} შეცვლილია {old_name}–ით",
 "undo" => "დაბრუნება",
-"perform delete operation" => "მიმდინარეობს წაშლის ოპერაცია",
-"1 file uploading" => "1 ფაილის ატვირთვა",
+"_Uploading %n file_::_Uploading %n files_" => array(""),
 "files uploading" => "ფაილები იტვირთება",
 "'.' is an invalid file name." => "'.' არის დაუშვებელი ფაილის სახელი.",
 "File name cannot be empty." => "ფაილის სახელი არ შეიძლება იყოს ცარიელი.",
@@ -42,10 +41,8 @@
 "Name" => "სახელი",
 "Size" => "ზომა",
 "Modified" => "შეცვლილია",
-"1 folder" => "1 საქაღალდე",
-"{count} folders" => "{count} საქაღალდე",
-"1 file" => "1 ფაილი",
-"{count} files" => "{count} ფაილი",
+"_%n folder_::_%n folders_" => array(""),
+"_%n file_::_%n files_" => array(""),
 "Upload" => "ატვირთვა",
 "File handling" => "ფაილის დამუშავება",
 "Maximum upload size" => "მაქსიმუმ ატვირთის ზომა",
@@ -65,9 +62,11 @@
 "Nothing in here. Upload something!" => "აქ არაფერი არ არის. ატვირთე რამე!",
 "Download" => "ჩამოტვირთვა",
 "Unshare" => "გაუზიარებადი",
+"Delete" => "წაშლა",
 "Upload too large" => "ასატვირთი ფაილი ძალიან დიდია",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "ფაილის ზომა რომლის ატვირთვასაც თქვენ აპირებთ, აჭარბებს სერვერზე დაშვებულ მაქსიმუმს.",
 "Files are being scanned, please wait." => "მიმდინარეობს ფაილების სკანირება, გთხოვთ დაელოდოთ.",
 "Current scanning" => "მიმდინარე სკანირება",
 "Upgrading filesystem cache..." => "ფაილური სისტემის ქეშის განახლება...."
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

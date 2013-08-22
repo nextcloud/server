@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Ayuda",
 "Personal" => "Personal",
 "Settings" => "Ajustes",
 "Users" => "Usuarios",
-"Apps" => "Aplicaciones",
 "Admin" => "Administración",
 "Failed to upgrade \"%s\"." => "Falló la actualización \"%s\".",
 "web services under your control" => "Servicios web bajo su control",
@@ -13,7 +13,6 @@
 "Back to Files" => "Volver a Archivos",
 "Selected files too large to generate zip file." => "Los archivos seleccionados son demasiado grandes para generar el archivo zip.",
 "Download the files in smaller chunks, seperately or kindly ask your administrator." => "Descargue los archivos en trozos más pequeños, por separado o solicítelos amablemente su administrador.",
-"couldn't be determined" => "no pudo ser determinado",
 "Application is not enabled" => "La aplicación no está habilitada",
 "Authentication error" => "Error de autenticación",
 "Token expired. Please reload page." => "Token expirado. Por favor, recarga la página.",
@@ -41,17 +40,16 @@
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Su servidor web aún no está configurado adecuadamente para permitir sincronización de archivos ya que la interfaz WebDAV parece no estar funcionando.",
 "Please double check the <a href='%s'>installation guides</a>." => "Por favor, vuelva a comprobar las <a href='%s'>guías de instalación</a>.",
 "seconds ago" => "hace segundos",
-"1 minute ago" => "hace 1 minuto",
-"%d minutes ago" => "hace %d minutos",
-"1 hour ago" => "Hace 1 hora",
-"%d hours ago" => "Hace %d horas",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "hoy",
 "yesterday" => "ayer",
-"%d days ago" => "hace %d días",
+"_%n day go_::_%n days ago_" => array("",""),
 "last month" => "mes pasado",
-"%d months ago" => "Hace %d meses",
+"_%n month ago_::_%n months ago_" => array("",""),
 "last year" => "año pasado",
 "years ago" => "hace años",
 "Caused by:" => "Causado por:",
 "Could not find category \"%s\"" => "No puede encontrar la categoria \"%s\""
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

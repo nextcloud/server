@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Gagal menghapus konfigurasi server",
 "The configuration is valid and the connection could be established!" => "Konfigurasi valid dan koneksi dapat dilakukan!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Konfigurasi valid, tetapi Bind gagal. Silakan cek pengaturan server dan keamanan.",
@@ -26,14 +27,8 @@
 "Password" => "Sandi",
 "For anonymous access, leave DN and Password empty." => "Untuk akses anonim, biarkan DN dan Kata sandi kosong.",
 "User Login Filter" => "gunakan saringan login",
-"Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action." => "Definisikan filter untuk diterapkan, saat login dilakukan. %%uid menggantikan username saat login.",
-"use %%uid placeholder, e.g. \"uid=%%uid\"" => "gunakan pengganti %%uid, mis. \"uid=%%uid\"",
 "User List Filter" => "Daftar Filter Pengguna",
-"Defines the filter to apply, when retrieving users." => "Definisikan filter untuk diterapkan saat menerima pengguna.",
-"without any placeholder, e.g. \"objectClass=person\"." => "tanpa pengganti apapun, mis. \"objectClass=seseorang\".",
 "Group Filter" => "saringan grup",
-"Defines the filter to apply, when retrieving groups." => "Definisikan filter untuk diterapkan saat menerima grup.",
-"without any placeholder, e.g. \"objectClass=posixGroup\"." => "tanpa pengganti apapaun, mis. \"objectClass=posixGroup\".",
 "Connection Settings" => "Pengaturan Koneksi",
 "Configuration Active" => "Konfigurasi Aktif",
 "When unchecked, this configuration will be skipped." => "Jika tidak dicentang, konfigurasi ini dilewati.",
@@ -46,7 +41,6 @@
 "Do not use it additionally for LDAPS connections, it will fail." => "Jangan gunakan utamanya untuk koneksi LDAPS, koneksi akan gagal.",
 "Case insensitve LDAP server (Windows)" => "Server LDAP dengan kapitalisasi tidak sensitif (Windows)",
 "Turn off SSL certificate validation." => "matikan validasi sertivikat SSL",
-"Not recommended, use for testing only." => "tidak disarankan, gunakan hanya untuk pengujian.",
 "Cache Time-To-Live" => "Gunakan Tembolok untuk Time-To-Live",
 "in seconds. A change empties the cache." => "dalam detik. perubahan mengosongkan cache",
 "Directory Settings" => "Pengaturan Direktori",
@@ -70,3 +64,4 @@
 "Test Configuration" => "Uji Konfigurasi",
 "Help" => "Bantuan"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

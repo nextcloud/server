@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s delte »%s« med deg",
 "No category to add?" => "Ingen kategorier å legge til?",
 "This category already exists: %s" => "Denne kategorien finnes allerede: %s",
@@ -24,20 +25,17 @@
 "December" => "Desember",
 "Settings" => "Innstillinger",
 "seconds ago" => "sekunder siden",
-"1 minute ago" => "1 minutt siden",
-"{minutes} minutes ago" => "{minutes} minutter siden",
-"1 hour ago" => "1 time siden",
-"{hours} hours ago" => "{hours} timer siden",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "i dag",
 "yesterday" => "i går",
-"{days} days ago" => "{days} dager siden",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "forrige måned",
-"{months} months ago" => "{months} måneder siden",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "måneder siden",
 "last year" => "forrige år",
 "years ago" => "år siden",
 "Choose" => "Velg",
-"Cancel" => "Avbryt",
 "Yes" => "Ja",
 "No" => "Nei",
 "Ok" => "Ok",
@@ -66,7 +64,6 @@
 "Error setting expiration date" => "Kan ikke sette utløpsdato",
 "Sending ..." => "Sender...",
 "Email sent" => "E-post sendt",
-"ownCloud password reset" => "Tilbakestill ownCloud passord",
 "Use the following link to reset your password: {link}" => "Bruk følgende lenke for å tilbakestille passordet ditt: {link}",
 "You will receive a link to reset your password via Email." => "Du burde motta detaljer om å tilbakestille passordet ditt via epost.",
 "Username" => "Brukernavn",
@@ -104,7 +101,6 @@
 "Lost your password?" => "Mistet passordet ditt?",
 "remember" => "husk",
 "Log in" => "Logg inn",
-"prev" => "forrige",
-"next" => "neste",
 "Updating ownCloud to version %s, this may take a while." => "Oppdaterer ownCloud til versjon %s, dette kan ta en stund."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

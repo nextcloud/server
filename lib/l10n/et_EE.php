@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Abiinfo",
 "Personal" => "Isiklik",
 "Settings" => "Seaded",
 "Users" => "Kasutajad",
-"Apps" => "Rakendused",
 "Admin" => "Admin",
 "Failed to upgrade \"%s\"." => "Ebaõnnestunud uuendus \"%s\".",
 "web services under your control" => "veebitenused sinu kontrolli all",
@@ -13,7 +13,6 @@
 "Back to Files" => "Tagasi failide juurde",
 "Selected files too large to generate zip file." => "Valitud failid on ZIP-faili loomiseks liiga suured.",
 "Download the files in smaller chunks, seperately or kindly ask your administrator." => "Laadi failid alla eraldi väiksemate osadena või küsi nõu oma süsteemiadminstraatorilt.",
-"couldn't be determined" => "ei suudetud tuvastada",
 "Application is not enabled" => "Rakendus pole sisse lülitatud",
 "Authentication error" => "Autentimise viga",
 "Token expired. Please reload page." => "Kontrollkood aegus. Paelun lae leht uuesti.",
@@ -41,17 +40,16 @@
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Veebiserveri ei ole veel korralikult seadistatud võimaldamaks failide sünkroniseerimist, kuna WebDAV liides näib olevat mittetoimiv.",
 "Please double check the <a href='%s'>installation guides</a>." => "Palun tutvu veelkord <a href='%s'>paigalduse juhenditega</a>.",
 "seconds ago" => "sekundit tagasi",
-"1 minute ago" => "1 minut tagasi",
-"%d minutes ago" => "%d minutit tagasi",
-"1 hour ago" => "1 tund tagasi",
-"%d hours ago" => "%d tundi tagasi",
+"_%n minute ago_::_%n minutes ago_" => array("","%n minutit tagasi"),
+"_%n hour ago_::_%n hours ago_" => array("","%n tundi tagasi"),
 "today" => "täna",
 "yesterday" => "eile",
-"%d days ago" => "%d päeva tagasi",
+"_%n day go_::_%n days ago_" => array("","%n päeva tagasi"),
 "last month" => "viimasel kuul",
-"%d months ago" => "%d kuud tagasi",
+"_%n month ago_::_%n months ago_" => array("","%n kuud tagasi"),
 "last year" => "viimasel aastal",
 "years ago" => "aastat tagasi",
 "Caused by:" => "Põhjustaja:",
 "Could not find category \"%s\"" => "Ei leia kategooriat \"%s\""
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

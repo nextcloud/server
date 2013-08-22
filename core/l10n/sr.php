@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "Врста категорије није унет.",
 "No category to add?" => "Додати још неку категорију?",
 "Object type not provided." => "Врста објекта није унета.",
@@ -27,20 +28,17 @@
 "December" => "Децембар",
 "Settings" => "Поставке",
 "seconds ago" => "пре неколико секунди",
-"1 minute ago" => "пре 1 минут",
-"{minutes} minutes ago" => "пре {minutes} минута",
-"1 hour ago" => "Пре једног сата",
-"{hours} hours ago" => "Пре {hours} сата (сати)",
+"_%n minute ago_::_%n minutes ago_" => array("","",""),
+"_%n hour ago_::_%n hours ago_" => array("","",""),
 "today" => "данас",
 "yesterday" => "јуче",
-"{days} days ago" => "пре {days} дана",
+"_%n day ago_::_%n days ago_" => array("","",""),
 "last month" => "прошлог месеца",
-"{months} months ago" => "Пре {months} месеца (месеци)",
+"_%n month ago_::_%n months ago_" => array("","",""),
 "months ago" => "месеци раније",
 "last year" => "прошле године",
 "years ago" => "година раније",
 "Choose" => "Одабери",
-"Cancel" => "Откажи",
 "Yes" => "Да",
 "No" => "Не",
 "Ok" => "У реду",
@@ -77,7 +75,6 @@
 "Error setting expiration date" => "Грешка код постављања датума истека",
 "Sending ..." => "Шаљем...",
 "Email sent" => "Порука је послата",
-"ownCloud password reset" => "Поништавање лозинке за ownCloud",
 "Use the following link to reset your password: {link}" => "Овом везом ресетујте своју лозинку: {link}",
 "You will receive a link to reset your password via Email." => "Добићете везу за ресетовање лозинке путем е-поште.",
 "Username" => "Корисничко име",
@@ -116,7 +113,6 @@
 "Lost your password?" => "Изгубили сте лозинку?",
 "remember" => "упамти",
 "Log in" => "Пријава",
-"prev" => "претходно",
-"next" => "следеће",
 "Updating ownCloud to version %s, this may take a while." => "Надоградња ownCloud-а на верзију %s, сачекајте тренутак."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

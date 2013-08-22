@@ -401,15 +401,7 @@ class OC_App{
 
 			// if the user is an admin
 			if(OC_User::isAdminUser(OC_User::getUser())) {
-				// admin apps menu
-				$settings[] = array(
-					"id" => "core_apps",
-					"order" => 3,
-					"href" => OC_Helper::linkToRoute( "settings_apps" ).'?installed',
-					"name" => $l->t("Apps"),
-					"icon" => OC_Helper::imagePath( "settings", "apps.svg" )
-				);
-
+				// admin settings
 				$settings[]=array(
 					"id" => "admin",
 					"order" => 1000,
@@ -674,7 +666,7 @@ class OC_App{
 			}
 			$dh = opendir( $apps_dir['path'] );
 
-			while( $file = readdir( $dh ) ) {
+			while (($file = readdir($dh)) !== false) {
 
 				if ($file[0] != '.' and is_file($apps_dir['path'].'/'.$file.'/appinfo/app.php')) {
 

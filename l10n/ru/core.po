@@ -6,6 +6,7 @@
 # alfsoft <alfsoft@gmail.com>, 2013
 # lord93 <lordakryl@gmail.com>, 2013
 # foool <andrglad@mail.ru>, 2013
+# eurekafag <rkfg@rkfg.me>, 2013
 # Victor Bravo <>, 2013
 # Vyacheslav Muranov <s@neola.ru>, 2013
 # Den4md <denstarr@mail.md>, 2013
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-07 08:59-0400\n"
-"PO-Revision-Date: 2013-08-07 12:22+0000\n"
-"Last-Translator: Den4md <denstarr@mail.md>\n"
+"POT-Creation-Date: 2013-08-19 15:06-0400\n"
+"PO-Revision-Date: 2013-08-19 19:06+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -144,59 +145,63 @@ msgstr "Ноябрь"
 msgid "December"
 msgstr "Декабрь"
 
-#: js/js.js:293
+#: js/js.js:355
 msgid "Settings"
 msgstr "Конфигурация"
 
-#: js/js.js:753
+#: js/js.js:812
 msgid "seconds ago"
 msgstr "несколько секунд назад"
 
-#: js/js.js:754
-msgid "1 minute ago"
-msgstr "1 минуту назад"
+#: js/js.js:813
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] "%n минуту назад"
+msgstr[1] "%n минуты назад"
+msgstr[2] "%n минут назад"
 
-#: js/js.js:755
-msgid "{minutes} minutes ago"
-msgstr "{minutes} минут назад"
+#: js/js.js:814
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] "%n час назад"
+msgstr[1] "%n часа назад"
+msgstr[2] "%n часов назад"
 
-#: js/js.js:756
-msgid "1 hour ago"
-msgstr "час назад"
-
-#: js/js.js:757
-msgid "{hours} hours ago"
-msgstr "{hours} часов назад"
-
-#: js/js.js:758
+#: js/js.js:815
 msgid "today"
 msgstr "сегодня"
 
-#: js/js.js:759
+#: js/js.js:816
 msgid "yesterday"
 msgstr "вчера"
 
-#: js/js.js:760
-msgid "{days} days ago"
-msgstr "{days} дней назад"
+#: js/js.js:817
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] "%n день назад"
+msgstr[1] "%n дня назад"
+msgstr[2] "%n дней назад"
 
-#: js/js.js:761
+#: js/js.js:818
 msgid "last month"
 msgstr "в прошлом месяце"
 
-#: js/js.js:762
-msgid "{months} months ago"
-msgstr "{months} месяцев назад"
+#: js/js.js:819
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] "%n месяц назад"
+msgstr[1] "%n месяца назад"
+msgstr[2] "%n месяцев назад"
 
-#: js/js.js:763
+#: js/js.js:820
 msgid "months ago"
 msgstr "несколько месяцев назад"
 
-#: js/js.js:764
+#: js/js.js:821
 msgid "last year"
 msgstr "в прошлом году"
 
-#: js/js.js:765
+#: js/js.js:822
 msgid "years ago"
 msgstr "несколько лет назад"
 
@@ -204,23 +209,19 @@ msgstr "несколько лет назад"
 msgid "Choose"
 msgstr "Выбрать"
 
-#: js/oc-dialogs.js:122
-msgid "Cancel"
-msgstr "Отменить"
-
-#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
 msgid "Error loading file picker template"
 msgstr "Ошибка при загрузке файла выбора шаблона"
 
-#: js/oc-dialogs.js:164
+#: js/oc-dialogs.js:160
 msgid "Yes"
 msgstr "Да"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:168
 msgid "No"
 msgstr "Нет"
 
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:181
 msgid "Ok"
 msgstr "Ок"
 
@@ -384,9 +385,10 @@ msgstr "При обновлении произошла ошибка. Пожал�
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Обновление прошло успешно. Перенаправляемся в Ваш ownCloud..."
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
-msgstr "Сброс пароля "
+#: lostpassword/controller.php:61
+#, php-format
+msgid "%s password reset"
+msgstr "%s сброс пароля"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -585,6 +587,10 @@ msgstr "%s доступно. Получить дополнительную ин�
 msgid "Log out"
 msgstr "Выйти"
 
+#: templates/layout.user.php:100
+msgid "More apps"
+msgstr "Ещё приложения"
+
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Автоматический вход в систему отключен!"
@@ -621,14 +627,6 @@ msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
 msgstr "Приветствую,<br><br>просто даю знать, что %s поделился »%s« с вами.<br><a href=\"%s\">Посмотреть!</a><br><br>Удачи!"
-
-#: templates/part.pagenavi.php:3
-msgid "prev"
-msgstr "пред"
-
-#: templates/part.pagenavi.php:20
-msgid "next"
-msgstr "след"
 
 #: templates/update.php:3
 #, php-format

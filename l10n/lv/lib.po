@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# stendec <stendec@inbox.lv>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-04 01:55-0400\n"
-"PO-Revision-Date: 2013-08-04 05:02+0000\n"
+"POT-Creation-Date: 2013-08-19 15:06-0400\n"
+"PO-Revision-Date: 2013-08-19 19:07+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -34,17 +35,13 @@ msgid "Users"
 msgstr "Lietotāji"
 
 #: app.php:409
-msgid "Apps"
-msgstr "Lietotnes"
-
-#: app.php:417
 msgid "Admin"
 msgstr "Administratori"
 
-#: app.php:844
+#: app.php:836
 #, php-format
 msgid "Failed to upgrade \"%s\"."
-msgstr ""
+msgstr "Kļūda atjauninot \"%s\""
 
 #: defaults.php:35
 msgid "web services under your control"
@@ -53,7 +50,7 @@ msgstr "tīmekļa servisi tavā varā"
 #: files.php:66 files.php:98
 #, php-format
 msgid "cannot open \"%s\""
-msgstr ""
+msgstr "Nevar atvērt \"%s\""
 
 #: files.php:226
 msgid "ZIP download is turned off."
@@ -75,11 +72,7 @@ msgstr "Izvēlētās datnes ir pārāk lielas, lai izveidotu zip datni."
 msgid ""
 "Download the files in smaller chunks, seperately or kindly ask your "
 "administrator."
-msgstr ""
-
-#: helper.php:235
-msgid "couldn't be determined"
-msgstr "nevarēja noteikt"
+msgstr "Lejupielādējiet savus failus mazākās daļās, atsevišķi vai palūdziet tos administratoram."
 
 #: json.php:28
 msgid "Application is not enabled"
@@ -171,7 +164,7 @@ msgstr "Izmest šo lietotāju no MySQL."
 
 #: setup/oci.php:34
 msgid "Oracle connection could not be established"
-msgstr ""
+msgstr "Nevar izveidot savienojumu ar Oracle"
 
 #: setup/oci.php:41 setup/oci.php:113
 msgid "Oracle username and/or password not valid"
@@ -210,56 +203,56 @@ msgid "seconds ago"
 msgstr "sekundes atpakaļ"
 
 #: template/functions.php:81
-msgid "1 minute ago"
-msgstr "pirms 1 minūtes"
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] "Pirms %n minūtēm"
 
 #: template/functions.php:82
-#, php-format
-msgid "%d minutes ago"
-msgstr "pirms %d minūtēm"
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] "Pirms %n stundām"
 
 #: template/functions.php:83
-msgid "1 hour ago"
-msgstr "pirms 1 stundas"
-
-#: template/functions.php:84
-#, php-format
-msgid "%d hours ago"
-msgstr "pirms %d stundām"
-
-#: template/functions.php:85
 msgid "today"
 msgstr "šodien"
 
-#: template/functions.php:86
+#: template/functions.php:84
 msgid "yesterday"
 msgstr "vakar"
 
-#: template/functions.php:87
-#, php-format
-msgid "%d days ago"
-msgstr "pirms %d dienām"
+#: template/functions.php:85
+msgid "%n day go"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] "Pirms %n dienām"
 
-#: template/functions.php:88
+#: template/functions.php:86
 msgid "last month"
 msgstr "pagājušajā mēnesī"
 
-#: template/functions.php:89
-#, php-format
-msgid "%d months ago"
-msgstr "pirms %d mēnešiem"
+#: template/functions.php:87
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] "Pirms %n mēnešiem"
 
-#: template/functions.php:90
+#: template/functions.php:88
 msgid "last year"
 msgstr "gājušajā gadā"
 
-#: template/functions.php:91
+#: template/functions.php:89
 msgid "years ago"
 msgstr "gadus atpakaļ"
 
 #: template.php:297
 msgid "Caused by:"
-msgstr ""
+msgstr "Cēlonis:"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format

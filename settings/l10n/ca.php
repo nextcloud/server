@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "No s'ha pogut carregar la llista des de l'App Store",
 "Authentication error" => "Error d'autenticació",
 "Your display name has been changed." => "El nom a mostrar ha canviat.",
@@ -24,6 +25,7 @@
 "Updating...." => "Actualitzant...",
 "Error while updating app" => "Error en actualitzar l'aplicació",
 "Updated" => "Actualitzada",
+"Decrypting files... Please wait, this can take some time." => "Desencriptant fitxers... Espereu, això pot trigar una estona.",
 "Saving..." => "Desant...",
 "deleted" => "esborrat",
 "undo" => "desfés",
@@ -101,6 +103,10 @@
 "Help translate" => "Ajudeu-nos amb la traducció",
 "WebDAV" => "WebDAV",
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "Useu aquesta adreça per <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">accedir als fitxers via WebDAV</a>",
+"Encryption" => "Xifrat",
+"The encryption app is no longer enabled, decrypt all your file" => "L'aplicació d'encriptació ja no està activada, desencripteu tots els vostres fitxers.",
+"Log-in password" => "Contrasenya d'accés",
+"Decrypt all Files" => "Desencripta tots els fitxers",
 "Login Name" => "Nom d'accés",
 "Create" => "Crea",
 "Admin Recovery Password" => "Recuperació de contrasenya d'administrador",
@@ -114,3 +120,4 @@
 "set new password" => "estableix nova contrasenya",
 "Default" => "Per defecte"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

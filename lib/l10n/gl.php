@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Axuda",
 "Personal" => "Persoal",
 "Settings" => "Axustes",
 "Users" => "Usuarios",
-"Apps" => "Aplicativos",
 "Admin" => "Administración",
 "Failed to upgrade \"%s\"." => "Non foi posíbel anovar «%s».",
 "web services under your control" => "servizos web baixo o seu control",
@@ -13,7 +13,6 @@
 "Back to Files" => "Volver aos ficheiros",
 "Selected files too large to generate zip file." => "Os ficheiros seleccionados son demasiado grandes como para xerar un ficheiro zip.",
 "Download the files in smaller chunks, seperately or kindly ask your administrator." => "Descargue os ficheiros en cachos máis pequenos e por separado, ou pídallos amabelmente ao seu administrador.",
-"couldn't be determined" => "non foi posíbel determinalo",
 "Application is not enabled" => "O aplicativo non está activado",
 "Authentication error" => "Produciuse un erro de autenticación",
 "Token expired. Please reload page." => "Testemuña caducada. Recargue a páxina.",
@@ -41,17 +40,16 @@
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "O seu servidor web non está aínda configurado adecuadamente para permitir a sincronización de ficheiros xa que semella que a interface WebDAV non está a funcionar.",
 "Please double check the <a href='%s'>installation guides</a>." => "Volva comprobar as <a href='%s'>guías de instalación</a>",
 "seconds ago" => "segundos atrás",
-"1 minute ago" => "hai 1 minuto",
-"%d minutes ago" => "hai %d minutos",
-"1 hour ago" => "Vai 1 hora",
-"%d hours ago" => "Vai %d horas",
+"_%n minute ago_::_%n minutes ago_" => array("hai %n minuto","hai %n minutos"),
+"_%n hour ago_::_%n hours ago_" => array("hai %n hora","hai %n horas"),
 "today" => "hoxe",
 "yesterday" => "onte",
-"%d days ago" => "hai %d días",
+"_%n day go_::_%n days ago_" => array("hai %n día","hai %n días"),
 "last month" => "último mes",
-"%d months ago" => "Vai %d meses",
+"_%n month ago_::_%n months ago_" => array("hai %n mes","hai %n meses"),
 "last year" => "último ano",
 "years ago" => "anos atrás",
 "Caused by:" => "Causado por:",
 "Could not find category \"%s\"" => "Non foi posíbel atopar a categoría «%s»"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

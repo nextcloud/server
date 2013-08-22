@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "不能从App Store 中加载列表",
 "Authentication error" => "验证错误",
 "Your display name has been changed." => "您的显示名称已修改",
@@ -101,6 +102,7 @@
 "Help translate" => "帮助翻译",
 "WebDAV" => "WebDAV",
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "访问WebDAV请点击 <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">此处</a>",
+"Encryption" => "加密",
 "Login Name" => "登录名",
 "Create" => "新建",
 "Admin Recovery Password" => "管理员恢复密码",
@@ -114,3 +116,4 @@
 "set new password" => "设置新的密码",
 "Default" => "默认"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

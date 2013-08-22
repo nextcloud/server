@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Záchranný klíč byl úspěšně povolen",
 "Could not enable recovery key. Please check your recovery key password!" => "Nepodařilo se povolit záchranný klíč. Zkontrolujte prosím vaše heslo záchranného klíče!",
 "Recovery key successfully disabled" => "Záchranný klíč byl úspěšně zakázán",
@@ -9,7 +10,7 @@
 "Could not update the private key password. Maybe the old password was not correct." => "Nelze aktualizovat heslo soukromého klíče. Možná nebylo staré heslo správně.",
 "Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Váš soukromý klíč není platný! Pravděpodobně bylo heslo změněno vně systému ownCloud (např. ve vašem firemním adresáři). Heslo vašeho soukromého klíče můžete změnit ve svém osobním nastavení pro obnovení přístupu k vašim zašifrovaným souborům.",
 "Missing requirements." => "Nesplněné závislosti.",
-"Please make sure that PHP 5.3.3 or newer is installed and that the OpenSSL PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Ujistěte se prosím, že máte nainstalované PHP verze PHP 5.3.3 či novější s nainstalovaným a správně nastaveným rozšířením OpenSSL. Prozatím byla šifrovací aplikace zablokována.",
+"Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Ujistěte se prosím, že máte nainstalované PHP 5.3.3 nebo novější a že máte povolené a správně nakonfigurované OpenSSL včetně jeho rozšíření pro PHP. Prozatím byla aplikace pro šifrování vypnuta.",
 "Following users are not set up for encryption:" => "Následující uživatelé nemají nastavené šifrování:",
 "Saving..." => "Ukládám...",
 "Your private key is not valid! Maybe the your password was changed from outside." => "Váš soukromý klíč není platný! Pravděpodobně bylo vaše heslo změněno zvenčí.",
@@ -35,3 +36,4 @@
 "File recovery settings updated" => "Možnosti záchrany souborů aktualizovány",
 "Could not update file recovery" => "Nelze nastavit záchranu souborů"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

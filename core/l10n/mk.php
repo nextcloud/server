@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "Не беше доставен тип на категорија.",
 "No category to add?" => "Нема категорија да се додаде?",
 "Object type not provided." => "Не беше доставен тип на објект.",
@@ -27,20 +28,17 @@
 "December" => "Декември",
 "Settings" => "Подесувања",
 "seconds ago" => "пред секунди",
-"1 minute ago" => "пред 1 минута",
-"{minutes} minutes ago" => "пред {minutes} минути",
-"1 hour ago" => "пред 1 час",
-"{hours} hours ago" => "пред {hours} часови",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "денеска",
 "yesterday" => "вчера",
-"{days} days ago" => "пред {days} денови",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "минатиот месец",
-"{months} months ago" => "пред {months} месеци",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "пред месеци",
 "last year" => "минатата година",
 "years ago" => "пред години",
 "Choose" => "Избери",
-"Cancel" => "Откажи",
 "Yes" => "Да",
 "No" => "Не",
 "Ok" => "Во ред",
@@ -78,7 +76,6 @@
 "Error setting expiration date" => "Грешка при поставување на рок на траење",
 "Sending ..." => "Праќање...",
 "Email sent" => "Е-порака пратена",
-"ownCloud password reset" => "ресетирање на лозинка за ownCloud",
 "Use the following link to reset your password: {link}" => "Користете ја следната врска да ја ресетирате Вашата лозинка: {link}",
 "You will receive a link to reset your password via Email." => "Ќе добиете врска по е-пошта за да може да ја ресетирате Вашата лозинка.",
 "Username" => "Корисничко име",
@@ -116,7 +113,6 @@
 "Please change your password to secure your account again." => "Ве молам сменете ја лозинката да ја обезбедите вашата сметка повторно.",
 "Lost your password?" => "Ја заборавивте лозинката?",
 "remember" => "запамти",
-"Log in" => "Најава",
-"prev" => "претходно",
-"next" => "следно"
+"Log in" => "Најава"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Sunday" => "Nedelja",
 "Monday" => "Ponedeljak",
 "Tuesday" => "Utorak",
@@ -19,7 +20,10 @@
 "November" => "Novembar",
 "December" => "Decembar",
 "Settings" => "Podešavanja",
-"Cancel" => "Otkaži",
+"_%n minute ago_::_%n minutes ago_" => array("","",""),
+"_%n hour ago_::_%n hours ago_" => array("","",""),
+"_%n day ago_::_%n days ago_" => array("","",""),
+"_%n month ago_::_%n months ago_" => array("","",""),
 "Password" => "Lozinka",
 "You will receive a link to reset your password via Email." => "Dobićete vezu za resetovanje lozinke putem e-pošte.",
 "Username" => "Korisničko ime",
@@ -45,7 +49,6 @@
 "Finish setup" => "Završi podešavanje",
 "Log out" => "Odjava",
 "Lost your password?" => "Izgubili ste lozinku?",
-"remember" => "upamti",
-"prev" => "prethodno",
-"next" => "sledeće"
+"remember" => "upamti"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Deletion failed" => "ئۆچۈرۈش مەغلۇپ بولدى",
 "Error" => "خاتالىق",
 "Host" => "باش ئاپپارات",
@@ -12,3 +13,4 @@
 "Use TLS" => "TLS ئىشلەت",
 "Help" => "ياردەم"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

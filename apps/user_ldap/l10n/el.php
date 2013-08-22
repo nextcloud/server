@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Αποτυχία διαγραφής ρυθμίσεων διακομιστή",
 "The configuration is valid and the connection could be established!" => "Οι ρυθμίσεις είναι έγκυρες και η σύνδεση μπορεί να πραγματοποιηθεί!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Οι ρυθμίσεις είναι έγκυρες, αλλά απέτυχε η σύνδεση. Παρακαλώ ελέγξτε τις ρυθμίσεις του διακομιστή και τα διαπιστευτήρια.",
@@ -26,14 +27,8 @@
 "Password" => "Συνθηματικό",
 "For anonymous access, leave DN and Password empty." => "Για ανώνυμη πρόσβαση, αφήστε κενά τα πεδία DN και Pasword.",
 "User Login Filter" => "User Login Filter",
-"Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action." => "Καθορίζει το φίλτρο που θα ισχύει κατά την προσπάθεια σύνδεσης χρήστη. %%uid αντικαθιστά το όνομα χρήστη κατά τη σύνδεση. ",
-"use %%uid placeholder, e.g. \"uid=%%uid\"" => "χρησιμοποιήστε τη μεταβλητή %%uid, π.χ. \"uid=%%uid\"",
 "User List Filter" => "User List Filter",
-"Defines the filter to apply, when retrieving users." => "Καθορίζει το φίλτρο που θα ισχύει κατά την ανάκτηση επαφών.",
-"without any placeholder, e.g. \"objectClass=person\"." => "χωρίς κάποια μεταβλητή, π.χ. \"objectClass=άτομο\".",
 "Group Filter" => "Group Filter",
-"Defines the filter to apply, when retrieving groups." => "Καθορίζει το φίλτρο που θα ισχύει κατά την ανάκτηση ομάδων.",
-"without any placeholder, e.g. \"objectClass=posixGroup\"." => "χωρίς κάποια μεταβλητή, π.χ. \"objectClass=ΟμάδαPosix\".",
 "Connection Settings" => "Ρυθμίσεις Σύνδεσης",
 "Configuration Active" => "Ενεργοποιηση ρυθμισεων",
 "When unchecked, this configuration will be skipped." => "Όταν δεν είναι επιλεγμένο, αυτή η ρύθμιση θα πρέπει να παραλειφθεί. ",
@@ -46,7 +41,6 @@
 "Do not use it additionally for LDAPS connections, it will fail." => "Μην το χρησιμοποιήσετε επιπροσθέτως, για LDAPS συνδέσεις , θα αποτύχει.",
 "Case insensitve LDAP server (Windows)" => "LDAP server (Windows) με διάκριση πεζών-ΚΕΦΑΛΑΙΩΝ",
 "Turn off SSL certificate validation." => "Απενεργοποίηση επικύρωσης πιστοποιητικού SSL.",
-"Not recommended, use for testing only." => "Δεν προτείνεται, χρήση μόνο για δοκιμές.",
 "Cache Time-To-Live" => "Cache Time-To-Live",
 "in seconds. A change empties the cache." => "σε δευτερόλεπτα. Μια αλλαγή αδειάζει την μνήμη cache.",
 "Directory Settings" => "Ρυθμίσεις Καταλόγου",
@@ -70,3 +64,4 @@
 "Test Configuration" => "Δοκιμαστικες ρυθμισεις",
 "Help" => "Βοήθεια"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -25,9 +25,10 @@
  * Collection of useful functions
  */
 class OC_Helper {
-	private static $mimetypes=array();
-	private static $tmpFiles=array();
+	private static $tmpFiles = array();
 	private static $mimetypeIcons = array();
+	private static $mimetypeDetector;
+	private static $templateManager;
 
 	/**
 	 * @brief Creates an url using a defined route
@@ -39,7 +40,7 @@ class OC_Helper {
 	 *
 	 * Returns a url to the given app and file.
 	 */
-	public static function linkToRoute( $route, $parameters = array() ) {
+	public static function linkToRoute($route, $parameters = array()) {
 		$urlLinkTo = OC::getRouter()->generate($route, $parameters);
 		return $urlLinkTo;
 	}
@@ -49,7 +50,7 @@ class OC_Helper {
 	 * @param string $app app
 	 * @param string $file file
 	 * @param array $args array with param=>value, will be appended to the returned url
-	 * 	The value of $args will be urlencoded
+	 *    The value of $args will be urlencoded
 	 * @return string the url
 	 *
 	 * Returns a url to the given app and file.
@@ -58,29 +59,26 @@ class OC_Helper {
 		if( $app != '' ) {
 			$app_path = OC_App::getAppPath($app);
 			// Check if the app is in the app folder
-			if( $app_path && file_exists( $app_path.'/'.$file )) {
-				if(substr($file, -3) == 'php' || substr($file, -3) == 'css') {
-					$urlLinkTo =  OC::$WEBROOT . '/index.php/apps/' . $app;
-					$urlLinkTo .= ($file!='index.php') ? '/' . $file : '';
-				}else{
-					$urlLinkTo =  OC_App::getAppWebPath($app) . '/' . $file;
+			if ($app_path && file_exists($app_path . '/' . $file)) {
+				if (substr($file, -3) == 'php' || substr($file, -3) == 'css') {
+					$urlLinkTo = OC::$WEBROOT . '/index.php/apps/' . $app;
+					$urlLinkTo .= ($file != 'index.php') ? '/' . $file : '';
+				} else {
+					$urlLinkTo = OC_App::getAppWebPath($app) . '/' . $file;
 				}
+			} else {
+				$urlLinkTo = OC::$WEBROOT . '/' . $app . '/' . $file;
 			}
-			else{
-				$urlLinkTo =  OC::$WEBROOT . '/' . $app . '/' . $file;
-			}
-		}
-		else{
-			if( file_exists( OC::$SERVERROOT . '/core/'. $file )) {
-				$urlLinkTo =  OC::$WEBROOT . '/core/'.$file;
-			}
-			else{
-				$urlLinkTo =  OC::$WEBROOT . '/'.$file;
+		} else {
+			if (file_exists(OC::$SERVERROOT . '/core/' . $file)) {
+				$urlLinkTo = OC::$WEBROOT . '/core/' . $file;
+			} else {
+				$urlLinkTo = OC::$WEBROOT . '/' . $file;
 			}
 		}
 
 		if ($args && $query = http_build_query($args, '', '&')) {
-			$urlLinkTo .= '?'.$query;
+			$urlLinkTo .= '?' . $query;
 		}
 
 		return $urlLinkTo;
@@ -91,13 +89,13 @@ class OC_Helper {
 	 * @param string $app app
 	 * @param string $file file
 	 * @param array $args array with param=>value, will be appended to the returned url
-	 * 	The value of $args will be urlencoded
+	 *    The value of $args will be urlencoded
 	 * @return string the url
 	 *
 	 * Returns a absolute url to the given app and file.
 	 */
-	public static function linkToAbsolute( $app, $file, $args = array() ) {
-		$urlLinkTo = self::linkTo( $app, $file, $args );
+	public static function linkToAbsolute($app, $file, $args = array()) {
+		$urlLinkTo = self::linkTo($app, $file, $args);
 		return self::makeURLAbsolute($urlLinkTo);
 	}
 
@@ -108,9 +106,8 @@ class OC_Helper {
 	 *
 	 * Returns a absolute url to the given app and file.
 	 */
-	public static function makeURLAbsolute( $url )
-	{
-		return OC_Request::serverProtocol(). '://'  . OC_Request::serverHost() . $url;
+	public static function makeURLAbsolute($url) {
+		return OC_Request::serverProtocol() . '://' . OC_Request::serverHost() . $url;
 	}
 
 	/**
@@ -120,8 +117,8 @@ class OC_Helper {
 	 *
 	 * Returns a url to the given service.
 	 */
-	public static function linkToRemoteBase( $service ) {
-		return self::linkTo( '', 'remote.php') . '/' . $service;
+	public static function linkToRemoteBase($service) {
+		return self::linkTo('', 'remote.php') . '/' . $service;
 	}
 
 	/**
@@ -132,9 +129,9 @@ class OC_Helper {
 	 *
 	 * Returns a absolute url to the given service.
 	 */
-	public static function linkToRemote( $service, $add_slash = true ) {
+	public static function linkToRemote($service, $add_slash = true) {
 		return self::makeURLAbsolute(self::linkToRemoteBase($service))
-			. (($add_slash && $service[strlen($service)-1]!='/')?'/':'');
+		. (($add_slash && $service[strlen($service) - 1] != '/') ? '/' : '');
 	}
 
 	/**
@@ -146,8 +143,8 @@ class OC_Helper {
 	 * Returns a absolute url to the given service.
 	 */
 	public static function linkToPublic($service, $add_slash = false) {
-		return self::linkToAbsolute( '', 'public.php') . '?service=' . $service
-			. (($add_slash && $service[strlen($service)-1]!='/')?'/':'');
+		return self::linkToAbsolute('', 'public.php') . '?service=' . $service
+		. (($add_slash && $service[strlen($service) - 1] != '/') ? '/' : '');
 	}
 
 	/**
@@ -158,25 +155,25 @@ class OC_Helper {
 	 *
 	 * Returns the path to the image.
 	 */
-	public static function imagePath( $app, $image ) {
+	public static function imagePath($app, $image) {
 		// Read the selected theme from the config file
 		$theme = OC_Util::getTheme();
 
 		// Check if the app is in the app folder
-		if( file_exists( OC::$SERVERROOT."/themes/$theme/apps/$app/img/$image" )) {
-			return OC::$WEBROOT."/themes/$theme/apps/$app/img/$image";
-		}elseif( file_exists(OC_App::getAppPath($app)."/img/$image" )) {
-			return OC_App::getAppWebPath($app)."/img/$image";
-		}elseif( !empty( $app ) and file_exists( OC::$SERVERROOT."/themes/$theme/$app/img/$image" )) {
-			return OC::$WEBROOT."/themes/$theme/$app/img/$image";
-		}elseif( !empty( $app ) and file_exists( OC::$SERVERROOT."/$app/img/$image" )) {
-			return OC::$WEBROOT."/$app/img/$image";
-		}elseif( file_exists( OC::$SERVERROOT."/themes/$theme/core/img/$image" )) {
-			return OC::$WEBROOT."/themes/$theme/core/img/$image";
-		}elseif( file_exists( OC::$SERVERROOT."/core/img/$image" )) {
-			return OC::$WEBROOT."/core/img/$image";
-		}else{
-			throw new RuntimeException('image not found: image:'.$image.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
+		if (file_exists(OC::$SERVERROOT . "/themes/$theme/apps/$app/img/$image")) {
+			return OC::$WEBROOT . "/themes/$theme/apps/$app/img/$image";
+		} elseif (file_exists(OC_App::getAppPath($app) . "/img/$image")) {
+			return OC_App::getAppWebPath($app) . "/img/$image";
+		} elseif (!empty($app) and file_exists(OC::$SERVERROOT . "/themes/$theme/$app/img/$image")) {
+			return OC::$WEBROOT . "/themes/$theme/$app/img/$image";
+		} elseif (!empty($app) and file_exists(OC::$SERVERROOT . "/$app/img/$image")) {
+			return OC::$WEBROOT . "/$app/img/$image";
+		} elseif (file_exists(OC::$SERVERROOT . "/themes/$theme/core/img/$image")) {
+			return OC::$WEBROOT . "/themes/$theme/core/img/$image";
+		} elseif (file_exists(OC::$SERVERROOT . "/core/img/$image")) {
+			return OC::$WEBROOT . "/core/img/$image";
+		} else {
+			throw new RuntimeException('image not found: image:' . $image . ' webroot:' . OC::$WEBROOT . ' serverroot:' . OC::$SERVERROOT);
 		}
 	}
 
@@ -197,28 +194,28 @@ class OC_Helper {
 		}
 		// Replace slash and backslash with a minus
 		$icon = str_replace('/', '-', $mimetype);
-		$icon = str_replace( '\\', '-', $icon);
+		$icon = str_replace('\\', '-', $icon);
 
 		// Is it a dir?
 		if ($mimetype === 'dir') {
-			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT.'/core/img/filetypes/folder.png';
-			return OC::$WEBROOT.'/core/img/filetypes/folder.png';
+			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/folder.png';
+			return OC::$WEBROOT . '/core/img/filetypes/folder.png';
 		}
 
 		// Icon exists?
-		if (file_exists(OC::$SERVERROOT.'/core/img/filetypes/'.$icon.'.png')) {
-			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT.'/core/img/filetypes/'.$icon.'.png';
-			return OC::$WEBROOT.'/core/img/filetypes/'.$icon.'.png';
+		if (file_exists(OC::$SERVERROOT . '/core/img/filetypes/' . $icon . '.png')) {
+			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/' . $icon . '.png';
+			return OC::$WEBROOT . '/core/img/filetypes/' . $icon . '.png';
 		}
 
 		// Try only the first part of the filetype
 		$mimePart = substr($icon, 0, strpos($icon, '-'));
-		if (file_exists(OC::$SERVERROOT.'/core/img/filetypes/'.$mimePart.'.png')) {
-			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT.'/core/img/filetypes/'.$mimePart.'.png';
-			return OC::$WEBROOT.'/core/img/filetypes/'.$mimePart.'.png';
+		if (file_exists(OC::$SERVERROOT . '/core/img/filetypes/' . $mimePart . '.png')) {
+			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/' . $mimePart . '.png';
+			return OC::$WEBROOT . '/core/img/filetypes/' . $mimePart . '.png';
 		} else {
-			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT.'/core/img/filetypes/file.png';
-			return OC::$WEBROOT.'/core/img/filetypes/file.png';
+			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/file.png';
+			return OC::$WEBROOT . '/core/img/filetypes/file.png';
 		}
 	}
 
@@ -229,25 +226,25 @@ class OC_Helper {
 	 *
 	 * Makes 2048 to 2 kB.
 	 */
-	public static function humanFileSize( $bytes ) {
-		if( $bytes < 0 ) {
+	public static function humanFileSize($bytes) {
+		if ($bytes < 0) {
 			$l = OC_L10N::get('lib');
-			return $l->t("couldn't be determined");
+			return "?";
 		}
-		if( $bytes < 1024 ) {
+		if ($bytes < 1024) {
 			return "$bytes B";
 		}
-		$bytes = round( $bytes / 1024, 1 );
-		if( $bytes < 1024 ) {
+		$bytes = round($bytes / 1024, 1);
+		if ($bytes < 1024) {
 			return "$bytes kB";
 		}
-		$bytes = round( $bytes / 1024, 1 );
-		if( $bytes < 1024 ) {
+		$bytes = round($bytes / 1024, 1);
+		if ($bytes < 1024) {
 			return "$bytes MB";
 		}
 
 		// Wow, heavy duty for owncloud
-		$bytes = round( $bytes / 1024, 1 );
+		$bytes = round($bytes / 1024, 1);
 		return "$bytes GB";
 	}
 
@@ -260,21 +257,21 @@ class OC_Helper {
 	 *
 	 * Inspired by: http://www.php.net/manual/en/function.filesize.php#92418
 	 */
-	public static function computerFileSize( $str ) {
-		$str=strtolower($str);
+	public static function computerFileSize($str) {
+		$str = strtolower($str);
 
 		$bytes_array = array(
 			'b' => 1,
 			'k' => 1024,
 			'kb' => 1024,
 			'mb' => 1024 * 1024,
-			'm'  => 1024 * 1024,
+			'm' => 1024 * 1024,
 			'gb' => 1024 * 1024 * 1024,
-			'g'  => 1024 * 1024 * 1024,
+			'g' => 1024 * 1024 * 1024,
 			'tb' => 1024 * 1024 * 1024 * 1024,
-			't'  => 1024 * 1024 * 1024 * 1024,
+			't' => 1024 * 1024 * 1024 * 1024,
 			'pb' => 1024 * 1024 * 1024 * 1024 * 1024,
-			'p'  => 1024 * 1024 * 1024 * 1024 * 1024,
+			'p' => 1024 * 1024 * 1024 * 1024 * 1024,
 		);
 
 		$bytes = floatval($str);
@@ -299,18 +296,17 @@ class OC_Helper {
 			return chmod($path, $filemode);
 		$dh = opendir($path);
 		while (($file = readdir($dh)) !== false) {
-			if($file != '.' && $file != '..') {
-				$fullpath = $path.'/'.$file;
-				if(is_link($fullpath))
+			if ($file != '.' && $file != '..') {
+				$fullpath = $path . '/' . $file;
+				if (is_link($fullpath))
 					return false;
-				elseif(!is_dir($fullpath) && !@chmod($fullpath, $filemode))
-						return false;
-				elseif(!self::chmodr($fullpath, $filemode))
+				elseif (!is_dir($fullpath) && !@chmod($fullpath, $filemode))
+					return false; elseif (!self::chmodr($fullpath, $filemode))
 					return false;
 			}
 		}
 		closedir($dh);
-		if(@chmod($path, $filemode))
+		if (@chmod($path, $filemode))
 			return true;
 		else
 			return false;
@@ -323,8 +319,8 @@ class OC_Helper {
 	 *
 	 */
 	static function copyr($src, $dest) {
-		if(is_dir($src)) {
-			if(!is_dir($dest)) {
+		if (is_dir($src)) {
+			if (!is_dir($dest)) {
 				mkdir($dest);
 			}
 			$files = scandir($src);
@@ -333,7 +329,7 @@ class OC_Helper {
 					self::copyr("$src/$file", "$dest/$file");
 				}
 			}
-		}elseif(file_exists($src) && !\OC\Files\Filesystem::isFileBlacklisted($src)) {
+		} elseif (file_exists($src) && !\OC\Files\Filesystem::isFileBlacklisted($src)) {
 			copy($src, $dest);
 		}
 	}
@@ -344,22 +340,43 @@ class OC_Helper {
 	 * @return bool
 	 */
 	static function rmdirr($dir) {
-		if(is_dir($dir)) {
-			$files=scandir($dir);
-			foreach($files as $file) {
+		if (is_dir($dir)) {
+			$files = scandir($dir);
+			foreach ($files as $file) {
 				if ($file != "." && $file != "..") {
 					self::rmdirr("$dir/$file");
 				}
 			}
 			rmdir($dir);
-		}elseif(file_exists($dir)) {
+		} elseif (file_exists($dir)) {
 			unlink($dir);
 		}
-		if(file_exists($dir)) {
+		if (file_exists($dir)) {
 			return false;
-		}else{
+		} else {
 			return true;
 		}
+	}
+
+	/**
+	 * @return \OC\Files\Type\Detection
+	 */
+	static public function getMimetypeDetector() {
+		if (!self::$mimetypeDetector) {
+			self::$mimetypeDetector = new \OC\Files\Type\Detection();
+			self::$mimetypeDetector->registerTypeArray(include 'mimetypes.list.php');
+		}
+		return self::$mimetypeDetector;
+	}
+
+	/**
+	 * @return \OC\Files\Type\TemplateManager
+	 */
+	static public function getFileTemplateManager() {
+		if (!self::$templateManager) {
+			self::$templateManager = new \OC\Files\Type\TemplateManager();
+		}
+		return self::$templateManager;
 	}
 
 	/**
@@ -368,81 +385,29 @@ class OC_Helper {
 	 * @param string $path
 	 * @return string
 	 */
-	static public function getFileNameMimeType($path){
-		if(strpos($path, '.')) {
-			//try to guess the type by the file extension
-			if(!self::$mimetypes || self::$mimetypes != include 'mimetypes.list.php') {
-				self::$mimetypes=include 'mimetypes.list.php';
-			}
-			$extension=strtolower(strrchr(basename($path), "."));
-			$extension=substr($extension, 1);//remove leading .
-			return (isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
-		}else{
-			return 'application/octet-stream';
-		}
+	static public function getFileNameMimeType($path) {
+		return self::getMimetypeDetector()->detectPath($path);
 	}
 
 	/**
 	 * get the mimetype form a local file
+	 *
 	 * @param string $path
 	 * @return string
 	 * does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
 	 */
 	static function getMimeType($path) {
-		$isWrapped=(strpos($path, '://')!==false) and (substr($path, 0, 7)=='file://');
-
-		if (@is_dir($path)) {
-			// directories are easy
-			return "httpd/unix-directory";
-		}
-
-		$mimeType = self::getFileNameMimeType($path);
-
-		if($mimeType=='application/octet-stream' and function_exists('finfo_open')
-			and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)) {
-			$info = @strtolower(finfo_file($finfo, $path));
-			if($info) {
-				$mimeType=substr($info, 0, strpos($info, ';'));
-			}
-			finfo_close($finfo);
-		}
-		if (!$isWrapped and $mimeType=='application/octet-stream' && function_exists("mime_content_type")) {
-			// use mime magic extension if available
-			$mimeType = mime_content_type($path);
-		}
-		if (!$isWrapped and $mimeType=='application/octet-stream' && OC_Helper::canExecute("file")) {
-			// it looks like we have a 'file' command,
-			// lets see if it does have mime support
-			$path=escapeshellarg($path);
-			$fp = popen("file -b --mime-type $path 2>/dev/null", "r");
-			$reply = fgets($fp);
-			pclose($fp);
-
-			//trim the newline
-			$mimeType = trim($reply);
-
-		}
-		return $mimeType;
+		return self::getMimetypeDetector()->detect($path);
 	}
 
 	/**
 	 * get the mimetype form a data string
+	 *
 	 * @param string $data
 	 * @return string
 	 */
 	static function getStringMimeType($data) {
-		if(function_exists('finfo_open') and function_exists('finfo_file')) {
-			$finfo=finfo_open(FILEINFO_MIME);
-			return finfo_buffer($finfo, $data);
-		}else{
-			$tmpFile=OC_Helper::tmpFile();
-			$fh=fopen($tmpFile, 'wb');
-			fwrite($fh, $data, 8024);
-			fclose($fh);
-			$mime=self::getMimeType($tmpFile);
-			unset($tmpFile);
-			return $mime;
-		}
+		return self::getMimetypeDetector()->detectString($data);
 	}
 
 	/**
@@ -454,9 +419,9 @@ class OC_Helper {
 	 */
 
 	//FIXME: should also check for value validation (i.e. the email is an email).
-	public static function init_var($s, $d="") {
+	public static function init_var($s, $d = "") {
 		$r = $d;
-		if(isset($_REQUEST[$s]) && !empty($_REQUEST[$s])) {
+		if (isset($_REQUEST[$s]) && !empty($_REQUEST[$s])) {
 			$r = OC_Util::sanitizeHTML($_REQUEST[$s]);
 		}
 
@@ -466,12 +431,13 @@ class OC_Helper {
 	/**
 	 * returns "checked"-attribute if request contains selected radio element
 	 * OR if radio element is the default one -- maybe?
+	 *
 	 * @param string $s Name of radio-button element name
 	 * @param string $v Value of current radio-button element
 	 * @param string $d Value of default radio-button element
 	 */
 	public static function init_radio($s, $v, $d) {
-		if((isset($_REQUEST[$s]) && $_REQUEST[$s]==$v) || (!isset($_REQUEST[$s]) && $v == $d))
+		if ((isset($_REQUEST[$s]) && $_REQUEST[$s] == $v) || (!isset($_REQUEST[$s]) && $v == $d))
 			print "checked=\"checked\" ";
 	}
 
@@ -503,17 +469,17 @@ class OC_Helper {
 		$dirs = explode(PATH_SEPARATOR, $path);
 		// WARNING : We have to check if open_basedir is enabled :
 		$obd = ini_get('open_basedir');
-		if($obd != "none") {
+		if ($obd != "none") {
 			$obd_values = explode(PATH_SEPARATOR, $obd);
-			if(count($obd_values) > 0 and $obd_values[0]) {
+			if (count($obd_values) > 0 and $obd_values[0]) {
 				// open_basedir is in effect !
 				// We need to check if the program is in one of these dirs :
 				$dirs = $obd_values;
 			}
 		}
-		foreach($dirs as $dir) {
-			foreach($exts as $ext) {
-				if($check_fn("$dir/$name".$ext))
+		foreach ($dirs as $dir) {
+			foreach ($exts as $ext) {
+				if ($check_fn("$dir/$name" . $ext))
 					return true;
 			}
 		}
@@ -522,18 +488,19 @@ class OC_Helper {
 
 	/**
 	 * copy the contents of one stream to another
+	 *
 	 * @param resource $source
 	 * @param resource $target
 	 * @return int the number of bytes copied
 	 */
 	public static function streamCopy($source, $target) {
-		if(!$source or !$target) {
+		if (!$source or !$target) {
 			return false;
 		}
 		$result = true;
 		$count = 0;
-		while(!feof($source)) {
-			if ( ( $c = fwrite($target, fread($source, 8192)) ) === false) {
+		while (!feof($source)) {
+			if (($c = fwrite($target, fread($source, 8192))) === false) {
 				$result = false;
 			} else {
 				$count += $c;
@@ -544,37 +511,39 @@ class OC_Helper {
 
 	/**
 	 * create a temporary file with an unique filename
+	 *
 	 * @param string $postfix
 	 * @return string
 	 *
 	 * temporary files are automatically cleaned up after the script is finished
 	 */
-	public static function tmpFile($postfix='') {
-		$file=get_temp_dir().'/'.md5(time().rand()).$postfix;
-		$fh=fopen($file, 'w');
+	public static function tmpFile($postfix = '') {
+		$file = get_temp_dir() . '/' . md5(time() . rand()) . $postfix;
+		$fh = fopen($file, 'w');
 		fclose($fh);
-		self::$tmpFiles[]=$file;
+		self::$tmpFiles[] = $file;
 		return $file;
 	}
 
 	/**
 	 * move a file to oc-noclean temp dir
+	 *
 	 * @param string $filename
 	 * @return mixed
 	 *
 	 */
-	public static function moveToNoClean($filename='') {
+	public static function moveToNoClean($filename = '') {
 		if ($filename == '') {
 			return false;
 		}
-		$tmpDirNoClean=get_temp_dir().'/oc-noclean/';
+		$tmpDirNoClean = get_temp_dir() . '/oc-noclean/';
 		if (!file_exists($tmpDirNoClean) || !is_dir($tmpDirNoClean)) {
 			if (file_exists($tmpDirNoClean)) {
 				unlink($tmpDirNoClean);
 			}
 			mkdir($tmpDirNoClean);
 		}
-		$newname=$tmpDirNoClean.basename($filename);
+		$newname = $tmpDirNoClean . basename($filename);
 		if (rename($filename, $newname)) {
 			return $newname;
 		} else {
@@ -584,34 +553,35 @@ class OC_Helper {
 
 	/**
 	 * create a temporary folder with an unique filename
+	 *
 	 * @return string
 	 *
 	 * temporary files are automatically cleaned up after the script is finished
 	 */
 	public static function tmpFolder() {
-		$path=get_temp_dir().'/'.md5(time().rand());
+		$path = get_temp_dir() . '/' . md5(time() . rand());
 		mkdir($path);
-		self::$tmpFiles[]=$path;
-		return $path.'/';
+		self::$tmpFiles[] = $path;
+		return $path . '/';
 	}
 
 	/**
 	 * remove all files created by self::tmpFile
 	 */
 	public static function cleanTmp() {
-		$leftoversFile=get_temp_dir().'/oc-not-deleted';
-		if(file_exists($leftoversFile)) {
-			$leftovers=file($leftoversFile);
-			foreach($leftovers as $file) {
+		$leftoversFile = get_temp_dir() . '/oc-not-deleted';
+		if (file_exists($leftoversFile)) {
+			$leftovers = file($leftoversFile);
+			foreach ($leftovers as $file) {
 				self::rmdirr($file);
 			}
 			unlink($leftoversFile);
 		}
 
-		foreach(self::$tmpFiles as $file) {
-			if(file_exists($file)) {
-				if(!self::rmdirr($file)) {
-					file_put_contents($leftoversFile, $file."\n", FILE_APPEND);
+		foreach (self::$tmpFiles as $file) {
+			if (file_exists($file)) {
+				if (!self::rmdirr($file)) {
+					file_put_contents($leftoversFile, $file . "\n", FILE_APPEND);
 				}
 			}
 		}
@@ -621,34 +591,34 @@ class OC_Helper {
 	 * remove all files in PHP /oc-noclean temp dir
 	 */
 	public static function cleanTmpNoClean() {
-		$tmpDirNoCleanFile=get_temp_dir().'/oc-noclean/';
-		if(file_exists($tmpDirNoCleanFile)) {
+		$tmpDirNoCleanFile = get_temp_dir() . '/oc-noclean/';
+		if (file_exists($tmpDirNoCleanFile)) {
 			self::rmdirr($tmpDirNoCleanFile);
 		}
 	}
 
 	/**
-	* Adds a suffix to the name in case the file exists
-	*
-	* @param $path
-	* @param $filename
-	* @return string
-	*/
+	 * Adds a suffix to the name in case the file exists
+	 *
+	 * @param $path
+	 * @param $filename
+	 * @return string
+	 */
 	public static function buildNotExistingFileName($path, $filename) {
 		$view = \OC\Files\Filesystem::getView();
 		return self::buildNotExistingFileNameForView($path, $filename, $view);
 	}
 
 	/**
-	* Adds a suffix to the name in case the file exists
-	*
-	* @param $path
-	* @param $filename
-	* @return string
-	*/
+	 * Adds a suffix to the name in case the file exists
+	 *
+	 * @param $path
+	 * @param $filename
+	 * @return string
+	 */
 	public static function buildNotExistingFileNameForView($path, $filename, \OC\Files\View $view) {
-		if($path==='/') {
-			$path='';
+		if ($path === '/') {
+			$path = '';
 		}
 		if ($pos = strrpos($filename, '.')) {
 			$name = substr($filename, 0, $pos);
@@ -660,10 +630,10 @@ class OC_Helper {
 
 		$newpath = $path . '/' . $filename;
 		if ($view->file_exists($newpath)) {
-			if(preg_match_all('/\((\d+)\)/', $name, $matches, PREG_OFFSET_CAPTURE)) {
+			if (preg_match_all('/\((\d+)\)/', $name, $matches, PREG_OFFSET_CAPTURE)) {
 				//Replace the last "(number)" with "(number+1)" 
-				$last_match = count($matches[0])-1;
-				$counter = $matches[1][$last_match][0]+1;
+				$last_match = count($matches[0]) - 1;
+				$counter = $matches[1][$last_match][0] + 1;
 				$offset = $matches[0][$last_match][1];
 				$match_length = strlen($matches[0][$last_match][0]);
 			} else {
@@ -671,9 +641,9 @@ class OC_Helper {
 				$offset = false;
 			}
 			do {
-				if($offset) {
+				if ($offset) {
 					//Replace the last "(number)" with "(number+1)" 
-					$newname = substr_replace($name, '('.$counter.')', $offset, $match_length);
+					$newname = substr_replace($name, '(' . $counter . ')', $offset, $match_length);
 				} else {
 					$newname = $name . ' (' . $counter . ')';
 				}
@@ -700,17 +670,17 @@ class OC_Helper {
 	}
 
 	/**
-	* @brief Returns an array with all keys from input lowercased or uppercased. Numbered indices are left as is.
-	*
-	* @param array $input The array to work on
-	* @param int $case Either MB_CASE_UPPER or MB_CASE_LOWER (default)
-	* @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
-	* @return array
-	*
-	* Returns an array with all keys from input lowercased or uppercased. Numbered indices are left as is.
-	* based on http://www.php.net/manual/en/function.array-change-key-case.php#107715
-	*
-	*/
+	 * @brief Returns an array with all keys from input lowercased or uppercased. Numbered indices are left as is.
+	 *
+	 * @param array $input The array to work on
+	 * @param int $case Either MB_CASE_UPPER or MB_CASE_LOWER (default)
+	 * @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
+	 * @return array
+	 *
+	 * Returns an array with all keys from input lowercased or uppercased. Numbered indices are left as is.
+	 * based on http://www.php.net/manual/en/function.array-change-key-case.php#107715
+	 *
+	 */
 	public static function mb_array_change_key_case($input, $case = MB_CASE_LOWER, $encoding = 'UTF-8') {
 		$case = ($case != MB_CASE_UPPER) ? MB_CASE_LOWER : MB_CASE_UPPER;
 		$ret = array();
@@ -736,26 +706,26 @@ class OC_Helper {
 		$length = intval($length);
 		$string = mb_substr($string, 0, $start, $encoding) .
 			$replacement .
-			mb_substr($string, $start+$length, mb_strlen($string, 'UTF-8')-$start, $encoding);
+			mb_substr($string, $start + $length, mb_strlen($string, 'UTF-8') - $start, $encoding);
 
 		return $string;
 	}
 
 	/**
-	* @brief Replace all occurrences of the search string with the replacement string
-	*
-	* @param string $search The value being searched for, otherwise known as the needle.
-	* @param string $replace The replacement
-	* @param string $subject The string or array being searched and replaced on, otherwise known as the haystack.
-	* @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
-	* @param int $count If passed, this will be set to the number of replacements performed.
-	* @return string
-	*
-	*/
+	 * @brief Replace all occurrences of the search string with the replacement string
+	 *
+	 * @param string $search The value being searched for, otherwise known as the needle.
+	 * @param string $replace The replacement
+	 * @param string $subject The string or array being searched and replaced on, otherwise known as the haystack.
+	 * @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
+	 * @param int $count If passed, this will be set to the number of replacements performed.
+	 * @return string
+	 *
+	 */
 	public static function mb_str_replace($search, $replace, $subject, $encoding = 'UTF-8', &$count = null) {
 		$offset = -1;
 		$length = mb_strlen($search, $encoding);
-		while(($i = mb_strrpos($subject, $search, $offset, $encoding)) !== false ) {
+		while (($i = mb_strrpos($subject, $search, $offset, $encoding)) !== false) {
 			$subject = OC_Helper::mb_substr_replace($subject, $replace, $i, $length);
 			$offset = $i - mb_strlen($subject, $encoding);
 			$count++;
@@ -764,21 +734,21 @@ class OC_Helper {
 	}
 
 	/**
-	* @brief performs a search in a nested array
-	* @param array $haystack the array to be searched
-	* @param string $needle the search string
-	* @param string $index optional, only search this key name
-	* @return mixed the key of the matching field, otherwise false
-	*
-	* performs a search in a nested array
-	*
-	* taken from http://www.php.net/manual/en/function.array-search.php#97645
-	*/
+	 * @brief performs a search in a nested array
+	 * @param array $haystack the array to be searched
+	 * @param string $needle the search string
+	 * @param string $index optional, only search this key name
+	 * @return mixed the key of the matching field, otherwise false
+	 *
+	 * performs a search in a nested array
+	 *
+	 * taken from http://www.php.net/manual/en/function.array-search.php#97645
+	 */
 	public static function recursiveArraySearch($haystack, $needle, $index = null) {
 		$aIt = new RecursiveArrayIterator($haystack);
 		$it = new RecursiveIteratorIterator($aIt);
 
-		while($it->valid()) {
+		while ($it->valid()) {
 			if (((isset($index) AND ($it->key() == $index)) OR (!isset($index))) AND ($it->current() == $needle)) {
 				return $aIt->key();
 			}
@@ -792,6 +762,7 @@ class OC_Helper {
 	/**
 	 * Shortens str to maxlen by replacing characters in the middle with '...', eg.
 	 * ellipsis('a very long string with lots of useless info to make a better example', 14) becomes 'a very ...example'
+	 *
 	 * @param string $str the string
 	 * @param string $maxlen the maximum length of the result
 	 * @return string with at most maxlen characters
@@ -815,14 +786,14 @@ class OC_Helper {
 		$post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
 		$freeSpace = \OC\Files\Filesystem::free_space($dir);
 		if ((int)$upload_max_filesize === 0 and (int)$post_max_size === 0) {
-			$maxUploadFilesize = \OC\Files\FREE_SPACE_UNLIMITED;
+			$maxUploadFilesize = \OC\Files\SPACE_UNLIMITED;
 		} elseif ((int)$upload_max_filesize === 0 or (int)$post_max_size === 0) {
 			$maxUploadFilesize = max($upload_max_filesize, $post_max_size); //only the non 0 value counts
 		} else {
 			$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 		}
 
-		if($freeSpace !== \OC\Files\FREE_SPACE_UNKNOWN){
+		if ($freeSpace !== \OC\Files\SPACE_UNKNOWN) {
 			$freeSpace = max($freeSpace, 0);
 
 			return min($maxUploadFilesize, $freeSpace);
@@ -833,6 +804,7 @@ class OC_Helper {
 
 	/**
 	 * Checks if a function is available
+	 *
 	 * @param string $function_name
 	 * @return bool
 	 */
@@ -861,7 +833,7 @@ class OC_Helper {
 			$used = 0;
 		}
 		$free = \OC\Files\Filesystem::free_space();
-		if ($free >= 0){
+		if ($free >= 0) {
 			$total = $free + $used;
 		} else {
 			$total = $free; //either unknown or unlimited
@@ -869,7 +841,7 @@ class OC_Helper {
 		if ($total == 0) {
 			$total = 1; // prevent division by zero
 		}
-		if ($total >= 0){
+		if ($total >= 0) {
 			$relative = round(($used / $total) * 10000) / 100;
 		} else {
 			$relative = 0;

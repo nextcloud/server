@@ -1,12 +1,13 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to clear the mappings." => "Ocurrió un fallo al borrar las asignaciones.",
 "Failed to delete the server configuration" => "No se pudo borrar la configuración del servidor",
-"The configuration is valid and the connection could be established!" => "La configuración es válida y la conexión puede establecerse!",
+"The configuration is valid and the connection could be established!" => "¡La configuración es válida y la conexión puede establecerse!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "La configuración es válida, pero falló el Enlace. Por favor, compruebe la configuración del servidor y las credenciales.",
 "The configuration is invalid. Please look in the ownCloud log for further details." => "La configuración no es válida. Por favor, busque en el log de ownCloud para más detalles.",
 "Deletion failed" => "Falló el borrado",
 "Take over settings from recent server configuration?" => "¿Asumir los ajustes actuales de la configuración del servidor?",
-"Keep settings?" => "Mantener la configuración?",
+"Keep settings?" => "¿Mantener la configuración?",
 "Cannot add server configuration" => "No se puede añadir la configuración del servidor",
 "mappings cleared" => "Asignaciones borradas",
 "Success" => "Éxito",
@@ -28,14 +29,8 @@
 "Password" => "Contraseña",
 "For anonymous access, leave DN and Password empty." => "Para acceso anónimo, deje DN y contraseña vacíos.",
 "User Login Filter" => "Filtro de inicio de sesión de usuario",
-"Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action." => "Define el filtro a aplicar cuando se ha realizado un login. %%uid remplazrá el nombre de usuario en el proceso de login.",
-"use %%uid placeholder, e.g. \"uid=%%uid\"" => "usar %%uid como comodín, ej: \"uid=%%uid\"",
 "User List Filter" => "Lista de filtros de usuario",
-"Defines the filter to apply, when retrieving users." => "Define el filtro a aplicar, cuando se obtienen usuarios.",
-"without any placeholder, e.g. \"objectClass=person\"." => "Sin comodines, ej: \"objectClass=person\".",
 "Group Filter" => "Filtro de grupo",
-"Defines the filter to apply, when retrieving groups." => "Define el filtro a aplicar, cuando se obtienen grupos.",
-"without any placeholder, e.g. \"objectClass=posixGroup\"." => "sin comodines, ej: \"objectClass=posixGroup\".",
 "Connection Settings" => "Configuración de conexión",
 "Configuration Active" => "Configuracion activa",
 "When unchecked, this configuration will be skipped." => "Cuando deseleccione, esta configuracion sera omitida.",
@@ -48,7 +43,6 @@
 "Do not use it additionally for LDAPS connections, it will fail." => "No lo use para conexiones LDAPS, Fallará.",
 "Case insensitve LDAP server (Windows)" => "Servidor de LDAP no sensible a mayúsculas/minúsculas (Windows)",
 "Turn off SSL certificate validation." => "Apagar la validación por certificado SSL.",
-"Not recommended, use for testing only." => "No recomendado, sólo para pruebas.",
 "Cache Time-To-Live" => "Cache TTL",
 "in seconds. A change empties the cache." => "en segundos. Un cambio vacía la caché.",
 "Directory Settings" => "Configuracion de directorio",
@@ -79,3 +73,4 @@
 "Test Configuration" => "Configuración de prueba",
 "Help" => "Ayuda"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

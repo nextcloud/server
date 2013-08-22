@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Konnte %s nicht verschieben. Eine Datei mit diesem Namen existiert bereits",
 "Could not move %s" => "Konnte %s nicht verschieben",
 "Unable to set upload directory." => "Das Upload-Verzeichnis konnte nicht gesetzt werden.",
@@ -23,7 +24,6 @@
 "Error" => "Fehler",
 "Share" => "Teilen",
 "Delete permanently" => "Endgültig löschen",
-"Delete" => "Löschen",
 "Rename" => "Umbenennen",
 "Pending" => "Ausstehend",
 "{new_name} already exists" => "{new_name} existiert bereits",
@@ -32,23 +32,21 @@
 "cancel" => "abbrechen",
 "replaced {new_name} with {old_name}" => "{old_name} ersetzt durch {new_name}",
 "undo" => "rückgängig machen",
-"perform delete operation" => "Löschvorgang ausführen",
-"1 file uploading" => "1 Datei wird hochgeladen",
+"_Uploading %n file_::_Uploading %n files_" => array("%n Datei wird hochgeladen","%n Dateien werden hochgeladen"),
 "files uploading" => "Dateien werden hoch geladen",
 "'.' is an invalid file name." => "'.' ist kein gültiger Dateiname.",
 "File name cannot be empty." => "Der Dateiname darf nicht leer sein.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Ungültiger Name, '\\', '/', '<', '>', ':', '\"', '|', '?' und '*' sind nicht zulässig.",
 "Your storage is full, files can not be updated or synced anymore!" => "Dein Speicher ist voll, daher können keine Dateien mehr aktualisiert oder synchronisiert werden!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Dein Speicher ist fast voll ({usedSpacePercent}%)",
+"Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Die Verschlüsselung wurde deaktiviert, jedoch sind deine Dateien nach wie vor verschlüsselt. Bitte gehe zu deinen persönlichen Einstellungen, um deine Dateien zu entschlüsseln.",
 "Your download is being prepared. This might take some time if the files are big." => "Dein Download wird vorbereitet. Dies kann bei größeren Dateien etwas dauern.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Ungültiger Verzeichnisname. Die Nutzung von \"Shared\" ist ownCloud vorbehalten.",
 "Name" => "Name",
 "Size" => "Größe",
 "Modified" => "Geändert",
-"1 folder" => "1 Ordner",
-"{count} folders" => "{count} Ordner",
-"1 file" => "1 Datei",
-"{count} files" => "{count} Dateien",
+"_%n folder_::_%n folders_" => array("%n Ordner","%n Ordner"),
+"_%n file_::_%n files_" => array("%n Datei","%n Dateien"),
 "%s could not be renamed" => "%s konnte nicht umbenannt werden",
 "Upload" => "Hochladen",
 "File handling" => "Dateibehandlung",
@@ -69,6 +67,7 @@
 "Nothing in here. Upload something!" => "Alles leer. Lade etwas hoch!",
 "Download" => "Herunterladen",
 "Unshare" => "Freigabe aufheben",
+"Delete" => "Löschen",
 "Upload too large" => "Der Upload ist zu groß",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Server.",
 "Files are being scanned, please wait." => "Dateien werden gescannt, bitte warten.",
@@ -79,3 +78,4 @@
 "files" => "Dateien",
 "Upgrading filesystem cache..." => "Dateisystem-Cache wird aktualisiert ..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

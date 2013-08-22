@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Nelze načíst seznam z App Store",
 "Authentication error" => "Chyba přihlášení",
 "Your display name has been changed." => "Vaše zobrazované jméno bylo změněno.",
@@ -24,6 +25,7 @@
 "Updating...." => "Aktualizuji...",
 "Error while updating app" => "Chyba při aktualizaci aplikace",
 "Updated" => "Aktualizováno",
+"Decrypting files... Please wait, this can take some time." => "Probíhá odšifrování souborů... Prosíme počkejte, tato operace může trvat několik minut.",
 "Saving..." => "Ukládám...",
 "deleted" => "smazáno",
 "undo" => "vrátit zpět",
@@ -101,6 +103,10 @@
 "Help translate" => "Pomoci s překladem",
 "WebDAV" => "WebDAV",
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "Použijte <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">tuto adresu pro přístup k vašim souborům přes WebDAV</a>",
+"Encryption" => "Šifrování",
+"The encryption app is no longer enabled, decrypt all your file" => "Šifrovací aplikace již není spuštěna, odšifrujte všechny své soubory",
+"Log-in password" => "Heslo",
+"Decrypt all Files" => "Odšifrovat všechny soubory",
 "Login Name" => "Přihlašovací jméno",
 "Create" => "Vytvořit",
 "Admin Recovery Password" => "Heslo obnovy správce",
@@ -114,3 +120,4 @@
 "set new password" => "nastavit nové heslo",
 "Default" => "Výchozí"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

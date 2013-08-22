@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Неможам да вчитам листа од App Store",
 "Authentication error" => "Грешка во автентикација",
 "Group already exists" => "Групата веќе постои",
@@ -53,7 +54,9 @@
 "Language" => "Јазик",
 "Help translate" => "Помогни во преводот",
 "WebDAV" => "WebDAV",
+"Encryption" => "Енкрипција",
 "Create" => "Создај",
 "Other" => "Останато",
 "Username" => "Корисничко име"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;";

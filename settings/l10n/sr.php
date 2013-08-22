@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Unable to load list from App Store" => "Грешка приликом учитавања списка из Складишта Програма",
 "Authentication error" => "Грешка при провери идентитета",
 "Unable to change display name" => "Не могу да променим име за приказ",
@@ -88,6 +89,7 @@
 "Language" => "Језик",
 "Help translate" => " Помозите у превођењу",
 "WebDAV" => "WebDAV",
+"Encryption" => "Шифровање",
 "Login Name" => "Корисничко име",
 "Create" => "Направи",
 "Default Storage" => "Подразумевано складиште",
@@ -99,3 +101,4 @@
 "set new password" => "постави нову лозинку",
 "Default" => "Подразумевано"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

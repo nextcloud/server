@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to delete the server configuration" => "შეცდომა სერვერის კონფიგურაციის წაშლისას",
 "The configuration is valid and the connection could be established!" => "კონფიგურაცია მართებულია და კავშირი დამყარდება!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "კონფიგურაცია მართებულია, მაგრამ მიერთება ვერ მოხერხდა. გთხოვთ შეამოწმოთ სერვერის პარამეტრები და აუთენთიკაციის პარამეტრები.",
@@ -26,14 +27,8 @@
 "Password" => "პაროლი",
 "For anonymous access, leave DN and Password empty." => "ანონიმური დაშვებისთვის, დატოვეთ DN–ის და პაროლის ველები ცარიელი.",
 "User Login Filter" => "მომხმარებლის ფილტრი",
-"Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action." => "როცა შემოსვლა განხორციელდება ასეიძლება მოვახდინოთ გაფილტვრა. %%uid შეიცვლება იუზერნეიმით მომხმარებლის ველში.",
-"use %%uid placeholder, e.g. \"uid=%%uid\"" => "გამოიყენეთ %%uid დამასრულებელი მაგ: \"uid=%%uid\"",
 "User List Filter" => "მომხმარებლებიის სიის ფილტრი",
-"Defines the filter to apply, when retrieving users." => "გაფილტვრა განხორციელდება, როცა მომხმარებლების სია ჩამოიტვირთება.",
-"without any placeholder, e.g. \"objectClass=person\"." => "ყოველგვარი დამასრულებელის გარეშე, მაგ: \"objectClass=person\".",
 "Group Filter" => "ჯგუფის ფილტრი",
-"Defines the filter to apply, when retrieving groups." => "გაფილტვრა განხორციელდება, როცა ჯგუფის სია ჩამოიტვირთება.",
-"without any placeholder, e.g. \"objectClass=posixGroup\"." => "ყოველგვარი დამასრულებელის გარეშე, მაგ: \"objectClass=posixGroup\".",
 "Connection Settings" => "კავშირის პარამეტრები",
 "Configuration Active" => "კონფიგურაცია აქტიურია",
 "When unchecked, this configuration will be skipped." => "როცა გადანიშნულია, ეს კონფიგურაცია გამოტოვებული იქნება.",
@@ -46,7 +41,6 @@
 "Do not use it additionally for LDAPS connections, it will fail." => "არ გამოიყენოთ დამატებით LDAPS კავშირი. ის წარუმატებლად დასრულდება.",
 "Case insensitve LDAP server (Windows)" => "LDAP server (Windows)",
 "Turn off SSL certificate validation." => "გამორთეთ SSL სერთიფიკატის ვალიდაცია.",
-"Not recommended, use for testing only." => "არ არის რეკომენდირებული, გამოიყენეთ მხოლოდ სატესტოდ.",
 "Cache Time-To-Live" => "ქეშის სიცოცხლის ხანგრძლივობა",
 "in seconds. A change empties the cache." => "წამებში. ცვლილება ასუფთავებს ქეშს.",
 "Directory Settings" => "დირექტორიის პარამეტრები",
@@ -70,3 +64,4 @@
 "Test Configuration" => "კავშირის ტესტირება",
 "Help" => "დახმარება"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

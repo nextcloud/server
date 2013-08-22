@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Laguntza",
 "Personal" => "Pertsonala",
 "Settings" => "Ezarpenak",
 "Users" => "Erabiltzaileak",
-"Apps" => "Aplikazioak",
 "Admin" => "Admin",
 "Failed to upgrade \"%s\"." => "Ezin izan da \"%s\" eguneratu.",
 "web services under your control" => "web zerbitzuak zure kontrolpean",
@@ -13,7 +13,6 @@
 "Back to Files" => "Itzuli fitxategietara",
 "Selected files too large to generate zip file." => "Hautatuko fitxategiak oso handiak dira zip fitxategia sortzeko.",
 "Download the files in smaller chunks, seperately or kindly ask your administrator." => "Deskargatu fitzategiak zati txikiagoetan, banan-banan edo eskatu mesedez zure administradoreari",
-"couldn't be determined" => "ezin izan da zehaztu",
 "Application is not enabled" => "Aplikazioa ez dago gaituta",
 "Authentication error" => "Autentifikazio errorea",
 "Token expired. Please reload page." => "Tokena iraungitu da. Mesedez birkargatu orria.",
@@ -41,17 +40,16 @@
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Zure web zerbitzaria ez dago oraindik ongi konfiguratuta fitxategien sinkronizazioa egiteko, WebDAV interfazea ongi ez dagoela dirudi.",
 "Please double check the <a href='%s'>installation guides</a>." => "Mesedez begiratu <a href='%s'>instalazio gidak</a>.",
 "seconds ago" => "segundu",
-"1 minute ago" => "orain dela minutu 1",
-"%d minutes ago" => "orain dela %d minutu",
-"1 hour ago" => "orain dela ordu bat",
-"%d hours ago" => "orain dela %d ordu",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "gaur",
 "yesterday" => "atzo",
-"%d days ago" => "orain dela %d egun",
+"_%n day go_::_%n days ago_" => array("",""),
 "last month" => "joan den hilabetean",
-"%d months ago" => "orain dela %d hilabete",
+"_%n month ago_::_%n months ago_" => array("",""),
 "last year" => "joan den urtean",
 "years ago" => "urte",
 "Caused by:" => "Honek eraginda:",
 "Could not find category \"%s\"" => "Ezin da \"%s\" kategoria aurkitu"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

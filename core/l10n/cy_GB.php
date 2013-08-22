@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "Math o gategori heb ei ddarparu.",
 "No category to add?" => "Dim categori i'w ychwanegu?",
 "This category already exists: %s" => "Mae'r categori hwn eisoes yn bodoli: %s",
@@ -28,20 +29,17 @@
 "December" => "Rhagfyr",
 "Settings" => "Gosodiadau",
 "seconds ago" => "eiliad yn ôl",
-"1 minute ago" => "1 munud yn ôl",
-"{minutes} minutes ago" => "{minutes} munud yn ôl",
-"1 hour ago" => "1 awr yn ôl",
-"{hours} hours ago" => "{hours} awr yn ôl",
+"_%n minute ago_::_%n minutes ago_" => array("","","",""),
+"_%n hour ago_::_%n hours ago_" => array("","","",""),
 "today" => "heddiw",
 "yesterday" => "ddoe",
-"{days} days ago" => "{days} diwrnod yn ôl",
+"_%n day ago_::_%n days ago_" => array("","","",""),
 "last month" => "mis diwethaf",
-"{months} months ago" => "{months} mis yn ôl",
+"_%n month ago_::_%n months ago_" => array("","","",""),
 "months ago" => "misoedd yn ôl",
 "last year" => "y llynedd",
 "years ago" => "blwyddyn yn ôl",
 "Choose" => "Dewisiwch",
-"Cancel" => "Diddymu",
 "Yes" => "Ie",
 "No" => "Na",
 "Ok" => "Iawn",
@@ -82,7 +80,6 @@
 "Email sent" => "Anfonwyd yr e-bost",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Methodd y diweddariad. Adroddwch y mater hwn i <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">gymuned ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Roedd y diweddariad yn llwyddiannus. Cewch eich ailgyfeirio i ownCloud nawr.",
-"ownCloud password reset" => "ailosod cyfrinair ownCloud",
 "Use the following link to reset your password: {link}" => "Defnyddiwch y ddolen hon i ailosod eich cyfrinair: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Anfonwyd y ddolen i ailosod eich cyfrinair i'ch cyfeiriad ebost.<br>Os nad yw'n cyrraedd o fewn amser rhesymol gwiriwch eich plygell spam/sothach.<br>Os nad yw yno, cysylltwch â'ch gweinyddwr lleol.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Methodd y cais!<br>Gwiriwch eich enw defnyddiwr ac ebost.",
@@ -127,7 +124,6 @@
 "remember" => "cofio",
 "Log in" => "Mewngofnodi",
 "Alternative Logins" => "Mewngofnodiadau Amgen",
-"prev" => "blaenorol",
-"next" => "nesaf",
 "Updating ownCloud to version %s, this may take a while." => "Yn diweddaru owncloud i fersiwn %s, gall hyn gymryd amser."
 );
+$PLURAL_FORMS = "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;";

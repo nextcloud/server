@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Neizdevās izdzēst servera konfigurāciju",
 "The configuration is valid and the connection could be established!" => "Konfigurācija ir derīga un varēja izveidot savienojumu!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Konfigurācija ir derīga, bet sasaiste neizdevās. Lūdzu, pārbaudiet servera iestatījumus un akreditācijas datus.",
@@ -25,14 +26,8 @@
 "Password" => "Parole",
 "For anonymous access, leave DN and Password empty." => "Lai piekļūtu anonīmi, atstājiet DN un paroli tukšu.",
 "User Login Filter" => "Lietotāja ierakstīšanās filtrs",
-"Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action." => "Definē filtru, ko izmantot, kad mēģina ierakstīties. %%uid ierakstīšanās darbībā aizstāj lietotājvārdu.",
-"use %%uid placeholder, e.g. \"uid=%%uid\"" => "lieto %%uid vietturi, piemēram, \"uid=%%uid\"",
 "User List Filter" => "Lietotāju saraksta filtrs",
-"Defines the filter to apply, when retrieving users." => "Definē filtru, ko izmantot, kad saņem lietotāju sarakstu.",
-"without any placeholder, e.g. \"objectClass=person\"." => "bez jebkādiem vietturiem, piemēram, \"objectClass=person\".",
 "Group Filter" => "Grupu filtrs",
-"Defines the filter to apply, when retrieving groups." => "Definē filtru, ko izmantot, kad saņem grupu sarakstu.",
-"without any placeholder, e.g. \"objectClass=posixGroup\"." => "bez jebkādiem vietturiem, piemēram, \"objectClass=posixGroup\".",
 "Connection Settings" => "Savienojuma iestatījumi",
 "Configuration Active" => "Konfigurācija ir aktīva",
 "When unchecked, this configuration will be skipped." => "Ja nav atzīmēts, šī konfigurācija tiks izlaista.",
@@ -45,7 +40,6 @@
 "Do not use it additionally for LDAPS connections, it will fail." => "Neizmanto papildu LDAPS savienojumus! Tas nestrādās.",
 "Case insensitve LDAP server (Windows)" => "Reģistrnejutīgs LDAP serveris (Windows)",
 "Turn off SSL certificate validation." => "Izslēgt SSL sertifikātu validēšanu.",
-"Not recommended, use for testing only." => "Nav ieteicams, izmanto tikai testēšanai!",
 "Cache Time-To-Live" => "Kešatmiņas dzīvlaiks",
 "in seconds. A change empties the cache." => "sekundēs. Izmaiņas iztukšos kešatmiņu.",
 "Directory Settings" => "Direktorijas iestatījumi",
@@ -69,3 +63,4 @@
 "Test Configuration" => "Testa konfigurācija",
 "Help" => "Palīdzība"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);";

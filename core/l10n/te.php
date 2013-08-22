@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "This category already exists: %s" => "ఈ వర్గం ఇప్పటికే ఉంది: %s",
 "Sunday" => "ఆదివారం",
 "Monday" => "సోమవారం",
@@ -21,19 +22,16 @@
 "December" => "డిసెంబర్",
 "Settings" => "అమరికలు",
 "seconds ago" => "క్షణాల క్రితం",
-"1 minute ago" => "1 నిమిషం క్రితం",
-"{minutes} minutes ago" => "{minutes} నిమిషాల క్రితం",
-"1 hour ago" => "1 గంట క్రితం",
-"{hours} hours ago" => "{hours} గంటల క్రితం",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "ఈరోజు",
 "yesterday" => "నిన్న",
-"{days} days ago" => "{days} రోజుల క్రితం",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "పోయిన నెల",
-"{months} months ago" => "{months} నెలల క్రితం",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "నెలల క్రితం",
 "last year" => "పోయిన సంవత్సరం",
 "years ago" => "సంవత్సరాల క్రితం",
-"Cancel" => "రద్దుచేయి",
 "Yes" => "అవును",
 "No" => "కాదు",
 "Ok" => "సరే",
@@ -50,3 +48,4 @@
 "Log out" => "నిష్క్రమించు",
 "Lost your password?" => "మీ సంకేతపదం పోయిందా?"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

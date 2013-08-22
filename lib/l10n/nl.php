@@ -1,9 +1,9 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Help",
 "Personal" => "Persoonlijk",
 "Settings" => "Instellingen",
 "Users" => "Gebruikers",
-"Apps" => "Apps",
 "Admin" => "Beheerder",
 "Failed to upgrade \"%s\"." => "Upgrade \"%s\" mislukt.",
 "web services under your control" => "Webdiensten in eigen beheer",
@@ -13,7 +13,6 @@
 "Back to Files" => "Terug naar bestanden",
 "Selected files too large to generate zip file." => "De geselecteerde bestanden zijn te groot om een zip bestand te maken.",
 "Download the files in smaller chunks, seperately or kindly ask your administrator." => "Download de bestanden in kleinere brokken, appart of vraag uw administrator.",
-"couldn't be determined" => "kon niet worden vastgesteld",
 "Application is not enabled" => "De applicatie is niet actief",
 "Authentication error" => "Authenticatie fout",
 "Token expired. Please reload page." => "Token verlopen.  Herlaad de pagina.",
@@ -41,17 +40,16 @@
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Uw webserver is nog niet goed ingesteld voor bestandssynchronisatie omdat de WebDAV interface verbroken lijkt.",
 "Please double check the <a href='%s'>installation guides</a>." => "Controleer de <a href='%s'>installatiehandleiding</a> goed.",
 "seconds ago" => "seconden geleden",
-"1 minute ago" => "1 minuut geleden",
-"%d minutes ago" => "%d minuten geleden",
-"1 hour ago" => "1 uur geleden",
-"%d hours ago" => "%d uren geleden",
+"_%n minute ago_::_%n minutes ago_" => array("%n minuut geleden","%n minuten geleden"),
+"_%n hour ago_::_%n hours ago_" => array("%n uur geleden","%n uur geleden"),
 "today" => "vandaag",
 "yesterday" => "gisteren",
-"%d days ago" => "%d dagen geleden",
+"_%n day go_::_%n days ago_" => array("%n dag terug","%n dagen geleden"),
 "last month" => "vorige maand",
-"%d months ago" => "%d maanden geleden",
+"_%n month ago_::_%n months ago_" => array("%n maand geleden","%n maanden geleden"),
 "last year" => "vorig jaar",
 "years ago" => "jaar geleden",
 "Caused by:" => "Gekomen door:",
 "Could not find category \"%s\"" => "Kon categorie \"%s\" niet vinden"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

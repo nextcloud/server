@@ -79,9 +79,15 @@ var OCdialogs = {
 				title: title
 			}).data('path', '');
 
-			if (modal === undefined) { modal = false };
-			if (multiselect === undefined) { multiselect = false };
-			if (mimetype_filter === undefined) { mimetype_filter = '' };
+			if (modal === undefined) {
+				modal = false;
+			}
+			if (multiselect === undefined) {
+				multiselect = false;
+			}
+			if (mimetype_filter === undefined) {
+				mimetype_filter = '';
+			}
 
 			$('body').append(self.$filePicker);
 
@@ -106,7 +112,7 @@ var OCdialogs = {
 							datapath.push(self.$filePicker.data('path') + '/' + $(element).text());
 						});
 					} else {
-						var datapath = self.$filePicker.data('path');
+						datapath = self.$filePicker.data('path');
 						datapath += '/' + self.$filelist.find('.filepicker_element_selected .filename').text();
 					}
 					callback(datapath);
@@ -117,10 +123,6 @@ var OCdialogs = {
 				text: t('core', 'Choose'),
 				click: functionToCall,
 				defaultButton: true
-				},
-				{
-				text: t('core', 'Cancel'),
-				click: function(){self.$filePicker.ocdialog('close'); }
 			}];
 
 			self.$filePicker.ocdialog({
@@ -155,7 +157,9 @@ var OCdialogs = {
 				message: content,
 				type: dialog_type
 			});
-			if (modal === undefined) { modal = false };
+			if (modal === undefined) {
+				modal = false;
+			}
 			$('body').append($dlg);
 			var buttonlist = [];
 			switch (buttons) {
@@ -163,7 +167,9 @@ var OCdialogs = {
 					buttonlist = [{
 						text: t('core', 'Yes'),
 						click: function(){
-							if (callback !== undefined) { callback(true) };
+							if (callback !== undefined) {
+								callback(true);
+							}
 							$(dialog_id).ocdialog('close');
 						},
 						defaultButton: true
@@ -171,7 +177,9 @@ var OCdialogs = {
 					{
 						text: t('core', 'No'),
 						click: function(){
-							if (callback !== undefined) { callback(false) };
+							if (callback !== undefined) {
+								callback(false);
+							}
 							$(dialog_id).ocdialog('close');
 						}
 					}];
@@ -179,7 +187,9 @@ var OCdialogs = {
 				case OCdialogs.OK_BUTTON:
 					var functionToCall = function() {
 						$(dialog_id).ocdialog('close');
-						if(callback !== undefined) { callback() };
+						if(callback !== undefined) {
+							callback();
+						}
 					};
 					buttonlist[0] = {
 						text: t('core', 'Ok'),
@@ -187,7 +197,7 @@ var OCdialogs = {
 						defaultButton: true
 					};
 				break;
-			};
+			}
 
 			$(dialog_id).ocdialog({
 				closeOnEscape: true,
@@ -269,7 +279,7 @@ var OCdialogs = {
 			var sorted = dirs.concat(others);
 
 			$.each(sorted, function(idx, entry) {
-				$li = self.$listTmpl.octemplate({
+				var $li = self.$listTmpl.octemplate({
 					type: entry.type,
 					dir: dir,
 					filename: entry.name,
@@ -287,13 +297,13 @@ var OCdialogs = {
 	*/
 	_fillSlug: function() {
 		this.$dirTree.empty();
-		var self = this
+		var self = this;
 		var path = this.$filePicker.data('path');
 		var $template = $('<span data-dir="{dir}">{name}</span>');
 		if(path) {
 			var paths = path.split('/');
 			$.each(paths, function(index, dir) {
-				var dir = paths.pop();
+				dir = paths.pop();
 				if(dir === '') {
 					return false;
 				}
@@ -327,7 +337,7 @@ var OCdialogs = {
 			$element.toggleClass('filepicker_element_selected');
 			return;
 		} else if ( $element.data('type') === 'dir' ) {
-			this._fillFilePicker(this.$filePicker.data('path') + '/' + $element.data('entryname'))
+			this._fillFilePicker(this.$filePicker.data('path') + '/' + $element.data('entryname'));
 		}
 	}
 };

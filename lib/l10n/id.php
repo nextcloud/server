@@ -1,16 +1,15 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Help" => "Bantuan",
 "Personal" => "Pribadi",
 "Settings" => "Setelan",
 "Users" => "Pengguna",
-"Apps" => "Aplikasi",
 "Admin" => "Admin",
 "web services under your control" => "layanan web dalam kontrol Anda",
 "ZIP download is turned off." => "Pengunduhan ZIP dimatikan.",
 "Files need to be downloaded one by one." => "Berkas harus diunduh satu persatu.",
 "Back to Files" => "Kembali ke Daftar Berkas",
 "Selected files too large to generate zip file." => "Berkas yang dipilih terlalu besar untuk dibuat berkas zip-nya.",
-"couldn't be determined" => "tidak dapat ditentukan",
 "Application is not enabled" => "Aplikasi tidak diaktifkan",
 "Authentication error" => "Galat saat autentikasi",
 "Token expired. Please reload page." => "Token kedaluwarsa. Silakan muat ulang halaman.",
@@ -37,16 +36,15 @@
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Web server Anda belum dikonfigurasikan dengan baik untuk mengizinkan sinkronisasi berkas karena tampaknya antarmuka WebDAV rusak.",
 "Please double check the <a href='%s'>installation guides</a>." => "Silakan periksa ulang <a href='%s'>panduan instalasi</a>.",
 "seconds ago" => "beberapa detik yang lalu",
-"1 minute ago" => "1 menit yang lalu",
-"%d minutes ago" => "%d menit yang lalu",
-"1 hour ago" => "1 jam yang lalu",
-"%d hours ago" => "%d jam yang lalu",
+"_%n minute ago_::_%n minutes ago_" => array(""),
+"_%n hour ago_::_%n hours ago_" => array(""),
 "today" => "hari ini",
 "yesterday" => "kemarin",
-"%d days ago" => "%d hari yang lalu",
+"_%n day go_::_%n days ago_" => array(""),
 "last month" => "bulan kemarin",
-"%d months ago" => "%d bulan yang lalu",
+"_%n month ago_::_%n months ago_" => array(""),
 "last year" => "tahun kemarin",
 "years ago" => "beberapa tahun lalu",
 "Could not find category \"%s\"" => "Tidak dapat menemukan kategori \"%s\""
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

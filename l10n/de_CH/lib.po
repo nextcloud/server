@@ -3,12 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# FlorianScholz <work@bgstyle.de>, 2013
+# Mario Siegmann <mario_siegmann@web.de>, 2013
+# traductor <transifex-2.7.mensaje@spamgourmet.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-07 08:59-0400\n"
-"PO-Revision-Date: 2013-08-07 09:02+0000\n"
+"POT-Creation-Date: 2013-08-19 15:06-0400\n"
+"PO-Revision-Date: 2013-08-19 19:07+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Switzerland) (http://www.transifex.com/projects/p/owncloud/language/de_CH/)\n"
 "MIME-Version: 1.0\n"
@@ -19,120 +22,112 @@ msgstr ""
 
 #: app.php:360
 msgid "Help"
-msgstr ""
+msgstr "Hilfe"
 
 #: app.php:373
 msgid "Personal"
-msgstr ""
+msgstr "Persönlich"
 
 #: app.php:384
 msgid "Settings"
-msgstr ""
+msgstr "Einstellungen"
 
 #: app.php:396
 msgid "Users"
-msgstr ""
+msgstr "Benutzer"
 
 #: app.php:409
-msgid "Apps"
-msgstr ""
-
-#: app.php:417
 msgid "Admin"
-msgstr ""
+msgstr "Administrator"
 
-#: app.php:844
+#: app.php:836
 #, php-format
 msgid "Failed to upgrade \"%s\"."
-msgstr ""
+msgstr "Konnte \"%s\" nicht aktualisieren."
 
 #: defaults.php:35
 msgid "web services under your control"
-msgstr ""
+msgstr "Web-Services unter Ihrer Kontrolle"
 
 #: files.php:66 files.php:98
 #, php-format
 msgid "cannot open \"%s\""
-msgstr ""
+msgstr "Öffnen von \"%s\" fehlgeschlagen"
 
 #: files.php:226
 msgid "ZIP download is turned off."
-msgstr ""
+msgstr "Der ZIP-Download ist deaktiviert."
 
 #: files.php:227
 msgid "Files need to be downloaded one by one."
-msgstr ""
+msgstr "Die Dateien müssen einzeln heruntergeladen werden."
 
 #: files.php:228 files.php:256
 msgid "Back to Files"
-msgstr ""
+msgstr "Zurück zu \"Dateien\""
 
 #: files.php:253
 msgid "Selected files too large to generate zip file."
-msgstr ""
+msgstr "Die gewählten Dateien sind zu gross, um eine ZIP-Datei zu erstellen."
 
 #: files.php:254
 msgid ""
 "Download the files in smaller chunks, seperately or kindly ask your "
 "administrator."
-msgstr ""
-
-#: helper.php:235
-msgid "couldn't be determined"
-msgstr ""
+msgstr "Laden Sie die Dateien in kleineren, separaten, Stücken herunter oder bitten Sie Ihren Administrator."
 
 #: json.php:28
 msgid "Application is not enabled"
-msgstr ""
+msgstr "Die Anwendung ist nicht aktiviert"
 
 #: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
-msgstr ""
+msgstr "Authentifizierungs-Fehler"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
-msgstr ""
+msgstr "Token abgelaufen. Bitte laden Sie die Seite neu."
 
 #: search/provider/file.php:17 search/provider/file.php:35
 msgid "Files"
-msgstr ""
+msgstr "Dateien"
 
 #: search/provider/file.php:26 search/provider/file.php:33
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #: search/provider/file.php:29
 msgid "Images"
-msgstr ""
+msgstr "Bilder"
 
 #: setup/abstractdatabase.php:22
 #, php-format
 msgid "%s enter the database username."
-msgstr ""
+msgstr "%s geben Sie den Datenbank-Benutzernamen an."
 
 #: setup/abstractdatabase.php:25
 #, php-format
 msgid "%s enter the database name."
-msgstr ""
+msgstr "%s geben Sie den Datenbank-Namen an."
 
 #: setup/abstractdatabase.php:28
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr ""
+msgstr "%s Der Datenbank-Name darf keine Punkte enthalten"
 
 #: setup/mssql.php:20
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr ""
+msgstr "MS SQL Benutzername und/oder Passwort ungültig: %s"
 
 #: setup/mssql.php:21 setup/mysql.php:13 setup/oci.php:114
 #: setup/postgresql.php:24 setup/postgresql.php:70
 msgid "You need to enter either an existing account or the administrator."
-msgstr ""
+msgstr "Sie müssen entweder ein existierendes Benutzerkonto oder das Administratoren-Konto angeben."
 
 #: setup/mysql.php:12
 msgid "MySQL username and/or password not valid"
-msgstr ""
+msgstr "MySQL Benutzername und/oder Passwort ungültig"
 
 #: setup/mysql.php:67 setup/oci.php:54 setup/oci.php:121 setup/oci.php:147
 #: setup/oci.php:154 setup/oci.php:165 setup/oci.php:172 setup/oci.php:181
@@ -141,7 +136,7 @@ msgstr ""
 #: setup/postgresql.php:125 setup/postgresql.php:134
 #, php-format
 msgid "DB Error: \"%s\""
-msgstr ""
+msgstr "DB Fehler: \"%s\""
 
 #: setup/mysql.php:68 setup/oci.php:55 setup/oci.php:122 setup/oci.php:148
 #: setup/oci.php:155 setup/oci.php:166 setup/oci.php:182 setup/oci.php:190
@@ -149,119 +144,115 @@ msgstr ""
 #: setup/postgresql.php:116 setup/postgresql.php:126 setup/postgresql.php:135
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr ""
+msgstr "Fehlerhafter Befehl war: \"%s\""
 
 #: setup/mysql.php:85
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "MySQL Benutzer '%s'@'localhost' existiert bereits."
 
 #: setup/mysql.php:86
 msgid "Drop this user from MySQL"
-msgstr ""
+msgstr "Lösche diesen Benutzer aus MySQL"
 
 #: setup/mysql.php:91
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
-msgstr ""
+msgstr "MySQL Benutzer '%s'@'%%' existiert bereits"
 
 #: setup/mysql.php:92
 msgid "Drop this user from MySQL."
-msgstr ""
+msgstr "Lösche diesen Benutzer aus MySQL."
 
 #: setup/oci.php:34
 msgid "Oracle connection could not be established"
-msgstr ""
+msgstr "Die Oracle-Verbindung konnte nicht aufgebaut werden."
 
 #: setup/oci.php:41 setup/oci.php:113
 msgid "Oracle username and/or password not valid"
-msgstr ""
+msgstr "Oracle Benutzername und/oder Passwort ungültig"
 
 #: setup/oci.php:173 setup/oci.php:205
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr ""
+msgstr "Fehlerhafter Befehl war: \"%s\", Name: %s, Passwort: %s"
 
 #: setup/postgresql.php:23 setup/postgresql.php:69
 msgid "PostgreSQL username and/or password not valid"
-msgstr ""
+msgstr "PostgreSQL Benutzername und/oder Passwort ungültig"
 
 #: setup.php:28
 msgid "Set an admin username."
-msgstr ""
+msgstr "Setze Administrator Benutzername."
 
 #: setup.php:31
 msgid "Set an admin password."
-msgstr ""
+msgstr "Setze Administrator Passwort"
 
 #: setup.php:184
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Ihr Web-Server ist noch nicht für eine Datei-Synchronisation konfiguriert, weil die WebDAV-Schnittstelle vermutlich defekt ist."
 
 #: setup.php:185
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Bitte prüfen Sie die <a href='%s'>Installationsanleitungen</a>."
 
 #: template/functions.php:80
 msgid "seconds ago"
-msgstr ""
+msgstr "Gerade eben"
 
 #: template/functions.php:81
-msgid "1 minute ago"
-msgstr ""
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
 
 #: template/functions.php:82
-#, php-format
-msgid "%d minutes ago"
-msgstr ""
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
 
 #: template/functions.php:83
-msgid "1 hour ago"
-msgstr ""
+msgid "today"
+msgstr "Heute"
 
 #: template/functions.php:84
-#, php-format
-msgid "%d hours ago"
-msgstr ""
+msgid "yesterday"
+msgstr "Gestern"
 
 #: template/functions.php:85
-msgid "today"
-msgstr ""
+msgid "%n day go"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
 
 #: template/functions.php:86
-msgid "yesterday"
-msgstr ""
+msgid "last month"
+msgstr "Letzten Monat"
 
 #: template/functions.php:87
-#, php-format
-msgid "%d days ago"
-msgstr ""
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
 
 #: template/functions.php:88
-msgid "last month"
-msgstr ""
+msgid "last year"
+msgstr "Letztes Jahr"
 
 #: template/functions.php:89
-#, php-format
-msgid "%d months ago"
-msgstr ""
-
-#: template/functions.php:90
-msgid "last year"
-msgstr ""
-
-#: template/functions.php:91
 msgid "years ago"
-msgstr ""
+msgstr "Vor  Jahren"
 
 #: template.php:297
 msgid "Caused by:"
-msgstr ""
+msgstr "Verursacht durch:"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr ""
+msgstr "Die Kategorie «%s» konnte nicht gefunden werden."

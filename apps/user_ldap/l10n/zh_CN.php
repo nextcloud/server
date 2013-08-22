@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to clear the mappings." => "清除映射失败。",
 "Failed to delete the server configuration" => "未能删除服务器配置",
 "The configuration is valid and the connection could be established!" => "配置有效，能够建立连接！",
@@ -28,14 +29,8 @@
 "Password" => "密码",
 "For anonymous access, leave DN and Password empty." => "启用匿名访问，将DN和密码保留为空",
 "User Login Filter" => "用户登录过滤",
-"Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action." => "定义当尝试登录时的过滤器。 在登录过程中，%%uid将会被用户名替换",
-"use %%uid placeholder, e.g. \"uid=%%uid\"" => "使用 %%uid作为占位符，例如“uid=%%uid”",
 "User List Filter" => "用户列表过滤",
-"Defines the filter to apply, when retrieving users." => "定义拉取用户时的过滤器",
-"without any placeholder, e.g. \"objectClass=person\"." => "没有任何占位符,如 \"objectClass=person\".",
 "Group Filter" => "组过滤",
-"Defines the filter to apply, when retrieving groups." => "定义拉取组信息时的过滤器",
-"without any placeholder, e.g. \"objectClass=posixGroup\"." => "无需占位符，例如\"objectClass=posixGroup\"",
 "Connection Settings" => "连接设置",
 "Configuration Active" => "现行配置",
 "When unchecked, this configuration will be skipped." => "当反选后，此配置将被忽略。",
@@ -48,7 +43,6 @@
 "Do not use it additionally for LDAPS connections, it will fail." => "对于 LDAPS 连接不要额外启用它，连接必然失败。",
 "Case insensitve LDAP server (Windows)" => "大小写敏感LDAP服务器(Windows)",
 "Turn off SSL certificate validation." => "关闭SSL证书验证",
-"Not recommended, use for testing only." => "暂不推荐，仅供测试",
 "Cache Time-To-Live" => "缓存存活时间",
 "in seconds. A change empties the cache." => "以秒计。修改将清空缓存。",
 "Directory Settings" => "目录设置",
@@ -79,3 +73,4 @@
 "Test Configuration" => "测试配置",
 "Help" => "帮助"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

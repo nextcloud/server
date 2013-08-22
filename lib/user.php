@@ -137,7 +137,6 @@ class OC_User {
 	 */
 	public static function useBackend($backend = 'database') {
 		if ($backend instanceof OC_User_Interface) {
-			OC_Log::write('core', 'Adding user backend instance of ' . get_class($backend) . '.', OC_Log::DEBUG);
 			self::$_usedBackends[get_class($backend)] = $backend;
 			self::getManager()->registerBackend($backend);
 		} else {

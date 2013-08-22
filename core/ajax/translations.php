@@ -27,4 +27,4 @@ $app = OC_App::cleanAppId($app);
 
 $l = OC_L10N::get( $app );
 
-OC_JSON::success(array('data' => $l->getTranslations()));
+OC_JSON::success(array('data' => $l->getTranslations(), 'plural_form' => $l->getPluralFormString()));

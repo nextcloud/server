@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Не вдалося видалити конфігурацію сервера",
 "The configuration is valid and the connection could be established!" => "Конфігурація вірна і зв'язок може бути встановлений ​​!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Конфігурація вірна, але встановити зв'язок не вдалося. Будь ласка, перевірте налаштування сервера і облікові дані.",
@@ -26,14 +27,8 @@
 "Password" => "Пароль",
 "For anonymous access, leave DN and Password empty." => "Для анонімного доступу, залиште DN і Пароль порожніми.",
 "User Login Filter" => "Фільтр Користувачів, що під'єднуються",
-"Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action." => "Визначає фільтр, який застосовується при спробі входу. %%uid замінює ім'я користувача при вході.",
-"use %%uid placeholder, e.g. \"uid=%%uid\"" => "використовуйте %%uid заповнювач, наприклад: \"uid=%%uid\"",
 "User List Filter" => "Фільтр Списку Користувачів",
-"Defines the filter to apply, when retrieving users." => "Визначає фільтр, який застосовується при отриманні користувачів",
-"without any placeholder, e.g. \"objectClass=person\"." => "без будь-якого заповнювача, наприклад: \"objectClass=person\".",
 "Group Filter" => "Фільтр Груп",
-"Defines the filter to apply, when retrieving groups." => "Визначає фільтр, який застосовується при отриманні груп.",
-"without any placeholder, e.g. \"objectClass=posixGroup\"." => "без будь-якого заповнювача, наприклад: \"objectClass=posixGroup\".",
 "Connection Settings" => "Налаштування З'єднання",
 "Configuration Active" => "Налаштування Активне",
 "When unchecked, this configuration will be skipped." => "Якщо \"галочка\" знята, ця конфігурація буде пропущена.",
@@ -46,7 +41,6 @@
 "Do not use it additionally for LDAPS connections, it will fail." => "Не використовуйте це додатково для під'єднання до LDAP, бо виконано не буде.",
 "Case insensitve LDAP server (Windows)" => "Нечутливий до регістру LDAP сервер (Windows)",
 "Turn off SSL certificate validation." => "Вимкнути перевірку SSL сертифіката.",
-"Not recommended, use for testing only." => "Не рекомендується, використовуйте лише для тестів.",
 "Cache Time-To-Live" => "Час актуальності Кеша",
 "in seconds. A change empties the cache." => "в секундах. Зміна очищує кеш.",
 "Directory Settings" => "Налаштування Каталога",
@@ -70,3 +64,4 @@
 "Test Configuration" => "Тестове налаштування",
 "Help" => "Допомога"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

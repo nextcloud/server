@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Nelze přesunout %s - již existuje soubor se stejným názvem",
 "Could not move %s" => "Nelze přesunout %s",
 "Unable to set upload directory." => "Nelze nastavit adresář pro nahrané soubory.",
@@ -23,7 +24,6 @@
 "Error" => "Chyba",
 "Share" => "Sdílet",
 "Delete permanently" => "Trvale odstranit",
-"Delete" => "Smazat",
 "Rename" => "Přejmenovat",
 "Pending" => "Nevyřízené",
 "{new_name} already exists" => "{new_name} již existuje",
@@ -32,23 +32,21 @@
 "cancel" => "zrušit",
 "replaced {new_name} with {old_name}" => "nahrazeno {new_name} s {old_name}",
 "undo" => "vrátit zpět",
-"perform delete operation" => "provést smazání",
-"1 file uploading" => "odesílá se 1 soubor",
+"_Uploading %n file_::_Uploading %n files_" => array("Nahrávám %n soubor","Nahrávám %n soubory","Nahrávám %n souborů"),
 "files uploading" => "soubory se odesílají",
 "'.' is an invalid file name." => "'.' je neplatným názvem souboru.",
 "File name cannot be empty." => "Název souboru nemůže být prázdný řetězec.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Neplatný název, znaky '\\', '/', '<', '>', ':', '\"', '|', '?' a '*' nejsou povoleny.",
 "Your storage is full, files can not be updated or synced anymore!" => "Vaše úložiště je plné, nelze aktualizovat ani synchronizovat soubory.",
 "Your storage is almost full ({usedSpacePercent}%)" => "Vaše úložiště je téměř plné ({usedSpacePercent}%)",
+"Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Šifrování bylo zrušeno, soubory jsou však stále zašifrované. Běžte prosím do osobního nastavení, kde si složky odšifrujete.",
 "Your download is being prepared. This might take some time if the files are big." => "Vaše soubory ke stažení se připravují. Pokud jsou velké, může to chvíli trvat.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Neplatný název složky. Pojmenování 'Shared' je rezervováno pro vnitřní potřeby ownCloud",
 "Name" => "Název",
 "Size" => "Velikost",
 "Modified" => "Upraveno",
-"1 folder" => "1 složka",
-"{count} folders" => "{count} složek",
-"1 file" => "1 soubor",
-"{count} files" => "{count} souborů",
+"_%n folder_::_%n folders_" => array("%n složka","%n složky","%n složek"),
+"_%n file_::_%n files_" => array("%n soubor","%n soubory","%n souborů"),
 "%s could not be renamed" => "%s nemůže být přejmenován",
 "Upload" => "Odeslat",
 "File handling" => "Zacházení se soubory",
@@ -69,6 +67,7 @@
 "Nothing in here. Upload something!" => "Žádný obsah. Nahrajte něco.",
 "Download" => "Stáhnout",
 "Unshare" => "Zrušit sdílení",
+"Delete" => "Smazat",
 "Upload too large" => "Odesílaný soubor je příliš velký",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Soubory, které se snažíte odeslat, překračují limit velikosti odesílání na tomto serveru.",
 "Files are being scanned, please wait." => "Soubory se prohledávají, prosím čekejte.",
@@ -79,3 +78,4 @@
 "files" => "soubory",
 "Upgrading filesystem cache..." => "Aktualizuji mezipaměť souborového systému..."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Zerbitzariaren konfigurazioa ezabatzeak huts egin du",
 "The configuration is valid and the connection could be established!" => "Konfigurazioa egokia da eta konexioa ezarri daiteke!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Konfigurazioa ongi dago, baina Bind-ek huts egin du. Mesedez egiaztatu zerbitzariaren ezarpenak eta kredentzialak.",
@@ -26,14 +27,8 @@
 "Password" => "Pasahitza",
 "For anonymous access, leave DN and Password empty." => "Sarrera anonimoak gaitzeko utzi DN eta Pasahitza hutsik.",
 "User Login Filter" => "Erabiltzaileen saioa hasteko iragazkia",
-"Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action." => "Saioa hastean erabiliko den iragazkia zehazten du. %%uid-ek erabiltzaile izena ordezkatzen du saioa hasterakoan.",
-"use %%uid placeholder, e.g. \"uid=%%uid\"" => "erabili %%uid txantiloia, adb. \"uid=%%uid\"",
 "User List Filter" => "Erabiltzaile zerrendaren Iragazkia",
-"Defines the filter to apply, when retrieving users." => "Erabiltzaileak jasotzen direnean ezarriko den iragazkia zehazten du.",
-"without any placeholder, e.g. \"objectClass=person\"." => "txantiloirik gabe, adb. \"objectClass=person\".",
 "Group Filter" => "Taldeen iragazkia",
-"Defines the filter to apply, when retrieving groups." => "Taldeak jasotzen direnean ezarriko den iragazkia zehazten du.",
-"without any placeholder, e.g. \"objectClass=posixGroup\"." => "txantiloirik gabe, adb. \"objectClass=posixGroup\".",
 "Connection Settings" => "Konexio Ezarpenak",
 "Configuration Active" => "Konfigurazio Aktiboa",
 "When unchecked, this configuration will be skipped." => "Markatuta ez dagoenean, konfigurazio hau ez da kontutan hartuko.",
@@ -46,7 +41,6 @@
 "Do not use it additionally for LDAPS connections, it will fail." => "Ez erabili LDAPS konexioetarako, huts egingo du.",
 "Case insensitve LDAP server (Windows)" => "Maiuskulak eta minuskulak ezberditzen ez dituen LDAP zerbitzaria (windows)",
 "Turn off SSL certificate validation." => "Ezgaitu SSL ziurtagirien egiaztapena.",
-"Not recommended, use for testing only." => "Ez da aholkatzen, erabili bakarrik frogak egiteko.",
 "Cache Time-To-Live" => "Katxearen Bizi-Iraupena",
 "in seconds. A change empties the cache." => "segundutan. Aldaketak katxea husten du.",
 "Directory Settings" => "Karpetaren Ezarpenak",
@@ -71,3 +65,4 @@
 "Test Configuration" => "Egiaztatu Konfigurazioa",
 "Help" => "Laguntza"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

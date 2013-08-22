@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s megosztotta Önnel ezt:  »%s«",
 "Category type not provided." => "Nincs megadva a kategória típusa.",
 "No category to add?" => "Nincs hozzáadandó kategória?",
@@ -29,20 +30,17 @@
 "December" => "december",
 "Settings" => "Beállítások",
 "seconds ago" => "pár másodperce",
-"1 minute ago" => "1 perce",
-"{minutes} minutes ago" => "{minutes} perce",
-"1 hour ago" => "1 órája",
-"{hours} hours ago" => "{hours} órája",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "ma",
 "yesterday" => "tegnap",
-"{days} days ago" => "{days} napja",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "múlt hónapban",
-"{months} months ago" => "{months} hónapja",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "több hónapja",
 "last year" => "tavaly",
 "years ago" => "több éve",
 "Choose" => "Válasszon",
-"Cancel" => "Mégsem",
 "Error loading file picker template" => "Nem sikerült betölteni a fájlkiválasztó sablont",
 "Yes" => "Igen",
 "No" => "Nem",
@@ -85,7 +83,6 @@
 "Email sent" => "Az emailt elküldtük",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "A frissítés nem sikerült. Kérem értesítse erről a problémáról az <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud közösséget</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "A frissítés sikeres volt. Visszairányítjuk az ownCloud szolgáltatáshoz.",
-"ownCloud password reset" => "ownCloud jelszó-visszaállítás",
 "Use the following link to reset your password: {link}" => "Használja ezt a linket a jelszó ismételt beállításához: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Emailben fog kapni egy linket, amivel új jelszót tud majd beállítani magának. <br>Ha a levél nem jött meg, holott úgy érzi, hogy már meg kellett volna érkeznie, akkor ellenőrizze a spam/levélszemét mappáját. <br>Ha ott sincsen, akkor érdeklődjön a rendszergazdánál.",
 "Request failed!<br>Did you make sure your email/username was right?" => "A kérést nem sikerült teljesíteni! <br>Biztos, hogy jó emailcímet/felhasználónevet adott meg?",
@@ -136,7 +133,6 @@
 "Log in" => "Bejelentkezés",
 "Alternative Logins" => "Alternatív bejelentkezés",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Üdv!<br><br>Új hír: %s megosztotta Önnel ezt:  »%s«.<br><a href=\"%s\">Itt nézhető meg!</a><br><br>Minden jót!",
-"prev" => "előző",
-"next" => "következő",
 "Updating ownCloud to version %s, this may take a while." => "Owncloud frissítés a %s verzióra folyamatban. Kis türelmet."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

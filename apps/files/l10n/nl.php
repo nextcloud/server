@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Kon %s niet verplaatsen - Er bestaat al een bestand met deze naam",
 "Could not move %s" => "Kon %s niet verplaatsen",
 "Unable to set upload directory." => "Kan upload map niet instellen.",
@@ -23,7 +24,6 @@
 "Error" => "Fout",
 "Share" => "Delen",
 "Delete permanently" => "Verwijder definitief",
-"Delete" => "Verwijder",
 "Rename" => "Hernoem",
 "Pending" => "In behandeling",
 "{new_name} already exists" => "{new_name} bestaat al",
@@ -32,23 +32,21 @@
 "cancel" => "annuleren",
 "replaced {new_name} with {old_name}" => "verving {new_name} met {old_name}",
 "undo" => "ongedaan maken",
-"perform delete operation" => "uitvoeren verwijderactie",
-"1 file uploading" => "1 bestand wordt ge-upload",
+"_Uploading %n file_::_Uploading %n files_" => array("%n bestand aan het uploaden","%n bestanden aan het uploaden"),
 "files uploading" => "bestanden aan het uploaden",
 "'.' is an invalid file name." => "'.' is een ongeldige bestandsnaam.",
 "File name cannot be empty." => "Bestandsnaam kan niet leeg zijn.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Onjuiste naam; '\\', '/', '<', '>', ':', '\"', '|', '?' en '*' zijn niet toegestaan.",
 "Your storage is full, files can not be updated or synced anymore!" => "Uw opslagruimte zit vol, Bestanden kunnen niet meer worden ge-upload of gesynchroniseerd!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Uw opslagruimte zit bijna vol ({usedSpacePercent}%)",
+"Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Encryptie is uitgeschakeld maar uw bestanden zijn nog steeds versleuteld. Ga naar uw persoonlijke instellingen om uw bestanden te decoderen.",
 "Your download is being prepared. This might take some time if the files are big." => "Uw download wordt voorbereid. Dit kan enige tijd duren bij grote bestanden.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Ongeldige mapnaam. Gebruik van'Gedeeld' is voorbehouden aan Owncloud",
 "Name" => "Naam",
 "Size" => "Grootte",
 "Modified" => "Aangepast",
-"1 folder" => "1 map",
-"{count} folders" => "{count} mappen",
-"1 file" => "1 bestand",
-"{count} files" => "{count} bestanden",
+"_%n folder_::_%n folders_" => array("","%n mappen"),
+"_%n file_::_%n files_" => array("","%n bestanden"),
 "%s could not be renamed" => "%s kon niet worden hernoemd",
 "Upload" => "Uploaden",
 "File handling" => "Bestand",
@@ -69,6 +67,7 @@
 "Nothing in here. Upload something!" => "Er bevindt zich hier niets. Upload een bestand!",
 "Download" => "Downloaden",
 "Unshare" => "Stop met delen",
+"Delete" => "Verwijder",
 "Upload too large" => "Upload is te groot",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "De bestanden die u probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server.",
 "Files are being scanned, please wait." => "Bestanden worden gescand, even wachten.",
@@ -79,3 +78,4 @@
 "files" => "bestanden",
 "Upgrading filesystem cache..." => "Upgraden bestandssysteem cache..."
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Category type not provided." => "Не вказано тип категорії.",
 "No category to add?" => "Відсутні категорії для додавання?",
 "This category already exists: %s" => "Ця категорія вже існує: %s",
@@ -28,20 +29,17 @@
 "December" => "Грудень",
 "Settings" => "Налаштування",
 "seconds ago" => "секунди тому",
-"1 minute ago" => "1 хвилину тому",
-"{minutes} minutes ago" => "{minutes} хвилин тому",
-"1 hour ago" => "1 годину тому",
-"{hours} hours ago" => "{hours} години тому",
+"_%n minute ago_::_%n minutes ago_" => array("","",""),
+"_%n hour ago_::_%n hours ago_" => array("","",""),
 "today" => "сьогодні",
 "yesterday" => "вчора",
-"{days} days ago" => "{days} днів тому",
+"_%n day ago_::_%n days ago_" => array("","",""),
 "last month" => "минулого місяця",
-"{months} months ago" => "{months} місяців тому",
+"_%n month ago_::_%n months ago_" => array("","",""),
 "months ago" => "місяці тому",
 "last year" => "минулого року",
 "years ago" => "роки тому",
 "Choose" => "Обрати",
-"Cancel" => "Відмінити",
 "Yes" => "Так",
 "No" => "Ні",
 "Ok" => "Ok",
@@ -82,7 +80,6 @@
 "Email sent" => "Ел. пошта надіслана",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Оновлення виконалось неуспішно. Будь ласка, повідомте про цю проблему в <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">спільноті ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Оновлення виконалось успішно. Перенаправляємо вас на  ownCloud.",
-"ownCloud password reset" => "скидання пароля ownCloud",
 "Use the following link to reset your password: {link}" => "Використовуйте наступне посилання для скидання пароля: {link}",
 "You will receive a link to reset your password via Email." => "Ви отримаєте посилання для скидання вашого паролю на Ел. пошту.",
 "Username" => "Ім'я користувача",
@@ -124,7 +121,6 @@
 "remember" => "запам'ятати",
 "Log in" => "Вхід",
 "Alternative Logins" => "Альтернативні Логіни",
-"prev" => "попередній",
-"next" => "наступний",
 "Updating ownCloud to version %s, this may take a while." => "Оновлення ownCloud до версії %s, це може зайняти деякий час."
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";
