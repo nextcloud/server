@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-15 04:47-0400\n"
-"PO-Revision-Date: 2013-08-15 08:48+0000\n"
+"POT-Creation-Date: 2013-08-19 15:06-0400\n"
+"PO-Revision-Date: 2013-08-19 19:07+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -74,10 +74,6 @@ msgid ""
 "Download the files in smaller chunks, seperately or kindly ask your "
 "administrator."
 msgstr "Ladda ner filerna i mindre bitar, separat eller fråga din administratör."
-
-#: helper.php:235
-msgid "couldn't be determined"
-msgstr "kunde inte bestämmas"
 
 #: json.php:28
 msgid "Application is not enabled"
@@ -210,14 +206,14 @@ msgstr "sekunder sedan"
 #: template/functions.php:81
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n minut sedan"
+msgstr[1] "%n minuter sedan"
 
 #: template/functions.php:82
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n timme sedan"
+msgstr[1] "%n timmar sedan"
 
 #: template/functions.php:83
 msgid "today"
@@ -230,8 +226,8 @@ msgstr "i går"
 #: template/functions.php:85
 msgid "%n day go"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n dag sedan"
+msgstr[1] "%n dagar sedan"
 
 #: template/functions.php:86
 msgid "last month"
@@ -240,8 +236,8 @@ msgstr "förra månaden"
 #: template/functions.php:87
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n månad sedan"
+msgstr[1] "%n månader sedan"
 
 #: template/functions.php:88
 msgid "last year"

@@ -10,7 +10,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "فایل ها باید به صورت یکی یکی دانلود شوند",
 "Back to Files" => "بازگشت به فایل ها",
 "Selected files too large to generate zip file." => "فایل های انتخاب شده بزرگتر از آن هستند که بتوان یک فایل فشرده تولید کرد",
-"couldn't be determined" => "نمیتواند مشخص شود",
 "Application is not enabled" => "برنامه فعال نشده است",
 "Authentication error" => "خطا در اعتبار سنجی",
 "Token expired. Please reload page." => "رمز منقضی شده است. لطفا دوباره صفحه را بارگذاری نمایید.",

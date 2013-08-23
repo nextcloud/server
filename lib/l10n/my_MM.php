@@ -8,7 +8,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "ဖိုင်များသည် တစ်ခုပြီး တစ်ခုဒေါင်းလုတ်ချရန်လိုအပ်သည်",
 "Back to Files" => "ဖိုင်သို့ပြန်သွားမည်",
 "Selected files too large to generate zip file." => "zip ဖိုင်အဖြစ်ပြုလုပ်ရန် ရွေးချယ်ထားသောဖိုင်များသည် အရမ်းကြီးလွန်းသည်",
-"couldn't be determined" => "မဆုံးဖြတ်နိုင်ပါ။",
 "Authentication error" => "ခွင့်ပြုချက်မအောင်မြင်",
 "Files" => "ဖိုင်များ",
 "Text" => "စာသား",

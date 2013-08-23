@@ -40,7 +40,6 @@ $TRANSLATIONS = array(
 "last year" => "năm trước",
 "years ago" => "năm trước",
 "Choose" => "Chọn",
-"Cancel" => "Hủy",
 "Yes" => "Có",
 "No" => "Không",
 "Ok" => "Đồng ý",
@@ -125,8 +124,6 @@ $TRANSLATIONS = array(
 "remember" => "ghi nhớ",
 "Log in" => "Đăng nhập",
 "Alternative Logins" => "Đăng nhập khác",
-"prev" => "Lùi lại",
-"next" => "Kế tiếp",
 "Updating ownCloud to version %s, this may take a while." => "Cập nhật ownCloud lên phiên bản %s, có thể sẽ mất thời gian"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -31,8 +31,6 @@ $TRANSLATIONS = array(
 "Log out" => "Teken uit",
 "Lost your password?" => "Jou wagwoord verloor?",
 "remember" => "onthou",
-"Log in" => "Teken aan",
-"prev" => "vorige",
-"next" => "volgende"
+"Log in" => "Teken aan"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

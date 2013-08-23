@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "last year" => "سال قبل",
 "years ago" => "سال‌های قبل",
 "Choose" => "انتخاب کردن",
-"Cancel" => "منصرف شدن",
 "Error loading file picker template" => "خطا در بارگذاری قالب انتخاب کننده فایل",
 "Yes" => "بله",
 "No" => "نه",
@@ -132,8 +131,6 @@ $TRANSLATIONS = array(
 "Log in" => "ورود",
 "Alternative Logins" => "ورود متناوب",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "اینجا<br><br> فقط به شما اجازه میدهد که بدانید %s به اشتراک گذاشته شده»%s« توسط شما.<br><a href=\"%s\"> مشاهده آن!</a><br><br> به سلامتی!",
-"prev" => "بازگشت",
-"next" => "بعدی",
 "Updating ownCloud to version %s, this may take a while." => "به روز رسانی OwnCloud به نسخه ی %s، این عملیات ممکن است زمان بر باشد."
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

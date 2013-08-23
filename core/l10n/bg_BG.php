@@ -31,7 +31,6 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("",""),
 "last year" => "последната година",
 "years ago" => "последните години",
-"Cancel" => "Отказ",
 "Yes" => "Да",
 "No" => "Не",
 "Ok" => "Добре",
@@ -68,8 +67,6 @@ $TRANSLATIONS = array(
 "Log out" => "Изход",
 "Lost your password?" => "Забравена парола?",
 "remember" => "запомни",
-"Log in" => "Вход",
-"prev" => "пред.",
-"next" => "следващо"
+"Log in" => "Вход"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

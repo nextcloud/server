@@ -39,7 +39,6 @@ $TRANSLATIONS = array(
 "last year" => "прошле године",
 "years ago" => "година раније",
 "Choose" => "Одабери",
-"Cancel" => "Откажи",
 "Yes" => "Да",
 "No" => "Не",
 "Ok" => "У реду",
@@ -114,8 +113,6 @@ $TRANSLATIONS = array(
 "Lost your password?" => "Изгубили сте лозинку?",
 "remember" => "упамти",
 "Log in" => "Пријава",
-"prev" => "претходно",
-"next" => "следеће",
 "Updating ownCloud to version %s, this may take a while." => "Надоградња ownCloud-а на верзију %s, сачекајте тренутак."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

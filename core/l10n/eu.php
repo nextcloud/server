@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "last year" => "joan den urtean",
 "years ago" => "urte",
 "Choose" => "Aukeratu",
-"Cancel" => "Ezeztatu",
 "Error loading file picker template" => "Errorea fitxategi hautatzaile txantiloiak kargatzerakoan",
 "Yes" => "Bai",
 "No" => "Ez",
@@ -134,8 +133,6 @@ $TRANSLATIONS = array(
 "Log in" => "Hasi saioa",
 "Alternative Logins" => "Beste erabiltzaile izenak",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Kaixo<br><br>%s-ek %s zurekin partekatu duela jakin dezazun.<br><a href=\"%s\">\nIkusi ezazu</a><br><br>Ongi jarraitu!",
-"prev" => "aurrekoa",
-"next" => "hurrengoa",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud %s bertsiora eguneratzen, denbora har dezake."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -13,7 +13,6 @@ $TRANSLATIONS = array(
 "Back to Files" => "Volver aos ficheiros",
 "Selected files too large to generate zip file." => "Os ficheiros seleccionados son demasiado grandes como para xerar un ficheiro zip.",
 "Download the files in smaller chunks, seperately or kindly ask your administrator." => "Descargue os ficheiros en cachos máis pequenos e por separado, ou pídallos amabelmente ao seu administrador.",
-"couldn't be determined" => "non foi posíbel determinalo",
 "Application is not enabled" => "O aplicativo non está activado",
 "Authentication error" => "Produciuse un erro de autenticación",
 "Token expired. Please reload page." => "Testemuña caducada. Recargue a páxina.",

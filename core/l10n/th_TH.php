@@ -39,7 +39,6 @@ $TRANSLATIONS = array(
 "last year" => "ปีที่แล้ว",
 "years ago" => "ปี ที่ผ่านมา",
 "Choose" => "เลือก",
-"Cancel" => "ยกเลิก",
 "Yes" => "ตกลง",
 "No" => "ไม่ตกลง",
 "Ok" => "ตกลง",
@@ -118,8 +117,6 @@ $TRANSLATIONS = array(
 "Lost your password?" => "ลืมรหัสผ่าน?",
 "remember" => "จำรหัสผ่าน",
 "Log in" => "เข้าสู่ระบบ",
-"prev" => "ก่อนหน้า",
-"next" => "ถัดไป",
 "Updating ownCloud to version %s, this may take a while." => "กำลังอัพเดท ownCloud ไปเป็นรุ่น %s, กรุณารอสักครู่"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

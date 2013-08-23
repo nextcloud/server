@@ -5,13 +5,14 @@
 # Translators:
 # Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
 # plazmism <gomidori@live.jp>, 2013
+# Koichi MATSUMOTO <mzch@me.com>, 2013
 # tt yn <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-15 04:47-0400\n"
-"PO-Revision-Date: 2013-08-15 08:48+0000\n"
+"POT-Creation-Date: 2013-08-19 15:06-0400\n"
+"PO-Revision-Date: 2013-08-19 19:06+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -144,51 +145,51 @@ msgstr "12月"
 msgid "Settings"
 msgstr "設定"
 
-#: js/js.js:815
+#: js/js.js:812
 msgid "seconds ago"
 msgstr "数秒前"
 
-#: js/js.js:816
+#: js/js.js:813
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
+msgstr[0] "%n 分前"
 
-#: js/js.js:817
+#: js/js.js:814
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
+msgstr[0] "%n 時間後"
 
-#: js/js.js:818
+#: js/js.js:815
 msgid "today"
 msgstr "今日"
 
-#: js/js.js:819
+#: js/js.js:816
 msgid "yesterday"
 msgstr "昨日"
 
-#: js/js.js:820
+#: js/js.js:817
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
+msgstr[0] "%n 日後"
 
-#: js/js.js:821
+#: js/js.js:818
 msgid "last month"
 msgstr "一月前"
 
-#: js/js.js:822
+#: js/js.js:819
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
+msgstr[0] "%n カ月後"
 
-#: js/js.js:823
+#: js/js.js:820
 msgid "months ago"
 msgstr "月前"
 
-#: js/js.js:824
+#: js/js.js:821
 msgid "last year"
 msgstr "一年前"
 
-#: js/js.js:825
+#: js/js.js:822
 msgid "years ago"
 msgstr "年前"
 
@@ -196,23 +197,19 @@ msgstr "年前"
 msgid "Choose"
 msgstr "選択"
 
-#: js/oc-dialogs.js:122
-msgid "Cancel"
-msgstr "キャンセル"
-
-#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
 msgid "Error loading file picker template"
 msgstr "ファイルピッカーのテンプレートの読み込みエラー"
 
-#: js/oc-dialogs.js:164
+#: js/oc-dialogs.js:160
 msgid "Yes"
 msgstr "はい"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:168
 msgid "No"
 msgstr "いいえ"
 
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:181
 msgid "Ok"
 msgstr "OK"
 
@@ -379,7 +376,7 @@ msgstr "更新に成功しました。今すぐownCloudにリダイレクトし�
 #: lostpassword/controller.php:61
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "%s パスワードリセット"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -618,14 +615,6 @@ msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
 msgstr "こんにちは、<br><br>%sがあなたと »%s« を共有したことをお知らせします。<br><a href=\"%s\">それを表示</a><br><br>それでは。"
-
-#: templates/part.pagenavi.php:3
-msgid "prev"
-msgstr "前"
-
-#: templates/part.pagenavi.php:20
-msgid "next"
-msgstr "次"
 
 #: templates/update.php:3
 #, php-format

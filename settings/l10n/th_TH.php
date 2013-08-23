@@ -75,6 +75,7 @@ $TRANSLATIONS = array(
 "Language" => "ภาษา",
 "Help translate" => "ช่วยกันแปล",
 "WebDAV" => "WebDAV",
+"Encryption" => "การเข้ารหัส",
 "Login Name" => "ชื่อที่ใช้สำหรับเข้าสู่ระบบ",
 "Create" => "สร้าง",
 "Default Storage" => "พื้นที่จำกัดข้อมูลเริ่มต้น",

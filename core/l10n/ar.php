@@ -40,7 +40,6 @@ $TRANSLATIONS = array(
 "last year" => "السنةالماضية",
 "years ago" => "سنة مضت",
 "Choose" => "اختيار",
-"Cancel" => "الغاء",
 "Yes" => "نعم",
 "No" => "لا",
 "Ok" => "موافق",
@@ -122,8 +121,6 @@ $TRANSLATIONS = array(
 "remember" => "تذكر",
 "Log in" => "أدخل",
 "Alternative Logins" => "اسماء دخول بديلة",
-"prev" => "السابق",
-"next" => "التالي",
 "Updating ownCloud to version %s, this may take a while." => "جاري تحديث Owncloud الى اصدار %s , قد يستغرق هذا بعض الوقت."
 );
 $PLURAL_FORMS = "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;";

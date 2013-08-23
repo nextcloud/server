@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "last year" => "ultimul an",
 "years ago" => "ani în urmă",
 "Choose" => "Alege",
-"Cancel" => "Anulare",
 "Error loading file picker template" => "Eroare la încărcarea șablonului selectorului de fișiere",
 "Yes" => "Da",
 "No" => "Nu",
@@ -134,8 +133,6 @@ $TRANSLATIONS = array(
 "Log in" => "Autentificare",
 "Alternative Logins" => "Conectări alternative",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Salutare, <br><br>Vă aduc la cunoștință că %s a partajat %s cu tine.<br><a href=\"%s\">Accesează-l!</a><br><br>Numai bine!",
-"prev" => "precedentul",
-"next" => "următorul",
 "Updating ownCloud to version %s, this may take a while." => "Actualizăm ownCloud la versiunea %s, aceasta poate dura câteva momente."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));";

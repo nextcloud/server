@@ -36,7 +36,6 @@ $TRANSLATIONS = array(
 "last year" => "forrige år",
 "years ago" => "år siden",
 "Choose" => "Velg",
-"Cancel" => "Avbryt",
 "Yes" => "Ja",
 "No" => "Nei",
 "Ok" => "Ok",
@@ -102,8 +101,6 @@ $TRANSLATIONS = array(
 "Lost your password?" => "Mistet passordet ditt?",
 "remember" => "husk",
 "Log in" => "Logg inn",
-"prev" => "forrige",
-"next" => "neste",
 "Updating ownCloud to version %s, this may take a while." => "Oppdaterer ownCloud til versjon %s, dette kan ta en stund."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

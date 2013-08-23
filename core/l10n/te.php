@@ -32,7 +32,6 @@ $TRANSLATIONS = array(
 "months ago" => "నెలల క్రితం",
 "last year" => "పోయిన సంవత్సరం",
 "years ago" => "సంవత్సరాల క్రితం",
-"Cancel" => "రద్దుచేయి",
 "Yes" => "అవును",
 "No" => "కాదు",
 "Ok" => "సరే",

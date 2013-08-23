@@ -76,6 +76,7 @@ $TRANSLATIONS = array(
 "Language" => "Ngôn ngữ",
 "Help translate" => "Hỗ trợ dịch thuật",
 "WebDAV" => "WebDAV",
+"Encryption" => "Mã hóa",
 "Login Name" => "Tên đăng nhập",
 "Create" => "Tạo",
 "Default Storage" => "Bộ nhớ mặc định",

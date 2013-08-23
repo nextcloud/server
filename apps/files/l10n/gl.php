@@ -39,6 +39,7 @@ $TRANSLATIONS = array(
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nome incorrecto, non se permite «\\», «/», «<», «>», «:», «\"», «|», «?» e «*».",
 "Your storage is full, files can not be updated or synced anymore!" => "O seu espazo de almacenamento está cheo, non é posíbel actualizar ou sincronizar máis os ficheiros!",
 "Your storage is almost full ({usedSpacePercent}%)" => "O seu espazo de almacenamento está case cheo ({usedSpacePercent}%)",
+"Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "O cifrado foi desactivado, mais os ficheiros están cifrados. Vaia á configuración persoal para descifrar os ficheiros.",
 "Your download is being prepared. This might take some time if the files are big." => "Está a prepararse a súa descarga. Isto pode levar bastante tempo se os ficheiros son grandes.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Nome de cartafol incorrecto. O uso de «Shared» está reservado por Owncloud",
 "Name" => "Nome",

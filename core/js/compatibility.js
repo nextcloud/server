@@ -24,7 +24,7 @@ if (typeof Object.keys !== 'function') {
 			}
 		}
 		return k;
-	}
+	};
 }
 
 /**

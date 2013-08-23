@@ -90,6 +90,7 @@ $TRANSLATIONS = array(
 "Language" => "Bahasa",
 "Help translate" => "Bantu menerjemahkan",
 "WebDAV" => "WebDAV",
+"Encryption" => "Enkripsi",
 "Login Name" => "Nama Masuk",
 "Create" => "Buat",
 "Default Storage" => "Penyimpanan Baku",

@@ -91,6 +91,7 @@ $TRANSLATIONS = array(
 "Language" => "Jezik",
 "Help translate" => "Sodelujte pri prevajanju",
 "WebDAV" => "WebDAV",
+"Encryption" => "Šifriranje",
 "Login Name" => "Prijavno ime",
 "Create" => "Ustvari",
 "Admin Recovery Password" => "Obnovitev administratorjevega gesla",

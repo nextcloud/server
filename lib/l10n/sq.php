@@ -10,7 +10,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "Skedarët duhet të shkarkohen një nga një.",
 "Back to Files" => "Kthehu tek skedarët",
 "Selected files too large to generate zip file." => "Skedarët e selektuar janë shumë të mëdhenj për të krijuar një skedar ZIP.",
-"couldn't be determined" => "nuk u vendos dot",
 "Application is not enabled" => "Programi nuk është i aktivizuar.",
 "Authentication error" => "Veprim i gabuar gjatë vërtetimit të identitetit",
 "Token expired. Please reload page." => "Përmbajtja ka skaduar. Ju lutemi ringarkoni faqen.",

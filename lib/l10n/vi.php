@@ -10,7 +10,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "Tập tin cần phải được tải về từng người một.",
 "Back to Files" => "Trở lại tập tin",
 "Selected files too large to generate zip file." => "Tập tin được chọn quá lớn để tạo tập tin ZIP.",
-"couldn't be determined" => "không thể phát hiện được",
 "Application is not enabled" => "Ứng dụng không được BẬT",
 "Authentication error" => "Lỗi xác thực",
 "Token expired. Please reload page." => "Mã Token đã hết hạn. Hãy tải lại trang.",
