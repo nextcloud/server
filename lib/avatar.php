@@ -26,7 +26,7 @@ class OC_Avatar {
 			$ext = 'png';
 		} else {
 			return false;
-                }
+		}
 
 		$avatar = new OC_Image($view->file_get_contents('avatar.'.$ext));
 		$avatar->resize($size);
@@ -38,7 +38,8 @@ class OC_Avatar {
 	 * @param $user string user to set the avatar for
 	 * @param $data mixed imagedata or path to set a new avatar
 	 * @throws Exception if the provided file is not a jpg or png image
-	 * @throws Exception if the provided image is not valid, or not a square
+	 * @throws Exception if the provided image is not valid
+	 * @throws \OC\NotSquareException if the image is not square
 	 * @return true on success
 	*/
 	public static function set ($user, $data) {
@@ -52,9 +53,13 @@ class OC_Avatar {
 			throw new \Exception($l->t("Unknown filetype"));
 		}
 
-		if (!( $img->valid() && ($img->height() === $img->width()) )) {
+		if (!$img->valid()) {
 			$l = \OC_L10N::get('lib');
-			throw new \Exception($l->t("Invalid image, or the provided image is not square"));
+			throw new \Excpeption($l->t("Invalid image"));
+		}
+
+		if (!($img->height() === $img->width())) {
+			throw new \OC\NotSquareException();
 		}
 
 		$view->unlink('avatar.jpg');

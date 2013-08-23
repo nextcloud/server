@@ -45,17 +45,57 @@ function changeDisplayName(){
 }
 
 function selectAvatar (path) {
-	$.post(OC.filePath('', '', 'avatar.php'), {path: path}, function(data) {
-		if (data.status === "success") {
-			updateAvatar();
-		} else {
-			OC.dialogs.alert(data.data.message, t('core', "Error"));
-		}
-	});
+	$.post(OC.filePath('', '', 'avatar.php'), {path: path}, avatarResponseHandler);
 }
 
 function updateAvatar () {
-	$('#avatar img').attr('src', $('#avatar img').attr('src') + '#');
+	$avatarimg = $('#avatar img');
+	$avatarimg.attr('src', $avatarimg.attr('src') + '#');
+}
+
+function showAvatarCropper() {
+	OC.dialogs.message('', t('settings', 'Crop'), undefined, OCdialogs.OK_BUTTON, sendCropData);
+	var $dialog = $('#oc-dialog-'+(OC.dialogs.dialogs_counter-1)+'-content');
+	var cropper = new Image();
+	$(cropper).load(function() {
+		$(this).attr('id', 'cropper');
+		$('#oc-dialog-'+(OC.dialogs.dialogs_counter-1)+'-content').html(this);
+		$(this).Jcrop({
+			onChange: saveCoords,
+			onSelect: saveCoords,
+			aspectRatio: 1
+		});
+	}).attr('src', OC.filePath('', '', 'avatar.php')+"?user="+OC.currentUser+"&size=512&tmp="+$('#avatar').data('tmpname'));
+}
+
+function sendCropData() {
+	var tmp = $('#avatar').data('tmpname');
+	var cropperdata = $('#cropper').data();
+	var data = {
+		x: cropperdata.x,
+		y: cropperdata.y,
+		w: cropperdata.w,
+		h: cropperdata.h
+	};
+	$.post(OC.filePath('', '', 'avatar.php'), {tmp:tmp, crop: data}, avatarResponseHandler);
+}
+
+function saveCoords(c) {
+	$('#cropper').data(c);
+}
+
+function avatarResponseHandler(data) {
+	$warning = $('#avatar .warning');
+	$warning.hide();
+	if (data.status === "success") {
+		updateAvatar();
+	} else if (data.data.message === "notsquare") {
+		$('#avatar').data('tmpname', data.data.tmpname);
+		showAvatarCropper();
+	} else {
+		$warning.show();
+		$warning.text(data.data.message);
+	}
 }
 
 $(document).ready(function(){
@@ -149,11 +189,7 @@ $(document).ready(function(){
 
 	var uploadparms = {
 		done: function(e, data) {
-			if (data.result.status === "success") {
-				updateAvatar();
-			} else {
-				OC.dialogs.alert(data.result.data.message, t('core', "Error"));
-			}
+			avatarResponseHandler(data.result);
 		}
 	};
 

@@ -88,6 +88,7 @@ if($_['passwordChangeSupported']) {
 		<legend><strong><?php p($l->t('Profile Image')); ?></strong></legend>
 		<img src="<?php print_unescaped(link_to('', 'avatar.php').'?user='.OC_User::getUser().'&size=128'); ?>"><br>
 		<em><?php p($l->t('Has to be square and either PNG or JPG')); ?></em><br>
+		<div class="warning hidden"></div>
 		<div class="inlineblock button" id="uploadavatarbutton"><?php p($l->t('Upload new')); ?></div>
 		<input type="file" class="hidden" name="files[]" id="uploadavatar">
 		<div class="inlineblock button" id="selectavatar"><?php p($l->t('Select new from files')); ?></div>

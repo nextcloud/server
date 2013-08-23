@@ -6,10 +6,7 @@
  * See the COPYING-README file.
  */
 
-namespace OCP;
+namespace OC;
 
-class Avatar {
-	public static function get ($user, $size = 64) {
-		return \OC_Avatar::get($user, $size);
-	}
+class NotSquareException extends \Exception {
 }
