@@ -51,13 +51,18 @@ class Adapter {
 			. str_repeat('?,', count($input)-1).'? ' // Is there a prettier alternative?
 			. 'FROM `' . $table . '` WHERE ';
 
+		$inserts = array_values($input);
 		foreach($input as $key => $value) {
-			$query .= '`' . $key . '` = ? AND ';
+			$query .= '`' . $key . '`';
+			if (is_null($value)) {
+				$query .= ' IS NULL AND ';
+			} else {
+				$inserts[] = $value;
+				$query .= ' = ? AND ';
+			}
 		}
 		$query = substr($query, 0, strlen($query) - 5);
 		$query .= ' HAVING COUNT(*) = 0';
-		$inserts = array_values($input);
-		$inserts = array_merge($inserts, $inserts);
 
 		try {
 			return $this->conn->executeUpdate($query, $inserts);
