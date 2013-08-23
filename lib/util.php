@@ -16,7 +16,7 @@ class OC_Util {
 
 	/**
 	 * @brief Can be set up
-	 * @param user string
+	 * @param string $user
 	 * @return boolean
 	 * @description configure the initial filesystem based on the configuration
 	 */
@@ -51,7 +51,8 @@ class OC_Util {
 			self::$rootMounted = true;
 		}
 
-		if( $user != "" ) { //if we aren't logged in, there is no use to set up the filesystem
+		//if we aren't logged in, there is no use to set up the filesystem
+		if( $user != "" ) {
 			$quota = self::getUserQuota($user);
 			if ($quota !== \OC\Files\SPACE_UNLIMITED) {
 				\OC\Files\Filesystem::addStorageWrapper(function($mountPoint, $storage) use ($quota, $user) {
@@ -131,7 +132,7 @@ class OC_Util {
 	/**
 	 * @brief add a javascript file
 	 *
-	 * @param appid $application
+	 * @param string $application
 	 * @param filename $file
 	 * @return void
 	 */
@@ -150,7 +151,7 @@ class OC_Util {
 	/**
 	 * @brief add a css file
 	 *
-	 * @param appid $application
+	 * @param string $application
 	 * @param filename $file
 	 * @return void
 	 */
@@ -168,7 +169,7 @@ class OC_Util {
 
 	/**
 	 * @brief Add a custom element to the header
-	 * @param string tag tag name of the element
+	 * @param string $tag tag name of the element
 	 * @param array $attributes array of attributes for the element
 	 * @param string $text the text content for the element
 	 * @return void
@@ -184,8 +185,8 @@ class OC_Util {
 	/**
 	 * @brief formats a timestamp in the "right" way
 	 *
-	 * @param int timestamp $timestamp
-	 * @param bool dateOnly option to omit time from the result
+	 * @param int $timestamp
+	 * @param bool $dateOnly option to omit time from the result
 	 * @return string timestamp
 	 * @description adjust to clients timezone if we know it
 	 */
@@ -418,12 +419,13 @@ class OC_Util {
 	}
 	
 	/**
-	* Check for correct file permissions of data directory
-	* @return array arrays with error messages and hints
-	*/
+	 * @brief Check for correct file permissions of data directory
+	 * @paran string $dataDirectory
+	 * @return array arrays with error messages and hints
+	 */
 	public static function checkDataDirectoryPermissions($dataDirectory) {
 		$errors = array();
-		if (stristr(PHP_OS, 'WIN')) {
+		if (self::runningOnWindows()) {
 			//TODO: permissions checks for windows hosts
 		} else {
 			$permissionsModHint = 'Please change the permissions to 0770 so that the directory'
@@ -681,9 +683,9 @@ class OC_Util {
 		$testContent = 'testcontent';
 
 		// creating a test file
-		$testfile = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ).'/'.$filename;
+		$testFile = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ).'/'.$fileName;
 
-		if(file_exists($testfile)) {// already running this test, possible recursive call
+		if(file_exists($testFile)) {// already running this test, possible recursive call
 			return false;
 		}
 
@@ -692,7 +694,7 @@ class OC_Util {
 		@fclose($fp);
 
 		// accessing the file via http
-		$url = OC_Helper::makeURLAbsolute(OC::$WEBROOT.'/data'.$filename);
+		$url = OC_Helper::makeURLAbsolute(OC::$WEBROOT.'/data'.$fileName);
 		$fp = @fopen($url, 'r');
 		$content=@fread($fp, 2048);
 		@fclose($fp);
@@ -701,7 +703,7 @@ class OC_Util {
 		@unlink($testfile);
 
 		// does it work ?
-		if($content==$testcontent) {
+		if($content==$testContent) {
 			return false;
 		} else {
 			return true;
