@@ -444,7 +444,8 @@ class Preview {
 	 * @return void
 	*/
 	public function show() {
-		return $this->showPreview();
+		$this->showPreview();
+		return;
 	}
 
 	/**
