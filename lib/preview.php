@@ -568,6 +568,12 @@ class Preview {
 	 * @return void
 	 */
 	private static function initProviders() {
+		if(\OC_Config::getValue('disable_previews', false)) {
+			$provider = new Preview\Unknown();
+			self::$providers = array($provider);
+			return;
+		}
+
 		if(count(self::$providers)>0) {
 			return;
 		}
@@ -599,6 +605,10 @@ class Preview {
 	}
 
 	public static function isMimeSupported($mimetype) {
+		if(\OC_Config::getValue('disable_previews', false)) {
+			return false;
+		}
+
 		//check if there are preview backends
 		if(empty(self::$providers)) {
 			self::initProviders();
