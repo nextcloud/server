@@ -20,33 +20,20 @@
  *
  */
 
+namespace OC;
 
 /**
- * provides an interface to all search providers
+ * Provide an interface to all search providers
  */
-class OC_Search{
+class Search{
+
 	static private $providers=array();
 	static private $registeredProviders=array();
 
 	/**
-	 * remove all registered search providers
-	 */
-	public static function clearProviders() {
-		self::$providers=array();
-		self::$registeredProviders=array();
-	}
-
-	/**
-	 * register a new search provider to be used
-	 */
-	public static function registerProvider($class, $options=array()) {
-		self::$registeredProviders[]=array('class'=>$class, 'options'=>$options);
-	}
-
-	/**
-	 * search all provider for $query
-	 * @param string $query
-	 * @return array An array of OC_Search_Result's
+	 * Search all providers for $query
+	 * @param string query
+	 * @return array An array of OC\Search\Result's
 	 */
 	public static function search($query) {
 		self::initProviders();
@@ -58,8 +45,16 @@ class OC_Search{
 	}
 
 	/**
-	 * remove an existing search provider
-	 * @param string $provider class name of a OC_Search_Provider
+	 * Remove all registered search providers
+	 */
+	public static function clearProviders() {
+		self::$providers=array();
+		self::$registeredProviders=array();
+	}
+
+	/**
+	 * Remove one existing search provider
+	 * @param string $provider class name of a OC\Search\Provider
 	 */
 	public static function removeProvider($provider) {
 		self::$registeredProviders = array_filter(
@@ -72,9 +67,16 @@ class OC_Search{
 		self::$providers=array();
 	}
 
+	/**
+	 * Register a new search provider to search with
+	 * @param string $provider class name of a OC\Search\Provider
+	 */
+	public static function registerProvider($class, $options=array()) {
+		self::$registeredProviders[]=array('class'=>$class, 'options'=>$options);
+	}
 
 	/**
-	 * create instances of all the registered search providers
+	 * Create instances of all the registered search providers
 	 */
 	private static function initProviders() {
 		if(count(self::$providers)>0) {

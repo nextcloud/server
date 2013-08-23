@@ -17,31 +17,16 @@
  *
  */
 
-namespace OC\Search;
+namespace OC\Search\Result;
 
 /**
- * Provides a template for search functionality throughout ownCloud; 
+ * A found folder
  */
-abstract class Provider {
-
+class Folder extends \OC\Search\Result\File {
+    
     /**
-     * List of options (currently unused)
-     * @var array
+     * Type name; translated in templates
+     * @var string 
      */
-    private $options;
-
-    /**
-     * Constructor
-     * @param array $options
-     */
-    public function __construct($options) {
-        $this->options = $options;
-    }
-
-    /**
-     * Search for $query
-     * @param string $query
-     * @return array An array of OC\Search\Result's
-     */
-    abstract public function search($query);
+    public $type = 'folder';
 }

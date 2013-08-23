@@ -1,27 +1,65 @@
 <?php
 /**
- * a result of a search
+ * ownCloud
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
-class OC_Search_Result{
-	public $name;
-	public $text;
-	public $link;
-	public $type;
-	public $container;
 
-	/**
-	 * create a new search result
-	 * @param string $name short name for the result
-	 * @param string $text some more information about the result
-	 * @param string $link link for the result
-	 * @param string $type the type of result as human readable string ('File', 'Music', etc)
-	 * @param string $container
-	 */
-	public function __construct($name, $text, $link, $type, $container) {
-		$this->name=$name;
-		$this->text=$text;
-		$this->link=$link;
-		$this->type=$type;
-		$this->container=$container;
-	}
+namespace OC\Search;
+
+/**
+ * The generic result of a search
+ */
+abstract class Result {
+
+    /**
+     * A unique identifier for the result, usually given as the item ID in its
+     * corresponding application.
+     * @var string
+     */
+    public $id;
+
+    /**
+     * The name of the item returned; this will be displayed in the search
+     * results.
+     * @var string
+     */
+    public $name;
+
+    /**
+     * URL to the application item.
+     * @var string
+     */
+    public $link;
+    
+    /**
+     * The type of search result returned; for consistency, name this the same
+     * as the class name (e.g. \OC\Search\File -> 'file') in lowercase. 
+     * @var string
+     */
+    public $type = 'generic';
+
+    /**
+     * Create a new search result
+     * @param string $id unique identifier from application: '[app_name]/[item_identifier_in_app]'
+     * @param string $name displayed text of result
+     * @param string $link URL to the result within its app
+     */
+    public function __construct($id = null, $name = null, $link = null) {
+        $this->id = $id;
+        $this->name = $name;
+        $this->link = $link;
+    }
 }
