@@ -382,7 +382,7 @@ $(document).ready(function() {
 								tr.attr('data-size',result.data.size);
 								tr.attr('data-id', result.data.id);
 								tr.find('.filesize').text(humanFileSize(result.data.size));
-								var path = $('#dir').val() + '/' + name;
+								var path = getPathForPreview(name);
 								lazyLoadPreview(path, result.data.mime, function(previewpath){
 									tr.find('td.filename').attr('style','background-image:url('+previewpath+')');
 								});
@@ -654,7 +654,7 @@ var createDragShadow = function(event){
 		if (elem.type === 'dir') {
 			newtr.find('td.filename').attr('style','background-image:url('+OC.imagePath('core', 'filetypes/folder.png')+')');
 		} else {
-			var path = $('#dir').val()+'/'+elem.name;
+			var path = getPathForPreview(elem.name);
 			lazyLoadPreview(path, elem.mime, function(previewpath){
 				newtr.find('td.filename').attr('style','background-image:url('+previewpath+')');
 			});
@@ -831,6 +831,11 @@ function getMimeIcon(mime, ready){
 	}
 }
 getMimeIcon.cache={};
+
+function getPathForPreview(name) {
+	var path = $('#dir').val() + '/' + name;
+	return path;
+}
 
 function lazyLoadPreview(path, mime, ready) {
 	getMimeIcon(mime,ready);
