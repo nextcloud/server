@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-21 08:11-0400\n"
-"PO-Revision-Date: 2013-08-19 19:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-23 20:16-0400\n"
+"PO-Revision-Date: 2013-08-23 14:10+0000\n"
+"Last-Translator: stendec <stendec@inbox.lv>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -123,7 +123,7 @@ msgstr "Atjaunināta"
 
 #: js/personal.js:150
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "Atšifrēju failus... Uzgaidiet tas var ilgt kādu laiku."
 
 #: js/personal.js:172
 msgid "Saving..."
@@ -476,15 +476,15 @@ msgstr "Šifrēšana"
 
 #: templates/personal.php:119
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr ""
+msgstr "Šifrēšanas lietotne ir atslēgta, atšifrējiet visus jūsu failus"
 
 #: templates/personal.php:125
 msgid "Log-in password"
-msgstr ""
+msgstr "Pieslēgšanās parole"
 
 #: templates/personal.php:130
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Atšifrēt visus failus"
 
 #: templates/users.php:21
 msgid "Login Name"

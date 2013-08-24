@@ -39,6 +39,7 @@ $TRANSLATIONS = array(
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Geçersiz isim, '\\', '/', '<', '>', ':', '\"', '|', '?' ve '*' karakterlerine izin verilmemektedir.",
 "Your storage is full, files can not be updated or synced anymore!" => "Depolama alanınız dolu, artık dosyalar güncellenmeyecek yada senkronizasyon edilmeyecek.",
 "Your storage is almost full ({usedSpacePercent}%)" => "Depolama alanınız neredeyse dolu ({usedSpacePercent}%)",
+"Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Şifreleme işlemi durduruldu ancak dosyalarınız şifreli. Dosyalarınızın şifresini kaldırmak için lütfen kişisel ayarlar kısmına geçiniz.",
 "Your download is being prepared. This might take some time if the files are big." => "İndirmeniz hazırlanıyor. Dosya büyük ise biraz zaman alabilir.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Geçersiz dizin adı. Shared isminin kullanımı Owncloud tarafından rezerver edilmiştir.",
 "Name" => "İsim",

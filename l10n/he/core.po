@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# gilshwartz, 2013
 # Yaron Shahrabani <sh.yaron@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:06+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-23 20:16-0400\n"
+"PO-Revision-Date: 2013-08-22 15:40+0000\n"
+"Last-Translator: gilshwartz\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +22,7 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s שיתף/שיתפה איתך את »%s«"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -149,14 +150,14 @@ msgstr "שניות"
 #: js/js.js:813
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "לפני %n דקה"
+msgstr[1] "לפני %n דקות"
 
 #: js/js.js:814
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "לפני %n שעה"
+msgstr[1] "לפני %n שעות"
 
 #: js/js.js:815
 msgid "today"
@@ -169,8 +170,8 @@ msgstr "אתמול"
 #: js/js.js:817
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "לפני %n יום"
+msgstr[1] "לפני %n ימים"
 
 #: js/js.js:818
 msgid "last month"
@@ -179,8 +180,8 @@ msgstr "חודש שעבר"
 #: js/js.js:819
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "לפני %n חודש"
+msgstr[1] "לפני %n חודשים"
 
 #: js/js.js:820
 msgid "months ago"
@@ -194,23 +195,23 @@ msgstr "שנה שעברה"
 msgid "years ago"
 msgstr "שנים"
 
-#: js/oc-dialogs.js:117
+#: js/oc-dialogs.js:123
 msgid "Choose"
 msgstr "בחירה"
 
-#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
+#: js/oc-dialogs.js:143 js/oc-dialogs.js:210
 msgid "Error loading file picker template"
 msgstr "שגיאה בטעינת תבנית בחירת הקבצים"
 
-#: js/oc-dialogs.js:160
+#: js/oc-dialogs.js:168
 msgid "Yes"
 msgstr "כן"
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:178
 msgid "No"
 msgstr "לא"
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:195
 msgid "Ok"
 msgstr "בסדר"
 
@@ -413,7 +414,7 @@ msgstr ""
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
-msgstr ""
+msgstr "כן, אני רוצה לאפס את הסיסמה שלי עכשיו."
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
@@ -472,7 +473,7 @@ msgid ""
 "View it: %s\n"
 "\n"
 "Cheers!"
-msgstr ""
+msgstr "שלום,\n\nרצינו לעדכן כי %s שיתף/שיתפה איתך את »%s«.\n\nלצפיה: %s\n\nיום טוב!"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -494,7 +495,7 @@ msgstr "גרסת ה־PHP פגיעה בפני התקפת בית NULL/ריק (CVE-
 #: templates/installation.php:26
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "נא לעדכן את התקנת ה-PHP שלך כדי להשתמש ב-%s בצורה מאובטחת."
 
 #: templates/installation.php:32
 msgid ""
@@ -578,7 +579,7 @@ msgstr "התנתקות"
 
 #: templates/layout.user.php:100
 msgid "More apps"
-msgstr ""
+msgstr "יישומים נוספים"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
@@ -615,7 +616,7 @@ msgstr "כניסות אלטרנטיביות"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr ""
+msgstr "שלום,<br><br>רצינו לעדכן כי %s שיתף/שיתפה איתך את »%s«.<br><a href=\"%s\">לצפיה</a><br><br>יום טוב!"
 
 #: templates/update.php:3
 #, php-format

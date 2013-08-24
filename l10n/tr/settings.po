@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# DeeJaVu <ddejjavvu@gmail.com>, 2013
 # ismail yenigül <ismail.yenigul@surgate.com>, 2013
 # tridinebandim, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-21 08:11-0400\n"
-"PO-Revision-Date: 2013-08-19 19:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-23 20:16-0400\n"
+"PO-Revision-Date: 2013-08-22 22:10+0000\n"
+"Last-Translator: DeeJaVu <ddejjavvu@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -124,7 +125,7 @@ msgstr "Güncellendi"
 
 #: js/personal.js:150
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "Dosyaların şifresi çözülüyor... Lütfen bekleyin, bu biraz zaman alabilir."
 
 #: js/personal.js:172
 msgid "Saving..."
@@ -283,7 +284,7 @@ msgstr "Herkes tarafından yüklemeye izin ver"
 #: templates/admin.php:144
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
-msgstr ""
+msgstr "Kullanıcıların, herkese açık dizinlerine, başkalarının dosya yüklemelerini etkinleştirmelerine izin ver."
 
 #: templates/admin.php:152
 msgid "Allow resharing"
@@ -477,15 +478,15 @@ msgstr "Şifreleme"
 
 #: templates/personal.php:119
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr ""
+msgstr "Şifreleme uygulaması artık etkin değil, tüm dosyanın şifresini çöz"
 
 #: templates/personal.php:125
 msgid "Log-in password"
-msgstr ""
+msgstr "Oturum açma parolası"
 
 #: templates/personal.php:130
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Tüm dosyaların şifresini çözme"
 
 #: templates/users.php:21
 msgid "Login Name"

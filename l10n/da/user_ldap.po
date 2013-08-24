@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-23 20:16-0400\n"
+"PO-Revision-Date: 2013-08-22 20:00+0000\n"
+"Last-Translator: Sappe\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,7 +48,7 @@ msgstr "Fejl ved sletning"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
-msgstr ""
+msgstr "Overtag indstillinger fra nylig server konfiguration? "
 
 #: js/settings.js:83
 msgid "Keep settings?"
@@ -202,7 +202,7 @@ msgstr "Backup (Replika) Vært"
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
-msgstr ""
+msgstr "Opgiv en ikke obligatorisk backup server. Denne skal være en replikation af hoved-LDAP/AD serveren."
 
 #: templates/settings.php:71
 msgid "Backup (Replica) Port"
@@ -226,7 +226,7 @@ msgstr "Benyt ikke flere LDAPS forbindelser, det vil mislykkeds. "
 
 #: templates/settings.php:74
 msgid "Case insensitve LDAP server (Windows)"
-msgstr ""
+msgstr "Ikke versalfølsom LDAP server (Windows)"
 
 #: templates/settings.php:75
 msgid "Turn off SSL certificate validation."
@@ -241,7 +241,7 @@ msgstr ""
 
 #: templates/settings.php:76
 msgid "Cache Time-To-Live"
-msgstr ""
+msgstr "Cache Time-To-Live"
 
 #: templates/settings.php:76
 msgid "in seconds. A change empties the cache."
@@ -305,7 +305,7 @@ msgstr ""
 
 #: templates/settings.php:90
 msgid "Quota Field"
-msgstr ""
+msgstr "Kvote Felt"
 
 #: templates/settings.php:91
 msgid "Quota Default"
