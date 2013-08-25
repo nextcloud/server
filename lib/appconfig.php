@@ -42,8 +42,14 @@ use \OC\DB\Connection;
  * database.
  */
 class AppConfig {
+	/**
+	 * @var \OC\DB\Connection $conn
+	 */
 	protected $conn;
 
+	/**
+	 * @param \OC\DB\Connection $conn
+	 */
 	public function __construct(Connection $conn) {
 		$this->conn = $conn;
 	}
@@ -57,10 +63,10 @@ class AppConfig {
 	 */
 	public function getApps() {
 		$query = 'SELECT DISTINCT `appid` FROM `*PREFIX*appconfig`';
-		$result = $this->conn->executeQuery( $query );
+		$result = $this->conn->executeQuery($query);
 
 		$apps = array();
-		while( $appid = $result->fetchColumn()) {
+		while ($appid = $result->fetchColumn()) {
 			$apps[] = $appid;
 		}
 		return $apps;
@@ -74,12 +80,12 @@ class AppConfig {
 	 * This function gets all keys of an app. Please note that the values are
 	 * not returned.
 	 */
-	public function getKeys( $app ) {
+	public function getKeys($app) {
 		$query = 'SELECT `configkey` FROM `*PREFIX*appconfig` WHERE `appid` = ?';
-		$result = $this->conn->executeQuery( $query, array( $app ));
+		$result = $this->conn->executeQuery($query, array($app));
 
 		$keys = array();
-		while( $key = $result->fetchColumn()) {
+		while ($key = $result->fetchColumn()) {
 			$keys[] = $key;
 		}
 
@@ -96,11 +102,11 @@ class AppConfig {
 	 * This function gets a value from the appconfig table. If the key does
 	 * not exist the default value will be returned
 	 */
-	public function getValue( $app, $key, $default = null ) {
+	public function getValue($app, $key, $default = null) {
 		$query = 'SELECT `configvalue` FROM `*PREFIX*appconfig`'
 			.' WHERE `appid` = ? AND `configkey` = ?';
-		$row = $this->conn->fetchAssoc($query, array( $app, $key ));
-		if($row) {
+		$row = $this->conn->fetchAssoc($query, array($app, $key));
+		if ($row) {
 			return $row['configvalue'];
 		} else {
 			return $default;
@@ -114,8 +120,8 @@ class AppConfig {
 	 * @return bool
 	 */
 	public function hasKey($app, $key) {
-		$exists = $this->getKeys( $app );
-		return in_array( $key, $exists );
+		$exists = $this->getKeys($app);
+		return in_array($key, $exists);
 	}
 
 	/**
@@ -126,9 +132,9 @@ class AppConfig {
 	 *
 	 * Sets a value. If the key did not exist before it will be created.
 	 */
-	public function setValue( $app, $key, $value ) {
+	public function setValue($app, $key, $value) {
 		// Does the key exist? no: insert, yes: update.
-		if ( !$this->hasKey($app, $key)) {
+		if (!$this->hasKey($app, $key)) {
 			$data = array(
 				'appid' => $app,
 				'configkey' => $key,
@@ -155,7 +161,7 @@ class AppConfig {
 	 *
 	 * Deletes a key.
 	 */
-	public function deleteKey( $app, $key ) {
+	public function deleteKey($app, $key) {
 		$where = array(
 			'appid' => $app,
 			'configkey' => $key,
@@ -170,7 +176,7 @@ class AppConfig {
 	 *
 	 * Removes all keys in appconfig belonging to the app.
 	 */
-	public function deleteApp( $app ) {
+	public function deleteApp($app) {
 		$where = array(
 			'appid' => $app,
 		);
@@ -184,19 +190,19 @@ class AppConfig {
 	 * @return array
 	 */
 	public function getValues($app, $key) {
-		if(($app!==false) == ($key!==false)) {
+		if (($app !== false) == ($key !== false)) {
 			return false;
 		}
 
 		$fields = '`configvalue`';
 		$where = 'WHERE';
 		$params = array();
-		if($app!==false) {
+		if ($app !== false) {
 			$fields .= ', `configkey`';
 			$where .= ' `appid` = ?';
 			$params[] = $app;
 			$key = 'configkey';
-		}else{
+		} else {
 			$fields .= ', `appid`';
 			$where .= ' `configkey` = ?';
 			$params[] = $key;
@@ -206,12 +212,10 @@ class AppConfig {
 		$result = $this->conn->executeQuery( $query, $params );
 
 		$values = array();
-		while( $row = $result->fetch((\PDO::FETCH_ASSOC))) {
+		while ($row = $result->fetch((\PDO::FETCH_ASSOC))) {
 			$values[$row[$key]] = $row['configvalue'];
 		}
 
 		return $values;
 	}
 }
-
-require_once __DIR__.'/legacy/'.basename(__FILE__);
