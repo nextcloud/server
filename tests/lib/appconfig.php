@@ -302,12 +302,12 @@ class Test_AppConfig_Object extends PHPUnit_Framework_TestCase {
 
 		$appconfig = new OC\AppConfig($connectionMock);
 		$values = $appconfig->getValues('foo', false);
-		//$this->assertEquals(array('x'=> 'bar'), $values);
+		$this->assertEquals(array('x'=> 'bar'), $values);
 		$values = $appconfig->getValues(false, 'bar');
-		//$this->assertEquals(array('y'=> 'foo'), $values);
+		$this->assertEquals(array('y'=> 'foo'), $values);
 		$values = $appconfig->getValues(false, false);
-		//$this->assertEquals(false, $values);
+		$this->assertEquals(false, $values);
 		$values = $appconfig->getValues('x', 'x');
-		//$this->assertEquals(false, $values);
+		$this->assertEquals(false, $values);
 	}
 }
