@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-21 08:11-0400\n"
-"PO-Revision-Date: 2013-08-19 19:20+0000\n"
+"POT-Creation-Date: 2013-08-25 19:18-0400\n"
+"PO-Revision-Date: 2013-08-25 23:18+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Uighur <uqkun@outlook.com>\n"
 "MIME-Version: 1.0\n"
@@ -41,10 +41,6 @@ msgstr "گۇرۇپپا مەۋجۇت"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "گۇرۇپپا قوشقىلى بولمايدۇ"
-
-#: ajax/enableapp.php:11
-msgid "Could not enable app. "
-msgstr "ئەپنى قوزغىتالمىدى. "
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -92,31 +88,43 @@ msgstr "ئەپنى يېڭىلىيالمايدۇ."
 msgid "Update to {appversion}"
 msgstr "{appversion} غا يېڭىلايدۇ"
 
-#: js/apps.js:41 js/apps.js:81
+#: js/apps.js:41 js/apps.js:74 js/apps.js:100
 msgid "Disable"
 msgstr "چەكلە"
 
-#: js/apps.js:41 js/apps.js:69 js/apps.js:88
+#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
 msgid "Enable"
 msgstr "قوزغات"
 
-#: js/apps.js:60
+#: js/apps.js:63
 msgid "Please wait...."
 msgstr "سەل كۈتۈڭ…"
 
-#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
-msgid "Error"
-msgstr "خاتالىق"
+#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+msgid "Error while disabling app"
+msgstr ""
 
-#: js/apps.js:95
+#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+msgid "Error while enabling app"
+msgstr ""
+
+#: js/apps.js:115
 msgid "Updating...."
 msgstr "يېڭىلاۋاتىدۇ…"
 
-#: js/apps.js:98
+#: js/apps.js:118
 msgid "Error while updating app"
 msgstr "ئەپنى يېڭىلاۋاتقاندا خاتالىق كۆرۈلدى"
 
-#: js/apps.js:101
+#: js/apps.js:118
+msgid "Error"
+msgstr "خاتالىق"
+
+#: js/apps.js:119 templates/apps.php:43
+msgid "Update"
+msgstr "يېڭىلا"
+
+#: js/apps.js:122
 msgid "Updated"
 msgstr "يېڭىلاندى"
 
@@ -368,10 +376,6 @@ msgstr ""
 #: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr ""
-
-#: templates/apps.php:43
-msgid "Update"
-msgstr "يېڭىلا"
 
 #: templates/help.php:4
 msgid "User Documentation"

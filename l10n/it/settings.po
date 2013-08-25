@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-21 08:11-0400\n"
-"PO-Revision-Date: 2013-08-19 19:20+0000\n"
+"POT-Creation-Date: 2013-08-25 19:18-0400\n"
+"PO-Revision-Date: 2013-08-25 23:18+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -44,10 +44,6 @@ msgstr "Il gruppo esiste già"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Impossibile aggiungere il gruppo"
-
-#: ajax/enableapp.php:11
-msgid "Could not enable app. "
-msgstr "Impossibile abilitare l'applicazione."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -95,37 +91,49 @@ msgstr "Impossibile aggiornate l'applicazione."
 msgid "Update to {appversion}"
 msgstr "Aggiorna a {appversion}"
 
-#: js/apps.js:41 js/apps.js:81
+#: js/apps.js:41 js/apps.js:74 js/apps.js:100
 msgid "Disable"
 msgstr "Disabilita"
 
-#: js/apps.js:41 js/apps.js:69 js/apps.js:88
+#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
 msgid "Enable"
 msgstr "Abilita"
 
-#: js/apps.js:60
+#: js/apps.js:63
 msgid "Please wait...."
 msgstr "Attendere..."
 
-#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
-msgid "Error"
-msgstr "Errore"
+#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+msgid "Error while disabling app"
+msgstr ""
 
-#: js/apps.js:95
+#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+msgid "Error while enabling app"
+msgstr ""
+
+#: js/apps.js:115
 msgid "Updating...."
 msgstr "Aggiornamento in corso..."
 
-#: js/apps.js:98
+#: js/apps.js:118
 msgid "Error while updating app"
 msgstr "Errore durante l'aggiornamento"
 
-#: js/apps.js:101
+#: js/apps.js:118
+msgid "Error"
+msgstr "Errore"
+
+#: js/apps.js:119 templates/apps.php:43
+msgid "Update"
+msgstr "Aggiorna"
+
+#: js/apps.js:122
 msgid "Updated"
 msgstr "Aggiornato"
 
 #: js/personal.js:150
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "Decifratura dei file in corso... Attendi, potrebbe richiedere del tempo."
 
 #: js/personal.js:172
 msgid "Saving..."
@@ -372,10 +380,6 @@ msgstr "Vedere la pagina dell'applicazione su apps.owncloud.com"
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licenziato da <span class=\"author\"></span>"
 
-#: templates/apps.php:43
-msgid "Update"
-msgstr "Aggiorna"
-
 #: templates/help.php:4
 msgid "User Documentation"
 msgstr "Documentazione utente"
@@ -478,15 +482,15 @@ msgstr "Cifratura"
 
 #: templates/personal.php:119
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr ""
+msgstr "L'applicazione di cifratura non è più abilitata, decifra tutti i tuoi file"
 
 #: templates/personal.php:125
 msgid "Log-in password"
-msgstr ""
+msgstr "Password di accesso"
 
 #: templates/personal.php:130
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Decifra tutti i file"
 
 #: templates/users.php:21
 msgid "Login Name"

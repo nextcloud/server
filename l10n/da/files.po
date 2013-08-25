@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-21 08:10-0400\n"
-"PO-Revision-Date: 2013-08-20 19:40+0000\n"
+"POT-Creation-Date: 2013-08-25 19:18-0400\n"
+"PO-Revision-Date: 2013-08-24 14:30+0000\n"
 "Last-Translator: Sappe\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -254,7 +254,7 @@ msgstr "Nødvendigt for at kunne downloade mapper og flere filer ad gangen."
 
 #: templates/admin.php:17
 msgid "Enable ZIP-download"
-msgstr "Muliggør ZIP-download"
+msgstr "Tillad ZIP-download"
 
 #: templates/admin.php:20
 msgid "0 is unlimited"

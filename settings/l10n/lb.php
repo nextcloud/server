@@ -6,7 +6,6 @@ $TRANSLATIONS = array(
 "Unable to change display name" => "Unmeiglech den Nickname ze änneren.",
 "Group already exists" => "Group existeiert schon.",
 "Unable to add group" => "Onmeiglech Grupp beizefügen.",
-"Could not enable app. " => "Kann App net aktiveieren.",
 "Email saved" => "E-mail gespäichert",
 "Invalid email" => "Ongülteg e-mail",
 "Unable to delete group" => "Onmeiglech d'Grup ze läschen.",
