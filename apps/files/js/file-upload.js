@@ -205,6 +205,13 @@ $(document).ready(function() {
 			}
 		});
 	});
+	$('#new').click(function(event){
+		event.stopPropagation();
+	});
+	$('#new>a').click(function(){
+		$('#new>ul').toggle();
+		$('#new').toggleClass('active');
+	});
 	$('#new li').click(function(){
 		if($(this).children('p').length==0){
 			return;
