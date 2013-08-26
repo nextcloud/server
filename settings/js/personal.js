@@ -45,7 +45,7 @@ function changeDisplayName(){
 }
 
 function selectAvatar (path) {
-	$.post(OC.filePath('', '', 'avatar.php'), {path: path}, avatarResponseHandler);
+	$.post(OC.router_base_url+'/avatar/', {path: path}, avatarResponseHandler);
 }
 
 function updateAvatar () {
@@ -54,22 +54,30 @@ function updateAvatar () {
 }
 
 function showAvatarCropper() {
-	OC.dialogs.message('', t('settings', 'Crop'), undefined, OCdialogs.OK_BUTTON, sendCropData);
-	var $dialog = $('#oc-dialog-'+(OC.dialogs.dialogs_counter-1)+'-content');
+	var $dlg = $('<div id="cropperbox" title="'+t('settings', 'Crop')+'"></div>');
+	$('body').append($dlg);
+	$('#cropperbox').ocdialog({
+		width: '600px',
+		height: '600px',
+		buttons: [{
+			text: t('settings', 'Crop'),
+			click: sendCropData,
+			defaultButton: true
+		}]
+	});
 	var cropper = new Image();
 	$(cropper).load(function() {
 		$(this).attr('id', 'cropper');
-		$('#oc-dialog-'+(OC.dialogs.dialogs_counter-1)+'-content').html(this);
+		$('#cropperbox').html(this);
 		$(this).Jcrop({
 			onChange: saveCoords,
 			onSelect: saveCoords,
 			aspectRatio: 1
 		});
-	}).attr('src', OC.filePath('', '', 'avatar.php')+"?user="+OC.currentUser+"&size=512&tmp="+$('#avatar').data('tmpname'));
+	}).attr('src', OC.router_base_url+'/avatar/tmp/512');
 }
 
 function sendCropData() {
-	var tmp = $('#avatar').data('tmpname');
 	var cropperdata = $('#cropper').data();
 	var data = {
 		x: cropperdata.x,
@@ -77,7 +85,7 @@ function sendCropData() {
 		w: cropperdata.w,
 		h: cropperdata.h
 	};
-	$.post(OC.filePath('', '', 'avatar.php'), {tmp:tmp, crop: data}, avatarResponseHandler);
+	$.post(OC.router_base_url+'/avatar/', {crop: data}, avatarResponseHandler);
 }
 
 function saveCoords(c) {
@@ -90,7 +98,6 @@ function avatarResponseHandler(data) {
 	if (data.status === "success") {
 		updateAvatar();
 	} else if (data.data.message === "notsquare") {
-		$('#avatar').data('tmpname', data.data.tmpname);
 		showAvatarCropper();
 	} else {
 		$warning.show();
@@ -206,7 +213,7 @@ $(document).ready(function(){
 	$('#removeavatar').click(function(){
 		$.ajax({
 			type:	'DELETE',
-			url:	OC.filePath('', '', 'avatar.php'),
+			url:	OC.router_base_url+'/avatar/',
 			success: function(msg) {
 				updateAvatar();
 			}

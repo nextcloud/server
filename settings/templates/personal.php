@@ -83,10 +83,10 @@ if($_['passwordChangeSupported']) {
 }
 ?>
 
-<form id="avatar" method="post" action="<?php p(\OC_Helper::linkTo('', 'avatar.php')); ?>">
+<form id="avatar" method="post" action="<?php p(\OC_Helper::linkToRoute('core_avatar_post')); ?>">
 	<fieldset class="personalblock">
 		<legend><strong><?php p($l->t('Profile Image')); ?></strong></legend>
-		<img src="<?php print_unescaped(link_to('', 'avatar.php').'?user='.OC_User::getUser().'&size=128'); ?>"><br>
+		<img src="<?php print_unescaped(\OC_Helper::linkToRoute('core_avatar_get').'/'.OC_User::getUser().'/128'); ?>"><br>
 		<em><?php p($l->t('Has to be square and either PNG or JPG')); ?></em><br>
 		<div class="warning hidden"></div>
 		<div class="inlineblock button" id="uploadavatarbutton"><?php p($l->t('Upload new')); ?></div>

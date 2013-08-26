@@ -97,7 +97,7 @@ $_['subadmingroups'] = array_flip($items);
 		<?php foreach($_["users"] as $user): ?>
 		<tr data-uid="<?php p($user["name"]) ?>"
 			data-displayName="<?php p($user["displayName"]) ?>">
-			<td class="avatar"><img src="<?php print_unescaped(link_to('', 'avatar.php')); ?>?user=<?php p($user['name']); ?>&size=32"></td>
+			<td class="avatar"><img src="<?php print_unescaped(\OC_Helper::linkToRoute('core_avatar_get')); ?>/<?php p($user['name']); ?>/32"></td>
 			<td class="name"><?php p($user["name"]); ?></td>
 			<td class="displayName"><span><?php p($user["displayName"]); ?></span> <img class="svg action"
 				src="<?php p(image_path('core', 'actions/rename.svg'))?>"
