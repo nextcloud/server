@@ -277,14 +277,11 @@ class Helper {
 
 	/**
 	 * Create an openssl pkey with config-supplied settings
+	 * WARNING: This initializes and caches a new private keypair, which is computationally expensive
 	 * @return resource The pkey resource created
 	 */
 	public static function getOpenSSLPkey() {
-		static $res = null;
-		if (is_null($res)) {
-			$res = openssl_pkey_new(self::getOpenSSLConfig());
-		}
-		return $res;
+		return openssl_pkey_new(self::getOpenSSLConfig());
 	}
 
 	/**
