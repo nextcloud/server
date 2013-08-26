@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Koichi MATSUMOTO <mzch@me.com>, 2013
 # tt yn <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-15 04:47-0400\n"
-"PO-Revision-Date: 2013-08-15 08:48+0000\n"
+"POT-Creation-Date: 2013-08-25 19:18-0400\n"
+"PO-Revision-Date: 2013-08-25 23:18+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -18,27 +19,38 @@ msgstr ""
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: app.php:360
+#: app.php:239
+#, php-format
+msgid ""
+"App \"%s\" can't be installed because it is not compatible with this version"
+" of ownCloud."
+msgstr ""
+
+#: app.php:250
+msgid "No app name specified"
+msgstr ""
+
+#: app.php:361
 msgid "Help"
 msgstr "ヘルプ"
 
-#: app.php:373
+#: app.php:374
 msgid "Personal"
 msgstr "個人"
 
-#: app.php:384
+#: app.php:385
 msgid "Settings"
 msgstr "設定"
 
-#: app.php:396
+#: app.php:397
 msgid "Users"
 msgstr "ユーザ"
 
-#: app.php:409
+#: app.php:410
 msgid "Admin"
 msgstr "管理"
 
-#: app.php:836
+#: app.php:837
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "\"%s\" へのアップグレードに失敗しました。"
@@ -74,9 +86,61 @@ msgid ""
 "administrator."
 msgstr "ファイルは、小さいファイルに分割されてダウンロードされます。もしくは、管理者にお尋ねください。"
 
-#: helper.php:235
-msgid "couldn't be determined"
-msgstr "測定できませんでした"
+#: installer.php:63
+msgid "No source specified when installing app"
+msgstr ""
+
+#: installer.php:70
+msgid "No href specified when installing app from http"
+msgstr ""
+
+#: installer.php:75
+msgid "No path specified when installing app from local file"
+msgstr ""
+
+#: installer.php:89
+#, php-format
+msgid "Archives of type %s are not supported"
+msgstr ""
+
+#: installer.php:103
+msgid "Failed to open archive when installing app"
+msgstr ""
+
+#: installer.php:123
+msgid "App does not provide an info.xml file"
+msgstr ""
+
+#: installer.php:129
+msgid "App can't be installed because of not allowed code in the App"
+msgstr ""
+
+#: installer.php:138
+msgid ""
+"App can't be installed because it is not compatible with this version of "
+"ownCloud"
+msgstr ""
+
+#: installer.php:144
+msgid ""
+"App can't be installed because it contains the <shipped>true</shipped> tag "
+"which is not allowed for non shipped apps"
+msgstr ""
+
+#: installer.php:150
+msgid ""
+"App can't be installed because the version in info.xml/version is not the "
+"same as the version reported from the app store"
+msgstr ""
+
+#: installer.php:160
+msgid "App directory already exists"
+msgstr ""
+
+#: installer.php:173
+#, php-format
+msgid "Can't create app folder. Please fix permissions. %s"
+msgstr ""
 
 #: json.php:28
 msgid "Application is not enabled"
@@ -209,12 +273,12 @@ msgstr "数秒前"
 #: template/functions.php:81
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
+msgstr[0] "%n 分前"
 
 #: template/functions.php:82
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
+msgstr[0] "%n 時間後"
 
 #: template/functions.php:83
 msgid "today"
@@ -227,7 +291,7 @@ msgstr "昨日"
 #: template/functions.php:85
 msgid "%n day go"
 msgid_plural "%n days ago"
-msgstr[0] ""
+msgstr[0] "%n 日後"
 
 #: template/functions.php:86
 msgid "last month"
@@ -236,7 +300,7 @@ msgstr "一月前"
 #: template/functions.php:87
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
+msgstr[0] "%n カ月後"
 
 #: template/functions.php:88
 msgid "last year"

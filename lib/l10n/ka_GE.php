@@ -10,7 +10,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "ფაილები უნდა გადმოიტვირთოს სათითაოდ.",
 "Back to Files" => "უკან ფაილებში",
 "Selected files too large to generate zip file." => "არჩეული ფაილები ძალიან დიდია zip ფაილის გენერაციისთვის.",
-"couldn't be determined" => "ვერ განისაზღვრა",
 "Application is not enabled" => "აპლიკაცია არ არის აქტიური",
 "Authentication error" => "ავთენტიფიკაციის შეცდომა",
 "Token expired. Please reload page." => "Token–ს ვადა გაუვიდა. გთხოვთ განაახლოთ გვერდი.",

@@ -20,7 +20,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("",""),
 "_%n month ago_::_%n months ago_" => array("",""),
 "Choose" => "منتخب کریں",
-"Cancel" => "منسوخ کریں",
 "Yes" => "ہاں",
 "No" => "نہیں",
 "Ok" => "اوکے",
@@ -75,8 +74,6 @@ $TRANSLATIONS = array(
 "Log out" => "لاگ آؤٹ",
 "Lost your password?" => "کیا آپ پاسورڈ بھول گئے ہیں؟",
 "remember" => "یاد رکھیں",
-"Log in" => "لاگ ان",
-"prev" => "پچھلا",
-"next" => "اگلا"
+"Log in" => "لاگ ان"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

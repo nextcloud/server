@@ -10,7 +10,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "Mae angen llwytho ffeiliau i lawr fesul un.",
 "Back to Files" => "Nôl i Ffeiliau",
 "Selected files too large to generate zip file." => "Mae'r ffeiliau ddewiswyd yn rhy fawr i gynhyrchu ffeil zip.",
-"couldn't be determined" => "methwyd pennu",
 "Application is not enabled" => "Nid yw'r pecyn wedi'i alluogi",
 "Authentication error" => "Gwall dilysu",
 "Token expired. Please reload page." => "Tocyn wedi dod i ben. Ail-lwythwch y dudalen.",

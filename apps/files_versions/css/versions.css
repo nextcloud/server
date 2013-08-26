@@ -1,3 +1,7 @@
+#dropdown.drop-versions {
+	width:22em;
+}
+
 #found_versions li {
 	width: 100%;
 	cursor: default;
@@ -39,6 +43,3 @@
 	float: right;
 }
 
-.drop-versions #makelink {
-	float: left;
-}

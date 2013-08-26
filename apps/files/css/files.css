@@ -46,12 +46,22 @@
 	z-index:20; position:relative; cursor:pointer; overflow:hidden;
 }
 
-#uploadprogresswrapper { float: right; position: relative; }
-#uploadprogresswrapper #uploadprogressbar {
-	position:relative; float: right;
-	margin-left: 12px; width:10em; height:1.5em; top:.4em;
+#uploadprogresswrapper {
+	position: relative;
+	display: inline;
+}
+#uploadprogressbar {
+	position:relative;
+	float: left;
+	margin-left: 12px;
+	width: 130px;
+	height: 26px;
 	display:inline-block;
 }
+#uploadprogressbar + stop {
+	font-size: 13px;
+}
+
 
 /* FILE TABLE */
 

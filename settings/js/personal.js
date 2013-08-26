@@ -8,7 +8,7 @@
  * Post the email address change to the server.
  */
 function changeEmailAddress(){
-    emailInfo = $('#email');
+    var emailInfo = $('#email');
     if (emailInfo.val() === emailInfo.defaultValue){
         return;
     }
@@ -110,7 +110,61 @@ $(document).ready(function(){
 		});
 		return false;
 	});
+
+	$('button:button[name="submitDecryptAll"]').click(function() {
+		var privateKeyPassword = $('#decryptAll input:password[id="privateKeyPassword"]').val();
+		OC.Encryption.decryptAll(privateKeyPassword);
+	});
+	
+	$('#decryptAll input:password[name="privateKeyPassword"]').keyup(function(event) {
+		var privateKeyPassword = $('#decryptAll input:password[id="privateKeyPassword"]').val();
+		if (privateKeyPassword !== '' ) {
+			$('#decryptAll button:button[name="submitDecryptAll"]').removeAttr("disabled");
+			if(event.which === 13) {
+				OC.Encryption.decryptAll(privateKeyPassword);
+			}
+		} else {
+			$('#decryptAll button:button[name="submitDecryptAll"]').attr("disabled", "true");
+		}
+	});
+	
 } );
+
+OC.Encryption = {
+	decryptAll: function(password) {
+		OC.Encryption.msg.startDecrypting('#decryptAll .msg');
+		$.post('ajax/decryptall.php', {password:password}, function(data) {
+			if (data.status === "error") {
+				OC.Encryption.msg.finishedDecrypting('#decryptAll .msg', data);
+			} else {
+				OC.Encryption.msg.finishedDecrypting('#decryptAll .msg', data);
+			}
+		}
+		);
+	}
+}
+
+OC.Encryption.msg={
+	startDecrypting:function(selector){
+		$(selector)
+			.html( t('files_encryption', 'Decrypting files... Please wait, this can take some time.') )
+			.removeClass('success')
+			.removeClass('error')
+			.stop(true, true)
+			.show();
+	},
+	finishedDecrypting:function(selector, data){
+		if( data.status === "success" ){
+			 $(selector).html( data.data.message )
+				.addClass('success')
+				.stop(true, true)
+				.delay(3000)
+				.fadeOut(900);
+		}else{
+			$(selector).html( data.data.message ).addClass('error');
+		}
+	}
+};
 
 OC.msg={
 	startSaving:function(selector){

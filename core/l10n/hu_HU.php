@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "last year" => "tavaly",
 "years ago" => "több éve",
 "Choose" => "Válasszon",
-"Cancel" => "Mégsem",
 "Error loading file picker template" => "Nem sikerült betölteni a fájlkiválasztó sablont",
 "Yes" => "Igen",
 "No" => "Nem",
@@ -134,8 +133,6 @@ $TRANSLATIONS = array(
 "Log in" => "Bejelentkezés",
 "Alternative Logins" => "Alternatív bejelentkezés",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Üdv!<br><br>Új hír: %s megosztotta Önnel ezt:  »%s«.<br><a href=\"%s\">Itt nézhető meg!</a><br><br>Minden jót!",
-"prev" => "előző",
-"next" => "következő",
 "Updating ownCloud to version %s, this may take a while." => "Owncloud frissítés a %s verzióra folyamatban. Kis türelmet."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

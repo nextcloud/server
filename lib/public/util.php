@@ -123,6 +123,14 @@ class Util {
 	}
 
 	/**
+	 * @brief check if some encrypted files are stored
+	 * @return bool
+	 */
+	public static function encryptedFiles() {
+		return \OC_Util::encryptedFiles();
+	}
+	
+	/**
 	 * @brief Creates an absolute url
 	 * @param string $app app
 	 * @param string $file file

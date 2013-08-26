@@ -39,7 +39,6 @@ $TRANSLATIONS = array(
 "last year" => "минатата година",
 "years ago" => "пред години",
 "Choose" => "Избери",
-"Cancel" => "Откажи",
 "Yes" => "Да",
 "No" => "Не",
 "Ok" => "Во ред",
@@ -114,8 +113,6 @@ $TRANSLATIONS = array(
 "Please change your password to secure your account again." => "Ве молам сменете ја лозинката да ја обезбедите вашата сметка повторно.",
 "Lost your password?" => "Ја заборавивте лозинката?",
 "remember" => "запамти",
-"Log in" => "Најава",
-"prev" => "претходно",
-"next" => "следно"
+"Log in" => "Најава"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;";

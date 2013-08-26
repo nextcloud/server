@@ -77,6 +77,12 @@ if($source) {
 	exit();
 } else {
 	$success = false;
+	if (!$content) {
+		$templateManager = OC_Helper::getFileTemplateManager();
+		$mimeType = OC_Helper::getMimeType($target);
+		$content = $templateManager->getTemplate($mimeType);
+	}
+
 	if($content) {
 		$success = \OC\Files\Filesystem::file_put_contents($target, $content);
 	} else {
@@ -87,9 +93,11 @@ if($source) {
 		$meta = \OC\Files\Filesystem::getFileInfo($target);
 		$id = $meta['fileid'];
 		$mime = $meta['mimetype'];
+		$size = $meta['size'];
 		OCP\JSON::success(array('data' => array(
 			'id' => $id,
 			'mime' => $mime,
+			'size' => $size,
 			'content' => $content,
 		)));
 		exit();

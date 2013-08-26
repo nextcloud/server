@@ -25,7 +25,6 @@ $TRANSLATIONS = array(
 "last year" => "မနှစ်က",
 "years ago" => "နှစ် အရင်က",
 "Choose" => "ရွေးချယ်",
-"Cancel" => "ပယ်ဖျက်မည်",
 "Yes" => "ဟုတ်",
 "No" => "မဟုတ်ဘူး",
 "Ok" => "အိုကေ",
@@ -60,8 +59,6 @@ $TRANSLATIONS = array(
 "Finish setup" => "တပ်ဆင်ခြင်းပြီးပါပြီ။",
 "Lost your password?" => "သင်၏စကားဝှက်ပျောက်သွားပြီလား။",
 "remember" => "မှတ်မိစေသည်",
-"Log in" => "ဝင်ရောက်ရန်",
-"prev" => "ယခင်",
-"next" => "နောက်သို့"
+"Log in" => "ဝင်ရောက်ရန်"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

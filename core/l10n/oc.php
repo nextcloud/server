@@ -34,7 +34,6 @@ $TRANSLATIONS = array(
 "last year" => "an passat",
 "years ago" => "ans a",
 "Choose" => "Causís",
-"Cancel" => "Annula",
 "Yes" => "Òc",
 "No" => "Non",
 "Ok" => "D'accòrdi",
@@ -94,8 +93,6 @@ $TRANSLATIONS = array(
 "Log out" => "Sortida",
 "Lost your password?" => "L'as perdut lo senhal ?",
 "remember" => "bremba-te",
-"Log in" => "Dintrada",
-"prev" => "dariièr",
-"next" => "venent"
+"Log in" => "Dintrada"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

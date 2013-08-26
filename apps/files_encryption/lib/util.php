@@ -21,30 +21,6 @@
  *
  */
 
-# Bugs
-# ----
-# Sharing a file to a user without encryption set up will not provide them with access but won't notify the sharer
-# Sharing all files to admin for recovery purposes still in progress
-# Possibly public links are broken (not tested since last merge of master)
-
-
-# Missing features
-# ----------------
-# Make sure user knows if large files weren't encrypted
-
-
-# Test
-# ----
-# Test that writing files works when recovery is enabled, and sharing API is disabled
-# Test trashbin support
-
-
-// Old Todo:
-//  - Crypt/decrypt button in the userinterface
-//  - Setting if crypto should be on by default
-//  - Add a setting "Don´t encrypt files larger than xx because of performance 
-//    reasons"
-
 namespace OCA\Encryption;
 
 /**
@@ -56,45 +32,6 @@ namespace OCA\Encryption;
  */
 
 class Util {
-
-	// Web UI:
-
-	//// DONE: files created via web ui are encrypted
-	//// DONE: file created & encrypted via web ui are readable in web ui
-	//// DONE: file created & encrypted via web ui are readable via webdav
-
-
-	// WebDAV:
-
-	//// DONE: new data filled files added via webdav get encrypted
-	//// DONE: new data filled files added via webdav are readable via webdav
-	//// DONE: reading unencrypted files when encryption is enabled works via 
-	////       webdav
-	//// DONE: files created & encrypted via web ui are readable via webdav
-
-
-	// Legacy support:
-
-	//// DONE: add method to check if file is encrypted using new system
-	//// DONE: add method to check if file is encrypted using old system
-	//// DONE: add method to fetch legacy key
-	//// DONE: add method to decrypt legacy encrypted data
-
-
-	// Admin UI:
-
-	//// DONE: changing user password also changes encryption passphrase
-
-	//// TODO: add support for optional recovery in case of lost passphrase / keys
-	//// TODO: add admin optional required long passphrase for users
-	//// TODO: implement flag system to allow user to specify encryption by folder, subfolder, etc.
-
-
-	// Integration testing:
-
-	//// TODO: test new encryption with versioning
-	//// DONE: test new encryption with sharing
-	//// TODO: test new encryption with proxies
 
 	const MIGRATION_COMPLETED = 1;    // migration to new encryption completed
 	const MIGRATION_IN_PROGRESS = -1; // migration is running
@@ -403,7 +340,7 @@ class Util {
 					$filePath = $directory . '/' . $this->view->getRelativePath('/' . $file);
 					$relPath = \OCA\Encryption\Helper::stripUserFilesPath($filePath);
 
-					// If the path is a directory, search 
+					// If the path is a directory, search
 					// its contents
 					if ($this->view->is_dir($filePath)) {
 
@@ -419,8 +356,8 @@ class Util {
 
 						$isEncryptedPath = $this->isEncryptedPath($filePath);
 						// If the file is encrypted
-						// NOTE: If the userId is 
-						// empty or not set, file will 
+						// NOTE: If the userId is
+						// empty or not set, file will
 						// detected as plain
 						// NOTE: This is inefficient;
 						// scanning every file like this
@@ -565,9 +502,6 @@ class Util {
 		// split the path parts
 		$pathParts = explode('/', $path);
 
-		// get relative path
-		$relativePath = \OCA\Encryption\Helper::stripUserFilesPath($path);
-
 		if (isset($pathParts[2]) && $pathParts[2] === 'files' && $this->view->file_exists($path)
 			&& $this->isEncryptedPath($path)
 		) {
@@ -580,7 +514,7 @@ class Util {
 			$lastChunkNr = floor($size / 8192);
 
 			// open stream
-			$stream = fopen('crypt://' . $relativePath, "r");
+			$stream = fopen('crypt://' . $path, "r");
 
 			if (is_resource($stream)) {
 				// calculate last chunk position
@@ -663,6 +597,205 @@ class Util {
 	}
 
 	/**
+	 * @brief encrypt versions from given file
+	 * @param array $filelist list of encrypted files, relative to data/user/files
+	 * @return boolean
+	 */
+	private function encryptVersions($filelist) {
+
+		$successful = true;
+
+		if (\OCP\App::isEnabled('files_versions')) {
+
+			foreach ($filelist as $filename) {
+
+				$versions = \OCA\Files_Versions\Storage::getVersions($this->userId, $filename);
+				foreach ($versions as $version) {
+
+					$path = '/' . $this->userId . '/files_versions/' . $version['path'] . '.v' . $version['version'];
+
+					$encHandle = fopen('crypt://' . $path . '.part', 'wb');
+
+					if ($encHandle === false) {
+						\OCP\Util::writeLog('Encryption library', 'couldn\'t open "' . $path . '", decryption failed!', \OCP\Util::FATAL);
+						$successful = false;
+						continue;
+					}
+
+					$plainHandle = $this->view->fopen($path, 'rb');
+					if ($plainHandle === false) {
+						\OCP\Util::writeLog('Encryption library', 'couldn\'t open "' . $path . '.part", decryption failed!', \OCP\Util::FATAL);
+						$successful = false;
+						continue;
+					}
+
+					stream_copy_to_stream($plainHandle, $encHandle);
+
+					fclose($encHandle);
+					fclose($plainHandle);
+
+					$this->view->rename($path . '.part', $path);
+				}
+			}
+		}
+
+		return $successful;
+	}
+
+	/**
+	 * @brief decrypt versions from given file
+	 * @param string $filelist list of decrypted files, relative to data/user/files
+	 * @return boolean
+	 */
+	private function decryptVersions($filelist) {
+
+		$successful = true;
+
+		if (\OCP\App::isEnabled('files_versions')) {
+
+			foreach ($filelist as $filename) {
+
+				$versions = \OCA\Files_Versions\Storage::getVersions($this->userId, $filename);
+				foreach ($versions as $version) {
+
+					$path = '/' . $this->userId . '/files_versions/' . $version['path'] . '.v' . $version['version'];
+
+					$encHandle = fopen('crypt://' . $path, 'rb');
+
+					if ($encHandle === false) {
+						\OCP\Util::writeLog('Encryption library', 'couldn\'t open "' . $path . '", decryption failed!', \OCP\Util::FATAL);
+						$successful = false;
+						continue;
+					}
+
+					$plainHandle = $this->view->fopen($path . '.part', 'wb');
+					if ($plainHandle === false) {
+						\OCP\Util::writeLog('Encryption library', 'couldn\'t open "' . $path . '.part", decryption failed!', \OCP\Util::FATAL);
+						$successful = false;
+						continue;
+					}
+
+					stream_copy_to_stream($encHandle, $plainHandle);
+
+					fclose($encHandle);
+					fclose($plainHandle);
+
+					$this->view->rename($path . '.part', $path);
+				}
+			}
+		}
+
+		return $successful;
+	}
+
+	/**
+	 * @brief Decrypt all files
+	 * @return bool
+	 */
+	public function decryptAll() {
+
+		$found = $this->findEncFiles($this->userId . '/files');
+
+		$successful = true;
+
+		if ($found) {
+
+			$versionStatus = \OCP\App::isEnabled('files_versions');
+			\OC_App::disable('files_versions');
+
+			$decryptedFiles = array();
+
+			// Encrypt unencrypted files
+			foreach ($found['encrypted'] as $encryptedFile) {
+
+				//get file info
+				$fileInfo = \OC\Files\Filesystem::getFileInfo($encryptedFile['path']);
+
+				//relative to data/<user>/file
+				$relPath = Helper::stripUserFilesPath($encryptedFile['path']);
+
+				//relative to /data
+				$rawPath = $encryptedFile['path'];
+
+				//get timestamp
+				$timestamp = $this->view->filemtime($rawPath);
+
+				//enable proxy to use OC\Files\View to access the original file
+				\OC_FileProxy::$enabled = true;
+
+				// Open enc file handle for binary reading
+				$encHandle = $this->view->fopen($rawPath, 'rb');
+
+				// Disable proxy to prevent file being encrypted again
+				\OC_FileProxy::$enabled = false;
+
+				if ($encHandle === false) {
+					\OCP\Util::writeLog('Encryption library', 'couldn\'t open "' . $rawPath . '", decryption failed!', \OCP\Util::FATAL);
+					$successful = false;
+					continue;
+				}
+
+				// Open plain file handle for binary writing, with same filename as original plain file
+				$plainHandle = $this->view->fopen($rawPath . '.part', 'wb');
+				if ($plainHandle === false) {
+					\OCP\Util::writeLog('Encryption library', 'couldn\'t open "' . $rawPath . '.part", decryption failed!', \OCP\Util::FATAL);
+					$successful = false;
+					continue;
+				}
+
+				// Move plain file to a temporary location
+				$size = stream_copy_to_stream($encHandle, $plainHandle);
+				if ($size === 0) {
+					\OCP\Util::writeLog('Encryption library', 'Zero bytes copied of "' . $rawPath . '", decryption failed!', \OCP\Util::FATAL);
+					$successful = false;
+					continue;
+				}
+
+				fclose($encHandle);
+				fclose($plainHandle);
+
+				$fakeRoot = $this->view->getRoot();
+				$this->view->chroot('/' . $this->userId . '/files');
+
+				$this->view->rename($relPath . '.part', $relPath);
+
+				$this->view->chroot($fakeRoot);
+
+				//set timestamp
+				$this->view->touch($rawPath, $timestamp);
+
+				// Add the file to the cache
+				\OC\Files\Filesystem::putFileInfo($relPath, array(
+					'encrypted' => false,
+					'size' => $size,
+					'unencrypted_size' => $size,
+					'etag' => $fileInfo['etag']
+				));
+
+				$decryptedFiles[] = $relPath;
+
+			}
+
+			if ($versionStatus) {
+				\OC_App::enable('files_versions');
+			}
+
+			if (!$this->decryptVersions($decryptedFiles)) {
+				$successful = false;
+			}
+
+			if ($successful) {
+				$this->view->deleteAll($this->keyfilesPath);
+				$this->view->deleteAll($this->shareKeysPath);
+			}
+
+			\OC_FileProxy::$enabled = true;
+		}
+
+		return $successful;
+	}
+
+	/**
 	 * @brief Encrypt all files in a directory
 	 * @param string $dirPath the directory whose files will be encrypted
 	 * @param null $legacyPassphrase
@@ -672,13 +805,23 @@ class Util {
 	 */
 	public function encryptAll($dirPath, $legacyPassphrase = null, $newPassphrase = null) {
 
-		if ($found = $this->findEncFiles($dirPath)) {
+		$found = $this->findEncFiles($dirPath);
+
+		if ($found) {
 
 			// Disable proxy to prevent file being encrypted twice
 			\OC_FileProxy::$enabled = false;
 
+			$versionStatus = \OCP\App::isEnabled('files_versions');
+			\OC_App::disable('files_versions');
+
+			$encryptedFiles = array();
+
 			// Encrypt unencrypted files
 			foreach ($found['plain'] as $plainFile) {
+
+				//get file info
+				$fileInfo = \OC\Files\Filesystem::getFileInfo($plainFile['path']);
 
 				//relative to data/<user>/file
 				$relPath = $plainFile['path'];
@@ -686,16 +829,20 @@ class Util {
 				//relative to /data
 				$rawPath = '/' . $this->userId . '/files/' . $plainFile['path'];
 
+				// keep timestamp
+				$timestamp = $this->view->filemtime($rawPath);
+
 				// Open plain file handle for binary reading
 				$plainHandle = $this->view->fopen($rawPath, 'rb');
 
 				// Open enc file handle for binary writing, with same filename as original plain file
-				$encHandle = fopen('crypt://' . $relPath . '.part', 'wb');
+				$encHandle = fopen('crypt://' . $rawPath . '.part', 'wb');
 
 				// Move plain file to a temporary location
 				$size = stream_copy_to_stream($plainHandle, $encHandle);
 
 				fclose($encHandle);
+				fclose($plainHandle);
 
 				$fakeRoot = $this->view->getRoot();
 				$this->view->chroot('/' . $this->userId . '/files');
@@ -704,12 +851,19 @@ class Util {
 
 				$this->view->chroot($fakeRoot);
 
+				// set timestamp
+				$this->view->touch($rawPath, $timestamp);
+
 				// Add the file to the cache
 				\OC\Files\Filesystem::putFileInfo($relPath, array(
-																 'encrypted' => true,
-																 'size' => $size,
-																 'unencrypted_size' => $size
-															));
+					'encrypted' => true,
+					'size' => $size,
+					'unencrypted_size' => $size,
+					'etag' => $fileInfo['etag']
+				));
+
+				$encryptedFiles[] = $relPath;
+
 			}
 
 			// Encrypt legacy encrypted files
@@ -749,6 +903,12 @@ class Util {
 			}
 
 			\OC_FileProxy::$enabled = true;
+
+			if ($versionStatus) {
+				\OC_App::enable('files_versions');
+			}
+
+			$this->encryptVersions($encryptedFiles);
 
 			// If files were found, return true
 			return true;
@@ -878,46 +1038,22 @@ class Util {
 	}
 
 	/**
-	 * @brief Decrypt a keyfile without knowing how it was encrypted
+	 * @brief Decrypt a keyfile
 	 * @param string $filePath
-	 * @param string $fileOwner
 	 * @param string $privateKey
 	 * @return bool|string
-	 * @note Checks whether file was encrypted with openssl_seal or
-	 *       openssl_encrypt, and decrypts accrdingly
-	 * @note This was used when 2 types of encryption for keyfiles was used,
-	 *       but now we've switched to exclusively using openssl_seal()
 	 */
-	public function decryptUnknownKeyfile($filePath, $fileOwner, $privateKey) {
+	private function decryptKeyfile($filePath, $privateKey) {
 
 		// Get the encrypted keyfile
-		// NOTE: the keyfile format depends on how it was encrypted! At
-		// this stage we don't know how it was encrypted
 		$encKeyfile = Keymanager::getFileKey($this->view, $this->userId, $filePath);
 
-		// We need to decrypt the keyfile
-		// Has the file been shared yet?
-		if (
-			$this->userId === $fileOwner
-			&& !Keymanager::getShareKey($this->view, $this->userId, $filePath) // NOTE: we can't use isShared() here because it's a post share hook so it always returns true
-		) {
+		// The file has a shareKey and must use it for decryption
+		$shareKey = Keymanager::getShareKey($this->view, $this->userId, $filePath);
 
-			// The file has no shareKey, and its keyfile must be 
-			// decrypted conventionally
-			$plainKeyfile = Crypt::keyDecrypt($encKeyfile, $privateKey);
-
-
-		} else {
-
-			// The file has a shareKey and must use it for decryption
-			$shareKey = Keymanager::getShareKey($this->view, $this->userId, $filePath);
-
-			$plainKeyfile = Crypt::multiKeyDecrypt($encKeyfile, $shareKey, $privateKey);
-
-		}
+		$plainKeyfile = Crypt::multiKeyDecrypt($encKeyfile, $shareKey, $privateKey);
 
 		return $plainKeyfile;
-
 	}
 
 	/**
@@ -956,7 +1092,7 @@ class Util {
 		$fileOwner = \OC\Files\Filesystem::getOwner($filePath);
 
 		// Decrypt keyfile
-		$plainKeyfile = $this->decryptUnknownKeyfile($filePath, $fileOwner, $privateKey);
+		$plainKeyfile = $this->decryptKeyfile($filePath, $privateKey);
 
 		// Re-enc keyfile to (additional) sharekeys
 		$multiEncKey = Crypt::multiKeyEncrypt($plainKeyfile, $userPubKeys);
@@ -1012,7 +1148,7 @@ class Util {
 
 		}
 
-		// If recovery is enabled, add the 
+		// If recovery is enabled, add the
 		// Admin UID to list of users to share to
 		if ($recoveryEnabled) {
 			// Find recoveryAdmin user ID
@@ -1577,6 +1713,30 @@ class Util {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * @brief decrypt private key and add it to the current session
+	 * @param array $params with 'uid' and 'password'
+	 * @return mixed session or false
+	 */
+	public function initEncryption($params) {
+
+		$encryptedKey = Keymanager::getPrivateKey($this->view, $params['uid']);
+
+		$privateKey = Crypt::decryptPrivateKey($encryptedKey, $params['password']);
+
+		if ($privateKey === false) {
+			\OCP\Util::writeLog('Encryption library', 'Private key for user "' . $params['uid']
+					. '" is not valid! Maybe the user password was changed from outside if so please change it back to gain access', \OCP\Util::ERROR);
+			return false;
+		}
+
+		$session = new \OCA\Encryption\Session($this->view);
+
+		$session->setPrivateKey($privateKey);
+
+		return $session;
 	}
 
 }

@@ -137,7 +137,7 @@ class iRODS extends \OC\Files\Storage\StreamWrapper{
 	private function collectionMTime($path) {
 		$dh = $this->opendir($path);
 		$lastCTime = $this->filemtime($path);
-		while ($file = readdir($dh)) {
+		while (($file = readdir($dh)) !== false) {
 			if ($file != '.' and $file != '..') {
 				$time = $this->filemtime($file);
 				if ($time > $lastCTime) {

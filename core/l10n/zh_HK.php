@@ -28,7 +28,6 @@ $TRANSLATIONS = array(
 "last month" => "前一月",
 "_%n month ago_::_%n months ago_" => array(""),
 "months ago" => "個月之前",
-"Cancel" => "取消",
 "Yes" => "Yes",
 "No" => "No",
 "Ok" => "OK",
@@ -87,8 +86,6 @@ $TRANSLATIONS = array(
 "Lost your password?" => "忘記密碼",
 "remember" => "記住",
 "Log in" => "登入",
-"prev" => "前一步",
-"next" => "下一步",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud (ver. %s)更新中, 請耐心等侯"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

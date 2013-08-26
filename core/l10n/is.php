@@ -39,7 +39,6 @@ $TRANSLATIONS = array(
 "last year" => "síðasta ári",
 "years ago" => "einhverjum árum",
 "Choose" => "Veldu",
-"Cancel" => "Hætta við",
 "Yes" => "Já",
 "No" => "Nei",
 "Ok" => "Í lagi",
@@ -118,8 +117,6 @@ $TRANSLATIONS = array(
 "Lost your password?" => "Týndir þú lykilorðinu?",
 "remember" => "muna eftir mér",
 "Log in" => "<strong>Skrá inn</strong>",
-"prev" => "fyrra",
-"next" => "næsta",
 "Updating ownCloud to version %s, this may take a while." => "Uppfæri ownCloud í útgáfu %s, það gæti tekið smá stund."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

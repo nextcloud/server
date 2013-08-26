@@ -198,7 +198,7 @@ FileActions.register('all', 'Rename', OC.PERMISSION_UPDATE, function () {
 
 
 FileActions.register('dir', 'Open', OC.PERMISSION_READ, '', function (filename) {
-	var dir = $('#dir').val()
+	var dir = $('#dir').val();
 	if (dir !== '/') {
 		dir = dir + '/';
 	}

@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "last year" => "lansko leto",
 "years ago" => "let nazaj",
 "Choose" => "Izbor",
-"Cancel" => "Prekliči",
 "Error loading file picker template" => "Napaka pri nalaganju predloge za izbor dokumenta",
 "Yes" => "Da",
 "No" => "Ne",
@@ -134,8 +133,6 @@ $TRANSLATIONS = array(
 "Log in" => "Prijava",
 "Alternative Logins" => "Druge prijavne možnosti",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Pozdravljen/a,<br><br>sporočam, da je %s delil »%s« s teboj.<br><a href=\"%s\">Poglej vsebine!</a><br><br>Lep pozdrav!",
-"prev" => "nazaj",
-"next" => "naprej",
 "Updating ownCloud to version %s, this may take a while." => "Posodabljanje sistema ownCloud na različico %s je lahko dolgotrajno."
 );
 $PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

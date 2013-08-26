@@ -93,14 +93,18 @@ class OC_Mount_Config {
 				'root' => '&Root',
 				'secure' => '!Secure ftps://'));
 
-		if(OC_Mount_Config::checksmbclient()) $backends['\OC\Files\Storage\SMB']=array(
-			'backend' => 'SMB / CIFS',
-			'configuration' => array(
-				'host' => 'URL',
-				'user' => 'Username',
-				'password' => '*Password',
-				'share' => 'Share',
-				'root' => '&Root'));
+		if (!OC_Util::runningOnWindows()) {
+			if (OC_Mount_Config::checksmbclient()) {
+				$backends['\OC\Files\Storage\SMB'] = array(
+					'backend' => 'SMB / CIFS',
+					'configuration' => array(
+						'host' => 'URL',
+						'user' => 'Username',
+						'password' => '*Password',
+						'share' => 'Share',
+						'root' => '&Root'));
+			}
+		}
 
 		if(OC_Mount_Config::checkcurl()) $backends['\OC\Files\Storage\DAV']=array(
 			'backend' => 'ownCloud / WebDAV',
@@ -414,9 +418,9 @@ class OC_Mount_Config {
 	public static function checksmbclient() {
 		if(function_exists('shell_exec')) {
 			$output=shell_exec('which smbclient');
-			return (empty($output)?false:true);
+			return !empty($output);
 		}else{
-			return(false);
+			return false;
 		}
 	}
 
@@ -425,9 +429,9 @@ class OC_Mount_Config {
 	 */
 	public static function checkphpftp() {
 		if(function_exists('ftp_login')) {
-			return(true);
+			return true;
 		}else{
-			return(false);
+			return false;
 		}
 	}
 
@@ -435,7 +439,7 @@ class OC_Mount_Config {
 	 * check if curl is installed
 	 */
 	public static function checkcurl() {
-		return (function_exists('curl_init'));
+		return function_exists('curl_init');
 	}
 
 	/**
@@ -444,8 +448,10 @@ class OC_Mount_Config {
 	public static function checkDependencies() {
 		$l= new OC_L10N('files_external');
 		$txt='';
-		if(!OC_Mount_Config::checksmbclient()) {
-			$txt.=$l->t('<b>Warning:</b> "smbclient" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it.').'<br />';
+		if (!OC_Util::runningOnWindows()) {
+			if(!OC_Mount_Config::checksmbclient()) {
+				$txt.=$l->t('<b>Warning:</b> "smbclient" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it.').'<br />';
+			}
 		}
 		if(!OC_Mount_Config::checkphpftp()) {
 			$txt.=$l->t('<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it.').'<br />';
@@ -454,6 +460,6 @@ class OC_Mount_Config {
 			$txt.=$l->t('<b>Warning:</b> The Curl support in PHP is not enabled or installed. Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask your system administrator to install it.').'<br />';
 		}
 
-		return($txt);
+		return $txt;
 	}
 }

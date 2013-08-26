@@ -35,8 +35,9 @@ OC.Log={
 		$('#moreLog').show();
 		// remove all non-remaining items
 		$('#log tr').slice(OC.Log.loaded).remove();
-		if(OC.Log.loaded <= 3)
+		if(OC.Log.loaded <= 3) {
 			$('#lessLog').hide();
+		}
 	},
 	addEntries:function(entries){
 		for(var i=0;i<entries.length;i++){
