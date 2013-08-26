@@ -749,7 +749,7 @@ div.crumb:active {
 
 /* special rules for first-level entries and folders */
 #app-navigation > ul > li {
-	background-color: #eee;
+	background-color: #f8f8f8;
 }
 
 #app-navigation .with-icon a {
@@ -868,6 +868,10 @@ div.crumb:active {
 }
 #app-navigation .error {
 	color: #dd1144;
+}
+
+#app-navigation .app-navigation-separator {
+	border-bottom: 1px solid #ddd;
 }
 
 
