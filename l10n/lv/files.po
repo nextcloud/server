@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:06+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-23 20:15-0400\n"
+"PO-Revision-Date: 2013-08-23 14:10+0000\n"
+"Last-Translator: stendec <stendec@inbox.lv>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -100,15 +100,15 @@ msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Notiek augšupielāde. Pametot lapu tagad, tiks atcelta augšupielāde."
 
-#: js/file-upload.js:233 js/files.js:353
+#: js/file-upload.js:234 js/files.js:353
 msgid "URL cannot be empty."
 msgstr "URL nevar būt tukšs."
 
-#: js/file-upload.js:238 lib/app.php:53
+#: js/file-upload.js:239 lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
 msgstr "Kļūdains mapes nosaukums. 'Shared' lietošana ir rezervēta no ownCloud"
 
-#: js/file-upload.js:269 js/file-upload.js:285 js/files.js:389 js/files.js:405
+#: js/file-upload.js:270 js/file-upload.js:286 js/files.js:389 js/files.js:405
 #: js/files.js:709 js/files.js:747
 msgid "Error"
 msgstr "Kļūda"
@@ -190,7 +190,7 @@ msgstr "Jūsu krātuve ir gandrīz pilna ({usedSpacePercent}%)"
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
-msgstr ""
+msgstr "Šifrēšana tika atslēgta, tomēr jūsu faili joprojām ir šifrēti. Atšifrēt failus var Personiskajos uzstādījumos."
 
 #: js/files.js:245
 msgid ""

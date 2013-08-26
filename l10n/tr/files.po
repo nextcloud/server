@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# alicanbatur <alicanbatur@hotmail.com>, 2013
 # ismail yenigül <ismail.yenigul@surgate.com>, 2013
 # tridinebandim, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-23 20:15-0400\n"
+"PO-Revision-Date: 2013-08-22 16:50+0000\n"
+"Last-Translator: alicanbatur <alicanbatur@hotmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -101,15 +102,15 @@ msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Dosya yükleme işlemi sürüyor. Şimdi sayfadan ayrılırsanız işleminiz iptal olur."
 
-#: js/file-upload.js:233 js/files.js:353
+#: js/file-upload.js:234 js/files.js:353
 msgid "URL cannot be empty."
 msgstr "URL boş olamaz."
 
-#: js/file-upload.js:238 lib/app.php:53
+#: js/file-upload.js:239 lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
 msgstr "Geçersiz dizin adı. 'Shared' dizin ismi kullanımı ownCloud tarafından rezerve edilmiştir."
 
-#: js/file-upload.js:269 js/file-upload.js:285 js/files.js:389 js/files.js:405
+#: js/file-upload.js:270 js/file-upload.js:286 js/files.js:389 js/files.js:405
 #: js/files.js:709 js/files.js:747
 msgid "Error"
 msgstr "Hata"
@@ -190,7 +191,7 @@ msgstr "Depolama alanınız neredeyse dolu ({usedSpacePercent}%)"
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
-msgstr ""
+msgstr "Şifreleme işlemi durduruldu ancak dosyalarınız şifreli. Dosyalarınızın şifresini kaldırmak için lütfen kişisel ayarlar kısmına geçiniz."
 
 #: js/files.js:245
 msgid ""

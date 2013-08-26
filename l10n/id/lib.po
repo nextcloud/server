@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:07+0000\n"
+"POT-Creation-Date: 2013-08-25 19:18-0400\n"
+"PO-Revision-Date: 2013-08-25 23:18+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -17,27 +17,38 @@ msgstr ""
 "Language: id\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: app.php:360
+#: app.php:239
+#, php-format
+msgid ""
+"App \"%s\" can't be installed because it is not compatible with this version"
+" of ownCloud."
+msgstr ""
+
+#: app.php:250
+msgid "No app name specified"
+msgstr ""
+
+#: app.php:361
 msgid "Help"
 msgstr "Bantuan"
 
-#: app.php:373
+#: app.php:374
 msgid "Personal"
 msgstr "Pribadi"
 
-#: app.php:384
+#: app.php:385
 msgid "Settings"
 msgstr "Setelan"
 
-#: app.php:396
+#: app.php:397
 msgid "Users"
 msgstr "Pengguna"
 
-#: app.php:409
+#: app.php:410
 msgid "Admin"
 msgstr "Admin"
 
-#: app.php:836
+#: app.php:837
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
@@ -71,6 +82,62 @@ msgstr "Berkas yang dipilih terlalu besar untuk dibuat berkas zip-nya."
 msgid ""
 "Download the files in smaller chunks, seperately or kindly ask your "
 "administrator."
+msgstr ""
+
+#: installer.php:63
+msgid "No source specified when installing app"
+msgstr ""
+
+#: installer.php:70
+msgid "No href specified when installing app from http"
+msgstr ""
+
+#: installer.php:75
+msgid "No path specified when installing app from local file"
+msgstr ""
+
+#: installer.php:89
+#, php-format
+msgid "Archives of type %s are not supported"
+msgstr ""
+
+#: installer.php:103
+msgid "Failed to open archive when installing app"
+msgstr ""
+
+#: installer.php:123
+msgid "App does not provide an info.xml file"
+msgstr ""
+
+#: installer.php:129
+msgid "App can't be installed because of not allowed code in the App"
+msgstr ""
+
+#: installer.php:138
+msgid ""
+"App can't be installed because it is not compatible with this version of "
+"ownCloud"
+msgstr ""
+
+#: installer.php:144
+msgid ""
+"App can't be installed because it contains the <shipped>true</shipped> tag "
+"which is not allowed for non shipped apps"
+msgstr ""
+
+#: installer.php:150
+msgid ""
+"App can't be installed because the version in info.xml/version is not the "
+"same as the version reported from the app store"
+msgstr ""
+
+#: installer.php:160
+msgid "App directory already exists"
+msgstr ""
+
+#: installer.php:173
+#, php-format
+msgid "Can't create app folder. Please fix permissions. %s"
 msgstr ""
 
 #: json.php:28

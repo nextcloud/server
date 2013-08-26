@@ -39,6 +39,7 @@ $TRANSLATIONS = array(
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nederīgs nosaukums, nav atļauti '\\', '/', '<', '>', ':', '\"', '|', '?' un '*'.",
 "Your storage is full, files can not be updated or synced anymore!" => "Jūsu krātuve ir pilna, datnes vairs nevar augšupielādēt vai sinhronizēt!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Jūsu krātuve ir gandrīz pilna ({usedSpacePercent}%)",
+"Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Šifrēšana tika atslēgta, tomēr jūsu faili joprojām ir šifrēti. Atšifrēt failus var Personiskajos uzstādījumos.",
 "Your download is being prepared. This might take some time if the files are big." => "Tiek sagatavota lejupielāde. Tas var aizņemt kādu laiciņu, ja datnes ir lielas.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Nederīgs mapes nosaukums. “Koplietots” izmantojums ir rezervēts ownCloud servisam.",
 "Name" => "Nosaukums",
