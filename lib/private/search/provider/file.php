@@ -22,38 +22,39 @@ namespace OC\Search\Provider;
 /**
  * Provide search results from the 'files' app
  */
-class File extends \OC\Search\Provider{
-    
-        /**
-         * Search for files and folders matching the given query
-         * @param string $query
-         * @return \OC\Search\Result
-         */
-        function search($query) {
-            $files = \OC\Files\Filesystem::search($query);
-            $results = array();
-            // edit results
-            foreach ($files as $fileData) {
-                // skip versions
-                if (strpos($fileData['path'], '_versions') === 0) {
-                    continue;
-                }
-                // skip top-level folder
-                if ($fileData['name'] == 'files' && $fileData['parent'] == -1) {
-                    continue;
-                }
-                // create folder result
-                if($fileData['mimetype'] == 'httpd/unix-directory'){
-                    $result = new \OC\Search\Result\Folder($fileData);
-                }
-                // or create file result
-                else{
-                    $result = new \OC\Search\Result\File($fileData);
-                }
-                // add to results
-                $results[] = $result;
-            }
-            // return
-            return $results;
-        }
+class File extends \OC\Search\Provider {
+
+	/**
+	 * Search for files and folders matching the given query
+	 * @param string $query
+	 * @return \OC\Search\Result
+	 */
+	function search($query) {
+		$files = \OC\Files\Filesystem::search($query);
+		$results = array();
+		// edit results
+		foreach ($files as $fileData) {
+			// skip versions
+			if (strpos($fileData['path'], '_versions') === 0) {
+				continue;
+			}
+			// skip top-level folder
+			if ($fileData['name'] === 'files' && $fileData['parent'] === -1) {
+				continue;
+			}
+			// create folder result
+			if($fileData['mimetype'] === 'httpd/unix-directory'){
+				$result = new \OC\Search\Result\Folder($fileData);
+			}
+			// or create file result
+			else{
+				$result = new \OC\Search\Result\File($fileData);
+			}
+			// add to results
+			$results[] = $result;
+		}
+		// return
+		return $results;
+	}
+	
 }

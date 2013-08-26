@@ -24,42 +24,42 @@ namespace OC\Search;
  */
 abstract class Result {
 
-    /**
-     * A unique identifier for the result, usually given as the item ID in its
-     * corresponding application.
-     * @var string
-     */
-    public $id;
+	/**
+	 * A unique identifier for the result, usually given as the item ID in its
+	 * corresponding application.
+	 * @var string
+	 */
+	public $id;
 
-    /**
-     * The name of the item returned; this will be displayed in the search
-     * results.
-     * @var string
-     */
-    public $name;
+	/**
+	 * The name of the item returned; this will be displayed in the search
+	 * results.
+	 * @var string
+	 */
+	public $name;
 
-    /**
-     * URL to the application item.
-     * @var string
-     */
-    public $link;
-    
-    /**
-     * The type of search result returned; for consistency, name this the same
-     * as the class name (e.g. \OC\Search\File -> 'file') in lowercase. 
-     * @var string
-     */
-    public $type = 'generic';
+	/**
+	 * URL to the application item.
+	 * @var string
+	 */
+	public $link;
 
-    /**
-     * Create a new search result
-     * @param string $id unique identifier from application: '[app_name]/[item_identifier_in_app]'
-     * @param string $name displayed text of result
-     * @param string $link URL to the result within its app
-     */
-    public function __construct($id = null, $name = null, $link = null) {
-        $this->id = $id;
-        $this->name = $name;
-        $this->link = $link;
-    }
+	/**
+	 * The type of search result returned; for consistency, name this the same
+	 * as the class name (e.g. \OC\Search\File -> 'file') in lowercase. 
+	 * @var string
+	 */
+	public $type = 'generic';
+
+	/**
+	 * Create a new search result
+	 * @param string $id unique identifier from application: '[app_name]/[item_identifier_in_app]'
+	 * @param string $name displayed text of result
+	 * @param string $link URL to the result within its app
+	 */
+	public function __construct($id = null, $name = null, $link = null) {
+		$this->id = $id;
+		$this->name = $name;
+		$this->link = $link;
+	}
 }

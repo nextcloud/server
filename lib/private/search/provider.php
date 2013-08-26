@@ -24,24 +24,24 @@ namespace OC\Search;
  */
 abstract class Provider {
 
-    /**
-     * List of options (currently unused)
-     * @var array
-     */
-    private $options;
+	/**
+	 * List of options (currently unused)
+	 * @var array
+	 */
+	private $options;
 
-    /**
-     * Constructor
-     * @param array $options
-     */
-    public function __construct($options) {
-        $this->options = $options;
-    }
+	/**
+	 * Constructor
+	 * @param array $options
+	 */
+	public function __construct($options) {
+		$this->options = $options;
+	}
 
-    /**
-     * Search for $query
-     * @param string $query
-     * @return array An array of OC\Search\Result's
-     */
-    abstract public function search($query);
+	/**
+	 * Search for $query
+	 * @param string $query
+	 * @return array An array of OC\Search\Result's
+	 */
+	abstract public function search($query);
 }

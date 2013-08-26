@@ -17,6 +17,6 @@
  *
  */
 
-class OC_Search_Result extends \OC\Search\Result{
-    
+class OC_Search_Result extends \OC\Search\Result {
+
 }

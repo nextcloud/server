@@ -25,7 +25,7 @@ namespace OC;
 /**
  * Provide an interface to all search providers
  */
-class Search{
+class Search {
 
 	static private $providers=array();
 	static private $registeredProviders=array();
@@ -58,10 +58,10 @@ class Search{
 	 */
 	public static function removeProvider($provider) {
 		self::$registeredProviders = array_filter(
-				self::$registeredProviders,
-				function ($element) use ($provider) {
-					return ($element['class'] != $provider);
-				}
+			self::$registeredProviders,
+			function ($element) use ($provider) {
+				return ($element['class'] != $provider);
+			}
 		);
 		// force regeneration of providers on next search
 		self::$providers=array();
@@ -88,4 +88,5 @@ class Search{
 			self::$providers[]=new $class($options);
 		}
 	}
+
 }

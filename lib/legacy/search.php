@@ -25,13 +25,13 @@
  * provides an interface to all search providers
  * @deprecated see lib/search.php
  */
-class OC_Search{
+class OC_Search {
 	static private $providers=array();
 	static private $registeredProviders=array();
 
 	/**
 	 * remove all registered search providers
-         * @deprecated see lib/search.php
+	 * @deprecated see lib/search.php
 	 */
 	public static function clearProviders() {
 		return \OC\Search::clearProviders();
@@ -40,7 +40,7 @@ class OC_Search{
 	/**
 	 * register a new search provider to be used
 	 * @param string $provider class name of a OC_Search_Provider
-         * @deprecated see lib/search.php
+	 * @deprecated see lib/search.php
 	 */
 	public static function registerProvider($class, $options=array()) {
 		return \OC\Search::registerProvider($class, $options);
@@ -50,7 +50,7 @@ class OC_Search{
 	 * search all provider for $query
 	 * @param string query
 	 * @return array An array of OC_Search_Result's
-         * @deprecated see lib/search.php
+	 * @deprecated see lib/search.php
 	 */
 	public static function search($query) {
 		return \OC\Search::search($query);
@@ -59,9 +59,10 @@ class OC_Search{
 	/**
 	 * remove an existing search provider
 	 * @param string $provider class name of a OC_Search_Provider
-         * @deprecated see lib/search.php
+	 * @deprecated see lib/search.php
 	 */
 	public static function removeProvider($provider) {
 		return \OC\Search::removeProvider($provider);
 	}
+
 }
