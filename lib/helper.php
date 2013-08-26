@@ -841,9 +841,12 @@ class OC_Helper {
 	}
 
 	/**
-	 * Calculate the disc space
+	 * Calculate the disc space for the given path
+	 *
+	 * @param string $path
+	 * @return array
 	 */
-	public static function getStorageInfo($path = '/') {
+	public static function getStorageInfo($path) {
 		$rootInfo = \OC\Files\Filesystem::getFileInfo($path);
 		$used = $rootInfo['size'];
 		if ($used < 0) {
