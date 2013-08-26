@@ -17,7 +17,7 @@ OC_Util::addScript( '3rdparty', 'chosen/chosen.jquery.min' );
 OC_Util::addStyle( '3rdparty', 'chosen' );
 OC_App::setActiveNavigationEntry( 'personal' );
 
-$storageInfo=OC_Helper::getStorageInfo();
+$storageInfo=OC_Helper::getStorageInfo('/');
 
 $email=OC_Preferences::getValue(OC_User::getUser(), 'settings', 'email', '');
 
