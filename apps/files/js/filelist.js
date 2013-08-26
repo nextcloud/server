@@ -17,7 +17,8 @@ var FileList={
 			"class": "filename",
 			"style": 'background-image:url('+iconurl+'); background-size: 32px;'
 		});
-		td.append('<input id="select-"'+name+'" type="checkbox" /><label for="select-"'+name+'"></label>');
+		var rand = Math.random().toString(16).slice(2);
+		td.append('<input id="select-'+rand+'" type="checkbox" /><label for="select-'+rand+'"></label>');
 		var link_elem = $('<a></a>').attr({
 			"class": "name",
 			"href": linktarget
