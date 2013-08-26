@@ -11,4 +11,8 @@ namespace OCP\Core;
  */
 interface IServerContainer {
 
+	/**
+	 * @return \OCP\Core\Contacts\IManager
+	 */
+	function getContactsManager();
 }

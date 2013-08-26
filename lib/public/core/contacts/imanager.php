@@ -3,7 +3,7 @@
  * ownCloud
  *
  * @author Thomas Müller
- * @copyright 2012 Thomas Müller thomas.mueller@tmit.eu
+ * @copyright 2013 Thomas Müller thomas.mueller@tmit.eu
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -28,7 +28,7 @@
 
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
-namespace OCP {
+namespace OCP\Core\Contacts {
 
 	/**
 	 * This class provides access to the contacts app. Use this class exclusively if you want to access contacts.
@@ -45,7 +45,7 @@ namespace OCP {
 	 * Without an id a new contact will be created.
 	 *
 	 */
-	class Contacts {
+	interface IManager {
 
 		/**
 		 * This function is used to search and find contacts within the users address books.
@@ -55,12 +55,13 @@ namespace OCP {
 		 *  Following function shows how to search for contacts for the name and the email address.
 		 *
 		 *		public static function getMatchingRecipient($term) {
+		 *			$cm = \OC:$server->getContactsManager();
 		 *			// The API is not active -> nothing to do
-		 *			if (!\OCP\Contacts::isEnabled()) {
+		 *			if (!$cm->isEnabled()) {
 		 *				return array();
 		 *			}
 		 *
-		 *			$result = \OCP\Contacts::search($term, array('FN', 'EMAIL'));
+		 *			$result = $cm->search($term, array('FN', 'EMAIL'));
 		 *			$receivers = array();
 		 *			foreach ($result as $r) {
 		 *				$id = $r['id'];
@@ -89,10 +90,7 @@ namespace OCP {
 		 * @param array $options - for future use. One should always have options!
 		 * @return array of contacts which are arrays of key-value-pairs
 		 */
-		public static function search($pattern, $searchProperties = array(), $options = array()) {
-			$cm = \OC::$server->getContactsManager();
-			return $cm->search($pattern, $searchProperties, $options);
-		}
+		function search($pattern, $searchProperties = array(), $options = array());
 
 		/**
 		 * This function can be used to delete the contact identified by the given id
@@ -101,10 +99,7 @@ namespace OCP {
 		 * @param $address_book_key
 		 * @return bool successful or not
 		 */
-		public static function delete($id, $address_book_key) {
-			$cm = \OC::$server->getContactsManager();
-			return $cm->delete($id, $address_book_key);
-		}
+		function delete($id, $address_book_key);
 
 		/**
 		 * This function is used to create a new contact if 'id' is not given or not present.
@@ -114,51 +109,42 @@ namespace OCP {
 		 * @param $address_book_key string to identify the address book in which the contact shall be created or updated
 		 * @return array representing the contact just created or updated
 		 */
-		public static function createOrUpdate($properties, $address_book_key) {
-			$cm = \OC::$server->getContactsManager();
-			return $cm->search($properties, $address_book_key);
-		}
+		function createOrUpdate($properties, $address_book_key);
 
 		/**
 		 * Check if contacts are available (e.g. contacts app enabled)
 		 *
 		 * @return bool true if enabled, false if not
 		 */
-		public static function isEnabled() {
-			$cm = \OC::$server->getContactsManager();
-			return $cm->isEnabled();
-		}
+		function isEnabled();
 
 		/**
 		 * @param \OCP\IAddressBook $address_book
 		 */
-		public static function registerAddressBook(\OCP\IAddressBook $address_book) {
-			$cm = \OC::$server->getContactsManager();
-			return $cm->registerAddressBook($address_book);
-		}
+		function registerAddressBook(\OCP\IAddressBook $address_book);
 
 		/**
 		 * @param \OCP\IAddressBook $address_book
 		 */
-		public static function unregisterAddressBook(\OCP\IAddressBook $address_book) {
-			$cm = \OC::$server->getContactsManager();
-			return $cm->unregisterAddressBook($address_book);
-		}
+		function unregisterAddressBook(\OCP\IAddressBook $address_book);
+
+		/**
+		 * In order to improve lazy loading a closure can be registered which will be called in case
+		 * address books are actually requested
+		 *
+		 * @param string $key
+		 * @param \Closure $callable
+		 */
+		function register($key, \Closure $callable);
 
 		/**
 		 * @return array
 		 */
-		public static function getAddressBooks() {
-			$cm = \OC::$server->getContactsManager();
-			return $cm->getAddressBooks();
-		}
+		function getAddressBooks();
 
 		/**
 		 * removes all registered address book instances
 		 */
-		public static function clear() {
-			$cm = \OC::$server->getContactsManager();
-			$cm->clear();
-		}
+		function clear();
 	}
 }
