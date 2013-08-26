@@ -277,7 +277,7 @@ class Helper {
 
 	/**
 	 * Create an openssl pkey with config-supplied settings
-	 * WARNING: This initializes and caches a new private keypair, which is computationally expensive
+	 * WARNING: This initializes a new private keypair, which is computationally expensive
 	 * @return resource The pkey resource created
 	 */
 	public static function getOpenSSLPkey() {
