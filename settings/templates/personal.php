@@ -74,9 +74,6 @@ if($_['passwordChangeSupported']) {
 		<input type="text" name="email" id="email" value="<?php p($_['email']); ?>"
 			placeholder="<?php p($l->t('Your email address'));?>" /><span class="msg"></span><br />
 		<em><?php p($l->t('Fill in an email address to enable password recovery'));?></em>
-		<?php if($_['avatar'] === "gravatar") {
-			print_unescaped($l->t('<br><em>Your Email will be used for your gravatar<em>'));
-		} ?>
 	</fieldset>
 </form>
 <?php

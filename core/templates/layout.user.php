@@ -46,7 +46,7 @@
 				src="<?php print_unescaped(image_path('', 'logo-wide.svg')); ?>" alt="<?php p($theme->getName()); ?>" /></a>
 			<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 
-			<?php if (isset($_['avatar'])) { print_unescaped($_['avatar']); } ?>
+			<?php print_unescaped($_['avatar']); ?>
 
 			<ul id="settings" class="svg">
 				<span id="expand" tabindex="0" role="link">
