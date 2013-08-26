@@ -843,7 +843,9 @@ function lazyLoadPreview(path, mime, ready) {
 	var y = $('#filestable').data('preview-y');
 	var previewURL = OC.Router.generate('core_ajax_preview', {file: encodeURIComponent(path), x:x, y:y});
 	$.get(previewURL, function() {
-		ready(previewURL);
+		previewURL = previewURL.replace('(','%28');
+		previewURL = previewURL.replace(')','%29');
+		ready(previewURL + '&reload=true');
 	});
 }
 
