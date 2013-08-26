@@ -40,9 +40,6 @@ class OC_Connector_Sabre_QuotaPlugin extends Sabre_DAV_ServerPlugin {
 
 		$server->subscribeEvent('beforeWriteContent', array($this, 'checkQuota'), 10);
 		$server->subscribeEvent('beforeCreateFile', array($this, 'checkQuota'), 10);
-
-		// initialize fileView
-		$this->fileView = \OC\Files\Filesystem::getView();
 	}
 
 	/**
@@ -59,7 +56,7 @@ class OC_Connector_Sabre_QuotaPlugin extends Sabre_DAV_ServerPlugin {
 				$uri='/'.$uri;
 			}
 			list($parentUri, $newName) = Sabre_DAV_URLUtil::splitPath($uri);
-			$freeSpace = $this->fileView->free_space($parentUri);
+			$freeSpace = $this->getFreeSpace($parentUri);
 			if ($freeSpace !== \OC\Files\SPACE_UNKNOWN && $length > $freeSpace) {
 				throw new Sabre_DAV_Exception_InsufficientStorage();
 			}
@@ -81,5 +78,20 @@ class OC_Connector_Sabre_QuotaPlugin extends Sabre_DAV_ServerPlugin {
 		}
 
 		return $length;
+	}
+
+	/**
+	 * @param $parentUri
+	 * @return mixed
+	 */
+	public function getFreeSpace($parentUri)
+	{
+		if (is_null($this->fileView)) {
+			// initialize fileView
+			$this->fileView = \OC\Files\Filesystem::getView();
+		}
+
+		$freeSpace = $this->fileView->free_space($parentUri);
+		return $freeSpace;
 	}
 }
