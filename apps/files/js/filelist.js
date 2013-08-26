@@ -15,7 +15,7 @@ var FileList={
 		// filename td
 		td = $('<td></td>').attr({
 			"class": "filename",
-			"style": 'background-image:url('+iconurl+'); background-size: 16px;'
+			"style": 'background-image:url('+iconurl+'); background-size: 32px;'
 		});
 		td.append('<input id="select-"'+name+'" type="checkbox" /><label for="select-"'+name+'"></label>');
 		var link_elem = $('<a></a>').attr({
