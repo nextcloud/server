@@ -1292,7 +1292,7 @@ class Util {
 		$pathinfo = pathinfo($path);
 		$partfile = false;
 		$parentFolder = false;
-		if ($pathinfo['extension'] === 'part') {
+		if (array_key_exists('extension', $pathinfo) && $pathinfo['extension'] === 'part') {
 			// if the real file exists we check this file
 			if ($this->view->file_exists($this->userFilesDir . '/' . $pathinfo['dirname'] . '/' . $pathinfo['filename'])) {
 				$pathToCheck = $pathinfo['dirname'] . '/' . $pathinfo['filename'];
