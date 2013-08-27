@@ -218,8 +218,10 @@ var FileList={
 		if(typeof(result.data.breadcrumb) != 'undefined'){
 			$controls.find('.crumb').remove();
 			$controls.prepend(result.data.breadcrumb);
-			// TODO: might need refactor breadcrumb code into a new file
-			//resizeBreadcrumbs(true);
+
+			var width = $(window).width();
+			Files.initBreadCrumbs();
+			Files.resizeBreadcrumbs(width, true);
 
 			// in case svg is not supported by the browser we need to execute the fallback mechanism
 			if(!SVGSupport()) {
