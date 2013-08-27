@@ -362,7 +362,11 @@ class Shared extends \OC\Files\Storage\Common {
 				case 'xb':
 				case 'a':
 				case 'ab':
-					if (!$this->isUpdatable($path)) {
+					$exists = $this->file_exists($path);
+					if ($exists && !$this->isUpdatable($path)) {
+						return false;
+					}
+					if (!$exists && !$this->isCreatable(dirname($path))) {
 						return false;
 					}
 			}
