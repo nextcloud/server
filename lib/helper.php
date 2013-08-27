@@ -858,10 +858,8 @@ class OC_Helper {
 		} else {
 			$total = $free; //either unknown or unlimited
 		}
-		if ($total == 0) {
-			$total = 1; // prevent division by zero
-		}
-		if ($total >= 0) {
+		if ($total > 0) {
+			// prevent division by zero or error codes (negative values)
 			$relative = round(($used / $total) * 10000) / 100;
 		} else {
 			$relative = 0;
