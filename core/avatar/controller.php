@@ -6,11 +6,12 @@
  * See the COPYING-README file.
  */
 
-class CoreAvatarController {
+class OC_Core_Avatar_Controller {
 	public static function getAvatar($args) {
 		if (!\OC_User::isLoggedIn()) {
+			$l = new \OC_L10n('core');
 			header("HTTP/1.0 403 Forbidden");
-			\OC_Template::printErrorPage("Permission denied");
+			\OC_Template::printErrorPage($l->t("Permission denied"));
 			return;
 		}
 

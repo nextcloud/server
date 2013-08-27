@@ -58,24 +58,23 @@ $this->create('core_lostpassword_reset_password', '/lostpassword/reset/{token}/{
 	->action('OC_Core_LostPassword_Controller', 'resetPassword');
 
 // Avatar routes
-OC::$CLASSPATH['CoreAvatarController'] = 'core/avatar/controller.php';
 $this->create('core_avatar_get', '/avatar/{user}/{size}')
 	->defaults(array('user' => '', 'size' => 64))
 	->get()
-	->action('CoreAvatarController', 'getAvatar');
+	->action('OC_Core_Avatar_Controller', 'getAvatar');
 $this->create('core_avatar_post', '/avatar/')
 	->post()
-	->action('CoreAvatarController', 'postAvatar');
+	->action('OC_Core_Avatar_Controller', 'postAvatar');
 $this->create('core_avatar_delete', '/avatar/')
 	->delete()
-	->action('CoreAvatarController', 'deleteAvatar');
+	->action('OC_Core_Avatar_Controller', 'deleteAvatar');
 $this->create('core_avatar_get_tmp', '/avatar/tmp/{size}')
 	->defaults(array('size' => 64))
 	->get()
-	->action('CoreAvatarController', 'getTmpAvatar');
+	->action('OC_Core_Avatar_Controller', 'getTmpAvatar');
 $this->create('core_avatar_post_cropped', '/avatar/cropped')
 	->post()
-	->action('CoreAvatarController', 'postCroppedAvatar');
+	->action('OC_Core_Avatar_Controller', 'postCroppedAvatar');
 
 // Not specifically routed
 $this->create('app_css', '/apps/{app}/{file}')
