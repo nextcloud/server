@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-25 19:18-0400\n"
-"PO-Revision-Date: 2013-08-25 23:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-27 11:18-0400\n"
+"PO-Revision-Date: 2013-08-26 06:20+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr ""
+msgstr "Sovellusta \"%s\" ei voi asentaa, koska se ei ole yhteensopiva käytössä olevan ownCloud-version kanssa."
 
 #: app.php:250
 msgid "No app name specified"
@@ -87,7 +87,7 @@ msgstr ""
 
 #: installer.php:63
 msgid "No source specified when installing app"
-msgstr ""
+msgstr "Lähdettä ei määritelty sovellusta asennettaessa"
 
 #: installer.php:70
 msgid "No href specified when installing app from http"
@@ -95,12 +95,12 @@ msgstr ""
 
 #: installer.php:75
 msgid "No path specified when installing app from local file"
-msgstr ""
+msgstr "Polkua ei määritelty sovellusta asennettaessa paikallisesta tiedostosta"
 
 #: installer.php:89
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr ""
+msgstr "Tyypin %s arkistot eivät ole tuettuja"
 
 #: installer.php:103
 msgid "Failed to open archive when installing app"
@@ -108,7 +108,7 @@ msgstr ""
 
 #: installer.php:123
 msgid "App does not provide an info.xml file"
-msgstr ""
+msgstr "Sovellus ei sisällä info.xml-tiedostoa"
 
 #: installer.php:129
 msgid "App can't be installed because of not allowed code in the App"
@@ -134,12 +134,12 @@ msgstr ""
 
 #: installer.php:160
 msgid "App directory already exists"
-msgstr ""
+msgstr "Sovelluskansio on jo olemassa"
 
 #: installer.php:173
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr ""
+msgstr "Sovelluskansion luominen ei onnistu. Korjaa käyttöoikeudet. %s"
 
 #: json.php:28
 msgid "Application is not enabled"

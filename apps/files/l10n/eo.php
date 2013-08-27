@@ -38,7 +38,6 @@ $TRANSLATIONS = array(
 "Your storage is full, files can not be updated or synced anymore!" => "Via memoro plenas, ne plu eblas ĝisdatigi aŭ sinkronigi dosierojn!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Via memoro preskaŭ plenas ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "Via elŝuto pretiĝatas. Ĉi tio povas daŭri iom da tempo se la dosieroj grandas.",
-"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Nevalida dosierujnomo. Uzo de “Shared” rezervatas de Owncloud.",
 "Name" => "Nomo",
 "Size" => "Grando",
 "Modified" => "Modifita",

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-25 19:18-0400\n"
-"PO-Revision-Date: 2013-08-25 23:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-27 11:18-0400\n"
+"PO-Revision-Date: 2013-08-26 12:50+0000\n"
+"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,11 +23,11 @@ msgstr ""
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr ""
+msgstr "O aplicativo \"%s\" não pode ser instalado porque não é compatível com esta versão do ownCloud."
 
 #: app.php:250
 msgid "No app name specified"
-msgstr ""
+msgstr "O nome do aplicativo não foi especificado."
 
 #: app.php:361
 msgid "Help"
@@ -87,59 +87,59 @@ msgstr "Baixe os arquivos em pedaços menores, separadamente ou solicite educada
 
 #: installer.php:63
 msgid "No source specified when installing app"
-msgstr ""
+msgstr "Nenhuma fonte foi especificada enquanto instalava o aplicativo"
 
 #: installer.php:70
 msgid "No href specified when installing app from http"
-msgstr ""
+msgstr "Nenhuma href foi especificada enquanto instalava o aplicativo de httml"
 
 #: installer.php:75
 msgid "No path specified when installing app from local file"
-msgstr ""
+msgstr "Nenhum caminho foi especificado enquanto instalava o aplicativo do arquivo local"
 
 #: installer.php:89
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr ""
+msgstr "Arquivos do tipo %s não são suportados"
 
 #: installer.php:103
 msgid "Failed to open archive when installing app"
-msgstr ""
+msgstr "Falha para abrir o arquivo enquanto instalava o aplicativo"
 
 #: installer.php:123
 msgid "App does not provide an info.xml file"
-msgstr ""
+msgstr "O aplicativo não fornece um arquivo info.xml"
 
 #: installer.php:129
 msgid "App can't be installed because of not allowed code in the App"
-msgstr ""
+msgstr "O aplicativo não pode ser instalado por causa do código não permitido no Aplivativo"
 
 #: installer.php:138
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr ""
+msgstr "O aplicativo não pode ser instalado porque não é compatível com esta versão do ownCloud"
 
 #: installer.php:144
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
-msgstr ""
+msgstr "O aplicativo não pode ser instalado porque ele contém a marca <shipped>verdadeiro</shipped> que não é permitido para aplicações não embarcadas"
 
 #: installer.php:150
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr ""
+msgstr "O aplicativo não pode ser instalado porque a versão em info.xml /versão não é a mesma que a versão relatada na App Store"
 
 #: installer.php:160
 msgid "App directory already exists"
-msgstr ""
+msgstr "Diretório App  já existe"
 
 #: installer.php:173
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr ""
+msgstr "Não é possível criar pasta app. Corrija as permissões. %s"
 
 #: json.php:28
 msgid "Application is not enabled"

@@ -37,7 +37,6 @@ $TRANSLATIONS = array(
 "Your storage is full, files can not be updated or synced anymore!" => "저장 공간이 가득 찼습니다. 파일을 업데이트하거나 동기화할 수 없습니다!",
 "Your storage is almost full ({usedSpacePercent}%)" => "저장 공간이 거의 가득 찼습니다 ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "다운로드가 준비 중입니다. 파일 크기가 크다면 시간이 오래 걸릴 수도 있습니다.",
-"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "폴더 이름이 유효하지 않습니다. ",
 "Name" => "이름",
 "Size" => "크기",
 "Modified" => "수정됨",

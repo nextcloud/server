@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "Your storage is almost full ({usedSpacePercent}%)" => "Din opbevaringsplads er næsten fyldt op ({usedSpacePercent}%)",
 "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Krypteringen blev deaktiveret, men dine filer er stadig krypteret. Gå venligst til dine personlige indstillinger for at dekryptere dine filer. ",
 "Your download is being prepared. This might take some time if the files are big." => "Dit download forberedes. Dette kan tage lidt tid ved større filer.",
-"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Ugyldigt mappenavn. Brug af \"Shared\" er forbeholdt Owncloud",
 "Name" => "Navn",
 "Size" => "Størrelse",
 "Modified" => "Ændret",

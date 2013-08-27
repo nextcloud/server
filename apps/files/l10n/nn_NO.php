@@ -38,7 +38,6 @@ $TRANSLATIONS = array(
 "Your storage is full, files can not be updated or synced anymore!" => "Lagringa di er full, kan ikkje lenger oppdatera eller synkronisera!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Lagringa di er nesten full ({usedSpacePercent} %)",
 "Your download is being prepared. This might take some time if the files are big." => "Gjer klar nedlastinga di. Dette kan ta ei stund viss filene er store.",
-"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Ugyldig mappenamn. Mappa «Shared» er reservert av ownCloud",
 "Name" => "Namn",
 "Size" => "Storleik",
 "Modified" => "Endra",

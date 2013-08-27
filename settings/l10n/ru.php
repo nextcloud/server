@@ -25,6 +25,7 @@ $TRANSLATIONS = array(
 "Error" => "Ошибка",
 "Update" => "Обновить",
 "Updated" => "Обновлено",
+"Decrypting files... Please wait, this can take some time." => "Расшифровка файлов... Пожалуйста, подождите, это может занять некоторое время.",
 "Saving..." => "Сохранение...",
 "deleted" => "удален",
 "undo" => "отмена",

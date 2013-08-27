@@ -37,7 +37,6 @@ $TRANSLATIONS = array(
 "Your storage is full, files can not be updated or synced anymore!" => "Hapësira juaj e memorizimit është plot, nuk mund të ngarkoni apo sinkronizoni më skedarët.",
 "Your storage is almost full ({usedSpacePercent}%)" => "Hapësira juaj e memorizimit është gati plot ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "Shkarkimi juaj po përgatitet. Mund të duhet pak kohë nqse skedarët janë të mëdhenj.",
-"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Emri i dosjes është i pavlefshëm. Përdorimi i \"Shared\" është i rezervuar nga Owncloud-i.",
 "Name" => "Emri",
 "Size" => "Dimensioni",
 "Modified" => "Modifikuar",

@@ -37,7 +37,6 @@ $TRANSLATIONS = array(
 "Your storage is full, files can not be updated or synced anymore!" => "Ваше сховище переповнене, файли більше не можуть бути оновлені або синхронізовані !",
 "Your storage is almost full ({usedSpacePercent}%)" => "Ваше сховище майже повне ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "Ваше завантаження готується. Це може зайняти деякий час, якщо файли завеликі.",
-"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Невірне ім'я теки. Використання \"Shared\" зарезервовано Owncloud",
 "Name" => "Ім'я",
 "Size" => "Розмір",
 "Modified" => "Змінено",
