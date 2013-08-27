@@ -94,7 +94,7 @@ table th#headerDate, table td.date { min-width:11em; padding:0 .1em 0 1em; text-
 
 /* Multiselect bar */
 #filestable.multiselect { top:63px; }
-table.multiselect thead { position:fixed; top:82px; z-index:1; -moz-box-sizing: border-box; box-sizing: border-box; left: 0; padding-left: 64px; width:100%; }
+table.multiselect thead { position:fixed; top:82px; z-index:1; -moz-box-sizing: border-box; box-sizing: border-box; left: 0; padding-left: 80px; width:100%; }
 table.multiselect thead th {
 	background-color: rgba(210,210,210,.7);
 	color: #000;
