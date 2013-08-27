@@ -220,7 +220,13 @@ var FileList={
 			$controls.prepend(result.data.breadcrumb);
 			// TODO: might need refactor breadcrumb code into a new file
 			//resizeBreadcrumbs(true);
+
+			// in case svg is not supported by the browser we need to execute the fallback mechanism
+			if(!SVGSupport()) {
+				replaceSVG();
+			}
 		}
+
 		FileList.update(result.data.files);
 	},
 	remove:function(name){
