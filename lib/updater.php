@@ -127,10 +127,6 @@ class Updater extends BasicEmitter {
 			');
 			$result = $query->execute();
 		} catch (\Exception $e) {
-			$this->emit('\OC\Updater', 'filecacheProgress', array(10));
-			$this->emit('\OC\Updater', 'filecacheProgress', array(20));
-			$this->emit('\OC\Updater', 'filecacheProgress', array(30));
-			$this->emit('\OC\Updater', 'filecacheProgress', array(40));
 			return;
 		}
 		$users = $result->fetchAll();
