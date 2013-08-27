@@ -46,6 +46,19 @@ class OC_OCS_Cloud {
 	
 	/**
 	 * gets user info
+	 *
+	 * exposes the quota of an user:
+	 * <data>
+	 *   <quota>
+	 *      <free>1234</free>
+	 *      <used>4321</used>
+	 *      <total>5555</total>
+	 *      <ralative>0.78</ralative>
+	 *   </quota>
+	 * </data>
+	 *
+	 * @param $parameters object should contain parameter 'userid' which identifies
+	 *                           the user from whom the information will be returned
 	 */
 	public static function getUser($parameters) {
 		// Check if they are viewing information on themselves
