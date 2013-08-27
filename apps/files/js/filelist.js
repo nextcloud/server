@@ -600,6 +600,7 @@ var FileList={
 		$mask = $('<div class="mask transparent"></div>');
 
 		$mask.css('background-image', 'url('+ OC.imagePath('core', 'loading.gif') + ')');
+		$mask.css('background-repeat', 'no-repeat');
 		$('#content').append($mask);
 
 		// block UI, but only make visible in case loading takes longer
