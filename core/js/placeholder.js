@@ -34,7 +34,7 @@
  *
  * Which will result in:
  *
- * <div id="albumart" style="background-color: rgb(123, 123, 123)">T</div>
+ * <div id="albumart" style="background-color: rgb(123, 123, 123); ... ">T</div>
  *
  */
 
@@ -45,13 +45,18 @@
 			red = parseInt(hash.substr(0,10), 16) / maxRange * 256,
 			green = parseInt(hash.substr(10,10), 16) / maxRange * 256,
 			blue = parseInt(hash.substr(20,10), 16) / maxRange * 256,
-			rgb = [Math.floor(red), Math.floor(green), Math.floor(blue)];
+			rgb = [Math.floor(red), Math.floor(green), Math.floor(blue)],
+			height = this.height();
 		this.css('background-color', 'rgb(' + rgb.join(',') + ')');
 
 		// CSS rules
 		this.css('color', 'rgb(255, 255, 255)');
 		this.css('font-weight', 'bold');
 		this.css('text-align', 'center');
+
+		// calculate the height
+		this.css('line-height', height + 'px');
+		this.css('font-size', (height * 0.55) + 'px');
 
 		if(seed !== null && seed.length) {
 			this.html(seed[0].toUpperCase());
