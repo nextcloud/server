@@ -260,9 +260,9 @@ input[name="adminpass-clone"] { padding-left:1.8em; width:11.7em !important; }
 #body-login input[type="password"],
 #body-login input[type="email"] {
 	border: 1px solid #323233;
-	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.15), 0 1px 3px rgba(0,0,0,.25) inset;
-	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.15), 0 1px 3px rgba(0,0,0,.25) inset;
-	box-shadow: 0 1px 0 rgba(255,255,255,.15), 0 1px 3px rgba(0,0,0,.25) inset;
+	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.15), 0 1px 1px rgba(0,0,0,.25) inset;
+	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.15), 0 1px 1px rgba(0,0,0,.25) inset;
+	box-shadow: 0 1px 0 rgba(255,255,255,.15), 0 1px 1px rgba(0,0,0,.25) inset;
 }
 
 /* Nicely grouping input field sets */
@@ -755,7 +755,7 @@ div.crumb:active {
 
 /* special rules for first-level entries and folders */
 #app-navigation > ul > li {
-	background-color: #eee;
+	background-color: #f8f8f8;
 }
 
 #app-navigation .with-icon a {
@@ -874,6 +874,10 @@ div.crumb:active {
 }
 #app-navigation .error {
 	color: #dd1144;
+}
+
+#app-navigation .app-navigation-separator {
+	border-bottom: 1px solid #ddd;
 }
 
 

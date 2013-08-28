@@ -709,7 +709,6 @@ $(document).ready(function(){
 		});
 		label.hide();
 	};
-	setShowPassword($('#password'), $('label[for=show]'));
 	setShowPassword($('#adminpass'), $('label[for=show]'));
 	setShowPassword($('#pass2'), $('label[for=personal-show]'));
 	setShowPassword($('#dbpass'), $('label[for=dbpassword]'));

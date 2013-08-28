@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "Your storage is almost full ({usedSpacePercent}%)" => "El vostre espai d'emmagatzemament és gairebé ple ({usedSpacePercent}%)",
 "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "L'encriptació s'ha desactivat però els vostres fitxers segueixen encriptats. Aneu a la vostra configuració personal per desencriptar els vostres fitxers.",
 "Your download is being prepared. This might take some time if the files are big." => "S'està preparant la baixada. Pot trigar una estona si els fitxers són grans.",
-"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Nom de carpeta no vàlid. L'ús de 'Shared' està reservat per Owncloud",
 "Name" => "Nom",
 "Size" => "Mida",
 "Modified" => "Modificat",

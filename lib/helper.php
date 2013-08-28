@@ -591,9 +591,26 @@ class OC_Helper {
 	 * remove all files in PHP /oc-noclean temp dir
 	 */
 	public static function cleanTmpNoClean() {
-		$tmpDirNoCleanFile = get_temp_dir() . '/oc-noclean/';
-		if (file_exists($tmpDirNoCleanFile)) {
-			self::rmdirr($tmpDirNoCleanFile);
+		$tmpDirNoCleanName=get_temp_dir() . '/oc-noclean/';
+		if(file_exists($tmpDirNoCleanName) && is_dir($tmpDirNoCleanName)) {
+			$files=scandir($tmpDirNoCleanName);
+			foreach($files as $file) {
+				$fileName = $tmpDirNoCleanName . $file;
+				if (!\OC\Files\Filesystem::isIgnoredDir($file) && filemtime($fileName) + 600 < time()) {
+					unlink($fileName);
+				}
+			}
+			// if oc-noclean is empty delete it
+			$isTmpDirNoCleanEmpty = true;
+			$tmpDirNoClean = opendir($tmpDirNoCleanName);
+			while (false !== ($file = readdir($tmpDirNoClean))) {
+				if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
+					$isTmpDirNoCleanEmpty = false;
+				}
+			}
+			if ($isTmpDirNoCleanEmpty) {
+				rmdir($tmpDirNoCleanName);
+			}
 		}
 	}
 
@@ -824,15 +841,18 @@ class OC_Helper {
 	}
 
 	/**
-	 * Calculate the disc space
+	 * Calculate the disc space for the given path
+	 *
+	 * @param string $path
+	 * @return array
 	 */
-	public static function getStorageInfo() {
-		$rootInfo = \OC\Files\Filesystem::getFileInfo('/');
+	public static function getStorageInfo($path) {
+		$rootInfo = \OC\Files\Filesystem::getFileInfo($path);
 		$used = $rootInfo['size'];
 		if ($used < 0) {
 			$used = 0;
 		}
-		$free = \OC\Files\Filesystem::free_space();
+		$free = \OC\Files\Filesystem::free_space($path);
 		if ($free >= 0) {
 			$total = $free + $used;
 		} else {

@@ -1,6 +1,12 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s geteilt »%s« mit Ihnen",
+"Turned on maintenance mode" => "Wartungsmodus eingeschaltet ",
+"Turned off maintenance mode" => "Wartungsmodus ausgeschaltet",
+"Updated database" => "Datenbank aktualisiert",
+"Updating filecache, this may take really long..." => "Aktualisiere Dateicache, dies könnte eine Weile dauern...",
+"Updated filecache" => "Dateicache aktualisiert",
+"... %d%% done ..." => "... %d%% erledigt ...",
 "Category type not provided." => "Kategorie nicht angegeben.",
 "No category to add?" => "Keine Kategorie hinzuzufügen?",
 "This category already exists: %s" => "Die nachfolgende Kategorie existiert bereits: %s",

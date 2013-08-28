@@ -40,7 +40,6 @@ $TRANSLATIONS = array(
 "Your storage is full, files can not be updated or synced anymore!" => "Shramba je povsem napolnjena. Datotek ni več mogoče posodabljati in usklajevati!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Mesto za shranjevanje je skoraj polno ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "Postopek priprave datoteke za prejem je lahko dolgotrajen, če je datoteka zelo velika.",
-"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Neveljavno ime mape. Uporaba oznake \"Souporaba\" je zadržan za sistem ownCloud.",
 "Name" => "Ime",
 "Size" => "Velikost",
 "Modified" => "Spremenjeno",

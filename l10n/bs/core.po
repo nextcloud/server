@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:06+0000\n"
+"POT-Creation-Date: 2013-08-27 11:18-0400\n"
+"PO-Revision-Date: 2013-08-27 15:18+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bosnian (http://www.transifex.com/projects/p/owncloud/language/bs/)\n"
 "MIME-Version: 1.0\n"
@@ -20,6 +20,31 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "%s shared »%s« with you"
+msgstr ""
+
+#: ajax/update.php:11
+msgid "Turned on maintenance mode"
+msgstr ""
+
+#: ajax/update.php:14
+msgid "Turned off maintenance mode"
+msgstr ""
+
+#: ajax/update.php:17
+msgid "Updated database"
+msgstr ""
+
+#: ajax/update.php:20
+msgid "Updating filecache, this may take really long..."
+msgstr ""
+
+#: ajax/update.php:23
+msgid "Updated filecache"
+msgstr ""
+
+#: ajax/update.php:26
+#, php-format
+msgid "... %d%% done ..."
 msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
@@ -197,23 +222,23 @@ msgstr ""
 msgid "years ago"
 msgstr ""
 
-#: js/oc-dialogs.js:117
+#: js/oc-dialogs.js:123
 msgid "Choose"
 msgstr ""
 
-#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
+#: js/oc-dialogs.js:143 js/oc-dialogs.js:210
 msgid "Error loading file picker template"
 msgstr ""
 
-#: js/oc-dialogs.js:160
+#: js/oc-dialogs.js:168
 msgid "Yes"
 msgstr ""
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:178
 msgid "No"
 msgstr ""
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:195
 msgid "Ok"
 msgstr ""
 

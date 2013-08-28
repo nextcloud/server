@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "Your storage is almost full ({usedSpacePercent}%)" => "Su andmemaht on peaaegu täis ({usedSpacePercent}%)",
 "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Krüpteering on keelatud, kuid sinu failid on endiselt krüpteeritud. Palun vaata oma personaalseid seadeid oma failide dekrüpteerimiseks.",
 "Your download is being prepared. This might take some time if the files are big." => "Valmistatakse allalaadimist. See võib võtta veidi aega, kui on tegu suurte failidega. ",
-"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Vigane kataloogi nimi. 'Shared' kasutamine on reserveeritud ownCloud poolt.",
 "Name" => "Nimi",
 "Size" => "Suurus",
 "Modified" => "Muudetud",

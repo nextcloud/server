@@ -689,7 +689,7 @@ class Trashbin {
 			}
 		}
 	}
-	
+
 	/**
 	 * clean up the trash bin
 	 * @param current size of the trash bin
@@ -892,16 +892,17 @@ class Trashbin {
 		//Listen to post write hook
 		\OCP\Util::connectHook('OC_Filesystem', 'post_write', "OCA\Files_Trashbin\Hooks", "post_write_hook");
 	}
-	
+
 	/**
 	 * @brief check if trash bin is empty for a given user
 	 * @param string $user
 	 */
 	public static function isEmpty($user) {
 
-		$trashSize = self::getTrashbinSize($user);
+		$view = new \OC\Files\View('/' . $user . '/files_trashbin');
+		$content = $view->getDirectoryContent('/files');
 
-		if ($trashSize !== false && $trashSize > 0) {
+		if ($content) {
 			return false;
 		}
 

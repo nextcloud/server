@@ -31,7 +31,6 @@ $TRANSLATIONS = array(
 "'.' is an invalid file name." => "টি একটি অননুমোদিত নাম।",
 "File name cannot be empty." => "ফাইলের নামটি ফাঁকা রাখা যাবে না।",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "নামটি সঠিক নয়,  '\\', '/', '<', '>', ':', '\"', '|', '?' এবং  '*'  অনুমোদিত নয়।",
-"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "ফোল্ডারের নামটি সঠিক নয়। 'ভাগাভাগি করা' শুধুমাত্র Owncloud  এর জন্য সংরক্ষিত।",
 "Name" => "রাম",
 "Size" => "আকার",
 "Modified" => "পরিবর্তিত",

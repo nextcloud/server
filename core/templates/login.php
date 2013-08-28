@@ -21,12 +21,10 @@
 		</p>
 
 		<p class="infield groupbottom">
-			<input type="password" name="password" id="password" value="" data-typetoggle="#show" placeholder=""
+			<input type="password" name="password" id="password" value="" placeholder=""
 				   required<?php p($_['user_autofocus'] ? '' : ' autofocus'); ?> />
 			<label for="password" class="infield"><?php p($l->t('Password')); ?></label>
 			<img class="svg" id="password-icon" src="<?php print_unescaped(image_path('', 'actions/password.svg')); ?>" alt=""/>
-			<input type="checkbox" id="show" name="show" />
-			<label for="show"></label>
 		</p>
 
 		<?php if (isset($_['invalidpassword']) && ($_['invalidpassword'])): ?>

@@ -38,7 +38,6 @@ $TRANSLATIONS = array(
 "Your storage is full, files can not be updated or synced anymore!" => "Jūsų visa vieta serveryje užimta",
 "Your storage is almost full ({usedSpacePercent}%)" => "Jūsų vieta serveryje beveik visa užimta ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "Jūsų atsisiuntimas yra paruošiamas. tai gali užtrukti jei atsisiunčiamas didelis failas.",
-"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Negalimas aplanko pavadinimas. 'Shared' pavadinimas yra rezervuotas ownCloud",
 "Name" => "Pavadinimas",
 "Size" => "Dydis",
 "Modified" => "Pakeista",

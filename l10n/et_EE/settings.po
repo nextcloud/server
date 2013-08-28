@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-22 10:36-0400\n"
-"PO-Revision-Date: 2013-08-22 09:30+0000\n"
+"POT-Creation-Date: 2013-08-27 11:18-0400\n"
+"PO-Revision-Date: 2013-08-26 05:10+0000\n"
 "Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -43,10 +43,6 @@ msgstr "Grupp on juba olemas"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Keela grupi lisamine"
-
-#: ajax/enableapp.php:11
-msgid "Could not enable app. "
-msgstr "Rakenduse sisselülitamine ebaõnnestus."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -94,31 +90,43 @@ msgstr "Rakenduse uuendamine ebaõnnestus."
 msgid "Update to {appversion}"
 msgstr "Uuenda versioonile {appversion}"
 
-#: js/apps.js:41 js/apps.js:81
+#: js/apps.js:41 js/apps.js:74 js/apps.js:100
 msgid "Disable"
 msgstr "Lülita välja"
 
-#: js/apps.js:41 js/apps.js:69 js/apps.js:88
+#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
 msgid "Enable"
 msgstr "Lülita sisse"
 
-#: js/apps.js:60
+#: js/apps.js:63
 msgid "Please wait...."
 msgstr "Palun oota..."
 
-#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
-msgid "Error"
-msgstr "Viga"
+#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+msgid "Error while disabling app"
+msgstr "Viga rakendi keelamisel"
 
-#: js/apps.js:95
+#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+msgid "Error while enabling app"
+msgstr "Viga rakendi lubamisel"
+
+#: js/apps.js:115
 msgid "Updating...."
 msgstr "Uuendamine..."
 
-#: js/apps.js:98
+#: js/apps.js:118
 msgid "Error while updating app"
 msgstr "Viga rakenduse uuendamisel"
 
-#: js/apps.js:101
+#: js/apps.js:118
+msgid "Error"
+msgstr "Viga"
+
+#: js/apps.js:119 templates/apps.php:43
+msgid "Update"
+msgstr "Uuenda"
+
+#: js/apps.js:122
 msgid "Updated"
 msgstr "Uuendatud"
 
@@ -370,10 +378,6 @@ msgstr "Vaata rakenduste lehte aadressil apps.owncloud.com"
 #: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-litsenseeritud <span class=\"author\"></span>"
-
-#: templates/apps.php:43
-msgid "Update"
-msgstr "Uuenda"
 
 #: templates/help.php:4
 msgid "User Documentation"

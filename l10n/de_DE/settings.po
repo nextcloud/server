@@ -7,15 +7,16 @@
 # arkascha <foss@christian-reiner.info>, 2013
 # Mario Siegmann <mario_siegmann@web.de>, 2013
 # traductor <transifex-2.7.mensaje@spamgourmet.com>, 2013
+# noxin <transifex.com@davidmainzer.com>, 2013
 # Mirodin <blobbyjj@ymail.com>, 2013
 # kabum <uu.kabum@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-21 08:11-0400\n"
-"PO-Revision-Date: 2013-08-20 12:50+0000\n"
-"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
+"POT-Creation-Date: 2013-08-27 11:18-0400\n"
+"PO-Revision-Date: 2013-08-27 12:00+0000\n"
+"Last-Translator: traductor <transifex-2.7.mensaje@spamgourmet.com>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,10 +48,6 @@ msgstr "Die Gruppe existiert bereits"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Die Gruppe konnte nicht angelegt werden"
-
-#: ajax/enableapp.php:11
-msgid "Could not enable app. "
-msgstr "Die Anwendung konnte nicht aktiviert werden."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -98,31 +95,43 @@ msgstr "Die App konnte nicht aktualisiert werden."
 msgid "Update to {appversion}"
 msgstr "Update zu {appversion}"
 
-#: js/apps.js:41 js/apps.js:81
+#: js/apps.js:41 js/apps.js:74 js/apps.js:100
 msgid "Disable"
 msgstr "Deaktivieren"
 
-#: js/apps.js:41 js/apps.js:69 js/apps.js:88
+#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
 msgid "Enable"
 msgstr "Aktivieren"
 
-#: js/apps.js:60
+#: js/apps.js:63
 msgid "Please wait...."
 msgstr "Bitte warten...."
 
-#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
-msgid "Error"
-msgstr "Fehler"
+#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+msgid "Error while disabling app"
+msgstr "Beim deaktivieren der Applikation ist ein Fehler aufgetreten."
 
-#: js/apps.js:95
+#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+msgid "Error while enabling app"
+msgstr "Beim aktivieren der Applikation ist ein Fehler aufgetreten."
+
+#: js/apps.js:115
 msgid "Updating...."
 msgstr "Update..."
 
-#: js/apps.js:98
+#: js/apps.js:118
 msgid "Error while updating app"
 msgstr "Es ist ein Fehler während des Updates aufgetreten"
 
-#: js/apps.js:101
+#: js/apps.js:118
+msgid "Error"
+msgstr "Fehler"
+
+#: js/apps.js:119 templates/apps.php:43
+msgid "Update"
+msgstr "Update durchführen"
+
+#: js/apps.js:122
 msgid "Updated"
 msgstr "Aktualisiert"
 
@@ -190,7 +199,7 @@ msgid ""
 "configure your webserver in a way that the data directory is no longer "
 "accessible or you move the data directory outside the webserver document "
 "root."
-msgstr "Ihr Datenverzeichnis und Ihre Dateien sind möglicher Weise aus dem Internet erreichbar. Die .htaccess-Datei funktioniert nicht. Wir raten Ihnen dringend, dass Sie Ihren Webserver dahingehend konfigurieren, dass Ihr Datenverzeichnis nicht länger aus dem Internet erreichbar ist, oder Sie verschieben das Datenverzeichnis außerhalb des Wurzelverzeichnisses des Webservers."
+msgstr "Ihr Datenverzeichnis und Ihre Dateien sind möglicherweise aus dem Internet erreichbar. Die .htaccess-Datei funktioniert nicht. Wir raten Ihnen dringend, dass Sie Ihren Webserver dahingehend konfigurieren, dass Ihr Datenverzeichnis nicht länger aus dem Internet erreichbar ist, oder Sie verschieben das Datenverzeichnis außerhalb des Wurzelverzeichnisses des Webservers."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -240,7 +249,7 @@ msgid ""
 "installation of 3rd party apps don´t work. Accessing files from remote and "
 "sending of notification emails might also not work. We suggest to enable "
 "internet connection for this server if you want to have all features."
-msgstr "Dieser Server hat keine funktionierende Internetverbindung. Dies bedeutet das einige Funktionen wie z.B. das Einbinden von externen Speichern, Update-Benachrichtigungen oder die Installation von Drittanbieter-Apps nicht funktionieren. Der Fernzugriff auf Dateien und das Senden von Benachrichtigungsmails funktioniert eventuell ebenfalls nicht. Wir empfehlen die Internetverbindung für diesen Server zu aktivieren wenn Sie alle Funktionen nutzen wollen."
+msgstr "Dieser Server hat keine funktionierende Internetverbindung. Dies bedeutet das einige Funktionen wie z.B. das Einbinden von externen Speichern, Update-Benachrichtigungen oder die Installation von Drittanbieter-Apps nicht funktionieren. Der Fernzugriff auf Dateien und das Senden von Benachrichtigungsmails funktioniert eventuell ebenfalls nicht. Wir empfehlen die Internetverbindung für diesen Server zu aktivieren, wenn Sie alle Funktionen nutzen wollen."
 
 #: templates/admin.php:92
 msgid "Cron"
@@ -258,7 +267,7 @@ msgstr "cron.php ist als Webcron-Dienst registriert, der die cron.php minütlich
 
 #: templates/admin.php:115
 msgid "Use systems cron service to call the cron.php file once a minute."
-msgstr "Benutzen Sie den System-Crondienst um die cron.php minütlich aufzurufen."
+msgstr "Benutzen Sie den System-Crondienst, um die cron.php minütlich aufzurufen."
 
 #: templates/admin.php:120
 msgid "Sharing"
@@ -282,7 +291,7 @@ msgstr "Benutzern erlauben, Inhalte per öffentlichem Link zu teilen"
 
 #: templates/admin.php:143
 msgid "Allow public uploads"
-msgstr "Erlaube öffentliches hochladen"
+msgstr "Öffentliches Hochladen erlauben"
 
 #: templates/admin.php:144
 msgid ""
@@ -374,10 +383,6 @@ msgstr "Weitere Anwendungen finden Sie auf apps.owncloud.com"
 #: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-lizenziert von <span class=\"author\"></span>"
-
-#: templates/apps.php:43
-msgid "Update"
-msgstr "Update durchführen"
 
 #: templates/help.php:4
 msgid "User Documentation"

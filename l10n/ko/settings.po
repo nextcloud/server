@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-21 08:11-0400\n"
-"PO-Revision-Date: 2013-08-19 19:20+0000\n"
+"POT-Creation-Date: 2013-08-25 19:18-0400\n"
+"PO-Revision-Date: 2013-08-25 23:18+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -42,10 +42,6 @@ msgstr "그룹이 이미 존재함"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "그룹을 추가할 수 없음"
-
-#: ajax/enableapp.php:11
-msgid "Could not enable app. "
-msgstr "앱을 활성화할 수 없습니다."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -93,31 +89,43 @@ msgstr "앱을 업데이트할 수 없습니다."
 msgid "Update to {appversion}"
 msgstr "버전 {appversion}(으)로 업데이트"
 
-#: js/apps.js:41 js/apps.js:81
+#: js/apps.js:41 js/apps.js:74 js/apps.js:100
 msgid "Disable"
 msgstr "비활성화"
 
-#: js/apps.js:41 js/apps.js:69 js/apps.js:88
+#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
 msgid "Enable"
 msgstr "사용함"
 
-#: js/apps.js:60
+#: js/apps.js:63
 msgid "Please wait...."
 msgstr "기다려 주십시오...."
 
-#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
-msgid "Error"
-msgstr "오류"
+#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+msgid "Error while disabling app"
+msgstr ""
 
-#: js/apps.js:95
+#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+msgid "Error while enabling app"
+msgstr ""
+
+#: js/apps.js:115
 msgid "Updating...."
 msgstr "업데이트 중...."
 
-#: js/apps.js:98
+#: js/apps.js:118
 msgid "Error while updating app"
 msgstr "앱을 업데이트하는 중 오류 발생"
 
-#: js/apps.js:101
+#: js/apps.js:118
+msgid "Error"
+msgstr "오류"
+
+#: js/apps.js:119 templates/apps.php:43
+msgid "Update"
+msgstr "업데이트"
+
+#: js/apps.js:122
 msgid "Updated"
 msgstr "업데이트됨"
 
@@ -369,10 +377,6 @@ msgstr "apps.owncloud.com에 있는 앱 페이지를 참고하십시오"
 #: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-라이선스됨: <span class=\"author\"></span>"
-
-#: templates/apps.php:43
-msgid "Update"
-msgstr "업데이트"
 
 #: templates/help.php:4
 msgid "User Documentation"
