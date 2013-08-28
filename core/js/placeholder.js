@@ -30,7 +30,7 @@
  *
  * And call this from Javascript:
  *
- * $('#albumart').visualize('The Album Title');
+ * $('#albumart').placeholder('The Album Title');
  *
  * Which will result in:
  *
@@ -39,14 +39,22 @@
  */
 
 (function ($) {
-	$.fn.visualize = function(seed) {
+	$.fn.placeholder = function(seed) {
 		var hash = md5(seed),
 			maxRange = parseInt('ffffffffff', 16),
 			red = parseInt(hash.substr(0,10), 16) / maxRange * 256,
 			green = parseInt(hash.substr(10,10), 16) / maxRange * 256,
-			blue = parseInt(hash.substr(20,10), 16) / maxRange * 256;
-		rgb = [Math.floor(red), Math.floor(green), Math.floor(blue)];
+			blue = parseInt(hash.substr(20,10), 16) / maxRange * 256,
+			rgb = [Math.floor(red), Math.floor(green), Math.floor(blue)];
 		this.css('background-color', 'rgb(' + rgb.join(',') + ')');
-		this.html(seed[0].toUpperCase());
+
+		// CSS rules
+		this.css('color', 'rgb(255, 255, 255)');
+		this.css('font-weight', 'bold');
+		this.css('text-align', 'center');
+
+		if(seed !== null && seed.length) {
+			this.html(seed[0].toUpperCase());
+		}
 	};
 }(jQuery));
