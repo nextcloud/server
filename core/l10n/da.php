@@ -1,6 +1,12 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s delte »%s« med sig",
+"Turned on maintenance mode" => "Startede vedligeholdelsestilstand",
+"Turned off maintenance mode" => "standsede vedligeholdelsestilstand",
+"Updated database" => "Opdaterede database",
+"Updating filecache, this may take really long..." => "Opdatere filcache, dette kan tage rigtigt lang tid...",
+"Updated filecache" => "Opdaterede filcache",
+"... %d%% done ..." => "... %d%% færdig ...",
 "Category type not provided." => "Kategori typen ikke er fastsat.",
 "No category to add?" => "Ingen kategori at tilføje?",
 "This category already exists: %s" => "Kategorien eksisterer allerede: %s",

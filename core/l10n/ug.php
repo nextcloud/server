@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "Help" => "ياردەم",
 "Edit categories" => "تۈر تەھرىر",
 "Add" => "قوش",
+"Security Warning" => "بىخەتەرلىك ئاگاھلاندۇرۇش",
 "Advanced" => "ئالىي",
 "Finish setup" => "تەڭشەك تامام",
 "Log out" => "تىزىمدىن چىق"
