@@ -45,7 +45,7 @@ function changeDisplayName(){
 }
 
 function selectAvatar (path) {
-	$.post(OC.router_base_url+'/avatar/', {path: path}, avatarResponseHandler);
+	$.post(OC.Router.generate('core_avatar_post'), {path: path}, avatarResponseHandler);
 }
 
 function updateAvatar () {
@@ -74,7 +74,7 @@ function showAvatarCropper() {
 			onSelect: saveCoords,
 			aspectRatio: 1
 		});
-	}).attr('src', OC.router_base_url+'/avatartmp/512');
+	}).attr('src', OC.Router.generate('core_avatar_get_tmp', {size: 512}));
 }
 
 function sendCropData() {
@@ -86,7 +86,7 @@ function sendCropData() {
 		w: cropperdata.w,
 		h: cropperdata.h
 	};
-	$.post(OC.router_base_url+'/avatar/cropped', {crop: data}, avatarResponseHandler);
+	$.post(OC.Router.generate('core_avatar_post_cropped'), {crop: data}, avatarResponseHandler);
 }
 
 function saveCoords(c) {
@@ -214,7 +214,7 @@ $(document).ready(function(){
 	$('#removeavatar').click(function(){
 		$.ajax({
 			type:	'DELETE',
-			url:	OC.router_base_url+'/avatar/',
+			url:	OC.Router.generate('core_avatar_delete'),
 			success: function(msg) {
 				updateAvatar();
 			}

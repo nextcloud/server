@@ -91,7 +91,7 @@ class OC_Core_Avatar_Controller {
 		// TODO deliver actual size here as well, so Jcrop can do its magic and we have the actual coordinates here again
 		// TODO or don't have a size parameter and only resize client sided (looks promising)
 		//
-		// TODO make a cronjob that cleans up the tmpavatar after it's older than 2 hours, should be run every hour
+		// TODO move the tmpavatar to the cache instead, so it's cleaned up after some time
 		$user = OC_User::getUser();
 
 		$view = new \OC\Files\View('/'.$user);
