@@ -20,7 +20,7 @@
  */
 
 /*
- * Adds a background color to the element called on and adds the first charater
+ * Adds a background color to the element called on and adds the first character
  * of the passed in string. This string is also the seed for the generation of
  * the background color.
  *
