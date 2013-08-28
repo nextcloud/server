@@ -19,6 +19,7 @@ var FileList={
 		if (window.Files){
 			Files.setupDragAndDrop();
 		}
+		FileList.updateFileSummary();
 		$fileList.trigger(jQuery.Event("updated"));
 	},
 	createRow:function(type, name, iconurl, linktarget, size, lastModified, permissions){
