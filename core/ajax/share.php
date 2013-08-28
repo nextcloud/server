@@ -213,6 +213,10 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 					}
 				}
 				$count = 0;
+				
+				// enable l10n support
+				$l = OC_L10N::get('core');
+				
 				foreach ($groups as $group) {
 					if ($count < 15) {
 						if (stripos($group, $_GET['search']) !== false
@@ -221,7 +225,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 							|| !is_array($_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP])
 							|| !in_array($group, $_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP]))) {
 							$shareWith[] = array(
-								'label' => $group.' (group)',
+								'label' => $group.' ('.$l->t('group').')',
 								'value' => array(
 									'shareType' => OCP\Share::SHARE_TYPE_GROUP,
 									'shareWith' => $group
