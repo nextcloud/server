@@ -60,9 +60,10 @@
 			var self = this;
 
 			if(typeof this.options.escapeFunction === 'function') {
-				for (var key = 0; key < Object.keys(this.vars).length; key++) {
-					if(typeof this.vars[Object.keys(this.vars)[key]] === 'string') {
-						this.vars[Object.keys(this.vars)[key]] = self.options.escapeFunction(this.vars[Object.keys(this.vars)[key]]);
+				var keys = Object.keys(this.vars);
+				for (var key = 0; key < keys.length; key++) {
+					if(typeof this.vars[keys[key]] === 'string') {
+						this.vars[keys[key]] = self.options.escapeFunction(this.vars[keys[key]]);
 					}
 				}
 			}
