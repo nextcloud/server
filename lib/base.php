@@ -669,12 +669,15 @@ class OC {
 		$app = $param['app'];
 		$file = $param['file'];
 		$app_path = OC_App::getAppPath($app);
-		$file = $app_path . '/' . $file;
-		unset($app, $app_path);
-		if (file_exists($file)) {
-			require_once $file;
-			return true;
+		if (OC_App::isEnabled($app) && $app_path !== false) {
+			$file = $app_path . '/' . $file;
+			unset($app, $app_path);
+			if (file_exists($file)) {
+				require_once $file;
+				return true;
+			}
 		}
+		header('HTTP/1.0 404 Not Found');
 		return false;
 	}
 
