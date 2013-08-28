@@ -10,24 +10,26 @@ namespace OC\Log;
 
 /**
  * This rotates the current logfile to a new name, this way the total log usage
- * will stay limited and older entries are available for a while longer. The
- * total disk usage is twice LOG_SIZE_LIMIT.
+ * will stay limited and older entries are available for a while longer.
  * For more professional log management set the 'logfile' config to a different
  * location and manage that with your own tools.
  */
 class Rotate extends \OC\BackgroundJob\Job {
-	const LOG_SIZE_LIMIT = 104857600; // 100 MiB
+	private $max_log_size;
 	public function run($logFile) {
-		$filesize = @filesize($logFile);
-		if ($filesize >= self::LOG_SIZE_LIMIT) {
-			$this->rotate($logFile);
+		$this->max_log_size = OC_Config::getValue('log_rotate_size', false);
+		if ($this->max_log_size) {
+			$filesize = @filesize($logFile);
+			if ($filesize >= $this->max_log_size) {
+				$this->rotate($logFile);
+			}
 		}
 	}
 
 	protected function rotate($logfile) {
 		$rotatedLogfile = $logfile.'.1';
 		rename($logfile, $rotatedLogfile);
-		$msg = 'Log file "'.$logfile.'" was over 100MB, moved to "'.$rotatedLogfile.'"';
+		$msg = 'Log file "'.$logfile.'" was over '.$this->max_log_size.' bytes, moved to "'.$rotatedLogfile.'"';
 		\OC_Log::write('OC\Log\Rotate', $msg, \OC_Log::WARN);
 	}
 }
