@@ -249,10 +249,10 @@ class Shared_Cache extends Cache {
 			while ($row = $result->fetchRow()) {
 				if (substr($row['path'], 0, 6)==='files/') {
 					$row['path'] = substr($row['path'],6); // remove 'files/' from path as it's relative to '/Shared'
-					$row['mimetype'] = $this->getMimetype($row['mimetype']);
-					$row['mimepart'] = $this->getMimetype($row['mimepart']);
-					$files[] = $row;
-				} // else skip results out of the files folder
+				}
+				$row['mimetype'] = $this->getMimetype($row['mimetype']);
+				$row['mimepart'] = $this->getMimetype($row['mimepart']);
+				$files[] = $row;
 			}
 		}
 		return $files;
