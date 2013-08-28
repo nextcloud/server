@@ -426,7 +426,7 @@ class OC_Installer{
 			'OC_API::',
 			'OC_App::',
 			'OC_AppConfig::',
-			'OC_Avatar::',
+			'OC_Avatar',
 			'OC_BackgroundJob::',
 			'OC_Config::',
 			'OC_DB::',

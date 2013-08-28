@@ -74,10 +74,11 @@ function showAvatarCropper() {
 			onSelect: saveCoords,
 			aspectRatio: 1
 		});
-	}).attr('src', OC.router_base_url+'/avatar/tmp/512');
+	}).attr('src', OC.router_base_url+'/avatartmp/512');
 }
 
 function sendCropData() {
+	$('#cropperbox').ocdialog('close');
 	var cropperdata = $('#cropper').data();
 	var data = {
 		x: cropperdata.x,
@@ -85,7 +86,7 @@ function sendCropData() {
 		w: cropperdata.w,
 		h: cropperdata.h
 	};
-	$.post(OC.router_base_url+'/avatar/', {crop: data}, avatarResponseHandler);
+	$.post(OC.router_base_url+'/avatar/cropped', {crop: data}, avatarResponseHandler);
 }
 
 function saveCoords(c) {

@@ -9,14 +9,16 @@
 class Test_Avatar extends PHPUnit_Framework_TestCase {
 
 	public function testAvatar() {
-		$this->assertEquals(false, \OC_Avatar::get(\OC_User::getUser()));
+		$avatar = new \OC_Avatar();
+
+		$this->assertEquals(false, $avatar->get(\OC_User::getUser()));
 
 		$expected = new OC_Image(\OC::$SERVERROOT.'/tests/data/testavatar.png');
-		\OC_Avatar::set(\OC_User::getUser(), $expected->data());
+		$avatar->set(\OC_User::getUser(), $expected->data());
 		$expected->resize(64);
-		$this->assertEquals($expected->data(), \OC_Avatar::get(\OC_User::getUser())->data());
+		$this->assertEquals($expected->data(), $avatar->get(\OC_User::getUser())->data());
 
-		\OC_Avatar::remove(\OC_User::getUser());
-		$this->assertEquals(false, \OC_Avatar::get(\OC_User::getUser()));
+		$avatar->remove(\OC_User::getUser());
+		$this->assertEquals(false, $avatar->get(\OC_User::getUser()));
 	}
 }

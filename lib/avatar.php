@@ -17,7 +17,7 @@ class OC_Avatar {
 	 * @param $size integer size in px of the avatar, defaults to 64
 	 * @return mixed \OC_Image containing the avatar or false if there's no image
 	*/
-	public static function get ($user, $size = 64) {
+	public function get ($user, $size = 64) {
 		$view = new \OC\Files\View('/'.$user);
 
 		if ($view->file_exists('avatar.jpg')) {
@@ -42,7 +42,7 @@ class OC_Avatar {
 	 * @throws \OC\NotSquareException if the image is not square
 	 * @return true on success
 	*/
-	public static function set ($user, $data) {
+	public function set ($user, $data) {
 		$view = new \OC\Files\View('/'.$user);
 
 		$img = new OC_Image($data);
@@ -73,7 +73,7 @@ class OC_Avatar {
 	 * @param $user string user to delete the avatar from
 	 * @return void
 	*/
-	public static function remove ($user) {
+	public function remove ($user) {
 		$view = new \OC\Files\View('/'.$user);
 		$view->unlink('avatar.jpg');
 		$view->unlink('avatar.png');

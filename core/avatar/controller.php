@@ -25,7 +25,8 @@ class OC_Core_Avatar_Controller {
 			$size = 64;
 		}
 
-		$image = \OC_Avatar::get($user, $size);
+		$ava = new \OC_Avatar();
+		$image = $ava->get($user, $size);
 
 		if ($image instanceof \OC_Image) {
 			$image->show();
@@ -39,7 +40,8 @@ class OC_Core_Avatar_Controller {
 
 		if (isset($_POST['path'])) {
 			$path = stripslashes($_POST['path']);
-			$avatar = OC::$SERVERROOT.'/data/'.$user.'/files'.$path;
+			$view = new \OC\Files\View('/'.$user.'/files');
+			$avatar = $view->file_get_contents($path);
 		}
 
 		if (!empty($_FILES)) {
@@ -51,10 +53,22 @@ class OC_Core_Avatar_Controller {
 		}
 
 		try {
-			\OC_Avatar::set($user, $avatar);
+			$ava = new \OC_Avatar();
+			$ava->set($user, $avatar);
 			\OC_JSON::success();
 		} catch (\OC\NotSquareException $e) {
-			// TODO move unfitting avatar to /datadir/$user/tmpavatar{png.jpg} here
+			$image = new \OC_Image($avatar);
+			$ext = substr($image->mimeType(), -3);
+			if ($ext === 'peg') {
+				$ext = 'jpg';
+			} elseif ($ext !== 'png') {
+				\OC_JSON::error();
+			}
+
+			$view = new \OC\Files\View('/'.$user);
+			$view->unlink('tmpavatar.png');
+			$view->unlink('tmpavatar.jpg');
+			$view->file_put_contents('tmpavatar.'.$ext, $image->data());
 			\OC_JSON::error(array("data" => array("message" => "notsquare") ));
 		} catch (\Exception $e) {
 			\OC_JSON::error(array("data" => array("message" => $e->getMessage()) ));
@@ -65,7 +79,8 @@ class OC_Core_Avatar_Controller {
 		$user = OC_User::getUser();
 
 		try {
-			\OC_Avatar::remove($user);
+			$avatar = new \OC_Avatar();
+			$avatar->remove($user);
 			\OC_JSON::success();
 		} catch (\Exception $e) {
 			\OC_JSON::error(array("data" => array ("message" => $e->getMessage()) ));
@@ -73,17 +88,52 @@ class OC_Core_Avatar_Controller {
 	}
 
 	public static function getTmpAvatar($args) {
-		// TODO deliver /datadir/$user/tmpavatar.{png|jpg} here, filename may include a timestamp
+		// TODO deliver actual size here as well, so Jcrop can do its magic and we have the actual coordinates here again
+		// TODO or don't have a size parameter and only resize client sided (looks promising)
+		//
 		// TODO make a cronjob that cleans up the tmpavatar after it's older than 2 hours, should be run every hour
 		$user = OC_User::getUser();
+
+		$view = new \OC\Files\View('/'.$user);
+		if ($view->file_exists('tmpavatar.png')) {
+			$ext = 'png';
+		} elseif ($view->file_exists('tmpavatar.jpg')) {
+			$ext = 'jpg';
+		} else {
+			\OC_JSON::error();
+			return;
+		}
+
+		$image = new \OC_Image($view->file_get_contents('tmpavatar.'.$ext));
+		$image->resize($args['size']);
+		$image->show();
 	}
 
 	public static function postCroppedAvatar($args) {
 		$user = OC_User::getUser();
-		$crop = json_decode($_POST['crop'], true);
-		$image = new \OC_Image($avatar);
-		$image->crop($x, $y, $w, $h);
-		$avatar = $image->data();
-		$cropped = true;
+		$view = new \OC\Files\View('/'.$user);
+		$crop = $_POST['crop'];
+
+		if ($view->file_exists('tmpavatar.png')) {
+			$ext = 'png';
+		} elseif ($view->file_exists('tmpavatar.jpg')) {
+			$ext = 'jpg';
+		} else {
+			\OC_JSON::error();
+			return;
+		}
+
+		$image = new \OC_Image($view->file_get_contents('tmpavatar.'.$ext));
+		$image->crop($crop['x'], $crop['y'], $crop['w'], $crop['h']);
+		try {
+			$avatar = new \OC_Avatar();
+			$avatar->set($user, $image->data());
+			// Clean up
+			$view->unlink('tmpavatar.png');
+			$view->unlink('tmpavatar.jpg');
+			\OC_JSON::success();
+                } catch (\Exception $e) {
+                        \OC_JSON::error(array("data" => array("message" => $e->getMessage()) ));
+                }
 	}
 }

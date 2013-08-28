@@ -10,6 +10,7 @@ namespace OCP;
 
 class Avatar {
 	public static function get ($user, $size = 64) {
-		return \OC_Avatar::get($user, $size);
+		$avatar = new \OC_Avatar();
+		return $avatar->get($user, $size);
 	}
 }

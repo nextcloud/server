@@ -68,7 +68,7 @@ $this->create('core_avatar_post', '/avatar/')
 $this->create('core_avatar_delete', '/avatar/')
 	->delete()
 	->action('OC_Core_Avatar_Controller', 'deleteAvatar');
-$this->create('core_avatar_get_tmp', '/avatar/tmp/{size}')
+$this->create('core_avatar_get_tmp', '/avatartmp/{size}') //TODO better naming, so it doesn't conflict with core_avatar_get
 	->defaults(array('size' => 64))
 	->get()
 	->action('OC_Core_Avatar_Controller', 'getTmpAvatar');
