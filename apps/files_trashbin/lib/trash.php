@@ -72,11 +72,6 @@ class Trashbin {
 		$mime = $view->getMimeType('files' . $file_path);
 
 		if ($view->is_dir('files' . $file_path)) {
-			$dirContent = $view->getDirectoryContent('files' . $file_path);
-			// no need to move empty folders to the trash bin
-			if (empty($dirContent)) {
-				return true;
-			}
 			$type = 'dir';
 		} else {
 			$type = 'file';
