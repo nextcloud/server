@@ -257,8 +257,8 @@ class OC {
 		OC_Util::addScript("compatibility");
 		OC_Util::addScript("jquery.ocdialog");
 		OC_Util::addScript("oc-dialogs");
-		OC_Util::addScript("octemplate");
 		OC_Util::addScript("js");
+		OC_Util::addScript("octemplate");
 		OC_Util::addScript("eventsource");
 		OC_Util::addScript("config");
 		//OC_Util::addScript( "multiselect" );
