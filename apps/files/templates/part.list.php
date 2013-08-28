@@ -1,14 +1,5 @@
 <input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>">
-<?php $totalfiles = 0;
-$totaldirs = 0;
-$totalsize = 0; ?>
 <?php foreach($_['files'] as $file):
-	$totalsize += $file['size'];
-	if ($file['type'] === 'dir') {
-		$totaldirs++;
-	} else {
-		$totalfiles++;
-	}
 	// the bigger the file, the darker the shade of grey; megabytes*2
 	$simple_size_color = intval(160-$file['size']/(1024*1024)*2);
 	if($simple_size_color<0) $simple_size_color = 0;
@@ -64,33 +55,4 @@ $totalsize = 0; ?>
 			</span>
 		</td>
 	</tr>
-<?php endforeach; ?>
-	<?php if ($totaldirs !== 0 || $totalfiles !== 0): ?>
-	<tr class="summary">
-		<td><span class="info">
-			<?php if ($totaldirs !== 0) {
-				p($totaldirs.' ');
-				if ($totaldirs === 1) {
-					p($l->t('directory'));
-				} else {
-					p($l->t('directories'));
-				}
-			}
-			if ($totaldirs !== 0 && $totalfiles !== 0) {
-				p(' & ');
-			}
-			if ($totalfiles !== 0) {
-				p($totalfiles.' ');
-				if ($totalfiles === 1) {
-					p($l->t('file'));
-				} else {
-					p($l->t('files'));
-				}
-			} ?>
-		</span></td>
-		<td class="filesize">
-		<?php print_unescaped(OCP\human_file_size($totalsize)); ?>
-		</td>
-		<td></td>
-	</tr>
-	<?php endif;
+<?php endforeach;

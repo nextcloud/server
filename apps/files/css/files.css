@@ -170,7 +170,20 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 }
 
 .summary {
-	opacity: .5;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+	filter: alpha(opacity=30);
+	opacity: .3;
+	height: 70px;
+}
+
+.summary:hover, .summary, table tr.summary td {
+	background-color: transparent;
+}
+
+.summary td {
+	padding-top: 8px;
+	padding-bottom: 8px;
+	border-bottom: none;
 }
 
 .summary .info {
