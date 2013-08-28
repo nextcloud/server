@@ -29,14 +29,13 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		page.find('span.author').text(app.author);
 
 		// FIXME licenses of downloaded apps go into app.licence, licenses of not-downloaded apps into app.license
+		var appLicense = '';
 		if (typeof(app.licence) !== 'undefined') {
-			var applicense = app.licence;
+			appLicense = app.licence;
 		} else if (typeof(app.license) !== 'undefined') {
-			var applicense = app.license;
-		} else {
-			var applicense = '';
+			appLicense = app.license;
 		}
-		page.find('span.licence').text(applicense);
+		page.find('span.licence').text(appLicense);
 
 		if (app.update !== false) {
 			page.find('input.update').show();
