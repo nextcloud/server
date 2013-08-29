@@ -569,9 +569,9 @@ class Preview {
 	 * @return void
 	 */
 	private static function initProviders() {
-		if(\OC_Config::getValue('disable_previews', false)) {
+		if(!\OC_Config::getValue('enable_previews', true)) {
 			$provider = new Preview\Unknown();
-			self::$providers = array($provider);
+			self::$providers = array($provider->getMimeType() => $provider);
 			return;
 		}
 
@@ -606,7 +606,7 @@ class Preview {
 	}
 
 	public static function isMimeSupported($mimetype) {
-		if(\OC_Config::getValue('disable_previews', false)) {
+		if(!\OC_Config::getValue('enable_previews', true)) {
 			return false;
 		}
 

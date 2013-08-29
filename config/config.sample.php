@@ -191,7 +191,7 @@ $CONFIG = array(
 'customclient_ios' => '', //https://itunes.apple.com/us/app/owncloud/id543672169?mt=8
 
 // PREVIEW
-'disable_previews' => false,
+'enable_previews' => true,
 /* the max width of a generated preview, if value is null, there is no limit */
 'preview_max_x' => null,
 /* the max height of a generated preview, if value is null, there is no limit */
