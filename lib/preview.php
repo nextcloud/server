@@ -570,7 +570,7 @@ class Preview {
 	 */
 	private static function initProviders() {
 		if(!\OC_Config::getValue('enable_previews', true)) {
-			$provider = new Preview\Unknown();
+			$provider = new Preview\Unknown(array());
 			self::$providers = array($provider->getMimeType() => $provider);
 			return;
 		}
