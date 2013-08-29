@@ -14,6 +14,7 @@ OCP\Util::addStyle('files', 'files');
 OCP\Util::addScript('files', 'filelist');
 // filelist overrides
 OCP\Util::addScript('files_trashbin', 'filelist');
+OCP\Util::addscript('files', 'files');
 
 $dir = isset($_GET['dir']) ? stripslashes($_GET['dir']) : '';
 
