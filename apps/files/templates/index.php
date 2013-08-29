@@ -1,8 +1,7 @@
 <!--[if IE 8]><style>input[type="checkbox"]{padding:0;}table td{position:static !important;}</style><![endif]-->
 <div id="controls">
 	<?php print_unescaped($_['breadcrumb']); ?>
-	<?php if ($_['isCreatable']):?>
-		<div class="actions <?php if (isset($_['files']) and count($_['files'])==0):?>emptycontent<?php endif; ?>">
+		<div class="actions creatable <?php if (!$_['isCreatable']):?>hidden<?php endif; ?> <?php if (isset($_['files']) and count($_['files'])==0):?>emptycontent<?php endif; ?>">
 			<div id="new" class="button">
 				<a><?php p($l->t('New'));?></a>
 				<ul>
@@ -50,10 +49,9 @@
 			</div>
 		</div>
 		<div id="file_action_panel"></div>
-	<?php elseif( !$_['isPublic'] ):?>
-		<div class="actions"><input type="button" disabled value="<?php p($l->t('You don’t have write permissions here.'))?>"></div>
-		<input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
-	<?php endif;?>
+		<div class="notCreatable notPublic <?php if ($_['isCreatable'] or $_['isPublic'] ):?>hidden<?php endif; ?>">
+			<div class="actions"><input type="button" disabled value="<?php p($l->t('You don’t have write permissions here.'))?>"></div>
+		</div>
 	<input type="hidden" name="permissions" value="<?php p($_['permissions']); ?>" id="permissions">
 </div>
 

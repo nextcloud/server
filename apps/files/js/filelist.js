@@ -7,9 +7,11 @@ var FileList={
 		});
 	},
 	update:function(fileListHtml) {
-		var $fileList = $('#fileList');
+		var $fileList = $('#fileList'),
+			permissions = $('#permissions').val(),
+			isCreatable = (permissions & OC.PERMISSION_CREATE) !== 0;
 		$fileList.empty().html(fileListHtml);
-		$('#emptycontent').toggleClass('hidden', $fileList.find('tr').length > 0);
+		$('#emptycontent').toggleClass('hidden', !isCreatable || $fileList.find('tr').length > 0);
 		$fileList.find('tr').each(function () {
 			FileActions.display($(this).children('td.filename'));
 		});
@@ -216,6 +218,10 @@ var FileList={
 			return;
 		}
 
+		if (result.data.permissions){
+			FileList.setDirectoryPermissions(result.data.permissions);
+		}
+
 		if(typeof(result.data.breadcrumb) != 'undefined'){
 			$controls.find('.crumb').remove();
 			$controls.prepend(result.data.breadcrumb);
@@ -231,6 +237,12 @@ var FileList={
 		}
 
 		FileList.update(result.data.files);
+	},
+	setDirectoryPermissions: function(permissions){
+		var isCreatable = (permissions & OC.PERMISSION_CREATE) !== 0;
+		$('#permissions').val(permissions);
+		$('.creatable').toggleClass('hidden', !isCreatable);
+		$('.notCreatable').toggleClass('hidden', isCreatable);
 	},
 	remove:function(name){
 		$('tr').filterAttr('data-file',name).find('td.filename').draggable('destroy');

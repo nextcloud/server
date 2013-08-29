@@ -111,4 +111,26 @@ class Helper
 		}
 		return $breadcrumb;
 	}
+
+	/**
+	 * Returns the numeric permissions for the given directory.
+	 * @param string $dir directory without trailing slash
+	 * @return numeric permissions
+	 */
+	public static function getDirPermissions($dir){
+		$permissions = \OCP\PERMISSION_READ;
+		if (\OC\Files\Filesystem::isCreatable($dir . '/')) {
+			$permissions |= \OCP\PERMISSION_CREATE;
+		}
+		if (\OC\Files\Filesystem::isUpdatable($dir . '/')) {
+			$permissions |= \OCP\PERMISSION_UPDATE;
+		}
+		if (\OC\Files\Filesystem::isDeletable($dir . '/')) {
+			$permissions |= \OCP\PERMISSION_DELETE;
+		}
+		if (\OC\Files\Filesystem::isSharable($dir . '/')) {
+			$permissions |= \OCP\PERMISSION_SHARE;
+		}
+		return $permissions;
+	}
 }

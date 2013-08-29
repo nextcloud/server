@@ -65,19 +65,7 @@ $breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
 $breadcrumbNav->assign('breadcrumb', $breadcrumb);
 $breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir=');
 
-$permissions = OCP\PERMISSION_READ;
-if (\OC\Files\Filesystem::isCreatable($dir . '/')) {
-	$permissions |= OCP\PERMISSION_CREATE;
-}
-if (\OC\Files\Filesystem::isUpdatable($dir . '/')) {
-	$permissions |= OCP\PERMISSION_UPDATE;
-}
-if (\OC\Files\Filesystem::isDeletable($dir . '/')) {
-	$permissions |= OCP\PERMISSION_DELETE;
-}
-if (\OC\Files\Filesystem::isSharable($dir . '/')) {
-	$permissions |= OCP\PERMISSION_SHARE;
-}
+$permissions = \OCA\files\lib\Helper::getDirPermissions($dir);
 
 if ($needUpgrade) {
 	OCP\Util::addscript('files', 'upgrade');
