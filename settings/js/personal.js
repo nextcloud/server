@@ -72,9 +72,11 @@ function showAvatarCropper() {
 		$(this).Jcrop({
 			onChange: saveCoords,
 			onSelect: saveCoords,
-			aspectRatio: 1
+			aspectRatio: 1,
+			boxHeight: 500,
+			boxWidth: 500
 		});
-	}).attr('src', OC.Router.generate('core_avatar_get_tmp', {size: 512}));
+	}).attr('src', OC.Router.generate('core_avatar_get_tmp'));
 }
 
 function sendCropData() {
@@ -190,11 +192,6 @@ $(document).ready(function(){
 		}
 	});
 	
-	$('#uploadavatar').click(function(){
-		alert('To be done');
-		updateAvatar();
-	});
-
 	var uploadparms = {
 		done: function(e, data) {
 			avatarResponseHandler(data.result);

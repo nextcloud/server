@@ -58,17 +58,8 @@ class OC_Core_Avatar_Controller {
 			\OC_JSON::success();
 		} catch (\OC\NotSquareException $e) {
 			$image = new \OC_Image($avatar);
-			$ext = substr($image->mimeType(), -3);
-			if ($ext === 'peg') {
-				$ext = 'jpg';
-			} elseif ($ext !== 'png') {
-				\OC_JSON::error();
-			}
 
-			$view = new \OC\Files\View('/'.$user);
-			$view->unlink('tmpavatar.png');
-			$view->unlink('tmpavatar.jpg');
-			$view->file_put_contents('tmpavatar.'.$ext, $image->data());
+			\OC_Cache::set('tmpavatar', $image->data());
 			\OC_JSON::error(array("data" => array("message" => "notsquare") ));
 		} catch (\Exception $e) {
 			\OC_JSON::error(array("data" => array("message" => $e->getMessage()) ));
@@ -90,47 +81,35 @@ class OC_Core_Avatar_Controller {
 	public static function getTmpAvatar($args) {
 		// TODO deliver actual size here as well, so Jcrop can do its magic and we have the actual coordinates here again
 		// TODO or don't have a size parameter and only resize client sided (looks promising)
-		//
-		// TODO move the tmpavatar to the cache instead, so it's cleaned up after some time
 		$user = OC_User::getUser();
 
-		$view = new \OC\Files\View('/'.$user);
-		if ($view->file_exists('tmpavatar.png')) {
-			$ext = 'png';
-		} elseif ($view->file_exists('tmpavatar.jpg')) {
-			$ext = 'jpg';
-		} else {
+		$tmpavatar = \OC_Cache::get('tmpavatar');
+		if ($tmpavatar === false) {
 			\OC_JSON::error();
 			return;
 		}
 
-		$image = new \OC_Image($view->file_get_contents('tmpavatar.'.$ext));
-		$image->resize($args['size']);
+		$image = new \OC_Image($tmpavatar);
 		$image->show();
 	}
 
 	public static function postCroppedAvatar($args) {
 		$user = OC_User::getUser();
-		$view = new \OC\Files\View('/'.$user);
 		$crop = $_POST['crop'];
 
-		if ($view->file_exists('tmpavatar.png')) {
-			$ext = 'png';
-		} elseif ($view->file_exists('tmpavatar.jpg')) {
-			$ext = 'jpg';
-		} else {
+		$tmpavatar = \OC_Cache::get('tmpavatar');
+		if ($tmpavatar === false) {
 			\OC_JSON::error();
 			return;
 		}
 
-		$image = new \OC_Image($view->file_get_contents('tmpavatar.'.$ext));
+		$image = new \OC_Image($tmpavatar);
 		$image->crop($crop['x'], $crop['y'], $crop['w'], $crop['h']);
 		try {
 			$avatar = new \OC_Avatar();
 			$avatar->set($user, $image->data());
 			// Clean up
-			$view->unlink('tmpavatar.png');
-			$view->unlink('tmpavatar.jpg');
+			\OC_Cache::remove('tmpavatar');
 			\OC_JSON::success();
                 } catch (\Exception $e) {
                         \OC_JSON::error(array("data" => array("message" => $e->getMessage()) ));
