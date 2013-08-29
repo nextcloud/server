@@ -160,23 +160,31 @@ var FileList={
 	 * @param targetDir target directory (non URL encoded)
 	 * @param changeUrl false if the URL must not be changed (defaults to true)
 	 */
-	changeDirectory: function(targetDir, changeUrl){
+	changeDirectory: function(targetDir, changeUrl, force){
 		var $dir = $('#dir'),
 			url,
 			currentDir = $dir.val() || '/';
 		targetDir = targetDir || '/';
-		if (currentDir === targetDir){
+		if (!force && currentDir === targetDir){
 			return;
 		}
 		FileList.setCurrentDir(targetDir, changeUrl);
 		FileList.reload();
 	},
+	linkTo: function(dir){
+		return OC.linkTo('files', 'index.php')+"?dir="+ encodeURIComponent(dir).replace(/%2F/g, '/');
+	},
 	setCurrentDir: function(targetDir, changeUrl){
 		$('#dir').val(targetDir);
-		// Note: IE8 handling ignored for now
-		if (window.history.pushState && changeUrl !== false){
-			url = OC.linkTo('files', 'index.php')+"?dir="+ encodeURIComponent(targetDir).replace(/%2F/g, '/'),
-			window.history.pushState({dir: targetDir}, '', url);
+		if (changeUrl !== false){
+			if (window.history.pushState && changeUrl !== false){
+				url = FileList.linkTo(targetDir);
+				window.history.pushState({dir: targetDir}, '', url);
+			}
+			// use URL hash for IE8
+			else{
+				window.location.hash = '?dir='+ encodeURIComponent(targetDir).replace(/%2F/g, '/');
+			}
 		}
 	},
 	/**
@@ -837,6 +845,37 @@ $(document).ready(function(){
 		$(window).trigger('beforeunload');
 	});
 
+	function parseHashQuery(){
+		var hash = window.location.hash,
+			pos = hash.indexOf('?'),
+			query;
+		if (pos >= 0){
+			return hash.substr(pos + 1);
+		}
+		return '';
+	}
+
+	function parseCurrentDirFromUrl(){
+		var query = parseHashQuery(),
+			params,
+			dir = '/';
+		// try and parse from URL hash first
+		if (query){
+			params = OC.parseQueryString(query);
+		}
+		// else read from query attributes
+		if (!params){
+			params = OC.parseQueryString(location.search);
+		}
+		return (params && params.dir) || '/';
+	}
+
+	// fallback to hashchange when no history support
+	if (!window.history.pushState){
+		$(window).on('hashchange', function(){
+			FileList.changeDirectory(parseCurrentDirFromUrl(), false);
+		});
+	}
 	window.onpopstate = function(e){
 		var targetDir;
 		if (e.state && e.state.dir){
@@ -844,11 +883,16 @@ $(document).ready(function(){
 		}
 		else{
 			// read from URL
-			targetDir = (OC.parseQueryString(location.search) || {dir: '/'}).dir || '/';
+			targetDir = parseCurrentDirFromUrl();
 		}
 		if (targetDir){
 			FileList.changeDirectory(targetDir, false);
 		}
+	}
+
+	if (parseInt($('#ajaxLoad').val(), 10) === 1){
+		// need to initially switch the dir to the one from the hash (IE8)
+		FileList.changeDirectory(parseCurrentDirFromUrl(), false, true);
 	}
 
 	FileList.createFileSummary();

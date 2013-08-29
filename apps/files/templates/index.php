@@ -55,7 +55,7 @@
 	<input type="hidden" name="permissions" value="<?php p($_['permissions']); ?>" id="permissions">
 </div>
 
-<div id="emptycontent" <?php if (!isset($_['files']) or !$_['isCreatable'] or count($_['files']) > 0):?>class="hidden"<?php endif; ?>><?php p($l->t('Nothing in here. Upload something!'))?></div>
+<div id="emptycontent" <?php if (!isset($_['files']) or !$_['isCreatable'] or count($_['files']) > 0 or !$_['ajaxLoad']):?>class="hidden"<?php endif; ?>><?php p($l->t('Nothing in here. Upload something!'))?></div>
 
 <input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>"></input>
 
@@ -120,6 +120,7 @@
 </div>
 
 <!-- config hints for javascript -->
+<input type="hidden" name="ajaxLoad" id="ajaxLoad" value="<?php p($_['ajaxLoad']); ?>" />
 <input type="hidden" name="allowZipDownload" id="allowZipDownload" value="<?php p($_['allowZipDownload']); ?>" />
 <input type="hidden" name="usedSpacePercent" id="usedSpacePercent" value="<?php p($_['usedSpacePercent']); ?>" />
 <input type="hidden" name="encryptedFiles" id="encryptedFiles" value="<?php $_['encryptedFiles'] ? p('1') : p('0'); ?>" />

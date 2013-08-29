@@ -19,11 +19,6 @@ FileList.reload = function(){
 	});
 }
 
-FileList.setCurrentDir = function(targetDir, changeUrl){
-	$('#dir').val(targetDir);
-	// Note: IE8 handling ignored for now
-	if (window.history.pushState && changeUrl !== false){
-		url = OC.linkTo('files_trashbin', 'index.php')+"?dir="+ encodeURIComponent(targetDir).replace(/%2F/g, '/'),
-		window.history.pushState({dir: targetDir}, '', url);
-	}
+FileList.linkTo = function(dir){
+	return OC.linkTo('files_trashbin', 'index.php')+"?dir="+ encodeURIComponent(dir).replace(/%2F/g, '/');
 }
