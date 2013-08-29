@@ -55,7 +55,7 @@ namespace OCP\Core\Contacts {
 		 *  Following function shows how to search for contacts for the name and the email address.
 		 *
 		 *		public static function getMatchingRecipient($term) {
-		 *			$cm = \OC:$server->getContactsManager();
+		 *			$cm = \OC::$server->getContactsManager();
 		 *			// The API is not active -> nothing to do
 		 *			if (!$cm->isEnabled()) {
 		 *				return array();
