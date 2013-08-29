@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"No app name specified" => "De app naam is niet gespecificeerd.",
 "Help" => "Help",
 "Personal" => "Persoonlijk",
 "Settings" => "Instellingen",

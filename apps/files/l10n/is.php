@@ -31,7 +31,6 @@ $TRANSLATIONS = array(
 "'.' is an invalid file name." => "'.' er ekki leyfilegt nafn.",
 "File name cannot be empty." => "Nafn skráar má ekki vera tómt",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Ógilt nafn, táknin '\\', '/', '<', '>', ':', '\"', '|', '?' og '*' eru ekki leyfð.",
-"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Óleyfilegt nafn á möppu. Nafnið 'Shared' er frátekið fyrir Owncloud",
 "Name" => "Nafn",
 "Size" => "Stærð",
 "Modified" => "Breytt",

@@ -37,7 +37,6 @@ $TRANSLATIONS = array(
 "Your storage is full, files can not be updated or synced anymore!" => "Ruang penyimpanan Anda penuh, berkas tidak dapat diperbarui atau disinkronkan lagi!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Ruang penyimpanan hampir penuh ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "Unduhan Anda sedang disiapkan. Prosesnya dapat berlangsung agak lama jika ukuran berkasnya besar.",
-"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Nama folder salah. Nama 'Shared' telah digunakan oleh Owncloud.",
 "Name" => "Nama",
 "Size" => "Ukuran",
 "Modified" => "Dimodifikasi",

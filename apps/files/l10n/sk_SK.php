@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "Your storage is almost full ({usedSpacePercent}%)" => "Vaše úložisko je takmer plné ({usedSpacePercent}%)",
 "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Šifrovanie bolo zakázané, ale vaše súbory sú stále zašifrované. Prosím, choďte do osobného nastavenia pre dešifrovanie súborov.",
 "Your download is being prepared. This might take some time if the files are big." => "Vaše sťahovanie sa pripravuje. Ak sú sťahované súbory veľké, môže to chvíľu trvať.",
-"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Neplatné meno priečinka. Používanie mena 'Shared' je vyhradené len pre Owncloud",
 "Name" => "Názov",
 "Size" => "Veľkosť",
 "Modified" => "Upravené",

@@ -37,7 +37,6 @@ $TRANSLATIONS = array(
 "Your storage is full, files can not be updated or synced anymore!" => "Ваше складиште је пуно. Датотеке више не могу бити ажуриране ни синхронизоване.",
 "Your storage is almost full ({usedSpacePercent}%)" => "Ваше складиште је скоро па пуно ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "Припремам преузимање. Ово може да потраје ако су датотеке велике.",
-"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Неисправно име фасцикле. Фасцикла „Shared“ је резервисана за ownCloud.",
 "Name" => "Име",
 "Size" => "Величина",
 "Modified" => "Измењено",

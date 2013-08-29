@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:06+0000\n"
+"POT-Creation-Date: 2013-08-27 11:18-0400\n"
+"PO-Revision-Date: 2013-08-27 15:18+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -94,21 +94,20 @@ msgstr ""
 msgid "Upload cancelled."
 msgstr "Преземањето е прекинато."
 
-#: js/file-upload.js:167 js/files.js:280
+#: js/file-upload.js:167
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Подигање на датотека е во тек. Напуштење на страницата ќе го прекине."
 
-#: js/file-upload.js:233 js/files.js:353
+#: js/file-upload.js:241
 msgid "URL cannot be empty."
 msgstr "Адресата неможе да биде празна."
 
-#: js/file-upload.js:238 lib/app.php:53
+#: js/file-upload.js:246 lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
 msgstr ""
 
-#: js/file-upload.js:269 js/file-upload.js:285 js/files.js:389 js/files.js:405
-#: js/files.js:709 js/files.js:747
+#: js/file-upload.js:277 js/file-upload.js:293 js/files.js:511 js/files.js:549
 msgid "Error"
 msgstr "Грешка"
 
@@ -196,29 +195,25 @@ msgid ""
 "big."
 msgstr ""
 
-#: js/files.js:358
-msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr ""
-
-#: js/files.js:760 templates/index.php:67
+#: js/files.js:562 templates/index.php:67
 msgid "Name"
 msgstr "Име"
 
-#: js/files.js:761 templates/index.php:78
+#: js/files.js:563 templates/index.php:78
 msgid "Size"
 msgstr "Големина"
 
-#: js/files.js:762 templates/index.php:80
+#: js/files.js:564 templates/index.php:80
 msgid "Modified"
 msgstr "Променето"
 
-#: js/files.js:778
+#: js/files.js:580
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/files.js:784
+#: js/files.js:586
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] ""

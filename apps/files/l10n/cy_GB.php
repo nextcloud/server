@@ -37,7 +37,6 @@ $TRANSLATIONS = array(
 "Your storage is full, files can not be updated or synced anymore!" => "Mae eich storfa'n llawn, ni ellir diweddaru a chydweddu ffeiliau mwyach!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Mae eich storfa bron a bod yn llawn ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "Wrthi'n paratoi i lwytho i lawr. Gall gymryd peth amser os yw'r ffeiliau'n fawr.",
-"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Enw plygell annilys. Mae'r defnydd o 'Shared' yn cael ei gadw gan Owncloud",
 "Name" => "Enw",
 "Size" => "Maint",
 "Modified" => "Addaswyd",

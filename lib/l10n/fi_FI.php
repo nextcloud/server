@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "Sovellusta \"%s\" ei voi asentaa, koska se ei ole yhteensopiva käytössä olevan ownCloud-version kanssa.",
 "Help" => "Ohje",
 "Personal" => "Henkilökohtainen",
 "Settings" => "Asetukset",
@@ -10,6 +11,12 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "Tiedostot on ladattava yksittäin.",
 "Back to Files" => "Takaisin tiedostoihin",
 "Selected files too large to generate zip file." => "Valitut tiedostot ovat liian suurikokoisia mahtuakseen zip-tiedostoon.",
+"No source specified when installing app" => "Lähdettä ei määritelty sovellusta asennettaessa",
+"No path specified when installing app from local file" => "Polkua ei määritelty sovellusta asennettaessa paikallisesta tiedostosta",
+"Archives of type %s are not supported" => "Tyypin %s arkistot eivät ole tuettuja",
+"App does not provide an info.xml file" => "Sovellus ei sisällä info.xml-tiedostoa",
+"App directory already exists" => "Sovelluskansio on jo olemassa",
+"Can't create app folder. Please fix permissions. %s" => "Sovelluskansion luominen ei onnistu. Korjaa käyttöoikeudet. %s",
 "Application is not enabled" => "Sovellusta ei ole otettu käyttöön",
 "Authentication error" => "Tunnistautumisvirhe",
 "Token expired. Please reload page." => "Valtuutus vanheni. Lataa sivu uudelleen.",

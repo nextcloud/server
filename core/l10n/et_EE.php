@@ -1,6 +1,12 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s jagas sinuga »%s«",
+"Turned on maintenance mode" => "Haldusreziimis",
+"Turned off maintenance mode" => "Haldusreziim lõpetatud",
+"Updated database" => "Uuendatud andmebaas",
+"Updating filecache, this may take really long..." => "Uuendan failipuhvrit, see võib kesta väga kaua...",
+"Updated filecache" => "Uuendatud failipuhver",
+"... %d%% done ..." => "... %d%% tehtud ...",
 "Category type not provided." => "Kategooria tüüp puudub.",
 "No category to add?" => "Pole kategooriat, mida lisada?",
 "This category already exists: %s" => "See kategooria on juba olemas: %s",

@@ -40,7 +40,6 @@ $TRANSLATIONS = array(
 "Your storage is full, files can not be updated or synced anymore!" => "您的存储空间已满，文件将无法更新或同步！",
 "Your storage is almost full ({usedSpacePercent}%)" => "您的存储空间即将用完 ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "下载正在准备中。如果文件较大可能会花费一些时间。",
-"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "无效文件夹名。'共享' 是 Owncloud 预留的文件夹名。",
 "Name" => "名称",
 "Size" => "大小",
 "Modified" => "修改日期",

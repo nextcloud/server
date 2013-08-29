@@ -8,7 +8,7 @@ OC_JSON::checkLoggedIn();
 OC_APP::loadApps();
 
 $username = isset($_POST['username']) ? $_POST['username'] : OC_User::getUser();
-$password = isset($_POST['password']) ? $_POST['password'] : null;
+$password = isset($_POST['personal-password']) ? $_POST['personal-password'] : null;
 $oldPassword = isset($_POST['oldpassword']) ? $_POST['oldpassword'] : '';
 $recoveryPassword = isset($_POST['recoveryPassword']) ? $_POST['recoveryPassword'] : null;
 

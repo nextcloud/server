@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Aleksey Grigoryev <alexvamp@gmail.com>, 2013
 # Alexander Shashkevych <alex@stunpix.com>, 2013
 # alfsoft <alfsoft@gmail.com>, 2013
 # lord93 <lordakryl@gmail.com>, 2013
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-25 19:18-0400\n"
-"PO-Revision-Date: 2013-08-25 23:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-27 11:18-0400\n"
+"PO-Revision-Date: 2013-08-26 07:10+0000\n"
+"Last-Translator: Aleksey Grigoryev <alexvamp@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -136,7 +137,7 @@ msgstr "Обновлено"
 
 #: js/personal.js:150
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "Расшифровка файлов... Пожалуйста, подождите, это может занять некоторое время."
 
 #: js/personal.js:172
 msgid "Saving..."

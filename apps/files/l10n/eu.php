@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "Your storage is almost full ({usedSpacePercent}%)" => "Zure biltegiratzea nahiko beterik dago (%{usedSpacePercent})",
 "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Enkriptazioa desgaitua izan da baina zure fitxategiak oraindik enkriptatuta daude. Mesedez  jo zure ezarpen pertsonaletara zure fitxategiak dekodifikatzeko.",
 "Your download is being prepared. This might take some time if the files are big." => "Zure deskarga prestatu egin behar da. Denbora bat har lezake fitxategiak handiak badira. ",
-"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Baliogabeako karpeta izena. 'Shared' izena Owncloudek erreserbatzen du",
 "Name" => "Izena",
 "Size" => "Tamaina",
 "Modified" => "Aldatuta",

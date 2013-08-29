@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-22 10:36-0400\n"
-"PO-Revision-Date: 2013-08-22 09:40+0000\n"
+"POT-Creation-Date: 2013-08-28 06:22-0400\n"
+"PO-Revision-Date: 2013-08-28 09:30+0000\n"
 "Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -23,6 +23,31 @@ msgstr ""
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s jagas sinuga »%s«"
+
+#: ajax/update.php:11
+msgid "Turned on maintenance mode"
+msgstr "Haldusreziimis"
+
+#: ajax/update.php:14
+msgid "Turned off maintenance mode"
+msgstr "Haldusreziim lõpetatud"
+
+#: ajax/update.php:17
+msgid "Updated database"
+msgstr "Uuendatud andmebaas"
+
+#: ajax/update.php:20
+msgid "Updating filecache, this may take really long..."
+msgstr "Uuendan failipuhvrit, see võib kesta väga kaua..."
+
+#: ajax/update.php:23
+msgid "Updated filecache"
+msgstr "Uuendatud failipuhver"
+
+#: ajax/update.php:26
+#, php-format
+msgid "... %d%% done ..."
+msgstr "... %d%% tehtud ..."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."

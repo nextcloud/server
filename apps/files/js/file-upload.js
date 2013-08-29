@@ -102,6 +102,18 @@ $(document).ready(function() {
 			var result=$.parseJSON(response);
 
 			if(typeof result[0] !== 'undefined' && result[0].status === 'success') {
+				var filename = result[0].originalname;
+
+				// delete jqXHR reference
+				if (typeof data.context !== 'undefined' && data.context.data('type') === 'dir') {
+					var dirName = data.context.data('file');
+					delete uploadingFiles[dirName][filename];
+					if ($.assocArraySize(uploadingFiles[dirName]) == 0) {
+						delete uploadingFiles[dirName];
+					}
+				} else {
+					delete uploadingFiles[filename];
+				}
 				var file = result[0];
 			} else {
 				data.textStatus = 'servererror';
@@ -109,20 +121,6 @@ $(document).ready(function() {
 				var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
 				fu._trigger('fail', e, data);
 			}
-
-			var filename = result[0].originalname;
-
-			// delete jqXHR reference
-			if (typeof data.context !== 'undefined' && data.context.data('type') === 'dir') {
-				var dirName = data.context.data('file');
-				delete uploadingFiles[dirName][filename];
-				if ($.assocArraySize(uploadingFiles[dirName]) == 0) {
-					delete uploadingFiles[dirName];
-				}
-			} else {
-				delete uploadingFiles[filename];
-			}
-
 		},
 		/**
 		 * called after last upload

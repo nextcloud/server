@@ -40,7 +40,6 @@ $TRANSLATIONS = array(
 "Your storage is full, files can not be updated or synced anymore!" => "A tároló tele van, a fájlok nem frissíthetőek vagy szinkronizálhatóak a jövőben.",
 "Your storage is almost full ({usedSpacePercent}%)" => "A tároló majdnem tele van ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "Készül a letöltendő állomány. Ez eltarthat egy ideig, ha nagyok a fájlok.",
-"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Érvénytelen mappanév. A név használata csak a Owncloud számára lehetséges.",
 "Name" => "Név",
 "Size" => "Méret",
 "Modified" => "Módosítva",

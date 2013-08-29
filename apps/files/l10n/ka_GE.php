@@ -37,7 +37,6 @@ $TRANSLATIONS = array(
 "Your storage is full, files can not be updated or synced anymore!" => "თქვენი საცავი გადაივსო. ფაილების განახლება და სინქრონიზირება ვერ მოხერხდება!",
 "Your storage is almost full ({usedSpacePercent}%)" => "თქვენი საცავი თითქმის გადაივსო ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "გადმოწერის მოთხოვნა მუშავდება. ის მოითხოვს გარკვეულ დროს რაგდან ფაილები არის დიდი ზომის.",
-"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "დაუშვებელი ფოლდერის სახელი.  'Shared'–ის გამოყენება რეზერვირებულია Owncloud–ის მიერ",
 "Name" => "სახელი",
 "Size" => "ზომა",
 "Modified" => "შეცვლილია",
