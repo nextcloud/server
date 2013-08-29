@@ -1,3 +1,4 @@
+
 <?php
 /**
  * Copyright (c) 2013 Bart Visscher <bartv@thisnet.nl>
@@ -22,30 +23,30 @@ if (!OC::$CLI) {
 
 $self = basename($argv[0]);
 if ($argc <= 1) {
-        $argv[1] = "help";
+	$argv[1] = "help";
 }
 
 $command = $argv[1];
 array_shift($argv);
 
 switch ($command) {
-        case 'files:scan':
-                require_once 'apps/files/console/scan.php';
-                break;
-        case 'status':
-                require_once 'status.php';
-                break;
-        case 'help':
-                echo "Usage:" . PHP_EOL;
-                echo " " . $self . " <command>" . PHP_EOL; 
-                echo PHP_EOL;
-                echo "Available commands:" . PHP_EOL;
-                echo " files:scan -> rescan filesystem" .PHP_EOL;
-                echo " status -> show some status information" .PHP_EOL;
-                echo " help -> show this help screen" .PHP_EOL;
-                break;
-        default:
-                echo "Unknown command '$command'" . PHP_EOL;
-                echo "For available commands type ". $self . " help" . PHP_EOL;
-                break;
+	case 'files:scan':
+		require_once 'apps/files/console/scan.php';
+		break;
+	case 'status':
+		require_once 'status.php';
+		break;
+	case 'help':
+		echo "Usage:" . PHP_EOL;
+		echo " " . $self . " <command>" . PHP_EOL;
+		echo PHP_EOL;
+		echo "Available commands:" . PHP_EOL;
+		echo " files:scan -> rescan filesystem" .PHP_EOL;
+		echo " status -> show some status information" .PHP_EOL;
+		echo " help -> show this help screen" .PHP_EOL;
+		break;
+	default:
+		echo "Unknown command '$command'" . PHP_EOL;
+		echo "For available commands type ". $self . " help" . PHP_EOL;
+		break;
 }

@@ -34,9 +34,9 @@ try {
 		'versionstring'=>OC_Util::getVersionString(),
 		'edition'=>OC_Util::getEditionString());
 	if (OC::$CLI) {
-        	print_r($values);
+		print_r($values);
 	} else {
-        	echo(json_encode($values));
+		echo(json_encode($values));
 	}
 
 } catch (Exception $ex) {
