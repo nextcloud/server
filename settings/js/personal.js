@@ -49,8 +49,8 @@ function selectAvatar (path) {
 }
 
 function updateAvatar () {
-	$avatarimg = $('#avatar img');
-	$avatarimg.attr('src', $avatarimg.attr('src') + '#');
+	$('header .avatardiv').avatar(OC.currentUser, 32);
+	$('#avatar .avatardiv').avatar(OC.currentUser, 128);
 }
 
 function showAvatarCropper() {

@@ -18,8 +18,6 @@ OC_Util::addStyle( '3rdparty', 'chosen' );
 \OC_Util::addScript('files', 'jquery.fileupload');
 \OC_Util::addScript('3rdparty/Jcrop', 'jquery.Jcrop.min');
 \OC_Util::addStyle('3rdparty/Jcrop', 'jquery.Jcrop.min');
-\OC_Util::addScript('3rdparty', 'md5/md5.min');
-\OC_Util::addScript('core', 'placeholder');
 OC_App::setActiveNavigationEntry( 'personal' );
 
 $storageInfo=OC_Helper::getStorageInfo('/');

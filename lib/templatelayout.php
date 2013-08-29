@@ -18,8 +18,6 @@ class OC_TemplateLayout extends OC_Template {
 				$this->assign('bodyid', 'body-user');
 			}
 
-			$this->assign('avatar', '<img class="avatar" src="'.\OC_Helper::linkToRoute('core_avatar_get').'/'.OC_User::getUser().'/32">');
-
 			// Update notification
 			if(OC_Config::getValue('updatechecker', true) === true) {
 				$data=OC_Updater::check();

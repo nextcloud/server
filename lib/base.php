@@ -265,6 +265,12 @@ class OC {
 		OC_Util::addScript('search', 'result');
 		OC_Util::addScript('router');
 
+		// defaultavatars
+		\OC_Util::addScript('placeholder');
+		\OC_Util::addScript('3rdparty', 'md5/md5.min');
+		\OC_Util::addScript('jquery.avatar');
+		\OC_Util::addScript('avatar');
+
 		OC_Util::addStyle("styles");
 		OC_Util::addStyle("multiselect");
 		OC_Util::addStyle("jquery-ui-1.10.0.custom");

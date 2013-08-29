@@ -31,7 +31,7 @@ class OC_Core_Avatar_Controller {
 		if ($image instanceof \OC_Image) {
 			$image->show();
 		} elseif ($image === false) {
-			\OC_JSON::success(array('user' => $user, 'size' => $size));
+			\OC_JSON::success(array('user' => \OC_User::getDisplayName($user), 'size' => $size));
 		}
 	}
 
