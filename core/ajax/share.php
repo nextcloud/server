@@ -97,66 +97,47 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			$noMail = array();
 			$recipientList = array();
 
-			if ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
-				$users = \OC_Group::usersInGroup($recipient);
-				foreach ($users as $user) {
-					$email = OC_Preferences::getValue($user, 'settings', 'email', '');
-					if ($email !== '' || $recipient === \OCP\User::getUser()) {
-						$recipientList[] = array(
-							'email' => $email,
-							'displayName' => \OCP\User::getDisplayName($user),
-							'uid' => $user,
-						);
-					} else {
-						$noMail[] = \OCP\User::getDisplayName($user);
-					}
-				}
-			} else { // shared to a single user
-				$email = OC_Preferences::getValue($recipient, 'settings', 'email', '');
-				if ($email !== '') {
-					$recipientList[] = array(
-						'email' => $email,
-						'displayName' => \OCP\User::getDisplayName($recipient),
-						'uid' => $recipient,
-					);
-				} else {
-					$noMail[] = \OCP\User::getDisplayName($recipient);
-				}
+			if($shareType === \OCP\Share::SHARE_TYPE_USER) {
+				$recipientList[] = $recipient;
+			} elseif ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
+				$recipientList = \OC_Group::usersInGroup($recipient);
 			}
 
 			// send mail to all recipients with an email address
 			foreach ($recipientList as $recipient) {
 				//get correct target folder name
+				$email = OC_Preferences::getValue($recipient, 'settings', 'email', '');
 
-				$users = \OCP\Share::getItemSharedWithUser($itemType, $itemSource, $recipient['uid']);
-				$targetName = $users[0]['file_target'];
+				if ($email !== '') {
+					$displayName = \OCP\User::getDisplayName($recipient);
+					$items = \OCP\Share::getItemSharedWithUser($itemType, $itemSource, $recipient);
+					$filename = $items[0]['file_target'];
 
-				//$share = $shareManager->getShares($itemType, array('shareWith' => $recipient['uid'], 'isShareWithUser' => true, 'itemSource' => $itemSource));
-				//$targetName = $share[0]->getItemTarget();
-				if ($itemType === 'folder') {
-					$foldername = "/Shared/" . $targetName;
-					$filename = $targetName;
+					if ($itemType === 'folder') {
+						$foldername = "/Shared/" . $filename;
+					} else {
+						// if it is a file we can just link to the Shared folder,
+						// that's the place where the user will find the file
+						$foldername = "/Shared";
+					}
+
+					$url = \OCP\Util::linkToAbsolute('files', 'index.php', array("dir" => $foldername));
+					$text = $defaults->getShareNotificationText(\OCP\User::getDisplayName(), $filename, $itemType, $url);
+
+					try {
+						OCP\Util::sendMail(
+								$email,
+								$displayName,
+								$subject,
+								$text,
+								$from,
+								\OCP\User::getDisplayName()
+						);
+					} catch (Exception $exception) {
+						$noMail[] = \OCP\User::getDisplayName($recipient['displayName']);
+					}
 				} else {
-					// if it is a file we can just link to the Shared folder,
-					// that's the place where the user will find the file
-					$foldername = "/Shared";
-					$filename = $targetName;
-				}
-
-				$url = \OCP\Util::linkToAbsolute('files', 'index.php', array("dir" => $foldername));
-				$text = $defaults->getShareNotificationText(\OCP\User::getDisplayName(), $filename, $itemType, $url);
-
-				try {
-					OCP\Util::sendMail(
-							$recipient['email'],
-							$recipient['displayName'],
-							$subject,
-							$text,
-							$from,
-							\OCP\User::getDisplayName()
-					);
-				} catch (Exception $exception) {
-					$noMail[] = \OCP\User::getDisplayName($recipient['displayName']);
+					$noMail[] = \OCP\User::getDisplayName($recipient);
 				}
 			}
 
