@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-25 19:18-0400\n"
-"PO-Revision-Date: 2013-08-25 23:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-27 11:18-0400\n"
+"PO-Revision-Date: 2013-08-26 13:40+0000\n"
+"Last-Translator: rogerc\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,11 +23,11 @@ msgstr ""
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr ""
+msgstr "L'aplicació \"%s\" no es pot instal·lar perquè no és compatible amb aquesta versió d'ownCloud."
 
 #: app.php:250
 msgid "No app name specified"
-msgstr ""
+msgstr "No heu especificat cap nom d'aplicació"
 
 #: app.php:361
 msgid "Help"
@@ -87,59 +87,59 @@ msgstr "Baixeu els fitxers en trossos petits, de forma separada, o pregunteu a l
 
 #: installer.php:63
 msgid "No source specified when installing app"
-msgstr ""
+msgstr "No heu especificat la font en instal·lar l'aplicació"
 
 #: installer.php:70
 msgid "No href specified when installing app from http"
-msgstr ""
+msgstr "No heu especificat href en instal·lar l'aplicació des de http"
 
 #: installer.php:75
 msgid "No path specified when installing app from local file"
-msgstr ""
+msgstr "No heu seleccionat el camí en instal·lar una aplicació des d'un fitxer local"
 
 #: installer.php:89
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr ""
+msgstr "Els fitxers del tipus %s no són compatibles"
 
 #: installer.php:103
 msgid "Failed to open archive when installing app"
-msgstr ""
+msgstr "Ha fallat l'obertura del fitxer en instal·lar l'aplicació"
 
 #: installer.php:123
 msgid "App does not provide an info.xml file"
-msgstr ""
+msgstr "L'aplicació no proporciona un fitxer info.xml"
 
 #: installer.php:129
 msgid "App can't be installed because of not allowed code in the App"
-msgstr ""
+msgstr "L'aplicació no es pot instal·lar perquè hi ha codi no autoritzat en l'aplicació"
 
 #: installer.php:138
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr ""
+msgstr "L'aplicació no es pot instal·lar perquè no és compatible amb aquesta versió d'ownCloud"
 
 #: installer.php:144
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
-msgstr ""
+msgstr "L'aplicació no es pot instal·lar perquè conté l'etiqueta <shipped>vertader</shipped> que no es permet per aplicacions no enviades"
 
 #: installer.php:150
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr ""
+msgstr "L'aplicació no es pot instal·lar perquè la versió a info.xml/version no és la mateixa que la versió indicada des de la botiga d'aplicacions"
 
 #: installer.php:160
 msgid "App directory already exists"
-msgstr ""
+msgstr "La carpeta de l'aplicació ja existeix"
 
 #: installer.php:173
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr ""
+msgstr "No es pot crear la carpeta de l'aplicació. Arregleu els permisos. %s"
 
 #: json.php:28
 msgid "Application is not enabled"

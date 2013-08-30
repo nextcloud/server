@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Xuetian Weng <wengxt@gmail.com>, 2013
 # zhangmin <zm1990s@gmail.com>, 2013
 # zhangmin <zm1990s@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:06+0000\n"
+"POT-Creation-Date: 2013-08-30 09:32-0400\n"
+"PO-Revision-Date: 2013-08-30 13:33+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -23,6 +24,35 @@ msgstr ""
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s 向您分享了 »%s«"
+
+#: ajax/share.php:227
+msgid "group"
+msgstr ""
+
+#: ajax/update.php:11
+msgid "Turned on maintenance mode"
+msgstr "启用维护模式"
+
+#: ajax/update.php:14
+msgid "Turned off maintenance mode"
+msgstr "关闭维护模式"
+
+#: ajax/update.php:17
+msgid "Updated database"
+msgstr "数据库已更新"
+
+#: ajax/update.php:20
+msgid "Updating filecache, this may take really long..."
+msgstr "正在更新文件缓存，这可能需要较长时间..."
+
+#: ajax/update.php:23
+msgid "Updated filecache"
+msgstr "文件缓存已更新"
+
+#: ajax/update.php:26
+#, php-format
+msgid "... %d%% done ..."
+msgstr "...已完成 %d%% ..."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -155,7 +185,7 @@ msgstr[0] "%n 分钟前"
 #: js/js.js:814
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
+msgstr[0] "%n 小时前"
 
 #: js/js.js:815
 msgid "today"
@@ -168,7 +198,7 @@ msgstr "昨天"
 #: js/js.js:817
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
+msgstr[0] "%n 天前"
 
 #: js/js.js:818
 msgid "last month"
@@ -177,7 +207,7 @@ msgstr "上月"
 #: js/js.js:819
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
+msgstr[0] "%n 月前"
 
 #: js/js.js:820
 msgid "months ago"
@@ -191,23 +221,23 @@ msgstr "去年"
 msgid "years ago"
 msgstr "年前"
 
-#: js/oc-dialogs.js:117
+#: js/oc-dialogs.js:123
 msgid "Choose"
 msgstr "选择(&C)..."
 
-#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
+#: js/oc-dialogs.js:143 js/oc-dialogs.js:210
 msgid "Error loading file picker template"
 msgstr "加载文件选择器模板出错"
 
-#: js/oc-dialogs.js:160
+#: js/oc-dialogs.js:168
 msgid "Yes"
 msgstr "是"
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:178
 msgid "No"
 msgstr "否"
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:195
 msgid "Ok"
 msgstr "好"
 
@@ -226,7 +256,7 @@ msgstr "错误"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr "未指定App名称。"
+msgstr "未指定应用名称。"
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
@@ -374,7 +404,7 @@ msgstr "更新成功。正在重定向至 ownCloud。"
 #: lostpassword/controller.php:61
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "重置 %s 的密码"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -440,7 +470,7 @@ msgstr "个人"
 msgid "Users"
 msgstr "用户"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "应用"
 
@@ -491,7 +521,7 @@ msgstr "你的PHP版本容易受到空字节攻击 (CVE-2006-7243)"
 #: templates/installation.php:26
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "为保证安全使用 %s 请更新您的PHP。"
 
 #: templates/installation.php:32
 msgid ""
@@ -516,7 +546,7 @@ msgstr "您的数据目录和文件可能可以直接被互联网访问，因为
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "关于如何配置服务器，请参见 <a href=\"%s\" target=\"_blank\">此文档</a>。"
 
 #: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
@@ -573,10 +603,6 @@ msgstr "%s 可用。获取更多关于如何升级的信息。"
 msgid "Log out"
 msgstr "注销"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr ""
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "自动登录被拒绝！"
@@ -591,19 +617,19 @@ msgstr "如果您没有最近修改您的密码，您的帐户可能会受到影
 msgid "Please change your password to secure your account again."
 msgstr "请修改您的密码，以保护您的账户安全。"
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "忘记密码？"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "记住"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "登录"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr "其他登录方式"
 

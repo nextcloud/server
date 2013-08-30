@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-25 19:18-0400\n"
-"PO-Revision-Date: 2013-08-25 06:50+0000\n"
-"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
+"POT-Creation-Date: 2013-08-30 09:32-0400\n"
+"PO-Revision-Date: 2013-08-30 13:33+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,6 +24,35 @@ msgstr ""
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s ha condiviso «%s» con te"
+
+#: ajax/share.php:227
+msgid "group"
+msgstr ""
+
+#: ajax/update.php:11
+msgid "Turned on maintenance mode"
+msgstr "Modalità di manutenzione attivata"
+
+#: ajax/update.php:14
+msgid "Turned off maintenance mode"
+msgstr "Modalità di manutenzione disattivata"
+
+#: ajax/update.php:17
+msgid "Updated database"
+msgstr "Database aggiornato"
+
+#: ajax/update.php:20
+msgid "Updating filecache, this may take really long..."
+msgstr "Aggiornamento della cache dei file in corso, potrebbe richiedere molto tempo..."
+
+#: ajax/update.php:23
+msgid "Updated filecache"
+msgstr "Cache dei file aggiornata"
+
+#: ajax/update.php:26
+#, php-format
+msgid "... %d%% done ..."
+msgstr "... %d%% completato ..."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -445,7 +474,7 @@ msgstr "Personale"
 msgid "Users"
 msgstr "Utenti"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "Applicazioni"
 
@@ -578,10 +607,6 @@ msgstr "%s è disponibile. Ottieni ulteriori informazioni sull'aggiornamento."
 msgid "Log out"
 msgstr "Esci"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr "Altre applicazioni"
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Accesso automatico rifiutato."
@@ -596,19 +621,19 @@ msgstr "Se non hai cambiato la password recentemente, il tuo account potrebbe es
 msgid "Please change your password to secure your account again."
 msgstr "Cambia la password per rendere nuovamente sicuro il tuo account."
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "Hai perso la password?"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "ricorda"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "Accedi"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr "Accessi alternativi"
 

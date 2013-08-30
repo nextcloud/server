@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:06+0000\n"
+"POT-Creation-Date: 2013-08-30 09:32-0400\n"
+"PO-Revision-Date: 2013-08-30 13:33+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -22,6 +22,35 @@ msgstr ""
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s به اشتراک گذاشته شده است »%s« توسط شما"
+
+#: ajax/share.php:227
+msgid "group"
+msgstr ""
+
+#: ajax/update.php:11
+msgid "Turned on maintenance mode"
+msgstr ""
+
+#: ajax/update.php:14
+msgid "Turned off maintenance mode"
+msgstr ""
+
+#: ajax/update.php:17
+msgid "Updated database"
+msgstr ""
+
+#: ajax/update.php:20
+msgid "Updating filecache, this may take really long..."
+msgstr ""
+
+#: ajax/update.php:23
+msgid "Updated filecache"
+msgstr ""
+
+#: ajax/update.php:26
+#, php-format
+msgid "... %d%% done ..."
+msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -190,23 +219,23 @@ msgstr "سال قبل"
 msgid "years ago"
 msgstr "سال‌های قبل"
 
-#: js/oc-dialogs.js:117
+#: js/oc-dialogs.js:123
 msgid "Choose"
 msgstr "انتخاب کردن"
 
-#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
+#: js/oc-dialogs.js:143 js/oc-dialogs.js:210
 msgid "Error loading file picker template"
 msgstr "خطا در بارگذاری قالب انتخاب کننده فایل"
 
-#: js/oc-dialogs.js:160
+#: js/oc-dialogs.js:168
 msgid "Yes"
 msgstr "بله"
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:178
 msgid "No"
 msgstr "نه"
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:195
 msgid "Ok"
 msgstr "قبول"
 
@@ -439,7 +468,7 @@ msgstr "شخصی"
 msgid "Users"
 msgstr "کاربران"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "  برنامه ها"
 
@@ -572,10 +601,6 @@ msgstr "%s در دسترس است. برای چگونگی به روز رسانی 
 msgid "Log out"
 msgstr "خروج"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr ""
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "ورود به سیستم اتوماتیک ردشد!"
@@ -590,19 +615,19 @@ msgstr "اگر شما اخیرا رمزعبور را تغییر نداده ای�
 msgid "Please change your password to secure your account again."
 msgstr "لطفا رمز عبور خود را تغییر دهید تا مجددا حساب شما  در امان باشد."
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "آیا گذرواژه تان را به یاد نمی آورید؟"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "بیاد آوری"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "ورود"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr "ورود متناوب"
 

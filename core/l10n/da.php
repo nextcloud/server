@@ -1,6 +1,12 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s delte »%s« med sig",
+"Turned on maintenance mode" => "Startede vedligeholdelsestilstand",
+"Turned off maintenance mode" => "standsede vedligeholdelsestilstand",
+"Updated database" => "Opdaterede database",
+"Updating filecache, this may take really long..." => "Opdatere filcache, dette kan tage rigtigt lang tid...",
+"Updated filecache" => "Opdaterede filcache",
+"... %d%% done ..." => "... %d%% færdig ...",
 "Category type not provided." => "Kategori typen ikke er fastsat.",
 "No category to add?" => "Ingen kategori at tilføje?",
 "This category already exists: %s" => "Kategorien eksisterer allerede: %s",
@@ -126,7 +132,6 @@ $TRANSLATIONS = array(
 "Finish setup" => "Afslut opsætning",
 "%s is available. Get more information on how to update." => "%s er tilgængelig. Få mere information om, hvordan du opdaterer.",
 "Log out" => "Log ud",
-"More apps" => "Flere programmer",
 "Automatic logon rejected!" => "Automatisk login afvist!",
 "If you did not change your password recently, your account may be compromised!" => "Hvis du ikke har ændret din adgangskode for nylig, har nogen muligvis tiltvunget sig adgang til din konto!",
 "Please change your password to secure your account again." => "Skift adgangskode for at sikre din konto igen.",

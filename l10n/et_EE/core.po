@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-22 10:36-0400\n"
-"PO-Revision-Date: 2013-08-22 09:40+0000\n"
-"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
+"POT-Creation-Date: 2013-08-30 09:32-0400\n"
+"PO-Revision-Date: 2013-08-30 13:33+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,6 +23,35 @@ msgstr ""
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s jagas sinuga »%s«"
+
+#: ajax/share.php:227
+msgid "group"
+msgstr ""
+
+#: ajax/update.php:11
+msgid "Turned on maintenance mode"
+msgstr "Haldusreziimis"
+
+#: ajax/update.php:14
+msgid "Turned off maintenance mode"
+msgstr "Haldusreziim lõpetatud"
+
+#: ajax/update.php:17
+msgid "Updated database"
+msgstr "Uuendatud andmebaas"
+
+#: ajax/update.php:20
+msgid "Updating filecache, this may take really long..."
+msgstr "Uuendan failipuhvrit, see võib kesta väga kaua..."
+
+#: ajax/update.php:23
+msgid "Updated filecache"
+msgstr "Uuendatud failipuhver"
+
+#: ajax/update.php:26
+#, php-format
+msgid "... %d%% done ..."
+msgstr "... %d%% tehtud ..."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -444,7 +473,7 @@ msgstr "Isiklik"
 msgid "Users"
 msgstr "Kasutajad"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "Rakendused"
 
@@ -577,10 +606,6 @@ msgstr "%s on saadaval. Vaata lähemalt kuidas uuendada."
 msgid "Log out"
 msgstr "Logi välja"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr "Rohkem rakendusi"
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Automaatne sisselogimine lükati tagasi!"
@@ -595,19 +620,19 @@ msgstr "Kui sa ei muutnud oma parooli hiljuti, siis võib su kasutajakonto olla 
 msgid "Please change your password to secure your account again."
 msgstr "Palun muuda parooli, et oma kasutajakonto uuesti turvata."
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "Kaotasid oma parooli?"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "pea meeles"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "Logi sisse"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr "Alternatiivsed sisselogimisviisid"
 

@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:06+0000\n"
+"POT-Creation-Date: 2013-08-30 09:32-0400\n"
+"PO-Revision-Date: 2013-08-30 13:33+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -26,6 +26,35 @@ msgstr ""
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s partagé »%s« avec vous"
+
+#: ajax/share.php:227
+msgid "group"
+msgstr ""
+
+#: ajax/update.php:11
+msgid "Turned on maintenance mode"
+msgstr ""
+
+#: ajax/update.php:14
+msgid "Turned off maintenance mode"
+msgstr ""
+
+#: ajax/update.php:17
+msgid "Updated database"
+msgstr ""
+
+#: ajax/update.php:20
+msgid "Updating filecache, this may take really long..."
+msgstr ""
+
+#: ajax/update.php:23
+msgid "Updated filecache"
+msgstr ""
+
+#: ajax/update.php:26
+#, php-format
+msgid "... %d%% done ..."
+msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -198,23 +227,23 @@ msgstr "l'année dernière"
 msgid "years ago"
 msgstr "il y a plusieurs années"
 
-#: js/oc-dialogs.js:117
+#: js/oc-dialogs.js:123
 msgid "Choose"
 msgstr "Choisir"
 
-#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
+#: js/oc-dialogs.js:143 js/oc-dialogs.js:210
 msgid "Error loading file picker template"
 msgstr "Erreur de chargement du modèle du sélecteur de fichier"
 
-#: js/oc-dialogs.js:160
+#: js/oc-dialogs.js:168
 msgid "Yes"
 msgstr "Oui"
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:178
 msgid "No"
 msgstr "Non"
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:195
 msgid "Ok"
 msgstr "Ok"
 
@@ -447,7 +476,7 @@ msgstr "Personnel"
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "Applications"
 
@@ -580,10 +609,6 @@ msgstr "%s est disponible. Obtenez plus d'informations sur la façon de mettre �
 msgid "Log out"
 msgstr "Se déconnecter"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr ""
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Connexion automatique rejetée !"
@@ -598,19 +623,19 @@ msgstr "Si vous n'avez pas changé votre mot de passe récemment, votre compte r
 msgid "Please change your password to secure your account again."
 msgstr "Veuillez changer votre mot de passe pour sécuriser à nouveau votre compte."
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "Mot de passe perdu ?"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "se souvenir de moi"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "Connexion"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr "Logins alternatifs"
 

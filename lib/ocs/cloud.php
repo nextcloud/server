@@ -35,12 +35,48 @@ class OC_OCS_Cloud {
 			'edition' => OC_Util::getEditionString(),
 			);
 			
-			$result['capabilities'] = array(
-				'core' => array(
-					'pollinterval' => OC_Config::getValue('pollinterval', 60),
-					),
-				);
+		$result['capabilities'] = array(
+			'core' => array(
+				'pollinterval' => OC_Config::getValue('pollinterval', 60),
+				),
+			);
+			
 		return new OC_OCS_Result($result);
+	}
+	
+	/**
+	 * gets user info
+	 *
+	 * exposes the quota of an user:
+	 * <data>
+	 *   <quota>
+	 *      <free>1234</free>
+	 *      <used>4321</used>
+	 *      <total>5555</total>
+	 *      <ralative>0.78</ralative>
+	 *   </quota>
+	 * </data>
+	 *
+	 * @param $parameters object should contain parameter 'userid' which identifies
+	 *                           the user from whom the information will be returned
+	 */
+	public static function getUser($parameters) {
+		// Check if they are viewing information on themselves
+		if($parameters['userid'] === OC_User::getUser()) {
+			// Self lookup
+			$quota = array();
+			$storage = OC_Helper::getStorageInfo();
+			$quota = array(
+				'free' =>  $storage['free'],
+				'used' =>  $storage['used'],
+				'total' =>  $storage['total'],
+				'relative' => $storage['relative'],
+				);
+			return new OC_OCS_Result(array('quota' => $quota));
+		} else {
+			// No permission to view this user data
+			return new OC_OCS_Result(null, 997);
+		}
 	}
 
 	public static function getUserPublickey($parameters) {

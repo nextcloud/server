@@ -141,9 +141,21 @@ $CONFIG = array(
 /* Loglevel to start logging at. 0=DEBUG, 1=INFO, 2=WARN, 3=ERROR (default is WARN) */
 "loglevel" => "",
 
+/* date format to be used while writing to the owncloud logfile */
+'logdateformat' => 'F d, Y H:i:s',
+
 /* Append all database queries and parameters to the log file.
  (watch out, this option can increase the size of your log file)*/
 "log_query" => false,
+
+/*
+ * Configure the size in bytes log rotation should happen, 0 or false disables the rotation.
+ * This rotates the current owncloud logfile to a new name, this way the total log usage
+ * will stay limited and older entries are available for a while longer. The
+ * total disk usage is twice the configured size.
+ * WARNING: When you use this, the log entries will eventually be lost.
+ */
+'log_rotate_size' => false, // 104857600, // 100 MiB
 
 /* Lifetime of the remember login cookie, default is 15 days */
 "remember_login_cookie_lifetime" => 60*60*24*15,
@@ -189,7 +201,4 @@ $CONFIG = array(
 'customclient_desktop' => '', //http://owncloud.org/sync-clients/
 'customclient_android' => '', //https://play.google.com/store/apps/details?id=com.owncloud.android
 'customclient_ios' => '', //https://itunes.apple.com/us/app/owncloud/id543672169?mt=8
-
-// date format to be used while writing to the owncloud logfile
-'logdateformat' => 'F d, Y H:i:s'
 );

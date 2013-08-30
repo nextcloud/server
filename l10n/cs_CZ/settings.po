@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-25 19:18-0400\n"
-"PO-Revision-Date: 2013-08-25 23:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-30 09:33-0400\n"
+"PO-Revision-Date: 2013-08-28 16:41+0000\n"
+"Last-Translator: pstast <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -88,53 +88,53 @@ msgstr "Nelze odebrat uživatele ze skupiny %s"
 msgid "Couldn't update app."
 msgstr "Nelze aktualizovat aplikaci."
 
-#: js/apps.js:35
+#: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Aktualizovat na {appversion}"
 
-#: js/apps.js:41 js/apps.js:74 js/apps.js:100
+#: js/apps.js:49 js/apps.js:82 js/apps.js:108
 msgid "Disable"
 msgstr "Zakázat"
 
-#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
+#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
 msgid "Enable"
 msgstr "Povolit"
 
-#: js/apps.js:63
+#: js/apps.js:71
 msgid "Please wait...."
 msgstr "Čekejte prosím..."
 
-#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+#: js/apps.js:79 js/apps.js:80 js/apps.js:100
 msgid "Error while disabling app"
-msgstr ""
+msgstr "Chyba při zakazování aplikace"
 
-#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+#: js/apps.js:99 js/apps.js:112 js/apps.js:113
 msgid "Error while enabling app"
-msgstr ""
+msgstr "Chyba při povolování aplikace"
 
-#: js/apps.js:115
+#: js/apps.js:123
 msgid "Updating...."
 msgstr "Aktualizuji..."
 
-#: js/apps.js:118
+#: js/apps.js:126
 msgid "Error while updating app"
 msgstr "Chyba při aktualizaci aplikace"
 
-#: js/apps.js:118
+#: js/apps.js:126
 msgid "Error"
 msgstr "Chyba"
 
-#: js/apps.js:119 templates/apps.php:43
+#: js/apps.js:127 templates/apps.php:43
 msgid "Update"
 msgstr "Aktualizovat"
 
-#: js/apps.js:122
+#: js/apps.js:130
 msgid "Updated"
 msgstr "Aktualizováno"
 
 #: js/personal.js:150
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr "Probíhá odšifrování souborů... Prosíme počkejte, tato operace může trvat několik minut."
+msgstr "Probíhá dešifrování souborů... Čekejte prosím, tato operace může trvat nějakou dobu."
 
 #: js/personal.js:172
 msgid "Saving..."
@@ -483,11 +483,11 @@ msgstr "Šifrování"
 
 #: templates/personal.php:119
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr "Šifrovací aplikace již není spuštěna, odšifrujte všechny své soubory"
+msgstr "Šifrovací aplikace již není zapnuta, odšifrujte všechny své soubory"
 
 #: templates/personal.php:125
 msgid "Log-in password"
-msgstr "Heslo"
+msgstr "Přihlašovací heslo"
 
 #: templates/personal.php:130
 msgid "Decrypt all Files"

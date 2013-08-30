@@ -126,7 +126,6 @@ $TRANSLATIONS = array(
 "Finish setup" => "Kurulumu tamamla",
 "%s is available. Get more information on how to update." => "%s mevcuttur. Güncelleştirme hakkında daha fazla bilgi alın.",
 "Log out" => "Çıkış yap",
-"More apps" => "Daha fazla Uygulama",
 "Automatic logon rejected!" => "Otomatik oturum açma reddedildi!",
 "If you did not change your password recently, your account may be compromised!" => "Yakın zamanda parolanızı değiştirmedi iseniz hesabınız riske girebilir.",
 "Please change your password to secure your account again." => "Hesabınızı korumak için lütfen parolanızı değiştirin.",

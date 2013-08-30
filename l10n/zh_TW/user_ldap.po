@@ -4,13 +4,14 @@
 # 
 # Translators:
 # chenanyeh <chnjsn1221@gmail.com>, 2013
+# pellaeon <nfsmwlin@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-27 11:18-0400\n"
+"PO-Revision-Date: 2013-08-26 06:10+0000\n"
+"Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,13 +35,13 @@ msgstr "設定有效且連線可建立"
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
-msgstr "設定有效但連線無法建立。請檢查伺服器的設定與認證資料。"
+msgstr "設定有效但連線無法建立，請檢查伺服器設定與認證資料。"
 
 #: ajax/testConfiguration.php:43
 msgid ""
 "The configuration is invalid. Please look in the ownCloud log for further "
 "details."
-msgstr "設定無效。更多細節請參閱ownCloud的記錄檔。"
+msgstr "設定無效，更多細節請參閱 ownCloud 的記錄檔。"
 
 #: js/settings.js:66
 msgid "Deletion failed"
@@ -48,11 +49,11 @@ msgstr "移除失敗"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
-msgstr "要使用最近一次的伺服器設定嗎?"
+msgstr "要使用最近一次的伺服器設定嗎？"
 
 #: js/settings.js:83
 msgid "Keep settings?"
-msgstr "維持設定嗎?"
+msgstr "維持設定嗎？"
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
@@ -80,11 +81,11 @@ msgstr "連線測試失敗"
 
 #: js/settings.js:156
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr "您真的確定要刪除現在的伺服器設定嗎?"
+msgstr "您真的要刪除現在的伺服器設定嗎？"
 
 #: js/settings.js:157
 msgid "Confirm Deletion"
-msgstr "確認已刪除"
+msgstr "確認刪除"
 
 #: templates/settings.php:9
 msgid ""
@@ -97,7 +98,7 @@ msgstr ""
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr "<b>警告:</b>沒有安裝 PHP LDAP 模組，後端系統將無法運作。請要求您的系統管理員安裝模組。"
+msgstr "<b>警告：</b>沒有安裝 PHP LDAP 模組，後端系統將無法運作，請要求您的系統管理員安裝模組。"
 
 #: templates/settings.php:16
 msgid "Server configuration"
@@ -114,23 +115,23 @@ msgstr "主機"
 #: templates/settings.php:39
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr "若您不需要SSL加密傳輸則可忽略通訊協定。若非如此請從ldaps://開始"
+msgstr "若您不需要 SSL 加密連線則不需輸入通訊協定，反之請輸入 ldaps://"
 
 #: templates/settings.php:40
 msgid "Base DN"
-msgstr ""
+msgstr "Base DN"
 
 #: templates/settings.php:41
 msgid "One Base DN per line"
-msgstr "一行一個Base DN"
+msgstr "一行一個 Base DN"
 
 #: templates/settings.php:42
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr "您可以在進階標籤頁裡面指定使用者及群組的Base DN"
+msgstr "您可以在進階標籤頁裡面指定使用者及群組的 Base DN"
 
 #: templates/settings.php:44
 msgid "User DN"
-msgstr ""
+msgstr "User DN"
 
 #: templates/settings.php:46
 msgid ""
@@ -145,11 +146,11 @@ msgstr "密碼"
 
 #: templates/settings.php:50
 msgid "For anonymous access, leave DN and Password empty."
-msgstr "匿名連接時請將DN與密碼欄位留白"
+msgstr "匿名連接時請將 DN 與密碼欄位留白"
 
 #: templates/settings.php:51
 msgid "User Login Filter"
-msgstr "使用者登入過濾器"
+msgstr "User Login Filter"
 
 #: templates/settings.php:54
 #, php-format
@@ -160,7 +161,7 @@ msgstr ""
 
 #: templates/settings.php:55
 msgid "User List Filter"
-msgstr "使用者名單篩選器"
+msgstr "User List Filter"
 
 #: templates/settings.php:58
 msgid ""
@@ -170,7 +171,7 @@ msgstr ""
 
 #: templates/settings.php:59
 msgid "Group Filter"
-msgstr "群組篩選器"
+msgstr "Group Filter"
 
 #: templates/settings.php:62
 msgid ""
@@ -184,7 +185,7 @@ msgstr "連線設定"
 
 #: templates/settings.php:68
 msgid "Configuration Active"
-msgstr "設定為主動模式"
+msgstr "設定使用中"
 
 #: templates/settings.php:68
 msgid "When unchecked, this configuration will be skipped."
@@ -192,7 +193,7 @@ msgstr "沒有被勾選時，此設定會被略過。"
 
 #: templates/settings.php:69
 msgid "Port"
-msgstr "連接阜"
+msgstr "連接埠"
 
 #: templates/settings.php:70
 msgid "Backup (Replica) Host"
@@ -202,11 +203,11 @@ msgstr "備用主機"
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
-msgstr "請給定一個可選的備用主機。必須是LDAP/AD中央伺服器的複本。"
+msgstr "可以選擇性設定備用主機，必須是 LDAP/AD 中央伺服器的複本。"
 
 #: templates/settings.php:71
 msgid "Backup (Replica) Port"
-msgstr "備用(複本)連接阜"
+msgstr "備用（複本）連接埠"
 
 #: templates/settings.php:72
 msgid "Disable Main Server"
@@ -218,19 +219,19 @@ msgstr ""
 
 #: templates/settings.php:73
 msgid "Use TLS"
-msgstr "使用TLS"
+msgstr "使用 TLS"
 
 #: templates/settings.php:73
 msgid "Do not use it additionally for LDAPS connections, it will fail."
-msgstr ""
+msgstr "不要同時與 LDAPS 使用，會有問題。"
 
 #: templates/settings.php:74
 msgid "Case insensitve LDAP server (Windows)"
-msgstr "不區分大小寫的LDAP伺服器(Windows)"
+msgstr "不區分大小寫的 LDAP 伺服器 (Windows)"
 
 #: templates/settings.php:75
 msgid "Turn off SSL certificate validation."
-msgstr "關閉 SSL 憑證驗證"
+msgstr "關閉 SSL 憑證檢查"
 
 #: templates/settings.php:75
 #, php-format
@@ -245,15 +246,15 @@ msgstr "快取的存活時間"
 
 #: templates/settings.php:76
 msgid "in seconds. A change empties the cache."
-msgstr "以秒為單位。更變後會清空快取。"
+msgstr "以秒為單位。變更後會清空快取。"
 
 #: templates/settings.php:78
 msgid "Directory Settings"
-msgstr "目錄選項"
+msgstr "目錄設定"
 
 #: templates/settings.php:80
 msgid "User Display Name Field"
-msgstr "使用者名稱欄位"
+msgstr "使用者顯示名稱欄位"
 
 #: templates/settings.php:80
 msgid "The LDAP attribute to use to generate the user's display name."
@@ -261,19 +262,19 @@ msgstr ""
 
 #: templates/settings.php:81
 msgid "Base User Tree"
-msgstr "Base使用者數"
+msgstr "Base User Tree"
 
 #: templates/settings.php:81
 msgid "One User Base DN per line"
-msgstr "一行一個使用者Base DN"
+msgstr "一行一個使用者 Base DN"
 
 #: templates/settings.php:82
 msgid "User Search Attributes"
-msgstr "使用者搜索屬性"
+msgstr "User Search Attributes"
 
 #: templates/settings.php:82 templates/settings.php:85
 msgid "Optional; one attribute per line"
-msgstr "可選的; 一行一項屬性"
+msgstr "非必要，一行一項屬性"
 
 #: templates/settings.php:83
 msgid "Group Display Name Field"
@@ -285,19 +286,19 @@ msgstr ""
 
 #: templates/settings.php:84
 msgid "Base Group Tree"
-msgstr "Base群組樹"
+msgstr "Base Group Tree"
 
 #: templates/settings.php:84
 msgid "One Group Base DN per line"
-msgstr "一行一個群組Base DN"
+msgstr "一行一個 Group Base DN"
 
 #: templates/settings.php:85
 msgid "Group Search Attributes"
-msgstr "群組搜索屬性"
+msgstr "Group Search Attributes"
 
 #: templates/settings.php:86
 msgid "Group-Member association"
-msgstr "群組成員的關係"
+msgstr "Group-Member association"
 
 #: templates/settings.php:88
 msgid "Special Attributes"

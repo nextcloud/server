@@ -841,24 +841,25 @@ class OC_Helper {
 	}
 
 	/**
-	 * Calculate the disc space
+	 * Calculate the disc space for the given path
+	 *
+	 * @param string $path
+	 * @return array
 	 */
-	public static function getStorageInfo() {
-		$rootInfo = \OC\Files\Filesystem::getFileInfo('/');
+	public static function getStorageInfo($path) {
+		$rootInfo = \OC\Files\Filesystem::getFileInfo($path);
 		$used = $rootInfo['size'];
 		if ($used < 0) {
 			$used = 0;
 		}
-		$free = \OC\Files\Filesystem::free_space();
+		$free = \OC\Files\Filesystem::free_space($path);
 		if ($free >= 0) {
 			$total = $free + $used;
 		} else {
 			$total = $free; //either unknown or unlimited
 		}
-		if ($total == 0) {
-			$total = 1; // prevent division by zero
-		}
-		if ($total >= 0) {
+		if ($total > 0) {
+			// prevent division by zero or error codes (negative values)
 			$relative = round(($used / $total) * 10000) / 100;
 		} else {
 			$relative = 0;

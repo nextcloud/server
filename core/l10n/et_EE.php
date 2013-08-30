@@ -1,6 +1,12 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s jagas sinuga »%s«",
+"Turned on maintenance mode" => "Haldusreziimis",
+"Turned off maintenance mode" => "Haldusreziim lõpetatud",
+"Updated database" => "Uuendatud andmebaas",
+"Updating filecache, this may take really long..." => "Uuendan failipuhvrit, see võib kesta väga kaua...",
+"Updated filecache" => "Uuendatud failipuhver",
+"... %d%% done ..." => "... %d%% tehtud ...",
 "Category type not provided." => "Kategooria tüüp puudub.",
 "No category to add?" => "Pole kategooriat, mida lisada?",
 "This category already exists: %s" => "See kategooria on juba olemas: %s",
@@ -126,7 +132,6 @@ $TRANSLATIONS = array(
 "Finish setup" => "Lõpeta seadistamine",
 "%s is available. Get more information on how to update." => "%s on saadaval. Vaata lähemalt kuidas uuendada.",
 "Log out" => "Logi välja",
-"More apps" => "Rohkem rakendusi",
 "Automatic logon rejected!" => "Automaatne sisselogimine lükati tagasi!",
 "If you did not change your password recently, your account may be compromised!" => "Kui sa ei muutnud oma parooli hiljuti, siis võib su kasutajakonto olla ohustatud!",
 "Please change your password to secure your account again." => "Palun muuda parooli, et oma kasutajakonto uuesti turvata.",

@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:06+0000\n"
+"POT-Creation-Date: 2013-08-30 09:32-0400\n"
+"PO-Revision-Date: 2013-08-30 13:33+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -29,6 +29,35 @@ msgstr ""
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s teilte »%s« mit Ihnen"
+
+#: ajax/share.php:227
+msgid "group"
+msgstr ""
+
+#: ajax/update.php:11
+msgid "Turned on maintenance mode"
+msgstr "Wartungsmodus eingeschaltet"
+
+#: ajax/update.php:14
+msgid "Turned off maintenance mode"
+msgstr "Wartungsmodus ausgeschaltet"
+
+#: ajax/update.php:17
+msgid "Updated database"
+msgstr "Datenbank aktualisiert"
+
+#: ajax/update.php:20
+msgid "Updating filecache, this may take really long..."
+msgstr "Aktualisiere Dateicache, dies könnte eine Weile dauern..."
+
+#: ajax/update.php:23
+msgid "Updated filecache"
+msgstr "Dateicache aktualisiert"
+
+#: ajax/update.php:26
+#, php-format
+msgid "... %d%% done ..."
+msgstr "... %d%% erledigt ..."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -201,23 +230,23 @@ msgstr "Letztes Jahr"
 msgid "years ago"
 msgstr "Vor Jahren"
 
-#: js/oc-dialogs.js:117
+#: js/oc-dialogs.js:123
 msgid "Choose"
 msgstr "Auswählen"
 
-#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
+#: js/oc-dialogs.js:143 js/oc-dialogs.js:210
 msgid "Error loading file picker template"
 msgstr "Dateiauswahltemplate konnte nicht geladen werden"
 
-#: js/oc-dialogs.js:160
+#: js/oc-dialogs.js:168
 msgid "Yes"
 msgstr "Ja"
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:178
 msgid "No"
 msgstr "Nein"
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:195
 msgid "Ok"
 msgstr "OK"
 
@@ -450,7 +479,7 @@ msgstr "Persönlich"
 msgid "Users"
 msgstr "Benutzer"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "Apps"
 
@@ -583,10 +612,6 @@ msgstr "%s ist verfügbar. Holen Sie weitere Informationen zu Aktualisierungen e
 msgid "Log out"
 msgstr "Abmelden"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr "Mehr Apps"
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Automatischer Login zurückgewiesen!"
@@ -601,19 +626,19 @@ msgstr "Wenn Du Dein Passwort nicht vor kurzem geändert hast, könnte Dein\nAcc
 msgid "Please change your password to secure your account again."
 msgstr "Bitte ändere Dein Passwort, um Deinen Account wieder zu schützen."
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "Passwort vergessen?"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "merken"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "Einloggen"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr "Alternative Logins"
 

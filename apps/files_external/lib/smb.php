@@ -8,7 +8,7 @@
 
 namespace OC\Files\Storage;
 
-require_once 'smb4php/smb.php';
+require_once __DIR__ . '/../3rdparty/smb4php/smb.php';
 
 class SMB extends \OC\Files\Storage\StreamWrapper{
 	private $password;

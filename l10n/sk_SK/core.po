@@ -4,13 +4,14 @@
 # 
 # Translators:
 # mhh <marian.hvolka@stuba.sk>, 2013
+# martin, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-21 08:11-0400\n"
-"PO-Revision-Date: 2013-08-20 19:10+0000\n"
-"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
+"POT-Creation-Date: 2013-08-30 09:32-0400\n"
+"PO-Revision-Date: 2013-08-30 13:33+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,6 +23,35 @@ msgstr ""
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s s Vami zdieľa »%s«"
+
+#: ajax/share.php:227
+msgid "group"
+msgstr ""
+
+#: ajax/update.php:11
+msgid "Turned on maintenance mode"
+msgstr "Mód údržby zapnutý"
+
+#: ajax/update.php:14
+msgid "Turned off maintenance mode"
+msgstr "Mód údržby vypnutý"
+
+#: ajax/update.php:17
+msgid "Updated database"
+msgstr "Databáza aktualizovaná"
+
+#: ajax/update.php:20
+msgid "Updating filecache, this may take really long..."
+msgstr "Aktualizácia \"filecache\", toto môže trvať dlhšie..."
+
+#: ajax/update.php:23
+msgid "Updated filecache"
+msgstr "\"Filecache\" aktualizovaná"
+
+#: ajax/update.php:26
+#, php-format
+msgid "... %d%% done ..."
+msgstr "... %d%% dokončených ..."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -447,7 +477,7 @@ msgstr "Osobné"
 msgid "Users"
 msgstr "Používatelia"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "Aplikácie"
 
@@ -580,10 +610,6 @@ msgstr "%s je dostupná. Získajte viac informácií k postupu aktualizáce."
 msgid "Log out"
 msgstr "Odhlásiť"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr "Viac aplikácií"
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Automatické prihlásenie bolo zamietnuté!"
@@ -598,19 +624,19 @@ msgstr "V nedávnej dobe ste nezmenili svoje heslo, Váš účet môže byť kom
 msgid "Please change your password to secure your account again."
 msgstr "Prosím, zmeňte svoje heslo pre opätovné zabezpečenie Vášho účtu"
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "Zabudli ste heslo?"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "zapamätať"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "Prihlásiť sa"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr "Alternatívne prihlasovanie"
 

@@ -1,6 +1,12 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s delade »%s« med dig",
+"Turned on maintenance mode" => "Aktiverade underhållsläge",
+"Turned off maintenance mode" => "Deaktiverade underhållsläge",
+"Updated database" => "Uppdaterade databasen",
+"Updating filecache, this may take really long..." => "Uppdaterar filcache, det kan ta lång tid...",
+"Updated filecache" => "Uppdaterade filcache",
+"... %d%% done ..." => "... %d%% klart ...",
 "Category type not provided." => "Kategorityp inte angiven.",
 "No category to add?" => "Ingen kategori att lägga till?",
 "This category already exists: %s" => "Denna kategori finns redan: %s",
@@ -126,7 +132,6 @@ $TRANSLATIONS = array(
 "Finish setup" => "Avsluta installation",
 "%s is available. Get more information on how to update." => "%s är tillgänglig. Få mer information om hur du går tillväga för att uppdatera.",
 "Log out" => "Logga ut",
-"More apps" => "Fler appar",
 "Automatic logon rejected!" => "Automatisk inloggning inte tillåten!",
 "If you did not change your password recently, your account may be compromised!" => "Om du inte har ändrat ditt lösenord nyligen så kan ditt konto vara manipulerat!",
 "Please change your password to secure your account again." => "Ändra genast lösenord för att säkra ditt konto.",
