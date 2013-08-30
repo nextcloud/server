@@ -70,9 +70,11 @@ class Hooks {
 		// If migration not yet done
 		if ($ready) {
 
+			$util->setInitialized(Util::ENCRYPTION_INITIALIZED);
+
 			$userView = new \OC_FilesystemView('/' . $params['uid']);
 
-			// Set legacy encryption key if it exists, to support 
+			// Set legacy encryption key if it exists, to support
 			// depreciated encryption system
 			if (
 				$userView->file_exists('encryption.key')
@@ -143,6 +145,7 @@ class Hooks {
 	 * @brief If the password can't be changed within ownCloud, than update the key password in advance.
 	 */
 	public static function preSetPassphrase($params) {
+		return true;
 		if ( ! \OC_User::canUserChangePassword($params['uid']) ) {
 			self::setPassphrase($params);
 		}
@@ -153,7 +156,7 @@ class Hooks {
 	 * @param array $params keys: uid, password
 	 */
 	public static function setPassphrase($params) {
-
+		return true;
 		// Only attempt to change passphrase if server-side encryption
 		// is in use (client-side encryption does not have access to
 		// the necessary keys)
@@ -248,7 +251,7 @@ class Hooks {
 			$params['run'] = false;
 			$params['error'] = $l->t('Following users are not set up for encryption:') . ' ' . join(', ' , $notConfigured);
 		}
-		
+
 	}
 
 	/**
@@ -259,7 +262,7 @@ class Hooks {
 		// NOTE: $params has keys:
 		// [itemType] => file
 		// itemSource -> int, filecache file ID
-		// [parent] => 
+		// [parent] =>
 		// [itemTarget] => /13
 		// shareWith -> string, uid of user being shared to
 		// fileTarget -> path of file being shared
@@ -300,13 +303,13 @@ class Hooks {
 					// NOTE: parent is folder but shared was a file!
 					// we try to rebuild the missing path
 					// some examples we face here
-					// user1 share folder1 with user2 folder1 has 
-					// the following structure 
+					// user1 share folder1 with user2 folder1 has
+					// the following structure
 					// /folder1/subfolder1/subsubfolder1/somefile.txt
 					// user2 re-share subfolder2 with user3
 					// user3 re-share somefile.txt user4
-					// so our path should be 
-					// /Shared/subfolder1/subsubfolder1/somefile.txt 
+					// so our path should be
+					// /Shared/subfolder1/subsubfolder1/somefile.txt
 					// while user3 is sharing
 
 					if ($params['itemType'] === 'file') {
@@ -537,14 +540,18 @@ class Hooks {
 	}
 
 	/**
-	 * set migration status back to '0' so that all new files get encrypted
+	 * set migration status and the init status back to '0' so that all new files get encrypted
 	 * if the app gets enabled again
 	 * @param array $params contains the app ID
 	 */
 	public static function preDisable($params) {
 		if ($params['app'] === 'files_encryption') {
-			$query = \OC_DB::prepare('UPDATE `*PREFIX*encryption` SET `migration_status`=0');
-			$query->execute();
+
+			$setMigrationStatus = \OC_DB::prepare('UPDATE `*PREFIX*encryption` SET `migration_status`=0');
+			$setMigrationStatus->execute();
+
+			$setInitStatus = \OC_DB::prepare('UPDATE `*PREFIX*encryption` SET `initialized`=0');
+			$setInitStatus->execute();
 		}
 	}
 

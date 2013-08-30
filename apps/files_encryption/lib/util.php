@@ -37,6 +37,8 @@ class Util {
 	const MIGRATION_IN_PROGRESS = -1; // migration is running
 	const MIGRATION_OPEN = 0;         // user still needs to be migrated
 
+	const ENCRYPTION_INITIALIZED = 1;
+	const ENCRYPTION_NOT_INITIALIZED = 0;
 
 	private $view; // OC_FilesystemView object for filesystem operations
 	private $userId; // ID of the currently logged-in user
@@ -1214,6 +1216,56 @@ class Util {
 		}
 
 		return $return;
+	}
+
+	/**
+	 * set remember if the encryption app was already initialized or not
+	 * @param type $status
+	 */
+	public function setInitialized($status) {
+		$sql = 'UPDATE `*PREFIX*encryption` SET `initialized` = ? WHERE `uid` = ?';
+		$args = array($status, $this->userId);
+		$query = \OCP\DB::prepare($sql);
+		$query->execute($args);
+	}
+
+	/**
+	 * set remember if the encryption app was already initialized or not
+	 */
+	public function getInitialized() {
+		$sql = 'SELECT `initialized` FROM `*PREFIX*encryption` WHERE `uid` = ?';
+		$args = array($this->userId);
+		$query = \OCP\DB::prepare($sql);
+
+		$result = $query->execute($args);
+		$initializedStatus = null;
+
+		if (\OCP\DB::isError($result)) {
+			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
+		} else {
+			if ($result->numRows() > 0) {
+				$row = $result->fetchRow();
+				if (isset($row['initialized'])) {
+					$initializedStatus = (int)$row['initialized'];
+				}
+			}
+		}
+
+		// If no record is found
+		if (empty($initializedStatus)) {
+			\OCP\Util::writeLog('Encryption library', "Could not get initialized status for " . $this->userId . ", no record found", \OCP\Util::ERROR);
+			return false;
+			// If a record is found
+		} else {
+			return (bool)$initializedStatus;
+		}
+
+
+
+		$sql = 'UPDATE `*PREFIX*encryption` SET `initialized` = ? WHERE `uid` = ?';
+		$args = array($status, $this->userId);
+		$query = \OCP\DB::prepare($sql);
+		$query->execute($args);
 	}
 
 	/**

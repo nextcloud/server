@@ -199,12 +199,12 @@ class Helper {
 	public static function stripUserFilesPath($path) {
 		$trimmed = ltrim($path, '/');
 		$split = explode('/', $trimmed);
-		
+
 		// it is not a file relative to data/user/files
 		if (count($split) < 3 || $split[1] !== 'files') {
 			return false;
 		}
-		
+
 		$sliced = array_slice($split, 2);
 		$relPath = implode('/', $sliced);
 
@@ -219,30 +219,46 @@ class Helper {
 	public static function getPathToRealFile($path) {
 		$trimmed = ltrim($path, '/');
 		$split = explode('/', $trimmed);
-		
+
 		if (count($split) < 3 || $split[1] !== "files_versions") {
 			return false;
 		}
-		
+
 		$sliced = array_slice($split, 2);
 		$realPath = implode('/', $sliced);
 		//remove the last .v
 		$realPath = substr($realPath, 0, strrpos($realPath, '.v'));
 
 		return $realPath;
-	}	
-	
+	}
+
 	/**
 	 * @brief redirect to a error page
 	 */
-	public static function redirectToErrorPage() {
-		$location = \OC_Helper::linkToAbsolute('apps/files_encryption/files', 'error.php');
-		$post = 0;
-		if(count($_POST) > 0) {
-			$post = 1;
+	public static function redirectToErrorPage($util) {
+
+		$l = \OC_L10N::get('files_encryption');
+
+		if ($util->getInitialized() === false) {
+			$errorMsg = $l->t('Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app.');
+		} else {
+			$errorMsg = $l->t('Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files.');
 		}
-		header('Location: ' . $location . '?p=' . $post);
-		exit();
+
+		if(count($_POST) > 0) {
+			header('HTTP/1.0 404 ' . $errorMsg);
+		}
+
+		// check if ajax request
+		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+			\OCP\JSON::error(array('data' => array('message' => $errorMsg)));
+		} else {
+			header('HTTP/1.0 404 ' . $errorMsg);
+			$tmpl = new OC_Template('files_encryption', 'invalid_private_key', 'guest');
+			$tmpl->printPage();
+		}
+
+		exit;
 	}
 
 	/**
@@ -259,7 +275,7 @@ class Helper {
 
 		return (bool) $result;
 	}
-	
+
 	/**
 	 * check some common errors if the server isn't configured properly for encryption
 	 * @return bool true if configuration seems to be OK
