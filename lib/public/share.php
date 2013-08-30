@@ -106,22 +106,22 @@ class Share {
 		}
 		return false;
 	}
-	
+
 	/**
 	* @brief Prepare a path to be passed to DB as file_target
 	* @return string Prepared path
 	*/
 	public static function prepFileTarget( $path ) {
-	
+
 		// Paths in DB are stored with leading slashes, so add one if necessary
 		if ( substr( $path, 0, 1 ) !== '/' ) {
-		
+
 			$path = '/' . $path;
-		
+
 		}
-		
+
 		return $path;
-	
+
 	}
 
 	/**
@@ -251,7 +251,57 @@ class Share {
 		return self::getItems($itemType, $itemTarget, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, $format,
 			$parameters, 1, $includeCollections);
 	}
-	
+
+	/**
+	 * @brief Get the item of item type shared with a given user by source
+	 * @param string Item type
+	 * @param string Item source
+	 * @param string User user to whom the item was shared
+	 * @return Return list of items with file_target, permissions and expiration
+	 */
+	public static function getItemSharedWithUser($itemType, $itemSource, $user) {
+
+		$shares = array();
+
+		// first check if there is a db entry for the specific user
+		$query = \OC_DB::prepare(
+				'SELECT `file_target`, `permissions`, `expiration`
+					FROM
+					`*PREFIX*share`
+					WHERE
+					`item_source` = ? AND `item_type` = ? AND `share_with` = ?'
+				);
+
+		$result = $query->execute(array($itemSource, $itemType, $user));
+
+		while ($row = $result->fetchRow()) {
+			$shares[] = $row;
+		}
+
+		//if didn't found a result than let's look for a group share.
+		if(empty($shares)) {
+			$groups = \OC_Group::getUserGroups($user);
+
+			$query = \OC_DB::prepare(
+					'SELECT `file_target`, `permissions`, `expiration`
+						FROM
+						`*PREFIX*share`
+						WHERE
+						`item_source` = ? AND `item_type` = ? AND `share_with` in (?)'
+					);
+
+			$result = $query->execute(array($itemSource, $itemType, implode(',', $groups)));
+
+			while ($row = $result->fetchRow()) {
+				$shares[] = $row;
+			}
+		}
+
+		return $shares;
+
+	}
+
+
 	/**
 	* @brief Get the item of item type shared with the current user by source
 	* @param string Item type
@@ -632,6 +682,23 @@ class Share {
 			return true;
 		}
 		return false;
+	}
+	/**
+	 * @brief sent status if users got informed by mail about share
+	 * @param string $itemType
+	 * @param string $itemSource
+	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
+	 * @param bool $status
+	 */
+	public static function setSendMailStatus($itemType, $itemSource, $shareType, $status) {
+		$status = $status ? 1 : 0;
+
+		$query = \OC_DB::prepare(
+				'UPDATE `*PREFIX*share`
+					SET `mail_send` = ?
+					WHERE `item_type` = ? AND `item_source` = ? AND `share_type` = ?');
+
+		$query->execute(array($status, $itemType, $itemSource, $shareType));
 	}
 
 	/**

@@ -11,7 +11,7 @@
  	margin-right:7em;
  	position:absolute;
  	right:0;
- 	width:19em;
+ 	width:25em;
  	z-index:500;
  	padding:1em;
  }
@@ -24,7 +24,7 @@
  #shareWithList li {
  	padding-top:.1em;
  }
- 
+
  #shareWithList li:first-child {
 	 white-space:normal;
  }

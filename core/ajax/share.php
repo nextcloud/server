@@ -23,6 +23,8 @@ OC_JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 OC_App::loadApps();
 
+$defaults = new \OCP\Defaults();
+
 if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSource'])) {
 	switch ($_POST['action']) {
 		case 'share':
@@ -33,7 +35,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 					if ($shareType === OCP\Share::SHARE_TYPE_LINK && $shareWith == '') {
 						$shareWith = null;
 					}
-					
+
 					$token = OCP\Share::shareItem(
 						$_POST['itemType'],
 						$_POST['itemSource'],
@@ -41,7 +43,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 						$shareWith,
 						$_POST['permissions']
 					);
-					
+
 					if (is_string($token)) {
 						OC_JSON::success(array('data' => array('token' => $token)));
 					} else {
@@ -81,6 +83,102 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				($return) ? OC_JSON::success() : OC_JSON::error();
 			}
 			break;
+	case 'informRecipients':
+
+			$l = OC_L10N::get('core');
+
+			$shareType = (int) $_POST['shareType'];
+			$itemType = $_POST['itemType'];
+			$itemSource = $_POST['itemSource'];
+			$recipient = $_POST['recipient'];
+			$from = \OCP\Util::getDefaultEmailAddress('sharing-noreply');
+			$subject = $defaults->getShareNotificationSubject($itemType);
+
+			$noMail = array();
+			$recipientList = array();
+
+			if ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
+				$users = \OC_Group::usersInGroup($recipient);
+				foreach ($users as $user) {
+					$email = OC_Preferences::getValue($user, 'settings', 'email', '');
+					if ($email !== '' || $recipient === \OCP\User::getUser()) {
+						$recipientList[] = array(
+							'email' => $email,
+							'displayName' => \OCP\User::getDisplayName($user),
+							'uid' => $user,
+						);
+					} else {
+						$noMail[] = \OCP\User::getDisplayName($user);
+					}
+				}
+			} else { // shared to a single user
+				$email = OC_Preferences::getValue($recipient, 'settings', 'email', '');
+				if ($email !== '') {
+					$recipientList[] = array(
+						'email' => $email,
+						'displayName' => \OCP\User::getDisplayName($recipient),
+						'uid' => $recipient,
+					);
+				} else {
+					$noMail[] = \OCP\User::getDisplayName($recipient);
+				}
+			}
+
+			// send mail to all recipients with an email address
+			foreach ($recipientList as $recipient) {
+				//get correct target folder name
+
+				$users = \OCP\Share::getItemSharedWithUser($itemType, $itemSource, $recipient['uid']);
+				$targetName = $users[0]['file_target'];
+
+				//$share = $shareManager->getShares($itemType, array('shareWith' => $recipient['uid'], 'isShareWithUser' => true, 'itemSource' => $itemSource));
+				//$targetName = $share[0]->getItemTarget();
+				if ($itemType === 'folder') {
+					$foldername = "/Shared/" . $targetName;
+					$filename = $targetName;
+				} else {
+					// if it is a file we can just link to the Shared folder,
+					// that's the place where the user will find the file
+					$foldername = "/Shared";
+					$filename = $targetName;
+				}
+
+				$url = \OCP\Util::linkToAbsolute('files', 'index.php', array("dir" => $foldername));
+				$text = $defaults->getShareNotificationText(\OCP\User::getDisplayName(), $filename, $itemType, $url);
+
+				try {
+					OCP\Util::sendMail(
+							$recipient['email'],
+							$recipient['displayName'],
+							$subject,
+							$text,
+							$from,
+							\OCP\User::getDisplayName()
+					);
+				} catch (Exception $exception) {
+					$noMail[] = \OCP\User::getDisplayName($recipient['displayName']);
+				}
+			}
+
+			\OCP\Share::setSendMailStatus($itemType, $itemSource, $shareType, true);
+
+			if (empty($noMail)) {
+				OCP\JSON::success();
+			} else {
+				OCP\JSON::error(array('data' => array('message' => $l->t("Couldn't send mail to following users: %s ", implode(', ', $noMail)))));
+			}
+			break;
+		case 'informRecipientsDisabled':
+			$itemSource = $_POST['itemSource'];
+			$itemType = $_POST['itemType'];
+			$recipient = $_POST['recipient'];
+			//$share = $shareManager->getShares($itemType, array('shareWith' => $recipient, 'isShareWithUser' => true, 'itemSource' => $itemSource));
+			//$share[0]->setMailSend(false);
+			//$shareManager->update($share[0]);
+			//write status to db
+			OCP\JSON::success();
+			break;
+
 		case 'email':
 			// read post variables
 			$user = OCP\USER::getUser();
@@ -213,10 +311,10 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 					}
 				}
 				$count = 0;
-				
+
 				// enable l10n support
 				$l = OC_L10N::get('core');
-				
+
 				foreach ($groups as $group) {
 					if ($count < 15) {
 						if (stripos($group, $_GET['search']) !== false

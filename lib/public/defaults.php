@@ -35,6 +35,25 @@ class Defaults {
 	}
 
 	/**
+	 * @brief subject for notification mails if a new file was shared
+	 * @param string $itemType typically "file" or "folder"
+	 */
+	public function getShareNotificationSubject($itemType = "file") {
+		return $this->defaults->getShareNotificationSubject($itemType);
+	}
+
+	/**
+	 * @brief mail body for notification mails if a new file was shared
+	 * @param string $sender owner of the file/folder
+	 * @param string $itemName name of the file/folder
+	 * @param string $itemType typically "file" or "folder"
+	 * @param string $link link directly to the file/folder in your ownCloud
+	 */
+	public function getShareNotificationText($sender, $itemName, $itemType, $link) {
+		return $this->defaults->getShareNotificationText($sender, $itemName, $itemType, $link);
+	}
+
+	/**
 	 * @breif get base URL for the organisation behind your ownCloud instance
 	 * @return string
 	 */

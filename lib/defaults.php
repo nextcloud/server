@@ -13,6 +13,7 @@ if (file_exists(OC::$SERVERROOT . '/themes/' . OC_Util::getTheme() . '/defaults.
 class OC_Defaults {
 
 	private $theme;
+	private $l;
 
 	private $defaultEntity;
 	private $defaultName;
@@ -24,7 +25,7 @@ class OC_Defaults {
 	private $defaultLogoClaim;
 
 	function __construct() {
-		$l = OC_L10N::get('core');
+		$this->l = OC_L10N::get('core');
 
 		$this->defaultEntity = "ownCloud"; /* e.g. company name, used for footers and copyright notices */
 		$this->defaultName = "ownCloud"; /* short name, used when referring to the software */
@@ -32,7 +33,7 @@ class OC_Defaults {
 		$this->defaultBaseUrl = "http://owncloud.org";
 		$this->defaultSyncClientUrl = " http://owncloud.org/sync-clients/";
 		$this->defaultDocBaseUrl = "http://doc.owncloud.org";
-		$this->defaultSlogan = $l->t("web services under your control");
+		$this->defaultSlogan = $this->l->t("web services under your control");
 		$this->defaultLogoClaim = "";
 
 		if (class_exists("OC_Theme")) {
@@ -45,6 +46,32 @@ class OC_Defaults {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 *
+	 * @param string $itemType typically "file" or "folder"
+	 */
+	public function getShareNotificationSubject($itemType) {
+		if ($this->themeExist('getShareNotificationSubject')) {
+			return $this->theme->getShareNotificationSubject($itemType);
+		} else {
+			return $this->l->t("A %s was shared with you", array($itemType));
+		}
+	}
+
+	/**
+	 * @param string $sender owner of the file/folder
+	 * @param string $itemName name of the file/folder
+	 * @param string $itemType typically "file" or "folder"
+	 * @param string $link link directly to the file/folder in your ownCloud
+	 */
+	public function getShareNotificationText($sender, $itemName, $itemType, $link) {
+		if ($this->themeExist('getShareNotificationText')) {
+			return $this->theme->getShareNotificationText($sender, $itemName, $itemType, $link);
+		} else {
+			return $this->l->t("%s shared a %s called %s with you. You can find the %s here: %s", array($sender, $itemType, $itemName, $itemType, $link));
+		}
 	}
 
 	public function getBaseUrl() {

@@ -163,6 +163,14 @@ if (!$_['internetconnectionworking']) {
 				<label for="sharePolicyGroupsOnly"><?php p($l->t('Allow users to only share with users in their groups'));?></label><br/>
 			</td>
 		</tr>
+		<tr>
+			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('style="display:none"');?>>
+				<input type="checkbox" name="shareapi_allow_mail_notification" id="allowMailNotification"
+					   value="1" <?php if ($_['allowMailNotification'] === 'yes') print_unescaped('checked="checked"'); ?> />
+				<label for="allowMailNotification"><?php p($l->t('Allow mail notification'));?></label><br/>
+				<em><?php p($l->t('Allow user to send mail notification for shared files')); ?></em>
+			</td>
+		</tr>
 	</table>
 </fieldset>
 
@@ -223,7 +231,7 @@ endfor;?>
 			</td>
 			<td>
 				<?php if(is_int($entry->time)){
-					p(OC_Util::formatDate($entry->time)); 
+					p(OC_Util::formatDate($entry->time));
 				} else {
 					p($entry->time);
 				}?>

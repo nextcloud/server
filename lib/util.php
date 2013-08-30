@@ -98,7 +98,7 @@ class OC_Util {
 	public static function getVersion() {
 		// hint: We only can count up. Reset minor/patchlevel when
 		// updating major/minor version number.
-		return array(5, 80, 05);
+		return array(5, 80, 06);
 	}
 
 	/**
@@ -352,10 +352,10 @@ class OC_Util {
 				$encryptedFiles = true;
 			}
 		}
-		
+
 		return $encryptedFiles;
 	}
-	
+
 	/**
 	* Check for correct file permissions of data directory
 	* @return array arrays with error messages and hints
@@ -581,16 +581,16 @@ class OC_Util {
 		}
 		return $value;
 	}
-	
+
 	/**
 	 * @brief Public function to encode url parameters
 	 *
 	 * This function is used to encode path to file before output.
 	 * Encoding is done according to RFC 3986 with one exception:
-	 * Character '/' is preserved as is. 
+	 * Character '/' is preserved as is.
 	 *
 	 * @param string $component part of URI to encode
-	 * @return string 
+	 * @return string
 	 */
 	public static function encodePath($component) {
 		$encoded = rawurlencode($component);
@@ -734,7 +734,7 @@ class OC_Util {
 		}
 
 	}
-	
+
 	/**
 	 * Check if the connection to the internet is disabled on purpose
 	 */
@@ -887,7 +887,7 @@ class OC_Util {
 		$theme = OC_Config::getValue("theme", '');
 
 		if($theme === '') {
-			
+
 			if(is_dir(OC::$SERVERROOT . '/themes/default')) {
 				$theme = 'default';
 			}
