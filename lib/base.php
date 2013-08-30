@@ -79,7 +79,7 @@ class OC {
 	 */
 	public static function autoload($className) {
 		$className = trim($className, '\\');
-		
+
 		if (array_key_exists($className, OC::$CLASSPATH)) {
 			$path = OC::$CLASSPATH[$className];
 			/** @TODO: Remove this when necessary
@@ -326,9 +326,9 @@ class OC {
 
 		// if session cant be started break with http 500 error
 		if (session_start() === false){
-			OC_Log::write('core', 'Session could not be initialized', 
+			OC_Log::write('core', 'Session could not be initialized',
 				OC_Log::ERROR);
-			
+
 			header('HTTP/1.1 500 Internal Server Error');
 			OC_Util::addStyle("styles");
 			$error = 'Session could not be initialized. Please contact your ';
@@ -639,7 +639,7 @@ class OC {
 		// Handle redirect URL for logged in users
 		if (isset($_REQUEST['redirect_url']) && OC_User::isLoggedIn()) {
 			$location = OC_Helper::makeURLAbsolute(urldecode($_REQUEST['redirect_url']));
-			
+
 			// Deny the redirect if the URL contains a @
 			// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
 			if (strpos($location, '@') === FALSE) {
@@ -788,14 +788,15 @@ class OC {
 				$_SESSION['timezone'] = $_POST['timezone-offset'];
 			}
 
-			self::cleanupLoginTokens($_POST['user']);
+			$userid = OC_User::getUser();
+			self::cleanupLoginTokens($userid);
 			if (!empty($_POST["remember_login"])) {
 				if (defined("DEBUG") && DEBUG) {
 					OC_Log::write('core', 'Setting remember login to cookie', OC_Log::DEBUG);
 				}
 				$token = OC_Util::generate_random_bytes(32);
-				OC_Preferences::setValue($_POST['user'], 'login_token', $token, time());
-				OC_User::setMagicInCookie($_POST["user"], $token);
+				OC_Preferences::setValue($userid, 'login_token', $token, time());
+				OC_User::setMagicInCookie($userid, $token);
 			} else {
 				OC_User::unsetMagicInCookie();
 			}
