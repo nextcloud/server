@@ -501,6 +501,9 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 #navigation:hover {
 	overflow-y: auto; /* show scrollbar only on hover */
 }
+#apps {
+	height: 100%;
+}
 #navigation a span {
 	display: block;
 	text-decoration: none;
@@ -545,9 +548,24 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 		padding-top: 20px;
 	}
 
+/* Apps management as sticky footer, less obtrusive in the list */
+#navigation .wrapper {
+	min-height: 100%;
+	margin: 0 auto -72px;
+}
+#apps-management, #navigation .push {
+	height: 70px;
+}
 #apps-management {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+	filter: alpha(opacity=60);
 	opacity: .6;
 }
+#apps-management .icon {
+	padding-bottom: 0;
+}
+
+
 
 
 /* USER MENU */
