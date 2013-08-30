@@ -53,9 +53,10 @@ class SFTP extends \OC\Files\Storage\Common {
 	}
 
 	public function test() {
-		if (!isset($params['host']) || !isset($params['user']) || !isset($params['password'])) {
-			throw new \Exception("Required parameters not set");
+		if (!isset($this->host) || !isset($this->user) || !isset($this->password)) {
+			return false;
 		}
+    return true;
 	}
 
 	public function getId(){
