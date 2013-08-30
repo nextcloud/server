@@ -40,9 +40,14 @@ class OC_Avatar {
 	 * @throws Exception if the provided file is not a jpg or png image
 	 * @throws Exception if the provided image is not valid
 	 * @throws \OC\NotSquareException if the image is not square
-	 * @return true on success
+	 * @return void
 	*/
 	public function set ($user, $data) {
+		if (\OC_Appconfig::getValue('files_encryption', 'enabled') === "yes") {
+			$l = \OC_L10N::get('lib');
+			throw new \Exception($l->t("Custom avatars don't work with encryption yet"));
+		}
+
 		$view = new \OC\Files\View('/'.$user);
 
 		$img = new OC_Image($data);
@@ -55,7 +60,7 @@ class OC_Avatar {
 
 		if (!$img->valid()) {
 			$l = \OC_L10N::get('lib');
-			throw new \Excpeption($l->t("Invalid image"));
+			throw new \Exception($l->t("Invalid image"));
 		}
 
 		if (!($img->height() === $img->width())) {
@@ -65,7 +70,6 @@ class OC_Avatar {
 		$view->unlink('avatar.jpg');
 		$view->unlink('avatar.png');
 		$view->file_put_contents('avatar.'.$type, $data);
-		return true;
 	}
 
 	/**

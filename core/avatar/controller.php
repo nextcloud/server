@@ -79,8 +79,6 @@ class OC_Core_Avatar_Controller {
 	}
 
 	public static function getTmpAvatar($args) {
-		// TODO deliver actual size here as well, so Jcrop can do its magic and we have the actual coordinates here again
-		// TODO or don't have a size parameter and only resize client sided (looks promising)
 		$user = OC_User::getUser();
 
 		$tmpavatar = \OC_Cache::get('tmpavatar');

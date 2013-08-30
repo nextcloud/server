@@ -6,17 +6,17 @@
  */
 
 (function ($) {
-	$.fn.avatar = function(user, height) {
-		// TODO there has to be a better way …
-		if (typeof(height) === 'undefined') {
-			height = this.height();
-		}
-		if (height === 0) {
-			height = 64;
+	$.fn.avatar = function(user, size) {
+		if (typeof(size) === 'undefined') {
+			if (this.height() > 0) {
+				size = this.height();
+			} else {
+				size = 64;
+			}
 		}
 
-		this.height(height);
-		this.width(height);
+		this.height(size);
+		this.width(size);
 
 		if (typeof(user) === 'undefined') {
 			this.placeholder('x');
@@ -25,12 +25,12 @@
 
 		var $div = this;
 
-		//$.get(OC.Router.generate('core_avatar_get', {user: user, size: height}), function(result) { // TODO does not work "Uncaught TypeError: Cannot use 'in' operator to search for 'core_avatar_get' in undefined" router.js L22
-		$.get(OC.router_base_url+'/avatar/'+user+'/'+height, function(result) {
+		//$.get(OC.Router.generate('core_avatar_get', {user: user, size: size}), function(result) { // TODO does not work "Uncaught TypeError: Cannot use 'in' operator to search for 'core_avatar_get' in undefined" router.js L22
+		$.get(OC.router_base_url+'/avatar/'+user+'/'+size, function(result) {
 			if (typeof(result) === 'object') {
 				$div.placeholder(result.user);
 			} else {
-				$div.html('<img src="'+OC.Router.generate('core_avatar_get', {user: user, size: height})+'">');
+				$div.html('<img src="'+OC.Router.generate('core_avatar_get', {user: user, size: size})+'">');
 			}
 		});
         };

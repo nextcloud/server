@@ -54,29 +54,31 @@ function updateAvatar () {
 }
 
 function showAvatarCropper() {
-	var $dlg = $('<div id="cropperbox" title="'+t('settings', 'Crop')+'"></div>');
+	var $dlg = $('<div class="hidden" id="cropperbox" title="'+t('settings', 'Crop')+'"><img id="cropper" src="'+OC.Router.generate('core_avatar_get_tmp')+'"></div>');
 	$('body').append($dlg);
-	$('#cropperbox').ocdialog({
-		width: '600px',
-		height: '600px',
-		buttons: [{
-			text: t('settings', 'Crop'),
-			click: sendCropData,
-			defaultButton: true
-		}]
-	});
-	var cropper = new Image();
-	$(cropper).load(function() {
-		$(this).attr('id', 'cropper');
-		$('#cropperbox').html(this);
-		$(this).Jcrop({
+
+	$cropperbox = $('#cropperbox');
+	$cropper = $('#cropper');
+
+	$cropper.on('load', function() {
+		$cropperbox.show();
+
+		$cropper.Jcrop({
 			onChange: saveCoords,
 			onSelect: saveCoords,
 			aspectRatio: 1,
 			boxHeight: 500,
 			boxWidth: 500
 		});
-	}).attr('src', OC.Router.generate('core_avatar_get_tmp'));
+
+		$cropperbox.ocdialog({
+			buttons: [{
+				text: t('settings', 'Crop'),
+				click: sendCropData,
+				defaultButton: true
+			}]
+		});
+	});
 }
 
 function sendCropData() {
