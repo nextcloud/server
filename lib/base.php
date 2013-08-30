@@ -268,6 +268,7 @@ class OC {
 
 		OC_Util::addStyle("styles");
 		OC_Util::addStyle("apps");
+		OC_Util::addStyle("fixes");
 		OC_Util::addStyle("multiselect");
 		OC_Util::addStyle("jquery-ui-1.10.0.custom");
 		OC_Util::addStyle("jquery-tipsy");
