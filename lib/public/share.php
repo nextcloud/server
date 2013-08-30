@@ -1030,19 +1030,19 @@ class Share {
 		if ($format == self::FORMAT_STATUSES) {
 			if ($itemType == 'file' || $itemType == 'folder') {
 				$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`,'
-					.' `share_type`, `file_source`, `path`, `expiration`, `storage`';
+					.' `share_type`, `file_source`, `path`, `expiration`, `storage`, `mail_send`';
 			} else {
-				$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`, `expiration`';
+				$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`, `expiration`, `mail_send`';
 			}
 		} else {
 			if (isset($uidOwner)) {
 				if ($itemType == 'file' || $itemType == 'folder') {
 					$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`,'
 						.' `share_type`, `share_with`, `file_source`, `path`, `permissions`, `stime`,'
-						.' `expiration`, `token`, `storage`';
+						.' `expiration`, `token`, `storage`, `storage`, `mail_send`';
 				} else {
 					$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`, `share_with`, `permissions`,'
-						.' `stime`, `file_source`, `expiration`, `token`';
+						.' `stime`, `file_source`, `expiration`, `token`, `storage`, `mail_send`';
 				}
 			} else {
 				if ($fileDependent) {
@@ -1053,11 +1053,11 @@ class Share {
 						$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `uid_owner`, '
 							.'`share_type`, `share_with`, `file_source`, `path`, `file_target`, '
 							.'`permissions`, `expiration`, `storage`, `*PREFIX*filecache`.`parent` as `file_parent`, '
-							.'`name`, `mtime`, `mimetype`, `mimepart`, `size`, `encrypted`, `etag`';
+							.'`name`, `mtime`, `mimetype`, `mimepart`, `size`, `encrypted`, `etag`, `storage`, `mail_send`';
 					} else {
 						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `item_target`,
 							`*PREFIX*share`.`parent`, `share_type`, `share_with`, `uid_owner`,
-							`file_source`, `path`, `file_target`, `permissions`, `stime`, `expiration`, `token`, `storage`';
+							`file_source`, `path`, `file_target`, `permissions`, `stime`, `expiration`, `token`, `storage`, `storage`, `mail_send`';
 					}
 				} else {
 					$select = '*';

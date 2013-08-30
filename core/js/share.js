@@ -114,6 +114,7 @@ OC.Share={
 				data = false;
 			}
 		}});
+
 		return data;
 	},
 	share:function(itemType, itemSource, shareType, shareWith, permissions, callback) {
@@ -219,7 +220,7 @@ OC.Share={
 						if (share.collection) {
 							OC.Share.addShareWith(share.share_type, share.share_with, share.share_with_displayname, share.permissions, possiblePermissions, share.mail_send, share.collection);
 						} else {
-							OC.Share.addShareWith(share.share_type, share.share_with, share.share_with_displayname, share.mail_send,  share.permissions, possiblePermissions, share.mail_send, false);
+							OC.Share.addShareWith(share.share_type, share.share_with, share.share_with_displayname, share.permissions, possiblePermissions, share.mail_send, false);
 						}
 					}
 					if (share.expiration != null) {
@@ -344,7 +345,7 @@ OC.Share={
 			mailNotificationEnabled = $('input:hidden[name=mailNotificationEnabled]').val();
 			if (mailNotificationEnabled === 'yes') {
 				checked = '';
-				if (mailSend === true) {
+				if (mailSend === '1') {
 					checked = 'checked';
 				}
 				html += '<input type="checkbox" name="mailNotification" class="mailNotification" ' + checked + ' />'+t('core', 'notify user by email')+'</label>';
