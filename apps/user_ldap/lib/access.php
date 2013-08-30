@@ -991,7 +991,7 @@ abstract class Access {
 	 * internally we store them for usage in LDAP filters
 	 */
 	private function DNasBaseParameter($dn) {
-		return str_replace('\\5c', '\\', $dn);
+		return str_ireplace('\\5c', '\\', $dn);
 	}
 
 	/**
