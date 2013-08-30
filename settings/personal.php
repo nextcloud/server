@@ -87,7 +87,6 @@ $tmpl->assign('passwordChangeSupported', OC_User::canUserChangePassword(OC_User:
 $tmpl->assign('displayNameChangeSupported', OC_User::canUserChangeDisplayName(OC_User::getUser()));
 $tmpl->assign('displayName', OC_User::getDisplayName());
 $tmpl->assign('enableDecryptAll' , $enableDecryptAll);
-$tmpl->assign('avatar', OC_Config::getValue('avatar', 'local'));
 
 $forms=OC_App::getForms('personal');
 $tmpl->assign('forms', array());

@@ -109,8 +109,8 @@ class OC_Core_Avatar_Controller {
 			// Clean up
 			\OC_Cache::remove('tmpavatar');
 			\OC_JSON::success();
-                } catch (\Exception $e) {
-                        \OC_JSON::error(array("data" => array("message" => $e->getMessage()) ));
-                }
+		} catch (\Exception $e) {
+			\OC_JSON::error(array("data" => array("message" => $e->getMessage()) ));
+		}
 	}
 }
