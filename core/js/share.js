@@ -695,9 +695,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$(document).on('click', '#dropdown input[name=mailNotification]', function(event) {
-		event.preventDefault();
-		event.stopPropagation();
+	$(document).on('click', '#dropdown input[name=mailNotification]', function() {
 		var li = $(this).parent();
 		var itemType = $('#dropdown').data('item-type');
 		var itemSource = $('#dropdown').data('item-source');

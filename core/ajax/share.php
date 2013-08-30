@@ -134,7 +134,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 								\OCP\User::getDisplayName()
 						);
 					} catch (Exception $exception) {
-						$noMail[] = \OCP\User::getDisplayName($recipient['displayName']);
+						$noMail[] = \OCP\User::getDisplayName($recipient);
 					}
 				} else {
 					$noMail[] = \OCP\User::getDisplayName($recipient);
@@ -151,12 +151,10 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			break;
 		case 'informRecipientsDisabled':
 			$itemSource = $_POST['itemSource'];
+			$shareType = $_POST['shareType'];
 			$itemType = $_POST['itemType'];
 			$recipient = $_POST['recipient'];
-			//$share = $shareManager->getShares($itemType, array('shareWith' => $recipient, 'isShareWithUser' => true, 'itemSource' => $itemSource));
-			//$share[0]->setMailSend(false);
-			//$shareManager->update($share[0]);
-			//write status to db
+			\OCP\Share::setSendMailStatus($itemType, $itemSource, $shareType, false);
 			OCP\JSON::success();
 			break;
 
