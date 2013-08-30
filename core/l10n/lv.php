@@ -126,7 +126,6 @@ $TRANSLATIONS = array(
 "Finish setup" => "Pabeigt iestatīšanu",
 "%s is available. Get more information on how to update." => "%s ir pieejams. Uzziniet vairāk kā atjaunināt.",
 "Log out" => "Izrakstīties",
-"More apps" => "Vairāk programmu",
 "Automatic logon rejected!" => "Automātiskā ierakstīšanās ir noraidīta!",
 "If you did not change your password recently, your account may be compromised!" => "Ja neesat pēdējā laikā mainījis paroli, iespējams, ka jūsu konts ir kompromitēts.",
 "Please change your password to secure your account again." => "Lūdzu, nomainiet savu paroli, lai atkal nodrošinātu savu kontu.",

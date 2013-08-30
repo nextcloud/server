@@ -28,6 +28,8 @@ $TRANSLATIONS = array(
 "cancel" => "ยกเลิก",
 "replaced {new_name} with {old_name}" => "แทนที่ {new_name} ด้วย {old_name} แล้ว",
 "undo" => "เลิกทำ",
+"_%n folder_::_%n folders_" => array(""),
+"_%n file_::_%n files_" => array(""),
 "_Uploading %n file_::_Uploading %n files_" => array(""),
 "files uploading" => "การอัพโหลดไฟล์",
 "'.' is an invalid file name." => "'.' เป็นชื่อไฟล์ที่ไม่ถูกต้อง",
@@ -39,8 +41,6 @@ $TRANSLATIONS = array(
 "Name" => "ชื่อ",
 "Size" => "ขนาด",
 "Modified" => "แก้ไขแล้ว",
-"_%n folder_::_%n folders_" => array(""),
-"_%n file_::_%n files_" => array(""),
 "Upload" => "อัพโหลด",
 "File handling" => "การจัดกาไฟล์",
 "Maximum upload size" => "ขนาดไฟล์สูงสุดที่อัพโหลดได้",
@@ -63,8 +63,6 @@ $TRANSLATIONS = array(
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "ไฟล์ที่คุณพยายามที่จะอัพโหลดมีขนาดเกินกว่าขนาดสูงสุดที่กำหนดไว้ให้อัพโหลดได้สำหรับเซิร์ฟเวอร์นี้",
 "Files are being scanned, please wait." => "ไฟล์กำลังอยู่ระหว่างการสแกน, กรุณารอสักครู่.",
 "Current scanning" => "ไฟล์ที่กำลังสแกนอยู่ขณะนี้",
-"file" => "ไฟล์",
-"files" => "ไฟล์",
 "Upgrading filesystem cache..." => "กำลังอัพเกรดหน่วยความจำแคชของระบบไฟล์..."
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

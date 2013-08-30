@@ -30,6 +30,8 @@ $TRANSLATIONS = array(
 "cancel" => "nuligi",
 "replaced {new_name} with {old_name}" => "anstataŭiĝis {new_name} per {old_name}",
 "undo" => "malfari",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "_Uploading %n file_::_Uploading %n files_" => array("",""),
 "files uploading" => "dosieroj estas alŝutataj",
 "'.' is an invalid file name." => "'.' ne estas valida dosiernomo.",
@@ -41,8 +43,6 @@ $TRANSLATIONS = array(
 "Name" => "Nomo",
 "Size" => "Grando",
 "Modified" => "Modifita",
-"_%n folder_::_%n folders_" => array("",""),
-"_%n file_::_%n files_" => array("",""),
 "Upload" => "Alŝuti",
 "File handling" => "Dosieradministro",
 "Maximum upload size" => "Maksimuma alŝutogrando",
@@ -67,8 +67,6 @@ $TRANSLATIONS = array(
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "La dosieroj, kiujn vi provas alŝuti, transpasas la maksimuman grandon por dosieralŝutoj en ĉi tiu servilo.",
 "Files are being scanned, please wait." => "Dosieroj estas skanataj, bonvolu atendi.",
 "Current scanning" => "Nuna skano",
-"file" => "dosiero",
-"files" => "dosieroj",
 "Upgrading filesystem cache..." => "Ĝisdatiĝas dosiersistema kaŝmemoro..."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

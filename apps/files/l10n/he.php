@@ -28,14 +28,14 @@ $TRANSLATIONS = array(
 "cancel" => "ביטול",
 "replaced {new_name} with {old_name}" => "{new_name} הוחלף ב־{old_name}",
 "undo" => "ביטול",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "_Uploading %n file_::_Uploading %n files_" => array("",""),
 "files uploading" => "קבצים בהעלאה",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "השם שגוי, אסור להשתמש בתווים '\\', '/', '<', '>', ':', '\"', '|', '?' ו־'*'.",
 "Name" => "שם",
 "Size" => "גודל",
 "Modified" => "זמן שינוי",
-"_%n folder_::_%n folders_" => array("",""),
-"_%n file_::_%n files_" => array("",""),
 "Upload" => "העלאה",
 "File handling" => "טיפול בקבצים",
 "Maximum upload size" => "גודל העלאה מקסימלי",
@@ -57,8 +57,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "העלאה גדולה מידי",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "הקבצים שניסית להעלות חרגו מהגודל המקסימלי להעלאת קבצים על שרת זה.",
 "Files are being scanned, please wait." => "הקבצים נסרקים, נא להמתין.",
-"Current scanning" => "הסריקה הנוכחית",
-"file" => "קובץ",
-"files" => "קבצים"
+"Current scanning" => "הסריקה הנוכחית"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
