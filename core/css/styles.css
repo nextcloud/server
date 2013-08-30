@@ -150,9 +150,9 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 /* CONTENT ------------------------------------------------------------------ */
 #controls {
 	position: fixed;
-	height: 2.8em;
+	height: 36px;
 	width: 100%;
-	padding: 0 70px 0 0.5em;
+	padding: 0 75px 0 6px;
 	margin: 0;
 	background: #eee;
 	border-bottom: 1px solid #e7e7e7;
