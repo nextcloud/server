@@ -103,6 +103,9 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				$recipientList = \OC_Group::usersInGroup($recipient);
 			}
 
+			// don't send a mail to the user who shared the file
+			array_diff($recipientList, [\OCP\User::getUser()]);
+
 			// send mail to all recipients with an email address
 			foreach ($recipientList as $recipient) {
 				//get correct target folder name
