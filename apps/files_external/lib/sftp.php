@@ -56,7 +56,7 @@ class SFTP extends \OC\Files\Storage\Common {
 		if (!isset($this->host) || !isset($this->user) || !isset($this->password)) {
 			return false;
 		}
-    return true;
+    return $this->client->nlist() !== false;
 	}
 
 	public function getId(){
