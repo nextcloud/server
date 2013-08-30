@@ -114,7 +114,11 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				if ($email !== '') {
 					$displayName = \OCP\User::getDisplayName($recipient);
 					$items = \OCP\Share::getItemSharedWithUser($itemType, $itemSource, $recipient);
-					$filename = $items[0]['file_target'];
+					$filename = trim($items[0]['file_target'], '/');
+					$expiration = null;
+					if (isset($items[0]['expiration'])) {
+						$expiration = $items[0]['expiration'];
+					}
 
 					if ($itemType === 'folder') {
 						$foldername = "/Shared/" . $filename;
@@ -125,7 +129,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 					}
 
 					$url = \OCP\Util::linkToAbsolute('files', 'index.php', array("dir" => $foldername));
-					$text = $defaults->getShareNotificationText(\OCP\User::getDisplayName(), $filename, $itemType, $url);
+					$text = $defaults->getShareNotificationText(\OCP\User::getDisplayName(), $filename, $itemType, $url, $expiration);
 
 					try {
 						OCP\Util::sendMail(

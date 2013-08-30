@@ -65,12 +65,17 @@ class OC_Defaults {
 	 * @param string $itemName name of the file/folder
 	 * @param string $itemType typically "file" or "folder"
 	 * @param string $link link directly to the file/folder in your ownCloud
+	 * @param string $expiration expiration date
 	 */
-	public function getShareNotificationText($sender, $itemName, $itemType, $link) {
+	public function getShareNotificationText($sender, $itemName, $itemType, $link, $expiration=null) {
 		if ($this->themeExist('getShareNotificationText')) {
-			return $this->theme->getShareNotificationText($sender, $itemName, $itemType, $link);
+			return $this->theme->getShareNotificationText($sender, $itemName, $itemType, $link, $expiration);
 		} else {
-			return $this->l->t("%s shared a %s called %s with you. You can find the %s here: %s", array($sender, $itemType, $itemName, $itemType, $link));
+			if ($expiration) {
+				return $this->l->t("%s shared a %s called %s with you. The share will expire at %s. You can find the %s here: %s", array($sender, $itemType, $itemName, $expiration, $itemType, $link));
+			} else {
+				return $this->l->t("%s shared a %s called %s with you. You can find the %s here: %s", array($sender, $itemType, $itemName, $itemType, $link));
+			}
 		}
 	}
 

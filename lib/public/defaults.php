@@ -48,9 +48,10 @@ class Defaults {
 	 * @param string $itemName name of the file/folder
 	 * @param string $itemType typically "file" or "folder"
 	 * @param string $link link directly to the file/folder in your ownCloud
+	 * @param string $expiration expiration date
 	 */
-	public function getShareNotificationText($sender, $itemName, $itemType, $link) {
-		return $this->defaults->getShareNotificationText($sender, $itemName, $itemType, $link);
+	public function getShareNotificationText($sender, $itemName, $itemType, $link, $expiration) {
+		return $this->defaults->getShareNotificationText($sender, $itemName, $itemType, $link, $expiration);
 	}
 
 	/**
