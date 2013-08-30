@@ -126,7 +126,6 @@ $TRANSLATIONS = array(
 "Finish setup" => "Acaba la configuració",
 "%s is available. Get more information on how to update." => "%s està disponible. Obtingueu més informació de com actualitzar.",
 "Log out" => "Surt",
-"More apps" => "Més aplicacions",
 "Automatic logon rejected!" => "L'ha rebutjat l'acceditació automàtica!",
 "If you did not change your password recently, your account may be compromised!" => "Se no heu canviat la contrasenya recentment el vostre compte pot estar compromès!",
 "Please change your password to secure your account again." => "Canvieu la contrasenya de nou per assegurar el vostre compte.",

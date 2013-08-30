@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-28 06:22-0400\n"
-"PO-Revision-Date: 2013-08-27 22:31+0000\n"
+"POT-Creation-Date: 2013-08-30 09:32-0400\n"
+"PO-Revision-Date: 2013-08-30 13:33+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -22,6 +22,10 @@ msgstr ""
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s delte »%s« med deg"
+
+#: ajax/share.php:227
+msgid "group"
+msgstr ""
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
@@ -468,7 +472,7 @@ msgstr "Personlig"
 msgid "Users"
 msgstr "Brukere"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "Apper"
 
@@ -601,10 +605,6 @@ msgstr ""
 msgid "Log out"
 msgstr "Logg ut"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr ""
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Automatisk pålogging avvist!"
@@ -619,19 +619,19 @@ msgstr "Hvis du ikke har endret passordet ditt nylig kan kontoen din være kompr
 msgid "Please change your password to secure your account again."
 msgstr "Vennligst skift passord for å gjøre kontoen din sikker igjen."
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "Mistet passordet ditt?"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "husk"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "Logg inn"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr ""
 

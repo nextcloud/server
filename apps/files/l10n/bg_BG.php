@@ -17,12 +17,12 @@ $TRANSLATIONS = array(
 "replace" => "препокриване",
 "cancel" => "отказ",
 "undo" => "възтановяване",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "_Uploading %n file_::_Uploading %n files_" => array("",""),
 "Name" => "Име",
 "Size" => "Размер",
 "Modified" => "Променено",
-"_%n folder_::_%n folders_" => array("",""),
-"_%n file_::_%n files_" => array("",""),
 "Upload" => "Качване",
 "Maximum upload size" => "Максимален размер за качване",
 "0 is unlimited" => "Ползвайте 0 за без ограничения",
@@ -36,7 +36,6 @@ $TRANSLATIONS = array(
 "Delete" => "Изтриване",
 "Upload too large" => "Файлът който сте избрали за качване е прекалено голям",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Файловете които се опитвате да качите са по-големи от позволеното за сървъра.",
-"Files are being scanned, please wait." => "Файловете се претърсват, изчакайте.",
-"file" => "файл"
+"Files are being scanned, please wait." => "Файловете се претърсват, изчакайте."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
