@@ -34,13 +34,13 @@
 
 		var $div = this;
 
-		//$.get(OC.Router.generate('core_avatar_get', {user: user, size: size}), function(result) { // TODO does not work "Uncaught TypeError: Cannot use 'in' operator to search for 'core_avatar_get' in undefined" router.js L22
-		$.get(OC.router_base_url+'/avatar/'+user+'/'+size, function(result) {
+		var url = OC.router_base_url+'/avatar/'+user+'/'+size // FIXME routes aren't loaded yet, so OC.Router.generate() doesn't work
+		$.get(url, function(result) {
 			if (typeof(result) === 'object') {
 				$div.placeholder(result.user);
 			} else {
-				$div.html('<img src="'+OC.Router.generate('core_avatar_get', {user: user, size: size})+'">');
+				$div.html('<img src="'+url+'">');
 			}
 		});
-        };
+	};
 }(jQuery));
