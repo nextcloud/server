@@ -178,12 +178,12 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 #rightcontent, .rightcontent { position:fixed; top:6.4em; left:24.5em; overflow:auto }
 
 #emptycontent {
-    font-size:1.5em; font-weight:bold;
+	font-size:1.5em; font-weight:bold;
 	color:#888; text-shadow:#fff 0 1px 0;
-    position: absolute;
-    text-align: center;
-    top: 50%;
-    width: 100%;
+	position: absolute;
+	text-align: center;
+	top: 50%;
+	width: 100%;
 }
 
 
