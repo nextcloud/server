@@ -40,16 +40,6 @@ class OC_OCSClient{
 		return($url);
 	}
 
-	/**
-	 * @brief Get the url of the OCS KB server.
-	 * @returns string of the KB server
-	 * This function returns the url of the OCS knowledge base server. It´s
-	 * possible to set it in the config file or it will fallback to the default
-	 */
-	private static function getKBURL() {
-		$url = OC_Config::getValue('knowledgebaseurl', 'http://api.apps.owncloud.com/v1');
-		return($url);
-	}
 
 	/**
 	 * @brief Get the content of an OCS url call.
@@ -211,45 +201,6 @@ class OC_OCSClient{
 			$app['downloadlink']='';
 		}
 		return $app;
-	}
-
-
-	/**
-	 * @brief Get all the knowledgebase entries from the OCS server
-	 * @returns array with q and a data
-	 *
-	 * This function returns a list of all the knowledgebase entries from the OCS server
-	 */
-	public static function getKnownledgebaseEntries($page, $pagesize, $search='') {
-		$kbe = array('totalitems' => 0);
-		if(OC_Config::getValue('knowledgebaseenabled', true)) {
-			$p = (int) $page;
-			$s = (int) $pagesize;
-			$searchcmd = '';
-			if ($search) {
-				$searchcmd = '&search='.urlencode($search);
-			}
-			$url = OC_OCSClient::getKBURL().'/knowledgebase/data?type=150&page='. $p .'&pagesize='. $s . $searchcmd;
-			$xml = OC_OCSClient::getOCSresponse($url);
-			$data = @simplexml_load_string($xml);
-			if($data===false) {
-				OC_Log::write('core', 'Unable to parse knowledgebase content', OC_Log::FATAL);
-				return null;
-			}
-			$tmp = $data->data->content;
-			for($i = 0; $i < count($tmp); $i++) {
-				$kbe[] = array(
-					'id' => $tmp[$i]->id,
-					'name' => $tmp[$i]->name,
-					'description' => $tmp[$i]->description,
-					'answer' => $tmp[$i]->answer,
-					'preview1' => $tmp[$i]->smallpreviewpic1,
-					'detailpage' => $tmp[$i]->detailpage
-				);
-			}
-			$kbe['totalitems'] = $data->meta->totalitems;
-		}
-		return $kbe;
 	}
 
 
