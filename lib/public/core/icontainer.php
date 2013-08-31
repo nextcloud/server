@@ -31,9 +31,34 @@ namespace OCP\Core;
  */
 interface IContainer {
 
+	/**
+	 * Look up a service for a given name in the container.
+	 *
+	 * @param string $name
+	 * @return mixed
+	 */
 	function query($name);
 
+	/**
+	 * A value is stored in the container with it's corresponding name
+	 *
+	 * @param string $name
+	 * @param mixed $value
+	 * @return void
+	 */
 	function registerParameter($name, $value);
 
+	/**
+	 * A service is registered in the container where a closure is passed in which will actually
+	 * create the service on demand.
+	 * In case the parameter $shared is set to true (the default usage) the once created service will remain in
+	 * memory and be reused on subsequent calls.
+	 * In case the parameter is false the service will be recreated on every call.
+	 *
+	 * @param string $name
+	 * @param callable $closure
+	 * @param bool $shared
+	 * @return void
+	 */
 	function registerService($name, \Closure $closure, $shared = true);
 }

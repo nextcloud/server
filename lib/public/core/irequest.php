@@ -45,6 +45,7 @@ interface IRequest {
 
 	/**
 	 * Returns all params that were received, be it from the request
+	 *
 	 * (as GET or POST) or through the URL by the route
 	 * @return array the array with all parameters
 	 */
@@ -52,12 +53,14 @@ interface IRequest {
 
 	/**
 	 * Returns the method of the request
+	 *
 	 * @return string the method of the request (POST, GET, etc)
 	 */
 	public function getMethod();
 
 	/**
 	 * Shortcut for accessing an uploaded file through the $_FILES array
+	 *
 	 * @param string $key the key that will be taken from the $_FILES array
 	 * @return array the file in the $_FILES element
 	 */
@@ -66,6 +69,7 @@ interface IRequest {
 
 	/**
 	 * Shortcut for getting env variables
+	 *
 	 * @param string $key the key that will be taken from the $_ENV array
 	 * @return array the value in the $_ENV element
 	 */
@@ -74,6 +78,7 @@ interface IRequest {
 
 	/**
 	 * Shortcut for getting session variables
+	 *
 	 * @param string $key the key that will be taken from the $_SESSION array
 	 * @return array the value in the $_SESSION element
 	 */
@@ -82,6 +87,7 @@ interface IRequest {
 
 	/**
 	 * Shortcut for getting cookie variables
+	 *
 	 * @param string $key the key that will be taken from the $_COOKIE array
 	 * @return array the value in the $_COOKIE element
 	 */
@@ -92,9 +98,7 @@ interface IRequest {
 	 * Returns the request body content.
 	 *
 	 * @param Boolean $asResource If true, a resource will be returned
-	 *
 	 * @return string|resource The request body content or a resource to read the body stream.
-	 *
 	 * @throws \LogicException
 	 */
 	function getContent($asResource = false);

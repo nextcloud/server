@@ -32,7 +32,20 @@ namespace OCP\Core;
 interface IServerContainer {
 
 	/**
+	 * The contacts manager will act as a broker between consumers for contacts information and
+	 * providers which actual deliver the contact information.
+	 *
 	 * @return \OCP\Core\Contacts\IManager
 	 */
 	function getContactsManager();
+
+	/**
+	 * The current request object holding all information about the request currently being processed
+	 * is returned from this method.
+	 * In case the current execution was not initiated by a web request null is returned
+	 *
+	 * @return \OCP\Core\IRequest|null
+	 */
+	function getRequest();
+
 }
