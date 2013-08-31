@@ -15,9 +15,10 @@ var FileList={
 		// filename td
 		td = $('<td></td>').attr({
 			"class": "filename",
-			"style": 'background-image:url('+iconurl+'); background-size: 16px;'
+			"style": 'background-image:url('+iconurl+'); background-size: 32px;'
 		});
-		td.append('<input type="checkbox" />');
+		var rand = Math.random().toString(16).slice(2);
+		td.append('<input id="select-'+rand+'" type="checkbox" /><label for="select-'+rand+'"></label>');
 		var link_elem = $('<a></a>').attr({
 			"class": "name",
 			"href": linktarget
@@ -187,8 +188,9 @@ var FileList={
 		if (id != null) {
 			tr.attr('data-id', id);
 		}
-		getMimeIcon(mime,function(path){
-			tr.find('td.filename').attr('style','background-image:url('+path+')');
+		var path = getPathForPreview(name);
+		lazyLoadPreview(path, mime, function(previewpath){
+			tr.find('td.filename').attr('style','background-image:url('+previewpath+')');
 		});
 		tr.find('td.filename').draggable(dragOptions);
 	},
@@ -200,7 +202,7 @@ var FileList={
 		tr=$('tr').filterAttr('data-file',name);
 		tr.data('renaming',true);
 		td=tr.children('td.filename');
-		input=$('<input class="filename"/>').val(name);
+		input=$('<input type="text" class="filename"/>').val(name);
 		form=$('<form></form>');
 		form.append(input);
 		td.children('a.name').hide();

@@ -201,4 +201,17 @@ $CONFIG = array(
 'customclient_desktop' => '', //http://owncloud.org/sync-clients/
 'customclient_android' => '', //https://play.google.com/store/apps/details?id=com.owncloud.android
 'customclient_ios' => '', //https://itunes.apple.com/us/app/owncloud/id543672169?mt=8
+
+// PREVIEW
+'enable_previews' => true,
+/* the max width of a generated preview, if value is null, there is no limit */
+'preview_max_x' => null,
+/* the max height of a generated preview, if value is null, there is no limit */
+'preview_max_y' => null,
+/* the max factor to scale a preview, default is set to 10 */
+'preview_max_scale_factor' => 10,
+/* custom path for libreoffice / openoffice binary */
+'preview_libreoffice_path' => '/usr/bin/libreoffice',
+/* cl parameters for libreoffice / openoffice */
+'preview_office_cl_parameters' => '',
 );

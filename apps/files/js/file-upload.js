@@ -227,7 +227,7 @@ $(document).ready(function() {
 		$(this).data('text',text);
 		$(this).children('p').remove();
 		var form=$('<form></form>');
-		var input=$('<input>');
+		var input=$('<input type="text">');
 		form.append(input);
 		$(this).append(form);
 		input.focus();
@@ -268,8 +268,9 @@ $(document).ready(function() {
 								tr.attr('data-mime',result.data.mime);
 								tr.attr('data-id', result.data.id);
 								tr.find('.filesize').text(humanFileSize(result.data.size));
-								getMimeIcon(result.data.mime,function(path){
-									tr.find('td.filename').attr('style','background-image:url('+path+')');
+								var path = getPathForPreview(name);
+								lazyLoadPreview(path, result.data.mime, function(previewpath){
+									tr.find('td.filename').attr('style','background-image:url('+previewpath+')');
 								});
 							} else {
 								OC.dialogs.alert(result.data.message, t('core', 'Error'));
@@ -330,8 +331,9 @@ $(document).ready(function() {
 						var tr=$('tr').filterAttr('data-file',localName);
 						tr.data('mime',mime).data('id',id);
 						tr.attr('data-id', id);
-						getMimeIcon(mime,function(path){
-							tr.find('td.filename').attr('style','background-image:url('+path+')');
+						var path = $('#dir').val()+'/'+localName;
+						lazyLoadPreview(path, mime, function(previewpath){
+							tr.find('td.filename').attr('style','background-image:url('+previewpath+')');
 						});
 					});
 					eventSource.listen('error',function(error){

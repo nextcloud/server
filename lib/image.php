@@ -496,6 +496,11 @@ class OC_Image {
 			return false;
 		}
 		$this->resource = @imagecreatefromstring($str);
+		if(is_resource($this->resource)) {
+			imagealphablending($this->resource, false);
+			imagesavealpha($this->resource, true);
+		}
+
 		if(!$this->resource) {
 			OC_Log::write('core', 'OC_Image->loadFromData, couldn\'t load', OC_Log::DEBUG);
 			return false;
