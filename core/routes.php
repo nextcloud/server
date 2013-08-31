@@ -59,8 +59,10 @@ $this->create('core_lostpassword_reset_password', '/lostpassword/reset/{token}/{
 	->action('OC_Core_LostPassword_Controller', 'resetPassword');
 
 // Avatar routes
+$this->create('core_avatar_get_tmp', '/avatar/tmp')
+        ->get()
+        ->action('OC_Core_Avatar_Controller', 'getTmpAvatar');
 $this->create('core_avatar_get', '/avatar/{user}/{size}')
-	->defaults(array('user' => '', 'size' => 64))
 	->get()
 	->action('OC_Core_Avatar_Controller', 'getAvatar');
 $this->create('core_avatar_post', '/avatar/')
@@ -69,9 +71,6 @@ $this->create('core_avatar_post', '/avatar/')
 $this->create('core_avatar_delete', '/avatar/')
 	->delete()
 	->action('OC_Core_Avatar_Controller', 'deleteAvatar');
-$this->create('core_avatar_get_tmp', '/avatartmp/') //TODO better naming, so it doesn't conflict with core_avatar_get
-	->get()
-	->action('OC_Core_Avatar_Controller', 'getTmpAvatar');
 $this->create('core_avatar_post_cropped', '/avatar/cropped')
 	->post()
 	->action('OC_Core_Avatar_Controller', 'postCroppedAvatar');

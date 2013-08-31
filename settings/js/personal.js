@@ -34,6 +34,7 @@ function changeDisplayName(){
                 $('#oldDisplayName').text($('#displayName').val());
                 // update displayName on the top right expand button
                 $('#expandDisplayName').text($('#displayName').val());
+		updateAvatar();
             }
             else{
                 $('#newdisplayname').val(data.data.displayName);
@@ -82,7 +83,6 @@ function showAvatarCropper() {
 }
 
 function sendCropData() {
-	$('#cropperbox').ocdialog('close');
 	var cropperdata = $('#cropper').data();
 	var data = {
 		x: cropperdata.x,
@@ -90,6 +90,7 @@ function sendCropData() {
 		w: cropperdata.w,
 		h: cropperdata.h
 	};
+	$('#cropperbox').remove();
 	$.post(OC.Router.generate('core_avatar_post_cropped'), {crop: data}, avatarResponseHandler);
 }
 

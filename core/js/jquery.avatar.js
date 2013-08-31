@@ -10,6 +10,8 @@
 		if (typeof(size) === 'undefined') {
 			if (this.height() > 0) {
 				size = this.height();
+			} else if (this.data('size') > 0) {
+				size = this.data('size');
 			} else {
 				size = 64;
 			}
@@ -19,9 +21,16 @@
 		this.width(size);
 
 		if (typeof(user) === 'undefined') {
-			this.placeholder('x');
-			return;
+			if (typeof(this.data('user')) !== 'undefined') {
+				user = this.data('user');
+			} else {
+				this.placeholder('x');
+				return;
+			}
 		}
+
+		// sanitize
+		user = user.replace(/\//g,'');
 
 		var $div = this;
 

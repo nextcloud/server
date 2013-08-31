@@ -25,8 +25,8 @@ class OC_Core_Avatar_Controller {
 			$size = 64;
 		}
 
-		$ava = new \OC_Avatar();
-		$image = $ava->get($user, $size);
+		$avatar = new \OC_Avatar();
+		$image = $avatar->get($user, $size);
 
 		if ($image instanceof \OC_Image) {
 			$image->show();
