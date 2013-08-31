@@ -100,7 +100,7 @@ class OC_Preferences{
 	 *
 	 * Deletes a key.
 	 */
-	public function deleteKey( $user, $app, $key ) {
+	public static function deleteKey( $user, $app, $key ) {
 		self::$object->deleteKey( $user, $app, $key );
 	}
 
