@@ -522,6 +522,11 @@ class OC_Image {
 		if (\OC_Util::fileInfoLoaded()) {
 			$this->mimeType = $this->fileInfo->buffer($str);
 		}
+		if(is_resource($this->resource)) {
+			imagealphablending($this->resource, false);
+			imagesavealpha($this->resource, true);
+		}
+
 		if(!$this->resource) {
 			OC_Log::write('core', 'OC_Image->loadFromData, couldn\'t load', OC_Log::DEBUG);
 			return false;

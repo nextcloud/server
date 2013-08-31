@@ -1,5 +1,7 @@
 <input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>">
 <?php foreach($_['files'] as $file):
+	//strlen('files/') => 6
+	$relativePath = substr($file['path'], 6);
 	// the bigger the file, the darker the shade of grey; megabytes*2
 	$simple_size_color = intval(160-$file['size']/(1024*1024)*2);
 	if($simple_size_color<0) $simple_size_color = 0;
@@ -13,16 +15,38 @@
 		data-file="<?php p($name);?>"
 		data-type="<?php ($file['type'] == 'dir')?p('dir'):p('file')?>"
 		data-mime="<?php p($file['mimetype'])?>"
-		data-size='<?php p($file['size']);?>'
-		data-permissions='<?php p($file['permissions']); ?>'>
+		data-size="<?php p($file['size']);?>"
+		data-permissions="<?php p($file['permissions']); ?>">
+		<?php if($file['isPreviewAvailable']): ?>
+		<td class="filename svg preview-icon"
+		<?php else: ?>
 		<td class="filename svg"
+		<?php endif; ?>
 		<?php if($file['type'] == 'dir'): ?>
 			style="background-image:url(<?php print_unescaped(OCP\mimetype_icon('dir')); ?>)"
 		<?php else: ?>
-			style="background-image:url(<?php print_unescaped(OCP\mimetype_icon($file['mimetype'])); ?>)"
+			<?php if($_['isPublic']): ?>
+				<?php
+				$relativePath = substr($relativePath, strlen($_['sharingroot']));
+				?>
+				<?php if($file['isPreviewAvailable']): ?>
+				style="background-image:url(<?php print_unescaped(OCP\publicPreview_icon($relativePath, $_['sharingtoken'])); ?>)"
+				<?php else: ?>
+				style="background-image:url(<?php print_unescaped(OCP\mimetype_icon($file['mimetype'])); ?>)"
+				<?php endif; ?>
+			<?php else: ?>
+				<?php if($file['isPreviewAvailable']): ?>
+				style="background-image:url(<?php print_unescaped(OCP\preview_icon($relativePath)); ?>)"
+				<?php else: ?>
+				style="background-image:url(<?php print_unescaped(OCP\mimetype_icon($file['mimetype'])); ?>)"
+				<?php endif; ?>
+			<?php endif; ?>
 		<?php endif; ?>
 			>
-		<?php if(!isset($_['readonly']) || !$_['readonly']): ?><input type="checkbox" /><?php endif; ?>
+		<?php if(!isset($_['readonly']) || !$_['readonly']): ?>
+			<input id="select-<?php p($file['fileid']); ?>" type="checkbox" />
+			<label for="select-<?php p($file['fileid']); ?>"></label>
+		<?php endif; ?>
 		<?php if($file['type'] == 'dir'): ?>
 			<a class="name" href="<?php p(rtrim($_['baseURL'],'/').'/'.trim($directory,'/').'/'.$name); ?>" title="">
 		<?php else: ?>

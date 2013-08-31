@@ -79,7 +79,7 @@ if($source) {
 	$success = false;
 	if (!$content) {
 		$templateManager = OC_Helper::getFileTemplateManager();
-		$mimeType = OC_Helper::getMimeType($target);
+		$mimeType = OC_Helper::getMimetypeDetector()->detectPath($target);
 		$content = $templateManager->getTemplate($mimeType);
 	}
 
