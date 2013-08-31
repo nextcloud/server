@@ -84,12 +84,14 @@ class OC_Preferences{
 	 * @param string $app app
 	 * @param string $key key
 	 * @param string $value value
+	 * @return bool
 	 *
 	 * Adds a value to the preferences. If the key did not exist before, it
 	 * will be added automagically.
 	 */
 	public static function setValue( $user, $app, $key, $value ) {
 		self::$object->setValue( $user, $app, $key, $value );
+		return true;
 	}
 
 	/**
@@ -102,36 +104,43 @@ class OC_Preferences{
 	 */
 	public static function deleteKey( $user, $app, $key ) {
 		self::$object->deleteKey( $user, $app, $key );
+		return true;
 	}
 
 	/**
 	 * @brief Remove app of user from preferences
 	 * @param string $user user
 	 * @param string $app app
+	 * @return bool
 	 *
 	 * Removes all keys in preferences belonging to the app and the user.
 	 */
 	public static function deleteApp( $user, $app ) {
 		self::$object->deleteApp( $user, $app );
+		return true;
 	}
 
 	/**
 	 * @brief Remove user from preferences
 	 * @param string $user user
+	 * @return bool
 	 *
 	 * Removes all keys in preferences belonging to the user.
 	 */
 	public static function deleteUser( $user ) {
 		self::$object->deleteUser( $user );
+		return true;
 	}
 
 	/**
 	 * @brief Remove app from all users
 	 * @param string $app app
+	 * @return bool
 	 *
 	 * Removes all keys in preferences belonging to the app.
 	 */
 	public static function deleteAppFromAllUsers( $app ) {
 		self::$object->deleteAppFromAllUsers( $app );
+		return true;
 	}
 }
