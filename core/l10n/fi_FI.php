@@ -126,7 +126,6 @@ $TRANSLATIONS = array(
 "Finish setup" => "Viimeistele asennus",
 "%s is available. Get more information on how to update." => "%s on saatavilla. Lue lisätietoja, miten päivitys asennetaan.",
 "Log out" => "Kirjaudu ulos",
-"More apps" => "Lisää sovelluksia",
 "Automatic logon rejected!" => "Automaattinen sisäänkirjautuminen hylättiin!",
 "If you did not change your password recently, your account may be compromised!" => "Jos et vaihtanut salasanaasi äskettäin, tilisi saattaa olla murrettu.",
 "Please change your password to secure your account again." => "Vaihda salasanasi suojataksesi tilisi uudelleen.",

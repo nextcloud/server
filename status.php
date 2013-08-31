@@ -33,8 +33,11 @@ try {
 		'version'=>implode('.', OC_Util::getVersion()),
 		'versionstring'=>OC_Util::getVersionString(),
 		'edition'=>OC_Util::getEditionString());
-
-	echo(json_encode($values));
+	if (OC::$CLI) {
+		print_r($values);
+	} else {
+		echo(json_encode($values));
+	}
 
 } catch (Exception $ex) {
 	OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);

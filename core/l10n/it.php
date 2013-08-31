@@ -1,6 +1,12 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s ha condiviso «%s» con te",
+"Turned on maintenance mode" => "Modalità di manutenzione attivata",
+"Turned off maintenance mode" => "Modalità di manutenzione disattivata",
+"Updated database" => "Database aggiornato",
+"Updating filecache, this may take really long..." => "Aggiornamento della cache dei file in corso, potrebbe richiedere molto tempo...",
+"Updated filecache" => "Cache dei file aggiornata",
+"... %d%% done ..." => "... %d%% completato ...",
 "Category type not provided." => "Tipo di categoria non fornito.",
 "No category to add?" => "Nessuna categoria da aggiungere?",
 "This category already exists: %s" => "Questa categoria esiste già: %s",
@@ -126,7 +132,6 @@ $TRANSLATIONS = array(
 "Finish setup" => "Termina la configurazione",
 "%s is available. Get more information on how to update." => "%s è disponibile. Ottieni ulteriori informazioni sull'aggiornamento.",
 "Log out" => "Esci",
-"More apps" => "Altre applicazioni",
 "Automatic logon rejected!" => "Accesso automatico rifiutato.",
 "If you did not change your password recently, your account may be compromised!" => "Se non hai cambiato la password recentemente, il tuo account potrebbe essere compromesso.",
 "Please change your password to secure your account again." => "Cambia la password per rendere nuovamente sicuro il tuo account.",

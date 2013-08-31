@@ -132,7 +132,6 @@ $TRANSLATIONS = array(
 "Finish setup" => "安装完成",
 "%s is available. Get more information on how to update." => "%s 可用。获取更多关于如何升级的信息。",
 "Log out" => "注销",
-"More apps" => "更多应用",
 "Automatic logon rejected!" => "自动登录被拒绝！",
 "If you did not change your password recently, your account may be compromised!" => "如果您没有最近修改您的密码，您的帐户可能会受到影响！",
 "Please change your password to secure your account again." => "请修改您的密码，以保护您的账户安全。",

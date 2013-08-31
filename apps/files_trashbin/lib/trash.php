@@ -72,11 +72,6 @@ class Trashbin {
 		$mime = $view->getMimeType('files' . $file_path);
 
 		if ($view->is_dir('files' . $file_path)) {
-			$dirContent = $view->getDirectoryContent('files' . $file_path);
-			// no need to move empty folders to the trash bin
-			if (empty($dirContent)) {
-				return true;
-			}
 			$type = 'dir';
 		} else {
 			$type = 'file';
@@ -909,4 +904,7 @@ class Trashbin {
 		return true;
 	}
 
+	public static function preview_icon($path) {
+		return \OC_Helper::linkToRoute( 'core_ajax_trashbin_preview', array('x' => 36, 'y' => 36, 'file' => urlencode($path) ));
+	}
 }

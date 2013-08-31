@@ -454,8 +454,9 @@ var createDragShadow = function(event){
 		if (elem.type === 'dir') {
 			newtr.find('td.filename').attr('style','background-image:url('+OC.imagePath('core', 'filetypes/folder.png')+')');
 		} else {
-			getMimeIcon(elem.mime,function(path){
-				newtr.find('td.filename').attr('style','background-image:url('+path+')');
+			var path = getPathForPreview(elem.name);
+			lazyLoadPreview(path, elem.mime, function(previewpath){
+				newtr.find('td.filename').attr('style','background-image:url('+previewpath+')');
 			});
 		}
 	});
@@ -630,6 +631,23 @@ function getMimeIcon(mime, ready){
 	}
 }
 getMimeIcon.cache={};
+
+function getPathForPreview(name) {
+	var path = $('#dir').val() + '/' + name;
+	return path;
+}
+
+function lazyLoadPreview(path, mime, ready) {
+	getMimeIcon(mime,ready);
+	var x = $('#filestable').data('preview-x');
+	var y = $('#filestable').data('preview-y');
+	var previewURL = OC.Router.generate('core_ajax_preview', {file: encodeURIComponent(path), x:x, y:y});
+	$.get(previewURL, function() {
+		previewURL = previewURL.replace('(','%28');
+		previewURL = previewURL.replace(')','%29');
+		ready(previewURL + '&reload=true');
+	});
+}
 
 function getUniqueName(name){
 	if($('tr').filterAttr('data-file',name).length>0){

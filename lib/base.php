@@ -264,6 +264,7 @@ class OC {
 		//OC_Util::addScript( "multiselect" );
 		OC_Util::addScript('search', 'result');
 		OC_Util::addScript('router');
+		OC_Util::addScript("oc-requesttoken");
 
 		// defaultavatars
 		\OC_Util::addScript('placeholder');
@@ -272,11 +273,12 @@ class OC {
 		\OC_Util::addScript('avatar');
 
 		OC_Util::addStyle("styles");
+		OC_Util::addStyle("apps");
+		OC_Util::addStyle("fixes");
 		OC_Util::addStyle("multiselect");
 		OC_Util::addStyle("jquery-ui-1.10.0.custom");
 		OC_Util::addStyle("jquery-tipsy");
 		OC_Util::addStyle("jquery.ocdialog");
-		OC_Util::addScript("oc-requesttoken");
 	}
 
 	public static function initSession() {
@@ -496,6 +498,7 @@ class OC {
 
 		self::registerCacheHooks();
 		self::registerFilesystemHooks();
+		self::registerPreviewHooks();
 		self::registerShareHooks();
 		self::registerLogRotate();
 
@@ -581,6 +584,14 @@ class OC {
 		// Check for blacklisted files
 		OC_Hook::connect('OC_Filesystem', 'write', 'OC_Filesystem', 'isBlacklisted');
 		OC_Hook::connect('OC_Filesystem', 'rename', 'OC_Filesystem', 'isBlacklisted');
+	}
+
+	/**
+	 * register hooks for previews
+	 */
+	public static function registerPreviewHooks() {
+		OC_Hook::connect('OC_Filesystem', 'post_write', 'OC\Preview', 'post_write');
+		OC_Hook::connect('OC_Filesystem', 'delete', 'OC\Preview', 'post_delete');
 	}
 
 	/**
@@ -797,14 +808,15 @@ class OC {
 				self::$session->set('timezone', $_POST['timezone-offset']);
 			}
 
-			self::cleanupLoginTokens($_POST['user']);
+			$userid = OC_User::getUser();
+			self::cleanupLoginTokens($userid);
 			if (!empty($_POST["remember_login"])) {
 				if (defined("DEBUG") && DEBUG) {
 					OC_Log::write('core', 'Setting remember login to cookie', OC_Log::DEBUG);
 				}
 				$token = OC_Util::generate_random_bytes(32);
-				OC_Preferences::setValue($_POST['user'], 'login_token', $token, time());
-				OC_User::setMagicInCookie($_POST["user"], $token);
+				OC_Preferences::setValue($userid, 'login_token', $token, time());
+				OC_User::setMagicInCookie($userid, $token);
 			} else {
 				OC_User::unsetMagicInCookie();
 			}
@@ -820,11 +832,16 @@ class OC {
 		) {
 			return false;
 		}
-		OC_App::loadApps(array('authentication'));
-		if (OC_User::login($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"])) {
-			//OC_Log::write('core',"Logged in with HTTP Authentication", OC_Log::DEBUG);
-			OC_User::unsetMagicInCookie();
-			$_SERVER['HTTP_REQUESTTOKEN'] = OC_Util::callRegister();
+		// don't redo authentication if user is already logged in
+		// otherwise session would be invalidated in OC_User::login with 
+		// session_regenerate_id at every page load
+		if (!OC_User::isLoggedIn()) {
+			OC_App::loadApps(array('authentication'));
+			if (OC_User::login($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"])) {
+				//OC_Log::write('core',"Logged in with HTTP Authentication", OC_Log::DEBUG);
+				OC_User::unsetMagicInCookie();
+				$_SERVER['HTTP_REQUESTTOKEN'] = OC_Util::callRegister();
+			}
 		}
 		return true;
 	}

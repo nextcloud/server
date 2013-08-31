@@ -121,7 +121,6 @@ $TRANSLATIONS = array(
 "Finish setup" => "Baigti diegimą",
 "%s is available. Get more information on how to update." => "%s yra prieinama. Gaukite daugiau informacijos apie atnaujinimą.",
 "Log out" => "Atsijungti",
-"More apps" => "Daugiau programų",
 "Automatic logon rejected!" => "Automatinis prisijungimas atmestas!",
 "If you did not change your password recently, your account may be compromised!" => "Jei paskutinių metu nekeitėte savo slaptažodžio, Jūsų paskyra gali būti pavojuje!",
 "Please change your password to secure your account again." => "Prašome pasikeisti slaptažodį dar kartą, dėl paskyros saugumo.",

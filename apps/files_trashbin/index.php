@@ -64,6 +64,7 @@ foreach ($result as $r) {
 		$i['directory'] = '';
 	}
 	$i['permissions'] = OCP\PERMISSION_READ;
+	$i['isPreviewAvailable'] = \OCP\Preview::isMimeSupported($r['mime']);
 	$files[] = $i;
 }
 

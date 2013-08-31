@@ -126,7 +126,6 @@ $TRANSLATIONS = array(
 "Finish setup" => "Завершить установку",
 "%s is available. Get more information on how to update." => "%s доступно. Получить дополнительную информацию о порядке обновления.",
 "Log out" => "Выйти",
-"More apps" => "Ещё приложения",
 "Automatic logon rejected!" => "Автоматический вход в систему отключен!",
 "If you did not change your password recently, your account may be compromised!" => "Если Вы недавно не меняли свой пароль, то Ваша учетная запись может быть скомпрометирована!",
 "Please change your password to secure your account again." => "Пожалуйста, смените пароль, чтобы обезопасить свою учетную запись.",

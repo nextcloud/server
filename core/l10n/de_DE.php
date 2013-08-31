@@ -132,7 +132,6 @@ $TRANSLATIONS = array(
 "Finish setup" => "Installation abschließen",
 "%s is available. Get more information on how to update." => "%s ist verfügbar. Holen Sie weitere Informationen zu Aktualisierungen ein.",
 "Log out" => "Abmelden",
-"More apps" => "Mehr Apps",
 "Automatic logon rejected!" => "Automatische Anmeldung verweigert!",
 "If you did not change your password recently, your account may be compromised!" => "Wenn Sie Ihr Passwort nicht vor kurzem geändert haben, könnte Ihr\nAccount kompromittiert sein!",
 "Please change your password to secure your account again." => "Bitte ändern Sie Ihr Passwort, um Ihr Konto wieder zu sichern.",

@@ -185,7 +185,38 @@ class OC_Helper {
 	 * Returns the path to the image of this file type.
 	 */
 	public static function mimetypeIcon($mimetype) {
-		$alias = array('application/xml' => 'code/xml');
+		$alias = array(
+			'application/xml' => 'code/xml',
+			'application/msword' => 'x-office/document',
+			'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'x-office/document',
+			'application/vnd.openxmlformats-officedocument.wordprocessingml.template' => 'x-office/document',
+			'application/vnd.ms-word.document.macroEnabled.12' => 'x-office/document',
+			'application/vnd.ms-word.template.macroEnabled.12' => 'x-office/document',
+			'application/vnd.oasis.opendocument.text' => 'x-office/document',
+			'application/vnd.oasis.opendocument.text-template' => 'x-office/document',
+			'application/vnd.oasis.opendocument.text-web' => 'x-office/document',
+			'application/vnd.oasis.opendocument.text-master' => 'x-office/document',
+			'application/vnd.ms-powerpoint' => 'x-office/presentation',
+			'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'x-office/presentation',
+			'application/vnd.openxmlformats-officedocument.presentationml.template' => 'x-office/presentation',
+			'application/vnd.openxmlformats-officedocument.presentationml.slideshow' => 'x-office/presentation',
+			'application/vnd.ms-powerpoint.addin.macroEnabled.12' => 'x-office/presentation',
+			'application/vnd.ms-powerpoint.presentation.macroEnabled.12' => 'x-office/presentation',
+			'application/vnd.ms-powerpoint.template.macroEnabled.12' => 'x-office/presentation',
+			'application/vnd.ms-powerpoint.slideshow.macroEnabled.12' => 'x-office/presentation',
+			'application/vnd.oasis.opendocument.presentation' => 'x-office/presentation',
+			'application/vnd.oasis.opendocument.presentation-template' => 'x-office/presentation',
+			'application/vnd.ms-excel' => 'x-office/spreadsheet',
+			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'x-office/spreadsheet',
+			'application/vnd.openxmlformats-officedocument.spreadsheetml.template' => 'x-office/spreadsheet',
+			'application/vnd.ms-excel.sheet.macroEnabled.12' => 'x-office/spreadsheet',
+			'application/vnd.ms-excel.template.macroEnabled.12' => 'x-office/spreadsheet',
+			'application/vnd.ms-excel.addin.macroEnabled.12' => 'x-office/spreadsheet',
+			'application/vnd.ms-excel.sheet.binary.macroEnabled.12' => 'x-office/spreadsheet',
+			'application/vnd.oasis.opendocument.spreadsheet' => 'x-office/spreadsheet',
+			'application/vnd.oasis.opendocument.spreadsheet-template' => 'x-office/spreadsheet',
+		);
+
 		if (isset($alias[$mimetype])) {
 			$mimetype = $alias[$mimetype];
 		}
@@ -217,6 +248,21 @@ class OC_Helper {
 			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/file.png';
 			return OC::$WEBROOT . '/core/img/filetypes/file.png';
 		}
+	}
+
+	/**
+	 * @brief get path to preview of file
+	 * @param string $path path
+	 * @return string the url
+	 *
+	 * Returns the path to the preview of the file.
+	 */
+	public static function previewIcon($path) {
+		return self::linkToRoute( 'core_ajax_preview', array('x' => 36, 'y' => 36, 'file' => urlencode($path) ));
+	}
+
+	public static function publicPreviewIcon( $path, $token ) {
+		return self::linkToRoute( 'core_ajax_public_preview', array('x' => 36, 'y' => 36, 'file' => urlencode($path), 't' => $token));
 	}
 
 	/**
@@ -858,10 +904,8 @@ class OC_Helper {
 		} else {
 			$total = $free; //either unknown or unlimited
 		}
-		if ($total == 0) {
-			$total = 1; // prevent division by zero
-		}
-		if ($total >= 0) {
+		if ($total > 0) {
+			// prevent division by zero or error codes (negative values)
 			$relative = round(($used / $total) * 10000) / 100;
 		} else {
 			$relative = 0;

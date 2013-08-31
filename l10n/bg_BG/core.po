@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-27 11:18-0400\n"
-"PO-Revision-Date: 2013-08-27 15:18+0000\n"
+"POT-Creation-Date: 2013-08-30 09:32-0400\n"
+"PO-Revision-Date: 2013-08-30 13:33+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -20,6 +20,10 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "%s shared »%s« with you"
+msgstr ""
+
+#: ajax/share.php:227
+msgid "group"
 msgstr ""
 
 #: ajax/update.php:11
@@ -467,7 +471,7 @@ msgstr "Лични"
 msgid "Users"
 msgstr "Потребители"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "Приложения"
 
@@ -600,10 +604,6 @@ msgstr ""
 msgid "Log out"
 msgstr "Изход"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr ""
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr ""
@@ -618,19 +618,19 @@ msgstr ""
 msgid "Please change your password to secure your account again."
 msgstr ""
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "Забравена парола?"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "запомни"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "Вход"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr ""
 
