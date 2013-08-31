@@ -22,7 +22,7 @@
 
 namespace OC\AppFramework\Http;
 
-use OCP\Core\IRequest;
+use OCP\IRequest;
 
 /**
  * Class for accessing variables in the request.

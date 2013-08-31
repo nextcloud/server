@@ -132,7 +132,7 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 	}
 
 	/**
-	 * @return \OCP\Core\IServerContainer
+	 * @return \OCP\IServerContainer
 	 */
 	function getServer()
 	{

@@ -20,7 +20,7 @@
  *
  */
 
-namespace OCP\Core;
+namespace OCP;
 
 
 interface IRequest {

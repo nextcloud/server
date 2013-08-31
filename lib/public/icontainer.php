@@ -20,14 +20,14 @@
  *
  */
 
-namespace OCP\Core;
+namespace OCP;
 
 /**
  * Class IContainer
  *
  * IContainer is the basic interface to be used for any internal dependency injection mechanism
  *
- * @package OCP\Core
+ * @package OCP
  */
 interface IContainer {
 

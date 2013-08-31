@@ -10,7 +10,7 @@ require_once __DIR__ . '/../../../3rdparty/Pimple/Pimple.php';
  *
  * SimpleContainer is a simple implementation of IContainer on basis of \Pimple
  */
-class SimpleContainer extends \Pimple implements \OCP\Core\IContainer {
+class SimpleContainer extends \Pimple implements \OCP\IContainer {
 
 	/**
 	 * @param string $name name of the service to query for

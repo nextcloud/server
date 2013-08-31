@@ -20,12 +20,12 @@
  *
  */
 
-namespace OCP\Core;
+namespace OCP;
 
 
 /**
  * Class IServerContainer
- * @package OCP\Core
+ * @package OCP
  *
  * This container holds all ownCloud services
  */
@@ -35,7 +35,7 @@ interface IServerContainer {
 	 * The contacts manager will act as a broker between consumers for contacts information and
 	 * providers which actual deliver the contact information.
 	 *
-	 * @return \OCP\Core\Contacts\IManager
+	 * @return \OCP\Contacts\IManager
 	 */
 	function getContactsManager();
 
@@ -44,7 +44,7 @@ interface IServerContainer {
 	 * is returned from this method.
 	 * In case the current execution was not initiated by a web request null is returned
 	 *
-	 * @return \OCP\Core\IRequest|null
+	 * @return \OCP\IRequest|null
 	 */
 	function getRequest();
 

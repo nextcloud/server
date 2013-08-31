@@ -22,7 +22,7 @@
 
 namespace OC {
 
-	class ContactsManager implements \OCP\Core\Contacts\IManager {
+	class ContactsManager implements \OCP\Contacts\IManager {
 
 		/**
 		 * This function is used to search and find contacts within the users address books.

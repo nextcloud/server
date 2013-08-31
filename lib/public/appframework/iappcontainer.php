@@ -23,7 +23,7 @@
 namespace OCP\AppFramework;
 
 use OCP\AppFramework\IApi;
-use OCP\Core\IContainer;
+use OCP\IContainer;
 
 /**
  * Class IAppContainer
@@ -39,7 +39,7 @@ interface IAppContainer extends IContainer{
 	function getCoreApi();
 
 	/**
-	 * @return \OCP\Core\IServerContainer
+	 * @return \OCP\IServerContainer
 	 */
 	function getServer();
 }
