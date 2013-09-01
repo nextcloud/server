@@ -131,10 +131,12 @@ Files={
 			Files.breadcrumbsWidth += $(breadcrumb).get(0).offsetWidth;
 		});
 
-
 		$.each($('#controls .actions>div'), function(index, action) {
 			Files.breadcrumbsWidth += $(action).get(0).offsetWidth;
 		});
+
+		// event handlers for breadcrumb items
+		$('#controls .crumb a').on('click', onClickBreadcrumb);
 	},
 
 	resizeBreadcrumbs: function (width, firstRun) {
@@ -348,9 +350,6 @@ $(document).ready(function() {
 
 	var width = $(this).width();
 	Files.resizeBreadcrumbs(width, true);
-
-	// event handlers for breadcrumb items
-	$('#controls').delegate('.crumb a', 'click', onClickBreadcrumb);
 
 	// display storage warnings
 	setTimeout ( "Files.displayStorageWarnings()", 100 );
