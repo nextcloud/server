@@ -7,6 +7,9 @@
  * See the COPYING-README file.
  */
 
+use OC\Core\Command\GreetCommand;
+use Symfony\Component\Console\Application;
+
 $RUNTIME_NOAPPS = true;
 require_once 'lib/base.php';
 
@@ -21,32 +24,8 @@ if (!OC::$CLI) {
 	exit(0);
 }
 
-$self = basename($argv[0]);
-if ($argc <= 1) {
-	$argv[1] = "help";
-}
-
-$command = $argv[1];
-array_shift($argv);
-
-switch ($command) {
-	case 'files:scan':
-		require_once 'apps/files/console/scan.php';
-		break;
-	case 'status':
-		require_once 'status.php';
-		break;
-	case 'help':
-		echo "Usage:" . PHP_EOL;
-		echo " " . $self . " <command>" . PHP_EOL;
-		echo PHP_EOL;
-		echo "Available commands:" . PHP_EOL;
-		echo " files:scan -> rescan filesystem" .PHP_EOL;
-		echo " status -> show some status information" .PHP_EOL;
-		echo " help -> show this help screen" .PHP_EOL;
-		break;
-	default:
-		echo "Unknown command '$command'" . PHP_EOL;
-		echo "For available commands type ". $self . " help" . PHP_EOL;
-		break;
-}
+$defaults = new OC_Defaults;
+$application = new Application($defaults->getName(), \OC_Util::getVersionString());
+$application->add(new OC\Core\Command\Status);
+$application->add(new OCA\Files\Command\Scan);
+$application->run();
