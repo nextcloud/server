@@ -135,6 +135,9 @@ class Test_Image extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($expected, $img->data());
 	}
 
+	/**
+	 * @depends testData
+	 */
 	public function testToString() {
 		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$expected = base64_encode($img->data());

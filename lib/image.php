@@ -519,7 +519,7 @@ class OC_Image {
 			return false;
 		}
 		$this->resource = @imagecreatefromstring($str);
-		if (\OC_Util::fileInfoLoaded()) {
+		if ($this->fileInfo) {
 			$this->mimeType = $this->fileInfo->buffer($str);
 		}
 		if(is_resource($this->resource)) {
@@ -546,7 +546,7 @@ class OC_Image {
 		$data = base64_decode($str);
 		if($data) { // try to load from string data
 			$this->resource = @imagecreatefromstring($data);
-			if (\OC_Util::fileInfoLoaded()) {
+			if ($this->fileInfo) {
 				$this->mimeType = $this->fileInfo->buffer($data);
 			}
 			if(!$this->resource) {
