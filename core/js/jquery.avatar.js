@@ -61,13 +61,15 @@
 
 		var $div = this;
 
-		var url = OC.router_base_url+'/avatar/'+user+'/'+size // FIXME routes aren't loaded yet, so OC.Router.generate() doesn't work
-		$.get(url, function(result) {
-			if (typeof(result) === 'object') {
-				$div.placeholder(result.user);
-			} else {
-				$div.html('<img src="'+url+'">');
-			}
+		OC.Router.registerLoadedCallback(function() {
+			var url = OC.Router.generate('core_avatar_get', {user: user, size: size});
+			$.get(url, function(result) {
+				if (typeof(result) === 'object') {
+					$div.placeholder(result.user);
+				} else {
+					$div.html('<img src="'+url+'">');
+				}
+			});
 		});
 	};
 }(jQuery));

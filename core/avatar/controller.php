@@ -41,25 +41,25 @@ class OC_Core_Avatar_Controller {
 		if (isset($_POST['path'])) {
 			$path = stripslashes($_POST['path']);
 			$view = new \OC\Files\View('/'.$user.'/files');
-			$avatar = $view->file_get_contents($path);
+			$newAvatar = $view->file_get_contents($path);
 		}
 
 		if (!empty($_FILES)) {
 			$files = $_FILES['files'];
 			if ($files['error'][0] === 0) {
-				$avatar = file_get_contents($files['tmp_name'][0]);
+				$newAvatar = file_get_contents($files['tmp_name'][0]);
 				unlink($files['tmp_name'][0]);
 			}
 		}
 
 		try {
-			$ava = new \OC_Avatar();
-			$ava->set($user, $avatar);
+			$avatar = new \OC_Avatar();
+			$avatar->set($user, $newAvatar);
 			\OC_JSON::success();
 		} catch (\OC\NotSquareException $e) {
-			$image = new \OC_Image($avatar);
+			$image = new \OC_Image($newAvatar);
 
-			\OC_Cache::set('tmpavatar', $image->data());
+			\OC_Cache::set('tmpavatar', $image->data(), 7200);
 			\OC_JSON::error(array("data" => array("message" => "notsquare") ));
 		} catch (\Exception $e) {
 			\OC_JSON::error(array("data" => array("message" => $e->getMessage()) ));

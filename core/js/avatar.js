@@ -3,7 +3,7 @@ $(document).ready(function(){
 	// Personal settings
 	$('#avatar .avatardiv').avatar(OC.currentUser, 128);
 	// User settings
-	$.each($('td.avatar .avatardiv'), function(i, data) {
-		$(data).avatar($(data).parent().parent().data('uid'), 32);
+	$.each($('td.avatar .avatardiv'), function(i, element) {
+		$(element).avatar($(element).parent().parent().data('uid'), 32);
 	});
 });
