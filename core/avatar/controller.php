@@ -30,8 +30,8 @@ class OC_Core_Avatar_Controller {
 
 		\OC_Response::disableCaching();
 		\OC_Response::setLastModifiedHeader(gmdate( 'D, d M Y H:i:s' ).' GMT');
-		\OC_Response::setETagHeader(crc32($image->data()));
 		if ($image instanceof \OC_Image) {
+			\OC_Response::setETagHeader(crc32($image->data()));
 			$image->show();
 		} elseif ($image === false) {
 			\OC_JSON::success(array('user' => \OC_User::getDisplayName($user), 'size' => $size));
