@@ -46,7 +46,11 @@ class OC_Core_Avatar_Controller {
 
 		if (!empty($_FILES)) {
 			$files = $_FILES['files'];
-			if ($files['error'][0] === 0) {
+			if (
+				$files['error'][0] === 0 &&
+				is_uploaded_file($files['tmp_name'][0]) &&
+				!\OC\Files\Filesystem::isFileBlacklisted($files['tmp_name'][0])
+			) {
 				$newAvatar = file_get_contents($files['tmp_name'][0]);
 				unlink($files['tmp_name'][0]);
 			}
@@ -59,8 +63,21 @@ class OC_Core_Avatar_Controller {
 		} catch (\OC\NotSquareException $e) {
 			$image = new \OC_Image($newAvatar);
 
-			\OC_Cache::set('tmpavatar', $image->data(), 7200);
-			\OC_JSON::error(array("data" => array("message" => "notsquare") ));
+			if ($image->valid()) {
+				\OC_Cache::set('tmpavatar', $image->data(), 7200);
+				\OC_JSON::error(array("data" => array("message" => "notsquare") ));
+			} else {
+				$l = new \OC_L10n('core');
+				$type = substr($image->mimeType(), -3);
+				if ($type === 'peg') { $type = 'jpg'; }
+				if ($type !== 'jpg' && $type !== 'png') {
+					\OC_JSON::error(array("data" => array("message" => $l->t("Unknown filetype")) ));
+				}
+
+				if (!$img->valid()) {
+					\OC_JSON::error(array("data" => array("message" => $l->t("Invalid image")) ));
+				}
+			}
 		} catch (\Exception $e) {
 			\OC_JSON::error(array("data" => array("message" => $e->getMessage()) ));
 		}
@@ -74,7 +91,7 @@ class OC_Core_Avatar_Controller {
 			$avatar->remove($user);
 			\OC_JSON::success();
 		} catch (\Exception $e) {
-			\OC_JSON::error(array("data" => array ("message" => $e->getMessage()) ));
+			\OC_JSON::error(array("data" => array("message" => $e->getMessage()) ));
 		}
 	}
 
@@ -93,11 +110,18 @@ class OC_Core_Avatar_Controller {
 
 	public static function postCroppedAvatar($args) {
 		$user = OC_User::getUser();
-		$crop = $_POST['crop'];
+		if (isset($_POST['crop'])) {
+			$crop = $_POST['crop'];
+		} else {
+			$l = new \OC_L10n('core');
+			\OC_JSON::error(array("data" => array("message" => $l->t("No crop data provided")) ));
+			return;
+		}
 
 		$tmpavatar = \OC_Cache::get('tmpavatar');
 		if ($tmpavatar === false) {
-			\OC_JSON::error();
+			$l = new \OC_L10n('core');
+			\OC_JSON::error(array("data" => array("message" => $l->t("No temporary avatar available, try again")) ));
 			return;
 		}
 

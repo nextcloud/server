@@ -69,7 +69,8 @@ function showAvatarCropper() {
 			onSelect: saveCoords,
 			aspectRatio: 1,
 			boxHeight: 500,
-			boxWidth: 500
+			boxWidth: 500,
+			setSelect: [0, 0, 300, 300]
 		});
 
 		$cropperbox.ocdialog({
@@ -77,7 +78,10 @@ function showAvatarCropper() {
 				text: t('settings', 'Crop'),
 				click: sendCropData,
 				defaultButton: true
-			}]
+			}],
+			close: function(){
+				$(this).remove();
+			}
 		});
 	});
 }
