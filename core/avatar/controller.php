@@ -28,6 +28,11 @@ class OC_Core_Avatar_Controller {
 		$avatar = new \OC_Avatar();
 		$image = $avatar->get($user, $size);
 
+		header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+		header('Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT');
+		header('Cache-Control: no-store, no-cache, must-revalidate');
+		header('Cache-Control: post-check=0, pre-check=0', false);
+		header('Pragma: no-cache');
 		if ($image instanceof \OC_Image) {
 			$image->show();
 		} elseif ($image === false) {
@@ -99,12 +104,18 @@ class OC_Core_Avatar_Controller {
 		$user = OC_User::getUser();
 
 		$tmpavatar = \OC_Cache::get('tmpavatar');
-		if ($tmpavatar === false) {
-			\OC_JSON::error();
+		if (is_null($tmpavatar)) {
+			$l = new \OC_L10n('core');
+			\OC_JSON::error(array("data" => array("message" => $l->t("No temporary avatar available, try again")) ));
 			return;
 		}
 
 		$image = new \OC_Image($tmpavatar);
+		header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+		header('Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT');
+		header('Cache-Control: no-store, no-cache, must-revalidate');
+		header('Cache-Control: post-check=0, pre-check=0', false);
+		header('Pragma: no-cache');
 		$image->show();
 	}
 
@@ -119,7 +130,7 @@ class OC_Core_Avatar_Controller {
 		}
 
 		$tmpavatar = \OC_Cache::get('tmpavatar');
-		if ($tmpavatar === false) {
+		if (is_null($tmpavatar)) {
 			$l = new \OC_L10n('core');
 			\OC_JSON::error(array("data" => array("message" => $l->t("No temporary avatar available, try again")) ));
 			return;

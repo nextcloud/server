@@ -28,7 +28,8 @@ class OC_Avatar {
 			return false;
 		}
 
-		$avatar = new OC_Image($view->file_get_contents('avatar.'.$ext));
+		$avatar = new OC_Image();
+		$avatar->loadFromData($view->file_get_contents('avatar.'.$ext));
 		$avatar->resize($size);
 		return $avatar;
 	}
