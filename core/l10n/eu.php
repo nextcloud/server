@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s-ek »%s« zurekin partekatu du",
+"group" => "taldea",
 "Category type not provided." => "Kategoria mota ez da zehaztu.",
 "No category to add?" => "Ez dago gehitzeko kategoriarik?",
 "This category already exists: %s" => "Kategoria hau dagoeneko existitzen da: %s",

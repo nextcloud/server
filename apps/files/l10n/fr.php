@@ -13,6 +13,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "Absence de dossier temporaire.",
 "Failed to write to disk" => "Erreur d'écriture sur le disque",
 "Not enough storage available" => "Plus assez d'espace de stockage disponible",
+"Upload failed" => "Échec de l'envoi",
 "Invalid directory." => "Dossier invalide.",
 "Files" => "Fichiers",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Impossible d'envoyer votre fichier dans la mesure où il s'agit d'un répertoire ou d'un fichier de taille nulle",

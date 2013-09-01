@@ -13,6 +13,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "Ajutiste failide kaust puudub",
 "Failed to write to disk" => "Kettale kirjutamine ebaõnnestus",
 "Not enough storage available" => "Saadaval pole piisavalt ruumi",
+"Upload failed" => "Üleslaadimine ebaõnnestus",
 "Invalid directory." => "Vigane kaust.",
 "Files" => "Failid",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Faili ei saa üles laadida, kuna see on kaust või selle suurus on 0 baiti",

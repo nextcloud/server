@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s jakoi kohteen »%s« kanssasi",
+"group" => "ryhmä",
 "Turned on maintenance mode" => "Siirrytty ylläpitotilaan",
 "Turned off maintenance mode" => "Ylläpitotila laitettu pois päältä",
 "Updated database" => "Tietokanta ajan tasalla",

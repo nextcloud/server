@@ -13,6 +13,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "Aldi bateko karpeta falta da",
 "Failed to write to disk" => "Errore bat izan da diskoan idazterakoan",
 "Not enough storage available" => "Ez dago behar aina leku erabilgarri,",
+"Upload failed" => "igotzeak huts egin du",
 "Invalid directory." => "Baliogabeko karpeta.",
 "Files" => "Fitxategiak",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Ezin izan da zure fitxategia igo karpeta bat delako edo 0 byte dituelako",

@@ -13,6 +13,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "Chýba dočasný priečinok",
 "Failed to write to disk" => "Zápis na disk sa nepodaril",
 "Not enough storage available" => "Nedostatok dostupného úložného priestoru",
+"Upload failed" => "Odoslanie bolo neúspešné",
 "Invalid directory." => "Neplatný priečinok.",
 "Files" => "Súbory",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Nedá sa odoslať Váš súbor, pretože je to priečinok, alebo je jeho veľkosť 0 bajtov",

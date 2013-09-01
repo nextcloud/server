@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-27 11:18-0400\n"
-"PO-Revision-Date: 2013-08-26 04:00+0000\n"
+"POT-Creation-Date: 2013-09-01 13:27-0400\n"
+"PO-Revision-Date: 2013-09-01 13:20+0000\n"
 "Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -28,47 +28,47 @@ msgstr "無法永久刪除 %s"
 msgid "Couldn't restore %s"
 msgstr "無法還原 %s"
 
-#: js/trash.js:7 js/trash.js:100
+#: js/trash.js:7 js/trash.js:102
 msgid "perform restore operation"
 msgstr "進行還原動作"
 
-#: js/trash.js:20 js/trash.js:48 js/trash.js:118 js/trash.js:146
+#: js/trash.js:20 js/trash.js:49 js/trash.js:120 js/trash.js:148
 msgid "Error"
 msgstr "錯誤"
 
-#: js/trash.js:36
+#: js/trash.js:37
 msgid "delete file permanently"
 msgstr "永久刪除檔案"
 
-#: js/trash.js:127
+#: js/trash.js:129
 msgid "Delete permanently"
 msgstr "永久刪除"
 
-#: js/trash.js:182 templates/index.php:17
+#: js/trash.js:184 templates/index.php:17
 msgid "Name"
 msgstr "名稱"
 
-#: js/trash.js:183 templates/index.php:27
+#: js/trash.js:185 templates/index.php:27
 msgid "Deleted"
 msgstr "已刪除"
 
-#: js/trash.js:191
+#: js/trash.js:193
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n 個資料夾"
 
-#: js/trash.js:197
+#: js/trash.js:199
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n 個檔案"
 
-#: lib/trash.php:819 lib/trash.php:821
+#: lib/trash.php:814 lib/trash.php:816
 msgid "restored"
 msgstr "已還原"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr "您的垃圾桶是空的！"
+msgstr "您的回收桶是空的！"
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"

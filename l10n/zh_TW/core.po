@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-30 09:32-0400\n"
-"PO-Revision-Date: 2013-08-30 13:33+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-01 13:27-0400\n"
+"PO-Revision-Date: 2013-09-01 13:10+0000\n"
+"Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,32 +26,32 @@ msgstr "%s 與您分享了 %s"
 
 #: ajax/share.php:227
 msgid "group"
-msgstr ""
+msgstr "群組"
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "已啓用維護模式"
 
 #: ajax/update.php:14
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "已停用維護模式"
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr ""
+msgstr "已更新資料庫"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
-msgstr ""
+msgstr "更新檔案快取，這可能要很久…"
 
 #: ajax/update.php:23
 msgid "Updated filecache"
-msgstr ""
+msgstr "已更新檔案快取"
 
 #: ajax/update.php:26
 #, php-format
 msgid "... %d%% done ..."
-msgstr ""
+msgstr "已完成 %d%%"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -64,13 +64,13 @@ msgstr "沒有可增加的分類？"
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr "分類已經存在： %s"
+msgstr "分類已經存在：%s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr "不支援的物件類型"
+msgstr "未指定物件類型"
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
@@ -291,7 +291,7 @@ msgstr "{owner} 已經和您分享"
 
 #: js/share.js:183
 msgid "Share with"
-msgstr "與...分享"
+msgstr "分享給別人"
 
 #: js/share.js:188
 msgid "Share with link"
@@ -319,7 +319,7 @@ msgstr "寄出"
 
 #: js/share.js:208
 msgid "Set expiration date"
-msgstr "設置到期日"
+msgstr "指定到期日"
 
 #: js/share.js:209
 msgid "Expiration date"
@@ -343,7 +343,7 @@ msgstr "已和 {user} 分享 {item}"
 
 #: js/share.js:338
 msgid "Unshare"
-msgstr "取消共享"
+msgstr "取消分享"
 
 #: js/share.js:350
 msgid "can edit"
@@ -375,15 +375,15 @@ msgstr "受密碼保護"
 
 #: js/share.js:643
 msgid "Error unsetting expiration date"
-msgstr "解除過期日設定失敗"
+msgstr "取消到期日設定失敗"
 
 #: js/share.js:655
 msgid "Error setting expiration date"
-msgstr "錯誤的到期日設定"
+msgstr "設定到期日發生錯誤"
 
 #: js/share.js:670
 msgid "Sending ..."
-msgstr "正在傳送..."
+msgstr "正在傳送…"
 
 #: js/share.js:681
 msgid "Email sent"
@@ -414,7 +414,7 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr "重設密碼的連結已經寄至您的電子郵件信箱，如果您過了一段時間還是沒有收到它，請檢查看看它是不是被放到垃圾郵件了，如果還是沒有的話，請聯絡您的 ownCloud 系統管理員。"
+msgstr "重設密碼的連結已經寄至您的電子郵件信箱，如果您過了一段時間還是沒有收到它，請檢查看看它是不是被歸為垃圾郵件了，如果還是沒有的話，請聯絡您的 ownCloud 系統管理員。"
 
 #: lostpassword/templates/lostpassword.php:12
 msgid "Request failed!<br>Did you make sure your email/username was right?"
@@ -487,7 +487,7 @@ msgstr "存取被拒"
 
 #: templates/404.php:15
 msgid "Cloud not found"
-msgstr "未發現雲端"
+msgstr "找不到網頁"
 
 #: templates/altmail.php:2
 #, php-format
@@ -498,7 +498,7 @@ msgid ""
 "View it: %s\n"
 "\n"
 "Cheers!"
-msgstr "嗨，\n\n通知您，%s 與您分享了 %s 。\n看一下：%s"
+msgstr "嗨，\n\n通知您一聲，%s 與您分享了 %s 。\n您可以到 %s 看看"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -557,7 +557,7 @@ msgstr "進階"
 
 #: templates/installation.php:67
 msgid "Data folder"
-msgstr "資料夾"
+msgstr "資料儲存位置"
 
 #: templates/installation.php:77
 msgid "Configure the database"
@@ -630,16 +630,16 @@ msgstr "登入"
 
 #: templates/login.php:45
 msgid "Alternative Logins"
-msgstr "替代登入方法"
+msgstr "其他登入方法"
 
 #: templates/mail.php:15
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr "嗨，<br><br>通知您，%s 與您分享了 %s ，<br><a href=\"%s\">看一下吧</a>"
+msgstr "嗨，<br><br>通知您一聲，%s 與您分享了 %s ，<br><a href=\"%s\">看一下吧</a>"
 
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr "正在將 Owncloud 升級至版本 %s ，這可能需要一點時間。"
+msgstr "正在將 ownCloud 升級至版本 %s ，這可能需要一點時間。"

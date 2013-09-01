@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s  sizinle »%s« paylaşımında bulundu",
+"group" => "grup",
 "Category type not provided." => "Kategori türü girilmedi.",
 "No category to add?" => "Eklenecek kategori yok?",
 "This category already exists: %s" => "Bu kategori zaten mevcut:  %s",

@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "Mankas provizora dosierujo.",
 "Failed to write to disk" => "Malsukcesis skribo al disko",
 "Not enough storage available" => "Ne haveblas sufiĉa memoro",
+"Upload failed" => "Alŝuto malsukcesis",
 "Invalid directory." => "Nevalida dosierujo.",
 "Files" => "Dosieroj",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Ne eblis alŝuti vian dosieron ĉar ĝi estas dosierujo aŭ havas 0 duumokojn",

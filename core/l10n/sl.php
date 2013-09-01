@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s je delil »%s« z vami",
+"group" => "skupina",
 "Category type not provided." => "Vrsta kategorije ni podana.",
 "No category to add?" => "Ali ni kategorije za dodajanje?",
 "This category already exists: %s" => "Kategorija že obstaja: %s",

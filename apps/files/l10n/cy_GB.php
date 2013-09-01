@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "Plygell dros dro yn eisiau",
 "Failed to write to disk" => "Methwyd ysgrifennu i'r ddisg",
 "Not enough storage available" => "Dim digon o le storio ar gael",
+"Upload failed" => "Methwyd llwytho i fyny",
 "Invalid directory." => "Cyfeiriadur annilys.",
 "Files" => "Ffeiliau",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Methu llwytho'ch ffeil i fyny gan ei fod yn gyferiadur neu'n cynnwys 0 beit",

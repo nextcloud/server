@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "grŵp",
 "Category type not provided." => "Math o gategori heb ei ddarparu.",
 "No category to add?" => "Dim categori i'w ychwanegu?",
 "This category already exists: %s" => "Mae'r categori hwn eisoes yn bodoli: %s",
