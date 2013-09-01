@@ -25,24 +25,27 @@
  */
 class OC_Image {
 	protected $resource = false; // tmp resource.
-	protected $imagetype = IMAGETYPE_PNG; // Default to png if file type isn't evident.
-	protected $bit_depth = 24;
-	protected $filepath = null;
+	protected $imageType = IMAGETYPE_PNG; // Default to png if file type isn't evident.
+	protected $mimeType = "image/png"; // Default to png
+	protected $bitDepth = 24;
+	protected $filePath = null;
+
+	private $fileInfo;
 
 	/**
 	* @brief Get mime type for an image file.
 	* @param $filepath The path to a local image file.
 	* @returns string The mime type if the it could be determined, otherwise an empty string.
 	*/
-	static public function getMimeTypeForFile($filepath) {
+	static public function getMimeTypeForFile($filePath) {
 		// exif_imagetype throws "read error!" if file is less than 12 byte
-		if (filesize($filepath) > 11) {
-			$imagetype = exif_imagetype($filepath);
+		if (filesize($filePath) > 11) {
+			$imageType = exif_imagetype($filePath);
 		}
 		else {
-			$imagetype = false;
+			$imageType = false;
 		}
-		return $imagetype ? image_type_to_mime_type($imagetype) : '';
+		return $imageType ? image_type_to_mime_type($imageType) : '';
 	}
 
 	/**
@@ -50,14 +53,19 @@ class OC_Image {
 	* @param $imageref The path to a local file, a base64 encoded string or a resource created by an imagecreate* function.
 	* @returns bool False on error
 	*/
-	public function __construct($imageref = null) {
+	public function __construct($imageRef = null) {
 		//OC_Log::write('core',__METHOD__.'(): start', OC_Log::DEBUG);
 		if(!extension_loaded('gd') || !function_exists('gd_info')) {
 			OC_Log::write('core', __METHOD__.'(): GD module not installed', OC_Log::ERROR);
 			return false;
 		}
-		if(!is_null($imageref)) {
-			$this->load($imageref);
+
+		if (\OC_Util::fileInfoLoaded()) {
+			$this->fileInfo = new finfo(FILEINFO_MIME_TYPE);
+		}
+
+		if(!is_null($imageRef)) {
+			$this->load($imageRef);
 		}
 	}
 
@@ -74,7 +82,7 @@ class OC_Image {
 	* @returns int
 	*/
 	public function mimeType() {
-		return $this->valid() ? image_type_to_mime_type($this->imagetype) : '';
+		return $this->valid() ? $this->mimeType : '';
 	}
 
 	/**
@@ -157,30 +165,30 @@ class OC_Image {
 	* @returns bool
 	*/
 
-	public function save($filepath=null) {
-		if($filepath === null && $this->filepath === null) {
+	public function save($filePath=null) {
+		if($filePath === null && $this->filePath === null) {
 			OC_Log::write('core', __METHOD__.'(): called with no path.', OC_Log::ERROR);
 			return false;
-		} elseif($filepath === null && $this->filepath !== null) {
-			$filepath = $this->filepath;
+		} elseif($filePath === null && $this->filePath !== null) {
+			$filePath = $this->filePath;
 		}
-		return $this->_output($filepath);
+		return $this->_output($filePath);
 	}
 
 	/**
 	* @brief Outputs/saves the image.
 	*/
-	private function _output($filepath=null) {
-		if($filepath) {
-			if (!file_exists(dirname($filepath)))
-				mkdir(dirname($filepath), 0777, true);
-			if(!is_writable(dirname($filepath))) {
+	private function _output($filePath=null) {
+		if($filePath) {
+			if (!file_exists(dirname($filePath)))
+				mkdir(dirname($filePath), 0777, true);
+			if(!is_writable(dirname($filePath))) {
 				OC_Log::write('core',
-					__METHOD__.'(): Directory \''.dirname($filepath).'\' is not writable.',
+					__METHOD__.'(): Directory \''.dirname($filePath).'\' is not writable.',
 					OC_Log::ERROR);
 				return false;
-			} elseif(is_writable(dirname($filepath)) && file_exists($filepath) && !is_writable($filepath)) {
-				OC_Log::write('core', __METHOD__.'(): File \''.$filepath.'\' is not writable.', OC_Log::ERROR);
+			} elseif(is_writable(dirname($filePath)) && file_exists($filePath) && !is_writable($filePath)) {
+				OC_Log::write('core', __METHOD__.'(): File \''.$filePath.'\' is not writable.', OC_Log::ERROR);
 				return false;
 			}
 		}
@@ -188,30 +196,30 @@ class OC_Image {
 			return false;
 		}
 
-		$retval = false;
-		switch($this->imagetype) {
+		$retVal = false;
+		switch($this->imageType) {
 			case IMAGETYPE_GIF:
-				$retval = imagegif($this->resource, $filepath);
+				$retVal = imagegif($this->resource, $filePath);
 				break;
 			case IMAGETYPE_JPEG:
-				$retval = imagejpeg($this->resource, $filepath);
+				$retVal = imagejpeg($this->resource, $filePath);
 				break;
 			case IMAGETYPE_PNG:
-				$retval = imagepng($this->resource, $filepath);
+				$retVal = imagepng($this->resource, $filePath);
 				break;
 			case IMAGETYPE_XBM:
-				$retval = imagexbm($this->resource, $filepath);
+				$retVal = imagexbm($this->resource, $filePath);
 				break;
 			case IMAGETYPE_WBMP:
-				$retval = imagewbmp($this->resource, $filepath);
+				$retVal = imagewbmp($this->resource, $filePath);
 				break;
 			case IMAGETYPE_BMP:
-				$retval = imagebmp($this->resource, $filepath, $this->bit_depth);
+				$retVal = imagebmp($this->resource, $filePath, $this->bitDepth);
 				break;
 			default:
-				$retval = imagepng($this->resource, $filepath);
+				$retVal = imagepng($this->resource, $filePath);
 		}
-		return $retval;
+		return $retVal;
 	}
 
 	/**
@@ -233,7 +241,21 @@ class OC_Image {
 	*/
 	function data() {
 		ob_start();
-		$res = imagepng($this->resource);
+		switch ($this->mimeType) {
+			case "image/png":
+				$res = imagepng($this->resource);
+				break;
+			case "image/jpeg":
+				$res = imagejpeg($this->resource);
+				break;
+			case "image/gif":
+				$res = imagegif($this->resource);
+				break;
+			default:
+				$res = imagepng($this->resource);
+				OC_Log::write('core', 'OC_Image->data. Couldn\'t guess mimetype, defaulting to png', OC_Log::INFO);
+				break;
+		}
 		if (!$res) {
 			OC_Log::write('core', 'OC_Image->data. Error getting image data.', OC_Log::ERROR);
 		}
@@ -261,11 +283,11 @@ class OC_Image {
 			OC_Log::write('core', 'OC_Image->fixOrientation() No image loaded.', OC_Log::DEBUG);
 			return -1;
 		}
-		if(is_null($this->filepath) || !is_readable($this->filepath)) {
+		if(is_null($this->filePath) || !is_readable($this->filePath)) {
 			OC_Log::write('core', 'OC_Image->fixOrientation() No readable file path set.', OC_Log::DEBUG);
 			return -1;
 		}
-		$exif = @exif_read_data($this->filepath, 'IFD0');
+		$exif = @exif_read_data($this->filePath, 'IFD0');
 		if(!$exif) {
 			return -1;
 		}
@@ -351,19 +373,19 @@ class OC_Image {
 	* @param $imageref The path to a local file, a base64 encoded string or a resource created by an imagecreate* function or a file resource (file handle	).
 	* @returns An image resource or false on error
 	*/
-	public function load($imageref) {
-		if(is_resource($imageref)) {
-			if(get_resource_type($imageref) == 'gd') {
-				$this->resource = $imageref;
+	public function load($imageRef) {
+		if(is_resource($imageRef)) {
+			if(get_resource_type($imageRef) == 'gd') {
+				$this->resource = $imageRef;
 				return $this->resource;
-			} elseif(in_array(get_resource_type($imageref), array('file', 'stream'))) {
-				return $this->loadFromFileHandle($imageref);
+			} elseif(in_array(get_resource_type($imageRef), array('file', 'stream'))) {
+				return $this->loadFromFileHandle($imageRef);
 			}
-		} elseif($this->loadFromFile($imageref) !== false) {
+		} elseif($this->loadFromFile($imageRef) !== false) {
 			return $this->resource;
-		} elseif($this->loadFromBase64($imageref) !== false) {
+		} elseif($this->loadFromBase64($imageRef) !== false) {
 			return $this->resource;
-		} elseif($this->loadFromData($imageref) !== false) {
+		} elseif($this->loadFromData($imageRef) !== false) {
 			return $this->resource;
 		} else {
 			OC_Log::write('core', __METHOD__.'(): couldn\'t load anything. Giving up!', OC_Log::DEBUG);
@@ -390,62 +412,62 @@ class OC_Image {
 	* @param $imageref The path to a local file.
 	* @returns An image resource or false on error
 	*/
-	public function loadFromFile($imagepath=false) {
+	public function loadFromFile($imagePath=false) {
 		// exif_imagetype throws "read error!" if file is less than 12 byte
-		if(!@is_file($imagepath) || !file_exists($imagepath) || filesize($imagepath) < 12 || !is_readable($imagepath)) {
+		if(!@is_file($imagePath) || !file_exists($imagePath) || filesize($imagePath) < 12 || !is_readable($imagePath)) {
 			// Debug output disabled because this method is tried before loadFromBase64?
-			OC_Log::write('core', 'OC_Image->loadFromFile, couldn\'t load: '.$imagepath, OC_Log::DEBUG);
+			OC_Log::write('core', 'OC_Image->loadFromFile, couldn\'t load: '.$imagePath, OC_Log::DEBUG);
 			return false;
 		}
-		$itype = exif_imagetype($imagepath);
-		switch($itype) {
+		$iType = exif_imagetype($imagePath);
+		switch ($iType) {
 			case IMAGETYPE_GIF:
 				if (imagetypes() & IMG_GIF) {
-					$this->resource = imagecreatefromgif($imagepath);
+					$this->resource = imagecreatefromgif($imagePath);
 				} else {
 					OC_Log::write('core',
-						'OC_Image->loadFromFile, GIF images not supported: '.$imagepath,
+						'OC_Image->loadFromFile, GIF images not supported: '.$imagePath,
 						OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_JPEG:
 				if (imagetypes() & IMG_JPG) {
-					$this->resource = imagecreatefromjpeg($imagepath);
+					$this->resource = imagecreatefromjpeg($imagePath);
 				} else {
 					OC_Log::write('core',
-						'OC_Image->loadFromFile, JPG images not supported: '.$imagepath,
+						'OC_Image->loadFromFile, JPG images not supported: '.$imagePath,
 						OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_PNG:
 				if (imagetypes() & IMG_PNG) {
-					$this->resource = imagecreatefrompng($imagepath);
+					$this->resource = imagecreatefrompng($imagePath);
 				} else {
 					OC_Log::write('core',
-						'OC_Image->loadFromFile, PNG images not supported: '.$imagepath,
+						'OC_Image->loadFromFile, PNG images not supported: '.$imagePath,
 						OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_XBM:
 				if (imagetypes() & IMG_XPM) {
-					$this->resource = imagecreatefromxbm($imagepath);
+					$this->resource = imagecreatefromxbm($imagePath);
 				} else {
 					OC_Log::write('core',
-						'OC_Image->loadFromFile, XBM/XPM images not supported: '.$imagepath,
+						'OC_Image->loadFromFile, XBM/XPM images not supported: '.$imagePath,
 						OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_WBMP:
 				if (imagetypes() & IMG_WBMP) {
-					$this->resource = imagecreatefromwbmp($imagepath);
+					$this->resource = imagecreatefromwbmp($imagePath);
 				} else {
 					OC_Log::write('core',
-						'OC_Image->loadFromFile, WBMP images not supported: '.$imagepath,
+						'OC_Image->loadFromFile, WBMP images not supported: '.$imagePath,
 						OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_BMP:
-					$this->resource = $this->imagecreatefrombmp($imagepath);
+					$this->resource = $this->imagecreatefrombmp($imagePath);
 				break;
 			/*
 			case IMAGETYPE_TIFF_II: // (intel byte order)
@@ -474,14 +496,15 @@ class OC_Image {
 			default:
 
 				// this is mostly file created from encrypted file
-				$this->resource = imagecreatefromstring(\OC\Files\Filesystem::file_get_contents(\OC\Files\Filesystem::getLocalPath($imagepath)));
-				$itype = IMAGETYPE_PNG;
+				$this->resource = imagecreatefromstring(\OC\Files\Filesystem::file_get_contents(\OC\Files\Filesystem::getLocalPath($imagePath)));
+				$iType = IMAGETYPE_PNG;
 				OC_Log::write('core', 'OC_Image->loadFromFile, Default', OC_Log::DEBUG);
 				break;
 		}
 		if($this->valid()) {
-			$this->imagetype = $itype;
-			$this->filepath = $imagepath;
+			$this->imageType = $iType;
+			$this->mimeType = image_type_to_mime_type($iType);
+			$this->filePath = $imagePath;
 		}
 		return $this->resource;
 	}
@@ -496,6 +519,9 @@ class OC_Image {
 			return false;
 		}
 		$this->resource = @imagecreatefromstring($str);
+		if ($this->fileInfo) {
+			$this->mimeType = $this->fileInfo->buffer($str);
+		}
 		if(is_resource($this->resource)) {
 			imagealphablending($this->resource, false);
 			imagesavealpha($this->resource, true);
@@ -520,6 +546,9 @@ class OC_Image {
 		$data = base64_decode($str);
 		if($data) { // try to load from string data
 			$this->resource = @imagecreatefromstring($data);
+			if ($this->fileInfo) {
+				$this->mimeType = $this->fileInfo->buffer($data);
+			}
 			if(!$this->resource) {
 				OC_Log::write('core', 'OC_Image->loadFromBase64, couldn\'t load', OC_Log::DEBUG);
 				return false;
@@ -539,16 +568,16 @@ class OC_Image {
 	 * </p>
 	 * @return resource an image resource identifier on success, <b>FALSE</b> on errors.
 	 */
-	private function imagecreatefrombmp($filename) {
-		if (!($fh = fopen($filename, 'rb'))) {
-			trigger_error('imagecreatefrombmp: Can not open ' . $filename, E_USER_WARNING);
+	private function imagecreatefrombmp($fileName) {
+		if (!($fh = fopen($fileName, 'rb'))) {
+			trigger_error('imagecreatefrombmp: Can not open ' . $fileName, E_USER_WARNING);
 			return false;
 		}
 		// read file header
 		$meta = unpack('vtype/Vfilesize/Vreserved/Voffset', fread($fh, 14));
 		// check for bitmap
 		if ($meta['type'] != 19778) {
-			trigger_error('imagecreatefrombmp: ' . $filename . ' is not a bitmap!', E_USER_WARNING);
+			trigger_error('imagecreatefrombmp: ' . $fileName . ' is not a bitmap!', E_USER_WARNING);
 			return false;
 		}
 		// read image header
@@ -559,7 +588,7 @@ class OC_Image {
 		}
 		// set bytes and padding
 		$meta['bytes'] = $meta['bits'] / 8;
-		$this->bit_depth = $meta['bits']; //remember the bit depth for the imagebmp call
+		$this->bitDepth = $meta['bits']; //remember the bit depth for the imagebmp call
 		$meta['decal'] = 4 - (4 * (($meta['width'] * $meta['bytes'] / 4)- floor($meta['width'] * $meta['bytes'] / 4)));
 		if ($meta['decal'] == 4) {
 			$meta['decal'] = 0;
@@ -595,7 +624,7 @@ class OC_Image {
 		$p = 0;
 		$vide = chr(0);
 		$y = $meta['height'] - 1;
-		$error = 'imagecreatefrombmp: ' . $filename . ' has not enough data!';
+		$error = 'imagecreatefrombmp: ' . $fileName . ' has not enough data!';
 		// loop through the image data beginning with the lower left corner
 		while ($y >= 0) {
 			$x = 0;
@@ -658,7 +687,7 @@ class OC_Image {
 						break;
 					default:
 						trigger_error('imagecreatefrombmp: '
-							. $filename . ' has ' . $meta['bits'] . ' bits and this is not supported!',
+							. $fileName . ' has ' . $meta['bits'] . ' bits and this is not supported!',
 							E_USER_WARNING);
 						return false;
 				}
@@ -678,24 +707,24 @@ class OC_Image {
 	* @param $maxsize The maximum size of either the width or height.
 	* @returns bool
 	*/
-	public function resize($maxsize) {
+	public function resize($maxSize) {
 		if(!$this->valid()) {
 			OC_Log::write('core', __METHOD__.'(): No image loaded', OC_Log::ERROR);
 			return false;
 		}
-		$width_orig=imageSX($this->resource);
-		$height_orig=imageSY($this->resource);
-		$ratio_orig = $width_orig/$height_orig;
+		$widthOrig=imageSX($this->resource);
+		$heightOrig=imageSY($this->resource);
+		$ratioOrig = $widthOrig/$heightOrig;
 
-		if ($ratio_orig > 1) {
-			$new_height = round($maxsize/$ratio_orig);
-			$new_width = $maxsize;
+		if ($ratioOrig > 1) {
+			$newHeight = round($maxSize/$ratioOrig);
+			$newWidth = $maxSize;
 		} else {
-			$new_width = round($maxsize*$ratio_orig);
-			$new_height = $maxsize;
+			$newWidth = round($maxSize*$ratioOrig);
+			$newHeight = $maxSize;
 		}
 
-		$this->preciseResize(round($new_width), round($new_height));
+		$this->preciseResize(round($newWidth), round($newHeight));
 		return true;
 	}
 
@@ -704,8 +733,8 @@ class OC_Image {
 			OC_Log::write('core', __METHOD__.'(): No image loaded', OC_Log::ERROR);
 			return false;
 		}
-		$width_orig=imageSX($this->resource);
-		$height_orig=imageSY($this->resource);
+		$widthOrig=imageSX($this->resource);
+		$heightOrig=imageSY($this->resource);
 		$process = imagecreatetruecolor($width, $height);
 
 		if ($process == false) {
@@ -715,13 +744,13 @@ class OC_Image {
 		}
 
 		// preserve transparency
-		if($this->imagetype == IMAGETYPE_GIF or $this->imagetype == IMAGETYPE_PNG) {
+		if($this->imageType == IMAGETYPE_GIF or $this->imageType == IMAGETYPE_PNG) {
 			imagecolortransparent($process, imagecolorallocatealpha($process, 0, 0, 0, 127));
 			imagealphablending($process, false);
 			imagesavealpha($process, true);
 		}
 
-		imagecopyresampled($process, $this->resource, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
+		imagecopyresampled($process, $this->resource, 0, 0, 0, 0, $width, $height, $widthOrig, $heightOrig);
 		if ($process == false) {
 			OC_Log::write('core', __METHOD__.'(): Error resampling process image '.$width.'x'.$height, OC_Log::ERROR);
 			imagedestroy($process);
@@ -742,19 +771,19 @@ class OC_Image {
 			OC_Log::write('core', 'OC_Image->centerCrop, No image loaded', OC_Log::ERROR);
 			return false;
 		}
-		$width_orig=imageSX($this->resource);
-		$height_orig=imageSY($this->resource);
-		if($width_orig === $height_orig and $size==0) {
+		$widthOrig=imageSX($this->resource);
+		$heightOrig=imageSY($this->resource);
+		if($widthOrig === $heightOrig and $size==0) {
 			return true;
 		}
-		$ratio_orig = $width_orig/$height_orig;
-		$width = $height = min($width_orig, $height_orig);
+		$ratioOrig = $widthOrig/$heightOrig;
+		$width = $height = min($widthOrig, $heightOrig);
 
-		if ($ratio_orig > 1) {
-			$x = ($width_orig/2) - ($width/2);
+		if ($ratioOrig > 1) {
+			$x = ($widthOrig/2) - ($width/2);
 			$y = 0;
 		} else {
-			$y = ($height_orig/2) - ($height/2);
+			$y = ($heightOrig/2) - ($height/2);
 			$x = 0;
 		}
 		if($size>0) {
@@ -772,7 +801,7 @@ class OC_Image {
 		}
 
 		// preserve transparency
-		if($this->imagetype == IMAGETYPE_GIF or $this->imagetype == IMAGETYPE_PNG) {
+		if($this->imageType == IMAGETYPE_GIF or $this->imageType == IMAGETYPE_PNG) {
 			imagecolortransparent($process, imagecolorallocatealpha($process, 0, 0, 0, 127));
 			imagealphablending($process, false);
 			imagesavealpha($process, true);
@@ -832,9 +861,9 @@ class OC_Image {
 			OC_Log::write('core', __METHOD__.'(): No image loaded', OC_Log::ERROR);
 			return false;
 		}
-		$width_orig=imageSX($this->resource);
-		$height_orig=imageSY($this->resource);
-		$ratio = $width_orig/$height_orig;
+		$widthOrig=imageSX($this->resource);
+		$heightOrig=imageSY($this->resource);
+		$ratio = $widthOrig/$heightOrig;
 
 		$newWidth = min($maxWidth, $ratio*$maxHeight);
 		$newHeight = min($maxHeight, $maxWidth/$ratio);
@@ -868,7 +897,7 @@ if ( ! function_exists( 'imagebmp') ) {
 	 * @param int $compression [optional]
 	 * @return bool <b>TRUE</b> on success or <b>FALSE</b> on failure.
 	 */
-	function imagebmp($im, $filename='', $bit=24, $compression=0) {
+	function imagebmp($im, $fileName='', $bit=24, $compression=0) {
 		if (!in_array($bit, array(1, 4, 8, 16, 24, 32))) {
 			$bit = 24;
 		}
@@ -879,14 +908,14 @@ if ( ! function_exists( 'imagebmp') ) {
 		imagetruecolortopalette($im, true, $bits);
 		$width = imagesx($im);
 		$height = imagesy($im);
-		$colors_num = imagecolorstotal($im);
-		$rgb_quad = '';
+		$colorsNum = imagecolorstotal($im);
+		$rgbQuad = '';
 		if ($bit <= 8) {
-			for ($i = 0; $i < $colors_num; $i++) {
+			for ($i = 0; $i < $colorsNum; $i++) {
 				$colors = imagecolorsforindex($im, $i);
-				$rgb_quad .= chr($colors['blue']) . chr($colors['green']) . chr($colors['red']) . "\0";
+				$rgbQuad .= chr($colors['blue']) . chr($colors['green']) . chr($colors['red']) . "\0";
 			}
-			$bmp_data = '';
+			$bmpData = '';
 			if ($compression == 0 || $bit < 8) {
 				$compression = 0;
 				$extra = '';
@@ -904,35 +933,35 @@ if ( ! function_exists( 'imagebmp') ) {
 							$bin |= $index << $k;
 							$i++;
 						}
-						$bmp_data .= chr($bin);
+						$bmpData .= chr($bin);
 					}
-					$bmp_data .= $extra;
+					$bmpData .= $extra;
 				}
 			}
 			// RLE8
 			else if ($compression == 1 && $bit == 8) {
 				for ($j = $height - 1; $j >= 0; $j--) {
-					$last_index = "\0";
-					$same_num = 0;
+					$lastIndex = "\0";
+					$sameNum = 0;
 					for ($i = 0; $i <= $width; $i++) {
 						$index = imagecolorat($im, $i, $j);
-						if ($index !== $last_index || $same_num > 255) {
-							if ($same_num != 0) {
-								$bmp_data .= chr($same_num) . chr($last_index);
+						if ($index !== $lastIndex || $sameNum > 255) {
+							if ($sameNum != 0) {
+								$bmpData .= chr($same_num) . chr($lastIndex);
 							}
-							$last_index = $index;
-							$same_num = 1;
+							$lastIndex = $index;
+							$sameNum = 1;
 						}
 						else {
-							$same_num++;
+							$sameNum++;
 						}
 					}
-					$bmp_data .= "\0\0";
+					$bmpData .= "\0\0";
 				}
-				$bmp_data .= "\0\1";
+				$bmpData .= "\0\1";
 			}
-			$size_quad = strlen($rgb_quad);
-			$size_data = strlen($bmp_data);
+			$sizeQuad = strlen($rgbQuad);
+			$sizeData = strlen($bmpData);
 		}
 		else {
 			$extra = '';
@@ -940,7 +969,7 @@ if ( ! function_exists( 'imagebmp') ) {
 			if ($padding % 4 != 0) {
 				$extra = str_repeat("\0", $padding);
 			}
-			$bmp_data = '';
+			$bmpData = '';
 			for ($j = $height - 1; $j >= 0; $j--) {
 				for ($i = 0; $i < $width; $i++) {
 					$index  = imagecolorat($im, $i, $j);
@@ -950,27 +979,27 @@ if ( ! function_exists( 'imagebmp') ) {
 						$bin |= ($colors['red'] >> 3) << 10;
 						$bin |= ($colors['green'] >> 3) << 5;
 						$bin |= $colors['blue'] >> 3;
-						$bmp_data .= pack("v", $bin);
+						$bmpData .= pack("v", $bin);
 					}
 					else {
-						$bmp_data .= pack("c*", $colors['blue'], $colors['green'], $colors['red']);
+						$bmpData .= pack("c*", $colors['blue'], $colors['green'], $colors['red']);
 					}
 				}
-				$bmp_data .= $extra;
+				$bmpData .= $extra;
 			}
-			$size_quad = 0;
-			$size_data = strlen($bmp_data);
-			$colors_num = 0;
+			$sizeQuad = 0;
+			$sizeData = strlen($bmpData);
+			$colorsNum = 0;
 		}
-		$file_header = 'BM' . pack('V3', 54 + $size_quad + $size_data, 0, 54 + $size_quad);
-		$info_header = pack('V3v2V*', 0x28, $width, $height, 1, $bit, $compression, $size_data, 0, 0, $colors_num, 0);
-		if ($filename != '') {
-			$fp = fopen($filename, 'wb');
-			fwrite($fp, $file_header . $info_header . $rgb_quad . $bmp_data);
+		$fileHeader = 'BM' . pack('V3', 54 + $sizeQuad + $sizeData, 0, 54 + $sizeQuad);
+		$infoHeader = pack('V3v2V*', 0x28, $width, $height, 1, $bit, $compression, $sizeData, 0, 0, $colorsNum, 0);
+		if ($fileName != '') {
+			$fp = fopen($fileName, 'wb');
+			fwrite($fp, $fileHeader . $infoHeader . $rgbQuad . $bmpData);
 			fclose($fp);
 			return true;
 		}
-		echo $file_header . $info_header. $rgb_quad . $bmp_data;
+		echo $fileHeader . $infoHeader. $rgbQuad . $bmpData;
 		return true;
 	}
 }
@@ -982,8 +1011,8 @@ if ( ! function_exists( 'exif_imagetype' ) ) {
 	 * @param string $filename
 	 * @return string|boolean
 	 */
-	function exif_imagetype ( $filename ) {
-		if ( ( $info = getimagesize( $filename ) ) !== false ) {
+	function exif_imagetype ( $fileName ) {
+		if ( ( $info = getimagesize( $fileName ) ) !== false ) {
 			return $info[2];
 		}
 		return false;
