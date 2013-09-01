@@ -30,6 +30,7 @@ class OC_Core_Avatar_Controller {
 
 		\OC_Response::disableCaching();
 		\OC_Response::setLastModifiedHeader(gmdate( 'D, d M Y H:i:s' ).' GMT');
+		\OC_Response::setETagHeader(crc32($image->data()));
 		if ($image instanceof \OC_Image) {
 			$image->show();
 		} elseif ($image === false) {
@@ -110,6 +111,7 @@ class OC_Core_Avatar_Controller {
 		$image = new \OC_Image($tmpavatar);
 		\OC_Response::disableCaching();
 		\OC_Response::setLastModifiedHeader(gmdate( 'D, d M Y H:i:s' ).' GMT');
+		\OC_Response::setETagHeader(crc32($image->data()));
 		$image->show();
 	}
 
