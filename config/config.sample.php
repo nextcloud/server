@@ -214,4 +214,7 @@ $CONFIG = array(
 'preview_libreoffice_path' => '/usr/bin/libreoffice',
 /* cl parameters for libreoffice / openoffice */
 'preview_office_cl_parameters' => '',
+
+/* whether avatars should be enabled */
+'enable_avatars' => true,
 );

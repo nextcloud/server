@@ -46,7 +46,9 @@
 				src="<?php print_unescaped(image_path('', 'logo-wide.svg')); ?>" alt="<?php p($theme->getName()); ?>" /></a>
 			<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 
+			<?php if (\OC_Config::getValue('enable_avatars', true) === true): ?>
 			<div class="avatardiv"></div>
+			<?php endif; ?>
 
 			<ul id="settings" class="svg">
 				<span id="expand" tabindex="0" role="link">

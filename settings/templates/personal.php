@@ -80,6 +80,7 @@ if($_['passwordChangeSupported']) {
 }
 ?>
 
+<?php if (\OC_Config::getValue('enable_avatars', true) === true): ?>
 <form id="avatar" method="post" action="<?php p(\OC_Helper::linkToRoute('core_avatar_post')); ?>">
 	<fieldset class="personalblock">
 		<legend><strong><?php p($l->t('Profile Image')); ?></strong></legend>
@@ -92,6 +93,7 @@ if($_['passwordChangeSupported']) {
 		<div class="inlineblock button" id="removeavatar"><?php p($l->t('Remove image')); ?></div>
 	</fieldset>
 </form>
+<?php endif; ?>
 
 <form>
 	<fieldset class="personalblock">

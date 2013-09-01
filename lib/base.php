@@ -266,11 +266,13 @@ class OC {
 		OC_Util::addScript('router');
 		OC_Util::addScript("oc-requesttoken");
 
-		// defaultavatars
-		\OC_Util::addScript('placeholder');
-		\OC_Util::addScript('3rdparty', 'md5/md5.min');
-		\OC_Util::addScript('jquery.avatar');
-		\OC_Util::addScript('avatar');
+		// avatars
+		if (\OC_Config::getValue('enable_avatars', true) === true) {
+			\OC_Util::addScript('placeholder');
+			\OC_Util::addScript('3rdparty', 'md5/md5.min');
+			\OC_Util::addScript('jquery.avatar');
+			\OC_Util::addScript('avatar');
+		}
 
 		OC_Util::addStyle("styles");
 		OC_Util::addStyle("apps");
