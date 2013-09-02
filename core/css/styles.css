@@ -684,8 +684,21 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 	background-color:white;
 	width:100%;
 }
-#oc-dialog-filepicker-content .filelist img { margin: 2px 1em 0 4px; }
-#oc-dialog-filepicker-content .filelist .date { float:right;margin-right:1em; }
+#oc-dialog-filepicker-content .filelist li {
+	position: relative;
+}
+#oc-dialog-filepicker-content .filelist .filename {
+	position: absolute;
+	top: 8px;
+}
+#oc-dialog-filepicker-content .filelist img {
+	margin: 2px 1em 0 4px;
+}
+#oc-dialog-filepicker-content .filelist .date {
+	float: right;
+	margin-right: 1em;
+	margin-top: 8px;
+}
 #oc-dialog-filepicker-content .filepicker_element_selected { background-color:lightblue;}
 .ui-dialog {position:fixed !important;}
 span.ui-icon {float: left; margin: 3px 7px 30px 0;}
