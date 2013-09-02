@@ -77,7 +77,7 @@ var OCdialogs = {
 			self.$filePicker = $tmpl.octemplate({
 				dialog_name: dialog_name,
 				title: title
-			}).data('path', '');
+			}).data('path', '').data('multiselect', multiselect).data('mimetype', mimetype_filter);
 
 			if (modal === undefined) {
 				modal = false;
@@ -100,7 +100,7 @@ var OCdialogs = {
 					self._handlePickerClick(event, $(this));
 				});
 				self._fillFilePicker('');
-			}).data('multiselect', multiselect).data('mimetype',mimetype_filter);
+			});
 
 			// build buttons
 			var functionToCall = function() {
