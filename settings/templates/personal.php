@@ -83,14 +83,14 @@ if($_['passwordChangeSupported']) {
 <?php if (\OC_Config::getValue('enable_avatars', true) === true): ?>
 <form id="avatar" method="post" action="<?php p(\OC_Helper::linkToRoute('core_avatar_post')); ?>">
 	<fieldset class="personalblock">
-		<legend><strong><?php p($l->t('Profile Image')); ?></strong></legend>
+		<legend><strong><?php p($l->t('Profile picture')); ?></strong></legend>
 		<div class="avatardiv"></div><br>
-		<em><?php p($l->t('Has to be square and either PNG or JPG')); ?></em><br>
 		<div class="warning hidden"></div>
 		<div class="inlineblock button" id="uploadavatarbutton"><?php p($l->t('Upload new')); ?></div>
 		<input type="file" class="hidden" name="files[]" id="uploadavatar">
-		<div class="inlineblock button" id="selectavatar"><?php p($l->t('Select new from files')); ?></div>
-		<div class="inlineblock button" id="removeavatar"><?php p($l->t('Remove image')); ?></div>
+		<div class="inlineblock button" id="selectavatar"><?php p($l->t('Select new from Files')); ?></div>
+		<div class="inlineblock button" id="removeavatar"><?php p($l->t('Remove image')); ?></div><br>
+		<?php p($l->t('Either png or jpg. Ideally square but you will be able to crop it.')); ?>
 	</fieldset>
 </form>
 <?php endif; ?>

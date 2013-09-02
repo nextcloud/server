@@ -46,7 +46,7 @@ class OC_Avatar {
 	public function set ($user, $data) {
 		if (\OC_Appconfig::getValue('files_encryption', 'enabled') === "yes") {
 			$l = \OC_L10N::get('lib');
-			throw new \Exception($l->t("Custom avatars don't work with encryption yet"));
+			throw new \Exception($l->t("Custom profile pictures don't work with encryption yet"));
 		}
 
 		$view = new \OC\Files\View('/'.$user);

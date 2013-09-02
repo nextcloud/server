@@ -34,7 +34,7 @@ class OC_Core_Avatar_Controller {
 			\OC_Response::setETagHeader(crc32($image->data()));
 			$image->show();
 		} elseif ($image === false) {
-			\OC_JSON::success(array('user' => \OC_User::getDisplayName($user), 'size' => $size));
+			\OC_JSON::success(array('user' => $user, 'size' => $size));
 		}
 	}
 
@@ -104,7 +104,7 @@ class OC_Core_Avatar_Controller {
 		$tmpavatar = \OC_Cache::get('tmpavatar');
 		if (is_null($tmpavatar)) {
 			$l = new \OC_L10n('core');
-			\OC_JSON::error(array("data" => array("message" => $l->t("No temporary avatar available, try again")) ));
+			\OC_JSON::error(array("data" => array("message" => $l->t("No temporary profile picture available, try again")) ));
 			return;
 		}
 
@@ -128,7 +128,7 @@ class OC_Core_Avatar_Controller {
 		$tmpavatar = \OC_Cache::get('tmpavatar');
 		if (is_null($tmpavatar)) {
 			$l = new \OC_L10n('core');
-			\OC_JSON::error(array("data" => array("message" => $l->t("No temporary avatar available, try again")) ));
+			\OC_JSON::error(array("data" => array("message" => $l->t("No temporary profile picture available, try again")) ));
 			return;
 		}
 

@@ -212,7 +212,7 @@ $(document).ready(function(){
 	$('#uploadavatar').fileupload(uploadparms);
 
 	$('#selectavatar').click(function(){
-		OC.dialogs.filepicker(t('settings', "Select an avatar"), selectAvatar, false, "image");
+		OC.dialogs.filepicker(t('settings', "Select a profile picture"), selectAvatar, false, "image");
 	});
 
 	$('#removeavatar').click(function(){
