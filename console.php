@@ -7,7 +7,6 @@
  * See the COPYING-README file.
  */
 
-use OC\Core\Command\GreetCommand;
 use Symfony\Component\Console\Application;
 
 $RUNTIME_NOAPPS = true;
