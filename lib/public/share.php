@@ -1039,10 +1039,10 @@ class Share {
 				if ($itemType == 'file' || $itemType == 'folder') {
 					$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`,'
 						.' `share_type`, `share_with`, `file_source`, `path`, `permissions`, `stime`,'
-						.' `expiration`, `token`, `storage`, `storage`, `mail_send`';
+						.' `expiration`, `token`, `storage`, `mail_send`';
 				} else {
 					$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`, `share_with`, `permissions`,'
-						.' `stime`, `file_source`, `expiration`, `token`, `storage`, `mail_send`';
+						.' `stime`, `file_source`, `expiration`, `token`, `mail_send`';
 				}
 			} else {
 				if ($fileDependent) {
