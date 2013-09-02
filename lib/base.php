@@ -96,8 +96,17 @@ class OC {
 		} elseif (strpos($className, 'OCP\\') === 0) {
 			$path = 'public/' . strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
 		} elseif (strpos($className, 'OCA\\') === 0) {
+			list(, $app, $rest) = explode('\\', $className, 3);
+			$app = strtolower($app);
 			foreach (self::$APPSROOTS as $appDir) {
-				$path = $appDir['path'] . '/' . strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
+				$path = $appDir['path'] . '/' . $app . '/' . strtolower(str_replace('\\', '/', $rest) . '.php');
+				$fullPath = stream_resolve_include_path($path);
+				if (file_exists($fullPath)) {
+					require_once $fullPath;
+					return false;
+				}
+				// If not found in the root of the app directory, insert '/lib' after app id and try again.
+				$path = $appDir['path'] . '/' . $app . '/lib/' . strtolower(str_replace('\\', '/', $rest) . '.php');
 				$fullPath = stream_resolve_include_path($path);
 				if (file_exists($fullPath)) {
 					require_once $fullPath;
