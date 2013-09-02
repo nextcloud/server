@@ -214,4 +214,9 @@ $CONFIG = array(
 'preview_libreoffice_path' => '/usr/bin/libreoffice',
 /* cl parameters for libreoffice / openoffice */
 'preview_office_cl_parameters' => '',
+
+// Extra SSL options to be used for configuration
+'openssl' => array(
+	//'config' => '/absolute/location/of/openssl.cnf',
+),
 );
