@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "مجموعة",
 "Category type not provided." => "نوع التصنيف لم يدخل",
 "No category to add?" => "ألا توجد فئة للإضافة؟",
 "This category already exists: %s" => "هذا التصنيف موجود مسبقا :  %s",

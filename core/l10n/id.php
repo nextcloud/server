@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "grup",
 "Category type not provided." => "Tipe kategori tidak diberikan.",
 "No category to add?" => "Tidak ada kategori yang akan ditambahkan?",
 "This category already exists: %s" => "Kategori ini sudah ada: %s",

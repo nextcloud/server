@@ -2,10 +2,10 @@
 $TRANSLATIONS = array(
 "URL cannot be empty." => "ناونیشانی به‌سته‌ر نابێت به‌تاڵ بێت.",
 "Error" => "هه‌ڵه",
-"_Uploading %n file_::_Uploading %n files_" => array("",""),
-"Name" => "ناو",
 "_%n folder_::_%n folders_" => array("",""),
 "_%n file_::_%n files_" => array("",""),
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
+"Name" => "ناو",
 "Upload" => "بارکردن",
 "Save" => "پاشکه‌وتکردن",
 "Folder" => "بوخچه",

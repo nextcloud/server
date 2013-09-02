@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "nhóm",
 "Category type not provided." => "Kiểu hạng mục không được cung cấp.",
 "No category to add?" => "Không có danh mục được thêm?",
 "This category already exists: %s" => "Danh mục này đã tồn tại: %s",
