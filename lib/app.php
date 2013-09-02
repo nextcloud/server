@@ -674,14 +674,16 @@ class OC_App{
 			}
 			$dh = opendir( $apps_dir['path'] );
 
-			while (($file = readdir($dh)) !== false) {
+			if(is_resource($dh)) {
+				while (($file = readdir($dh)) !== false) {
 
-				if ($file[0] != '.' and is_file($apps_dir['path'].'/'.$file.'/appinfo/app.php')) {
+					if ($file[0] != '.' and is_file($apps_dir['path'].'/'.$file.'/appinfo/app.php')) {
 
-					$apps[] = $file;
+						$apps[] = $file;
+
+					}
 
 				}
-
 			}
 
 		}
@@ -862,7 +864,7 @@ class OC_App{
 		foreach($apps as $app) {
 			// check if the app is compatible with this version of ownCloud
 			$info = OC_App::getAppInfo($app);
-			if(!isset($info['require']) 
+			if(!isset($info['require'])
 				or !self::isAppVersionCompatible($version, $info['require'])
 				// manually disable files_archive app since it has been removed
 				// and cause update problems
@@ -879,10 +881,10 @@ class OC_App{
 
 
 	/**
-	 * Compares the app version with the owncloud version to see if the app 
+	 * Compares the app version with the owncloud version to see if the app
 	 * requires a newer version than the currently active one
 	 * @param array $owncloudVersions array with 3 entries: major minor bugfix
-	 * @param string $appRequired the required version from the xml 
+	 * @param string $appRequired the required version from the xml
 	 * major.minor.bugfix
 	 * @return boolean true if compatible, otherwise false
 	 */
