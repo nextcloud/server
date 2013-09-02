@@ -34,7 +34,7 @@
  *
  * Which will result in:
  *
- * <div id="albumart" style="background-color: hsl(123, 90%, 65%r); ... ">T</div>
+ * <div id="albumart" style="background-color: hsl(123, 90%, 65%); ... ">T</div>
  *
  */
 
