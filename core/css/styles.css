@@ -177,7 +177,14 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 #leftcontent a { height:100%; display:block; margin:0; padding:0 1em 0 0; float:left; }
 #rightcontent, .rightcontent { position:fixed; top:6.4em; left:24.5em; overflow:auto }
 
-
+#emptycontent {
+	font-size:1.5em; font-weight:bold;
+	color:#888; text-shadow:#fff 0 1px 0;
+	position: absolute;
+	text-align: center;
+	top: 50%;
+	width: 100%;
+}
 
 
 /* LOG IN & INSTALLATION ------------------------------------------------------------ */

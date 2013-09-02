@@ -6,7 +6,7 @@
 <div id='notification'></div>
 
 <?php if (isset($_['files']) && count($_['files']) === 0 && $_['dirlisting'] === false):?>
-	<div id="emptyfolder"><?php p($l->t('Nothing in here. Your trash bin is empty!'))?></div>
+	<div id="emptycontent"><?php p($l->t('Nothing in here. Your trash bin is empty!'))?></div>
 <?php endif; ?>
 
 <table id="filestable">
