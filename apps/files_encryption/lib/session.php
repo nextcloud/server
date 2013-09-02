@@ -116,6 +116,8 @@ class Session {
 	 * @brief Sets status if we tried to initialize the encyption app
 	 * @param bool $privateKey true=initialized false=not initialized
 	 * @return bool
+	 * 
+	 * @note this doesn not indicate of the init was successful, we just remeber the try!
 	 */
 	public function setInitialized($init) {
 
@@ -130,6 +132,7 @@ class Session {
 	 * @brief Gets status if we already tried to initialize the encryption app
 	 * @returns bool
 	 *
+	 * @note this doesn not indicate of the init was successful, we just remeber the try!
 	 */
 	public function getInitialized() {
 		if (!is_null(\OC::$session->get('encryptionInitialized'))) {

@@ -17,7 +17,7 @@ $util = new \OCA\Encryption\Util($view, $user);
 $session = new \OCA\Encryption\Session($view);
 
 $privateKeySet = $session->getPrivateKey() !== false;
-// was the key successfully initialized during log-in
+// did we tried to initialize the keys for this session?
 $initialized = $session->getInitialized();
 
 $recoveryAdminEnabled = OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled');
