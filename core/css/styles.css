@@ -150,14 +150,20 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 
 /* CONTENT ------------------------------------------------------------------ */
 #controls {
-	position:fixed;
-	height:2.8em; width:100%;
-	padding:0 70px 0 0.5em; margin:0;
-	-moz-box-sizing:border-box; box-sizing:border-box;
-	-moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000;
-	background:#eee; border-bottom:1px solid #e7e7e7; z-index:50;
+	position: fixed;
+	height: 36px;
+	width: 100%;
+	padding: 0 75px 0 6px;
+	margin: 0;
+	background: #eee;
+	border-bottom: 1px solid #e7e7e7;
+	z-index: 50;
+	-moz-box-sizing: border-box; box-sizing: border-box;
+	-moz-box-shadow: 0 -3px 7px #000; -webkit-box-shadow: 0 -3px 7px #000; box-shadow: 0 -3px 7px #000;
 }
-#controls .button { display:inline-block; }
+#controls .button {
+	display: inline-block;
+}
 
 #content { position:relative; height:100%; width:100%; }
 #content .hascontrols { position: relative; top: 2.9em; }
