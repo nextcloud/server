@@ -27,5 +27,5 @@ if (!OC::$CLI) {
 $defaults = new OC_Defaults;
 $application = new Application($defaults->getName(), \OC_Util::getVersionString());
 $application->add(new OC\Core\Command\Status);
-$application->add(new OCA\Files\Command\Scan);
+$application->add(new OCA\Files\Command\Scan(OC_User::getManager()));
 $application->run();

@@ -8,10 +8,19 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Scan extends Command
-{
-	protected function configure()
-	{
+class Scan extends Command {
+
+	/**
+	 * @var \OC\User\Manager $userManager
+	 */
+	private $userManager;
+
+	public function __construct(\OC\User\Manager $userManager) {
+		$this->userManager = $userManager;
+		parent::__construct();
+	}
+
+	protected function configure() {
 		$this
 			->setName('files:scan')
 			->setDescription('rescan filesystem')
@@ -40,15 +49,17 @@ class Scan extends Command
 		$scanner->scan('');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output)
-	{
+	protected function execute(InputInterface $input, OutputInterface $output) {
 		if ($input->getOption('all')) {
-			$users = \OC_User::getUsers();
+			$users = $this->userManager->search('');
 		} else {
 			$users = $input->getArgument('user_id');
 		}
 
 		foreach ($users as $user) {
+			if (is_object($user)) {
+				$user = $user->getUID();
+			}
 			$this->scanFiles($user, $output);
 		}
 	}
