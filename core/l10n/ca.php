@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s ha compartit »%s« amb tu",
+"group" => "grup",
 "Category type not provided." => "No s'ha especificat el tipus de categoria.",
 "No category to add?" => "No voleu afegir cap categoria?",
 "This category already exists: %s" => "Aquesta categoria ja existeix: %s",
@@ -126,7 +127,6 @@ $TRANSLATIONS = array(
 "Finish setup" => "Acaba la configuració",
 "%s is available. Get more information on how to update." => "%s està disponible. Obtingueu més informació de com actualitzar.",
 "Log out" => "Surt",
-"More apps" => "Més aplicacions",
 "Automatic logon rejected!" => "L'ha rebutjat l'acceditació automàtica!",
 "If you did not change your password recently, your account may be compromised!" => "Se no heu canviat la contrasenya recentment el vostre compte pot estar compromès!",
 "Please change your password to secure your account again." => "Canvieu la contrasenya de nou per assegurar el vostre compte.",

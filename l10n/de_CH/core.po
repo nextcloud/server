@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-28 06:22-0400\n"
-"PO-Revision-Date: 2013-08-27 22:31+0000\n"
+"POT-Creation-Date: 2013-09-01 13:27-0400\n"
+"PO-Revision-Date: 2013-08-30 13:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Switzerland) (http://www.transifex.com/projects/p/owncloud/language/de_CH/)\n"
 "MIME-Version: 1.0\n"
@@ -30,6 +30,10 @@ msgstr ""
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s teilt »%s« mit Ihnen"
+
+#: ajax/share.php:227
+msgid "group"
+msgstr "Gruppe"
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
@@ -476,7 +480,7 @@ msgstr "Persönlich"
 msgid "Users"
 msgstr "Benutzer"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "Apps"
 
@@ -609,10 +613,6 @@ msgstr "%s ist verfügbar. Holen Sie weitere Informationen zu Aktualisierungen e
 msgid "Log out"
 msgstr "Abmelden"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr "Mehr Apps"
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Automatische Anmeldung verweigert!"
@@ -627,19 +627,19 @@ msgstr "Wenn Sie Ihr Passwort nicht vor kurzem geändert haben, könnte Ihr\nAcc
 msgid "Please change your password to secure your account again."
 msgstr "Bitte ändern Sie Ihr Passwort, um Ihr Konto wieder zu sichern."
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "Passwort vergessen?"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "merken"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "Einloggen"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr "Alternative Logins"
 

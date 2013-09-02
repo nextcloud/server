@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-27 11:18-0400\n"
-"PO-Revision-Date: 2013-08-27 15:18+0000\n"
+"POT-Creation-Date: 2013-09-01 13:27-0400\n"
+"PO-Revision-Date: 2013-08-30 13:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -21,6 +21,10 @@ msgstr ""
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr ""
+
+#: ajax/share.php:227
+msgid "group"
+msgstr "කණ්ඩායම"
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
@@ -467,7 +471,7 @@ msgstr "පෞද්ගලික"
 msgid "Users"
 msgstr "පරිශීලකයන්"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "යෙදුම්"
 
@@ -600,10 +604,6 @@ msgstr ""
 msgid "Log out"
 msgstr "නික්මීම"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr ""
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr ""
@@ -618,19 +618,19 @@ msgstr ""
 msgid "Please change your password to secure your account again."
 msgstr ""
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "මුරපදය අමතකද?"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "මතක තබාගන්න"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "ප්‍රවේශවන්න"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr ""
 

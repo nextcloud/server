@@ -4,13 +4,14 @@
 # 
 # Translators:
 # mhh <marian.hvolka@stuba.sk>, 2013
+# martin, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-25 19:18-0400\n"
-"PO-Revision-Date: 2013-08-25 23:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-30 09:33-0400\n"
+"PO-Revision-Date: 2013-08-28 18:40+0000\n"
+"Last-Translator: martin\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,11 +24,11 @@ msgstr ""
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr ""
+msgstr "Aplikácia \"%s\" nemôže byť nainštalovaná kvôli nekompatibilite z danou verziou ownCloudu."
 
 #: app.php:250
 msgid "No app name specified"
-msgstr ""
+msgstr "Nešpecifikované meno aplikácie"
 
 #: app.php:361
 msgid "Help"
@@ -87,59 +88,59 @@ msgstr "Stiahnite súbory po menších častiach, samostatne, alebo sa obráťte
 
 #: installer.php:63
 msgid "No source specified when installing app"
-msgstr ""
+msgstr "Nešpecifikovaný zdroj pri inštalácii aplikácie"
 
 #: installer.php:70
 msgid "No href specified when installing app from http"
-msgstr ""
+msgstr "Nešpecifikovaný atribút \"href\" pri inštalácii aplikácie pomocou protokolu \"http\""
 
 #: installer.php:75
 msgid "No path specified when installing app from local file"
-msgstr ""
+msgstr "Nešpecifikovaná cesta pri inštalácii aplikácie z lokálneho súboru"
 
 #: installer.php:89
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr ""
+msgstr "Typ archívu %s nie je podporovaný"
 
 #: installer.php:103
 msgid "Failed to open archive when installing app"
-msgstr ""
+msgstr "Zlyhanie pri otváraní archívu počas inštalácie aplikácie"
 
 #: installer.php:123
 msgid "App does not provide an info.xml file"
-msgstr ""
+msgstr "Aplikácia neposkytuje súbor info.xml"
 
 #: installer.php:129
 msgid "App can't be installed because of not allowed code in the App"
-msgstr ""
+msgstr "Aplikácia nemôže byť inštalovaná pre nepovolený kód v aplikácii"
 
 #: installer.php:138
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr ""
+msgstr "Aplikácia nemôže byť inštalovaná pre nekompatibilitu z danou verziou ownCloudu"
 
 #: installer.php:144
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
-msgstr ""
+msgstr "Aplikácia nemôže byť inštalovaná pretože obsahuje <shipped>pravý</shipped> štítok, ktorý nie je povolený pre zaslané \"shipped\" aplikácie"
 
 #: installer.php:150
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr ""
+msgstr "Aplikácia nemôže byť inštalovaná pretože verzia v info.xml/version nezodpovedá verzii špecifikovanej v aplikačnom obchode"
 
 #: installer.php:160
 msgid "App directory already exists"
-msgstr ""
+msgstr "Aplikačný adresár už existuje"
 
 #: installer.php:173
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr ""
+msgstr "Nemožno vytvoriť aplikačný priečinok. Prosím upravte povolenia. %s"
 
 #: json.php:28
 msgid "Application is not enabled"

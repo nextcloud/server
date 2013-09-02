@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s שיתף/שיתפה איתך את »%s«",
+"group" => "קבוצה",
 "Category type not provided." => "סוג הקטגוריה לא סופק.",
 "No category to add?" => "אין קטגוריה להוספה?",
 "This category already exists: %s" => "הקטגוריה הבאה כבר קיימת: %s",
@@ -122,7 +123,6 @@ $TRANSLATIONS = array(
 "Finish setup" => "סיום התקנה",
 "%s is available. Get more information on how to update." => "%s זמינה להורדה. ניתן ללחוץ כדי לקבל מידע נוסף כיצד לעדכן.",
 "Log out" => "התנתקות",
-"More apps" => "יישומים נוספים",
 "Automatic logon rejected!" => "בקשת הכניסה האוטומטית נדחתה!",
 "If you did not change your password recently, your account may be compromised!" => "אם לא שינית את ססמתך לאחרונה, יתכן שחשבונך נפגע!",
 "Please change your password to secure your account again." => "נא לשנות את הססמה שלך כדי לאבטח את חשבונך מחדש.",

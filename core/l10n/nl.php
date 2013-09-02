@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s deelde »%s« met jou",
+"group" => "groep",
 "Category type not provided." => "Categorie type niet opgegeven.",
 "No category to add?" => "Geen categorie om toe te voegen?",
 "This category already exists: %s" => "Deze categorie bestaat al: %s",
@@ -126,7 +127,6 @@ $TRANSLATIONS = array(
 "Finish setup" => "Installatie afronden",
 "%s is available. Get more information on how to update." => "%s is beschikbaar. Verkrijg meer informatie over het bijwerken.",
 "Log out" => "Afmelden",
-"More apps" => "Meer applicaties",
 "Automatic logon rejected!" => "Automatische aanmelding geweigerd!",
 "If you did not change your password recently, your account may be compromised!" => "Als je je wachtwoord niet onlangs heeft aangepast, kan je account overgenomen zijn!",
 "Please change your password to secure your account again." => "Wijzig je wachtwoord zodat je account weer beveiligd is.",

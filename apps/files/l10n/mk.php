@@ -23,13 +23,13 @@ $TRANSLATIONS = array(
 "cancel" => "откажи",
 "replaced {new_name} with {old_name}" => "заменета {new_name} со {old_name}",
 "undo" => "врати",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "_Uploading %n file_::_Uploading %n files_" => array("",""),
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Неправилно име. , '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' не се дозволени.",
 "Name" => "Име",
 "Size" => "Големина",
 "Modified" => "Променето",
-"_%n folder_::_%n folders_" => array("",""),
-"_%n file_::_%n files_" => array("",""),
 "Upload" => "Подигни",
 "File handling" => "Ракување со датотеки",
 "Maximum upload size" => "Максимална големина за подигање",
@@ -51,8 +51,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "Фајлот кој се вчитува е преголем",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Датотеките кои се обидувате да ги подигнете ја надминуваат максималната големина за подигнување датотеки на овој сервер.",
 "Files are being scanned, please wait." => "Се скенираат датотеки, ве молам почекајте.",
-"Current scanning" => "Моментално скенирам",
-"file" => "датотека",
-"files" => "датотеки"
+"Current scanning" => "Моментално скенирам"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;";

@@ -15,12 +15,12 @@ $TRANSLATIONS = array(
 "Pending" => "Dalam proses",
 "replace" => "ganti",
 "cancel" => "Batal",
+"_%n folder_::_%n folders_" => array(""),
+"_%n file_::_%n files_" => array(""),
 "_Uploading %n file_::_Uploading %n files_" => array(""),
 "Name" => "Nama",
 "Size" => "Saiz",
 "Modified" => "Dimodifikasi",
-"_%n folder_::_%n folders_" => array(""),
-"_%n file_::_%n files_" => array(""),
 "Upload" => "Muat naik",
 "File handling" => "Pengendalian fail",
 "Maximum upload size" => "Saiz maksimum muat naik",
@@ -40,8 +40,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "Muatnaik terlalu besar",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Fail yang cuba dimuat naik melebihi saiz maksimum fail upload server",
 "Files are being scanned, please wait." => "Fail sedang diimbas, harap bersabar.",
-"Current scanning" => "Imbasan semasa",
-"file" => "fail",
-"files" => "fail"
+"Current scanning" => "Imbasan semasa"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "група",
 "Category type not provided." => "Не вказано тип категорії.",
 "No category to add?" => "Відсутні категорії для додавання?",
 "This category already exists: %s" => "Ця категорія вже існує: %s",

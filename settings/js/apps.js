@@ -169,7 +169,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				var navEntries=response.nav_entries;
 				for(var i=0; i< navEntries.length; i++){
 					var entry = navEntries[i];
-					var container = $('#apps');
+					var container = $('#apps .wrapper');
 
 					if(container.children('li[data-id="'+entry.id+'"]').length === 0){
 						var li=$('<li></li>');
@@ -181,10 +181,10 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						a.prepend(filename);
 						a.prepend(img);
 						li.append(a);
-						// prepend the new app before the 'More apps' function
-						$('#apps-management').before(li);
+						// append the new app as last item in the list (.push is from sticky footer)
+						$('#apps .wrapper .push').before(li);
 						// scroll the app navigation down so the newly added app is seen
-						$('#navigation').animate({ scrollTop: $('#apps').height() }, 'slow');
+						$('#navigation').animate({ scrollTop: $('#navigation').height() }, 'slow');
 						// draw attention to the newly added app entry by flashing it twice
 						container.children('li[data-id="'+entry.id+'"]').animate({opacity:.3}).animate({opacity:1}).animate({opacity:.3}).animate({opacity:1});
 

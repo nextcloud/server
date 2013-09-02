@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s jagas sinuga »%s«",
+"group" => "grupp",
 "Turned on maintenance mode" => "Haldusreziimis",
 "Turned off maintenance mode" => "Haldusreziim lõpetatud",
 "Updated database" => "Uuendatud andmebaas",
@@ -132,7 +133,6 @@ $TRANSLATIONS = array(
 "Finish setup" => "Lõpeta seadistamine",
 "%s is available. Get more information on how to update." => "%s on saadaval. Vaata lähemalt kuidas uuendada.",
 "Log out" => "Logi välja",
-"More apps" => "Rohkem rakendusi",
 "Automatic logon rejected!" => "Automaatne sisselogimine lükati tagasi!",
 "If you did not change your password recently, your account may be compromised!" => "Kui sa ei muutnud oma parooli hiljuti, siis võib su kasutajakonto olla ohustatud!",
 "Please change your password to secure your account again." => "Palun muuda parooli, et oma kasutajakonto uuesti turvata.",

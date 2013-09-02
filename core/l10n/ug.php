@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "گۇرۇپپا",
 "Sunday" => "يەكشەنبە",
 "Monday" => "دۈشەنبە",
 "Tuesday" => "سەيشەنبە",

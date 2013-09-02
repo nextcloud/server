@@ -59,6 +59,22 @@ function mimetype_icon( $mimetype ) {
 }
 
 /**
+ * @brief make preview_icon available as a simple function
+ * Returns the path to the preview of the image.
+ * @param $path path of file
+ * @returns link to the preview
+ *
+ * For further information have a look at OC_Helper::previewIcon
+ */
+function preview_icon( $path ) {
+	return OC_Helper::previewIcon( $path );
+}
+
+function publicPreview_icon ( $path, $token ) {
+	return OC_Helper::publicPreviewIcon( $path, $token );
+}
+
+/**
  * @brief make OC_Helper::humanFileSize available as a simple function
  * @param int $bytes size in bytes
  * @return string size as string

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-28 06:22-0400\n"
-"PO-Revision-Date: 2013-08-27 22:31+0000\n"
+"POT-Creation-Date: 2013-09-01 13:27-0400\n"
+"PO-Revision-Date: 2013-08-30 13:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -22,6 +22,10 @@ msgstr ""
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s به اشتراک گذاشته شده است »%s« توسط شما"
+
+#: ajax/share.php:227
+msgid "group"
+msgstr "گروه"
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
@@ -464,7 +468,7 @@ msgstr "شخصی"
 msgid "Users"
 msgstr "کاربران"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "  برنامه ها"
 
@@ -597,10 +601,6 @@ msgstr "%s در دسترس است. برای چگونگی به روز رسانی 
 msgid "Log out"
 msgstr "خروج"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr ""
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "ورود به سیستم اتوماتیک ردشد!"
@@ -615,19 +615,19 @@ msgstr "اگر شما اخیرا رمزعبور را تغییر نداده ای�
 msgid "Please change your password to secure your account again."
 msgstr "لطفا رمز عبور خود را تغییر دهید تا مجددا حساب شما  در امان باشد."
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "آیا گذرواژه تان را به یاد نمی آورید؟"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "بیاد آوری"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "ورود"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr "ورود متناوب"
 

@@ -18,13 +18,13 @@ $TRANSLATIONS = array(
 "suggest name" => "nom prepausat",
 "cancel" => "anulla",
 "undo" => "defar",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
 "_Uploading %n file_::_Uploading %n files_" => array("",""),
 "files uploading" => "fichièrs al amontcargar",
 "Name" => "Nom",
 "Size" => "Talha",
 "Modified" => "Modificat",
-"_%n folder_::_%n folders_" => array("",""),
-"_%n file_::_%n files_" => array("",""),
 "Upload" => "Amontcarga",
 "File handling" => "Manejament de fichièr",
 "Maximum upload size" => "Talha maximum d'amontcargament",
@@ -45,8 +45,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "Amontcargament tròp gròs",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Los fichièrs que sias a amontcargar son tròp pesucs per la talha maxi pel servidor.",
 "Files are being scanned, please wait." => "Los fiichièrs son a èsser explorats, ",
-"Current scanning" => "Exploracion en cors",
-"file" => "fichièr",
-"files" => "fichièrs"
+"Current scanning" => "Exploracion en cors"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";
