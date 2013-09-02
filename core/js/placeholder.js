@@ -41,16 +41,13 @@
 (function ($) {
 	$.fn.placeholder = function(seed) {
 		var hash = md5(seed),
-			maxRange = parseInt('ffffffffff', 16),
-			red = parseInt(hash.substr(0,10), 16) / maxRange * 256,
-			green = parseInt(hash.substr(10,10), 16) / maxRange * 256,
-			blue = parseInt(hash.substr(20,10), 16) / maxRange * 256,
-			rgb = [Math.floor(red), Math.floor(green), Math.floor(blue)],
+			maxRange = parseInt('ffffffffffffffffffffffffffffffff', 16),
+			hue = parseInt(hash, 16) / maxRange * 256,
 			height = this.height();
-		this.css('background-color', 'rgb(' + rgb.join(',') + ')');
+		this.css('background-color', 'hsl(' + hue + ', 50%, 50%)');
 
 		// CSS rules
-		this.css('color', 'rgb(255, 255, 255)');
+		this.css('color', '#fff');
 		this.css('font-weight', 'bold');
 		this.css('text-align', 'center');
 
