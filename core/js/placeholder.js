@@ -34,7 +34,7 @@
  *
  * Which will result in:
  *
- * <div id="albumart" style="background-color: rgb(123, 123, 123); ... ">T</div>
+ * <div id="albumart" style="background-color: hsl(123, 90%, 65%r); ... ">T</div>
  *
  */
 
@@ -44,7 +44,7 @@
 			maxRange = parseInt('ffffffffffffffffffffffffffffffff', 16),
 			hue = parseInt(hash, 16) / maxRange * 256,
 			height = this.height();
-		this.css('background-color', 'hsl(' + hue + ', 50%, 50%)');
+		this.css('background-color', 'hsl(' + hue + ', 90%, 65%)');
 
 		// CSS rules
 		this.css('color', '#fff');
