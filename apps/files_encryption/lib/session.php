@@ -113,6 +113,33 @@ class Session {
 	}
 
 	/**
+	 * @brief Sets status if we tried to initialize the encyption app
+	 * @param bool $privateKey true=initialized false=not initialized
+	 * @return bool
+	 */
+	public function setInitialized($init) {
+
+		\OC::$session->set('encryptionInitialized', $init);
+
+		return true;
+
+	}
+
+
+	/**
+	 * @brief Gets status if we already tried to initialize the encryption app
+	 * @returns bool
+	 *
+	 */
+	public function getInitialized() {
+		if (!is_null(\OC::$session->get('encryptionInitialized'))) {
+			return \OC::$session->get('encryptionInitialized');
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * @brief Gets user or public share private key from session
 	 * @returns string $privateKey The user's plaintext private key
 	 *

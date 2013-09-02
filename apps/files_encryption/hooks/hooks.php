@@ -70,8 +70,6 @@ class Hooks {
 		// If migration not yet done
 		if ($ready) {
 
-			$util->setInitialized(Util::ENCRYPTION_INITIALIZED);
-
 			$userView = new \OC_FilesystemView('/' . $params['uid']);
 
 			// Set legacy encryption key if it exists, to support
@@ -145,7 +143,6 @@ class Hooks {
 	 * @brief If the password can't be changed within ownCloud, than update the key password in advance.
 	 */
 	public static function preSetPassphrase($params) {
-		return true;
 		if ( ! \OC_User::canUserChangePassword($params['uid']) ) {
 			self::setPassphrase($params);
 		}
@@ -156,7 +153,6 @@ class Hooks {
 	 * @param array $params keys: uid, password
 	 */
 	public static function setPassphrase($params) {
-		return true;
 		// Only attempt to change passphrase if server-side encryption
 		// is in use (client-side encryption does not have access to
 		// the necessary keys)
@@ -550,8 +546,8 @@ class Hooks {
 			$setMigrationStatus = \OC_DB::prepare('UPDATE `*PREFIX*encryption` SET `migration_status`=0');
 			$setMigrationStatus->execute();
 
-			$setInitStatus = \OC_DB::prepare('UPDATE `*PREFIX*encryption` SET `initialized`=0');
-			$setInitStatus->execute();
+			$session = new \OCA\Encryption\Session(new \OC\Files\View('/'));
+			$session->setInitialized(false);
 		}
 	}
 

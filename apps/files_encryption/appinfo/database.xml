@@ -34,13 +34,6 @@
 				<default>0</default>
 				<comments>Whether encryption migration has been performed</comments>
 			</field>
-			<field>
-				<name>initialized</name>
-				<type>integer</type>
-				<notnull>true</notnull>
-				<default>0</default>
-				<comments>Did the user initialized the encryption app at least once</comments>
-			</field>
 		</declaration>
 	</table>
 </database>

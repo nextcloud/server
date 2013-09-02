@@ -235,11 +235,11 @@ class Helper {
 	/**
 	 * @brief redirect to a error page
 	 */
-	public static function redirectToErrorPage($util) {
+	public static function redirectToErrorPage($session) {
 
 		$l = \OC_L10N::get('files_encryption');
 
-		if ($util->getInitialized() === false) {
+		if ($session->getInitialized() === false) {
 			$errorMsg = $l->t('Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app.');
 		} else {
 			$errorMsg = $l->t('Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files.');
