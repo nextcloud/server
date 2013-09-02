@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:06+0000\n"
+"POT-Creation-Date: 2013-09-01 13:27-0400\n"
+"PO-Revision-Date: 2013-08-30 13:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -74,7 +74,11 @@ msgstr "შეცდომა დისკზე ჩაწერისას"
 msgid "Not enough storage available"
 msgstr "საცავში საკმარისი ადგილი არ არის"
 
-#: ajax/upload.php:123
+#: ajax/upload.php:109
+msgid "Upload failed"
+msgstr "ატვირთვა ვერ განხორციელდა"
+
+#: ajax/upload.php:127
 msgid "Invalid directory."
 msgstr "დაუშვებელი დირექტორია."
 
@@ -94,21 +98,20 @@ msgstr "საკმარისი ადგილი არ არის"
 msgid "Upload cancelled."
 msgstr "ატვირთვა შეჩერებულ იქნა."
 
-#: js/file-upload.js:167 js/files.js:280
+#: js/file-upload.js:165
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "მიმდინარეობს ფაილის ატვირთვა. სხვა გვერდზე გადასვლა გამოიწვევს ატვირთვის შეჩერებას"
 
-#: js/file-upload.js:233 js/files.js:353
+#: js/file-upload.js:239
 msgid "URL cannot be empty."
 msgstr "URL არ შეიძლება იყოს ცარიელი."
 
-#: js/file-upload.js:238 lib/app.php:53
+#: js/file-upload.js:244 lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
 msgstr ""
 
-#: js/file-upload.js:269 js/file-upload.js:285 js/files.js:389 js/files.js:405
-#: js/files.js:709 js/files.js:747
+#: js/file-upload.js:276 js/file-upload.js:292 js/files.js:512 js/files.js:550
 msgid "Error"
 msgstr "შეცდომა"
 
@@ -124,40 +127,54 @@ msgstr "სრულად წაშლა"
 msgid "Rename"
 msgstr "გადარქმევა"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
+#: js/filelist.js:50 js/filelist.js:53 js/filelist.js:575
 msgid "Pending"
 msgstr "მოცდის რეჟიმში"
 
-#: js/filelist.js:303 js/filelist.js:305
+#: js/filelist.js:307 js/filelist.js:309
 msgid "{new_name} already exists"
 msgstr "{new_name} უკვე არსებობს"
 
-#: js/filelist.js:303 js/filelist.js:305
+#: js/filelist.js:307 js/filelist.js:309
 msgid "replace"
 msgstr "შეცვლა"
 
-#: js/filelist.js:303
+#: js/filelist.js:307
 msgid "suggest name"
 msgstr "სახელის შემოთავაზება"
 
-#: js/filelist.js:303 js/filelist.js:305
+#: js/filelist.js:307 js/filelist.js:309
 msgid "cancel"
 msgstr "უარყოფა"
 
-#: js/filelist.js:350
+#: js/filelist.js:354
 msgid "replaced {new_name} with {old_name}"
 msgstr "{new_name} შეცვლილია {old_name}–ით"
 
-#: js/filelist.js:350
+#: js/filelist.js:354
 msgid "undo"
 msgstr "დაბრუნება"
 
-#: js/filelist.js:453
+#: js/filelist.js:424 js/filelist.js:490 js/files.js:581
+msgid "%n folder"
+msgid_plural "%n folders"
+msgstr[0] ""
+
+#: js/filelist.js:425 js/filelist.js:491 js/files.js:587
+msgid "%n file"
+msgid_plural "%n files"
+msgstr[0] ""
+
+#: js/filelist.js:432
+msgid "{dirs} and {files}"
+msgstr ""
+
+#: js/filelist.js:563
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] ""
 
-#: js/filelist.js:518
+#: js/filelist.js:628
 msgid "files uploading"
 msgstr "ფაილები იტვირთება"
 
@@ -195,31 +212,17 @@ msgid ""
 "big."
 msgstr "გადმოწერის მოთხოვნა მუშავდება. ის მოითხოვს გარკვეულ დროს რაგდან ფაილები არის დიდი ზომის."
 
-#: js/files.js:358
-msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr "დაუშვებელი ფოლდერის სახელი.  'Shared'–ის გამოყენება რეზერვირებულია Owncloud–ის მიერ"
-
-#: js/files.js:760 templates/index.php:67
+#: js/files.js:563 templates/index.php:69
 msgid "Name"
 msgstr "სახელი"
 
-#: js/files.js:761 templates/index.php:78
+#: js/files.js:564 templates/index.php:81
 msgid "Size"
 msgstr "ზომა"
 
-#: js/files.js:762 templates/index.php:80
+#: js/files.js:565 templates/index.php:83
 msgid "Modified"
 msgstr "შეცვლილია"
-
-#: js/files.js:778
-msgid "%n folder"
-msgid_plural "%n folders"
-msgstr[0] ""
-
-#: js/files.js:784
-msgid "%n file"
-msgid_plural "%n files"
-msgstr[0] ""
 
 #: lib/app.php:73
 #, php-format
@@ -294,51 +297,35 @@ msgstr "თქვენ არ გაქვთ ჩაწერის უფლ�
 msgid "Nothing in here. Upload something!"
 msgstr "აქ არაფერი არ არის. ატვირთე რამე!"
 
-#: templates/index.php:73
+#: templates/index.php:75
 msgid "Download"
 msgstr "ჩამოტვირთვა"
 
-#: templates/index.php:85 templates/index.php:86
+#: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
 msgstr "გაუზიარებადი"
 
-#: templates/index.php:91 templates/index.php:92
+#: templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "წაშლა"
 
-#: templates/index.php:105
+#: templates/index.php:108
 msgid "Upload too large"
 msgstr "ასატვირთი ფაილი ძალიან დიდია"
 
-#: templates/index.php:107
+#: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "ფაილის ზომა რომლის ატვირთვასაც თქვენ აპირებთ, აჭარბებს სერვერზე დაშვებულ მაქსიმუმს."
 
-#: templates/index.php:112
+#: templates/index.php:115
 msgid "Files are being scanned, please wait."
 msgstr "მიმდინარეობს ფაილების სკანირება, გთხოვთ დაელოდოთ."
 
-#: templates/index.php:115
+#: templates/index.php:118
 msgid "Current scanning"
 msgstr "მიმდინარე სკანირება"
-
-#: templates/part.list.php:74
-msgid "directory"
-msgstr ""
-
-#: templates/part.list.php:76
-msgid "directories"
-msgstr ""
-
-#: templates/part.list.php:85
-msgid "file"
-msgstr ""
-
-#: templates/part.list.php:87
-msgid "files"
-msgstr ""
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

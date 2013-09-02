@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-01 13:27-0400\n"
+"PO-Revision-Date: 2013-08-31 00:40+0000\n"
+"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,10 +44,6 @@ msgstr "グループは既に存在しています"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "グループを追加できません"
-
-#: ajax/enableapp.php:11
-msgid "Could not enable app. "
-msgstr "アプリを有効にできませんでした。"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -91,41 +87,53 @@ msgstr "ユーザをグループ %s から削除できません"
 msgid "Couldn't update app."
 msgstr "アプリを更新出来ませんでした。"
 
-#: js/apps.js:35
+#: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "{appversion} に更新"
 
-#: js/apps.js:41 js/apps.js:81
+#: js/apps.js:49 js/apps.js:82 js/apps.js:108
 msgid "Disable"
 msgstr "無効"
 
-#: js/apps.js:41 js/apps.js:69 js/apps.js:88
+#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
 msgid "Enable"
 msgstr "有効化"
 
-#: js/apps.js:60
+#: js/apps.js:71
 msgid "Please wait...."
 msgstr "しばらくお待ちください。"
 
-#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
-msgid "Error"
-msgstr "エラー"
+#: js/apps.js:79 js/apps.js:80 js/apps.js:100
+msgid "Error while disabling app"
+msgstr "アプリ無効化中にエラーが発生"
 
-#: js/apps.js:95
+#: js/apps.js:99 js/apps.js:112 js/apps.js:113
+msgid "Error while enabling app"
+msgstr "アプリ有効化中にエラーが発生"
+
+#: js/apps.js:123
 msgid "Updating...."
 msgstr "更新中...."
 
-#: js/apps.js:98
+#: js/apps.js:126
 msgid "Error while updating app"
 msgstr "アプリの更新中にエラーが発生"
 
-#: js/apps.js:101
+#: js/apps.js:126
+msgid "Error"
+msgstr "エラー"
+
+#: js/apps.js:127 templates/apps.php:43
+msgid "Update"
+msgstr "更新"
+
+#: js/apps.js:130
 msgid "Updated"
 msgstr "更新済み"
 
 #: js/personal.js:150
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "ファイルを複合中... しばらくお待ちください、この処理には少し時間がかかるかもしれません。"
 
 #: js/personal.js:172
 msgid "Saving..."
@@ -148,27 +156,27 @@ msgstr "ユーザを削除出来ません"
 msgid "Groups"
 msgstr "グループ"
 
-#: js/users.js:95 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "グループ管理者"
 
-#: js/users.js:115 templates/users.php:164
+#: js/users.js:120 templates/users.php:164
 msgid "Delete"
 msgstr "削除"
 
-#: js/users.js:269
+#: js/users.js:277
 msgid "add group"
 msgstr "グループを追加"
 
-#: js/users.js:428
+#: js/users.js:436
 msgid "A valid username must be provided"
 msgstr "有効なユーザ名を指定する必要があります"
 
-#: js/users.js:429 js/users.js:435 js/users.js:450
+#: js/users.js:437 js/users.js:443 js/users.js:458
 msgid "Error creating user"
 msgstr "ユーザ作成エラー"
 
-#: js/users.js:434
+#: js/users.js:442
 msgid "A valid password must be provided"
 msgstr "有効なパスワードを指定する必要があります"
 
@@ -372,10 +380,6 @@ msgstr "apps.owncloud.com でアプリケーションのページを見てくだ
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-ライセンス: <span class=\"author\"></span>"
 
-#: templates/apps.php:43
-msgid "Update"
-msgstr "更新"
-
 #: templates/help.php:4
 msgid "User Documentation"
 msgstr "ユーザドキュメント"
@@ -474,19 +478,19 @@ msgstr "<a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\"
 
 #: templates/personal.php:117
 msgid "Encryption"
-msgstr ""
+msgstr "暗号化"
 
 #: templates/personal.php:119
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr ""
+msgstr "暗号化アプリはもはや有効ではありません、すべてのファイルを複合してください"
 
 #: templates/personal.php:125
 msgid "Log-in password"
-msgstr ""
+msgstr "ログインパスワード"
 
 #: templates/personal.php:130
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "すべてのファイルを複合する"
 
 #: templates/users.php:21
 msgid "Login Name"

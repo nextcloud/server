@@ -11,7 +11,7 @@ class Helper
 		$maxHumanFilesize = $l->t('Upload') . ' max. ' . $maxHumanFilesize;
 
 		// information about storage capacities
-		$storageInfo = \OC_Helper::getStorageInfo();
+		$storageInfo = \OC_Helper::getStorageInfo($dir);
 
 		return array('uploadMaxFilesize' => $maxUploadFilesize,
 					 'maxHumanFilesize'  => $maxHumanFilesize,

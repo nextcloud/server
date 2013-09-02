@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:06+0000\n"
+"POT-Creation-Date: 2013-09-01 13:27-0400\n"
+"PO-Revision-Date: 2013-08-30 13:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -25,6 +25,35 @@ msgstr ""
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s partilhado »%s« contigo"
+
+#: ajax/share.php:227
+msgid "group"
+msgstr "grupo"
+
+#: ajax/update.php:11
+msgid "Turned on maintenance mode"
+msgstr ""
+
+#: ajax/update.php:14
+msgid "Turned off maintenance mode"
+msgstr ""
+
+#: ajax/update.php:17
+msgid "Updated database"
+msgstr ""
+
+#: ajax/update.php:20
+msgid "Updating filecache, this may take really long..."
+msgstr ""
+
+#: ajax/update.php:23
+msgid "Updated filecache"
+msgstr ""
+
+#: ajax/update.php:26
+#, php-format
+msgid "... %d%% done ..."
+msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -197,23 +226,23 @@ msgstr "ano passado"
 msgid "years ago"
 msgstr "anos atrás"
 
-#: js/oc-dialogs.js:117
+#: js/oc-dialogs.js:123
 msgid "Choose"
 msgstr "Escolha"
 
-#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
+#: js/oc-dialogs.js:143 js/oc-dialogs.js:210
 msgid "Error loading file picker template"
 msgstr "Erro ao carregar arquivo do separador modelo"
 
-#: js/oc-dialogs.js:160
+#: js/oc-dialogs.js:168
 msgid "Yes"
 msgstr "Sim"
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:178
 msgid "No"
 msgstr "Não"
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:195
 msgid "Ok"
 msgstr "Ok"
 
@@ -446,7 +475,7 @@ msgstr "Pessoal"
 msgid "Users"
 msgstr "Utilizadores"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "Aplicações"
 
@@ -579,10 +608,6 @@ msgstr "%s está disponível. Tenha mais informações como actualizar."
 msgid "Log out"
 msgstr "Sair"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr ""
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Login automático rejeitado!"
@@ -597,19 +622,19 @@ msgstr "Se não mudou a sua palavra-passe recentemente, a sua conta pode ter sid
 msgid "Please change your password to secure your account again."
 msgstr "Por favor mude a sua palavra-passe para assegurar a sua conta de novo."
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "Esqueceu-se da sua password?"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "lembrar"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "Entrar"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr "Contas de acesso alternativas"
 

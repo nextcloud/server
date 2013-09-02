@@ -249,6 +249,7 @@ class View {
 		$hooks = array('touch');
 
 		if (!$this->file_exists($path)) {
+			$hooks[] = 'create';
 			$hooks[] = 'write';
 		}
 		$result = $this->basicOperation('touch', $path, $hooks, $mtime);

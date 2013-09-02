@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Art O. Pal <artopal@fastmail.fm>, 2013
+# eadeprado <eadeprado@outlook.com>, 2013
 # ggam <ggam@brainleakage.com>, 2013
 # pablomillaquen <pablomillaquen@gmail.com>, 2013
 # qdneren <renanqd@yahoo.com.mx>, 2013
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:10+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-27 11:18-0400\n"
+"PO-Revision-Date: 2013-08-26 08:01+0000\n"
+"Last-Translator: eadeprado <eadeprado@outlook.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,7 +39,7 @@ msgstr "Su nombre fue cambiado."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
-msgstr "No se pudo cambiar el nombre"
+msgstr "No se pudo cambiar el nombre de usuario"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -47,10 +48,6 @@ msgstr "El grupo ya existe"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "No se pudo añadir el grupo"
-
-#: ajax/enableapp.php:11
-msgid "Could not enable app. "
-msgstr "No puedo habilitar la aplicación."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -98,31 +95,43 @@ msgstr "No se pudo actualizar la aplicacion."
 msgid "Update to {appversion}"
 msgstr "Actualizado a {appversion}"
 
-#: js/apps.js:41 js/apps.js:81
+#: js/apps.js:41 js/apps.js:74 js/apps.js:100
 msgid "Disable"
 msgstr "Desactivar"
 
-#: js/apps.js:41 js/apps.js:69 js/apps.js:88
+#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
 msgid "Enable"
 msgstr "Activar"
 
-#: js/apps.js:60
+#: js/apps.js:63
 msgid "Please wait...."
 msgstr "Espere, por favor...."
 
-#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
-msgid "Error"
-msgstr "Error"
+#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+msgid "Error while disabling app"
+msgstr ""
 
-#: js/apps.js:95
+#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+msgid "Error while enabling app"
+msgstr ""
+
+#: js/apps.js:115
 msgid "Updating...."
 msgstr "Actualizando...."
 
-#: js/apps.js:98
+#: js/apps.js:118
 msgid "Error while updating app"
 msgstr "Error mientras se actualizaba la aplicación"
 
-#: js/apps.js:101
+#: js/apps.js:118
+msgid "Error"
+msgstr "Error"
+
+#: js/apps.js:119 templates/apps.php:43
+msgid "Update"
+msgstr "Actualizar"
+
+#: js/apps.js:122
 msgid "Updated"
 msgstr "Actualizado"
 
@@ -136,7 +145,7 @@ msgstr "Guardando..."
 
 #: js/users.js:47
 msgid "deleted"
-msgstr "borrado"
+msgstr "Eliminado"
 
 #: js/users.js:47
 msgid "undo"
@@ -151,29 +160,29 @@ msgstr "No se puede eliminar el usuario"
 msgid "Groups"
 msgstr "Grupos"
 
-#: js/users.js:95 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
-msgstr "Grupo administrador"
+msgstr "Administrador del Grupo"
 
-#: js/users.js:115 templates/users.php:164
+#: js/users.js:120 templates/users.php:164
 msgid "Delete"
 msgstr "Eliminar"
 
-#: js/users.js:269
+#: js/users.js:277
 msgid "add group"
 msgstr "añadir Grupo"
 
-#: js/users.js:428
+#: js/users.js:436
 msgid "A valid username must be provided"
-msgstr "Se debe usar un nombre de usuario  válido"
+msgstr "Se debe proporcionar un nombre de usuario  válido"
 
-#: js/users.js:429 js/users.js:435 js/users.js:450
+#: js/users.js:437 js/users.js:443 js/users.js:458
 msgid "Error creating user"
 msgstr "Error al crear usuario"
 
-#: js/users.js:434
+#: js/users.js:442
 msgid "A valid password must be provided"
-msgstr "Se debe usar una contraseña valida"
+msgstr "Se debe proporcionar una contraseña valida"
 
 #: personal.php:40 personal.php:41
 msgid "__language_name__"
@@ -200,7 +209,7 @@ msgstr "Advertencia de configuración"
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr "Su servidor web aún no está configurado adecuadamente para permitir sincronización de archivos ya que la interfaz WebDAV parece no estar funcionando."
+msgstr "Su servidor web aún no está configurado adecuadamente para permitir la sincronización de archivos ya que la interfaz WebDAV parece no estar funcionando."
 
 #: templates/admin.php:33
 #, php-format
@@ -209,7 +218,7 @@ msgstr "Por favor, vuelva a comprobar las <a href='%s'>guías de instalación</a
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr "Modulo 'fileinfo' perdido"
+msgstr "Módulo 'fileinfo' perdido"
 
 #: templates/admin.php:47
 msgid ""
@@ -295,7 +304,7 @@ msgstr "Permitir re-compartición"
 
 #: templates/admin.php:153
 msgid "Allow users to share items shared with them again"
-msgstr "Permitir a los usuarios compartir elementos ya compartidos con ellos mismos"
+msgstr "Permitir a los usuarios compartir de nuevo elementos ya compartidos"
 
 #: templates/admin.php:160
 msgid "Allow users to share with anyone"
@@ -374,10 +383,6 @@ msgstr "Echa un vistazo a la web de aplicaciones apps.owncloud.com"
 #: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licenciado por <span class=\"author\"></span>"
-
-#: templates/apps.php:43
-msgid "Update"
-msgstr "Actualizar"
 
 #: templates/help.php:4
 msgid "User Documentation"

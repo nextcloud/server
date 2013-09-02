@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:10+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-28 06:22-0400\n"
+"PO-Revision-Date: 2013-08-27 15:40+0000\n"
+"Last-Translator: Sappe\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,10 +44,6 @@ msgstr "Gruppen findes allerede"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Gruppen kan ikke oprettes"
-
-#: ajax/enableapp.php:11
-msgid "Could not enable app. "
-msgstr "Applikationen kunne ikke aktiveres."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -95,37 +91,49 @@ msgstr "Kunne ikke opdatere app'en."
 msgid "Update to {appversion}"
 msgstr "Opdatér til {appversion}"
 
-#: js/apps.js:41 js/apps.js:81
+#: js/apps.js:41 js/apps.js:74 js/apps.js:100
 msgid "Disable"
 msgstr "Deaktiver"
 
-#: js/apps.js:41 js/apps.js:69 js/apps.js:88
+#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
 msgid "Enable"
 msgstr "Aktiver"
 
-#: js/apps.js:60
+#: js/apps.js:63
 msgid "Please wait...."
 msgstr "Vent venligst..."
 
-#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
-msgid "Error"
-msgstr "Fejl"
+#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+msgid "Error while disabling app"
+msgstr "Kunne ikke deaktivere app"
 
-#: js/apps.js:95
+#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+msgid "Error while enabling app"
+msgstr "Kunne ikke aktivere app"
+
+#: js/apps.js:115
 msgid "Updating...."
 msgstr "Opdaterer...."
 
-#: js/apps.js:98
+#: js/apps.js:118
 msgid "Error while updating app"
 msgstr "Der opstod en fejl under app opgraderingen"
 
-#: js/apps.js:101
+#: js/apps.js:118
+msgid "Error"
+msgstr "Fejl"
+
+#: js/apps.js:119 templates/apps.php:43
+msgid "Update"
+msgstr "Opdater"
+
+#: js/apps.js:122
 msgid "Updated"
 msgstr "Opdateret"
 
 #: js/personal.js:150
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "Dekryptere filer... Vent venligst, dette kan tage lang tid. "
 
 #: js/personal.js:172
 msgid "Saving..."
@@ -148,27 +156,27 @@ msgstr "Kan ikke fjerne bruger"
 msgid "Groups"
 msgstr "Grupper"
 
-#: js/users.js:95 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "Gruppe Administrator"
 
-#: js/users.js:115 templates/users.php:164
+#: js/users.js:120 templates/users.php:164
 msgid "Delete"
 msgstr "Slet"
 
-#: js/users.js:269
+#: js/users.js:277
 msgid "add group"
 msgstr "Tilføj gruppe"
 
-#: js/users.js:428
+#: js/users.js:436
 msgid "A valid username must be provided"
 msgstr "Et gyldigt brugernavn skal angives"
 
-#: js/users.js:429 js/users.js:435 js/users.js:450
+#: js/users.js:437 js/users.js:443 js/users.js:458
 msgid "Error creating user"
 msgstr "Fejl ved oprettelse af bruger"
 
-#: js/users.js:434
+#: js/users.js:442
 msgid "A valid password must be provided"
 msgstr "En gyldig adgangskode skal angives"
 
@@ -372,10 +380,6 @@ msgstr "Se applikationens side på apps.owncloud.com"
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licenseret af <span class=\"author\"></span>"
 
-#: templates/apps.php:43
-msgid "Update"
-msgstr "Opdater"
-
 #: templates/help.php:4
 msgid "User Documentation"
 msgstr "Brugerdokumentation"
@@ -478,15 +482,15 @@ msgstr "Kryptering"
 
 #: templates/personal.php:119
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr ""
+msgstr "Krypterings app'en er ikke længere aktiv. Dekrypter alle dine filer. "
 
 #: templates/personal.php:125
 msgid "Log-in password"
-msgstr ""
+msgstr "Log-in kodeord"
 
 #: templates/personal.php:130
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Dekrypter alle Filer "
 
 #: templates/users.php:21
 msgid "Login Name"

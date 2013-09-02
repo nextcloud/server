@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-01 13:27-0400\n"
+"PO-Revision-Date: 2013-08-31 14:50+0000\n"
+"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,10 +45,6 @@ msgstr "O grupo já existe"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Impossível acrescentar o grupo"
-
-#: ajax/enableapp.php:11
-msgid "Could not enable app. "
-msgstr "Não foi possível activar a app."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -92,41 +88,53 @@ msgstr "Impossível apagar utilizador do grupo %s"
 msgid "Couldn't update app."
 msgstr "Não foi possível actualizar a aplicação."
 
-#: js/apps.js:35
+#: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Actualizar para a versão {appversion}"
 
-#: js/apps.js:41 js/apps.js:81
+#: js/apps.js:49 js/apps.js:82 js/apps.js:108
 msgid "Disable"
 msgstr "Desactivar"
 
-#: js/apps.js:41 js/apps.js:69 js/apps.js:88
+#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
 msgid "Enable"
 msgstr "Activar"
 
-#: js/apps.js:60
+#: js/apps.js:71
 msgid "Please wait...."
 msgstr "Por favor aguarde..."
 
-#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
-msgid "Error"
-msgstr "Erro"
+#: js/apps.js:79 js/apps.js:80 js/apps.js:100
+msgid "Error while disabling app"
+msgstr "Erro enquanto desactivava a aplicação"
 
-#: js/apps.js:95
+#: js/apps.js:99 js/apps.js:112 js/apps.js:113
+msgid "Error while enabling app"
+msgstr "Erro enquanto activava a aplicação"
+
+#: js/apps.js:123
 msgid "Updating...."
 msgstr "A Actualizar..."
 
-#: js/apps.js:98
+#: js/apps.js:126
 msgid "Error while updating app"
 msgstr "Erro enquanto actualizava a aplicação"
 
-#: js/apps.js:101
+#: js/apps.js:126
+msgid "Error"
+msgstr "Erro"
+
+#: js/apps.js:127 templates/apps.php:43
+msgid "Update"
+msgstr "Actualizar"
+
+#: js/apps.js:130
 msgid "Updated"
 msgstr "Actualizado"
 
 #: js/personal.js:150
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "A desencriptar os ficheiros... Por favor aguarde, esta operação pode demorar algum tempo."
 
 #: js/personal.js:172
 msgid "Saving..."
@@ -149,27 +157,27 @@ msgstr "Não foi possível remover o utilizador"
 msgid "Groups"
 msgstr "Grupos"
 
-#: js/users.js:95 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "Grupo Administrador"
 
-#: js/users.js:115 templates/users.php:164
+#: js/users.js:120 templates/users.php:164
 msgid "Delete"
 msgstr "Eliminar"
 
-#: js/users.js:269
+#: js/users.js:277
 msgid "add group"
 msgstr "Adicionar grupo"
 
-#: js/users.js:428
+#: js/users.js:436
 msgid "A valid username must be provided"
 msgstr "Um nome de utilizador válido deve ser fornecido"
 
-#: js/users.js:429 js/users.js:435 js/users.js:450
+#: js/users.js:437 js/users.js:443 js/users.js:458
 msgid "Error creating user"
 msgstr "Erro a criar utilizador"
 
-#: js/users.js:434
+#: js/users.js:442
 msgid "A valid password must be provided"
 msgstr "Uma password válida deve ser fornecida"
 
@@ -373,10 +381,6 @@ msgstr "Ver a página da aplicação em apps.owncloud.com"
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licenciado por <span class=\"author\"></span>"
 
-#: templates/apps.php:43
-msgid "Update"
-msgstr "Actualizar"
-
 #: templates/help.php:4
 msgid "User Documentation"
 msgstr "Documentação de Utilizador"
@@ -475,19 +479,19 @@ msgstr "Use este endereço para <a href=\"%s/server/5.0/user_manual/files/files.
 
 #: templates/personal.php:117
 msgid "Encryption"
-msgstr ""
+msgstr "Encriptação"
 
 #: templates/personal.php:119
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr ""
+msgstr "A aplicação de encriptação não se encontra mais disponível, desencripte o seu ficheiro"
 
 #: templates/personal.php:125
 msgid "Log-in password"
-msgstr ""
+msgstr "Password de entrada"
 
 #: templates/personal.php:130
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Desencriptar todos os ficheiros"
 
 #: templates/users.php:21
 msgid "Login Name"

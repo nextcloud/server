@@ -4,13 +4,14 @@
 # 
 # Translators:
 # mhh <marian.hvolka@stuba.sk>, 2013
+# martin, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:59+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-30 09:31-0400\n"
+"PO-Revision-Date: 2013-08-28 18:40+0000\n"
+"Last-Translator: martin\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,22 +61,22 @@ msgid ""
 "ownCloud system (e.g. your corporate directory). You can update your private"
 " key password in your personal settings to recover access to your encrypted "
 "files."
-msgstr ""
+msgstr "Váš privátny kľúč je nesprávny! Pravdepodobne bolo zmenené vaše heslo mimo systému ownCloud (napr. váš korporátny adresár). Môžte aktualizovať vaše heslo privátneho kľúča v osobných nastaveniach za účelom obnovenia prístupu k zašifrovaným súborom."
 
-#: hooks/hooks.php:44
+#: hooks/hooks.php:41
 msgid "Missing requirements."
-msgstr ""
+msgstr "Chýbajúce požiadavky."
 
-#: hooks/hooks.php:45
+#: hooks/hooks.php:42
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
-msgstr ""
+msgstr "Prosím uistite sa, že PHP verzie 5.3.3 alebo novšej je nainštalované a tiež, že OpenSSL knižnica spolu z PHP rozšírením je povolená a konfigurovaná správne. Nateraz bola aplikácia šifrovania zablokovaná."
 
-#: hooks/hooks.php:263
+#: hooks/hooks.php:249
 msgid "Following users are not set up for encryption:"
-msgstr ""
+msgstr "Nasledujúci používatelia nie sú nastavení pre šifrovanie:"
 
 #: js/settings-admin.js:11
 msgid "Saving..."
@@ -89,7 +90,7 @@ msgstr "Váš súkromný kľúč je neplatný. Možno bolo Vaše heslo zmenené 
 
 #: templates/invalid_private_key.php:7
 msgid "You can unlock your private key in your "
-msgstr ""
+msgstr "Môžte odomknúť váš privátny kľúč v"
 
 #: templates/invalid_private_key.php:7
 msgid "personal settings"
@@ -102,11 +103,11 @@ msgstr "Šifrovanie"
 #: templates/settings-admin.php:10
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
-msgstr ""
+msgstr "Povoliť obnovovací kľúč (umožňuje obnoviť používateľské súbory v prípade straty hesla):"
 
 #: templates/settings-admin.php:14
 msgid "Recovery key password"
-msgstr ""
+msgstr "Heslo obnovovacieho kľúča"
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
@@ -118,15 +119,15 @@ msgstr "Zakázané"
 
 #: templates/settings-admin.php:34
 msgid "Change recovery key password:"
-msgstr ""
+msgstr "Zmeniť heslo obnovovacieho kľúča:"
 
 #: templates/settings-admin.php:41
 msgid "Old Recovery key password"
-msgstr ""
+msgstr "Staré heslo obnovovacieho kľúča"
 
 #: templates/settings-admin.php:48
 msgid "New Recovery key password"
-msgstr ""
+msgstr "Nové heslo obnovovacieho kľúča"
 
 #: templates/settings-admin.php:53
 msgid "Change Password"

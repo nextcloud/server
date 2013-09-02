@@ -4,12 +4,13 @@
 # 
 # Translators:
 # Jiri Grönroos <jiri.gronroos@iki.fi>, 2013
+# ioxo <vahakangas@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:06+0000\n"
+"POT-Creation-Date: 2013-09-01 13:27-0400\n"
+"PO-Revision-Date: 2013-08-30 13:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -22,6 +23,35 @@ msgstr ""
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s jakoi kohteen »%s« kanssasi"
+
+#: ajax/share.php:227
+msgid "group"
+msgstr "ryhmä"
+
+#: ajax/update.php:11
+msgid "Turned on maintenance mode"
+msgstr "Siirrytty ylläpitotilaan"
+
+#: ajax/update.php:14
+msgid "Turned off maintenance mode"
+msgstr "Ylläpitotila laitettu pois päältä"
+
+#: ajax/update.php:17
+msgid "Updated database"
+msgstr "Tietokanta ajan tasalla"
+
+#: ajax/update.php:20
+msgid "Updating filecache, this may take really long..."
+msgstr "Päivitetään tiedostojen välimuistia, tämä saattaa kestää todella kauan..."
+
+#: ajax/update.php:23
+msgid "Updated filecache"
+msgstr "Tiedostojen välimuisti päivitetty"
+
+#: ajax/update.php:26
+#, php-format
+msgid "... %d%% done ..."
+msgstr "... %d%% valmis ..."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -194,23 +224,23 @@ msgstr "viime vuonna"
 msgid "years ago"
 msgstr "vuotta sitten"
 
-#: js/oc-dialogs.js:117
+#: js/oc-dialogs.js:123
 msgid "Choose"
 msgstr "Valitse"
 
-#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
+#: js/oc-dialogs.js:143 js/oc-dialogs.js:210
 msgid "Error loading file picker template"
 msgstr ""
 
-#: js/oc-dialogs.js:160
+#: js/oc-dialogs.js:168
 msgid "Yes"
 msgstr "Kyllä"
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:178
 msgid "No"
 msgstr "Ei"
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:195
 msgid "Ok"
 msgstr "Ok"
 
@@ -313,7 +343,7 @@ msgstr "Jakaminen uudelleen ei ole salittu"
 
 #: js/share.js:317
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "{item} on jaettu {user} kanssa"
 
 #: js/share.js:338
 msgid "Unshare"
@@ -377,7 +407,7 @@ msgstr "Päivitys onnistui. Selain ohjautuu nyt ownCloudiisi."
 #: lostpassword/controller.php:61
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "%s salasanan nollaus"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -443,7 +473,7 @@ msgstr "Henkilökohtainen"
 msgid "Users"
 msgstr "Käyttäjät"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "Sovellukset"
 
@@ -576,10 +606,6 @@ msgstr "%s on saatavilla. Lue lisätietoja, miten päivitys asennetaan."
 msgid "Log out"
 msgstr "Kirjaudu ulos"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr "Lisää sovelluksia"
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Automaattinen sisäänkirjautuminen hylättiin!"
@@ -594,19 +620,19 @@ msgstr "Jos et vaihtanut salasanaasi äskettäin, tilisi saattaa olla murrettu."
 msgid "Please change your password to secure your account again."
 msgstr "Vaihda salasanasi suojataksesi tilisi uudelleen."
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "Unohditko salasanasi?"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "muista"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "Kirjaudu sisään"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr "Vaihtoehtoiset kirjautumiset"
 

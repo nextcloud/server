@@ -4,12 +4,13 @@
 # 
 # Translators:
 # mhh <marian.hvolka@stuba.sk>, 2013
+# martin, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:06+0000\n"
+"POT-Creation-Date: 2013-09-01 13:27-0400\n"
+"PO-Revision-Date: 2013-08-30 13:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -22,6 +23,35 @@ msgstr ""
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s s Vami zdieľa »%s«"
+
+#: ajax/share.php:227
+msgid "group"
+msgstr "skupina"
+
+#: ajax/update.php:11
+msgid "Turned on maintenance mode"
+msgstr "Mód údržby zapnutý"
+
+#: ajax/update.php:14
+msgid "Turned off maintenance mode"
+msgstr "Mód údržby vypnutý"
+
+#: ajax/update.php:17
+msgid "Updated database"
+msgstr "Databáza aktualizovaná"
+
+#: ajax/update.php:20
+msgid "Updating filecache, this may take really long..."
+msgstr "Aktualizácia \"filecache\", toto môže trvať dlhšie..."
+
+#: ajax/update.php:23
+msgid "Updated filecache"
+msgstr "\"Filecache\" aktualizovaná"
+
+#: ajax/update.php:26
+#, php-format
+msgid "... %d%% done ..."
+msgstr "... %d%% dokončených ..."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -149,16 +179,16 @@ msgstr "pred sekundami"
 #: js/js.js:813
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "pred %n minútou"
+msgstr[1] "pred %n minútami"
+msgstr[2] "pred %n minútami"
 
 #: js/js.js:814
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "pred %n hodinou"
+msgstr[1] "pred %n hodinami"
+msgstr[2] "pred %n hodinami"
 
 #: js/js.js:815
 msgid "today"
@@ -171,9 +201,9 @@ msgstr "včera"
 #: js/js.js:817
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "pred %n dňom"
+msgstr[1] "pred %n dňami"
+msgstr[2] "pred %n dňami"
 
 #: js/js.js:818
 msgid "last month"
@@ -182,9 +212,9 @@ msgstr "minulý mesiac"
 #: js/js.js:819
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "pred %n mesiacom"
+msgstr[1] "pred %n mesiacmi"
+msgstr[2] "pred %n mesiacmi"
 
 #: js/js.js:820
 msgid "months ago"
@@ -198,23 +228,23 @@ msgstr "minulý rok"
 msgid "years ago"
 msgstr "pred rokmi"
 
-#: js/oc-dialogs.js:117
+#: js/oc-dialogs.js:123
 msgid "Choose"
 msgstr "Výber"
 
-#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
+#: js/oc-dialogs.js:143 js/oc-dialogs.js:210
 msgid "Error loading file picker template"
 msgstr "Chyba pri načítaní šablóny výberu súborov"
 
-#: js/oc-dialogs.js:160
+#: js/oc-dialogs.js:168
 msgid "Yes"
 msgstr "Áno"
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:178
 msgid "No"
 msgstr "Nie"
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:195
 msgid "Ok"
 msgstr "Ok"
 
@@ -381,7 +411,7 @@ msgstr "Aktualizácia bola úspešná. Presmerovávam na prihlasovaciu stránku.
 #: lostpassword/controller.php:61
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "reset hesla %s"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -447,7 +477,7 @@ msgstr "Osobné"
 msgid "Users"
 msgstr "Používatelia"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "Aplikácie"
 
@@ -580,10 +610,6 @@ msgstr "%s je dostupná. Získajte viac informácií k postupu aktualizáce."
 msgid "Log out"
 msgstr "Odhlásiť"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr ""
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Automatické prihlásenie bolo zamietnuté!"
@@ -598,19 +624,19 @@ msgstr "V nedávnej dobe ste nezmenili svoje heslo, Váš účet môže byť kom
 msgid "Please change your password to secure your account again."
 msgstr "Prosím, zmeňte svoje heslo pre opätovné zabezpečenie Vášho účtu"
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "Zabudli ste heslo?"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "zapamätať"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "Prihlásiť sa"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr "Alternatívne prihlasovanie"
 

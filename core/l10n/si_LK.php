@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "කණ්ඩායම",
 "No categories selected for deletion." => "මකා දැමීම සඳහා ප්‍රවර්ගයන් තෝරා නොමැත.",
 "Sunday" => "ඉරිදා",
 "Monday" => "සඳුදා",

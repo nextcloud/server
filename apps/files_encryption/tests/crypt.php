@@ -7,16 +7,16 @@
  * See the COPYING-README file.
  */
 
-require_once realpath(dirname(__FILE__) . '/../3rdparty/Crypt_Blowfish/Blowfish.php');
-require_once realpath(dirname(__FILE__) . '/../../../lib/base.php');
-require_once realpath(dirname(__FILE__) . '/../lib/crypt.php');
-require_once realpath(dirname(__FILE__) . '/../lib/keymanager.php');
-require_once realpath(dirname(__FILE__) . '/../lib/proxy.php');
-require_once realpath(dirname(__FILE__) . '/../lib/stream.php');
-require_once realpath(dirname(__FILE__) . '/../lib/util.php');
-require_once realpath(dirname(__FILE__) . '/../lib/helper.php');
-require_once realpath(dirname(__FILE__) . '/../appinfo/app.php');
-require_once realpath(dirname(__FILE__) . '/util.php');
+require_once __DIR__ . '/../3rdparty/Crypt_Blowfish/Blowfish.php';
+require_once __DIR__ . '/../../../lib/base.php';
+require_once __DIR__ . '/../lib/crypt.php';
+require_once __DIR__ . '/../lib/keymanager.php';
+require_once __DIR__ . '/../lib/proxy.php';
+require_once __DIR__ . '/../lib/stream.php';
+require_once __DIR__ . '/../lib/util.php';
+require_once __DIR__ . '/../lib/helper.php';
+require_once __DIR__ . '/../appinfo/app.php';
+require_once __DIR__ . '/util.php';
 
 use OCA\Encryption;
 
@@ -67,12 +67,12 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->pass = \Test_Encryption_Crypt::TEST_ENCRYPTION_CRYPT_USER1;
 
 		// set content for encrypting / decrypting in tests
-		$this->dataLong = file_get_contents(realpath(dirname(__FILE__) . '/../lib/crypt.php'));
+		$this->dataLong = file_get_contents(__DIR__ . '/../lib/crypt.php');
 		$this->dataShort = 'hats';
-		$this->dataUrl = realpath(dirname(__FILE__) . '/../lib/crypt.php');
-		$this->legacyData = realpath(dirname(__FILE__) . '/legacy-text.txt');
-		$this->legacyEncryptedData = realpath(dirname(__FILE__) . '/legacy-encrypted-text.txt');
-		$this->legacyEncryptedDataKey = realpath(dirname(__FILE__) . '/encryption.key');
+		$this->dataUrl = __DIR__ . '/../lib/crypt.php';
+		$this->legacyData = __DIR__ . '/legacy-text.txt';
+		$this->legacyEncryptedData = __DIR__ . '/legacy-encrypted-text.txt';
+		$this->legacyEncryptedDataKey = __DIR__ . '/encryption.key';
 		$this->randomKey = Encryption\Crypt::generateKey();
 
 		$keypair = Encryption\Crypt::createKeypair();

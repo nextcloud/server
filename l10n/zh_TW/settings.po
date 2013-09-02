@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:10+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-01 13:27-0400\n"
+"PO-Revision-Date: 2013-09-01 14:00+0000\n"
+"Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,10 +42,6 @@ msgstr "群組已存在"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "群組增加失敗"
-
-#: ajax/enableapp.php:11
-msgid "Could not enable app. "
-msgstr "未能啟動此app"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -89,41 +85,53 @@ msgstr "使用者移出群組 %s 錯誤"
 msgid "Couldn't update app."
 msgstr "無法更新應用程式"
 
-#: js/apps.js:35
+#: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "更新至 {appversion}"
 
-#: js/apps.js:41 js/apps.js:81
+#: js/apps.js:49 js/apps.js:82 js/apps.js:108
 msgid "Disable"
 msgstr "停用"
 
-#: js/apps.js:41 js/apps.js:69 js/apps.js:88
+#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
 msgid "Enable"
 msgstr "啟用"
 
-#: js/apps.js:60
+#: js/apps.js:71
 msgid "Please wait...."
 msgstr "請稍候..."
 
-#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
-msgid "Error"
-msgstr "錯誤"
+#: js/apps.js:79 js/apps.js:80 js/apps.js:100
+msgid "Error while disabling app"
+msgstr "停用應用程式錯誤"
 
-#: js/apps.js:95
+#: js/apps.js:99 js/apps.js:112 js/apps.js:113
+msgid "Error while enabling app"
+msgstr "啓用應用程式錯誤"
+
+#: js/apps.js:123
 msgid "Updating...."
 msgstr "更新中..."
 
-#: js/apps.js:98
+#: js/apps.js:126
 msgid "Error while updating app"
 msgstr "更新應用程式錯誤"
 
-#: js/apps.js:101
+#: js/apps.js:126
+msgid "Error"
+msgstr "錯誤"
+
+#: js/apps.js:127 templates/apps.php:43
+msgid "Update"
+msgstr "更新"
+
+#: js/apps.js:130
 msgid "Updated"
 msgstr "已更新"
 
 #: js/personal.js:150
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "檔案解密中，請稍候。"
 
 #: js/personal.js:172
 msgid "Saving..."
@@ -146,27 +154,27 @@ msgstr "無法刪除用戶"
 msgid "Groups"
 msgstr "群組"
 
-#: js/users.js:95 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "群組管理員"
 
-#: js/users.js:115 templates/users.php:164
+#: js/users.js:120 templates/users.php:164
 msgid "Delete"
 msgstr "刪除"
 
-#: js/users.js:269
+#: js/users.js:277
 msgid "add group"
 msgstr "新增群組"
 
-#: js/users.js:428
+#: js/users.js:436
 msgid "A valid username must be provided"
 msgstr "必須提供一個有效的用戶名"
 
-#: js/users.js:429 js/users.js:435 js/users.js:450
+#: js/users.js:437 js/users.js:443 js/users.js:458
 msgid "Error creating user"
 msgstr "建立用戶時出現錯誤"
 
-#: js/users.js:434
+#: js/users.js:442
 msgid "A valid password must be provided"
 msgstr "一定要提供一個有效的密碼"
 
@@ -348,7 +356,7 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr "由 <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 社群</a>開發，<a href=\"https://github.com/owncloud\" target=\"_blank\">原始碼</a>在 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> 許可證下發布。"
+msgstr "由 <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 社群</a>開發，<a href=\"https://github.com/owncloud\" target=\"_blank\">原始碼</a>在 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> 授權許可下發布。"
 
 #: templates/apps.php:13
 msgid "Add your App"
@@ -369,10 +377,6 @@ msgstr "查看應用程式頁面於 apps.owncloud.com"
 #: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-核准: <span class=\"author\"></span>"
-
-#: templates/apps.php:43
-msgid "Update"
-msgstr "更新"
 
 #: templates/help.php:4
 msgid "User Documentation"
@@ -468,7 +472,7 @@ msgstr "WebDAV"
 msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
 "target=\"_blank\">access your Files via WebDAV</a>"
-msgstr "使用<a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">這個網址</a>來透過 WebDAV 存取您的檔案"
+msgstr "以上的 WebDAV 位址可以讓您<a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">透過 WebDAV 協定存取檔案</a>"
 
 #: templates/personal.php:117
 msgid "Encryption"
@@ -476,15 +480,15 @@ msgstr "加密"
 
 #: templates/personal.php:119
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr ""
+msgstr "加密應用程式已經停用，請您解密您所有的檔案"
 
 #: templates/personal.php:125
 msgid "Log-in password"
-msgstr ""
+msgstr "登入密碼"
 
 #: templates/personal.php:130
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "解密所有檔案"
 
 #: templates/users.php:21
 msgid "Login Name"

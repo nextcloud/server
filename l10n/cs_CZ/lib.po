@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-30 09:33-0400\n"
+"PO-Revision-Date: 2013-08-30 07:31+0000\n"
+"Last-Translator: pstast <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,27 +20,38 @@ msgstr ""
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: app.php:360
+#: app.php:239
+#, php-format
+msgid ""
+"App \"%s\" can't be installed because it is not compatible with this version"
+" of ownCloud."
+msgstr "Aplikace \"%s\" nemůže být nainstalována, protože není kompatibilní s touto verzí ownCloud."
+
+#: app.php:250
+msgid "No app name specified"
+msgstr "Nebyl zadan název aplikace"
+
+#: app.php:361
 msgid "Help"
 msgstr "Nápověda"
 
-#: app.php:373
+#: app.php:374
 msgid "Personal"
 msgstr "Osobní"
 
-#: app.php:384
+#: app.php:385
 msgid "Settings"
 msgstr "Nastavení"
 
-#: app.php:396
+#: app.php:397
 msgid "Users"
 msgstr "Uživatelé"
 
-#: app.php:409
+#: app.php:410
 msgid "Admin"
 msgstr "Administrace"
 
-#: app.php:836
+#: app.php:837
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Selhala aktualizace verze \"%s\"."
@@ -75,6 +86,62 @@ msgid ""
 "Download the files in smaller chunks, seperately or kindly ask your "
 "administrator."
 msgstr "Stáhněte soubory po menších částech, samostatně, nebo se obraťte na správce."
+
+#: installer.php:63
+msgid "No source specified when installing app"
+msgstr "Nebyl zadán zdroj při instalaci aplikace"
+
+#: installer.php:70
+msgid "No href specified when installing app from http"
+msgstr "Nebyl zadán odkaz pro instalaci aplikace z HTTP"
+
+#: installer.php:75
+msgid "No path specified when installing app from local file"
+msgstr "Nebyla zadána cesta pro instalaci aplikace z místního souboru"
+
+#: installer.php:89
+#, php-format
+msgid "Archives of type %s are not supported"
+msgstr "Archivy typu %s nejsou podporovány"
+
+#: installer.php:103
+msgid "Failed to open archive when installing app"
+msgstr "Chyba při otevírání archivu během instalace aplikace"
+
+#: installer.php:123
+msgid "App does not provide an info.xml file"
+msgstr "Aplikace neposkytuje soubor info.xml"
+
+#: installer.php:129
+msgid "App can't be installed because of not allowed code in the App"
+msgstr "Aplikace nemůže být nainstalována, protože obsahuje nepovolený kód"
+
+#: installer.php:138
+msgid ""
+"App can't be installed because it is not compatible with this version of "
+"ownCloud"
+msgstr "Aplikace nemůže být nainstalována, protože není kompatibilní s touto verzí ownCloud"
+
+#: installer.php:144
+msgid ""
+"App can't be installed because it contains the <shipped>true</shipped> tag "
+"which is not allowed for non shipped apps"
+msgstr "Aplikace nemůže být nainstalována, protože obsahuje značku\n<shipped>\n\ntrue\n</shipped>\n\ncož není povoleno pro nedodávané aplikace"
+
+#: installer.php:150
+msgid ""
+"App can't be installed because the version in info.xml/version is not the "
+"same as the version reported from the app store"
+msgstr "Aplikace nemůže být nainstalována, protože verze uvedená v info.xml/version nesouhlasí s verzí oznámenou z úložiště aplikací."
+
+#: installer.php:160
+msgid "App directory already exists"
+msgstr "Adresář aplikace již existuje"
+
+#: installer.php:173
+#, php-format
+msgid "Can't create app folder. Please fix permissions. %s"
+msgstr "Nelze vytvořit složku aplikace. Opravte práva souborů. %s"
 
 #: json.php:28
 msgid "Application is not enabled"

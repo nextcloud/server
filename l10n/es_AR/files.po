@@ -5,12 +5,13 @@
 # Translators:
 # Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2013
 # cjtess <claudio.tessone@gmail.com>, 2013
+# juliabis, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:07+0000\n"
+"POT-Creation-Date: 2013-09-01 13:27-0400\n"
+"PO-Revision-Date: 2013-08-30 13:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -76,7 +77,11 @@ msgstr "Error al escribir en el disco"
 msgid "Not enough storage available"
 msgstr "No hay suficiente almacenamiento"
 
-#: ajax/upload.php:123
+#: ajax/upload.php:109
+msgid "Upload failed"
+msgstr "Error al subir el archivo"
+
+#: ajax/upload.php:127
 msgid "Invalid directory."
 msgstr "Directorio inválido."
 
@@ -96,21 +101,20 @@ msgstr "No hay suficiente espacio disponible"
 msgid "Upload cancelled."
 msgstr "La subida fue cancelada"
 
-#: js/file-upload.js:167 js/files.js:280
+#: js/file-upload.js:165
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "La subida del archivo está en proceso. Si salís de la página ahora, la subida se cancelará."
 
-#: js/file-upload.js:233 js/files.js:353
+#: js/file-upload.js:239
 msgid "URL cannot be empty."
 msgstr "La URL no puede estar vacía"
 
-#: js/file-upload.js:238 lib/app.php:53
+#: js/file-upload.js:244 lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
 msgstr "Nombre de directorio inválido. El uso de \"Shared\" está reservado por ownCloud"
 
-#: js/file-upload.js:269 js/file-upload.js:285 js/files.js:389 js/files.js:405
-#: js/files.js:709 js/files.js:747
+#: js/file-upload.js:276 js/file-upload.js:292 js/files.js:512 js/files.js:550
 msgid "Error"
 msgstr "Error"
 
@@ -126,41 +130,57 @@ msgstr "Borrar permanentemente"
 msgid "Rename"
 msgstr "Cambiar nombre"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
+#: js/filelist.js:50 js/filelist.js:53 js/filelist.js:575
 msgid "Pending"
 msgstr "Pendientes"
 
-#: js/filelist.js:303 js/filelist.js:305
+#: js/filelist.js:307 js/filelist.js:309
 msgid "{new_name} already exists"
 msgstr "{new_name} ya existe"
 
-#: js/filelist.js:303 js/filelist.js:305
+#: js/filelist.js:307 js/filelist.js:309
 msgid "replace"
 msgstr "reemplazar"
 
-#: js/filelist.js:303
+#: js/filelist.js:307
 msgid "suggest name"
 msgstr "sugerir nombre"
 
-#: js/filelist.js:303 js/filelist.js:305
+#: js/filelist.js:307 js/filelist.js:309
 msgid "cancel"
 msgstr "cancelar"
 
-#: js/filelist.js:350
+#: js/filelist.js:354
 msgid "replaced {new_name} with {old_name}"
 msgstr "se reemplazó {new_name} con {old_name}"
 
-#: js/filelist.js:350
+#: js/filelist.js:354
 msgid "undo"
 msgstr "deshacer"
 
-#: js/filelist.js:453
+#: js/filelist.js:424 js/filelist.js:490 js/files.js:581
+msgid "%n folder"
+msgid_plural "%n folders"
+msgstr[0] ""
+msgstr[1] ""
+
+#: js/filelist.js:425 js/filelist.js:491 js/files.js:587
+msgid "%n file"
+msgid_plural "%n files"
+msgstr[0] ""
+msgstr[1] ""
+
+#: js/filelist.js:432
+msgid "{dirs} and {files}"
+msgstr ""
+
+#: js/filelist.js:563
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/filelist.js:518
+#: js/filelist.js:628
 msgid "files uploading"
 msgstr "Subiendo archivos"
 
@@ -190,7 +210,7 @@ msgstr "El almacenamiento está casi lleno ({usedSpacePercent}%)"
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
-msgstr ""
+msgstr "El proceso de cifrado se ha desactivado, pero los archivos aún están encriptados. Por favor, vaya a la configuración personal para descifrar los archivos."
 
 #: js/files.js:245
 msgid ""
@@ -198,33 +218,17 @@ msgid ""
 "big."
 msgstr "Tu descarga se está preparando. Esto puede demorar si los archivos son muy grandes."
 
-#: js/files.js:358
-msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr "Nombre de carpeta inválido. El uso de 'Shared' está reservado por ownCloud"
-
-#: js/files.js:760 templates/index.php:67
+#: js/files.js:563 templates/index.php:69
 msgid "Name"
 msgstr "Nombre"
 
-#: js/files.js:761 templates/index.php:78
+#: js/files.js:564 templates/index.php:81
 msgid "Size"
 msgstr "Tamaño"
 
-#: js/files.js:762 templates/index.php:80
+#: js/files.js:565 templates/index.php:83
 msgid "Modified"
 msgstr "Modificado"
-
-#: js/files.js:778
-msgid "%n folder"
-msgid_plural "%n folders"
-msgstr[0] ""
-msgstr[1] ""
-
-#: js/files.js:784
-msgid "%n file"
-msgid_plural "%n files"
-msgstr[0] ""
-msgstr[1] ""
 
 #: lib/app.php:73
 #, php-format
@@ -299,51 +303,35 @@ msgstr "No tenés permisos de escritura acá."
 msgid "Nothing in here. Upload something!"
 msgstr "No hay nada. ¡Subí contenido!"
 
-#: templates/index.php:73
+#: templates/index.php:75
 msgid "Download"
 msgstr "Descargar"
 
-#: templates/index.php:85 templates/index.php:86
+#: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
 msgstr "Dejar de compartir"
 
-#: templates/index.php:91 templates/index.php:92
+#: templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Borrar"
 
-#: templates/index.php:105
+#: templates/index.php:108
 msgid "Upload too large"
 msgstr "El tamaño del archivo que querés subir es demasiado grande"
 
-#: templates/index.php:107
+#: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Los archivos que intentás subir sobrepasan el tamaño máximo "
 
-#: templates/index.php:112
+#: templates/index.php:115
 msgid "Files are being scanned, please wait."
 msgstr "Se están escaneando los archivos, por favor esperá."
 
-#: templates/index.php:115
+#: templates/index.php:118
 msgid "Current scanning"
 msgstr "Escaneo actual"
-
-#: templates/part.list.php:74
-msgid "directory"
-msgstr "directorio"
-
-#: templates/part.list.php:76
-msgid "directories"
-msgstr "directorios"
-
-#: templates/part.list.php:85
-msgid "file"
-msgstr "archivo"
-
-#: templates/part.list.php:87
-msgid "files"
-msgstr "archivos"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:10+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-27 11:18-0400\n"
+"PO-Revision-Date: 2013-08-25 23:30+0000\n"
+"Last-Translator: kwillems <kwillems@zonnet.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,10 +45,6 @@ msgstr "Groep bestaat al"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Niet in staat om groep toe te voegen"
-
-#: ajax/enableapp.php:11
-msgid "Could not enable app. "
-msgstr "Kan de app. niet activeren"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -96,37 +92,49 @@ msgstr "Kon de app niet bijwerken."
 msgid "Update to {appversion}"
 msgstr "Bijwerken naar {appversion}"
 
-#: js/apps.js:41 js/apps.js:81
+#: js/apps.js:41 js/apps.js:74 js/apps.js:100
 msgid "Disable"
 msgstr "Uitschakelen"
 
-#: js/apps.js:41 js/apps.js:69 js/apps.js:88
+#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
 msgid "Enable"
 msgstr "Activeer"
 
-#: js/apps.js:60
+#: js/apps.js:63
 msgid "Please wait...."
 msgstr "Even geduld aub...."
 
-#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
-msgid "Error"
-msgstr "Fout"
+#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+msgid "Error while disabling app"
+msgstr "Fout tijdens het uitzetten van het programma"
 
-#: js/apps.js:95
+#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+msgid "Error while enabling app"
+msgstr "Fout tijdens het aanzetten van het programma"
+
+#: js/apps.js:115
 msgid "Updating...."
 msgstr "Bijwerken...."
 
-#: js/apps.js:98
+#: js/apps.js:118
 msgid "Error while updating app"
 msgstr "Fout bij bijwerken app"
 
-#: js/apps.js:101
+#: js/apps.js:118
+msgid "Error"
+msgstr "Fout"
+
+#: js/apps.js:119 templates/apps.php:43
+msgid "Update"
+msgstr "Bijwerken"
+
+#: js/apps.js:122
 msgid "Updated"
 msgstr "Bijgewerkt"
 
 #: js/personal.js:150
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "Bestanden worden gedecodeerd... Even geduld alstublieft, dit kan even duren."
 
 #: js/personal.js:172
 msgid "Saving..."
@@ -149,27 +157,27 @@ msgstr "Kon gebruiker niet verwijderen"
 msgid "Groups"
 msgstr "Groepen"
 
-#: js/users.js:95 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "Groep beheerder"
 
-#: js/users.js:115 templates/users.php:164
+#: js/users.js:120 templates/users.php:164
 msgid "Delete"
 msgstr "Verwijder"
 
-#: js/users.js:269
+#: js/users.js:277
 msgid "add group"
 msgstr "toevoegen groep"
 
-#: js/users.js:428
+#: js/users.js:436
 msgid "A valid username must be provided"
 msgstr "Er moet een geldige gebruikersnaam worden opgegeven"
 
-#: js/users.js:429 js/users.js:435 js/users.js:450
+#: js/users.js:437 js/users.js:443 js/users.js:458
 msgid "Error creating user"
 msgstr "Fout bij aanmaken gebruiker"
 
-#: js/users.js:434
+#: js/users.js:442
 msgid "A valid password must be provided"
 msgstr "Er moet een geldig wachtwoord worden opgegeven"
 
@@ -373,10 +381,6 @@ msgstr "Zie de applicatiepagina op apps.owncloud.com"
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-Gelicenseerd door <span class=\"author\"></span>"
 
-#: templates/apps.php:43
-msgid "Update"
-msgstr "Bijwerken"
-
 #: templates/help.php:4
 msgid "User Documentation"
 msgstr "Gebruikersdocumentatie"
@@ -479,15 +483,15 @@ msgstr "Versleuteling"
 
 #: templates/personal.php:119
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr ""
+msgstr "De encryptie-appplicatie is niet meer aanwezig, decodeer al uw bestanden"
 
 #: templates/personal.php:125
 msgid "Log-in password"
-msgstr ""
+msgstr "Inlog-wachtwoord"
 
 #: templates/personal.php:130
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Decodeer alle bestanden"
 
 #: templates/users.php:21
 msgid "Login Name"

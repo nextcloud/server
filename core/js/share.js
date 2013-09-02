@@ -103,9 +103,9 @@ OC.Share={
 		var checkReshare = true;
 		if (typeof OC.Share.statuses[itemSource] === 'undefined') {
 			// NOTE: Check does not always work and misses some shares, fix later
-			checkShares = true;
+			var checkShares = true;
 		} else {
-			checkShares = true;
+			var checkShares = true;
 		}
 		$.ajax({type: 'GET', url: OC.filePath('core', 'ajax', 'share.php'), data: { fetch: 'getItem', itemType: itemType, itemSource: itemSource, checkReshare: checkReshare, checkShares: checkShares }, async: false, success: function(result) {
 			if (result && result.status === 'success') {
@@ -228,23 +228,23 @@ OC.Share={
 				});
 			}
 			$('#shareWith').autocomplete({minLength: 1, source: function(search, response) {
-	// 			if (cache[search.term]) {
-	// 				response(cache[search.term]);
-	// 			} else {
+	//			if (cache[search.term]) {
+	//				response(cache[search.term]);
+	//			} else {
 					$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getShareWith', search: search.term, itemShares: OC.Share.itemShares }, function(result) {
 						if (result.status == 'success' && result.data.length > 0) {
 							response(result.data);
 						} else {
 							// Suggest sharing via email if valid email address
-// 							var pattern = new RegExp(/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
-// 							if (pattern.test(search.term)) {
-// 								response([{label: t('core', 'Share via email:')+' '+search.term, value: {shareType: OC.Share.SHARE_TYPE_EMAIL, shareWith: search.term}}]);
-// 							} else {
+//							var pattern = new RegExp(/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
+//							if (pattern.test(search.term)) {
+//								response([{label: t('core', 'Share via email:')+' '+search.term, value: {shareType: OC.Share.SHARE_TYPE_EMAIL, shareWith: search.term}}]);
+//							} else {
 								response([t('core', 'No people found')]);
-// 							}
+//							}
 						}
 					});
-	// 			}
+	//			}
 			},
 			focus: function(event, focused) {
 				event.preventDefault();

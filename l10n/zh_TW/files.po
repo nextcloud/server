@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-01 13:27-0400\n"
+"PO-Revision-Date: 2013-09-01 13:20+0000\n"
+"Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr "無法移動 %s - 同名的檔案已經存在"
+msgstr "無法移動 %s ，同名的檔案已經存在"
 
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
@@ -30,7 +30,7 @@ msgstr "無法移動 %s"
 
 #: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
-msgstr "無法設定上傳目錄。"
+msgstr "無法設定上傳目錄"
 
 #: ajax/upload.php:22
 msgid "Invalid Token"
@@ -38,11 +38,11 @@ msgstr "無效的 token"
 
 #: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
-msgstr "沒有檔案被上傳。未知的錯誤。"
+msgstr "沒有檔案被上傳，原因未知"
 
 #: ajax/upload.php:66
 msgid "There is no error, the file uploaded with success"
-msgstr "無錯誤，檔案上傳成功"
+msgstr "一切都順利，檔案上傳成功"
 
 #: ajax/upload.php:67
 msgid ""
@@ -75,9 +75,13 @@ msgstr "寫入硬碟失敗"
 msgid "Not enough storage available"
 msgstr "儲存空間不足"
 
-#: ajax/upload.php:123
+#: ajax/upload.php:109
+msgid "Upload failed"
+msgstr "上傳失敗"
+
+#: ajax/upload.php:127
 msgid "Invalid directory."
-msgstr "無效的資料夾。"
+msgstr "無效的資料夾"
 
 #: appinfo/app.php:12
 msgid "Files"
@@ -85,7 +89,7 @@ msgstr "檔案"
 
 #: js/file-upload.js:11
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "無法上傳您的檔案因為它可能是一個目錄或檔案大小為0"
+msgstr "無法上傳您的檔案，因為它可能是一個目錄或檔案大小為0"
 
 #: js/file-upload.js:24
 msgid "Not enough space available"
@@ -95,21 +99,20 @@ msgstr "沒有足夠的可用空間"
 msgid "Upload cancelled."
 msgstr "上傳已取消"
 
-#: js/file-upload.js:167 js/files.js:280
+#: js/file-upload.js:165
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "檔案上傳中。離開此頁面將會取消上傳。"
+msgstr "檔案上傳中，離開此頁面將會取消上傳。"
 
-#: js/file-upload.js:233 js/files.js:353
+#: js/file-upload.js:239
 msgid "URL cannot be empty."
-msgstr "URL 不能為空白。"
+msgstr "URL 不能為空"
 
-#: js/file-upload.js:238 lib/app.php:53
+#: js/file-upload.js:244 lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
 msgstr "無效的資料夾名稱，'Shared' 的使用被 ownCloud 保留"
 
-#: js/file-upload.js:269 js/file-upload.js:285 js/files.js:389 js/files.js:405
-#: js/files.js:709 js/files.js:747
+#: js/file-upload.js:276 js/file-upload.js:292 js/files.js:512 js/files.js:550
 msgid "Error"
 msgstr "錯誤"
 
@@ -125,56 +128,70 @@ msgstr "永久刪除"
 msgid "Rename"
 msgstr "重新命名"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
+#: js/filelist.js:50 js/filelist.js:53 js/filelist.js:575
 msgid "Pending"
 msgstr "等候中"
 
-#: js/filelist.js:303 js/filelist.js:305
+#: js/filelist.js:307 js/filelist.js:309
 msgid "{new_name} already exists"
 msgstr "{new_name} 已經存在"
 
-#: js/filelist.js:303 js/filelist.js:305
+#: js/filelist.js:307 js/filelist.js:309
 msgid "replace"
 msgstr "取代"
 
-#: js/filelist.js:303
+#: js/filelist.js:307
 msgid "suggest name"
 msgstr "建議檔名"
 
-#: js/filelist.js:303 js/filelist.js:305
+#: js/filelist.js:307 js/filelist.js:309
 msgid "cancel"
 msgstr "取消"
 
-#: js/filelist.js:350
+#: js/filelist.js:354
 msgid "replaced {new_name} with {old_name}"
 msgstr "使用 {new_name} 取代 {old_name}"
 
-#: js/filelist.js:350
+#: js/filelist.js:354
 msgid "undo"
 msgstr "復原"
 
-#: js/filelist.js:453
+#: js/filelist.js:424 js/filelist.js:490 js/files.js:581
+msgid "%n folder"
+msgid_plural "%n folders"
+msgstr[0] "%n 個資料夾"
+
+#: js/filelist.js:425 js/filelist.js:491 js/files.js:587
+msgid "%n file"
+msgid_plural "%n files"
+msgstr[0] "%n 個檔案"
+
+#: js/filelist.js:432
+msgid "{dirs} and {files}"
+msgstr "{dirs} 和 {files}"
+
+#: js/filelist.js:563
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
-msgstr[0] ""
+msgstr[0] "%n 個檔案正在上傳"
 
-#: js/filelist.js:518
+#: js/filelist.js:628
 msgid "files uploading"
-msgstr "檔案正在上傳中"
+msgstr "檔案上傳中"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
-msgstr "'.' 是不合法的檔名。"
+msgstr "'.' 是不合法的檔名"
 
 #: js/files.js:56
 msgid "File name cannot be empty."
-msgstr "檔名不能為空。"
+msgstr "檔名不能為空"
 
 #: js/files.js:64
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr "檔名不合法，不允許 '\\', '/', '<', '>', ':', '\"', '|', '?' 和 '*' 。"
+msgstr "檔名不合法，不允許 \\ / < > : \" | ? * 字元"
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
@@ -188,7 +205,7 @@ msgstr "您的儲存空間快要滿了 ({usedSpacePercent}%)"
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
-msgstr ""
+msgstr "加密已經被停用，但是您的舊檔案還是處於已加密的狀態，請前往個人設定以解密這些檔案。"
 
 #: js/files.js:245
 msgid ""
@@ -196,31 +213,17 @@ msgid ""
 "big."
 msgstr "正在準備您的下載，若您的檔案較大，將會需要更多時間。"
 
-#: js/files.js:358
-msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr "無效的資料夾名稱，'Shared' 的使用被 ownCloud 保留"
-
-#: js/files.js:760 templates/index.php:67
+#: js/files.js:563 templates/index.php:69
 msgid "Name"
 msgstr "名稱"
 
-#: js/files.js:761 templates/index.php:78
+#: js/files.js:564 templates/index.php:81
 msgid "Size"
 msgstr "大小"
 
-#: js/files.js:762 templates/index.php:80
+#: js/files.js:565 templates/index.php:83
 msgid "Modified"
-msgstr "修改"
-
-#: js/files.js:778
-msgid "%n folder"
-msgid_plural "%n folders"
-msgstr[0] ""
-
-#: js/files.js:784
-msgid "%n file"
-msgid_plural "%n files"
-msgstr[0] ""
+msgstr "修改時間"
 
 #: lib/app.php:73
 #, php-format
@@ -237,7 +240,7 @@ msgstr "檔案處理"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr "最大上傳檔案大小"
+msgstr "上傳限制"
 
 #: templates/admin.php:10
 msgid "max. possible: "
@@ -245,11 +248,11 @@ msgstr "最大允許："
 
 #: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
-msgstr "針對多檔案和目錄下載是必填的。"
+msgstr "下載多檔案和目錄時，此項是必填的。"
 
 #: templates/admin.php:17
 msgid "Enable ZIP-download"
-msgstr "啟用 Zip 下載"
+msgstr "啟用 ZIP 下載"
 
 #: templates/admin.php:20
 msgid "0 is unlimited"
@@ -257,7 +260,7 @@ msgstr "0代表沒有限制"
 
 #: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
-msgstr "針對 ZIP 檔案最大輸入大小"
+msgstr "ZIP 壓縮前的原始大小限制"
 
 #: templates/admin.php:26
 msgid "Save"
@@ -281,7 +284,7 @@ msgstr "從連結"
 
 #: templates/index.php:41
 msgid "Deleted files"
-msgstr "已刪除的檔案"
+msgstr "回收桶"
 
 #: templates/index.php:46
 msgid "Cancel upload"
@@ -289,58 +292,42 @@ msgstr "取消上傳"
 
 #: templates/index.php:52
 msgid "You don’t have write permissions here."
-msgstr "您在這裡沒有編輯權。"
+msgstr "您在這裡沒有編輯權"
 
 #: templates/index.php:59
 msgid "Nothing in here. Upload something!"
-msgstr "這裡什麼也沒有，上傳一些東西吧！"
+msgstr "這裡還沒有東西，上傳一些吧！"
 
-#: templates/index.php:73
+#: templates/index.php:75
 msgid "Download"
 msgstr "下載"
 
-#: templates/index.php:85 templates/index.php:86
+#: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr "取消共享"
+msgstr "取消分享"
 
-#: templates/index.php:91 templates/index.php:92
+#: templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "刪除"
 
-#: templates/index.php:105
+#: templates/index.php:108
 msgid "Upload too large"
 msgstr "上傳過大"
 
-#: templates/index.php:107
+#: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "您試圖上傳的檔案已超過伺服器的最大檔案大小限制。"
+msgstr "您試圖上傳的檔案大小超過伺服器的限制。"
 
-#: templates/index.php:112
+#: templates/index.php:115
 msgid "Files are being scanned, please wait."
 msgstr "正在掃描檔案，請稍等。"
 
-#: templates/index.php:115
+#: templates/index.php:118
 msgid "Current scanning"
-msgstr "目前掃描"
-
-#: templates/part.list.php:74
-msgid "directory"
-msgstr "目錄"
-
-#: templates/part.list.php:76
-msgid "directories"
-msgstr "目錄"
-
-#: templates/part.list.php:85
-msgid "file"
-msgstr "檔案"
-
-#: templates/part.list.php:87
-msgid "files"
-msgstr "檔案"
+msgstr "正在掃描"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr "正在升級檔案系統快取..."
+msgstr "正在升級檔案系統快取…"

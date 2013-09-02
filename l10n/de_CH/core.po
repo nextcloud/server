@@ -5,6 +5,7 @@
 # Translators:
 # arkascha <foss@christian-reiner.info>, 2013
 # FlorianScholz <work@bgstyle.de>, 2013
+# FlorianScholz <work@bgstyle.de>, 2013
 # I Robot <owncloud-bot@tmit.eu>, 2013
 # Marcel Kühlhorn <susefan93@gmx.de>, 2013
 # Mario Siegmann <mario_siegmann@web.de>, 2013
@@ -15,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:06+0000\n"
+"POT-Creation-Date: 2013-09-01 13:27-0400\n"
+"PO-Revision-Date: 2013-08-30 13:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Switzerland) (http://www.transifex.com/projects/p/owncloud/language/de_CH/)\n"
 "MIME-Version: 1.0\n"
@@ -29,6 +30,35 @@ msgstr ""
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s teilt »%s« mit Ihnen"
+
+#: ajax/share.php:227
+msgid "group"
+msgstr "Gruppe"
+
+#: ajax/update.php:11
+msgid "Turned on maintenance mode"
+msgstr ""
+
+#: ajax/update.php:14
+msgid "Turned off maintenance mode"
+msgstr ""
+
+#: ajax/update.php:17
+msgid "Updated database"
+msgstr ""
+
+#: ajax/update.php:20
+msgid "Updating filecache, this may take really long..."
+msgstr ""
+
+#: ajax/update.php:23
+msgid "Updated filecache"
+msgstr ""
+
+#: ajax/update.php:26
+#, php-format
+msgid "... %d%% done ..."
+msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -156,14 +186,14 @@ msgstr "Gerade eben"
 #: js/js.js:813
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Vor %n Minute"
+msgstr[1] "Vor %n Minuten"
 
 #: js/js.js:814
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Vor %n Stunde"
+msgstr[1] "Vor %n Stunden"
 
 #: js/js.js:815
 msgid "today"
@@ -176,8 +206,8 @@ msgstr "Gestern"
 #: js/js.js:817
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Vor %n Tag"
+msgstr[1] "Vor %n Tagen"
 
 #: js/js.js:818
 msgid "last month"
@@ -186,8 +216,8 @@ msgstr "Letzten Monat"
 #: js/js.js:819
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Vor %n Monat"
+msgstr[1] "Vor %n Monaten"
 
 #: js/js.js:820
 msgid "months ago"
@@ -201,23 +231,23 @@ msgstr "Letztes Jahr"
 msgid "years ago"
 msgstr "Vor Jahren"
 
-#: js/oc-dialogs.js:117
+#: js/oc-dialogs.js:123
 msgid "Choose"
 msgstr "Auswählen"
 
-#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
+#: js/oc-dialogs.js:143 js/oc-dialogs.js:210
 msgid "Error loading file picker template"
 msgstr "Es ist ein Fehler in der Vorlage des Datei-Auswählers aufgetreten."
 
-#: js/oc-dialogs.js:160
+#: js/oc-dialogs.js:168
 msgid "Yes"
 msgstr "Ja"
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:178
 msgid "No"
 msgstr "Nein"
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:195
 msgid "Ok"
 msgstr "OK"
 
@@ -384,7 +414,7 @@ msgstr "Das Update war erfolgreich. Sie werden nun zu ownCloud weitergeleitet."
 #: lostpassword/controller.php:61
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "%s-Passwort zurücksetzen"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -450,7 +480,7 @@ msgstr "Persönlich"
 msgid "Users"
 msgstr "Benutzer"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "Apps"
 
@@ -583,10 +613,6 @@ msgstr "%s ist verfügbar. Holen Sie weitere Informationen zu Aktualisierungen e
 msgid "Log out"
 msgstr "Abmelden"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr "Mehr Apps"
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Automatische Anmeldung verweigert!"
@@ -601,19 +627,19 @@ msgstr "Wenn Sie Ihr Passwort nicht vor kurzem geändert haben, könnte Ihr\nAcc
 msgid "Please change your password to secure your account again."
 msgstr "Bitte ändern Sie Ihr Passwort, um Ihr Konto wieder zu sichern."
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "Passwort vergessen?"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "merken"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "Einloggen"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr "Alternative Logins"
 

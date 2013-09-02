@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:10+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-27 11:18-0400\n"
+"PO-Revision-Date: 2013-08-26 06:20+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,10 +42,6 @@ msgstr "Ryhmä on jo olemassa"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Ryhmän lisäys epäonnistui"
-
-#: ajax/enableapp.php:11
-msgid "Could not enable app. "
-msgstr "Sovelluksen käyttöönotto epäonnistui."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -93,37 +89,49 @@ msgstr "Sovelluksen päivitys epäonnistui."
 msgid "Update to {appversion}"
 msgstr "Päivitä versioon {appversion}"
 
-#: js/apps.js:41 js/apps.js:81
+#: js/apps.js:41 js/apps.js:74 js/apps.js:100
 msgid "Disable"
 msgstr "Poista käytöstä"
 
-#: js/apps.js:41 js/apps.js:69 js/apps.js:88
+#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
 msgid "Enable"
 msgstr "Käytä"
 
-#: js/apps.js:60
+#: js/apps.js:63
 msgid "Please wait...."
 msgstr "Odota hetki..."
 
-#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
-msgid "Error"
-msgstr "Virhe"
+#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+msgid "Error while disabling app"
+msgstr "Virhe poistaessa sovellusta käytöstä"
 
-#: js/apps.js:95
+#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+msgid "Error while enabling app"
+msgstr "Virhe ottaessa sovellusta käyttöön"
+
+#: js/apps.js:115
 msgid "Updating...."
 msgstr "Päivitetään..."
 
-#: js/apps.js:98
+#: js/apps.js:118
 msgid "Error while updating app"
 msgstr "Virhe sovellusta päivittäessä"
 
-#: js/apps.js:101
+#: js/apps.js:118
+msgid "Error"
+msgstr "Virhe"
+
+#: js/apps.js:119 templates/apps.php:43
+msgid "Update"
+msgstr "Päivitä"
+
+#: js/apps.js:122
 msgid "Updated"
 msgstr "Päivitetty"
 
 #: js/personal.js:150
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "Puretaan tiedostojen salausta... Odota, tämä voi kestää jonkin aikaa."
 
 #: js/personal.js:172
 msgid "Saving..."
@@ -146,27 +154,27 @@ msgstr "Käyttäjän poistaminen ei onnistunut"
 msgid "Groups"
 msgstr "Ryhmät"
 
-#: js/users.js:95 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "Ryhmän ylläpitäjä"
 
-#: js/users.js:115 templates/users.php:164
+#: js/users.js:120 templates/users.php:164
 msgid "Delete"
 msgstr "Poista"
 
-#: js/users.js:269
+#: js/users.js:277
 msgid "add group"
 msgstr "lisää ryhmä"
 
-#: js/users.js:428
+#: js/users.js:436
 msgid "A valid username must be provided"
 msgstr "Anna kelvollinen käyttäjätunnus"
 
-#: js/users.js:429 js/users.js:435 js/users.js:450
+#: js/users.js:437 js/users.js:443 js/users.js:458
 msgid "Error creating user"
 msgstr "Virhe käyttäjää luotaessa"
 
-#: js/users.js:434
+#: js/users.js:442
 msgid "A valid password must be provided"
 msgstr "Anna kelvollinen salasana"
 
@@ -200,7 +208,7 @@ msgstr ""
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
-msgstr ""
+msgstr "Lue <a href=\"%s\">asennusohjeet</a> tarkasti."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
@@ -311,7 +319,7 @@ msgstr "Pakota HTTPS"
 #: templates/admin.php:185
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
-msgstr ""
+msgstr "Pakottaa asiakasohjelmistot ottamaan yhteyden %siin salatun yhteyden kautta."
 
 #: templates/admin.php:191
 #, php-format
@@ -369,10 +377,6 @@ msgstr "Katso sovellussivu osoitteessa apps.owncloud.com"
 #: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-lisensoija <span class=\"author\"></span>"
-
-#: templates/apps.php:43
-msgid "Update"
-msgstr "Päivitä"
 
 #: templates/help.php:4
 msgid "User Documentation"
@@ -476,7 +480,7 @@ msgstr "Salaus"
 
 #: templates/personal.php:119
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr ""
+msgstr "Salaussovellus ei ole enää käytössä, pura kaikkien tiedostojesi salaus"
 
 #: templates/personal.php:125
 msgid "Log-in password"
@@ -484,7 +488,7 @@ msgstr ""
 
 #: templates/personal.php:130
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Pura kaikkien tiedostojen salaus"
 
 #: templates/users.php:21
 msgid "Login Name"

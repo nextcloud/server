@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "La aplicación \"%s\" no puede ser instalada porque no es compatible con esta versión de ownCloud",
+"No app name specified" => "No se ha especificado nombre de la aplicación",
 "Help" => "Ayuda",
 "Personal" => "Personal",
 "Settings" => "Ajustes",
@@ -13,6 +15,15 @@ $TRANSLATIONS = array(
 "Back to Files" => "Volver a Archivos",
 "Selected files too large to generate zip file." => "Los archivos seleccionados son demasiado grandes para generar el archivo zip.",
 "Download the files in smaller chunks, seperately or kindly ask your administrator." => "Descargue los archivos en trozos más pequeños, por separado o solicítelos amablemente su administrador.",
+"No source specified when installing app" => "No se ha especificado origen cuando se ha instalado la aplicación",
+"No href specified when installing app from http" => "No href especificado cuando se ha instalado la aplicación",
+"No path specified when installing app from local file" => "Sin path especificado  cuando se ha instalado la aplicación desde el fichero local",
+"Archives of type %s are not supported" => "Ficheros de tipo %s no son soportados",
+"Failed to open archive when installing app" => "Fallo de apertura de fichero mientras se instala la aplicación",
+"App does not provide an info.xml file" => "La aplicación no suministra un fichero info.xml",
+"App can't be installed because of not allowed code in the App" => "La aplicación no puede ser instalada por tener código no autorizado en la aplicación",
+"App can't be installed because it is not compatible with this version of ownCloud" => "La aplicación no se puede instalar porque no es compatible con esta versión de ownCloud",
+"App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" => "La aplicación no se puede instalar porque contiene la etiqueta\n<shipped>\ntrue\n</shipped>\nque no está permitida para aplicaciones no distribuidas",
 "Application is not enabled" => "La aplicación no está habilitada",
 "Authentication error" => "Error de autenticación",
 "Token expired. Please reload page." => "Token expirado. Por favor, recarga la página.",

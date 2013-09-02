@@ -62,7 +62,6 @@ class Group {
 			return $this->users;
 		}
 
-		$users = array();
 		$userIds = array();
 		foreach ($this->backends as $backend) {
 			$diff = array_diff(
@@ -74,11 +73,8 @@ class Group {
 			}
 		}
 
-		foreach ($userIds as $userId) {
-			$users[] = $this->userManager->get($userId);
-		}
-		$this->users = $users;
-		return $users;
+		$this->users = $this->getVerifiedUsers($userIds);
+		return $this->users;
 	}
 
 	/**
@@ -113,7 +109,7 @@ class Group {
 			if ($backend->implementsActions(OC_GROUP_BACKEND_ADD_TO_GROUP)) {
 				$backend->addToGroup($user->getUID(), $this->gid);
 				if ($this->users) {
-					$this->users[] = $user;
+					$this->users[$user->getUID()] = $user;
 				}
 				if ($this->emitter) {
 					$this->emitter->emit('\OC\Group', 'postAddUser', array($this, $user));
@@ -172,9 +168,7 @@ class Group {
 			if (!is_null($offset)) {
 				$offset -= count($userIds);
 			}
-			foreach ($userIds as $userId) {
-				$users[$userId] = $this->userManager->get($userId);
-			}
+			$users += $this->getVerifiedUsers($userIds);
 			if (!is_null($limit) and $limit <= 0) {
 				return array_values($users);
 			}
@@ -191,7 +185,6 @@ class Group {
 	 * @return \OC\User\User[]
 	 */
 	public function searchDisplayName($search, $limit = null, $offset = null) {
-		$users = array();
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(OC_GROUP_BACKEND_GET_DISPLAYNAME)) {
 				$userIds = array_keys($backend->displayNamesInGroup($this->gid, $search, $limit, $offset));
@@ -204,9 +197,7 @@ class Group {
 			if (!is_null($offset)) {
 				$offset -= count($userIds);
 			}
-			foreach ($userIds as $userId) {
-				$users[$userId] = $this->userManager->get($userId);
-			}
+			$users = $this->getVerifiedUsers($userIds);
 			if (!is_null($limit) and $limit <= 0) {
 				return array_values($users);
 			}
@@ -234,5 +225,24 @@ class Group {
 			$this->emitter->emit('\OC\Group', 'postDelete', array($this));
 		}
 		return $result;
+	}
+
+	/**
+	 * @brief returns all the Users from an array that really exists
+	 * @param $userIds an array containing user IDs
+	 * @return an Array with the userId as Key and \OC\User\User as value
+	 */
+	private function getVerifiedUsers($userIds) {
+		if(!is_array($userIds)) {
+			return array();
+		}
+		$users = array();
+		foreach ($userIds as $userId) {
+			$user = $this->userManager->get($userId);
+			if(!is_null($user)) {
+				$users[$userId] = $user;
+			}
+		}
+		return $users;
 	}
 }

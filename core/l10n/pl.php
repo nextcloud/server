@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s Współdzielone »%s« z tobą",
+"group" => "grupa",
 "Category type not provided." => "Nie podano typu kategorii.",
 "No category to add?" => "Brak kategorii do dodania?",
 "This category already exists: %s" => "Ta kategoria już istnieje: %s",
@@ -125,7 +126,6 @@ $TRANSLATIONS = array(
 "Finish setup" => "Zakończ konfigurowanie",
 "%s is available. Get more information on how to update." => "%s jest dostępna. Dowiedz się więcej na temat aktualizacji.",
 "Log out" => "Wyloguj",
-"More apps" => "Więcej aplikacji",
 "Automatic logon rejected!" => "Automatyczne logowanie odrzucone!",
 "If you did not change your password recently, your account may be compromised!" => "Jeśli hasło było dawno niezmieniane, twoje konto może być zagrożone!",
 "Please change your password to secure your account again." => "Zmień swoje hasło, aby ponownie zabezpieczyć swoje konto.",

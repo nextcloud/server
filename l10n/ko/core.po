@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:06+0000\n"
+"POT-Creation-Date: 2013-09-01 13:27-0400\n"
+"PO-Revision-Date: 2013-08-30 13:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -22,6 +22,35 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "%s shared »%s« with you"
+msgstr ""
+
+#: ajax/share.php:227
+msgid "group"
+msgstr "그룹"
+
+#: ajax/update.php:11
+msgid "Turned on maintenance mode"
+msgstr ""
+
+#: ajax/update.php:14
+msgid "Turned off maintenance mode"
+msgstr ""
+
+#: ajax/update.php:17
+msgid "Updated database"
+msgstr ""
+
+#: ajax/update.php:20
+msgid "Updating filecache, this may take really long..."
+msgstr ""
+
+#: ajax/update.php:23
+msgid "Updated filecache"
+msgstr ""
+
+#: ajax/update.php:26
+#, php-format
+msgid "... %d%% done ..."
 msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
@@ -150,12 +179,12 @@ msgstr "초 전"
 #: js/js.js:813
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
+msgstr[0] "%n분 전 "
 
 #: js/js.js:814
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
+msgstr[0] "%n시간 전 "
 
 #: js/js.js:815
 msgid "today"
@@ -168,7 +197,7 @@ msgstr "어제"
 #: js/js.js:817
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
+msgstr[0] "%n일 전 "
 
 #: js/js.js:818
 msgid "last month"
@@ -177,7 +206,7 @@ msgstr "지난 달"
 #: js/js.js:819
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
+msgstr[0] "%n달 전 "
 
 #: js/js.js:820
 msgid "months ago"
@@ -191,23 +220,23 @@ msgstr "작년"
 msgid "years ago"
 msgstr "년 전"
 
-#: js/oc-dialogs.js:117
+#: js/oc-dialogs.js:123
 msgid "Choose"
 msgstr "선택"
 
-#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
+#: js/oc-dialogs.js:143 js/oc-dialogs.js:210
 msgid "Error loading file picker template"
 msgstr ""
 
-#: js/oc-dialogs.js:160
+#: js/oc-dialogs.js:168
 msgid "Yes"
 msgstr "예"
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:178
 msgid "No"
 msgstr "아니요"
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:195
 msgid "Ok"
 msgstr "승락"
 
@@ -440,7 +469,7 @@ msgstr "개인"
 msgid "Users"
 msgstr "사용자"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "앱"
 
@@ -573,10 +602,6 @@ msgstr ""
 msgid "Log out"
 msgstr "로그아웃"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr ""
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "자동 로그인이 거부되었습니다!"
@@ -591,19 +616,19 @@ msgstr "최근에 암호를 변경하지 않았다면 계정이 탈취되었을 
 msgid "Please change your password to secure your account again."
 msgstr "계정의 안전을 위하여 암호를 변경하십시오."
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "암호를 잊으셨습니까?"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "기억하기"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "로그인"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr "대체 "
 

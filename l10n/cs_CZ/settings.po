@@ -4,15 +4,16 @@
 # 
 # Translators:
 # Honza K. <honza889@gmail.com>, 2013
+# cvanca <mrs.jenkins.oh.yeah@gmail.com>, 2013
 # pstast <petr@stastny.eu>, 2013
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-30 09:33-0400\n"
+"PO-Revision-Date: 2013-08-28 16:41+0000\n"
+"Last-Translator: pstast <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,10 +45,6 @@ msgstr "Skupina již existuje"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Nelze přidat skupinu"
-
-#: ajax/enableapp.php:11
-msgid "Could not enable app. "
-msgstr "Nelze povolit aplikaci."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -91,41 +88,53 @@ msgstr "Nelze odebrat uživatele ze skupiny %s"
 msgid "Couldn't update app."
 msgstr "Nelze aktualizovat aplikaci."
 
-#: js/apps.js:35
+#: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Aktualizovat na {appversion}"
 
-#: js/apps.js:41 js/apps.js:81
+#: js/apps.js:49 js/apps.js:82 js/apps.js:108
 msgid "Disable"
 msgstr "Zakázat"
 
-#: js/apps.js:41 js/apps.js:69 js/apps.js:88
+#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
 msgid "Enable"
 msgstr "Povolit"
 
-#: js/apps.js:60
+#: js/apps.js:71
 msgid "Please wait...."
 msgstr "Čekejte prosím..."
 
-#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
-msgid "Error"
-msgstr "Chyba"
+#: js/apps.js:79 js/apps.js:80 js/apps.js:100
+msgid "Error while disabling app"
+msgstr "Chyba při zakazování aplikace"
 
-#: js/apps.js:95
+#: js/apps.js:99 js/apps.js:112 js/apps.js:113
+msgid "Error while enabling app"
+msgstr "Chyba při povolování aplikace"
+
+#: js/apps.js:123
 msgid "Updating...."
 msgstr "Aktualizuji..."
 
-#: js/apps.js:98
+#: js/apps.js:126
 msgid "Error while updating app"
 msgstr "Chyba při aktualizaci aplikace"
 
-#: js/apps.js:101
+#: js/apps.js:126
+msgid "Error"
+msgstr "Chyba"
+
+#: js/apps.js:127 templates/apps.php:43
+msgid "Update"
+msgstr "Aktualizovat"
+
+#: js/apps.js:130
 msgid "Updated"
 msgstr "Aktualizováno"
 
 #: js/personal.js:150
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "Probíhá dešifrování souborů... Čekejte prosím, tato operace může trvat nějakou dobu."
 
 #: js/personal.js:172
 msgid "Saving..."
@@ -148,27 +157,27 @@ msgstr "Nelze odebrat uživatele"
 msgid "Groups"
 msgstr "Skupiny"
 
-#: js/users.js:95 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "Správa skupiny"
 
-#: js/users.js:115 templates/users.php:164
+#: js/users.js:120 templates/users.php:164
 msgid "Delete"
 msgstr "Smazat"
 
-#: js/users.js:269
+#: js/users.js:277
 msgid "add group"
 msgstr "přidat skupinu"
 
-#: js/users.js:428
+#: js/users.js:436
 msgid "A valid username must be provided"
 msgstr "Musíte zadat platné uživatelské jméno"
 
-#: js/users.js:429 js/users.js:435 js/users.js:450
+#: js/users.js:437 js/users.js:443 js/users.js:458
 msgid "Error creating user"
 msgstr "Chyba při vytváření užiatele"
 
-#: js/users.js:434
+#: js/users.js:442
 msgid "A valid password must be provided"
 msgstr "Musíte zadat platné heslo"
 
@@ -372,10 +381,6 @@ msgstr "Více na stránce s aplikacemi na apps.owncloud.com"
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licencováno <span class=\"author\"></span>"
 
-#: templates/apps.php:43
-msgid "Update"
-msgstr "Aktualizovat"
-
 #: templates/help.php:4
 msgid "User Documentation"
 msgstr "Uživatelská dokumentace"
@@ -478,15 +483,15 @@ msgstr "Šifrování"
 
 #: templates/personal.php:119
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr ""
+msgstr "Šifrovací aplikace již není zapnuta, odšifrujte všechny své soubory"
 
 #: templates/personal.php:125
 msgid "Log-in password"
-msgstr ""
+msgstr "Přihlašovací heslo"
 
 #: templates/personal.php:130
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Odšifrovat všechny soubory"
 
 #: templates/users.php:21
 msgid "Login Name"

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "grop",
 "No category to add?" => "Pas de categoria d'ajustar ?",
 "No categories selected for deletion." => "Pas de categorias seleccionadas per escafar.",
 "Sunday" => "Dimenge",

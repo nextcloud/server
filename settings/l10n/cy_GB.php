@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "Password" => "Cyfrinair",
 "New password" => "Cyfrinair newydd",
 "Email" => "E-bost",
+"Encryption" => "Amgryptiad",
 "Other" => "Arall",
 "Username" => "Enw defnyddiwr"
 );

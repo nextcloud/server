@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:06+0000\n"
+"POT-Creation-Date: 2013-09-01 13:27-0400\n"
+"PO-Revision-Date: 2013-08-30 13:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -25,6 +25,35 @@ msgstr ""
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s delade »%s« med dig"
+
+#: ajax/share.php:227
+msgid "group"
+msgstr "Grupp"
+
+#: ajax/update.php:11
+msgid "Turned on maintenance mode"
+msgstr "Aktiverade underhållsläge"
+
+#: ajax/update.php:14
+msgid "Turned off maintenance mode"
+msgstr "Deaktiverade underhållsläge"
+
+#: ajax/update.php:17
+msgid "Updated database"
+msgstr "Uppdaterade databasen"
+
+#: ajax/update.php:20
+msgid "Updating filecache, this may take really long..."
+msgstr "Uppdaterar filcache, det kan ta lång tid..."
+
+#: ajax/update.php:23
+msgid "Updated filecache"
+msgstr "Uppdaterade filcache"
+
+#: ajax/update.php:26
+#, php-format
+msgid "... %d%% done ..."
+msgstr "... %d%% klart ..."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -197,23 +226,23 @@ msgstr "förra året"
 msgid "years ago"
 msgstr "år sedan"
 
-#: js/oc-dialogs.js:117
+#: js/oc-dialogs.js:123
 msgid "Choose"
 msgstr "Välj"
 
-#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
+#: js/oc-dialogs.js:143 js/oc-dialogs.js:210
 msgid "Error loading file picker template"
 msgstr "Fel vid inläsning av filväljarens mall"
 
-#: js/oc-dialogs.js:160
+#: js/oc-dialogs.js:168
 msgid "Yes"
 msgstr "Ja"
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:178
 msgid "No"
 msgstr "Nej"
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:195
 msgid "Ok"
 msgstr "Ok"
 
@@ -446,7 +475,7 @@ msgstr "Personligt"
 msgid "Users"
 msgstr "Användare"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "Program"
 
@@ -579,10 +608,6 @@ msgstr "%s är tillgänglig. Få mer information om hur du går tillväga för a
 msgid "Log out"
 msgstr "Logga ut"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr "Fler appar"
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Automatisk inloggning inte tillåten!"
@@ -597,19 +622,19 @@ msgstr "Om du inte har ändrat ditt lösenord nyligen så kan ditt konto vara ma
 msgid "Please change your password to secure your account again."
 msgstr "Ändra genast lösenord för att säkra ditt konto."
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "Glömt ditt lösenord?"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "kom ihåg"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "Logga in"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr "Alternativa inloggningar"
 

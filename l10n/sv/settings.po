@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:10+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-28 06:22-0400\n"
+"PO-Revision-Date: 2013-08-28 10:20+0000\n"
+"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,10 +47,6 @@ msgstr "Gruppen finns redan"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Kan inte lägga till grupp"
-
-#: ajax/enableapp.php:11
-msgid "Could not enable app. "
-msgstr "Kunde inte aktivera appen."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -98,37 +94,49 @@ msgstr "Kunde inte uppdatera appen."
 msgid "Update to {appversion}"
 msgstr "Uppdatera till {appversion}"
 
-#: js/apps.js:41 js/apps.js:81
+#: js/apps.js:41 js/apps.js:74 js/apps.js:100
 msgid "Disable"
 msgstr "Deaktivera"
 
-#: js/apps.js:41 js/apps.js:69 js/apps.js:88
+#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
 msgid "Enable"
 msgstr "Aktivera"
 
-#: js/apps.js:60
+#: js/apps.js:63
 msgid "Please wait...."
 msgstr "Var god vänta..."
 
-#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
-msgid "Error"
-msgstr "Fel"
+#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+msgid "Error while disabling app"
+msgstr "Fel vid inaktivering av app"
 
-#: js/apps.js:95
+#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+msgid "Error while enabling app"
+msgstr "Fel vid aktivering av app"
+
+#: js/apps.js:115
 msgid "Updating...."
 msgstr "Uppdaterar..."
 
-#: js/apps.js:98
+#: js/apps.js:118
 msgid "Error while updating app"
 msgstr "Fel uppstod vid uppdatering av appen"
 
-#: js/apps.js:101
+#: js/apps.js:118
+msgid "Error"
+msgstr "Fel"
+
+#: js/apps.js:119 templates/apps.php:43
+msgid "Update"
+msgstr "Uppdatera"
+
+#: js/apps.js:122
 msgid "Updated"
 msgstr "Uppdaterad"
 
 #: js/personal.js:150
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "Dekrypterar filer... Vänligen vänta, detta kan ta en stund."
 
 #: js/personal.js:172
 msgid "Saving..."
@@ -151,27 +159,27 @@ msgstr "Kan inte ta bort användare"
 msgid "Groups"
 msgstr "Grupper"
 
-#: js/users.js:95 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "Gruppadministratör"
 
-#: js/users.js:115 templates/users.php:164
+#: js/users.js:120 templates/users.php:164
 msgid "Delete"
 msgstr "Radera"
 
-#: js/users.js:269
+#: js/users.js:277
 msgid "add group"
 msgstr "lägg till grupp"
 
-#: js/users.js:428
+#: js/users.js:436
 msgid "A valid username must be provided"
 msgstr "Ett giltigt användarnamn måste anges"
 
-#: js/users.js:429 js/users.js:435 js/users.js:450
+#: js/users.js:437 js/users.js:443 js/users.js:458
 msgid "Error creating user"
 msgstr "Fel vid skapande av användare"
 
-#: js/users.js:434
+#: js/users.js:442
 msgid "A valid password must be provided"
 msgstr "Ett giltigt lösenord måste anges"
 
@@ -375,10 +383,6 @@ msgstr "Se programsida på apps.owncloud.com"
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licensierad av <span class=\"author\"></span>"
 
-#: templates/apps.php:43
-msgid "Update"
-msgstr "Uppdatera"
-
 #: templates/help.php:4
 msgid "User Documentation"
 msgstr "Användardokumentation"
@@ -481,15 +485,15 @@ msgstr "Kryptering"
 
 #: templates/personal.php:119
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr ""
+msgstr "Appen för kryptering är inte längre aktiverad, dekryptera alla dina filer"
 
 #: templates/personal.php:125
 msgid "Log-in password"
-msgstr ""
+msgstr "Inloggningslösenord"
 
 #: templates/personal.php:130
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Dekryptera alla filer"
 
 #: templates/users.php:21
 msgid "Login Name"

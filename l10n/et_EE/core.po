@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:06+0000\n"
+"POT-Creation-Date: 2013-09-01 13:27-0400\n"
+"PO-Revision-Date: 2013-08-30 13:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -23,6 +23,35 @@ msgstr ""
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s jagas sinuga »%s«"
+
+#: ajax/share.php:227
+msgid "group"
+msgstr "grupp"
+
+#: ajax/update.php:11
+msgid "Turned on maintenance mode"
+msgstr "Haldusreziimis"
+
+#: ajax/update.php:14
+msgid "Turned off maintenance mode"
+msgstr "Haldusreziim lõpetatud"
+
+#: ajax/update.php:17
+msgid "Updated database"
+msgstr "Uuendatud andmebaas"
+
+#: ajax/update.php:20
+msgid "Updating filecache, this may take really long..."
+msgstr "Uuendan failipuhvrit, see võib kesta väga kaua..."
+
+#: ajax/update.php:23
+msgid "Updated filecache"
+msgstr "Uuendatud failipuhver"
+
+#: ajax/update.php:26
+#, php-format
+msgid "... %d%% done ..."
+msgstr "... %d%% tehtud ..."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -150,14 +179,14 @@ msgstr "sekundit tagasi"
 #: js/js.js:813
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n minut tagasi"
+msgstr[1] "%n minutit tagasi"
 
 #: js/js.js:814
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n tund tagasi"
+msgstr[1] "%n tundi tagasi"
 
 #: js/js.js:815
 msgid "today"
@@ -170,8 +199,8 @@ msgstr "eile"
 #: js/js.js:817
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n päev tagasi"
+msgstr[1] "%n päeva tagasi"
 
 #: js/js.js:818
 msgid "last month"
@@ -180,8 +209,8 @@ msgstr "viimasel kuul"
 #: js/js.js:819
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n kuu tagasi"
+msgstr[1] "%n kuud tagasi"
 
 #: js/js.js:820
 msgid "months ago"
@@ -195,23 +224,23 @@ msgstr "viimasel aastal"
 msgid "years ago"
 msgstr "aastat tagasi"
 
-#: js/oc-dialogs.js:117
+#: js/oc-dialogs.js:123
 msgid "Choose"
 msgstr "Vali"
 
-#: js/oc-dialogs.js:137 js/oc-dialogs.js:196
+#: js/oc-dialogs.js:143 js/oc-dialogs.js:210
 msgid "Error loading file picker template"
 msgstr "Viga failivalija malli laadimisel"
 
-#: js/oc-dialogs.js:160
+#: js/oc-dialogs.js:168
 msgid "Yes"
 msgstr "Jah"
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:178
 msgid "No"
 msgstr "Ei"
 
-#: js/oc-dialogs.js:181
+#: js/oc-dialogs.js:195
 msgid "Ok"
 msgstr "Ok"
 
@@ -378,7 +407,7 @@ msgstr "Uuendus oli edukas. Kohe suunatakse Sind ownCloudi."
 #: lostpassword/controller.php:61
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "%s parooli lähtestus"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -444,7 +473,7 @@ msgstr "Isiklik"
 msgid "Users"
 msgstr "Kasutajad"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "Rakendused"
 
@@ -577,10 +606,6 @@ msgstr "%s on saadaval. Vaata lähemalt kuidas uuendada."
 msgid "Log out"
 msgstr "Logi välja"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr "Rohkem rakendusi"
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Automaatne sisselogimine lükati tagasi!"
@@ -595,19 +620,19 @@ msgstr "Kui sa ei muutnud oma parooli hiljuti, siis võib su kasutajakonto olla 
 msgid "Please change your password to secure your account again."
 msgstr "Palun muuda parooli, et oma kasutajakonto uuesti turvata."
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "Kaotasid oma parooli?"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "pea meeles"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "Logi sisse"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr "Alternatiivsed sisselogimisviisid"
 

@@ -61,7 +61,7 @@ select.quota.active { background: #fff; }
 .ie8 table.hascontrols tbody tr{border-collapse:collapse;border: 1px solid #ddd !important;}
 
 /* APPS */
-.appinfo { margin: 1em; }
+.appinfo { margin: 1em 40px; }
 h3 { font-size: 1.4em; font-weight: bold; }
 ul.applist a {
 	height: 2.2em;
@@ -72,6 +72,12 @@ ul.applist .app-external {
 }
 li { color:#888; }
 li.active { color:#000; }
+#leftcontent .appwarning {
+	background: #fcc;
+}
+#leftcontent .appwarning:hover {
+	background: #fbb;
+}
 small.externalapp { color:#FFF; background-color:#BBB; font-weight:bold; font-size: 0.6em; margin: 0; padding: 0.1em 0.2em; border-radius: 4px;}
 small.externalapp.list { float: right; }
 small.recommendedapp { color:#FFF; background-color:#888; font-weight:bold; font-size: 0.6em; margin: 0; padding: 0.1em 0.2em; border-radius: 4px;}

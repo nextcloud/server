@@ -15,9 +15,10 @@ var FileList={
 		// filename td
 		td = $('<td></td>').attr({
 			"class": "filename",
-			"style": 'background-image:url('+iconurl+'); background-size: 16px;'
+			"style": 'background-image:url('+iconurl+'); background-size: 32px;'
 		});
-		td.append('<input type="checkbox" />');
+		var rand = Math.random().toString(16).slice(2);
+		td.append('<input id="select-'+rand+'" type="checkbox" /><label for="select-'+rand+'"></label>');
 		var link_elem = $('<a></a>').attr({
 			"class": "name",
 			"href": linktarget
@@ -144,8 +145,9 @@ var FileList={
 	remove:function(name){
 		$('tr').filterAttr('data-file',name).find('td.filename').draggable('destroy');
 		$('tr').filterAttr('data-file',name).remove();
+		FileList.updateFileSummary();
 		if($('tr[data-file]').length==0){
-			$('#emptyfolder').show();
+			$('#emptycontent').show();
 		}
 	},
 	insertElement:function(name,type,element){
@@ -175,7 +177,8 @@ var FileList={
 		}else{
 			$('#fileList').append(element);
 		}
-		$('#emptyfolder').hide();
+		$('#emptycontent').hide();
+		FileList.updateFileSummary();
 	},
 	loadingDone:function(name, id){
 		var mime, tr=$('tr').filterAttr('data-file',name);
@@ -185,8 +188,9 @@ var FileList={
 		if (id != null) {
 			tr.attr('data-id', id);
 		}
-		getMimeIcon(mime,function(path){
-			tr.find('td.filename').attr('style','background-image:url('+path+')');
+		var path = getPathForPreview(name);
+		lazyLoadPreview(path, mime, function(previewpath){
+			tr.find('td.filename').attr('style','background-image:url('+previewpath+')');
 		});
 		tr.find('td.filename').draggable(dragOptions);
 	},
@@ -198,7 +202,7 @@ var FileList={
 		tr=$('tr').filterAttr('data-file',name);
 		tr.data('renaming',true);
 		td=tr.children('td.filename');
-		input=$('<input class="filename"/>').val(name);
+		input=$('<input type="text" class="filename"/>').val(name);
 		form=$('<form></form>');
 		form.append(input);
 		td.children('a.name').hide();
@@ -391,6 +395,7 @@ var FileList={
 						});
 						procesSelection();
 						checkTrashStatus();
+						FileList.updateFileSummary();
 					} else {
 						$.each(files,function(index,file) {
 							var deleteAction = $('tr').filterAttr('data-file',files[i]).children("td.date").children(".action.delete");
@@ -398,6 +403,111 @@ var FileList={
 						});
 					}
 				});
+	},
+	createFileSummary: function() {
+		if( $('#fileList tr').length > 0 ) {
+			var totalDirs = 0;
+			var totalFiles = 0;
+			var totalSize = 0;
+
+			// Count types and filesize
+			$.each($('tr[data-file]'), function(index, value) {
+				if ($(value).data('type') === 'dir') {
+					totalDirs++;
+				} else if ($(value).data('type') === 'file') {
+					totalFiles++;
+				}
+				totalSize += parseInt($(value).data('size'));
+			});
+
+			// Get translations
+			var directoryInfo = n('files', '%n folder', '%n folders', totalDirs);
+			var fileInfo = n('files', '%n file', '%n files', totalFiles);
+
+			var infoVars = {
+				dirs: '<span class="dirinfo">'+directoryInfo+'</span><span class="connector">',
+				files: '</span><span class="fileinfo">'+fileInfo+'</span>'
+			}
+
+			var info = t('files', '{dirs} and {files}', infoVars);
+
+			// don't show the filesize column, if filesize is NaN (e.g. in trashbin)
+			if (isNaN(totalSize)) {
+				var fileSize = '';
+			} else {
+				var fileSize = '<td class="filesize">'+humanFileSize(totalSize)+'</td>';
+			}
+
+			$('#fileList').append('<tr class="summary"><td><span class="info">'+info+'</span></td>'+fileSize+'<td></td></tr>');
+
+			var $dirInfo = $('.summary .dirinfo');
+			var $fileInfo = $('.summary .fileinfo');
+			var $connector = $('.summary .connector');
+
+			// Show only what's necessary, e.g.: no files: don't show "0 files"
+			if ($dirInfo.html().charAt(0) === "0") {
+				$dirInfo.hide();
+				$connector.hide();
+			}
+			if ($fileInfo.html().charAt(0) === "0") {
+				$fileInfo.hide();
+				$connector.hide();
+			}
+		}
+	},
+	updateFileSummary: function() {
+		var $summary = $('.summary');
+
+		// Check if we should remove the summary to show "Upload something"
+		if ($('#fileList tr').length === 1 && $summary.length === 1) {
+			$summary.remove();
+		}
+		// If there's no summary create one (createFileSummary checks if there's data)
+		else if ($summary.length === 0) {
+			FileList.createFileSummary();
+		}
+		// There's a summary and data -> Update the summary
+		else if ($('#fileList tr').length > 1 && $summary.length === 1) {
+			var totalDirs = 0;
+			var totalFiles = 0;
+			var totalSize = 0;
+			$.each($('tr[data-file]'), function(index, value) {
+				if ($(value).data('type') === 'dir') {
+					totalDirs++;
+				} else if ($(value).data('type') === 'file') {
+					totalFiles++;
+				}
+				if ($(value).data('size') !== undefined) {
+					totalSize += parseInt($(value).data('size'));
+				}
+			});
+
+			var $dirInfo = $('.summary .dirinfo');
+			var $fileInfo = $('.summary .fileinfo');
+			var $connector = $('.summary .connector');
+
+			// Substitute old content with new translations
+			$dirInfo.html(n('files', '%n folder', '%n folders', totalDirs));
+			$fileInfo.html(n('files', '%n file', '%n files', totalFiles));
+			$('.summary .filesize').html(humanFileSize(totalSize));
+
+			// Show only what's necessary (may be hidden)
+			if ($dirInfo.html().charAt(0) === "0") {
+				$dirInfo.hide();
+				$connector.hide();
+			} else {
+				$dirInfo.show();
+			}
+			if ($fileInfo.html().charAt(0) === "0") {
+				$fileInfo.hide();
+				$connector.hide();
+			} else {
+				$fileInfo.show();
+			}
+			if ($dirInfo.html().charAt(0) !== "0" && $fileInfo.html().charAt(0) !== "0") {
+				$connector.show();
+			}
+		}
 	}
 };
 
@@ -599,4 +709,6 @@ $(document).ready(function(){
 	$(window).unload(function (){
 		$(window).trigger('beforeunload');
 	});
+
+	FileList.createFileSummary();
 });

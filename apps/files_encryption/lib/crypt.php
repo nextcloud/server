@@ -25,7 +25,7 @@
 
 namespace OCA\Encryption;
 
-require_once realpath(dirname(__FILE__) . '/../3rdparty/Crypt_Blowfish/Blowfish.php');
+require_once __DIR__ . '/../3rdparty/Crypt_Blowfish/Blowfish.php';
 
 /**
  * Class for common cryptography functionality

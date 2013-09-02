@@ -3,15 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# DeeJaVu <ddejjavvu@gmail.com>, 2013
 # ismail yenigül <ismail.yenigul@surgate.com>, 2013
 # tridinebandim, 2013
+# volkangezer <volkangezer@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-27 11:18-0400\n"
+"PO-Revision-Date: 2013-08-27 00:50+0000\n"
+"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,10 +45,6 @@ msgstr "Grup zaten mevcut"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Gruba eklenemiyor"
-
-#: ajax/enableapp.php:11
-msgid "Could not enable app. "
-msgstr "Uygulama devreye alınamadı"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -94,37 +92,49 @@ msgstr "Uygulama güncellenemedi."
 msgid "Update to {appversion}"
 msgstr "{appversion} Güncelle"
 
-#: js/apps.js:41 js/apps.js:81
+#: js/apps.js:41 js/apps.js:74 js/apps.js:100
 msgid "Disable"
 msgstr "Etkin değil"
 
-#: js/apps.js:41 js/apps.js:69 js/apps.js:88
+#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
 msgid "Enable"
 msgstr "Etkinleştir"
 
-#: js/apps.js:60
+#: js/apps.js:63
 msgid "Please wait...."
 msgstr "Lütfen bekleyin...."
 
-#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
-msgid "Error"
-msgstr "Hata"
+#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+msgid "Error while disabling app"
+msgstr "Uygulama devre dışı bırakılırken hata"
 
-#: js/apps.js:95
+#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+msgid "Error while enabling app"
+msgstr "Uygulama etkinleştirilirken hata"
+
+#: js/apps.js:115
 msgid "Updating...."
 msgstr "Güncelleniyor...."
 
-#: js/apps.js:98
+#: js/apps.js:118
 msgid "Error while updating app"
 msgstr "Uygulama güncellenirken hata"
 
-#: js/apps.js:101
+#: js/apps.js:118
+msgid "Error"
+msgstr "Hata"
+
+#: js/apps.js:119 templates/apps.php:43
+msgid "Update"
+msgstr "Güncelleme"
+
+#: js/apps.js:122
 msgid "Updated"
 msgstr "Güncellendi"
 
 #: js/personal.js:150
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "Dosyaların şifresi çözülüyor... Lütfen bekleyin, bu biraz zaman alabilir."
 
 #: js/personal.js:172
 msgid "Saving..."
@@ -147,27 +157,27 @@ msgstr "Kullanıcı kaldırılamıyor"
 msgid "Groups"
 msgstr "Gruplar"
 
-#: js/users.js:95 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "Yönetici Grubu "
 
-#: js/users.js:115 templates/users.php:164
+#: js/users.js:120 templates/users.php:164
 msgid "Delete"
 msgstr "Sil"
 
-#: js/users.js:269
+#: js/users.js:277
 msgid "add group"
 msgstr "grup ekle"
 
-#: js/users.js:428
+#: js/users.js:436
 msgid "A valid username must be provided"
 msgstr "Geçerli bir kullanıcı adı mutlaka sağlanmalı"
 
-#: js/users.js:429 js/users.js:435 js/users.js:450
+#: js/users.js:437 js/users.js:443 js/users.js:458
 msgid "Error creating user"
 msgstr "Kullanıcı oluşturulurken hata"
 
-#: js/users.js:434
+#: js/users.js:442
 msgid "A valid password must be provided"
 msgstr "Geçerli bir parola mutlaka sağlanmalı"
 
@@ -283,7 +293,7 @@ msgstr "Herkes tarafından yüklemeye izin ver"
 #: templates/admin.php:144
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
-msgstr ""
+msgstr "Kullanıcıların, herkese açık dizinlerine, başkalarının dosya yüklemelerini etkinleştirmelerine izin ver."
 
 #: templates/admin.php:152
 msgid "Allow resharing"
@@ -370,10 +380,6 @@ msgstr "Uygulamanın sayfasına apps.owncloud.com adresinden bakın "
 #: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-lisanslayan <span class=\"author\"></span>"
-
-#: templates/apps.php:43
-msgid "Update"
-msgstr "Güncelleme"
 
 #: templates/help.php:4
 msgid "User Documentation"
@@ -473,19 +479,19 @@ msgstr " <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\
 
 #: templates/personal.php:117
 msgid "Encryption"
-msgstr ""
+msgstr "Şifreleme"
 
 #: templates/personal.php:119
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr ""
+msgstr "Şifreleme uygulaması artık etkin değil, tüm dosyanın şifresini çöz"
 
 #: templates/personal.php:125
 msgid "Log-in password"
-msgstr ""
+msgstr "Oturum açma parolası"
 
 #: templates/personal.php:130
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Tüm dosyaların şifresini çözme"
 
 #: templates/users.php:21
 msgid "Login Name"
