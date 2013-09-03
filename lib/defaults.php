@@ -72,9 +72,14 @@ class OC_Defaults {
 			return $this->theme->getShareNotificationText($sender, $itemName, $itemType, $link, $expiration);
 		} else {
 			if ($expiration) {
-				return $this->l->t("%s shared a %s called %s with you. The share will expire at %s. You can find the %s here: %s", array($sender, $itemType, $itemName, $expiration, $itemType, $link));
+				return $this->l->t("%s shared a %s called %s with you. " .
+						"The share will expire at %s. ".
+						"You can find the %s here: %s",
+						array($sender, $itemType, $itemName, $expiration, $itemType, $link));
 			} else {
-				return $this->l->t("%s shared a %s called %s with you. You can find the %s here: %s", array($sender, $itemType, $itemName, $itemType, $link));
+				return $this->l->t("%s shared a %s called %s with you. ".
+						"You can find the %s here: %s",
+						array($sender, $itemType, $itemName, $itemType, $link));
 			}
 		}
 	}

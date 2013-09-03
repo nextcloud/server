@@ -493,7 +493,7 @@ $(document).ready(function() {
 				$('input:[type=checkbox]', this).hide();
 				$('label', this).hide();
 			}
- 		} else {
+		} else {
 			$('a.unshare', this).hide();
 		}
 	});

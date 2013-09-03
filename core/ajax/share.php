@@ -129,7 +129,13 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 					}
 
 					$url = \OCP\Util::linkToAbsolute('files', 'index.php', array("dir" => $foldername));
-					$text = $defaults->getShareNotificationText(\OCP\User::getDisplayName(), $filename, $itemType, $url, $expiration);
+					$text = $defaults->getShareNotificationText(
+								\OCP\User::getDisplayName(),
+								$filename,
+								$itemType,
+								$url,
+								$expiration
+							);
 
 					try {
 						OCP\Util::sendMail(
@@ -153,7 +159,13 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			if (empty($noMail)) {
 				OCP\JSON::success();
 			} else {
-				OCP\JSON::error(array('data' => array('message' => $l->t("Couldn't send mail to following users: %s ", implode(', ', $noMail)))));
+				OCP\JSON::error(array(
+					'data' => array(
+						'message' => $l->t("Couldn't send mail to following users: %s ",
+								implode(', ', $noMail)
+								)
+						)
+					));
 			}
 			break;
 		case 'informRecipientsDisabled':
