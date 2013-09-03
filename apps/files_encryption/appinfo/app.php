@@ -25,7 +25,9 @@ if (!OC_Config::getValue('maintenance', false)) {
 	// App manager related hooks
 	OCA\Encryption\Helper::registerAppHooks();
 
-	stream_wrapper_register('crypt', 'OCA\Encryption\Stream');
+	if(!in_array('crypt', stream_get_wrappers())) {
+		stream_wrapper_register('crypt', 'OCA\Encryption\Stream');
+	}
 
 	// check if we are logged in
 	if (OCP\User::isLoggedIn()) {
