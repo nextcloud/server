@@ -40,7 +40,7 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 .header-right { float:right; vertical-align:middle; padding:0.5em; }
 .header-right > * { vertical-align:middle; }
 
-header .avatardiv {
+#header .avatardiv {
 	float:right;
 	margin-top: 6px;
 	margin-right: 6px;
