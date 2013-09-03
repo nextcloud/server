@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# blackc0de <complic@vipmail.hu>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-21 08:10-0400\n"
-"PO-Revision-Date: 2013-08-19 19:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-03 07:42-0400\n"
+"PO-Revision-Date: 2013-09-01 19:30+0000\n"
+"Last-Translator: blackc0de <complic@vipmail.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +29,7 @@ msgstr ""
 
 #: ajax/adminrecovery.php:48
 msgid "Recovery key successfully disabled"
-msgstr ""
+msgstr "Visszaállítási kulcs sikeresen kikapcsolva"
 
 #: ajax/adminrecovery.php:53
 msgid ""
@@ -37,11 +38,11 @@ msgstr ""
 
 #: ajax/changeRecoveryPassword.php:49
 msgid "Password successfully changed."
-msgstr ""
+msgstr "Jelszó sikeresen megváltoztatva."
 
 #: ajax/changeRecoveryPassword.php:51
 msgid "Could not change the password. Maybe the old password was not correct."
-msgstr ""
+msgstr "A jelszót nem lehet megváltoztatni! Lehet, hogy hibás volt a régi jelszó."
 
 #: ajax/updatePrivateKeyPassword.php:51
 msgid "Private key password successfully updated."
@@ -61,18 +62,18 @@ msgid ""
 "files."
 msgstr ""
 
-#: hooks/hooks.php:41
+#: hooks/hooks.php:51
 msgid "Missing requirements."
 msgstr ""
 
-#: hooks/hooks.php:42
+#: hooks/hooks.php:52
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
-msgstr ""
+msgstr "Kérlek győződj meg arról, hogy PHP 5.3.3 vagy annál frissebb van telepítve, valamint a PHP-hez tartozó OpenSSL bővítmény be van-e kapcsolva és az helyesen van-e konfigurálva! Ki lett kapcsolva ideiglenesen a titkosító alkalmazás."
 
-#: hooks/hooks.php:249
+#: hooks/hooks.php:250
 msgid "Following users are not set up for encryption:"
 msgstr ""
 
@@ -92,7 +93,7 @@ msgstr ""
 
 #: templates/invalid_private_key.php:7
 msgid "personal settings"
-msgstr ""
+msgstr "személyes beállítások"
 
 #: templates/settings-admin.php:5 templates/settings-personal.php:4
 msgid "Encryption"
@@ -109,11 +110,11 @@ msgstr ""
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:54
 msgid "Enabled"
-msgstr ""
+msgstr "Bekapcsolva"
 
 #: templates/settings-admin.php:29 templates/settings-personal.php:62
 msgid "Disabled"
-msgstr ""
+msgstr "Kikapcsolva"
 
 #: templates/settings-admin.php:34
 msgid "Change recovery key password:"
@@ -129,7 +130,7 @@ msgstr ""
 
 #: templates/settings-admin.php:53
 msgid "Change Password"
-msgstr ""
+msgstr "Jelszó megváltoztatása"
 
 #: templates/settings-personal.php:11
 msgid "Your private key password no longer match your log-in password:"
@@ -147,19 +148,19 @@ msgstr ""
 
 #: templates/settings-personal.php:24
 msgid "Old log-in password"
-msgstr ""
+msgstr "Régi bejelentkezési jelszó"
 
 #: templates/settings-personal.php:30
 msgid "Current log-in password"
-msgstr ""
+msgstr "Jelenlegi bejelentkezési jelszó"
 
 #: templates/settings-personal.php:35
 msgid "Update Private Key Password"
-msgstr ""
+msgstr "Privát kulcs jelszó frissítése"
 
 #: templates/settings-personal.php:45
 msgid "Enable password recovery:"
-msgstr ""
+msgstr "Jelszó-visszaállítás bekapcsolása"
 
 #: templates/settings-personal.php:47
 msgid ""
