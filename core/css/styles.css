@@ -41,9 +41,9 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 .header-right > * { vertical-align:middle; }
 
 #header .avatardiv {
-	float:right;
-	margin-top: 6px;
-	margin-right: 6px;
+	text-shadow: none;
+	float: left;
+	display: inline-block;
 }
 
 /* INPUTS */
@@ -588,8 +588,18 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 
 
 /* USER MENU */
-#settings { float:right; margin-top:7px; color:#bbb; text-shadow:0 -1px 0 #000; }
-#expand { padding:15px; cursor:pointer; font-weight:bold; }
+#settings {
+	float: right;
+	margin-top: 7px;
+	margin-left: 10px;
+	color: #bbb;
+	text-shadow: 0 -1px 0 #000;
+}
+#expand {
+	padding: 15px 15px 15px 5px;
+	cursor: pointer;
+	font-weight: bold;
+}
 #expand:hover, #expand:focus, #expand:active { color:#fff; }
 #expand img { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70); opacity:.7; margin-bottom:-2px; }
 #expand:hover img, #expand:focus img, #expand:active img { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
