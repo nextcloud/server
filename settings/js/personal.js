@@ -50,15 +50,15 @@ function selectAvatar (path) {
 }
 
 function updateAvatar () {
-	$('header .avatardiv').avatar(OC.currentUser, 32);
-	$('#avatar .avatardiv').avatar(OC.currentUser, 128);
+	$('#header .avatardiv').avatar(OC.currentUser, 32, true);
+	$('#displayavatar .avatardiv').avatar(OC.currentUser, 128, true);
 }
 
 function showAvatarCropper() {
 	$cropper = $('#cropper');
 	$cropperImage = $('#cropper img');
 
-	$cropperImage.attr('src', OC.Router.generate('core_avatar_get_tmp'));
+	$cropperImage.attr('src', OC.Router.generate('core_avatar_get_tmp')+'#'+Math.floor(Math.random()*1000));
 
 	// Looks weird, but on('load', ...) doesn't work in IE8
 	$cropperImage.ready(function(){
@@ -77,8 +77,11 @@ function showAvatarCropper() {
 }
 
 function sendCropData() {
+	$cropper = $('#cropper');
 	$('#displayavatar').show();
 	$cropper.hide();
+	$('.jcrop-holder').remove();
+	$('#cropper img').removeData('Jcrop').removeAttr('style').removeAttr('src');
 
 	var cropperdata = $('#cropper').data();
 	var data = {
@@ -220,7 +223,9 @@ $(document).ready(function(){
 
 	$('#abortcropperbutton').click(function(){
 		$('#displayavatar').show();
-		$cropper.hide();
+		$('#cropper').hide();
+		$('.jcrop-holder').remove();
+		$('#cropper img').removeData('Jcrop').removeAttr('style').removeAttr('src');
 	});
 
 	$('#sendcropperbutton').click(function(){

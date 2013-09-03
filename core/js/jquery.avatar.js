@@ -15,7 +15,7 @@
  * You may use this on any <div></div>
  * Here I'm using <div class="avatardiv"></div> as an example.
  *
- * There are 3 ways to call this:
+ * There are 4 ways to call this:
  *
  * 1. $('.avatardiv').avatar('jdoe', 128);
  * This will make the div to jdoe's fitting avatar, with the size of 128px.
@@ -30,10 +30,14 @@
  * This will search the DOM for 'user' data, to use as the username. If there
  * is no username available it will default to a placeholder with the value of
  * "x". The size will be determined the same way, as the second example did.
+ *
+ * 4. $('.avatardiv').avatar('jdoe', 128, true);
+ * This will behave like the first example, except it will also append random
+ * hashes to the custom avatar images, to force image reloading in IE8.
  */
 
 (function ($) {
-	$.fn.avatar = function(user, size) {
+	$.fn.avatar = function(user, size, ie8fix) {
 		if (typeof(size) === 'undefined') {
 			if (this.height() > 0) {
 				size = this.height();
@@ -67,7 +71,11 @@
 				if (typeof(result) === 'object') {
 					$div.placeholder(result.user);
 				} else {
-					$div.html('<img src="'+url+'">');
+					if (ie8fix === true) {
+						$div.html('<img src="'+url+'#'+Math.floor(Math.random()*1000)+'">');
+					} else {
+						$div.html('<img src="'+url+'">');
+					}
 				}
 			});
 		});
