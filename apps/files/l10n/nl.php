@@ -13,6 +13,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "Er ontbreekt een tijdelijke map",
 "Failed to write to disk" => "Schrijven naar schijf mislukt",
 "Not enough storage available" => "Niet genoeg opslagruimte beschikbaar",
+"Upload failed" => "Upload mislukt",
 "Invalid directory." => "Ongeldige directory.",
 "Files" => "Bestanden",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Het lukt niet om uw bestand te uploaded, omdat het een folder of 0 bytes is",

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "ჯგუფი",
 "Category type not provided." => "კატეგორიის ტიპი არ არის განხილული.",
 "No category to add?" => "არ არის კატეგორია დასამატებლად?",
 "This category already exists: %s" => "კატეგორია უკვე არსებობს: %s",

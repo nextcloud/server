@@ -13,6 +13,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "缺少临时目录",
 "Failed to write to disk" => "写入磁盘失败",
 "Not enough storage available" => "没有足够的存储空间",
+"Upload failed" => "上传失败",
 "Invalid directory." => "无效文件夹。",
 "Files" => "文件",
 "Unable to upload your file as it is a directory or has 0 bytes" => "无法上传您的文件，文件夹或者空文件",

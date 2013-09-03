@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s teilte »%s« mit Ihnen",
+"group" => "Gruppe",
 "Turned on maintenance mode" => "Wartungsmodus eingeschaltet",
 "Turned off maintenance mode" => "Wartungsmodus ausgeschaltet",
 "Updated database" => "Datenbank aktualisiert",

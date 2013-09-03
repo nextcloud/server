@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s kunhavigis “%s” kun vi",
+"group" => "grupo",
 "Category type not provided." => "Ne proviziĝis tipon de kategorio.",
 "No category to add?" => "Ĉu neniu kategorio estas aldonota?",
 "This category already exists: %s" => "Tiu kategorio jam ekzistas: %s",

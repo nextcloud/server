@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s поделился »%s« с вами",
+"group" => "группа",
 "Category type not provided." => "Тип категории не предоставлен",
 "No category to add?" => "Нет категорий для добавления?",
 "This category already exists: %s" => "Эта категория уже существует: %s",

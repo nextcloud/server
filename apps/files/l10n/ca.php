@@ -13,6 +13,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "Falta un fitxer temporal",
 "Failed to write to disk" => "Ha fallat en escriure al disc",
 "Not enough storage available" => "No hi ha prou espai disponible",
+"Upload failed" => "La pujada ha fallat",
 "Invalid directory." => "Directori no vàlid.",
 "Files" => "Fitxers",
 "Unable to upload your file as it is a directory or has 0 bytes" => "No es pot pujar el fitxer perquè és una carpeta o té 0 bytes",

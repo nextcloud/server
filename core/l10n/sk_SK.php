@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s s Vami zdieľa »%s«",
+"group" => "skupina",
 "Turned on maintenance mode" => "Mód údržby zapnutý",
 "Turned off maintenance mode" => "Mód údržby vypnutý",
 "Updated database" => "Databáza aktualizovaná",

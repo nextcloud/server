@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "Nėra laikinojo katalogo",
 "Failed to write to disk" => "Nepavyko įrašyti į diską",
 "Not enough storage available" => "Nepakanka vietos serveryje",
+"Upload failed" => "Nusiuntimas nepavyko",
 "Invalid directory." => "Neteisingas aplankas",
 "Files" => "Failai",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Neįmanoma įkelti failo - jo dydis gali būti 0 bitų arba tai katalogas",

@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s delte »%s« med sig",
+"group" => "gruppe",
 "Turned on maintenance mode" => "Startede vedligeholdelsestilstand",
 "Turned off maintenance mode" => "standsede vedligeholdelsestilstand",
 "Updated database" => "Opdaterede database",

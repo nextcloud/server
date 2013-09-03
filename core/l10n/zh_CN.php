@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s 向您分享了 »%s«",
+"group" => "组",
 "Turned on maintenance mode" => "启用维护模式",
 "Turned off maintenance mode" => "关闭维护模式",
 "Updated database" => "数据库已更新",

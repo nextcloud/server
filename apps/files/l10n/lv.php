@@ -13,6 +13,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "Trūkst pagaidu mapes",
 "Failed to write to disk" => "Neizdevās saglabāt diskā",
 "Not enough storage available" => "Nav pietiekami daudz vietas",
+"Upload failed" => "Neizdevās augšupielādēt",
 "Invalid directory." => "Nederīga direktorija.",
 "Files" => "Datnes",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Nevar augšupielādēt jūsu datni, jo tā ir direktorija vai arī tā ir 0 baitu liela",
