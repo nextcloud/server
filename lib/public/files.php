@@ -56,6 +56,16 @@ class Files {
 	}
 
 	/**
+	 * search for files by mimetype
+	 *
+	 * @param string $query
+	 * @return array
+	 */
+	static public function searchByMime($mimetype) {
+		return(\OC\Files\Filesystem::searchByMime( $mimetype ));
+	}
+
+	/**
 	 * copy the contents of one stream to another
 	 * @param resource source
 	 * @param resource target
