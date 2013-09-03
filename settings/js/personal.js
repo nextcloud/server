@@ -55,16 +55,17 @@ function updateAvatar () {
 }
 
 function showAvatarCropper() {
-	var $dlg = $('<div class="hidden" id="cropperbox" title="'+t('settings', 'Crop')+'"><img id="cropper" src="'+OC.Router.generate('core_avatar_get_tmp')+'"></div>');
-	$('body').append($dlg);
-
-	$cropperbox = $('#cropperbox');
 	$cropper = $('#cropper');
+	$cropperImage = $('#cropper img');
 
-	$cropper.on('load', function() {
-		$cropperbox.show();
+	$cropperImage.attr('src', OC.Router.generate('core_avatar_get_tmp'));
 
-		$cropper.Jcrop({
+	// Looks weird, but on('load', ...) doesn't work in IE8
+	$cropperImage.ready(function(){
+		$('#displayavatar').hide();
+		$cropper.show();
+
+		$cropperImage.Jcrop({
 			onChange: saveCoords,
 			onSelect: saveCoords,
 			aspectRatio: 1,
@@ -72,21 +73,13 @@ function showAvatarCropper() {
 			boxWidth: 500,
 			setSelect: [0, 0, 300, 300]
 		});
-
-		$cropperbox.ocdialog({
-			buttons: [{
-				text: t('settings', 'Crop'),
-				click: sendCropData,
-				defaultButton: true
-			}],
-			close: function(){
-				$(this).remove();
-			}
-		});
 	});
 }
 
 function sendCropData() {
+	$('#displayavatar').show();
+	$cropper.hide();
+
 	var cropperdata = $('#cropper').data();
 	var data = {
 		x: cropperdata.x,
@@ -223,6 +216,15 @@ $(document).ready(function(){
 				updateAvatar();
 			}
 		});
+	});
+
+	$('#abortcropperbutton').click(function(){
+		$('#displayavatar').show();
+		$cropper.hide();
+	});
+
+	$('#sendcropperbutton').click(function(){
+		sendCropData();
 	});
 } );
 

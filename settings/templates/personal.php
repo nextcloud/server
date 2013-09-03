@@ -84,13 +84,20 @@ if($_['passwordChangeSupported']) {
 <form id="avatar" method="post" action="<?php p(\OC_Helper::linkToRoute('core_avatar_post')); ?>">
 	<fieldset class="personalblock">
 		<legend><strong><?php p($l->t('Profile picture')); ?></strong></legend>
-		<div class="avatardiv"></div><br>
-		<div class="warning hidden"></div>
-		<div class="inlineblock button" id="uploadavatarbutton"><?php p($l->t('Upload new')); ?></div>
-		<input type="file" class="hidden" name="files[]" id="uploadavatar">
-		<div class="inlineblock button" id="selectavatar"><?php p($l->t('Select new from Files')); ?></div>
-		<div class="inlineblock button" id="removeavatar"><?php p($l->t('Remove image')); ?></div><br>
-		<?php p($l->t('Either png or jpg. Ideally square but you will be able to crop it.')); ?>
+		<div id="displayavatar">
+			<div class="avatardiv"></div><br>
+			<div class="warning hidden"></div>
+			<div class="inlineblock button" id="uploadavatarbutton"><?php p($l->t('Upload new')); ?></div>
+			<input type="file" class="hidden" name="files[]" id="uploadavatar">
+			<div class="inlineblock button" id="selectavatar"><?php p($l->t('Select new from Files')); ?></div>
+			<div class="inlineblock button" id="removeavatar"><?php p($l->t('Remove image')); ?></div><br>
+			<?php p($l->t('Either png or jpg. Ideally square but you will be able to crop it.')); ?>
+		</div>
+		<div id="cropper" class="hidden">
+			<img>
+			<div class="inlineblock button" id="abortcropperbutton"><?php p($l->t('Abort')); ?></div>
+			<div class="inlineblock button primary" id="sendcropperbutton"><?php p($l->t('Choose as profile image')); ?></div>
+		</div>
 	</fieldset>
 </form>
 <?php endif; ?>
