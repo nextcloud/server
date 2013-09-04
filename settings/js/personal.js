@@ -44,10 +44,6 @@ function changeDisplayName(){
     }
 }
 
-function selectAvatar (path) {
-	$.post(OC.Router.generate('core_avatar_post'), {path: path}, avatarResponseHandler);
-}
-
 function updateAvatar () {
 	$('#header .avatardiv').avatar(OC.currentUser, 32, true);
 	$('#displayavatar .avatardiv').avatar(OC.currentUser, 128, true);
@@ -89,7 +85,6 @@ function sendCropData() {
 		w: cropperdata.w,
 		h: cropperdata.h
 	};
-	$('#cropperbox').remove();
 	$.post(OC.Router.generate('core_avatar_post_cropped'), {crop: data}, avatarResponseHandler);
 }
 
@@ -207,7 +202,14 @@ $(document).ready(function(){
 	$('#uploadavatar').fileupload(uploadparms);
 
 	$('#selectavatar').click(function(){
-		OC.dialogs.filepicker(t('settings', "Select a profile picture"), selectAvatar, false, "image");
+		OC.dialogs.filepicker(
+			t('settings', "Select a profile picture"),
+			function(){
+				$.post(OC.Router.generate('core_avatar_post'), {path: path}, avatarResponseHandler);
+			},
+			false,
+			"image"
+		);
 	});
 
 	$('#removeavatar').click(function(){

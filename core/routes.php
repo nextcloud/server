@@ -60,8 +60,8 @@ $this->create('core_lostpassword_reset_password', '/lostpassword/reset/{token}/{
 
 // Avatar routes
 $this->create('core_avatar_get_tmp', '/avatar/tmp')
-        ->get()
-        ->action('OC_Core_Avatar_Controller', 'getTmpAvatar');
+	->get()
+	->action('OC_Core_Avatar_Controller', 'getTmpAvatar');
 $this->create('core_avatar_get', '/avatar/{user}/{size}')
 	->get()
 	->action('OC_Core_Avatar_Controller', 'getAvatar');
