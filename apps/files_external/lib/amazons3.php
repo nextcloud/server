@@ -183,17 +183,20 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		$dh = $this->opendir($path);
-		while (($file = readdir($dh)) !== false) {
-			if ($file === '.' || $file === '..') {
-				continue;
-			}
 
-			if ($this->is_dir($path . '/' . $file)) {
-				$this->rmdir($path . '/' . $file);
-			} else {
-				$this->unlink($path . '/' . $file);
+		if(is_resource($dh)) {
+			while (($file = readdir($dh)) !== false) {
+				if ($file === '.' || $file === '..') {
+					continue;
+				}
+
+				if ($this->is_dir($path . '/' . $file)) {
+					$this->rmdir($path . '/' . $file);
+				} else {
+					$this->unlink($path . '/' . $file);
+				}
 			}
-               	}
+		}
 
 		try {
 			$result = $this->connection->deleteObject(array(
@@ -464,15 +467,17 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			}
 
 			$dh = $this->opendir($path1);
-			while (($file = readdir($dh)) !== false) {
-				if ($file === '.' || $file === '..') {
-					continue;
-				}
+			if(is_resource($dh)) {
+				while (($file = readdir($dh)) !== false) {
+					if ($file === '.' || $file === '..') {
+						continue;
+					}
 
-				$source = $path1 . '/' . $file;
-				$target = $path2 . '/' . $file;
-				$this->copy($source, $target);
-                	}
+					$source = $path1 . '/' . $file;
+					$target = $path2 . '/' . $file;
+					$this->copy($source, $target);
+				}
+			}
 		}
 
 		return true;
