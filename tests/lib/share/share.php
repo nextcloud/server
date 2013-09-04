@@ -266,6 +266,41 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 
 	public function testShareWithUserExpirationExpired()
 	{
+		$this->shareUserOneTestFileWithUserTwo();
+
+		OC_User::setUserId($this->user1);
+		$this->assertTrue(
+			OCP\Share::setExpirationDate('test', 'test.txt', '2000-01-01 00:00'),
+			'Failed asserting that user 1 successfully set an expiration date for the test.txt share.'
+		);
+
+		OC_User::setUserId($this->user2);
+		$this->assertFalse(
+			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
+			'Failed asserting that user 2 no longer has access to test.txt after expiration.'
+		);
+	}
+
+	public function testShareWithUserExpirationValid()
+	{
+		$this->shareUserOneTestFileWithUserTwo();
+
+		OC_User::setUserId($this->user1);
+		$this->assertTrue(
+			OCP\Share::setExpirationDate('test', 'test.txt', '2037-01-01 00:00'),
+			'Failed asserting that user 1 successfully set an expiration date for the test.txt share.'
+		);
+
+		OC_User::setUserId($this->user2);
+		$this->assertEquals(
+			array('test.txt'),
+			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
+			'Failed asserting that user 2 still has access to test.txt after expiration date has been set.'
+		);
+	}
+
+	protected function shareUserOneTestFileWithUserTwo()
+	{
 		OC_User::setUserId($this->user1);
 		$this->assertTrue(
 			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\PERMISSION_READ),
@@ -282,18 +317,6 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 			array('test.txt'),
 			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
 			'Failed asserting that user 2 has access to test.txt after initial sharing.'
-		);
-
-		OC_User::setUserId($this->user1);
-		$this->assertTrue(
-			OCP\Share::setExpirationDate('test', 'test.txt', '2000-01-01 00:00'),
-			'Failed asserting that user 1 successfully set an expiration date for the test.txt share.'
-		);
-
-		OC_User::setUserId($this->user2);
-		$this->assertFalse(
-			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
-			'Failed asserting that user 2 no longer has access to test.txt after expiration.'
 		);
 	}
 
