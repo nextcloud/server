@@ -356,6 +356,9 @@ table.dragshadow td.size {
 	width: 100%;
 	height: 85px;
 }
+.oc-dialog .fileexists .conflict.template {
+	display: none;
+}
 .oc-dialog .fileexists .conflict .filename {
 	color:#777;
 	word-break: break-all;
@@ -377,11 +380,11 @@ table.dragshadow td.size {
 	float: left;
 	width: 235px;
 }
-.oc-dialog .fileexists .conflict-wrapper {
+.oc-dialog .fileexists .conflicts {
 	overflow-y:scroll;
 	max-height: 225px;
 }
-.oc-dialog .fileexists .conflict-wrapper input[type='checkbox'] {
+.oc-dialog .fileexists .conflict input[type='checkbox'] {
 	float: left;
 }
 

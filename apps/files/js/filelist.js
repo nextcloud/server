@@ -579,13 +579,14 @@ $(document).ready(function(){
 			currentUploads += 1;
 			uploadtext.attr('currentUploads', currentUploads);
 			
+			var translatedText = n('files', 'Uploading %n file', 'Uploading %n files', currentUploads);
 			if(currentUploads === 1) {
 				var img = OC.imagePath('core', 'loading.gif');
 				data.context.find('td.filename').attr('style','background-image:url('+img+')');
-				uploadtext.text(t('files', '1 file uploading'));
+				uploadtext.text(translatedText);
 				uploadtext.show();
 			} else {
-				uploadtext.text(currentUploads + ' ' + t('files', 'files uploading'));
+				uploadtext.text(translatedText);
 			}
 		}
 		
@@ -634,7 +635,7 @@ $(document).ready(function(){
 			} else {
 
 				// add as stand-alone row to filelist
-				var size=t('files','Pending');
+				var size=t('files', 'Pending');
 				if (data.files[0].size>=0){
 					size=data.files[0].size;
 				}
@@ -652,8 +653,9 @@ $(document).ready(function(){
 				// update file data
 				data.context.attr('data-mime',file.mime).attr('data-id',file.id);
 
-				getMimeIcon(file.mime, function(path){
-					data.context.find('td.filename').attr('style','background-image:url('+path+')');
+				var path = getPathForPreview(file.name);
+				lazyLoadPreview(path, file.mime, function(previewpath){
+					data.context.find('td.filename').attr('style','background-image:url('+previewpath+')');
 				});
 			}
 		}

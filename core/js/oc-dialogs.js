@@ -220,28 +220,24 @@ var OCdialogs = {
 	*/
 	fileexists:function(data, original, replacement, controller) {
 		var self = this;
-		var selection = controller.getSelection(data.originalFiles);
-		if (selection.defaultAction) {
-			controller[selection.defaultAction](data);
-		} else {
-			var dialog_name = 'oc-dialog-fileexists-content';
-			var dialog_id = '#' + dialog_name;
-			if (this._fileexistsshown) {
-				// add row
-				var conflict = $(dialog_id+ ' .conflict').last().clone();
-				conflict.find('.name').text(original.name);
+		var addConflict = function(conflicts, original, replacement) {
+			
+				var conflict = conflicts.find('.conflict.template').clone();
+				
+				conflict.find('.filename').text(original.name);
 				conflict.find('.original .size').text(humanFileSize(original.size));
 				conflict.find('.original .mtime').text(formatDate(original.mtime*1000));
 				conflict.find('.replacement .size').text(humanFileSize(replacement.size));
 				conflict.find('.replacement .mtime').text(formatDate(replacement.lastModifiedDate));
-				getMimeIcon(original.type,function(path){
-					conflict.find('.original .icon').css('background-image','url('+path+')');
+				var path = getPathForPreview(original.name);
+				lazyLoadPreview(path, original.type, function(previewpath){
+					conflict.find('.original .icon').css('background-image','url('+previewpath+')');
 				});
 				getMimeIcon(replacement.type,function(path){
 					conflict.find('.replacement .icon').css('background-image','url('+path+')');
 				});
-				$(dialog_id+' .conflict').last().after(conflict);
-				$(dialog_id).parent().children('.oc-dialog-title').text(t('files','{count} file conflicts',{count:$(dialog_id+ ' .conflict').length}));
+				conflict.removeClass('template');
+				conflicts.append(conflict);
 				
 				//set more recent mtime bold
 				if (replacement.lastModifiedDate.getTime() > original.mtime*1000) {
@@ -249,16 +245,16 @@ var OCdialogs = {
 				} else if (replacement.lastModifiedDate.getTime() < original.mtime*1000) {
 					conflict.find('.original .mtime').css('font-weight', 'bold');
 				} else {
-					//TODO add to same mtime colletion?
+					//TODO add to same mtime collection?
 				}
 				
 				// set bigger size bold
 				if (replacement.size > original.size) {
-					conflict.find('.replacement .size').css('font-weight','bold');
+					conflict.find('.replacement .size').css('font-weight', 'bold');
 				} else if (replacement.size < original.size) {
-					conflict.find('.original .size').css('font-weight','bold');
+					conflict.find('.original .size').css('font-weight', 'bold');
 				} else {
-					//TODO add to same size colletion?
+					//TODO add to same size collection?
 				}
 				
 				//add checkbox toggling actions
@@ -269,50 +265,42 @@ var OCdialogs = {
 				
 				//TODO show skip action for files with same size and mtime
 				
+		};
+		var selection = controller.getSelection(data.originalFiles);
+		if (selection.defaultAction) {
+			controller[selection.defaultAction](data);
+		} else {
+			var dialog_name = 'oc-dialog-fileexists-content';
+			var dialog_id = '#' + dialog_name;
+			if (this._fileexistsshown) {
+				// add conflict
+				
+				var conflicts = $(dialog_id+ ' .conflicts');
+				addConflict(conflicts, original, replacement);
+				
+				var title = t('files','{count} file conflicts',{count:$(dialog_id+ ' .conflict:not(.template)').length});
+				$(dialog_id).parent().children('.oc-dialog-title').text(title);
+				
+				//recalculate dimensions
 				$(window).trigger('resize');
+				
 			} else {
 				//create dialog
 				this._fileexistsshown = true;
 				$.when(this._getFileExistsTemplate()).then(function($tmpl) {
 					var title = t('files','One file conflict');
-					var original_size = humanFileSize(original.size);
-					var original_mtime = formatDate(original.mtime*1000);
-					var replacement_size= humanFileSize(replacement.size);
-					var replacement_mtime = formatDate(replacement.lastModifiedDate);
 					var $dlg = $tmpl.octemplate({
 						dialog_name: dialog_name,
 						title: title,
 						type: 'fileexists',
 
 						why: t('files','Which files do you want to keep?'),
-						what: t('files','If you select both versions, the copied file will have a number added to its name.'),
-						filename: original.name,
-						
-						original_size: original_size,
-						original_mtime: original_mtime,
-
-						replacement_size: replacement_size,
-						replacement_mtime: replacement_mtime
+						what: t('files','If you select both versions, the copied file will have a number added to its name.')
 					});
 					$('body').append($dlg);
 
-					getMimeIcon(original.type,function(path){
-						$(dialog_id + ' .original .icon').css('background-image','url('+path+')');
-					});
-					getMimeIcon(replacement.type,function(path){
-						$(dialog_id + ' .replacement .icon').css('background-image','url('+path+')');
-					});
-					$(dialog_id + ' #newname').val(original.name);
-
-					$(dialog_id + ' #newname').on('keyup', function(e){
-						if ($(dialog_id + ' #newname').val() === original.name) {
-							$(dialog_id + ' + div .rename').removeClass('primary').hide();
-							$(dialog_id + ' + div .replace').addClass('primary').show();
-						} else {
-							$(dialog_id + ' + div .rename').addClass('primary').show();
-							$(dialog_id + ' + div .replace').removeClass('primary').hide();
-						}
-					});
+					var conflicts = $($dlg).find('.conflicts');
+					addConflict(conflicts, original, replacement);
 
 					buttonlist = [{
 							text: t('core', 'Cancel'),
@@ -346,57 +334,27 @@ var OCdialogs = {
 						closeButton: null
 					});
 					
-					$(dialog_id + ' + div .rename').hide();
-					$(dialog_id + ' #newname').hide();
-
-					$(dialog_id + ' #newnamecb').on('change', function(){
-						if ($(dialog_id + ' #newnamecb').prop('checked')) {
-							$(dialog_id + ' #newname').fadeIn();
-						} else {
-							$(dialog_id + ' #newname').fadeOut();
-							$(dialog_id + ' #newname').val(original.name);
-						}
-					});
 					$(dialog_id).css('height','auto');
 
-					var conflict = $(dialog_id + ' .conflict').last();
-					//set more recent mtime bold
-					if (replacement.lastModifiedDate.getTime() > original.mtime*1000) {
-						conflict.find('.replacement .mtime').css('font-weight','bold');
-					} else if (replacement.lastModifiedDate.getTime() < original.mtime*1000) {
-						conflict.find('.original .mtime').css('font-weight','bold');
-					} else {
-						//TODO add to same mtime colletion?
-					}
-
-					// set bigger size bold
-					if (replacement.size > original.size) {
-						conflict.find('.replacement .size').css('font-weight','bold');
-					} else if (replacement.size < original.size) {
-						conflict.find('.original .size').css('font-weight','bold');
-					} else {
-						//TODO add to same size colletion?
-					}
-				
 					//add checkbox toggling actions
-					//add checkbox toggling actions
-					$(dialog_id).find('.allnewfiles').on('click', function(){
-						var checkboxes = $(dialog_id).find('.replacement input[type="checkbox"]');
+					$(dialog_id).find('.allnewfiles').on('click', function() {
+						var checkboxes = $(dialog_id).find('.conflict:not(.template) .replacement input[type="checkbox"]');
 						checkboxes.prop('checked', $(this).prop('checked'));
 					});
-					$(dialog_id).find('.allexistingfiles').on('click', function(){
-						var checkboxes = $(dialog_id).find('.original input[type="checkbox"]');
+					$(dialog_id).find('.allexistingfiles').on('click', function() {
+						var checkboxes = $(dialog_id).find('.conflict:not(.template) .original input[type="checkbox"]');
 						checkboxes.prop('checked', $(this).prop('checked'));
 					});
-					conflict.find('.replacement,.original').on('click', function(){
+					
+					$(dialog_id).find('.conflicts').on('click', '.replacement,.original', function() {
 						var checkbox = $(this).find('input[type="checkbox"]');
 						checkbox.prop('checked', !checkbox.prop('checked'));
 					});
 					
 					//update counters
-					$(dialog_id).on('click', '.replacement,.allnewfiles', function(){
-						var count = $(dialog_id).find('.replacement input[type="checkbox"]:checked').length;
-						if (count === $(dialog_id+ ' .conflict').length) {
+					$(dialog_id).on('click', '.replacement,.allnewfiles', function() {
+						var count = $(dialog_id).find('.conflict:not(.template) .replacement input[type="checkbox"]:checked').length;
+						if (count === $(dialog_id+ ' .conflict:not(.template)').length) {
 							$(dialog_id).find('.allnewfiles').prop('checked', true);
 							$(dialog_id).find('.allnewfiles + .count').text(t('files','(all selected)'));
 						} else if (count > 0) {
@@ -408,8 +366,8 @@ var OCdialogs = {
 						}
 					});
 					$(dialog_id).on('click', '.original,.allexistingfiles', function(){
-						var count = $(dialog_id).find('.original input[type="checkbox"]:checked').length;
-						if (count === $(dialog_id+ ' .conflict').length) {
+						var count = $(dialog_id).find('.conflict:not(.template) .original input[type="checkbox"]:checked').length;
+						if (count === $(dialog_id+ ' .conflict:not(.template)').length) {
 							$(dialog_id).find('.allexistingfiles').prop('checked', true);
 							$(dialog_id).find('.allexistingfiles + .count').text(t('files','(all selected)'));
 						} else if (count > 0) {
