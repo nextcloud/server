@@ -20,20 +20,6 @@ OC_API::register('get',
 		array('path' => '.+')); //allow slashes in parameter path
 /*
 OC_API::register('get',
-		'/apps/files_sharing/api/share/group/{path}',
-		array('\OCA\Files\Share\Api', 'getShare'),
-		'files_sharing',
-		OC_API::USER_AUTH,
-		array('path' => ''));
-
-OC_API::register('get',
-		'/apps/files_sharing/api/share/user/{path}',
-		array('\OCA\Files\Share\Api', 'getShare'),
-		'files_sharing',
-		OC_API::USER_AUTH,
-		array('path' => ''));
-
-OC_API::register('get',
 		'/apps/files_sharing/api/permission/{path}',
 		array('\OCA\Files\Share\Api', 'getShare'),
 		'files_sharing',
