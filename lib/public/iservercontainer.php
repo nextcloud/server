@@ -48,4 +48,10 @@ interface IServerContainer {
 	 */
 	function getRequest();
 
+	/**
+	 * Returns the preview manager which can create preview images for a given file
+	 *
+	 * @return \OCP\IPreview
+	 */
+	function getPreviewManager();
 }

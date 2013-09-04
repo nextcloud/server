@@ -42,6 +42,9 @@ class Preview {
 	private $scalingup;
 
 	//preview images object
+	/**
+	 * @var \OC_Image
+	 */
 	private $preview;
 
 	//preview providers
