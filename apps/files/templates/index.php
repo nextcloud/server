@@ -56,7 +56,7 @@
 </div>
 
 <?php if (isset($_['files']) and $_['isCreatable'] and count($_['files'])==0):?>
-	<div id="emptyfolder"><?php p($l->t('Nothing in here. Upload something!'))?></div>
+	<div id="emptycontent"><?php p($l->t('Nothing in here. Upload something!'))?></div>
 <?php endif; ?>
 
 <table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="36" data-preview-y="36">
@@ -104,7 +104,7 @@
 		<?php print_unescaped($_['fileList']); ?>
 	</tbody>
 </table>
-<div id="editor"></div>
+<div id="editor"></div><!-- FIXME Do not use this div in your app! It is deprecated and will be removed in the future! -->
 <div id="uploadsize-message" title="<?php p($l->t('Upload too large'))?>">
 	<p>
 	<?php p($l->t('The files you are trying to upload exceed the maximum size for file uploads on this server.'));?>

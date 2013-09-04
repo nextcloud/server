@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-25 19:18-0400\n"
-"PO-Revision-Date: 2013-08-25 23:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-03 07:44-0400\n"
+"PO-Revision-Date: 2013-09-03 09:50+0000\n"
+"Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -88,53 +88,53 @@ msgstr "Impossible de supprimer l'utilisateur du groupe %s"
 msgid "Couldn't update app."
 msgstr "Impossible de mettre à jour l'application"
 
-#: js/apps.js:35
+#: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Mettre à jour vers {appversion}"
 
-#: js/apps.js:41 js/apps.js:74 js/apps.js:100
+#: js/apps.js:49 js/apps.js:82 js/apps.js:108
 msgid "Disable"
 msgstr "Désactiver"
 
-#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
+#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
 msgid "Enable"
 msgstr "Activer"
 
-#: js/apps.js:63
+#: js/apps.js:71
 msgid "Please wait...."
 msgstr "Veuillez patienter…"
 
-#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+#: js/apps.js:79 js/apps.js:80 js/apps.js:100
 msgid "Error while disabling app"
-msgstr ""
+msgstr "Erreur lors de la désactivation de l'application"
 
-#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+#: js/apps.js:99 js/apps.js:112 js/apps.js:113
 msgid "Error while enabling app"
-msgstr ""
+msgstr "Erreur lors de l'activation de l'application"
 
-#: js/apps.js:115
+#: js/apps.js:123
 msgid "Updating...."
 msgstr "Mise à jour..."
 
-#: js/apps.js:118
+#: js/apps.js:126
 msgid "Error while updating app"
 msgstr "Erreur lors de la mise à jour de l'application"
 
-#: js/apps.js:118
+#: js/apps.js:126
 msgid "Error"
 msgstr "Erreur"
 
-#: js/apps.js:119 templates/apps.php:43
+#: js/apps.js:127 templates/apps.php:43
 msgid "Update"
 msgstr "Mettre à jour"
 
-#: js/apps.js:122
+#: js/apps.js:130
 msgid "Updated"
 msgstr "Mise à jour effectuée avec succès"
 
 #: js/personal.js:150
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "Déchiffrement en cours... Cela peut prendre un certain temps."
 
 #: js/personal.js:172
 msgid "Saving..."
@@ -196,7 +196,7 @@ msgid ""
 "configure your webserver in a way that the data directory is no longer "
 "accessible or you move the data directory outside the webserver document "
 "root."
-msgstr ""
+msgstr "Votre dossier de données et vos fichiers sont probablement accessibles depuis internet. Le fichier .htaccess ne fonctionne pas. Nous vous recommandons vivement de configurer votre serveur web de façon à ce que ce dossier de données ne soit plus accessible, ou bien de le déplacer à l'extérieur de la racine du serveur web."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -211,7 +211,7 @@ msgstr "Votre serveur web, n'est pas correctement configuré pour permettre la s
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
-msgstr ""
+msgstr "Veuillez consulter à nouveau les <a href=\"%s\">guides d'installation</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
@@ -233,7 +233,7 @@ msgid ""
 "System locale can't be set to %s. This means that there might be problems "
 "with certain characters in file names. We strongly suggest to install the "
 "required packages on your system to support %s."
-msgstr ""
+msgstr "Le localisation du système n'a pu être configurée à %s. Cela signifie qu'il pourrait y avoir des problèmes avec certains caractères dans les noms de fichiers. Il est fortement recommandé d'installer les paquets requis pour le support de %s."
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
@@ -246,7 +246,7 @@ msgid ""
 "installation of 3rd party apps don´t work. Accessing files from remote and "
 "sending of notification emails might also not work. We suggest to enable "
 "internet connection for this server if you want to have all features."
-msgstr ""
+msgstr "Ce serveur ne peut se connecter à internet. Cela signifie que certaines fonctionnalités, telles que le montage de supports de stockage distants, les notifications de mises à jour ou l'installation d'applications tierces ne fonctionneront pas. L'accès aux fichiers à distance, ainsi que les notifications par mails ne seront pas fonctionnels également. Il est recommandé d'activer la connexion internet pour ce serveur si vous souhaitez disposer de l'ensemble des fonctionnalités offertes."
 
 #: templates/admin.php:92
 msgid "Cron"
@@ -260,11 +260,11 @@ msgstr "Exécute une tâche à chaque chargement de page"
 msgid ""
 "cron.php is registered at a webcron service to call cron.php once a minute "
 "over http."
-msgstr ""
+msgstr "cron.php est enregistré en tant que service webcron pour appeler cron.php une fois par minute via http."
 
 #: templates/admin.php:115
 msgid "Use systems cron service to call the cron.php file once a minute."
-msgstr ""
+msgstr "Utilise le service cron du système pour appeler cron.php une fois par minute."
 
 #: templates/admin.php:120
 msgid "Sharing"
@@ -288,12 +288,12 @@ msgstr "Autoriser les utilisateurs à partager des éléments publiquement à l'
 
 #: templates/admin.php:143
 msgid "Allow public uploads"
-msgstr ""
+msgstr "Autoriser les téléversements publics"
 
 #: templates/admin.php:144
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
-msgstr ""
+msgstr "Permet d'autoriser les autres utilisateurs à téléverser dans le dossier partagé public de l'utilisateur"
 
 #: templates/admin.php:152
 msgid "Allow resharing"
@@ -322,14 +322,14 @@ msgstr "Forcer HTTPS"
 #: templates/admin.php:185
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
-msgstr ""
+msgstr "Forcer les clients à se connecter à %s via une connexion chiffrée."
 
 #: templates/admin.php:191
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
-msgstr ""
+msgstr "Veuillez vous connecter à cette instance %s via HTTPS pour activer ou désactiver SSL."
 
 #: templates/admin.php:203
 msgid "Log"
@@ -483,15 +483,15 @@ msgstr "Chiffrement"
 
 #: templates/personal.php:119
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr ""
+msgstr "L'application de chiffrement n'est plus activée, déchiffrez tous vos fichiers"
 
 #: templates/personal.php:125
 msgid "Log-in password"
-msgstr ""
+msgstr "Mot de passe de connexion"
 
 #: templates/personal.php:130
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Déchiffrer tous les fichiers"
 
 #: templates/users.php:21
 msgid "Login Name"

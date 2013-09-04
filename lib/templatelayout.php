@@ -58,7 +58,7 @@ class OC_TemplateLayout extends OC_Template {
 		if (OC_Config::getValue('installed', false) && $renderas!='error') {
 			$this->append( 'jsfiles', OC_Helper::linkToRoute('js_config') . $versionParameter);
 		}
-		if (!empty(OC_Util::$core_scripts)) {
+		if (!empty(OC_Util::$coreScripts)) {
 			$this->append( 'jsfiles', OC_Helper::linkToRemoteBase('core.js', false) . $versionParameter);
 		}
 		foreach($jsfiles as $info) {
@@ -71,7 +71,7 @@ class OC_TemplateLayout extends OC_Template {
 		// Add the css files
 		$cssfiles = self::findStylesheetFiles(OC_Util::$styles);
 		$this->assign('cssfiles', array());
-		if (!empty(OC_Util::$core_styles)) {
+		if (!empty(OC_Util::$coreStyles)) {
 			$this->append( 'cssfiles', OC_Helper::linkToRemoteBase('core.css', false) . $versionParameter);
 		}
 		foreach($cssfiles as $info) {
