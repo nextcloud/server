@@ -45,8 +45,13 @@ function changeDisplayName(){
 }
 
 function updateAvatar () {
-	$('#header .avatardiv').avatar(OC.currentUser, 32, true);
-	$('#displayavatar .avatardiv').avatar(OC.currentUser, 128, true);
+	$headerdiv = $('#header .avatardiv');
+	$displaydiv = $('#displayavatar .avatardiv');
+
+	$headerdiv.css({'background-color': ''});
+	$headerdiv.avatar(OC.currentUser, 32, true);
+	$displaydiv.css({'background-color': ''});
+	$displaydiv.avatar(OC.currentUser, 128, true);
 }
 
 function showAvatarCropper() {
@@ -204,7 +209,7 @@ $(document).ready(function(){
 	$('#selectavatar').click(function(){
 		OC.dialogs.filepicker(
 			t('settings', "Select a profile picture"),
-			function(){
+			function(path){
 				$.post(OC.Router.generate('core_avatar_post'), {path: path}, avatarResponseHandler);
 			},
 			false,
