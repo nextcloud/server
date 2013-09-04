@@ -10,11 +10,13 @@ $TRANSLATIONS = array(
 "Files" => "Dateien",
 "Text" => "SMS",
 "seconds ago" => "Sekonnen hir",
-"1 minute ago" => "1 Minutt hir",
-"1 hour ago" => "vrun 1 Stonn",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "haut",
 "yesterday" => "gëschter",
+"_%n day go_::_%n days ago_" => array("",""),
 "last month" => "Läschte Mount",
+"_%n month ago_::_%n months ago_" => array("",""),
 "last year" => "Läscht Joer",
 "years ago" => "Joren hier"
 );

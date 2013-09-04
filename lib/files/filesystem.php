@@ -31,8 +31,9 @@
 namespace OC\Files;
 
 use OC\Files\Storage\Loader;
-const FREE_SPACE_UNKNOWN = -2;
-const FREE_SPACE_UNLIMITED = -3;
+const SPACE_NOT_COMPUTED = -1;
+const SPACE_UNKNOWN = -2;
+const SPACE_UNLIMITED = -3;
 
 class Filesystem {
 	/**
@@ -147,6 +148,18 @@ class Filesystem {
 	 * @var \OC\Files\Storage\Loader $loader
 	 */
 	private static $loader;
+
+	/**
+	 * @param callable $wrapper
+	 */
+	public static function addStorageWrapper($wrapper) {
+		self::getLoader()->addStorageWrapper($wrapper);
+
+		$mounts = self::getMountManager()->getAll();
+		foreach ($mounts as $mount) {
+			$mount->wrapStorage($wrapper);
+		}
+	}
 
 	public static function getLoader() {
 		if (!self::$loader) {

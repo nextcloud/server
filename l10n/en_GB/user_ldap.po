@@ -1,0 +1,407 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# mnestis <transifex@mnestis.net>, 2013
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-08-30 09:32-0400\n"
+"PO-Revision-Date: 2013-08-29 17:30+0000\n"
+"Last-Translator: mnestis <transifex@mnestis.net>\n"
+"Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en_GB\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/clearMappings.php:34
+msgid "Failed to clear the mappings."
+msgstr "Failed to clear the mappings."
+
+#: ajax/deleteConfiguration.php:34
+msgid "Failed to delete the server configuration"
+msgstr "Failed to delete the server configuration"
+
+#: ajax/testConfiguration.php:36
+msgid "The configuration is valid and the connection could be established!"
+msgstr "The configuration is valid and the connection could be established!"
+
+#: ajax/testConfiguration.php:39
+msgid ""
+"The configuration is valid, but the Bind failed. Please check the server "
+"settings and credentials."
+msgstr "The configuration is valid, but the Bind failed. Please check the server settings and credentials."
+
+#: ajax/testConfiguration.php:43
+msgid ""
+"The configuration is invalid. Please look in the ownCloud log for further "
+"details."
+msgstr "The configuration is invalid. Please look in the ownCloud log for further details."
+
+#: js/settings.js:66
+msgid "Deletion failed"
+msgstr "Deletion failed"
+
+#: js/settings.js:82
+msgid "Take over settings from recent server configuration?"
+msgstr "Take over settings from recent server configuration?"
+
+#: js/settings.js:83
+msgid "Keep settings?"
+msgstr "Keep settings?"
+
+#: js/settings.js:97
+msgid "Cannot add server configuration"
+msgstr "Cannot add server configuration"
+
+#: js/settings.js:111
+msgid "mappings cleared"
+msgstr "mappings cleared"
+
+#: js/settings.js:112
+msgid "Success"
+msgstr "Success"
+
+#: js/settings.js:117
+msgid "Error"
+msgstr "Error"
+
+#: js/settings.js:141
+msgid "Connection test succeeded"
+msgstr "Connection test succeeded"
+
+#: js/settings.js:146
+msgid "Connection test failed"
+msgstr "Connection test failed"
+
+#: js/settings.js:156
+msgid "Do you really want to delete the current Server Configuration?"
+msgstr "Do you really want to delete the current Server Configuration?"
+
+#: js/settings.js:157
+msgid "Confirm Deletion"
+msgstr "Confirm Deletion"
+
+#: templates/settings.php:9
+msgid ""
+"<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
+" experience unexpected behavior. Please ask your system administrator to "
+"disable one of them."
+msgstr "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them."
+
+#: templates/settings.php:12
+msgid ""
+"<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
+"work. Please ask your system administrator to install it."
+msgstr "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it."
+
+#: templates/settings.php:16
+msgid "Server configuration"
+msgstr "Server configuration"
+
+#: templates/settings.php:32
+msgid "Add Server Configuration"
+msgstr "Add Server Configuration"
+
+#: templates/settings.php:37
+msgid "Host"
+msgstr "Host"
+
+#: templates/settings.php:39
+msgid ""
+"You can omit the protocol, except you require SSL. Then start with ldaps://"
+msgstr "You can omit the protocol, except you require SSL. Then start with ldaps://"
+
+#: templates/settings.php:40
+msgid "Base DN"
+msgstr "Base DN"
+
+#: templates/settings.php:41
+msgid "One Base DN per line"
+msgstr "One Base DN per line"
+
+#: templates/settings.php:42
+msgid "You can specify Base DN for users and groups in the Advanced tab"
+msgstr "You can specify Base DN for users and groups in the Advanced tab"
+
+#: templates/settings.php:44
+msgid "User DN"
+msgstr "User DN"
+
+#: templates/settings.php:46
+msgid ""
+"The DN of the client user with which the bind shall be done, e.g. "
+"uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
+"empty."
+msgstr "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty."
+
+#: templates/settings.php:47
+msgid "Password"
+msgstr "Password"
+
+#: templates/settings.php:50
+msgid "For anonymous access, leave DN and Password empty."
+msgstr "For anonymous access, leave DN and Password empty."
+
+#: templates/settings.php:51
+msgid "User Login Filter"
+msgstr "User Login Filter"
+
+#: templates/settings.php:54
+#, php-format
+msgid ""
+"Defines the filter to apply, when login is attempted. %%uid replaces the "
+"username in the login action. Example: \"uid=%%uid\""
+msgstr "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\""
+
+#: templates/settings.php:55
+msgid "User List Filter"
+msgstr "User List Filter"
+
+#: templates/settings.php:58
+msgid ""
+"Defines the filter to apply, when retrieving users (no placeholders). "
+"Example: \"objectClass=person\""
+msgstr "Defines the filter to apply, when retrieving users (no placeholders). Example: \"objectClass=person\""
+
+#: templates/settings.php:59
+msgid "Group Filter"
+msgstr "Group Filter"
+
+#: templates/settings.php:62
+msgid ""
+"Defines the filter to apply, when retrieving groups (no placeholders). "
+"Example: \"objectClass=posixGroup\""
+msgstr "Defines the filter to apply, when retrieving groups (no placeholders). Example: \"objectClass=posixGroup\""
+
+#: templates/settings.php:66
+msgid "Connection Settings"
+msgstr "Connection Settings"
+
+#: templates/settings.php:68
+msgid "Configuration Active"
+msgstr "Configuration Active"
+
+#: templates/settings.php:68
+msgid "When unchecked, this configuration will be skipped."
+msgstr "When unchecked, this configuration will be skipped."
+
+#: templates/settings.php:69
+msgid "Port"
+msgstr "Port"
+
+#: templates/settings.php:70
+msgid "Backup (Replica) Host"
+msgstr "Backup (Replica) Host"
+
+#: templates/settings.php:70
+msgid ""
+"Give an optional backup host. It must be a replica of the main LDAP/AD "
+"server."
+msgstr "Give an optional backup host. It must be a replica of the main LDAP/AD server."
+
+#: templates/settings.php:71
+msgid "Backup (Replica) Port"
+msgstr "Backup (Replica) Port"
+
+#: templates/settings.php:72
+msgid "Disable Main Server"
+msgstr "Disable Main Server"
+
+#: templates/settings.php:72
+msgid "Only connect to the replica server."
+msgstr "Only connect to the replica server."
+
+#: templates/settings.php:73
+msgid "Use TLS"
+msgstr "Use TLS"
+
+#: templates/settings.php:73
+msgid "Do not use it additionally for LDAPS connections, it will fail."
+msgstr "Do not use it additionally for LDAPS connections, it will fail."
+
+#: templates/settings.php:74
+msgid "Case insensitve LDAP server (Windows)"
+msgstr "Case insensitve LDAP server (Windows)"
+
+#: templates/settings.php:75
+msgid "Turn off SSL certificate validation."
+msgstr "Turn off SSL certificate validation."
+
+#: templates/settings.php:75
+#, php-format
+msgid ""
+"Not recommended, use it for testing only! If connection only works with this"
+" option, import the LDAP server's SSL certificate in your %s server."
+msgstr "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server."
+
+#: templates/settings.php:76
+msgid "Cache Time-To-Live"
+msgstr "Cache Time-To-Live"
+
+#: templates/settings.php:76
+msgid "in seconds. A change empties the cache."
+msgstr "in seconds. A change empties the cache."
+
+#: templates/settings.php:78
+msgid "Directory Settings"
+msgstr "Directory Settings"
+
+#: templates/settings.php:80
+msgid "User Display Name Field"
+msgstr "User Display Name Field"
+
+#: templates/settings.php:80
+msgid "The LDAP attribute to use to generate the user's display name."
+msgstr "The LDAP attribute to use to generate the user's display name."
+
+#: templates/settings.php:81
+msgid "Base User Tree"
+msgstr "Base User Tree"
+
+#: templates/settings.php:81
+msgid "One User Base DN per line"
+msgstr "One User Base DN per line"
+
+#: templates/settings.php:82
+msgid "User Search Attributes"
+msgstr "User Search Attributes"
+
+#: templates/settings.php:82 templates/settings.php:85
+msgid "Optional; one attribute per line"
+msgstr "Optional; one attribute per line"
+
+#: templates/settings.php:83
+msgid "Group Display Name Field"
+msgstr "Group Display Name Field"
+
+#: templates/settings.php:83
+msgid "The LDAP attribute to use to generate the groups's display name."
+msgstr "The LDAP attribute to use to generate the group's display name."
+
+#: templates/settings.php:84
+msgid "Base Group Tree"
+msgstr "Base Group Tree"
+
+#: templates/settings.php:84
+msgid "One Group Base DN per line"
+msgstr "One Group Base DN per line"
+
+#: templates/settings.php:85
+msgid "Group Search Attributes"
+msgstr "Group Search Attributes"
+
+#: templates/settings.php:86
+msgid "Group-Member association"
+msgstr "Group-Member association"
+
+#: templates/settings.php:88
+msgid "Special Attributes"
+msgstr "Special Attributes"
+
+#: templates/settings.php:90
+msgid "Quota Field"
+msgstr "Quota Field"
+
+#: templates/settings.php:91
+msgid "Quota Default"
+msgstr "Quota Default"
+
+#: templates/settings.php:91
+msgid "in bytes"
+msgstr "in bytes"
+
+#: templates/settings.php:92
+msgid "Email Field"
+msgstr "Email Field"
+
+#: templates/settings.php:93
+msgid "User Home Folder Naming Rule"
+msgstr "User Home Folder Naming Rule"
+
+#: templates/settings.php:93
+msgid ""
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD "
+"attribute."
+msgstr "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute."
+
+#: templates/settings.php:98
+msgid "Internal Username"
+msgstr "Internal Username"
+
+#: templates/settings.php:99
+msgid ""
+"By default the internal username will be created from the UUID attribute. It"
+" makes sure that the username is unique and characters do not need to be "
+"converted. The internal username has the restriction that only these "
+"characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced "
+"with their ASCII correspondence or simply omitted. On collisions a number "
+"will be added/increased. The internal username is used to identify a user "
+"internally. It is also the default name for the user home folder. It is also"
+" a part of remote URLs, for instance for all *DAV services. With this "
+"setting, the default behavior can be overridden. To achieve a similar "
+"behavior as before ownCloud 5 enter the user display name attribute in the "
+"following field. Leave it empty for default behavior. Changes will have "
+"effect only on newly mapped (added) LDAP users."
+msgstr "By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder. It is also a part of remote URLs, for instance for all *DAV services. With this setting, the default behavior can be overridden. To achieve a similar behaviour as before ownCloud 5 enter the user display name attribute in the following field. Leave it empty for default behaviour. Changes will have effect only on newly mapped (added) LDAP users."
+
+#: templates/settings.php:100
+msgid "Internal Username Attribute:"
+msgstr "Internal Username Attribute:"
+
+#: templates/settings.php:101
+msgid "Override UUID detection"
+msgstr "Override UUID detection"
+
+#: templates/settings.php:102
+msgid ""
+"By default, the UUID attribute is automatically detected. The UUID attribute"
+" is used to doubtlessly identify LDAP users and groups. Also, the internal "
+"username will be created based on the UUID, if not specified otherwise "
+"above. You can override the setting and pass an attribute of your choice. "
+"You must make sure that the attribute of your choice can be fetched for both"
+" users and groups and it is unique. Leave it empty for default behavior. "
+"Changes will have effect only on newly mapped (added) LDAP users and groups."
+msgstr "By default, the UUID attribute is automatically detected. The UUID attribute is used to unambiguously identify LDAP users and groups. Also, the internal username will be created based on the UUID, if not specified otherwise above. You can override the setting and pass an attribute of your choice. You must make sure that the attribute of your choice can be fetched for both users and groups and it is unique. Leave it empty for default behaviour. Changes will have effect only on newly mapped (added) LDAP users and groups."
+
+#: templates/settings.php:103
+msgid "UUID Attribute:"
+msgstr "UUID Attribute:"
+
+#: templates/settings.php:104
+msgid "Username-LDAP User Mapping"
+msgstr "Username-LDAP User Mapping"
+
+#: templates/settings.php:105
+msgid ""
+"Usernames are used to store and assign (meta) data. In order to precisely "
+"identify and recognize users, each LDAP user will have a internal username. "
+"This requires a mapping from username to LDAP user. The created username is "
+"mapped to the UUID of the LDAP user. Additionally the DN is cached as well "
+"to reduce LDAP interaction, but it is not used for identification. If the DN"
+" changes, the changes will be found. The internal username is used all over."
+" Clearing the mappings will have leftovers everywhere. Clearing the mappings"
+" is not configuration sensitive, it affects all LDAP configurations! Never "
+"clear the mappings in a production environment, only in a testing or "
+"experimental stage."
+msgstr "Usernames are used to store and assign (meta) data. In order to precisely identify and recognise users, each LDAP user will have a internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage."
+
+#: templates/settings.php:106
+msgid "Clear Username-LDAP User Mapping"
+msgstr "Clear Username-LDAP User Mapping"
+
+#: templates/settings.php:106
+msgid "Clear Groupname-LDAP Group Mapping"
+msgstr "Clear Groupname-LDAP Group Mapping"
+
+#: templates/settings.php:108
+msgid "Test Configuration"
+msgstr "Test Configuration"
+
+#: templates/settings.php:108
+msgid "Help"
+msgstr "Help"

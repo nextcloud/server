@@ -16,13 +16,13 @@ $TRANSLATIONS = array(
 "Files" => "ফাইল",
 "Text" => "টেক্সট",
 "seconds ago" => "সেকেন্ড পূর্বে",
-"1 minute ago" => "১ মিনিট পূর্বে",
-"%d minutes ago" => "%d মিনিট পূর্বে",
-"1 hour ago" => "1 ঘন্টা পূর্বে",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "আজ",
 "yesterday" => "গতকাল",
-"%d days ago" => "%d  দিন পূর্বে",
+"_%n day go_::_%n days ago_" => array("",""),
 "last month" => "গত মাস",
+"_%n month ago_::_%n months ago_" => array("",""),
 "last year" => "গত বছর",
 "years ago" => "বছর পূর্বে"
 );

@@ -59,6 +59,22 @@ function mimetype_icon( $mimetype ) {
 }
 
 /**
+ * @brief make preview_icon available as a simple function
+ * Returns the path to the preview of the image.
+ * @param $path path of file
+ * @returns link to the preview
+ *
+ * For further information have a look at OC_Helper::previewIcon
+ */
+function preview_icon( $path ) {
+	return OC_Helper::previewIcon( $path );
+}
+
+function publicPreview_icon ( $path, $token ) {
+	return OC_Helper::publicPreviewIcon( $path, $token );
+}
+
+/**
  * @brief make OC_Helper::humanFileSize available as a simple function
  * @param int $bytes size in bytes
  * @return string size as string
@@ -78,15 +94,13 @@ function relative_modified_date($timestamp) {
 	$diffmonths = round($diffdays/31);
 
 	if($timediff < 60) { return $l->t('seconds ago'); }
-	else if($timediff < 120) { return $l->t('1 minute ago'); }
-	else if($timediff < 3600) { return $l->t('%d minutes ago', $diffminutes); }
-	else if($timediff < 7200) { return $l->t('1 hour ago'); }
-	else if($timediff < 86400) { return $l->t('%d hours ago', $diffhours); }
+	else if($timediff < 3600) { return $l->n('%n minute ago', '%n minutes ago', $diffminutes); }
+	else if($timediff < 86400) { return $l->n('%n hour ago', '%n hours ago', $diffhours); }
 	else if((date('G')-$diffhours) > 0) { return $l->t('today'); }
 	else if((date('G')-$diffhours) > -24) { return $l->t('yesterday'); }
-	else if($timediff < 2678400) { return $l->t('%d days ago', $diffdays); }
+	else if($timediff < 2678400) { return $l->n('%n day go', '%n days ago', $diffdays); }
 	else if($timediff < 5184000) { return $l->t('last month'); }
-	else if((date('n')-$diffmonths) > 0) { return $l->t('%d months ago', $diffmonths); }
+	else if((date('n')-$diffmonths) > 0) { return $l->n('%n month ago', '%n months ago', $diffmonths); }
 	else if($timediff < 63113852) { return $l->t('last year'); }
 	else { return $l->t('years ago'); }
 }

@@ -20,6 +20,7 @@ $(document).ready(function() {
 						OC.dialogs.alert(result.data.message, t('core', 'Error'));
 					}
 					enableActions();
+					FileList.updateFileSummary();
 				});
 
 			});
@@ -48,6 +49,7 @@ $(document).ready(function() {
 						OC.dialogs.alert(result.data.message, t('core', 'Error'));
 					}
 					enableActions();
+					FileList.updateFileSummary();
 				});
 
 			});
@@ -188,21 +190,13 @@ function processSelection(){
 		$('.selectedActions').show();
 		var selection='';
 		if(selectedFolders.length>0){
-			if(selectedFolders.length === 1){
-				selection+=t('files','1 folder');
-			}else{
-				selection+=t('files','{count} folders',{count: selectedFolders.length});
-			}
+			selection += n('files', '%n folder', '%n folders', selectedFolders.length);
 			if(selectedFiles.length>0){
 				selection+=' & ';
 			}
 		}
 		if(selectedFiles.length>0){
-			if(selectedFiles.length === 1){
-				selection+=t('files','1 file');
-			}else{
-				selection+=t('files','{count} files',{count: selectedFiles.length});
-			}
+			selection += n('files', '%n file', '%n files', selectedFiles.length);
 		}
 		$('#headerName>span.name').text(selection);
 		$('#modified').text('');

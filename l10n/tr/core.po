@@ -4,12 +4,13 @@
 # 
 # Translators:
 # ismail yenigül <ismail.yenigul@surgate.com>, 2013
+# tridinebandim, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-11 08:07-0400\n"
-"PO-Revision-Date: 2013-08-11 12:07+0000\n"
+"POT-Creation-Date: 2013-09-01 13:27-0400\n"
+"PO-Revision-Date: 2013-08-30 13:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -23,9 +24,38 @@ msgstr ""
 msgid "%s shared »%s« with you"
 msgstr "%s  sizinle »%s« paylaşımında bulundu"
 
+#: ajax/share.php:227
+msgid "group"
+msgstr "grup"
+
+#: ajax/update.php:11
+msgid "Turned on maintenance mode"
+msgstr ""
+
+#: ajax/update.php:14
+msgid "Turned off maintenance mode"
+msgstr ""
+
+#: ajax/update.php:17
+msgid "Updated database"
+msgstr ""
+
+#: ajax/update.php:20
+msgid "Updating filecache, this may take really long..."
+msgstr ""
+
+#: ajax/update.php:23
+msgid "Updated filecache"
+msgstr ""
+
+#: ajax/update.php:26
+#, php-format
+msgid "... %d%% done ..."
+msgstr ""
+
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr "Kategori türü desteklenmemektedir."
+msgstr "Kategori türü girilmedi."
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
@@ -138,83 +168,79 @@ msgstr "Kasım"
 msgid "December"
 msgstr "Aralık"
 
-#: js/js.js:354
+#: js/js.js:355
 msgid "Settings"
 msgstr "Ayarlar"
 
-#: js/js.js:814
+#: js/js.js:812
 msgid "seconds ago"
 msgstr "saniye önce"
 
+#: js/js.js:813
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] "%n dakika önce"
+msgstr[1] "%n dakika önce"
+
+#: js/js.js:814
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] "%n saat önce"
+msgstr[1] "%n saat önce"
+
 #: js/js.js:815
-msgid "1 minute ago"
-msgstr "1 dakika önce"
-
-#: js/js.js:816
-msgid "{minutes} minutes ago"
-msgstr "{minutes} dakika önce"
-
-#: js/js.js:817
-msgid "1 hour ago"
-msgstr "1 saat önce"
-
-#: js/js.js:818
-msgid "{hours} hours ago"
-msgstr "{hours} saat önce"
-
-#: js/js.js:819
 msgid "today"
 msgstr "bugün"
 
-#: js/js.js:820
+#: js/js.js:816
 msgid "yesterday"
 msgstr "dün"
 
-#: js/js.js:821
-msgid "{days} days ago"
-msgstr "{days} gün önce"
+#: js/js.js:817
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] "%n gün önce"
+msgstr[1] "%n gün önce"
 
-#: js/js.js:822
+#: js/js.js:818
 msgid "last month"
 msgstr "geçen ay"
 
-#: js/js.js:823
-msgid "{months} months ago"
-msgstr "{months} ay önce"
+#: js/js.js:819
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] "%n ay önce"
+msgstr[1] "%n ay önce"
 
-#: js/js.js:824
+#: js/js.js:820
 msgid "months ago"
 msgstr "ay önce"
 
-#: js/js.js:825
+#: js/js.js:821
 msgid "last year"
 msgstr "geçen yıl"
 
-#: js/js.js:826
+#: js/js.js:822
 msgid "years ago"
 msgstr "yıl önce"
 
-#: js/oc-dialogs.js:117
+#: js/oc-dialogs.js:123
 msgid "Choose"
 msgstr "seç"
 
-#: js/oc-dialogs.js:122
-msgid "Cancel"
-msgstr "İptal"
-
-#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
+#: js/oc-dialogs.js:143 js/oc-dialogs.js:210
 msgid "Error loading file picker template"
 msgstr "Seçici şablon dosya yüklemesinde hata"
 
-#: js/oc-dialogs.js:164
+#: js/oc-dialogs.js:168
 msgid "Yes"
 msgstr "Evet"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:178
 msgid "No"
 msgstr "Hayır"
 
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:195
 msgid "Ok"
 msgstr "Tamam"
 
@@ -378,9 +404,10 @@ msgstr "Güncelleme başarılı olmadı. Lütfen bu hatayı bildirin <a href=\"h
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Güncelleme başarılı. ownCloud'a yönlendiriliyor."
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
-msgstr "ownCloud parola sıfırlama"
+#: lostpassword/controller.php:61
+#, php-format
+msgid "%s password reset"
+msgstr "%s parola sıfırlama"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -446,7 +473,7 @@ msgstr "Kişisel"
 msgid "Users"
 msgstr "Kullanıcılar"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "Uygulamalar"
 
@@ -497,7 +524,7 @@ msgstr "PHP sürümünüz NULL Byte saldırısına açık (CVE-2006-7243)"
 #: templates/installation.php:26
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "%s güvenli olarak kullanmak için, lütfen PHP kurulumunuzu güncelleyin."
 
 #: templates/installation.php:32
 msgid ""
@@ -522,7 +549,7 @@ msgstr "Veri klasörünüz ve dosyalarınız .htaccess dosyası çalışmadığ�
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Server'ınızı nasıl ayarlayacağınıza dair bilgi için, lütfen <a href=\"%s\" target=\"_blank\">dokümantasyon sayfasını</a> ziyaret edin."
 
 #: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
@@ -579,10 +606,6 @@ msgstr "%s mevcuttur. Güncelleştirme hakkında daha fazla bilgi alın."
 msgid "Log out"
 msgstr "Çıkış yap"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr ""
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Otomatik oturum açma reddedildi!"
@@ -597,19 +620,19 @@ msgstr "Yakın zamanda parolanızı değiştirmedi iseniz hesabınız riske gire
 msgid "Please change your password to secure your account again."
 msgstr "Hesabınızı korumak için lütfen parolanızı değiştirin."
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "Parolanızı mı unuttunuz?"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "hatırla"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "Giriş yap"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr "Alternatif Girişler"
 
@@ -619,14 +642,6 @@ msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
 msgstr "Merhaba, <br><br> %s sizinle »%s« paylaşımında bulundu.<br><a href=\"%s\">Paylaşımı gör!</a><br><br>İyi günler!"
-
-#: templates/part.pagenavi.php:3
-msgid "prev"
-msgstr "önceki"
-
-#: templates/part.pagenavi.php:20
-msgid "next"
-msgstr "sonraki"
 
 #: templates/update.php:3
 #, php-format

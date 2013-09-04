@@ -20,11 +20,14 @@ $TRANSLATIONS = array(
 "November" => "十一月",
 "December" => "十二月",
 "Settings" => "設定",
+"_%n minute ago_::_%n minutes ago_" => array(""),
+"_%n hour ago_::_%n hours ago_" => array(""),
 "today" => "今日",
 "yesterday" => "昨日",
+"_%n day ago_::_%n days ago_" => array(""),
 "last month" => "前一月",
+"_%n month ago_::_%n months ago_" => array(""),
 "months ago" => "個月之前",
-"Cancel" => "取消",
 "Yes" => "Yes",
 "No" => "No",
 "Ok" => "OK",
@@ -83,8 +86,6 @@ $TRANSLATIONS = array(
 "Lost your password?" => "忘記密碼",
 "remember" => "記住",
 "Log in" => "登入",
-"prev" => "前一步",
-"next" => "下一步",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud (ver. %s)更新中, 請耐心等侯"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

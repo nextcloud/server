@@ -23,7 +23,7 @@ if ($dir) {
 	$dirlisting = true;
 	$dirContent = $view->opendir($dir);
 	$i = 0;
-	while($entryName = readdir($dirContent)) {
+	while(($entryName = readdir($dirContent)) !== false) {
 		if (!\OC\Files\Filesystem::isIgnoredDir($entryName)) {
 			$pos = strpos($dir.'/', '/', 1);
 			$tmp = substr($dir, 0, $pos);
@@ -64,6 +64,7 @@ foreach ($result as $r) {
 		$i['directory'] = '';
 	}
 	$i['permissions'] = OCP\PERMISSION_READ;
+	$i['isPreviewAvailable'] = \OCP\Preview::isMimeSupported($r['mime']);
 	$files[] = $i;
 }
 

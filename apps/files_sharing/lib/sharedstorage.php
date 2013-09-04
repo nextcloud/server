@@ -362,9 +362,13 @@ class Shared extends \OC\Files\Storage\Common {
 				case 'xb':
 				case 'a':
 				case 'ab':
-					if (!$this->isUpdatable($path)) {
-						return false;
-					}
+				$exists = $this->file_exists($path);
+				if ($exists && !$this->isUpdatable($path)) {
+					return false;
+				}
+				if (!$exists && !$this->isCreatable(dirname($path))) {
+					return false;
+				}
 			}
 			$info = array(
 				'target' => $this->sharedFolder.$path,
@@ -391,7 +395,7 @@ class Shared extends \OC\Files\Storage\Common {
 
 	public function free_space($path) {
 		if ($path == '') {
-			return \OC\Files\FREE_SPACE_UNKNOWN;
+			return \OC\Files\SPACE_UNKNOWN;
 		}
 		$source = $this->getSourcePath($path);
 		if ($source) {

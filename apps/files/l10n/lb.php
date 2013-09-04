@@ -12,10 +12,12 @@ $TRANSLATIONS = array(
 "File upload is in progress. Leaving the page now will cancel the upload." => "File Upload am gaang. Wann's de des Säit verléiss gëtt den Upload ofgebrach.",
 "Error" => "Fehler",
 "Share" => "Deelen",
-"Delete" => "Läschen",
 "replace" => "ersetzen",
 "cancel" => "ofbriechen",
 "undo" => "réckgängeg man",
+"_%n folder_::_%n folders_" => array("",""),
+"_%n file_::_%n files_" => array("",""),
+"_Uploading %n file_::_Uploading %n files_" => array("",""),
 "Name" => "Numm",
 "Size" => "Gréisst",
 "Modified" => "Geännert",
@@ -35,11 +37,10 @@ $TRANSLATIONS = array(
 "Nothing in here. Upload something!" => "Hei ass näischt. Lued eppes rop!",
 "Download" => "Download",
 "Unshare" => "Net méi deelen",
+"Delete" => "Läschen",
 "Upload too large" => "Upload ze grouss",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Déi Dateien déi Dir probéiert erop ze lueden sinn méi grouss wei déi Maximal Gréisst déi op dësem Server erlaabt ass.",
 "Files are being scanned, please wait." => "Fichieren gi gescannt, war weg.",
-"Current scanning" => "Momentane Scan",
-"file" => "Datei",
-"files" => "Dateien"
+"Current scanning" => "Momentane Scan"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

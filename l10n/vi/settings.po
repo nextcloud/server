@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:21+0000\n"
+"POT-Creation-Date: 2013-08-25 19:18-0400\n"
+"PO-Revision-Date: 2013-08-25 23:18+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -41,10 +41,6 @@ msgstr "Nhóm đã tồn tại"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Không thể thêm nhóm"
-
-#: ajax/enableapp.php:11
-msgid "Could not enable app. "
-msgstr "không thể kích hoạt ứng dụng."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -92,35 +88,51 @@ msgstr "Không thể cập nhật ứng dụng"
 msgid "Update to {appversion}"
 msgstr "Cập nhật lên {appversion}"
 
-#: js/apps.js:41 js/apps.js:81
+#: js/apps.js:41 js/apps.js:74 js/apps.js:100
 msgid "Disable"
 msgstr "Tắt"
 
-#: js/apps.js:41 js/apps.js:69 js/apps.js:88
+#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
 msgid "Enable"
 msgstr "Bật"
 
-#: js/apps.js:60
+#: js/apps.js:63
 msgid "Please wait...."
 msgstr "Xin hãy đợi..."
 
-#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
-msgid "Error"
-msgstr "Lỗi"
+#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+msgid "Error while disabling app"
+msgstr ""
 
-#: js/apps.js:95
+#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+msgid "Error while enabling app"
+msgstr ""
+
+#: js/apps.js:115
 msgid "Updating...."
 msgstr "Đang cập nhật..."
 
-#: js/apps.js:98
+#: js/apps.js:118
 msgid "Error while updating app"
 msgstr "Lỗi khi cập nhật ứng dụng"
 
-#: js/apps.js:101
+#: js/apps.js:118
+msgid "Error"
+msgstr "Lỗi"
+
+#: js/apps.js:119 templates/apps.php:43
+msgid "Update"
+msgstr "Cập nhật"
+
+#: js/apps.js:122
 msgid "Updated"
 msgstr "Đã cập nhật"
 
-#: js/personal.js:118
+#: js/personal.js:150
+msgid "Decrypting files... Please wait, this can take some time."
+msgstr ""
+
+#: js/personal.js:172
 msgid "Saving..."
 msgstr "Đang lưu..."
 
@@ -141,31 +153,31 @@ msgstr ""
 msgid "Groups"
 msgstr "Nhóm"
 
-#: js/users.js:95 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "Nhóm quản trị"
 
-#: js/users.js:115 templates/users.php:164
+#: js/users.js:120 templates/users.php:164
 msgid "Delete"
 msgstr "Xóa"
 
-#: js/users.js:269
+#: js/users.js:277
 msgid "add group"
 msgstr ""
 
-#: js/users.js:428
+#: js/users.js:436
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:429 js/users.js:435 js/users.js:450
+#: js/users.js:437 js/users.js:443 js/users.js:458
 msgid "Error creating user"
 msgstr ""
 
-#: js/users.js:434
+#: js/users.js:442
 msgid "A valid password must be provided"
 msgstr ""
 
-#: personal.php:37 personal.php:38
+#: personal.php:40 personal.php:41
 msgid "__language_name__"
 msgstr "__Ngôn ngữ___"
 
@@ -236,106 +248,106 @@ msgstr ""
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:101
+#: templates/admin.php:99
 msgid "Execute one task with each page loaded"
 msgstr "Thực thi tác vụ mỗi khi trang được tải"
 
-#: templates/admin.php:111
+#: templates/admin.php:107
 msgid ""
 "cron.php is registered at a webcron service to call cron.php once a minute "
 "over http."
 msgstr ""
 
-#: templates/admin.php:121
+#: templates/admin.php:115
 msgid "Use systems cron service to call the cron.php file once a minute."
 msgstr ""
 
-#: templates/admin.php:128
+#: templates/admin.php:120
 msgid "Sharing"
 msgstr "Chia sẻ"
 
-#: templates/admin.php:134
+#: templates/admin.php:126
 msgid "Enable Share API"
 msgstr "Bật chia sẻ API"
 
-#: templates/admin.php:135
+#: templates/admin.php:127
 msgid "Allow apps to use the Share API"
 msgstr "Cho phép các ứng dụng sử dụng chia sẻ API"
 
-#: templates/admin.php:142
+#: templates/admin.php:134
 msgid "Allow links"
 msgstr "Cho phép liên kết"
 
-#: templates/admin.php:143
+#: templates/admin.php:135
 msgid "Allow users to share items to the public with links"
 msgstr "Cho phép người dùng chia sẻ công khai các mục bằng các liên kết"
 
-#: templates/admin.php:151
+#: templates/admin.php:143
 msgid "Allow public uploads"
 msgstr ""
 
-#: templates/admin.php:152
+#: templates/admin.php:144
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr ""
 
-#: templates/admin.php:160
+#: templates/admin.php:152
 msgid "Allow resharing"
 msgstr "Cho phép chia sẻ lại"
 
-#: templates/admin.php:161
+#: templates/admin.php:153
 msgid "Allow users to share items shared with them again"
 msgstr "Cho phép người dùng chia sẻ lại những mục đã được chia sẻ"
 
-#: templates/admin.php:168
+#: templates/admin.php:160
 msgid "Allow users to share with anyone"
 msgstr "Cho phép người dùng chia sẻ với bất cứ ai"
 
-#: templates/admin.php:171
+#: templates/admin.php:163
 msgid "Allow users to only share with users in their groups"
 msgstr "Chỉ cho phép người dùng chia sẻ với những người dùng trong nhóm của họ"
 
-#: templates/admin.php:178
+#: templates/admin.php:170
 msgid "Security"
 msgstr ""
 
-#: templates/admin.php:191
+#: templates/admin.php:183
 msgid "Enforce HTTPS"
 msgstr ""
 
-#: templates/admin.php:193
+#: templates/admin.php:185
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr ""
 
-#: templates/admin.php:199
+#: templates/admin.php:191
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr ""
 
-#: templates/admin.php:211
+#: templates/admin.php:203
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:212
+#: templates/admin.php:204
 msgid "Log level"
 msgstr ""
 
-#: templates/admin.php:243
+#: templates/admin.php:235
 msgid "More"
 msgstr "hơn"
 
-#: templates/admin.php:244
+#: templates/admin.php:236
 msgid "Less"
 msgstr "ít"
 
-#: templates/admin.php:250 templates/personal.php:114
+#: templates/admin.php:242 templates/personal.php:140
 msgid "Version"
 msgstr "Phiên bản"
 
-#: templates/admin.php:254 templates/personal.php:117
+#: templates/admin.php:246 templates/personal.php:143
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -364,10 +376,6 @@ msgstr "Xem nhiều ứng dụng hơn tại apps.owncloud.com"
 #: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-Giấy phép được cấp bởi  <span class=\"author\"></span>"
-
-#: templates/apps.php:43
-msgid "Update"
-msgstr "Cập nhật"
 
 #: templates/help.php:4
 msgid "User Documentation"
@@ -463,6 +471,22 @@ msgstr "WebDAV"
 msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
 "target=\"_blank\">access your Files via WebDAV</a>"
+msgstr ""
+
+#: templates/personal.php:117
+msgid "Encryption"
+msgstr "Mã hóa"
+
+#: templates/personal.php:119
+msgid "The encryption app is no longer enabled, decrypt all your file"
+msgstr ""
+
+#: templates/personal.php:125
+msgid "Log-in password"
+msgstr ""
+
+#: templates/personal.php:130
+msgid "Decrypt all Files"
 msgstr ""
 
 #: templates/users.php:21

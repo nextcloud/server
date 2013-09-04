@@ -1,0 +1,237 @@
+/* ---- APP STYLING ---- */
+
+#app {
+	height: 100%;
+	width: 100%;
+}
+#app * {
+	-moz-box-sizing: border-box; box-sizing: border-box;
+}
+
+/* Navigation: folder like structure */
+#app-navigation {
+	width: 300px;
+	height: 100%;
+	float: left;
+	-moz-box-sizing: border-box; box-sizing: border-box;
+	background-color: #f8f8f8;
+	border-right: 1px solid #ccc;
+}
+#app-navigation > ul {
+	height: 100%;
+	overflow: auto;
+	-moz-box-sizing: border-box; box-sizing: border-box;
+}
+#app-navigation li {
+	position: relative;
+	width: 100%;
+	-moz-box-sizing: border-box; box-sizing: border-box;
+	text-shadow: 0 1px 0 rgba(255,255,255,.9);
+}
+#app-navigation .active,
+#app-navigation .active a,
+#app-navigation li:hover > a {
+	background-color: #ddd;
+	text-shadow: 0 1px 0 rgba(255,255,255,.7);
+}
+
+/* special rules for first-level entries and folders */
+#app-navigation > ul > li {
+	background-color: #f8f8f8;
+}
+
+#app-navigation .with-icon a {
+	padding-left: 44px;
+	background-size: 16px 16px;
+	background-position: 14px center;
+	background-repeat: no-repeat;
+}
+
+#app-navigation li > a {
+	display: block;
+	width: 100%;
+	height: 44px;
+	padding: 12px;
+	overflow: hidden;
+	-moz-box-sizing: border-box; box-sizing: border-box;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	color: #333;
+}
+
+#app-navigation .collapse {
+	display: none; /* hide collapse button intially */
+}
+#app-navigation .collapsible > .collapse {
+	position: absolute;
+	height: 44px;
+	width: 44px;
+	margin: 0;
+	padding: 0;
+	background: none; background-image: url('../img/actions/triangle-s.svg');
+	background-size: 16px; background-repeat: no-repeat; background-position: center;
+	border: none;
+	border-radius: 0;
+	outline: none !important;
+	box-shadow: none;
+}
+#app-navigation .collapsible:hover > a {
+	background-image: none;
+}
+#app-navigation .collapsible:hover > .collapse {
+	display: block;
+}
+
+#app-navigation .collapsible .collapse {
+	-moz-transform: rotate(-90deg);
+	-webkit-transform: rotate(-90deg);
+	-ms-transform:rotate(-90deg);
+	-o-transform:rotate(-90deg);
+	transform: rotate(-90deg);
+}
+#app-navigation .collapsible.open .collapse {
+	-moz-transform: rotate(0);
+	-webkit-transform: rotate(0);
+	-ms-transform:rotate(0);
+	-o-transform:rotate(0);
+	transform: rotate(0);
+}
+
+/* Second level nesting for lists */
+#app-navigation > ul ul {
+	display: none;
+}
+#app-navigation > ul ul li > a {
+	padding-left: 32px;
+}
+#app-navigation > .with-icon ul li > a {
+	padding-left: 48px;
+	background-position: 24px center;
+}
+
+#app-navigation .open {
+	background-image: linear-gradient(top, rgb(238,238,238) 0%, rgb(245,245,245) 100%);
+	background-image: -o-linear-gradient(top, rgb(238,238,238) 0%, rgb(245,245,245) 100%);
+	background-image: -moz-linear-gradient(top, rgb(238,238,238) 0%, rgb(245,245,245) 100%);
+	background-image: -webkit-linear-gradient(top, rgb(238,238,238) 0%, rgb(245,245,245) 100%);
+	background-image: -ms-linear-gradient(top, rgb(238,238,238) 0%, rgb(245,245,245) 100%);
+}
+
+#app-navigation > ul .open:hover {
+	-moz-box-shadow: inset 0 0 3px #ccc; -webkit-box-shadow: inset 0 0 3px #ccc; box-shadow: inset 0 0 3px #ccc;
+}
+
+#app-navigation > ul .open ul {
+	display: block;
+}
+
+
+/* counter and actions */
+#app-navigation .utils {
+	position: absolute;
+	padding: 7px 7px 0 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	font-size: 12px;
+}
+	#app-navigation .utils button,
+	#app-navigation .utils .counter {
+		width: 44px;
+		height: 44px;
+		padding-top: 12px;
+	}
+
+
+/* drag and drop */
+#app-navigation .drag-and-drop {
+	-moz-transition: padding-bottom 500ms ease 0s;
+	-o-transition: padding-bottom 500ms ease 0s;
+	-webkit-transition: padding-bottom 500ms ease 0s;
+	-ms-transition: padding-bottom 500ms ease 0s;
+	transition: padding-bottom 500ms ease 0s;
+	padding-bottom: 40px;
+}
+#app-navigation .personalblock > legend { /* TODO @Raydiation: still needed? */
+	padding: 10px 0; margin: 0;
+}
+#app-navigation .error {
+	color: #dd1144;
+}
+
+#app-navigation .app-navigation-separator {
+	border-bottom: 1px solid #ddd;
+}
+
+
+
+/* Part where the content will be loaded into */
+#app-content {
+	height: 100%;
+	overflow-y: auto;
+}
+
+/* settings area */
+#app-settings {
+	position: fixed;
+	width: 299px;
+	bottom: 0;
+	border-top: 1px solid #ccc;
+}
+#app-settings-header {
+	background-color: #eee;
+}
+#app-settings-content {
+	display: none;
+	padding: 10px;
+	background-color: #eee;
+}
+#app-settings.open #app-settings-content {
+	display: block;
+}
+
+.settings-button {
+	display: block;
+	height: 32px;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	background-color: transparent; background-image: url('../img/actions/settings.svg');
+	background-position: 10px center; background-repeat: no-repeat;
+	box-shadow: none;
+	border: 0;
+	border-radius: 0;
+}
+.settings-button:hover {
+	background-color: #ddd;
+}
+
+/* icons */
+.folder-icon, .delete-icon, .edit-icon, .progress-icon {
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.folder-icon { background-image: url('../img/places/folder.svg'); }
+.delete-icon { background-image: url('../img/actions/delete.svg'); }
+.delete-icon:hover, .delete-icon:focus {
+	background-image: url('../img/actions/delete-hover.svg');
+}
+.edit-icon { background-image: url('../img/actions/rename.svg'); }
+.progress-icon {
+	background-image: url('../img/loading.gif');
+	background-size: 16px;
+	/* force show the loading icon, not only on hover */
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter:alpha(opacity=100);
+	opacity: 1 !important;
+	display: inline !important;
+}
+
+/* buttons */
+button.loading {
+	background-image: url('../img/loading.gif');
+	background-position: right 10px center; background-repeat: no-repeat;
+	background-size: 16px;
+	padding-right: 30px;
+}
+

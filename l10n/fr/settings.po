@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:21+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-03 07:44-0400\n"
+"PO-Revision-Date: 2013-09-03 09:50+0000\n"
+"Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,10 +45,6 @@ msgstr "Ce groupe existe déjà"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Impossible d'ajouter le groupe"
-
-#: ajax/enableapp.php:11
-msgid "Could not enable app. "
-msgstr "Impossible d'activer l'Application"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -92,39 +88,55 @@ msgstr "Impossible de supprimer l'utilisateur du groupe %s"
 msgid "Couldn't update app."
 msgstr "Impossible de mettre à jour l'application"
 
-#: js/apps.js:35
+#: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Mettre à jour vers {appversion}"
 
-#: js/apps.js:41 js/apps.js:81
+#: js/apps.js:49 js/apps.js:82 js/apps.js:108
 msgid "Disable"
 msgstr "Désactiver"
 
-#: js/apps.js:41 js/apps.js:69 js/apps.js:88
+#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
 msgid "Enable"
 msgstr "Activer"
 
-#: js/apps.js:60
+#: js/apps.js:71
 msgid "Please wait...."
 msgstr "Veuillez patienter…"
 
-#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
-msgid "Error"
-msgstr "Erreur"
+#: js/apps.js:79 js/apps.js:80 js/apps.js:100
+msgid "Error while disabling app"
+msgstr "Erreur lors de la désactivation de l'application"
 
-#: js/apps.js:95
+#: js/apps.js:99 js/apps.js:112 js/apps.js:113
+msgid "Error while enabling app"
+msgstr "Erreur lors de l'activation de l'application"
+
+#: js/apps.js:123
 msgid "Updating...."
 msgstr "Mise à jour..."
 
-#: js/apps.js:98
+#: js/apps.js:126
 msgid "Error while updating app"
 msgstr "Erreur lors de la mise à jour de l'application"
 
-#: js/apps.js:101
+#: js/apps.js:126
+msgid "Error"
+msgstr "Erreur"
+
+#: js/apps.js:127 templates/apps.php:43
+msgid "Update"
+msgstr "Mettre à jour"
+
+#: js/apps.js:130
 msgid "Updated"
 msgstr "Mise à jour effectuée avec succès"
 
-#: js/personal.js:118
+#: js/personal.js:150
+msgid "Decrypting files... Please wait, this can take some time."
+msgstr "Déchiffrement en cours... Cela peut prendre un certain temps."
+
+#: js/personal.js:172
 msgid "Saving..."
 msgstr "Enregistrement..."
 
@@ -145,31 +157,31 @@ msgstr "Impossible de retirer l'utilisateur"
 msgid "Groups"
 msgstr "Groupes"
 
-#: js/users.js:95 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:89 templates/users.php:124
 msgid "Group Admin"
 msgstr "Groupe Admin"
 
-#: js/users.js:115 templates/users.php:164
+#: js/users.js:120 templates/users.php:164
 msgid "Delete"
 msgstr "Supprimer"
 
-#: js/users.js:269
+#: js/users.js:277
 msgid "add group"
 msgstr "ajouter un groupe"
 
-#: js/users.js:428
+#: js/users.js:436
 msgid "A valid username must be provided"
 msgstr "Un nom d'utilisateur valide doit être saisi"
 
-#: js/users.js:429 js/users.js:435 js/users.js:450
+#: js/users.js:437 js/users.js:443 js/users.js:458
 msgid "Error creating user"
 msgstr "Erreur lors de la création de l'utilisateur"
 
-#: js/users.js:434
+#: js/users.js:442
 msgid "A valid password must be provided"
 msgstr "Un mot de passe valide doit être saisi"
 
-#: personal.php:37 personal.php:38
+#: personal.php:40 personal.php:41
 msgid "__language_name__"
 msgstr "Français"
 
@@ -184,7 +196,7 @@ msgid ""
 "configure your webserver in a way that the data directory is no longer "
 "accessible or you move the data directory outside the webserver document "
 "root."
-msgstr ""
+msgstr "Votre dossier de données et vos fichiers sont probablement accessibles depuis internet. Le fichier .htaccess ne fonctionne pas. Nous vous recommandons vivement de configurer votre serveur web de façon à ce que ce dossier de données ne soit plus accessible, ou bien de le déplacer à l'extérieur de la racine du serveur web."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -199,7 +211,7 @@ msgstr "Votre serveur web, n'est pas correctement configuré pour permettre la s
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
-msgstr ""
+msgstr "Veuillez consulter à nouveau les <a href=\"%s\">guides d'installation</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
@@ -221,7 +233,7 @@ msgid ""
 "System locale can't be set to %s. This means that there might be problems "
 "with certain characters in file names. We strongly suggest to install the "
 "required packages on your system to support %s."
-msgstr ""
+msgstr "Le localisation du système n'a pu être configurée à %s. Cela signifie qu'il pourrait y avoir des problèmes avec certains caractères dans les noms de fichiers. Il est fortement recommandé d'installer les paquets requis pour le support de %s."
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
@@ -234,112 +246,112 @@ msgid ""
 "installation of 3rd party apps don´t work. Accessing files from remote and "
 "sending of notification emails might also not work. We suggest to enable "
 "internet connection for this server if you want to have all features."
-msgstr ""
+msgstr "Ce serveur ne peut se connecter à internet. Cela signifie que certaines fonctionnalités, telles que le montage de supports de stockage distants, les notifications de mises à jour ou l'installation d'applications tierces ne fonctionneront pas. L'accès aux fichiers à distance, ainsi que les notifications par mails ne seront pas fonctionnels également. Il est recommandé d'activer la connexion internet pour ce serveur si vous souhaitez disposer de l'ensemble des fonctionnalités offertes."
 
 #: templates/admin.php:92
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:101
+#: templates/admin.php:99
 msgid "Execute one task with each page loaded"
 msgstr "Exécute une tâche à chaque chargement de page"
 
-#: templates/admin.php:111
+#: templates/admin.php:107
 msgid ""
 "cron.php is registered at a webcron service to call cron.php once a minute "
 "over http."
-msgstr ""
+msgstr "cron.php est enregistré en tant que service webcron pour appeler cron.php une fois par minute via http."
 
-#: templates/admin.php:121
+#: templates/admin.php:115
 msgid "Use systems cron service to call the cron.php file once a minute."
-msgstr ""
+msgstr "Utilise le service cron du système pour appeler cron.php une fois par minute."
 
-#: templates/admin.php:128
+#: templates/admin.php:120
 msgid "Sharing"
 msgstr "Partage"
 
-#: templates/admin.php:134
+#: templates/admin.php:126
 msgid "Enable Share API"
 msgstr "Activer l'API de partage"
 
-#: templates/admin.php:135
+#: templates/admin.php:127
 msgid "Allow apps to use the Share API"
 msgstr "Autoriser les applications à utiliser l'API de partage"
 
-#: templates/admin.php:142
+#: templates/admin.php:134
 msgid "Allow links"
 msgstr "Autoriser les liens"
 
-#: templates/admin.php:143
+#: templates/admin.php:135
 msgid "Allow users to share items to the public with links"
 msgstr "Autoriser les utilisateurs à partager des éléments publiquement à l'aide de liens"
 
-#: templates/admin.php:151
+#: templates/admin.php:143
 msgid "Allow public uploads"
-msgstr ""
+msgstr "Autoriser les téléversements publics"
 
-#: templates/admin.php:152
+#: templates/admin.php:144
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
-msgstr ""
+msgstr "Permet d'autoriser les autres utilisateurs à téléverser dans le dossier partagé public de l'utilisateur"
 
-#: templates/admin.php:160
+#: templates/admin.php:152
 msgid "Allow resharing"
 msgstr "Autoriser le repartage"
 
-#: templates/admin.php:161
+#: templates/admin.php:153
 msgid "Allow users to share items shared with them again"
 msgstr "Autoriser les utilisateurs à partager des éléments qui ont été partagés avec eux"
 
-#: templates/admin.php:168
+#: templates/admin.php:160
 msgid "Allow users to share with anyone"
 msgstr "Autoriser les utilisateurs à partager avec tout le monde"
 
-#: templates/admin.php:171
+#: templates/admin.php:163
 msgid "Allow users to only share with users in their groups"
 msgstr "Autoriser les utilisateurs à partager avec des utilisateurs de leur groupe uniquement"
 
-#: templates/admin.php:178
+#: templates/admin.php:170
 msgid "Security"
 msgstr "Sécurité"
 
-#: templates/admin.php:191
+#: templates/admin.php:183
 msgid "Enforce HTTPS"
 msgstr "Forcer HTTPS"
 
-#: templates/admin.php:193
+#: templates/admin.php:185
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
-msgstr ""
+msgstr "Forcer les clients à se connecter à %s via une connexion chiffrée."
 
-#: templates/admin.php:199
+#: templates/admin.php:191
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
-msgstr ""
+msgstr "Veuillez vous connecter à cette instance %s via HTTPS pour activer ou désactiver SSL."
 
-#: templates/admin.php:211
+#: templates/admin.php:203
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:212
+#: templates/admin.php:204
 msgid "Log level"
 msgstr "Niveau de log"
 
-#: templates/admin.php:243
+#: templates/admin.php:235
 msgid "More"
 msgstr "Plus"
 
-#: templates/admin.php:244
+#: templates/admin.php:236
 msgid "Less"
 msgstr "Moins"
 
-#: templates/admin.php:250 templates/personal.php:114
+#: templates/admin.php:242 templates/personal.php:140
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin.php:254 templates/personal.php:117
+#: templates/admin.php:246 templates/personal.php:143
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -368,10 +380,6 @@ msgstr "Voir la page des applications à l'url apps.owncloud.com"
 #: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "Distribué sous licence <span class=\"licence\"></span>, par <span class=\"author\"></span>"
-
-#: templates/apps.php:43
-msgid "Update"
-msgstr "Mettre à jour"
 
 #: templates/help.php:4
 msgid "User Documentation"
@@ -468,6 +476,22 @@ msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
 "target=\"_blank\">access your Files via WebDAV</a>"
 msgstr "Utilisez cette adresse pour <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">accéder à vos fichiers via WebDAV</a>"
+
+#: templates/personal.php:117
+msgid "Encryption"
+msgstr "Chiffrement"
+
+#: templates/personal.php:119
+msgid "The encryption app is no longer enabled, decrypt all your file"
+msgstr "L'application de chiffrement n'est plus activée, déchiffrez tous vos fichiers"
+
+#: templates/personal.php:125
+msgid "Log-in password"
+msgstr "Mot de passe de connexion"
+
+#: templates/personal.php:130
+msgid "Decrypt all Files"
+msgstr "Déchiffrer tous les fichiers"
 
 #: templates/users.php:21
 msgid "Login Name"

@@ -126,19 +126,25 @@ if (strpos($dir, '..') === false) {
 			//$target = OCP\Files::buildNotExistingFileName(stripslashes($dir), $files['name'][$i]);
 			if (is_uploaded_file($files['tmp_name'][$i]) and \OC\Files\Filesystem::fromTmpFile($files['tmp_name'][$i], $target)) {
 				$meta = \OC\Files\Filesystem::getFileInfo($target);
+
 				// updated max file size after upload
 				$storageStats = \OCA\files\lib\Helper::buildFileStorageStatistics($dir);
 
-				$result[] = array('status' => 'success',
-					'mime' => $meta['mimetype'],
-					'mtime' => $meta['mtime'],
-					'size' => $meta['size'],
-					'id' => $meta['fileid'],
-					'name' => basename($target),
-					'originalname' => $newName,
-					'uploadMaxFilesize' => $maxUploadFileSize,
-					'maxHumanFilesize' => $maxHumanFileSize
-				);
+				if ($meta === false) {
+					OCP\JSON::error(array('data' => array_merge(array('message' => $l->t('Upload failed')), $storageStats)));
+					exit();
+				} else {
+					$result[] = array('status' => 'success',
+						'mime' => $meta['mimetype'],
+						'mtime' => $meta['mtime'],
+						'size' => $meta['size'],
+						'id' => $meta['fileid'],
+						'name' => basename($target),
+						'originalname' => $newName,
+						'uploadMaxFilesize' => $maxUploadFileSize,
+						'maxHumanFilesize' => $maxHumanFileSize
+					);
+				}
 			}
 		}
 	}

@@ -69,7 +69,7 @@ function initL10N(app) {
 			var code = 'var plural; var nplurals; '+pf+' return { "nplural" : nplurals, "plural" : (plural === true ? 1 : plural ? plural : 0) };';
 			t.plural_function = new Function("n", code);
 		} else {
-			console.log("Syntax error in language file. Plural-Forms header is invalid ["+plural_forms+"]");
+			console.log("Syntax error in language file. Plural-Forms header is invalid ["+t.plural_forms+"]");
 		}
 	}
 }
@@ -431,9 +431,16 @@ OC.Notification={
 
 OC.Breadcrumb={
 	container:null,
-	crumbs:[],
 	show:function(dir, leafname, leaflink){
-		OC.Breadcrumb.clear();
+		if(!this.container){//default
+			this.container=$('#controls');
+		}
+		this._show(this.container, dir, leafname, leaflink);
+	},
+	_show:function(container, dir, leafname, leaflink){
+		var self = this;
+		
+		this._clear(container);
 		
 		// show home + path in subdirectories
 		if (dir && dir !== '/') {
@@ -450,8 +457,7 @@ OC.Breadcrumb={
 			crumbImg.attr('src',OC.imagePath('core','places/home'));
 			crumbLink.append(crumbImg);
 			crumb.append(crumbLink);
-			OC.Breadcrumb.container.prepend(crumb);
-			OC.Breadcrumb.crumbs.push(crumb);
+			container.prepend(crumb);
 
 			//add path parts
 			var segments = dir.split('/');
@@ -460,20 +466,23 @@ OC.Breadcrumb={
 				if (name !== '') {
 					pathurl = pathurl+'/'+name;
 					var link = OC.linkTo('files','index.php')+'?dir='+encodeURIComponent(pathurl);
-					OC.Breadcrumb.push(name, link);
+					self._push(container, name, link);
 				}
 			});
 		}
 		
 		//add leafname
 		if (leafname && leaflink) {
-				OC.Breadcrumb.push(leafname, leaflink);
+			this._push(container, leafname, leaflink);
 		}
 	},
 	push:function(name, link){
-		if(!OC.Breadcrumb.container){//default
-			OC.Breadcrumb.container=$('#controls');
+		if(!this.container){//default
+			this.container=$('#controls');
 		}
+		return this._push(OC.Breadcrumb.container, name, link);
+	},
+	_push:function(container, name, link){
 		var crumb=$('<div/>');
 		crumb.addClass('crumb').addClass('last');
 
@@ -482,30 +491,30 @@ OC.Breadcrumb={
 		crumbLink.text(name);
 		crumb.append(crumbLink);
 
-		var existing=OC.Breadcrumb.container.find('div.crumb');
+		var existing=container.find('div.crumb');
 		if(existing.length){
 			existing.removeClass('last');
 			existing.last().after(crumb);
 		}else{
-			OC.Breadcrumb.container.prepend(crumb);
+			container.prepend(crumb);
 		}
-		OC.Breadcrumb.crumbs.push(crumb);
 		return crumb;
 	},
 	pop:function(){
-		if(!OC.Breadcrumb.container){//default
-			OC.Breadcrumb.container=$('#controls');
+		if(!this.container){//default
+			this.container=$('#controls');
 		}
-		OC.Breadcrumb.container.find('div.crumb').last().remove();
-		OC.Breadcrumb.container.find('div.crumb').last().addClass('last');
-		OC.Breadcrumb.crumbs.pop();
+		this.container.find('div.crumb').last().remove();
+		this.container.find('div.crumb').last().addClass('last');
 	},
 	clear:function(){
-		if(!OC.Breadcrumb.container){//default
-			OC.Breadcrumb.container=$('#controls');
+		if(!this.container){//default
+			this.container=$('#controls');
 		}
-		OC.Breadcrumb.container.find('div.crumb').remove();
-		OC.Breadcrumb.crumbs=[];
+		this._clear(this.container);
+	},
+	_clear:function(container) {
+		container.find('div.crumb').remove();
 	}
 };
 
@@ -709,7 +718,6 @@ $(document).ready(function(){
 		});
 		label.hide();
 	};
-	setShowPassword($('#password'), $('label[for=show]'));
 	setShowPassword($('#adminpass'), $('label[for=show]'));
 	setShowPassword($('#pass2'), $('label[for=personal-show]'));
 	setShowPassword($('#dbpass'), $('label[for=dbpassword]'));
@@ -758,13 +766,11 @@ $(document).ready(function(){
 	});
 
 	// all the tipsy stuff needs to be here (in reverse order) to work
-	$('.jp-controls .jp-previous').tipsy({gravity:'nw', fade:true, live:true});
-	$('.jp-controls .jp-next').tipsy({gravity:'n', fade:true, live:true});
 	$('.displayName .action').tipsy({gravity:'se', fade:true, live:true});
 	$('.password .action').tipsy({gravity:'se', fade:true, live:true});
 	$('#upload').tipsy({gravity:'w', fade:true});
 	$('.selectedActions a').tipsy({gravity:'s', fade:true, live:true});
-	$('a.delete').tipsy({gravity: 'e', fade:true, live:true});
+	$('a.action.delete').tipsy({gravity:'e', fade:true, live:true});
 	$('a.action').tipsy({gravity:'s', fade:true, live:true});
 	$('td .modified').tipsy({gravity:'s', fade:true, live:true});
 
@@ -813,15 +819,13 @@ function relative_modified_date(timestamp) {
 	var diffdays = Math.round(diffhours/24);
 	var diffmonths = Math.round(diffdays/31);
 	if(timediff < 60) { return t('core','seconds ago'); }
-	else if(timediff < 120) { return t('core','1 minute ago'); }
-	else if(timediff < 3600) { return t('core','{minutes} minutes ago',{minutes: diffminutes}); }
-	else if(timediff < 7200) { return t('core','1 hour ago'); }
-	else if(timediff < 86400) { return t('core','{hours} hours ago',{hours: diffhours}); }
+	else if(timediff < 3600) { return n('core','%n minute ago', '%n minutes ago', diffminutes); }
+	else if(timediff < 86400) { return n('core', '%n hour ago', '%n hours ago', diffhours); }
 	else if(timediff < 86400) { return t('core','today'); }
 	else if(timediff < 172800) { return t('core','yesterday'); }
-	else if(timediff < 2678400) { return t('core','{days} days ago',{days: diffdays}); }
+	else if(timediff < 2678400) { return n('core', '%n day ago', '%n days ago', diffdays); }
 	else if(timediff < 5184000) { return t('core','last month'); }
-	else if(timediff < 31556926) { return t('core','{months} months ago',{months: diffmonths}); }
+	else if(timediff < 31556926) { return n('core', '%n month ago', '%n months ago', diffmonths); }
 	//else if(timediff < 31556926) { return t('core','months ago'); }
 	else if(timediff < 63113852) { return t('core','last year'); }
 	else { return t('core','years ago'); }

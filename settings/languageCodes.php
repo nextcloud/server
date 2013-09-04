@@ -61,7 +61,6 @@ return array(
 'pl_PL'=>'Polski',
 'ka_GE'=>'Georgian for Georgia',
 'ku_IQ'=>'Kurdish Iraq',
-'ru_RU'=>'Русский язык',
 'si_LK'=>'Sinhala',
 'be'=>'Belarusian',
 'ka'=>'Kartuli (Georgian)',

@@ -96,6 +96,13 @@ class Manager {
 	}
 
 	/**
+	 * @return Mount[]
+	 */
+	public function getAll() {
+		return $this->mounts;
+	}
+
+	/**
 	 * Find mounts by numeric storage id
 	 *
 	 * @param string $id

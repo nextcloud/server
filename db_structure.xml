@@ -32,7 +32,7 @@
 			<field>
 				<name>configvalue</name>
 				<type>clob</type>
-				<notnull>true</notnull>
+				<notnull>false</notnull>
 			</field>
 
 			<index>
@@ -383,7 +383,7 @@
 				<name>user</name>
 				<type>text</type>
 				<default></default>
-				<notnull>true</notnull>
+				<notnull>false</notnull>
 				<length>64</length>
 			</field>
 
@@ -397,8 +397,6 @@
 
 			<index>
 				<name>id_user_index</name>
-				<unique>true</unique>
-				<primary>true</primary>
 				<field>
 					<name>fileid</name>
 					<sorting>ascending</sorting>

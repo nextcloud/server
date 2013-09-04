@@ -10,9 +10,13 @@ $TRANSLATIONS = array(
 "Files" => "Datoteke",
 "Text" => "Tekst",
 "seconds ago" => "sekundi prije",
+"_%n minute ago_::_%n minutes ago_" => array("","",""),
+"_%n hour ago_::_%n hours ago_" => array("","",""),
 "today" => "danas",
 "yesterday" => "jučer",
+"_%n day go_::_%n days ago_" => array("","",""),
 "last month" => "prošli mjesec",
+"_%n month ago_::_%n months ago_" => array("","",""),
 "last year" => "prošlu godinu",
 "years ago" => "godina"
 );

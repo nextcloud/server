@@ -42,7 +42,7 @@ class OC_Core_LostPassword_Controller {
 		}
 
 		if (OC_User::userExists($_POST['user']) && $continue) {
-			$token = hash('sha256', OC_Util::generate_random_bytes(30).OC_Config::getValue('passwordsalt', ''));
+			$token = hash('sha256', OC_Util::generateRandomBytes(30).OC_Config::getValue('passwordsalt', ''));
 			OC_Preferences::setValue($_POST['user'], 'owncloud', 'lostpassword',
 				hash('sha256', $token)); // Hash the token again to prevent timing attacks
 			$email = OC_Preferences::getValue($_POST['user'], 'settings', 'email', '');
@@ -57,7 +57,8 @@ class OC_Core_LostPassword_Controller {
 				$l = OC_L10N::get('core');
 				$from = OCP\Util::getDefaultEmailAddress('lostpassword-noreply');
 				try {
-					OC_Mail::send($email, $_POST['user'], $l->t('ownCloud password reset'), $msg, $from, 'ownCloud');
+					$defaults = new OC_Defaults();
+					OC_Mail::send($email, $_POST['user'], $l->t('%s password reset', array($defaults->getName())), $msg, $from, $defaults->getName());
 				} catch (Exception $e) {
 					OC_Template::printErrorPage( 'A problem occurs during sending the e-mail please contact your administrator.');
 				}

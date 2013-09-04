@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Sappe, 2013
+# claus_chr <claus_chr@webspeed.dk>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:59+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-21 08:10-0400\n"
+"PO-Revision-Date: 2013-08-19 19:20+0000\n"
+"Last-Translator: claus_chr <claus_chr@webspeed.dk>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,20 +63,20 @@ msgid ""
 "files."
 msgstr "Din private nøgle er gyldig! Sandsynligvis blev dit kodeord ændre uden for ownCloud systemet (f.eks. dit firmas register). Du kan opdatere dit private nøgle kodeord under personlige indstillinger, for at generhverve adgang til dine krypterede filer."
 
-#: hooks/hooks.php:44
+#: hooks/hooks.php:41
 msgid "Missing requirements."
 msgstr "Manglende betingelser."
 
-#: hooks/hooks.php:45
+#: hooks/hooks.php:42
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
-msgstr ""
+msgstr "Sørg for at PHP 5.3.3 eller nyere er installeret og at OpenSSL sammen med PHP-udvidelsen er aktiveret og korrekt konfigureret. Indtil videre er krypteringsprogrammet deaktiveret."
 
-#: hooks/hooks.php:263
+#: hooks/hooks.php:249
 msgid "Following users are not set up for encryption:"
-msgstr ""
+msgstr "Følgende brugere er ikke sat op til kryptering:"
 
 #: js/settings-admin.js:11
 msgid "Saving..."

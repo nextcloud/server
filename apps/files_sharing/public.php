@@ -112,9 +112,9 @@ if (isset($path)) {
 			if ($files_list === NULL ) {
 				$files_list = array($files);
 			}
-			OC_Files::get($path, $files_list, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
+			OC_Files::get($path, $files_list, $_SERVER['REQUEST_METHOD'] == 'HEAD');
 		} else {
-			OC_Files::get($dir, $file, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
+			OC_Files::get($dir, $file, $_SERVER['REQUEST_METHOD'] == 'HEAD');
 		}
 		exit();
 	} else {
@@ -133,7 +133,7 @@ if (isset($path)) {
 		$tmpl->assign('mimetype', \OC\Files\Filesystem::getMimeType($path));
 		$tmpl->assign('fileTarget', basename($linkItem['file_target']));
 		$tmpl->assign('dirToken', $linkItem['token']);
-		$allowPublicUploadEnabled = (($linkItem['permissions'] & OCP\PERMISSION_CREATE) ? true : false );
+		$allowPublicUploadEnabled = (bool) ($linkItem['permissions'] & OCP\PERMISSION_CREATE);
 		if (\OCP\App::isEnabled('files_encryption')) {
 			$allowPublicUploadEnabled = false;
 		}
@@ -172,6 +172,7 @@ if (isset($path)) {
 					} else {
 						$i['extension'] = '';
 					}
+					$i['isPreviewAvailable'] = \OCP\Preview::isMimeSupported($i['mimetype']);
 				}
 				$i['directory'] = $getPath;
 				$i['permissions'] = OCP\PERMISSION_READ;
@@ -194,6 +195,9 @@ if (isset($path)) {
 			$list->assign('baseURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&path=');
 			$list->assign('downloadURL',
 				OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=');
+			$list->assign('isPublic', true);
+			$list->assign('sharingtoken', $token);
+			$list->assign('sharingroot', $basePath);
 			$breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
 			$breadcrumbNav->assign('breadcrumb', $breadcrumb);
 			$breadcrumbNav->assign('baseURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&path=');

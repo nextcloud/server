@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "grop",
 "No category to add?" => "Pas de categoria d'ajustar ?",
 "No categories selected for deletion." => "Pas de categorias seleccionadas per escafar.",
 "Sunday" => "Dimenge",
@@ -23,15 +24,17 @@ $TRANSLATIONS = array(
 "December" => "Decembre",
 "Settings" => "Configuracion",
 "seconds ago" => "segonda a",
-"1 minute ago" => "1 minuta a",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "uèi",
 "yesterday" => "ièr",
+"_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "mes passat",
+"_%n month ago_::_%n months ago_" => array("",""),
 "months ago" => "meses  a",
 "last year" => "an passat",
 "years ago" => "ans a",
 "Choose" => "Causís",
-"Cancel" => "Annula",
 "Yes" => "Òc",
 "No" => "Non",
 "Ok" => "D'accòrdi",
@@ -59,7 +62,6 @@ $TRANSLATIONS = array(
 "Password protected" => "Parat per senhal",
 "Error unsetting expiration date" => "Error al metre de la data d'expiracion",
 "Error setting expiration date" => "Error setting expiration date",
-"ownCloud password reset" => "senhal d'ownCloud tornat botar",
 "Use the following link to reset your password: {link}" => "Utiliza lo ligam seguent per tornar botar lo senhal : {link}",
 "You will receive a link to reset your password via Email." => "Reçaupràs un ligam per tornar botar ton senhal via corrièl.",
 "Username" => "Non d'usancièr",
@@ -92,8 +94,6 @@ $TRANSLATIONS = array(
 "Log out" => "Sortida",
 "Lost your password?" => "L'as perdut lo senhal ?",
 "remember" => "bremba-te",
-"Log in" => "Dintrada",
-"prev" => "dariièr",
-"next" => "venent"
+"Log in" => "Dintrada"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

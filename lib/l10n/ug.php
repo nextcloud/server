@@ -8,13 +8,12 @@ $TRANSLATIONS = array(
 "Files" => "ھۆججەتلەر",
 "Text" => "قىسقا ئۇچۇر",
 "Images" => "سۈرەتلەر",
-"1 minute ago" => "1 مىنۇت ئىلگىرى",
-"%d minutes ago" => "%d مىنۇت ئىلگىرى",
-"1 hour ago" => "1 سائەت ئىلگىرى",
-"%d hours ago" => "%d سائەت ئىلگىرى",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "سىزنىڭ تور مۇلازىمېتىرىڭىز ھۆججەت قەدەمداشلاشقا يول قويىدىغان قىلىپ توغرا تەڭشەلمەپتۇ، چۈنكى WebDAV نىڭ ئېغىزى بۇزۇلغاندەك تۇرىدۇ.",
+"_%n minute ago_::_%n minutes ago_" => array(""),
+"_%n hour ago_::_%n hours ago_" => array(""),
 "today" => "بۈگۈن",
 "yesterday" => "تۈنۈگۈن",
-"%d days ago" => "%d كۈن ئىلگىرى",
-"%d months ago" => "%d ئاي ئىلگىرى"
+"_%n day go_::_%n days ago_" => array(""),
+"_%n month ago_::_%n months ago_" => array("")
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

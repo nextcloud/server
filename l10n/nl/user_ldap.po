@@ -4,14 +4,15 @@
 # 
 # Translators:
 # André Koot <meneer@tken.net>, 2013
+# kwillems <kwillems@zonnet.nl>, 2013
 # Len <lenny@weijl.org>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-13 09:11-0400\n"
-"PO-Revision-Date: 2013-08-12 10:20+0000\n"
-"Last-Translator: Len <lenny@weijl.org>\n"
+"POT-Creation-Date: 2013-08-23 20:16-0400\n"
+"PO-Revision-Date: 2013-08-23 16:30+0000\n"
+"Last-Translator: kwillems <kwillems@zonnet.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -156,198 +157,185 @@ msgstr "Gebruikers Login Filter"
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
-"username in the login action."
-msgstr "Definiëerd de toe te passen filter indien er geprobeerd wordt in te loggen. %%uid vervangt de gebruikersnaam in de login actie."
+"username in the login action. Example: \"uid=%%uid\""
+msgstr "Definiëert het toe te passen filter als er geprobeerd wordt in te loggen. %%uid vervangt de gebruikersnaam bij het inloggen. Bijvoorbeeld: \"uid=%%uid\""
 
 #: templates/settings.php:55
-#, php-format
-msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr "gebruik %%uid placeholder, bijv. \"uid=%%uid\""
-
-#: templates/settings.php:56
 msgid "User List Filter"
 msgstr "Gebruikers Lijst Filter"
 
+#: templates/settings.php:58
+msgid ""
+"Defines the filter to apply, when retrieving users (no placeholders). "
+"Example: \"objectClass=person\""
+msgstr "Definieert het toe te passen filter bij het ophalen van gebruikers (geen tijdelijke aanduidingen). Bijvoorbeeld: \"objectClass=person\""
+
 #: templates/settings.php:59
-msgid "Defines the filter to apply, when retrieving users."
-msgstr "Definiëerd de toe te passen filter voor het ophalen van gebruikers."
-
-#: templates/settings.php:60
-msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr "zonder een placeholder, bijv. \"objectClass=person\""
-
-#: templates/settings.php:61
 msgid "Group Filter"
 msgstr "Groep Filter"
 
-#: templates/settings.php:64
-msgid "Defines the filter to apply, when retrieving groups."
-msgstr "Definiëerd de toe te passen filter voor het ophalen van groepen."
+#: templates/settings.php:62
+msgid ""
+"Defines the filter to apply, when retrieving groups (no placeholders). "
+"Example: \"objectClass=posixGroup\""
+msgstr "Definieert het toe te passen filter bij het ophalen van groepen (geen tijdelijke aanduidingen). Bijvoorbeeld: \"objectClass=posixGroup\""
 
-#: templates/settings.php:65
-msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr "zonder een placeholder, bijv. \"objectClass=posixGroup\""
-
-#: templates/settings.php:69
+#: templates/settings.php:66
 msgid "Connection Settings"
 msgstr "Verbindingsinstellingen"
 
-#: templates/settings.php:71
+#: templates/settings.php:68
 msgid "Configuration Active"
 msgstr "Configuratie actief"
 
-#: templates/settings.php:71
+#: templates/settings.php:68
 msgid "When unchecked, this configuration will be skipped."
 msgstr "Als dit niet is ingeschakeld wordt deze configuratie overgeslagen."
 
-#: templates/settings.php:72
+#: templates/settings.php:69
 msgid "Port"
 msgstr "Poort"
 
-#: templates/settings.php:73
+#: templates/settings.php:70
 msgid "Backup (Replica) Host"
 msgstr "Backup (Replica) Host"
 
-#: templates/settings.php:73
+#: templates/settings.php:70
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
 msgstr "Opgeven optionele backup host. Het moet een replica van de hoofd LDAP/AD server."
 
-#: templates/settings.php:74
+#: templates/settings.php:71
 msgid "Backup (Replica) Port"
 msgstr "Backup (Replica) Poort"
 
-#: templates/settings.php:75
+#: templates/settings.php:72
 msgid "Disable Main Server"
 msgstr "Deactiveren hoofdserver"
 
-#: templates/settings.php:75
+#: templates/settings.php:72
 msgid "Only connect to the replica server."
 msgstr "Maak alleen een verbinding met de replica server."
 
-#: templates/settings.php:76
+#: templates/settings.php:73
 msgid "Use TLS"
 msgstr "Gebruik TLS"
 
-#: templates/settings.php:76
+#: templates/settings.php:73
 msgid "Do not use it additionally for LDAPS connections, it will fail."
 msgstr "Gebruik het niet voor LDAPS verbindingen, dat gaat niet lukken."
 
-#: templates/settings.php:77
+#: templates/settings.php:74
 msgid "Case insensitve LDAP server (Windows)"
 msgstr "Niet-hoofdlettergevoelige LDAP server (Windows)"
 
-#: templates/settings.php:78
+#: templates/settings.php:75
 msgid "Turn off SSL certificate validation."
 msgstr "Schakel SSL certificaat validatie uit."
 
-#: templates/settings.php:78
+#: templates/settings.php:75
 #, php-format
 msgid ""
-"If connection only works with this option, import the LDAP server's SSL "
-"certificate in your %s server."
-msgstr "Als de connectie alleen werkt met deze optie, importeer dan het LDAP server SSL certificaat naar de %s server."
+"Not recommended, use it for testing only! If connection only works with this"
+" option, import the LDAP server's SSL certificate in your %s server."
+msgstr "Niet aanbevolen, gebruik alleen om te testen! Als de connectie alleen werkt met deze optie, importeer dan het SSL-certificaat van de LDAP-server naar uw %s server."
 
-#: templates/settings.php:78
-msgid "Not recommended, use for testing only."
-msgstr "Niet aangeraden, gebruik alleen voor test doeleinden."
-
-#: templates/settings.php:79
+#: templates/settings.php:76
 msgid "Cache Time-To-Live"
 msgstr "Cache time-to-live"
 
-#: templates/settings.php:79
+#: templates/settings.php:76
 msgid "in seconds. A change empties the cache."
 msgstr "in seconden. Een verandering maakt de cache leeg."
 
-#: templates/settings.php:81
+#: templates/settings.php:78
 msgid "Directory Settings"
 msgstr "Mapinstellingen"
 
-#: templates/settings.php:83
+#: templates/settings.php:80
 msgid "User Display Name Field"
 msgstr "Gebruikers Schermnaam Veld"
 
-#: templates/settings.php:83
+#: templates/settings.php:80
 msgid "The LDAP attribute to use to generate the user's display name."
 msgstr "Het te gebruiken LDAP attribuut voor het genereren van de weergavenaam voor de gebruiker."
 
-#: templates/settings.php:84
+#: templates/settings.php:81
 msgid "Base User Tree"
 msgstr "Basis Gebruikers Structuur"
 
-#: templates/settings.php:84
+#: templates/settings.php:81
 msgid "One User Base DN per line"
 msgstr "Een User Base DN per regel"
 
-#: templates/settings.php:85
+#: templates/settings.php:82
 msgid "User Search Attributes"
 msgstr "Attributen voor gebruikerszoekopdrachten"
 
-#: templates/settings.php:85 templates/settings.php:88
+#: templates/settings.php:82 templates/settings.php:85
 msgid "Optional; one attribute per line"
 msgstr "Optioneel; één attribuut per regel"
 
-#: templates/settings.php:86
+#: templates/settings.php:83
 msgid "Group Display Name Field"
 msgstr "Groep Schermnaam Veld"
 
-#: templates/settings.php:86
+#: templates/settings.php:83
 msgid "The LDAP attribute to use to generate the groups's display name."
 msgstr "Het te gebruiken LDAP attribuut voor het genereren van de weergavenaam voor de groepen."
 
-#: templates/settings.php:87
+#: templates/settings.php:84
 msgid "Base Group Tree"
 msgstr "Basis Groupen Structuur"
 
-#: templates/settings.php:87
+#: templates/settings.php:84
 msgid "One Group Base DN per line"
 msgstr "Een Group Base DN per regel"
 
-#: templates/settings.php:88
+#: templates/settings.php:85
 msgid "Group Search Attributes"
 msgstr "Attributen voor groepszoekopdrachten"
 
-#: templates/settings.php:89
+#: templates/settings.php:86
 msgid "Group-Member association"
 msgstr "Groepslid associatie"
 
-#: templates/settings.php:91
+#: templates/settings.php:88
 msgid "Special Attributes"
 msgstr "Speciale attributen"
 
-#: templates/settings.php:93
+#: templates/settings.php:90
 msgid "Quota Field"
 msgstr "Quota veld"
 
-#: templates/settings.php:94
+#: templates/settings.php:91
 msgid "Quota Default"
 msgstr "Quota standaard"
 
-#: templates/settings.php:94
+#: templates/settings.php:91
 msgid "in bytes"
 msgstr "in bytes"
 
-#: templates/settings.php:95
+#: templates/settings.php:92
 msgid "Email Field"
 msgstr "E-mailveld"
 
-#: templates/settings.php:96
+#: templates/settings.php:93
 msgid "User Home Folder Naming Rule"
 msgstr "Gebruikers Home map naamgevingsregel"
 
-#: templates/settings.php:96
+#: templates/settings.php:93
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "Laat leeg voor de gebruikersnaam (standaard). Of, specificeer een LDAP/AD attribuut."
 
-#: templates/settings.php:101
+#: templates/settings.php:98
 msgid "Internal Username"
 msgstr "Interne gebruikersnaam"
 
-#: templates/settings.php:102
+#: templates/settings.php:99
 msgid ""
 "By default the internal username will be created from the UUID attribute. It"
 " makes sure that the username is unique and characters do not need to be "
@@ -361,17 +349,17 @@ msgid ""
 "behavior as before ownCloud 5 enter the user display name attribute in the "
 "following field. Leave it empty for default behavior. Changes will have "
 "effect only on newly mapped (added) LDAP users."
-msgstr ""
+msgstr "Standaard wordt de interne gebruikersnaam aangemaakt op basis van het UUID attribuut. Het zorgt ervoor dat de gebruikersnaam uniek is en dat tekens niet hoeven te worden geconverteerd. De interne gebruikersnaam heeft als beperking dat alleen deze tekens zijn toegestaan​​: [a-zA-Z0-9_.@- ]. Andere tekens worden vervangen door hun ASCII vertaling of gewoonweg weggelaten. Bij identieke namen wordt een nummer toegevoegd of verhoogd. De interne gebruikersnaam wordt gebruikt om een ​​gebruiker binnen het systeem te herkennen. Het is ook de standaardnaam voor de standaardmap van de gebruiker in ownCloud. Het is ook een vertaling voor externe URL's, bijvoorbeeld voor alle *DAV diensten. Met deze instelling kan het standaardgedrag worden overschreven. Om een soortgelijk gedrag te bereiken als van vóór ownCloud 5, voer het gebruikersweergavenaam attribuut in in het volgende veld. Laat het leeg voor standaard gedrag. Veranderingen worden alleen toegepast op gekoppelde (toegevoegde) LDAP-gebruikers."
 
-#: templates/settings.php:103
+#: templates/settings.php:100
 msgid "Internal Username Attribute:"
 msgstr "Interne gebruikersnaam attribuut:"
 
-#: templates/settings.php:104
+#: templates/settings.php:101
 msgid "Override UUID detection"
 msgstr "Negeren UUID detectie"
 
-#: templates/settings.php:105
+#: templates/settings.php:102
 msgid ""
 "By default, the UUID attribute is automatically detected. The UUID attribute"
 " is used to doubtlessly identify LDAP users and groups. Also, the internal "
@@ -380,17 +368,17 @@ msgid ""
 "You must make sure that the attribute of your choice can be fetched for both"
 " users and groups and it is unique. Leave it empty for default behavior. "
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
-msgstr ""
+msgstr "Standaard herkent ownCloud het UUID-attribuut automatisch. Het UUID attribuut wordt gebruikt om LDAP-gebruikers en -groepen uniek te identificeren. Ook zal de interne gebruikersnaam worden aangemaakt op basis van het UUID, tenzij deze hierboven anders is aangegeven. U kunt de instelling overschrijven en zelf een waarde voor het attribuut opgeven. U moet ervoor zorgen dat het ingestelde attribuut kan worden opgehaald voor zowel gebruikers als groepen en dat het uniek is. Laat het leeg voor standaard gedrag. Veranderingen worden alleen doorgevoerd op nieuw gekoppelde (toegevoegde) LDAP-gebruikers en-groepen."
 
-#: templates/settings.php:106
+#: templates/settings.php:103
 msgid "UUID Attribute:"
 msgstr "UUID Attribuut:"
 
-#: templates/settings.php:107
+#: templates/settings.php:104
 msgid "Username-LDAP User Mapping"
 msgstr "Gebruikersnaam-LDAP gebruikers vertaling"
 
-#: templates/settings.php:108
+#: templates/settings.php:105
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -402,20 +390,20 @@ msgid ""
 " is not configuration sensitive, it affects all LDAP configurations! Never "
 "clear the mappings in a production environment, only in a testing or "
 "experimental stage."
-msgstr ""
+msgstr "ownCloud maakt gebruik van gebruikersnamen om (meta) data op te slaan en toe te wijzen. Om gebruikers uniek te identificeren, krijgt elke LDAP-gebruiker ook een interne gebruikersnaam. Dit vereist een koppeling van de ownCloud gebruikersnaam aan een ​​LDAP-gebruiker. De gecreëerde gebruikersnaam is gekoppeld aan de UUID van de LDAP-gebruiker. Aanvullend wordt ook de 'DN' gecached om het aantal LDAP-interacties te verminderen, maar dit wordt niet gebruikt voor identificatie. Als de DN verandert, zullen de veranderingen worden gevonden. De interne naam wordt overal gebruikt. Het wissen van de koppeling zal overal resten achterlaten. Het wissen van koppelingen is niet configuratiegevoelig, maar het raakt wel alle LDAP instellingen! Zorg ervoor dat deze koppelingen nooit in een productieomgeving gewist worden. Maak ze alleen leeg in een test- of ontwikkelomgeving."
 
-#: templates/settings.php:109
+#: templates/settings.php:106
 msgid "Clear Username-LDAP User Mapping"
 msgstr "Leegmaken Gebruikersnaam-LDAP gebruikers vertaling"
 
-#: templates/settings.php:109
+#: templates/settings.php:106
 msgid "Clear Groupname-LDAP Group Mapping"
 msgstr "Leegmaken Groepsnaam-LDAP groep vertaling"
 
-#: templates/settings.php:111
+#: templates/settings.php:108
 msgid "Test Configuration"
 msgstr "Test configuratie"
 
-#: templates/settings.php:111
+#: templates/settings.php:108
 msgid "Help"
 msgstr "Help"

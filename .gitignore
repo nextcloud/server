@@ -82,6 +82,9 @@ nbproject
 # Tests
 /tests/phpunit.xml
 
+# Node Modules
+/build/node_modules/
+
 # Tests - auto-generated files
 /data-autotest
 /tests/coverage*

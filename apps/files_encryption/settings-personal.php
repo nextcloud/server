@@ -16,7 +16,7 @@ $view = new \OC_FilesystemView('/');
 $util = new \OCA\Encryption\Util($view, $user);
 $session = new \OCA\Encryption\Session($view);
 
-$privateKeySet = ($session->getPrivateKey() !== false) ? true : false;
+$privateKeySet = $session->getPrivateKey() !== false;
 
 $recoveryAdminEnabled = OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled');
 $recoveryEnabledForUser = $util->recoveryEnabledForUser();
