@@ -588,10 +588,11 @@ class Util {
 
 			// get the size from filesystem
 			$fullPath = $this->view->getLocalFile($path);
-			$size = filesize($fullPath);
+			$size = $this->view->filesize($path);
 
 			// calculate last chunk nr
 			$lastChunkNr = floor($size / 8192);
+			$lastChunkSize = $size - ($lastChunkNr * 8192);
 
 			// open stream
 			$stream = fopen('crypt://' . $relativePath, "r");
@@ -604,7 +605,7 @@ class Util {
 				fseek($stream, $lastChunckPos);
 
 				// get the content of the last chunk
-				$lastChunkContent = fread($stream, 8192);
+				$lastChunkContent = fread($stream, $lastChunkSize);
 
 				// calc the real file size with the size of the last chunk
 				$realSize = (($lastChunkNr * 6126) + strlen($lastChunkContent));
