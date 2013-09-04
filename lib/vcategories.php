@@ -179,6 +179,7 @@ class OC_VCategories {
 		if(is_numeric($category)) {
 			$catid = $category;
 		} elseif(is_string($category)) {
+			$category = trim($category);
 			$catid = $this->array_searchi($category, $this->categories);
 		}
 		OCP\Util::writeLog('core', __METHOD__.', category: '.$catid.' '.$category, OCP\Util::DEBUG);
@@ -240,6 +241,7 @@ class OC_VCategories {
 		if(is_numeric($category)) {
 			$catid = $category;
 		} elseif(is_string($category)) {
+			$category = trim($category);
 			$catid = $this->array_searchi($category, $this->categories);
 		}
 		OCP\Util::writeLog('core', __METHOD__.', category: '.$catid.' '.$category, OCP\Util::DEBUG);
@@ -301,6 +303,7 @@ class OC_VCategories {
 	* @returns int the id of the added category or false if it already exists.
 	*/
 	public function add($name) {
+		$name = trim($name);
 		OCP\Util::writeLog('core', __METHOD__.', name: ' . $name, OCP\Util::DEBUG);
 		if($this->hasCategory($name)) {
 			OCP\Util::writeLog('core', __METHOD__.', name: ' . $name. ' exists already', OCP\Util::DEBUG);
@@ -331,6 +334,8 @@ class OC_VCategories {
 	* @returns bool
 	*/
 	public function rename($from, $to) {
+		$from = trim($from);
+		$to = trim($to);
 		$id = $this->array_searchi($from, $this->categories);
 		if($id === false) {
 			OCP\Util::writeLog('core', __METHOD__.', category: ' . $from. ' does not exist', OCP\Util::DEBUG);
@@ -656,6 +661,7 @@ class OC_VCategories {
 	public function addToCategory($objid, $category, $type = null) {
 		$type = is_null($type) ? $this->type : $type;
 		if(is_string($category) && !is_numeric($category)) {
+			$category = trim($category);
 			if(!$this->hasCategory($category)) {
 				$this->add($category, true);
 			}
@@ -688,9 +694,13 @@ class OC_VCategories {
 	*/
 	public function removeFromCategory($objid, $category, $type = null) {
 		$type = is_null($type) ? $this->type : $type;
-		$categoryid = (is_string($category) && !is_numeric($category))
-			? $this->array_searchi($category, $this->categories)
-			: $category;
+		if(is_string($category) && !is_numeric($category)) {
+			$category = trim($category);
+			$categoryid =  $this->array_searchi($category, $this->categories);
+		} else {
+			$categoryid = $category;
+		}
+
 		try {
 			$sql = 'DELETE FROM `' . self::RELATION_TABLE . '` '
 					. 'WHERE `objid` = ? AND `categoryid` = ? AND `type` = ?';
@@ -715,6 +725,8 @@ class OC_VCategories {
 		if(!is_array($names)) {
 			$names = array($names);
 		}
+
+		$names = array_map('trim', $names);
 
 		OC_Log::write('core', __METHOD__ . ', before: '
 			. print_r($this->categories, true), OC_Log::DEBUG);
