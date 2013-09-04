@@ -6,7 +6,9 @@
  * See the COPYING-README file.
  */
 
-class OC_Core_Avatar_Controller {
+namespace OC\Core\Avatar;
+
+class Controller {
 	public static function getAvatar($args) {
 		if (!\OC_User::isLoggedIn()) {
 			$l = new \OC_L10n('core');
@@ -91,7 +93,7 @@ class OC_Core_Avatar_Controller {
 	}
 
 	public static function deleteAvatar($args) {
-		$user = OC_User::getUser();
+		$user = \OC_User::getUser();
 
 		try {
 			$avatar = new \OC_Avatar();
@@ -118,7 +120,7 @@ class OC_Core_Avatar_Controller {
 	}
 
 	public static function postCroppedAvatar($args) {
-		$user = OC_User::getUser();
+		$user = \OC_User::getUser();
 		if (isset($_POST['crop'])) {
 			$crop = $_POST['crop'];
 		} else {
