@@ -270,7 +270,7 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 
 		OC_User::setUserId($this->user1);
 		$this->assertTrue(
-			OCP\Share::setExpirationDate('test', 'test.txt', '2000-01-01 00:00'),
+			OCP\Share::setExpirationDate('test', 'test.txt', '2000-01-01 00:00:00'),
 			'Failed asserting that user 1 successfully set an expiration date for the test.txt share.'
 		);
 
@@ -287,7 +287,7 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 
 		OC_User::setUserId($this->user1);
 		$this->assertTrue(
-			OCP\Share::setExpirationDate('test', 'test.txt', '2037-01-01 00:00'),
+			OCP\Share::setExpirationDate('test', 'test.txt', '2037-01-01 00:00:00'),
 			'Failed asserting that user 1 successfully set an expiration date for the test.txt share.'
 		);
 
