@@ -33,7 +33,7 @@ class OC_Core_Avatar_Controller {
 		if ($image instanceof \OC_Image) {
 			\OC_Response::setETagHeader(crc32($image->data()));
 			$image->show();
-		} elseif ($image === false) {
+		} else {
 			\OC_JSON::success(array('user' => $user, 'size' => $size));
 		}
 	}
@@ -45,9 +45,7 @@ class OC_Core_Avatar_Controller {
 			$path = stripslashes($_POST['path']);
 			$view = new \OC\Files\View('/'.$user.'/files');
 			$newAvatar = $view->file_get_contents($path);
-		}
-
-		if (!empty($_FILES)) {
+		} elseif (!empty($_FILES)) {
 			$files = $_FILES['files'];
 			if (
 				$files['error'][0] === 0 &&
@@ -57,6 +55,10 @@ class OC_Core_Avatar_Controller {
 				$newAvatar = file_get_contents($files['tmp_name'][0]);
 				unlink($files['tmp_name'][0]);
 			}
+		} else {
+			$l = new \OC_L10n('core');
+			\OC_JSON::error(array("data" => array("message" => $l->t("No image or file provided")) ));
+			return;
 		}
 
 		try {
@@ -101,8 +103,6 @@ class OC_Core_Avatar_Controller {
 	}
 
 	public static function getTmpAvatar($args) {
-		$user = OC_User::getUser();
-
 		$tmpavatar = \OC_Cache::get('tmpavatar');
 		if (is_null($tmpavatar)) {
 			$l = new \OC_L10n('core');
