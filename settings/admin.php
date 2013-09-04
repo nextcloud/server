@@ -15,7 +15,7 @@ OC_App::setActiveNavigationEntry( "admin" );
 
 $tmpl = new OC_Template( 'settings', 'admin', 'user');
 $forms=OC_App::getForms('admin');
-$htaccessworking=OC_Util::ishtaccessworking();
+$htaccessworking=OC_Util::isHtAccessWorking();
 
 $entries=OC_Log_Owncloud::getEntries(3);
 $entriesremain = count(OC_Log_Owncloud::getEntries(4)) > 3;
@@ -25,7 +25,7 @@ $tmpl->assign('entries', $entries);
 $tmpl->assign('entriesremain', $entriesremain);
 $tmpl->assign('htaccessworking', $htaccessworking);
 $tmpl->assign('internetconnectionworking', OC_Util::isInternetConnectionEnabled() ? OC_Util::isInternetConnectionWorking() : false);
-$tmpl->assign('islocaleworking', OC_Util::issetlocaleworking());
+$tmpl->assign('islocaleworking', OC_Util::isSetLocaleWorking());
 $tmpl->assign('isWebDavWorking', OC_Util::isWebDAVWorking());
 $tmpl->assign('has_fileinfo', OC_Util::fileInfoLoaded());
 $tmpl->assign('backgroundjobs_mode', OC_Appconfig::getValue('core', 'backgroundjobs_mode', 'ajax'));

@@ -77,7 +77,7 @@ var OCdialogs = {
 			self.$filePicker = $tmpl.octemplate({
 				dialog_name: dialog_name,
 				title: title
-			}).data('path', '');
+			}).data('path', '').data('multiselect', multiselect).data('mimetype', mimetype_filter);
 
 			if (modal === undefined) {
 				modal = false;
@@ -100,7 +100,7 @@ var OCdialogs = {
 					self._handlePickerClick(event, $(this));
 				});
 				self._fillFilePicker('');
-			}).data('multiselect', multiselect).data('mimetype',mimetype_filter);
+			});
 
 			// build buttons
 			var functionToCall = function() {
@@ -285,7 +285,11 @@ var OCdialogs = {
 					filename: entry.name,
 					date: OC.mtime2date(entry.mtime)
 				});
-				$li.find('img').attr('src', entry.mimetype_icon);
+				if (entry.mimetype === "httpd/unix-directory") {
+					$li.find('img').attr('src', OC.imagePath('core', 'filetypes/folder.png'));
+				} else {
+					$li.find('img').attr('src', OC.Router.generate('core_ajax_preview', {x:32, y:32, file:escapeHTML(dir+'/'+entry.name)}) );
+				}
 				self.$filelist.append($li);
 			});
 

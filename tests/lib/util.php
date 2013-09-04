@@ -71,8 +71,8 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(\OC_Util::isInternetConnectionEnabled());
 	}
 
-	function testGenerate_random_bytes() {
-		$result = strlen(OC_Util::generate_random_bytes(59));
+	function testGenerateRandomBytes() {
+		$result = strlen(OC_Util::generateRandomBytes(59));
 		$this->assertEquals(59, $result);
 	}
 
