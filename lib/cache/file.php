@@ -99,13 +99,11 @@ class OC_Cache_File{
 			if(!is_resource($dh)) {
 				return null;
 			}
-			if(is_resource($dh)) {
-				while (($file = readdir($dh)) !== false) {
-					if($file!='.' and $file!='..') {
-						$mtime = $storage->filemtime('/'.$file);
-						if ($mtime < $now) {
-							$storage->unlink('/'.$file);
-						}
+			while (($file = readdir($dh)) !== false) {
+				if($file!='.' and $file!='..') {
+					$mtime = $storage->filemtime('/'.$file);
+					if ($mtime < $now) {
+						$storage->unlink('/'.$file);
 					}
 				}
 			}
