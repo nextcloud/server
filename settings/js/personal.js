@@ -58,7 +58,7 @@ function showAvatarCropper() {
 	$cropper = $('#cropper');
 	$cropperImage = $('#cropper img');
 
-	$cropperImage.attr('src', OC.Router.generate('core_avatar_get_tmp')+'#'+Math.floor(Math.random()*1000));
+	$cropperImage.attr('src', OC.Router.generate('core_avatar_get_tmp')+'?requesttoken='+oc_requesttoken+'#'+Math.floor(Math.random()*1000));
 
 	// Looks weird, but on('load', ...) doesn't work in IE8
 	$cropperImage.ready(function(){

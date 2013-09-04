@@ -66,7 +66,7 @@
 		var $div = this;
 
 		OC.Router.registerLoadedCallback(function() {
-			var url = OC.Router.generate('core_avatar_get', {user: user, size: size});
+			var url = OC.Router.generate('core_avatar_get', {user: user, size: size})+'?requesttoken='+oc_requesttoken;
 			$.get(url, function(result) {
 				if (typeof(result) === 'object') {
 					$div.placeholder(result.user);

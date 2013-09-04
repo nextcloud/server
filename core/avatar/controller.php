@@ -10,12 +10,8 @@ namespace OC\Core\Avatar;
 
 class Controller {
 	public static function getAvatar($args) {
-		if (!\OC_User::isLoggedIn()) {
-			$l = new \OC_L10n('core');
-			header("HTTP/1.0 403 Forbidden");
-			\OC_Template::printErrorPage($l->t("Permission denied"));
-			return;
-		}
+		\OC_JSON::checkLoggedIn();
+		\OC_JSON::callCheck();
 
 		$user = stripslashes($args['user']);
 		$size = (int)$args['size'];
@@ -41,6 +37,9 @@ class Controller {
 	}
 
 	public static function postAvatar($args) {
+		\OC_JSON::checkLoggedIn();
+		\OC_JSON::callCheck();
+
 		$user = \OC_User::getUser();
 
 		if (isset($_POST['path'])) {
@@ -93,6 +92,9 @@ class Controller {
 	}
 
 	public static function deleteAvatar($args) {
+		\OC_JSON::checkLoggedIn();
+		\OC_JSON::callCheck();
+
 		$user = \OC_User::getUser();
 
 		try {
@@ -105,6 +107,9 @@ class Controller {
 	}
 
 	public static function getTmpAvatar($args) {
+		\OC_JSON::checkLoggedIn();
+		\OC_JSON::callCheck();
+
 		$tmpavatar = \OC_Cache::get('tmpavatar');
 		if (is_null($tmpavatar)) {
 			$l = new \OC_L10n('core');
@@ -120,6 +125,9 @@ class Controller {
 	}
 
 	public static function postCroppedAvatar($args) {
+		\OC_JSON::checkLoggedIn();
+		\OC_JSON::callCheck();
+
 		$user = \OC_User::getUser();
 		if (isset($_POST['crop'])) {
 			$crop = $_POST['crop'];
