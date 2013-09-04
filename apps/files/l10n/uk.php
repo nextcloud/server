@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "Відсутній тимчасовий каталог",
 "Failed to write to disk" => "Невдалося записати на диск",
 "Not enough storage available" => "Місця більше немає",
+"Upload failed" => "Помилка завантаження",
 "Invalid directory." => "Невірний каталог.",
 "Files" => "Файли",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Неможливо завантажити ваш файл тому, що він тека або файл розміром 0 байт",

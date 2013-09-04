@@ -7,6 +7,10 @@
  */
 
 class Test_Image extends PHPUnit_Framework_TestCase {
+	public static function tearDownAfterClass() {
+		unlink(OC::$SERVERROOT.'/tests/data/testimage2.png');
+		unlink(OC::$SERVERROOT.'/tests/data/testimage2.jpg');
+	}
 
 	public function testGetMimeTypeForFile() {
 		$mimetype = \OC_Image::getMimeTypeForFile(OC::$SERVERROOT.'/tests/data/testimage.png');
@@ -55,7 +59,6 @@ class Test_Image extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testMimeType() {
-		$this->markTestSkipped("When loading from data or base64, imagetype is always image/png, see #4258.");
 		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$this->assertEquals('image/png', $img->mimeType());
 
@@ -102,35 +105,50 @@ class Test_Image extends PHPUnit_Framework_TestCase {
 		$img->resize(16);
 		$img->save(OC::$SERVERROOT.'/tests/data/testimage2.png');
 		$this->assertEquals(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage2.png'), $img->data());
+
+		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.jpg');
+		$img->resize(128);
+		$img->save(OC::$SERVERROOT.'/tests/data/testimage2.jpg');
+		$this->assertEquals(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage2.jpg'), $img->data());
 	}
 
 	public function testData() {
-		$this->markTestSkipped("\OC_Image->data() converts to png before outputting data, see #4258.");
 		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.png');
-		$expected = file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.png');
+		$raw = imagecreatefromstring(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.png'));
+		ob_start();
+		imagepng($raw);
+		$expected = ob_get_clean();
 		$this->assertEquals($expected, $img->data());
 
 		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.jpg');
-		$expected = file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg');
+		$raw = imagecreatefromstring(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
+		ob_start();
+		imagejpeg($raw);
+		$expected = ob_get_clean();
 		$this->assertEquals($expected, $img->data());
 
 		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.gif');
-		$expected = file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.gif');
+		$raw = imagecreatefromstring(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.gif'));
+		ob_start();
+		imagegif($raw);
+		$expected = ob_get_clean();
 		$this->assertEquals($expected, $img->data());
 	}
 
+	/**
+	 * @depends testData
+	 */
 	public function testToString() {
-		$this->markTestSkipped("\OC_Image->data() converts to png before outputting data, see #4258.");
 		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.png');
-		$expected = base64_encode(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.png'));
+		$expected = base64_encode($img->data());
 		$this->assertEquals($expected, (string)$img);
 
 		$img = new \OC_Image(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
-		$expected = base64_encode(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
+		$expected = base64_encode($img->data());
 		$this->assertEquals($expected, (string)$img);
 
 		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.gif');
-		$expected = base64_encode(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.gif'));
+		$expected = base64_encode($img->data());
 		$this->assertEquals($expected, (string)$img);
 	}
 

@@ -21,11 +21,19 @@
 		data-timestamp='<?php p($file['timestamp']);?>'
 		data-dirlisting=0
 		<?php endif; ?>>
+		<?php if($file['isPreviewAvailable']): ?>
+		<td class="filename svg preview-icon"
+		<?php else: ?>
 		<td class="filename svg"
+		<?php endif; ?>
 		<?php if($file['type'] === 'dir'): ?>
 			style="background-image:url(<?php print_unescaped(OCP\mimetype_icon('dir')); ?>)"
 		<?php else: ?>
-			style="background-image:url(<?php print_unescaped(OCP\mimetype_icon($file['mimetype'])); ?>)"
+				<?php if($file['isPreviewAvailable']): ?>
+				style="background-image:url(<?php print_unescaped(OCA\Files_Trashbin\Trashbin::preview_icon(!$_['dirlisting'] ? ($file['name'].'.d'.$file['timestamp']) : ($file['directory'].'/'.$file['name']))); ?>)"
+				<?php else: ?>
+				style="background-image:url(<?php print_unescaped(OCP\mimetype_icon($file['mimetype'])); ?>)"
+				<?php endif; ?>
 		<?php endif; ?>
 			>
 		<?php if(!isset($_['readonly']) || !$_['readonly']): ?><input type="checkbox" /><?php endif; ?>

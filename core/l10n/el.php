@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "Ο %s διαμοιράστηκε μαζί σας το »%s«",
+"group" => "ομάδα",
 "Category type not provided." => "Δεν δώθηκε τύπος κατηγορίας.",
 "No category to add?" => "Δεν έχετε κατηγορία να προσθέσετε;",
 "This category already exists: %s" => "Αυτή η κατηγορία υπάρχει ήδη: %s",

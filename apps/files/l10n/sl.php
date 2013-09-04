@@ -13,6 +13,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "Manjka začasna mapa",
 "Failed to write to disk" => "Pisanje na disk je spodletelo",
 "Not enough storage available" => "Na voljo ni dovolj prostora",
+"Upload failed" => "Pošiljanje je spodletelo",
 "Invalid directory." => "Neveljavna mapa.",
 "Files" => "Datoteke",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Pošiljanja ni mogoče izvesti, saj gre za mapo oziroma datoteko velikosti 0 bajtov.",

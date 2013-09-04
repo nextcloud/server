@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s kopīgots »%s« ar jums",
+"group" => "grupa",
 "Category type not provided." => "Kategorijas tips nav norādīts.",
 "No category to add?" => "Nav kategoriju, ko pievienot?",
 "This category already exists: %s" => "Šāda kategorija jau eksistē — %s",

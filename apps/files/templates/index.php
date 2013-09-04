@@ -10,7 +10,7 @@
 						data-type='file'><p><?php p($l->t('Text file'));?></p></li>
 					<li style="background-image:url('<?php p(OCP\mimetype_icon('dir')) ?>')"
 						data-type='folder'><p><?php p($l->t('Folder'));?></p></li>
-					<li style="background-image:url('<?php p(OCP\image_path('core', 'actions/public.png')) ?>')"
+					<li style="background-image:url('<?php p(OCP\image_path('core', 'filetypes/web.svg')) ?>')"
 						data-type='web'><p><?php p($l->t('From link'));?></p></li>
 				</ul>
 			</div>
@@ -56,24 +56,27 @@
 </div>
 
 <?php if (isset($_['files']) and $_['isCreatable'] and count($_['files'])==0):?>
-	<div id="emptyfolder"><?php p($l->t('Nothing in here. Upload something!'))?></div>
+	<div id="emptycontent"><?php p($l->t('Nothing in here. Upload something!'))?></div>
 <?php endif; ?>
 
-<table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>">
+<table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="36" data-preview-y="36">
 	<thead>
 		<tr>
 			<th id='headerName'>
-				<input type="checkbox" id="select_all" />
-				<span class='name'><?php p($l->t( 'Name' )); ?></span>
-				<span class='selectedActions'>
-					<?php if($_['allowZipDownload']) : ?>
-						<a href="" class="download">
-							<img class="svg" alt="Download"
-								 src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>" />
-							<?php p($l->t('Download'))?>
-						</a>
-					<?php endif; ?>
-				</span>
+				<div id="headerName-container">
+					<input type="checkbox" id="select_all" />
+					<label for="select_all"></label>
+					<span class="name"><?php p($l->t( 'Name' )); ?></span>
+					<span class="selectedActions">
+						<?php if($_['allowZipDownload']) : ?>
+							<a href="" class="download">
+								<img class="svg" alt="Download"
+									 src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>" />
+								<?php p($l->t('Download'))?>
+							</a>
+						<?php endif; ?>
+					</span>
+				</div>
 			</th>
 			<th id="headerSize"><?php p($l->t('Size')); ?></th>
 			<th id="headerDate">
@@ -101,7 +104,7 @@
 		<?php print_unescaped($_['fileList']); ?>
 	</tbody>
 </table>
-<div id="editor"></div>
+<div id="editor"></div><!-- FIXME Do not use this div in your app! It is deprecated and will be removed in the future! -->
 <div id="uploadsize-message" title="<?php p($l->t('Upload too large'))?>">
 	<p>
 	<?php p($l->t('The files you are trying to upload exceed the maximum size for file uploads on this server.'));?>

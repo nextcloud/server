@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s ha compartit »%s« amb tu",
+"group" => "grup",
 "Category type not provided." => "No s'ha especificat el tipus de categoria.",
 "No category to add?" => "No voleu afegir cap categoria?",
 "This category already exists: %s" => "Aquesta categoria ja existeix: %s",

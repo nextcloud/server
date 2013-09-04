@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "תקיה זמנית חסרה",
 "Failed to write to disk" => "הכתיבה לכונן נכשלה",
 "Not enough storage available" => "אין די שטח פנוי באחסון",
+"Upload failed" => "ההעלאה נכשלה",
 "Invalid directory." => "תיקייה שגויה.",
 "Files" => "קבצים",
 "Unable to upload your file as it is a directory or has 0 bytes" => "לא יכול להעלות את הקובץ מכיוון שזו תקיה או שמשקל הקובץ 0 בתים",

@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "დროებითი საქაღალდე არ არსებობს",
 "Failed to write to disk" => "შეცდომა დისკზე ჩაწერისას",
 "Not enough storage available" => "საცავში საკმარისი ადგილი არ არის",
+"Upload failed" => "ატვირთვა ვერ განხორციელდა",
 "Invalid directory." => "დაუშვებელი დირექტორია.",
 "Files" => "ფაილები",
 "Unable to upload your file as it is a directory or has 0 bytes" => "თქვენი ფაილის ატვირთვა ვერ მოხერხდა. ის არის საქაღალდე და შეიცავს 0 ბაიტს",

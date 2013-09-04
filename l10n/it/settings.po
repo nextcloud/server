@@ -5,14 +5,15 @@
 # Translators:
 # Francesco Apruzzese <cescoap@gmail.com>, 2013
 # idetao <marcxosm@gmail.com>, 2013
+# polxmod <paolo.velati@gmail.com>, 2013
 # Vincenzo Reale <vinx.reale@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-25 19:18-0400\n"
-"PO-Revision-Date: 2013-08-25 23:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-01 13:27-0400\n"
+"PO-Revision-Date: 2013-09-01 15:53+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -87,47 +88,47 @@ msgstr "Impossibile rimuovere l'utente dal gruppo %s"
 msgid "Couldn't update app."
 msgstr "Impossibile aggiornate l'applicazione."
 
-#: js/apps.js:35
+#: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Aggiorna a {appversion}"
 
-#: js/apps.js:41 js/apps.js:74 js/apps.js:100
+#: js/apps.js:49 js/apps.js:82 js/apps.js:108
 msgid "Disable"
 msgstr "Disabilita"
 
-#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
+#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
 msgid "Enable"
 msgstr "Abilita"
 
-#: js/apps.js:63
+#: js/apps.js:71
 msgid "Please wait...."
 msgstr "Attendere..."
 
-#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+#: js/apps.js:79 js/apps.js:80 js/apps.js:100
 msgid "Error while disabling app"
-msgstr ""
+msgstr "Errore durante la disattivazione"
 
-#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+#: js/apps.js:99 js/apps.js:112 js/apps.js:113
 msgid "Error while enabling app"
-msgstr ""
+msgstr "Errore durante l'attivazione"
 
-#: js/apps.js:115
+#: js/apps.js:123
 msgid "Updating...."
 msgstr "Aggiornamento in corso..."
 
-#: js/apps.js:118
+#: js/apps.js:126
 msgid "Error while updating app"
 msgstr "Errore durante l'aggiornamento"
 
-#: js/apps.js:118
+#: js/apps.js:126
 msgid "Error"
 msgstr "Errore"
 
-#: js/apps.js:119 templates/apps.php:43
+#: js/apps.js:127 templates/apps.php:43
 msgid "Update"
 msgstr "Aggiorna"
 
-#: js/apps.js:122
+#: js/apps.js:130
 msgid "Updated"
 msgstr "Aggiornato"
 

@@ -13,6 +13,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "Lipsește un director temporar",
 "Failed to write to disk" => "Eroare la scriere pe disc",
 "Not enough storage available" => "Nu este suficient spațiu disponibil",
+"Upload failed" => "Încărcarea a eșuat",
 "Invalid directory." => "Director invalid.",
 "Files" => "Fișiere",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Nu s-a putut încărca fișierul tău deoarece pare să fie un director sau are 0 bytes.",

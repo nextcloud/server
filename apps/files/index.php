@@ -74,6 +74,7 @@ foreach ($content as $i) {
 		}
 	}
 	$i['directory'] = $dir;
+	$i['isPreviewAvailable'] = \OCP\Preview::isMimeSupported($i['mimetype']);
 	$files[] = $i;
 }
 
@@ -95,6 +96,7 @@ $list->assign('files', $files);
 $list->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir=');
 $list->assign('downloadURL', OCP\Util::linkToRoute('download', array('file' => '/')));
 $list->assign('disableSharing', false);
+$list->assign('isPublic', false);
 $breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
 $breadcrumbNav->assign('breadcrumb', $breadcrumb);
 $breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir=');

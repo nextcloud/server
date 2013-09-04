@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "โฟลเดอร์ชั่วคราวเกิดการสูญหาย",
 "Failed to write to disk" => "เขียนข้อมูลลงแผ่นดิสก์ล้มเหลว",
 "Not enough storage available" => "เหลือพื้นที่ไม่เพียงสำหรับใช้งาน",
+"Upload failed" => "อัพโหลดล้มเหลว",
 "Invalid directory." => "ไดเร็กทอรี่ไม่ถูกต้อง",
 "Files" => "ไฟล์",
 "Unable to upload your file as it is a directory or has 0 bytes" => "ไม่สามารถอัพโหลดไฟล์ของคุณได้ เนื่องจากไฟล์ดังกล่าวเป็นไดเร็กทอรี่ หรือ มีขนาดไฟล์ 0 ไบต์",

@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "Không tìm thấy thư mục tạm",
 "Failed to write to disk" => "Không thể ghi ",
 "Not enough storage available" => "Không đủ không gian lưu trữ",
+"Upload failed" => "Tải lên thất bại",
 "Invalid directory." => "Thư mục không hợp lệ",
 "Files" => "Tập tin",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Không thể tải lên tập tin của bạn ,nó như là một thư mục hoặc có 0 byte",

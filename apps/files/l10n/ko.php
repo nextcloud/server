@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "임시 폴더가 없음",
 "Failed to write to disk" => "디스크에 쓰지 못했습니다",
 "Not enough storage available" => "저장소가 용량이 충분하지 않습니다.",
+"Upload failed" => "업로드 실패",
 "Invalid directory." => "올바르지 않은 디렉터리입니다.",
 "Files" => "파일",
 "Unable to upload your file as it is a directory or has 0 bytes" => "디렉터리 및 빈 파일은 업로드할 수 없습니다",

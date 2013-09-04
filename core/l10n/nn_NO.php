@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "gruppe",
 "Category type not provided." => "Ingen kategoritype.",
 "No category to add?" => "Ingen kategori å leggja til?",
 "This category already exists: %s" => "Denne kategorien finst alt: %s",

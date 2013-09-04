@@ -65,7 +65,7 @@ class OCI extends AbstractDatabase {
 			//add prefix to the oracle user name to prevent collisions
 			$this->dbuser='oc_'.$username;
 			//create a new password so we don't need to store the admin config in the config file
-			$this->dbpassword=\OC_Util::generate_random_bytes(30);
+			$this->dbpassword=\OC_Util::generateRandomBytes(30);
 
 			//oracle passwords are treated as identifiers:
 			//  must start with aphanumeric char
