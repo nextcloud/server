@@ -72,12 +72,14 @@ class OC_Core_Avatar_Controller {
 			} else {
 				$l = new \OC_L10n('core');
 				$type = substr($image->mimeType(), -3);
-				if ($type === 'peg') { $type = 'jpg'; }
+				if ($type === 'peg') {
+					$type = 'jpg';
+				}
 				if ($type !== 'jpg' && $type !== 'png') {
 					\OC_JSON::error(array("data" => array("message" => $l->t("Unknown filetype")) ));
 				}
 
-				if (!$img->valid()) {
+				if (!$image->valid()) {
 					\OC_JSON::error(array("data" => array("message" => $l->t("Invalid image")) ));
 				}
 			}

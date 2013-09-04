@@ -15,7 +15,7 @@ class OC_Avatar {
 	 * @brief get the users avatar
 	 * @param $user string which user to get the avatar for
 	 * @param $size integer size in px of the avatar, defaults to 64
-	 * @return mixed \OC_Image containing the avatar or false if there's no image
+	 * @return boolean|\OC_Image containing the avatar or false if there's no image
 	*/
 	public function get ($user, $size = 64) {
 		$view = new \OC\Files\View('/'.$user);
