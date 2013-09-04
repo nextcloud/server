@@ -15,7 +15,7 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 	public function setUp() {
 		$dbfile = OC::$SERVERROOT.'/tests/data/db_structure.xml';
 
-		$r = '_'.OC_Util::generate_random_bytes('4').'_';
+		$r = '_'.OC_Util::generateRandomBytes('4').'_';
 		$content = file_get_contents( $dbfile );
 		$content = str_replace( '*dbprefix*', '*dbprefix*'.$r, $content );
 		file_put_contents( self::$schema_file, $content );
