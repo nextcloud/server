@@ -56,6 +56,7 @@ function updateAvatar () {
 
 function showAvatarCropper() {
 	$cropper = $('#cropper');
+	$cropper.prepend("<img>");
 	$cropperImage = $('#cropper img');
 
 	$cropperImage.attr('src', OC.Router.generate('core_avatar_get_tmp')+'?requesttoken='+oc_requesttoken+'#'+Math.floor(Math.random()*1000));
@@ -77,11 +78,7 @@ function showAvatarCropper() {
 }
 
 function sendCropData() {
-	$cropper = $('#cropper');
-	$('#displayavatar').show();
-	$cropper.hide();
-	$('.jcrop-holder').remove();
-	$('#cropper img').removeData('Jcrop').removeAttr('style').removeAttr('src');
+	cleanCropper();
 
 	var cropperdata = $('#cropper').data();
 	var data = {
@@ -95,6 +92,15 @@ function sendCropData() {
 
 function saveCoords(c) {
 	$('#cropper').data(c);
+}
+
+function cleanCropper() {
+	$cropper = $('#cropper');
+	$('#displayavatar').show();
+	$cropper.hide();
+	$('.jcrop-holder').remove();
+	$('#cropper img').removeData('Jcrop').removeAttr('style').removeAttr('src');
+	$('#cropper img').remove();
 }
 
 function avatarResponseHandler(data) {
@@ -228,10 +234,7 @@ $(document).ready(function(){
 	});
 
 	$('#abortcropperbutton').click(function(){
-		$('#displayavatar').show();
-		$('#cropper').hide();
-		$('.jcrop-holder').remove();
-		$('#cropper img').removeData('Jcrop').removeAttr('style').removeAttr('src');
+		cleanCropper();
 	});
 
 	$('#sendcropperbutton').click(function(){

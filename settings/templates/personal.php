@@ -94,7 +94,6 @@ if($_['passwordChangeSupported']) {
 			<?php p($l->t('Either png or jpg. Ideally square but you will be able to crop it.')); ?>
 		</div>
 		<div id="cropper" class="hidden">
-			<img>
 			<div class="inlineblock button" id="abortcropperbutton"><?php p($l->t('Abort')); ?></div>
 			<div class="inlineblock button primary" id="sendcropperbutton"><?php p($l->t('Choose as profile image')); ?></div>
 		</div>
