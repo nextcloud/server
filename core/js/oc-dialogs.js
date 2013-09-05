@@ -257,13 +257,7 @@ var OCdialogs = {
 					//TODO add to same size collection?
 				}
 				
-				//add checkbox toggling actions
-				conflict.find('.replacement,.original').on('click', function(){
-					var checkbox = $(this).find('input[type="checkbox"]');
-					checkbox.prop('checkbox', !checkbox.prop('checkbox'));
-				}).find('input[type="checkbox"]').prop('checkbox',false);
-				
-				//TODO show skip action for files with same size and mtime
+				//TODO show skip action for files with same size and mtime in bottom row
 				
 		};
 		var selection = controller.getSelection(data.originalFiles);
@@ -345,9 +339,12 @@ var OCdialogs = {
 						var checkboxes = $(dialog_id).find('.conflict:not(.template) .original input[type="checkbox"]');
 						checkboxes.prop('checked', $(this).prop('checked'));
 					});
-					
 					$(dialog_id).find('.conflicts').on('click', '.replacement,.original', function() {
 						var checkbox = $(this).find('input[type="checkbox"]');
+						checkbox.prop('checked', !checkbox.prop('checked'));
+					});
+					$(dialog_id).find('.conflicts').on('click', 'input[type="checkbox"]', function() {
+						var checkbox = $(this);
 						checkbox.prop('checked', !checkbox.prop('checked'));
 					});
 					

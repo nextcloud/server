@@ -1,6 +1,6 @@
 Files={
 	updateMaxUploadFilesize:function(response) {
-		if(response == undefined) {
+		if(response === undefined) {
 			return;
 		}
 		if(response.data !== undefined && response.data.uploadMaxFilesize !== undefined) {
@@ -9,7 +9,7 @@ Files={
 			$('#usedSpacePercent').val(response.data.usedSpacePercent);
 			Files.displayStorageWarnings();
 		}
-		if(response[0] == undefined) {
+		if(response[0] === undefined) {
 			return;
 		}
 		if(response[0].uploadMaxFilesize !== undefined) {
@@ -25,7 +25,7 @@ Files={
 			OC.Notification.show(t('files', '\'.\' is an invalid file name.'));
 			return false;
 		}
-		if (name.length == 0) {
+		if (name.length === 0) {
 			OC.Notification.show(t('files', 'File name cannot be empty.'));
 			return false;
 		}
@@ -33,7 +33,7 @@ Files={
 		// check for invalid characters
 		var invalid_characters = ['\\', '/', '<', '>', ':', '"', '|', '?', '*'];
 		for (var i = 0; i < invalid_characters.length; i++) {
-			if (name.indexOf(invalid_characters[i]) != -1) {
+			if (name.indexOf(invalid_characters[i]) !== -1) {
 				OC.Notification.show(t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed."));
 				return false;
 			}
@@ -127,7 +127,7 @@ $(document).ready(function() {
 				var rows = $(this).parent().parent().parent().children('tr');
 				for (var i = start; i < end; i++) {
 					$(rows).each(function(index) {
-						if (index == i) {
+						if (index === i) {
 							var checkbox = $(this).children().children('input:checkbox');
 							$(checkbox).attr('checked', 'checked');
 							$(checkbox).parent().parent().addClass('selected');
@@ -145,7 +145,7 @@ $(document).ready(function() {
 				$(checkbox).attr('checked', 'checked');
 				$(checkbox).parent().parent().toggleClass('selected');
 				var selectedCount=$('td.filename input:checkbox:checked').length;
-				if (selectedCount == $('td.filename input:checkbox').length) {
+				if (selectedCount === $('td.filename input:checkbox').length) {
 					$('#select_all').attr('checked', 'checked');
 				}
 			}
@@ -192,7 +192,7 @@ $(document).ready(function() {
 			var rows = $(this).parent().parent().parent().children('tr');
 			for (var i = start; i < end; i++) {
 				$(rows).each(function(index) {
-					if (index == i) {
+					if (index === i) {
 						var checkbox = $(this).children().children('input:checkbox');
 						$(checkbox).attr('checked', 'checked');
 						$(checkbox).parent().parent().addClass('selected');
@@ -205,7 +205,7 @@ $(document).ready(function() {
 		if(!$(this).attr('checked')){
 			$('#select_all').attr('checked',false);
 		}else{
-			if(selectedCount==$('td.filename input:checkbox').length){
+			if(selectedCount === $('td.filename input:checkbox').length){
 				$('#select_all').attr('checked',true);
 			}
 		}
@@ -262,9 +262,9 @@ $(document).ready(function() {
 
 	function resizeBreadcrumbs(firstRun) {
 		var width = $(this).width();
-		if (width != lastWidth) {
+		if (width !== lastWidth) {
 			if ((width < lastWidth || firstRun) && width < breadcrumbsWidth) {
-				if (hiddenBreadcrumbs == 0) {
+				if (hiddenBreadcrumbs === 0) {
 					breadcrumbsWidth -= $(breadcrumbs[1]).get(0).offsetWidth;
 					$(breadcrumbs[1]).find('a').hide();
 					$(breadcrumbs[1]).append('<span>...</span>');
@@ -276,12 +276,12 @@ $(document).ready(function() {
 					breadcrumbsWidth -= $(breadcrumbs[i]).get(0).offsetWidth;
 					$(breadcrumbs[i]).hide();
 					hiddenBreadcrumbs = i;
-					i++
+					i++;
 				}
 			} else if (width > lastWidth && hiddenBreadcrumbs > 0) {
 				var i = hiddenBreadcrumbs;
 				while (width > breadcrumbsWidth && i > 0) {
-					if (hiddenBreadcrumbs == 1) {
+					if (hiddenBreadcrumbs === 1) {
 						breadcrumbsWidth -= $(breadcrumbs[1]).get(0).offsetWidth;
 						$(breadcrumbs[1]).find('span').remove();
 						$(breadcrumbs[1]).find('a').show();
@@ -382,7 +382,7 @@ scanFiles.scanning=false;
 function boolOperationFinished(data, callback) {
 	result = jQuery.parseJSON(data.responseText);
 	Files.updateMaxUploadFilesize(result);
-	if(result.status == 'success'){
+	if(result.status === 'success'){
 		callback.call();
 	} else {
 		alert(result.data.message);
@@ -436,7 +436,7 @@ var createDragShadow = function(event){
 	});
 
 	return dragshadow;
-}
+};
 
 //options for file drag/drop
 var dragOptions={
@@ -446,7 +446,7 @@ var dragOptions={
 	stop: function(event, ui) {
 		$('#fileList tr td.filename').addClass('ui-draggable');
 	}
-}
+};
 // sane browsers support using the distance option
 if ( $('html.ie').length === 0) {
 	dragOptions['distance'] = 20;
@@ -489,7 +489,7 @@ var folderDropOptions={
 		});
 	},
 	tolerance: 'pointer'
-}
+};
 
 var crumbDropOptions={
 	drop: function( event, ui ) {

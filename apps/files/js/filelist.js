@@ -517,7 +517,7 @@ $(document).ready(function(){
 	var file_upload_start = $('#file_upload_start');
 	
 	file_upload_start.on('fileuploaddrop', function(e, data) {
-		OC.Upload.logStatus('fileuploaddrop', e, data);
+		OC.Upload.logStatus('filelist handle fileuploaddrop', e, data);
 		
 		var dropTarget = $(e.originalEvent.target).closest('tr');
 		if(dropTarget && dropTarget.data('type') === 'dir') { // drag&drop upload to folder
@@ -556,7 +556,7 @@ $(document).ready(function(){
 		
 	});
 	file_upload_start.on('fileuploadadd', function(e, data) {
-		OC.Upload.logStatus('fileuploadadd', e, data);
+		OC.Upload.logStatus('filelist handle fileuploadadd', e, data);
 
 		// lookup selection for dir
 		var selection = OC.Upload.getSelection(data.originalFiles);
@@ -592,10 +592,10 @@ $(document).ready(function(){
 		
 	});
 	file_upload_start.on('fileuploadstart', function(e, data) {
-		OC.Upload.logStatus('fileuploadstart', e, data);
+		OC.Upload.logStatus('filelist handle fileuploadstart', e, data);
 	});
 	file_upload_start.on('fileuploaddone', function(e, data) {
-		OC.Upload.logStatus('fileuploaddone', e, data);
+		OC.Upload.logStatus('filelist handle fileuploaddone', e, data);
 		
 		var response;
 		if (typeof data.result === 'string') {
@@ -672,22 +672,22 @@ $(document).ready(function(){
 	});
 	
 	file_upload_start.on('fileuploadalways', function(e, data) {
-		OC.Upload.logStatus('fileuploadalways', e, data);
+		OC.Upload.logStatus('filelist handle fileuploadalways', e, data);
 	});
 	file_upload_start.on('fileuploadsend', function(e, data) {
-		OC.Upload.logStatus('fileuploadsend', e, data);
+		OC.Upload.logStatus('filelist handle fileuploadsend', e, data);
 		
 		// TODOD add vis
 		//data.context.element = 
 	});
 	file_upload_start.on('fileuploadprogress', function(e, data) {
-		OC.Upload.logStatus('fileuploadprogress', e, data);
+		OC.Upload.logStatus('filelist handle fileuploadprogress', e, data);
 	});
 	file_upload_start.on('fileuploadprogressall', function(e, data) {
-		OC.Upload.logStatus('fileuploadprogressall', e, data);
+		OC.Upload.logStatus('filelist handle fileuploadprogressall', e, data);
 	});
 	file_upload_start.on('fileuploadstop', function(e, data) {
-		OC.Upload.logStatus('fileuploadstop', e, data);
+		OC.Upload.logStatus('filelist handle fileuploadstop', e, data);
 		
 		//if user pressed cancel hide upload chrome
 		if (! OC.Upload.isProcessing()) {
@@ -700,7 +700,7 @@ $(document).ready(function(){
 		}
 	});
 	file_upload_start.on('fileuploadfail', function(e, data) {
-		OC.Upload.logStatus('fileuploadfail', e, data);
+		OC.Upload.logStatus('filelist handle fileuploadfail', e, data);
 		
 		//if user pressed cancel hide upload chrome
 		if (data.errorThrown === 'abort') {

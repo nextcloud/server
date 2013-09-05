@@ -14,6 +14,7 @@
  *       - when only existing -> remember as single skip action
  *       - when only new -> remember as single replace action
  *       - when both -> remember as single autorename action
+ *     - continue -> apply marks, when nothing is marked continue == skip all
  * - start uploading selection
  * 
  * on send
@@ -96,7 +97,30 @@
  *	
  */
 
+// from https://github.com/New-Bamboo/example-ajax-upload/blob/master/public/index.html
+// also see article at http://blog.new-bamboo.co.uk/2012/01/10/ridiculously-simple-ajax-uploads-with-formdata
+// Function that will allow us to know if Ajax uploads are supported
+function supportAjaxUploadWithProgress() {
+	return supportFileAPI() && supportAjaxUploadProgressEvents() && supportFormData();
 
+	// Is the File API supported?
+	function supportFileAPI() {
+		var fi = document.createElement('INPUT');
+		fi.type = 'file';
+		return 'files' in fi;
+	};
+
+	// Are progress events supported?
+	function supportAjaxUploadProgressEvents() {
+		var xhr = new XMLHttpRequest();
+		return !! (xhr && ('upload' in xhr) && ('onprogress' in xhr.upload));
+	};
+
+	// Is FormData supported?
+	function supportFormData() {
+		return !! window.FormData;
+	}
+}
 
 //TODO clean uploads when all progress has completed
 OC.Upload = {
@@ -245,6 +269,7 @@ OC.Upload = {
 		console.log(data);
 	},
 	checkExistingFiles: function (selection, callbacks){
+		// FIXME check filelist before uploading
 		callbacks.onNoConflicts(selection);
 	}
 };
@@ -327,7 +352,7 @@ $(document).ready(function() {
 				return false; //don't upload anything
 			}
 
-			// check existing files whan all is collected
+			// check existing files when all is collected
 			if ( selection.uploads.length >= selection.filesToUpload ) {
 				
 				//remove our selection hack:
@@ -358,11 +383,6 @@ $(document).ready(function() {
 
 				OC.Upload.checkExistingFiles(selection, callbacks);
 				
-				//TODO refactor away:
-				//show cancel button
-				if($('html.lte9').length === 0 && data.dataType !== 'iframe') {
-					$('#uploadprogresswrapper input.stop').show();
-				}
 			}
 		
 			
@@ -389,13 +409,6 @@ $(document).ready(function() {
 		 */
 		start: function(e) {
 			OC.Upload.logStatus('start', e, null);
-			//IE < 10 does not fire the necessary events for the progress bar.
-			if($('html.lte9').length > 0) {
-				return true;
-			}
-			$('#uploadprogresswrapper input.stop').show();
-			$('#uploadprogressbar').progressbar({value:0});
-			$('#uploadprogressbar').fadeIn();
 		},
 		fail: function(e, data) {
 			OC.Upload.logStatus('fail', e, data);
@@ -414,32 +427,6 @@ $(document).ready(function() {
 			}
 			//var selection = OC.Upload.getSelection(data.originalFiles);
 			//OC.Upload.deleteSelectionUpload(selection, data.files[0].name);
-			
-			//if user pressed cancel hide upload progress bar and cancel button
-			if (data.errorThrown === 'abort') {
-				$('#uploadprogresswrapper input.stop').fadeOut();
-				$('#uploadprogressbar').fadeOut();
-			}
-		},
-		progress: function(e, data) {
-			OC.Upload.logStatus('progress', e, data);
-			// TODO: show nice progress bar in file row
-		},
-		/**
-		 * 
-		 * @param {type} e
-		 * @param {type} data (only has loaded, total and lengthComputable)
-		 * @returns {unresolved}
-		 */
-		progressall: function(e, data) {
-			OC.Upload.logStatus('progressall', e, data);
-			//IE < 10 does not fire the necessary events for the progress bar.
-			if($('html.lte9').length > 0) {
-				return;
-			}
-			var progress = (data.loaded/data.total)*100;
-			//var progress = OC.Upload.progressBytes();
-			$('#uploadprogressbar').progressbar('value', progress);
 		},
 		/**
 		 * called for every successful upload
@@ -460,33 +447,21 @@ $(document).ready(function() {
 			//var selection = OC.Upload.getSelection(data.originalFiles);
 
 			if(typeof result[0] !== 'undefined'
-				&& result[0].status === 'success'
+				&& result[0].status === 'existserror'
 			) {
-				//if (selection) {
-				//	selection.loadedBytes+=data.loaded;
-				//}
-				//OC.Upload.nextUpload();
+				//show "file already exists" dialog
+				var original = result[0];
+				var replacement = data.files[0];
+				var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
+				OC.dialogs.fileexists(data, original, replacement, OC.Upload, fu);
 			} else {
-				if (result[0].status === 'existserror') {
-					//show "file already exists" dialog
-					var original = result[0];
-					var replacement = data.files[0];
-					var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
-					OC.dialogs.fileexists(data, original, replacement, OC.Upload, fu);
-				} else {
-					OC.Upload.deleteSelectionUpload(selection, data.files[0].name);
-					data.textStatus = 'servererror';
-					data.errorThrown = t('files', result.data.message);
-					var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
-					fu._trigger('fail', e, data);
-				}
+				OC.Upload.deleteSelectionUpload(selection, data.files[0].name);
+				data.textStatus = 'servererror';
+				data.errorThrown = t('files', result.data.message);
+				var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
+				fu._trigger('fail', e, data);
 			}
 			
-			//if user pressed cancel hide upload chrome
-			//if (! OC.Upload.isProcessing()) {
-			//	$('#uploadprogresswrapper input.stop').fadeOut();
-			//	$('#uploadprogressbar').fadeOut();
-			//}
 
 		},
 		/**
@@ -496,36 +471,78 @@ $(document).ready(function() {
 		 */
 		stop: function(e, data) {
 			OC.Upload.logStatus('stop', e, data);
-			//if(OC.Upload.progressBytes()>=100) { //only hide controls when all selections have ended uploading
-				
-				//OC.Upload.cancelUploads(); //cleanup
-
-			//	if(data.dataType !== 'iframe') {
-			//		$('#uploadprogresswrapper input.stop').hide();
-			//	}
-
-				//IE < 10 does not fire the necessary events for the progress bar.
-				if($('html.lte9').length > 0) {
-					return;
-				}
-
-			//	$('#uploadprogressbar').progressbar('value', 100);
-			//	$('#uploadprogressbar').fadeOut();
-			//}
-			//if user pressed cancel hide upload chrome
-			//if (! OC.Upload.isProcessing()) {
-			//	$('#uploadprogresswrapper input.stop').fadeOut();
-			//	$('#uploadprogressbar').fadeOut();
-			//}
 		}
-	};
-	
-	var file_upload_handler = function() {
-		$('#file_upload_start').fileupload(file_upload_param);
 	};
 
 	if ( document.getElementById('data-upload-form') ) {
-		$(file_upload_handler);
+		// initialize jquery fileupload (blueimp)
+		var fileupload = $('#file_upload_start').fileupload(file_upload_param);
+		
+		if(supportAjaxUploadWithProgress()) {
+			
+			// add progress handlers
+			fileupload.on('fileuploadadd', function(e, data) {
+				OC.Upload.logStatus('progress handle fileuploadadd', e, data);
+				//show cancel button
+				//if(data.dataType !== 'iframe') { //FIXME when is iframe used? only for ie?
+				//	$('#uploadprogresswrapper input.stop').show();
+				//}
+			});
+			// add progress handlers
+			fileupload.on('fileuploadstart', function(e, data) {
+				OC.Upload.logStatus('progress handle fileuploadstart', e, data);
+				$('#uploadprogresswrapper input.stop').show();
+				$('#uploadprogressbar').progressbar({value:0});
+				$('#uploadprogressbar').fadeIn();
+			});
+			fileupload.on('fileuploadprogress', function(e, data) {
+				OC.Upload.logStatus('progress handle fileuploadprogress', e, data);
+				//TODO progressbar in row
+			});
+			fileupload.on('fileuploadprogressall', function(e, data) {
+				OC.Upload.logStatus('progress handle fileuploadprogressall', e, data);
+				var progress = (data.loaded / data.total) * 100;
+				$('#uploadprogressbar').progressbar('value', progress);
+			});
+			fileupload.on('fileuploaddone', function(e, data) {
+				OC.Upload.logStatus('progress handle fileuploaddone', e, data);
+				//if user pressed cancel hide upload chrome
+				//if (! OC.Upload.isProcessing()) {
+				//	$('#uploadprogresswrapper input.stop').fadeOut();
+				//	$('#uploadprogressbar').fadeOut();
+				//}
+			});
+			fileupload.on('fileuploadstop', function(e, data) {
+				OC.Upload.logStatus('progress handle fileuploadstop', e, data);
+				//if(OC.Upload.progressBytes()>=100) { //only hide controls when all selections have ended uploading
+
+					//OC.Upload.cancelUploads(); //cleanup
+
+				//	if(data.dataType !== 'iframe') {
+				//		$('#uploadprogresswrapper input.stop').hide();
+				//	}
+
+				//	$('#uploadprogressbar').progressbar('value', 100);
+				//	$('#uploadprogressbar').fadeOut();
+				//}
+				//if user pressed cancel hide upload chrome
+				//if (! OC.Upload.isProcessing()) {
+				//	$('#uploadprogresswrapper input.stop').fadeOut();
+				//	$('#uploadprogressbar').fadeOut();
+				//}
+			});
+			fileupload.on('fileuploadfail', function(e, data) {
+				OC.Upload.logStatus('progress handle fileuploadfail', e, data);
+				//if user pressed cancel hide upload progress bar and cancel button
+				if (data.errorThrown === 'abort') {
+					$('#uploadprogresswrapper input.stop').fadeOut();
+					$('#uploadprogressbar').fadeOut();
+				}
+			});
+		
+		} else {
+			console.log('skipping file progress because your browser is broken');
+		}
 	}
 	$.assocArraySize = function(obj) {
 		// http://stackoverflow.com/a/6700/11236
