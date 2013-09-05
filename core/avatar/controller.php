@@ -32,7 +32,7 @@ class Controller {
 			\OC_Response::setETagHeader(crc32($image->data()));
 			$image->show();
 		} else {
-			\OC_JSON::success(array('user' => $user, 'size' => $size));
+			\OC_JSON::success();
 		}
 	}
 
@@ -74,11 +74,9 @@ class Controller {
 				\OC_JSON::error(array("data" => array("message" => "notsquare") ));
 			} else {
 				$l = new \OC_L10n('core');
-				$type = substr($image->mimeType(), -3);
-				if ($type === 'peg') {
-					$type = 'jpg';
-				}
-				if ($type !== 'jpg' && $type !== 'png') {
+
+				$mimeType = $image->mimeType();
+				if ($mimeType !== 'image/jpeg' && $mimeType !== 'image/png') {
 					\OC_JSON::error(array("data" => array("message" => $l->t("Unknown filetype")) ));
 				}
 

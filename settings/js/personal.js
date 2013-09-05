@@ -219,7 +219,7 @@ $(document).ready(function(){
 				$.post(OC.Router.generate('core_avatar_post'), {path: path}, avatarResponseHandler);
 			},
 			false,
-			"image"
+			["image/png", "image/jpeg"]
 		);
 	});
 
