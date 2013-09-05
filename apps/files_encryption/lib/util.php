@@ -1300,7 +1300,8 @@ class Util {
 		$parentFolder = false;
 		if (array_key_exists('extension', $pathinfo) && $pathinfo['extension'] === 'part') {
 			// if the real file exists we check this file
-			if ($this->view->file_exists($this->userFilesDir . '/' . $pathinfo['dirname'] . '/' . $pathinfo['filename'])) {
+			$filePath = $this->userFilesDir . '/' .$pathinfo['dirname'] . '/' . $pathinfo['filename'];
+			if ($this->view->file_exists($filePath)) {
 				$pathToCheck = $pathinfo['dirname'] . '/' . $pathinfo['filename'];
 			} else { // otherwise we look for the parent
 				$pathToCheck = $pathinfo['dirname'];
