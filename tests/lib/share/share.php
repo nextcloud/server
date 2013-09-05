@@ -124,8 +124,7 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		}
 	}
 
-	protected function shareUserOneTestFileWithUserTwo()
-	{
+	protected function shareUserOneTestFileWithUserTwo() {
 		OC_User::setUserId($this->user1);
 		$this->assertTrue(
 			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\PERMISSION_READ),
@@ -285,8 +284,7 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(array('test1.txt'), OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET));
 	}
 
-	public function testShareWithUserExpirationExpired()
-	{
+	public function testShareWithUserExpirationExpired() {
 		$this->shareUserOneTestFileWithUserTwo();
 
 		OC_User::setUserId($this->user1);
@@ -302,8 +300,7 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		);
 	}
 
-	public function testShareWithUserExpirationValid()
-	{
+	public function testShareWithUserExpirationValid() {
 		$this->shareUserOneTestFileWithUserTwo();
 
 		OC_User::setUserId($this->user1);
@@ -320,8 +317,7 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		);
 	}
 
-	protected function shareUserOneTestFileWithGroupOne()
-	{
+	protected function shareUserOneTestFileWithGroupOne() {
 		OC_User::setUserId($this->user1);
 		$this->assertTrue(
 			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group1, OCP\PERMISSION_READ),
@@ -489,8 +485,7 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(array(), OCP\Share::getItemsShared('test'));
 	}
 
-	public function testShareWithGroupExpirationExpired()
-	{
+	public function testShareWithGroupExpirationExpired() {
 		$this->shareUserOneTestFileWithGroupOne();
 
 		OC_User::setUserId($this->user1);
@@ -512,8 +507,7 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		);
 	}
 
-	public function testShareWithGroupExpirationValid()
-	{
+	public function testShareWithGroupExpirationValid() {
 		$this->shareUserOneTestFileWithGroupOne();
 
 		OC_User::setUserId($this->user1);
