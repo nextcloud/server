@@ -134,19 +134,25 @@ class Share {
 	*       not '/admin/data/file.txt'
 	*/
 	public static function getUsersSharingFile($path, $user, $includeOwner = false) {
-
+		error_log("getuser sharing files for: " . $path . " and " . $user);
 		$shares = array();
 		$publicShare = false;
 		$source = -1;
 		$cache = false;
 
-		$view = new \OC\Files\View('/' . $user . '/files/');
-		$meta = $view->getFileInfo(\OC\Files\Filesystem::normalizePath($path));
+		$view = new \OC\Files\View('/' . $user . '/files');
+		if ($view->file_exists($path)) {
+			$meta = $view->getFileInfo($path);
+		} else {
+			// if the file doesn't exists yet we start with the parent folder
+			$meta = $view->getFileInfo(dirname($path));
+		}
 
 		if($meta !== false) {
+			error_log("source: " . $meta['fileid']);
 			$source = $meta['fileid'];
 			$cache = new \OC\Files\Cache\Cache($meta['storage']);
-		}
+		} else error_log("no source");
 
 		while ($source !== -1) {
 
@@ -165,6 +171,7 @@ class Share {
 				\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
 			} else {
 				while ($row = $result->fetchRow()) {
+					error_log("add user: " . $row['share_with']);
 					$shares[] = $row['share_with'];
 				}
 			}
@@ -184,6 +191,7 @@ class Share {
 				\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
 			} else {
 				while ($row = $result->fetchRow()) {
+					error_log("group found:  " . $row['share_with']);
 					$usersInGroup = \OC_Group::usersInGroup($row['share_with']);
 					$shares = array_merge($shares, $usersInGroup);
 				}
