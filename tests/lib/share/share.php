@@ -320,6 +320,34 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		);
 	}
 
+	protected function shareUserOneTestFileWithGroupOne()
+	{
+		OC_User::setUserId($this->user1);
+		$this->assertTrue(
+			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group1, OCP\PERMISSION_READ),
+			'Failed asserting that user 1 successfully shared text.txt with group 1.'
+		);
+		$this->assertEquals(
+			array('test.txt'),
+			OCP\Share::getItemShared('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
+			'Failed asserting that test.txt is a shared file of user 1.'
+		);
+
+		OC_User::setUserId($this->user2);
+		$this->assertEquals(
+			array('test.txt'),
+			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
+			'Failed asserting that user 2 has access to test.txt after initial sharing.'
+		);
+
+		OC_User::setUserId($this->user3);
+		$this->assertEquals(
+			array('test.txt'),
+			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
+			'Failed asserting that user 3 has access to test.txt after initial sharing.'
+		);
+	}
+
 	public function testShareWithGroup() {
 		// Invalid shares
 		$message = 'Sharing test.txt failed, because the group foobar does not exist';
@@ -341,12 +369,7 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		OC_Appconfig::setValue('core', 'shareapi_share_policy', $policy);
 
 		// Valid share
-		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group1, OCP\PERMISSION_READ));
-		$this->assertEquals(array('test.txt'), OCP\Share::getItemShared('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE));
-		OC_User::setUserId($this->user2);
-		$this->assertEquals(array('test.txt'), OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE));
-		OC_User::setUserId($this->user3);
-		$this->assertEquals(array('test.txt'), OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE));
+		$this->shareUserOneTestFileWithGroupOne();
 
 		// Attempt to share again
 		OC_User::setUserId($this->user1);
@@ -466,4 +489,51 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(array(), OCP\Share::getItemsShared('test'));
 	}
 
+	public function testShareWithGroupExpirationExpired()
+	{
+		$this->shareUserOneTestFileWithGroupOne();
+
+		OC_User::setUserId($this->user1);
+		$this->assertTrue(
+			OCP\Share::setExpirationDate('test', 'test.txt', $this->dateInPast),
+			'Failed asserting that user 1 successfully set an expiration date for the test.txt share.'
+		);
+
+		OC_User::setUserId($this->user2);
+		$this->assertFalse(
+			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
+			'Failed asserting that user 2 no longer has access to test.txt after expiration.'
+		);
+
+		OC_User::setUserId($this->user3);
+		$this->assertFalse(
+			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
+			'Failed asserting that user 3 no longer has access to test.txt after expiration.'
+		);
+	}
+
+	public function testShareWithGroupExpirationValid()
+	{
+		$this->shareUserOneTestFileWithGroupOne();
+
+		OC_User::setUserId($this->user1);
+		$this->assertTrue(
+			OCP\Share::setExpirationDate('test', 'test.txt', $this->dateInFuture),
+			'Failed asserting that user 1 successfully set an expiration date for the test.txt share.'
+		);
+
+		OC_User::setUserId($this->user2);
+		$this->assertEquals(
+			array('test.txt'),
+			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
+			'Failed asserting that user 2 still has access to test.txt after expiration date has been set.'
+		);
+
+		OC_User::setUserId($this->user3);
+		$this->assertEquals(
+			array('test.txt'),
+			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
+			'Failed asserting that user 3 still has access to test.txt after expiration date has been set.'
+		);
+	}
 }
