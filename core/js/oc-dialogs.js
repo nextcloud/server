@@ -244,10 +244,17 @@ var OCdialogs = {
 		return defer.promise();
 	},
 	_getFileList: function(dir, mimeType) {
-		return $.getJSON(
-			OC.filePath('files', 'ajax', 'rawlist.php'),
-			{dir: dir, mimetype: mimeType}
-		);
+		if (typeof(mimeType) === "object") {
+			return $.getJSON(
+				OC.filePath('files', 'ajax', 'rawlist.php'),
+				{dir: dir, "mimetype_list": JSON.stringify(mimeType)}
+			);
+		} else {
+			return $.getJSON(
+				OC.filePath('files', 'ajax', 'rawlist.php'),
+				{dir: dir, mimetype: mimeType}
+			);
+		}
 	},
 	_determineValue: function(element) {
 		if ( $(element).attr('type') === 'checkbox' ) {
