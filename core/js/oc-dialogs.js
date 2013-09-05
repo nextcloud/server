@@ -244,17 +244,19 @@ var OCdialogs = {
 		return defer.promise();
 	},
 	_getFileList: function(dir, mimeType) {
-		if (typeof(mimeType) === "object") {
-			return $.getJSON(
-				OC.filePath('files', 'ajax', 'rawlist.php'),
-				{dir: dir, "mimetype_list": JSON.stringify(mimeType)}
-			);
-		} else {
-			return $.getJSON(
-				OC.filePath('files', 'ajax', 'rawlist.php'),
-				{dir: dir, mimetype: mimeType}
-			);
+		if (typeof(mimeType) === "string") {
+			var tmp = mimeType;
+			mimeType = new Array();
+			mimeType[0] = tmp;
 		}
+
+		return $.getJSON(
+			OC.filePath('files', 'ajax', 'rawlist.php'),
+			{
+				dir: dir,
+				mimetypes: JSON.stringify(mimeType)
+			}
+		);
 	},
 	_determineValue: function(element) {
 		if ( $(element).attr('type') === 'checkbox' ) {

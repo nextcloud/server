@@ -11,22 +11,23 @@ OCP\JSON::checkLoggedIn();
 
 // Load the files
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
-$mimetype = isset($_GET['mimetype']) ? $_GET['mimetype'] : '';
-$mimetypeList = isset($_GET['mimetype_list']) ? json_decode($_GET['mimetype_list'], true) : '';
+$mimetypes = isset($_GET['mimetypes']) ? array_unique(json_decode($_GET['mimetypes'], true)) : '';
 
 // make filelist
 $files = array();
 // If a type other than directory is requested first load them.
-if( ($mimetype || $mimetypeList) && strpos($mimetype, 'httpd/unix-directory') === false) {
+if($mimetypes && !in_array('httpd/unix-directory', $mimetypes)) {
 	foreach( \OC\Files\Filesystem::getDirectoryContent( $dir, 'httpd/unix-directory' ) as $i ) {
 		$i["date"] = OCP\Util::formatDate($i["mtime"] );
-		$i['mimetype_icon'] = $i['type'] == 'dir' ? \mimetype_icon('dir'): \mimetype_icon($i['mimetype']);
+		$i['mimetype_icon'] = ($i['type'] == 'dir')
+			? \mimetype_icon('dir')
+			: \mimetype_icon($i['mimetype']);
 		$files[] = $i;
 	}
 }
 
-if (is_array($mimetypeList)) {
-	foreach ($mimetypeList as $mimetype) {
+if (is_array($mimetypes) && count($mimetypes)) {
+	foreach ($mimetypes as $mimetype) {
 		foreach( \OC\Files\Filesystem::getDirectoryContent( $dir, $mimetype ) as $i ) {
 			$i["date"] = OCP\Util::formatDate($i["mtime"]);
 			$i['mimetype_icon'] = $i['type'] == 'dir' ? \mimetype_icon('dir'): \mimetype_icon($i['mimetype']);
@@ -34,11 +35,11 @@ if (is_array($mimetypeList)) {
 		}
 	}
 } else {
-	foreach( \OC\Files\Filesystem::getDirectoryContent( $dir, $mimetype ) as $i ) {
-		$i["date"] = OCP\Util::formatDate($i["mtime"] );
+	foreach( \OC\Files\Filesystem::getDirectoryContent( $dir ) as $i ) {
+		$i["date"] = OCP\Util::formatDate($i["mtime"]);
 		$i['mimetype_icon'] = $i['type'] == 'dir' ? \mimetype_icon('dir'): \mimetype_icon($i['mimetype']);
 		$files[] = $i;
 	}
 }
 
-OCP\JSON::success(array('data' => $files));
+OC_JSON::success(array('data' => $files));
