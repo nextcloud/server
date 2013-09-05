@@ -124,6 +124,27 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		}
 	}
 
+	protected function shareUserOneTestFileWithUserTwo()
+	{
+		OC_User::setUserId($this->user1);
+		$this->assertTrue(
+			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\PERMISSION_READ),
+			'Failed asserting that user 1 successfully shared text.txt with user 2.'
+		);
+		$this->assertEquals(
+			array('test.txt'),
+			OCP\Share::getItemShared('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
+			'Failed asserting that test.txt is a shared file of user 1.'
+		);
+
+		OC_User::setUserId($this->user2);
+		$this->assertEquals(
+			array('test.txt'),
+			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
+			'Failed asserting that user 2 has access to test.txt after initial sharing.'
+		);
+	}
+
 	public function testShareWithUser() {
 		// Invalid shares
 		$message = 'Sharing test.txt failed, because the user '.$this->user1.' is the item owner';
@@ -149,10 +170,7 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		}
 
 		// Valid share
-		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\PERMISSION_READ));
-		$this->assertEquals(array('test.txt'), OCP\Share::getItemShared('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE));
-		OC_User::setUserId($this->user2);
-		$this->assertEquals(array('test.txt'), OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE));
+		$this->shareUserOneTestFileWithUserTwo();
 
 		// Attempt to share again
 		OC_User::setUserId($this->user1);
@@ -299,27 +317,6 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 			array('test.txt'),
 			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
 			'Failed asserting that user 2 still has access to test.txt after expiration date has been set.'
-		);
-	}
-
-	protected function shareUserOneTestFileWithUserTwo()
-	{
-		OC_User::setUserId($this->user1);
-		$this->assertTrue(
-			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\PERMISSION_READ),
-			'Failed asserting that user 1 successfully shared text.txt with user 2.'
-		);
-		$this->assertEquals(
-			array('test.txt'),
-			OCP\Share::getItemShared('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
-			'Failed asserting that test.txt is a shared file of user 1.'
-		);
-
-		OC_User::setUserId($this->user2);
-		$this->assertEquals(
-			array('test.txt'),
-			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
-			'Failed asserting that user 2 has access to test.txt after initial sharing.'
 		);
 	}
 
