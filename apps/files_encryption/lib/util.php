@@ -329,72 +329,73 @@ class Util {
 			$this->view->is_dir($directory)
 			&& $handle = $this->view->opendir($directory)
 		) {
+			if(is_resource($handle)) {
+				while (false !== ($file = readdir($handle))) {
 
-			while (false !== ($file = readdir($handle))) {
+					if (
+						$file !== "."
+						&& $file !== ".."
+					) {
 
-				if (
-					$file !== "."
-					&& $file !== ".."
-				) {
+						$filePath = $directory . '/' . $this->view->getRelativePath('/' . $file);
+						$relPath = \OCA\Encryption\Helper::stripUserFilesPath($filePath);
 
-					$filePath = $directory . '/' . $this->view->getRelativePath('/' . $file);
-					$relPath = \OCA\Encryption\Helper::stripUserFilesPath($filePath);
+						// If the path is a directory, search
+						// its contents
+						if ($this->view->is_dir($filePath)) {
 
-					// If the path is a directory, search
-					// its contents
-					if ($this->view->is_dir($filePath)) {
+							$this->findEncFiles($filePath, $found);
 
-						$this->findEncFiles($filePath, $found);
+							// If the path is a file, determine
+							// its encryption status
+						} elseif ($this->view->is_file($filePath)) {
 
-						// If the path is a file, determine
-						// its encryption status
-					} elseif ($this->view->is_file($filePath)) {
+							// Disable proxies again, some-
+							// where they got re-enabled :/
+							\OC_FileProxy::$enabled = false;
 
-						// Disable proxies again, some-
-						// where they got re-enabled :/
-						\OC_FileProxy::$enabled = false;
+							$isEncryptedPath = $this->isEncryptedPath($filePath);
+							// If the file is encrypted
+							// NOTE: If the userId is
+							// empty or not set, file will
+							// detected as plain
+							// NOTE: This is inefficient;
+							// scanning every file like this
+							// will eat server resources :(
+							if (
+								Keymanager::getFileKey($this->view, $this->userId, $relPath)
+								&& $isEncryptedPath
+							) {
 
-						$isEncryptedPath = $this->isEncryptedPath($filePath);
-						// If the file is encrypted
-						// NOTE: If the userId is
-						// empty or not set, file will
-						// detected as plain
-						// NOTE: This is inefficient;
-						// scanning every file like this
-						// will eat server resources :(
-						if (
-							Keymanager::getFileKey($this->view, $this->userId, $relPath)
-							&& $isEncryptedPath
-						) {
+								$found['encrypted'][] = array(
+									'name' => $file,
+									'path' => $filePath
+								);
 
-							$found['encrypted'][] = array(
-								'name' => $file,
-								'path' => $filePath
-							);
+								// If the file uses old
+								// encryption system
+							} elseif (Crypt::isLegacyEncryptedContent($isEncryptedPath, $relPath)) {
 
-							// If the file uses old
-							// encryption system
-						} elseif (Crypt::isLegacyEncryptedContent($isEncryptedPath, $relPath)) {
+								$found['legacy'][] = array(
+									'name' => $file,
+									'path' => $filePath
+								);
 
-							$found['legacy'][] = array(
-								'name' => $file,
-								'path' => $filePath
-							);
+								// If the file is not encrypted
+							} else {
 
-							// If the file is not encrypted
-						} else {
+								$found['plain'][] = array(
+									'name' => $file,
+									'path' => $relPath
+								);
 
-							$found['plain'][] = array(
-								'name' => $file,
-								'path' => $relPath
-							);
+							}
 
 						}
 
 					}
 
 				}
-
 			}
 
 			\OC_FileProxy::$enabled = true;
