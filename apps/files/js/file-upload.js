@@ -477,6 +477,7 @@ $(document).ready(function() {
 	if ( document.getElementById('data-upload-form') ) {
 		// initialize jquery fileupload (blueimp)
 		var fileupload = $('#file_upload_start').fileupload(file_upload_param);
+		window.file_upload_param = fileupload;
 		
 		if(supportAjaxUploadWithProgress()) {
 			
@@ -747,5 +748,4 @@ $(document).ready(function() {
 		});
 		
 	});
-	
 });
