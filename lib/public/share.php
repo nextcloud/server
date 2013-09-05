@@ -134,7 +134,7 @@ class Share {
 	*       not '/admin/data/file.txt'
 	*/
 	public static function getUsersSharingFile($path, $user, $includeOwner = false) {
-		error_log("getuser sharing files for: " . $path . " and " . $user);
+
 		$shares = array();
 		$publicShare = false;
 		$source = -1;
@@ -152,7 +152,7 @@ class Share {
 			error_log("source: " . $meta['fileid']);
 			$source = $meta['fileid'];
 			$cache = new \OC\Files\Cache\Cache($meta['storage']);
-		} else error_log("no source");
+		}
 
 		while ($source !== -1) {
 
