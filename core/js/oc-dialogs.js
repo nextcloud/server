@@ -224,6 +224,8 @@ var OCdialogs = {
 			
 				var conflict = conflicts.find('.conflict.template').clone();
 				
+				conflict.data('data',data);
+				
 				conflict.find('.filename').text(original.name);
 				conflict.find('.original .size').text(humanFileSize(original.size));
 				conflict.find('.original .mtime').text(formatDate(original.mtime*1000));
@@ -312,9 +314,8 @@ var OCdialogs = {
 							classes: 'continue',
 							click: function(){
 								self._fileexistsshown = false;
-								if ( typeof controller.onRename !== 'undefined') {
-									//TODO use autorename when repeat is checked
-									controller.onRename(data, $(dialog_id + ' #newname').val());
+								if ( typeof controller.onContinue !== 'undefined') {
+									controller.onContinue($(dialog_id + ' .conflict:not(.template)'));
 								}
 								$(dialog_id).ocdialog('close');
 							}

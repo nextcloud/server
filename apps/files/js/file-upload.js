@@ -157,25 +157,6 @@ OC.Upload = {
 		}
 		return this._selections[originalFiles.selectionKey];
 	},
-	deleteSelection:function(selectionKey) {
-		if (this._selections[selectionKey]) {
-			jQuery.each(this._selections[selectionKey].uploads, function(i, upload) {
-				upload.abort();
-			});
-			delete this._selections[selectionKey];
-		} else {
-			console.log('OC.Upload: selection ' + selectionKey + ' does not exist');
-		}
-	},
-	deleteSelectionUpload:function(selection, filename) {
-		if(selection.uploads[filename]) {
-			selection.uploads[filename].abort();
-			return true;
-		} else {
-			console.log('OC.Upload: selection ' + selection.selectionKey + ' does not contain upload for ' + filename);
-		}
-		return false;
-	},
 	cancelUpload:function(dir, filename) {
 		var self = this;
 		var deleted = false;
@@ -244,24 +225,48 @@ OC.Upload = {
 		});
 		return total;
 	},
-	onCancel:function(data){
+	onCancel:function(data) {
 		//TODO cancel all uploads of this selection
 		
 		var selection = this.getSelection(data.originalFiles);
 		OC.Upload.deleteSelection(selection.selectionKey);
 		//FIXME hide progressbar
 	},
+	onContinue:function(conflicts) {
+		var self = this;
+		//iterate over all conflicts
+		jQuery.each(conflicts, function (i, conflict) {
+			conflict = $(conflict);
+			var keepOriginal = conflict.find('.original input[type="checkbox"]:checked').length === 1;
+			var keepReplacement = conflict.find('.replacement input[type="checkbox"]:checked').length === 1;
+			if (keepOriginal && keepReplacement) {
+				// when both selected -> autorename
+				self.onAutorename(conflict.data('data'));
+			} else if (keepReplacement) {
+				// when only replacement selected -> overwrite
+				self.onReplace(conflict.data('data'));
+			} else {
+				// when only original seleted -> skip
+				// when none selected -> skip
+				self.onSkip(conflict.data('data'));
+			}
+		});
+	},
 	onSkip:function(data){
-		var selection = this.getSelection(data.originalFiles);
-		selection.loadedBytes += data.loaded;
-		this.nextUpload();
+		OC.Upload.logStatus('skip', null, data);
+		//var selection = this.getSelection(data.originalFiles);
+		//selection.loadedBytes += data.loaded;
+		//this.nextUpload();
+		//TODO trigger skip? what about progress?
 	},
 	onReplace:function(data){
+		OC.Upload.logStatus('replace', null, data);
 		data.data.append('replace', true);
 		data.submit();
 	},
-	onRename:function(data, newName){
-		data.data.append('newname', newName);
+	onAutorename:function(data){
+		OC.Upload.logStatus('autorename', null, data);
+		data.data.append('autorename', true);
 		data.submit();
 	},
 	logStatus:function(caption, e, data) {
@@ -446,16 +451,19 @@ $(document).ready(function() {
 			var result=$.parseJSON(response);
 			//var selection = OC.Upload.getSelection(data.originalFiles);
 
-			if(typeof result[0] !== 'undefined'
-				&& result[0].status === 'existserror'
-			) {
+			if(typeof result[0] === 'undefined') {
+				data.textStatus = 'servererror';
+				data.errorThrown = t('files', 'Could not get result from server.');
+				var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
+				fu._trigger('fail', e, data);
+			} else if (result[0].status === 'existserror') {
 				//show "file already exists" dialog
 				var original = result[0];
 				var replacement = data.files[0];
 				var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
 				OC.dialogs.fileexists(data, original, replacement, OC.Upload, fu);
-			} else {
-				OC.Upload.deleteSelectionUpload(selection, data.files[0].name);
+			} else if (result[0].status !== 'success') {
+				delete data.jqXHR;
 				data.textStatus = 'servererror';
 				data.errorThrown = t('files', result.data.message);
 				var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
