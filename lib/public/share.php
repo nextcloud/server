@@ -149,7 +149,6 @@ class Share {
 		}
 
 		if($meta !== false) {
-			error_log("source: " . $meta['fileid']);
 			$source = $meta['fileid'];
 			$cache = new \OC\Files\Cache\Cache($meta['storage']);
 		}
