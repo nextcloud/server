@@ -33,8 +33,8 @@ $opts = array(
 	'hasOracle' => $hasOracle,
 	'hasMSSQL' => $hasMSSQL,
 	'directory' => $datadir,
-	'secureRNG' => OC_Util::secureRNG_available(),
-	'htaccessWorking' => OC_Util::ishtaccessworking(),
+	'secureRNG' => OC_Util::secureRNGAvailable(),
+	'htaccessWorking' => OC_Util::isHtAccessWorking(),
 	'vulnerableToNullByte' => $vulnerableToNullByte,
 	'errors' => array(),
 );

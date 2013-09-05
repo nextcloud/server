@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-01 13:27-0400\n"
-"PO-Revision-Date: 2013-08-30 13:50+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-03 07:43-0400\n"
+"PO-Revision-Date: 2013-09-03 09:30+0000\n"
+"Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,28 +33,28 @@ msgstr "groupe"
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "Basculé en mode maintenance"
 
 #: ajax/update.php:14
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "Basculé en mode production (non maintenance)"
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr ""
+msgstr "Base de données mise à jour"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
-msgstr ""
+msgstr "En cours de mise à jour de cache de fichiers. Cette opération peut être très longue..."
 
 #: ajax/update.php:23
 msgid "Updated filecache"
-msgstr ""
+msgstr "Cache de fichier mis à jour"
 
 #: ajax/update.php:26
 #, php-format
 msgid "... %d%% done ..."
-msgstr ""
+msgstr "... %d%% effectué ..."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -182,14 +182,14 @@ msgstr "il y a quelques secondes"
 #: js/js.js:813
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "il y a %n minute"
+msgstr[1] "il y a %n minutes"
 
 #: js/js.js:814
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Il y a %n heure"
+msgstr[1] "Il y a %n heures"
 
 #: js/js.js:815
 msgid "today"
@@ -202,8 +202,8 @@ msgstr "hier"
 #: js/js.js:817
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "il y a %n jour"
+msgstr[1] "il y a %n jours"
 
 #: js/js.js:818
 msgid "last month"
@@ -212,8 +212,8 @@ msgstr "le mois dernier"
 #: js/js.js:819
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Il y a %n mois"
+msgstr[1] "Il y a %n mois"
 
 #: js/js.js:820
 msgid "months ago"
@@ -410,7 +410,7 @@ msgstr "La mise à jour a réussi. Vous êtes redirigé maintenant vers ownCloud
 #: lostpassword/controller.php:61
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "Réinitialisation de votre mot de passe %s"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -527,7 +527,7 @@ msgstr "Votre version de PHP est vulnérable à l'attaque par caractère NULL (C
 #: templates/installation.php:26
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "Veuillez mettre à jour votre installation PHP pour utiliser %s de façon sécurisée."
 
 #: templates/installation.php:32
 msgid ""
@@ -552,7 +552,7 @@ msgstr "Votre répertoire data est certainement accessible depuis l'internet car
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Pour les informations de configuration de votre serveur, veuillez lire la <a href=\"%s\" target=\"_blank\">documentation</a>."
 
 #: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"

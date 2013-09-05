@@ -348,4 +348,5 @@ $(document).ready(function() {
 			$('#new>a').click();
 		});
 	});
+	window.file_upload_param = file_upload_param;
 });

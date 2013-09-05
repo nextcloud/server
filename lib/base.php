@@ -417,7 +417,7 @@ class OC {
 		}
 
 		self::initPaths();
-		OC_Util::issetlocaleworking();
+		OC_Util::isSetLocaleWorking();
 
 		// set debug mode if an xdebug session is active
 		if (!defined('DEBUG') || !DEBUG) {
@@ -529,7 +529,7 @@ class OC {
 		}
 
 		// write error into log if locale can't be set
-		if (OC_Util::issetlocaleworking() == false) {
+		if (OC_Util::isSetLocaleWorking() == false) {
 			OC_Log::write('core',
 				'setting locale to en_US.UTF-8/en_US.UTF8 failed. Support is probably not installed on your system',
 				OC_Log::ERROR);
@@ -768,7 +768,7 @@ class OC {
 			if (in_array($_COOKIE['oc_token'], $tokens, true)) {
 				// replace successfully used token with a new one
 				OC_Preferences::deleteKey($_COOKIE['oc_username'], 'login_token', $_COOKIE['oc_token']);
-				$token = OC_Util::generate_random_bytes(32);
+				$token = OC_Util::generateRandomBytes(32);
 				OC_Preferences::setValue($_COOKIE['oc_username'], 'login_token', $token, time());
 				OC_User::setMagicInCookie($_COOKIE['oc_username'], $token);
 				// login
@@ -808,7 +808,7 @@ class OC {
 				if (defined("DEBUG") && DEBUG) {
 					OC_Log::write('core', 'Setting remember login to cookie', OC_Log::DEBUG);
 				}
-				$token = OC_Util::generate_random_bytes(32);
+				$token = OC_Util::generateRandomBytes(32);
 				OC_Preferences::setValue($userid, 'login_token', $token, time());
 				OC_User::setMagicInCookie($userid, $token);
 			} else {

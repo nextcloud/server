@@ -129,6 +129,7 @@
 /* counter and actions */
 #app-navigation .utils {
 	position: absolute;
+	padding: 7px 7px 0 0;
 	right: 0;
 	top: 0;
 	bottom: 0;
