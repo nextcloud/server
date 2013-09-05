@@ -2,6 +2,12 @@
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s  sizinle »%s« paylaşımında bulundu",
 "group" => "grup",
+"Turned on maintenance mode" => "Bakım kipi etkinleştirildi",
+"Turned off maintenance mode" => "Bakım kipi kapatıldı",
+"Updated database" => "Veritabanı güncellendi",
+"Updating filecache, this may take really long..." => "Dosya önbelleği güncelleniyor. Bu, gerçekten uzun sürebilir.",
+"Updated filecache" => "Dosya önbelleği güncellendi",
+"... %d%% done ..." => "%%%d tamamlandı ...",
 "Category type not provided." => "Kategori türü girilmedi.",
 "No category to add?" => "Eklenecek kategori yok?",
 "This category already exists: %s" => "Bu kategori zaten mevcut:  %s",

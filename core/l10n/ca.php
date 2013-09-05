@@ -2,6 +2,12 @@
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s ha compartit »%s« amb tu",
 "group" => "grup",
+"Turned on maintenance mode" => "Activat el mode de manteniment",
+"Turned off maintenance mode" => "Desactivat el mode de manteniment",
+"Updated database" => "Actualitzada la base de dades",
+"Updating filecache, this may take really long..." => "Actualitzant la memòria de cau del fitxers, això pot trigar molt...",
+"Updated filecache" => "Actualitzada la memòria de cau dels fitxers",
+"... %d%% done ..." => "... %d%% fet ...",
 "Category type not provided." => "No s'ha especificat el tipus de categoria.",
 "No category to add?" => "No voleu afegir cap categoria?",
 "This category already exists: %s" => "Aquesta categoria ja existeix: %s",

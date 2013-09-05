@@ -35,6 +35,7 @@ $TRANSLATIONS = array(
 "undo" => "tagasi",
 "_%n folder_::_%n folders_" => array("%n kataloog","%n kataloogi"),
 "_%n file_::_%n files_" => array("%n fail","%n faili"),
+"{dirs} and {files}" => "{dirs} ja {files}",
 "_Uploading %n file_::_Uploading %n files_" => array("Laadin üles %n faili","Laadin üles %n faili"),
 "files uploading" => "faili üleslaadimisel",
 "'.' is an invalid file name." => "'.' on vigane failinimi.",
