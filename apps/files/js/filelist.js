@@ -522,6 +522,9 @@ $(document).ready(function(){
 		var dropTarget = $(e.originalEvent.target).closest('tr');
 		if(dropTarget && dropTarget.data('type') === 'dir') { // drag&drop upload to folder
 			
+			// remember as context
+			data.context = dropTarget;
+			
 			var dir = dropTarget.data('file');
 			
 			// update folder in form
@@ -546,19 +549,15 @@ $(document).ready(function(){
 		OC.Upload.logStatus('filelist handle fileuploadadd', e, data);
 
 		// lookup selection for dir
-		var selection = OC.Upload.getSelection(data.originalFiles);
+		//var selection = OC.Upload.getSelection(data.originalFiles);
 			
 		if(FileList.deleteFiles && FileList.deleteFiles.indexOf(data.files[0].name)!==-1){//finish delete if we are uploading a deleted file
 			FileList.finishDelete(null, true); //delete file before continuing
 		}
 		
 		// add ui visualization to existing folder
-		if(selection.dropTarget && selection.dropTarget.data('type') === 'dir') {
+		if(data.context && data.context.data('type') === 'dir') {
 			// add to existing folder
-			var dirName = selection.dropTarget.data('file');
-
-			// set dir context
-			data.context = $('tr').filterAttr('data-type', 'dir').filterAttr('data-file', dirName);
 
 			// update upload counter ui
 			var uploadtext = data.context.find('.uploadtext');
@@ -577,6 +576,10 @@ $(document).ready(function(){
 			}
 		}
 		
+	});
+	file_upload_start.on('fileuploadsend', function(e, data) {
+		OC.Upload.logStatus('filelist handle fileuploadsend', e, data);
+		return true;
 	});
 	file_upload_start.on('fileuploadstart', function(e, data) {
 		OC.Upload.logStatus('filelist handle fileuploadstart', e, data);
@@ -608,7 +611,7 @@ $(document).ready(function(){
 					var img = OC.imagePath('core', 'filetypes/folder.png');
 					data.context.find('td.filename').attr('style','background-image:url('+img+')');
 					uploadtext.text(translatedText);
-					uploadtext.show();
+					uploadtext.hide();
 				} else {
 					uploadtext.text(translatedText);
 				}
@@ -648,6 +651,7 @@ $(document).ready(function(){
 		}
 		
 		//if user pressed cancel hide upload chrome
+		/*
 		if (! OC.Upload.isProcessing()) {
 			//cleanup uploading to a dir
 			var uploadtext = $('tr .uploadtext');
@@ -656,6 +660,7 @@ $(document).ready(function(){
 			uploadtext.fadeOut();
 			uploadtext.attr('currentUploads', 0);
 		}
+		*/
 	});
 	
 	file_upload_start.on('fileuploadalways', function(e, data) {
@@ -677,7 +682,7 @@ $(document).ready(function(){
 		OC.Upload.logStatus('filelist handle fileuploadstop', e, data);
 		
 		//if user pressed cancel hide upload chrome
-		if (! OC.Upload.isProcessing()) {
+		if (data.errorThrown === 'abort') {
 			//cleanup uploading to a dir
 			var uploadtext = $('tr .uploadtext');
 			var img = OC.imagePath('core', 'filetypes/folder.png');

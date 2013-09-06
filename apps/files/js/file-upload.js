@@ -124,43 +124,12 @@ function supportAjaxUploadWithProgress() {
 
 //TODO clean uploads when all progress has completed
 OC.Upload = {
-	/**
-	 * map to lookup the selections for a given directory.
-	 * @type Array
-	 */
-	_selections: {},
-	_selectionCount: 0,
-	/*
-	 * queue which progress tracker to use for the next upload
-	 * @type Array
-	 */
-	_queue: [],
-	queueUpload:function(data) {
-		// add to queue
-		this._queue.push(data); //remember what to upload next
-		if ( ! this.isProcessing() ) {
-			this.startUpload();
-		}
-	},
-	getSelection:function(originalFiles) {
-		if (!originalFiles.selectionKey) {
-			originalFiles.selectionKey = 'selection-' + this._selectionCount++;
-			this._selections[originalFiles.selectionKey] = {
-				selectionKey:originalFiles.selectionKey,
-				files:{},
-				totalBytes:0,
-				loadedBytes:0,
-				currentFile:0,
-				uploads:{},
-				checked:false
-			};
-		}
-		return this._selections[originalFiles.selectionKey];
-	},
+	_uploads: [],
 	cancelUpload:function(dir, filename) {
 		var self = this;
 		var deleted = false;
-		jQuery.each(this._selections, function(i, selection) {
+		//FIXME _selections
+		jQuery.each(this._uploads, function(i, jqXHR) {
 			if (selection.dir === dir && selection.uploads[filename]) {
 				deleted = self.deleteSelectionUpload(selection, filename);
 				return false; // end searching through selections
@@ -168,69 +137,34 @@ OC.Upload = {
 		});
 		return deleted;
 	},
+	deleteUpload:function(data) {
+		delete data.jqXHR;
+	},
 	cancelUploads:function() {
 		console.log('canceling uploads');
-		var self = this;
-		jQuery.each(this._selections,function(i, selection){
-			self.deleteSelection(selection.selectionKey);
+		jQuery.each(this._uploads,function(i, jqXHR){
+			jqXHR.abort();
 		});
-		this._queue = [];
-		this._isProcessing = false;
+		this._uploads = [];
+		
 	},
-	_isProcessing:false,
+	rememberUpload:function(jqXHR){
+		if (jqXHR) {
+			this._uploads.push(jqXHR);
+		}
+	},
 	isProcessing:function(){
-		return this._isProcessing;
-	},
-	startUpload:function(){
-		if (this._queue.length > 0) {
-			this._isProcessing = true;
-			this.nextUpload();
-			return true;
-		} else {
-			return false;
-		}
-	},
-	nextUpload:function(){
-		if (this._queue.length > 0) {
-			var data = this._queue.pop();
-			var selection = this.getSelection(data.originalFiles);
-			selection.uploads[data.files[0]] = data.submit();
-			
-		} else {
-			//queue is empty, we are done
-			this._isProcessing = false;
-			OC.Upload.cancelUploads();
-		}
-	},
-	progressBytes: function() {
-		var total = 0;
-		var loaded = 0;
-		jQuery.each(this._selections, function (i, selection) {
-			total += selection.totalBytes;
-			loaded += selection.loadedBytes;
+		var count = 0;
+		
+		jQuery.each(this._uploads,function(i, data){
+			if (data.state() === 'pending') {
+				count++;
+			}
 		});
-		return (loaded/total)*100;
-	},
-	loadedBytes: function() {
-		var loaded = 0;
-		jQuery.each(this._selections, function (i, selection) {
-			loaded += selection.loadedBytes;
-		});
-		return loaded;
-	},
-	totalBytes: function() {
-		var total = 0;
-		jQuery.each(this._selections, function (i, selection) {
-			total += selection.totalBytes;
-		});
-		return total;
+		return count > 0;
 	},
 	onCancel:function(data) {
-		//TODO cancel all uploads of this selection
-		
-		var selection = this.getSelection(data.originalFiles);
-		OC.Upload.deleteSelection(selection.selectionKey);
-		//FIXME hide progressbar
+		this.cancelUploads();
 	},
 	onContinue:function(conflicts) {
 		var self = this;
@@ -253,19 +187,16 @@ OC.Upload = {
 		});
 	},
 	onSkip:function(data){
-		OC.Upload.logStatus('skip', null, data);
-		//var selection = this.getSelection(data.originalFiles);
-		//selection.loadedBytes += data.loaded;
-		//this.nextUpload();
-		//TODO trigger skip? what about progress?
+		this.logStatus('skip', null, data);
+		this.deleteUpload(data);
 	},
 	onReplace:function(data){
-		OC.Upload.logStatus('replace', null, data);
+		this.logStatus('replace', null, data);
 		data.data.append('resolution', 'replace');
 		data.submit();
 	},
 	onAutorename:function(data){
-		OC.Upload.logStatus('autorename', null, data);
+		this.logStatus('autorename', null, data);
 		data.data.append('resolution', 'autorename');
 		data.submit();
 	},
@@ -415,6 +346,9 @@ $(document).ready(function() {
 		start: function(e) {
 			OC.Upload.logStatus('start', e, null);
 		},
+		submit: function (e, data) {
+			OC.Upload.rememberUpload(data);
+		},
 		fail: function(e, data) {
 			OC.Upload.logStatus('fail', e, data);
 			if (typeof data.textStatus !== 'undefined' && data.textStatus !== 'success' ) {
@@ -432,6 +366,7 @@ $(document).ready(function() {
 			}
 			//var selection = OC.Upload.getSelection(data.originalFiles);
 			//OC.Upload.deleteSelectionUpload(selection, data.files[0].name);
+			OC.Upload.deleteUpload(data);
 		},
 		/**
 		 * called for every successful upload
@@ -449,8 +384,9 @@ $(document).ready(function() {
 				response = data.result[0].body.innerText;
 			}
 			var result=$.parseJSON(response);
-			//var selection = OC.Upload.getSelection(data.originalFiles);
 
+			delete data.jqXHR;
+				
 			if(typeof result[0] === 'undefined') {
 				data.textStatus = 'servererror';
 				data.errorThrown = t('files', 'Could not get result from server.');
@@ -463,7 +399,7 @@ $(document).ready(function() {
 				var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
 				OC.dialogs.fileexists(data, original, replacement, OC.Upload, fu);
 			} else if (result[0].status !== 'success') {
-				delete data.jqXHR;
+				//delete data.jqXHR;
 				data.textStatus = 'servererror';
 				data.errorThrown = t('files', result.data.message);
 				var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');

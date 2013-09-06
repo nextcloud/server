@@ -262,10 +262,10 @@ var OCdialogs = {
 				//TODO show skip action for files with same size and mtime in bottom row
 				
 		};
-		var selection = controller.getSelection(data.originalFiles);
-		if (selection.defaultAction) {
-			controller[selection.defaultAction](data);
-		} else {
+		//var selection = controller.getSelection(data.originalFiles);
+		//if (selection.defaultAction) {
+		//	controller[selection.defaultAction](data);
+		//} else {
 			var dialog_name = 'oc-dialog-fileexists-content';
 			var dialog_id = '#' + dialog_name;
 			if (this._fileexistsshown) {
@@ -306,6 +306,7 @@ var OCdialogs = {
 								if ( typeof controller.onCancel !== 'undefined') {
 									controller.onCancel(data);
 								}
+								$(dialog_id).ocdialog('close');
 								$(dialog_id).ocdialog('destroy').remove();
 							}
 						},
@@ -382,7 +383,7 @@ var OCdialogs = {
 					alert(t('core', 'Error loading file exists template'));
 				});
 			}
-		}
+		//}
 	},
 	_getFilePickerTemplate: function() {
 		var defer = $.Deferred();
