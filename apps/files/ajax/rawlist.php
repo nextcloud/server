@@ -49,6 +49,6 @@ function cmp($a, $b) {
 	}
 	return ($a['name'] < $b['name']) ? -1 : 1;
 }
-uasort($files, 'cmp');
+usort($files, 'cmp');
 
 OC_JSON::success(array('data' => $files));
