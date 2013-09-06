@@ -56,7 +56,7 @@ class Node {
 	 * @return bool
 	 */
 	protected function checkPermissions($permissions) {
-		return ($this->getPermissions() & $permissions) == $permissions;
+		return ($this->getPermissions() & $permissions) === $permissions;
 	}
 
 	/**
