@@ -39,12 +39,8 @@ abstract class BackendBase {
 	 * The LDAP Wrapper must implement the PHP LDAP functions, which are used
 	 * in the LDAP backend
 	 */
-	public function setLDAPWrapper($ldapWrapper) {
-		if(is_object($ldapWrapper)) {
-			unset($this->ldap);
-			$this->ldap = $ldapWrapper;
-			return true;
-		}
-		return false;
+	public function setLDAPWrapper(ILDAPWrapper $ldapWrapper) {
+		$this->ldap = $ldapWrapper;
+		return true;
 	}
 }
