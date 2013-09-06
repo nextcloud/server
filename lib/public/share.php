@@ -170,7 +170,6 @@ class Share {
 				\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
 			} else {
 				while ($row = $result->fetchRow()) {
-					error_log("add user: " . $row['share_with']);
 					$shares[] = $row['share_with'];
 				}
 			}
@@ -190,7 +189,6 @@ class Share {
 				\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
 			} else {
 				while ($row = $result->fetchRow()) {
-					error_log("group found:  " . $row['share_with']);
 					$usersInGroup = \OC_Group::usersInGroup($row['share_with']);
 					$shares = array_merge($shares, $usersInGroup);
 				}
