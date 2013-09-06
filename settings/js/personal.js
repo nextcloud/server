@@ -108,7 +108,7 @@ function avatarResponseHandler(data) {
 	$warning.hide();
 	if (data.status === "success") {
 		updateAvatar();
-	} else if (data.data.message === "notsquare") {
+	} else if (data.data === "notsquare") {
 		showAvatarCropper();
 	} else {
 		$warning.show();

@@ -71,7 +71,7 @@ class Controller {
 
 			if ($image->valid()) {
 				\OC_Cache::set('tmpavatar', $image->data(), 7200);
-				\OC_JSON::error(array("data" => array("message" => "notsquare") ));
+				\OC_JSON::error(array("data" => "notsquare"));
 			} else {
 				$l = new \OC_L10n('core');
 
