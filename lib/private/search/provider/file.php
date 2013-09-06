@@ -42,7 +42,7 @@ class File extends \OC\Search\Provider {
 			if ($fileData['name'] === 'files' && $fileData['parent'] === -1) {
 				continue;
 			}
-			// create folder result
+			// create audio result
 			if($fileData['mimepart'] === 'audio'){
 				$result = new \OC\Search\Result\Audio($fileData);
 			}
@@ -50,7 +50,7 @@ class File extends \OC\Search\Provider {
 			elseif($fileData['mimepart'] === 'image'){
 				$result = new \OC\Search\Result\Image($fileData);
 			}
-			// create audio result
+			// create folder result
 			elseif($fileData['mimetype'] === 'httpd/unix-directory'){
 				$result = new \OC\Search\Result\Folder($fileData);
 			}
