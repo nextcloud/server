@@ -229,8 +229,11 @@ var OCdialogs = {
 				conflict.find('.filename').text(original.name);
 				conflict.find('.original .size').text(humanFileSize(original.size));
 				conflict.find('.original .mtime').text(formatDate(original.mtime*1000));
-				conflict.find('.replacement .size').text(humanFileSize(replacement.size));
-				conflict.find('.replacement .mtime').text(formatDate(replacement.lastModifiedDate));
+				// ie sucks
+				if (replacement.size && replacement.lastModifiedDate) {
+					conflict.find('.replacement .size').text(humanFileSize(replacement.size));
+					conflict.find('.replacement .mtime').text(formatDate(replacement.lastModifiedDate));
+				}
 				var path = getPathForPreview(original.name);
 				lazyLoadPreview(path, original.type, function(previewpath){
 					conflict.find('.original .icon').css('background-image','url('+previewpath+')');
@@ -242,18 +245,19 @@ var OCdialogs = {
 				conflicts.append(conflict);
 				
 				//set more recent mtime bold
-				if (replacement.lastModifiedDate.getTime() > original.mtime*1000) {
+				// ie sucks
+				if (replacement.lastModifiedDate && replacement.lastModifiedDate.getTime() > original.mtime*1000) {
 					conflict.find('.replacement .mtime').css('font-weight', 'bold');
-				} else if (replacement.lastModifiedDate.getTime() < original.mtime*1000) {
+				} else if (replacement.lastModifiedDate && replacement.lastModifiedDate.getTime() < original.mtime*1000) {
 					conflict.find('.original .mtime').css('font-weight', 'bold');
 				} else {
 					//TODO add to same mtime collection?
 				}
 				
 				// set bigger size bold
-				if (replacement.size > original.size) {
+				if (replacement.size && replacement.size > original.size) {
 					conflict.find('.replacement .size').css('font-weight', 'bold');
-				} else if (replacement.size < original.size) {
+				} else if (replacement.size && replacement.size < original.size) {
 					conflict.find('.original .size').css('font-weight', 'bold');
 				} else {
 					//TODO add to same size collection?

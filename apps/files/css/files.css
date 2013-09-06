@@ -380,6 +380,10 @@ table.dragshadow td.size {
 	float: left;
 	width: 235px;
 }
+html.lte9 .oc-dialog .fileexists .original {
+	float: left;
+	width: 225px;
+}
 .oc-dialog .fileexists .conflicts {
 	overflow-y:scroll;
 	max-height: 225px;

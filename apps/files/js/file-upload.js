@@ -197,7 +197,11 @@ OC.Upload = {
 	},
 	onAutorename:function(data){
 		this.logStatus('autorename', null, data);
-		data.data.append('resolution', 'autorename');
+		if (data.data) {
+			data.data.append('resolution', 'autorename');
+		} else {
+			data.formData.push({name:'resolution',value:'autorename'}); //hack for ie8
+		}
 		data.submit();
 	},
 	logStatus:function(caption, e, data) {
