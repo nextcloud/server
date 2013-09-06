@@ -10,7 +10,6 @@ OC_App::loadApps();
 $username = OC_User::getUser();
 $password = isset($_POST['personal-password']) ? $_POST['personal-password'] : null;
 $oldPassword = isset($_POST['oldpassword']) ? $_POST['oldpassword'] : '';
-$recoveryPassword = isset($_POST['recoveryPassword']) ? $_POST['recoveryPassword'] : null;
 
 if (!OC_User::checkPassword($username, $oldPassword)) {
 	$l = new \OC_L10n('settings');
