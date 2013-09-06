@@ -1724,7 +1724,7 @@ class Util {
 		$session = new \OCA\Encryption\Session($this->view);
 
 		// we tried to initialize the encryption app for this session
-		$session->setInitialized(true);
+		$session->setInitialized(\OCA\Encryption\Session::INIT_EXECUTED);
 
 		$encryptedKey = Keymanager::getPrivateKey($this->view, $params['uid']);
 
@@ -1737,6 +1737,7 @@ class Util {
 		}
 
 		$session->setPrivateKey($privateKey);
+		$session->setInitialized(\OCA\Encryption\Session::INIT_SUCCESSFUL);
 
 		return $session;
 	}

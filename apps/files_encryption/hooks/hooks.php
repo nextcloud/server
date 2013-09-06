@@ -547,7 +547,7 @@ class Hooks {
 			$setMigrationStatus->execute();
 
 			$session = new \OCA\Encryption\Session(new \OC\Files\View('/'));
-			$session->setInitialized(false);
+			$session->setInitialized(\OCA\Encryption\Session::NOT_INITIALIZED);
 		}
 	}
 

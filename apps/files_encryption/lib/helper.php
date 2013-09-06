@@ -237,28 +237,15 @@ class Helper {
 	 */
 	public static function redirectToErrorPage($session) {
 
-		$l = \OC_L10N::get('files_encryption');
+		$init = $session->getInitialized();
 
-		if ($session->getInitialized() === false) {
-			$errorMsg = $l->t('Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app.');
-		} else {
-			$errorMsg = $l->t('Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files.');
-		}
-
+		$location = \OC_Helper::linkToAbsolute('apps/files_encryption/files', 'error.php');
+		$post = 0;
 		if(count($_POST) > 0) {
-			header('HTTP/1.0 404 ' . $errorMsg);
-		}
-
-		// check if ajax request
-		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-			\OCP\JSON::error(array('data' => array('message' => $errorMsg)));
-		} else {
-			header('HTTP/1.0 404 ' . $errorMsg);
-			$tmpl = new OC_Template('files_encryption', 'invalid_private_key', 'guest');
-			$tmpl->printPage();
-		}
-
-		exit;
+			$post = 1;
+			}
+			header('Location: ' . $location . '?p=' . $post . '&i=' . $init);
+			exit();
 	}
 
 	/**

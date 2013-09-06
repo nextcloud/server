@@ -30,6 +30,11 @@ class Session {
 
 	private $view;
 
+	const NOT_INITIALIZED = '0';
+	const INIT_EXECUTED = '1';
+	const INIT_SUCCESSFUL = '2';
+
+
 	/**
 	 * @brief if session is started, check if ownCloud key pair is set up, if not create it
 	 * @param \OC_FilesystemView $view
@@ -113,10 +118,10 @@ class Session {
 	}
 
 	/**
-	 * @brief Sets status if we tried to initialize the encyption app
-	 * @param bool $privateKey true=initialized false=not initialized
+	 * @brief Sets status of encryption app
+	 * @param string $init  INIT_SUCCESSFUL, INIT_EXECUTED, NOT_INOITIALIZED
 	 * @return bool
-	 * 
+	 *
 	 * @note this doesn not indicate of the init was successful, we just remeber the try!
 	 */
 	public function setInitialized($init) {
@@ -130,7 +135,7 @@ class Session {
 
 	/**
 	 * @brief Gets status if we already tried to initialize the encryption app
-	 * @returns bool
+	 * @returns init status INIT_SUCCESSFUL, INIT_EXECUTED, NOT_INOITIALIZED
 	 *
 	 * @note this doesn not indicate of the init was successful, we just remeber the try!
 	 */
@@ -138,7 +143,7 @@ class Session {
 		if (!is_null(\OC::$session->get('encryptionInitialized'))) {
 			return \OC::$session->get('encryptionInitialized');
 		} else {
-			return false;
+			return self::NOT_INITIALIZED;
 		}
 	}
 

@@ -124,8 +124,12 @@ if ($needUpgrade) {
 	$storageInfo=OC_Helper::getStorageInfo($dir);
 	$maxUploadFilesize=OCP\Util::maxUploadFilesize($dir);
 	$publicUploadEnabled = \OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes');
+	// if the encryption app is disabled, than everything is fine
+	$encryptionInitStatus = \OCA\Encryption\Session::INIT_SUCCESSFUL;
 	if (OC_App::isEnabled('files_encryption')) {
 		$publicUploadEnabled = 'no';
+		$session = new \OCA\Encryption\Session(new \OC\Files\View('/'));
+		$encryptionInitStatus = $session->getInitialized();
 	}
 
 	$trashEnabled = \OCP\App::isEnabled('files_trashbin');
@@ -133,7 +137,7 @@ if ($needUpgrade) {
 	if ($trashEnabled) {
 		$trashEmpty = \OCA\Files_Trashbin\Trashbin::isEmpty($user);
 	}
-	
+
 	OCP\Util::addscript('files', 'fileactions');
 	OCP\Util::addscript('files', 'files');
 	OCP\Util::addscript('files', 'keyboardshortcuts');
@@ -153,5 +157,6 @@ if ($needUpgrade) {
 	$tmpl->assign('isPublic', false);
 	$tmpl->assign('publicUploadEnabled', $publicUploadEnabled);
 	$tmpl->assign("encryptedFiles", \OCP\Util::encryptedFiles());
+	$tmpl->assign("encryptionInitStatus", $encryptionInitStatus);
 	$tmpl->printPage();
 }
