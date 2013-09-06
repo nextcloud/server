@@ -306,7 +306,7 @@ var OCdialogs = {
 								if ( typeof controller.onCancel !== 'undefined') {
 									controller.onCancel(data);
 								}
-								$(dialog_id).ocdialog('close');
+								$(dialog_id).ocdialog('destroy').remove();
 							}
 						},
 						{
@@ -318,6 +318,7 @@ var OCdialogs = {
 									controller.onContinue($(dialog_id + ' .conflict:not(.template)'));
 								}
 								$(dialog_id).ocdialog('close');
+								$(dialog_id).ocdialog('destroy').remove();
 							}
 						}];
 
