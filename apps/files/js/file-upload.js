@@ -536,8 +536,8 @@ $(document).ready(function() {
 				//}
 				//if user pressed cancel hide upload chrome
 				//if (! OC.Upload.isProcessing()) {
-				//	$('#uploadprogresswrapper input.stop').fadeOut();
-				//	$('#uploadprogressbar').fadeOut();
+				$('#uploadprogresswrapper input.stop').fadeOut();
+				$('#uploadprogressbar').fadeOut();
 				//}
 			});
 			fileupload.on('fileuploadfail', function(e, data) {
