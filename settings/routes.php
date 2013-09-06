@@ -39,6 +39,8 @@ $this->create('settings_ajax_removegroup', '/settings/ajax/removegroup.php')
 	->actionInclude('settings/ajax/removegroup.php');
 $this->create('settings_ajax_changepassword', '/settings/ajax/changepassword.php')
 	->actionInclude('settings/ajax/changepassword.php');
+$this->create('settings_ajax_changepersonalpassword', '/settings/ajax/changepersonalpassword.php')
+        ->actionInclude('settings/ajax/changepersonalpassword.php');
 $this->create('settings_ajax_changedisplayname', '/settings/ajax/changedisplayname.php')
 	->actionInclude('settings/ajax/changedisplayname.php');
 // personel

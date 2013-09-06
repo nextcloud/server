@@ -1,34 +1,34 @@
 <?php
 
-// Check if we are a user
-OCP\JSON::callCheck();
+// Check if we are an user
+OC_JSON::callCheck();
 OC_JSON::checkLoggedIn();
 
 // Manually load apps to ensure hooks work correctly (workaround for issue 1503)
-OC_APP::loadApps();
+OC_App::loadApps();
 
-$username = isset($_POST['username']) ? $_POST['username'] : OC_User::getUser();
-$password = isset($_POST['personal-password']) ? $_POST['personal-password'] : null;
-$oldPassword = isset($_POST['oldpassword']) ? $_POST['oldpassword'] : '';
-$recoveryPassword = isset($_POST['recoveryPassword']) ? $_POST['recoveryPassword'] : null;
-
-$userstatus = null;
-if (OC_User::isAdminUser(OC_User::getUser())) {
-	$userstatus = 'admin';
-}
-if (OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username)) {
-	$userstatus = 'subadmin';
-}
-if (OC_User::getUser() === $username && OC_User::checkPassword($username, $oldPassword)) {
-	$userstatus = 'user';
-}
-
-if (is_null($userstatus)) {
-	OC_JSON::error(array('data' => array('message' => 'Authentication error')));
+if (isset($_POST['username'])) {
+	$username = $_POST['username'];
+} else {
+	$l = new \OC_L10n('settings');
+	OC_JSON::error(array('data' => array('message' => $l->t('No user supplied')) ));
 	exit();
 }
 
-if (\OCP\App::isEnabled('files_encryption') && $userstatus !== 'user') {
+$password = isset($_POST['password']) ? $_POST['password'] : null;
+$recoveryPassword = isset($_POST['recoveryPassword']) ? $_POST['recoveryPassword'] : null;
+
+if (OC_User::isAdminUser(OC_User::getUser())) {
+	$userstatus = 'admin';
+} elseif (OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username)) {
+	$userstatus = 'subadmin';
+} else {
+	$l = new \OC_L10n('settings');
+	OC_JSON::error(array('data' => array('message' => $l->t('Authentication error')) ));
+	exit();
+}
+
+if (\OC_App::isEnabled('files_encryption')) {
 	//handle the recovery case
 	$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), $username);
 	$recoveryAdminEnabled = OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled');
@@ -55,7 +55,7 @@ if (\OCP\App::isEnabled('files_encryption') && $userstatus !== 'user') {
 	}
 
 	}
-} else { // if user changes his own password or if encryption is disabled, proceed
+} else { // if encryption is disabled, proceed
 	if (!is_null($password) && OC_User::setPassword($username, $password)) {
 		OC_JSON::success(array('data' => array('username' => $username)));
 	} else {
