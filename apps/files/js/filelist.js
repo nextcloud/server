@@ -522,20 +522,7 @@ $(document).ready(function(){
 		var dropTarget = $(e.originalEvent.target).closest('tr');
 		if(dropTarget && dropTarget.data('type') === 'dir') { // drag&drop upload to folder
 			
-			// lookup selection for dir
-			var selection = OC.Upload.getSelection(data.files);
-			
-			// remember drop target
-			selection.dropTarget = dropTarget;
-			
-			selection.dir = dropTarget.data('file');
-			if (selection.dir !== '/') {
-				if ($('#dir').val() === '/') {
-					selection.dir = '/' + selection.dir;
-				} else {
-					selection.dir = $('#dir').val() + '/' + selection.dir;
-				}
-			}
+			var dir = dropTarget.data('file');
 			
 			// update folder in form
 			data.formData = function(form) {
@@ -545,9 +532,9 @@ $(document).ready(function(){
 				// array index 2 contains the directory
 				var parentDir = formArray[2]['value'];
 				if (parentDir === '/') {
-					formArray[2]['value'] += selection.dir;
+					formArray[2]['value'] += dir;
 				} else {
-					formArray[2]['value'] += '/' + selection.dir;
+					formArray[2]['value'] += '/' + dir;
 				}
 				
 				return formArray;
