@@ -5,7 +5,6 @@ function() {
 });
 
 //TODO: SET: unshare
-//TODO: SET: permissions
 //TODO: SET: expire date
 //TODO: SET: mail notification
 //TODO: SET: can upload
@@ -29,6 +28,14 @@ OC_API::register('post',
 OC_API::register('post',
 		'/apps/files_sharing/api/permission/{path}',
 		array('\OCA\Files\Share\Api', 'setPermission'),
+		'files_sharing',
+		OC_API::USER_AUTH,
+		array('path' => ''),
+		array('path' => '.+'));
+
+OC_API::register('post',
+		'/apps/files_sharing/api/expire/{path}',
+		array('\OCA\Files\Share\Api', 'setExpire'),
 		'files_sharing',
 		OC_API::USER_AUTH,
 		array('path' => ''),

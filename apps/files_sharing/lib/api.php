@@ -25,7 +25,7 @@ namespace OCA\Files\Share;
 class Api {
 
 	/**
-	 * @brief get share information for a given file/folder
+	 * @brief get share information for a given file/folder path is encoded in URL
 	 *
 	 * @param array $params which contains a 'path' to a file/folder
 	 * @return \OC_OCS_Result share information
@@ -48,45 +48,53 @@ class Api {
 	}
 
 	/**
-	 * @brief share file with a user/group
+	 * @brief share file with a user/group, path to file is encoded in URL
 	 *
-	 * @param array $params which contains a 'path' to a file/folder
+	 * @param array $params with following parameters 'shareWith', 'shareType'
 	 * @return \OC_OCS_Result result of share operation
 	 */
 	public static function setShare($params) {
 		$path = $params['path'];
-		$errorMessage = '';
 
 		$itemSource = self::getFileId($path);
 		$itemType = self::getItemType($path);
 
+		if($itemSource === null) {
+			return new \OC_OCS_Result(null, 404, "wrong path, file/folder doesn't exist.");
+		}
+
 		$shareWith = isset($_POST['shareWith']) ? $_POST['shareWith'] : null;
 		$shareType = isset($_POST['shareType']) ? (int)$_POST['shareType'] : null;
 
-		if($shareType === \OCP\Share::SHARE_TYPE_LINK) {
-			$permissions = 1;
-			$shareWith = null;
-		} else {
-			$permissions = 31;
+		switch($shareType) {
+			case \OCP\Share::SHARE_TYPE_USER:
+				$permission = 31;
+				if (!\OCP\User::userExists($shareWith)) {
+					return new \OC_OCS_Result(null, 404, "user doesn't exist");
+				}
+				break;
+			case \OCP\Share::SHARE_TYPE_GROUP:
+				$permission = 31;
+				if (!\OC_Group::groupExists($shareWith)) {
+					return new \OC_OCS_Result(null, 404, "group doesn't exist");
+				}
+				break;
+			case \OCP\Share::SHARE_TYPE_LINK:
+				$permission = 1;
+				$shareWith = null;
+				break;
+			default:
+				return new \OC_OCS_Result(null, 404, "unknown share type");
 		}
 
 
-		$token = null;
-		if (($shareWith !== null || $shareType === \OCP\Share::SHARE_TYPE_LINK)
-				&& $shareType !== false
-				&& $itemType !== false) {
-			$token = \OCP\Share::shareItem(
+		$token = \OCP\Share::shareItem(
 					$itemType,
 					$itemSource,
 					$shareType,
 					$shareWith,
-					$permissions
+					$permission
 					);
-		} else {
-			$errorMessage = "You need to specify at least 'shareType' and provide a correct file/folder path."
-				. " For non public shares you also need specify 'shareWith'.";
-		}
-
 
 		if ($token) {
 			$data = null;
@@ -98,8 +106,89 @@ class Api {
 			}
 			return new \OC_OCS_Result($data);
 		} else {
-			return new \OC_OCS_Result(null, 404, $errorMessage);
+			return new \OC_OCS_Result(null, 404, "couldn't share file");
 		}
+	}
+	/**
+	 * @brief set permission for a share, path to file is encoded in URL
+	 * @param array $params contain 'shareWith', 'shareType', 'permission'
+	 * @return \OC_OCS_Result
+	 */
+	public static function setPermission($params) {
+		$path = $params['path'];
+		$itemSource = self::getFileId($path);
+		$itemType = self::getItemType($path);
+
+		if($itemSource === null) {
+			return new \OC_OCS_Result(null, 404, "wrong path, file/folder doesn't exist.");
+		}
+
+		$shareWith = isset($_POST['shareWith']) ? $_POST['shareWith'] : null;
+		$shareType = isset($_POST['shareType']) ? (int)$_POST['shareType'] : null;
+		$permission = isset($_POST['permission']) ? (int)$_POST['permission'] : null;
+
+		switch($shareType) {
+			case \OCP\Share::SHARE_TYPE_USER:
+				if (!\OCP\User::userExists($shareWith)) {
+					return new \OC_OCS_Result(null, 404, "user doesn't exist");
+				}
+				break;
+			case \OCP\Share::SHARE_TYPE_GROUP:
+				if (!\OC_Group::groupExists($shareWith)) {
+					return new \OC_OCS_Result(null, 404, "group doesn't exist");
+				}
+				break;
+			case \OCP\Share::SHARE_TYPE_LINK:
+				break;
+			default:
+				return new \OC_OCS_Result(null, 404, "unknown share type");
+		}
+
+
+		$return = \OCP\Share::setPermissions(
+				$itemType,
+				$itemSource,
+				$shareType,
+				$shareWith,
+				$permission
+				);
+
+		if ($return) {
+			return new \OC_OCS_Result();
+		} else {
+			return new \OC_OCS_Result(null, 404, "couldn't set permissions");
+		}
+	}
+
+	/**
+	 * @brief set expire date, path to file is encoded in URL
+	 * @param array $params contains 'expire' (format DD-MM-YYYY)
+	 * @return \OC_OCS_Result
+	 */
+	public static function setExpire($params) {
+		$path = $params['path'];
+		$itemSource = self::getFileId($path);
+		$itemType = self::getItemType($path);
+
+		if($itemSource === null) {
+			return new \OC_OCS_Result(null, 404, "wrong path, file/folder doesn't exist.");
+		}
+
+		$expire = isset($_POST['expire']) ? (int)$_POST['expire'] : null;
+
+		$return = false;
+		if ($expire) {
+			$return = \OCP\Share::setExpirationDate($itemType, $itemSource, $expire);
+		}
+
+		if ($return) {
+			return new \OC_OCS_Result();
+		} else {
+			$msg = "Failed, please check the expire date, expected format 'DD-MM-YYYY'.";
+			return new \OC_OCS_Result(null, 404, $msg);
+		}
+
+
 	}
 
 	/**
