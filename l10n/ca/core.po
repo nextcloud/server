@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-01 13:27-0400\n"
-"PO-Revision-Date: 2013-08-30 13:50+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-05 07:36-0400\n"
+"PO-Revision-Date: 2013-09-05 07:40+0000\n"
+"Last-Translator: rogerc\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,28 +30,28 @@ msgstr "grup"
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "Activat el mode de manteniment"
 
 #: ajax/update.php:14
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "Desactivat el mode de manteniment"
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr ""
+msgstr "Actualitzada la base de dades"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
-msgstr ""
+msgstr "Actualitzant la memòria de cau del fitxers, això pot trigar molt..."
 
 #: ajax/update.php:23
 msgid "Updated filecache"
-msgstr ""
+msgstr "Actualitzada la memòria de cau dels fitxers"
 
 #: ajax/update.php:26
 #, php-format
 msgid "... %d%% done ..."
-msgstr ""
+msgstr "... %d%% fet ..."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -172,55 +172,55 @@ msgstr "Desembre"
 msgid "Settings"
 msgstr "Configuració"
 
-#: js/js.js:812
+#: js/js.js:821
 msgid "seconds ago"
 msgstr "segons enrere"
 
-#: js/js.js:813
+#: js/js.js:822
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "fa %n minut"
 msgstr[1] "fa %n minuts"
 
-#: js/js.js:814
+#: js/js.js:823
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "fa %n hora"
 msgstr[1] "fa %n hores"
 
-#: js/js.js:815
+#: js/js.js:824
 msgid "today"
 msgstr "avui"
 
-#: js/js.js:816
+#: js/js.js:825
 msgid "yesterday"
 msgstr "ahir"
 
-#: js/js.js:817
+#: js/js.js:826
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "fa %n dies"
 msgstr[1] "fa %n dies"
 
-#: js/js.js:818
+#: js/js.js:827
 msgid "last month"
 msgstr "el mes passat"
 
-#: js/js.js:819
+#: js/js.js:828
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "fa %n mes"
 msgstr[1] "fa %n mesos"
 
-#: js/js.js:820
+#: js/js.js:829
 msgid "months ago"
 msgstr "mesos enrere"
 
-#: js/js.js:821
+#: js/js.js:830
 msgid "last year"
 msgstr "l'any passat"
 
-#: js/js.js:822
+#: js/js.js:831
 msgid "years ago"
 msgstr "anys enrere"
 

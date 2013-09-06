@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-21 08:10-0400\n"
-"PO-Revision-Date: 2013-08-19 19:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-05 07:36-0400\n"
+"PO-Revision-Date: 2013-09-03 18:20+0000\n"
+"Last-Translator: Korrosivo <yo@rubendelcampo.es>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -68,20 +68,20 @@ msgid ""
 "files."
 msgstr "¡Su clave privada no es válida! Tal vez su contraseña ha sido cambiada desde fuera. Puede actualizar su clave privada en sus opciones personales para recuperar el acceso a sus ficheros."
 
-#: hooks/hooks.php:41
+#: hooks/hooks.php:51
 msgid "Missing requirements."
 msgstr "Requisitos incompletos."
 
-#: hooks/hooks.php:42
+#: hooks/hooks.php:52
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
-msgstr ""
+msgstr "Por favor, asegúrese de que PHP 5.3.3 o posterior está instalado y que la extensión OpenSSL de PHP está habilitada y configurada correctamente. Por el momento, la aplicación de cifrado ha sido deshabilitada."
 
-#: hooks/hooks.php:249
+#: hooks/hooks.php:250
 msgid "Following users are not set up for encryption:"
-msgstr ""
+msgstr "Los siguientes usuarios no han sido configurados para el cifrado:"
 
 #: js/settings-admin.js:11
 msgid "Saving..."

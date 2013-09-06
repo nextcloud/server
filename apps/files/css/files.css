@@ -69,11 +69,11 @@
 /* FILE TABLE */
 
 #filestable { position: relative; top:37px; width:100%; }
-tbody tr { background-color:#fff; height:2.5em; }
-tbody tr:hover, tbody tr:active {
+#filestable tbody tr { background-color:#fff; height:2.5em; }
+#filestable tbody tr:hover, tbody tr:active {
 	background-color: rgb(240,240,240);
 }
-tbody tr.selected {
+#filestable tbody tr.selected {
 	background-color: rgb(230,230,230);
 }
 tbody a { color:#000; }
