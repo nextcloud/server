@@ -10,7 +10,7 @@ namespace OC\Files\Node;
 
 use OC\Files\NotPermittedException;
 
-class File extends Node {
+class File extends Node implements \OCP\Files\Node\File {
 	/**
 	 * @return string
 	 * @throws \OC\Files\NotPermittedException

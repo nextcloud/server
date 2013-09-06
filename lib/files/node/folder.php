@@ -13,7 +13,7 @@ use OC\Files\Cache\Scanner;
 use OC\Files\NotFoundException;
 use OC\Files\NotPermittedException;
 
-class Folder extends Node {
+class Folder extends Node implements \OCP\Files\Node\Folder {
 	/**
 	 * @param string $path path relative to the folder
 	 * @return string

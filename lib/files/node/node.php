@@ -15,7 +15,7 @@ use OC\Files\NotPermittedException;
 
 require_once 'files/exceptions.php';
 
-class Node {
+class Node implements \OCP\Files\Node\Node {
 	/**
 	 * @var \OC\Files\View $view
 	 */
