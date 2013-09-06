@@ -128,7 +128,7 @@ class Stream {
 			$this->unencryptedSize = 0;
 
 		} else {
-\OCA\Encryption\Helper::redirectToErrorPage($this->session);
+
 			if($this->privateKey === false) {
 				// if private key is not valid redirect user to a error page
 				\OCA\Encryption\Helper::redirectToErrorPage($this->session);
