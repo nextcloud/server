@@ -33,16 +33,108 @@ class Api {
 	public static function getShare($params) {
 		$path = $params['path'];
 
-		$view = new \OC\Files\View('/'.\OCP\User::getUser().'/files');
-		$fileInfo = $view->getFileInfo($path);
-		if ($fileInfo) {
-			$share = \OCP\Share::getItemShared('file', $fileInfo['fileid']);
+		$fileId = self::getFileId($path);
+		if ($fileId !== null) {
+			$share = \OCP\Share::getItemShared('file', $fileId);
 		} else {
-			\OCP\Util::writeLog('files_sharing', 'OCS API getShare, file ' . $path . ' does not exists', \OCP\Util::WARN);
-			$share = array();
+			$share = null;
 		}
 
-		return new \OC_OCS_Result($share);
+		if ($share !== null) {
+			return new \OC_OCS_Result($share);
+		} else {
+			return new \OC_OCS_Result(null, 404, 'file/folder doesn\'t exists');
+		}
+	}
+
+	/**
+	 * @brief share file with a user/group
+	 *
+	 * @param array $params which contains a 'path' to a file/folder
+	 * @return \OC_OCS_Result result of share operation
+	 */
+	public static function setShare($params) {
+		$path = $params['path'];
+		$errorMessage = '';
+
+		$itemSource = self::getFileId($path);
+		$itemType = self::getItemType($path);
+
+		$shareWith = isset($_POST['shareWith']) ? $_POST['shareWith'] : null;
+		$shareType = isset($_POST['shareType']) ? (int)$_POST['shareType'] : null;
+
+		if($shareType === \OCP\Share::SHARE_TYPE_LINK) {
+			$permissions = 1;
+			$shareWith = null;
+		} else {
+			$permissions = 31;
+		}
+
+
+		$token = null;
+		if (($shareWith !== null || $shareType === \OCP\Share::SHARE_TYPE_LINK)
+				&& $shareType !== false
+				&& $itemType !== false) {
+			$token = \OCP\Share::shareItem(
+					$itemType,
+					$itemSource,
+					$shareType,
+					$shareWith,
+					$permissions
+					);
+		} else {
+			$errorMessage = "You need to specify at least 'shareType' and provide a correct file/folder path."
+				. " For non public shares you also need specify 'shareWith'.";
+		}
+
+
+		if ($token) {
+			$data = null;
+			if(is_string($token)) { //public link share
+				$url = \OCP\Util::linkToPublic('files&t='.$token);
+				$data = array('url' => $url, // '&' gets encoded to $amp;
+					'token' => $token);
+
+			}
+			return new \OC_OCS_Result($data);
+		} else {
+			return new \OC_OCS_Result(null, 404, $errorMessage);
+		}
+	}
+
+	/**
+	 * @brief get file ID from a given path
+	 * @param string $path
+	 * @return string fileID or null
+	 */
+	private static function getFileId($path) {
+		$view = new \OC\Files\View('/'.\OCP\User::getUser().'/files');
+		$fileId = null;
+
+		$fileInfo = $view->getFileInfo($path);
+		if ($fileInfo) {
+			$fileId = $fileInfo['fileid'];
+		}
+
+		return $fileId;
+	}
+
+	/**
+	 * @brief get itemType
+	 * @param string $path
+	 * @return string type 'file', 'folder' or null of file/folder doesn't exists
+	 */
+	private static function getItemType($path) {
+		$view = new \OC\Files\View('/'.\OCP\User::getUser().'/files');
+		$itemType = null;
+
+		if ($view->is_dir($path)) {
+			$itemType = "folder";
+		} elseif ($view->is_file($path)) {
+			$itemType = "file";
+		}
+
+		return $itemType;
 	}
 
 }
