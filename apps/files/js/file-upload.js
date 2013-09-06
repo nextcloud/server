@@ -261,12 +261,12 @@ OC.Upload = {
 	},
 	onReplace:function(data){
 		OC.Upload.logStatus('replace', null, data);
-		data.data.append('replace', true);
+		data.data.append('resolution', 'replace');
 		data.submit();
 	},
 	onAutorename:function(data){
 		OC.Upload.logStatus('autorename', null, data);
-		data.data.append('autorename', true);
+		data.data.append('resolution', 'autorename');
 		data.submit();
 	},
 	logStatus:function(caption, e, data) {
