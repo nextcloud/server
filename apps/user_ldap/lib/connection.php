@@ -625,7 +625,7 @@ class Connection extends BackendBase {
 			if(!$this->config['ldapOverrideMainServer'] && !$this->getFromCache('overrideMainServer')) {
 				$this->doConnect($this->config['ldapHost'], $this->config['ldapPort']);
 				$bindStatus = $this->bind();
-				$error = $this->ldap->isResource($this->ldapConnectionRes) ? ldap_errno($this->ldapConnectionRes) : -1;
+				$error = $this->ldap->isResource($this->ldapConnectionRes) ? $this->ldap->errno($this->ldapConnectionRes) : -1;
 			} else {
 				$bindStatus = false;
 				$error = null;
