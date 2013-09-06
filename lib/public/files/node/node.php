@@ -12,7 +12,7 @@ interface Node {
 	/**
 	 * @param string $targetPath
 	 * @throws \OC\Files\NotPermittedException
-	 * @return \OC\Files\Node\Node
+	 * @return \OCP\Files\Node\Node
 	 */
 	public function move($targetPath);
 
@@ -20,7 +20,7 @@ interface Node {
 
 	/**
 	 * @param string $targetPath
-	 * @return \OC\Files\Node\Node
+	 * @return \OCP\Files\Node\Node
 	 */
 	public function copy($targetPath);
 

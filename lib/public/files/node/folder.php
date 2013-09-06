@@ -31,7 +31,7 @@ interface Folder extends Node {
 	/**
 	 * check if a node is a (grand-)child of the folder
 	 *
-	 * @param \OC\Files\Node\Node $node
+	 * @param \OCP\Files\Node\Node $node
 	 * @return bool
 	 */
 	public function isSubNode($node);
@@ -40,7 +40,7 @@ interface Folder extends Node {
 	 * get the content of this directory
 	 *
 	 * @throws \OC\Files\NotFoundException
-	 * @return Node[]
+	 * @return \OCP\Files\Node\Node[]
 	 */
 	public function getDirectoryListing();
 
@@ -48,7 +48,7 @@ interface Folder extends Node {
 	 * Get the node at $path
 	 *
 	 * @param string $path
-	 * @return \OC\Files\Node\Node
+	 * @return \OCP\Files\Node\Node
 	 * @throws \OC\Files\NotFoundException
 	 */
 	public function get($path);
@@ -61,14 +61,14 @@ interface Folder extends Node {
 
 	/**
 	 * @param string $path
-	 * @return Folder
+	 * @return \OCP\Files\Node\Folder
 	 * @throws NotPermittedException
 	 */
 	public function newFolder($path);
 
 	/**
 	 * @param string $path
-	 * @return File
+	 * @return \OCP\Files\Node\File
 	 * @throws NotPermittedException
 	 */
 	public function newFile($path);
@@ -77,7 +77,7 @@ interface Folder extends Node {
 	 * search for files with the name matching $query
 	 *
 	 * @param string $query
-	 * @return Node[]
+	 * @return \OCP\Files\Node\Node[]
 	 */
 	public function search($query);
 
@@ -85,13 +85,13 @@ interface Folder extends Node {
 	 * search for files by mimetype
 	 *
 	 * @param string $mimetype
-	 * @return Node[]
+	 * @return \OCP\Files\Node\Node[]
 	 */
 	public function searchByMime($mimetype);
 
 	/**
 	 * @param $id
-	 * @return Node[]
+	 * @return \OCP\Files\Node\Node[]
 	 */
 	public function getById($id);
 
