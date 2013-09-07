@@ -333,7 +333,7 @@ class View {
 	}
 
 	public function deleteAll($directory, $empty = false) {
-		return $this->basicOperation('deleteAll', $directory, array('delete'), $empty);
+		return $this->rmdir($directory);
 	}
 
 	public function rename($path1, $path2) {
