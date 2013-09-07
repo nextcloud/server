@@ -23,6 +23,7 @@ $TRANSLATIONS = array(
 "App does not provide an info.xml file" => "アプリにinfo.xmlファイルが入っていません",
 "App can't be installed because of not allowed code in the App" => "アプリで許可されないコードが入っているのが原因でアプリがインストールできません",
 "App can't be installed because it is not compatible with this version of ownCloud" => "アプリは、このバージョンのownCloudと互換性がない為、インストールできません。",
+"App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" => "非shippedアプリには許可されない<shipped>true</shipped>タグが含まれているためにアプリをインストール出来ません。",
 "App can't be installed because the version in info.xml/version is not the same as the version reported from the app store" => "info.xml/versionのバージョンがアプリストアのバージョンと合っていない為、アプリはインストールされません",
 "App directory already exists" => "アプリディレクトリは既に存在します",
 "Can't create app folder. Please fix permissions. %s" => "アプリフォルダを作成出来ませんでした。%s のパーミッションを修正してください。",

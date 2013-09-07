@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-01 13:27-0400\n"
-"PO-Revision-Date: 2013-08-30 13:50+0000\n"
+"POT-Creation-Date: 2013-09-07 04:40-0400\n"
+"PO-Revision-Date: 2013-09-05 11:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -171,55 +171,55 @@ msgstr "decembro"
 msgid "Settings"
 msgstr "Axustes"
 
-#: js/js.js:812
+#: js/js.js:821
 msgid "seconds ago"
 msgstr "segundos atrás"
 
-#: js/js.js:813
+#: js/js.js:822
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "hai %n minuto"
 msgstr[1] "hai %n minutos"
 
-#: js/js.js:814
+#: js/js.js:823
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "hai %n hora"
 msgstr[1] "hai %n horas"
 
-#: js/js.js:815
+#: js/js.js:824
 msgid "today"
 msgstr "hoxe"
 
-#: js/js.js:816
+#: js/js.js:825
 msgid "yesterday"
 msgstr "onte"
 
-#: js/js.js:817
+#: js/js.js:826
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "hai %n día"
 msgstr[1] "hai %n días"
 
-#: js/js.js:818
+#: js/js.js:827
 msgid "last month"
 msgstr "último mes"
 
-#: js/js.js:819
+#: js/js.js:828
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "hai %n mes"
 msgstr[1] "hai %n meses"
 
-#: js/js.js:820
+#: js/js.js:829
 msgid "months ago"
 msgstr "meses atrás"
 
-#: js/js.js:821
+#: js/js.js:830
 msgid "last year"
 msgstr "último ano"
 
-#: js/js.js:822
+#: js/js.js:831
 msgid "years ago"
 msgstr "anos atrás"
 
@@ -403,7 +403,7 @@ msgstr "A actualización non foi satisfactoria, informe deste problema á  <a hr
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "A actualización realizouse correctamente. Redirixíndoo agora á ownCloud."
 
-#: lostpassword/controller.php:61
+#: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
 msgstr "Restabelecer o contrasinal %s"
