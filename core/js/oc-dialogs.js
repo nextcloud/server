@@ -220,12 +220,61 @@ var OCdialogs = {
 	*/
 	fileexists:function(data, original, replacement, controller) {
 		var self = this;
+
+		var getCroppedPreview = function(file) {
+			var deferred = new $.Deferred();
+			// Only process image files.
+			var type = file.type.split('/').shift();
+			if (window.FileReader && type === 'image') {
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					var blob = new Blob([event.target.result]);
+					window.URL = window.URL || window.webkitURL;
+					var originalUrl = window.URL.createObjectURL(blob);
+					var image = new Image();
+					image.src = originalUrl;
+					image.onload = function () {
+						var url = crop(image);
+						deferred.resolve(url);
+					}
+				};
+				reader.readAsArrayBuffer(file);
+			} else {
+				deferred.reject();
+			}
+			return deferred;
+		};
+
+		var crop = function(img) {
+			var canvas = document.createElement('canvas'),
+				width = img.width,
+				height = img.height,
+				x, y, size;
+
+			// calculate the width and height, constraining the proportions
+			if (width > height) {
+				y = 0;
+				x = (width - height) / 2;
+			} else {
+				y = (height - width) / 2;
+				x = 0;
+			}
+			size = Math.min(width, height);
+
+			// resize the canvas and draw the image data into it
+			canvas.width = 64;
+			canvas.height = 64;
+			var ctx = canvas.getContext("2d");
+			ctx.drawImage(img, x, y, size, size, 0, 0, 64, 64);
+			return canvas.toDataURL("image/png", 0.7);
+		};
+
 		var addConflict = function(conflicts, original, replacement) {
-			
+
 				var conflict = conflicts.find('.conflict.template').clone();
-				
+
 				conflict.data('data',data);
-				
+
 				conflict.find('.filename').text(original.name);
 				conflict.find('.original .size').text(humanFileSize(original.size));
 				conflict.find('.original .mtime').text(formatDate(original.mtime*1000));
@@ -238,12 +287,18 @@ var OCdialogs = {
 				lazyLoadPreview(path, original.type, function(previewpath){
 					conflict.find('.original .icon').css('background-image','url('+previewpath+')');
 				});
-				getMimeIcon(replacement.type,function(path){
-					conflict.find('.replacement .icon').css('background-image','url('+path+')');
-				});
+				getCroppedPreview(replacement).then(
+					function(path){
+						conflict.find('.replacement .icon').css('background-image','url(' + path + ')');
+					}, function(){
+						getMimeIcon(replacement.type,function(path){
+							conflict.find('.replacement .icon').css('background-image','url(' + path + ')');
+						});
+					}
+				);
 				conflict.removeClass('template');
 				conflicts.append(conflict);
-				
+
 				//set more recent mtime bold
 				// ie sucks
 				if (replacement.lastModifiedDate && replacement.lastModifiedDate.getTime() > original.mtime*1000) {
@@ -253,7 +308,7 @@ var OCdialogs = {
 				} else {
 					//TODO add to same mtime collection?
 				}
-				
+
 				// set bigger size bold
 				if (replacement.size && replacement.size > original.size) {
 					conflict.find('.replacement .size').css('font-weight', 'bold');
@@ -262,9 +317,9 @@ var OCdialogs = {
 				} else {
 					//TODO add to same size collection?
 				}
-				
+
 				//TODO show skip action for files with same size and mtime in bottom row
-				
+
 		};
 		//var selection = controller.getSelection(data.originalFiles);
 		//if (selection.defaultAction) {
@@ -274,16 +329,16 @@ var OCdialogs = {
 			var dialog_id = '#' + dialog_name;
 			if (this._fileexistsshown) {
 				// add conflict
-				
+
 				var conflicts = $(dialog_id+ ' .conflicts');
 				addConflict(conflicts, original, replacement);
-				
+
 				var title = t('files','{count} file conflicts',{count:$(dialog_id+ ' .conflict:not(.template)').length});
 				$(dialog_id).parent().children('.oc-dialog-title').text(title);
-				
+
 				//recalculate dimensions
 				$(window).trigger('resize');
-				
+
 			} else {
 				//create dialog
 				this._fileexistsshown = true;
@@ -334,7 +389,7 @@ var OCdialogs = {
 						buttons: buttonlist,
 						closeButton: null
 					});
-					
+
 					$(dialog_id).css('height','auto');
 
 					//add checkbox toggling actions
@@ -354,7 +409,7 @@ var OCdialogs = {
 						var checkbox = $(this);
 						checkbox.prop('checked', !checkbox.prop('checked'));
 					});
-					
+
 					//update counters
 					$(dialog_id).on('click', '.replacement,.allnewfiles', function() {
 						var count = $(dialog_id).find('.conflict:not(.template) .replacement input[type="checkbox"]:checked').length;
