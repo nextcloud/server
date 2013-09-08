@@ -387,7 +387,10 @@ var OCdialogs = {
 						closeOnEscape: true,
 						modal: true,
 						buttons: buttonlist,
-						closeButton: null
+						closeButton: null,
+						close: function(event, ui) {
+							$(this).ocdialog('destroy').remove();
+						}
 					});
 
 					$(dialog_id).css('height','auto');
