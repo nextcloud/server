@@ -1,100 +1,11 @@
 /**
- * 
- * and yet another idea how to handle file uploads:
- * let the jquery fileupload thing handle as much as possible
- * 
- * use singlefileupload
- * on first add of every selection
- * - check all files of originalFiles array with files in dir
- * - on conflict show dialog
- *   - skip all -> remember as default action
- *   - replace all -> remember as default action
- *   - choose -> show choose dialog
- *     - mark files to keep
- *       - when only existing -> remember as single skip action
- *       - when only new -> remember as single replace action
- *       - when both -> remember as single autorename action
- *     - continue -> apply marks, when nothing is marked continue == skip all
- * - start uploading selection
- * 
- * on send
- * - if single action or default action
- *   - when skip -> abort upload
- * ..- when replace -> add replace=true parameter
- * ..- when rename -> add newName=filename parameter
- * ..- when autorename -> add autorename=true parameter
- * 
- * on fail
- * - if server sent existserror
- *    - show dialog
- *      - on skip single -> abort single upload
- *      - on skip always -> remember as default action
- *      - on replace single -> replace single upload
- *      - on replace always -> remember as default action
- *      - on rename single -> rename single upload, propose autorename - when changed disable remember always checkbox
- *      - on rename always -> remember autorename as default action
- *    - resubmit data
- * 
- * on uplad done
- * - if last upload -> unset default action
- * 
- * -------------------------------------------------------------
- * 
- * use put t ocacnel upload before it starts? use chunked uploads?
- * 
- * 1. tracking which file to upload next -> upload queue with data elements added whenever add is called
- * 2. tracking progress for each folder individually -> track progress in a progress[dirname] object
- *   - every new selection increases the total size and number of files for a directory
- *   - add increases, successful done decreases, skip decreases, cancel decreases
- * 3. track selections -> the general skip / overwrite decision is selection based and can change
- *    - server might send already exists error -> show dialog & remember decision for selection again
- *    - server sends error, how do we find collection?
- * 4. track jqXHR object to prevent browser from navigationg away -> track in a uploads[dirname][filename] object [x]
- * 
- * selections can progress in parrallel but each selection progresses sequentially
- * 
- * -> store everything in context?
- * context.folder
- * context.element?
- * context.progressui?
- * context.jqXHR
- * context.selection
- * context.selection.onExistsAction?
- * 
- * context available in what events?
- * build in drop() add dir
- * latest in add() add file? add selection!
- * progress? -> update progress?
- * onsubmit -> context.jqXHR?
- * fail() -> 
- * done()
- * 
- * when versioning app is active -> always overwrite
- * 
- * fileupload scenario: empty folder & d&d 20 files
- *		queue the 20 files
- *		check list of files for duplicates -> empty
- *		start uploading the queue (show progress dialog?)
- *		- no duplicates -> all good, add files to list
- *		- server reports duplicate -> show skip, replace or rename dialog (for individual files)
- *
- * fileupload scenario: files uploaded & d&d 20 files again
- *		queue the 20 files
- *		check list of files for duplicates -> find n duplicates ->
- *			show skip, replace or rename dialog as general option
- *				- show list of differences with preview (win 8)
- *			remember action for each file
- *		start uploading the queue (show progress dialog?)
- *		- no duplicates -> all good, add files to list
- *		- server reports duplicate -> use remembered action
- *		
- * dialoge:
- *	-> skip, replace, choose (or abort) ()
- *	-> choose left or right (with skip) (when only one file in list also show rename option and remember for all option)
- *	
- *	progress always based on filesize
- *	number of files as text, bytes as bar
- *	
+ * The file upload code uses several hooks to interact with blueimps jQuery file upload library:
+ * 1. the core upload handling hooks are added when initializing the plugin,
+ * 2. if the browser supports progress events they are added in a separate set after the initialization
+ * 3. every app can add it's own triggers for fileupload
+ *    - files adds d'n'd handlers and also reacts to done events to add new rows to the filelist
+ *    - TODO pictures upload button
+ *    - TODO music upload button
  */
 
 // from https://github.com/New-Bamboo/example-ajax-upload/blob/master/public/index.html
@@ -122,9 +33,20 @@ function supportAjaxUploadWithProgress() {
 	}
 }
 
-//TODO clean uploads when all progress has completed
+/**
+ * keeps track of uploads in progress and implements callbacks for the conflicts dialog
+ * @type OC.Upload
+ */
 OC.Upload = {
 	_uploads: [],
+	/**
+	 * cancels a single upload, 
+	 * @deprecated because it was only used when a file currently beeing uploaded was deleted. Now they are added after
+	 * they have been uploaded.
+	 * @param string dir
+	 * @param string filename
+	 * @returns unresolved
+	 */
 	cancelUpload:function(dir, filename) {
 		var self = this;
 		var deleted = false;
@@ -137,22 +59,33 @@ OC.Upload = {
 		});
 		return deleted;
 	},
+	/**
+	 * deletes the jqHXR object from a data selection
+	 * @param data data
+	 */
 	deleteUpload:function(data) {
 		delete data.jqXHR;
 	},
+	/**
+	 * cancels all uploads
+	 */
 	cancelUploads:function() {
 		console.log('canceling uploads');
 		jQuery.each(this._uploads,function(i, jqXHR){
 			jqXHR.abort();
 		});
 		this._uploads = [];
-		
 	},
 	rememberUpload:function(jqXHR){
 		if (jqXHR) {
 			this._uploads.push(jqXHR);
 		}
 	},
+	/**
+	 * Checks the currently known uploads.
+	 * returns true if any hxr has the state 'pending'
+	 * @returns Boolean
+	 */
 	isProcessing:function(){
 		var count = 0;
 		
@@ -163,9 +96,18 @@ OC.Upload = {
 		});
 		return count > 0;
 	},
+	/**
+	 * callback for the conflicts dialog
+	 * @param data
+	 */
 	onCancel:function(data) {
 		this.cancelUploads();
 	},
+	/**
+	 * callback for the conflicts dialog
+	 * calls onSkip, onReplace or onAutorename for each conflict
+	 * @param conflicts list of conflict elements
+	 */
 	onContinue:function(conflicts) {
 		var self = this;
 		//iterate over all conflicts
@@ -186,15 +128,27 @@ OC.Upload = {
 			}
 		});
 	},
+	/**
+	 * handle skipping an upload
+	 * @param data data
+	 */
 	onSkip:function(data){
 		this.logStatus('skip', null, data);
 		this.deleteUpload(data);
 	},
+	/**
+	 * handle replacing a file on the server with an uploaded file
+	 * @param data data
+	 */
 	onReplace:function(data){
 		this.logStatus('replace', null, data);
 		data.data.append('resolution', 'replace');
 		data.submit();
 	},
+	/**
+	 * handle uploading a file and letting the server decide a new name
+	 * @param data data
+	 */
 	onAutorename:function(data){
 		this.logStatus('autorename', null, data);
 		if (data.data) {
@@ -208,8 +162,19 @@ OC.Upload = {
 		console.log(caption);
 		console.log(data);
 	},
+	/**
+	 * TODO checks the list of existing files prior to uploading and shows a simple dialog to choose
+	 * skip all, replace all or choosw which files to keep
+	 * @param array selection of files to upload
+	 * @param callbacks to call:
+	 *		onNoConflicts,
+	 *		onSkipConflicts,
+	 *		onReplaceConflicts,
+	 *		onChooseConflicts,
+	 *		onCancel
+	 */
 	checkExistingFiles: function (selection, callbacks){
-		// FIXME check filelist before uploading
+		// TODO check filelist before uploading and show dialog on conflicts, use callbacks
 		callbacks.onNoConflicts(selection);
 	}
 };
@@ -220,7 +185,6 @@ $(document).ready(function() {
 		dropZone: $('#content'), // restrict dropZone to content div
 		autoUpload: false,
 		sequentialUploads: true,
-		
 		//singleFileUploads is on by default, so the data.files array will always have length 1
 		/**
 		 * on first add of every selection
@@ -306,7 +270,7 @@ $(document).ready(function() {
 						});
 					},
 					onSkipConflicts: function (selection) {
-					//TODO mark conflicting files as toskip
+						//TODO mark conflicting files as toskip
 					},
 					onReplaceConflicts: function (selection) {
 						//TODO mark conflicting files as toreplace
@@ -324,22 +288,6 @@ $(document).ready(function() {
 				OC.Upload.checkExistingFiles(selection, callbacks);
 				
 			}
-		
-			
-			
-			//TODO check filename already exists
-			/*
-			if ($('tr[data-file="'+data.files[0].name+'"][data-id]').length > 0) {
-				data.textStatus = 'alreadyexists';
-				data.errorThrown = t('files', '{filename} already exists',
-					{filename: data.files[0].name}
-				);
-				//TODO show "file already exists" dialog
-				var fu = that.data('blueimp-fileupload') || that.data('fileupload');
-				fu._trigger('fail', e, data);
-				return false;
-			}
-			*/
 
 			return true; // continue adding files
 		},
@@ -368,8 +316,6 @@ $(document).ready(function() {
 					$('#notification').fadeOut();
 				}, 5000);
 			}
-			//var selection = OC.Upload.getSelection(data.originalFiles);
-			//OC.Upload.deleteSelectionUpload(selection, data.files[0].name);
 			OC.Upload.deleteUpload(data);
 		},
 		/**
@@ -455,30 +401,13 @@ $(document).ready(function() {
 			});
 			fileupload.on('fileuploaddone', function(e, data) {
 				OC.Upload.logStatus('progress handle fileuploaddone', e, data);
-				//if user pressed cancel hide upload chrome
-				//if (! OC.Upload.isProcessing()) {
-				//	$('#uploadprogresswrapper input.stop').fadeOut();
-				//	$('#uploadprogressbar').fadeOut();
-				//}
 			});
 			fileupload.on('fileuploadstop', function(e, data) {
 				OC.Upload.logStatus('progress handle fileuploadstop', e, data);
-				//if(OC.Upload.progressBytes()>=100) { //only hide controls when all selections have ended uploading
-
-					//OC.Upload.cancelUploads(); //cleanup
-
-				//	if(data.dataType !== 'iframe') {
-				//		$('#uploadprogresswrapper input.stop').hide();
-				//	}
-
-				//	$('#uploadprogressbar').progressbar('value', 100);
-				//	$('#uploadprogressbar').fadeOut();
-				//}
-				//if user pressed cancel hide upload chrome
-				//if (! OC.Upload.isProcessing()) {
+				
 				$('#uploadprogresswrapper input.stop').fadeOut();
 				$('#uploadprogressbar').fadeOut();
-				//}
+				
 			});
 			fileupload.on('fileuploadfail', function(e, data) {
 				OC.Upload.logStatus('progress handle fileuploadfail', e, data);
