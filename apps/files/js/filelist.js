@@ -575,13 +575,6 @@ $(document).ready(function(){
 		}
 		
 	});
-	file_upload_start.on('fileuploadsend', function(e, data) {
-		OC.Upload.logStatus('filelist handle fileuploadsend', e, data);
-		return true;
-	});
-	file_upload_start.on('fileuploadstart', function(e, data) {
-		OC.Upload.logStatus('filelist handle fileuploadstart', e, data);
-	});
 	/*
 	 * when file upload done successfully add row to filelist
 	 * update counter when uploading to sub folder
@@ -651,19 +644,6 @@ $(document).ready(function(){
 				});
 			}
 		}
-	});
-	
-	file_upload_start.on('fileuploadalways', function(e, data) {
-		OC.Upload.logStatus('filelist handle fileuploadalways', e, data);
-	});
-	file_upload_start.on('fileuploadsend', function(e, data) {
-		OC.Upload.logStatus('filelist handle fileuploadsend', e, data);
-	});
-	file_upload_start.on('fileuploadprogress', function(e, data) {
-		OC.Upload.logStatus('filelist handle fileuploadprogress', e, data);
-	});
-	file_upload_start.on('fileuploadprogressall', function(e, data) {
-		OC.Upload.logStatus('filelist handle fileuploadprogressall', e, data);
 	});
 	file_upload_start.on('fileuploadstop', function(e, data) {
 		OC.Upload.logStatus('filelist handle fileuploadstop', e, data);

@@ -399,9 +399,6 @@ $(document).ready(function() {
 				var progress = (data.loaded / data.total) * 100;
 				$('#uploadprogressbar').progressbar('value', progress);
 			});
-			fileupload.on('fileuploaddone', function(e, data) {
-				OC.Upload.logStatus('progress handle fileuploaddone', e, data);
-			});
 			fileupload.on('fileuploadstop', function(e, data) {
 				OC.Upload.logStatus('progress handle fileuploadstop', e, data);
 				
