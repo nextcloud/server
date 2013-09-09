@@ -31,6 +31,8 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 	protected $resharing;
 
 	protected $dateInPast = '2000-01-01 00:00:00';
+
+	// Picked close to the "year 2038 problem" boundary.
 	protected $dateInFuture = '2037-01-01 00:00:00';
 
 	public function setUp() {
