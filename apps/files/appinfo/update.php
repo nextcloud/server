@@ -3,17 +3,17 @@
 // fix webdav properties,add namespace in front of the property, update for OC4.5
 $installedVersion=OCP\Config::getAppValue('files', 'installed_version');
 if (version_compare($installedVersion, '1.1.6', '<')) {
-	$query = OC_DB::prepare( 'SELECT `propertyname`, `propertypath`, `userid` FROM `*PREFIX*properties`' );
-	$result = $query->execute();
-	$updateQuery = OC_DB::prepare('UPDATE `*PREFIX*properties`'
-								.' SET `propertyname` = ?'
-								.' WHERE `userid` = ?'
-								.' AND `propertypath` = ?');
-	while( $row = $result->fetchRow()) {
-		if ( $row['propertyname'][0] != '{' ) {
-			$updateQuery->execute(array('{DAV:}' + $row['propertyname'], $row['userid'], $row['propertypath']));
-		}
+	// SQL92 string concatenation is ||, some of the DBMS don't know that
+	if (OC_Config::getValue('dbtype') === 'mysql') {
+		$concat = "concat('{DAV:}', `propertyname`)";
+	} else if (OC_Config::getValue('dbtype') === 'mssql') {
+		$concat = "'{DAV:}' + `propertyname`";
+	} else {
+		$concat = "'{DAV:}' || `propertyname`";
 	}
+	$query = OC_DB::prepare( "UPDATE  `*PREFIX*properties`
+								  SET `propertyname` = $concat
+								WHERE `propertyname` LIKE '{%'" );
 }
 
 //update from OC 3
