@@ -730,6 +730,8 @@ class OC {
 			// Someone wants to log in :
 		} elseif (OC::tryFormLogin()) {
 			$error[] = 'invalidpassword';
+			OC_Log::write('core', 'Login failed: user \''.$_POST["user"].'\' , wrong password, IP:'.$_SERVER['REMOTE_ADDR'],
+			OC_Log::ERROR);
 		}
 
 		OC_Util::displayLoginPage(array_unique($error));
