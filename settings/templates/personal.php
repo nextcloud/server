@@ -80,7 +80,7 @@ if($_['passwordChangeSupported']) {
 }
 ?>
 
-<?php if (\OC_Config::getValue('enable_avatars', true) === true): ?>
+<?php if ($_['enableAvatars']): ?>
 <form id="avatar" method="post" action="<?php p(\OC_Helper::linkToRoute('core_avatar_post')); ?>">
 	<fieldset class="personalblock">
 		<legend><strong><?php p($l->t('Profile picture')); ?></strong></legend>

@@ -11,45 +11,50 @@
  */
 
 class OC_Avatar {
+
+	private $view;
+
+	/**
+	 * @brief constructor
+	 * @param $user string user to do avatar-management with
+	*/
+	public function __construct ($user) {
+		$this->view = new \OC\Files\View('/'.$user);
+	}
+
 	/**
 	 * @brief get the users avatar
-	 * @param $user string which user to get the avatar for
 	 * @param $size integer size in px of the avatar, defaults to 64
 	 * @return boolean|\OC_Image containing the avatar or false if there's no image
 	*/
-	public function get ($user, $size = 64) {
-		$view = new \OC\Files\View('/'.$user);
-
-		if ($view->file_exists('avatar.jpg')) {
+	public function get ($size = 64) {
+		if ($thus->view->file_exists('avatar.jpg')) {
 			$ext = 'jpg';
-		} elseif ($view->file_exists('avatar.png')) {
+		} elseif ($this->view->file_exists('avatar.png')) {
 			$ext = 'png';
 		} else {
 			return false;
 		}
 
 		$avatar = new OC_Image();
-		$avatar->loadFromData($view->file_get_contents('avatar.'.$ext));
+		$avatar->loadFromData($this->view->file_get_contents('avatar.'.$ext));
 		$avatar->resize($size);
 		return $avatar;
 	}
 
 	/**
 	 * @brief sets the users avatar
-	 * @param $user string user to set the avatar for
 	 * @param $data mixed imagedata or path to set a new avatar
 	 * @throws Exception if the provided file is not a jpg or png image
 	 * @throws Exception if the provided image is not valid
 	 * @throws \OC\NotSquareException if the image is not square
 	 * @return void
 	*/
-	public function set ($user, $data) {
+	public function set ($data) {
 		if (\OC_App::isEnabled('files_encryption')) {
 			$l = \OC_L10N::get('lib');
 			throw new \Exception($l->t("Custom profile pictures don't work with encryption yet"));
 		}
-
-		$view = new \OC\Files\View('/'.$user);
 
 		$img = new OC_Image($data);
 		$type = substr($img->mimeType(), -3);
@@ -68,19 +73,17 @@ class OC_Avatar {
 			throw new \OC\NotSquareException();
 		}
 
-		$view->unlink('avatar.jpg');
-		$view->unlink('avatar.png');
-		$view->file_put_contents('avatar.'.$type, $data);
+		$this->view->unlink('avatar.jpg');
+		$this->view->unlink('avatar.png');
+		$this->view->file_put_contents('avatar.'.$type, $data);
 	}
 
 	/**
 	 * @brief remove the users avatar
-	 * @param $user string user to delete the avatar from
 	 * @return void
 	*/
-	public function remove ($user) {
-		$view = new \OC\Files\View('/'.$user);
-		$view->unlink('avatar.jpg');
-		$view->unlink('avatar.png');
+	public function remove () {
+		$this->view->unlink('avatar.jpg');
+		$this->view->unlink('avatar.png');
 	}
 }

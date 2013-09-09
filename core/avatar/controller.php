@@ -23,8 +23,8 @@ class Controller {
 			$size = 64;
 		}
 
-		$avatar = new \OC_Avatar();
-		$image = $avatar->get($user, $size);
+		$avatar = new \OC_Avatar($user);
+		$image = $avatar->get($size);
 
 		\OC_Response::disableCaching();
 		\OC_Response::setLastModifiedHeader(time());
@@ -63,8 +63,8 @@ class Controller {
 		}
 
 		try {
-			$avatar = new \OC_Avatar();
-			$avatar->set($user, $newAvatar);
+			$avatar = new \OC_Avatar($user);
+			$avatar->set($newAvatar);
 			\OC_JSON::success();
 		} catch (\OC\NotSquareException $e) {
 			$image = new \OC_Image($newAvatar);
@@ -96,8 +96,8 @@ class Controller {
 		$user = \OC_User::getUser();
 
 		try {
-			$avatar = new \OC_Avatar();
-			$avatar->remove($user);
+			$avatar = new \OC_Avatar($user);
+			$avatar->remove();
 			\OC_JSON::success();
 		} catch (\Exception $e) {
 			\OC_JSON::error(array("data" => array("message" => $e->getMessage()) ));
@@ -145,8 +145,8 @@ class Controller {
 		$image = new \OC_Image($tmpavatar);
 		$image->crop($crop['x'], $crop['y'], $crop['w'], $crop['h']);
 		try {
-			$avatar = new \OC_Avatar();
-			$avatar->set($user, $image->data());
+			$avatar = new \OC_Avatar($user);
+			$avatar->set($$image->data());
 			// Clean up
 			\OC_Cache::remove('tmpavatar');
 			\OC_JSON::success();

@@ -81,7 +81,7 @@ $_['subadmingroups'] = array_flip($items);
 <table class="hascontrols" data-groups="<?php p(json_encode($allGroups));?>">
 	<thead>
 		<tr>
-			<?php if (\OC_Config::getValue('enable_avatars', true) === true): ?>
+			<?php if ($_['enableAvatars']): ?>
 			<th id='headerAvatar'></th>
 			<?php endif; ?>
 			<th id='headerName'><?php p($l->t('Username'))?></th>
@@ -99,7 +99,7 @@ $_['subadmingroups'] = array_flip($items);
 		<?php foreach($_["users"] as $user): ?>
 		<tr data-uid="<?php p($user["name"]) ?>"
 			data-displayName="<?php p($user["displayName"]) ?>">
-			<?php if (\OC_Config::getValue('enable_avatars', true) === true): ?>
+			<?php if ($_['enableAvatars']): ?>
 			<td class="avatar"><div class="avatardiv"></div></td>
 			<?php endif; ?>
 			<td class="name"><?php p($user["name"]); ?></td>
