@@ -144,14 +144,12 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 		if($this->connection->isCached('userExists'.$uid)) {
 			return $this->connection->getFromCache('userExists'.$uid);
 		}
-
 		//getting dn, if false the user does not exist. If dn, he may be mapped only, requires more checking.
 		$dn = $this->username2dn($uid);
 		if(!$dn) {
 			$this->connection->writeToCache('userExists'.$uid, false);
 			return false;
 		}
-
 		//check if user really still exists by reading its entry
 		if(!is_array($this->readAttribute($dn, ''))) {
 			$this->connection->writeToCache('userExists'.$uid, false);
