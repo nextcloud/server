@@ -94,7 +94,6 @@
 					this._setSizes();
 					break;
 				case 'buttons':
-					console.log('buttons', value);
 					if(this.$buttonrow) {
 						this.$buttonrow.empty();
 					} else {
