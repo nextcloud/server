@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-namespace OCP\Files\Node;
+namespace OCP\Files;
 
 use OC\Files\NotPermittedException;
 

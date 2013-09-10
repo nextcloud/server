@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-namespace OCP\Files\Node;
+namespace OCP\Files;
 
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\Scanner;
@@ -31,7 +31,7 @@ interface Folder extends Node {
 	/**
 	 * check if a node is a (grand-)child of the folder
 	 *
-	 * @param \OCP\Files\Node\Node $node
+	 * @param \OCP\Files\Node $node
 	 * @return bool
 	 */
 	public function isSubNode($node);
@@ -40,7 +40,7 @@ interface Folder extends Node {
 	 * get the content of this directory
 	 *
 	 * @throws \OC\Files\NotFoundException
-	 * @return \OCP\Files\Node\Node[]
+	 * @return \OCP\Files\Node[]
 	 */
 	public function getDirectoryListing();
 
@@ -48,7 +48,7 @@ interface Folder extends Node {
 	 * Get the node at $path
 	 *
 	 * @param string $path
-	 * @return \OCP\Files\Node\Node
+	 * @return \OCP\Files\Node
 	 * @throws \OC\Files\NotFoundException
 	 */
 	public function get($path);
@@ -61,14 +61,14 @@ interface Folder extends Node {
 
 	/**
 	 * @param string $path
-	 * @return \OCP\Files\Node\Folder
+	 * @return \OCP\Files\Folder
 	 * @throws NotPermittedException
 	 */
 	public function newFolder($path);
 
 	/**
 	 * @param string $path
-	 * @return \OCP\Files\Node\File
+	 * @return \OCP\Files\File
 	 * @throws NotPermittedException
 	 */
 	public function newFile($path);
@@ -77,7 +77,7 @@ interface Folder extends Node {
 	 * search for files with the name matching $query
 	 *
 	 * @param string $query
-	 * @return \OCP\Files\Node\Node[]
+	 * @return \OCP\Files\Node[]
 	 */
 	public function search($query);
 
@@ -85,13 +85,13 @@ interface Folder extends Node {
 	 * search for files by mimetype
 	 *
 	 * @param string $mimetype
-	 * @return \OCP\Files\Node\Node[]
+	 * @return \OCP\Files\Node[]
 	 */
 	public function searchByMime($mimetype);
 
 	/**
 	 * @param $id
-	 * @return \OCP\Files\Node\Node[]
+	 * @return \OCP\Files\Node[]
 	 */
 	public function getById($id);
 

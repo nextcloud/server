@@ -6,13 +6,13 @@
  * See the COPYING-README file.
  */
 
-namespace OCP\Files\Node;
+namespace OCP\Files;
 
 interface Node {
 	/**
 	 * @param string $targetPath
 	 * @throws \OC\Files\NotPermittedException
-	 * @return \OCP\Files\Node\Node
+	 * @return \OCP\Files\Node
 	 */
 	public function move($targetPath);
 
@@ -20,7 +20,7 @@ interface Node {
 
 	/**
 	 * @param string $targetPath
-	 * @return \OCP\Files\Node\Node
+	 * @return \OCP\Files\Node
 	 */
 	public function copy($targetPath);
 
