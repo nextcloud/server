@@ -75,6 +75,7 @@ class OC_DB {
 		// do nothing if the connection already has been established
 		if (!self::$connection) {
 			$config = new \Doctrine\DBAL\Configuration();
+			$eventManager = new \Doctrine\Common\EventManager();
 			switch($type) {
 				case 'sqlite':
 				case 'sqlite3':
@@ -142,7 +143,7 @@ class OC_DB {
 			$connectionParams['wrapperClass'] = 'OC\DB\Connection';
 			$connectionParams['tablePrefix'] = OC_Config::getValue('dbtableprefix', 'oc_' );
 			try {
-				self::$connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+				self::$connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config, $eventManager);
 				if ($type === 'sqlite' || $type === 'sqlite3') {
 					// Sqlite doesn't handle query caching and schema changes
 					// TODO: find a better way to handle this
