@@ -17,5 +17,3 @@ class RP_MsParamArray extends RODSPacket
     }
 
 }
-
-?>
