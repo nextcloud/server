@@ -83,11 +83,7 @@ class OC_Config {
 	 *
 	 */
 	public static function setValue($key, $value) {
-		try {
-			self::$object->setValue($key, $value);
-		} catch (\OC\HintException $e) {
-			\OC_Template::printErrorPage($e->getMessage(), $e->getHint());
-		}
+		self::$object->setValue($key, $value);
 	}
 
 	/**
@@ -98,10 +94,6 @@ class OC_Config {
 	 *
 	 */
 	public static function deleteKey($key) {
-		try {
-			self::$object->deleteKey($key);
-		} catch (\OC\HintException $e) {
-			\OC_Template::printErrorPage($e->getMessage(), $e->getHint());
-		}
+		self::$object->deleteKey($key);
 	}
 }
