@@ -60,8 +60,18 @@ class Controller {
 			$vulnerableToNullByte = true;
 		} 
 
+		$errors = array();
+
 		// Protect data directory here, so we can test if the protection is working
 		\OC_Setup::protectDataDirectory();
+		try {
+			$htaccessworking = \OC_Util::isHtAccessWorking();
+		} catch (\OC\HintException $e) {
+			$errors[] = array(
+				'error' => $e->getMessage(),
+				'hint' => $e->getHint()
+			);
+		}
 
 		return array(
 			'hasSQLite' => $hasSQLite,
@@ -71,9 +81,9 @@ class Controller {
 			'hasMSSQL' => $hasMSSQL,
 			'directory' => $datadir,
 			'secureRNG' => \OC_Util::secureRNGAvailable(),
-			'htaccessWorking' => \OC_Util::isHtAccessWorking(),
+			'htaccessWorking' => $htaccessWorking,
 			'vulnerableToNullByte' => $vulnerableToNullByte,
-			'errors' => array(),
+			'errors' => $errors,
 		);
 	}
 }

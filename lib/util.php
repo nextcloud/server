@@ -689,9 +689,13 @@ class OC_Util {
 			return false;
 		}
 
-		$fp = @fopen($testfile, 'w');
-		@fwrite($fp, $testcontent);
-		@fclose($fp);
+		$fp = @fopen($testFile, 'w');
+		if (!$fp) {
+			throw new OC\HintException('Can\'t create test file to check for working .htaccess file.',
+				'Make sure it is possible for the webserver to write to '.$testFile);
+		}
+		fwrite($fp, $testContent);
+		fclose($fp);
 
 		// accessing the file via http
 		$url = OC_Helper::makeURLAbsolute(OC::$WEBROOT.'/data'.$fileName);
@@ -700,7 +704,7 @@ class OC_Util {
 		@fclose($fp);
 
 		// cleanup
-		@unlink($testfile);
+		@unlink($testFile);
 
 		// does it work ?
 		if($content==$testContent) {
