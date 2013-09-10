@@ -27,12 +27,11 @@ class iRODS extends \OC\Files\Storage\StreamWrapper{
 	private $auth_mode;
 
 	public function __construct($params) {
-		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
-			$this->host = $params['host'];
-			$this->port = $params['port'];
-			$this->user = $params['user'];
-			$this->password = $params['password'];
-			$this->use_logon_credentials = $params['use_logon_credentials'];
+		if (isset($params['host'])) {
+			$this->port = isset($params['port']) ? $params['port'] : 1247;
+			$this->user = isset($params['user']) ? $params['user'] : '';
+			$this->password = isset($params['password']) ? $params['password'] : '';
+			$this->use_logon_credentials = ($params['use_logon_credentials'] === 'true');
 			$this->zone = $params['zone'];
 			$this->auth_mode = isset($params['auth_mode']) ? $params['auth_mode'] : '';
 
