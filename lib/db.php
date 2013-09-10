@@ -124,6 +124,7 @@ class OC_DB {
 						$connectionParams['port'] = $port;
 					}
 					$connectionParams['adapter'] = '\OC\DB\AdapterOCI8';
+					$eventManager->addEventSubscriber(new \Doctrine\DBAL\Event\Listeners\OracleSessionInit);
 					break;
 				case 'mssql':
 					$connectionParams = array(
