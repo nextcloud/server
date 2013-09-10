@@ -110,5 +110,3 @@ class RODSGenQueConds
         return $this->cond;
     }
 }
-
-?>

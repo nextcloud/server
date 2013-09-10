@@ -95,5 +95,3 @@ class RODSGenQueResults
         return $this->numrow;
     }
 }
-
-?>
