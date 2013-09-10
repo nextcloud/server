@@ -10,12 +10,10 @@ namespace OC\Files\Node;
 
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\Scanner;
-use OC\Files\NotFoundException;
-use OC\Files\NotPermittedException;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 
-require_once 'files/exceptions.php';
-
-class Node implements \OCP\Files\Node\Node {
+class Node implements \OCP\Files\Node {
 	/**
 	 * @var \OC\Files\View $view
 	 */
@@ -61,7 +59,7 @@ class Node implements \OCP\Files\Node\Node {
 
 	/**
 	 * @param string $targetPath
-	 * @throws \OC\Files\NotPermittedException
+	 * @throws \OCP\Files\NotPermittedException
 	 * @return \OC\Files\Node\Node
 	 */
 	public function move($targetPath) {
@@ -82,7 +80,7 @@ class Node implements \OCP\Files\Node\Node {
 
 	/**
 	 * @param int $mtime
-	 * @throws \OC\Files\NotPermittedException
+	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function touch($mtime = null) {
 		if ($this->checkPermissions(\OCP\PERMISSION_UPDATE)) {
@@ -96,7 +94,7 @@ class Node implements \OCP\Files\Node\Node {
 
 	/**
 	 * @return \OC\Files\Storage\Storage
-	 * @throws \OC\Files\NotFoundException
+	 * @throws \OCP\Files\NotFoundException
 	 */
 	public function getStorage() {
 		list($storage,) = $this->view->resolvePath($this->path);

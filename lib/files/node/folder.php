@@ -10,14 +10,14 @@ namespace OC\Files\Node;
 
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\Scanner;
-use OC\Files\NotFoundException;
-use OC\Files\NotPermittedException;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 
-class Folder extends Node implements \OCP\Files\Node\Folder {
+class Folder extends Node implements \OCP\Files\Folder {
 	/**
 	 * @param string $path path relative to the folder
 	 * @return string
-	 * @throws \OC\Files\NotPermittedException
+	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function getFullPath($path) {
 		if (!$this->isValidPath($path)) {
@@ -28,7 +28,7 @@ class Folder extends Node implements \OCP\Files\Node\Folder {
 
 	/**
 	 * @param string $path
-	 * @throws \OC\Files\NotFoundException
+	 * @throws \OCP\Files\NotFoundException
 	 * @return string
 	 */
 	public function getRelativePath($path) {
@@ -60,7 +60,7 @@ class Folder extends Node implements \OCP\Files\Node\Folder {
 	/**
 	 * get the content of this directory
 	 *
-	 * @throws \OC\Files\NotFoundException
+	 * @throws \OCP\Files\NotFoundException
 	 * @return Node[]
 	 */
 	public function getDirectoryListing() {
@@ -164,7 +164,7 @@ class Folder extends Node implements \OCP\Files\Node\Folder {
 	 *
 	 * @param string $path
 	 * @return \OC\Files\Node\Node
-	 * @throws \OC\Files\NotFoundException
+	 * @throws \OCP\Files\NotFoundException
 	 */
 	public function get($path) {
 		return $this->root->get($this->getFullPath($path));
@@ -185,8 +185,8 @@ class Folder extends Node implements \OCP\Files\Node\Folder {
 
 	/**
 	 * @param string $path
-	 * @return Folder
-	 * @throws NotPermittedException
+	 * @return \OC\Files\Node\Folder
+	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function newFolder($path) {
 		if ($this->checkPermissions(\OCP\PERMISSION_CREATE)) {
@@ -206,8 +206,8 @@ class Folder extends Node implements \OCP\Files\Node\Folder {
 
 	/**
 	 * @param string $path
-	 * @return File
-	 * @throws NotPermittedException
+	 * @return \OC\Files\Node\File
+	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function newFile($path) {
 		if ($this->checkPermissions(\OCP\PERMISSION_CREATE)) {
@@ -229,7 +229,7 @@ class Folder extends Node implements \OCP\Files\Node\Folder {
 	 * search for files with the name matching $query
 	 *
 	 * @param string $query
-	 * @return Node[]
+	 * @return \OC\Files\Node\Node[]
 	 */
 	public function search($query) {
 		return $this->searchCommon('%' . $query . '%', 'search');
@@ -248,7 +248,7 @@ class Folder extends Node implements \OCP\Files\Node\Folder {
 	/**
 	 * @param string $query
 	 * @param string $method
-	 * @return Node[]
+	 * @return \OC\Files\Node\Node[]
 	 */
 	private function searchCommon($query, $method) {
 		$files = array();
@@ -298,7 +298,7 @@ class Folder extends Node implements \OCP\Files\Node\Folder {
 
 	/**
 	 * @param $id
-	 * @return Node[]
+	 * @return \OC\Files\Node\Node[]
 	 */
 	public function getById($id) {
 		$nodes = $this->root->getById($id);
@@ -337,7 +337,7 @@ class Folder extends Node implements \OCP\Files\Node\Folder {
 
 	/**
 	 * @param string $targetPath
-	 * @throws \OC\Files\NotPermittedException
+	 * @throws \OCP\Files\NotPermittedException
 	 * @return \OC\Files\Node\Node
 	 */
 	public function copy($targetPath) {
@@ -359,7 +359,7 @@ class Folder extends Node implements \OCP\Files\Node\Folder {
 
 	/**
 	 * @param string $targetPath
-	 * @throws \OC\Files\NotPermittedException
+	 * @throws \OCP\Files\NotPermittedException
 	 * @return \OC\Files\Node\Node
 	 */
 	public function move($targetPath) {

@@ -8,12 +8,12 @@
 
 namespace OC\Files\Node;
 
-use OC\Files\NotFoundException;
+use OCP\Files\NotFoundException;
 
 class NonExistingFile extends File {
 	/**
 	 * @param string $newPath
-	 * @throws \OC\Files\NotFoundException
+	 * @throws \OCP\Files\NotFoundException
 	 */
 	public function rename($newPath) {
 		throw new NotFoundException();

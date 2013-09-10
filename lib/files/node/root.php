@@ -12,8 +12,8 @@ use OC\Files\Cache\Cache;
 use OC\Files\Cache\Scanner;
 use OC\Files\Mount\Manager;
 use OC\Files\Mount\Mount;
-use OC\Files\NotFoundException;
-use OC\Files\NotPermittedException;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OC\Hooks\Emitter;
 use OC\Hooks\PublicEmitter;
 
@@ -21,18 +21,18 @@ use OC\Hooks\PublicEmitter;
  * Class Root
  *
  * Hooks available in scope \OC\Files
- * - preWrite(\OC\Files\Node\Node $node)
- * - postWrite(\OC\Files\Node\Node $node)
- * - preCreate(\OC\Files\Node\Node $node)
- * - postCreate(\OC\Files\Node\Node $node)
- * - preDelete(\OC\Files\Node\Node $node)
- * - postDelete(\OC\Files\Node\Node $node)
- * - preTouch(\OC\Files\Node\Node $node, int $mtime)
- * - postTouch(\OC\Files\Node\Node $node)
- * - preCopy(\OC\Files\Node\Node $source, \OC\Files\Node\Node $target)
- * - postCopy(\OC\Files\Node\Node $source, \OC\Files\Node\Node $target)
- * - preRename(\OC\Files\Node\Node $source, \OC\Files\Node\Node $target)
- * - postRename(\OC\Files\Node\Node $source, \OC\Files\Node\Node $target)
+ * - preWrite(\OCP\Files\Node $node)
+ * - postWrite(\OCP\Files\Node $node)
+ * - preCreate(\OCP\Files\Node $node)
+ * - postCreate(\OCP\Files\Node $node)
+ * - preDelete(\OCP\Files\Node $node)
+ * - postDelete(\OCP\Files\Node $node)
+ * - preTouch(\OC\FilesP\Node $node, int $mtime)
+ * - postTouch(\OCP\Files\Node $node)
+ * - preCopy(\OCP\Files\Node $source, \OCP\Files\Node $target)
+ * - postCopy(\OCP\Files\Node $source, \OCP\Files\Node $target)
+ * - preRename(\OCP\Files\Node $source, \OCP\Files\Node $target)
+ * - postRename(\OCP\Files\Node $source, \OCP\Files\Node $target)
  *
  * @package OC\Files\Node
  */
@@ -152,8 +152,8 @@ class Root extends Folder implements Emitter {
 
 	/**
 	 * @param string $path
-	 * @throws \OC\Files\NotFoundException
-	 * @throws \OC\Files\NotPermittedException
+	 * @throws \OCP\Files\NotFoundException
+	 * @throws \OCP\Files\NotPermittedException
 	 * @return Node
 	 */
 	public function get($path) {
@@ -177,7 +177,7 @@ class Root extends Folder implements Emitter {
 	 * can exist in different places
 	 *
 	 * @param int $id
-	 * @throws \OC\Files\NotFoundException
+	 * @throws \OCP\Files\NotFoundException
 	 * @return Node[]
 	 */
 	public function getById($id) {
@@ -200,7 +200,7 @@ class Root extends Folder implements Emitter {
 
 	/**
 	 * @param string $targetPath
-	 * @throws \OC\Files\NotPermittedException
+	 * @throws \OCP\Files\NotPermittedException
 	 * @return \OC\Files\Node\Node
 	 */
 	public function rename($targetPath) {
@@ -213,7 +213,7 @@ class Root extends Folder implements Emitter {
 
 	/**
 	 * @param string $targetPath
-	 * @throws \OC\Files\NotPermittedException
+	 * @throws \OCP\Files\NotPermittedException
 	 * @return \OC\Files\Node\Node
 	 */
 	public function copy($targetPath) {
@@ -222,7 +222,7 @@ class Root extends Folder implements Emitter {
 
 	/**
 	 * @param int $mtime
-	 * @throws \OC\Files\NotPermittedException
+	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function touch($mtime = null) {
 		throw new NotPermittedException();
@@ -230,7 +230,7 @@ class Root extends Folder implements Emitter {
 
 	/**
 	 * @return \OC\Files\Storage\Storage
-	 * @throws \OC\Files\NotFoundException
+	 * @throws \OCP\Files\NotFoundException
 	 */
 	public function getStorage() {
 		throw new NotFoundException();
@@ -322,7 +322,7 @@ class Root extends Folder implements Emitter {
 
 	/**
 	 * @return Node
-	 * @throws \OC\Files\NotFoundException
+	 * @throws \OCP\Files\NotFoundException
 	 */
 	public function getParent() {
 		throw new NotFoundException();

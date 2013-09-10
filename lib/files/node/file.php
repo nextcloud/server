@@ -8,12 +8,12 @@
 
 namespace OC\Files\Node;
 
-use OC\Files\NotPermittedException;
+use OCP\Files\NotPermittedException;
 
-class File extends Node implements \OCP\Files\Node\File {
+class File extends Node implements \OCP\Files\File {
 	/**
 	 * @return string
-	 * @throws \OC\Files\NotPermittedException
+	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function getContent() {
 		if ($this->checkPermissions(\OCP\PERMISSION_READ)) {
@@ -28,7 +28,7 @@ class File extends Node implements \OCP\Files\Node\File {
 
 	/**
 	 * @param string $data
-	 * @throws \OC\Files\NotPermittedException
+	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function putContent($data) {
 		if ($this->checkPermissions(\OCP\PERMISSION_UPDATE)) {
@@ -50,7 +50,7 @@ class File extends Node implements \OCP\Files\Node\File {
 	/**
 	 * @param string $mode
 	 * @return resource
-	 * @throws \OC\Files\NotPermittedException
+	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function fopen($mode) {
 		$preHooks = array();
@@ -101,7 +101,7 @@ class File extends Node implements \OCP\Files\Node\File {
 
 	/**
 	 * @param string $targetPath
-	 * @throws \OC\Files\NotPermittedException
+	 * @throws \OCP\Files\NotPermittedException
 	 * @return \OC\Files\Node\Node
 	 */
 	public function copy($targetPath) {
@@ -123,7 +123,7 @@ class File extends Node implements \OCP\Files\Node\File {
 
 	/**
 	 * @param string $targetPath
-	 * @throws \OC\Files\NotPermittedException
+	 * @throws \OCP\Files\NotPermittedException
 	 * @return \OC\Files\Node\Node
 	 */
 	public function move($targetPath) {
