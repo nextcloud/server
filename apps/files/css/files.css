@@ -348,7 +348,7 @@ table.dragshadow td.size {
 	margin-right: 3px;
 }
 .oc-dialog .fileexists th:first-child {
-	width: 235px;
+	width: 230px;
 }
 .oc-dialog .fileexists th label {
 	font-weight: normal;
@@ -367,6 +367,7 @@ table.dragshadow td.size {
 .oc-dialog .fileexists .conflict .filename {
 	color:#777;
 	word-break: break-all;
+	clear: left;
 }
 .oc-dialog .fileexists .icon {
 	width: 64px;
@@ -379,15 +380,11 @@ table.dragshadow td.size {
 
 .oc-dialog .fileexists .replacement {
 	float: left;
-	width: 235px;
+	width: 230px;
 }
 .oc-dialog .fileexists .original {
 	float: left;
-	width: 235px;
-}
-html.lte9 .oc-dialog .fileexists .original {
-	float: left;
-	width: 225px;
+	width: 230px;
 }
 .oc-dialog .fileexists .conflicts {
 	overflow-y:scroll;
