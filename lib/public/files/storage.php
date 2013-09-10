@@ -6,14 +6,14 @@
  * See the COPYING-README file.
  */
 
-namespace OC\Files\Storage;
+namespace OCP\Files;
 
 /**
  * Provide a common interface to all different storage options
  *
  * All paths passed to the storage are relative to the storage and should NOT have a leading slash.
  */
-interface Storage extends \OCP\Files\Storage {
+interface Storage {
 	/**
 	 * $parameters is a free form array with the configuration options needed to construct the storage
 	 *
@@ -223,7 +223,7 @@ interface Storage extends \OCP\Files\Storage {
 	public function getMimeType($path);
 
 	/**
-	 * see http://php.net/manual/en/function.hash.php
+	 * see http://php.net/manual/en/function.hash-file.php
 	 *
 	 * @param string $type
 	 * @param string $path

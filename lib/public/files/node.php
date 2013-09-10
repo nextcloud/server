@@ -43,7 +43,7 @@ interface Node {
 	/**
 	 * Get the storage backend the file or folder is stored on
 	 *
-	 * @return \OC\Files\Storage\Storage
+	 * @return \OCP\Files\Storage
 	 * @throws \OCP\Files\NotFoundException
 	 */
 	public function getStorage();
