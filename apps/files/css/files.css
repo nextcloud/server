@@ -190,10 +190,15 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 #fileList tr:hover td.filename>input[type="checkbox"]:first-child,
 #fileList tr td.filename>input[type="checkbox"]:checked:first-child,
 #fileList tr.selected td.filename>input[type="checkbox"]:first-child {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-	filter: alpha(opacity=100);
 	opacity: 1;
 }
+.lte9 #fileList tr:hover td.filename>input[type="checkbox"]:first-child,
+.lte9 #fileList tr td.filename>input[type="checkbox"][checked=checked]:first-child,
+.lte9 #fileList tr.selected td.filename>input[type="checkbox"]:first-child {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+}
+
 /* Use label to have bigger clickable size for checkbox */
 #fileList tr td.filename>input[type="checkbox"] + label,
 #select_all + label {
