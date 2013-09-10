@@ -69,9 +69,11 @@ class OC_Cache_FileGlobal{
 		$prefix = $this->fixKey($prefix);
 		if($cache_dir and is_dir($cache_dir)) {
 			$dh=opendir($cache_dir);
-			while (($file = readdir($dh)) !== false) {
-				if($file!='.' and $file!='..' and ($prefix==='' || strpos($file, $prefix) === 0)) {
-					unlink($cache_dir.$file);
+			if(is_resource($dh)) {
+				while (($file = readdir($dh)) !== false) {
+					if($file!='.' and $file!='..' and ($prefix==='' || strpos($file, $prefix) === 0)) {
+						unlink($cache_dir.$file);
+					}
 				}
 			}
 		}
@@ -88,11 +90,13 @@ class OC_Cache_FileGlobal{
 		$cache_dir = self::getCacheDir();
 		if($cache_dir and is_dir($cache_dir)) {
 			$dh=opendir($cache_dir);
-			while (($file = readdir($dh)) !== false) {
-				if($file!='.' and $file!='..') {
-					$mtime = filemtime($cache_dir.$file);
-					if ($mtime < $now) {
-						unlink($cache_dir.$file);
+			if(is_resource($dh)) {
+				while (($file = readdir($dh)) !== false) {
+					if($file!='.' and $file!='..') {
+						$mtime = filemtime($cache_dir.$file);
+						if ($mtime < $now) {
+							unlink($cache_dir.$file);
+						}
 					}
 				}
 			}

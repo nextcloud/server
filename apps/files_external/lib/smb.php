@@ -89,11 +89,13 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 	private function shareMTime() {
 		$dh=$this->opendir('');
 		$lastCtime=0;
-		while (($file = readdir($dh)) !== false) {
-			if ($file!='.' and $file!='..') {
-				$ctime=$this->filemtime($file);
-				if ($ctime>$lastCtime) {
-					$lastCtime=$ctime;
+		if(is_resource($dh)) {
+			while (($file = readdir($dh)) !== false) {
+				if ($file!='.' and $file!='..') {
+					$ctime=$this->filemtime($file);
+					if ($ctime>$lastCtime) {
+						$lastCtime=$ctime;
+					}
 				}
 			}
 		}

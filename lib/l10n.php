@@ -218,8 +218,11 @@ class OC_L10N{
 			case 'date':
 			case 'datetime':
 			case 'time':
-				if($data instanceof DateTime) return $data->format($this->localizations[$type]);
-				elseif(is_string($data)) $data = strtotime($data);
+				if($data instanceof DateTime) {
+					return $data->format($this->localizations[$type]);
+				} elseif(is_string($data) && !is_numeric($data)) {
+					$data = strtotime($data);
+				}
 				$locales = array(self::findLanguage());
 				if (strlen($locales[0]) == 2) {
 					$locales[] = $locales[0].'_'.strtoupper($locales[0]);

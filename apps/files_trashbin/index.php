@@ -23,22 +23,24 @@ if ($dir) {
 	$dirlisting = true;
 	$dirContent = $view->opendir($dir);
 	$i = 0;
-	while(($entryName = readdir($dirContent)) !== false) {
-		if ( $entryName != '.' && $entryName != '..' ) {
-			$pos = strpos($dir.'/', '/', 1);
-			$tmp = substr($dir, 0, $pos);
-			$pos = strrpos($tmp, '.d');
-			$timestamp = substr($tmp, $pos+2);
-			$result[] = array(
-					'id' => $entryName,
-					'timestamp' => $timestamp,
-					'mime' =>  $view->getMimeType($dir.'/'.$entryName),
-					'type' => $view->is_dir($dir.'/'.$entryName) ? 'dir' : 'file',
-					'location' => $dir,
-					);
+	if(is_resource($dirContent)) {
+		while(($entryName = readdir($dirContent)) !== false) {
+			if ( $entryName != '.' && $entryName != '..' ) {
+				$pos = strpos($dir.'/', '/', 1);
+				$tmp = substr($dir, 0, $pos);
+				$pos = strrpos($tmp, '.d');
+				$timestamp = substr($tmp, $pos+2);
+				$result[] = array(
+						'id' => $entryName,
+						'timestamp' => $timestamp,
+						'mime' =>  $view->getMimeType($dir.'/'.$entryName),
+						'type' => $view->is_dir($dir.'/'.$entryName) ? 'dir' : 'file',
+						'location' => $dir,
+						);
+			}
 		}
+		closedir($dirContent);
 	}
-	closedir($dirContent);
 
 } else {
 	$dirlisting = false;

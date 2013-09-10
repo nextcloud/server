@@ -333,7 +333,10 @@ $(document).ready(function() {
 	  }
 	  var li=form.parent();
 	  form.remove();
-	  li.append('<p>'+li.data('text')+'</p>');
+		/* workaround for IE 9&10 click event trap, 2 lines: */
+		$('input').first().focus();
+		$('#content').focus();
+		li.append('<p>'+li.data('text')+'</p>');
 	  $('#new>a').click();
 	});
   });
