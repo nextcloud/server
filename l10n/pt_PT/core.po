@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-07 04:40-0400\n"
-"PO-Revision-Date: 2013-09-05 11:50+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-10 10:41-0400\n"
+"PO-Revision-Date: 2013-09-10 08:50+0000\n"
+"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,15 +32,15 @@ msgstr "grupo"
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "Activado o modo de manutenção"
 
 #: ajax/update.php:14
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "Desactivado o modo de manutenção"
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr ""
+msgstr "Base de dados actualizada"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
@@ -53,7 +53,7 @@ msgstr ""
 #: ajax/update.php:26
 #, php-format
 msgid "... %d%% done ..."
-msgstr ""
+msgstr "... %d%% feito ..."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -181,14 +181,14 @@ msgstr "Minutos atrás"
 #: js/js.js:822
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n minuto atrás"
+msgstr[1] "%n minutos atrás"
 
 #: js/js.js:823
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n hora atrás"
+msgstr[1] "%n horas atrás"
 
 #: js/js.js:824
 msgid "today"
@@ -201,8 +201,8 @@ msgstr "ontem"
 #: js/js.js:826
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n dia atrás"
+msgstr[1] "%n dias atrás"
 
 #: js/js.js:827
 msgid "last month"
@@ -211,8 +211,8 @@ msgstr "ultímo mês"
 #: js/js.js:828
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n mês atrás"
+msgstr[1] "%n meses atrás"
 
 #: js/js.js:829
 msgid "months ago"

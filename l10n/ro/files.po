@@ -4,15 +4,16 @@
 # 
 # Translators:
 # dimaursu16 <dima@ceata.org>, 2013
+# inaina <ina.c.ina@gmail.com>, 2013
 # ripkid666 <ripkid666@gmail.com>, 2013
 # sergiu_sechel <sergiu.sechel@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-01 13:27-0400\n"
-"PO-Revision-Date: 2013-08-30 13:50+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-10 10:41-0400\n"
+"PO-Revision-Date: 2013-09-10 14:41+0000\n"
+"Last-Translator: inaina <ina.c.ina@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -49,7 +50,7 @@ msgstr "Nu a apărut nici o eroare, fișierul a fost încărcat cu succes"
 #: ajax/upload.php:67
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-msgstr "Fisierul incarcat depaseste upload_max_filesize permisi in php.ini: "
+msgstr "Fisierul incarcat depaseste marimea maxima permisa in php.ini: "
 
 #: ajax/upload.php:69
 msgid ""
@@ -67,11 +68,11 @@ msgstr "Nu a fost încărcat nici un fișier"
 
 #: ajax/upload.php:72
 msgid "Missing a temporary folder"
-msgstr "Lipsește un director temporar"
+msgstr "Lipsește un dosar temporar"
 
 #: ajax/upload.php:73
 msgid "Failed to write to disk"
-msgstr "Eroare la scriere pe disc"
+msgstr "Eroare la scrierea discului"
 
 #: ajax/upload.php:91
 msgid "Not enough storage available"
@@ -83,7 +84,7 @@ msgstr "Încărcarea a eșuat"
 
 #: ajax/upload.php:127
 msgid "Invalid directory."
-msgstr "Director invalid."
+msgstr "registru invalid."
 
 #: appinfo/app.php:12
 msgid "Files"
@@ -91,7 +92,7 @@ msgstr "Fișiere"
 
 #: js/file-upload.js:11
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Nu s-a putut încărca fișierul tău deoarece pare să fie un director sau are 0 bytes."
+msgstr "lista nu se poate incarca poate fi un fisier sau are 0 bytes"
 
 #: js/file-upload.js:24
 msgid "Not enough space available"
@@ -108,7 +109,7 @@ msgstr "Fișierul este în curs de încărcare. Părăsirea paginii va întrerup
 
 #: js/file-upload.js:239
 msgid "URL cannot be empty."
-msgstr "Adresa URL nu poate fi goală."
+msgstr "Adresa URL nu poate fi golita"
 
 #: js/file-upload.js:244 lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
@@ -120,7 +121,7 @@ msgstr "Eroare"
 
 #: js/fileactions.js:116
 msgid "Share"
-msgstr "Partajează"
+msgstr "a imparti"
 
 #: js/fileactions.js:126
 msgid "Delete permanently"
@@ -132,7 +133,7 @@ msgstr "Redenumire"
 
 #: js/filelist.js:50 js/filelist.js:53 js/filelist.js:575
 msgid "Pending"
-msgstr "În așteptare"
+msgstr "in timpul"
 
 #: js/filelist.js:307 js/filelist.js:309
 msgid "{new_name} already exists"
@@ -199,27 +200,27 @@ msgstr "Numele fișierului nu poate rămâne gol."
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr "Nume invalid, '\\', '/', '<', '>', ':', '\"', '|', '?' si '*' nu sunt permise."
+msgstr "Nume invalide, '\\', '/', '<', '>', ':', '\"', '|', '?' si '*' nu sunt permise."
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr "Spatiul de stocare este plin, nu mai puteti incarca s-au sincroniza alte fisiere."
+msgstr "Spatiul de stocare este plin, fisierele nu mai pot fi actualizate sau sincronizate"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr "Spatiul de stocare este aproape plin ({usedSpacePercent}%)"
+msgstr "Spatiul de stocare este aproape plin {spatiu folosit}%"
 
 #: js/files.js:94
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
-msgstr ""
+msgstr "criptarea a fost disactivata dar fisierele sant inca criptate.va rog intrati in setarile personale pentru a decripta fisierele"
 
 #: js/files.js:245
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr "Se pregătește descărcarea. Aceasta poate să dureze ceva timp dacă fișierele sunt mari."
+msgstr "in curs de descarcare. Aceasta poate să dureze ceva timp dacă fișierele sunt mari."
 
 #: js/files.js:563 templates/index.php:69
 msgid "Name"
@@ -256,11 +257,11 @@ msgstr "max. posibil:"
 
 #: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
-msgstr "Necesar pentru descărcarea mai multor fișiere și a dosarelor"
+msgstr "necesar la descarcarea mai multor liste si fisiere"
 
 #: templates/admin.php:17
 msgid "Enable ZIP-download"
-msgstr "Activează descărcare fișiere compresate"
+msgstr "permite descarcarea codurilor ZIP"
 
 #: templates/admin.php:20
 msgid "0 is unlimited"
@@ -280,7 +281,7 @@ msgstr "Nou"
 
 #: templates/index.php:10
 msgid "Text file"
-msgstr "Fișier text"
+msgstr "lista"
 
 #: templates/index.php:12
 msgid "Folder"
@@ -300,7 +301,7 @@ msgstr "Anulează încărcarea"
 
 #: templates/index.php:52
 msgid "You don’t have write permissions here."
-msgstr "Nu ai permisiunea de a sterge fisiere aici."
+msgstr "Nu ai permisiunea de a scrie aici."
 
 #: templates/index.php:59
 msgid "Nothing in here. Upload something!"
@@ -312,7 +313,7 @@ msgstr "Descarcă"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr "Anulare partajare"
+msgstr "Anulare"
 
 #: templates/index.php:94 templates/index.php:95
 msgid "Delete"
@@ -330,7 +331,7 @@ msgstr "Fișierul care l-ai încărcat a depășită limita maximă admisă la �
 
 #: templates/index.php:115
 msgid "Files are being scanned, please wait."
-msgstr "Fișierele sunt scanate, te rog așteptă."
+msgstr "Fișierele sunt scanate, asteptati va rog"
 
 #: templates/index.php:118
 msgid "Current scanning"
