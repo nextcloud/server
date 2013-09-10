@@ -180,5 +180,3 @@ class RODSException extends Exception
     }
 
 }
-
-?>

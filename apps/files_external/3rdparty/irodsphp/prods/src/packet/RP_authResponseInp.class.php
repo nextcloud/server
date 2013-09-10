@@ -10,5 +10,3 @@ class RP_authResponseInp extends RODSPacket
     }
 
 }
-
-?>

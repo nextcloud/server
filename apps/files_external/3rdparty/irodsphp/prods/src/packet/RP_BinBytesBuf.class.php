@@ -10,5 +10,3 @@ class RP_BinBytesBuf extends RODSPacket
     }
 
 }
-
-?>

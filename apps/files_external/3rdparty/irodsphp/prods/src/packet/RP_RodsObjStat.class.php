@@ -16,5 +16,3 @@ class RP_RodsObjStat extends RODSPacket
     }
 
 }
-
-?>

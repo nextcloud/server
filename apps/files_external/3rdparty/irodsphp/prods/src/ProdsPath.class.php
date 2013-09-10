@@ -279,5 +279,3 @@ abstract class ProdsPath
     }
 
 }
-
-?>
