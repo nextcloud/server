@@ -8,22 +8,21 @@
 
 namespace OCP\Files;
 
-use OC\Files\Cache\Cache;
-use OC\Files\Cache\Scanner;
-use OC\Files\NotFoundException;
-use OC\Files\NotPermittedException;
-
 interface Folder extends Node {
 	/**
-	 * @param string $path path relative to the folder
+	 * Get the full path of an item in the folder within owncloud's filesystem
+	 *
+	 * @param string $path relative path of an item in the folder
 	 * @return string
-	 * @throws \OC\Files\NotPermittedException
+	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function getFullPath($path);
 
 	/**
-	 * @param string $path
-	 * @throws \OC\Files\NotFoundException
+	 * Get the path of an item in the folder relative to the folder
+	 *
+	 * @param string $path absolute path of an item in the folder
+	 * @throws \OCP\Files\NotFoundException
 	 * @return string
 	 */
 	public function getRelativePath($path);
@@ -39,7 +38,7 @@ interface Folder extends Node {
 	/**
 	 * get the content of this directory
 	 *
-	 * @throws \OC\Files\NotFoundException
+	 * @throws \OCP\Files\NotFoundException
 	 * @return \OCP\Files\Node[]
 	 */
 	public function getDirectoryListing();
@@ -47,29 +46,35 @@ interface Folder extends Node {
 	/**
 	 * Get the node at $path
 	 *
-	 * @param string $path
+	 * @param string $path relative path of the file or folder
 	 * @return \OCP\Files\Node
-	 * @throws \OC\Files\NotFoundException
+	 * @throws \OCP\Files\NotFoundException
 	 */
 	public function get($path);
 
 	/**
-	 * @param string $path
+	 * Check if a file or folder exists in the folder
+	 *
+	 * @param string $path relative path of the file or folder
 	 * @return bool
 	 */
 	public function nodeExists($path);
 
 	/**
-	 * @param string $path
+	 * Create a new folder
+	 *
+	 * @param string $path relative path of the new folder
 	 * @return \OCP\Files\Folder
-	 * @throws NotPermittedException
+	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function newFolder($path);
 
 	/**
-	 * @param string $path
+	 * Create a new file
+	 *
+	 * @param string $path relative path of the new file
 	 * @return \OCP\Files\File
-	 * @throws NotPermittedException
+	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function newFile($path);
 
@@ -83,6 +88,7 @@ interface Folder extends Node {
 
 	/**
 	 * search for files by mimetype
+	 * $mimetype can either be a full mimetype (image/png) or a wildcard mimetype (image)
 	 *
 	 * @param string $mimetype
 	 * @return \OCP\Files\Node[]
@@ -90,14 +96,23 @@ interface Folder extends Node {
 	public function searchByMime($mimetype);
 
 	/**
-	 * @param $id
+	 * get a file or folder inside the folder by it's internal id
+	 *
+	 * @param int $id
 	 * @return \OCP\Files\Node[]
 	 */
 	public function getById($id);
 
+	/**
+	 * Get the amount of free space inside the folder
+	 *
+	 * @return int
+	 */
 	public function getFreeSpace();
 
 	/**
+	 * Check if new files or folders can be created within the folder
+	 *
 	 * @return bool
 	 */
 	public function isCreatable();
