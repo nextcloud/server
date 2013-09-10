@@ -66,5 +66,3 @@ $outputstr = $outputstr . ");\n";
 
 $outputstr = $outputstr . "?>\n";
 file_put_contents($prods_api_num_file, $outputstr);
-
-?>  

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-05 07:36-0400\n"
-"PO-Revision-Date: 2013-09-03 18:30+0000\n"
+"POT-Creation-Date: 2013-09-07 04:40-0400\n"
+"PO-Revision-Date: 2013-09-05 18:41+0000\n"
 "Last-Translator: Korrosivo <yo@rubendelcampo.es>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -181,7 +181,7 @@ msgstr "%s ingresar el nombre de la base de datos"
 #: setup/abstractdatabase.php:28
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr "%s no se puede utilizar puntos en el nombre de la base de datos"
+msgstr "%s puede utilizar puntos en el nombre de la base de datos"
 
 #: setup/mssql.php:20
 #, php-format

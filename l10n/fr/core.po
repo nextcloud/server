@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-03 07:43-0400\n"
-"PO-Revision-Date: 2013-09-03 09:30+0000\n"
+"POT-Creation-Date: 2013-09-07 04:40-0400\n"
+"PO-Revision-Date: 2013-09-05 11:51+0000\n"
 "Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -175,55 +175,55 @@ msgstr "décembre"
 msgid "Settings"
 msgstr "Paramètres"
 
-#: js/js.js:812
+#: js/js.js:821
 msgid "seconds ago"
 msgstr "il y a quelques secondes"
 
-#: js/js.js:813
+#: js/js.js:822
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "il y a %n minute"
 msgstr[1] "il y a %n minutes"
 
-#: js/js.js:814
+#: js/js.js:823
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "Il y a %n heure"
 msgstr[1] "Il y a %n heures"
 
-#: js/js.js:815
+#: js/js.js:824
 msgid "today"
 msgstr "aujourd'hui"
 
-#: js/js.js:816
+#: js/js.js:825
 msgid "yesterday"
 msgstr "hier"
 
-#: js/js.js:817
+#: js/js.js:826
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "il y a %n jour"
 msgstr[1] "il y a %n jours"
 
-#: js/js.js:818
+#: js/js.js:827
 msgid "last month"
 msgstr "le mois dernier"
 
-#: js/js.js:819
+#: js/js.js:828
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "Il y a %n mois"
 msgstr[1] "Il y a %n mois"
 
-#: js/js.js:820
+#: js/js.js:829
 msgid "months ago"
 msgstr "il y a plusieurs mois"
 
-#: js/js.js:821
+#: js/js.js:830
 msgid "last year"
 msgstr "l'année dernière"
 
-#: js/js.js:822
+#: js/js.js:831
 msgid "years ago"
 msgstr "il y a plusieurs années"
 
@@ -407,7 +407,7 @@ msgstr "La mise à jour a échoué. Veuillez signaler ce problème à la <a href
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "La mise à jour a réussi. Vous êtes redirigé maintenant vers ownCloud."
 
-#: lostpassword/controller.php:61
+#: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
 msgstr "Réinitialisation de votre mot de passe %s"

@@ -10,5 +10,3 @@ class RP_getTempPasswordOut extends RODSPacket
     }
 
 }
-
-?>
