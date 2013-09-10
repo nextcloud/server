@@ -396,7 +396,7 @@ class Connection extends LDAPUtility {
 	public function saveConfiguration() {
 		$trans = array_flip($this->getConfigTranslationArray());
 		foreach($this->config as $key => $value) {
-			\OCP\Util::writeLog('user_ldap', 'LDAP: storing key '.$key.' value '.$value, \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('user_ldap', 'LDAP: storing key '.$key.' value '.print_r($value, true), \OCP\Util::DEBUG);
 			switch ($key) {
 				case 'ldapAgentPassword':
 					$value = base64_encode($value);
@@ -440,6 +440,11 @@ class Connection extends LDAPUtility {
 				} else {
 					$config[$dbKey] = '';
 				}
+				continue;
+			} else if((strpos($classKey, 'ldapBase') !== false
+						|| strpos($classKey, 'ldapAttributes') !== false)
+						&& is_array($this->config[$classKey])) {
+				$config[$dbKey] = implode("\n", $this->config[$classKey]);
 				continue;
 			}
 			$config[$dbKey] = $this->config[$classKey];
