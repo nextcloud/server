@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud – LDAP BackendBase
+ * ownCloud – LDAP LDAPUtility
  *
  * @author Arthur Schiwon
  * @copyright 2013 Arthur Schiwon blizzz@owncloud.com
@@ -23,24 +23,14 @@
 
 namespace OCA\user_ldap\lib;
 
-abstract class BackendBase {
+abstract class LDAPUtility {
 	protected $ldap;
 
-	public function __construct() {
-		$this->ldap = new LDAP();
-	}
-
 	/**
-	 * @brief sets the LDAP Wrapper to be used
-	 *
-	 * @param $ldapWrapper an instance of the Wrapper
-	 * @return true on success, otherwise false
-	 *
-	 * The LDAP Wrapper must implement the PHP LDAP functions, which are used
-	 * in the LDAP backend
+	 * @brief constructor, make sure the subclasses call this one!
+	 * @param $ldapWrapper an instance of an ILDAPWrapper
 	 */
-	public function setLDAPWrapper(ILDAPWrapper $ldapWrapper) {
+	public function __construct(ILDAPWrapper $ldapWrapper) {
 		$this->ldap = $ldapWrapper;
-		return true;
 	}
 }

@@ -149,6 +149,8 @@ class LDAP implements ILDAPWrapper {
 						  && $errorCode === -4) {
 				} else if ($errorCode === 32) {
 					//for now
+				} else if ($errorCode === 10) {
+					//referrals, we switch them off, but then there is AD :)
 				} else {
 					throw new \Exception('LDAP error '.$errorMsg.' (' .
 						$errorCode.') after calling '.$this->curFunc.

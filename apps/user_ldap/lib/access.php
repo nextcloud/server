@@ -23,12 +23,13 @@
 
 namespace OCA\user_ldap\lib;
 
-abstract class Access extends BackendBase {
-	protected $connection;
+class Access extends LDAPUtility {
+	public $connection;
 	//never ever check this var directly, always use getPagedSearchResultState
 	protected $pagedSearchedSuccessful;
 
-	public function setConnector(Connection &$connection) {
+	public function __construct(Connection $connection, ILDAPWrapper $ldap) {
+		parent::__construct($ldap);
 		$this->connection = $connection;
 	}
 

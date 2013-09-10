@@ -23,7 +23,7 @@
 
 namespace OCA\user_ldap\lib;
 
-class Connection extends BackendBase {
+class Connection extends LDAPUtility {
 	private $ldapConnectionRes = null;
 	private $configPrefix;
 	private $configID;
@@ -60,7 +60,7 @@ class Connection extends BackendBase {
 		'ldapQuotaDefault' => null,
 		'ldapEmailAttribute' => null,
 		'ldapCacheTTL' => null,
-		'ldapUuidAttribute' => null,
+		'ldapUuidAttribute' => 'auto',
 		'ldapOverrideUuidAttribute' => null,
 		'ldapOverrideMainServer' => false,
 		'ldapConfigurationActive' => false,
@@ -77,8 +77,8 @@ class Connection extends BackendBase {
 	 * @param $configPrefix a string with the prefix for the configkey column (appconfig table)
 	 * @param $configID a string with the value for the appid column (appconfig table) or null for on-the-fly connections
 	 */
-	public function __construct($configPrefix = '', $configID = 'user_ldap') {
-		parent::__construct();
+	public function __construct(ILDAPWrapper $ldap, $configPrefix = '', $configID = 'user_ldap') {
+		parent::__construct($ldap);
 		$this->configPrefix = $configPrefix;
 		$this->configID = $configID;
 		$memcache = new \OC\Memcache\Factory();
@@ -363,6 +363,14 @@ class Connection extends BackendBase {
 					&& $params[$parameter] === 'homeFolderNamingRule'))
 				&& !empty($value)) {
 				$value = 'attr:'.$value;
+			} else if (strpos($parameter, 'ldapBase') !== false
+				|| (isset($params[$parameter])
+					&& strpos($params[$parameter], 'ldapBase') !== false)) {
+				$this->readBase($params[$parameter], $value);
+				if(is_array($setParameters)) {
+					$setParameters[] = $parameter;
+				}
+				continue;
 			}
 		    if(isset($this->config[$parameter])) {
 				$this->config[$parameter] = $value;
@@ -432,10 +440,6 @@ class Connection extends BackendBase {
 				} else {
 					$config[$dbKey] = '';
 				}
-				continue;
-			} else if((strpos($classKey, 'ldapBase') !== false)
-					|| (strpos($classKey, 'ldapAttributes') !== false)) {
-				$config[$dbKey] = implode("\n", $this->config[$classKey]);
 				continue;
 			}
 			$config[$dbKey] = $this->config[$classKey];
@@ -553,7 +557,7 @@ class Connection extends BackendBase {
 	 * @returns an associative array with the default values. Keys are correspond
 	 * to config-value entries in the database table
 	 */
-	public function getDefaults() {
+	static public function getDefaults() {
 		return array(
 			'ldap_host'                         => '',
 			'ldap_port'                         => '389',
