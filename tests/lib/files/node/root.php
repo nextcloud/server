@@ -9,7 +9,7 @@
 namespace Test\Files\Node;
 
 use OC\Files\Cache\Cache;
-use OC\Files\NotPermittedException;
+use OCP\Files\NotPermittedException;
 use OC\Files\Mount\Manager;
 
 class Root extends \PHPUnit_Framework_TestCase {
@@ -53,7 +53,7 @@ class Root extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\Files\NotFoundException
+	 * @expectedException \OCP\Files\NotFoundException
 	 */
 	public function testGetNotFound() {
 		$manager = new Manager();
@@ -77,7 +77,7 @@ class Root extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\Files\NotPermittedException
+	 * @expectedException \OCP\Files\NotPermittedException
 	 */
 	public function testGetInvalidPath() {
 		$manager = new Manager();
@@ -91,7 +91,7 @@ class Root extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\Files\NotFoundException
+	 * @expectedException \OCP\Files\NotFoundException
 	 */
 	public function testGetNoStorages() {
 		$manager = new Manager();

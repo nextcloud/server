@@ -10,8 +10,8 @@ namespace Test\Files\Node;
 
 use OC\Files\Cache\Cache;
 use OC\Files\Node\Node;
-use OC\Files\NotFoundException;
-use OC\Files\NotPermittedException;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OC\Files\View;
 
 class Folder extends \PHPUnit_Framework_TestCase {
@@ -103,7 +103,7 @@ class Folder extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\Files\NotPermittedException
+	 * @expectedException \OCP\Files\NotPermittedException
 	 */
 	public function testDeleteNotPermitted() {
 		$manager = $this->getMock('\OC\Files\Mount\Manager');
@@ -275,7 +275,7 @@ class Folder extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\Files\NotPermittedException
+	 * @expectedException \OCP\Files\NotPermittedException
 	 */
 	public function testNewFolderNotPermitted() {
 		$manager = $this->getMock('\OC\Files\Mount\Manager');
@@ -325,7 +325,7 @@ class Folder extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\Files\NotPermittedException
+	 * @expectedException \OCP\Files\NotPermittedException
 	 */
 	public function testNewFileNotPermitted() {
 		$manager = $this->getMock('\OC\Files\Mount\Manager');

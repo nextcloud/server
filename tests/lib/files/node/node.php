@@ -306,7 +306,7 @@ class Node extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\Files\NotPermittedException
+	 * @expectedException \OCP\Files\NotPermittedException
 	 */
 	public function testTouchNotPermitted() {
 		$manager = $this->getMock('\OC\Files\Mount\Manager');

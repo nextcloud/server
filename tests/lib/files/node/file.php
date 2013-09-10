@@ -8,8 +8,8 @@
 
 namespace Test\Files\Node;
 
-use OC\Files\NotFoundException;
-use OC\Files\NotPermittedException;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OC\Files\View;
 
 class File extends \PHPUnit_Framework_TestCase {
@@ -106,7 +106,7 @@ class File extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\Files\NotPermittedException
+	 * @expectedException \OCP\Files\NotPermittedException
 	 */
 	public function testDeleteNotPermitted() {
 		$manager = $this->getMock('\OC\Files\Mount\Manager');
@@ -162,7 +162,7 @@ class File extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\Files\NotPermittedException
+	 * @expectedException \OCP\Files\NotPermittedException
 	 */
 	public function testGetContentNotPermitted() {
 		$manager = $this->getMock('\OC\Files\Mount\Manager');
@@ -212,7 +212,7 @@ class File extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\Files\NotPermittedException
+	 * @expectedException \OCP\Files\NotPermittedException
 	 */
 	public function testPutContentNotPermitted() {
 		$manager = $this->getMock('\OC\Files\Mount\Manager');
@@ -327,7 +327,7 @@ class File extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\Files\NotPermittedException
+	 * @expectedException \OCP\Files\NotPermittedException
 	 */
 	public function testFOpenReadNotPermitted() {
 		/**
@@ -354,7 +354,7 @@ class File extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\Files\NotPermittedException
+	 * @expectedException \OCP\Files\NotPermittedException
 	 */
 	public function testFOpenReadWriteNoReadPermissions() {
 		/**
@@ -381,7 +381,7 @@ class File extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\Files\NotPermittedException
+	 * @expectedException \OCP\Files\NotPermittedException
 	 */
 	public function testFOpenReadWriteNoWritePermissions() {
 		/**
@@ -443,7 +443,7 @@ class File extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\Files\NotPermittedException
+	 * @expectedException \OCP\Files\NotPermittedException
 	 */
 	public function testCopyNotPermitted() {
 		/**
@@ -483,7 +483,7 @@ class File extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\Files\NotFoundException
+	 * @expectedException \OCP\Files\NotFoundException
 	 */
 	public function testCopyNoParent() {
 		/**
@@ -510,7 +510,7 @@ class File extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\Files\NotPermittedException
+	 * @expectedException \OCP\Files\NotPermittedException
 	 */
 	public function testCopyParentIsFile() {
 		/**
@@ -571,7 +571,7 @@ class File extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\Files\NotPermittedException
+	 * @expectedException \OCP\Files\NotPermittedException
 	 */
 	public function testMoveNotPermitted() {
 		/**
@@ -603,7 +603,7 @@ class File extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\Files\NotFoundException
+	 * @expectedException \OCP\Files\NotFoundException
 	 */
 	public function testMoveNoParent() {
 		/**
@@ -635,7 +635,7 @@ class File extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\Files\NotPermittedException
+	 * @expectedException \OCP\Files\NotPermittedException
 	 */
 	public function testMoveParentIsFile() {
 		/**
