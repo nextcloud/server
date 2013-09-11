@@ -79,7 +79,8 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	 */
 	public function checkPassword($uid, $password) {
 		//find out dn of the user name
-		$filter = \OCP\Util::mb_str_replace('%uid', $uid, $this->access->connection->ldapLoginFilter, 'UTF-8');
+		$filter = \OCP\Util::mb_str_replace(
+			'%uid', $uid, $this->access->connection->ldapLoginFilter, 'UTF-8');
 		$ldap_users = $this->access->fetchListOfUsers($filter, 'dn');
 		if(count($ldap_users) < 1) {
 			return false;
@@ -158,7 +159,8 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 		//getting dn, if false the user does not exist. If dn, he may be mapped only, requires more checking.
 		$dn = $this->access->username2dn($uid);
 		if(!$dn) {
-			\OCP\Util::writeLog('user_ldap', 'No DN found for '.$uid.' on '.$this->access->connection->ldapHost, \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('user_ldap', 'No DN found for '.$uid.' on '.
+				$this->access->connection->ldapHost, \OCP\Util::DEBUG);
 			$this->access->connection->writeToCache('userExists'.$uid, false);
 			return false;
 		}

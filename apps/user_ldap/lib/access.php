@@ -80,7 +80,8 @@ class Access extends LDAPUtility {
 			return false;
 		}
 		//LDAP attributes are not case sensitive
-		$result = \OCP\Util::mb_array_change_key_case($this->ldap->getAttributes($cr, $er), MB_CASE_LOWER, 'UTF-8');
+		$result = \OCP\Util::mb_array_change_key_case(
+				$this->ldap->getAttributes($cr, $er), MB_CASE_LOWER, 'UTF-8');
 		$attr = mb_strtolower($attr, 'UTF-8');
 
 		if(isset($result[$attr]) && $result[$attr]['count'] > 0) {
@@ -669,7 +670,8 @@ class Access extends LDAPUtility {
 		$error = $this->ldap->errno($link_resource);
 		if(!is_array($sr) || $error !== 0) {
 			\OCP\Util::writeLog('user_ldap',
-				'Error when searching: '.$this->ldap->error($link_resource).' code '.$this->ldap->errno($link_resource),
+				'Error when searching: '.$this->ldap->error($link_resource).
+					' code '.$this->ldap->errno($link_resource),
 				\OCP\Util::ERROR);
 			\OCP\Util::writeLog('user_ldap', 'Attempt for Paging?  '.print_r($pagedSearchOK, true), \OCP\Util::ERROR);
 			return array();

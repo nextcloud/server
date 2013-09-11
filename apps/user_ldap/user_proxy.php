@@ -36,7 +36,8 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	public function __construct($serverConfigPrefixes, ILDAPWrapper $ldap) {
 		parent::__construct($ldap);
 		foreach($serverConfigPrefixes as $configPrefix) {
-		    $this->backends[$configPrefix] = new \OCA\user_ldap\USER_LDAP($this->getAccess($configPrefix));
+		    $this->backends[$configPrefix] =
+				new \OCA\user_ldap\USER_LDAP($this->getAccess($configPrefix));
 			if(is_null($this->refBackend)) {
 				$this->refBackend = &$this->backends[$configPrefix];
 			}

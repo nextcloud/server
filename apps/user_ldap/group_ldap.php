@@ -61,7 +61,8 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			return false;
 		}
 		//usually, LDAP attributes are said to be case insensitive. But there are exceptions of course.
-		$members = $this->access->readAttribute($dn_group, $this->access->connection->ldapGroupMemberAssocAttr);
+		$members = $this->access->readAttribute($dn_group,
+						$this->access->connection->ldapGroupMemberAssocAttr);
 		if(!$members) {
 			$this->access->connection->writeToCache('inGroup'.$uid.':'.$gid, false);
 			return false;
@@ -127,7 +128,8 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			$this->access->connection->ldapGroupFilter,
 			$this->access->connection->ldapGroupMemberAssocAttr.'='.$uid
 		));
-		$groups = $this->access->fetchListOfGroups($filter, array($this->access->connection->ldapGroupDisplayName, 'dn'));
+		$groups = $this->access->fetchListOfGroups($filter,
+				array($this->access->connection->ldapGroupDisplayName, 'dn'));
 		$groups = array_unique($this->access->ownCloudGroupNames($groups), SORT_LOCALE_STRING);
 		$this->access->connection->writeToCache($cacheKey, $groups);
 
@@ -170,7 +172,8 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			return array();
 		}
 
-		$members = $this->access->readAttribute($groupDN, $this->access->connection->ldapGroupMemberAssocAttr);
+		$members = $this->access->readAttribute($groupDN,
+						$this->access->connection->ldapGroupMemberAssocAttr);
 		if(!$members) {
 			//in case users could not be retrieved, return empty resultset
 			$this->access->connection->writeToCache($cachekey, array());
@@ -263,8 +266,10 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			$this->access->getFilterPartForGroupSearch($search)
 		));
 		\OCP\Util::writeLog('user_ldap', 'getGroups Filter '.$filter, \OCP\Util::DEBUG);
-		$ldap_groups = $this->access->fetchListOfGroups($filter, array($this->access->connection->ldapGroupDisplayName, 'dn'),
-			$limit, $offset);
+		$ldap_groups = $this->access->fetchListOfGroups($filter,
+				array($this->access->connection->ldapGroupDisplayName, 'dn'),
+				$limit,
+				$offset);
 		$ldap_groups = $this->access->ownCloudGroupNames($ldap_groups);
 
 		$this->access->connection->writeToCache($cachekey, $ldap_groups);
@@ -285,7 +290,8 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			return $this->access->connection->getFromCache('groupExists'.$gid);
 		}
 
-		//getting dn, if false the group does not exist. If dn, it may be mapped only, requires more checking.
+		//getting dn, if false the group does not exist. If dn, it may be mapped
+		//only, requires more checking.
 		$dn = $this->access->groupname2dn($gid);
 		if(!$dn) {
 			$this->access->connection->writeToCache('groupExists'.$gid, false);
