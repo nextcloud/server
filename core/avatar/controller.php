@@ -32,6 +32,7 @@ class Controller {
 			\OC_Response::setETagHeader(crc32($image->data()));
 			$image->show();
 		} else {
+			// Signalizes $.avatar() to display a defaultavatar
 			\OC_JSON::success();
 		}
 	}
