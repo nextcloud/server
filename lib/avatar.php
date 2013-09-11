@@ -28,7 +28,7 @@ class OC_Avatar {
 	 * @return boolean|\OC_Image containing the avatar or false if there's no image
 	*/
 	public function get ($size = 64) {
-		if ($thus->view->file_exists('avatar.jpg')) {
+		if ($this->view->file_exists('avatar.jpg')) {
 			$ext = 'jpg';
 		} elseif ($this->view->file_exists('avatar.png')) {
 			$ext = 'png';
