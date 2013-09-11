@@ -22,26 +22,7 @@
 		<?php else: ?>
 		<td class="filename svg"
 		<?php endif; ?>
-		<?php if($file['type'] == 'dir'): ?>
-			style="background-image:url(<?php print_unescaped(OCP\mimetype_icon('dir')); ?>)"
-		<?php else: ?>
-			<?php if($_['isPublic']): ?>
-				<?php
-				$relativePath = substr($relativePath, strlen($_['sharingroot']));
-				?>
-				<?php if($file['isPreviewAvailable']): ?>
-				style="background-image:url(<?php print_unescaped(OCP\publicPreview_icon($relativePath, $_['sharingtoken'])); ?>)"
-				<?php else: ?>
-				style="background-image:url(<?php print_unescaped(OCP\mimetype_icon($file['mimetype'])); ?>)"
-				<?php endif; ?>
-			<?php else: ?>
-				<?php if($file['isPreviewAvailable']): ?>
-				style="background-image:url(<?php print_unescaped(OCP\preview_icon($relativePath)); ?>)"
-				<?php else: ?>
-				style="background-image:url(<?php print_unescaped(OCP\mimetype_icon($file['mimetype'])); ?>)"
-				<?php endif; ?>
-			<?php endif; ?>
-		<?php endif; ?>
+		    style="background-image:url(<?php print_unescaped($file['icon']); ?>)"
 			>
 		<?php if(!isset($_['readonly']) || !$_['readonly']): ?>
 			<input id="select-<?php p($file['fileid']); ?>" type="checkbox" />
