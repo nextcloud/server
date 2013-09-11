@@ -27,12 +27,12 @@ class iRODS extends \OC\Files\Storage\StreamWrapper{
 	private $auth_mode;
 
 	public function __construct($params) {
-		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
+		if (isset($params['host'])) {
 			$this->host = $params['host'];
-			$this->port = $params['port'];
-			$this->user = $params['user'];
-			$this->password = $params['password'];
-			$this->use_logon_credentials = $params['use_logon_credentials'];
+			$this->port = isset($params['port']) ? $params['port'] : 1247;
+			$this->user = isset($params['user']) ? $params['user'] : '';
+			$this->password = isset($params['password']) ? $params['password'] : '';
+			$this->use_logon_credentials = ($params['use_logon_credentials'] === 'true');
 			$this->zone = $params['zone'];
 			$this->auth_mode = isset($params['auth_mode']) ? $params['auth_mode'] : '';
 
@@ -42,10 +42,11 @@ class iRODS extends \OC\Files\Storage\StreamWrapper{
 			}
 
 			// take user and password from the session
-			if ($this->use_logon_credentials && isset($_SESSION['irods-credentials']) )
+			if ($this->use_logon_credentials && \OC::$session->exists('irods-credentials'))
 			{
-				$this->user = $_SESSION['irods-credentials']['uid'];
-				$this->password = $_SESSION['irods-credentials']['password'];
+				$params = \OC::$session->get('irods-credentials');
+				$this->user = $params['uid'];
+				$this->password = $params['password'];
 			}
 
 			//create the root folder if necessary
@@ -59,7 +60,7 @@ class iRODS extends \OC\Files\Storage\StreamWrapper{
 	}
 
 	public static function login( $params ) {
-		$_SESSION['irods-credentials'] = $params;
+		\OC::$session->set('irods-credentials', $params);
 	}
 
 	public function getId(){
