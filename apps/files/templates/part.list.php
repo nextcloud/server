@@ -1,7 +1,5 @@
 <input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>">
 <?php foreach($_['files'] as $file):
-	//strlen('files/') => 6
-	$relativePath = substr($file['path'], 6);
 	// the bigger the file, the darker the shade of grey; megabytes*2
 	$simple_size_color = intval(160-$file['size']/(1024*1024)*2);
 	if($simple_size_color<0) $simple_size_color = 0;
