@@ -19,9 +19,7 @@ $files = array();
 if($mimetypes && !in_array('httpd/unix-directory', $mimetypes)) {
 	foreach( \OC\Files\Filesystem::getDirectoryContent( $dir, 'httpd/unix-directory' ) as $i ) {
 		$i["date"] = OCP\Util::formatDate($i["mtime"] );
-		$i['mimetype_icon'] = ($i['type'] == 'dir')
-			? \mimetype_icon('dir')
-			: \mimetype_icon($i['mimetype']);
+		$i['mimetype_icon'] = \mimetype_icon('dir');
 		$files[] = $i;
 	}
 }
@@ -30,14 +28,18 @@ if (is_array($mimetypes) && count($mimetypes)) {
 	foreach ($mimetypes as $mimetype) {
 		foreach( \OC\Files\Filesystem::getDirectoryContent( $dir, $mimetype ) as $i ) {
 			$i["date"] = OCP\Util::formatDate($i["mtime"]);
-			$i['mimetype_icon'] = $i['type'] == 'dir' ? \mimetype_icon('dir'): \mimetype_icon($i['mimetype']);
+			$i['mimetype_icon'] = $i['type'] === 'dir' ?
+				\mimetype_icon('dir') :
+				\mimetype_icon($i['mimetype']);
 			$files[] = $i;
 		}
 	}
 } else {
 	foreach( \OC\Files\Filesystem::getDirectoryContent( $dir ) as $i ) {
 		$i["date"] = OCP\Util::formatDate($i["mtime"]);
-		$i['mimetype_icon'] = $i['type'] == 'dir' ? \mimetype_icon('dir'): \mimetype_icon($i['mimetype']);
+		$i['mimetype_icon'] = $i['type'] === 'dir' ?
+			\mimetype_icon('dir') :
+			\mimetype_icon($i['mimetype']);
 		$files[] = $i;
 	}
 }
