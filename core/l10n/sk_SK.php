@@ -1,6 +1,13 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s s Vami zdieľa »%s«",
+"group" => "skupina",
+"Turned on maintenance mode" => "Mód údržby zapnutý",
+"Turned off maintenance mode" => "Mód údržby vypnutý",
+"Updated database" => "Databáza aktualizovaná",
+"Updating filecache, this may take really long..." => "Aktualizácia \"filecache\", toto môže trvať dlhšie...",
+"Updated filecache" => "\"Filecache\" aktualizovaná",
+"... %d%% done ..." => "... %d%% dokončených ...",
 "Category type not provided." => "Neposkytnutý typ kategórie.",
 "No category to add?" => "Žiadna kategória pre pridanie?",
 "This category already exists: %s" => "Kategória: %s už existuje.",
@@ -126,7 +133,6 @@ $TRANSLATIONS = array(
 "Finish setup" => "Dokončiť inštaláciu",
 "%s is available. Get more information on how to update." => "%s je dostupná. Získajte viac informácií k postupu aktualizáce.",
 "Log out" => "Odhlásiť",
-"More apps" => "Viac aplikácií",
 "Automatic logon rejected!" => "Automatické prihlásenie bolo zamietnuté!",
 "If you did not change your password recently, your account may be compromised!" => "V nedávnej dobe ste nezmenili svoje heslo, Váš účet môže byť kompromitovaný.",
 "Please change your password to secure your account again." => "Prosím, zmeňte svoje heslo pre opätovné zabezpečenie Vášho účtu",

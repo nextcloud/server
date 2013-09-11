@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-27 11:18-0400\n"
-"PO-Revision-Date: 2013-08-27 15:18+0000\n"
+"POT-Creation-Date: 2013-08-30 09:31-0400\n"
+"PO-Revision-Date: 2013-08-30 13:34+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -74,7 +74,11 @@ msgstr "Gagal menulis ke disk"
 msgid "Not enough storage available"
 msgstr "Ruang penyimpanan tidak mencukupi"
 
-#: ajax/upload.php:123
+#: ajax/upload.php:109
+msgid "Upload failed"
+msgstr ""
+
+#: ajax/upload.php:127
 msgid "Invalid directory."
 msgstr "Direktori tidak valid."
 
@@ -94,20 +98,20 @@ msgstr "Ruang penyimpanan tidak mencukupi"
 msgid "Upload cancelled."
 msgstr "Pengunggahan dibatalkan."
 
-#: js/file-upload.js:167
+#: js/file-upload.js:165
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Berkas sedang diunggah. Meninggalkan halaman ini akan membatalkan proses."
 
-#: js/file-upload.js:241
+#: js/file-upload.js:239
 msgid "URL cannot be empty."
 msgstr "URL tidak boleh kosong"
 
-#: js/file-upload.js:246 lib/app.php:53
+#: js/file-upload.js:244 lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
 msgstr ""
 
-#: js/file-upload.js:277 js/file-upload.js:293 js/files.js:511 js/files.js:549
+#: js/file-upload.js:275 js/file-upload.js:291 js/files.js:511 js/files.js:549
 msgid "Error"
 msgstr "Galat"
 
@@ -123,40 +127,54 @@ msgstr "Hapus secara permanen"
 msgid "Rename"
 msgstr "Ubah nama"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:573
 msgid "Pending"
 msgstr "Menunggu"
 
-#: js/filelist.js:303 js/filelist.js:305
+#: js/filelist.js:305 js/filelist.js:307
 msgid "{new_name} already exists"
 msgstr "{new_name} sudah ada"
 
-#: js/filelist.js:303 js/filelist.js:305
+#: js/filelist.js:305 js/filelist.js:307
 msgid "replace"
 msgstr "ganti"
 
-#: js/filelist.js:303
+#: js/filelist.js:305
 msgid "suggest name"
 msgstr "sarankan nama"
 
-#: js/filelist.js:303 js/filelist.js:305
+#: js/filelist.js:305 js/filelist.js:307
 msgid "cancel"
 msgstr "batalkan"
 
-#: js/filelist.js:350
+#: js/filelist.js:352
 msgid "replaced {new_name} with {old_name}"
 msgstr "mengganti {new_name} dengan {old_name}"
 
-#: js/filelist.js:350
+#: js/filelist.js:352
 msgid "undo"
 msgstr "urungkan"
 
-#: js/filelist.js:453
+#: js/filelist.js:422 js/filelist.js:488 js/files.js:580
+msgid "%n folder"
+msgid_plural "%n folders"
+msgstr[0] ""
+
+#: js/filelist.js:423 js/filelist.js:489 js/files.js:586
+msgid "%n file"
+msgid_plural "%n files"
+msgstr[0] ""
+
+#: js/filelist.js:430
+msgid "{dirs} and {files}"
+msgstr ""
+
+#: js/filelist.js:561
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] ""
 
-#: js/filelist.js:518
+#: js/filelist.js:626
 msgid "files uploading"
 msgstr "berkas diunggah"
 
@@ -205,16 +223,6 @@ msgstr "Ukuran"
 #: js/files.js:564 templates/index.php:80
 msgid "Modified"
 msgstr "Dimodifikasi"
-
-#: js/files.js:580
-msgid "%n folder"
-msgid_plural "%n folders"
-msgstr[0] ""
-
-#: js/files.js:586
-msgid "%n file"
-msgid_plural "%n files"
-msgstr[0] ""
 
 #: lib/app.php:73
 #, php-format
@@ -318,22 +326,6 @@ msgstr "Berkas sedang dipindai, silakan tunggu."
 #: templates/index.php:115
 msgid "Current scanning"
 msgstr "Yang sedang dipindai"
-
-#: templates/part.list.php:74
-msgid "directory"
-msgstr ""
-
-#: templates/part.list.php:76
-msgid "directories"
-msgstr ""
-
-#: templates/part.list.php:85
-msgid "file"
-msgstr "berkas"
-
-#: templates/part.list.php:87
-msgid "files"
-msgstr "berkas-berkas"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

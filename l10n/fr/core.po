@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-28 06:22-0400\n"
-"PO-Revision-Date: 2013-08-27 22:31+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-07 04:40-0400\n"
+"PO-Revision-Date: 2013-09-05 11:51+0000\n"
+"Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,30 +27,34 @@ msgstr ""
 msgid "%s shared »%s« with you"
 msgstr "%s partagé »%s« avec vous"
 
+#: ajax/share.php:227
+msgid "group"
+msgstr "groupe"
+
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "Basculé en mode maintenance"
 
 #: ajax/update.php:14
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "Basculé en mode production (non maintenance)"
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr ""
+msgstr "Base de données mise à jour"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
-msgstr ""
+msgstr "En cours de mise à jour de cache de fichiers. Cette opération peut être très longue..."
 
 #: ajax/update.php:23
 msgid "Updated filecache"
-msgstr ""
+msgstr "Cache de fichier mis à jour"
 
 #: ajax/update.php:26
 #, php-format
 msgid "... %d%% done ..."
-msgstr ""
+msgstr "... %d%% effectué ..."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -171,55 +175,55 @@ msgstr "décembre"
 msgid "Settings"
 msgstr "Paramètres"
 
-#: js/js.js:812
+#: js/js.js:821
 msgid "seconds ago"
 msgstr "il y a quelques secondes"
 
-#: js/js.js:813
+#: js/js.js:822
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "il y a %n minute"
+msgstr[1] "il y a %n minutes"
 
-#: js/js.js:814
+#: js/js.js:823
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Il y a %n heure"
+msgstr[1] "Il y a %n heures"
 
-#: js/js.js:815
+#: js/js.js:824
 msgid "today"
 msgstr "aujourd'hui"
 
-#: js/js.js:816
+#: js/js.js:825
 msgid "yesterday"
 msgstr "hier"
 
-#: js/js.js:817
+#: js/js.js:826
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "il y a %n jour"
+msgstr[1] "il y a %n jours"
 
-#: js/js.js:818
+#: js/js.js:827
 msgid "last month"
 msgstr "le mois dernier"
 
-#: js/js.js:819
+#: js/js.js:828
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Il y a %n mois"
+msgstr[1] "Il y a %n mois"
 
-#: js/js.js:820
+#: js/js.js:829
 msgid "months ago"
 msgstr "il y a plusieurs mois"
 
-#: js/js.js:821
+#: js/js.js:830
 msgid "last year"
 msgstr "l'année dernière"
 
-#: js/js.js:822
+#: js/js.js:831
 msgid "years ago"
 msgstr "il y a plusieurs années"
 
@@ -403,10 +407,10 @@ msgstr "La mise à jour a échoué. Veuillez signaler ce problème à la <a href
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "La mise à jour a réussi. Vous êtes redirigé maintenant vers ownCloud."
 
-#: lostpassword/controller.php:61
+#: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "Réinitialisation de votre mot de passe %s"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -472,7 +476,7 @@ msgstr "Personnel"
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "Applications"
 
@@ -523,7 +527,7 @@ msgstr "Votre version de PHP est vulnérable à l'attaque par caractère NULL (C
 #: templates/installation.php:26
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "Veuillez mettre à jour votre installation PHP pour utiliser %s de façon sécurisée."
 
 #: templates/installation.php:32
 msgid ""
@@ -548,7 +552,7 @@ msgstr "Votre répertoire data est certainement accessible depuis l'internet car
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Pour les informations de configuration de votre serveur, veuillez lire la <a href=\"%s\" target=\"_blank\">documentation</a>."
 
 #: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
@@ -605,10 +609,6 @@ msgstr "%s est disponible. Obtenez plus d'informations sur la façon de mettre �
 msgid "Log out"
 msgstr "Se déconnecter"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr ""
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Connexion automatique rejetée !"
@@ -623,19 +623,19 @@ msgstr "Si vous n'avez pas changé votre mot de passe récemment, votre compte r
 msgid "Please change your password to secure your account again."
 msgstr "Veuillez changer votre mot de passe pour sécuriser à nouveau votre compte."
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "Mot de passe perdu ?"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "se souvenir de moi"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "Connexion"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr "Logins alternatifs"
 

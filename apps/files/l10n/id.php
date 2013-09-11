@@ -29,6 +29,8 @@ $TRANSLATIONS = array(
 "cancel" => "batalkan",
 "replaced {new_name} with {old_name}" => "mengganti {new_name} dengan {old_name}",
 "undo" => "urungkan",
+"_%n folder_::_%n folders_" => array(""),
+"_%n file_::_%n files_" => array(""),
 "_Uploading %n file_::_Uploading %n files_" => array(""),
 "files uploading" => "berkas diunggah",
 "'.' is an invalid file name." => "'.' bukan nama berkas yang valid.",
@@ -40,8 +42,6 @@ $TRANSLATIONS = array(
 "Name" => "Nama",
 "Size" => "Ukuran",
 "Modified" => "Dimodifikasi",
-"_%n folder_::_%n folders_" => array(""),
-"_%n file_::_%n files_" => array(""),
 "Upload" => "Unggah",
 "File handling" => "Penanganan berkas",
 "Maximum upload size" => "Ukuran pengunggahan maksimum",
@@ -66,8 +66,6 @@ $TRANSLATIONS = array(
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Berkas yang dicoba untuk diunggah melebihi ukuran maksimum pengunggahan berkas di server ini.",
 "Files are being scanned, please wait." => "Berkas sedang dipindai, silakan tunggu.",
 "Current scanning" => "Yang sedang dipindai",
-"file" => "berkas",
-"files" => "berkas-berkas",
 "Upgrading filesystem cache..." => "Meningkatkan tembolok sistem berkas..."
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

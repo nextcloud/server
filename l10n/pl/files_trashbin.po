@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-15 04:47-0400\n"
-"PO-Revision-Date: 2013-08-15 08:48+0000\n"
+"POT-Creation-Date: 2013-09-05 07:36-0400\n"
+"PO-Revision-Date: 2013-09-04 22:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -28,45 +28,45 @@ msgstr "Nie można trwale usunąć %s"
 msgid "Couldn't restore %s"
 msgstr "Nie można przywrócić %s"
 
-#: js/trash.js:7 js/trash.js:100
+#: js/trash.js:7 js/trash.js:102
 msgid "perform restore operation"
 msgstr "wykonywanie operacji przywracania"
 
-#: js/trash.js:20 js/trash.js:48 js/trash.js:118 js/trash.js:146
+#: js/trash.js:20 js/trash.js:49 js/trash.js:120 js/trash.js:148
 msgid "Error"
 msgstr "Błąd"
 
-#: js/trash.js:36
+#: js/trash.js:37
 msgid "delete file permanently"
 msgstr "trwale usuń plik"
 
-#: js/trash.js:127
+#: js/trash.js:129
 msgid "Delete permanently"
 msgstr "Trwale usuń"
 
-#: js/trash.js:182 templates/index.php:17
+#: js/trash.js:184 templates/index.php:17
 msgid "Name"
 msgstr "Nazwa"
 
-#: js/trash.js:183 templates/index.php:27
+#: js/trash.js:185 templates/index.php:27
 msgid "Deleted"
 msgstr "Usunięte"
 
-#: js/trash.js:191
+#: js/trash.js:193
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
+msgstr[2] "%n katalogów"
 
-#: js/trash.js:197
+#: js/trash.js:199
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
+msgstr[2] "%n plików"
 
-#: lib/trash.php:819 lib/trash.php:821
+#: lib/trash.php:814 lib/trash.php:816
 msgid "restored"
 msgstr "przywrócony"
 

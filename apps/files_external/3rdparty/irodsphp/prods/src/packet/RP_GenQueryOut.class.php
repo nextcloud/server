@@ -18,5 +18,3 @@ class RP_GenQueryOut extends RODSPacket
     }
 
 }
-
-?>

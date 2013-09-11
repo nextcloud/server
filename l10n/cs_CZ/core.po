@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-28 06:22-0400\n"
-"PO-Revision-Date: 2013-08-27 22:31+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-07 04:40-0400\n"
+"PO-Revision-Date: 2013-09-05 11:50+0000\n"
+"Last-Translator: pstast <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,30 +27,34 @@ msgstr ""
 msgid "%s shared »%s« with you"
 msgstr "%s s vámi sdílí »%s«"
 
+#: ajax/share.php:227
+msgid "group"
+msgstr "skupina"
+
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "Zapnut režim údržby"
 
 #: ajax/update.php:14
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "Vypnut režim údržby"
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr ""
+msgstr "Zaktualizována databáze"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
-msgstr ""
+msgstr "Aktualizuji souborovou mezipaměť, toto může trvat opravdu dlouho..."
 
 #: ajax/update.php:23
 msgid "Updated filecache"
-msgstr ""
+msgstr "Aktualizována souborová mezipaměť"
 
 #: ajax/update.php:26
 #, php-format
 msgid "... %d%% done ..."
-msgstr ""
+msgstr "... %d%% dokončeno ..."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -171,59 +175,59 @@ msgstr "Prosinec"
 msgid "Settings"
 msgstr "Nastavení"
 
-#: js/js.js:812
+#: js/js.js:821
 msgid "seconds ago"
 msgstr "před pár vteřinami"
 
-#: js/js.js:813
+#: js/js.js:822
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "před %n minutou"
 msgstr[1] "před %n minutami"
 msgstr[2] "před %n minutami"
 
-#: js/js.js:814
+#: js/js.js:823
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "před %n hodinou"
 msgstr[1] "před %n hodinami"
 msgstr[2] "před %n hodinami"
 
-#: js/js.js:815
+#: js/js.js:824
 msgid "today"
 msgstr "dnes"
 
-#: js/js.js:816
+#: js/js.js:825
 msgid "yesterday"
 msgstr "včera"
 
-#: js/js.js:817
+#: js/js.js:826
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "před %n dnem"
 msgstr[1] "před %n dny"
 msgstr[2] "před %n dny"
 
-#: js/js.js:818
+#: js/js.js:827
 msgid "last month"
 msgstr "minulý měsíc"
 
-#: js/js.js:819
+#: js/js.js:828
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "před %n měsícem"
 msgstr[1] "před %n měsíci"
 msgstr[2] "před %n měsíci"
 
-#: js/js.js:820
+#: js/js.js:829
 msgid "months ago"
 msgstr "před měsíci"
 
-#: js/js.js:821
+#: js/js.js:830
 msgid "last year"
 msgstr "minulý rok"
 
-#: js/js.js:822
+#: js/js.js:831
 msgid "years ago"
 msgstr "před lety"
 
@@ -407,7 +411,7 @@ msgstr "Aktualizace neproběhla úspěšně. Nahlaste prosím problém do <a hre
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Aktualizace byla úspěšná. Přesměrovávám na ownCloud."
 
-#: lostpassword/controller.php:61
+#: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
 msgstr "reset hesla %s"
@@ -476,7 +480,7 @@ msgstr "Osobní"
 msgid "Users"
 msgstr "Uživatelé"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "Aplikace"
 
@@ -609,10 +613,6 @@ msgstr "%s je dostupná. Získejte více informací k postupu aktualizace."
 msgid "Log out"
 msgstr "Odhlásit se"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr "Více aplikací"
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Automatické přihlášení odmítnuto!"
@@ -627,19 +627,19 @@ msgstr "Pokud jste v nedávné době neměnili své heslo, Váš účet může b
 msgid "Please change your password to secure your account again."
 msgstr "Změňte, prosím, své heslo pro opětovné zabezpečení Vašeho účtu."
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "Ztratili jste své heslo?"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "zapamatovat"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "Přihlásit"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr "Alternativní přihlášení"
 

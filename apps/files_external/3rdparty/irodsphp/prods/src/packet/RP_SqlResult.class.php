@@ -11,5 +11,3 @@ class RP_SqlResult extends RODSPacket
 
 
 }
-
-?>

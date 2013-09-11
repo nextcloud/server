@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-28 06:22-0400\n"
-"PO-Revision-Date: 2013-08-27 22:31+0000\n"
+"POT-Creation-Date: 2013-09-07 04:40-0400\n"
+"PO-Revision-Date: 2013-09-05 11:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -26,30 +26,34 @@ msgstr ""
 msgid "%s shared »%s« with you"
 msgstr "%s delade »%s« med dig"
 
+#: ajax/share.php:227
+msgid "group"
+msgstr "Grupp"
+
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "Aktiverade underhållsläge"
 
 #: ajax/update.php:14
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "Deaktiverade underhållsläge"
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr ""
+msgstr "Uppdaterade databasen"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
-msgstr ""
+msgstr "Uppdaterar filcache, det kan ta lång tid..."
 
 #: ajax/update.php:23
 msgid "Updated filecache"
-msgstr ""
+msgstr "Uppdaterade filcache"
 
 #: ajax/update.php:26
 #, php-format
 msgid "... %d%% done ..."
-msgstr ""
+msgstr "... %d%% klart ..."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -170,55 +174,55 @@ msgstr "December"
 msgid "Settings"
 msgstr "Inställningar"
 
-#: js/js.js:812
+#: js/js.js:821
 msgid "seconds ago"
 msgstr "sekunder sedan"
 
-#: js/js.js:813
+#: js/js.js:822
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minut sedan"
 msgstr[1] "%n minuter sedan"
 
-#: js/js.js:814
+#: js/js.js:823
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n timme sedan"
 msgstr[1] "%n timmar sedan"
 
-#: js/js.js:815
+#: js/js.js:824
 msgid "today"
 msgstr "i dag"
 
-#: js/js.js:816
+#: js/js.js:825
 msgid "yesterday"
 msgstr "i går"
 
-#: js/js.js:817
+#: js/js.js:826
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n dag sedan"
 msgstr[1] "%n dagar sedan"
 
-#: js/js.js:818
+#: js/js.js:827
 msgid "last month"
 msgstr "förra månaden"
 
-#: js/js.js:819
+#: js/js.js:828
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n månad sedan"
 msgstr[1] "%n månader sedan"
 
-#: js/js.js:820
+#: js/js.js:829
 msgid "months ago"
 msgstr "månader sedan"
 
-#: js/js.js:821
+#: js/js.js:830
 msgid "last year"
 msgstr "förra året"
 
-#: js/js.js:822
+#: js/js.js:831
 msgid "years ago"
 msgstr "år sedan"
 
@@ -402,7 +406,7 @@ msgstr "Uppdateringen misslyckades. Rapportera detta problem till <a href=\"http
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Uppdateringen lyckades. Du omdirigeras nu till OwnCloud."
 
-#: lostpassword/controller.php:61
+#: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
 msgstr "%s återställ lösenord"
@@ -471,7 +475,7 @@ msgstr "Personligt"
 msgid "Users"
 msgstr "Användare"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "Program"
 
@@ -604,10 +608,6 @@ msgstr "%s är tillgänglig. Få mer information om hur du går tillväga för a
 msgid "Log out"
 msgstr "Logga ut"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr "Fler appar"
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Automatisk inloggning inte tillåten!"
@@ -622,19 +622,19 @@ msgstr "Om du inte har ändrat ditt lösenord nyligen så kan ditt konto vara ma
 msgid "Please change your password to secure your account again."
 msgstr "Ändra genast lösenord för att säkra ditt konto."
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "Glömt ditt lösenord?"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "kom ihåg"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "Logga in"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr "Alternativa inloggningar"
 

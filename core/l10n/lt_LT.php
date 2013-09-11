@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s pasidalino »%s« su tavimi",
+"group" => "grupė",
 "Category type not provided." => "Kategorija nenurodyta.",
 "No category to add?" => "Nepridėsite jokios kategorijos?",
 "This category already exists: %s" => "Ši kategorija jau egzistuoja: %s",
@@ -121,7 +122,6 @@ $TRANSLATIONS = array(
 "Finish setup" => "Baigti diegimą",
 "%s is available. Get more information on how to update." => "%s yra prieinama. Gaukite daugiau informacijos apie atnaujinimą.",
 "Log out" => "Atsijungti",
-"More apps" => "Daugiau programų",
 "Automatic logon rejected!" => "Automatinis prisijungimas atmestas!",
 "If you did not change your password recently, your account may be compromised!" => "Jei paskutinių metu nekeitėte savo slaptažodžio, Jūsų paskyra gali būti pavojuje!",
 "Please change your password to secure your account again." => "Prašome pasikeisti slaptažodį dar kartą, dėl paskyros saugumo.",

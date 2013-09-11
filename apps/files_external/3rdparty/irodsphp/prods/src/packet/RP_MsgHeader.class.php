@@ -12,6 +12,3 @@ class RP_MsgHeader extends RODSPacket
     }
 
 }
-
-?>
-  

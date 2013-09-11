@@ -353,7 +353,7 @@ class OC_User {
 	 * generates a password
 	 */
 	public static function generatePassword() {
-		return OC_Util::generate_random_bytes(30);
+		return OC_Util::generateRandomBytes(30);
 	}
 
 	/**

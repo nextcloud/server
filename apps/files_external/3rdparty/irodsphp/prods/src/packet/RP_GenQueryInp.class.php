@@ -21,5 +21,3 @@ class RP_GenQueryInp extends RODSPacket
     }
 
 }
-
-?>

@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Debanjum <debanjum@gmail.com>, 2013
 # rktaiwala <rktaiwala@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-27 11:18-0400\n"
-"PO-Revision-Date: 2013-08-27 15:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-07 04:40-0400\n"
+"PO-Revision-Date: 2013-09-05 11:50+0000\n"
+"Last-Translator: Debanjum <debanjum@gmail.com>\n"
 "Language-Team: Hindi (http://www.transifex.com/projects/p/owncloud/language/hi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,6 +22,10 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "%s shared »%s« with you"
+msgstr ""
+
+#: ajax/share.php:227
+msgid "group"
 msgstr ""
 
 #: ajax/update.php:11
@@ -50,7 +55,7 @@ msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr ""
+msgstr "कैटेगरी प्रकार उपलब्ध नहीं है"
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
@@ -59,13 +64,13 @@ msgstr ""
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr ""
+msgstr "यह कैटेगरी पहले से ही मौजूद है: %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr ""
+msgstr "ऑब्जेक्ट प्रकार नहीं दिया हुआ"
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
@@ -89,31 +94,31 @@ msgstr ""
 
 #: js/config.php:32
 msgid "Sunday"
-msgstr ""
+msgstr "रविवार"
 
 #: js/config.php:33
 msgid "Monday"
-msgstr ""
+msgstr "सोमवार"
 
 #: js/config.php:34
 msgid "Tuesday"
-msgstr ""
+msgstr "मंगलवार"
 
 #: js/config.php:35
 msgid "Wednesday"
-msgstr ""
+msgstr "बुधवार"
 
 #: js/config.php:36
 msgid "Thursday"
-msgstr ""
+msgstr "बृहस्पतिवार"
 
 #: js/config.php:37
 msgid "Friday"
-msgstr ""
+msgstr "शुक्रवार"
 
 #: js/config.php:38
 msgid "Saturday"
-msgstr ""
+msgstr "शनिवार"
 
 #: js/config.php:43
 msgid "January"
@@ -167,55 +172,55 @@ msgstr "दिसम्बर"
 msgid "Settings"
 msgstr "सेटिंग्स"
 
-#: js/js.js:812
+#: js/js.js:821
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:813
+#: js/js.js:822
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:814
+#: js/js.js:823
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:815
+#: js/js.js:824
 msgid "today"
 msgstr ""
 
-#: js/js.js:816
+#: js/js.js:825
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:817
+#: js/js.js:826
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:818
+#: js/js.js:827
 msgid "last month"
 msgstr ""
 
-#: js/js.js:819
+#: js/js.js:828
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:820
+#: js/js.js:829
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:821
+#: js/js.js:830
 msgid "last year"
 msgstr ""
 
-#: js/js.js:822
+#: js/js.js:831
 msgid "years ago"
 msgstr ""
 
@@ -314,7 +319,7 @@ msgstr ""
 
 #: js/share.js:203
 msgid "Send"
-msgstr ""
+msgstr "भेजें"
 
 #: js/share.js:208
 msgid "Set expiration date"
@@ -382,11 +387,11 @@ msgstr ""
 
 #: js/share.js:670
 msgid "Sending ..."
-msgstr ""
+msgstr "भेजा जा रहा है"
 
 #: js/share.js:681
 msgid "Email sent"
-msgstr ""
+msgstr "ईमेल भेज दिया गया है "
 
 #: js/update.js:17
 msgid ""
@@ -399,7 +404,7 @@ msgstr ""
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr ""
 
-#: lostpassword/controller.php:61
+#: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
 msgstr ""
@@ -468,7 +473,7 @@ msgstr "यक्तिगत"
 msgid "Users"
 msgstr "उपयोगकर्ता"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "Apps"
 
@@ -505,7 +510,7 @@ msgstr ""
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr ""
+msgstr "डाले"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -601,10 +606,6 @@ msgstr ""
 msgid "Log out"
 msgstr "लोग  आउट"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr ""
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr ""
@@ -619,19 +620,19 @@ msgstr ""
 msgid "Please change your password to secure your account again."
 msgstr ""
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr ""
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "याद रखें"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr ""
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr ""
 

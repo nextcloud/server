@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "குழு",
 "Category type not provided." => "பிரிவு வகைகள் வழங்கப்படவில்லை",
 "No category to add?" => "சேர்ப்பதற்கான வகைகள் இல்லையா?",
 "Object type not provided." => "பொருள் வகை வழங்கப்படவில்லை",

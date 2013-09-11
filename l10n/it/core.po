@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-28 06:22-0400\n"
-"PO-Revision-Date: 2013-08-27 22:31+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-07 04:40-0400\n"
+"PO-Revision-Date: 2013-09-05 11:52+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,30 +25,34 @@ msgstr ""
 msgid "%s shared »%s« with you"
 msgstr "%s ha condiviso «%s» con te"
 
+#: ajax/share.php:227
+msgid "group"
+msgstr "gruppo"
+
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "Modalità di manutenzione attivata"
 
 #: ajax/update.php:14
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "Modalità di manutenzione disattivata"
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr ""
+msgstr "Database aggiornato"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
-msgstr ""
+msgstr "Aggiornamento della cache dei file in corso, potrebbe richiedere molto tempo..."
 
 #: ajax/update.php:23
 msgid "Updated filecache"
-msgstr ""
+msgstr "Cache dei file aggiornata"
 
 #: ajax/update.php:26
 #, php-format
 msgid "... %d%% done ..."
-msgstr ""
+msgstr "... %d%% completato ..."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -169,55 +173,55 @@ msgstr "Dicembre"
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: js/js.js:812
+#: js/js.js:821
 msgid "seconds ago"
 msgstr "secondi fa"
 
-#: js/js.js:813
+#: js/js.js:822
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minuto fa"
 msgstr[1] "%n minuti fa"
 
-#: js/js.js:814
+#: js/js.js:823
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n ora fa"
 msgstr[1] "%n ore fa"
 
-#: js/js.js:815
+#: js/js.js:824
 msgid "today"
 msgstr "oggi"
 
-#: js/js.js:816
+#: js/js.js:825
 msgid "yesterday"
 msgstr "ieri"
 
-#: js/js.js:817
+#: js/js.js:826
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n giorno fa"
 msgstr[1] "%n giorni fa"
 
-#: js/js.js:818
+#: js/js.js:827
 msgid "last month"
 msgstr "mese scorso"
 
-#: js/js.js:819
+#: js/js.js:828
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n mese fa"
 msgstr[1] "%n mesi fa"
 
-#: js/js.js:820
+#: js/js.js:829
 msgid "months ago"
 msgstr "mesi fa"
 
-#: js/js.js:821
+#: js/js.js:830
 msgid "last year"
 msgstr "anno scorso"
 
-#: js/js.js:822
+#: js/js.js:831
 msgid "years ago"
 msgstr "anni fa"
 
@@ -401,7 +405,7 @@ msgstr "L'aggiornamento non è riuscito. Segnala il problema alla <a href=\"http
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "L'aggiornamento è stato effettuato correttamente. Stai per essere reindirizzato a ownCloud."
 
-#: lostpassword/controller.php:61
+#: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
 msgstr "Ripristino password di %s"
@@ -470,7 +474,7 @@ msgstr "Personale"
 msgid "Users"
 msgstr "Utenti"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:105
 msgid "Apps"
 msgstr "Applicazioni"
 
@@ -603,10 +607,6 @@ msgstr "%s è disponibile. Ottieni ulteriori informazioni sull'aggiornamento."
 msgid "Log out"
 msgstr "Esci"
 
-#: templates/layout.user.php:100
-msgid "More apps"
-msgstr "Altre applicazioni"
-
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Accesso automatico rifiutato."
@@ -621,19 +621,19 @@ msgstr "Se non hai cambiato la password recentemente, il tuo account potrebbe es
 msgid "Please change your password to secure your account again."
 msgstr "Cambia la password per rendere nuovamente sicuro il tuo account."
 
-#: templates/login.php:34
+#: templates/login.php:32
 msgid "Lost your password?"
 msgstr "Hai perso la password?"
 
-#: templates/login.php:39
+#: templates/login.php:37
 msgid "remember"
 msgstr "ricorda"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "Log in"
 msgstr "Accedi"
 
-#: templates/login.php:47
+#: templates/login.php:45
 msgid "Alternative Logins"
 msgstr "Accessi alternativi"
 

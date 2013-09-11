@@ -18,13 +18,13 @@ $TRANSLATIONS = array(
 "suggest name" => "predloži ime",
 "cancel" => "odustani",
 "undo" => "vrati",
+"_%n folder_::_%n folders_" => array("","",""),
+"_%n file_::_%n files_" => array("","",""),
 "_Uploading %n file_::_Uploading %n files_" => array("","",""),
 "files uploading" => "datoteke se učitavaju",
 "Name" => "Ime",
 "Size" => "Veličina",
 "Modified" => "Zadnja promjena",
-"_%n folder_::_%n folders_" => array("","",""),
-"_%n file_::_%n files_" => array("","",""),
 "Upload" => "Učitaj",
 "File handling" => "datoteka za rukovanje",
 "Maximum upload size" => "Maksimalna veličina prijenosa",
@@ -45,8 +45,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "Prijenos je preobiman",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Datoteke koje pokušavate prenijeti prelaze maksimalnu veličinu za prijenos datoteka na ovom poslužitelju.",
 "Files are being scanned, please wait." => "Datoteke se skeniraju, molimo pričekajte.",
-"Current scanning" => "Trenutno skeniranje",
-"file" => "datoteka",
-"files" => "datoteke"
+"Current scanning" => "Trenutno skeniranje"
 );
 $PLURAL_FORMS = "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;";

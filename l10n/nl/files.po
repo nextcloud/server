@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-27 11:18-0400\n"
-"PO-Revision-Date: 2013-08-27 15:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-07 04:39-0400\n"
+"PO-Revision-Date: 2013-09-06 20:20+0000\n"
+"Last-Translator: kwillems <kwillems@zonnet.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -76,7 +76,11 @@ msgstr "Schrijven naar schijf mislukt"
 msgid "Not enough storage available"
 msgstr "Niet genoeg opslagruimte beschikbaar"
 
-#: ajax/upload.php:123
+#: ajax/upload.php:109
+msgid "Upload failed"
+msgstr "Upload mislukt"
+
+#: ajax/upload.php:127
 msgid "Invalid directory."
 msgstr "Ongeldige directory."
 
@@ -96,20 +100,20 @@ msgstr "Niet genoeg ruimte beschikbaar"
 msgid "Upload cancelled."
 msgstr "Uploaden geannuleerd."
 
-#: js/file-upload.js:167
+#: js/file-upload.js:165
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Bestandsupload is bezig. Wanneer de pagina nu verlaten wordt, stopt de upload."
 
-#: js/file-upload.js:241
+#: js/file-upload.js:239
 msgid "URL cannot be empty."
 msgstr "URL kan niet leeg zijn."
 
-#: js/file-upload.js:246 lib/app.php:53
+#: js/file-upload.js:244 lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
 msgstr "Ongeldige mapnaam. Gebruik van 'Gedeeld' is voorbehouden aan Owncloud zelf"
 
-#: js/file-upload.js:277 js/file-upload.js:293 js/files.js:511 js/files.js:549
+#: js/file-upload.js:276 js/file-upload.js:292 js/files.js:512 js/files.js:550
 msgid "Error"
 msgstr "Fout"
 
@@ -125,41 +129,57 @@ msgstr "Verwijder definitief"
 msgid "Rename"
 msgstr "Hernoem"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:465
+#: js/filelist.js:50 js/filelist.js:53 js/filelist.js:575
 msgid "Pending"
 msgstr "In behandeling"
 
-#: js/filelist.js:303 js/filelist.js:305
+#: js/filelist.js:307 js/filelist.js:309
 msgid "{new_name} already exists"
 msgstr "{new_name} bestaat al"
 
-#: js/filelist.js:303 js/filelist.js:305
+#: js/filelist.js:307 js/filelist.js:309
 msgid "replace"
 msgstr "vervang"
 
-#: js/filelist.js:303
+#: js/filelist.js:307
 msgid "suggest name"
 msgstr "Stel een naam voor"
 
-#: js/filelist.js:303 js/filelist.js:305
+#: js/filelist.js:307 js/filelist.js:309
 msgid "cancel"
 msgstr "annuleren"
 
-#: js/filelist.js:350
+#: js/filelist.js:354
 msgid "replaced {new_name} with {old_name}"
 msgstr "verving {new_name} met {old_name}"
 
-#: js/filelist.js:350
+#: js/filelist.js:354
 msgid "undo"
 msgstr "ongedaan maken"
 
-#: js/filelist.js:453
+#: js/filelist.js:424 js/filelist.js:490 js/files.js:581
+msgid "%n folder"
+msgid_plural "%n folders"
+msgstr[0] ""
+msgstr[1] "%n mappen"
+
+#: js/filelist.js:425 js/filelist.js:491 js/files.js:587
+msgid "%n file"
+msgid_plural "%n files"
+msgstr[0] ""
+msgstr[1] "%n bestanden"
+
+#: js/filelist.js:432
+msgid "{dirs} and {files}"
+msgstr "{dirs} en {files}"
+
+#: js/filelist.js:563
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "%n bestand aan het uploaden"
 msgstr[1] "%n bestanden aan het uploaden"
 
-#: js/filelist.js:518
+#: js/filelist.js:628
 msgid "files uploading"
 msgstr "bestanden aan het uploaden"
 
@@ -197,29 +217,17 @@ msgid ""
 "big."
 msgstr "Uw download wordt voorbereid. Dit kan enige tijd duren bij grote bestanden."
 
-#: js/files.js:562 templates/index.php:67
+#: js/files.js:563 templates/index.php:69
 msgid "Name"
 msgstr "Naam"
 
-#: js/files.js:563 templates/index.php:78
+#: js/files.js:564 templates/index.php:81
 msgid "Size"
 msgstr "Grootte"
 
-#: js/files.js:564 templates/index.php:80
+#: js/files.js:565 templates/index.php:83
 msgid "Modified"
 msgstr "Aangepast"
-
-#: js/files.js:580
-msgid "%n folder"
-msgid_plural "%n folders"
-msgstr[0] ""
-msgstr[1] "%n mappen"
-
-#: js/files.js:586
-msgid "%n file"
-msgid_plural "%n files"
-msgstr[0] ""
-msgstr[1] "%n bestanden"
 
 #: lib/app.php:73
 #, php-format
@@ -294,51 +302,35 @@ msgstr "U hebt hier geen schrijfpermissies."
 msgid "Nothing in here. Upload something!"
 msgstr "Er bevindt zich hier niets. Upload een bestand!"
 
-#: templates/index.php:73
+#: templates/index.php:75
 msgid "Download"
 msgstr "Downloaden"
 
-#: templates/index.php:85 templates/index.php:86
+#: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
 msgstr "Stop met delen"
 
-#: templates/index.php:91 templates/index.php:92
+#: templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Verwijder"
 
-#: templates/index.php:105
+#: templates/index.php:108
 msgid "Upload too large"
 msgstr "Upload is te groot"
 
-#: templates/index.php:107
+#: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "De bestanden die u probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server."
 
-#: templates/index.php:112
+#: templates/index.php:115
 msgid "Files are being scanned, please wait."
 msgstr "Bestanden worden gescand, even wachten."
 
-#: templates/index.php:115
+#: templates/index.php:118
 msgid "Current scanning"
 msgstr "Er wordt gescand"
-
-#: templates/part.list.php:74
-msgid "directory"
-msgstr "directory"
-
-#: templates/part.list.php:76
-msgid "directories"
-msgstr "directories"
-
-#: templates/part.list.php:85
-msgid "file"
-msgstr "bestand"
-
-#: templates/part.list.php:87
-msgid "files"
-msgstr "bestanden"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
