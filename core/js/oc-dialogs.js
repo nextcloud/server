@@ -142,9 +142,7 @@ var OCdialogs = {
 		.fail(function(status, error) {
 			// If the method is called while navigating away
 			// from the page, it is probably not needed ;)
-			if(status === 0) {
-				return;
-			} else {
+			if(status !== 0) {
 				alert(t('core', 'Error loading file picker template: {error}', {error: error}));
 			}
 		});
