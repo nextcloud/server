@@ -227,7 +227,7 @@ OC.Share={
 					}
 				});
 			}
-			$('#shareWith').autocomplete({minLength: 1, source: function(search, response) {
+			$('#shareWith').autocomplete({minLength: 1, autoFocus: true, source: function(search, response) {
 	//			if (cache[search.term]) {
 	//				response(cache[search.term]);
 	//			} else {
@@ -423,7 +423,7 @@ OC.Share={
 			dateFormat : 'dd-mm-yy'
 		});
 	}
-}
+};
 
 $(document).ready(function() {
 
@@ -512,7 +512,7 @@ $(document).ready(function() {
 
 	$(document).on('change', '#dropdown .permissions', function() {
 		if ($(this).attr('name') == 'edit') {
-			var li = $(this).parent().parent()
+			var li = $(this).parent().parent();
 			var checkboxes = $('.permissions', li);
 			var checked = $(this).is(':checked');
 			// Check/uncheck Create, Update, and Delete checkboxes if Edit is checked/unck
