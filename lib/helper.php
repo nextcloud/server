@@ -232,6 +232,14 @@ class OC_Helper {
 			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/folder.png';
 			return OC::$WEBROOT . '/core/img/filetypes/folder.png';
 		}
+		if ($mimetype === 'dir-shared') {
+			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/folder-shared.png';
+			return OC::$WEBROOT . '/core/img/filetypes/folder-shared.png';
+		}
+		if ($mimetype === 'dir-external') {
+			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/folder-external.png';
+			return OC::$WEBROOT . '/core/img/filetypes/folder-external.png';
+		}
 
 		// Icon exists?
 		if (file_exists(OC::$SERVERROOT . '/core/img/filetypes/' . $icon . '.png')) {
