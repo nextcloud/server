@@ -39,7 +39,8 @@
 					return;
 				}
 				// Escape
-				if(event.keyCode === 27 && self.options.closeOnEscape) {
+				if(event.keyCode === 27 && event.type === 'keydown' && self.options.closeOnEscape) {
+					event.stopImmediatePropagation();
 					self.close();
 					return false;
 				}
