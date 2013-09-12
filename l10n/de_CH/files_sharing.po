@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 18:23+0000\n"
+"POT-Creation-Date: 2013-09-07 04:40-0400\n"
+"PO-Revision-Date: 2013-09-05 11:51+0000\n"
 "Last-Translator: FlorianScholz <work@bgstyle.de>\n"
 "Language-Team: German (Switzerland) (http://www.transifex.com/projects/p/owncloud/language/de_CH/)\n"
 "MIME-Version: 1.0\n"
@@ -66,7 +66,7 @@ msgstr "%s hat den Ordner %s mit Ihnen geteilt"
 msgid "%s shared the file %s with you"
 msgstr "%s hat die Datei %s mit Ihnen geteilt"
 
-#: templates/public.php:26 templates/public.php:88
+#: templates/public.php:26 templates/public.php:92
 msgid "Download"
 msgstr "Herunterladen"
 
@@ -78,6 +78,6 @@ msgstr "Hochladen"
 msgid "Cancel upload"
 msgstr "Upload abbrechen"
 
-#: templates/public.php:85
+#: templates/public.php:89
 msgid "No preview available for"
 msgstr "Es ist keine Vorschau verfügbar für"

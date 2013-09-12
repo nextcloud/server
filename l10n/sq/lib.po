@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-25 19:18-0400\n"
-"PO-Revision-Date: 2013-08-25 23:18+0000\n"
+"POT-Creation-Date: 2013-09-10 10:41-0400\n"
+"PO-Revision-Date: 2013-09-09 22:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -264,51 +264,51 @@ msgstr "Serveri web i juaji nuk është konfiguruar akoma për të lejuar sinkro
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Ju lutemi kontrolloni mirë <a href='%s'>shoqëruesin e instalimit</a>."
 
-#: template/functions.php:80
+#: template/functions.php:96
 msgid "seconds ago"
 msgstr "sekonda më parë"
 
-#: template/functions.php:81
+#: template/functions.php:97
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n minuta më parë"
 
-#: template/functions.php:82
+#: template/functions.php:98
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n orë më parë"
 
-#: template/functions.php:83
+#: template/functions.php:99
 msgid "today"
 msgstr "sot"
 
-#: template/functions.php:84
+#: template/functions.php:100
 msgid "yesterday"
 msgstr "dje"
 
-#: template/functions.php:85
+#: template/functions.php:101
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n ditë më parë"
 
-#: template/functions.php:86
+#: template/functions.php:102
 msgid "last month"
 msgstr "muajin e shkuar"
 
-#: template/functions.php:87
+#: template/functions.php:103
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n muaj më parë"
 
-#: template/functions.php:88
+#: template/functions.php:104
 msgid "last year"
 msgstr "vitin e shkuar"
 
-#: template/functions.php:89
+#: template/functions.php:105
 msgid "years ago"
 msgstr "vite më parë"
 

@@ -19,6 +19,20 @@ function fileCmp($a, $b) {
 	}
 }
 
+function determineIcon($file, $sharingRoot, $sharingToken) {
+	// for folders we simply reuse the files logic
+	if($file['type'] == 'dir') {
+		return \OCA\files\lib\Helper::determineIcon($file);
+	}
+
+	$relativePath = substr($file['path'], 6);
+	$relativePath = substr($relativePath, strlen($sharingRoot));
+	if($file['isPreviewAvailable']) {
+		return OCP\publicPreview_icon($relativePath, $sharingToken);
+	}
+	return OCP\mimetype_icon($file['mimetype']);
+}
+
 if (isset($_GET['t'])) {
 	$token = $_GET['t'];
 	$linkItem = OCP\Share::getShareByToken($token);
@@ -176,6 +190,7 @@ if (isset($path)) {
 				}
 				$i['directory'] = $getPath;
 				$i['permissions'] = OCP\PERMISSION_READ;
+				$i['icon'] = determineIcon($i, $basePath, $token);
 				$files[] = $i;
 			}
 			usort($files, "fileCmp");

@@ -65,6 +65,7 @@ foreach ($result as $r) {
 	}
 	$i['permissions'] = OCP\PERMISSION_READ;
 	$i['isPreviewAvailable'] = \OCP\Preview::isMimeSupported($r['mime']);
+	$i['icon'] = \OCA\files\lib\Helper::determineIcon($i);
 	$files[] = $i;
 }
 

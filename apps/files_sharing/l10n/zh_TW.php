@@ -1,9 +1,9 @@
 <?php
 $TRANSLATIONS = array(
-"The password is wrong. Try again." => "請檢查您的密碼並再試一次。",
+"The password is wrong. Try again." => "請檢查您的密碼並再試一次",
 "Password" => "密碼",
 "Submit" => "送出",
-"Sorry, this link doesn’t seem to work anymore." => "抱歉，這連結看來已經不能用了。",
+"Sorry, this link doesn’t seem to work anymore." => "抱歉，此連結已經失效",
 "Reasons might be:" => "可能的原因：",
 "the item was removed" => "項目已經移除",
 "the link expired" => "連結過期",

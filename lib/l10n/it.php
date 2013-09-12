@@ -23,6 +23,7 @@ $TRANSLATIONS = array(
 "App does not provide an info.xml file" => "L'applicazione non fornisce un file info.xml",
 "App can't be installed because of not allowed code in the App" => "L'applicazione non può essere installata a causa di codice non consentito al suo interno",
 "App can't be installed because it is not compatible with this version of ownCloud" => "L'applicazione non può essere installata poiché non è compatibile con questa versione di ownCloud",
+"App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" => "L'applicazione non può essere installata poiché contiene il tag <shipped>true<shipped> che non è permesso alle applicazioni non shipped",
 "App can't be installed because the version in info.xml/version is not the same as the version reported from the app store" => "L'applicazione non può essere installata poiché la versione in info.xml/version non è la stessa riportata dall'app store",
 "App directory already exists" => "La cartella dell'applicazione esiste già",
 "Can't create app folder. Please fix permissions. %s" => "Impossibile creare la cartella dell'applicazione. Correggi i permessi. %s",

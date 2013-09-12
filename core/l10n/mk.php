@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "група",
 "Category type not provided." => "Не беше доставен тип на категорија.",
 "No category to add?" => "Нема категорија да се додаде?",
 "Object type not provided." => "Не беше доставен тип на објект.",

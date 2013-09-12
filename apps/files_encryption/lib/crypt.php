@@ -52,14 +52,14 @@ class Crypt {
 
 		$return = false;
 
-		$res = openssl_pkey_new(array('private_key_bits' => 4096));
+		$res = Helper::getOpenSSLPkey();
 
 		if ($res === false) {
 			\OCP\Util::writeLog('Encryption library', 'couldn\'t generate users key-pair for ' . \OCP\User::getUser(), \OCP\Util::ERROR);
 			while ($msg = openssl_error_string()) {
 				\OCP\Util::writeLog('Encryption library', 'openssl_pkey_new() fails:  ' . $msg, \OCP\Util::ERROR);
 			}
-		} elseif (openssl_pkey_export($res, $privateKey)) {
+		} elseif (openssl_pkey_export($res, $privateKey, null, Helper::getOpenSSLConfig())) {
 			// Get public key
 			$keyDetails = openssl_pkey_get_details($res);
 			$publicKey = $keyDetails['key'];
@@ -70,7 +70,9 @@ class Crypt {
 			);
 		} else {
 			\OCP\Util::writeLog('Encryption library', 'couldn\'t export users private key, please check your servers openSSL configuration.' . \OCP\User::getUser(), \OCP\Util::ERROR);
-			\OCP\Util::writeLog('Encryption library', openssl_error_string(), \OCP\Util::ERROR);
+			while($errMsg = openssl_error_string()) {
+				\OCP\Util::writeLog('Encryption library', $errMsg, \OCP\Util::ERROR);
+			}
 		}
 
 		return $return;

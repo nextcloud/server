@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "그룹",
 "Category type not provided." => "분류 형식이 제공되지 않았습니다.",
 "No category to add?" => "추가할 분류가 없습니까?",
 "This category already exists: %s" => "분류가 이미 존재합니다: %s",

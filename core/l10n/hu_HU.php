@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s megosztotta Önnel ezt:  »%s«",
+"group" => "csoport",
 "Category type not provided." => "Nincs megadva a kategória típusa.",
 "No category to add?" => "Nincs hozzáadandó kategória?",
 "This category already exists: %s" => "Ez a kategória már létezik: %s",

@@ -13,6 +13,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "یک پوشه موقت گم شده",
 "Failed to write to disk" => "نوشتن بر روی دیسک سخت ناموفق بود",
 "Not enough storage available" => "فضای کافی در دسترس نیست",
+"Upload failed" => "بارگزاری ناموفق بود",
 "Invalid directory." => "فهرست راهنما نامعتبر می باشد.",
 "Files" => "پرونده‌ها",
 "Unable to upload your file as it is a directory or has 0 bytes" => "ناتوان در بارگذاری یا فایل یک پوشه است یا 0بایت دارد",

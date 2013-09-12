@@ -140,8 +140,13 @@ class Share {
 		$source = -1;
 		$cache = false;
 
-		$view = new \OC\Files\View('/' . $user . '/files/');
-		$meta = $view->getFileInfo(\OC\Files\Filesystem::normalizePath($path));
+		$view = new \OC\Files\View('/' . $user . '/files');
+		if ($view->file_exists($path)) {
+			$meta = $view->getFileInfo($path);
+		} else {
+			// if the file doesn't exists yet we start with the parent folder
+			$meta = $view->getFileInfo(dirname($path));
+		}
 
 		if($meta !== false) {
 			$source = $meta['fileid'];
@@ -463,7 +468,7 @@ class Share {
 				if (isset($oldToken)) {
 					$token = $oldToken;
 				} else {
-					$token = \OC_Util::generate_random_bytes(self::TOKEN_LENGTH);
+					$token = \OC_Util::generateRandomBytes(self::TOKEN_LENGTH);
 				}
 				$result = self::put($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions,
 					null, $token);

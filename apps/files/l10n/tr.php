@@ -13,6 +13,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "Geçici dizin eksik",
 "Failed to write to disk" => "Diske yazılamadı",
 "Not enough storage available" => "Yeterli disk alanı yok",
+"Upload failed" => "Yükleme başarısız",
 "Invalid directory." => "Geçersiz dizin.",
 "Files" => "Dosyalar",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Dosyanızın boyutu 0 byte olduğundan veya bir dizin olduğundan yüklenemedi",

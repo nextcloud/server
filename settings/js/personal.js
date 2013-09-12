@@ -94,7 +94,7 @@ $(document).ready(function(){
 	$("#languageinput").chosen();
 	// Show only the not selectable optgroup
 	// Choosen only shows optgroup-labels if there are options in the optgroup
-	$(".languagedivider").remove();
+	$(".languagedivider").hide();
 
 	$("#languageinput").change( function(){
 		// Serialize the data

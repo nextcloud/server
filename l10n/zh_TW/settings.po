@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-27 11:18-0400\n"
-"PO-Revision-Date: 2013-08-26 04:10+0000\n"
+"POT-Creation-Date: 2013-09-07 04:40-0400\n"
+"PO-Revision-Date: 2013-09-05 11:51+0000\n"
 "Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -85,47 +85,47 @@ msgstr "使用者移出群組 %s 錯誤"
 msgid "Couldn't update app."
 msgstr "無法更新應用程式"
 
-#: js/apps.js:35
+#: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "更新至 {appversion}"
 
-#: js/apps.js:41 js/apps.js:74 js/apps.js:100
+#: js/apps.js:49 js/apps.js:82 js/apps.js:108
 msgid "Disable"
 msgstr "停用"
 
-#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
+#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
 msgid "Enable"
 msgstr "啟用"
 
-#: js/apps.js:63
+#: js/apps.js:71
 msgid "Please wait...."
 msgstr "請稍候..."
 
-#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+#: js/apps.js:79 js/apps.js:80 js/apps.js:100
 msgid "Error while disabling app"
 msgstr "停用應用程式錯誤"
 
-#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+#: js/apps.js:99 js/apps.js:112 js/apps.js:113
 msgid "Error while enabling app"
 msgstr "啓用應用程式錯誤"
 
-#: js/apps.js:115
+#: js/apps.js:123
 msgid "Updating...."
 msgstr "更新中..."
 
-#: js/apps.js:118
+#: js/apps.js:126
 msgid "Error while updating app"
 msgstr "更新應用程式錯誤"
 
-#: js/apps.js:118
+#: js/apps.js:126
 msgid "Error"
 msgstr "錯誤"
 
-#: js/apps.js:119 templates/apps.php:43
+#: js/apps.js:127 templates/apps.php:43
 msgid "Update"
 msgstr "更新"
 
-#: js/apps.js:122
+#: js/apps.js:130
 msgid "Updated"
 msgstr "已更新"
 
@@ -356,7 +356,7 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr "由 <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 社群</a>開發，<a href=\"https://github.com/owncloud\" target=\"_blank\">原始碼</a>在 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> 許可證下發布。"
+msgstr "由 <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 社群</a>開發，<a href=\"https://github.com/owncloud\" target=\"_blank\">原始碼</a>在 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> 授權許可下發布。"
 
 #: templates/apps.php:13
 msgid "Add your App"
@@ -472,7 +472,7 @@ msgstr "WebDAV"
 msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
 "target=\"_blank\">access your Files via WebDAV</a>"
-msgstr "使用<a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">這個網址</a>來透過 WebDAV 存取您的檔案"
+msgstr "以上的 WebDAV 位址可以讓您<a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">透過 WebDAV 協定存取檔案</a>"
 
 #: templates/personal.php:117
 msgid "Encryption"

@@ -81,7 +81,7 @@ class Stream {
 	 * @return bool
 	 */
 	public function stream_open($path, $mode, $options, &$opened_path) {
-		
+
 		// assume that the file already exist before we decide it finally in getKey()
 		$this->newFile = false;
 
@@ -106,12 +106,12 @@ class Stream {
 		if ($this->relPath === false) {
 			$this->relPath = Helper::getPathToRealFile($this->rawPath);
 		}
-		
+
 		if($this->relPath === false) {
 			\OCP\Util::writeLog('Encryption library', 'failed to open file "' . $this->rawPath . '" expecting a path to user/files or to user/files_versions', \OCP\Util::ERROR);
 			return false;
 		}
-		
+
 		// Disable fileproxies so we can get the file size and open the source file without recursive encryption
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
@@ -188,7 +188,7 @@ class Stream {
 		}
 
 		// Get the data from the file handle
-		$data = fread($this->handle, 8192);
+		$data = fread($this->handle, $count);
 
 		$result = null;
 
@@ -272,7 +272,7 @@ class Stream {
 		} else {
 
 			$this->newFile = true;
-			
+
 			return false;
 
 		}
@@ -296,9 +296,9 @@ class Stream {
 			return strlen($data);
 		}
 
-		// Disable the file proxies so that encryption is not 
-		// automatically attempted when the file is written to disk - 
-		// we are handling that separately here and we don't want to 
+		// Disable the file proxies so that encryption is not
+		// automatically attempted when the file is written to disk -
+		// we are handling that separately here and we don't want to
 		// get into an infinite loop
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
@@ -311,7 +311,7 @@ class Stream {
 		$pointer = ftell($this->handle);
 
 		// Get / generate the keyfile for the file we're handling
-		// If we're writing a new file (not overwriting an existing 
+		// If we're writing a new file (not overwriting an existing
 		// one), save the newly generated keyfile
 		if (!$this->getKey()) {
 
@@ -319,7 +319,7 @@ class Stream {
 
 		}
 
-		// If extra data is left over from the last round, make sure it 
+		// If extra data is left over from the last round, make sure it
 		// is integrated into the next 6126 / 8192 block
 		if ($this->writeCache) {
 
@@ -344,12 +344,12 @@ class Stream {
 			if ($remainingLength < 6126) {
 
 				// Set writeCache to contents of $data
-				// The writeCache will be carried over to the 
-				// next write round, and added to the start of 
-				// $data to ensure that written blocks are 
-				// always the correct length. If there is still 
-				// data in writeCache after the writing round 
-				// has finished, then the data will be written 
+				// The writeCache will be carried over to the
+				// next write round, and added to the start of
+				// $data to ensure that written blocks are
+				// always the correct length. If there is still
+				// data in writeCache after the writing round
+				// has finished, then the data will be written
 				// to disk by $this->flush().
 				$this->writeCache = $data;
 
@@ -363,7 +363,7 @@ class Stream {
 
 				$encrypted = $this->preWriteEncrypt($chunk, $this->plainKey);
 
-				// Write the data chunk to disk. This will be 
+				// Write the data chunk to disk. This will be
 				// attended to the last data chunk if the file
 				// being handled totals more than 6126 bytes
 				fwrite($this->handle, $encrypted);
@@ -488,6 +488,7 @@ class Stream {
 				$this->meta['mode'] !== 'rb' &&
 				$this->size > 0
 		) {
+
 			// only write keyfiles if it was a new file
 			if ($this->newFile === true) {
 
@@ -535,6 +536,7 @@ class Stream {
 
 			// set fileinfo
 			$this->rootView->putFileInfo($this->rawPath, $fileInfo);
+
 		}
 
 		return fclose($this->handle);

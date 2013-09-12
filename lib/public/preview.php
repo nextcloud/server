@@ -22,7 +22,7 @@ class Preview {
 	 * @return image
 	 */
 	public static function show($file,$maxX=100,$maxY=75,$scaleup=false) {
-		return(\OC_Preview::show($file,$maxX,$maxY,$scaleup));
+		return(\OC\Preview::show($file,$maxX,$maxY,$scaleup));
 	}
 
 

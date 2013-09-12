@@ -147,7 +147,7 @@ var FileList={
 		$('tr').filterAttr('data-file',name).remove();
 		FileList.updateFileSummary();
 		if($('tr[data-file]').length==0){
-			$('#emptyfolder').show();
+			$('#emptycontent').show();
 		}
 	},
 	insertElement:function(name,type,element){
@@ -177,7 +177,7 @@ var FileList={
 		}else{
 			$('#fileList').append(element);
 		}
-		$('#emptyfolder').hide();
+		$('#emptycontent').hide();
 		FileList.updateFileSummary();
 	},
 	loadingDone:function(name, id){

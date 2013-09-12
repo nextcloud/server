@@ -13,6 +13,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "Mangler midlertidig mappe",
 "Failed to write to disk" => "Klarte ikke å skrive til disk",
 "Not enough storage available" => "Ikke nok lagringsplass",
+"Upload failed" => "Opplasting feilet",
 "Invalid directory." => "Ugyldig katalog.",
 "Files" => "Filer",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Kan ikke laste opp filen din siden det er en mappe eller den har 0 bytes",

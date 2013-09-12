@@ -13,6 +13,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "Λείπει ο προσωρινός φάκελος",
 "Failed to write to disk" => "Αποτυχία εγγραφής στο δίσκο",
 "Not enough storage available" => "Μη επαρκής διαθέσιμος αποθηκευτικός χώρος",
+"Upload failed" => "Η μεταφόρτωση απέτυχε",
 "Invalid directory." => "Μη έγκυρος φάκελος.",
 "Files" => "Αρχεία",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Αδυναμία στην αποστολή του αρχείου σας αφού είναι φάκελος ή έχει 0 bytes",
