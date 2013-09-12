@@ -35,6 +35,7 @@ $TRANSLATIONS = array(
 "undo" => "ongedaan maken",
 "_%n folder_::_%n folders_" => array("","%n mappen"),
 "_%n file_::_%n files_" => array("","%n bestanden"),
+"{dirs} and {files}" => "{dirs} en {files}",
 "_Uploading %n file_::_Uploading %n files_" => array("%n bestand aan het uploaden","%n bestanden aan het uploaden"),
 "files uploading" => "bestanden aan het uploaden",
 "'.' is an invalid file name." => "'.' is een ongeldige bestandsnaam.",

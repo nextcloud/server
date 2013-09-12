@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-01 13:27-0400\n"
-"PO-Revision-Date: 2013-08-30 13:50+0000\n"
+"POT-Creation-Date: 2013-09-07 04:40-0400\n"
+"PO-Revision-Date: 2013-09-05 11:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -173,59 +173,59 @@ msgstr "Gruodis"
 msgid "Settings"
 msgstr "Nustatymai"
 
-#: js/js.js:812
+#: js/js.js:821
 msgid "seconds ago"
 msgstr "prieš sekundę"
 
-#: js/js.js:813
+#: js/js.js:822
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] " prieš %n minutę"
 msgstr[1] " prieš %n minučių"
 msgstr[2] " prieš %n minučių"
 
-#: js/js.js:814
+#: js/js.js:823
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "prieš %n valandą"
 msgstr[1] "prieš %n valandų"
 msgstr[2] "prieš %n valandų"
 
-#: js/js.js:815
+#: js/js.js:824
 msgid "today"
 msgstr "šiandien"
 
-#: js/js.js:816
+#: js/js.js:825
 msgid "yesterday"
 msgstr "vakar"
 
-#: js/js.js:817
+#: js/js.js:826
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: js/js.js:818
+#: js/js.js:827
 msgid "last month"
 msgstr "praeitą mėnesį"
 
-#: js/js.js:819
+#: js/js.js:828
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "prieš %n mėnesį"
 msgstr[1] "prieš %n mėnesius"
 msgstr[2] "prieš %n mėnesių"
 
-#: js/js.js:820
+#: js/js.js:829
 msgid "months ago"
 msgstr "prieš mėnesį"
 
-#: js/js.js:821
+#: js/js.js:830
 msgid "last year"
 msgstr "praeitais metais"
 
-#: js/js.js:822
+#: js/js.js:831
 msgid "years ago"
 msgstr "prieš metus"
 
@@ -409,7 +409,7 @@ msgstr "Atnaujinimas buvo nesėkmingas. PApie tai prašome pranešti the <a href
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Atnaujinimas buvo sėkmingas. Nukreipiame į jūsų ownCloud."
 
-#: lostpassword/controller.php:61
+#: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
 msgstr "%s slaptažodžio atnaujinimas"

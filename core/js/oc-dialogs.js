@@ -244,9 +244,16 @@ var OCdialogs = {
 		return defer.promise();
 	},
 	_getFileList: function(dir, mimeType) {
+		if (typeof(mimeType) === "string") {
+			mimeType = [mimeType];
+		}
+
 		return $.getJSON(
 			OC.filePath('files', 'ajax', 'rawlist.php'),
-			{dir: dir, mimetype: mimeType}
+			{
+				dir: dir,
+				mimetypes: JSON.stringify(mimeType)
+			}
 		);
 	},
 	_determineValue: function(element) {

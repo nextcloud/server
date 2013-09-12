@@ -12,5 +12,3 @@ class RP_dataObjWriteInp extends RODSPacket
     }
 
 }
-
-?>

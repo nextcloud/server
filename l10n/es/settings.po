@@ -8,14 +8,15 @@
 # ggam <ggam@brainleakage.com>, 2013
 # pablomillaquen <pablomillaquen@gmail.com>, 2013
 # qdneren <renanqd@yahoo.com.mx>, 2013
+# Korrosivo <yo@rubendelcampo.es>, 2013
 # saskarip <saskarip@gmail.com>, 2013
 # scambra <sergio@programatica.es>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-27 11:18-0400\n"
-"PO-Revision-Date: 2013-08-26 08:01+0000\n"
+"POT-Creation-Date: 2013-09-07 04:40-0400\n"
+"PO-Revision-Date: 2013-09-05 11:51+0000\n"
 "Last-Translator: eadeprado <eadeprado@outlook.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +36,7 @@ msgstr "Error de autenticación"
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
-msgstr "Su nombre fue cambiado."
+msgstr "Su nombre de usuario ha sido cambiado."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
@@ -91,53 +92,53 @@ msgstr "No se pudo eliminar al usuario del grupo %s"
 msgid "Couldn't update app."
 msgstr "No se pudo actualizar la aplicacion."
 
-#: js/apps.js:35
+#: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Actualizado a {appversion}"
 
-#: js/apps.js:41 js/apps.js:74 js/apps.js:100
+#: js/apps.js:49 js/apps.js:82 js/apps.js:108
 msgid "Disable"
 msgstr "Desactivar"
 
-#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
+#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
 msgid "Enable"
 msgstr "Activar"
 
-#: js/apps.js:63
+#: js/apps.js:71
 msgid "Please wait...."
 msgstr "Espere, por favor...."
 
-#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+#: js/apps.js:79 js/apps.js:80 js/apps.js:100
 msgid "Error while disabling app"
-msgstr ""
+msgstr "Error mientras se desactivaba la aplicación"
 
-#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+#: js/apps.js:99 js/apps.js:112 js/apps.js:113
 msgid "Error while enabling app"
-msgstr ""
+msgstr "Error mientras se activaba la aplicación"
 
-#: js/apps.js:115
+#: js/apps.js:123
 msgid "Updating...."
 msgstr "Actualizando...."
 
-#: js/apps.js:118
+#: js/apps.js:126
 msgid "Error while updating app"
 msgstr "Error mientras se actualizaba la aplicación"
 
-#: js/apps.js:118
+#: js/apps.js:126
 msgid "Error"
 msgstr "Error"
 
-#: js/apps.js:119 templates/apps.php:43
+#: js/apps.js:127 templates/apps.php:43
 msgid "Update"
 msgstr "Actualizar"
 
-#: js/apps.js:122
+#: js/apps.js:130
 msgid "Updated"
 msgstr "Actualizado"
 
 #: js/personal.js:150
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "Descifrando archivos... Espere por favor, esto puede llevar algo de tiempo."
 
 #: js/personal.js:172
 msgid "Saving..."
@@ -199,7 +200,7 @@ msgid ""
 "configure your webserver in a way that the data directory is no longer "
 "accessible or you move the data directory outside the webserver document "
 "root."
-msgstr "Su directorio de datos y sus archivos probablemente están accesibles desde Internet. El archivo .htaccess no está funcionando. Nosotros le sugerimos encarecidamente que configure su servidor web de modo que el directorio de datos ya no sea accesible o que mueva el directorio de datos fuera de la raíz de documentos del servidor web."
+msgstr "Probablemente se puede acceder a su directorio de datos y sus archivos desde Internet. El archivo .htaccess no está funcionando. Nosotros le sugerimos encarecidamente que configure su servidor web de modo que el directorio de datos ya no sea accesible o que mueva el directorio de datos fuera de la raíz de documentos del servidor web."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -218,13 +219,13 @@ msgstr "Por favor, vuelva a comprobar las <a href='%s'>guías de instalación</a
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr "Módulo 'fileinfo' perdido"
+msgstr "No se ha encontrado el módulo \"fileinfo\""
 
 #: templates/admin.php:47
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr "El modulo PHP 'fileinfo' no se encuentra. Le recomendamos encarecidamente que habilite este módulo para obtener mejores resultados con la detección del mime-type"
+msgstr "No se ha encontrado el modulo PHP 'fileinfo'. Le recomendamos encarecidamente que habilite este módulo para obtener mejores resultados con la detección del mime-type"
 
 #: templates/admin.php:58
 msgid "Locale not working"
@@ -287,7 +288,7 @@ msgstr "Permitir enlaces"
 
 #: templates/admin.php:135
 msgid "Allow users to share items to the public with links"
-msgstr "Permitir a los usuarios compartir elementos al público con enlaces"
+msgstr "Permitir a los usuarios compartir elementos con el público mediante enlaces"
 
 #: templates/admin.php:143
 msgid "Allow public uploads"
@@ -378,11 +379,11 @@ msgstr "Seleccionar una aplicación"
 
 #: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
-msgstr "Echa un vistazo a la web de aplicaciones apps.owncloud.com"
+msgstr "Ver la página de aplicaciones en apps.owncloud.com"
 
 #: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr "<span class=\"licence\"></span>-licenciado por <span class=\"author\"></span>"
+msgstr "<span class=\"licence\"></span>-licencia otorgada por <span class=\"author\"></span>"
 
 #: templates/help.php:4
 msgid "User Documentation"
@@ -414,7 +415,7 @@ msgstr "Obtener las aplicaciones para sincronizar sus archivos"
 
 #: templates/personal.php:19
 msgid "Show First Run Wizard again"
-msgstr "Mostrar asistente para iniciar otra vez"
+msgstr "Mostrar asistente para iniciar de nuevo"
 
 #: templates/personal.php:27
 #, php-format
@@ -467,7 +468,7 @@ msgstr "Idioma"
 
 #: templates/personal.php:98
 msgid "Help translate"
-msgstr "Ayúdnos a traducir"
+msgstr "Ayúdanos a traducir"
 
 #: templates/personal.php:104
 msgid "WebDAV"
@@ -486,15 +487,15 @@ msgstr "Cifrado"
 
 #: templates/personal.php:119
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr ""
+msgstr "La aplicación de cifrado no está activada, descifre sus archivos"
 
 #: templates/personal.php:125
 msgid "Log-in password"
-msgstr ""
+msgstr "Contraseña de acceso"
 
 #: templates/personal.php:130
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Descifrar archivos"
 
 #: templates/users.php:21
 msgid "Login Name"

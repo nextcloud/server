@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Не вдалося перемістити %s - Файл з таким ім'ям вже існує",
 "Could not move %s" => "Не вдалося перемістити %s",
+"Unable to set upload directory." => "Не вдалося встановити каталог завантаження.",
 "No file was uploaded. Unknown error" => "Не завантажено жодного файлу. Невідома помилка",
 "There is no error, the file uploaded with success" => "Файл успішно вивантажено без помилок.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Розмір звантаження перевищує upload_max_filesize параметра в php.ini: ",

@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Authentication error" => "Veprim i gabuar gjatë vërtetimit të identitetit",
+"Invalid request" => "Kërkesë e pavlefshme",
 "Error" => "Veprim i gabuar",
 "Update" => "Azhurno",
 "undo" => "anulo",
@@ -11,6 +12,7 @@ $TRANSLATIONS = array(
 "Password" => "Kodi",
 "New password" => "Kodi i ri",
 "Email" => "Email-i",
+"Other" => "Të tjera",
 "Username" => "Përdoruesi"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

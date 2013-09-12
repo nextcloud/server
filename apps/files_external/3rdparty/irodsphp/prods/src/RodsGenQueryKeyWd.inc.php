@@ -222,4 +222,3 @@ $GLOBALS['PRODS_GENQUE_KEYWD_REV'] = array(
     "lastExeTime" => 'RULE_LAST_EXE_TIME_KW',
     "exeStatus" => 'RULE_EXE_STATUS_KW',
 );
-?>

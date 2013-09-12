@@ -330,18 +330,6 @@ class OC_DB {
 	}
 
 	/**
-	 * @brief Disconnect
-	 *
-	 * This is good bye, good bye, yeah!
-	 */
-	public static function disconnect() {
-		// Cut connection if required
-		if(self::$connection) {
-			self::$connection->close();
-		}
-	}
-
-	/**
 	 * @brief saves database schema to xml file
 	 * @param string $file name of file
 	 * @param int $mode
