@@ -155,10 +155,10 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$column = 'timestamptest';
 
 		$expectedFormat = 'Y-m-d H:i:s';
-		$now = new \DateTime;
+		$expected = new \DateTime;
 
 		$query = OC_DB::prepare("INSERT INTO `$table` (`$column`) VALUES (?)");
-		$result = $query->execute(array($now->format($expectedFormat)));
+		$result = $query->execute(array($expected->format($expectedFormat)));
 		$this->assertEquals(
 			1,
 			$result,
@@ -170,16 +170,16 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$result = $query->execute(array($id));
 		$row = $result->fetchRow();
 
-		$dateFromDb = \DateTime::createFromFormat($expectedFormat, $row[$column]);
+		$actual = \DateTime::createFromFormat($expectedFormat, $row[$column]);
 		$this->assertInstanceOf(
 			'\DateTime',
-			$dateFromDb,
+			$actual,
 			"Database failed to return dates in the format '$expectedFormat'."
 		);
 
 		$this->assertEquals(
-			$now->format('c u'),
-			$dateFromDb->format('c u'),
+			$expected,
+			$actual,
 			'Failed asserting that the returned date is the same as the inserted.'
 		);
 	}
