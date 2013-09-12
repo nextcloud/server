@@ -349,17 +349,19 @@ class OC_Helper {
 		if (!is_dir($path))
 			return chmod($path, $filemode);
 		$dh = opendir($path);
-		while (($file = readdir($dh)) !== false) {
-			if ($file != '.' && $file != '..') {
-				$fullpath = $path . '/' . $file;
-				if (is_link($fullpath))
-					return false;
-				elseif (!is_dir($fullpath) && !@chmod($fullpath, $filemode))
-					return false; elseif (!self::chmodr($fullpath, $filemode))
-					return false;
+		if(is_resource($dh)) {
+			while (($file = readdir($dh)) !== false) {
+				if ($file != '.' && $file != '..') {
+					$fullpath = $path . '/' . $file;
+					if (is_link($fullpath))
+						return false;
+					elseif (!is_dir($fullpath) && !@chmod($fullpath, $filemode))
+						return false; elseif (!self::chmodr($fullpath, $filemode))
+						return false;
+				}
 			}
+			closedir($dh);
 		}
-		closedir($dh);
 		if (@chmod($path, $filemode))
 			return true;
 		else
@@ -657,9 +659,11 @@ class OC_Helper {
 			// if oc-noclean is empty delete it
 			$isTmpDirNoCleanEmpty = true;
 			$tmpDirNoClean = opendir($tmpDirNoCleanName);
-			while (false !== ($file = readdir($tmpDirNoClean))) {
-				if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
-					$isTmpDirNoCleanEmpty = false;
+			if(is_resource($tmpDirNoClean)) {
+				while (false !== ($file = readdir($tmpDirNoClean))) {
+					if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
+						$isTmpDirNoCleanEmpty = false;
+					}
 				}
 			}
 			if ($isTmpDirNoCleanEmpty) {
@@ -702,7 +706,7 @@ class OC_Helper {
 		$newpath = $path . '/' . $filename;
 		if ($view->file_exists($newpath)) {
 			if (preg_match_all('/\((\d+)\)/', $name, $matches, PREG_OFFSET_CAPTURE)) {
-				//Replace the last "(number)" with "(number+1)" 
+				//Replace the last "(number)" with "(number+1)"
 				$last_match = count($matches[0]) - 1;
 				$counter = $matches[1][$last_match][0] + 1;
 				$offset = $matches[0][$last_match][1];
@@ -713,7 +717,7 @@ class OC_Helper {
 			}
 			do {
 				if ($offset) {
-					//Replace the last "(number)" with "(number+1)" 
+					//Replace the last "(number)" with "(number+1)"
 					$newname = substr_replace($name, '(' . $counter . ')', $offset, $match_length);
 				} else {
 					$newname = $name . ' (' . $counter . ')';

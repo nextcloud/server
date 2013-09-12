@@ -56,7 +56,7 @@ class iRODS extends \OC\Files\Storage\StreamWrapper{
 		} else {
 			throw new \Exception();
 		}
-		
+
 	}
 
 	public static function login( $params ) {
@@ -138,11 +138,13 @@ class iRODS extends \OC\Files\Storage\StreamWrapper{
 	private function collectionMTime($path) {
 		$dh = $this->opendir($path);
 		$lastCTime = $this->filemtime($path);
-		while (($file = readdir($dh)) !== false) {
-			if ($file != '.' and $file != '..') {
-				$time = $this->filemtime($file);
-				if ($time > $lastCTime) {
-					$lastCTime = $time;
+		if(is_resource($dh)) {
+			while (($file = readdir($dh)) !== false) {
+				if ($file != '.' and $file != '..') {
+					$time = $this->filemtime($file);
+					if ($time > $lastCTime) {
+						$lastCTime = $time;
+					}
 				}
 			}
 		}
