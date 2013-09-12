@@ -288,52 +288,6 @@ interface Storage {
 	public function hasUpdated($path, $time);
 
 	/**
-	 * get a cache instance for the storage
-	 *
-	 * @param string $path
-	 * @return \OC\Files\Cache\Cache
-	 */
-	public function getCache($path = '');
-
-	/**
-	 * get a scanner instance for the storage
-	 *
-	 * @param string $path
-	 * @return \OC\Files\Cache\Scanner
-	 */
-	public function getScanner($path = '');
-
-
-	/**
-	 * get the user id of the owner of a file or folder
-	 *
-	 * @param string $path
-	 * @return string
-	 */
-	public function getOwner($path);
-
-	/**
-	 * get a permissions cache instance for the cache
-	 *
-	 * @param string $path
-	 * @return \OC\Files\Cache\Permissions
-	 */
-	public function getPermissionsCache($path = '');
-
-	/**
-	 * get a watcher instance for the cache
-	 *
-	 * @param string $path
-	 * @return \OC\Files\Cache\Watcher
-	 */
-	public function getWatcher($path = '');
-
-	/**
-	 * @return \OC\Files\Cache\Storage
-	 */
-	public function getStorageCache();
-
-	/**
 	 * get the ETag for a file or folder
 	 *
 	 * @param string $path
