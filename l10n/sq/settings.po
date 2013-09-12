@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-07 04:40-0400\n"
-"PO-Revision-Date: 2013-09-05 11:51+0000\n"
+"POT-Creation-Date: 2013-09-10 10:41-0400\n"
+"PO-Revision-Date: 2013-09-09 23:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -64,7 +64,7 @@ msgstr ""
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr ""
+msgstr "Kërkesë e pavlefshme"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -517,7 +517,7 @@ msgstr ""
 
 #: templates/users.php:66 templates/users.php:157
 msgid "Other"
-msgstr ""
+msgstr "Të tjera"
 
 #: templates/users.php:84
 msgid "Username"

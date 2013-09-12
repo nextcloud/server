@@ -232,4 +232,3 @@ $GLOBALS['PRODS_GENQUE_NUMS_REV'] = array(
     '1105' => 'COL_TOKEN_VALUE3',
     '1106' => 'COL_TOKEN_COMMENT',
 );
-?>

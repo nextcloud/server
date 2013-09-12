@@ -1611,5 +1611,3 @@ class RODSConn
         return $results;
     }
 }
-
-?>

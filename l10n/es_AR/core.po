@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-07 04:40-0400\n"
-"PO-Revision-Date: 2013-09-05 11:50+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-11 06:48-0400\n"
+"PO-Revision-Date: 2013-09-11 10:30+0000\n"
+"Last-Translator: cjtess <claudio.tessone@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,28 +29,28 @@ msgstr "grupo"
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "Modo de mantenimiento activado"
 
 #: ajax/update.php:14
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "Modo de mantenimiento desactivado"
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr ""
+msgstr "Base de datos actualizada"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
-msgstr ""
+msgstr "Actualizando caché de archivos, esto puede tardar mucho tiempo..."
 
 #: ajax/update.php:23
 msgid "Updated filecache"
-msgstr ""
+msgstr "Caché de archivos actualizada"
 
 #: ajax/update.php:26
 #, php-format
 msgid "... %d%% done ..."
-msgstr ""
+msgstr "... %d%% hecho ..."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -178,14 +178,14 @@ msgstr "segundos atrás"
 #: js/js.js:822
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hace %n minuto"
+msgstr[1] "Hace %n minutos"
 
 #: js/js.js:823
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hace %n hora"
+msgstr[1] "Hace %n horas"
 
 #: js/js.js:824
 msgid "today"
@@ -198,8 +198,8 @@ msgstr "ayer"
 #: js/js.js:826
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hace %n día"
+msgstr[1] "Hace %n días"
 
 #: js/js.js:827
 msgid "last month"
@@ -208,8 +208,8 @@ msgstr "el mes pasado"
 #: js/js.js:828
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hace %n mes"
+msgstr[1] "Hace %n meses"
 
 #: js/js.js:829
 msgid "months ago"
@@ -406,7 +406,7 @@ msgstr "La actualización fue exitosa. Estás siendo redirigido a ownCloud."
 #: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "%s restablecer contraseña"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -523,7 +523,7 @@ msgstr "La versión de PHP que tenés, es vulnerable al ataque de byte NULL (CVE
 #: templates/installation.php:26
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "Por favor, actualizá tu instalación PHP para poder usar %s de manera segura."
 
 #: templates/installation.php:32
 msgid ""
@@ -548,7 +548,7 @@ msgstr "Tu directorio de datos y tus archivos probablemente son accesibles a tra
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Para información sobre cómo configurar apropiadamente tu servidor, por favor mirá la <a href=\"%s\" target=\"_blank\">documentación</a>."
 
 #: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"

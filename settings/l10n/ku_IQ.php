@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Invalid request" => "داواکارى نادروستە",
 "Enable" => "چالاککردن",
 "Error" => "هه‌ڵه",
 "Update" => "نوێکردنه‌وه",

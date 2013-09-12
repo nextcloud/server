@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-07 04:40-0400\n"
-"PO-Revision-Date: 2013-09-05 11:50+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-10 10:41-0400\n"
+"PO-Revision-Date: 2013-09-09 23:00+0000\n"
+"Last-Translator: Odeen <rapid_odeen@zoho.com>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,36 +22,36 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s ndau »%s« me ju"
 
 #: ajax/share.php:227
 msgid "group"
-msgstr ""
+msgstr "grupi"
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "Mënyra e mirëmbajtjes u aktivizua"
 
 #: ajax/update.php:14
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "Mënyra e mirëmbajtjes u çaktivizua"
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr ""
+msgstr "Database-i u azhurnua"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
-msgstr ""
+msgstr "Po azhurnoj memorjen e skedarëve, mund të zgjasi pak..."
 
 #: ajax/update.php:23
 msgid "Updated filecache"
-msgstr ""
+msgstr "Memorja e skedarëve u azhornua"
 
 #: ajax/update.php:26
 #, php-format
 msgid "... %d%% done ..."
-msgstr ""
+msgstr "... %d%% u krye ..."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -179,14 +179,14 @@ msgstr "sekonda më parë"
 #: js/js.js:822
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n minut më parë"
+msgstr[1] "%n minuta më parë"
 
 #: js/js.js:823
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n orë më parë"
+msgstr[1] "%n orë më parë"
 
 #: js/js.js:824
 msgid "today"
@@ -199,8 +199,8 @@ msgstr "dje"
 #: js/js.js:826
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n ditë më parë"
+msgstr[1] "%n ditë më parë"
 
 #: js/js.js:827
 msgid "last month"
@@ -209,8 +209,8 @@ msgstr "muajin e shkuar"
 #: js/js.js:828
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n muaj më parë"
+msgstr[1] "%n muaj më parë"
 
 #: js/js.js:829
 msgid "months ago"
@@ -407,7 +407,7 @@ msgstr "Azhurnimi u krye. Tani do t'ju kaloj tek ownCloud-i."
 #: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "Kodi i %s -it u rivendos"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -439,7 +439,7 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr ""
+msgstr "Skedarët tuaj janë të kodifikuar. Nëqoftëse nuk keni aktivizuar çelësin e restaurimit, të dhënat tuaja nuk do të jenë të arritshme pasi të keni rivendosur kodin. Nëqoftëse nuk jeni i sigurt, ju lutemi kontaktoni administratorin tuaj para se të vazhdoni. Jeni i sigurt që dëshironi të vazhdoni?"
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
@@ -524,7 +524,7 @@ msgstr "Versioni juaj i PHP-së është i cënueshëm nga sulmi NULL Byte (CVE-2
 #: templates/installation.php:26
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "Ju lutem azhurnoni instalimin tuaj të PHP-së që të përdorni %s -in në mënyrë të sigurt."
 
 #: templates/installation.php:32
 msgid ""
@@ -549,7 +549,7 @@ msgstr "Dosja dhe skedarët e të dhënave tuaja mbase janë të arritshme nga i
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Për më shumë informacion mbi konfigurimin e duhur të serverit tuaj, ju lutem shikoni <a href=\"%s\" target=\"_blank\">dokumentacionin</a>."
 
 #: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
@@ -600,7 +600,7 @@ msgstr "Mbaro setup-in"
 #: templates/layout.user.php:41
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr ""
+msgstr "%s është i disponueshëm. Merrni më shumë informacione mbi azhurnimin."
 
 #: templates/layout.user.php:66
 msgid "Log out"
@@ -641,7 +641,7 @@ msgstr "Hyrje alternative"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr ""
+msgstr "Tungjatjeta,<br><br>duam t'ju njoftojmë që %s ka ndarë »%s« me ju.<br><a href=\"%s\">Shikojeni!</a><br><br>Përshëndetje!"
 
 #: templates/update.php:3
 #, php-format

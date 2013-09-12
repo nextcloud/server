@@ -10,5 +10,3 @@ class RP_STR extends RODSPacket
     }
 
 }
-
-?>
