@@ -75,6 +75,7 @@ foreach ($content as $i) {
 	}
 	$i['directory'] = $dir;
 	$i['isPreviewAvailable'] = \OCP\Preview::isMimeSupported($i['mimetype']);
+	$i['icon'] = \OCA\files\lib\Helper::determineIcon($i);
 	$files[] = $i;
 }
 
