@@ -299,18 +299,20 @@ class OC_Helper {
 		if (!is_dir($path))
 			return chmod($path, $filemode);
 		$dh = opendir($path);
-		while (($file = readdir($dh)) !== false) {
-			if($file != '.' && $file != '..') {
-				$fullpath = $path.'/'.$file;
-				if(is_link($fullpath))
-					return false;
-				elseif(!is_dir($fullpath) && !@chmod($fullpath, $filemode))
+		if(is_resource($dh)) {
+			while (($file = readdir($dh)) !== false) {
+				if($file != '.' && $file != '..') {
+					$fullpath = $path.'/'.$file;
+					if(is_link($fullpath))
 						return false;
-				elseif(!self::chmodr($fullpath, $filemode))
-					return false;
+					elseif(!is_dir($fullpath) && !@chmod($fullpath, $filemode))
+							return false;
+					elseif(!self::chmodr($fullpath, $filemode))
+						return false;
+				}
 			}
+			closedir($dh);
 		}
-		closedir($dh);
 		if(@chmod($path, $filemode))
 			return true;
 		else
