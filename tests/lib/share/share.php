@@ -29,11 +29,8 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 	protected $group1;
 	protected $group2;
 	protected $resharing;
-
-	protected $dateInPast = '2000-01-01 00:00:00';
-
-	// Picked close to the "year 2038 problem" boundary.
-	protected $dateInFuture = '2037-01-01 00:00:00';
+	protected $dateInFuture;
+	protected $dateInPast;
 
 	public function setUp() {
 		OC_User::clearBackends();
@@ -63,6 +60,12 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		OC::registerShareHooks();
 		$this->resharing = OC_Appconfig::getValue('core', 'shareapi_allow_resharing', 'yes');
 		OC_Appconfig::setValue('core', 'shareapi_allow_resharing', 'yes');
+
+		// 20 Minutes in the past, 20 minutes in the future.
+		$now = time();
+		$dateFormat = 'Y-m-d H:i:s';
+		$this->dateInPast = date($dateFormat, $now - 20 * 60);
+		$this->dateInFuture = date($dateFormat, $now + 20 * 60);
 	}
 
 	public function tearDown() {
