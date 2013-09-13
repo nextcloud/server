@@ -30,7 +30,7 @@ class View {
 	private $internal_path_cache = array();
 	private $storage_cache = array();
 
-	public function __construct($root) {
+	public function __construct($root = '') {
 		$this->fakeRoot = $root;
 	}
 
