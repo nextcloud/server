@@ -6,9 +6,6 @@
  * See the COPYING-README file.
  */
 
-// Necessary to include changepassword controller
-OC::$CLASSPATH['OC\Settings\ChangePassword\Controller'] = 'settings/ajax/changepassword.php';
-
 // Settings pages
 $this->create('settings_help', '/settings/help')
 	->actionInclude('settings/help.php');
