@@ -282,7 +282,6 @@ class OC_Helper {
 	 */
 	public static function humanFileSize($bytes) {
 		if ($bytes < 0) {
-			$l = OC_L10N::get('lib');
 			return "?";
 		}
 		if ($bytes < 1024) {
