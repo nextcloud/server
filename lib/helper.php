@@ -296,10 +296,17 @@ class OC_Helper {
 		if ($bytes < 1024) {
 			return "$bytes MB";
 		}
-
-		// Wow, heavy duty for owncloud
 		$bytes = round($bytes / 1024, 1);
-		return "$bytes GB";
+		if ($bytes < 1024) {
+			return "$bytes GB";
+		}
+		$bytes = round($bytes / 1024, 1);
+		if ($bytes < 1024) {
+			return "$bytes TB";
+		}
+
+		$bytes = round($bytes / 1024, 1);
+		return "$bytes PB";
 	}
 
 	/**
