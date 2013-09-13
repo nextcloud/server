@@ -18,7 +18,30 @@ OCP\Util::addscript('files', 'files');
 
 $dir = isset($_GET['dir']) ? stripslashes($_GET['dir']) : '';
 
-$files = \OCA\files_trashbin\lib\Helper::getTrashFiles($dir);
+$isIE8 = false;
+preg_match('/MSIE (.*?);/', $_SERVER['HTTP_USER_AGENT'], $matches);
+if (count($matches) > 0 && $matches[1] <= 8){
+	$isIE8 = true;
+}
+
+// if IE8 and "?dir=path" was specified, reformat the URL to use a hash like "#?dir=path"
+if ($isIE8 && isset($_GET['dir'])){
+	if ($dir === ''){
+		$dir = '/';
+	}
+	header('Location: ' . OCP\Util::linkTo('files_trashbin', 'index.php') . '#?dir=' . \OCP\Util::encodePath($dir));
+	exit();
+}
+
+$ajaxLoad = false;
+
+if (!$isIE8){
+	$files = \OCA\files_trashbin\lib\Helper::getTrashFiles($dir);
+}
+else{
+	$files = array();
+	$ajaxLoad = true;
+}
 
 // Redirect if directory does not exist
 if ($files === null){
@@ -53,5 +76,6 @@ $tmpl->assign('fileList', $list->fetchPage());
 $tmpl->assign('files', $files);
 $tmpl->assign('dir', $dir);
 $tmpl->assign('disableSharing', true);
+$tmpl->assign('ajaxLoad', true);
 
 $tmpl->printPage();
