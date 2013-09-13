@@ -45,7 +45,8 @@ class IntegrationTests extends \PHPUnit_Framework_TestCase {
 		\OC_Hook::connect('OC_Filesystem', 'post_rename', '\OC\Files\Cache\Updater', 'renameHook');
 		\OC_Hook::connect('OC_Filesystem', 'post_touch', '\OC\Files\Cache\Updater', 'touchHook');
 
-		$user = new User('', new \OC_User_Dummy);
+		$user = new User(uniqid('user'), new \OC_User_Dummy);
+		\OC_User::setUserId($user->getUID());
 		$this->view = new View();
 		$this->root = new Root($manager, $this->view, $user);
 		$storage = new Temporary(array());
