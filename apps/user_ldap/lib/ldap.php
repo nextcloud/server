@@ -152,9 +152,11 @@ class LDAP implements ILDAPWrapper {
 				} else if ($errorCode === 10) {
 					//referrals, we switch them off, but then there is AD :)
 				} else {
-					throw new \Exception('LDAP error '.$errorMsg.' (' .
-						$errorCode.') after calling '.$this->curFunc.
-						' with arguments '.print_r($this->curArgs, true));
+					\OCP\Util::writeLog('user_ldap',
+										'LDAP error '.$errorMsg.' (' .
+											$errorCode.') after calling '.
+											$this->curFunc,
+										\OCP\Util::DEBUG);
 				}
 			}
 		}
