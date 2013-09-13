@@ -15,5 +15,3 @@ if (file_exists(__DIR__ . "/prods.ini")) {
 else {
   $GLOBALS['PRODS_CONFIG'] = array();
 }
-  
-?>

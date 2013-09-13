@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s שיתף/שיתפה איתך את »%s«",
+"group" => "קבוצה",
 "Category type not provided." => "סוג הקטגוריה לא סופק.",
 "No category to add?" => "אין קטגוריה להוספה?",
 "This category already exists: %s" => "הקטגוריה הבאה כבר קיימת: %s",

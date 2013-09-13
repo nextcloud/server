@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "กลุ่มผู้ใช้งาน",
 "Category type not provided." => "ยังไม่ได้ระบุชนิดของหมวดหมู่",
 "No category to add?" => "ไม่มีหมวดหมู่ที่ต้องการเพิ่ม?",
 "Object type not provided." => "ชนิดของวัตถุยังไม่ได้ถูกระบุ",

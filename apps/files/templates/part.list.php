@@ -13,16 +13,19 @@
 		data-file="<?php p($name);?>"
 		data-type="<?php ($file['type'] == 'dir')?p('dir'):p('file')?>"
 		data-mime="<?php p($file['mimetype'])?>"
-		data-size='<?php p($file['size']);?>'
-		data-permissions='<?php p($file['permissions']); ?>'>
-		<td class="filename svg"
-		<?php if($file['type'] == 'dir'): ?>
-			style="background-image:url(<?php print_unescaped(OCP\mimetype_icon('dir')); ?>)"
+		data-size="<?php p($file['size']);?>"
+		data-permissions="<?php p($file['permissions']); ?>">
+		<?php if($file['isPreviewAvailable']): ?>
+		<td class="filename svg preview-icon"
 		<?php else: ?>
-			style="background-image:url(<?php print_unescaped(OCP\mimetype_icon($file['mimetype'])); ?>)"
+		<td class="filename svg"
 		<?php endif; ?>
+		    style="background-image:url(<?php print_unescaped($file['icon']); ?>)"
 			>
-		<?php if(!isset($_['readonly']) || !$_['readonly']): ?><input type="checkbox" /><?php endif; ?>
+		<?php if(!isset($_['readonly']) || !$_['readonly']): ?>
+			<input id="select-<?php p($file['fileid']); ?>" type="checkbox" />
+			<label for="select-<?php p($file['fileid']); ?>"></label>
+		<?php endif; ?>
 		<?php if($file['type'] == 'dir'): ?>
 			<a class="name" href="<?php p(rtrim($_['baseURL'],'/').'/'.trim($directory,'/').'/'.$name); ?>" title="">
 		<?php else: ?>

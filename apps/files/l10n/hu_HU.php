@@ -13,6 +13,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "Hiányzik egy ideiglenes mappa",
 "Failed to write to disk" => "Nem sikerült a lemezre történő írás",
 "Not enough storage available" => "Nincs elég szabad hely.",
+"Upload failed" => "A feltöltés nem sikerült",
 "Invalid directory." => "Érvénytelen mappa.",
 "Files" => "Fájlok",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Nem tölthető fel, mert mappa volt, vagy 0 byte méretű",

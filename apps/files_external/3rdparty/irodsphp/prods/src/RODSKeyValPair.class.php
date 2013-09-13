@@ -46,5 +46,3 @@ class RODSKeyValPair
         return $new_keyval;
     }
 }
-
-?>

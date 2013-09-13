@@ -34,6 +34,7 @@ if($doBreadcrumb) {
 $files = array();
 foreach( \OC\Files\Filesystem::getDirectoryContent( $dir ) as $i ) {
 	$i["date"] = OCP\Util::formatDate($i["mtime"] );
+	$i['icon'] = \OCA\files\lib\Helper::determineIcon($i);
 	$files[] = $i;
 }
 

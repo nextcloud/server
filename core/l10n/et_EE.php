@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s jagas sinuga »%s«",
+"group" => "grupp",
 "Turned on maintenance mode" => "Haldusreziimis",
 "Turned off maintenance mode" => "Haldusreziim lõpetatud",
 "Updated database" => "Uuendatud andmebaas",

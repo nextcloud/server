@@ -19,6 +19,20 @@ function fileCmp($a, $b) {
 	}
 }
 
+function determineIcon($file, $sharingRoot, $sharingToken) {
+	// for folders we simply reuse the files logic
+	if($file['type'] == 'dir') {
+		return \OCA\files\lib\Helper::determineIcon($file);
+	}
+
+	$relativePath = substr($file['path'], 6);
+	$relativePath = substr($relativePath, strlen($sharingRoot));
+	if($file['isPreviewAvailable']) {
+		return OCP\publicPreview_icon($relativePath, $sharingToken);
+	}
+	return OCP\mimetype_icon($file['mimetype']);
+}
+
 if (isset($_GET['t'])) {
 	$token = $_GET['t'];
 	$linkItem = OCP\Share::getShareByToken($token);
@@ -172,9 +186,11 @@ if (isset($path)) {
 					} else {
 						$i['extension'] = '';
 					}
+					$i['isPreviewAvailable'] = \OCP\Preview::isMimeSupported($i['mimetype']);
 				}
 				$i['directory'] = $getPath;
 				$i['permissions'] = OCP\PERMISSION_READ;
+				$i['icon'] = determineIcon($i, $basePath, $token);
 				$files[] = $i;
 			}
 			usort($files, "fileCmp");
@@ -194,6 +210,9 @@ if (isset($path)) {
 			$list->assign('baseURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&path=');
 			$list->assign('downloadURL',
 				OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=');
+			$list->assign('isPublic', true);
+			$list->assign('sharingtoken', $token);
+			$list->assign('sharingroot', $basePath);
 			$breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
 			$breadcrumbNav->assign('breadcrumb', $breadcrumb);
 			$breadcrumbNav->assign('baseURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&path=');

@@ -14,5 +14,3 @@ class RP_StartupPack extends RODSPacket
     }
 
 }
-
-?>

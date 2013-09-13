@@ -214,4 +214,3 @@ $GLOBALS['PRODS_API_NUMS_REV'] = array(
     '1100' => 'SSL_START_AN',
     '1101' => 'SSL_END_AN',
 );
-?>

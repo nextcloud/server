@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "Недостаје привремена фасцикла",
 "Failed to write to disk" => "Не могу да пишем на диск",
 "Not enough storage available" => "Нема довољно простора",
+"Upload failed" => "Отпремање није успело",
 "Invalid directory." => "неисправна фасцикла.",
 "Files" => "Датотеке",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Не могу да отпремим датотеку као фасциклу или она има 0 бајтова",
