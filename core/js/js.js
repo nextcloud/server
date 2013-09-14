@@ -322,6 +322,38 @@ var OC={
 		return date.getDate()+'.'+(date.getMonth()+1)+'.'+date.getFullYear()+', '+date.getHours()+':'+date.getMinutes();
 	},
 	/**
+	 * Parses a URL query string into a JS map
+	 * @param queryString query string in the format param1=1234&param2=abcde&param3=xyz
+	 * @return map containing key/values matching the URL parameters
+	 */
+	parseQueryString:function(queryString){
+		var parts,
+			components,
+			result = {},
+			key,
+			value;
+		if (!queryString){
+			return null;
+		}
+		if (queryString[0] === '?'){
+			queryString = queryString.substr(1);
+		}
+		parts = queryString.split('&');
+		for (var i = 0; i < parts.length; i++){
+			components = parts[i].split('=');
+			if (!components.length){
+				continue;
+			}
+			key = decodeURIComponent(components[0]);
+			if (!key){
+				continue;
+			}
+			value = components[1];
+			result[key] = value && decodeURIComponent(value);
+		}
+		return result;
+	},
+	/**
 	 * Opens a popup with the setting for an app.
 	 * @param appid String. The ID of the app e.g. 'calendar', 'contacts' or 'files'.
 	 * @param loadJS boolean or String. If true 'js/settings.js' is loaded. If it's a string
