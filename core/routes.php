@@ -57,6 +57,23 @@ $this->create('core_lostpassword_reset_password', '/lostpassword/reset/{token}/{
 	->post()
 	->action('OC\Core\LostPassword\Controller', 'resetPassword');
 
+// Avatar routes
+$this->create('core_avatar_get_tmp', '/avatar/tmp')
+	->get()
+	->action('OC\Core\Avatar\Controller', 'getTmpAvatar');
+$this->create('core_avatar_get', '/avatar/{user}/{size}')
+	->get()
+	->action('OC\Core\Avatar\Controller', 'getAvatar');
+$this->create('core_avatar_post', '/avatar/')
+	->post()
+	->action('OC\Core\Avatar\Controller', 'postAvatar');
+$this->create('core_avatar_delete', '/avatar/')
+	->delete()
+	->action('OC\Core\Avatar\Controller', 'deleteAvatar');
+$this->create('core_avatar_post_cropped', '/avatar/cropped')
+	->post()
+	->action('OC\Core\Avatar\Controller', 'postCroppedAvatar');
+
 // Not specifically routed
 $this->create('app_css', '/apps/{app}/{file}')
 	->requirements(array('file' => '.*.css'))
