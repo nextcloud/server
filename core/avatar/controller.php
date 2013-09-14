@@ -147,7 +147,7 @@ class Controller {
 		$image->crop($crop['x'], $crop['y'], $crop['w'], $crop['h']);
 		try {
 			$avatar = new \OC_Avatar($user);
-			$avatar->set($$image->data());
+			$avatar->set($image->data());
 			// Clean up
 			\OC_Cache::remove('tmpavatar');
 			\OC_JSON::success();
