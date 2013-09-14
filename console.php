@@ -26,7 +26,7 @@ if (!OC::$CLI) {
 $defaults = new OC_Defaults;
 $application = new Application($defaults->getName(), \OC_Util::getVersionString());
 require_once 'core/register_command.php';
-foreach(OC_App::getEnabledApps() as $app) {
+foreach(OC_App::getAllApps() as $app) {
 	$file = OC_App::getAppPath($app).'/appinfo/register_command.php';
 	if(file_exists($file)) {
 		require $file;
