@@ -139,8 +139,12 @@ var OCdialogs = {
 				}
 			});
 		})
-		.fail(function() {
-			alert(t('core', 'Error loading file picker template'));
+		.fail(function(status, error) {
+			// If the method is called while navigating away
+			// from the page, it is probably not needed ;)
+			if(status !== 0) {
+				alert(t('core', 'Error loading file picker template: {error}', {error: error}));
+			}
 		});
 	},
 	/**
@@ -206,8 +210,14 @@ var OCdialogs = {
 			});
 			OCdialogs.dialogs_counter++;
 		})
-		.fail(function() {
-			alert(t('core', 'Error loading file picker template'));
+		.fail(function(status, error) {
+			// If the method is called while navigating away from
+			// the page, we still want to deliver the message.
+			if(status === 0) {
+				alert(title + ': ' + content);
+			} else {
+				alert(t('core', 'Error loading message template: {error}', {error: error}));
+			}
 		});
 	},
 	_getFilePickerTemplate: function() {
@@ -219,8 +229,8 @@ var OCdialogs = {
 				self.$listTmpl = self.$filePickerTemplate.find('.filelist li:first-child').detach();
 				defer.resolve(self.$filePickerTemplate);
 			})
-			.fail(function() {
-				defer.reject();
+			.fail(function(jqXHR, textStatus, errorThrown) {
+				defer.reject(jqXHR.status, errorThrown);
 			});
 		} else {
 			defer.resolve(this.$filePickerTemplate);
@@ -235,8 +245,8 @@ var OCdialogs = {
 				self.$messageTemplate = $(tmpl);
 				defer.resolve(self.$messageTemplate);
 			})
-			.fail(function() {
-				defer.reject();
+			.fail(function(jqXHR, textStatus, errorThrown) {
+				defer.reject(jqXHR.status, errorThrown);
 			});
 		} else {
 			defer.resolve(this.$messageTemplate);
