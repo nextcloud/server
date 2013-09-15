@@ -336,3 +336,25 @@ table.dragshadow td.size {
 	text-align: center;
 	margin-left: -200px;
 }
+.mask {
+	z-index: 50;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: white;
+	background-repeat: no-repeat no-repeat;
+	background-position: 50%;
+	opacity: 0.7;
+	filter: alpha(opacity=70);
+	transition: opacity 100ms;
+	-moz-transition: opacity 100ms;
+	-o-transition: opacity 100ms;
+	-ms-transition: opacity 100ms;
+	-webkit-transition: opacity 100ms;
+}
+.mask.transparent{
+	opacity: 0;
+}
+

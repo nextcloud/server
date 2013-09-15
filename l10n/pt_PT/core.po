@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-10 10:41-0400\n"
-"PO-Revision-Date: 2013-09-10 08:50+0000\n"
+"POT-Creation-Date: 2013-09-13 21:47-0400\n"
+"PO-Revision-Date: 2013-09-13 12:50+0000\n"
 "Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -44,11 +44,11 @@ msgstr "Base de dados actualizada"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
-msgstr ""
+msgstr "A actualizar o cache dos ficheiros, poderá demorar algum tempo..."
 
 #: ajax/update.php:23
 msgid "Updated filecache"
-msgstr ""
+msgstr "Actualizado o cache dos ficheiros"
 
 #: ajax/update.php:26
 #, php-format
@@ -409,7 +409,7 @@ msgstr "A actualização foi concluída com sucesso. Vai ser redireccionado para
 #: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "%s reposição da password"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
