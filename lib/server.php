@@ -4,6 +4,8 @@ namespace OC;
 
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Utility\SimpleContainer;
+use OC\Files\Node\Root;
+use OC\Files\View;
 use OCP\IServerContainer;
 
 /**
@@ -47,6 +49,14 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('PreviewManager', function($c){
 			return new PreviewManager();
 		});
+		$this->registerService('RootFolder', function($c){
+			// TODO: get user and user manager from container as well
+			$user = \OC_User::getUser();
+			$user = \OC_User::getManager()->get($user);
+			$manager = \OC\Files\Filesystem::getMountManager();
+			$view = new View();
+			return new Root($manager, $view, $user);
+		});
 	}
 
 	/**
@@ -76,5 +86,15 @@ class Server extends SimpleContainer implements IServerContainer {
 	function getPreviewManager()
 	{
 		return $this->query('PreviewManager');
+	}
+
+	/**
+	 * Returns the root folder of ownCloud's data directory
+	 *
+	 * @return \OCP\Files\Folder
+	 */
+	function getRootFolder()
+	{
+		return $this->query('RootFolder');
 	}
 }

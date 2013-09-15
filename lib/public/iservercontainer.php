@@ -54,4 +54,12 @@ interface IServerContainer {
 	 * @return \OCP\IPreview
 	 */
 	function getPreviewManager();
+
+	/**
+	 * Returns the root folder of ownCloud's data directory
+	 *
+	 * @return \OCP\Files\Folder
+	 */
+	function getRootFolder();
+
 }
