@@ -376,9 +376,6 @@ class OC {
 		self::$loader->registerPrefix('Patchwork', '3rdparty');
 		spl_autoload_register(array(self::$loader, 'load'));
 
-		// setup the basic server
-		self::$server = new \OC\Server();
-
 		// set some stuff
 		//ob_start();
 		error_reporting(E_ALL | E_STRICT);
@@ -457,6 +454,9 @@ class OC {
 		stream_wrapper_register('close', 'OC\Files\Stream\Close');
 		stream_wrapper_register('quota', 'OC\Files\Stream\Quota');
 		stream_wrapper_register('oc', 'OC\Files\Stream\OC');
+
+		// setup the basic server
+		self::$server = new \OC\Server();
 
 		self::initTemplateEngine();
 		if (!self::$CLI) {
