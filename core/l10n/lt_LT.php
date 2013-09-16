@@ -48,7 +48,6 @@ $TRANSLATIONS = array(
 "last year" => "praeitais metais",
 "years ago" => "prieš metus",
 "Choose" => "Pasirinkite",
-"Error loading file picker template" => "Klaida pakraunant failų naršyklę",
 "Yes" => "Taip",
 "No" => "Ne",
 "Ok" => "Gerai",

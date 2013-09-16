@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-27 11:18-0400\n"
-"PO-Revision-Date: 2013-08-26 13:40+0000\n"
-"Last-Translator: rogerc\n"
+"POT-Creation-Date: 2013-09-16 11:33-0400\n"
+"PO-Revision-Date: 2013-09-16 15:34+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -49,10 +49,22 @@ msgstr "Usuaris"
 msgid "Admin"
 msgstr "Administració"
 
-#: app.php:837
+#: app.php:839
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Ha fallat l'actualització \"%s\"."
+
+#: avatar.php:56
+msgid "Custom profile pictures don't work with encryption yet"
+msgstr ""
+
+#: avatar.php:64
+msgid "Unknown filetype"
+msgstr ""
+
+#: avatar.php:69
+msgid "Invalid image"
+msgstr ""
 
 #: defaults.php:35
 msgid "web services under your control"
@@ -106,37 +118,37 @@ msgstr "Els fitxers del tipus %s no són compatibles"
 msgid "Failed to open archive when installing app"
 msgstr "Ha fallat l'obertura del fitxer en instal·lar l'aplicació"
 
-#: installer.php:123
+#: installer.php:125
 msgid "App does not provide an info.xml file"
 msgstr "L'aplicació no proporciona un fitxer info.xml"
 
-#: installer.php:129
+#: installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "L'aplicació no es pot instal·lar perquè hi ha codi no autoritzat en l'aplicació"
 
-#: installer.php:138
+#: installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "L'aplicació no es pot instal·lar perquè no és compatible amb aquesta versió d'ownCloud"
 
-#: installer.php:144
+#: installer.php:146
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "L'aplicació no es pot instal·lar perquè conté l'etiqueta <shipped>vertader</shipped> que no es permet per aplicacions no enviades"
 
-#: installer.php:150
+#: installer.php:152
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "L'aplicació no es pot instal·lar perquè la versió a info.xml/version no és la mateixa que la versió indicada des de la botiga d'aplicacions"
 
-#: installer.php:160
+#: installer.php:162
 msgid "App directory already exists"
 msgstr "La carpeta de l'aplicació ja existeix"
 
-#: installer.php:173
+#: installer.php:175
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "No es pot crear la carpeta de l'aplicació. Arregleu els permisos. %s"
@@ -265,51 +277,51 @@ msgstr "El servidor web no està configurat correctament per permetre la sincron
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Comproveu les <a href='%s'>guies d'instal·lació</a>."
 
-#: template/functions.php:80
+#: template/functions.php:96
 msgid "seconds ago"
 msgstr "segons enrere"
 
-#: template/functions.php:81
+#: template/functions.php:97
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "fa %n minut"
 msgstr[1] "fa %n minuts"
 
-#: template/functions.php:82
+#: template/functions.php:98
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "fa %n hora"
 msgstr[1] "fa %n hores"
 
-#: template/functions.php:83
+#: template/functions.php:99
 msgid "today"
 msgstr "avui"
 
-#: template/functions.php:84
+#: template/functions.php:100
 msgid "yesterday"
 msgstr "ahir"
 
-#: template/functions.php:85
+#: template/functions.php:101
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "fa %n dia"
 msgstr[1] "fa %n dies"
 
-#: template/functions.php:86
+#: template/functions.php:102
 msgid "last month"
 msgstr "el mes passat"
 
-#: template/functions.php:87
+#: template/functions.php:103
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "fa %n mes"
 msgstr[1] "fa %n mesos"
 
-#: template/functions.php:88
+#: template/functions.php:104
 msgid "last year"
 msgstr "l'any passat"
 
-#: template/functions.php:89
+#: template/functions.php:105
 msgid "years ago"
 msgstr "anys enrere"
 

@@ -42,7 +42,6 @@ $TRANSLATIONS = array(
 "last year" => "ultimul an",
 "years ago" => "ani în urmă",
 "Choose" => "Alege",
-"Error loading file picker template" => "Eroare la încărcarea șablonului selectorului de fișiere",
 "Yes" => "Da",
 "No" => "Nu",
 "Ok" => "Ok",

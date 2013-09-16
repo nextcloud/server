@@ -42,7 +42,6 @@ $TRANSLATIONS = array(
 "last year" => "سال قبل",
 "years ago" => "سال‌های قبل",
 "Choose" => "انتخاب کردن",
-"Error loading file picker template" => "خطا در بارگذاری قالب انتخاب کننده فایل",
 "Yes" => "بله",
 "No" => "نه",
 "Ok" => "قبول",
