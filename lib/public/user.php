@@ -102,7 +102,7 @@ class User {
 	 * @brief Check if the password is correct
 	 * @param $uid The username
 	 * @param $password The password
-	 * @returns true/false
+	 * @returns mixed username on success, false otherwise
 	 *
 	 * Check if the password is correct without logging in the user
 	 */

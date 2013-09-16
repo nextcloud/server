@@ -119,6 +119,23 @@ class Manager extends PublicEmitter {
 	}
 
 	/**
+	 * Check if the password is valid for the user
+	 *
+	 * @param $loginname
+	 * @param $password
+	 * @return mixed the User object on success, false otherwise
+	 */
+	public function checkPassword($loginname, $password) {
+		foreach ($this->backends as $backend) {
+			$uid = $backend->checkPassword($loginname, $password);
+			if ($uid !== false) {
+				return $this->getUserObject($uid, $backend);
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * search by user id
 	 *
 	 * @param string $pattern
