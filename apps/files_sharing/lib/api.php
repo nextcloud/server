@@ -69,10 +69,10 @@ class Api {
 
 		switch($shareType) {
 			case \OCP\Share::SHARE_TYPE_USER:
-				$permission = 31;
+				$permission = isset($_POST['permission']) ? (int)$_POST['permission'] : 31;
 				break;
 			case \OCP\Share::SHARE_TYPE_GROUP:
-				$permission = 31;
+				$permission = isset($_POST['permission']) ? (int)$_POST['permission'] : 31;
 				break;
 			case \OCP\Share::SHARE_TYPE_LINK:
 				//allow password protection
