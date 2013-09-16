@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-09-13 21:47-0400\n"
+"POT-Creation-Date: 2013-09-16 11:33-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,6 +52,18 @@ msgstr ""
 #: app.php:839
 #, php-format
 msgid "Failed to upgrade \"%s\"."
+msgstr ""
+
+#: avatar.php:56
+msgid "Custom profile pictures don't work with encryption yet"
+msgstr ""
+
+#: avatar.php:64
+msgid "Unknown filetype"
+msgstr ""
+
+#: avatar.php:69
+msgid "Invalid image"
 msgstr ""
 
 #: defaults.php:35

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-10 10:41-0400\n"
-"PO-Revision-Date: 2013-09-10 13:20+0000\n"
-"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
+"POT-Creation-Date: 2013-09-16 11:33-0400\n"
+"PO-Revision-Date: 2013-09-16 15:34+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -49,10 +49,22 @@ msgstr "Usuários"
 msgid "Admin"
 msgstr "Admin"
 
-#: app.php:837
+#: app.php:839
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Falha na atualização de \"%s\"."
+
+#: avatar.php:56
+msgid "Custom profile pictures don't work with encryption yet"
+msgstr ""
+
+#: avatar.php:64
+msgid "Unknown filetype"
+msgstr ""
+
+#: avatar.php:69
+msgid "Invalid image"
+msgstr ""
 
 #: defaults.php:35
 msgid "web services under your control"
@@ -106,37 +118,37 @@ msgstr "Arquivos do tipo %s não são suportados"
 msgid "Failed to open archive when installing app"
 msgstr "Falha para abrir o arquivo enquanto instalava o aplicativo"
 
-#: installer.php:123
+#: installer.php:125
 msgid "App does not provide an info.xml file"
 msgstr "O aplicativo não fornece um arquivo info.xml"
 
-#: installer.php:129
+#: installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "O aplicativo não pode ser instalado por causa do código não permitido no Aplivativo"
 
-#: installer.php:138
+#: installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "O aplicativo não pode ser instalado porque não é compatível com esta versão do ownCloud"
 
-#: installer.php:144
+#: installer.php:146
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "O aplicativo não pode ser instalado porque ele contém a marca <shipped>verdadeiro</shipped> que não é permitido para aplicações não embarcadas"
 
-#: installer.php:150
+#: installer.php:152
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "O aplicativo não pode ser instalado porque a versão em info.xml /versão não é a mesma que a versão relatada na App Store"
 
-#: installer.php:160
+#: installer.php:162
 msgid "App directory already exists"
 msgstr "Diretório App  já existe"
 
-#: installer.php:173
+#: installer.php:175
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Não é possível criar pasta app. Corrija as permissões. %s"

@@ -48,7 +48,6 @@ $TRANSLATIONS = array(
 "last year" => "vitin e shkuar",
 "years ago" => "vite më parë",
 "Choose" => "Zgjidh",
-"Error loading file picker template" => "Veprim i gabuar gjatë ngarkimit të modelit të zgjedhësit të skedarëve",
 "Yes" => "Po",
 "No" => "Jo",
 "Ok" => "Në rregull",

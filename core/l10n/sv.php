@@ -48,7 +48,6 @@ $TRANSLATIONS = array(
 "last year" => "förra året",
 "years ago" => "år sedan",
 "Choose" => "Välj",
-"Error loading file picker template" => "Fel vid inläsning av filväljarens mall",
 "Yes" => "Ja",
 "No" => "Nej",
 "Ok" => "Ok",

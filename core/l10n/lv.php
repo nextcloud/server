@@ -42,7 +42,6 @@ $TRANSLATIONS = array(
 "last year" => "gājušajā gadā",
 "years ago" => "gadus atpakaļ",
 "Choose" => "Izvēlieties",
-"Error loading file picker template" => "Kļūda ielādējot datņu ņēmēja veidni",
 "Yes" => "Jā",
 "No" => "Nē",
 "Ok" => "Labi",

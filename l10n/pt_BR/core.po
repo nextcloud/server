@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-10 10:41-0400\n"
-"PO-Revision-Date: 2013-09-10 13:20+0000\n"
-"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
+"POT-Creation-Date: 2013-09-16 11:33-0400\n"
+"PO-Revision-Date: 2013-09-16 15:33+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -92,6 +92,26 @@ msgstr "Nenhuma categoria selecionada para remoção."
 msgid "Error removing %s from favorites."
 msgstr "Erro ao remover %s dos favoritos."
 
+#: avatar/controller.php:62
+msgid "No image or file provided"
+msgstr ""
+
+#: avatar/controller.php:81
+msgid "Unknown filetype"
+msgstr ""
+
+#: avatar/controller.php:85
+msgid "Invalid image"
+msgstr ""
+
+#: avatar/controller.php:115 avatar/controller.php:142
+msgid "No temporary profile picture available, try again"
+msgstr ""
+
+#: avatar/controller.php:135
+msgid "No crop data provided"
+msgstr ""
+
 #: js/config.php:32
 msgid "Sunday"
 msgstr "Domingo"
@@ -168,59 +188,59 @@ msgstr "novembro"
 msgid "December"
 msgstr "dezembro"
 
-#: js/js.js:355
+#: js/js.js:387
 msgid "Settings"
 msgstr "Ajustes"
 
-#: js/js.js:821
+#: js/js.js:853
 msgid "seconds ago"
 msgstr "segundos atrás"
 
-#: js/js.js:822
+#: js/js.js:854
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] " ha %n minuto"
 msgstr[1] "ha %n minutos"
 
-#: js/js.js:823
+#: js/js.js:855
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "ha %n hora"
 msgstr[1] "ha %n horas"
 
-#: js/js.js:824
+#: js/js.js:856
 msgid "today"
 msgstr "hoje"
 
-#: js/js.js:825
+#: js/js.js:857
 msgid "yesterday"
 msgstr "ontem"
 
-#: js/js.js:826
+#: js/js.js:858
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "ha %n dia"
 msgstr[1] "ha %n dias"
 
-#: js/js.js:827
+#: js/js.js:859
 msgid "last month"
 msgstr "último mês"
 
-#: js/js.js:828
+#: js/js.js:860
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "ha %n mês"
 msgstr[1] "ha %n meses"
 
-#: js/js.js:829
+#: js/js.js:861
 msgid "months ago"
 msgstr "meses atrás"
 
-#: js/js.js:830
+#: js/js.js:862
 msgid "last year"
 msgstr "último ano"
 
-#: js/js.js:831
+#: js/js.js:863
 msgid "years ago"
 msgstr "anos atrás"
 
@@ -228,21 +248,25 @@ msgstr "anos atrás"
 msgid "Choose"
 msgstr "Escolha"
 
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:210
-msgid "Error loading file picker template"
-msgstr "Template selecionador Erro ao carregar arquivo"
+#: js/oc-dialogs.js:146
+msgid "Error loading file picker template: {error}"
+msgstr ""
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:172
 msgid "Yes"
 msgstr "Sim"
 
-#: js/oc-dialogs.js:178
+#: js/oc-dialogs.js:182
 msgid "No"
 msgstr "Não"
 
-#: js/oc-dialogs.js:195
+#: js/oc-dialogs.js:199
 msgid "Ok"
 msgstr "Ok"
+
+#: js/oc-dialogs.js:219
+msgid "Error loading message template: {error}"
+msgstr ""
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -253,7 +277,7 @@ msgstr "O tipo de objeto não foi especificado."
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:643 js/share.js:655
+#: js/share.js:645 js/share.js:657
 msgid "Error"
 msgstr "Erro"
 
@@ -273,7 +297,7 @@ msgstr "Compartilhados"
 msgid "Share"
 msgstr "Compartilhar"
 
-#: js/share.js:131 js/share.js:683
+#: js/share.js:131 js/share.js:685
 msgid "Error while sharing"
 msgstr "Erro ao compartilhar"
 
@@ -329,67 +353,67 @@ msgstr "Definir data de expiração"
 msgid "Expiration date"
 msgstr "Data de expiração"
 
-#: js/share.js:241
+#: js/share.js:242
 msgid "Share via email:"
 msgstr "Compartilhar via e-mail:"
 
-#: js/share.js:243
+#: js/share.js:245
 msgid "No people found"
 msgstr "Nenhuma pessoa encontrada"
 
-#: js/share.js:281
+#: js/share.js:283
 msgid "Resharing is not allowed"
 msgstr "Não é permitido re-compartilhar"
 
-#: js/share.js:317
+#: js/share.js:319
 msgid "Shared in {item} with {user}"
 msgstr "Compartilhado em {item} com {user}"
 
-#: js/share.js:338
+#: js/share.js:340
 msgid "Unshare"
 msgstr "Descompartilhar"
 
-#: js/share.js:350
+#: js/share.js:352
 msgid "can edit"
 msgstr "pode editar"
 
-#: js/share.js:352
+#: js/share.js:354
 msgid "access control"
 msgstr "controle de acesso"
 
-#: js/share.js:355
+#: js/share.js:357
 msgid "create"
 msgstr "criar"
 
-#: js/share.js:358
+#: js/share.js:360
 msgid "update"
 msgstr "atualizar"
 
-#: js/share.js:361
+#: js/share.js:363
 msgid "delete"
 msgstr "remover"
 
-#: js/share.js:364
+#: js/share.js:366
 msgid "share"
 msgstr "compartilhar"
 
-#: js/share.js:398 js/share.js:630
+#: js/share.js:400 js/share.js:632
 msgid "Password protected"
 msgstr "Protegido com senha"
 
-#: js/share.js:643
+#: js/share.js:645
 msgid "Error unsetting expiration date"
 msgstr "Erro ao remover data de expiração"
 
-#: js/share.js:655
+#: js/share.js:657
 msgid "Error setting expiration date"
 msgstr "Erro ao definir data de expiração"
 
-#: js/share.js:670
+#: js/share.js:672
 msgid "Sending ..."
 msgstr "Enviando ..."
 
-#: js/share.js:681
+#: js/share.js:683
 msgid "Email sent"
 msgstr "E-mail enviado"
 
@@ -473,7 +497,7 @@ msgstr "Pessoal"
 msgid "Users"
 msgstr "Usuários"
 
-#: strings.php:7 templates/layout.user.php:105
+#: strings.php:7 templates/layout.user.php:108
 msgid "Apps"
 msgstr "Aplicações"
 
@@ -602,7 +626,7 @@ msgstr "Concluir configuração"
 msgid "%s is available. Get more information on how to update."
 msgstr "%s está disponível. Obtenha mais informações sobre como atualizar."
 
-#: templates/layout.user.php:66
+#: templates/layout.user.php:69
 msgid "Log out"
 msgstr "Sair"
 

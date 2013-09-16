@@ -48,7 +48,6 @@ $TRANSLATIONS = array(
 "last year" => "último ano",
 "years ago" => "anos atrás",
 "Choose" => "Escolha",
-"Error loading file picker template" => "Template selecionador Erro ao carregar arquivo",
 "Yes" => "Sim",
 "No" => "Não",
 "Ok" => "Ok",
