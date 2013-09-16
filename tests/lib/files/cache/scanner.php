@@ -184,6 +184,23 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->cache->inCache('folder/bar.txt'));
 	}
 
+	public function testETagRecreation() {
+		$this->fillTestFolders();
+
+		$this->scanner->scan('');
+
+		// manipulate etag to simulate an empty etag
+		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW, \OC\Files\Cache\Scanner::REUSE_ETAG);
+		$data['etag'] = '';
+		$this->cache->put('', $data);
+
+		// rescan
+		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW, \OC\Files\Cache\Scanner::REUSE_ETAG);
+		$newData = $this->cache->get('');
+		$this->assertNotEmpty($newData['etag']);
+
+	}
+
 	function setUp() {
 		$this->storage = new \OC\Files\Storage\Temporary(array());
 		$this->scanner = new \OC\Files\Cache\Scanner($this->storage);
