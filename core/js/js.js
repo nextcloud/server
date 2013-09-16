@@ -906,7 +906,7 @@ OC.set=function(name, value) {
  * @param {type} start
  * @param {type} end
  */
-$.fn.selectRange = function(start, end) {
+jQuery.fn.selectRange = function(start, end) {
 	return this.each(function() {
 		if (this.setSelectionRange) {
 			this.focus();
@@ -920,6 +920,15 @@ $.fn.selectRange = function(start, end) {
 		}
 	});
 };
+
+/**
+ * check if an element exists.
+ * allows you to write if ($('#myid').exists()) to increase readability
+ * @link http://stackoverflow.com/questions/31044/is-there-an-exists-function-for-jquery
+ */
+jQuery.fn.exists = function(){
+	return this.length > 0;
+}
 
 /**
  * Calls the server periodically every 15 mins to ensure that session doesnt
