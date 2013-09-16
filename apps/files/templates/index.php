@@ -15,26 +15,18 @@
 			</div>
 			<div id="upload" class="button"
 				 title="<?php p($l->t('Upload') . ' max. '.$_['uploadMaxHumanFilesize']) ?>">
-				<form data-upload-id='1'
-					  id="data-upload-form"
-					  class="file_upload_form"
-					  action="<?php print_unescaped(OCP\Util::linkTo('files', 'ajax/upload.php')); ?>"
-					  method="post"
-					  enctype="multipart/form-data"
-					  target="file_upload_target_1">
 					<?php if($_['uploadMaxFilesize'] >= 0):?>
 					<input type="hidden" name="MAX_FILE_SIZE" id="max_upload"
 						   value="<?php p($_['uploadMaxFilesize']) ?>">
 					<?php endif;?>
 					<!-- Send the requesttoken, this is needed for older IE versions
 						 because they don't send the CSRF token via HTTP header in this case -->
-					<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" id="requesttoken">
 					<input type="hidden" class="max_human_file_size"
 						   value="(max <?php p($_['uploadMaxHumanFilesize']); ?>)">
 					<input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
-					<input type="file" id="file_upload_start" name='files[]'/>
+					<input type="file" id="file_upload_start" name='files[]'
+						   data-url="<?php print_unescaped(OCP\Util::linkTo('files', 'ajax/upload.php')); ?>" />
 					<a href="#" class="svg"></a>
-				</form>
 			</div>
 			<?php if ($_['trash'] ): ?>
 				<div id="trash" class="button" <?php $_['trashEmpty'] ? p('disabled') : '' ?>>
