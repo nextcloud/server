@@ -10,35 +10,38 @@ OCP\JSON::checkLoggedIn();
 
 // Load the files
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
+
+if (!\OC\Files\Filesystem::is_dir($dir . '/')) {
+	header("HTTP/1.0 404 Not Found");
+	exit();
+}
+
 $doBreadcrumb = isset($_GET['breadcrumb']);
 $data = array();
+$baseUrl = OCP\Util::linkTo('files', 'index.php') . '?dir=';
+
+$permissions = \OCA\files\lib\Helper::getDirPermissions($dir);
 
 // Make breadcrumb
 if($doBreadcrumb) {
-	$breadcrumb = array();
-	$pathtohere = "/";
-	foreach( explode( "/", $dir ) as $i ) {
-		if( $i != "" ) {
-			$pathtohere .= "$i/";
-			$breadcrumb[] = array( "dir" => $pathtohere, "name" => $i );
-		}
-	}
+	$breadcrumb = \OCA\files\lib\Helper::makeBreadcrumb($dir);
 
-	$breadcrumbNav = new OCP\Template( "files", "part.breadcrumb", "" );
-	$breadcrumbNav->assign( "breadcrumb", $breadcrumb, false );
+	$breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
+	$breadcrumbNav->assign('breadcrumb', $breadcrumb, false);
+	$breadcrumbNav->assign('baseURL', $baseUrl);
 
 	$data['breadcrumb'] = $breadcrumbNav->fetchPage();
 }
 
 // make filelist
-$files = array();
-foreach( \OC\Files\Filesystem::getDirectoryContent( $dir ) as $i ) {
-	$i["date"] = OCP\Util::formatDate($i["mtime"] );
-	$files[] = $i;
-}
+$files = \OCA\files\lib\Helper::getFiles($dir);
 
-$list = new OCP\Template( "files", "part.list", "" );
-$list->assign( "files", $files, false );
-$data = array('files' => $list->fetchPage());
+$list = new OCP\Template("files", "part.list", "");
+$list->assign('files', $files, false);
+$list->assign('baseURL', $baseUrl, false);
+$list->assign('downloadURL', OCP\Util::linkToRoute('download', array('file' => '/')));
+$list->assign('isPublic', false);
+$data['files'] = $list->fetchPage();
+$data['permissions'] = $permissions;
 
 OCP\JSON::success(array('data' => $data));

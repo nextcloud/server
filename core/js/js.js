@@ -322,6 +322,38 @@ var OC={
 		return date.getDate()+'.'+(date.getMonth()+1)+'.'+date.getFullYear()+', '+date.getHours()+':'+date.getMinutes();
 	},
 	/**
+	 * Parses a URL query string into a JS map
+	 * @param queryString query string in the format param1=1234&param2=abcde&param3=xyz
+	 * @return map containing key/values matching the URL parameters
+	 */
+	parseQueryString:function(queryString){
+		var parts,
+			components,
+			result = {},
+			key,
+			value;
+		if (!queryString){
+			return null;
+		}
+		if (queryString[0] === '?'){
+			queryString = queryString.substr(1);
+		}
+		parts = queryString.split('&');
+		for (var i = 0; i < parts.length; i++){
+			components = parts[i].split('=');
+			if (!components.length){
+				continue;
+			}
+			key = decodeURIComponent(components[0]);
+			if (!key){
+				continue;
+			}
+			value = components[1];
+			result[key] = value && decodeURIComponent(value);
+		}
+		return result;
+	},
+	/**
 	 * Opens a popup with the setting for an app.
 	 * @param appid String. The ID of the app e.g. 'calendar', 'contacts' or 'files'.
 	 * @param loadJS boolean or String. If true 'js/settings.js' is loaded. If it's a string
@@ -431,9 +463,16 @@ OC.Notification={
 
 OC.Breadcrumb={
 	container:null,
-	crumbs:[],
 	show:function(dir, leafname, leaflink){
-		OC.Breadcrumb.clear();
+		if(!this.container){//default
+			this.container=$('#controls');
+		}
+		this._show(this.container, dir, leafname, leaflink);
+	},
+	_show:function(container, dir, leafname, leaflink){
+		var self = this;
+		
+		this._clear(container);
 		
 		// show home + path in subdirectories
 		if (dir && dir !== '/') {
@@ -450,8 +489,7 @@ OC.Breadcrumb={
 			crumbImg.attr('src',OC.imagePath('core','places/home'));
 			crumbLink.append(crumbImg);
 			crumb.append(crumbLink);
-			OC.Breadcrumb.container.prepend(crumb);
-			OC.Breadcrumb.crumbs.push(crumb);
+			container.prepend(crumb);
 
 			//add path parts
 			var segments = dir.split('/');
@@ -460,20 +498,23 @@ OC.Breadcrumb={
 				if (name !== '') {
 					pathurl = pathurl+'/'+name;
 					var link = OC.linkTo('files','index.php')+'?dir='+encodeURIComponent(pathurl);
-					OC.Breadcrumb.push(name, link);
+					self._push(container, name, link);
 				}
 			});
 		}
 		
 		//add leafname
 		if (leafname && leaflink) {
-				OC.Breadcrumb.push(leafname, leaflink);
+			this._push(container, leafname, leaflink);
 		}
 	},
 	push:function(name, link){
-		if(!OC.Breadcrumb.container){//default
-			OC.Breadcrumb.container=$('#controls');
+		if(!this.container){//default
+			this.container=$('#controls');
 		}
+		return this._push(OC.Breadcrumb.container, name, link);
+	},
+	_push:function(container, name, link){
 		var crumb=$('<div/>');
 		crumb.addClass('crumb').addClass('last');
 
@@ -482,30 +523,30 @@ OC.Breadcrumb={
 		crumbLink.text(name);
 		crumb.append(crumbLink);
 
-		var existing=OC.Breadcrumb.container.find('div.crumb');
+		var existing=container.find('div.crumb');
 		if(existing.length){
 			existing.removeClass('last');
 			existing.last().after(crumb);
 		}else{
-			OC.Breadcrumb.container.prepend(crumb);
+			container.prepend(crumb);
 		}
-		OC.Breadcrumb.crumbs.push(crumb);
 		return crumb;
 	},
 	pop:function(){
-		if(!OC.Breadcrumb.container){//default
-			OC.Breadcrumb.container=$('#controls');
+		if(!this.container){//default
+			this.container=$('#controls');
 		}
-		OC.Breadcrumb.container.find('div.crumb').last().remove();
-		OC.Breadcrumb.container.find('div.crumb').last().addClass('last');
-		OC.Breadcrumb.crumbs.pop();
+		this.container.find('div.crumb').last().remove();
+		this.container.find('div.crumb').last().addClass('last');
 	},
 	clear:function(){
-		if(!OC.Breadcrumb.container){//default
-			OC.Breadcrumb.container=$('#controls');
+		if(!this.container){//default
+			this.container=$('#controls');
 		}
-		OC.Breadcrumb.container.find('div.crumb').remove();
-		OC.Breadcrumb.crumbs=[];
+		this._clear(this.container);
+	},
+	_clear:function(container) {
+		container.find('div.crumb').remove();
 	}
 };
 

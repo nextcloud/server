@@ -49,6 +49,9 @@
 				<span id="expand" tabindex="0" role="link">
 					<span id="expandDisplayName"><?php  p(trim($_['user_displayname']) != '' ? $_['user_displayname'] : $_['user_uid']) ?></span>
 					<img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" />
+					<?php if ($_['enableAvatars']): ?>
+					<div class="avatardiv"></div>
+					<?php endif; ?>
 				</span>
 				<div id="expanddiv">
 				<?php foreach($_['settingsnavigation'] as $entry):?>

@@ -35,6 +35,7 @@ $TRANSLATIONS = array(
 "undo" => "desfacer",
 "_%n folder_::_%n folders_" => array("%n cartafol","%n cartafoles"),
 "_%n file_::_%n files_" => array("%n ficheiro","%n ficheiros"),
+"{dirs} and {files}" => "{dirs} e {files}",
 "_Uploading %n file_::_Uploading %n files_" => array("Cargando %n ficheiro","Cargando %n ficheiros"),
 "files uploading" => "ficheiros enviándose",
 "'.' is an invalid file name." => "«.» é un nome de ficheiro incorrecto",

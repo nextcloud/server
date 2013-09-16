@@ -191,7 +191,8 @@ class OC_Migration_Content{
 		if( !file_exists( $dir ) ) {
 			return false;
 		}
-		if ($dirhandle = opendir($dir)) {
+		$dirhandle = opendir($dir);
+		if(is_resource($dirhandle)) {
 			while (false !== ( $file = readdir($dirhandle))) {
 
 				if (( $file != '.' ) && ( $file != '..' )) {

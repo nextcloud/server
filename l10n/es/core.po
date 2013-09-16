@@ -8,6 +8,7 @@
 # I Robot <owncloud-bot@tmit.eu>, 2013
 # msoko <sokolovitch@yahoo.com>, 2013
 # pablomillaquen <pablomillaquen@gmail.com>, 2013
+# Korrosivo <yo@rubendelcampo.es>, 2013
 # saskarip <saskarip@gmail.com>, 2013
 # saskarip <saskarip@gmail.com>, 2013
 # iGerli <stefano@aerosoles.net>, 2013
@@ -16,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-01 13:27-0400\n"
-"PO-Revision-Date: 2013-08-30 13:50+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-07 04:40-0400\n"
+"PO-Revision-Date: 2013-09-05 11:50+0000\n"
+"Last-Translator: Korrosivo <yo@rubendelcampo.es>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +30,7 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr "%s compatido  »%s« contigo"
+msgstr "%s ha compatido  »%s« contigo"
 
 #: ajax/share.php:227
 msgid "group"
@@ -37,28 +38,28 @@ msgstr "grupo"
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "Modo mantenimiento activado"
 
 #: ajax/update.php:14
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "Modo mantenimiento desactivado"
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr ""
+msgstr "Base de datos actualizada"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
-msgstr ""
+msgstr "Actualizando caché de archivos, esto puede tardar bastante tiempo..."
 
 #: ajax/update.php:23
 msgid "Updated filecache"
-msgstr ""
+msgstr "Caché de archivos actualizada"
 
 #: ajax/update.php:26
 #, php-format
 msgid "... %d%% done ..."
-msgstr ""
+msgstr "... %d%% hecho ..."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -179,57 +180,57 @@ msgstr "Diciembre"
 msgid "Settings"
 msgstr "Ajustes"
 
-#: js/js.js:812
+#: js/js.js:821
 msgid "seconds ago"
-msgstr "hace segundos"
+msgstr "segundos antes"
 
-#: js/js.js:813
+#: js/js.js:822
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hace %n minuto"
+msgstr[1] "Hace %n minutos"
 
-#: js/js.js:814
+#: js/js.js:823
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hace %n hora"
+msgstr[1] "Hace %n horas"
 
-#: js/js.js:815
+#: js/js.js:824
 msgid "today"
 msgstr "hoy"
 
-#: js/js.js:816
+#: js/js.js:825
 msgid "yesterday"
 msgstr "ayer"
 
-#: js/js.js:817
+#: js/js.js:826
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hace %n día"
+msgstr[1] "Hace %n días"
 
-#: js/js.js:818
+#: js/js.js:827
 msgid "last month"
 msgstr "el mes pasado"
 
-#: js/js.js:819
+#: js/js.js:828
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hace %n mes"
+msgstr[1] "Hace %n meses"
 
-#: js/js.js:820
+#: js/js.js:829
 msgid "months ago"
-msgstr "hace meses"
+msgstr "meses antes"
 
-#: js/js.js:821
+#: js/js.js:830
 msgid "last year"
 msgstr "el año pasado"
 
-#: js/js.js:822
+#: js/js.js:831
 msgid "years ago"
-msgstr "hace años"
+msgstr "años antes"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
@@ -270,7 +271,7 @@ msgstr "El nombre de la aplicación no está especificado."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr "¡El fichero requerido {file} no está instalado!"
+msgstr "¡El fichero {file} es necesario y no está instalado!"
 
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
@@ -282,15 +283,15 @@ msgstr "Compartir"
 
 #: js/share.js:131 js/share.js:683
 msgid "Error while sharing"
-msgstr "Error mientras comparte"
+msgstr "Error al compartir"
 
 #: js/share.js:142
 msgid "Error while unsharing"
-msgstr "Error mientras se deja de compartir"
+msgstr "Error al dejar de compartir"
 
 #: js/share.js:149
 msgid "Error while changing permissions"
-msgstr "Error mientras se cambia permisos"
+msgstr "Error al cambiar permisos"
 
 #: js/share.js:158
 msgid "Shared with you and the group {group} by {owner}"
@@ -411,10 +412,10 @@ msgstr "La actualización ha fracasado. Por favor, informe de este problema a la
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "La actualización se ha realizado con éxito. Redireccionando a ownCloud ahora."
 
-#: lostpassword/controller.php:61
+#: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "%s restablecer contraseña"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -494,7 +495,7 @@ msgstr "Ayuda"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr "Acceso prohibido"
+msgstr "Acceso denegado"
 
 #: templates/404.php:15
 msgid "Cloud not found"
@@ -509,7 +510,7 @@ msgid ""
 "View it: %s\n"
 "\n"
 "Cheers!"
-msgstr "Oye,⏎ sólo te hago saber que %s compartido %s contigo.⏎ Míralo: %s ⏎Disfrutalo!"
+msgstr "Hey,\n\nsólo te hago saber que %s ha compartido %s contigo.\nEcha un ojo en: %s\n\n¡Un saludo!"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -621,7 +622,7 @@ msgstr "¡Inicio de sesión automático rechazado!"
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr "Si usted no ha cambiado su contraseña recientemente, ¡puede que su cuenta esté comprometida!"
+msgstr "Si no ha cambiado su contraseña recientemente, ¡puede que su cuenta esté comprometida!"
 
 #: templates/login.php:12
 msgid "Please change your password to secure your account again."
@@ -648,7 +649,7 @@ msgstr "Inicios de sesión alternativos"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr "Oye,<br><br>sólo te hago saber que %s compartido %s contigo,<br><a href=\"%s\">\nMíralo!</a><br><br>Disfrutalo!"
+msgstr "Hey,<br><br>sólo te hago saber que %s ha compartido %s contigo.<br><a href=\"%s\">¡Echa un ojo!</a><br><br>¡Un saludo!"
 
 #: templates/update.php:3
 #, php-format

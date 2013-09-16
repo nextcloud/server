@@ -188,7 +188,7 @@ class Stream {
 		}
 
 		// Get the data from the file handle
-		$data = fread($this->handle, 8192);
+		$data = fread($this->handle, $count);
 
 		$result = null;
 
@@ -488,6 +488,7 @@ class Stream {
 				$this->meta['mode'] !== 'rb' &&
 				$this->size > 0
 		) {
+
 			// only write keyfiles if it was a new file
 			if ($this->newFile === true) {
 
@@ -535,6 +536,7 @@ class Stream {
 
 			// set fileinfo
 			$this->rootView->putFileInfo($this->rawPath, $fileInfo);
+
 		}
 
 		return fclose($this->handle);

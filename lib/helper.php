@@ -232,6 +232,14 @@ class OC_Helper {
 			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/folder.png';
 			return OC::$WEBROOT . '/core/img/filetypes/folder.png';
 		}
+		if ($mimetype === 'dir-shared') {
+			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/folder-shared.png';
+			return OC::$WEBROOT . '/core/img/filetypes/folder-shared.png';
+		}
+		if ($mimetype === 'dir-external') {
+			self::$mimetypeIcons[$mimetype] = OC::$WEBROOT . '/core/img/filetypes/folder-external.png';
+			return OC::$WEBROOT . '/core/img/filetypes/folder-external.png';
+		}
 
 		// Icon exists?
 		if (file_exists(OC::$SERVERROOT . '/core/img/filetypes/' . $icon . '.png')) {
@@ -274,7 +282,6 @@ class OC_Helper {
 	 */
 	public static function humanFileSize($bytes) {
 		if ($bytes < 0) {
-			$l = OC_L10N::get('lib');
 			return "?";
 		}
 		if ($bytes < 1024) {
@@ -288,10 +295,17 @@ class OC_Helper {
 		if ($bytes < 1024) {
 			return "$bytes MB";
 		}
-
-		// Wow, heavy duty for owncloud
 		$bytes = round($bytes / 1024, 1);
-		return "$bytes GB";
+		if ($bytes < 1024) {
+			return "$bytes GB";
+		}
+		$bytes = round($bytes / 1024, 1);
+		if ($bytes < 1024) {
+			return "$bytes TB";
+		}
+
+		$bytes = round($bytes / 1024, 1);
+		return "$bytes PB";
 	}
 
 	/**
@@ -341,17 +355,19 @@ class OC_Helper {
 		if (!is_dir($path))
 			return chmod($path, $filemode);
 		$dh = opendir($path);
-		while (($file = readdir($dh)) !== false) {
-			if ($file != '.' && $file != '..') {
-				$fullpath = $path . '/' . $file;
-				if (is_link($fullpath))
-					return false;
-				elseif (!is_dir($fullpath) && !@chmod($fullpath, $filemode))
-					return false; elseif (!self::chmodr($fullpath, $filemode))
-					return false;
+		if(is_resource($dh)) {
+			while (($file = readdir($dh)) !== false) {
+				if ($file != '.' && $file != '..') {
+					$fullpath = $path . '/' . $file;
+					if (is_link($fullpath))
+						return false;
+					elseif (!is_dir($fullpath) && !@chmod($fullpath, $filemode))
+						return false; elseif (!self::chmodr($fullpath, $filemode))
+						return false;
+				}
 			}
+			closedir($dh);
 		}
-		closedir($dh);
 		if (@chmod($path, $filemode))
 			return true;
 		else
@@ -649,9 +665,11 @@ class OC_Helper {
 			// if oc-noclean is empty delete it
 			$isTmpDirNoCleanEmpty = true;
 			$tmpDirNoClean = opendir($tmpDirNoCleanName);
-			while (false !== ($file = readdir($tmpDirNoClean))) {
-				if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
-					$isTmpDirNoCleanEmpty = false;
+			if(is_resource($tmpDirNoClean)) {
+				while (false !== ($file = readdir($tmpDirNoClean))) {
+					if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
+						$isTmpDirNoCleanEmpty = false;
+					}
 				}
 			}
 			if ($isTmpDirNoCleanEmpty) {
@@ -694,7 +712,7 @@ class OC_Helper {
 		$newpath = $path . '/' . $filename;
 		if ($view->file_exists($newpath)) {
 			if (preg_match_all('/\((\d+)\)/', $name, $matches, PREG_OFFSET_CAPTURE)) {
-				//Replace the last "(number)" with "(number+1)" 
+				//Replace the last "(number)" with "(number+1)"
 				$last_match = count($matches[0]) - 1;
 				$counter = $matches[1][$last_match][0] + 1;
 				$offset = $matches[0][$last_match][1];
@@ -705,7 +723,7 @@ class OC_Helper {
 			}
 			do {
 				if ($offset) {
-					//Replace the last "(number)" with "(number+1)" 
+					//Replace the last "(number)" with "(number+1)"
 					$newname = substr_replace($name, '(' . $counter . ')', $offset, $match_length);
 				} else {
 					$newname = $name . ' (' . $counter . ')';

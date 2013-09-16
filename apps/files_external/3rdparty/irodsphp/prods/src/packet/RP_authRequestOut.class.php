@@ -10,5 +10,3 @@ class RP_authRequestOut extends RODSPacket
     }
 
 }
-
-?>

@@ -378,7 +378,7 @@ class OC_Mount_Config {
 		}
 		$result = array();
 		$handle = opendir($path);
-		if ( ! $handle) {
+		if(!is_resource($handle)) {
 			return array();
 		}
 		while (false !== ($file = readdir($handle))) {

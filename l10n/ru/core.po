@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-01 13:27-0400\n"
-"PO-Revision-Date: 2013-08-30 13:50+0000\n"
+"POT-Creation-Date: 2013-09-07 04:40-0400\n"
+"PO-Revision-Date: 2013-09-05 11:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -178,59 +178,59 @@ msgstr "Декабрь"
 msgid "Settings"
 msgstr "Конфигурация"
 
-#: js/js.js:812
+#: js/js.js:821
 msgid "seconds ago"
 msgstr "несколько секунд назад"
 
-#: js/js.js:813
+#: js/js.js:822
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n минуту назад"
 msgstr[1] "%n минуты назад"
 msgstr[2] "%n минут назад"
 
-#: js/js.js:814
+#: js/js.js:823
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n час назад"
 msgstr[1] "%n часа назад"
 msgstr[2] "%n часов назад"
 
-#: js/js.js:815
+#: js/js.js:824
 msgid "today"
 msgstr "сегодня"
 
-#: js/js.js:816
+#: js/js.js:825
 msgid "yesterday"
 msgstr "вчера"
 
-#: js/js.js:817
+#: js/js.js:826
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n день назад"
 msgstr[1] "%n дня назад"
 msgstr[2] "%n дней назад"
 
-#: js/js.js:818
+#: js/js.js:827
 msgid "last month"
 msgstr "в прошлом месяце"
 
-#: js/js.js:819
+#: js/js.js:828
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n месяц назад"
 msgstr[1] "%n месяца назад"
 msgstr[2] "%n месяцев назад"
 
-#: js/js.js:820
+#: js/js.js:829
 msgid "months ago"
 msgstr "несколько месяцев назад"
 
-#: js/js.js:821
+#: js/js.js:830
 msgid "last year"
 msgstr "в прошлом году"
 
-#: js/js.js:822
+#: js/js.js:831
 msgid "years ago"
 msgstr "несколько лет назад"
 
@@ -414,7 +414,7 @@ msgstr "При обновлении произошла ошибка. Пожал�
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Обновление прошло успешно. Перенаправляемся в Ваш ownCloud..."
 
-#: lostpassword/controller.php:61
+#: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
 msgstr "%s сброс пароля"

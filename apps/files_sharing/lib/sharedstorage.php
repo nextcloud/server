@@ -221,7 +221,8 @@ class Shared extends \OC\Files\Storage\Common {
 	public function filemtime($path) {
 		if ($path == '' || $path == '/') {
 			$mtime = 0;
-			if ($dh = $this->opendir($path)) {
+			$dh = $this->opendir($path);
+			if(is_resource($dh)) {
 				while (($filename = readdir($dh)) !== false) {
 					$tempmtime = $this->filemtime($filename);
 					if ($tempmtime > $mtime) {

@@ -13,5 +13,3 @@ class RP_CollOprStat extends RODSPacket
     }
 
 }
-
-?>

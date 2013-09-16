@@ -36,14 +36,6 @@ class Hooks {
 	 */
 	public static function login($params) {
 		$l = new \OC_L10N('files_encryption');
-		//check if all requirements are met
-		if(!Helper::checkRequirements() || !Helper::checkConfiguration() ) {
-			$error_msg = $l->t("Missing requirements.");
-			$hint = $l->t('Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled.');
-			\OC_App::disable('files_encryption');
-			\OCP\Util::writeLog('Encryption library', $error_msg . ' ' . $hint, \OCP\Util::ERROR);
-			\OCP\Template::printErrorPage($error_msg, $hint);
-		}
 
 		$view = new \OC_FilesystemView('/');
 
@@ -53,6 +45,15 @@ class Hooks {
 		}
 
 		$util = new Util($view, $params['uid']);
+
+		//check if all requirements are met
+		if(!$util->ready() && (!Helper::checkRequirements() || !Helper::checkConfiguration())) {
+			$error_msg = $l->t("Missing requirements.");
+			$hint = $l->t('Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled.');
+			\OC_App::disable('files_encryption');
+			\OCP\Util::writeLog('Encryption library', $error_msg . ' ' . $hint, \OCP\Util::ERROR);
+			\OCP\Template::printErrorPage($error_msg, $hint);
+		}
 
 		// setup user, if user not ready force relogin
 		if (Helper::setupUser($util, $params['password']) === false) {

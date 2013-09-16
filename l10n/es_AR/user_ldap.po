@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-19 15:06-0400\n"
-"PO-Revision-Date: 2013-08-19 19:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-13 21:47-0400\n"
+"PO-Revision-Date: 2013-09-11 11:00+0000\n"
+"Last-Translator: cjtess <claudio.tessone@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -91,7 +91,7 @@ msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behavior. Please ask your system administrator to "
 "disable one of them."
-msgstr ""
+msgstr "<b>Advertencia:</b> Las apps user_ldap y user_webdavauth son incompatibles. Puede ser que experimentes comportamientos inesperados. Pedile al administrador que desactive uno de ellos."
 
 #: templates/settings.php:12
 msgid ""
@@ -156,7 +156,7 @@ msgstr "Filtro de inicio de sesión de usuario"
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action. Example: \"uid=%%uid\""
-msgstr ""
+msgstr "Define el filtro a aplicar cuando se intenta ingresar. %%uid remplaza el nombre de usuario en el proceso de identificación. Por ejemplo: \"uid=%%uid\""
 
 #: templates/settings.php:55
 msgid "User List Filter"
@@ -166,7 +166,7 @@ msgstr "Lista de filtros de usuario"
 msgid ""
 "Defines the filter to apply, when retrieving users (no placeholders). "
 "Example: \"objectClass=person\""
-msgstr ""
+msgstr "Define el filtro a aplicar al obtener usuarios (sin comodines). Por ejemplo: \"objectClass=person\""
 
 #: templates/settings.php:59
 msgid "Group Filter"
@@ -176,7 +176,7 @@ msgstr "Filtro de grupo"
 msgid ""
 "Defines the filter to apply, when retrieving groups (no placeholders). "
 "Example: \"objectClass=posixGroup\""
-msgstr ""
+msgstr "Define el filtro a aplicar al obtener grupos (sin comodines). Por ejemplo: \"objectClass=posixGroup\""
 
 #: templates/settings.php:66
 msgid "Connection Settings"
@@ -214,7 +214,7 @@ msgstr "Deshabilitar el Servidor Principal"
 
 #: templates/settings.php:72
 msgid "Only connect to the replica server."
-msgstr ""
+msgstr "Conectarse únicamente al servidor de réplica."
 
 #: templates/settings.php:73
 msgid "Use TLS"
@@ -237,7 +237,7 @@ msgstr "Desactivar la validación por certificado SSL."
 msgid ""
 "Not recommended, use it for testing only! If connection only works with this"
 " option, import the LDAP server's SSL certificate in your %s server."
-msgstr ""
+msgstr "No es recomendado, ¡Usalo solamente para pruebas! Si la conexión únicamente funciona con esta opción, importá el certificado SSL del servidor LDAP en tu servidor %s."
 
 #: templates/settings.php:76
 msgid "Cache Time-To-Live"
@@ -257,7 +257,7 @@ msgstr "Campo de nombre de usuario a mostrar"
 
 #: templates/settings.php:80
 msgid "The LDAP attribute to use to generate the user's display name."
-msgstr ""
+msgstr "El atributo LDAP a usar para generar el nombre de usuario mostrado."
 
 #: templates/settings.php:81
 msgid "Base User Tree"
@@ -281,7 +281,7 @@ msgstr "Campo de nombre de grupo a mostrar"
 
 #: templates/settings.php:83
 msgid "The LDAP attribute to use to generate the groups's display name."
-msgstr ""
+msgstr "El atributo LDAP a usar para generar el nombre de grupo mostrado."
 
 #: templates/settings.php:84
 msgid "Base Group Tree"
@@ -347,7 +347,7 @@ msgid ""
 "behavior as before ownCloud 5 enter the user display name attribute in the "
 "following field. Leave it empty for default behavior. Changes will have "
 "effect only on newly mapped (added) LDAP users."
-msgstr ""
+msgstr "Por defecto, el nombre de usuario interno es creado a partir del atributo UUID. Esto asegura que el nombre de usuario es único y no es necesaria una conversión de caracteres. El nombre de usuario interno sólo se pueden usar estos caracteres: [ a-zA-Z0-9_.@- ]. El resto de caracteres son sustituidos por su correspondiente en ASCII o simplemente omitidos. En caso colisiones, se agregará o incrementará un número. El nombre de usuario interno es usado para identificar un usuario. Es también el nombre predeterminado para el directorio personal del usuario en ownCloud. También es parte de las URLs remotas, por ejemplo, para los servicios *DAV. Con esta opción, se puede cambiar el comportamiento  por defecto. Para conseguir un comportamiento similar a versiones anteriores a ownCloud 5, ingresá el atributo del nombre mostrado en el campo siguiente. Dejalo vacío para el comportamiento por defecto. Los cambios solo tendrán efecto en los nuevos usuarios LDAP mapeados (agregados)."
 
 #: templates/settings.php:100
 msgid "Internal Username Attribute:"
@@ -366,7 +366,7 @@ msgid ""
 "You must make sure that the attribute of your choice can be fetched for both"
 " users and groups and it is unique. Leave it empty for default behavior. "
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
-msgstr ""
+msgstr "Por defecto, el atributo UUID es detectado automáticamente. Este atributo es usado para identificar de manera certera usuarios y grupos LDAP. Además, el nombre de usuario interno será creado en base al UUID, si no fue especificado otro comportamiento más arriba. Podés sobrescribir la configuración y pasar un atributo de tu elección. Tenés que asegurarte que el atributo de tu elección sea accesible por los usuarios y grupos y que sea único. Dejalo en blanco para usar el comportamiento por defecto. Los cambios tendrán efecto sólo en los nuevos usuarios y grupos de LDAP mapeados (agregados)."
 
 #: templates/settings.php:103
 msgid "UUID Attribute:"
@@ -388,7 +388,7 @@ msgid ""
 " is not configuration sensitive, it affects all LDAP configurations! Never "
 "clear the mappings in a production environment, only in a testing or "
 "experimental stage."
-msgstr ""
+msgstr "Los usuarios son usados para almacenar y asignar datos (metadatos). Con el fin de identificar de forma precisa y reconocer usuarios, a cada usuario de LDAP se será asignado un nombre de usuario interno. Esto requiere un mapeo entre el nombre de usuario y el usuario del LDAP. El nombre de usuario creado es mapeado respecto al UUID del usuario en el LDAP. De forma adicional, el DN es dejado en caché para reducir la interacción entre el LDAP, pero no es usado para la identificación. Si el DN cambia, los cambios van a ser aplicados. El nombre de usuario interno es usado en todos los lugares. Vaciar los mapeos, deja restos por todas partes. Vaciar los mapeos, no es sensible a configuración, ¡afecta a todas las configuraciones del LDAP! Nunca limpies los mapeos en un entorno de producción, solamente en fase de desarrollo o experimental."
 
 #: templates/settings.php:106
 msgid "Clear Username-LDAP User Mapping"

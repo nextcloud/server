@@ -233,6 +233,7 @@ OC.Share={
 	//			} else {
 					$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getShareWith', search: search.term, itemShares: OC.Share.itemShares }, function(result) {
 						if (result.status == 'success' && result.data.length > 0) {
+							$( "#shareWith" ).autocomplete( "option", "autoFocus", true );
 							response(result.data);
 						} else {
 							// Suggest sharing via email if valid email address
@@ -240,6 +241,7 @@ OC.Share={
 //							if (pattern.test(search.term)) {
 //								response([{label: t('core', 'Share via email:')+' '+search.term, value: {shareType: OC.Share.SHARE_TYPE_EMAIL, shareWith: search.term}}]);
 //							} else {
+								$( "#shareWith" ).autocomplete( "option", "autoFocus", false );
 								response([t('core', 'No people found')]);
 //							}
 						}
@@ -423,7 +425,7 @@ OC.Share={
 			dateFormat : 'dd-mm-yy'
 		});
 	}
-}
+};
 
 $(document).ready(function() {
 
@@ -512,7 +514,7 @@ $(document).ready(function() {
 
 	$(document).on('change', '#dropdown .permissions', function() {
 		if ($(this).attr('name') == 'edit') {
-			var li = $(this).parent().parent()
+			var li = $(this).parent().parent();
 			var checkboxes = $('.permissions', li);
 			var checked = $(this).is(':checked');
 			// Check/uncheck Create, Update, and Delete checkboxes if Edit is checked/unck

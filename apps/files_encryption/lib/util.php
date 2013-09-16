@@ -328,72 +328,73 @@ class Util {
 			$this->view->is_dir($directory)
 			&& $handle = $this->view->opendir($directory)
 		) {
+			if(is_resource($handle)) {
+				while (false !== ($file = readdir($handle))) {
 
-			while (false !== ($file = readdir($handle))) {
+					if (
+						$file !== "."
+						&& $file !== ".."
+					) {
 
-				if (
-					$file !== "."
-					&& $file !== ".."
-				) {
+						$filePath = $directory . '/' . $this->view->getRelativePath('/' . $file);
+						$relPath = \OCA\Encryption\Helper::stripUserFilesPath($filePath);
 
-					$filePath = $directory . '/' . $this->view->getRelativePath('/' . $file);
-					$relPath = \OCA\Encryption\Helper::stripUserFilesPath($filePath);
+						// If the path is a directory, search
+						// its contents
+						if ($this->view->is_dir($filePath)) {
 
-					// If the path is a directory, search
-					// its contents
-					if ($this->view->is_dir($filePath)) {
+							$this->findEncFiles($filePath, $found);
 
-						$this->findEncFiles($filePath, $found);
+							// If the path is a file, determine
+							// its encryption status
+						} elseif ($this->view->is_file($filePath)) {
 
-						// If the path is a file, determine
-						// its encryption status
-					} elseif ($this->view->is_file($filePath)) {
+							// Disable proxies again, some-
+							// where they got re-enabled :/
+							\OC_FileProxy::$enabled = false;
 
-						// Disable proxies again, some-
-						// where they got re-enabled :/
-						\OC_FileProxy::$enabled = false;
+							$isEncryptedPath = $this->isEncryptedPath($filePath);
+							// If the file is encrypted
+							// NOTE: If the userId is
+							// empty or not set, file will
+							// detected as plain
+							// NOTE: This is inefficient;
+							// scanning every file like this
+							// will eat server resources :(
+							if (
+								Keymanager::getFileKey($this->view, $this->userId, $relPath)
+								&& $isEncryptedPath
+							) {
 
-						$isEncryptedPath = $this->isEncryptedPath($filePath);
-						// If the file is encrypted
-						// NOTE: If the userId is
-						// empty or not set, file will
-						// detected as plain
-						// NOTE: This is inefficient;
-						// scanning every file like this
-						// will eat server resources :(
-						if (
-							Keymanager::getFileKey($this->view, $this->userId, $relPath)
-							&& $isEncryptedPath
-						) {
+								$found['encrypted'][] = array(
+									'name' => $file,
+									'path' => $filePath
+								);
 
-							$found['encrypted'][] = array(
-								'name' => $file,
-								'path' => $filePath
-							);
+								// If the file uses old
+								// encryption system
+							} elseif (Crypt::isLegacyEncryptedContent($isEncryptedPath, $relPath)) {
 
-							// If the file uses old
-							// encryption system
-						} elseif (Crypt::isLegacyEncryptedContent($isEncryptedPath, $relPath)) {
+								$found['legacy'][] = array(
+									'name' => $file,
+									'path' => $filePath
+								);
 
-							$found['legacy'][] = array(
-								'name' => $file,
-								'path' => $filePath
-							);
+								// If the file is not encrypted
+							} else {
 
-							// If the file is not encrypted
-						} else {
+								$found['plain'][] = array(
+									'name' => $file,
+									'path' => $relPath
+								);
 
-							$found['plain'][] = array(
-								'name' => $file,
-								'path' => $relPath
-							);
+							}
 
 						}
 
 					}
 
 				}
-
 			}
 
 			\OC_FileProxy::$enabled = true;
@@ -507,10 +508,11 @@ class Util {
 
 			// get the size from filesystem
 			$fullPath = $this->view->getLocalFile($path);
-			$size = filesize($fullPath);
+			$size = $this->view->filesize($path);
 
 			// calculate last chunk nr
 			$lastChunkNr = floor($size / 8192);
+			$lastChunkSize = $size - ($lastChunkNr * 8192);
 
 			// open stream
 			$stream = fopen('crypt://' . $path, "r");
@@ -523,7 +525,7 @@ class Util {
 				fseek($stream, $lastChunckPos);
 
 				// get the content of the last chunk
-				$lastChunkContent = fread($stream, 8192);
+				$lastChunkContent = fread($stream, $lastChunkSize);
 
 				// calc the real file size with the size of the last chunk
 				$realSize = (($lastChunkNr * 6126) + strlen($lastChunkContent));
@@ -1135,6 +1137,11 @@ class Util {
 		// Make sure that a share key is generated for the owner too
 		list($owner, $ownerPath) = $this->getUidAndFilename($filePath);
 
+		$pathinfo = pathinfo($ownerPath);
+		if(array_key_exists('extension', $pathinfo) && $pathinfo['extension'] === 'part') {
+			$ownerPath = $pathinfo['dirname'] . '/' . $pathinfo['filename'];
+		}
+
 		$userIds = array();
 		if ($sharingEnabled) {
 
@@ -1288,8 +1295,25 @@ class Util {
 	 */
 	public function getUidAndFilename($path) {
 
+		$pathinfo = pathinfo($path);
+		$partfile = false;
+		$parentFolder = false;
+		if (array_key_exists('extension', $pathinfo) && $pathinfo['extension'] === 'part') {
+			// if the real file exists we check this file
+			$filePath = $this->userFilesDir . '/' .$pathinfo['dirname'] . '/' . $pathinfo['filename'];
+			if ($this->view->file_exists($filePath)) {
+				$pathToCheck = $pathinfo['dirname'] . '/' . $pathinfo['filename'];
+			} else { // otherwise we look for the parent
+				$pathToCheck = $pathinfo['dirname'];
+				$parentFolder = true;
+			}
+			$partfile = true;
+		} else {
+			$pathToCheck = $path;
+		}
+
 		$view = new \OC\Files\View($this->userFilesDir);
-		$fileOwnerUid = $view->getOwner($path);
+		$fileOwnerUid = $view->getOwner($pathToCheck);
 
 		// handle public access
 		if ($this->isPublic) {
@@ -1318,12 +1342,18 @@ class Util {
 				$filename = $path;
 
 			} else {
-
-				$info = $view->getFileInfo($path);
+				$info = $view->getFileInfo($pathToCheck);
 				$ownerView = new \OC\Files\View('/' . $fileOwnerUid . '/files');
 
 				// Fetch real file path from DB
-				$filename = $ownerView->getPath($info['fileid']); // TODO: Check that this returns a path without including the user data dir
+				$filename = $ownerView->getPath($info['fileid']);
+				if ($parentFolder) {
+					$filename = $filename . '/'. $pathinfo['filename'];
+				}
+
+				if ($partfile) {
+					$filename = $filename . '.' . $pathinfo['extension'];
+				}
 
 			}
 
@@ -1332,9 +1362,8 @@ class Util {
 				\OC_Filesystem::normalizePath($filename)
 			);
 		}
-
-
 	}
+
 
 	/**
 	 * @brief go recursively through a dir and collect all files and sub files.

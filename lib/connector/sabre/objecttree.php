@@ -88,11 +88,13 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 		} else {
 			Filesystem::mkdir($destination);
 			$dh = Filesystem::opendir($source);
-			while (($subnode = readdir($dh)) !== false) {
+			if(is_resource($dh)) {
+				while (($subnode = readdir($dh)) !== false) {
 
-				if ($subnode == '.' || $subnode == '..') continue;
-				$this->copy($source . '/' . $subnode, $destination . '/' . $subnode);
+					if ($subnode == '.' || $subnode == '..') continue;
+					$this->copy($source . '/' . $subnode, $destination . '/' . $subnode);
 
+				}
 			}
 		}
 
