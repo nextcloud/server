@@ -50,7 +50,8 @@ class Api {
 	/**
 	 * @brief share file with a user/group, path to file is encoded in URL
 	 *
-	 * @param array $params with following parameters 'shareWith', 'shareType'
+	 * @param array $params with following parameters 'shareWith', 'shareType', 'path'
+	 *                      optional 'publicUpload' and 'password' for public shares
 	 * @return \OC_OCS_Result result of share operation
 	 */
 	public static function setShare($params) {
@@ -69,32 +70,29 @@ class Api {
 		switch($shareType) {
 			case \OCP\Share::SHARE_TYPE_USER:
 				$permission = 31;
-				if (!\OCP\User::userExists($shareWith)) {
-					return new \OC_OCS_Result(null, 404, "user doesn't exist");
-				}
 				break;
 			case \OCP\Share::SHARE_TYPE_GROUP:
 				$permission = 31;
-				if (!\OC_Group::groupExists($shareWith)) {
-					return new \OC_OCS_Result(null, 404, "group doesn't exist");
-				}
 				break;
 			case \OCP\Share::SHARE_TYPE_LINK:
-				$permission = 1;
-				$shareWith = null;
+				//allow password protection
+				$shareWith = isset($_POST['password']) ? $_POST['password'] : null;
+				$publicUpload = isset($_POST['publicUpload']) ? $_POST['publicUpload'] : 'no';
+				$permission = self::getPublicLinkSharePermissions($publicUpload);
 				break;
-			default:
-				return new \OC_OCS_Result(null, 404, "unknown share type");
 		}
 
-
-		$token = \OCP\Share::shareItem(
+		try	{
+			$token = \OCP\Share::shareItem(
 					$itemType,
 					$itemSource,
 					$shareType,
 					$shareWith,
 					$permission
 					);
+		} catch (\Exception $e) {
+			return new \OC_OCS_Result(null, 404, $e->getMessage());
+		}
 
 		if ($token) {
 			$data = null;
@@ -127,31 +125,17 @@ class Api {
 		$shareType = isset($_POST['shareType']) ? (int)$_POST['shareType'] : null;
 		$permission = isset($_POST['permission']) ? (int)$_POST['permission'] : null;
 
-		switch($shareType) {
-			case \OCP\Share::SHARE_TYPE_USER:
-				if (!\OCP\User::userExists($shareWith)) {
-					return new \OC_OCS_Result(null, 404, "user doesn't exist");
-				}
-				break;
-			case \OCP\Share::SHARE_TYPE_GROUP:
-				if (!\OC_Group::groupExists($shareWith)) {
-					return new \OC_OCS_Result(null, 404, "group doesn't exist");
-				}
-				break;
-			case \OCP\Share::SHARE_TYPE_LINK:
-				break;
-			default:
-				return new \OC_OCS_Result(null, 404, "unknown share type");
+		try {
+			$return = \OCP\Share::setPermissions(
+					$itemType,
+					$itemSource,
+					$shareType,
+					$shareWith,
+					$permission
+					);
+		} catch (\Exception $e) {
+			return new \OC_OCS_Result(null, 404, $e->getMessage());
 		}
-
-
-		$return = \OCP\Share::setPermissions(
-				$itemType,
-				$itemSource,
-				$shareType,
-				$shareWith,
-				$permission
-				);
 
 		if ($return) {
 			return new \OC_OCS_Result();
@@ -187,8 +171,63 @@ class Api {
 			$msg = "Failed, please check the expire date, expected format 'DD-MM-YYYY'.";
 			return new \OC_OCS_Result(null, 404, $msg);
 		}
+	}
 
+	/**
+	 * @brief unshare a file/folder
+	 * @param array $params with following parameters 'shareWith', 'shareType', 'path'
+	 * @return \OC_OCS_Result
+	 */
+	public static function setUnshare($params) {
+		$path = $params['path'];
+		$itemSource = self::getFileId($path);
+		$itemType = self::getItemType($path);
 
+		if($itemSource === null) {
+			return new \OC_OCS_Result(null, 404, "wrong path, file/folder doesn't exist.");
+		}
+
+		$shareWith = isset($_POST['shareWith']) ? $_POST['shareWith'] : null;
+		$shareType = isset($_POST['shareType']) ? (int)$_POST['shareType'] : null;
+
+		if( $shareType == \OCP\Share::SHARE_TYPE_LINK) {
+			$shareWith = null;
+		}
+
+		try {
+			$return = \OCP\Share::unshare(
+					$itemType,
+					$itemSource,
+					$shareType,
+					$shareWith);
+		} catch (\Exception $e) {
+			return new \OC_OCS_Result(null, 404, $e->getMessage());
+		}
+
+		if ($return) {
+			return new \OC_OCS_Result();
+		} else {
+			$msg = "Unshare Failed";
+			return new \OC_OCS_Result(null, 404, $msg);
+		}
+	}
+
+	/**
+	 * @brief get public link share permissions to allow/forbid public uploads
+	 * @param string $publicUpload 'yes' or 'no'
+	 * @return int permissions read (1) or create,update,read (7)
+	 */
+	private static function getPublicLinkSharePermissions($publicUpload) {
+
+		$publicUploadEnabled = \OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes');
+
+		if(\OC_App::isEnabled('files_encryption') ||
+				$publicUploadEnabled !== 'yes' ||
+				$publicUpload === 'no') {
+			return 1; // read
+		} else {
+			return 7; // create, update, read
+		}
 	}
 
 	/**
