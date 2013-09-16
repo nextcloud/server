@@ -40,5 +40,3 @@ class RP_InxValPair extends RODSPacket
         }
     }
 }
-
-?>

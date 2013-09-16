@@ -1,7 +1,7 @@
-<input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>">
+<?php $totalfiles = 0;
+$totaldirs = 0;
+$totalsize = 0; ?>
 <?php foreach($_['files'] as $file):
-	//strlen('files/') => 6
-	$relativePath = substr($file['path'], 6);
 	// the bigger the file, the darker the shade of grey; megabytes*2
 	$simple_size_color = intval(160-$file['size']/(1024*1024)*2);
 	if($simple_size_color<0) $simple_size_color = 0;
@@ -22,26 +22,7 @@
 		<?php else: ?>
 		<td class="filename svg"
 		<?php endif; ?>
-		<?php if($file['type'] == 'dir'): ?>
-			style="background-image:url(<?php print_unescaped(OCP\mimetype_icon('dir')); ?>)"
-		<?php else: ?>
-			<?php if($_['isPublic']): ?>
-				<?php
-				$relativePath = substr($relativePath, strlen($_['sharingroot']));
-				?>
-				<?php if($file['isPreviewAvailable']): ?>
-				style="background-image:url(<?php print_unescaped(OCP\publicPreview_icon($relativePath, $_['sharingtoken'])); ?>)"
-				<?php else: ?>
-				style="background-image:url(<?php print_unescaped(OCP\mimetype_icon($file['mimetype'])); ?>)"
-				<?php endif; ?>
-			<?php else: ?>
-				<?php if($file['isPreviewAvailable']): ?>
-				style="background-image:url(<?php print_unescaped(OCP\preview_icon($relativePath)); ?>)"
-				<?php else: ?>
-				style="background-image:url(<?php print_unescaped(OCP\mimetype_icon($file['mimetype'])); ?>)"
-				<?php endif; ?>
-			<?php endif; ?>
-		<?php endif; ?>
+		    style="background-image:url(<?php print_unescaped($file['icon']); ?>)"
 			>
 		<?php if(!isset($_['readonly']) || !$_['readonly']): ?>
 			<input id="select-<?php p($file['fileid']); ?>" type="checkbox" />

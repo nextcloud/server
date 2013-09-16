@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-25 19:18-0400\n"
-"PO-Revision-Date: 2013-08-25 23:10+0000\n"
+"POT-Creation-Date: 2013-09-13 21:46-0400\n"
+"PO-Revision-Date: 2013-09-14 00:01+0000\n"
 "Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -64,7 +64,7 @@ msgstr "%sk zurekin %s karpeta elkarbanatu du"
 msgid "%s shared the file %s with you"
 msgstr "%sk zurekin %s fitxategia elkarbanatu du"
 
-#: templates/public.php:26 templates/public.php:88
+#: templates/public.php:26 templates/public.php:92
 msgid "Download"
 msgstr "Deskargatu"
 
@@ -76,6 +76,6 @@ msgstr "Igo"
 msgid "Cancel upload"
 msgstr "Ezeztatu igoera"
 
-#: templates/public.php:85
+#: templates/public.php:89
 msgid "No preview available for"
 msgstr "Ez dago aurrebista eskuragarririk hauentzat "

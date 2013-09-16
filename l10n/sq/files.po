@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Odeen <rapid_odeen@zoho.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-30 09:31-0400\n"
-"PO-Revision-Date: 2013-08-30 13:34+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-13 21:46-0400\n"
+"PO-Revision-Date: 2013-09-14 00:00+0000\n"
+"Last-Translator: Odeen <rapid_odeen@zoho.com>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,11 +30,11 @@ msgstr "%s nuk u spostua"
 
 #: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "Nuk është i mundur caktimi i dosjes së ngarkimit."
 
 #: ajax/upload.php:22
 msgid "Invalid Token"
-msgstr ""
+msgstr "Përmbajtje e pavlefshme"
 
 #: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
@@ -76,7 +77,7 @@ msgstr "Nuk ka mbetur hapësirë memorizimi e mjaftueshme"
 
 #: ajax/upload.php:109
 msgid "Upload failed"
-msgstr ""
+msgstr "Ngarkimi dështoi"
 
 #: ajax/upload.php:127
 msgid "Invalid directory."
@@ -109,9 +110,9 @@ msgstr "URL-i nuk mund të jetë bosh."
 
 #: js/file-upload.js:244 lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
-msgstr ""
+msgstr "Emri i dosjes është i pavlefshëm. Përdorimi i \"Shared\" është i rezervuar nga Owncloud-i"
 
-#: js/file-upload.js:275 js/file-upload.js:291 js/files.js:511 js/files.js:549
+#: js/file-upload.js:276 js/file-upload.js:292 js/files.js:512 js/files.js:550
 msgid "Error"
 msgstr "Veprim i gabuar"
 
@@ -127,57 +128,57 @@ msgstr "Elimino përfundimisht"
 msgid "Rename"
 msgstr "Riemërto"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:573
+#: js/filelist.js:50 js/filelist.js:53 js/filelist.js:575
 msgid "Pending"
 msgstr "Pezulluar"
 
-#: js/filelist.js:305 js/filelist.js:307
+#: js/filelist.js:307 js/filelist.js:309
 msgid "{new_name} already exists"
 msgstr "{new_name} ekziston"
 
-#: js/filelist.js:305 js/filelist.js:307
+#: js/filelist.js:307 js/filelist.js:309
 msgid "replace"
 msgstr "zëvëndëso"
 
-#: js/filelist.js:305
+#: js/filelist.js:307
 msgid "suggest name"
 msgstr "sugjero një emër"
 
-#: js/filelist.js:305 js/filelist.js:307
+#: js/filelist.js:307 js/filelist.js:309
 msgid "cancel"
 msgstr "anulo"
 
-#: js/filelist.js:352
+#: js/filelist.js:354
 msgid "replaced {new_name} with {old_name}"
 msgstr "U zëvëndësua {new_name} me {old_name}"
 
-#: js/filelist.js:352
+#: js/filelist.js:354
 msgid "undo"
 msgstr "anulo"
 
-#: js/filelist.js:422 js/filelist.js:488 js/files.js:580
+#: js/filelist.js:424 js/filelist.js:490 js/files.js:581
 msgid "%n folder"
 msgid_plural "%n folders"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n dosje"
+msgstr[1] "%n dosje"
 
-#: js/filelist.js:423 js/filelist.js:489 js/files.js:586
+#: js/filelist.js:425 js/filelist.js:491 js/files.js:587
 msgid "%n file"
 msgid_plural "%n files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n skedar"
+msgstr[1] "%n skedarë"
 
-#: js/filelist.js:430
+#: js/filelist.js:432
 msgid "{dirs} and {files}"
-msgstr ""
+msgstr "{dirs} dhe {files}"
 
-#: js/filelist.js:561
+#: js/filelist.js:563
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Po ngarkoj %n skedar"
+msgstr[1] "Po ngarkoj %n skedarë"
 
-#: js/filelist.js:626
+#: js/filelist.js:628
 msgid "files uploading"
 msgstr "po ngarkoj skedarët"
 
@@ -207,7 +208,7 @@ msgstr "Hapësira juaj e memorizimit është gati plot ({usedSpacePercent}%)"
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
-msgstr ""
+msgstr "Kodifikimi u çaktivizua por skedarët tuaj vazhdojnë të jenë të kodifikuar. Ju lutem shkoni tek parametrat personale për të dekodifikuar skedarët tuaj."
 
 #: js/files.js:245
 msgid ""
@@ -215,22 +216,22 @@ msgid ""
 "big."
 msgstr "Shkarkimi juaj po përgatitet. Mund të duhet pak kohë nqse skedarët janë të mëdhenj."
 
-#: js/files.js:562 templates/index.php:67
+#: js/files.js:563 templates/index.php:69
 msgid "Name"
 msgstr "Emri"
 
-#: js/files.js:563 templates/index.php:78
+#: js/files.js:564 templates/index.php:81
 msgid "Size"
 msgstr "Dimensioni"
 
-#: js/files.js:564 templates/index.php:80
+#: js/files.js:565 templates/index.php:83
 msgid "Modified"
 msgstr "Modifikuar"
 
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "Nuk është i mundur riemërtimi i %s"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -300,33 +301,33 @@ msgstr "Nuk keni të drejta për të shkruar këtu."
 msgid "Nothing in here. Upload something!"
 msgstr "Këtu nuk ka asgjë. Ngarkoni diçka!"
 
-#: templates/index.php:73
+#: templates/index.php:75
 msgid "Download"
 msgstr "Shkarko"
 
-#: templates/index.php:85 templates/index.php:86
+#: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
 msgstr "Hiq ndarjen"
 
-#: templates/index.php:91 templates/index.php:92
+#: templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Elimino"
 
-#: templates/index.php:105
+#: templates/index.php:108
 msgid "Upload too large"
 msgstr "Ngarkimi është shumë i madh"
 
-#: templates/index.php:107
+#: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Skedarët që doni të ngarkoni tejkalojnë dimensionet maksimale për ngarkimet në këtë server."
 
-#: templates/index.php:112
+#: templates/index.php:115
 msgid "Files are being scanned, please wait."
 msgstr "Skedarët po analizohen, ju lutemi pritni."
 
-#: templates/index.php:115
+#: templates/index.php:118
 msgid "Current scanning"
 msgstr "Analizimi aktual"
 

@@ -12,5 +12,3 @@ class RP_Version extends RODSPacket
     }
 
 }
-
-?>

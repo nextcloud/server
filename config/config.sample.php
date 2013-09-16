@@ -212,6 +212,9 @@ $CONFIG = array(
 /* cl parameters for libreoffice / openoffice */
 'preview_office_cl_parameters' => '',
 
+/* whether avatars should be enabled */
+'enable_avatars' => true,
+
 // Extra SSL options to be used for configuration
 'openssl' => array(
 	//'config' => '/absolute/location/of/openssl.cnf',

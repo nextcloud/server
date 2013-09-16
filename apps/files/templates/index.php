@@ -1,8 +1,7 @@
 <!--[if IE 8]><style>input[type="checkbox"]{padding:0;}table td{position:static !important;}</style><![endif]-->
 <div id="controls">
 	<?php print_unescaped($_['breadcrumb']); ?>
-	<?php if ($_['isCreatable']):?>
-		<div class="actions <?php if (isset($_['files']) and count($_['files'])==0):?>emptyfolder<?php endif; ?>">
+		<div class="actions creatable <?php if (!$_['isCreatable']):?>hidden<?php endif; ?> <?php if (isset($_['files']) and count($_['files'])==0):?>emptycontent<?php endif; ?>">
 			<div id="new" class="button">
 				<a><?php p($l->t('New'));?></a>
 				<ul>
@@ -16,29 +15,23 @@
 			</div>
 			<div id="upload" class="button"
 				 title="<?php p($l->t('Upload') . ' max. '.$_['uploadMaxHumanFilesize']) ?>">
-				<form data-upload-id='1'
-					  id="data-upload-form"
-					  class="file_upload_form"
-					  action="<?php print_unescaped(OCP\Util::linkTo('files', 'ajax/upload.php')); ?>"
-					  method="post"
-					  enctype="multipart/form-data"
-					  target="file_upload_target_1">
 					<?php if($_['uploadMaxFilesize'] >= 0):?>
 					<input type="hidden" name="MAX_FILE_SIZE" id="max_upload"
 						   value="<?php p($_['uploadMaxFilesize']) ?>">
 					<?php endif;?>
 					<!-- Send the requesttoken, this is needed for older IE versions
 						 because they don't send the CSRF token via HTTP header in this case -->
-					<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" id="requesttoken">
 					<input type="hidden" class="max_human_file_size"
 						   value="(max <?php p($_['uploadMaxHumanFilesize']); ?>)">
 					<input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
-					<input type="file" id="file_upload_start" name='files[]'/>
+					<input type="file" id="file_upload_start" name='files[]'
+						   data-url="<?php print_unescaped(OCP\Util::linkTo('files', 'ajax/upload.php')); ?>" />
 					<a href="#" class="svg"></a>
-				</form>
 			</div>
 			<?php if ($_['trash'] ): ?>
-			<input id="trash" type="button" value="<?php p($l->t('Deleted files'));?>" class="button" <?php $_['trashEmpty'] ? p('disabled') : '' ?>></input>
+				<div id="trash" class="button" <?php $_['trashEmpty'] ? p('disabled') : '' ?>>
+					<a><?php p($l->t('Deleted files'));?></a>
+				</div>
 			<?php endif; ?>
 			<div id="uploadprogresswrapper">
 				<div id="uploadprogressbar"></div>
@@ -48,16 +41,15 @@
 			</div>
 		</div>
 		<div id="file_action_panel"></div>
-	<?php elseif( !$_['isPublic'] ):?>
-		<div class="actions"><input type="button" disabled value="<?php p($l->t('You don’t have write permissions here.'))?>"></div>
-		<input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
-	<?php endif;?>
+		<div class="notCreatable notPublic <?php if ($_['isCreatable'] or $_['isPublic'] ):?>hidden<?php endif; ?>">
+			<div class="actions"><input type="button" disabled value="<?php p($l->t('You don’t have write permissions here.'))?>"></div>
+		</div>
 	<input type="hidden" name="permissions" value="<?php p($_['permissions']); ?>" id="permissions">
 </div>
 
-<?php if (isset($_['files']) and $_['isCreatable'] and count($_['files'])==0):?>
-	<div id="emptycontent"><?php p($l->t('Nothing in here. Upload something!'))?></div>
-<?php endif; ?>
+<div id="emptycontent" <?php if (!isset($_['files']) or !$_['isCreatable'] or count($_['files']) > 0 or !$_['ajaxLoad']):?>class="hidden"<?php endif; ?>><?php p($l->t('Nothing in here. Upload something!'))?></div>
+
+<input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>"></input>
 
 <table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="36" data-preview-y="36">
 	<thead>
@@ -82,7 +74,7 @@
 			<th id="headerDate">
 				<span id="modified"><?php p($l->t( 'Modified' )); ?></span>
 				<?php if ($_['permissions'] & OCP\PERMISSION_DELETE): ?>
-<!-- 					NOTE: Temporary fix to allow unsharing of files in root of Shared folder -->
+<!--					NOTE: Temporary fix to allow unsharing of files in root of Shared folder -->
 					<?php if ($_['dir'] == '/Shared'): ?>
 						<span class="selectedActions"><a href="" class="delete-selected">
 							<?php p($l->t('Unshare'))?>
@@ -120,6 +112,7 @@
 </div>
 
 <!-- config hints for javascript -->
+<input type="hidden" name="ajaxLoad" id="ajaxLoad" value="<?php p($_['ajaxLoad']); ?>" />
 <input type="hidden" name="allowZipDownload" id="allowZipDownload" value="<?php p($_['allowZipDownload']); ?>" />
 <input type="hidden" name="usedSpacePercent" id="usedSpacePercent" value="<?php p($_['usedSpacePercent']); ?>" />
 <input type="hidden" name="encryptedFiles" id="encryptedFiles" value="<?php $_['encryptedFiles'] ? p('1') : p('0'); ?>" />

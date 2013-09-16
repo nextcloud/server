@@ -46,6 +46,15 @@ $(document).ready(function() {
 				$('#uploadprogresswrapper input.stop').show();
 			}
 		},
+		submit: function(e, data) {
+			if ( ! data.formData ) {
+				// noone set update parameters, we set the minimum
+				data.formData = {
+					requesttoken: oc_requesttoken,
+							 dir: $('#dir').val()
+				};
+			}
+		},
 		/**
 		 * called after the first add, does NOT have the data param
 		 * @param e
@@ -141,15 +150,8 @@ $(document).ready(function() {
 			$('#uploadprogressbar').fadeOut();
 		}
 	};
-	var file_upload_handler = function() {
-		$('#file_upload_start').fileupload(file_upload_param);
-	};
-
-
-
-	if ( document.getElementById('data-upload-form') ) {
-		$(file_upload_handler);
-	}
+	$('#file_upload_start').fileupload(file_upload_param);
+	
 	$.assocArraySize = function(obj) {
 		// http://stackoverflow.com/a/6700/11236
 		var size = 0, key;
@@ -344,6 +346,9 @@ $(document).ready(function() {
 			}
 			var li=form.parent();
 			form.remove();
+			/* workaround for IE 9&10 click event trap, 2 lines: */
+			$('input').first().focus();
+			$('#content').focus();
 			li.append('<p>'+li.data('text')+'</p>');
 			$('#new>a').click();
 		});

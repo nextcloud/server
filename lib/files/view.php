@@ -30,7 +30,7 @@ class View {
 	private $internal_path_cache = array();
 	private $storage_cache = array();
 
-	public function __construct($root) {
+	public function __construct($root = '') {
 		$this->fakeRoot = $root;
 	}
 
@@ -333,7 +333,7 @@ class View {
 	}
 
 	public function deleteAll($directory, $empty = false) {
-		return $this->basicOperation('deleteAll', $directory, array('delete'), $empty);
+		return $this->rmdir($directory);
 	}
 
 	public function rename($path1, $path2) {
@@ -500,9 +500,11 @@ class View {
 				} else {
 					if ($this->is_dir($path1) && ($dh = $this->opendir($path1))) {
 						$result = $this->mkdir($path2);
-						while (($file = readdir($dh)) !== false) {
-							if (!Filesystem::isIgnoredDir($file)) {
-								$result = $this->copy($path1 . '/' . $file, $path2 . '/' . $file);
+						if(is_resource($dh)) {
+							while (($file = readdir($dh)) !== false) {
+								if (!Filesystem::isIgnoredDir($file)) {
+									$result = $this->copy($path1 . '/' . $file, $path2 . '/' . $file);
+								}
 							}
 						}
 					} else {

@@ -71,5 +71,3 @@ $outputstr = $outputstr . ");\n";
 
 $outputstr = $outputstr . "?>\n";
 file_put_contents($prods_error_table_file, $outputstr);
-
-?>  

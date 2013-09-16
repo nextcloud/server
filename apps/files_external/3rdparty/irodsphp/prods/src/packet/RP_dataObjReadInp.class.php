@@ -12,5 +12,3 @@ class RP_dataObjReadInp extends RODSPacket
     }
 
 }
-
-?>

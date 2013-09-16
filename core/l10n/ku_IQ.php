@@ -6,6 +6,7 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("",""),
 "_%n month ago_::_%n months ago_" => array("",""),
 "Error" => "هه‌ڵه",
+"Share" => "هاوبەشی کردن",
 "Password" => "وشەی تێپەربو",
 "Username" => "ناوی به‌کارهێنه‌ر",
 "New password" => "وشەی نهێنی نوێ",

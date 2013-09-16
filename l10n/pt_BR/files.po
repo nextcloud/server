@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-03 07:42-0400\n"
-"PO-Revision-Date: 2013-09-02 15:40+0000\n"
+"POT-Creation-Date: 2013-09-13 21:46-0400\n"
+"PO-Revision-Date: 2013-09-14 00:00+0000\n"
 "Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -161,14 +161,14 @@ msgstr "desfazer"
 #: js/filelist.js:424 js/filelist.js:490 js/files.js:581
 msgid "%n folder"
 msgid_plural "%n folders"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n pasta"
+msgstr[1] "%n pastas"
 
 #: js/filelist.js:425 js/filelist.js:491 js/files.js:587
 msgid "%n file"
 msgid_plural "%n files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n arquivo"
+msgstr[1] "%n arquivos"
 
 #: js/filelist.js:432
 msgid "{dirs} and {files}"
@@ -177,8 +177,8 @@ msgstr "{dirs} e {files}"
 #: js/filelist.js:563
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Enviando %n arquivo"
+msgstr[1] "Enviando %n arquivos"
 
 #: js/filelist.js:628
 msgid "files uploading"
