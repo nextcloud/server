@@ -99,8 +99,10 @@ class Scanner extends BasicEmitter {
 				if ($reuseExisting and $cacheData = $this->cache->get($file)) {
 					// prevent empty etag
 					$etag = $cacheData['etag'];
+					$propagateETagChange = false;
 					if (empty($etag)) {
 						$etag = $data['etag'];
+						$propagateETagChange = true;
 					}
 
 					// only reuse data if the file hasn't explicitly changed
@@ -110,6 +112,18 @@ class Scanner extends BasicEmitter {
 						}
 						if ($reuseExisting & self::REUSE_ETAG) {
 							$data['etag'] = $etag;
+							if ($propagateETagChange) {
+								$parent = $file;
+								while ($parent !== '') {
+									$parent = dirname($parent);
+									if ($parent === '.') {
+										$parent = '';
+									}
+									$parentCacheData = $this->cache->get($parent);
+									$parentCacheData['etag'] = $this->storage->getETag($parent);
+									$this->cache->put($parent, $parentCacheData);
+								}
+							}
 						}
 					}
 					// Only update metadata that has changed

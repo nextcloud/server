@@ -187,17 +187,26 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 	public function testETagRecreation() {
 		$this->fillTestFolders();
 
-		$this->scanner->scan('');
+		$this->scanner->scan('folder/bar.txt');
 
 		// manipulate etag to simulate an empty etag
 		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW, \OC\Files\Cache\Scanner::REUSE_ETAG);
-		$data['etag'] = '';
-		$this->cache->put('', $data);
+		$data0 = $this->cache->get('folder/bar.txt');
+		$data1 = $this->cache->get('folder');
+		$data2 = $this->cache->get('');
+		$data0['etag'] = '';
+		$this->cache->put('folder/bar.txt', $data0);
 
 		// rescan
-		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW, \OC\Files\Cache\Scanner::REUSE_ETAG);
-		$newData = $this->cache->get('');
-		$this->assertNotEmpty($newData['etag']);
+		$this->scanner->scan('folder/bar.txt', \OC\Files\Cache\Scanner::SCAN_SHALLOW, \OC\Files\Cache\Scanner::REUSE_ETAG);
+
+		// verify cache content
+		$newData0 = $this->cache->get('folder/bar.txt');
+		$newData1 = $this->cache->get('folder');
+		$newData2 = $this->cache->get('');
+		$this->assertNotEmpty($newData0['etag']);
+		$this->assertNotEquals($data1['etag'], $newData1['etag']);
+		$this->assertNotEquals($data2['etag'], $newData2['etag']);
 
 	}
 
