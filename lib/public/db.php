@@ -102,4 +102,15 @@ class DB {
 	public static function isError($result) {
 		return(\OC_DB::isError($result));
 	}
+
+	/**
+	 * returns the error code and message as a string for logging
+	 * works with DoctrineException
+	 * @param mixed $error
+	 * @return string
+	 */
+	public static function getErrorMessage($error) {
+		return(\OC_DB::getErrorMessage($error));
+	}
+
 }
