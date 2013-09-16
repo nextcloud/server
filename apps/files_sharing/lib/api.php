@@ -77,8 +77,17 @@ class Api {
 			case \OCP\Share::SHARE_TYPE_LINK:
 				//allow password protection
 				$shareWith = isset($_POST['password']) ? $_POST['password'] : null;
+				//check public link share
+				$publicUploadEnabled = \OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes');
+				$encryptionEnabled = \OC_App::isEnabled('files_encryption');
+				if(isset($_POST['publicUpload']) &&
+						($encryptionEnabled || $publicUploadEnabled !== 'yes')) {
+					return new \OC_OCS_Result(null, 404, "public upload disabled by the administrator");
+				}
 				$publicUpload = isset($_POST['publicUpload']) ? $_POST['publicUpload'] : 'no';
-				$permission = self::getPublicLinkSharePermissions($publicUpload);
+				// read, create, update (7) if public upload is enabled or
+				// read (1) if public upload is disabled
+				$permission = $publicUpload === 'yes' ? 7 : 1;
 				break;
 		}
 
@@ -209,24 +218,6 @@ class Api {
 		} else {
 			$msg = "Unshare Failed";
 			return new \OC_OCS_Result(null, 404, $msg);
-		}
-	}
-
-	/**
-	 * @brief get public link share permissions to allow/forbid public uploads
-	 * @param string $publicUpload 'yes' or 'no'
-	 * @return int permissions read (1) or create,update,read (7)
-	 */
-	private static function getPublicLinkSharePermissions($publicUpload) {
-
-		$publicUploadEnabled = \OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes');
-
-		if(\OC_App::isEnabled('files_encryption') ||
-				$publicUploadEnabled !== 'yes' ||
-				$publicUpload === 'no') {
-			return 1; // read
-		} else {
-			return 7; // create, update, read
 		}
 	}
 
