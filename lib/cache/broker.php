@@ -6,7 +6,9 @@
  * See the COPYING-README file.
  */
 
-class OC_Cache_Broker {
+namespace OC\Cache;
+
+class Broker {
 	protected $fast_cache;
 	protected $slow_cache;
 

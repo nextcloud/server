@@ -22,14 +22,10 @@
 
 namespace Test\Cache;
 
-class FileCache extends \Test_Cache {
+class UserCache extends \Test_Cache {
 	private $user;
 	private $datadir;
 
-	function skip() {
-		//$this->skipUnless(OC_User::isLoggedIn());
-	}
-	
 	public function setUp() {
 		//clear all proxies and hooks so we can do clean testing
 		\OC_FileProxy::clearProxies();
@@ -59,10 +55,10 @@ class FileCache extends \Test_Cache {
 		\OC_User::setUserId('test');
 
 		//set up the users dir
-		$rootView = new \OC\Files\View('');
+		$rootView=new \OC\Files\View('');
 		$rootView->mkdir('/test');
 		
-		$this->instance=new \OC\Cache\File();
+		$this->instance=new \OC\Cache\UserCache();
 	}
 
 	public function tearDown() {
