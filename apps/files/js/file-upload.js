@@ -373,7 +373,7 @@ $(document).ready(function() {
 		}
 	};
 
-	if ( document.getElementById('data-upload-form') ) {
+	if ( $('#file_upload_start').exists() ) {
 		// initialize jquery fileupload (blueimp)
 		var fileupload = $('#file_upload_start').fileupload(file_upload_param);
 		window.file_upload_param = fileupload;
