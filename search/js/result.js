@@ -91,7 +91,7 @@ OC.search.showResults=function(results){
 		}
 		$('#searchresults').on('click', 'result', function () {
 			if ($(this).data('type') === 'Files') {
-				
+				//FIXME use ajax to navigate to folder & highlight file
 			}
 		});
 	}
