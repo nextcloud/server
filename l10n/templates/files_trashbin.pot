@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-09-13 21:46-0400\n"
+"POT-Creation-Date: 2013-09-16 11:33-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,21 +44,21 @@ msgstr ""
 msgid "Delete permanently"
 msgstr ""
 
-#: js/trash.js:184 templates/index.php:17
+#: js/trash.js:190 templates/index.php:21
 msgid "Name"
 msgstr ""
 
-#: js/trash.js:185 templates/index.php:27
+#: js/trash.js:191 templates/index.php:31
 msgid "Deleted"
 msgstr ""
 
-#: js/trash.js:193
+#: js/trash.js:199
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/trash.js:199
+#: js/trash.js:205
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] ""
@@ -72,11 +72,11 @@ msgstr ""
 msgid "Nothing in here. Your trash bin is empty!"
 msgstr ""
 
-#: templates/index.php:20 templates/index.php:22
+#: templates/index.php:24 templates/index.php:26
 msgid "Restore"
 msgstr ""
 
-#: templates/index.php:30 templates/index.php:31
+#: templates/index.php:34 templates/index.php:35
 msgid "Delete"
 msgstr ""
 

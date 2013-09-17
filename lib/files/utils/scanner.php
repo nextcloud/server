@@ -72,6 +72,9 @@ class Scanner extends PublicEmitter {
 	public function backgroundScan($dir) {
 		$mounts = $this->getMounts($dir);
 		foreach ($mounts as $mount) {
+			if (is_null($mount->getStorage())) {
+				continue;
+			}
 			$scanner = $mount->getStorage()->getScanner();
 			$this->attachListener($mount);
 			$scanner->backgroundScan();
@@ -81,6 +84,9 @@ class Scanner extends PublicEmitter {
 	public function scan($dir) {
 		$mounts = $this->getMounts($dir);
 		foreach ($mounts as $mount) {
+			if (is_null($mount->getStorage())) {
+				continue;
+			}
 			$scanner = $mount->getStorage()->getScanner();
 			$this->attachListener($mount);
 			$scanner->scan('', \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG);

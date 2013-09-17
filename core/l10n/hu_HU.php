@@ -42,7 +42,6 @@ $TRANSLATIONS = array(
 "last year" => "tavaly",
 "years ago" => "több éve",
 "Choose" => "Válasszon",
-"Error loading file picker template" => "Nem sikerült betölteni a fájlkiválasztó sablont",
 "Yes" => "Igen",
 "No" => "Nem",
 "Ok" => "Ok",

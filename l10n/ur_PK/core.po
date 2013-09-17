@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-07 04:40-0400\n"
-"PO-Revision-Date: 2013-09-05 11:50+0000\n"
+"POT-Creation-Date: 2013-09-16 11:33-0400\n"
+"PO-Revision-Date: 2013-09-16 15:33+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Urdu (Pakistan) (http://www.transifex.com/projects/p/owncloud/language/ur_PK/)\n"
 "MIME-Version: 1.0\n"
@@ -90,6 +90,26 @@ msgstr "ختم کرنے کے لیے کسی زمرہ جات کا انتخاب ن�
 msgid "Error removing %s from favorites."
 msgstr ""
 
+#: avatar/controller.php:62
+msgid "No image or file provided"
+msgstr ""
+
+#: avatar/controller.php:81
+msgid "Unknown filetype"
+msgstr ""
+
+#: avatar/controller.php:85
+msgid "Invalid image"
+msgstr ""
+
+#: avatar/controller.php:115 avatar/controller.php:142
+msgid "No temporary profile picture available, try again"
+msgstr ""
+
+#: avatar/controller.php:135
+msgid "No crop data provided"
+msgstr ""
+
 #: js/config.php:32
 msgid "Sunday"
 msgstr ""
@@ -166,59 +186,59 @@ msgstr "نومبر"
 msgid "December"
 msgstr "دسمبر"
 
-#: js/js.js:355
+#: js/js.js:387
 msgid "Settings"
 msgstr "سیٹینگز"
 
-#: js/js.js:821
+#: js/js.js:853
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:822
+#: js/js.js:854
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:823
+#: js/js.js:855
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:824
+#: js/js.js:856
 msgid "today"
 msgstr ""
 
-#: js/js.js:825
+#: js/js.js:857
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:826
+#: js/js.js:858
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:827
+#: js/js.js:859
 msgid "last month"
 msgstr ""
 
-#: js/js.js:828
+#: js/js.js:860
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:829
+#: js/js.js:861
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:830
+#: js/js.js:862
 msgid "last year"
 msgstr ""
 
-#: js/js.js:831
+#: js/js.js:863
 msgid "years ago"
 msgstr ""
 
@@ -226,21 +246,25 @@ msgstr ""
 msgid "Choose"
 msgstr "منتخب کریں"
 
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:210
-msgid "Error loading file picker template"
+#: js/oc-dialogs.js:146
+msgid "Error loading file picker template: {error}"
 msgstr ""
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:172
 msgid "Yes"
 msgstr "ہاں"
 
-#: js/oc-dialogs.js:178
+#: js/oc-dialogs.js:182
 msgid "No"
 msgstr "نہیں"
 
-#: js/oc-dialogs.js:195
+#: js/oc-dialogs.js:199
 msgid "Ok"
 msgstr "اوکے"
+
+#: js/oc-dialogs.js:219
+msgid "Error loading message template: {error}"
+msgstr ""
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -251,7 +275,7 @@ msgstr ""
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:643 js/share.js:655
+#: js/share.js:645 js/share.js:657
 msgid "Error"
 msgstr "ایرر"
 
@@ -271,7 +295,7 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
-#: js/share.js:131 js/share.js:683
+#: js/share.js:131 js/share.js:685
 msgid "Error while sharing"
 msgstr "شئیرنگ کے دوران ایرر"
 
@@ -327,67 +351,67 @@ msgstr "تاریخ معیاد سیٹ کریں"
 msgid "Expiration date"
 msgstr "تاریخ معیاد"
 
-#: js/share.js:241
+#: js/share.js:242
 msgid "Share via email:"
 msgstr ""
 
-#: js/share.js:243
+#: js/share.js:245
 msgid "No people found"
 msgstr "کوئی لوگ نہیں ملے۔"
 
-#: js/share.js:281
+#: js/share.js:283
 msgid "Resharing is not allowed"
 msgstr "دوبارہ شئیر کرنے کی اجازت نہیں"
 
-#: js/share.js:317
+#: js/share.js:319
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:338
+#: js/share.js:340
 msgid "Unshare"
 msgstr "شئیرنگ ختم کریں"
 
-#: js/share.js:350
+#: js/share.js:352
 msgid "can edit"
 msgstr "ایڈٹ کر سکے"
 
-#: js/share.js:352
+#: js/share.js:354
 msgid "access control"
 msgstr "اسیس کنٹرول"
 
-#: js/share.js:355
+#: js/share.js:357
 msgid "create"
 msgstr "نیا بنائیں"
 
-#: js/share.js:358
+#: js/share.js:360
 msgid "update"
 msgstr "اپ ڈیٹ"
 
-#: js/share.js:361
+#: js/share.js:363
 msgid "delete"
 msgstr "ختم کریں"
 
-#: js/share.js:364
+#: js/share.js:366
 msgid "share"
 msgstr "شئیر کریں"
 
-#: js/share.js:398 js/share.js:630
+#: js/share.js:400 js/share.js:632
 msgid "Password protected"
 msgstr "پاسورڈ سے محفوظ کیا گیا ہے"
 
-#: js/share.js:643
+#: js/share.js:645
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:655
+#: js/share.js:657
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:670
+#: js/share.js:672
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:681
+#: js/share.js:683
 msgid "Email sent"
 msgstr ""
 
@@ -471,7 +495,7 @@ msgstr "ذاتی"
 msgid "Users"
 msgstr "یوزرز"
 
-#: strings.php:7 templates/layout.user.php:105
+#: strings.php:7 templates/layout.user.php:108
 msgid "Apps"
 msgstr "ایپز"
 
@@ -600,7 +624,7 @@ msgstr "سیٹ اپ ختم کریں"
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:66
+#: templates/layout.user.php:69
 msgid "Log out"
 msgstr "لاگ آؤٹ"
 
