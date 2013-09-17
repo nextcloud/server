@@ -39,10 +39,8 @@
 					return;
 				}
 				// Escape
-				if(event.keyCode === 27 && self.options.closeOnEscape) {
-					if (self.closeCB) {
-						self.closeCB();
-					}
+				if(event.keyCode === 27 && event.type === 'keydown' && self.options.closeOnEscape) {
+					event.stopImmediatePropagation();
 					self.close();
 					return false;
 				}
@@ -86,27 +84,25 @@
 			var self = this;
 			switch(key) {
 				case 'title':
-					var $title = $('<h3 class="oc-dialog-title">' + this.options.title
-						+ '</h3>'); //<hr class="oc-dialog-separator" />');
 					if(this.$title) {
-						this.$title.replaceWith($title);
+						this.$title.text(value);
 					} else {
+						var $title = $('<h3 class="oc-dialog-title">'
+							+ value
+							+ '</h3>');
 						this.$title = $title.prependTo(this.$dialog);
 					}
 					this._setSizes();
 					break;
 				case 'buttons':
-					var $buttonrow = $('<div class="oc-dialog-buttonrow" />');
 					if(this.$buttonrow) {
-						this.$buttonrow.replaceWith($buttonrow);
+						this.$buttonrow.empty();
 					} else {
+						var $buttonrow = $('<div class="oc-dialog-buttonrow" />');
 						this.$buttonrow = $buttonrow.appendTo(this.$dialog);
 					}
 					$.each(value, function(idx, val) {
 						var $button = $('<button>').text(val.text);
-						if (val.classes) {
-							$button.addClass(val.classes);
-						}
 						if(val.defaultButton) {
 							$button.addClass('primary');
 							self.$defaultButton = $button;
@@ -130,6 +126,8 @@
 						$closeButton.on('click', function() {
 							self.close();
 						});
+					} else {
+						this.$dialog.find('.oc-dialog-close').remove();
 					}
 					break;
 				case 'width':

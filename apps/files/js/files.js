@@ -1,6 +1,6 @@
 Files={
 	updateMaxUploadFilesize:function(response) {
-		if(response === undefined) {
+		if(response == undefined) {
 			return;
 		}
 		if(response.data !== undefined && response.data.uploadMaxFilesize !== undefined) {
@@ -9,7 +9,7 @@ Files={
 			$('#usedSpacePercent').val(response.data.usedSpacePercent);
 			Files.displayStorageWarnings();
 		}
-		if(response[0] === undefined) {
+		if(response[0] == undefined) {
 			return;
 		}
 		if(response[0].uploadMaxFilesize !== undefined) {
@@ -25,7 +25,7 @@ Files={
 			OC.Notification.show(t('files', '\'.\' is an invalid file name.'));
 			return false;
 		}
-		if (name.length === 0) {
+		if (name.length == 0) {
 			OC.Notification.show(t('files', 'File name cannot be empty.'));
 			return false;
 		}
@@ -33,7 +33,7 @@ Files={
 		// check for invalid characters
 		var invalid_characters = ['\\', '/', '<', '>', ':', '"', '|', '?', '*'];
 		for (var i = 0; i < invalid_characters.length; i++) {
-			if (name.indexOf(invalid_characters[i]) !== -1) {
+			if (name.indexOf(invalid_characters[i]) != -1) {
 				OC.Notification.show(t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed."));
 				return false;
 			}
@@ -67,29 +67,106 @@ Files={
 			OC.Notification.show(t('files_encryption', 'Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files.'));
 			return;
 		}
+	},
+
+	setupDragAndDrop: function(){
+		var $fileList = $('#fileList');
+
+		//drag/drop of files
+		$fileList.find('tr td.filename').each(function(i,e){
+			if ($(e).parent().data('permissions') & OC.PERMISSION_DELETE) {
+				$(e).draggable(dragOptions);
+			}
+		});
+
+		$fileList.find('tr[data-type="dir"] td.filename').each(function(i,e){
+			if ($(e).parent().data('permissions') & OC.PERMISSION_CREATE){
+				$(e).droppable(folderDropOptions);
+			}
+		});
+	},
+
+	lastWidth: 0,
+
+	initBreadCrumbs: function () {
+		Files.lastWidth = 0;
+		Files.breadcrumbs = [];
+
+		// initialize with some extra space
+		Files.breadcrumbsWidth = 64;
+		if ( document.getElementById("navigation") ) {
+			Files.breadcrumbsWidth += $('#navigation').get(0).offsetWidth;
+		}
+		Files.hiddenBreadcrumbs = 0;
+
+		$.each($('.crumb'), function(index, breadcrumb) {
+			Files.breadcrumbs[index] = breadcrumb;
+			Files.breadcrumbsWidth += $(breadcrumb).get(0).offsetWidth;
+		});
+
+		$.each($('#controls .actions>div'), function(index, action) {
+			Files.breadcrumbsWidth += $(action).get(0).offsetWidth;
+		});
+
+		// event handlers for breadcrumb items
+		$('#controls .crumb a').on('click', onClickBreadcrumb);
+	},
+
+	resizeBreadcrumbs: function (width, firstRun) {
+		if (width != Files.lastWidth) {
+			if ((width < Files.lastWidth || firstRun) && width < Files.breadcrumbsWidth) {
+				if (Files.hiddenBreadcrumbs == 0) {
+					Files.breadcrumbsWidth -= $(Files.breadcrumbs[1]).get(0).offsetWidth;
+					$(Files.breadcrumbs[1]).find('a').hide();
+					$(Files.breadcrumbs[1]).append('<span>...</span>');
+					Files.breadcrumbsWidth += $(Files.breadcrumbs[1]).get(0).offsetWidth;
+					Files.hiddenBreadcrumbs = 2;
+				}
+				var i = Files.hiddenBreadcrumbs;
+				while (width < Files.breadcrumbsWidth && i > 1 && i < Files.breadcrumbs.length - 1) {
+					Files.breadcrumbsWidth -= $(Files.breadcrumbs[i]).get(0).offsetWidth;
+					$(Files.breadcrumbs[i]).hide();
+					Files.hiddenBreadcrumbs = i;
+					i++
+				}
+			} else if (width > Files.lastWidth && Files.hiddenBreadcrumbs > 0) {
+				var i = Files.hiddenBreadcrumbs;
+				while (width > Files.breadcrumbsWidth && i > 0) {
+					if (Files.hiddenBreadcrumbs == 1) {
+						Files.breadcrumbsWidth -= $(Files.breadcrumbs[1]).get(0).offsetWidth;
+						$(Files.breadcrumbs[1]).find('span').remove();
+						$(Files.breadcrumbs[1]).find('a').show();
+						Files.breadcrumbsWidth += $(Files.breadcrumbs[1]).get(0).offsetWidth;
+					} else {
+						$(Files.breadcrumbs[i]).show();
+						Files.breadcrumbsWidth += $(Files.breadcrumbs[i]).get(0).offsetWidth;
+						if (Files.breadcrumbsWidth > width) {
+							Files.breadcrumbsWidth -= $(Files.breadcrumbs[i]).get(0).offsetWidth;
+							$(Files.breadcrumbs[i]).hide();
+							break;
+						}
+					}
+					i--;
+					Files.hiddenBreadcrumbs = i;
+				}
+			}
+			Files.lastWidth = width;
+		}
 	}
 };
 $(document).ready(function() {
+	// FIXME: workaround for trashbin app
+	if (window.trashBinApp){
+		return;
+	}
 	Files.displayEncryptionWarning();
 	Files.bindKeyboardShortcuts(document, jQuery);
-	$('#fileList tr').each(function(){
-		//little hack to set unescape filenames in attribute
-		$(this).attr('data-file',decodeURIComponent($(this).attr('data-file')));
-	});
+
+	FileList.postProcessList();
+	Files.setupDragAndDrop();
 
 	$('#file_action_panel').attr('activeAction', false);
 
-	//drag/drop of files
-	$('#fileList tr td.filename').each(function(i,e){
-		if ($(e).parent().data('permissions') & OC.PERMISSION_DELETE) {
-			$(e).draggable(dragOptions);
-		}
-	});
-	$('#fileList tr[data-type="dir"] td.filename').each(function(i,e){
-		if ($(e).parent().data('permissions') & OC.PERMISSION_CREATE){
-			$(e).droppable(folderDropOptions);
-		}
-	});
 	$('div.crumb:not(.last)').droppable(crumbDropOptions);
 	$('ul#apps>li:first-child').data('dir','');
 	if($('div.crumb').length){
@@ -127,7 +204,7 @@ $(document).ready(function() {
 				var rows = $(this).parent().parent().parent().children('tr');
 				for (var i = start; i < end; i++) {
 					$(rows).each(function(index) {
-						if (index === i) {
+						if (index == i) {
 							var checkbox = $(this).children().children('input:checkbox');
 							$(checkbox).attr('checked', 'checked');
 							$(checkbox).parent().parent().addClass('selected');
@@ -145,7 +222,7 @@ $(document).ready(function() {
 				$(checkbox).attr('checked', 'checked');
 				$(checkbox).parent().parent().toggleClass('selected');
 				var selectedCount=$('td.filename input:checkbox:checked').length;
-				if (selectedCount === $('td.filename input:checkbox').length) {
+				if (selectedCount == $('td.filename input:checkbox').length) {
 					$('#select_all').attr('checked', 'checked');
 				}
 			}
@@ -192,7 +269,7 @@ $(document).ready(function() {
 			var rows = $(this).parent().parent().parent().children('tr');
 			for (var i = start; i < end; i++) {
 				$(rows).each(function(index) {
-					if (index === i) {
+					if (index == i) {
 						var checkbox = $(this).children().children('input:checkbox');
 						$(checkbox).attr('checked', 'checked');
 						$(checkbox).parent().parent().addClass('selected');
@@ -205,7 +282,7 @@ $(document).ready(function() {
 		if(!$(this).attr('checked')){
 			$('#select_all').attr('checked',false);
 		}else{
-			if(selectedCount === $('td.filename input:checkbox').length){
+			if(selectedCount==$('td.filename input:checkbox').length){
 				$('#select_all').attr('checked',true);
 			}
 		}
@@ -242,72 +319,15 @@ $(document).ready(function() {
 	//do a background scan if needed
 	scanFiles();
 
-	var lastWidth = 0;
-	var breadcrumbs = [];
-	var breadcrumbsWidth = 0;
-	if ( document.getElementById("navigation") ) {
-		breadcrumbsWidth = $('#navigation').get(0).offsetWidth;
-	}
-	var hiddenBreadcrumbs = 0;
-
-	$.each($('.crumb'), function(index, breadcrumb) {
-		breadcrumbs[index] = breadcrumb;
-		breadcrumbsWidth += $(breadcrumb).get(0).offsetWidth;
-	});
-
-
-	$.each($('#controls .actions>div'), function(index, action) {
-		breadcrumbsWidth += $(action).get(0).offsetWidth;
-	});
-
-	function resizeBreadcrumbs(firstRun) {
-		var width = $(this).width();
-		if (width !== lastWidth) {
-			if ((width < lastWidth || firstRun) && width < breadcrumbsWidth) {
-				if (hiddenBreadcrumbs === 0) {
-					breadcrumbsWidth -= $(breadcrumbs[1]).get(0).offsetWidth;
-					$(breadcrumbs[1]).find('a').hide();
-					$(breadcrumbs[1]).append('<span>...</span>');
-					breadcrumbsWidth += $(breadcrumbs[1]).get(0).offsetWidth;
-					hiddenBreadcrumbs = 2;
-				}
-				var i = hiddenBreadcrumbs;
-				while (width < breadcrumbsWidth && i > 1 && i < breadcrumbs.length - 1) {
-					breadcrumbsWidth -= $(breadcrumbs[i]).get(0).offsetWidth;
-					$(breadcrumbs[i]).hide();
-					hiddenBreadcrumbs = i;
-					i++;
-				}
-			} else if (width > lastWidth && hiddenBreadcrumbs > 0) {
-				var i = hiddenBreadcrumbs;
-				while (width > breadcrumbsWidth && i > 0) {
-					if (hiddenBreadcrumbs === 1) {
-						breadcrumbsWidth -= $(breadcrumbs[1]).get(0).offsetWidth;
-						$(breadcrumbs[1]).find('span').remove();
-						$(breadcrumbs[1]).find('a').show();
-						breadcrumbsWidth += $(breadcrumbs[1]).get(0).offsetWidth;
-					} else {
-						$(breadcrumbs[i]).show();
-						breadcrumbsWidth += $(breadcrumbs[i]).get(0).offsetWidth;
-						if (breadcrumbsWidth > width) {
-							breadcrumbsWidth -= $(breadcrumbs[i]).get(0).offsetWidth;
-							$(breadcrumbs[i]).hide();
-							break;
-						}
-					}
-					i--;
-					hiddenBreadcrumbs = i;
-				}
-			}
-			lastWidth = width;
-		}
-	}
+	Files.initBreadCrumbs();
 
 	$(window).resize(function() {
-		resizeBreadcrumbs(false);
+		var width = $(this).width();
+		Files.resizeBreadcrumbs(width, false);
 	});
 
-	resizeBreadcrumbs(true);
+	var width = $(this).width();
+	Files.resizeBreadcrumbs(width, true);
 
 	// display storage warnings
 	setTimeout ( "Files.displayStorageWarnings()", 100 );
@@ -382,15 +402,11 @@ scanFiles.scanning=false;
 function boolOperationFinished(data, callback) {
 	result = jQuery.parseJSON(data.responseText);
 	Files.updateMaxUploadFilesize(result);
-	if(result.status === 'success'){
+	if(result.status == 'success'){
 		callback.call();
 	} else {
 		alert(result.data.message);
 	}
-}
-
-function updateBreadcrumb(breadcrumbHtml) {
-	$('p.nav').empty().html(breadcrumbHtml);
 }
 
 var createDragShadow = function(event){
@@ -436,7 +452,7 @@ var createDragShadow = function(event){
 	});
 
 	return dragshadow;
-};
+}
 
 //options for file drag/drop
 var dragOptions={
@@ -446,7 +462,7 @@ var dragOptions={
 	stop: function(event, ui) {
 		$('#fileList tr td.filename').addClass('ui-draggable');
 	}
-};
+}
 // sane browsers support using the distance option
 if ( $('html.ie').length === 0) {
 	dragOptions['distance'] = 20;
@@ -489,7 +505,7 @@ var folderDropOptions={
 		});
 	},
 	tolerance: 'pointer'
-};
+}
 
 var crumbDropOptions={
 	drop: function( event, ui ) {
@@ -654,4 +670,10 @@ function checkTrashStatus() {
 			$("input[type=button][id=trash]").removeAttr("disabled");
 		}
 	});
+}
+
+function onClickBreadcrumb(e){
+	var $el = $(e.target).closest('.crumb');
+	e.preventDefault();
+	FileList.changeDirectory(decodeURIComponent($el.data('dir')));
 }

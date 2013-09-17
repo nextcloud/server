@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-07 04:40-0400\n"
-"PO-Revision-Date: 2013-09-05 11:40+0000\n"
-"Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
+"POT-Creation-Date: 2013-09-16 11:33-0400\n"
+"PO-Revision-Date: 2013-09-16 15:34+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -130,11 +130,15 @@ msgstr "Aktualizuj"
 msgid "Updated"
 msgstr "Zaktualizowano"
 
-#: js/personal.js:150
+#: js/personal.js:217
+msgid "Select a profile picture"
+msgstr ""
+
+#: js/personal.js:262
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Odszyfrowuje pliki... Proszę czekać, to może zająć jakiś czas."
 
-#: js/personal.js:172
+#: js/personal.js:284
 msgid "Saving..."
 msgstr "Zapisywanie..."
 
@@ -150,16 +154,16 @@ msgstr "cofnij"
 msgid "Unable to remove user"
 msgstr "Nie można usunąć użytkownika"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:87
-#: templates/users.php:112
+#: js/users.js:92 templates/users.php:26 templates/users.php:90
+#: templates/users.php:118
 msgid "Groups"
 msgstr "Grupy"
 
-#: js/users.js:97 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
 msgstr "Administrator grupy"
 
-#: js/users.js:120 templates/users.php:164
+#: js/users.js:120 templates/users.php:170
 msgid "Delete"
 msgstr "Usuń"
 
@@ -179,7 +183,7 @@ msgstr "Błąd podczas tworzenia użytkownika"
 msgid "A valid password must be provided"
 msgstr "Należy podać prawidłowe hasło"
 
-#: personal.php:40 personal.php:41
+#: personal.php:45 personal.php:46
 msgid "__language_name__"
 msgstr "polski"
 
@@ -345,11 +349,11 @@ msgstr "Więcej"
 msgid "Less"
 msgstr "Mniej"
 
-#: templates/admin.php:242 templates/personal.php:140
+#: templates/admin.php:242 templates/personal.php:161
 msgid "Version"
 msgstr "Wersja"
 
-#: templates/admin.php:246 templates/personal.php:143
+#: templates/admin.php:246 templates/personal.php:164
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -416,7 +420,7 @@ msgstr "Uruchom ponownie kreatora pierwszego uruchomienia"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Wykorzystujesz <strong>%s</strong> z dostępnych <strong>%s</strong>"
 
-#: templates/personal.php:39 templates/users.php:23 templates/users.php:86
+#: templates/personal.php:39 templates/users.php:23 templates/users.php:89
 msgid "Password"
 msgstr "Hasło"
 
@@ -440,7 +444,7 @@ msgstr "Nowe hasło"
 msgid "Change password"
 msgstr "Zmień hasło"
 
-#: templates/personal.php:58 templates/users.php:85
+#: templates/personal.php:58 templates/users.php:88
 msgid "Display Name"
 msgstr "Wyświetlana nazwa"
 
@@ -456,38 +460,66 @@ msgstr "Twój adres e-mail"
 msgid "Fill in an email address to enable password recovery"
 msgstr "Podaj adres e-mail, aby uzyskać możliwość odzyskania hasła"
 
-#: templates/personal.php:85 templates/personal.php:86
+#: templates/personal.php:86
+msgid "Profile picture"
+msgstr ""
+
+#: templates/personal.php:90
+msgid "Upload new"
+msgstr ""
+
+#: templates/personal.php:92
+msgid "Select new from Files"
+msgstr ""
+
+#: templates/personal.php:93
+msgid "Remove image"
+msgstr ""
+
+#: templates/personal.php:94
+msgid "Either png or jpg. Ideally square but you will be able to crop it."
+msgstr ""
+
+#: templates/personal.php:97
+msgid "Abort"
+msgstr ""
+
+#: templates/personal.php:98
+msgid "Choose as profile image"
+msgstr ""
+
+#: templates/personal.php:106 templates/personal.php:107
 msgid "Language"
 msgstr "Język"
 
-#: templates/personal.php:98
+#: templates/personal.php:119
 msgid "Help translate"
 msgstr "Pomóż w tłumaczeniu"
 
-#: templates/personal.php:104
+#: templates/personal.php:125
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:106
+#: templates/personal.php:127
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
 "target=\"_blank\">access your Files via WebDAV</a>"
 msgstr "Użyj tego adresu do <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">dostępu do twoich plików przez WebDAV</a>"
 
-#: templates/personal.php:117
+#: templates/personal.php:138
 msgid "Encryption"
 msgstr "Szyfrowanie"
 
-#: templates/personal.php:119
+#: templates/personal.php:140
 msgid "The encryption app is no longer enabled, decrypt all your file"
 msgstr "Aplikacja szyfrowanie nie jest włączona, odszyfruj wszystkie plik"
 
-#: templates/personal.php:125
+#: templates/personal.php:146
 msgid "Log-in password"
 msgstr "Hasło logowania"
 
-#: templates/personal.php:130
+#: templates/personal.php:151
 msgid "Decrypt all Files"
 msgstr "Odszyfruj wszystkie pliki"
 
@@ -513,30 +545,30 @@ msgstr "Wpisz hasło odzyskiwania, aby odzyskać pliki użytkowników podczas zm
 msgid "Default Storage"
 msgstr "Magazyn domyślny"
 
-#: templates/users.php:48 templates/users.php:142
+#: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
 msgstr "Bez limitu"
 
-#: templates/users.php:66 templates/users.php:157
+#: templates/users.php:66 templates/users.php:163
 msgid "Other"
 msgstr "Inne"
 
-#: templates/users.php:84
+#: templates/users.php:87
 msgid "Username"
 msgstr "Nazwa użytkownika"
 
-#: templates/users.php:91
+#: templates/users.php:94
 msgid "Storage"
 msgstr "Magazyn"
 
-#: templates/users.php:102
+#: templates/users.php:108
 msgid "change display name"
 msgstr "zmień wyświetlaną nazwę"
 
-#: templates/users.php:106
+#: templates/users.php:112
 msgid "set new password"
 msgstr "ustaw nowe hasło"
 
-#: templates/users.php:137
+#: templates/users.php:143
 msgid "Default"
 msgstr "Domyślny"

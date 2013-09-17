@@ -298,8 +298,15 @@ $(document).ready(function() {
 		start: function(e) {
 			OC.Upload.logStatus('start', e, null);
 		},
-		submit: function (e, data) {
+		submit: function(e, data) {
 			OC.Upload.rememberUpload(data);
+			if ( ! data.formData ) {
+				// noone set update parameters, we set the minimum
+				data.formData = {
+					requesttoken: oc_requesttoken,
+							 dir: $('#dir').val()
+				};
+			}
 		},
 		fail: function(e, data) {
 			OC.Upload.logStatus('fail', e, data);
@@ -421,9 +428,7 @@ $(document).ready(function() {
 		// http://stackoverflow.com/a/6700/11236
 		var size = 0, key;
 		for (key in obj) {
-			if (obj.hasOwnProperty(key)) {
-				size++;
-			}
+			if (obj.hasOwnProperty(key)) size++;
 		}
 		return size;
 	};

@@ -42,7 +42,6 @@ $TRANSLATIONS = array(
 "last year" => "שנה שעברה",
 "years ago" => "שנים",
 "Choose" => "בחירה",
-"Error loading file picker template" => "שגיאה בטעינת תבנית בחירת הקבצים",
 "Yes" => "כן",
 "No" => "לא",
 "Ok" => "בסדר",

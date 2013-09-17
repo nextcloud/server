@@ -689,8 +689,8 @@ class OC_Util {
 			return false;
 		}
 
-		$fp = @fopen($testfile, 'w');
-		@fwrite($fp, $testcontent);
+		$fp = @fopen($testFile, 'w');
+		@fwrite($fp, $testContent);
 		@fclose($fp);
 
 		// accessing the file via http
@@ -700,7 +700,7 @@ class OC_Util {
 		@fclose($fp);
 
 		// cleanup
-		@unlink($testfile);
+		@unlink($testFile);
 
 		// does it work ?
 		if($content==$testContent) {

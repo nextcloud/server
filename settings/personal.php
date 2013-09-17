@@ -15,6 +15,11 @@ OC_Util::addScript( 'settings', 'personal' );
 OC_Util::addStyle( 'settings', 'settings' );
 OC_Util::addScript( '3rdparty', 'chosen/chosen.jquery.min' );
 OC_Util::addStyle( '3rdparty', 'chosen' );
+\OC_Util::addScript('files', 'jquery.fileupload');
+if (\OC_Config::getValue('enable_avatars', true) === true) {
+	\OC_Util::addScript('3rdparty/Jcrop', 'jquery.Jcrop.min');
+	\OC_Util::addStyle('3rdparty/Jcrop', 'jquery.Jcrop.min');
+}
 OC_App::setActiveNavigationEntry( 'personal' );
 
 $storageInfo=OC_Helper::getStorageInfo('/');
@@ -84,6 +89,7 @@ $tmpl->assign('passwordChangeSupported', OC_User::canUserChangePassword(OC_User:
 $tmpl->assign('displayNameChangeSupported', OC_User::canUserChangeDisplayName(OC_User::getUser()));
 $tmpl->assign('displayName', OC_User::getDisplayName());
 $tmpl->assign('enableDecryptAll' , $enableDecryptAll);
+$tmpl->assign('enableAvatars', \OC_Config::getValue('enable_avatars', true));
 
 $forms=OC_App::getForms('personal');
 $tmpl->assign('forms', array());

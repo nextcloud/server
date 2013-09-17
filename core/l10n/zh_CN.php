@@ -48,7 +48,6 @@ $TRANSLATIONS = array(
 "last year" => "去年",
 "years ago" => "年前",
 "Choose" => "选择(&C)...",
-"Error loading file picker template" => "加载文件选择器模板出错",
 "Yes" => "是",
 "No" => "否",
 "Ok" => "好",

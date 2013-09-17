@@ -42,7 +42,6 @@ $TRANSLATIONS = array(
 "last year" => "joan den urtean",
 "years ago" => "urte",
 "Choose" => "Aukeratu",
-"Error loading file picker template" => "Errorea fitxategi hautatzaile txantiloiak kargatzerakoan",
 "Yes" => "Bai",
 "No" => "Ez",
 "Ok" => "Ados",
