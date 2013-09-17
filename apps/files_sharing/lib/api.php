@@ -25,6 +25,23 @@ namespace OCA\Files\Share;
 class Api {
 
 	/**
+	 * @brief get all shares
+	 *
+	 * @param array $params
+	 * @return \OC_OCS_Result share information
+	 */
+	public static function getAllShare($params) {
+
+		$share = \OCP\Share::getItemShared('file', null);
+
+		if ($share !== null) {
+			return new \OC_OCS_Result($share);
+		} else {
+			return new \OC_OCS_Result(null, 404, 'no shares available');
+		}
+	}
+
+	/**
 	 * @brief get share information for a given file/folder path is encoded in URL
 	 *
 	 * @param array $params which contains a 'path' to a file/folder
@@ -48,14 +65,17 @@ class Api {
 	}
 
 	/**
-	 * @brief share file with a user/group, path to file is encoded in URL
-	 *
-	 * @param array $params with following parameters 'shareWith', 'shareType', 'path'
-	 *                      optional 'publicUpload' and 'password' for public shares
-	 * @return \OC_OCS_Result result of share operation
+	 * @breif create a new share
+	 * @param array $params 'path', 'shareWith', 'shareType'
+	 * @return \OC_OCS_Result
 	 */
-	public static function setShare($params) {
-		$path = $params['path'];
+	public static function createShare($params) {
+
+		$path = isset($_POST['path']) ? $_POST['path'] : null;
+
+		if($path === null) {
+			return new \OC_OCS_Result(null, 404, "please specify a file or folder path");
+		}
 
 		$itemSource = self::getFileId($path);
 		$itemType = self::getItemType($path);
@@ -69,10 +89,10 @@ class Api {
 
 		switch($shareType) {
 			case \OCP\Share::SHARE_TYPE_USER:
-				$permission = isset($_POST['permission']) ? (int)$_POST['permission'] : 31;
+				$permissions = isset($_POST['permissions']) ? (int)$_POST['permissions'] : 31;
 				break;
 			case \OCP\Share::SHARE_TYPE_GROUP:
-				$permission = isset($_POST['permission']) ? (int)$_POST['permission'] : 31;
+				$permissions = isset($_POST['permissions']) ? (int)$_POST['permissions'] : 31;
 				break;
 			case \OCP\Share::SHARE_TYPE_LINK:
 				//allow password protection
@@ -87,7 +107,7 @@ class Api {
 				$publicUpload = isset($_POST['publicUpload']) ? $_POST['publicUpload'] : 'no';
 				// read, create, update (7) if public upload is enabled or
 				// read (1) if public upload is disabled
-				$permission = $publicUpload === 'yes' ? 7 : 1;
+				$permissions = $publicUpload === 'yes' ? 7 : 1;
 				break;
 		}
 
@@ -97,7 +117,7 @@ class Api {
 					$itemSource,
 					$shareType,
 					$shareWith,
-					$permission
+					$permissions
 					);
 		} catch (\Exception $e) {
 			return new \OC_OCS_Result(null, 404, $e->getMessage());
@@ -116,13 +136,17 @@ class Api {
 			return new \OC_OCS_Result(null, 404, "couldn't share file");
 		}
 	}
+
 	/**
-	 * @brief set permission for a share, path to file is encoded in URL
-	 * @param array $params contain 'shareWith', 'shareType', 'permission'
+	 * update shares, e.g. expire date, permissions, etc
+	 * @param array $params 'path', 'shareWith', 'shareType' and
+	 *                      'permissions' or 'expire' or 'password'
 	 * @return \OC_OCS_Result
 	 */
-	public static function setPermission($params) {
+	public static function updateShare($params) {
+
 		$path = $params['path'];
+
 		$itemSource = self::getFileId($path);
 		$itemType = self::getItemType($path);
 
@@ -130,9 +154,34 @@ class Api {
 			return new \OC_OCS_Result(null, 404, "wrong path, file/folder doesn't exist.");
 		}
 
-		$shareWith = isset($_POST['shareWith']) ? $_POST['shareWith'] : null;
-		$shareType = isset($_POST['shareType']) ? (int)$_POST['shareType'] : null;
-		$permission = isset($_POST['permission']) ? (int)$_POST['permission'] : null;
+		try {
+			if(isset($params['_put']['permissions'])) {
+				return self::updatePermissions($itemSource, $itemType, $params);
+			} elseif (isset($params['_put']['expire'])) {
+				return self::updateExpire($itemSource, $itemType, $params);
+			} elseif (isset($params['_put']['password'])) {
+				return self::updatePassword($itemSource, $itemType, $params);
+			}
+		} catch (\Exception $e) {
+			return new \OC_OCS_Result(null, 404, $e->getMessage());
+		}
+
+		return new \OC_OCS_Result(null, 404, "Couldn't find a parameter to update");
+
+	}
+
+	/**
+	 * @brief update permissions for a share
+	 * @param int $itemSource file ID
+	 * @param string $itemType 'file' or 'folder'
+	 * @param array $params contain 'shareWith', 'shareType', 'permissions'
+	 * @return \OC_OCS_Result
+	 */
+	private static function updatePermissions($itemSource, $itemType, $params) {
+
+		$shareWith = isset($params['_put']['shareWith']) ? $params['_put']['shareWith'] : null;
+		$shareType = isset($params['_put']['shareType']) ? (int)$params['_put']['shareType'] : null;
+		$permissions = isset($params['_put']['permissions']) ? (int)$params['_put']['permissions'] : null;
 
 		try {
 			$return = \OCP\Share::setPermissions(
@@ -140,7 +189,7 @@ class Api {
 					$itemSource,
 					$shareType,
 					$shareWith,
-					$permission
+					$permissions
 					);
 		} catch (\Exception $e) {
 			return new \OC_OCS_Result(null, 404, $e->getMessage());
@@ -154,20 +203,58 @@ class Api {
 	}
 
 	/**
+	 * @brief update password for public link share
+	 * @param int $itemSource file ID
+	 * @param string $itemType 'file' or 'folder'
+	 * @param type $params 'password'
+	 * @return \OC_OCS_Result
+	 */
+	private static function updatePassword($itemSource, $itemType, $params) {
+		error_log("update password");
+		$shareWith = isset($params['_put']['password']) ? $params['_put']['password'] : null;
+
+		if($shareWith === '') {
+			$shareWith = null;
+		}
+
+		$items = \OCP\Share::getItemShared($itemType, $itemSource);
+
+		$checkExists = false;
+		foreach ($items as $item) {
+			if($item['share_type'] === \OCP\Share::SHARE_TYPE_LINK) {
+				$checkExists = true;
+				$permissions = $item['permissions'];
+			}
+		}
+
+		if (!$checkExists) {
+			return  new \OC_OCS_Result(null, 404, "share doesn't exists, can't change password");
+		}
+
+		$result = \OCP\Share::shareItem(
+				$itemType,
+				$itemSource,
+				\OCP\Share::SHARE_TYPE_LINK,
+				$shareWith,
+				$permissions
+				);
+		if($result) {
+			return new \OC_OCS_Result();
+		}
+
+		return new \OC_OCS_Result(null, 404, "couldn't set password");
+	}
+
+	/**
 	 * @brief set expire date, path to file is encoded in URL
+	 * @param int $itemSource file ID
+	 * @param string $itemType 'file' or 'folder'
 	 * @param array $params contains 'expire' (format DD-MM-YYYY)
 	 * @return \OC_OCS_Result
 	 */
-	public static function setExpire($params) {
-		$path = $params['path'];
-		$itemSource = self::getFileId($path);
-		$itemType = self::getItemType($path);
+	private static function updateExpire($itemSource, $itemType, $params) {
 
-		if($itemSource === null) {
-			return new \OC_OCS_Result(null, 404, "wrong path, file/folder doesn't exist.");
-		}
-
-		$expire = isset($_POST['expire']) ? (int)$_POST['expire'] : null;
+		$expire = isset($params['_put']['expire']) ? (int)$params['_put']['expire'] : null;
 
 		$return = false;
 		if ($expire) {
@@ -187,7 +274,7 @@ class Api {
 	 * @param array $params with following parameters 'shareWith', 'shareType', 'path'
 	 * @return \OC_OCS_Result
 	 */
-	public static function setUnshare($params) {
+	public static function deleteShare($params) {
 		$path = $params['path'];
 		$itemSource = self::getFileId($path);
 		$itemType = self::getItemType($path);
@@ -196,8 +283,8 @@ class Api {
 			return new \OC_OCS_Result(null, 404, "wrong path, file/folder doesn't exist.");
 		}
 
-		$shareWith = isset($_POST['shareWith']) ? $_POST['shareWith'] : null;
-		$shareType = isset($_POST['shareType']) ? (int)$_POST['shareType'] : null;
+		$shareWith = isset($params['_delete']['shareWith']) ? $params['_delete']['shareWith'] : null;
+		$shareType = isset($params['_delete']['shareType']) ? (int)$params['_delete']['shareType'] : null;
 
 		if( $shareType == \OCP\Share::SHARE_TYPE_LINK) {
 			$shareWith = null;

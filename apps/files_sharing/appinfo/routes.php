@@ -9,40 +9,34 @@ function() {
 //TODO: SET: mail notification, waiting for PR #4689 to be accepted
 
 OC_API::register('get',
-		'/apps/files_sharing/api/share/{path}',
+		'/apps/files_sharing/api/shares',
+		array('\OCA\Files\Share\Api', 'getAllShare'),
+		'files_sharing');
+
+OC_API::register('post',
+		'/apps/files_sharing/api/shares',
+		array('\OCA\Files\Share\Api', 'createShare'),
+		'files_sharing');
+
+OC_API::register('get',
+		'/apps/files_sharing/api/shares/{path}',
 		array('\OCA\Files\Share\Api', 'getShare'),
 		'files_sharing',
 		OC_API::USER_AUTH,
 		array('path' => ''),
 		array('path' => '.+')); //allow slashes in parameter path
 
-OC_API::register('post',
-		'/apps/files_sharing/api/share/{path}',
-		array('\OCA\Files\Share\Api', 'setShare'),
+OC_API::register('put',
+		'/apps/files_sharing/api/shares/{path}',
+		array('\OCA\Files\Share\Api', 'updateShare'),
 		'files_sharing',
 		OC_API::USER_AUTH,
 		array('path' => ''),
 		array('path' => '.+'));
 
-OC_API::register('post',
-		'/apps/files_sharing/api/permission/{path}',
-		array('\OCA\Files\Share\Api', 'setPermission'),
-		'files_sharing',
-		OC_API::USER_AUTH,
-		array('path' => ''),
-		array('path' => '.+'));
-
-OC_API::register('post',
-		'/apps/files_sharing/api/expire/{path}',
-		array('\OCA\Files\Share\Api', 'setExpire'),
-		'files_sharing',
-		OC_API::USER_AUTH,
-		array('path' => ''),
-		array('path' => '.+'));
-
-OC_API::register('post',
-		'/apps/files_sharing/api/unshare/{path}',
-		array('\OCA\Files\Share\Api', 'setUnshare'),
+OC_API::register('delete',
+		'/apps/files_sharing/api/shares/{path}',
+		array('\OCA\Files\Share\Api', 'deleteShare'),
 		'files_sharing',
 		OC_API::USER_AUTH,
 		array('path' => ''),
