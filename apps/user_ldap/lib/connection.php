@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud – LDAP Access
+ * ownCloud – LDAP Connection
  *
  * @author Arthur Schiwon
  * @copyright 2012, 2013 Arthur Schiwon blizzz@owncloud.com
