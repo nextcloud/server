@@ -33,16 +33,15 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 	protected $items = array();
 	protected $allowedKeys = array(
-		'get', 
-		'post', 
-		'files', 
-		'server', 
-		'env', 
-		'session', 
-		'cookies', 
-		'urlParams', 
-		'params', 
-		'parameters', 
+		'get',
+		'post',
+		'files',
+		'server',
+		'env',
+		'cookies',
+		'urlParams',
+		'params',
+		'parameters',
 		'method'
 	);
 
@@ -156,7 +155,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			case 'files':
 			case 'server':
 			case 'env':
-			case 'session':
 			case 'cookies':
 			case 'parameters':
 			case 'params':
@@ -229,8 +227,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @param mixed $default If the key is not found, this value will be returned
 	 * @return mixed the content of the array
 	 */
-	public function getParam($key, $default = null)
-	{
+	public function getParam($key, $default = null) {
 		return isset($this->parameters[$key])
 			? $this->parameters[$key]
 			: $default;
@@ -241,8 +238,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * (as GET or POST) or throuh the URL by the route
 	 * @return array the array with all parameters
 	 */
-	public function getParams()
-	{
+	public function getParams() {
 		return $this->parameters;
 	}
 
@@ -250,8 +246,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * Returns the method of the request
 	 * @return string the method of the request (POST, GET, etc)
 	 */
-	public function getMethod()
-	{
+	public function getMethod() {
 		return $this->method;
 	}
 
@@ -260,8 +255,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @param string $key the key that will be taken from the $_FILES array
 	 * @return array the file in the $_FILES element
 	 */
-	public function getUploadedFile($key)
-	{
+	public function getUploadedFile($key) {
 		return isset($this->files[$key]) ? $this->files[$key] : null;
 	}
 
@@ -270,19 +264,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @param string $key the key that will be taken from the $_ENV array
 	 * @return array the value in the $_ENV element
 	 */
-	public function getEnv($key)
-	{
+	public function getEnv($key) {
 		return isset($this->env[$key]) ? $this->env[$key] : null;
-	}
-
-	/**
-	 * Shortcut for getting session variables
-	 * @param string $key the key that will be taken from the $_SESSION array
-	 * @return array the value in the $_SESSION element
-	 */
-	function getSession($key)
-	{
-		return isset($this->session[$key]) ? $this->session[$key] : null;
 	}
 
 	/**
@@ -290,8 +273,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @param string $key the key that will be taken from the $_COOKIE array
 	 * @return array the value in the $_COOKIE element
 	 */
-	function getCookie($key)
-	{
+	function getCookie($key) {
 		return isset($this->cookies[$key]) ? $this->cookies[$key] : null;
 	}
 
@@ -304,8 +286,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 *
 	 * @throws \LogicException
 	 */
-	function getContent($asResource = false)
-	{
+	function getContent($asResource = false) {
 		return null;
 //		if (false === $this->content || (true === $asResource && null !== $this->content)) {
 //			throw new \LogicException('getContent() can only be called once when using the resource return type.');

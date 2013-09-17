@@ -36,7 +36,6 @@ class Server extends SimpleContainer implements IServerContainer {
 					'files' => $_FILES,
 					'server' => $_SERVER,
 					'env' => $_ENV,
-					'session' => $_SESSION,
 					'cookies' => $_COOKIE,
 					'method' => (isset($_SERVER) && isset($_SERVER['REQUEST_METHOD']))
 						? $_SERVER['REQUEST_METHOD']

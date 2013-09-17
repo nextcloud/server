@@ -77,15 +77,6 @@ interface IRequest {
 
 
 	/**
-	 * Shortcut for getting session variables
-	 *
-	 * @param string $key the key that will be taken from the $_SESSION array
-	 * @return array the value in the $_SESSION element
-	 */
-	function getSession($key);
-
-
-	/**
 	 * Shortcut for getting cookie variables
 	 *
 	 * @param string $key the key that will be taken from the $_COOKIE array
