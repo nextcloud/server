@@ -105,3 +105,28 @@ OC.search.renderCurrent=function(){
 		$(result).addClass('current');
 	}
 };
+
+//
+// customize search results, currently replaces a technical type with a more human friendly version
+// TODO implement search result renderers instead of changing results after adding them to the DOM
+//
+OC.search.customResults.file = function (row, item) {
+	if(row.children('td.type').text() === 'file') {
+		row.children('td.type').text(t('lib','Files'));
+	};
+}
+OC.search.customResults.folder = function (row, item) {
+	if(row.children('td.type').text() === 'folder') {
+		row.children('td.type').text(t('lib','Folders'));
+	};
+}
+OC.search.customResults.image = function (row, item) {
+	if(row.children('td.type').text() === 'image') {
+		row.children('td.type').text(t('lib','Images'));
+	};
+}
+OC.search.customResults.audio = function (row, item) {
+	if(row.children('td.type').text() === 'audio') {
+		row.children('td.type').text(t('lib','Audio'));
+	};
+}
