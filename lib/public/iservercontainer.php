@@ -62,4 +62,11 @@ interface IServerContainer {
 	 */
 	function getRootFolder();
 
+	/**
+	 * Returns the current session
+	 *
+	 * @return \OCP\ISession
+	 */
+	function getSession();
+
 }

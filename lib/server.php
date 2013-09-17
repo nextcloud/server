@@ -97,4 +97,14 @@ class Server extends SimpleContainer implements IServerContainer {
 	{
 		return $this->query('RootFolder');
 	}
+
+	/**
+	 * Returns the current session
+	 *
+	 * @return \OCP\ISession
+	 */
+	function getSession() {
+		return \OC::$session;
+	}
+
 }
