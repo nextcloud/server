@@ -52,5 +52,3 @@ class RP_ExecCmdOut extends RODSPacket
         }
     }
 }
-
-?>

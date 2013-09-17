@@ -18,5 +18,3 @@ class RP_ExecMyRuleInp extends RODSPacket
     }
 
 }
-
-?>

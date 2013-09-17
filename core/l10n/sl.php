@@ -42,7 +42,6 @@ $TRANSLATIONS = array(
 "last year" => "lansko leto",
 "years ago" => "let nazaj",
 "Choose" => "Izbor",
-"Error loading file picker template" => "Napaka pri nalaganju predloge za izbor dokumenta",
 "Yes" => "Da",
 "No" => "Ne",
 "Ok" => "V redu",

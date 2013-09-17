@@ -42,7 +42,6 @@ $TRANSLATIONS = array(
 "last year" => "vorig jaar",
 "years ago" => "jaar geleden",
 "Choose" => "Kies",
-"Error loading file picker template" => "Fout bij laden van bestandsselectie sjabloon",
 "Yes" => "Ja",
 "No" => "Nee",
 "Ok" => "Ok",

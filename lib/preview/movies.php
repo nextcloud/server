@@ -9,10 +9,10 @@
 namespace OC\Preview;
 
 $isShellExecEnabled = !in_array('shell_exec', explode(', ', ini_get('disable_functions')));
-$whichFFMPEG = shell_exec('which ffmpeg');
-$isFFMPEGAvailable = !empty($whichFFMPEG);
+$whichAVCONV = shell_exec('which avconv');
+$isAVCONVAvailable = !empty($whichAVCONV);
 
-if($isShellExecEnabled && $isFFMPEGAvailable) {
+if($isShellExecEnabled && $isAVCONVAvailable) {
 
 	class Movie extends Provider {
 
@@ -30,7 +30,7 @@ if($isShellExecEnabled && $isFFMPEGAvailable) {
 			file_put_contents($absPath, $firstmb);
 
 			//$cmd = 'ffmpeg -y  -i ' . escapeshellarg($absPath) . ' -f mjpeg -vframes 1 -ss 1 -s ' . escapeshellarg($maxX) . 'x' . escapeshellarg($maxY) . ' ' . $tmpPath;
-			$cmd = 'ffmpeg -an -y  -i ' . escapeshellarg($absPath) . ' -f mjpeg -vframes 1 -ss 1 ' . escapeshellarg($tmpPath);
+			$cmd = 'avconv -an -y -ss 1 -i ' . escapeshellarg($absPath) . ' -f mjpeg -vframes 1 ' . escapeshellarg($tmpPath);
 			
 			shell_exec($cmd);
 

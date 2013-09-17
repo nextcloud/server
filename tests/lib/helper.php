@@ -8,40 +8,42 @@
 
 class Test_Helper extends PHPUnit_Framework_TestCase {
 
-	function testHumanFileSize() {
-		$result = OC_Helper::humanFileSize(0);
-		$expected = '0 B';
-		$this->assertEquals($result, $expected);
-
-		$result = OC_Helper::humanFileSize(1024);
-		$expected = '1 kB';
-		$this->assertEquals($result, $expected);
-
-		$result = OC_Helper::humanFileSize(10000000);
-		$expected = '9.5 MB';
-		$this->assertEquals($result, $expected);
-
-		$result = OC_Helper::humanFileSize(500000000000);
-		$expected = '465.7 GB';
-		$this->assertEquals($result, $expected);
+	/**
+	 * @dataProvider humanFileSizeProvider
+	 */
+	public function testHumanFileSize($expected, $input)
+	{
+		$result = OC_Helper::humanFileSize($input);
+		$this->assertEquals($expected, $result);
 	}
 
-	function testComputerFileSize() {
-		$result = OC_Helper::computerFileSize("0 B");
-		$expected = '0.0';
-		$this->assertEquals($result, $expected);
+	public function humanFileSizeProvider()
+	{
+		return array(
+			array('0 B', 0),
+			array('1 kB', 1024),
+			array('9.5 MB', 10000000),
+			array('465.7 GB', 500000000000),
+			array('454.7 TB', 500000000000000),
+			array('444.1 PB', 500000000000000000),
+		);
+	}
 
-		$result = OC_Helper::computerFileSize("1 kB");
-		$expected = '1024.0';
-		$this->assertEquals($result, $expected);
+	/**
+	 * @dataProvider computerFileSizeProvider
+	 */
+	function testComputerFileSize($expected, $input) {
+		$result = OC_Helper::computerFileSize($input);
+		$this->assertEquals($expected, $result);
+	}
 
-		$result = OC_Helper::computerFileSize("9.5 MB");
-		$expected = '9961472.0';
-		$this->assertEquals($result, $expected);
-
-		$result = OC_Helper::computerFileSize("465.7 GB");
-		$expected = '500041567436.8';
-		$this->assertEquals($result, $expected);
+	function computerFileSizeProvider(){
+		return array(
+			array(0.0, "0 B"),
+			array(1024.0, "1 kB"),
+			array(9961472.0, "9.5 MB"),
+			array(500041567436.8, "465.7 GB"),
+		);
 	}
 
 	function testGetMimeType() {

@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Deletion failed" => "Ištrinti nepavyko",
 "Error" => "Klaida",
+"Host" => "Mazgas",
 "Password" => "Slaptažodis",
 "Group Filter" => "Grupės filtras",
 "Port" => "Prievadas",

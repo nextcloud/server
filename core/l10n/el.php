@@ -42,7 +42,6 @@ $TRANSLATIONS = array(
 "last year" => "τελευταίο χρόνο",
 "years ago" => "χρόνια πριν",
 "Choose" => "Επιλέξτε",
-"Error loading file picker template" => "Σφάλμα φόρτωσης αρχείου επιλογέα προτύπου",
 "Yes" => "Ναι",
 "No" => "Όχι",
 "Ok" => "Οκ",

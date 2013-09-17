@@ -35,6 +35,7 @@ $TRANSLATIONS = array(
 "undo" => "desfés",
 "_%n folder_::_%n folders_" => array("%n carpeta","%n carpetes"),
 "_%n file_::_%n files_" => array("%n fitxer","%n fitxers"),
+"{dirs} and {files}" => "{dirs} i {files}",
 "_Uploading %n file_::_Uploading %n files_" => array("Pujant %n fitxer","Pujant %n fitxers"),
 "files uploading" => "fitxers pujant",
 "'.' is an invalid file name." => "'.' és un nom no vàlid per un fitxer.",

@@ -42,7 +42,6 @@ $TRANSLATIONS = array(
 "last year" => "Lescht Joer",
 "years ago" => "Joren hir",
 "Choose" => "Auswielen",
-"Error loading file picker template" => "Feeler beim Luede vun der Virlag fir d'Fichiers-Selektioun",
 "Yes" => "Jo",
 "No" => "Nee",
 "Ok" => "OK",

@@ -199,5 +199,3 @@ class RODSAccount
         return $dir->toURI();
     }
 }
-
-?>

@@ -15,5 +15,3 @@ class RP_DataObjCopyInp extends RODSPacket
     }
 
 }
-
-?>
