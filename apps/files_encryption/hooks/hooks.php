@@ -44,13 +44,18 @@ class Hooks {
 			\OC_Util::setupFS($params['uid']);
 		}
 
-		//check if all requirements are met
-		if(!Helper::checkRequirements() || !Helper::checkConfiguration()) {
-			$error_msg = $l->t("Missing requirements.");
-			$hint = $l->t('Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled.');
-			\OC_App::disable('files_encryption');
-			\OCP\Util::writeLog('Encryption library', $error_msg . ' ' . $hint, \OCP\Util::ERROR);
-			\OCP\Template::printErrorPage($error_msg, $hint);
+		$privateKey = \OCA\Encryption\Keymanager::getPrivateKey($view, $params['uid']);
+
+		// if no private key exists, check server configuration
+		if(!$privateKey) {
+			//check if all requirements are met
+			if(!Helper::checkRequirements() || !Helper::checkConfiguration()) {
+				$error_msg = $l->t("Missing requirements.");
+				$hint = $l->t('Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled.');
+				\OC_App::disable('files_encryption');
+				\OCP\Util::writeLog('Encryption library', $error_msg . ' ' . $hint, \OCP\Util::ERROR);
+				\OCP\Template::printErrorPage($error_msg, $hint);
+			}
 		}
 
 		$util = new Util($view, $params['uid']);
