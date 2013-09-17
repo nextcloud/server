@@ -177,7 +177,9 @@ OC.Share={
 				if (allowPublicUploadStatus) {
 					return true;
 				}
-				allowPublicUploadStatus = (value.permissions & OC.PERMISSION_CREATE) ? true : false;
+				if (value.share_type === OC.Share.SHARE_TYPE_LINK) {
+					allowPublicUploadStatus = (value.permissions & OC.PERMISSION_CREATE) ? true : false;
+				}
 			});
 
 			html += '<input id="shareWith" type="text" placeholder="'+t('core', 'Share with')+'" />';
