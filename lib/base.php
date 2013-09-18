@@ -568,7 +568,9 @@ class OC {
 			} catch (Exception $e) {
 
 			}
-			OC_Hook::connect('OC_User', 'post_login', 'OC\Cache\File', 'loginListener');
+			// NOTE: This will be replaced to use OCP
+			$userSession = \OC_User::getUserSession();
+			$userSession->listen('postLogin', array('OC\Cache\File', 'loginListener'))
 		}
 	}
 
