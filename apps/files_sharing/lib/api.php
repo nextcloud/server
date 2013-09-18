@@ -317,7 +317,7 @@ class Api {
 		if (!$checkExists) {
 			return  new \OC_OCS_Result(null, 404, "share doesn't exists, can't change password");
 		}
-		error_log("type: $itemType");
+
 		$result = \OCP\Share::shareItem(
 				$itemType,
 				$itemSource,
