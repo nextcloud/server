@@ -6,8 +6,18 @@
  * See the COPYING-README file.
  */
 
-class OC_Cache_Broker {
+namespace OC\Cache;
+
+class Broker {
+
+	/**
+	 * @var \OC\Cache
+	 */
 	protected $fast_cache;
+
+	/**
+	 * @var \OC\Cache
+	 */
 	protected $slow_cache;
 
 	public function __construct($fast_cache, $slow_cache) {
