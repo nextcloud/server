@@ -109,7 +109,6 @@ var FileList={
 		if (hidden) {
 			tr.hide();
 		}
-		FileActions.display(tr.find('td.filename'));
 		return tr;
 	},
 	addDir:function(name,size,lastModified,hidden){
