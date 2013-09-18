@@ -75,7 +75,7 @@ $(document).ready(function(){
 		var oldRecoveryPassword = $('#oldEncryptionRecoveryPassword').val();
 		var newRecoveryPassword = $('#newEncryptionRecoveryPassword').val();
 		var newRecoveryPasswordRepeated = $('#repeatedNewEncryptionRecoveryPassword').val();
-		console.log("new: " + newRecoveryPassword + " - repeated: " + newRecoveryPasswordRepeated);
+
 		if (newRecoveryPassword !== '' && oldRecoveryPassword !== '' && newRecoveryPassword === newRecoveryPasswordRepeated) {
 			$('button:button[name="submitChangeRecoveryKey"]').removeAttr("disabled");
 		} else {
