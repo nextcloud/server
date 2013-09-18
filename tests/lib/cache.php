@@ -8,7 +8,7 @@
 
 abstract class Test_Cache extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var OC_Cache cache;
+	 * @var \OC\Cache cache;
 	 */
 	protected $instance;
 

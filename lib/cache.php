@@ -10,17 +10,17 @@ namespace OC;
 
 class Cache {
 	/**
-	 * @var OC_Cache $user_cache
+	 * @var Cache $user_cache
 	 */
 	static protected $user_cache;
 	/**
-	 * @var OC_Cache $global_cache
+	 * @var Cache $global_cache
 	 */
 	static protected $global_cache;
 
 	/**
 	 * get the global cache
-	 * @return OC_Cache
+	 * @return Cache
 	 */
 	static public function getGlobalCache() {
 		if (!self::$global_cache) {
@@ -31,7 +31,7 @@ class Cache {
 
 	/**
 	 * get the user cache
-	 * @return OC_Cache
+	 * @return Cache
 	 */
 	static public function getUserCache() {
 		if (!self::$user_cache) {
@@ -87,7 +87,7 @@ class Cache {
 
 	/**
 	 * clear the user cache of all entries starting with a prefix
-	 * @param string prefix (optional)
+	 * @param string $prefix (optional)
 	 * @return bool
 	 */
 	static public function clear($prefix='') {
@@ -95,6 +95,11 @@ class Cache {
 		return $user_cache->clear($prefix);
 	}
 
+	/**
+	 * creates cache key based on the files given
+	 * @param $files
+	 * @return string
+	 */
 	static public function generateCacheKeyFromFiles($files) {
 		$key = '';
 		sort($files);

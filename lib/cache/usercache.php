@@ -13,7 +13,7 @@ namespace OC\Cache;
 class UserCache implements \OCP\ICache {
 
 	/**
-	 * @var OC\Cache\File $userCache
+	 * @var \OC\Cache\File $userCache
 	 */
 	protected $userCache;
 
@@ -68,7 +68,7 @@ class UserCache implements \OCP\ICache {
 
 	/**
 	 * clear the user cache of all entries starting with a prefix
-	 * @param string prefix (optional)
+	 * @param string $prefix (optional)
 	 * @return bool
 	 */
 	public function clear($prefix = '') {

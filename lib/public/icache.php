@@ -48,7 +48,7 @@ interface ICache {
 
 	/**
 	 * clear the user cache of all entries starting with a prefix
-	 * @param string prefix (optional)
+	 * @param string $prefix (optional)
 	 * @return bool
 	 */
 	public function clear($prefix = '');
