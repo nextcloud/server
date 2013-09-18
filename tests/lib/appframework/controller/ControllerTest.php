@@ -152,9 +152,4 @@ class ControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('daheim', $this->controller->env('PATH'));
 	}
 
-	public function testGetSessionVariable(){
-		$this->assertEquals('kein', $this->controller->session('sezession'));
-	}
-
-
 }

@@ -6,24 +6,25 @@
  * See the COPYING-README file.
  */
 
+namespace OC\Cache;
 
-class OC_Cache_File{
+class File {
 	protected $storage;
 	protected function getStorage() {
 		if (isset($this->storage)) {
 			return $this->storage;
 		}
-		if(OC_User::isLoggedIn()) {
-			\OC\Files\Filesystem::initMountPoints(OC_User::getUser());
+		if(\OC_User::isLoggedIn()) {
+			\OC\Files\Filesystem::initMountPoints(\OC_User::getUser());
 			$subdir = 'cache';
-			$view = new \OC\Files\View('/'.OC_User::getUser());
+			$view = new \OC\Files\View('/' . \OC_User::getUser());
 			if(!$view->file_exists($subdir)) {
 				$view->mkdir($subdir);
 			}
-			$this->storage = new \OC\Files\View('/'.OC_User::getUser().'/'.$subdir);
+			$this->storage = new \OC\Files\View('/' . \OC_User::getUser().'/'.$subdir);
 			return $this->storage;
 		}else{
-			OC_Log::write('core', 'Can\'t get cache storage, user not logged in', OC_Log::ERROR);
+			\OC_Log::write('core', 'Can\'t get cache storage, user not logged in', \OC_Log::ERROR);
 			return false;
 		}
 	}

@@ -29,7 +29,7 @@ class OC_FileChunking {
 
 	protected function getCache() {
 		if (!isset($this->cache)) {
-			$this->cache = new OC_Cache_File();
+			$this->cache = new \OC\Cache\File();
 		}
 		return $this->cache;
 	}

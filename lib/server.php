@@ -4,6 +4,7 @@ namespace OC;
 
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Utility\SimpleContainer;
+use OC\Cache\UserCache;
 use OC\Files\Node\Root;
 use OC\Files\View;
 use OCP\IServerContainer;
@@ -17,10 +18,10 @@ use OCP\IServerContainer;
 class Server extends SimpleContainer implements IServerContainer {
 
 	function __construct() {
-		$this->registerService('ContactsManager', function($c){
+		$this->registerService('ContactsManager', function($c) {
 			return new ContactsManager();
 		});
-		$this->registerService('Request', function($c){
+		$this->registerService('Request', function($c) {
 			$params = array();
 
 			// we json decode the body only in case of content type json
@@ -36,7 +37,6 @@ class Server extends SimpleContainer implements IServerContainer {
 					'files' => $_FILES,
 					'server' => $_SERVER,
 					'env' => $_ENV,
-					'session' => $_SESSION,
 					'cookies' => $_COOKIE,
 					'method' => (isset($_SERVER) && isset($_SERVER['REQUEST_METHOD']))
 						? $_SERVER['REQUEST_METHOD']
@@ -46,19 +46,24 @@ class Server extends SimpleContainer implements IServerContainer {
 				)
 			);
 		});
-		$this->registerService('PreviewManager', function($c){
+		$this->registerService('PreviewManager', function($c) {
 			return new PreviewManager();
 		});
-		$this->registerService('TagManager', function($c){
-			return new Tags();
+		$this->registerService('TagManager', function($c) {
+			// TODO: get user and user manager from container as well
+			$user = \OC_User::getUser();
+			return new Tags($user);
 		});
-		$this->registerService('RootFolder', function($c){
+		$this->registerService('RootFolder', function($c) {
 			// TODO: get user and user manager from container as well
 			$user = \OC_User::getUser();
 			$user = \OC_User::getManager()->get($user);
 			$manager = \OC\Files\Filesystem::getMountManager();
 			$view = new View();
 			return new Root($manager, $view, $user);
+		});
+		$this->registerService('UserCache', function($c) {
+			return new UserCache();
 		});
 	}
 
@@ -70,14 +75,13 @@ class Server extends SimpleContainer implements IServerContainer {
 	}
 
 	/**
-	 * The current request object holding all information about the request currently being processed
-	 * is returned from this method.
+	 * The current request object holding all information about the request
+	 * currently being processed is returned from this method.
 	 * In case the current execution was not initiated by a web request null is returned
 	 *
 	 * @return \OCP\IRequest|null
 	 */
-	function getRequest()
-	{
+	function getRequest() {
 		return $this->query('Request');
 	}
 
@@ -86,8 +90,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	 *
 	 * @return \OCP\IPreview
 	 */
-	function getPreviewManager()
-	{
+	function getPreviewManager() {
 		return $this->query('PreviewManager');
 	}
 
@@ -105,8 +108,26 @@ class Server extends SimpleContainer implements IServerContainer {
 	 *
 	 * @return \OCP\Files\Folder
 	 */
-	function getRootFolder()
-	{
+	function getRootFolder() {
 		return $this->query('RootFolder');
 	}
+
+	/**
+	 * Returns an ICache instance
+	 *
+	 * @return \OCP\ICache
+	 */
+	function getCache() {
+		return $this->query('UserCache');
+	}
+
+	/**
+	 * Returns the current session
+	 *
+	 * @return \OCP\ISession
+	 */
+	function getSession() {
+		return \OC::$session;
+	}
+
 }

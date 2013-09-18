@@ -69,4 +69,18 @@ interface IServerContainer {
 	 */
 	function getRootFolder();
 
+	/**
+	 * Returns an ICache instance
+	 *
+	 * @return \OCP\ICache
+	 */
+	function getCache();
+
+	/**
+	 * Returns the current session
+	 *
+	 * @return \OCP\ISession
+	 */
+	function getSession();
+
 }
