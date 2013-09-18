@@ -117,7 +117,7 @@ if (strpos($dir, '..') === false) {
 					'originalname' => $files['name'][$i],
 					'uploadMaxFilesize' => $maxUploadFileSize,
 					'maxHumanFilesize' => $maxHumanFileSize,
-					'permissions' => $meta['permissions']
+					'permissions' => $meta['permissions'],
 				);
 			}
 		}
