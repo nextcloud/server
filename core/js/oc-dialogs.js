@@ -281,8 +281,8 @@ var OCdialogs = {
 
 		var addConflict = function(conflicts, original, replacement) {
 
-				var conflict = conflicts.find('.conflict.template').clone();
-
+				var conflict = conflicts.find('.template').clone().removeClass('template').addClass('conflict');
+				
 				conflict.data('data',data);
 
 				conflict.find('.filename').text(original.name);
@@ -306,7 +306,6 @@ var OCdialogs = {
 						});
 					}
 				);
-				conflict.removeClass('template');
 				conflicts.append(conflict);
 
 				//set more recent mtime bold
@@ -343,7 +342,7 @@ var OCdialogs = {
 				var conflicts = $(dialog_id+ ' .conflicts');
 				addConflict(conflicts, original, replacement);
 
-				var title = t('files','{count} file conflicts',{count:$(dialog_id+ ' .conflict:not(.template)').length});
+				var title = t('files','{count} file conflicts',{count:$(dialog_id+ ' .conflict').length});
 				$(dialog_id).parent().children('.oc-dialog-title').text(title);
 
 				//recalculate dimensions
@@ -371,7 +370,6 @@ var OCdialogs = {
 							text: t('core', 'Cancel'),
 							classes: 'cancel',
 							click: function(){
-								self._fileexistsshown = false;
 								if ( typeof controller.onCancel !== 'undefined') {
 									controller.onCancel(data);
 								}
@@ -382,9 +380,8 @@ var OCdialogs = {
 							text: t('core', 'Continue'),
 							classes: 'continue',
 							click: function(){
-								self._fileexistsshown = false;
 								if ( typeof controller.onContinue !== 'undefined') {
-									controller.onContinue($(dialog_id + ' .conflict:not(.template)'));
+									controller.onContinue($(dialog_id + ' .conflict'));
 								}
 								$(dialog_id).ocdialog('close');
 							}
@@ -397,6 +394,7 @@ var OCdialogs = {
 						buttons: buttonlist,
 						closeButton: null,
 						close: function(event, ui) {
+								self._fileexistsshown = false;
 							$(this).ocdialog('destroy').remove();
 						}
 					});
@@ -405,11 +403,11 @@ var OCdialogs = {
 
 					//add checkbox toggling actions
 					$(dialog_id).find('.allnewfiles').on('click', function() {
-						var checkboxes = $(dialog_id).find('.conflict:not(.template) .replacement input[type="checkbox"]');
+						var checkboxes = $(dialog_id).find('.conflict .replacement input[type="checkbox"]');
 						checkboxes.prop('checked', $(this).prop('checked'));
 					});
 					$(dialog_id).find('.allexistingfiles').on('click', function() {
-						var checkboxes = $(dialog_id).find('.conflict:not(.template) .original input[type="checkbox"]');
+						var checkboxes = $(dialog_id).find('.conflict .original input[type="checkbox"]');
 						checkboxes.prop('checked', $(this).prop('checked'));
 					});
 					$(dialog_id).find('.conflicts').on('click', '.replacement,.original', function() {
@@ -423,8 +421,8 @@ var OCdialogs = {
 
 					//update counters
 					$(dialog_id).on('click', '.replacement,.allnewfiles', function() {
-						var count = $(dialog_id).find('.conflict:not(.template) .replacement input[type="checkbox"]:checked').length;
-						if (count === $(dialog_id+ ' .conflict:not(.template)').length) {
+						var count = $(dialog_id).find('.conflict .replacement input[type="checkbox"]:checked').length;
+						if (count === $(dialog_id+ ' .conflict').length) {
 							$(dialog_id).find('.allnewfiles').prop('checked', true);
 							$(dialog_id).find('.allnewfiles + .count').text(t('files','(all selected)'));
 						} else if (count > 0) {
@@ -436,8 +434,8 @@ var OCdialogs = {
 						}
 					});
 					$(dialog_id).on('click', '.original,.allexistingfiles', function(){
-						var count = $(dialog_id).find('.conflict:not(.template) .original input[type="checkbox"]:checked').length;
-						if (count === $(dialog_id+ ' .conflict:not(.template)').length) {
+						var count = $(dialog_id).find('.conflict .original input[type="checkbox"]:checked').length;
+						if (count === $(dialog_id+ ' .conflict').length) {
 							$(dialog_id).find('.allexistingfiles').prop('checked', true);
 							$(dialog_id).find('.allexistingfiles + .count').text(t('files','(all selected)'));
 						} else if (count > 0) {
