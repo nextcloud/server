@@ -21,7 +21,7 @@ class OracleConnection extends Connection {
 	}
 
 	/*
-	 * (inherit docs)
+	 * {@inheritDoc}
 	 */
 	public function insert($tableName, array $data, array $types = array()) {
 		$tableName = $this->quoteIdentifier($tableName);
@@ -30,7 +30,7 @@ class OracleConnection extends Connection {
 	}
 
 	/*
-	 * (inherit docs)
+	 * {@inheritDoc}
 	 */
 	public function update($tableName, array $data, array $identifier, array $types = array()) {
 		$tableName = $this->quoteIdentifier($tableName);
@@ -40,7 +40,7 @@ class OracleConnection extends Connection {
 	}
 
 	/*
-	 * (inherit docs)
+	 * {@inheritDoc}
 	 */
 	public function delete($tableName, array $identifier) {
 		$tableName = $this->quoteIdentifier($tableName);
