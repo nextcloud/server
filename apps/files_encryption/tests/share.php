@@ -100,11 +100,11 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
 		$this->filename = 'share-tmp.test';
 
-		// we don't want to tests with app files_trashbin enabled
-		\OC_App::disable('files_trashbin');
-
 		// remember files_trashbin state
 		$this->stateFilesTrashbin = OC_App::isEnabled('files_trashbin');
+
+		// we don't want to tests with app files_trashbin enabled
+		\OC_App::disable('files_trashbin');
 	}
 
 	function tearDown() {
