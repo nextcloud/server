@@ -68,6 +68,9 @@ var FileActions = {
 		if ($('tr[data-file="'+file+'"]').data('renaming')) {
 			return;
 		}
+
+		// recreate fileactions
+		parent.children('a.name').find('.fileactions').remove();
 		parent.children('a.name').append('<span class="fileactions" />');
 		var defaultAction = FileActions.getDefault(FileActions.getCurrentMimeType(), FileActions.getCurrentType(), FileActions.getCurrentPermissions());
 
@@ -117,6 +120,8 @@ var FileActions = {
 			addAction('Share', actions.Share);
 		}
 
+		// remove the existing delete action
+		parent.parent().children().last().find('.action.delete').remove();
 		if (actions['Delete']) {
 			var img = FileActions.icons['Delete'];
 			if (img.call) {
