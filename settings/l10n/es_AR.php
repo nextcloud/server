@@ -100,6 +100,7 @@ $TRANSLATIONS = array(
 "Email" => "e-mail",
 "Your email address" => "Tu dirección de e-mail",
 "Fill in an email address to enable password recovery" => "Escribí una dirección de e-mail para restablecer la contraseña",
+"Abort" => "Abortar",
 "Language" => "Idioma",
 "Help translate" => "Ayudanos a traducir",
 "WebDAV" => "WebDAV",

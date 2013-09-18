@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-16 11:33-0400\n"
-"PO-Revision-Date: 2013-09-16 15:34+0000\n"
+"POT-Creation-Date: 2013-09-18 11:47-0400\n"
+"PO-Revision-Date: 2013-09-18 15:47+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgid "Unable to load list from App Store"
 msgstr "Nie je možné nahrať zoznam z App Store"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20
+#: ajax/togglegroups.php:20 changepassword/controller.php:55
 msgid "Authentication error"
 msgstr "Chyba autentifikácie"
 
@@ -86,6 +86,39 @@ msgstr "Nie je možné odstrániť používateľa zo skupiny %s"
 msgid "Couldn't update app."
 msgstr "Nemožno aktualizovať aplikáciu."
 
+#: changepassword/controller.php:20
+msgid "Wrong password"
+msgstr ""
+
+#: changepassword/controller.php:42
+msgid "No user supplied"
+msgstr ""
+
+#: changepassword/controller.php:74
+msgid ""
+"Please provide an admin recovery password, otherwise all user data will be "
+"lost"
+msgstr ""
+
+#: changepassword/controller.php:79
+msgid ""
+"Wrong admin recovery password. Please check the password and try again."
+msgstr ""
+
+#: changepassword/controller.php:87
+msgid ""
+"Back-end doesn't support password change, but the users encryption key was "
+"successfully updated."
+msgstr ""
+
+#: changepassword/controller.php:92
+msgid "message"
+msgstr ""
+
+#: changepassword/controller.php:103
+msgid "Unable to change password"
+msgstr ""
+
 #: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Aktualizovať na {appversion}"
@@ -130,15 +163,15 @@ msgstr "Aktualizovať"
 msgid "Updated"
 msgstr "Aktualizované"
 
-#: js/personal.js:217
+#: js/personal.js:220
 msgid "Select a profile picture"
 msgstr ""
 
-#: js/personal.js:262
+#: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Dešifrujem súbory ... Počkajte prosím, môže to chvíľu trvať."
 
-#: js/personal.js:284
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "Ukladám..."
 
@@ -462,7 +495,7 @@ msgstr "Vyplňte emailovú adresu pre aktivovanie obnovy hesla"
 
 #: templates/personal.php:86
 msgid "Profile picture"
-msgstr ""
+msgstr "Profilová fotka"
 
 #: templates/personal.php:90
 msgid "Upload new"

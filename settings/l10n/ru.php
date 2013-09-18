@@ -98,6 +98,7 @@ $TRANSLATIONS = array(
 "Email" => "E-mail",
 "Your email address" => "Ваш адрес электронной почты",
 "Fill in an email address to enable password recovery" => "Введите адрес электронной почты чтобы появилась возможность восстановления пароля",
+"Profile picture" => "Фото профиля",
 "Language" => "Язык",
 "Help translate" => "Помочь с переводом",
 "WebDAV" => "WebDAV",

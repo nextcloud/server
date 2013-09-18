@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Liudas <liudas@aksioma.lt>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-13 21:47-0400\n"
-"PO-Revision-Date: 2013-09-12 21:00+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-18 11:47-0400\n"
+"PO-Revision-Date: 2013-09-17 13:05+0000\n"
+"Last-Translator: Liudas Ališauskas <liudas.alisauskas@gmail.com>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,11 +20,11 @@ msgstr ""
 
 #: ajax/clearMappings.php:34
 msgid "Failed to clear the mappings."
-msgstr ""
+msgstr "Nepavyko išvalyti sąsajų."
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
-msgstr ""
+msgstr "Nepavyko pašalinti serverio konfigūracijos"
 
 #: ajax/testConfiguration.php:36
 msgid "The configuration is valid and the connection could be established!"
@@ -51,7 +52,7 @@ msgstr ""
 
 #: js/settings.js:83
 msgid "Keep settings?"
-msgstr ""
+msgstr "Išlaikyti nustatymus?"
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
@@ -59,11 +60,11 @@ msgstr ""
 
 #: js/settings.js:111
 msgid "mappings cleared"
-msgstr ""
+msgstr "susiejimai išvalyti"
 
 #: js/settings.js:112
 msgid "Success"
-msgstr ""
+msgstr "Sėkmingai"
 
 #: js/settings.js:117
 msgid "Error"
@@ -71,19 +72,19 @@ msgstr "Klaida"
 
 #: js/settings.js:141
 msgid "Connection test succeeded"
-msgstr ""
+msgstr "Ryšio patikrinimas pavyko"
 
 #: js/settings.js:146
 msgid "Connection test failed"
-msgstr ""
+msgstr "Ryšio patikrinimas nepavyko"
 
 #: js/settings.js:156
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr ""
+msgstr "Ar tikrai norite ištrinti dabartinę serverio konfigūraciją?"
 
 #: js/settings.js:157
 msgid "Confirm Deletion"
-msgstr ""
+msgstr "Patvirtinkite trynimą"
 
 #: templates/settings.php:9
 msgid ""
@@ -100,11 +101,11 @@ msgstr ""
 
 #: templates/settings.php:16
 msgid "Server configuration"
-msgstr ""
+msgstr "Serverio konfigūravimas"
 
 #: templates/settings.php:32
 msgid "Add Server Configuration"
-msgstr ""
+msgstr "Pridėti serverio konfigūraciją"
 
 #: templates/settings.php:37
 msgid "Host"
@@ -117,11 +118,11 @@ msgstr ""
 
 #: templates/settings.php:40
 msgid "Base DN"
-msgstr ""
+msgstr "Bazinis DN"
 
 #: templates/settings.php:41
 msgid "One Base DN per line"
-msgstr ""
+msgstr "Vienas bazinis DN eilutėje"
 
 #: templates/settings.php:42
 msgid "You can specify Base DN for users and groups in the Advanced tab"
@@ -129,7 +130,7 @@ msgstr ""
 
 #: templates/settings.php:44
 msgid "User DN"
-msgstr ""
+msgstr "Naudotojas DN"
 
 #: templates/settings.php:46
 msgid ""
@@ -144,11 +145,11 @@ msgstr "Slaptažodis"
 
 #: templates/settings.php:50
 msgid "For anonymous access, leave DN and Password empty."
-msgstr ""
+msgstr "Anoniminiam prisijungimui, palikite DN ir Slaptažodis laukus tuščius."
 
 #: templates/settings.php:51
 msgid "User Login Filter"
-msgstr ""
+msgstr "Naudotojo prisijungimo filtras"
 
 #: templates/settings.php:54
 #, php-format
@@ -159,7 +160,7 @@ msgstr ""
 
 #: templates/settings.php:55
 msgid "User List Filter"
-msgstr ""
+msgstr "Naudotojo sąrašo filtras"
 
 #: templates/settings.php:58
 msgid ""
@@ -179,15 +180,15 @@ msgstr ""
 
 #: templates/settings.php:66
 msgid "Connection Settings"
-msgstr ""
+msgstr "Ryšio nustatymai"
 
 #: templates/settings.php:68
 msgid "Configuration Active"
-msgstr ""
+msgstr "Konfigūracija aktyvi"
 
 #: templates/settings.php:68
 msgid "When unchecked, this configuration will be skipped."
-msgstr ""
+msgstr "Kai nepažymėta, ši konfigūracija bus praleista."
 
 #: templates/settings.php:69
 msgid "Port"
@@ -195,7 +196,7 @@ msgstr "Prievadas"
 
 #: templates/settings.php:70
 msgid "Backup (Replica) Host"
-msgstr ""
+msgstr "Atsarginės kopijos (Replica) mazgas"
 
 #: templates/settings.php:70
 msgid ""
@@ -205,15 +206,15 @@ msgstr ""
 
 #: templates/settings.php:71
 msgid "Backup (Replica) Port"
-msgstr ""
+msgstr "Atsarginės kopijos (Replica) prievadas"
 
 #: templates/settings.php:72
 msgid "Disable Main Server"
-msgstr ""
+msgstr "Išjungti pagrindinį serverį"
 
 #: templates/settings.php:72
 msgid "Only connect to the replica server."
-msgstr ""
+msgstr "Tik prisijungti prie reprodukcinio (replica) serverio."
 
 #: templates/settings.php:73
 msgid "Use TLS"
@@ -248,7 +249,7 @@ msgstr ""
 
 #: templates/settings.php:78
 msgid "Directory Settings"
-msgstr ""
+msgstr "Katalogo nustatymai"
 
 #: templates/settings.php:80
 msgid "User Display Name Field"
@@ -260,7 +261,7 @@ msgstr ""
 
 #: templates/settings.php:81
 msgid "Base User Tree"
-msgstr ""
+msgstr "Bazinis naudotojo medis"
 
 #: templates/settings.php:81
 msgid "One User Base DN per line"
@@ -268,7 +269,7 @@ msgstr ""
 
 #: templates/settings.php:82
 msgid "User Search Attributes"
-msgstr ""
+msgstr "Naudotojo paieškos atributai"
 
 #: templates/settings.php:82 templates/settings.php:85
 msgid "Optional; one attribute per line"
@@ -284,7 +285,7 @@ msgstr ""
 
 #: templates/settings.php:84
 msgid "Base Group Tree"
-msgstr ""
+msgstr "Bazinis grupės medis"
 
 #: templates/settings.php:84
 msgid "One Group Base DN per line"
@@ -292,35 +293,35 @@ msgstr ""
 
 #: templates/settings.php:85
 msgid "Group Search Attributes"
-msgstr ""
+msgstr "Grupės paieškos atributai"
 
 #: templates/settings.php:86
 msgid "Group-Member association"
-msgstr ""
+msgstr "Grupės-Nario sąsaja"
 
 #: templates/settings.php:88
 msgid "Special Attributes"
-msgstr ""
+msgstr "Specialūs atributai"
 
 #: templates/settings.php:90
 msgid "Quota Field"
-msgstr ""
+msgstr "Kvotos laukas"
 
 #: templates/settings.php:91
 msgid "Quota Default"
-msgstr ""
+msgstr "Numatyta kvota"
 
 #: templates/settings.php:91
 msgid "in bytes"
-msgstr ""
+msgstr "baitais"
 
 #: templates/settings.php:92
 msgid "Email Field"
-msgstr ""
+msgstr "El. pašto laukas"
 
 #: templates/settings.php:93
 msgid "User Home Folder Naming Rule"
-msgstr ""
+msgstr "Naudotojo namų aplanko pavadinimo taisyklė"
 
 #: templates/settings.php:93
 msgid ""
@@ -330,7 +331,7 @@ msgstr ""
 
 #: templates/settings.php:98
 msgid "Internal Username"
-msgstr ""
+msgstr "Vidinis naudotojo vardas"
 
 #: templates/settings.php:99
 msgid ""
@@ -350,11 +351,11 @@ msgstr ""
 
 #: templates/settings.php:100
 msgid "Internal Username Attribute:"
-msgstr ""
+msgstr "Vidinis naudotojo vardo atributas:"
 
 #: templates/settings.php:101
 msgid "Override UUID detection"
-msgstr ""
+msgstr "Perrašyti UUID aptikimą"
 
 #: templates/settings.php:102
 msgid ""
@@ -369,11 +370,11 @@ msgstr ""
 
 #: templates/settings.php:103
 msgid "UUID Attribute:"
-msgstr ""
+msgstr "UUID atributas:"
 
 #: templates/settings.php:104
 msgid "Username-LDAP User Mapping"
-msgstr ""
+msgstr "Naudotojo vardo - LDAP naudotojo sąsaja"
 
 #: templates/settings.php:105
 msgid ""
@@ -391,15 +392,15 @@ msgstr ""
 
 #: templates/settings.php:106
 msgid "Clear Username-LDAP User Mapping"
-msgstr ""
+msgstr "Išvalyti naudotojo vardo - LDAP naudotojo sąsają"
 
 #: templates/settings.php:106
 msgid "Clear Groupname-LDAP Group Mapping"
-msgstr ""
+msgstr "Išvalyti grupės pavadinimo - LDAP naudotojo sąsają"
 
 #: templates/settings.php:108
 msgid "Test Configuration"
-msgstr ""
+msgstr "Bandyti konfigūraciją"
 
 #: templates/settings.php:108
 msgid "Help"

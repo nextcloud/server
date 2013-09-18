@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-16 11:33-0400\n"
-"PO-Revision-Date: 2013-09-16 15:34+0000\n"
+"POT-Creation-Date: 2013-09-18 11:47-0400\n"
+"PO-Revision-Date: 2013-09-18 15:47+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgid "Unable to load list from App Store"
 msgstr "アプリストアからリストをロードできません"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20
+#: ajax/togglegroups.php:20 changepassword/controller.php:55
 msgid "Authentication error"
 msgstr "認証エラー"
 
@@ -87,6 +87,39 @@ msgstr "ユーザをグループ %s から削除できません"
 msgid "Couldn't update app."
 msgstr "アプリを更新出来ませんでした。"
 
+#: changepassword/controller.php:20
+msgid "Wrong password"
+msgstr ""
+
+#: changepassword/controller.php:42
+msgid "No user supplied"
+msgstr ""
+
+#: changepassword/controller.php:74
+msgid ""
+"Please provide an admin recovery password, otherwise all user data will be "
+"lost"
+msgstr ""
+
+#: changepassword/controller.php:79
+msgid ""
+"Wrong admin recovery password. Please check the password and try again."
+msgstr ""
+
+#: changepassword/controller.php:87
+msgid ""
+"Back-end doesn't support password change, but the users encryption key was "
+"successfully updated."
+msgstr ""
+
+#: changepassword/controller.php:92
+msgid "message"
+msgstr ""
+
+#: changepassword/controller.php:103
+msgid "Unable to change password"
+msgstr ""
+
 #: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "{appversion} に更新"
@@ -131,15 +164,15 @@ msgstr "更新"
 msgid "Updated"
 msgstr "更新済み"
 
-#: js/personal.js:217
+#: js/personal.js:220
 msgid "Select a profile picture"
-msgstr ""
+msgstr "プロファイル画像を選択"
 
-#: js/personal.js:262
+#: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "ファイルを複合中... しばらくお待ちください、この処理には少し時間がかかるかもしれません。"
 
-#: js/personal.js:284
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "保存中..."
 
@@ -463,7 +496,7 @@ msgstr "※パスワード回復を有効にするにはメールアドレスの
 
 #: templates/personal.php:86
 msgid "Profile picture"
-msgstr ""
+msgstr "プロフィール写真"
 
 #: templates/personal.php:90
 msgid "Upload new"
@@ -475,7 +508,7 @@ msgstr ""
 
 #: templates/personal.php:93
 msgid "Remove image"
-msgstr ""
+msgstr "画像を削除"
 
 #: templates/personal.php:94
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
@@ -483,11 +516,11 @@ msgstr ""
 
 #: templates/personal.php:97
 msgid "Abort"
-msgstr ""
+msgstr "中止"
 
 #: templates/personal.php:98
 msgid "Choose as profile image"
-msgstr ""
+msgstr "プロファイル画像として選択"
 
 #: templates/personal.php:106 templates/personal.php:107
 msgid "Language"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-16 11:33-0400\n"
-"PO-Revision-Date: 2013-09-16 13:31+0000\n"
+"POT-Creation-Date: 2013-09-18 11:46-0400\n"
+"PO-Revision-Date: 2013-09-17 13:05+0000\n"
 "Last-Translator: zubr139 <zubr139@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -62,18 +62,18 @@ msgid ""
 "files."
 msgstr ""
 
-#: hooks/hooks.php:51
+#: hooks/hooks.php:53
 msgid "Missing requirements."
 msgstr ""
 
-#: hooks/hooks.php:52
+#: hooks/hooks.php:54
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr ""
 
-#: hooks/hooks.php:250
+#: hooks/hooks.php:255
 msgid "Following users are not set up for encryption:"
 msgstr ""
 

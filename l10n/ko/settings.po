@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-16 11:33-0400\n"
-"PO-Revision-Date: 2013-09-16 15:34+0000\n"
+"POT-Creation-Date: 2013-09-18 11:47-0400\n"
+"PO-Revision-Date: 2013-09-18 15:47+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgid "Unable to load list from App Store"
 msgstr "앱 스토어에서 목록을 가져올 수 없습니다"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20
+#: ajax/togglegroups.php:20 changepassword/controller.php:55
 msgid "Authentication error"
 msgstr "인증 오류"
 
@@ -85,6 +85,39 @@ msgstr "그룹 %s에서 사용자를 삭제할 수 없음"
 msgid "Couldn't update app."
 msgstr "앱을 업데이트할 수 없습니다."
 
+#: changepassword/controller.php:20
+msgid "Wrong password"
+msgstr ""
+
+#: changepassword/controller.php:42
+msgid "No user supplied"
+msgstr ""
+
+#: changepassword/controller.php:74
+msgid ""
+"Please provide an admin recovery password, otherwise all user data will be "
+"lost"
+msgstr ""
+
+#: changepassword/controller.php:79
+msgid ""
+"Wrong admin recovery password. Please check the password and try again."
+msgstr ""
+
+#: changepassword/controller.php:87
+msgid ""
+"Back-end doesn't support password change, but the users encryption key was "
+"successfully updated."
+msgstr ""
+
+#: changepassword/controller.php:92
+msgid "message"
+msgstr ""
+
+#: changepassword/controller.php:103
+msgid "Unable to change password"
+msgstr ""
+
 #: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "버전 {appversion}(으)로 업데이트"
@@ -129,15 +162,15 @@ msgstr "업데이트"
 msgid "Updated"
 msgstr "업데이트됨"
 
-#: js/personal.js:217
+#: js/personal.js:220
 msgid "Select a profile picture"
 msgstr ""
 
-#: js/personal.js:262
+#: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr ""
 
-#: js/personal.js:284
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "저장 중..."
 
@@ -461,7 +494,7 @@ msgstr "암호 찾기 기능을 사용하려면 이메일 주소를 입력하십
 
 #: templates/personal.php:86
 msgid "Profile picture"
-msgstr ""
+msgstr "프로필 사진"
 
 #: templates/personal.php:90
 msgid "Upload new"
