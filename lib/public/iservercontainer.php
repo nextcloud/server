@@ -69,4 +69,11 @@ interface IServerContainer {
 	 */
 	function getCache();
 
+	/**
+	 * Returns the current session
+	 *
+	 * @return \OCP\ISession
+	 */
+	function getSession();
+
 }
