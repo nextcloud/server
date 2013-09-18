@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-namespace OC\Cache;
+namespace OC;
 
 class Cache {
 	/**
@@ -24,7 +24,7 @@ class Cache {
 	 */
 	static public function getGlobalCache() {
 		if (!self::$global_cache) {
-			self::$global_cache = new FileGlobal();
+			self::$global_cache = new Cache\FileGlobal();
 		}
 		return self::$global_cache;
 	}
@@ -35,7 +35,7 @@ class Cache {
 	 */
 	static public function getUserCache() {
 		if (!self::$user_cache) {
-			self::$user_cache = new File();
+			self::$user_cache = new Cache\File();
 		}
 		return self::$user_cache;
 	}

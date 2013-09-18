@@ -10,7 +10,7 @@ namespace OC\Cache;
 
 class FileGlobal {
 	static protected function getCacheDir() {
-		$cache_dir = get_temp_dir().'/owncloud-'.OC_Util::getInstanceId().'/';
+		$cache_dir = get_temp_dir().'/owncloud-' . \OC_Util::getInstanceId().'/';
 		if (!is_dir($cache_dir)) {
 			mkdir($cache_dir);
 		}

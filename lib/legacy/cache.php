@@ -6,5 +6,5 @@
  * See the COPYING-README file.
  */
 
-class Cache extends OC\Cache {
+class OC_Cache extends \OC\Cache {
 }
