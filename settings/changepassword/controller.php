@@ -69,19 +69,27 @@ class Controller {
 			}
 
 			if ($recoveryEnabledForUser && $recoveryPassword === '') {
-				\OC_JSON::error(array('data' => array('message' => 'Please provide a admin recovery password, otherwise all user data will be lost')));
+				$l = new \OC_L10n('settings');
+				\OC_JSON::error(array('data' => array(
+					'message' => $l->t('Please provide an admin recovery password, otherwise all user data will be lost')
+				)));
 			} elseif ($recoveryEnabledForUser && ! $validRecoveryPassword) {
-				\OC_JSON::error(array('data' => array('message' => 'Wrong admin recovery password. Please check the password and try again.')));
+				$l = new \OC_L10n('settings');
+				\OC_JSON::error(array('data' => array(
+					'message' => $l->t('Wrong admin recovery password. Please check the password and try again.')
+				)));
 			} else { // now we know that everything is fine regarding the recovery password, let's try to change the password
 				$result = \OC_User::setPassword($username, $password, $recoveryPassword);
 				if (!$result && $recoveryPasswordSupported) {
+					$l = new \OC_L10n('settings');
 					\OC_JSON::error(array(
 						"data" => array(
-							"message" => "Back-end doesn't support password change, but the users encryption key was successfully updated." 
+							"message" => $l->t("Back-end doesn't support password change, but the users encryption key was successfully updated.")
 						)
 					));
 				} elseif (!$result && !$recoveryPasswordSupported) {
-					\OC_JSON::error(array("data" => array( "message" => "Unable to change password" )));
+					$l = new \OC_L10n('settings');
+					\OC_JSON::error(array("data" => array( $l->t("message" => "Unable to change password" ) )));
 				} else {
 					\OC_JSON::success(array("data" => array( "username" => $username )));
 				}
@@ -91,7 +99,8 @@ class Controller {
 			if (!is_null($password) && \OC_User::setPassword($username, $password)) {
 				\OC_JSON::success(array('data' => array('username' => $username)));
 			} else {
-				\OC_JSON::error(array('data' => array('message' => 'Unable to change password')));
+				$l = new \OC_L10n('settings');
+				\OC_JSON::error(array('data' => array('message' => $l->t('Unable to change password'))));
 			}
 		}
 	}
