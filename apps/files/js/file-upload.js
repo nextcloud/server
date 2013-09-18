@@ -8,9 +8,11 @@
  *    - TODO music upload button
  */
 
-// from https://github.com/New-Bamboo/example-ajax-upload/blob/master/public/index.html
-// also see article at http://blog.new-bamboo.co.uk/2012/01/10/ridiculously-simple-ajax-uploads-with-formdata
-// Function that will allow us to know if Ajax uploads are supported
+/**
+ * Function that will allow us to know if Ajax uploads are supported
+ * @link https://github.com/New-Bamboo/example-ajax-upload/blob/master/public/index.html
+ * also see article @link http://blog.new-bamboo.co.uk/2012/01/10/ridiculously-simple-ajax-uploads-with-formdata
+ */
 function supportAjaxUploadWithProgress() {
 	return supportFileAPI() && supportAjaxUploadProgressEvents() && supportFormData();
 
@@ -181,205 +183,206 @@ OC.Upload = {
 
 $(document).ready(function() {
 
-	var file_upload_param = {
-		dropZone: $('#content'), // restrict dropZone to content div
-		autoUpload: false,
-		sequentialUploads: true,
-		//singleFileUploads is on by default, so the data.files array will always have length 1
-		/**
-		 * on first add of every selection
-		 * - check all files of originalFiles array with files in dir
-		 * - on conflict show dialog
-		 *   - skip all -> remember as single skip action for all conflicting files
-		 *   - replace all -> remember as single replace action for all conflicting files
-		 *   - choose -> show choose dialog
-		 *     - mark files to keep
-		 *       - when only existing -> remember as single skip action
-		 *       - when only new -> remember as single replace action
-		 *       - when both -> remember as single autorename action
-		 * - start uploading selection
-		 * @param {type} e
-		 * @param {type} data
-		 * @returns {Boolean}
-		 */
-		add: function(e, data) {
-			OC.Upload.logStatus('add', e, data);
-			var that = $(this);
-			
-			// we need to collect all data upload objects before starting the upload so we can check their existence
-			// and set individual conflict actions. unfortunately there is only one variable that we can use to identify
-			// the selection a data upload is part of, so we have to collect them in data.originalFiles
-			// turning singleFileUploads off is not an option because we want to gracefully handle server errors like
-			// already exists
-			
-			// create a container where we can store the data objects
-			if ( ! data.originalFiles.selection ) {
-				// initialize selection and remember number of files to upload
-				data.originalFiles.selection = {
-					uploads: [],
-					filesToUpload: data.originalFiles.length,
-					totalBytes: 0
-				};
-			}
-			var selection = data.originalFiles.selection;
-			
-			// add uploads
-			if ( selection.uploads.length < selection.filesToUpload ){
-				// remember upload
-				selection.uploads.push(data);
-			}
-			
-			//examine file
-			var file = data.files[0];
-			
-			if (file.type === '' && file.size === 4096) {
-				data.textStatus = 'dirorzero';
-				data.errorThrown = t('files', 'Unable to upload {filename} as it is a directory or has 0 bytes',
-					{filename: file.name}
-				);
-			}
-			
-			// add size
-			selection.totalBytes += file.size;
-			
-			//check max upload size
-			if (selection.totalBytes > $('#max_upload').val()) {
-				data.textStatus = 'notenoughspace';
-				data.errorThrown = t('files', 'Not enough space available');
-			}
-			
-			// end upload for whole selection on error
-			if (data.errorThrown) {
-				// trigger fileupload fail
-				var fu = that.data('blueimp-fileupload') || that.data('fileupload');
-				fu._trigger('fail', e, data);
-				return false; //don't upload anything
-			}
-
-			// check existing files when all is collected
-			if ( selection.uploads.length >= selection.filesToUpload ) {
-				
-				//remove our selection hack:
-				delete data.originalFiles.selection;
-
-				var callbacks = {
-					
-					onNoConflicts: function (selection) {
-						$.each(selection.uploads, function(i, upload) {
-							upload.submit();
-						});
-					},
-					onSkipConflicts: function (selection) {
-						//TODO mark conflicting files as toskip
-					},
-					onReplaceConflicts: function (selection) {
-						//TODO mark conflicting files as toreplace
-					},
-					onChooseConflicts: function (selection) {
-						//TODO mark conflicting files as chosen
-					},
-					onCancel: function (selection) {
-						$.each(selection.uploads, function(i, upload) {
-							upload.abort();
-						});
-					}
-				};
-
-				OC.Upload.checkExistingFiles(selection, callbacks);
-				
-			}
-
-			return true; // continue adding files
-		},
-		/**
-		 * called after the first add, does NOT have the data param
-		 * @param e
-		 */
-		start: function(e) {
-			OC.Upload.logStatus('start', e, null);
-		},
-		submit: function(e, data) {
-			OC.Upload.rememberUpload(data);
-			if ( ! data.formData ) {
-				// noone set update parameters, we set the minimum
-				data.formData = {
-					requesttoken: oc_requesttoken,
-							 dir: $('#dir').val()
-				};
-			}
-		},
-		fail: function(e, data) {
-			OC.Upload.logStatus('fail', e, data);
-			if (typeof data.textStatus !== 'undefined' && data.textStatus !== 'success' ) {
-				if (data.textStatus === 'abort') {
-					$('#notification').text(t('files', 'Upload cancelled.'));
-				} else {
-					// HTTP connection problem
-					$('#notification').text(data.errorThrown);
-				}
-				$('#notification').fadeIn();
-				//hide notification after 5 sec
-				setTimeout(function() {
-					$('#notification').fadeOut();
-				}, 5000);
-			}
-			OC.Upload.deleteUpload(data);
-		},
-		/**
-		 * called for every successful upload
-		 * @param e
-		 * @param data
-		 */
-		done:function(e, data) {
-			OC.Upload.logStatus('done', e, data);
-			// handle different responses (json or body from iframe for ie)
-			var response;
-			if (typeof data.result === 'string') {
-				response = data.result;
-			} else {
-				//fetch response from iframe
-				response = data.result[0].body.innerText;
-			}
-			var result=$.parseJSON(response);
-
-			delete data.jqXHR;
-				
-			if(typeof result[0] === 'undefined') {
-				data.textStatus = 'servererror';
-				data.errorThrown = t('files', 'Could not get result from server.');
-				var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
-				fu._trigger('fail', e, data);
-			} else if (result[0].status === 'existserror') {
-				//show "file already exists" dialog
-				var original = result[0];
-				var replacement = data.files[0];
-				var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
-				OC.dialogs.fileexists(data, original, replacement, OC.Upload, fu);
-			} else if (result[0].status !== 'success') {
-				//delete data.jqXHR;
-				data.textStatus = 'servererror';
-				data.errorThrown = t('files', result.data.message);
-				var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
-				fu._trigger('fail', e, data);
-			}
-		},
-		/**
-		 * called after last upload
-		 * @param e
-		 * @param data
-		 */
-		stop: function(e, data) {
-			OC.Upload.logStatus('stop', e, data);
-		}
-	};
-
 	if ( $('#file_upload_start').exists() ) {
+
+		var file_upload_param = {
+			dropZone: $('#content'), // restrict dropZone to content div
+			autoUpload: false,
+			sequentialUploads: true,
+			//singleFileUploads is on by default, so the data.files array will always have length 1
+			/**
+			 * on first add of every selection
+			 * - check all files of originalFiles array with files in dir
+			 * - on conflict show dialog
+			 *   - skip all -> remember as single skip action for all conflicting files
+			 *   - replace all -> remember as single replace action for all conflicting files
+			 *   - choose -> show choose dialog
+			 *     - mark files to keep
+			 *       - when only existing -> remember as single skip action
+			 *       - when only new -> remember as single replace action
+			 *       - when both -> remember as single autorename action
+			 * - start uploading selection
+			 * @param {type} e
+			 * @param {type} data
+			 * @returns {Boolean}
+			 */
+			add: function(e, data) {
+				OC.Upload.logStatus('add', e, data);
+				var that = $(this);
+			
+				// we need to collect all data upload objects before starting the upload so we can check their existence
+				// and set individual conflict actions. unfortunately there is only one variable that we can use to identify
+				// the selection a data upload is part of, so we have to collect them in data.originalFiles
+				// turning singleFileUploads off is not an option because we want to gracefully handle server errors like
+				// already exists
+			
+				// create a container where we can store the data objects
+				if ( ! data.originalFiles.selection ) {
+					// initialize selection and remember number of files to upload
+					data.originalFiles.selection = {
+						uploads: [],
+						filesToUpload: data.originalFiles.length,
+						totalBytes: 0
+					};
+				}
+				var selection = data.originalFiles.selection;
+			
+				// add uploads
+				if ( selection.uploads.length < selection.filesToUpload ){
+					// remember upload
+					selection.uploads.push(data);
+				}
+			
+				//examine file
+				var file = data.files[0];
+			
+				if (file.type === '' && file.size === 4096) {
+					data.textStatus = 'dirorzero';
+					data.errorThrown = t('files', 'Unable to upload {filename} as it is a directory or has 0 bytes',
+						{filename: file.name}
+					);
+				}
+			
+				// add size
+				selection.totalBytes += file.size;
+			
+				//check max upload size
+				if (selection.totalBytes > $('#max_upload').val()) {
+					data.textStatus = 'notenoughspace';
+					data.errorThrown = t('files', 'Not enough space available');
+				}
+			
+				// end upload for whole selection on error
+				if (data.errorThrown) {
+					// trigger fileupload fail
+					var fu = that.data('blueimp-fileupload') || that.data('fileupload');
+					fu._trigger('fail', e, data);
+					return false; //don't upload anything
+				}
+
+				// check existing files when all is collected
+				if ( selection.uploads.length >= selection.filesToUpload ) {
+				
+					//remove our selection hack:
+					delete data.originalFiles.selection;
+
+					var callbacks = {
+					
+						onNoConflicts: function (selection) {
+							$.each(selection.uploads, function(i, upload) {
+								upload.submit();
+							});
+						},
+						onSkipConflicts: function (selection) {
+							//TODO mark conflicting files as toskip
+						},
+						onReplaceConflicts: function (selection) {
+							//TODO mark conflicting files as toreplace
+						},
+						onChooseConflicts: function (selection) {
+							//TODO mark conflicting files as chosen
+						},
+						onCancel: function (selection) {
+							$.each(selection.uploads, function(i, upload) {
+								upload.abort();
+							});
+						}
+					};
+
+					OC.Upload.checkExistingFiles(selection, callbacks);
+				
+				}
+
+				return true; // continue adding files
+			},
+			/**
+			 * called after the first add, does NOT have the data param
+			 * @param e
+			 */
+			start: function(e) {
+				OC.Upload.logStatus('start', e, null);
+			},
+			submit: function(e, data) {
+				OC.Upload.rememberUpload(data);
+				if ( ! data.formData ) {
+					// noone set update parameters, we set the minimum
+					data.formData = {
+						requesttoken: oc_requesttoken,
+								 dir: $('#dir').val()
+					};
+				}
+			},
+			fail: function(e, data) {
+				OC.Upload.logStatus('fail', e, data);
+				if (typeof data.textStatus !== 'undefined' && data.textStatus !== 'success' ) {
+					if (data.textStatus === 'abort') {
+						$('#notification').text(t('files', 'Upload cancelled.'));
+					} else {
+						// HTTP connection problem
+						$('#notification').text(data.errorThrown);
+					}
+					$('#notification').fadeIn();
+					//hide notification after 5 sec
+					setTimeout(function() {
+						$('#notification').fadeOut();
+					}, 5000);
+				}
+				OC.Upload.deleteUpload(data);
+			},
+			/**
+			 * called for every successful upload
+			 * @param e
+			 * @param data
+			 */
+			done:function(e, data) {
+				OC.Upload.logStatus('done', e, data);
+				// handle different responses (json or body from iframe for ie)
+				var response;
+				if (typeof data.result === 'string') {
+					response = data.result;
+				} else {
+					//fetch response from iframe
+					response = data.result[0].body.innerText;
+				}
+				var result=$.parseJSON(response);
+
+				delete data.jqXHR;
+				
+				if(typeof result[0] === 'undefined') {
+					data.textStatus = 'servererror';
+					data.errorThrown = t('files', 'Could not get result from server.');
+					var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
+					fu._trigger('fail', e, data);
+				} else if (result[0].status === 'existserror') {
+					//show "file already exists" dialog
+					var original = result[0];
+					var replacement = data.files[0];
+					var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
+					OC.dialogs.fileexists(data, original, replacement, OC.Upload, fu);
+				} else if (result[0].status !== 'success') {
+					//delete data.jqXHR;
+					data.textStatus = 'servererror';
+					data.errorThrown = t('files', result.data.message);
+					var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
+					fu._trigger('fail', e, data);
+				}
+			},
+			/**
+			 * called after last upload
+			 * @param e
+			 * @param data
+			 */
+			stop: function(e, data) {
+				OC.Upload.logStatus('stop', e, data);
+			}
+		};
+
 		// initialize jquery fileupload (blueimp)
 		var fileupload = $('#file_upload_start').fileupload(file_upload_param);
 		window.file_upload_param = fileupload;
-		
+
 		if(supportAjaxUploadWithProgress()) {
-			
+
 			// add progress handlers
 			fileupload.on('fileuploadadd', function(e, data) {
 				OC.Upload.logStatus('progress handle fileuploadadd', e, data);
@@ -419,11 +422,12 @@ $(document).ready(function() {
 					$('#uploadprogressbar').fadeOut();
 				}
 			});
-		
+
 		} else {
 			console.log('skipping file progress because your browser is broken');
 		}
 	}
+
 	$.assocArraySize = function(obj) {
 		// http://stackoverflow.com/a/6700/11236
 		var size = 0, key;
