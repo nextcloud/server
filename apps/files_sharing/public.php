@@ -170,6 +170,7 @@ if (isset($path)) {
 			$tmpl->assign('dir', $getPath);
 
 			OCP\Util::addStyle('files', 'files');
+			OCP\Util::addStyle('files', 'upload');
 			OCP\Util::addScript('files', 'files');
 			OCP\Util::addScript('files', 'filelist');
 			OCP\Util::addscript('files', 'keyboardshortcuts');
