@@ -56,17 +56,6 @@ class Server extends SimpleContainer implements IServerContainer {
 			$view = new View();
 			return new Root($manager, $view, $user);
 		});
-		$this->registerService('CustomFolder', function($c) {
-			$dir = $c['CustomFolderPath'];
-			$root = $this->getRootFolder();
-			$folder = null;
-			if(!$root->nodeExists($dir)) {
-				$folder = $root->newFolder($dir);
-			} else {
-				$folder = $root->get($dir);
-			}
-			return $folder;
-		});
 	}
 
 	/**
@@ -112,8 +101,15 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getUserFolder() {
 
-		$this->registerParameter('CustomFolderPath', '/files');
-		return $this->query('CustomFolder');
+		$dir = '/files';
+		$root = $this->getRootFolder();
+		$folder = null;
+		if(!$root->nodeExists($dir)) {
+			$folder = $root->newFolder($dir);
+		} else {
+			$folder = $root->get($dir);
+		}
+		return $folder;
 
 	}
 
@@ -124,8 +120,15 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getAppFolder() {
 
-		$this->registerParameter('CustomFolderPath', '/' . \OC_App::getCurrentApp());
-		return $this->query('CustomFolder');
+		$dir = '/' . \OC_App::getCurrentApp();
+		$root = $this->getRootFolder();
+		$folder = null;
+		if(!$root->nodeExists($dir)) {
+			$folder = $root->newFolder($dir);
+		} else {
+			$folder = $root->get($dir);
+		}
+		return $folder;
 
 	}
 
