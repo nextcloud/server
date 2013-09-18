@@ -652,7 +652,7 @@ $(document).ready(function(){
 	var file_upload_start = $('#file_upload_start');
 
 	file_upload_start.on('fileuploaddrop', function(e, data) {
-		OC.Upload.logStatus('filelist handle fileuploaddrop', e, data);
+		OC.Upload.log('filelist handle fileuploaddrop', e, data);
 
 		var dropTarget = $(e.originalEvent.target).closest('tr');
 		if(dropTarget && dropTarget.data('type') === 'dir') { // drag&drop upload to folder
@@ -681,7 +681,7 @@ $(document).ready(function(){
 
 	});
 	file_upload_start.on('fileuploadadd', function(e, data) {
-		OC.Upload.logStatus('filelist handle fileuploadadd', e, data);
+		OC.Upload.log('filelist handle fileuploadadd', e, data);
 
 		//finish delete if we are uploading a deleted file
 		if(FileList.deleteFiles && FileList.deleteFiles.indexOf(data.files[0].name)!==-1){
@@ -715,7 +715,7 @@ $(document).ready(function(){
 	 * update counter when uploading to sub folder
 	 */
 	file_upload_start.on('fileuploaddone', function(e, data) {
-		OC.Upload.logStatus('filelist handle fileuploaddone', e, data);
+		OC.Upload.log('filelist handle fileuploaddone', e, data);
 		
 		var response;
 		if (typeof data.result === 'string') {
@@ -781,7 +781,7 @@ $(document).ready(function(){
 		}
 	});
 	file_upload_start.on('fileuploadstop', function(e, data) {
-		OC.Upload.logStatus('filelist handle fileuploadstop', e, data);
+		OC.Upload.log('filelist handle fileuploadstop', e, data);
 
 		//if user pressed cancel hide upload chrome
 		if (data.errorThrown === 'abort') {
@@ -794,7 +794,7 @@ $(document).ready(function(){
 		}
 	});
 	file_upload_start.on('fileuploadfail', function(e, data) {
-		OC.Upload.logStatus('filelist handle fileuploadfail', e, data);
+		OC.Upload.log('filelist handle fileuploadfail', e, data);
 
 		//if user pressed cancel hide upload chrome
 		if (data.errorThrown === 'abort') {

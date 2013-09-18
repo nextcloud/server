@@ -72,7 +72,7 @@ OC.Upload = {
 	 * cancels all uploads
 	 */
 	cancelUploads:function() {
-		console.log('canceling uploads');
+		this.log('canceling uploads');
 		jQuery.each(this._uploads,function(i, jqXHR){
 			jqXHR.abort();
 		});
@@ -135,7 +135,7 @@ OC.Upload = {
 	 * @param data data
 	 */
 	onSkip:function(data){
-		this.logStatus('skip', null, data);
+		this.log('skip', null, data);
 		this.deleteUpload(data);
 	},
 	/**
@@ -143,7 +143,7 @@ OC.Upload = {
 	 * @param data data
 	 */
 	onReplace:function(data){
-		this.logStatus('replace', null, data);
+		this.log('replace', null, data);
 		data.data.append('resolution', 'replace');
 		data.submit();
 	},
@@ -152,7 +152,7 @@ OC.Upload = {
 	 * @param data data
 	 */
 	onAutorename:function(data){
-		this.logStatus('autorename', null, data);
+		this.log('autorename', null, data);
 		if (data.data) {
 			data.data.append('resolution', 'autorename');
 		} else {
@@ -160,9 +160,12 @@ OC.Upload = {
 		}
 		data.submit();
 	},
-	logStatus:function(caption, e, data) {
-		console.log(caption);
-		console.log(data);
+	_trace:false, //TODO implement log handler for JS per class?
+	log:function(caption, e, data) {
+		if (this._trace) {
+			console.log(caption);
+			console.log(data);
+		}
 	},
 	/**
 	 * TODO checks the list of existing files prior to uploading and shows a simple dialog to choose
@@ -207,7 +210,7 @@ $(document).ready(function() {
 			 * @returns {Boolean}
 			 */
 			add: function(e, data) {
-				OC.Upload.logStatus('add', e, data);
+				OC.Upload.log('add', e, data);
 				var that = $(this);
 			
 				// we need to collect all data upload objects before starting the upload so we can check their existence
@@ -300,7 +303,7 @@ $(document).ready(function() {
 			 * @param e
 			 */
 			start: function(e) {
-				OC.Upload.logStatus('start', e, null);
+				OC.Upload.log('start', e, null);
 			},
 			submit: function(e, data) {
 				OC.Upload.rememberUpload(data);
@@ -313,7 +316,7 @@ $(document).ready(function() {
 				}
 			},
 			fail: function(e, data) {
-				OC.Upload.logStatus('fail', e, data);
+				OC.Upload.log('fail', e, data);
 				if (typeof data.textStatus !== 'undefined' && data.textStatus !== 'success' ) {
 					if (data.textStatus === 'abort') {
 						$('#notification').text(t('files', 'Upload cancelled.'));
@@ -335,7 +338,7 @@ $(document).ready(function() {
 			 * @param data
 			 */
 			done:function(e, data) {
-				OC.Upload.logStatus('done', e, data);
+				OC.Upload.log('done', e, data);
 				// handle different responses (json or body from iframe for ie)
 				var response;
 				if (typeof data.result === 'string') {
@@ -373,7 +376,7 @@ $(document).ready(function() {
 			 * @param data
 			 */
 			stop: function(e, data) {
-				OC.Upload.logStatus('stop', e, data);
+				OC.Upload.log('stop', e, data);
 			}
 		};
 
@@ -385,7 +388,7 @@ $(document).ready(function() {
 
 			// add progress handlers
 			fileupload.on('fileuploadadd', function(e, data) {
-				OC.Upload.logStatus('progress handle fileuploadadd', e, data);
+				OC.Upload.log('progress handle fileuploadadd', e, data);
 				//show cancel button
 				//if(data.dataType !== 'iframe') { //FIXME when is iframe used? only for ie?
 				//	$('#uploadprogresswrapper input.stop').show();
@@ -393,29 +396,29 @@ $(document).ready(function() {
 			});
 			// add progress handlers
 			fileupload.on('fileuploadstart', function(e, data) {
-				OC.Upload.logStatus('progress handle fileuploadstart', e, data);
+				OC.Upload.log('progress handle fileuploadstart', e, data);
 				$('#uploadprogresswrapper input.stop').show();
 				$('#uploadprogressbar').progressbar({value:0});
 				$('#uploadprogressbar').fadeIn();
 			});
 			fileupload.on('fileuploadprogress', function(e, data) {
-				OC.Upload.logStatus('progress handle fileuploadprogress', e, data);
+				OC.Upload.log('progress handle fileuploadprogress', e, data);
 				//TODO progressbar in row
 			});
 			fileupload.on('fileuploadprogressall', function(e, data) {
-				OC.Upload.logStatus('progress handle fileuploadprogressall', e, data);
+				OC.Upload.log('progress handle fileuploadprogressall', e, data);
 				var progress = (data.loaded / data.total) * 100;
 				$('#uploadprogressbar').progressbar('value', progress);
 			});
 			fileupload.on('fileuploadstop', function(e, data) {
-				OC.Upload.logStatus('progress handle fileuploadstop', e, data);
+				OC.Upload.log('progress handle fileuploadstop', e, data);
 				
 				$('#uploadprogresswrapper input.stop').fadeOut();
 				$('#uploadprogressbar').fadeOut();
 				
 			});
 			fileupload.on('fileuploadfail', function(e, data) {
-				OC.Upload.logStatus('progress handle fileuploadfail', e, data);
+				OC.Upload.log('progress handle fileuploadfail', e, data);
 				//if user pressed cancel hide upload progress bar and cancel button
 				if (data.errorThrown === 'abort') {
 					$('#uploadprogresswrapper input.stop').fadeOut();
