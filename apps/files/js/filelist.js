@@ -745,6 +745,12 @@ $(document).ready(function(){
 						data.context.attr('data-size', file.size);
 						data.context.find('td.filesize').text(humanFileSize(file.size));
 					}
+					var permissions = data.context.data('permissions');
+					if(permissions != file.permissions) {
+						data.context.attr('data-permissions', file.permissions);
+						data.context.data('permissions', file.permissions);
+					}
+					FileActions.display(data.context.find('td.filename'));
 					if (FileList.loadingDone) {
 						FileList.loadingDone(file.name, file.id);
 					}
