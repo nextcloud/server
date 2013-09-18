@@ -44,16 +44,21 @@ class Hooks {
 			\OC_Util::setupFS($params['uid']);
 		}
 
-		$util = new Util($view, $params['uid']);
+		$privateKey = \OCA\Encryption\Keymanager::getPrivateKey($view, $params['uid']);
 
-		//check if all requirements are met
-		if(!$util->ready() && (!Helper::checkRequirements() || !Helper::checkConfiguration())) {
-			$error_msg = $l->t("Missing requirements.");
-			$hint = $l->t('Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled.');
-			\OC_App::disable('files_encryption');
-			\OCP\Util::writeLog('Encryption library', $error_msg . ' ' . $hint, \OCP\Util::ERROR);
-			\OCP\Template::printErrorPage($error_msg, $hint);
+		// if no private key exists, check server configuration
+		if(!$privateKey) {
+			//check if all requirements are met
+			if(!Helper::checkRequirements() || !Helper::checkConfiguration()) {
+				$error_msg = $l->t("Missing requirements.");
+				$hint = $l->t('Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled.');
+				\OC_App::disable('files_encryption');
+				\OCP\Util::writeLog('Encryption library', $error_msg . ' ' . $hint, \OCP\Util::ERROR);
+				\OCP\Template::printErrorPage($error_msg, $hint);
+			}
 		}
+
+		$util = new Util($view, $params['uid']);
 
 		// setup user, if user not ready force relogin
 		if (Helper::setupUser($util, $params['password']) === false) {
@@ -73,7 +78,7 @@ class Hooks {
 
 			$userView = new \OC_FilesystemView('/' . $params['uid']);
 
-			// Set legacy encryption key if it exists, to support 
+			// Set legacy encryption key if it exists, to support
 			// depreciated encryption system
 			if (
 				$userView->file_exists('encryption.key')
@@ -249,7 +254,7 @@ class Hooks {
 			$params['run'] = false;
 			$params['error'] = $l->t('Following users are not set up for encryption:') . ' ' . join(', ' , $notConfigured);
 		}
-		
+
 	}
 
 	/**
@@ -260,7 +265,7 @@ class Hooks {
 		// NOTE: $params has keys:
 		// [itemType] => file
 		// itemSource -> int, filecache file ID
-		// [parent] => 
+		// [parent] =>
 		// [itemTarget] => /13
 		// shareWith -> string, uid of user being shared to
 		// fileTarget -> path of file being shared
@@ -301,13 +306,13 @@ class Hooks {
 					// NOTE: parent is folder but shared was a file!
 					// we try to rebuild the missing path
 					// some examples we face here
-					// user1 share folder1 with user2 folder1 has 
-					// the following structure 
+					// user1 share folder1 with user2 folder1 has
+					// the following structure
 					// /folder1/subfolder1/subsubfolder1/somefile.txt
 					// user2 re-share subfolder2 with user3
 					// user3 re-share somefile.txt user4
-					// so our path should be 
-					// /Shared/subfolder1/subsubfolder1/somefile.txt 
+					// so our path should be
+					// /Shared/subfolder1/subsubfolder1/somefile.txt
 					// while user3 is sharing
 
 					if ($params['itemType'] === 'file') {
