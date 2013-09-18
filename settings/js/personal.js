@@ -124,14 +124,17 @@ $(document).ready(function(){
 			$('#passwordchanged').hide();
 			$('#passworderror').hide();
 			// Ajax foo
-			$.post( 'ajax/changepassword.php', post, function(data){
+			$.post(OC.Router.generate('settings_personal_changepassword'), post, function(data){
 				if( data.status === "success" ){
 					$('#pass1').val('');
 					$('#pass2').val('');
 					$('#passwordchanged').show();
-				}
-				else{
-					$('#passworderror').html( data.data.message );
+				} else{
+					if (typeof(data.data) !== "undefined") {
+						$('#passworderror').html(data.data.message);
+					} else {
+						$('#passworderror').html(t('Unable to change password'));
+					}
 					$('#passworderror').show();
 				}
 			});
