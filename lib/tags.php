@@ -113,7 +113,7 @@ class Tags implements \OCP\ITags {
 		$sql = 'SELECT COUNT(*) FROM `' . self::TAG_TABLE . '` '
 			. 'WHERE `uid` = ? AND `type` = ?';
 		try {
-			$stmt = OCP\DB::prepare($sql);
+			$stmt = \OCP\DB::prepare($sql);
 			$result = $stmt->execute(array($this->user, $this->type));
 			if (\OCP\DB::isError($result)) {
 				\OCP\Util::writeLog('core', __METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage($result), \OCP\Util::ERROR);
@@ -191,7 +191,7 @@ class Tags implements \OCP\ITags {
 			$stmt = \OCP\DB::prepare($sql);
 			$result = $stmt->execute(array($tagId));
 			if (\OCP\DB::isError($result)) {
-				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . OCP\DB::getErrorMessage($result), \OCP\Util::ERROR);
+				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage($result), \OCP\Util::ERROR);
 				return false;
 			}
 		} catch(\Exception $e) {
@@ -381,7 +381,7 @@ class Tags implements \OCP\ITags {
 				. 'WHERE `uid` = ?');
 			$result = $stmt->execute(array($arguments['uid']));
 			if (\OCP\DB::isError($result)) {
-				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . OCP\DB::getErrorMessage($result), \OCP\Util::ERROR);
+				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage($result), \OCP\Util::ERROR);
 			}
 		} catch(\Exception $e) {
 			\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
@@ -409,12 +409,12 @@ class Tags implements \OCP\ITags {
 			$stmt = \OCP\DB::prepare('DELETE FROM `' . self::TAG_TABLE . '` '
 				. 'WHERE `uid` = ?');
 			$result = $stmt->execute(array($arguments['uid']));
-			if (OCP\DB::isError($result)) {
+			if (\OCP\DB::isError($result)) {
 				\OCP\Util::writeLog('core', __METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage($result), \OCP\Util::ERROR);
 			}
 		} catch(\Exception $e) {
-			OCP\Util::writeLog('core', __METHOD__ . ', exception: '
-				. $e->getMessage(), OCP\Util::ERROR);
+			\OCP\Util::writeLog('core', __METHOD__ . ', exception: '
+				. $e->getMessage(), \OCP\Util::ERROR);
 		}
 	}
 
@@ -435,7 +435,7 @@ class Tags implements \OCP\ITags {
 			$query .= 'WHERE `objid` IN (' . str_repeat('?,', count($ids)-1) . '?) ';
 			$query .= 'AND `type`= ?';
 			$updates[] = $this->type;
-			$stmt = OCP\DB::prepare($query);
+			$stmt = \OCP\DB::prepare($query);
 			$result = $stmt->execute($updates);
 			if (\OCP\DB::isError($result)) {
 				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage($result), \OCP\Util::ERROR);
@@ -471,7 +471,7 @@ class Tags implements \OCP\ITags {
 	* @return boolean
 	*/
 	public function addToFavorites($objid) {
-		if(!$this->hasCategory(self::TAG_FAVORITE)) {
+		if(!$this->hasTag(self::TAG_FAVORITE)) {
 			$this->add(self::TAG_FAVORITE, true);
 		}
 		return $this->tagAs($objid, self::TAG_FAVORITE, $this->type);
@@ -574,7 +574,7 @@ class Tags implements \OCP\ITags {
 					. '`uid` = ? AND `type` = ? AND `category` = ?');
 				$result = $stmt->execute(array($this->user, $this->type, $name));
 				if (\OCP\DB::isError($result)) {
-					\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . OCP\DB::getErrorMessage($result), \OCP\Util::ERROR);
+					\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage($result), \OCP\Util::ERROR);
 				}
 			} catch(\Exception $e) {
 				\OCP\Util::writeLog('core', __METHOD__ . ', exception: '
