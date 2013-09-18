@@ -281,53 +281,53 @@ var OCdialogs = {
 
 		var addConflict = function(conflicts, original, replacement) {
 
-				var conflict = conflicts.find('.template').clone().removeClass('template').addClass('conflict');
-				
-				conflict.data('data',data);
+			var conflict = conflicts.find('.template').clone().removeClass('template').addClass('conflict');
 
-				conflict.find('.filename').text(original.name);
-				conflict.find('.original .size').text(humanFileSize(original.size));
-				conflict.find('.original .mtime').text(formatDate(original.mtime*1000));
-				// ie sucks
-				if (replacement.size && replacement.lastModifiedDate) {
-					conflict.find('.replacement .size').text(humanFileSize(replacement.size));
-					conflict.find('.replacement .mtime').text(formatDate(replacement.lastModifiedDate));
-				}
-				var path = getPathForPreview(original.name);
-				lazyLoadPreview(path, original.type, function(previewpath){
-					conflict.find('.original .icon').css('background-image','url('+previewpath+')');
-				});
-				getCroppedPreview(replacement).then(
-					function(path){
+			conflict.data('data',data);
+
+			conflict.find('.filename').text(original.name);
+			conflict.find('.original .size').text(humanFileSize(original.size));
+			conflict.find('.original .mtime').text(formatDate(original.mtime*1000));
+			// ie sucks
+			if (replacement.size && replacement.lastModifiedDate) {
+				conflict.find('.replacement .size').text(humanFileSize(replacement.size));
+				conflict.find('.replacement .mtime').text(formatDate(replacement.lastModifiedDate));
+			}
+			var path = getPathForPreview(original.name);
+			lazyLoadPreview(path, original.type, function(previewpath){
+				conflict.find('.original .icon').css('background-image','url('+previewpath+')');
+			});
+			getCroppedPreview(replacement).then(
+				function(path){
+					conflict.find('.replacement .icon').css('background-image','url(' + path + ')');
+				}, function(){
+					getMimeIcon(replacement.type,function(path){
 						conflict.find('.replacement .icon').css('background-image','url(' + path + ')');
-					}, function(){
-						getMimeIcon(replacement.type,function(path){
-							conflict.find('.replacement .icon').css('background-image','url(' + path + ')');
-						});
-					}
-				);
-				conflicts.append(conflict);
-
-				//set more recent mtime bold
-				// ie sucks
-				if (replacement.lastModifiedDate && replacement.lastModifiedDate.getTime() > original.mtime*1000) {
-					conflict.find('.replacement .mtime').css('font-weight', 'bold');
-				} else if (replacement.lastModifiedDate && replacement.lastModifiedDate.getTime() < original.mtime*1000) {
-					conflict.find('.original .mtime').css('font-weight', 'bold');
-				} else {
-					//TODO add to same mtime collection?
+					});
 				}
+			);
+			conflicts.append(conflict);
 
-				// set bigger size bold
-				if (replacement.size && replacement.size > original.size) {
-					conflict.find('.replacement .size').css('font-weight', 'bold');
-				} else if (replacement.size && replacement.size < original.size) {
-					conflict.find('.original .size').css('font-weight', 'bold');
-				} else {
-					//TODO add to same size collection?
-				}
+			//set more recent mtime bold
+			// ie sucks
+			if (replacement.lastModifiedDate && replacement.lastModifiedDate.getTime() > original.mtime*1000) {
+				conflict.find('.replacement .mtime').css('font-weight', 'bold');
+			} else if (replacement.lastModifiedDate && replacement.lastModifiedDate.getTime() < original.mtime*1000) {
+				conflict.find('.original .mtime').css('font-weight', 'bold');
+			} else {
+				//TODO add to same mtime collection?
+			}
 
-				//TODO show skip action for files with same size and mtime in bottom row
+			// set bigger size bold
+			if (replacement.size && replacement.size > original.size) {
+				conflict.find('.replacement .size').css('font-weight', 'bold');
+			} else if (replacement.size && replacement.size < original.size) {
+				conflict.find('.original .size').css('font-weight', 'bold');
+			} else {
+				//TODO add to same size collection?
+			}
+
+			//TODO show skip action for files with same size and mtime in bottom row
 
 		};
 		//var selection = controller.getSelection(data.originalFiles);
