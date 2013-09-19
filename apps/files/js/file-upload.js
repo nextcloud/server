@@ -37,7 +37,7 @@ function supportAjaxUploadWithProgress() {
 
 /**
  * keeps track of uploads in progress and implements callbacks for the conflicts dialog
- * @type OC.Upload
+ * @type {OC.Upload}
  */
 OC.Upload = {
 	_uploads: [],
@@ -45,9 +45,9 @@ OC.Upload = {
 	 * cancels a single upload, 
 	 * @deprecated because it was only used when a file currently beeing uploaded was deleted. Now they are added after
 	 * they have been uploaded.
-	 * @param string dir
-	 * @param string filename
-	 * @returns unresolved
+	 * @param {string} dir
+	 * @param {string} filename
+	 * @returns {unresolved}
 	 */
 	cancelUpload:function(dir, filename) {
 		var self = this;
@@ -63,7 +63,7 @@ OC.Upload = {
 	},
 	/**
 	 * deletes the jqHXR object from a data selection
-	 * @param data data
+	 * @param {object} data
 	 */
 	deleteUpload:function(data) {
 		delete data.jqXHR;
@@ -86,7 +86,7 @@ OC.Upload = {
 	/**
 	 * Checks the currently known uploads.
 	 * returns true if any hxr has the state 'pending'
-	 * @returns Boolean
+	 * @returns {boolean}
 	 */
 	isProcessing:function(){
 		var count = 0;
@@ -100,7 +100,7 @@ OC.Upload = {
 	},
 	/**
 	 * callback for the conflicts dialog
-	 * @param data
+	 * @param {object} data
 	 */
 	onCancel:function(data) {
 		this.cancelUploads();
@@ -108,7 +108,7 @@ OC.Upload = {
 	/**
 	 * callback for the conflicts dialog
 	 * calls onSkip, onReplace or onAutorename for each conflict
-	 * @param conflicts list of conflict elements
+	 * @param {object} conflicts - list of conflict elements
 	 */
 	onContinue:function(conflicts) {
 		var self = this;
@@ -132,7 +132,7 @@ OC.Upload = {
 	},
 	/**
 	 * handle skipping an upload
-	 * @param data data
+	 * @param {object} data
 	 */
 	onSkip:function(data){
 		this.log('skip', null, data);
@@ -140,7 +140,7 @@ OC.Upload = {
 	},
 	/**
 	 * handle replacing a file on the server with an uploaded file
-	 * @param data data
+	 * @param {object} data
 	 */
 	onReplace:function(data){
 		this.log('replace', null, data);
@@ -149,7 +149,7 @@ OC.Upload = {
 	},
 	/**
 	 * handle uploading a file and letting the server decide a new name
-	 * @param data data
+	 * @param {object} data
 	 */
 	onAutorename:function(data){
 		this.log('autorename', null, data);
@@ -170,13 +170,13 @@ OC.Upload = {
 	/**
 	 * TODO checks the list of existing files prior to uploading and shows a simple dialog to choose
 	 * skip all, replace all or choose which files to keep
-	 * @param array selection of files to upload
-	 * @param callbacks to call:
-	 *		onNoConflicts,
-	 *		onSkipConflicts,
-	 *		onReplaceConflicts,
-	 *		onChooseConflicts,
-	 *		onCancel
+	 * @param {array} selection of files to upload
+	 * @param {object} callbacks - object with several callback methods
+	 * @param {function} callbacks.onNoConflicts
+	 * @param {function} callbacks.onSkipConflicts
+	 * @param {function} callbacks.onReplaceConflicts
+	 * @param {function} callbacks.onChooseConflicts
+	 * @param {function} callbacks.onCancel
 	 */
 	checkExistingFiles: function (selection, callbacks){
 		// TODO check filelist before uploading and show dialog on conflicts, use callbacks
@@ -205,9 +205,9 @@ $(document).ready(function() {
 			 *       - when only new -> remember as single replace action
 			 *       - when both -> remember as single autorename action
 			 * - start uploading selection
-			 * @param {type} e
-			 * @param {type} data
-			 * @returns {Boolean}
+			 * @param {object} e
+			 * @param {object} data
+			 * @returns {boolean}
 			 */
 			add: function(e, data) {
 				OC.Upload.log('add', e, data);
@@ -300,7 +300,7 @@ $(document).ready(function() {
 			},
 			/**
 			 * called after the first add, does NOT have the data param
-			 * @param e
+			 * @param {object} e
 			 */
 			start: function(e) {
 				OC.Upload.log('start', e, null);
@@ -334,8 +334,8 @@ $(document).ready(function() {
 			},
 			/**
 			 * called for every successful upload
-			 * @param e
-			 * @param data
+			 * @param {object} e
+			 * @param {object} data
 			 */
 			done:function(e, data) {
 				OC.Upload.log('done', e, data);
@@ -372,8 +372,8 @@ $(document).ready(function() {
 			},
 			/**
 			 * called after last upload
-			 * @param e
-			 * @param data
+			 * @param {object} e
+			 * @param {object} data
 			 */
 			stop: function(e, data) {
 				OC.Upload.log('stop', e, data);
