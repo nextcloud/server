@@ -133,6 +133,8 @@ class Api {
 				// read (1) if public upload is disabled
 				$permissions = $publicUpload === 'yes' ? 7 : 1;
 				break;
+			default:
+				return new \OC_OCS_Result(null, 404, "unknown share type");
 		}
 
 		try	{
