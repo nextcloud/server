@@ -365,7 +365,7 @@ $(document).ready(function() {
 				} else if (result[0].status !== 'success') {
 					//delete data.jqXHR;
 					data.textStatus = 'servererror';
-					data.errorThrown = t('files', result.data.message);
+					data.errorThrown = result.data.message; // error message has been translated on server
 					var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
 					fu._trigger('fail', e, data);
 				}
