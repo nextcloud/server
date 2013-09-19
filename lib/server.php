@@ -56,6 +56,9 @@ class Server extends SimpleContainer implements IServerContainer {
 			$view = new View();
 			return new Root($manager, $view, $user);
 		});
+		$this->registerService('UserCache', function($c) {
+			return new UserCache();
+		});
 	}
 
 	/**
@@ -66,8 +69,8 @@ class Server extends SimpleContainer implements IServerContainer {
 	}
 
 	/**
-	 * The current request object holding all information about the request currently being processed
-	 * is returned from this method.
+	 * The current request object holding all information about the request
+	 * currently being processed is returned from this method.
 	 * In case the current execution was not initiated by a web request null is returned
 	 *
 	 * @return \OCP\IRequest|null
@@ -130,6 +133,13 @@ class Server extends SimpleContainer implements IServerContainer {
 		}
 		return $folder;
 
+	/**
+	 * Returns an ICache instance
+	 *
+	 * @return \OCP\ICache
+	 */
+	function getCache() {
+		return $this->query('UserCache');
 	}
 
 	/**

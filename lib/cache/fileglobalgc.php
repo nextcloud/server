@@ -1,8 +1,9 @@
 <?php
 
+namespace OC\Cache;
 
-class OC_Cache_FileGlobalGC extends \OC\BackgroundJob\Job{
+class FileGlobalGC extends \OC\BackgroundJob\Job{
 	public function run($argument){
-		OC_Cache_FileGlobal::gc();
+		FileGlobal::gc();
 	}
 }

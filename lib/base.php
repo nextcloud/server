@@ -564,11 +564,13 @@ class OC {
 		if (OC_Config::getValue('installed', false)) { //don't try to do this before we are properly setup
 			// register cache cleanup jobs
 			try { //if this is executed before the upgrade to the new backgroundjob system is completed it will throw an exception
-				\OCP\BackgroundJob::registerJob('OC_Cache_FileGlobalGC');
+				\OCP\BackgroundJob::registerJob('OC\Cache\FileGlobalGC');
 			} catch (Exception $e) {
 
 			}
-			OC_Hook::connect('OC_User', 'post_login', 'OC_Cache_File', 'loginListener');
+			// NOTE: This will be replaced to use OCP
+			$userSession = \OC_User::getUserSession();
+			$userSession->listen('postLogin', '\OC\Cache\File', 'loginListener');
 		}
 	}
 
