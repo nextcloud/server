@@ -627,11 +627,15 @@ function getPathForPreview(name) {
 	return path;
 }
 
-function lazyLoadPreview(path, mime, ready) {
+function lazyLoadPreview(path, mime, ready, width, height) {
 	getMimeIcon(mime,ready);
-	var x = $('#filestable').data('preview-x');
-	var y = $('#filestable').data('preview-y');
-	var previewURL = OC.Router.generate('core_ajax_preview', {file: encodeURIComponent(path), x:x, y:y});
+	if (!width) {
+		width = $('#filestable').data('preview-x');
+	}
+	if (!height) {
+		height = $('#filestable').data('preview-y');
+	}
+	var previewURL = OC.Router.generate('core_ajax_preview', {file: encodeURIComponent(path), x:width, y:height});
 	$.get(previewURL, function() {
 		previewURL = previewURL.replace('(','%28');
 		previewURL = previewURL.replace(')','%29');

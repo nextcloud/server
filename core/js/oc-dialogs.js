@@ -296,7 +296,7 @@ var OCdialogs = {
 			var path = getPathForPreview(original.name);
 			lazyLoadPreview(path, original.type, function(previewpath){
 				conflict.find('.original .icon').css('background-image','url('+previewpath+')');
-			});
+			}, 96, 96);
 			getCroppedPreview(replacement).then(
 				function(path){
 					conflict.find('.replacement .icon').css('background-image','url(' + path + ')');
