@@ -344,7 +344,7 @@ var OCdialogs = {
 
 				var count = $(dialog_id+ ' .conflict').length;
 				var title = n('files',
-								'One file conflict',
+								'{count} file conflict',
 								'{count} file conflicts',
 								count,
 								{count:count}
