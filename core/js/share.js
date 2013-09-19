@@ -483,7 +483,7 @@ $(document).ready(function() {
 		if (!$('.cruds', this).is(':visible')) {
 			$('a', this).hide();
 			if (!$('input[name="edit"]', this).is(':checked')) {
-				$('input:[type=checkbox]', this).hide();
+				$('input[type="checkbox"]', this).hide();
 				$('label', this).hide();
 			}
 		} else {
