@@ -238,7 +238,7 @@ var OCdialogs = {
 			if (window.FileReader && type === 'image') {
 				var reader = new FileReader();
 				reader.onload = function (e) {
-					var blob = new Blob([event.target.result]);
+					var blob = new Blob([e.target.result]);
 					window.URL = window.URL || window.webkitURL;
 					var originalUrl = window.URL.createObjectURL(blob);
 					var image = new Image();
