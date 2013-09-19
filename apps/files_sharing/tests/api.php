@@ -32,6 +32,7 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 	const TEST_FILES_SHARING_API_USER1 = "test-share-user1";
 	const TEST_FILES_SHARING_API_USER2 = "test-share-user2";
 
+	public $stateFilesEncryption;
 	public $filename;
 	public $data;
 	/**
@@ -68,11 +69,24 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 		$this->view->file_put_contents($this->filename, $this->data);
 		$this->view->mkdir($this->folder);
 		$this->view->file_put_contents($this->folder.'/'.$this->filename, $this->data);
+
+
+		// remember files_encryption state
+		$this->stateFilesEncryption = OC_App::isEnabled('files_encryption');
+
+		// we don't want to tests with app files_encryption enabled
+		\OC_App::disable('files_encryption');
 	}
 
 	function tearDown() {
 		$this->view->unlink($this->filename);
 		$this->view->deleteAll($this->folder);
+		// reset app files_trashbin
+		if ($this->stateFilesTrashbin) {
+			OC_App::enable('files_encryption');
+		} else {
+			OC_App::disable('files_encryption');
+		}
 	}
 
 	public static function tearDownAfterClass() {
