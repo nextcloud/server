@@ -201,10 +201,11 @@ class Util {
 		if (false === $this->recoveryEnabledForUser()) {
 
 			// create database configuration
-			$sql = 'INSERT INTO `*PREFIX*encryption` (`uid`,`mode`,`recovery_enabled`) VALUES (?,?,?)';
+			$sql = 'INSERT INTO `*PREFIX*encryption` (`uid`,`mode`,`recovery_enabled`,`migration_status`) VALUES (?,?,?,?)';
 			$args = array(
 				$this->userId,
 				'server-side',
+				0,
 				0
 			);
 			$query = \OCP\DB::prepare($sql);

@@ -1,157 +1,196 @@
+
+/**
+ * Function that will allow us to know if Ajax uploads are supported
+ * @link https://github.com/New-Bamboo/example-ajax-upload/blob/master/public/index.html
+ * also see article @link http://blog.new-bamboo.co.uk/2012/01/10/ridiculously-simple-ajax-uploads-with-formdata
+ */
+function supportAjaxUploadWithProgress() {
+	return supportFileAPI() && supportAjaxUploadProgressEvents() && supportFormData();
+
+	// Is the File API supported?
+	function supportFileAPI() {
+		var fi = document.createElement('INPUT');
+		fi.type = 'file';
+		return 'files' in fi;
+	};
+
+	// Are progress events supported?
+	function supportAjaxUploadProgressEvents() {
+		var xhr = new XMLHttpRequest();
+		return !! (xhr && ('upload' in xhr) && ('onprogress' in xhr.upload));
+	};
+
+	// Is FormData supported?
+	function supportFormData() {
+		return !! window.FormData;
+	}
+}
+
 $(document).ready(function() {
 
-	var file_upload_param = {
-		dropZone: $('#content'), // restrict dropZone to content div
-		//singleFileUploads is on by default, so the data.files array will always have length 1
-		add: function(e, data) {
+	if ( $('#file_upload_start').length ) {
+		var file_upload_param = {
+			dropZone: $('#content'), // restrict dropZone to content div
+			//singleFileUploads is on by default, so the data.files array will always have length 1
+			add: function(e, data) {
 
-			if(data.files[0].type === '' && data.files[0].size == 4096)
-			{
-				data.textStatus = 'dirorzero';
-				data.errorThrown = t('files','Unable to upload your file as it is a directory or has 0 bytes');
-				var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
-				fu._trigger('fail', e, data);
-				return true; //don't upload this file but go on with next in queue
-			}
-
-			var totalSize=0;
-			$.each(data.originalFiles, function(i,file){
-				totalSize+=file.size;
-			});
-
-			if(totalSize>$('#max_upload').val()){
-				data.textStatus = 'notenoughspace';
-				data.errorThrown = t('files','Not enough space available');
-				var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
-				fu._trigger('fail', e, data);
-				return false; //don't upload anything
-			}
-
-			// start the actual file upload
-			var jqXHR = data.submit();
-
-			// remember jqXHR to show warning to user when he navigates away but an upload is still in progress
-			if (typeof data.context !== 'undefined' && data.context.data('type') === 'dir') {
-				var dirName = data.context.data('file');
-				if(typeof uploadingFiles[dirName] === 'undefined') {
-					uploadingFiles[dirName] = {};
+				if(data.files[0].type === '' && data.files[0].size == 4096)
+				{
+					data.textStatus = 'dirorzero';
+					data.errorThrown = t('files','Unable to upload your file as it is a directory or has 0 bytes');
+					var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
+					fu._trigger('fail', e, data);
+					return true; //don't upload this file but go on with next in queue
 				}
-				uploadingFiles[dirName][data.files[0].name] = jqXHR;
-			} else {
-				uploadingFiles[data.files[0].name] = jqXHR;
-			}
 
-			//show cancel button
-			if($('html.lte9').length === 0 && data.dataType !== 'iframe') {
-				$('#uploadprogresswrapper input.stop').show();
-			}
-		},
-		submit: function(e, data) {
-			if ( ! data.formData ) {
-				// noone set update parameters, we set the minimum
-				data.formData = {
-					requesttoken: oc_requesttoken,
-							 dir: $('#dir').val()
-				};
-			}
-		},
-		/**
-		 * called after the first add, does NOT have the data param
-		 * @param e
-		 */
-		start: function(e) {
-			//IE < 10 does not fire the necessary events for the progress bar.
-			if($('html.lte9').length > 0) {
-				return;
-			}
-			$('#uploadprogressbar').progressbar({value:0});
-			$('#uploadprogressbar').fadeIn();
-		},
-		fail: function(e, data) {
-			if (typeof data.textStatus !== 'undefined' && data.textStatus !== 'success' ) {
-				if (data.textStatus === 'abort') {
-					$('#notification').text(t('files', 'Upload cancelled.'));
-				} else {
-					// HTTP connection problem
-					$('#notification').text(data.errorThrown);
+				var totalSize=0;
+				$.each(data.originalFiles, function(i,file){
+					totalSize+=file.size;
+				});
+
+				if(totalSize>$('#max_upload').val()){
+					data.textStatus = 'notenoughspace';
+					data.errorThrown = t('files','Not enough space available');
+					var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
+					fu._trigger('fail', e, data);
+					return false; //don't upload anything
 				}
-				$('#notification').fadeIn();
-				//hide notification after 5 sec
-				setTimeout(function() {
-					$('#notification').fadeOut();
-				}, 5000);
-			}
-			delete uploadingFiles[data.files[0].name];
-		},
-		progress: function(e, data) {
-			// TODO: show nice progress bar in file row
-		},
-		progressall: function(e, data) {
-			//IE < 10 does not fire the necessary events for the progress bar.
-			if($('html.lte9').length > 0) {
-				return;
-			}
-			var progress = (data.loaded/data.total)*100;
-			$('#uploadprogressbar').progressbar('value',progress);
-		},
-		/**
-		 * called for every successful upload
-		 * @param e
-		 * @param data
-		 */
-		done:function(e, data) {
-			// handle different responses (json or body from iframe for ie)
-			var response;
-			if (typeof data.result === 'string') {
-				response = data.result;
-			} else {
-				//fetch response from iframe
-				response = data.result[0].body.innerText;
-			}
-			var result=$.parseJSON(response);
 
-			if(typeof result[0] !== 'undefined' && result[0].status === 'success') {
-				var filename = result[0].originalname;
+				// start the actual file upload
+				var jqXHR = data.submit();
 
-				// delete jqXHR reference
+				// remember jqXHR to show warning to user when he navigates away but an upload is still in progress
 				if (typeof data.context !== 'undefined' && data.context.data('type') === 'dir') {
 					var dirName = data.context.data('file');
-					delete uploadingFiles[dirName][filename];
-					if ($.assocArraySize(uploadingFiles[dirName]) == 0) {
-						delete uploadingFiles[dirName];
+					if(typeof uploadingFiles[dirName] === 'undefined') {
+						uploadingFiles[dirName] = {};
 					}
+					uploadingFiles[dirName][data.files[0].name] = jqXHR;
 				} else {
-					delete uploadingFiles[filename];
+					uploadingFiles[data.files[0].name] = jqXHR;
 				}
-				var file = result[0];
-			} else {
-				data.textStatus = 'servererror';
-				data.errorThrown = t('files', result.data.message);
-				var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
-				fu._trigger('fail', e, data);
-			}
-		},
-		/**
-		 * called after last upload
-		 * @param e
-		 * @param data
-		 */
-		stop: function(e, data) {
-			if(data.dataType !== 'iframe') {
-				$('#uploadprogresswrapper input.stop').hide();
-			}
+			},
+			submit: function(e, data) {
+				if ( ! data.formData ) {
+					// noone set update parameters, we set the minimum
+					data.formData = {
+						requesttoken: oc_requesttoken,
+								 dir: $('#dir').val()
+					};
+				}
+			},
+			/**
+			 * called after the first add, does NOT have the data param
+			 * @param e
+			 */
+			start: function(e) {
+			},
+			fail: function(e, data) {
+				if (typeof data.textStatus !== 'undefined' && data.textStatus !== 'success' ) {
+					if (data.textStatus === 'abort') {
+						$('#notification').text(t('files', 'Upload cancelled.'));
+					} else {
+						// HTTP connection problem
+						$('#notification').text(data.errorThrown);
+					}
+					$('#notification').fadeIn();
+					//hide notification after 5 sec
+					setTimeout(function() {
+						$('#notification').fadeOut();
+					}, 5000);
+				}
+				delete uploadingFiles[data.files[0].name];
+			},
+			/**
+			 * called for every successful upload
+			 * @param e
+			 * @param data
+			 */
+			done:function(e, data) {
+				// handle different responses (json or body from iframe for ie)
+				var response;
+				if (typeof data.result === 'string') {
+					response = data.result;
+				} else {
+					//fetch response from iframe
+					response = data.result[0].body.innerText;
+				}
+				var result=$.parseJSON(response);
 
-			//IE < 10 does not fire the necessary events for the progress bar.
-			if($('html.lte9').length > 0) {
-				return;
-			}
+				if(typeof result[0] !== 'undefined' && result[0].status === 'success') {
+					var filename = result[0].originalname;
 
-			$('#uploadprogressbar').progressbar('value',100);
-			$('#uploadprogressbar').fadeOut();
+					// delete jqXHR reference
+					if (typeof data.context !== 'undefined' && data.context.data('type') === 'dir') {
+						var dirName = data.context.data('file');
+						delete uploadingFiles[dirName][filename];
+						if ($.assocArraySize(uploadingFiles[dirName]) == 0) {
+							delete uploadingFiles[dirName];
+						}
+					} else {
+						delete uploadingFiles[filename];
+					}
+					var file = result[0];
+				} else {
+					data.textStatus = 'servererror';
+					data.errorThrown = t('files', result.data.message);
+					var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
+					fu._trigger('fail', e, data);
+				}
+			},
+			/**
+			 * called after last upload
+			 * @param e
+			 * @param data
+			 */
+			stop: function(e, data) {
+			}
+		};
+
+		// initialize jquery fileupload (blueimp)
+		var fileupload = $('#file_upload_start').fileupload(file_upload_param);
+		window.file_upload_param = fileupload;
+
+		if(supportAjaxUploadWithProgress()) {
+
+			// add progress handlers
+			fileupload.on('fileuploadadd', function(e, data) {
+				//show cancel button
+				//if(data.dataType !== 'iframe') { //FIXME when is iframe used? only for ie?
+				//	$('#uploadprogresswrapper input.stop').show();
+				//}
+			});
+			// add progress handlers
+			fileupload.on('fileuploadstart', function(e, data) {
+				$('#uploadprogresswrapper input.stop').show();
+				$('#uploadprogressbar').progressbar({value:0});
+				$('#uploadprogressbar').fadeIn();
+			});
+			fileupload.on('fileuploadprogress', function(e, data) {
+				//TODO progressbar in row
+			});
+			fileupload.on('fileuploadprogressall', function(e, data) {
+				var progress = (data.loaded / data.total) * 100;
+				$('#uploadprogressbar').progressbar('value', progress);
+			});
+			fileupload.on('fileuploadstop', function(e, data) {
+				$('#uploadprogresswrapper input.stop').fadeOut();
+				$('#uploadprogressbar').fadeOut();
+				
+			});
+			fileupload.on('fileuploadfail', function(e, data) {
+				//if user pressed cancel hide upload progress bar and cancel button
+				if (data.errorThrown === 'abort') {
+					$('#uploadprogresswrapper input.stop').fadeOut();
+					$('#uploadprogressbar').fadeOut();
+				}
+			});
+
+		} else {
+			console.log('skipping file progress because your browser is broken');
 		}
-	};
-	$('#file_upload_start').fileupload(file_upload_param);
-	
+	}
+
 	$.assocArraySize = function(obj) {
 		// http://stackoverflow.com/a/6700/11236
 		var size = 0, key;
@@ -353,5 +392,4 @@ $(document).ready(function() {
 			$('#new>a').click();
 		});
 	});
-	window.file_upload_param = file_upload_param;
 });

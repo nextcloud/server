@@ -37,11 +37,15 @@ $this->create('settings_ajax_togglesubadmins', '/settings/ajax/togglesubadmins.p
 	->actionInclude('settings/ajax/togglesubadmins.php');
 $this->create('settings_ajax_removegroup', '/settings/ajax/removegroup.php')
 	->actionInclude('settings/ajax/removegroup.php');
-$this->create('settings_ajax_changepassword', '/settings/ajax/changepassword.php')
-	->actionInclude('settings/ajax/changepassword.php');
+$this->create('settings_users_changepassword', '/settings/users/changepassword')
+	->post()
+	->action('OC\Settings\ChangePassword\Controller', 'changeUserPassword');
 $this->create('settings_ajax_changedisplayname', '/settings/ajax/changedisplayname.php')
 	->actionInclude('settings/ajax/changedisplayname.php');
-// personel
+// personal
+$this->create('settings_personal_changepassword', '/settings/personal/changepassword')
+	->post()
+	->action('OC\Settings\ChangePassword\Controller', 'changePersonalPassword');
 $this->create('settings_ajax_lostpassword', '/settings/ajax/lostpassword.php')
 	->actionInclude('settings/ajax/lostpassword.php');
 $this->create('settings_ajax_setlanguage', '/settings/ajax/setlanguage.php')
