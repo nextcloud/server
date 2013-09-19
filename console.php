@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Copyright (c) 2013 Bart Visscher <bartv@thisnet.nl>
