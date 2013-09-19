@@ -30,7 +30,7 @@ class Api {
 	 * @param array $params option 'file' to limit the result to a specific file/folder
 	 * @return \OC_OCS_Result share information
 	 */
-	public static function getAllShare($params) {
+	public static function getAllShares($params) {
 
 		// if a file is specified, get the share for this file
 		if (isset($_GET['file'])) {
@@ -59,17 +59,17 @@ class Api {
 		//  getAllShare() or we need to translate the shareID to a itemSource
 		if(isset($params['itemSource'])) {
 			$itemSource = $params['itemSource'];
-			$getAll = true;
+			$getSpecificShare = true;
 		} else {
 			$s = self::getShareFromId($params['id']);
 			$itemSource = $s['item_source'];
-			$getAll = false;
+			$getSpecificShare = false;
 		}
 
 		if ($itemSource !== null) {
 			$shares = \OCP\Share::getItemShared('file', $itemSource);
 			// if a specific share was specified only return this one
-			if ($getAll === false) {
+			if ($getSpecificShare === false) {
 				foreach ($shares as $share) {
 					if ($share['id'] === (int)$params['id']) {
 						$shares = array('element' => $share);
@@ -90,7 +90,7 @@ class Api {
 
 	/**
 	 * @breif create a new share
-	 * @param array $params 'path', 'shareWith', 'shareType'
+	 * @param array $params
 	 * @return \OC_OCS_Result
 	 */
 	public static function createShare($params) {
@@ -380,6 +380,7 @@ class Api {
 	 * @return string fileID or null
 	 */
 	private static function getFileId($path) {
+
 		$view = new \OC\Files\View('/'.\OCP\User::getUser().'/files');
 		$fileId = null;
 

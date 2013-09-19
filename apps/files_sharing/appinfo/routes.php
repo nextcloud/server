@@ -10,7 +10,7 @@ function() {
 
 OC_API::register('get',
 		'/apps/files_sharing/api/v1/shares',
-		array('\OCA\Files\Share\Api', 'getAllShare'),
+		array('\OCA\Files\Share\Api', 'getAllShares'),
 		'files_sharing');
 
 OC_API::register('post',
