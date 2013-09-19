@@ -65,7 +65,7 @@ interface ITags {
 	*
 	* @returns array
 	*/
-	public function tags();
+	public function getTags();
 
 	/**
 	* Get the a list if items tagged with $tag.
@@ -75,7 +75,7 @@ interface ITags {
 	* @param string|integer $tag Tag id or name.
 	* @return array An array of object ids or false on error.
 	*/
-	public function idsForTag($tag);
+	public function getIdsForTag($tag);
 
 	/**
 	* Checks whether a tag is already saved.
@@ -111,7 +111,7 @@ interface ITags {
 	* @param int|null $id int Optional object id to add to this|these tag(s)
 	* @return bool Returns false on error.
 	*/
-	public function addMulti($names, $sync=false, $id = null);
+	public function addMultiple($names, $sync=false, $id = null);
 
 	/**
 	* Delete tag/object relations from the db

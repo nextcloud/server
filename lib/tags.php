@@ -96,7 +96,7 @@ class Tags implements \OCP\ITags {
 		}
 
 		if(count($defaultTags) > 0 && count($this->tags) === 0) {
-			$this->addMulti($defaultTags, true);
+			$this->addMultiple($defaultTags, true);
 		}
 		\OCP\Util::writeLog('core', __METHOD__.', tags: ' . print_r($this->tags, true),
 			\OCP\Util::DEBUG);
@@ -119,7 +119,7 @@ class Tags implements \OCP\ITags {
 				\OCP\Util::writeLog('core', __METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage($result), \OCP\Util::ERROR);
 				return false;
 			}
-			return ($result->numRows() === 0);
+			return ((int)$result->numRows() === 0);
 		} catch(\Exception $e) {
 			\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
 				\OCP\Util::ERROR);
@@ -138,7 +138,7 @@ class Tags implements \OCP\ITags {
 	*
 	* @return array
 	*/
-	public function tags() {
+	public function getTags() {
 		if(!count($this->tags)) {
 			return array();
 		}
@@ -167,7 +167,7 @@ class Tags implements \OCP\ITags {
 	* @param string|integer $tag Tag id or name.
 	* @return array An array of object ids or false on error.
 	*/
-	public function idsForTag($tag) {
+	public function getIdsForTag($tag) {
 		$result = null;
 		if(is_numeric($tag)) {
 			$tagId = $tag;
@@ -293,7 +293,7 @@ class Tags implements \OCP\ITags {
 	* @param int|null $id int Optional object id to add to this|these tag(s)
 	* @return bool Returns false on error.
 	*/
-	public function addMulti($names, $sync=false, $id = null) {
+	public function addMultiple($names, $sync=false, $id = null) {
 		if(!is_array($names)) {
 			$names = array($names);
 		}
@@ -456,7 +456,7 @@ class Tags implements \OCP\ITags {
 	*/
 	public function getFavorites() {
 		try {
-			return $this->idsForTag(self::TAG_FAVORITE);
+			return $this->getIdsForTag(self::TAG_FAVORITE);
 		} catch(\Exception $e) {
 			\OCP\Util::writeLog('core', __METHOD__.', exception: ' . $e->getMessage(),
 				\OCP\Util::ERROR);
