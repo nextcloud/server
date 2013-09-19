@@ -89,7 +89,7 @@ class Controller {
 					));
 				} elseif (!$result && !$recoveryPasswordSupported) {
 					$l = new \OC_L10n('settings');
-					\OC_JSON::error(array("data" => array( $l->t("message" => "Unable to change password" ) )));
+					\OC_JSON::error(array("data" => array( "message" => $l->t("Unable to change password" ) )));
 				} else {
 					\OC_JSON::success(array("data" => array( "username" => $username )));
 				}
