@@ -1,3 +1,12 @@
+/**
+ * The file upload code uses several hooks to interact with blueimps jQuery file upload library:
+ * 1. the core upload handling hooks are added when initializing the plugin,
+ * 2. if the browser supports progress events they are added in a separate set after the initialization
+ * 3. every app can add it's own triggers for fileupload
+ *    - files adds d'n'd handlers and also reacts to done events to add new rows to the filelist
+ *    - TODO pictures upload button
+ *    - TODO music upload button
+ */
 
 /**
  * Function that will allow us to know if Ajax uploads are supported
@@ -26,51 +35,278 @@ function supportAjaxUploadWithProgress() {
 	}
 }
 
+/**
+ * keeps track of uploads in progress and implements callbacks for the conflicts dialog
+ * @type {OC.Upload}
+ */
+OC.Upload = {
+	_uploads: [],
+	/**
+	 * cancels a single upload, 
+	 * @deprecated because it was only used when a file currently beeing uploaded was deleted. Now they are added after
+	 * they have been uploaded.
+	 * @param {string} dir
+	 * @param {string} filename
+	 * @returns {unresolved}
+	 */
+	cancelUpload:function(dir, filename) {
+		var self = this;
+		var deleted = false;
+		//FIXME _selections
+		jQuery.each(this._uploads, function(i, jqXHR) {
+			if (selection.dir === dir && selection.uploads[filename]) {
+				deleted = self.deleteSelectionUpload(selection, filename);
+				return false; // end searching through selections
+			}
+		});
+		return deleted;
+	},
+	/**
+	 * deletes the jqHXR object from a data selection
+	 * @param {object} data
+	 */
+	deleteUpload:function(data) {
+		delete data.jqXHR;
+	},
+	/**
+	 * cancels all uploads
+	 */
+	cancelUploads:function() {
+		this.log('canceling uploads');
+		jQuery.each(this._uploads,function(i, jqXHR){
+			jqXHR.abort();
+		});
+		this._uploads = [];
+	},
+	rememberUpload:function(jqXHR){
+		if (jqXHR) {
+			this._uploads.push(jqXHR);
+		}
+	},
+	/**
+	 * Checks the currently known uploads.
+	 * returns true if any hxr has the state 'pending'
+	 * @returns {boolean}
+	 */
+	isProcessing:function(){
+		var count = 0;
+		
+		jQuery.each(this._uploads,function(i, data){
+			if (data.state() === 'pending') {
+				count++;
+			}
+		});
+		return count > 0;
+	},
+	/**
+	 * callback for the conflicts dialog
+	 * @param {object} data
+	 */
+	onCancel:function(data) {
+		this.cancelUploads();
+	},
+	/**
+	 * callback for the conflicts dialog
+	 * calls onSkip, onReplace or onAutorename for each conflict
+	 * @param {object} conflicts - list of conflict elements
+	 */
+	onContinue:function(conflicts) {
+		var self = this;
+		//iterate over all conflicts
+		jQuery.each(conflicts, function (i, conflict) {
+			conflict = $(conflict);
+			var keepOriginal = conflict.find('.original input[type="checkbox"]:checked').length === 1;
+			var keepReplacement = conflict.find('.replacement input[type="checkbox"]:checked').length === 1;
+			if (keepOriginal && keepReplacement) {
+				// when both selected -> autorename
+				self.onAutorename(conflict.data('data'));
+			} else if (keepReplacement) {
+				// when only replacement selected -> overwrite
+				self.onReplace(conflict.data('data'));
+			} else {
+				// when only original seleted -> skip
+				// when none selected -> skip
+				self.onSkip(conflict.data('data'));
+			}
+		});
+	},
+	/**
+	 * handle skipping an upload
+	 * @param {object} data
+	 */
+	onSkip:function(data){
+		this.log('skip', null, data);
+		this.deleteUpload(data);
+	},
+	/**
+	 * handle replacing a file on the server with an uploaded file
+	 * @param {object} data
+	 */
+	onReplace:function(data){
+		this.log('replace', null, data);
+		data.data.append('resolution', 'replace');
+		data.submit();
+	},
+	/**
+	 * handle uploading a file and letting the server decide a new name
+	 * @param {object} data
+	 */
+	onAutorename:function(data){
+		this.log('autorename', null, data);
+		if (data.data) {
+			data.data.append('resolution', 'autorename');
+		} else {
+			data.formData.push({name:'resolution',value:'autorename'}); //hack for ie8
+		}
+		data.submit();
+	},
+	_trace:false, //TODO implement log handler for JS per class?
+	log:function(caption, e, data) {
+		if (this._trace) {
+			console.log(caption);
+			console.log(data);
+		}
+	},
+	/**
+	 * TODO checks the list of existing files prior to uploading and shows a simple dialog to choose
+	 * skip all, replace all or choose which files to keep
+	 * @param {array} selection of files to upload
+	 * @param {object} callbacks - object with several callback methods
+	 * @param {function} callbacks.onNoConflicts
+	 * @param {function} callbacks.onSkipConflicts
+	 * @param {function} callbacks.onReplaceConflicts
+	 * @param {function} callbacks.onChooseConflicts
+	 * @param {function} callbacks.onCancel
+	 */
+	checkExistingFiles: function (selection, callbacks){
+		// TODO check filelist before uploading and show dialog on conflicts, use callbacks
+		callbacks.onNoConflicts(selection);
+	}
+};
+
 $(document).ready(function() {
 
-	if ( $('#file_upload_start').length ) {
+	if ( $('#file_upload_start').exists() ) {
+
 		var file_upload_param = {
 			dropZone: $('#content'), // restrict dropZone to content div
+			autoUpload: false,
+			sequentialUploads: true,
 			//singleFileUploads is on by default, so the data.files array will always have length 1
+			/**
+			 * on first add of every selection
+			 * - check all files of originalFiles array with files in dir
+			 * - on conflict show dialog
+			 *   - skip all -> remember as single skip action for all conflicting files
+			 *   - replace all -> remember as single replace action for all conflicting files
+			 *   - choose -> show choose dialog
+			 *     - mark files to keep
+			 *       - when only existing -> remember as single skip action
+			 *       - when only new -> remember as single replace action
+			 *       - when both -> remember as single autorename action
+			 * - start uploading selection
+			 * @param {object} e
+			 * @param {object} data
+			 * @returns {boolean}
+			 */
 			add: function(e, data) {
-
-				if(data.files[0].type === '' && data.files[0].size == 4096)
-				{
-					data.textStatus = 'dirorzero';
-					data.errorThrown = t('files','Unable to upload your file as it is a directory or has 0 bytes');
-					var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
-					fu._trigger('fail', e, data);
-					return true; //don't upload this file but go on with next in queue
+				OC.Upload.log('add', e, data);
+				var that = $(this);
+			
+				// we need to collect all data upload objects before starting the upload so we can check their existence
+				// and set individual conflict actions. unfortunately there is only one variable that we can use to identify
+				// the selection a data upload is part of, so we have to collect them in data.originalFiles
+				// turning singleFileUploads off is not an option because we want to gracefully handle server errors like
+				// already exists
+			
+				// create a container where we can store the data objects
+				if ( ! data.originalFiles.selection ) {
+					// initialize selection and remember number of files to upload
+					data.originalFiles.selection = {
+						uploads: [],
+						filesToUpload: data.originalFiles.length,
+						totalBytes: 0
+					};
 				}
-
-				var totalSize=0;
-				$.each(data.originalFiles, function(i,file){
-					totalSize+=file.size;
-				});
-
-				if(totalSize>$('#max_upload').val()){
+				var selection = data.originalFiles.selection;
+			
+				// add uploads
+				if ( selection.uploads.length < selection.filesToUpload ){
+					// remember upload
+					selection.uploads.push(data);
+				}
+			
+				//examine file
+				var file = data.files[0];
+			
+				if (file.type === '' && file.size === 4096) {
+					data.textStatus = 'dirorzero';
+					data.errorThrown = t('files', 'Unable to upload {filename} as it is a directory or has 0 bytes',
+						{filename: file.name}
+					);
+				}
+			
+				// add size
+				selection.totalBytes += file.size;
+			
+				//check max upload size
+				if (selection.totalBytes > $('#max_upload').val()) {
 					data.textStatus = 'notenoughspace';
-					data.errorThrown = t('files','Not enough space available');
-					var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
+					data.errorThrown = t('files', 'Not enough space available');
+				}
+			
+				// end upload for whole selection on error
+				if (data.errorThrown) {
+					// trigger fileupload fail
+					var fu = that.data('blueimp-fileupload') || that.data('fileupload');
 					fu._trigger('fail', e, data);
 					return false; //don't upload anything
 				}
 
-				// start the actual file upload
-				var jqXHR = data.submit();
+				// check existing files when all is collected
+				if ( selection.uploads.length >= selection.filesToUpload ) {
+				
+					//remove our selection hack:
+					delete data.originalFiles.selection;
 
-				// remember jqXHR to show warning to user when he navigates away but an upload is still in progress
-				if (typeof data.context !== 'undefined' && data.context.data('type') === 'dir') {
-					var dirName = data.context.data('file');
-					if(typeof uploadingFiles[dirName] === 'undefined') {
-						uploadingFiles[dirName] = {};
-					}
-					uploadingFiles[dirName][data.files[0].name] = jqXHR;
-				} else {
-					uploadingFiles[data.files[0].name] = jqXHR;
+					var callbacks = {
+					
+						onNoConflicts: function (selection) {
+							$.each(selection.uploads, function(i, upload) {
+								upload.submit();
+							});
+						},
+						onSkipConflicts: function (selection) {
+							//TODO mark conflicting files as toskip
+						},
+						onReplaceConflicts: function (selection) {
+							//TODO mark conflicting files as toreplace
+						},
+						onChooseConflicts: function (selection) {
+							//TODO mark conflicting files as chosen
+						},
+						onCancel: function (selection) {
+							$.each(selection.uploads, function(i, upload) {
+								upload.abort();
+							});
+						}
+					};
+
+					OC.Upload.checkExistingFiles(selection, callbacks);
+				
 				}
+
+				return true; // continue adding files
+			},
+			/**
+			 * called after the first add, does NOT have the data param
+			 * @param {object} e
+			 */
+			start: function(e) {
+				OC.Upload.log('start', e, null);
 			},
 			submit: function(e, data) {
+				OC.Upload.rememberUpload(data);
 				if ( ! data.formData ) {
 					// noone set update parameters, we set the minimum
 					data.formData = {
@@ -79,13 +315,8 @@ $(document).ready(function() {
 					};
 				}
 			},
-			/**
-			 * called after the first add, does NOT have the data param
-			 * @param e
-			 */
-			start: function(e) {
-			},
 			fail: function(e, data) {
+				OC.Upload.log('fail', e, data);
 				if (typeof data.textStatus !== 'undefined' && data.textStatus !== 'success' ) {
 					if (data.textStatus === 'abort') {
 						$('#notification').text(t('files', 'Upload cancelled.'));
@@ -99,14 +330,15 @@ $(document).ready(function() {
 						$('#notification').fadeOut();
 					}, 5000);
 				}
-				delete uploadingFiles[data.files[0].name];
+				OC.Upload.deleteUpload(data);
 			},
 			/**
 			 * called for every successful upload
-			 * @param e
-			 * @param data
+			 * @param {object} e
+			 * @param {object} data
 			 */
 			done:function(e, data) {
+				OC.Upload.log('done', e, data);
 				// handle different responses (json or body from iframe for ie)
 				var response;
 				if (typeof data.result === 'string') {
@@ -117,33 +349,34 @@ $(document).ready(function() {
 				}
 				var result=$.parseJSON(response);
 
-				if(typeof result[0] !== 'undefined' && result[0].status === 'success') {
-					var filename = result[0].originalname;
-
-					// delete jqXHR reference
-					if (typeof data.context !== 'undefined' && data.context.data('type') === 'dir') {
-						var dirName = data.context.data('file');
-						delete uploadingFiles[dirName][filename];
-						if ($.assocArraySize(uploadingFiles[dirName]) == 0) {
-							delete uploadingFiles[dirName];
-						}
-					} else {
-						delete uploadingFiles[filename];
-					}
-					var file = result[0];
-				} else {
+				delete data.jqXHR;
+				
+				if(typeof result[0] === 'undefined') {
 					data.textStatus = 'servererror';
-					data.errorThrown = t('files', result.data.message);
+					data.errorThrown = t('files', 'Could not get result from server.');
+					var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
+					fu._trigger('fail', e, data);
+				} else if (result[0].status === 'existserror') {
+					//show "file already exists" dialog
+					var original = result[0];
+					var replacement = data.files[0];
+					var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
+					OC.dialogs.fileexists(data, original, replacement, OC.Upload, fu);
+				} else if (result[0].status !== 'success') {
+					//delete data.jqXHR;
+					data.textStatus = 'servererror';
+					data.errorThrown = result.data.message; // error message has been translated on server
 					var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
 					fu._trigger('fail', e, data);
 				}
 			},
 			/**
 			 * called after last upload
-			 * @param e
-			 * @param data
+			 * @param {object} e
+			 * @param {object} data
 			 */
 			stop: function(e, data) {
+				OC.Upload.log('stop', e, data);
 			}
 		};
 
@@ -155,6 +388,7 @@ $(document).ready(function() {
 
 			// add progress handlers
 			fileupload.on('fileuploadadd', function(e, data) {
+				OC.Upload.log('progress handle fileuploadadd', e, data);
 				//show cancel button
 				//if(data.dataType !== 'iframe') { //FIXME when is iframe used? only for ie?
 				//	$('#uploadprogresswrapper input.stop').show();
@@ -162,23 +396,29 @@ $(document).ready(function() {
 			});
 			// add progress handlers
 			fileupload.on('fileuploadstart', function(e, data) {
+				OC.Upload.log('progress handle fileuploadstart', e, data);
 				$('#uploadprogresswrapper input.stop').show();
 				$('#uploadprogressbar').progressbar({value:0});
 				$('#uploadprogressbar').fadeIn();
 			});
 			fileupload.on('fileuploadprogress', function(e, data) {
+				OC.Upload.log('progress handle fileuploadprogress', e, data);
 				//TODO progressbar in row
 			});
 			fileupload.on('fileuploadprogressall', function(e, data) {
+				OC.Upload.log('progress handle fileuploadprogressall', e, data);
 				var progress = (data.loaded / data.total) * 100;
 				$('#uploadprogressbar').progressbar('value', progress);
 			});
 			fileupload.on('fileuploadstop', function(e, data) {
+				OC.Upload.log('progress handle fileuploadstop', e, data);
+				
 				$('#uploadprogresswrapper input.stop').fadeOut();
 				$('#uploadprogressbar').fadeOut();
 				
 			});
 			fileupload.on('fileuploadfail', function(e, data) {
+				OC.Upload.log('progress handle fileuploadfail', e, data);
 				//if user pressed cancel hide upload progress bar and cancel button
 				if (data.errorThrown === 'abort') {
 					$('#uploadprogresswrapper input.stop').fadeOut();
@@ -201,9 +441,9 @@ $(document).ready(function() {
 	};
 
 	// warn user not to leave the page while upload is in progress
-	$(window).bind('beforeunload', function(e) {
-		if ($.assocArraySize(uploadingFiles) > 0) {
-			return t('files','File upload is in progress. Leaving the page now will cancel the upload.');
+	$(window).on('beforeunload', function(e) {
+		if (OC.Upload.isProcessing()) {
+			return t('files', 'File upload is in progress. Leaving the page now will cancel the upload.');
 		}
 	});
 
@@ -392,4 +632,5 @@ $(document).ready(function() {
 			$('#new>a').click();
 		});
 	});
+	window.file_upload_param = file_upload_param;
 });

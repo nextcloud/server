@@ -62,6 +62,9 @@ $(document).ready(function() {
 	$('#controls').append($('#additional_controls div#uploadprogresswrapper'));
 
 	// Cancel upload trigger
-	$('#cancel_upload_button').click(Files.cancelUploads);
+	$('#cancel_upload_button').click(function() {
+		OC.Upload.cancelUploads();
+		procesSelection();
+	});
 
 });

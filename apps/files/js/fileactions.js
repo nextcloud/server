@@ -177,7 +177,7 @@ $(document).ready(function () {
 FileActions.register('all', 'Delete', OC.PERMISSION_DELETE, function () {
 	return OC.imagePath('core', 'actions/delete');
 }, function (filename) {
-	if (Files.cancelUpload(filename)) {
+	if (OC.Upload.cancelUpload($('#dir').val(), filename)) {
 		if (filename.substr) {
 			filename = [filename];
 		}

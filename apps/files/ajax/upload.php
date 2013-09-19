@@ -78,7 +78,7 @@ foreach ($_FILES['files']['error'] as $error) {
 }
 $files = $_FILES['files'];
 
-$error = '';
+$error = false;
 
 $maxUploadFileSize = $storageStats['uploadMaxFilesize'];
 $maxHumanFileSize = OCP\Util::humanFileSize($maxUploadFileSize);
@@ -98,23 +98,57 @@ $result = array();
 if (strpos($dir, '..') === false) {
 	$fileCount = count($files['name']);
 	for ($i = 0; $i < $fileCount; $i++) {
-		$target = OCP\Files::buildNotExistingFileName(stripslashes($dir), $files['name'][$i]);
 		// $path needs to be normalized - this failed within drag'n'drop upload to a sub-folder
-		$target = \OC\Files\Filesystem::normalizePath($target);
-		if (is_uploaded_file($files['tmp_name'][$i]) and \OC\Files\Filesystem::fromTmpFile($files['tmp_name'][$i], $target)) {
-			$meta = \OC\Files\Filesystem::getFileInfo($target);
-			// updated max file size after upload
-			$storageStats = \OCA\files\lib\Helper::buildFileStorageStatistics($dir);
-			if ($meta === false) {
-				OCP\JSON::error(array('data' => array_merge(array('message' => $l->t('Upload failed')), $storageStats)));
-				exit();
+		if (isset($_POST['resolution']) && $_POST['resolution']==='autorename') {
+			// append a number in brackets like 'filename (2).ext'
+			$target = OCP\Files::buildNotExistingFileName(stripslashes($dir), $files['name'][$i]);
+		} else {
+			$target = \OC\Files\Filesystem::normalizePath(stripslashes($dir).'/'.$files['name'][$i]);
+		}
+		
+		if ( ! \OC\Files\Filesystem::file_exists($target)
+			|| (isset($_POST['resolution']) && $_POST['resolution']==='replace')
+		) {
+			// upload and overwrite file
+			if (is_uploaded_file($files['tmp_name'][$i]) and \OC\Files\Filesystem::fromTmpFile($files['tmp_name'][$i], $target)) {
+				
+				// updated max file size after upload
+				$storageStats = \OCA\files\lib\Helper::buildFileStorageStatistics($dir);
+				
+				$meta = \OC\Files\Filesystem::getFileInfo($target);
+				if ($meta === false) {
+					$error = $l->t('Upload failed. Could not get file info.');
+				} else {
+					$result[] = array('status' => 'success',
+						'mime' => $meta['mimetype'],
+						'mtime' => $meta['mtime'],
+						'size' => $meta['size'],
+						'id' => $meta['fileid'],
+						'name' => basename($target),
+						'originalname' => $files['tmp_name'][$i],
+						'uploadMaxFilesize' => $maxUploadFileSize,
+						'maxHumanFilesize' => $maxHumanFileSize,
+						'permissions' => $meta['permissions'],
+					);
+				}
+				
 			} else {
-				$result[] = array('status' => 'success',
+				$error = $l->t('Upload failed. Could not find uploaded file');
+			}
+			
+		} else {
+			// file already exists
+			$meta = \OC\Files\Filesystem::getFileInfo($target);
+			if ($meta === false) {
+				$error = $l->t('Upload failed. Could not get file info.');
+			} else {
+				$result[] = array('status' => 'existserror',
 					'mime' => $meta['mimetype'],
+					'mtime' => $meta['mtime'],
 					'size' => $meta['size'],
 					'id' => $meta['fileid'],
 					'name' => basename($target),
-					'originalname' => $files['name'][$i],
+					'originalname' => $files['tmp_name'][$i],
 					'uploadMaxFilesize' => $maxUploadFileSize,
 					'maxHumanFilesize' => $maxHumanFileSize,
 					'permissions' => $meta['permissions'],
@@ -122,10 +156,13 @@ if (strpos($dir, '..') === false) {
 			}
 		}
 	}
-	OCP\JSON::encodedPrint($result);
-	exit();
 } else {
 	$error = $l->t('Invalid directory.');
 }
 
-OCP\JSON::error(array('data' => array_merge(array('message' => $error), $storageStats)));
+if ($error === false) {
+	OCP\JSON::encodedPrint($result);
+	exit();
+} else {
+	OCP\JSON::error(array('data' => array_merge(array('message' => $error), $storageStats)));
+}
