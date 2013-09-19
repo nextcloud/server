@@ -169,7 +169,7 @@ OC.Upload = {
 	},
 	/**
 	 * TODO checks the list of existing files prior to uploading and shows a simple dialog to choose
-	 * skip all, replace all or choosw which files to keep
+	 * skip all, replace all or choose which files to keep
 	 * @param array selection of files to upload
 	 * @param callbacks to call:
 	 *		onNoConflicts,
