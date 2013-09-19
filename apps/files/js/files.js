@@ -384,6 +384,11 @@ $(document).ready(function() {
 			}
 		});
 	}
+	
+	//scroll to and highlight preselected file
+	if (getURLParameter('scrollto')) {
+		FileList.scrollTo(getURLParameter('scrollto'));
+	}
 });
 
 function scanFiles(force, dir, users){
