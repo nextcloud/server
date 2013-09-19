@@ -35,6 +35,11 @@ class Api {
 		// if a file is specified, get the share for this file
 		if (isset($_GET['file'])) {
 			$params['itemSource'] = self::getFileId($_GET['file']);
+			$params['path'] = $_GET['file'];
+			if (isset($_GET['subfiles']) && $_GET['subfiles'] === 'yes') {
+				error_log("get shares from folder");
+				return self::getSharesFromFolder($params);
+			}
 			return self::getShare($params);
 		}
 
@@ -86,6 +91,33 @@ class Api {
 		} else {
 			return new \OC_OCS_Result($shares);
 		}
+	}
+
+	/**
+	 * @brief get share from all files in a given folder (non-recursive)
+	 * @param array $params contains 'path' to the folder
+	 * @return \OC_OCS_Result
+	 */
+	private static function getSharesFromFolder($params) {
+		$path = $params['path'];
+		$view = new \OC\Files\View('/'.\OCP\User::getUser().'/files');
+
+		if(!$view->is_dir($path)) {
+			return new \OC_OCS_Result(null, 404, "not a directory");
+		}
+
+		$content = $view->getDirectoryContent($path);
+
+		$result = array();
+		foreach ($content as $file) {
+			$share = \OCP\Share::getItemShared('file', $file['fileid']);
+			if ($share) {
+				$share['filename'] = $file['name'];
+				$result[] = $share;
+			}
+		}
+
+		return new \OC_OCS_Result($result);
 	}
 
 	/**
