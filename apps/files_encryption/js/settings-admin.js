@@ -36,7 +36,7 @@ $(document).ready(function(){
 		var recoveryPasswordRepeated = $( '#repeatEncryptionRecoveryPassword' ).val();
 		var checkedButton = $('input:radio[name="adminEnableRecovery"]:checked').val();
 		var uncheckedValue = (1+parseInt(checkedButton)) % 2;
-		if (recoveryPassword !== '' &&  recoveryPassword === recoveryPasswordRepeated) {
+		if (recoveryPassword !== '' && recoveryPassword === recoveryPasswordRepeated) {
 			$('input:radio[name="adminEnableRecovery"][value="'+uncheckedValue.toString()+'"]').removeAttr("disabled");
 		} else {
 			$('input:radio[name="adminEnableRecovery"][value="'+uncheckedValue.toString()+'"]').attr("disabled", "true");
