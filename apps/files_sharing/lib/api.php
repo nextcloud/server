@@ -182,25 +182,24 @@ class Api {
 		}
 
 		if ($token) {
-			$data = null;
+			$data = array();
+			$data['id'] = 'unknown';
 			$shares = \OCP\Share::getItemShared('file', $itemSource);
 			if(is_string($token)) { //public link share
 				foreach ($shares as $share) {
 					if ($share['token'] === $token) {
-						$shareId = $share['id'];
+						$data['id'] = $share['id'];
 						break;
 					}
 				}
 				$url = \OCP\Util::linkToPublic('files&t='.$token);
-				$data = array('url' => $url, // '&' gets encoded to $amp;
-					'token' => $token,
-					'id' => $shareId);
+				$data['url'] = $url; // '&' gets encoded to $amp;
+				$data['token'] = $token;
 
 			} else {
 				foreach ($shares as $share) {
 					if ($share['share_with'] === $shareWith && $share['share_type'] === $shareType) {
-						$shareId = $share['id'];
-						$data = array('id' => $shareId);
+						$data['id'] = $share['id'];
 						break;
 					}
 				}
