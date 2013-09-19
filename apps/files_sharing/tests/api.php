@@ -31,9 +31,6 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 
 	const TEST_FILES_SHARING_API_USER1 = "test-share-user1";
 	const TEST_FILES_SHARING_API_USER2 = "test-share-user2";
-	const TEST_FILES_SHARING_API_USER3 = "test-share-user3";
-	const TEST_FILES_SHARING_API_USER4 = "test-share-user4";
-	const TEST_FILES_SHARING_API_GROUP1 = "test-share-group1";
 
 	public $filename;
 	public $data;
@@ -47,9 +44,6 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 		// reset backend
 		\OC_User::clearBackends();
 		\OC_User::useBackend('database');
-
-		// enable resharing
-		\OC_Appconfig::setValue('core', 'shareapi_allow_resharing', 'yes');
 
 		// clear share hooks
 		\OC_Hook::clear('OCP\\Share');
