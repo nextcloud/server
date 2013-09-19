@@ -97,6 +97,7 @@ $TRANSLATIONS = array(
 "Email" => "Email",
 "Your email address" => "Az Ön email címe",
 "Fill in an email address to enable password recovery" => "Adja meg az email címét, hogy jelszó-emlékeztetőt kérhessen, ha elfelejtette a jelszavát!",
+"Profile picture" => "Profilkép",
 "Language" => "Nyelv",
 "Help translate" => "Segítsen a fordításban!",
 "WebDAV" => "WebDAV",

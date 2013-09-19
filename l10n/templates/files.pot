@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-09-16 11:33-0400\n"
+"POT-Creation-Date: 2013-09-18 11:46-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,32 +87,32 @@ msgstr ""
 msgid "Files"
 msgstr ""
 
-#: js/file-upload.js:11
+#: js/file-upload.js:40
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr ""
 
-#: js/file-upload.js:24
+#: js/file-upload.js:53
 msgid "Not enough space available"
 msgstr ""
 
-#: js/file-upload.js:73
+#: js/file-upload.js:91
 msgid "Upload cancelled."
 msgstr ""
 
-#: js/file-upload.js:167
+#: js/file-upload.js:206
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr ""
 
-#: js/file-upload.js:241
+#: js/file-upload.js:280
 msgid "URL cannot be empty."
 msgstr ""
 
-#: js/file-upload.js:246 lib/app.php:53
+#: js/file-upload.js:285 lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
 msgstr ""
 
-#: js/file-upload.js:278 js/file-upload.js:294 js/files.js:528 js/files.js:566
+#: js/file-upload.js:317 js/file-upload.js:333 js/files.js:528 js/files.js:566
 msgid "Error"
 msgstr ""
 

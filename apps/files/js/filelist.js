@@ -130,7 +130,6 @@ var FileList={
 		if (hidden) {
 			tr.hide();
 		}
-		FileActions.display(tr.find('td.filename'));
 		return tr;
 	},
 	addDir:function(name,size,lastModified,hidden){
@@ -643,6 +642,37 @@ var FileList={
 		if (FileList._maskTimeout){
 			window.clearTimeout(FileList._maskTimeout);
 		}
+	},
+	scrollTo:function(file) {
+		//scroll to and highlight preselected file
+		var scrolltorow = $('tr[data-file="'+file+'"]');
+		if (scrolltorow.length > 0) {
+			scrolltorow.addClass('searchresult');
+			$(window).scrollTop(scrolltorow.position().top);
+			//remove highlight when hovered over
+			scrolltorow.one('hover', function(){
+				scrolltorow.removeClass('searchresult');
+			});
+		}
+	},
+	filter:function(query){
+		$('#fileList tr:not(.summary)').each(function(i,e){
+			if ($(e).data('file').toLowerCase().indexOf(query.toLowerCase()) !== -1) {
+				$(e).addClass("searchresult");
+			} else {
+				$(e).removeClass("searchresult");
+			}
+		});
+		//do not use scrollto to prevent removing searchresult css class
+		var first = $('#fileList tr.searchresult').first();
+		if (first.length !== 0) {
+			$(window).scrollTop(first.position().top);
+		}
+	},
+	unfilter:function(){
+		$('#fileList tr.searchresult').each(function(i,e){
+			$(e).removeClass("searchresult");
+		});
 	}
 };
 
@@ -773,6 +803,13 @@ $(document).ready(function(){
 				// update file data
 				data.context.attr('data-mime',file.mime).attr('data-id',file.id);
 
+				var permissions = data.context.data('permissions');
+				if(permissions != file.permissions) {
+					data.context.attr('data-permissions', file.permissions);
+					data.context.data('permissions', file.permissions);
+				}
+				FileActions.display(data.context.find('td.filename'));
+
 				var path = getPathForPreview(file.name);
 				lazyLoadPreview(path, file.mime, function(previewpath){
 					data.context.find('td.filename').attr('style','background-image:url('+previewpath+')');
@@ -831,16 +868,16 @@ $(document).ready(function(){
 			FileList.replaceIsNewFile = null;
 		}
 		FileList.lastAction = null;
-        OC.Notification.hide();
+		OC.Notification.hide();
 	});
 	$('#notification:first-child').on('click', '.replace', function() {
-        OC.Notification.hide(function() {
-            FileList.replace($('#notification > span').attr('data-oldName'), $('#notification > span').attr('data-newName'), $('#notification > span').attr('data-isNewFile'));
-        });
+		OC.Notification.hide(function() {
+			FileList.replace($('#notification > span').attr('data-oldName'), $('#notification > span').attr('data-newName'), $('#notification > span').attr('data-isNewFile'));
+		});
 	});
 	$('#notification:first-child').on('click', '.suggest', function() {
 		$('tr').filterAttr('data-file', $('#notification > span').attr('data-oldName')).show();
-        OC.Notification.hide();
+		OC.Notification.hide();
 	});
 	$('#notification:first-child').on('click', '.cancel', function() {
 		if ($('#notification > span').attr('data-isNewFile')) {
