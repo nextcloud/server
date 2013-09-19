@@ -342,7 +342,13 @@ var OCdialogs = {
 				var conflicts = $(dialog_id+ ' .conflicts');
 				addConflict(conflicts, original, replacement);
 
-				var title = t('files','{count} file conflicts',{count:$(dialog_id+ ' .conflict').length});
+				var count = $(dialog_id+ ' .conflict').length;
+				var title = n('files',
+								'One file conflict',
+								'{count} file conflicts',
+								count,
+								{count:count}
+							);
 				$(dialog_id).parent().children('.oc-dialog-title').text(title);
 
 				//recalculate dimensions
