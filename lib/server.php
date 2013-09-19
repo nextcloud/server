@@ -113,7 +113,6 @@ class Server extends SimpleContainer implements IServerContainer {
 			$folder = $root->get($dir);
 		}
 		return $folder;
-
 	}
 
 	/**
@@ -132,6 +131,7 @@ class Server extends SimpleContainer implements IServerContainer {
 			$folder = $root->get($dir);
 		}
 		return $folder;
+	}
 
 	/**
 	 * Returns an ICache instance
