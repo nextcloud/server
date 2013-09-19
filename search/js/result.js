@@ -57,22 +57,26 @@ OC.search.showResults=function(results){
 					var row=$('#searchresults tr.template').clone();
 					row.removeClass('template');
 					row.addClass('result');
+					
 					row.data('type', typeid);
 					row.data('name', type[i].name);
 					row.data('text', type[i].text);
-					row.data('container', type[i].container);
+					row.data('index',index);
+					
 					if (i === 0){
 						row.children('td.type').text(typeid);
 					}
 					row.find('td.result div.name').text(type[i].name);
 					row.find('td.result div.text').text(type[i].text);
-					if (type[i].container) {
-						var containerName = OC.basename(type[i].container);
+					
+					if (type[i].path) {
+						var parent = OC.dirname(type[i].path);
+						var containerName = OC.basename(parent);
 						if (containerName === '') {
 							containerName = '/';
 						}
 						var containerLink = OC.linkTo('files', 'index.php')
-							+'?dir='+encodeURIComponent(type[i].container)
+							+'?dir='+encodeURIComponent(parent)
 							+'&scrollto='+encodeURIComponent(type[i].name);
 						row.find('td.result a')
 							.attr('href', containerLink)
@@ -80,10 +84,11 @@ OC.search.showResults=function(results){
 					} else {
 						row.find('td.result a').attr('href', type[i].link);
 					}
-					row.data('index',index);
+					
 					index++;
-					if(OC.search.customResults[typeid]){//give plugins the ability to customize the entries in here
-						OC.search.customResults[typeid](row,type[i]);
+					//give plugins the ability to customize the entries in here
+					if(OC.search.customResults[typeid]){
+						OC.search.customResults[typeid](row, type[i]);
 					}
 					$('#searchresults tbody').append(row);
 				}
@@ -114,19 +119,19 @@ OC.search.customResults.file = function (row, item) {
 	if(row.children('td.type').text() === 'file') {
 		row.children('td.type').text(t('lib','Files'));
 	};
-}
+};
 OC.search.customResults.folder = function (row, item) {
 	if(row.children('td.type').text() === 'folder') {
 		row.children('td.type').text(t('lib','Folders'));
 	};
-}
+};
 OC.search.customResults.image = function (row, item) {
 	if(row.children('td.type').text() === 'image') {
 		row.children('td.type').text(t('lib','Images'));
 	};
-}
+};
 OC.search.customResults.audio = function (row, item) {
 	if(row.children('td.type').text() === 'audio') {
 		row.children('td.type').text(t('lib','Audio'));
 	};
-}
+};
