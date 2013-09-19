@@ -48,7 +48,7 @@ class Test_Tags extends PHPUnit_Framework_TestCase {
 		$tagMgr = new OC\Tags($this->user);
 		$tagMgr->loadTagsFor($this->objectType, $defaultTags);
 
-		$this->assertEquals(4, count($tagMgr->tags()));
+		$this->assertEquals(4, count($tagMgr->getTags()));
 	}
 
 	public function testAddTags() {
@@ -65,7 +65,37 @@ class Test_Tags extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($tagMgr->add('Family'));
 		$this->assertFalse($tagMgr->add('fAMILY'));
 
-		$this->assertEquals(4, count($tagMgr->tags()));
+		$this->assertEquals(4, count($tagMgr->getTags()));
+	}
+
+	public function testAddMultiple() {
+		$tags = array('Friends', 'Family', 'Work', 'Other');
+
+		$tagMgr = new OC\Tags($this->user);
+		$tagMgr->loadTagsFor($this->objectType);
+
+		foreach($tags as $tag) {
+			$this->assertFalse($tagMgr->hasTag($tag));
+		}
+
+		$result = $tagMgr->addMultiple($tags);
+		$this->assertTrue((bool)$result);
+
+		foreach($tags as $tag) {
+			$this->assertTrue($tagMgr->hasTag($tag));
+		}
+
+		$this->assertEquals(4, count($tagMgr->getTags()));
+	}
+
+	public function testIsEmpty() {
+		$tagMgr = new OC\Tags($this->user);
+		$tagMgr->loadTagsFor($this->objectType);
+
+		$this->assertEquals(0, count($tagMgr->getTags()));
+		$this->assertTrue($tagMgr->isEmpty());
+		$tagMgr->add('Tag');
+		$this->assertFalse($tagMgr->isEmpty());
 	}
 
 	public function testdeleteTags() {
@@ -73,13 +103,13 @@ class Test_Tags extends PHPUnit_Framework_TestCase {
 		$tagMgr = new OC\Tags($this->user);
 		$tagMgr->loadTagsFor($this->objectType, $defaultTags);
 
-		$this->assertEquals(4, count($tagMgr->tags()));
+		$this->assertEquals(4, count($tagMgr->getTags()));
 
 		$tagMgr->delete('family');
-		$this->assertEquals(3, count($tagMgr->tags()));
+		$this->assertEquals(3, count($tagMgr->getTags()));
 
 		$tagMgr->delete(array('Friends', 'Work', 'Other'));
-		$this->assertEquals(0, count($tagMgr->tags()));
+		$this->assertEquals(0, count($tagMgr->getTags()));
 
 	}
 
@@ -105,8 +135,8 @@ class Test_Tags extends PHPUnit_Framework_TestCase {
 			$tagMgr->tagAs($id, 'Family');
 		}
 
-		$this->assertEquals(1, count($tagMgr->tags()));
-		$this->assertEquals(9, count($tagMgr->idsForTag('Family')));
+		$this->assertEquals(1, count($tagMgr->getTags()));
+		$this->assertEquals(9, count($tagMgr->getIdsForTag('Family')));
 	}
 
 	/**
@@ -121,13 +151,20 @@ class Test_Tags extends PHPUnit_Framework_TestCase {
 		$tagMgr->loadTagsFor($this->objectType);
 
 		foreach($objIds as $id) {
-			$this->assertTrue(in_array($id, $tagMgr->idsForTag('Family')));
+			$this->assertTrue(in_array($id, $tagMgr->getIdsForTag('Family')));
 			$tagMgr->unTag($id, 'Family');
-			$this->assertFalse(in_array($id, $tagMgr->idsForTag('Family')));
+			$this->assertFalse(in_array($id, $tagMgr->getIdsForTag('Family')));
 		}
 
-		$this->assertEquals(1, count($tagMgr->tags()));
-		$this->assertEquals(0, count($tagMgr->idsForTag('Family')));
+		$this->assertEquals(1, count($tagMgr->getTags()));
+		$this->assertEquals(0, count($tagMgr->getIdsForTag('Family')));
+	}
+
+	public function testFavorite() {
+		$tagMgr = new OC\Tags($this->user);
+		$tagMgr->loadTagsFor($this->objectType);
+		$this->assertTrue($tagMgr->addToFavorites(1));
+		$this->assertTrue($tagMgr->removeFromFavorites(1));
 	}
 
 }
