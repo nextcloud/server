@@ -628,18 +628,24 @@ function getPathForPreview(name) {
 }
 
 function lazyLoadPreview(path, mime, ready, width, height) {
-	getMimeIcon(mime,ready);
-	if (!width) {
-		width = $('#filestable').data('preview-x');
-	}
-	if (!height) {
-		height = $('#filestable').data('preview-y');
-	}
-	var previewURL = OC.Router.generate('core_ajax_preview', {file: encodeURIComponent(path), x:width, y:height});
-	$.get(previewURL, function() {
-		previewURL = previewURL.replace('(','%28');
-		previewURL = previewURL.replace(')','%29');
-		ready(previewURL + '&reload=true');
+	// get mime icon url
+	getMimeIcon(mime, function(iconURL) {
+		ready(iconURL); // set mimeicon URL
+		
+		// now try getting a preview thumbnail URL
+		if ( ! width ) {
+			width = $('#filestable').data('preview-x');
+		}
+		if ( ! height ) {
+			height = $('#filestable').data('preview-y');
+		}
+		var previewURL = OC.Router.generate('core_ajax_preview', {file: encodeURIComponent(path), x:width, y:height});
+		$.get(previewURL, function() {
+			previewURL = previewURL.replace('(', '%28');
+			previewURL = previewURL.replace(')', '%29');
+			//set preview thumbnail URL
+			ready(previewURL + '&reload=true');
+		});
 	});
 }
 
