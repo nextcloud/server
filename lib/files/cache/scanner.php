@@ -120,8 +120,9 @@ class Scanner extends BasicEmitter {
 										$parent = '';
 									}
 									$parentCacheData = $this->cache->get($parent);
-									$parentCacheData['etag'] = $this->storage->getETag($parent);
-									$this->cache->update($parentCacheData['fileid'], $parentCacheData);
+									$this->cache->update($parentCacheData['fileid'], array(
+										'etag' => $this->storage->getETag($parent),
+									));
 								}
 							}
 						}
