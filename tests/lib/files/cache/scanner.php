@@ -195,6 +195,7 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 		$data1 = $this->cache->get('folder');
 		$data2 = $this->cache->get('');
 		$data0['etag'] = '';
+		$data0['encrypted'] = $data0['encrypted'] ? 1: 0;
 		$this->cache->put('folder/bar.txt', $data0);
 
 		// rescan
