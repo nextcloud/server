@@ -56,7 +56,7 @@ class Server extends SimpleContainer implements IServerContainer {
 		});
 		$this->registerService('TagManager', function($c) {
 			$user = \OC_User::getUser();
-			return new TagManager($user);
+			return new Tags($user);
 		});
 		$this->registerService('RootFolder', function($c) {
 			// TODO: get user and user manager from container as well
@@ -131,6 +131,9 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('ActivityManager', function($c) {
 			return new ActivityManager();
 		});
+		$this->registerService('AvatarManager', function($c) {
+			return new AvatarManager(); //TODO AvatarManager needs $user
+		});
 	}
 
 	/**
@@ -161,6 +164,15 @@ class Server extends SimpleContainer implements IServerContainer {
 	}
 
 	/**
+	 * Returns the avatar manager, used for avatar functionality
+	 *
+	 * @return \OCP\IAvatar
+	 */
+	function getAvatarManager() {
+		return $this->query('AvatarManager');
+	}
+
+	/**
 	 * Returns the tag manager which can get and set tags for different object types
 	 *
 	 * @see \OCP\ITagManager::load()
@@ -168,6 +180,15 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getTagManager() {
 		return $this->query('TagManager');
+	}
+
+	/**
+	 * Returns the avatar manager, used for avatar functionality
+	 *
+	 * @return \OCP\IAvatar
+	 */
+	function getAvatarManager() {
+		return $this->query('AvatarManager');
 	}
 
 	/**
