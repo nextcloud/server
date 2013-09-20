@@ -604,6 +604,7 @@ $(document).ready(function() {
 			var itemType = $('#dropdown').data('item-type');
 			var itemSource = $('#dropdown').data('item-source');
 			var allowPublicUpload = $('#sharingDialogAllowPublicUpload').is(':checked');
+			var permissions = 0;
 
 			// Calculate permissions
 			if (allowPublicUpload) {
