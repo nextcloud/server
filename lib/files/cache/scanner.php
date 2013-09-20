@@ -121,9 +121,7 @@ class Scanner extends BasicEmitter {
 									}
 									$parentCacheData = $this->cache->get($parent);
 									$parentCacheData['etag'] = $this->storage->getETag($parent);
-									// the boolean to int conversion is necessary to make pg happy
-									$parentCacheData['encrypted'] = $parentCacheData['encrypted'] ? 1 : 0;
-									$this->cache->put($parent, $parentCacheData);
+									$this->cache->update($parentCacheData['fileid'], $parentCacheData);
 								}
 							}
 						}
