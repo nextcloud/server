@@ -39,7 +39,7 @@ $rootDir = new OC_Connector_Sabre_Directory('');
 $objectTree = new \OC\Connector\Sabre\ObjectTree($rootDir);
 
 // Fire up server
-$server = new Sabre_DAV_Server($objectTree);
+$server = new OC_Connector_Sabre_Server($objectTree);
 $server->httpRequest = $requestBackend;
 $server->setBaseUri($baseuri);
 
