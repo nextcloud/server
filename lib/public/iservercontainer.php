@@ -76,4 +76,11 @@ interface IServerContainer {
 	 */
 	function getSession();
 
+	/**
+	 * Returns the activity manager
+	 *
+	 * @return \OCP\Activity\IManager
+	 */
+	function getActivityManager();
+
 }
