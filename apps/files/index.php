@@ -74,14 +74,14 @@ if (\OC\Files\Cache\Upgrade::needUpgrade($user)) { //dont load anything if we ne
 		$ajaxLoad = true;
 	}
 	else{
-		$files = \OCA\files\lib\Helper::getFiles($dir);
+		$files = \OCA\Files\Lib\Helper::getFiles($dir);
 	}
 	$freeSpace = \OC\Files\Filesystem::free_space($dir);
 	$needUpgrade = false;
 }
 
 // Make breadcrumb
-$breadcrumb = \OCA\files\lib\Helper::makeBreadcrumb($dir);
+$breadcrumb = \OCA\Files\Lib\Helper::makeBreadcrumb($dir);
 
 // make breadcrumb und filelist markup
 $list = new OCP\Template('files', 'part.list', '');
@@ -93,7 +93,7 @@ $breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
 $breadcrumbNav->assign('breadcrumb', $breadcrumb);
 $breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir=');
 
-$permissions = \OCA\files\lib\Helper::getDirPermissions($dir);
+$permissions = \OCA\Files\Lib\Helper::getDirPermissions($dir);
 
 if ($needUpgrade) {
 	OCP\Util::addscript('files', 'upgrade');

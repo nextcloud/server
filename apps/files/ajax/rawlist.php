@@ -28,7 +28,7 @@ if($mimetypes && !in_array('httpd/unix-directory', $mimetypes)) {
 		$file['directory'] = $dir;
 		$file['isPreviewAvailable'] = \OCP\Preview::isMimeSupported($file['mimetype']);
 		$file["date"] = OCP\Util::formatDate($file["mtime"]);
-		$file['mimetype_icon'] = \OCA\files\lib\Helper::determineIcon($file);
+		$file['mimetype_icon'] = \OCA\Files\Lib\Helper::determineIcon($file);
 		$files[] = $file;
 	}
 }
@@ -39,7 +39,7 @@ if (is_array($mimetypes) && count($mimetypes)) {
 			$file['directory'] = $dir;
 			$file['isPreviewAvailable'] = \OCP\Preview::isMimeSupported($file['mimetype']);
 			$file["date"] = OCP\Util::formatDate($file["mtime"]);
-			$file['mimetype_icon'] = \OCA\files\lib\Helper::determineIcon($file);
+			$file['mimetype_icon'] = \OCA\Files\Lib\Helper::determineIcon($file);
 			$files[] = $file;
 		}
 	}
@@ -48,7 +48,7 @@ if (is_array($mimetypes) && count($mimetypes)) {
 		$file['directory'] = $dir;
 		$file['isPreviewAvailable'] = \OCP\Preview::isMimeSupported($file['mimetype']);
 		$file["date"] = OCP\Util::formatDate($file["mtime"]);
-		$file['mimetype_icon'] = \OCA\files\lib\Helper::determineIcon($file);
+		$file['mimetype_icon'] = \OCA\Files\Lib\Helper::determineIcon($file);
 		$files[] = $file;
 	}
 }

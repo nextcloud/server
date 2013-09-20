@@ -22,7 +22,7 @@ function fileCmp($a, $b) {
 function determineIcon($file, $sharingRoot, $sharingToken) {
 	// for folders we simply reuse the files logic
 	if($file['type'] == 'dir') {
-		return \OCA\files\lib\Helper::determineIcon($file);
+		return \OCA\Files\Lib\Helper::determineIcon($file);
 	}
 
 	$relativePath = substr($file['path'], 6);
