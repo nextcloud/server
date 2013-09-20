@@ -4,6 +4,7 @@ namespace OC;
 
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Utility\SimpleContainer;
+use OC\Cache\UserCache;
 use OC\Files\Node\Root;
 use OC\Files\View;
 use OCP\IServerContainer;
@@ -49,9 +50,11 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new PreviewManager();
 		});
 		$this->registerService('RootFolder', function($c) {
-			// TODO: get user and user manager from container as well
+			// TODO: get user from container as well
 			$user = \OC_User::getUser();
-			$user = \OC_User::getManager()->get($user);
+			/** @var $c SimpleContainer */
+			$userManager = $c->query('UserManager');
+			$user = $userManager->get($user);
 			$manager = \OC\Files\Filesystem::getMountManager();
 			$view = new View();
 			return new Root($manager, $view, $user);
@@ -60,6 +63,7 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new \OC\User\Manager();
 		});
 		$this->registerService('UserSession', function($c) {
+			/** @var $c SimpleContainer */
 			$manager = $c->query('UserManager');
 			$userSession = new \OC\User\Session($manager, \OC::$session);
 			$userSession->listen('\OC\User', 'preCreateUser', function ($uid, $password) {
