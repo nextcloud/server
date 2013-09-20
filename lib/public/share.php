@@ -463,7 +463,7 @@ class Share {
 				} else {
 					// reuse the already set password, but only if we change permissions
 					// otherwise the user disabled the password protection
-					if ($checkExists && (int)$permissions !== $oldPermissions) {
+					if ($checkExists && (int)$permissions !== (int)$oldPermissions) {
 						$shareWith = $checkExists['share_with'];
 					}
 				}
