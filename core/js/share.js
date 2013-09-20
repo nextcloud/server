@@ -603,7 +603,17 @@ $(document).ready(function() {
 		if (!$('#showPassword').is(':checked') ) {
 			var itemType = $('#dropdown').data('item-type');
 			var itemSource = $('#dropdown').data('item-source');
-			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', OC.PERMISSION_READ);
+			var allowPublicUpload = $('#sharingDialogAllowPublicUpload').is(':checked');
+
+			// Calculate permissions
+			if (allowPublicUpload) {
+				permissions = OC.PERMISSION_UPDATE + OC.PERMISSION_CREATE + OC.PERMISSION_READ;
+			} else {
+				permissions = OC.PERMISSION_READ;
+			}
+
+
+			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', permissions);
 		} else {
 			$('#linkPassText').focus();
 		}
