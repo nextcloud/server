@@ -299,7 +299,7 @@
             <field>
                 <name>unencrypted_size</name>
                 <type>integer</type>
-                <default></default>
+                <default>0</default>
                 <notnull>true</notnull>
                 <length>8</length>
             </field>
