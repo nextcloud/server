@@ -1,10 +1,12 @@
 <?php
-/** * Copyright (c) 2013 Bart Visscher <bartv@thisnet.nl>
+/**
+ * Copyright (c) 2013 Bart Visscher <bartv@thisnet.nl>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
  * 
  */
+
 namespace OCP;
 
 /**
@@ -29,31 +31,35 @@ interface IConfig {
 
 	/**
 	 * Writes a new app wide value
+	 * @param string $appName the appName that we want to store the value under
 	 * @param string $key the key of the value, under which will be saved
 	 * @param string $value the value that should be stored
 	 */
-	public function setAppValue($key, $value, $appName=null);
+	public function setAppValue($appName, $key, $value);
 
 	/**
 	 * Looks up an app wide defined value
+	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key of the value, under which it was saved
 	 * @return string the saved value
 	 */
-	public function getAppValue($key, $appName=null);
+	public function getAppValue($appName, $key);
 
 
 	/**
-	 * Shortcut for setting a user defined value
+	 * Set a user defined value
+	 * @param string $userId the userId of the user that we want to store the value under
+	 * @param string $appName the appName that we want to store the value under
 	 * @param string $key the key under which the value is being stored
 	 * @param string $value the value that you want to store
-	 * @param string $userId the userId of the user that we want to store the value under, defaults to the current one
 	 */
-	public function setUserValue($key, $value, $userId=null);
+	public function setUserValue($userId, $appName, $key, $value);
 
 	/**
 	 * Shortcut for getting a user defined value
+	 * @param string $userId the userId of the user that we want to store the value under
+	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key under which the value is being stored
-	 * @param string $userId the userId of the user that we want to store the value under, defaults to the current one
 	 */
-	public function getUserValue($key, $userId=null);
+	public function getUserValue($userId, $appName, $key);
 }

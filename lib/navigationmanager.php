@@ -12,7 +12,7 @@ namespace OC;
 /**
  * Manages the ownCloud navigation
  */
-class NavigationManager {
+class NavigationManager implements \OCP\INavigationManager {
 	protected $entries = array();
 	protected $activeEntry;
 

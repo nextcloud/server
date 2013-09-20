@@ -65,7 +65,6 @@ class AllConfig implements \OCP\IConfig {
 		\OCP\Config::setUserValue($userId, $appName, $key, $value);
 	}
 
-
 	/**
 	 * Shortcut for getting a user defined value
 	 * @param string $userId the userId of the user that we want to store the value under

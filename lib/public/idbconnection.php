@@ -50,16 +50,19 @@ interface IDBConnection {
 
 	/**
 	 * @brief Start a transaction
+	 * @return bool TRUE on success or FALSE on failure
 	 */
 	public function beginTransaction();
 
 	/**
 	 * @brief Commit the database changes done during a transaction that is in progress
+	 * @return bool TRUE on success or FALSE on failure
 	 */
 	public function commit();
 
 	/**
 	 * @brief Rollback the database changes done during a transaction that is in progress
+	 * @return bool TRUE on success or FALSE on failure
 	 */
 	public function rollBack();
 
