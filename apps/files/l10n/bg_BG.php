@@ -6,7 +6,6 @@ $TRANSLATIONS = array(
 "No file was uploaded" => "Фахлът не бе качен",
 "Missing a temporary folder" => "Липсва временна папка",
 "Failed to write to disk" => "Възникна проблем при запис в диска",
-"Upload failed" => "Качването е неуспешно",
 "Invalid directory." => "Невалидна директория.",
 "Files" => "Файлове",
 "Upload cancelled." => "Качването е спряно.",

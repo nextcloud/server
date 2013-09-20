@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-18 11:47-0400\n"
-"PO-Revision-Date: 2013-09-17 22:30+0000\n"
+"POT-Creation-Date: 2013-09-20 10:45-0400\n"
+"PO-Revision-Date: 2013-09-19 05:50+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -58,11 +58,11 @@ msgstr "Aggiornamento non riuscito \"%s\"."
 
 #: avatar.php:56
 msgid "Custom profile pictures don't work with encryption yet"
-msgstr "Le immagini personalizzate del profilo non funzionano ancora con la cifratura."
+msgstr "Le immagini personalizzate del profilo non funzionano ancora con la cifratura"
 
 #: avatar.php:64
 msgid "Unknown filetype"
-msgstr "Tipo file sconosciuto"
+msgstr "Tipo di file sconosciuto"
 
 #: avatar.php:69
 msgid "Invalid image"
@@ -167,15 +167,15 @@ msgstr "Errore di autenticazione"
 msgid "Token expired. Please reload page."
 msgstr "Token scaduto. Ricarica la pagina."
 
-#: search/provider/file.php:17 search/provider/file.php:35
+#: search/provider/file.php:18 search/provider/file.php:36
 msgid "Files"
 msgstr "File"
 
-#: search/provider/file.php:26 search/provider/file.php:33
+#: search/provider/file.php:27 search/provider/file.php:34
 msgid "Text"
 msgstr "Testo"
 
-#: search/provider/file.php:29
+#: search/provider/file.php:30
 msgid "Images"
 msgstr "Immagini"
 

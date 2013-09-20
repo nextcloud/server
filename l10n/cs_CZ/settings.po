@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-18 11:47-0400\n"
-"PO-Revision-Date: 2013-09-18 15:47+0000\n"
+"POT-Creation-Date: 2013-09-20 10:45-0400\n"
+"PO-Revision-Date: 2013-09-20 14:45+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -90,36 +90,32 @@ msgstr "Nelze aktualizovat aplikaci."
 
 #: changepassword/controller.php:20
 msgid "Wrong password"
-msgstr ""
+msgstr "Nesprávné heslo"
 
 #: changepassword/controller.php:42
 msgid "No user supplied"
-msgstr ""
+msgstr "Nebyl uveden uživatel"
 
 #: changepassword/controller.php:74
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
-msgstr ""
+msgstr "Zadejte prosím administrátorské heslo pro obnovu, jinak budou všechna data ztracena"
 
 #: changepassword/controller.php:79
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
-msgstr ""
+msgstr "Chybné administrátorské heslo pro obnovu. Překontrolujte správnost hesla a zkuste to znovu."
 
 #: changepassword/controller.php:87
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
-msgstr ""
+msgstr "Úložiště nepodporuje změnu hesla, ale šifrovací klíč uživatelů byl úspěšně změněn."
 
-#: changepassword/controller.php:92
-msgid "message"
-msgstr ""
-
-#: changepassword/controller.php:103
+#: changepassword/controller.php:92 changepassword/controller.php:103
 msgid "Unable to change password"
-msgstr ""
+msgstr "Změna hesla se nezdařila"
 
 #: js/apps.js:43
 msgid "Update to {appversion}"

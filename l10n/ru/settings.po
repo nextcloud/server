@@ -8,14 +8,15 @@
 # alfsoft <alfsoft@gmail.com>, 2013
 # lord93 <lordakryl@gmail.com>, 2013
 # eurekafag <rkfg@rkfg.me>, 2013
+# navigator666 <yuriy.malyovaniy@gmail.com>, 2013
 # hackproof <hackproof.ai@gmail.com>, 2013
 # Friktor <antonshramko@yandex.ru>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-18 11:47-0400\n"
-"PO-Revision-Date: 2013-09-18 15:47+0000\n"
+"POT-Creation-Date: 2013-09-20 10:45-0400\n"
+"PO-Revision-Date: 2013-09-20 14:45+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -93,7 +94,7 @@ msgstr "Невозможно обновить приложение"
 
 #: changepassword/controller.php:20
 msgid "Wrong password"
-msgstr ""
+msgstr "Неправильный пароль"
 
 #: changepassword/controller.php:42
 msgid "No user supplied"
@@ -108,7 +109,7 @@ msgstr ""
 #: changepassword/controller.php:79
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
-msgstr ""
+msgstr "Неправильный пароль восстановления. Проверьте пароль и попробуйте еще раз."
 
 #: changepassword/controller.php:87
 msgid ""
@@ -116,13 +117,9 @@ msgid ""
 "successfully updated."
 msgstr ""
 
-#: changepassword/controller.php:92
-msgid "message"
-msgstr ""
-
-#: changepassword/controller.php:103
+#: changepassword/controller.php:92 changepassword/controller.php:103
 msgid "Unable to change password"
-msgstr ""
+msgstr "Невозможно изменить пароль"
 
 #: js/apps.js:43
 msgid "Update to {appversion}"
@@ -142,11 +139,11 @@ msgstr "Подождите..."
 
 #: js/apps.js:79 js/apps.js:80 js/apps.js:100
 msgid "Error while disabling app"
-msgstr ""
+msgstr "Ошибка отключения приложения"
 
 #: js/apps.js:99 js/apps.js:112 js/apps.js:113
 msgid "Error while enabling app"
-msgstr ""
+msgstr "Ошибка включения приложения"
 
 #: js/apps.js:123
 msgid "Updating...."
@@ -170,7 +167,7 @@ msgstr "Обновлено"
 
 #: js/personal.js:220
 msgid "Select a profile picture"
-msgstr ""
+msgstr "Выберите картинку профиля"
 
 #: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
@@ -504,27 +501,27 @@ msgstr "Фото профиля"
 
 #: templates/personal.php:90
 msgid "Upload new"
-msgstr ""
+msgstr "Закачать новую"
 
 #: templates/personal.php:92
 msgid "Select new from Files"
-msgstr ""
+msgstr "Выберите новый из файлов"
 
 #: templates/personal.php:93
 msgid "Remove image"
-msgstr ""
+msgstr "Удалить изображение"
 
 #: templates/personal.php:94
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
-msgstr ""
+msgstr "Либо png, либо jpg. Изображение должно быть квадратным, но вы сможете обрезать его позже."
 
 #: templates/personal.php:97
 msgid "Abort"
-msgstr ""
+msgstr "Отмена"
 
 #: templates/personal.php:98
 msgid "Choose as profile image"
-msgstr ""
+msgstr "Выберите изображение профиля"
 
 #: templates/personal.php:106 templates/personal.php:107
 msgid "Language"
@@ -551,15 +548,15 @@ msgstr "Шифрование"
 
 #: templates/personal.php:140
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr ""
+msgstr "Приложение шифрования не активно, отмените шифрование всех ваших файлов."
 
 #: templates/personal.php:146
 msgid "Log-in password"
-msgstr ""
+msgstr "Пароль входа"
 
 #: templates/personal.php:151
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Снять шифрование со всех файлов"
 
 #: templates/users.php:21
 msgid "Login Name"

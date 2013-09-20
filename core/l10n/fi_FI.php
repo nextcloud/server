@@ -52,6 +52,7 @@ $TRANSLATIONS = array(
 "Yes" => "Kyllä",
 "No" => "Ei",
 "Ok" => "Ok",
+"_{count} file conflict_::_{count} file conflicts_" => array("",""),
 "Error" => "Virhe",
 "The app name is not specified." => "Sovelluksen nimeä ei ole määritelty.",
 "The required file {file} is not installed!" => "Vaadittua tiedostoa {file} ei ole asennettu!",

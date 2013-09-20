@@ -101,6 +101,7 @@ $TRANSLATIONS = array(
 "Your email address" => "O seu endereço de email",
 "Fill in an email address to enable password recovery" => "Preencha com o seu endereço de email para ativar a recuperação da palavra-chave",
 "Profile picture" => "Foto do perfil",
+"Abort" => "Abortar",
 "Language" => "Idioma",
 "Help translate" => "Ajude a traduzir",
 "WebDAV" => "WebDAV",

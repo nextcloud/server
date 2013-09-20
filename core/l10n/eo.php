@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "Yes" => "Jes",
 "No" => "Ne",
 "Ok" => "Akcepti",
+"_{count} file conflict_::_{count} file conflicts_" => array("",""),
 "The object type is not specified." => "Ne indikiĝis tipo de la objekto.",
 "Error" => "Eraro",
 "The app name is not specified." => "Ne indikiĝis nomo de la aplikaĵo.",

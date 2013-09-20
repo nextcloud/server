@@ -51,6 +51,7 @@ $TRANSLATIONS = array(
 "Yes" => "Ja",
 "No" => "Nei",
 "Ok" => "Greitt",
+"_{count} file conflict_::_{count} file conflicts_" => array("",""),
 "The object type is not specified." => "Objekttypen er ikkje spesifisert.",
 "Error" => "Feil",
 "The app name is not specified." => "Programnamnet er ikkje spesifisert.",

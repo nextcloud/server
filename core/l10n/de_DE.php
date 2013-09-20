@@ -58,6 +58,7 @@ $TRANSLATIONS = array(
 "No" => "Nein",
 "Ok" => "OK",
 "Error loading message template: {error}" => "Fehler beim Laden der Nachrichtenvorlage: {error}",
+"_{count} file conflict_::_{count} file conflicts_" => array("",""),
 "The object type is not specified." => "Der Objekttyp ist nicht angegeben.",
 "Error" => "Fehler",
 "The app name is not specified." => "Der App-Name ist nicht angegeben.",

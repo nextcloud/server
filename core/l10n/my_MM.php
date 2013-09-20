@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "Yes" => "ဟုတ်",
 "No" => "မဟုတ်ဘူး",
 "Ok" => "အိုကေ",
+"_{count} file conflict_::_{count} file conflicts_" => array(""),
 "Password" => "စကားဝှက်",
 "Set expiration date" => "သက်တမ်းကုန်ဆုံးမည့်ရက်သတ်မှတ်မည်",
 "Expiration date" => "သက်တမ်းကုန်ဆုံးမည့်ရက်",

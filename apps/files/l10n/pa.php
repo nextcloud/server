@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Upload failed" => "ਅੱਪਲੋਡ ਫੇਲ੍ਹ ਹੈ",
 "Files" => "ਫਾਇਲਾਂ",
 "Error" => "ਗਲਤੀ",
 "Share" => "ਸਾਂਝਾ ਕਰੋ",

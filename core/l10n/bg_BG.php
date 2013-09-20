@@ -34,6 +34,7 @@ $TRANSLATIONS = array(
 "Yes" => "Да",
 "No" => "Не",
 "Ok" => "Добре",
+"_{count} file conflict_::_{count} file conflicts_" => array("",""),
 "Error" => "Грешка",
 "Share" => "Споделяне",
 "Share with" => "Споделено с",

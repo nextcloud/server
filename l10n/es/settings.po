@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Art O. Pal <artopal@fastmail.fm>, 2013
+# asaez <asaez@asaez.eu>, 2013
 # eadeprado <eadeprado@outlook.com>, 2013
 # ggam <ggam@brainleakage.com>, 2013
 # pablomillaquen <pablomillaquen@gmail.com>, 2013
@@ -15,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-18 11:47-0400\n"
-"PO-Revision-Date: 2013-09-18 15:47+0000\n"
+"POT-Creation-Date: 2013-09-20 10:45-0400\n"
+"PO-Revision-Date: 2013-09-20 14:45+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -104,12 +105,12 @@ msgstr ""
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
-msgstr ""
+msgstr "Por favor facilite una contraseña  de recuperación de administrador, sino se perderán todos los datos de usuario"
 
 #: changepassword/controller.php:79
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
-msgstr ""
+msgstr "Contraseña de recuperación de administrador incorrecta. Por favor compruebe la contraseña e inténtelo de nuevo."
 
 #: changepassword/controller.php:87
 msgid ""
@@ -117,13 +118,9 @@ msgid ""
 "successfully updated."
 msgstr ""
 
-#: changepassword/controller.php:92
-msgid "message"
-msgstr ""
-
-#: changepassword/controller.php:103
+#: changepassword/controller.php:92 changepassword/controller.php:103
 msgid "Unable to change password"
-msgstr ""
+msgstr "No se ha podido cambiar la contraseña"
 
 #: js/apps.js:43
 msgid "Update to {appversion}"
@@ -171,7 +168,7 @@ msgstr "Actualizado"
 
 #: js/personal.js:220
 msgid "Select a profile picture"
-msgstr ""
+msgstr "Seleccionar una imagen de perfil"
 
 #: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
@@ -505,15 +502,15 @@ msgstr "Foto del perfil"
 
 #: templates/personal.php:90
 msgid "Upload new"
-msgstr ""
+msgstr "Subir nuevo"
 
 #: templates/personal.php:92
 msgid "Select new from Files"
-msgstr ""
+msgstr "Seleccionar nuevo desde Ficheros"
 
 #: templates/personal.php:93
 msgid "Remove image"
-msgstr ""
+msgstr "Borrar imagen"
 
 #: templates/personal.php:94
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
@@ -525,7 +522,7 @@ msgstr "Abortar"
 
 #: templates/personal.php:98
 msgid "Choose as profile image"
-msgstr ""
+msgstr "Seleccionar como imagen de perfil"
 
 #: templates/personal.php:106 templates/personal.php:107
 msgid "Language"

@@ -58,6 +58,7 @@ $TRANSLATIONS = array(
 "No" => "No",
 "Ok" => "D'acord",
 "Error loading message template: {error}" => "Error en carregar la plantilla de missatge: {error}",
+"_{count} file conflict_::_{count} file conflicts_" => array("",""),
 "The object type is not specified." => "No s'ha especificat el tipus d'objecte.",
 "Error" => "Error",
 "The app name is not specified." => "No s'ha especificat el nom de l'aplicació.",

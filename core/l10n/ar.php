@@ -44,6 +44,7 @@ $TRANSLATIONS = array(
 "Yes" => "نعم",
 "No" => "لا",
 "Ok" => "موافق",
+"_{count} file conflict_::_{count} file conflicts_" => array("","","","","",""),
 "The object type is not specified." => "نوع العنصر غير محدد.",
 "Error" => "خطأ",
 "The app name is not specified." => "اسم التطبيق غير محدد.",

@@ -23,6 +23,7 @@ $TRANSLATIONS = array(
 "Yes" => "ہاں",
 "No" => "نہیں",
 "Ok" => "اوکے",
+"_{count} file conflict_::_{count} file conflicts_" => array("",""),
 "Error" => "ایرر",
 "Error while sharing" => "شئیرنگ کے دوران ایرر",
 "Error while unsharing" => "شئیرنگ ختم کرنے  کے دوران ایرر",

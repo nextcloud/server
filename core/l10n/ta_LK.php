@@ -43,6 +43,7 @@ $TRANSLATIONS = array(
 "Yes" => "ஆம்",
 "No" => "இல்லை",
 "Ok" => "சரி",
+"_{count} file conflict_::_{count} file conflicts_" => array("",""),
 "The object type is not specified." => "பொருள் வகை குறிப்பிடப்படவில்லை.",
 "Error" => "வழு",
 "The app name is not specified." => "செயலி பெயர் குறிப்பிடப்படவில்லை.",

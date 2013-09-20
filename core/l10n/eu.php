@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "Yes" => "Bai",
 "No" => "Ez",
 "Ok" => "Ados",
+"_{count} file conflict_::_{count} file conflicts_" => array("",""),
 "The object type is not specified." => "Objetu mota ez dago zehaztuta.",
 "Error" => "Errorea",
 "The app name is not specified." => "App izena ez dago zehaztuta.",

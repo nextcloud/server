@@ -58,6 +58,7 @@ $TRANSLATIONS = array(
 "No" => "Ne",
 "Ok" => "Gerai",
 "Error loading message template: {error}" => "Klaida įkeliant žinutės ruošinį: {error}",
+"_{count} file conflict_::_{count} file conflicts_" => array("","",""),
 "The object type is not specified." => "Objekto tipas nenurodytas.",
 "Error" => "Klaida",
 "The app name is not specified." => "Nenurodytas programos pavadinimas.",

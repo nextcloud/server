@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "Yes" => "Da",
 "No" => "Nu",
 "Ok" => "Ok",
+"_{count} file conflict_::_{count} file conflicts_" => array("","",""),
 "The object type is not specified." => "Tipul obiectului nu este specificat.",
 "Error" => "Eroare",
 "The app name is not specified." => "Numele aplicației nu este specificat.",

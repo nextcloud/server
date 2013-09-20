@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-18 11:47-0400\n"
-"PO-Revision-Date: 2013-09-18 15:47+0000\n"
+"POT-Creation-Date: 2013-09-20 10:45-0400\n"
+"PO-Revision-Date: 2013-09-20 14:45+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -87,36 +87,32 @@ msgstr "Couldn't update app."
 
 #: changepassword/controller.php:20
 msgid "Wrong password"
-msgstr ""
+msgstr "Incorrect password"
 
 #: changepassword/controller.php:42
 msgid "No user supplied"
-msgstr ""
+msgstr "No user supplied"
 
 #: changepassword/controller.php:74
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
-msgstr ""
+msgstr "Please provide an admin recovery password, otherwise all user data will be lost"
 
 #: changepassword/controller.php:79
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
-msgstr ""
+msgstr "Incorrect admin recovery password. Please check the password and try again."
 
 #: changepassword/controller.php:87
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
-msgstr ""
+msgstr "Back-end doesn't support password change, but the user's encryption key was successfully updated."
 
-#: changepassword/controller.php:92
-msgid "message"
-msgstr ""
-
-#: changepassword/controller.php:103
+#: changepassword/controller.php:92 changepassword/controller.php:103
 msgid "Unable to change password"
-msgstr ""
+msgstr "Unable to change password"
 
 #: js/apps.js:43
 msgid "Update to {appversion}"
@@ -255,7 +251,7 @@ msgstr "Module 'fileinfo' missing"
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection."
+msgstr "The PHP module 'fileinfo' is missing. We strongly recommend enabling this module to get best results with mime-type detection."
 
 #: templates/admin.php:58
 msgid "Locale not working"
@@ -393,7 +389,7 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
+msgstr "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public Licence\">AGPL</abbr></a>."
 
 #: templates/apps.php:13
 msgid "Add your App"
