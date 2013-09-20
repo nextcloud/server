@@ -170,4 +170,12 @@ class Server extends SimpleContainer implements IServerContainer {
 		return \OC::$session;
 	}
 
+	/**
+	 * Returns the current session
+	 *
+	 * @return \OCP\IDBConnection
+	 */
+	function getDatabaseConnection() {
+		return \OC_DB::getConnection();
+	}
 }

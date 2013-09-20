@@ -83,4 +83,11 @@ interface IServerContainer {
 	 */
 	function getSession();
 
+	/**
+	 * Returns the current session
+	 *
+	 * @return \OCP\IDBConnection
+	 */
+	function getDatabaseConnection();
+
 }
