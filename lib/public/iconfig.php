@@ -12,7 +12,7 @@ namespace OCP;
  */
 interface IConfig {
 	/**
-	 * Sets a new systemwide value
+	 * Sets a new system wide value
 	 * @param string $key the key of the value, under which will be saved
 	 * @param string $value the value that should be stored
 	 * @todo need a use case for this
@@ -20,7 +20,7 @@ interface IConfig {
 // 	public function setSystemValue($key, $value);
 
 	/**
-	 * Looks up a systemwide defined value
+	 * Looks up a system wide defined value
 	 * @param string $key the key of the value, under which it was saved
 	 * @return string the saved value
 	 */
@@ -28,14 +28,14 @@ interface IConfig {
 
 
 	/**
-	 * Writes a new appwide value
+	 * Writes a new app wide value
 	 * @param string $key the key of the value, under which will be saved
 	 * @param string $value the value that should be stored
 	 */
 	public function setAppValue($key, $value, $appName=null);
 
 	/**
-	 * Looks up an appwide defined value
+	 * Looks up an app wide defined value
 	 * @param string $key the key of the value, under which it was saved
 	 * @return string the saved value
 	 */

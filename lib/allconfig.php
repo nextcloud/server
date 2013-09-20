@@ -14,7 +14,7 @@ namespace OC;
  */
 class AllConfig implements \OCP\IConfig {
 	/**
-	 * Sets a new systemwide value
+	 * Sets a new system wide value
 	 * @param string $key the key of the value, under which will be saved
 	 * @param string $value the value that should be stored
 	 * @todo need a use case for this
@@ -24,7 +24,7 @@ class AllConfig implements \OCP\IConfig {
 // 	}
 
 	/**
-	 * Looks up a systemwide defined value
+	 * Looks up a system wide defined value
 	 * @param string $key the key of the value, under which it was saved
 	 * @return string the saved value
 	 */
@@ -34,7 +34,7 @@ class AllConfig implements \OCP\IConfig {
 
 
 	/**
-	 * Writes a new appwide value
+	 * Writes a new app wide value
 	 * @param string $appName the appName that we want to store the value under
 	 * @param string $key the key of the value, under which will be saved
 	 * @param string $value the value that should be stored
@@ -44,7 +44,7 @@ class AllConfig implements \OCP\IConfig {
 	}
 
 	/**
-	 * Looks up an appwide defined value
+	 * Looks up an app wide defined value
 	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key of the value, under which it was saved
 	 * @return string the saved value
