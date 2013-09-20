@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Files\Lib;
+namespace OCA\Files;
 
 class Helper
 {
@@ -85,11 +85,11 @@ class Helper
 			}
 			$i['directory'] = $dir;
 			$i['isPreviewAvailable'] = \OCP\Preview::isMimeSupported($i['mimetype']);
-			$i['icon'] = \OCA\Files\Lib\Helper::determineIcon($i);
+			$i['icon'] = \OCA\Files\Helper::determineIcon($i);
 			$files[] = $i;
 		}
 
-		usort($files, array('\OCA\Files\Lib\Helper', 'fileCmp'));
+		usort($files, array('\OCA\Files\Helper', 'fileCmp'));
 
 		return $files;
 	}

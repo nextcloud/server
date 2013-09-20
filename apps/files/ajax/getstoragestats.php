@@ -6,4 +6,4 @@ $RUNTIME_APPTYPES = array('filesystem');
 OCP\JSON::checkLoggedIn();
 
 // send back json
-OCP\JSON::success(array('data' => \OCA\Files\Lib\Helper::buildFileStorageStatistics('/')));
+OCP\JSON::success(array('data' => \OCA\Files\Helper::buildFileStorageStatistics('/')));

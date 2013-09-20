@@ -20,11 +20,11 @@ $doBreadcrumb = isset($_GET['breadcrumb']);
 $data = array();
 $baseUrl = OCP\Util::linkTo('files', 'index.php') . '?dir=';
 
-$permissions = \OCA\Files\Lib\Helper::getDirPermissions($dir);
+$permissions = \OCA\Files\Helper::getDirPermissions($dir);
 
 // Make breadcrumb
 if($doBreadcrumb) {
-	$breadcrumb = \OCA\Files\Lib\Helper::makeBreadcrumb($dir);
+	$breadcrumb = \OCA\Files\Helper::makeBreadcrumb($dir);
 
 	$breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
 	$breadcrumbNav->assign('breadcrumb', $breadcrumb, false);
@@ -34,7 +34,7 @@ if($doBreadcrumb) {
 }
 
 // make filelist
-$files = \OCA\Files\Lib\Helper::getFiles($dir);
+$files = \OCA\Files\Helper::getFiles($dir);
 
 $list = new OCP\Template("files", "part.list", "");
 $list->assign('files', $files, false);
