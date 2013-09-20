@@ -70,6 +70,11 @@ interface IServerContainer {
 	function getUserSession();
 
 	/**
+	 * @return \OCP\INavigationManager
+	 */
+	function getNavigationManager();
+
+	/**
 	 * Returns an ICache instance
 	 *
 	 * @return \OCP\ICache

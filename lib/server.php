@@ -97,6 +97,9 @@ class Server extends SimpleContainer implements IServerContainer {
 			});
 			return $userSession;
 		});
+		$this->registerService('NavigationManager', function($c) {
+			return new \OC\NavigationManager();
+		});
 		$this->registerService('UserCache', function($c) {
 			return new UserCache();
 		});
@@ -150,6 +153,13 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getUserSession() {
 		return $this->query('UserSession');
+	}
+
+	/**
+	 * @return \OC\NavigationManager
+	 */
+	function getNavigationManager() {
+		return $this->query('NavigationManager');
 	}
 
 	/**
