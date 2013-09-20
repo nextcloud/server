@@ -63,6 +63,13 @@ interface IServerContainer {
 	function getRootFolder();
 
 	/**
+	 * Returns the user session
+	 *
+	 * @return \OCP\IUserSession
+	 */
+	function getUserSession();
+
+	/**
 	 * Returns an ICache instance
 	 *
 	 * @return \OCP\ICache
