@@ -10,7 +10,7 @@
 namespace OCP;
 
 /**
- * Manages the owncloud navigation
+ * Manages the ownCloud navigation
  */
 interface INavigationManager {
 	/**

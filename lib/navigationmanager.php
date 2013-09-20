@@ -10,10 +10,11 @@
 namespace OC;
 
 /**
- * Manages the owncloud navigation
+ * Manages the ownCloud navigation
  */
 class NavigationManager {
 	protected $entries = array();
+	protected $activeEntry;
 
 	/**
 	 * Creates a new navigation entry
