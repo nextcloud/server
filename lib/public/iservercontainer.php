@@ -75,6 +75,11 @@ interface IServerContainer {
 	function getNavigationManager();
 
 	/**
+	 * @return \OCP\IConfig
+	 */
+	function getConfig();
+
+	/**
 	 * Returns an ICache instance
 	 *
 	 * @return \OCP\ICache

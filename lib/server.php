@@ -100,6 +100,9 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('NavigationManager', function($c) {
 			return new \OC\NavigationManager();
 		});
+		$this->registerService('AllConfig', function($c) {
+			return new \OC\AllConfig();
+		});
 		$this->registerService('UserCache', function($c) {
 			return new UserCache();
 		});
@@ -162,6 +165,12 @@ class Server extends SimpleContainer implements IServerContainer {
 		return $this->query('NavigationManager');
 	}
 
+	/**
+	 * @return \OC\Config
+	 */
+	function getConfig() {
+		return $this->query('AllConfig');
+	}
 	/**
 	 * Returns an ICache instance
 	 *
