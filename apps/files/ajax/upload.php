@@ -53,7 +53,7 @@ OCP\JSON::callCheck();
 
 
 // get array with current storage stats (e.g. max file size)
-$storageStats = \OCA\files\lib\Helper::buildFileStorageStatistics($dir);
+$storageStats = \OCA\Files\Helper::buildFileStorageStatistics($dir);
 
 if (!isset($_FILES['files'])) {
 	OCP\JSON::error(array('data' => array_merge(array('message' => $l->t('No file was uploaded. Unknown error')), $storageStats)));
@@ -113,7 +113,7 @@ if (strpos($dir, '..') === false) {
 			if (is_uploaded_file($files['tmp_name'][$i]) and \OC\Files\Filesystem::fromTmpFile($files['tmp_name'][$i], $target)) {
 				
 				// updated max file size after upload
-				$storageStats = \OCA\files\lib\Helper::buildFileStorageStatistics($dir);
+				$storageStats = \OCA\Files\Helper::buildFileStorageStatistics($dir);
 				
 				$meta = \OC\Files\Filesystem::getFileInfo($target);
 				if ($meta === false) {
