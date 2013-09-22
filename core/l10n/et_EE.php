@@ -59,6 +59,7 @@ $TRANSLATIONS = array(
 "Ok" => "Ok",
 "Error loading message template: {error}" => "Viga sõnumi malli laadimisel:  {error}",
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "Loobu",
 "The object type is not specified." => "Objekti tüüp pole määratletud.",
 "Error" => "Viga",
 "The app name is not specified." => "Rakenduse nimi ole määratletud.",

@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-20 10:44-0400\n"
-"PO-Revision-Date: 2013-09-20 14:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-22 12:55-0400\n"
+"PO-Revision-Date: 2013-09-21 20:00+0000\n"
+"Last-Translator: corneliu.e <corneliueva@yahoo.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,7 +40,7 @@ msgstr ""
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr ""
+msgstr "Bază de date actualizată"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
@@ -100,11 +100,11 @@ msgstr ""
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Tip fișier necunoscut"
 
 #: avatar/controller.php:85
 msgid "Invalid image"
-msgstr ""
+msgstr "Imagine invalidă"
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
@@ -201,16 +201,16 @@ msgstr "secunde în urmă"
 #: js/js.js:867
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "acum %n minut"
+msgstr[1] "acum %n minute"
+msgstr[2] "acum %n minute"
 
 #: js/js.js:868
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "acum %n oră"
+msgstr[1] "acum %n ore"
+msgstr[2] "acum %n ore"
 
 #: js/js.js:869
 msgid "today"
@@ -223,9 +223,9 @@ msgstr "ieri"
 #: js/js.js:871
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "acum %n zi"
+msgstr[1] "acum %n zile"
+msgstr[2] "acum %n zile"
 
 #: js/js.js:872
 msgid "last month"
@@ -283,25 +283,25 @@ msgstr[2] ""
 
 #: js/oc-dialogs.js:361
 msgid "One file conflict"
-msgstr ""
+msgstr "Un conflict de fișier"
 
 #: js/oc-dialogs.js:367
 msgid "Which files do you want to keep?"
-msgstr ""
+msgstr "Ce fișiere vrei să păstrezi?"
 
 #: js/oc-dialogs.js:368
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
-msgstr ""
+msgstr "Dacă alegi ambele versiuni, fișierul copiat va avea un număr atașat la denumirea sa."
 
 #: js/oc-dialogs.js:376
 msgid "Cancel"
-msgstr ""
+msgstr "Anulare"
 
 #: js/oc-dialogs.js:386
 msgid "Continue"
-msgstr ""
+msgstr "Continuă"
 
 #: js/oc-dialogs.js:433 js/oc-dialogs.js:446
 msgid "(all selected)"

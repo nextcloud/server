@@ -25,6 +25,7 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("",""),
 "_%n month ago_::_%n months ago_" => array("",""),
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "Cancellar",
 "Error" => "Error",
 "Share" => "Compartir",
 "Password" => "Contrasigno",

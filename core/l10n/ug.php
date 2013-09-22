@@ -31,6 +31,7 @@ $TRANSLATIONS = array(
 "No" => "ياق",
 "Ok" => "جەزملە",
 "_{count} file conflict_::_{count} file conflicts_" => array(""),
+"Cancel" => "ۋاز كەچ",
 "Error" => "خاتالىق",
 "Share" => "ھەمبەھىر",
 "Share with" => "ھەمبەھىر",

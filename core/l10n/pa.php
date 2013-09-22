@@ -36,6 +36,7 @@ $TRANSLATIONS = array(
 "No" => "ਨਹੀਂ",
 "Ok" => "ਠੀਕ ਹੈ",
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "ਰੱਦ ਕਰੋ",
 "Error" => "ਗਲ",
 "Share" => "ਸਾਂਝਾ ਕਰੋ",
 "Password" => "ਪਾਸਵਰ",

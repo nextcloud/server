@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "No" => "არა",
 "Ok" => "დიახ",
 "_{count} file conflict_::_{count} file conflicts_" => array(""),
+"Cancel" => "უარყოფა",
 "The object type is not specified." => "ობიექტის ტიპი არ არის მითითებული.",
 "Error" => "შეცდომა",
 "The app name is not specified." => "აპლიკაციის სახელი არ არის მითითებული.",

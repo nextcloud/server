@@ -46,6 +46,7 @@ $TRANSLATIONS = array(
 "No" => "Ne",
 "Ok" => "V redu",
 "_{count} file conflict_::_{count} file conflicts_" => array("","","",""),
+"Cancel" => "Prekliči",
 "The object type is not specified." => "Vrsta predmeta ni podana.",
 "Error" => "Napaka",
 "The app name is not specified." => "Ime programa ni podano.",

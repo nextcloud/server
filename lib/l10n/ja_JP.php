@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "Users" => "ユーザ",
 "Admin" => "管理",
 "Failed to upgrade \"%s\"." => "\"%s\" へのアップグレードに失敗しました。",
+"Custom profile pictures don't work with encryption yet" => "暗号無しでは利用不可なカスタムプロフィール画像",
 "Unknown filetype" => "不明なファイルタイプ",
 "Invalid image" => "無効な画像",
 "web services under your control" => "管理下のウェブサービス",

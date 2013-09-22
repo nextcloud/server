@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-18 11:47-0400\n"
-"PO-Revision-Date: 2013-09-18 05:50+0000\n"
-"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
+"POT-Creation-Date: 2013-09-22 12:56-0400\n"
+"PO-Revision-Date: 2013-09-21 13:50+0000\n"
+"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -59,7 +59,7 @@ msgstr "\"%s\" へのアップグレードに失敗しました。"
 
 #: avatar.php:56
 msgid "Custom profile pictures don't work with encryption yet"
-msgstr ""
+msgstr "暗号無しでは利用不可なカスタムプロフィール画像"
 
 #: avatar.php:64
 msgid "Unknown filetype"
@@ -168,15 +168,15 @@ msgstr "認証エラー"
 msgid "Token expired. Please reload page."
 msgstr "トークンが無効になりました。ページを再読込してください。"
 
-#: search/provider/file.php:17 search/provider/file.php:35
+#: search/provider/file.php:18 search/provider/file.php:36
 msgid "Files"
 msgstr "ファイル"
 
-#: search/provider/file.php:26 search/provider/file.php:33
+#: search/provider/file.php:27 search/provider/file.php:34
 msgid "Text"
 msgstr "TTY TDD"
 
-#: search/provider/file.php:29
+#: search/provider/file.php:30
 msgid "Images"
 msgstr "画像"
 

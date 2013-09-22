@@ -52,6 +52,7 @@ $TRANSLATIONS = array(
 "No" => "No",
 "Ok" => "Aceptar",
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "Cancelar",
 "The object type is not specified." => "El tipo de objeto no está especificado. ",
 "Error" => "Error",
 "The app name is not specified." => "El nombre de la App no está especificado.",

@@ -59,6 +59,7 @@ $TRANSLATIONS = array(
 "Ok" => "Ok",
 "Error loading message template: {error}" => "Fout bij laden berichtensjabloon: {error}",
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "Annuleer",
 "The object type is not specified." => "Het object type is niet gespecificeerd.",
 "Error" => "Fout",
 "The app name is not specified." => "De app naam is niet gespecificeerd.",

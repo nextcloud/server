@@ -46,6 +46,7 @@ $TRANSLATIONS = array(
 "No" => "Nee",
 "Ok" => "OK",
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "Ofbriechen",
 "The object type is not specified." => "Den Typ vum Object ass net uginn.",
 "Error" => "Feeler",
 "The app name is not specified." => "Den Numm vun der App ass net uginn.",

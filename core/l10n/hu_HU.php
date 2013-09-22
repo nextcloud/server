@@ -46,6 +46,7 @@ $TRANSLATIONS = array(
 "No" => "Nem",
 "Ok" => "Ok",
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "Mégsem",
 "The object type is not specified." => "Az objektum típusa nincs megadva.",
 "Error" => "Hiba",
 "The app name is not specified." => "Az alkalmazás neve nincs megadva.",

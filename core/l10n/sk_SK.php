@@ -52,6 +52,7 @@ $TRANSLATIONS = array(
 "No" => "Nie",
 "Ok" => "Ok",
 "_{count} file conflict_::_{count} file conflicts_" => array("","",""),
+"Cancel" => "Zrušiť",
 "The object type is not specified." => "Nešpecifikovaný typ objektu.",
 "Error" => "Chyba",
 "The app name is not specified." => "Nešpecifikované meno aplikácie.",

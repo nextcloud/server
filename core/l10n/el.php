@@ -46,6 +46,7 @@ $TRANSLATIONS = array(
 "No" => "Όχι",
 "Ok" => "Οκ",
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "Άκυρο",
 "The object type is not specified." => "Δεν καθορίστηκε ο τύπος του αντικειμένου.",
 "Error" => "Σφάλμα",
 "The app name is not specified." => "Δεν καθορίστηκε το όνομα της εφαρμογής.",

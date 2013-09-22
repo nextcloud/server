@@ -43,6 +43,7 @@ $TRANSLATIONS = array(
 "No" => "Nei",
 "Ok" => "Í lagi",
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "Hætta við",
 "The object type is not specified." => "Tegund ekki tilgreind",
 "Error" => "Villa",
 "The app name is not specified." => "Nafn forrits ekki tilgreint",

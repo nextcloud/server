@@ -52,6 +52,7 @@ $TRANSLATIONS = array(
 "No" => "Hayır",
 "Ok" => "Tamam",
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "İptal",
 "The object type is not specified." => "Nesne türü belirtilmemiş.",
 "Error" => "Hata",
 "The app name is not specified." => "uygulama adı belirtilmedi.",

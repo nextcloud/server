@@ -44,6 +44,7 @@ $TRANSLATIONS = array(
 "No" => "ไม่ตกลง",
 "Ok" => "ตกลง",
 "_{count} file conflict_::_{count} file conflicts_" => array(""),
+"Cancel" => "ยกเลิก",
 "The object type is not specified." => "ชนิดของวัตถุยังไม่ได้รับการระบุ",
 "Error" => "ข้อผิดพลาด",
 "The app name is not specified." => "ชื่อของแอปยังไม่ได้รับการระบุชื่อ",

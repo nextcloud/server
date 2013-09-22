@@ -52,6 +52,7 @@ $TRANSLATIONS = array(
 "No" => "Jo",
 "Ok" => "Në rregull",
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "Anulo",
 "The object type is not specified." => "Nuk është specifikuar tipi i objektit.",
 "Error" => "Veprim i gabuar",
 "The app name is not specified." => "Nuk është specifikuar emri i app-it.",

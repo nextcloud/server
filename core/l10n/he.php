@@ -46,6 +46,7 @@ $TRANSLATIONS = array(
 "No" => "לא",
 "Ok" => "בסדר",
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "ביטול",
 "The object type is not specified." => "סוג הפריט לא צוין.",
 "Error" => "שגיאה",
 "The app name is not specified." => "שם היישום לא צוין.",

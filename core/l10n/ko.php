@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "No" => "아니요",
 "Ok" => "승락",
 "_{count} file conflict_::_{count} file conflicts_" => array(""),
+"Cancel" => "취소",
 "The object type is not specified." => "객체 유형이 지정되지 않았습니다.",
 "Error" => "오류",
 "The app name is not specified." => "앱 이름이 지정되지 않았습니다.",

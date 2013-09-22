@@ -46,6 +46,7 @@ $TRANSLATIONS = array(
 "No" => "نه",
 "Ok" => "قبول",
 "_{count} file conflict_::_{count} file conflicts_" => array(""),
+"Cancel" => "منصرف شدن",
 "The object type is not specified." => "نوع شی تعیین نشده است.",
 "Error" => "خطا",
 "The app name is not specified." => "نام برنامه تعیین نشده است.",

@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "No" => "Tidak",
 "Ok" => "Oke",
 "_{count} file conflict_::_{count} file conflicts_" => array(""),
+"Cancel" => "Batal",
 "The object type is not specified." => "Tipe objek tidak ditentukan.",
 "Error" => "Galat",
 "The app name is not specified." => "Nama aplikasi tidak ditentukan.",

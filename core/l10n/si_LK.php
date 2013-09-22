@@ -38,6 +38,7 @@ $TRANSLATIONS = array(
 "No" => "එපා",
 "Ok" => "හරි",
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "එපා",
 "Error" => "දෝෂයක්",
 "Share" => "බෙදා හදා ගන්න",
 "Share with" => "බෙදාගන්න",

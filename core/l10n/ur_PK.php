@@ -24,6 +24,7 @@ $TRANSLATIONS = array(
 "No" => "نہیں",
 "Ok" => "اوکے",
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "منسوخ کریں",
 "Error" => "ایرر",
 "Error while sharing" => "شئیرنگ کے دوران ایرر",
 "Error while unsharing" => "شئیرنگ ختم کرنے  کے دوران ایرر",

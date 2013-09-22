@@ -6,14 +6,15 @@
 # Alexander Shashkevych <alex@stunpix.com>, 2013
 # Fenuks <fenuksuh@ya.ru>, 2013
 # alfsoft <alfsoft@gmail.com>, 2013
+# jekader <jekader@gmail.com>, 2013
 # navigator666 <yuriy.malyovaniy@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-20 10:44-0400\n"
-"PO-Revision-Date: 2013-09-20 08:20+0000\n"
-"Last-Translator: navigator666 <yuriy.malyovaniy@gmail.com>\n"
+"POT-Creation-Date: 2013-09-22 12:54-0400\n"
+"PO-Revision-Date: 2013-09-21 11:40+0000\n"
+"Last-Translator: jekader <jekader@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -159,7 +160,7 @@ msgstr "Фильтр входа пользователей"
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action. Example: \"uid=%%uid\""
-msgstr ""
+msgstr "Определяет фильтр для применения при попытке входа. %%uid заменяет имя пользователя при входе в систему. Например: \"uid=%%uid\""
 
 #: templates/settings.php:55
 msgid "User List Filter"
@@ -169,7 +170,7 @@ msgstr "Фильтр списка пользователей"
 msgid ""
 "Defines the filter to apply, when retrieving users (no placeholders). "
 "Example: \"objectClass=person\""
-msgstr ""
+msgstr "Определяет фильтр, использующийся при получении пользователей (без подмены переменных). Например: \"objectClass=person\""
 
 #: templates/settings.php:59
 msgid "Group Filter"
@@ -179,7 +180,7 @@ msgstr "Фильтр группы"
 msgid ""
 "Defines the filter to apply, when retrieving groups (no placeholders). "
 "Example: \"objectClass=posixGroup\""
-msgstr ""
+msgstr "Определяет фильтр, использующийся при получении групп (без подмены переменных). Например: \"objectClass=posixGroup\""
 
 #: templates/settings.php:66
 msgid "Connection Settings"
@@ -240,7 +241,7 @@ msgstr "Отключить проверку сертификата SSL."
 msgid ""
 "Not recommended, use it for testing only! If connection only works with this"
 " option, import the LDAP server's SSL certificate in your %s server."
-msgstr ""
+msgstr "Не рекомендуется, используйте только в режиме тестирования! Если соединение работает только с этой опцией, импортируйте на ваш %s сервер сертификат SSL сервера LDAP."
 
 #: templates/settings.php:76
 msgid "Cache Time-To-Live"
@@ -350,7 +351,7 @@ msgid ""
 "behavior as before ownCloud 5 enter the user display name attribute in the "
 "following field. Leave it empty for default behavior. Changes will have "
 "effect only on newly mapped (added) LDAP users."
-msgstr ""
+msgstr "По-умолчанию внутреннее имя пользователя будет создано из атрибута UUID. Таким образом имя пользователя становится уникальным и не требует конвертации символов. Внутреннее имя пользователя может состоять только из следующих символов: [ a-zA-Z0-9_.@- ]. Остальные символы замещаются соответствиями из таблицы ASCII или же просто пропускаются. При совпадении к имени будет добавлено число. Внутреннее имя пользователя используется для внутренней идентификации пользователя. Также оно является именем по-умолчанию для папки пользователя в ownCloud. Оно также портом для удаленных ссылок, к примеру, для всех сервисов *DAV. С помощию данной настройки можно изменить поведение по-умолчанию. Чтобы достичь поведения, как было настроено до изменения, ownCloud 5 выводит атрибут имени пользователя в этом поле. Оставьте его пустым для режима по-умолчанию. Изменения будут иметь эффект только для новых подключенных (добавленных) пользователей LDAP."
 
 #: templates/settings.php:100
 msgid "Internal Username Attribute:"
@@ -369,7 +370,7 @@ msgid ""
 "You must make sure that the attribute of your choice can be fetched for both"
 " users and groups and it is unique. Leave it empty for default behavior. "
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
-msgstr ""
+msgstr "По-умолчанию, ownCloud определяет атрибут UUID автоматически. Этот атрибут используется для того, чтобы достоверно индентифицировать пользователей и группы LDAP. Также, на основании атрибута UUID создается внутреннее имя пользователя, если выше не указано иначе. Вы можете переопределить эту настройку и указать свой атрибут по выбору. Вы должны удостовериться, что выбранный вами атрибут может быть выбран для пользователей и групп, а также то, что он уникальный. Оставьте поле пустым для поведения по-умолчанию. Изменения вступят в силу только для новых подключенных (добавленных) пользователей и групп LDAP."
 
 #: templates/settings.php:103
 msgid "UUID Attribute:"
@@ -391,7 +392,7 @@ msgid ""
 " is not configuration sensitive, it affects all LDAP configurations! Never "
 "clear the mappings in a production environment, only in a testing or "
 "experimental stage."
-msgstr ""
+msgstr "ownCloud использует имена пользователей для хранения и назначения метаданных. Для точной идентификации и распознавания пользователей, каждый пользователь LDAP будет иметь свое внутреннее имя пользователя. Это требует привязки имени пользователя ownCloud к пользователю LDAP. При создании имя пользователя назначается идентификатору UUID пользователя LDAP. Помимо этого кешируется доменное имя (DN) для уменьшения числа обращений к LDAP, однако оно не используется для идентификации. Если доменное имя было изменено, об этом станет известно ownCloud. Внутреннее имя ownCloud используется повсеместно в ownCloud. После сброса привязок в базе могут сохраниться остатки старой информации. Сброс привязок не привязан к конфигурации, он повлияет на все LDAP подключения! Ни в коем случае не рекомендуется сбрасывать привязки если система уже находится в эксплуатации, только на этапе тестирования."
 
 #: templates/settings.php:106
 msgid "Clear Username-LDAP User Mapping"

@@ -39,6 +39,7 @@ $TRANSLATIONS = array(
 "No" => "Non",
 "Ok" => "D'accòrdi",
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "Annula",
 "Error" => "Error",
 "Share" => "Parteja",
 "Error while sharing" => "Error al partejar",

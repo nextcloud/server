@@ -44,6 +44,7 @@ $TRANSLATIONS = array(
 "No" => "Ne",
 "Ok" => "Ok",
 "_{count} file conflict_::_{count} file conflicts_" => array("","",""),
+"Cancel" => "Otkaži",
 "The object type is not specified." => "Tip objekta nije zadan.",
 "Error" => "Greška",
 "The app name is not specified." => "Ime aplikacije nije precizirano.",

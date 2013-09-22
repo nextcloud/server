@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-20 10:44-0400\n"
-"PO-Revision-Date: 2013-09-20 14:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-22 12:51-0400\n"
+"PO-Revision-Date: 2013-09-21 10:00+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -85,23 +85,23 @@ msgstr "Nicht genug Speicher vorhanden."
 
 #: ajax/upload.php:120 ajax/upload.php:143
 msgid "Upload failed. Could not get file info."
-msgstr ""
+msgstr "Hochladen fehlgeschlagen. Dateiinformationen konnten nicht abgerufen werden."
 
 #: ajax/upload.php:136
 msgid "Upload failed. Could not find uploaded file"
-msgstr ""
+msgstr "Hochladen fehlgeschlagen. Hochgeladene Datei konnte nicht gefunden werden."
 
 #: ajax/upload.php:160
 msgid "Invalid directory."
 msgstr "Ungültiges Verzeichnis."
 
-#: appinfo/app.php:12
+#: appinfo/app.php:11
 msgid "Files"
 msgstr "Dateien"
 
 #: js/file-upload.js:244
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Datei {filename} kann nicht hochgeladen werden, da sie entweder ein Verzeichnis oder 0 Bytes groß ist"
 
 #: js/file-upload.js:255
 msgid "Not enough space available"
@@ -113,7 +113,7 @@ msgstr "Upload abgebrochen."
 
 #: js/file-upload.js:356
 msgid "Could not get result from server."
-msgstr ""
+msgstr "Ergebnis konnte nicht vom Server abgerufen werden."
 
 #: js/file-upload.js:446
 msgid ""
@@ -230,7 +230,7 @@ msgstr "Ihr Download wird vorbereitet. Dies kann bei größeren Dateien etwas da
 
 #: js/files.js:507 js/files.js:545
 msgid "Error moving file"
-msgstr ""
+msgstr "Fehler beim Verschieben der Datei"
 
 #: js/files.js:558 templates/index.php:61
 msgid "Name"

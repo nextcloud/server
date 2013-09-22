@@ -46,6 +46,7 @@ $TRANSLATIONS = array(
 "No" => "Nē",
 "Ok" => "Labi",
 "_{count} file conflict_::_{count} file conflicts_" => array("","",""),
+"Cancel" => "Atcelt",
 "The object type is not specified." => "Nav norādīts objekta tips.",
 "Error" => "Kļūda",
 "The app name is not specified." => "Nav norādīts lietotnes nosaukums.",

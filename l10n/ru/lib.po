@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Alexander Shashkevych <alex@stunpix.com>, 2013
+# jekader <jekader@gmail.com>, 2013
 # eurekafag <rkfg@rkfg.me>, 2013
 # sk.avenger <sk.avenger@adygnet.ru>, 2013
 # navigator666 <yuriy.malyovaniy@gmail.com>, 2013
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-20 10:45-0400\n"
-"PO-Revision-Date: 2013-09-20 12:50+0000\n"
-"Last-Translator: sk.avenger <sk.avenger@adygnet.ru>\n"
+"POT-Creation-Date: 2013-09-22 12:56-0400\n"
+"PO-Revision-Date: 2013-09-21 11:50+0000\n"
+"Last-Translator: jekader <jekader@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,7 +61,7 @@ msgstr "Не смог обновить \"%s\"."
 
 #: avatar.php:56
 msgid "Custom profile pictures don't work with encryption yet"
-msgstr ""
+msgstr "Пользовательские картинки профиля ещё не поддерживают шифрование"
 
 #: avatar.php:64
 msgid "Unknown filetype"
@@ -140,13 +141,13 @@ msgstr "Приложение невозможно установить. Не с�
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
-msgstr ""
+msgstr "Приложение невозможно установить. Оно содержит параметр <shipped>true</shipped> который не допустим для приложений, не входящих в поставку."
 
 #: installer.php:152
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr ""
+msgstr "Приложение невозможно установить. Версия в info.xml/version не совпадает с версией заявленной в магазине приложений"
 
 #: installer.php:162
 msgid "App directory already exists"
@@ -155,7 +156,7 @@ msgstr "Папка приложения уже существует"
 #: installer.php:175
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr ""
+msgstr "Не удалось создать директорию. Исправьте права доступа. %s"
 
 #: json.php:28
 msgid "Application is not enabled"

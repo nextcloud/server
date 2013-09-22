@@ -32,6 +32,7 @@ $TRANSLATIONS = array(
 "No" => "No",
 "Ok" => "OK",
 "_{count} file conflict_::_{count} file conflicts_" => array(""),
+"Cancel" => "取消",
 "Error" => "錯誤",
 "Shared" => "已分享",
 "Share" => "分享",

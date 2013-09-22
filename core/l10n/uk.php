@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "No" => "Ні",
 "Ok" => "Ok",
 "_{count} file conflict_::_{count} file conflicts_" => array("","",""),
+"Cancel" => "Відмінити",
 "The object type is not specified." => "Не визначено тип об'єкту.",
 "Error" => "Помилка",
 "The app name is not specified." => "Не визначено ім'я програми.",
