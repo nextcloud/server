@@ -24,6 +24,21 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 	 */
 	private $cache;
 
+	function setUp() {
+		$this->storage = new \OC\Files\Storage\Temporary(array());
+		$this->scanner = new \OC\Files\Cache\Scanner($this->storage);
+		$this->cache = new \OC\Files\Cache\Cache($this->storage);
+	}
+
+	function tearDown() {
+		if ($this->cache) {
+			$ids = $this->cache->getAll();
+			$permissionsCache = $this->storage->getPermissionsCache();
+			$permissionsCache->removeMultiple($ids, \OC_User::getUser());
+			$this->cache->clear();
+		}
+	}
+
 	function testFile() {
 		$data = "dummy file data\n";
 		$this->storage->file_put_contents('foo.txt', $data);
@@ -217,20 +232,5 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 		$this->assertNotEmpty($newData0['etag']);
 		$this->assertNotEquals($data1['etag'], $newData1['etag']);
 		$this->assertNotEquals($data2['etag'], $newData2['etag']);
-	}
-
-	function setUp() {
-		$this->storage = new \OC\Files\Storage\Temporary(array());
-		$this->scanner = new \OC\Files\Cache\Scanner($this->storage);
-		$this->cache = new \OC\Files\Cache\Cache($this->storage);
-	}
-
-	function tearDown() {
-		if ($this->cache) {
-			$ids = $this->cache->getAll();
-			$permissionsCache = $this->storage->getPermissionsCache();
-			$permissionsCache->removeMultiple($ids, \OC_User::getUser());
-			$this->cache->clear();
-		}
 	}
 }
