@@ -106,22 +106,22 @@ class Share {
 		}
 		return false;
 	}
-	
+
 	/**
 	* @brief Prepare a path to be passed to DB as file_target
 	* @return string Prepared path
 	*/
 	public static function prepFileTarget( $path ) {
-	
+
 		// Paths in DB are stored with leading slashes, so add one if necessary
 		if ( substr( $path, 0, 1 ) !== '/' ) {
-		
+
 			$path = '/' . $path;
-		
+
 		}
-		
+
 		return $path;
-	
+
 	}
 
 	/**
@@ -256,7 +256,7 @@ class Share {
 		return self::getItems($itemType, $itemTarget, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, $format,
 			$parameters, 1, $includeCollections);
 	}
-	
+
 	/**
 	* @brief Get the item of item type shared with the current user by source
 	* @param string Item type
@@ -450,6 +450,7 @@ class Share {
 					$uidOwner, self::FORMAT_NONE, null, 1)) {
 					// remember old token
 					$oldToken = $checkExists['token'];
+					$oldPermissions = $checkExists['permissions'];
 					//delete the old share
 					self::delete($checkExists['id']);
 				}
@@ -460,8 +461,11 @@ class Share {
 					$hasher = new \PasswordHash(8, $forcePortable);
 					$shareWith = $hasher->HashPassword($shareWith.\OC_Config::getValue('passwordsalt', ''));
 				} else {
-					// reuse the already set password
-					$shareWith = $checkExists['share_with'];
+					// reuse the already set password, but only if we change permissions
+					// otherwise the user disabled the password protection
+					if ($checkExists && (int)$permissions !== (int)$oldPermissions) {
+						$shareWith = $checkExists['share_with'];
+					}
 				}
 
 				// Generate token
