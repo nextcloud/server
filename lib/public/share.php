@@ -345,16 +345,9 @@ class Share {
 			\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result) . ', token=' . $token, \OC_Log::ERROR);
 		}
 		$row = $result->fetchRow();
-
-		if (!empty($row['expiration'])) {
-			$now = new \DateTime();
-			$expirationDate = new \DateTime($row['expiration'], new \DateTimeZone('UTC'));
-			if ($now > $expirationDate) {
-				self::unshareItem($row);
-				return false;
-			}
+		if (self::expireItem($row)) {
+			return false;
 		}
-
 		return $row;
 	}
 
@@ -834,6 +827,23 @@ class Share {
 	}
 
 	/**
+	 * Checks whether a share has expired, calls unshareItem() if yes.
+	 * @param array $item Share data (usually database row)
+	 * @return bool True if item was expired, false otherwise.
+	 */
+	protected static function expireItem(array $item) {
+		if (!empty($item['expiration'])) {
+			$now = new \DateTime();
+			$expirationDate = new \DateTime($item['expiration'], new \DateTimeZone('UTC'));
+			if ($now > $expirationDate) {
+				self::unshareItem($item);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Unshares a share given a share data array
 	 * @param array $item Share data (usually database row)
 	 * @return null
@@ -1208,12 +1218,8 @@ class Share {
 					}
 				}
 			}
-			if (isset($row['expiration'])) {
-				$time = new \DateTime();
-				if ($row['expiration'] < date('Y-m-d H:i', $time->format('U') - $time->getOffset())) {
-					self::unshareItem($row);
-					continue;
-				}
+			if (self::expireItem($row)) {
+				continue;
 			}
 			// Check if resharing is allowed, if not remove share permission
 			if (isset($row['permissions']) && !self::isResharingAllowed()) {
