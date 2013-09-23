@@ -233,17 +233,25 @@ class Tags implements \OCP\ITags {
 			return false;
 		}
 		try {
-			\OCP\DB::insertIfNotExist(self::TAG_TABLE,
+			$result = \OCP\DB::insertIfNotExist(
+				self::TAG_TABLE,
 				array(
 					'uid' => $this->user,
 					'type' => $this->type,
 					'category' => $name,
-				));
-			} catch(\Exception $e) {
-				\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-					\OCP\Util::ERROR);
+				)
+			);
+			if (\OCP\DB::isError($result)) {
+				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage($result), \OCP\Util::ERROR);
 				return false;
+			} elseif((int)$result === 0) {
+				\OCP\Util::writeLog('core', __METHOD__.', Tag already exists: ' . $name, \OCP\Util::DEBUG);
 			}
+		} catch(\Exception $e) {
+			\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
+				\OCP\Util::ERROR);
+			return false;
+		}
 		$id = \OCP\DB::insertid(self::TAG_TABLE);
 		\OCP\Util::writeLog('core', __METHOD__.', id: ' . $id, \OCP\Util::DEBUG);
 		$this->tags[$id] = $name;
