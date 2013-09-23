@@ -184,6 +184,16 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->cache->inCache('folder/bar.txt'));
 	}
 
+	public function testScanRemovedFile(){
+		$this->fillTestFolders();
+
+		$this->scanner->scan('');
+		$this->assertTrue($this->cache->inCache('folder/bar.txt'));
+		$this->storage->unlink('folder/bar.txt');
+		$this->scanner->scanFile('folder/bar.txt');
+		$this->assertFalse($this->cache->inCache('folder/bar.txt'));
+	}
+
 	function setUp() {
 		$this->storage = new \OC\Files\Storage\Temporary(array());
 		$this->scanner = new \OC\Files\Cache\Scanner($this->storage);
