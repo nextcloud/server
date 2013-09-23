@@ -656,7 +656,7 @@ class Share {
 			);
 			\OC_Hook::emit('OCP\Share', 'pre_unshareAll', $hookParams);
 			foreach ($shares as $share) {
-				self::delete($share['id']);
+				self::unshareItem($share);
 			}
 			\OC_Hook::emit('OCP\Share', 'post_unshareAll', $hookParams);
 			return true;
