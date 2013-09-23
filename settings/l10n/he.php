@@ -85,6 +85,7 @@ $TRANSLATIONS = array(
 "Email" => "דואר אלקטרוני",
 "Your email address" => "כתובת הדוא״ל שלך",
 "Fill in an email address to enable password recovery" => "נא למלא את כתובת הדוא״ל שלך כדי לאפשר שחזור ססמה",
+"Profile picture" => "תמונת פרופיל",
 "Language" => "פה",
 "Help translate" => "עזרה בתרגום",
 "WebDAV" => "WebDAV",

@@ -12,7 +12,6 @@ $TRANSLATIONS = array(
 "Failed to write to disk" => "Tókst ekki að skrifa á disk",
 "Invalid directory." => "Ógild mappa.",
 "Files" => "Skrár",
-"Unable to upload your file as it is a directory or has 0 bytes" => "Innsending á skrá mistókst, hugsanlega sendir þú möppu eða skráin er 0 bæti.",
 "Not enough space available" => "Ekki nægt pláss tiltækt",
 "Upload cancelled." => "Hætt við innsendingu.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Innsending í gangi. Ef þú ferð af þessari síðu mun innsending misheppnast.",

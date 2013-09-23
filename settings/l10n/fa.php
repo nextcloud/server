@@ -87,6 +87,7 @@ $TRANSLATIONS = array(
 "Email" => "ایمیل",
 "Your email address" => "پست الکترونیکی شما",
 "Fill in an email address to enable password recovery" => "پست الکترونیکی را پرکنید  تا بازیابی گذرواژه فعال شود",
+"Profile picture" => "تصویر پروفایل",
 "Language" => "زبان",
 "Help translate" => "به ترجمه آن کمک کنید",
 "WebDAV" => "WebDAV",

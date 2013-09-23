@@ -184,6 +184,16 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->cache->inCache('folder/bar.txt'));
 	}
 
+	public function testScanRemovedFile(){
+		$this->fillTestFolders();
+
+		$this->scanner->scan('');
+		$this->assertTrue($this->cache->inCache('folder/bar.txt'));
+		$this->storage->unlink('folder/bar.txt');
+		$this->scanner->scanFile('folder/bar.txt');
+		$this->assertFalse($this->cache->inCache('folder/bar.txt'));
+	}
+
 	public function testETagRecreation() {
 		$this->fillTestFolders();
 
@@ -207,7 +217,6 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 		$this->assertNotEmpty($newData0['etag']);
 		$this->assertNotEquals($data1['etag'], $newData1['etag']);
 		$this->assertNotEquals($data2['etag'], $newData2['etag']);
-
 	}
 
 	function setUp() {

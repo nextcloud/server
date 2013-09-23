@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-16 11:33-0400\n"
-"PO-Revision-Date: 2013-09-16 15:34+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-22 12:56-0400\n"
+"PO-Revision-Date: 2013-09-20 15:20+0000\n"
+"Last-Translator: rogerc\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +24,7 @@ msgid "Unable to load list from App Store"
 msgstr "No s'ha pogut carregar la llista des de l'App Store"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20
+#: ajax/togglegroups.php:20 changepassword/controller.php:55
 msgid "Authentication error"
 msgstr "Error d'autenticació"
 
@@ -86,6 +86,35 @@ msgstr "No es pot eliminar l'usuari del grup %s"
 msgid "Couldn't update app."
 msgstr "No s'ha pogut actualitzar l'aplicació."
 
+#: changepassword/controller.php:20
+msgid "Wrong password"
+msgstr "Contrasenya incorrecta"
+
+#: changepassword/controller.php:42
+msgid "No user supplied"
+msgstr "No heu proporcionat cap usuari"
+
+#: changepassword/controller.php:74
+msgid ""
+"Please provide an admin recovery password, otherwise all user data will be "
+"lost"
+msgstr "Sisplau, proporcioneu una contrasenya de recuperació d'administrador, altrament totes les dades d'usuari es perdran"
+
+#: changepassword/controller.php:79
+msgid ""
+"Wrong admin recovery password. Please check the password and try again."
+msgstr "La contrasenya de recuperació d'administrador és incorrecta. Comproveu-la i torneu-ho a intentar."
+
+#: changepassword/controller.php:87
+msgid ""
+"Back-end doesn't support password change, but the users encryption key was "
+"successfully updated."
+msgstr "El dorsal no permet canviar la contrasenya, però la clau d'encripació d'usuaris s'ha actualitzat correctament."
+
+#: changepassword/controller.php:92 changepassword/controller.php:103
+msgid "Unable to change password"
+msgstr "No es pot canviar la contrasenya"
+
 #: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Actualitza a {appversion}"
@@ -130,15 +159,15 @@ msgstr "Actualitza"
 msgid "Updated"
 msgstr "Actualitzada"
 
-#: js/personal.js:217
+#: js/personal.js:220
 msgid "Select a profile picture"
-msgstr ""
+msgstr "Seleccioneu una imatge de perfil"
 
-#: js/personal.js:262
+#: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Desencriptant fitxers... Espereu, això pot trigar una estona."
 
-#: js/personal.js:284
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "Desant..."
 
@@ -462,31 +491,31 @@ msgstr "Ompliu el correu electrònic per activar la recuperació de contrasenya"
 
 #: templates/personal.php:86
 msgid "Profile picture"
-msgstr ""
+msgstr "Foto de perfil"
 
 #: templates/personal.php:90
 msgid "Upload new"
-msgstr ""
+msgstr "Puja'n una de nova"
 
 #: templates/personal.php:92
 msgid "Select new from Files"
-msgstr ""
+msgstr "Selecciona'n una de nova dels fitxers"
 
 #: templates/personal.php:93
 msgid "Remove image"
-msgstr ""
+msgstr "Elimina imatge"
 
 #: templates/personal.php:94
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
-msgstr ""
+msgstr "Pot ser png o jpg. Idealment quadrada, però podreu retallar-la."
 
 #: templates/personal.php:97
 msgid "Abort"
-msgstr ""
+msgstr "Cancel·la"
 
 #: templates/personal.php:98
 msgid "Choose as profile image"
-msgstr ""
+msgstr "Selecciona com a imatge de perfil"
 
 #: templates/personal.php:106 templates/personal.php:107
 msgid "Language"

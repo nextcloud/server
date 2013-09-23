@@ -7,16 +7,18 @@
 # Alexander Shashkevych <alex@stunpix.com>, 2013
 # alfsoft <alfsoft@gmail.com>, 2013
 # lord93 <lordakryl@gmail.com>, 2013
+# jekader <jekader@gmail.com>, 2013
 # eurekafag <rkfg@rkfg.me>, 2013
+# navigator666 <yuriy.malyovaniy@gmail.com>, 2013
 # hackproof <hackproof.ai@gmail.com>, 2013
 # Friktor <antonshramko@yandex.ru>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-16 11:33-0400\n"
-"PO-Revision-Date: 2013-09-16 15:34+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-22 12:56-0400\n"
+"PO-Revision-Date: 2013-09-21 11:20+0000\n"
+"Last-Translator: jekader <jekader@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +31,7 @@ msgid "Unable to load list from App Store"
 msgstr "Не удалось загрузить список из App Store"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20
+#: ajax/togglegroups.php:20 changepassword/controller.php:55
 msgid "Authentication error"
 msgstr "Ошибка аутентификации"
 
@@ -91,6 +93,35 @@ msgstr "Невозможно удалить пользователя из гру
 msgid "Couldn't update app."
 msgstr "Невозможно обновить приложение"
 
+#: changepassword/controller.php:20
+msgid "Wrong password"
+msgstr "Неправильный пароль"
+
+#: changepassword/controller.php:42
+msgid "No user supplied"
+msgstr "Пользователь не задан"
+
+#: changepassword/controller.php:74
+msgid ""
+"Please provide an admin recovery password, otherwise all user data will be "
+"lost"
+msgstr "Пожалуйста введите администраторский пароль восстановления, иначе все пользовательские данные будут утеряны"
+
+#: changepassword/controller.php:79
+msgid ""
+"Wrong admin recovery password. Please check the password and try again."
+msgstr "Неправильный пароль восстановления. Проверьте пароль и попробуйте еще раз."
+
+#: changepassword/controller.php:87
+msgid ""
+"Back-end doesn't support password change, but the users encryption key was "
+"successfully updated."
+msgstr "Используемый механизм не поддерживает смену паролей, но пользовательский ключ шифрования был успешно обновлён"
+
+#: changepassword/controller.php:92 changepassword/controller.php:103
+msgid "Unable to change password"
+msgstr "Невозможно изменить пароль"
+
 #: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Обновить до {версия приложения}"
@@ -109,11 +140,11 @@ msgstr "Подождите..."
 
 #: js/apps.js:79 js/apps.js:80 js/apps.js:100
 msgid "Error while disabling app"
-msgstr ""
+msgstr "Ошибка отключения приложения"
 
 #: js/apps.js:99 js/apps.js:112 js/apps.js:113
 msgid "Error while enabling app"
-msgstr ""
+msgstr "Ошибка включения приложения"
 
 #: js/apps.js:123
 msgid "Updating...."
@@ -135,15 +166,15 @@ msgstr "Обновить"
 msgid "Updated"
 msgstr "Обновлено"
 
-#: js/personal.js:217
+#: js/personal.js:220
 msgid "Select a profile picture"
-msgstr ""
+msgstr "Выберите картинку профиля"
 
-#: js/personal.js:262
+#: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Расшифровка файлов... Пожалуйста, подождите, это может занять некоторое время."
 
-#: js/personal.js:284
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "Сохранение..."
 
@@ -467,31 +498,31 @@ msgstr "Введите адрес электронной почты чтобы �
 
 #: templates/personal.php:86
 msgid "Profile picture"
-msgstr ""
+msgstr "Фото профиля"
 
 #: templates/personal.php:90
 msgid "Upload new"
-msgstr ""
+msgstr "Закачать новую"
 
 #: templates/personal.php:92
 msgid "Select new from Files"
-msgstr ""
+msgstr "Выберите новый из файлов"
 
 #: templates/personal.php:93
 msgid "Remove image"
-msgstr ""
+msgstr "Удалить изображение"
 
 #: templates/personal.php:94
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
-msgstr ""
+msgstr "Либо png, либо jpg. Изображение должно быть квадратным, но вы сможете обрезать его позже."
 
 #: templates/personal.php:97
 msgid "Abort"
-msgstr ""
+msgstr "Отмена"
 
 #: templates/personal.php:98
 msgid "Choose as profile image"
-msgstr ""
+msgstr "Выберите изображение профиля"
 
 #: templates/personal.php:106 templates/personal.php:107
 msgid "Language"
@@ -518,15 +549,15 @@ msgstr "Шифрование"
 
 #: templates/personal.php:140
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr ""
+msgstr "Приложение шифрования не активно, отмените шифрование всех ваших файлов."
 
 #: templates/personal.php:146
 msgid "Log-in password"
-msgstr ""
+msgstr "Пароль входа"
 
 #: templates/personal.php:151
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Снять шифрование со всех файлов"
 
 #: templates/users.php:21
 msgid "Login Name"
