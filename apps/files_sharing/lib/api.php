@@ -37,7 +37,6 @@ class Api {
 			$params['itemSource'] = self::getFileId($_GET['file']);
 			$params['path'] = $_GET['file'];
 			if (isset($_GET['subfiles']) && $_GET['subfiles'] === 'yes') {
-				error_log("get shares from folder");
 				return self::getSharesFromFolder($params);
 			}
 			return self::getShare($params);
