@@ -49,10 +49,11 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('PreviewManager', function($c) {
 			return new PreviewManager();
 		});
-		$this->registerService('TagManager', function($c){
-			return new Tags();
+		$this->registerService('TagManager', function($c) {
+			$user = \OC_User::getUser();
+			return new Tags($user);
 		});
-		$this->registerService('RootFolder', function($c){
+		$this->registerService('RootFolder', function($c) {
 			// TODO: get user and user manager from container as well
 			$user = \OC_User::getUser();
 			/** @var $c SimpleContainer */
