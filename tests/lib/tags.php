@@ -59,13 +59,14 @@ class Test_Tags extends PHPUnit_Framework_TestCase {
 
 		foreach($tags as $tag) {
 			$result = $tagMgr->add($tag);
+			$this->assertGreaterThan(0, $result, 'add() returned an ID <= 0');
 			$this->assertTrue((bool)$result);
 		}
 
 		$this->assertFalse($tagMgr->add('Family'));
 		$this->assertFalse($tagMgr->add('fAMILY'));
 
-		$this->assertEquals(4, count($tagMgr->getTags()));
+		$this->assertCount(4, $tagMgr->getTags(), 'Wrong number of added tags');
 	}
 
 	public function testAddMultiple() {
@@ -85,7 +86,7 @@ class Test_Tags extends PHPUnit_Framework_TestCase {
 			$this->assertTrue($tagMgr->hasTag($tag));
 		}
 
-		$this->assertEquals(4, count($tagMgr->getTags()));
+		$this->assertCount(4, $tagMgr->getTags(), 'Not all tags added');
 	}
 
 	public function testIsEmpty() {
@@ -94,7 +95,10 @@ class Test_Tags extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(0, count($tagMgr->getTags()));
 		$this->assertTrue($tagMgr->isEmpty());
-		$this->assertNotEquals(false, $tagMgr->add('Tag'));
+
+		$result = $tagMgr->add('Tag');
+		$this->assertGreaterThan(0, $result, 'add() returned an ID <= 0');
+		$this->assertNotEquals(false, $result, 'add() returned false');
 		$this->assertFalse($tagMgr->isEmpty());
 	}
 
