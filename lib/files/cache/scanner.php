@@ -97,13 +97,34 @@ class Scanner extends BasicEmitter {
 				}
 				$newData = $data;
 				if ($reuseExisting and $cacheData = $this->cache->get($file)) {
+					// prevent empty etag
+					$etag = $cacheData['etag'];
+					$propagateETagChange = false;
+					if (empty($etag)) {
+						$etag = $data['etag'];
+						$propagateETagChange = true;
+					}
+
 					// only reuse data if the file hasn't explicitly changed
 					if (isset($data['mtime']) && isset($cacheData['mtime']) && $data['mtime'] === $cacheData['mtime']) {
 						if (($reuseExisting & self::REUSE_SIZE) && ($data['size'] === -1)) {
 							$data['size'] = $cacheData['size'];
 						}
 						if ($reuseExisting & self::REUSE_ETAG) {
-							$data['etag'] = $cacheData['etag'];
+							$data['etag'] = $etag;
+							if ($propagateETagChange) {
+								$parent = $file;
+								while ($parent !== '') {
+									$parent = dirname($parent);
+									if ($parent === '.') {
+										$parent = '';
+									}
+									$parentCacheData = $this->cache->get($parent);
+									$this->cache->update($parentCacheData['fileid'], array(
+										'etag' => $this->storage->getETag($parent),
+									));
+								}
+							}
 						}
 					}
 					// Only update metadata that has changed
