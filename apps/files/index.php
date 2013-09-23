@@ -26,6 +26,7 @@ OCP\User::checkLoggedIn();
 
 // Load the files we need
 OCP\Util::addStyle('files', 'files');
+OCP\Util::addStyle('files', 'upload');
 OCP\Util::addscript('files', 'file-upload');
 OCP\Util::addscript('files', 'jquery.iframe-transport');
 OCP\Util::addscript('files', 'jquery.fileupload');
@@ -73,14 +74,14 @@ if (\OC\Files\Cache\Upgrade::needUpgrade($user)) { //dont load anything if we ne
 		$ajaxLoad = true;
 	}
 	else{
-		$files = \OCA\files\lib\Helper::getFiles($dir);
+		$files = \OCA\Files\Helper::getFiles($dir);
 	}
 	$freeSpace = \OC\Files\Filesystem::free_space($dir);
 	$needUpgrade = false;
 }
 
 // Make breadcrumb
-$breadcrumb = \OCA\files\lib\Helper::makeBreadcrumb($dir);
+$breadcrumb = \OCA\Files\Helper::makeBreadcrumb($dir);
 
 // make breadcrumb und filelist markup
 $list = new OCP\Template('files', 'part.list', '');
@@ -92,7 +93,7 @@ $breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
 $breadcrumbNav->assign('breadcrumb', $breadcrumb);
 $breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir=');
 
-$permissions = \OCA\files\lib\Helper::getDirPermissions($dir);
+$permissions = \OCA\Files\Helper::getDirPermissions($dir);
 
 if ($needUpgrade) {
 	OCP\Util::addscript('files', 'upgrade');

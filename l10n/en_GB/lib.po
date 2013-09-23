@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-30 09:33-0400\n"
-"PO-Revision-Date: 2013-08-29 16:50+0000\n"
+"POT-Creation-Date: 2013-09-18 11:47-0400\n"
+"PO-Revision-Date: 2013-09-18 13:32+0000\n"
 "Last-Translator: mnestis <transifex@mnestis.net>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -49,10 +49,22 @@ msgstr "Users"
 msgid "Admin"
 msgstr "Admin"
 
-#: app.php:837
+#: app.php:839
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Failed to upgrade \"%s\"."
+
+#: avatar.php:56
+msgid "Custom profile pictures don't work with encryption yet"
+msgstr "Custom profile pictures don't work with encryption yet"
+
+#: avatar.php:64
+msgid "Unknown filetype"
+msgstr "Unknown filetype"
+
+#: avatar.php:69
+msgid "Invalid image"
+msgstr "Invalid image"
 
 #: defaults.php:35
 msgid "web services under your control"
@@ -106,37 +118,37 @@ msgstr "Archives of type %s are not supported"
 msgid "Failed to open archive when installing app"
 msgstr "Failed to open archive when installing app"
 
-#: installer.php:123
+#: installer.php:125
 msgid "App does not provide an info.xml file"
 msgstr "App does not provide an info.xml file"
 
-#: installer.php:129
+#: installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "App can't be installed because of unallowed code in the App"
 
-#: installer.php:138
+#: installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "App can't be installed because it is not compatible with this version of ownCloud"
 
-#: installer.php:144
+#: installer.php:146
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps"
 
-#: installer.php:150
+#: installer.php:152
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "App can't be installed because the version in info.xml/version is not the same as the version reported from the app store"
 
-#: installer.php:160
+#: installer.php:162
 msgid "App directory already exists"
 msgstr "App directory already exists"
 
-#: installer.php:173
+#: installer.php:175
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Can't create app folder. Please fix permissions. %s"
@@ -265,51 +277,51 @@ msgstr "Your web server is not yet properly setup to allow files synchronisation
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Please double check the <a href='%s'>installation guides</a>."
 
-#: template/functions.php:80
+#: template/functions.php:96
 msgid "seconds ago"
 msgstr "seconds ago"
 
-#: template/functions.php:81
+#: template/functions.php:97
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
+msgstr[0] "%n minute ago"
 msgstr[1] "%n minutes ago"
 
-#: template/functions.php:82
+#: template/functions.php:98
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
+msgstr[0] "%n hour ago"
 msgstr[1] "%n hours ago"
 
-#: template/functions.php:83
+#: template/functions.php:99
 msgid "today"
 msgstr "today"
 
-#: template/functions.php:84
+#: template/functions.php:100
 msgid "yesterday"
 msgstr "yesterday"
 
-#: template/functions.php:85
+#: template/functions.php:101
 msgid "%n day go"
 msgid_plural "%n days ago"
-msgstr[0] ""
+msgstr[0] "%n day go"
 msgstr[1] "%n days ago"
 
-#: template/functions.php:86
+#: template/functions.php:102
 msgid "last month"
 msgstr "last month"
 
-#: template/functions.php:87
+#: template/functions.php:103
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
+msgstr[0] "%n month ago"
 msgstr[1] "%n months ago"
 
-#: template/functions.php:88
+#: template/functions.php:104
 msgid "last year"
 msgstr "last year"
 
-#: template/functions.php:89
+#: template/functions.php:105
 msgid "years ago"
 msgstr "years ago"
 

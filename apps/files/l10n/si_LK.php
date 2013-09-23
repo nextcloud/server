@@ -7,7 +7,6 @@ $TRANSLATIONS = array(
 "No file was uploaded" => "ගොනුවක් උඩුගත නොවුණි",
 "Missing a temporary folder" => "තාවකාලික ෆොල්ඩරයක් අතුරුදහන්",
 "Failed to write to disk" => "තැටිගත කිරීම අසාර්ථකයි",
-"Upload failed" => "උඩුගත කිරීම අසාර්ථකයි",
 "Files" => "ගොනු",
 "Upload cancelled." => "උඩුගත කිරීම අත් හරින්න ලදී",
 "File upload is in progress. Leaving the page now will cancel the upload." => "උඩුගතකිරීමක් සිදුවේ. පිටුව හැර යාමෙන් එය නැවතෙනු ඇත",

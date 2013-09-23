@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-13 21:47-0400\n"
-"PO-Revision-Date: 2013-09-13 07:50+0000\n"
-"Last-Translator: Liudas Ališauskas <liudas.alisauskas@gmail.com>\n"
+"POT-Creation-Date: 2013-09-20 10:45-0400\n"
+"PO-Revision-Date: 2013-09-20 14:45+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +26,7 @@ msgid "Unable to load list from App Store"
 msgstr "Neįmanoma įkelti sąrašo iš Programų Katalogo"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20
+#: ajax/togglegroups.php:20 changepassword/controller.php:55
 msgid "Authentication error"
 msgstr "Autentikacijos klaida"
 
@@ -88,6 +88,35 @@ msgstr "Nepavyko ištrinti vartotojo iš grupės %s"
 msgid "Couldn't update app."
 msgstr "Nepavyko atnaujinti programos."
 
+#: changepassword/controller.php:20
+msgid "Wrong password"
+msgstr ""
+
+#: changepassword/controller.php:42
+msgid "No user supplied"
+msgstr ""
+
+#: changepassword/controller.php:74
+msgid ""
+"Please provide an admin recovery password, otherwise all user data will be "
+"lost"
+msgstr ""
+
+#: changepassword/controller.php:79
+msgid ""
+"Wrong admin recovery password. Please check the password and try again."
+msgstr ""
+
+#: changepassword/controller.php:87
+msgid ""
+"Back-end doesn't support password change, but the users encryption key was "
+"successfully updated."
+msgstr ""
+
+#: changepassword/controller.php:92 changepassword/controller.php:103
+msgid "Unable to change password"
+msgstr ""
+
 #: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Atnaujinti iki {appversion}"
@@ -132,11 +161,15 @@ msgstr "Atnaujinti"
 msgid "Updated"
 msgstr "Atnaujinta"
 
-#: js/personal.js:150
+#: js/personal.js:220
+msgid "Select a profile picture"
+msgstr "Pažymėkite profilio paveikslėlį"
+
+#: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Iššifruojami failai... Prašome palaukti, tai gali užtrukti."
 
-#: js/personal.js:172
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "Saugoma..."
 
@@ -152,16 +185,16 @@ msgstr "anuliuoti"
 msgid "Unable to remove user"
 msgstr "Nepavyko ištrinti vartotojo"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:87
-#: templates/users.php:112
+#: js/users.js:92 templates/users.php:26 templates/users.php:90
+#: templates/users.php:118
 msgid "Groups"
 msgstr "Grupės"
 
-#: js/users.js:97 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
 msgstr "Grupės administratorius"
 
-#: js/users.js:120 templates/users.php:164
+#: js/users.js:120 templates/users.php:170
 msgid "Delete"
 msgstr "Ištrinti"
 
@@ -181,7 +214,7 @@ msgstr "Klaida kuriant vartotoją"
 msgid "A valid password must be provided"
 msgstr "Slaptažodis turi būti tinkamas"
 
-#: personal.php:40 personal.php:41
+#: personal.php:45 personal.php:46
 msgid "__language_name__"
 msgstr "Kalba"
 
@@ -347,11 +380,11 @@ msgstr "Daugiau"
 msgid "Less"
 msgstr "Mažiau"
 
-#: templates/admin.php:242 templates/personal.php:140
+#: templates/admin.php:242 templates/personal.php:161
 msgid "Version"
 msgstr "Versija"
 
-#: templates/admin.php:246 templates/personal.php:143
+#: templates/admin.php:246 templates/personal.php:164
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -418,7 +451,7 @@ msgstr "Rodyti pirmo karto vedlį dar kartą"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Jūs naudojate <strong>%s</strong> iš galimų <strong>%s</strong>"
 
-#: templates/personal.php:39 templates/users.php:23 templates/users.php:86
+#: templates/personal.php:39 templates/users.php:23 templates/users.php:89
 msgid "Password"
 msgstr "Slaptažodis"
 
@@ -442,7 +475,7 @@ msgstr "Naujas slaptažodis"
 msgid "Change password"
 msgstr "Pakeisti slaptažodį"
 
-#: templates/personal.php:58 templates/users.php:85
+#: templates/personal.php:58 templates/users.php:88
 msgid "Display Name"
 msgstr "Rodyti vardą"
 
@@ -458,38 +491,66 @@ msgstr "Jūsų el. pašto adresas"
 msgid "Fill in an email address to enable password recovery"
 msgstr "Pamiršto slaptažodžio atkūrimui įveskite savo el. pašto adresą"
 
-#: templates/personal.php:85 templates/personal.php:86
+#: templates/personal.php:86
+msgid "Profile picture"
+msgstr "Profilio paveikslėlis"
+
+#: templates/personal.php:90
+msgid "Upload new"
+msgstr "Įkelti naują"
+
+#: templates/personal.php:92
+msgid "Select new from Files"
+msgstr "Pasirinkti naują iš failų"
+
+#: templates/personal.php:93
+msgid "Remove image"
+msgstr "Pašalinti paveikslėlį"
+
+#: templates/personal.php:94
+msgid "Either png or jpg. Ideally square but you will be able to crop it."
+msgstr "Arba png arba jpg. Geriausia kvadratinį, bet galėsite jį apkarpyti."
+
+#: templates/personal.php:97
+msgid "Abort"
+msgstr "Atšaukti"
+
+#: templates/personal.php:98
+msgid "Choose as profile image"
+msgstr "Pasirinkite profilio paveiksliuką"
+
+#: templates/personal.php:106 templates/personal.php:107
 msgid "Language"
 msgstr "Kalba"
 
-#: templates/personal.php:98
+#: templates/personal.php:119
 msgid "Help translate"
 msgstr "Padėkite išversti"
 
-#: templates/personal.php:104
+#: templates/personal.php:125
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:106
+#: templates/personal.php:127
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
 "target=\"_blank\">access your Files via WebDAV</a>"
 msgstr "Naudokite šį adresą, kad <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">pasiekti savo failus per WebDAV</a>"
 
-#: templates/personal.php:117
+#: templates/personal.php:138
 msgid "Encryption"
 msgstr "Šifravimas"
 
-#: templates/personal.php:119
+#: templates/personal.php:140
 msgid "The encryption app is no longer enabled, decrypt all your file"
 msgstr "Šifravimo programa nebėra įjungta, iššifruokite visus savo failus"
 
-#: templates/personal.php:125
+#: templates/personal.php:146
 msgid "Log-in password"
 msgstr "Prisijungimo slaptažodis"
 
-#: templates/personal.php:130
+#: templates/personal.php:151
 msgid "Decrypt all Files"
 msgstr "Iššifruoti visus failus"
 
@@ -515,30 +576,30 @@ msgstr "Įveskite atkūrimo slaptažodį, kad atkurti naudotojo failus keičiant
 msgid "Default Storage"
 msgstr "Numatytas saugojimas"
 
-#: templates/users.php:48 templates/users.php:142
+#: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
 msgstr "Neribota"
 
-#: templates/users.php:66 templates/users.php:157
+#: templates/users.php:66 templates/users.php:163
 msgid "Other"
 msgstr "Kita"
 
-#: templates/users.php:84
+#: templates/users.php:87
 msgid "Username"
 msgstr "Prisijungimo vardas"
 
-#: templates/users.php:91
+#: templates/users.php:94
 msgid "Storage"
 msgstr "Saugojimas"
 
-#: templates/users.php:102
+#: templates/users.php:108
 msgid "change display name"
 msgstr "keisti rodomą vardą"
 
-#: templates/users.php:106
+#: templates/users.php:112
 msgid "set new password"
 msgstr "nustatyti naują slaptažodį"
 
-#: templates/users.php:137
+#: templates/users.php:143
 msgid "Default"
 msgstr "Numatytasis"

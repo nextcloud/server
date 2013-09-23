@@ -1,31 +1,4 @@
-var uploadingFiles = {};
 Files={
-	cancelUpload:function(filename) {
-		if(uploadingFiles[filename]) {
-			uploadingFiles[filename].abort();
-			delete uploadingFiles[filename];
-			return true;
-		}
-		return false;
-	},
-	cancelUploads:function() {
-		$.each(uploadingFiles,function(index,file) {
-			if(typeof file['abort'] === 'function') {
-				file.abort();
-				var filename = $('tr').filterAttr('data-file',index);
-				filename.hide();
-				filename.find('input[type="checkbox"]').removeAttr('checked');
-				filename.removeClass('selected');
-			} else {
-				$.each(file,function(i,f) {
-					f.abort();
-					delete file[i];
-				});
-			}
-			delete uploadingFiles[index];
-		});
-		procesSelection();
-	},
 	updateMaxUploadFilesize:function(response) {
 		if(response == undefined) {
 			return;
@@ -217,7 +190,8 @@ $(document).ready(function() {
 
 	// Trigger cancelling of file upload
 	$('#uploadprogresswrapper .stop').on('click', function() {
-		Files.cancelUploads();
+		OC.Upload.cancelUploads();
+		procesSelection();
 	});
 
 	// Show trash bin
@@ -393,6 +367,11 @@ $(document).ready(function() {
 			}
 		});
 	}
+	
+	//scroll to and highlight preselected file
+	if (getURLParameter('scrollto')) {
+		FileList.scrollTo(getURLParameter('scrollto'));
+	}
 });
 
 function scanFiles(force, dir, users){
@@ -534,7 +513,7 @@ var folderDropOptions={
 						$('#notification').fadeIn();
 					}
 				} else {
-					OC.dialogs.alert(t('Error moving file'), t('core', 'Error'));
+					OC.dialogs.alert(t('files', 'Error moving file'), t('files', 'Error'));
 				}
 			});
 		});
@@ -572,7 +551,7 @@ var crumbDropOptions={
 						$('#notification').fadeIn();
 					}
 				} else {
-					OC.dialogs.alert(t('Error moving file'), t('core', 'Error'));
+					OC.dialogs.alert(t('files', 'Error moving file'), t('files', 'Error'));
 				}
 			});
 		});
@@ -662,15 +641,25 @@ function getPathForPreview(name) {
 	return path;
 }
 
-function lazyLoadPreview(path, mime, ready) {
-	getMimeIcon(mime,ready);
-	var x = $('#filestable').data('preview-x');
-	var y = $('#filestable').data('preview-y');
-	var previewURL = OC.Router.generate('core_ajax_preview', {file: encodeURIComponent(path), x:x, y:y});
-	$.get(previewURL, function() {
-		previewURL = previewURL.replace('(','%28');
-		previewURL = previewURL.replace(')','%29');
-		ready(previewURL + '&reload=true');
+function lazyLoadPreview(path, mime, ready, width, height) {
+	// get mime icon url
+	getMimeIcon(mime, function(iconURL) {
+		ready(iconURL); // set mimeicon URL
+		
+		// now try getting a preview thumbnail URL
+		if ( ! width ) {
+			width = $('#filestable').data('preview-x');
+		}
+		if ( ! height ) {
+			height = $('#filestable').data('preview-y');
+		}
+		var previewURL = OC.Router.generate('core_ajax_preview', {file: encodeURIComponent(path), x:width, y:height});
+		$.get(previewURL, function() {
+			previewURL = previewURL.replace('(', '%28');
+			previewURL = previewURL.replace(')', '%29');
+			//set preview thumbnail URL
+			ready(previewURL + '&reload=true');
+		});
 	});
 }
 

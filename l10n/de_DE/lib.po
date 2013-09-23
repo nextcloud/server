@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-30 09:33-0400\n"
-"PO-Revision-Date: 2013-08-29 11:30+0000\n"
+"POT-Creation-Date: 2013-09-18 11:47-0400\n"
+"PO-Revision-Date: 2013-09-17 13:05+0000\n"
 "Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -51,10 +51,22 @@ msgstr "Benutzer"
 msgid "Admin"
 msgstr "Administrator"
 
-#: app.php:837
+#: app.php:839
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Konnte \"%s\" nicht aktualisieren."
+
+#: avatar.php:56
+msgid "Custom profile pictures don't work with encryption yet"
+msgstr "Individuelle Profilbilder werden noch nicht von der Verschlüsselung unterstützt"
+
+#: avatar.php:64
+msgid "Unknown filetype"
+msgstr "Unbekannter Dateityp"
+
+#: avatar.php:69
+msgid "Invalid image"
+msgstr "Ungültiges Bild"
 
 #: defaults.php:35
 msgid "web services under your control"
@@ -108,37 +120,37 @@ msgstr "Archive des Typs %s werden nicht unterstützt."
 msgid "Failed to open archive when installing app"
 msgstr "Das Archiv konnte bei der Installation der Applikation nicht geöffnet werden"
 
-#: installer.php:123
+#: installer.php:125
 msgid "App does not provide an info.xml file"
 msgstr "Die Applikation enthält keine info,xml Datei"
 
-#: installer.php:129
+#: installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Die Applikation kann auf Grund von unerlaubten Code nicht installiert werden"
 
-#: installer.php:138
+#: installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Die Anwendung konnte nicht installiert werden, weil Sie nicht mit dieser Version von ownCloud kompatibel ist."
 
-#: installer.php:144
+#: installer.php:146
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Die Applikation konnte nicht installiert werden, da diese das <shipped>true</shipped> Tag beinhaltet und dieses, bei nicht mitausgelieferten Applikationen, nicht erlaubt ist ist"
 
-#: installer.php:150
+#: installer.php:152
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "Die Applikation konnte nicht installiert werden, da die Version in der info.xml nicht die gleiche Version wie im App-Store ist"
 
-#: installer.php:160
+#: installer.php:162
 msgid "App directory already exists"
 msgstr "Der Ordner für die Anwendung existiert bereits."
 
-#: installer.php:173
+#: installer.php:175
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Der Ordner für die Anwendung konnte nicht angelegt werden. Bitte überprüfen Sie die Ordner- und Dateirechte und passen Sie diese entsprechend an. %s"
@@ -267,51 +279,51 @@ msgstr "Ihr Web-Server ist noch nicht für eine Datei-Synchronisation konfigurie
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Bitte prüfen Sie die <a href='%s'>Installationsanleitungen</a>."
 
-#: template/functions.php:80
+#: template/functions.php:96
 msgid "seconds ago"
 msgstr "Gerade eben"
 
-#: template/functions.php:81
+#: template/functions.php:97
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "Vor %n Minute"
 msgstr[1] "Vor %n Minuten"
 
-#: template/functions.php:82
+#: template/functions.php:98
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "Vor %n Stunde"
 msgstr[1] "Vor %n Stunden"
 
-#: template/functions.php:83
+#: template/functions.php:99
 msgid "today"
 msgstr "Heute"
 
-#: template/functions.php:84
+#: template/functions.php:100
 msgid "yesterday"
 msgstr "Gestern"
 
-#: template/functions.php:85
+#: template/functions.php:101
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "Vor %n Tag"
 msgstr[1] "Vor %n Tagen"
 
-#: template/functions.php:86
+#: template/functions.php:102
 msgid "last month"
 msgstr "Letzten Monat"
 
-#: template/functions.php:87
+#: template/functions.php:103
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "Vor %n Monat"
 msgstr[1] "Vor %n Monaten"
 
-#: template/functions.php:88
+#: template/functions.php:104
 msgid "last year"
 msgstr "Letztes Jahr"
 
-#: template/functions.php:89
+#: template/functions.php:105
 msgid "years ago"
 msgstr "Vor  Jahren"
 

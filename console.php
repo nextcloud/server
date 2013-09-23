@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Copyright (c) 2013 Bart Visscher <bartv@thisnet.nl>
@@ -6,6 +5,8 @@
  * later.
  * See the COPYING-README file.
  */
+
+use Symfony\Component\Console\Application;
 
 $RUNTIME_NOAPPS = true;
 require_once 'lib/base.php';
@@ -21,32 +22,13 @@ if (!OC::$CLI) {
 	exit(0);
 }
 
-$self = basename($argv[0]);
-if ($argc <= 1) {
-	$argv[1] = "help";
+$defaults = new OC_Defaults;
+$application = new Application($defaults->getName(), \OC_Util::getVersionString());
+require_once 'core/register_command.php';
+foreach(OC_App::getAllApps() as $app) {
+	$file = OC_App::getAppPath($app).'/appinfo/register_command.php';
+	if(file_exists($file)) {
+		require $file;
+	}
 }
-
-$command = $argv[1];
-array_shift($argv);
-
-switch ($command) {
-	case 'files:scan':
-		require_once 'apps/files/console/scan.php';
-		break;
-	case 'status':
-		require_once 'status.php';
-		break;
-	case 'help':
-		echo "Usage:" . PHP_EOL;
-		echo " " . $self . " <command>" . PHP_EOL;
-		echo PHP_EOL;
-		echo "Available commands:" . PHP_EOL;
-		echo " files:scan -> rescan filesystem" .PHP_EOL;
-		echo " status -> show some status information" .PHP_EOL;
-		echo " help -> show this help screen" .PHP_EOL;
-		break;
-	default:
-		echo "Unknown command '$command'" . PHP_EOL;
-		echo "For available commands type ". $self . " help" . PHP_EOL;
-		break;
-}
+$application->run();

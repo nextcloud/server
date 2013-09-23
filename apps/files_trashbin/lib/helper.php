@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\files_trashbin\lib;
+namespace OCA\Files_Trashbin;
 
 class Helper
 {
@@ -62,11 +62,11 @@ class Helper
 			}
 			$i['permissions'] = \OCP\PERMISSION_READ;
 			$i['isPreviewAvailable'] = \OCP\Preview::isMimeSupported($r['mime']);
-			$i['icon'] = \OCA\files\lib\Helper::determineIcon($i);
+			$i['icon'] = \OCA\Files\Helper::determineIcon($i);
 			$files[] = $i;
 		}
 
-		usort($files, array('\OCA\files\lib\Helper', 'fileCmp'));
+		usort($files, array('\OCA\Files\Helper', 'fileCmp'));
 
 		return $files;
 	}

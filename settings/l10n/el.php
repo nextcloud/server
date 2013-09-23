@@ -87,6 +87,7 @@ $TRANSLATIONS = array(
 "Email" => "Ηλ. ταχυδρομείο",
 "Your email address" => "Η διεύθυνση ηλεκτρονικού ταχυδρομείου σας",
 "Fill in an email address to enable password recovery" => "Συμπληρώστε μια διεύθυνση ηλεκτρονικού ταχυδρομείου για να ενεργοποιηθεί η ανάκτηση συνθηματικού",
+"Profile picture" => "Φωτογραφία προφίλ",
 "Language" => "Γλώσσα",
 "Help translate" => "Βοηθήστε στη μετάφραση",
 "WebDAV" => "WebDAV",
