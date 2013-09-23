@@ -211,6 +211,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	function getConfig() {
 		return $this->query('AllConfig');
 	}
+
 	/**
 	 * Returns an ICache instance
 	 *
