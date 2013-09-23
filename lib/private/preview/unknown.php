@@ -22,11 +22,10 @@ class Unknown extends Provider {
 
 		if (extension_loaded('imagick')) {
 				$path = substr_replace($path, 'svg', -3);
-				$content = file_get_contents($path);
 
 				$svg = new \Imagick();
 				$svg->setBackgroundColor(new \ImagickPixel('transparent'));
-				$svg->readImageBlob($content);
+				$svg->readImage($path);
 				$svg->setImageFormat('png32');
 
 				$image = new \OC_Image();
