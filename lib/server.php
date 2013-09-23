@@ -4,6 +4,7 @@ namespace OC;
 
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Utility\SimpleContainer;
+use OC\Cache\UserCache;
 use OC\Files\Node\Root;
 use OC\Files\View;
 use OCP\IServerContainer;
@@ -49,12 +50,62 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new PreviewManager();
 		});
 		$this->registerService('RootFolder', function($c) {
-			// TODO: get user and user manager from container as well
+			// TODO: get user from container as well
 			$user = \OC_User::getUser();
-			$user = \OC_User::getManager()->get($user);
+			/** @var $c SimpleContainer */
+			$userManager = $c->query('UserManager');
+			$user = $userManager->get($user);
 			$manager = \OC\Files\Filesystem::getMountManager();
 			$view = new View();
 			return new Root($manager, $view, $user);
+		});
+		$this->registerService('UserManager', function($c) {
+			return new \OC\User\Manager();
+		});
+		$this->registerService('UserSession', function($c) {
+			/** @var $c SimpleContainer */
+			$manager = $c->query('UserManager');
+			$userSession = new \OC\User\Session($manager, \OC::$session);
+			$userSession->listen('\OC\User', 'preCreateUser', function ($uid, $password) {
+				\OC_Hook::emit('OC_User', 'pre_createUser', array('run' => true, 'uid' => $uid, 'password' => $password));
+			});
+			$userSession->listen('\OC\User', 'postCreateUser', function ($user, $password) {
+				/** @var $user \OC\User\User */
+				\OC_Hook::emit('OC_User', 'post_createUser', array('uid' => $user->getUID(), 'password' => $password));
+			});
+			$userSession->listen('\OC\User', 'preDelete', function ($user) {
+				/** @var $user \OC\User\User */
+				\OC_Hook::emit('OC_User', 'pre_deleteUser', array('run' => true, 'uid' => $user->getUID()));
+			});
+			$userSession->listen('\OC\User', 'postDelete', function ($user) {
+				/** @var $user \OC\User\User */
+				\OC_Hook::emit('OC_User', 'post_deleteUser', array('uid' => $user->getUID()));
+			});
+			$userSession->listen('\OC\User', 'preSetPassword', function ($user, $password, $recoveryPassword) {
+				/** @var $user \OC\User\User */
+				\OC_Hook::emit('OC_User', 'pre_setPassword', array('run' => true, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword));
+			});
+			$userSession->listen('\OC\User', 'postSetPassword', function ($user, $password, $recoveryPassword) {
+				/** @var $user \OC\User\User */
+				\OC_Hook::emit('OC_User', 'post_setPassword', array('run' => true, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword));
+			});
+			$userSession->listen('\OC\User', 'preLogin', function ($uid, $password) {
+				\OC_Hook::emit('OC_User', 'pre_login', array('run' => true, 'uid' => $uid, 'password' => $password));
+			});
+			$userSession->listen('\OC\User', 'postLogin', function ($user, $password) {
+				/** @var $user \OC\User\User */
+				\OC_Hook::emit('OC_User', 'post_login', array('run' => true, 'uid' => $user->getUID(), 'password' => $password));
+			});
+			$userSession->listen('\OC\User', 'logout', function () {
+				\OC_Hook::emit('OC_User', 'logout', array());
+			});
+			return $userSession;
+		});
+		$this->registerService('NavigationManager', function($c) {
+			return new \OC\NavigationManager();
+		});
+		$this->registerService('AllConfig', function($c) {
+			return new \OC\AllConfig();
 		});
 		$this->registerService('UserCache', function($c) {
 			return new UserCache();
@@ -98,6 +149,33 @@ class Server extends SimpleContainer implements IServerContainer {
 	}
 
 	/**
+	 * @return \OC\User\Manager
+	 */
+	function getUserManager() {
+		return $this->query('UserManager');
+	}
+
+	/**
+	 * @return \OC\User\Session
+	 */
+	function getUserSession() {
+		return $this->query('UserSession');
+	}
+
+	/**
+	 * @return \OC\NavigationManager
+	 */
+	function getNavigationManager() {
+		return $this->query('NavigationManager');
+	}
+
+	/**
+	 * @return \OC\Config
+	 */
+	function getConfig() {
+		return $this->query('AllConfig');
+	}
+	/**
 	 * Returns an ICache instance
 	 *
 	 * @return \OCP\ICache
@@ -115,4 +193,12 @@ class Server extends SimpleContainer implements IServerContainer {
 		return \OC::$session;
 	}
 
+	/**
+	 * Returns the current session
+	 *
+	 * @return \OCP\IDBConnection
+	 */
+	function getDatabaseConnection() {
+		return \OC_DB::getConnection();
+	}
 }

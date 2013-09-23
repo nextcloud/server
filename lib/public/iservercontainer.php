@@ -63,6 +63,23 @@ interface IServerContainer {
 	function getRootFolder();
 
 	/**
+	 * Returns the user session
+	 *
+	 * @return \OCP\IUserSession
+	 */
+	function getUserSession();
+
+	/**
+	 * @return \OCP\INavigationManager
+	 */
+	function getNavigationManager();
+
+	/**
+	 * @return \OCP\IConfig
+	 */
+	function getConfig();
+
+	/**
 	 * Returns an ICache instance
 	 *
 	 * @return \OCP\ICache
@@ -75,5 +92,12 @@ interface IServerContainer {
 	 * @return \OCP\ISession
 	 */
 	function getSession();
+
+	/**
+	 * Returns the current session
+	 *
+	 * @return \OCP\IDBConnection
+	 */
+	function getDatabaseConnection();
 
 }

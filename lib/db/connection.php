@@ -12,7 +12,7 @@ use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\Common\EventManager;
 
-class Connection extends \Doctrine\DBAL\Connection {
+class Connection extends \Doctrine\DBAL\Connection implements \OCP\IDBConnection {
 	/**
 	 * @var string $tablePrefix
 	 */
