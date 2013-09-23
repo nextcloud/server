@@ -39,8 +39,8 @@ class Helper
 		}
 
 		if($file['isPreviewAvailable']) {
-			$relativePath = substr($file['path'], 6);
-			return \OC_Helper::previewIcon($relativePath);
+			$pathForPreview = $file['directory'] . '/' . $file['name'];
+			return \OC_Helper::previewIcon($pathForPreview);
 		}
 		return \OC_Helper::mimetypeIcon($file['mimetype']);
 	}
