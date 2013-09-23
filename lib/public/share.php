@@ -665,19 +665,16 @@ class Share {
 	public static function unshareAll($itemType, $itemSource) {
 		if ($shares = self::getItemShared($itemType, $itemSource)) {
 			// Pass all the vars we have for now, they may be useful
-			\OC_Hook::emit('OCP\Share', 'pre_unshareAll', array(
+			$hookParams = array(
 				'itemType' => $itemType,
 				'itemSource' => $itemSource,
-				'shares' => $shares
-			));
+				'shares' => $shares,
+			);
+			\OC_Hook::emit('OCP\Share', 'pre_unshareAll', $hookParams);
 			foreach ($shares as $share) {
 				self::delete($share['id']);
 			}
-			\OC_Hook::emit('OCP\Share', 'post_unshareAll', array(
-					'itemType' => $itemType,
-					'itemSource' => $itemSource,
-					'shares' => $shares
-			));
+			\OC_Hook::emit('OCP\Share', 'post_unshareAll', $hookParams);
 			return true;
 		}
 		return false;
@@ -850,6 +847,27 @@ class Share {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Unshares a share given a share data array
+	 * @param array $item Share data (usually database row)
+	 * @return null
+	 */
+	protected static function unshareItem(array $item) {
+		// Pass all the vars we have for now, they may be useful
+		$hookParams = array(
+			'itemType'		=> $item['item_type'],
+			'itemSource'	=> $item['item_source'],
+			'shareType'		=> $item['share_type'],
+			'shareWith'		=> $item['share_with'],
+			'itemParent'	=> $item['parent'],
+		);
+		\OC_Hook::emit('OCP\Share', 'pre_unshare', $hookParams + array(
+			'fileSource'	=> $item['file_source'],
+		));
+		self::delete($item['id']);
+		\OC_Hook::emit('OCP\Share', 'post_unshare', $hookParams);
 	}
 
 	/**
