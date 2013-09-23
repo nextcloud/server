@@ -21,7 +21,7 @@ class Unknown extends Provider {
 		$path = \OC::$SERVERROOT . substr($path, strlen(\OC::$WEBROOT));
 
 		if (extension_loaded('imagick')) {
-				$path = substr_replace($path, 'png', -3);
+				$path = substr_replace($path, 'svg', -3);
 				$content = file_get_contents($path);
 
 				$svg = new \Imagick();
