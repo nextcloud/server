@@ -634,23 +634,7 @@ class Share {
 	public static function unshare($itemType, $itemSource, $shareType, $shareWith) {
 		if ($item = self::getItems($itemType, $itemSource, $shareType, $shareWith, \OC_User::getUser(),
 			self::FORMAT_NONE, null, 1)) {
-			// Pass all the vars we have for now, they may be useful
-			\OC_Hook::emit('OCP\Share', 'pre_unshare', array(
-				'itemType' => $itemType,
-				'itemSource' => $itemSource,
-				'fileSource' => $item['file_source'],
-				'shareType' => $shareType,
-				'shareWith' => $shareWith,
-				'itemParent' => $item['parent'],
-			));
-			self::delete($item['id']);
-			\OC_Hook::emit('OCP\Share', 'post_unshare', array(
-					'itemType' => $itemType,
-					'itemSource' => $itemSource,
-					'shareType' => $shareType,
-					'shareWith' => $shareWith,
-					'itemParent' => $item['parent'],
-			));
+			self::unshareItem($item);
 			return true;
 		}
 		return false;
