@@ -76,6 +76,9 @@
 #filestable tbody tr.selected {
 	background-color: rgb(230,230,230);
 }
+#filestable tbody tr.searchresult {
+	background-color: rgb(240,240,240);
+}
 tbody a { color:#000; }
 span.extension, span.uploading, td.date { color:#999; }
 span.extension { text-transform:lowercase; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70); opacity:.7; -webkit-transition:opacity 300ms; -moz-transition:opacity 300ms; -o-transition:opacity 300ms; transition:opacity 300ms; }
@@ -357,4 +360,3 @@ table.dragshadow td.size {
 .mask.transparent{
 	opacity: 0;
 }
-

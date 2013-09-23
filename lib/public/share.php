@@ -306,7 +306,6 @@ class Share {
 
 	}
 
-
 	/**
 	* @brief Get the item of item type shared with the current user by source
 	* @param string Item type
@@ -500,6 +499,7 @@ class Share {
 					$uidOwner, self::FORMAT_NONE, null, 1)) {
 					// remember old token
 					$oldToken = $checkExists['token'];
+					$oldPermissions = $checkExists['permissions'];
 					//delete the old share
 					self::delete($checkExists['id']);
 				}
@@ -510,8 +510,11 @@ class Share {
 					$hasher = new \PasswordHash(8, $forcePortable);
 					$shareWith = $hasher->HashPassword($shareWith.\OC_Config::getValue('passwordsalt', ''));
 				} else {
-					// reuse the already set password
-					$shareWith = $checkExists['share_with'];
+					// reuse the already set password, but only if we change permissions
+					// otherwise the user disabled the password protection
+					if ($checkExists && (int)$permissions !== (int)$oldPermissions) {
+						$shareWith = $checkExists['share_with'];
+					}
 				}
 
 				// Generate token

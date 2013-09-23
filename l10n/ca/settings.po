@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-07 04:40-0400\n"
-"PO-Revision-Date: 2013-09-05 11:51+0000\n"
+"POT-Creation-Date: 2013-09-22 12:56-0400\n"
+"PO-Revision-Date: 2013-09-20 15:20+0000\n"
 "Last-Translator: rogerc\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgid "Unable to load list from App Store"
 msgstr "No s'ha pogut carregar la llista des de l'App Store"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20
+#: ajax/togglegroups.php:20 changepassword/controller.php:55
 msgid "Authentication error"
 msgstr "Error d'autenticació"
 
@@ -86,6 +86,35 @@ msgstr "No es pot eliminar l'usuari del grup %s"
 msgid "Couldn't update app."
 msgstr "No s'ha pogut actualitzar l'aplicació."
 
+#: changepassword/controller.php:20
+msgid "Wrong password"
+msgstr "Contrasenya incorrecta"
+
+#: changepassword/controller.php:42
+msgid "No user supplied"
+msgstr "No heu proporcionat cap usuari"
+
+#: changepassword/controller.php:74
+msgid ""
+"Please provide an admin recovery password, otherwise all user data will be "
+"lost"
+msgstr "Sisplau, proporcioneu una contrasenya de recuperació d'administrador, altrament totes les dades d'usuari es perdran"
+
+#: changepassword/controller.php:79
+msgid ""
+"Wrong admin recovery password. Please check the password and try again."
+msgstr "La contrasenya de recuperació d'administrador és incorrecta. Comproveu-la i torneu-ho a intentar."
+
+#: changepassword/controller.php:87
+msgid ""
+"Back-end doesn't support password change, but the users encryption key was "
+"successfully updated."
+msgstr "El dorsal no permet canviar la contrasenya, però la clau d'encripació d'usuaris s'ha actualitzat correctament."
+
+#: changepassword/controller.php:92 changepassword/controller.php:103
+msgid "Unable to change password"
+msgstr "No es pot canviar la contrasenya"
+
 #: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Actualitza a {appversion}"
@@ -130,11 +159,15 @@ msgstr "Actualitza"
 msgid "Updated"
 msgstr "Actualitzada"
 
-#: js/personal.js:150
+#: js/personal.js:220
+msgid "Select a profile picture"
+msgstr "Seleccioneu una imatge de perfil"
+
+#: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Desencriptant fitxers... Espereu, això pot trigar una estona."
 
-#: js/personal.js:172
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "Desant..."
 
@@ -150,16 +183,16 @@ msgstr "desfés"
 msgid "Unable to remove user"
 msgstr "No s'ha pogut eliminar l'usuari"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:87
-#: templates/users.php:112
+#: js/users.js:92 templates/users.php:26 templates/users.php:90
+#: templates/users.php:118
 msgid "Groups"
 msgstr "Grups"
 
-#: js/users.js:97 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
 msgstr "Grup Admin"
 
-#: js/users.js:120 templates/users.php:164
+#: js/users.js:120 templates/users.php:170
 msgid "Delete"
 msgstr "Esborra"
 
@@ -179,7 +212,7 @@ msgstr "Error en crear l'usuari"
 msgid "A valid password must be provided"
 msgstr "Heu de facilitar una contrasenya vàlida"
 
-#: personal.php:40 personal.php:41
+#: personal.php:45 personal.php:46
 msgid "__language_name__"
 msgstr "Català"
 
@@ -345,11 +378,11 @@ msgstr "Més"
 msgid "Less"
 msgstr "Menys"
 
-#: templates/admin.php:242 templates/personal.php:140
+#: templates/admin.php:242 templates/personal.php:161
 msgid "Version"
 msgstr "Versió"
 
-#: templates/admin.php:246 templates/personal.php:143
+#: templates/admin.php:246 templates/personal.php:164
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -416,7 +449,7 @@ msgstr "Torna a mostrar l'assistent de primera execució"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Heu utilitzat <strong>%s</strong> d'un total disponible de <strong>%s</strong>"
 
-#: templates/personal.php:39 templates/users.php:23 templates/users.php:86
+#: templates/personal.php:39 templates/users.php:23 templates/users.php:89
 msgid "Password"
 msgstr "Contrasenya"
 
@@ -440,7 +473,7 @@ msgstr "Contrasenya nova"
 msgid "Change password"
 msgstr "Canvia la contrasenya"
 
-#: templates/personal.php:58 templates/users.php:85
+#: templates/personal.php:58 templates/users.php:88
 msgid "Display Name"
 msgstr "Nom a mostrar"
 
@@ -456,38 +489,66 @@ msgstr "Correu electrònic"
 msgid "Fill in an email address to enable password recovery"
 msgstr "Ompliu el correu electrònic per activar la recuperació de contrasenya"
 
-#: templates/personal.php:85 templates/personal.php:86
+#: templates/personal.php:86
+msgid "Profile picture"
+msgstr "Foto de perfil"
+
+#: templates/personal.php:90
+msgid "Upload new"
+msgstr "Puja'n una de nova"
+
+#: templates/personal.php:92
+msgid "Select new from Files"
+msgstr "Selecciona'n una de nova dels fitxers"
+
+#: templates/personal.php:93
+msgid "Remove image"
+msgstr "Elimina imatge"
+
+#: templates/personal.php:94
+msgid "Either png or jpg. Ideally square but you will be able to crop it."
+msgstr "Pot ser png o jpg. Idealment quadrada, però podreu retallar-la."
+
+#: templates/personal.php:97
+msgid "Abort"
+msgstr "Cancel·la"
+
+#: templates/personal.php:98
+msgid "Choose as profile image"
+msgstr "Selecciona com a imatge de perfil"
+
+#: templates/personal.php:106 templates/personal.php:107
 msgid "Language"
 msgstr "Idioma"
 
-#: templates/personal.php:98
+#: templates/personal.php:119
 msgid "Help translate"
 msgstr "Ajudeu-nos amb la traducció"
 
-#: templates/personal.php:104
+#: templates/personal.php:125
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:106
+#: templates/personal.php:127
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
 "target=\"_blank\">access your Files via WebDAV</a>"
 msgstr "Useu aquesta adreça per <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">accedir als fitxers via WebDAV</a>"
 
-#: templates/personal.php:117
+#: templates/personal.php:138
 msgid "Encryption"
 msgstr "Xifrat"
 
-#: templates/personal.php:119
+#: templates/personal.php:140
 msgid "The encryption app is no longer enabled, decrypt all your file"
 msgstr "L'aplicació d'encriptació ja no està activada, desencripteu tots els vostres fitxers."
 
-#: templates/personal.php:125
+#: templates/personal.php:146
 msgid "Log-in password"
 msgstr "Contrasenya d'accés"
 
-#: templates/personal.php:130
+#: templates/personal.php:151
 msgid "Decrypt all Files"
 msgstr "Desencripta tots els fitxers"
 
@@ -513,30 +574,30 @@ msgstr "Escriviu la contrasenya de recuperació per a poder recuperar els fitxer
 msgid "Default Storage"
 msgstr "Emmagatzemament per defecte"
 
-#: templates/users.php:48 templates/users.php:142
+#: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
 msgstr "Il·limitat"
 
-#: templates/users.php:66 templates/users.php:157
+#: templates/users.php:66 templates/users.php:163
 msgid "Other"
 msgstr "Un altre"
 
-#: templates/users.php:84
+#: templates/users.php:87
 msgid "Username"
 msgstr "Nom d'usuari"
 
-#: templates/users.php:91
+#: templates/users.php:94
 msgid "Storage"
 msgstr "Emmagatzemament"
 
-#: templates/users.php:102
+#: templates/users.php:108
 msgid "change display name"
 msgstr "canvia el nom a mostrar"
 
-#: templates/users.php:106
+#: templates/users.php:112
 msgid "set new password"
 msgstr "estableix nova contrasenya"
 
-#: templates/users.php:137
+#: templates/users.php:143
 msgid "Default"
 msgstr "Per defecte"

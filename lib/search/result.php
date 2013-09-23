@@ -7,6 +7,7 @@ class OC_Search_Result{
 	public $text;
 	public $link;
 	public $type;
+	public $container;
 
 	/**
 	 * create a new search result
@@ -15,10 +16,11 @@ class OC_Search_Result{
 	 * @param string $link link for the result
 	 * @param string $type the type of result as human readable string ('File', 'Music', etc)
 	 */
-	public function __construct($name, $text, $link, $type) {
+	public function __construct($name, $text, $link, $type, $container) {
 		$this->name=$name;
 		$this->text=$text;
 		$this->link=$link;
 		$this->type=$type;
+		$this->container=$container;
 	}
 }

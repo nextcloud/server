@@ -112,6 +112,8 @@ class Scanner extends BasicEmitter {
 				if (!empty($newData)) {
 					$this->cache->put($file, $newData);
 				}
+			} else {
+				$this->cache->remove($file);
 			}
 			return $data;
 		}

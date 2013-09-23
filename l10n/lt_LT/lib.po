@@ -4,14 +4,15 @@
 # 
 # Translators:
 # fizikiukas <fizikiukas@gmail.com>, 2013
+# Liudas Ališauskas <liudas.alisauskas@gmail.com>, 2013
 # Liudas <liudas@aksioma.lt>, 2013
 # fizikiukas <fizikiukas@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-13 21:47-0400\n"
-"PO-Revision-Date: 2013-09-13 07:00+0000\n"
+"POT-Creation-Date: 2013-09-18 11:47-0400\n"
+"PO-Revision-Date: 2013-09-18 14:50+0000\n"
 "Last-Translator: Liudas Ališauskas <liudas.alisauskas@gmail.com>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -55,6 +56,18 @@ msgstr "Administravimas"
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Nepavyko pakelti  „%s“ versijos."
+
+#: avatar.php:56
+msgid "Custom profile pictures don't work with encryption yet"
+msgstr "Saviti profilio paveiksliukai dar neveikia su šifravimu"
+
+#: avatar.php:64
+msgid "Unknown filetype"
+msgstr "Nežinomas failo tipas"
+
+#: avatar.php:69
+msgid "Invalid image"
+msgstr "Netinkamas paveikslėlis"
 
 #: defaults.php:35
 msgid "web services under your control"
