@@ -20,7 +20,22 @@ class Unknown extends Provider {
 		$path = \OC_Helper::mimetypeIcon($mimetype);
 		$path = \OC::$SERVERROOT . substr($path, strlen(\OC::$WEBROOT));
 
-		return new \OC_Image($path);
+		if (extension_loaded('imagick')) {
+				$path = substr_replace($path, 'png', -3);
+				$content = file_get_contents($path);
+
+				$svg = new \Imagick();
+				$svg->setBackgroundColor(new \ImagickPixel('transparent'));
+				$svg->readImageBlob($content);
+				$svg->setImageFormat('png32');
+
+				$image = new \OC_Image();
+				$image->loadFromData($svg);
+		} else {
+			$image = new \OC_Image($path);
+		}
+
+		return $image;
 	}
 }
 
