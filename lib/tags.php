@@ -246,6 +246,7 @@ class Tags implements \OCP\ITags {
 				return false;
 			} elseif((int)$result === 0) {
 				\OCP\Util::writeLog('core', __METHOD__.', Tag already exists: ' . $name, \OCP\Util::DEBUG);
+				return false;
 			}
 		} catch(\Exception $e) {
 			\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
