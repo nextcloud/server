@@ -119,7 +119,7 @@ class Tags implements \OCP\ITags {
 				\OCP\Util::writeLog('core', __METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage($result), \OCP\Util::ERROR);
 				return false;
 			}
-			return ((int)$result->numRows() === 0);
+			return ((int)$result->fetchOne() === 0);
 		} catch(\Exception $e) {
 			\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
 				\OCP\Util::ERROR);
