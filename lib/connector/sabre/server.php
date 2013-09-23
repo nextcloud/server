@@ -1,18 +1,32 @@
 <?php
+/**
+ * ownCloud / SabreDAV
+ *
+ * @author Markus Goetz
+ *
+ * @copyright Copyright (C) 2007-2013 Rooftop Solutions. All rights reserved.
+ * @author Evert Pot (http://www.rooftopsolutions.nl/)
+ * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
+ */
 
 /**
  * Class OC_Connector_Sabre_Server
  *
+ * This class reimplements some methods from @see Sabre_DAV_Server.
+ *
+ * Basically we add handling of depth infinity.
+ *
+ * The right way to handle this would have been to submit a patch to the upstream project
+ * and grab the corresponding version one merged.
+ *
+ * Due to time constrains and the limitations where we don't want to upgrade 3rdparty code in
+ * this stage of the release cycle we did choose this approach.
+ *
+ * For ownCloud 7 we will upgrade SabreDAV and submit the patch - if needed.
+ *
  * @see Sabre_DAV_Server
  */
 class OC_Connector_Sabre_Server extends Sabre_DAV_Server {
-
-	/**
-	 * @see Sabre_DAV_Server
-	 */
-	public function __construct($treeOrNode = null) {
-		parent::__construct($treeOrNode);
-	}
 
 	/**
 	 * @see Sabre_DAV_Server
@@ -64,7 +78,7 @@ class OC_Connector_Sabre_Server extends Sabre_DAV_Server {
 
 	public function getPropertiesForPath($path, $propertyNames = array(), $depth = 0) {
 
-//		if ($depth!=0) $depth = 1;
+		//	if ($depth!=0) $depth = 1;
 
 		$path = rtrim($path,'/');
 
