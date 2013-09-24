@@ -205,13 +205,12 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 * If the array is empty, all properties should be returned
 	 *
 	 * @param array $properties
-	 * @return void
+	 * @return array
 	 */
 	public function getProperties($properties) {
 		$props = parent::getProperties($properties);
 		if (in_array(self::GETETAG_PROPERTYNAME, $properties) && !isset($props[self::GETETAG_PROPERTYNAME])) {
-			$props[self::GETETAG_PROPERTYNAME]
-				= OC_Connector_Sabre_Node::getETagPropertyForPath($this->path);
+			$props[self::GETETAG_PROPERTYNAME] = $this->getETagPropertyForPath($this->path);
 		}
 		return $props;
 	}

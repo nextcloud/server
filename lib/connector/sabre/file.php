@@ -45,9 +45,9 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 * @return string|null
 	 */
 	public function put($data) {
-
-		if (\OC\Files\Filesystem::file_exists($this->path) &&
-			!\OC\Files\Filesystem::isUpdatable($this->path)) {
+		$fs = $this->getFS();
+		if ($fs->file_exists($this->path) &&
+			!$fs->isUpdatable($this->path)) {
 			throw new \Sabre_DAV_Exception_Forbidden();
 		}
 
@@ -69,7 +69,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 			if ($chunk_handler->isComplete()) {
 				$newPath = $this->path . '/' . $info['name'];
 				$chunk_handler->file_assemble($newPath);
-				return OC_Connector_Sabre_Node::getETagPropertyForPath($newPath);
+				return $this->getETagPropertyForPath($newPath);
 			}
 
 			return null;
@@ -78,10 +78,10 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		// mark file as partial while uploading (ignored by the scanner)
 		$partpath = $this->path . '.part';
 
-		$putOkay = \OC\Files\Filesystem::file_put_contents($partpath, $data);
+		$putOkay = $fs->file_put_contents($partpath, $data);
 		if ($putOkay === false) {
 			\OC_Log::write('webdav', '\OC\Files\Filesystem::file_put_contents() failed', \OC_Log::ERROR);
-			\OC\Files\Filesystem::unlink($partpath);
+			$fs->unlink($partpath);
 			throw new Sabre_DAV_Exception();
 		}
 
@@ -89,9 +89,9 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		if (isset ($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT' ) {
 			if (isset($_SERVER['CONTENT_LENGTH'])) {
 				$expected = $_SERVER['CONTENT_LENGTH'];
-				$actual = \OC\Files\Filesystem::filesize($partpath);
+				$actual = $fs->filesize($partpath);
 				if ($actual != $expected) {
-					\OC\Files\Filesystem::unlink($partpath);
+					$fs->unlink($partpath);
 					throw new Sabre_DAV_Exception_BadRequest(
 						'expected filesize ' . $expected . ' got ' . $actual);
 				}
@@ -99,17 +99,17 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		}
 
 		// rename to correct path
-		\OC\Files\Filesystem::rename($partpath, $this->path);
+		$fs->rename($partpath, $this->path);
 
 		// allow sync clients to send the mtime along in a header
 		$mtime = OC_Request::hasModificationTime();
 		if ($mtime !== false) {
-			if(\OC\Files\Filesystem::touch($this->path, $mtime)) {
+			if($fs->touch($this->path, $mtime)) {
 				header('X-OC-MTime: accepted');
 			}
 		}
 
-		return OC_Connector_Sabre_Node::getETagPropertyForPath($this->path);
+		return $this->getETagPropertyForPath($this->path);
 	}
 
 	/**
