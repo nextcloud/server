@@ -89,7 +89,8 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 
 			// rename to correct path
 			$renameOkay = \OC\Files\Filesystem::rename($partpath, $newPath);
-			if (!$renameOkay) {
+			$fileExists = \OC\Files\Filesystem::file_exists($newPath);
+			if ($renameOkay === false || $fileExists === false) {
 				\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
 				\OC\Files\Filesystem::unlink($partpath);
 				throw new Sabre_DAV_Exception();
