@@ -760,6 +760,7 @@ class OC {
 			|| !isset($_COOKIE["oc_token"])
 			|| !isset($_COOKIE["oc_username"])
 			|| !$_COOKIE["oc_remember_login"]
+			|| OC_App::isEnabled('files_encryption')
 		) {
 			return false;
 		}
