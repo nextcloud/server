@@ -410,7 +410,7 @@ class OC_User {
 	 * @brief Check if the password is correct
 	 * @param string $uid The username
 	 * @param string $password The password
-	 * @return bool
+	 * @return mixed user id a string on success, false otherwise
 	 *
 	 * Check if the password is correct without logging in the user
 	 * returns the user id or false
