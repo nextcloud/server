@@ -38,15 +38,30 @@ class Tags implements \OCP\ITags {
 
 	/**
 	 * Tags
+	 *
+	 * @var array
 	 */
 	private $tags = array();
 
 	/**
 	 * Used for storing objectid/categoryname pairs while rescanning.
+	 *
+	 * @var array
 	 */
 	private static $relations = array();
 
+	/**
+	 * Type
+	 *
+	 * @var string
+	 */
 	private $type = null;
+
+	/**
+	 * User
+	 *
+	 * @var string
+	 */
 	private $user = null;
 
 	const TAG_TABLE = '*PREFIX*vcategory';
@@ -59,10 +74,10 @@ class Tags implements \OCP\ITags {
 	*
 	* @param string $user The user whos data the object will operate on.
 	*/
-	public function __construct($user) {
-
+	public function __construct($user, $type, $defaultTags = array()) {
 		$this->user = $user;
-
+		$this->type = $type;
+		$this->loadTags($defaultTags);
 	}
 
 	/**
@@ -70,10 +85,8 @@ class Tags implements \OCP\ITags {
 	*
 	* @param string $type The type identifier e.g. 'contact' or 'event'.
 	* @param array $defaultTags An array of default tags to be used if none are stored.
-	* @return \OCP\ITags
 	*/
-	public function loadTagsFor($type, $defaultTags=array()) {
-		$this->type = $type;
+	protected function loadTags($defaultTags=array()) {
 		$this->tags = array();
 		$result = null;
 		$sql = 'SELECT `id`, `category` FROM `' . self::TAG_TABLE . '` '
@@ -101,7 +114,6 @@ class Tags implements \OCP\ITags {
 		\OCP\Util::writeLog('core', __METHOD__.', tags: ' . print_r($this->tags, true),
 			\OCP\Util::DEBUG);
 
-		return $this;
 	}
 
 	/**
@@ -345,7 +357,7 @@ class Tags implements \OCP\ITags {
 				}
 			}
 			// reload tags to get the proper ids.
-			$this->loadTagsFor($this->type);
+			$this->loadTags();
 			// Loop through temporarily cached objectid/tagname pairs
 			// and save relations.
 			$tags = $this->tags;

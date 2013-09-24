@@ -58,7 +58,8 @@ interface IServerContainer {
 	/**
 	 * Returns the tag manager which can get and set tags for different object types
 	 *
-	 * @return \OCP\ITags
+	 * @see \OCP\ITagManager::load()
+	 * @return \OCP\ITagManager
 	 */
 	function getTagManager();
 

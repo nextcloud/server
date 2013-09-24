@@ -39,15 +39,6 @@ namespace OCP;
 interface ITags {
 
 	/**
-	* Load tags from db.
-	*
-	* @param string $type The type identifier e.g. 'contact' or 'event'.
-	* @param array $defaultTags An array of default tags to be used if none are stored.
-	* @return \OCP\ITags
-	*/
-	public function loadTagsFor($type, $defaultTags=array());
-
-	/**
 	* Check if any tags are saved for this type and user.
 	*
 	* @return boolean.

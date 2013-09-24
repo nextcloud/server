@@ -34,6 +34,7 @@ class Test_Tags extends PHPUnit_Framework_TestCase {
 		$this->objectType = uniqid('type_');
 		OC_User::createUser($this->user, 'pass');
 		OC_User::setUserId($this->user);
+		$this->tagMgr = new OC\TagManager($this->user);
 
 	}
 
@@ -45,102 +46,95 @@ class Test_Tags extends PHPUnit_Framework_TestCase {
 	public function testInstantiateWithDefaults() {
 		$defaultTags = array('Friends', 'Family', 'Work', 'Other');
 
-		$tagMgr = new OC\Tags($this->user);
-		$tagMgr->loadTagsFor($this->objectType, $defaultTags);
+		$tagger = $this->tagMgr->load($this->objectType, $defaultTags);
 
-		$this->assertEquals(4, count($tagMgr->getTags()));
+		$this->assertEquals(4, count($tagger->getTags()));
 	}
 
 	public function testAddTags() {
 		$tags = array('Friends', 'Family', 'Work', 'Other');
 
-		$tagMgr = new OC\Tags($this->user);
-		$tagMgr->loadTagsFor($this->objectType);
+		$tagger = $this->tagMgr->load($this->objectType);
 
 		foreach($tags as $tag) {
-			$result = $tagMgr->add($tag);
+			$result = $tagger->add($tag);
 			$this->assertGreaterThan(0, $result, 'add() returned an ID <= 0');
 			$this->assertTrue((bool)$result);
 		}
 
-		$this->assertFalse($tagMgr->add('Family'));
-		$this->assertFalse($tagMgr->add('fAMILY'));
+		$this->assertFalse($tagger->add('Family'));
+		$this->assertFalse($tagger->add('fAMILY'));
 
-		$this->assertCount(4, $tagMgr->getTags(), 'Wrong number of added tags');
+		$this->assertCount(4, $tagger->getTags(), 'Wrong number of added tags');
 	}
 
 	public function testAddMultiple() {
 		$tags = array('Friends', 'Family', 'Work', 'Other');
 
-		$tagMgr = new OC\Tags($this->user);
-		$tagMgr->loadTagsFor($this->objectType);
+		$tagger = $this->tagMgr->load($this->objectType);
 
 		foreach($tags as $tag) {
-			$this->assertFalse($tagMgr->hasTag($tag));
+			$this->assertFalse($tagger->hasTag($tag));
 		}
 
-		$result = $tagMgr->addMultiple($tags);
+		$result = $tagger->addMultiple($tags);
 		$this->assertTrue((bool)$result);
 
 		foreach($tags as $tag) {
-			$this->assertTrue($tagMgr->hasTag($tag));
+			$this->assertTrue($tagger->hasTag($tag));
 		}
 
-		$this->assertCount(4, $tagMgr->getTags(), 'Not all tags added');
+		$this->assertCount(4, $tagger->getTags(), 'Not all tags added');
 	}
 
 	public function testIsEmpty() {
-		$tagMgr = new OC\Tags($this->user);
-		$tagMgr->loadTagsFor($this->objectType);
+		$tagger = $this->tagMgr->load($this->objectType);
 
-		$this->assertEquals(0, count($tagMgr->getTags()));
-		$this->assertTrue($tagMgr->isEmpty());
+		$this->assertEquals(0, count($tagger->getTags()));
+		$this->assertTrue($tagger->isEmpty());
 
-		$result = $tagMgr->add('Tag');
+		$result = $tagger->add('Tag');
 		$this->assertGreaterThan(0, $result, 'add() returned an ID <= 0');
 		$this->assertNotEquals(false, $result, 'add() returned false');
-		$this->assertFalse($tagMgr->isEmpty());
+		$this->assertFalse($tagger->isEmpty());
 	}
 
 	public function testdeleteTags() {
 		$defaultTags = array('Friends', 'Family', 'Work', 'Other');
-		$tagMgr = new OC\Tags($this->user);
-		$tagMgr->loadTagsFor($this->objectType, $defaultTags);
+		$tagger = $this->tagMgr->load($this->objectType, $defaultTags);
 
-		$this->assertEquals(4, count($tagMgr->getTags()));
+		$this->assertEquals(4, count($tagger->getTags()));
 
-		$tagMgr->delete('family');
-		$this->assertEquals(3, count($tagMgr->getTags()));
+		$tagger->delete('family');
+		$this->assertEquals(3, count($tagger->getTags()));
 
-		$tagMgr->delete(array('Friends', 'Work', 'Other'));
-		$this->assertEquals(0, count($tagMgr->getTags()));
+		$tagger->delete(array('Friends', 'Work', 'Other'));
+		$this->assertEquals(0, count($tagger->getTags()));
 
 	}
 
 	public function testRenameTag() {
 		$defaultTags = array('Friends', 'Family', 'Wrok', 'Other');
-		$tagMgr = new OC\Tags($this->user);
-		$tagMgr->loadTagsFor($this->objectType, $defaultTags);
+		$tagger = $this->tagMgr->load($this->objectType, $defaultTags);
 
-		$this->assertTrue($tagMgr->rename('Wrok', 'Work'));
-		$this->assertTrue($tagMgr->hasTag('Work'));
-		$this->assertFalse($tagMgr->hastag('Wrok'));
-		$this->assertFalse($tagMgr->rename('Wrok', 'Work'));
+		$this->assertTrue($tagger->rename('Wrok', 'Work'));
+		$this->assertTrue($tagger->hasTag('Work'));
+		$this->assertFalse($tagger->hastag('Wrok'));
+		$this->assertFalse($tagger->rename('Wrok', 'Work'));
 
 	}
 
 	public function testTagAs() {
 		$objids = array(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
-		$tagMgr = new OC\Tags($this->user);
-		$tagMgr->loadTagsFor($this->objectType);
+		$tagger = $this->tagMgr->load($this->objectType);
 
 		foreach($objids as $id) {
-			$tagMgr->tagAs($id, 'Family');
+			$tagger->tagAs($id, 'Family');
 		}
 
-		$this->assertEquals(1, count($tagMgr->getTags()));
-		$this->assertEquals(9, count($tagMgr->getIdsForTag('Family')));
+		$this->assertEquals(1, count($tagger->getTags()));
+		$this->assertEquals(9, count($tagger->getIdsForTag('Family')));
 	}
 
 	/**
@@ -151,24 +145,22 @@ class Test_Tags extends PHPUnit_Framework_TestCase {
 
 		// Is this "legal"?
 		$this->testTagAs();
-		$tagMgr = new OC\Tags($this->user);
-		$tagMgr->loadTagsFor($this->objectType);
+		$tagger = $this->tagMgr->load($this->objectType);
 
 		foreach($objIds as $id) {
-			$this->assertTrue(in_array($id, $tagMgr->getIdsForTag('Family')));
-			$tagMgr->unTag($id, 'Family');
-			$this->assertFalse(in_array($id, $tagMgr->getIdsForTag('Family')));
+			$this->assertTrue(in_array($id, $tagger->getIdsForTag('Family')));
+			$tagger->unTag($id, 'Family');
+			$this->assertFalse(in_array($id, $tagger->getIdsForTag('Family')));
 		}
 
-		$this->assertEquals(1, count($tagMgr->getTags()));
-		$this->assertEquals(0, count($tagMgr->getIdsForTag('Family')));
+		$this->assertEquals(1, count($tagger->getTags()));
+		$this->assertEquals(0, count($tagger->getIdsForTag('Family')));
 	}
 
 	public function testFavorite() {
-		$tagMgr = new OC\Tags($this->user);
-		$tagMgr->loadTagsFor($this->objectType);
-		$this->assertTrue($tagMgr->addToFavorites(1));
-		$this->assertTrue($tagMgr->removeFromFavorites(1));
+		$tagger = $this->tagMgr->load($this->objectType);
+		$this->assertTrue($tagger->addToFavorites(1));
+		$this->assertTrue($tagger->removeFromFavorites(1));
 	}
 
 }
