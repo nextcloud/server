@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-09-22 12:56-0400\n"
+"POT-Creation-Date: 2013-09-24 12:58-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -116,11 +116,11 @@ msgstr ""
 msgid "Update to {appversion}"
 msgstr ""
 
-#: js/apps.js:49 js/apps.js:82 js/apps.js:108
+#: js/apps.js:49 js/apps.js:82 js/apps.js:110
 msgid "Disable"
 msgstr ""
 
-#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
+#: js/apps.js:49 js/apps.js:90 js/apps.js:103 js/apps.js:119
 msgid "Enable"
 msgstr ""
 
@@ -128,31 +128,31 @@ msgstr ""
 msgid "Please wait...."
 msgstr ""
 
-#: js/apps.js:79 js/apps.js:80 js/apps.js:100
+#: js/apps.js:79 js/apps.js:80 js/apps.js:101
 msgid "Error while disabling app"
 msgstr ""
 
-#: js/apps.js:99 js/apps.js:112 js/apps.js:113
+#: js/apps.js:100 js/apps.js:114 js/apps.js:115
 msgid "Error while enabling app"
 msgstr ""
 
-#: js/apps.js:123
+#: js/apps.js:125
 msgid "Updating...."
 msgstr ""
 
-#: js/apps.js:126
+#: js/apps.js:128
 msgid "Error while updating app"
 msgstr ""
 
-#: js/apps.js:126
+#: js/apps.js:128
 msgid "Error"
 msgstr ""
 
-#: js/apps.js:127 templates/apps.php:43
+#: js/apps.js:129 templates/apps.php:43
 msgid "Update"
 msgstr ""
 
-#: js/apps.js:130
+#: js/apps.js:132
 msgid "Updated"
 msgstr ""
 
