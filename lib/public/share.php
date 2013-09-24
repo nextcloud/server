@@ -745,8 +745,8 @@ class Share {
 
 	/**
 	* @brief Get the backend class for the specified item type
-	* @param string Item type
-	* @return Sharing backend object
+	* @param string $itemType
+	* @return Share_Backend
 	*/
 	public static function getBackend($itemType) {
 		if (isset(self::$backends[$itemType])) {

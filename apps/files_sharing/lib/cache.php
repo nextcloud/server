@@ -20,6 +20,7 @@
  */
 
 namespace OC\Files\Cache;
+use OCP\Share_Backend_Collection;
 
 /**
  * Metadata cache for shared files
@@ -320,13 +321,17 @@ class Shared_Cache extends Cache {
 	public function getAll() {
 		$ids = \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_GET_ALL);
 		$folderBackend = \OCP\Share::getBackend('folder');
-		foreach ($ids as $file) {
-			$children = $folderBackend->getChildren($file);
-			foreach ($children as $child) {
-				$ids[] = (int)$child['source'];
+		if ($folderBackend instanceof Share_Backend_Collection) {
+			foreach ($ids as $file) {
+				/** @var $folderBackend Share_Backend_Collection */
+				$children = $folderBackend->getChildren($file);
+				foreach ($children as $child) {
+					$ids[] = (int)$child['source'];
+				}
+
 			}
-			
 		}
+
 		return $ids;
 	}
 
