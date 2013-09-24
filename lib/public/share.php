@@ -246,9 +246,9 @@ class Share {
 
 	/**
 	* @brief Get the item of item type shared with the current user
-	* @param string Item type
-	* @param string Item target
-	* @param int Format (optional) Format type must be defined by the backend
+	* @param string $itemType
+	* @param string $ItemTarget
+	* @param int $format (optional) Format type must be defined by the backend
 	* @return Return depends on format
 	*/
 	public static function getItemSharedWith($itemType, $itemTarget, $format = self::FORMAT_NONE,
@@ -279,8 +279,10 @@ class Share {
 
 		$result = $query->execute(array($itemSource, $itemType, $user));
 
-		while ($row = $result->fetchRow()) {
-			$shares[] = $row;
+		if($result) {
+			while ($row = $result->fetchRow()) {
+				$shares[] = $row;
+			}
 		}
 
 		//if didn't found a result than let's look for a group share.
@@ -297,8 +299,10 @@ class Share {
 
 			$result = $query->execute(array($itemSource, $itemType, implode(',', $groups)));
 
-			while ($row = $result->fetchRow()) {
-				$shares[] = $row;
+			if($result) {
+				while ($row = $result->fetchRow()) {
+					$shares[] = $row;
+				}
 			}
 		}
 
@@ -706,7 +710,13 @@ class Share {
 					SET `mail_send` = ?
 					WHERE `item_type` = ? AND `item_source` = ? AND `share_type` = ?');
 
-		$query->execute(array($status, $itemType, $itemSource, $shareType));
+		$result = $query->execute(array($status, $itemType, $itemSource, $shareType));
+
+		if($result === false) {
+			\OC_Log::write('OCP\Share', 'Couldn\'t set send mail status', \OC_Log::ERROR);
+		}
+
+
 	}
 
 	/**
