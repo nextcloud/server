@@ -32,7 +32,7 @@
 			<?php p($l->t('Lost your password?')); ?>
 		</a>
 		<?php endif; ?>
-		<?php if ($_['encryption_enabled'] === false) : ?>
+		<?php if ($_['rememberLoginAllowed'] === true) : ?>
 		<input type="checkbox" name="remember_login" value="1" id="remember_login" checked />
 		<label for="remember_login"><?php p($l->t('remember')); ?></label>
 		<?php endif; ?>
