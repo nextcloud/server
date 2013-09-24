@@ -372,7 +372,7 @@ class OC_Util {
 		}
 
 		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
-		$parameters['encryption_enabled'] = OC_App::isEnabled('files_encryption');
+		$parameters['rememberLoginAllowed'] = self::rememberLoginAllowed();
 		OC_Template::printGuestPage("", "login", $parameters);
 	}
 
@@ -411,7 +411,18 @@ class OC_Util {
 	}
 
 	/**
-	 * Check if the user is a subadmin, redirects to home if not
+	 * Check if it is allowed to remember login.
+	 * E.g. if encryption is enabled the user needs to log-in every time he visites
+	 * ownCloud in order to decrypt the private key.
+	 *
+	 * @return bool
+	 */
+	public static function rememberLoginAllowed() {
+		return !OC_App::isEnabled('files_encryption');
+	}
+
+	/**
+	 * @brief Check if the user is a subadmin, redirects to home if not
 	 * @return array $groups where the current user is subadmin
 	 */
 	public static function checkSubAdminUser() {
