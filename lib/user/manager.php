@@ -127,12 +127,14 @@ class Manager extends PublicEmitter {
 	 */
 	public function checkPassword($loginname, $password) {
 		foreach ($this->backends as $backend) {
-			$uid = $backend->checkPassword($loginname, $password);
-			if ($uid !== false) {
-				return $this->getUserObject($uid, $backend);
+			if($backend->implementsActions(\OC_USER_BACKEND_CHECK_PASSWORD)) {
+				$uid = $backend->checkPassword($loginname, $password);
+				if ($uid !== false) {
+					return $this->getUserObject($uid, $backend);
+				}
 			}
 		}
-		return null;
+		return false;
 	}
 
 	/**
