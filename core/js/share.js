@@ -344,9 +344,9 @@ OC.Share={
 			}else{
 				html += escapeHTML(shareWithDisplayName);
 			}
-			mailNotificationEnabled = $('input:hidden[name=mailNotificationEnabled]').val();
+			var mailNotificationEnabled = $('input:hidden[name=mailNotificationEnabled]').val();
 			if (mailNotificationEnabled === 'yes') {
-				checked = '';
+				var checked = '';
 				if (mailSend === '1') {
 					checked = 'checked';
 				}
@@ -712,14 +712,15 @@ $(document).ready(function() {
 		var li = $(this).parent();
 		var itemType = $('#dropdown').data('item-type');
 		var itemSource = $('#dropdown').data('item-source');
+		var action = '';
 		if (this.checked) {
 			action = 'informRecipients';
 		} else {
 			action = 'informRecipientsDisabled';
 		}
 
-		shareType = $(li).data('share-type');
-		shareWith = $(li).data('share-with');
+		var shareType = $(li).data('share-type');
+		var shareWith = $(li).data('share-with');
 
 		$.post(OC.filePath('core', 'ajax', 'share.php'), {action: action, recipient: shareWith, shareType: shareType, itemSource: itemSource, itemType: itemType}, function(result) {
 			if (result.status !== 'success') {
