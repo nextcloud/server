@@ -46,7 +46,8 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 */
 	public function put($data) {
 
-		if (!\OC\Files\Filesystem::isUpdatable($this->path)) {
+		if (\OC\Files\Filesystem::file_exists($this->path) &&
+			!\OC\Files\Filesystem::isUpdatable($this->path)) {
 			throw new \Sabre_DAV_Exception_Forbidden();
 		}
 
@@ -54,7 +55,26 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		if (\OC_Util::encryptedFiles()) {
 			throw new \Sabre_DAV_Exception_ServiceUnavailable();
 		}
-		
+
+		// chunked handling
+		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
+			list(, $name) = \Sabre_DAV_URLUtil::splitPath($this->path);
+
+			$info = OC_FileChunking::decodeName($name);
+			if (empty($info)) {
+				throw new Sabre_DAV_Exception_NotImplemented();
+			}
+			$chunk_handler = new OC_FileChunking($info);
+			$chunk_handler->store($info['index'], $data);
+			if ($chunk_handler->isComplete()) {
+				$newPath = $this->path . '/' . $info['name'];
+				$chunk_handler->file_assemble($newPath);
+				return OC_Connector_Sabre_Node::getETagPropertyForPath($newPath);
+			}
+
+			return null;
+		}
+
 		// mark file as partial while uploading (ignored by the scanner)
 		$partpath = $this->path . '.part';
 
@@ -66,7 +86,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		}
 
 		//detect aborted upload
-		if (isset ($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
+		if (isset ($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT' ) {
 			if (isset($_SERVER['CONTENT_LENGTH'])) {
 				$expected = $_SERVER['CONTENT_LENGTH'];
 				$actual = \OC\Files\Filesystem::filesize($partpath);
@@ -81,10 +101,10 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		// rename to correct path
 		\OC\Files\Filesystem::rename($partpath, $this->path);
 
-		//allow sync clients to send the mtime along in a header
+		// allow sync clients to send the mtime along in a header
 		$mtime = OC_Request::hasModificationTime();
 		if ($mtime !== false) {
-			if (\OC\Files\Filesystem::touch($this->path, $mtime)) {
+			if(\OC\Files\Filesystem::touch($this->path, $mtime)) {
 				header('X-OC-MTime: accepted');
 			}
 		}
@@ -99,7 +119,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 */
 	public function get() {
 
-		//throw execption if encryption is disabled but files are still encrypted
+		//throw exception if encryption is disabled but files are still encrypted
 		if (\OC_Util::encryptedFiles()) {
 			throw new \Sabre_DAV_Exception_ServiceUnavailable();
 		} else {
