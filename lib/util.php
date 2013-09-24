@@ -312,9 +312,27 @@ class OC_Util {
 	}
 
 	/**
-	* Check for correct file permissions of data directory
-	* @return array arrays with error messages and hints
-	*/
+	 * @brief check if there are still some encrypted files stored
+	 * @return boolean
+	 */
+	public static function encryptedFiles() {
+		//check if encryption was enabled in the past
+		$encryptedFiles = false;
+		if (OC_App::isEnabled('files_encryption') === false) {
+			$view = new OC\Files\View('/' . OCP\User::getUser());
+			if ($view->file_exists('/files_encryption/keyfiles')) {
+				$encryptedFiles = true;
+			}
+		}
+
+		return $encryptedFiles;
+	}
+
+	/**
+	 * @brief Check for correct file permissions of data directory
+	 * @paran string $dataDirectory
+	 * @return array arrays with error messages and hints
+	 */
 	public static function checkDataDirectoryPermissions($dataDirectory) {
 		$errors = array();
 		if (stristr(PHP_OS, 'WIN')) {
@@ -354,6 +372,7 @@ class OC_Util {
 		}
 
 		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
+		$parameters['encryption_enabled'] = OC_App::isEnabled('files_encryption');
 		OC_Template::printGuestPage("", "login", $parameters);
 	}
 
@@ -536,7 +555,6 @@ class OC_Util {
 		return $value;
 	}
 
-
 	/**
 	 * Check if the htaccess file is working by creating a test file in the data directory and trying to access via http
 	 */
@@ -677,7 +695,6 @@ class OC_Util {
 			}
 
 		}
-
 	}
 
 	/**
