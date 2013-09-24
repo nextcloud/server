@@ -64,7 +64,29 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 		list($sourceDir,) = \Sabre_DAV_URLUtil::splitPath($sourcePath);
 		list($destinationDir,) = \Sabre_DAV_URLUtil::splitPath($destinationPath);
 
-		Filesystem::rename($sourcePath, $destinationPath);
+		// check update privileges
+		if ($sourceDir === $destinationDir) {
+			// for renaming it's enough to check if the sourcePath can be updated
+			if (!\OC\Files\Filesystem::isUpdatable($sourcePath)) {
+				throw new \Sabre_DAV_Exception_Forbidden();
+			}
+		} else {
+			// for a full move we need update privileges on sourcePath and sourceDir as well as destinationDir
+			if (!\OC\Files\Filesystem::isUpdatable($sourcePath)) {
+				throw new \Sabre_DAV_Exception_Forbidden();
+			}
+			if (!\OC\Files\Filesystem::isUpdatable($sourceDir)) {
+				throw new \Sabre_DAV_Exception_Forbidden();
+			}
+			if (!\OC\Files\Filesystem::isUpdatable($destinationDir)) {
+				throw new \Sabre_DAV_Exception_Forbidden();
+			}
+		}
+
+		$renameOkay = Filesystem::rename($sourcePath, $destinationPath);
+		if (!$renameOkay) {
+			throw new \Sabre_DAV_Exception_Forbidden('');
+		}
 
 		$this->markDirty($sourceDir);
 		$this->markDirty($destinationDir);
