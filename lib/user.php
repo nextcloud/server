@@ -419,7 +419,7 @@ class OC_User {
 		$manager = self::getManager();
 		$username = $manager->checkPassword($uid, $password);
 		if ($username !== false) {
-			return $manger->get($username);
+			return $manager->get($username)->getUID();
 		}
 		return false;
 	}
