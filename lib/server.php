@@ -149,6 +149,42 @@ class Server extends SimpleContainer implements IServerContainer {
 	}
 
 	/**
+	 * Returns a view to ownCloud's files folder
+	 *
+	 * @return \OCP\Files\Folder
+	 */
+	function getUserFolder() {
+
+		$dir = '/files';
+		$root = $this->getRootFolder();
+		$folder = null;
+		if(!$root->nodeExists($dir)) {
+			$folder = $root->newFolder($dir);
+		} else {
+			$folder = $root->get($dir);
+		}
+		return $folder;
+	}
+
+	/**
+	 * Returns an app-specific view in ownClouds data directory
+	 *
+	 * @return \OCP\Files\Folder
+	 */
+	function getAppFolder() {
+
+		$dir = '/' . \OC_App::getCurrentApp();
+		$root = $this->getRootFolder();
+		$folder = null;
+		if(!$root->nodeExists($dir)) {
+			$folder = $root->newFolder($dir);
+		} else {
+			$folder = $root->get($dir);
+		}
+		return $folder;
+	}
+
+	/**
 	 * @return \OC\User\Manager
 	 */
 	function getUserManager() {
@@ -175,6 +211,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	function getConfig() {
 		return $this->query('AllConfig');
 	}
+
 	/**
 	 * Returns an ICache instance
 	 *

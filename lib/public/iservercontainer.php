@@ -63,6 +63,20 @@ interface IServerContainer {
 	function getRootFolder();
 
 	/**
+	 * Returns a view to ownCloud's files folder
+	 *
+	 * @return \OCP\Files\Folder
+	 */
+	function getUserFolder();
+
+	/**
+	 * Returns an app-specific view in ownClouds data directory
+	 *
+	 * @return \OCP\Files\Folder
+	 */
+	function getAppFolder();
+
+	/**
 	 * Returns the user session
 	 *
 	 * @return \OCP\IUserSession
