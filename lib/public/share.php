@@ -259,10 +259,10 @@ class Share {
 
 	/**
 	 * @brief Get the item of item type shared with a given user by source
-	 * @param string Item type
-	 * @param string Item source
-	 * @param string User user to whom the item was shared
-	 * @return Return list of items with file_target, permissions and expiration
+	 * @param string $ItemType
+	 * @param string $ItemSource
+	 * @param string $user User user to whom the item was shared
+	 * @return array Return list of items with file_target, permissions and expiration
 	 */
 	public static function getItemSharedWithUser($itemType, $itemSource, $user) {
 
