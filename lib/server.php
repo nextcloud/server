@@ -25,7 +25,7 @@ class Server extends SimpleContainer implements IServerContainer {
 			$params = array();
 
 			// we json decode the body only in case of content type json
-			if (isset($_SERVER['CONTENT_TYPE']) && stripos($_SERVER['CONTENT_TYPE'],'json') === true ) {
+			if (isset($_SERVER['CONTENT_TYPE']) && stripos($_SERVER['CONTENT_TYPE'],'json') !== false ) {
 				$params = json_decode(file_get_contents('php://input'), true);
 				$params = is_array($params) ? $params: array();
 			}
