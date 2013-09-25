@@ -52,7 +52,7 @@ class Proxy extends \OC_FileProxy {
 		if (is_null(self::$enableEncryption)) {
 
 			if (
-				\OCP\Config::getAppValue('files_encryption', 'enable_encryption', 'true') === 'true'
+				\OCP\App::isEnabled('files_encryption') === true
 				&& Crypt::mode() === 'server'
 			) {
 
@@ -203,7 +203,7 @@ class Proxy extends \OC_FileProxy {
 	 */
 	public function preUnlink($path) {
 
-		// let the trashbin handle this  
+		// let the trashbin handle this
 		if (\OCP\App::isEnabled('files_trashbin')) {
 			return true;
 		}
@@ -294,7 +294,7 @@ class Proxy extends \OC_FileProxy {
 			// Close the original encrypted file
 			fclose($result);
 
-			// Open the file using the crypto stream wrapper 
+			// Open the file using the crypto stream wrapper
 			// protocol and let it do the decryption work instead
 			$result = fopen('crypt://' . $relativePath, $meta['mode']);
 
