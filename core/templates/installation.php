@@ -61,6 +61,7 @@
 		</p>
 	</fieldset>
 
+    <?php if(!$_['directorySet']): ?>
 	<fieldset id="datadirField">
 		<legend><a id="showAdvanced"><?php p($l->t( 'Advanced' )); ?> <img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" /></a></legend>
 		<div id="datadirContent">
@@ -70,7 +71,9 @@
 				value="<?php p(OC_Helper::init_var('directory', $_['directory'])); ?>" />
 		</div>
 	</fieldset>
+    <?php endif; ?>
 
+    <?php if(!$_['dbSet']): ?>
 	<fieldset id='databaseField'>
 		<?php if($_['hasMySQL'] or $_['hasPostgreSQL'] or $_['hasOracle'] or $_['hasMSSQL'])
 			$hasOtherDB = true; else $hasOtherDB =false; //other than SQLite ?>
@@ -171,6 +174,7 @@
 		</div>
 		<?php endif; ?>
 	</fieldset>
+    <?php endif; ?>
 
 	<div class="buttons"><input type="submit" class="primary" value="<?php p($l->t( 'Finish setup' )); ?>" /></div>
 </form>
