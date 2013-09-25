@@ -47,37 +47,11 @@ class API implements IApi{
 
 
 	/**
-	 * used to return the appname of the set application
-	 * @return string the name of your application
-	 */
-	public function getAppName(){
-		return $this->appName;
-	}
-
-
-	/**
-	 * Creates a new navigation entry
-	 * @param array $entry containing: id, name, order, icon and href key
-	 */
-	public function addNavigationEntry(array $entry){
-		\OCP\App::addNavigationEntry($entry);
-	}
-
-
-	/**
 	 * Gets the userid of the current user
 	 * @return string the user id of the current user
 	 */
 	public function getUserId(){
 		return \OCP\User::getUser();
-	}
-
-
-	/**
-	 * Sets the current navigation entry to the currently running app
-	 */
-	public function activateNavigationEntry(){
-		\OCP\App::setActiveNavigationEntry($this->appName);
 	}
 
 
@@ -124,79 +98,6 @@ class API implements IApi{
 		\OCP\Util::addStyle($this->appName . '/3rdparty', $name);
 	}
 
-	/**
-	 * Looks up a systemwide defined value
-	 * @param string $key the key of the value, under which it was saved
-	 * @return string the saved value
-	 */
-	public function getSystemValue($key){
-		return \OCP\Config::getSystemValue($key, '');
-	}
-
-
-	/**
-	 * Sets a new systemwide value
-	 * @param string $key the key of the value, under which will be saved
-	 * @param string $value the value that should be stored
-	 */
-	public function setSystemValue($key, $value){
-		return \OCP\Config::setSystemValue($key, $value);
-	}
-
-
-	/**
-	 * Looks up an appwide defined value
-	 * @param string $key the key of the value, under which it was saved
-	 * @return string the saved value
-	 */
-	public function getAppValue($key, $appName=null){
-		if($appName === null){
-			$appName = $this->appName;
-		}
-		return \OCP\Config::getAppValue($appName, $key, '');
-	}
-
-
-	/**
-	 * Writes a new appwide value
-	 * @param string $key the key of the value, under which will be saved
-	 * @param string $value the value that should be stored
-	 */
-	public function setAppValue($key, $value, $appName=null){
-		if($appName === null){
-			$appName = $this->appName;
-		}
-		return \OCP\Config::setAppValue($appName, $key, $value);
-	}
-
-
-
-	/**
-	 * Shortcut for setting a user defined value
-	 * @param string $key the key under which the value is being stored
-	 * @param string $value the value that you want to store
-	 * @param string $userId the userId of the user that we want to store the value under, defaults to the current one
-	 */
-	public function setUserValue($key, $value, $userId=null){
-		if($userId === null){
-			$userId = $this->getUserId();
-		}
-		\OCP\Config::setUserValue($userId, $this->appName, $key, $value);
-	}
-
-
-	/**
-	 * Shortcut for getting a user defined value
-	 * @param string $key the key under which the value is being stored
-	 * @param string $userId the userId of the user that we want to store the value under, defaults to the current one
-	 */
-	public function getUserValue($key, $userId=null){
-		if($userId === null){
-			$userId = $this->getUserId();
-		}
-		return \OCP\Config::getUserValue($userId, $this->appName, $key);
-	}
-
 
 	/**
 	 * Returns the translation object
@@ -205,28 +106,6 @@ class API implements IApi{
 	public function getTrans(){
 		# TODO: use public api
 		return \OC_L10N::get($this->appName);
-	}
-
-
-	/**
-	 * Used to abstract the owncloud database access away
-	 * @param string $sql the sql query with ? placeholder for params
-	 * @param int $limit the maximum number of rows
-	 * @param int $offset from which row we want to start
-	 * @return \OCP\DB a query object
-	 */
-	public function prepareQuery($sql, $limit=null, $offset=null){
-		return \OCP\DB::prepare($sql, $limit, $offset);
-	}
-
-
-	/**
-	 * Used to get the id of the just inserted element
-	 * @param string $tableName the name of the table where we inserted the item
-	 * @return int the id of the inserted element
-	 */
-	public function getInsertId($tableName){
-		return \OCP\DB::insertid($tableName);
 	}
 
 
@@ -294,37 +173,6 @@ class API implements IApi{
 
 
 	/**
-	 * Checks if the current user is logged in
-	 * @return bool true if logged in
-	 */
-	public function isLoggedIn(){
-		return \OCP\User::isLoggedIn();
-	}
-
-
-	/**
-	 * Checks if a user is an admin
-	 * @param string $userId the id of the user
-	 * @return bool true if admin
-	 */
-	public function isAdminUser($userId){
-		# TODO: use public api
-		return \OC_User::isAdminUser($userId);
-	}
-
-
-	/**
-	 * Checks if a user is an subadmin
-	 * @param string $userId the id of the user
-	 * @return bool true if subadmin
-	 */
-	public function isSubAdminUser($userId){
-		# TODO: use public api
-		return \OC_SubAdmin::isSubAdmin($userId);
-	}
-
-
-	/**
 	 * Checks if the CSRF check was correct
 	 * @return bool true if CSRF check passed
 	 */
@@ -368,26 +216,6 @@ class API implements IApi{
 				break;
 		}
 		\OCP\Util::writeLog($this->appName, $msg, $level);
-	}
-
-
-	/**
-	 * Returns a template
-	 * @param string $templateName the name of the template
-	 * @param string $renderAs how it should be rendered
-	 * @param string $appName the name of the app
-	 * @return \OCP\Template a new template
-	 */
-	public function getTemplate($templateName, $renderAs='user', $appName=null){
-		if($appName === null){
-			$appName = $this->appName;
-		}
-
-		if($renderAs === 'blank'){
-			return new \OCP\Template($appName, $templateName);
-		} else {
-			return new \OCP\Template($appName, $templateName, $renderAs);
-		}
 	}
 
 
@@ -468,6 +296,26 @@ class API implements IApi{
 	}
 
 	/**
+	 * Returns a template
+	 * @param string $templateName the name of the template
+	 * @param string $renderAs how it should be rendered
+	 * @param string $appName the name of the app
+	 * @return \OCP\Template a new template
+	 */
+	public function getTemplate($templateName, $renderAs='user', $appName=null){
+		if($appName === null){
+			$appName = $this->appName;
+		}
+
+		if($renderAs === 'blank'){
+			return new \OCP\Template($appName, $templateName);
+		} else {
+			return new \OCP\Template($appName, $templateName, $renderAs);
+		}
+	}
+
+
+	/**
 	 * Tells ownCloud to include a template in the admin overview
 	 * @param string $mainPath the path to the main php file without the php
 	 * suffix, relative to your apps directory! not the template directory
@@ -481,23 +329,6 @@ class API implements IApi{
 		\OCP\App::registerAdmin($appName, $mainPath);
 	}
 
-	/**
-	 * Do a user login
-	 * @param string $user the username
-	 * @param string $password the password
-	 * @return bool true if successful
-	 */
-	public function login($user, $password) {
-		return \OC_User::login($user, $password);
-	}
-
-	/**
-	 * @brief Loggs the user out including all the session data
-	 * Logout, destroys session
-	 */
-	public function logout() {
-		return \OCP\User::logout();
-	}
 
 	/**
 	 * get the filesystem info
@@ -514,12 +345,4 @@ class API implements IApi{
 		return \OC\Files\Filesystem::getFileInfo($path);
 	}
 
-	/**
-	 * get the view
-	 *
-	 * @return OC\Files\View instance
-	 */
-	public function getView() {
-		return \OC\Files\Filesystem::getView();
-	}
 }
