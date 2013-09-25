@@ -102,6 +102,9 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('AllConfig', function($c) {
 			return new \OC\AllConfig();
 		});
+		$this->registerService('L10NFactory', function($c) {
+			return new \OC\L10N\Factory();
+		});
 		$this->registerService('UserCache', function($c) {
 			return new UserCache();
 		});
@@ -215,6 +218,15 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getConfig() {
 		return $this->query('AllConfig');
+	}
+
+	/**
+	 * get an L10N instance
+	 * @param $app string appid
+	 * @return \OC_L10N
+	 */
+	function getL10N($app) {
+		return $this->query('L10NFactory')->get($app);
 	}
 
 	/**
