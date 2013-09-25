@@ -49,8 +49,12 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('PreviewManager', function($c) {
 			return new PreviewManager();
 		});
+		$this->registerService('TagManager', function($c) {
+			$user = \OC_User::getUser();
+			return new Tags($user);
+		});
 		$this->registerService('RootFolder', function($c) {
-			// TODO: get user from container as well
+			// TODO: get user and user manager from container as well
 			$user = \OC_User::getUser();
 			/** @var $c SimpleContainer */
 			$userManager = $c->query('UserManager');
@@ -137,6 +141,16 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getPreviewManager() {
 		return $this->query('PreviewManager');
+	}
+
+	/**
+	 * Returns the tag manager which can get and set tags for different object types
+	 *
+	 * @see \OCP\ITagManager::load()
+	 * @return \OCP\ITagManager
+	 */
+	function getTagManager() {
+		return $this->query('TagManager');
 	}
 
 	/**

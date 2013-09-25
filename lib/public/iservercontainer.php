@@ -56,6 +56,14 @@ interface IServerContainer {
 	function getPreviewManager();
 
 	/**
+	 * Returns the tag manager which can get and set tags for different object types
+	 *
+	 * @see \OCP\ITagManager::load()
+	 * @return \OCP\ITagManager
+	 */
+	function getTagManager();
+
+	/**
 	 * Returns the root folder of ownCloud's data directory
 	 *
 	 * @return \OCP\Files\Folder
