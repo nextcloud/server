@@ -25,7 +25,7 @@ class Unknown extends Provider {
 		if (extension_loaded('imagick') && file_exists($svgPath)) {
 				$svg = new \Imagick();
 				$svg->setBackgroundColor(new \ImagickPixel('transparent'));
-				$svg->readImage($path);
+				$svg->readImage($svgPath);
 				$svg->setImageFormat('png32');
 
 				$image = new \OC_Image();
