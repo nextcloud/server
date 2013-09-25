@@ -54,6 +54,10 @@ class Test_OC_Connector_Sabre_AbortedUploadDetectionPlugin extends PHPUnit_Frame
 	{
 		$this->plugin->fileView = $this->buildFileViewMock($fileSize);
 
+		// we expect unlink to be called
+		$this->plugin->fileView->expects($this->once())->method('unlink');
+
+
 		$this->server->httpRequest = new Sabre_HTTP_Request($headers);
 		$this->plugin->verifyContentLength('foo.txt');
 	}
