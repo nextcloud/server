@@ -142,12 +142,7 @@ EOF
 	rm -rf coverage-html-$1
 	mkdir coverage-html-$1
 	php -f enable_all.php
-	if [ "$1" == "sqlite" ] ; then
-		# coverage only with sqlite - causes segfault on ci.tmit.eu - reason unknown
-		phpunit --configuration phpunit-autotest.xml --log-junit autotest-results-$1.xml --coverage-clover autotest-clover-$1.xml --coverage-html coverage-html-$1 $2 $3
-	else
-		phpunit --configuration phpunit-autotest.xml --log-junit autotest-results-$1.xml $2 $3
-	fi
+	phpunit --configuration phpunit-autotest.xml --log-junit autotest-results-$1.xml --coverage-clover autotest-clover-$1.xml --coverage-html coverage-html-$1 $2 $3
 }
 
 #
