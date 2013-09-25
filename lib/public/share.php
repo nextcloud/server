@@ -295,12 +295,10 @@ class Share {
 						`item_source` = ? AND `item_type` = ? AND `share_with` in (?)'
 					);
 
-			$result = $query->execute(array($itemSource, $itemType, implode(',', $groups)));
+			$result = \OC_DB::executeAudited($query, array($itemSource, $itemType, implode(',', $groups)));
 
-			if($result) {
-				while ($row = $result->fetchRow()) {
-					$shares[] = $row;
-				}
+			while ($row = $result->fetchRow()) {
+				$shares[] = $row;
 			}
 		}
 
