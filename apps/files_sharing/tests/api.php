@@ -25,7 +25,7 @@ require_once __DIR__ . '/../../../lib/base.php';
 use OCA\Files\Share;
 
 /**
- * Class Test_Encryption_Share
+ * Class Test_Files_Sharing_Api
  */
 class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 
@@ -255,7 +255,7 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 
 		$result = Share\Api::updateShare($params);
 
-		$this->assertTrue($result->succeeded());
+		$this->assertTrue($result->succeeded(), $result->getMeta()['message']);
 
 		$items = \OCP\Share::getItemShared('file', $userShare['file_source']);
 
