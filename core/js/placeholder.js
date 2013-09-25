@@ -48,9 +48,8 @@
 
 (function ($) {
 	$.fn.placeholder = function(seed, text) {
-		if (typeof(text) === "undefined") {
-			text = seed;
-		}
+		// set optional argument "text" to value of "seed" if undefined
+		text = text || seed;
 
 		var hash = md5(seed),
 			maxRange = parseInt('ffffffffffffffffffffffffffffffff', 16),
