@@ -49,38 +49,92 @@ class OC_Defaults {
 	}
 
 	/**
-	 *
-	 * @param string $itemType typically "file" or "folder"
+	 * @brief subject for share notification mail
+	 * @param string $user user who shared the item
+	 * @pram string $itemName name of the item
 	 */
-	public function getShareNotificationSubject($itemType) {
+	public function getShareNotificationSubject($user, $itemName) {
 		if ($this->themeExist('getShareNotificationSubject')) {
-			return $this->theme->getShareNotificationSubject($itemType);
+			return $this->theme->getShareNotificationSubject($user, $itemName);
 		} else {
-			return $this->l->t("A %s was shared with you", array($itemType));
+			return $this->l->t("%s shared »%s« with you", array($user, $itemName));
 		}
 	}
 
 	/**
+	 * @brief mail body for share notification mail (text only)
 	 * @param string $sender owner of the file/folder
 	 * @param string $itemName name of the file/folder
-	 * @param string $itemType typically "file" or "folder"
 	 * @param string $link link directly to the file/folder in your ownCloud
 	 * @param string $expiration expiration date
 	 */
-	public function getShareNotificationText($sender, $itemName, $itemType, $link, $expiration=null) {
-		if ($this->themeExist('getShareNotificationText')) {
-			return $this->theme->getShareNotificationText($sender, $itemName, $itemType, $link, $expiration);
+	public function getShareNotificationTextHtml($sender, $itemName, $link, $expiration=null) {
+		if ($this->themeExist('getShareNotificationTextHtml')) {
+			return $this->theme->getShareNotificationTextHtml($sender, $itemName, $link, $expiration);
 		} else {
+
+			$message = $this->l->t('Hey there,<br><br>just letting you know that %s shared »%s« with you.'.
+					'<br><a href="%s">View it!</a>', array($sender, $itemName, $link));
+
 			if ($expiration) {
-				return $this->l->t("%s shared a %s called %s with you. " .
-						"The share will expire at %s. ".
-						"You can find the %s here: %s",
-						array($sender, $itemType, $itemName, $expiration, $itemType, $link));
-			} else {
-				return $this->l->t("%s shared a %s called %s with you. ".
-						"You can find the %s here: %s",
-						array($sender, $itemType, $itemName, $itemType, $link));
+				$message .= '<br><br>';
+				$message .= $this->l->t("The share will expire at %s.", array($expiration));
 			}
+
+			$message .= '<br><br>';
+			$message .= $this->l->t('Cheers!');
+
+			return $message;
+		}
+	}
+
+	/**
+	 * @brief mail body for share notification mail (text only)
+	 * @param string $sender owner of the file/folder
+	 * @param string $itemName name of the file/folder
+	 * @param string $link link directly to the file/folder in your ownCloud
+	 * @param string $expiration expiration date
+	 */
+	public function getShareNotificationTextAlt($sender, $itemName, $link, $expiration=null) {
+		if ($this->themeExist('getShareNotificationTextAlt')) {
+			return $this->theme->getShareNotificationTextAlt($sender, $itemName, $link, $expiration);
+		} else {
+
+			$message = $this->l->t("Hey there,\n\njust letting you know that %s shared %s with you.\n".
+					"View it: %s", array($sender, $itemName, $link));
+
+			if ($expiration) {
+				$message .= "\n\n";
+				$message .= $this->l->t("The share will expire at %s.", array($expiration));
+			}
+
+			$message .= "\n\n";
+			$message .= $this->l->t('Cheers!');
+
+			return $message;
+		}
+	}
+
+	public function getMailFooterHtml() {
+		if ($this->themeExist('getMailFooterHtml')) {
+			return $this->theme->getMailFooterHtml();
+		} else {
+			$footer = $this->getName() . ' - ' . $this->getSlogan() .
+					'<br>' .
+					'<a href="'. $this->getBaseUrl() .'">'.$this->getBaseUrl().'</a>';
+
+			return $footer;
+		}
+	}
+
+		public function getMailFooterAlt() {
+		if ($this->themeExist('getMailFooterAlt')) {
+			return $this->theme->getMailFooterAlt();
+		} else {
+			$footer = $this->getName() . ' - ' . $this->getSlogan() .
+					"\n" . $this->getBaseUrl();
+
+			return $footer;
 		}
 	}
 

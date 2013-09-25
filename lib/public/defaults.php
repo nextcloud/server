@@ -35,23 +35,48 @@ class Defaults {
 	}
 
 	/**
-	 * @brief subject for notification mails if a new file was shared
-	 * @param string $itemType typically "file" or "folder"
+	 * @brief subject for share notification mail
+	 * @param string $user user who shared the item
+	 * @pram string $itemName name of the item
 	 */
-	public function getShareNotificationSubject($itemType = "file") {
-		return $this->defaults->getShareNotificationSubject($itemType);
+	public function getShareNotificationSubject($user, $itemName) {
+		return $this->defaults->getShareNotificationSubject($user, $itemName);
 	}
 
 	/**
-	 * @brief mail body for notification mails if a new file was shared
+	 * @brief mail body for share notification mail (text only)
 	 * @param string $sender owner of the file/folder
 	 * @param string $itemName name of the file/folder
-	 * @param string $itemType typically "file" or "folder"
 	 * @param string $link link directly to the file/folder in your ownCloud
 	 * @param string $expiration expiration date
 	 */
-	public function getShareNotificationText($sender, $itemName, $itemType, $link, $expiration) {
-		return $this->defaults->getShareNotificationText($sender, $itemName, $itemType, $link, $expiration);
+	public function getShareNotificationTextAlt($sender, $itemName, $link, $expiration) {
+		return $this->defaults->getShareNotificationTextAlt($sender, $itemName, $link, $expiration);
+	}
+
+	/**
+	 * @brief mail body for share notification mail (HTML mail)
+	 * @param string $sender owner of the file/folder
+	 * @param string $itemName name of the file/folder
+	 * @param string $link link directly to the file/folder in your ownCloud
+	 * @param string $expiration expiration date
+	 */
+	public function getShareNotificationTextHtml($sender, $itemName, $link, $expiration) {
+		return $this->defaults->getShareNotificationTextHtml($sender, $itemName, $link, $expiration);
+	}
+
+	/**
+	 * @brief return footer for mails (HTML mail)
+	 */
+	public function getMailFooterHtml() {
+		return $this->defaults->getMailFooterHtml();
+	}
+
+		/**
+	 * @brief return footer for mails (text only)
+	 */
+	public function getMailFooterAlt() {
+		return $this->defaults->getMailFooterAlt();
 	}
 
 	/**

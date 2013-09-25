@@ -1,7 +1,7 @@
 <?php
-print_unescaped($l->t("Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!", array($_['user_displayname'], $_['filename'], $_['link'])));
+$expiration = isset($_['expiration']) ? $_['expiration'] : null;
+print_unescaped($theme->getShareNotificationTextAlt($_['user_displayname'], $_['filename'], $_['link'], $expiration));
 ?>
 
 --
-<?php p($theme->getName() . ' - ' . $theme->getSlogan()); ?>
-<?php print_unescaped("\n".$theme->getBaseUrl());
+<?php print_unescaped($theme->getMailFooterAlt());

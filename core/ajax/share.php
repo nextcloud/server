@@ -91,8 +91,8 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			$itemType = $_POST['itemType'];
 			$itemSource = $_POST['itemSource'];
 			$recipient = $_POST['recipient'];
+			$ownerDisplayName = \OCP\User::getDisplayName();
 			$from = \OCP\Util::getDefaultEmailAddress('sharing-noreply');
-			$subject = $defaults->getShareNotificationSubject($itemType);
 
 			$noMail = array();
 			$recipientList = array();
@@ -115,6 +115,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 					$displayName = \OCP\User::getDisplayName($recipient);
 					$items = \OCP\Share::getItemSharedWithUser($itemType, $itemSource, $recipient);
 					$filename = trim($items[0]['file_target'], '/');
+					$subject = $defaults->getShareNotificationSubject($ownerDisplayName, $filename);
 					$expiration = null;
 					if (isset($items[0]['expiration'])) {
 						$expiration = $items[0]['expiration'];
@@ -128,29 +129,31 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 						$foldername = "/Shared";
 					}
 
-					$url = \OCP\Util::linkToAbsolute('files', 'index.php', array("dir" => $foldername));
-					$text = $defaults->getShareNotificationText(
-								\OCP\User::getDisplayName(),
-								$filename,
-								$itemType,
-								$url,
-								$expiration
-							);
+					$link = \OCP\Util::linkToAbsolute('files', 'index.php', array("dir" => $foldername));
 
+					$content = new OC_Template("core", "mail", "");
+					$content->assign('link', $link);
+					$content->assign('user_displayname', $ownerDisplayName);
+					$content->assign('filename', $filename);
+					$content->assign('expiration', $expiration);
+					$text = $content->fetchPage();
+
+					$content = new OC_Template("core", "altmail", "");
+					$content->assign('link', $link);
+					$content->assign('user_displayname', $ownerDisplayName);
+					$content->assign('filename', $filename);
+					$content->assign('expiration', $expiration);
+					$alttext = $content->fetchPage();
+
+					$default_from = OCP\Util::getDefaultEmailAddress('sharing-noreply');
+					$from = OCP\Config::getUserValue(\OCP\User::getUser(), 'settings', 'email', $default_from);
+
+					// send it out now
 					try {
-						OCP\Util::sendMail(
-								$email,
-								$displayName,
-								$subject,
-								$text,
-								$from,
-								\OCP\User::getDisplayName()
-						);
+						OCP\Util::sendMail($email, $displayName, $subject, $text, $from, $ownerDisplayName, 1, $alttext);
 					} catch (Exception $exception) {
 						$noMail[] = \OCP\User::getDisplayName($recipient);
 					}
-				} else {
-					$noMail[] = \OCP\User::getDisplayName($recipient);
 				}
 			}
 
