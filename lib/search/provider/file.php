@@ -10,6 +10,7 @@ class OC_Search_Provider_File extends OC_Search_Provider{
 			$mime = $fileData['mimetype'];
 
 			$name = basename($path);
+			$container = dirname($path);
 			$text = '';
 			$skip = false;
 			if($mime=='httpd/unix-directory') {
@@ -37,7 +38,7 @@ class OC_Search_Provider_File extends OC_Search_Provider{
 				}
 			}
 			if(!$skip) {
-				$results[] = new OC_Search_Result($name, $text, $link, $type);
+				$results[] = new OC_Search_Result($name, $text, $link, $type, $container);
 			}
 		}
 		return $results;

@@ -64,6 +64,7 @@ $TRANSLATIONS = array(
 "Email" => "Retpoŝto",
 "Your email address" => "Via retpoŝta adreso",
 "Fill in an email address to enable password recovery" => "Enigu retpoŝtadreson por kapabligi pasvortan restaŭron",
+"Profile picture" => "Profila bildo",
 "Language" => "Lingvo",
 "Help translate" => "Helpu traduki",
 "WebDAV" => "WebDAV",

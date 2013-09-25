@@ -50,6 +50,7 @@ $TRANSLATIONS = array(
 "Email" => "Е-пошта",
 "Your email address" => "Вашата адреса за е-пошта",
 "Fill in an email address to enable password recovery" => "Пополни ја адресата за е-пошта за да може да ја обновуваш лозинката",
+"Profile picture" => "Фотографија за профил",
 "Language" => "Јазик",
 "Help translate" => "Помогни во преводот",
 "WebDAV" => "WebDAV",

@@ -500,7 +500,7 @@ class View {
 				} else {
 					if ($this->is_dir($path1) && ($dh = $this->opendir($path1))) {
 						$result = $this->mkdir($path2);
-						if(is_resource($dh)) {
+						if (is_resource($dh)) {
 							while (($file = readdir($dh)) !== false) {
 								if (!Filesystem::isIgnoredDir($file)) {
 									$result = $this->copy($path1 . '/' . $file, $path2 . '/' . $file);
@@ -975,7 +975,7 @@ class View {
 	/**
 	 * search for files by mimetype
 	 *
-	 * @param string $query
+	 * @param string $mimetype
 	 * @return array
 	 */
 	public function searchByMime($mimetype) {
@@ -998,7 +998,7 @@ class View {
 
 			$results = $cache->$method($query);
 			foreach ($results as $result) {
-				if (substr($mountPoint . $result['path'], 0, $rootLength) === $this->fakeRoot) {
+				if (substr($mountPoint . $result['path'], 0, $rootLength + 1) === $this->fakeRoot . '/') {
 					$result['path'] = substr($mountPoint . $result['path'], $rootLength);
 					$files[] = $result;
 				}
@@ -1012,9 +1012,11 @@ class View {
 
 					$relativeMountPoint = substr($mountPoint, $rootLength);
 					$results = $cache->$method($query);
-					foreach ($results as $result) {
-						$result['path'] = $relativeMountPoint . $result['path'];
-						$files[] = $result;
+					if ($results) {
+						foreach ($results as $result) {
+							$result['path'] = $relativeMountPoint . $result['path'];
+							$files[] = $result;
+						}
 					}
 				}
 			}
