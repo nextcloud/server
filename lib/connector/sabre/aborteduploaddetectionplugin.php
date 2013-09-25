@@ -43,21 +43,16 @@ class OC_Connector_Sabre_AbortedUploadDetectionPlugin extends Sabre_DAV_ServerPl
 
 		$this->server = $server;
 
-		$server->subscribeEvent('afterCreateFile', array($this, 'afterCreateFile'), 10);
-		$server->subscribeEvent('afterWriteContent', array($this, 'afterWriteContent'), 10);
+		$server->subscribeEvent('afterCreateFile', array($this, 'verifyContentLength'), 10);
+		$server->subscribeEvent('afterWriteContent', array($this, 'verifyContentLength'), 10);
 	}
 
-	function afterCreateFile($path, Sabre_DAV_ICollection $parent) {
-
-		$this->verifyContentLength($path);
-
-	}
-
-	function afterWriteContent($path, Sabre_DAV_IFile $node) {
-		$this->verifyContentLength($path);
-	}
-
-	function verifyContentLength($filePath) {
+	/**
+	 * @param $filePath
+	 * @param Sabre_DAV_INode $node
+	 * @throws Sabre_DAV_Exception_BadRequest
+	 */
+	public function verifyContentLength($filePath, Sabre_DAV_INode $node = null) {
 
 		// ownCloud chunked upload will be handled in it's own plugin
 		$chunkHeader = $this->server->httpRequest->getHeader('OC-Chunked');
@@ -67,6 +62,9 @@ class OC_Connector_Sabre_AbortedUploadDetectionPlugin extends Sabre_DAV_ServerPl
 
 		// compare expected and actual size
 		$expected = $this->getLength();
+		if (!$expected) {
+			return;
+		}
 		$actual = $this->getFileView()->filesize($filePath);
 		if ($actual != $expected) {
 			$this->getFileView()->unlink($filePath);
