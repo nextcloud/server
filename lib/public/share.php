@@ -277,12 +277,10 @@ class Share {
 					`item_source` = ? AND `item_type` = ? AND `share_with` = ?'
 				);
 
-		$result = $query->execute(array($itemSource, $itemType, $user));
+		$result = \OC_DB::executeAudited($query, array($itemSource, $itemType, $user));
 
-		if($result) {
-			while ($row = $result->fetchRow()) {
-				$shares[] = $row;
-			}
+		while ($row = $result->fetchRow()) {
+			$shares[] = $row;
 		}
 
 		//if didn't found a result than let's look for a group share.
