@@ -36,10 +36,22 @@
  *
  * <div id="albumart" style="background-color: hsl(123, 90%, 65%); ... ">T</div>
  *
+ * You may also call it like this, to have a different background, than the seed:
+ *
+ * $('#albumart').placeholder('The Album Title', 'Album Title');
+ *
+ * Resulting in:
+ *
+ * <div id="albumart" style="background-color: hsl(123, 90%, 65%); ... ">A</div>
+ *
  */
 
 (function ($) {
-	$.fn.placeholder = function(seed) {
+	$.fn.placeholder = function(seed, text) {
+		if (typeof(text) === "undefined") {
+			text = seed;
+		}
+
 		var hash = md5(seed),
 			maxRange = parseInt('ffffffffffffffffffffffffffffffff', 16),
 			hue = parseInt(hash, 16) / maxRange * 256,
@@ -56,7 +68,7 @@
 		this.css('font-size', (height * 0.55) + 'px');
 
 		if(seed !== null && seed.length) {
-			this.html(seed[0].toUpperCase());
+			this.html(text[0].toUpperCase());
 		}
 	};
 }(jQuery));
