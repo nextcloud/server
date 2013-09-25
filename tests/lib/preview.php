@@ -92,6 +92,44 @@ class Preview extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($image->height(), $maxY);
 	}
 
+	public function testTxtBlacklist() {
+		$user = $this->initFS();
+
+		$x = 32;
+		$y = 32;
+
+		$txt = 'random text file';
+		$ics = file_get_contents(__DIR__ . '/../data/testcal.ics');
+		$vcf = file_get_contents(__DIR__ . '/../data/testcontact.vcf');
+
+		$rootView = new \OC\Files\View('');
+		$rootView->mkdir('/'.$user);
+		$rootView->mkdir('/'.$user.'/files');
+
+		$toTest = array('txt',
+						'ics',
+						'vcf');
+
+		foreach($toTest as $test) {
+			$sample = '/'.$user.'/files/test.'.$test;
+			$rootView->file_put_contents($sample, ${$test});
+			$preview = new \OC\Preview($user, 'files/', 'test.'.$test, $x, $y);
+			$image = $preview->getPreview();
+			$resource = $image->resource();
+
+			//http://stackoverflow.com/questions/5702953/imagecolorat-and-transparency
+			$colorIndex = imagecolorat($resource, 1, 1);
+			$colorInfo = imagecolorsforindex($resource, $colorIndex);
+			$isTransparent = ($colorInfo['alpha'] === 127);
+
+			if($test === 'txt') {
+				$this->assertEquals($isTransparent, false);
+			} else {
+				$this->assertEquals($isTransparent, true);
+			}
+		}
+	}
+
 	private function initFS() {
 		if(\OC\Files\Filesystem::getView()){
 			$user = \OC_User::getUser();
