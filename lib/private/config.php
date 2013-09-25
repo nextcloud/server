@@ -160,7 +160,6 @@ class Config {
 	 */
 	private function writeData() {
 		// Create a php file ...
-		$defaults = new \OC_Defaults;
 		$content = "<?php\n";
 		if ($this->debugMode) {
 			$content .= "define('DEBUG',true);\n";
@@ -172,6 +171,7 @@ class Config {
 		// Write the file
 		$result = @file_put_contents($this->configFilename, $content);
 		if (!$result) {
+			$defaults = new \OC_Defaults;
 			$url = $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html#set-the-directory-permissions';
 			throw new HintException(
 				"Can't write into config directory!",
