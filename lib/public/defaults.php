@@ -50,7 +50,7 @@ class Defaults {
 	 * @param string $link link directly to the file/folder in your ownCloud
 	 * @param string $expiration expiration date
 	 */
-	public function getShareNotificationTextAlt($sender, $itemName, $link, $expiration) {
+	public function getShareNotificationTextAlt($sender, $itemName, $link, $expiration=null) {
 		return $this->defaults->getShareNotificationTextAlt($sender, $itemName, $link, $expiration);
 	}
 
@@ -61,7 +61,7 @@ class Defaults {
 	 * @param string $link link directly to the file/folder in your ownCloud
 	 * @param string $expiration expiration date
 	 */
-	public function getShareNotificationTextHtml($sender, $itemName, $link, $expiration) {
+	public function getShareNotificationTextHtml($sender, $itemName, $link, $expiration=null) {
 		return $this->defaults->getShareNotificationTextHtml($sender, $itemName, $link, $expiration);
 	}
 
