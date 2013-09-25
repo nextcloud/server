@@ -40,11 +40,14 @@ class Keymanager {
 	public static function getPrivateKey(\OC_FilesystemView $view, $user) {
 
 		$path = '/' . $user . '/' . 'files_encryption' . '/' . $user . '.private.key';
+		$key = false;
 
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
-		$key = $view->file_get_contents($path);
+		if ($view->file_exists($path)) {
+			$key = $view->file_get_contents($path);
+		}
 
 		\OC_FileProxy::$enabled = $proxyStatus;
 
