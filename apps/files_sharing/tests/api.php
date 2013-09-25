@@ -220,13 +220,22 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 
 		$fileInfo = $this->view->getFileInfo($this->filename);
 
-		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+		$result = \OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
 				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
 
-		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK,
+		// share was successful?
+		$this->assertTrue($result);
+
+		$result = \OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK,
 				null, 1);
 
+		// share was successful?
+		$this->assertTrue(is_string($result));
+
 		$items = \OCP\Share::getItemShared('file', null);
+
+		// make sure that we found a link share and a user share
+		$this->assertEquals(count($items), 2);
 
 		$linkShare = null;
 		$userShare = null;
