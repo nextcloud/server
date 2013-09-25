@@ -54,7 +54,6 @@ class OC_Connector_Sabre_AbortedUploadDetectionPlugin extends Sabre_DAV_ServerPl
 	}
 
 	function afterWriteContent($path, Sabre_DAV_IFile $node) {
-		$path = $path .'/'.$node->getName();
 		$this->verifyContentLength($path);
 	}
 
