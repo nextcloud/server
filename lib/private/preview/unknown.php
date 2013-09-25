@@ -20,9 +20,9 @@ class Unknown extends Provider {
 		$path = \OC_Helper::mimetypeIcon($mimetype);
 		$path = \OC::$SERVERROOT . substr($path, strlen(\OC::$WEBROOT));
 
-		if (extension_loaded('imagick')) {
-				$path = substr_replace($path, 'svg', -3);
+		$svgPath = substr_replace($path, 'svg', -3);
 
+		if (extension_loaded('imagick') && file_exists($svgPath)) {
 				$svg = new \Imagick();
 				$svg->setBackgroundColor(new \ImagickPixel('transparent'));
 				$svg->readImage($path);
