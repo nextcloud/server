@@ -511,13 +511,23 @@ class OC_Util {
 
 	/**
 	 * Check if it is allowed to remember login.
-	 * E.g. if encryption is enabled the user needs to log-in every time he visites
-	 * ownCloud in order to decrypt the private key.
+	 *
+	 * @note Every app can set 'rememberlogin' to 'false' to disable the remember login feature
 	 *
 	 * @return bool
 	 */
 	public static function rememberLoginAllowed() {
-		return !OC_App::isEnabled('files_encryption');
+
+		$apps = OC_App::getEnabledApps();
+
+		foreach ($apps as $app) {
+			$appInfo = OC_App::getAppInfo($app);
+			if (isset($appInfo['rememberlogin']) && $appInfo['rememberlogin'] === 'false') {
+				return false;
+			}
+
+		}
+		return true;
 	}
 
 	/**
