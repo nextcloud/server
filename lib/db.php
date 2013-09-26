@@ -75,6 +75,7 @@ class OC_DB {
 		// do nothing if the connection already has been established
 		if (!self::$connection) {
 			$config = new \Doctrine\DBAL\Configuration();
+			$eventManager = new \Doctrine\Common\EventManager();
 			switch($type) {
 				case 'sqlite':
 				case 'sqlite3':
@@ -86,6 +87,7 @@ class OC_DB {
 							'driver' => 'pdo_sqlite',
 					);
 					$connectionParams['adapter'] = '\OC\DB\AdapterSqlite';
+					$connectionParams['wrapperClass'] = 'OC\DB\Connection';
 					break;
 				case 'mysql':
 					$connectionParams = array(
@@ -98,6 +100,7 @@ class OC_DB {
 							'driver' => 'pdo_mysql',
 					);
 					$connectionParams['adapter'] = '\OC\DB\Adapter';
+					$connectionParams['wrapperClass'] = 'OC\DB\Connection';
 					break;
 				case 'pgsql':
 					$connectionParams = array(
@@ -109,6 +112,7 @@ class OC_DB {
 							'driver' => 'pdo_pgsql',
 					);
 					$connectionParams['adapter'] = '\OC\DB\AdapterPgSql';
+					$connectionParams['wrapperClass'] = 'OC\DB\Connection';
 					break;
 				case 'oci':
 					$connectionParams = array(
@@ -123,6 +127,8 @@ class OC_DB {
 						$connectionParams['port'] = $port;
 					}
 					$connectionParams['adapter'] = '\OC\DB\AdapterOCI8';
+					$connectionParams['wrapperClass'] = 'OC\DB\OracleConnection';
+					$eventManager->addEventSubscriber(new \Doctrine\DBAL\Event\Listeners\OracleSessionInit);
 					break;
 				case 'mssql':
 					$connectionParams = array(
@@ -135,14 +141,14 @@ class OC_DB {
 							'driver' => 'pdo_sqlsrv',
 					);
 					$connectionParams['adapter'] = '\OC\DB\AdapterSQLSrv';
+					$connectionParams['wrapperClass'] = 'OC\DB\Connection';
 					break;
 				default:
 					return false;
 			}
-			$connectionParams['wrapperClass'] = 'OC\DB\Connection';
 			$connectionParams['tablePrefix'] = OC_Config::getValue('dbtableprefix', 'oc_' );
 			try {
-				self::$connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+				self::$connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config, $eventManager);
 				if ($type === 'sqlite' || $type === 'sqlite3') {
 					// Sqlite doesn't handle query caching and schema changes
 					// TODO: find a better way to handle this
@@ -327,18 +333,6 @@ class OC_DB {
 	public static function commit() {
 		self::connect();
 		self::$connection->commit();
-	}
-
-	/**
-	 * @brief Disconnect
-	 *
-	 * This is good bye, good bye, yeah!
-	 */
-	public static function disconnect() {
-		// Cut connection if required
-		if(self::$connection) {
-			self::$connection->close();
-		}
 	}
 
 	/**

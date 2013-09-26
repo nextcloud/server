@@ -14,5 +14,3 @@ class RP_ModAVUMetadataInp extends RODSPacket
     }
 
 }
-
-?>

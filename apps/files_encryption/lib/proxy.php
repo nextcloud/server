@@ -50,7 +50,6 @@ class Proxy extends \OC_FileProxy {
 	private static function shouldEncrypt($path) {
 
 		if (is_null(self::$enableEncryption)) {
-
 			if (
 				\OCP\App::isEnabled('files_encryption') === true
 				&& Crypt::mode() === 'server'

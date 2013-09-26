@@ -7,8 +7,6 @@ function fileDownloadPath(dir, file) {
 	return url;
 }
 
-var form_data;
-
 $(document).ready(function() {
 
 	$('#data-upload-form').tipsy({gravity:'ne', fade:true});
@@ -50,19 +48,23 @@ $(document).ready(function() {
 		});
 	}
 
-  // Add some form data to the upload handler
-  file_upload_param.formData = {
-    MAX_FILE_SIZE: $('#uploadMaxFilesize').val(),
-    requesttoken: $('#publicUploadRequestToken').val(),
-    dirToken: $('#dirToken').val(),
-    appname: 'files_sharing',
-    subdir: $('input#dir').val()
-  };
+	var file_upload_start = $('#file_upload_start');
+	file_upload_start.on('fileuploadadd', function(e, data) {
+		// Add custom data to the upload handler
+		data.formData = {
+			requesttoken: $('#publicUploadRequestToken').val(),
+			dirToken: $('#dirToken').val(),
+			subdir: $('input#dir').val()
+		};
+	});
 
-  // Add Uploadprogress Wrapper to controls bar
-  $('#controls').append($('#additional_controls div#uploadprogresswrapper'));
+	// Add Uploadprogress Wrapper to controls bar
+	$('#controls').append($('#additional_controls div#uploadprogresswrapper'));
 
-  // Cancel upload trigger
-  $('#cancel_upload_button').click(Files.cancelUploads);
+	// Cancel upload trigger
+	$('#cancel_upload_button').click(function() {
+		OC.Upload.cancelUploads();
+		procesSelection();
+	});
 
 });

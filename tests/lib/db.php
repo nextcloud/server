@@ -15,7 +15,7 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 	public function setUp() {
 		$dbfile = OC::$SERVERROOT.'/tests/data/db_structure.xml';
 
-		$r = '_'.OC_Util::generate_random_bytes('4').'_';
+		$r = '_'.OC_Util::generateRandomBytes('4').'_';
 		$content = file_get_contents( $dbfile );
 		$content = str_replace( '*dbprefix*', '*dbprefix*'.$r, $content );
 		file_put_contents( self::$schema_file, $content );
@@ -144,5 +144,43 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		// And that a new row hasn't been inserted.
 		$this->assertEquals(1, $result->numRows());
 
+	}
+
+	/**
+	* Tests whether the database is configured so it accepts and returns dates
+	* in the expected format.
+	*/
+	public function testTimestampDateFormat() {
+		$table = '*PREFIX*'.$this->test_prefix.'timestamp';
+		$column = 'timestamptest';
+
+		$expectedFormat = 'Y-m-d H:i:s';
+		$expected = new \DateTime;
+
+		$query = OC_DB::prepare("INSERT INTO `$table` (`$column`) VALUES (?)");
+		$result = $query->execute(array($expected->format($expectedFormat)));
+		$this->assertEquals(
+			1,
+			$result,
+			"Database failed to accept dates in the format '$expectedFormat'."
+		);
+
+		$id = OC_DB::insertid($table);
+		$query = OC_DB::prepare("SELECT * FROM `$table` WHERE `id` = ?");
+		$result = $query->execute(array($id));
+		$row = $result->fetchRow();
+
+		$actual = \DateTime::createFromFormat($expectedFormat, $row[$column]);
+		$this->assertInstanceOf(
+			'\DateTime',
+			$actual,
+			"Database failed to return dates in the format '$expectedFormat'."
+		);
+
+		$this->assertEquals(
+			$expected,
+			$actual,
+			'Failed asserting that the returned date is the same as the inserted.'
+		);
 	}
 }

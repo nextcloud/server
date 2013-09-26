@@ -87,6 +87,7 @@ $TRANSLATIONS = array(
 "Email" => "Epost",
 "Your email address" => "Din e-postadresse",
 "Fill in an email address to enable password recovery" => "Oppi epostadressen du vil tilbakestille passordet for",
+"Profile picture" => "Profilbilde",
 "Language" => "Språk",
 "Help translate" => "Bidra til oversettelsen",
 "WebDAV" => "WebDAV",

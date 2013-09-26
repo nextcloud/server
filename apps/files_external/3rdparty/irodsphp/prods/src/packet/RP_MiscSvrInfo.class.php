@@ -13,5 +13,3 @@ class RP_MiscSvrInfo extends RODSPacket
     }
 
 }
-
-?>

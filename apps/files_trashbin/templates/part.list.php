@@ -1,4 +1,3 @@
-<input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>">
 <?php foreach($_['files'] as $file):
 	$relative_deleted_date = OCP\relative_modified_date($file['timestamp']);
 	// the older the file, the brighter the shade of grey; days*14
@@ -12,7 +11,7 @@
 		data-permissions='<?php p($file['permissions']); ?>'
 		<?php if ( $_['dirlisting'] ): ?>
 		id="<?php p($file['directory'].'/'.$file['name']);?>"
-		data-file="<?php p($file['directory'].'/'.$file['name']);?>"
+		data-file="<?php p($name);?>"
 		data-timestamp=''
 		data-dirlisting=1
 		<?php  else: ?>

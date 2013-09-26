@@ -69,5 +69,3 @@ $outputstr = $outputstr . ");\n";
 
 $outputstr = $outputstr . "?>\n";
 file_put_contents($prods_genque_keywd_file, $outputstr);
-
-?>  

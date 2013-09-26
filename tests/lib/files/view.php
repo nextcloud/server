@@ -25,7 +25,7 @@ class View extends \PHPUnit_Framework_TestCase {
 
 		//login
 		\OC_User::createUser('test', 'test');
-		$this->user=\OC_User::getUser();
+		$this->user = \OC_User::getUser();
 		\OC_User::setUserId('test');
 
 		\OC\Files\Filesystem::clearMounts();
@@ -326,7 +326,50 @@ class View extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @medium
+	 */
+	function testViewHooks() {
+		$storage1 = $this->getTestStorage();
+		$storage2 = $this->getTestStorage();
+		$defaultRoot = \OC\Files\Filesystem::getRoot();
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		\OC\Files\Filesystem::mount($storage2, array(), $defaultRoot . '/substorage');
+		\OC_Hook::connect('OC_Filesystem', 'post_write', $this, 'dummyHook');
+
+		$rootView = new \OC\Files\View('');
+		$subView = new \OC\Files\View($defaultRoot . '/substorage');
+		$this->hookPath = null;
+
+		$rootView->file_put_contents('/foo.txt', 'asd');
+		$this->assertNull($this->hookPath);
+
+		$subView->file_put_contents('/foo.txt', 'asd');
+		$this->assertNotNull($this->hookPath);
+		$this->assertEquals('/substorage/foo.txt', $this->hookPath);
+	}
+
+	private $hookPath;
+
+	function dummyHook($params) {
+		$this->hookPath = $params['path'];
+	}
+
+	public function testSearchNotOutsideView() {
+		$storage1 = $this->getTestStorage();
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		$storage1->rename('folder', 'foo');
+		$scanner = $storage1->getScanner();
+		$scanner->scan('');
+
+		$view = new \OC\Files\View('/foo');
+
+		$result = $view->search('.txt');
+		$this->assertCount(1, $result);
+	}
+
+	/**
 	 * @param bool $scan
+	 * @param string $class
 	 * @return \OC\Files\Storage\Storage
 	 */
 	private function getTestStorage($scan = true, $class = '\OC\Files\Storage\Temporary') {

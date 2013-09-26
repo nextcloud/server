@@ -121,15 +121,16 @@ class Session implements Emitter {
 	 */
 	public function login($uid, $password) {
 		$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
-		$user = $this->manager->get($uid);
-		if ($user) {
-			$result = $user->checkPassword($password);
-			if ($result and $user->isEnabled()) {
-				$this->setUser($user);
-				$this->manager->emit('\OC\User', 'postLogin', array($user, $password));
-				return true;
-			} else {
-				return false;
+		$user = $this->manager->checkPassword($uid, $password);
+		if($user !== false) {
+			if (!is_null($user)) {
+				if ($user->isEnabled()) {
+					$this->setUser($user);
+					$this->manager->emit('\OC\User', 'postLogin', array($user, $password));
+					return true;
+				} else {
+					return false;
+				}
 			}
 		} else {
 			return false;

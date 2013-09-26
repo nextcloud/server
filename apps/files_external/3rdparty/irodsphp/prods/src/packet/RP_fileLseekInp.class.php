@@ -12,5 +12,3 @@ class RP_fileLseekInp extends RODSPacket
     }
 
 }
-
-?>

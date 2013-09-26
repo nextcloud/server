@@ -206,14 +206,16 @@ class Google extends \OC\Files\Storage\Common {
 	public function rmdir($path) {
 		if (trim($path, '/') === '') {
 			$dir = $this->opendir($path);
-			while (($file = readdir($dh)) !== false) {
-				if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
-					if (!$this->unlink($path.'/'.$file)) {
-						return false;
+			if(is_resource($dir)) {
+				while (($file = readdir($dir)) !== false) {
+					if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
+						if (!$this->unlink($path.'/'.$file)) {
+							return false;
+						}
 					}
 				}
+				closedir($dir);
 			}
-			closedir($dir);
 			$this->driveFiles = array();
 			return true;
 		} else {

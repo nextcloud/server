@@ -7,14 +7,15 @@
 # Art O. Pal <artopal@fastmail.fm>, 2012
 # pggx999 <pggx999@gmail.com>, 2012
 # Rodrigo Rodríguez <roirobo@ubuntu.org.ni>, 2013
+# Korrosivo <yo@rubendelcampo.es>, 2013
 # saskarip <saskarip@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-13 09:11-0400\n"
-"PO-Revision-Date: 2013-08-13 05:50+0000\n"
-"Last-Translator: Rodrigo Rodríguez <roirobo@ubuntu.org.ni>\n"
+"POT-Creation-Date: 2013-09-05 07:36-0400\n"
+"PO-Revision-Date: 2013-09-03 18:30+0000\n"
+"Last-Translator: Korrosivo <yo@rubendelcampo.es>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr ""
 
 #: templates/settings.php:3
 msgid "WebDAV Authentication"
-msgstr "Autenticación de WevDAV"
+msgstr "Autenticación mediante WevDAV"
 
 #: templates/settings.php:4
 msgid "Address: "
@@ -35,4 +36,4 @@ msgid ""
 "The user credentials will be sent to this address. This plugin checks the "
 "response and will interpret the HTTP statuscodes 401 and 403 as invalid "
 "credentials, and all other responses as valid credentials."
-msgstr "onwCloud enviará las credenciales de usuario a esta dirección. Este complemento verifica la respuesta e interpretará los códigos de respuesta HTTP 401 y 403 como credenciales inválidas y todas las otras respuestas como credenciales válidas."
+msgstr "Las credenciales de usuario se enviarán a esta dirección. Este complemento verifica la respuesta e interpretará los códigos de respuesta HTTP 401 y 403 como credenciales inválidas y todas las otras respuestas como credenciales válidas."

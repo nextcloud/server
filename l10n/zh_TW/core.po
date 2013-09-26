@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-01 13:27-0400\n"
-"PO-Revision-Date: 2013-09-01 13:10+0000\n"
-"Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
+"POT-Creation-Date: 2013-09-22 12:55-0400\n"
+"PO-Revision-Date: 2013-09-20 15:01+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -92,6 +92,26 @@ msgstr "沒有選擇要刪除的分類。"
 msgid "Error removing %s from favorites."
 msgstr "從最愛移除 %s 時發生錯誤。"
 
+#: avatar/controller.php:62
+msgid "No image or file provided"
+msgstr ""
+
+#: avatar/controller.php:81
+msgid "Unknown filetype"
+msgstr ""
+
+#: avatar/controller.php:85
+msgid "Invalid image"
+msgstr ""
+
+#: avatar/controller.php:115 avatar/controller.php:142
+msgid "No temporary profile picture available, try again"
+msgstr ""
+
+#: avatar/controller.php:135
+msgid "No crop data provided"
+msgstr ""
+
 #: js/config.php:32
 msgid "Sunday"
 msgstr "週日"
@@ -168,55 +188,55 @@ msgstr "十一月"
 msgid "December"
 msgstr "十二月"
 
-#: js/js.js:355
+#: js/js.js:387
 msgid "Settings"
 msgstr "設定"
 
-#: js/js.js:812
+#: js/js.js:866
 msgid "seconds ago"
 msgstr "幾秒前"
 
-#: js/js.js:813
+#: js/js.js:867
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n 分鐘前"
 
-#: js/js.js:814
+#: js/js.js:868
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n 小時前"
 
-#: js/js.js:815
+#: js/js.js:869
 msgid "today"
 msgstr "今天"
 
-#: js/js.js:816
+#: js/js.js:870
 msgid "yesterday"
 msgstr "昨天"
 
-#: js/js.js:817
+#: js/js.js:871
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n 天前"
 
-#: js/js.js:818
+#: js/js.js:872
 msgid "last month"
 msgstr "上個月"
 
-#: js/js.js:819
+#: js/js.js:873
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n 個月前"
 
-#: js/js.js:820
+#: js/js.js:874
 msgid "months ago"
 msgstr "幾個月前"
 
-#: js/js.js:821
+#: js/js.js:875
 msgid "last year"
 msgstr "去年"
 
-#: js/js.js:822
+#: js/js.js:876
 msgid "years ago"
 msgstr "幾年前"
 
@@ -224,21 +244,64 @@ msgstr "幾年前"
 msgid "Choose"
 msgstr "選擇"
 
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:210
-msgid "Error loading file picker template"
-msgstr "載入檔案選擇器樣板發生錯誤"
+#: js/oc-dialogs.js:146
+msgid "Error loading file picker template: {error}"
+msgstr ""
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:172
 msgid "Yes"
 msgstr "是"
 
-#: js/oc-dialogs.js:178
+#: js/oc-dialogs.js:182
 msgid "No"
 msgstr "否"
 
-#: js/oc-dialogs.js:195
+#: js/oc-dialogs.js:199
 msgid "Ok"
 msgstr "好"
+
+#: js/oc-dialogs.js:219
+msgid "Error loading message template: {error}"
+msgstr ""
+
+#: js/oc-dialogs.js:347
+msgid "{count} file conflict"
+msgid_plural "{count} file conflicts"
+msgstr[0] ""
+
+#: js/oc-dialogs.js:361
+msgid "One file conflict"
+msgstr ""
+
+#: js/oc-dialogs.js:367
+msgid "Which files do you want to keep?"
+msgstr ""
+
+#: js/oc-dialogs.js:368
+msgid ""
+"If you select both versions, the copied file will have a number added to its"
+" name."
+msgstr ""
+
+#: js/oc-dialogs.js:376
+msgid "Cancel"
+msgstr "取消"
+
+#: js/oc-dialogs.js:386
+msgid "Continue"
+msgstr ""
+
+#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+msgid "(all selected)"
+msgstr ""
+
+#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+msgid "({count} selected)"
+msgstr ""
+
+#: js/oc-dialogs.js:457
+msgid "Error loading file exists template"
+msgstr ""
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -249,7 +312,7 @@ msgstr "未指定物件類型。"
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:643 js/share.js:655
+#: js/share.js:645 js/share.js:657
 msgid "Error"
 msgstr "錯誤"
 
@@ -269,7 +332,7 @@ msgstr "已分享"
 msgid "Share"
 msgstr "分享"
 
-#: js/share.js:131 js/share.js:683
+#: js/share.js:131 js/share.js:685
 msgid "Error while sharing"
 msgstr "分享時發生錯誤"
 
@@ -325,67 +388,67 @@ msgstr "指定到期日"
 msgid "Expiration date"
 msgstr "到期日"
 
-#: js/share.js:241
+#: js/share.js:242
 msgid "Share via email:"
 msgstr "透過電子郵件分享："
 
-#: js/share.js:243
+#: js/share.js:245
 msgid "No people found"
 msgstr "沒有找到任何人"
 
-#: js/share.js:281
+#: js/share.js:283
 msgid "Resharing is not allowed"
 msgstr "不允許重新分享"
 
-#: js/share.js:317
+#: js/share.js:319
 msgid "Shared in {item} with {user}"
 msgstr "已和 {user} 分享 {item}"
 
-#: js/share.js:338
+#: js/share.js:340
 msgid "Unshare"
 msgstr "取消分享"
 
-#: js/share.js:350
+#: js/share.js:352
 msgid "can edit"
 msgstr "可編輯"
 
-#: js/share.js:352
+#: js/share.js:354
 msgid "access control"
 msgstr "存取控制"
 
-#: js/share.js:355
+#: js/share.js:357
 msgid "create"
 msgstr "建立"
 
-#: js/share.js:358
+#: js/share.js:360
 msgid "update"
 msgstr "更新"
 
-#: js/share.js:361
+#: js/share.js:363
 msgid "delete"
 msgstr "刪除"
 
-#: js/share.js:364
+#: js/share.js:366
 msgid "share"
 msgstr "分享"
 
-#: js/share.js:398 js/share.js:630
+#: js/share.js:400 js/share.js:632
 msgid "Password protected"
 msgstr "受密碼保護"
 
-#: js/share.js:643
+#: js/share.js:645
 msgid "Error unsetting expiration date"
 msgstr "取消到期日設定失敗"
 
-#: js/share.js:655
+#: js/share.js:657
 msgid "Error setting expiration date"
 msgstr "設定到期日發生錯誤"
 
-#: js/share.js:670
+#: js/share.js:672
 msgid "Sending ..."
 msgstr "正在傳送…"
 
-#: js/share.js:681
+#: js/share.js:683
 msgid "Email sent"
 msgstr "Email 已寄出"
 
@@ -400,7 +463,7 @@ msgstr "升級失敗，請將此問題回報 <a href=\"https://github.com/ownclo
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "升級成功，正將您重新導向至 ownCloud 。"
 
-#: lostpassword/controller.php:61
+#: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
 msgstr "%s 密碼重設"
@@ -469,7 +532,7 @@ msgstr "個人"
 msgid "Users"
 msgstr "使用者"
 
-#: strings.php:7 templates/layout.user.php:105
+#: strings.php:7 templates/layout.user.php:108
 msgid "Apps"
 msgstr "應用程式"
 
@@ -598,7 +661,7 @@ msgstr "完成設定"
 msgid "%s is available. Get more information on how to update."
 msgstr "%s 已經釋出，瞭解更多資訊以進行更新。"
 
-#: templates/layout.user.php:66
+#: templates/layout.user.php:69
 msgid "Log out"
 msgstr "登出"
 

@@ -65,16 +65,18 @@ class MappedLocal extends \OC\Files\Storage\Common{
 
 		$logicalPath = $this->mapper->physicalToLogic($physicalPath);
 		$dh = opendir($physicalPath);
-		while (($file = readdir($dh)) !== false) {
-			if ($file === '.' or $file === '..') {
-				continue;
+		if(is_resource($dh)) {
+			while (($file = readdir($dh)) !== false) {
+				if ($file === '.' or $file === '..') {
+					continue;
+				}
+
+				$logicalFilePath = $this->mapper->physicalToLogic($physicalPath.'/'.$file);
+
+				$file= $this->mapper->stripRootFolder($logicalFilePath, $logicalPath);
+				$file = $this->stripLeading($file);
+				$files[]= $file;
 			}
-
-			$logicalFilePath = $this->mapper->physicalToLogic($physicalPath.'/'.$file);
-
-			$file= $this->mapper->stripRootFolder($logicalFilePath, $logicalPath);
-			$file = $this->stripLeading($file);
-			$files[]= $file;
 		}
 
 		\OC\Files\Stream\Dir::register('local-win32'.$path, $files);

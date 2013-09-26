@@ -71,6 +71,7 @@ $TRANSLATIONS = array(
 "Email" => "อีเมล",
 "Your email address" => "ที่อยู่อีเมล์ของคุณ",
 "Fill in an email address to enable password recovery" => "กรอกที่อยู่อีเมล์ของคุณเพื่อเปิดให้มีการกู้คืนรหัสผ่านได้",
+"Profile picture" => "รูปภาพโปรไฟล์",
 "Language" => "ภาษา",
 "Help translate" => "ช่วยกันแปล",
 "WebDAV" => "WebDAV",

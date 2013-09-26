@@ -43,5 +43,3 @@ class RP_KeyValPair extends RODSPacket
         }
     }
 }
-
-?>

@@ -73,11 +73,11 @@ class OC_App{
 
 		if (!defined('DEBUG') || !DEBUG) {
 			if (is_null($types)
-				&& empty(OC_Util::$core_scripts)
-				&& empty(OC_Util::$core_styles)) {
-				OC_Util::$core_scripts = OC_Util::$scripts;
+				&& empty(OC_Util::$coreScripts)
+				&& empty(OC_Util::$coreStyles)) {
+				OC_Util::$coreScripts = OC_Util::$scripts;
 				OC_Util::$scripts = array();
-				OC_Util::$core_styles = OC_Util::$styles;
+				OC_Util::$coreStyles = OC_Util::$styles;
 				OC_Util::$styles = array();
 			}
 		}
@@ -667,14 +667,16 @@ class OC_App{
 			}
 			$dh = opendir( $apps_dir['path'] );
 
-			while (($file = readdir($dh)) !== false) {
+			if(is_resource($dh)) {
+				while (($file = readdir($dh)) !== false) {
 
-				if ($file[0] != '.' and is_file($apps_dir['path'].'/'.$file.'/appinfo/app.php')) {
+					if ($file[0] != '.' and is_file($apps_dir['path'].'/'.$file.'/appinfo/app.php')) {
 
-					$apps[] = $file;
+						$apps[] = $file;
+
+					}
 
 				}
-
 			}
 
 		}
@@ -868,10 +870,10 @@ class OC_App{
 
 
 	/**
-	 * Compares the app version with the owncloud version to see if the app 
+	 * Compares the app version with the owncloud version to see if the app
 	 * requires a newer version than the currently active one
 	 * @param array $owncloudVersions array with 3 entries: major minor bugfix
-	 * @param string $appRequired the required version from the xml 
+	 * @param string $appRequired the required version from the xml
 	 * major.minor.bugfix
 	 * @return boolean true if compatible, otherwise false
 	 */

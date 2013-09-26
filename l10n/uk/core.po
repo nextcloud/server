@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-01 13:27-0400\n"
-"PO-Revision-Date: 2013-08-30 13:50+0000\n"
+"POT-Creation-Date: 2013-09-22 12:55-0400\n"
+"PO-Revision-Date: 2013-09-20 15:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -90,6 +90,26 @@ msgstr "Жодної категорії не обрано для видален�
 msgid "Error removing %s from favorites."
 msgstr "Помилка при видалені %s із обраного."
 
+#: avatar/controller.php:62
+msgid "No image or file provided"
+msgstr ""
+
+#: avatar/controller.php:81
+msgid "Unknown filetype"
+msgstr ""
+
+#: avatar/controller.php:85
+msgid "Invalid image"
+msgstr ""
+
+#: avatar/controller.php:115 avatar/controller.php:142
+msgid "No temporary profile picture available, try again"
+msgstr ""
+
+#: avatar/controller.php:135
+msgid "No crop data provided"
+msgstr ""
+
 #: js/config.php:32
 msgid "Sunday"
 msgstr "Неділя"
@@ -166,63 +186,63 @@ msgstr "Листопад"
 msgid "December"
 msgstr "Грудень"
 
-#: js/js.js:355
+#: js/js.js:387
 msgid "Settings"
 msgstr "Налаштування"
 
-#: js/js.js:812
+#: js/js.js:866
 msgid "seconds ago"
 msgstr "секунди тому"
 
-#: js/js.js:813
+#: js/js.js:867
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: js/js.js:814
+#: js/js.js:868
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: js/js.js:815
+#: js/js.js:869
 msgid "today"
 msgstr "сьогодні"
 
-#: js/js.js:816
+#: js/js.js:870
 msgid "yesterday"
 msgstr "вчора"
 
-#: js/js.js:817
+#: js/js.js:871
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: js/js.js:818
+#: js/js.js:872
 msgid "last month"
 msgstr "минулого місяця"
 
-#: js/js.js:819
+#: js/js.js:873
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: js/js.js:820
+#: js/js.js:874
 msgid "months ago"
 msgstr "місяці тому"
 
-#: js/js.js:821
+#: js/js.js:875
 msgid "last year"
 msgstr "минулого року"
 
-#: js/js.js:822
+#: js/js.js:876
 msgid "years ago"
 msgstr "роки тому"
 
@@ -230,21 +250,66 @@ msgstr "роки тому"
 msgid "Choose"
 msgstr "Обрати"
 
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:210
-msgid "Error loading file picker template"
+#: js/oc-dialogs.js:146
+msgid "Error loading file picker template: {error}"
 msgstr ""
 
-#: js/oc-dialogs.js:168
+#: js/oc-dialogs.js:172
 msgid "Yes"
 msgstr "Так"
 
-#: js/oc-dialogs.js:178
+#: js/oc-dialogs.js:182
 msgid "No"
 msgstr "Ні"
 
-#: js/oc-dialogs.js:195
+#: js/oc-dialogs.js:199
 msgid "Ok"
 msgstr "Ok"
+
+#: js/oc-dialogs.js:219
+msgid "Error loading message template: {error}"
+msgstr ""
+
+#: js/oc-dialogs.js:347
+msgid "{count} file conflict"
+msgid_plural "{count} file conflicts"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: js/oc-dialogs.js:361
+msgid "One file conflict"
+msgstr ""
+
+#: js/oc-dialogs.js:367
+msgid "Which files do you want to keep?"
+msgstr ""
+
+#: js/oc-dialogs.js:368
+msgid ""
+"If you select both versions, the copied file will have a number added to its"
+" name."
+msgstr ""
+
+#: js/oc-dialogs.js:376
+msgid "Cancel"
+msgstr "Відмінити"
+
+#: js/oc-dialogs.js:386
+msgid "Continue"
+msgstr ""
+
+#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+msgid "(all selected)"
+msgstr ""
+
+#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+msgid "({count} selected)"
+msgstr ""
+
+#: js/oc-dialogs.js:457
+msgid "Error loading file exists template"
+msgstr ""
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -255,7 +320,7 @@ msgstr "Не визначено тип об'єкту."
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:643 js/share.js:655
+#: js/share.js:645 js/share.js:657
 msgid "Error"
 msgstr "Помилка"
 
@@ -275,7 +340,7 @@ msgstr "Опубліковано"
 msgid "Share"
 msgstr "Поділитися"
 
-#: js/share.js:131 js/share.js:683
+#: js/share.js:131 js/share.js:685
 msgid "Error while sharing"
 msgstr "Помилка під час публікації"
 
@@ -331,67 +396,67 @@ msgstr "Встановити термін дії"
 msgid "Expiration date"
 msgstr "Термін дії"
 
-#: js/share.js:241
+#: js/share.js:242
 msgid "Share via email:"
 msgstr "Опублікувати через Ел. пошту:"
 
-#: js/share.js:243
+#: js/share.js:245
 msgid "No people found"
 msgstr "Жодної людини не знайдено"
 
-#: js/share.js:281
+#: js/share.js:283
 msgid "Resharing is not allowed"
 msgstr "Пере-публікація не дозволяється"
 
-#: js/share.js:317
+#: js/share.js:319
 msgid "Shared in {item} with {user}"
 msgstr "Опубліковано {item} для {user}"
 
-#: js/share.js:338
+#: js/share.js:340
 msgid "Unshare"
 msgstr "Закрити доступ"
 
-#: js/share.js:350
+#: js/share.js:352
 msgid "can edit"
 msgstr "може редагувати"
 
-#: js/share.js:352
+#: js/share.js:354
 msgid "access control"
 msgstr "контроль доступу"
 
-#: js/share.js:355
+#: js/share.js:357
 msgid "create"
 msgstr "створити"
 
-#: js/share.js:358
+#: js/share.js:360
 msgid "update"
 msgstr "оновити"
 
-#: js/share.js:361
+#: js/share.js:363
 msgid "delete"
 msgstr "видалити"
 
-#: js/share.js:364
+#: js/share.js:366
 msgid "share"
 msgstr "опублікувати"
 
-#: js/share.js:398 js/share.js:630
+#: js/share.js:400 js/share.js:632
 msgid "Password protected"
 msgstr "Захищено паролем"
 
-#: js/share.js:643
+#: js/share.js:645
 msgid "Error unsetting expiration date"
 msgstr "Помилка при відміні терміна дії"
 
-#: js/share.js:655
+#: js/share.js:657
 msgid "Error setting expiration date"
 msgstr "Помилка при встановленні терміна дії"
 
-#: js/share.js:670
+#: js/share.js:672
 msgid "Sending ..."
 msgstr "Надсилання..."
 
-#: js/share.js:681
+#: js/share.js:683
 msgid "Email sent"
 msgstr "Ел. пошта надіслана"
 
@@ -406,7 +471,7 @@ msgstr "Оновлення виконалось неуспішно. Будь л�
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Оновлення виконалось успішно. Перенаправляємо вас на  ownCloud."
 
-#: lostpassword/controller.php:61
+#: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
 msgstr ""
@@ -475,7 +540,7 @@ msgstr "Особисте"
 msgid "Users"
 msgstr "Користувачі"
 
-#: strings.php:7 templates/layout.user.php:105
+#: strings.php:7 templates/layout.user.php:108
 msgid "Apps"
 msgstr "Додатки"
 
@@ -604,7 +669,7 @@ msgstr "Завершити налаштування"
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:66
+#: templates/layout.user.php:69
 msgid "Log out"
 msgstr "Вихід"
 

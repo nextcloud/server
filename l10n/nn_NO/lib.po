@@ -4,12 +4,13 @@
 # 
 # Translators:
 # unhammer <unhammer+dill@mm.st>, 2013
+# unhammer <unhammer+dill@mm.st>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-25 19:18-0400\n"
-"PO-Revision-Date: 2013-08-25 23:18+0000\n"
+"POT-Creation-Date: 2013-09-24 12:58-0400\n"
+"PO-Revision-Date: 2013-09-24 08:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -49,10 +50,22 @@ msgstr "Brukarar"
 msgid "Admin"
 msgstr "Administrer"
 
-#: app.php:837
+#: app.php:839
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
+
+#: avatar.php:56
+msgid "Custom profile pictures don't work with encryption yet"
+msgstr ""
+
+#: avatar.php:64
+msgid "Unknown filetype"
+msgstr "Ukjend filtype"
+
+#: avatar.php:69
+msgid "Invalid image"
+msgstr "Ugyldig bilete"
 
 #: defaults.php:35
 msgid "web services under your control"
@@ -106,37 +119,37 @@ msgstr ""
 msgid "Failed to open archive when installing app"
 msgstr ""
 
-#: installer.php:123
+#: installer.php:125
 msgid "App does not provide an info.xml file"
 msgstr ""
 
-#: installer.php:129
+#: installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
 msgstr ""
 
-#: installer.php:138
+#: installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr ""
 
-#: installer.php:144
+#: installer.php:146
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr ""
 
-#: installer.php:150
+#: installer.php:152
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr ""
 
-#: installer.php:160
+#: installer.php:162
 msgid "App directory already exists"
 msgstr ""
 
-#: installer.php:173
+#: installer.php:175
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr ""
@@ -153,15 +166,15 @@ msgstr "Feil i autentisering"
 msgid "Token expired. Please reload page."
 msgstr ""
 
-#: search/provider/file.php:17 search/provider/file.php:35
+#: search/provider/file.php:18 search/provider/file.php:36
 msgid "Files"
 msgstr "Filer"
 
-#: search/provider/file.php:26 search/provider/file.php:33
+#: search/provider/file.php:27 search/provider/file.php:34
 msgid "Text"
 msgstr "Tekst"
 
-#: search/provider/file.php:29
+#: search/provider/file.php:30
 msgid "Images"
 msgstr ""
 
@@ -263,53 +276,53 @@ msgstr "Tenaren din er ikkje enno rett innstilt til å tilby filsynkronisering s
 #: setup.php:185
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr "Ver vennleg og dobbeltsjekk <a href='%s'>installasjonsrettleiinga</a>."
+msgstr "Ver venleg og dobbeltsjekk <a href='%s'>installasjonsrettleiinga</a>."
 
-#: template/functions.php:80
+#: template/functions.php:96
 msgid "seconds ago"
 msgstr "sekund sidan"
 
-#: template/functions.php:81
+#: template/functions.php:97
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n minutt sidan"
 
-#: template/functions.php:82
+#: template/functions.php:98
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n timar sidan"
 
-#: template/functions.php:83
+#: template/functions.php:99
 msgid "today"
 msgstr "i dag"
 
-#: template/functions.php:84
+#: template/functions.php:100
 msgid "yesterday"
 msgstr "i går"
 
-#: template/functions.php:85
+#: template/functions.php:101
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n dagar sidan"
 
-#: template/functions.php:86
+#: template/functions.php:102
 msgid "last month"
 msgstr "førre månad"
 
-#: template/functions.php:87
+#: template/functions.php:103
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n månadar sidan"
 
-#: template/functions.php:88
+#: template/functions.php:104
 msgid "last year"
 msgstr "i fjor"
 
-#: template/functions.php:89
+#: template/functions.php:105
 msgid "years ago"
 msgstr "år sidan"
 

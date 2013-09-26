@@ -1,31 +1,4 @@
-var uploadingFiles = {};
 Files={
-	cancelUpload:function(filename) {
-		if(uploadingFiles[filename]) {
-			uploadingFiles[filename].abort();
-			delete uploadingFiles[filename];
-			return true;
-		}
-		return false;
-	},
-	cancelUploads:function() {
-		$.each(uploadingFiles,function(index,file) {
-			if(typeof file['abort'] === 'function') {
-				file.abort();
-				var filename = $('tr').filterAttr('data-file',index);
-				filename.hide();
-				filename.find('input[type="checkbox"]').removeAttr('checked');
-				filename.removeClass('selected');
-			} else {
-				$.each(file,function(i,f) {
-					f.abort();
-					delete file[i];
-				});
-			}
-			delete uploadingFiles[index];
-		});
-		procesSelection();
-	},
 	updateMaxUploadFilesize:function(response) {
 		if(response == undefined) {
 			return;
@@ -94,29 +67,106 @@ Files={
 			OC.Notification.show(t('files_encryption', 'Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files.'));
 			return;
 		}
+	},
+
+	setupDragAndDrop: function(){
+		var $fileList = $('#fileList');
+
+		//drag/drop of files
+		$fileList.find('tr td.filename').each(function(i,e){
+			if ($(e).parent().data('permissions') & OC.PERMISSION_DELETE) {
+				$(e).draggable(dragOptions);
+			}
+		});
+
+		$fileList.find('tr[data-type="dir"] td.filename').each(function(i,e){
+			if ($(e).parent().data('permissions') & OC.PERMISSION_CREATE){
+				$(e).droppable(folderDropOptions);
+			}
+		});
+	},
+
+	lastWidth: 0,
+
+	initBreadCrumbs: function () {
+		Files.lastWidth = 0;
+		Files.breadcrumbs = [];
+
+		// initialize with some extra space
+		Files.breadcrumbsWidth = 64;
+		if ( document.getElementById("navigation") ) {
+			Files.breadcrumbsWidth += $('#navigation').get(0).offsetWidth;
+		}
+		Files.hiddenBreadcrumbs = 0;
+
+		$.each($('.crumb'), function(index, breadcrumb) {
+			Files.breadcrumbs[index] = breadcrumb;
+			Files.breadcrumbsWidth += $(breadcrumb).get(0).offsetWidth;
+		});
+
+		$.each($('#controls .actions>div'), function(index, action) {
+			Files.breadcrumbsWidth += $(action).get(0).offsetWidth;
+		});
+
+		// event handlers for breadcrumb items
+		$('#controls .crumb a').on('click', onClickBreadcrumb);
+	},
+
+	resizeBreadcrumbs: function (width, firstRun) {
+		if (width != Files.lastWidth) {
+			if ((width < Files.lastWidth || firstRun) && width < Files.breadcrumbsWidth) {
+				if (Files.hiddenBreadcrumbs == 0) {
+					Files.breadcrumbsWidth -= $(Files.breadcrumbs[1]).get(0).offsetWidth;
+					$(Files.breadcrumbs[1]).find('a').hide();
+					$(Files.breadcrumbs[1]).append('<span>...</span>');
+					Files.breadcrumbsWidth += $(Files.breadcrumbs[1]).get(0).offsetWidth;
+					Files.hiddenBreadcrumbs = 2;
+				}
+				var i = Files.hiddenBreadcrumbs;
+				while (width < Files.breadcrumbsWidth && i > 1 && i < Files.breadcrumbs.length - 1) {
+					Files.breadcrumbsWidth -= $(Files.breadcrumbs[i]).get(0).offsetWidth;
+					$(Files.breadcrumbs[i]).hide();
+					Files.hiddenBreadcrumbs = i;
+					i++
+				}
+			} else if (width > Files.lastWidth && Files.hiddenBreadcrumbs > 0) {
+				var i = Files.hiddenBreadcrumbs;
+				while (width > Files.breadcrumbsWidth && i > 0) {
+					if (Files.hiddenBreadcrumbs == 1) {
+						Files.breadcrumbsWidth -= $(Files.breadcrumbs[1]).get(0).offsetWidth;
+						$(Files.breadcrumbs[1]).find('span').remove();
+						$(Files.breadcrumbs[1]).find('a').show();
+						Files.breadcrumbsWidth += $(Files.breadcrumbs[1]).get(0).offsetWidth;
+					} else {
+						$(Files.breadcrumbs[i]).show();
+						Files.breadcrumbsWidth += $(Files.breadcrumbs[i]).get(0).offsetWidth;
+						if (Files.breadcrumbsWidth > width) {
+							Files.breadcrumbsWidth -= $(Files.breadcrumbs[i]).get(0).offsetWidth;
+							$(Files.breadcrumbs[i]).hide();
+							break;
+						}
+					}
+					i--;
+					Files.hiddenBreadcrumbs = i;
+				}
+			}
+			Files.lastWidth = width;
+		}
 	}
 };
 $(document).ready(function() {
+	// FIXME: workaround for trashbin app
+	if (window.trashBinApp){
+		return;
+	}
 	Files.displayEncryptionWarning();
 	Files.bindKeyboardShortcuts(document, jQuery);
-	$('#fileList tr').each(function(){
-		//little hack to set unescape filenames in attribute
-		$(this).attr('data-file',decodeURIComponent($(this).attr('data-file')));
-	});
+
+	FileList.postProcessList();
+	Files.setupDragAndDrop();
 
 	$('#file_action_panel').attr('activeAction', false);
 
-	//drag/drop of files
-	$('#fileList tr td.filename').each(function(i,e){
-		if ($(e).parent().data('permissions') & OC.PERMISSION_DELETE) {
-			$(e).draggable(dragOptions);
-		}
-	});
-	$('#fileList tr[data-type="dir"] td.filename').each(function(i,e){
-		if ($(e).parent().data('permissions') & OC.PERMISSION_CREATE){
-			$(e).droppable(folderDropOptions);
-		}
-	});
 	$('div.crumb:not(.last)').droppable(crumbDropOptions);
 	$('ul#apps>li:first-child').data('dir','');
 	if($('div.crumb').length){
@@ -131,7 +181,8 @@ $(document).ready(function() {
 
 	// Trigger cancelling of file upload
 	$('#uploadprogresswrapper .stop').on('click', function() {
-		Files.cancelUploads();
+		OC.Upload.cancelUploads();
+		procesSelection();
 	});
 
 	// Show trash bin
@@ -268,72 +319,15 @@ $(document).ready(function() {
 	//do a background scan if needed
 	scanFiles();
 
-	var lastWidth = 0;
-	var breadcrumbs = [];
-	var breadcrumbsWidth = 0;
-	if ( document.getElementById("navigation") ) {
-		breadcrumbsWidth = $('#navigation').get(0).offsetWidth;
-	}
-	var hiddenBreadcrumbs = 0;
-
-	$.each($('.crumb'), function(index, breadcrumb) {
-		breadcrumbs[index] = breadcrumb;
-		breadcrumbsWidth += $(breadcrumb).get(0).offsetWidth;
-	});
-
-
-	$.each($('#controls .actions>div'), function(index, action) {
-		breadcrumbsWidth += $(action).get(0).offsetWidth;
-	});
-
-	function resizeBreadcrumbs(firstRun) {
-		var width = $(this).width();
-		if (width != lastWidth) {
-			if ((width < lastWidth || firstRun) && width < breadcrumbsWidth) {
-				if (hiddenBreadcrumbs == 0) {
-					breadcrumbsWidth -= $(breadcrumbs[1]).get(0).offsetWidth;
-					$(breadcrumbs[1]).find('a').hide();
-					$(breadcrumbs[1]).append('<span>...</span>');
-					breadcrumbsWidth += $(breadcrumbs[1]).get(0).offsetWidth;
-					hiddenBreadcrumbs = 2;
-				}
-				var i = hiddenBreadcrumbs;
-				while (width < breadcrumbsWidth && i > 1 && i < breadcrumbs.length - 1) {
-					breadcrumbsWidth -= $(breadcrumbs[i]).get(0).offsetWidth;
-					$(breadcrumbs[i]).hide();
-					hiddenBreadcrumbs = i;
-					i++
-				}
-			} else if (width > lastWidth && hiddenBreadcrumbs > 0) {
-				var i = hiddenBreadcrumbs;
-				while (width > breadcrumbsWidth && i > 0) {
-					if (hiddenBreadcrumbs == 1) {
-						breadcrumbsWidth -= $(breadcrumbs[1]).get(0).offsetWidth;
-						$(breadcrumbs[1]).find('span').remove();
-						$(breadcrumbs[1]).find('a').show();
-						breadcrumbsWidth += $(breadcrumbs[1]).get(0).offsetWidth;
-					} else {
-						$(breadcrumbs[i]).show();
-						breadcrumbsWidth += $(breadcrumbs[i]).get(0).offsetWidth;
-						if (breadcrumbsWidth > width) {
-							breadcrumbsWidth -= $(breadcrumbs[i]).get(0).offsetWidth;
-							$(breadcrumbs[i]).hide();
-							break;
-						}
-					}
-					i--;
-					hiddenBreadcrumbs = i;
-				}
-			}
-			lastWidth = width;
-		}
-	}
+	Files.initBreadCrumbs();
 
 	$(window).resize(function() {
-		resizeBreadcrumbs(false);
+		var width = $(this).width();
+		Files.resizeBreadcrumbs(width, false);
 	});
 
-	resizeBreadcrumbs(true);
+	var width = $(this).width();
+	Files.resizeBreadcrumbs(width, true);
 
 	// display storage warnings
 	setTimeout ( "Files.displayStorageWarnings()", 100 );
@@ -363,6 +357,11 @@ $(document).ready(function() {
 				update_storage_statistics_interval_id = 0;
 			}
 		});
+	}
+	
+	//scroll to and highlight preselected file
+	if (getURLParameter('scrollto')) {
+		FileList.scrollTo(getURLParameter('scrollto'));
 	}
 });
 
@@ -413,10 +412,6 @@ function boolOperationFinished(data, callback) {
 	} else {
 		alert(result.data.message);
 	}
-}
-
-function updateBreadcrumb(breadcrumbHtml) {
-	$('p.nav').empty().html(breadcrumbHtml);
 }
 
 var createDragShadow = function(event){
@@ -509,7 +504,7 @@ var folderDropOptions={
 						$('#notification').fadeIn();
 					}
 				} else {
-					OC.dialogs.alert(t('Error moving file'), t('core', 'Error'));
+					OC.dialogs.alert(t('files', 'Error moving file'), t('files', 'Error'));
 				}
 			});
 		});
@@ -547,7 +542,7 @@ var crumbDropOptions={
 						$('#notification').fadeIn();
 					}
 				} else {
-					OC.dialogs.alert(t('Error moving file'), t('core', 'Error'));
+					OC.dialogs.alert(t('files', 'Error moving file'), t('files', 'Error'));
 				}
 			});
 		});
@@ -637,15 +632,29 @@ function getPathForPreview(name) {
 	return path;
 }
 
-function lazyLoadPreview(path, mime, ready) {
-	getMimeIcon(mime,ready);
-	var x = $('#filestable').data('preview-x');
-	var y = $('#filestable').data('preview-y');
-	var previewURL = OC.Router.generate('core_ajax_preview', {file: encodeURIComponent(path), x:x, y:y});
-	$.get(previewURL, function() {
-		previewURL = previewURL.replace('(','%28');
-		previewURL = previewURL.replace(')','%29');
-		ready(previewURL + '&reload=true');
+function lazyLoadPreview(path, mime, ready, width, height) {
+	// get mime icon url
+	getMimeIcon(mime, function(iconURL) {
+		ready(iconURL); // set mimeicon URL
+		
+		// now try getting a preview thumbnail URL
+		if ( ! width ) {
+			width = $('#filestable').data('preview-x');
+		}
+		if ( ! height ) {
+			height = $('#filestable').data('preview-y');
+		}
+		if( $('#publicUploadButtonMock').length ) {
+			var previewURL = OC.Router.generate('core_ajax_public_preview', {file: encodeURIComponent(path), x:width, y:height, t:$('#dirToken').val()});
+		} else {
+			var previewURL = OC.Router.generate('core_ajax_preview', {file: encodeURIComponent(path), x:width, y:height});
+		}
+		$.get(previewURL, function() {
+			previewURL = previewURL.replace('(', '%28');
+			previewURL = previewURL.replace(')', '%29');
+			//set preview thumbnail URL
+			ready(previewURL + '&reload=true');
+		});
 	});
 }
 
@@ -680,4 +689,10 @@ function checkTrashStatus() {
 			$("input[type=button][id=trash]").removeAttr("disabled");
 		}
 	});
+}
+
+function onClickBreadcrumb(e){
+	var $el = $(e.target).closest('.crumb');
+	e.preventDefault();
+	FileList.changeDirectory(decodeURIComponent($el.data('dir')));
 }

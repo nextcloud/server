@@ -107,10 +107,12 @@ class OC_Installer{
 		if(!is_file($extractDir.'/appinfo/info.xml')) {
 			//try to find it in a subdir
 			$dh=opendir($extractDir);
-			while (($folder = readdir($dh)) !== false) {
-				if($folder[0]!='.' and is_dir($extractDir.'/'.$folder)) {
-					if(is_file($extractDir.'/'.$folder.'/appinfo/info.xml')) {
-						$extractDir.='/'.$folder;
+			if(is_resource($dh)) {
+				while (($folder = readdir($dh)) !== false) {
+					if($folder[0]!='.' and is_dir($extractDir.'/'.$folder)) {
+						if(is_file($extractDir.'/'.$folder.'/appinfo/info.xml')) {
+							$extractDir.='/'.$folder;
+						}
 					}
 				}
 			}
@@ -426,6 +428,7 @@ class OC_Installer{
 			'OC_API::',
 			'OC_App::',
 			'OC_AppConfig::',
+			'OC_Avatar',
 			'OC_BackgroundJob::',
 			'OC_Config::',
 			'OC_DB::',

@@ -9,7 +9,6 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "Недостасува привремена папка",
 "Failed to write to disk" => "Неуспеав да запишам на диск",
 "Files" => "Датотеки",
-"Unable to upload your file as it is a directory or has 0 bytes" => "Не може да се преземе вашата датотека бидејќи фолдерот во кој се наоѓа фајлот има големина од 0 бајти",
 "Upload cancelled." => "Преземањето е прекинато.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Подигање на датотека е во тек. Напуштење на страницата ќе го прекине.",
 "URL cannot be empty." => "Адресата неможе да биде празна.",
