@@ -105,6 +105,12 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('L10NFactory', function($c) {
 			return new \OC\L10N\Factory();
 		});
+		$this->registerService('URLGenerator', function($c) {
+			return new \OC\URLGenerator();
+		});
+		$this->registerService('AppHelper', function($c) {
+			return new \OC\AppHelper();
+		});
 		$this->registerService('UserCache', function($c) {
 			return new UserCache();
 		});
@@ -227,6 +233,20 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getL10N($app) {
 		return $this->query('L10NFactory')->get($app);
+	}
+
+	/**
+	 * @return \OC\URLGenerator
+	 */
+	function getURLGenerator() {
+		return $this->query('URLGenerator');
+	}
+
+	/**
+	 * @return \OC\Helper
+	 */
+	function getHelper() {
+		return $this->query('AppHelper');
 	}
 
 	/**

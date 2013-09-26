@@ -982,9 +982,9 @@ class OC_Util {
 	 * @param string $url Url to get content
 	 * @return string of the response or false on error
 	 * This function get the content of a page via curl, if curl is enabled.
-	 * If not, file_get_element is used.
+	 * If not, file_get_contents is used.
 	 */
-	public static function getUrlContent($url){
+	public static function getUrlContent($url) {
 		if (function_exists('curl_init')) {
 			$curl = curl_init();
 
