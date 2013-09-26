@@ -1,7 +1,7 @@
 <?php
 
 global $RUNTIME_NOAPPS;
-$RUNTIME_NOAPPS = true;
+$RUNTIME_NOAPPS = false;
 
 define('PHPUNIT_RUN', 1);
 
