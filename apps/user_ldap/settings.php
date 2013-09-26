@@ -37,7 +37,8 @@ $tmpl->assign('serverConfigurationPrefixes', $prefixes);
 $tmpl->assign('serverConfigurationHosts', $hosts);
 
 // assign default values
-$defaults = \OCA\user_ldap\lib\Connection::getDefaults();
+$config = new \OCA\user_ldap\lib\Configuration('', false);
+$defaults = $config->getDefaults();
 foreach($defaults as $key => $default) {
     $tmpl->assign($key.'_default', $default);
 }
