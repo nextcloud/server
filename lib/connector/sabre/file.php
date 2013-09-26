@@ -78,11 +78,16 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		// mark file as partial while uploading (ignored by the scanner)
 		$partpath = $this->path . '.part';
 
-		$putOkay = $fs->file_put_contents($partpath, $data);
-		if ($putOkay === false) {
-			\OC_Log::write('webdav', '\OC\Files\Filesystem::file_put_contents() failed', \OC_Log::ERROR);
-			$fs->unlink($partpath);
-			throw new Sabre_DAV_Exception();
+		try {
+			$putOkay = $fs->file_put_contents($partpath, $data);
+			if ($putOkay === false) {
+				\OC_Log::write('webdav', '\OC\Files\Filesystem::file_put_contents() failed', \OC_Log::ERROR);
+				$fs->unlink($partpath);
+				// because we have no clue about the cause we can only throw back a 500/Internal Server Error
+				throw new Sabre_DAV_Exception();
+			}
+		} catch (\OCP\Files\NotPermittedException $e) {
+			throw new Sabre_DAV_Exception_Forbidden();
 		}
 
 		//detect aborted upload
