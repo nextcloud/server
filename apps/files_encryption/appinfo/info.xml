@@ -7,6 +7,7 @@
 	<author>Sam Tuke, Bjoern Schiessle, Florin Peter</author>
 	<require>4</require>
 	<shipped>true</shipped>
+	<rememberlogin>false</rememberlogin>
 	<types>
 		<filesystem/>
 	</types>
