@@ -8,9 +8,6 @@
 
 class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 
-	public function setUp() {
-	}
-
 	/**
 	 * @expectedException Sabre_DAV_Exception
 	 */
