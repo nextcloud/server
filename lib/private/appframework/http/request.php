@@ -152,6 +152,9 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		switch($name) {
 			case 'get':
 			case 'post':
+				if($this->method !== strtoupper($name)) {
+					throw new \BadMethodCallException(sprintf('%s cannot be accessed in a %s request.', $name, $this->method));
+				}
 			case 'files':
 			case 'server':
 			case 'env':
