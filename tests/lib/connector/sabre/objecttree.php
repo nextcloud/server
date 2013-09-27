@@ -36,38 +36,14 @@ class ObjectTree extends PHPUnit_Framework_TestCase {
 	 * @expectedException Sabre_DAV_Exception_Forbidden
 	 */
 	public function testMoveFailed($source, $dest, $updatables) {
-		$rootDir = new OC_Connector_Sabre_Directory('');
-		$objectTree = $this->getMock('\OC\Connector\Sabre\ObjectTree',
-			array('nodeExists', 'getNodeForPath'),
-			array($rootDir));
-
-		$objectTree->expects($this->once())
-			->method('getNodeForPath')
-			->with($this->identicalTo('a/b'))
-			->will($this->returnValue(false));
-
-		/** @var $objectTree \OC\Connector\Sabre\ObjectTree */
-		$objectTree->fileView = new TestDoubleFileView($updatables);
-		$objectTree->move($source, $dest);
+		$this->moveTest($source, $dest, $updatables);
 	}
 
 	/**
 	 * @dataProvider moveSuccessProvider
 	 */
 	public function testMoveSuccess($source, $dest, $updatables) {
-		$rootDir = new OC_Connector_Sabre_Directory('');
-		$objectTree = $this->getMock('\OC\Connector\Sabre\ObjectTree',
-			array('nodeExists', 'getNodeForPath'),
-			array($rootDir));
-
-		$objectTree->expects($this->once())
-			->method('getNodeForPath')
-			->with($this->identicalTo('a/b'))
-			->will($this->returnValue(false));
-
-		/** @var $objectTree \OC\Connector\Sabre\ObjectTree */
-		$objectTree->fileView = new TestDoubleFileView($updatables);
-		$objectTree->move($source, $dest);
+		$this->moveTest($source, $dest, $updatables);
 		$this->assertTrue(true);
 	}
 
@@ -87,18 +63,25 @@ class ObjectTree extends PHPUnit_Framework_TestCase {
 		);
 	}
 
-//	private function buildFileViewMock($updatables) {
-//		// mock filesysten
-//		$view = $this->getMock('\OC\Files\View', array('isUpdatable'), array(), '', FALSE);
-//
-//		foreach ($updatables as $path => $updatable) {
-//			$view->expects($this->any())
-//				->method('isUpdatable')
-//				->with($this->identicalTo($path))
-//				->will($this->returnValue($updatable));
-//		}
-//
-//		return $view;
-//	}
+	/**
+	 * @param $source
+	 * @param $dest
+	 * @param $updatables
+	 */
+	private function moveTest($source, $dest, $updatables) {
+		$rootDir = new OC_Connector_Sabre_Directory('');
+		$objectTree = $this->getMock('\OC\Connector\Sabre\ObjectTree',
+			array('nodeExists', 'getNodeForPath'),
+			array($rootDir));
+
+		$objectTree->expects($this->once())
+			->method('getNodeForPath')
+			->with($this->identicalTo($source))
+			->will($this->returnValue(false));
+
+		/** @var $objectTree \OC\Connector\Sabre\ObjectTree */
+		$objectTree->fileView = new TestDoubleFileView($updatables);
+		$objectTree->move($source, $dest);
+	}
 
 }
