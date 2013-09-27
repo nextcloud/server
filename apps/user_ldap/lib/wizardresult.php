@@ -25,7 +25,6 @@ namespace OCA\user_ldap\lib;
 
 class WizardResult {
 	protected $changes = array();
-	protected $specifics = array();
 
 	public function addChange($key, $value) {
 		$this->changes[$key] = $value;
@@ -35,16 +34,9 @@ class WizardResult {
 		return count($this->changes) > 0;
 	}
 
-	public function addSpecific($key, $value) {
-		$this->specifics[$key] = $value;
-	}
-
 	public function getResultArray() {
 		$result = array();
 		$result['changes'] = $this->changes;
-		foreach($this->specifics as $key => $value) {
-			$result[$key] = $value;
-		}
 		return $result;
 	}
 }
