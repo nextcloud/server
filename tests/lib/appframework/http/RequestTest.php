@@ -14,6 +14,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 	public function testRequestAccessors() {
 		$vars = array(
 			'get' => array('name' => 'John Q. Public', 'nickname' => 'Joey'),
+			'method' => 'GET',
 		);
 
 		$request = new Request($vars);
@@ -71,6 +72,32 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 
 		$request = new Request($vars);
 		$request->{'nickname'} = 'Janey';
+	}
+
+	/**
+	* @expectedException BadMethodCallException
+	*/
+	public function testGetTheMethodRight() {
+		$vars = array(
+			'get' => array('name' => 'John Q. Public', 'nickname' => 'Joey'),
+			'method' => 'GET',
+		);
+
+		$request = new Request($vars);
+		$result = $request->post;
+	}
+
+	public function testTheMethodIsRight() {
+		$vars = array(
+			'get' => array('name' => 'John Q. Public', 'nickname' => 'Joey'),
+			'method' => 'GET',
+		);
+
+		$request = new Request($vars);
+		$this->assertEquals('GET', $request->method);
+		$result = $request->get;
+		$this->assertEquals('John Q. Public', $result['name']);
+		$this->assertEquals('Joey', $result['nickname']);
 	}
 
 }
