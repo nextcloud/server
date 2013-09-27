@@ -1,9 +1,12 @@
 <form id="ldap" action="#" method="post">
 	<div id="ldapSettings" class="personalblock">
 	<ul>
-		<li><a href="#ldapSettings-1">LDAP Basic</a></li>
-		<li><a href="#ldapSettings-2">Advanced</a></li>
-		<li><a href="#ldapSettings-3">Expert</a></li>
+		<?php foreach($_['toc'] as $id => $title) { ?>
+			<li><a href="<?php p($id); ?>"><?php p($title); ?></a></li>
+		<?php } ?>
+		<li class="ldapSettingsTabs"><a href="#ldapSettings-3">Expert</a></li>
+		<li class="ldapSettingsTabs"><a href="#ldapSettings-2">Advanced</a></li>
+		<li class="ldapSettingsTabs"><a href="#ldapSettings-1">LDAP Basic</a></li>
 	</ul>
 		<?php if(OCP\App::isEnabled('user_webdavauth')) {
 			print_unescaped('<p class="ldapwarning">'.$l->t('<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them.').'</p>');
@@ -12,6 +15,7 @@
 			print_unescaped('<p class="ldapwarning">'.$l->t('<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it.').'</p>');
 		}
 		?>
+	<?php print_unescaped($_['tabs']); ?>
 	<fieldset id="ldapSettings-1">
 		<p><label for="ldap_serverconfig_chooser"><?php p($l->t('Server configuration'));?></label>
 		<select id="ldap_serverconfig_chooser" name="ldap_serverconfig_chooser">
@@ -60,6 +64,7 @@
 		<input type="text" id="ldap_group_filter" name="ldap_group_filter"
 			data-default="<?php p($_['ldap_group_filter_default']); ?>"
 			title="<?php p($l->t('Defines the filter to apply, when retrieving groups (no placeholders). Example: "objectClass=posixGroup"'));?>" /></p>
+		<?php print_unescaped($_['settingControls']); ?>
 	</fieldset>
 	<fieldset id="ldapSettings-2">
 		<div id="ldapAdvancedAccordion">
@@ -93,6 +98,7 @@
 				<p><label for="home_folder_naming_rule"><?php p($l->t('User Home Folder Naming Rule'));?></label><input type="text" id="home_folder_naming_rule" name="home_folder_naming_rule" title="<?php p($l->t('Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute.'));?>" data-default="<?php p($_['home_folder_naming_rule_default']); ?>" /></p>
 			</div>
 		</div>
+		<?php print_unescaped($_['settingControls']); ?>
 	</fieldset>
 	<fieldset id="ldapSettings-3">
 		<p><strong><?php p($l->t('Internal Username'));?></strong></p>
@@ -105,8 +111,8 @@
 		<p><strong><?php p($l->t('Username-LDAP User Mapping'));?></strong></p>
 		<p class="ldapIndent"><?php p($l->t('Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have a internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage.'));?></p>
 		<p class="ldapIndent"><button id="ldap_action_clear_user_mappings" name="ldap_action_clear_user_mappings"><?php p($l->t('Clear Username-LDAP User Mapping'));?></button><br/><button id="ldap_action_clear_group_mappings" name="ldap_action_clear_group_mappings"><?php p($l->t('Clear Groupname-LDAP Group Mapping'));?></button></p>
+		<?php print_unescaped($_['settingControls']); ?>
 	</fieldset>
-	<input id="ldap_submit" type="submit" value="Save" /> <button id="ldap_action_test_connection" name="ldap_action_test_connection"><?php p($l->t('Test Configuration'));?></button> <a href="<?php p($theme->getDocBaseUrl()); ?>/server/5.0/admin_manual/auth_ldap.html" target="_blank"><img src="<?php print_unescaped(OCP\Util::imagePath('', 'actions/info.png')); ?>" style="height:1.75ex" /> <?php p($l->t('Help'));?></a>
 	</div>
 
 </form>

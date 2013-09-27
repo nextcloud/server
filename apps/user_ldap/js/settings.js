@@ -30,6 +30,7 @@ var LdapConfiguration = {
 						// assign the value
 						$('#'+configkey).val(configvalue);
 					});
+					LdapWizard.init();
 				}
 			}
 		);
@@ -91,6 +92,7 @@ var LdapConfiguration = {
 					$('#ldap_serverconfig_chooser option:selected').removeAttr('selected');
 					var html = '<option value="'+result.configPrefix+'" selected="selected">'+$('#ldap_serverconfig_chooser option').length+'. Server</option>';
 					$('#ldap_serverconfig_chooser option:last').before(html);
+					LdapWizard.init();
 				} else {
 					OC.dialogs.alert(
 						result.message,
@@ -122,12 +124,98 @@ var LdapConfiguration = {
 	}
 };
 
+var LdapWizard = {
+	checkPortInfoShown: false,
+	changeIndicators: {},
+
+	ajax: function(param, fnOnSuccess, fnOnError) {
+		$.post(
+			OC.filePath('user_ldap','ajax','wizard.php'),
+			param,
+			function(result) {
+				if(result.status == 'success') {
+					fnOnSuccess(result);
+				} else {
+					fnOnError(result);
+				}
+			}
+		);
+	},
+
+	applyChanges: function (result) {
+		for (id in result.changes) {
+			$('#'+id).val(result.changes[id]);
+		}
+	},
+
+	checkPort: function() {
+		host = $('#ldap_host').val();
+		user = $('#ldap_dn').val();
+		pass = $('#ldap_agent_password').val();
+
+		if(host && user && pass) {
+			param = 'action=guessPortAndTLS'+
+					'&ldap_serverconfig_chooser='+$('#ldap_serverconfig_chooser').val();
+
+			LdapWizard.ajax(param,
+				function(result) {
+					LdapWizard.applyChanges(result);
+					if($('#ldap_port').val()) {
+						$('#ldap_port').removeClass('hidden');
+						if(LdapWizard.checkPortInfoShown) {
+							$('#ldapWizard1 .ldapWizardInfo').addClass('hidden');
+							LdapWizard.checkPortInfoShown = false;
+						}
+					}
+				},
+				function (result) {
+					$('#ldap_port').removeClass('hidden');
+					$('#ldapWizard1 .ldapWizardInfo').text(t('user_ldap',
+						'Please specify a port'));
+					$('#ldapWizard1 .ldapWizardInfo').removeClass('hidden');
+					LdapWizard.checkPortInfoShown = true;
+				}
+			);
+		}
+	},
+
+	init: function() {
+		if($('#ldap_port').val()) {
+			$('#ldap_port').removeClass('hidden');
+		}
+	},
+
+	save: function(inputObj) {
+		param = 'cfgkey='+inputObj.id+
+				'&cfgval='+$(inputObj).val()+
+				'&action=save'+
+				'&ldap_serverconfig_chooser='+$('#ldap_serverconfig_chooser').val();
+
+		$.post(
+			OC.filePath('user_ldap','ajax','wizard.php'),
+			param,
+			function(result) {
+				if(result.status == 'success') {
+					if(inputObj.id == 'ldap_host'
+					   || inputObj.id == 'ldap_dn'
+					   || inputObj.id == 'ldap_agent_password') {
+						LdapWizard.checkPort();
+					}
+				} else {
+// 					alert('Oooooooooooh :(');
+				}
+			}
+		);
+	}
+};
+
 $(document).ready(function() {
 	$('#ldapAdvancedAccordion').accordion({ heightStyle: 'content', animate: 'easeInOutCirc'});
 	$('#ldapSettings').tabs();
 	$('#ldap_submit').button();
 	$('#ldap_action_test_connection').button();
 	$('#ldap_action_delete_configuration').button();
+	$('.lwautosave').change(function() { LdapWizard.save(this); });
 	LdapConfiguration.refreshConfig();
 	$('#ldap_action_test_connection').click(function(event){
 		event.preventDefault();

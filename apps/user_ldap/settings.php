@@ -33,8 +33,28 @@ $tmpl = new OCP\Template('user_ldap', 'settings');
 
 $prefixes = \OCA\user_ldap\lib\Helper::getServerConfigurationPrefixes();
 $hosts = \OCA\user_ldap\lib\Helper::getServerConfigurationHosts();
+
+$wizardHtml = '';
+$toc = array();
+
+$wControls = new OCP\Template('user_ldap', 'part.wizardcontrols');
+$wControls = $wControls->fetchPage();
+$sControls = new OCP\Template('user_ldap', 'part.settingcontrols');
+$sControls = $sControls->fetchPage();
+
+$wizard1 = new OCP\Template('user_ldap', 'part.wizard-server');
+$wizard1->assign('serverConfigurationPrefixes', $prefixes);
+$wizard1->assign('serverConfigurationHosts', $hosts);
+$wizard1->assign('wizardControls', $wControls);
+$wizardHtml .= $wizard1->fetchPage();
+$toc['#ldapWizard1'] = 'Server';
+
+$tmpl->assign('tabs', $wizardHtml);
+$tmpl->assign('toc', $toc);
+
 $tmpl->assign('serverConfigurationPrefixes', $prefixes);
 $tmpl->assign('serverConfigurationHosts', $hosts);
+$tmpl->assign('settingControls', $sControls);
 
 // assign default values
 $config = new \OCA\user_ldap\lib\Configuration('', false);

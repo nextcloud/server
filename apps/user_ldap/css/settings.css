@@ -1,3 +1,69 @@
+.table {
+	display: table;
+}
+
+.tablecell {
+	display: table-cell !important;
+}
+
+.tablerow {
+	display: table-row;
+}
+
+.tablerow input, .tablerow textarea {
+	width: 100% !important;
+}
+
+.tablerow textarea {
+	height: 15px;
+}
+
+.hidden {
+	visibility: hidden;
+}
+
+.ldapSettingsTabs {
+	float: right !important;
+}
+
+.ldapWizardControls {
+	width: 60%;
+	text-align: right;
+}
+
+.ldapWizardInfo {
+	width: 100% !important;
+	height: 50px;
+	background-color: lightyellow;
+	border-radius: 0.5em;
+	padding: 0.6em 0.5em 0.4em !important;
+	margin-bottom: 0.3em;
+}
+
+#ldapWizard1 .hostPortCombinator {
+	width: 60%;
+	display: table;
+}
+
+#ldapWizard1 .hostPortCombinator div span {
+	width: 7%;
+	display: table-cell;
+	text-align: right;
+}
+
+#ldapWizard1 .host {
+	width: 96.5% !important;
+}
+
+.ldapIndent {
+	margin-left: 50px;
+}
+
+.ldapwarning {
+	margin-left: 1.4em;
+	color: #FF3B3B;
+}
+
 #ldap fieldset p label {
 	width: 20%;
 	max-width: 200px;
@@ -9,19 +75,10 @@
 }
 
 #ldap fieldset input, #ldap fieldset textarea {
-	width: 60%;
+ 	width: 60%;
 	display: inline-block;
 }
 
 #ldap fieldset p input[type=checkbox] {
 	vertical-align: bottom;
-}
-
-.ldapIndent {
-	margin-left: 50px;
-}
-
-.ldapwarning {
-	margin-left: 1.4em;
-	color: #FF3B3B;
 }
