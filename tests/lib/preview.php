@@ -92,7 +92,7 @@ class Preview extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($image->height(), $maxY);
 	}
 
-	public function testTxtBlacklist() {
+	public function txtBlacklist() {
 		$txt = 'random text file';
 		$ics = file_get_contents(__DIR__ . '/../data/testcal.ics');
 		$vcf = file_get_contents(__DIR__ . '/../data/testcontact.vcf');
@@ -105,7 +105,7 @@ class Preview extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @dataProvider testTxtBlacklist
+	 * @dataProvider txtBlacklist
 	 */
 	public function testIsTransparent($test, $data, $expectedResult) {
 		$user = $this->initFS();
