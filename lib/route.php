@@ -52,6 +52,14 @@ class OC_Route extends Route {
 	}
 
 	/**
+	 * Specify PATCH as the method to use with this route
+	 */
+	public function patch() {
+		$this->method('PATCH');
+		return $this;
+	}
+
+	/**
 	 * Defaults to use for this route
 	 *
 	 * @param array $defaults The defaults
