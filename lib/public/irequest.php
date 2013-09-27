@@ -114,5 +114,5 @@ interface IRequest {
 	 * @return string|resource The request body content or a resource to read the body stream.
 	 * @throws \LogicException
 	 */
-	function getContent($asResource = false);
+	//function getContent($asResource = false);
 }
