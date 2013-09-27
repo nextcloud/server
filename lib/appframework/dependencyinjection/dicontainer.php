@@ -40,6 +40,10 @@ use OCP\IServerContainer;
 
 class DIContainer extends SimpleContainer implements IAppContainer{
 
+	/**
+	 * @var array
+	 */
+	private $middleWares;
 
 	/**
 	 * Put your class dependencies in here
@@ -89,6 +93,10 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 			$dispatcher = new MiddlewareDispatcher();
 			$dispatcher->registerMiddleware($c['SecurityMiddleware']);
 
+			foreach($this->middleWares as $middleWare) {
+				$dispatcher->registerMiddleware($middleWare);
+			}
+
 			return $dispatcher;
 		});
 
@@ -125,10 +133,7 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 	 * @return boolean
 	 */
 	function registerMiddleWare(IMiddleWare $middleWare) {
-		/** @var $dispatcher MiddlewareDispatcher */
-		$dispatcher = $this->query('MiddlewareDispatcher');
-		$dispatcher->registerMiddleware($middleWare);
-
+		array_push($this->middleWares, $middleWare);
 	}
 
 	/**
