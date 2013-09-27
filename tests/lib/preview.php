@@ -107,7 +107,7 @@ class Preview extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider txtBlacklist
 	 */
-	public function testIsTransparent($test, $data, $expectedResult) {
+	public function testIsTransparent($extension, $data, $expectedResult) {
 		$user = $this->initFS();
 
 		$rootView = new \OC\Files\View('');
@@ -117,9 +117,9 @@ class Preview extends \PHPUnit_Framework_TestCase {
 		$x = 32;
 		$y = 32;
 
-		$sample = '/'.$user.'/files/test.'.$test;
+		$sample = '/'.$user.'/files/test.'.$extension;
 		$rootView->file_put_contents($sample, $data);
-		$preview = new \OC\Preview($user, 'files/', 'test.'.$test, $x, $y);
+		$preview = new \OC\Preview($user, 'files/', 'test.'.$extension, $x, $y);
 		$image = $preview->getPreview();
 		$resource = $image->resource();
 
