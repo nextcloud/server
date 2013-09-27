@@ -177,6 +177,7 @@ class OC_User {
 	 * setup the configured backends in config.php
 	 */
 	public static function setupBackends() {
+		OC_App::loadApps(array('prelogin'));
 		$backends = OC_Config::getValue('user_backends', array());
 		foreach ($backends as $i => $config) {
 			$class = $config['class'];
