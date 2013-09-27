@@ -226,6 +226,7 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 		// share was successful?
 		$this->assertTrue($result);
 
+		// get item to determine share ID
 		$result = \OCP\Share::getItemShared('file', $fileInfo['fileid']);
 
 		$this->assertEquals(count($result), 1);
@@ -233,13 +234,13 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 		// get first element
 		$share = reset($result);
 
+		// call getShare() with share ID
 		$params = array('id' => $share['id']);
-
 		$result = Share\Api::getShare($params);
 
 		$this->assertTrue($result->succeeded());
 
-        // test should return one share created from testCreateShare()
+        // test should return one share
 		$this->assertEquals(count($result->getData()), 1);
 
 		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
