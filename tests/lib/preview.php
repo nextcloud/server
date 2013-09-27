@@ -95,9 +95,6 @@ class Preview extends \PHPUnit_Framework_TestCase {
 	public function testTxtBlacklist() {
 		$user = $this->initFS();
 
-		$x = 32;
-		$y = 32;
-
 		$txt = 'random text file';
 		$ics = file_get_contents(__DIR__ . '/../data/testcal.ics');
 		$vcf = file_get_contents(__DIR__ . '/../data/testcontact.vcf');
@@ -106,28 +103,34 @@ class Preview extends \PHPUnit_Framework_TestCase {
 		$rootView->mkdir('/'.$user);
 		$rootView->mkdir('/'.$user.'/files');
 
-		$toTest = array('txt',
-						'ics',
-						'vcf');
+		return array(
+			array('txt', $txt, $user, $rootView, false),
+			array('ics', $ics, $user, $rootView, true),
+			array('vcf', $vcf, $user, $rootView, true),
+		);
+	}
 
-		foreach($toTest as $test) {
-			$sample = '/'.$user.'/files/test.'.$test;
-			$rootView->file_put_contents($sample, ${$test});
-			$preview = new \OC\Preview($user, 'files/', 'test.'.$test, $x, $y);
-			$image = $preview->getPreview();
-			$resource = $image->resource();
+	/**
+	 * @dataProvider testTxtBlacklist
+	 */
+	public function testIsTransparent($test, $data, $user, $rootView, $expectedResult) {
+		$x = 32;
+		$y = 32;
 
-			//http://stackoverflow.com/questions/5702953/imagecolorat-and-transparency
-			$colorIndex = imagecolorat($resource, 1, 1);
-			$colorInfo = imagecolorsforindex($resource, $colorIndex);
-			$isTransparent = ($colorInfo['alpha'] === 127);
+		$sample = '/'.$user.'/files/test.'.$test;
+		$rootView->file_put_contents($sample, $data);
+		$preview = new \OC\Preview($user, 'files/', 'test.'.$test, $x, $y);
+		$image = $preview->getPreview();
+		$resource = $image->resource();
 
-			if($test === 'txt') {
-				$this->assertEquals($isTransparent, false);
-			} else {
-				$this->assertEquals($isTransparent, true);
-			}
-		}
+		//http://stackoverflow.com/questions/5702953/imagecolorat-and-transparency
+		$colorIndex = imagecolorat($resource, 1, 1);
+		$colorInfo = imagecolorsforindex($resource, $colorIndex);
+		$this->assertEquals(
+			$expectedResult,
+			$colorInfo['alpha'] === 127,
+			'Failed asserting that only previews for text files are transparent.'
+		);
 	}
 
 	private function initFS() {
