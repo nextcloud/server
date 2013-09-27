@@ -186,7 +186,7 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 	 * @medium
 	 * @depends testCreateShare
 	 */
-	function testGetShare() {
+	function testGetShareFromSource() {
 
 		$fileInfo = $this->view->getFileInfo($this->filename);
 
@@ -209,6 +209,41 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
 
 		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+
+	}
+
+	/**
+	 * @medium
+	 * @depends testCreateShare
+	 */
+	function testGetShareFromId() {
+
+		$fileInfo = $this->view->getFileInfo($this->filename);
+
+		$result = \OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+
+		// share was successful?
+		$this->assertTrue($result);
+
+		$result = \OCP\Share::getItemShared('file', $fileInfo['fileid']);
+
+		$this->assertEquals(count($result), 1);
+
+		// get first element
+		$share = reset($result);
+
+		$params = array('id' => $share['id']);
+
+		$result = Share\Api::getShare($params);
+
+		$this->assertTrue($result->succeeded());
+
+        // test should return one share created from testCreateShare()
+		$this->assertEquals(count($result->getData()), 1);
+
+		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
 
 	}
 
