@@ -93,27 +93,27 @@ class Preview extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testTxtBlacklist() {
-		$user = $this->initFS();
-
 		$txt = 'random text file';
 		$ics = file_get_contents(__DIR__ . '/../data/testcal.ics');
 		$vcf = file_get_contents(__DIR__ . '/../data/testcontact.vcf');
 
-		$rootView = new \OC\Files\View('');
-		$rootView->mkdir('/'.$user);
-		$rootView->mkdir('/'.$user.'/files');
-
 		return array(
-			array('txt', $txt, $user, $rootView, false),
-			array('ics', $ics, $user, $rootView, true),
-			array('vcf', $vcf, $user, $rootView, true),
+			array('txt', $txt, false),
+			array('ics', $ics, true),
+			array('vcf', $vcf, true),
 		);
 	}
 
 	/**
 	 * @dataProvider testTxtBlacklist
 	 */
-	public function testIsTransparent($test, $data, $user, $rootView, $expectedResult) {
+	public function testIsTransparent($test, $data, $expectedResult) {
+		$user = $this->initFS();
+
+		$rootView = new \OC\Files\View('');
+		$rootView->mkdir('/'.$user);
+		$rootView->mkdir('/'.$user.'/files');
+
 		$x = 32;
 		$y = 32;
 
