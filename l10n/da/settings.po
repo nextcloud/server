@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-24 12:58-0400\n"
-"PO-Revision-Date: 2013-09-24 16:59+0000\n"
+"POT-Creation-Date: 2013-09-27 00:01-0400\n"
+"PO-Revision-Date: 2013-09-24 17:00+0000\n"
 "Last-Translator: Sappe\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -114,7 +114,7 @@ msgstr "Serveren understøtter ikke kodeordsskifte, men brugernes krypteringsnø
 
 #: changepassword/controller.php:92 changepassword/controller.php:103
 msgid "Unable to change password"
-msgstr ""
+msgstr "Kunne ikke ændre kodeord"
 
 #: js/apps.js:43
 msgid "Update to {appversion}"

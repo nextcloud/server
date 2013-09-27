@@ -21,6 +21,7 @@ $TRANSLATIONS = array(
 "Please provide an admin recovery password, otherwise all user data will be lost" => "Angiv venligst en admininstrator gendannelseskode, ellers vil alt brugerdata gå tabt",
 "Wrong admin recovery password. Please check the password and try again." => "Forkert admin gendannelseskode. Se venligst koden efter og prøv igen.",
 "Back-end doesn't support password change, but the users encryption key was successfully updated." => "Serveren understøtter ikke kodeordsskifte, men brugernes krypteringsnøgle blev opdateret.",
+"Unable to change password" => "Kunne ikke ændre kodeord",
 "Update to {appversion}" => "Opdatér til {appversion}",
 "Disable" => "Deaktiver",
 "Enable" => "Aktiver",

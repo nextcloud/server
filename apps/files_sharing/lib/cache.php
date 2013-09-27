@@ -20,6 +20,7 @@
  */
 
 namespace OC\Files\Cache;
+use OCP\Share_Backend_Collection;
 
 /**
  * Metadata cache for shared files
@@ -226,7 +227,36 @@ class Shared_Cache extends Cache {
 	 * @return array of file data
 	 */
 	public function search($pattern) {
-		// TODO
+
+		// normalize pattern
+		$pattern = $this->normalize($pattern);
+
+		$ids = $this->getAll();
+
+		$files = array();
+		
+		// divide into 1k chunks
+		$chunks = array_chunk($ids, 1000);
+		
+		foreach ($chunks as $chunk) {
+			$placeholders = join(',', array_fill(0, count($chunk), '?'));
+
+			$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`,
+					`encrypted`, `unencrypted_size`, `etag`
+					FROM `*PREFIX*filecache` WHERE `name` LIKE ? AND `fileid` IN (' . $placeholders . ')';
+			
+			$result = \OC_DB::executeAudited($sql, array_merge(array($pattern), $chunk));
+			
+			while ($row = $result->fetchRow()) {
+				if (substr($row['path'], 0, 6)==='files/') {
+					$row['path'] = substr($row['path'],6); // remove 'files/' from path as it's relative to '/Shared'
+				}
+				$row['mimetype'] = $this->getMimetype($row['mimetype']);
+				$row['mimepart'] = $this->getMimetype($row['mimepart']);
+				$files[] = $row;
+			}
+		}
+		return $files;
 	}
 
 	/**
@@ -244,13 +274,30 @@ class Shared_Cache extends Cache {
 		}
 		$mimetype = $this->getMimetypeId($mimetype);
 		$ids = $this->getAll();
-		$placeholders = join(',', array_fill(0, count($ids), '?'));
-		$query = \OC_DB::prepare('
-			SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`
-			FROM `*PREFIX*filecache` WHERE ' . $where . ' AND `fileid` IN (' . $placeholders . ')'
-		);
-		$result = $query->execute(array_merge(array($mimetype), $ids));
-		return $result->fetchAll();
+
+		$files = array();
+		
+		// divide into 1k chunks
+		$chunks = array_chunk($ids, 1000);
+		
+		foreach ($chunks as $chunk) {
+			$placeholders = join(',', array_fill(0, count($ids), '?'));
+			$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`,
+					`encrypted`, `unencrypted_size`, `etag`
+					FROM `*PREFIX*filecache` WHERE ' . $where . ' AND `fileid` IN (' . $placeholders . ')';
+			
+			$result = \OC_DB::executeAudited($sql, array_merge(array($mimetype), $chunk));
+
+			while ($row = $result->fetchRow()) {
+				if (substr($row['path'], 0, 6)==='files/') {
+					$row['path'] = substr($row['path'],6); // remove 'files/' from path as it's relative to '/Shared'
+				}
+				$row['mimetype'] = $this->getMimetype($row['mimetype']);
+				$row['mimepart'] = $this->getMimetype($row['mimepart']);
+				$files[] = $row;
+			}
+		}
+		return $files;
 	}
 
 	/**
@@ -272,7 +319,20 @@ class Shared_Cache extends Cache {
 	 * @return int[]
 	 */
 	public function getAll() {
-		return \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_GET_ALL);
+		$ids = \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_GET_ALL);
+		$folderBackend = \OCP\Share::getBackend('folder');
+		if ($folderBackend instanceof Share_Backend_Collection) {
+			foreach ($ids as $file) {
+				/** @var $folderBackend Share_Backend_Collection */
+				$children = $folderBackend->getChildren($file);
+				foreach ($children as $child) {
+					$ids[] = (int)$child['source'];
+				}
+
+			}
+		}
+
+		return $ids;
 	}
 
 	/**
