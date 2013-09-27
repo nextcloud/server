@@ -1,6 +1,8 @@
 /**
- * Copyright (c) 2013, Sam Tuke <samtuke@owncloud.com>, Robin Appelman
- * <icewind1991@gmail.com>, Bjoern Schiessle <schiessle@owncloud.com>
+ * Copyright (c) 2013
+ *  Sam Tuke <samtuke@owncloud.com>
+ *  Robin Appelman <icewind1991@gmail.com>
+ *  Bjoern Schiessle <schiessle@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  */
