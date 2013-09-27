@@ -695,29 +695,7 @@ class OC_Util {
 	 * @see OC_Util::callRegister()
 	 */
 	public static function isCallRegistered() {
-		if(!\OC::$session->exists('requesttoken')) {
-			return false;
-		}
-
-		if(isset($_GET['requesttoken'])) {
-			$token = $_GET['requesttoken'];
-		} elseif(isset($_POST['requesttoken'])) {
-			$token = $_POST['requesttoken'];
-		} elseif(isset($_SERVER['HTTP_REQUESTTOKEN'])) {
-			$token = $_SERVER['HTTP_REQUESTTOKEN'];
-		} else {
-			//no token found.
-			return false;
-		}
-
-		// Check if the token is valid
-		if($token !== \OC::$session->get('requesttoken')) {
-			// Not valid
-			return false;
-		} else {
-			// Valid token
-			return true;
-		}
+		return \OC::$server->getRequest()->passesCSRFCheck();
 	}
 
 	/**

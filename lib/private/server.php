@@ -22,6 +22,19 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new ContactsManager();
 		});
 		$this->registerService('Request', function($c) {
+			if (isset($c['urlParams'])) {
+				$urlParams = $c['urlParams'];
+			} else {
+				$urlParams = array();
+			}
+
+			if (\OC::$session->exists('requesttoken')) {
+				$requesttoken = \OC::$session->get('requesttoken');
+			} else {
+				$requesttoken = false;
+			}
+
+
 			return new Request(
 				array(
 					'get' => $_GET,
@@ -33,7 +46,9 @@ class Server extends SimpleContainer implements IServerContainer {
 					'method' => (isset($_SERVER) && isset($_SERVER['REQUEST_METHOD']))
 						? $_SERVER['REQUEST_METHOD']
 						: null,
-					'urlParams' => $c['urlParams']
+					'params' => $params,
+					'urlParams' => $urlParams,
+					'requesttoken' => $requesttoken,
 				)
 			);
 		});

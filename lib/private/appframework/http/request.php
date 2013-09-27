@@ -43,7 +43,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		'cookies',
 		'urlParams',
 		'parameters',
-		'method'
+		'method',
+		'requesttoken',
 	);
 
 	/**
@@ -54,9 +55,9 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @param array 'files' the $_FILES array
 	 * @param array 'server' the $_SERVER array
 	 * @param array 'env' the $_ENV array
-	 * @param array 'session' the $_SESSION array
 	 * @param array 'cookies' the $_COOKIE array
 	 * @param string 'method' the request method (GET, POST etc)
+	 * @param string|false 'requesttoken' the requesttoken or false when not available
 	 * @see http://www.php.net/manual/en/reserved.variables.php
 	 */
 	public function __construct(array $vars=array()) {
@@ -354,4 +355,35 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		return $this->content;
 	}
-}
+
+	/**
+	 * Checks if the CSRF check was correct
+	 * @return bool true if CSRF check passed
+	 * @see OC_Util::$callLifespan
+	 * @see OC_Util::callRegister()
+	 */
+	public function passesCSRFCheck() {
+		if($this->items['requesttoken'] === false) {
+			return false;
+		}
+
+		if (isset($this->items['get']['requesttoken'])) {
+			$token = $this->items['get']['requesttoken'];
+		} elseif (isset($this->items['post']['requesttoken'])) {
+			$token = $this->items['post']['requesttoken'];
+		} elseif (isset($this->items['server']['HTTP_REQUESTTOKEN'])) {
+			$token = $this->items['server']['HTTP_REQUESTTOKEN'];
+		} else {
+			//no token found.
+			return false;
+		}
+
+		// Check if the token is valid
+		if($token !== $this->items['requesttoken']) {
+			// Not valid
+			return false;
+		} else {
+			// Valid token
+			return true;
+		}
+	}}
