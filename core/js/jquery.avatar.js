@@ -69,7 +69,11 @@
 			var url = OC.Router.generate('core_avatar_get', {user: user, size: size})+'?requesttoken='+oc_requesttoken;
 			$.get(url, function(result) {
 				if (typeof(result) === 'object') {
-					$div.placeholder(user);
+					if (result.data && result.data.displayname) {
+						$div.placeholder(user, result.data.displayname);
+					} else {
+						$div.placeholder(user);
+					}
 				} else {
 					if (ie8fix === true) {
 						$div.html('<img src="'+url+'#'+Math.floor(Math.random()*1000)+'">');
