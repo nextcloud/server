@@ -34,7 +34,7 @@ function changeDisplayName(){
                 $('#oldDisplayName').text($('#displayName').val());
                 // update displayName on the top right expand button
                 $('#expandDisplayName').text($('#displayName').val());
-		updateAvatar();
+                updateAvatar();
             }
             else{
                 $('#newdisplayname').val(data.data.displayName);
