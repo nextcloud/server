@@ -36,7 +36,12 @@ class OC_OCSClient{
 	 * to set it in the config file or it will fallback to the default
 	 */
 	private static function getAppStoreURL() {
-		$url = OC_Config::getValue('appstoreurl', 'http://api.apps.owncloud.com/v1');
+		if(OC_Util::getEditionString()===''){
+			$default='http://api.apps.owncloud.com/v1';
+		}else{
+			$default='';
+		}
+		$url = OC_Config::getValue('appstoreurl', $default);
 		return($url);
 	}
 
