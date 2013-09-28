@@ -43,7 +43,7 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 	/**
 	 * @var array
 	 */
-	private $middleWares;
+	private $middleWares = array();
 
 	/**
 	 * Put your class dependencies in here
