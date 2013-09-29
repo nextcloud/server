@@ -114,6 +114,9 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('UserCache', function($c) {
 			return new UserCache();
 		});
+		$this->registerService('ActivityManager', function($c) {
+			return new ActivityManager();
+		});
 	}
 
 	/**
@@ -251,5 +254,14 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getDatabaseConnection() {
 		return \OC_DB::getConnection();
+	}
+
+	/**
+	 * Returns the activity manager
+	 *
+	 * @return \OCP\Activity\IManager
+	 */
+	function getActivityManager() {
+		return $this->query('ActivityManager');
 	}
 }

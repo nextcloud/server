@@ -1400,6 +1400,11 @@ class Share {
 				'id' => $parent,
 				'token' => $token
 			));
+
+			// hook up activity manager
+			$subject = 'Something has been shared';
+			\OC::$server->getActivityManager()->publishActivity('files_sharing', $subject, '', '', '');
+
 			if ($parentFolder === true) {
 				// Return parent folders to preserve file target paths for potential children
 				return $parentFolders;

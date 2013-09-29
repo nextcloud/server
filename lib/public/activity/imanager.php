@@ -25,6 +25,14 @@ namespace OCP\Activity;
 
 interface IManager {
 
+	/**
+	 * @param $app
+	 * @param $subject
+	 * @param $message
+	 * @param $file
+	 * @param $link
+	 * @return mixed
+	 */
 	function publishActivity($app, $subject, $message, $file, $link);
 
 	/**
