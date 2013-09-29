@@ -33,7 +33,7 @@ class Test_User_Database extends Test_User_Backend {
 	}
 	
 	public function setUp() {
-		$this->backend=new OC_User_Dummy();
+		$this->backend=new OC_User_Database();
 	}
 	
 	public function tearDown() {
