@@ -89,6 +89,10 @@ class Wizard extends LDAPUtility {
 		return false;
 	}
 
+	/**
+	 * @brief tries to determine a base dn from User DN or LDAP Host
+	 * @returns mixed WizardResult on success, false otherwise
+	 */
 	public function guessBaseDN() {
 		if(!$this->checkRequirements(array('ldapHost',
 										   'ldapAgentName',
@@ -97,10 +101,52 @@ class Wizard extends LDAPUtility {
 										   ))) {
 			return false;
 		}
-		$cr = $this->getConnection();
-		if(!$cr) {
+
+		//check whether a DN is given in the agent name (99.9% of all cases)
+		$base = null;
+		$i = stripos($this->configuration->ldapAgentName, 'dc=');
+		if($i !== false) {
+			$base = substr($this->configuration->ldapAgentName, $i);
+
+			if($this->testBaseDN($base)) {
+				$this->applyFind('ldap_base', $base);
+				$this->applyFind('ldap_base_users', $base);
+				$this->applyFind('ldap_base_groups', $base);
+				return $this->result;
+			}
+		}
+
+		//this did not help :(
+		//Let's see whether we can parse the Host URL and convert the domain to
+		//a base DN
+		$domain = Helper::getDomainFromURL($this->configuration->ldapHost);
+		if(!$domain) {
 			return false;
 		}
+
+		$dparts = explode('.', $domain);
+		$base2 = implode('dc=', $dparts);
+		if($base !== $base2 && $this->testBaseDN($base2)) {
+			$this->applyFind('ldap_base', $base2);
+			$this->applyFind('ldap_base_users', $base2);
+			$this->applyFind('ldap_base_groups', $base2);
+			return $this->result;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @brief sets the found value for the configuration key in the WizardResult
+	 * as well as in the Configuration instance
+	 * @param $key the configuration key
+	 * @param $value the (detected) value
+	 * @return null
+	 *
+	 */
+	private function applyFind($key, $value) {
+		$this->result->addChange($key, $value);
+		$this->configuration->setConfiguration(array($key => $value));
 	}
 
 	/**
@@ -116,13 +162,30 @@ class Wizard extends LDAPUtility {
 		if(is_array($hostInfo) && isset($hostInfo['port'])) {
 			$port = $hostInfo['port'];
 			$host = str_replace(':'.$port, '', $host);
-			$config = array('ldapHost' => $host,
-							'ldapPort' => $port,
-							);
-			$this->result->addChange('ldap_host', $host);
-			$this->result->addChange('ldap_port', $port);
-			$this->configuration->setConfiguration($config);
+			$this->applyFind('ldap_host', $host);
+			$this->applyFind('ldap_port', $port);
 		}
+	}
+
+	/**
+	 * @brief Checks whether for a given BaseDN results will be returned
+	 * @param $base the BaseDN to test
+	 * @return bool true on success, false otherwise
+	 */
+	private function testBaseDN($base) {
+		$cr = $this->getConnection();
+		if(!$cr) {
+			throw new \Excpetion('Could not connect to LDAP');
+		}
+
+		//base is there, let's validate it. If we search for anything, we should
+		//get a result set > 0 on a proper base
+		$rr = $this->ldap->search($cr, $base, 'objectClass=*', array('dn'), 0, 1);
+		if(!$this->ldap->isResource($rr)) {
+			return false;
+		}
+		$entries = $this->ldap->countEntries($cr, $rr);
+		return ($entries !== false) && ($entries > 0);
 	}
 
 	/**

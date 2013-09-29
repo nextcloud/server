@@ -49,6 +49,10 @@ class LDAP implements ILDAPWrapper {
 										$isCritical, $cookie);
 	}
 
+	public function countEntries($link, $result) {
+		return $this->invokeLDAPMethod('count_entries', $link, $result);
+	}
+
 	public function errno($link) {
 		return $this->invokeLDAPMethod('errno', $link);
 	}

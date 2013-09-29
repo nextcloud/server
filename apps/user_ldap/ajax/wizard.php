@@ -45,6 +45,7 @@ $wizard = new \OCA\user_ldap\lib\Wizard($configuration, $ldapWrapper);
 
 switch($action) {
 	case 'guessPortAndTLS':
+	case 'guessBaseDN':
 		try {
 			$result = $wizard->$action();
 			if($result !== false) {
