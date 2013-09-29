@@ -228,7 +228,7 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 
 		$result = \OCP\Share::getItemShared('file', $fileInfo['fileid']);
 
-		$this->assertEquals(count($result), 1);
+		$this->assertEquals(1, count($result));
 
 		// get first element
 		$share = reset($result);
@@ -240,7 +240,7 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($result->succeeded());
 
 		// test should return one share created from testCreateShare()
-		$this->assertEquals(count($result->getData()), 1);
+		$this->assertEquals(1, count($result->getData()));
 
 		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
 			\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
@@ -304,7 +304,7 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 
 		// update permissions
 
-		$this->assertEquals($userShare['permissions'], '31');
+		$this->assertEquals('31', $userShare['permissions']);
 
 		$params = array();
 		$params['id'] = $userShare['id'];
@@ -327,7 +327,7 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 
 		$this->assertTrue(is_array($newUserShare));
 
-		$this->assertEquals($newUserShare['permissions'], '1');
+		$this->assertEquals('1', $newUserShare['permissions']);
 
 		// update password for link share
 
