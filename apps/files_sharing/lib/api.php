@@ -86,7 +86,7 @@ class Api {
 		}
 
 		if ($shares === null || empty($shares)) {
-			return new \OC_OCS_Result(null, 404, 'share doesn\'t exists');
+			return new \OC_OCS_Result(null, 404, 'share doesn\'t exist');
 		} else {
 			return new \OC_OCS_Result($shares);
 		}
@@ -451,17 +451,15 @@ class Api {
 		$query = \OCP\DB::prepare($sql);
 		$result = $query->execute($args);
 
-		$share = Null;
-
 		if (\OCP\DB::isError($result)) {
 			\OCP\Util::writeLog('files_sharing', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
-		} else {
-			if ($result->numRows() > 0) {
-				$share = $result->fetchRow();
-			}
+			return null;
+		}
+		if ($share = $result->fetchRow()) {
+			return $share;
 		}
 
-		return $share;
+		return null;
 
 	}
 
