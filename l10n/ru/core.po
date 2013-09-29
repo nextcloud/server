@@ -3,10 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Alex <atrigub@gmail.com>, 2013
 # alfsoft <alfsoft@gmail.com>, 2013
 # lord93 <lordakryl@gmail.com>, 2013
 # foool <andrglad@mail.ru>, 2013
+# jekader <jekader@gmail.com>, 2013
 # eurekafag <rkfg@rkfg.me>, 2013
+# sk.avenger <sk.avenger@adygnet.ru>, 2013
 # Victor Bravo <>, 2013
 # Vyacheslav Muranov <s@neola.ru>, 2013
 # Den4md <denstarr@mail.md>, 2013
@@ -15,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-16 11:33-0400\n"
-"PO-Revision-Date: 2013-09-16 15:33+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-22 12:55-0400\n"
+"PO-Revision-Date: 2013-09-22 12:00+0000\n"
+"Last-Translator: jekader <jekader@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,28 +39,28 @@ msgstr "группа"
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "Режим отладки включён"
 
 #: ajax/update.php:14
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "Режим отладки отключён"
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr ""
+msgstr "База данных обновлена"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
-msgstr ""
+msgstr "Обновление файлового кэша, это может занять некоторое время..."
 
 #: ajax/update.php:23
 msgid "Updated filecache"
-msgstr ""
+msgstr "Обновлен файловый кэш"
 
 #: ajax/update.php:26
 #, php-format
 msgid "... %d%% done ..."
-msgstr ""
+msgstr "... %d%% завершено ..."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -100,23 +103,23 @@ msgstr "Ошибка удаления %s из избранного"
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
-msgstr ""
+msgstr "Не указано изображение или файл"
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Неизвестный тип файла"
 
 #: avatar/controller.php:85
 msgid "Invalid image"
-msgstr ""
+msgstr "Изображение повреждено"
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
-msgstr ""
+msgstr "Временная картинка профиля недоступна, повторите попытку"
 
 #: avatar/controller.php:135
 msgid "No crop data provided"
-msgstr ""
+msgstr "Не указана информация о кадрировании"
 
 #: js/config.php:32
 msgid "Sunday"
@@ -198,59 +201,59 @@ msgstr "Декабрь"
 msgid "Settings"
 msgstr "Конфигурация"
 
-#: js/js.js:853
+#: js/js.js:866
 msgid "seconds ago"
 msgstr "несколько секунд назад"
 
-#: js/js.js:854
+#: js/js.js:867
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n минуту назад"
 msgstr[1] "%n минуты назад"
 msgstr[2] "%n минут назад"
 
-#: js/js.js:855
+#: js/js.js:868
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n час назад"
 msgstr[1] "%n часа назад"
 msgstr[2] "%n часов назад"
 
-#: js/js.js:856
+#: js/js.js:869
 msgid "today"
 msgstr "сегодня"
 
-#: js/js.js:857
+#: js/js.js:870
 msgid "yesterday"
 msgstr "вчера"
 
-#: js/js.js:858
+#: js/js.js:871
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n день назад"
 msgstr[1] "%n дня назад"
 msgstr[2] "%n дней назад"
 
-#: js/js.js:859
+#: js/js.js:872
 msgid "last month"
 msgstr "в прошлом месяце"
 
-#: js/js.js:860
+#: js/js.js:873
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n месяц назад"
 msgstr[1] "%n месяца назад"
 msgstr[2] "%n месяцев назад"
 
-#: js/js.js:861
+#: js/js.js:874
 msgid "months ago"
 msgstr "несколько месяцев назад"
 
-#: js/js.js:862
+#: js/js.js:875
 msgid "last year"
 msgstr "в прошлом году"
 
-#: js/js.js:863
+#: js/js.js:876
 msgid "years ago"
 msgstr "несколько лет назад"
 
@@ -260,7 +263,7 @@ msgstr "Выбрать"
 
 #: js/oc-dialogs.js:146
 msgid "Error loading file picker template: {error}"
-msgstr ""
+msgstr "Ошибка при загрузке шаблона выбора файлов: {error}"
 
 #: js/oc-dialogs.js:172
 msgid "Yes"
@@ -276,7 +279,48 @@ msgstr "Ок"
 
 #: js/oc-dialogs.js:219
 msgid "Error loading message template: {error}"
-msgstr ""
+msgstr "Ошибка загрузки шаблона сообщений: {error}"
+
+#: js/oc-dialogs.js:347
+msgid "{count} file conflict"
+msgid_plural "{count} file conflicts"
+msgstr[0] "{count} конфликт в файлах"
+msgstr[1] "{count} конфликта в файлах"
+msgstr[2] "{count} конфликтов в файлах"
+
+#: js/oc-dialogs.js:361
+msgid "One file conflict"
+msgstr "Один конфликт в файлах"
+
+#: js/oc-dialogs.js:367
+msgid "Which files do you want to keep?"
+msgstr "Какие файлы вы хотите сохранить?"
+
+#: js/oc-dialogs.js:368
+msgid ""
+"If you select both versions, the copied file will have a number added to its"
+" name."
+msgstr "При выборе обоих версий,  к названию копируемого файла будет добавлена цифра"
+
+#: js/oc-dialogs.js:376
+msgid "Cancel"
+msgstr "Отменить"
+
+#: js/oc-dialogs.js:386
+msgid "Continue"
+msgstr "Продолжить"
+
+#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+msgid "(all selected)"
+msgstr "(выбраны все)"
+
+#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+msgid "({count} selected)"
+msgstr "({count} выбрано)"
+
+#: js/oc-dialogs.js:457
+msgid "Error loading file exists template"
+msgstr "Ошибка при загрузке шаблона существующего файла"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -609,11 +653,11 @@ msgstr "будет использовано"
 
 #: templates/installation.php:140
 msgid "Database user"
-msgstr "Имя пользователя для базы данных"
+msgstr "Пользователь базы данных"
 
 #: templates/installation.php:147
 msgid "Database password"
-msgstr "Пароль для базы данных"
+msgstr "Пароль базы данных"
 
 #: templates/installation.php:152
 msgid "Database name"

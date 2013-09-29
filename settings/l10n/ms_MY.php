@@ -29,6 +29,7 @@ $TRANSLATIONS = array(
 "Email" => "Email",
 "Your email address" => "Alamat emel anda",
 "Fill in an email address to enable password recovery" => "Isi alamat emel anda untuk membolehkan pemulihan kata laluan",
+"Profile picture" => "Gambar profil",
 "Language" => "Bahasa",
 "Help translate" => "Bantu terjemah",
 "Create" => "Buat",

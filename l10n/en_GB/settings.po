@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-16 11:33-0400\n"
-"PO-Revision-Date: 2013-09-16 15:34+0000\n"
+"POT-Creation-Date: 2013-09-20 10:45-0400\n"
+"PO-Revision-Date: 2013-09-20 14:45+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgid "Unable to load list from App Store"
 msgstr "Unable to load list from App Store"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20
+#: ajax/togglegroups.php:20 changepassword/controller.php:55
 msgid "Authentication error"
 msgstr "Authentication error"
 
@@ -85,6 +85,35 @@ msgstr "Unable to remove user from group %s"
 msgid "Couldn't update app."
 msgstr "Couldn't update app."
 
+#: changepassword/controller.php:20
+msgid "Wrong password"
+msgstr "Incorrect password"
+
+#: changepassword/controller.php:42
+msgid "No user supplied"
+msgstr "No user supplied"
+
+#: changepassword/controller.php:74
+msgid ""
+"Please provide an admin recovery password, otherwise all user data will be "
+"lost"
+msgstr "Please provide an admin recovery password, otherwise all user data will be lost"
+
+#: changepassword/controller.php:79
+msgid ""
+"Wrong admin recovery password. Please check the password and try again."
+msgstr "Incorrect admin recovery password. Please check the password and try again."
+
+#: changepassword/controller.php:87
+msgid ""
+"Back-end doesn't support password change, but the users encryption key was "
+"successfully updated."
+msgstr "Back-end doesn't support password change, but the user's encryption key was successfully updated."
+
+#: changepassword/controller.php:92 changepassword/controller.php:103
+msgid "Unable to change password"
+msgstr "Unable to change password"
+
 #: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Update to {appversion}"
@@ -129,15 +158,15 @@ msgstr "Update"
 msgid "Updated"
 msgstr "Updated"
 
-#: js/personal.js:217
+#: js/personal.js:220
 msgid "Select a profile picture"
-msgstr ""
+msgstr "Select a profile picture"
 
-#: js/personal.js:262
+#: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Decrypting files... Please wait, this can take some time."
 
-#: js/personal.js:284
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "Saving..."
 
@@ -222,7 +251,7 @@ msgstr "Module 'fileinfo' missing"
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection."
+msgstr "The PHP module 'fileinfo' is missing. We strongly recommend enabling this module to get best results with mime-type detection."
 
 #: templates/admin.php:58
 msgid "Locale not working"
@@ -360,7 +389,7 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
+msgstr "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public Licence\">AGPL</abbr></a>."
 
 #: templates/apps.php:13
 msgid "Add your App"
@@ -461,31 +490,31 @@ msgstr "Fill in an email address to enable password recovery"
 
 #: templates/personal.php:86
 msgid "Profile picture"
-msgstr ""
+msgstr "Profile picture"
 
 #: templates/personal.php:90
 msgid "Upload new"
-msgstr ""
+msgstr "Upload new"
 
 #: templates/personal.php:92
 msgid "Select new from Files"
-msgstr ""
+msgstr "Select new from Files"
 
 #: templates/personal.php:93
 msgid "Remove image"
-msgstr ""
+msgstr "Remove image"
 
 #: templates/personal.php:94
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
-msgstr ""
+msgstr "Either png or jpg. Ideally square but you will be able to crop it."
 
 #: templates/personal.php:97
 msgid "Abort"
-msgstr ""
+msgstr "Abort"
 
 #: templates/personal.php:98
 msgid "Choose as profile image"
-msgstr ""
+msgstr "Choose as profile image"
 
 #: templates/personal.php:106 templates/personal.php:107
 msgid "Language"

@@ -34,10 +34,16 @@ use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
 use OCP\AppFramework\IApi;
 use OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\IMiddleWare;
+use OCP\IServerContainer;
 
 
 class DIContainer extends SimpleContainer implements IAppContainer{
 
+	/**
+	 * @var array
+	 */
+	private $middleWares = array();
 
 	/**
 	 * Put your class dependencies in here
@@ -57,31 +63,10 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 		 * Http
 		 */
 		$this['Request'] = $this->share(function($c) {
-
-			$params = array();
-
-			// we json decode the body only in case of content type json
-			if (isset($_SERVER['CONTENT_TYPE']) && stripos($_SERVER['CONTENT_TYPE'],'json') === true ) {
-				$params = json_decode(file_get_contents('php://input'), true);
-				$params = is_array($params) ? $params: array();
-			}
-
-			return new Request(
-				array(
-					'get' => $_GET,
-					'post' => $_POST,
-					'files' => $_FILES,
-					'server' => $_SERVER,
-					'env' => $_ENV,
-					'session' => $_SESSION,
-					'cookies' => $_COOKIE,
-					'method' => (isset($_SERVER) && isset($_SERVER['REQUEST_METHOD']))
-							? $_SERVER['REQUEST_METHOD']
-							: null,
-					'params' => $params,
-					'urlParams' => $c['urlParams']
-				)
-			);
+			/** @var $c SimpleContainer */
+			/** @var $server IServerContainer */
+			$server = $c->query('ServerContainer');
+			return $server->getRequest();
 		});
 
 		$this['Protocol'] = $this->share(function($c){
@@ -107,6 +92,10 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 		$this['MiddlewareDispatcher'] = $this->share(function($c){
 			$dispatcher = new MiddlewareDispatcher();
 			$dispatcher->registerMiddleware($c['SecurityMiddleware']);
+
+			foreach($this->middleWares as $middleWare) {
+				$dispatcher->registerMiddleware($middleWare);
+			}
 
 			return $dispatcher;
 		});
@@ -137,5 +126,21 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 	function getServer()
 	{
 		return $this->query('ServerContainer');
+	}
+
+	/**
+	 * @param IMiddleWare $middleWare
+	 * @return boolean
+	 */
+	function registerMiddleWare(IMiddleWare $middleWare) {
+		array_push($this->middleWares, $middleWare);
+	}
+
+	/**
+	 * used to return the appname of the set application
+	 * @return string the name of your application
+	 */
+	function getAppName() {
+		return $this->query('AppName');
 	}
 }

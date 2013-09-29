@@ -22,7 +22,7 @@ function fileCmp($a, $b) {
 function determineIcon($file, $sharingRoot, $sharingToken) {
 	// for folders we simply reuse the files logic
 	if($file['type'] == 'dir') {
-		return \OCA\files\lib\Helper::determineIcon($file);
+		return \OCA\Files\Helper::determineIcon($file);
 	}
 
 	$relativePath = substr($file['path'], 6);
@@ -170,6 +170,7 @@ if (isset($path)) {
 			$tmpl->assign('dir', $getPath);
 
 			OCP\Util::addStyle('files', 'files');
+			OCP\Util::addStyle('files', 'upload');
 			OCP\Util::addScript('files', 'files');
 			OCP\Util::addScript('files', 'filelist');
 			OCP\Util::addscript('files', 'keyboardshortcuts');

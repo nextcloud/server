@@ -56,11 +56,50 @@ interface IServerContainer {
 	function getPreviewManager();
 
 	/**
+	 * Returns the tag manager which can get and set tags for different object types
+	 *
+	 * @see \OCP\ITagManager::load()
+	 * @return \OCP\ITagManager
+	 */
+	function getTagManager();
+
+	/**
 	 * Returns the root folder of ownCloud's data directory
 	 *
 	 * @return \OCP\Files\Folder
 	 */
 	function getRootFolder();
+
+	/**
+	 * Returns a view to ownCloud's files folder
+	 *
+	 * @return \OCP\Files\Folder
+	 */
+	function getUserFolder();
+
+	/**
+	 * Returns an app-specific view in ownClouds data directory
+	 *
+	 * @return \OCP\Files\Folder
+	 */
+	function getAppFolder();
+
+	/**
+	 * Returns the user session
+	 *
+	 * @return \OCP\IUserSession
+	 */
+	function getUserSession();
+
+	/**
+	 * @return \OCP\INavigationManager
+	 */
+	function getNavigationManager();
+
+	/**
+	 * @return \OCP\IConfig
+	 */
+	function getConfig();
 
 	/**
 	 * Returns an ICache instance
@@ -82,5 +121,12 @@ interface IServerContainer {
 	 * @return \OCP\Activity\IManager
 	 */
 	function getActivityManager();
+
+	/**
+	 * Returns the current session
+	 *
+	 * @return \OCP\IDBConnection
+	 */
+	function getDatabaseConnection();
 
 }

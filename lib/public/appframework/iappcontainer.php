@@ -34,6 +34,12 @@ use OCP\IContainer;
 interface IAppContainer extends IContainer{
 
 	/**
+	 * used to return the appname of the set application
+	 * @return string the name of your application
+	 */
+	function getAppName();
+
+	/**
 	 * @return IApi
 	 */
 	function getCoreApi();
@@ -42,4 +48,10 @@ interface IAppContainer extends IContainer{
 	 * @return \OCP\IServerContainer
 	 */
 	function getServer();
+
+	/**
+	 * @param IMiddleWare $middleWare
+	 * @return boolean
+	 */
+	function registerMiddleWare(IMiddleWare $middleWare);
 }

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-16 11:33-0400\n"
-"PO-Revision-Date: 2013-09-16 15:34+0000\n"
+"POT-Creation-Date: 2013-09-20 10:45-0400\n"
+"PO-Revision-Date: 2013-09-20 14:45+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Uighur <uqkun@outlook.com>\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgid "Unable to load list from App Store"
 msgstr "ئەپ بازىرىدىن تىزىمنى يۈكلىيەلمىدى"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20
+#: ajax/togglegroups.php:20 changepassword/controller.php:55
 msgid "Authentication error"
 msgstr "سالاھىيەت دەلىللەش خاتالىقى"
 
@@ -85,6 +85,35 @@ msgstr "ئىشلەتكۈچىنى %s گۇرۇپپىدىن چىقىرىۋېتەل�
 msgid "Couldn't update app."
 msgstr "ئەپنى يېڭىلىيالمايدۇ."
 
+#: changepassword/controller.php:20
+msgid "Wrong password"
+msgstr ""
+
+#: changepassword/controller.php:42
+msgid "No user supplied"
+msgstr ""
+
+#: changepassword/controller.php:74
+msgid ""
+"Please provide an admin recovery password, otherwise all user data will be "
+"lost"
+msgstr ""
+
+#: changepassword/controller.php:79
+msgid ""
+"Wrong admin recovery password. Please check the password and try again."
+msgstr ""
+
+#: changepassword/controller.php:87
+msgid ""
+"Back-end doesn't support password change, but the users encryption key was "
+"successfully updated."
+msgstr ""
+
+#: changepassword/controller.php:92 changepassword/controller.php:103
+msgid "Unable to change password"
+msgstr ""
+
 #: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "{appversion} غا يېڭىلايدۇ"
@@ -129,15 +158,15 @@ msgstr "يېڭىلا"
 msgid "Updated"
 msgstr "يېڭىلاندى"
 
-#: js/personal.js:217
+#: js/personal.js:220
 msgid "Select a profile picture"
 msgstr ""
 
-#: js/personal.js:262
+#: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr ""
 
-#: js/personal.js:284
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "ساقلاۋاتىدۇ…"
 

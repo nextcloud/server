@@ -201,7 +201,6 @@ class Cache {
 			$data['path'] = $file;
 			$data['parent'] = $this->getParentId($file);
 			$data['name'] = \OC_Util::basename($file);
-			$data['encrypted'] = isset($data['encrypted']) ? ((int)$data['encrypted']) : 0;
 
 			list($queryParts, $params) = $this->buildParts($data);
 			$queryParts[] = '`storage`';
@@ -265,6 +264,9 @@ class Cache {
 						$params[] = $value;
 						$queryParts[] = '`mtime`';
 					}
+				} elseif ($name === 'encrypted') {
+					// Boolean to integer conversion
+					$value = $value ? 1 : 0;
 				}
 				$params[] = $value;
 				$queryParts[] = '`' . $name . '`';

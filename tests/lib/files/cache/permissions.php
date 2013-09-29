@@ -8,6 +8,8 @@
 
 namespace Test\Files\Cache;
 
+use OC\Files\Storage\Temporary;
+
 class Permissions extends \PHPUnit_Framework_TestCase {
 	/***
 	 * @var \OC\Files\Cache\Permissions $permissionsCache
@@ -54,5 +56,20 @@ class Permissions extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($expected, $this->permissionsCache->getMultiple($ids, $user));
 
 		$this->permissionsCache->removeMultiple($ids, $user);
+	}
+
+	public function testUpdatePermissionsOnRescan() {
+		$storage = new Temporary(array());
+		$scanner = $storage->getScanner();
+		$cache = $storage->getCache();
+		$permissionsCache = $storage->getPermissionsCache();
+
+		$storage->file_put_contents('foo.txt', 'bar');
+		$scanner->scan('');
+		$id = $cache->getId('foo.txt');
+		$permissionsCache->set($id, 'test', 1);
+
+		$scanner->scan('');
+		$this->assertEquals(-1, $permissionsCache->get($id, 'test'));
 	}
 }

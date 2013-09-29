@@ -30,31 +30,12 @@ namespace OCP\AppFramework;
  */
 interface IApi {
 
-	/**
-	 * used to return the appname of the set application
-	 * @return string the name of your application
-	 */
-	function getAppName();
-
-
-	/**
-	 * Creates a new navigation entry
-	 * @param array $entry containing: id, name, order, icon and href key
-	 */
-	function addNavigationEntry(array $entry);
-
 
 	/**
 	 * Gets the userid of the current user
 	 * @return string the user id of the current user
 	 */
 	function getUserId();
-
-
-	/**
-	 * Sets the current navigation entry to the currently running app
-	 */
-	function activateNavigationEntry();
 
 
 	/**
@@ -87,81 +68,12 @@ interface IApi {
 	function add3rdPartyStyle($name);
 
 	/**
-	 * Looks up a system-wide defined value
-	 * @param string $key the key of the value, under which it was saved
-	 * @return string the saved value
-	 */
-	function getSystemValue($key);
-
-	/**
-	 * Sets a new system-wide value
-	 * @param string $key the key of the value, under which will be saved
-	 * @param string $value the value that should be stored
-	 */
-	function setSystemValue($key, $value);
-
-
-	/**
-	 * Looks up an app-specific defined value
-	 * @param string $key the key of the value, under which it was saved
-	 * @return string the saved value
-	 */
-	function getAppValue($key, $appName = null);
-
-
-	/**
-	 * Writes a new app-specific value
-	 * @param string $key the key of the value, under which will be saved
-	 * @param string $value the value that should be stored
-	 */
-	function setAppValue($key, $value, $appName = null);
-
-
-	/**
-	 * Shortcut for setting a user defined value
-	 * @param string $key the key under which the value is being stored
-	 * @param string $value the value that you want to store
-	 * @param string $userId the userId of the user that we want to store the value under, defaults to the current one
-	 */
-	function setUserValue($key, $value, $userId = null);
-
-
-	/**
-	 * Shortcut for getting a user defined value
-	 * @param string $key the key under which the value is being stored
-	 * @param string $userId the userId of the user that we want to store the value under, defaults to the current one
-	 */
-	function getUserValue($key, $userId = null);
-
-	/**
 	 * Returns the translation object
 	 * @return \OC_L10N the translation object
 	 *
 	 * FIXME: returns private object / should be retrieved from teh ServerContainer
 	 */
 	function getTrans();
-
-
-	/**
-	 * Used to abstract the owncloud database access away
-	 * @param string $sql the sql query with ? placeholder for params
-	 * @param int $limit the maximum number of rows
-	 * @param int $offset from which row we want to start
-	 * @return \OCP\DB a query object
-	 *
-	 * FIXME: returns non public interface / object
-	 */
-	function prepareQuery($sql, $limit=null, $offset=null);
-
-
-	/**
-	 * Used to get the id of the just inserted element
-	 * @param string $tableName the name of the table where we inserted the item
-	 * @return int the id of the inserted element
-	 *
-	 * FIXME: move to db object
-	 */
-	function getInsertId($tableName);
 
 
 	/**
@@ -235,4 +147,5 @@ interface IApi {
 	 * @return \OCP\Template a new template
 	 */
 	function getTemplate($templateName, $renderAs='user', $appName=null);
+
 }

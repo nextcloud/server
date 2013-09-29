@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-16 11:33-0400\n"
-"PO-Revision-Date: 2013-09-16 15:34+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-27 00:01-0400\n"
+"PO-Revision-Date: 2013-09-25 10:50+0000\n"
+"Last-Translator: pstast <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -97,23 +97,23 @@ msgstr "Chyba při odebírání %s z oblíbených."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
-msgstr ""
+msgstr "Soubor nebo obrázek nebyl zadán"
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Neznámý typ souboru"
 
 #: avatar/controller.php:85
 msgid "Invalid image"
-msgstr ""
+msgstr "Chybný obrázek"
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
-msgstr ""
+msgstr "Dočasný profilový obrázek není k dispozici, zkuste to znovu"
 
 #: avatar/controller.php:135
 msgid "No crop data provided"
-msgstr ""
+msgstr "Nebyla poskytnuta data pro oříznutí obrázku"
 
 #: js/config.php:32
 msgid "Sunday"
@@ -195,59 +195,59 @@ msgstr "Prosinec"
 msgid "Settings"
 msgstr "Nastavení"
 
-#: js/js.js:853
+#: js/js.js:866
 msgid "seconds ago"
 msgstr "před pár vteřinami"
 
-#: js/js.js:854
+#: js/js.js:867
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "před %n minutou"
 msgstr[1] "před %n minutami"
 msgstr[2] "před %n minutami"
 
-#: js/js.js:855
+#: js/js.js:868
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "před %n hodinou"
 msgstr[1] "před %n hodinami"
 msgstr[2] "před %n hodinami"
 
-#: js/js.js:856
+#: js/js.js:869
 msgid "today"
 msgstr "dnes"
 
-#: js/js.js:857
+#: js/js.js:870
 msgid "yesterday"
 msgstr "včera"
 
-#: js/js.js:858
+#: js/js.js:871
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "před %n dnem"
 msgstr[1] "před %n dny"
 msgstr[2] "před %n dny"
 
-#: js/js.js:859
+#: js/js.js:872
 msgid "last month"
 msgstr "minulý měsíc"
 
-#: js/js.js:860
+#: js/js.js:873
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "před %n měsícem"
 msgstr[1] "před %n měsíci"
 msgstr[2] "před %n měsíci"
 
-#: js/js.js:861
+#: js/js.js:874
 msgid "months ago"
 msgstr "před měsíci"
 
-#: js/js.js:862
+#: js/js.js:875
 msgid "last year"
 msgstr "minulý rok"
 
-#: js/js.js:863
+#: js/js.js:876
 msgid "years ago"
 msgstr "před lety"
 
@@ -257,7 +257,7 @@ msgstr "Vybrat"
 
 #: js/oc-dialogs.js:146
 msgid "Error loading file picker template: {error}"
-msgstr ""
+msgstr "Chyba při nahrávání šablony výběru souborů: {error}"
 
 #: js/oc-dialogs.js:172
 msgid "Yes"
@@ -273,6 +273,47 @@ msgstr "Ok"
 
 #: js/oc-dialogs.js:219
 msgid "Error loading message template: {error}"
+msgstr "Chyba při nahrávání šablony zprávy: {error}"
+
+#: js/oc-dialogs.js:347
+msgid "{count} file conflict"
+msgid_plural "{count} file conflicts"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: js/oc-dialogs.js:361
+msgid "One file conflict"
+msgstr "Jeden konflikt souboru"
+
+#: js/oc-dialogs.js:367
+msgid "Which files do you want to keep?"
+msgstr ""
+
+#: js/oc-dialogs.js:368
+msgid ""
+"If you select both versions, the copied file will have a number added to its"
+" name."
+msgstr ""
+
+#: js/oc-dialogs.js:376
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: js/oc-dialogs.js:386
+msgid "Continue"
+msgstr ""
+
+#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+msgid "(all selected)"
+msgstr ""
+
+#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+msgid "({count} selected)"
+msgstr ""
+
+#: js/oc-dialogs.js:457
+msgid "Error loading file exists template"
 msgstr ""
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
@@ -284,7 +325,7 @@ msgstr "Není určen typ objektu."
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:645 js/share.js:657
+#: js/share.js:656 js/share.js:668
 msgid "Error"
 msgstr "Chyba"
 
@@ -304,7 +345,7 @@ msgstr "Sdílené"
 msgid "Share"
 msgstr "Sdílet"
 
-#: js/share.js:131 js/share.js:685
+#: js/share.js:131 js/share.js:696
 msgid "Error while sharing"
 msgstr "Chyba při sdílení"
 
@@ -404,23 +445,23 @@ msgstr "smazat"
 msgid "share"
 msgstr "sdílet"
 
-#: js/share.js:400 js/share.js:632
+#: js/share.js:400 js/share.js:643
 msgid "Password protected"
 msgstr "Chráněno heslem"
 
-#: js/share.js:645
+#: js/share.js:656
 msgid "Error unsetting expiration date"
 msgstr "Chyba při odstraňování data vypršení platnosti"
 
-#: js/share.js:657
+#: js/share.js:668
 msgid "Error setting expiration date"
 msgstr "Chyba při nastavení data vypršení platnosti"
 
-#: js/share.js:672
+#: js/share.js:683
 msgid "Sending ..."
 msgstr "Odesílám ..."
 
-#: js/share.js:683
+#: js/share.js:694
 msgid "Email sent"
 msgstr "E-mail odeslán"
 

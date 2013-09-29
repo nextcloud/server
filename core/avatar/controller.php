@@ -33,7 +33,7 @@ class Controller {
 			$image->show();
 		} else {
 			// Signalizes $.avatar() to display a defaultavatar
-			\OC_JSON::success();
+			\OC_JSON::success(array("data"=> array("displayname"=> \OC_User::getDisplayName($user)) ));
 		}
 	}
 
