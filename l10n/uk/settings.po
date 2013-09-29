@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# zubr139 <zubr139@ukr.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-20 10:45-0400\n"
-"PO-Revision-Date: 2013-09-20 14:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-29 00:02-0400\n"
+"PO-Revision-Date: 2013-09-27 19:43+0000\n"
+"Last-Translator: zubr139 <zubr139@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,7 +33,7 @@ msgstr ""
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
-msgstr "Не вдалося змінити зображене ім'я"
+msgstr "Не вдалося змінити ім'я"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -117,11 +118,11 @@ msgstr ""
 msgid "Update to {appversion}"
 msgstr "Оновити до {appversion}"
 
-#: js/apps.js:49 js/apps.js:82 js/apps.js:108
+#: js/apps.js:49 js/apps.js:82 js/apps.js:110
 msgid "Disable"
 msgstr "Вимкнути"
 
-#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
+#: js/apps.js:49 js/apps.js:90 js/apps.js:103 js/apps.js:119
 msgid "Enable"
 msgstr "Включити"
 
@@ -129,43 +130,43 @@ msgstr "Включити"
 msgid "Please wait...."
 msgstr "Зачекайте, будь ласка..."
 
-#: js/apps.js:79 js/apps.js:80 js/apps.js:100
+#: js/apps.js:79 js/apps.js:80 js/apps.js:101
 msgid "Error while disabling app"
 msgstr ""
 
-#: js/apps.js:99 js/apps.js:112 js/apps.js:113
+#: js/apps.js:100 js/apps.js:114 js/apps.js:115
 msgid "Error while enabling app"
 msgstr ""
 
-#: js/apps.js:123
+#: js/apps.js:125
 msgid "Updating...."
 msgstr "Оновлюється..."
 
-#: js/apps.js:126
+#: js/apps.js:128
 msgid "Error while updating app"
 msgstr "Помилка при оновленні програми"
 
-#: js/apps.js:126
+#: js/apps.js:128
 msgid "Error"
 msgstr "Помилка"
 
-#: js/apps.js:127 templates/apps.php:43
+#: js/apps.js:129 templates/apps.php:43
 msgid "Update"
 msgstr "Оновити"
 
-#: js/apps.js:130
+#: js/apps.js:132
 msgid "Updated"
 msgstr "Оновлено"
 
-#: js/personal.js:220
+#: js/personal.js:221
 msgid "Select a profile picture"
 msgstr ""
 
-#: js/personal.js:265
+#: js/personal.js:266
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr ""
 
-#: js/personal.js:287
+#: js/personal.js:288
 msgid "Saving..."
 msgstr "Зберігаю..."
 
@@ -590,7 +591,7 @@ msgstr "Сховище"
 
 #: templates/users.php:108
 msgid "change display name"
-msgstr "змінити зображене ім'я"
+msgstr "змінити ім'я"
 
 #: templates/users.php:112
 msgid "set new password"
