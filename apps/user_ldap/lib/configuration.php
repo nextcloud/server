@@ -201,6 +201,7 @@ class Configuration {
 				case 'ldapIgnoreNamingRules':
 				case 'ldapOverrideUuidAttribute':
 				case 'hasPagedResultSupport':
+				case 'ldapUuidAttribute':
 					continue 2;
 			}
 			if(is_null($value)) {
