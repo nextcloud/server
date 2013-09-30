@@ -154,7 +154,7 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 
 		$fileinfo = $this->view->getFileInfo($this->folder);
 
-		\OCP\Share::unshare('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
 
 
 
@@ -262,7 +262,7 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 		// share was successful?
 		$this->assertTrue($result);
 
-		$result = \OCP\Share::shareItem('file', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK,
+		$result = \OCP\Share::shareItem('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK,
 				null, 1);
 
 		// share was successful?
@@ -281,7 +281,7 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 		\OCP\Share::unshare('file', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
 				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
 
-		\OCP\Share::unshare('file', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+		\OCP\Share::unshare('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
 
 	}
 
@@ -395,6 +395,65 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 
 		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
 				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+
+		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+
+	}
+
+	/**
+	 * @medium
+	 */
+	function testUpdateShareUpload() {
+
+		$fileInfo = $this->view->getFileInfo($this->folder);
+
+		$result = \OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK,
+				null, 1);
+
+		// share was successful?
+		$this->assertTrue(is_string($result));
+
+		$items = \OCP\Share::getItemShared('file', null);
+
+		// make sure that we found a link share and a user share
+		$this->assertEquals(count($items), 1);
+
+		$linkShare = null;
+
+		foreach ($items as $item) {
+			if ($item['share_type'] === \OCP\Share::SHARE_TYPE_LINK) {
+				$linkShare = $item;
+			}
+		}
+
+		// make sure that we found a link share
+		$this->assertTrue(is_array($linkShare));
+
+		// update public upload
+
+		$params = array();
+		$params['id'] = $linkShare['id'];
+		$params['_put'] = array();
+		$params['_put']['publicUpload'] = 'yes';
+
+		$result = Share\Api::updateShare($params);
+
+		$this->assertTrue($result->succeeded());
+
+		$items = \OCP\Share::getItemShared('file', $linkShare['file_source']);
+
+		$updatedLinkShare = null;
+		foreach ($items as $item) {
+			if ($item['share_type'] === \OCP\Share::SHARE_TYPE_LINK) {
+				$updatedLinkShare = $item;
+				break;
+			}
+		}
+
+		$this->assertTrue(is_array($updatedLinkShare));
+		$this->assertEquals(7, $updatedLinkShare['permissions']);
+
+		// cleanup
 
 		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
 
