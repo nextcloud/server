@@ -103,6 +103,9 @@
 					}
 					$.each(value, function(idx, val) {
 						var $button = $('<button>').text(val.text);
+						if (val.classes) {
+							$button.addClass(val.classes);
+						}
 						if(val.defaultButton) {
 							$button.addClass('primary');
 							self.$defaultButton = $button;

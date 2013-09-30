@@ -34,10 +34,21 @@
  *
  */
 
+namespace OC;
+
+use \OC\DB\Connection;
+
+
 /**
  * This class provides an easy way for storing user preferences.
  */
-class OC_Preferences{
+class Preferences {
+	protected $conn;
+
+	public function __construct(Connection $conn) {
+		$this->conn = $conn;
+	}
+
 	/**
 	 * @brief Get all users using the preferences
 	 * @return array with user ids
@@ -45,14 +56,13 @@ class OC_Preferences{
 	 * This function returns a list of all users that have at least one entry
 	 * in the preferences table.
 	 */
-	public static function getUsers() {
-		// No need for more comments
-		$query = OC_DB::prepare( 'SELECT DISTINCT( `userid` ) FROM `*PREFIX*preferences`' );
-		$result = $query->execute();
+	public function getUsers() {
+		$query = 'SELECT DISTINCT `userid` FROM `*PREFIX*preferences`';
+		$result = $this->conn->executeQuery( $query );
 
 		$users = array();
-		while( $row = $result->fetchRow()) {
-			$users[] = $row["userid"];
+		while( $userid = $result->fetchColumn()) {
+			$users[] = $userid;
 		}
 
 		return $users;
@@ -66,14 +76,13 @@ class OC_Preferences{
 	 * This function returns a list of all apps of the user that have at least
 	 * one entry in the preferences table.
 	 */
-	public static function getApps( $user ) {
-		// No need for more comments
-		$query = OC_DB::prepare( 'SELECT DISTINCT( `appid` ) FROM `*PREFIX*preferences` WHERE `userid` = ?' );
-		$result = $query->execute( array( $user ));
+	public function getApps( $user ) {
+		$query = 'SELECT DISTINCT `appid` FROM `*PREFIX*preferences` WHERE `userid` = ?';
+		$result = $this->conn->executeQuery( $query, array( $user ) );
 
 		$apps = array();
-		while( $row = $result->fetchRow()) {
-			$apps[] = $row["appid"];
+		while( $appid = $result->fetchColumn()) {
+			$apps[] = $appid;
 		}
 
 		return $apps;
@@ -88,14 +97,13 @@ class OC_Preferences{
 	 * This function gets all keys of an app of an user. Please note that the
 	 * values are not returned.
 	 */
-	public static function getKeys( $user, $app ) {
-		// No need for more comments
-		$query = OC_DB::prepare( 'SELECT `configkey` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ?' );
-		$result = $query->execute( array( $user, $app ));
+	public function getKeys( $user, $app ) {
+		$query = 'SELECT `configkey` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ?';
+		$result = $this->conn->executeQuery( $query, array( $user, $app ));
 
 		$keys = array();
-		while( $row = $result->fetchRow()) {
-			$keys[] = $row["configkey"];
+		while( $key = $result->fetchColumn()) {
+			$keys[] = $key;
 		}
 
 		return $keys;
@@ -112,16 +120,14 @@ class OC_Preferences{
 	 * This function gets a value from the preferences table. If the key does
 	 * not exist the default value will be returned
 	 */
-	public static function getValue( $user, $app, $key, $default = null ) {
+	public function getValue( $user, $app, $key, $default = null ) {
 		// Try to fetch the value, return default if not exists.
-		$query = OC_DB::prepare( 'SELECT `configvalue` FROM `*PREFIX*preferences`'
-			.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?' );
-		$result = $query->execute( array( $user, $app, $key ));
-
-		$row = $result->fetchRow();
+		$query = 'SELECT `configvalue` FROM `*PREFIX*preferences`'
+			.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?';
+		$row = $this->conn->fetchAssoc( $query, array( $user, $app, $key ));
 		if($row) {
 			return $row["configvalue"];
-		}else{
+		} else {
 			return $default;
 		}
 	}
@@ -132,29 +138,36 @@ class OC_Preferences{
 	 * @param string $app app
 	 * @param string $key key
 	 * @param string $value value
-	 * @return bool
 	 *
 	 * Adds a value to the preferences. If the key did not exist before, it
 	 * will be added automagically.
 	 */
-	public static function setValue( $user, $app, $key, $value ) {
+	public function setValue( $user, $app, $key, $value ) {
 		// Check if the key does exist
-		$query = OC_DB::prepare( 'SELECT `configvalue` FROM `*PREFIX*preferences`'
-			.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?' );
-		$values=$query->execute(array($user, $app, $key))->fetchAll();
-		$exists=(count($values)>0);
+		$query = 'SELECT COUNT(*) FROM `*PREFIX*preferences`'
+			.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?';
+		$count = $this->conn->fetchColumn( $query, array( $user, $app, $key ));
+		$exists = $count > 0;
 
 		if( !$exists ) {
-			$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*preferences`'
-				.' ( `userid`, `appid`, `configkey`, `configvalue` ) VALUES( ?, ?, ?, ? )' );
-			$query->execute( array( $user, $app, $key, $value ));
+			$data = array(
+				'userid' => $user,
+				'appid' => $app,
+				'configkey' => $key,
+				'configvalue' => $value,
+			);
+			$this->conn->insert('*PREFIX*preferences', $data);
+		} else {
+			$data = array(
+				'configvalue' => $value,
+			);
+			$where = array(
+				'userid' => $user,
+				'appid' => $app,
+				'configkey' => $key,
+			);
+			$this->conn->update('*PREFIX*preferences', $data, $where);
 		}
-		else{
-			$query = OC_DB::prepare( 'UPDATE `*PREFIX*preferences` SET `configvalue` = ?'
-				.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?' );
-			$query->execute( array( $value, $user, $app, $key ));
-		}
-		return true;
 	}
 
 	/**
@@ -162,62 +175,58 @@ class OC_Preferences{
 	 * @param string $user user
 	 * @param string $app app
 	 * @param string $key key
-	 * @return bool
 	 *
 	 * Deletes a key.
 	 */
-	public static function deleteKey( $user, $app, $key ) {
-		// No need for more comments
-		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*preferences`'
-			.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?' );
-		$query->execute( array( $user, $app, $key ));
-
-		return true;
+	public function deleteKey( $user, $app, $key ) {
+		$where = array(
+			'userid' => $user,
+			'appid' => $app,
+			'configkey' => $key,
+		);
+		$this->conn->delete('*PREFIX*preferences', $where);
 	}
 
 	/**
 	 * @brief Remove app of user from preferences
 	 * @param string $user user
 	 * @param string $app app
-	 * @return bool
 	 *
-	 * Removes all keys in appconfig belonging to the app and the user.
+	 * Removes all keys in preferences belonging to the app and the user.
 	 */
-	public static function deleteApp( $user, $app ) {
-		// No need for more comments
-		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ?' );
-		$query->execute( array( $user, $app ));
-
-		return true;
+	public function deleteApp( $user, $app ) {
+		$where = array(
+			'userid' => $user,
+			'appid' => $app,
+		);
+		$this->conn->delete('*PREFIX*preferences', $where);
 	}
 
 	/**
 	 * @brief Remove user from preferences
 	 * @param string $user user
-	 * @return bool
 	 *
-	 * Removes all keys in appconfig belonging to the user.
+	 * Removes all keys in preferences belonging to the user.
 	 */
-	public static function deleteUser( $user ) {
-		// No need for more comments
-		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*preferences` WHERE `userid` = ?' );
-		$query->execute( array( $user ));
-
-		return true;
+	public function deleteUser( $user ) {
+		$where = array(
+			'userid' => $user,
+		);
+		$this->conn->delete('*PREFIX*preferences', $where);
 	}
 
 	/**
 	 * @brief Remove app from all users
 	 * @param string $app app
-	 * @return bool
 	 *
 	 * Removes all keys in preferences belonging to the app.
 	 */
-	public static function deleteAppFromAllUsers( $app ) {
-		// No need for more comments
-		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*preferences` WHERE `appid` = ?' );
-		$query->execute( array( $app ));
-
-		return true;
+	public function deleteAppFromAllUsers( $app ) {
+		$where = array(
+			'appid' => $app,
+		);
+		$this->conn->delete('*PREFIX*preferences', $where);
 	}
 }
+
+require_once __DIR__.'/legacy/'.basename(__FILE__);

@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\files\lib;
+namespace OCA\Files;
 
 class Helper
 {
@@ -39,8 +39,8 @@ class Helper
 		}
 
 		if($file['isPreviewAvailable']) {
-			$relativePath = substr($file['path'], 6);
-			return \OC_Helper::previewIcon($relativePath);
+			$pathForPreview = $file['directory'] . '/' . $file['name'];
+			return \OC_Helper::previewIcon($pathForPreview);
 		}
 		return \OC_Helper::mimetypeIcon($file['mimetype']);
 	}
@@ -85,11 +85,11 @@ class Helper
 			}
 			$i['directory'] = $dir;
 			$i['isPreviewAvailable'] = \OCP\Preview::isMimeSupported($i['mimetype']);
-			$i['icon'] = \OCA\files\lib\Helper::determineIcon($i);
+			$i['icon'] = \OCA\Files\Helper::determineIcon($i);
 			$files[] = $i;
 		}
 
-		usort($files, array('\OCA\files\lib\Helper', 'fileCmp'));
+		usort($files, array('\OCA\Files\Helper', 'fileCmp'));
 
 		return $files;
 	}

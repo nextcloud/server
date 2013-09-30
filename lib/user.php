@@ -177,6 +177,7 @@ class OC_User {
 	 * setup the configured backends in config.php
 	 */
 	public static function setupBackends() {
+		OC_App::loadApps(array('prelogin'));
 		$backends = OC_Config::getValue('user_backends', array());
 		foreach ($backends as $i => $config) {
 			$class = $config['class'];
@@ -410,22 +411,18 @@ class OC_User {
 	 * @brief Check if the password is correct
 	 * @param string $uid The username
 	 * @param string $password The password
-	 * @return bool
+	 * @return mixed user id a string on success, false otherwise
 	 *
 	 * Check if the password is correct without logging in the user
 	 * returns the user id or false
 	 */
 	public static function checkPassword($uid, $password) {
-		$user = self::getManager()->get($uid);
-		if ($user) {
-			if ($user->checkPassword($password)) {
-				return $user->getUID();
-			} else {
-				return false;
-			}
-		} else {
-			return false;
+		$manager = self::getManager();
+		$username = $manager->checkPassword($uid, $password);
+		if ($username !== false) {
+			return $username->getUID();
 		}
+		return false;
 	}
 
 	/**

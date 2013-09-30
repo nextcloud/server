@@ -24,7 +24,7 @@ foreach ($files as $file) {
 }
 
 // get array with updated storage stats (e.g. max file size) after upload
-$storageStats = \OCA\files\lib\Helper::buildFileStorageStatistics($dir);
+$storageStats = \OCA\Files\Helper::buildFileStorageStatistics($dir);
 
 if ($success) {
 	OCP\JSON::success(array("data" => array_merge(array("dir" => $dir, "files" => $files), $storageStats)));

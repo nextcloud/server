@@ -87,6 +87,7 @@ $TRANSLATIONS = array(
 "Email" => "Elektronski naslov",
 "Your email address" => "Osebni elektronski naslov",
 "Fill in an email address to enable password recovery" => "Vpišite osebni elektronski naslov in s tem omogočite obnovitev gesla",
+"Profile picture" => "Slika profila",
 "Language" => "Jezik",
 "Help translate" => "Sodelujte pri prevajanju",
 "WebDAV" => "WebDAV",

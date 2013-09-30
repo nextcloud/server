@@ -47,7 +47,7 @@
 	<input type="hidden" name="permissions" value="<?php p($_['permissions']); ?>" id="permissions">
 </div>
 
-<div id="emptycontent" <?php if (!isset($_['files']) or !$_['isCreatable'] or count($_['files']) > 0 or !$_['ajaxLoad']):?>class="hidden"<?php endif; ?>><?php p($l->t('Nothing in here. Upload something!'))?></div>
+<div id="emptycontent" <?php if (!isset($_['files']) or !$_['isCreatable'] or count($_['files']) > 0 or $_['ajaxLoad']):?>class="hidden"<?php endif; ?>><?php p($l->t('Nothing in here. Upload something!'))?></div>
 
 <input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>"></input>
 

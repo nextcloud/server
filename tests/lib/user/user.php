@@ -100,46 +100,6 @@ class User extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($user->delete());
 	}
 
-	public function testCheckPassword() {
-		/**
-		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
-		 */
-		$backend = $this->getMock('\OC_User_Dummy');
-		$backend->expects($this->once())
-			->method('checkPassword')
-			->with($this->equalTo('foo'), $this->equalTo('bar'))
-			->will($this->returnValue(true));
-
-		$backend->expects($this->any())
-			->method('implementsActions')
-			->will($this->returnCallback(function ($actions) {
-				if ($actions === \OC_USER_BACKEND_CHECK_PASSWORD) {
-					return true;
-				} else {
-					return false;
-				}
-			}));
-
-		$user = new \OC\User\User('foo', $backend);
-		$this->assertTrue($user->checkPassword('bar'));
-	}
-
-	public function testCheckPasswordNotSupported() {
-		/**
-		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
-		 */
-		$backend = $this->getMock('\OC_User_Dummy');
-		$backend->expects($this->never())
-			->method('checkPassword');
-
-		$backend->expects($this->any())
-			->method('implementsActions')
-			->will($this->returnValue(false));
-
-		$user = new \OC\User\User('foo', $backend);
-		$this->assertFalse($user->checkPassword('bar'));
-	}
-
 	public function testGetHome() {
 		/**
 		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
