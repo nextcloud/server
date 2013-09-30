@@ -251,6 +251,43 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @medium
 	 */
+	function testGetShareFromFolder() {
+
+		$fileInfo1 = $this->view->getFileInfo($this->filename);
+		$fileInfo2 = $this->view->getFileInfo($this->folder.'/'.$this->filename);
+
+		$result = \OCP\Share::shareItem('file', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+
+		// share was successful?
+		$this->assertTrue($result);
+
+		$result = \OCP\Share::shareItem('file', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK,
+				null, 1);
+
+		// share was successful?
+		$this->assertTrue(is_string($result));
+
+		$_GET['file'] = $this->folder;
+		$_GET['subfiles'] = 'yes';
+
+		$result = Share\Api::getAllShares(array());
+
+		$this->assertTrue($result->succeeded());
+
+        // test should return one share within $this->folder
+		$this->assertTrue(count($result->getData()) === 1);
+
+		\OCP\Share::unshare('file', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+
+		\OCP\Share::unshare('file', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+
+	}
+
+	/**
+	 * @medium
+	 */
 	function testGetShareFromUnknownId() {
 
 		$params = array('id' => 0);
