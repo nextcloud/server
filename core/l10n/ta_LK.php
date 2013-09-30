@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "குழு",
 "Category type not provided." => "பிரிவு வகைகள் வழங்கப்படவில்லை",
 "No category to add?" => "சேர்ப்பதற்கான வகைகள் இல்லையா?",
 "Object type not provided." => "பொருள் வகை வழங்கப்படவில்லை",
@@ -42,6 +43,8 @@ $TRANSLATIONS = array(
 "Yes" => "ஆம்",
 "No" => "இல்லை",
 "Ok" => "சரி",
+"_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "இரத்து செய்க",
 "The object type is not specified." => "பொருள் வகை குறிப்பிடப்படவில்லை.",
 "Error" => "வழு",
 "The app name is not specified." => "செயலி பெயர் குறிப்பிடப்படவில்லை.",

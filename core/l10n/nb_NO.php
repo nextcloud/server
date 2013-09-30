@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s delte »%s« med deg",
+"group" => "gruppe",
 "No category to add?" => "Ingen kategorier å legge til?",
 "This category already exists: %s" => "Denne kategorien finnes allerede: %s",
 "No categories selected for deletion." => "Ingen kategorier merket for sletting.",
@@ -39,6 +40,8 @@ $TRANSLATIONS = array(
 "Yes" => "Ja",
 "No" => "Nei",
 "Ok" => "Ok",
+"_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "Avbryt",
 "Error" => "Feil",
 "Shared" => "Delt",
 "Share" => "Del",

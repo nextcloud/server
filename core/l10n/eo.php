@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s kunhavigis “%s” kun vi",
+"group" => "grupo",
 "Category type not provided." => "Ne proviziĝis tipon de kategorio.",
 "No category to add?" => "Ĉu neniu kategorio estas aldonota?",
 "This category already exists: %s" => "Tiu kategorio jam ekzistas: %s",
@@ -44,6 +45,8 @@ $TRANSLATIONS = array(
 "Yes" => "Jes",
 "No" => "Ne",
 "Ok" => "Akcepti",
+"_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "Nuligi",
 "The object type is not specified." => "Ne indikiĝis tipo de la objekto.",
 "Error" => "Eraro",
 "The app name is not specified." => "Ne indikiĝis nomo de la aplikaĵo.",

@@ -27,8 +27,6 @@
  * upgrading and removing apps.
  */
 class OC_App{
-	static private $activeapp = '';
-	static private $navigation = array();
 	static private $settingsForms = array();
 	static private $adminForms = array();
 	static private $personalForms = array();
@@ -73,11 +71,11 @@ class OC_App{
 
 		if (!defined('DEBUG') || !DEBUG) {
 			if (is_null($types)
-				&& empty(OC_Util::$core_scripts)
-				&& empty(OC_Util::$core_styles)) {
-				OC_Util::$core_scripts = OC_Util::$scripts;
+				&& empty(OC_Util::$coreScripts)
+				&& empty(OC_Util::$coreStyles)) {
+				OC_Util::$coreScripts = OC_Util::$scripts;
 				OC_Util::$scripts = array();
-				OC_Util::$core_styles = OC_Util::$styles;
+				OC_Util::$coreStyles = OC_Util::$styles;
 				OC_Util::$styles = array();
 			}
 		}
@@ -271,7 +269,7 @@ class OC_App{
 
 	/**
 	 * @brief adds an entry to the navigation
-	 * @param string $data array containing the data
+	 * @param array $data array containing the data
 	 * @return bool
 	 *
 	 * This function adds a new entry to the navigation visible to users. $data
@@ -287,11 +285,7 @@ class OC_App{
 	 *     the navigation. Lower values come first.
 	 */
 	public static function addNavigationEntry( $data ) {
-		$data['active']=false;
-		if(!isset($data['icon'])) {
-			$data['icon']='';
-		}
-		OC_App::$navigation[] = $data;
+		OC::$server->getNavigationManager()->add($data);
 		return true;
 	}
 
@@ -305,9 +299,7 @@ class OC_App{
 	 * highlighting the current position of the user.
 	 */
 	public static function setActiveNavigationEntry( $id ) {
-		// load all the apps, to make sure we have all the navigation entries
-		self::loadApps();
-		self::$activeapp = $id;
+		OC::$server->getNavigationManager()->setActiveEntry($id);
 		return true;
 	}
 
@@ -315,15 +307,14 @@ class OC_App{
 	 * @brief Get the navigation entries for the $app
 	 * @param string $app app
 	 * @return array of the $data added with addNavigationEntry
+	 *
+	 * Warning: destroys the existing entries
 	 */
 	public static function getAppNavigationEntries($app) {
 		if(is_file(self::getAppPath($app).'/appinfo/app.php')) {
-			$save = self::$navigation;
-			self::$navigation = array();
+			OC::$server->getNavigationManager()->clear();
 			require $app.'/appinfo/app.php';
-			$app_entries = self::$navigation;
-			self::$navigation = $save;
-			return $app_entries;
+			return OC::$server->getNavigationManager()->getAll();
 		}
 		return array();
 	}
@@ -336,7 +327,7 @@ class OC_App{
 	 * setActiveNavigationEntry
 	 */
 	public static function getActiveNavigationEntry() {
-		return self::$activeapp;
+		return OC::$server->getNavigationManager()->getActiveEntry();
 	}
 
 	/**
@@ -419,8 +410,9 @@ class OC_App{
 
 	// This is private as well. It simply works, so don't ask for more details
 	private static function proceedNavigation( $list ) {
+		$activeapp = OC::$server->getNavigationManager()->getActiveEntry();
 		foreach( $list as &$naventry ) {
-			if( $naventry['id'] == self::$activeapp ) {
+			if( $naventry['id'] == $activeapp ) {
 				$naventry['active'] = true;
 			}
 			else{
@@ -572,7 +564,8 @@ class OC_App{
 	 *   - active: boolean, signals if the user is on this navigation entry
 	 */
 	public static function getNavigation() {
-		$navigation = self::proceedNavigation( self::$navigation );
+		$entries = OC::$server->getNavigationManager()->getAll();
+		$navigation = self::proceedNavigation( $entries );
 		return $navigation;
 	}
 
@@ -667,14 +660,16 @@ class OC_App{
 			}
 			$dh = opendir( $apps_dir['path'] );
 
-			while (($file = readdir($dh)) !== false) {
+			if(is_resource($dh)) {
+				while (($file = readdir($dh)) !== false) {
 
-				if ($file[0] != '.' and is_file($apps_dir['path'].'/'.$file.'/appinfo/app.php')) {
+					if ($file[0] != '.' and is_file($apps_dir['path'].'/'.$file.'/appinfo/app.php')) {
 
-					$apps[] = $file;
+						$apps[] = $file;
+
+					}
 
 				}
-
 			}
 
 		}
@@ -868,10 +863,10 @@ class OC_App{
 
 
 	/**
-	 * Compares the app version with the owncloud version to see if the app 
+	 * Compares the app version with the owncloud version to see if the app
 	 * requires a newer version than the currently active one
 	 * @param array $owncloudVersions array with 3 entries: major minor bugfix
-	 * @param string $appRequired the required version from the xml 
+	 * @param string $appRequired the required version from the xml
 	 * major.minor.bugfix
 	 * @return boolean true if compatible, otherwise false
 	 */

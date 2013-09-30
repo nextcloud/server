@@ -68,6 +68,9 @@ var FileActions = {
 		if ($('tr[data-file="'+file+'"]').data('renaming')) {
 			return;
 		}
+
+		// recreate fileactions
+		parent.children('a.name').find('.fileactions').remove();
 		parent.children('a.name').append('<span class="fileactions" />');
 		var defaultAction = FileActions.getDefault(FileActions.getCurrentMimeType(), FileActions.getCurrentType(), FileActions.getCurrentPermissions());
 
@@ -117,6 +120,8 @@ var FileActions = {
 			addAction('Share', actions.Share);
 		}
 
+		// remove the existing delete action
+		parent.parent().children().last().find('.action.delete').remove();
 		if (actions['Delete']) {
 			var img = FileActions.icons['Delete'];
 			if (img.call) {
@@ -172,7 +177,7 @@ $(document).ready(function () {
 FileActions.register('all', 'Delete', OC.PERMISSION_DELETE, function () {
 	return OC.imagePath('core', 'actions/delete');
 }, function (filename) {
-	if (Files.cancelUpload(filename)) {
+	if (OC.Upload.cancelUpload($('#dir').val(), filename)) {
 		if (filename.substr) {
 			filename = [filename];
 		}
@@ -196,13 +201,12 @@ FileActions.register('all', 'Rename', OC.PERMISSION_UPDATE, function () {
 	FileList.rename(filename);
 });
 
-
 FileActions.register('dir', 'Open', OC.PERMISSION_READ, '', function (filename) {
-	var dir = $('#dir').val();
+	var dir = $('#dir').val() || '/';
 	if (dir !== '/') {
 		dir = dir + '/';
 	}
-	window.location = OC.linkTo('files', 'index.php') + '?dir=' + encodeURIComponent(dir + filename);
+	FileList.changeDirectory(dir + filename);
 });
 
 FileActions.setDefault('dir', 'Open');

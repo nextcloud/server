@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "Den/D' %s huet »%s« mat dir gedeelt",
+"group" => "Grupp",
 "Category type not provided." => "Typ vun der Kategorie net uginn.",
 "No category to add?" => "Keng Kategorie fir bäizesetzen?",
 "This category already exists: %s" => "Dës Kategorie existéiert schon: %s",
@@ -41,10 +42,11 @@ $TRANSLATIONS = array(
 "last year" => "Lescht Joer",
 "years ago" => "Joren hir",
 "Choose" => "Auswielen",
-"Error loading file picker template" => "Feeler beim Luede vun der Virlag fir d'Fichiers-Selektioun",
 "Yes" => "Jo",
 "No" => "Nee",
 "Ok" => "OK",
+"_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "Ofbriechen",
 "The object type is not specified." => "Den Typ vum Object ass net uginn.",
 "Error" => "Feeler",
 "The app name is not specified." => "Den Numm vun der App ass net uginn.",

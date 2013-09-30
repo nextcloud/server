@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s je delil »%s« z vami",
+"group" => "skupina",
 "Category type not provided." => "Vrsta kategorije ni podana.",
 "No category to add?" => "Ali ni kategorije za dodajanje?",
 "This category already exists: %s" => "Kategorija že obstaja: %s",
@@ -41,10 +42,11 @@ $TRANSLATIONS = array(
 "last year" => "lansko leto",
 "years ago" => "let nazaj",
 "Choose" => "Izbor",
-"Error loading file picker template" => "Napaka pri nalaganju predloge za izbor dokumenta",
 "Yes" => "Da",
 "No" => "Ne",
 "Ok" => "V redu",
+"_{count} file conflict_::_{count} file conflicts_" => array("","","",""),
+"Cancel" => "Prekliči",
 "The object type is not specified." => "Vrsta predmeta ni podana.",
 "Error" => "Napaka",
 "The app name is not specified." => "Ime programa ni podano.",

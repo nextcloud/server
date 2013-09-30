@@ -3,14 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Christophe Lherieau <skimpax@gmail.com>, 2013
 # Cyril Glapa <kyriog@gmail.com>, 2013
+# ogre_sympathique <ogre.sympathique@speed.1s.fr>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-25 19:18-0400\n"
-"PO-Revision-Date: 2013-08-25 23:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-20 10:45-0400\n"
+"PO-Revision-Date: 2013-09-19 13:10+0000\n"
+"Last-Translator: ogre_sympathique <ogre.sympathique@speed.1s.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,11 +25,11 @@ msgstr ""
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr ""
+msgstr "L'application \"%s\" ne peut être installée car elle n'est pas compatible avec cette version de ownCloud."
 
 #: app.php:250
 msgid "No app name specified"
-msgstr ""
+msgstr "Aucun nom d'application spécifié"
 
 #: app.php:361
 msgid "Help"
@@ -49,10 +51,22 @@ msgstr "Utilisateurs"
 msgid "Admin"
 msgstr "Administration"
 
-#: app.php:837
+#: app.php:839
 #, php-format
 msgid "Failed to upgrade \"%s\"."
-msgstr ""
+msgstr "Echec de la mise à niveau \"%s\"."
+
+#: avatar.php:56
+msgid "Custom profile pictures don't work with encryption yet"
+msgstr "Les images de profil personnalisées ne fonctionnent pas encore avec le système de chiffrement."
+
+#: avatar.php:64
+msgid "Unknown filetype"
+msgstr "Type de fichier inconnu"
+
+#: avatar.php:69
+msgid "Invalid image"
+msgstr "Image invalide"
 
 #: defaults.php:35
 msgid "web services under your control"
@@ -61,7 +75,7 @@ msgstr "services web sous votre contrôle"
 #: files.php:66 files.php:98
 #, php-format
 msgid "cannot open \"%s\""
-msgstr ""
+msgstr "impossible d'ouvrir \"%s\""
 
 #: files.php:226
 msgid "ZIP download is turned off."
@@ -83,63 +97,63 @@ msgstr "Les fichiers sélectionnés sont trop volumineux pour être compressés.
 msgid ""
 "Download the files in smaller chunks, seperately or kindly ask your "
 "administrator."
-msgstr ""
+msgstr "Télécharger les fichiers en parties plus petites, séparément ou demander avec bienveillance à votre administrateur."
 
 #: installer.php:63
 msgid "No source specified when installing app"
-msgstr ""
+msgstr "Aucune source spécifiée pour installer l'application"
 
 #: installer.php:70
 msgid "No href specified when installing app from http"
-msgstr ""
+msgstr "Aucun href spécifié pour installer l'application par http"
 
 #: installer.php:75
 msgid "No path specified when installing app from local file"
-msgstr ""
+msgstr "Aucun chemin spécifié pour installer l'application depuis un fichier local"
 
 #: installer.php:89
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr ""
+msgstr "Les archives de type %s ne sont pas supportées"
 
 #: installer.php:103
 msgid "Failed to open archive when installing app"
-msgstr ""
+msgstr "Échec de l'ouverture de l'archive lors de l'installation de l'application"
 
-#: installer.php:123
+#: installer.php:125
 msgid "App does not provide an info.xml file"
-msgstr ""
+msgstr "L'application ne fournit pas de fichier info.xml"
 
-#: installer.php:129
+#: installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
-msgstr ""
+msgstr "L'application ne peut être installée car elle contient du code non-autorisé"
 
-#: installer.php:138
+#: installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr ""
+msgstr "L'application ne peut être installée car elle n'est pas compatible avec cette version de ownCloud"
 
-#: installer.php:144
+#: installer.php:146
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
-msgstr ""
+msgstr "L'application ne peut être installée car elle contient la balise <shipped>true</shipped> qui n'est pas autorisée pour les applications non-diffusées"
 
-#: installer.php:150
+#: installer.php:152
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr ""
+msgstr "L'application ne peut être installée car la version de info.xml/version n'est identique à celle indiquée sur l'app store"
 
-#: installer.php:160
+#: installer.php:162
 msgid "App directory already exists"
-msgstr ""
+msgstr "Le dossier de l'application existe déjà"
 
-#: installer.php:173
+#: installer.php:175
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr ""
+msgstr "Impossible de créer le dossier de l'application. Corrigez les droits d'accès. %s"
 
 #: json.php:28
 msgid "Application is not enabled"
@@ -153,15 +167,15 @@ msgstr "Erreur d'authentification"
 msgid "Token expired. Please reload page."
 msgstr "La session a expiré. Veuillez recharger la page."
 
-#: search/provider/file.php:17 search/provider/file.php:35
+#: search/provider/file.php:18 search/provider/file.php:36
 msgid "Files"
 msgstr "Fichiers"
 
-#: search/provider/file.php:26 search/provider/file.php:33
+#: search/provider/file.php:27 search/provider/file.php:34
 msgid "Text"
 msgstr "Texte"
 
-#: search/provider/file.php:29
+#: search/provider/file.php:30
 msgid "Images"
 msgstr "Images"
 
@@ -265,57 +279,57 @@ msgstr "Votre serveur web, n'est pas correctement configuré pour permettre la s
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Veuillez vous référer au <a href='%s'>guide d'installation</a>."
 
-#: template/functions.php:80
+#: template/functions.php:96
 msgid "seconds ago"
 msgstr "il y a quelques secondes"
 
-#: template/functions.php:81
+#: template/functions.php:97
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "il y a %n minutes"
 
-#: template/functions.php:82
+#: template/functions.php:98
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "Il y a %n heures"
 
-#: template/functions.php:83
+#: template/functions.php:99
 msgid "today"
 msgstr "aujourd'hui"
 
-#: template/functions.php:84
+#: template/functions.php:100
 msgid "yesterday"
 msgstr "hier"
 
-#: template/functions.php:85
+#: template/functions.php:101
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "il y a %n jours"
 
-#: template/functions.php:86
+#: template/functions.php:102
 msgid "last month"
 msgstr "le mois dernier"
 
-#: template/functions.php:87
+#: template/functions.php:103
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "Il y a %n mois"
 
-#: template/functions.php:88
+#: template/functions.php:104
 msgid "last year"
 msgstr "l'année dernière"
 
-#: template/functions.php:89
+#: template/functions.php:105
 msgid "years ago"
 msgstr "il y a plusieurs années"
 
 #: template.php:297
 msgid "Caused by:"
-msgstr ""
+msgstr "Causé par :"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format

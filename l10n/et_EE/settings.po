@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-27 11:18-0400\n"
-"PO-Revision-Date: 2013-08-26 05:10+0000\n"
-"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
+"POT-Creation-Date: 2013-09-20 10:45-0400\n"
+"PO-Revision-Date: 2013-09-20 14:45+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +24,7 @@ msgid "Unable to load list from App Store"
 msgstr "App Store'i nimekirja laadimine ebaõnnestus"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20
+#: ajax/togglegroups.php:20 changepassword/controller.php:55
 msgid "Authentication error"
 msgstr "Autentimise viga"
 
@@ -86,55 +86,88 @@ msgstr "Kasutajat ei saa eemaldada grupist %s"
 msgid "Couldn't update app."
 msgstr "Rakenduse uuendamine ebaõnnestus."
 
-#: js/apps.js:35
+#: changepassword/controller.php:20
+msgid "Wrong password"
+msgstr "Vale parool"
+
+#: changepassword/controller.php:42
+msgid "No user supplied"
+msgstr "Kasutajat ei sisestatud"
+
+#: changepassword/controller.php:74
+msgid ""
+"Please provide an admin recovery password, otherwise all user data will be "
+"lost"
+msgstr "Palun sisesta administraatori taasteparool, muidu kaotad kõik kasutajate andmed"
+
+#: changepassword/controller.php:79
+msgid ""
+"Wrong admin recovery password. Please check the password and try again."
+msgstr "Vale administraatori taasteparool. Palun kontrolli parooli ning proovi uuesti."
+
+#: changepassword/controller.php:87
+msgid ""
+"Back-end doesn't support password change, but the users encryption key was "
+"successfully updated."
+msgstr "Tagarakend ei toeta parooli vahetust, kuid kasutaja krüptimisvõti uuendati edukalt."
+
+#: changepassword/controller.php:92 changepassword/controller.php:103
+msgid "Unable to change password"
+msgstr "Ei suuda parooli muuta"
+
+#: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Uuenda versioonile {appversion}"
 
-#: js/apps.js:41 js/apps.js:74 js/apps.js:100
+#: js/apps.js:49 js/apps.js:82 js/apps.js:108
 msgid "Disable"
 msgstr "Lülita välja"
 
-#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
+#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
 msgid "Enable"
 msgstr "Lülita sisse"
 
-#: js/apps.js:63
+#: js/apps.js:71
 msgid "Please wait...."
 msgstr "Palun oota..."
 
-#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+#: js/apps.js:79 js/apps.js:80 js/apps.js:100
 msgid "Error while disabling app"
 msgstr "Viga rakendi keelamisel"
 
-#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+#: js/apps.js:99 js/apps.js:112 js/apps.js:113
 msgid "Error while enabling app"
 msgstr "Viga rakendi lubamisel"
 
-#: js/apps.js:115
+#: js/apps.js:123
 msgid "Updating...."
 msgstr "Uuendamine..."
 
-#: js/apps.js:118
+#: js/apps.js:126
 msgid "Error while updating app"
 msgstr "Viga rakenduse uuendamisel"
 
-#: js/apps.js:118
+#: js/apps.js:126
 msgid "Error"
 msgstr "Viga"
 
-#: js/apps.js:119 templates/apps.php:43
+#: js/apps.js:127 templates/apps.php:43
 msgid "Update"
 msgstr "Uuenda"
 
-#: js/apps.js:122
+#: js/apps.js:130
 msgid "Updated"
 msgstr "Uuendatud"
 
-#: js/personal.js:150
+#: js/personal.js:220
+msgid "Select a profile picture"
+msgstr "Vali profiili pilt"
+
+#: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Dekrüpteerin faile... Palun oota, see võib võtta veidi aega."
 
-#: js/personal.js:172
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "Salvestamine..."
 
@@ -150,16 +183,16 @@ msgstr "tagasi"
 msgid "Unable to remove user"
 msgstr "Kasutaja eemaldamine ebaõnnestus"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:87
-#: templates/users.php:112
+#: js/users.js:92 templates/users.php:26 templates/users.php:90
+#: templates/users.php:118
 msgid "Groups"
 msgstr "Grupid"
 
-#: js/users.js:97 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
 msgstr "Grupi admin"
 
-#: js/users.js:120 templates/users.php:164
+#: js/users.js:120 templates/users.php:170
 msgid "Delete"
 msgstr "Kustuta"
 
@@ -179,7 +212,7 @@ msgstr "Viga kasutaja loomisel"
 msgid "A valid password must be provided"
 msgstr "Sisesta nõuetele vastav parool"
 
-#: personal.php:40 personal.php:41
+#: personal.php:45 personal.php:46
 msgid "__language_name__"
 msgstr "Eesti"
 
@@ -345,11 +378,11 @@ msgstr "Rohkem"
 msgid "Less"
 msgstr "Vähem"
 
-#: templates/admin.php:242 templates/personal.php:140
+#: templates/admin.php:242 templates/personal.php:161
 msgid "Version"
 msgstr "Versioon"
 
-#: templates/admin.php:246 templates/personal.php:143
+#: templates/admin.php:246 templates/personal.php:164
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -416,7 +449,7 @@ msgstr "Näita veelkord Esmase Käivituse Juhendajat"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Kasutad <strong>%s</strong> saadavalolevast <strong>%s</strong>"
 
-#: templates/personal.php:39 templates/users.php:23 templates/users.php:86
+#: templates/personal.php:39 templates/users.php:23 templates/users.php:89
 msgid "Password"
 msgstr "Parool"
 
@@ -440,7 +473,7 @@ msgstr "Uus parool"
 msgid "Change password"
 msgstr "Muuda parooli"
 
-#: templates/personal.php:58 templates/users.php:85
+#: templates/personal.php:58 templates/users.php:88
 msgid "Display Name"
 msgstr "Näidatav nimi"
 
@@ -456,38 +489,66 @@ msgstr "Sinu e-posti aadress"
 msgid "Fill in an email address to enable password recovery"
 msgstr "Parooli taastamise sisse lülitamiseks sisesta e-posti aadress"
 
-#: templates/personal.php:85 templates/personal.php:86
+#: templates/personal.php:86
+msgid "Profile picture"
+msgstr "Profiili pilt"
+
+#: templates/personal.php:90
+msgid "Upload new"
+msgstr "Laadi uus"
+
+#: templates/personal.php:92
+msgid "Select new from Files"
+msgstr "Vali failidest uus"
+
+#: templates/personal.php:93
+msgid "Remove image"
+msgstr "Eemalda pilt"
+
+#: templates/personal.php:94
+msgid "Either png or jpg. Ideally square but you will be able to crop it."
+msgstr "Kas png või jpg. Võimalikult ruudukujuline, kuid Sul on võimalus veel lõigata."
+
+#: templates/personal.php:97
+msgid "Abort"
+msgstr "Katkesta"
+
+#: templates/personal.php:98
+msgid "Choose as profile image"
+msgstr "Vali kui profiili pilt"
+
+#: templates/personal.php:106 templates/personal.php:107
 msgid "Language"
 msgstr "Keel"
 
-#: templates/personal.php:98
+#: templates/personal.php:119
 msgid "Help translate"
 msgstr "Aita tõlkida"
 
-#: templates/personal.php:104
+#: templates/personal.php:125
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:106
+#: templates/personal.php:127
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
 "target=\"_blank\">access your Files via WebDAV</a>"
 msgstr "Kasuta seda aadressi <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">oma failidele ligipääsuks WebDAV kaudu</a>"
 
-#: templates/personal.php:117
+#: templates/personal.php:138
 msgid "Encryption"
 msgstr "Krüpteerimine"
 
-#: templates/personal.php:119
+#: templates/personal.php:140
 msgid "The encryption app is no longer enabled, decrypt all your file"
 msgstr "Küpteeringu rakend pole lubatud, dekrüpteeri kõik oma failid"
 
-#: templates/personal.php:125
+#: templates/personal.php:146
 msgid "Log-in password"
 msgstr "Sisselogimise parool"
 
-#: templates/personal.php:130
+#: templates/personal.php:151
 msgid "Decrypt all Files"
 msgstr "Dekrüpteeri kõik failid"
 
@@ -513,30 +574,30 @@ msgstr "Sisesta taasteparool kasutaja failide taastamiseks paroolivahetuse käig
 msgid "Default Storage"
 msgstr "Vaikimisi maht"
 
-#: templates/users.php:48 templates/users.php:142
+#: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
 msgstr "Piiramatult"
 
-#: templates/users.php:66 templates/users.php:157
+#: templates/users.php:66 templates/users.php:163
 msgid "Other"
 msgstr "Muu"
 
-#: templates/users.php:84
+#: templates/users.php:87
 msgid "Username"
 msgstr "Kasutajanimi"
 
-#: templates/users.php:91
+#: templates/users.php:94
 msgid "Storage"
 msgstr "Maht"
 
-#: templates/users.php:102
+#: templates/users.php:108
 msgid "change display name"
 msgstr "muuda näidatavat nime"
 
-#: templates/users.php:106
+#: templates/users.php:112
 msgid "set new password"
 msgstr "määra uus parool"
 
-#: templates/users.php:137
+#: templates/users.php:143
 msgid "Default"
 msgstr "Vaikeväärtus"

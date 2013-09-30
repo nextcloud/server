@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "nhóm",
 "Category type not provided." => "Kiểu hạng mục không được cung cấp.",
 "No category to add?" => "Không có danh mục được thêm?",
 "This category already exists: %s" => "Danh mục này đã tồn tại: %s",
@@ -43,6 +44,8 @@ $TRANSLATIONS = array(
 "Yes" => "Có",
 "No" => "Không",
 "Ok" => "Đồng ý",
+"_{count} file conflict_::_{count} file conflicts_" => array(""),
+"Cancel" => "Hủy",
 "The object type is not specified." => "Loại đối tượng không được chỉ định.",
 "Error" => "Lỗi",
 "The app name is not specified." => "Tên ứng dụng không được chỉ định.",

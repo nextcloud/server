@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Daniel Sandman <revoltism@gmail.com>, 2013
 # Gunnar Norin <blittan@xbmc.org>, 2013
 # Jan Busk, 2013
 # Jan Busk, 2013
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-25 19:18-0400\n"
-"PO-Revision-Date: 2013-08-25 23:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-29 00:02-0400\n"
+"PO-Revision-Date: 2013-09-28 01:44+0000\n"
+"Last-Translator: Daniel Sandman <revoltism@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +29,7 @@ msgid "Unable to load list from App Store"
 msgstr "Kan inte ladda listan från App Store"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20
+#: ajax/togglegroups.php:20 changepassword/controller.php:55
 msgid "Authentication error"
 msgstr "Fel vid autentisering"
 
@@ -90,55 +91,88 @@ msgstr "Kan inte radera användare från gruppen %s"
 msgid "Couldn't update app."
 msgstr "Kunde inte uppdatera appen."
 
-#: js/apps.js:35
+#: changepassword/controller.php:20
+msgid "Wrong password"
+msgstr "Fel lösenord"
+
+#: changepassword/controller.php:42
+msgid "No user supplied"
+msgstr "Ingen användare angiven"
+
+#: changepassword/controller.php:74
+msgid ""
+"Please provide an admin recovery password, otherwise all user data will be "
+"lost"
+msgstr "Ange ett återställningslösenord för administratören. Annars kommer all användardata förloras"
+
+#: changepassword/controller.php:79
+msgid ""
+"Wrong admin recovery password. Please check the password and try again."
+msgstr "Felaktigt återställningslösenord för administratör. Kolla lösenordet och prova igen."
+
+#: changepassword/controller.php:87
+msgid ""
+"Back-end doesn't support password change, but the users encryption key was "
+"successfully updated."
+msgstr "Gränssnittet stödjer inte byte av lösenord, men användarnas krypteringsnyckel blev uppdaterad."
+
+#: changepassword/controller.php:92 changepassword/controller.php:103
+msgid "Unable to change password"
+msgstr "Kunde inte ändra lösenord"
+
+#: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Uppdatera till {appversion}"
 
-#: js/apps.js:41 js/apps.js:74 js/apps.js:100
+#: js/apps.js:49 js/apps.js:82 js/apps.js:110
 msgid "Disable"
 msgstr "Deaktivera"
 
-#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
+#: js/apps.js:49 js/apps.js:90 js/apps.js:103 js/apps.js:119
 msgid "Enable"
 msgstr "Aktivera"
 
-#: js/apps.js:63
+#: js/apps.js:71
 msgid "Please wait...."
 msgstr "Var god vänta..."
 
-#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+#: js/apps.js:79 js/apps.js:80 js/apps.js:101
 msgid "Error while disabling app"
-msgstr ""
+msgstr "Fel vid inaktivering av app"
 
-#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+#: js/apps.js:100 js/apps.js:114 js/apps.js:115
 msgid "Error while enabling app"
-msgstr ""
+msgstr "Fel vid aktivering av app"
 
-#: js/apps.js:115
+#: js/apps.js:125
 msgid "Updating...."
 msgstr "Uppdaterar..."
 
-#: js/apps.js:118
+#: js/apps.js:128
 msgid "Error while updating app"
 msgstr "Fel uppstod vid uppdatering av appen"
 
-#: js/apps.js:118
+#: js/apps.js:128
 msgid "Error"
 msgstr "Fel"
 
-#: js/apps.js:119 templates/apps.php:43
+#: js/apps.js:129 templates/apps.php:43
 msgid "Update"
 msgstr "Uppdatera"
 
-#: js/apps.js:122
+#: js/apps.js:132
 msgid "Updated"
 msgstr "Uppdaterad"
 
-#: js/personal.js:150
+#: js/personal.js:221
+msgid "Select a profile picture"
+msgstr "Välj en profilbild"
+
+#: js/personal.js:266
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Dekrypterar filer... Vänligen vänta, detta kan ta en stund."
 
-#: js/personal.js:172
+#: js/personal.js:288
 msgid "Saving..."
 msgstr "Sparar..."
 
@@ -154,16 +188,16 @@ msgstr "ångra"
 msgid "Unable to remove user"
 msgstr "Kan inte ta bort användare"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:87
-#: templates/users.php:112
+#: js/users.js:92 templates/users.php:26 templates/users.php:90
+#: templates/users.php:118
 msgid "Groups"
 msgstr "Grupper"
 
-#: js/users.js:97 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
 msgstr "Gruppadministratör"
 
-#: js/users.js:120 templates/users.php:164
+#: js/users.js:120 templates/users.php:170
 msgid "Delete"
 msgstr "Radera"
 
@@ -183,7 +217,7 @@ msgstr "Fel vid skapande av användare"
 msgid "A valid password must be provided"
 msgstr "Ett giltigt lösenord måste anges"
 
-#: personal.php:40 personal.php:41
+#: personal.php:45 personal.php:46
 msgid "__language_name__"
 msgstr "__language_name__"
 
@@ -349,11 +383,11 @@ msgstr "Mer"
 msgid "Less"
 msgstr "Mindre"
 
-#: templates/admin.php:242 templates/personal.php:140
+#: templates/admin.php:242 templates/personal.php:161
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin.php:246 templates/personal.php:143
+#: templates/admin.php:246 templates/personal.php:164
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -420,7 +454,7 @@ msgstr "Visa Första uppstarts-guiden igen"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Du har använt <strong>%s</strong> av tillgängliga <strong>%s</strong>"
 
-#: templates/personal.php:39 templates/users.php:23 templates/users.php:86
+#: templates/personal.php:39 templates/users.php:23 templates/users.php:89
 msgid "Password"
 msgstr "Lösenord"
 
@@ -444,7 +478,7 @@ msgstr "Nytt lösenord"
 msgid "Change password"
 msgstr "Ändra lösenord"
 
-#: templates/personal.php:58 templates/users.php:85
+#: templates/personal.php:58 templates/users.php:88
 msgid "Display Name"
 msgstr "Visningsnamn"
 
@@ -460,38 +494,66 @@ msgstr "Din e-postadress"
 msgid "Fill in an email address to enable password recovery"
 msgstr "Fyll i en e-postadress för att aktivera återställning av lösenord"
 
-#: templates/personal.php:85 templates/personal.php:86
+#: templates/personal.php:86
+msgid "Profile picture"
+msgstr "Profilbild"
+
+#: templates/personal.php:90
+msgid "Upload new"
+msgstr "Ladda upp ny"
+
+#: templates/personal.php:92
+msgid "Select new from Files"
+msgstr "Välj ny från filer"
+
+#: templates/personal.php:93
+msgid "Remove image"
+msgstr "Radera bild"
+
+#: templates/personal.php:94
+msgid "Either png or jpg. Ideally square but you will be able to crop it."
+msgstr "Antingen png eller jpg. Helst fyrkantig, men du kommer att kunna beskära den."
+
+#: templates/personal.php:97
+msgid "Abort"
+msgstr "Avbryt"
+
+#: templates/personal.php:98
+msgid "Choose as profile image"
+msgstr "Välj som profilbild"
+
+#: templates/personal.php:106 templates/personal.php:107
 msgid "Language"
 msgstr "Språk"
 
-#: templates/personal.php:98
+#: templates/personal.php:119
 msgid "Help translate"
 msgstr "Hjälp att översätta"
 
-#: templates/personal.php:104
+#: templates/personal.php:125
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:106
+#: templates/personal.php:127
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
 "target=\"_blank\">access your Files via WebDAV</a>"
 msgstr "Använd denna adress för att <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">komma åt dina filer via WebDAV</a>"
 
-#: templates/personal.php:117
+#: templates/personal.php:138
 msgid "Encryption"
 msgstr "Kryptering"
 
-#: templates/personal.php:119
+#: templates/personal.php:140
 msgid "The encryption app is no longer enabled, decrypt all your file"
 msgstr "Appen för kryptering är inte längre aktiverad, dekryptera alla dina filer"
 
-#: templates/personal.php:125
+#: templates/personal.php:146
 msgid "Log-in password"
 msgstr "Inloggningslösenord"
 
-#: templates/personal.php:130
+#: templates/personal.php:151
 msgid "Decrypt all Files"
 msgstr "Dekryptera alla filer"
 
@@ -517,30 +579,30 @@ msgstr "Enter the recovery password in order to recover the users files during p
 msgid "Default Storage"
 msgstr "Förvald lagring"
 
-#: templates/users.php:48 templates/users.php:142
+#: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
 msgstr "Obegränsad"
 
-#: templates/users.php:66 templates/users.php:157
+#: templates/users.php:66 templates/users.php:163
 msgid "Other"
 msgstr "Annat"
 
-#: templates/users.php:84
+#: templates/users.php:87
 msgid "Username"
 msgstr "Användarnamn"
 
-#: templates/users.php:91
+#: templates/users.php:94
 msgid "Storage"
 msgstr "Lagring"
 
-#: templates/users.php:102
+#: templates/users.php:108
 msgid "change display name"
 msgstr "ändra visningsnamn"
 
-#: templates/users.php:106
+#: templates/users.php:112
 msgid "set new password"
 msgstr "ange nytt lösenord"
 
-#: templates/users.php:137
+#: templates/users.php:143
 msgid "Default"
 msgstr "Förvald"

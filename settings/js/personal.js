@@ -34,6 +34,7 @@ function changeDisplayName(){
                 $('#oldDisplayName').text($('#displayName').val());
                 // update displayName on the top right expand button
                 $('#expandDisplayName').text($('#displayName').val());
+                updateAvatar();
             }
             else{
                 $('#newdisplayname').val(data.data.displayName);
@@ -44,6 +45,78 @@ function changeDisplayName(){
     }
 }
 
+function updateAvatar () {
+	$headerdiv = $('#header .avatardiv');
+	$displaydiv = $('#displayavatar .avatardiv');
+
+	$headerdiv.css({'background-color': ''});
+	$headerdiv.avatar(OC.currentUser, 32, true);
+	$displaydiv.css({'background-color': ''});
+	$displaydiv.avatar(OC.currentUser, 128, true);
+}
+
+function showAvatarCropper() {
+	$cropper = $('#cropper');
+	$cropper.prepend("<img>");
+	$cropperImage = $('#cropper img');
+
+	$cropperImage.attr('src', OC.Router.generate('core_avatar_get_tmp')+'?requesttoken='+oc_requesttoken+'#'+Math.floor(Math.random()*1000));
+
+	// Looks weird, but on('load', ...) doesn't work in IE8
+	$cropperImage.ready(function(){
+		$('#displayavatar').hide();
+		$cropper.show();
+
+		$cropperImage.Jcrop({
+			onChange: saveCoords,
+			onSelect: saveCoords,
+			aspectRatio: 1,
+			boxHeight: 500,
+			boxWidth: 500,
+			setSelect: [0, 0, 300, 300]
+		});
+	});
+}
+
+function sendCropData() {
+	cleanCropper();
+
+	var cropperdata = $('#cropper').data();
+	var data = {
+		x: cropperdata.x,
+		y: cropperdata.y,
+		w: cropperdata.w,
+		h: cropperdata.h
+	};
+	$.post(OC.Router.generate('core_avatar_post_cropped'), {crop: data}, avatarResponseHandler);
+}
+
+function saveCoords(c) {
+	$('#cropper').data(c);
+}
+
+function cleanCropper() {
+	$cropper = $('#cropper');
+	$('#displayavatar').show();
+	$cropper.hide();
+	$('.jcrop-holder').remove();
+	$('#cropper img').removeData('Jcrop').removeAttr('style').removeAttr('src');
+	$('#cropper img').remove();
+}
+
+function avatarResponseHandler(data) {
+	$warning = $('#avatar .warning');
+	$warning.hide();
+	if (data.status === "success") {
+		updateAvatar();
+	} else if (data.data === "notsquare") {
+		showAvatarCropper();
+	} else {
+		$warning.show();
+		$warning.text(data.data.message);
+	}
+}
+
 $(document).ready(function(){
 	$("#passwordbutton").click( function(){
 		if ($('#pass1').val() !== '' && $('#pass2').val() !== '') {
@@ -52,14 +125,17 @@ $(document).ready(function(){
 			$('#passwordchanged').hide();
 			$('#passworderror').hide();
 			// Ajax foo
-			$.post( 'ajax/changepassword.php', post, function(data){
+			$.post(OC.Router.generate('settings_personal_changepassword'), post, function(data){
 				if( data.status === "success" ){
 					$('#pass1').val('');
 					$('#pass2').val('');
 					$('#passwordchanged').show();
-				}
-				else{
-					$('#passworderror').html( data.data.message );
+				} else{
+					if (typeof(data.data) !== "undefined") {
+						$('#passworderror').html(data.data.message);
+					} else {
+						$('#passworderror').html(t('Unable to change password'));
+					}
 					$('#passworderror').show();
 				}
 			});
@@ -94,7 +170,7 @@ $(document).ready(function(){
 	$("#languageinput").chosen();
 	// Show only the not selectable optgroup
 	// Choosen only shows optgroup-labels if there are options in the optgroup
-	$(".languagedivider").remove();
+	$(".languagedivider").hide();
 
 	$("#languageinput").change( function(){
 		// Serialize the data
@@ -128,6 +204,46 @@ $(document).ready(function(){
 		}
 	});
 	
+	var uploadparms = {
+		done: function(e, data) {
+			avatarResponseHandler(data.result);
+		}
+	};
+
+	$('#uploadavatarbutton').click(function(){
+		$('#uploadavatar').click();
+	});
+
+	$('#uploadavatar').fileupload(uploadparms);
+
+	$('#selectavatar').click(function(){
+		OC.dialogs.filepicker(
+			t('settings', "Select a profile picture"),
+			function(path){
+				$.post(OC.Router.generate('core_avatar_post'), {path: path}, avatarResponseHandler);
+			},
+			false,
+			["image/png", "image/jpeg"]
+		);
+	});
+
+	$('#removeavatar').click(function(){
+		$.ajax({
+			type:	'DELETE',
+			url:	OC.Router.generate('core_avatar_delete'),
+			success: function(msg) {
+				updateAvatar();
+			}
+		});
+	});
+
+	$('#abortcropperbutton').click(function(){
+		cleanCropper();
+	});
+
+	$('#sendcropperbutton').click(function(){
+		sendCropData();
+	});
 } );
 
 OC.Encryption = {

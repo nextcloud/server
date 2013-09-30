@@ -3,15 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
+# plazmism <gomidori@live.jp>, 2013
 # Koichi MATSUMOTO <mzch@me.com>, 2013
 # tt yn <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-25 19:18-0400\n"
-"PO-Revision-Date: 2013-08-25 23:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-22 12:56-0400\n"
+"PO-Revision-Date: 2013-09-21 13:50+0000\n"
+"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,11 +26,11 @@ msgstr ""
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr ""
+msgstr " \"%s\" アプリは、このバージョンのownCloudと互換性がない為、インストールできません。"
 
 #: app.php:250
 msgid "No app name specified"
-msgstr ""
+msgstr "アプリ名が未指定"
 
 #: app.php:361
 msgid "Help"
@@ -50,10 +52,22 @@ msgstr "ユーザ"
 msgid "Admin"
 msgstr "管理"
 
-#: app.php:837
+#: app.php:839
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "\"%s\" へのアップグレードに失敗しました。"
+
+#: avatar.php:56
+msgid "Custom profile pictures don't work with encryption yet"
+msgstr "暗号無しでは利用不可なカスタムプロフィール画像"
+
+#: avatar.php:64
+msgid "Unknown filetype"
+msgstr "不明なファイルタイプ"
+
+#: avatar.php:69
+msgid "Invalid image"
+msgstr "無効な画像"
 
 #: defaults.php:35
 msgid "web services under your control"
@@ -88,59 +102,59 @@ msgstr "ファイルは、小さいファイルに分割されてダウンロー
 
 #: installer.php:63
 msgid "No source specified when installing app"
-msgstr ""
+msgstr "アプリインストール時のソースが未指定"
 
 #: installer.php:70
 msgid "No href specified when installing app from http"
-msgstr ""
+msgstr "アプリインストール時のhttpの URL が未指定"
 
 #: installer.php:75
 msgid "No path specified when installing app from local file"
-msgstr ""
+msgstr "アプリインストール時のローカルファイルのパスが未指定"
 
 #: installer.php:89
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr ""
+msgstr "\"%s\"タイプのアーカイブ形式は未サポート"
 
 #: installer.php:103
 msgid "Failed to open archive when installing app"
-msgstr ""
+msgstr "アプリをインストール中にアーカイブファイルを開けませんでした。"
 
-#: installer.php:123
+#: installer.php:125
 msgid "App does not provide an info.xml file"
-msgstr ""
+msgstr "アプリにinfo.xmlファイルが入っていません"
 
-#: installer.php:129
+#: installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
-msgstr ""
+msgstr "アプリで許可されないコードが入っているのが原因でアプリがインストールできません"
 
-#: installer.php:138
+#: installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr ""
+msgstr "アプリは、このバージョンのownCloudと互換性がない為、インストールできません。"
 
-#: installer.php:144
+#: installer.php:146
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
-msgstr ""
+msgstr "非shippedアプリには許可されない<shipped>true</shipped>タグが含まれているためにアプリをインストール出来ません。"
 
-#: installer.php:150
+#: installer.php:152
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr ""
+msgstr "info.xml/versionのバージョンがアプリストアのバージョンと合っていない為、アプリはインストールされません"
 
-#: installer.php:160
+#: installer.php:162
 msgid "App directory already exists"
-msgstr ""
+msgstr "アプリディレクトリは既に存在します"
 
-#: installer.php:173
+#: installer.php:175
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr ""
+msgstr "アプリフォルダを作成出来ませんでした。%s のパーミッションを修正してください。"
 
 #: json.php:28
 msgid "Application is not enabled"
@@ -154,15 +168,15 @@ msgstr "認証エラー"
 msgid "Token expired. Please reload page."
 msgstr "トークンが無効になりました。ページを再読込してください。"
 
-#: search/provider/file.php:17 search/provider/file.php:35
+#: search/provider/file.php:18 search/provider/file.php:36
 msgid "Files"
 msgstr "ファイル"
 
-#: search/provider/file.php:26 search/provider/file.php:33
+#: search/provider/file.php:27 search/provider/file.php:34
 msgid "Text"
 msgstr "TTY TDD"
 
-#: search/provider/file.php:29
+#: search/provider/file.php:30
 msgid "Images"
 msgstr "画像"
 
@@ -266,47 +280,47 @@ msgstr "WebDAVインタフェースが動作していないと考えられるた
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "<a href='%s'>インストールガイド</a>をよく確認してください。"
 
-#: template/functions.php:80
+#: template/functions.php:96
 msgid "seconds ago"
 msgstr "数秒前"
 
-#: template/functions.php:81
+#: template/functions.php:97
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n 分前"
 
-#: template/functions.php:82
+#: template/functions.php:98
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n 時間後"
 
-#: template/functions.php:83
+#: template/functions.php:99
 msgid "today"
 msgstr "今日"
 
-#: template/functions.php:84
+#: template/functions.php:100
 msgid "yesterday"
 msgstr "昨日"
 
-#: template/functions.php:85
+#: template/functions.php:101
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "%n 日後"
 
-#: template/functions.php:86
+#: template/functions.php:102
 msgid "last month"
 msgstr "一月前"
 
-#: template/functions.php:87
+#: template/functions.php:103
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n カ月後"
 
-#: template/functions.php:88
+#: template/functions.php:104
 msgid "last year"
 msgstr "一年前"
 
-#: template/functions.php:89
+#: template/functions.php:105
 msgid "years ago"
 msgstr "年前"
 

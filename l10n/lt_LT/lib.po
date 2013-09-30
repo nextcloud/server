@@ -4,13 +4,16 @@
 # 
 # Translators:
 # fizikiukas <fizikiukas@gmail.com>, 2013
+# Liudas Ališauskas <liudas.alisauskas@gmail.com>, 2013
+# Liudas <liudas@aksioma.lt>, 2013
+# fizikiukas <fizikiukas@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-27 11:18-0400\n"
-"PO-Revision-Date: 2013-08-26 20:00+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-18 11:47-0400\n"
+"PO-Revision-Date: 2013-09-18 14:50+0000\n"
+"Last-Translator: Liudas Ališauskas <liudas.alisauskas@gmail.com>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,11 +26,11 @@ msgstr ""
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr ""
+msgstr "Programa „%s“ negali būti įdiegta, nes yra nesuderinama su šia ownCloud versija."
 
 #: app.php:250
 msgid "No app name specified"
-msgstr ""
+msgstr "Nenurodytas programos pavadinimas"
 
 #: app.php:361
 msgid "Help"
@@ -49,10 +52,22 @@ msgstr "Vartotojai"
 msgid "Admin"
 msgstr "Administravimas"
 
-#: app.php:837
+#: app.php:839
 #, php-format
 msgid "Failed to upgrade \"%s\"."
-msgstr ""
+msgstr "Nepavyko pakelti  „%s“ versijos."
+
+#: avatar.php:56
+msgid "Custom profile pictures don't work with encryption yet"
+msgstr "Saviti profilio paveiksliukai dar neveikia su šifravimu"
+
+#: avatar.php:64
+msgid "Unknown filetype"
+msgstr "Nežinomas failo tipas"
+
+#: avatar.php:69
+msgid "Invalid image"
+msgstr "Netinkamas paveikslėlis"
 
 #: defaults.php:35
 msgid "web services under your control"
@@ -61,7 +76,7 @@ msgstr "jūsų valdomos web paslaugos"
 #: files.php:66 files.php:98
 #, php-format
 msgid "cannot open \"%s\""
-msgstr ""
+msgstr "nepavyksta atverti „%s“"
 
 #: files.php:226
 msgid "ZIP download is turned off."
@@ -83,63 +98,63 @@ msgstr "Pasirinkti failai per dideli archyvavimui į ZIP."
 msgid ""
 "Download the files in smaller chunks, seperately or kindly ask your "
 "administrator."
-msgstr ""
+msgstr "Atsisiųskite failus mažesnėmis dalimis atskirai, arba mandagiai prašykite savo administratoriaus."
 
 #: installer.php:63
 msgid "No source specified when installing app"
-msgstr ""
+msgstr "Nenurodytas šaltinis diegiant programą"
 
 #: installer.php:70
 msgid "No href specified when installing app from http"
-msgstr ""
+msgstr "Nenurodytas href diegiant programą iš http"
 
 #: installer.php:75
 msgid "No path specified when installing app from local file"
-msgstr ""
+msgstr "Nenurodytas kelias diegiant programą iš vietinio failo"
 
 #: installer.php:89
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr ""
+msgstr "%s tipo archyvai nepalaikomi"
 
 #: installer.php:103
 msgid "Failed to open archive when installing app"
-msgstr ""
+msgstr "Nepavyko atverti archyvo diegiant programą"
 
-#: installer.php:123
+#: installer.php:125
 msgid "App does not provide an info.xml file"
-msgstr ""
+msgstr "Programa nepateikia info.xml failo"
 
-#: installer.php:129
+#: installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
-msgstr ""
+msgstr "Programa negali būti įdiegta, nes turi neleistiną kodą"
 
-#: installer.php:138
+#: installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr ""
+msgstr "Programa negali būti įdiegta, nes yra nesuderinama su šia ownCloud versija"
 
-#: installer.php:144
+#: installer.php:146
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
-msgstr ""
+msgstr "Programa negali būti įdiegta, nes turi <shipped>true</shipped> žymę, kuri yra neleistina ne kartu platinamoms programoms"
 
-#: installer.php:150
+#: installer.php:152
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr ""
+msgstr "Programa negali būti įdiegta, nes versija pateikta info.xml/version nesutampa su versija deklaruota programų saugykloje"
 
-#: installer.php:160
+#: installer.php:162
 msgid "App directory already exists"
-msgstr ""
+msgstr "Programos aplankas jau egzistuoja"
 
-#: installer.php:173
+#: installer.php:175
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr ""
+msgstr "Nepavyksta sukurti aplanko. Prašome pataisyti leidimus. %s"
 
 #: json.php:28
 msgid "Application is not enabled"
@@ -168,31 +183,31 @@ msgstr "Paveikslėliai"
 #: setup/abstractdatabase.php:22
 #, php-format
 msgid "%s enter the database username."
-msgstr ""
+msgstr "%s įrašykite duombazės naudotojo vardą."
 
 #: setup/abstractdatabase.php:25
 #, php-format
 msgid "%s enter the database name."
-msgstr ""
+msgstr "%s įrašykite duombazės pavadinimą."
 
 #: setup/abstractdatabase.php:28
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr ""
+msgstr "%s negalite naudoti taškų duombazės pavadinime"
 
 #: setup/mssql.php:20
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr ""
+msgstr "MS SQL naudotojo vardas ir/arba slaptažodis netinka: %s"
 
 #: setup/mssql.php:21 setup/mysql.php:13 setup/oci.php:114
 #: setup/postgresql.php:24 setup/postgresql.php:70
 msgid "You need to enter either an existing account or the administrator."
-msgstr ""
+msgstr "Turite prisijungti su egzistuojančia paskyra arba su administratoriumi."
 
 #: setup/mysql.php:12
 msgid "MySQL username and/or password not valid"
-msgstr ""
+msgstr "Neteisingas MySQL naudotojo vardas ir/arba slaptažodis"
 
 #: setup/mysql.php:67 setup/oci.php:54 setup/oci.php:121 setup/oci.php:147
 #: setup/oci.php:154 setup/oci.php:165 setup/oci.php:172 setup/oci.php:181
@@ -201,7 +216,7 @@ msgstr ""
 #: setup/postgresql.php:125 setup/postgresql.php:134
 #, php-format
 msgid "DB Error: \"%s\""
-msgstr ""
+msgstr "DB klaida: \"%s\""
 
 #: setup/mysql.php:68 setup/oci.php:55 setup/oci.php:122 setup/oci.php:148
 #: setup/oci.php:155 setup/oci.php:166 setup/oci.php:182 setup/oci.php:190
@@ -209,119 +224,119 @@ msgstr ""
 #: setup/postgresql.php:116 setup/postgresql.php:126 setup/postgresql.php:135
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr ""
+msgstr "Vykdyta komanda buvo: \"%s\""
 
 #: setup/mysql.php:85
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "MySQL naudotojas '%s'@'localhost' jau egzistuoja."
 
 #: setup/mysql.php:86
 msgid "Drop this user from MySQL"
-msgstr ""
+msgstr "Pašalinti šį naudotoją iš MySQL"
 
 #: setup/mysql.php:91
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
-msgstr ""
+msgstr "MySQL naudotojas '%s'@'%%' jau egzistuoja"
 
 #: setup/mysql.php:92
 msgid "Drop this user from MySQL."
-msgstr ""
+msgstr "Pašalinti šį naudotoją iš MySQL."
 
 #: setup/oci.php:34
 msgid "Oracle connection could not be established"
-msgstr ""
+msgstr "Nepavyko sukurti Oracle ryšio"
 
 #: setup/oci.php:41 setup/oci.php:113
 msgid "Oracle username and/or password not valid"
-msgstr ""
+msgstr "Neteisingas Oracle naudotojo vardas ir/arba slaptažodis"
 
 #: setup/oci.php:173 setup/oci.php:205
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr ""
+msgstr "Vykdyta komanda buvo: \"%s\", name: %s, password: %s"
 
 #: setup/postgresql.php:23 setup/postgresql.php:69
 msgid "PostgreSQL username and/or password not valid"
-msgstr ""
+msgstr "Neteisingas PostgreSQL naudotojo vardas ir/arba slaptažodis"
 
 #: setup.php:28
 msgid "Set an admin username."
-msgstr ""
+msgstr "Nustatyti administratoriaus naudotojo vardą."
 
 #: setup.php:31
 msgid "Set an admin password."
-msgstr ""
+msgstr "Nustatyti administratoriaus slaptažodį."
 
 #: setup.php:184
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Jūsų serveris nėra tvarkingai nustatytas leisti failų sinchronizaciją, nes WebDAV sąsaja panašu, kad yra sugadinta."
 
 #: setup.php:185
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Prašome pažiūrėkite dar kartą <a href='%s'>diegimo instrukcijas</a>."
 
-#: template/functions.php:80
+#: template/functions.php:96
 msgid "seconds ago"
 msgstr "prieš sekundę"
 
-#: template/functions.php:81
+#: template/functions.php:97
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] " prieš %n minučių"
+msgstr[0] "prieš %n min."
+msgstr[1] "Prieš % minutes"
+msgstr[2] "Prieš %n minučių"
 
-#: template/functions.php:82
+#: template/functions.php:98
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] "prieš %n valandų"
+msgstr[0] "Prieš %n valandą"
+msgstr[1] "Prieš %n valandas"
+msgstr[2] "Prieš %n valandų"
 
-#: template/functions.php:83
+#: template/functions.php:99
 msgid "today"
 msgstr "šiandien"
 
-#: template/functions.php:84
+#: template/functions.php:100
 msgid "yesterday"
 msgstr "vakar"
 
-#: template/functions.php:85
+#: template/functions.php:101
 msgid "%n day go"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Prieš %n dieną"
+msgstr[1] "Prieš %n dienas"
+msgstr[2] "Prieš %n dienų"
 
-#: template/functions.php:86
+#: template/functions.php:102
 msgid "last month"
 msgstr "praeitą mėnesį"
 
-#: template/functions.php:87
+#: template/functions.php:103
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] "prieš %n mėnesių"
+msgstr[0] "Prieš %n mėnesį"
+msgstr[1] "Prieš %n mėnesius"
+msgstr[2] "Prieš %n mėnesių"
 
-#: template/functions.php:88
+#: template/functions.php:104
 msgid "last year"
 msgstr "praeitais metais"
 
-#: template/functions.php:89
+#: template/functions.php:105
 msgid "years ago"
 msgstr "prieš metus"
 
 #: template.php:297
 msgid "Caused by:"
-msgstr ""
+msgstr "Iššaukė:"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr ""
+msgstr "Nepavyko rasti kategorijos „%s“"

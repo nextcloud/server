@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "grŵp",
 "Category type not provided." => "Math o gategori heb ei ddarparu.",
 "No category to add?" => "Dim categori i'w ychwanegu?",
 "This category already exists: %s" => "Mae'r categori hwn eisoes yn bodoli: %s",
@@ -43,6 +44,8 @@ $TRANSLATIONS = array(
 "Yes" => "Ie",
 "No" => "Na",
 "Ok" => "Iawn",
+"_{count} file conflict_::_{count} file conflicts_" => array("","","",""),
+"Cancel" => "Diddymu",
 "The object type is not specified." => "Nid yw'r math o wrthrych wedi cael ei nodi.",
 "Error" => "Gwall",
 "The app name is not specified." => "Nid yw enw'r pecyn wedi cael ei nodi.",

@@ -1,11 +1,14 @@
 <?php
 $TRANSLATIONS = array(
+"No app name specified" => "Nincs az alkalmazás név megadva.",
 "Help" => "Súgó",
 "Personal" => "Személyes",
 "Settings" => "Beállítások",
 "Users" => "Felhasználók",
 "Admin" => "Adminsztráció",
 "Failed to upgrade \"%s\"." => "Sikertelen Frissítés \"%s\".",
+"Unknown filetype" => "Ismeretlen file tipús",
+"Invalid image" => "Hibás kép",
 "web services under your control" => "webszolgáltatások saját kézben",
 "cannot open \"%s\"" => "nem sikerült megnyitni \"%s\"",
 "ZIP download is turned off." => "A ZIP-letöltés nincs engedélyezve.",
@@ -13,6 +16,10 @@ $TRANSLATIONS = array(
 "Back to Files" => "Vissza a Fájlokhoz",
 "Selected files too large to generate zip file." => "A kiválasztott fájlok túl nagyok a zip tömörítéshez.",
 "Download the files in smaller chunks, seperately or kindly ask your administrator." => "Tölts le a fileokat kisebb chunkokban, kölün vagy kérj segitséget a rendszergazdádtól.",
+"App does not provide an info.xml file" => "Az alkalmazás nem szolgáltatott info.xml file-t",
+"App can't be installed because it is not compatible with this version of ownCloud" => "Az alalmazás nem telepíthető, mert nem kompatibilis az ownClod ezzel a verziójával.",
+"App directory already exists" => "Az alkalmazás mappája már létezik",
+"Can't create app folder. Please fix permissions. %s" => "Nem lehetett létrehozni az alkalmzás mappáját. Kérlek ellenőrizd a jogosultásgokat. %s",
 "Application is not enabled" => "Az alkalmazás nincs engedélyezve",
 "Authentication error" => "Azonosítási hiba",
 "Token expired. Please reload page." => "A token lejárt. Frissítse az oldalt.",
@@ -39,6 +46,7 @@ $TRANSLATIONS = array(
 "Set an admin password." => "Állítson be egy jelszót az adminisztrációhoz.",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Az Ön webkiszolgálója nincs megfelelően beállítva az állományok szinkronizálásához, mert a WebDAV-elérés úgy tűnik, nem működik.",
 "Please double check the <a href='%s'>installation guides</a>." => "Kérjük tüzetesen tanulmányozza át a <a href='%s'>telepítési útmutatót</a>.",
+"Could not find category \"%s\"" => "Ez a kategória nem található: \"%s\"",
 "seconds ago" => "pár másodperce",
 "_%n minute ago_::_%n minutes ago_" => array("",""),
 "_%n hour ago_::_%n hours ago_" => array("",""),
@@ -49,7 +57,6 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("",""),
 "last year" => "tavaly",
 "years ago" => "több éve",
-"Caused by:" => "Okozta:",
-"Could not find category \"%s\"" => "Ez a kategória nem található: \"%s\""
+"Caused by:" => "Okozta:"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "grop",
 "No category to add?" => "Pas de categoria d'ajustar ?",
 "No categories selected for deletion." => "Pas de categorias seleccionadas per escafar.",
 "Sunday" => "Dimenge",
@@ -37,6 +38,8 @@ $TRANSLATIONS = array(
 "Yes" => "Òc",
 "No" => "Non",
 "Ok" => "D'accòrdi",
+"_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "Annula",
 "Error" => "Error",
 "Share" => "Parteja",
 "Error while sharing" => "Error al partejar",

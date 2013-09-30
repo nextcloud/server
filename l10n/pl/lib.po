@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-25 19:18-0400\n"
-"PO-Revision-Date: 2013-08-25 23:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-30 10:16-0400\n"
+"PO-Revision-Date: 2013-09-30 12:26+0000\n"
+"Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,41 +18,53 @@ msgstr ""
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: app.php:239
+#: app.php:237
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr ""
+msgstr "Aplikacja \"%s\" nie może zostać zainstalowana, ponieważ nie jest zgodna z tą wersją ownCloud."
 
-#: app.php:250
+#: app.php:248
 msgid "No app name specified"
-msgstr ""
+msgstr "Nie określono nazwy aplikacji"
 
-#: app.php:361
+#: app.php:352
 msgid "Help"
 msgstr "Pomoc"
 
-#: app.php:374
+#: app.php:365
 msgid "Personal"
 msgstr "Osobiste"
 
-#: app.php:385
+#: app.php:376
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: app.php:397
+#: app.php:388
 msgid "Users"
 msgstr "Użytkownicy"
 
-#: app.php:410
+#: app.php:401
 msgid "Admin"
 msgstr "Administrator"
 
-#: app.php:837
+#: app.php:832
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Błąd przy aktualizacji \"%s\"."
+
+#: avatar.php:56
+msgid "Custom profile pictures don't work with encryption yet"
+msgstr "Domyślny profil zdjęć nie działa z szyfrowaniem jeszcze"
+
+#: avatar.php:64
+msgid "Unknown filetype"
+msgstr "Nieznany typ pliku"
+
+#: avatar.php:69
+msgid "Invalid image"
+msgstr "Błędne zdjęcie"
 
 #: defaults.php:35
 msgid "web services under your control"
@@ -87,59 +99,59 @@ msgstr "Pobierz pliki w mniejszy kawałkach, oddzielnie lub poproś administrato
 
 #: installer.php:63
 msgid "No source specified when installing app"
-msgstr ""
+msgstr "Nie określono źródła  podczas instalacji aplikacji"
 
 #: installer.php:70
 msgid "No href specified when installing app from http"
-msgstr ""
+msgstr "Nie określono linku skąd aplikacja ma być zainstalowana"
 
 #: installer.php:75
 msgid "No path specified when installing app from local file"
-msgstr ""
+msgstr "Nie określono lokalnego pliku z którego miała być instalowana aplikacja"
 
 #: installer.php:89
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr ""
+msgstr "Typ archiwum %s nie jest obsługiwany"
 
 #: installer.php:103
 msgid "Failed to open archive when installing app"
-msgstr ""
+msgstr "Nie udało się otworzyć archiwum podczas instalacji aplikacji"
 
-#: installer.php:123
+#: installer.php:125
 msgid "App does not provide an info.xml file"
-msgstr ""
+msgstr "Aplikacja nie posiada pliku info.xml"
 
-#: installer.php:129
+#: installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
-msgstr ""
+msgstr "Aplikacja nie może być zainstalowany ponieważ nie dopuszcza kod w aplikacji"
 
-#: installer.php:138
+#: installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr ""
+msgstr "Aplikacja nie może zostać zainstalowana ponieważ jest niekompatybilna z tą wersja ownCloud"
 
-#: installer.php:144
+#: installer.php:146
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
-msgstr ""
+msgstr "Aplikacja nie może być zainstalowana ponieważ true tag nie jest <shipped>true</shipped> , co nie jest dozwolone dla aplikacji nie wysłanych"
 
-#: installer.php:150
+#: installer.php:152
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr ""
+msgstr "Nie można zainstalować aplikacji, ponieważ w wersji info.xml/version nie jest taka sama, jak wersja z app store"
 
-#: installer.php:160
+#: installer.php:162
 msgid "App directory already exists"
-msgstr ""
+msgstr "Katalog aplikacji już isnieje"
 
-#: installer.php:173
+#: installer.php:175
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr ""
+msgstr "Nie mogę utworzyć katalogu aplikacji. Proszę popraw uprawnienia. %s"
 
 #: json.php:28
 msgid "Application is not enabled"
@@ -153,15 +165,15 @@ msgstr "Błąd uwierzytelniania"
 msgid "Token expired. Please reload page."
 msgstr "Token wygasł. Proszę ponownie załadować stronę."
 
-#: search/provider/file.php:17 search/provider/file.php:35
+#: search/provider/file.php:18 search/provider/file.php:36
 msgid "Files"
 msgstr "Pliki"
 
-#: search/provider/file.php:26 search/provider/file.php:33
+#: search/provider/file.php:27 search/provider/file.php:34
 msgid "Text"
 msgstr "Połączenie tekstowe"
 
-#: search/provider/file.php:29
+#: search/provider/file.php:30
 msgid "Images"
 msgstr "Obrazy"
 
@@ -265,63 +277,63 @@ msgstr "Serwer internetowy nie jest jeszcze poprawnie skonfigurowany, aby umożl
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Sprawdź ponownie <a href='%s'>przewodniki instalacji</a>."
 
-#: template/functions.php:80
+#: tags.php:194
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr "Nie można odnaleźć kategorii \"%s\""
+
+#: template/functions.php:96
 msgid "seconds ago"
 msgstr "sekund temu"
 
-#: template/functions.php:81
+#: template/functions.php:97
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%n minute temu"
+msgstr[1] "%n minut temu"
+msgstr[2] "%n minut temu"
 
-#: template/functions.php:82
+#: template/functions.php:98
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%n godzinę temu"
+msgstr[1] "%n godzin temu"
+msgstr[2] "%n godzin temu"
 
-#: template/functions.php:83
+#: template/functions.php:99
 msgid "today"
 msgstr "dziś"
 
-#: template/functions.php:84
+#: template/functions.php:100
 msgid "yesterday"
 msgstr "wczoraj"
 
-#: template/functions.php:85
+#: template/functions.php:101
 msgid "%n day go"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%n dzień temu"
+msgstr[1] "%n dni temu"
+msgstr[2] "%n dni temu"
 
-#: template/functions.php:86
+#: template/functions.php:102
 msgid "last month"
 msgstr "w zeszłym miesiącu"
 
-#: template/functions.php:87
+#: template/functions.php:103
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%n miesiąc temu"
+msgstr[1] "%n miesięcy temu"
+msgstr[2] "%n miesięcy temu"
 
-#: template/functions.php:88
+#: template/functions.php:104
 msgid "last year"
 msgstr "w zeszłym roku"
 
-#: template/functions.php:89
+#: template/functions.php:105
 msgid "years ago"
 msgstr "lat temu"
 
 #: template.php:297
 msgid "Caused by:"
 msgstr "Spowodowane przez:"
-
-#: vcategories.php:188 vcategories.php:249
-#, php-format
-msgid "Could not find category \"%s\""
-msgstr "Nie można odnaleźć kategorii \"%s\""

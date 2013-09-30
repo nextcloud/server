@@ -8,7 +8,7 @@
 
 namespace OC\Session;
 
-abstract class Session implements \ArrayAccess {
+abstract class Session implements \ArrayAccess, \OCP\ISession {
 	/**
 	 * $name serves as a namespace for the session keys
 	 *

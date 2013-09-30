@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "Change password" => "Cambiar contrasigno",
 "Email" => "E-posta",
 "Your email address" => "Tu adresse de e-posta",
+"Profile picture" => "Imagine de profilo",
 "Language" => "Linguage",
 "Help translate" => "Adjuta a traducer",
 "Create" => "Crear",

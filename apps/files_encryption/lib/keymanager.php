@@ -40,11 +40,14 @@ class Keymanager {
 	public static function getPrivateKey(\OC_FilesystemView $view, $user) {
 
 		$path = '/' . $user . '/' . 'files_encryption' . '/' . $user . '.private.key';
+		$key = false;
 
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
-		$key = $view->file_get_contents($path);
+		if ($view->file_exists($path)) {
+			$key = $view->file_get_contents($path);
+		}
 
 		\OC_FileProxy::$enabled = $proxyStatus;
 
@@ -220,22 +223,10 @@ class Keymanager {
 	 */
 	public static function getFileKey(\OC_FilesystemView $view, $userId, $filePath) {
 
-		// try reusing key file if part file
-		if (self::isPartialFilePath($filePath)) {
-
-			$result = self::getFileKey($view, $userId, self::fixPartialFilePath($filePath));
-
-			if ($result) {
-
-				return $result;
-
-			}
-
-		}
-
 		$util = new Util($view, \OCP\User::getUser());
 
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
+		$filename = self::fixPartialFilePath($filename);
 		$filePath_f = ltrim($filename, '/');
 
 		// in case of system wide mount points the keys are stored directly in the data directory
@@ -424,18 +415,6 @@ class Keymanager {
 	public static function getShareKey(\OC_FilesystemView $view, $userId, $filePath) {
 
 		// try reusing key file if part file
-		if (self::isPartialFilePath($filePath)) {
-
-			$result = self::getShareKey($view, $userId, self::fixPartialFilePath($filePath));
-
-			if ($result) {
-
-				return $result;
-
-			}
-
-		}
-
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
@@ -443,7 +422,7 @@ class Keymanager {
 		$util = new Util($view, \OCP\User::getUser());
 
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
-
+		$filename = self::fixPartialFilePath($filename);
 		// in case of system wide mount points the keys are stored directly in the data directory
 		if ($util->isSystemWideMountPoint($filename)) {
 			$shareKeyPath = '/files_encryption/share-keys/' . $filename . '.' . $userId . '.shareKey';

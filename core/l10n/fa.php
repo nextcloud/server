@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s به اشتراک گذاشته شده است »%s« توسط شما",
+"group" => "گروه",
 "Category type not provided." => "نوع دسته بندی ارائه نشده است.",
 "No category to add?" => "آیا گروه دیگری برای افزودن ندارید",
 "This category already exists: %s" => "این دسته هم اکنون وجود دارد: %s",
@@ -41,10 +42,11 @@ $TRANSLATIONS = array(
 "last year" => "سال قبل",
 "years ago" => "سال‌های قبل",
 "Choose" => "انتخاب کردن",
-"Error loading file picker template" => "خطا در بارگذاری قالب انتخاب کننده فایل",
 "Yes" => "بله",
 "No" => "نه",
 "Ok" => "قبول",
+"_{count} file conflict_::_{count} file conflicts_" => array(""),
+"Cancel" => "منصرف شدن",
 "The object type is not specified." => "نوع شی تعیین نشده است.",
 "Error" => "خطا",
 "The app name is not specified." => "نام برنامه تعیین نشده است.",

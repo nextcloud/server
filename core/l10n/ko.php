@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "그룹",
 "Category type not provided." => "분류 형식이 제공되지 않았습니다.",
 "No category to add?" => "추가할 분류가 없습니까?",
 "This category already exists: %s" => "분류가 이미 존재합니다: %s",
@@ -43,6 +44,8 @@ $TRANSLATIONS = array(
 "Yes" => "예",
 "No" => "아니요",
 "Ok" => "승락",
+"_{count} file conflict_::_{count} file conflicts_" => array(""),
+"Cancel" => "취소",
 "The object type is not specified." => "객체 유형이 지정되지 않았습니다.",
 "Error" => "오류",
 "The app name is not specified." => "앱 이름이 지정되지 않았습니다.",

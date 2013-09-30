@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-25 19:18-0400\n"
-"PO-Revision-Date: 2013-08-25 23:18+0000\n"
+"POT-Creation-Date: 2013-09-20 10:45-0400\n"
+"PO-Revision-Date: 2013-09-20 14:45+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgid "Unable to load list from App Store"
 msgstr "Incapaz de carregar a lista da App Store"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20
+#: ajax/togglegroups.php:20 changepassword/controller.php:55
 msgid "Authentication error"
 msgstr "Erro na autenticação"
 
@@ -88,55 +88,88 @@ msgstr "Impossível apagar utilizador do grupo %s"
 msgid "Couldn't update app."
 msgstr "Não foi possível actualizar a aplicação."
 
-#: js/apps.js:35
+#: changepassword/controller.php:20
+msgid "Wrong password"
+msgstr ""
+
+#: changepassword/controller.php:42
+msgid "No user supplied"
+msgstr ""
+
+#: changepassword/controller.php:74
+msgid ""
+"Please provide an admin recovery password, otherwise all user data will be "
+"lost"
+msgstr ""
+
+#: changepassword/controller.php:79
+msgid ""
+"Wrong admin recovery password. Please check the password and try again."
+msgstr ""
+
+#: changepassword/controller.php:87
+msgid ""
+"Back-end doesn't support password change, but the users encryption key was "
+"successfully updated."
+msgstr ""
+
+#: changepassword/controller.php:92 changepassword/controller.php:103
+msgid "Unable to change password"
+msgstr ""
+
+#: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Actualizar para a versão {appversion}"
 
-#: js/apps.js:41 js/apps.js:74 js/apps.js:100
+#: js/apps.js:49 js/apps.js:82 js/apps.js:108
 msgid "Disable"
 msgstr "Desactivar"
 
-#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
+#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
 msgid "Enable"
 msgstr "Activar"
 
-#: js/apps.js:63
+#: js/apps.js:71
 msgid "Please wait...."
 msgstr "Por favor aguarde..."
 
-#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+#: js/apps.js:79 js/apps.js:80 js/apps.js:100
 msgid "Error while disabling app"
-msgstr ""
+msgstr "Erro enquanto desactivava a aplicação"
 
-#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+#: js/apps.js:99 js/apps.js:112 js/apps.js:113
 msgid "Error while enabling app"
-msgstr ""
+msgstr "Erro enquanto activava a aplicação"
 
-#: js/apps.js:115
+#: js/apps.js:123
 msgid "Updating...."
 msgstr "A Actualizar..."
 
-#: js/apps.js:118
+#: js/apps.js:126
 msgid "Error while updating app"
 msgstr "Erro enquanto actualizava a aplicação"
 
-#: js/apps.js:118
+#: js/apps.js:126
 msgid "Error"
 msgstr "Erro"
 
-#: js/apps.js:119 templates/apps.php:43
+#: js/apps.js:127 templates/apps.php:43
 msgid "Update"
 msgstr "Actualizar"
 
-#: js/apps.js:122
+#: js/apps.js:130
 msgid "Updated"
 msgstr "Actualizado"
 
-#: js/personal.js:150
-msgid "Decrypting files... Please wait, this can take some time."
+#: js/personal.js:220
+msgid "Select a profile picture"
 msgstr ""
 
-#: js/personal.js:172
+#: js/personal.js:265
+msgid "Decrypting files... Please wait, this can take some time."
+msgstr "A desencriptar os ficheiros... Por favor aguarde, esta operação pode demorar algum tempo."
+
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "A guardar..."
 
@@ -152,16 +185,16 @@ msgstr "desfazer"
 msgid "Unable to remove user"
 msgstr "Não foi possível remover o utilizador"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:87
-#: templates/users.php:112
+#: js/users.js:92 templates/users.php:26 templates/users.php:90
+#: templates/users.php:118
 msgid "Groups"
 msgstr "Grupos"
 
-#: js/users.js:97 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
 msgstr "Grupo Administrador"
 
-#: js/users.js:120 templates/users.php:164
+#: js/users.js:120 templates/users.php:170
 msgid "Delete"
 msgstr "Eliminar"
 
@@ -181,7 +214,7 @@ msgstr "Erro a criar utilizador"
 msgid "A valid password must be provided"
 msgstr "Uma password válida deve ser fornecida"
 
-#: personal.php:40 personal.php:41
+#: personal.php:45 personal.php:46
 msgid "__language_name__"
 msgstr "__language_name__"
 
@@ -347,11 +380,11 @@ msgstr "Mais"
 msgid "Less"
 msgstr "Menos"
 
-#: templates/admin.php:242 templates/personal.php:140
+#: templates/admin.php:242 templates/personal.php:161
 msgid "Version"
 msgstr "Versão"
 
-#: templates/admin.php:246 templates/personal.php:143
+#: templates/admin.php:246 templates/personal.php:164
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -418,7 +451,7 @@ msgstr "Mostrar novamente Wizard de Arranque Inicial"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Usou <strong>%s</strong> do disponivel <strong>%s</strong>"
 
-#: templates/personal.php:39 templates/users.php:23 templates/users.php:86
+#: templates/personal.php:39 templates/users.php:23 templates/users.php:89
 msgid "Password"
 msgstr "Password"
 
@@ -442,7 +475,7 @@ msgstr "Nova palavra-chave"
 msgid "Change password"
 msgstr "Alterar palavra-chave"
 
-#: templates/personal.php:58 templates/users.php:85
+#: templates/personal.php:58 templates/users.php:88
 msgid "Display Name"
 msgstr "Nome público"
 
@@ -458,40 +491,68 @@ msgstr "O seu endereço de email"
 msgid "Fill in an email address to enable password recovery"
 msgstr "Preencha com o seu endereço de email para ativar a recuperação da palavra-chave"
 
-#: templates/personal.php:85 templates/personal.php:86
+#: templates/personal.php:86
+msgid "Profile picture"
+msgstr "Foto do perfil"
+
+#: templates/personal.php:90
+msgid "Upload new"
+msgstr ""
+
+#: templates/personal.php:92
+msgid "Select new from Files"
+msgstr ""
+
+#: templates/personal.php:93
+msgid "Remove image"
+msgstr ""
+
+#: templates/personal.php:94
+msgid "Either png or jpg. Ideally square but you will be able to crop it."
+msgstr ""
+
+#: templates/personal.php:97
+msgid "Abort"
+msgstr "Abortar"
+
+#: templates/personal.php:98
+msgid "Choose as profile image"
+msgstr ""
+
+#: templates/personal.php:106 templates/personal.php:107
 msgid "Language"
 msgstr "Idioma"
 
-#: templates/personal.php:98
+#: templates/personal.php:119
 msgid "Help translate"
 msgstr "Ajude a traduzir"
 
-#: templates/personal.php:104
+#: templates/personal.php:125
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:106
+#: templates/personal.php:127
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
 "target=\"_blank\">access your Files via WebDAV</a>"
 msgstr "Use este endereço para <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">aceder aos seus ficheiros via WebDav</a>"
 
-#: templates/personal.php:117
+#: templates/personal.php:138
 msgid "Encryption"
 msgstr "Encriptação"
 
-#: templates/personal.php:119
+#: templates/personal.php:140
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr ""
+msgstr "A aplicação de encriptação não se encontra mais disponível, desencripte o seu ficheiro"
 
-#: templates/personal.php:125
+#: templates/personal.php:146
 msgid "Log-in password"
-msgstr ""
+msgstr "Password de entrada"
 
-#: templates/personal.php:130
+#: templates/personal.php:151
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Desencriptar todos os ficheiros"
 
 #: templates/users.php:21
 msgid "Login Name"
@@ -515,30 +576,30 @@ msgstr "Digite a senha de recuperação, a fim de recuperar os arquivos de usuá
 msgid "Default Storage"
 msgstr "Armazenamento Padrão"
 
-#: templates/users.php:48 templates/users.php:142
+#: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
 msgstr "Ilimitado"
 
-#: templates/users.php:66 templates/users.php:157
+#: templates/users.php:66 templates/users.php:163
 msgid "Other"
 msgstr "Outro"
 
-#: templates/users.php:84
+#: templates/users.php:87
 msgid "Username"
 msgstr "Nome de utilizador"
 
-#: templates/users.php:91
+#: templates/users.php:94
 msgid "Storage"
 msgstr "Armazenamento"
 
-#: templates/users.php:102
+#: templates/users.php:108
 msgid "change display name"
 msgstr "modificar nome exibido"
 
-#: templates/users.php:106
+#: templates/users.php:112
 msgid "set new password"
 msgstr "definir nova palavra-passe"
 
-#: templates/users.php:137
+#: templates/users.php:143
 msgid "Default"
 msgstr "Padrão"

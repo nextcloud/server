@@ -60,9 +60,10 @@
 			var self = this;
 
 			if(typeof this.options.escapeFunction === 'function') {
-				for (var key = 0; key < this.vars.length; key++) {
-					if(typeof this.vars[key] === 'string') {
-						this.vars[key] = self.options.escapeFunction(this.vars[key]);
+				var keys = Object.keys(this.vars);
+				for (var key = 0; key < keys.length; key++) {
+					if(typeof this.vars[keys[key]] === 'string') {
+						this.vars[keys[key]] = self.options.escapeFunction(this.vars[keys[key]]);
 					}
 				}
 			}
@@ -85,7 +86,7 @@
 			}
 		},
 		options: {
-			escapeFunction: function(str) {return $('<i></i>').text(str).html();}
+			escapeFunction: escapeHTML
 		}
 	};
 

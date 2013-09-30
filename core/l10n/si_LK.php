@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "කණ්ඩායම",
 "No categories selected for deletion." => "මකා දැමීම සඳහා ප්‍රවර්ගයන් තෝරා නොමැත.",
 "Sunday" => "ඉරිදා",
 "Monday" => "සඳුදා",
@@ -36,6 +37,8 @@ $TRANSLATIONS = array(
 "Yes" => "ඔව්",
 "No" => "එපා",
 "Ok" => "හරි",
+"_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "එපා",
 "Error" => "දෝෂයක්",
 "Share" => "බෙදා හදා ගන්න",
 "Share with" => "බෙදාගන්න",

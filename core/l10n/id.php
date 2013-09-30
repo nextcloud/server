@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "grup",
 "Category type not provided." => "Tipe kategori tidak diberikan.",
 "No category to add?" => "Tidak ada kategori yang akan ditambahkan?",
 "This category already exists: %s" => "Kategori ini sudah ada: %s",
@@ -43,6 +44,8 @@ $TRANSLATIONS = array(
 "Yes" => "Ya",
 "No" => "Tidak",
 "Ok" => "Oke",
+"_{count} file conflict_::_{count} file conflicts_" => array(""),
+"Cancel" => "Batal",
 "The object type is not specified." => "Tipe objek tidak ditentukan.",
 "Error" => "Galat",
 "The app name is not specified." => "Nama aplikasi tidak ditentukan.",

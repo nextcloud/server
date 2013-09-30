@@ -98,6 +98,51 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($manager->userExists('foo'));
 	}
 
+	public function testCheckPassword() {
+		/**
+		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 */
+		$backend = $this->getMock('\OC_User_Dummy');
+		$backend->expects($this->once())
+			->method('checkPassword')
+			->with($this->equalTo('foo'), $this->equalTo('bar'))
+			->will($this->returnValue(true));
+
+		$backend->expects($this->any())
+			->method('implementsActions')
+			->will($this->returnCallback(function ($actions) {
+				if ($actions === \OC_USER_BACKEND_CHECK_PASSWORD) {
+					return true;
+				} else {
+					return false;
+				}
+			}));
+
+		$manager = new \OC\User\Manager();
+		$manager->registerBackend($backend);
+
+		$user = $manager->checkPassword('foo', 'bar');
+		$this->assertTrue($user instanceof \OC\User\User);
+	}
+
+	public function testCheckPasswordNotSupported() {
+		/**
+		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 */
+		$backend = $this->getMock('\OC_User_Dummy');
+		$backend->expects($this->never())
+			->method('checkPassword');
+
+		$backend->expects($this->any())
+			->method('implementsActions')
+			->will($this->returnValue(false));
+
+		$manager = new \OC\User\Manager();
+		$manager->registerBackend($backend);
+
+		$this->assertFalse($manager->checkPassword('foo', 'bar'));
+	}
+
 	public function testGetOneBackendExists() {
 		/**
 		 * @var \OC_User_Dummy | \PHPUnit_Framework_MockObject_MockObject $backend

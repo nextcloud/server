@@ -6,14 +6,16 @@
 # Adalberto Rodrigues <rodrigues_adalberto@yahoo.fr>, 2013
 # Christophe Lherieau <skimpax@gmail.com>, 2013
 # lyly95, 2013
+# Mystyle <maelvstyle@gmail.com>, 2013
+# ogre_sympathique <ogre.sympathique@speed.1s.fr>, 2013
 # red0ne <red-0ne@smarty-concept.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-25 19:18-0400\n"
-"PO-Revision-Date: 2013-08-25 23:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-27 00:01-0400\n"
+"PO-Revision-Date: 2013-09-26 15:00+0000\n"
+"Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +28,7 @@ msgid "Unable to load list from App Store"
 msgstr "Impossible de charger la liste depuis l'App Store"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20
+#: ajax/togglegroups.php:20 changepassword/controller.php:55
 msgid "Authentication error"
 msgstr "Erreur d'authentification"
 
@@ -88,55 +90,88 @@ msgstr "Impossible de supprimer l'utilisateur du groupe %s"
 msgid "Couldn't update app."
 msgstr "Impossible de mettre à jour l'application"
 
-#: js/apps.js:35
+#: changepassword/controller.php:20
+msgid "Wrong password"
+msgstr "Mot de passe incorrect"
+
+#: changepassword/controller.php:42
+msgid "No user supplied"
+msgstr "Aucun utilisateur fourni"
+
+#: changepassword/controller.php:74
+msgid ""
+"Please provide an admin recovery password, otherwise all user data will be "
+"lost"
+msgstr "Veuillez fournir un mot de passe administrateur de récupération de données, sinon toutes les données de l'utilisateur seront perdues"
+
+#: changepassword/controller.php:79
+msgid ""
+"Wrong admin recovery password. Please check the password and try again."
+msgstr "Mot de passe administrateur de récupération de données invalide. Veuillez vérifier le mot de passe et essayer à nouveau."
+
+#: changepassword/controller.php:87
+msgid ""
+"Back-end doesn't support password change, but the users encryption key was "
+"successfully updated."
+msgstr "L'infrastructure d'arrière-plan ne supporte pas la modification de mot de passe, mais la clef de chiffrement des utilisateurs a été mise à jour avec succès."
+
+#: changepassword/controller.php:92 changepassword/controller.php:103
+msgid "Unable to change password"
+msgstr "Impossible de modifier le mot de passe"
+
+#: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Mettre à jour vers {appversion}"
 
-#: js/apps.js:41 js/apps.js:74 js/apps.js:100
+#: js/apps.js:49 js/apps.js:82 js/apps.js:110
 msgid "Disable"
 msgstr "Désactiver"
 
-#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
+#: js/apps.js:49 js/apps.js:90 js/apps.js:103 js/apps.js:119
 msgid "Enable"
 msgstr "Activer"
 
-#: js/apps.js:63
+#: js/apps.js:71
 msgid "Please wait...."
 msgstr "Veuillez patienter…"
 
-#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+#: js/apps.js:79 js/apps.js:80 js/apps.js:101
 msgid "Error while disabling app"
-msgstr ""
+msgstr "Erreur lors de la désactivation de l'application"
 
-#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+#: js/apps.js:100 js/apps.js:114 js/apps.js:115
 msgid "Error while enabling app"
-msgstr ""
+msgstr "Erreur lors de l'activation de l'application"
 
-#: js/apps.js:115
+#: js/apps.js:125
 msgid "Updating...."
 msgstr "Mise à jour..."
 
-#: js/apps.js:118
+#: js/apps.js:128
 msgid "Error while updating app"
 msgstr "Erreur lors de la mise à jour de l'application"
 
-#: js/apps.js:118
+#: js/apps.js:128
 msgid "Error"
 msgstr "Erreur"
 
-#: js/apps.js:119 templates/apps.php:43
+#: js/apps.js:129 templates/apps.php:43
 msgid "Update"
 msgstr "Mettre à jour"
 
-#: js/apps.js:122
+#: js/apps.js:132
 msgid "Updated"
 msgstr "Mise à jour effectuée avec succès"
 
-#: js/personal.js:150
-msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+#: js/personal.js:220
+msgid "Select a profile picture"
+msgstr "Selectionner une photo de profil "
 
-#: js/personal.js:172
+#: js/personal.js:265
+msgid "Decrypting files... Please wait, this can take some time."
+msgstr "Déchiffrement en cours... Cela peut prendre un certain temps."
+
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "Enregistrement..."
 
@@ -152,16 +187,16 @@ msgstr "annuler"
 msgid "Unable to remove user"
 msgstr "Impossible de retirer l'utilisateur"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:87
-#: templates/users.php:112
+#: js/users.js:92 templates/users.php:26 templates/users.php:90
+#: templates/users.php:118
 msgid "Groups"
 msgstr "Groupes"
 
-#: js/users.js:97 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
 msgstr "Groupe Admin"
 
-#: js/users.js:120 templates/users.php:164
+#: js/users.js:120 templates/users.php:170
 msgid "Delete"
 msgstr "Supprimer"
 
@@ -181,7 +216,7 @@ msgstr "Erreur lors de la création de l'utilisateur"
 msgid "A valid password must be provided"
 msgstr "Un mot de passe valide doit être saisi"
 
-#: personal.php:40 personal.php:41
+#: personal.php:45 personal.php:46
 msgid "__language_name__"
 msgstr "Français"
 
@@ -196,7 +231,7 @@ msgid ""
 "configure your webserver in a way that the data directory is no longer "
 "accessible or you move the data directory outside the webserver document "
 "root."
-msgstr ""
+msgstr "Votre dossier de données et vos fichiers sont probablement accessibles depuis internet. Le fichier .htaccess ne fonctionne pas. Nous vous recommandons vivement de configurer votre serveur web de façon à ce que ce dossier de données ne soit plus accessible, ou bien de le déplacer à l'extérieur de la racine du serveur web."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -211,7 +246,7 @@ msgstr "Votre serveur web, n'est pas correctement configuré pour permettre la s
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
-msgstr ""
+msgstr "Veuillez consulter à nouveau les <a href=\"%s\">guides d'installation</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
@@ -233,7 +268,7 @@ msgid ""
 "System locale can't be set to %s. This means that there might be problems "
 "with certain characters in file names. We strongly suggest to install the "
 "required packages on your system to support %s."
-msgstr ""
+msgstr "Le localisation du système n'a pu être configurée à %s. Cela signifie qu'il pourrait y avoir des problèmes avec certains caractères dans les noms de fichiers. Il est fortement recommandé d'installer les paquets requis pour le support de %s."
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
@@ -246,7 +281,7 @@ msgid ""
 "installation of 3rd party apps don´t work. Accessing files from remote and "
 "sending of notification emails might also not work. We suggest to enable "
 "internet connection for this server if you want to have all features."
-msgstr ""
+msgstr "Ce serveur ne peut se connecter à internet. Cela signifie que certaines fonctionnalités, telles que le montage de supports de stockage distants, les notifications de mises à jour ou l'installation d'applications tierces ne fonctionneront pas. L'accès aux fichiers à distance, ainsi que les notifications par mails ne seront pas fonctionnels également. Il est recommandé d'activer la connexion internet pour ce serveur si vous souhaitez disposer de l'ensemble des fonctionnalités offertes."
 
 #: templates/admin.php:92
 msgid "Cron"
@@ -260,11 +295,11 @@ msgstr "Exécute une tâche à chaque chargement de page"
 msgid ""
 "cron.php is registered at a webcron service to call cron.php once a minute "
 "over http."
-msgstr ""
+msgstr "cron.php est enregistré en tant que service webcron pour appeler cron.php une fois par minute via http."
 
 #: templates/admin.php:115
 msgid "Use systems cron service to call the cron.php file once a minute."
-msgstr ""
+msgstr "Utilise le service cron du système pour appeler cron.php une fois par minute."
 
 #: templates/admin.php:120
 msgid "Sharing"
@@ -288,12 +323,12 @@ msgstr "Autoriser les utilisateurs à partager des éléments publiquement à l'
 
 #: templates/admin.php:143
 msgid "Allow public uploads"
-msgstr ""
+msgstr "Autoriser les téléversements publics"
 
 #: templates/admin.php:144
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
-msgstr ""
+msgstr "Permet d'autoriser les autres utilisateurs à téléverser dans le dossier partagé public de l'utilisateur"
 
 #: templates/admin.php:152
 msgid "Allow resharing"
@@ -322,14 +357,14 @@ msgstr "Forcer HTTPS"
 #: templates/admin.php:185
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
-msgstr ""
+msgstr "Forcer les clients à se connecter à %s via une connexion chiffrée."
 
 #: templates/admin.php:191
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
-msgstr ""
+msgstr "Veuillez vous connecter à cette instance %s via HTTPS pour activer ou désactiver SSL."
 
 #: templates/admin.php:203
 msgid "Log"
@@ -347,11 +382,11 @@ msgstr "Plus"
 msgid "Less"
 msgstr "Moins"
 
-#: templates/admin.php:242 templates/personal.php:140
+#: templates/admin.php:242 templates/personal.php:161
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin.php:246 templates/personal.php:143
+#: templates/admin.php:246 templates/personal.php:164
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -418,7 +453,7 @@ msgstr "Revoir le premier lancement de l'installeur"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Vous avez utilisé <strong>%s</strong> des <strong>%s<strong> disponibles"
 
-#: templates/personal.php:39 templates/users.php:23 templates/users.php:86
+#: templates/personal.php:39 templates/users.php:23 templates/users.php:89
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -442,7 +477,7 @@ msgstr "Nouveau mot de passe"
 msgid "Change password"
 msgstr "Changer de mot de passe"
 
-#: templates/personal.php:58 templates/users.php:85
+#: templates/personal.php:58 templates/users.php:88
 msgid "Display Name"
 msgstr "Nom affiché"
 
@@ -458,40 +493,68 @@ msgstr "Votre adresse e-mail"
 msgid "Fill in an email address to enable password recovery"
 msgstr "Entrez votre adresse e-mail pour permettre la réinitialisation du mot de passe"
 
-#: templates/personal.php:85 templates/personal.php:86
+#: templates/personal.php:86
+msgid "Profile picture"
+msgstr "Photo de profil"
+
+#: templates/personal.php:90
+msgid "Upload new"
+msgstr "Télécharger nouveau"
+
+#: templates/personal.php:92
+msgid "Select new from Files"
+msgstr "Sélectionner un nouveau depuis les documents"
+
+#: templates/personal.php:93
+msgid "Remove image"
+msgstr "Supprimer l'image"
+
+#: templates/personal.php:94
+msgid "Either png or jpg. Ideally square but you will be able to crop it."
+msgstr "Soit png ou jpg. idéalement carée mais vous pourrez la recadrer ."
+
+#: templates/personal.php:97
+msgid "Abort"
+msgstr "Abandonner"
+
+#: templates/personal.php:98
+msgid "Choose as profile image"
+msgstr "Choisir en temps que photo de profil "
+
+#: templates/personal.php:106 templates/personal.php:107
 msgid "Language"
 msgstr "Langue"
 
-#: templates/personal.php:98
+#: templates/personal.php:119
 msgid "Help translate"
 msgstr "Aidez à traduire"
 
-#: templates/personal.php:104
+#: templates/personal.php:125
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:106
+#: templates/personal.php:127
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
 "target=\"_blank\">access your Files via WebDAV</a>"
 msgstr "Utilisez cette adresse pour <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">accéder à vos fichiers via WebDAV</a>"
 
-#: templates/personal.php:117
+#: templates/personal.php:138
 msgid "Encryption"
 msgstr "Chiffrement"
 
-#: templates/personal.php:119
+#: templates/personal.php:140
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr ""
+msgstr "L'application de chiffrement n'est plus activée, déchiffrez tous vos fichiers"
 
-#: templates/personal.php:125
+#: templates/personal.php:146
 msgid "Log-in password"
-msgstr ""
+msgstr "Mot de passe de connexion"
 
-#: templates/personal.php:130
+#: templates/personal.php:151
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Déchiffrer tous les fichiers"
 
 #: templates/users.php:21
 msgid "Login Name"
@@ -515,30 +578,30 @@ msgstr "Entrer le mot de passe de récupération dans le but de récupérer les 
 msgid "Default Storage"
 msgstr "Support de stockage par défaut"
 
-#: templates/users.php:48 templates/users.php:142
+#: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
 msgstr "Illimité"
 
-#: templates/users.php:66 templates/users.php:157
+#: templates/users.php:66 templates/users.php:163
 msgid "Other"
 msgstr "Autre"
 
-#: templates/users.php:84
+#: templates/users.php:87
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
-#: templates/users.php:91
+#: templates/users.php:94
 msgid "Storage"
 msgstr "Support de stockage"
 
-#: templates/users.php:102
+#: templates/users.php:108
 msgid "change display name"
 msgstr "Changer le nom affiché"
 
-#: templates/users.php:106
+#: templates/users.php:112
 msgid "set new password"
 msgstr "Changer le mot de passe"
 
-#: templates/users.php:137
+#: templates/users.php:143
 msgid "Default"
 msgstr "Défaut"

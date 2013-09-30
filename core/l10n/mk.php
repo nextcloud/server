@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "група",
 "Category type not provided." => "Не беше доставен тип на категорија.",
 "No category to add?" => "Нема категорија да се додаде?",
 "Object type not provided." => "Не беше доставен тип на објект.",
@@ -42,6 +43,8 @@ $TRANSLATIONS = array(
 "Yes" => "Да",
 "No" => "Не",
 "Ok" => "Во ред",
+"_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "Откажи",
 "The object type is not specified." => "Не е специфициран типот на објект.",
 "Error" => "Грешка",
 "The app name is not specified." => "Името на апликацијата не е специфицирано.",

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "група",
 "Category type not provided." => "Не вказано тип категорії.",
 "No category to add?" => "Відсутні категорії для додавання?",
 "This category already exists: %s" => "Ця категорія вже існує: %s",
@@ -43,6 +44,8 @@ $TRANSLATIONS = array(
 "Yes" => "Так",
 "No" => "Ні",
 "Ok" => "Ok",
+"_{count} file conflict_::_{count} file conflicts_" => array("","",""),
+"Cancel" => "Відмінити",
 "The object type is not specified." => "Не визначено тип об'єкту.",
 "Error" => "Помилка",
 "The app name is not specified." => "Не визначено ім'я програми.",

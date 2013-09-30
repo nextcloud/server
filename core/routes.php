@@ -42,20 +42,37 @@ $this->create('js_config', '/core/js/config.js')
 // Routing
 $this->create('core_ajax_routes', '/core/routes.json')
 	->action('OC_Router', 'JSRoutes');
-
-OC::$CLASSPATH['OC_Core_LostPassword_Controller'] = 'core/lostpassword/controller.php';
+$this->create('core_ajax_preview', '/core/preview.png')
+	->actionInclude('core/ajax/preview.php');
 $this->create('core_lostpassword_index', '/lostpassword/')
 	->get()
-	->action('OC_Core_LostPassword_Controller', 'index');
+	->action('OC\Core\LostPassword\Controller', 'index');
 $this->create('core_lostpassword_send_email', '/lostpassword/')
 	->post()
-	->action('OC_Core_LostPassword_Controller', 'sendEmail');
+	->action('OC\Core\LostPassword\Controller', 'sendEmail');
 $this->create('core_lostpassword_reset', '/lostpassword/reset/{token}/{user}')
 	->get()
-	->action('OC_Core_LostPassword_Controller', 'reset');
+	->action('OC\Core\LostPassword\Controller', 'reset');
 $this->create('core_lostpassword_reset_password', '/lostpassword/reset/{token}/{user}')
 	->post()
-	->action('OC_Core_LostPassword_Controller', 'resetPassword');
+	->action('OC\Core\LostPassword\Controller', 'resetPassword');
+
+// Avatar routes
+$this->create('core_avatar_get_tmp', '/avatar/tmp')
+	->get()
+	->action('OC\Core\Avatar\Controller', 'getTmpAvatar');
+$this->create('core_avatar_get', '/avatar/{user}/{size}')
+	->get()
+	->action('OC\Core\Avatar\Controller', 'getAvatar');
+$this->create('core_avatar_post', '/avatar/')
+	->post()
+	->action('OC\Core\Avatar\Controller', 'postAvatar');
+$this->create('core_avatar_delete', '/avatar/')
+	->delete()
+	->action('OC\Core\Avatar\Controller', 'deleteAvatar');
+$this->create('core_avatar_post_cropped', '/avatar/cropped')
+	->post()
+	->action('OC\Core\Avatar\Controller', 'postCroppedAvatar');
 
 // Not specifically routed
 $this->create('app_css', '/apps/{app}/{file}')

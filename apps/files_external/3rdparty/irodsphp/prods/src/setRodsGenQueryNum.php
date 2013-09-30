@@ -59,5 +59,3 @@ $outputstr = $outputstr . ");\n";
 
 $outputstr = $outputstr . "?>\n";
 file_put_contents($prods_genque_num_file, $outputstr);
-
-?>  

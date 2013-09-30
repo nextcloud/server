@@ -8,7 +8,7 @@
 
 namespace OC\Files\Storage;
 
-require_once 'smb4php/smb.php';
+require_once __DIR__ . '/../3rdparty/smb4php/smb.php';
 
 class SMB extends \OC\Files\Storage\StreamWrapper{
 	private $password;
@@ -99,11 +99,13 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 	private function shareMTime() {
 		$dh=$this->opendir('');
 		$lastCtime=0;
-		while (($file = readdir($dh)) !== false) {
-			if ($file!='.' and $file!='..') {
-				$ctime=$this->filemtime($file);
-				if ($ctime>$lastCtime) {
-					$lastCtime=$ctime;
+		if(is_resource($dh)) {
+			while (($file = readdir($dh)) !== false) {
+				if ($file!='.' and $file!='..') {
+					$ctime=$this->filemtime($file);
+					if ($ctime>$lastCtime) {
+						$lastCtime=$ctime;
+					}
 				}
 			}
 		}

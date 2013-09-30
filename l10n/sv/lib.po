@@ -4,13 +4,14 @@
 # 
 # Translators:
 # medialabs, 2013
+# Magnus Höglund <magnus@linux.com>, 2013
 # medialabs, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-25 19:18-0400\n"
-"PO-Revision-Date: 2013-08-25 23:18+0000\n"
+"POT-Creation-Date: 2013-09-16 11:33-0400\n"
+"PO-Revision-Date: 2013-09-16 15:34+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -24,11 +25,11 @@ msgstr ""
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr ""
+msgstr "Appen \"%s\" kan inte installeras eftersom att den inte är kompatibel med denna version av ownCloud."
 
 #: app.php:250
 msgid "No app name specified"
-msgstr ""
+msgstr "Inget appnamn angivet"
 
 #: app.php:361
 msgid "Help"
@@ -50,10 +51,22 @@ msgstr "Användare"
 msgid "Admin"
 msgstr "Admin"
 
-#: app.php:837
+#: app.php:839
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Misslyckades med att uppgradera \"%s\"."
+
+#: avatar.php:56
+msgid "Custom profile pictures don't work with encryption yet"
+msgstr ""
+
+#: avatar.php:64
+msgid "Unknown filetype"
+msgstr ""
+
+#: avatar.php:69
+msgid "Invalid image"
+msgstr ""
 
 #: defaults.php:35
 msgid "web services under your control"
@@ -88,59 +101,59 @@ msgstr "Ladda ner filerna i mindre bitar, separat eller fråga din administratö
 
 #: installer.php:63
 msgid "No source specified when installing app"
-msgstr ""
+msgstr "Ingen källa angiven vid installation av app "
 
 #: installer.php:70
 msgid "No href specified when installing app from http"
-msgstr ""
+msgstr "Ingen href angiven vid installation av app från http"
 
 #: installer.php:75
 msgid "No path specified when installing app from local file"
-msgstr ""
+msgstr "Ingen sökväg angiven vid installation av app från lokal fil"
 
 #: installer.php:89
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr ""
+msgstr "Arkiv av typen %s stöds ej"
 
 #: installer.php:103
 msgid "Failed to open archive when installing app"
-msgstr ""
+msgstr "Kunde inte öppna arkivet när appen skulle installeras"
 
-#: installer.php:123
+#: installer.php:125
 msgid "App does not provide an info.xml file"
-msgstr ""
+msgstr "Appen har ingen info.xml fil"
 
-#: installer.php:129
+#: installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
-msgstr ""
+msgstr "Appen kan inte installeras eftersom att den innehåller otillåten kod"
 
-#: installer.php:138
+#: installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr ""
+msgstr "Appen kan inte installeras eftersom att den inte är kompatibel med denna version av ownCloud"
 
-#: installer.php:144
+#: installer.php:146
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
-msgstr ""
+msgstr "Appen kan inte installeras eftersom att den innehåller etiketten <shipped>true</shipped> vilket inte är tillåtet för icke inkluderade appar"
 
-#: installer.php:150
+#: installer.php:152
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr ""
+msgstr "Appen kan inte installeras eftersom versionen i info.xml inte är samma som rapporteras från app store"
 
-#: installer.php:160
+#: installer.php:162
 msgid "App directory already exists"
-msgstr ""
+msgstr "Appens mapp finns redan"
 
-#: installer.php:173
+#: installer.php:175
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr ""
+msgstr "Kan inte skapa appens mapp. Var god åtgärda rättigheterna. %s"
 
 #: json.php:28
 msgid "Application is not enabled"
@@ -266,51 +279,51 @@ msgstr "Din webbserver är inte korrekt konfigurerad för att tillåta filsynkro
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Var god kontrollera <a href='%s'>installationsguiden</a>."
 
-#: template/functions.php:80
+#: template/functions.php:96
 msgid "seconds ago"
 msgstr "sekunder sedan"
 
-#: template/functions.php:81
+#: template/functions.php:97
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minut sedan"
 msgstr[1] "%n minuter sedan"
 
-#: template/functions.php:82
+#: template/functions.php:98
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n timme sedan"
 msgstr[1] "%n timmar sedan"
 
-#: template/functions.php:83
+#: template/functions.php:99
 msgid "today"
 msgstr "i dag"
 
-#: template/functions.php:84
+#: template/functions.php:100
 msgid "yesterday"
 msgstr "i går"
 
-#: template/functions.php:85
+#: template/functions.php:101
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "%n dag sedan"
 msgstr[1] "%n dagar sedan"
 
-#: template/functions.php:86
+#: template/functions.php:102
 msgid "last month"
 msgstr "förra månaden"
 
-#: template/functions.php:87
+#: template/functions.php:103
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n månad sedan"
 msgstr[1] "%n månader sedan"
 
-#: template/functions.php:88
+#: template/functions.php:104
 msgid "last year"
 msgstr "förra året"
 
-#: template/functions.php:89
+#: template/functions.php:105
 msgid "years ago"
 msgstr "år sedan"
 

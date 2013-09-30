@@ -6,13 +6,14 @@
 # m13253 <m13253@hotmail.com>, 2013
 # waterone <suiy02@gmail.com>, 2013
 # modokwang <modokwang@gmail.com>, 2013
+# Xuetian Weng <wengxt@gmail.com>, 2013
 # zhangmin <zm1990s@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-25 19:18-0400\n"
-"PO-Revision-Date: 2013-08-25 23:18+0000\n"
+"POT-Creation-Date: 2013-09-20 10:45-0400\n"
+"PO-Revision-Date: 2013-09-20 14:45+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +27,7 @@ msgid "Unable to load list from App Store"
 msgstr "无法从应用商店载入列表"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20
+#: ajax/togglegroups.php:20 changepassword/controller.php:55
 msgid "Authentication error"
 msgstr "认证出错"
 
@@ -88,55 +89,88 @@ msgstr "无法从组%s中移除用户"
 msgid "Couldn't update app."
 msgstr "无法更新 app。"
 
-#: js/apps.js:35
+#: changepassword/controller.php:20
+msgid "Wrong password"
+msgstr ""
+
+#: changepassword/controller.php:42
+msgid "No user supplied"
+msgstr ""
+
+#: changepassword/controller.php:74
+msgid ""
+"Please provide an admin recovery password, otherwise all user data will be "
+"lost"
+msgstr ""
+
+#: changepassword/controller.php:79
+msgid ""
+"Wrong admin recovery password. Please check the password and try again."
+msgstr ""
+
+#: changepassword/controller.php:87
+msgid ""
+"Back-end doesn't support password change, but the users encryption key was "
+"successfully updated."
+msgstr ""
+
+#: changepassword/controller.php:92 changepassword/controller.php:103
+msgid "Unable to change password"
+msgstr ""
+
+#: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "更新至 {appversion}"
 
-#: js/apps.js:41 js/apps.js:74 js/apps.js:100
+#: js/apps.js:49 js/apps.js:82 js/apps.js:108
 msgid "Disable"
 msgstr "禁用"
 
-#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
+#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
 msgid "Enable"
 msgstr "开启"
 
-#: js/apps.js:63
+#: js/apps.js:71
 msgid "Please wait...."
 msgstr "请稍等...."
 
-#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+#: js/apps.js:79 js/apps.js:80 js/apps.js:100
 msgid "Error while disabling app"
-msgstr ""
+msgstr "禁用 app 时出错"
 
-#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+#: js/apps.js:99 js/apps.js:112 js/apps.js:113
 msgid "Error while enabling app"
-msgstr ""
+msgstr "启用 app 时出错"
 
-#: js/apps.js:115
+#: js/apps.js:123
 msgid "Updating...."
 msgstr "正在更新...."
 
-#: js/apps.js:118
+#: js/apps.js:126
 msgid "Error while updating app"
 msgstr "更新 app 时出错"
 
-#: js/apps.js:118
+#: js/apps.js:126
 msgid "Error"
 msgstr "错误"
 
-#: js/apps.js:119 templates/apps.php:43
+#: js/apps.js:127 templates/apps.php:43
 msgid "Update"
 msgstr "更新"
 
-#: js/apps.js:122
+#: js/apps.js:130
 msgid "Updated"
 msgstr "已更新"
 
-#: js/personal.js:150
-msgid "Decrypting files... Please wait, this can take some time."
+#: js/personal.js:220
+msgid "Select a profile picture"
 msgstr ""
 
-#: js/personal.js:172
+#: js/personal.js:265
+msgid "Decrypting files... Please wait, this can take some time."
+msgstr "正在解密文件... 请稍等，可能需要一些时间。"
+
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "保存中"
 
@@ -152,16 +186,16 @@ msgstr "撤销"
 msgid "Unable to remove user"
 msgstr "无法移除用户"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:87
-#: templates/users.php:112
+#: js/users.js:92 templates/users.php:26 templates/users.php:90
+#: templates/users.php:118
 msgid "Groups"
 msgstr "组"
 
-#: js/users.js:97 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
 msgstr "组管理员"
 
-#: js/users.js:120 templates/users.php:164
+#: js/users.js:120 templates/users.php:170
 msgid "Delete"
 msgstr "删除"
 
@@ -181,7 +215,7 @@ msgstr "创建用户出错"
 msgid "A valid password must be provided"
 msgstr "必须提供合法的密码"
 
-#: personal.php:40 personal.php:41
+#: personal.php:45 personal.php:46
 msgid "__language_name__"
 msgstr "简体中文"
 
@@ -347,11 +381,11 @@ msgstr "更多"
 msgid "Less"
 msgstr "更少"
 
-#: templates/admin.php:242 templates/personal.php:140
+#: templates/admin.php:242 templates/personal.php:161
 msgid "Version"
 msgstr "版本"
 
-#: templates/admin.php:246 templates/personal.php:143
+#: templates/admin.php:246 templates/personal.php:164
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -418,7 +452,7 @@ msgstr "再次显示首次运行向导"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "你已使用 <strong>%s</strong>，有效空间 <strong>%s</strong>"
 
-#: templates/personal.php:39 templates/users.php:23 templates/users.php:86
+#: templates/personal.php:39 templates/users.php:23 templates/users.php:89
 msgid "Password"
 msgstr "密码"
 
@@ -442,7 +476,7 @@ msgstr "新密码"
 msgid "Change password"
 msgstr "修改密码"
 
-#: templates/personal.php:58 templates/users.php:85
+#: templates/personal.php:58 templates/users.php:88
 msgid "Display Name"
 msgstr "显示名称"
 
@@ -458,40 +492,68 @@ msgstr "您的电子邮件"
 msgid "Fill in an email address to enable password recovery"
 msgstr "填写电子邮件地址以启用密码恢复功能"
 
-#: templates/personal.php:85 templates/personal.php:86
+#: templates/personal.php:86
+msgid "Profile picture"
+msgstr "联系人图片"
+
+#: templates/personal.php:90
+msgid "Upload new"
+msgstr ""
+
+#: templates/personal.php:92
+msgid "Select new from Files"
+msgstr ""
+
+#: templates/personal.php:93
+msgid "Remove image"
+msgstr ""
+
+#: templates/personal.php:94
+msgid "Either png or jpg. Ideally square but you will be able to crop it."
+msgstr ""
+
+#: templates/personal.php:97
+msgid "Abort"
+msgstr ""
+
+#: templates/personal.php:98
+msgid "Choose as profile image"
+msgstr ""
+
+#: templates/personal.php:106 templates/personal.php:107
 msgid "Language"
 msgstr "语言"
 
-#: templates/personal.php:98
+#: templates/personal.php:119
 msgid "Help translate"
 msgstr "帮助翻译"
 
-#: templates/personal.php:104
+#: templates/personal.php:125
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:106
+#: templates/personal.php:127
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
 "target=\"_blank\">access your Files via WebDAV</a>"
 msgstr "使用该链接 <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">通过WebDAV访问你的文件</a>"
 
-#: templates/personal.php:117
+#: templates/personal.php:138
 msgid "Encryption"
 msgstr "加密"
 
-#: templates/personal.php:119
+#: templates/personal.php:140
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr ""
+msgstr "加密 app 未启用，将解密您所有文件"
 
-#: templates/personal.php:125
+#: templates/personal.php:146
 msgid "Log-in password"
-msgstr ""
+msgstr "登录密码"
 
-#: templates/personal.php:130
+#: templates/personal.php:151
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "解密所有文件"
 
 #: templates/users.php:21
 msgid "Login Name"
@@ -515,30 +577,30 @@ msgstr "输入恢复密码来在更改密码的时候恢复用户文件"
 msgid "Default Storage"
 msgstr "默认存储"
 
-#: templates/users.php:48 templates/users.php:142
+#: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
 msgstr "无限"
 
-#: templates/users.php:66 templates/users.php:157
+#: templates/users.php:66 templates/users.php:163
 msgid "Other"
 msgstr "其它"
 
-#: templates/users.php:84
+#: templates/users.php:87
 msgid "Username"
 msgstr "用户名"
 
-#: templates/users.php:91
+#: templates/users.php:94
 msgid "Storage"
 msgstr "存储"
 
-#: templates/users.php:102
+#: templates/users.php:108
 msgid "change display name"
 msgstr "修改显示名称"
 
-#: templates/users.php:106
+#: templates/users.php:112
 msgid "set new password"
 msgstr "设置新密码"
 
-#: templates/users.php:137
+#: templates/users.php:143
 msgid "Default"
 msgstr "默认"

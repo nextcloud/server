@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"group" => "گۇرۇپپا",
 "Sunday" => "يەكشەنبە",
 "Monday" => "دۈشەنبە",
 "Tuesday" => "سەيشەنبە",
@@ -29,6 +30,8 @@ $TRANSLATIONS = array(
 "Yes" => "ھەئە",
 "No" => "ياق",
 "Ok" => "جەزملە",
+"_{count} file conflict_::_{count} file conflicts_" => array(""),
+"Cancel" => "ۋاز كەچ",
 "Error" => "خاتالىق",
 "Share" => "ھەمبەھىر",
 "Share with" => "ھەمبەھىر",
@@ -45,6 +48,7 @@ $TRANSLATIONS = array(
 "Help" => "ياردەم",
 "Edit categories" => "تۈر تەھرىر",
 "Add" => "قوش",
+"Security Warning" => "بىخەتەرلىك ئاگاھلاندۇرۇش",
 "Advanced" => "ئالىي",
 "Finish setup" => "تەڭشەك تامام",
 "Log out" => "تىزىمدىن چىق"

@@ -91,13 +91,13 @@ var UserList = {
 		tr.find('td.displayName > span').text(displayname);
 		var groupsSelect = $('<select multiple="multiple" class="groupsselect" data-placehoder="Groups" title="' + t('settings', 'Groups') + '"></select>')
 			.attr('data-username', username)
-			.attr('data-user-groups', [groups]);
+			.data('user-groups', groups);
 		tr.find('td.groups').empty();
 		if (tr.find('td.subadmins').length > 0) {
 			var subadminSelect = $('<select multiple="multiple" class="subadminsselect" data-placehoder="subadmins" title="' + t('settings', 'Group Admin') + '">')
 				.attr('data-username', username)
-				.attr('data-user-groups', [groups])
-				.attr('data-subadmin', [subadmin]);
+				.data('user-groups', groups)
+				.data('subadmin', subadmin);
 			tr.find('td.subadmins').empty();
 		}
 		$.each(this.availableGroups, function (i, group) {
@@ -361,7 +361,7 @@ $(document).ready(function () {
 				if ($(this).val().length > 0) {
 					var recoveryPasswordVal = $('input:password[id="recoveryPassword"]').val();
 					$.post(
-						OC.filePath('settings', 'ajax', 'changepassword.php'),
+						OC.Router.generate('settings_users_changepassword'),
 						{username: uid, password: $(this).val(), recoveryPassword: recoveryPasswordVal},
 						function (result) {
 							if (result.status != 'success') {

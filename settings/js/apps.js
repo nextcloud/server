@@ -27,7 +27,15 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		}
 		page.find('small.externalapp').attr('style', 'visibility:visible');
 		page.find('span.author').text(app.author);
-		page.find('span.licence').text(app.license);
+
+		// FIXME licenses of downloaded apps go into app.licence, licenses of not-downloaded apps into app.license
+		var appLicense = '';
+		if (typeof(app.licence) !== 'undefined') {
+			appLicense = app.licence;
+		} else if (typeof(app.license) !== 'undefined') {
+			appLicense = app.license;
+		}
+		page.find('span.licence').text(appLicense);
 
 		if (app.update !== false) {
 			page.find('input.update').show();
@@ -76,6 +84,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				}
 				else {
 					appitem.data('active',false);
+					element.data('active',false);
 					OC.Settings.Apps.removeNavigation(appid);
 					appitem.removeClass('active');
 					element.val(t('settings','Enable'));
@@ -96,6 +105,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				} else {
 					OC.Settings.Apps.addNavigation(appid);
 					appitem.data('active',true);
+					element.data('active',true);
 					appitem.addClass('active');
 					element.val(t('settings','Disable'));
 				}
@@ -150,7 +160,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			if(response.status === 'success'){
 				var navIds=response.nav_ids;
 				for(var i=0; i< navIds.length; i++){
-					$('#apps').children('li[data-id="'+navIds[i]+'"]').remove();
+					$('#apps .wrapper').children('li[data-id="'+navIds[i]+'"]').remove();
 				}
 			}
 		});
@@ -161,7 +171,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				var navEntries=response.nav_entries;
 				for(var i=0; i< navEntries.length; i++){
 					var entry = navEntries[i];
-					var container = $('#apps');
+					var container = $('#apps .wrapper');
 
 					if(container.children('li[data-id="'+entry.id+'"]').length === 0){
 						var li=$('<li></li>');
@@ -173,10 +183,10 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						a.prepend(filename);
 						a.prepend(img);
 						li.append(a);
-						// prepend the new app before the 'More apps' function
-						$('#apps-management').before(li);
+						// append the new app as last item in the list (.push is from sticky footer)
+						$('#apps .wrapper .push').before(li);
 						// scroll the app navigation down so the newly added app is seen
-						$('#navigation').animate({ scrollTop: $('#apps').height() }, 'slow');
+						$('#navigation').animate({ scrollTop: $('#navigation').height() }, 'slow');
 						// draw attention to the newly added app entry by flashing it twice
 						container.children('li[data-id="'+entry.id+'"]').animate({opacity:.3}).animate({opacity:1}).animate({opacity:.3}).animate({opacity:1});
 

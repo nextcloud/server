@@ -84,6 +84,11 @@ class OC {
 	 */
 	public static $loader = null;
 
+	/**
+	 * @var \OC\Server
+	 */
+	public static $server = null;
+
 	public static function initPaths() {
 		// calculate the root directories
 		OC::$SERVERROOT = str_replace("\\", '/', substr(__DIR__, 0, -4));
@@ -257,20 +262,30 @@ class OC {
 		OC_Util::addScript("compatibility");
 		OC_Util::addScript("jquery.ocdialog");
 		OC_Util::addScript("oc-dialogs");
-		OC_Util::addScript("octemplate");
 		OC_Util::addScript("js");
+		OC_Util::addScript("octemplate");
 		OC_Util::addScript("eventsource");
 		OC_Util::addScript("config");
 		//OC_Util::addScript( "multiselect" );
 		OC_Util::addScript('search', 'result');
 		OC_Util::addScript('router');
+		OC_Util::addScript("oc-requesttoken");
+
+		// avatars
+		if (\OC_Config::getValue('enable_avatars', true) === true) {
+			\OC_Util::addScript('placeholder');
+			\OC_Util::addScript('3rdparty', 'md5/md5.min');
+			\OC_Util::addScript('jquery.avatar');
+			\OC_Util::addScript('avatar');
+		}
 
 		OC_Util::addStyle("styles");
+		OC_Util::addStyle("apps");
+		OC_Util::addStyle("fixes");
 		OC_Util::addStyle("multiselect");
 		OC_Util::addStyle("jquery-ui-1.10.0.custom");
 		OC_Util::addStyle("jquery-tipsy");
 		OC_Util::addStyle("jquery.ocdialog");
-		OC_Util::addScript("oc-requesttoken");
 	}
 
 	public static function initSession() {
@@ -356,6 +371,7 @@ class OC {
 		self::$loader->registerPrefix('Doctrine\\Common', 'doctrine/common/lib');
 		self::$loader->registerPrefix('Doctrine\\DBAL', 'doctrine/dbal/lib');
 		self::$loader->registerPrefix('Symfony\\Component\\Routing', 'symfony/routing');
+		self::$loader->registerPrefix('Symfony\\Component\\Console', 'symfony/console');
 		self::$loader->registerPrefix('Sabre\\VObject', '3rdparty');
 		self::$loader->registerPrefix('Sabre_', '3rdparty');
 		self::$loader->registerPrefix('Patchwork', '3rdparty');
@@ -415,7 +431,7 @@ class OC {
 		}
 
 		self::initPaths();
-		OC_Util::issetlocaleworking();
+		OC_Util::isSetLocaleWorking();
 
 		// set debug mode if an xdebug session is active
 		if (!defined('DEBUG') || !DEBUG) {
@@ -439,6 +455,9 @@ class OC {
 		stream_wrapper_register('close', 'OC\Files\Stream\Close');
 		stream_wrapper_register('quota', 'OC\Files\Stream\Quota');
 		stream_wrapper_register('oc', 'OC\Files\Stream\OC');
+
+		// setup the basic server
+		self::$server = new \OC\Server();
 
 		self::initTemplateEngine();
 		if (!self::$CLI) {
@@ -490,7 +509,9 @@ class OC {
 
 		self::registerCacheHooks();
 		self::registerFilesystemHooks();
+		self::registerPreviewHooks();
 		self::registerShareHooks();
+		self::registerLogRotate();
 
 		//make sure temporary files are cleaned up
 		register_shutdown_function(array('OC_Helper', 'cleanTmp'));
@@ -525,7 +546,7 @@ class OC {
 		}
 
 		// write error into log if locale can't be set
-		if (OC_Util::issetlocaleworking() == false) {
+		if (OC_Util::isSetLocaleWorking() == false) {
 			OC_Log::write('core',
 				'setting locale to en_US.UTF-8/en_US.UTF8 failed. Support is probably not installed on your system',
 				OC_Log::ERROR);
@@ -544,11 +565,28 @@ class OC {
 		if (OC_Config::getValue('installed', false)) { //don't try to do this before we are properly setup
 			// register cache cleanup jobs
 			try { //if this is executed before the upgrade to the new backgroundjob system is completed it will throw an exception
-				\OCP\BackgroundJob::registerJob('OC_Cache_FileGlobalGC');
+				\OCP\BackgroundJob::registerJob('OC\Cache\FileGlobalGC');
 			} catch (Exception $e) {
 
 			}
-			OC_Hook::connect('OC_User', 'post_login', 'OC_Cache_File', 'loginListener');
+			// NOTE: This will be replaced to use OCP
+			$userSession = \OC_User::getUserSession();
+			$userSession->listen('postLogin', '\OC\Cache\File', 'loginListener');
+		}
+	}
+
+	/**
+	 * register hooks for the cache
+	 */
+	public static function registerLogRotate() {
+		if (OC_Config::getValue('installed', false) && OC_Config::getValue('log_rotate_size', false)) {
+			//don't try to do this before we are properly setup
+			// register cache cleanup jobs
+			try { //if this is executed before the upgrade to the new backgroundjob system is completed it will throw an exception
+				\OCP\BackgroundJob::registerJob('OC\Log\Rotate', OC_Config::getValue("datadirectory", OC::$SERVERROOT.'/data').'/owncloud.log');
+			} catch (Exception $e) {
+
+			}
 		}
 	}
 
@@ -559,6 +597,14 @@ class OC {
 		// Check for blacklisted files
 		OC_Hook::connect('OC_Filesystem', 'write', 'OC_Filesystem', 'isBlacklisted');
 		OC_Hook::connect('OC_Filesystem', 'rename', 'OC_Filesystem', 'isBlacklisted');
+	}
+
+	/**
+	 * register hooks for previews
+	 */
+	public static function registerPreviewHooks() {
+		OC_Hook::connect('OC_Filesystem', 'post_write', 'OC\Preview', 'post_write');
+		OC_Hook::connect('OC_Filesystem', 'delete', 'OC\Preview', 'post_delete');
 	}
 
 	/**
@@ -669,12 +715,15 @@ class OC {
 		$app = $param['app'];
 		$file = $param['file'];
 		$app_path = OC_App::getAppPath($app);
-		$file = $app_path . '/' . $file;
-		unset($app, $app_path);
-		if (file_exists($file)) {
-			require_once $file;
-			return true;
+		if (OC_App::isEnabled($app) && $app_path !== false) {
+			$file = $app_path . '/' . $file;
+			unset($app, $app_path);
+			if (file_exists($file)) {
+				require_once $file;
+				return true;
+			}
 		}
+		header('HTTP/1.0 404 Not Found');
 		return false;
 	}
 
@@ -721,6 +770,7 @@ class OC {
 			|| !isset($_COOKIE["oc_token"])
 			|| !isset($_COOKIE["oc_username"])
 			|| !$_COOKIE["oc_remember_login"]
+			|| !OC_Util::rememberLoginAllowed()
 		) {
 			return false;
 		}
@@ -738,7 +788,7 @@ class OC {
 			if (in_array($_COOKIE['oc_token'], $tokens, true)) {
 				// replace successfully used token with a new one
 				OC_Preferences::deleteKey($_COOKIE['oc_username'], 'login_token', $_COOKIE['oc_token']);
-				$token = OC_Util::generate_random_bytes(32);
+				$token = OC_Util::generateRandomBytes(32);
 				OC_Preferences::setValue($_COOKIE['oc_username'], 'login_token', $token, time());
 				OC_User::setMagicInCookie($_COOKIE['oc_username'], $token);
 				// login
@@ -772,14 +822,15 @@ class OC {
 				self::$session->set('timezone', $_POST['timezone-offset']);
 			}
 
-			self::cleanupLoginTokens($_POST['user']);
+			$userid = OC_User::getUser();
+			self::cleanupLoginTokens($userid);
 			if (!empty($_POST["remember_login"])) {
 				if (defined("DEBUG") && DEBUG) {
 					OC_Log::write('core', 'Setting remember login to cookie', OC_Log::DEBUG);
 				}
-				$token = OC_Util::generate_random_bytes(32);
-				OC_Preferences::setValue($_POST['user'], 'login_token', $token, time());
-				OC_User::setMagicInCookie($_POST["user"], $token);
+				$token = OC_Util::generateRandomBytes(32);
+				OC_Preferences::setValue($userid, 'login_token', $token, time());
+				OC_User::setMagicInCookie($userid, $token);
 			} else {
 				OC_User::unsetMagicInCookie();
 			}

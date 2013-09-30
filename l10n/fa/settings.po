@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-25 19:18-0400\n"
-"PO-Revision-Date: 2013-08-25 23:18+0000\n"
+"POT-Creation-Date: 2013-09-20 10:45-0400\n"
+"PO-Revision-Date: 2013-09-20 14:45+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgid "Unable to load list from App Store"
 msgstr "قادر به بارگذاری لیست از فروشگاه اپ نیستم"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20
+#: ajax/togglegroups.php:20 changepassword/controller.php:55
 msgid "Authentication error"
 msgstr "خطا در اعتبار سنجی"
 
@@ -85,55 +85,88 @@ msgstr "امکان حذف کاربر از گروه %s نیست"
 msgid "Couldn't update app."
 msgstr "برنامه را نمی توان به هنگام ساخت."
 
-#: js/apps.js:35
+#: changepassword/controller.php:20
+msgid "Wrong password"
+msgstr ""
+
+#: changepassword/controller.php:42
+msgid "No user supplied"
+msgstr ""
+
+#: changepassword/controller.php:74
+msgid ""
+"Please provide an admin recovery password, otherwise all user data will be "
+"lost"
+msgstr ""
+
+#: changepassword/controller.php:79
+msgid ""
+"Wrong admin recovery password. Please check the password and try again."
+msgstr ""
+
+#: changepassword/controller.php:87
+msgid ""
+"Back-end doesn't support password change, but the users encryption key was "
+"successfully updated."
+msgstr ""
+
+#: changepassword/controller.php:92 changepassword/controller.php:103
+msgid "Unable to change password"
+msgstr ""
+
+#: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "بهنگام شده به  {appversion}"
 
-#: js/apps.js:41 js/apps.js:74 js/apps.js:100
+#: js/apps.js:49 js/apps.js:82 js/apps.js:108
 msgid "Disable"
 msgstr "غیرفعال"
 
-#: js/apps.js:41 js/apps.js:81 js/apps.js:94 js/apps.js:109
+#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
 msgid "Enable"
 msgstr "فعال"
 
-#: js/apps.js:63
+#: js/apps.js:71
 msgid "Please wait...."
 msgstr "لطفا صبر کنید ..."
 
-#: js/apps.js:71 js/apps.js:72 js/apps.js:92
+#: js/apps.js:79 js/apps.js:80 js/apps.js:100
 msgid "Error while disabling app"
 msgstr ""
 
-#: js/apps.js:91 js/apps.js:104 js/apps.js:105
+#: js/apps.js:99 js/apps.js:112 js/apps.js:113
 msgid "Error while enabling app"
 msgstr ""
 
-#: js/apps.js:115
+#: js/apps.js:123
 msgid "Updating...."
 msgstr "در حال بروز رسانی..."
 
-#: js/apps.js:118
+#: js/apps.js:126
 msgid "Error while updating app"
 msgstr "خطا در هنگام بهنگام سازی برنامه"
 
-#: js/apps.js:118
+#: js/apps.js:126
 msgid "Error"
 msgstr "خطا"
 
-#: js/apps.js:119 templates/apps.php:43
+#: js/apps.js:127 templates/apps.php:43
 msgid "Update"
 msgstr "به روز رسانی"
 
-#: js/apps.js:122
+#: js/apps.js:130
 msgid "Updated"
 msgstr "بروز رسانی انجام شد"
 
-#: js/personal.js:150
+#: js/personal.js:220
+msgid "Select a profile picture"
+msgstr ""
+
+#: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr ""
 
-#: js/personal.js:172
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "در حال ذخیره سازی..."
 
@@ -149,16 +182,16 @@ msgstr "بازگشت"
 msgid "Unable to remove user"
 msgstr "حذف کاربر امکان پذیر نیست"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:87
-#: templates/users.php:112
+#: js/users.js:92 templates/users.php:26 templates/users.php:90
+#: templates/users.php:118
 msgid "Groups"
 msgstr "گروه ها"
 
-#: js/users.js:97 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
 msgstr "گروه مدیران"
 
-#: js/users.js:120 templates/users.php:164
+#: js/users.js:120 templates/users.php:170
 msgid "Delete"
 msgstr "حذف"
 
@@ -178,7 +211,7 @@ msgstr "خطا در ایجاد کاربر"
 msgid "A valid password must be provided"
 msgstr "رمز عبور صحیح باید وارد شود"
 
-#: personal.php:40 personal.php:41
+#: personal.php:45 personal.php:46
 msgid "__language_name__"
 msgstr "__language_name__"
 
@@ -344,11 +377,11 @@ msgstr "بیش‌تر"
 msgid "Less"
 msgstr "کم‌تر"
 
-#: templates/admin.php:242 templates/personal.php:140
+#: templates/admin.php:242 templates/personal.php:161
 msgid "Version"
 msgstr "نسخه"
 
-#: templates/admin.php:246 templates/personal.php:143
+#: templates/admin.php:246 templates/personal.php:164
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -415,7 +448,7 @@ msgstr "راهبری کمکی اجرای اول را دوباره نمایش ب�
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "شما استفاده کردید از <strong>%s</strong> از میزان در دسترس <strong>%s</strong>"
 
-#: templates/personal.php:39 templates/users.php:23 templates/users.php:86
+#: templates/personal.php:39 templates/users.php:23 templates/users.php:89
 msgid "Password"
 msgstr "گذرواژه"
 
@@ -439,7 +472,7 @@ msgstr "گذرواژه جدید"
 msgid "Change password"
 msgstr "تغییر گذر واژه"
 
-#: templates/personal.php:58 templates/users.php:85
+#: templates/personal.php:58 templates/users.php:88
 msgid "Display Name"
 msgstr "نام نمایشی"
 
@@ -455,38 +488,66 @@ msgstr "پست الکترونیکی شما"
 msgid "Fill in an email address to enable password recovery"
 msgstr "پست الکترونیکی را پرکنید  تا بازیابی گذرواژه فعال شود"
 
-#: templates/personal.php:85 templates/personal.php:86
+#: templates/personal.php:86
+msgid "Profile picture"
+msgstr "تصویر پروفایل"
+
+#: templates/personal.php:90
+msgid "Upload new"
+msgstr ""
+
+#: templates/personal.php:92
+msgid "Select new from Files"
+msgstr ""
+
+#: templates/personal.php:93
+msgid "Remove image"
+msgstr ""
+
+#: templates/personal.php:94
+msgid "Either png or jpg. Ideally square but you will be able to crop it."
+msgstr ""
+
+#: templates/personal.php:97
+msgid "Abort"
+msgstr ""
+
+#: templates/personal.php:98
+msgid "Choose as profile image"
+msgstr ""
+
+#: templates/personal.php:106 templates/personal.php:107
 msgid "Language"
 msgstr "زبان"
 
-#: templates/personal.php:98
+#: templates/personal.php:119
 msgid "Help translate"
 msgstr "به ترجمه آن کمک کنید"
 
-#: templates/personal.php:104
+#: templates/personal.php:125
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:106
+#: templates/personal.php:127
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
 "target=\"_blank\">access your Files via WebDAV</a>"
 msgstr "استفاده ابن آدرس <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\"> برای دسترسی فایل های شما از طریق WebDAV </a>"
 
-#: templates/personal.php:117
+#: templates/personal.php:138
 msgid "Encryption"
 msgstr "رمزگذاری"
 
-#: templates/personal.php:119
+#: templates/personal.php:140
 msgid "The encryption app is no longer enabled, decrypt all your file"
 msgstr ""
 
-#: templates/personal.php:125
+#: templates/personal.php:146
 msgid "Log-in password"
 msgstr ""
 
-#: templates/personal.php:130
+#: templates/personal.php:151
 msgid "Decrypt all Files"
 msgstr ""
 
@@ -512,30 +573,30 @@ msgstr "در حین تغییر رمز عبور به منظور بازیابی ف
 msgid "Default Storage"
 msgstr "ذخیره سازی پیش فرض"
 
-#: templates/users.php:48 templates/users.php:142
+#: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
 msgstr "نامحدود"
 
-#: templates/users.php:66 templates/users.php:157
+#: templates/users.php:66 templates/users.php:163
 msgid "Other"
 msgstr "دیگر"
 
-#: templates/users.php:84
+#: templates/users.php:87
 msgid "Username"
 msgstr "نام کاربری"
 
-#: templates/users.php:91
+#: templates/users.php:94
 msgid "Storage"
 msgstr "حافظه"
 
-#: templates/users.php:102
+#: templates/users.php:108
 msgid "change display name"
 msgstr "تغییر نام نمایشی"
 
-#: templates/users.php:106
+#: templates/users.php:112
 msgid "set new password"
 msgstr "تنظیم کلمه عبور جدید"
 
-#: templates/users.php:137
+#: templates/users.php:143
 msgid "Default"
 msgstr "پیش فرض"

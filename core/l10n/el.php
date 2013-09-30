@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "Ο %s διαμοιράστηκε μαζί σας το »%s«",
+"group" => "ομάδα",
 "Category type not provided." => "Δεν δώθηκε τύπος κατηγορίας.",
 "No category to add?" => "Δεν έχετε κατηγορία να προσθέσετε;",
 "This category already exists: %s" => "Αυτή η κατηγορία υπάρχει ήδη: %s",
@@ -41,10 +42,11 @@ $TRANSLATIONS = array(
 "last year" => "τελευταίο χρόνο",
 "years ago" => "χρόνια πριν",
 "Choose" => "Επιλέξτε",
-"Error loading file picker template" => "Σφάλμα φόρτωσης αρχείου επιλογέα προτύπου",
 "Yes" => "Ναι",
 "No" => "Όχι",
 "Ok" => "Οκ",
+"_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "Άκυρο",
 "The object type is not specified." => "Δεν καθορίστηκε ο τύπος του αντικειμένου.",
 "Error" => "Σφάλμα",
 "The app name is not specified." => "Δεν καθορίστηκε το όνομα της εφαρμογής.",

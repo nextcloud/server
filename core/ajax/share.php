@@ -181,10 +181,10 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 // 						}
 // 					}
 // 				}
+				$groups = OC_Group::getGroups($_GET['search']);
 				if ($sharePolicy == 'groups_only') {
-					$groups = OC_Group::getUserGroups(OC_User::getUser());
-				} else {
-					$groups = OC_Group::getGroups();
+					$usergroups = OC_Group::getUserGroups(OC_User::getUser());
+					$groups = array_intersect($groups, $usergroups);
 				}
 				$count = 0;
 				$users = array();
@@ -213,15 +213,18 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 					}
 				}
 				$count = 0;
+				
+				// enable l10n support
+				$l = OC_L10N::get('core');
+				
 				foreach ($groups as $group) {
 					if ($count < 15) {
-						if (stripos($group, $_GET['search']) !== false
-							&& (!isset($_GET['itemShares'])
+						if (!isset($_GET['itemShares'])
 							|| !isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP])
 							|| !is_array($_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP])
-							|| !in_array($group, $_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP]))) {
+							|| !in_array($group, $_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP])) {
 							$shareWith[] = array(
-								'label' => $group.' (group)',
+								'label' => $group.' ('.$l->t('group').')',
 								'value' => array(
 									'shareType' => OCP\Share::SHARE_TYPE_GROUP,
 									'shareWith' => $group
