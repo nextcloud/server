@@ -115,6 +115,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 		$result = $request->post;
 		$this->assertEquals('John Q. Public', $result['name']);
 		$this->assertEquals('Joey', $result['nickname']);
+		$this->assertEquals('Joey', $request->params['nickname']);
+		$this->assertEquals('Joey', $request['nickname']);
 	}
 
 	public function testPatch() {
