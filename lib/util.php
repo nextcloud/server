@@ -410,14 +410,18 @@ class OC_Util {
 		$encryptedFiles = false;
 		if (OC_App::isEnabled('files_encryption') === false) {
 			$view = new OC\Files\View('/' . OCP\User::getUser());
-			if ($view->file_exists('/files_encryption/keyfiles')) {
-				$encryptedFiles = true;
+			$keyfilePath = '/files_encryption/keyfiles';
+			if ($view->is_dir($keyfilePath)) {
+				$dircontent = $view->getDirectoryContent($keyfilePath);
+				if (!empty($dircontent)) {
+					$encryptedFiles = true;
+				}
 			}
 		}
-		
+
 		return $encryptedFiles;
 	}
-	
+
 	/**
 	 * @brief Check for correct file permissions of data directory
 	 * @paran string $dataDirectory
@@ -654,16 +658,16 @@ class OC_Util {
 		}
 		return $value;
 	}
-	
+
 	/**
 	 * @brief Public function to encode url parameters
 	 *
 	 * This function is used to encode path to file before output.
 	 * Encoding is done according to RFC 3986 with one exception:
-	 * Character '/' is preserved as is. 
+	 * Character '/' is preserved as is.
 	 *
 	 * @param string $component part of URI to encode
-	 * @return string 
+	 * @return string
 	 */
 	public static function encodePath($component) {
 		$encoded = rawurlencode($component);
@@ -801,7 +805,7 @@ class OC_Util {
 			}
 		}
 	}
-	
+
 	/**
 	 * @brief Check if the connection to the internet is disabled on purpose
 	 * @return bool
