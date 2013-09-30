@@ -37,7 +37,6 @@ class OC_Connector_Sabre_AbortedUploadDetectionPlugin extends Sabre_DAV_ServerPl
 	 * This method should set up the requires event subscriptions.
 	 *
 	 * @param Sabre_DAV_Server $server
-	 * @return void
 	 */
 	public function initialize(Sabre_DAV_Server $server) {
 
@@ -54,7 +53,7 @@ class OC_Connector_Sabre_AbortedUploadDetectionPlugin extends Sabre_DAV_ServerPl
 	 */
 	public function verifyContentLength($filePath, Sabre_DAV_INode $node = null) {
 
-		// ownCloud chunked upload will be handled in it's own plugin
+		// ownCloud chunked upload will be handled in its own plugin
 		$chunkHeader = $this->server->httpRequest->getHeader('OC-Chunked');
 		if ($chunkHeader) {
 			return;
