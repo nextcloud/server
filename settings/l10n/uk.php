@@ -2,7 +2,7 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Не вдалося завантажити список з App Store",
 "Authentication error" => "Помилка автентифікації",
-"Unable to change display name" => "Не вдалося змінити зображене ім'я",
+"Unable to change display name" => "Не вдалося змінити ім'я",
 "Group already exists" => "Група вже існує",
 "Unable to add group" => "Не вдалося додати групу",
 "Email saved" => "Адресу збережено",
@@ -97,7 +97,7 @@ $TRANSLATIONS = array(
 "Other" => "Інше",
 "Username" => "Ім'я користувача",
 "Storage" => "Сховище",
-"change display name" => "змінити зображене ім'я",
+"change display name" => "змінити ім'я",
 "set new password" => "встановити новий пароль",
 "Default" => "За замовчуванням"
 );

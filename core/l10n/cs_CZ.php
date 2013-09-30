@@ -59,6 +59,7 @@ $TRANSLATIONS = array(
 "Ok" => "Ok",
 "Error loading message template: {error}" => "Chyba při nahrávání šablony zprávy: {error}",
 "_{count} file conflict_::_{count} file conflicts_" => array("","",""),
+"One file conflict" => "Jeden konflikt souboru",
 "Cancel" => "Zrušit",
 "The object type is not specified." => "Není určen typ objektu.",
 "Error" => "Chyba",
