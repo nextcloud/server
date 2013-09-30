@@ -9,11 +9,21 @@ namespace OC\Preview;
 
 class TXT extends Provider {
 
+	private static $blacklist = array(
+		'text/calendar',
+		'text/vcard',
+	);
+
 	public function getMimeType() {
 		return '/text\/.*/';
 	}
 
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
+		$mimetype = $fileview->getMimeType($path);
+		if(in_array($mimetype, self::$blacklist)) {
+			return false;
+		}
+
 		$content = $fileview->fopen($path, 'r');
 		$content = stream_get_contents($content);
 
