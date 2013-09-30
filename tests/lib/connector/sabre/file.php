@@ -21,4 +21,18 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 		$etag = $file->put('test data');
 	}
 
+	/**
+	 * @expectedException Sabre_DAV_Exception
+	 */
+	public function testSimplePutFailsOnRename() {
+		// setup
+		$file = new OC_Connector_Sabre_File('/test.txt');
+		$file->fileView = $this->getMock('\OC\Files\View', array('file_put_contents', 'rename'), array(), '', FALSE);
+		$file->fileView->expects($this->any())->method('file_put_contents')->withAnyParameters()->will($this->returnValue(true));
+		$file->fileView->expects($this->any())->method('rename')->withAnyParameters()->will($this->returnValue(false));
+
+		// action
+		$etag = $file->put('test data');
+	}
+
 }
