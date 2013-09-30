@@ -293,7 +293,18 @@ class Share {
 		if (\OC_DB::isError($result)) {
 			\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result) . ', token=' . $token, \OC_Log::ERROR);
 		}
-		return $result->fetchRow();
+		$row = $result->fetchRow();
+
+		if (!empty($row['expiration'])) {
+			$now = new \DateTime();
+			$expirationDate = new \DateTime($row['expiration'], new \DateTimeZone('UTC'));
+			if ($now > $expirationDate) {
+				self::delete($row['id']);
+				return false;
+			}
+		}
+
+		return $row;
 	}
 
 	/**
@@ -749,10 +760,10 @@ class Share {
 
 	/**
 	* @brief Get the backend class for the specified item type
-	* @param string Item type
-	* @return Sharing backend object
+	* @param string $itemType
+	* @return Share_Backend
 	*/
-	private static function getBackend($itemType) {
+	public static function getBackend($itemType) {
 		if (isset(self::$backends[$itemType])) {
 			return self::$backends[$itemType];
 		} else if (isset(self::$backendTypes[$itemType]['class'])) {

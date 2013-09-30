@@ -84,6 +84,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				}
 				else {
 					appitem.data('active',false);
+					element.data('active',false);
 					OC.Settings.Apps.removeNavigation(appid);
 					appitem.removeClass('active');
 					element.val(t('settings','Enable'));
@@ -104,6 +105,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				} else {
 					OC.Settings.Apps.addNavigation(appid);
 					appitem.data('active',true);
+					element.data('active',true);
 					appitem.addClass('active');
 					element.val(t('settings','Disable'));
 				}
@@ -158,7 +160,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			if(response.status === 'success'){
 				var navIds=response.nav_ids;
 				for(var i=0; i< navIds.length; i++){
-					$('#apps').children('li[data-id="'+navIds[i]+'"]').remove();
+					$('#apps .wrapper').children('li[data-id="'+navIds[i]+'"]').remove();
 				}
 			}
 		});

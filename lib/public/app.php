@@ -35,10 +35,10 @@ namespace OCP;
  */
 class App {
 	/**
-	 * @brief Makes owncloud aware of this app
+	 * @brief Makes ownCloud aware of this app
 	 * @brief This call is deprecated and not necessary to use.
 	 * @param $data array with all information
-	 * @returns true/false
+	 * @returns boolean
 	 *
 	 * @deprecated this method is deprecated
 	 * Do not call it anymore
@@ -52,7 +52,7 @@ class App {
 	/**
 	 * @brief adds an entry to the navigation
 	 * @param $data array containing the data
-	 * @returns true/false
+	 * @returns boolean
 	 *
 	 * This function adds a new entry to the navigation visible to users. $data
 	 * is an associative array.
@@ -72,8 +72,8 @@ class App {
 
 	/**
 	 * @brief marks a navigation entry as active
-	 * @param $id id of the entry
-	 * @returns true/false
+	 * @param $id string id of the entry
+	 * @returns boolean
 	 *
 	 * This function sets a navigation entry as active and removes the 'active'
 	 * property from all other entries. The templates can use this for
@@ -104,7 +104,7 @@ class App {
 	/**
 	 * @brief Read app metadata from the info.xml file
 	 * @param string $app id of the app or the path of the info.xml file
-	 * @param boolean path (optional)
+	 * @param boolean $path (optional)
 	 * @returns array
 	*/
 	public static function getAppInfo( $app, $path=false ) {
@@ -114,7 +114,7 @@ class App {
 	/**
 	 * @brief checks whether or not an app is enabled
 	 * @param $app app
-	 * @returns true/false
+	 * @returns boolean
 	 *
 	 * This function checks whether or not an app is enabled.
 	 */
@@ -133,7 +133,7 @@ class App {
 	/**
 	 * @brief Get the last version of the app, either from appinfo/version or from appinfo/info.xml
 	 * @param $app app
-	 * @returns true/false
+	 * @returns boolean
 	 */
 	public static function getAppVersion( $app ) {
 		return \OC_App::getAppVersion( $app );

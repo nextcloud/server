@@ -5,14 +5,15 @@
 # Translators:
 # Efstathios Iosifidis <iefstathios@gmail.com>, 2013
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
+# gtsamis <gtsamis@yahoo.com>, 2013
 # frerisp <petrosfreris@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-20 10:44-0400\n"
-"PO-Revision-Date: 2013-09-20 14:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-27 00:01-0400\n"
+"PO-Revision-Date: 2013-09-25 12:10+0000\n"
+"Last-Translator: gtsamis <gtsamis@yahoo.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -89,7 +90,7 @@ msgstr ""
 msgid "Invalid directory."
 msgstr "Μη έγκυρος φάκελος."
 
-#: appinfo/app.php:12
+#: appinfo/app.php:11
 msgid "Files"
 msgstr "Αρχεία"
 
@@ -224,7 +225,7 @@ msgstr "Η λήψη προετοιμάζεται. Αυτό μπορεί να π�
 
 #: js/files.js:507 js/files.js:545
 msgid "Error moving file"
-msgstr ""
+msgstr "Σφάλμα κατά τη μετακίνηση του αρχείου"
 
 #: js/files.js:558 templates/index.php:61
 msgid "Name"

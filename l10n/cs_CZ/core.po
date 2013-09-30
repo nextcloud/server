@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-22 12:55-0400\n"
-"PO-Revision-Date: 2013-09-20 15:01+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-27 00:01-0400\n"
+"PO-Revision-Date: 2013-09-25 10:50+0000\n"
+"Last-Translator: pstast <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -284,7 +284,7 @@ msgstr[2] ""
 
 #: js/oc-dialogs.js:361
 msgid "One file conflict"
-msgstr ""
+msgstr "Jeden konflikt souboru"
 
 #: js/oc-dialogs.js:367
 msgid "Which files do you want to keep?"
@@ -325,7 +325,7 @@ msgstr "Není určen typ objektu."
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:645 js/share.js:657
+#: js/share.js:656 js/share.js:668
 msgid "Error"
 msgstr "Chyba"
 
@@ -345,7 +345,7 @@ msgstr "Sdílené"
 msgid "Share"
 msgstr "Sdílet"
 
-#: js/share.js:131 js/share.js:685
+#: js/share.js:131 js/share.js:696
 msgid "Error while sharing"
 msgstr "Chyba při sdílení"
 
@@ -445,23 +445,23 @@ msgstr "smazat"
 msgid "share"
 msgstr "sdílet"
 
-#: js/share.js:400 js/share.js:632
+#: js/share.js:400 js/share.js:643
 msgid "Password protected"
 msgstr "Chráněno heslem"
 
-#: js/share.js:645
+#: js/share.js:656
 msgid "Error unsetting expiration date"
 msgstr "Chyba při odstraňování data vypršení platnosti"
 
-#: js/share.js:657
+#: js/share.js:668
 msgid "Error setting expiration date"
 msgstr "Chyba při nastavení data vypršení platnosti"
 
-#: js/share.js:672
+#: js/share.js:683
 msgid "Sending ..."
 msgstr "Odesílám ..."
 
-#: js/share.js:683
+#: js/share.js:694
 msgid "Email sent"
 msgstr "E-mail odeslán"
 

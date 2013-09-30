@@ -6,34 +6,36 @@
  * See the COPYING-README file.
  */
 
-class OC_Cache {
+namespace OC;
+
+class Cache {
 	/**
-	 * @var OC_Cache $user_cache
+	 * @var Cache $user_cache
 	 */
 	static protected $user_cache;
 	/**
-	 * @var OC_Cache $global_cache
+	 * @var Cache $global_cache
 	 */
 	static protected $global_cache;
 
 	/**
 	 * get the global cache
-	 * @return OC_Cache
+	 * @return Cache
 	 */
 	static public function getGlobalCache() {
 		if (!self::$global_cache) {
-			self::$global_cache = new OC_Cache_FileGlobal();
+			self::$global_cache = new Cache\FileGlobal();
 		}
 		return self::$global_cache;
 	}
 
 	/**
 	 * get the user cache
-	 * @return OC_Cache
+	 * @return Cache
 	 */
 	static public function getUserCache() {
 		if (!self::$user_cache) {
-			self::$user_cache = new OC_Cache_File();
+			self::$user_cache = new Cache\File();
 		}
 		return self::$user_cache;
 	}
@@ -85,7 +87,7 @@ class OC_Cache {
 
 	/**
 	 * clear the user cache of all entries starting with a prefix
-	 * @param string prefix (optional)
+	 * @param string $prefix (optional)
 	 * @return bool
 	 */
 	static public function clear($prefix='') {
@@ -93,6 +95,11 @@ class OC_Cache {
 		return $user_cache->clear($prefix);
 	}
 
+	/**
+	 * creates cache key based on the files given
+	 * @param $files
+	 * @return string
+	 */
 	static public function generateCacheKeyFromFiles($files) {
 		$key = '';
 		sort($files);

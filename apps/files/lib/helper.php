@@ -39,8 +39,8 @@ class Helper
 		}
 
 		if($file['isPreviewAvailable']) {
-			$relativePath = substr($file['path'], 6);
-			return \OC_Helper::previewIcon($relativePath);
+			$pathForPreview = $file['directory'] . '/' . $file['name'];
+			return \OC_Helper::previewIcon($pathForPreview);
 		}
 		return \OC_Helper::mimetypeIcon($file['mimetype']);
 	}
@@ -84,7 +84,7 @@ class Helper
 				}
 			}
 			$i['directory'] = $dir;
-			$i['isPreviewAvailable'] = \OCP\Preview::isMimeSupported($i['mimetype']);
+			$i['isPreviewAvailable'] = \OC::$server->getPreviewManager()->isMimeSupported($i['mimetype']);
 			$i['icon'] = \OCA\Files\Helper::determineIcon($i);
 			$files[] = $i;
 		}
