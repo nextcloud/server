@@ -44,11 +44,12 @@ class Api {
 
 		$share = \OCP\Share::getItemShared('file', null);
 
-		if ($share !== null) {
-			return new \OC_OCS_Result($share);
+		if ($share === false) {
+			return new \OC_OCS_Result(null, 404, 'could not get shares');
 		} else {
-			return new \OC_OCS_Result(null, 404, 'no shares available');
+			return new \OC_OCS_Result($share);
 		}
+
 	}
 
 	/**
