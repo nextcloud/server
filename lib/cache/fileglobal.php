@@ -6,10 +6,11 @@
  * See the COPYING-README file.
  */
 
+namespace OC\Cache;
 
-class OC_Cache_FileGlobal{
+class FileGlobal {
 	static protected function getCacheDir() {
-		$cache_dir = get_temp_dir().'/owncloud-'.OC_Util::getInstanceId().'/';
+		$cache_dir = get_temp_dir().'/owncloud-' . \OC_Util::getInstanceId().'/';
 		if (!is_dir($cache_dir)) {
 			mkdir($cache_dir);
 		}
@@ -80,13 +81,13 @@ class OC_Cache_FileGlobal{
 	}
 
 	static public function gc() {
-		$last_run = OC_AppConfig::getValue('core', 'global_cache_gc_lastrun', 0);
+		$last_run = \OC_AppConfig::getValue('core', 'global_cache_gc_lastrun', 0);
 		$now = time();
 		if (($now - $last_run) < 300) {
 			// only do cleanup every 5 minutes
 			return;
 		}
-		OC_AppConfig::setValue('core', 'global_cache_gc_lastrun', $now);
+		\OC_AppConfig::setValue('core', 'global_cache_gc_lastrun', $now);
 		$cache_dir = self::getCacheDir();
 		if($cache_dir and is_dir($cache_dir)) {
 			$dh=opendir($cache_dir);

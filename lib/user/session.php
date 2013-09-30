@@ -27,7 +27,7 @@ use OC\Hooks\Emitter;
  *
  * @package OC\User
  */
-class Session implements Emitter {
+class Session implements Emitter, \OCP\IUserSession {
 	/**
 	 * @var \OC\User\Manager $manager
 	 */
