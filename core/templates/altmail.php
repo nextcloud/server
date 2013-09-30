@@ -1,7 +1,11 @@
 <?php
-$expiration = isset($_['expiration']) ? $_['expiration'] : null;
-print_unescaped($theme->getShareNotificationTextAlt($_['user_displayname'], $_['filename'], $_['link'], $expiration));
+print_unescaped($l->t("Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n", array($_['user_displayname'], $_['filename'], $_['link'])));
+if ( isset($_['expiration']) ) {
+	print_unescaped($l->t("The share will expire at %s.\n\n", array($_['expiration'])));
+}
+p($l->t("Cheers!"));
 ?>
 
 --
-<?php print_unescaped($theme->getMailFooterAlt());
+<?php p($theme->getName() . ' - ' . $theme->getSlogan()); ?>
+<?php print_unescaped("\n".$theme->getBaseUrl());
