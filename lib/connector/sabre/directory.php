@@ -57,6 +57,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 		$path = $this->path . '/' . $name;
 		$node = new OC_Connector_Sabre_File($path);
 		return $node->put($data);
+
 	}
 
 	/**

@@ -90,19 +90,6 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 			throw new Sabre_DAV_Exception_Forbidden();
 		}
 
-		//detect aborted upload
-		if (isset ($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT' ) {
-			if (isset($_SERVER['CONTENT_LENGTH'])) {
-				$expected = $_SERVER['CONTENT_LENGTH'];
-				$actual = $fs->filesize($partpath);
-				if ($actual != $expected) {
-					$fs->unlink($partpath);
-					throw new Sabre_DAV_Exception_BadRequest(
-						'expected filesize ' . $expected . ' got ' . $actual);
-				}
-			}
-		}
-
 		// rename to correct path
 		$renameOkay = $fs->rename($partpath, $this->path);
 		$fileExists = $fs->file_exists($this->path);
@@ -173,7 +160,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 *
 	 * An ETag is a unique identifier representing the current version of the
 	 * file. If the file changes, the ETag MUST change.  The ETag is an
-	 * arbritrary string, but MUST be surrounded by double-quotes.
+	 * arbitrary string, but MUST be surrounded by double-quotes.
 	 *
 	 * Return null if the ETag can not effectively be determined
 	 *
