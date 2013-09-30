@@ -14,7 +14,7 @@
 <?php
 print_unescaped($l->t('Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href="%s">View it!</a><br><br>', array($_['user_displayname'], $_['filename'], $_['link'])));
 if ( isset($_['expiration']) ) {
-	print_unescaped($l->t("The share will expire at %s.<br><br>", array($_['expiration'])));
+	print_unescaped($l->t("The share will expire on %s.<br><br>", array($_['expiration'])));
 }
 p($l->t('Cheers!'));
 ?>
