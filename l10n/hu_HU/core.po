@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-22 12:55-0400\n"
-"PO-Revision-Date: 2013-09-20 15:01+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-30 10:16-0400\n"
+"PO-Revision-Date: 2013-09-30 00:42+0000\n"
+"Last-Translator: ebela <bela@dandre.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,28 +30,28 @@ msgstr "csoport"
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "A karbantartási mód bekapcsolva"
 
 #: ajax/update.php:14
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "A karbantartási mód kikapcsolva"
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr ""
+msgstr "Frissítet adatbázis"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
-msgstr ""
+msgstr "A filecache frissítése folyamatban, ez a folyamat hosszabb ideig is eltarthat..."
 
 #: ajax/update.php:23
 msgid "Updated filecache"
-msgstr ""
+msgstr "Filecache frissítve"
 
 #: ajax/update.php:26
 #, php-format
 msgid "... %d%% done ..."
-msgstr ""
+msgstr "... %d%% kész ..."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -94,23 +94,23 @@ msgstr "Nem sikerült a kedvencekből törölni ezt: %s"
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
-msgstr ""
+msgstr "Nincs kép vagy file megadva"
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Ismeretlen file tipús"
 
 #: avatar/controller.php:85
 msgid "Invalid image"
-msgstr ""
+msgstr "Hibás kép"
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
-msgstr ""
+msgstr "Az átmeneti profil kép nem elérhető, próbáld újra"
 
 #: avatar/controller.php:135
 msgid "No crop data provided"
-msgstr ""
+msgstr "Vágáshoz nincs adat megadva"
 
 #: js/config.php:32
 msgid "Sunday"
@@ -250,7 +250,7 @@ msgstr "Válasszon"
 
 #: js/oc-dialogs.js:146
 msgid "Error loading file picker template: {error}"
-msgstr ""
+msgstr "Nem sikerült betölteni a fájlkiválasztó sablont: {error}"
 
 #: js/oc-dialogs.js:172
 msgid "Yes"
@@ -266,7 +266,7 @@ msgstr "Ok"
 
 #: js/oc-dialogs.js:219
 msgid "Error loading message template: {error}"
-msgstr ""
+msgstr "Nem sikerült betölteni az üzenet sablont: {error}"
 
 #: js/oc-dialogs.js:347
 msgid "{count} file conflict"
@@ -276,17 +276,17 @@ msgstr[1] ""
 
 #: js/oc-dialogs.js:361
 msgid "One file conflict"
-msgstr ""
+msgstr "Egy file ütközik"
 
 #: js/oc-dialogs.js:367
 msgid "Which files do you want to keep?"
-msgstr ""
+msgstr "Melyik file-okat akarod megtartani?"
 
 #: js/oc-dialogs.js:368
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
-msgstr ""
+msgstr "Ha kiválasztod mindazokaz a verziókat, a másolt fileok neve sorszámozva lesz."
 
 #: js/oc-dialogs.js:376
 msgid "Cancel"
@@ -294,19 +294,19 @@ msgstr "Mégsem"
 
 #: js/oc-dialogs.js:386
 msgid "Continue"
-msgstr ""
+msgstr "Folytatás"
 
 #: js/oc-dialogs.js:433 js/oc-dialogs.js:446
 msgid "(all selected)"
-msgstr ""
+msgstr "(all selected)"
 
 #: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "({count} selected)"
-msgstr ""
+msgstr "({count} kiválasztva)"
 
 #: js/oc-dialogs.js:457
 msgid "Error loading file exists template"
-msgstr ""
+msgstr "Hiba a létező sablon betöltésekor"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -317,7 +317,7 @@ msgstr "Az objektum típusa nincs megadva."
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:645 js/share.js:657
+#: js/share.js:656 js/share.js:668
 msgid "Error"
 msgstr "Hiba"
 
@@ -337,7 +337,7 @@ msgstr "Megosztott"
 msgid "Share"
 msgstr "Megosztás"
 
-#: js/share.js:131 js/share.js:685
+#: js/share.js:131 js/share.js:696
 msgid "Error while sharing"
 msgstr "Nem sikerült létrehozni a megosztást"
 
@@ -437,23 +437,23 @@ msgstr "töröl"
 msgid "share"
 msgstr "megoszt"
 
-#: js/share.js:400 js/share.js:632
+#: js/share.js:400 js/share.js:643
 msgid "Password protected"
 msgstr "Jelszóval van védve"
 
-#: js/share.js:645
+#: js/share.js:656
 msgid "Error unsetting expiration date"
 msgstr "Nem sikerült a lejárati időt törölni"
 
-#: js/share.js:657
+#: js/share.js:668
 msgid "Error setting expiration date"
 msgstr "Nem sikerült a lejárati időt beállítani"
 
-#: js/share.js:672
+#: js/share.js:683
 msgid "Sending ..."
 msgstr "Küldés ..."
 
-#: js/share.js:683
+#: js/share.js:694
 msgid "Email sent"
 msgstr "Az emailt elküldtük"
 
@@ -471,7 +471,7 @@ msgstr "A frissítés sikeres volt. Visszairányítjuk az ownCloud szolgáltatá
 #: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "%s jelszó visszaállítás"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"

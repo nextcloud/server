@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-20 10:44-0400\n"
-"PO-Revision-Date: 2013-09-20 14:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-30 10:14-0400\n"
+"PO-Revision-Date: 2013-09-30 06:27+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -81,23 +81,23 @@ msgstr "ストレージに十分な空き容量がありません"
 
 #: ajax/upload.php:120 ajax/upload.php:143
 msgid "Upload failed. Could not get file info."
-msgstr ""
+msgstr "アップロードに失敗。ファイル情報を取得できませんでした。"
 
 #: ajax/upload.php:136
 msgid "Upload failed. Could not find uploaded file"
-msgstr ""
+msgstr "アップロードに失敗。アップロード済みのファイルを見つけることができませんでした。"
 
 #: ajax/upload.php:160
 msgid "Invalid directory."
 msgstr "無効なディレクトリです。"
 
-#: appinfo/app.php:12
+#: appinfo/app.php:11
 msgid "Files"
 msgstr "ファイル"
 
 #: js/file-upload.js:244
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "ディレクトリもしくは0バイトのため {filename} をアップロードできません"
 
 #: js/file-upload.js:255
 msgid "Not enough space available"
@@ -109,7 +109,7 @@ msgstr "アップロードはキャンセルされました。"
 
 #: js/file-upload.js:356
 msgid "Could not get result from server."
-msgstr ""
+msgstr "サーバから結果を取得できませんでした。"
 
 #: js/file-upload.js:446
 msgid ""
@@ -223,7 +223,7 @@ msgstr "ダウンロードの準備中です。ファイルサイズが大きい
 
 #: js/files.js:507 js/files.js:545
 msgid "Error moving file"
-msgstr ""
+msgstr "ファイルの移動エラー"
 
 #: js/files.js:558 templates/index.php:61
 msgid "Name"

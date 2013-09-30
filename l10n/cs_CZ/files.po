@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# dibalaj <dibalaj@dibalaj.cz>, 2013
 # Honza K. <honza889@gmail.com>, 2013
 # cvanca <mrs.jenkins.oh.yeah@gmail.com>, 2013
 # pstast <petr@stastny.eu>, 2013
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-20 10:44-0400\n"
-"PO-Revision-Date: 2013-09-20 14:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-30 10:14-0400\n"
+"PO-Revision-Date: 2013-09-29 16:54+0000\n"
+"Last-Translator: dibalaj <dibalaj@dibalaj.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -90,7 +91,7 @@ msgstr ""
 msgid "Invalid directory."
 msgstr "Neplatný adresář"
 
-#: appinfo/app.php:12
+#: appinfo/app.php:11
 msgid "Files"
 msgstr "Soubory"
 
@@ -228,7 +229,7 @@ msgstr "Vaše soubory ke stažení se připravují. Pokud jsou velké, může to
 
 #: js/files.js:507 js/files.js:545
 msgid "Error moving file"
-msgstr ""
+msgstr "Chyba při přesunu souboru"
 
 #: js/files.js:558 templates/index.php:61
 msgid "Name"

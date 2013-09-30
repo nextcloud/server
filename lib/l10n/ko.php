@@ -8,12 +8,16 @@ $TRANSLATIONS = array(
 "Users" => "사용자",
 "Admin" => "관리자",
 "Failed to upgrade \"%s\"." => "\"%s\" 업그레이드에 실패했습니다.",
+"Custom profile pictures don't work with encryption yet" => "개개인의 프로필 사진은 아직은 암호화 되지 않습니다",
+"Unknown filetype" => "알수없는 파일형식",
+"Invalid image" => "잘못된 그림",
 "web services under your control" => "내가 관리하는 웹 서비스",
 "cannot open \"%s\"" => "\"%s\"을(를) 열 수 없습니다.",
 "ZIP download is turned off." => "ZIP 다운로드가 비활성화되었습니다.",
 "Files need to be downloaded one by one." => "파일을 개별적으로 다운로드해야 합니다.",
 "Back to Files" => "파일로 돌아가기",
 "Selected files too large to generate zip file." => "선택한 파일들은 ZIP 파일을 생성하기에 너무 큽니다.",
+"Download the files in smaller chunks, seperately or kindly ask your administrator." => "작은 조각들 안에 들어있는 파일들을 받고자 하신다면, 나누어서 받으시거나 혹은 시스템 관리자에게 정중하게 물어보십시오",
 "No source specified when installing app" => "앱을 설치할 때 소스가 지정되지 않았습니다.",
 "No href specified when installing app from http" => "http에서 앱을 설치할 대 href가 지정되지 않았습니다.",
 "No path specified when installing app from local file" => "로컬 파일에서 앱을 설치할 때 경로가 지정되지 않았습니다.",
@@ -52,6 +56,7 @@ $TRANSLATIONS = array(
 "Set an admin password." => "관리자 비밀번호 설정",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "WebDAV 인터페이스가 제대로 작동하지 않습니다. 웹 서버에서 파일 동기화를 사용할 수 있도록 설정이 제대로 되지 않은 것 같습니다.",
 "Please double check the <a href='%s'>installation guides</a>." => "<a href='%s'>설치 가이드</a>를 다시 한 번 확인하십시오.",
+"Could not find category \"%s\"" => "분류 \"%s\"을(를) 찾을 수 없습니다.",
 "seconds ago" => "초 전",
 "_%n minute ago_::_%n minutes ago_" => array("%n분 전 "),
 "_%n hour ago_::_%n hours ago_" => array("%n시간 전 "),
@@ -62,7 +67,6 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("%n달 전 "),
 "last year" => "작년",
 "years ago" => "년 전",
-"Caused by:" => "원인: ",
-"Could not find category \"%s\"" => "분류 \"%s\"을(를) 찾을 수 없습니다."
+"Caused by:" => "원인: "
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";
