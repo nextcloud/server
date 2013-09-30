@@ -164,15 +164,6 @@ class Server extends SimpleContainer implements IServerContainer {
 	}
 
 	/**
-	 * Returns the avatar manager, used for avatar functionality
-	 *
-	 * @return \OCP\IAvatar
-	 */
-	function getAvatarManager() {
-		return $this->query('AvatarManager');
-	}
-
-	/**
 	 * Returns the tag manager which can get and set tags for different object types
 	 *
 	 * @see \OCP\ITagManager::load()
