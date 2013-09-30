@@ -11,6 +11,14 @@ namespace OC\Connector\Sabre;
 use OC\Files\Filesystem;
 
 class ObjectTree extends \Sabre_DAV_ObjectTree {
+
+	/**
+	 * keep this public to allow mock injection during unit test
+	 *
+	 * @var \OC\Files\View
+	 */
+	public $fileView;
+
 	/**
 	 * Returns the INode object for the requested path
 	 *
@@ -21,14 +29,16 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 	public function getNodeForPath($path) {
 
 		$path = trim($path, '/');
-		if (isset($this->cache[$path])) return $this->cache[$path];
+		if (isset($this->cache[$path])) {
+			return $this->cache[$path];
+		}
 
 		// Is it the root node?
 		if (!strlen($path)) {
 			return $this->rootNode;
 		}
 
-		$info = Filesystem::getFileInfo($path);
+		$info = $this->getFileView()->getFileInfo($path);
 
 		if (!$info) {
 			throw new \Sabre_DAV_Exception_NotFound('File with name ' . $path . ' could not be located');
@@ -64,7 +74,25 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 		list($sourceDir,) = \Sabre_DAV_URLUtil::splitPath($sourcePath);
 		list($destinationDir,) = \Sabre_DAV_URLUtil::splitPath($destinationPath);
 
-		Filesystem::rename($sourcePath, $destinationPath);
+		// check update privileges
+		$fs = $this->getFileView();
+		if (!$fs->isUpdatable($sourcePath)) {
+			throw new \Sabre_DAV_Exception_Forbidden();
+		}
+		if ($sourceDir !== $destinationDir) {
+			// for a full move we need update privileges on sourcePath and sourceDir as well as destinationDir
+			if (!$fs->isUpdatable($sourceDir)) {
+				throw new \Sabre_DAV_Exception_Forbidden();
+			}
+			if (!$fs->isUpdatable($destinationDir)) {
+				throw new \Sabre_DAV_Exception_Forbidden();
+			}
+		}
+
+		$renameOkay = $fs->rename($sourcePath, $destinationPath);
+		if (!$renameOkay) {
+			throw new \Sabre_DAV_Exception_Forbidden('');
+		}
 
 		$this->markDirty($sourceDir);
 		$this->markDirty($destinationDir);
@@ -100,5 +128,15 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 
 		list($destinationDir,) = \Sabre_DAV_URLUtil::splitPath($destination);
 		$this->markDirty($destinationDir);
+	}
+
+	/**
+	 * @return \OC\Files\View
+	 */
+	public function getFileView() {
+		if (is_null($this->fileView)) {
+			$this->fileView = \OC\Files\Filesystem::getView();
+		}
+		return $this->fileView;
 	}
 }

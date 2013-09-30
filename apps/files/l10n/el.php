@@ -41,6 +41,7 @@ $TRANSLATIONS = array(
 "Your storage is almost full ({usedSpacePercent}%)" => "Ο αποθηκευτικός χώρος είναι σχεδόν γεμάτος ({usedSpacePercent}%)",
 "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Η κρυπτογράφηση απενεργοποιήθηκε, αλλά τα αρχεία σας είναι ακόμα κρυπτογραφημένα. Παρακαλούμε απενεργοποιήσετε την κρυπτογράφηση αρχείων από τις προσωπικές σας ρυθμίσεις",
 "Your download is being prepared. This might take some time if the files are big." => "Η λήψη προετοιμάζεται. Αυτό μπορεί να πάρει ώρα εάν τα αρχεία έχουν μεγάλο μέγεθος.",
+"Error moving file" => "Σφάλμα κατά τη μετακίνηση του αρχείου",
 "Name" => "Όνομα",
 "Size" => "Μέγεθος",
 "Modified" => "Τροποποιήθηκε",

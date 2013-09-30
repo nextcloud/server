@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-22 12:55-0400\n"
-"PO-Revision-Date: 2013-09-20 15:01+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-24 12:58-0400\n"
+"PO-Revision-Date: 2013-09-24 08:30+0000\n"
+"Last-Translator: unhammer <unhammer+dill@mm.st>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -95,23 +95,23 @@ msgstr "Klarte ikkje fjerna %s frå favorittar."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
-msgstr ""
+msgstr "Inga bilete eller fil gitt"
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Ukjend filtype"
 
 #: avatar/controller.php:85
 msgid "Invalid image"
-msgstr ""
+msgstr "Ugyldig bilete"
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
-msgstr ""
+msgstr "Inga midlertidig profilbilete tilgjengeleg, prøv igjen"
 
 #: avatar/controller.php:135
 msgid "No crop data provided"
-msgstr ""
+msgstr "Ingen beskjeringsdata gitt"
 
 #: js/config.php:32
 msgid "Sunday"
@@ -251,7 +251,7 @@ msgstr "Vel"
 
 #: js/oc-dialogs.js:146
 msgid "Error loading file picker template: {error}"
-msgstr ""
+msgstr "Klarte ikkje å lasta filplukkarmal: {error}"
 
 #: js/oc-dialogs.js:172
 msgid "Yes"
@@ -267,27 +267,27 @@ msgstr "Greitt"
 
 #: js/oc-dialogs.js:219
 msgid "Error loading message template: {error}"
-msgstr ""
+msgstr "Klarte ikkje å lasta meldingsmal: {error}"
 
 #: js/oc-dialogs.js:347
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{count} filkonflikt"
+msgstr[1] "{count} filkonfliktar"
 
 #: js/oc-dialogs.js:361
 msgid "One file conflict"
-msgstr ""
+msgstr "Éin filkonflikt"
 
 #: js/oc-dialogs.js:367
 msgid "Which files do you want to keep?"
-msgstr ""
+msgstr "Kva filer vil du spara?"
 
 #: js/oc-dialogs.js:368
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
-msgstr ""
+msgstr "Viss du vel begge utgåvene, vil den kopierte fila få eit tal lagt til namnet."
 
 #: js/oc-dialogs.js:376
 msgid "Cancel"
@@ -295,19 +295,19 @@ msgstr "Avbryt"
 
 #: js/oc-dialogs.js:386
 msgid "Continue"
-msgstr ""
+msgstr "Gå vidare"
 
 #: js/oc-dialogs.js:433 js/oc-dialogs.js:446
 msgid "(all selected)"
-msgstr ""
+msgstr "(alle valte)"
 
 #: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "({count} selected)"
-msgstr ""
+msgstr "({count} valte)"
 
 #: js/oc-dialogs.js:457
 msgid "Error loading file exists template"
-msgstr ""
+msgstr "Klarte ikkje å lasta fil-finst-mal"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -318,7 +318,7 @@ msgstr "Objekttypen er ikkje spesifisert."
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:645 js/share.js:657
+#: js/share.js:656 js/share.js:668
 msgid "Error"
 msgstr "Feil"
 
@@ -338,7 +338,7 @@ msgstr "Delt"
 msgid "Share"
 msgstr "Del"
 
-#: js/share.js:131 js/share.js:685
+#: js/share.js:131 js/share.js:696
 msgid "Error while sharing"
 msgstr "Feil ved deling"
 
@@ -438,23 +438,23 @@ msgstr "slett"
 msgid "share"
 msgstr "del"
 
-#: js/share.js:400 js/share.js:632
+#: js/share.js:400 js/share.js:643
 msgid "Password protected"
 msgstr "Passordverna"
 
-#: js/share.js:645
+#: js/share.js:656
 msgid "Error unsetting expiration date"
 msgstr "Klarte ikkje fjerna utløpsdato"
 
-#: js/share.js:657
+#: js/share.js:668
 msgid "Error setting expiration date"
 msgstr "Klarte ikkje setja utløpsdato"
 
-#: js/share.js:672
+#: js/share.js:683
 msgid "Sending ..."
 msgstr "Sender …"
 
-#: js/share.js:683
+#: js/share.js:694
 msgid "Email sent"
 msgstr "E-post sendt"
 

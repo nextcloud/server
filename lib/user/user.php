@@ -106,24 +106,6 @@ class User {
 	}
 
 	/**
-	 * Check if the password is valid for the user
-	 *
-	 * @param $password
-	 * @return bool
-	 */
-	public function checkPassword($password) {
-		if ($this->backend->implementsActions(\OC_USER_BACKEND_CHECK_PASSWORD)) {
-			$result = $this->backend->checkPassword($this->uid, $password);
-			if ($result !== false) {
-				$this->uid = $result;
-			}
-			return !($result === false);
-		} else {
-			return false;
-		}
-	}
-
-	/**
 	 * Set the password of the user
 	 *
 	 * @param string $password

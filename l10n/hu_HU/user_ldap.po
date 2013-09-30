@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-07 04:40-0400\n"
-"PO-Revision-Date: 2013-09-05 11:51+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-27 00:01-0400\n"
+"PO-Revision-Date: 2013-09-24 19:00+0000\n"
+"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -92,7 +92,7 @@ msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behavior. Please ask your system administrator to "
 "disable one of them."
-msgstr ""
+msgstr "<b>Figyelem:</b> a user_ldap és user_webdavauth alkalmazások nem kompatibilisek. Együttes használatuk váratlan eredményekhez vezethet. Kérje meg a rendszergazdát, hogy a kettő közül kapcsolja ki az egyiket."
 
 #: templates/settings.php:12
 msgid ""
@@ -157,7 +157,7 @@ msgstr "Szűrő a bejelentkezéshez"
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action. Example: \"uid=%%uid\""
-msgstr ""
+msgstr "Ez a szűrő érvényes a bejelentkezés megkísérlésekor. Ekkor az %%uid változó helyére a bejelentkezési név kerül. Például: \"uid=%%uid\""
 
 #: templates/settings.php:55
 msgid "User List Filter"
@@ -167,7 +167,7 @@ msgstr "A felhasználók szűrője"
 msgid ""
 "Defines the filter to apply, when retrieving users (no placeholders). "
 "Example: \"objectClass=person\""
-msgstr ""
+msgstr "Ez a szűrő érvényes a felhasználók listázásakor (nincs helyettesíthető változó). Például: \"objectClass=person\""
 
 #: templates/settings.php:59
 msgid "Group Filter"
@@ -177,7 +177,7 @@ msgstr "A csoportok szűrője"
 msgid ""
 "Defines the filter to apply, when retrieving groups (no placeholders). "
 "Example: \"objectClass=posixGroup\""
-msgstr ""
+msgstr "Ez a szűrő érvényes a csoportok listázásakor (nincs helyettesíthető változó). Például: \"objectClass=posixGroup\""
 
 #: templates/settings.php:66
 msgid "Connection Settings"
@@ -215,7 +215,7 @@ msgstr "A fő szerver kihagyása"
 
 #: templates/settings.php:72
 msgid "Only connect to the replica server."
-msgstr ""
+msgstr "Csak a másodlagos (másolati) kiszolgálóhoz kapcsolódjunk."
 
 #: templates/settings.php:73
 msgid "Use TLS"
@@ -238,7 +238,7 @@ msgstr "Ne ellenőrizzük az SSL-tanúsítvány érvényességét"
 msgid ""
 "Not recommended, use it for testing only! If connection only works with this"
 " option, import the LDAP server's SSL certificate in your %s server."
-msgstr ""
+msgstr "Használata nem javasolt (kivéve tesztelési céllal). Ha a kapcsolat csak ezzel a beállítással működik, akkor importálja az LDAP-kiszolgáló SSL tanúsítványát a(z) %s kiszolgálóra!"
 
 #: templates/settings.php:76
 msgid "Cache Time-To-Live"
@@ -258,7 +258,7 @@ msgstr "A felhasználónév mezője"
 
 #: templates/settings.php:80
 msgid "The LDAP attribute to use to generate the user's display name."
-msgstr ""
+msgstr "Ebből az LDAP attribútumból képződik a felhasználó megjelenítendő neve."
 
 #: templates/settings.php:81
 msgid "Base User Tree"
@@ -282,7 +282,7 @@ msgstr "A csoport nevének mezője"
 
 #: templates/settings.php:83
 msgid "The LDAP attribute to use to generate the groups's display name."
-msgstr ""
+msgstr "Ebből az LDAP attribútumból képződik a csoport megjelenítendő neve."
 
 #: templates/settings.php:84
 msgid "Base Group Tree"

@@ -28,7 +28,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 *
 	 * The data argument is a readable stream resource.
 	 *
-	 * After a succesful put operation, you may choose to return an ETag. The
+	 * After a successful put operation, you may choose to return an ETag. The
 	 * etag must always be surrounded by double-quotes. These quotes must
 	 * appear in the actual string you're returning.
 	 *
@@ -104,7 +104,13 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		}
 
 		// rename to correct path
-		$fs->rename($partpath, $this->path);
+		$renameOkay = $fs->rename($partpath, $this->path);
+		$fileExists = $fs->file_exists($this->path);
+		if ($renameOkay === false || $fileExists === false) {
+			\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
+			$fs->unlink($partpath);
+			throw new Sabre_DAV_Exception();
+		}
 
 		// allow sync clients to send the mtime along in a header
 		$mtime = OC_Request::hasModificationTime();
