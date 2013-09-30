@@ -35,51 +35,6 @@ class Defaults {
 	}
 
 	/**
-	 * @brief subject for share notification mail
-	 * @param string $user user who shared the item
-	 * @pram string $itemName name of the item
-	 */
-	public function getShareNotificationSubject($user, $itemName) {
-		return $this->defaults->getShareNotificationSubject($user, $itemName);
-	}
-
-	/**
-	 * @brief mail body for share notification mail (text only)
-	 * @param string $sender owner of the file/folder
-	 * @param string $itemName name of the file/folder
-	 * @param string $link link directly to the file/folder in your ownCloud
-	 * @param string $expiration expiration date
-	 */
-	public function getShareNotificationTextAlt($sender, $itemName, $link, $expiration=null) {
-		return $this->defaults->getShareNotificationTextAlt($sender, $itemName, $link, $expiration);
-	}
-
-	/**
-	 * @brief mail body for share notification mail (HTML mail)
-	 * @param string $sender owner of the file/folder
-	 * @param string $itemName name of the file/folder
-	 * @param string $link link directly to the file/folder in your ownCloud
-	 * @param string $expiration expiration date
-	 */
-	public function getShareNotificationTextHtml($sender, $itemName, $link, $expiration=null) {
-		return $this->defaults->getShareNotificationTextHtml($sender, $itemName, $link, $expiration);
-	}
-
-	/**
-	 * @brief return footer for mails (HTML mail)
-	 */
-	public function getMailFooterHtml() {
-		return $this->defaults->getMailFooterHtml();
-	}
-
-		/**
-	 * @brief return footer for mails (text only)
-	 */
-	public function getMailFooterAlt() {
-		return $this->defaults->getMailFooterAlt();
-	}
-
-	/**
 	 * @breif get base URL for the organisation behind your ownCloud instance
 	 * @return string
 	 */
