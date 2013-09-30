@@ -8,15 +8,15 @@ if( file_exists( $autosetup_file )) {
 	$_POST = array_merge ($_POST, $AUTOCONFIG);
 }
 
-$dbSet = isset($_POST['dbtype']);
-$directorySet = isset($_POST['directory']);
-$adminAccountSet = isset($_POST['adminlogin']);
+$dbIsSet = isset($_POST['dbtype']);
+$directoryIsSet = isset($_POST['directory']);
+$adminAccountIsSet = isset($_POST['adminlogin']);
 
-if ($dbSet AND $directorySet AND $adminAccountSet) {
-    $_POST['install'] = 'true';
-    if( file_exists( $autosetup_file )) {
-    	unlink($autosetup_file);
-    }
+if ($dbIsSet AND $directoryIsSet AND $adminAccountIsSet) {
+	$_POST['install'] = 'true';
+	if( file_exists( $autosetup_file )) {
+		unlink($autosetup_file);
+	}
 }
 
 OC_Util::addScript('setup');
@@ -46,8 +46,8 @@ $opts = array(
 	'htaccessWorking' => OC_Util::isHtAccessWorking(),
 	'vulnerableToNullByte' => $vulnerableToNullByte,
 	'errors' => array(),
-    'dbSet' => $dbSet,
-    'directorySet' => $directorySet
+	'dbIsSet' => $dbIsSet,
+	'directoryIsSet' => $directoryIsSet,
 );
 
 if(isset($_POST['install']) AND $_POST['install']=='true') {
