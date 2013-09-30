@@ -14,7 +14,7 @@
  *
  * This class reimplements some methods from @see Sabre_DAV_Server.
  *
- * Basically we add handling of depth infinity.
+ * Basically we add handling of depth: infinity.
  *
  * The right way to handle this would have been to submit a patch to the upstream project
  * and grab the corresponding version one merged.
