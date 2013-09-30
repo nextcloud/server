@@ -115,10 +115,11 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 					$displayName = \OCP\User::getDisplayName($recipient);
 					$items = \OCP\Share::getItemSharedWithUser($itemType, $itemSource, $recipient);
 					$filename = trim($items[0]['file_target'], '/');
-					$subject = $defaults->getShareNotificationSubject($ownerDisplayName, $filename);
+					$subject = (string)$l->t('%s shared »%s« with you', array($ownerDisplayName, $filename));
 					$expiration = null;
 					if (isset($items[0]['expiration'])) {
-						$expiration = $items[0]['expiration'];
+						$date = new DateTime($items[0]['expiration']);
+						$expiration = $date->format('Y-m-d');
 					}
 
 					if ($itemType === 'folder') {
