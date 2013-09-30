@@ -22,14 +22,6 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new ContactsManager();
 		});
 		$this->registerService('Request', function($c) {
-			$params = array();
-
-			// we json decode the body only in case of content type json
-			if (isset($_SERVER['CONTENT_TYPE']) && stripos($_SERVER['CONTENT_TYPE'],'json') !== false ) {
-				$params = json_decode(file_get_contents('php://input'), true);
-				$params = is_array($params) ? $params: array();
-			}
-
 			return new Request(
 				array(
 					'get' => $_GET,
@@ -41,7 +33,6 @@ class Server extends SimpleContainer implements IServerContainer {
 					'method' => (isset($_SERVER) && isset($_SERVER['REQUEST_METHOD']))
 						? $_SERVER['REQUEST_METHOD']
 						: null,
-					'params' => $params,
 					'urlParams' => $c['urlParams']
 				)
 			);

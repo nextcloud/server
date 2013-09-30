@@ -42,14 +42,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		'env',
 		'cookies',
 		'urlParams',
-		'params',
 		'parameters',
 		'method'
 	);
 
 	/**
 	 * @param array $vars An associative array with the following optional values:
-	 * @param array 'params' the parsed json array
 	 * @param array 'urlParams' the parameters which were matched from the URL
 	 * @param array 'get' the $_GET array
 	 * @param array|string 'post' the $_POST array or JSON string
@@ -74,11 +72,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		if (isset($this->items['post'])
 			&& strpos($this->getHeader('Content-Type'), 'application/json') !== false
 			&& is_string($this->items['post'])) {
-			$this->items['post'] = json_decode($this->items['post'], true);
+			$this->items['params'] = $this->items['post'] = json_decode($this->items['post'], true);
 		}
 
 		$this->items['parameters'] = array_merge(
-			$this->items['params'],
 			$this->items['get'],
 			$this->items['post'],
 			$this->items['urlParams']
