@@ -237,12 +237,10 @@ class OC_User {
 
 	/**
 	 * @brief Verify with Apache whether user is authenticated.
-	 * @note Currently supports only Shibboleth.
 	 *
-	 * @param $isWebdav Is this request done using webdav.
-	 * @return true: authenticated - false: not authenticated
+	 * @return boolean|null true: authenticated - false: not authenticated
 	 */
-	public static function handleApacheAuth($isWebdav = false) {
+	public static function handleApacheAuth() {
 		foreach (self::$_usedBackends as $backend) {
 			if ($backend instanceof OCP\ApacheBackend) {
 				if ($backend->isSessionActive()) {
@@ -252,21 +250,12 @@ class OC_User {
 					self::setupBackends();
 					self::unsetMagicInCookie();
 
-					if (self::loginWithApache($backend)) {
-						if (! $isWebdav) {
-							$_REQUEST['redirect_url'] = \OC_Request::requestUri();
-							OC_Util::redirectToDefaultPage();
-							return true;
-						}
-						else {
-							return true;
-						}
-					}
+					return self::loginWithApache($backend);
 				}
 			}
 		}
 
-		return false;
+		return null;
 	}
 
 

@@ -756,14 +756,17 @@ class OC {
 	protected static function handleLogin() {
 		OC_App::loadApps(array('prelogin'));
 		$error = array();
-		if (OC::tryApacheAuth()) {
 
+		// auth possible via apache module?
+		if (OC::tryApacheAuth()) {
+			$error[] = 'apacheauthfailed';
 		}
 		// remember was checked after last login
 		elseif (OC::tryRememberLogin()) {
 			$error[] = 'invalidcookie';
-			// Someone wants to log in :
-		} elseif (OC::tryFormLogin()) {
+		}
+		// Someone wants to log in :
+		elseif (OC::tryFormLogin()) {
 			$error[] = 'invalidpassword';
 		}
 
@@ -782,7 +785,17 @@ class OC {
 	}
 
 	protected static function tryApacheAuth() {
-		return OC_User::handleApacheAuth(false);
+		$return = OC_User::handleApacheAuth();
+
+		// if return is true we are logged in -> redirect to the default page
+		if ($return === true) {
+			$_REQUEST['redirect_url'] = \OC_Request::requestUri();
+			OC_Util::redirectToDefaultPage();
+			exit;
+		}
+
+		// in case $return is null apache based auth is not enabled
+		return is_null($return) ? false : true;
 	}
 
 	protected static function tryRememberLogin() {
