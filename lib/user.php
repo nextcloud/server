@@ -219,14 +219,13 @@ class OC_User {
 	 *
 	 * Log in a user and regenerate a new session.
 	 */
-	public static function loginWithApache() {
+	public static function loginWithApache(\OCP\ApacheBackend $backend) {
 
-		$uid = $_SERVER["PHP_AUTH_USER"];
+		$uid = $backend->getCurrentUserId();
 		$run = true;
 		OC_Hook::emit( "OC_User", "pre_login", array( "run" => &$run, "uid" => $uid ));
 
-		$enabled = self::isEnabled($uid);
-		if($uid && $enabled) {
+		if($uid) {
 			session_regenerate_id(true);
 			self::setUserId($uid);
 			self::setDisplayName($uid);
@@ -253,7 +252,7 @@ class OC_User {
 					self::setupBackends();
 					self::unsetMagicInCookie();
 
-					if (self::loginWithApache()) {
+					if (self::loginWithApache($backend)) {
 						if (! $isWebdav) {
 							$_REQUEST['redirect_url'] = \OC_Request::requestUri();
 							OC_Util::redirectToDefaultPage();

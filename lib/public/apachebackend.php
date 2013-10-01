@@ -38,4 +38,10 @@ interface ApacheBackend {
 	 */
 	public function getLogoutAttribute();
 
+	/**
+	 * Return the id of the current user
+	 * @return string
+	 */
+	public function getCurrentUserId();
+
 }
