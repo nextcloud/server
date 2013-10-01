@@ -106,9 +106,8 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion() {
-		// hint: We only can count up. Reset minor/patchlevel when
-		// updating major/minor version number.
-		return array(5, 80, 07);
+		OC_Util::loadVersion();
+		return \OC::$server->getSession()->get('OC_Version');
 	}
 
 	/**
@@ -116,7 +115,8 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString() {
-		return '6.0 pre alpha';
+		OC_Util::loadVersion();
+		return \OC::$server->getSession()->get('OC_VersionString');
 	}
 
 	/**
@@ -126,7 +126,46 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getEditionString() {
-		return '';
+		OC_Util::loadVersion();
+		return \OC::$server->getSession()->get('OC_Edition');
+	}
+
+	/**
+	 * @description get the update channel of the current installed of ownCloud.
+	 * @return string
+	 */
+	public static function getChannel() {
+		OC_Util::loadVersion();
+		return \OC::$server->getSession()->get('OC_Channel');
+	}
+        
+	/**
+	 * @description get the build number of the current installed of ownCloud.
+	 * @return string
+	 */
+	public static function getBuild() {
+		OC_Util::loadVersion();
+		return \OC::$server->getSession()->get('OC_Build');
+	}
+
+	/**
+	 * @description load the version.php into the session as cache
+	 */
+	private static function loadVersion() {
+		if(!\OC::$server->getSession()->exists('OC_Version')) {
+			require 'version.php';
+			$session = \OC::$server->getSession();
+			/** @var $OC_Version string */
+			$session->set('OC_Version', $OC_Version);
+			/** @var $OC_VersionString string */
+			$session->set('OC_VersionString', $OC_VersionString);
+			/** @var $OC_Edition string */
+			$session->set('OC_Edition', $OC_Edition);
+			/** @var $OC_Channel string */
+			$session->set('OC_Channel', $OC_Channel);
+			/** @var $OC_Build string */
+			$session->set('OC_Build', $OC_Build);
+		}
 	}
 
 	/**
