@@ -6,8 +6,6 @@
 <!--[if gt IE 9]><html class="ng-csp ie"><![endif]-->
 <!--[if !IE]><!--><html class="ng-csp"><!--<![endif]-->
 
-	<?php $defaults = new OC_Defaults(); // initialize themable default strings and urls ?>
-
 	<head data-user="<?php p($_['user_uid']); ?>" data-requesttoken="<?php p($_['requesttoken']); ?>">
 		<title>
 			<?php p(!empty($_['application'])?$_['application'].' | ':'');
