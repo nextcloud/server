@@ -26,7 +26,9 @@ namespace OCP;
 interface ApacheBackend {
 
 	/**
-	 * @return Returns whether Apache reports a user is currently logged in.
+	 * In case the user has been authorized by Apache true is returned.
+	 *
+	 * @return boolean whether Apache reports a user is currently logged in.
 	 */
 	public function isSessionActive();
 
