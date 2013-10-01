@@ -100,6 +100,7 @@ $TRANSLATIONS = array(
 "Email" => "Email",
 "Your email address" => "Vaša emailová adresa",
 "Fill in an email address to enable password recovery" => "Vyplňte emailovú adresu pre aktivovanie obnovy hesla",
+"Profile picture" => "Profilová fotka",
 "Language" => "Jazyk",
 "Help translate" => "Pomôcť s prekladom",
 "WebDAV" => "WebDAV",

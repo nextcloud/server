@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-16 11:33-0400\n"
-"PO-Revision-Date: 2013-09-16 15:34+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-24 12:58-0400\n"
+"PO-Revision-Date: 2013-09-24 08:30+0000\n"
+"Last-Translator: unhammer <unhammer+dill@mm.st>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +25,7 @@ msgid "Unable to load list from App Store"
 msgstr "Klarer ikkje å lasta inn liste fra app-butikken"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20
+#: ajax/togglegroups.php:20 changepassword/controller.php:55
 msgid "Authentication error"
 msgstr "Autentiseringsfeil"
 
@@ -87,15 +87,44 @@ msgstr "Klarte ikkje fjerna brukaren frå gruppa %s"
 msgid "Couldn't update app."
 msgstr "Klarte ikkje oppdatera programmet."
 
+#: changepassword/controller.php:20
+msgid "Wrong password"
+msgstr "Feil passord"
+
+#: changepassword/controller.php:42
+msgid "No user supplied"
+msgstr "Ingen brukar gitt"
+
+#: changepassword/controller.php:74
+msgid ""
+"Please provide an admin recovery password, otherwise all user data will be "
+"lost"
+msgstr "Ver venleg og gi eit admingjenopprettingspassord, elles vil all brukardata gå tapt."
+
+#: changepassword/controller.php:79
+msgid ""
+"Wrong admin recovery password. Please check the password and try again."
+msgstr "Feil admingjenopprettingspassord. Ver venleg og sjekk passordet og prøv igjen."
+
+#: changepassword/controller.php:87
+msgid ""
+"Back-end doesn't support password change, but the users encryption key was "
+"successfully updated."
+msgstr "Bakstykket støttar ikkje passordendring, men krypteringsnøkkelen til brukaren blei oppdatert."
+
+#: changepassword/controller.php:92 changepassword/controller.php:103
+msgid "Unable to change password"
+msgstr "Klarte ikkje å endra passordet"
+
 #: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Oppdater til {appversion}"
 
-#: js/apps.js:49 js/apps.js:82 js/apps.js:108
+#: js/apps.js:49 js/apps.js:82 js/apps.js:110
 msgid "Disable"
 msgstr "Slå av"
 
-#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
+#: js/apps.js:49 js/apps.js:90 js/apps.js:103 js/apps.js:119
 msgid "Enable"
 msgstr "Slå på"
 
@@ -103,43 +132,43 @@ msgstr "Slå på"
 msgid "Please wait...."
 msgstr "Ver venleg og vent …"
 
-#: js/apps.js:79 js/apps.js:80 js/apps.js:100
+#: js/apps.js:79 js/apps.js:80 js/apps.js:101
 msgid "Error while disabling app"
 msgstr "Klarte ikkje å skru av programmet"
 
-#: js/apps.js:99 js/apps.js:112 js/apps.js:113
+#: js/apps.js:100 js/apps.js:114 js/apps.js:115
 msgid "Error while enabling app"
 msgstr "Klarte ikkje å skru på programmet"
 
-#: js/apps.js:123
+#: js/apps.js:125
 msgid "Updating...."
 msgstr "Oppdaterer …"
 
-#: js/apps.js:126
+#: js/apps.js:128
 msgid "Error while updating app"
 msgstr "Feil ved oppdatering av app"
 
-#: js/apps.js:126
+#: js/apps.js:128
 msgid "Error"
 msgstr "Feil"
 
-#: js/apps.js:127 templates/apps.php:43
+#: js/apps.js:129 templates/apps.php:43
 msgid "Update"
 msgstr "Oppdater"
 
-#: js/apps.js:130
+#: js/apps.js:132
 msgid "Updated"
 msgstr "Oppdatert"
 
-#: js/personal.js:217
+#: js/personal.js:220
 msgid "Select a profile picture"
-msgstr ""
+msgstr "Vel eit profilbilete"
 
-#: js/personal.js:262
+#: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Dekrypterer filer … Ver venleg og vent, dette kan ta ei stund."
 
-#: js/personal.js:284
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "Lagrar …"
 
@@ -463,31 +492,31 @@ msgstr "Fyll inn e-postadressa di for å gjera passordgjenoppretting mogleg"
 
 #: templates/personal.php:86
 msgid "Profile picture"
-msgstr ""
+msgstr "Profilbilete"
 
 #: templates/personal.php:90
 msgid "Upload new"
-msgstr ""
+msgstr "Last opp ny"
 
 #: templates/personal.php:92
 msgid "Select new from Files"
-msgstr ""
+msgstr "Vel ny frå Filer"
 
 #: templates/personal.php:93
 msgid "Remove image"
-msgstr ""
+msgstr "Fjern bilete"
 
 #: templates/personal.php:94
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
-msgstr ""
+msgstr "Anten PNG eller JPG. Helst kvadratisk, men du får moglegheita til å beskjera det."
 
 #: templates/personal.php:97
 msgid "Abort"
-msgstr ""
+msgstr "Avbryt"
 
 #: templates/personal.php:98
 msgid "Choose as profile image"
-msgstr ""
+msgstr "Vel som profilbilete"
 
 #: templates/personal.php:106 templates/personal.php:107
 msgid "Language"

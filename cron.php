@@ -79,7 +79,7 @@ try {
 
 		// We call ownCloud from the CLI (aka cron)
 		if ($appmode != 'cron') {
-			// Use cron in feature!
+			// Use cron in future!
 			OC_BackgroundJob::setExecutionType('cron');
 		}
 

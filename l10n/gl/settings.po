@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-16 11:33-0400\n"
-"PO-Revision-Date: 2013-09-16 15:34+0000\n"
+"POT-Creation-Date: 2013-09-20 10:45-0400\n"
+"PO-Revision-Date: 2013-09-20 14:45+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgid "Unable to load list from App Store"
 msgstr "Non foi posíbel cargar a lista desde a App Store"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20
+#: ajax/togglegroups.php:20 changepassword/controller.php:55
 msgid "Authentication error"
 msgstr "Produciuse un erro de autenticación"
 
@@ -85,6 +85,35 @@ msgstr "Non é posíbel eliminar o usuario do grupo %s"
 msgid "Couldn't update app."
 msgstr "Non foi posíbel actualizar o aplicativo."
 
+#: changepassword/controller.php:20
+msgid "Wrong password"
+msgstr "Contrasinal incorrecto"
+
+#: changepassword/controller.php:42
+msgid "No user supplied"
+msgstr "Non subministrado polo usuario"
+
+#: changepassword/controller.php:74
+msgid ""
+"Please provide an admin recovery password, otherwise all user data will be "
+"lost"
+msgstr "Forneza un contrasinal de recuperación do administrador de recuperación, senón perderanse todos os datos do usuario"
+
+#: changepassword/controller.php:79
+msgid ""
+"Wrong admin recovery password. Please check the password and try again."
+msgstr "Contrasinal de recuperación do administrador incorrecto. Comprobe o contrasinal e tenteo de novo."
+
+#: changepassword/controller.php:87
+msgid ""
+"Back-end doesn't support password change, but the users encryption key was "
+"successfully updated."
+msgstr "A infraestrutura non admite o cambio de contrasinal, mais a chave de cifrado dos usuarios foi actualizada correctamente."
+
+#: changepassword/controller.php:92 changepassword/controller.php:103
+msgid "Unable to change password"
+msgstr "Non é posíbel cambiar o contrasinal"
+
 #: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Actualizar á {appversion}"
@@ -129,15 +158,15 @@ msgstr "Actualizar"
 msgid "Updated"
 msgstr "Actualizado"
 
-#: js/personal.js:217
+#: js/personal.js:220
 msgid "Select a profile picture"
-msgstr ""
+msgstr "Seleccione unha imaxe para o perfil"
 
-#: js/personal.js:262
+#: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Descifrando ficheiros... isto pode levar un anaco."
 
-#: js/personal.js:284
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "Gardando..."
 
@@ -461,31 +490,31 @@ msgstr "Escriba un enderezo de correo para activar o contrasinal de recuperació
 
 #: templates/personal.php:86
 msgid "Profile picture"
-msgstr ""
+msgstr "Imaxe do perfil"
 
 #: templates/personal.php:90
 msgid "Upload new"
-msgstr ""
+msgstr "Novo envío"
 
 #: templates/personal.php:92
 msgid "Select new from Files"
-msgstr ""
+msgstr "Seleccione unha nova de ficheiros"
 
 #: templates/personal.php:93
 msgid "Remove image"
-msgstr ""
+msgstr "Retirar a imaxe"
 
 #: templates/personal.php:94
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
-msgstr ""
+msgstr "Calquera png ou jpg. É preferíbel que sexa cadrada, mais poderá recortala."
 
 #: templates/personal.php:97
 msgid "Abort"
-msgstr ""
+msgstr "Cancelar"
 
 #: templates/personal.php:98
 msgid "Choose as profile image"
-msgstr ""
+msgstr "Escolla unha imaxe para o perfil"
 
 #: templates/personal.php:106 templates/personal.php:107
 msgid "Language"

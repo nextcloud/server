@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-16 11:33-0400\n"
-"PO-Revision-Date: 2013-09-16 15:34+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-18 11:47-0400\n"
+"PO-Revision-Date: 2013-09-17 13:05+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +27,7 @@ msgstr "Sovellusta \"%s\" ei voi asentaa, koska se ei ole yhteensopiva käytöss
 
 #: app.php:250
 msgid "No app name specified"
-msgstr ""
+msgstr "Sovelluksen nimeä ei määritelty"
 
 #: app.php:361
 msgid "Help"
@@ -52,19 +52,19 @@ msgstr "Ylläpitäjä"
 #: app.php:839
 #, php-format
 msgid "Failed to upgrade \"%s\"."
-msgstr ""
+msgstr "Kohteen \"%s\" päivitys epäonnistui."
 
 #: avatar.php:56
 msgid "Custom profile pictures don't work with encryption yet"
-msgstr ""
+msgstr "Omavalintaiset profiilikuvat eivät toimi salauksen kanssa vielä"
 
 #: avatar.php:64
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Tuntematon tiedostotyyppi"
 
 #: avatar.php:69
 msgid "Invalid image"
-msgstr ""
+msgstr "Virheellinen kuva"
 
 #: defaults.php:35
 msgid "web services under your control"
@@ -124,13 +124,13 @@ msgstr "Sovellus ei sisällä info.xml-tiedostoa"
 
 #: installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
-msgstr ""
+msgstr "Sovellusta ei voi asentaa, koska sovellus sisältää kiellettyä koodia"
 
 #: installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr ""
+msgstr "Sovellusta ei voi asentaa, koska se ei ole yhteensopiva käytössä olevan ownCloud-version kanssa"
 
 #: installer.php:146
 msgid ""

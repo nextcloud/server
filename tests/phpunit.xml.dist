@@ -11,7 +11,21 @@
 			<directory suffix=".php">..</directory>
 			<exclude>
 				<directory suffix=".php">../3rdparty</directory>
+				<directory suffix=".php">../apps/files/l10n</directory>
+				<directory suffix=".php">../apps/files_external/l10n</directory>
+				<directory suffix=".php">../apps/files_external/3rdparty</directory>
+				<directory suffix=".php">../apps/files_versions/l10n</directory>
+				<directory suffix=".php">../apps/files_encryption/l10n</directory>
+				<directory suffix=".php">../apps/files_encryption/3rdparty</directory>
+				<directory suffix=".php">../apps/files_sharing/l10n</directory>
+				<directory suffix=".php">../apps/files_trashbin/l10n</directory>
+				<directory suffix=".php">../apps/user_ldap/l10n</directory>
+				<directory suffix=".php">../apps/user_webdavauth/l10n</directory>
 				<directory suffix=".php">../lib/MDB2</directory>
+				<directory suffix=".php">../lib/l10n</directory>
+				<directory suffix=".php">../core/l10n</directory>
+				<directory suffix=".php">../settings/l10n</directory>
+				<directory suffix=".php">../tests</directory>
 			</exclude>
 		</whitelist>
 	</filter>

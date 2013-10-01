@@ -723,11 +723,17 @@ $(document).ready(function(){
 			}
 		}else if(event.keyCode===27){//esc
 			OC.search.hide();
+			if (FileList && typeof FileList.unfilter === 'function') { //TODO add hook system
+				FileList.unfilter();
+			}
 		}else{
 			var query=$('#searchbox').val();
 			if(OC.search.lastQuery!==query){
 				OC.search.lastQuery=query;
 				OC.search.currentResult=-1;
+				if (FileList && typeof FileList.filter === 'function') { //TODO add hook system
+						FileList.filter(query);
+				}
 				if(query.length>2){
 					OC.search(query);
 				}else{
@@ -838,6 +844,13 @@ function formatDate(date){
 		date=new Date(date);
 	}
 	return $.datepicker.formatDate(datepickerFormatDate, date)+' '+date.getHours()+':'+((date.getMinutes()<10)?'0':'')+date.getMinutes();
+}
+
+// taken from http://stackoverflow.com/questions/1403888/get-url-parameter-with-jquery
+function getURLParameter(name) {
+	return decodeURI(
+			(RegExp(name + '=' + '(.+?)(&|$)').exec(location.search) || [, null])[1]
+			);
 }
 
 /**

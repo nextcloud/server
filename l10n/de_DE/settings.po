@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-16 11:33-0400\n"
-"PO-Revision-Date: 2013-09-16 15:34+0000\n"
+"POT-Creation-Date: 2013-09-20 10:45-0400\n"
+"PO-Revision-Date: 2013-09-20 14:45+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgid "Unable to load list from App Store"
 msgstr "Die Liste der Anwendungen im Store konnte nicht geladen werden."
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20
+#: ajax/togglegroups.php:20 changepassword/controller.php:55
 msgid "Authentication error"
 msgstr "Authentifizierungs-Fehler"
 
@@ -91,6 +91,35 @@ msgstr "Der Benutzer konnte nicht aus der Gruppe %s entfernt werden"
 msgid "Couldn't update app."
 msgstr "Die App konnte nicht aktualisiert werden."
 
+#: changepassword/controller.php:20
+msgid "Wrong password"
+msgstr "Falsches Passwort"
+
+#: changepassword/controller.php:42
+msgid "No user supplied"
+msgstr "Keinen Benutzer übermittelt"
+
+#: changepassword/controller.php:74
+msgid ""
+"Please provide an admin recovery password, otherwise all user data will be "
+"lost"
+msgstr "Bitte geben Sie ein Wiederherstellungspasswort für das Admin-Konto an, da sonst alle Benutzer Daten verloren gehen können"
+
+#: changepassword/controller.php:79
+msgid ""
+"Wrong admin recovery password. Please check the password and try again."
+msgstr "Falsches Wiederherstellungspasswort für das Admin-Konto. Bitte überprüfen Sie das Passwort und versuchen Sie es erneut."
+
+#: changepassword/controller.php:87
+msgid ""
+"Back-end doesn't support password change, but the users encryption key was "
+"successfully updated."
+msgstr "Das Back-End unterstützt die Passwortänderung nicht, aber der Benutzerschlüssel wurde erfolgreich aktualisiert."
+
+#: changepassword/controller.php:92 changepassword/controller.php:103
+msgid "Unable to change password"
+msgstr "Passwort konnte nicht geändert werden"
+
 #: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Update zu {appversion}"
@@ -135,15 +164,15 @@ msgstr "Update durchführen"
 msgid "Updated"
 msgstr "Aktualisiert"
 
-#: js/personal.js:217
+#: js/personal.js:220
 msgid "Select a profile picture"
-msgstr ""
+msgstr "Wählen Sie ein Profilbild"
 
-#: js/personal.js:262
+#: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Entschlüssle Dateien ... Bitte warten Sie, denn dieser Vorgang kann einige Zeit beanspruchen."
 
-#: js/personal.js:284
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "Speichern..."
 
@@ -467,31 +496,31 @@ msgstr "Bitte tragen Sie eine E-Mail-Adresse ein, um die Passwort-Wiederherstell
 
 #: templates/personal.php:86
 msgid "Profile picture"
-msgstr ""
+msgstr "Profilbild"
 
 #: templates/personal.php:90
 msgid "Upload new"
-msgstr ""
+msgstr "Neues hochladen"
 
 #: templates/personal.php:92
 msgid "Select new from Files"
-msgstr ""
+msgstr "Neues aus den Dateien wählen"
 
 #: templates/personal.php:93
 msgid "Remove image"
-msgstr ""
+msgstr "Bild entfernen"
 
 #: templates/personal.php:94
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
-msgstr ""
+msgstr "Entweder PNG oder JPG. Im Idealfall quadratisch, aber Sie können es zuschneiden."
 
 #: templates/personal.php:97
 msgid "Abort"
-msgstr ""
+msgstr "Abbrechen"
 
 #: templates/personal.php:98
 msgid "Choose as profile image"
-msgstr ""
+msgstr "Als Profilbild wählen"
 
 #: templates/personal.php:106 templates/personal.php:107
 msgid "Language"

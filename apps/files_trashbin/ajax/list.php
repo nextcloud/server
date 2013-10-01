@@ -15,7 +15,7 @@ $data = array();
 
 // Make breadcrumb
 if($doBreadcrumb) {
-	$breadcrumb = \OCA\files_trashbin\lib\Helper::makeBreadcrumb($dir);
+	$breadcrumb = \OCA\Files_Trashbin\Helper::makeBreadcrumb($dir);
 
 	$breadcrumbNav = new OCP\Template('files_trashbin', 'part.breadcrumb', '');
 	$breadcrumbNav->assign('breadcrumb', $breadcrumb, false);
@@ -26,7 +26,7 @@ if($doBreadcrumb) {
 }
 
 // make filelist
-$files = \OCA\files_trashbin\lib\Helper::getTrashFiles($dir);
+$files = \OCA\Files_Trashbin\Helper::getTrashFiles($dir);
 
 if ($files === null){
 	header("HTTP/1.0 404 Not Found");

@@ -36,7 +36,7 @@ if ($isIE8 && isset($_GET['dir'])){
 $ajaxLoad = false;
 
 if (!$isIE8){
-	$files = \OCA\files_trashbin\lib\Helper::getTrashFiles($dir);
+	$files = \OCA\Files_Trashbin\Helper::getTrashFiles($dir);
 }
 else{
 	$files = array();
@@ -54,7 +54,7 @@ if ($dir && $dir !== '/') {
     $dirlisting = true;
 }
 
-$breadcrumb = \OCA\files_trashbin\lib\Helper::makeBreadcrumb($dir);
+$breadcrumb = \OCA\Files_Trashbin\Helper::makeBreadcrumb($dir);
 
 $breadcrumbNav = new OCP\Template('files_trashbin', 'part.breadcrumb', '');
 $breadcrumbNav->assign('breadcrumb', $breadcrumb);
