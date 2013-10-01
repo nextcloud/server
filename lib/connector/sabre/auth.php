@@ -72,6 +72,10 @@ class OC_Connector_Sabre_Auth extends Sabre_DAV_Auth_Backend_AbstractBasic {
 	  * @return bool
 	  */
 	public function authenticate(Sabre_DAV_Server $server, $realm) {
+		if (OC_User::handleApacheAuth(true)) {
+		    return true;
+		}
+
 		if (OC_User::isLoggedIn()) {
 			$user = OC_User::getUser();
 			OC_Util::setupFS($user);

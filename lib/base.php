@@ -489,6 +489,11 @@ class OC {
 
 		if (isset($_SERVER['PHP_AUTH_USER']) && self::$session->exists('user_id')
 			&& $_SERVER['PHP_AUTH_USER'] != self::$session->get('user_id')) {
+			$sessionUser = self::$session->get('user_id');
+			$serverUser = $_SERVER['PHP_AUTH_USER'];
+			OC_Log::write('core',
+				"Session user-id doesn't match PHP_AUTH_USER. SESSION[user_id]: $sessionUser; SERVER[PHP_AUTH_USER]: $serverUser.",
+				OC_Log::WARN);
 			OC_User::logout();
 		}
 
@@ -740,11 +745,22 @@ class OC {
 		}
 	}
 
+	public static function login($params) {
+		if (OC_User::isLoggedIn()) {
+			header("Location: " . OC::$WEBROOT . '/');
+			exit();
+		}
+		self::handleLogin();
+	}
+
 	protected static function handleLogin() {
 		OC_App::loadApps(array('prelogin'));
 		$error = array();
+		if (OC::tryApacheAuth()) {
+
+		}
 		// remember was checked after last login
-		if (OC::tryRememberLogin()) {
+		elseif (OC::tryRememberLogin()) {
 			$error[] = 'invalidcookie';
 			// Someone wants to log in :
 		} elseif (OC::tryFormLogin()) {
@@ -763,6 +779,10 @@ class OC {
 				OC_Preferences::deleteKey($user, 'login_token', $token);
 			}
 		}
+	}
+
+	protected static function tryApacheAuth() {
+		return OC_User::handleApacheAuth(false);
 	}
 
 	protected static function tryRememberLogin() {

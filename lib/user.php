@@ -214,6 +214,64 @@ class OC_User {
 	}
 
 	/**
+	 * @brief Try to login a user, assuming authentication
+	 * has already happened (e.g. via SSO).
+	 *
+	 * Log in a user and regenerate a new session.
+	 */
+	public static function loginWithApache() {
+
+		$uid = $_SERVER["PHP_AUTH_USER"];
+		$run = true;
+		OC_Hook::emit( "OC_User", "pre_login", array( "run" => &$run, "uid" => $uid ));
+
+		$enabled = self::isEnabled($uid);
+		if($uid && $enabled) {
+			session_regenerate_id(true);
+			self::setUserId($uid);
+			self::setDisplayName($uid);
+			OC_Hook::emit( "OC_User", "post_login", array( "uid" => $uid, 'password'=>'' ));
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @brief Verify with Apache whether user is authenticated.
+	 * @note Currently supports only Shibboleth.
+	 *
+	 * @param $isWebdav Is this request done using webdav.
+	 * @return true: authenticated - false: not authenticated
+	 */
+	public static function handleApacheAuth($isWebdav = false) {
+		foreach (self::$_usedBackends as $backend) {
+			if ($backend instanceof OCP\ApacheBackend) {
+				if ($backend->isSessionActive()) {
+					OC_App::loadApps();
+
+					//setup extra user backends
+					self::setupBackends();
+					self::unsetMagicInCookie();
+
+					if (self::loginWithApache()) {
+						if (! $isWebdav) {
+							$_REQUEST['redirect_url'] = \OC_Request::requestUri();
+							OC_Util::redirectToDefaultPage();
+							return true;
+						}
+						else {
+							return true;
+						}
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
+
+	/**
 	 * @brief Sets user id for session and triggers emit
 	 */
 	public static function setUserId($uid) {
@@ -257,6 +315,25 @@ class OC_User {
 			return self::userExists(\OC::$session->get('user_id'));
 		}
 		return false;
+	}
+
+	/**
+	 * Supplies an attribute to the logout hyperlink. The default behaviuour
+	 * is to return an href with '?logout=true' appended. However, it can
+	 * supply any attribute(s) which are valid for <a>.
+	 *
+	 * @return String with one or more HTML attributes.
+	 */
+	public static function getLogoutAttribute() {
+		foreach (self::$_usedBackends as $backend) {
+			if ($backend instanceof OCP\ApacheBackend) {
+				if ($backend->isSessionActive()) {
+					return $backend->getLogoutAttribute();
+				}
+			}
+		}
+
+		return print_unescaped("href=".link_to('', 'index.php'))."?logout=true";
 	}
 
 	/**
