@@ -17,6 +17,14 @@ abstract class StreamWrapper extends Common {
 
 	public function rmdir($path) {
 		if ($this->file_exists($path)) {
+			$dh = $this->opendir($path);
+			while (($file = readdir($dh)) !== false) {
+				if ($this->is_dir($path . '/' . $file)) {
+					$this->rmdir($path . '/' . $file);
+				} else {
+					$this->unlink($path . '/' . $file);
+				}
+			}
 			$success = rmdir($this->constructUrl($path));
 			clearstatcache();
 			return $success;
