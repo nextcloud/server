@@ -56,7 +56,7 @@ class Updater extends BasicEmitter {
 		$version = \OC_Util::getVersion();
 		$version['installed'] = \OC_Appconfig::getValue('core', 'installedat');
 		$version['updated'] = \OC_Appconfig::getValue('core', 'lastupdatedat');
-		$version['updatechannel'] = 'stable';
+		$version['updatechannel'] = \OC_Util::getChannel(); 
 		$version['edition'] = \OC_Util::getEditionString();
 		$versionString = implode('x', $version);
 
