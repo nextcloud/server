@@ -307,7 +307,8 @@ class smb {
 			trigger_error('rename(): error in URL', E_USER_ERROR);
 		}
 		smb::clearstatcache ($url_from);
-		return smb::execute ('rename "'.$from['path'].'" "'.$to['path'].'"', $to);
+		$result = smb::execute ('rename "'.$from['path'].'" "'.$to['path'].'"', $to);
+		return $result !== false;
 	}
 
 	function mkdir ($url, $mode, $options) {
