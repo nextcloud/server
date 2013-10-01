@@ -12,6 +12,12 @@
 			<small><?php p($l->t('Please change your password to secure your account again.')); ?></small>
 		</div>
 		<?php endif; ?>
+		<?php if (isset($_['apacheauthfailed']) && ($_['apacheauthfailed'])): ?>
+			<div class="warning">
+				<?php p($l->t('Server side authentication failed!')); ?><br>
+				<small><?php p($l->t('Please contact your administrator.')); ?></small>
+			</div>
+		<?php endif; ?>
 		<p class="infield grouptop">
 			<input type="text" name="user" id="user" placeholder=""
 				   value="<?php p($_['username']); ?>"<?php p($_['user_autofocus'] ? ' autofocus' : ''); ?>
