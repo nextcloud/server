@@ -100,17 +100,20 @@ function strip_time($timestamp){
  * @brief Formats timestamp relatively to the current time using
  * a human-friendly format like "x minutes ago" or "yesterday"
  * @param int $timestamp timestamp to format
+ * @param int $fromTime timestamp to compare from, defaults to current time
  * @param bool $dateOnly whether to strip time information
  * @return formatted timestamp
  */
-function relative_modified_date($timestamp, $dateOnly = false) {
+function relative_modified_date($timestamp, $fromTime, $dateOnly = false) {
 	$l=OC_L10N::get('lib');
-	$time = time();
+	if (!isset($fromTime)){
+		$fromTime = time();
+	}
 	if ($dateOnly){
-		$time = strip_time($time);
+		$fromTime = strip_time($fromTime);
 		$timestamp = strip_time($timestamp);
 	}
-	$timediff = $time - $timestamp;
+	$timediff = $fromTime - $timestamp;
 	$diffminutes = round($timediff/60);
 	$diffhours = round($diffminutes/60);
 	$diffdays = round($diffhours/24);
@@ -119,11 +122,14 @@ function relative_modified_date($timestamp, $dateOnly = false) {
 	if(!$dateOnly && $timediff < 60) { return $l->t('seconds ago'); }
 	else if(!$dateOnly && $timediff < 3600) { return $l->n('%n minute ago', '%n minutes ago', $diffminutes); }
 	else if(!$dateOnly && $timediff < 86400) { return $l->n('%n hour ago', '%n hours ago', $diffhours); }
-	else if((date('G', $time)-$diffhours) >= 0) { return $l->t('today'); }
-	else if((date('G', $time)-$diffhours) >= -24) { return $l->t('yesterday'); }
+	else if((date('G', $fromTime)-$diffhours) >= 0) { return $l->t('today'); }
+	else if((date('G', $fromTime)-$diffhours) >= -24) { return $l->t('yesterday'); }
+	// 86400 * 31 days = 2678400
 	else if($timediff < 2678400) { return $l->n('%n day go', '%n days ago', $diffdays); }
+	// 86400 * 60 days = 518400
 	else if($timediff < 5184000) { return $l->t('last month'); }
-	else if((date('n', $time)-$diffmonths) > 0) { return $l->n('%n month ago', '%n months ago', $diffmonths); }
+	else if((date('n', $fromTime)-$diffmonths) > 0) { return $l->n('%n month ago', '%n months ago', $diffmonths); }
+	// 86400 * 365.25 days * 2 = 63113852
 	else if($timediff < 63113852) { return $l->t('last year'); }
 	else { return $l->t('years ago'); }
 }
