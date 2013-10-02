@@ -57,6 +57,14 @@ class Shared_Updater {
 		}
 	}
 
+	private static function removeShare($path) {
+		$fileInfo = \OC\Files\Filesystem::getFileInfo($path);
+		$fileSource = $fileInfo['fileid'];
+
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `file_source`=?');
+		\OC_DB::executeAudited($query, array($fileSource));
+	}
+
 	/**
 	 * @param array $params
 	 */
@@ -77,7 +85,9 @@ class Shared_Updater {
 	 */
 	static public function deleteHook($params) {
 		self::correctFolders($params['path']);
+		self::removeShare($params['path']);
 	}
+
 
 	/**
 	 * @param array $params
