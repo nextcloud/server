@@ -215,9 +215,12 @@ class OC_User {
 
 	/**
 	 * @brief Try to login a user, assuming authentication
-	 * has already happened (e.g. via SSO).
+	 * has already happened (e.g. via Single Sign On).
 	 *
 	 * Log in a user and regenerate a new session.
+	 *
+	 * @param \OCP\ApacheBackend $backend
+	 * @return bool
 	 */
 	public static function loginWithApache(\OCP\ApacheBackend $backend) {
 
@@ -238,7 +241,10 @@ class OC_User {
 	/**
 	 * @brief Verify with Apache whether user is authenticated.
 	 *
-	 * @return boolean|null true: authenticated - false: not authenticated
+	 * @return boolean|null
+	 *          true: authenticated
+	 *          false: not authenticated
+	 *          null: not handled / no backend available
 	 */
 	public static function handleApacheAuth() {
 		foreach (self::$_usedBackends as $backend) {
@@ -306,11 +312,11 @@ class OC_User {
 	}
 
 	/**
-	 * Supplies an attribute to the logout hyperlink. The default behaviuour
+	 * Supplies an attribute to the logout hyperlink. The default behaviour
 	 * is to return an href with '?logout=true' appended. However, it can
 	 * supply any attribute(s) which are valid for <a>.
 	 *
-	 * @return String with one or more HTML attributes.
+	 * @return string with one or more HTML attributes.
 	 */
 	public static function getLogoutAttribute() {
 		foreach (self::$_usedBackends as $backend) {

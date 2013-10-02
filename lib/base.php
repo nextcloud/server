@@ -492,7 +492,7 @@ class OC {
 			$sessionUser = self::$session->get('user_id');
 			$serverUser = $_SERVER['PHP_AUTH_USER'];
 			OC_Log::write('core',
-				"Session user-id doesn't match PHP_AUTH_USER. SESSION[user_id]: $sessionUser; SERVER[PHP_AUTH_USER]: $serverUser.",
+				"Session user-id ($sessionUser) doesn't match SERVER[PHP_AUTH_USER] ($serverUser).",
 				OC_Log::WARN);
 			OC_User::logout();
 		}
@@ -757,7 +757,7 @@ class OC {
 		elseif (OC::tryRememberLogin()) {
 			$error[] = 'invalidcookie';
 		}
-		// Someone wants to log in :
+		// logon via web form
 		elseif (OC::tryFormLogin()) {
 			$error[] = 'invalidpassword';
 		}
