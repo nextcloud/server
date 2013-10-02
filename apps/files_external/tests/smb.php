@@ -33,5 +33,6 @@ class SMB extends Storage {
 		$this->instance->mkdir('with spaces');
 		$result = $this->instance->rename('with spaces', 'foo bar');
 		$this->assertTrue($result);
+		$this->assertTrue($this->instance->is_dir('foo bar'));
 	}
 }
