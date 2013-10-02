@@ -70,8 +70,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		// transformed by PHP, 'application/json' must be decoded manually.
 		if ($this->method === 'POST'
 			&& strpos($this->getHeader('Content-Type'), 'application/json') !== false
-			&& is_string($this->items['post'])) {
-			$this->items['params'] = $this->items['post'] = json_decode($this->items['post'], true);
+		) {
+			$this->items['params'] = $this->items['post'] = json_decode(file_get_contents('php://input'), true);
 		}
 
 		$this->items['parameters'] = array_merge(
