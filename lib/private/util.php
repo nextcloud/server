@@ -617,7 +617,7 @@ class OC_Util {
 		if(is_null($id)) {
 			// We need to guarantee at least one letter in instanceid so it can be used as the session_name
 			$id = 'oc' . self::generateRandomBytes(10);
-			OC_Config::setValue('instanceid', $id);
+			OC_Config::$object->setValue('instanceid', $id);
 		}
 		return $id;
 	}

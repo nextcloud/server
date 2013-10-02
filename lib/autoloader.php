@@ -117,7 +117,11 @@ class Autoloader {
 		// Does this PHP have an in-memory cache? We cache the paths there
 		if ($this->constructingMemoryCache && !$this->memoryCache) {
 			$this->constructingMemoryCache = false;
-			$this->memoryCache = \OC\Memcache\Factory::createLowLatency('Autoloader');
+			try {
+				$this->memoryCache = \OC\Memcache\Factory::createLowLatency('Autoloader');
+			} catch(\Exception $ex) {
+				// no caching then - fine with me
+			}
 		}
 		if ($this->memoryCache) {
 			$pathsToRequire = $this->memoryCache->get($class);
