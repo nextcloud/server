@@ -21,14 +21,14 @@
  *
  */
 
-namespace OCP;
+namespace OCP\Authentication;
 
-interface ApacheBackend {
+interface IApacheBackend {
 
 	/**
-	 * In case the user has been authorized by Apache true is returned.
+	 * In case the user has been authenticated by Apache true is returned.
 	 *
-	 * @return boolean whether Apache reports a user is currently logged in.
+	 * @return boolean whether Apache reports a user as currently logged in.
 	 */
 	public function isSessionActive();
 
@@ -36,7 +36,7 @@ interface ApacheBackend {
 	 * Creates an attribute which is added to the logout hyperlink. It can
 	 * supply any attribute(s) which are valid for <a>.
 	 *
-	 * @return String with one or more HTML attributes.
+	 * @return string with one or more HTML attributes.
 	 */
 	public function getLogoutAttribute();
 
