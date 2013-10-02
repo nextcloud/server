@@ -31,7 +31,9 @@ $totalsize = 0; ?>
 		<?php if($file['type'] == 'dir'): ?>
 			<a class="name" href="<?php p(rtrim($_['baseURL'],'/').'/'.trim($directory,'/').'/'.$name); ?>" title="">
 		<?php else: ?>
-			<label class="name" title="" for="select-<?php p($file['fileid']); ?>"></label>
+			<a class="name">
+				<label class="filetext" title="" for="select-<?php p($file['fileid']); ?>"></label>
+			</a>
 		<?php endif; ?>
 			<span class="nametext">
 				<?php if($file['type'] == 'dir'):?>
