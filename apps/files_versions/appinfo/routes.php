@@ -7,3 +7,8 @@
 
 // Register with the capabilities API
 OC_API::register('get', '/cloud/capabilities', array('OCA\Files_Versions\Capabilities', 'getCapabilities'), 'files_versions', OC_API::USER_AUTH);
+
+$this->create('core_ajax_versions_preview', '/preview.png')->action(
+function() {
+	require_once __DIR__ . '/../ajax/preview.php';
+});

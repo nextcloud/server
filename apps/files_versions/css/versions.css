@@ -5,7 +5,7 @@
 #found_versions li {
 	width: 100%;
 	cursor: default;
-	height: 36px;
+	height: 56px;
 	float: left;
 	border-bottom: 1px solid rgba(100,100,100,.1);
 }
@@ -31,6 +31,10 @@
 #found_versions img {
 	cursor: pointer;
 	padding-right: 4px;
+}
+
+#found_versions img.preview {
+	cursor: default;
 }
 
 #found_versions .versionDate {
