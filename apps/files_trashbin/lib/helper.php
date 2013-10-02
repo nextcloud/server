@@ -61,7 +61,7 @@ class Helper
 				$i['directory'] = '';
 			}
 			$i['permissions'] = \OCP\PERMISSION_READ;
-			$i['isPreviewAvailable'] = \OCP\Preview::isMimeSupported($r['mime']);
+			$i['isPreviewAvailable'] = \OC::$server->getPreviewManager()->isMimeSupported($r['mime']);
 			$i['icon'] = \OCA\Files\Helper::determineIcon($i);
 			$files[] = $i;
 		}

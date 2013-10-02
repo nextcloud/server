@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Saving..." => "Зберігаю...",
+"personal settings" => "особисті налаштування",
 "Encryption" => "Шифрування",
 "Change Password" => "Змінити Пароль"
 );

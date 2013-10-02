@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-20 10:45-0400\n"
-"PO-Revision-Date: 2013-09-20 14:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-30 10:17-0400\n"
+"PO-Revision-Date: 2013-09-30 00:21+0000\n"
+"Last-Translator: ebela <bela@dandre.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -89,42 +89,42 @@ msgstr "A program frissítése nem sikerült."
 
 #: changepassword/controller.php:20
 msgid "Wrong password"
-msgstr ""
+msgstr "Hibás jelszó"
 
 #: changepassword/controller.php:42
 msgid "No user supplied"
-msgstr ""
+msgstr "Nincs felhasználó által mellékelve"
 
 #: changepassword/controller.php:74
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
-msgstr ""
+msgstr "Add meg az admin helyreállító jelszót, máskülönben az összes felhasználói adat elveszik."
 
 #: changepassword/controller.php:79
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
-msgstr ""
+msgstr "Hibás admin helyreállítási jelszó. Ellenörizd a jelszót és próbáld újra."
 
 #: changepassword/controller.php:87
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
-msgstr ""
+msgstr "A back-end nem támogatja a jelszó módosítást, de felhasználó titkosítási kulcsa sikeresen frissítve lett."
 
 #: changepassword/controller.php:92 changepassword/controller.php:103
 msgid "Unable to change password"
-msgstr ""
+msgstr "Nem sikerült megváltoztatni a jelszót"
 
 #: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Frissítés erre a verzióra: {appversion}"
 
-#: js/apps.js:49 js/apps.js:82 js/apps.js:108
+#: js/apps.js:49 js/apps.js:82 js/apps.js:110
 msgid "Disable"
 msgstr "Letiltás"
 
-#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
+#: js/apps.js:49 js/apps.js:90 js/apps.js:103 js/apps.js:119
 msgid "Enable"
 msgstr "engedélyezve"
 
@@ -132,43 +132,43 @@ msgstr "engedélyezve"
 msgid "Please wait...."
 msgstr "Kérem várjon..."
 
-#: js/apps.js:79 js/apps.js:80 js/apps.js:100
+#: js/apps.js:79 js/apps.js:80 js/apps.js:101
 msgid "Error while disabling app"
-msgstr ""
+msgstr "Hiba az alkalmazás kikapcsolása közben"
 
-#: js/apps.js:99 js/apps.js:112 js/apps.js:113
+#: js/apps.js:100 js/apps.js:114 js/apps.js:115
 msgid "Error while enabling app"
-msgstr ""
+msgstr "Hiba az alalmazás engedélyezése közben"
 
-#: js/apps.js:123
+#: js/apps.js:125
 msgid "Updating...."
 msgstr "Frissítés folyamatban..."
 
-#: js/apps.js:126
+#: js/apps.js:128
 msgid "Error while updating app"
 msgstr "Hiba történt a programfrissítés közben"
 
-#: js/apps.js:126
+#: js/apps.js:128
 msgid "Error"
 msgstr "Hiba"
 
-#: js/apps.js:127 templates/apps.php:43
+#: js/apps.js:129 templates/apps.php:43
 msgid "Update"
 msgstr "Frissítés"
 
-#: js/apps.js:130
+#: js/apps.js:132
 msgid "Updated"
 msgstr "Frissítve"
 
-#: js/personal.js:220
+#: js/personal.js:221
 msgid "Select a profile picture"
-msgstr ""
+msgstr "Válassz profil képet"
 
-#: js/personal.js:265
+#: js/personal.js:266
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "File-ok kititkosítása folyamatban... Kérlek várj, ez hosszabb ideig is eltarthat ..."
 
-#: js/personal.js:287
+#: js/personal.js:288
 msgid "Saving..."
 msgstr "Mentés..."
 
@@ -496,27 +496,27 @@ msgstr "Profilkép"
 
 #: templates/personal.php:90
 msgid "Upload new"
-msgstr ""
+msgstr "Új feltöltése"
 
 #: templates/personal.php:92
 msgid "Select new from Files"
-msgstr ""
+msgstr "Új kiválasztása Fileokból"
 
 #: templates/personal.php:93
 msgid "Remove image"
-msgstr ""
+msgstr "Kép eltávolítása"
 
 #: templates/personal.php:94
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
-msgstr ""
+msgstr "Egyaránt png vagy jpg. Az ideális ha négyzet alaku, de késöbb még átszabható"
 
 #: templates/personal.php:97
 msgid "Abort"
-msgstr ""
+msgstr "Megszakítás"
 
 #: templates/personal.php:98
 msgid "Choose as profile image"
-msgstr ""
+msgstr "Válassz profil képet"
 
 #: templates/personal.php:106 templates/personal.php:107
 msgid "Language"
@@ -543,15 +543,15 @@ msgstr "Titkosítás"
 
 #: templates/personal.php:140
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr ""
+msgstr "A titkosító alkalmzás a továbbiakban nincs engedélyezve, kititkosítja az összes fileodat"
 
 #: templates/personal.php:146
 msgid "Log-in password"
-msgstr ""
+msgstr "Bejelentkezési jelszó"
 
 #: templates/personal.php:151
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Kititkosítja az összes file-t"
 
 #: templates/users.php:21
 msgid "Login Name"

@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-22 12:55-0400\n"
-"PO-Revision-Date: 2013-09-22 13:40+0000\n"
-"Last-Translator: nappo <leone@inventati.org>\n"
+"POT-Creation-Date: 2013-09-29 00:02-0400\n"
+"PO-Revision-Date: 2013-09-27 18:30+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -252,7 +252,7 @@ msgstr "Scegli"
 
 #: js/oc-dialogs.js:146
 msgid "Error loading file picker template: {error}"
-msgstr "Errore nel caricamento del modello del selettore file: {error}"
+msgstr "Errore durante il caricamento del modello del selettore file: {error}"
 
 #: js/oc-dialogs.js:172
 msgid "Yes"
@@ -268,7 +268,7 @@ msgstr "Ok"
 
 #: js/oc-dialogs.js:219
 msgid "Error loading message template: {error}"
-msgstr "Errore nel caricamento del modello di messaggio: {error}"
+msgstr "Errore durante il caricamento del modello di messaggio: {error}"
 
 #: js/oc-dialogs.js:347
 msgid "{count} file conflict"
@@ -278,7 +278,7 @@ msgstr[1] "{count} file in conflitto"
 
 #: js/oc-dialogs.js:361
 msgid "One file conflict"
-msgstr "Un conflitto tra file"
+msgstr "Un file in conflitto"
 
 #: js/oc-dialogs.js:367
 msgid "Which files do you want to keep?"
@@ -288,7 +288,7 @@ msgstr "Quali file vuoi mantenere?"
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
-msgstr "Se selezioni entrambe le versioni, verrà aggiunto un numero al nome del file copiato."
+msgstr "Se selezioni entrambe le versioni, sarà aggiunto un numero al nome del file copiato."
 
 #: js/oc-dialogs.js:376
 msgid "Cancel"
@@ -300,7 +300,7 @@ msgstr "Continua"
 
 #: js/oc-dialogs.js:433 js/oc-dialogs.js:446
 msgid "(all selected)"
-msgstr "(tutti selezionati)"
+msgstr "(tutti i selezionati)"
 
 #: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "({count} selected)"
@@ -319,7 +319,7 @@ msgstr "Il tipo di oggetto non è specificato."
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:645 js/share.js:657
+#: js/share.js:656 js/share.js:668
 msgid "Error"
 msgstr "Errore"
 
@@ -339,7 +339,7 @@ msgstr "Condivisi"
 msgid "Share"
 msgstr "Condividi"
 
-#: js/share.js:131 js/share.js:685
+#: js/share.js:131 js/share.js:696
 msgid "Error while sharing"
 msgstr "Errore durante la condivisione"
 
@@ -439,23 +439,23 @@ msgstr "elimina"
 msgid "share"
 msgstr "condividi"
 
-#: js/share.js:400 js/share.js:632
+#: js/share.js:400 js/share.js:643
 msgid "Password protected"
 msgstr "Protetta da password"
 
-#: js/share.js:645
+#: js/share.js:656
 msgid "Error unsetting expiration date"
 msgstr "Errore durante la rimozione della data di scadenza"
 
-#: js/share.js:657
+#: js/share.js:668
 msgid "Error setting expiration date"
 msgstr "Errore durante l'impostazione della data di scadenza"
 
-#: js/share.js:672
+#: js/share.js:683
 msgid "Sending ..."
 msgstr "Invio in corso..."
 
-#: js/share.js:683
+#: js/share.js:694
 msgid "Email sent"
 msgstr "Messaggio inviato"
 
