@@ -5,7 +5,7 @@ $RUNTIME_APPTYPES=array('filesystem');
 
 // Init owncloud
 
-require_once 'lib/template.php';
+require_once 'lib/private/template.php';
 
 OCP\JSON::checkLoggedIn();
 
