@@ -29,9 +29,7 @@
 					<a href="#" class="svg"></a>
 			</div>
 			<?php if ($_['trash'] ): ?>
-				<div id="trash" class="button" <?php $_['trashEmpty'] ? p('disabled') : '' ?>>
-					<a><?php p($l->t('Deleted files'));?></a>
-				</div>
+			<input id="trash" type="button" value="<?php p($l->t('Deleted files'));?>" class="button" <?php $_['trashEmpty'] ? p('disabled') : '' ?>></input>
 			<?php endif; ?>
 			<div id="uploadprogresswrapper">
 				<div id="uploadprogressbar"></div>
