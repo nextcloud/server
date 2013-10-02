@@ -19,9 +19,6 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 #body-user #header, #body-settings #header {
 	position:fixed; top:0; left:0; right:0; z-index:100; height:45px; line-height:2.5em;
 	background:#1d2d44 url('../img/noise.png') repeat;
-	-moz-box-shadow:0 0 10px rgba(0, 0, 0, .5);
-	-webkit-box-shadow:0 0 10px rgba(0, 0, 0, .5);
-	box-shadow:0 0 10px rgba(0, 0, 0, .5);
 }
 
 #body-login {
@@ -164,7 +161,6 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 	border-bottom: 1px solid #e7e7e7;
 	z-index: 50;
 	-moz-box-sizing: border-box; box-sizing: border-box;
-	-moz-box-shadow: 0 -3px 7px #000; -webkit-box-shadow: 0 -3px 7px #000; box-shadow: 0 -3px 7px #000;
 }
 #controls .button {
 	display: inline-block;
@@ -512,7 +508,6 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	z-index: 75;
 	height: 100%;
 	background:#383c43 url('../img/noise.png') repeat;
-	-moz-box-shadow:0 0 7px #000; -webkit-box-shadow:0 0 7px #000; box-shadow:0 0 7px #000;
 	overflow:hidden; box-sizing:border-box; -moz-box-sizing:border-box;
 	/* prevent ugly selection effect on accidental selection */
 	-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
