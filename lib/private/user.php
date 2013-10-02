@@ -247,18 +247,15 @@ class OC_User {
 	 *          null: not handled / no backend available
 	 */
 	public static function handleApacheAuth() {
-		foreach (self::$_usedBackends as $backend) {
-			if ($backend instanceof OCP\Authentication\IApacheBackend) {
-				if ($backend->isSessionActive()) {
-					OC_App::loadApps();
+		$backend = self::findFirstActiveUsedBackend();
+		if ($backend) {
+			OC_App::loadApps();
 
-					//setup extra user backends
-					self::setupBackends();
-					self::unsetMagicInCookie();
+			//setup extra user backends
+			self::setupBackends();
+			self::unsetMagicInCookie();
 
-					return self::loginWithApache($backend);
-				}
-			}
+			return self::loginWithApache($backend);
 		}
 
 		return null;
@@ -319,12 +316,9 @@ class OC_User {
 	 * @return string with one or more HTML attributes.
 	 */
 	public static function getLogoutAttribute() {
-		foreach (self::$_usedBackends as $backend) {
-			if ($backend instanceof OCP\Authentication\IApacheBackend) {
-				if ($backend->isSessionActive()) {
-					return $backend->getLogoutAttribute();
-				}
-			}
+		$backend = self::findFirstActiveUsedBackend();
+		if ($backend) {
+			return $backend->getLogoutAttribute();
 		}
 
 		return "href=" . link_to('', 'index.php') . "?logout=true";
@@ -567,5 +561,21 @@ class OC_User {
 	 */
 	public static function unsetMagicInCookie() {
 		self::getUserSession()->unsetMagicInCookie();
+	}
+
+	/**
+	 * @brief Returns the first active backend from self::$_usedBackends.
+	 * @return null if no backend active, otherwise OCP\Authentication\IApacheBackend
+	 */
+	private static function findFirstActiveUsedBackend() {
+		foreach (self::$_usedBackends as $backend) {
+			if ($backend instanceof OCP\Authentication\IApacheBackend) {
+				if ($backend->isSessionActive()) {
+					return $backend;
+				}
+			}
+		}
+
+		return null;
 	}
 }
