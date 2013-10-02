@@ -258,6 +258,7 @@ table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 	position: absolute;
 	top: 14px;
 	right: 0;
+	font-size: 11px;
 }
 
 #fileList img.move2trash { display:inline; margin:-8px 0; padding:16px 8px 16px 8px !important; float:right; }

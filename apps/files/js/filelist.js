@@ -477,6 +477,7 @@ var FileList={
 					td.find('a.name span.extension').text(newname.substr(newname.lastIndexOf('.')));
 				}
 				form.remove();
+				FileActions.display( tr.find('td.filename'), true);
 				td.children('a.name').show();
 			} catch (error) {
 				input.attr('title', error);
