@@ -745,14 +745,6 @@ class OC {
 		}
 	}
 
-	public static function login($params) {
-		if (OC_User::isLoggedIn()) {
-			header("Location: " . OC::$WEBROOT . '/');
-			exit();
-		}
-		self::handleLogin();
-	}
-
 	protected static function handleLogin() {
 		OC_App::loadApps(array('prelogin'));
 		$error = array();
