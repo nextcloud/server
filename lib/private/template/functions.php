@@ -85,22 +85,46 @@ function human_file_size( $bytes ) {
 	return OC_Helper::humanFileSize( $bytes );
 }
 
-function relative_modified_date($timestamp) {
+/**
+ * @brief Strips the timestamp of its time value
+ * @param int $timestamp UNIX timestamp to strip
+ * @return $timestamp without time value
+ */
+function strip_time($timestamp){
+	$date = new \DateTime("@{$timestamp}");
+	$date->setTime(0, 0, 0);
+	return intval($date->format('U'));
+}
+
+/**
+ * @brief Formats timestamp relatively to the current time using
+ * a human-friendly format like "x minutes ago" or "yesterday"
+ * @param int $timestamp timestamp to format
+ * @param bool $dateOnly whether to strip time information
+ * @return formatted timestamp
+ */
+function relative_modified_date($timestamp, $dateOnly = false) {
 	$l=OC_L10N::get('lib');
-	$timediff = time() - $timestamp;
+	$time = time();
+	if ($dateOnly){
+		$time = strip_time($time);
+		$timestamp = strip_time($timestamp);
+	}
+	$timediff = $time - $timestamp;
 	$diffminutes = round($timediff/60);
 	$diffhours = round($diffminutes/60);
 	$diffdays = round($diffhours/24);
 	$diffmonths = round($diffdays/31);
+	\OC_Log::write('functions', '################ ' . $timediff . ' ' . $diffhours, \OC_Log::DEBUG);
 
-	if($timediff < 60) { return $l->t('seconds ago'); }
-	else if($timediff < 3600) { return $l->n('%n minute ago', '%n minutes ago', $diffminutes); }
-	else if($timediff < 86400) { return $l->n('%n hour ago', '%n hours ago', $diffhours); }
-	else if((date('G')-$diffhours) > 0) { return $l->t('today'); }
-	else if((date('G')-$diffhours) > -24) { return $l->t('yesterday'); }
+	if(!$dateOnly && $timediff < 60) { return $l->t('seconds ago'); }
+	else if(!$dateOnly && $timediff < 3600) { return $l->n('%n minute ago', '%n minutes ago', $diffminutes); }
+	else if(!$dateOnly && $timediff < 86400) { return $l->n('%n hour ago', '%n hours ago', $diffhours); }
+	else if((date('G', $time)-$diffhours) >= 0) { return $l->t('today'); }
+	else if((date('G', $time)-$diffhours) >= -24) { return $l->t('yesterday'); }
 	else if($timediff < 2678400) { return $l->n('%n day go', '%n days ago', $diffdays); }
 	else if($timediff < 5184000) { return $l->t('last month'); }
-	else if((date('n')-$diffmonths) > 0) { return $l->n('%n month ago', '%n months ago', $diffmonths); }
+	else if((date('n', $time)-$diffmonths) > 0) { return $l->n('%n month ago', '%n months ago', $diffmonths); }
 	else if($timediff < 63113852) { return $l->t('last year'); }
 	else { return $l->t('years ago'); }
 }
