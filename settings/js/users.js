@@ -361,7 +361,7 @@ $(document).ready(function () {
 				if ($(this).val().length > 0) {
 					var recoveryPasswordVal = $('input:password[id="recoveryPassword"]').val();
 					$.post(
-						OC.filePath('settings', 'ajax', 'changepassword.php'),
+						OC.Router.generate('settings_users_changepassword'),
 						{username: uid, password: $(this).val(), recoveryPassword: recoveryPasswordVal},
 						function (result) {
 							if (result.status != 'success') {

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-16 11:33-0400\n"
-"PO-Revision-Date: 2013-09-16 15:34+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-30 10:16-0400\n"
+"PO-Revision-Date: 2013-09-30 12:26+0000\n"
+"Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,53 +18,53 @@ msgstr ""
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: app.php:239
+#: app.php:237
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "Aplikacja \"%s\" nie może zostać zainstalowana, ponieważ nie jest zgodna z tą wersją ownCloud."
 
-#: app.php:250
+#: app.php:248
 msgid "No app name specified"
 msgstr "Nie określono nazwy aplikacji"
 
-#: app.php:361
+#: app.php:352
 msgid "Help"
 msgstr "Pomoc"
 
-#: app.php:374
+#: app.php:365
 msgid "Personal"
 msgstr "Osobiste"
 
-#: app.php:385
+#: app.php:376
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: app.php:397
+#: app.php:388
 msgid "Users"
 msgstr "Użytkownicy"
 
-#: app.php:410
+#: app.php:401
 msgid "Admin"
 msgstr "Administrator"
 
-#: app.php:839
+#: app.php:832
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Błąd przy aktualizacji \"%s\"."
 
 #: avatar.php:56
 msgid "Custom profile pictures don't work with encryption yet"
-msgstr ""
+msgstr "Domyślny profil zdjęć nie działa z szyfrowaniem jeszcze"
 
 #: avatar.php:64
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Nieznany typ pliku"
 
 #: avatar.php:69
 msgid "Invalid image"
-msgstr ""
+msgstr "Błędne zdjęcie"
 
 #: defaults.php:35
 msgid "web services under your control"
@@ -165,15 +165,15 @@ msgstr "Błąd uwierzytelniania"
 msgid "Token expired. Please reload page."
 msgstr "Token wygasł. Proszę ponownie załadować stronę."
 
-#: search/provider/file.php:17 search/provider/file.php:35
+#: search/provider/file.php:18 search/provider/file.php:36
 msgid "Files"
 msgstr "Pliki"
 
-#: search/provider/file.php:26 search/provider/file.php:33
+#: search/provider/file.php:27 search/provider/file.php:34
 msgid "Text"
 msgstr "Połączenie tekstowe"
 
-#: search/provider/file.php:29
+#: search/provider/file.php:30
 msgid "Images"
 msgstr "Obrazy"
 
@@ -277,6 +277,11 @@ msgstr "Serwer internetowy nie jest jeszcze poprawnie skonfigurowany, aby umożl
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Sprawdź ponownie <a href='%s'>przewodniki instalacji</a>."
 
+#: tags.php:194
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr "Nie można odnaleźć kategorii \"%s\""
+
 #: template/functions.php:96
 msgid "seconds ago"
 msgstr "sekund temu"
@@ -332,8 +337,3 @@ msgstr "lat temu"
 #: template.php:297
 msgid "Caused by:"
 msgstr "Spowodowane przez:"
-
-#: vcategories.php:188 vcategories.php:249
-#, php-format
-msgid "Could not find category \"%s\""
-msgstr "Nie można odnaleźć kategorii \"%s\""

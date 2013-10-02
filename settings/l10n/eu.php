@@ -94,6 +94,7 @@ $TRANSLATIONS = array(
 "Email" => "E-posta",
 "Your email address" => "Zure e-posta",
 "Fill in an email address to enable password recovery" => "Idatz ezazu e-posta bat pasahitza berreskuratu ahal izateko",
+"Profile picture" => "Profilaren irudia",
 "Language" => "Hizkuntza",
 "Help translate" => "Lagundu itzultzen",
 "WebDAV" => "WebDAV",

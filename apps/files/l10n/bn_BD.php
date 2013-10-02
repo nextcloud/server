@@ -12,7 +12,6 @@ $TRANSLATIONS = array(
 "Failed to write to disk" => "ডিস্কে লিখতে ব্যর্থ",
 "Invalid directory." => "ভুল ডিরেক্টরি",
 "Files" => "ফাইল",
-"Unable to upload your file as it is a directory or has 0 bytes" => "আপনার ফাইলটি আপলোড করা সম্ভব হলো না, কেননা এটি হয় একটি ফোল্ডার কিংবা এর আকার ০ বাইট",
 "Not enough space available" => "যথেষ্ঠ পরিমাণ স্থান নেই",
 "Upload cancelled." => "আপলোড বাতিল করা হয়েছে।",
 "File upload is in progress. Leaving the page now will cancel the upload." => "ফাইল আপলোড চলমান। এই পৃষ্ঠা পরিত্যাগ করলে আপলোড বাতিল করা হবে।",

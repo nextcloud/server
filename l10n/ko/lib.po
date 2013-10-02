@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-16 11:33-0400\n"
-"PO-Revision-Date: 2013-09-16 15:34+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-30 10:16-0400\n"
+"PO-Revision-Date: 2013-09-29 07:46+0000\n"
+"Last-Translator: smallsnail <bjh13579@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,53 +19,53 @@ msgstr ""
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: app.php:239
+#: app.php:237
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "현재 ownCloud 버전과 호환되지 않기 때문에 \"%s\" 앱을 설치할 수 없습니다."
 
-#: app.php:250
+#: app.php:248
 msgid "No app name specified"
 msgstr "앱 이름이 지정되지 않았습니다."
 
-#: app.php:361
+#: app.php:352
 msgid "Help"
 msgstr "도움말"
 
-#: app.php:374
+#: app.php:365
 msgid "Personal"
 msgstr "개인"
 
-#: app.php:385
+#: app.php:376
 msgid "Settings"
 msgstr "설정"
 
-#: app.php:397
+#: app.php:388
 msgid "Users"
 msgstr "사용자"
 
-#: app.php:410
+#: app.php:401
 msgid "Admin"
 msgstr "관리자"
 
-#: app.php:839
+#: app.php:832
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "\"%s\" 업그레이드에 실패했습니다."
 
 #: avatar.php:56
 msgid "Custom profile pictures don't work with encryption yet"
-msgstr ""
+msgstr "개개인의 프로필 사진은 아직은 암호화 되지 않습니다"
 
 #: avatar.php:64
 msgid "Unknown filetype"
-msgstr ""
+msgstr "알수없는 파일형식"
 
 #: avatar.php:69
 msgid "Invalid image"
-msgstr ""
+msgstr "잘못된 그림"
 
 #: defaults.php:35
 msgid "web services under your control"
@@ -96,7 +96,7 @@ msgstr "선택한 파일들은 ZIP 파일을 생성하기에 너무 큽니다."
 msgid ""
 "Download the files in smaller chunks, seperately or kindly ask your "
 "administrator."
-msgstr ""
+msgstr "작은 조각들 안에 들어있는 파일들을 받고자 하신다면, 나누어서 받으시거나 혹은 시스템 관리자에게 정중하게 물어보십시오"
 
 #: installer.php:63
 msgid "No source specified when installing app"
@@ -166,15 +166,15 @@ msgstr "인증 오류"
 msgid "Token expired. Please reload page."
 msgstr "토큰이 만료되었습니다. 페이지를 새로 고치십시오."
 
-#: search/provider/file.php:17 search/provider/file.php:35
+#: search/provider/file.php:18 search/provider/file.php:36
 msgid "Files"
 msgstr "파일"
 
-#: search/provider/file.php:26 search/provider/file.php:33
+#: search/provider/file.php:27 search/provider/file.php:34
 msgid "Text"
 msgstr "텍스트"
 
-#: search/provider/file.php:29
+#: search/provider/file.php:30
 msgid "Images"
 msgstr "그림"
 
@@ -278,6 +278,11 @@ msgstr "WebDAV 인터페이스가 제대로 작동하지 않습니다. 웹 서�
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "<a href='%s'>설치 가이드</a>를 다시 한 번 확인하십시오."
 
+#: tags.php:194
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr "분류 \"%s\"을(를) 찾을 수 없습니다."
+
 #: template/functions.php:96
 msgid "seconds ago"
 msgstr "초 전"
@@ -325,8 +330,3 @@ msgstr "년 전"
 #: template.php:297
 msgid "Caused by:"
 msgstr "원인: "
-
-#: vcategories.php:188 vcategories.php:249
-#, php-format
-msgid "Could not find category \"%s\""
-msgstr "분류 \"%s\"을(를) 찾을 수 없습니다."

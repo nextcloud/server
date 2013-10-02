@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-16 11:33-0400\n"
-"PO-Revision-Date: 2013-09-16 15:34+0000\n"
+"POT-Creation-Date: 2013-09-20 10:45-0400\n"
+"PO-Revision-Date: 2013-09-20 14:45+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgid "Unable to load list from App Store"
 msgstr "App Store'i nimekirja laadimine ebaõnnestus"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20
+#: ajax/togglegroups.php:20 changepassword/controller.php:55
 msgid "Authentication error"
 msgstr "Autentimise viga"
 
@@ -86,6 +86,35 @@ msgstr "Kasutajat ei saa eemaldada grupist %s"
 msgid "Couldn't update app."
 msgstr "Rakenduse uuendamine ebaõnnestus."
 
+#: changepassword/controller.php:20
+msgid "Wrong password"
+msgstr "Vale parool"
+
+#: changepassword/controller.php:42
+msgid "No user supplied"
+msgstr "Kasutajat ei sisestatud"
+
+#: changepassword/controller.php:74
+msgid ""
+"Please provide an admin recovery password, otherwise all user data will be "
+"lost"
+msgstr "Palun sisesta administraatori taasteparool, muidu kaotad kõik kasutajate andmed"
+
+#: changepassword/controller.php:79
+msgid ""
+"Wrong admin recovery password. Please check the password and try again."
+msgstr "Vale administraatori taasteparool. Palun kontrolli parooli ning proovi uuesti."
+
+#: changepassword/controller.php:87
+msgid ""
+"Back-end doesn't support password change, but the users encryption key was "
+"successfully updated."
+msgstr "Tagarakend ei toeta parooli vahetust, kuid kasutaja krüptimisvõti uuendati edukalt."
+
+#: changepassword/controller.php:92 changepassword/controller.php:103
+msgid "Unable to change password"
+msgstr "Ei suuda parooli muuta"
+
 #: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Uuenda versioonile {appversion}"
@@ -130,15 +159,15 @@ msgstr "Uuenda"
 msgid "Updated"
 msgstr "Uuendatud"
 
-#: js/personal.js:217
+#: js/personal.js:220
 msgid "Select a profile picture"
-msgstr ""
+msgstr "Vali profiili pilt"
 
-#: js/personal.js:262
+#: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Dekrüpteerin faile... Palun oota, see võib võtta veidi aega."
 
-#: js/personal.js:284
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "Salvestamine..."
 
@@ -462,31 +491,31 @@ msgstr "Parooli taastamise sisse lülitamiseks sisesta e-posti aadress"
 
 #: templates/personal.php:86
 msgid "Profile picture"
-msgstr ""
+msgstr "Profiili pilt"
 
 #: templates/personal.php:90
 msgid "Upload new"
-msgstr ""
+msgstr "Laadi uus"
 
 #: templates/personal.php:92
 msgid "Select new from Files"
-msgstr ""
+msgstr "Vali failidest uus"
 
 #: templates/personal.php:93
 msgid "Remove image"
-msgstr ""
+msgstr "Eemalda pilt"
 
 #: templates/personal.php:94
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
-msgstr ""
+msgstr "Kas png või jpg. Võimalikult ruudukujuline, kuid Sul on võimalus veel lõigata."
 
 #: templates/personal.php:97
 msgid "Abort"
-msgstr ""
+msgstr "Katkesta"
 
 #: templates/personal.php:98
 msgid "Choose as profile image"
-msgstr ""
+msgstr "Vali kui profiili pilt"
 
 #: templates/personal.php:106 templates/personal.php:107
 msgid "Language"
