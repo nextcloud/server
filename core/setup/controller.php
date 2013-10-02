@@ -1,4 +1,10 @@
 <?php
+/**
+ * Copyright (c) 2013 Bart Visscher <bartv@thisnet.nl>
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
+ */
 
 namespace OC\Core\Setup;
 
@@ -43,7 +49,7 @@ class Controller {
 			include $autosetup_file;
 			$post['install'] = 'true';
 			$post = array_merge ($post, $AUTOCONFIG);
-			unlink($autosetup_file);
+			@unlink($autosetup_file);
 		}
 		return $post;
 	}
