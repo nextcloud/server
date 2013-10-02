@@ -231,6 +231,12 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 	-webkit-transition:background-image 500ms; -moz-transition:background-image 500ms; -o-transition:background-image 500ms; transition:background-image 500ms;
 }
 
+#fileList tr td.filename a.name label {
+	position: absolute;
+	width: 100%;
+	height: 50px;
+}
+
 #uploadsize-message,#delete-confirm { display:none; }
 
 /* File actions */
