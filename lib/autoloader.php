@@ -77,6 +77,7 @@ class Autoloader {
 			$paths[] = 'private/' . strtolower(str_replace('_', '/', substr($class, 3)) . '.php');
 		} elseif (strpos($class, 'OC\\') === 0) {
 			$paths[] = 'private/' . strtolower(str_replace('\\', '/', substr($class, 3)) . '.php');
+			$paths[] = strtolower(str_replace('\\', '/', substr($class, 3)) . '.php');
 		} elseif (strpos($class, 'OCP\\') === 0) {
 			$paths[] = 'public/' . strtolower(str_replace('\\', '/', substr($class, 4)) . '.php');
 		} elseif (strpos($class, 'OCA\\') === 0) {
