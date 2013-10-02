@@ -219,10 +219,10 @@ class OC_User {
 	 *
 	 * Log in a user and regenerate a new session.
 	 *
-	 * @param \OCP\ApacheBackend $backend
+	 * @param \OCP\Authentication\IApacheBackend $backend
 	 * @return bool
 	 */
-	public static function loginWithApache(\OCP\ApacheBackend $backend) {
+	public static function loginWithApache(\OCP\Authentication\IApacheBackend $backend) {
 
 		$uid = $backend->getCurrentUserId();
 		$run = true;
@@ -248,7 +248,7 @@ class OC_User {
 	 */
 	public static function handleApacheAuth() {
 		foreach (self::$_usedBackends as $backend) {
-			if ($backend instanceof OCP\ApacheBackend) {
+			if ($backend instanceof OCP\Authentication\IApacheBackend) {
 				if ($backend->isSessionActive()) {
 					OC_App::loadApps();
 
@@ -320,7 +320,7 @@ class OC_User {
 	 */
 	public static function getLogoutAttribute() {
 		foreach (self::$_usedBackends as $backend) {
-			if ($backend instanceof OCP\ApacheBackend) {
+			if ($backend instanceof OCP\Authentication\IApacheBackend) {
 				if ($backend->isSessionActive()) {
 					return $backend->getLogoutAttribute();
 				}
