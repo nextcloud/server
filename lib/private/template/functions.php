@@ -115,7 +115,6 @@ function relative_modified_date($timestamp, $dateOnly = false) {
 	$diffhours = round($diffminutes/60);
 	$diffdays = round($diffhours/24);
 	$diffmonths = round($diffdays/31);
-	\OC_Log::write('functions', '################ ' . $timediff . ' ' . $diffhours, \OC_Log::DEBUG);
 
 	if(!$dateOnly && $timediff < 60) { return $l->t('seconds ago'); }
 	else if(!$dateOnly && $timediff < 3600) { return $l->n('%n minute ago', '%n minutes ago', $diffminutes); }
