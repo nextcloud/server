@@ -12,6 +12,18 @@ global $data;
 
 class RequestTest extends \PHPUnit_Framework_TestCase {
 
+	public function setUp() {
+		require_once __DIR__ . '/requeststream.php';
+		if (in_array('fakeinput', stream_get_wrappers())) {
+			stream_wrapper_unregister('fakeinput');
+		}
+		stream_wrapper_register('fakeinput', 'RequestStream');
+	}
+
+	public function tearDown() {
+		stream_wrapper_unregister('fakeinput');
+	}
+
 	public function testRequestAccessors() {
 		$vars = array(
 			'get' => array('name' => 'John Q. Public', 'nickname' => 'Joey'),
@@ -34,7 +46,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 		// Always returns null if variable not set.
 		$this->assertEquals(null, $request->{'flickname'});
 
-		require_once __DIR__ . '/requeststream.php';
 	}
 
 	// urlParams has precedence over POST which has precedence over GET
@@ -123,11 +134,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 		global $data;
 		$data = http_build_query(array('name' => 'John Q. Public', 'nickname' => 'Joey'), '', '&');
 
-		if (in_array('fakeinput', stream_get_wrappers())) {
-			stream_wrapper_unregister('fakeinput');
-		}
-		stream_wrapper_register('fakeinput', 'RequestStream');
-
 		$vars = array(
 			'patch' => $data,
 			'method' => 'PATCH',
@@ -141,21 +147,29 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals('John Q. Public', $result['name']);
 		$this->assertEquals('Joey', $result['nickname']);
-
-		stream_wrapper_unregister('fakeinput');
 	}
 
-	public function testJsonPatch() {
+	public function testJsonPatchAndPut() {
 		global $data;
-		$data = '{"name": "John Q. Public", "nickname": null}';
 
-		if (in_array('fakeinput', stream_get_wrappers())) {
-			stream_wrapper_unregister('fakeinput');
-		}
-		stream_wrapper_register('fakeinput', 'RequestStream');
-
+		// PUT content
+		$data = '{"name": "John Q. Public", "nickname": "Joey"}';
 		$vars = array(
-			'patch' => $data,
+			'method' => 'PUT',
+			'server' => array('CONTENT_TYPE' => 'application/json; utf-8'),
+		);
+
+		$request = new Request($vars);
+
+		$this->assertEquals('PUT', $request->method);
+		$result = $request->put;
+
+		$this->assertEquals('John Q. Public', $result['name']);
+		$this->assertEquals('Joey', $result['nickname']);
+
+		// PATCH content
+		$data = '{"name": "John Q. Public", "nickname": null}';
+		$vars = array(
 			'method' => 'PATCH',
 			'server' => array('CONTENT_TYPE' => 'application/json; utf-8'),
 		);
@@ -167,18 +181,11 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals('John Q. Public', $result['name']);
 		$this->assertEquals(null, $result['nickname']);
-
-		stream_wrapper_unregister('fakeinput');
 	}
 
-	public function testPutSteam() {
+	public function testPutStream() {
 		global $data;
 		$data = file_get_contents(__DIR__ . '/../../../data/testimage.png');
-
-		if (in_array('fakeinput', stream_get_wrappers())) {
-			stream_wrapper_unregister('fakeinput');
-		}
-		stream_wrapper_register('fakeinput', 'RequestStream');
 
 		$vars = array(
 			'put' => $data,
@@ -195,7 +202,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 		try {
 			$resource = $request->put;
 		} catch(\LogicException $e) {
-			stream_wrapper_unregister('fakeinput');
 			return;
 		}
 		$this->fail('Expected LogicException.');
