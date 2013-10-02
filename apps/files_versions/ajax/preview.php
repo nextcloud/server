@@ -12,8 +12,8 @@ if(!\OC_App::isEnabled('files_versions')){
 }
 
 $file = array_key_exists('file', $_GET) ? (string) urldecode($_GET['file']) : '';
-$maxX = array_key_exists('x', $_GET) ? (int) $_GET['x'] : '44';
-$maxY = array_key_exists('y', $_GET) ? (int) $_GET['y'] : '44';
+$maxX = array_key_exists('x', $_GET) ? (int) $_GET['x'] : 44;
+$maxY = array_key_exists('y', $_GET) ? (int) $_GET['y'] : 44;
 $version = array_key_exists('version', $_GET) ? $_GET['version'] : '';
 $scalingUp = array_key_exists('scalingup', $_GET) ? (bool) $_GET['scalingup'] : true;
 
