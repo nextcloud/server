@@ -174,10 +174,10 @@ OC.Share={
 			var allowPublicUploadStatus = false;
 
 			$.each(data.shares, function(key, value) {
-				if (allowPublicUploadStatus) {
+				if (value.share_type === OC.Share.SHARE_TYPE_LINK) {
+					allowPublicUploadStatus = (value.permissions & OC.PERMISSION_CREATE) ? true : false;
 					return true;
 				}
-				allowPublicUploadStatus = (value.permissions & OC.PERMISSION_CREATE) ? true : false;
 			});
 
 			html += '<input id="shareWith" type="text" placeholder="'+t('core', 'Share with')+'" />';
@@ -233,6 +233,7 @@ OC.Share={
 	//			} else {
 					$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getShareWith', search: search.term, itemShares: OC.Share.itemShares }, function(result) {
 						if (result.status == 'success' && result.data.length > 0) {
+							$( "#shareWith" ).autocomplete( "option", "autoFocus", true );
 							response(result.data);
 						} else {
 							// Suggest sharing via email if valid email address
@@ -240,6 +241,7 @@ OC.Share={
 //							if (pattern.test(search.term)) {
 //								response([{label: t('core', 'Share via email:')+' '+search.term, value: {shareType: OC.Share.SHARE_TYPE_EMAIL, shareWith: search.term}}]);
 //							} else {
+								$( "#shareWith" ).autocomplete( "option", "autoFocus", false );
 								response([t('core', 'No people found')]);
 //							}
 						}
@@ -423,7 +425,7 @@ OC.Share={
 			dateFormat : 'dd-mm-yy'
 		});
 	}
-}
+};
 
 $(document).ready(function() {
 
@@ -481,7 +483,7 @@ $(document).ready(function() {
 		if (!$('.cruds', this).is(':visible')) {
 			$('a', this).hide();
 			if (!$('input[name="edit"]', this).is(':checked')) {
-				$('input:[type=checkbox]', this).hide();
+				$('input[type="checkbox"]', this).hide();
 				$('label', this).hide();
 			}
 		} else {
@@ -512,7 +514,7 @@ $(document).ready(function() {
 
 	$(document).on('change', '#dropdown .permissions', function() {
 		if ($(this).attr('name') == 'edit') {
-			var li = $(this).parent().parent()
+			var li = $(this).parent().parent();
 			var checkboxes = $('.permissions', li);
 			var checked = $(this).is(':checked');
 			// Check/uncheck Create, Update, and Delete checkboxes if Edit is checked/unck
@@ -601,7 +603,18 @@ $(document).ready(function() {
 		if (!$('#showPassword').is(':checked') ) {
 			var itemType = $('#dropdown').data('item-type');
 			var itemSource = $('#dropdown').data('item-source');
-			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', OC.PERMISSION_READ);
+			var allowPublicUpload = $('#sharingDialogAllowPublicUpload').is(':checked');
+			var permissions = 0;
+
+			// Calculate permissions
+			if (allowPublicUpload) {
+				permissions = OC.PERMISSION_UPDATE + OC.PERMISSION_CREATE + OC.PERMISSION_READ;
+			} else {
+				permissions = OC.PERMISSION_READ;
+			}
+
+
+			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', permissions);
 		} else {
 			$('#linkPassText').focus();
 		}

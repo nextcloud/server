@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-08 21:36-0400\n"
-"PO-Revision-Date: 2013-09-08 17:40+0000\n"
+"POT-Creation-Date: 2013-09-24 12:58-0400\n"
+"PO-Revision-Date: 2013-09-24 08:30+0000\n"
 "Last-Translator: unhammer <unhammer+dill@mm.st>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgid "Unable to load list from App Store"
 msgstr "Klarer ikkje å lasta inn liste fra app-butikken"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20
+#: ajax/togglegroups.php:20 changepassword/controller.php:55
 msgid "Authentication error"
 msgstr "Autentiseringsfeil"
 
@@ -87,15 +87,44 @@ msgstr "Klarte ikkje fjerna brukaren frå gruppa %s"
 msgid "Couldn't update app."
 msgstr "Klarte ikkje oppdatera programmet."
 
+#: changepassword/controller.php:20
+msgid "Wrong password"
+msgstr "Feil passord"
+
+#: changepassword/controller.php:42
+msgid "No user supplied"
+msgstr "Ingen brukar gitt"
+
+#: changepassword/controller.php:74
+msgid ""
+"Please provide an admin recovery password, otherwise all user data will be "
+"lost"
+msgstr "Ver venleg og gi eit admingjenopprettingspassord, elles vil all brukardata gå tapt."
+
+#: changepassword/controller.php:79
+msgid ""
+"Wrong admin recovery password. Please check the password and try again."
+msgstr "Feil admingjenopprettingspassord. Ver venleg og sjekk passordet og prøv igjen."
+
+#: changepassword/controller.php:87
+msgid ""
+"Back-end doesn't support password change, but the users encryption key was "
+"successfully updated."
+msgstr "Bakstykket støttar ikkje passordendring, men krypteringsnøkkelen til brukaren blei oppdatert."
+
+#: changepassword/controller.php:92 changepassword/controller.php:103
+msgid "Unable to change password"
+msgstr "Klarte ikkje å endra passordet"
+
 #: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Oppdater til {appversion}"
 
-#: js/apps.js:49 js/apps.js:82 js/apps.js:108
+#: js/apps.js:49 js/apps.js:82 js/apps.js:110
 msgid "Disable"
 msgstr "Slå av"
 
-#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
+#: js/apps.js:49 js/apps.js:90 js/apps.js:103 js/apps.js:119
 msgid "Enable"
 msgstr "Slå på"
 
@@ -103,39 +132,43 @@ msgstr "Slå på"
 msgid "Please wait...."
 msgstr "Ver venleg og vent …"
 
-#: js/apps.js:79 js/apps.js:80 js/apps.js:100
+#: js/apps.js:79 js/apps.js:80 js/apps.js:101
 msgid "Error while disabling app"
 msgstr "Klarte ikkje å skru av programmet"
 
-#: js/apps.js:99 js/apps.js:112 js/apps.js:113
+#: js/apps.js:100 js/apps.js:114 js/apps.js:115
 msgid "Error while enabling app"
 msgstr "Klarte ikkje å skru på programmet"
 
-#: js/apps.js:123
+#: js/apps.js:125
 msgid "Updating...."
 msgstr "Oppdaterer …"
 
-#: js/apps.js:126
+#: js/apps.js:128
 msgid "Error while updating app"
 msgstr "Feil ved oppdatering av app"
 
-#: js/apps.js:126
+#: js/apps.js:128
 msgid "Error"
 msgstr "Feil"
 
-#: js/apps.js:127 templates/apps.php:43
+#: js/apps.js:129 templates/apps.php:43
 msgid "Update"
 msgstr "Oppdater"
 
-#: js/apps.js:130
+#: js/apps.js:132
 msgid "Updated"
 msgstr "Oppdatert"
 
-#: js/personal.js:150
+#: js/personal.js:220
+msgid "Select a profile picture"
+msgstr "Vel eit profilbilete"
+
+#: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Dekrypterer filer … Ver venleg og vent, dette kan ta ei stund."
 
-#: js/personal.js:172
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "Lagrar …"
 
@@ -151,16 +184,16 @@ msgstr "angra"
 msgid "Unable to remove user"
 msgstr "Klarte ikkje fjerna brukaren"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:87
-#: templates/users.php:112
+#: js/users.js:92 templates/users.php:26 templates/users.php:90
+#: templates/users.php:118
 msgid "Groups"
 msgstr "Grupper"
 
-#: js/users.js:97 templates/users.php:89 templates/users.php:124
+#: js/users.js:97 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
 msgstr "Gruppestyrar"
 
-#: js/users.js:120 templates/users.php:164
+#: js/users.js:120 templates/users.php:170
 msgid "Delete"
 msgstr "Slett"
 
@@ -180,7 +213,7 @@ msgstr "Feil ved oppretting av brukar"
 msgid "A valid password must be provided"
 msgstr "Du må oppgje eit gyldig passord"
 
-#: personal.php:40 personal.php:41
+#: personal.php:45 personal.php:46
 msgid "__language_name__"
 msgstr "Nynorsk"
 
@@ -346,11 +379,11 @@ msgstr "Meir"
 msgid "Less"
 msgstr "Mindre"
 
-#: templates/admin.php:242 templates/personal.php:140
+#: templates/admin.php:242 templates/personal.php:161
 msgid "Version"
 msgstr "Utgåve"
 
-#: templates/admin.php:246 templates/personal.php:143
+#: templates/admin.php:246 templates/personal.php:164
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -417,7 +450,7 @@ msgstr "Vis Oppstartvegvisaren igjen"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Du har brukt <strong>%s</strong> av dine tilgjengelege <strong>%s</strong>"
 
-#: templates/personal.php:39 templates/users.php:23 templates/users.php:86
+#: templates/personal.php:39 templates/users.php:23 templates/users.php:89
 msgid "Password"
 msgstr "Passord"
 
@@ -441,7 +474,7 @@ msgstr "Nytt passord"
 msgid "Change password"
 msgstr "Endra passord"
 
-#: templates/personal.php:58 templates/users.php:85
+#: templates/personal.php:58 templates/users.php:88
 msgid "Display Name"
 msgstr "Visingsnamn"
 
@@ -457,38 +490,66 @@ msgstr "Di epost-adresse"
 msgid "Fill in an email address to enable password recovery"
 msgstr "Fyll inn e-postadressa di for å gjera passordgjenoppretting mogleg"
 
-#: templates/personal.php:85 templates/personal.php:86
+#: templates/personal.php:86
+msgid "Profile picture"
+msgstr "Profilbilete"
+
+#: templates/personal.php:90
+msgid "Upload new"
+msgstr "Last opp ny"
+
+#: templates/personal.php:92
+msgid "Select new from Files"
+msgstr "Vel ny frå Filer"
+
+#: templates/personal.php:93
+msgid "Remove image"
+msgstr "Fjern bilete"
+
+#: templates/personal.php:94
+msgid "Either png or jpg. Ideally square but you will be able to crop it."
+msgstr "Anten PNG eller JPG. Helst kvadratisk, men du får moglegheita til å beskjera det."
+
+#: templates/personal.php:97
+msgid "Abort"
+msgstr "Avbryt"
+
+#: templates/personal.php:98
+msgid "Choose as profile image"
+msgstr "Vel som profilbilete"
+
+#: templates/personal.php:106 templates/personal.php:107
 msgid "Language"
 msgstr "Språk"
 
-#: templates/personal.php:98
+#: templates/personal.php:119
 msgid "Help translate"
 msgstr "Hjelp oss å omsetja"
 
-#: templates/personal.php:104
+#: templates/personal.php:125
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:106
+#: templates/personal.php:127
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
 "target=\"_blank\">access your Files via WebDAV</a>"
 msgstr "Bruk denne adressa for å <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">henta filene dine over WebDAV</a>"
 
-#: templates/personal.php:117
+#: templates/personal.php:138
 msgid "Encryption"
 msgstr "Kryptering"
 
-#: templates/personal.php:119
+#: templates/personal.php:140
 msgid "The encryption app is no longer enabled, decrypt all your file"
 msgstr "Krypteringsprogrammet er ikkje lenger slått på, dekrypter alle filene dine"
 
-#: templates/personal.php:125
+#: templates/personal.php:146
 msgid "Log-in password"
 msgstr "Innloggingspassord"
 
-#: templates/personal.php:130
+#: templates/personal.php:151
 msgid "Decrypt all Files"
 msgstr "Dekrypter alle filene"
 
@@ -514,30 +575,30 @@ msgstr "Skriv inn gjenopprettingspassordet brukt for å gjenoppretta brukarfilen
 msgid "Default Storage"
 msgstr "Standardlagring"
 
-#: templates/users.php:48 templates/users.php:142
+#: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
 msgstr "Ubegrensa"
 
-#: templates/users.php:66 templates/users.php:157
+#: templates/users.php:66 templates/users.php:163
 msgid "Other"
 msgstr "Anna"
 
-#: templates/users.php:84
+#: templates/users.php:87
 msgid "Username"
 msgstr "Brukarnamn"
 
-#: templates/users.php:91
+#: templates/users.php:94
 msgid "Storage"
 msgstr "Lagring"
 
-#: templates/users.php:102
+#: templates/users.php:108
 msgid "change display name"
 msgstr "endra visingsnamn"
 
-#: templates/users.php:106
+#: templates/users.php:112
 msgid "set new password"
 msgstr "lag nytt passord"
 
-#: templates/users.php:137
+#: templates/users.php:143
 msgid "Default"
 msgstr "Standard"

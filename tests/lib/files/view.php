@@ -354,8 +354,22 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->hookPath = $params['path'];
 	}
 
+	public function testSearchNotOutsideView() {
+		$storage1 = $this->getTestStorage();
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		$storage1->rename('folder', 'foo');
+		$scanner = $storage1->getScanner();
+		$scanner->scan('');
+
+		$view = new \OC\Files\View('/foo');
+
+		$result = $view->search('.txt');
+		$this->assertCount(1, $result);
+	}
+
 	/**
 	 * @param bool $scan
+	 * @param string $class
 	 * @return \OC\Files\Storage\Storage
 	 */
 	private function getTestStorage($scan = true, $class = '\OC\Files\Storage\Temporary') {

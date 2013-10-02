@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-25 19:18-0400\n"
-"PO-Revision-Date: 2013-08-25 23:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-30 10:16-0400\n"
+"PO-Revision-Date: 2013-09-30 00:50+0000\n"
+"Last-Translator: ebela <bela@dandre.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,41 +19,53 @@ msgstr ""
 "Language: hu_HU\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:239
+#: app.php:237
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr ""
 
-#: app.php:250
+#: app.php:248
 msgid "No app name specified"
-msgstr ""
+msgstr "Nincs az alkalmazás név megadva."
 
-#: app.php:361
+#: app.php:352
 msgid "Help"
 msgstr "Súgó"
 
-#: app.php:374
+#: app.php:365
 msgid "Personal"
 msgstr "Személyes"
 
-#: app.php:385
+#: app.php:376
 msgid "Settings"
 msgstr "Beállítások"
 
-#: app.php:397
+#: app.php:388
 msgid "Users"
 msgstr "Felhasználók"
 
-#: app.php:410
+#: app.php:401
 msgid "Admin"
 msgstr "Adminsztráció"
 
-#: app.php:837
+#: app.php:832
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Sikertelen Frissítés \"%s\"."
+
+#: avatar.php:56
+msgid "Custom profile pictures don't work with encryption yet"
+msgstr ""
+
+#: avatar.php:64
+msgid "Unknown filetype"
+msgstr "Ismeretlen file tipús"
+
+#: avatar.php:69
+msgid "Invalid image"
+msgstr "Hibás kép"
 
 #: defaults.php:35
 msgid "web services under your control"
@@ -107,40 +119,40 @@ msgstr ""
 msgid "Failed to open archive when installing app"
 msgstr ""
 
-#: installer.php:123
+#: installer.php:125
 msgid "App does not provide an info.xml file"
-msgstr ""
+msgstr "Az alkalmazás nem szolgáltatott info.xml file-t"
 
-#: installer.php:129
+#: installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
 msgstr ""
 
-#: installer.php:138
+#: installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr ""
+msgstr "Az alalmazás nem telepíthető, mert nem kompatibilis az ownClod ezzel a verziójával."
 
-#: installer.php:144
+#: installer.php:146
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr ""
 
-#: installer.php:150
+#: installer.php:152
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr ""
 
-#: installer.php:160
+#: installer.php:162
 msgid "App directory already exists"
-msgstr ""
+msgstr "Az alkalmazás mappája már létezik"
 
-#: installer.php:173
+#: installer.php:175
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr ""
+msgstr "Nem lehetett létrehozni az alkalmzás mappáját. Kérlek ellenőrizd a jogosultásgokat. %s"
 
 #: json.php:28
 msgid "Application is not enabled"
@@ -154,15 +166,15 @@ msgstr "Azonosítási hiba"
 msgid "Token expired. Please reload page."
 msgstr "A token lejárt. Frissítse az oldalt."
 
-#: search/provider/file.php:17 search/provider/file.php:35
+#: search/provider/file.php:18 search/provider/file.php:36
 msgid "Files"
 msgstr "Fájlok"
 
-#: search/provider/file.php:26 search/provider/file.php:33
+#: search/provider/file.php:27 search/provider/file.php:34
 msgid "Text"
 msgstr "Szöveg"
 
-#: search/provider/file.php:29
+#: search/provider/file.php:30
 msgid "Images"
 msgstr "Képek"
 
@@ -266,59 +278,59 @@ msgstr "Az Ön webkiszolgálója nincs megfelelően beállítva az állományok 
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Kérjük tüzetesen tanulmányozza át a <a href='%s'>telepítési útmutatót</a>."
 
-#: template/functions.php:80
+#: tags.php:194
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr "Ez a kategória nem található: \"%s\""
+
+#: template/functions.php:96
 msgid "seconds ago"
 msgstr "pár másodperce"
 
-#: template/functions.php:81
+#: template/functions.php:97
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: template/functions.php:82
+#: template/functions.php:98
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: template/functions.php:83
+#: template/functions.php:99
 msgid "today"
 msgstr "ma"
 
-#: template/functions.php:84
+#: template/functions.php:100
 msgid "yesterday"
 msgstr "tegnap"
 
-#: template/functions.php:85
+#: template/functions.php:101
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: template/functions.php:86
+#: template/functions.php:102
 msgid "last month"
 msgstr "múlt hónapban"
 
-#: template/functions.php:87
+#: template/functions.php:103
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: template/functions.php:88
+#: template/functions.php:104
 msgid "last year"
 msgstr "tavaly"
 
-#: template/functions.php:89
+#: template/functions.php:105
 msgid "years ago"
 msgstr "több éve"
 
 #: template.php:297
 msgid "Caused by:"
 msgstr "Okozta:"
-
-#: vcategories.php:188 vcategories.php:249
-#, php-format
-msgid "Could not find category \"%s\""
-msgstr "Ez a kategória nem található: \"%s\""

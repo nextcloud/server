@@ -22,7 +22,7 @@ function fileCmp($a, $b) {
 function determineIcon($file, $sharingRoot, $sharingToken) {
 	// for folders we simply reuse the files logic
 	if($file['type'] == 'dir') {
-		return \OCA\files\lib\Helper::determineIcon($file);
+		return \OCA\Files\Helper::determineIcon($file);
 	}
 
 	$relativePath = substr($file['path'], 6);
@@ -147,6 +147,7 @@ if (isset($path)) {
 		$tmpl->assign('mimetype', \OC\Files\Filesystem::getMimeType($path));
 		$tmpl->assign('fileTarget', basename($linkItem['file_target']));
 		$tmpl->assign('dirToken', $linkItem['token']);
+		$tmpl->assign('disableSharing', true);
 		$allowPublicUploadEnabled = (bool) ($linkItem['permissions'] & OCP\PERMISSION_CREATE);
 		if (\OCP\App::isEnabled('files_encryption')) {
 			$allowPublicUploadEnabled = false;
@@ -169,6 +170,7 @@ if (isset($path)) {
 			$tmpl->assign('dir', $getPath);
 
 			OCP\Util::addStyle('files', 'files');
+			OCP\Util::addStyle('files', 'upload');
 			OCP\Util::addScript('files', 'files');
 			OCP\Util::addScript('files', 'filelist');
 			OCP\Util::addscript('files', 'keyboardshortcuts');
@@ -186,7 +188,7 @@ if (isset($path)) {
 					} else {
 						$i['extension'] = '';
 					}
-					$i['isPreviewAvailable'] = \OCP\Preview::isMimeSupported($i['mimetype']);
+					$i['isPreviewAvailable'] = \OC::$server->getPreviewManager()->isMimeSupported($i['mimetype']);
 				}
 				$i['directory'] = $getPath;
 				$i['permissions'] = OCP\PERMISSION_READ;
@@ -206,7 +208,6 @@ if (isset($path)) {
 			}
 			$list = new OCP\Template('files', 'part.list', '');
 			$list->assign('files', $files);
-			$list->assign('disableSharing', true);
 			$list->assign('baseURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&path=');
 			$list->assign('downloadURL',
 				OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=');

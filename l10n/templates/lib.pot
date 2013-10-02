@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-09-11 06:48-0400\n"
+"POT-Creation-Date: 2013-09-30 10:16-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,40 +18,52 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: app.php:239
+#: app.php:237
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version "
 "of ownCloud."
 msgstr ""
 
-#: app.php:250
+#: app.php:248
 msgid "No app name specified"
 msgstr ""
 
-#: app.php:361
+#: app.php:352
 msgid "Help"
 msgstr ""
 
-#: app.php:374
+#: app.php:365
 msgid "Personal"
 msgstr ""
 
-#: app.php:385
+#: app.php:376
 msgid "Settings"
 msgstr ""
 
-#: app.php:397
+#: app.php:388
 msgid "Users"
 msgstr ""
 
-#: app.php:410
+#: app.php:401
 msgid "Admin"
 msgstr ""
 
-#: app.php:837
+#: app.php:832
 #, php-format
 msgid "Failed to upgrade \"%s\"."
+msgstr ""
+
+#: avatar.php:56
+msgid "Custom profile pictures don't work with encryption yet"
+msgstr ""
+
+#: avatar.php:64
+msgid "Unknown filetype"
+msgstr ""
+
+#: avatar.php:69
+msgid "Invalid image"
 msgstr ""
 
 #: defaults.php:35
@@ -106,37 +118,37 @@ msgstr ""
 msgid "Failed to open archive when installing app"
 msgstr ""
 
-#: installer.php:123
+#: installer.php:125
 msgid "App does not provide an info.xml file"
 msgstr ""
 
-#: installer.php:129
+#: installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
 msgstr ""
 
-#: installer.php:138
+#: installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr ""
 
-#: installer.php:144
+#: installer.php:146
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr ""
 
-#: installer.php:150
+#: installer.php:152
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr ""
 
-#: installer.php:160
+#: installer.php:162
 msgid "App directory already exists"
 msgstr ""
 
-#: installer.php:173
+#: installer.php:175
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr ""
@@ -153,15 +165,15 @@ msgstr ""
 msgid "Token expired. Please reload page."
 msgstr ""
 
-#: search/provider/file.php:17 search/provider/file.php:35
+#: search/provider/file.php:18 search/provider/file.php:36
 msgid "Files"
 msgstr ""
 
-#: search/provider/file.php:26 search/provider/file.php:33
+#: search/provider/file.php:27 search/provider/file.php:34
 msgid "Text"
 msgstr ""
 
-#: search/provider/file.php:29
+#: search/provider/file.php:30
 msgid "Images"
 msgstr ""
 
@@ -265,6 +277,11 @@ msgstr ""
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""
 
+#: tags.php:194
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr ""
+
 #: template/functions.php:96
 msgid "seconds ago"
 msgstr ""
@@ -315,9 +332,4 @@ msgstr ""
 
 #: template.php:297
 msgid "Caused by:"
-msgstr ""
-
-#: vcategories.php:188 vcategories.php:249
-#, php-format
-msgid "Could not find category \"%s\""
 msgstr ""

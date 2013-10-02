@@ -40,6 +40,11 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 .header-right { float:right; vertical-align:middle; padding:0.5em; }
 .header-right > * { vertical-align:middle; }
 
+#header .avatardiv {
+	text-shadow: none;
+	float: left;
+	display: inline-block;
+}
 
 /* INPUTS */
 input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"], input[type="url"],
@@ -583,8 +588,18 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 
 
 /* USER MENU */
-#settings { float:right; margin-top:7px; color:#bbb; text-shadow:0 -1px 0 #000; }
-#expand { padding:15px; cursor:pointer; font-weight:bold; }
+#settings {
+	float: right;
+	margin-top: 7px;
+	margin-left: 10px;
+	color: #bbb;
+	text-shadow: 0 -1px 0 #000;
+}
+#expand {
+	padding: 15px 15px 15px 5px;
+	cursor: pointer;
+	font-weight: bold;
+}
 #expand:hover, #expand:focus, #expand:active { color:#fff; }
 #expand img { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70); opacity:.7; margin-bottom:-2px; }
 #expand:hover img, #expand:focus img, #expand:active img { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
@@ -624,6 +639,7 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 .hidden { display:none; }
 .bold { font-weight:bold; }
 .center { text-align:center; }
+.inlineblock { display: inline-block; }
 
 #notification-container { position: fixed; top: 0px; width: 100%; text-align: center; z-index: 101; line-height: 1.2;}
 #notification, #update-notification { z-index:101; background-color:#fc4; border:0; padding:0 .7em .3em; display:none; position: relative; top:0; -moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em; -moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }

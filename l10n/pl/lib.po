@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-05 07:36-0400\n"
-"PO-Revision-Date: 2013-09-05 10:10+0000\n"
+"POT-Creation-Date: 2013-09-30 10:16-0400\n"
+"PO-Revision-Date: 2013-09-30 12:26+0000\n"
 "Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -18,41 +18,53 @@ msgstr ""
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: app.php:239
+#: app.php:237
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "Aplikacja \"%s\" nie może zostać zainstalowana, ponieważ nie jest zgodna z tą wersją ownCloud."
 
-#: app.php:250
+#: app.php:248
 msgid "No app name specified"
 msgstr "Nie określono nazwy aplikacji"
 
-#: app.php:361
+#: app.php:352
 msgid "Help"
 msgstr "Pomoc"
 
-#: app.php:374
+#: app.php:365
 msgid "Personal"
 msgstr "Osobiste"
 
-#: app.php:385
+#: app.php:376
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: app.php:397
+#: app.php:388
 msgid "Users"
 msgstr "Użytkownicy"
 
-#: app.php:410
+#: app.php:401
 msgid "Admin"
 msgstr "Administrator"
 
-#: app.php:837
+#: app.php:832
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Błąd przy aktualizacji \"%s\"."
+
+#: avatar.php:56
+msgid "Custom profile pictures don't work with encryption yet"
+msgstr "Domyślny profil zdjęć nie działa z szyfrowaniem jeszcze"
+
+#: avatar.php:64
+msgid "Unknown filetype"
+msgstr "Nieznany typ pliku"
+
+#: avatar.php:69
+msgid "Invalid image"
+msgstr "Błędne zdjęcie"
 
 #: defaults.php:35
 msgid "web services under your control"
@@ -106,37 +118,37 @@ msgstr "Typ archiwum %s nie jest obsługiwany"
 msgid "Failed to open archive when installing app"
 msgstr "Nie udało się otworzyć archiwum podczas instalacji aplikacji"
 
-#: installer.php:123
+#: installer.php:125
 msgid "App does not provide an info.xml file"
 msgstr "Aplikacja nie posiada pliku info.xml"
 
-#: installer.php:129
+#: installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Aplikacja nie może być zainstalowany ponieważ nie dopuszcza kod w aplikacji"
 
-#: installer.php:138
+#: installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Aplikacja nie może zostać zainstalowana ponieważ jest niekompatybilna z tą wersja ownCloud"
 
-#: installer.php:144
+#: installer.php:146
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Aplikacja nie może być zainstalowana ponieważ true tag nie jest <shipped>true</shipped> , co nie jest dozwolone dla aplikacji nie wysłanych"
 
-#: installer.php:150
+#: installer.php:152
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "Nie można zainstalować aplikacji, ponieważ w wersji info.xml/version nie jest taka sama, jak wersja z app store"
 
-#: installer.php:160
+#: installer.php:162
 msgid "App directory already exists"
 msgstr "Katalog aplikacji już isnieje"
 
-#: installer.php:173
+#: installer.php:175
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Nie mogę utworzyć katalogu aplikacji. Proszę popraw uprawnienia. %s"
@@ -153,15 +165,15 @@ msgstr "Błąd uwierzytelniania"
 msgid "Token expired. Please reload page."
 msgstr "Token wygasł. Proszę ponownie załadować stronę."
 
-#: search/provider/file.php:17 search/provider/file.php:35
+#: search/provider/file.php:18 search/provider/file.php:36
 msgid "Files"
 msgstr "Pliki"
 
-#: search/provider/file.php:26 search/provider/file.php:33
+#: search/provider/file.php:27 search/provider/file.php:34
 msgid "Text"
 msgstr "Połączenie tekstowe"
 
-#: search/provider/file.php:29
+#: search/provider/file.php:30
 msgid "Images"
 msgstr "Obrazy"
 
@@ -265,6 +277,11 @@ msgstr "Serwer internetowy nie jest jeszcze poprawnie skonfigurowany, aby umożl
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Sprawdź ponownie <a href='%s'>przewodniki instalacji</a>."
 
+#: tags.php:194
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr "Nie można odnaleźć kategorii \"%s\""
+
 #: template/functions.php:96
 msgid "seconds ago"
 msgstr "sekund temu"
@@ -320,8 +337,3 @@ msgstr "lat temu"
 #: template.php:297
 msgid "Caused by:"
 msgstr "Spowodowane przez:"
-
-#: vcategories.php:188 vcategories.php:249
-#, php-format
-msgid "Could not find category \"%s\""
-msgstr "Nie można odnaleźć kategorii \"%s\""

@@ -4,7 +4,7 @@ $(document).ready(function() {
 
 	if (typeof OC.Share !== 'undefined' && typeof FileActions !== 'undefined'  && !disableSharing) {
 
-		$('#fileList').one('fileActionsReady',function(){
+		$('#fileList').on('fileActionsReady',function(){
 			OC.Share.loadIcons('file');
 		});
 

@@ -100,6 +100,7 @@ $TRANSLATIONS = array(
 "Email" => "信箱",
 "Your email address" => "您的電子郵件信箱",
 "Fill in an email address to enable password recovery" => "請填入電子郵件信箱以便回復密碼",
+"Profile picture" => "個人資料照片",
 "Language" => "語言",
 "Help translate" => "幫助翻譯",
 "WebDAV" => "WebDAV",

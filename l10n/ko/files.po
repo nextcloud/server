@@ -5,13 +5,14 @@
 # Translators:
 # ujuc Gang <potopro@gmail.com>, 2013
 # ujuc Gang <potopro@gmail.com>, 2013
+# smallsnail <bjh13579@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-01 13:27-0400\n"
-"PO-Revision-Date: 2013-08-30 13:50+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-30 10:14-0400\n"
+"PO-Revision-Date: 2013-09-29 10:06+0000\n"
+"Last-Translator: smallsnail <bjh13579@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,11 +32,11 @@ msgstr "%s 항목을 이딩시키지 못하였음"
 
 #: ajax/upload.php:16 ajax/upload.php:45
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "업로드 디렉터리를 정할수 없습니다"
 
 #: ajax/upload.php:22
 msgid "Invalid Token"
-msgstr ""
+msgstr "잘못된 토큰"
 
 #: ajax/upload.php:59
 msgid "No file was uploaded. Unknown error"
@@ -76,162 +77,170 @@ msgstr "디스크에 쓰지 못했습니다"
 msgid "Not enough storage available"
 msgstr "저장소가 용량이 충분하지 않습니다."
 
-#: ajax/upload.php:109
-msgid "Upload failed"
-msgstr "업로드 실패"
+#: ajax/upload.php:120 ajax/upload.php:143
+msgid "Upload failed. Could not get file info."
+msgstr "업로드에 실패했습니다. 파일 정보를 가져올수 없습니다."
 
-#: ajax/upload.php:127
+#: ajax/upload.php:136
+msgid "Upload failed. Could not find uploaded file"
+msgstr "업로드에 실패했습니다. 업로드할 파일을 찾을수 없습니다"
+
+#: ajax/upload.php:160
 msgid "Invalid directory."
 msgstr "올바르지 않은 디렉터리입니다."
 
-#: appinfo/app.php:12
+#: appinfo/app.php:11
 msgid "Files"
 msgstr "파일"
 
-#: js/file-upload.js:11
-msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "디렉터리 및 빈 파일은 업로드할 수 없습니다"
+#: js/file-upload.js:244
+msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
+msgstr "{filename}을 업로드 할수 없습니다. 폴더이거나 0 바이트 파일입니다."
 
-#: js/file-upload.js:24
+#: js/file-upload.js:255
 msgid "Not enough space available"
 msgstr "여유 공간이 부족합니다"
 
-#: js/file-upload.js:64
+#: js/file-upload.js:322
 msgid "Upload cancelled."
 msgstr "업로드가 취소되었습니다."
 
-#: js/file-upload.js:165
+#: js/file-upload.js:356
+msgid "Could not get result from server."
+msgstr "서버에서 결과를 가져올수 없습니다."
+
+#: js/file-upload.js:446
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "파일 업로드가 진행 중입니다. 이 페이지를 벗어나면 업로드가 취소됩니다."
 
-#: js/file-upload.js:239
+#: js/file-upload.js:520
 msgid "URL cannot be empty."
 msgstr "URL을 입력해야 합니다."
 
-#: js/file-upload.js:244 lib/app.php:53
+#: js/file-upload.js:525 lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
-msgstr ""
+msgstr "유효하지 않은 폴더명입니다. \"Shared\" 이름의 사용은 OwnCloud 가 이미 예약하고 있습니다."
 
-#: js/file-upload.js:276 js/file-upload.js:292 js/files.js:512 js/files.js:550
+#: js/file-upload.js:557 js/file-upload.js:573 js/files.js:507 js/files.js:545
 msgid "Error"
 msgstr "오류"
 
-#: js/fileactions.js:116
+#: js/fileactions.js:119
 msgid "Share"
 msgstr "공유"
 
-#: js/fileactions.js:126
+#: js/fileactions.js:131
 msgid "Delete permanently"
 msgstr "영원히 삭제"
 
-#: js/fileactions.js:192
+#: js/fileactions.js:197
 msgid "Rename"
 msgstr "이름 바꾸기"
 
-#: js/filelist.js:50 js/filelist.js:53 js/filelist.js:575
+#: js/filelist.js:71 js/filelist.js:74 js/filelist.js:788
 msgid "Pending"
 msgstr "대기 중"
 
-#: js/filelist.js:307 js/filelist.js:309
+#: js/filelist.js:416 js/filelist.js:418
 msgid "{new_name} already exists"
 msgstr "{new_name}이(가) 이미 존재함"
 
-#: js/filelist.js:307 js/filelist.js:309
+#: js/filelist.js:416 js/filelist.js:418
 msgid "replace"
 msgstr "바꾸기"
 
-#: js/filelist.js:307
+#: js/filelist.js:416
 msgid "suggest name"
 msgstr "이름 제안"
 
-#: js/filelist.js:307 js/filelist.js:309
+#: js/filelist.js:416 js/filelist.js:418
 msgid "cancel"
 msgstr "취소"
 
-#: js/filelist.js:354
+#: js/filelist.js:463
 msgid "replaced {new_name} with {old_name}"
 msgstr "{old_name}이(가) {new_name}(으)로 대체됨"
 
-#: js/filelist.js:354
+#: js/filelist.js:463
 msgid "undo"
 msgstr "되돌리기"
 
-#: js/filelist.js:424 js/filelist.js:490 js/files.js:581
+#: js/filelist.js:533 js/filelist.js:599 js/files.js:576
 msgid "%n folder"
 msgid_plural "%n folders"
-msgstr[0] ""
+msgstr[0] "폴더 %n"
 
-#: js/filelist.js:425 js/filelist.js:491 js/files.js:587
+#: js/filelist.js:534 js/filelist.js:600 js/files.js:582
 msgid "%n file"
 msgid_plural "%n files"
-msgstr[0] ""
+msgstr[0] "파일 %n 개"
 
-#: js/filelist.js:432
+#: js/filelist.js:541
 msgid "{dirs} and {files}"
-msgstr ""
+msgstr "{dirs} 그리고 {files}"
 
-#: js/filelist.js:563
+#: js/filelist.js:731 js/filelist.js:769
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
-msgstr[0] ""
+msgstr[0] "%n 개의 파일을 업로드중"
 
-#: js/filelist.js:628
-msgid "files uploading"
-msgstr "파일 업로드중"
-
-#: js/files.js:52
+#: js/files.js:25
 msgid "'.' is an invalid file name."
 msgstr "'.' 는 올바르지 않은 파일 이름 입니다."
 
-#: js/files.js:56
+#: js/files.js:29
 msgid "File name cannot be empty."
 msgstr "파일 이름이 비어 있을 수 없습니다."
 
-#: js/files.js:64
+#: js/files.js:37
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "폴더 이름이 올바르지 않습니다. 이름에 문자 '\\', '/', '<', '>', ':', '\"', '|', '? ', '*'는 사용할 수 없습니다."
 
-#: js/files.js:78
+#: js/files.js:51
 msgid "Your storage is full, files can not be updated or synced anymore!"
 msgstr "저장 공간이 가득 찼습니다. 파일을 업데이트하거나 동기화할 수 없습니다!"
 
-#: js/files.js:82
+#: js/files.js:55
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "저장 공간이 거의 가득 찼습니다 ({usedSpacePercent}%)"
 
-#: js/files.js:94
+#: js/files.js:67
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
-msgstr ""
+msgstr "암호화는 해제되어 있지만, 파일은 아직 암호화 되어 있습니다. 개인 설저에 가셔서 암호를 해제하십시오"
 
-#: js/files.js:245
+#: js/files.js:296
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "다운로드가 준비 중입니다. 파일 크기가 크다면 시간이 오래 걸릴 수도 있습니다."
 
-#: js/files.js:563 templates/index.php:69
+#: js/files.js:507 js/files.js:545
+msgid "Error moving file"
+msgstr "파일 이동 오류"
+
+#: js/files.js:558 templates/index.php:61
 msgid "Name"
 msgstr "이름"
 
-#: js/files.js:564 templates/index.php:81
+#: js/files.js:559 templates/index.php:73
 msgid "Size"
 msgstr "크기"
 
-#: js/files.js:565 templates/index.php:83
+#: js/files.js:560 templates/index.php:75
 msgid "Modified"
 msgstr "수정됨"
 
 #: lib/app.php:73
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "%s 의 이름을 변경할수 없습니다"
 
-#: lib/helper.php:11 templates/index.php:18
+#: lib/helper.php:11 templates/index.php:17
 msgid "Upload"
 msgstr "업로드"
 
@@ -267,65 +276,65 @@ msgstr "ZIP 파일 최대 크기"
 msgid "Save"
 msgstr "저장"
 
-#: templates/index.php:7
+#: templates/index.php:6
 msgid "New"
 msgstr "새로 만들기"
 
-#: templates/index.php:10
+#: templates/index.php:9
 msgid "Text file"
 msgstr "텍스트 파일"
 
-#: templates/index.php:12
+#: templates/index.php:11
 msgid "Folder"
 msgstr "폴더"
 
-#: templates/index.php:14
+#: templates/index.php:13
 msgid "From link"
 msgstr "링크에서"
 
-#: templates/index.php:41
+#: templates/index.php:33
 msgid "Deleted files"
 msgstr "파일 삭제됨"
 
-#: templates/index.php:46
+#: templates/index.php:39
 msgid "Cancel upload"
 msgstr "업로드 취소"
 
-#: templates/index.php:52
+#: templates/index.php:45
 msgid "You don’t have write permissions here."
 msgstr "당신은 여기에 쓰기를 할 수 있는 권한이 없습니다."
 
-#: templates/index.php:59
+#: templates/index.php:50
 msgid "Nothing in here. Upload something!"
 msgstr "내용이 없습니다. 업로드할 수 있습니다!"
 
-#: templates/index.php:75
+#: templates/index.php:67
 msgid "Download"
 msgstr "다운로드"
 
-#: templates/index.php:88 templates/index.php:89
+#: templates/index.php:80 templates/index.php:81
 msgid "Unshare"
 msgstr "공유 해제"
 
-#: templates/index.php:94 templates/index.php:95
+#: templates/index.php:86 templates/index.php:87
 msgid "Delete"
 msgstr "삭제"
 
-#: templates/index.php:108
+#: templates/index.php:100
 msgid "Upload too large"
 msgstr "업로드한 파일이 너무 큼"
 
-#: templates/index.php:110
+#: templates/index.php:102
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "이 파일이 서버에서 허용하는 최대 업로드 가능 용량보다 큽니다."
 
-#: templates/index.php:115
+#: templates/index.php:107
 msgid "Files are being scanned, please wait."
 msgstr "파일을 검색하고 있습니다. 기다려 주십시오."
 
-#: templates/index.php:118
+#: templates/index.php:110
 msgid "Current scanning"
 msgstr "현재 검색"
 
