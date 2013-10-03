@@ -60,10 +60,10 @@ $(document).ready(function(){
 					} else {
 						OC.Notification.hide();
 						if (recoveryStatus === "0") {
-							$('p[name="changeRecoveryPasswordBlock"]').attr("class", "hidden");
+							$('p[name="changeRecoveryPasswordBlock"]').addClass("hidden");
 						} else {
 							$('input:password[name="changeRecoveryPassword"]').val("");
-							$('p[name="changeRecoveryPasswordBlock"]').removeAttr("class");
+							$('p[name="changeRecoveryPasswordBlock"]').removeClass("hidden");
 						}
 					}
 				}
