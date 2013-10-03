@@ -27,13 +27,11 @@
 	position: relative;
 	width: 100%;
 	-moz-box-sizing: border-box; box-sizing: border-box;
-	text-shadow: 0 1px 0 rgba(255,255,255,.9);
 }
 #app-navigation .active,
 #app-navigation .active a,
 #app-navigation li:hover > a {
 	background-color: #ddd;
-	text-shadow: 0 1px 0 rgba(255,255,255,.7);
 }
 
 /* special rules for first-level entries and folders */
@@ -119,7 +117,7 @@
 }
 
 #app-navigation > ul .open:hover {
-	-moz-box-shadow: inset 0 0 3px #ccc; -webkit-box-shadow: inset 0 0 3px #ccc; box-shadow: inset 0 0 3px #ccc;
+	box-shadow: inset 0 0 3px #ccc;
 }
 
 #app-navigation > ul .open ul {
