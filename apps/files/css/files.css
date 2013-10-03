@@ -8,7 +8,9 @@
 .actions .button a { color: #555; }
 .actions .button a:hover, .actions .button a:active { color: #333; }
 #new {
-	height:17px;  margin:0 0 0 1em; z-index:1010; float:left;
+	height: 17px;
+	z-index: 1010;
+	float: left;
 }
 #new.active { border-bottom-left-radius:0; border-bottom-right-radius:0; border-bottom:none; }
 #new>a { padding:.5em 1.2em .3em; }
@@ -30,7 +32,12 @@
 	margin: 2px 0;
 }
 
-#trash { margin: 0 1em; z-index:1010; float: right; }
+#trash {
+	margin: 0 1em;
+	height: 17px;
+	z-index: 1010;
+	float: right;
+}
 
 #upload {
 	height:27px; padding:0; margin-left:0.2em; overflow:hidden;
