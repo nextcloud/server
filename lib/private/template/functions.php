@@ -104,9 +104,9 @@ function strip_time($timestamp){
  * @param bool $dateOnly whether to strip time information
  * @return formatted timestamp
  */
-function relative_modified_date($timestamp, $fromTime, $dateOnly = false) {
+function relative_modified_date($timestamp, $fromTime = null, $dateOnly = false) {
 	$l=OC_L10N::get('lib');
-	if (!isset($fromTime)){
+	if (!isset($fromTime) || $fromTime === null){
 		$fromTime = time();
 	}
 	if ($dateOnly){
