@@ -115,8 +115,9 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testJsonPost() {
+		global $data;
+		$data = '{"name": "John Q. Public", "nickname": "Joey"}';
 		$vars = array(
-			'post' => '{"name": "John Q. Public", "nickname": "Joey"}',
 			'method' => 'POST',
 			'server' => array('CONTENT_TYPE' => 'application/json; utf-8'),
 		);
@@ -135,7 +136,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 		$data = http_build_query(array('name' => 'John Q. Public', 'nickname' => 'Joey'), '', '&');
 
 		$vars = array(
-			'patch' => $data,
 			'method' => 'PATCH',
 			'server' => array('CONTENT_TYPE' => 'application/x-www-form-urlencoded'),
 		);

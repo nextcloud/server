@@ -31,6 +31,7 @@ use OCP\IRequest;
 
 class Request implements \ArrayAccess, \Countable, IRequest {
 
+	protected $inputStream;
 	protected $content;
 	protected $items = array();
 	protected $allowedKeys = array(
@@ -66,12 +67,19 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 				: array();
 		}
 
+		if (defined('PHPUNIT_RUN') && PHPUNIT_RUN
+			&& in_array('fakeinput', stream_get_wrappers())) {
+			$this->inputStream = 'fakeinput://data';
+		} else {
+			$this->inputStream = 'php://input';
+		}
+
 		// Only 'application/x-www-form-urlencoded' requests are automatically
 		// transformed by PHP, 'application/json' must be decoded manually.
 		if ($this->method === 'POST'
 			&& strpos($this->getHeader('Content-Type'), 'application/json') !== false
 		) {
-			$this->items['params'] = $this->items['post'] = json_decode(file_get_contents('php://input'), true);
+			$this->items['params'] = $this->items['post'] = json_decode(file_get_contents($this->inputStream), true);
 		}
 
 		$this->items['parameters'] = array_merge(
@@ -311,24 +319,17 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			);
 		}
 
-		if (defined('PHPUNIT_RUN') && PHPUNIT_RUN
-			&& in_array('fakeinput', stream_get_wrappers())) {
-			$stream = 'fakeinput://data';
-		} else {
-			$stream = 'php://input';
-		}
-
 		// If the content can't be parsed into an array then return a stream resource.
 		if ($this->method === 'PUT'
 			&& strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') === false
 			&& strpos($this->getHeader('Content-Type'), 'application/json') === false
 		) {
 			$this->content = false;
-			return fopen($stream, 'rb');
+			return fopen($this->inputStream, 'rb');
 		}
 
 		if (is_null($this->content)) {
-			$this->content = file_get_contents($stream);
+			$this->content = file_get_contents($this->inputStream);
 
 			/*
 			* Normal jquery ajax requests are sent as application/x-www-form-urlencoded
