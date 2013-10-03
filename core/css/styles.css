@@ -405,7 +405,7 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 #body-login .warning, #body-login .update, #body-login .error {
 	display: block;
 	padding: 10px;
-	color: #dd3b3b;
+	color: #d2322d;
 	background-color: rgba(0,0,0,.3);
 	text-align: center;
 	border-radius: 3px;
@@ -422,7 +422,7 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 .warning legend,
 .warning a,
 .error a {
-	color: #dd3b3b !important;
+	color: #d2322d !important;
 	font-weight: bold;
 }
 .error pre {
