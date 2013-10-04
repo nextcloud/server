@@ -13,7 +13,6 @@
 			<select id="ldap_userfilter_objectclass" multiple="multiple"
 			 name="ldap_userfilter_objectclass"
 			 data-default="<?php p($_['ldap_userfilter_objectclass_default']); ?>">
-<!-- 				<option><?php p($l->t('Any'));?></option> -->
 			</select>
 		</p>
 
@@ -23,10 +22,8 @@
 			</label>
 
 			<select id="ldap_userfilter_groups" multiple="multiple"
-			 name="ldap_userfilter_groups" class="lwautosave"
+			 name="ldap_userfilter_groups"
 			 data-default="<?php p($_['ldap_userfilter_groups_default']); ?>">
-<!-- 				<option value="TODOfillIn">TODO: fill in object classes via Ajax</option> -->
-<!-- 				<option value="TODOfillIn2">22222</option> -->
 			</select>
 		</p>
 

@@ -52,6 +52,27 @@ class Wizard extends LDAPUtility {
 		}
 	}
 
+	public function determineGroups() {
+		if(!$this->checkRequirements(array('ldapHost',
+										   'ldapPort',
+										   'ldapAgentName',
+										   'ldapAgentPassword',
+										   'ldapBase',
+										   ))) {
+			return  false;
+		}
+		$cr = $this->getConnection();
+		if(!$cr) {
+			throw new \Excpetion('Could not connect to LDAP');
+		}
+
+		$obclasses = array('posixGroup', 'group', '*');
+		return $this->determineFeature($obclasses,
+									   'cn',
+									   'ldap_userfilter_groups',
+									   'ldapUserFilterGroups');
+	}
+
 	public function determineObjectClasses() {
 		if(!$this->checkRequirements(array('ldapHost',
 										   'ldapPort',
@@ -66,31 +87,44 @@ class Wizard extends LDAPUtility {
 			throw new \Excpetion('Could not connect to LDAP');
 		}
 
-		$p = 'objectclass=';
-		$obclasses = array($p.'inetOrgPerson',        $p.'person',
-						   $p.'organizationalPerson', $p.'user',
-						   $p.'posixAccount',         $p.'*');
+		$obclasses = array('inetOrgPerson', 'person', 'organizationalPerson',
+						   'user', 'posixAccount', '*');
+		return $this->determineFeature($obclasses,
+									   'objectclass',
+									   'ldap_userfilter_objectclass',
+									   'ldapUserFilterObjectclass');
+	}
 
-		$maxEntryObjC = '';
-		$availableObjectClasses =
-			$this->cumulativeSearchOnAttribute($obclasses, 'objectclass',
-												true, $maxEntryObjC);
-		if(is_array($availableObjectClasses)
-		   && count($availableObjectClasses) > 0) {
-			$this->result->addOptions('ldap_userfilter_objectclass',
-										$availableObjectClasses);
-		} else {
-			throw new \Exception(self::$l->t('Could not find any objectClass'));
+	private function determineFeature($objectclasses, $attr, $dbkey, $confkey) {
+		$cr = $this->getConnection();
+		if(!$cr) {
+			throw new \Excpetion('Could not connect to LDAP');
 		}
-		$setOCs = $this->configuration->ldapUserFilterObjectclass;
-		if(is_array($setOCs) && !empty($setOCs)) {
+		$p = 'objectclass=';
+		foreach($objectclasses as $key => $value) {
+			$objectclasses[$key] = $p.$value;
+		}
+		$maxEntryObjC = '';
+		$availableFeatures =
+			$this->cumulativeSearchOnAttribute($objectclasses, $attr,
+											   true, $maxEntryObjC);
+		if(is_array($availableFeatures)
+		   && count($availableFeatures) > 0) {
+			$this->result->addOptions($dbkey, $availableFeatures);
+		} else {
+			throw new \Exception(self::$l->t('Could not find the desired feature'));
+		}
+
+		$setFeatures = $this->configuration->$confkey;
+		if(is_array($setFeatures) && !empty($setFeatures)) {
 			//something is already configured? pre-select it.
-			$this->result->addChange('ldap_userfilter_objectclass', $setOCs);
+			$this->result->addChange($dbkey, $setFeatures);
 		} else if(!empty($maxEntryObjC)) {
+			//TODO / FIXME: this is great for objectclasses, but wrong for groups
+			//isolate it in another method and call it from this method's callee
 			//new? pre-select something hopefully sane
 			$maxEntryObjC = str_replace($p, '', $maxEntryObjC);
-			$this->result->addChange('ldap_userfilter_objectclass',
-									 $maxEntryObjC);
+			$this->result->addChange($dbkey, $maxEntryObjC);
 		}
 
 		return $this->result;

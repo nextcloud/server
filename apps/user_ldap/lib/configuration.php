@@ -45,6 +45,7 @@ class Configuration {
 		'ldapIgnoreNamingRules' => null,
 		'ldapUserDisplayName' => null,
 		'ldapUserFilterObjectclass' => null,
+		'ldapUserFilterGroups' => null,
 		'ldapUserFilter' => null,
 		'ldapGroupFilter' => null,
 		'ldapGroupDisplayName' => null,
@@ -123,6 +124,7 @@ class Configuration {
 				case 'ldapAttributesForUserSearch':
 				case 'ldapAttributesForGroupSearch':
 				case 'ldapUserFilterObjectclass':
+				case 'ldapUserFilterGroups':
 					$setMethod = 'setMultiLine';
 				default:
 					$this->$setMethod($key, $val);
@@ -150,6 +152,7 @@ class Configuration {
 					case 'ldapAttributesForUserSearch':
 					case 'ldapAttributesForGroupSearch':
 					case 'ldapUserFilterObjectclass':
+					case 'ldapUserFilterGroups':
 						$readMethod = 'getMultiLine';
 						break;
 					case 'ldapIgnoreNamingRules':
@@ -189,6 +192,7 @@ class Configuration {
 				case 'ldapAttributesForUserSearch':
 				case 'ldapAttributesForGroupSearch':
 				case 'ldapUserFilterObjectclass':
+				case 'ldapUserFilterGroups':
 					if(is_array($value)) {
 						$value = implode("\n", $value);
 					}
@@ -279,6 +283,7 @@ class Configuration {
 			'ldap_base_groups'					=> '',
 			'ldap_userlist_filter'				=> 'objectClass=person',
 			'ldap_userfilter_objectclass'		=> '',
+			'ldap_userfilter_groups'			=> '',
 			'ldap_login_filter'					=> 'uid=%uid',
 			'ldap_group_filter'					=> 'objectClass=posixGroup',
 			'ldap_display_name'					=> 'cn',
@@ -319,6 +324,7 @@ class Configuration {
 			'ldap_base_users'					=> 'ldapBaseUsers',
 			'ldap_base_groups'					=> 'ldapBaseGroups',
 			'ldap_userfilter_objectclass' 		=> 'ldapUserFilterObjectclass',
+			'ldap_userfilter_groups'	 		=> 'ldapUserFilterGroups',
 			'ldap_userlist_filter'				=> 'ldapUserFilter',
 			'ldap_login_filter'					=> 'ldapLoginFilter',
 			'ldap_group_filter'					=> 'ldapGroupFilter',

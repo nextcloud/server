@@ -202,6 +202,27 @@ var LdapWizard = {
 		}
 	},
 
+	findAvailableGroups: function() {
+		param = 'action=determineGroups'+
+				'&ldap_serverconfig_chooser='+$('#ldap_serverconfig_chooser').val();
+
+		LdapWizard.ajax(param,
+			function(result) {
+				$('#ldap_userfilter_groups').find('option').remove();
+				for (i in result.options['ldap_userfilter_groups']) {
+					//FIXME: move HTML into template
+					objc = result.options['ldap_userfilter_groups'][i];
+					$('#ldap_userfilter_groups').append("<option value='"+objc+"'>"+objc+"</option>");
+				}
+				LdapWizard.applyChanges(result);
+				$('#ldap_userfilter_groups').multiselect('refresh');
+			},
+			function (result) {
+				//TODO: error handling
+			}
+		);
+	},
+
 	findObjectClasses: function() {
 		param = 'action=determineObjectClasses'+
 				'&ldap_serverconfig_chooser='+$('#ldap_serverconfig_chooser').val();
@@ -236,8 +257,21 @@ var LdapWizard = {
 		}
 	},
 
+	initMultiSelect: function(object, id, caption) {
+		object.multiselect({
+			header: false,
+			selectedList: 9,
+			noneSelectedText: caption,
+			click: function(event, ui) {
+				LdapWizard.saveMultiSelect(id,
+										   $('#'+id).multiselect("getChecked"));
+			}
+		});
+	},
+
 	initUserFilter: function() {
 		LdapWizard.findObjectClasses();
+		LdapWizard.findAvailableGroups();
 	},
 
 	onTabChange: function(event, ui) {
@@ -304,17 +338,12 @@ $(document).ready(function() {
 	$('#ldap_submit').button();
 	$('#ldap_action_test_connection').button();
 	$('#ldap_action_delete_configuration').button();
-	$('#ldap_userfilter_groups').multiselect();
-	$('#ldap_userfilter_objectclass').multiselect({
-		header: false,
-		selectedList: 9,
-		noneSelectedText: t('user_ldap', 'Select object classes'),
-		click: function(event, ui) {
-			LdapWizard.saveMultiSelect('ldap_userfilter_objectclass',
-										$('#ldap_userfilter_objectclass').multiselect("getChecked")
-			);
-		}
-	});
+	LdapWizard.initMultiSelect($('#ldap_userfilter_groups'),
+							   'ldap_userfilter_groups',
+							   t('user_ldap', 'Select groups'));
+	LdapWizard.initMultiSelect($('#ldap_userfilter_objectclass'),
+							   'ldap_userfilter_objectclass',
+							   t('user_ldap', 'Select object classes'));
 	$('.lwautosave').change(function() { LdapWizard.save(this); });
 	LdapConfiguration.refreshConfig();
 	$('#ldap_action_test_connection').click(function(event){

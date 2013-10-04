@@ -47,6 +47,7 @@ switch($action) {
 	case 'guessPortAndTLS':
 	case 'guessBaseDN':
 	case 'determineObjectClasses':
+	case 'determineGroups':
 		try {
 			$result = $wizard->$action();
 			if($result !== false) {
