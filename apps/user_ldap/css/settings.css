@@ -19,7 +19,7 @@
 	height: 15px;
 }
 
-.hidden, .invisible {
+.invisible {
 	visibility: hidden;
 }
 

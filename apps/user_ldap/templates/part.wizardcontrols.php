@@ -1,5 +1,5 @@
 <div class="ldapWizardControls">
-	<button id="ldap_action_back" name="ldap_action_back" class="hidden">
+	<button id="ldap_action_back" name="ldap_action_back" class="invisible">
 		<?php p($l->t('Back'));?>
 	</button>
 	<button id="ldap_action_continue" name="ldap_action_continue">
