@@ -83,7 +83,6 @@ class Wizard extends LDAPUtility {
 			throw new \Exception(self::$l->t('Could not find any objectClass'));
 		}
 		$setOCs = $this->configuration->ldapUserFilterObjectclass;
-		file_put_contents('/tmp/set', print_r($setOCs, true));
 		if(is_array($setOCs) && !empty($setOCs)) {
 			//something is already configured? pre-select it.
 			$this->result->addChange('ldap_userfilter_objectclass', $setOCs);
