@@ -156,22 +156,37 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 
 /* CONTENT ------------------------------------------------------------------ */
 #controls {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
 	position: fixed;
-	height: 36px;
+	height: 44px;
 	width: 100%;
-	padding: 0 75px 0 6px;
+	padding-right: 75px;
 	margin: 0;
 	background: #eee;
 	border-bottom: 1px solid #e7e7e7;
 	z-index: 50;
-	-moz-box-sizing: border-box; box-sizing: border-box;
 }
-#controls .button {
+#controls .button,
+#controls button,
+#controls input[type='submit'],
+#controls input[type='text'],
+#controls input[type='password'],
+#controls select {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
 	display: inline-block;
+	height: 36px;
+	padding: 7px 10px
 }
 
 #content { position:relative; height:100%; width:100%; }
-#content .hascontrols { position: relative; top: 2.9em; }
+#content .hascontrols {
+	position: relative;
+	top: 45px;
+}
 #content-wrapper {
 	position:absolute; height:100%; width:100%; padding-top:3.5em; padding-left:80px;
 	-moz-box-sizing:border-box; box-sizing:border-box;
@@ -750,15 +765,38 @@ span.ui-icon {float: left; margin: 3px 7px 30px 0;}
 .arrow.left { left:-13px; bottom:1.2em; -webkit-transform:rotate(270deg); -moz-transform:rotate(270deg); -o-transform:rotate(270deg); -ms-transform:rotate(270deg); transform:rotate(270deg); }
 .arrow.up { top:-8px; right:2em; }
 .arrow.down { -webkit-transform:rotate(180deg); -moz-transform:rotate(180deg); -o-transform:rotate(180deg); -ms-transform:rotate(180deg); transform:rotate(180deg); }
-.help-includes {overflow: hidden; width: 100%; height: 100%; -moz-box-sizing: border-box;	box-sizing: border-box;	padding-top: 2.8em; }
+.help-includes {
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding-top: 44px;
+}
 .help-iframe {width: 100%; height: 100%; margin: 0;padding: 0; border: 0; overflow: auto;}
 
 
 /* ---- BREADCRUMB ---- */
-div.crumb { float:left; display:block; background:url('../img/breadcrumb.svg') no-repeat right 0; padding:.75em 1.5em 0 1em; height:2.9em;  -moz-box-sizing:border-box; box-sizing:border-box; }
-div.crumb:first-child { padding:10px 20px 10px 5px; }
-div.crumb.last { font-weight:bold; background:none; padding-right:10px; }
-div.crumb a{ padding: 0.9em 0 0.7em 0; }
+div.crumb {
+	float: left;
+	display: block;
+	background: url('../img/breadcrumb.svg') no-repeat right center;
+	height: 44px;
+}
+div.crumb a {
+	position: relative;
+	top: 12px;
+	padding: 14px 24px 14px 17px;
+	color: #555;
+}
+div.crumb:first-child a {
+	position: relative;
+	top: 13px;
+}
+div.crumb.last {
+	font-weight: bold;
+	margin-right: 10px;
+}
 
 /* some feedback for hover/tap on breadcrumbs */
 div.crumb:hover,
