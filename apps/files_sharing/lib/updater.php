@@ -57,6 +57,11 @@ class Shared_Updater {
 		}
 	}
 
+	/**
+	 * @brief remove all shares for a given file if the file was deleted
+	 *
+	 * @param string $path
+	 */
 	private static function removeShare($path) {
 		$fileInfo = \OC\Files\Filesystem::getFileInfo($path);
 		$fileSource = $fileInfo['fileid'];
