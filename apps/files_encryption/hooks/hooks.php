@@ -159,7 +159,6 @@ class Hooks {
 	 * @param array $params keys: uid, password
 	 */
 	public static function setPassphrase($params) {
-
 		// Only attempt to change passphrase if server-side encryption
 		// is in use (client-side encryption does not have access to
 		// the necessary keys)
@@ -543,14 +542,18 @@ class Hooks {
 	}
 
 	/**
-	 * set migration status back to '0' so that all new files get encrypted
+	 * set migration status and the init status back to '0' so that all new files get encrypted
 	 * if the app gets enabled again
 	 * @param array $params contains the app ID
 	 */
 	public static function preDisable($params) {
 		if ($params['app'] === 'files_encryption') {
-			$query = \OC_DB::prepare('UPDATE `*PREFIX*encryption` SET `migration_status`=0');
-			$query->execute();
+
+			$setMigrationStatus = \OC_DB::prepare('UPDATE `*PREFIX*encryption` SET `migration_status`=0');
+			$setMigrationStatus->execute();
+
+			$session = new \OCA\Encryption\Session(new \OC\Files\View('/'));
+			$session->setInitialized(\OCA\Encryption\Session::NOT_INITIALIZED);
 		}
 	}
 

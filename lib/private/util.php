@@ -68,6 +68,7 @@ class OC_Util {
 			$userDirectory = $userRoot . '/files';
 			if( !is_dir( $userDirectory )) {
 				mkdir( $userDirectory, 0755, true );
+				OC_Util::copySkeleton($userDirectory);
 			}
 			//jail the user into his "home" directory
 			\OC\Files\Filesystem::init($user, $userDir);
@@ -90,6 +91,35 @@ class OC_Util {
 		}else{
 			return OC_Helper::computerFileSize($userQuota);
 		}
+	}
+
+	/**
+	 * @brief copies the user skeleton files into the fresh user home files
+	 * @param string $userDirectory
+	 */
+	public static function copySkeleton($userDirectory) {
+		OC_Util::copyr(\OC::$SERVERROOT.'/core/skeleton' , $userDirectory);
+	}
+
+	/**
+	 * @brief copies a directory recursively
+	 * @param string $source
+	 * @param string $target
+	 * @return void
+	 */
+	public static function copyr($source,$target) {
+		$dir = opendir($source);
+		@mkdir($target);
+		while(false !== ( $file = readdir($dir)) ) {
+			if ( !\OC\Files\Filesystem::isIgnoredDir($file) ) {
+				if ( is_dir($source . '/' . $file) ) {
+					OC_Util::copyr($source . '/' . $file , $target . '/' . $file);
+				} else {
+					copy($source . '/' . $file,$target . '/' . $file);
+				}
+			}
+		}
+		closedir($dir);
 	}
 
 	/**
