@@ -128,7 +128,7 @@ if (!$_['internetconnectionworking']) {
 			</td>
 		</tr>
 		<tr>
-			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('style="display:none"');?>>
+			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('class="hidden"');?>>
 				<input type="checkbox" name="shareapi_allow_links" id="allowLinks"
 					   value="1" <?php if ($_['allowLinks'] === 'yes') print_unescaped('checked="checked"'); ?> />
 				<label for="allowLinks"><?php p($l->t('Allow links'));?></label><br/>
@@ -137,7 +137,7 @@ if (!$_['internetconnectionworking']) {
 		</tr>
 		<?php if (!\OCP\App::isEnabled('files_encryption')) { ?>
 		<tr>
-			<td <?php if ($_['shareAPIEnabled'] == 'no') print_unescaped('style="display:none"');?>>
+			<td <?php if ($_['shareAPIEnabled'] == 'no') print_unescaped('class="hidden"');?>>
 				<input type="checkbox" name="shareapi_allow_public_upload" id="allowPublicUpload"
 				       value="1" <?php if ($_['allowPublicUpload'] == 'yes') print_unescaped('checked="checked"'); ?> />
 				<label for="allowPublicUpload"><?php p($l->t('Allow public uploads'));?></label><br/>
@@ -146,7 +146,7 @@ if (!$_['internetconnectionworking']) {
 		</tr>
 		<?php } ?>
 		<tr>
-			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('style="display:none"');?>>
+			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('class="hidden"');?>>
 				<input type="checkbox" name="shareapi_allow_resharing" id="allowResharing"
 					   value="1" <?php if ($_['allowResharing'] === 'yes') print_unescaped('checked="checked"'); ?> />
 				<label for="allowResharing"><?php p($l->t('Allow resharing'));?></label><br/>
@@ -154,13 +154,21 @@ if (!$_['internetconnectionworking']) {
 			</td>
 		</tr>
 		<tr>
-			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('style="display:none"');?>>
+			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('class="hidden"');?>>
 				<input type="radio" name="shareapi_share_policy" id="sharePolicyGlobal"
 					   value="global" <?php if ($_['sharePolicy'] === 'global') print_unescaped('checked="checked"'); ?> />
 				<label for="sharePolicyGlobal"><?php p($l->t('Allow users to share with anyone')); ?></label><br/>
 				<input type="radio" name="shareapi_share_policy" id="sharePolicyGroupsOnly"
 					   value="groups_only" <?php if ($_['sharePolicy'] === 'groups_only') print_unescaped('checked="checked"'); ?> />
 				<label for="sharePolicyGroupsOnly"><?php p($l->t('Allow users to only share with users in their groups'));?></label><br/>
+			</td>
+		</tr>
+		<tr>
+			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('class="hidden"');?>>
+				<input type="checkbox" name="shareapi_allow_mail_notification" id="allowMailNotification"
+					   value="1" <?php if ($_['allowMailNotification'] === 'yes') print_unescaped('checked="checked"'); ?> />
+				<label for="allowMailNotification"><?php p($l->t('Allow mail notification'));?></label><br/>
+				<em><?php p($l->t('Allow user to send mail notification for shared files')); ?></em>
 			</td>
 		</tr>
 	</table>
@@ -223,7 +231,7 @@ endfor;?>
 			</td>
 			<td>
 				<?php if(is_int($entry->time)){
-					p(OC_Util::formatDate($entry->time)); 
+					p(OC_Util::formatDate($entry->time));
 				} else {
 					p($entry->time);
 				}?>

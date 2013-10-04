@@ -17,6 +17,8 @@ $util = new \OCA\Encryption\Util($view, $user);
 $session = new \OCA\Encryption\Session($view);
 
 $privateKeySet = $session->getPrivateKey() !== false;
+// did we tried to initialize the keys for this session?
+$initialized = $session->getInitialized();
 
 $recoveryAdminEnabled = OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled');
 $recoveryEnabledForUser = $util->recoveryEnabledForUser();
@@ -31,6 +33,7 @@ if ($recoveryAdminEnabled || !$privateKeySet) {
 	$tmpl->assign('recoveryEnabled', $recoveryAdminEnabled);
 	$tmpl->assign('recoveryEnabledForUser', $recoveryEnabledForUser);
 	$tmpl->assign('privateKeySet', $privateKeySet);
+	$tmpl->assign('initialized', $initialized);
 
 	$result = $tmpl->fetchPage();
 }

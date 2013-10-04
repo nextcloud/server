@@ -28,7 +28,8 @@ OCP\JSON::callCheck();
 
 $l=OC_L10N::get('user_ldap');
 
-$connection = new \OCA\user_ldap\lib\Connection('', null);
+$ldapWrapper = new OCA\user_ldap\lib\LDAP();
+$connection = new \OCA\user_ldap\lib\Connection($ldapWrapper, '', null);
 if($connection->setConfiguration($_POST)) {
 	//Configuration is okay
 	if($connection->bind()) {

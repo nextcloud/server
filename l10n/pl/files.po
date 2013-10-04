@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-20 10:44-0400\n"
-"PO-Revision-Date: 2013-09-20 14:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-30 10:14-0400\n"
+"PO-Revision-Date: 2013-09-30 12:24+0000\n"
+"Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -79,23 +79,23 @@ msgstr "Za mało dostępnego miejsca"
 
 #: ajax/upload.php:120 ajax/upload.php:143
 msgid "Upload failed. Could not get file info."
-msgstr ""
+msgstr "Nieudane przesłanie. Nie można pobrać informacji o pliku."
 
 #: ajax/upload.php:136
 msgid "Upload failed. Could not find uploaded file"
-msgstr ""
+msgstr "Nieudane przesłanie. Nie można znaleźć przesyłanego pliku"
 
 #: ajax/upload.php:160
 msgid "Invalid directory."
 msgstr "Zła ścieżka."
 
-#: appinfo/app.php:12
+#: appinfo/app.php:11
 msgid "Files"
 msgstr "Pliki"
 
 #: js/file-upload.js:244
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Nie można przesłać {filename} być może jest katalogiem lub posiada 0 bajtów"
 
 #: js/file-upload.js:255
 msgid "Not enough space available"
@@ -107,7 +107,7 @@ msgstr "Wczytywanie anulowane."
 
 #: js/file-upload.js:356
 msgid "Could not get result from server."
-msgstr ""
+msgstr "Nie można uzyskać wyniku z serwera."
 
 #: js/file-upload.js:446
 msgid ""
@@ -227,7 +227,7 @@ msgstr "Pobieranie jest przygotowywane. Może to zająć trochę czasu jeśli pl
 
 #: js/files.js:507 js/files.js:545
 msgid "Error moving file"
-msgstr ""
+msgstr "Błąd prz przenoszeniu pliku"
 
 #: js/files.js:558 templates/index.php:61
 msgid "Name"

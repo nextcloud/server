@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-09-29 00:02-0400\n"
+"POT-Creation-Date: 2013-09-30 10:16-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,38 +18,38 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: app.php:239
+#: app.php:237
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version "
 "of ownCloud."
 msgstr ""
 
-#: app.php:250
+#: app.php:248
 msgid "No app name specified"
 msgstr ""
 
-#: app.php:361
+#: app.php:352
 msgid "Help"
 msgstr ""
 
-#: app.php:374
+#: app.php:365
 msgid "Personal"
 msgstr ""
 
-#: app.php:385
+#: app.php:376
 msgid "Settings"
 msgstr ""
 
-#: app.php:397
+#: app.php:388
 msgid "Users"
 msgstr ""
 
-#: app.php:410
+#: app.php:401
 msgid "Admin"
 msgstr ""
 
-#: app.php:839
+#: app.php:832
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
@@ -277,6 +277,11 @@ msgstr ""
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""
 
+#: tags.php:194
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr ""
+
 #: template/functions.php:96
 msgid "seconds ago"
 msgstr ""
@@ -327,9 +332,4 @@ msgstr ""
 
 #: template.php:297
 msgid "Caused by:"
-msgstr ""
-
-#: vcategories.php:188 vcategories.php:249
-#, php-format
-msgid "Could not find category \"%s\""
 msgstr ""

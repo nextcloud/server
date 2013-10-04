@@ -9,7 +9,7 @@
 						data-type='file'><p><?php p($l->t('Text file'));?></p></li>
 					<li style="background-image:url('<?php p(OCP\mimetype_icon('dir')) ?>')"
 						data-type='folder'><p><?php p($l->t('Folder'));?></p></li>
-					<li style="background-image:url('<?php p(OCP\image_path('core', 'filetypes/web.svg')) ?>')"
+					<li style="background-image:url('<?php p(OCP\image_path('core', 'places/link.svg')) ?>')"
 						data-type='web'><p><?php p($l->t('From link'));?></p></li>
 				</ul>
 			</div>
@@ -116,3 +116,5 @@
 <input type="hidden" name="allowZipDownload" id="allowZipDownload" value="<?php p($_['allowZipDownload']); ?>" />
 <input type="hidden" name="usedSpacePercent" id="usedSpacePercent" value="<?php p($_['usedSpacePercent']); ?>" />
 <input type="hidden" name="encryptedFiles" id="encryptedFiles" value="<?php $_['encryptedFiles'] ? p('1') : p('0'); ?>" />
+<input type="hidden" name="encryptedInitStatus" id="encryptionInitStatus" value="<?php p($_['encryptionInitStatus']) ?>" />
+<input type="hidden" name="mailNotificationEnabled" id="mailNotificationEnabled" value="<?php p($_['mailNotificationEnabled']) ?>" />
