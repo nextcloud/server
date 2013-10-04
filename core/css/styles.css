@@ -43,6 +43,10 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 	display: inline-block;
 }
 
+#header .avatardiv img {
+	opacity: 1;
+}
+
 /* INPUTS */
 input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"], input[type="url"],
 textarea, select,
