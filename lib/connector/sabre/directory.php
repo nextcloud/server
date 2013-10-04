@@ -88,7 +88,13 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 			}
 
 			// rename to correct path
-			\OC\Files\Filesystem::rename($partpath, $newPath);
+			$renameOkay = \OC\Files\Filesystem::rename($partpath, $newPath);
+			$fileExists = \OC\Files\Filesystem::file_exists($newPath);
+			if ($renameOkay === false || $fileExists === false) {
+				\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
+				\OC\Files\Filesystem::unlink($partpath);
+				throw new Sabre_DAV_Exception();
+			}
 
 			// allow sync clients to send the mtime along in a header
 			$mtime = OC_Request::hasModificationTime();
