@@ -234,9 +234,8 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 /* File actions */
 .fileactions {
 	position: absolute;
-	top: 16px;
+	top: 14px;
 	right: 0;
-	font-size: 11px;
 }
 #fileList tr:hover .fileactions { /* background to distinguish when overlaying with file names */
 	background-color: rgba(240,240,240,0.898);
@@ -246,7 +245,6 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 	background-color: rgba(230,230,230,.9);
 	box-shadow: -5px 0 7px rgba(230,230,230,.9);
 }
-#fileList .fileactions a.action img { position:relative; top:.2em; }
 
 #fileList img.move2trash { display:inline; margin:-.5em 0; padding:1em .5em 1em .5em !important; float:right; }
 #fileList a.action.delete {
