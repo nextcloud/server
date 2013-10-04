@@ -87,9 +87,11 @@ class Cache {
 	
 	protected function loadMimetypes(){
 			$result = \OC_DB::executeAudited('SELECT `id`, `mimetype` FROM `*PREFIX*mimetypes`', array());
-			while ($result && $row = $result->fetchRow()) {
-				self::$mimetypeIds[$row['mimetype']] = $row['id'];
-				self::$mimetypes[$row['id']] = $row['mimetype'];
+			if ($result) {
+				while ($row = $result->fetchRow()) {
+					self::$mimetypeIds[$row['mimetype']] = $row['id'];
+					self::$mimetypes[$row['id']] = $row['mimetype'];
+				}
 			}
 	}
 
