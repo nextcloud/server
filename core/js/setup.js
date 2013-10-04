@@ -54,7 +54,7 @@ $(document).ready(function() {
 		var post = $(this).serializeArray();
 
 		// Disable inputs
-		$(':submit', this).attr('disabled','disabled').val('Finishing …');
+		$(':submit', this).attr('disabled','disabled').val($(':submit', this).data('finishing'));
 		$('input', this).addClass('ui-state-disabled').attr('disabled','disabled');
 		$('#selectDbType').buttonset('disable');
 
