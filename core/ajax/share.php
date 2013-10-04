@@ -104,7 +104,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			}
 
 			// don't send a mail to the user who shared the file
-			$recipientList = array_diff($recipientList, [\OCP\User::getUser()]);
+			$recipientList = array_diff($recipientList, array(\OCP\User::getUser()));
 
 			// send mail to all recipients with an email address
 			foreach ($recipientList as $recipient) {
