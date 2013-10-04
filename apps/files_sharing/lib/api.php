@@ -36,7 +36,7 @@ class Api {
 		if (isset($_GET['path'])) {
 			$params['itemSource'] = self::getFileId($_GET['path']);
 			$params['path'] = $_GET['path'];
-			if (isset($_GET['subfiles']) && $_GET['subfiles'] === 'yes') {
+			if (isset($_GET['subfiles']) && $_GET['subfiles'] === 'true') {
 				return self::getSharesFromFolder($params);
 			}
 			return self::getShare($params);
@@ -160,10 +160,10 @@ class Api {
 						($encryptionEnabled || $publicUploadEnabled !== 'yes')) {
 					return new \OC_OCS_Result(null, 404, "public upload disabled by the administrator");
 				}
-				$publicUpload = isset($_POST['publicUpload']) ? $_POST['publicUpload'] : 'no';
+				$publicUpload = isset($_POST['publicUpload']) ? $_POST['publicUpload'] : 'false';
 				// read, create, update (7) if public upload is enabled or
 				// read (1) if public upload is disabled
-				$permissions = $publicUpload === 'yes' ? 7 : 1;
+				$permissions = $publicUpload === 'true' ? 7 : 1;
 				break;
 			default:
 				return new \OC_OCS_Result(null, 404, "unknown share type");
@@ -310,7 +310,7 @@ class Api {
 
 		// read, create, update (7) if public upload is enabled or
 		// read (1) if public upload is disabled
-		$params['_put']['permissions'] = $params['_put']['publicUpload'] === 'yes' ? 7 : 1;
+		$params['_put']['permissions'] = $params['_put']['publicUpload'] === 'true' ? 7 : 1;
 
 		return self::updatePermissions($share, $params);
 
