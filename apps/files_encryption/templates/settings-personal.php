@@ -4,7 +4,7 @@
 			<?php p( $l->t( 'Encryption' ) ); ?>
 		</legend>
 
-		<?php if ( ! $_["privateKeySet"] ): ?>
+		<?php if ( ! $_["privateKeySet"] && $_["initialized"] ): ?>
 			<p>
 				<a name="changePKPasswd" />
 				<label for="changePrivateKeyPasswd">
@@ -39,22 +39,22 @@
 		<?php endif; ?>
 
 		<br />
-		
+
 		<?php if ( $_["recoveryEnabled"] && $_["privateKeySet"] ): ?>
 			<p>
 				<label for="userEnableRecovery"><?php p( $l->t( "Enable password recovery:" ) ); ?></label>
 				<br />
 				<em><?php p( $l->t( "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" ) ); ?></em>
 				<br />
-				<input 
+				<input
 				type='radio'
 				name='userEnableRecovery'
 				value='1'
 				<?php echo ( $_["recoveryEnabledForUser"] == 1 ? 'checked="checked"' : '' ); ?> />
 				<?php p( $l->t( "Enabled" ) ); ?>
 				<br />
-				
-				<input 
+
+				<input
 				type='radio'
 				name='userEnableRecovery'
 				value='0'

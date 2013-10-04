@@ -266,6 +266,7 @@ class Storage {
 				$versions[$key]['version'] = $version;
 				$versions[$key]['humanReadableTimestamp'] = self::getHumanReadableTimestamp($version);
 				$versions[$key]['path'] = $filename;
+				$versions[$key]['preview'] = \OCP\Util::linkToRoute('core_ajax_versions_preview', array('file' => $filename, 'version' => $version));
 				$versions[$key]['size'] = $versions_fileview->filesize($filename.'.v'.$version);
 
 				// if file with modified date exists, flag it in array as currently enabled version

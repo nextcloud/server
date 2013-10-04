@@ -207,7 +207,14 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 			while( $row = $result->fetchRow()) {
 				$this->property_cache[$row['propertyname']] = $row['propertyvalue'];
 			}
-			$this->property_cache[self::GETETAG_PROPERTYNAME] = $this->getETagPropertyForPath($this->path);
+
+			// Don't call the static getETagPropertyForPath, its result is not cached
+			$this->getFileinfoCache();
+			if ($this->fileinfo_cache['etag']) {
+				$this->property_cache[self::GETETAG_PROPERTYNAME] = '"'.$this->fileinfo_cache['etag'].'"';
+			} else {
+				$this->property_cache[self::GETETAG_PROPERTYNAME] = null;
+			}
 		}
 
 		// if the array was empty, we need to return everything
