@@ -96,10 +96,8 @@ class OC_Util {
 	/**
 	 * @brief copies the user skeleton files into the fresh user home files
 	 * @param string $userDirectory
-	 * @return void
 	 */
 	public static function copySkeleton($userDirectory) {
-		error_log('skeleton init '.$userDirectory);
 		OC_Util::copyr(\OC::$SERVERROOT.'/core/skeleton' , $userDirectory);
 	}
 
