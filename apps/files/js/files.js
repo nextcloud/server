@@ -69,7 +69,7 @@ Files={
 			return;
 		}
 		if (initStatus === '1') { // encryption tried to init but failed
-			OC.Notification.show(t('files_encryption', 'Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files.'));
+			OC.Notification.showHtml(t('files_encryption', 'Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files.'));
 			return;
 		}
 		if (encryptedFiles === '1') {
