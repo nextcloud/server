@@ -168,7 +168,7 @@ class OC_Util {
 		OC_Util::loadVersion();
 		return \OC::$server->getSession()->get('OC_Channel');
 	}
-        
+
 	/**
 	 * @description get the build number of the current installed of ownCloud.
 	 * @return string

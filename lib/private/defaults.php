@@ -13,6 +13,7 @@ if (file_exists(OC::$SERVERROOT . '/themes/' . OC_Util::getTheme() . '/defaults.
 class OC_Defaults {
 
 	private $theme;
+	private $l;
 
 	private $defaultEntity;
 	private $defaultName;
@@ -24,7 +25,7 @@ class OC_Defaults {
 	private $defaultLogoClaim;
 
 	function __construct() {
-		$l = OC_L10N::get('core');
+		$this->l = OC_L10N::get('core');
 
 		$this->defaultEntity = "ownCloud"; /* e.g. company name, used for footers and copyright notices */
 		$this->defaultName = "ownCloud"; /* short name, used when referring to the software */
@@ -32,7 +33,7 @@ class OC_Defaults {
 		$this->defaultBaseUrl = "http://owncloud.org";
 		$this->defaultSyncClientUrl = " http://owncloud.org/sync-clients/";
 		$this->defaultDocBaseUrl = "http://doc.owncloud.org";
-		$this->defaultSlogan = $l->t("web services under your control");
+		$this->defaultSlogan = $this->l->t("web services under your control");
 		$this->defaultLogoClaim = "";
 
 		if (class_exists("OC_Theme")) {

@@ -137,8 +137,10 @@ if ($needUpgrade) {
 	$tmpl->assign('isPublic', false);
 	$tmpl->assign('publicUploadEnabled', $publicUploadEnabled);
 	$tmpl->assign("encryptedFiles", \OCP\Util::encryptedFiles());
+	$tmpl->assign("mailNotificationEnabled", \OC_Appconfig::getValue('core', 'shareapi_allow_mail_notification', 'yes'));
 	$tmpl->assign("encryptionInitStatus", $encryptionInitStatus);
 	$tmpl->assign('disableSharing', false);
 	$tmpl->assign('ajaxLoad', $ajaxLoad);
+
 	$tmpl->printPage();
 }
