@@ -1,5 +1,5 @@
 #dropdown.drop-versions {
-	width:22em;
+	width:24em;
 }
 
 #found_versions li {
@@ -21,6 +21,12 @@
 	filter: alpha(opacity=50);
 	opacity: .5;
 }
+
+#found_versions li > a,
+#found_versions li > span {
+	padding: 17px 7px;
+}
+
 #found_versions li > *:hover,
 #found_versions li > *:focus {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
