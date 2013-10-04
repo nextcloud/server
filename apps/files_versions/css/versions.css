@@ -41,6 +41,7 @@
 
 #found_versions img.preview {
 	cursor: default;
+	opacity: 1;
 }
 
 #found_versions .versionDate {
