@@ -33,9 +33,9 @@ class Api {
 	public static function getAllShares($params) {
 
 		// if a file is specified, get the share for this file
-		if (isset($_GET['file'])) {
-			$params['itemSource'] = self::getFileId($_GET['file']);
-			$params['path'] = $_GET['file'];
+		if (isset($_GET['path'])) {
+			$params['itemSource'] = self::getFileId($_GET['path']);
+			$params['path'] = $_GET['path'];
 			if (isset($_GET['subfiles']) && $_GET['subfiles'] === 'yes') {
 				return self::getSharesFromFolder($params);
 			}
