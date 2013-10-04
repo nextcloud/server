@@ -25,8 +25,11 @@
 
 OC_Util::checkAdminUser();
 
-OCP\Util::addscript('user_ldap', 'settings');
-OCP\Util::addstyle('user_ldap', 'settings');
+OCP\Util::addScript('user_ldap', 'settings');
+OCP\Util::addScript('core', 'jquery.multiselect');
+OCP\Util::addStyle('user_ldap', 'settings');
+OCP\Util::addStyle('core', 'jquery.multiselect');
+OCP\Util::addStyle('core', 'jquery-ui-1.10.0.custom');
 
 // fill template
 $tmpl = new OCP\Template('user_ldap', 'settings');
@@ -48,6 +51,11 @@ $wizard1->assign('serverConfigurationHosts', $hosts);
 $wizard1->assign('wizardControls', $wControls);
 $wizardHtml .= $wizard1->fetchPage();
 $toc['#ldapWizard1'] = 'Server';
+
+$wizard2 = new OCP\Template('user_ldap', 'part.wizard-userfilter');
+$wizard2->assign('wizardControls', $wControls);
+$wizardHtml .= $wizard2->fetchPage();
+$toc['#ldapWizard2'] = 'User Filter';
 
 $tmpl->assign('tabs', $wizardHtml);
 $tmpl->assign('toc', $toc);

@@ -44,6 +44,7 @@ class Configuration {
 		'turnOffCertCheck' => null,
 		'ldapIgnoreNamingRules' => null,
 		'ldapUserDisplayName' => null,
+		'ldapUserFilterObjectclass' => null,
 		'ldapUserFilter' => null,
 		'ldapGroupFilter' => null,
 		'ldapGroupDisplayName' => null,
@@ -121,6 +122,7 @@ class Configuration {
 				case 'ldapBaseGroups':
 				case 'ldapAttributesForUserSearch':
 				case 'ldapAttributesForGroupSearch':
+				case 'ldapUserFilterObjectclass':
 					$setMethod = 'setMultiLine';
 				default:
 					$this->$setMethod($key, $val);
@@ -136,19 +138,18 @@ class Configuration {
 		if(!$this->configRead && !is_null($this->configPrefix)) {
 			$cta = array_flip($this->getConfigTranslationArray());
 			foreach($this->config as $key => $val) {
-// 				if($this->configPrefix == 's04') var_dump($key);
 				if(!isset($cta[$key])) {
 					//some are determined
 					continue;
 				}
 				$dbkey = $cta[$key];
-// 				if($this->configPrefix == 's04') var_dump($dbkey);
 				switch($key) {
 					case 'ldapBase':
 					case 'ldapBaseUsers':
 					case 'ldapBaseGroups':
 					case 'ldapAttributesForUserSearch':
 					case 'ldapAttributesForGroupSearch':
+					case 'ldapUserFilterObjectclass':
 						$readMethod = 'getMultiLine';
 						break;
 					case 'ldapIgnoreNamingRules':
@@ -166,15 +167,9 @@ class Configuration {
 						$readMethod = 'getValue';
 						break;
 				}
-// 				if($this->configPrefix == 's04') var_dump($readMethod);
 				$this->config[$key] = $this->$readMethod($dbkey);
 			}
 			$this->configRead = true;
-		}
-		if($this->configPrefix == 's03') {
-// 			var_dump($this->config);
-
-// 			die;
 		}
 	}
 
@@ -193,6 +188,7 @@ class Configuration {
 				case 'ldapBaseGroups':
 				case 'ldapAttributesForUserSearch':
 				case 'ldapAttributesForGroupSearch':
+				case 'ldapUserFilterObjectclass':
 					if(is_array($value)) {
 						$value = implode("\n", $value);
 					}
@@ -250,12 +246,6 @@ class Configuration {
 		if(is_null($defaults)) {
 			$defaults = $this->getDefaults();
 		}
-// 		if($this->configPrefix == 's04') var_dump($this->configPrefix.$varname);
-// 		if(0 == $this->configKeyToDBKey($varname)) {
-// 			var_dump($varname);
-// 			print("<pre>");
-// 			debug_print_backtrace(); die;
-// 		}
 		return \OCP\Config::getAppValue('user_ldap',
 										$this->configPrefix.$varname,
 										$defaults[$varname]);
@@ -288,6 +278,7 @@ class Configuration {
 			'ldap_base_users'					=> '',
 			'ldap_base_groups'					=> '',
 			'ldap_userlist_filter'				=> 'objectClass=person',
+			'ldap_userfilter_objectclass'		=> '',
 			'ldap_login_filter'					=> 'uid=%uid',
 			'ldap_group_filter'					=> 'objectClass=posixGroup',
 			'ldap_display_name'					=> 'cn',
@@ -327,6 +318,7 @@ class Configuration {
 			'ldap_base'							=> 'ldapBase',
 			'ldap_base_users'					=> 'ldapBaseUsers',
 			'ldap_base_groups'					=> 'ldapBaseGroups',
+			'ldap_userfilter_objectclass' 		=> 'ldapUserFilterObjectclass',
 			'ldap_userlist_filter'				=> 'ldapUserFilter',
 			'ldap_login_filter'					=> 'ldapLoginFilter',
 			'ldap_group_filter'					=> 'ldapGroupFilter',

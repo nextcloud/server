@@ -144,7 +144,10 @@ var LdapWizard = {
 
 	applyChanges: function (result) {
 		for (id in result.changes) {
-			LdapWizard.saveBlacklist[id] = true;
+			if(!$.isArray(result.changes[id])) {
+				//no need to blacklist multiselect
+				LdapWizard.saveBlacklist[id] = true;
+			}
 			$('#'+id).val(result.changes[id]);
 		}
 	},
@@ -162,12 +165,12 @@ var LdapWizard = {
 				function(result) {
 					LdapWizard.applyChanges(result);
 					if($('#ldap_base').val()) {
-						$('#ldap_base').removeClass('hidden');
+						$('#ldap_base').removeClass('invisible');
 						LdapWizard.hideInfoBox();
 					}
 				},
 				function (result) {
-					$('#ldap_base').removeClass('hidden');
+					$('#ldap_base').removeClass('invisible');
 					LdapWizard.showInfoBox('Please specify a port');
 				}
 			);
@@ -187,28 +190,59 @@ var LdapWizard = {
 				function(result) {
 					LdapWizard.applyChanges(result);
 					if($('#ldap_port').val()) {
-						$('#ldap_port').removeClass('hidden');
+						$('#ldap_port').removeClass('invisible');
 						LdapWizard.hideInfoBox();
 					}
 				},
 				function (result) {
-					$('#ldap_port').removeClass('hidden');
+					$('#ldap_port').removeClass('invisible');
 					LdapWizard.showInfoBox('Please specify the BaseDN');
 				}
 			);
 		}
 	},
 
+	findObjectClasses: function() {
+		param = 'action=determineObjectClasses'+
+				'&ldap_serverconfig_chooser='+$('#ldap_serverconfig_chooser').val();
+
+		LdapWizard.ajax(param,
+			function(result) {
+				$('#ldap_userfilter_objectclass').find('option').remove();
+				for (i in result.options['ldap_userfilter_objectclass']) {
+					//FIXME: move HTML into template
+					objc = result.options['ldap_userfilter_objectclass'][i];
+					$('#ldap_userfilter_objectclass').append("<option value='"+objc+"'>"+objc+"</option>");
+				}
+				LdapWizard.applyChanges(result);
+				$('#ldap_userfilter_objectclass').multiselect('refresh');
+			},
+			function (result) {
+				//TODO: error handling
+			}
+		);
+	},
+
 	hideInfoBox: function() {
 		if(LdapWizard.checkInfoShown) {
-			$('#ldapWizard1 .ldapWizardInfo').addClass('hidden');
+			$('#ldapWizard1 .ldapWizardInfo').addClass('invisible');
 			LdapWizard.checkInfoShown = false;
 		}
 	},
 
 	init: function() {
 		if($('#ldap_port').val()) {
-			$('#ldap_port').removeClass('hidden');
+			$('#ldap_port').removeClass('invisible');
+		}
+	},
+
+	initUserFilter: function() {
+		LdapWizard.findObjectClasses();
+	},
+
+	onTabChange: function(event, ui) {
+		if(ui.newTab[0].id === '#ldapWizard2') {
+			LdapWizard.initUserFilter();
 		}
 	},
 
@@ -227,8 +261,20 @@ var LdapWizard = {
 			delete LdapWizard.saveBlacklist[inputObj.id];
 			return;
 		}
-		param = 'cfgkey='+inputObj.id+
-				'&cfgval='+$(inputObj).val()+
+		LdapWizard._save(inputObj, $(inputObj).val());
+	},
+
+	saveMultiSelect: function(originalObj, resultObj) {
+		values = '';
+		for(i = 0; i < resultObj.length; i++) {
+			values = values + "\n" + resultObj[i].value;
+		}
+		LdapWizard._save($('#'+originalObj)[0], $.trim(values));
+	},
+
+	_save: function(object, value) {
+		param = 'cfgkey='+object.id+
+				'&cfgval='+value+
 				'&action=save'+
 				'&ldap_serverconfig_chooser='+$('#ldap_serverconfig_chooser').val();
 
@@ -237,7 +283,7 @@ var LdapWizard = {
 			param,
 			function(result) {
 				if(result.status == 'success') {
-					LdapWizard.processChanges(inputObj);
+					LdapWizard.processChanges(object);
 				} else {
 // 					alert('Oooooooooooh :(');
 				}
@@ -247,17 +293,28 @@ var LdapWizard = {
 
 	showInfoBox: function(text) {
 		$('#ldapWizard1 .ldapWizardInfo').text(t('user_ldap', text));
-		$('#ldapWizard1 .ldapWizardInfo').removeClass('hidden');
+		$('#ldapWizard1 .ldapWizardInfo').removeClass('invisible');
 		LdapWizard.checkInfoShown = true;
 	}
 };
 
 $(document).ready(function() {
 	$('#ldapAdvancedAccordion').accordion({ heightStyle: 'content', animate: 'easeInOutCirc'});
-	$('#ldapSettings').tabs();
+	$('#ldapSettings').tabs({ beforeActivate: LdapWizard.onTabChange });
 	$('#ldap_submit').button();
 	$('#ldap_action_test_connection').button();
 	$('#ldap_action_delete_configuration').button();
+	$('#ldap_userfilter_groups').multiselect();
+	$('#ldap_userfilter_objectclass').multiselect({
+		header: false,
+		selectedList: 9,
+		noneSelectedText: t('user_ldap', 'Select object classes'),
+		click: function(event, ui) {
+			LdapWizard.saveMultiSelect('ldap_userfilter_objectclass',
+										$('#ldap_userfilter_objectclass').multiselect("getChecked")
+			);
+		}
+	});
 	$('.lwautosave').change(function() { LdapWizard.save(this); });
 	LdapConfiguration.refreshConfig();
 	$('#ldap_action_test_connection').click(function(event){

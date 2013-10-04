@@ -1,5 +1,6 @@
 .table {
 	display: table;
+	width: 60%;
 }
 
 .tablecell {
@@ -18,7 +19,7 @@
 	height: 15px;
 }
 
-.hidden {
+.hidden, .invisible {
 	visibility: hidden;
 }
 
@@ -55,6 +56,16 @@
 	width: 96.5% !important;
 }
 
+.tableCellInput {
+	margin-left: -40%;
+	width: 100%;
+}
+
+.tableCellLabel {
+	text-align: right;
+	padding-right: 25%;
+}
+
 .ldapIndent {
 	margin-left: 50px;
 }
@@ -81,4 +92,11 @@
 
 #ldap fieldset p input[type=checkbox] {
 	vertical-align: bottom;
+}
+
+select[multiple=multiple] + button {
+	height: 28px;
+	padding-top: 6px !important;
+	min-width: 40%;
+	max-width: 40%;
 }

@@ -2,7 +2,7 @@
 	<div id="ldapSettings" class="personalblock">
 	<ul>
 		<?php foreach($_['toc'] as $id => $title) { ?>
-			<li><a href="<?php p($id); ?>"><?php p($title); ?></a></li>
+			<li id="<?php p($id); ?>"><a href="<?php p($id); ?>"><?php p($title); ?></a></li>
 		<?php } ?>
 		<li class="ldapSettingsTabs"><a href="#ldapSettings-3">Expert</a></li>
 		<li class="ldapSettingsTabs"><a href="#ldapSettings-2">Advanced</a></li>

@@ -28,6 +28,10 @@ class Wizard extends LDAPUtility {
 	protected $configuration;
 	protected $result;
 
+	const LRESULT_PROCESSED_OK = 0;
+	const LRESULT_PROCESSED_INVALID = 1;
+	const LRESULT_PROCESSED_SKIP = 2;
+
 	/**
 	 * @brief Constructor
 	 * @param $configuration an instance of Configuration
@@ -48,6 +52,51 @@ class Wizard extends LDAPUtility {
 		}
 	}
 
+	public function determineObjectClasses() {
+		if(!$this->checkRequirements(array('ldapHost',
+										   'ldapPort',
+										   'ldapAgentName',
+										   'ldapAgentPassword',
+										   'ldapBase',
+										   ))) {
+			return  false;
+		}
+		$cr = $this->getConnection();
+		if(!$cr) {
+			throw new \Excpetion('Could not connect to LDAP');
+		}
+
+		$p = 'objectclass=';
+		$obclasses = array($p.'inetOrgPerson',        $p.'person',
+						   $p.'organizationalPerson', $p.'user',
+						   $p.'posixAccount',         $p.'*');
+
+		$maxEntryObjC = '';
+		$availableObjectClasses =
+			$this->cumulativeSearchOnAttribute($obclasses, 'objectclass',
+												true, $maxEntryObjC);
+		if(is_array($availableObjectClasses)
+		   && count($availableObjectClasses) > 0) {
+			$this->result->addOptions('ldap_userfilter_objectclass',
+										$availableObjectClasses);
+		} else {
+			throw new \Exception(self::$l->t('Could not find any objectClass'));
+		}
+		$setOCs = $this->configuration->ldapUserFilterObjectclass;
+		file_put_contents('/tmp/set', print_r($setOCs, true));
+		if(is_array($setOCs) && !empty($setOCs)) {
+			//something is already configured? pre-select it.
+			$this->result->addChange('ldap_userfilter_objectclass', $setOCs);
+		} else if(!empty($maxEntryObjC)) {
+			//new? pre-select something hopefully sane
+			$maxEntryObjC = str_replace($p, '', $maxEntryObjC);
+			$this->result->addChange('ldap_userfilter_objectclass',
+									 $maxEntryObjC);
+		}
+
+		return $this->result;
+	}
+
 	/**
 	 * Tries to determine the port, requires given Host, User DN and Password
 	 * @returns mixed WizardResult on success, false otherwise
@@ -55,7 +104,8 @@ class Wizard extends LDAPUtility {
 	public function guessPortAndTLS() {
 		if(!$this->checkRequirements(array('ldapHost',
 										   'ldapAgentName',
-										   'ldapAgentPassword'))) {
+										   'ldapAgentPassword'
+										   ))) {
 			return false;
 		}
 		$this->checkHost();
@@ -264,6 +314,104 @@ class Wizard extends LDAPUtility {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * @brief does a cumulativeSearch on LDAP to get different values of a
+	 * specified attribute
+	 * @param $filters array, the filters that shall be used in the search
+	 * @param $attr the attribute of which a list of values shall be returned
+	 * @param $lfw bool, whether the last filter is a wildcard which shall not
+	 * be processed if there were already findings, defaults to true
+	 * @param $maxF string. if not null, this variable will have the filter that
+	 * yields most result entries
+	 * @return mixed, an array with the values on success, false otherwise
+	 *
+	 */
+	private function cumulativeSearchOnAttribute($filters, $attr, $lfw = true, &$maxF = null) {
+		$dnRead = array();
+		$foundItems = array();
+		$maxEntries = 0;
+		if(!is_array($this->configuration->ldapBase) || !isset($this->configuration->ldapBase[0])) {
+			return false;
+		}
+		$base = $this->configuration->ldapBase[0];
+		$cr = $this->getConnection();
+		if(!is_resource($cr)) {
+			return false;
+		}
+		foreach($filters as $filter) {
+			if($lfw && count($foundItems) > 0) {
+				continue;
+			}
+			$rr = $this->ldap->search($cr, $base, $filter, array($attr));
+			if(!$this->ldap->isResource($rr)) {
+				\OCP\Util::writeLog('user_ldap', 'Search failed, Base '.$base, \OCP\Util::DEBUG);
+				continue;
+			}
+			$entries = $this->ldap->countEntries($cr, $rr);
+			$getEntryFunc = 'firstEntry';
+			if(($entries !== false) && ($entries > 0)) {
+				if(!is_null($maxF) && $entries > $maxEntries) {
+					$maxEntries = $entries;
+					$maxF = $filter;
+				}
+				do {
+					$entry = $this->ldap->$getEntryFunc($cr, $rr);
+					if(!$this->ldap->isResource($entry)) {
+						continue 2;
+					}
+					$attributes = $this->ldap->getAttributes($cr, $entry);
+					$dn = $this->ldap->getDN($cr, $entry);
+					if($dn === false || in_array($dn, $dnRead)) {
+						continue;
+					}
+					$state = $this->getAttributeValuesFromEntry($attributes,
+																$attr,
+																$foundItems);
+					$dnRead[] = $dn;
+					$getEntryFunc = 'nextEntry';
+					$rr = $entry; //will be expected by nextEntry next round
+				} while($state === self::LRESULT_PROCESSED_SKIP
+						|| $this->ldap->isResource($entry));
+			}
+		}
+
+		return $foundItems;
+	}
+
+	/**
+	 * @brief appends a list of values fr
+	 * @param $result resource, the return value from ldap_get_attributes
+	 * @param $attribute string, the attribute values to look for
+	 * @param &$known array, new values will be appended here
+	 * @return int, state on of the class constants LRESULT_PROCESSED_OK,
+	 * LRESULT_PROCESSED_INVALID or LRESULT_PROCESSED_SKIP
+	 */
+	private function getAttributeValuesFromEntry($result, $attribute, &$known) {
+		if(!is_array($result)
+		   || !isset($result['count'])
+		   || !$result['count'] > 0) {
+			return self::LRESULT_PROCESSED_INVALID;
+		}
+
+		//strtolower on all keys for proper comparison
+		$result = \OCP\Util::mb_array_change_key_case($result);
+		$attribute = strtolower($attribute);
+		if(isset($result[$attribute])) {
+			foreach($result[$attribute] as $key => $val) {
+				if($key === 'count') {
+					continue;
+				}
+				if(!in_array($val, $known)) {
+					\OCP\Util::writeLog('user_ldap', 'Found objclass '.$val, \OCP\Util::DEBUG);
+					$known[] = $val;
+				}
+			}
+			return self::LRESULT_PROCESSED_OK;
+		} else {
+			return self::LRESULT_PROCESSED_SKIP;
+		}
 	}
 
 	private function getConnection() {

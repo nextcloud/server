@@ -33,7 +33,7 @@
 							/>
 						<span>
 							<input type="number" id="ldap_port" name="ldap_port"
-								class="hidden lwautosave"
+								class="invisible lwautosave"
 								data-default="<?php p($_['ldap_port_default']); ?>"
 								placeholder="<?php p($l->t('Port'));?>" />
 						</span>
@@ -68,7 +68,7 @@
 			</div>
 
 			<div class="tablerow">
-				<div class="tablecell ldapWizardInfo hidden">&nbsp;
+				<div class="tablecell ldapWizardInfo invisible">&nbsp;
 				</div>
 			</div>
 		</div>
