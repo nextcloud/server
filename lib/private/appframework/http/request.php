@@ -31,6 +31,8 @@ use OCP\IRequest;
 
 class Request implements \ArrayAccess, \Countable, IRequest {
 
+	protected $inputStream;
+	protected $content;
 	protected $items = array();
 	protected $allowedKeys = array(
 		'get',
@@ -40,17 +42,15 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		'env',
 		'cookies',
 		'urlParams',
-		'params',
 		'parameters',
 		'method'
 	);
 
 	/**
 	 * @param array $vars An associative array with the following optional values:
-	 * @param array 'params' the parsed json array
 	 * @param array 'urlParams' the parameters which were matched from the URL
 	 * @param array 'get' the $_GET array
-	 * @param array 'post' the $_POST array
+	 * @param array|string 'post' the $_POST array or JSON string
 	 * @param array 'files' the $_FILES array
 	 * @param array 'server' the $_SERVER array
 	 * @param array 'env' the $_ENV array
@@ -62,13 +62,27 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	public function __construct(array $vars=array()) {
 
 		foreach($this->allowedKeys as $name) {
-			$this->items[$name] = isset($vars[$name]) 
+			$this->items[$name] = isset($vars[$name])
 				? $vars[$name] 
 				: array();
 		}
 
+		if (defined('PHPUNIT_RUN') && PHPUNIT_RUN
+			&& in_array('fakeinput', stream_get_wrappers())) {
+			$this->inputStream = 'fakeinput://data';
+		} else {
+			$this->inputStream = 'php://input';
+		}
+
+		// Only 'application/x-www-form-urlencoded' requests are automatically
+		// transformed by PHP, 'application/json' must be decoded manually.
+		if ($this->method === 'POST'
+			&& strpos($this->getHeader('Content-Type'), 'application/json') !== false
+		) {
+			$this->items['params'] = $this->items['post'] = json_decode(file_get_contents($this->inputStream), true);
+		}
+
 		$this->items['parameters'] = array_merge(
-			$this->items['params'],
 			$this->items['get'],
 			$this->items['post'],
 			$this->items['urlParams']
@@ -141,17 +155,22 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	* $request->myvar; or $request->{'myvar'}; or $request->{$myvar}
 	* Looks in the combined GET, POST and urlParams array.
 	*
-	* if($request->method !== 'POST') {
-	* 	throw new Exception('This function can only be invoked using POST');
-	* }
+	* If you access e.g. ->post but the current HTTP request method
+	* is GET a \LogicException will be thrown.
 	*
 	* @param string $name The key to look for.
+	* @throws \LogicException
 	* @return mixed|null
 	*/
 	public function __get($name) {
 		switch($name) {
+			case 'put':
+			case 'patch':
 			case 'get':
 			case 'post':
+				if($this->method !== strtoupper($name)) {
+					throw new \LogicException(sprintf('%s cannot be accessed in a %s request.', $name, $this->method));
+				}
 			case 'files':
 			case 'server':
 			case 'env':
@@ -159,9 +178,13 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			case 'parameters':
 			case 'params':
 			case 'urlParams':
-				return isset($this->items[$name])
-					? $this->items[$name]
-					: null;
+				if(in_array($name, array('put', 'patch'))) {
+					return $this->getContent($name);
+				} else {
+					return isset($this->items[$name])
+						? $this->items[$name]
+						: null;
+				}
 				break;
 			case 'method':
 				return $this->items['method'];
@@ -280,28 +303,55 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	/**
 	 * Returns the request body content.
 	 *
-	 * @param Boolean $asResource If true, a resource will be returned
+	 * If the HTTP request method is PUT and the body
+	 * not application/x-www-form-urlencoded or application/json a stream
+	 * resource is returned, otherwise an array.
 	 *
-	 * @return string|resource The request body content or a resource to read the body stream.
+	 * @return array|string|resource The request body content or a resource to read the body stream.
 	 *
 	 * @throws \LogicException
 	 */
-	function getContent($asResource = false) {
-		return null;
-//		if (false === $this->content || (true === $asResource && null !== $this->content)) {
-//			throw new \LogicException('getContent() can only be called once when using the resource return type.');
-//		}
-//
-//		if (true === $asResource) {
-//			$this->content = false;
-//
-//			return fopen('php://input', 'rb');
-//		}
-//
-//		if (null === $this->content) {
-//			$this->content = file_get_contents('php://input');
-//		}
-//
-//		return $this->content;
+	protected function getContent() {
+		if ($this->content === false && $this->method === 'PUT') {
+			throw new \LogicException(
+				'"put" can only be accessed once if not '
+				. 'application/x-www-form-urlencoded or application/json.'
+			);
+		}
+
+		// If the content can't be parsed into an array then return a stream resource.
+		if ($this->method === 'PUT'
+			&& strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') === false
+			&& strpos($this->getHeader('Content-Type'), 'application/json') === false
+		) {
+			$this->content = false;
+			return fopen($this->inputStream, 'rb');
+		}
+
+		if (is_null($this->content)) {
+			$this->content = file_get_contents($this->inputStream);
+
+			/*
+			* Normal jquery ajax requests are sent as application/x-www-form-urlencoded
+			* and in $_GET and $_POST PHP transformes the data into an array.
+			* The first condition mimics this.
+			* The second condition allows for sending raw application/json data while
+			* still getting the result as an array.
+			*
+			*/
+			if (strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') !== false) {
+				parse_str($this->content, $content);
+				if(is_array($content)) {
+					$this->content = $content;
+				}
+			} elseif (strpos($this->getHeader('Content-Type'), 'application/json') !== false) {
+				$content = json_decode($this->content, true);
+				if(is_array($content)) {
+					$this->content = $content;
+				}
+			}
+		}
+
+		return $this->content;
 	}
 }

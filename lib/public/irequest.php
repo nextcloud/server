@@ -22,6 +22,28 @@
 
 namespace OCP;
 
+/**
+ * This interface provides an immutable object with with accessors to
+ * request variables and headers.
+ *
+ * Access request variables by method and name.
+ *
+ * Examples:
+ *
+ * $request->post['myvar']; // Only look for POST variables
+ * $request->myvar; or $request->{'myvar'}; or $request->{$myvar}
+ * Looks in the combined GET, POST and urlParams array.
+ *
+ * If you access e.g. ->post but the current HTTP request method
+ * is GET a \LogicException will be thrown.
+ *
+ * NOTE:
+ * - When accessing ->put a stream resource is returned and the accessor
+ *   will return false on subsequent access to ->put or ->patch.
+ * - When accessing ->patch and the Content-Type is either application/json
+ *   or application/x-www-form-urlencoded (most cases) it will act like ->get
+ *   and ->post and return an array. Otherwise the raw data will be returned.
+ */
 
 interface IRequest {
 
@@ -85,12 +107,4 @@ interface IRequest {
 	function getCookie($key);
 
 
-	/**
-	 * Returns the request body content.
-	 *
-	 * @param Boolean $asResource If true, a resource will be returned
-	 * @return string|resource The request body content or a resource to read the body stream.
-	 * @throws \LogicException
-	 */
-	function getContent($asResource = false);
 }
