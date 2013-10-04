@@ -113,7 +113,7 @@ class OC_Util {
 		$dir = opendir($source);
 		@mkdir($target);
 		while(false !== ( $file = readdir($dir)) ) {
-			if (( $file != '.' ) && ( $file != '..' )) {
+			if ( !\OC\Files\Filesystem::isIgnoredDir($file) ) {
 				if ( is_dir($source . '/' . $file) ) {
 					OC_Util::copyr($source . '/' . $file , $target . '/' . $file);
 				} else {
