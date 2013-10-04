@@ -104,8 +104,8 @@ if ($needUpgrade) {
 	$storageInfo=OC_Helper::getStorageInfo($dir);
 	$maxUploadFilesize=OCP\Util::maxUploadFilesize($dir);
 	$publicUploadEnabled = \OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes');
-	// if the encryption app is disabled, than everything is fine
-	$encryptionInitStatus = \OCA\Encryption\Session::INIT_SUCCESSFUL;
+	// if the encryption app is disabled, than everything is fine (INIT_SUCCESSFUL status code)
+	$encryptionInitStatus = 2;
 	if (OC_App::isEnabled('files_encryption')) {
 		$publicUploadEnabled = 'no';
 		$session = new \OCA\Encryption\Session(new \OC\Files\View('/'));
