@@ -135,7 +135,7 @@ OC.Tags= {
 			self = this,
 			url = OC.Router.generate('core_tags_tag', {type: type, id: id});
 		$.post(url, {tag: tag}, function(response) {
-			if(response.result === 'success') {
+			if(response.status === 'success') {
 				defer.resolve(response);
 			} else {
 				defer.reject(response);
@@ -159,7 +159,7 @@ OC.Tags= {
 			self = this,
 			url = OC.Router.generate('core_tags_untag', {type: type, id: id});
 		$.post(url, {tag: tag}, function(response) {
-			if(response.result === 'success') {
+			if(response.status === 'success') {
 				defer.resolve(response);
 			} else {
 				defer.reject(response);
@@ -183,7 +183,7 @@ OC.Tags= {
 			self = this,
 			url = OC.Router.generate('core_tags_favorite', {type: type, id: id});
 		$.post(url, function(response) {
-			if(response.result === 'success') {
+			if(response.status === 'success') {
 				defer.resolve(response);
 			} else {
 				defer.reject(response);
@@ -207,7 +207,7 @@ OC.Tags= {
 			self = this,
 			url = OC.Router.generate('core_tags_unfavorite', {type: type, id: id});
 		$.post(url, function(response) {
-			if(response.result === 'success') {
+			if(response.status === 'success') {
 				defer.resolve();
 			} else {
 				defer.reject(response);
