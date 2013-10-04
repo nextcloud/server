@@ -268,8 +268,8 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 		// share was successful?
 		$this->assertTrue(is_string($result));
 
-		$_GET['file'] = $this->folder;
-		$_GET['subfiles'] = 'yes';
+		$_GET['path'] = $this->folder;
+		$_GET['subfiles'] = 'true';
 
 		$result = Share\Api::getAllShares(array());
 
@@ -434,7 +434,7 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 		$params = array();
 		$params['id'] = $linkShare['id'];
 		$params['_put'] = array();
-		$params['_put']['publicUpload'] = 'yes';
+		$params['_put']['publicUpload'] = 'true';
 
 		$result = Share\Api::updateShare($params);
 
