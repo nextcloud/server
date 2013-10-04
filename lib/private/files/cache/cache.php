@@ -64,30 +64,33 @@ class Cache {
 	 * @return int
 	 */
 	public function getMimetypeId($mime) {
-		if (!isset($this->mimetypeIds[$mime])) {
-			$result = \OC_DB::executeAudited('SELECT `id` FROM `*PREFIX*mimetypes` WHERE `mimetype` = ?', array($mime));
-			if ($row = $result->fetchRow()) {
-				$this->mimetypeIds[$mime] = $row['id'];
-			} else {
-				$result = \OC_DB::executeAudited('INSERT INTO `*PREFIX*mimetypes`(`mimetype`) VALUES(?)', array($mime));
-				$this->mimetypeIds[$mime] = \OC_DB::insertid('*PREFIX*mimetypes');
-			}
-			$this->mimetypes[$this->mimetypeIds[$mime]] = $mime;
+		if (empty($this->mimetypeIds)) {
+			$this->loadMimetypes();
 		}
+		
+		if (!isset($this->mimetypeIds[$mime])) {
+			$result = \OC_DB::executeAudited('INSERT INTO `*PREFIX*mimetypes`(`mimetype`) VALUES(?)', array($mime));
+			$this->mimetypeIds[$mime] = \OC_DB::insertid('*PREFIX*mimetypes');
+			$this->mimetypes[$this->mimetypeIds[$mime]] = $mime;
+		} 
+				
 		return $this->mimetypeIds[$mime];
 	}
 
 	public function getMimetype($id) {
-		if (!isset($this->mimetypes[$id])) {
-			$sql = 'SELECT `mimetype` FROM `*PREFIX*mimetypes` WHERE `id` = ?';
-			$result = \OC_DB::executeAudited($sql, array($id));
-			if ($row = $result->fetchRow()) {
-				$this->mimetypes[$id] = $row['mimetype'];
-			} else {
-				return null;
-			}
+		if (empty($this->mimetypes)) {
+			$this->loadMimetypes();
 		}
-		return $this->mimetypes[$id];
+
+		return isset($this->mimetypes[$id]) ? $this->mimetypes[$id] : null;
+	}
+	
+	protected function loadMimetypes(){
+			$result = \OC_DB::executeAudited('SELECT `id`, `mimetype` FROM `*PREFIX*mimetypes`', array());
+			while ($result && $row = $result->fetchRow()) {
+				$this->mimetypeIds[$row['mimetype']] = $row['id'];
+				$this->mimetypes[$row['id']] = $row['mimetype'];
+			}
 	}
 
 	/**
