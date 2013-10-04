@@ -77,7 +77,10 @@ textarea:hover, textarea:focus, textarea:active {
 }
 input[type="checkbox"] { margin:0; padding:0; height:auto; width:auto; }
 input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#111 !important; }
-#quota { cursor:default; }
+#quota {
+	cursor: default;
+	margin: 30px;
+}
 
 
 /* SCROLLING */
@@ -667,12 +670,15 @@ tr .action { width:16px; height:16px; }
 tr:hover .action:hover, .selectedActions a:hover, .header-action:hover { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
 tbody tr:hover, tr:active { background-color:#f8f8f8; }
 
+#body-settings h2 {
+	font-size: 20px;
+	font-weight: normal;
+	margin-bottom: 7px;
+}
 #body-settings .personalblock, #body-settings .helpblock {
-	padding: .5em 1em;
-	margin: 1em;
-	background-color: rgb(240,240,240);
+	padding: 30px;
 	color: #555;
-	border-radius: 3px;
+	border-top: 1px solid #ddd;
 }
 #body-settings .personalblock#quota { position:relative; padding:0; }
 #body-settings #controls+.helpblock { position:relative; margin-top:3em; }

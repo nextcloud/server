@@ -12,7 +12,7 @@ $levels = array('Debug', 'Info', 'Warning', 'Error', 'Fatal');
 if (!$_['htaccessworking']) {
 	?>
 <fieldset class="personalblock">
-	<legend><strong><?php p($l->t('Security Warning'));?></strong></legend>
+	<h2><?php p($l->t('Security Warning'));?></h2>
 
 	<span class="securitywarning">
 		<?php p($l->t('Your data directory and your files are probably accessible from the internet. The .htaccess file is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root.')); ?>
@@ -26,7 +26,7 @@ if (!$_['htaccessworking']) {
 if (!$_['isWebDavWorking']) {
 	?>
 <fieldset class="personalblock">
-	<legend><strong><?php p($l->t('Setup Warning'));?></strong></legend>
+	<h2><?php p($l->t('Setup Warning'));?></h2>
 
 	<span class="securitywarning">
 		<?php p($l->t('Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken.')); ?>
@@ -41,7 +41,7 @@ if (!$_['isWebDavWorking']) {
 if (!$_['has_fileinfo']) {
 	?>
 <fieldset class="personalblock">
-	<legend><strong><?php p($l->t('Module \'fileinfo\' missing'));?></strong></legend>
+	<h2><?php p($l->t('Module \'fileinfo\' missing'));?></h2>
 
 		<span class="connectionwarning">
 		<?php p($l->t('The PHP module \'fileinfo\' is missing. We strongly recommend to enable this module to get best results with mime-type detection.')); ?>
@@ -55,7 +55,7 @@ if (!$_['has_fileinfo']) {
 if (!$_['islocaleworking']) {
 	?>
 <fieldset class="personalblock">
-	<legend><strong><?php p($l->t('Locale not working'));?></strong></legend>
+	<h2><?php p($l->t('Locale not working'));?></h2>
 
 		<span class="connectionwarning">
 		<?php
@@ -72,7 +72,7 @@ if (!$_['islocaleworking']) {
 if (!$_['internetconnectionworking']) {
 	?>
 <fieldset class="personalblock">
-	<legend><strong><?php p($l->t('Internet connection not working'));?></strong></legend>
+	<h2><?php p($l->t('Internet connection not working'));?></h2>
 
 		<span class="connectionwarning">
 		<?php p($l->t('This server has no working internet connection. This means that some of the features like mounting of external storage, notifications about updates or installation of 3rd party apps don´t work. Accessing files from remote and sending of notification emails might also not work. We suggest to enable internet connection for this server if you want to have all features.')); ?>
@@ -89,7 +89,7 @@ if (!$_['internetconnectionworking']) {
 ;?>
 
 <fieldset class="personalblock" id="backgroundjobs">
-	<legend><strong><?php p($l->t('Cron'));?></strong></legend>
+	<h2><?php p($l->t('Cron'));?></h2>
 	<p>
 				<input type="radio" name="mode" value="ajax"
 					   id="backgroundjobs_ajax" <?php if ($_['backgroundjobs_mode'] === "ajax") {
@@ -117,7 +117,7 @@ if (!$_['internetconnectionworking']) {
 </fieldset>
 
 <fieldset class="personalblock" id="shareAPI">
-	<legend><strong><?php p($l->t('Sharing'));?></strong></legend>
+	<h2><?php p($l->t('Sharing'));?></h2>
 	<table class="shareAPI nostyle">
 		<tr>
 			<td id="enable">
@@ -175,7 +175,7 @@ if (!$_['internetconnectionworking']) {
 </fieldset>
 
 <fieldset class="personalblock" id="security">
-	<legend><strong><?php p($l->t('Security'));?></strong></legend>
+	<h2><?php p($l->t('Security'));?></h2>
 	<table class="nostyle">
 		<tr>
 			<td id="enable">
@@ -208,7 +208,7 @@ if (!$_['internetconnectionworking']) {
 </fieldset>
 
 <fieldset class="personalblock">
-	<legend><strong><?php p($l->t('Log'));?></strong></legend>
+	<h2><?php p($l->t('Log'));?></h2>
 	<?php p($l->t('Log level'));?> <select name='loglevel' id='loglevel'>
 	<option value='<?php p($_['loglevel'])?>'><?php p($levels[$_['loglevel']])?></option>
 	<?php for ($i = 0; $i < 5; $i++):
@@ -247,7 +247,7 @@ endfor;?>
 </fieldset>
 
 <fieldset class="personalblock">
-	<legend><strong><?php p($l->t('Version'));?></strong></legend>
+	<h2><?php p($l->t('Version'));?></h2>
 	<strong><?php p($theme->getTitle()); ?></strong> <?php p(OC_Util::getVersionString()); ?>
 <?php if (OC_Util::getEditionString() === ''): ?>
 	<p>
