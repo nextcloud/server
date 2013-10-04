@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud - user_ldap
+ * ownCloud – LDAP LDAPUtility
  *
  * @author Arthur Schiwon
  * @copyright 2013 Arthur Schiwon blizzz@owncloud.com
@@ -21,14 +21,16 @@
  *
  */
 
-// Check user and app status
-OCP\JSON::checkAdminUser();
-OCP\JSON::checkAppEnabled('user_ldap');
-OCP\JSON::callCheck();
+namespace OCA\user_ldap\lib;
 
-$prefix = $_POST['ldap_serverconfig_chooser'];
-$ldapWrapper = new OCA\user_ldap\lib\LDAP();
-$connection = new \OCA\user_ldap\lib\Connection($ldapWrapper, $prefix);
-$connection->setConfiguration($_POST);
-$connection->saveConfiguration();
-OCP\JSON::success();
+abstract class LDAPUtility {
+	protected $ldap;
+
+	/**
+	 * @brief constructor, make sure the subclasses call this one!
+	 * @param $ldapWrapper an instance of an ILDAPWrapper
+	 */
+	public function __construct(ILDAPWrapper $ldapWrapper) {
+		$this->ldap = $ldapWrapper;
+	}
+}

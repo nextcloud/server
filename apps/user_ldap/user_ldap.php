@@ -25,37 +25,46 @@
 
 namespace OCA\user_ldap;
 
-class USER_LDAP extends lib\Access implements \OCP\UserInterface {
+use OCA\user_ldap\lib\ILDAPWrapper;
+use OCA\user_ldap\lib\BackendUtility;
+
+class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 
 	private function updateQuota($dn) {
 		$quota = null;
-		$quotaDefault = $this->connection->ldapQuotaDefault;
-		$quotaAttribute = $this->connection->ldapQuotaAttribute;
+		$quotaDefault = $this->access->connection->ldapQuotaDefault;
+		$quotaAttribute = $this->access->connection->ldapQuotaAttribute;
 		if(!empty($quotaDefault)) {
 			$quota = $quotaDefault;
 		}
 		if(!empty($quotaAttribute)) {
-			$aQuota = $this->readAttribute($dn, $quotaAttribute);
+			$aQuota = $this->access->readAttribute($dn, $quotaAttribute);
 
 			if($aQuota && (count($aQuota) > 0)) {
 				$quota = $aQuota[0];
 			}
 		}
 		if(!is_null($quota)) {
-			\OCP\Config::setUserValue($this->dn2username($dn), 'files', 'quota', \OCP\Util::computerFileSize($quota));
+			\OCP\Config::setUserValue(	$this->access->dn2username($dn),
+										'files',
+										'quota',
+										\OCP\Util::computerFileSize($quota));
 		}
 	}
 
 	private function updateEmail($dn) {
 		$email = null;
-		$emailAttribute = $this->connection->ldapEmailAttribute;
+		$emailAttribute = $this->access->connection->ldapEmailAttribute;
 		if(!empty($emailAttribute)) {
-			$aEmail = $this->readAttribute($dn, $emailAttribute);
+			$aEmail = $this->access->readAttribute($dn, $emailAttribute);
 			if($aEmail && (count($aEmail) > 0)) {
 				$email = $aEmail[0];
 			}
 			if(!is_null($email)) {
-				\OCP\Config::setUserValue($this->dn2username($dn), 'settings', 'email', $email);
+				\OCP\Config::setUserValue(	$this->access->dn2username($dn),
+											'settings',
+											'email',
+											$email);
 			}
 		}
 	}
@@ -70,15 +79,16 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 	 */
 	public function checkPassword($uid, $password) {
 		//find out dn of the user name
-		$filter = \OCP\Util::mb_str_replace('%uid', $uid, $this->connection->ldapLoginFilter, 'UTF-8');
-		$ldap_users = $this->fetchListOfUsers($filter, 'dn');
+		$filter = \OCP\Util::mb_str_replace(
+			'%uid', $uid, $this->access->connection->ldapLoginFilter, 'UTF-8');
+		$ldap_users = $this->access->fetchListOfUsers($filter, 'dn');
 		if(count($ldap_users) < 1) {
 			return false;
 		}
 		$dn = $ldap_users[0];
 
 		//do we have a username for him/her?
-		$ocname = $this->dn2username($dn);
+		$ocname = $this->access->dn2username($dn);
 
 		if($ocname) {
 			//update some settings, if necessary
@@ -86,7 +96,7 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 			$this->updateEmail($dn);
 
 			//are the credentials OK?
-			if(!$this->areCredentialsValid($dn, $password)) {
+			if(!$this->access->areCredentialsValid($dn, $password)) {
 				return false;
 			}
 
@@ -107,7 +117,7 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 		$cachekey = 'getUsers-'.$search.'-'.$limit.'-'.$offset;
 
 		//check if users are cached, if so return
-		$ldap_users = $this->connection->getFromCache($cachekey);
+		$ldap_users = $this->access->connection->getFromCache($cachekey);
 		if(!is_null($ldap_users)) {
 			return $ldap_users;
 		}
@@ -117,21 +127,23 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 		if($limit <= 0) {
 			$limit = null;
 		}
-		$filter = $this->combineFilterWithAnd(array(
-			$this->connection->ldapUserFilter,
-			$this->getFilterPartForUserSearch($search)
+		$filter = $this->access->combineFilterWithAnd(array(
+			$this->access->connection->ldapUserFilter,
+			$this->access->getFilterPartForUserSearch($search)
 		));
 
 		\OCP\Util::writeLog('user_ldap',
 			'getUsers: Options: search '.$search.' limit '.$limit.' offset '.$offset.' Filter: '.$filter,
 			\OCP\Util::DEBUG);
 		//do the search and translate results to owncloud names
-		$ldap_users = $this->fetchListOfUsers($filter, array($this->connection->ldapUserDisplayName, 'dn'),
+		$ldap_users = $this->access->fetchListOfUsers(
+			$filter,
+			array($this->access->connection->ldapUserDisplayName, 'dn'),
 			$limit, $offset);
-		$ldap_users = $this->ownCloudUserNames($ldap_users);
+		$ldap_users = $this->access->ownCloudUserNames($ldap_users);
 		\OCP\Util::writeLog('user_ldap', 'getUsers: '.count($ldap_users). ' Users found', \OCP\Util::DEBUG);
 
-		$this->connection->writeToCache($cachekey, $ldap_users);
+		$this->access->connection->writeToCache($cachekey, $ldap_users);
 		return $ldap_users;
 	}
 
@@ -141,24 +153,25 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 	 * @return boolean
 	 */
 	public function userExists($uid) {
-		if($this->connection->isCached('userExists'.$uid)) {
-			return $this->connection->getFromCache('userExists'.$uid);
+		if($this->access->connection->isCached('userExists'.$uid)) {
+			return $this->access->connection->getFromCache('userExists'.$uid);
 		}
-
 		//getting dn, if false the user does not exist. If dn, he may be mapped only, requires more checking.
-		$dn = $this->username2dn($uid);
+		$dn = $this->access->username2dn($uid);
 		if(!$dn) {
-			$this->connection->writeToCache('userExists'.$uid, false);
+			\OCP\Util::writeLog('user_ldap', 'No DN found for '.$uid.' on '.
+				$this->access->connection->ldapHost, \OCP\Util::DEBUG);
+			$this->access->connection->writeToCache('userExists'.$uid, false);
 			return false;
 		}
-
 		//check if user really still exists by reading its entry
-		if(!is_array($this->readAttribute($dn, ''))) {
-			$this->connection->writeToCache('userExists'.$uid, false);
+		if(!is_array($this->access->readAttribute($dn, ''))) {
+			\OCP\Util::writeLog('user_ldap', 'LDAP says no user '.$dn, \OCP\Util::DEBUG);
+			$this->access->connection->writeToCache('userExists'.$uid, false);
 			return false;
 		}
 
-		$this->connection->writeToCache('userExists'.$uid, true);
+		$this->access->connection->writeToCache('userExists'.$uid, true);
 		$this->updateQuota($dn);
 		return true;
 	}
@@ -186,12 +199,13 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 		}
 
 		$cacheKey = 'getHome'.$uid;
-		if($this->connection->isCached($cacheKey)) {
-			return $this->connection->getFromCache($cacheKey);
+		if($this->access->connection->isCached($cacheKey)) {
+			return $this->access->connection->getFromCache($cacheKey);
 		}
-		if(strpos($this->connection->homeFolderNamingRule, 'attr:') === 0) {
-			$attr = substr($this->connection->homeFolderNamingRule, strlen('attr:'));
-			$homedir = $this->readAttribute($this->username2dn($uid), $attr);
+		if(strpos($this->access->connection->homeFolderNamingRule, 'attr:') === 0) {
+			$attr = substr($this->access->connection->homeFolderNamingRule, strlen('attr:'));
+			$homedir = $this->access->readAttribute(
+						$this->access->username2dn($uid), $attr);
 			if($homedir && isset($homedir[0])) {
 				$path = $homedir[0];
 				//if attribute's value is an absolute path take this, otherwise append it to data dir
@@ -206,13 +220,13 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 					$homedir = \OCP\Config::getSystemValue('datadirectory',
 						\OC::$SERVERROOT.'/data' ) . '/' . $homedir[0];
 				}
-				$this->connection->writeToCache($cacheKey, $homedir);
+				$this->access->connection->writeToCache($cacheKey, $homedir);
 				return $homedir;
 			}
 		}
 
 		//false will apply default behaviour as defined and done by OC_User
-		$this->connection->writeToCache($cacheKey, false);
+		$this->access->connection->writeToCache($cacheKey, false);
 		return false;
 	}
 
@@ -227,16 +241,16 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 		}
 
 		$cacheKey = 'getDisplayName'.$uid;
-		if(!is_null($displayName = $this->connection->getFromCache($cacheKey))) {
+		if(!is_null($displayName = $this->access->connection->getFromCache($cacheKey))) {
 			return $displayName;
 		}
 
-		$displayName = $this->readAttribute(
-			$this->username2dn($uid),
-			$this->connection->ldapUserDisplayName);
+		$displayName = $this->access->readAttribute(
+			$this->access->username2dn($uid),
+			$this->access->connection->ldapUserDisplayName);
 
 		if($displayName && (count($displayName) > 0)) {
-			$this->connection->writeToCache($cacheKey, $displayName[0]);
+			$this->access->connection->writeToCache($cacheKey, $displayName[0]);
 			return $displayName[0];
 		}
 
@@ -251,7 +265,7 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
 		$cacheKey = 'getDisplayNames-'.$search.'-'.$limit.'-'.$offset;
-		if(!is_null($displayNames = $this->connection->getFromCache($cacheKey))) {
+		if(!is_null($displayNames = $this->access->connection->getFromCache($cacheKey))) {
 			return $displayNames;
 		}
 
@@ -260,7 +274,7 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 		foreach ($users as $user) {
 			$displayNames[$user] = $this->getDisplayName($user);
 		}
-		$this->connection->writeToCache($cacheKey, $displayNames);
+		$this->access->connection->writeToCache($cacheKey, $displayNames);
 		return $displayNames;
 	}
 
