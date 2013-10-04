@@ -203,8 +203,13 @@
 	border: 0;
 	border-radius: 0;
 }
-.settings-button:hover {
+.settings-button:hover,
+.settings-button:focus {
 	background-color: #ddd;
+}
+.settings-button.opened:hover,
+.settings-button.opened:focus {
+	background-color: transparent;
 }
 
 /* icons */
