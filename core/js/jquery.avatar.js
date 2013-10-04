@@ -15,7 +15,7 @@
  * You may use this on any <div></div>
  * Here I'm using <div class="avatardiv"></div> as an example.
  *
- * There are 4 ways to call this:
+ * There are 5 ways to call this:
  *
  * 1. $('.avatardiv').avatar('jdoe', 128);
  * This will make the div to jdoe's fitting avatar, with a size of 128px.
@@ -34,10 +34,15 @@
  * 4. $('.avatardiv').avatar('jdoe', 128, true);
  * This will behave like the first example, except it will also append random
  * hashes to the custom avatar images, to force image reloading in IE8.
+ *
+ * 5. $('.avatardiv').avatar('jdoe', 128, undefined, true);
+ * This will behave like the first example, but it will hide the avatardiv, if
+ * it will display the default placeholder. undefined is the ie8fix from
+ * example 4 and can be either true, or false/undefined, to be ignored.
  */
 
 (function ($) {
-	$.fn.avatar = function(user, size, ie8fix) {
+	$.fn.avatar = function(user, size, ie8fix, hidedefault) {
 		if (typeof(size) === 'undefined') {
 			if (this.height() > 0) {
 				size = this.height();
@@ -69,12 +74,17 @@
 			var url = OC.Router.generate('core_avatar_get', {user: user, size: size})+'?requesttoken='+oc_requesttoken;
 			$.get(url, function(result) {
 				if (typeof(result) === 'object') {
-					if (result.data && result.data.displayname) {
-						$div.placeholder(user, result.data.displayname);
+					if (!hidedefault) {
+						if (result.data && result.data.displayname) {
+							$div.placeholder(user, result.data.displayname);
+						} else {
+							$div.placeholder(user);
+						}
 					} else {
-						$div.placeholder(user);
+						$div.hide();
 					}
 				} else {
+					$div.show();
 					if (ie8fix === true) {
 						$div.html('<img src="'+url+'#'+Math.floor(Math.random()*1000)+'">');
 					} else {
