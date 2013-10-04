@@ -109,7 +109,7 @@ class OC_Util {
 	 * @param string $target
 	 * @return void
 	 */
-	function copyr($source,$target) {
+	public static function copyr($source,$target) {
 		$dir = opendir($source);
 		@mkdir($target);
 		while(false !== ( $file = readdir($dir)) ) {
