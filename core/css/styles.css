@@ -118,7 +118,7 @@ input:disabled, input:disabled:hover, input:disabled:focus,
 button:disabled, button:disabled:hover, button:disabled:focus,
 .button:disabled, .button:disabled:hover, .button:disabled:focus,
 a.disabled, a.disabled:hover, a.disabled:focus {
-	background: rgba(230,230,230,.9);
+	background-color: rgba(230,230,230,.9);
 	color: #999;
 	cursor: default;
 }
