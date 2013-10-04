@@ -126,7 +126,6 @@ a.disabled, a.disabled:hover, a.disabled:focus {
 /* Primary action button, use sparingly */
 .primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary {
 	border: 1px solid #1d2d44;
-	border-radius: 5px;
 	background: #35537a;
 	color: #ddd;
 }
@@ -294,6 +293,9 @@ input[name="adminpass-clone"] { padding-left:1.8em; width:11.7em !important; }
 #body-login input[type="password"],
 #body-login input[type="email"] {
 	border: 1px solid #323233;
+	border-radius: 5px;
+}
+#body-login input[type='submit'] {
 	border-radius: 5px;
 }
 
