@@ -40,7 +40,7 @@ $this->create('core_tags_favorite', '/tags/{type}/favorite/{id}/')
 	->post()
 	->action('OC\Core\Tags\Controller', 'favorite')
 	->requirements(array('type', 'id'));
-$this->create('core_tags_unfavorite', '/tags/{type}/infavorite/{id}/')
+$this->create('core_tags_unfavorite', '/tags/{type}/unfavorite/{id}/')
 	->post()
 	->action('OC\Core\Tags\Controller', 'unFavorite')
 	->requirements(array('type', 'id'));
