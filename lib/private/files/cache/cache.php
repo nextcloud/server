@@ -34,8 +34,8 @@ class Cache {
 	 */
 	private $storageCache;
 
-	private $mimetypeIds = array();
-	private $mimetypes = array();
+	private static $mimetypeIds = array();
+	private static $mimetypes = array();
 
 	/**
 	 * @param \OC\Files\Storage\Storage|string $storage
@@ -64,30 +64,35 @@ class Cache {
 	 * @return int
 	 */
 	public function getMimetypeId($mime) {
-		if (!isset($this->mimetypeIds[$mime])) {
-			$result = \OC_DB::executeAudited('SELECT `id` FROM `*PREFIX*mimetypes` WHERE `mimetype` = ?', array($mime));
-			if ($row = $result->fetchRow()) {
-				$this->mimetypeIds[$mime] = $row['id'];
-			} else {
-				$result = \OC_DB::executeAudited('INSERT INTO `*PREFIX*mimetypes`(`mimetype`) VALUES(?)', array($mime));
-				$this->mimetypeIds[$mime] = \OC_DB::insertid('*PREFIX*mimetypes');
-			}
-			$this->mimetypes[$this->mimetypeIds[$mime]] = $mime;
+		if (empty(self::$mimetypeIds)) {
+			$this->loadMimetypes();
 		}
-		return $this->mimetypeIds[$mime];
+		
+		if (!isset(self::$mimetypeIds[$mime])) {
+			$result = \OC_DB::executeAudited('INSERT INTO `*PREFIX*mimetypes`(`mimetype`) VALUES(?)', array($mime));
+			self::$mimetypeIds[$mime] = \OC_DB::insertid('*PREFIX*mimetypes');
+			self::$mimetypes[self::$mimetypeIds[$mime]] = $mime;
+		} 
+				
+		return self::$mimetypeIds[$mime];
 	}
 
 	public function getMimetype($id) {
-		if (!isset($this->mimetypes[$id])) {
-			$sql = 'SELECT `mimetype` FROM `*PREFIX*mimetypes` WHERE `id` = ?';
-			$result = \OC_DB::executeAudited($sql, array($id));
-			if ($row = $result->fetchRow()) {
-				$this->mimetypes[$id] = $row['mimetype'];
-			} else {
-				return null;
-			}
+		if (empty(self::$mimetypes)) {
+			$this->loadMimetypes();
 		}
-		return $this->mimetypes[$id];
+
+		return isset(self::$mimetypes[$id]) ? self::$mimetypes[$id] : null;
+	}
+	
+	protected function loadMimetypes(){
+			$result = \OC_DB::executeAudited('SELECT `id`, `mimetype` FROM `*PREFIX*mimetypes`', array());
+			if ($result) {
+				while ($row = $result->fetchRow()) {
+					self::$mimetypeIds[$row['mimetype']] = $row['id'];
+					self::$mimetypes[$row['id']] = $row['mimetype'];
+				}
+			}
 	}
 
 	/**
