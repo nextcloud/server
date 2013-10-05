@@ -508,11 +508,18 @@ class Util {
 		) {
 
 			// get the size from filesystem
-			$fullPath = $this->view->getLocalFile($path);
 			$size = $this->view->filesize($path);
 
+			// fast path, else the calculation for $lastChunkNr is bogus
+			if ($size === 0) {
+				\OC_FileProxy::$enabled = $proxyStatus;
+				return 0;
+			}
+
 			// calculate last chunk nr
-			$lastChunkNr = floor($size / 8192);
+			// next highest is end of chunks, one subtracted is last one
+			// we have to read the last chunk, we can't just calculate it (because of padding etc)
+			$lastChunkNr = ceil($size/ 8192) - 1;
 			$lastChunkSize = $size - ($lastChunkNr * 8192);
 
 			// open stream
