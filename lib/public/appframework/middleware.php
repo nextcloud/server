@@ -33,7 +33,7 @@ use OCP\AppFramework\Http\Response;
  * They're modeled after Django's middleware system:
  * https://docs.djangoproject.com/en/dev/topics/http/middleware/
  */
-abstract class Middleware implements IMiddleWare {
+abstract class Middleware {
 
 
 	/**
