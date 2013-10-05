@@ -25,12 +25,7 @@
 /**
  * This class is for i18n and l10n
  */
-class OC_L10N {
-	/**
-	 * cached instances
-	 */
-	protected static $instances=array();
-
+class OC_L10N implements \OCP\IL10N {
 	/**
 	 * cache
 	 */
@@ -83,13 +78,10 @@ class OC_L10N {
 	 * @return OC_L10N
 	 */
 	public static function get($app, $lang=null) {
-		if(is_null($lang)) {
-			if(!isset(self::$instances[$app])) {
-				self::$instances[$app]=new OC_L10N($app);
-			}
-			return self::$instances[$app];
-		}else{
-			return new OC_L10N($app, $lang);
+		if (is_null($lang)) {
+			return OC::$server->getL10N($app);
+		} else {
+			return new \OC_L10N($app, $lang);
 		}
 	}
 

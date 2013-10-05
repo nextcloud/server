@@ -695,29 +695,7 @@ class OC_Util {
 	 * @see OC_Util::callRegister()
 	 */
 	public static function isCallRegistered() {
-		if(!\OC::$session->exists('requesttoken')) {
-			return false;
-		}
-
-		if(isset($_GET['requesttoken'])) {
-			$token = $_GET['requesttoken'];
-		} elseif(isset($_POST['requesttoken'])) {
-			$token = $_POST['requesttoken'];
-		} elseif(isset($_SERVER['HTTP_REQUESTTOKEN'])) {
-			$token = $_SERVER['HTTP_REQUESTTOKEN'];
-		} else {
-			//no token found.
-			return false;
-		}
-
-		// Check if the token is valid
-		if($token !== \OC::$session->get('requesttoken')) {
-			// Not valid
-			return false;
-		} else {
-			// Valid token
-			return true;
-		}
+		return \OC::$server->getRequest()->passesCSRFCheck();
 	}
 
 	/**
@@ -982,9 +960,9 @@ class OC_Util {
 	 * @param string $url Url to get content
 	 * @return string of the response or false on error
 	 * This function get the content of a page via curl, if curl is enabled.
-	 * If not, file_get_element is used.
+	 * If not, file_get_contents is used.
 	 */
-	public static function getUrlContent($url){
+	public static function getUrlContent($url) {
 		if (function_exists('curl_init')) {
 			$curl = curl_init();
 

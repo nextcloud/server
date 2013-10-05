@@ -107,4 +107,9 @@ interface IRequest {
 	function getCookie($key);
 
 
+	/**
+	 * Checks if the CSRF check was correct
+	 * @return bool true if CSRF check passed
+	 */
+	public function passesCSRFCheck();
 }
