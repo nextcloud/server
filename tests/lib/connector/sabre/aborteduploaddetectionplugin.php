@@ -37,10 +37,11 @@ class Test_OC_Connector_Sabre_AbortedUploadDetectionPlugin extends PHPUnit_Frame
 	/**
 	 * @dataProvider verifyContentLengthProvider
 	 */
-	public function testVerifyContentLength($fileSize, $headers)
+	public function testVerifyContentLength($method, $fileSize, $headers)
 	{
 		$this->plugin->fileView = $this->buildFileViewMock($fileSize);
 
+		$headers['REQUEST_METHOD'] = $method;
 		$this->server->httpRequest = new Sabre_HTTP_Request($headers);
 		$this->plugin->verifyContentLength('foo.txt');
 		$this->assertTrue(true);
@@ -50,30 +51,33 @@ class Test_OC_Connector_Sabre_AbortedUploadDetectionPlugin extends PHPUnit_Frame
 	 * @dataProvider verifyContentLengthFailedProvider
 	 * @expectedException Sabre_DAV_Exception_BadRequest
 	 */
-	public function testVerifyContentLengthFailed($fileSize, $headers)
+	public function testVerifyContentLengthFailed($method, $fileSize, $headers)
 	{
 		$this->plugin->fileView = $this->buildFileViewMock($fileSize);
 
 		// we expect unlink to be called
 		$this->plugin->fileView->expects($this->once())->method('unlink');
 
-
+		$headers['REQUEST_METHOD'] = $method;
 		$this->server->httpRequest = new Sabre_HTTP_Request($headers);
 		$this->plugin->verifyContentLength('foo.txt');
 	}
 
 	public function verifyContentLengthProvider() {
 		return array(
-			array(1024, array()),
-			array(1024, array('HTTP_X_EXPECTED_ENTITY_LENGTH' => '1024')),
-			array(512, array('HTTP_CONTENT_LENGTH' => '512')),
+			array('PUT', 1024, array()),
+			array('PUT', 1024, array('HTTP_X_EXPECTED_ENTITY_LENGTH' => '1024')),
+			array('PUT', 512, array('HTTP_CONTENT_LENGTH' => '512')),
+			array('LOCK', 1024, array()),
+			array('LOCK', 1024, array('HTTP_X_EXPECTED_ENTITY_LENGTH' => '1024')),
+			array('LOCK', 512, array('HTTP_CONTENT_LENGTH' => '512')),
 		);
 	}
 
 	public function verifyContentLengthFailedProvider() {
 		return array(
-			array(1025, array('HTTP_X_EXPECTED_ENTITY_LENGTH' => '1024')),
-			array(525, array('HTTP_CONTENT_LENGTH' => '512')),
+			array('PUT', 1025, array('HTTP_X_EXPECTED_ENTITY_LENGTH' => '1024')),
+			array('PUT', 525, array('HTTP_CONTENT_LENGTH' => '512')),
 		);
 	}
 
@@ -87,7 +91,7 @@ class Test_OC_Connector_Sabre_AbortedUploadDetectionPlugin extends PHPUnit_Frame
 	}
 
 	private function buildFileViewMock($fileSize) {
-		// mock filesysten
+		// mock filesystem
 		$view = $this->getMock('\OC\Files\View', array('filesize', 'unlink'), array(), '', FALSE);
 		$view->expects($this->any())->method('filesize')->withAnyParameters()->will($this->returnValue($fileSize));
 
