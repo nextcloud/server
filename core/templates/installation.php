@@ -61,9 +61,14 @@
 		</p>
 	</fieldset>
 
+	<?php if(!$_['directoryIsSet'] OR !$_['dbIsSet']): ?>
+	<fieldset id="advancedHeader">
+		<legend><a id="showAdvanced"><?php p($l->t( 'Advanced' )); ?> <img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" /></a></legend>
+	</fieldset>
+	<?php endif; ?>
+
 	<?php if(!$_['directoryIsSet']): ?>
 	<fieldset id="datadirField">
-		<legend><a id="showAdvanced"><?php p($l->t( 'Advanced' )); ?> <img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" /></a></legend>
 		<div id="datadirContent">
 			<label for="directory"><?php p($l->t( 'Data folder' )); ?></label>
 			<input type="text" name="directory" id="directory"
