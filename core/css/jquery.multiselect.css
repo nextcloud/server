@@ -4,7 +4,7 @@
 .ui-multiselect-single .ui-multiselect-checkboxes label { padding:5px !important }
 
 .ui-multiselect-header { margin-bottom:3px; padding:3px 0 3px 4px }
-.ui-multiselect-header ul { font-size:0.9em }
+.ui-multiselect-header ul { font-size:15px }
 .ui-multiselect-header ul li { float:left; padding:0 10px 0 0 }
 .ui-multiselect-header a { text-decoration:none }
 .ui-multiselect-header a:hover { text-decoration:underline }
