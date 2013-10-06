@@ -70,7 +70,6 @@ class Controller {
 
 		// Protect data directory here, so we can test if the protection is working
 		\OC_Setup::protectDataDirectory();
-		$htaccessWorking = false;
 		try {
 			$htaccessWorking = \OC_Util::isHtAccessWorking();
 		} catch (\OC\HintException $e) {
@@ -78,6 +77,7 @@ class Controller {
 				'error' => $e->getMessage(),
 				'hint' => $e->getHint()
 			);
+			$htaccessWorking = false;
 		}
 
 		return array(
