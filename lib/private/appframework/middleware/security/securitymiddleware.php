@@ -29,8 +29,8 @@ use OC\AppFramework\Http\Http;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\RedirectResponse;
 use OC\AppFramework\Utility\MethodAnnotationReader;
-use OC\AppFramework\Middleware\Middleware;
 use OC\AppFramework\Core\API;
+use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\JSONResponse;
 

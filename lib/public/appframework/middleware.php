@@ -23,6 +23,7 @@
 
 
 namespace OCP\AppFramework;
+
 use OCP\AppFramework\Http\Response;
 
 
@@ -32,7 +33,7 @@ use OCP\AppFramework\Http\Response;
  * They're modeled after Django's middleware system:
  * https://docs.djangoproject.com/en/dev/topics/http/middleware/
  */
-interface IMiddleWare {
+abstract class Middleware {
 
 
 	/**
@@ -43,7 +44,9 @@ interface IMiddleWare {
 	 * @param string $methodName the name of the method that will be called on
 	 *                           the controller
 	 */
-	function beforeController($controller, $methodName);
+	public function beforeController($controller, $methodName){
+
+	}
 
 
 	/**
@@ -60,10 +63,13 @@ interface IMiddleWare {
 	 * @throws \Exception the passed in exception if it cant handle it
 	 * @return Response a Response object in case that the exception was handled
 	 */
-	function afterException($controller, $methodName, \Exception $exception);
+	public function afterException($controller, $methodName, \Exception $exception){
+		throw $exception;
+	}
+
 
 	/**
-	 * This is being run after a successful controller method call and allows
+	 * This is being run after a successful controllermethod call and allows
 	 * the manipulation of a Response object. The middleware is run in reverse order
 	 *
 	 * @param Controller $controller the controller that is being called
@@ -72,7 +78,10 @@ interface IMiddleWare {
 	 * @param Response $response the generated response from the controller
 	 * @return Response a Response object
 	 */
-	function afterController($controller, $methodName, Response $response);
+	public function afterController($controller, $methodName, Response $response){
+		return $response;
+	}
+
 
 	/**
 	 * This is being run after the response object has been rendered and
@@ -84,5 +93,8 @@ interface IMiddleWare {
 	 * @param string $output the generated output from a response
 	 * @return string the output that should be printed
 	 */
-	function beforeOutput($controller, $methodName, $output);
+	public function beforeOutput($controller, $methodName, $output){
+		return $output;
+	}
+
 }

@@ -26,7 +26,7 @@ namespace OC\AppFramework\Middleware;
 
 use OC\AppFramework\Controller\Controller;
 use OCP\AppFramework\Http\Response;
-
+use OCP\AppFramework\MiddleWare;
 
 /**
  * This class is used to store and run all the middleware in correct order
