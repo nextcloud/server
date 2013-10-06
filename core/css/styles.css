@@ -253,6 +253,8 @@ input[type="submit"].enabled {
 }
 #body-login p.info a {
 	font-weight: bold;
+	padding: 13px;
+	margin: -13px;
 }
 #body-login #submit.login { margin-right:7px; } /* quick fix for log in button not being aligned with input fields, should be properly fixed by input field width later */
 
