@@ -24,8 +24,6 @@
 
 namespace OCP\AppFramework\Http;
 
-use OC\AppFramework\Core\API;
-
 
 /**
  * Response for a normal template
@@ -34,20 +32,16 @@ class TemplateResponse extends Response {
 
 	protected $templateName;
 	protected $params;
-	protected $api;
 	protected $renderAs;
 	protected $appName;
 
 	/**
-	 * @param API $api an API instance
 	 * @param string $templateName the name of the template
-	 * @param string $appName optional if you want to include a template from
-	 *                        a different app
+	 * @param string $appName the name of the app to load the template from
 	 */
-	public function __construct(API $api, $templateName, $appName=null) {
+	public function __construct($appName, $templateName) {
 		$this->templateName = $templateName;
 		$this->appName = $appName;
-		$this->api = $api;
 		$this->params = array();
 		$this->renderAs = 'user';
 	}
@@ -108,13 +102,7 @@ class TemplateResponse extends Response {
 	 */
 	public function render(){
 
-		if($this->appName !== null){
-			$appName = $this->appName;
-		} else {
-			$appName = $this->api->getAppName();
-		}
-
-		$template = $this->api->getTemplate($this->templateName, $this->renderAs, $appName);
+		$template = new \OCP\Template($this->appName, $this->templateName, $this->renderAs);
 
 		foreach($this->params as $key => $value){
 			$template->assign($key, $value);

@@ -24,7 +24,7 @@
 
 namespace OC\AppFramework\Middleware;
 
-use OC\AppFramework\Controller\Controller;
+use OCP\AppFramework\Controller\Controller;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\MiddleWare;
 
