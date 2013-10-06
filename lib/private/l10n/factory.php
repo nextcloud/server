@@ -22,7 +22,7 @@ class Factory {
 	 * get an L10N instance
 	 * @param $app string
 	 * @param $lang string|null
-	 * @return OC_L10N
+	 * @return \OC_L10N
 	 */
 	public function get($app) {
 		if (!isset($this->instances[$app])) {
