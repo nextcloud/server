@@ -4,14 +4,14 @@ body {
 
 #header {
 	background: #1d2d44 url('%webroot%/core/img/noise.png') repeat;
-	height:2.5em;
+	height:40px;
 	left:0;
-	line-height:2.5em;
+	line-height:40px;
 	position:fixed;
 	right:0;
 	top:0;
 	z-index:100;
-	padding:.5em;
+	padding:8px;
 }
 
 #details {
@@ -22,7 +22,7 @@ body {
 #public_upload,
 #download {
 	font-weight:700;
-	margin: 0 0.4em 0 0;
+	margin: 0 6px 0 0;
 	padding: 0 5px;
 	height: 27px;
 	float: left;
@@ -30,38 +30,38 @@ body {
 }
 
 .header-right #details {
-	margin-right: 2em;
+	margin-right: 32px;
 }
 
 #public_upload {
-	margin-left: 0.3em;
+	margin-left: 5px;
 }
 
 #public_upload img,
 #download img {
-	padding-left:.1em;
-	padding-right:.3em;
+	padding-left:2px;
+	padding-right:5px;
 	vertical-align:text-bottom;
 }
 
 #preview {
 	background:#eee;
 	border-bottom:1px solid #f8f8f8;
-	min-height:30em;
+	min-height:480px;
 	text-align:center;
 	margin:45px auto;
 }
 
 #noPreview {
 	display:none;
-	padding-top:5em;
+	padding-top:90px;
 }
 
 p.info {
 	color:#777;
 	text-align:center;
-	width:22em;
-	margin:2em auto;
+	width:352px;
+	margin:32px auto;
 }
 
 p.info a {
@@ -71,8 +71,8 @@ p.info a {
 
 #imgframe {
 	height:75%;
-	padding-bottom:2em;
-	padding-top:2em;
+	padding-bottom:32px;
+	padding-top:32px;
 	width:80%;
 	margin:0 auto;
 }
