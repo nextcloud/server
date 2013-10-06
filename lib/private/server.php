@@ -34,7 +34,6 @@ class Server extends SimpleContainer implements IServerContainer {
 				$requesttoken = false;
 			}
 
-
 			return new Request(
 				array(
 					'get' => $_GET,
@@ -46,7 +45,6 @@ class Server extends SimpleContainer implements IServerContainer {
 					'method' => (isset($_SERVER) && isset($_SERVER['REQUEST_METHOD']))
 						? $_SERVER['REQUEST_METHOD']
 						: null,
-					'params' => $params,
 					'urlParams' => $urlParams,
 					'requesttoken' => $requesttoken,
 				)
@@ -290,4 +288,5 @@ class Server extends SimpleContainer implements IServerContainer {
 	function getDatabaseConnection() {
 		return \OC_DB::getConnection();
 	}
+
 }

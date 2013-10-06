@@ -81,7 +81,7 @@ class OC_Helper {
 	 * Returns a absolute url to the given app and file.
 	 */
 	public static function makeURLAbsolute($url) {
-		return OC::$server->getURLGenerator()->makeURLAbsolute($url);
+		return OC::$server->getURLGenerator()->getAbsoluteURL($url);
 	}
 
 	/**
