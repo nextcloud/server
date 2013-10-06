@@ -103,6 +103,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "有効期限の設定でエラー発生",
 "Sending ..." => "送信中...",
 "Email sent" => "メールを送信しました",
+"Warning" => "警告",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "更新に成功しました。この問題を <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a> にレポートしてください。",
 "The update was successful. Redirecting you to ownCloud now." => "更新に成功しました。今すぐownCloudにリダイレクトします。",
 "%s password reset" => "%s パスワードリセット",
@@ -125,7 +126,6 @@ $TRANSLATIONS = array(
 "Help" => "ヘルプ",
 "Access forbidden" => "アクセスが禁止されています",
 "Cloud not found" => "見つかりません",
-"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "こんにちは、\n\n%s があなたと %s を共有したことをお知らせします。\nそれを表示: %s\n\nそれでは。",
 "Edit categories" => "カテゴリを編集",
 "Add" => "追加",
 "Security Warning" => "セキュリティ警告",
@@ -155,7 +155,6 @@ $TRANSLATIONS = array(
 "remember" => "パスワードを記憶する",
 "Log in" => "ログイン",
 "Alternative Logins" => "代替ログイン",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "こんにちは、<br><br>%sがあなたと »%s« を共有したことをお知らせします。<br><a href=\"%s\">それを表示</a><br><br>それでは。",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud をバージョン %s に更新しています、しばらくお待ち下さい。"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

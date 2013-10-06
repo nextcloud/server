@@ -82,6 +82,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "만료 날짜 설정 오류",
 "Sending ..." => "전송 중...",
 "Email sent" => "이메일 발송됨",
+"Warning" => "경고",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "업데이트가 실패하였습니다. 이 문제를 <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud 커뮤니티</a>에 보고해 주십시오.",
 "The update was successful. Redirecting you to ownCloud now." => "업데이트가 성공하였습니다. ownCloud로 돌아갑니다.",
 "Use the following link to reset your password: {link}" => "다음 링크를 사용하여 암호를 재설정할 수 있습니다: {link}",

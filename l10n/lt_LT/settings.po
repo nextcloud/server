@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-30 10:17-0400\n"
-"PO-Revision-Date: 2013-09-29 08:49+0000\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-05 19:10+0000\n"
 "Last-Translator: Liudas Ališauskas <liudas.alisauskas@gmail.com>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -161,15 +161,15 @@ msgstr "Atnaujinti"
 msgid "Updated"
 msgstr "Atnaujinta"
 
-#: js/personal.js:221
+#: js/personal.js:225
 msgid "Select a profile picture"
 msgstr "Pažymėkite profilio paveikslėlį"
 
-#: js/personal.js:266
+#: js/personal.js:270
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Iššifruojami failai... Prašome palaukti, tai gali užtrukti."
 
-#: js/personal.js:288
+#: js/personal.js:292
 msgid "Saving..."
 msgstr "Saugoma..."
 
@@ -345,46 +345,54 @@ msgid "Allow users to only share with users in their groups"
 msgstr "Leisti naudotojams dalintis tik su naudotojais savo grupėje"
 
 #: templates/admin.php:170
+msgid "Allow mail notification"
+msgstr "Leisti el. pašto perspėjimą"
+
+#: templates/admin.php:171
+msgid "Allow user to send mail notification for shared files"
+msgstr "Leisti naudotojui siųsti perspėjimą el. laišku dėl bendrinamų failų"
+
+#: templates/admin.php:178
 msgid "Security"
 msgstr "Saugumas"
 
-#: templates/admin.php:183
+#: templates/admin.php:191
 msgid "Enforce HTTPS"
 msgstr "Reikalauti HTTPS"
 
-#: templates/admin.php:185
+#: templates/admin.php:193
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Verčia klientus jungtis prie %s per šifruotą ryšį."
 
-#: templates/admin.php:191
+#: templates/admin.php:199
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Prašome prisijungti prie savo %s per HTTPS, kad įjungti ar išjungti SSL reikalavimą."
 
-#: templates/admin.php:203
+#: templates/admin.php:211
 msgid "Log"
 msgstr "Žurnalas"
 
-#: templates/admin.php:204
+#: templates/admin.php:212
 msgid "Log level"
 msgstr "Žurnalo išsamumas"
 
-#: templates/admin.php:235
+#: templates/admin.php:243
 msgid "More"
 msgstr "Daugiau"
 
-#: templates/admin.php:236
+#: templates/admin.php:244
 msgid "Less"
 msgstr "Mažiau"
 
-#: templates/admin.php:242 templates/personal.php:161
+#: templates/admin.php:250 templates/personal.php:161
 msgid "Version"
 msgstr "Versija"
 
-#: templates/admin.php:246 templates/personal.php:164
+#: templates/admin.php:254 templates/personal.php:164
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

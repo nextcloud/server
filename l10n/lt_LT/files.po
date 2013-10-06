@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-30 10:14-0400\n"
-"PO-Revision-Date: 2013-09-29 08:46+0000\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-05 19:20+0000\n"
 "Last-Translator: Liudas Ališauskas <liudas.alisauskas@gmail.com>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -121,7 +121,7 @@ msgstr "URL negali būti tuščias."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
 msgstr "Negalimas aplanko pavadinimas. 'Shared' pavadinimas yra rezervuotas ownCloud"
 
-#: js/file-upload.js:557 js/file-upload.js:573 js/files.js:507 js/files.js:545
+#: js/file-upload.js:557 js/file-upload.js:573 js/files.js:516 js/files.js:554
 msgid "Error"
 msgstr "Klaida"
 
@@ -165,14 +165,14 @@ msgstr "pakeiskite {new_name} į {old_name}"
 msgid "undo"
 msgstr "anuliuoti"
 
-#: js/filelist.js:533 js/filelist.js:599 js/files.js:576
+#: js/filelist.js:533 js/filelist.js:599 js/files.js:585
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n aplankas"
 msgstr[1] "%n aplankai"
 msgstr[2] "%n aplankų"
 
-#: js/filelist.js:534 js/filelist.js:600 js/files.js:582
+#: js/filelist.js:534 js/filelist.js:600 js/files.js:591
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n failas"
@@ -212,31 +212,44 @@ msgstr "Jūsų visa vieta serveryje užimta"
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Jūsų vieta serveryje beveik visa užimta ({usedSpacePercent}%)"
 
-#: js/files.js:67
+#: js/files.js:68
+msgid ""
+"Encryption App is enabled but your keys are not initialized, please log-out "
+"and log-in again"
+msgstr "Šifravimo programa įjungta, bet Jūsų raktai nėra pritaikyti. Prašome atsijungti ir vėl prisijungti"
+
+#: js/files.js:72
+msgid ""
+"Invalid private key for Encryption App. Please update your private key "
+"password in your personal settings to recover access to your encrypted "
+"files."
+msgstr "Netinkamas privatus raktas Šifravimo programai. Prašome atnaujinti savo privataus rakto slaptažodį asmeniniuose nustatymuose, kad atkurti prieigą prie šifruotų failų."
+
+#: js/files.js:76
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
 msgstr "Šifravimas buvo išjungtas, bet Jūsų failai vis dar užšifruoti. Prašome eiti į asmeninius nustatymus ir iššifruoti savo failus."
 
-#: js/files.js:296
+#: js/files.js:305
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Jūsų atsisiuntimas yra paruošiamas. tai gali užtrukti jei atsisiunčiamas didelis failas."
 
-#: js/files.js:507 js/files.js:545
+#: js/files.js:516 js/files.js:554
 msgid "Error moving file"
 msgstr "Klaida perkeliant failą"
 
-#: js/files.js:558 templates/index.php:61
+#: js/files.js:567 templates/index.php:59
 msgid "Name"
 msgstr "Pavadinimas"
 
-#: js/files.js:559 templates/index.php:73
+#: js/files.js:568 templates/index.php:71
 msgid "Size"
 msgstr "Dydis"
 
-#: js/files.js:560 templates/index.php:75
+#: js/files.js:569 templates/index.php:73
 msgid "Modified"
 msgstr "Pakeista"
 
@@ -297,49 +310,49 @@ msgstr "Katalogas"
 msgid "From link"
 msgstr "Iš nuorodos"
 
-#: templates/index.php:33
+#: templates/index.php:32
 msgid "Deleted files"
 msgstr "Ištrinti failai"
 
-#: templates/index.php:39
+#: templates/index.php:37
 msgid "Cancel upload"
 msgstr "Atšaukti siuntimą"
 
-#: templates/index.php:45
+#: templates/index.php:43
 msgid "You don’t have write permissions here."
 msgstr "Jūs neturite rašymo leidimo."
 
-#: templates/index.php:50
+#: templates/index.php:48
 msgid "Nothing in here. Upload something!"
 msgstr "Čia tuščia. Įkelkite ką nors!"
 
-#: templates/index.php:67
+#: templates/index.php:65
 msgid "Download"
 msgstr "Atsisiųsti"
 
-#: templates/index.php:80 templates/index.php:81
+#: templates/index.php:78 templates/index.php:79
 msgid "Unshare"
 msgstr "Nebesidalinti"
 
-#: templates/index.php:86 templates/index.php:87
+#: templates/index.php:84 templates/index.php:85
 msgid "Delete"
 msgstr "Ištrinti"
 
-#: templates/index.php:100
+#: templates/index.php:98
 msgid "Upload too large"
 msgstr "Įkėlimui failas per didelis"
 
-#: templates/index.php:102
+#: templates/index.php:100
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Bandomų įkelti failų dydis viršija maksimalų, kuris leidžiamas šiame serveryje"
 
-#: templates/index.php:107
+#: templates/index.php:105
 msgid "Files are being scanned, please wait."
 msgstr "Skenuojami failai, prašome palaukti."
 
-#: templates/index.php:110
+#: templates/index.php:108
 msgid "Current scanning"
 msgstr "Šiuo metu skenuojama"
 

@@ -78,6 +78,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Грешка код постављања датума истека",
 "Sending ..." => "Шаљем...",
 "Email sent" => "Порука је послата",
+"Warning" => "Упозорење",
 "Use the following link to reset your password: {link}" => "Овом везом ресетујте своју лозинку: {link}",
 "You will receive a link to reset your password via Email." => "Добићете везу за ресетовање лозинке путем е-поште.",
 "Username" => "Корисничко име",

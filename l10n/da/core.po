@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-27 00:01-0400\n"
-"PO-Revision-Date: 2013-09-24 17:20+0000\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-05 15:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -21,12 +21,17 @@ msgstr ""
 "Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:97
+#: ajax/share.php:118 ajax/share.php:197
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s delte »%s« med sig"
 
-#: ajax/share.php:227
+#: ajax/share.php:168
+#, php-format
+msgid "Couldn't send mail to following users: %s "
+msgstr ""
+
+#: ajax/share.php:327
 msgid "group"
 msgstr "gruppe"
 
@@ -96,7 +101,7 @@ msgstr "Fejl ved fjernelse af %s fra favoritter."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
-msgstr ""
+msgstr "Ingen fil eller billede givet"
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
@@ -108,11 +113,11 @@ msgstr "Ugyldigt billede"
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
-msgstr ""
+msgstr "Intet midlertidigt profilbillede tilgængeligt, prøv igen"
 
 #: avatar/controller.php:135
 msgid "No crop data provided"
-msgstr ""
+msgstr "Ingen beskæringsdata give"
 
 #: js/config.php:32
 msgid "Sunday"
@@ -252,7 +257,7 @@ msgstr "Vælg"
 
 #: js/oc-dialogs.js:146
 msgid "Error loading file picker template: {error}"
-msgstr ""
+msgstr "Fejl ved indlæsning af filvælger skabelon: {error}"
 
 #: js/oc-dialogs.js:172
 msgid "Yes"
@@ -268,27 +273,27 @@ msgstr "OK"
 
 #: js/oc-dialogs.js:219
 msgid "Error loading message template: {error}"
-msgstr ""
+msgstr "Fejl ved indlæsning af besked skabelon: {error}"
 
 #: js/oc-dialogs.js:347
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{count} filkonflikt"
+msgstr[1] "{count} filkonflikter"
 
 #: js/oc-dialogs.js:361
 msgid "One file conflict"
-msgstr ""
+msgstr "En filkonflikt"
 
 #: js/oc-dialogs.js:367
 msgid "Which files do you want to keep?"
-msgstr ""
+msgstr "Hvilke filer ønsker du at beholde?"
 
 #: js/oc-dialogs.js:368
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
-msgstr ""
+msgstr "Hvis du vælger begge versioner, vil den kopierede fil få tilføjet et nummer til sit navn."
 
 #: js/oc-dialogs.js:376
 msgid "Cancel"
@@ -296,19 +301,19 @@ msgstr "Annuller"
 
 #: js/oc-dialogs.js:386
 msgid "Continue"
-msgstr ""
+msgstr "Videre"
 
 #: js/oc-dialogs.js:433 js/oc-dialogs.js:446
 msgid "(all selected)"
-msgstr ""
+msgstr "(alle valgt)"
 
 #: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "({count} selected)"
-msgstr ""
+msgstr "({count} valgt)"
 
 #: js/oc-dialogs.js:457
 msgid "Error loading file exists template"
-msgstr ""
+msgstr "Fejl ved inlæsning af; fil eksistere skabelon"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -318,8 +323,8 @@ msgstr "Objekttypen er ikke angivet."
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:656 js/share.js:668
+#: js/oc-vcategories.js:199 js/share.js:130 js/share.js:143 js/share.js:150
+#: js/share.js:665 js/share.js:677
 msgid "Error"
 msgstr "Fejl"
 
@@ -339,125 +344,133 @@ msgstr "Delt"
 msgid "Share"
 msgstr "Del"
 
-#: js/share.js:131 js/share.js:696
+#: js/share.js:132 js/share.js:705
 msgid "Error while sharing"
 msgstr "Fejl under deling"
 
-#: js/share.js:142
+#: js/share.js:143
 msgid "Error while unsharing"
 msgstr "Fejl under annullering af deling"
 
-#: js/share.js:149
+#: js/share.js:150
 msgid "Error while changing permissions"
 msgstr "Fejl under justering af rettigheder"
 
-#: js/share.js:158
+#: js/share.js:159
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Delt med dig og gruppen {group} af {owner}"
 
-#: js/share.js:160
+#: js/share.js:161
 msgid "Shared with you by {owner}"
 msgstr "Delt med dig af {owner}"
 
-#: js/share.js:183
+#: js/share.js:184
 msgid "Share with"
 msgstr "Del med"
 
-#: js/share.js:188
+#: js/share.js:189
 msgid "Share with link"
 msgstr "Del med link"
 
-#: js/share.js:191
+#: js/share.js:192
 msgid "Password protect"
 msgstr "Beskyt med adgangskode"
 
-#: js/share.js:193 templates/installation.php:57 templates/login.php:26
+#: js/share.js:194 templates/installation.php:57 templates/login.php:26
 msgid "Password"
 msgstr "Kodeord"
 
-#: js/share.js:198
+#: js/share.js:199
 msgid "Allow Public Upload"
 msgstr "Tillad Offentlig Upload"
 
-#: js/share.js:202
+#: js/share.js:203
 msgid "Email link to person"
 msgstr "E-mail link til person"
 
-#: js/share.js:203
+#: js/share.js:204
 msgid "Send"
 msgstr "Send"
 
-#: js/share.js:208
+#: js/share.js:209
 msgid "Set expiration date"
 msgstr "Vælg udløbsdato"
 
-#: js/share.js:209
+#: js/share.js:210
 msgid "Expiration date"
 msgstr "Udløbsdato"
 
-#: js/share.js:242
+#: js/share.js:243
 msgid "Share via email:"
 msgstr "Del via email:"
 
-#: js/share.js:245
+#: js/share.js:246
 msgid "No people found"
 msgstr "Ingen personer fundet"
 
-#: js/share.js:283
+#: js/share.js:284
 msgid "Resharing is not allowed"
 msgstr "Videredeling ikke tilladt"
 
-#: js/share.js:319
+#: js/share.js:320
 msgid "Shared in {item} with {user}"
 msgstr "Delt i {item} med {user}"
 
-#: js/share.js:340
+#: js/share.js:341
 msgid "Unshare"
 msgstr "Fjern deling"
 
-#: js/share.js:352
+#: js/share.js:353
+msgid "notify user by email"
+msgstr ""
+
+#: js/share.js:361
 msgid "can edit"
 msgstr "kan redigere"
 
-#: js/share.js:354
+#: js/share.js:363
 msgid "access control"
 msgstr "Adgangskontrol"
 
-#: js/share.js:357
+#: js/share.js:366
 msgid "create"
 msgstr "opret"
 
-#: js/share.js:360
+#: js/share.js:369
 msgid "update"
 msgstr "opdater"
 
-#: js/share.js:363
+#: js/share.js:372
 msgid "delete"
 msgstr "slet"
 
-#: js/share.js:366
+#: js/share.js:375
 msgid "share"
 msgstr "del"
 
-#: js/share.js:400 js/share.js:643
+#: js/share.js:409 js/share.js:652
 msgid "Password protected"
 msgstr "Beskyttet med adgangskode"
 
-#: js/share.js:656
+#: js/share.js:665
 msgid "Error unsetting expiration date"
 msgstr "Fejl ved fjernelse af udløbsdato"
 
-#: js/share.js:668
+#: js/share.js:677
 msgid "Error setting expiration date"
 msgstr "Fejl under sætning af udløbsdato"
 
-#: js/share.js:683
+#: js/share.js:692
 msgid "Sending ..."
 msgstr "Sender ..."
 
-#: js/share.js:694
+#: js/share.js:703
 msgid "Email sent"
 msgstr "E-mail afsendt"
+
+#: js/share.js:727
+msgid "Warning"
+msgstr "Advarsel"
 
 #: js/update.js:17
 msgid ""
@@ -567,8 +580,18 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-"Cheers!"
-msgstr "Hallo\n\ndette blot for at lade dig vide, at %s har delt %s med dig.\nSe det: %s\n\nHej"
+msgstr ""
+
+#: templates/altmail.php:4
+#, php-format
+msgid ""
+"The share will expire on %s.\n"
+"\n"
+msgstr ""
+
+#: templates/altmail.php:6 templates/mail.php:19
+msgid "Cheers!"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -621,47 +644,51 @@ msgstr "For information om, hvordan du konfigurerer din server korrekt se <a hre
 msgid "Create an <strong>admin account</strong>"
 msgstr "Opret en <strong>administratorkonto</strong>"
 
-#: templates/installation.php:65
+#: templates/installation.php:66
 msgid "Advanced"
 msgstr "Avanceret"
 
-#: templates/installation.php:67
+#: templates/installation.php:73
 msgid "Data folder"
 msgstr "Datamappe"
 
-#: templates/installation.php:77
+#: templates/installation.php:85
 msgid "Configure the database"
 msgstr "Konfigurer databasen"
 
-#: templates/installation.php:82 templates/installation.php:94
-#: templates/installation.php:105 templates/installation.php:116
-#: templates/installation.php:128
+#: templates/installation.php:90 templates/installation.php:102
+#: templates/installation.php:113 templates/installation.php:124
+#: templates/installation.php:136
 msgid "will be used"
 msgstr "vil blive brugt"
 
-#: templates/installation.php:140
+#: templates/installation.php:148
 msgid "Database user"
 msgstr "Databasebruger"
 
-#: templates/installation.php:147
+#: templates/installation.php:155
 msgid "Database password"
 msgstr "Databasekodeord"
 
-#: templates/installation.php:152
+#: templates/installation.php:160
 msgid "Database name"
 msgstr "Navn på database"
 
-#: templates/installation.php:160
+#: templates/installation.php:168
 msgid "Database tablespace"
 msgstr "Database tabelplads"
 
-#: templates/installation.php:167
+#: templates/installation.php:175
 msgid "Database host"
 msgstr "Databasehost"
 
-#: templates/installation.php:175
+#: templates/installation.php:184
 msgid "Finish setup"
 msgstr "Afslut opsætning"
+
+#: templates/installation.php:184
+msgid "Finishing …"
+msgstr ""
 
 #: templates/layout.user.php:41
 #, php-format
@@ -694,11 +721,11 @@ msgstr "Mistet dit kodeord?"
 msgid "remember"
 msgstr "husk"
 
-#: templates/login.php:39
+#: templates/login.php:40
 msgid "Log in"
 msgstr "Log ind"
 
-#: templates/login.php:45
+#: templates/login.php:46
 msgid "Alternative Logins"
 msgstr "Alternative logins"
 
@@ -706,8 +733,13 @@ msgstr "Alternative logins"
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
-"href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr "Hallo,<br><br>dette blot for at lade dig vide, at %s har delt \"%s\" med dig.<br><a href=\"%s\">Se det!</a><br><br>Hej"
+"href=\"%s\">View it!</a><br><br>"
+msgstr ""
+
+#: templates/mail.php:17
+#, php-format
+msgid "The share will expire on %s.<br><br>"
+msgstr ""
 
 #: templates/update.php:3
 #, php-format

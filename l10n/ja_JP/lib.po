@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-22 12:56-0400\n"
-"PO-Revision-Date: 2013-09-21 13:50+0000\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-02 13:21+0000\n"
 "Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -21,314 +21,321 @@ msgstr ""
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: app.php:239
+#: private/app.php:237
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr " \"%s\" アプリは、このバージョンのownCloudと互換性がない為、インストールできません。"
 
-#: app.php:250
+#: private/app.php:248
 msgid "No app name specified"
 msgstr "アプリ名が未指定"
 
-#: app.php:361
+#: private/app.php:352
 msgid "Help"
 msgstr "ヘルプ"
 
-#: app.php:374
+#: private/app.php:365
 msgid "Personal"
 msgstr "個人"
 
-#: app.php:385
+#: private/app.php:376
 msgid "Settings"
 msgstr "設定"
 
-#: app.php:397
+#: private/app.php:388
 msgid "Users"
 msgstr "ユーザ"
 
-#: app.php:410
+#: private/app.php:401
 msgid "Admin"
 msgstr "管理"
 
-#: app.php:839
+#: private/app.php:832
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "\"%s\" へのアップグレードに失敗しました。"
 
-#: avatar.php:56
+#: private/avatar.php:56
 msgid "Custom profile pictures don't work with encryption yet"
 msgstr "暗号無しでは利用不可なカスタムプロフィール画像"
 
-#: avatar.php:64
+#: private/avatar.php:64
 msgid "Unknown filetype"
 msgstr "不明なファイルタイプ"
 
-#: avatar.php:69
+#: private/avatar.php:69
 msgid "Invalid image"
 msgstr "無効な画像"
 
-#: defaults.php:35
+#: private/defaults.php:36
 msgid "web services under your control"
 msgstr "管理下のウェブサービス"
 
-#: files.php:66 files.php:98
+#: private/files.php:66 private/files.php:98
 #, php-format
 msgid "cannot open \"%s\""
 msgstr "\"%s\" が開けません"
 
-#: files.php:226
+#: private/files.php:226
 msgid "ZIP download is turned off."
 msgstr "ZIPダウンロードは無効です。"
 
-#: files.php:227
+#: private/files.php:227
 msgid "Files need to be downloaded one by one."
 msgstr "ファイルは1つずつダウンロードする必要があります。"
 
-#: files.php:228 files.php:256
+#: private/files.php:228 private/files.php:256
 msgid "Back to Files"
 msgstr "ファイルに戻る"
 
-#: files.php:253
+#: private/files.php:253
 msgid "Selected files too large to generate zip file."
 msgstr "選択したファイルはZIPファイルの生成には大きすぎます。"
 
-#: files.php:254
+#: private/files.php:254
 msgid ""
 "Download the files in smaller chunks, seperately or kindly ask your "
 "administrator."
 msgstr "ファイルは、小さいファイルに分割されてダウンロードされます。もしくは、管理者にお尋ねください。"
 
-#: installer.php:63
+#: private/installer.php:63
 msgid "No source specified when installing app"
 msgstr "アプリインストール時のソースが未指定"
 
-#: installer.php:70
+#: private/installer.php:70
 msgid "No href specified when installing app from http"
 msgstr "アプリインストール時のhttpの URL が未指定"
 
-#: installer.php:75
+#: private/installer.php:75
 msgid "No path specified when installing app from local file"
 msgstr "アプリインストール時のローカルファイルのパスが未指定"
 
-#: installer.php:89
+#: private/installer.php:89
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr "\"%s\"タイプのアーカイブ形式は未サポート"
 
-#: installer.php:103
+#: private/installer.php:103
 msgid "Failed to open archive when installing app"
 msgstr "アプリをインストール中にアーカイブファイルを開けませんでした。"
 
-#: installer.php:125
+#: private/installer.php:125
 msgid "App does not provide an info.xml file"
 msgstr "アプリにinfo.xmlファイルが入っていません"
 
-#: installer.php:131
+#: private/installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "アプリで許可されないコードが入っているのが原因でアプリがインストールできません"
 
-#: installer.php:140
+#: private/installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "アプリは、このバージョンのownCloudと互換性がない為、インストールできません。"
 
-#: installer.php:146
+#: private/installer.php:146
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "非shippedアプリには許可されない<shipped>true</shipped>タグが含まれているためにアプリをインストール出来ません。"
 
-#: installer.php:152
+#: private/installer.php:152
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "info.xml/versionのバージョンがアプリストアのバージョンと合っていない為、アプリはインストールされません"
 
-#: installer.php:162
+#: private/installer.php:162
 msgid "App directory already exists"
 msgstr "アプリディレクトリは既に存在します"
 
-#: installer.php:175
+#: private/installer.php:175
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "アプリフォルダを作成出来ませんでした。%s のパーミッションを修正してください。"
 
-#: json.php:28
+#: private/json.php:28
 msgid "Application is not enabled"
 msgstr "アプリケーションは無効です"
 
-#: json.php:39 json.php:62 json.php:73
+#: private/json.php:39 private/json.php:62 private/json.php:73
 msgid "Authentication error"
 msgstr "認証エラー"
 
-#: json.php:51
+#: private/json.php:51
 msgid "Token expired. Please reload page."
 msgstr "トークンが無効になりました。ページを再読込してください。"
 
-#: search/provider/file.php:18 search/provider/file.php:36
+#: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
 msgstr "ファイル"
 
-#: search/provider/file.php:27 search/provider/file.php:34
+#: private/search/provider/file.php:27 private/search/provider/file.php:34
 msgid "Text"
 msgstr "TTY TDD"
 
-#: search/provider/file.php:30
+#: private/search/provider/file.php:30
 msgid "Images"
 msgstr "画像"
 
-#: setup/abstractdatabase.php:22
+#: private/setup/abstractdatabase.php:22
 #, php-format
 msgid "%s enter the database username."
 msgstr "%s のデータベースのユーザ名を入力してください。"
 
-#: setup/abstractdatabase.php:25
+#: private/setup/abstractdatabase.php:25
 #, php-format
 msgid "%s enter the database name."
 msgstr "%s のデータベース名を入力してください。"
 
-#: setup/abstractdatabase.php:28
+#: private/setup/abstractdatabase.php:28
 #, php-format
 msgid "%s you may not use dots in the database name"
 msgstr "%s ではデータベース名にドットを利用できないかもしれません。"
 
-#: setup/mssql.php:20
+#: private/setup/mssql.php:20
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
 msgstr "MS SQL サーバーのユーザー名/パスワードが正しくありません: %s"
 
-#: setup/mssql.php:21 setup/mysql.php:13 setup/oci.php:114
-#: setup/postgresql.php:24 setup/postgresql.php:70
+#: private/setup/mssql.php:21 private/setup/mysql.php:13
+#: private/setup/oci.php:114 private/setup/postgresql.php:24
+#: private/setup/postgresql.php:70
 msgid "You need to enter either an existing account or the administrator."
 msgstr "既存のアカウントもしくは管理者のどちらかを入力する必要があります。"
 
-#: setup/mysql.php:12
+#: private/setup/mysql.php:12
 msgid "MySQL username and/or password not valid"
 msgstr "MySQLのユーザ名もしくはパスワードは有効ではありません"
 
-#: setup/mysql.php:67 setup/oci.php:54 setup/oci.php:121 setup/oci.php:147
-#: setup/oci.php:154 setup/oci.php:165 setup/oci.php:172 setup/oci.php:181
-#: setup/oci.php:189 setup/oci.php:198 setup/oci.php:204
-#: setup/postgresql.php:89 setup/postgresql.php:98 setup/postgresql.php:115
-#: setup/postgresql.php:125 setup/postgresql.php:134
+#: private/setup/mysql.php:67 private/setup/oci.php:54
+#: private/setup/oci.php:121 private/setup/oci.php:147
+#: private/setup/oci.php:154 private/setup/oci.php:165
+#: private/setup/oci.php:172 private/setup/oci.php:181
+#: private/setup/oci.php:189 private/setup/oci.php:198
+#: private/setup/oci.php:204 private/setup/postgresql.php:89
+#: private/setup/postgresql.php:98 private/setup/postgresql.php:115
+#: private/setup/postgresql.php:125 private/setup/postgresql.php:134
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "DBエラー: \"%s\""
 
-#: setup/mysql.php:68 setup/oci.php:55 setup/oci.php:122 setup/oci.php:148
-#: setup/oci.php:155 setup/oci.php:166 setup/oci.php:182 setup/oci.php:190
-#: setup/oci.php:199 setup/postgresql.php:90 setup/postgresql.php:99
-#: setup/postgresql.php:116 setup/postgresql.php:126 setup/postgresql.php:135
+#: private/setup/mysql.php:68 private/setup/oci.php:55
+#: private/setup/oci.php:122 private/setup/oci.php:148
+#: private/setup/oci.php:155 private/setup/oci.php:166
+#: private/setup/oci.php:182 private/setup/oci.php:190
+#: private/setup/oci.php:199 private/setup/postgresql.php:90
+#: private/setup/postgresql.php:99 private/setup/postgresql.php:116
+#: private/setup/postgresql.php:126 private/setup/postgresql.php:135
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr "違反コマンド: \"%s\""
 
-#: setup/mysql.php:85
+#: private/setup/mysql.php:85
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
 msgstr "MySQLのユーザ '%s'@'localhost' はすでに存在します。"
 
-#: setup/mysql.php:86
+#: private/setup/mysql.php:86
 msgid "Drop this user from MySQL"
 msgstr "MySQLからこのユーザを削除"
 
-#: setup/mysql.php:91
+#: private/setup/mysql.php:91
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
 msgstr "MySQLのユーザ '%s'@'%%' はすでに存在します。"
 
-#: setup/mysql.php:92
+#: private/setup/mysql.php:92
 msgid "Drop this user from MySQL."
 msgstr "MySQLからこのユーザを削除する。"
 
-#: setup/oci.php:34
+#: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
 msgstr "Oracleへの接続が確立できませんでした。"
 
-#: setup/oci.php:41 setup/oci.php:113
+#: private/setup/oci.php:41 private/setup/oci.php:113
 msgid "Oracle username and/or password not valid"
 msgstr "Oracleのユーザ名もしくはパスワードは有効ではありません"
 
-#: setup/oci.php:173 setup/oci.php:205
+#: private/setup/oci.php:173 private/setup/oci.php:205
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "違反コマンド: \"%s\"、名前: %s、パスワード: %s"
 
-#: setup/postgresql.php:23 setup/postgresql.php:69
+#: private/setup/postgresql.php:23 private/setup/postgresql.php:69
 msgid "PostgreSQL username and/or password not valid"
 msgstr "PostgreSQLのユーザ名もしくはパスワードは有効ではありません"
 
-#: setup.php:28
+#: private/setup.php:28
 msgid "Set an admin username."
 msgstr "管理者のユーザ名を設定。"
 
-#: setup.php:31
+#: private/setup.php:31
 msgid "Set an admin password."
 msgstr "管理者のパスワードを設定。"
 
-#: setup.php:184
+#: private/setup.php:184
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "WebDAVインタフェースが動作していないと考えられるため、あなたのWEBサーバはまだファイルの同期を許可するように適切な設定がされていません。"
 
-#: setup.php:185
+#: private/setup.php:185
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "<a href='%s'>インストールガイド</a>をよく確認してください。"
 
-#: template/functions.php:96
+#: private/tags.php:194
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr "カテゴリ \"%s\" が見つかりませんでした"
+
+#: private/template/functions.php:122
 msgid "seconds ago"
 msgstr "数秒前"
 
-#: template/functions.php:97
+#: private/template/functions.php:123
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n 分前"
 
-#: template/functions.php:98
+#: private/template/functions.php:124
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n 時間後"
 
-#: template/functions.php:99
+#: private/template/functions.php:125
 msgid "today"
 msgstr "今日"
 
-#: template/functions.php:100
+#: private/template/functions.php:126
 msgid "yesterday"
 msgstr "昨日"
 
-#: template/functions.php:101
+#: private/template/functions.php:128
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "%n 日後"
 
-#: template/functions.php:102
+#: private/template/functions.php:130
 msgid "last month"
 msgstr "一月前"
 
-#: template/functions.php:103
+#: private/template/functions.php:131
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n カ月後"
 
-#: template/functions.php:104
+#: private/template/functions.php:133
 msgid "last year"
 msgstr "一年前"
 
-#: template/functions.php:105
+#: private/template/functions.php:134
 msgid "years ago"
 msgstr "年前"
 
-#: template.php:297
+#: private/template.php:297
 msgid "Caused by:"
 msgstr "原因は以下:"
-
-#: vcategories.php:188 vcategories.php:249
-#, php-format
-msgid "Could not find category \"%s\""
-msgstr "カテゴリ \"%s\" が見つかりませんでした"

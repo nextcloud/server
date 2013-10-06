@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s ha condiviso «%s» con te",
+"Couldn't send mail to following users: %s " => "Impossibile inviare email ai seguenti utenti: %s",
 "group" => "gruppo",
 "Turned on maintenance mode" => "Modalità di manutenzione attivata",
 "Turned off maintenance mode" => "Modalità di manutenzione disattivata",
@@ -92,6 +93,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "La ri-condivisione non è consentita",
 "Shared in {item} with {user}" => "Condiviso in {item} con {user}",
 "Unshare" => "Rimuovi condivisione",
+"notify user by email" => "notifica l'utente tramite email",
 "can edit" => "può modificare",
 "access control" => "controllo d'accesso",
 "create" => "creare",
@@ -103,6 +105,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Errore durante l'impostazione della data di scadenza",
 "Sending ..." => "Invio in corso...",
 "Email sent" => "Messaggio inviato",
+"Warning" => "Avviso",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "L'aggiornamento non è riuscito. Segnala il problema alla <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">comunità di ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "L'aggiornamento è stato effettuato correttamente. Stai per essere reindirizzato a ownCloud.",
 "%s password reset" => "Ripristino password di %s",
@@ -125,7 +128,9 @@ $TRANSLATIONS = array(
 "Help" => "Aiuto",
 "Access forbidden" => "Accesso negato",
 "Cloud not found" => "Nuvola non trovata",
-"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Ehilà,\n\nvolevo solamente farti sapere che %s ha condiviso %s con te.\nGuarda: %s\n\nSaluti!",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Ciao,\n\nvolevo informarti che %s ha condiviso %s con te.\nVedi: %s\n\n",
+"The share will expire on %s.\n\n" => "La condivisione scadrà il %s.\n\n",
+"Cheers!" => "Saluti!",
 "Edit categories" => "Modifica categorie",
 "Add" => "Aggiungi",
 "Security Warning" => "Avviso di sicurezza",
@@ -146,6 +151,7 @@ $TRANSLATIONS = array(
 "Database tablespace" => "Spazio delle tabelle del database",
 "Database host" => "Host del database",
 "Finish setup" => "Termina la configurazione",
+"Finishing …" => "Completamento...",
 "%s is available. Get more information on how to update." => "%s è disponibile. Ottieni ulteriori informazioni sull'aggiornamento.",
 "Log out" => "Esci",
 "Automatic logon rejected!" => "Accesso automatico rifiutato.",
@@ -155,7 +161,8 @@ $TRANSLATIONS = array(
 "remember" => "ricorda",
 "Log in" => "Accedi",
 "Alternative Logins" => "Accessi alternativi",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Ehilà,<br><br>volevo solamente farti sapere che %s ha condiviso «%s» con te.<br><a href=\"%s\">Guarda!</a><br><br>Saluti!",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Ciao,<br><br>volevo informarti che %s ha condiviso %s con te.<br><a href=\"%s\">Vedi!</a><br><br>",
+"The share will expire on %s.<br><br>" => "La condivisione scadrà il %s.<br><br>",
 "Updating ownCloud to version %s, this may take a while." => "Aggiornamento di ownCloud alla versione %s in corso, ciò potrebbe richiedere del tempo."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

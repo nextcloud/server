@@ -41,6 +41,7 @@ $TRANSLATIONS = array(
 "Share with" => "Споделено с",
 "Password" => "Парола",
 "create" => "създаване",
+"Warning" => "Внимание",
 "You will receive a link to reset your password via Email." => "Ще получите връзка за нулиране на паролата Ви.",
 "Username" => "Потребител",
 "Request reset" => "Нулиране на заявка",

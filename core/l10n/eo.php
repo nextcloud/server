@@ -82,6 +82,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Eraro dum agordado de limdato",
 "Sending ..." => "Sendante...",
 "Email sent" => "La retpoŝtaĵo sendiĝis",
+"Warning" => "Averto",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "La ĝisdatigo estis malsukcese. Bonvolu raporti tiun problemon al la <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownClouda komunumo</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "La ĝisdatigo estis sukcesa. Alidirektante nun al ownCloud.",
 "Use the following link to reset your password: {link}" => "Uzu la jenan ligilon por restarigi vian pasvorton: {link}",
@@ -101,7 +102,6 @@ $TRANSLATIONS = array(
 "Help" => "Helpo",
 "Access forbidden" => "Aliro estas malpermesata",
 "Cloud not found" => "La nubo ne estas trovita",
-"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Saluton:\n\nNi nur sciigas vin, ke %s kunhavigis %s kun vi.\nVidu ĝin: %s\n\nĜis!",
 "Edit categories" => "Redakti kategoriojn",
 "Add" => "Aldoni",
 "Security Warning" => "Sekureca averto",
@@ -127,7 +127,6 @@ $TRANSLATIONS = array(
 "remember" => "memori",
 "Log in" => "Ensaluti",
 "Alternative Logins" => "Alternativaj ensalutoj",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Saluton:<br /><br />Ni nur sciigas vin, ke %s kunhavigis “%s” kun vi.<br /><a href=\"%s\">Vidu ĝin</a><br /><br />Ĝis!",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud ĝisdatiĝas al eldono %s, tio ĉi povas daŭri je iom da tempo."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

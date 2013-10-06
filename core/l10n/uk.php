@@ -81,6 +81,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Помилка при встановленні терміна дії",
 "Sending ..." => "Надсилання...",
 "Email sent" => "Ел. пошта надіслана",
+"Warning" => "Попередження",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Оновлення виконалось неуспішно. Будь ласка, повідомте про цю проблему в <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">спільноті ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Оновлення виконалось успішно. Перенаправляємо вас на  ownCloud.",
 "Use the following link to reset your password: {link}" => "Використовуйте наступне посилання для скидання пароля: {link}",

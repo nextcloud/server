@@ -34,6 +34,7 @@ $TRANSLATIONS = array(
 "Error" => "Ralat",
 "Share" => "Kongsi",
 "Password" => "Kata laluan",
+"Warning" => "Amaran",
 "Use the following link to reset your password: {link}" => "Guna pautan berikut untuk menetapkan semula kata laluan anda: {link}",
 "You will receive a link to reset your password via Email." => "Anda akan menerima pautan untuk menetapkan semula kata laluan anda melalui emel",
 "Username" => "Nama pengguna",

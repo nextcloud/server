@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-20 10:44-0400\n"
-"PO-Revision-Date: 2013-09-20 14:45+0000\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-05 15:12+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -82,23 +82,23 @@ msgstr "No hay suficiente espacio disponible"
 
 #: ajax/upload.php:120 ajax/upload.php:143
 msgid "Upload failed. Could not get file info."
-msgstr ""
+msgstr "Actualización fallida. No se pudo obtener información del archivo."
 
 #: ajax/upload.php:136
 msgid "Upload failed. Could not find uploaded file"
-msgstr ""
+msgstr "Actualización fallida. No se pudo encontrar el archivo subido"
 
 #: ajax/upload.php:160
 msgid "Invalid directory."
 msgstr "Directorio inválido."
 
-#: appinfo/app.php:12
+#: appinfo/app.php:11
 msgid "Files"
 msgstr "Archivos"
 
 #: js/file-upload.js:244
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "No ha sido posible subir {filename} porque es un directorio o tiene 0 bytes"
 
 #: js/file-upload.js:255
 msgid "Not enough space available"
@@ -110,7 +110,7 @@ msgstr "Subida cancelada."
 
 #: js/file-upload.js:356
 msgid "Could not get result from server."
-msgstr ""
+msgstr "No se pudo obtener respuesta del servidor."
 
 #: js/file-upload.js:446
 msgid ""
@@ -125,7 +125,7 @@ msgstr "La URL no puede estar vacía."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
 msgstr "Nombre de carpeta invalido. El uso de \"Shared\" está reservado por ownCloud"
 
-#: js/file-upload.js:557 js/file-upload.js:573 js/files.js:507 js/files.js:545
+#: js/file-upload.js:557 js/file-upload.js:573 js/files.js:516 js/files.js:554
 msgid "Error"
 msgstr "Error"
 
@@ -169,13 +169,13 @@ msgstr "reemplazado {new_name} con {old_name}"
 msgid "undo"
 msgstr "deshacer"
 
-#: js/filelist.js:533 js/filelist.js:599 js/files.js:576
+#: js/filelist.js:533 js/filelist.js:599 js/files.js:585
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] ""
 msgstr[1] "%n carpetas"
 
-#: js/filelist.js:534 js/filelist.js:600 js/files.js:582
+#: js/filelist.js:534 js/filelist.js:600 js/files.js:591
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] ""
@@ -213,31 +213,44 @@ msgstr "Su almacenamiento está lleno, ¡no se pueden actualizar o sincronizar m
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Su almacenamiento está casi lleno ({usedSpacePercent}%)"
 
-#: js/files.js:67
+#: js/files.js:68
+msgid ""
+"Encryption App is enabled but your keys are not initialized, please log-out "
+"and log-in again"
+msgstr ""
+
+#: js/files.js:72
+msgid ""
+"Invalid private key for Encryption App. Please update your private key "
+"password in your personal settings to recover access to your encrypted "
+"files."
+msgstr ""
+
+#: js/files.js:76
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
 msgstr "El cifrado ha sido deshabilitado pero tus archivos permanecen cifrados. Por favor, ve a tus ajustes personales para descifrar tus archivos."
 
-#: js/files.js:296
+#: js/files.js:305
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Su descarga está siendo preparada. Esto puede tardar algún tiempo si los archivos son grandes."
 
-#: js/files.js:507 js/files.js:545
+#: js/files.js:516 js/files.js:554
 msgid "Error moving file"
-msgstr ""
+msgstr "Error moviendo archivo"
 
-#: js/files.js:558 templates/index.php:61
+#: js/files.js:567 templates/index.php:59
 msgid "Name"
 msgstr "Nombre"
 
-#: js/files.js:559 templates/index.php:73
+#: js/files.js:568 templates/index.php:71
 msgid "Size"
 msgstr "Tamaño"
 
-#: js/files.js:560 templates/index.php:75
+#: js/files.js:569 templates/index.php:73
 msgid "Modified"
 msgstr "Modificado"
 
@@ -298,49 +311,49 @@ msgstr "Carpeta"
 msgid "From link"
 msgstr "Desde enlace"
 
-#: templates/index.php:33
+#: templates/index.php:32
 msgid "Deleted files"
 msgstr "Archivos eliminados"
 
-#: templates/index.php:39
+#: templates/index.php:37
 msgid "Cancel upload"
 msgstr "Cancelar subida"
 
-#: templates/index.php:45
+#: templates/index.php:43
 msgid "You don’t have write permissions here."
 msgstr "No tiene permisos de escritura aquí."
 
-#: templates/index.php:50
+#: templates/index.php:48
 msgid "Nothing in here. Upload something!"
 msgstr "No hay nada aquí. ¡Suba algo!"
 
-#: templates/index.php:67
+#: templates/index.php:65
 msgid "Download"
 msgstr "Descargar"
 
-#: templates/index.php:80 templates/index.php:81
+#: templates/index.php:78 templates/index.php:79
 msgid "Unshare"
 msgstr "Dejar de compartir"
 
-#: templates/index.php:86 templates/index.php:87
+#: templates/index.php:84 templates/index.php:85
 msgid "Delete"
 msgstr "Eliminar"
 
-#: templates/index.php:100
+#: templates/index.php:98
 msgid "Upload too large"
 msgstr "Subida demasido grande"
 
-#: templates/index.php:102
+#: templates/index.php:100
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Los archivos que estás intentando subir sobrepasan el tamaño máximo permitido en este servidor."
 
-#: templates/index.php:107
+#: templates/index.php:105
 msgid "Files are being scanned, please wait."
 msgstr "Los archivos están siendo escaneados,  por favor espere."
 
-#: templates/index.php:110
+#: templates/index.php:108
 msgid "Current scanning"
 msgstr "Escaneo actual"
 

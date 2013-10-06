@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-22 12:55-0400\n"
-"PO-Revision-Date: 2013-09-21 10:30+0000\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-05 15:30+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -19,12 +19,17 @@ msgstr ""
 "Language: fi_FI\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:97
+#: ajax/share.php:118 ajax/share.php:197
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s jakoi kohteen »%s« kanssasi"
 
-#: ajax/share.php:227
+#: ajax/share.php:168
+#, php-format
+msgid "Couldn't send mail to following users: %s "
+msgstr "Sähköpostin lähetys seuraaville käyttäjille epäonnistui: %s"
+
+#: ajax/share.php:327
 msgid "group"
 msgstr "ryhmä"
 
@@ -94,7 +99,7 @@ msgstr "Virhe poistaessa kohdetta %s suosikeista."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
-msgstr ""
+msgstr "Kuvaa tai tiedostoa ei määritelty"
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
@@ -280,13 +285,13 @@ msgstr ""
 
 #: js/oc-dialogs.js:367
 msgid "Which files do you want to keep?"
-msgstr ""
+msgstr "Mitkä tiedostot haluat säilyttää?"
 
 #: js/oc-dialogs.js:368
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
-msgstr ""
+msgstr "Jos valitset kummatkin versiot, kopioidun tiedoston nimeen lisätään numero."
 
 #: js/oc-dialogs.js:376
 msgid "Cancel"
@@ -316,8 +321,8 @@ msgstr ""
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:645 js/share.js:657
+#: js/oc-vcategories.js:199 js/share.js:130 js/share.js:143 js/share.js:150
+#: js/share.js:665 js/share.js:677
 msgid "Error"
 msgstr "Virhe"
 
@@ -337,125 +342,133 @@ msgstr "Jaettu"
 msgid "Share"
 msgstr "Jaa"
 
-#: js/share.js:131 js/share.js:685
+#: js/share.js:132 js/share.js:705
 msgid "Error while sharing"
 msgstr "Virhe jaettaessa"
 
-#: js/share.js:142
+#: js/share.js:143
 msgid "Error while unsharing"
 msgstr "Virhe jakoa peruttaessa"
 
-#: js/share.js:149
+#: js/share.js:150
 msgid "Error while changing permissions"
 msgstr "Virhe oikeuksia muuttaessa"
 
-#: js/share.js:158
+#: js/share.js:159
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Jaettu sinun ja ryhmän {group} kanssa käyttäjän {owner} toimesta"
 
-#: js/share.js:160
+#: js/share.js:161
 msgid "Shared with you by {owner}"
 msgstr "Jaettu kanssasi käyttäjän {owner} toimesta"
 
-#: js/share.js:183
+#: js/share.js:184
 msgid "Share with"
 msgstr "Jaa"
 
-#: js/share.js:188
+#: js/share.js:189
 msgid "Share with link"
 msgstr "Jaa linkillä"
 
-#: js/share.js:191
+#: js/share.js:192
 msgid "Password protect"
 msgstr "Suojaa salasanalla"
 
-#: js/share.js:193 templates/installation.php:57 templates/login.php:26
+#: js/share.js:194 templates/installation.php:57 templates/login.php:26
 msgid "Password"
 msgstr "Salasana"
 
-#: js/share.js:198
+#: js/share.js:199
 msgid "Allow Public Upload"
 msgstr "Salli julkinen lähetys"
 
-#: js/share.js:202
+#: js/share.js:203
 msgid "Email link to person"
 msgstr "Lähetä linkki sähköpostitse"
 
-#: js/share.js:203
+#: js/share.js:204
 msgid "Send"
 msgstr "Lähetä"
 
-#: js/share.js:208
+#: js/share.js:209
 msgid "Set expiration date"
 msgstr "Aseta päättymispäivä"
 
-#: js/share.js:209
+#: js/share.js:210
 msgid "Expiration date"
 msgstr "Päättymispäivä"
 
-#: js/share.js:242
+#: js/share.js:243
 msgid "Share via email:"
 msgstr "Jaa sähköpostilla:"
 
-#: js/share.js:245
+#: js/share.js:246
 msgid "No people found"
 msgstr "Henkilöitä ei löytynyt"
 
-#: js/share.js:283
+#: js/share.js:284
 msgid "Resharing is not allowed"
 msgstr "Jakaminen uudelleen ei ole salittu"
 
-#: js/share.js:319
+#: js/share.js:320
 msgid "Shared in {item} with {user}"
 msgstr "{item} on jaettu {user} kanssa"
 
-#: js/share.js:340
+#: js/share.js:341
 msgid "Unshare"
 msgstr "Peru jakaminen"
 
-#: js/share.js:352
+#: js/share.js:353
+msgid "notify user by email"
+msgstr "ilmoita käyttäjälle sähköpostitse"
+
+#: js/share.js:361
 msgid "can edit"
 msgstr "voi muokata"
 
-#: js/share.js:354
+#: js/share.js:363
 msgid "access control"
 msgstr "Pääsyn hallinta"
 
-#: js/share.js:357
+#: js/share.js:366
 msgid "create"
 msgstr "luo"
 
-#: js/share.js:360
+#: js/share.js:369
 msgid "update"
 msgstr "päivitä"
 
-#: js/share.js:363
+#: js/share.js:372
 msgid "delete"
 msgstr "poista"
 
-#: js/share.js:366
+#: js/share.js:375
 msgid "share"
 msgstr "jaa"
 
-#: js/share.js:400 js/share.js:632
+#: js/share.js:409 js/share.js:652
 msgid "Password protected"
 msgstr "Salasanasuojattu"
 
-#: js/share.js:645
+#: js/share.js:665
 msgid "Error unsetting expiration date"
 msgstr "Virhe purettaessa eräpäivää"
 
-#: js/share.js:657
+#: js/share.js:677
 msgid "Error setting expiration date"
 msgstr "Virhe päättymispäivää asettaessa"
 
-#: js/share.js:672
+#: js/share.js:692
 msgid "Sending ..."
 msgstr "Lähetetään..."
 
-#: js/share.js:683
+#: js/share.js:703
 msgid "Email sent"
 msgstr "Sähköposti lähetetty"
+
+#: js/share.js:727
+msgid "Warning"
+msgstr "Varoitus"
 
 #: js/update.js:17
 msgid ""
@@ -565,8 +578,18 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-"Cheers!"
-msgstr "Hei!\n\n%s jakoi kohteen %s kanssasi.\nKatso se tästä: %s\n\nNäkemiin!"
+msgstr "Hei sinä!\n\n%s jakoi kohteen %s kanssasi.\nTutustu siihen: %s\n\n"
+
+#: templates/altmail.php:4
+#, php-format
+msgid ""
+"The share will expire on %s.\n"
+"\n"
+msgstr "Jakaminen päättyy %s.\n\n"
+
+#: templates/altmail.php:6 templates/mail.php:19
+msgid "Cheers!"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -619,47 +642,51 @@ msgstr "Lisätietoja palvelimen asetuksien määrittämisestä on saatavilla <a 
 msgid "Create an <strong>admin account</strong>"
 msgstr "Luo <strong>ylläpitäjän tunnus</strong>"
 
-#: templates/installation.php:65
+#: templates/installation.php:66
 msgid "Advanced"
 msgstr "Lisäasetukset"
 
-#: templates/installation.php:67
+#: templates/installation.php:73
 msgid "Data folder"
 msgstr "Datakansio"
 
-#: templates/installation.php:77
+#: templates/installation.php:85
 msgid "Configure the database"
 msgstr "Muokkaa tietokantaa"
 
-#: templates/installation.php:82 templates/installation.php:94
-#: templates/installation.php:105 templates/installation.php:116
-#: templates/installation.php:128
+#: templates/installation.php:90 templates/installation.php:102
+#: templates/installation.php:113 templates/installation.php:124
+#: templates/installation.php:136
 msgid "will be used"
 msgstr "käytetään"
 
-#: templates/installation.php:140
+#: templates/installation.php:148
 msgid "Database user"
 msgstr "Tietokannan käyttäjä"
 
-#: templates/installation.php:147
+#: templates/installation.php:155
 msgid "Database password"
 msgstr "Tietokannan salasana"
 
-#: templates/installation.php:152
+#: templates/installation.php:160
 msgid "Database name"
 msgstr "Tietokannan nimi"
 
-#: templates/installation.php:160
+#: templates/installation.php:168
 msgid "Database tablespace"
 msgstr "Tietokannan taulukkotila"
 
-#: templates/installation.php:167
+#: templates/installation.php:175
 msgid "Database host"
 msgstr "Tietokantapalvelin"
 
-#: templates/installation.php:175
+#: templates/installation.php:184
 msgid "Finish setup"
 msgstr "Viimeistele asennus"
+
+#: templates/installation.php:184
+msgid "Finishing …"
+msgstr "Valmistellaan…"
 
 #: templates/layout.user.php:41
 #, php-format
@@ -692,11 +719,11 @@ msgstr "Unohditko salasanasi?"
 msgid "remember"
 msgstr "muista"
 
-#: templates/login.php:39
+#: templates/login.php:40
 msgid "Log in"
 msgstr "Kirjaudu sisään"
 
-#: templates/login.php:45
+#: templates/login.php:46
 msgid "Alternative Logins"
 msgstr "Vaihtoehtoiset kirjautumiset"
 
@@ -704,8 +731,13 @@ msgstr "Vaihtoehtoiset kirjautumiset"
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
-"href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr "Hei!<br><br>%s jakoi kohteen »%s« kanssasi.<br><a href=\"%s\">Katso se tästä!</a><br><br>Näkemiin!"
+"href=\"%s\">View it!</a><br><br>"
+msgstr "Hei sinä!<br><br>%s jakoi kohteen »%s« kanssasi.<br><a href=\"%s\">Tutustu siihen!</a><br><br>"
+
+#: templates/mail.php:17
+#, php-format
+msgid "The share will expire on %s.<br><br>"
+msgstr "Jakaminen päättyy %s.<br><br>"
 
 #: templates/update.php:3
 #, php-format

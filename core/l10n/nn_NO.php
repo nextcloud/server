@@ -103,6 +103,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Klarte ikkje setja utløpsdato",
 "Sending ..." => "Sender …",
 "Email sent" => "E-post sendt",
+"Warning" => "Åtvaring",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Oppdateringa feila. Ver venleg og rapporter feilen til <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud-fellesskapet</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Oppdateringa er fullført. Sender deg vidare til ownCloud no.",
 "%s password reset" => "%s passordnullstilling",
@@ -125,7 +126,6 @@ $TRANSLATIONS = array(
 "Help" => "Hjelp",
 "Access forbidden" => "Tilgang forbudt",
 "Cloud not found" => "Fann ikkje skyen",
-"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Hei der,\n\nnemner berre at %s delte %s med deg.\nSjå det her: %s\n\nMe talast!",
 "Edit categories" => "Endra kategoriar",
 "Add" => "Legg til",
 "Security Warning" => "Tryggleiksåtvaring",
@@ -155,7 +155,6 @@ $TRANSLATIONS = array(
 "remember" => "hugs",
 "Log in" => "Logg inn",
 "Alternative Logins" => "Alternative innloggingar",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Hei der,<br><br>nemner berre at %s delte «%s» med deg.<br><a href=\"%s\">Sjå det!</a><br><br>Me talast!<",
 "Updating ownCloud to version %s, this may take a while." => "Oppdaterer ownCloud til utgåve %s, dette kan ta ei stund."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

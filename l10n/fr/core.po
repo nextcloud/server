@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-27 00:01-0400\n"
-"PO-Revision-Date: 2013-09-26 15:10+0000\n"
-"Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-05 15:31+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,12 +23,17 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ajax/share.php:97
+#: ajax/share.php:118 ajax/share.php:197
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s partagé »%s« avec vous"
 
-#: ajax/share.php:227
+#: ajax/share.php:168
+#, php-format
+msgid "Couldn't send mail to following users: %s "
+msgstr ""
+
+#: ajax/share.php:327
 msgid "group"
 msgstr "groupe"
 
@@ -320,8 +325,8 @@ msgstr "Le type d'objet n'est pas spécifié."
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:656 js/share.js:668
+#: js/oc-vcategories.js:199 js/share.js:130 js/share.js:143 js/share.js:150
+#: js/share.js:665 js/share.js:677
 msgid "Error"
 msgstr "Erreur"
 
@@ -341,125 +346,133 @@ msgstr "Partagé"
 msgid "Share"
 msgstr "Partager"
 
-#: js/share.js:131 js/share.js:696
+#: js/share.js:132 js/share.js:705
 msgid "Error while sharing"
 msgstr "Erreur lors de la mise en partage"
 
-#: js/share.js:142
+#: js/share.js:143
 msgid "Error while unsharing"
 msgstr "Erreur lors de l'annulation du partage"
 
-#: js/share.js:149
+#: js/share.js:150
 msgid "Error while changing permissions"
 msgstr "Erreur lors du changement des permissions"
 
-#: js/share.js:158
+#: js/share.js:159
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Partagé par {owner} avec vous et le groupe {group}"
 
-#: js/share.js:160
+#: js/share.js:161
 msgid "Shared with you by {owner}"
 msgstr "Partagé avec vous par {owner}"
 
-#: js/share.js:183
+#: js/share.js:184
 msgid "Share with"
 msgstr "Partager avec"
 
-#: js/share.js:188
+#: js/share.js:189
 msgid "Share with link"
 msgstr "Partager via lien"
 
-#: js/share.js:191
+#: js/share.js:192
 msgid "Password protect"
 msgstr "Protéger par un mot de passe"
 
-#: js/share.js:193 templates/installation.php:57 templates/login.php:26
+#: js/share.js:194 templates/installation.php:57 templates/login.php:26
 msgid "Password"
 msgstr "Mot de passe"
 
-#: js/share.js:198
+#: js/share.js:199
 msgid "Allow Public Upload"
 msgstr "Autoriser l'upload par les utilisateurs non enregistrés"
 
-#: js/share.js:202
+#: js/share.js:203
 msgid "Email link to person"
 msgstr "Envoyez le lien par email"
 
-#: js/share.js:203
+#: js/share.js:204
 msgid "Send"
 msgstr "Envoyer"
 
-#: js/share.js:208
+#: js/share.js:209
 msgid "Set expiration date"
 msgstr "Spécifier la date d'expiration"
 
-#: js/share.js:209
+#: js/share.js:210
 msgid "Expiration date"
 msgstr "Date d'expiration"
 
-#: js/share.js:242
+#: js/share.js:243
 msgid "Share via email:"
 msgstr "Partager via e-mail :"
 
-#: js/share.js:245
+#: js/share.js:246
 msgid "No people found"
 msgstr "Aucun utilisateur trouvé"
 
-#: js/share.js:283
+#: js/share.js:284
 msgid "Resharing is not allowed"
 msgstr "Le repartage n'est pas autorisé"
 
-#: js/share.js:319
+#: js/share.js:320
 msgid "Shared in {item} with {user}"
 msgstr "Partagé dans {item} avec {user}"
 
-#: js/share.js:340
+#: js/share.js:341
 msgid "Unshare"
 msgstr "Ne plus partager"
 
-#: js/share.js:352
+#: js/share.js:353
+msgid "notify user by email"
+msgstr ""
+
+#: js/share.js:361
 msgid "can edit"
 msgstr "édition autorisée"
 
-#: js/share.js:354
+#: js/share.js:363
 msgid "access control"
 msgstr "contrôle des accès"
 
-#: js/share.js:357
+#: js/share.js:366
 msgid "create"
 msgstr "créer"
 
-#: js/share.js:360
+#: js/share.js:369
 msgid "update"
 msgstr "mettre à jour"
 
-#: js/share.js:363
+#: js/share.js:372
 msgid "delete"
 msgstr "supprimer"
 
-#: js/share.js:366
+#: js/share.js:375
 msgid "share"
 msgstr "partager"
 
-#: js/share.js:400 js/share.js:643
+#: js/share.js:409 js/share.js:652
 msgid "Password protected"
 msgstr "Protégé par un mot de passe"
 
-#: js/share.js:656
+#: js/share.js:665
 msgid "Error unsetting expiration date"
 msgstr "Une erreur est survenue pendant la suppression de la date d'expiration"
 
-#: js/share.js:668
+#: js/share.js:677
 msgid "Error setting expiration date"
 msgstr "Erreur lors de la spécification de la date d'expiration"
 
-#: js/share.js:683
+#: js/share.js:692
 msgid "Sending ..."
 msgstr "En cours d'envoi ..."
 
-#: js/share.js:694
+#: js/share.js:703
 msgid "Email sent"
 msgstr "Email envoyé"
+
+#: js/share.js:727
+msgid "Warning"
+msgstr "Attention"
 
 #: js/update.js:17
 msgid ""
@@ -569,8 +582,18 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-"Cheers!"
-msgstr "Salut,\n\nje veux juste vous signaler %s partagé %s avec vous.\nVoyez-le: %s\n\nBonne continuation!"
+msgstr ""
+
+#: templates/altmail.php:4
+#, php-format
+msgid ""
+"The share will expire on %s.\n"
+"\n"
+msgstr ""
+
+#: templates/altmail.php:6 templates/mail.php:19
+msgid "Cheers!"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -623,47 +646,51 @@ msgstr "Pour les informations de configuration de votre serveur, veuillez lire l
 msgid "Create an <strong>admin account</strong>"
 msgstr "Créer un <strong>compte administrateur</strong>"
 
-#: templates/installation.php:65
+#: templates/installation.php:66
 msgid "Advanced"
 msgstr "Avancé"
 
-#: templates/installation.php:67
+#: templates/installation.php:73
 msgid "Data folder"
 msgstr "Répertoire des données"
 
-#: templates/installation.php:77
+#: templates/installation.php:85
 msgid "Configure the database"
 msgstr "Configurer la base de données"
 
-#: templates/installation.php:82 templates/installation.php:94
-#: templates/installation.php:105 templates/installation.php:116
-#: templates/installation.php:128
+#: templates/installation.php:90 templates/installation.php:102
+#: templates/installation.php:113 templates/installation.php:124
+#: templates/installation.php:136
 msgid "will be used"
 msgstr "sera utilisé"
 
-#: templates/installation.php:140
+#: templates/installation.php:148
 msgid "Database user"
 msgstr "Utilisateur pour la base de données"
 
-#: templates/installation.php:147
+#: templates/installation.php:155
 msgid "Database password"
 msgstr "Mot de passe de la base de données"
 
-#: templates/installation.php:152
+#: templates/installation.php:160
 msgid "Database name"
 msgstr "Nom de la base de données"
 
-#: templates/installation.php:160
+#: templates/installation.php:168
 msgid "Database tablespace"
 msgstr "Tablespaces de la base de données"
 
-#: templates/installation.php:167
+#: templates/installation.php:175
 msgid "Database host"
 msgstr "Serveur de la base de données"
 
-#: templates/installation.php:175
+#: templates/installation.php:184
 msgid "Finish setup"
 msgstr "Terminer l'installation"
+
+#: templates/installation.php:184
+msgid "Finishing …"
+msgstr ""
 
 #: templates/layout.user.php:41
 #, php-format
@@ -696,11 +723,11 @@ msgstr "Mot de passe perdu ?"
 msgid "remember"
 msgstr "se souvenir de moi"
 
-#: templates/login.php:39
+#: templates/login.php:40
 msgid "Log in"
 msgstr "Connexion"
 
-#: templates/login.php:45
+#: templates/login.php:46
 msgid "Alternative Logins"
 msgstr "Logins alternatifs"
 
@@ -708,8 +735,13 @@ msgstr "Logins alternatifs"
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
-"href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr "Salut,<br><br>je veux juste vous signaler %s partagé »%s« avec vous.<br><a href=\"%s\">Voyez-le!</a><br><br>Bonne continuation!"
+"href=\"%s\">View it!</a><br><br>"
+msgstr ""
+
+#: templates/mail.php:17
+#, php-format
+msgid "The share will expire on %s.<br><br>"
+msgstr ""
 
 #: templates/update.php:3
 #, php-format
