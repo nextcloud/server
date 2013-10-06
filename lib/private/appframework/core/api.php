@@ -173,16 +173,6 @@ class API implements IApi{
 
 
 	/**
-	 * Checks if the CSRF check was correct
-	 * @return bool true if CSRF check passed
-	 */
-	public function passesCSRFCheck(){
-		# TODO: use public api
-		return \OC_Util::isCallRegistered();
-	}
-
-
-	/**
 	 * Checks if an app is enabled
 	 * @param string $appName the name of an app
 	 * @return bool true if app is enabled
