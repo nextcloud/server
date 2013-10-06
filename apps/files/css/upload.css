@@ -5,7 +5,7 @@
 	height: 36px;
 	width: 39px;
 	padding: 0 !important; /* override default control bar button padding */
-	margin-left: .2em;
+	margin-left: 3px;
 	overflow: hidden;
 	vertical-align: top;
 }
@@ -33,7 +33,7 @@
 	height: 44px;
 	margin: -5px -3px;
 	padding: 0;
-	font-size: 1em;
+	font-size: 16px;
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0;
 	z-index: 20;
 	cursor: pointer;
