@@ -182,8 +182,8 @@ class OC_Util {
 	 * @description load the version.php into the session as cache
 	 */
 	private static function loadVersion() {
-		$timestamp=filemtime(OC::$SERVERROOT.'/version.php');
-		if(!\OC::$server->getSession()->exists('OC_Version') or OC::$server->getSession()->get('OC_Version_Timestamp')<>$timestamp) {
+		$timestamp = filemtime(OC::$SERVERROOT.'/version.php');
+		if(!\OC::$server->getSession()->exists('OC_Version') or OC::$server->getSession()->get('OC_Version_Timestamp') != $timestamp) {
 			require 'version.php';
 			$session = \OC::$server->getSession();
 			/** @var $timestamp int */
