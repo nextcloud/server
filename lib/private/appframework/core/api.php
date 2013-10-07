@@ -110,44 +110,6 @@ class API implements IApi{
 
 
 	/**
-	 * Writes a function into the error log
-	 * @param string $msg the error message to be logged
-	 * @param int $level the error level
-	 */
-	public function log($msg, $level=null){
-		switch($level){
-			case 'debug':
-				$level = \OCP\Util::DEBUG;
-				break;
-			case 'info':
-				$level = \OCP\Util::INFO;
-				break;
-			case 'warn':
-				$level = \OCP\Util::WARN;
-				break;
-			case 'fatal':
-				$level = \OCP\Util::FATAL;
-				break;
-			default:
-				$level = \OCP\Util::ERROR;
-				break;
-		}
-		\OCP\Util::writeLog($this->appName, $msg, $level);
-	}
-
-
-	/**
-	 * turns an owncloud path into a path on the filesystem
-	 * @param string path the path to the file on the oc filesystem
-	 * @return string the filepath in the filesystem
-	 */
-	public function getLocalFilePath($path){
-		# TODO: use public api
-		return \OC_Filesystem::getLocalFile($path);
-	}
-
-
-	/**
 	 * used to return and open a new eventsource
 	 * @return \OC_EventSource a new open EventSource class
 	 */
@@ -192,15 +154,6 @@ class API implements IApi{
 		}
 	}
 
-	/**
-	 * Gets the content of an URL by using CURL or a fallback if it is not
-	 * installed
-	 * @param string $url the url that should be fetched
-	 * @return string the content of the webpage
-	 */
-	public function getUrlContent($url) {
-		return \OC_Util::getUrlContent($url);
-	}
 
 	/**
 	 * Register a backgroundjob task
@@ -210,25 +163,6 @@ class API implements IApi{
 	 */
 	public function addRegularTask($className, $methodName) {
 		\OCP\Backgroundjob::addRegularTask($className, $methodName);
-	}
-
-	/**
-	 * Returns a template
-	 * @param string $templateName the name of the template
-	 * @param string $renderAs how it should be rendered
-	 * @param string $appName the name of the app
-	 * @return \OCP\Template a new template
-	 */
-	public function getTemplate($templateName, $renderAs='user', $appName=null){
-		if($appName === null){
-			$appName = $this->appName;
-		}
-
-		if($renderAs === 'blank'){
-			return new \OCP\Template($appName, $templateName);
-		} else {
-			return new \OCP\Template($appName, $templateName, $renderAs);
-		}
 	}
 
 
@@ -246,20 +180,5 @@ class API implements IApi{
 		\OCP\App::registerAdmin($appName, $mainPath);
 	}
 
-
-	/**
-	 * get the filesystem info
-	 *
-	 * @param string $path
-	 * @return array with the following keys:
-	 * - size
-	 * - mtime
-	 * - mimetype
-	 * - encrypted
-	 * - versioned
-	 */
-	public function getFileInfo($path) {
-		return \OC\Files\Filesystem::getFileInfo($path);
-	}
 
 }
