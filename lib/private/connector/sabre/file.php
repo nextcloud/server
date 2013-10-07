@@ -58,7 +58,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 
 		// chunked handling
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
-			list(, $name) = \Sabre_DAV_URLUtil::splitPath($this->path);
+			list($path, $name) = \Sabre_DAV_URLUtil::splitPath($this->path);
 
 			$info = OC_FileChunking::decodeName($name);
 			if (empty($info)) {
@@ -67,7 +67,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 			$chunk_handler = new OC_FileChunking($info);
 			$chunk_handler->store($info['index'], $data);
 			if ($chunk_handler->isComplete()) {
-				$newPath = $this->path . '/' . $info['name'];
+				$newPath = $path . '/' . $info['name'];
 				$chunk_handler->file_assemble($newPath);
 				return $this->getETagPropertyForPath($newPath);
 			}
