@@ -192,7 +192,15 @@ class Upgrade {
 	 */
 	static function needUpgrade($user) {
 		$cacheVersion = (int)\OCP\Config::getUserValue($user, 'files', 'cache_version', 4);
-		return $cacheVersion < 5;
+		if ($cacheVersion < 5) {
+			$legacy = new \OC\Files\Cache\Legacy($user);
+			if ($legacy->hasItems()) {
+				return true;
+			}
+			self::upgradeDone($user);
+		}
+
+		return false;
 	}
 
 	/**

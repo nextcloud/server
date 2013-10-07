@@ -1,11 +1,11 @@
 #dropdown.drop-versions {
-	width:22em;
+	width:24em;
 }
 
 #found_versions li {
 	width: 100%;
 	cursor: default;
-	height: 36px;
+	height: 56px;
 	float: left;
 	border-bottom: 1px solid rgba(100,100,100,.1);
 }
@@ -21,6 +21,12 @@
 	filter: alpha(opacity=50);
 	opacity: .5;
 }
+
+#found_versions li > a,
+#found_versions li > span {
+	padding: 17px 7px;
+}
+
 #found_versions li > *:hover,
 #found_versions li > *:focus {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
@@ -31,6 +37,11 @@
 #found_versions img {
 	cursor: pointer;
 	padding-right: 4px;
+}
+
+#found_versions img.preview {
+	cursor: default;
+	opacity: 1;
 }
 
 #found_versions .versionDate {

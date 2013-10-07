@@ -90,8 +90,8 @@ function human_file_size( $bytes ) {
  * @param $timestamp unix timestamp
  * @returns human readable interpretation of the timestamp
  */
-function relative_modified_date($timestamp) {
-	return(\relative_modified_date($timestamp));
+function relative_modified_date($timestamp, $dateOnly = false) {
+	return(\relative_modified_date($timestamp, null, $dateOnly));
 }
 
 

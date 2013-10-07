@@ -37,7 +37,6 @@ class Util {
 	const MIGRATION_IN_PROGRESS = -1; // migration is running
 	const MIGRATION_OPEN = 0;         // user still needs to be migrated
 
-
 	private $view; // OC_FilesystemView object for filesystem operations
 	private $userId; // ID of the currently logged-in user
 	private $client; // Client side encryption mode flag
@@ -1752,6 +1751,11 @@ class Util {
 	 */
 	public function initEncryption($params) {
 
+		$session = new \OCA\Encryption\Session($this->view);
+
+		// we tried to initialize the encryption app for this session
+		$session->setInitialized(\OCA\Encryption\Session::INIT_EXECUTED);
+
 		$encryptedKey = Keymanager::getPrivateKey($this->view, $params['uid']);
 
 		$privateKey = Crypt::decryptPrivateKey($encryptedKey, $params['password']);
@@ -1762,9 +1766,8 @@ class Util {
 			return false;
 		}
 
-		$session = new \OCA\Encryption\Session($this->view);
-
 		$session->setPrivateKey($privateKey);
+		$session->setInitialized(\OCA\Encryption\Session::INIT_SUCCESSFUL);
 
 		return $session;
 	}

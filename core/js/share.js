@@ -114,6 +114,7 @@ OC.Share={
 				data = false;
 			}
 		}});
+
 		return data;
 	},
 	share:function(itemType, itemSource, shareType, shareWith, permissions, callback) {
@@ -217,9 +218,9 @@ OC.Share={
 						OC.Share.showLink(share.token, share.share_with, itemSource);
 					} else {
 						if (share.collection) {
-							OC.Share.addShareWith(share.share_type, share.share_with, share.share_with_displayname, share.permissions, possiblePermissions, share.collection);
+							OC.Share.addShareWith(share.share_type, share.share_with, share.share_with_displayname, share.permissions, possiblePermissions, share.mail_send, share.collection);
 						} else {
-							OC.Share.addShareWith(share.share_type, share.share_with, share.share_with_displayname,  share.permissions, possiblePermissions, false);
+							OC.Share.addShareWith(share.share_type, share.share_with, share.share_with_displayname, share.permissions, possiblePermissions, share.mail_send, false);
 						}
 					}
 					if (share.expiration != null) {
@@ -301,7 +302,7 @@ OC.Share={
 			}
 		});
 	},
-	addShareWith:function(shareType, shareWith, shareWithDisplayName, permissions, possiblePermissions, collection) {
+	addShareWith:function(shareType, shareWith, shareWithDisplayName, permissions, possiblePermissions, mailSend, collection) {
 		if (!OC.Share.itemShares[shareType]) {
 			OC.Share.itemShares[shareType] = [];
 		}
@@ -342,6 +343,14 @@ OC.Share={
 				html += escapeHTML(shareWithDisplayName.substr(0,11) + '...');
 			}else{
 				html += escapeHTML(shareWithDisplayName);
+			}
+			var mailNotificationEnabled = $('input:hidden[name=mailNotificationEnabled]').val();
+			if (mailNotificationEnabled === 'yes') {
+				var checked = '';
+				if (mailSend === '1') {
+					checked = 'checked';
+				}
+				html += '<input type="checkbox" name="mailNotification" class="mailNotification" ' + checked + ' />'+t('core', 'notify user by email')+'</label>';
 			}
 			if (possiblePermissions & OC.PERMISSION_CREATE || possiblePermissions & OC.PERMISSION_UPDATE || possiblePermissions & OC.PERMISSION_DELETE) {
 				if (editChecked == '') {
@@ -698,6 +707,28 @@ $(document).ready(function() {
 			});
 		}
 	});
+
+	$(document).on('click', '#dropdown input[name=mailNotification]', function() {
+		var li = $(this).parent();
+		var itemType = $('#dropdown').data('item-type');
+		var itemSource = $('#dropdown').data('item-source');
+		var action = '';
+		if (this.checked) {
+			action = 'informRecipients';
+		} else {
+			action = 'informRecipientsDisabled';
+		}
+
+		var shareType = $(li).data('share-type');
+		var shareWith = $(li).data('share-with');
+
+		$.post(OC.filePath('core', 'ajax', 'share.php'), {action: action, recipient: shareWith, shareType: shareType, itemSource: itemSource, itemType: itemType}, function(result) {
+			if (result.status !== 'success') {
+				OC.dialogs.alert(t('core', result.data.message), t('core', 'Warning'));
+			}
+		});
+
+});
 
 
 });

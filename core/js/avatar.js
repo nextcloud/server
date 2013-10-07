@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	if (OC.currentUser) {
-		$('#header .avatardiv').avatar(OC.currentUser, 32);
+		$('#header .avatardiv').avatar(OC.currentUser, 32, undefined, true);
 		// Personal settings
 		$('#avatar .avatardiv').avatar(OC.currentUser, 128);
 	}
