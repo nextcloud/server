@@ -476,7 +476,7 @@ $(document).ready(function() {
 	$(this).click(function(event) {
 		var target = $(event.target);
 		var isMatched = !target.is('.drop, .ui-datepicker-next, .ui-datepicker-prev, .ui-icon')
-			&& !target.closest('#ui-datepicker-div').length;
+			&& !target.closest('#ui-datepicker-div').length && !target.closest('.ui-autocomplete').length;
 		if (OC.Share.droppedDown && isMatched && $('#dropdown').has(event.target).length === 0) {
 			OC.Share.hideDropDown();
 		}
