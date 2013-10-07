@@ -50,9 +50,11 @@ class OC_Log_Owncloud {
 		$minLevel=min(OC_Config::getValue( "loglevel", OC_Log::WARN ), OC_Log::ERROR);
 		if($level>=$minLevel) {
 			// default to ISO8601
-			$format = OC_Config::getValue('logdateformat', 'c');
-			$time = date($format, time());
-			$entry=array('app'=>$app, 'message'=>$message, 'level'=>$level, 'time'=> $time);
+			$format = OC_Config::getValue('logdateformat', 'Y-m-d H:i:s');
+			$logtimezone=OC_Config::getValue( "logtimezone", 'UTC' );
+			$timezone = new DateTimeZone($logtimezone);
+			$time = new DateTime(null, $timezone);
+			$entry=array('app'=>$app, 'message'=>$message, 'level'=>$level, 'time'=> $time->format($format));
 			$handle = @fopen(self::$logFile, 'a');
 			if ($handle) {
 				fwrite($handle, json_encode($entry)."\n");
