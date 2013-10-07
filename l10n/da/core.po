@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-05 15:31+0000\n"
+"POT-Creation-Date: 2013-10-07 12:16-0400\n"
+"PO-Revision-Date: 2013-10-07 16:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -324,7 +324,7 @@ msgstr "Objekttypen er ikke angivet."
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:130 js/share.js:143 js/share.js:150
-#: js/share.js:665 js/share.js:677
+#: js/share.js:667 js/share.js:679
 msgid "Error"
 msgstr "Fejl"
 
@@ -344,7 +344,7 @@ msgstr "Delt"
 msgid "Share"
 msgstr "Del"
 
-#: js/share.js:132 js/share.js:705
+#: js/share.js:132 js/share.js:707
 msgid "Error while sharing"
 msgstr "Fejl under deling"
 
@@ -376,7 +376,7 @@ msgstr "Del med link"
 msgid "Password protect"
 msgstr "Beskyt med adgangskode"
 
-#: js/share.js:194 templates/installation.php:57 templates/login.php:26
+#: js/share.js:194 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "Kodeord"
 
@@ -448,27 +448,27 @@ msgstr "slet"
 msgid "share"
 msgstr "del"
 
-#: js/share.js:409 js/share.js:652
+#: js/share.js:409 js/share.js:654
 msgid "Password protected"
 msgstr "Beskyttet med adgangskode"
 
-#: js/share.js:665
+#: js/share.js:667
 msgid "Error unsetting expiration date"
 msgstr "Fejl ved fjernelse af udløbsdato"
 
-#: js/share.js:677
+#: js/share.js:679
 msgid "Error setting expiration date"
 msgstr "Fejl under sætning af udløbsdato"
 
-#: js/share.js:692
+#: js/share.js:694
 msgid "Sending ..."
 msgstr "Sender ..."
 
-#: js/share.js:703
+#: js/share.js:705
 msgid "Email sent"
 msgstr "E-mail afsendt"
 
-#: js/share.js:727
+#: js/share.js:729
 msgid "Warning"
 msgstr "Advarsel"
 
@@ -508,7 +508,7 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "Du vil modtage et link til at nulstille dit kodeord via email."
 
 #: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
-#: templates/login.php:19
+#: templates/login.php:25
 msgid "Username"
 msgstr "Brugernavn"
 
@@ -713,19 +713,27 @@ msgstr "Hvis du ikke har ændret din adgangskode for nylig, har nogen muligvis t
 msgid "Please change your password to secure your account again."
 msgstr "Skift adgangskode for at sikre din konto igen."
 
-#: templates/login.php:32
+#: templates/login.php:17
+msgid "Server side authentication failed!"
+msgstr ""
+
+#: templates/login.php:18
+msgid "Please contact your administrator."
+msgstr ""
+
+#: templates/login.php:38
 msgid "Lost your password?"
 msgstr "Mistet dit kodeord?"
 
-#: templates/login.php:37
+#: templates/login.php:43
 msgid "remember"
 msgstr "husk"
 
-#: templates/login.php:40
+#: templates/login.php:46
 msgid "Log in"
 msgstr "Log ind"
 
-#: templates/login.php:46
+#: templates/login.php:52
 msgid "Alternative Logins"
 msgstr "Alternative logins"
 

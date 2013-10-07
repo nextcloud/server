@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-05 15:31+0000\n"
+"POT-Creation-Date: 2013-10-07 12:16-0400\n"
+"PO-Revision-Date: 2013-10-07 16:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -315,7 +315,7 @@ msgstr "ობიექტის ტიპი არ არის მითი�
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:130 js/share.js:143 js/share.js:150
-#: js/share.js:665 js/share.js:677
+#: js/share.js:667 js/share.js:679
 msgid "Error"
 msgstr "შეცდომა"
 
@@ -335,7 +335,7 @@ msgstr "გაზიარებული"
 msgid "Share"
 msgstr "გაზიარება"
 
-#: js/share.js:132 js/share.js:705
+#: js/share.js:132 js/share.js:707
 msgid "Error while sharing"
 msgstr "შეცდომა გაზიარების დროს"
 
@@ -367,7 +367,7 @@ msgstr "გაუზიარე ლინკით"
 msgid "Password protect"
 msgstr "პაროლით დაცვა"
 
-#: js/share.js:194 templates/installation.php:57 templates/login.php:26
+#: js/share.js:194 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "პაროლი"
 
@@ -439,27 +439,27 @@ msgstr "წაშლა"
 msgid "share"
 msgstr "გაზიარება"
 
-#: js/share.js:409 js/share.js:652
+#: js/share.js:409 js/share.js:654
 msgid "Password protected"
 msgstr "პაროლით დაცული"
 
-#: js/share.js:665
+#: js/share.js:667
 msgid "Error unsetting expiration date"
 msgstr "შეცდომა ვადის გასვლის მოხსნის დროს"
 
-#: js/share.js:677
+#: js/share.js:679
 msgid "Error setting expiration date"
 msgstr "შეცდომა ვადის გასვლის მითითების დროს"
 
-#: js/share.js:692
+#: js/share.js:694
 msgid "Sending ..."
 msgstr "გაგზავნა ...."
 
-#: js/share.js:703
+#: js/share.js:705
 msgid "Email sent"
 msgstr "იმეილი გაიგზავნა"
 
-#: js/share.js:727
+#: js/share.js:729
 msgid "Warning"
 msgstr "გაფრთხილება"
 
@@ -499,7 +499,7 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "თქვენ მოგივათ პაროლის შესაცვლელი ლინკი მეილზე"
 
 #: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
-#: templates/login.php:19
+#: templates/login.php:25
 msgid "Username"
 msgstr "მომხმარებლის სახელი"
 
@@ -704,19 +704,27 @@ msgstr "თუ თქვენ არ შეცვლით პაროლს, 
 msgid "Please change your password to secure your account again."
 msgstr "გთხოვთ შეცვალოთ თქვენი პაროლი, თქვენი ანგარიშის დასაცავად."
 
-#: templates/login.php:32
+#: templates/login.php:17
+msgid "Server side authentication failed!"
+msgstr ""
+
+#: templates/login.php:18
+msgid "Please contact your administrator."
+msgstr ""
+
+#: templates/login.php:38
 msgid "Lost your password?"
 msgstr "დაგავიწყდათ პაროლი?"
 
-#: templates/login.php:37
+#: templates/login.php:43
 msgid "remember"
 msgstr "დამახსოვრება"
 
-#: templates/login.php:40
+#: templates/login.php:46
 msgid "Log in"
 msgstr "შესვლა"
 
-#: templates/login.php:46
+#: templates/login.php:52
 msgid "Alternative Logins"
 msgstr "ალტერნატიული Login–ი"
 

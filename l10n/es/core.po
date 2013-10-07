@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-05 15:30+0000\n"
+"POT-Creation-Date: 2013-10-07 12:16-0400\n"
+"PO-Revision-Date: 2013-10-07 16:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -330,7 +330,7 @@ msgstr "El tipo de objeto no está especificado."
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:130 js/share.js:143 js/share.js:150
-#: js/share.js:665 js/share.js:677
+#: js/share.js:667 js/share.js:679
 msgid "Error"
 msgstr "Error"
 
@@ -350,7 +350,7 @@ msgstr "Compartido"
 msgid "Share"
 msgstr "Compartir"
 
-#: js/share.js:132 js/share.js:705
+#: js/share.js:132 js/share.js:707
 msgid "Error while sharing"
 msgstr "Error al compartir"
 
@@ -382,7 +382,7 @@ msgstr "Compartir con enlace"
 msgid "Password protect"
 msgstr "Protección con contraseña"
 
-#: js/share.js:194 templates/installation.php:57 templates/login.php:26
+#: js/share.js:194 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "Contraseña"
 
@@ -454,27 +454,27 @@ msgstr "eliminar"
 msgid "share"
 msgstr "compartir"
 
-#: js/share.js:409 js/share.js:652
+#: js/share.js:409 js/share.js:654
 msgid "Password protected"
 msgstr "Protegido con contraseña"
 
-#: js/share.js:665
+#: js/share.js:667
 msgid "Error unsetting expiration date"
 msgstr "Error eliminando fecha de caducidad"
 
-#: js/share.js:677
+#: js/share.js:679
 msgid "Error setting expiration date"
 msgstr "Error estableciendo fecha de caducidad"
 
-#: js/share.js:692
+#: js/share.js:694
 msgid "Sending ..."
 msgstr "Enviando..."
 
-#: js/share.js:703
+#: js/share.js:705
 msgid "Email sent"
 msgstr "Correo electrónico enviado"
 
-#: js/share.js:727
+#: js/share.js:729
 msgid "Warning"
 msgstr "Precaución"
 
@@ -514,7 +514,7 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "Recibirá un enlace por correo electrónico para restablecer su contraseña"
 
 #: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
-#: templates/login.php:19
+#: templates/login.php:25
 msgid "Username"
 msgstr "Nombre de usuario"
 
@@ -719,19 +719,27 @@ msgstr "Si no ha cambiado su contraseña recientemente, ¡puede que su cuenta es
 msgid "Please change your password to secure your account again."
 msgstr "Por favor cambie su contraseña para asegurar su cuenta nuevamente."
 
-#: templates/login.php:32
+#: templates/login.php:17
+msgid "Server side authentication failed!"
+msgstr ""
+
+#: templates/login.php:18
+msgid "Please contact your administrator."
+msgstr ""
+
+#: templates/login.php:38
 msgid "Lost your password?"
 msgstr "¿Ha perdido su contraseña?"
 
-#: templates/login.php:37
+#: templates/login.php:43
 msgid "remember"
 msgstr "recordar"
 
-#: templates/login.php:40
+#: templates/login.php:46
 msgid "Log in"
 msgstr "Entrar"
 
-#: templates/login.php:46
+#: templates/login.php:52
 msgid "Alternative Logins"
 msgstr "Inicios de sesión alternativos"
 

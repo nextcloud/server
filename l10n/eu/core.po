@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-05 15:30+0000\n"
+"POT-Creation-Date: 2013-10-07 12:16-0400\n"
+"PO-Revision-Date: 2013-10-07 16:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -322,7 +322,7 @@ msgstr "Objetu mota ez dago zehaztuta."
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:130 js/share.js:143 js/share.js:150
-#: js/share.js:665 js/share.js:677
+#: js/share.js:667 js/share.js:679
 msgid "Error"
 msgstr "Errorea"
 
@@ -342,7 +342,7 @@ msgstr "Elkarbanatuta"
 msgid "Share"
 msgstr "Elkarbanatu"
 
-#: js/share.js:132 js/share.js:705
+#: js/share.js:132 js/share.js:707
 msgid "Error while sharing"
 msgstr "Errore bat egon da elkarbanatzean"
 
@@ -374,7 +374,7 @@ msgstr "Elkarbanatu lotura batekin"
 msgid "Password protect"
 msgstr "Babestu pasahitzarekin"
 
-#: js/share.js:194 templates/installation.php:57 templates/login.php:26
+#: js/share.js:194 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "Pasahitza"
 
@@ -446,27 +446,27 @@ msgstr "ezabatu"
 msgid "share"
 msgstr "elkarbanatu"
 
-#: js/share.js:409 js/share.js:652
+#: js/share.js:409 js/share.js:654
 msgid "Password protected"
 msgstr "Pasahitzarekin babestuta"
 
-#: js/share.js:665
+#: js/share.js:667
 msgid "Error unsetting expiration date"
 msgstr "Errorea izan da muga data kentzean"
 
-#: js/share.js:677
+#: js/share.js:679
 msgid "Error setting expiration date"
 msgstr "Errore bat egon da muga data ezartzean"
 
-#: js/share.js:692
+#: js/share.js:694
 msgid "Sending ..."
 msgstr "Bidaltzen ..."
 
-#: js/share.js:703
+#: js/share.js:705
 msgid "Email sent"
 msgstr "Eposta bidalia"
 
-#: js/share.js:727
+#: js/share.js:729
 msgid "Warning"
 msgstr "Abisua"
 
@@ -506,7 +506,7 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "Zure pashitza berrezartzeko lotura bat jasoko duzu Epostaren bidez."
 
 #: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
-#: templates/login.php:19
+#: templates/login.php:25
 msgid "Username"
 msgstr "Erabiltzaile izena"
 
@@ -711,19 +711,27 @@ msgstr "Zure pasahitza orain dela gutxi ez baduzu aldatu, zure kontua arriskuan 
 msgid "Please change your password to secure your account again."
 msgstr "Mesedez aldatu zure pasahitza zure kontua berriz segurtatzeko."
 
-#: templates/login.php:32
+#: templates/login.php:17
+msgid "Server side authentication failed!"
+msgstr ""
+
+#: templates/login.php:18
+msgid "Please contact your administrator."
+msgstr ""
+
+#: templates/login.php:38
 msgid "Lost your password?"
 msgstr "Galdu duzu pasahitza?"
 
-#: templates/login.php:37
+#: templates/login.php:43
 msgid "remember"
 msgstr "gogoratu"
 
-#: templates/login.php:40
+#: templates/login.php:46
 msgid "Log in"
 msgstr "Hasi saioa"
 
-#: templates/login.php:46
+#: templates/login.php:52
 msgid "Alternative Logins"
 msgstr "Beste erabiltzaile izenak"
 

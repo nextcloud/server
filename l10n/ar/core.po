@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-05 15:30+0000\n"
+"POT-Creation-Date: 2013-10-07 12:16-0400\n"
+"PO-Revision-Date: 2013-10-07 16:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -341,7 +341,7 @@ msgstr "نوع العنصر غير محدد."
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:130 js/share.js:143 js/share.js:150
-#: js/share.js:665 js/share.js:677
+#: js/share.js:667 js/share.js:679
 msgid "Error"
 msgstr "خطأ"
 
@@ -361,7 +361,7 @@ msgstr "مشارك"
 msgid "Share"
 msgstr "شارك"
 
-#: js/share.js:132 js/share.js:705
+#: js/share.js:132 js/share.js:707
 msgid "Error while sharing"
 msgstr "حصل خطأ عند عملية المشاركة"
 
@@ -393,7 +393,7 @@ msgstr "شارك مع رابط"
 msgid "Password protect"
 msgstr "حماية كلمة السر"
 
-#: js/share.js:194 templates/installation.php:57 templates/login.php:26
+#: js/share.js:194 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "كلمة المرور"
 
@@ -465,27 +465,27 @@ msgstr "حذف"
 msgid "share"
 msgstr "مشاركة"
 
-#: js/share.js:409 js/share.js:652
+#: js/share.js:409 js/share.js:654
 msgid "Password protected"
 msgstr "محمي بكلمة السر"
 
-#: js/share.js:665
+#: js/share.js:667
 msgid "Error unsetting expiration date"
 msgstr "حصل خطأ عند عملية إزالة تاريخ إنتهاء الصلاحية"
 
-#: js/share.js:677
+#: js/share.js:679
 msgid "Error setting expiration date"
 msgstr "حصل خطأ عند عملية تعيين تاريخ إنتهاء الصلاحية"
 
-#: js/share.js:692
+#: js/share.js:694
 msgid "Sending ..."
 msgstr "جاري الارسال ..."
 
-#: js/share.js:703
+#: js/share.js:705
 msgid "Email sent"
 msgstr "تم ارسال البريد الالكتروني"
 
-#: js/share.js:727
+#: js/share.js:729
 msgid "Warning"
 msgstr "تحذير"
 
@@ -525,7 +525,7 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "سوف نرسل لك بريد يحتوي على وصلة لتجديد كلمة السر."
 
 #: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
-#: templates/login.php:19
+#: templates/login.php:25
 msgid "Username"
 msgstr "إسم المستخدم"
 
@@ -730,19 +730,27 @@ msgstr "قد يكون حسابك في خطر إن لم تقم بإعادة تع�
 msgid "Please change your password to secure your account again."
 msgstr "الرجاء إعادة تعيين كلمة السر لتأمين حسابك."
 
-#: templates/login.php:32
+#: templates/login.php:17
+msgid "Server side authentication failed!"
+msgstr ""
+
+#: templates/login.php:18
+msgid "Please contact your administrator."
+msgstr ""
+
+#: templates/login.php:38
 msgid "Lost your password?"
 msgstr "هل نسيت كلمة السر؟"
 
-#: templates/login.php:37
+#: templates/login.php:43
 msgid "remember"
 msgstr "تذكر"
 
-#: templates/login.php:40
+#: templates/login.php:46
 msgid "Log in"
 msgstr "أدخل"
 
-#: templates/login.php:46
+#: templates/login.php:52
 msgid "Alternative Logins"
 msgstr "اسماء دخول بديلة"
 

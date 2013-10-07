@@ -128,6 +128,7 @@ $TRANSLATIONS = array(
 "Help" => "Pagalba",
 "Access forbidden" => "Priėjimas draudžiamas",
 "Cloud not found" => "Negalima rasti",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Labas,\n\nInformuojame, kad %s pasidalino su Jumis %s.\nPažiūrėti tai: %s\n",
 "The share will expire on %s.\n\n" => "Bendrinimo laikas baigsis %s.\n",
 "Cheers!" => "Sveikinimai!",
 "Edit categories" => "Redaguoti kategorijas",
@@ -160,6 +161,7 @@ $TRANSLATIONS = array(
 "remember" => "prisiminti",
 "Log in" => "Prisijungti",
 "Alternative Logins" => "Alternatyvūs prisijungimai",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Labas,<br><br>tik informuojame, kad %s pasidalino su Jumis »%s«.<br><a href=\"%s\">Peržiūrėk!</a><br><br>",
 "The share will expire on %s.<br><br>" => "Bendrinimo laikas baigsis %s.<br><br>",
 "Updating ownCloud to version %s, this may take a while." => "Atnaujinama ownCloud į %s versiją. tai gali šiek tiek užtrukti."
 );

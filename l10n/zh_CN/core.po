@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-05 15:30+0000\n"
+"POT-Creation-Date: 2013-10-07 12:16-0400\n"
+"PO-Revision-Date: 2013-10-07 16:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -318,7 +318,7 @@ msgstr "未指定对象类型。"
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:130 js/share.js:143 js/share.js:150
-#: js/share.js:665 js/share.js:677
+#: js/share.js:667 js/share.js:679
 msgid "Error"
 msgstr "错误"
 
@@ -338,7 +338,7 @@ msgstr "已共享"
 msgid "Share"
 msgstr "分享"
 
-#: js/share.js:132 js/share.js:705
+#: js/share.js:132 js/share.js:707
 msgid "Error while sharing"
 msgstr "共享时出错"
 
@@ -370,7 +370,7 @@ msgstr "共享链接"
 msgid "Password protect"
 msgstr "密码保护"
 
-#: js/share.js:194 templates/installation.php:57 templates/login.php:26
+#: js/share.js:194 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "密码"
 
@@ -442,27 +442,27 @@ msgstr "删除"
 msgid "share"
 msgstr "共享"
 
-#: js/share.js:409 js/share.js:652
+#: js/share.js:409 js/share.js:654
 msgid "Password protected"
 msgstr "密码已受保护"
 
-#: js/share.js:665
+#: js/share.js:667
 msgid "Error unsetting expiration date"
 msgstr "取消设置过期日期时出错"
 
-#: js/share.js:677
+#: js/share.js:679
 msgid "Error setting expiration date"
 msgstr "设置过期日期时出错"
 
-#: js/share.js:692
+#: js/share.js:694
 msgid "Sending ..."
 msgstr "正在发送..."
 
-#: js/share.js:703
+#: js/share.js:705
 msgid "Email sent"
 msgstr "邮件已发送"
 
-#: js/share.js:727
+#: js/share.js:729
 msgid "Warning"
 msgstr "警告"
 
@@ -502,7 +502,7 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "您将会收到包含可以重置密码链接的邮件。"
 
 #: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
-#: templates/login.php:19
+#: templates/login.php:25
 msgid "Username"
 msgstr "用户名"
 
@@ -707,19 +707,27 @@ msgstr "如果您没有最近修改您的密码，您的帐户可能会受到影
 msgid "Please change your password to secure your account again."
 msgstr "请修改您的密码，以保护您的账户安全。"
 
-#: templates/login.php:32
+#: templates/login.php:17
+msgid "Server side authentication failed!"
+msgstr ""
+
+#: templates/login.php:18
+msgid "Please contact your administrator."
+msgstr ""
+
+#: templates/login.php:38
 msgid "Lost your password?"
 msgstr "忘记密码？"
 
-#: templates/login.php:37
+#: templates/login.php:43
 msgid "remember"
 msgstr "记住"
 
-#: templates/login.php:40
+#: templates/login.php:46
 msgid "Log in"
 msgstr "登录"
 
-#: templates/login.php:46
+#: templates/login.php:52
 msgid "Alternative Logins"
 msgstr "其他登录方式"
 

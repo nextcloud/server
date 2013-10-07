@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-05 15:30+0000\n"
+"POT-Creation-Date: 2013-10-07 12:16-0400\n"
+"PO-Revision-Date: 2013-10-07 16:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -315,7 +315,7 @@ msgstr "ชนิดของวัตถุยังไม่ได้รับ
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
 #: js/oc-vcategories.js:199 js/share.js:130 js/share.js:143 js/share.js:150
-#: js/share.js:665 js/share.js:677
+#: js/share.js:667 js/share.js:679
 msgid "Error"
 msgstr "ข้อผิดพลาด"
 
@@ -335,7 +335,7 @@ msgstr "แชร์แล้ว"
 msgid "Share"
 msgstr "แชร์"
 
-#: js/share.js:132 js/share.js:705
+#: js/share.js:132 js/share.js:707
 msgid "Error while sharing"
 msgstr "เกิดข้อผิดพลาดในระหว่างการแชร์ข้อมูล"
 
@@ -367,7 +367,7 @@ msgstr "แชร์ด้วยลิงก์"
 msgid "Password protect"
 msgstr "ใส่รหัสผ่านไว้"
 
-#: js/share.js:194 templates/installation.php:57 templates/login.php:26
+#: js/share.js:194 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "รหัสผ่าน"
 
@@ -439,27 +439,27 @@ msgstr "ลบ"
 msgid "share"
 msgstr "แชร์"
 
-#: js/share.js:409 js/share.js:652
+#: js/share.js:409 js/share.js:654
 msgid "Password protected"
 msgstr "ใส่รหัสผ่านไว้"
 
-#: js/share.js:665
+#: js/share.js:667
 msgid "Error unsetting expiration date"
 msgstr "เกิดข้อผิดพลาดในการยกเลิกการตั้งค่าวันที่หมดอายุ"
 
-#: js/share.js:677
+#: js/share.js:679
 msgid "Error setting expiration date"
 msgstr "เกิดข้อผิดพลาดในการตั้งค่าวันที่หมดอายุ"
 
-#: js/share.js:692
+#: js/share.js:694
 msgid "Sending ..."
 msgstr "กำลังส่ง..."
 
-#: js/share.js:703
+#: js/share.js:705
 msgid "Email sent"
 msgstr "ส่งอีเมล์แล้ว"
 
-#: js/share.js:727
+#: js/share.js:729
 msgid "Warning"
 msgstr "คำเตือน"
 
@@ -499,7 +499,7 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "คุณจะได้รับลิงค์เพื่อกำหนดรหัสผ่านใหม่ทางอีเมล์"
 
 #: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
-#: templates/login.php:19
+#: templates/login.php:25
 msgid "Username"
 msgstr "ชื่อผู้ใช้งาน"
 
@@ -704,19 +704,27 @@ msgstr "หากคุณยังไม่ได้เปลี่ยนรห
 msgid "Please change your password to secure your account again."
 msgstr "กรุณาเปลี่ยนรหัสผ่านของคุณอีกครั้ง เพื่อป้องกันบัญชีของคุณให้ปลอดภัย"
 
-#: templates/login.php:32
+#: templates/login.php:17
+msgid "Server side authentication failed!"
+msgstr ""
+
+#: templates/login.php:18
+msgid "Please contact your administrator."
+msgstr ""
+
+#: templates/login.php:38
 msgid "Lost your password?"
 msgstr "ลืมรหัสผ่าน?"
 
-#: templates/login.php:37
+#: templates/login.php:43
 msgid "remember"
 msgstr "จำรหัสผ่าน"
 
-#: templates/login.php:40
+#: templates/login.php:46
 msgid "Log in"
 msgstr "เข้าสู่ระบบ"
 
-#: templates/login.php:46
+#: templates/login.php:52
 msgid "Alternative Logins"
 msgstr ""
 
