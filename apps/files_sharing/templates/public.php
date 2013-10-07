@@ -4,6 +4,7 @@
 
 <?php $defaults = new OCP\Defaults(); // initialize themable default strings and urls ?>
 
+<input type="hidden" id="isPublic" name="isPublic" value="1">
 <input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
 <input type="hidden" name="downloadURL" value="<?php p($_['downloadURL']) ?>" id="downloadURL">
 <input type="hidden" name="filename" value="<?php p($_['filename']) ?>" id="filename">
