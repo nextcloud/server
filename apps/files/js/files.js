@@ -98,6 +98,8 @@ Files={
 	lastWidth: 0,
 
 	initBreadCrumbs: function () {
+		var $controls = $('#controls');
+
 		Files.lastWidth = 0;
 		Files.breadcrumbs = [];
 
@@ -118,7 +120,10 @@ Files={
 		});
 
 		// event handlers for breadcrumb items
-		$('#controls .crumb a').on('click', onClickBreadcrumb);
+		$controls.find('.crumb a').on('click', onClickBreadcrumb);
+
+		// setup drag and drop
+		$controls.find('.crumb:not(.last)').droppable(crumbDropOptions);
 	},
 
 	resizeBreadcrumbs: function (width, firstRun) {
@@ -176,11 +181,8 @@ $(document).ready(function() {
 
 	$('#file_action_panel').attr('activeAction', false);
 
-	$('div.crumb:not(.last)').droppable(crumbDropOptions);
-	$('ul#apps>li:first-child').data('dir','');
-	if($('div.crumb').length){
-		$('ul#apps>li:first-child').droppable(crumbDropOptions);
-	}
+	// allow dropping on the "files" app icon
+	$('ul#apps li:first-child').data('dir','').droppable(crumbDropOptions);
 
 	// Triggers invisible file input
 	$('#upload a').on('click', function() {
