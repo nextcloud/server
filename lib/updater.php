@@ -27,7 +27,6 @@ class OC_Updater extends BasicEmitter {
 	 * @return array | bool
 	 */
 	static public function check($updaterUrl='http://apps.owncloud.com/updater.php') {
-		OC_Appconfig::setValue('core', 'lastupdatedat', microtime(true));
 		if ((\OC_Appconfig::getValue('core', 'lastupdatedat') + 1800) > time()) {
 			return json_decode(\OC_Appconfig::getValue('core', 'lastupdateResult'), true);
 		}
