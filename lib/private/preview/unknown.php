@@ -23,13 +23,13 @@ class Unknown extends Provider {
 		$svgPath = substr_replace($path, 'svg', -3);
 
 		if (extension_loaded('imagick') && file_exists($svgPath)) {
-				$svg = new \Imagick();
-				$svg->setBackgroundColor(new \ImagickPixel('transparent'));
-				$svg->readImage($svgPath);
-				$svg->setImageFormat('png32');
+			$svg = new \Imagick();
+			$svg->setBackgroundColor(new \ImagickPixel('transparent'));
+			$svg->readImage($svgPath);
+			$svg->setImageFormat('png32');
 
-				$image = new \OC_Image();
-				$image->loadFromData($svg);
+			$image = new \OC_Image();
+			$image->loadFromData($svg);
 		} else {
 			$image = new \OC_Image($path);
 		}
