@@ -33,6 +33,13 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	public static $ETagFunction = null;
 
 	/**
+	 * is kept public to allow overwrite for unit testing
+	 *
+	 * @var \OC\Files\View
+	 */
+	public $fileView;
+
+	/**
 	 * The path to the current node
 	 *
 	 * @var string
@@ -234,12 +241,18 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * @param string $path Path of the file
 	 * @return string|null Returns null if the ETag can not effectively be determined
 	 */
-	static public function getETagPropertyForPath($path) {
-		$data = \OC\Files\Filesystem::getFileInfo($path);
+	protected function getETagPropertyForPath($path) {
+		$data = $this->getFS()->getFileInfo($path);
 		if (isset($data['etag'])) {
 			return '"'.$data['etag'].'"';
 		}
 		return null;
 	}
 
+	protected function getFS() {
+		if (is_null($this->fileView)) {
+			$this->fileView = \OC\Files\Filesystem::getView();
+		}
+		return $this->fileView;
+	}
 }

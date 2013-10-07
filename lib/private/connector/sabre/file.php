@@ -28,7 +28,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 *
 	 * The data argument is a readable stream resource.
 	 *
-	 * After a succesful put operation, you may choose to return an ETag. The
+	 * After a successful put operation, you may choose to return an ETag. The
 	 * etag must always be surrounded by double-quotes. These quotes must
 	 * appear in the actual string you're returning.
 	 *
@@ -45,8 +45,9 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 * @return string|null
 	 */
 	public function put($data) {
-
-		if (!\OC\Files\Filesystem::isUpdatable($this->path)) {
+		$fs = $this->getFS();
+		if ($fs->file_exists($this->path) &&
+			!$fs->isUpdatable($this->path)) {
 			throw new \Sabre_DAV_Exception_Forbidden();
 		}
 
@@ -54,44 +55,59 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		if (\OC_Util::encryptedFiles()) {
 			throw new \Sabre_DAV_Exception_ServiceUnavailable();
 		}
-		
+
+		// chunked handling
+		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
+			list(, $name) = \Sabre_DAV_URLUtil::splitPath($this->path);
+
+			$info = OC_FileChunking::decodeName($name);
+			if (empty($info)) {
+				throw new Sabre_DAV_Exception_NotImplemented();
+			}
+			$chunk_handler = new OC_FileChunking($info);
+			$chunk_handler->store($info['index'], $data);
+			if ($chunk_handler->isComplete()) {
+				$newPath = $this->path . '/' . $info['name'];
+				$chunk_handler->file_assemble($newPath);
+				return $this->getETagPropertyForPath($newPath);
+			}
+
+			return null;
+		}
+
 		// mark file as partial while uploading (ignored by the scanner)
 		$partpath = $this->path . '.part';
 
-		\OC\Files\Filesystem::file_put_contents($partpath, $data);
-
-		//detect aborted upload
-		if (isset ($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
-			if (isset($_SERVER['CONTENT_LENGTH'])) {
-				$expected = $_SERVER['CONTENT_LENGTH'];
-				$actual = \OC\Files\Filesystem::filesize($partpath);
-				if ($actual != $expected) {
-					\OC\Files\Filesystem::unlink($partpath);
-					throw new Sabre_DAV_Exception_BadRequest(
-						'expected filesize ' . $expected . ' got ' . $actual);
-				}
+		try {
+			$putOkay = $fs->file_put_contents($partpath, $data);
+			if ($putOkay === false) {
+				\OC_Log::write('webdav', '\OC\Files\Filesystem::file_put_contents() failed', \OC_Log::ERROR);
+				$fs->unlink($partpath);
+				// because we have no clue about the cause we can only throw back a 500/Internal Server Error
+				throw new Sabre_DAV_Exception();
 			}
+		} catch (\OCP\Files\NotPermittedException $e) {
+			throw new Sabre_DAV_Exception_Forbidden();
 		}
 
 		// rename to correct path
-		$renameOkay = \OC\Files\Filesystem::rename($partpath, $this->path);
-		$fileExists = \OC\Files\Filesystem::file_exists($this->path);
+		$renameOkay = $fs->rename($partpath, $this->path);
+		$fileExists = $fs->file_exists($this->path);
 		if ($renameOkay === false || $fileExists === false) {
 			\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
-			\OC\Files\Filesystem::unlink($partpath);
+			$fs->unlink($partpath);
 			throw new Sabre_DAV_Exception();
 		}
 
-
-		//allow sync clients to send the mtime along in a header
+		// allow sync clients to send the mtime along in a header
 		$mtime = OC_Request::hasModificationTime();
 		if ($mtime !== false) {
-			if (\OC\Files\Filesystem::touch($this->path, $mtime)) {
+			if($fs->touch($this->path, $mtime)) {
 				header('X-OC-MTime: accepted');
 			}
 		}
 
-		return OC_Connector_Sabre_Node::getETagPropertyForPath($this->path);
+		return $this->getETagPropertyForPath($this->path);
 	}
 
 	/**
@@ -101,7 +117,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 */
 	public function get() {
 
-		//throw execption if encryption is disabled but files are still encrypted
+		//throw exception if encryption is disabled but files are still encrypted
 		if (\OC_Util::encryptedFiles()) {
 			throw new \Sabre_DAV_Exception_ServiceUnavailable();
 		} else {
@@ -144,7 +160,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 *
 	 * An ETag is a unique identifier representing the current version of the
 	 * file. If the file changes, the ETag MUST change.  The ETag is an
-	 * arbritrary string, but MUST be surrounded by double-quotes.
+	 * arbitrary string, but MUST be surrounded by double-quotes.
 	 *
 	 * Return null if the ETag can not effectively be determined
 	 *
