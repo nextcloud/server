@@ -844,6 +844,14 @@
 				<length>32</length>
 			</field>
 
+			<field>
+				<name>mail_send</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
 			<index>
 				<name>token_index</name>
 				<field>

@@ -90,6 +90,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Eroare la specificarea datei de expirare",
 "Sending ..." => "Se expediază...",
 "Email sent" => "Mesajul a fost expediat",
+"Warning" => "Atenție",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Actualizarea a eșuat! Raportați problema către <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">comunitatea ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Actualizare reușită. Ești redirecționat către ownCloud.",
 "Use the following link to reset your password: {link}" => "Folosește următorul link pentru a reseta parola: {link}",
@@ -111,7 +112,6 @@ $TRANSLATIONS = array(
 "Help" => "Ajutor",
 "Access forbidden" => "Acces restricționat",
 "Cloud not found" => "Nu s-a găsit",
-"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Salutare,\n\nVă aduc la cunoștință că %s a partajat %s cu tine.\nAccesează la: %s\n\nNumai bine!",
 "Edit categories" => "Editează categorii",
 "Add" => "Adaugă",
 "Security Warning" => "Avertisment de securitate",
@@ -141,7 +141,6 @@ $TRANSLATIONS = array(
 "remember" => "amintește",
 "Log in" => "Autentificare",
 "Alternative Logins" => "Conectări alternative",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Salutare, <br><br>Vă aduc la cunoștință că %s a partajat %s cu tine.<br><a href=\"%s\">Accesează-l!</a><br><br>Numai bine!",
 "Updating ownCloud to version %s, this may take a while." => "Actualizăm ownCloud la versiunea %s, aceasta poate dura câteva momente."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));";

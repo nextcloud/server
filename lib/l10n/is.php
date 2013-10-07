@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Files" => "Skrár",
 "Text" => "Texti",
 "Images" => "Myndir",
+"Could not find category \"%s\"" => "Fann ekki flokkinn \"%s\"",
 "seconds ago" => "sek.",
 "_%n minute ago_::_%n minutes ago_" => array("",""),
 "_%n hour ago_::_%n hours ago_" => array("",""),
@@ -25,7 +26,6 @@ $TRANSLATIONS = array(
 "last month" => "síðasta mánuði",
 "_%n month ago_::_%n months ago_" => array("",""),
 "last year" => "síðasta ári",
-"years ago" => "einhverjum árum",
-"Could not find category \"%s\"" => "Fann ekki flokkinn \"%s\""
+"years ago" => "einhverjum árum"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

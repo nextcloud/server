@@ -35,6 +35,7 @@ $TRANSLATIONS = array(
 "Set an admin password." => "اعداد كلمة مرور للمدير",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "اعدادات خادمك غير صحيحة بشكل تسمح لك بمزامنة ملفاتك وذلك بسبب أن واجهة WebDAV تبدو معطلة",
 "Please double check the <a href='%s'>installation guides</a>." => "الرجاء التحقق من <a href='%s'>دليل التنصيب</a>.",
+"Could not find category \"%s\"" => "تعذر العثور على المجلد \"%s\"",
 "seconds ago" => "منذ ثواني",
 "_%n minute ago_::_%n minutes ago_" => array("","","","","",""),
 "_%n hour ago_::_%n hours ago_" => array("","","","","",""),
@@ -44,7 +45,6 @@ $TRANSLATIONS = array(
 "last month" => "الشهر الماضي",
 "_%n month ago_::_%n months ago_" => array("","","","","",""),
 "last year" => "السنةالماضية",
-"years ago" => "سنة مضت",
-"Could not find category \"%s\"" => "تعذر العثور على المجلد \"%s\""
+"years ago" => "سنة مضت"
 );
 $PLURAL_FORMS = "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;";

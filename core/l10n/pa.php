@@ -41,6 +41,7 @@ $TRANSLATIONS = array(
 "Share" => "ਸਾਂਝਾ ਕਰੋ",
 "Password" => "ਪਾਸਵਰ",
 "Send" => "ਭੇਜੋ",
+"Warning" => "ਚੇਤਾਵਨੀ",
 "Username" => "ਯੂਜ਼ਰ-ਨਾਂ",
 "Security Warning" => "ਸੁਰੱਖਿਆ ਚੇਤਾਵਨੀ"
 );

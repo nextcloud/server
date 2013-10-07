@@ -40,6 +40,7 @@ $TRANSLATIONS = array(
 "Unshare" => "ھەمبەھىرلىمە",
 "delete" => "ئۆچۈر",
 "share" => "ھەمبەھىر",
+"Warning" => "ئاگاھلاندۇرۇش",
 "Username" => "ئىشلەتكۈچى ئاتى",
 "New password" => "يېڭى ئىم",
 "Personal" => "شەخسىي",

@@ -58,6 +58,7 @@ $TRANSLATIONS = array(
 "Password protected" => "මුර පදයකින් ආරක්ශාකර ඇත",
 "Error unsetting expiration date" => "කල් ඉකුත් දිනය ඉවත් කිරීමේ දෝෂයක්",
 "Error setting expiration date" => "කල් ඉකුත් දිනය ස්ථාපනය කිරීමේ දෝෂයක්",
+"Warning" => "අවවාදය",
 "You will receive a link to reset your password via Email." => "ඔබගේ මුරපදය ප්‍රත්‍යාරම්භ කිරීම සඳහා යොමුව විද්‍යුත් තැපෑලෙන් ලැබෙනු ඇත",
 "Username" => "පරිශීලක නම",
 "Your password was reset" => "ඔබේ මුරපදය ප්‍රත්‍යාරම්භ කරන ලදී",

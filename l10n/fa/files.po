@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-20 10:44-0400\n"
-"PO-Revision-Date: 2013-09-20 14:45+0000\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-05 15:12+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -87,7 +87,7 @@ msgstr ""
 msgid "Invalid directory."
 msgstr "فهرست راهنما نامعتبر می باشد."
 
-#: appinfo/app.php:12
+#: appinfo/app.php:11
 msgid "Files"
 msgstr "پرونده‌ها"
 
@@ -120,7 +120,7 @@ msgstr "URL  نمی تواند خالی باشد."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
 msgstr "نام پوشه نامعتبر است. استفاده از 'به اشتراک گذاشته شده' متعلق به ownCloud میباشد."
 
-#: js/file-upload.js:557 js/file-upload.js:573 js/files.js:507 js/files.js:545
+#: js/file-upload.js:557 js/file-upload.js:573 js/files.js:516 js/files.js:554
 msgid "Error"
 msgstr "خطا"
 
@@ -164,12 +164,12 @@ msgstr "{نام_جدید} با { نام_قدیمی} جایگزین شد."
 msgid "undo"
 msgstr "بازگشت"
 
-#: js/filelist.js:533 js/filelist.js:599 js/files.js:576
+#: js/filelist.js:533 js/filelist.js:599 js/files.js:585
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] ""
 
-#: js/filelist.js:534 js/filelist.js:600 js/files.js:582
+#: js/filelist.js:534 js/filelist.js:600 js/files.js:591
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] ""
@@ -205,31 +205,44 @@ msgstr "فضای ذخیره ی شما کاملا پر است، بیش از ای�
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "فضای ذخیره ی شما تقریبا پر است ({usedSpacePercent}%)"
 
-#: js/files.js:67
+#: js/files.js:68
+msgid ""
+"Encryption App is enabled but your keys are not initialized, please log-out "
+"and log-in again"
+msgstr ""
+
+#: js/files.js:72
+msgid ""
+"Invalid private key for Encryption App. Please update your private key "
+"password in your personal settings to recover access to your encrypted "
+"files."
+msgstr ""
+
+#: js/files.js:76
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
 msgstr ""
 
-#: js/files.js:296
+#: js/files.js:305
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "دانلود شما در حال آماده شدن است. در صورتیکه پرونده ها بزرگ باشند ممکن است مدتی طول بکشد."
 
-#: js/files.js:507 js/files.js:545
+#: js/files.js:516 js/files.js:554
 msgid "Error moving file"
 msgstr ""
 
-#: js/files.js:558 templates/index.php:61
+#: js/files.js:567 templates/index.php:59
 msgid "Name"
 msgstr "نام"
 
-#: js/files.js:559 templates/index.php:73
+#: js/files.js:568 templates/index.php:71
 msgid "Size"
 msgstr "اندازه"
 
-#: js/files.js:560 templates/index.php:75
+#: js/files.js:569 templates/index.php:73
 msgid "Modified"
 msgstr "تاریخ"
 
@@ -290,49 +303,49 @@ msgstr "پوشه"
 msgid "From link"
 msgstr "از پیوند"
 
-#: templates/index.php:33
+#: templates/index.php:32
 msgid "Deleted files"
 msgstr "فایل های حذف شده"
 
-#: templates/index.php:39
+#: templates/index.php:37
 msgid "Cancel upload"
 msgstr "متوقف کردن بار گذاری"
 
-#: templates/index.php:45
+#: templates/index.php:43
 msgid "You don’t have write permissions here."
 msgstr "شما اجازه ی نوشتن در اینجا را ندارید"
 
-#: templates/index.php:50
+#: templates/index.php:48
 msgid "Nothing in here. Upload something!"
 msgstr "اینجا هیچ چیز نیست."
 
-#: templates/index.php:67
+#: templates/index.php:65
 msgid "Download"
 msgstr "دانلود"
 
-#: templates/index.php:80 templates/index.php:81
+#: templates/index.php:78 templates/index.php:79
 msgid "Unshare"
 msgstr "لغو اشتراک"
 
-#: templates/index.php:86 templates/index.php:87
+#: templates/index.php:84 templates/index.php:85
 msgid "Delete"
 msgstr "حذف"
 
-#: templates/index.php:100
+#: templates/index.php:98
 msgid "Upload too large"
 msgstr "سایز فایل برای آپلود زیاد است(م.تنظیمات در php.ini)"
 
-#: templates/index.php:102
+#: templates/index.php:100
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "فایلها بیش از حد تعیین شده در این سرور هستند\nمترجم:با تغییر فایل php,ini میتوان این محدودیت را برطرف کرد"
 
-#: templates/index.php:107
+#: templates/index.php:105
 msgid "Files are being scanned, please wait."
 msgstr "پرونده ها در حال بازرسی هستند لطفا صبر کنید"
 
-#: templates/index.php:110
+#: templates/index.php:108
 msgid "Current scanning"
 msgstr "بازرسی کنونی"
 

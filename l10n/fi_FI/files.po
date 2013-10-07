@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-22 12:51-0400\n"
-"PO-Revision-Date: 2013-09-21 10:30+0000\n"
-"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-05 15:12+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -120,7 +120,7 @@ msgstr "Verkko-osoite ei voi olla tyhjä"
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
 msgstr ""
 
-#: js/file-upload.js:557 js/file-upload.js:573 js/files.js:507 js/files.js:545
+#: js/file-upload.js:557 js/file-upload.js:573 js/files.js:516 js/files.js:554
 msgid "Error"
 msgstr "Virhe"
 
@@ -164,13 +164,13 @@ msgstr ""
 msgid "undo"
 msgstr "kumoa"
 
-#: js/filelist.js:533 js/filelist.js:599 js/files.js:576
+#: js/filelist.js:533 js/filelist.js:599 js/files.js:585
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n kansio"
 msgstr[1] "%n kansiota"
 
-#: js/filelist.js:534 js/filelist.js:600 js/files.js:582
+#: js/filelist.js:534 js/filelist.js:600 js/files.js:591
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n tiedosto"
@@ -208,31 +208,44 @@ msgstr "Tallennustila on loppu, tiedostoja ei voi enää päivittää tai synkro
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Tallennustila on melkein loppu ({usedSpacePercent}%)"
 
-#: js/files.js:67
+#: js/files.js:68
+msgid ""
+"Encryption App is enabled but your keys are not initialized, please log-out "
+"and log-in again"
+msgstr ""
+
+#: js/files.js:72
+msgid ""
+"Invalid private key for Encryption App. Please update your private key "
+"password in your personal settings to recover access to your encrypted "
+"files."
+msgstr ""
+
+#: js/files.js:76
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
 msgstr ""
 
-#: js/files.js:296
+#: js/files.js:305
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Lataustasi valmistellaan. Tämä saattaa kestää hetken, jos tiedostot ovat suuria kooltaan."
 
-#: js/files.js:507 js/files.js:545
+#: js/files.js:516 js/files.js:554
 msgid "Error moving file"
 msgstr "Virhe tiedostoa siirrettäessä"
 
-#: js/files.js:558 templates/index.php:61
+#: js/files.js:567 templates/index.php:59
 msgid "Name"
 msgstr "Nimi"
 
-#: js/files.js:559 templates/index.php:73
+#: js/files.js:568 templates/index.php:71
 msgid "Size"
 msgstr "Koko"
 
-#: js/files.js:560 templates/index.php:75
+#: js/files.js:569 templates/index.php:73
 msgid "Modified"
 msgstr "Muokattu"
 
@@ -293,49 +306,49 @@ msgstr "Kansio"
 msgid "From link"
 msgstr "Linkistä"
 
-#: templates/index.php:33
+#: templates/index.php:32
 msgid "Deleted files"
 msgstr "Poistetut tiedostot"
 
-#: templates/index.php:39
+#: templates/index.php:37
 msgid "Cancel upload"
 msgstr "Peru lähetys"
 
-#: templates/index.php:45
+#: templates/index.php:43
 msgid "You don’t have write permissions here."
 msgstr "Tunnuksellasi ei ole kirjoitusoikeuksia tänne."
 
-#: templates/index.php:50
+#: templates/index.php:48
 msgid "Nothing in here. Upload something!"
 msgstr "Täällä ei ole mitään. Lähetä tänne jotakin!"
 
-#: templates/index.php:67
+#: templates/index.php:65
 msgid "Download"
 msgstr "Lataa"
 
-#: templates/index.php:80 templates/index.php:81
+#: templates/index.php:78 templates/index.php:79
 msgid "Unshare"
 msgstr "Peru jakaminen"
 
-#: templates/index.php:86 templates/index.php:87
+#: templates/index.php:84 templates/index.php:85
 msgid "Delete"
 msgstr "Poista"
 
-#: templates/index.php:100
+#: templates/index.php:98
 msgid "Upload too large"
 msgstr "Lähetettävä tiedosto on liian suuri"
 
-#: templates/index.php:102
+#: templates/index.php:100
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan."
 
-#: templates/index.php:107
+#: templates/index.php:105
 msgid "Files are being scanned, please wait."
 msgstr "Tiedostoja tarkistetaan, odota hetki."
 
-#: templates/index.php:110
+#: templates/index.php:108
 msgid "Current scanning"
 msgstr "Tämänhetkinen tutkinta"
 

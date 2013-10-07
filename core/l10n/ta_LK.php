@@ -75,6 +75,7 @@ $TRANSLATIONS = array(
 "Password protected" => "கடவுச்சொல் பாதுகாக்கப்பட்டது",
 "Error unsetting expiration date" => "காலாவதியாகும் திகதியை குறிப்பிடாமைக்கான வழு",
 "Error setting expiration date" => "காலாவதியாகும் திகதியை குறிப்பிடுவதில் வழு",
+"Warning" => "எச்சரிக்கை",
 "Use the following link to reset your password: {link}" => "உங்கள் கடவுச்சொல்லை மீளமைக்க பின்வரும் இணைப்பை பயன்படுத்தவும் : {இணைப்பு}",
 "You will receive a link to reset your password via Email." => "நீங்கள் மின்னஞ்சல் மூலம் உங்களுடைய கடவுச்சொல்லை மீளமைப்பதற்கான இணைப்பை பெறுவீர்கள். ",
 "Username" => "பயனாளர் பெயர்",

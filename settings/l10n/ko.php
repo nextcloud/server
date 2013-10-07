@@ -88,6 +88,7 @@ $TRANSLATIONS = array(
 "Your email address" => "이메일 주소",
 "Fill in an email address to enable password recovery" => "암호 찾기 기능을 사용하려면 이메일 주소를 입력하십시오",
 "Profile picture" => "프로필 사진",
+"Abort" => "대하여",
 "Language" => "언어",
 "Help translate" => "번역 돕기",
 "WebDAV" => "WebDAV",

@@ -42,26 +42,6 @@ function supportAjaxUploadWithProgress() {
 OC.Upload = {
 	_uploads: [],
 	/**
-	 * cancels a single upload, 
-	 * @deprecated because it was only used when a file currently beeing uploaded was deleted. Now they are added after
-	 * they have been uploaded.
-	 * @param {string} dir
-	 * @param {string} filename
-	 * @returns {unresolved}
-	 */
-	cancelUpload:function(dir, filename) {
-		var self = this;
-		var deleted = false;
-		//FIXME _selections
-		jQuery.each(this._uploads, function(i, jqXHR) {
-			if (selection.dir === dir && selection.uploads[filename]) {
-				deleted = self.deleteSelectionUpload(selection, filename);
-				return false; // end searching through selections
-			}
-		});
-		return deleted;
-	},
-	/**
 	 * deletes the jqHXR object from a data selection
 	 * @param {object} data
 	 */

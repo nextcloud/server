@@ -84,6 +84,11 @@ class OC {
 	 */
 	public static $loader = null;
 
+	/**
+	 * @var \OC\Server
+	 */
+	public static $server = null;
+
 	public static function initPaths() {
 		// calculate the root directories
 		OC::$SERVERROOT = str_replace("\\", '/', substr(__DIR__, 0, -4));
@@ -159,7 +164,7 @@ class OC {
 
 		// set the right include path
 		set_include_path(
-			OC::$SERVERROOT . '/lib' . PATH_SEPARATOR .
+			OC::$SERVERROOT . '/lib/private' . PATH_SEPARATOR .
 			OC::$SERVERROOT . '/config' . PATH_SEPARATOR .
 			OC::$THIRDPARTYROOT . '/3rdparty' . PATH_SEPARATOR .
 			implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR .
@@ -451,6 +456,9 @@ class OC {
 		stream_wrapper_register('quota', 'OC\Files\Stream\Quota');
 		stream_wrapper_register('oc', 'OC\Files\Stream\OC');
 
+		// setup the basic server
+		self::$server = new \OC\Server();
+
 		self::initTemplateEngine();
 		if (!self::$CLI) {
 			self::initSession();
@@ -481,6 +489,11 @@ class OC {
 
 		if (isset($_SERVER['PHP_AUTH_USER']) && self::$session->exists('user_id')
 			&& $_SERVER['PHP_AUTH_USER'] != self::$session->get('user_id')) {
+			$sessionUser = self::$session->get('user_id');
+			$serverUser = $_SERVER['PHP_AUTH_USER'];
+			OC_Log::write('core',
+				"Session user-id ($sessionUser) doesn't match SERVER[PHP_AUTH_USER] ($serverUser).",
+				OC_Log::WARN);
 			OC_User::logout();
 		}
 
@@ -557,11 +570,13 @@ class OC {
 		if (OC_Config::getValue('installed', false)) { //don't try to do this before we are properly setup
 			// register cache cleanup jobs
 			try { //if this is executed before the upgrade to the new backgroundjob system is completed it will throw an exception
-				\OCP\BackgroundJob::registerJob('OC_Cache_FileGlobalGC');
+				\OCP\BackgroundJob::registerJob('OC\Cache\FileGlobalGC');
 			} catch (Exception $e) {
 
 			}
-			OC_Hook::connect('OC_User', 'post_login', 'OC_Cache_File', 'loginListener');
+			// NOTE: This will be replaced to use OCP
+			$userSession = \OC_User::getUserSession();
+			$userSession->listen('postLogin', '\OC\Cache\File', 'loginListener');
 		}
 	}
 
@@ -733,11 +748,17 @@ class OC {
 	protected static function handleLogin() {
 		OC_App::loadApps(array('prelogin'));
 		$error = array();
+
+		// auth possible via apache module?
+		if (OC::tryApacheAuth()) {
+			$error[] = 'apacheauthfailed';
+		}
 		// remember was checked after last login
-		if (OC::tryRememberLogin()) {
+		elseif (OC::tryRememberLogin()) {
 			$error[] = 'invalidcookie';
-			// Someone wants to log in :
-		} elseif (OC::tryFormLogin()) {
+		}
+		// logon via web form
+		elseif (OC::tryFormLogin()) {
 			$error[] = 'invalidpassword';
 		}
 
@@ -755,11 +776,26 @@ class OC {
 		}
 	}
 
+	protected static function tryApacheAuth() {
+		$return = OC_User::handleApacheAuth();
+
+		// if return is true we are logged in -> redirect to the default page
+		if ($return === true) {
+			$_REQUEST['redirect_url'] = \OC_Request::requestUri();
+			OC_Util::redirectToDefaultPage();
+			exit;
+		}
+
+		// in case $return is null apache based auth is not enabled
+		return is_null($return) ? false : true;
+	}
+
 	protected static function tryRememberLogin() {
 		if (!isset($_COOKIE["oc_remember_login"])
 			|| !isset($_COOKIE["oc_token"])
 			|| !isset($_COOKIE["oc_username"])
 			|| !$_COOKIE["oc_remember_login"]
+			|| !OC_Util::rememberLoginAllowed()
 		) {
 			return false;
 		}

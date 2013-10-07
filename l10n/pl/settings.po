@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-20 10:45-0400\n"
-"PO-Revision-Date: 2013-09-20 14:45+0000\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-05 15:12+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -88,7 +88,7 @@ msgstr "Nie można uaktualnić aplikacji."
 
 #: changepassword/controller.php:20
 msgid "Wrong password"
-msgstr ""
+msgstr "Złe hasło"
 
 #: changepassword/controller.php:42
 msgid "No user supplied"
@@ -113,17 +113,17 @@ msgstr ""
 
 #: changepassword/controller.php:92 changepassword/controller.php:103
 msgid "Unable to change password"
-msgstr ""
+msgstr "Nie można zmienić hasła"
 
 #: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Aktualizacja do {appversion}"
 
-#: js/apps.js:49 js/apps.js:82 js/apps.js:108
+#: js/apps.js:49 js/apps.js:82 js/apps.js:110
 msgid "Disable"
 msgstr "Wyłącz"
 
-#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
+#: js/apps.js:49 js/apps.js:90 js/apps.js:103 js/apps.js:119
 msgid "Enable"
 msgstr "Włącz"
 
@@ -131,43 +131,43 @@ msgstr "Włącz"
 msgid "Please wait...."
 msgstr "Proszę czekać..."
 
-#: js/apps.js:79 js/apps.js:80 js/apps.js:100
+#: js/apps.js:79 js/apps.js:80 js/apps.js:101
 msgid "Error while disabling app"
 msgstr "Błąd podczas wyłączania aplikacji"
 
-#: js/apps.js:99 js/apps.js:112 js/apps.js:113
+#: js/apps.js:100 js/apps.js:114 js/apps.js:115
 msgid "Error while enabling app"
 msgstr "Błąd podczas włączania aplikacji"
 
-#: js/apps.js:123
+#: js/apps.js:125
 msgid "Updating...."
 msgstr "Aktualizacja w toku..."
 
-#: js/apps.js:126
+#: js/apps.js:128
 msgid "Error while updating app"
 msgstr "Błąd podczas aktualizacji aplikacji"
 
-#: js/apps.js:126
+#: js/apps.js:128
 msgid "Error"
 msgstr "Błąd"
 
-#: js/apps.js:127 templates/apps.php:43
+#: js/apps.js:129 templates/apps.php:43
 msgid "Update"
 msgstr "Aktualizuj"
 
-#: js/apps.js:130
+#: js/apps.js:132
 msgid "Updated"
 msgstr "Zaktualizowano"
 
-#: js/personal.js:220
+#: js/personal.js:225
 msgid "Select a profile picture"
-msgstr ""
+msgstr "Wybierz zdjęcie profilu"
 
-#: js/personal.js:265
+#: js/personal.js:270
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Odszyfrowuje pliki... Proszę czekać, to może zająć jakiś czas."
 
-#: js/personal.js:287
+#: js/personal.js:292
 msgid "Saving..."
 msgstr "Zapisywanie..."
 
@@ -343,46 +343,54 @@ msgid "Allow users to only share with users in their groups"
 msgstr "Zezwalaj użytkownikom współdzielić z użytkownikami ze swoich grup"
 
 #: templates/admin.php:170
+msgid "Allow mail notification"
+msgstr ""
+
+#: templates/admin.php:171
+msgid "Allow user to send mail notification for shared files"
+msgstr ""
+
+#: templates/admin.php:178
 msgid "Security"
 msgstr "Bezpieczeństwo"
 
-#: templates/admin.php:183
+#: templates/admin.php:191
 msgid "Enforce HTTPS"
 msgstr "Wymuś HTTPS"
 
-#: templates/admin.php:185
+#: templates/admin.php:193
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Wymusza na klientach na łączenie się %s za pośrednictwem połączenia szyfrowanego."
 
-#: templates/admin.php:191
+#: templates/admin.php:199
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Proszę połącz się do twojego %s za pośrednictwem protokołu HTTPS, aby włączyć lub wyłączyć stosowanie protokołu SSL."
 
-#: templates/admin.php:203
+#: templates/admin.php:211
 msgid "Log"
 msgstr "Logi"
 
-#: templates/admin.php:204
+#: templates/admin.php:212
 msgid "Log level"
 msgstr "Poziom logów"
 
-#: templates/admin.php:235
+#: templates/admin.php:243
 msgid "More"
 msgstr "Więcej"
 
-#: templates/admin.php:236
+#: templates/admin.php:244
 msgid "Less"
 msgstr "Mniej"
 
-#: templates/admin.php:242 templates/personal.php:161
+#: templates/admin.php:250 templates/personal.php:161
 msgid "Version"
 msgstr "Wersja"
 
-#: templates/admin.php:246 templates/personal.php:164
+#: templates/admin.php:254 templates/personal.php:164
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -495,15 +503,15 @@ msgstr "Zdjęcie profilu"
 
 #: templates/personal.php:90
 msgid "Upload new"
-msgstr ""
+msgstr "Wczytaj nowe"
 
 #: templates/personal.php:92
 msgid "Select new from Files"
-msgstr ""
+msgstr "Wybierz nowe z plików"
 
 #: templates/personal.php:93
 msgid "Remove image"
-msgstr ""
+msgstr "Usuń zdjęcie"
 
 #: templates/personal.php:94
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
@@ -515,7 +523,7 @@ msgstr "Anuluj"
 
 #: templates/personal.php:98
 msgid "Choose as profile image"
-msgstr ""
+msgstr "Wybierz zdjęcie profilu"
 
 #: templates/personal.php:106 templates/personal.php:107
 msgid "Language"

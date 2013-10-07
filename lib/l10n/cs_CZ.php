@@ -56,6 +56,7 @@ $TRANSLATIONS = array(
 "Set an admin password." => "Zadejte heslo správce.",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Váš webový server není správně nastaven pro umožnění synchronizace, rozhraní WebDAV se zdá být rozbité.",
 "Please double check the <a href='%s'>installation guides</a>." => "Zkonzultujte, prosím, <a href='%s'>průvodce instalací</a>.",
+"Could not find category \"%s\"" => "Nelze nalézt kategorii \"%s\"",
 "seconds ago" => "před pár sekundami",
 "_%n minute ago_::_%n minutes ago_" => array("před %n minutou","před %n minutami","před %n minutami"),
 "_%n hour ago_::_%n hours ago_" => array("před %n hodinou","před %n hodinami","před %n hodinami"),
@@ -66,7 +67,6 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("před %n měsícem","před %n měsíci","před %n měsíci"),
 "last year" => "minulý rok",
 "years ago" => "před lety",
-"Caused by:" => "Příčina:",
-"Could not find category \"%s\"" => "Nelze nalézt kategorii \"%s\""
+"Caused by:" => "Příčina:"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

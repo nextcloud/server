@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Files" => "கோப்புகள்",
 "Text" => "உரை",
 "Images" => "படங்கள்",
+"Could not find category \"%s\"" => "பிரிவு \"%s\" ஐ கண்டுப்பிடிக்க முடியவில்லை",
 "seconds ago" => "செக்கன்களுக்கு முன்",
 "_%n minute ago_::_%n minutes ago_" => array("",""),
 "_%n hour ago_::_%n hours ago_" => array("",""),
@@ -25,7 +26,6 @@ $TRANSLATIONS = array(
 "last month" => "கடந்த மாதம்",
 "_%n month ago_::_%n months ago_" => array("",""),
 "last year" => "கடந்த வருடம்",
-"years ago" => "வருடங்களுக்கு முன்",
-"Could not find category \"%s\"" => "பிரிவு \"%s\" ஐ கண்டுப்பிடிக்க முடியவில்லை"
+"years ago" => "வருடங்களுக்கு முன்"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

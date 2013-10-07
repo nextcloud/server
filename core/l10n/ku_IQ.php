@@ -9,6 +9,7 @@ $TRANSLATIONS = array(
 "Error" => "هه‌ڵه",
 "Share" => "هاوبەشی کردن",
 "Password" => "وشەی تێپەربو",
+"Warning" => "ئاگاداری",
 "Username" => "ناوی به‌کارهێنه‌ر",
 "New password" => "وشەی نهێنی نوێ",
 "Reset password" => "دووباره‌ كردنه‌وه‌ی وشه‌ی نهێنی",

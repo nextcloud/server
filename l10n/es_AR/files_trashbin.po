@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-10 10:41-0400\n"
-"PO-Revision-Date: 2013-09-10 13:50+0000\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-03 12:22+0000\n"
 "Last-Translator: cjtess <claudio.tessone@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -44,27 +44,27 @@ msgstr "Borrar archivo de manera permanente"
 msgid "Delete permanently"
 msgstr "Borrar de manera permanente"
 
-#: js/trash.js:184 templates/index.php:17
+#: js/trash.js:190 templates/index.php:21
 msgid "Name"
 msgstr "Nombre"
 
-#: js/trash.js:185 templates/index.php:27
+#: js/trash.js:191 templates/index.php:31
 msgid "Deleted"
 msgstr "Borrado"
 
-#: js/trash.js:193
+#: js/trash.js:199
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n directorio"
 msgstr[1] "%n directorios"
 
-#: js/trash.js:199
+#: js/trash.js:205
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n archivo"
 msgstr[1] "%n archivos"
 
-#: lib/trash.php:814 lib/trash.php:816
+#: lib/trashbin.php:814 lib/trashbin.php:816
 msgid "restored"
 msgstr "recuperado"
 
@@ -72,11 +72,11 @@ msgstr "recuperado"
 msgid "Nothing in here. Your trash bin is empty!"
 msgstr "No hay nada acá. ¡La papelera está vacía!"
 
-#: templates/index.php:20 templates/index.php:22
+#: templates/index.php:24 templates/index.php:26
 msgid "Restore"
 msgstr "Recuperar"
 
-#: templates/index.php:30 templates/index.php:31
+#: templates/index.php:34 templates/index.php:35
 msgid "Delete"
 msgstr "Borrar"
 

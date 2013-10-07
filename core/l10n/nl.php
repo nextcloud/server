@@ -96,6 +96,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Fout tijdens het instellen van de vervaldatum",
 "Sending ..." => "Versturen ...",
 "Email sent" => "E-mail verzonden",
+"Warning" => "Waarschuwing",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "De update is niet geslaagd. Meld dit probleem aan bij de <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "De update is geslaagd. Je wordt teruggeleid naar je eigen ownCloud.",
 "%s password reset" => "%s wachtwoord reset",
@@ -118,7 +119,6 @@ $TRANSLATIONS = array(
 "Help" => "Help",
 "Access forbidden" => "Toegang verboden",
 "Cloud not found" => "Cloud niet gevonden",
-"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Hallo daar,\n\n%s deelde %s met jou.\nBekijk: %s\n\nVeel plezier!",
 "Edit categories" => "Wijzig categorieën",
 "Add" => "Toevoegen",
 "Security Warning" => "Beveiligingswaarschuwing",
@@ -148,7 +148,6 @@ $TRANSLATIONS = array(
 "remember" => "onthoud gegevens",
 "Log in" => "Meld je aan",
 "Alternative Logins" => "Alternatieve inlogs",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Hallo daar,<br><br> %s deelde »%s« met jou.<br><a href=\"%s\">Bekijk!</a><br><br>Veel plezier!",
 "Updating ownCloud to version %s, this may take a while." => "Updaten ownCloud naar versie %s, dit kan even duren..."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

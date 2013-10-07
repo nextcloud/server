@@ -81,6 +81,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "حصل خطأ عند عملية تعيين تاريخ إنتهاء الصلاحية",
 "Sending ..." => "جاري الارسال ...",
 "Email sent" => "تم ارسال البريد الالكتروني",
+"Warning" => "تحذير",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "حصل خطأ في عملية التحديث, يرجى ارسال تقرير بهذه المشكلة الى <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "تم التحديث بنجاح , يتم اعادة توجيهك الان الى Owncloud",
 "Use the following link to reset your password: {link}" => "استخدم هذه الوصلة لاسترجاع كلمة السر: {link}",

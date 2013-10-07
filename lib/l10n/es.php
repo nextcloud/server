@@ -8,6 +8,9 @@ $TRANSLATIONS = array(
 "Users" => "Usuarios",
 "Admin" => "Administración",
 "Failed to upgrade \"%s\"." => "Falló la actualización \"%s\".",
+"Custom profile pictures don't work with encryption yet" => "Las imágenes de perfil personalizadas no funcionan con el cifrado aún",
+"Unknown filetype" => "Tipo de archivo desconocido",
+"Invalid image" => "Imagen inválida",
 "web services under your control" => "Servicios web bajo su control",
 "cannot open \"%s\"" => "No se puede abrir \"%s\"",
 "ZIP download is turned off." => "La descarga en ZIP está desactivada.",
@@ -53,6 +56,7 @@ $TRANSLATIONS = array(
 "Set an admin password." => "Configurar la contraseña del administrador.",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Su servidor web aún no está configurado adecuadamente para permitir sincronización de archivos ya que la interfaz WebDAV parece no estar funcionando.",
 "Please double check the <a href='%s'>installation guides</a>." => "Por favor, vuelva a comprobar las <a href='%s'>guías de instalación</a>.",
+"Could not find category \"%s\"" => "No puede encontrar la categoria \"%s\"",
 "seconds ago" => "hace segundos",
 "_%n minute ago_::_%n minutes ago_" => array("Hace %n minuto","Hace %n minutos"),
 "_%n hour ago_::_%n hours ago_" => array("Hace %n hora","Hace %n horas"),
@@ -63,7 +67,6 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("Hace %n mes","Hace %n meses"),
 "last year" => "año pasado",
 "years ago" => "hace años",
-"Caused by:" => "Causado por:",
-"Could not find category \"%s\"" => "No puede encontrar la categoria \"%s\""
+"Caused by:" => "Causado por:"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

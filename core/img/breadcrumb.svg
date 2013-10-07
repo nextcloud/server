@@ -1,6 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="36" width="11" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
- <g transform="translate(0 -1016.4)">
-  <path d="m0.5 0 10 18-10 18 10-18z" transform="translate(0 1016.4)" stroke="#ddd" stroke-linecap="round" stroke-miterlimit="31.2" stroke-width="0.9" fill="#ddd"/>
- </g>
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="44" width="14" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <path d="M0.54879,0.047777,12.744,22,0.54879,43.951,12.744,22z" stroke="#d7d7d7" stroke-linecap="round" stroke-miterlimit="31.20000076000000178" stroke-width="1.09758711000000009" fill="#F00"/>
 </svg>

@@ -103,6 +103,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Ошибка при установке срока доступа",
 "Sending ..." => "Отправляется ...",
 "Email sent" => "Письмо отправлено",
+"Warning" => "Предупреждение",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "При обновлении произошла ошибка. Пожалуйста сообщите об этом в <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud сообщество</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Обновление прошло успешно. Перенаправляемся в Ваш ownCloud...",
 "%s password reset" => "%s сброс пароля",
@@ -121,11 +122,10 @@ $TRANSLATIONS = array(
 "Personal" => "Личное",
 "Users" => "Пользователи",
 "Apps" => "Приложения",
-"Admin" => "Admin",
+"Admin" => "Админпанель",
 "Help" => "Помощь",
 "Access forbidden" => "Доступ запрещён",
 "Cloud not found" => "Облако не найдено",
-"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Приветствую,⏎\n⏎\nпросто даю знать, что %s поделился %s с вами.⏎\nПосмотреть: %s⏎\n⏎\nУдачи!",
 "Edit categories" => "Редактировать категрии",
 "Add" => "Добавить",
 "Security Warning" => "Предупреждение безопасности",
@@ -155,7 +155,6 @@ $TRANSLATIONS = array(
 "remember" => "запомнить",
 "Log in" => "Войти",
 "Alternative Logins" => "Альтернативные имена пользователя",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Приветствую,<br><br>просто даю знать, что %s поделился »%s« с вами.<br><a href=\"%s\">Посмотреть!</a><br><br>Удачи!",
 "Updating ownCloud to version %s, this may take a while." => "Идёт обновление ownCloud до версии %s. Это может занять некоторое время."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

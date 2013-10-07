@@ -89,6 +89,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Geçerlilik tarihi tanımlama hatası",
 "Sending ..." => "Gönderiliyor...",
 "Email sent" => "Eposta gönderildi",
+"Warning" => "Uyarı",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Güncelleme başarılı olmadı. Lütfen bu hatayı bildirin <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Güncelleme başarılı. ownCloud'a yönlendiriliyor.",
 "%s password reset" => "%s parola sıfırlama",
@@ -111,7 +112,6 @@ $TRANSLATIONS = array(
 "Help" => "Yardım",
 "Access forbidden" => "Erişim yasaklı",
 "Cloud not found" => "Bulut bulunamadı",
-"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Merhaba\n\n%s sizinle %s dosyasını paylaştığı\nPaylaşımı gör:%s\n\nİyi günler!",
 "Edit categories" => "Kategorileri düzenle",
 "Add" => "Ekle",
 "Security Warning" => "Güvenlik Uyarisi",
@@ -141,7 +141,6 @@ $TRANSLATIONS = array(
 "remember" => "hatırla",
 "Log in" => "Giriş yap",
 "Alternative Logins" => "Alternatif Girişler",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Merhaba, <br><br> %s sizinle »%s« paylaşımında bulundu.<br><a href=\"%s\">Paylaşımı gör!</a><br><br>İyi günler!",
 "Updating ownCloud to version %s, this may take a while." => "Owncloud %s versiyonuna güncelleniyor. Biraz zaman alabilir."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

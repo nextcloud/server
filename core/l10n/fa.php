@@ -83,6 +83,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "خطا در تنظیم تاریخ انقضا",
 "Sending ..." => "درحال ارسال ...",
 "Email sent" => "ایمیل ارسال شد",
+"Warning" => "اخطار",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "به روز رسانی ناموفق بود. لطفا این خطا را به  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">جامعه ی OwnCloud</a> گزارش نمایید.",
 "The update was successful. Redirecting you to ownCloud now." => "به روزرسانی موفقیت آمیز بود. در حال انتقال شما به OwnCloud.",
 "Use the following link to reset your password: {link}" => "از لینک زیر جهت دوباره سازی پسورد استفاده کنید :\n{link}",
@@ -104,7 +105,6 @@ $TRANSLATIONS = array(
 "Help" => "راه‌نما",
 "Access forbidden" => "اجازه دسترسی به مناطق ممنوعه را ندارید",
 "Cloud not found" => "پیدا نشد",
-"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "اینجا,⏎\n فقط به شما اجازه میدهد که بدانید %s به اشتراک گذاشته شده %s توسط شما.⏎\nمشاهده آن :  %s⏎\n⏎\nبه سلامتی!",
 "Edit categories" => "ویرایش گروه",
 "Add" => "افزودن",
 "Security Warning" => "اخطار امنیتی",
@@ -132,7 +132,6 @@ $TRANSLATIONS = array(
 "remember" => "بیاد آوری",
 "Log in" => "ورود",
 "Alternative Logins" => "ورود متناوب",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "اینجا<br><br> فقط به شما اجازه میدهد که بدانید %s به اشتراک گذاشته شده»%s« توسط شما.<br><a href=\"%s\"> مشاهده آن!</a><br><br> به سلامتی!",
 "Updating ownCloud to version %s, this may take a while." => "به روز رسانی OwnCloud به نسخه ی %s، این عملیات ممکن است زمان بر باشد."
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

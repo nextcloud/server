@@ -81,6 +81,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Gwall wrth osod dyddiad dod i ben",
 "Sending ..." => "Yn anfon ...",
 "Email sent" => "Anfonwyd yr e-bost",
+"Warning" => "Rhybudd",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Methodd y diweddariad. Adroddwch y mater hwn i <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">gymuned ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Roedd y diweddariad yn llwyddiannus. Cewch eich ailgyfeirio i ownCloud nawr.",
 "Use the following link to reset your password: {link}" => "Defnyddiwch y ddolen hon i ailosod eich cyfrinair: {link}",

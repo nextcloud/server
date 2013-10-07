@@ -56,6 +56,7 @@ $TRANSLATIONS = array(
 "Set an admin password." => "Spécifiez un mot de passe administrateur.",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Votre serveur web, n'est pas correctement configuré pour permettre la synchronisation des fichiers, car l'interface WebDav ne fonctionne pas comme il faut.",
 "Please double check the <a href='%s'>installation guides</a>." => "Veuillez vous référer au <a href='%s'>guide d'installation</a>.",
+"Could not find category \"%s\"" => "Impossible de trouver la catégorie \"%s\"",
 "seconds ago" => "il y a quelques secondes",
 "_%n minute ago_::_%n minutes ago_" => array("","il y a %n minutes"),
 "_%n hour ago_::_%n hours ago_" => array("","Il y a %n heures"),
@@ -66,7 +67,6 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("","Il y a %n mois"),
 "last year" => "l'année dernière",
 "years ago" => "il y a plusieurs années",
-"Caused by:" => "Causé par :",
-"Could not find category \"%s\"" => "Impossible de trouver la catégorie \"%s\""
+"Caused by:" => "Causé par :"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

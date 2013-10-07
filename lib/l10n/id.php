@@ -35,6 +35,7 @@ $TRANSLATIONS = array(
 "Set an admin password." => "Setel sandi admin.",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Web server Anda belum dikonfigurasikan dengan baik untuk mengizinkan sinkronisasi berkas karena tampaknya antarmuka WebDAV rusak.",
 "Please double check the <a href='%s'>installation guides</a>." => "Silakan periksa ulang <a href='%s'>panduan instalasi</a>.",
+"Could not find category \"%s\"" => "Tidak dapat menemukan kategori \"%s\"",
 "seconds ago" => "beberapa detik yang lalu",
 "_%n minute ago_::_%n minutes ago_" => array(""),
 "_%n hour ago_::_%n hours ago_" => array(""),
@@ -44,7 +45,6 @@ $TRANSLATIONS = array(
 "last month" => "bulan kemarin",
 "_%n month ago_::_%n months ago_" => array(""),
 "last year" => "tahun kemarin",
-"years ago" => "beberapa tahun lalu",
-"Could not find category \"%s\"" => "Tidak dapat menemukan kategori \"%s\""
+"years ago" => "beberapa tahun lalu"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

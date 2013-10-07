@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:05+0000\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-01 18:37+0000\n"
 "Last-Translator: Piarres Beobide <pi@beobide.net>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/dropbox.js:7 js/dropbox.js:28 js/google.js:16 js/google.js:34
+#: js/dropbox.js:7 js/dropbox.js:28 js/google.js:8 js/google.js:39
 msgid "Access granted"
 msgstr "Sarrera baimendua"
 
@@ -26,7 +26,7 @@ msgstr "Sarrera baimendua"
 msgid "Error configuring Dropbox storage"
 msgstr "Errore bat egon da Dropbox biltegiratzea konfiguratzean"
 
-#: js/dropbox.js:65 js/google.js:66
+#: js/dropbox.js:65 js/google.js:86
 msgid "Grant access"
 msgstr "Baimendu sarrera"
 
@@ -34,24 +34,24 @@ msgstr "Baimendu sarrera"
 msgid "Please provide a valid Dropbox app key and secret."
 msgstr "Mesedez eman baliozkoa den Dropbox app giltza eta sekretua"
 
-#: js/google.js:36 js/google.js:93
+#: js/google.js:42 js/google.js:121
 msgid "Error configuring Google Drive storage"
 msgstr "Errore bat egon da Google Drive biltegiratzea konfiguratzean"
 
-#: lib/config.php:447
+#: lib/config.php:453
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Abisua:</b> \"smbclient\" ez dago instalatuta. CIFS/SMB partekatutako karpetak montatzea ez da posible. Mesedez eskatu zure sistema kudeatzaileari instalatzea."
 
-#: lib/config.php:450
+#: lib/config.php:457
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
 msgstr "<b>Abisua:</b> PHPren FTP modulua ez dago instalatuta edo gaitua. FTP partekatutako karpetak montatzea ez da posible. Mesedez eskatu zure sistema kudeatzaileari instalatzea."
 
-#: lib/config.php:453
+#: lib/config.php:460
 msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "

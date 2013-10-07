@@ -1,0 +1,293 @@
+<?php
+
+namespace OC;
+
+use OC\AppFramework\Http\Request;
+use OC\AppFramework\Utility\SimpleContainer;
+use OC\Cache\UserCache;
+use OC\Files\Node\Root;
+use OC\Files\View;
+use OCP\IServerContainer;
+
+/**
+ * Class Server
+ * @package OC
+ *
+ * TODO: hookup all manager classes
+ */
+class Server extends SimpleContainer implements IServerContainer {
+
+	function __construct() {
+		$this->registerService('ContactsManager', function($c) {
+			return new ContactsManager();
+		});
+		$this->registerService('Request', function($c) {
+			if (isset($c['urlParams'])) {
+				$urlParams = $c['urlParams'];
+			} else {
+				$urlParams = array();
+			}
+
+			if (\OC::$session->exists('requesttoken')) {
+				$requesttoken = \OC::$session->get('requesttoken');
+			} else {
+				$requesttoken = false;
+			}
+
+
+			return new Request(
+				array(
+					'get' => $_GET,
+					'post' => $_POST,
+					'files' => $_FILES,
+					'server' => $_SERVER,
+					'env' => $_ENV,
+					'cookies' => $_COOKIE,
+					'method' => (isset($_SERVER) && isset($_SERVER['REQUEST_METHOD']))
+						? $_SERVER['REQUEST_METHOD']
+						: null,
+					'params' => $params,
+					'urlParams' => $urlParams,
+					'requesttoken' => $requesttoken,
+				)
+			);
+		});
+		$this->registerService('PreviewManager', function($c) {
+			return new PreviewManager();
+		});
+		$this->registerService('TagManager', function($c) {
+			$user = \OC_User::getUser();
+			return new TagManager($user);
+		});
+		$this->registerService('RootFolder', function($c) {
+			// TODO: get user and user manager from container as well
+			$user = \OC_User::getUser();
+			/** @var $c SimpleContainer */
+			$userManager = $c->query('UserManager');
+			$user = $userManager->get($user);
+			$manager = \OC\Files\Filesystem::getMountManager();
+			$view = new View();
+			return new Root($manager, $view, $user);
+		});
+		$this->registerService('UserManager', function($c) {
+			return new \OC\User\Manager();
+		});
+		$this->registerService('UserSession', function($c) {
+			/** @var $c SimpleContainer */
+			$manager = $c->query('UserManager');
+			$userSession = new \OC\User\Session($manager, \OC::$session);
+			$userSession->listen('\OC\User', 'preCreateUser', function ($uid, $password) {
+				\OC_Hook::emit('OC_User', 'pre_createUser', array('run' => true, 'uid' => $uid, 'password' => $password));
+			});
+			$userSession->listen('\OC\User', 'postCreateUser', function ($user, $password) {
+				/** @var $user \OC\User\User */
+				\OC_Hook::emit('OC_User', 'post_createUser', array('uid' => $user->getUID(), 'password' => $password));
+			});
+			$userSession->listen('\OC\User', 'preDelete', function ($user) {
+				/** @var $user \OC\User\User */
+				\OC_Hook::emit('OC_User', 'pre_deleteUser', array('run' => true, 'uid' => $user->getUID()));
+			});
+			$userSession->listen('\OC\User', 'postDelete', function ($user) {
+				/** @var $user \OC\User\User */
+				\OC_Hook::emit('OC_User', 'post_deleteUser', array('uid' => $user->getUID()));
+			});
+			$userSession->listen('\OC\User', 'preSetPassword', function ($user, $password, $recoveryPassword) {
+				/** @var $user \OC\User\User */
+				\OC_Hook::emit('OC_User', 'pre_setPassword', array('run' => true, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword));
+			});
+			$userSession->listen('\OC\User', 'postSetPassword', function ($user, $password, $recoveryPassword) {
+				/** @var $user \OC\User\User */
+				\OC_Hook::emit('OC_User', 'post_setPassword', array('run' => true, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword));
+			});
+			$userSession->listen('\OC\User', 'preLogin', function ($uid, $password) {
+				\OC_Hook::emit('OC_User', 'pre_login', array('run' => true, 'uid' => $uid, 'password' => $password));
+			});
+			$userSession->listen('\OC\User', 'postLogin', function ($user, $password) {
+				/** @var $user \OC\User\User */
+				\OC_Hook::emit('OC_User', 'post_login', array('run' => true, 'uid' => $user->getUID(), 'password' => $password));
+			});
+			$userSession->listen('\OC\User', 'logout', function () {
+				\OC_Hook::emit('OC_User', 'logout', array());
+			});
+			return $userSession;
+		});
+		$this->registerService('NavigationManager', function($c) {
+			return new \OC\NavigationManager();
+		});
+		$this->registerService('AllConfig', function($c) {
+			return new \OC\AllConfig();
+		});
+		$this->registerService('L10NFactory', function($c) {
+			return new \OC\L10N\Factory();
+		});
+		$this->registerService('URLGenerator', function($c) {
+			return new \OC\URLGenerator();
+		});
+		$this->registerService('AppHelper', function($c) {
+			return new \OC\AppHelper();
+		});
+		$this->registerService('UserCache', function($c) {
+			return new UserCache();
+		});
+	}
+
+	/**
+	 * @return \OCP\Contacts\IManager
+	 */
+	function getContactsManager() {
+		return $this->query('ContactsManager');
+	}
+
+	/**
+	 * The current request object holding all information about the request
+	 * currently being processed is returned from this method.
+	 * In case the current execution was not initiated by a web request null is returned
+	 *
+	 * @return \OCP\IRequest|null
+	 */
+	function getRequest() {
+		return $this->query('Request');
+	}
+
+	/**
+	 * Returns the preview manager which can create preview images for a given file
+	 *
+	 * @return \OCP\IPreview
+	 */
+	function getPreviewManager() {
+		return $this->query('PreviewManager');
+	}
+
+	/**
+	 * Returns the tag manager which can get and set tags for different object types
+	 *
+	 * @see \OCP\ITagManager::load()
+	 * @return \OCP\ITagManager
+	 */
+	function getTagManager() {
+		return $this->query('TagManager');
+	}
+
+	/**
+	 * Returns the root folder of ownCloud's data directory
+	 *
+	 * @return \OCP\Files\Folder
+	 */
+	function getRootFolder() {
+		return $this->query('RootFolder');
+	}
+
+	/**
+	 * Returns a view to ownCloud's files folder
+	 *
+	 * @return \OCP\Files\Folder
+	 */
+	function getUserFolder() {
+
+		$dir = '/files';
+		$root = $this->getRootFolder();
+		$folder = null;
+		if(!$root->nodeExists($dir)) {
+			$folder = $root->newFolder($dir);
+		} else {
+			$folder = $root->get($dir);
+		}
+		return $folder;
+	}
+
+	/**
+	 * Returns an app-specific view in ownClouds data directory
+	 *
+	 * @return \OCP\Files\Folder
+	 */
+	function getAppFolder() {
+
+		$dir = '/' . \OC_App::getCurrentApp();
+		$root = $this->getRootFolder();
+		$folder = null;
+		if(!$root->nodeExists($dir)) {
+			$folder = $root->newFolder($dir);
+		} else {
+			$folder = $root->get($dir);
+		}
+		return $folder;
+	}
+
+	/**
+	 * @return \OC\User\Manager
+	 */
+	function getUserManager() {
+		return $this->query('UserManager');
+	}
+
+	/**
+	 * @return \OC\User\Session
+	 */
+	function getUserSession() {
+		return $this->query('UserSession');
+	}
+
+	/**
+	 * @return \OC\NavigationManager
+	 */
+	function getNavigationManager() {
+		return $this->query('NavigationManager');
+	}
+
+	/**
+	 * @return \OC\Config
+	 */
+	function getConfig() {
+		return $this->query('AllConfig');
+	}
+
+	/**
+	 * get an L10N instance
+	 * @param $app string appid
+	 * @return \OC_L10N
+	 */
+	function getL10N($app) {
+		return $this->query('L10NFactory')->get($app);
+	}
+
+	/**
+	 * @return \OC\URLGenerator
+	 */
+	function getURLGenerator() {
+		return $this->query('URLGenerator');
+	}
+
+	/**
+	 * @return \OC\Helper
+	 */
+	function getHelper() {
+		return $this->query('AppHelper');
+	}
+
+	/**
+	 * Returns an ICache instance
+	 *
+	 * @return \OCP\ICache
+	 */
+	function getCache() {
+		return $this->query('UserCache');
+	}
+
+	/**
+	 * Returns the current session
+	 *
+	 * @return \OCP\ISession
+	 */
+	function getSession() {
+		return \OC::$session;
+	}
+
+	/**
+	 * Returns the current session
+	 *
+	 * @return \OCP\IDBConnection
+	 */
+	function getDatabaseConnection() {
+		return \OC_DB::getConnection();
+	}
+}

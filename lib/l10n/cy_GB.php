@@ -35,6 +35,7 @@ $TRANSLATIONS = array(
 "Set an admin password." => "Gosod cyfrinair y gweinyddwr.",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Nid yw eich gweinydd wedi'i gyflunio eto i ganiatáu cydweddu ffeiliau oherwydd bod y rhyngwyneb WebDAV wedi torri.",
 "Please double check the <a href='%s'>installation guides</a>." => "Gwiriwch y <a href='%s'>canllawiau gosod</a> eto.",
+"Could not find category \"%s\"" => "Methu canfod categori \"%s\"",
 "seconds ago" => "eiliad yn ôl",
 "_%n minute ago_::_%n minutes ago_" => array("","","",""),
 "_%n hour ago_::_%n hours ago_" => array("","","",""),
@@ -44,7 +45,6 @@ $TRANSLATIONS = array(
 "last month" => "mis diwethaf",
 "_%n month ago_::_%n months ago_" => array("","","",""),
 "last year" => "y llynedd",
-"years ago" => "blwyddyn yn ôl",
-"Could not find category \"%s\"" => "Methu canfod categori \"%s\""
+"years ago" => "blwyddyn yn ôl"
 );
 $PLURAL_FORMS = "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;";

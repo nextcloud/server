@@ -63,6 +63,15 @@ Files={
 		}
 
 		var encryptedFiles = $('#encryptedFiles').val();
+		var initStatus = $('#encryptionInitStatus').val();
+		if (initStatus === '0') { // enc not initialized, but should be
+			OC.Notification.show(t('files_encryption', 'Encryption App is enabled but your keys are not initialized, please log-out and log-in again'));
+			return;
+		}
+		if (initStatus === '1') { // encryption tried to init but failed
+			OC.Notification.showHtml(t('files_encryption', 'Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files.'));
+			return;
+		}
 		if (encryptedFiles === '1') {
 			OC.Notification.show(t('files_encryption', 'Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files.'));
 			return;
@@ -89,6 +98,8 @@ Files={
 	lastWidth: 0,
 
 	initBreadCrumbs: function () {
+		var $controls = $('#controls');
+
 		Files.lastWidth = 0;
 		Files.breadcrumbs = [];
 
@@ -109,7 +120,10 @@ Files={
 		});
 
 		// event handlers for breadcrumb items
-		$('#controls .crumb a').on('click', onClickBreadcrumb);
+		$controls.find('.crumb a').on('click', onClickBreadcrumb);
+
+		// setup drag and drop
+		$controls.find('.crumb:not(.last)').droppable(crumbDropOptions);
 	},
 
 	resizeBreadcrumbs: function (width, firstRun) {
@@ -167,11 +181,8 @@ $(document).ready(function() {
 
 	$('#file_action_panel').attr('activeAction', false);
 
-	$('div.crumb:not(.last)').droppable(crumbDropOptions);
-	$('ul#apps>li:first-child').data('dir','');
-	if($('div.crumb').length){
-		$('ul#apps>li:first-child').droppable(crumbDropOptions);
-	}
+	// allow dropping on the "files" app icon
+	$('ul#apps li:first-child').data('dir','').droppable(crumbDropOptions);
 
 	// Triggers invisible file input
 	$('#upload a').on('click', function() {
@@ -358,7 +369,7 @@ $(document).ready(function() {
 			}
 		});
 	}
-	
+
 	//scroll to and highlight preselected file
 	if (getURLParameter('scrollto')) {
 		FileList.scrollTo(getURLParameter('scrollto'));
@@ -636,7 +647,7 @@ function lazyLoadPreview(path, mime, ready, width, height) {
 	// get mime icon url
 	getMimeIcon(mime, function(iconURL) {
 		ready(iconURL); // set mimeicon URL
-		
+
 		// now try getting a preview thumbnail URL
 		if ( ! width ) {
 			width = $('#filestable').data('preview-x');
@@ -645,9 +656,9 @@ function lazyLoadPreview(path, mime, ready, width, height) {
 			height = $('#filestable').data('preview-y');
 		}
 		if( $('#publicUploadButtonMock').length ) {
-			var previewURL = OC.Router.generate('core_ajax_public_preview', {file: encodeURIComponent(path), x:width, y:height, t:$('#dirToken').val()});
+			var previewURL = OC.Router.generate('core_ajax_public_preview', {file: path, x:width, y:height, t:$('#dirToken').val()});
 		} else {
-			var previewURL = OC.Router.generate('core_ajax_preview', {file: encodeURIComponent(path), x:width, y:height});
+			var previewURL = OC.Router.generate('core_ajax_preview', {file: path, x:width, y:height});
 		}
 		$.get(previewURL, function() {
 			previewURL = previewURL.replace('(', '%28');

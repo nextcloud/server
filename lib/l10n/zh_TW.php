@@ -8,6 +8,9 @@ $TRANSLATIONS = array(
 "Users" => "使用者",
 "Admin" => "管理",
 "Failed to upgrade \"%s\"." => "升級失敗：%s",
+"Custom profile pictures don't work with encryption yet" => "自訂大頭貼暫時不能和加密功能同時使用",
+"Unknown filetype" => "未知的檔案類型",
+"Invalid image" => "無效的圖片",
 "web services under your control" => "由您控制的網路服務",
 "cannot open \"%s\"" => "無法開啓 %s",
 "ZIP download is turned off." => "ZIP 下載已關閉。",
@@ -53,6 +56,7 @@ $TRANSLATIONS = array(
 "Set an admin password." => "設定管理員密碼。",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "您的網頁伺服器尚未被正確設定來進行檔案同步，因為您的 WebDAV 界面似乎無法使用。",
 "Please double check the <a href='%s'>installation guides</a>." => "請參考<a href='%s'>安裝指南</a>。",
+"Could not find category \"%s\"" => "找不到分類：\"%s\"",
 "seconds ago" => "幾秒前",
 "_%n minute ago_::_%n minutes ago_" => array("%n 分鐘前"),
 "_%n hour ago_::_%n hours ago_" => array("%n 小時前"),
@@ -63,7 +67,6 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("%n 個月前"),
 "last year" => "去年",
 "years ago" => "幾年前",
-"Caused by:" => "原因：",
-"Could not find category \"%s\"" => "找不到分類：\"%s\""
+"Caused by:" => "原因："
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

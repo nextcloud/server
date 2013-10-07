@@ -83,6 +83,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Σφάλμα κατά τον ορισμό ημ. λήξης",
 "Sending ..." => "Αποστολή...",
 "Email sent" => "Το Email απεστάλη ",
+"Warning" => "Προειδοποίηση",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Η ενημέρωση ήταν ανεπιτυχής. Παρακαλώ στείλτε αναφορά στην <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">κοινότητα ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Η ενημέρωση ήταν επιτυχής. Μετάβαση στο ownCloud.",
 "Use the following link to reset your password: {link}" => "Χρησιμοποιήστε τον ακόλουθο σύνδεσμο για να επανεκδόσετε τον κωδικό: {link}",
@@ -104,7 +105,6 @@ $TRANSLATIONS = array(
 "Help" => "Βοήθεια",
 "Access forbidden" => "Δεν επιτρέπεται η πρόσβαση",
 "Cloud not found" => "Δεν βρέθηκε νέφος",
-"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Γεια σας,\n\nσας ενημερώνουμε ότι ο %s διαμοιράστηκε μαζί σας το %s.\nΔείτε το: %s\n\nΓεια χαρά!",
 "Edit categories" => "Επεξεργασία κατηγοριών",
 "Add" => "Προσθήκη",
 "Security Warning" => "Προειδοποίηση Ασφαλείας",
@@ -134,7 +134,6 @@ $TRANSLATIONS = array(
 "remember" => "απομνημόνευση",
 "Log in" => "Είσοδος",
 "Alternative Logins" => "Εναλλακτικές Συνδέσεις",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Γεια σας,<br><br>σας ενημερώνουμε ότι ο %s διαμοιράστηκε μαζί σας το »%s«.<br><a href=\"%s\">Δείτε το!</a><br><br>Γεια χαρά!",
 "Updating ownCloud to version %s, this may take a while." => "Ενημερώνοντας το ownCloud στην έκδοση %s,μπορεί να πάρει λίγο χρόνο."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

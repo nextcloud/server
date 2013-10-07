@@ -37,6 +37,7 @@ $TRANSLATIONS = array(
 "Set an admin password." => "请设置一个管理员密码。",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "您的Web服务器尚未正确设置以允许文件同步, 因为WebDAV的接口似乎已损坏.",
 "Please double check the <a href='%s'>installation guides</a>." => "请认真检查<a href='%s'>安装指南</a>.",
+"Could not find category \"%s\"" => "无法找到分类 \"%s\"",
 "seconds ago" => "秒前",
 "_%n minute ago_::_%n minutes ago_" => array("%n 分钟前"),
 "_%n hour ago_::_%n hours ago_" => array("%n 小时前"),
@@ -46,7 +47,6 @@ $TRANSLATIONS = array(
 "last month" => "上月",
 "_%n month ago_::_%n months ago_" => array("%n 月前"),
 "last year" => "去年",
-"years ago" => "年前",
-"Could not find category \"%s\"" => "无法找到分类 \"%s\""
+"years ago" => "年前"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

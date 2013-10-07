@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-07 04:40-0400\n"
-"PO-Revision-Date: 2013-09-05 11:51+0000\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-03 12:22+0000\n"
 "Last-Translator: martin\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -27,17 +27,17 @@ msgstr "Nepodarilo sa vymazať mapovania."
 msgid "Failed to delete the server configuration"
 msgstr "Zlyhalo zmazanie nastavenia servera."
 
-#: ajax/testConfiguration.php:36
+#: ajax/testConfiguration.php:37
 msgid "The configuration is valid and the connection could be established!"
 msgstr "Nastavenie je v poriadku a pripojenie je stabilné."
 
-#: ajax/testConfiguration.php:39
+#: ajax/testConfiguration.php:40
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
 msgstr "Nastavenie je v poriadku, ale pripojenie zlyhalo. Skontrolujte nastavenia servera a prihlasovacie údaje."
 
-#: ajax/testConfiguration.php:43
+#: ajax/testConfiguration.php:44
 msgid ""
 "The configuration is invalid. Please look in the ownCloud log for further "
 "details."

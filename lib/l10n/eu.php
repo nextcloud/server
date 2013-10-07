@@ -39,6 +39,7 @@ $TRANSLATIONS = array(
 "Set an admin password." => "Ezarri administraziorako pasahitza.",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Zure web zerbitzaria ez dago oraindik ongi konfiguratuta fitxategien sinkronizazioa egiteko, WebDAV interfazea ongi ez dagoela dirudi.",
 "Please double check the <a href='%s'>installation guides</a>." => "Mesedez begiratu <a href='%s'>instalazio gidak</a>.",
+"Could not find category \"%s\"" => "Ezin da \"%s\" kategoria aurkitu",
 "seconds ago" => "segundu",
 "_%n minute ago_::_%n minutes ago_" => array("orain dela minutu %n","orain dela %n minutu"),
 "_%n hour ago_::_%n hours ago_" => array("orain dela ordu %n","orain dela %n ordu"),
@@ -49,7 +50,6 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("orain dela hilabete %n","orain dela %n hilabete"),
 "last year" => "joan den urtean",
 "years ago" => "urte",
-"Caused by:" => "Honek eraginda:",
-"Could not find category \"%s\"" => "Ezin da \"%s\" kategoria aurkitu"
+"Caused by:" => "Honek eraginda:"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

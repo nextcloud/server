@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-22 12:51-0400\n"
-"PO-Revision-Date: 2013-09-20 16:40+0000\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-05 17:40+0000\n"
 "Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -122,7 +122,7 @@ msgstr "URL não pode ficar em branco"
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
 msgstr "Nome de pasta inválido. O uso do nome 'Compartilhado' é reservado ao ownCloud"
 
-#: js/file-upload.js:557 js/file-upload.js:573 js/files.js:507 js/files.js:545
+#: js/file-upload.js:557 js/file-upload.js:573 js/files.js:516 js/files.js:554
 msgid "Error"
 msgstr "Erro"
 
@@ -166,13 +166,13 @@ msgstr "Substituído {old_name} por {new_name} "
 msgid "undo"
 msgstr "desfazer"
 
-#: js/filelist.js:533 js/filelist.js:599 js/files.js:576
+#: js/filelist.js:533 js/filelist.js:599 js/files.js:585
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n pasta"
 msgstr[1] "%n pastas"
 
-#: js/filelist.js:534 js/filelist.js:600 js/files.js:582
+#: js/filelist.js:534 js/filelist.js:600 js/files.js:591
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n arquivo"
@@ -210,31 +210,44 @@ msgstr "Seu armazenamento está cheio, arquivos não podem mais ser atualizados 
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Seu armazenamento está quase cheio ({usedSpacePercent}%)"
 
-#: js/files.js:67
+#: js/files.js:68
+msgid ""
+"Encryption App is enabled but your keys are not initialized, please log-out "
+"and log-in again"
+msgstr "App de encriptação está ativado, mas as chaves não estão inicializadas, por favor log-out e faça login novamente"
+
+#: js/files.js:72
+msgid ""
+"Invalid private key for Encryption App. Please update your private key "
+"password in your personal settings to recover access to your encrypted "
+"files."
+msgstr "Chave do App de Encriptação é inválida. Por favor, atualize sua senha de chave privada em suas configurações pessoais para recuperar o acesso a seus arquivos criptografados."
+
+#: js/files.js:76
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
 msgstr "Encriptação foi desabilitada mas seus arquivos continuam encriptados. Por favor vá a suas configurações pessoais para descriptar seus arquivos."
 
-#: js/files.js:296
+#: js/files.js:305
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Seu download está sendo preparado. Isto pode levar algum tempo se os arquivos forem grandes."
 
-#: js/files.js:507 js/files.js:545
+#: js/files.js:516 js/files.js:554
 msgid "Error moving file"
 msgstr "Erro movendo o arquivo"
 
-#: js/files.js:558 templates/index.php:61
+#: js/files.js:567 templates/index.php:59
 msgid "Name"
 msgstr "Nome"
 
-#: js/files.js:559 templates/index.php:73
+#: js/files.js:568 templates/index.php:71
 msgid "Size"
 msgstr "Tamanho"
 
-#: js/files.js:560 templates/index.php:75
+#: js/files.js:569 templates/index.php:73
 msgid "Modified"
 msgstr "Modificado"
 
@@ -295,49 +308,49 @@ msgstr "Pasta"
 msgid "From link"
 msgstr "Do link"
 
-#: templates/index.php:33
+#: templates/index.php:32
 msgid "Deleted files"
 msgstr "Arquivos apagados"
 
-#: templates/index.php:39
+#: templates/index.php:37
 msgid "Cancel upload"
 msgstr "Cancelar upload"
 
-#: templates/index.php:45
+#: templates/index.php:43
 msgid "You don’t have write permissions here."
 msgstr "Você não possui permissão de escrita aqui."
 
-#: templates/index.php:50
+#: templates/index.php:48
 msgid "Nothing in here. Upload something!"
 msgstr "Nada aqui.Carrege alguma coisa!"
 
-#: templates/index.php:67
+#: templates/index.php:65
 msgid "Download"
 msgstr "Baixar"
 
-#: templates/index.php:80 templates/index.php:81
+#: templates/index.php:78 templates/index.php:79
 msgid "Unshare"
 msgstr "Descompartilhar"
 
-#: templates/index.php:86 templates/index.php:87
+#: templates/index.php:84 templates/index.php:85
 msgid "Delete"
 msgstr "Excluir"
 
-#: templates/index.php:100
+#: templates/index.php:98
 msgid "Upload too large"
 msgstr "Upload muito grande"
 
-#: templates/index.php:102
+#: templates/index.php:100
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Os arquivos que você está tentando carregar excedeu o tamanho máximo para arquivos no servidor."
 
-#: templates/index.php:107
+#: templates/index.php:105
 msgid "Files are being scanned, please wait."
 msgstr "Arquivos sendo escaneados, por favor aguarde."
 
-#: templates/index.php:110
+#: templates/index.php:108
 msgid "Current scanning"
 msgstr "Scanning atual"
 

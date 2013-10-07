@@ -131,7 +131,7 @@ class Stream {
 
 			if($this->privateKey === false) {
 				// if private key is not valid redirect user to a error page
-				\OCA\Encryption\Helper::redirectToErrorPage();
+				\OCA\Encryption\Helper::redirectToErrorPage($this->session);
 			}
 
 			$this->size = $this->rootView->filesize($this->rawPath, $mode);
