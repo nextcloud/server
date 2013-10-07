@@ -88,6 +88,13 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 			}
 		} catch (\OCP\Files\NotPermittedException $e) {
 			throw new Sabre_DAV_Exception_Forbidden();
+		} catch (\OCP\Files\EntityTooLargeException $e) {
+			throw new OC_Connector_Sabre_Exception_EntityTooLarge();
+		} catch (\OCP\Files\InvalidContentException $e) {
+			throw new OC_Connector_Sabre_Exception_UnsupportedMediaType();
+		} catch (\OCP\Files\InvalidPathException $e) {
+			// TODO: add specific exception here
+			throw new Sabre_DAV_Exception_Forbidden();
 		}
 
 		// rename to correct path
