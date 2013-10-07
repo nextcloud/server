@@ -100,69 +100,6 @@ class API implements IApi{
 
 
 	/**
-	 * Returns the URL for a route
-	 * @param string $routeName the name of the route
-	 * @param array $arguments an array with arguments which will be filled into the url
-	 * @return string the url
-	 */
-	public function linkToRoute($routeName, $arguments=array()){
-		return \OCP\Util::linkToRoute($routeName, $arguments);
-	}
-
-
-	/**
-	 * Returns an URL for an image or file
-	 * @param string $file the name of the file
-	 * @param string $appName the name of the app, defaults to the current one
-	 */
-	public function linkTo($file, $appName=null){
-		if($appName === null){
-			$appName = $this->appName;
-		}
-		return \OCP\Util::linkTo($appName, $file);
-	}
-
-
-	/**
-	 * Returns the link to an image, like link to but only with prepending img/
-	 * @param string $file the name of the file
-	 * @param string $appName the name of the app, defaults to the current one
-	 */
-	public function imagePath($file, $appName=null){
-		if($appName === null){
-			$appName = $this->appName;
-		}
-		return \OCP\Util::imagePath($appName, $file);
-	}
-
-
-	/**
-	 * Makes an URL absolute
-	 * @param string $url the url
-	 * @return string the absolute url
-	 */
-	public function getAbsoluteURL($url){
-		# TODO: use public api
-		return \OC_Helper::makeURLAbsolute($url);
-	}
-
-
-	/**
-	 * links to a file
-	 * @param string $file the name of the file
-	 * @param string $appName the name of the app, defaults to the current one
-	 * @deprecated replaced with linkToRoute()
-	 * @return string the url
-	 */
-	public function linkToAbsolute($file, $appName=null){
-		if($appName === null){
-			$appName = $this->appName;
-		}
-		return \OCP\Util::linkToAbsolute($appName, $file);
-	}
-
-
-	/**
 	 * Checks if an app is enabled
 	 * @param string $appName the name of an app
 	 * @return bool true if app is enabled
