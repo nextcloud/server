@@ -64,7 +64,7 @@
 					</li>
 				<?php endforeach; ?>
 					<li>
-						<a id="logout" <?php print OC_User::getLogoutAttribute(); ?>>
+						<a id="logout" <?php print_unescaped(OC_User::getLogoutAttribute()); ?>>
 							<img class="svg" alt="" src="<?php print_unescaped(image_path('', 'actions/logout.svg')); ?>" />
 							<?php p($l->t('Log out'));?>
 						</a>

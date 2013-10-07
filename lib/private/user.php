@@ -327,7 +327,7 @@ class OC_User {
 			}
 		}
 
-		return print_unescaped("href=".link_to('', 'index.php'))."?logout=true";
+		return "href=" . link_to('', 'index.php') . "?logout=true";
 	}
 
 	/**
