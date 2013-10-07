@@ -341,7 +341,8 @@ class Wizard extends LDAPUtility {
 		$dnRead = array();
 		$foundItems = array();
 		$maxEntries = 0;
-		if(!is_array($this->configuration->ldapBase) || !isset($this->configuration->ldapBase[0])) {
+		if(!is_array($this->configuration->ldapBase)
+		   || !isset($this->configuration->ldapBase[0])) {
 			return false;
 		}
 		$base = $this->configuration->ldapBase[0];
@@ -355,7 +356,6 @@ class Wizard extends LDAPUtility {
 			}
 			$rr = $this->ldap->search($cr, $base, $filter, array($attr));
 			if(!$this->ldap->isResource($rr)) {
-				\OCP\Util::writeLog('user_ldap', 'Search failed, Base '.$base, \OCP\Util::DEBUG);
 				continue;
 			}
 			$entries = $this->ldap->countEntries($cr, $rr);
