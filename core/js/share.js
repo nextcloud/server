@@ -502,6 +502,7 @@ $(document).ready(function() {
 
 	$(document).on('click', '#dropdown .showCruds', function() {
 		$(this).parent().find('.cruds').toggle();
+		return false;
 	});
 
 	$(document).on('click', '#dropdown .unshare', function() {
@@ -519,6 +520,7 @@ $(document).ready(function() {
 				$('#expiration').hide();
 			}
 		});
+		return false;
 	});
 
 	$(document).on('change', '#dropdown .permissions', function() {
