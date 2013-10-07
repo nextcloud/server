@@ -8,7 +8,7 @@
 .actions .button a { color: #555; }
 .actions .button a:hover, .actions .button a:active { color: #333; }
 
-#new, #trash {
+#new {
 	z-index: 1010;
 	float: left;
 	padding: 0 !important; /* override default control bar button padding */
@@ -16,8 +16,10 @@
 #trash {
 	margin-right: 12px;
 	float: right;
+	z-index: 1010;
+	padding: 10px;
 }
-#new>a, #trash>a {
+#new>a {
 	padding: 14px 10px;
 	position: relative;
 	top: 7px;
