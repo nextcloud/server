@@ -1183,7 +1183,7 @@ class PDOStatementWrapper{
 	public function numRows() {
 		$regex = '/^SELECT\s+(?:ALL\s+|DISTINCT\s+)?(?:.*?)\s+FROM\s+(.*)$/i';
 		if (preg_match($regex, $this->statement->queryString, $output) > 0) {
-			$query = OC_DB::prepare("SELECT COUNT(*) FROM {$output[1]}", PDO::FETCH_NUM);
+			$query = OC_DB::prepare("SELECT COUNT(*) FROM {$output[1]}");
 			return $query->execute($this->lastArguments)->fetchColumn();
 		}else{
 			return $this->statement->rowCount();
