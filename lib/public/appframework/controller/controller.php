@@ -24,8 +24,6 @@
 
 namespace OCP\AppFramework\Controller;
 
-use OC\AppFramework\Http\Request;
-use OC\AppFramework\Core\API;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\IAppContainer;
 use OCP\IRequest;
