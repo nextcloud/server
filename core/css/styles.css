@@ -431,7 +431,7 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	padding: 10px;
 	color: #d2322d;
 	background-color: rgba(0,0,0,.3);
-	text-align: center;
+	text-align: left;
 	border-radius: 3px;
 	cursor: default;
 }
@@ -466,7 +466,6 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 }
 #body-login .warning {
 	margin: 0 7px 5px;
-	font-weight: bold;
 }
 #body-login .warning legend {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
