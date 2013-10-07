@@ -350,7 +350,7 @@ OC.Share={
 				if (mailSend === '1') {
 					checked = 'checked';
 				}
-				html += '<input type="checkbox" name="mailNotification" class="mailNotification" ' + checked + ' />'+t('core', 'notify user by email')+'</label>';
+				html += '<label><input type="checkbox" name="mailNotification" class="mailNotification" ' + checked + ' />'+t('core', 'notify user by email')+'</label>';
 			}
 			if (possiblePermissions & OC.PERMISSION_CREATE || possiblePermissions & OC.PERMISSION_UPDATE || possiblePermissions & OC.PERMISSION_DELETE) {
 				if (editChecked == '') {
