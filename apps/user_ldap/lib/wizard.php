@@ -52,6 +52,10 @@ class Wizard extends LDAPUtility {
 		}
 	}
 
+	/**
+	 * @brief detects the available LDAP groups
+	 * @returns the instance's WizardResult instance
+	 */
 	public function determineGroups() {
 		if(!$this->checkRequirements(array('ldapHost',
 										   'ldapPort',
@@ -71,14 +75,21 @@ class Wizard extends LDAPUtility {
 									   'cn',
 									   'ldap_userfilter_groups',
 									   'ldapUserFilterGroups');
+
+		//TODO: Check, whether member-of-overlay is installed on the LDAP Server
 	}
 
+	/**
+	 * @brief detects the available object classes
+	 * @returns the instance's WizardResult instance
+	 */
 	public function determineObjectClasses() {
 		if(!$this->checkRequirements(array('ldapHost',
 										   'ldapPort',
 										   'ldapAgentName',
 										   'ldapAgentPassword',
 										   'ldapBase',
+										   true
 										   ))) {
 			return  false;
 		}
@@ -93,41 +104,6 @@ class Wizard extends LDAPUtility {
 									   'objectclass',
 									   'ldap_userfilter_objectclass',
 									   'ldapUserFilterObjectclass');
-	}
-
-	private function determineFeature($objectclasses, $attr, $dbkey, $confkey) {
-		$cr = $this->getConnection();
-		if(!$cr) {
-			throw new \Excpetion('Could not connect to LDAP');
-		}
-		$p = 'objectclass=';
-		foreach($objectclasses as $key => $value) {
-			$objectclasses[$key] = $p.$value;
-		}
-		$maxEntryObjC = '';
-		$availableFeatures =
-			$this->cumulativeSearchOnAttribute($objectclasses, $attr,
-											   true, $maxEntryObjC);
-		if(is_array($availableFeatures)
-		   && count($availableFeatures) > 0) {
-			$this->result->addOptions($dbkey, $availableFeatures);
-		} else {
-			throw new \Exception(self::$l->t('Could not find the desired feature'));
-		}
-
-		$setFeatures = $this->configuration->$confkey;
-		if(is_array($setFeatures) && !empty($setFeatures)) {
-			//something is already configured? pre-select it.
-			$this->result->addChange($dbkey, $setFeatures);
-		} else if(!empty($maxEntryObjC)) {
-			//TODO / FIXME: this is great for objectclasses, but wrong for groups
-			//isolate it in another method and call it from this method's callee
-			//new? pre-select something hopefully sane
-			$maxEntryObjC = str_replace($p, '', $maxEntryObjC);
-			$this->result->addChange($dbkey, $maxEntryObjC);
-		}
-
-		return $this->result;
 	}
 
 	/**
@@ -411,6 +387,50 @@ class Wizard extends LDAPUtility {
 		}
 
 		return $foundItems;
+	}
+
+	/**
+	 * @brief determines if and which $attr are available on the LDAP server
+	 * @param $objectclasses the objectclasses to use as search filter
+	 * @param $attr the attribute to look for
+	 * @param $dbkey the dbkey of the setting the feature is connected to
+	 * @param $confkey the confkey counterpart for the $dbkey as used in the
+	 * Configuration class
+	 * @param $po boolean, whether the objectClass with most result entries
+	 * shall be pre-selected via the result
+	 * @returns the instance's WizardResult instance
+	 */
+	private function determineFeature($objectclasses, $attr, $dbkey, $confkey, $po = false) {
+		$cr = $this->getConnection();
+		if(!$cr) {
+			throw new \Excpetion('Could not connect to LDAP');
+		}
+		$p = 'objectclass=';
+		foreach($objectclasses as $key => $value) {
+			$objectclasses[$key] = $p.$value;
+		}
+		$maxEntryObjC = '';
+		$availableFeatures =
+			$this->cumulativeSearchOnAttribute($objectclasses, $attr,
+											   true, $maxEntryObjC);
+		if(is_array($availableFeatures)
+		   && count($availableFeatures) > 0) {
+			$this->result->addOptions($dbkey, $availableFeatures);
+		} else {
+			throw new \Exception(self::$l->t('Could not find the desired feature'));
+		}
+
+		$setFeatures = $this->configuration->$confkey;
+		if(is_array($setFeatures) && !empty($setFeatures)) {
+			//something is already configured? pre-select it.
+			$this->result->addChange($dbkey, $setFeatures);
+		} else if($po && !empty($maxEntryObjC)) {
+			//pre-select objectclass with most result entries
+			$maxEntryObjC = str_replace($p, '', $maxEntryObjC);
+			$this->result->addChange($dbkey, $maxEntryObjC);
+		}
+
+		return $this->result;
 	}
 
 	/**
