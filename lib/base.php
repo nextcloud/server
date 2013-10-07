@@ -489,6 +489,11 @@ class OC {
 
 		if (isset($_SERVER['PHP_AUTH_USER']) && self::$session->exists('user_id')
 			&& $_SERVER['PHP_AUTH_USER'] != self::$session->get('user_id')) {
+			$sessionUser = self::$session->get('user_id');
+			$serverUser = $_SERVER['PHP_AUTH_USER'];
+			OC_Log::write('core',
+				"Session user-id ($sessionUser) doesn't match SERVER[PHP_AUTH_USER] ($serverUser).",
+				OC_Log::WARN);
 			OC_User::logout();
 		}
 
@@ -743,11 +748,17 @@ class OC {
 	protected static function handleLogin() {
 		OC_App::loadApps(array('prelogin'));
 		$error = array();
+
+		// auth possible via apache module?
+		if (OC::tryApacheAuth()) {
+			$error[] = 'apacheauthfailed';
+		}
 		// remember was checked after last login
-		if (OC::tryRememberLogin()) {
+		elseif (OC::tryRememberLogin()) {
 			$error[] = 'invalidcookie';
-			// Someone wants to log in :
-		} elseif (OC::tryFormLogin()) {
+		}
+		// logon via web form
+		elseif (OC::tryFormLogin()) {
 			$error[] = 'invalidpassword';
 		}
 
@@ -763,6 +774,20 @@ class OC {
 				OC_Preferences::deleteKey($user, 'login_token', $token);
 			}
 		}
+	}
+
+	protected static function tryApacheAuth() {
+		$return = OC_User::handleApacheAuth();
+
+		// if return is true we are logged in -> redirect to the default page
+		if ($return === true) {
+			$_REQUEST['redirect_url'] = \OC_Request::requestUri();
+			OC_Util::redirectToDefaultPage();
+			exit;
+		}
+
+		// in case $return is null apache based auth is not enabled
+		return is_null($return) ? false : true;
 	}
 
 	protected static function tryRememberLogin() {

@@ -214,6 +214,55 @@ class OC_User {
 	}
 
 	/**
+	 * @brief Try to login a user, assuming authentication
+	 * has already happened (e.g. via Single Sign On).
+	 *
+	 * Log in a user and regenerate a new session.
+	 *
+	 * @param \OCP\Authentication\IApacheBackend $backend
+	 * @return bool
+	 */
+	public static function loginWithApache(\OCP\Authentication\IApacheBackend $backend) {
+
+		$uid = $backend->getCurrentUserId();
+		$run = true;
+		OC_Hook::emit( "OC_User", "pre_login", array( "run" => &$run, "uid" => $uid ));
+
+		if($uid) {
+			session_regenerate_id(true);
+			self::setUserId($uid);
+			self::setDisplayName($uid);
+			OC_Hook::emit( "OC_User", "post_login", array( "uid" => $uid, 'password'=>'' ));
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @brief Verify with Apache whether user is authenticated.
+	 *
+	 * @return boolean|null
+	 *          true: authenticated
+	 *          false: not authenticated
+	 *          null: not handled / no backend available
+	 */
+	public static function handleApacheAuth() {
+		$backend = self::findFirstActiveUsedBackend();
+		if ($backend) {
+			OC_App::loadApps();
+
+			//setup extra user backends
+			self::setupBackends();
+			self::unsetMagicInCookie();
+
+			return self::loginWithApache($backend);
+		}
+
+		return null;
+	}
+
+
+	/**
 	 * @brief Sets user id for session and triggers emit
 	 */
 	public static function setUserId($uid) {
@@ -257,6 +306,22 @@ class OC_User {
 			return self::userExists(\OC::$session->get('user_id'));
 		}
 		return false;
+	}
+
+	/**
+	 * Supplies an attribute to the logout hyperlink. The default behaviour
+	 * is to return an href with '?logout=true' appended. However, it can
+	 * supply any attribute(s) which are valid for <a>.
+	 *
+	 * @return string with one or more HTML attributes.
+	 */
+	public static function getLogoutAttribute() {
+		$backend = self::findFirstActiveUsedBackend();
+		if ($backend) {
+			return $backend->getLogoutAttribute();
+		}
+
+		return "href=" . link_to('', 'index.php') . "?logout=true";
 	}
 
 	/**
@@ -496,5 +561,21 @@ class OC_User {
 	 */
 	public static function unsetMagicInCookie() {
 		self::getUserSession()->unsetMagicInCookie();
+	}
+
+	/**
+	 * @brief Returns the first active backend from self::$_usedBackends.
+	 * @return null if no backend active, otherwise OCP\Authentication\IApacheBackend
+	 */
+	private static function findFirstActiveUsedBackend() {
+		foreach (self::$_usedBackends as $backend) {
+			if ($backend instanceof OCP\Authentication\IApacheBackend) {
+				if ($backend->isSessionActive()) {
+					return $backend;
+				}
+			}
+		}
+
+		return null;
 	}
 }
