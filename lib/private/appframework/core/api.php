@@ -100,16 +100,6 @@ class API implements IApi{
 
 
 	/**
-	 * Returns the translation object
-	 * @return \OC_L10N the translation object
-	 */
-	public function getTrans(){
-		# TODO: use public api
-		return \OC_L10N::get($this->appName);
-	}
-
-
-	/**
 	 * Returns the URL for a route
 	 * @param string $routeName the name of the route
 	 * @param array $arguments an array with arguments which will be filled into the url

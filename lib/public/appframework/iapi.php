@@ -67,14 +67,6 @@ interface IApi {
 	 */
 	function add3rdPartyStyle($name);
 
-	/**
-	 * Returns the translation object
-	 * @return \OC_L10N the translation object
-	 *
-	 * FIXME: returns private object / should be retrieved from teh ServerContainer
-	 */
-	function getTrans();
-
 
 	/**
 	 * Returns the URL for a route
