@@ -85,6 +85,9 @@ var UserList = {
 
 	add: function (username, displayname, groups, subadmin, quota, sort) {
 		var tr = $('tbody tr').first().clone();
+		if (tr.find('div.avatardiv')){
+			$('div.avatardiv', tr).avatar(username, 32);
+		}
 		tr.attr('data-uid', username);
 		tr.attr('data-displayName', displayname);
 		tr.find('td.name').text(username);
@@ -404,6 +407,9 @@ $(document).ready(function () {
 						OC.filePath('settings', 'ajax', 'changedisplayname.php'),
 						{username: uid, displayName: $(this).val()},
 						function (result) {
+							if (result && result.status==='success'){
+								img.parent().parent().find('div.avatardiv').avatar(result.data.username, 32);
+							}
 						}
 					);
 					input.blur();
