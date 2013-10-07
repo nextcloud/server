@@ -25,8 +25,10 @@ namespace OCA\user_ldap\lib;
 
 class Wizard extends LDAPUtility {
 	static protected $l;
+	protected $cr;
 	protected $configuration;
 	protected $result;
+	protected $resultCache = array();
 
 	const LRESULT_PROCESSED_OK = 0;
 	const LRESULT_PROCESSED_INVALID = 1;
@@ -71,12 +73,51 @@ class Wizard extends LDAPUtility {
 		}
 
 		$obclasses = array('posixGroup', 'group', '*');
-		return $this->determineFeature($obclasses,
-									   'cn',
-									   'ldap_userfilter_groups',
-									   'ldapUserFilterGroups');
+		$groups = $this->determineFeature($obclasses,
+										  'cn',
+										  'ldap_userfilter_groups',
+										  'ldapUserFilterGroups');
 
-		//TODO: Check, whether member-of-overlay is installed on the LDAP Server
+		$isMemberOfWorking = $this->testMemberOf($groups);
+		if(!$isMemberOfWorking) {
+			throw new \Exception('memberOf is not supported by the server');
+		}
+
+		return $this->result;
+	}
+
+	private function testMemberOf($groups) {
+		$cr = $this->getConnection();
+		if(!$cr) {
+			throw new \Excpetion('Could not connect to LDAP');
+		}
+		if(!is_array($this->configuration->ldapBase)
+		   || !isset($this->configuration->ldapBase[0])) {
+			return false;
+		}
+		$base = $this->configuration->ldapBase[0];
+		$filterPrefix = '(&(objectclass=*)(memberOf=';
+
+		foreach($this->resultCache as $dn => $properties) {
+			if(!isset($properties['cn'])) {
+				//assuming only groups have their cn cached :)
+				continue;
+			}
+		    $filter = strtolower($filterPrefix . $dn.'))');
+			$rr = $this->ldap->search($cr, $base, $filter, array('dn'));
+			if(!$this->ldap->isResource($rr)) {
+				continue;
+			}
+			$entries = $this->ldap->countEntries($cr, $rr);
+			//we do not know which groups are empty, so test any and return
+			//success on the first match that returns at least one user
+			if(($entries !== false) && ($entries > 0)) {
+				return true;
+			}
+		}
+
+
+		return false;
 	}
 
 	/**
@@ -89,7 +130,6 @@ class Wizard extends LDAPUtility {
 										   'ldapAgentName',
 										   'ldapAgentPassword',
 										   'ldapBase',
-										   true
 										   ))) {
 			return  false;
 		}
@@ -100,10 +140,13 @@ class Wizard extends LDAPUtility {
 
 		$obclasses = array('inetOrgPerson', 'person', 'organizationalPerson',
 						   'user', 'posixAccount', '*');
-		return $this->determineFeature($obclasses,
-									   'objectclass',
-									   'ldap_userfilter_objectclass',
-									   'ldapUserFilterObjectclass');
+		$this->determineFeature($obclasses,
+								'objectclass',
+								'ldap_userfilter_objectclass',
+								'ldapUserFilterObjectclass',
+								true);
+
+		return $this->result;
 	}
 
 	/**
@@ -375,9 +418,12 @@ class Wizard extends LDAPUtility {
 					if($dn === false || in_array($dn, $dnRead)) {
 						continue;
 					}
+					$newItems = array();
 					$state = $this->getAttributeValuesFromEntry($attributes,
 																$attr,
-																$foundItems);
+																$newItems);
+					$foundItems = array_merge($foundItems, $newItems);
+					$this->resultCache[$dn][$attr] = $newItems;
 					$dnRead[] = $dn;
 					$getEntryFunc = 'nextEntry';
 					$rr = $entry; //will be expected by nextEntry next round
@@ -386,7 +432,7 @@ class Wizard extends LDAPUtility {
 			}
 		}
 
-		return $foundItems;
+		return array_unique($foundItems);
 	}
 
 	/**
@@ -398,7 +444,7 @@ class Wizard extends LDAPUtility {
 	 * Configuration class
 	 * @param $po boolean, whether the objectClass with most result entries
 	 * shall be pre-selected via the result
-	 * @returns the instance's WizardResult instance
+	 * @returns array, list of found items.
 	 */
 	private function determineFeature($objectclasses, $attr, $dbkey, $confkey, $po = false) {
 		$cr = $this->getConnection();
@@ -430,7 +476,7 @@ class Wizard extends LDAPUtility {
 			$this->result->addChange($dbkey, $maxEntryObjC);
 		}
 
-		return $this->result;
+		return $availableFeatures;
 	}
 
 	/**
@@ -457,7 +503,6 @@ class Wizard extends LDAPUtility {
 					continue;
 				}
 				if(!in_array($val, $known)) {
-					\OCP\Util::writeLog('user_ldap', 'Found objclass '.$val, \OCP\Util::DEBUG);
 					$known[] = $val;
 				}
 			}
@@ -468,6 +513,9 @@ class Wizard extends LDAPUtility {
 	}
 
 	private function getConnection() {
+		if(!is_null($this->cr)) {
+			return $cr;
+		}
 		$cr = $this->ldap->connect(
 			$this->configuration->ldapHost.':'.$this->configuration->ldapPort,
 			$this->configuration->ldapPort);
@@ -482,6 +530,7 @@ class Wizard extends LDAPUtility {
 								 $this->configuration->ldapAgentName,
 								 $this->configuration->ldapAgentPassword);
 		if($lo === true) {
+			$this->$cr = $cr;
 			return $cr;
 		}
 

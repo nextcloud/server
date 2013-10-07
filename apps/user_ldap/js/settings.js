@@ -216,9 +216,10 @@ var LdapWizard = {
 				}
 				LdapWizard.applyChanges(result);
 				$('#ldap_userfilter_groups').multiselect('refresh');
+				$('#ldap_userfilter_groups').multiselect('enable');
 			},
 			function (result) {
-				//TODO: error handling
+				$('#ldap_userfilter_groups').multiselect('disable');
 			}
 		);
 	},
