@@ -350,7 +350,7 @@ OC.Share={
 				if (mailSend === '1') {
 					checked = 'checked';
 				}
-				html += '<input type="checkbox" name="mailNotification" class="mailNotification" ' + checked + ' />'+t('core', 'notify user by email')+'</label>';
+				html += '<label><input type="checkbox" name="mailNotification" class="mailNotification" ' + checked + ' />'+t('core', 'notify user by email')+'</label>';
 			}
 			if (possiblePermissions & OC.PERMISSION_CREATE || possiblePermissions & OC.PERMISSION_UPDATE || possiblePermissions & OC.PERMISSION_DELETE) {
 				if (editChecked == '') {
@@ -476,7 +476,7 @@ $(document).ready(function() {
 	$(this).click(function(event) {
 		var target = $(event.target);
 		var isMatched = !target.is('.drop, .ui-datepicker-next, .ui-datepicker-prev, .ui-icon')
-			&& !target.closest('#ui-datepicker-div').length;
+			&& !target.closest('#ui-datepicker-div').length && !target.closest('.ui-autocomplete').length;
 		if (OC.Share.droppedDown && isMatched && $('#dropdown').has(event.target).length === 0) {
 			OC.Share.hideDropDown();
 		}
@@ -502,6 +502,7 @@ $(document).ready(function() {
 
 	$(document).on('click', '#dropdown .showCruds', function() {
 		$(this).parent().find('.cruds').toggle();
+		return false;
 	});
 
 	$(document).on('click', '#dropdown .unshare', function() {
@@ -519,6 +520,7 @@ $(document).ready(function() {
 				$('#expiration').hide();
 			}
 		});
+		return false;
 	});
 
 	$(document).on('change', '#dropdown .permissions', function() {
