@@ -83,6 +83,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Errore bat egon da muga data ezartzean",
 "Sending ..." => "Bidaltzen ...",
 "Email sent" => "Eposta bidalia",
+"Warning" => "Abisua",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Eguneraketa ez da ongi egin. Mesedez egin arazoaren txosten bat <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud komunitatearentzako</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Eguneraketa ongi egin da. Orain zure ownClouderea berbideratua izango zara.",
 "%s password reset" => "%s pasahitza berrezarri",
@@ -105,7 +106,6 @@ $TRANSLATIONS = array(
 "Help" => "Laguntza",
 "Access forbidden" => "Sarrera debekatuta",
 "Cloud not found" => "Ez da hodeia aurkitu",
-"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Kaixo\n\n%s-ek %s zurekin partekatu duela jakin dezazun.\nIkusi ezazu: %s\n\nOngi jarraitu!",
 "Edit categories" => "Editatu kategoriak",
 "Add" => "Gehitu",
 "Security Warning" => "Segurtasun abisua",
@@ -135,7 +135,6 @@ $TRANSLATIONS = array(
 "remember" => "gogoratu",
 "Log in" => "Hasi saioa",
 "Alternative Logins" => "Beste erabiltzaile izenak",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Kaixo<br><br>%s-ek %s zurekin partekatu duela jakin dezazun.<br><a href=\"%s\">\nIkusi ezazu</a><br><br>Ongi jarraitu!",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud %s bertsiora eguneratzen, denbora har dezake."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

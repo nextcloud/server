@@ -79,6 +79,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Villa við að setja gildistíma",
 "Sending ..." => "Sendi ...",
 "Email sent" => "Tölvupóstur sendur",
+"Warning" => "Aðvörun",
 "The update was successful. Redirecting you to ownCloud now." => "Uppfærslan heppnaðist. Beini þér til ownCloud nú.",
 "Use the following link to reset your password: {link}" => "Notað eftirfarandi veftengil til að endursetja lykilorðið þitt: {link}",
 "You will receive a link to reset your password via Email." => "Þú munt fá veftengil í tölvupósti til að endursetja lykilorðið.",

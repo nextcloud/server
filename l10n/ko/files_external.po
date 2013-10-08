@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:05+0000\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-01 18:37+0000\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: js/dropbox.js:7 js/dropbox.js:28 js/google.js:16 js/google.js:34
+#: js/dropbox.js:7 js/dropbox.js:28 js/google.js:8 js/google.js:39
 msgid "Access granted"
 msgstr "접근 허가됨"
 
@@ -26,7 +26,7 @@ msgstr "접근 허가됨"
 msgid "Error configuring Dropbox storage"
 msgstr "Dropbox 저장소 설정 오류"
 
-#: js/dropbox.js:65 js/google.js:66
+#: js/dropbox.js:65 js/google.js:86
 msgid "Grant access"
 msgstr "접근 권한 부여"
 
@@ -34,24 +34,24 @@ msgstr "접근 권한 부여"
 msgid "Please provide a valid Dropbox app key and secret."
 msgstr "올바른 Dropbox 앱 키와 암호를 입력하십시오."
 
-#: js/google.js:36 js/google.js:93
+#: js/google.js:42 js/google.js:121
 msgid "Error configuring Google Drive storage"
 msgstr "Google 드라이브 저장소 설정 오류"
 
-#: lib/config.php:447
+#: lib/config.php:453
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>경고:</b> \"smbclient\"가 설치되지 않았습니다. CIFS/SMB 공유 자원에 연결할 수 없습니다. 시스템 관리자에게 설치를 요청하십시오."
 
-#: lib/config.php:450
+#: lib/config.php:457
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
 msgstr "<b>경고:</b> PHP FTP 지원이 비활성화되어 있거나 설치되지 않았습니다. FTP 공유를 마운트할 수 없습니다. 시스템 관리자에게 설치를 요청하십시오."
 
-#: lib/config.php:453
+#: lib/config.php:460
 msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "

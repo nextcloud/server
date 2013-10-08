@@ -111,7 +111,6 @@ $TRANSLATIONS = array(
 "Help" => "Ndihmë",
 "Access forbidden" => "Ndalohet hyrja",
 "Cloud not found" => "Cloud-i nuk u gjet",
-"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Tungjatjeta,\n\nju njoftojmë që %s ka ndarë %s me ju.\nShikojeni: %s\n\nPëshëndetje!",
 "Edit categories" => "Ndrysho kategoritë",
 "Add" => "Shto",
 "Security Warning" => "Paralajmërim sigurie",
@@ -141,7 +140,6 @@ $TRANSLATIONS = array(
 "remember" => "kujto",
 "Log in" => "Hyrje",
 "Alternative Logins" => "Hyrje alternative",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Tungjatjeta,<br><br>duam t'ju njoftojmë që %s ka ndarë »%s« me ju.<br><a href=\"%s\">Shikojeni!</a><br><br>Përshëndetje!",
 "Updating ownCloud to version %s, this may take a while." => "Po azhurnoj ownCloud-in me versionin %s. Mund të zgjasi pak."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

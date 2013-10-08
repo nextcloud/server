@@ -89,6 +89,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "设置过期日期时出错",
 "Sending ..." => "正在发送...",
 "Email sent" => "邮件已发送",
+"Warning" => "警告",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "更新不成功。请汇报将此问题汇报给  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud 社区</a>。",
 "The update was successful. Redirecting you to ownCloud now." => "更新成功。正在重定向至 ownCloud。",
 "%s password reset" => "重置 %s 的密码",
@@ -111,7 +112,6 @@ $TRANSLATIONS = array(
 "Help" => "帮助",
 "Access forbidden" => "访问禁止",
 "Cloud not found" => "未找到云",
-"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "您好，\n\n%s 向您分享了 %s。\n查看： %s",
 "Edit categories" => "编辑分类",
 "Add" => "增加",
 "Security Warning" => "安全警告",
@@ -141,7 +141,6 @@ $TRANSLATIONS = array(
 "remember" => "记住",
 "Log in" => "登录",
 "Alternative Logins" => "其他登录方式",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "您好，<br><br>%s 向您分享了 »%s«。<br><a href=\"%s\">查看</a>",
 "Updating ownCloud to version %s, this may take a while." => "更新 ownCloud 到版本 %s，这可能需要一些时间。"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

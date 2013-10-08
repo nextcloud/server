@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-21 08:10-0400\n"
-"PO-Revision-Date: 2013-08-19 19:20+0000\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-06 23:07+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -46,17 +46,24 @@ msgstr "Pasahitza behar bezala aldatu da."
 msgid "Could not change the password. Maybe the old password was not correct."
 msgstr "Ezin izan da pasahitza aldatu. Agian pasahitz zaharra okerrekoa da."
 
-#: ajax/updatePrivateKeyPassword.php:51
+#: ajax/updatePrivateKeyPassword.php:52
 msgid "Private key password successfully updated."
 msgstr "Gako pasahitz pribatu behar bezala eguneratu da."
 
-#: ajax/updatePrivateKeyPassword.php:53
+#: ajax/updatePrivateKeyPassword.php:54
 msgid ""
 "Could not update the private key password. Maybe the old password was not "
 "correct."
 msgstr "Ezin izan da gako pribatu pasahitza eguneratu. Agian pasahitz zaharra okerrekoa da."
 
-#: files/error.php:7
+#: files/error.php:9
+msgid ""
+"Encryption app not initialized! Maybe the encryption app was re-enabled "
+"during your session. Please try to log out and log back in to initialize the"
+" encryption app."
+msgstr ""
+
+#: files/error.php:12
 msgid ""
 "Your private key is not valid! Likely your password was changed outside the "
 "ownCloud system (e.g. your corporate directory). You can update your private"
@@ -64,36 +71,30 @@ msgid ""
 "files."
 msgstr "Zure gako pribatua ez da egokia! Seguruaski zure pasahitza ownCloud sistematik kanpo aldatu da (adb. zure direktorio korporatiboa). Zure gako pribatuaren pasahitza eguneratu dezakezu zure ezarpen pertsonaletan zure enkriptatutako fitxategiak berreskuratzeko."
 
-#: hooks/hooks.php:41
+#: hooks/hooks.php:53
 msgid "Missing requirements."
 msgstr "Eskakizun batzuk ez dira betetzen."
 
-#: hooks/hooks.php:42
+#: hooks/hooks.php:54
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
-msgstr ""
+msgstr "Mesedez ziurtatu PHP 5.3.3 edo berriago bat instalatuta dagoela eta OpenSSL PHP hedapenarekin gaitua eta ongi konfiguratuta dagoela. Oraingoz, enkriptazio aplikazioa desgaituta dago."
 
-#: hooks/hooks.php:249
+#: hooks/hooks.php:254
 msgid "Following users are not set up for encryption:"
-msgstr ""
+msgstr "Hurrengo erabiltzaileak ez daude enktriptatzeko konfiguratutak:"
 
-#: js/settings-admin.js:11
+#: js/settings-admin.js:13
 msgid "Saving..."
 msgstr "Gordetzen..."
 
-#: templates/invalid_private_key.php:5
-msgid ""
-"Your private key is not valid! Maybe the your password was changed from "
-"outside."
-msgstr "Zure gako pribatua ez da egokia! Agian zure pasahitza kanpotik aldatu da."
+#: templates/invalid_private_key.php:8
+msgid "Go directly to your "
+msgstr ""
 
-#: templates/invalid_private_key.php:7
-msgid "You can unlock your private key in your "
-msgstr "Zure gako pribatua desblokeatu dezakezu zure"
-
-#: templates/invalid_private_key.php:7
+#: templates/invalid_private_key.php:8
 msgid "personal settings"
 msgstr "ezarpen pertsonalak"
 
@@ -110,27 +111,35 @@ msgstr "Gaitu berreskurapen gakoa (erabiltzaileen fitxategiak berreskuratzea aha
 msgid "Recovery key password"
 msgstr "Berreskuratze gako pasahitza"
 
-#: templates/settings-admin.php:21 templates/settings-personal.php:54
+#: templates/settings-admin.php:17
+msgid "Repeat Recovery key password"
+msgstr ""
+
+#: templates/settings-admin.php:24 templates/settings-personal.php:54
 msgid "Enabled"
 msgstr "Gaitua"
 
-#: templates/settings-admin.php:29 templates/settings-personal.php:62
+#: templates/settings-admin.php:32 templates/settings-personal.php:62
 msgid "Disabled"
 msgstr "Ez-gaitua"
 
-#: templates/settings-admin.php:34
+#: templates/settings-admin.php:37
 msgid "Change recovery key password:"
 msgstr "Aldatu berreskuratze gako pasahitza:"
 
-#: templates/settings-admin.php:41
+#: templates/settings-admin.php:43
 msgid "Old Recovery key password"
 msgstr "Berreskuratze gako pasahitz zaharra"
 
-#: templates/settings-admin.php:48
+#: templates/settings-admin.php:50
 msgid "New Recovery key password"
 msgstr "Berreskuratze gako pasahitz berria"
 
-#: templates/settings-admin.php:53
+#: templates/settings-admin.php:56
+msgid "Repeat New Recovery key password"
+msgstr ""
+
+#: templates/settings-admin.php:61
 msgid "Change Password"
 msgstr "Aldatu Pasahitza"
 

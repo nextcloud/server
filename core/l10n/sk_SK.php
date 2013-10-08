@@ -89,6 +89,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Chyba pri nastavení dátumu expirácie",
 "Sending ..." => "Odosielam ...",
 "Email sent" => "Email odoslaný",
+"Warning" => "Varovanie",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Aktualizácia nebola úspešná. Problém nahláste na <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Aktualizácia bola úspešná. Presmerovávam na prihlasovaciu stránku.",
 "%s password reset" => "reset hesla %s",
@@ -111,7 +112,6 @@ $TRANSLATIONS = array(
 "Help" => "Pomoc",
 "Access forbidden" => "Prístup odmietnutý",
 "Cloud not found" => "Nenájdené",
-"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Ahoj,\n\nChcem Vám oznámiť, že %s s Vami zdieľa %s.\nPozrieť si to môžete tu: %s\n\nVďaka",
 "Edit categories" => "Upraviť kategórie",
 "Add" => "Pridať",
 "Security Warning" => "Bezpečnostné varovanie",
@@ -141,7 +141,6 @@ $TRANSLATIONS = array(
 "remember" => "zapamätať",
 "Log in" => "Prihlásiť sa",
 "Alternative Logins" => "Alternatívne prihlasovanie",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Ahoj,<br><br>chcem Vám oznámiť, že %s s Vami zdieľa %s.\nPozrieť si to môžete tu: <br><a href=\"%s\">zde</a>.<br><br>Vďaka",
 "Updating ownCloud to version %s, this may take a while." => "Aktualizujem ownCloud na verziu %s, môže to chvíľu trvať."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

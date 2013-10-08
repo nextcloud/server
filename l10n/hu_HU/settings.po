@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-30 10:17-0400\n"
-"PO-Revision-Date: 2013-09-30 00:21+0000\n"
-"Last-Translator: ebela <bela@dandre.hu>\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-05 15:12+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -160,15 +160,15 @@ msgstr "Frissítés"
 msgid "Updated"
 msgstr "Frissítve"
 
-#: js/personal.js:221
+#: js/personal.js:225
 msgid "Select a profile picture"
 msgstr "Válassz profil képet"
 
-#: js/personal.js:266
+#: js/personal.js:270
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "File-ok kititkosítása folyamatban... Kérlek várj, ez hosszabb ideig is eltarthat ..."
 
-#: js/personal.js:288
+#: js/personal.js:292
 msgid "Saving..."
 msgstr "Mentés..."
 
@@ -344,46 +344,54 @@ msgid "Allow users to only share with users in their groups"
 msgstr "A felhasználók csak olyanokkal oszthatják meg állományaikat, akikkel közös csoportban vannak"
 
 #: templates/admin.php:170
+msgid "Allow mail notification"
+msgstr ""
+
+#: templates/admin.php:171
+msgid "Allow user to send mail notification for shared files"
+msgstr ""
+
+#: templates/admin.php:178
 msgid "Security"
 msgstr "Biztonság"
 
-#: templates/admin.php:183
+#: templates/admin.php:191
 msgid "Enforce HTTPS"
 msgstr "Kötelező HTTPS"
 
-#: templates/admin.php:185
+#: templates/admin.php:193
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Kötelezővé teszi, hogy a böngészőprogramok titkosított csatornán kapcsolódjanak a %s szolgáltatáshoz."
 
-#: templates/admin.php:191
+#: templates/admin.php:199
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Kérjük kapcsolodjon a %s rendszerhez HTTPS protokollon keresztül, hogy be vagy ki kapcsoljaa kötelező SSL beállítást."
 
-#: templates/admin.php:203
+#: templates/admin.php:211
 msgid "Log"
 msgstr "Naplózás"
 
-#: templates/admin.php:204
+#: templates/admin.php:212
 msgid "Log level"
 msgstr "Naplózási szint"
 
-#: templates/admin.php:235
+#: templates/admin.php:243
 msgid "More"
 msgstr "Több"
 
-#: templates/admin.php:236
+#: templates/admin.php:244
 msgid "Less"
 msgstr "Kevesebb"
 
-#: templates/admin.php:242 templates/personal.php:161
+#: templates/admin.php:250 templates/personal.php:161
 msgid "Version"
 msgstr "Verzió"
 
-#: templates/admin.php:246 templates/personal.php:164
+#: templates/admin.php:254 templates/personal.php:164
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

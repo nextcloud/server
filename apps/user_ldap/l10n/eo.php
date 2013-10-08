@@ -1,8 +1,15 @@
 <?php
 $TRANSLATIONS = array(
+"Failed to delete the server configuration" => "Malsukcesis forigo de la agordo de servilo",
 "Deletion failed" => "Forigo malsukcesis",
+"Keep settings?" => "Ĉu daŭrigi la agordon?",
+"Cannot add server configuration" => "Ne eblas aldoni agordon de servilo",
 "Success" => "Sukceso",
 "Error" => "Eraro",
+"Connection test succeeded" => "Provo de konekto sukcesis",
+"Connection test failed" => "Provo de konekto malsukcesis",
+"Server configuration" => "Agordo de servilo",
+"Add Server Configuration" => "Aldoni agordon de servilo",
 "Host" => "Gastigo",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Vi povas neglekti la protokolon, escepte se vi bezonas SSL-on. Tiuokaze, komencu per ldaps://",
 "Base DN" => "Bazo-DN",
@@ -24,6 +31,7 @@ $TRANSLATIONS = array(
 "Group-Member association" => "Asocio de grupo kaj membro",
 "in bytes" => "duumoke",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Lasu malplena por uzantonomo (defaŭlto). Alie, specifu LDAP/AD-atributon.",
+"Test Configuration" => "Provi agordon",
 "Help" => "Helpo"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-30 10:16-0400\n"
-"PO-Revision-Date: 2013-09-29 16:57+0000\n"
-"Last-Translator: dibalaj <dibalaj@dibalaj.cz>\n"
+"POT-Creation-Date: 2013-10-07 12:16-0400\n"
+"PO-Revision-Date: 2013-10-07 16:17+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,12 +23,17 @@ msgstr ""
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: ajax/share.php:97
+#: ajax/share.php:118 ajax/share.php:197
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s s vámi sdílí »%s«"
 
-#: ajax/share.php:227
+#: ajax/share.php:168
+#, php-format
+msgid "Couldn't send mail to following users: %s "
+msgstr ""
+
+#: ajax/share.php:327
 msgid "group"
 msgstr "skupina"
 
@@ -325,8 +330,8 @@ msgstr "Není určen typ objektu."
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:656 js/share.js:668
+#: js/oc-vcategories.js:199 js/share.js:130 js/share.js:143 js/share.js:150
+#: js/share.js:667 js/share.js:679
 msgid "Error"
 msgstr "Chyba"
 
@@ -346,125 +351,133 @@ msgstr "Sdílené"
 msgid "Share"
 msgstr "Sdílet"
 
-#: js/share.js:131 js/share.js:696
+#: js/share.js:132 js/share.js:707
 msgid "Error while sharing"
 msgstr "Chyba při sdílení"
 
-#: js/share.js:142
+#: js/share.js:143
 msgid "Error while unsharing"
 msgstr "Chyba při rušení sdílení"
 
-#: js/share.js:149
+#: js/share.js:150
 msgid "Error while changing permissions"
 msgstr "Chyba při změně oprávnění"
 
-#: js/share.js:158
+#: js/share.js:159
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "S Vámi a skupinou {group} sdílí {owner}"
 
-#: js/share.js:160
+#: js/share.js:161
 msgid "Shared with you by {owner}"
 msgstr "S Vámi sdílí {owner}"
 
-#: js/share.js:183
+#: js/share.js:184
 msgid "Share with"
 msgstr "Sdílet s"
 
-#: js/share.js:188
+#: js/share.js:189
 msgid "Share with link"
 msgstr "Sdílet s odkazem"
 
-#: js/share.js:191
+#: js/share.js:192
 msgid "Password protect"
 msgstr "Chránit heslem"
 
-#: js/share.js:193 templates/installation.php:57 templates/login.php:26
+#: js/share.js:194 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "Heslo"
 
-#: js/share.js:198
+#: js/share.js:199
 msgid "Allow Public Upload"
 msgstr "Povolit veřejné nahrávání"
 
-#: js/share.js:202
+#: js/share.js:203
 msgid "Email link to person"
 msgstr "Odeslat osobě odkaz e-mailem"
 
-#: js/share.js:203
+#: js/share.js:204
 msgid "Send"
 msgstr "Odeslat"
 
-#: js/share.js:208
+#: js/share.js:209
 msgid "Set expiration date"
 msgstr "Nastavit datum vypršení platnosti"
 
-#: js/share.js:209
+#: js/share.js:210
 msgid "Expiration date"
 msgstr "Datum vypršení platnosti"
 
-#: js/share.js:242
+#: js/share.js:243
 msgid "Share via email:"
 msgstr "Sdílet e-mailem:"
 
-#: js/share.js:245
+#: js/share.js:246
 msgid "No people found"
 msgstr "Žádní lidé nenalezeni"
 
-#: js/share.js:283
+#: js/share.js:284
 msgid "Resharing is not allowed"
 msgstr "Sdílení již sdílené položky není povoleno"
 
-#: js/share.js:319
+#: js/share.js:320
 msgid "Shared in {item} with {user}"
 msgstr "Sdíleno v {item} s {user}"
 
-#: js/share.js:340
+#: js/share.js:341
 msgid "Unshare"
 msgstr "Zrušit sdílení"
 
-#: js/share.js:352
+#: js/share.js:353
+msgid "notify user by email"
+msgstr ""
+
+#: js/share.js:361
 msgid "can edit"
 msgstr "lze upravovat"
 
-#: js/share.js:354
+#: js/share.js:363
 msgid "access control"
 msgstr "řízení přístupu"
 
-#: js/share.js:357
+#: js/share.js:366
 msgid "create"
 msgstr "vytvořit"
 
-#: js/share.js:360
+#: js/share.js:369
 msgid "update"
 msgstr "aktualizovat"
 
-#: js/share.js:363
+#: js/share.js:372
 msgid "delete"
 msgstr "smazat"
 
-#: js/share.js:366
+#: js/share.js:375
 msgid "share"
 msgstr "sdílet"
 
-#: js/share.js:400 js/share.js:643
+#: js/share.js:409 js/share.js:654
 msgid "Password protected"
 msgstr "Chráněno heslem"
 
-#: js/share.js:656
+#: js/share.js:667
 msgid "Error unsetting expiration date"
 msgstr "Chyba při odstraňování data vypršení platnosti"
 
-#: js/share.js:668
+#: js/share.js:679
 msgid "Error setting expiration date"
 msgstr "Chyba při nastavení data vypršení platnosti"
 
-#: js/share.js:683
+#: js/share.js:694
 msgid "Sending ..."
 msgstr "Odesílám ..."
 
-#: js/share.js:694
+#: js/share.js:705
 msgid "Email sent"
 msgstr "E-mail odeslán"
+
+#: js/share.js:729
+msgid "Warning"
+msgstr "Varování"
 
 #: js/update.js:17
 msgid ""
@@ -502,7 +515,7 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "E-mailem Vám bude zaslán odkaz pro obnovu hesla."
 
 #: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
-#: templates/login.php:19
+#: templates/login.php:25
 msgid "Username"
 msgstr "Uživatelské jméno"
 
@@ -574,8 +587,18 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-"Cheers!"
-msgstr "Ahoj,\n\njenom vám chci oznámit, že %s s vámi sdílí %s.\nPodívat se můžete zde: %s\n\nDíky"
+msgstr ""
+
+#: templates/altmail.php:4
+#, php-format
+msgid ""
+"The share will expire on %s.\n"
+"\n"
+msgstr ""
+
+#: templates/altmail.php:6 templates/mail.php:19
+msgid "Cheers!"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -628,47 +651,51 @@ msgstr "Pro informace, jak správně nastavit váš server, se podívejte do <a 
 msgid "Create an <strong>admin account</strong>"
 msgstr "Vytvořit <strong>účet správce</strong>"
 
-#: templates/installation.php:65
+#: templates/installation.php:66
 msgid "Advanced"
 msgstr "Pokročilé"
 
-#: templates/installation.php:67
+#: templates/installation.php:73
 msgid "Data folder"
 msgstr "Složka s daty"
 
-#: templates/installation.php:77
+#: templates/installation.php:85
 msgid "Configure the database"
 msgstr "Nastavit databázi"
 
-#: templates/installation.php:82 templates/installation.php:94
-#: templates/installation.php:105 templates/installation.php:116
-#: templates/installation.php:128
+#: templates/installation.php:90 templates/installation.php:102
+#: templates/installation.php:113 templates/installation.php:124
+#: templates/installation.php:136
 msgid "will be used"
 msgstr "bude použito"
 
-#: templates/installation.php:140
+#: templates/installation.php:148
 msgid "Database user"
 msgstr "Uživatel databáze"
 
-#: templates/installation.php:147
+#: templates/installation.php:155
 msgid "Database password"
 msgstr "Heslo databáze"
 
-#: templates/installation.php:152
+#: templates/installation.php:160
 msgid "Database name"
 msgstr "Název databáze"
 
-#: templates/installation.php:160
+#: templates/installation.php:168
 msgid "Database tablespace"
 msgstr "Tabulkový prostor databáze"
 
-#: templates/installation.php:167
+#: templates/installation.php:175
 msgid "Database host"
 msgstr "Hostitel databáze"
 
-#: templates/installation.php:175
+#: templates/installation.php:184
 msgid "Finish setup"
 msgstr "Dokončit nastavení"
+
+#: templates/installation.php:184
+msgid "Finishing …"
+msgstr ""
 
 #: templates/layout.user.php:41
 #, php-format
@@ -693,19 +720,27 @@ msgstr "Pokud jste v nedávné době neměnili své heslo, Váš účet může b
 msgid "Please change your password to secure your account again."
 msgstr "Změňte, prosím, své heslo pro opětovné zabezpečení Vašeho účtu."
 
-#: templates/login.php:32
+#: templates/login.php:17
+msgid "Server side authentication failed!"
+msgstr ""
+
+#: templates/login.php:18
+msgid "Please contact your administrator."
+msgstr ""
+
+#: templates/login.php:38
 msgid "Lost your password?"
 msgstr "Ztratili jste své heslo?"
 
-#: templates/login.php:37
+#: templates/login.php:43
 msgid "remember"
 msgstr "zapamatovat"
 
-#: templates/login.php:39
+#: templates/login.php:46
 msgid "Log in"
 msgstr "Přihlásit"
 
-#: templates/login.php:45
+#: templates/login.php:52
 msgid "Alternative Logins"
 msgstr "Alternativní přihlášení"
 
@@ -713,8 +748,13 @@ msgstr "Alternativní přihlášení"
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
-"href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr "Ahoj,<br><br>jenom vám chci oznámit, že %s s vámi sdílí %s.\nPodívat se můžete <br><a href=\"%s\">zde</a>.<br><br>Díky"
+"href=\"%s\">View it!</a><br><br>"
+msgstr ""
+
+#: templates/mail.php:17
+#, php-format
+msgid "The share will expire on %s.<br><br>"
+msgstr ""
 
 #: templates/update.php:3
 #, php-format

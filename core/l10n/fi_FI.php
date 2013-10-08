@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s jakoi kohteen »%s« kanssasi",
+"Couldn't send mail to following users: %s " => "Sähköpostin lähetys seuraaville käyttäjille epäonnistui: %s",
 "group" => "ryhmä",
 "Turned on maintenance mode" => "Siirrytty ylläpitotilaan",
 "Turned off maintenance mode" => "Ylläpitotila laitettu pois päältä",
@@ -14,6 +15,7 @@ $TRANSLATIONS = array(
 "Error adding %s to favorites." => "Virhe lisätessä kohdetta %s suosikkeihin.",
 "No categories selected for deletion." => "Luokkia ei valittu poistettavaksi.",
 "Error removing %s from favorites." => "Virhe poistaessa kohdetta %s suosikeista.",
+"No image or file provided" => "Kuvaa tai tiedostoa ei määritelty",
 "Unknown filetype" => "Tuntematon tiedostotyyppi",
 "Invalid image" => "Virhellinen kuva",
 "No temporary profile picture available, try again" => "Väliaikaista profiilikuvaa ei ole käytettävissä, yritä uudelleen",
@@ -53,6 +55,8 @@ $TRANSLATIONS = array(
 "No" => "Ei",
 "Ok" => "Ok",
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Which files do you want to keep?" => "Mitkä tiedostot haluat säilyttää?",
+"If you select both versions, the copied file will have a number added to its name." => "Jos valitset kummatkin versiot, kopioidun tiedoston nimeen lisätään numero.",
 "Cancel" => "Peru",
 "Continue" => "Jatka",
 "(all selected)" => "(kaikki valittu)",
@@ -81,6 +85,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "Jakaminen uudelleen ei ole salittu",
 "Shared in {item} with {user}" => "{item} on jaettu {user} kanssa",
 "Unshare" => "Peru jakaminen",
+"notify user by email" => "ilmoita käyttäjälle sähköpostitse",
 "can edit" => "voi muokata",
 "access control" => "Pääsyn hallinta",
 "create" => "luo",
@@ -92,6 +97,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Virhe päättymispäivää asettaessa",
 "Sending ..." => "Lähetetään...",
 "Email sent" => "Sähköposti lähetetty",
+"Warning" => "Varoitus",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Päivitys epäonnistui. Ilmoita ongelmasta <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud-yhteisölle</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Päivitys onnistui. Selain ohjautuu nyt ownCloudiisi.",
 "%s password reset" => "%s salasanan nollaus",
@@ -113,7 +119,8 @@ $TRANSLATIONS = array(
 "Help" => "Ohje",
 "Access forbidden" => "Pääsy estetty",
 "Cloud not found" => "Pilveä ei löydy",
-"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Hei!\n\n%s jakoi kohteen %s kanssasi.\nKatso se tästä: %s\n\nNäkemiin!",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Hei sinä!\n\n%s jakoi kohteen %s kanssasi.\nTutustu siihen: %s\n\n",
+"The share will expire on %s.\n\n" => "Jakaminen päättyy %s.\n\n",
 "Edit categories" => "Muokkaa luokkia",
 "Add" => "Lisää",
 "Security Warning" => "Turvallisuusvaroitus",
@@ -133,6 +140,7 @@ $TRANSLATIONS = array(
 "Database tablespace" => "Tietokannan taulukkotila",
 "Database host" => "Tietokantapalvelin",
 "Finish setup" => "Viimeistele asennus",
+"Finishing …" => "Valmistellaan…",
 "%s is available. Get more information on how to update." => "%s on saatavilla. Lue lisätietoja, miten päivitys asennetaan.",
 "Log out" => "Kirjaudu ulos",
 "Automatic logon rejected!" => "Automaattinen sisäänkirjautuminen hylättiin!",
@@ -142,7 +150,8 @@ $TRANSLATIONS = array(
 "remember" => "muista",
 "Log in" => "Kirjaudu sisään",
 "Alternative Logins" => "Vaihtoehtoiset kirjautumiset",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Hei!<br><br>%s jakoi kohteen »%s« kanssasi.<br><a href=\"%s\">Katso se tästä!</a><br><br>Näkemiin!",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hei sinä!<br><br>%s jakoi kohteen »%s« kanssasi.<br><a href=\"%s\">Tutustu siihen!</a><br><br>",
+"The share will expire on %s.<br><br>" => "Jakaminen päättyy %s.<br><br>",
 "Updating ownCloud to version %s, this may take a while." => "Päivitetään ownCloud versioon %s, tämä saattaa kestää hetken."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

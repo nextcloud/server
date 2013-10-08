@@ -83,6 +83,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Kļūda, iestatot termiņa datumu",
 "Sending ..." => "Sūta...",
 "Email sent" => "Vēstule nosūtīta",
+"Warning" => "Brīdinājums",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Atjaunināšana beidzās nesekmīgi. Lūdzu, ziņojiet par šo problēmu <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud kopienai</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Atjaunināšana beidzās sekmīgi. Tagad pārsūta jūs uz ownCloud.",
 "%s password reset" => "%s paroles maiņa",
@@ -105,7 +106,6 @@ $TRANSLATIONS = array(
 "Help" => "Palīdzība",
 "Access forbidden" => "Pieeja ir liegta",
 "Cloud not found" => "Mākonis netika atrasts",
-"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Sveiks,\nTikai daru tev zināmu ka %s dalās %s ar tevi.\nApskati to: %s\n\nJaukiņi Labiņi!",
 "Edit categories" => "Rediģēt kategoriju",
 "Add" => "Pievienot",
 "Security Warning" => "Brīdinājums par drošību",
@@ -135,7 +135,6 @@ $TRANSLATIONS = array(
 "remember" => "atcerēties",
 "Log in" => "Ierakstīties",
 "Alternative Logins" => "Alternatīvās pieteikšanās",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Sveiks,<br><br>Tikai daru tev zināmu ka %s dalās %s ar tevi.<br><a href=\"%s\">Apskati to!</a><br><br>Jaukiņi Labiņi!",
 "Updating ownCloud to version %s, this may take a while." => "Atjaunina ownCloud uz versiju %s. Tas var aizņemt kādu laiciņu."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);";

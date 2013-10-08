@@ -81,6 +81,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Lỗi cấu hình ngày kết thúc",
 "Sending ..." => "Đang gởi ...",
 "Email sent" => "Email đã được gửi",
+"Warning" => "Cảnh báo",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Cập nhật không thành công . Vui lòng thông báo đến <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\"> Cộng đồng ownCloud </a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Cập nhật thành công .Hệ thống sẽ đưa bạn tới ownCloud.",
 "Use the following link to reset your password: {link}" => "Dùng đường dẫn sau để khôi phục lại mật khẩu : {link}",

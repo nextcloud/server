@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Deletion failed" => "فشل الحذف",
 "Error" => "خطأ",
+"Host" => "المضيف",
 "Password" => "كلمة المرور",
 "Help" => "المساعدة"
 );

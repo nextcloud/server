@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-07 04:40-0400\n"
-"PO-Revision-Date: 2013-09-05 18:23+0000\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-03 12:22+0000\n"
 "Last-Translator: Korrosivo <yo@rubendelcampo.es>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -30,17 +30,17 @@ msgstr "Ocurrió un fallo al borrar las asignaciones."
 msgid "Failed to delete the server configuration"
 msgstr "No se pudo borrar la configuración del servidor"
 
-#: ajax/testConfiguration.php:36
+#: ajax/testConfiguration.php:37
 msgid "The configuration is valid and the connection could be established!"
 msgstr "¡La configuración es válida y la conexión puede establecerse!"
 
-#: ajax/testConfiguration.php:39
+#: ajax/testConfiguration.php:40
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
 msgstr "La configuración es válida, pero falló el Enlace. Por favor, compruebe la configuración del servidor y las credenciales."
 
-#: ajax/testConfiguration.php:43
+#: ajax/testConfiguration.php:44
 msgid ""
 "The configuration is invalid. Please look in the ownCloud log for further "
 "details."

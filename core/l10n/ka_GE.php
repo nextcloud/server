@@ -81,6 +81,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "შეცდომა ვადის გასვლის მითითების დროს",
 "Sending ..." => "გაგზავნა ....",
 "Email sent" => "იმეილი გაიგზავნა",
+"Warning" => "გაფრთხილება",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "განახლება ვერ განხორციელდა. გთხოვთ შეგვატყობინოთ ამ პრობლემის შესახებ აქ: <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "განახლება ვერ განხორციელდა. გადამისამართება თქვენს ownCloud–ზე.",
 "Use the following link to reset your password: {link}" => "გამოიყენე შემდეგი ლინკი პაროლის შესაცვლელად: {link}",

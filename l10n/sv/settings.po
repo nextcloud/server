@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-29 00:02-0400\n"
-"PO-Revision-Date: 2013-09-28 01:44+0000\n"
-"Last-Translator: Daniel Sandman <revoltism@gmail.com>\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-05 15:12+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -164,15 +164,15 @@ msgstr "Uppdatera"
 msgid "Updated"
 msgstr "Uppdaterad"
 
-#: js/personal.js:221
+#: js/personal.js:225
 msgid "Select a profile picture"
 msgstr "Välj en profilbild"
 
-#: js/personal.js:266
+#: js/personal.js:270
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Dekrypterar filer... Vänligen vänta, detta kan ta en stund."
 
-#: js/personal.js:288
+#: js/personal.js:292
 msgid "Saving..."
 msgstr "Sparar..."
 
@@ -348,46 +348,54 @@ msgid "Allow users to only share with users in their groups"
 msgstr "Tillåt bara delning med användare i egna grupper"
 
 #: templates/admin.php:170
+msgid "Allow mail notification"
+msgstr ""
+
+#: templates/admin.php:171
+msgid "Allow user to send mail notification for shared files"
+msgstr ""
+
+#: templates/admin.php:178
 msgid "Security"
 msgstr "Säkerhet"
 
-#: templates/admin.php:183
+#: templates/admin.php:191
 msgid "Enforce HTTPS"
 msgstr "Kräv HTTPS"
 
-#: templates/admin.php:185
+#: templates/admin.php:193
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Tvingar klienterna att ansluta till %s via en krypterad anslutning."
 
-#: templates/admin.php:191
+#: templates/admin.php:199
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Anslut till din %s via HTTPS för att aktivera/deaktivera SSL"
 
-#: templates/admin.php:203
+#: templates/admin.php:211
 msgid "Log"
 msgstr "Logg"
 
-#: templates/admin.php:204
+#: templates/admin.php:212
 msgid "Log level"
 msgstr "Nivå på loggning"
 
-#: templates/admin.php:235
+#: templates/admin.php:243
 msgid "More"
 msgstr "Mer"
 
-#: templates/admin.php:236
+#: templates/admin.php:244
 msgid "Less"
 msgstr "Mindre"
 
-#: templates/admin.php:242 templates/personal.php:161
+#: templates/admin.php:250 templates/personal.php:161
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin.php:246 templates/personal.php:164
+#: templates/admin.php:254 templates/personal.php:164
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

@@ -36,6 +36,7 @@ $TRANSLATIONS = array(
 "No people found" => "कोई व्यक्ति नहीं मिले ",
 "Sending ..." => "भेजा जा रहा है",
 "Email sent" => "ईमेल भेज दिया गया है ",
+"Warning" => "चेतावनी ",
 "Use the following link to reset your password: {link}" => "आगे दिये गये लिंक का उपयोग पासवर्ड बदलने के लिये किजीये: {link}",
 "You will receive a link to reset your password via Email." => "पासवर्ड बदलने कि लिंक आपको ई-मेल द्वारा भेजी जायेगी|",
 "Username" => "प्रयोक्ता का नाम",

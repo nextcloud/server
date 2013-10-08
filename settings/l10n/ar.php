@@ -86,6 +86,7 @@ $TRANSLATIONS = array(
 "Email" => "البريد الإلكترونى",
 "Your email address" => "عنوانك البريدي",
 "Fill in an email address to enable password recovery" => "أدخل عنوانك البريدي لتفعيل استرجاع كلمة المرور",
+"Abort" => "إلغاء.",
 "Language" => "اللغة",
 "Help translate" => "ساعد في الترجمه",
 "WebDAV" => "WebDAV",

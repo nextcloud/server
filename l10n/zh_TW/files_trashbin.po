@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-01 13:27-0400\n"
-"PO-Revision-Date: 2013-09-01 13:20+0000\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-03 12:22+0000\n"
 "Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -44,25 +44,25 @@ msgstr "永久刪除檔案"
 msgid "Delete permanently"
 msgstr "永久刪除"
 
-#: js/trash.js:184 templates/index.php:17
+#: js/trash.js:190 templates/index.php:21
 msgid "Name"
 msgstr "名稱"
 
-#: js/trash.js:185 templates/index.php:27
+#: js/trash.js:191 templates/index.php:31
 msgid "Deleted"
 msgstr "已刪除"
 
-#: js/trash.js:193
+#: js/trash.js:199
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n 個資料夾"
 
-#: js/trash.js:199
+#: js/trash.js:205
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n 個檔案"
 
-#: lib/trash.php:814 lib/trash.php:816
+#: lib/trashbin.php:814 lib/trashbin.php:816
 msgid "restored"
 msgstr "已還原"
 
@@ -70,11 +70,11 @@ msgstr "已還原"
 msgid "Nothing in here. Your trash bin is empty!"
 msgstr "您的回收桶是空的！"
 
-#: templates/index.php:20 templates/index.php:22
+#: templates/index.php:24 templates/index.php:26
 msgid "Restore"
 msgstr "還原"
 
-#: templates/index.php:30 templates/index.php:31
+#: templates/index.php:34 templates/index.php:35
 msgid "Delete"
 msgstr "刪除"
 

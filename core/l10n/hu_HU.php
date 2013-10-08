@@ -103,6 +103,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Nem sikerült a lejárati időt beállítani",
 "Sending ..." => "Küldés ...",
 "Email sent" => "Az emailt elküldtük",
+"Warning" => "Figyelmeztetés",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "A frissítés nem sikerült. Kérem értesítse erről a problémáról az <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud közösséget</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "A frissítés sikeres volt. Visszairányítjuk az ownCloud szolgáltatáshoz.",
 "%s password reset" => "%s jelszó visszaállítás",
@@ -125,7 +126,6 @@ $TRANSLATIONS = array(
 "Help" => "Súgó",
 "Access forbidden" => "A hozzáférés nem engedélyezett",
 "Cloud not found" => "A felhő nem található",
-"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Üdv!\n\nÚj hír: %s megosztotta Önnel ezt: %s.\nItt nézhető meg: %s\n\nMinden jót!",
 "Edit categories" => "Kategóriák szerkesztése",
 "Add" => "Hozzáadás",
 "Security Warning" => "Biztonsági figyelmeztetés",
@@ -155,7 +155,6 @@ $TRANSLATIONS = array(
 "remember" => "emlékezzen",
 "Log in" => "Bejelentkezés",
 "Alternative Logins" => "Alternatív bejelentkezés",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Üdv!<br><br>Új hír: %s megosztotta Önnel ezt:  »%s«.<br><a href=\"%s\">Itt nézhető meg!</a><br><br>Minden jót!",
 "Updating ownCloud to version %s, this may take a while." => "Owncloud frissítés a %s verzióra folyamatban. Kis türelmet."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

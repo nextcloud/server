@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s pasidalino »%s« su tavimi",
+"Couldn't send mail to following users: %s " => "Nepavyko nusiųsti el. pašto šiems naudotojams: %s ",
 "group" => "grupė",
 "Turned on maintenance mode" => "Įjungta priežiūros veiksena",
 "Turned off maintenance mode" => "Išjungta priežiūros veiksena",
@@ -92,6 +93,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "Dalijinasis išnaujo negalimas",
 "Shared in {item} with {user}" => "Pasidalino {item} su {user}",
 "Unshare" => "Nebesidalinti",
+"notify user by email" => "informuoti naudotoją el. paštu",
 "can edit" => "gali redaguoti",
 "access control" => "priėjimo kontrolė",
 "create" => "sukurti",
@@ -103,6 +105,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Klaida nustatant galiojimo laiką",
 "Sending ..." => "Siunčiama...",
 "Email sent" => "Laiškas išsiųstas",
+"Warning" => "Įspėjimas",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Atnaujinimas buvo nesėkmingas. PApie tai prašome pranešti the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud bendruomenei</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Atnaujinimas buvo sėkmingas. Nukreipiame į jūsų ownCloud.",
 "%s password reset" => "%s slaptažodžio atnaujinimas",
@@ -125,7 +128,9 @@ $TRANSLATIONS = array(
 "Help" => "Pagalba",
 "Access forbidden" => "Priėjimas draudžiamas",
 "Cloud not found" => "Negalima rasti",
-"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Labas,\n\nInformuojame, kad %s pasidalino su Jumis %s.\nPažiūrėkite: %s\n\nLinkėjimai!",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Labas,\n\nInformuojame, kad %s pasidalino su Jumis %s.\nPažiūrėti tai: %s\n",
+"The share will expire on %s.\n\n" => "Bendrinimo laikas baigsis %s.\n",
+"Cheers!" => "Sveikinimai!",
 "Edit categories" => "Redaguoti kategorijas",
 "Add" => "Pridėti",
 "Security Warning" => "Saugumo pranešimas",
@@ -146,6 +151,7 @@ $TRANSLATIONS = array(
 "Database tablespace" => "Duomenų bazės loginis saugojimas",
 "Database host" => "Duomenų bazės serveris",
 "Finish setup" => "Baigti diegimą",
+"Finishing …" => "Baigiama ...",
 "%s is available. Get more information on how to update." => "%s yra prieinama. Gaukite daugiau informacijos apie atnaujinimą.",
 "Log out" => "Atsijungti",
 "Automatic logon rejected!" => "Automatinis prisijungimas atmestas!",
@@ -155,7 +161,8 @@ $TRANSLATIONS = array(
 "remember" => "prisiminti",
 "Log in" => "Prisijungti",
 "Alternative Logins" => "Alternatyvūs prisijungimai",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Labas,<br><br>tik informuojame, kad %s pasidalino su Jumis »%s«.<br><a href=\"%s\">Peržiūrėk!</a><br><br>Linkėjimai!",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Labas,<br><br>tik informuojame, kad %s pasidalino su Jumis »%s«.<br><a href=\"%s\">Peržiūrėk!</a><br><br>",
+"The share will expire on %s.<br><br>" => "Bendrinimo laikas baigsis %s.<br><br>",
 "Updating ownCloud to version %s, this may take a while." => "Atnaujinama ownCloud į %s versiją. tai gali šiek tiek užtrukti."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);";

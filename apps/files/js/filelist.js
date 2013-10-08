@@ -804,7 +804,7 @@ $(document).ready(function(){
 				data.context.attr('data-mime',file.mime).attr('data-id',file.id);
 
 				var permissions = data.context.data('permissions');
-				if(permissions != file.permissions) {
+				if(permissions !== file.permissions) {
 					data.context.attr('data-permissions', file.permissions);
 					data.context.data('permissions', file.permissions);
 				}

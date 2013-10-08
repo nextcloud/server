@@ -79,6 +79,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "মেয়াদোত্তীর্ণ হওয়ার তারিখ নির্ধারণ করতে সমস্যা দেখা দিয়েছে",
 "Sending ..." => "পাঠানো হচ্ছে......",
 "Email sent" => "ই-মেইল পাঠানো হয়েছে",
+"Warning" => "সতর্কবাণী",
 "Use the following link to reset your password: {link}" => "আপনার কূটশব্দটি পূনঃনির্ধারণ  করার জন্য নিম্নোক্ত লিংকটি ব্যবহার করুনঃ {link}",
 "You will receive a link to reset your password via Email." => "কূটশব্দ পূনঃনির্ধারণের জন্য একটি টূনঃনির্ধারণ লিংকটি আপনাকে ই-মেইলে পাঠানো হয়েছে ।",
 "Username" => "ব্যবহারকারী",

@@ -19,8 +19,6 @@
 					<input type="hidden" name="MAX_FILE_SIZE" id="max_upload"
 						   value="<?php p($_['uploadMaxFilesize']) ?>">
 					<?php endif;?>
-					<!-- Send the requesttoken, this is needed for older IE versions
-						 because they don't send the CSRF token via HTTP header in this case -->
 					<input type="hidden" class="max_human_file_size"
 						   value="(max <?php p($_['uploadMaxHumanFilesize']); ?>)">
 					<input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
@@ -29,9 +27,7 @@
 					<a href="#" class="svg"></a>
 			</div>
 			<?php if ($_['trash'] ): ?>
-				<div id="trash" class="button" <?php $_['trashEmpty'] ? p('disabled') : '' ?>>
-					<a><?php p($l->t('Deleted files'));?></a>
-				</div>
+			<input id="trash" type="button" value="<?php p($l->t('Deleted files'));?>" class="button" <?php $_['trashEmpty'] ? p('disabled') : '' ?>></input>
 			<?php endif; ?>
 			<div id="uploadprogresswrapper">
 				<div id="uploadprogressbar"></div>
