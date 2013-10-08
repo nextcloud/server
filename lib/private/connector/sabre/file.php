@@ -45,7 +45,9 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 * @return string|null
 	 */
 	public function put($data) {
+
 		$fs = $this->getFS();
+
 		if ($fs->file_exists($this->path) &&
 			!$fs->isUpdatable($this->path)) {
 			throw new \Sabre_DAV_Exception_Forbidden();
@@ -58,12 +60,14 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 
 		// chunked handling
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
+
 			list($path, $name) = \Sabre_DAV_URLUtil::splitPath($this->path);
 
 			$info = OC_FileChunking::decodeName($name);
 			if (empty($info)) {
 				throw new Sabre_DAV_Exception_NotImplemented();
 			}
+
 			$chunk_handler = new OC_FileChunking($info);
 			$chunk_handler->store($info['index'], $data);
 			if ($chunk_handler->isComplete()) {
@@ -77,6 +81,13 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 
 		// mark file as partial while uploading (ignored by the scanner)
 		$partpath = $this->path . '.part';
+
+		// if file is located in /Shared we write the part file to the users
+		// root folder because we can't create new files in /shared
+		// we extend the name with a random number to avoid overwriting a existing file
+		if (dirname($partpath) === 'Shared') {
+			$partpath = pathinfo($partpath, PATHINFO_FILENAME) . rand() . '.part';
+		}
 
 		try {
 			$putOkay = $fs->file_put_contents($partpath, $data);
