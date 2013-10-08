@@ -21,13 +21,8 @@
 */
 
 class Test_User_Database extends Test_User_Backend {
-	/**
-	 * get a new unique user name
-	 * test cases can override this in order to clean up created user
-	 * @return array
-	 */
 	public function getUser() {
-		$user=uniqid('test_');
+		$user = parent::getUser();
 		$this->users[]=$user;
 		return $user;
 	}
