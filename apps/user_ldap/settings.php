@@ -57,6 +57,11 @@ $wizard2->assign('wizardControls', $wControls);
 $wizardHtml .= $wizard2->fetchPage();
 $toc['#ldapWizard2'] = 'User Filter';
 
+$wizard3 = new OCP\Template('user_ldap', 'part.wizard-loginfilter');
+$wizard3->assign('wizardControls', $wControls);
+$wizardHtml .= $wizard3->fetchPage();
+$toc['#ldapWizard3'] = 'Login Filter';
+
 $tmpl->assign('tabs', $wizardHtml);
 $tmpl->assign('toc', $toc);
 

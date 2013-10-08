@@ -30,13 +30,13 @@ class Wizard extends LDAPUtility {
 	protected $result;
 	protected $resultCache = array();
 
-	const LRESULT_PROCESSED_OK = 0;
-	const LRESULT_PROCESSED_INVALID = 1;
-	const LRESULT_PROCESSED_SKIP = 2;
+	const LRESULT_PROCESSED_OK = 2;
+	const LRESULT_PROCESSED_INVALID = 3;
+	const LRESULT_PROCESSED_SKIP = 4;
 
-	const LFILTER_LOGIN      = 0;
-	const LFILTER_USER_LIST  = 1;
-	const LFILTER_GROUP_LIST = 2;
+	const LFILTER_LOGIN      = 2;
+	const LFILTER_USER_LIST  = 3;
+	const LFILTER_GROUP_LIST = 4;
 
 	/**
 	 * @brief Constructor
@@ -85,6 +85,67 @@ class Wizard extends LDAPUtility {
 		$this->result->addChange('ldap_user_count', $entries);
 
 		return $this->result;
+	}
+
+	public function determineAttributes() {
+		if(!$this->checkRequirements(array('ldapHost',
+										   'ldapPort',
+										   'ldapAgentName',
+										   'ldapAgentPassword',
+										   'ldapBase',
+										   'ldapUserFilter',
+										   ))) {
+			return  false;
+		}
+
+		$attributes = $this->getUserAttributes();
+
+		natcasesort($attributes);
+		$attributes = array_values($attributes);
+
+		$this->result->addOptions('ldap_loginfilter_attributes', $attributes);
+
+		$selected = $this->configuration->ldapLoginFilterAttributes;
+		if(is_array($selected) && !empty($selected)) {
+			$this->result->addChange('ldap_loginfilter_attributes', $selected);
+		}
+
+		return $this->result;
+	}
+
+	/**
+	 * @brief detects the available LDAP attributes
+	 * @returns the instance's WizardResult instance
+	 */
+	private function getUserAttributes() {
+		if(!$this->checkRequirements(array('ldapHost',
+										   'ldapPort',
+										   'ldapAgentName',
+										   'ldapAgentPassword',
+										   'ldapBase',
+										   'ldapUserFilter',
+										   ))) {
+			return  false;
+		}
+		$cr = $this->getConnection();
+		if(!$cr) {
+			throw new \Excpetion('Could not connect to LDAP');
+		}
+
+		$base = $this->configuration->ldapBase[0];
+		$filter = $this->configuration->ldapUserFilter;
+		$rr = $this->ldap->search($cr, $base, $filter, array(), 1, 1);
+		if(!$this->ldap->isResource($rr)) {
+			return false;
+		}
+		$er = $this->ldap->firstEntry($cr, $rr);
+		$attributes = $this->ldap->getAttributes($cr, $er);
+		$pureAttributes = array();
+		for($i = 0; $i < $attributes['count']; $i++) {
+			$pureAttributes[] = $attributes[$i];
+		}
+
+		return $pureAttributes;
 	}
 
 	/**
@@ -164,6 +225,25 @@ class Wizard extends LDAPUtility {
 		}
 
 		$this->applyFind('ldap_userlist_filter', $filter);
+		return $this->result;
+	}
+
+	public function getUserLoginFilter() {
+		if(!$this->checkRequirements(array('ldapHost',
+										   'ldapPort',
+										   'ldapAgentName',
+										   'ldapAgentPassword',
+										   'ldapBase',
+										   'ldapUserFilter',
+										   ))) {
+			return false;
+		}
+		$filter = $this->composeLdapFilter(self::LFILTER_LOGIN);
+		if(!$filter) {
+			throw new \Exception('Cannot create filter');
+		}
+
+		$this->applyFind('ldap_login_filter', $filter);
 		return $this->result;
 	}
 
@@ -361,10 +441,8 @@ class Wizard extends LDAPUtility {
 		switch ($filterType) {
 			case self::LFILTER_USER_LIST:
 				$objcs = $this->configuration->ldapUserFilterObjectclass;
-				\OCP\Util::writeLog('user_ldap', 'Wiz: '.print_r($objcs, true), \OCP\Util::DEBUG);
 				//glue objectclasses
 				if(is_array($objcs) && count($objcs) > 0) {
-					\OCP\Util::writeLog('user_ldap', 'Wiz: Processing objectclasses', \OCP\Util::DEBUG);
 					$filter .= '(|';
 					foreach($objcs as $objc) {
 						$filter .= '(objectclass=' . $objc . ')';
@@ -372,13 +450,10 @@ class Wizard extends LDAPUtility {
 					$filter .= ')';
 					$parts++;
 				}
-				\OCP\Util::writeLog('user_ldap', 'Wiz: Intermediate filter '.$filter, \OCP\Util::DEBUG);
 				//glue group memberships
 				if($this->configuration->hasMemberOfFilterSupport) {
 					$cns = $this->configuration->ldapUserFilterGroups;
-					\OCP\Util::writeLog('user_ldap', 'Wiz: '.print_r($cns, true), \OCP\Util::DEBUG);
 					if(is_array($cns) && count($cns) > 0) {
-						\OCP\Util::writeLog('user_ldap', 'Wiz: Processing groups', \OCP\Util::DEBUG);
 						$filter .= '(|';
 						$cr = $this->getConnection();
 						if(!$cr) {
@@ -397,15 +472,70 @@ class Wizard extends LDAPUtility {
 						$filter .= ')';
 					}
 					$parts++;
-					\OCP\Util::writeLog('user_ldap', 'Wiz: Intermediate filter '.$filter, \OCP\Util::DEBUG);
 				}
 				//wrap parts in AND condition
 				if($parts > 1) {
 					$filter = '(&' . $filter . ')';
 				}
 				if(empty($filter)) {
-					$filter = 'objectclass=*';
+					$filter = '(objectclass=*)';
 				}
+				break;
+
+			case self::LFILTER_LOGIN:
+				$ulf = $this->configuration->ldapUserFilter;
+				$loginpart = '=%uid';
+				$filterUsername = '';
+				$userAttributes = $this->getUserAttributes();
+				$userAttributes = array_change_key_case(array_flip($userAttributes));
+				$parts = 0;
+
+				$x = $this->configuration->ldapLoginFilterUsername;
+				if($this->configuration->ldapLoginFilterUsername === '1') {
+					$attr = '';
+					if(isset($userAttributes['uid'])) {
+						$attr = 'uid';
+					} else if(isset($userAttributes['samaccountname'])) {
+						$attr = 'samaccountname';
+					} else if(isset($userAttributes['cn'])) {
+						//fallback
+						$attr = 'cn';
+					}
+					if(!empty($attr)) {
+						$filterUsername = '(' . $attr . $loginpart . ')';
+						$parts++;
+					}
+				}
+
+				$filterEmail = '';
+				if($this->configuration->ldapLoginFilterEmail === '1') {
+					$filterEmail = '(|(mailPrimaryAddress=%uid)(mail=%uid))';
+					$parts++;
+				}
+
+				$filterAttributes = '';
+				$attrsToFilter = $this->configuration->ldapLoginFilterAttributes;
+				if(is_array($attrsToFilter) && count($attrsToFilter) > 0) {
+					$filterAttributes = '(|';
+					foreach($attrsToFilter as $attribute) {
+					    $filterAttributes .= '(' . $attribute . $loginpart . ')';
+					}
+					$filterAttributes .= ')';
+					$parts++;
+				}
+
+				$filterLogin = '';
+				if($parts > 1) {
+					$filterLogin = '(|';
+				}
+				$filterLogin .= $filterUsername;
+				$filterLogin .= $filterEmail;
+				$filterLogin .= $filterAttributes;
+				if($parts > 1) {
+					$filterLogin .= ')';
+				}
+
+				$filter = '(&'.$ulf.$filterLogin.')';
 				break;
 		}
 

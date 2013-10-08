@@ -210,6 +210,8 @@ var LdapWizard = {
 	composeFilter: function(type) {
 		if(type == 'user') {
 			action = 'getUserListFilter';
+		} else if(type == 'login') {
+			action = 'getUserLoginFilter';
 		}
 
 		param = 'action='+action+
@@ -237,6 +239,32 @@ var LdapWizard = {
 			},
 			function (result) {
 				// error handling
+			}
+		);
+	},
+
+	findAttributes: function() {
+		param = 'action=determineAttributes'+
+				'&ldap_serverconfig_chooser='+$('#ldap_serverconfig_chooser').val();
+
+		LdapWizard.ajax(param,
+			function(result) {
+				$('#ldap_loginfilter_attributes').find('option').remove();
+				for (i in result.options['ldap_loginfilter_attributes']) {
+					//FIXME: move HTML into template
+					attr = result.options['ldap_loginfilter_attributes'][i];
+					$('#ldap_loginfilter_attributes').append(
+								"<option value='"+attr+"'>"+attr+"</option>");
+				}
+				LdapWizard.applyChanges(result);
+				$('#ldap_loginfilter_attributes').multiselect('refresh');
+				$('#ldap_loginfilter_attributes').multiselect('enable');
+			},
+			function (result) {
+				//deactivate if no attributes found
+				$('#ldap_loginfilter_attributes').multiselect(
+									{noneSelectedText : 'No attributes found'});
+				$('#ldap_loginfilter_attributes').multiselect('disable');
 			}
 		);
 	},
@@ -297,6 +325,10 @@ var LdapWizard = {
 		}
 	},
 
+	initLoginFilter: function() {
+		LdapWizard.findAttributes();
+	},
+
 	initMultiSelect: function(object, id, caption) {
 		object.multiselect({
 			header: false,
@@ -318,6 +350,8 @@ var LdapWizard = {
 	onTabChange: function(event, ui) {
 		if(ui.newTab[0].id === '#ldapWizard2') {
 			LdapWizard.initUserFilter();
+		} else if(ui.newTab[0].id === '#ldapWizard3') {
+			LdapWizard.initLoginFilter();
 		}
 	},
 
@@ -333,6 +367,11 @@ var LdapWizard = {
 		if(triggerObj.id == 'ldap_userlist_filter') {
 			LdapWizard.countUsers();
 		}
+
+		if(triggerObj.id == 'ldap_loginfilter_username'
+		   || triggerObj.id == 'ldap_loginfilter_email') {
+			LdapWizard.composeFilter('login');
+		}
 	},
 
 	save: function(inputObj) {
@@ -340,7 +379,13 @@ var LdapWizard = {
 			delete LdapWizard.saveBlacklist[inputObj.id];
 			return;
 		}
-		LdapWizard._save(inputObj, $(inputObj).val());
+		if($(inputObj).is('input[type=checkbox]')
+		   && !$(inputObj).is(':checked')) {
+			val = 0;
+		} else {
+			val = $(inputObj).val();
+		}
+		LdapWizard._save(inputObj, val);
 	},
 
 	saveMultiSelect: function(originalObj, resultObj) {
@@ -352,7 +397,10 @@ var LdapWizard = {
 		if(originalObj == 'ldap_userfilter_objectclass'
 		   || originalObj == 'ldap_userfilter_groups') {
 			LdapWizard.composeFilter('user');
+		} else if(originalObj == 'ldap_loginfilter_attributes') {
+			LdapWizard.composeFilter('login');
 		}
+
 	},
 
 	_save: function(object, value) {
@@ -410,6 +458,9 @@ $(document).ready(function() {
 	LdapWizard.initMultiSelect($('#ldap_userfilter_objectclass'),
 							   'ldap_userfilter_objectclass',
 							   t('user_ldap', 'Select object classes'));
+	LdapWizard.initMultiSelect($('#ldap_loginfilter_attributes'),
+							   'ldap_loginfilter_attributes',
+							   t('user_ldap', 'Select attributes'));
 	$('.lwautosave').change(function() { LdapWizard.save(this); });
 	$('#toggleRawUserFilter').click(LdapWizard.toggleRawUserFilter);
 	LdapConfiguration.refreshConfig();

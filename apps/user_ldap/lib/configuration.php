@@ -51,6 +51,9 @@ class Configuration {
 		'ldapGroupDisplayName' => null,
 		'ldapGroupMemberAssocAttr' => null,
 		'ldapLoginFilter' => null,
+		'ldapLoginFilterEmail' => null,
+		'ldapLoginFilterUsername' => null,
+		'ldapLoginFilterAttributes' => null,
 		'ldapQuotaAttribute' => null,
 		'ldapQuotaDefault' => null,
 		'ldapEmailAttribute' => null,
@@ -126,6 +129,7 @@ class Configuration {
 				case 'ldapAttributesForGroupSearch':
 				case 'ldapUserFilterObjectclass':
 				case 'ldapUserFilterGroups':
+				case 'ldapLoginFilterAttributes':
 					$setMethod = 'setMultiLine';
 				default:
 					$this->$setMethod($key, $val);
@@ -154,6 +158,7 @@ class Configuration {
 					case 'ldapAttributesForGroupSearch':
 					case 'ldapUserFilterObjectclass':
 					case 'ldapUserFilterGroups':
+					case 'ldapLoginFilterAttributes':
 						$readMethod = 'getMultiLine';
 						break;
 					case 'ldapIgnoreNamingRules':
@@ -194,6 +199,7 @@ class Configuration {
 				case 'ldapAttributesForGroupSearch':
 				case 'ldapUserFilterObjectclass':
 				case 'ldapUserFilterGroups':
+				case 'ldapLoginFilterAttributes':
 					if(is_array($value)) {
 						$value = implode("\n", $value);
 					}
@@ -286,6 +292,9 @@ class Configuration {
 			'ldap_userfilter_objectclass'		=> '',
 			'ldap_userfilter_groups'			=> '',
 			'ldap_login_filter'					=> 'uid=%uid',
+			'ldap_loginfilter_email'			=> 0,
+			'ldap_loginfilter_username'			=> 1,
+			'ldap_loginfilter_attributes'		=> '',
 			'ldap_group_filter'					=> 'objectClass=posixGroup',
 			'ldap_display_name'					=> 'cn',
 			'ldap_group_display_name'			=> 'cn',
@@ -329,6 +338,9 @@ class Configuration {
 			'ldap_userfilter_groups'	 		=> 'ldapUserFilterGroups',
 			'ldap_userlist_filter'				=> 'ldapUserFilter',
 			'ldap_login_filter'					=> 'ldapLoginFilter',
+			'ldap_loginfilter_email'			=> 'ldapLoginFilterEmail',
+			'ldap_loginfilter_username'			=> 'ldapLoginFilterUsername',
+			'ldap_loginfilter_attributes'		=> 'ldapLoginFilterAttributes',
 			'ldap_group_filter'					=> 'ldapGroupFilter',
 			'ldap_display_name'					=> 'ldapUserDisplayName',
 			'ldap_group_display_name'			=> 'ldapGroupDisplayName',
