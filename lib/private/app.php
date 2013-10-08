@@ -165,9 +165,13 @@ class OC_App{
 	/**
 	 * get all enabled apps
 	 */
+	private static $enabledAppsCache = array();
 	public static function getEnabledApps() {
 		if(!OC_Config::getValue('installed', false)) {
 			return array();
+		}
+		if(!empty(self::$enabledAppsCache)) {
+			return self::$enabledAppsCache;
 		}
 		$apps=array('files');
 		$sql = 'SELECT `appid` FROM `*PREFIX*appconfig`'
@@ -187,6 +191,7 @@ class OC_App{
 				$apps[]=$row['appid'];
 			}
 		}
+		self::$enabledAppsCache = $apps;
 		return $apps;
 	}
 
@@ -198,11 +203,11 @@ class OC_App{
 	 * This function checks whether or not an app is enabled.
 	 */
 	public static function isEnabled( $app ) {
-		if( 'files'==$app or ('yes' == OC_Appconfig::getValue( $app, 'enabled' ))) {
+		if('files' == $app) {
 			return true;
 		}
-
-		return false;
+		$enabledApps = self::getEnabledApps();
+		return in_array($app, $enabledApps);
 	}
 
 	/**
@@ -214,6 +219,7 @@ class OC_App{
 	 * This function set an app as enabled in appconfig.
 	 */
 	public static function enable( $app ) {
+		self::$enabledAppsCache = array(); // flush
 		if(!OC_Installer::isInstalled($app)) {
 			// check if app is a shipped app or not. OCS apps have an integer as id, shipped apps use a string
 			if(!is_numeric($app)) {
@@ -257,6 +263,7 @@ class OC_App{
 	 * This function set an app as disabled in appconfig.
 	 */
 	public static function disable( $app ) {
+		self::$enabledAppsCache = array(); // flush
 		// check if app is a shipped app or not. if not delete
 		\OC_Hook::emit('OC_App', 'pre_disable', array('app' => $app));
 		OC_Appconfig::setValue( $app, 'enabled', 'no' );
