@@ -50,8 +50,22 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 */
 	public function createFile($name, $data = null) {
 
-		if (!\OC\Files\Filesystem::isCreatable($this->path)) {
-			throw new \Sabre_DAV_Exception_Forbidden();
+		// for chunked upload also updating a existing file is a "createFile"
+		// because we create all the chunks before reasamble them to the existing file.
+		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
+
+			// exit if we can't create a new file and we don't updatable existing file
+			$info = OC_FileChunking::decodeName($name);
+			if (!\OC\Files\Filesystem::isCreatable($this->path) &&
+					!\OC\Files\Filesystem::isUpdatable($this->path . '/' . $info['name'])) {
+				throw new \Sabre_DAV_Exception_Forbidden();
+			}
+
+		} else {
+			// For non-chunked upload it is enough to check if we can create a new file
+			if (!\OC\Files\Filesystem::isCreatable($this->path)) {
+				throw new \Sabre_DAV_Exception_Forbidden();
+			}
 		}
 
 		$path = $this->path . '/' . $name;
