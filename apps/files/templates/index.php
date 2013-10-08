@@ -108,6 +108,7 @@
 </div>
 
 <!-- config hints for javascript -->
+<input type="hidden" name="filesApp" id="filesApp" value="1" />
 <input type="hidden" name="ajaxLoad" id="ajaxLoad" value="<?php p($_['ajaxLoad']); ?>" />
 <input type="hidden" name="allowZipDownload" id="allowZipDownload" value="<?php p($_['allowZipDownload']); ?>" />
 <input type="hidden" name="usedSpacePercent" id="usedSpacePercent" value="<?php p($_['usedSpacePercent']); ?>" />
