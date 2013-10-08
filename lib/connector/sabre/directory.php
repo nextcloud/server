@@ -50,15 +50,17 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 */
 	public function createFile($name, $data = null) {
 
-		if (!\OC\Files\Filesystem::isCreatable($this->path)) {
-			throw new \Sabre_DAV_Exception_Forbidden();
-		}
-
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
 			$info = OC_FileChunking::decodeName($name);
 			if (empty($info)) {
 				throw new Sabre_DAV_Exception_NotImplemented();
 			}
+
+			if (!\OC\Files\Filesystem::isCreatable($this->path) &&
+					!\OC\Files\Filesystem::isUpdatable($this->path . '/' . $info['name'])) {
+				throw new \Sabre_DAV_Exception_Forbidden();
+			}
+
 			$chunk_handler = new OC_FileChunking($info);
 			$chunk_handler->store($info['index'], $data);
 			if ($chunk_handler->isComplete()) {
@@ -67,6 +69,11 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 				return OC_Connector_Sabre_Node::getETagPropertyForPath($newPath);
 			}
 		} else {
+
+			if (!\OC\Files\Filesystem::isCreatable($this->path)) {
+				throw new \Sabre_DAV_Exception_Forbidden();
+			}
+
 			$newPath = $this->path . '/' . $name;
 
 			// mark file as partial while uploading (ignored by the scanner)
