@@ -39,7 +39,7 @@ abstract class Test_User_Backend extends PHPUnit_Framework_TestCase {
 	/**
 	 * get a new unique user name
 	 * test cases can override this in order to clean up created user
-	 * @return array
+	 * @return string
 	 */
 	public function getUser() {
 		return uniqid('test_');
