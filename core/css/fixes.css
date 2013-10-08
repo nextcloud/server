@@ -48,3 +48,8 @@
 .ie8 .oc-dialog {
 	border: 1px solid #888888;
 }
+
+/* IE8 doesn't support transparent background - let's emulate black with an opacity of .3 on a dark blue background*/
+.ie8 fieldset .warning, .ie8 #body-login .error {
+	background-color: #1B314D;
+}
