@@ -68,7 +68,7 @@ class Shared_Updater {
 
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `file_source`=?');
 		try	{
-			\OC_DB::executeAudited($query, array($fileSource));
+			$query->execute(array($fileSource));
 		} catch (\Exception $e) {
 			\OCP\Util::writeLog('files_sharing', "can't remove share: " . $e->getMessage(), \OCP\Util::WARN);
 		}
