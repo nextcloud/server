@@ -48,6 +48,8 @@ switch($action) {
 	case 'guessBaseDN':
 	case 'determineObjectClasses':
 	case 'determineGroups':
+	case 'getUserListFilter':
+	case 'countUsers':
 		try {
 			$result = $wizard->$action();
 			if($result !== false) {

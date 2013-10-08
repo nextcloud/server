@@ -63,6 +63,7 @@ class Configuration {
 		'ldapAttributesForGroupSearch' => null,
 		'homeFolderNamingRule' => null,
 		'hasPagedResultSupport' => false,
+		'hasMemberOfFilterSupport' => false,
 		'ldapExpertUsernameAttr' => null,
 		'ldapExpertUUIDAttr' => null,
 	);
@@ -304,6 +305,7 @@ class Configuration {
 			'ldap_attributes_for_group_search'	=> '',
 			'ldap_expert_username_attr'			=> '',
 			'ldap_expert_uuid_attr'				=> '',
+			'has_memberof_filter_support'		=> 0,
 		);
 	}
 
@@ -344,6 +346,7 @@ class Configuration {
 			'ldap_attributes_for_group_search'	=> 'ldapAttributesForGroupSearch',
 			'ldap_expert_username_attr' 		=> 'ldapExpertUsernameAttr',
 			'ldap_expert_uuid_attr' 			=> 'ldapExpertUUIDAttr',
+			'has_memberof_filter_support'		=> 'hasMemberOfFilterSupport',
 		);
 		return $array;
 	}

@@ -34,6 +34,10 @@ class Wizard extends LDAPUtility {
 	const LRESULT_PROCESSED_INVALID = 1;
 	const LRESULT_PROCESSED_SKIP = 2;
 
+	const LFILTER_LOGIN      = 0;
+	const LFILTER_USER_LIST  = 1;
+	const LFILTER_GROUP_LIST = 2;
+
 	/**
 	 * @brief Constructor
 	 * @param $configuration an instance of Configuration
@@ -52,6 +56,35 @@ class Wizard extends LDAPUtility {
 		if($this->result->hasChanges()) {
 			$this->configuration->saveConfiguration();
 		}
+	}
+
+	public function countUsers() {
+		if(!$this->checkRequirements(array('ldapHost',
+										   'ldapPort',
+										   'ldapAgentName',
+										   'ldapAgentPassword',
+										   'ldapBase',
+										   'ldapUserFilter',
+										   ))) {
+			return  false;
+		}
+
+		$cr = $this->getConnection();
+		if(!$cr) {
+			throw new \Excpetion('Could not connect to LDAP');
+		}
+
+		$base = $this->configuration->ldapBase[0];
+		$filter = $this->configuration->ldapUserFilter;
+		$rr = $this->ldap->search($cr, $base, $filter, array('dn'));
+		if(!$this->ldap->isResource($rr)) {
+			return false;
+		}
+		$entries = $this->ldap->countEntries($cr, $rr);
+		$entries = ($entries !== false) ? $entries : 0;
+		$this->result->addChange('ldap_user_count', $entries);
+
+		return $this->result;
 	}
 
 	/**
@@ -78,7 +111,9 @@ class Wizard extends LDAPUtility {
 								'ldap_userfilter_groups',
 								'ldapUserFilterGroups');
 
-		if(!$this->testMemberOf()) {
+		$this->configuration->hasMemberOfFilterSupport = $this->testMemberOf();
+		$filter = $this->composeLdapFilter(self::LFILTER_USER_LIST);
+		if(!$this->configuration->hasMemberOfFilterSupport) {
 			throw new \Exception('memberOf is not supported by the server');
 		}
 
@@ -111,6 +146,24 @@ class Wizard extends LDAPUtility {
 								'ldapUserFilterObjectclass',
 								true);
 
+		return $this->result;
+	}
+
+	public function getUserListFilter() {
+		if(!$this->checkRequirements(array('ldapHost',
+										   'ldapPort',
+										   'ldapAgentName',
+										   'ldapAgentPassword',
+										   'ldapBase',
+										   ))) {
+			return false;
+		}
+		$filter = $this->composeLdapFilter(self::LFILTER_USER_LIST);
+		if(!$filter) {
+			throw new \Exception('Cannot create filter');
+		}
+
+		$this->applyFind('ldap_userlist_filter', $filter);
 		return $this->result;
 	}
 
@@ -293,6 +346,72 @@ class Wizard extends LDAPUtility {
 		}
 
 		return false;
+	}
+
+	/**
+	 * @brief creates an LDAP Filter from given configuration
+	 * @param $filterType int, for which use case the filter shall be created
+	 * can be any of self::LFILTER_USER_LIST, self::LFILTER_LOGIN or
+	 * self::LFILTER_GROUP_LIST
+	 * @return mixed, string with the filter on success, false otherwise
+	 */
+	private function composeLdapFilter($filterType) {
+		$filter = '';
+		$parts = 0;
+		switch ($filterType) {
+			case self::LFILTER_USER_LIST:
+				$objcs = $this->configuration->ldapUserFilterObjectclass;
+				\OCP\Util::writeLog('user_ldap', 'Wiz: '.print_r($objcs, true), \OCP\Util::DEBUG);
+				//glue objectclasses
+				if(is_array($objcs) && count($objcs) > 0) {
+					\OCP\Util::writeLog('user_ldap', 'Wiz: Processing objectclasses', \OCP\Util::DEBUG);
+					$filter .= '(|';
+					foreach($objcs as $objc) {
+						$filter .= '(objectclass=' . $objc . ')';
+					}
+					$filter .= ')';
+					$parts++;
+				}
+				\OCP\Util::writeLog('user_ldap', 'Wiz: Intermediate filter '.$filter, \OCP\Util::DEBUG);
+				//glue group memberships
+				if($this->configuration->hasMemberOfFilterSupport) {
+					$cns = $this->configuration->ldapUserFilterGroups;
+					\OCP\Util::writeLog('user_ldap', 'Wiz: '.print_r($cns, true), \OCP\Util::DEBUG);
+					if(is_array($cns) && count($cns) > 0) {
+						\OCP\Util::writeLog('user_ldap', 'Wiz: Processing groups', \OCP\Util::DEBUG);
+						$filter .= '(|';
+						$cr = $this->getConnection();
+						if(!$cr) {
+							throw new \Excpetion('Could not connect to LDAP');
+						}
+						$base = $this->configuration->ldapBase[0];
+						foreach($cns as $cn) {
+							$rr = $this->ldap->search($cr, $base, 'cn=' . $cn, array('dn'));
+							if(!$this->ldap->isResource($rr)) {
+								continue;
+							}
+							$er = $this->ldap->firstEntry($cr, $rr);
+							$dn = $this->ldap->getDN($cr, $er);
+							$filter .= '(memberof=' . $dn . ')';
+						}
+						$filter .= ')';
+					}
+					$parts++;
+					\OCP\Util::writeLog('user_ldap', 'Wiz: Intermediate filter '.$filter, \OCP\Util::DEBUG);
+				}
+				//wrap parts in AND condition
+				if($parts > 1) {
+					$filter = '(&' . $filter . ')';
+				}
+				if(empty($filter)) {
+					$filter = 'objectclass=*';
+				}
+				break;
+		}
+
+		\OCP\Util::writeLog('user_ldap', 'Wiz: Final filter '.$filter, \OCP\Util::DEBUG);
+
+		return empty($filter) ? false : $filter;
 	}
 
 	/**
