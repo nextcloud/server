@@ -73,51 +73,16 @@ class Wizard extends LDAPUtility {
 		}
 
 		$obclasses = array('posixGroup', 'group', '*');
-		$groups = $this->determineFeature($obclasses,
-										  'cn',
-										  'ldap_userfilter_groups',
-										  'ldapUserFilterGroups');
+		$this->determineFeature($obclasses,
+								'cn',
+								'ldap_userfilter_groups',
+								'ldapUserFilterGroups');
 
-		$isMemberOfWorking = $this->testMemberOf($groups);
-		if(!$isMemberOfWorking) {
+		if(!$this->testMemberOf()) {
 			throw new \Exception('memberOf is not supported by the server');
 		}
 
 		return $this->result;
-	}
-
-	private function testMemberOf($groups) {
-		$cr = $this->getConnection();
-		if(!$cr) {
-			throw new \Excpetion('Could not connect to LDAP');
-		}
-		if(!is_array($this->configuration->ldapBase)
-		   || !isset($this->configuration->ldapBase[0])) {
-			return false;
-		}
-		$base = $this->configuration->ldapBase[0];
-		$filterPrefix = '(&(objectclass=*)(memberOf=';
-
-		foreach($this->resultCache as $dn => $properties) {
-			if(!isset($properties['cn'])) {
-				//assuming only groups have their cn cached :)
-				continue;
-			}
-		    $filter = strtolower($filterPrefix . $dn.'))');
-			$rr = $this->ldap->search($cr, $base, $filter, array('dn'));
-			if(!$this->ldap->isResource($rr)) {
-				continue;
-			}
-			$entries = $this->ldap->countEntries($cr, $rr);
-			//we do not know which groups are empty, so test any and return
-			//success on the first match that returns at least one user
-			if(($entries !== false) && ($entries > 0)) {
-				return true;
-			}
-		}
-
-
-		return false;
 	}
 
 	/**
@@ -291,6 +256,46 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
+	 * @brief Checks whether the server supports memberOf in LDAP Filter.
+	 * Requires that groups are determined, thus internally called from within
+	 * determineGroups()
+	 * @return bool, true if it does, false otherwise
+	 */
+	private function testMemberOf() {
+		$cr = $this->getConnection();
+		if(!$cr) {
+			throw new \Excpetion('Could not connect to LDAP');
+		}
+		if(!is_array($this->configuration->ldapBase)
+		   || !isset($this->configuration->ldapBase[0])) {
+			return false;
+		}
+		$base = $this->configuration->ldapBase[0];
+		$filterPrefix = '(&(objectclass=*)(memberOf=';
+		$filterSuffix = '))';
+
+		foreach($this->resultCache as $dn => $properties) {
+			if(!isset($properties['cn'])) {
+				//assuming only groups have their cn cached :)
+				continue;
+			}
+		    $filter = strtolower($filterPrefix . $dn . $filterSuffix);
+			$rr = $this->ldap->search($cr, $base, $filter, array('dn'));
+			if(!$this->ldap->isResource($rr)) {
+				continue;
+			}
+			$entries = $this->ldap->countEntries($cr, $rr);
+			//we do not know which groups are empty, so test any and return
+			//success on the first match that returns at least one user
+			if(($entries !== false) && ($entries > 0)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Connects and Binds to an LDAP Server
 	 * @param $port the port to connect with
 	 * @param $tls whether startTLS is to be used
@@ -461,7 +466,10 @@ class Wizard extends LDAPUtility {
 											   true, $maxEntryObjC);
 		if(is_array($availableFeatures)
 		   && count($availableFeatures) > 0) {
-			$this->result->addOptions($dbkey, $availableFeatures);
+			natcasesort($availableFeatures);
+			//natcasesort keeps indices, but we must get rid of them for proper
+			//sorting in the web UI. Therefore: array_values
+			$this->result->addOptions($dbkey, array_values($availableFeatures));
 		} else {
 			throw new \Exception(self::$l->t('Could not find the desired feature'));
 		}
