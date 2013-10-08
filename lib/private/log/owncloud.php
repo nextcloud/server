@@ -52,7 +52,11 @@ class OC_Log_Owncloud {
 			// default to ISO8601
 			$format = OC_Config::getValue('logdateformat', 'Y-m-d H:i:s');
 			$logtimezone=OC_Config::getValue( "logtimezone", 'UTC' );
-			$timezone = new DateTimeZone($logtimezone);
+			try {
+				$timezone = new DateTimeZone($logtimezone);
+			} catch (Exception $e) {
+				$timezone = new DateTimeZone('UTC');
+			}
 			$time = new DateTime(null, $timezone);
 			$entry=array('app'=>$app, 'message'=>$message, 'level'=>$level, 'time'=> $time->format($format));
 			$handle = @fopen(self::$logFile, 'a');
