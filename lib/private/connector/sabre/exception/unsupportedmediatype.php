@@ -8,15 +8,15 @@
  */
 class OC_Connector_Sabre_Exception_UnsupportedMediaType extends Sabre_DAV_Exception {
 
-    /**
-     * Returns the HTTP status code for this exception
-     *
-     * @return int
-     */
-    public function getHTTPCode() {
+	/**
+	 * Returns the HTTP status code for this exception
+	 *
+	 * @return int
+	 */
+	public function getHTTPCode() {
 
-        return 415;
+		return 415;
 
-    }
+	}
 
 }
