@@ -87,6 +87,9 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 			if (!$fs->isUpdatable($destinationDir)) {
 				throw new \Sabre_DAV_Exception_Forbidden();
 			}
+			if (!$fs->isDeletable($sourcePath)) {
+				throw new \Sabre_DAV_Exception_Forbidden();
+			}
 		}
 
 		$renameOkay = $fs->rename($sourcePath, $destinationPath);
