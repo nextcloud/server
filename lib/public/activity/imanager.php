@@ -28,12 +28,17 @@ interface IManager {
 	/**
 	 * @param $app
 	 * @param $subject
+	 * @param $subjectParams
 	 * @param $message
+	 * @param $messageParams
 	 * @param $file
 	 * @param $link
+	 * @param $affectedUser
+	 * @param $type
+	 * @param $priority
 	 * @return mixed
 	 */
-	function publishActivity($app, $subject, $message, $file, $link);
+	function publishActivity($app, $subject, $subjectParams, $message, $messageParams, $file, $link, $affectedUser, $type, $priority);
 
 	/**
 	 * In order to improve lazy loading a closure can be registered which will be called in case

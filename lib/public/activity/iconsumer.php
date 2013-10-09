@@ -24,6 +24,19 @@
 namespace OCP\Activity;
 
 interface IConsumer {
-	function receive($app, $subject, $message, $file, $link);
+	/**
+	 * @param $app
+	 * @param $subject
+	 * @param $subjectParams
+	 * @param $message
+	 * @param $messageParams
+	 * @param $file
+	 * @param $link
+	 * @param $affectedUser
+	 * @param $type
+	 * @param $priority
+	 * @return mixed
+	 */
+	function receive($app, $subject, $subjectParams, $message, $messageParams, $file, $link, $affectedUser, $type, $priority );
 }
 

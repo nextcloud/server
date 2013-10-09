@@ -10,24 +10,44 @@ namespace OC;
 
 
 use OCP\Activity\IConsumer;
+use OCP\Activity\IManager;
 
-class ActivityManager implements \OCP\Activity\IManager {
+class ActivityManager implements IManager {
 
 	private $consumers = array();
 
 	/**
 	 * @param $app
 	 * @param $subject
+	 * @param $subjectParams
 	 * @param $message
+	 * @param $messageParams
 	 * @param $file
 	 * @param $link
+	 * @param $affectedUser
+	 * @param $type
+	 * @param $priority
 	 * @return mixed
 	 */
-	function publishActivity($app, $subject, $message, $file, $link) {
+	function publishActivity($app, $subject, $subjectParams, $message, $messageParams, $file, $link, $affectedUser, $type, $priority) {
 		foreach($this->consumers as $consumer) {
 			$c = $consumer();
 			if ($c instanceof IConsumer) {
-				$c->receive($app, $subject, $message, $file, $link);
+				try {
+				$c->receive(
+					$app,
+					$subject,
+					$subjectParams,
+					$message,
+					$messageParams,
+					$file,
+					$link,
+					$affectedUser,
+					$type,
+					$priority);
+				} catch (\Exception $ex) {
+					// TODO: log the excepetion
+				}
 			}
 
 		}
@@ -45,4 +65,5 @@ class ActivityManager implements \OCP\Activity\IManager {
 	function registerConsumer(\Closure $callable) {
 		array_push($this->consumers, $callable);
 	}
+
 }
