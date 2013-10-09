@@ -3,110 +3,110 @@ $(document).ready(function() {
 
 	if (typeof FileActions !== 'undefined') {
 		FileActions.register('all', 'Restore', OC.PERMISSION_READ, OC.imagePath('core', 'actions/history'), function(filename) {
-			var tr=$('tr').filterAttr('data-file', filename);
-			var deleteAction = $('tr').filterAttr('data-file',filename).children("td.date").children(".action.delete");
+			var tr = $('tr').filterAttr('data-file', filename);
+			var deleteAction = $('tr').filterAttr('data-file', filename).children("td.date").children(".action.delete");
 			deleteAction.removeClass('delete-icon').addClass('progress-icon');
 			disableActions();
-			$.post(OC.filePath('files_trashbin','ajax','undelete.php'),
-				{files:JSON.stringify([filename]), dirlisting:tr.attr('data-dirlisting') },
-				function(result){
-					console.log("get result");
-					for (var i = 0; i < result.data.success.length; i++) {
-						var row = document.getElementById(result.data.success[i].filename);
-						row.parentNode.removeChild(row);
-					}
-					if (result.status !== 'success') {
-						OC.dialogs.alert(result.data.message, t('core', 'Error'));
-					}
-					enableActions();
-					FileList.updateFileSummary();
-				});
-
-			});
-		};
-
-		FileActions.register('all', 'Delete', OC.PERMISSION_READ, function () {
-			return OC.imagePath('core', 'actions/delete');
-		}, function (filename) {
-			$('.tipsy').remove();
-			var tr=$('tr').filterAttr('data-file', filename);
-			var deleteAction = $('tr').filterAttr('data-file',filename).children("td.date").children(".action.delete");
-			deleteAction.removeClass('delete-icon').addClass('progress-icon');
-			disableActions();
-			$.post(OC.filePath('files_trashbin','ajax','delete.php'),
-				{files:JSON.stringify([filename]), dirlisting:tr.attr('data-dirlisting') },
-				function(result){
-					for (var i = 0; i < result.data.success.length; i++) {
-						var row = document.getElementById(result.data.success[i].filename);
-						row.parentNode.removeChild(row);
-					}
-					if (result.status !== 'success') {
-						OC.dialogs.alert(result.data.message, t('core', 'Error'));
-					}
-					enableActions();
-					FileList.updateFileSummary();
-				}
-			);
-
-		});
-
-		// Sets the select_all checkbox behaviour :
-		$('#select_all').click(function() {
-			if($(this).attr('checked')){
-				// Check all
-				$('td.filename input:checkbox').attr('checked', true);
-				$('td.filename input:checkbox').parent().parent().addClass('selected');
-			}else{
-				// Uncheck all
-				$('td.filename input:checkbox').attr('checked', false);
-				$('td.filename input:checkbox').parent().parent().removeClass('selected');
-			}
-			processSelection();
-		});
-
-		$('td.filename input:checkbox').live('change',function(event) {
-			if (event.shiftKey) {
-				var last = $(lastChecked).parent().parent().prevAll().length;
-				var first = $(this).parent().parent().prevAll().length;
-				var start = Math.min(first, last);
-				var end = Math.max(first, last);
-				var rows = $(this).parent().parent().parent().children('tr');
-				for (var i = start; i < end; i++) {
-					$(rows).each(function(index) {
-						if (index === i) {
-							var checkbox = $(this).children().children('input:checkbox');
-							$(checkbox).attr('checked', 'checked');
-							$(checkbox).parent().parent().addClass('selected');
+			$.post(OC.filePath('files_trashbin', 'ajax', 'undelete.php'),
+					{files: JSON.stringify([filename]), dirlisting: tr.attr('data-dirlisting')},
+					function(result) {
+						for (var i = 0; i < result.data.success.length; i++) {
+							var row = document.getElementById(result.data.success[i].filename);
+							row.parentNode.removeChild(row);
 						}
-					});
-				}
-			}
-			var selectedCount=$('td.filename input:checkbox:checked').length;
-			$(this).parent().parent().toggleClass('selected');
-			if(!$(this).attr('checked')){
-				$('#select_all').attr('checked',false);
-			}else{
-				if(selectedCount==$('td.filename input:checkbox').length){
-					$('#select_all').attr('checked',true);
-				}
-			}
-			processSelection();
+						if (result.status !== 'success') {
+							OC.dialogs.alert(result.data.message, t('core', 'Error'));
+						}
+						enableActions();
+						FileList.updateFileSummary();
+					}
+			);
+
 		});
+	};
 
-		$('.undelete').click('click',function(event) {
-			event.preventDefault();
-			var files=getSelectedFiles('file');
-			var fileslist = JSON.stringify(files);
-			var dirlisting=getSelectedFiles('dirlisting')[0];
-			disableActions();
-			for (var i=0; i<files.length; i++) {
-				var deleteAction = $('tr').filterAttr('data-file',files[i]).children("td.date").children(".action.delete");
-				deleteAction.removeClass('delete-icon').addClass('progress-icon');
+	FileActions.register('all', 'Delete', OC.PERMISSION_READ, function() {
+		return OC.imagePath('core', 'actions/delete');
+	}, function(filename) {
+		$('.tipsy').remove();
+		var tr = $('tr').filterAttr('data-file', filename);
+		var deleteAction = $('tr').filterAttr('data-file', filename).children("td.date").children(".action.delete");
+		deleteAction.removeClass('delete-icon').addClass('progress-icon');
+		disableActions();
+		$.post(OC.filePath('files_trashbin', 'ajax', 'delete.php'),
+				{files: JSON.stringify([filename]), dirlisting: tr.attr('data-dirlisting')},
+				function(result) {
+					for (var i = 0; i < result.data.success.length; i++) {
+						var row = document.getElementById(result.data.success[i].filename);
+						row.parentNode.removeChild(row);
+					}
+					if (result.status !== 'success') {
+						OC.dialogs.alert(result.data.message, t('core', 'Error'));
+					}
+					enableActions();
+					FileList.updateFileSummary();
+				}
+		);
+
+	});
+
+	// Sets the select_all checkbox behaviour :
+	$('#select_all').click(function() {
+		if ($(this).attr('checked')) {
+			// Check all
+			$('td.filename input:checkbox').attr('checked', true);
+			$('td.filename input:checkbox').parent().parent().addClass('selected');
+		} else {
+			// Uncheck all
+			$('td.filename input:checkbox').attr('checked', false);
+			$('td.filename input:checkbox').parent().parent().removeClass('selected');
+		}
+		processSelection();
+	});
+
+	$('td.filename input:checkbox').live('change', function(event) {
+		if (event.shiftKey) {
+			var last = $(lastChecked).parent().parent().prevAll().length;
+			var first = $(this).parent().parent().prevAll().length;
+			var start = Math.min(first, last);
+			var end = Math.max(first, last);
+			var rows = $(this).parent().parent().parent().children('tr');
+			for (var i = start; i < end; i++) {
+				$(rows).each(function(index) {
+					if (index === i) {
+						var checkbox = $(this).children().children('input:checkbox');
+						$(checkbox).attr('checked', 'checked');
+						$(checkbox).parent().parent().addClass('selected');
+					}
+				});
 			}
+		}
+		var selectedCount = $('td.filename input:checkbox:checked').length;
+		$(this).parent().parent().toggleClass('selected');
+		if (!$(this).attr('checked')) {
+			$('#select_all').attr('checked', false);
+		} else {
+			if (selectedCount == $('td.filename input:checkbox').length) {
+				$('#select_all').attr('checked', true);
+			}
+		}
+		processSelection();
+	});
 
-			$.post(OC.filePath('files_trashbin','ajax','undelete.php'),
-				{files:fileslist, dirlisting:dirlisting},
-				function(result){
+	$('.undelete').click('click', function(event) {
+		event.preventDefault();
+		var files = getSelectedFiles('file');
+		var fileslist = JSON.stringify(files);
+		var dirlisting = getSelectedFiles('dirlisting')[0];
+		disableActions();
+		for (var i = 0; i < files.length; i++) {
+			var deleteAction = $('tr').filterAttr('data-file', files[i]).children("td.date").children(".action.delete");
+			deleteAction.removeClass('delete-icon').addClass('progress-icon');
+		}
+
+		$.post(OC.filePath('files_trashbin', 'ajax', 'undelete.php'),
+				{files: fileslist, dirlisting: dirlisting},
+				function(result) {
 					for (var i = 0; i < result.data.success.length; i++) {
 						var row = document.getElementById(result.data.success[i].filename);
 						row.parentNode.removeChild(row);
@@ -116,24 +116,24 @@ $(document).ready(function() {
 					}
 					enableActions();
 				}
-			);
-		});
+		);
+	});
 
-		$('.delete').click('click',function(event) {
-			event.preventDefault();
-			var files=getSelectedFiles('file');
-			var fileslist = JSON.stringify(files);
-			var dirlisting=getSelectedFiles('dirlisting')[0];
+	$('.delete').click('click', function(event) {
+		event.preventDefault();
+		var files = getSelectedFiles('file');
+		var fileslist = JSON.stringify(files);
+		var dirlisting = getSelectedFiles('dirlisting')[0];
 
-			disableActions();
-			for (var i=0; i<files.length; i++) {
-				var deleteAction = $('tr').filterAttr('data-file',files[i]).children("td.date").children(".action.delete");
-				deleteAction.removeClass('delete-icon').addClass('progress-icon');
-			}
+		disableActions();
+		for (var i = 0; i < files.length; i++) {
+			var deleteAction = $('tr').filterAttr('data-file', files[i]).children("td.date").children(".action.delete");
+			deleteAction.removeClass('delete-icon').addClass('progress-icon');
+		}
 
-			$.post(OC.filePath('files_trashbin','ajax','delete.php'),
-				{files:fileslist, dirlisting:dirlisting},
-				function(result){
+		$.post(OC.filePath('files_trashbin', 'ajax', 'delete.php'),
+				{files: fileslist, dirlisting: dirlisting},
+				function(result) {
 					for (var i = 0; i < result.data.success.length; i++) {
 						var row = document.getElementById(result.data.success[i].filename);
 						row.parentNode.removeChild(row);
@@ -143,9 +143,9 @@ $(document).ready(function() {
 					}
 					enableActions();
 				}
-			);
+		);
 
-			});
+	});
 
 	$('#fileList').on('click', 'td.filename a', function(event) {
 		var mime = $(this).parent().parent().data('mime');
