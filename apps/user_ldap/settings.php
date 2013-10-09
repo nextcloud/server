@@ -45,22 +45,22 @@ $wControls = $wControls->fetchPage();
 $sControls = new OCP\Template('user_ldap', 'part.settingcontrols');
 $sControls = $sControls->fetchPage();
 
-$wizard1 = new OCP\Template('user_ldap', 'part.wizard-server');
-$wizard1->assign('serverConfigurationPrefixes', $prefixes);
-$wizard1->assign('serverConfigurationHosts', $hosts);
-$wizard1->assign('wizardControls', $wControls);
-$wizardHtml .= $wizard1->fetchPage();
-$toc['#ldapWizard1'] = 'Server';
+$wizTabs = array();
+$wizTabs[] = array('tpl' => 'part.wizard-server',      'cap' => 'Server');
+$wizTabs[] = array('tpl' => 'part.wizard-userfilter',  'cap' => 'User Filter');
+$wizTabs[] = array('tpl' => 'part.wizard-loginfilter', 'cap' => 'Login Filter');
+$wizTabs[] = array('tpl' => 'part.wizard-groupfilter', 'cap' => 'Group Filter');
 
-$wizard2 = new OCP\Template('user_ldap', 'part.wizard-userfilter');
-$wizard2->assign('wizardControls', $wControls);
-$wizardHtml .= $wizard2->fetchPage();
-$toc['#ldapWizard2'] = 'User Filter';
-
-$wizard3 = new OCP\Template('user_ldap', 'part.wizard-loginfilter');
-$wizard3->assign('wizardControls', $wControls);
-$wizardHtml .= $wizard3->fetchPage();
-$toc['#ldapWizard3'] = 'Login Filter';
+for($i = 0; $i < count($wizTabs); $i++) {
+	$tab = new OCP\Template('user_ldap', $wizTabs[$i]['tpl']);
+	if($i === 0) {
+		$tab->assign('serverConfigurationPrefixes', $prefixes);
+		$tab->assign('serverConfigurationHosts', $hosts);
+	}
+	$tab->assign('wizardControls', $wControls);
+	$wizardHtml .= $tab->fetchPage();
+	$toc['#ldapWizard'.($i+1)] = $wizTabs[$i]['cap'];
+}
 
 $tmpl->assign('tabs', $wizardHtml);
 $tmpl->assign('toc', $toc);

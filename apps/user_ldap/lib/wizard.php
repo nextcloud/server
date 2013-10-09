@@ -58,6 +58,38 @@ class Wizard extends LDAPUtility {
 		}
 	}
 
+	public function countGroups() {
+		if(!$this->checkRequirements(array('ldapHost',
+										   'ldapPort',
+										   'ldapAgentName',
+										   'ldapAgentPassword',
+										   'ldapBase',
+										   ))) {
+			return  false;
+		}
+
+		$base = $this->configuration->ldapBase[0];
+		$filter = $this->configuration->ldapGroupFilter;
+		\OCP\Util::writeLog('user_ldap', 'Wiz: g filter '. print_r($filter, true), \OCP\Util::DEBUG);
+		if(empty($filter)) {
+			$this->result->addChange('ldap_group_count', 0);
+			return $this->result;
+		}
+		$cr = $this->getConnection();
+		if(!$cr) {
+			throw new \Excpetion('Could not connect to LDAP');
+		}
+		$rr = $this->ldap->search($cr, $base, $filter, array('dn'));
+		if(!$this->ldap->isResource($rr)) {
+			return false;
+		}
+		$entries = $this->ldap->countEntries($cr, $rr);
+		$entries = ($entries !== false) ? $entries : 0;
+		$this->result->addChange('ldap_group_count', $entries);
+
+		return $this->result;
+	}
+
 	public function countUsers() {
 		if(!$this->checkRequirements(array('ldapHost',
 										   'ldapPort',
@@ -152,7 +184,26 @@ class Wizard extends LDAPUtility {
 	 * @brief detects the available LDAP groups
 	 * @returns the instance's WizardResult instance
 	 */
-	public function determineGroups() {
+	public function determineGroupsForGroups() {
+		return $this->determineGroups('ldap_groupfilter_groups',
+									  'ldapGroupFilterGroups',
+									  false);
+	}
+
+	/**
+	 * @brief detects the available LDAP groups
+	 * @returns the instance's WizardResult instance
+	 */
+	public function determineGroupsForUsers() {
+		return $this->determineGroups('ldap_userfilter_groups',
+									  'ldapUserFilterGroups');
+	}
+
+	/**
+	 * @brief detects the available LDAP groups
+	 * @returns the instance's WizardResult instance
+	 */
+	private function determineGroups($dbkey, $confkey, $testMemberOf = true) {
 		if(!$this->checkRequirements(array('ldapHost',
 										   'ldapPort',
 										   'ldapAgentName',
@@ -167,15 +218,13 @@ class Wizard extends LDAPUtility {
 		}
 
 		$obclasses = array('posixGroup', 'group', '*');
-		$this->determineFeature($obclasses,
-								'cn',
-								'ldap_userfilter_groups',
-								'ldapUserFilterGroups');
+		$this->determineFeature($obclasses, 'cn', $dbkey, $confkey);
 
-		$this->configuration->hasMemberOfFilterSupport = $this->testMemberOf();
-		$filter = $this->composeLdapFilter(self::LFILTER_USER_LIST);
-		if(!$this->configuration->hasMemberOfFilterSupport) {
-			throw new \Exception('memberOf is not supported by the server');
+		if($testMemberOf) {
+			$this->configuration->hasMemberOfFilterSupport = $this->testMemberOf();
+			if(!$this->configuration->hasMemberOfFilterSupport) {
+				throw new \Exception('memberOf is not supported by the server');
+			}
 		}
 
 		return $this->result;
@@ -185,7 +234,35 @@ class Wizard extends LDAPUtility {
 	 * @brief detects the available object classes
 	 * @returns the instance's WizardResult instance
 	 */
-	public function determineObjectClasses() {
+	public function determineGroupObjectClasses() {
+		if(!$this->checkRequirements(array('ldapHost',
+										   'ldapPort',
+										   'ldapAgentName',
+										   'ldapAgentPassword',
+										   'ldapBase',
+										   ))) {
+			return  false;
+		}
+		$cr = $this->getConnection();
+		if(!$cr) {
+			throw new \Excpetion('Could not connect to LDAP');
+		}
+
+		$obclasses = array('group', 'posixGroup', '*');
+		$this->determineFeature($obclasses,
+								'objectclass',
+								'ldap_groupfilter_objectclass',
+								'ldapGroupFilterObjectclass',
+								false);
+
+		return $this->result;
+	}
+
+	/**
+	 * @brief detects the available object classes
+	 * @returns the instance's WizardResult instance
+	 */
+	public function determineUserObjectClasses() {
 		if(!$this->checkRequirements(array('ldapHost',
 										   'ldapPort',
 										   'ldapAgentName',
@@ -201,12 +278,30 @@ class Wizard extends LDAPUtility {
 
 		$obclasses = array('inetOrgPerson', 'person', 'organizationalPerson',
 						   'user', 'posixAccount', '*');
+		$filter = $this->configuration->ldapUserFilter;
+		//if filter is empty, it is probably the first time the wizard is called
+		//then, apply suggestions.
 		$this->determineFeature($obclasses,
 								'objectclass',
 								'ldap_userfilter_objectclass',
 								'ldapUserFilterObjectclass',
-								true);
+								empty($filter));
 
+		return $this->result;
+	}
+
+	public function getGroupFilter() {
+		if(!$this->checkRequirements(array('ldapHost',
+										   'ldapPort',
+										   'ldapAgentName',
+										   'ldapAgentPassword',
+										   'ldapBase',
+										   ))) {
+			return false;
+		}
+		$filter = $this->composeLdapFilter(self::LFILTER_GROUP_LIST);
+
+		$this->applyFind('ldap_group_filter', $filter);
 		return $this->result;
 	}
 
@@ -482,6 +577,34 @@ class Wizard extends LDAPUtility {
 				}
 				break;
 
+			case self::LFILTER_GROUP_LIST:
+				$objcs = $this->configuration->ldapGroupFilterObjectclass;
+				//glue objectclasses
+				if(is_array($objcs) && count($objcs) > 0) {
+					$filter .= '(|';
+					foreach($objcs as $objc) {
+						$filter .= '(objectclass=' . $objc . ')';
+					}
+					$filter .= ')';
+					$parts++;
+				}
+				//glue group memberships
+				$cns = $this->configuration->ldapGroupFilterGroups;
+				if(is_array($cns) && count($cns) > 0) {
+					$filter .= '(|';
+					$base = $this->configuration->ldapBase[0];
+					foreach($cns as $cn) {
+						$filter .= '(cn=' . $cn . ')';
+					}
+					$filter .= ')';
+				}
+				$parts++;
+				//wrap parts in AND condition
+				if($parts > 1) {
+					$filter = '(&' . $filter . ')';
+				}
+				break;
+
 			case self::LFILTER_LOGIN:
 				$ulf = $this->configuration->ldapUserFilter;
 				$loginpart = '=%uid';
@@ -541,7 +664,7 @@ class Wizard extends LDAPUtility {
 
 		\OCP\Util::writeLog('user_ldap', 'Wiz: Final filter '.$filter, \OCP\Util::DEBUG);
 
-		return empty($filter) ? false : $filter;
+		return $filter;
 	}
 
 	/**
@@ -730,7 +853,8 @@ class Wizard extends LDAPUtility {
 		} else if($po && !empty($maxEntryObjC)) {
 			//pre-select objectclass with most result entries
 			$maxEntryObjC = str_replace($p, '', $maxEntryObjC);
-			$this->result->addChange($dbkey, $maxEntryObjC);
+			$this->applyFind($dbkey, $maxEntryObjC);
+// 			$this->result->addChange($dbkey, $maxEntryObjC);
 		}
 
 		return $availableFeatures;

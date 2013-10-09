@@ -212,6 +212,8 @@ var LdapWizard = {
 			action = 'getUserListFilter';
 		} else if(type == 'login') {
 			action = 'getUserLoginFilter';
+		} else if(type == 'group') {
+			action = 'getGroupFilter';
 		}
 
 		param = 'action='+action+
@@ -220,7 +222,11 @@ var LdapWizard = {
 		LdapWizard.ajax(param,
 			function(result) {
 				LdapWizard.applyChanges(result);
-				LdapWizard.countUsers();
+				if(type == 'user') {
+					LdapWizard.countUsers();
+				} else if(type == 'group') {
+					LdapWizard.countGroups();
+				}
 			},
 			function (result) {
 				// error handling
@@ -228,19 +234,26 @@ var LdapWizard = {
 		);
 	},
 
-	countUsers: function() {
-		param = 'action=countUsers'+
+	_countThings: function(method) {
+		param = 'action='+method+
 				'&ldap_serverconfig_chooser='+$('#ldap_serverconfig_chooser').val();
 
 		LdapWizard.ajax(param,
 			function(result) {
 				LdapWizard.applyChanges(result);
-// 				alert(result.changes['ldap_user_count']);
 			},
 			function (result) {
 				// error handling
 			}
 		);
+	},
+
+	countGroups: function() {
+		LdapWizard._countThings('countGroups');
+	},
+
+	countUsers: function() {
+		LdapWizard._countThings('countUsers');
 	},
 
 	findAttributes: function() {
@@ -269,42 +282,48 @@ var LdapWizard = {
 		);
 	},
 
-	findAvailableGroups: function() {
-		param = 'action=determineGroups'+
+	findAvailableGroups: function(multisel, type) {
+		if(type != 'Users' && type != 'Groups') {
+			return false;
+		}
+		param = 'action=determineGroupsFor'+type+
 				'&ldap_serverconfig_chooser='+$('#ldap_serverconfig_chooser').val();
 
 		LdapWizard.ajax(param,
 			function(result) {
-				$('#ldap_userfilter_groups').find('option').remove();
-				for (i in result.options['ldap_userfilter_groups']) {
+				$('#'+multisel).find('option').remove();
+				for (i in result.options[multisel]) {
 					//FIXME: move HTML into template
-					objc = result.options['ldap_userfilter_groups'][i];
-					$('#ldap_userfilter_groups').append("<option value='"+objc+"'>"+objc+"</option>");
+					objc = result.options[multisel][i];
+					$('#'+multisel).append("<option value='"+objc+"'>"+objc+"</option>");
 				}
 				LdapWizard.applyChanges(result);
-				$('#ldap_userfilter_groups').multiselect('refresh');
-				$('#ldap_userfilter_groups').multiselect('enable');
+				$('#'+multisel).multiselect('refresh');
+				$('#'+multisel).multiselect('enable');
 			},
 			function (result) {
-				$('#ldap_userfilter_groups').multiselect('disable');
+				$('#'+multisel).multiselect('disable');
 			}
 		);
 	},
 
-	findObjectClasses: function() {
-		param = 'action=determineObjectClasses'+
+	findObjectClasses: function(multisel, type) {
+		if(type != 'User' && type != 'Group') {
+			return false;
+		}
+		param = 'action=determine'+type+'ObjectClasses'+
 				'&ldap_serverconfig_chooser='+$('#ldap_serverconfig_chooser').val();
 
 		LdapWizard.ajax(param,
 			function(result) {
-				$('#ldap_userfilter_objectclass').find('option').remove();
-				for (i in result.options['ldap_userfilter_objectclass']) {
+				$('#'+multisel).find('option').remove();
+				for (i in result.options[multisel]) {
 					//FIXME: move HTML into template
-					objc = result.options['ldap_userfilter_objectclass'][i];
-					$('#ldap_userfilter_objectclass').append("<option value='"+objc+"'>"+objc+"</option>");
+					objc = result.options[multisel][i];
+					$('#'+multisel).append("<option value='"+objc+"'>"+objc+"</option>");
 				}
 				LdapWizard.applyChanges(result);
-				$('#ldap_userfilter_objectclass').multiselect('refresh');
+				$('#'+multisel).multiselect('refresh');
 			},
 			function (result) {
 				//TODO: error handling
@@ -325,6 +344,12 @@ var LdapWizard = {
 		}
 	},
 
+	initGroupFilter: function() {
+		LdapWizard.findObjectClasses('ldap_groupfilter_objectclass', 'Group');
+		LdapWizard.findAvailableGroups('ldap_groupfilter_groups', 'Groups');
+		LdapWizard.countGroups();
+	},
+
 	initLoginFilter: function() {
 		LdapWizard.findAttributes();
 	},
@@ -342,8 +367,8 @@ var LdapWizard = {
 	},
 
 	initUserFilter: function() {
-		LdapWizard.findObjectClasses();
-		LdapWizard.findAvailableGroups();
+		LdapWizard.findObjectClasses('ldap_userfilter_objectclass', 'User');
+		LdapWizard.findAvailableGroups('ldap_userfilter_groups', 'Users');
 		LdapWizard.countUsers();
 	},
 
@@ -352,6 +377,8 @@ var LdapWizard = {
 			LdapWizard.initUserFilter();
 		} else if(ui.newTab[0].id === '#ldapWizard3') {
 			LdapWizard.initLoginFilter();
+		} else if(ui.newTab[0].id === '#ldapWizard4') {
+			LdapWizard.initGroupFilter();
 		}
 	},
 
@@ -366,6 +393,8 @@ var LdapWizard = {
 
 		if(triggerObj.id == 'ldap_userlist_filter') {
 			LdapWizard.countUsers();
+		} else if(triggerObj.id == 'ldap_group_filter') {
+			LdapWizard.countGroups();
 		}
 
 		if(triggerObj.id == 'ldap_loginfilter_username'
@@ -399,8 +428,10 @@ var LdapWizard = {
 			LdapWizard.composeFilter('user');
 		} else if(originalObj == 'ldap_loginfilter_attributes') {
 			LdapWizard.composeFilter('login');
+		} else if(originalObj == 'ldap_groupfilter_objectclass'
+		   || originalObj == 'ldap_groupfilter_groups') {
+			LdapWizard.composeFilter('group');
 		}
-
 	},
 
 	_save: function(object, value) {
@@ -428,21 +459,37 @@ var LdapWizard = {
 		LdapWizard.checkInfoShown = true;
 	},
 
-	toggleRawUserFilter: function() {
-		if($('#rawUserFilterContainer').hasClass('invisible')) {
-			$('#rawUserFilterContainer').removeClass('invisible');
-			$('#ldap_userfilter_objectclass').multiselect('disable');
-			if($('#ldap_userfilter_groups').multiselect().attr('disabled') == 'disabled') {
-				userFilterGroupSelectState = 'disable';
+	toggleRawFilter: function(container, moc, mg, stateVar) {
+		if($(container).hasClass('invisible')) {
+			$(container).removeClass('invisible');
+			$(moc).multiselect('disable');
+			if($(mg).multiselect().attr('disabled') == 'disabled') {
+				LdapWizard[stateVar] = 'disable';
 			} else {
-				userFilterGroupSelectState = 'enable';
+				LdapWizard[stateVar] = 'enable';
 			}
-			$('#ldap_userfilter_groups').multiselect('disable');
+			$(mg).multiselect('disable');
 		} else {
-			$('#rawUserFilterContainer').addClass('invisible');
-			$('#ldap_userfilter_group').multiselect(userFilterGroupSelectState);
-			$('#ldap_userfilter_objectclass').multiselect('enable');
+			$(container).addClass('invisible');
+			$(mg).multiselect(LdapWizard[stateVar]);
+			$(moc).multiselect('enable');
 		}
+	},
+
+	toggleRawGroupFilter: function() {
+		LdapWizard.toggleRawFilter('#rawGroupFilterContainer',
+								   '#ldap_groupfilter_objectclass',
+								   '#ldap_groupfilter_groups',
+								   'groupFilterGroupSelectState'
+  								);
+	},
+
+	toggleRawUserFilter: function() {
+		LdapWizard.toggleRawFilter('#rawUserFilterContainer',
+								   '#ldap_userfilter_objectclass',
+								   '#ldap_userfilter_groups',
+								   'userFilterGroupSelectState'
+  								);
 	}
 };
 
@@ -461,8 +508,15 @@ $(document).ready(function() {
 	LdapWizard.initMultiSelect($('#ldap_loginfilter_attributes'),
 							   'ldap_loginfilter_attributes',
 							   t('user_ldap', 'Select attributes'));
+	LdapWizard.initMultiSelect($('#ldap_groupfilter_groups'),
+							   'ldap_groupfilter_groups',
+							   t('user_ldap', 'Select groups'));
+	LdapWizard.initMultiSelect($('#ldap_groupfilter_objectclass'),
+							   'ldap_groupfilter_objectclass',
+							   t('user_ldap', 'Select object classes'));
 	$('.lwautosave').change(function() { LdapWizard.save(this); });
 	$('#toggleRawUserFilter').click(LdapWizard.toggleRawUserFilter);
+	$('#toggleRawGroupFilter').click(LdapWizard.toggleRawGroupFilter);
 	LdapConfiguration.refreshConfig();
 	$('#ldap_action_test_connection').click(function(event){
 		event.preventDefault();
