@@ -506,9 +506,10 @@ class Stream {
 
 				// Get all users sharing the file includes current user
 				$uniqueUserIds = $util->getSharingUsersArray($sharingEnabled, $this->relPath, $this->userId);
+				$checkedUserIds = $util->filterShareReadyUsers($uniqueUserIds);
 
 				// Fetch public keys for all sharing users
-				$publicKeys = Keymanager::getPublicKeys($this->rootView, $uniqueUserIds);
+				$publicKeys = Keymanager::getPublicKeys($this->rootView, $checkedUserIds['ready']);
 
 				// Encrypt enc key for all sharing users
 				$this->encKeyfiles = Crypt::multiKeyEncrypt($this->plainKey, $publicKeys);
