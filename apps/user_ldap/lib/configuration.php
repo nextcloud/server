@@ -306,7 +306,7 @@ class Configuration {
 			'ldap_group_filter'					=> 'objectClass=posixGroup',
 			'ldap_groupfilter_objectclass'		=> '',
 			'ldap_groupfilter_groups'			=> '',
-			'ldap_display_name'					=> 'cn',
+			'ldap_display_name'					=> 'displayName',
 			'ldap_group_display_name'			=> 'cn',
 			'ldap_tls'							=> 1,
 			'ldap_nocase'						=> 0,
