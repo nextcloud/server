@@ -50,7 +50,7 @@ class OC_Log_Owncloud {
 		$minLevel=min(OC_Config::getValue( "loglevel", OC_Log::WARN ), OC_Log::ERROR);
 		if($level>=$minLevel) {
 			// default to ISO8601
-			$format = OC_Config::getValue('logdateformat', 'Y-m-d H:i:s');
+			$format = OC_Config::getValue('logdateformat', 'c');
 			$logtimezone=OC_Config::getValue( "logtimezone", 'UTC' );
 			try {
 				$timezone = new DateTimeZone($logtimezone);
