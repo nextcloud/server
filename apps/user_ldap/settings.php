@@ -65,10 +65,6 @@ for($i = 0; $i < count($wizTabs); $i++) {
 $tmpl->assign('tabs', $wizardHtml);
 $tmpl->assign('toc', $toc);
 
-$tmpl->assign('serverConfigurationPrefixes', $prefixes);
-$tmpl->assign('serverConfigurationHosts', $hosts);
-$tmpl->assign('settingControls', $sControls);
-
 // assign default values
 $config = new \OCA\user_ldap\lib\Configuration('', false);
 $defaults = $config->getDefaults();
