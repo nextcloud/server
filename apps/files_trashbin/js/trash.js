@@ -61,11 +61,12 @@ $(document).ready(function() {
 			$('td.filename input:checkbox').attr('checked', false);
 			$('td.filename input:checkbox').parent().parent().removeClass('selected');
 		}
-		processSelection();
+		procesSelection();
 	});
 
-	$('td.filename input:checkbox').live('change', function(event) {
+	$('#fileList').on('click', 'td.filename a', function(event) {
 		if (event.shiftKey) {
+			event.preventDefault();
 			var last = $(lastChecked).parent().parent().prevAll().length;
 			var first = $(this).parent().parent().prevAll().length;
 			var start = Math.min(first, last);
@@ -73,7 +74,7 @@ $(document).ready(function() {
 			var rows = $(this).parent().parent().parent().children('tr');
 			for (var i = start; i < end; i++) {
 				$(rows).each(function(index) {
-					if (index === i) {
+					if (index == i) {
 						var checkbox = $(this).children().children('input:checkbox');
 						$(checkbox).attr('checked', 'checked');
 						$(checkbox).parent().parent().addClass('selected');
@@ -81,16 +82,21 @@ $(document).ready(function() {
 				});
 			}
 		}
-		var selectedCount = $('td.filename input:checkbox:checked').length;
-		$(this).parent().parent().toggleClass('selected');
-		if (!$(this).attr('checked')) {
-			$('#select_all').attr('checked', false);
+		var checkbox = $(this).parent().children('input:checkbox');
+		lastChecked = checkbox;
+		if ($(checkbox).attr('checked')) {
+			$(checkbox).removeAttr('checked');
+			$(checkbox).parent().parent().removeClass('selected');
+			$('#select_all').removeAttr('checked');
 		} else {
+			$(checkbox).attr('checked', 'checked');
+			$(checkbox).parent().parent().toggleClass('selected');
+			var selectedCount = $('td.filename input:checkbox:checked').length;
 			if (selectedCount == $('td.filename input:checkbox').length) {
-				$('#select_all').attr('checked', true);
+				$('#select_all').attr('checked', 'checked');
 			}
 		}
-		processSelection();
+		procesSelection();
 	});
 
 	$('.undelete').click('click', function(event) {
@@ -177,34 +183,6 @@ $(document).ready(function() {
 		'Open': FileActions.actions.dir.Open
 	};
 });
-
-function processSelection(){
-	var selected=getSelectedFiles();
-	var selectedFiles=selected.filter(function(el){return el.type === 'file'});
-	var selectedFolders=selected.filter(function(el){return el.type === 'dir'});
-	if(selectedFiles.length === 0 && selectedFolders.length === 0) {
-		$('#headerName>span.name').text(t('files','Name'));
-		$('#modified').text(t('files','Deleted'));
-		$('table').removeClass('multiselect');
-		$('.selectedActions').hide();
-	}
-	else {
-		$('.selectedActions').show();
-		var selection='';
-		if(selectedFolders.length>0){
-			selection += n('files', '%n folder', '%n folders', selectedFolders.length);
-			if(selectedFiles.length>0){
-				selection+=' & ';
-			}
-		}
-		if(selectedFiles.length>0){
-			selection += n('files', '%n file', '%n files', selectedFiles.length);
-		}
-		$('#headerName>span.name').text(selection);
-		$('#modified').text('');
-		$('table').addClass('multiselect');
-	}
-}
 
 /**
  * @brief get a list of selected files
