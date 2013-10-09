@@ -9,7 +9,7 @@
 						data-type='file'><p><?php p($l->t('Text file'));?></p></li>
 					<li style="background-image:url('<?php p(OCP\mimetype_icon('dir')) ?>')"
 						data-type='folder'><p><?php p($l->t('Folder'));?></p></li>
-					<li style="background-image:url('<?php p(OCP\image_path('core', 'filetypes/web.svg')) ?>')"
+					<li style="background-image:url('<?php p(OCP\image_path('core', 'places/link.svg')) ?>')"
 						data-type='web'><p><?php p($l->t('From link'));?></p></li>
 				</ul>
 			</div>
@@ -19,8 +19,6 @@
 					<input type="hidden" name="MAX_FILE_SIZE" id="max_upload"
 						   value="<?php p($_['uploadMaxFilesize']) ?>">
 					<?php endif;?>
-					<!-- Send the requesttoken, this is needed for older IE versions
-						 because they don't send the CSRF token via HTTP header in this case -->
 					<input type="hidden" class="max_human_file_size"
 						   value="(max <?php p($_['uploadMaxHumanFilesize']); ?>)">
 					<input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
@@ -29,9 +27,7 @@
 					<a href="#" class="svg"></a>
 			</div>
 			<?php if ($_['trash'] ): ?>
-				<div id="trash" class="button" <?php $_['trashEmpty'] ? p('disabled') : '' ?>>
-					<a><?php p($l->t('Deleted files'));?></a>
-				</div>
+			<input id="trash" type="button" value="<?php p($l->t('Deleted files'));?>" class="button" <?php $_['trashEmpty'] ? p('disabled') : '' ?>></input>
 			<?php endif; ?>
 			<div id="uploadprogresswrapper">
 				<div id="uploadprogressbar"></div>
@@ -112,7 +108,10 @@
 </div>
 
 <!-- config hints for javascript -->
+<input type="hidden" name="filesApp" id="filesApp" value="1" />
 <input type="hidden" name="ajaxLoad" id="ajaxLoad" value="<?php p($_['ajaxLoad']); ?>" />
 <input type="hidden" name="allowZipDownload" id="allowZipDownload" value="<?php p($_['allowZipDownload']); ?>" />
 <input type="hidden" name="usedSpacePercent" id="usedSpacePercent" value="<?php p($_['usedSpacePercent']); ?>" />
 <input type="hidden" name="encryptedFiles" id="encryptedFiles" value="<?php $_['encryptedFiles'] ? p('1') : p('0'); ?>" />
+<input type="hidden" name="encryptedInitStatus" id="encryptionInitStatus" value="<?php p($_['encryptionInitStatus']) ?>" />
+<input type="hidden" name="mailNotificationEnabled" id="mailNotificationEnabled" value="<?php p($_['mailNotificationEnabled']) ?>" />

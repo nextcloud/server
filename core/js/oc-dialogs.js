@@ -294,7 +294,7 @@ var OCdialogs = {
 				conflict.find('.replacement .mtime').text(formatDate(replacement.lastModifiedDate));
 			}
 			var path = getPathForPreview(original.name);
-			lazyLoadPreview(path, original.type, function(previewpath){
+			lazyLoadPreview(path, original.mime, function(previewpath){
 				conflict.find('.original .icon').css('background-image','url('+previewpath+')');
 			}, 96, 96);
 			getCroppedPreview(replacement).then(

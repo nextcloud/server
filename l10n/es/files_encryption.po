@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Art O. Pal <artopal@fastmail.fm>, 2013
 # asaez <asaez@asaez.eu>, 2013
 # gmoriello <gmoriello@gmail.com>, 2013
 # mikelanabitarte <mikelanabitarte@gmail.com>, 2013
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-05 07:36-0400\n"
-"PO-Revision-Date: 2013-09-03 18:20+0000\n"
-"Last-Translator: Korrosivo <yo@rubendelcampo.es>\n"
+"POT-Creation-Date: 2013-10-07 12:14-0400\n"
+"PO-Revision-Date: 2013-10-07 16:10+0000\n"
+"Last-Translator: Art O. Pal <artopal@fastmail.fm>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,17 +51,24 @@ msgstr "Su contraseña ha sido cambiada"
 msgid "Could not change the password. Maybe the old password was not correct."
 msgstr "No se pudo cambiar la contraseña. Compruebe que la contraseña actual sea correcta."
 
-#: ajax/updatePrivateKeyPassword.php:51
+#: ajax/updatePrivateKeyPassword.php:52
 msgid "Private key password successfully updated."
 msgstr "Contraseña de clave privada actualizada con éxito."
 
-#: ajax/updatePrivateKeyPassword.php:53
+#: ajax/updatePrivateKeyPassword.php:54
 msgid ""
 "Could not update the private key password. Maybe the old password was not "
 "correct."
 msgstr "No se pudo cambiar la contraseña. Puede que la contraseña antigua no sea correcta."
 
-#: files/error.php:7
+#: files/error.php:9
+msgid ""
+"Encryption app not initialized! Maybe the encryption app was re-enabled "
+"during your session. Please try to log out and log back in to initialize the"
+" encryption app."
+msgstr ""
+
+#: files/error.php:12
 msgid ""
 "Your private key is not valid! Likely your password was changed outside the "
 "ownCloud system (e.g. your corporate directory). You can update your private"
@@ -68,36 +76,30 @@ msgid ""
 "files."
 msgstr "¡Su clave privada no es válida! Tal vez su contraseña ha sido cambiada desde fuera. Puede actualizar su clave privada en sus opciones personales para recuperar el acceso a sus ficheros."
 
-#: hooks/hooks.php:51
+#: hooks/hooks.php:53
 msgid "Missing requirements."
 msgstr "Requisitos incompletos."
 
-#: hooks/hooks.php:52
+#: hooks/hooks.php:54
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr "Por favor, asegúrese de que PHP 5.3.3 o posterior está instalado y que la extensión OpenSSL de PHP está habilitada y configurada correctamente. Por el momento, la aplicación de cifrado ha sido deshabilitada."
 
-#: hooks/hooks.php:250
+#: hooks/hooks.php:254
 msgid "Following users are not set up for encryption:"
 msgstr "Los siguientes usuarios no han sido configurados para el cifrado:"
 
-#: js/settings-admin.js:11
+#: js/settings-admin.js:13
 msgid "Saving..."
 msgstr "Guardando..."
 
-#: templates/invalid_private_key.php:5
-msgid ""
-"Your private key is not valid! Maybe the your password was changed from "
-"outside."
-msgstr "¡Su clave privada no es válida! Tal vez su contraseña ha sido cambiada desde fuera."
+#: templates/invalid_private_key.php:8
+msgid "Go directly to your "
+msgstr "Ir directamente a su"
 
-#: templates/invalid_private_key.php:7
-msgid "You can unlock your private key in your "
-msgstr "Puede desbloquear su clave privada en su"
-
-#: templates/invalid_private_key.php:7
+#: templates/invalid_private_key.php:8
 msgid "personal settings"
 msgstr "opciones personales"
 
@@ -114,27 +116,35 @@ msgstr "Habilitar la clave de recuperación (permite recuperar los ficheros del 
 msgid "Recovery key password"
 msgstr "Contraseña de clave de recuperación"
 
-#: templates/settings-admin.php:21 templates/settings-personal.php:54
+#: templates/settings-admin.php:17
+msgid "Repeat Recovery key password"
+msgstr "Repetir contraseña de clave de recuperación"
+
+#: templates/settings-admin.php:24 templates/settings-personal.php:54
 msgid "Enabled"
 msgstr "Habilitar"
 
-#: templates/settings-admin.php:29 templates/settings-personal.php:62
+#: templates/settings-admin.php:32 templates/settings-personal.php:62
 msgid "Disabled"
 msgstr "Deshabilitado"
 
-#: templates/settings-admin.php:34
+#: templates/settings-admin.php:37
 msgid "Change recovery key password:"
 msgstr "Cambiar la contraseña de la clave de recuperación"
 
-#: templates/settings-admin.php:41
+#: templates/settings-admin.php:43
 msgid "Old Recovery key password"
 msgstr "Antigua clave de recuperación"
 
-#: templates/settings-admin.php:48
+#: templates/settings-admin.php:50
 msgid "New Recovery key password"
 msgstr "Nueva clave de recuperación"
 
-#: templates/settings-admin.php:53
+#: templates/settings-admin.php:56
+msgid "Repeat New Recovery key password"
+msgstr "Repetir nueva contraseña de clave de recuperación"
+
+#: templates/settings-admin.php:61
 msgid "Change Password"
 msgstr "Cambiar contraseña"
 

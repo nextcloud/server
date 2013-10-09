@@ -83,6 +83,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Feeler beim Setze vum Verfallsdatum",
 "Sending ..." => "Gëtt geschéckt...",
 "Email sent" => "Email geschéckt",
+"Warning" => "Warnung",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Den Update war net erfollegräich. Mell dëse Problem w.e.gl der<a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud-Community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Den Update war erfollegräich.  Du gëss elo bei d'ownCloud ëmgeleet.",
 "Use the following link to reset your password: {link}" => "Benotz folgende Link fir däi Passwuert zréckzesetzen: {link}",
@@ -104,7 +105,6 @@ $TRANSLATIONS = array(
 "Help" => "Hëllef",
 "Access forbidden" => "Zougrëff net erlaabt",
 "Cloud not found" => "Cloud net fonnt",
-"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Hallo,\n\nech wëll just Bescheed soen dass den/d' %s,  »%s« mat dir gedeelt huet.\nKucken: %s\n\nE schéine Bonjour!",
 "Edit categories" => "Kategorien editéieren",
 "Add" => "Dobäisetzen",
 "Security Warning" => "Sécherheets-Warnung",
@@ -132,7 +132,6 @@ $TRANSLATIONS = array(
 "remember" => "verhalen",
 "Log in" => "Umellen",
 "Alternative Logins" => "Alternativ Umeldungen",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Hallo,<br><br>ech wëll just Bescheed soen dass den/d' %s,  »%s« mat dir gedeelt huet.<br><a href=\"%s\">Kucken!</a><br><br>E schéine Bonjour!",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud gëtt op d'Versioun %s aktualiséiert, dat kéint e Moment daueren."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -42,6 +42,7 @@ $TRANSLATIONS = array(
 "Your storage is almost full ({usedSpacePercent}%)" => "Vaše úložiště je téměř plné ({usedSpacePercent}%)",
 "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Šifrování bylo vypnuto, vaše soubory jsou však stále zašifrované. Běžte prosím do osobního nastavení, kde soubory odšifrujete.",
 "Your download is being prepared. This might take some time if the files are big." => "Vaše soubory ke stažení se připravují. Pokud jsou velké, může to chvíli trvat.",
+"Error moving file" => "Chyba při přesunu souboru",
 "Name" => "Název",
 "Size" => "Velikost",
 "Modified" => "Upraveno",

@@ -25,7 +25,7 @@
 namespace OC\AppFramework;
 
 use OC\AppFramework\Http\Request;
-use OC\AppFramework\Middleware\Middleware;
+use OCP\AppFramework\Middleware;
 
 
 class ChildMiddleware extends Middleware {};

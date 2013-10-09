@@ -39,7 +39,7 @@ abstract class Test_User_Backend extends PHPUnit_Framework_TestCase {
 	/**
 	 * get a new unique user name
 	 * test cases can override this in order to clean up created user
-	 * @return array
+	 * @return string
 	 */
 	public function getUser() {
 		return uniqid('test_');
@@ -82,8 +82,8 @@ abstract class Test_User_Backend extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($this->backend->userExists($name1));
 		$this->assertTrue($this->backend->userExists($name2));
 		
-		$this->assertTrue($this->backend->checkPassword($name1, 'pass1'));
-		$this->assertTrue($this->backend->checkPassword($name2, 'pass2'));
+		$this->assertSame($name1, $this->backend->checkPassword($name1, 'pass1'));
+		$this->assertSame($name2, $this->backend->checkPassword($name2, 'pass2'));
 		
 		$this->assertFalse($this->backend->checkPassword($name1, 'pass2'));
 		$this->assertFalse($this->backend->checkPassword($name2, 'pass1'));
@@ -93,7 +93,7 @@ abstract class Test_User_Backend extends PHPUnit_Framework_TestCase {
 		
 		$this->backend->setPassword($name1, 'newpass1');
 		$this->assertFalse($this->backend->checkPassword($name1, 'pass1'));
-		$this->assertTrue($this->backend->checkPassword($name1, 'newpass1'));
+		$this->assertSame($name1, $this->backend->checkPassword($name1, 'newpass1'));
 		$this->assertFalse($this->backend->checkPassword($name2, 'newpass1'));
 	}
 }

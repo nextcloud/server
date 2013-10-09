@@ -18,6 +18,7 @@ $TRANSLATIONS = array(
 "Images" => "Слике",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Ваш веб сервер тренутно не подржава синхронизацију датотека јер се чини да је WebDAV сучеље неисправно.",
 "Please double check the <a href='%s'>installation guides</a>." => "Погледајте <a href='%s'>водиче за инсталацију</a>.",
+"Could not find category \"%s\"" => "Не могу да пронађем категорију „%s“.",
 "seconds ago" => "пре неколико секунди",
 "_%n minute ago_::_%n minutes ago_" => array("","",""),
 "_%n hour ago_::_%n hours ago_" => array("","",""),
@@ -27,7 +28,6 @@ $TRANSLATIONS = array(
 "last month" => "прошлог месеца",
 "_%n month ago_::_%n months ago_" => array("","",""),
 "last year" => "прошле године",
-"years ago" => "година раније",
-"Could not find category \"%s\"" => "Не могу да пронађем категорију „%s“."
+"years ago" => "година раније"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

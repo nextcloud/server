@@ -129,6 +129,8 @@ function createVersionsDropdown(filename, files) {
 
 		var path = OC.filePath('files_versions', '', 'download.php');
 
+		var preview = '<img class="preview" src="'+revision.preview+'"/>';
+
 		var download ='<a href="' + path + "?file=" + files + '&revision=' + revision.version + '">';
 		download+='<img';
 		download+=' src="' + OC.imagePath('core', 'actions/download') + '"';
@@ -146,7 +148,7 @@ function createVersionsDropdown(filename, files) {
 
 		var version=$('<li/>');
 		version.attr('value', revision.version);
-		version.html(download + revert);
+		version.html(preview + download + revert);
 
 		version.appendTo('#found_versions');
 	}

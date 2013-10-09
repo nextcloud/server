@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-13 21:46-0400\n"
-"PO-Revision-Date: 2013-09-13 08:20+0000\n"
+"POT-Creation-Date: 2013-10-07 12:14-0400\n"
+"PO-Revision-Date: 2013-10-07 10:30+0000\n"
 "Last-Translator: Liudas Ališauskas <liudas.alisauskas@gmail.com>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -45,17 +45,24 @@ msgstr "Slaptažodis sėkmingai pakeistas"
 msgid "Could not change the password. Maybe the old password was not correct."
 msgstr "Slaptažodis nebuvo pakeistas. Gali būti, kad buvo neteisingai suvestas senasis."
 
-#: ajax/updatePrivateKeyPassword.php:51
+#: ajax/updatePrivateKeyPassword.php:52
 msgid "Private key password successfully updated."
 msgstr "Privataus rakto slaptažodis buvo sėkmingai atnaujintas."
 
-#: ajax/updatePrivateKeyPassword.php:53
+#: ajax/updatePrivateKeyPassword.php:54
 msgid ""
 "Could not update the private key password. Maybe the old password was not "
 "correct."
 msgstr "Nepavyko atnaujinti privataus rakto slaptažodžio. Gali būti, kad buvo neteisingai suvestas senasis."
 
-#: files/error.php:7
+#: files/error.php:9
+msgid ""
+"Encryption app not initialized! Maybe the encryption app was re-enabled "
+"during your session. Please try to log out and log back in to initialize the"
+" encryption app."
+msgstr "Šifravimo programa nepaleista! Galbūt šifravimo programa buvo įjungta dar kartą Jūsų sesijos metu. Prašome atsijungti ir vėl prisijungti, kad paleisti šifravimo programą."
+
+#: files/error.php:12
 msgid ""
 "Your private key is not valid! Likely your password was changed outside the "
 "ownCloud system (e.g. your corporate directory). You can update your private"
@@ -63,36 +70,30 @@ msgid ""
 "files."
 msgstr "Jūsų privatus raktas yra netinkamas! Panašu, kad Jūsų slaptažodis buvo pakeistas išorėje ownCloud sistemos (pvz. Jūsų organizacijos kataloge). Galite atnaujinti savo privataus rakto slaptažodį savo asmeniniuose nustatymuose, kad atkurti prieigą prie savo šifruotų failų."
 
-#: hooks/hooks.php:51
+#: hooks/hooks.php:53
 msgid "Missing requirements."
 msgstr "Trūkstami laukai."
 
-#: hooks/hooks.php:52
+#: hooks/hooks.php:54
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr "Prašome įsitikinti, kad PHP 5.3.3 ar naujesnė yra įdiegta ir kad OpenSSL kartu su PHP plėtiniu yra šjungti ir teisingai sukonfigūruoti. Kol kas šifravimo programa bus išjungta."
 
-#: hooks/hooks.php:250
+#: hooks/hooks.php:254
 msgid "Following users are not set up for encryption:"
 msgstr "Sekantys naudotojai nenustatyti šifravimui:"
 
-#: js/settings-admin.js:11
+#: js/settings-admin.js:13
 msgid "Saving..."
 msgstr "Saugoma..."
 
-#: templates/invalid_private_key.php:5
-msgid ""
-"Your private key is not valid! Maybe the your password was changed from "
-"outside."
-msgstr "Jūsų privatus raktas yra netinkamas! Galbūt Jūsų slaptažodis buvo pakeistas iš išorės?"
+#: templates/invalid_private_key.php:8
+msgid "Go directly to your "
+msgstr "Eiti tiesiai į Jūsų"
 
-#: templates/invalid_private_key.php:7
-msgid "You can unlock your private key in your "
-msgstr "Galite atrakinti savo privatų raktą savo"
-
-#: templates/invalid_private_key.php:7
+#: templates/invalid_private_key.php:8
 msgid "personal settings"
 msgstr "asmeniniai nustatymai"
 
@@ -109,27 +110,35 @@ msgstr "Įjunkite atkūrimo raktą, (leisti atkurti naudotojų failus praradus s
 msgid "Recovery key password"
 msgstr "Atkūrimo rakto slaptažodis"
 
-#: templates/settings-admin.php:21 templates/settings-personal.php:54
+#: templates/settings-admin.php:17
+msgid "Repeat Recovery key password"
+msgstr "Pakartokite atkūrimo rakto slaptažodį"
+
+#: templates/settings-admin.php:24 templates/settings-personal.php:54
 msgid "Enabled"
 msgstr "Įjungta"
 
-#: templates/settings-admin.php:29 templates/settings-personal.php:62
+#: templates/settings-admin.php:32 templates/settings-personal.php:62
 msgid "Disabled"
 msgstr "Išjungta"
 
-#: templates/settings-admin.php:34
+#: templates/settings-admin.php:37
 msgid "Change recovery key password:"
 msgstr "Pakeisti atkūrimo rakto slaptažodį:"
 
-#: templates/settings-admin.php:41
+#: templates/settings-admin.php:43
 msgid "Old Recovery key password"
 msgstr "Senas atkūrimo rakto slaptažodis"
 
-#: templates/settings-admin.php:48
+#: templates/settings-admin.php:50
 msgid "New Recovery key password"
 msgstr "Naujas atkūrimo rakto slaptažodis"
 
-#: templates/settings-admin.php:53
+#: templates/settings-admin.php:56
+msgid "Repeat New Recovery key password"
+msgstr "Pakartokite naują atkūrimo rakto slaptažodį"
+
+#: templates/settings-admin.php:61
 msgid "Change Password"
 msgstr "Pakeisti slaptažodį"
 

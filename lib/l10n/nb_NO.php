@@ -18,6 +18,7 @@ $TRANSLATIONS = array(
 "Images" => "Bilder",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Din nettservev er ikke konfigurert korrekt for filsynkronisering. WebDAV ser ut til å ikke funkere.",
 "Please double check the <a href='%s'>installation guides</a>." => "Vennligst dobbelsjekk <a href='%s'>installasjonsguiden</a>.",
+"Could not find category \"%s\"" => "Kunne ikke finne kategori \"%s\"",
 "seconds ago" => "sekunder siden",
 "_%n minute ago_::_%n minutes ago_" => array("",""),
 "_%n hour ago_::_%n hours ago_" => array("",""),
@@ -27,7 +28,6 @@ $TRANSLATIONS = array(
 "last month" => "forrige måned",
 "_%n month ago_::_%n months ago_" => array("",""),
 "last year" => "forrige år",
-"years ago" => "år siden",
-"Could not find category \"%s\"" => "Kunne ikke finne kategori \"%s\""
+"years ago" => "år siden"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

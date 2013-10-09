@@ -36,6 +36,7 @@ $TRANSLATIONS = array(
 "Set an admin password." => "Nastavi geslo skrbnika.",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Spletni stražnik še ni ustrezno nastavljen in ne omogoča usklajevanja, saj je nastavitev WebDAV okvarjena.",
 "Please double check the <a href='%s'>installation guides</a>." => "Preverite <a href='%s'>navodila namestitve</a>.",
+"Could not find category \"%s\"" => "Kategorije \"%s\" ni mogoče najti.",
 "seconds ago" => "pred nekaj sekundami",
 "_%n minute ago_::_%n minutes ago_" => array("","","",""),
 "_%n hour ago_::_%n hours ago_" => array("","","",""),
@@ -45,7 +46,6 @@ $TRANSLATIONS = array(
 "last month" => "zadnji mesec",
 "_%n month ago_::_%n months ago_" => array("","","",""),
 "last year" => "lansko leto",
-"years ago" => "let nazaj",
-"Could not find category \"%s\"" => "Kategorije \"%s\" ni mogoče najti."
+"years ago" => "let nazaj"
 );
 $PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

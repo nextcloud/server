@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-16 01:29-0400\n"
-"PO-Revision-Date: 2013-08-15 09:01+0000\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-03 12:22+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -28,43 +28,43 @@ msgstr "Kohdetta %s ei voitu poistaa pysyvästi"
 msgid "Couldn't restore %s"
 msgstr "Kohteen %s palautus epäonnistui"
 
-#: js/trash.js:7 js/trash.js:100
+#: js/trash.js:7 js/trash.js:102
 msgid "perform restore operation"
 msgstr "suorita palautustoiminto"
 
-#: js/trash.js:20 js/trash.js:48 js/trash.js:118 js/trash.js:146
+#: js/trash.js:20 js/trash.js:49 js/trash.js:120 js/trash.js:148
 msgid "Error"
 msgstr "Virhe"
 
-#: js/trash.js:36
+#: js/trash.js:37
 msgid "delete file permanently"
 msgstr "poista tiedosto pysyvästi"
 
-#: js/trash.js:127
+#: js/trash.js:129
 msgid "Delete permanently"
 msgstr "Poista pysyvästi"
 
-#: js/trash.js:182 templates/index.php:17
+#: js/trash.js:190 templates/index.php:21
 msgid "Name"
 msgstr "Nimi"
 
-#: js/trash.js:183 templates/index.php:27
+#: js/trash.js:191 templates/index.php:31
 msgid "Deleted"
 msgstr "Poistettu"
 
-#: js/trash.js:191
+#: js/trash.js:199
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n kansio"
 msgstr[1] "%n kansiota"
 
-#: js/trash.js:197
+#: js/trash.js:205
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n tiedosto"
 msgstr[1] "%n tiedostoa"
 
-#: lib/trash.php:819 lib/trash.php:821
+#: lib/trashbin.php:814 lib/trashbin.php:816
 msgid "restored"
 msgstr "palautettu"
 
@@ -72,11 +72,11 @@ msgstr "palautettu"
 msgid "Nothing in here. Your trash bin is empty!"
 msgstr "Tyhjää täynnä! Roskakorissa ei ole mitään."
 
-#: templates/index.php:20 templates/index.php:22
+#: templates/index.php:24 templates/index.php:26
 msgid "Restore"
 msgstr "Palauta"
 
-#: templates/index.php:30 templates/index.php:31
+#: templates/index.php:34 templates/index.php:35
 msgid "Delete"
 msgstr "Poista"
 

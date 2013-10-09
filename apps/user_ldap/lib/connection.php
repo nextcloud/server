@@ -23,7 +23,7 @@
 
 namespace OCA\user_ldap\lib;
 
-class Connection {
+class Connection extends LDAPUtility {
 	private $ldapConnectionRes = null;
 	private $configPrefix;
 	private $configID;
@@ -60,7 +60,7 @@ class Connection {
 		'ldapQuotaDefault' => null,
 		'ldapEmailAttribute' => null,
 		'ldapCacheTTL' => null,
-		'ldapUuidAttribute' => null,
+		'ldapUuidAttribute' => 'auto',
 		'ldapOverrideUuidAttribute' => null,
 		'ldapOverrideMainServer' => false,
 		'ldapConfigurationActive' => false,
@@ -77,7 +77,8 @@ class Connection {
 	 * @param $configPrefix a string with the prefix for the configkey column (appconfig table)
 	 * @param $configID a string with the value for the appid column (appconfig table) or null for on-the-fly connections
 	 */
-	public function __construct($configPrefix = '', $configID = 'user_ldap') {
+	public function __construct(ILDAPWrapper $ldap, $configPrefix = '', $configID = 'user_ldap') {
+		parent::__construct($ldap);
 		$this->configPrefix = $configPrefix;
 		$this->configID = $configID;
 		$memcache = new \OC\Memcache\Factory();
@@ -86,13 +87,14 @@ class Connection {
 		} else {
 			$this->cache = \OC_Cache::getGlobalCache();
 		}
-		$this->config['hasPagedResultSupport'] = (function_exists('ldap_control_paged_result')
-			&& function_exists('ldap_control_paged_result_response'));
+		$this->config['hasPagedResultSupport'] =
+			$this->ldap->hasPagedResultSupport();
 	}
 
 	public function __destruct() {
-		if(!$this->dontDestruct && is_resource($this->ldapConnectionRes)) {
-			@ldap_unbind($this->ldapConnectionRes);
+		if(!$this->dontDestruct &&
+			$this->ldap->isResource($this->ldapConnectionRes)) {
+			@$this->ldap->unbind($this->ldapConnectionRes);
 		};
 	}
 
@@ -148,7 +150,7 @@ class Connection {
 	public function getConnectionResource() {
 		if(!$this->ldapConnectionRes) {
 			$this->init();
-		} else if(!is_resource($this->ldapConnectionRes)) {
+		} else if(!$this->ldap->isResource($this->ldapConnectionRes)) {
 			$this->ldapConnectionRes = null;
 			$this->establishConnection();
 		}
@@ -361,6 +363,14 @@ class Connection {
 					&& $params[$parameter] === 'homeFolderNamingRule'))
 				&& !empty($value)) {
 				$value = 'attr:'.$value;
+			} else if (strpos($parameter, 'ldapBase') !== false
+				|| (isset($params[$parameter])
+					&& strpos($params[$parameter], 'ldapBase') !== false)) {
+				$this->readBase($params[$parameter], $value);
+				if(is_array($setParameters)) {
+					$setParameters[] = $parameter;
+				}
+				continue;
 			}
 		    if(isset($this->config[$parameter])) {
 				$this->config[$parameter] = $value;
@@ -386,7 +396,8 @@ class Connection {
 	public function saveConfiguration() {
 		$trans = array_flip($this->getConfigTranslationArray());
 		foreach($this->config as $key => $value) {
-			\OCP\Util::writeLog('user_ldap', 'LDAP: storing key '.$key.' value '.$value, \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('user_ldap', 'LDAP: storing key '.$key.
+				' value '.print_r($value, true), \OCP\Util::DEBUG);
 			switch ($key) {
 				case 'ldapAgentPassword':
 					$value = base64_encode($value);
@@ -431,8 +442,9 @@ class Connection {
 					$config[$dbKey] = '';
 				}
 				continue;
-			} else if((strpos($classKey, 'ldapBase') !== false)
-					|| (strpos($classKey, 'ldapAttributes') !== false)) {
+			} else if((strpos($classKey, 'ldapBase') !== false
+						|| strpos($classKey, 'ldapAttributes') !== false)
+						&& is_array($this->config[$classKey])) {
 				$config[$dbKey] = implode("\n", $this->config[$classKey]);
 				continue;
 			}
@@ -551,7 +563,7 @@ class Connection {
 	 * @returns an associative array with the default values. Keys are correspond
 	 * to config-value entries in the database table
 	 */
-	public function getDefaults() {
+	static public function getDefaults() {
 		return array(
 			'ldap_host'                         => '',
 			'ldap_port'                         => '389',
@@ -603,7 +615,7 @@ class Connection {
 			return false;
 		}
 		if(!$this->ldapConnectionRes) {
-			if(!function_exists('ldap_connect')) {
+			if(!$this->ldap->areLDAPFunctionsAvailable()) {
 				$phpLDAPinstalled = false;
 				\OCP\Util::writeLog('user_ldap',
 					'function ldap_connect is not available. Make sure that the PHP ldap module is installed.',
@@ -623,7 +635,8 @@ class Connection {
 			if(!$this->config['ldapOverrideMainServer'] && !$this->getFromCache('overrideMainServer')) {
 				$this->doConnect($this->config['ldapHost'], $this->config['ldapPort']);
 				$bindStatus = $this->bind();
-				$error = is_resource($this->ldapConnectionRes) ? ldap_errno($this->ldapConnectionRes) : -1;
+				$error = $this->ldap->isResource($this->ldapConnectionRes) ?
+							$this->ldap->errno($this->ldapConnectionRes) : -1;
 			} else {
 				$bindStatus = false;
 				$error = null;
@@ -653,11 +666,11 @@ class Connection {
 			//ldap_connect ignores port paramater when URLs are passed
 			$host .= ':' . $port;
 		}
-		$this->ldapConnectionRes = ldap_connect($host, $port);
-		if(ldap_set_option($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
-			if(ldap_set_option($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
+		$this->ldapConnectionRes = $this->ldap->connect($host, $port);
+		if($this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
+			if($this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
 				if($this->config['ldapTLS']) {
-					ldap_start_tls($this->ldapConnectionRes);
+					$this->ldap->startTls($this->ldapConnectionRes);
 				}
 			}
 		}
@@ -678,13 +691,15 @@ class Connection {
 		$getConnectionResourceAttempt = true;
 		$cr = $this->getConnectionResource();
 		$getConnectionResourceAttempt = false;
-		if(!is_resource($cr)) {
+		if(!$this->ldap->isResource($cr)) {
 			return false;
 		}
-		$ldapLogin = @ldap_bind($cr, $this->config['ldapAgentName'], $this->config['ldapAgentPassword']);
+		$ldapLogin = @$this->ldap->bind($cr,
+										$this->config['ldapAgentName'],
+										$this->config['ldapAgentPassword']);
 		if(!$ldapLogin) {
 			\OCP\Util::writeLog('user_ldap',
-				'Bind failed: ' . ldap_errno($cr) . ': ' . ldap_error($cr),
+				'Bind failed: ' . $this->ldap->errno($cr) . ': ' . $this->ldap->error($cr),
 				\OCP\Util::ERROR);
 			$this->ldapConnectionRes = null;
 			return false;

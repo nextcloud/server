@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Files" => "Tập tin",
 "Text" => "Văn bản",
 "Images" => "Hình ảnh",
+"Could not find category \"%s\"" => "không thể tìm thấy mục \"%s\"",
 "seconds ago" => "vài giây trước",
 "_%n minute ago_::_%n minutes ago_" => array(""),
 "_%n hour ago_::_%n hours ago_" => array(""),
@@ -25,7 +26,6 @@ $TRANSLATIONS = array(
 "last month" => "tháng trước",
 "_%n month ago_::_%n months ago_" => array(""),
 "last year" => "năm trước",
-"years ago" => "năm trước",
-"Could not find category \"%s\"" => "không thể tìm thấy mục \"%s\""
+"years ago" => "năm trước"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

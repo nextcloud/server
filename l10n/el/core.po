@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-22 12:55-0400\n"
-"PO-Revision-Date: 2013-09-20 15:01+0000\n"
+"POT-Creation-Date: 2013-10-07 12:16-0400\n"
+"PO-Revision-Date: 2013-10-07 16:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -24,12 +24,17 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:97
+#: ajax/share.php:118 ajax/share.php:197
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "Ο %s διαμοιράστηκε μαζί σας το »%s«"
 
-#: ajax/share.php:227
+#: ajax/share.php:168
+#, php-format
+msgid "Couldn't send mail to following users: %s "
+msgstr ""
+
+#: ajax/share.php:327
 msgid "group"
 msgstr "ομάδα"
 
@@ -321,8 +326,8 @@ msgstr "Δεν καθορίστηκε ο τύπος του αντικειμέν�
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:645 js/share.js:657
+#: js/oc-vcategories.js:199 js/share.js:130 js/share.js:143 js/share.js:150
+#: js/share.js:667 js/share.js:679
 msgid "Error"
 msgstr "Σφάλμα"
 
@@ -342,125 +347,133 @@ msgstr "Κοινόχρηστα"
 msgid "Share"
 msgstr "Διαμοιρασμός"
 
-#: js/share.js:131 js/share.js:685
+#: js/share.js:132 js/share.js:707
 msgid "Error while sharing"
 msgstr "Σφάλμα κατά τον διαμοιρασμό"
 
-#: js/share.js:142
+#: js/share.js:143
 msgid "Error while unsharing"
 msgstr "Σφάλμα κατά το σταμάτημα του διαμοιρασμού"
 
-#: js/share.js:149
+#: js/share.js:150
 msgid "Error while changing permissions"
 msgstr "Σφάλμα κατά την αλλαγή των δικαιωμάτων"
 
-#: js/share.js:158
+#: js/share.js:159
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Διαμοιράστηκε με σας και με την ομάδα {group} του {owner}"
 
-#: js/share.js:160
+#: js/share.js:161
 msgid "Shared with you by {owner}"
 msgstr "Διαμοιράστηκε με σας από τον {owner}"
 
-#: js/share.js:183
+#: js/share.js:184
 msgid "Share with"
 msgstr "Διαμοιρασμός με"
 
-#: js/share.js:188
+#: js/share.js:189
 msgid "Share with link"
 msgstr "Διαμοιρασμός με σύνδεσμο"
 
-#: js/share.js:191
+#: js/share.js:192
 msgid "Password protect"
 msgstr "Προστασία συνθηματικού"
 
-#: js/share.js:193 templates/installation.php:57 templates/login.php:26
+#: js/share.js:194 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "Συνθηματικό"
 
-#: js/share.js:198
+#: js/share.js:199
 msgid "Allow Public Upload"
 msgstr "Να επιτρέπεται η Δημόσια Αποστολή"
 
-#: js/share.js:202
+#: js/share.js:203
 msgid "Email link to person"
 msgstr "Αποστολή συνδέσμου με email "
 
-#: js/share.js:203
+#: js/share.js:204
 msgid "Send"
 msgstr "Αποστολή"
 
-#: js/share.js:208
+#: js/share.js:209
 msgid "Set expiration date"
 msgstr "Ορισμός ημ. λήξης"
 
-#: js/share.js:209
+#: js/share.js:210
 msgid "Expiration date"
 msgstr "Ημερομηνία λήξης"
 
-#: js/share.js:242
+#: js/share.js:243
 msgid "Share via email:"
 msgstr "Διαμοιρασμός μέσω email:"
 
-#: js/share.js:245
+#: js/share.js:246
 msgid "No people found"
 msgstr "Δεν βρέθηκε άνθρωπος"
 
-#: js/share.js:283
+#: js/share.js:284
 msgid "Resharing is not allowed"
 msgstr "Ξαναμοιρασμός δεν επιτρέπεται"
 
-#: js/share.js:319
+#: js/share.js:320
 msgid "Shared in {item} with {user}"
 msgstr "Διαμοιρασμός του {item} με τον {user}"
 
-#: js/share.js:340
+#: js/share.js:341
 msgid "Unshare"
 msgstr "Σταμάτημα διαμοιρασμού"
 
-#: js/share.js:352
+#: js/share.js:353
+msgid "notify user by email"
+msgstr ""
+
+#: js/share.js:361
 msgid "can edit"
 msgstr "δυνατότητα αλλαγής"
 
-#: js/share.js:354
+#: js/share.js:363
 msgid "access control"
 msgstr "έλεγχος πρόσβασης"
 
-#: js/share.js:357
+#: js/share.js:366
 msgid "create"
 msgstr "δημιουργία"
 
-#: js/share.js:360
+#: js/share.js:369
 msgid "update"
 msgstr "ενημέρωση"
 
-#: js/share.js:363
+#: js/share.js:372
 msgid "delete"
 msgstr "διαγραφή"
 
-#: js/share.js:366
+#: js/share.js:375
 msgid "share"
 msgstr "διαμοιρασμός"
 
-#: js/share.js:400 js/share.js:632
+#: js/share.js:409 js/share.js:654
 msgid "Password protected"
 msgstr "Προστασία με συνθηματικό"
 
-#: js/share.js:645
+#: js/share.js:667
 msgid "Error unsetting expiration date"
 msgstr "Σφάλμα κατά την διαγραφή της ημ. λήξης"
 
-#: js/share.js:657
+#: js/share.js:679
 msgid "Error setting expiration date"
 msgstr "Σφάλμα κατά τον ορισμό ημ. λήξης"
 
-#: js/share.js:672
+#: js/share.js:694
 msgid "Sending ..."
 msgstr "Αποστολή..."
 
-#: js/share.js:683
+#: js/share.js:705
 msgid "Email sent"
 msgstr "Το Email απεστάλη "
+
+#: js/share.js:729
+msgid "Warning"
+msgstr "Προειδοποίηση"
 
 #: js/update.js:17
 msgid ""
@@ -498,7 +511,7 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "Θα λάβετε ένα σύνδεσμο για να επαναφέρετε τον κωδικό πρόσβασής σας μέσω ηλεκτρονικού ταχυδρομείου."
 
 #: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
-#: templates/login.php:19
+#: templates/login.php:25
 msgid "Username"
 msgstr "Όνομα χρήστη"
 
@@ -570,8 +583,18 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-"Cheers!"
-msgstr "Γεια σας,\n\nσας ενημερώνουμε ότι ο %s διαμοιράστηκε μαζί σας το %s.\nΔείτε το: %s\n\nΓεια χαρά!"
+msgstr ""
+
+#: templates/altmail.php:4
+#, php-format
+msgid ""
+"The share will expire on %s.\n"
+"\n"
+msgstr ""
+
+#: templates/altmail.php:6 templates/mail.php:19
+msgid "Cheers!"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -624,47 +647,51 @@ msgstr "Για πληροφορίες πως να ρυθμίσετε ορθά τ
 msgid "Create an <strong>admin account</strong>"
 msgstr "Δημιουργήστε έναν <strong>λογαριασμό διαχειριστή</strong>"
 
-#: templates/installation.php:65
+#: templates/installation.php:66
 msgid "Advanced"
 msgstr "Για προχωρημένους"
 
-#: templates/installation.php:67
+#: templates/installation.php:73
 msgid "Data folder"
 msgstr "Φάκελος δεδομένων"
 
-#: templates/installation.php:77
+#: templates/installation.php:85
 msgid "Configure the database"
 msgstr "Ρύθμιση της βάσης δεδομένων"
 
-#: templates/installation.php:82 templates/installation.php:94
-#: templates/installation.php:105 templates/installation.php:116
-#: templates/installation.php:128
+#: templates/installation.php:90 templates/installation.php:102
+#: templates/installation.php:113 templates/installation.php:124
+#: templates/installation.php:136
 msgid "will be used"
 msgstr "θα χρησιμοποιηθούν"
 
-#: templates/installation.php:140
+#: templates/installation.php:148
 msgid "Database user"
 msgstr "Χρήστης της βάσης δεδομένων"
 
-#: templates/installation.php:147
+#: templates/installation.php:155
 msgid "Database password"
 msgstr "Συνθηματικό βάσης δεδομένων"
 
-#: templates/installation.php:152
+#: templates/installation.php:160
 msgid "Database name"
 msgstr "Όνομα βάσης δεδομένων"
 
-#: templates/installation.php:160
+#: templates/installation.php:168
 msgid "Database tablespace"
 msgstr "Κενά Πινάκων Βάσης Δεδομένων"
 
-#: templates/installation.php:167
+#: templates/installation.php:175
 msgid "Database host"
 msgstr "Διακομιστής βάσης δεδομένων"
 
-#: templates/installation.php:175
+#: templates/installation.php:184
 msgid "Finish setup"
 msgstr "Ολοκλήρωση εγκατάστασης"
+
+#: templates/installation.php:184
+msgid "Finishing …"
+msgstr ""
 
 #: templates/layout.user.php:41
 #, php-format
@@ -689,19 +716,27 @@ msgstr "Εάν δεν αλλάξατε το συνθηματικό σας προ
 msgid "Please change your password to secure your account again."
 msgstr "Παρακαλώ αλλάξτε το συνθηματικό σας για να ασφαλίσετε πάλι τον λογαριασμό σας."
 
-#: templates/login.php:32
+#: templates/login.php:17
+msgid "Server side authentication failed!"
+msgstr ""
+
+#: templates/login.php:18
+msgid "Please contact your administrator."
+msgstr ""
+
+#: templates/login.php:38
 msgid "Lost your password?"
 msgstr "Ξεχάσατε το συνθηματικό σας;"
 
-#: templates/login.php:37
+#: templates/login.php:43
 msgid "remember"
 msgstr "απομνημόνευση"
 
-#: templates/login.php:39
+#: templates/login.php:46
 msgid "Log in"
 msgstr "Είσοδος"
 
-#: templates/login.php:45
+#: templates/login.php:52
 msgid "Alternative Logins"
 msgstr "Εναλλακτικές Συνδέσεις"
 
@@ -709,8 +744,13 @@ msgstr "Εναλλακτικές Συνδέσεις"
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
-"href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr "Γεια σας,<br><br>σας ενημερώνουμε ότι ο %s διαμοιράστηκε μαζί σας το »%s«.<br><a href=\"%s\">Δείτε το!</a><br><br>Γεια χαρά!"
+"href=\"%s\">View it!</a><br><br>"
+msgstr ""
+
+#: templates/mail.php:17
+#, php-format
+msgid "The share will expire on %s.<br><br>"
+msgstr ""
 
 #: templates/update.php:3
 #, php-format

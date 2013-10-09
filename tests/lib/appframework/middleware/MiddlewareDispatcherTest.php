@@ -25,8 +25,8 @@
 namespace OC\AppFramework;
 
 use OC\AppFramework\Http\Request;
-use OC\AppFramework\Middleware\Middleware;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
+use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Http\Response;
 
 
@@ -142,12 +142,12 @@ class MiddlewareDispatcherTest extends \PHPUnit_Framework_TestCase {
 
 	public function testAfterExceptionShouldReturnResponseOfMiddleware(){
 		$response = new Response();
-		$m1 = $this->getMock('\OC\AppFramework\Middleware\Middleware',
+		$m1 = $this->getMock('\OCP\AppFramework\Middleware',
 				array('afterException', 'beforeController'));
 		$m1->expects($this->never())
 				->method('afterException');
 
-		$m2 = $this->getMock('OC\AppFramework\Middleware\Middleware',
+		$m2 = $this->getMock('OCP\AppFramework\Middleware',
 				array('afterException', 'beforeController'));
 		$m2->expects($this->once())
 				->method('afterException')
@@ -267,7 +267,7 @@ class MiddlewareDispatcherTest extends \PHPUnit_Framework_TestCase {
 	public function testExceptionShouldRunAfterExceptionOfOnlyPreviouslyExecutedMiddlewares(){
 		$m1 = $this->getMiddleware();
 		$m2 = $this->getMiddleware(true);
-		$m3 = $this->getMock('\OC\AppFramework\Middleware\Middleware');
+		$m3 = $this->getMock('\OCP\AppFramework\Middleware');
 		$m3->expects($this->never())
 				->method('afterException');
 		$m3->expects($this->never())

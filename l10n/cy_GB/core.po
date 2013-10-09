@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-22 12:55-0400\n"
-"PO-Revision-Date: 2013-09-20 15:01+0000\n"
+"POT-Creation-Date: 2013-10-07 12:16-0400\n"
+"PO-Revision-Date: 2013-10-07 16:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Welsh (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/cy_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -18,12 +18,17 @@ msgstr ""
 "Language: cy_GB\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;\n"
 
-#: ajax/share.php:97
+#: ajax/share.php:118 ajax/share.php:197
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr ""
 
-#: ajax/share.php:227
+#: ajax/share.php:168
+#, php-format
+msgid "Couldn't send mail to following users: %s "
+msgstr ""
+
+#: ajax/share.php:327
 msgid "group"
 msgstr "grŵp"
 
@@ -325,8 +330,8 @@ msgstr "Nid yw'r math o wrthrych wedi cael ei nodi."
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:645 js/share.js:657
+#: js/oc-vcategories.js:199 js/share.js:130 js/share.js:143 js/share.js:150
+#: js/share.js:667 js/share.js:679
 msgid "Error"
 msgstr "Gwall"
 
@@ -346,125 +351,133 @@ msgstr "Rhannwyd"
 msgid "Share"
 msgstr "Rhannu"
 
-#: js/share.js:131 js/share.js:685
+#: js/share.js:132 js/share.js:707
 msgid "Error while sharing"
 msgstr "Gwall wrth rannu"
 
-#: js/share.js:142
+#: js/share.js:143
 msgid "Error while unsharing"
 msgstr "Gwall wrth ddad-rannu"
 
-#: js/share.js:149
+#: js/share.js:150
 msgid "Error while changing permissions"
 msgstr "Gwall wrth newid caniatâd"
 
-#: js/share.js:158
+#: js/share.js:159
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Rhannwyd â chi a'r grŵp {group} gan {owner}"
 
-#: js/share.js:160
+#: js/share.js:161
 msgid "Shared with you by {owner}"
 msgstr "Rhannwyd â chi gan {owner}"
 
-#: js/share.js:183
+#: js/share.js:184
 msgid "Share with"
 msgstr "Rhannu gyda"
 
-#: js/share.js:188
+#: js/share.js:189
 msgid "Share with link"
 msgstr "Dolen ar gyfer rhannu"
 
-#: js/share.js:191
+#: js/share.js:192
 msgid "Password protect"
 msgstr "Diogelu cyfrinair"
 
-#: js/share.js:193 templates/installation.php:57 templates/login.php:26
+#: js/share.js:194 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "Cyfrinair"
 
-#: js/share.js:198
+#: js/share.js:199
 msgid "Allow Public Upload"
 msgstr ""
 
-#: js/share.js:202
+#: js/share.js:203
 msgid "Email link to person"
 msgstr "E-bostio dolen at berson"
 
-#: js/share.js:203
+#: js/share.js:204
 msgid "Send"
 msgstr "Anfon"
 
-#: js/share.js:208
+#: js/share.js:209
 msgid "Set expiration date"
 msgstr "Gosod dyddiad dod i ben"
 
-#: js/share.js:209
+#: js/share.js:210
 msgid "Expiration date"
 msgstr "Dyddiad dod i ben"
 
-#: js/share.js:242
+#: js/share.js:243
 msgid "Share via email:"
 msgstr "Rhannu drwy e-bost:"
 
-#: js/share.js:245
+#: js/share.js:246
 msgid "No people found"
 msgstr "Heb ganfod pobl"
 
-#: js/share.js:283
+#: js/share.js:284
 msgid "Resharing is not allowed"
 msgstr "Does dim hawl ail-rannu"
 
-#: js/share.js:319
+#: js/share.js:320
 msgid "Shared in {item} with {user}"
 msgstr "Rhannwyd yn {item} â {user}"
 
-#: js/share.js:340
+#: js/share.js:341
 msgid "Unshare"
 msgstr "Dad-rannu"
 
-#: js/share.js:352
+#: js/share.js:353
+msgid "notify user by email"
+msgstr ""
+
+#: js/share.js:361
 msgid "can edit"
 msgstr "yn gallu golygu"
 
-#: js/share.js:354
+#: js/share.js:363
 msgid "access control"
 msgstr "rheolaeth mynediad"
 
-#: js/share.js:357
+#: js/share.js:366
 msgid "create"
 msgstr "creu"
 
-#: js/share.js:360
+#: js/share.js:369
 msgid "update"
 msgstr "diweddaru"
 
-#: js/share.js:363
+#: js/share.js:372
 msgid "delete"
 msgstr "dileu"
 
-#: js/share.js:366
+#: js/share.js:375
 msgid "share"
 msgstr "rhannu"
 
-#: js/share.js:400 js/share.js:632
+#: js/share.js:409 js/share.js:654
 msgid "Password protected"
 msgstr "Diogelwyd â chyfrinair"
 
-#: js/share.js:645
+#: js/share.js:667
 msgid "Error unsetting expiration date"
 msgstr "Gwall wrth ddad-osod dyddiad dod i ben"
 
-#: js/share.js:657
+#: js/share.js:679
 msgid "Error setting expiration date"
 msgstr "Gwall wrth osod dyddiad dod i ben"
 
-#: js/share.js:672
+#: js/share.js:694
 msgid "Sending ..."
 msgstr "Yn anfon ..."
 
-#: js/share.js:683
+#: js/share.js:705
 msgid "Email sent"
 msgstr "Anfonwyd yr e-bost"
+
+#: js/share.js:729
+msgid "Warning"
+msgstr "Rhybudd"
 
 #: js/update.js:17
 msgid ""
@@ -502,7 +515,7 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "Byddwch yn derbyn dolen drwy e-bost i ailosod eich cyfrinair."
 
 #: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
-#: templates/login.php:19
+#: templates/login.php:25
 msgid "Username"
 msgstr "Enw defnyddiwr"
 
@@ -574,7 +587,17 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-"Cheers!"
+msgstr ""
+
+#: templates/altmail.php:4
+#, php-format
+msgid ""
+"The share will expire on %s.\n"
+"\n"
+msgstr ""
+
+#: templates/altmail.php:6 templates/mail.php:19
+msgid "Cheers!"
 msgstr ""
 
 #: templates/edit_categories_dialog.php:4
@@ -628,47 +651,51 @@ msgstr ""
 msgid "Create an <strong>admin account</strong>"
 msgstr "Crewch <strong>gyfrif gweinyddol</strong>"
 
-#: templates/installation.php:65
+#: templates/installation.php:66
 msgid "Advanced"
 msgstr "Uwch"
 
-#: templates/installation.php:67
+#: templates/installation.php:73
 msgid "Data folder"
 msgstr "Plygell data"
 
-#: templates/installation.php:77
+#: templates/installation.php:85
 msgid "Configure the database"
 msgstr "Cyflunio'r gronfa ddata"
 
-#: templates/installation.php:82 templates/installation.php:94
-#: templates/installation.php:105 templates/installation.php:116
-#: templates/installation.php:128
+#: templates/installation.php:90 templates/installation.php:102
+#: templates/installation.php:113 templates/installation.php:124
+#: templates/installation.php:136
 msgid "will be used"
 msgstr "ddefnyddir"
 
-#: templates/installation.php:140
+#: templates/installation.php:148
 msgid "Database user"
 msgstr "Defnyddiwr cronfa ddata"
 
-#: templates/installation.php:147
+#: templates/installation.php:155
 msgid "Database password"
 msgstr "Cyfrinair cronfa ddata"
 
-#: templates/installation.php:152
+#: templates/installation.php:160
 msgid "Database name"
 msgstr "Enw cronfa ddata"
 
-#: templates/installation.php:160
+#: templates/installation.php:168
 msgid "Database tablespace"
 msgstr "Tablespace cronfa ddata"
 
-#: templates/installation.php:167
+#: templates/installation.php:175
 msgid "Database host"
 msgstr "Gwesteiwr cronfa ddata"
 
-#: templates/installation.php:175
+#: templates/installation.php:184
 msgid "Finish setup"
 msgstr "Gorffen sefydlu"
+
+#: templates/installation.php:184
+msgid "Finishing …"
+msgstr ""
 
 #: templates/layout.user.php:41
 #, php-format
@@ -693,19 +720,27 @@ msgstr "Os na wnaethoch chi newid eich cyfrinair yn ddiweddar, gall eich cyfrif 
 msgid "Please change your password to secure your account again."
 msgstr "Newidiwch eich cyfrinair i ddiogleu eich cyfrif eto."
 
-#: templates/login.php:32
+#: templates/login.php:17
+msgid "Server side authentication failed!"
+msgstr ""
+
+#: templates/login.php:18
+msgid "Please contact your administrator."
+msgstr ""
+
+#: templates/login.php:38
 msgid "Lost your password?"
 msgstr "Wedi colli'ch cyfrinair?"
 
-#: templates/login.php:37
+#: templates/login.php:43
 msgid "remember"
 msgstr "cofio"
 
-#: templates/login.php:39
+#: templates/login.php:46
 msgid "Log in"
 msgstr "Mewngofnodi"
 
-#: templates/login.php:45
+#: templates/login.php:52
 msgid "Alternative Logins"
 msgstr "Mewngofnodiadau Amgen"
 
@@ -713,7 +748,12 @@ msgstr "Mewngofnodiadau Amgen"
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
-"href=\"%s\">View it!</a><br><br>Cheers!"
+"href=\"%s\">View it!</a><br><br>"
+msgstr ""
+
+#: templates/mail.php:17
+#, php-format
+msgid "The share will expire on %s.<br><br>"
 msgstr ""
 
 #: templates/update.php:3

@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: ownCloud Core 5.0.0\n"
+"Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-09-29 00:02-0400\n"
+"POT-Creation-Date: 2013-10-08 07:22-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -156,15 +156,15 @@ msgstr ""
 msgid "Updated"
 msgstr ""
 
-#: js/personal.js:221
+#: js/personal.js:225
 msgid "Select a profile picture"
 msgstr ""
 
-#: js/personal.js:266
+#: js/personal.js:270
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr ""
 
-#: js/personal.js:288
+#: js/personal.js:292
 msgid "Saving..."
 msgstr ""
 
@@ -180,32 +180,32 @@ msgstr ""
 msgid "Unable to remove user"
 msgstr ""
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:90
+#: js/users.js:95 templates/users.php:26 templates/users.php:90
 #: templates/users.php:118
 msgid "Groups"
 msgstr ""
 
-#: js/users.js:97 templates/users.php:92 templates/users.php:130
+#: js/users.js:100 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
 msgstr ""
 
-#: js/users.js:120 templates/users.php:170
+#: js/users.js:123 templates/users.php:170
 msgid "Delete"
 msgstr ""
 
-#: js/users.js:277
+#: js/users.js:280
 msgid "add group"
 msgstr ""
 
-#: js/users.js:436
+#: js/users.js:442
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:437 js/users.js:443 js/users.js:458
+#: js/users.js:443 js/users.js:449 js/users.js:464
 msgid "Error creating user"
 msgstr ""
 
-#: js/users.js:442
+#: js/users.js:448
 msgid "A valid password must be provided"
 msgstr ""
 
@@ -340,45 +340,53 @@ msgid "Allow users to only share with users in their groups"
 msgstr ""
 
 #: templates/admin.php:170
+msgid "Allow mail notification"
+msgstr ""
+
+#: templates/admin.php:171
+msgid "Allow user to send mail notification for shared files"
+msgstr ""
+
+#: templates/admin.php:178
 msgid "Security"
 msgstr ""
 
-#: templates/admin.php:183
+#: templates/admin.php:191
 msgid "Enforce HTTPS"
 msgstr ""
 
-#: templates/admin.php:185
+#: templates/admin.php:193
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr ""
 
-#: templates/admin.php:191
+#: templates/admin.php:199
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL enforcement."
 msgstr ""
 
-#: templates/admin.php:203
+#: templates/admin.php:211
 msgid "Log"
 msgstr ""
 
-#: templates/admin.php:204
+#: templates/admin.php:212
 msgid "Log level"
 msgstr ""
 
-#: templates/admin.php:235
+#: templates/admin.php:243
 msgid "More"
 msgstr ""
 
-#: templates/admin.php:236
+#: templates/admin.php:244
 msgid "Less"
 msgstr ""
 
-#: templates/admin.php:242 templates/personal.php:161
+#: templates/admin.php:250 templates/personal.php:161
 msgid "Version"
 msgstr ""
 
-#: templates/admin.php:246 templates/personal.php:164
+#: templates/admin.php:254 templates/personal.php:164
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank"
 "\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" "

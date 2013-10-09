@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-20 10:44-0400\n"
-"PO-Revision-Date: 2013-09-18 16:48+0000\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-03 12:22+0000\n"
 "Last-Translator: mnestis <transifex@mnestis.net>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -64,7 +64,7 @@ msgid_plural "%n files"
 msgstr[0] "%n file"
 msgstr[1] "%n files"
 
-#: lib/trash.php:814 lib/trash.php:816
+#: lib/trashbin.php:814 lib/trashbin.php:816
 msgid "restored"
 msgstr "restored"
 

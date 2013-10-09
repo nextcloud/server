@@ -30,16 +30,15 @@ $totalsize = 0; ?>
 		<?php endif; ?>
 		<?php if($file['type'] == 'dir'): ?>
 			<a class="name" href="<?php p(rtrim($_['baseURL'],'/').'/'.trim($directory,'/').'/'.$name); ?>" title="">
-		<?php else: ?>
-			<a class="name" href="<?php p(rtrim($_['downloadURL'],'/').'/'.trim($directory,'/').'/'.$name); ?>" title="">
-		<?php endif; ?>
-			<span class="nametext">
-				<?php if($file['type'] == 'dir'):?>
+				<span class="nametext">
 					<?php print_unescaped(htmlspecialchars($file['name']));?>
-				<?php else:?>
-					<?php print_unescaped(htmlspecialchars($file['basename']));?><span class='extension'><?php p($file['extension']);?></span>
-				<?php endif;?>
-			</span>
+				</span>
+		<?php else: ?>
+			<a class="name" href="<?php p(rtrim($_['downloadURL'],'/').'/'.trim($directory,'/').'/'.$name); ?>">
+				<label class="filetext" title="" for="select-<?php p($file['fileid']); ?>"></label>
+				<span class="nametext"><?php print_unescaped(htmlspecialchars($file['basename']));?><span class='extension'><?php p($file['extension']);?></span>
+			</a>
+		<?php endif; ?>
 			<?php if($file['type'] == 'dir'):?>
 				<span class="uploadtext" currentUploads="0">
 				</span>

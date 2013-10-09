@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# miroj <jmiroslav@softhome.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-20 10:45-0400\n"
-"PO-Revision-Date: 2013-09-20 14:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-08 07:22-0400\n"
+"PO-Revision-Date: 2013-10-07 20:40+0000\n"
+"Last-Translator: miroj <jmiroslav@softhome.net>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,11 +29,11 @@ msgstr "Грешка во автентикација"
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
-msgstr ""
+msgstr "Вашето прикажано име се промени."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
-msgstr ""
+msgstr "Не можам да го сменам прикажанато име"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -82,7 +83,7 @@ msgstr "Неможе да избришам корисник од група %s"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr ""
+msgstr "Не можам да ја надградам апликацијата."
 
 #: changepassword/controller.php:20
 msgid "Wrong password"
@@ -115,63 +116,63 @@ msgstr ""
 
 #: js/apps.js:43
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "Надгради на {appversion}"
 
-#: js/apps.js:49 js/apps.js:82 js/apps.js:108
+#: js/apps.js:49 js/apps.js:82 js/apps.js:110
 msgid "Disable"
 msgstr "Оневозможи"
 
-#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
+#: js/apps.js:49 js/apps.js:90 js/apps.js:103 js/apps.js:119
 msgid "Enable"
 msgstr "Овозможи"
 
 #: js/apps.js:71
 msgid "Please wait...."
-msgstr ""
+msgstr "Ве молам почекајте ..."
 
-#: js/apps.js:79 js/apps.js:80 js/apps.js:100
+#: js/apps.js:79 js/apps.js:80 js/apps.js:101
 msgid "Error while disabling app"
 msgstr ""
 
-#: js/apps.js:99 js/apps.js:112 js/apps.js:113
+#: js/apps.js:100 js/apps.js:114 js/apps.js:115
 msgid "Error while enabling app"
 msgstr ""
 
-#: js/apps.js:123
+#: js/apps.js:125
 msgid "Updating...."
-msgstr ""
+msgstr "Надградувам ..."
 
-#: js/apps.js:126
+#: js/apps.js:128
 msgid "Error while updating app"
-msgstr ""
+msgstr "Грешка додека ја надградувам апликацијата"
 
-#: js/apps.js:126
+#: js/apps.js:128
 msgid "Error"
 msgstr "Грешка"
 
-#: js/apps.js:127 templates/apps.php:43
+#: js/apps.js:129 templates/apps.php:43
 msgid "Update"
 msgstr "Ажурирај"
 
-#: js/apps.js:130
+#: js/apps.js:132
 msgid "Updated"
-msgstr ""
+msgstr "Надграден"
 
-#: js/personal.js:220
+#: js/personal.js:225
 msgid "Select a profile picture"
 msgstr ""
 
-#: js/personal.js:265
+#: js/personal.js:270
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr ""
 
-#: js/personal.js:287
+#: js/personal.js:292
 msgid "Saving..."
 msgstr "Снимам..."
 
 #: js/users.js:47
 msgid "deleted"
-msgstr ""
+msgstr "избришан"
 
 #: js/users.js:47
 msgid "undo"
@@ -179,36 +180,36 @@ msgstr "врати"
 
 #: js/users.js:79
 msgid "Unable to remove user"
-msgstr ""
+msgstr "Не можам да го одстранам корисникот"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:90
+#: js/users.js:95 templates/users.php:26 templates/users.php:90
 #: templates/users.php:118
 msgid "Groups"
 msgstr "Групи"
 
-#: js/users.js:97 templates/users.php:92 templates/users.php:130
+#: js/users.js:100 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
 msgstr "Администратор на група"
 
-#: js/users.js:120 templates/users.php:170
+#: js/users.js:123 templates/users.php:170
 msgid "Delete"
 msgstr "Избриши"
 
-#: js/users.js:277
+#: js/users.js:280
 msgid "add group"
-msgstr ""
-
-#: js/users.js:436
-msgid "A valid username must be provided"
-msgstr ""
-
-#: js/users.js:437 js/users.js:443 js/users.js:458
-msgid "Error creating user"
-msgstr ""
+msgstr "додади група"
 
 #: js/users.js:442
+msgid "A valid username must be provided"
+msgstr "Мора да се обезбеди валидно корисничко име "
+
+#: js/users.js:443 js/users.js:449 js/users.js:464
+msgid "Error creating user"
+msgstr "Грешка при креирање на корисникот"
+
+#: js/users.js:448
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Мора да се обезбеди валидна лозинка"
 
 #: personal.php:45 personal.php:46
 msgid "__language_name__"
@@ -229,7 +230,7 @@ msgstr ""
 
 #: templates/admin.php:29
 msgid "Setup Warning"
-msgstr ""
+msgstr "Предупредување при подесување"
 
 #: templates/admin.php:32
 msgid ""
@@ -341,46 +342,54 @@ msgid "Allow users to only share with users in their groups"
 msgstr ""
 
 #: templates/admin.php:170
+msgid "Allow mail notification"
+msgstr ""
+
+#: templates/admin.php:171
+msgid "Allow user to send mail notification for shared files"
+msgstr ""
+
+#: templates/admin.php:178
 msgid "Security"
 msgstr ""
 
-#: templates/admin.php:183
+#: templates/admin.php:191
 msgid "Enforce HTTPS"
 msgstr ""
 
-#: templates/admin.php:185
+#: templates/admin.php:193
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr ""
 
-#: templates/admin.php:191
+#: templates/admin.php:199
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr ""
 
-#: templates/admin.php:203
+#: templates/admin.php:211
 msgid "Log"
 msgstr "Записник"
 
-#: templates/admin.php:204
+#: templates/admin.php:212
 msgid "Log level"
 msgstr "Ниво на логирање"
 
-#: templates/admin.php:235
+#: templates/admin.php:243
 msgid "More"
 msgstr "Повеќе"
 
-#: templates/admin.php:236
+#: templates/admin.php:244
 msgid "Less"
 msgstr "Помалку"
 
-#: templates/admin.php:242 templates/personal.php:161
+#: templates/admin.php:250 templates/personal.php:161
 msgid "Version"
 msgstr "Верзија"
 
-#: templates/admin.php:246 templates/personal.php:164
+#: templates/admin.php:254 templates/personal.php:164
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

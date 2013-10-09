@@ -92,6 +92,47 @@ class Preview extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($image->height(), $maxY);
 	}
 
+	public function txtBlacklist() {
+		$txt = 'random text file';
+		$ics = file_get_contents(__DIR__ . '/../data/testcal.ics');
+		$vcf = file_get_contents(__DIR__ . '/../data/testcontact.vcf');
+
+		return array(
+			array('txt', $txt, false),
+			array('ics', $ics, true),
+			array('vcf', $vcf, true),
+		);
+	}
+
+	/**
+	 * @dataProvider txtBlacklist
+	 */
+	public function testIsTransparent($extension, $data, $expectedResult) {
+		$user = $this->initFS();
+
+		$rootView = new \OC\Files\View('');
+		$rootView->mkdir('/'.$user);
+		$rootView->mkdir('/'.$user.'/files');
+
+		$x = 32;
+		$y = 32;
+
+		$sample = '/'.$user.'/files/test.'.$extension;
+		$rootView->file_put_contents($sample, $data);
+		$preview = new \OC\Preview($user, 'files/', 'test.'.$extension, $x, $y);
+		$image = $preview->getPreview();
+		$resource = $image->resource();
+
+		//http://stackoverflow.com/questions/5702953/imagecolorat-and-transparency
+		$colorIndex = imagecolorat($resource, 1, 1);
+		$colorInfo = imagecolorsforindex($resource, $colorIndex);
+		$this->assertEquals(
+			$expectedResult,
+			$colorInfo['alpha'] === 127,
+			'Failed asserting that only previews for text files are transparent.'
+		);
+	}
+
 	private function initFS() {
 		if(\OC\Files\Filesystem::getView()){
 			$user = \OC_User::getUser();

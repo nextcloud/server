@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-20 10:44-0400\n"
-"PO-Revision-Date: 2013-09-20 14:45+0000\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-05 15:12+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -79,23 +79,23 @@ msgstr "Der er ikke nok plads til rådlighed"
 
 #: ajax/upload.php:120 ajax/upload.php:143
 msgid "Upload failed. Could not get file info."
-msgstr ""
+msgstr "Upload fejlede. Kunne ikke hente filinformation."
 
 #: ajax/upload.php:136
 msgid "Upload failed. Could not find uploaded file"
-msgstr ""
+msgstr "Upload fejlede. Kunne ikke finde den uploadede fil."
 
 #: ajax/upload.php:160
 msgid "Invalid directory."
 msgstr "Ugyldig mappe."
 
-#: appinfo/app.php:12
+#: appinfo/app.php:11
 msgid "Files"
 msgstr "Filer"
 
 #: js/file-upload.js:244
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Kan ikke upload {filename} da det er enten en mappe eller indholder 0 bytes."
 
 #: js/file-upload.js:255
 msgid "Not enough space available"
@@ -107,7 +107,7 @@ msgstr "Upload afbrudt."
 
 #: js/file-upload.js:356
 msgid "Could not get result from server."
-msgstr ""
+msgstr "Kunne ikke hente resultat fra server."
 
 #: js/file-upload.js:446
 msgid ""
@@ -122,7 +122,7 @@ msgstr "URLen kan ikke være tom."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
 msgstr "Ugyldigt mappenavn. Brug af 'Shared' er forbeholdt af ownCloud"
 
-#: js/file-upload.js:557 js/file-upload.js:573 js/files.js:507 js/files.js:545
+#: js/file-upload.js:557 js/file-upload.js:573 js/files.js:516 js/files.js:554
 msgid "Error"
 msgstr "Fejl"
 
@@ -166,13 +166,13 @@ msgstr "erstattede {new_name} med {old_name}"
 msgid "undo"
 msgstr "fortryd"
 
-#: js/filelist.js:533 js/filelist.js:599 js/files.js:576
+#: js/filelist.js:533 js/filelist.js:599 js/files.js:585
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n mappe"
 msgstr[1] "%n mapper"
 
-#: js/filelist.js:534 js/filelist.js:600 js/files.js:582
+#: js/filelist.js:534 js/filelist.js:600 js/files.js:591
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n fil"
@@ -210,31 +210,44 @@ msgstr "Din opbevaringsplads er fyldt op, filer kan ikke opdateres eller synkron
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Din opbevaringsplads er næsten fyldt op ({usedSpacePercent}%)"
 
-#: js/files.js:67
+#: js/files.js:68
+msgid ""
+"Encryption App is enabled but your keys are not initialized, please log-out "
+"and log-in again"
+msgstr ""
+
+#: js/files.js:72
+msgid ""
+"Invalid private key for Encryption App. Please update your private key "
+"password in your personal settings to recover access to your encrypted "
+"files."
+msgstr ""
+
+#: js/files.js:76
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
 msgstr "Krypteringen blev deaktiveret, men dine filer er stadig krypteret. Gå venligst til dine personlige indstillinger for at dekryptere dine filer. "
 
-#: js/files.js:296
+#: js/files.js:305
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Dit download forberedes. Dette kan tage lidt tid ved større filer."
 
-#: js/files.js:507 js/files.js:545
+#: js/files.js:516 js/files.js:554
 msgid "Error moving file"
-msgstr ""
+msgstr "Fejl ved flytning af fil"
 
-#: js/files.js:558 templates/index.php:61
+#: js/files.js:567 templates/index.php:59
 msgid "Name"
 msgstr "Navn"
 
-#: js/files.js:559 templates/index.php:73
+#: js/files.js:568 templates/index.php:71
 msgid "Size"
 msgstr "Størrelse"
 
-#: js/files.js:560 templates/index.php:75
+#: js/files.js:569 templates/index.php:73
 msgid "Modified"
 msgstr "Ændret"
 
@@ -295,49 +308,49 @@ msgstr "Mappe"
 msgid "From link"
 msgstr "Fra link"
 
-#: templates/index.php:33
+#: templates/index.php:32
 msgid "Deleted files"
 msgstr "Slettede filer"
 
-#: templates/index.php:39
+#: templates/index.php:37
 msgid "Cancel upload"
 msgstr "Fortryd upload"
 
-#: templates/index.php:45
+#: templates/index.php:43
 msgid "You don’t have write permissions here."
 msgstr "Du har ikke skriverettigheder her."
 
-#: templates/index.php:50
+#: templates/index.php:48
 msgid "Nothing in here. Upload something!"
 msgstr "Her er tomt. Upload noget!"
 
-#: templates/index.php:67
+#: templates/index.php:65
 msgid "Download"
 msgstr "Download"
 
-#: templates/index.php:80 templates/index.php:81
+#: templates/index.php:78 templates/index.php:79
 msgid "Unshare"
 msgstr "Fjern deling"
 
-#: templates/index.php:86 templates/index.php:87
+#: templates/index.php:84 templates/index.php:85
 msgid "Delete"
 msgstr "Slet"
 
-#: templates/index.php:100
+#: templates/index.php:98
 msgid "Upload too large"
 msgstr "Upload er for stor"
 
-#: templates/index.php:102
+#: templates/index.php:100
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Filerne, du prøver at uploade, er større end den maksimale størrelse for fil-upload på denne server."
 
-#: templates/index.php:107
+#: templates/index.php:105
 msgid "Files are being scanned, please wait."
 msgstr "Filerne bliver indlæst, vent venligst."
 
-#: templates/index.php:110
+#: templates/index.php:108
 msgid "Current scanning"
 msgstr "Indlæser"
 

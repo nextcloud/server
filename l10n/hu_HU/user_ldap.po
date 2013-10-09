@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-27 00:01-0400\n"
-"PO-Revision-Date: 2013-09-24 19:00+0000\n"
-"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-03 12:22+0000\n"
+"Last-Translator: ebela <bela@dandre.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,17 +27,17 @@ msgstr "Nem sikerült törölni a hozzárendeléseket."
 msgid "Failed to delete the server configuration"
 msgstr "Nem sikerült törölni a kiszolgáló konfigurációját"
 
-#: ajax/testConfiguration.php:36
+#: ajax/testConfiguration.php:37
 msgid "The configuration is valid and the connection could be established!"
 msgstr "A konfiguráció érvényes, és a kapcsolat létrehozható!"
 
-#: ajax/testConfiguration.php:39
+#: ajax/testConfiguration.php:40
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
 msgstr "A konfiguráció érvényes, de a kapcsolat nem hozható létre. Kérem ellenőrizze a kiszolgáló beállításait, és az elérési adatokat."
 
-#: ajax/testConfiguration.php:43
+#: ajax/testConfiguration.php:44
 msgid ""
 "The configuration is invalid. Please look in the ownCloud log for further "
 "details."
@@ -348,7 +348,7 @@ msgid ""
 "behavior as before ownCloud 5 enter the user display name attribute in the "
 "following field. Leave it empty for default behavior. Changes will have "
 "effect only on newly mapped (added) LDAP users."
-msgstr ""
+msgstr "Alapértelmezetten a belső felhasználónév az UUID tulajdonságból jön létre. Ez biztosítja a felhasználónév egyediségét és hogy a nem kell konvertálni a karaktereket benne. A belső felhasználónévnél a megkötés az, hogy csak a következő karakterek engdélyezettek benne: [ a-zA-Z0-9_.@- ]. Ezeken a karaktereken kivül minden karakter le lesz cserélve az adott karakter ASCII kódtáblában használható párjára vagy ha ilyen nincs akkor egyszerűen ki lesz hagyva. Ha így mégis ütköznének a nevek akkor hozzá lesz füzve egy folyamatosan növekvő számláló rész. A  belső felhasználónevet lehet használni a felhasználó azonosítására a programon belül. Illetve ez lesz az alapáértelmezett neve a felhasználó kezdő könyvtárának az ownCloud-ban. Illetve..............................."
 
 #: templates/settings.php:100
 msgid "Internal Username Attribute:"

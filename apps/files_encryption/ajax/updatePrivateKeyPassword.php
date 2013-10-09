@@ -48,6 +48,7 @@ if ($decryptedKey) {
 
 // success or failure
 if ($return) {
+	$session->setInitialized(\OCA\Encryption\Session::INIT_SUCCESSFUL);
 	\OCP\JSON::success(array('data' => array('message' => $l->t('Private key password successfully updated.'))));
 } else {
 	\OCP\JSON::error(array('data' => array('message' => $l->t('Could not update the private key password. Maybe the old password was not correct.'))));

@@ -56,6 +56,7 @@ $TRANSLATIONS = array(
 "Set an admin password." => "Nustatyti administratoriaus slaptažodį.",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Jūsų serveris nėra tvarkingai nustatytas leisti failų sinchronizaciją, nes WebDAV sąsaja panašu, kad yra sugadinta.",
 "Please double check the <a href='%s'>installation guides</a>." => "Prašome pažiūrėkite dar kartą <a href='%s'>diegimo instrukcijas</a>.",
+"Could not find category \"%s\"" => "Nepavyko rasti kategorijos „%s“",
 "seconds ago" => "prieš sekundę",
 "_%n minute ago_::_%n minutes ago_" => array("prieš %n min.","Prieš % minutes","Prieš %n minučių"),
 "_%n hour ago_::_%n hours ago_" => array("Prieš %n valandą","Prieš %n valandas","Prieš %n valandų"),
@@ -66,7 +67,6 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("Prieš %n mėnesį","Prieš %n mėnesius","Prieš %n mėnesių"),
 "last year" => "praeitais metais",
 "years ago" => "prieš metus",
-"Caused by:" => "Iššaukė:",
-"Could not find category \"%s\"" => "Nepavyko rasti kategorijos „%s“"
+"Caused by:" => "Iššaukė:"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);";

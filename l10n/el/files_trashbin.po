@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-30 09:32-0400\n"
-"PO-Revision-Date: 2013-08-30 09:00+0000\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-03 12:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -44,27 +44,27 @@ msgstr "μόνιμη διαγραφή αρχείου"
 msgid "Delete permanently"
 msgstr "Μόνιμη διαγραφή"
 
-#: js/trash.js:184 templates/index.php:17
+#: js/trash.js:190 templates/index.php:21
 msgid "Name"
 msgstr "Όνομα"
 
-#: js/trash.js:185 templates/index.php:27
+#: js/trash.js:191 templates/index.php:31
 msgid "Deleted"
 msgstr "Διαγράφηκε"
 
-#: js/trash.js:193
+#: js/trash.js:199
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] ""
 msgstr[1] "%n φάκελοι"
 
-#: js/trash.js:199
+#: js/trash.js:205
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] ""
 msgstr[1] "%n αρχεία"
 
-#: lib/trash.php:814 lib/trash.php:816
+#: lib/trashbin.php:814 lib/trashbin.php:816
 msgid "restored"
 msgstr "έγινε επαναφορά"
 
@@ -72,11 +72,11 @@ msgstr "έγινε επαναφορά"
 msgid "Nothing in here. Your trash bin is empty!"
 msgstr "Δεν υπάρχει τίποτα εδώ. Ο κάδος σας είναι άδειος!"
 
-#: templates/index.php:20 templates/index.php:22
+#: templates/index.php:24 templates/index.php:26
 msgid "Restore"
 msgstr "Επαναφορά"
 
-#: templates/index.php:30 templates/index.php:31
+#: templates/index.php:34 templates/index.php:35
 msgid "Delete"
 msgstr "Διαγραφή"
 

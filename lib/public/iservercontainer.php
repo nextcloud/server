@@ -102,6 +102,23 @@ interface IServerContainer {
 	function getConfig();
 
 	/**
+	 * get an L10N instance
+	 * @param $app string appid
+	 * @return \OCP\IL10N
+	 */
+	function getL10N($app);
+
+	/**
+	 * @return \OCP\IURLGenerator
+	 */
+	function getURLGenerator();
+
+	/**
+	 * @return \OCP\IHelper
+	 */
+	function getHelper();
+
+	/**
 	 * Returns an ICache instance
 	 *
 	 * @return \OCP\ICache

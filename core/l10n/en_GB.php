@@ -103,6 +103,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Error setting expiration date",
 "Sending ..." => "Sending ...",
 "Email sent" => "Email sent",
+"Warning" => "Warning",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "The update was successful. Redirecting you to ownCloud now.",
 "%s password reset" => "%s password reset",
@@ -125,7 +126,6 @@ $TRANSLATIONS = array(
 "Help" => "Help",
 "Access forbidden" => "Access denied",
 "Cloud not found" => "Cloud not found",
-"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!",
 "Edit categories" => "Edit categories",
 "Add" => "Add",
 "Security Warning" => "Security Warning",
@@ -155,7 +155,6 @@ $TRANSLATIONS = array(
 "remember" => "remember",
 "Log in" => "Log in",
 "Alternative Logins" => "Alternative Logins",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Hey there,<br><br>just letting you know that %s shared \"%s\" with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!",
 "Updating ownCloud to version %s, this may take a while." => "Updating ownCloud to version %s, this may take a while."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

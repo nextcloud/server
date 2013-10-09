@@ -43,23 +43,6 @@ if (!OC_Config::getValue('maintenance', false)) {
 		if($sessionReady) {
 			$session = new \OCA\Encryption\Session($view);
 		}
-
-		$user = \OCP\USER::getUser();
-		// check if user has a private key
-		if ($sessionReady === false
-			|| (!$view->file_exists('/' . $user . '/files_encryption/' . $user . '.private.key')
-				&& OCA\Encryption\Crypt::mode() === 'server')
-		) {
-
-			// Force the user to log-in again if the encryption key isn't unlocked
-			// (happens when a user is logged in before the encryption app is
-			// enabled)
-			OCP\User::logout();
-
-			header("Location: " . OC::$WEBROOT . '/');
-
-			exit();
-		}
 	}
 } else {
 	// logout user if we are in maintenance to force re-login

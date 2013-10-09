@@ -3,10 +3,6 @@
 // only need filesystem apps
 $RUNTIME_APPTYPES=array('filesystem');
 
-// Init owncloud
-
-require_once 'lib/template.php';
-
 OCP\JSON::checkLoggedIn();
 
 // Load the files

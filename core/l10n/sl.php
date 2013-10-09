@@ -83,6 +83,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Napaka med nastavljanjem datuma preteka",
 "Sending ..." => "Pošiljanje ...",
 "Email sent" => "Elektronska pošta je poslana",
+"Warning" => "Opozorilo",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Posodobitev ni uspela. Pošljite poročilo o napaki na sistemu <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Posodobitev je uspešno končana. Stran bo preusmerjena na oblak ownCloud.",
 "Use the following link to reset your password: {link}" => "Za ponastavitev gesla uporabite povezavo: {link}",
@@ -104,7 +105,6 @@ $TRANSLATIONS = array(
 "Help" => "Pomoč",
 "Access forbidden" => "Dostop je prepovedan",
 "Cloud not found" => "Oblaka ni mogoče najti",
-"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\nCheers!" => "Pozdravljen/a,⏎\n⏎\nsporočam, da je %s delil %s s teboj.⏎\nPoglej na: %s⏎\n⏎\nLep pozdrav!",
 "Edit categories" => "Uredi kategorije",
 "Add" => "Dodaj",
 "Security Warning" => "Varnostno opozorilo",
@@ -134,7 +134,6 @@ $TRANSLATIONS = array(
 "remember" => "zapomni si",
 "Log in" => "Prijava",
 "Alternative Logins" => "Druge prijavne možnosti",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>Cheers!" => "Pozdravljen/a,<br><br>sporočam, da je %s delil »%s« s teboj.<br><a href=\"%s\">Poglej vsebine!</a><br><br>Lep pozdrav!",
 "Updating ownCloud to version %s, this may take a while." => "Posodabljanje sistema ownCloud na različico %s je lahko dolgotrajno."
 );
 $PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

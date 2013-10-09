@@ -5,9 +5,18 @@ $autosetup_file = OC::$SERVERROOT."/config/autoconfig.php";
 if( file_exists( $autosetup_file )) {
 	OC_Log::write('core', 'Autoconfig file found, setting up owncloud...', OC_Log::INFO);
 	include $autosetup_file;
-	$_POST['install'] = 'true';
 	$_POST = array_merge ($_POST, $AUTOCONFIG);
-	unlink($autosetup_file);
+}
+
+$dbIsSet = isset($_POST['dbtype']);
+$directoryIsSet = isset($_POST['directory']);
+$adminAccountIsSet = isset($_POST['adminlogin']);
+
+if ($dbIsSet AND $directoryIsSet AND $adminAccountIsSet) {
+	$_POST['install'] = 'true';
+	if( file_exists( $autosetup_file )) {
+		unlink($autosetup_file);
+	}
 }
 
 OC_Util::addScript('setup');
@@ -21,7 +30,7 @@ $datadir = OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data');
 $vulnerableToNullByte = false;
 if(@file_exists(__FILE__."\0Nullbyte")) { // Check if the used PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)
 	$vulnerableToNullByte = true;
-} 
+}
 
 // Protect data directory here, so we can test if the protection is working
 OC_Setup::protectDataDirectory();
@@ -37,6 +46,8 @@ $opts = array(
 	'htaccessWorking' => OC_Util::isHtAccessWorking(),
 	'vulnerableToNullByte' => $vulnerableToNullByte,
 	'errors' => array(),
+	'dbIsSet' => $dbIsSet,
+	'directoryIsSet' => $directoryIsSet,
 );
 
 if(isset($_POST['install']) AND $_POST['install']=='true') {

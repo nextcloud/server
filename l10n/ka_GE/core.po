@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-22 12:55-0400\n"
-"PO-Revision-Date: 2013-09-20 15:01+0000\n"
+"POT-Creation-Date: 2013-10-07 12:16-0400\n"
+"PO-Revision-Date: 2013-10-07 16:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -17,12 +17,17 @@ msgstr ""
 "Language: ka_GE\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:97
+#: ajax/share.php:118 ajax/share.php:197
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr ""
 
-#: ajax/share.php:227
+#: ajax/share.php:168
+#, php-format
+msgid "Couldn't send mail to following users: %s "
+msgstr ""
+
+#: ajax/share.php:327
 msgid "group"
 msgstr "ჯგუფი"
 
@@ -309,8 +314,8 @@ msgstr "ობიექტის ტიპი არ არის მითი�
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:645 js/share.js:657
+#: js/oc-vcategories.js:199 js/share.js:130 js/share.js:143 js/share.js:150
+#: js/share.js:667 js/share.js:679
 msgid "Error"
 msgstr "შეცდომა"
 
@@ -330,125 +335,133 @@ msgstr "გაზიარებული"
 msgid "Share"
 msgstr "გაზიარება"
 
-#: js/share.js:131 js/share.js:685
+#: js/share.js:132 js/share.js:707
 msgid "Error while sharing"
 msgstr "შეცდომა გაზიარების დროს"
 
-#: js/share.js:142
+#: js/share.js:143
 msgid "Error while unsharing"
 msgstr "შეცდომა გაზიარების გაუქმების დროს"
 
-#: js/share.js:149
+#: js/share.js:150
 msgid "Error while changing permissions"
 msgstr "შეცდომა დაშვების ცვლილების დროს"
 
-#: js/share.js:158
+#: js/share.js:159
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "გაზიარდა თქვენთვის და ჯგუფისთვის {group}, {owner}–ის მიერ"
 
-#: js/share.js:160
+#: js/share.js:161
 msgid "Shared with you by {owner}"
 msgstr "გაზიარდა თქვენთვის {owner}–ის მიერ"
 
-#: js/share.js:183
+#: js/share.js:184
 msgid "Share with"
 msgstr "გააზიარე შემდეგით:"
 
-#: js/share.js:188
+#: js/share.js:189
 msgid "Share with link"
 msgstr "გაუზიარე ლინკით"
 
-#: js/share.js:191
+#: js/share.js:192
 msgid "Password protect"
 msgstr "პაროლით დაცვა"
 
-#: js/share.js:193 templates/installation.php:57 templates/login.php:26
+#: js/share.js:194 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "პაროლი"
 
-#: js/share.js:198
+#: js/share.js:199
 msgid "Allow Public Upload"
 msgstr ""
 
-#: js/share.js:202
+#: js/share.js:203
 msgid "Email link to person"
 msgstr "ლინკის პიროვნების იმეილზე გაგზავნა"
 
-#: js/share.js:203
+#: js/share.js:204
 msgid "Send"
 msgstr "გაგზავნა"
 
-#: js/share.js:208
+#: js/share.js:209
 msgid "Set expiration date"
 msgstr "მიუთითე ვადის გასვლის დრო"
 
-#: js/share.js:209
+#: js/share.js:210
 msgid "Expiration date"
 msgstr "ვადის გასვლის დრო"
 
-#: js/share.js:242
+#: js/share.js:243
 msgid "Share via email:"
 msgstr "გააზიარე მეილზე"
 
-#: js/share.js:245
+#: js/share.js:246
 msgid "No people found"
 msgstr "მომხმარებელი არ არის ნაპოვნი"
 
-#: js/share.js:283
+#: js/share.js:284
 msgid "Resharing is not allowed"
 msgstr "მეორეჯერ გაზიარება არ არის დაშვებული"
 
-#: js/share.js:319
+#: js/share.js:320
 msgid "Shared in {item} with {user}"
 msgstr "გაზიარდა {item}–ში  {user}–ის მიერ"
 
-#: js/share.js:340
+#: js/share.js:341
 msgid "Unshare"
 msgstr "გაუზიარებადი"
 
-#: js/share.js:352
+#: js/share.js:353
+msgid "notify user by email"
+msgstr ""
+
+#: js/share.js:361
 msgid "can edit"
 msgstr "შეგიძლია შეცვლა"
 
-#: js/share.js:354
+#: js/share.js:363
 msgid "access control"
 msgstr "დაშვების კონტროლი"
 
-#: js/share.js:357
+#: js/share.js:366
 msgid "create"
 msgstr "შექმნა"
 
-#: js/share.js:360
+#: js/share.js:369
 msgid "update"
 msgstr "განახლება"
 
-#: js/share.js:363
+#: js/share.js:372
 msgid "delete"
 msgstr "წაშლა"
 
-#: js/share.js:366
+#: js/share.js:375
 msgid "share"
 msgstr "გაზიარება"
 
-#: js/share.js:400 js/share.js:632
+#: js/share.js:409 js/share.js:654
 msgid "Password protected"
 msgstr "პაროლით დაცული"
 
-#: js/share.js:645
+#: js/share.js:667
 msgid "Error unsetting expiration date"
 msgstr "შეცდომა ვადის გასვლის მოხსნის დროს"
 
-#: js/share.js:657
+#: js/share.js:679
 msgid "Error setting expiration date"
 msgstr "შეცდომა ვადის გასვლის მითითების დროს"
 
-#: js/share.js:672
+#: js/share.js:694
 msgid "Sending ..."
 msgstr "გაგზავნა ...."
 
-#: js/share.js:683
+#: js/share.js:705
 msgid "Email sent"
 msgstr "იმეილი გაიგზავნა"
+
+#: js/share.js:729
+msgid "Warning"
+msgstr "გაფრთხილება"
 
 #: js/update.js:17
 msgid ""
@@ -486,7 +499,7 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "თქვენ მოგივათ პაროლის შესაცვლელი ლინკი მეილზე"
 
 #: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
-#: templates/login.php:19
+#: templates/login.php:25
 msgid "Username"
 msgstr "მომხმარებლის სახელი"
 
@@ -558,7 +571,17 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-"Cheers!"
+msgstr ""
+
+#: templates/altmail.php:4
+#, php-format
+msgid ""
+"The share will expire on %s.\n"
+"\n"
+msgstr ""
+
+#: templates/altmail.php:6 templates/mail.php:19
+msgid "Cheers!"
 msgstr ""
 
 #: templates/edit_categories_dialog.php:4
@@ -612,47 +635,51 @@ msgstr ""
 msgid "Create an <strong>admin account</strong>"
 msgstr "შექმენი <strong>ადმინ ექაუნტი</strong>"
 
-#: templates/installation.php:65
+#: templates/installation.php:66
 msgid "Advanced"
 msgstr "დამატებითი ფუნქციები"
 
-#: templates/installation.php:67
+#: templates/installation.php:73
 msgid "Data folder"
 msgstr "მონაცემთა საქაღალდე"
 
-#: templates/installation.php:77
+#: templates/installation.php:85
 msgid "Configure the database"
 msgstr "მონაცემთა ბაზის კონფიგურირება"
 
-#: templates/installation.php:82 templates/installation.php:94
-#: templates/installation.php:105 templates/installation.php:116
-#: templates/installation.php:128
+#: templates/installation.php:90 templates/installation.php:102
+#: templates/installation.php:113 templates/installation.php:124
+#: templates/installation.php:136
 msgid "will be used"
 msgstr "გამოყენებული იქნება"
 
-#: templates/installation.php:140
+#: templates/installation.php:148
 msgid "Database user"
 msgstr "მონაცემთა ბაზის მომხმარებელი"
 
-#: templates/installation.php:147
+#: templates/installation.php:155
 msgid "Database password"
 msgstr "მონაცემთა ბაზის პაროლი"
 
-#: templates/installation.php:152
+#: templates/installation.php:160
 msgid "Database name"
 msgstr "მონაცემთა ბაზის სახელი"
 
-#: templates/installation.php:160
+#: templates/installation.php:168
 msgid "Database tablespace"
 msgstr "ბაზის ცხრილის ზომა"
 
-#: templates/installation.php:167
+#: templates/installation.php:175
 msgid "Database host"
 msgstr "მონაცემთა ბაზის ჰოსტი"
 
-#: templates/installation.php:175
+#: templates/installation.php:184
 msgid "Finish setup"
 msgstr "კონფიგურაციის დასრულება"
+
+#: templates/installation.php:184
+msgid "Finishing …"
+msgstr ""
 
 #: templates/layout.user.php:41
 #, php-format
@@ -677,19 +704,27 @@ msgstr "თუ თქვენ არ შეცვლით პაროლს, 
 msgid "Please change your password to secure your account again."
 msgstr "გთხოვთ შეცვალოთ თქვენი პაროლი, თქვენი ანგარიშის დასაცავად."
 
-#: templates/login.php:32
+#: templates/login.php:17
+msgid "Server side authentication failed!"
+msgstr ""
+
+#: templates/login.php:18
+msgid "Please contact your administrator."
+msgstr ""
+
+#: templates/login.php:38
 msgid "Lost your password?"
 msgstr "დაგავიწყდათ პაროლი?"
 
-#: templates/login.php:37
+#: templates/login.php:43
 msgid "remember"
 msgstr "დამახსოვრება"
 
-#: templates/login.php:39
+#: templates/login.php:46
 msgid "Log in"
 msgstr "შესვლა"
 
-#: templates/login.php:45
+#: templates/login.php:52
 msgid "Alternative Logins"
 msgstr "ალტერნატიული Login–ი"
 
@@ -697,7 +732,12 @@ msgstr "ალტერნატიული Login–ი"
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
-"href=\"%s\">View it!</a><br><br>Cheers!"
+"href=\"%s\">View it!</a><br><br>"
+msgstr ""
+
+#: templates/mail.php:17
+#, php-format
+msgid "The share will expire on %s.<br><br>"
 msgstr ""
 
 #: templates/update.php:3

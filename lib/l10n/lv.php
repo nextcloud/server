@@ -39,6 +39,7 @@ $TRANSLATIONS = array(
 "Set an admin password." => "Iestatiet administratora paroli.",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Jūsu serveris vēl nav pareizi iestatīts, lai ļautu sinhronizēt datnes, jo izskatās, ka WebDAV saskarne ir salauzta.",
 "Please double check the <a href='%s'>installation guides</a>." => "Lūdzu, vēlreiz pārbaudiet <a href='%s'>instalēšanas palīdzību</a>.",
+"Could not find category \"%s\"" => "Nevarēja atrast kategoriju “%s”",
 "seconds ago" => "sekundes atpakaļ",
 "_%n minute ago_::_%n minutes ago_" => array("","","Pirms %n minūtēm"),
 "_%n hour ago_::_%n hours ago_" => array("","","Pirms %n stundām"),
@@ -49,7 +50,6 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("","","Pirms %n mēnešiem"),
 "last year" => "gājušajā gadā",
 "years ago" => "gadus atpakaļ",
-"Caused by:" => "Cēlonis:",
-"Could not find category \"%s\"" => "Nevarēja atrast kategoriju “%s”"
+"Caused by:" => "Cēlonis:"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);";

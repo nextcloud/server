@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-18 11:47-0400\n"
-"PO-Revision-Date: 2013-09-17 13:05+0000\n"
+"POT-Creation-Date: 2013-10-06 19:07-0400\n"
+"PO-Revision-Date: 2013-10-02 13:20+0000\n"
 "Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,318 +21,325 @@ msgstr ""
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:239
+#: private/app.php:237
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "Applikation \"%s\" kann nicht installiert werden, da sie mit dieser ownCloud Version nicht kompatibel ist."
 
-#: app.php:250
+#: private/app.php:248
 msgid "No app name specified"
 msgstr "Es wurde kein Applikation-Name angegeben"
 
-#: app.php:361
+#: private/app.php:352
 msgid "Help"
 msgstr "Hilfe"
 
-#: app.php:374
+#: private/app.php:365
 msgid "Personal"
 msgstr "Persönlich"
 
-#: app.php:385
+#: private/app.php:376
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: app.php:397
+#: private/app.php:388
 msgid "Users"
 msgstr "Benutzer"
 
-#: app.php:410
+#: private/app.php:401
 msgid "Admin"
 msgstr "Administration"
 
-#: app.php:839
+#: private/app.php:832
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Konnte \"%s\" nicht aktualisieren."
 
-#: avatar.php:56
+#: private/avatar.php:56
 msgid "Custom profile pictures don't work with encryption yet"
 msgstr "Individuelle Profilbilder werden noch nicht von der Verschlüsselung unterstützt"
 
-#: avatar.php:64
+#: private/avatar.php:64
 msgid "Unknown filetype"
 msgstr "Unbekannter Dateityp"
 
-#: avatar.php:69
+#: private/avatar.php:69
 msgid "Invalid image"
 msgstr "Ungültiges Bild"
 
-#: defaults.php:35
+#: private/defaults.php:36
 msgid "web services under your control"
 msgstr "Web-Services unter Deiner Kontrolle"
 
-#: files.php:66 files.php:98
+#: private/files.php:66 private/files.php:98
 #, php-format
 msgid "cannot open \"%s\""
 msgstr "Öffnen von \"%s\" fehlgeschlagen"
 
-#: files.php:226
+#: private/files.php:226
 msgid "ZIP download is turned off."
 msgstr "Der ZIP-Download ist deaktiviert."
 
-#: files.php:227
+#: private/files.php:227
 msgid "Files need to be downloaded one by one."
 msgstr "Die Dateien müssen einzeln heruntergeladen werden."
 
-#: files.php:228 files.php:256
+#: private/files.php:228 private/files.php:256
 msgid "Back to Files"
 msgstr "Zurück zu \"Dateien\""
 
-#: files.php:253
+#: private/files.php:253
 msgid "Selected files too large to generate zip file."
 msgstr "Die gewählten Dateien sind zu groß, um eine ZIP-Datei zu erstellen."
 
-#: files.php:254
+#: private/files.php:254
 msgid ""
 "Download the files in smaller chunks, seperately or kindly ask your "
 "administrator."
 msgstr "Lade die Dateien in kleineren, separaten, Stücken herunter oder bitte deinen Administrator."
 
-#: installer.php:63
+#: private/installer.php:63
 msgid "No source specified when installing app"
 msgstr "Für die Installation der Applikation wurde keine Quelle angegeben"
 
-#: installer.php:70
+#: private/installer.php:70
 msgid "No href specified when installing app from http"
 msgstr "Der Link (href) wurde nicht angegeben um die Applikation per http zu installieren"
 
-#: installer.php:75
+#: private/installer.php:75
 msgid "No path specified when installing app from local file"
 msgstr "Bei der Installation der Applikation aus einer lokalen Datei wurde kein Pfad angegeben"
 
-#: installer.php:89
+#: private/installer.php:89
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr "Archive vom Typ %s werden nicht unterstützt"
 
-#: installer.php:103
+#: private/installer.php:103
 msgid "Failed to open archive when installing app"
 msgstr "Das Archiv konnte bei der Installation der Applikation nicht geöffnet werden"
 
-#: installer.php:125
+#: private/installer.php:125
 msgid "App does not provide an info.xml file"
 msgstr "Die Applikation enthält keine info,xml Datei"
 
-#: installer.php:131
+#: private/installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Die Applikation kann auf Grund von unerlaubten Code nicht installiert werden"
 
-#: installer.php:140
+#: private/installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Die Anwendung konnte nicht installiert werden, weil Sie nicht mit dieser Version von ownCloud kompatibel ist."
 
-#: installer.php:146
+#: private/installer.php:146
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Die Applikation konnte nicht installiert werden, da diese das <shipped>true</shipped> Tag beinhaltet und dieses, bei nicht mitausgelieferten Applikationen, nicht erlaubt ist ist"
 
-#: installer.php:152
+#: private/installer.php:152
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "Die Applikation konnte nicht installiert werden, da die Version in der info.xml nicht die gleiche Version wie im App-Store ist"
 
-#: installer.php:162
+#: private/installer.php:162
 msgid "App directory already exists"
 msgstr "Das Applikationsverzeichnis existiert bereits"
 
-#: installer.php:175
+#: private/installer.php:175
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Es kann kein Applikationsordner erstellt werden. Bitte passen sie die  Berechtigungen an. %s"
 
-#: json.php:28
+#: private/json.php:28
 msgid "Application is not enabled"
 msgstr "Die Anwendung ist nicht aktiviert"
 
-#: json.php:39 json.php:62 json.php:73
+#: private/json.php:39 private/json.php:62 private/json.php:73
 msgid "Authentication error"
 msgstr "Fehler bei der Anmeldung"
 
-#: json.php:51
+#: private/json.php:51
 msgid "Token expired. Please reload page."
 msgstr "Token abgelaufen. Bitte lade die Seite neu."
 
-#: search/provider/file.php:17 search/provider/file.php:35
+#: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
 msgstr "Dateien"
 
-#: search/provider/file.php:26 search/provider/file.php:33
+#: private/search/provider/file.php:27 private/search/provider/file.php:34
 msgid "Text"
 msgstr "Text"
 
-#: search/provider/file.php:29
+#: private/search/provider/file.php:30
 msgid "Images"
 msgstr "Bilder"
 
-#: setup/abstractdatabase.php:22
+#: private/setup/abstractdatabase.php:22
 #, php-format
 msgid "%s enter the database username."
 msgstr "%s gib den Datenbank-Benutzernamen an."
 
-#: setup/abstractdatabase.php:25
+#: private/setup/abstractdatabase.php:25
 #, php-format
 msgid "%s enter the database name."
 msgstr "%s gib den Datenbank-Namen an."
 
-#: setup/abstractdatabase.php:28
+#: private/setup/abstractdatabase.php:28
 #, php-format
 msgid "%s you may not use dots in the database name"
 msgstr "%s Der Datenbank-Name darf keine Punkte enthalten"
 
-#: setup/mssql.php:20
+#: private/setup/mssql.php:20
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
 msgstr "MS SQL Benutzername und/oder Password ungültig: %s"
 
-#: setup/mssql.php:21 setup/mysql.php:13 setup/oci.php:114
-#: setup/postgresql.php:24 setup/postgresql.php:70
+#: private/setup/mssql.php:21 private/setup/mysql.php:13
+#: private/setup/oci.php:114 private/setup/postgresql.php:24
+#: private/setup/postgresql.php:70
 msgid "You need to enter either an existing account or the administrator."
 msgstr "Du musst entweder ein existierendes Benutzerkonto oder das Administratoren-Konto angeben."
 
-#: setup/mysql.php:12
+#: private/setup/mysql.php:12
 msgid "MySQL username and/or password not valid"
 msgstr "MySQL Benutzername und/oder Passwort ungültig"
 
-#: setup/mysql.php:67 setup/oci.php:54 setup/oci.php:121 setup/oci.php:147
-#: setup/oci.php:154 setup/oci.php:165 setup/oci.php:172 setup/oci.php:181
-#: setup/oci.php:189 setup/oci.php:198 setup/oci.php:204
-#: setup/postgresql.php:89 setup/postgresql.php:98 setup/postgresql.php:115
-#: setup/postgresql.php:125 setup/postgresql.php:134
+#: private/setup/mysql.php:67 private/setup/oci.php:54
+#: private/setup/oci.php:121 private/setup/oci.php:147
+#: private/setup/oci.php:154 private/setup/oci.php:165
+#: private/setup/oci.php:172 private/setup/oci.php:181
+#: private/setup/oci.php:189 private/setup/oci.php:198
+#: private/setup/oci.php:204 private/setup/postgresql.php:89
+#: private/setup/postgresql.php:98 private/setup/postgresql.php:115
+#: private/setup/postgresql.php:125 private/setup/postgresql.php:134
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "DB Fehler: \"%s\""
 
-#: setup/mysql.php:68 setup/oci.php:55 setup/oci.php:122 setup/oci.php:148
-#: setup/oci.php:155 setup/oci.php:166 setup/oci.php:182 setup/oci.php:190
-#: setup/oci.php:199 setup/postgresql.php:90 setup/postgresql.php:99
-#: setup/postgresql.php:116 setup/postgresql.php:126 setup/postgresql.php:135
+#: private/setup/mysql.php:68 private/setup/oci.php:55
+#: private/setup/oci.php:122 private/setup/oci.php:148
+#: private/setup/oci.php:155 private/setup/oci.php:166
+#: private/setup/oci.php:182 private/setup/oci.php:190
+#: private/setup/oci.php:199 private/setup/postgresql.php:90
+#: private/setup/postgresql.php:99 private/setup/postgresql.php:116
+#: private/setup/postgresql.php:126 private/setup/postgresql.php:135
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr "Fehlerhafter Befehl war: \"%s\""
 
-#: setup/mysql.php:85
+#: private/setup/mysql.php:85
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
 msgstr "MySQL Benutzer '%s'@'localhost' existiert bereits."
 
-#: setup/mysql.php:86
+#: private/setup/mysql.php:86
 msgid "Drop this user from MySQL"
 msgstr "Lösche diesen Benutzer von MySQL"
 
-#: setup/mysql.php:91
+#: private/setup/mysql.php:91
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
 msgstr "MySQL Benutzer '%s'@'%%' existiert bereits"
 
-#: setup/mysql.php:92
+#: private/setup/mysql.php:92
 msgid "Drop this user from MySQL."
 msgstr "Lösche diesen Benutzer aus MySQL."
 
-#: setup/oci.php:34
+#: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
 msgstr "Es konnte keine Verbindung zur Oracle-Datenbank hergestellt werden"
 
-#: setup/oci.php:41 setup/oci.php:113
+#: private/setup/oci.php:41 private/setup/oci.php:113
 msgid "Oracle username and/or password not valid"
 msgstr "Oracle Benutzername und/oder Passwort ungültig"
 
-#: setup/oci.php:173 setup/oci.php:205
+#: private/setup/oci.php:173 private/setup/oci.php:205
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "Fehlerhafter Befehl war: \"%s\", Name: %s, Passwort: %s"
 
-#: setup/postgresql.php:23 setup/postgresql.php:69
+#: private/setup/postgresql.php:23 private/setup/postgresql.php:69
 msgid "PostgreSQL username and/or password not valid"
 msgstr "PostgreSQL Benutzername und/oder Passwort ungültig"
 
-#: setup.php:28
+#: private/setup.php:28
 msgid "Set an admin username."
 msgstr "Setze Administrator Benutzername."
 
-#: setup.php:31
+#: private/setup.php:31
 msgid "Set an admin password."
 msgstr "Setze Administrator Passwort"
 
-#: setup.php:184
+#: private/setup.php:184
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Dein Web-Server ist noch nicht für Datei-Synchronisation bereit, weil die WebDAV-Schnittstelle vermutlich defekt ist."
 
-#: setup.php:185
+#: private/setup.php:185
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Bitte prüfe die <a href='%s'>Installationsanleitungen</a>."
 
-#: template/functions.php:96
+#: private/tags.php:194
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr "Die Kategorie \"%s\" konnte nicht gefunden werden."
+
+#: private/template/functions.php:122
 msgid "seconds ago"
 msgstr "Gerade eben"
 
-#: template/functions.php:97
+#: private/template/functions.php:123
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] "Vor %n Minuten"
 
-#: template/functions.php:98
+#: private/template/functions.php:124
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] "Vor %n Stunden"
 
-#: template/functions.php:99
+#: private/template/functions.php:125
 msgid "today"
 msgstr "Heute"
 
-#: template/functions.php:100
+#: private/template/functions.php:126
 msgid "yesterday"
 msgstr "Gestern"
 
-#: template/functions.php:101
+#: private/template/functions.php:128
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] "Vor %n Tagen"
 
-#: template/functions.php:102
+#: private/template/functions.php:130
 msgid "last month"
 msgstr "Letzten Monat"
 
-#: template/functions.php:103
+#: private/template/functions.php:131
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] "Vor %n Monaten"
 
-#: template/functions.php:104
+#: private/template/functions.php:133
 msgid "last year"
 msgstr "Letztes Jahr"
 
-#: template/functions.php:105
+#: private/template/functions.php:134
 msgid "years ago"
 msgstr "Vor Jahren"
 
-#: template.php:297
+#: private/template.php:297
 msgid "Caused by:"
 msgstr "Verursacht durch:"
-
-#: vcategories.php:188 vcategories.php:249
-#, php-format
-msgid "Could not find category \"%s\""
-msgstr "Die Kategorie \"%s\" konnte nicht gefunden werden."
