@@ -6,7 +6,6 @@
 ::
 :: @copyright 2012, 2013 Thomas Müller thomas.mueller@tmit.eu
 ::
-@echo off
 
 set DATADIR=data-autotest
 set BASEDIR=%~dp0
@@ -120,6 +119,7 @@ goto:eof
 	php -f enable_all.php
 
 	call phpunit --bootstrap bootstrap.php --configuration phpunit-autotest.xml --log-junit autotest-results-%~1.xml --coverage-clover autotest-clover-%~1.xml --coverage-html coverage-html-%~1
+
 	echo "Done with testing %~1 ..."
 	cd %BASEDIR%
 goto:eof
