@@ -4,9 +4,8 @@
 		<?php foreach($_['toc'] as $id => $title) { ?>
 			<li id="<?php p($id); ?>"><a href="<?php p($id); ?>"><?php p($title); ?></a></li>
 		<?php } ?>
-		<li class="ldapSettingsTabs"><a href="#ldapSettings-3">Expert</a></li>
-		<li class="ldapSettingsTabs"><a href="#ldapSettings-2">Advanced</a></li>
-		<li class="ldapSettingsTabs"><a href="#ldapSettings-1">LDAP Basic</a></li>
+		<li class="ldapSettingsTabs"><a href="#ldapSettings-2">Expert</a></li>
+		<li class="ldapSettingsTabs"><a href="#ldapSettings-1">Advanced</a></li>
 	</ul>
 		<?php if(OCP\App::isEnabled('user_webdavauth')) {
 			print_unescaped('<p class="ldapwarning">'.$l->t('<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them.').'</p>');
@@ -17,65 +16,17 @@
 		?>
 	<?php print_unescaped($_['tabs']); ?>
 	<fieldset id="ldapSettings-1">
-		<p><label for="ldap_serverconfig_chooser"><?php p($l->t('Server configuration'));?></label>
-		<select id="ldap_serverconfig_chooser" name="ldap_serverconfig_chooser">
-		<?php if(count($_['serverConfigurationPrefixes']) === 0 ) {
-			?>
-				<option value="" selected>1. Server</option>');
-			<?php
-		} else {
-			$i = 1;
-			$sel = ' selected';
-			foreach($_['serverConfigurationPrefixes'] as $prefix) {
-				?>
-				<option value="<?php p($prefix); ?>"<?php p($sel); $sel = ''; ?>><?php p($i++); ?>. Server: <?php p($_['serverConfigurationHosts'][$prefix]); ?></option>
-				<?php
-			}
-		}
-		?>
-		<option value="NEW"><?php p($l->t('Add Server Configuration'));?></option>
-		</select>
-		<button id="ldap_action_delete_configuration"
-			name="ldap_action_delete_configuration">Delete Configuration</button>
-		</p>
-		<p><label for="ldap_host"><?php p($l->t('Host'));?></label>
-		<input type="text" id="ldap_host" name="ldap_host" data-default="<?php p($_['ldap_host_default']); ?>"
-			title="<?php p($l->t('You can omit the protocol, except you require SSL. Then start with ldaps://'));?>"></p>
-		<p><label for="ldap_base"><?php p($l->t('Base DN'));?></label>
-		<textarea id="ldap_base" name="ldap_base" placeholder="<?php p($l->t('One Base DN per line'));?>"
-			title="<?php p($l->t('You can specify Base DN for users and groups in the Advanced tab'));?>"
-			data-default="<?php p($_['ldap_base_default']); ?>" ></textarea></p>
-		<p><label for="ldap_dn"><?php p($l->t('User DN'));?></label>
-		<input type="text" id="ldap_dn" name="ldap_dn" data-default="<?php p($_['ldap_dn_default']); ?>"
-			title="<?php p($l->t('The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty.'));?>" /></p>
-		<p><label for="ldap_agent_password"><?php p($l->t('Password'));?></label>
-		<input type="password" id="ldap_agent_password" name="ldap_agent_password"
-			data-default="<?php p($_['ldap_agent_password_default']); ?>"
-			title="<?php p($l->t('For anonymous access, leave DN and Password empty.'));?>" /></p>
-		<p><label for="ldap_login_filter"><?php p($l->t('User Login Filter'));?></label>
-		<input type="text" id="ldap_login_filter" name="ldap_login_filter"
-			data-default="<?php p($_['ldap_login_filter_default']); ?>"
-			title="<?php p($l->t('Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: "uid=%%uid"'));?>" /></p>
-		<p><label for="ldap_userlist_filter"><?php p($l->t('User List Filter'));?></label>
-		<input type="text" id="ldap_userlist_filter" name="ldap_userlist_filter"
-			data-default="<?php p($_['ldap_userlist_filter_default']); ?>"
-			title="<?php p($l->t('Defines the filter to apply, when retrieving users (no placeholders). Example: "objectClass=person"'));?>" /></p>
-		<p><label for="ldap_group_filter"><?php p($l->t('Group Filter'));?></label>
-		<input type="text" id="ldap_group_filter" name="ldap_group_filter"
-			data-default="<?php p($_['ldap_group_filter_default']); ?>"
-			title="<?php p($l->t('Defines the filter to apply, when retrieving groups (no placeholders). Example: "objectClass=posixGroup"'));?>" /></p>
-		<?php print_unescaped($_['settingControls']); ?>
-	</fieldset>
-	<fieldset id="ldapSettings-2">
 		<div id="ldapAdvancedAccordion">
 			<h3><?php p($l->t('Connection Settings'));?></h3>
 			<div>
 				<p><label for="ldap_configuration_active"><?php p($l->t('Configuration Active'));?></label><input type="checkbox" id="ldap_configuration_active" name="ldap_configuration_active" value="1" data-default="<?php p($_['ldap_configuration_active_default']); ?>"  title="<?php p($l->t('When unchecked, this configuration will be skipped.'));?>" /></p>
-				<p><label for="ldap_port"><?php p($l->t('Port'));?></label><input type="number" id="ldap_port" name="ldap_port" data-default="<?php p($_['ldap_port_default']); ?>"  /></p>
+				<p><label for="ldap_login_filter"><?php p($l->t('User Login Filter'));?></label>
+				<input type="text" id="ldap_login_filter" name="ldap_login_filter"
+					data-default="<?php p($_['ldap_login_filter_default']); ?>"
+					title="<?php p($l->t('Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: "uid=%%uid"'));?>" /></p>
 				<p><label for="ldap_backup_host"><?php p($l->t('Backup (Replica) Host'));?></label><input type="text" id="ldap_backup_host" name="ldap_backup_host" data-default="<?php p($_['ldap_backup_host_default']); ?>" title="<?php p($l->t('Give an optional backup host. It must be a replica of the main LDAP/AD server.'));?>"></p>
 				<p><label for="ldap_backup_port"><?php p($l->t('Backup (Replica) Port'));?></label><input type="number" id="ldap_backup_port" name="ldap_backup_port" data-default="<?php p($_['ldap_backup_port_default']); ?>"  /></p>
 				<p><label for="ldap_override_main_server"><?php p($l->t('Disable Main Server'));?></label><input type="checkbox" id="ldap_override_main_server" name="ldap_override_main_server" value="1" data-default="<?php p($_['ldap_override_main_server_default']); ?>"  title="<?php p($l->t('Only connect to the replica server.'));?>" /></p>
-				<p><label for="ldap_tls"><?php p($l->t('Use TLS'));?></label><input type="checkbox" id="ldap_tls" name="ldap_tls" value="1" data-default="<?php p($_['ldap_tls_default']); ?>" title="<?php p($l->t('Do not use it additionally for LDAPS connections, it will fail.'));?>" /></p>
 				<p><label for="ldap_nocase"><?php p($l->t('Case insensitve LDAP server (Windows)'));?></label><input type="checkbox" id="ldap_nocase" name="ldap_nocase" data-default="<?php p($_['ldap_nocase_default']); ?>"  value="1"<?php if (isset($_['ldap_nocase']) && ($_['ldap_nocase'])) p(' checked'); ?>></p>
 				<p><label for="ldap_turn_off_cert_check"><?php p($l->t('Turn off SSL certificate validation.'));?></label><input type="checkbox" id="ldap_turn_off_cert_check" name="ldap_turn_off_cert_check" title="<?php p($l->t('Not recommended, use it for testing only! If connection only works with this option, import the LDAP server\'s SSL certificate in your %s server.', $theme->getName() ));?>" data-default="<?php p($_['ldap_turn_off_cert_check_default']); ?>" value="1"><br/></p>
 				<p><label for="ldap_cache_ttl"><?php p($l->t('Cache Time-To-Live'));?></label><input type="number" id="ldap_cache_ttl" name="ldap_cache_ttl" title="<?php p($l->t('in seconds. A change empties the cache.'));?>" data-default="<?php p($_['ldap_cache_ttl_default']); ?>" /></p>
@@ -100,7 +51,7 @@
 		</div>
 		<?php print_unescaped($_['settingControls']); ?>
 	</fieldset>
-	<fieldset id="ldapSettings-3">
+	<fieldset id="ldapSettings-2">
 		<p><strong><?php p($l->t('Internal Username'));?></strong></p>
 		<p class="ldapIndent"><?php p($l->t('By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder. It is also a part of remote URLs, for instance for all *DAV services. With this setting, the default behavior can be overridden. To achieve a similar behavior as before ownCloud 5 enter the user display name attribute in the following field. Leave it empty for default behavior. Changes will have effect only on newly mapped (added) LDAP users.'));?></p>
 		<p class="ldapIndent"><label for="ldap_expert_username_attr"><?php p($l->t('Internal Username Attribute:'));?></label><input type="text" id="ldap_expert_username_attr" name="ldap_expert_username_attr" data-default="<?php p($_['ldap_expert_username_attr_default']); ?>" /></p>
