@@ -15,7 +15,7 @@ class SMB extends Storage {
 	public function setUp() {
 		$id = uniqid();
 		$this->config = include('files_external/tests/config.php');
-		if ( ! is_array($this->config) or ! isset($this->config['smb']) or ! $this->config['smb']['run']) {
+		if (!is_array($this->config) or !isset($this->config['smb']) or !$this->config['smb']['run']) {
 			$this->markTestSkipped('Samba backend not configured');
 		}
 		$this->config['smb']['root'] .= $id; //make sure we have an new empty folder to work in
@@ -27,5 +27,12 @@ class SMB extends Storage {
 		if ($this->instance) {
 			\OCP\Files::rmdirr($this->instance->constructUrl(''));
 		}
+	}
+
+	public function testRenameWithSpaces() {
+		$this->instance->mkdir('with spaces');
+		$result = $this->instance->rename('with spaces', 'foo bar');
+		$this->assertTrue($result);
+		$this->assertTrue($this->instance->is_dir('foo bar'));
 	}
 }
