@@ -391,4 +391,22 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->storages[] = $storage;
 		return $storage;
 	}
+
+	/**
+	 * @medium
+	 */
+	function testViewHooksIfRootStartsTheSame() {
+		$storage1 = $this->getTestStorage();
+		$storage2 = $this->getTestStorage();
+		$defaultRoot = \OC\Files\Filesystem::getRoot();
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		\OC\Files\Filesystem::mount($storage2, array(), $defaultRoot . '_substorage');
+		\OC_Hook::connect('OC_Filesystem', 'post_write', $this, 'dummyHook');
+
+		$subView = new \OC\Files\View($defaultRoot . '_substorage');
+		$this->hookPath = null;
+
+		$subView->file_put_contents('/foo.txt', 'asd');
+		$this->assertNull($this->hookPath);
+	}
 }
