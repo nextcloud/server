@@ -17,7 +17,9 @@
 	<thead>
 		<tr>
 			<th id='headerName'>
+				<div id="headerName-container">
 				<input type="checkbox" id="select_all" />
+				<label for="select_all"></label>
 				<span class='name'><?php p($l->t( 'Name' )); ?></span>
 				<span class='selectedActions'>
 						<a href="" class="undelete">
@@ -26,6 +28,7 @@
 							<?php p($l->t('Restore'))?>
 						</a>
 				</span>
+				</div>
 			</th>
 			<th id="headerDate">
 				<span id="modified"><?php p($l->t( 'Deleted' )); ?></span>
