@@ -119,7 +119,7 @@ goto:eof
 	md coverage-html-%~1
 	php -f enable_all.php
 
-	phpunit --bootstrap bootstrap.php --configuration phpunit-autotest.xml --log-junit autotest-results-%~1.xml --coverage-clover autotest-clover-%~1.xml --coverage-html coverage-html-%~1
+	call phpunit --bootstrap bootstrap.php --configuration phpunit-autotest.xml --log-junit autotest-results-%~1.xml --coverage-clover autotest-clover-%~1.xml --coverage-html coverage-html-%~1
 	echo "Done with testing %~1 ..."
 	cd %BASEDIR%
 goto:eof
