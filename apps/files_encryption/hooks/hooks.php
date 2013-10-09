@@ -104,8 +104,6 @@ class Hooks {
 			}
 
 			// Encrypt existing user files:
-			// This serves to upgrade old versions of the encryption
-			// app (see appinfo/spec.txt)
 			if (
 				$util->encryptAll('/' . $params['uid'] . '/' . 'files', $session->getLegacyKey(), $params['password'])
 			) {
