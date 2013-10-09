@@ -226,6 +226,7 @@ var LdapWizard = {
 					LdapWizard.countUsers();
 				} else if(type == 'group') {
 					LdapWizard.countGroups();
+					LdapWizard.detectGroupMemberAssoc();
 				}
 			},
 			function (result) {
@@ -254,6 +255,20 @@ var LdapWizard = {
 
 	countUsers: function() {
 		LdapWizard._countThings('countUsers');
+	},
+
+	detectGroupMemberAssoc: function() {
+		param = 'action=determineGroupMemberAssoc'+
+				'&ldap_serverconfig_chooser='+$('#ldap_serverconfig_chooser').val();
+
+		LdapWizard.ajax(param,
+			function(result) {
+				//pure background story
+			},
+			function (result) {
+				// error handling
+			}
+		);
 	},
 
 	findAttributes: function() {
@@ -395,6 +410,7 @@ var LdapWizard = {
 			LdapWizard.countUsers();
 		} else if(triggerObj.id == 'ldap_group_filter') {
 			LdapWizard.countGroups();
+			LdapWizard.detectGroupMemberAssoc();
 		}
 
 		if(triggerObj.id == 'ldap_loginfilter_username'

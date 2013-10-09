@@ -26,9 +26,14 @@ namespace OCA\user_ldap\lib;
 class WizardResult {
 	protected $changes = array();
 	protected $options = array();
+	protected $markedChange = false;
 
 	public function addChange($key, $value) {
 		$this->changes[$key] = $value;
+	}
+
+	public function markChange() {
+		$this->markedChange = true;
 	}
 
 	public function addOptions($key, $values) {
@@ -39,7 +44,7 @@ class WizardResult {
 	}
 
 	public function hasChanges() {
-		return count($this->changes) > 0;
+		return (count($this->changes) > 0 || $this->markedChange);
 	}
 
 	public function getResultArray() {

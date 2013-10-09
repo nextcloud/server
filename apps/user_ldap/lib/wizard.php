@@ -230,6 +230,26 @@ class Wizard extends LDAPUtility {
 		return $this->result;
 	}
 
+	public function determineGroupMemberAssoc() {
+		if(!$this->checkRequirements(array('ldapHost',
+										   'ldapPort',
+										   'ldapAgentName',
+										   'ldapAgentPassword',
+										   'ldapGroupFilter',
+										   ))) {
+			return  false;
+		}
+		$attribute = $this->detectGroupMemberAssoc();
+		if($attribute === false) {
+			return false;
+		}
+		$this->configuration->setConfiguration(array('ldapGroupMemberAssocAttr' => $attribute));
+		//so it will be saved on destruct
+		$this->result->markChange();
+
+		return $this->result;
+	}
+
 	/**
 	 * @brief detects the available object classes
 	 * @returns the instance's WizardResult instance
@@ -460,6 +480,47 @@ class Wizard extends LDAPUtility {
 			$this->applyFind('ldap_host', $host);
 			$this->applyFind('ldap_port', $port);
 		}
+	}
+
+	/**
+	 * @brief tries to detect the group member association attribute which is
+	 * one of 'uniqueMember', 'memberUid', 'member'
+	 * @return mixed, string with the attribute name, false on error
+	 */
+	private function detectGroupMemberAssoc() {
+		$possibleAttrs = array('uniqueMember', 'memberUid', 'member', 'unfugasdfasdfdfa');
+		$filter = $this->configuration->ldapGroupFilter;
+		if(empty($filter)) {
+			return false;
+		}
+		$cr = $this->getConnection();
+		if(!$cr) {
+			throw new \Excpetion('Could not connect to LDAP');
+		}
+		$base = $this->configuration->ldapBase[0];
+		$rr = $this->ldap->search($cr, $base, $filter, $possibleAttrs);
+		if(!$this->ldap->isResource($rr)) {
+			return false;
+		}
+		$er = $this->ldap->firstEntry($cr, $rr);
+		while(is_resource($er)) {
+			$dn = $this->ldap->getDN($cr, $er);
+			$attrs = $this->ldap->getAttributes($cr, $er);
+			$result = array();
+			for($i = 0; $i < count($possibleAttrs); $i++) {
+				if(isset($attrs[$possibleAttrs[$i]])) {
+					$result[$possibleAttrs[$i]] = $attrs[$possibleAttrs[$i]]['count'];
+				}
+			}
+			if(!empty($result)) {
+				natsort($result);
+				return key($result);
+			}
+
+			$er = $this->ldap->nextEntry($cr, $er);
+		}
+
+		return false;
 	}
 
 	/**
