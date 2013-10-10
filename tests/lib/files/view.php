@@ -282,4 +282,38 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->storages[] = $storage;
 		return $storage;
 	}
+
+	/**
+	 * @dataProvider resolvePathTestProvider
+	 */
+	public function testResolvePath($expected, $pathToTest) {
+		$storage1 = $this->getTestStorage();
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+
+		$view = new \OC\Files\View('');
+
+		$result = $view->resolvePath($pathToTest);
+		$this->assertEquals($expected, $result[1]);
+
+		$exists = $view->file_exists($pathToTest);
+		$this->assertTrue($exists);
+
+		$exists = $view->file_exists($result[1]);
+		$this->assertTrue($exists);
+	}
+
+	function resolvePathTestProvider() {
+		return array(
+			array('foo.txt', 'foo.txt'),
+			array('foo.txt', '/foo.txt'),
+			array('folder', 'folder'),
+			array('folder', '/folder'),
+			array('folder', 'folder/'),
+			array('folder', '/folder/'),
+			array('folder/bar.txt', 'folder/bar.txt'),
+			array('folder/bar.txt', '/folder/bar.txt'),
+			array('', ''),
+			array('', '/'),
+		);
+	}
 }
