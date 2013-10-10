@@ -74,7 +74,7 @@ class OC_Updater extends BasicEmitter {
 
 		if(OC_Config::getValue('updatechecker', true)==true) {
 			$data=OC_Updater::check();
-			if(isset($data['version']) and $data['version']<>'') {
+			if(isset($data['version']) && !empty($data['version'])) {
 				$txt='<span style="color:#AA0000; font-weight:bold;">'
 				.$l->t('%s is available. Get <a href="%s">more information</a>',
 				array($data['versionstring'], $data['web'])).'</span>';
