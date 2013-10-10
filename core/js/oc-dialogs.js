@@ -234,7 +234,7 @@ var OCdialogs = {
 		var getCroppedPreview = function(file) {
 			var deferred = new $.Deferred();
 			// Only process image files.
-			var type = file.type.split('/').shift();
+			var type = file.type && file.type.split('/').shift();
 			if (window.FileReader && type === 'image') {
 				var reader = new FileReader();
 				reader.onload = function (e) {
