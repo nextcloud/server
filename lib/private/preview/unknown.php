@@ -23,7 +23,15 @@ class Unknown extends Provider {
 		$svgPath = substr_replace($path, 'svg', -3);
 
 		if (extension_loaded('imagick') && file_exists($svgPath)) {
+
+			// http://www.php.net/manual/de/imagick.setresolution.php#85284
 			$svg = new \Imagick();
+			$svg->readImage($svgPath);
+			$res = $svg->getImageResolution();
+			$x_ratio = $res['x'] / $svg->getImageWidth();
+			$y_ratio = $res['y'] / $svg->getImageHeight();
+			$svg->removeImage();
+			$svg->setResolution($maxX * $x_ratio, $maxY * $y_ratio);
 			$svg->setBackgroundColor(new \ImagickPixel('transparent'));
 			$svg->readImage($svgPath);
 			$svg->setImageFormat('png32');
