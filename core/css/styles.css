@@ -46,6 +46,19 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 	opacity: 1;
 }
 
+#header .logo {
+	background-image: url(../img/logo.svg);
+	width: 250px;
+	height: 118px;
+	margin: 0 auto;
+}
+
+#header .logo-wide {
+	background-image: url(../img/logo-wide.svg);
+	width: 147px;
+	height: 32px;
+}
+
 /* INPUTS */
 input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"], input[type="url"],
 textarea, select,
