@@ -110,7 +110,9 @@ class View {
 	 * @return array consisting of the storage and the internal path
 	 */
 	public function resolvePath($path) {
-		return Filesystem::resolvePath($this->getAbsolutePath($path));
+		$a = $this->getAbsolutePath($path);
+		$p = Filesystem::normalizePath($a);
+		return Filesystem::resolvePath($p);
 	}
 
 	/**
