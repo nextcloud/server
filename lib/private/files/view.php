@@ -710,7 +710,10 @@ class View {
 			return false;
 		}
 		$defaultRoot = Filesystem::getRoot();
-		return (strlen($this->fakeRoot) >= strlen($defaultRoot)) && (substr($this->fakeRoot, 0, strlen($defaultRoot)) === $defaultRoot);
+		if($this->fakeRoot === $defaultRoot){
+			return true;
+		}
+		return (strlen($this->fakeRoot) > strlen($defaultRoot)) && (substr($this->fakeRoot, 0, strlen($defaultRoot) + 1) === $defaultRoot . '/');
 	}
 
 	private function runHooks($hooks, $path, $post = false) {
