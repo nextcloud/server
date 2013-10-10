@@ -242,14 +242,16 @@ class Storage {
 		$versions = array();
 		// fetch for old versions
 		$view = new \OC\Files\View('/' . $uid . '/files_versions/');
-		$files = $view->getDirectoryContent(dirname($filename));
 
-		$versionedFile = pathinfo($filename, PATHINFO_BASENAME);
+		$pathinfo = pathinfo($filename);
+
+		$files = $view->getDirectoryContent($pathinfo['dirname']);
+
+		$versionedFile = $pathinfo['basename'];
 
 		foreach ($files as $file) {
 			if ($file['type'] === 'file') {
 				$pos = strrpos($file['path'], '.v');
-				$length = $pos - strlen('files_versions/'.dirname($filename));
 				$currentFile = substr($file['name'], 0, strrpos($file['name'], '.v'));
 				if ($currentFile === $versionedFile) {
 					$version = substr($file['path'], $pos + 2);
@@ -264,11 +266,10 @@ class Storage {
 			}
 		}
 
-		// sort with oldest version first
-		ksort($versions);
+		// sort with newest version first
+		krsort($versions);
 
-		// return newest versions first
-		return array_reverse($versions);
+		return $versions;
 	}
 
 	/**
@@ -366,8 +367,6 @@ class Storage {
 		}
 
 		ksort($versions);
-
-		$i = 0;
 
 		$result = array();
 
