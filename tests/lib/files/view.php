@@ -391,4 +391,29 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->storages[] = $storage;
 		return $storage;
 	}
+
+	private $createHookPath;
+
+	function dummyCreateHook($params) {
+		$this->createHookPath = $params['path'];
+	}
+
+	public function testEditNoCreateHook() {
+		$storage1 = $this->getTestStorage();
+		$storage2 = $this->getTestStorage();
+		$defaultRoot = \OC\Files\Filesystem::getRoot();
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		\OC\Files\Filesystem::mount($storage2, array(), $defaultRoot);
+		\OC_Hook::connect('OC_Filesystem', 'post_create', $this, 'dummyCreateHook');
+
+		$view = new \OC\Files\View($defaultRoot);
+		$this->hookPath = null;
+
+		$view->file_put_contents('/asd.txt', 'foo');
+		$this->assertEquals('/asd.txt', $this->createHookPath);
+		$this->createHookPath = null;
+
+		$view->file_put_contents('/asd.txt', 'foo');
+		$this->assertNull($this->createHookPath);
+	}
 }
