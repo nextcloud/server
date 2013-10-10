@@ -30,7 +30,7 @@ if(count($configPrefixes) === 1) {
 	$ldapAccess = new OCA\user_ldap\lib\Access($connector, $ldapWrapper);
 	$userBackend  = new OCA\user_ldap\USER_LDAP($ldapAccess);
 	$groupBackend = new OCA\user_ldap\GROUP_LDAP($ldapAccess);
-} else {
+} else if(count($configPrefixes) > 1) {
 	$userBackend  = new OCA\user_ldap\User_Proxy($configPrefixes, $ldapWrapper);
 	$groupBackend  = new OCA\user_ldap\Group_Proxy($configPrefixes, $ldapWrapper);
 }
