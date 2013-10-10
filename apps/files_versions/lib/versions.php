@@ -249,8 +249,9 @@ class Storage {
 		foreach ($files as $file) {
 			if ($file['type'] === 'file') {
 				$pos = strrpos($file['path'], '.v');
-				$length = $pos - strlen('files_versions/');
-				if (substr($file['path'], strlen('files_versions/'), $length) === $versionedFile) {
+				$length = $pos - strlen('files_versions/'.dirname($filename));
+				$currentFile = substr($file['name'], 0, strrpos($file['name'], '.v'));
+				if ($currentFile === $versionedFile) {
 					$version = substr($file['path'], $pos + 2);
 					$key = $version . '#' . $filename;
 					$versions[$key]['cur'] = 0;
