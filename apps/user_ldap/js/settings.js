@@ -155,14 +155,16 @@ var LdapWizard = {
 				$('#'+id).val(result.changes[id]);
 			}
 		}
+		LdapWizard.functionalityCheck();
 	},
 
 	checkBaseDN: function() {
 		host = $('#ldap_host').val();
+		port = $('#ldap_port').val();
 		user = $('#ldap_dn').val();
 		pass = $('#ldap_agent_password').val();
 
-		if(host && user && pass) {
+		if(host && port && user && pass) {
 			param = 'action=guessBaseDN'+
 					'&ldap_serverconfig_chooser='+$('#ldap_serverconfig_chooser').val();
 
@@ -195,6 +197,7 @@ var LdapWizard = {
 				function(result) {
 					LdapWizard.applyChanges(result);
 					if($('#ldap_port').val()) {
+						LdapWizard.checkBaseDN();
 						$('#ldap_port').removeClass('invisible');
 						LdapWizard.hideInfoBox();
 					}
@@ -346,6 +349,29 @@ var LdapWizard = {
 		);
 	},
 
+	functionalityCheck: function() {
+		//criterias to enable the connection:
+		// - host, port, user filter, login filter
+		host        = $('#ldap_host').val();
+		port        = $('#ldap_port').val();
+		userfilter  = $('#ldap_dn').val();
+		loginfilter = $('#ldap_agent_password').val();
+
+		//FIXME: activates a manually deactivated configuration.
+		if(host && port && userfilter && loginfilter) {
+			if($('#ldap_configuration_active').is(':checked')) {
+				return;
+			}
+			$('#ldap_configuration_active').prop('checked', true);
+			LdapWizard.save($('#ldap_configuration_active')[0]);
+		} else {
+			if($('#ldap_configuration_active').is(':checked')) {
+				$('#ldap_configuration_active').prop('checked', false);
+				LdapWizard.save($('#ldap_configuration_active')[0]);
+			}
+		}
+	},
+
 	hideInfoBox: function() {
 		if(LdapWizard.checkInfoShown) {
 			$('#ldapWizard1 .ldapWizardInfo').addClass('invisible');
@@ -362,11 +388,13 @@ var LdapWizard = {
 	initGroupFilter: function() {
 		LdapWizard.findObjectClasses('ldap_groupfilter_objectclass', 'Group');
 		LdapWizard.findAvailableGroups('ldap_groupfilter_groups', 'Groups');
+		LdapWizard.composeFilter('group');
 		LdapWizard.countGroups();
 	},
 
 	initLoginFilter: function() {
 		LdapWizard.findAttributes();
+		LdapWizard.composeFilter('login');
 	},
 
 	initMultiSelect: function(object, id, caption) {
@@ -384,6 +412,7 @@ var LdapWizard = {
 	initUserFilter: function() {
 		LdapWizard.findObjectClasses('ldap_userfilter_objectclass', 'User');
 		LdapWizard.findAvailableGroups('ldap_userfilter_groups', 'Users');
+		LdapWizard.composeFilter('user');
 		LdapWizard.countUsers();
 	},
 
@@ -403,7 +432,10 @@ var LdapWizard = {
 		   || triggerObj.id == 'ldap_dn'
 		   || triggerObj.id == 'ldap_agent_password') {
 			LdapWizard.checkPort();
-			LdapWizard.checkBaseDN();
+			if($('#ldap_port').val()) {
+				//if Port is already set, check BaseDN
+				LdapWizard.checkBaseDN();
+			}
 		}
 
 		if(triggerObj.id == 'ldap_userlist_filter') {
@@ -442,6 +474,9 @@ var LdapWizard = {
 		if(originalObj == 'ldap_userfilter_objectclass'
 		   || originalObj == 'ldap_userfilter_groups') {
 			LdapWizard.composeFilter('user');
+			//when user filter is changed afterwards, login filter needs to
+			//be adjusted, too
+			LdapWizard.composeFilter('login');
 		} else if(originalObj == 'ldap_loginfilter_attributes') {
 			LdapWizard.composeFilter('login');
 		} else if(originalObj == 'ldap_groupfilter_objectclass'

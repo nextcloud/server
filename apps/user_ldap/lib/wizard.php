@@ -38,6 +38,8 @@ class Wizard extends LDAPUtility {
 	const LFILTER_USER_LIST  = 3;
 	const LFILTER_GROUP_LIST = 4;
 
+	const LDAP_NW_TIMEOUT = 4;
+
 	/**
 	 * @brief Constructor
 	 * @param $configuration an instance of Configuration
@@ -222,6 +224,7 @@ class Wizard extends LDAPUtility {
 
 		if($testMemberOf) {
 			$this->configuration->hasMemberOfFilterSupport = $this->testMemberOf();
+			$this->result->markChange();
 			if(!$this->configuration->hasMemberOfFilterSupport) {
 				throw new \Exception('memberOf is not supported by the server');
 			}
@@ -375,7 +378,6 @@ class Wizard extends LDAPUtility {
 		}
 		$this->checkHost();
 		$portSettings = $this->getPortSettingsToTry();
-		file_put_contents('/tmp/ps', print_r($portSettings, true).PHP_EOL, FILE_APPEND);
 
 		if(!is_array($portSettings)) {
 			throw new \Exception(print_r($portSettings, true));
@@ -763,10 +765,10 @@ class Wizard extends LDAPUtility {
 
 		\OCP\Util::writeLog('user_ldap', 'Wiz: Setting LDAP Options ', \OCP\Util::DEBUG);
 		//set LDAP options
-		if($this->ldap->setOption($cr, LDAP_OPT_PROTOCOL_VERSION, 3)) {
-			if($tls) {
-				$this->ldap->startTls($cr);
-			}
+		$a = $this->ldap->setOption($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
+		$c = $this->ldap->setOption($cr, LDAP_OPT_NETWORK_TIMEOUT, self::LDAP_NW_TIMEOUT);
+		if($tls) {
+			$this->ldap->startTls($cr);
 		}
 
 		\OCP\Util::writeLog('user_ldap', 'Wiz: Attemping to Bind ', \OCP\Util::DEBUG);
@@ -915,7 +917,7 @@ class Wizard extends LDAPUtility {
 			//pre-select objectclass with most result entries
 			$maxEntryObjC = str_replace($p, '', $maxEntryObjC);
 			$this->applyFind($dbkey, $maxEntryObjC);
-// 			$this->result->addChange($dbkey, $maxEntryObjC);
+			$this->result->addChange($dbkey, $maxEntryObjC);
 		}
 
 		return $availableFeatures;
@@ -962,10 +964,10 @@ class Wizard extends LDAPUtility {
 			$this->configuration->ldapHost.':'.$this->configuration->ldapPort,
 			$this->configuration->ldapPort);
 
-		if($this->ldap->setOption($cr, LDAP_OPT_PROTOCOL_VERSION, 3)) {
-			if($this->configuration->ldapTLS === 1) {
-				$this->ldap->startTls($cr);
-			}
+		$this->ldap->setOption($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
+		$this->ldap->setOption($cr, LDAP_OPT_NETWORK_TIMEOUT, self::LDAP_NW_TIMEOUT);
+		if($this->configuration->ldapTLS === 1) {
+			$this->ldap->startTls($cr);
 		}
 
 		$lo = @$this->ldap->bind($cr,
