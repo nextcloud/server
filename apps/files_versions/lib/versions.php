@@ -19,6 +19,7 @@ class Storage {
 
 	const DEFAULTENABLED=true;
 	const DEFAULTMAXSIZE=50; // unit: percentage; 50% of available disk space/quota
+	const VERSIONS_ROOT = 'files_versions/';
 
 	private static $max_versions_per_interval = array(
 		//first 10sec, one version every 2sec
@@ -241,7 +242,7 @@ class Storage {
 	public static function getVersions($uid, $filename) {
 		$versions = array();
 		// fetch for old versions
-		$view = new \OC\Files\View('/' . $uid . '/files_versions/');
+		$view = new \OC\Files\View('/' . $uid . '/' . self::VERSIONS_ROOT);
 
 		$pathinfo = pathinfo($filename);
 
@@ -345,8 +346,7 @@ class Storage {
 	 */
 	private static function getAllVersions($uid) {
 		$view = new \OC\Files\View('/' . $uid . '/');
-		$versionsPath = 'files_versions/';
-		$dirs = array($versionsPath);
+		$dirs = array(self::VERSIONS_ROOT);
 
 		while (!empty($dirs)) {
 			$dir = array_pop($dirs);
