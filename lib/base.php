@@ -730,11 +730,10 @@ class OC {
 			// Someone wants to log in :
 		} elseif (OC::tryFormLogin()) {
 			$error[] = 'invalidpassword';
-			if ( OC_Config::getValue('log_authfailip', '') ) {
+			if ( OC_Config::getValue('log_authfailip', false) ) {
 				OC_Log::write('core', 'Login failed: user \''.$_POST["user"].'\' , wrong password, IP:'.$_SERVER['REMOTE_ADDR'],
 				OC_Log::WARN);
-			}
-			else { 
+			} else { 
 				OC_Log::write('core', 'Login failed: user \''.$_POST["user"].'\' , wrong password, IP:set log_authfailip=true in conf',
                                 OC_Log::WARN);
 			}
