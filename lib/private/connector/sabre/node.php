@@ -147,12 +147,6 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 *  Even if the modification time is set to a custom value the access time is set to now.
 	 */
 	public function touch($mtime) {
-
-		// touch is only allowed if the update privilege is granted
-		if (!\OC\Files\Filesystem::isUpdatable($this->path)) {
-			throw new \Sabre_DAV_Exception_Forbidden();
-		}
-
 		\OC\Files\Filesystem::touch($this->path, $mtime);
 	}
 

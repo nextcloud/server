@@ -324,7 +324,8 @@ class View {
 				return false;
 			}
 		} else {
-			return $this->basicOperation('file_put_contents', $path, array('create', 'write'), $data);
+			$hooks = ($this->file_exists($path)) ? array('write') : array('create', 'write');
+			return $this->basicOperation('file_put_contents', $path, $hooks, $data);
 		}
 	}
 
