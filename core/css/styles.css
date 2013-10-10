@@ -237,6 +237,7 @@ input[type="submit"].enabled {
 #body-login p.info,
 #body-login form fieldset legend,
 #body-login #datadirContent label,
+#body-login form fieldset .warning-info,
 #body-login form input[type="checkbox"]+label {
 	text-align: center;
 	color: #ccc;

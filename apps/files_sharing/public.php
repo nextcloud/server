@@ -77,6 +77,7 @@ if (isset($path)) {
 				$hasher = new PasswordHash(8, $forcePortable);
 				if (!($hasher->CheckPassword($password.OC_Config::getValue('passwordsalt', ''),
 											 $linkItem['share_with']))) {
+					OCP\Util::addStyle('files_sharing', 'authenticate');
 					$tmpl = new OCP\Template('files_sharing', 'authenticate', 'guest');
 					$tmpl->assign('URL', $url);
 					$tmpl->assign('wrongpw', true);
@@ -101,6 +102,7 @@ if (isset($path)) {
 				|| \OC::$session->get('public_link_authenticated') !== $linkItem['id']
 			) {
 				// Prompt for password
+				OCP\Util::addStyle('files_sharing', 'authenticate');
 				$tmpl = new OCP\Template('files_sharing', 'authenticate', 'guest');
 				$tmpl->assign('URL', $url);
 				$tmpl->printPage();
