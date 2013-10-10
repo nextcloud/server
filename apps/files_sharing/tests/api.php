@@ -295,7 +295,8 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 		$result = Share\Api::getShare($params);
 
 		$this->assertEquals(404, $result->getStatusCode());
-		$this->assertEquals('share doesn\'t exist', $result->getMeta()['message']);
+        $meta = $result->getMeta();
+		$this->assertEquals('share doesn\'t exist', $meta['message']);
 
 	}
 
@@ -351,7 +352,8 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 
 		$result = Share\Api::updateShare($params);
 
-		$this->assertTrue($result->succeeded(), $result->getMeta()['message']);
+        $meta = $result->getMeta();
+		$this->assertTrue($result->succeeded(), $meta['message']);
 
 		$items = \OCP\Share::getItemShared('file', $userShare['file_source']);
 
