@@ -4,9 +4,6 @@ td.status > span {
 	width: 16px;
 	vertical-align: text-bottom;
 }
-span.loading{
-	background-size: 16px 16px;
-}
 span.success {
 	background: #37ce02;
 	border-radius: 8px;

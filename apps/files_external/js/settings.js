@@ -1,7 +1,7 @@
 (function(){
 
 function updateStatus(statusEl, result){
-	statusEl.removeClass('success error loading');
+	statusEl.removeClass('success error loading-small');
 	if (result && result.status == 'success' && result.data.message) {
 		statusEl.addClass('success');
 		return true;
@@ -71,7 +71,7 @@ OC.MountConfig={
 						}
 						users.push(applicable);
 					}
-					statusSpan.addClass('loading').removeClass('error success');
+					statusSpan.addClass('loading-small').removeClass('error success');
 					$.ajax({type: 'POST',
 						url: OC.filePath('files_external', 'ajax', 'addMountPoint.php'),
 						data: {
@@ -124,7 +124,7 @@ OC.MountConfig={
 				var isPersonal = true;
 				var mountType = 'user';
 				var applicable = OC.currentUser;
-				statusSpan.addClass('loading').removeClass('error success');
+				statusSpan.addClass('loading-small').removeClass('error success');
 				$.ajax({type: 'POST',
 					url: OC.filePath('files_external', 'ajax', 'addMountPoint.php'),
 					data: {
