@@ -41,8 +41,8 @@ table.nostyle td { padding: 0.2em 0; }
 
 /* USERS */
 form { display:inline; }
-table:not(.nostyle) th { height:2em; color:#999; }
-table:not(.nostyle) th, table:not(.nostyle) td { border-bottom:1px solid #ddd; padding:0 .5em; padding-left:.8em; text-align:left; font-weight:normal; }
+table.grid th { height:2em; color:#999; }
+table.grid th, table.grid td { border-bottom:1px solid #ddd; padding:0 .5em; padding-left:.8em; text-align:left; font-weight:normal; }
 td.name, td.password { padding-left:.8em; }
 td.password>img,td.displayName>img, td.remove>a, td.quota>img { visibility:hidden; }
 td.password, td.quota, td.displayName { width:12em; cursor:pointer; }
@@ -53,7 +53,7 @@ tr:hover>td.password>span, tr:hover>td.displayName>span { margin:0; cursor:point
 tr:hover>td.remove>a, tr:hover>td.password>img,tr:hover>td.displayName>img, tr:hover>td.quota>img { visibility:visible; cursor:pointer; }
 tr:hover>td.remove>a { float:right; }
 li.selected { background-color:#ddd; }
-table:not(.nostyle) { width:100%; }
+table.grid { width:100%; }
 #rightcontent { padding-left: 1em; }
 div.quota {
 	float: right;
@@ -127,6 +127,9 @@ span.version { margin-left:1em; margin-right:1em; color:#555; }
 /* LOG */
 #log { white-space:normal; }
 #lessLog { display:none; }
+table.grid td.date{
+	white-space: nowrap;
+}
 
 /* ADMIN */
 span.securitywarning {color:#C33; font-weight:bold; }
