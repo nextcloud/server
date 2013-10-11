@@ -523,8 +523,10 @@ $(document).ready(function() {
 						function(result){
 							if (result.status == 'success') {
 								var date=new Date();
-								FileList.addFile(name,0,date,false,hidden);
-								var tr=$('tr').filterAttr('data-file',name);
+								// TODO: ideally addFile should be able to receive
+								// all attributes and set them automatically,
+								// and also auto-load the preview
+								var tr = FileList.addFile(name,0,date,false,hidden);
 								tr.attr('data-size',result.data.size);
 								tr.attr('data-mime',result.data.mime);
 								tr.attr('data-id', result.data.id);
@@ -533,6 +535,7 @@ $(document).ready(function() {
 								lazyLoadPreview(path, result.data.mime, function(previewpath){
 									tr.find('td.filename').attr('style','background-image:url('+previewpath+')');
 								});
+								FileActions.display(tr.find('td.filename'));
 							} else {
 								OC.dialogs.alert(result.data.message, t('core', 'Error'));
 							}
