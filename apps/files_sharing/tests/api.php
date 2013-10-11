@@ -58,6 +58,10 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 	}
 
 	function setUp() {
+
+		//login as user1
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+
 		$this->data = 'foobar';
 		$this->view = new \OC_FilesystemView('/' . \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1 . '/files');
 
@@ -103,9 +107,6 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 	 * @medium
 	 */
 	function testCreateShare() {
-
-		//login as user1
-		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
 
 		// share to user
 

@@ -38,8 +38,6 @@ class Proxy extends \OC_FileProxy {
 
 	private static $blackList = null; //mimetypes blacklisted from encryption
 
-	private static $enableEncryption = null;
-
 	/**
 	 * Check if a file requires encryption
 	 * @param string $path
@@ -49,46 +47,22 @@ class Proxy extends \OC_FileProxy {
 	 */
 	private static function shouldEncrypt($path) {
 
-		if (is_null(self::$enableEncryption)) {
-			if (
-				\OCP\App::isEnabled('files_encryption') === true
-				&& Crypt::mode() === 'server'
-			) {
-
-				self::$enableEncryption = true;
-
-			} else {
-
-				self::$enableEncryption = false;
-
-			}
-
-		}
-
-		if (!self::$enableEncryption) {
-
+		if (\OCP\App::isEnabled('files_encryption') === false || Crypt::mode() !== 'server') {
 			return false;
-
 		}
 
 		if (is_null(self::$blackList)) {
-
 			self::$blackList = explode(',', \OCP\Config::getAppValue('files_encryption', 'type_blacklist', ''));
-
 		}
 
 		if (Crypt::isCatfileContent($path)) {
-
 			return true;
-
 		}
 
 		$extension = substr($path, strrpos($path, '.') + 1);
 
 		if (array_search($extension, self::$blackList) === false) {
-
 			return true;
-
 		}
 
 		return false;
