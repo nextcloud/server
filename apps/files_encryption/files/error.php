@@ -18,7 +18,7 @@ if (!isset($_)) { //also provide standalone error page
 				$errorMsg = $l->t('Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
 				break;
 			default:
-				$errorMsg = $l->t("Unknwon error please check your system settings or contact your administrator");
+				$errorMsg = $l->t("Unknown error please check your system settings or contact your administrator");
 				break;
 		}
 	} else {
@@ -27,7 +27,7 @@ if (!isset($_)) { //also provide standalone error page
 	}
 
 	if (isset($_GET['p']) && $_GET['p'] === '1') {
-		header('HTTP/1.0 404 ' . $errorMsg);
+		header('HTTP/1.0 403 ' . $errorMsg);
 	}
 
 // check if ajax request
