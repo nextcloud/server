@@ -36,6 +36,8 @@ class OC_Log {
 				call_user_func(array(self::$class, 'init'));
 			}
 			$log_class=self::$class;
+			// remove username/passswords from URLs before writing the to the log file
+			$message = preg_replace('/\/\/(.*):(.*)@/', '//xxx:xxx@', $message);
 			$log_class::write($app, $message, $level);
 		}
 	}
