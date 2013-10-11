@@ -58,20 +58,18 @@ table.grid { width:100%; }
 div.quota {
 	float: right;
 	display: block;
-	position: absolute;
-	right: 216px;
-	top: 0;
 }
 div.quota-select-wrapper { position: relative; }
 div.recoveryPassword { left:50em; display:block; position:absolute; top:-1px; }
 input#recoveryPassword {width:15em;}
-select.quota { position:absolute; left:0; top:0; width:10em; }
+#controls select.quota {
+	margin: 3px;
+	margin-right: 10px;
+	height: 37px;
+}
 select.quota-user { position:relative; left:0; top:0; width:10em; }
 div.quota>span {
-	position: absolute;
-	right: 0;
 	white-space: nowrap;
-	top: 12px;
 	color: #888;
 	text-shadow: 0 1px 0 #fff;
 }
