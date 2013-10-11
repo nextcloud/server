@@ -34,7 +34,7 @@ if (!isset($_)) { //also provide standalone error page
 	if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 		\OCP\JSON::error(array('data' => array('message' => $errorMsg)));
 	} else {
-		header('HTTP/1.0 404 ' . $errorMsg);
+		header('HTTP/1.0 403 ' . $errorMsg);
 		$tmpl = new OC_Template('files_encryption', 'invalid_private_key', 'guest');
 		$tmpl->assign('message', $errorMsg);
 		$tmpl->assign('errorCode', $errorCode);
