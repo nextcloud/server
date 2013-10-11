@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 \OC_Util::checkLoggedIn();
-error_log("get preview!");
+
 if(!\OC_App::isEnabled('files_versions')){
 	exit;
 }
