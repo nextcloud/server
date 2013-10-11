@@ -19,6 +19,7 @@ class Storage {
 
 	const DEFAULTENABLED=true;
 	const DEFAULTMAXSIZE=50; // unit: percentage; 50% of available disk space/quota
+	const VERSIONS_ROOT = 'files_versions/';
 
 	private static $max_versions_per_interval = array(
 		//first 10sec, one version every 2sec
@@ -238,60 +239,38 @@ class Storage {
 	 * @param $filename file to find versions of, relative to the user files dir
 	 * @returns array
 	 */
-	public static function getVersions($uid, $filename ) {
-		if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
-			$versions_fileview = new \OC\Files\View('/' . $uid . '/files_versions');
-			$versionsName = $versions_fileview->getLocalFile($filename).'.v';
-			$escapedVersionName = preg_replace('/(\*|\?|\[)/', '[$1]', $versionsName);
+	public static function getVersions($uid, $filename) {
+		$versions = array();
+		// fetch for old versions
+		$view = new \OC\Files\View('/' . $uid . '/' . self::VERSIONS_ROOT);
 
-			$versions = array();
-			// fetch for old versions
-			$matches = glob($escapedVersionName.'*');
+		$pathinfo = pathinfo($filename);
 
-			if ( !$matches ) {
-				return $versions;
-			}
+		$files = $view->getDirectoryContent($pathinfo['dirname']);
 
-			sort( $matches );
+		$versionedFile = $pathinfo['basename'];
 
-			$files_view = new \OC\Files\View('/'.$uid.'/files');
-			$local_file = $files_view->getLocalFile($filename);
-			$local_file_md5 = \md5_file( $local_file );
-
-			foreach( $matches as $ma ) {
-				$parts = explode( '.v', $ma );
-				$version = ( end( $parts ) );
-				$key = $version.'#'.$filename;
-				$versions[$key]['cur'] = 0;
-				$versions[$key]['version'] = $version;
-				$versions[$key]['humanReadableTimestamp'] = self::getHumanReadableTimestamp($version);
-				$versions[$key]['path'] = $filename;
-				$versions[$key]['preview'] = \OCP\Util::linkToRoute('core_ajax_versions_preview', array('file' => $filename, 'version' => $version));
-				$versions[$key]['size'] = $versions_fileview->filesize($filename.'.v'.$version);
-
-				// if file with modified date exists, flag it in array as currently enabled version
-				( \md5_file( $ma ) == $local_file_md5 ? $versions[$key]['fileMatch'] = 1 : $versions[$key]['fileMatch'] = 0 );
-
-			}
-
-			// newest versions first
-			$versions = array_reverse( $versions );
-
-			foreach( $versions as $key => $value ) {
-				// flag the first matched file in array (which will have latest modification date) as current version
-				if ( $value['fileMatch'] ) {
-					$value['cur'] = 1;
-					break;
+		foreach ($files as $file) {
+			if ($file['type'] === 'file') {
+				$pos = strrpos($file['path'], '.v');
+				$currentFile = substr($file['name'], 0, strrpos($file['name'], '.v'));
+				if ($currentFile === $versionedFile) {
+					$version = substr($file['path'], $pos + 2);
+					$key = $version . '#' . $filename;
+					$versions[$key]['cur'] = 0;
+					$versions[$key]['version'] = $version;
+					$versions[$key]['humanReadableTimestamp'] = self::getHumanReadableTimestamp($version);
+					$versions[$key]['preview'] = \OCP\Util::linkToRoute('core_ajax_versions_preview', array('file' => $filename, 'version' => $version));
+					$versions[$key]['path'] = $filename;
+					$versions[$key]['size'] = $file['size'];
 				}
 			}
-
-			return( $versions );
-
-		} else {
-			// if versioning isn't enabled then return an empty array
-			return( array() );
 		}
 
+		// sort with newest version first
+		krsort($versions);
+
+		return $versions;
 	}
 
 	/**
@@ -366,48 +345,45 @@ class Storage {
 	 * @return array with contains two arrays 'all' which contains all versions sorted by age and 'by_file' which contains all versions sorted by filename
 	 */
 	private static function getAllVersions($uid) {
-		if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
-			$versions_fileview = new \OC\Files\View('/'.$uid.'/files_versions');
-			$versionsRoot = $versions_fileview->getLocalFolder('');
+		$view = new \OC\Files\View('/' . $uid . '/');
+		$dirs = array(self::VERSIONS_ROOT);
 
-			$iterator = new \RecursiveIteratorIterator(
-				new \RecursiveDirectoryIterator($versionsRoot),
-				\RecursiveIteratorIterator::CHILD_FIRST
-			);
+		while (!empty($dirs)) {
+			$dir = array_pop($dirs);
+			$files = $view->getDirectoryContent($dir);
 
-			$versions = array();
-
-			foreach ($iterator as $path) {
-				if ( preg_match('/^.+\.v(\d+)$/', $path, $match) ) {
-					$relpath = substr($path, strlen($versionsRoot)-1);
-					$versions[$match[1].'#'.$relpath] = array('path' => $relpath, 'timestamp' => $match[1]);
+			foreach ($files as $file) {
+				if ($file['type'] === 'dir') {
+					array_push($dirs, $file['path']);
+				} else {
+					$versionsBegin = strrpos($file['path'], '.v');
+					$relPathStart = strlen(self::VERSIONS_ROOT);
+					$version = substr($file['path'], $versionsBegin + 2);
+					$relpath = substr($file['path'], $relPathStart, $versionsBegin - $relPathStart);
+					$key = $version . '#' . $relpath;
+					$versions[$key] = array('path' => $relpath, 'timestamp' => $version);
 				}
 			}
-
-			ksort($versions);
-
-			$i = 0;
-
-			$result = array();
-
-			foreach( $versions as $key => $value ) {
-				$i++;
-				$size = $versions_fileview->filesize($value['path']);
-				$filename = substr($value['path'], 0, -strlen($value['timestamp'])-2);
-
-				$result['all'][$key]['version'] = $value['timestamp'];
-				$result['all'][$key]['path'] = $filename;
-				$result['all'][$key]['size'] = $size;
-
-				$filename = substr($value['path'], 0, -strlen($value['timestamp'])-2);
-				$result['by_file'][$filename][$key]['version'] = $value['timestamp'];
-				$result['by_file'][$filename][$key]['path'] = $filename;
-				$result['by_file'][$filename][$key]['size'] = $size;
-
-			}
-
-			return $result;
 		}
+
+		ksort($versions);
+
+		$result = array();
+
+		foreach ($versions as $key => $value) {
+			$size = $view->filesize($value['path']);
+			$filename = $value['path'];
+
+			$result['all'][$key]['version'] = $value['timestamp'];
+			$result['all'][$key]['path'] = $filename;
+			$result['all'][$key]['size'] = $size;
+
+			$result['by_file'][$filename][$key]['version'] = $value['timestamp'];
+			$result['by_file'][$filename][$key]['path'] = $filename;
+			$result['by_file'][$filename][$key]['size'] = $size;
+		}
+
+		return $result;
 	}
 
 	/**
