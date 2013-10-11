@@ -113,9 +113,7 @@ if($_['passwordChangeSupported']) {
 					<?php p($language['name']);?>
 				</option>
 			<?php endforeach;?>
-			<optgroup label="––––––––––">
-				<option class="languagedivider">-</option>
-			</optgroup>
+			<optgroup label="––––––––––"></optgroup>
 			<?php foreach($_['languages'] as $language):?>
 				<option value="<?php p($language['code']);?>">
 					<?php p($language['name']);?>
