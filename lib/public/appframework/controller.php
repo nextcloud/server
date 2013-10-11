@@ -22,7 +22,7 @@
  */
 
 
-namespace OCP\AppFramework\Controller;
+namespace OCP\AppFramework;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\IAppContainer;

@@ -40,7 +40,7 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp() {
 		$api = $this->getMock('OC\AppFramework\DependencyInjection\DIContainer', array(), array('test'));
-		$this->controller = $this->getMock('OCP\AppFramework\Controller\Controller',
+		$this->controller = $this->getMock('OCP\AppFramework\Controller',
 				array(), array($api, new Request()));
 
 		$this->request = new Request();
@@ -302,7 +302,7 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 		$api->expects($this->once())->method('getServer')
 			->will($this->returnValue($serverMock));
 
-		$this->controller = $this->getMock('OCP\AppFramework\Controller\Controller',
+		$this->controller = $this->getMock('OCP\AppFramework\Controller',
 			array(), array($api, new Request()));
 
 		$this->request = new Request(

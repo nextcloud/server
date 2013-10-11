@@ -25,7 +25,7 @@
 namespace Test\AppFramework\Controller;
 
 use OC\AppFramework\Http\Request;
-use OCP\AppFramework\Controller\Controller;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 
 
