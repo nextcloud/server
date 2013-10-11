@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-03 12:22+0000\n"
-"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
+"POT-Creation-Date: 2013-10-10 22:26-0400\n"
+"PO-Revision-Date: 2013-10-11 02:27+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -370,14 +370,18 @@ msgid ""
 msgstr "デフォルトでは、UUID 属性は自動的に検出されます。UUID属性は、LDAPユーザとLDAPグループを間違いなく識別するために利用されます。また、もしこれを指定しない場合は、内部ユーザ名はUUIDに基づいて作成されます。この設定は再定義することができ、あなたの選択した属性を用いることができます。選択した属性がユーザとグループの両方に対して適用でき、かつユニークであることを確認してください。空であればデフォルトの振る舞いとなります。変更は、新しくマッピング（追加）されたLDAPユーザとLDAPグループに対してのみ有効となります。"
 
 #: templates/settings.php:103
-msgid "UUID Attribute:"
-msgstr "UUID属性:"
+msgid "UUID Attribute for Users:"
+msgstr ""
 
 #: templates/settings.php:104
+msgid "UUID Attribute for Groups:"
+msgstr ""
+
+#: templates/settings.php:105
 msgid "Username-LDAP User Mapping"
 msgstr "ユーザ名とLDAPユーザのマッピング"
 
-#: templates/settings.php:105
+#: templates/settings.php:106
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -391,18 +395,18 @@ msgid ""
 "experimental stage."
 msgstr "ユーザ名は（メタ）データの保存と割り当てに使用されます。ユーザを正確に識別して認識するために、個々のLDAPユーザは内部ユーザ名を持っています。これは、ユーザ名からLDAPユーザへのマッピングが必要であることを意味しています。この生成されたユーザ名は、LDAPユーザのUUIDにマッピングされます。加えて、DNがLDAPとのインタラクションを削減するためにキャッシュされますが、識別には利用されません。DNが変わった場合は、変更が検出されます。内部ユーザ名は全体に亘って利用されます。マッピングをクリアすると、いたるところに使われないままの物が残るでしょう。マッピングのクリアは設定に敏感ではありませんが、全てのLDAPの設定に影響を与えます！本番の環境では決してマッピングをクリアしないでください。テストもしくは実験の段階でのみマッピングのクリアを行なってください。"
 
-#: templates/settings.php:106
+#: templates/settings.php:107
 msgid "Clear Username-LDAP User Mapping"
 msgstr "ユーザ名とLDAPユーザのマッピングをクリアする"
 
-#: templates/settings.php:106
+#: templates/settings.php:107
 msgid "Clear Groupname-LDAP Group Mapping"
 msgstr "グループ名とLDAPグループのマッピングをクリアする"
 
-#: templates/settings.php:108
+#: templates/settings.php:109
 msgid "Test Configuration"
 msgstr "設定をテスト"
 
-#: templates/settings.php:108
+#: templates/settings.php:109
 msgid "Help"
 msgstr "ヘルプ"

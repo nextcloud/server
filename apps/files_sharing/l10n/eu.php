@@ -2,7 +2,6 @@
 $TRANSLATIONS = array(
 "The password is wrong. Try again." => "Pasahitza ez da egokia. Saiatu berriro.",
 "Password" => "Pasahitza",
-"Submit" => "Bidali",
 "Sorry, this link doesn’t seem to work anymore." => "Barkatu, lotura ez dirudi eskuragarria dagoenik.",
 "Reasons might be:" => "Arrazoiak hurrengoak litezke:",
 "the item was removed" => "fitxategia ezbatua izan da",

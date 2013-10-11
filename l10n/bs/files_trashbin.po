@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-15 04:47-0400\n"
-"PO-Revision-Date: 2013-08-15 08:48+0000\n"
+"POT-Creation-Date: 2013-10-10 22:26-0400\n"
+"PO-Revision-Date: 2013-10-11 02:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bosnian (http://www.transifex.com/projects/p/owncloud/language/bs/)\n"
 "MIME-Version: 1.0\n"
@@ -27,45 +27,11 @@ msgstr ""
 msgid "Couldn't restore %s"
 msgstr ""
 
-#: js/trash.js:7 js/trash.js:100
-msgid "perform restore operation"
-msgstr ""
-
-#: js/trash.js:20 js/trash.js:48 js/trash.js:118 js/trash.js:146
+#: js/trash.js:18 js/trash.js:44 js/trash.js:121 js/trash.js:149
 msgid "Error"
 msgstr ""
 
-#: js/trash.js:36
-msgid "delete file permanently"
-msgstr ""
-
-#: js/trash.js:127
-msgid "Delete permanently"
-msgstr ""
-
-#: js/trash.js:182 templates/index.php:17
-msgid "Name"
-msgstr "Ime"
-
-#: js/trash.js:183 templates/index.php:27
-msgid "Deleted"
-msgstr ""
-
-#: js/trash.js:191
-msgid "%n folder"
-msgid_plural "%n folders"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-
-#: js/trash.js:197
-msgid "%n file"
-msgid_plural "%n files"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-
-#: lib/trash.php:819 lib/trash.php:821
+#: lib/trashbin.php:814 lib/trashbin.php:816
 msgid "restored"
 msgstr ""
 
@@ -73,11 +39,19 @@ msgstr ""
 msgid "Nothing in here. Your trash bin is empty!"
 msgstr ""
 
-#: templates/index.php:20 templates/index.php:22
+#: templates/index.php:23
+msgid "Name"
+msgstr "Ime"
+
+#: templates/index.php:26 templates/index.php:28
 msgid "Restore"
 msgstr ""
 
-#: templates/index.php:30 templates/index.php:31
+#: templates/index.php:34
+msgid "Deleted"
+msgstr ""
+
+#: templates/index.php:37 templates/index.php:38
 msgid "Delete"
 msgstr ""
 

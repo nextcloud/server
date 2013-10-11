@@ -2,7 +2,6 @@
 $TRANSLATIONS = array(
 "The password is wrong. Try again." => "Bitte überprüfen sie Ihr Passwort und versuchen Sie es erneut.",
 "Password" => "Passwort",
-"Submit" => "Absenden",
 "Sorry, this link doesn’t seem to work anymore." => "Entschuldigung, dieser Link scheint nicht mehr zu funktionieren.",
 "Reasons might be:" => "Gründe könnten sein:",
 "the item was removed" => "Die Elemente wurden entfernt",

@@ -2,7 +2,6 @@
 $TRANSLATIONS = array(
 "The password is wrong. Try again." => "Εσφαλμένο συνθηματικό. Προσπαθήστε ξανά.",
 "Password" => "Συνθηματικό",
-"Submit" => "Καταχώρηση",
 "Sorry, this link doesn’t seem to work anymore." => "Συγγνώμη, αυτός ο σύνδεσμος μοιάζει να μην ισχύει πια.",
 "Reasons might be:" => "Οι λόγοι μπορεί να είναι:",
 "the item was removed" => "το αντικείμενο απομακρύνθηκε",

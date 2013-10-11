@@ -2,7 +2,6 @@
 $TRANSLATIONS = array(
 "The password is wrong. Try again." => "la contrasenya és incorrecta. Intenteu-ho de nou.",
 "Password" => "Contrasenya",
-"Submit" => "Envia",
 "Sorry, this link doesn’t seem to work anymore." => "Aquest enllaç sembla que no funciona.",
 "Reasons might be:" => "Les raons podrien ser:",
 "the item was removed" => "l'element ha estat eliminat",

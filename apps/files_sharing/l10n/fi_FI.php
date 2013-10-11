@@ -2,7 +2,6 @@
 $TRANSLATIONS = array(
 "The password is wrong. Try again." => "Väärä salasana. Yritä uudelleen.",
 "Password" => "Salasana",
-"Submit" => "Lähetä",
 "Sorry, this link doesn’t seem to work anymore." => "Valitettavasti linkki ei vaikuta enää toimivan.",
 "Reasons might be:" => "Mahdollisia syitä:",
 "the item was removed" => "kohde poistettiin",

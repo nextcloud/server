@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s shared \"%s\" with you",
+"Couldn't send mail to following users: %s " => "Couldn't send mail to following users: %s ",
 "group" => "group",
 "Turned on maintenance mode" => "Turned on maintenance mode",
 "Turned off maintenance mode" => "Turned off maintenance mode",
@@ -92,6 +93,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "Resharing is not allowed",
 "Shared in {item} with {user}" => "Shared in {item} with {user}",
 "Unshare" => "Unshare",
+"notify user by email" => "notify user by email",
 "can edit" => "can edit",
 "access control" => "access control",
 "create" => "create",
@@ -126,6 +128,9 @@ $TRANSLATIONS = array(
 "Help" => "Help",
 "Access forbidden" => "Access denied",
 "Cloud not found" => "Cloud not found",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n",
+"The share will expire on %s.\n\n" => "The share will expire on %s.\n\n",
+"Cheers!" => "Cheers!",
 "Edit categories" => "Edit categories",
 "Add" => "Add",
 "Security Warning" => "Security Warning",
@@ -146,15 +151,20 @@ $TRANSLATIONS = array(
 "Database tablespace" => "Database tablespace",
 "Database host" => "Database host",
 "Finish setup" => "Finish setup",
+"Finishing …" => "Finishing …",
 "%s is available. Get more information on how to update." => "%s is available. Get more information on how to update.",
 "Log out" => "Log out",
 "Automatic logon rejected!" => "Automatic logon rejected!",
 "If you did not change your password recently, your account may be compromised!" => "If you did not change your password recently, your account may be compromised!",
 "Please change your password to secure your account again." => "Please change your password to secure your account again.",
+"Server side authentication failed!" => "Server side authentication failed!",
+"Please contact your administrator." => "Please contact your administrator.",
 "Lost your password?" => "Lost your password?",
 "remember" => "remember",
 "Log in" => "Log in",
 "Alternative Logins" => "Alternative Logins",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>",
+"The share will expire on %s.<br><br>" => "The share will expire on %s.<br><br>",
 "Updating ownCloud to version %s, this may take a while." => "Updating ownCloud to version %s, this may take a while."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

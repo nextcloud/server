@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-06 23:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-10 22:26-0400\n"
+"PO-Revision-Date: 2013-10-09 11:20+0000\n"
+"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,7 +60,7 @@ msgid ""
 "Encryption app not initialized! Maybe the encryption app was re-enabled "
 "during your session. Please try to log out and log back in to initialize the"
 " encryption app."
-msgstr ""
+msgstr "Krüpteerimise rakend pole käivitatud. Võib-olla krüpteerimise rakend taaskäivitati sinu sessiooni kestel. Palun proovi logida välja ning uuesti sisse käivitamaks krüpteerimise rakendit."
 
 #: files/error.php:12
 msgid ""
@@ -91,7 +91,7 @@ msgstr "Salvestamine..."
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "
-msgstr ""
+msgstr "Liigu otse oma"
 
 #: templates/invalid_private_key.php:8
 msgid "personal settings"
@@ -112,7 +112,7 @@ msgstr "Taastevõtme parool"
 
 #: templates/settings-admin.php:17
 msgid "Repeat Recovery key password"
-msgstr ""
+msgstr "Korda taastevõtme parooli"
 
 #: templates/settings-admin.php:24 templates/settings-personal.php:54
 msgid "Enabled"
@@ -136,7 +136,7 @@ msgstr "Uus taastevõtme parool"
 
 #: templates/settings-admin.php:56
 msgid "Repeat New Recovery key password"
-msgstr ""
+msgstr "Korda uut taastevõtme parooli"
 
 #: templates/settings-admin.php:61
 msgid "Change Password"
