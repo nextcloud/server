@@ -105,8 +105,6 @@ table th#headerDate, table td.date {
 	box-sizing: border-box;
 	position: relative;
 	min-width: 11em;
-	display: block;
-	height: 51px;
 }
 
 /* Multiselect bar */
@@ -161,8 +159,6 @@ table td.filename .nametext, .uploadtext, .modified { float:left; padding:.3em 0
 }
 .modified {
 	position: relative;
-	top: 11px;
-	left: 5px;
 }
 
 /* TODO fix usability bug (accidental file/folder selection) */
