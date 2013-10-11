@@ -62,7 +62,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->controller = $this->getMock(
-			'\OCP\AppFramework\Controller\Controller',
+			'\OCP\AppFramework\Controller',
 			array($this->controllerMethod), array($app, $request));
 		
 		$this->dispatcher = new Dispatcher(

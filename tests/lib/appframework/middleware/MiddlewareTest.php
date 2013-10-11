@@ -47,7 +47,7 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase {
 		$this->api = $this->getMock('OC\AppFramework\DependencyInjection\DIContainer',
 					array(), array('test'));
 
-		$this->controller = $this->getMock('OCP\AppFramework\Controller\Controller',
+		$this->controller = $this->getMock('OCP\AppFramework\Controller',
 				array(), array($this->api, new Request()));
 		$this->exception = new \Exception();
 		$this->response = $this->getMock('OCP\AppFramework\Http\Response');

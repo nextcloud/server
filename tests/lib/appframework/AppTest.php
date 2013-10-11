@@ -40,7 +40,7 @@ class AppTest extends \PHPUnit_Framework_TestCase {
 	protected function setUp() {
 		$this->container = new \OC\AppFramework\DependencyInjection\DIContainer('test');
 		$this->controller = $this->getMockBuilder(
-			'OCP\AppFramework\Controller\Controller')
+			'OCP\AppFramework\Controller')
 			->disableOriginalConstructor()
 			->getMock();
 		$this->dispatcher = $this->getMockBuilder(
