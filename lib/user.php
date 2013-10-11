@@ -372,6 +372,8 @@ class OC_User {
 			return self::determineDisplayName($user);
 		} else if( isset($_SESSION['display_name']) AND $_SESSION['display_name'] ) {
 			return $_SESSION['display_name'];
+		} else if ( $user = $this->getUser() ) {
+			return self::determineDisplayName($user);
 		}
 		else{
 			return false;
