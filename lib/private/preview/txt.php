@@ -60,23 +60,3 @@ class TXT extends Provider {
 }
 
 \OC\Preview::registerProvider('OC\Preview\TXT');
-
-class PHP extends TXT {
-
-	public function getMimeType() {
-		return '/application\/x-php/';
-	}
-
-}
-
-\OC\Preview::registerProvider('OC\Preview\PHP');
-
-class JavaScript extends TXT {
-
-	public function getMimeType() {
-		return '/application\/javascript/';
-	}
-
-}
-
-\OC\Preview::registerProvider('OC\Preview\JavaScript');
