@@ -23,7 +23,7 @@ if (!isset($_)) { //also provide standalone error page
 		}
 	} else {
 		$errorCode = \OCA\Encryption\Crypt::ENCRYPTION_UNKNOWN_ERROR;
-		$errorMsg = $l->t("Unknwon error please check your system settings or contact your administrator");
+		$errorMsg = $l->t("Unknown error please check your system settings or contact your administrator");
 	}
 
 	if (isset($_GET['p']) && $_GET['p'] === '1') {
