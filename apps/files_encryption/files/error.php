@@ -5,12 +5,25 @@ if (!isset($_)) { //also provide standalone error page
 
 	$l = OC_L10N::get('files_encryption');
 
-	if (isset($_GET['i']) && $_GET['i'] === '0') {
-		$errorMsg = $l->t('Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app.');
-		$init = '0';
+	if (isset($_GET['errorCode'])) {
+		$errorCode = $_GET['errorCode'];
+		switch ($errorCode) {
+			case \OCA\Encryption\Crypt::ENCRYPTION_NOT_INITIALIZED_ERROR:
+				$errorMsg = $l->t('Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app.');
+				break;
+			case \OCA\Encryption\Crypt::ENCRYPTION_PRIVATE_KEY_NOT_VALID_ERROR:
+				$errorMsg = $l->t('Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files.');
+				break;
+			case \OCA\Encryption\Crypt::ENCRYPTION_NO_SHARE_KEY_FOUND:
+				$errorMsg = $l->t('Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
+				break;
+			default:
+				$errorMsg = $l->t("Unknwon error please check your system settings or contact your administrator");
+				break;
+		}
 	} else {
-		$errorMsg = $l->t('Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files.');
-		$init = '1';
+		$errorCode = \OCA\Encryption\Crypt::ENCRYPTION_UNKNOWN_ERROR;
+		$errorMsg = $l->t("Unknwon error please check your system settings or contact your administrator");
 	}
 
 	if (isset($_GET['p']) && $_GET['p'] === '1') {
@@ -24,7 +37,7 @@ if (!isset($_)) { //also provide standalone error page
 		header('HTTP/1.0 404 ' . $errorMsg);
 		$tmpl = new OC_Template('files_encryption', 'invalid_private_key', 'guest');
 		$tmpl->assign('message', $errorMsg);
-		$tmpl->assign('init', $init);
+		$tmpl->assign('errorCode', $errorCode);
 		$tmpl->printPage();
 	}
 
