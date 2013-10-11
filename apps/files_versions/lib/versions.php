@@ -357,7 +357,7 @@ class Storage {
 					array_push($dirs, $file['path']);
 				} else {
 					$versionsBegin = strrpos($file['path'], '.v');
-					$relPathStart = strlen($versionsPath);
+					$relPathStart = strlen(self::VERSIONS_ROOT);
 					$version = substr($file['path'], $versionsBegin + 2);
 					$relpath = substr($file['path'], $relPathStart, $versionsBegin - $relPathStart);
 					$key = $version . '#' . $relpath;
@@ -371,7 +371,6 @@ class Storage {
 		$result = array();
 
 		foreach ($versions as $key => $value) {
-			$i++;
 			$size = $view->filesize($value['path']);
 			$filename = $value['path'];
 
