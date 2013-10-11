@@ -31,7 +31,7 @@ function changeDisplayName(){
         // Ajax foo
         $.post( 'ajax/changedisplayname.php', post, function(data){
             if( data.status === "success" ){
-                $('#oldDisplayName').text($('#displayName').val());
+                $('#oldDisplayName').val($('#displayName').val());
                 // update displayName on the top right expand button
                 $('#expandDisplayName').text($('#displayName').val());
                 updateAvatar();
