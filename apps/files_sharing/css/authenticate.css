@@ -1,0 +1,26 @@
+#body-login form label.infield {
+	width: 190px;
+	padding: 10px;
+	left: 8px;
+	top: 8px;
+}
+
+#password {
+	width: 190px !important;
+	padding: 10px;
+	margin:	6px;
+}
+
+input[type="submit"]{
+	width: 45px;
+	height: 45px;
+	margin:	6px;
+	background-image: url('%webroot%/core/img/actions/confirm.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+#body-login input[type="submit"] {
+	position: absolute;
+	top: 0px;
+}

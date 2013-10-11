@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-03 12:22+0000\n"
-"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
+"POT-Creation-Date: 2013-10-10 22:26-0400\n"
+"PO-Revision-Date: 2013-10-11 02:27+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -369,14 +369,18 @@ msgid ""
 msgstr "De xeito predeterminado, o atributo UUID é detectado automaticamente. O atributo UUID utilizase para identificar, sen dúbida, aos usuarios e grupos LDAP. Ademais, crearase o usuario interno baseado no UUID, se non se especifica anteriormente o contrario. Pode anular a configuración e pasar un atributo da súa escolla. Vostede debe asegurarse de que o atributo da súa escolla pode ser recuperado polos usuarios e grupos e de que é único. Déixeo baleiro para o comportamento predeterminado. Os cambios terán efecto só nas novas asignacións (engadidos) de usuarios de LDAP."
 
 #: templates/settings.php:103
-msgid "UUID Attribute:"
-msgstr "Atributo do UUID:"
+msgid "UUID Attribute for Users:"
+msgstr ""
 
 #: templates/settings.php:104
+msgid "UUID Attribute for Groups:"
+msgstr ""
+
+#: templates/settings.php:105
 msgid "Username-LDAP User Mapping"
 msgstr "Asignación do usuario ao «nome de usuario LDAP»"
 
-#: templates/settings.php:105
+#: templates/settings.php:106
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -390,18 +394,18 @@ msgid ""
 "experimental stage."
 msgstr "Os nomes de usuario empreganse para almacenar e asignar (meta) datos. Coa fin de identificar con precisión e recoñecer aos usuarios, cada usuario LDAP terá un nome de usuario interno. Isto require unha asignación de ownCloud nome de usuario a usuario LDAP. O nome de usuario creado asignase ao UUID do usuario LDAP. Ademais o DN almacenase na caché, para así reducir a interacción do LDAP, mais non se utiliza para a identificación. Se o DN cambia, os cambios poden ser atopados polo ownCloud. O nome interno no ownCloud utilizase en todo o ownCloud. A limpeza das asignacións deixará rastros en todas partes. A limpeza das asignacións non é sensíbel á configuración, afecta a todas as configuracións de LDAP! Non limpar nunca as asignacións nun entorno de produción. Limpar as asignacións só en fases de proba ou experimentais."
 
-#: templates/settings.php:106
+#: templates/settings.php:107
 msgid "Clear Username-LDAP User Mapping"
 msgstr "Limpar a asignación do usuario ao «nome de usuario LDAP»"
 
-#: templates/settings.php:106
+#: templates/settings.php:107
 msgid "Clear Groupname-LDAP Group Mapping"
 msgstr "Limpar a asignación do grupo ao «nome de grupo LDAP»"
 
-#: templates/settings.php:108
+#: templates/settings.php:109
 msgid "Test Configuration"
 msgstr "Probar a configuración"
 
-#: templates/settings.php:108
+#: templates/settings.php:109
 msgid "Help"
 msgstr "Axuda"

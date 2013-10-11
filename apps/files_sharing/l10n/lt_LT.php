@@ -2,7 +2,6 @@
 $TRANSLATIONS = array(
 "The password is wrong. Try again." => "Netinka slaptažodis: Bandykite dar kartą.",
 "Password" => "Slaptažodis",
-"Submit" => "Išsaugoti",
 "Sorry, this link doesn’t seem to work anymore." => "Atleiskite, panašu, kad nuoroda yra neveiksni.",
 "Reasons might be:" => "Galimos priežastys:",
 "the item was removed" => "elementas buvo pašalintas",

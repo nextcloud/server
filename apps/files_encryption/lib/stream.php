@@ -254,16 +254,20 @@ class Stream {
 		// If a keyfile already exists
 		if ($this->encKeyfile) {
 
+			$shareKey = Keymanager::getShareKey($this->rootView, $this->userId, $this->relPath);
+
 			// if there is no valid private key return false
 			if ($this->privateKey === false) {
-
 				// if private key is not valid redirect user to a error page
-				\OCA\Encryption\Helper::redirectToErrorPage();
-
+				\OCA\Encryption\Helper::redirectToErrorPage($this->session);
 				return false;
 			}
 
-			$shareKey = Keymanager::getShareKey($this->rootView, $this->userId, $this->relPath);
+			if ($shareKey === false) {
+				// if no share key is available redirect user to a error page
+				\OCA\Encryption\Helper::redirectToErrorPage($this->session, \OCA\Encryption\Crypt::ENCRYPTION_NO_SHARE_KEY_FOUND);
+				return false;
+			}
 
 			$this->plainKey = Crypt::multiKeyDecrypt($this->encKeyfile, $shareKey, $this->privateKey);
 
@@ -506,9 +510,10 @@ class Stream {
 
 				// Get all users sharing the file includes current user
 				$uniqueUserIds = $util->getSharingUsersArray($sharingEnabled, $this->relPath, $this->userId);
+				$checkedUserIds = $util->filterShareReadyUsers($uniqueUserIds);
 
 				// Fetch public keys for all sharing users
-				$publicKeys = Keymanager::getPublicKeys($this->rootView, $uniqueUserIds);
+				$publicKeys = Keymanager::getPublicKeys($this->rootView, $checkedUserIds['ready']);
 
 				// Encrypt enc key for all sharing users
 				$this->encKeyfiles = Crypt::multiKeyEncrypt($this->plainKey, $publicKeys);

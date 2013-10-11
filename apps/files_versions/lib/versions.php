@@ -19,6 +19,7 @@ class Storage {
 
 	const DEFAULTENABLED=true;
 	const DEFAULTMAXSIZE=50; // unit: percentage; 50% of available disk space/quota
+	const VERSIONS_ROOT = 'files_versions/';
 
 	private static $max_versions_per_interval = array(
 		//first 10sec, one version every 2sec
@@ -241,15 +242,17 @@ class Storage {
 	public static function getVersions($uid, $filename) {
 		$versions = array();
 		// fetch for old versions
-		$view = new \OC\Files\View('/' . $uid . '/files_versions/');
-		$files = $view->getDirectoryContent(dirname($filename));
+		$view = new \OC\Files\View('/' . $uid . '/' . self::VERSIONS_ROOT);
 
-		$versionedFile = pathinfo($filename, PATHINFO_BASENAME);
+		$pathinfo = pathinfo($filename);
+
+		$files = $view->getDirectoryContent($pathinfo['dirname']);
+
+		$versionedFile = $pathinfo['basename'];
 
 		foreach ($files as $file) {
 			if ($file['type'] === 'file') {
 				$pos = strrpos($file['path'], '.v');
-				$length = $pos - strlen('files_versions/'.dirname($filename));
 				$currentFile = substr($file['name'], 0, strrpos($file['name'], '.v'));
 				if ($currentFile === $versionedFile) {
 					$version = substr($file['path'], $pos + 2);
@@ -264,11 +267,10 @@ class Storage {
 			}
 		}
 
-		// sort with oldest version first
-		ksort($versions);
+		// sort with newest version first
+		krsort($versions);
 
-		// return newest versions first
-		return array_reverse($versions);
+		return $versions;
 	}
 
 	/**
@@ -344,8 +346,7 @@ class Storage {
 	 */
 	private static function getAllVersions($uid) {
 		$view = new \OC\Files\View('/' . $uid . '/');
-		$versionsPath = 'files_versions/';
-		$dirs = array($versionsPath);
+		$dirs = array(self::VERSIONS_ROOT);
 
 		while (!empty($dirs)) {
 			$dir = array_pop($dirs);
@@ -356,7 +357,7 @@ class Storage {
 					array_push($dirs, $file['path']);
 				} else {
 					$versionsBegin = strrpos($file['path'], '.v');
-					$relPathStart = strlen($versionsPath);
+					$relPathStart = strlen(self::VERSIONS_ROOT);
 					$version = substr($file['path'], $versionsBegin + 2);
 					$relpath = substr($file['path'], $relPathStart, $versionsBegin - $relPathStart);
 					$key = $version . '#' . $relpath;
@@ -367,12 +368,9 @@ class Storage {
 
 		ksort($versions);
 
-		$i = 0;
-
 		$result = array();
 
 		foreach ($versions as $key => $value) {
-			$i++;
 			$size = $view->filesize($value['path']);
 			$filename = $value['path'];
 

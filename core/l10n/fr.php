@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s partagé »%s« avec vous",
+"Couldn't send mail to following users: %s " => "Impossible d'envoyer un mail aux utilisateurs suivant : %s",
 "group" => "groupe",
 "Turned on maintenance mode" => "Basculé en mode maintenance",
 "Turned off maintenance mode" => "Basculé en mode production (non maintenance)",
@@ -92,6 +93,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "Le repartage n'est pas autorisé",
 "Shared in {item} with {user}" => "Partagé dans {item} avec {user}",
 "Unshare" => "Ne plus partager",
+"notify user by email" => "Prévenir l'utilisateur par couriel",
 "can edit" => "édition autorisée",
 "access control" => "contrôle des accès",
 "create" => "créer",
@@ -126,6 +128,9 @@ $TRANSLATIONS = array(
 "Help" => "Aide",
 "Access forbidden" => "Accès interdit",
 "Cloud not found" => "Introuvable",
+"Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Bonjour,\n\nJuste pour vous signaler que %s a partagé %s avec vous.\nConsultez-le : %s\n",
+"The share will expire on %s.\n\n" => "Le partage expire le %s.\n\n",
+"Cheers!" => "Salutations!",
 "Edit categories" => "Editer les catégories",
 "Add" => "Ajouter",
 "Security Warning" => "Avertissement de sécurité",
@@ -146,15 +151,20 @@ $TRANSLATIONS = array(
 "Database tablespace" => "Tablespaces de la base de données",
 "Database host" => "Serveur de la base de données",
 "Finish setup" => "Terminer l'installation",
+"Finishing …" => "En cours de finalisation...",
 "%s is available. Get more information on how to update." => "%s est disponible. Obtenez plus d'informations sur la façon de mettre à jour.",
 "Log out" => "Se déconnecter",
 "Automatic logon rejected!" => "Connexion automatique rejetée !",
 "If you did not change your password recently, your account may be compromised!" => "Si vous n'avez pas changé votre mot de passe récemment, votre compte risque d'être compromis !",
 "Please change your password to secure your account again." => "Veuillez changer votre mot de passe pour sécuriser à nouveau votre compte.",
+"Server side authentication failed!" => "L'authentification côté serveur a échoué !",
+"Please contact your administrator." => "Veuillez contacter votre administrateur.",
 "Lost your password?" => "Mot de passe perdu ?",
 "remember" => "se souvenir de moi",
 "Log in" => "Connexion",
 "Alternative Logins" => "Logins alternatifs",
+"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Bonjour,<br><br>Juste pour vous informer que %s a partagé »%s« avec vous.<br><a href=\"%s\">Consultez-le !</a><br><br>",
+"The share will expire on %s.<br><br>" => "Le partage expirera le %s.<br><br>",
 "Updating ownCloud to version %s, this may take a while." => "Mise à jour en cours d'ownCloud vers la version %s, cela peut prendre du temps."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

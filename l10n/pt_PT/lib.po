@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-02 13:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-10 22:26-0400\n"
+"PO-Revision-Date: 2013-10-09 18:00+0000\n"
+"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,38 +18,38 @@ msgstr ""
 "Language: pt_PT\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: private/app.php:237
+#: private/app.php:243
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr ""
+msgstr "A aplicação \"%s\" não pode ser instaladas por não ser compatível com esta versão da ownCloud."
 
-#: private/app.php:248
+#: private/app.php:254
 msgid "No app name specified"
-msgstr ""
+msgstr "O nome da aplicação não foi especificado"
 
-#: private/app.php:352
+#: private/app.php:359
 msgid "Help"
 msgstr "Ajuda"
 
-#: private/app.php:365
+#: private/app.php:372
 msgid "Personal"
 msgstr "Pessoal"
 
-#: private/app.php:376
+#: private/app.php:383
 msgid "Settings"
 msgstr "Configurações"
 
-#: private/app.php:388
+#: private/app.php:395
 msgid "Users"
 msgstr "Utilizadores"
 
-#: private/app.php:401
+#: private/app.php:408
 msgid "Admin"
 msgstr "Admin"
 
-#: private/app.php:832
+#: private/app.php:839
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "A actualização \"%s\" falhou."
@@ -112,7 +112,7 @@ msgstr ""
 #: private/installer.php:89
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr ""
+msgstr "Arquivos do tipo %s não são suportados"
 
 #: private/installer.php:103
 msgid "Failed to open archive when installing app"
@@ -120,11 +120,11 @@ msgstr ""
 
 #: private/installer.php:125
 msgid "App does not provide an info.xml file"
-msgstr ""
+msgstr "A aplicação não disponibiliza um ficheiro info.xml"
 
 #: private/installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
-msgstr ""
+msgstr "A aplicação não pode ser instalado devido a código não permitido dentro da aplicação"
 
 #: private/installer.php:140
 msgid ""
@@ -146,12 +146,12 @@ msgstr ""
 
 #: private/installer.php:162
 msgid "App directory already exists"
-msgstr ""
+msgstr "A directoria da aplicação já existe"
 
 #: private/installer.php:175
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr ""
+msgstr "Não foi possível criar a pasta da aplicação. Por favor verifique as permissões. %s"
 
 #: private/json.php:28
 msgid "Application is not enabled"

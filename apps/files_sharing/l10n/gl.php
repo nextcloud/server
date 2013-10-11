@@ -2,7 +2,6 @@
 $TRANSLATIONS = array(
 "The password is wrong. Try again." => "O contrasinal é incorrecto. Ténteo de novo.",
 "Password" => "Contrasinal",
-"Submit" => "Enviar",
 "Sorry, this link doesn’t seem to work anymore." => "Semella que esta ligazón non funciona.",
 "Reasons might be:" => "As razóns poderían ser:",
 "the item was removed" => "o elemento foi retirado",

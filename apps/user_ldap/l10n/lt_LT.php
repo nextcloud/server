@@ -47,7 +47,6 @@ $TRANSLATIONS = array(
 "Internal Username" => "Vidinis naudotojo vardas",
 "Internal Username Attribute:" => "Vidinis naudotojo vardo atributas:",
 "Override UUID detection" => "Perrašyti UUID aptikimą",
-"UUID Attribute:" => "UUID atributas:",
 "Username-LDAP User Mapping" => "Naudotojo vardo - LDAP naudotojo sąsaja",
 "Clear Username-LDAP User Mapping" => "Išvalyti naudotojo vardo - LDAP naudotojo sąsają",
 "Clear Groupname-LDAP Group Mapping" => "Išvalyti grupės pavadinimo - LDAP naudotojo sąsają",

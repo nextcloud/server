@@ -2,17 +2,12 @@
 $TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Αδύνατη η μόνιμη διαγραφή του %s",
 "Couldn't restore %s" => "Αδυναμία επαναφοράς %s",
-"perform restore operation" => "εκτέλεση λειτουργία επαναφοράς",
 "Error" => "Σφάλμα",
-"delete file permanently" => "μόνιμη διαγραφή αρχείου",
-"Delete permanently" => "Μόνιμη διαγραφή",
-"Name" => "Όνομα",
-"Deleted" => "Διαγράφηκε",
-"_%n folder_::_%n folders_" => array("","%n φάκελοι"),
-"_%n file_::_%n files_" => array("","%n αρχεία"),
 "restored" => "έγινε επαναφορά",
 "Nothing in here. Your trash bin is empty!" => "Δεν υπάρχει τίποτα εδώ. Ο κάδος σας είναι άδειος!",
+"Name" => "Όνομα",
 "Restore" => "Επαναφορά",
+"Deleted" => "Διαγράφηκε",
 "Delete" => "Διαγραφή",
 "Deleted Files" => "Διαγραμμένα Αρχεία"
 );

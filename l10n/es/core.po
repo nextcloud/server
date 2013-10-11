@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-07 12:16-0400\n"
-"PO-Revision-Date: 2013-10-07 16:17+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-10 22:26-0400\n"
+"PO-Revision-Date: 2013-10-08 16:10+0000\n"
+"Last-Translator: Art O. Pal <artopal@fastmail.fm>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,7 +35,7 @@ msgstr "%s ha compatido  »%s« contigo"
 #: ajax/share.php:168
 #, php-format
 msgid "Couldn't send mail to following users: %s "
-msgstr ""
+msgstr "No se pudo enviar mensajes a los siguientes usuarios: %s"
 
 #: ajax/share.php:327
 msgid "group"
@@ -428,7 +428,7 @@ msgstr "Dejar de compartir"
 
 #: js/share.js:353
 msgid "notify user by email"
-msgstr ""
+msgstr "notificar al usuario por correo electrónico"
 
 #: js/share.js:361
 msgid "can edit"
@@ -558,7 +558,7 @@ msgstr "Personal"
 msgid "Users"
 msgstr "Usuarios"
 
-#: strings.php:7 templates/layout.user.php:108
+#: strings.php:7 templates/layout.user.php:109
 msgid "Apps"
 msgstr "Aplicaciones"
 
@@ -586,18 +586,18 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-msgstr ""
+msgstr "Hola:\n\nTan solo queremos informarte que %s compartió %s contigo.\nMíralo aquí: %s\n\n"
 
 #: templates/altmail.php:4
 #, php-format
 msgid ""
 "The share will expire on %s.\n"
 "\n"
-msgstr ""
+msgstr "El objeto dejará de ser compartido el %s.\n\n"
 
 #: templates/altmail.php:6 templates/mail.php:19
 msgid "Cheers!"
-msgstr ""
+msgstr "¡Saludos!"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -694,14 +694,14 @@ msgstr "Completar la instalación"
 
 #: templates/installation.php:184
 msgid "Finishing …"
-msgstr ""
+msgstr "Finalizando..."
 
-#: templates/layout.user.php:41
+#: templates/layout.user.php:42
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s esta disponible. Obtener mas información de como actualizar."
 
-#: templates/layout.user.php:69
+#: templates/layout.user.php:70
 msgid "Log out"
 msgstr "Salir"
 
@@ -721,11 +721,11 @@ msgstr "Por favor cambie su contraseña para asegurar su cuenta nuevamente."
 
 #: templates/login.php:17
 msgid "Server side authentication failed!"
-msgstr ""
+msgstr "La autenticación a fallado en el servidor."
 
 #: templates/login.php:18
 msgid "Please contact your administrator."
-msgstr ""
+msgstr "Sírvase contactar a su administrador."
 
 #: templates/login.php:38
 msgid "Lost your password?"
@@ -748,12 +748,12 @@ msgstr "Inicios de sesión alternativos"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "Hola:<br><br>tan solo queremos informarte que %s compartió «%s» contigo.<br><a href=\"%s\">¡Míralo acá!</a><br><br>"
 
 #: templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s.<br><br>"
-msgstr ""
+msgstr "El objeto dejará de ser compartido el %s.<br><br>"
 
 #: templates/update.php:3
 #, php-format

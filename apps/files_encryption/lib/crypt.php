@@ -33,6 +33,12 @@ require_once __DIR__ . '/../3rdparty/Crypt_Blowfish/Blowfish.php';
 
 class Crypt {
 
+	const ENCRYPTION_UNKNOWN_ERROR = -1;
+	const ENCRYPTION_NOT_INITIALIZED_ERROR = 1;
+	const ENCRYPTION_PRIVATE_KEY_NOT_VALID_ERROR = 2;
+	const ENCRYPTION_NO_SHARE_KEY_FOUND = 3;
+
+
 	/**
 	 * @brief return encryption mode client or server side encryption
 	 * @param string $user name (use system wide setting if name=null)
@@ -183,8 +189,8 @@ class Crypt {
 		// Fetch all file metadata from DB
 		$metadata = \OC\Files\Filesystem::getFileInfo($relPath, '');
 
-		// If a file is flagged with encryption in DB, but isn't a 
-		// valid content + IV combination, it's probably using the 
+		// If a file is flagged with encryption in DB, but isn't a
+		// valid content + IV combination, it's probably using the
 		// legacy encryption system
 		if (isset($metadata['encrypted'])
 			&& $metadata['encrypted'] === true
@@ -388,7 +394,7 @@ class Crypt {
 	 */
 	public static function multiKeyEncrypt($plainContent, array $publicKeys) {
 
-		// openssl_seal returns false without errors if $plainContent 
+		// openssl_seal returns false without errors if $plainContent
 		// is empty, so trigger our own error
 		if (empty($plainContent)) {
 
@@ -405,7 +411,7 @@ class Crypt {
 
 			$i = 0;
 
-			// Ensure each shareKey is labelled with its 
+			// Ensure each shareKey is labelled with its
 			// corresponding userId
 			foreach ($publicKeys as $userId => $publicKey) {
 
@@ -476,7 +482,7 @@ class Crypt {
 
 			}
 
-			// We encode the iv purely for string manipulation 
+			// We encode the iv purely for string manipulation
 			// purposes - it gets decoded before use
 			$iv = base64_encode($random);
 

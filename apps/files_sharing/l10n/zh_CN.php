@@ -2,7 +2,6 @@
 $TRANSLATIONS = array(
 "The password is wrong. Try again." => "用户名或密码错误！请重试",
 "Password" => "密码",
-"Submit" => "提交",
 "Sorry, this link doesn’t seem to work anymore." => "抱歉，此链接已失效",
 "Reasons might be:" => "可能原因是：",
 "the item was removed" => "此项已移除",

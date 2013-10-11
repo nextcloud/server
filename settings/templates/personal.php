@@ -104,19 +104,29 @@ if($_['passwordChangeSupported']) {
 <form>
 	<fieldset class="personalblock">
 		<h2><?php p($l->t('Language'));?></h2>
-		<select id="languageinput" class="chzen-select" name="lang" data-placeholder="<?php p($l->t('Language'));?>">
-		<option value="<?php p($_['activelanguage']['code']);?>"><?php p($_['activelanguage']['name']);?></option>
-		<?php foreach($_['commonlanguages'] as $language):?>
-			<option value="<?php p($language['code']);?>"><?php p($language['name']);?></option>
-		<?php endforeach;?>
-		<optgroup label="––––––––––"><option class="languagedivider">-</option></optgroup>
-		<?php foreach($_['languages'] as $language):?>
-			<option value="<?php p($language['code']);?>"><?php p($language['name']);?></option>
-		<?php endforeach;?>
+		<select id="languageinput" name="lang" data-placeholder="<?php p($l->t('Language'));?>">
+			<option value="<?php p($_['activelanguage']['code']);?>">
+				<?php p($_['activelanguage']['name']);?>
+			</option>
+			<?php foreach($_['commonlanguages'] as $language):?>
+				<option value="<?php p($language['code']);?>">
+					<?php p($language['name']);?>
+				</option>
+			<?php endforeach;?>
+			<optgroup label="––––––––––">
+				<option class="languagedivider">-</option>
+			</optgroup>
+			<?php foreach($_['languages'] as $language):?>
+				<option value="<?php p($language['code']);?>">
+					<?php p($language['name']);?>
+				</option>
+			<?php endforeach;?>
 		</select>
 		<?php if (OC_Util::getEditionString() === ''): ?>
 		<a href="https://www.transifex.com/projects/p/owncloud/team/<?php p($_['activelanguage']['code']);?>/"
-			target="_blank"><em><?php p($l->t('Help translate'));?></em></a>
+			target="_blank">
+			<em><?php p($l->t('Help translate'));?></em>
+		</a>
 		<?php endif; ?>
 	</fieldset>
 </form>
