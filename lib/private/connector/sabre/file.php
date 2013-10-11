@@ -98,7 +98,21 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 				throw new Sabre_DAV_Exception();
 			}
 		} catch (\OCP\Files\NotPermittedException $e) {
-			throw new Sabre_DAV_Exception_Forbidden();
+			// a more general case - due to whatever reason the content could not be written
+			throw new Sabre_DAV_Exception_Forbidden($e->getMessage());
+
+		} catch (\OCP\Files\EntityTooLargeException $e) {
+			// the file is too big to be stored
+			throw new OC_Connector_Sabre_Exception_EntityTooLarge($e->getMessage());
+
+		} catch (\OCP\Files\InvalidContentException $e) {
+			// the file content is not permitted
+			throw new OC_Connector_Sabre_Exception_UnsupportedMediaType($e->getMessage());
+
+		} catch (\OCP\Files\InvalidPathException $e) {
+			// the path for the file was not valid
+			// TODO: find proper http status code for this case
+			throw new Sabre_DAV_Exception_Forbidden($e->getMessage());
 		}
 
 		// rename to correct path
