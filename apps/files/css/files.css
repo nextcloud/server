@@ -252,9 +252,7 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 #fileList a.action.delete {
 	position: absolute;
 	right: 0;
-	top: 0;
-	margin: 0;
-	padding: 15px 14px 19px !important;
+	padding: 9px 14px 19px !important;
 }
 a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 
