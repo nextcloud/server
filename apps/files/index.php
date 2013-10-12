@@ -118,6 +118,9 @@ if ($needUpgrade) {
 		$trashEmpty = \OCA\Files_Trashbin\Trashbin::isEmpty($user);
 	}
 
+	$isCreatable = \OC\Files\Filesystem::isCreatable($dir . '/');
+	$emptyContent = (!isset($files) or !$isCreatable or count($files) > 0 or $ajaxLoad);
+
 	OCP\Util::addscript('files', 'fileactions');
 	OCP\Util::addscript('files', 'files');
 	OCP\Util::addscript('files', 'keyboardshortcuts');
@@ -125,7 +128,7 @@ if ($needUpgrade) {
 	$tmpl->assign('fileList', $list->fetchPage());
 	$tmpl->assign('breadcrumb', $breadcrumbNav->fetchPage());
 	$tmpl->assign('dir', \OC\Files\Filesystem::normalizePath($dir));
-	$tmpl->assign('isCreatable', \OC\Files\Filesystem::isCreatable($dir . '/'));
+	$tmpl->assign('isCreatable', $isCreatable);
 	$tmpl->assign('permissions', $permissions);
 	$tmpl->assign('files', $files);
 	$tmpl->assign('trash', $trashEnabled);
@@ -141,6 +144,7 @@ if ($needUpgrade) {
 	$tmpl->assign("encryptionInitStatus", $encryptionInitStatus);
 	$tmpl->assign('disableSharing', false);
 	$tmpl->assign('ajaxLoad', $ajaxLoad);
+	$tmpl->assign('emptyContent', $emptyContent);
 
 	$tmpl->printPage();
 }

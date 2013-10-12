@@ -12,6 +12,7 @@ var FileList={
 			isCreatable = (permissions & OC.PERMISSION_CREATE) !== 0;
 		$fileList.empty().html(fileListHtml);
 		$('#emptycontent').toggleClass('hidden', !isCreatable || $fileList.find('tr').length > 0);
+		$('#filestable th').toggleClass('hidden', !(!isCreatable || $fileList.find('tr').length > 0));
 		$fileList.find('tr').each(function () {
 			FileActions.display($(this).children('td.filename'));
 		});
@@ -257,6 +258,7 @@ var FileList={
 		FileList.updateFileSummary();
 		if($('tr[data-file]').length==0){
 			$('#emptycontent').removeClass('hidden');
+			$('#filescontent th').addClass('hidden');
 		}
 	},
 	insertElement:function(name,type,element){
@@ -287,6 +289,7 @@ var FileList={
 			$('#fileList').append(element);
 		}
 		$('#emptycontent').addClass('hidden');
+		$('#filestable th').removeClass('hidden');
 		FileList.updateFileSummary();
 	},
 	loadingDone:function(name, id){
