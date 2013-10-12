@@ -118,7 +118,7 @@ if (!$_['internetconnectionworking']) {
 
 <fieldset class="personalblock" id="shareAPI">
 	<h2><?php p($l->t('Sharing'));?></h2>
-	<table class="shareAPI nostyle">
+	<table class="shareAPI">
 		<tr>
 			<td id="enable">
 				<input type="checkbox" name="shareapi_enabled" id="shareAPIEnabled"
@@ -176,7 +176,7 @@ if (!$_['internetconnectionworking']) {
 
 <fieldset class="personalblock" id="security">
 	<h2><?php p($l->t('Security'));?></h2>
-	<table class="nostyle">
+	<table>
 		<tr>
 			<td id="enable">
 				<input type="checkbox" name="forcessl"  id="forcessl"
@@ -217,7 +217,7 @@ if (!$_['internetconnectionworking']) {
 		<?php endif;
 endfor;?>
 </select>
-	<table id="log">
+	<table id="log" class="grid">
 		<?php foreach ($_['entries'] as $entry): ?>
 		<tr>
 			<td>
@@ -229,7 +229,7 @@ endfor;?>
 			<td>
 				<?php p($entry->message);?>
 			</td>
-			<td>
+			<td class="date">
 				<?php if(is_int($entry->time)){
 					p(OC_Util::formatDate($entry->time));
 				} else {
