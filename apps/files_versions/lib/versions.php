@@ -260,7 +260,7 @@ class Storage {
 					$versions[$key]['cur'] = 0;
 					$versions[$key]['version'] = $version;
 					$versions[$key]['humanReadableTimestamp'] = self::getHumanReadableTimestamp($version);
-					$versions[$key]['preview'] = \OCP\Util::linkToRoute('core_ajax_versions_preview', array('file' => $filename, 'version' => $version));
+					$versions[$key]['preview'] = \OCP\Util::linkToRoute('core_ajax_versions_preview', array('file' => $filename, 'version' => $version, 'user' => $uid));
 					$versions[$key]['path'] = $filename;
 					$versions[$key]['size'] = $file['size'];
 				}
