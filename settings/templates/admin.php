@@ -179,7 +179,7 @@ if (!$_['internetconnectionworking']) {
 	<table class="nostyle">
 		<tr>
 			<td id="enable">
-				<input type="checkbox" name="forcessl"  id="enforceHTTPSEnabled"
+				<input type="checkbox" name="forcessl"  id="forcessl"
 					<?php if ($_['enforceHTTPSEnabled']) {
 						print_unescaped('checked="checked" ');
 						print_unescaped('value="false"');
