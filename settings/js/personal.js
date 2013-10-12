@@ -171,10 +171,6 @@ $(document).ready(function(){
         }
     });
 
-	// Show only the not selectable optgroup
-	// Choosen only shows optgroup-labels if there are options in the optgroup
-	$(".languagedivider").hide();
-
 	$("#languageinput").change( function(){
 		// Serialize the data
 		var post = $( "#languageinput" ).serialize();
