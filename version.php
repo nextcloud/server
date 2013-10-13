@@ -10,7 +10,7 @@ $OC_VersionString='6.0 alpha 1';
 $OC_Edition='';
 
 // The ownCloud channel
-$OC_Channel='';
+$OC_Channel='git';
 
 // The build number
 $OC_Build='';
