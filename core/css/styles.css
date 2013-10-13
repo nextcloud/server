@@ -748,6 +748,7 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 span.ui-icon {float: left; margin: 3px 7px 30px 0;}
 
 .loading { background: url('../img/loading.gif') no-repeat center; cursor: wait; }
+.loading-small { background: url('../img/loading-small.gif') no-repeat center; cursor: wait; }
 .move2trash { /* decrease spinner size */
 	width: 16px;
 	height: 16px;
