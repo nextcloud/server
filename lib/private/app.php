@@ -753,7 +753,7 @@ class OC_App{
 			$combinedApps = $appList;
 		}
 		// bring the apps into the right order with a custom sort funtion
-		usort($combinedApps,'\OC_App::customSort');
+		usort( $combinedApps, '\OC_App::customSort' );
 
 		return $combinedApps;
 	}
@@ -771,15 +771,15 @@ class OC_App{
 
 		// prio 2: shipped
 		if ($a['shipped'] != $b['shipped']) {
-			$atemp = ($a['shipped']==true ? 1 : 0);
-			$btemp = ($b['shipped']==true ? 1 : 0);
+			$atemp = ($a['shipped'] == true ? 1 : 0);
+			$btemp = ($b['shipped'] == true ? 1 : 0);
 			return ($btemp - $atemp);
 		}
        
 		// prio 3: recommended
 		if ($a['internalclass'] != $b['internalclass']) {
-			$atemp = ($a['internalclass']=='recommendedapp' ? 1 : 0);
-			$btemp = ($b['internalclass']=='recommendedapp' ? 1 : 0);
+			$atemp = ($a['internalclass'] == 'recommendedapp' ? 1 : 0);
+			$btemp = ($b['internalclass'] == 'recommendedapp' ? 1 : 0);
 			return ($btemp - $atemp);
 		}
 
