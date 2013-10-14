@@ -60,3 +60,13 @@ class TXT extends Provider {
 }
 
 \OC\Preview::registerProvider('OC\Preview\TXT');
+
+class MarkDown extends TXT {
+
+	public function getMimeType() {
+		return '/text\/x-markdown/';
+	}
+
+}
+
+\OC\Preview::registerProvider('OC\Preview\MarkDown');
