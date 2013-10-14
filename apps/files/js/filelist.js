@@ -677,6 +677,7 @@ var FileList={
 };
 
 $(document).ready(function(){
+	var isPublic = !!$('#isPublic').val();
 
 	// handle upload events
 	var file_upload_start = $('#file_upload_start');
@@ -924,29 +925,32 @@ $(document).ready(function(){
 		return (params && params.dir) || '/';
 	}
 
-	// fallback to hashchange when no history support
-	if (!window.history.pushState){
-		$(window).on('hashchange', function(){
-			FileList.changeDirectory(parseCurrentDirFromUrl(), false);
-		});
-	}
-	window.onpopstate = function(e){
-		var targetDir;
-		if (e.state && e.state.dir){
-			targetDir = e.state.dir;
+	// disable ajax/history API for public app (TODO: until it gets ported)
+	if (!isPublic){
+		// fallback to hashchange when no history support
+		if (!window.history.pushState){
+			$(window).on('hashchange', function(){
+				FileList.changeDirectory(parseCurrentDirFromUrl(), false);
+			});
 		}
-		else{
-			// read from URL
-			targetDir = parseCurrentDirFromUrl();
+		window.onpopstate = function(e){
+			var targetDir;
+			if (e.state && e.state.dir){
+				targetDir = e.state.dir;
+			}
+			else{
+				// read from URL
+				targetDir = parseCurrentDirFromUrl();
+			}
+			if (targetDir){
+				FileList.changeDirectory(targetDir, false);
+			}
 		}
-		if (targetDir){
-			FileList.changeDirectory(targetDir, false);
-		}
-	}
 
-	if (parseInt($('#ajaxLoad').val(), 10) === 1){
-		// need to initially switch the dir to the one from the hash (IE8)
-		FileList.changeDirectory(parseCurrentDirFromUrl(), false, true);
+		if (parseInt($('#ajaxLoad').val(), 10) === 1){
+			// need to initially switch the dir to the one from the hash (IE8)
+			FileList.changeDirectory(parseCurrentDirFromUrl(), false, true);
+		}
 	}
 
 	FileList.createFileSummary();
