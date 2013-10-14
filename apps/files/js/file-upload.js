@@ -260,6 +260,7 @@ $(document).ready(function() {
 			  getMimeIcon(result.data.mime,function(path){
 			tr.find('td.filename').attr('style','background-image:url('+path+')');
 			  });
+			FileActions.display(tr.find('td.filename'));
 			} else {
 			  OC.dialogs.alert(result.data.message, t('core', 'Error'));
 			}
