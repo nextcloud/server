@@ -77,7 +77,7 @@ class OC_Connector_Sabre_Auth extends Sabre_DAV_Auth_Backend_AbstractBasic {
 			$user = OC_User::getUser();
 			OC_Util::setupFS($user);
 			$this->currentUser = $user;
-		    return true;
+			return true;
 		}
 
 		return parent::authenticate($server, $realm);
