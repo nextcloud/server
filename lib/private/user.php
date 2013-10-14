@@ -198,6 +198,10 @@ class OC_User {
 
 			// Delete user files in /data/
 			OC_Helper::rmdirr(OC_Config::getValue('datadirectory', OC::$SERVERROOT . '/data') . '/' . $uid . '/');
+			
+			return true;
+		} else {
+			return false;
 		}
 	}
 

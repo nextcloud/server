@@ -118,7 +118,7 @@ if (!$_['internetconnectionworking']) {
 
 <fieldset class="personalblock" id="shareAPI">
 	<h2><?php p($l->t('Sharing'));?></h2>
-	<table class="shareAPI nostyle">
+	<table class="shareAPI">
 		<tr>
 			<td id="enable">
 				<input type="checkbox" name="shareapi_enabled" id="shareAPIEnabled"
@@ -176,10 +176,10 @@ if (!$_['internetconnectionworking']) {
 
 <fieldset class="personalblock" id="security">
 	<h2><?php p($l->t('Security'));?></h2>
-	<table class="nostyle">
+	<table>
 		<tr>
 			<td id="enable">
-				<input type="checkbox" name="forcessl"  id="enforceHTTPSEnabled"
+				<input type="checkbox" name="forcessl"  id="forcessl"
 					<?php if ($_['enforceHTTPSEnabled']) {
 						print_unescaped('checked="checked" ');
 						print_unescaped('value="false"');
@@ -217,7 +217,7 @@ if (!$_['internetconnectionworking']) {
 		<?php endif;
 endfor;?>
 </select>
-	<table id="log">
+	<table id="log" class="grid">
 		<?php foreach ($_['entries'] as $entry): ?>
 		<tr>
 			<td>
@@ -229,7 +229,7 @@ endfor;?>
 			<td>
 				<?php p($entry->message);?>
 			</td>
-			<td>
+			<td class="date">
 				<?php if(is_int($entry->time)){
 					p(OC_Util::formatDate($entry->time));
 				} else {
@@ -248,7 +248,7 @@ endfor;?>
 
 <fieldset class="personalblock">
 	<h2><?php p($l->t('Version'));?></h2>
-	<strong><?php p($theme->getTitle()); ?></strong> <?php p(OC_Util::getVersionString()); ?>
+	<strong><?php p($theme->getTitle()); ?></strong> <?php p(OC_Util::getVersionString().' ('.OC_Util::getChannel().')'); ?>
 <?php if (OC_Util::getEditionString() === ''): ?>
 	<p>
 		<?php print_unescaped($l->t('Developed by the <a href="http://ownCloud.org/contact" target="_blank">ownCloud community</a>, the <a href="https://github.com/owncloud" target="_blank">source code</a> is licensed under the <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank"><abbr title="Affero General Public License">AGPL</abbr></a>.')); ?>

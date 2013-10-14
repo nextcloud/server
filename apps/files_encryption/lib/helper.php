@@ -235,16 +235,28 @@ class Helper {
 	/**
 	 * @brief redirect to a error page
 	 */
-	public static function redirectToErrorPage($session) {
+	public static function redirectToErrorPage($session, $errorCode = null) {
 
-		$init = $session->getInitialized();
+		if ($errorCode === null) {
+			$init = $session->getInitialized();
+			switch ($init) {
+				case \OCA\Encryption\Session::INIT_EXECUTED:
+					$errorCode = \OCA\Encryption\Crypt::ENCRYPTION_PRIVATE_KEY_NOT_VALID_ERROR;
+					break;
+				case \OCA\Encryption\Session::NOT_INITIALIZED:
+					$errorCode = \OCA\Encryption\Crypt::ENCRYPTION_NOT_INITIALIZED_ERROR;
+					break;
+				default:
+					$errorCode = \OCA\Encryption\Crypt::ENCRYPTION_UNKNOWN_ERROR;
+			}
+		}
 
 		$location = \OC_Helper::linkToAbsolute('apps/files_encryption/files', 'error.php');
 		$post = 0;
 		if(count($_POST) > 0) {
 			$post = 1;
 			}
-			header('Location: ' . $location . '?p=' . $post . '&i=' . $init);
+			header('Location: ' . $location . '?p=' . $post . '&errorCode=' . $errorCode);
 			exit();
 	}
 

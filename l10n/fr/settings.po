@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-05 15:12+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-10 22:26-0400\n"
+"PO-Revision-Date: 2013-10-08 20:50+0000\n"
+"Last-Translator: ogre_sympathique <ogre.sympathique@speed.1s.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -187,32 +187,32 @@ msgstr "annuler"
 msgid "Unable to remove user"
 msgstr "Impossible de retirer l'utilisateur"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:90
+#: js/users.js:95 templates/users.php:26 templates/users.php:90
 #: templates/users.php:118
 msgid "Groups"
 msgstr "Groupes"
 
-#: js/users.js:97 templates/users.php:92 templates/users.php:130
+#: js/users.js:100 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
 msgstr "Groupe Admin"
 
-#: js/users.js:120 templates/users.php:170
+#: js/users.js:123 templates/users.php:170
 msgid "Delete"
 msgstr "Supprimer"
 
-#: js/users.js:277
+#: js/users.js:280
 msgid "add group"
 msgstr "ajouter un groupe"
 
-#: js/users.js:436
+#: js/users.js:442
 msgid "A valid username must be provided"
 msgstr "Un nom d'utilisateur valide doit être saisi"
 
-#: js/users.js:437 js/users.js:443 js/users.js:458
+#: js/users.js:443 js/users.js:449 js/users.js:464
 msgid "Error creating user"
 msgstr "Erreur lors de la création de l'utilisateur"
 
-#: js/users.js:442
+#: js/users.js:448
 msgid "A valid password must be provided"
 msgstr "Un mot de passe valide doit être saisi"
 
@@ -348,11 +348,11 @@ msgstr "Autoriser les utilisateurs à partager avec des utilisateurs de leur gro
 
 #: templates/admin.php:170
 msgid "Allow mail notification"
-msgstr ""
+msgstr "Autoriser les notifications par couriel"
 
 #: templates/admin.php:171
 msgid "Allow user to send mail notification for shared files"
-msgstr ""
+msgstr "Autoriser l'utilisateur à envoyer une notification par couriel concernant les fichiers partagés"
 
 #: templates/admin.php:178
 msgid "Security"

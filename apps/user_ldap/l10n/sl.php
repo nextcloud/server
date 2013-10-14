@@ -66,7 +66,6 @@ $TRANSLATIONS = array(
 "Internal Username" => "Interno uporabniško ime",
 "Internal Username Attribute:" => "Atribut Interno uporabniško ime",
 "Override UUID detection" => "Prezri zaznavo UUID",
-"UUID Attribute:" => "Atribut UUID",
 "Username-LDAP User Mapping" => "Preslikava uporabniško ime - LDAP-uporabnik",
 "Clear Username-LDAP User Mapping" => "Izbriši preslikavo Uporabniškega imena in LDAP-uporabnika",
 "Clear Groupname-LDAP Group Mapping" => "Izbriši preslikavo Skupine in LDAP-skupine",

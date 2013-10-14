@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-05 15:31+0000\n"
+"POT-Creation-Date: 2013-10-13 20:29-0400\n"
+"PO-Revision-Date: 2013-10-14 00:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -56,45 +56,6 @@ msgstr ""
 #, php-format
 msgid "... %d%% done ..."
 msgstr ""
-
-#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
-msgid "Category type not provided."
-msgstr "نوع دسته بندی ارائه نشده است."
-
-#: ajax/vcategories/add.php:30
-msgid "No category to add?"
-msgstr "آیا گروه دیگری برای افزودن ندارید"
-
-#: ajax/vcategories/add.php:37
-#, php-format
-msgid "This category already exists: %s"
-msgstr "این دسته هم اکنون وجود دارد: %s"
-
-#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
-#: ajax/vcategories/favorites.php:24
-#: ajax/vcategories/removeFromFavorites.php:26
-msgid "Object type not provided."
-msgstr "نوع شی ارائه نشده است."
-
-#: ajax/vcategories/addToFavorites.php:30
-#: ajax/vcategories/removeFromFavorites.php:30
-#, php-format
-msgid "%s ID not provided."
-msgstr "شناسه %s  ارائه نشده است."
-
-#: ajax/vcategories/addToFavorites.php:35
-#, php-format
-msgid "Error adding %s to favorites."
-msgstr "خطای اضافه کردن %s  به علاقه مندی ها."
-
-#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
-msgid "No categories selected for deletion."
-msgstr "هیج دسته ای برای پاک شدن انتخاب نشده است"
-
-#: ajax/vcategories/removeFromFavorites.php:35
-#, php-format
-msgid "Error removing %s from favorites."
-msgstr "خطای پاک کردن %s از علاقه مندی ها."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -307,27 +268,6 @@ msgstr ""
 msgid "Error loading file exists template"
 msgstr ""
 
-#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
-#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
-msgid "The object type is not specified."
-msgstr "نوع شی تعیین نشده است."
-
-#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
-#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:130 js/share.js:143 js/share.js:150
-#: js/share.js:665 js/share.js:677
-msgid "Error"
-msgstr "خطا"
-
-#: js/oc-vcategories.js:179
-msgid "The app name is not specified."
-msgstr "نام برنامه تعیین نشده است."
-
-#: js/oc-vcategories.js:194
-msgid "The required file {file} is not installed!"
-msgstr "پرونده { پرونده} درخواست شده نصب نشده است !"
-
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
 msgstr "اشتراک گذاشته شده"
@@ -336,7 +276,12 @@ msgstr "اشتراک گذاشته شده"
 msgid "Share"
 msgstr "اشتراک‌گذاری"
 
-#: js/share.js:132 js/share.js:705
+#: js/share.js:130 js/share.js:143 js/share.js:150 js/share.js:667
+#: js/share.js:679
+msgid "Error"
+msgstr "خطا"
+
+#: js/share.js:132 js/share.js:707
 msgid "Error while sharing"
 msgstr "خطا درحال به اشتراک گذاشتن"
 
@@ -368,7 +313,7 @@ msgstr "به اشتراک گذاشتن با پیوند"
 msgid "Password protect"
 msgstr "نگهداری کردن رمز عبور"
 
-#: js/share.js:194 templates/installation.php:57 templates/login.php:26
+#: js/share.js:194 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "گذرواژه"
 
@@ -440,29 +385,57 @@ msgstr "پاک کردن"
 msgid "share"
 msgstr "به اشتراک گذاشتن"
 
-#: js/share.js:409 js/share.js:652
+#: js/share.js:409 js/share.js:654
 msgid "Password protected"
 msgstr "نگهداری از رمز عبور"
 
-#: js/share.js:665
+#: js/share.js:667
 msgid "Error unsetting expiration date"
 msgstr "خطا در تنظیم نکردن تاریخ انقضا "
 
-#: js/share.js:677
+#: js/share.js:679
 msgid "Error setting expiration date"
 msgstr "خطا در تنظیم تاریخ انقضا"
 
-#: js/share.js:692
+#: js/share.js:694
 msgid "Sending ..."
 msgstr "درحال ارسال ..."
 
-#: js/share.js:703
+#: js/share.js:705
 msgid "Email sent"
 msgstr "ایمیل ارسال شد"
 
-#: js/share.js:727
+#: js/share.js:729
 msgid "Warning"
 msgstr "اخطار"
+
+#: js/tags.js:4
+msgid "The object type is not specified."
+msgstr "نوع شی تعیین نشده است."
+
+#: js/tags.js:13
+msgid "Enter new"
+msgstr ""
+
+#: js/tags.js:27
+msgid "Delete"
+msgstr "حذف"
+
+#: js/tags.js:31
+msgid "Add"
+msgstr "افزودن"
+
+#: js/tags.js:39
+msgid "Edit tags"
+msgstr ""
+
+#: js/tags.js:57
+msgid "Error loading dialog template: {error}"
+msgstr ""
+
+#: js/tags.js:261
+msgid "No tags selected for deletion."
+msgstr ""
 
 #: js/update.js:17
 msgid ""
@@ -500,7 +473,7 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "شما یک نامه الکترونیکی حاوی یک لینک جهت بازسازی گذرواژه دریافت خواهید کرد."
 
 #: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
-#: templates/login.php:19
+#: templates/login.php:25
 msgid "Username"
 msgstr "نام کاربری"
 
@@ -544,7 +517,7 @@ msgstr "شخصی"
 msgid "Users"
 msgstr "کاربران"
 
-#: strings.php:7 templates/layout.user.php:108
+#: strings.php:7 templates/layout.user.php:109
 msgid "Apps"
 msgstr "  برنامه ها"
 
@@ -555,6 +528,34 @@ msgstr "مدیر"
 #: strings.php:9
 msgid "Help"
 msgstr "راه‌نما"
+
+#: tags/controller.php:22
+msgid "Error loading tags"
+msgstr ""
+
+#: tags/controller.php:48
+msgid "Tag already exists"
+msgstr ""
+
+#: tags/controller.php:64
+msgid "Error deleting tag(s)"
+msgstr ""
+
+#: tags/controller.php:75
+msgid "Error tagging"
+msgstr ""
+
+#: tags/controller.php:86
+msgid "Error untagging"
+msgstr ""
+
+#: tags/controller.php:97
+msgid "Error favoriting"
+msgstr ""
+
+#: tags/controller.php:108
+msgid "Error unfavoriting"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -584,14 +585,6 @@ msgstr ""
 #: templates/altmail.php:6 templates/mail.php:19
 msgid "Cheers!"
 msgstr ""
-
-#: templates/edit_categories_dialog.php:4
-msgid "Edit categories"
-msgstr "ویرایش گروه"
-
-#: templates/edit_categories_dialog.php:16
-msgid "Add"
-msgstr "افزودن"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -682,12 +675,12 @@ msgstr "اتمام نصب"
 msgid "Finishing …"
 msgstr ""
 
-#: templates/layout.user.php:41
+#: templates/layout.user.php:42
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s در دسترس است. برای چگونگی به روز رسانی اطلاعات بیشتر را دریافت نمایید."
 
-#: templates/layout.user.php:69
+#: templates/layout.user.php:70
 msgid "Log out"
 msgstr "خروج"
 
@@ -705,19 +698,27 @@ msgstr "اگر شما اخیرا رمزعبور را تغییر نداده ای�
 msgid "Please change your password to secure your account again."
 msgstr "لطفا رمز عبور خود را تغییر دهید تا مجددا حساب شما  در امان باشد."
 
-#: templates/login.php:32
+#: templates/login.php:17
+msgid "Server side authentication failed!"
+msgstr ""
+
+#: templates/login.php:18
+msgid "Please contact your administrator."
+msgstr ""
+
+#: templates/login.php:38
 msgid "Lost your password?"
 msgstr "آیا گذرواژه تان را به یاد نمی آورید؟"
 
-#: templates/login.php:37
+#: templates/login.php:43
 msgid "remember"
 msgstr "بیاد آوری"
 
-#: templates/login.php:40
+#: templates/login.php:46
 msgid "Log in"
 msgstr "ورود"
 
-#: templates/login.php:46
+#: templates/login.php:52
 msgid "Alternative Logins"
 msgstr "ورود متناوب"
 

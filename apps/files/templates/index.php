@@ -1,4 +1,3 @@
-<!--[if IE 8]><style>input[type="checkbox"]{padding:0;}table td{position:static !important;}</style><![endif]-->
 <div id="controls">
 	<?php print_unescaped($_['breadcrumb']); ?>
 		<div class="actions creatable <?php if (!$_['isCreatable']):?>hidden<?php endif; ?> <?php if (isset($_['files']) and count($_['files'])==0):?>emptycontent<?php endif; ?>">
@@ -108,6 +107,7 @@
 </div>
 
 <!-- config hints for javascript -->
+<input type="hidden" name="filesApp" id="filesApp" value="1" />
 <input type="hidden" name="ajaxLoad" id="ajaxLoad" value="<?php p($_['ajaxLoad']); ?>" />
 <input type="hidden" name="allowZipDownload" id="allowZipDownload" value="<?php p($_['allowZipDownload']); ?>" />
 <input type="hidden" name="usedSpacePercent" id="usedSpacePercent" value="<?php p($_['usedSpacePercent']); ?>" />

@@ -12,18 +12,26 @@ namespace Test;
 use OC\Hooks\PublicEmitter;
 
 class User extends \PHPUnit_Framework_TestCase {
-
+	/**
+	 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+	 */
+	private $backend;
+	
+	protected function setUp(){
+		$this->backend = $this->getMock('\OC_User_Dummy');
+		$manager = \OC_User::getManager();
+		$manager->registerBackend($this->backend);
+	}
+	
 	public function testCheckPassword() {
-		/**
-		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
-		 */
-		$backend = $this->getMock('\OC_User_Dummy');
-		$backend->expects($this->once())
+
+		$this->backend->expects($this->once())
 			->method('checkPassword')
 			->with($this->equalTo('foo'), $this->equalTo('bar'))
-			->will($this->returnValue('foo'));
+			->will($this->returnValue('foo'))
+		;
 
-		$backend->expects($this->any())
+		$this->backend->expects($this->any())
 			->method('implementsActions')
 			->will($this->returnCallback(function ($actions) {
 				if ($actions === \OC_USER_BACKEND_CHECK_PASSWORD) {
@@ -33,11 +41,33 @@ class User extends \PHPUnit_Framework_TestCase {
 				}
 			}));
 
-		$manager = \OC_User::getManager();
-		$manager->registerBackend($backend);
-
 		$uid = \OC_User::checkPassword('foo', 'bar');
 		$this->assertEquals($uid, 'foo');
+	}
+	
+	public function testDeleteUser() {
+		$fail = \OC_User::deleteUser('victim');
+		$this->assertFalse($fail);
+		
+		$success = \OC_User::createUser('victim', 'password');
+		
+		$success = \OC_User::deleteUser('victim');
+		$this->assertTrue($success);
+	}
+	
+	public function testCreateUser(){
+		$this->backend->expects($this->any())
+			->method('implementsActions')
+			->will($this->returnCallback(function ($actions) {
+				if ($actions === \OC_USER_BACKEND_CREATE_USER) {
+					return true;
+				} else {
+					return false;
+				}
+			}));
+			
+		$user = \OC_User::createUser('newuser', 'newpassword');
+		$this->assertEquals('newuser', $user->getUid());
 	}
 
 }

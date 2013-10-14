@@ -141,9 +141,15 @@ $CONFIG = array(
 /* date format to be used while writing to the owncloud logfile */
 'logdateformat' => 'F d, Y H:i:s',
 
+/* timezone used while writing to the owncloud logfile (default: UTC) */
+'logtimezone' => 'Europe/Berlin',
+
 /* Append all database queries and parameters to the log file.
  (watch out, this option can increase the size of your log file)*/
 "log_query" => false,
+
+/* Enable or disable the logging of IP addresses in case of webform auth failures */
+"log_authfailip" => false,
 
 /*
  * Configure the size in bytes log rotation should happen, 0 or false disables the rotation.

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-05 15:30+0000\n"
+"POT-Creation-Date: 2013-10-13 20:29-0400\n"
+"PO-Revision-Date: 2013-10-14 00:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -58,48 +58,9 @@ msgstr "Zaktualizuj filecache"
 msgid "... %d%% done ..."
 msgstr "... %d%% udane ..."
 
-#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
-msgid "Category type not provided."
-msgstr "Nie podano typu kategorii."
-
-#: ajax/vcategories/add.php:30
-msgid "No category to add?"
-msgstr "Brak kategorii do dodania?"
-
-#: ajax/vcategories/add.php:37
-#, php-format
-msgid "This category already exists: %s"
-msgstr "Ta kategoria już istnieje: %s"
-
-#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
-#: ajax/vcategories/favorites.php:24
-#: ajax/vcategories/removeFromFavorites.php:26
-msgid "Object type not provided."
-msgstr "Nie podano typu obiektu."
-
-#: ajax/vcategories/addToFavorites.php:30
-#: ajax/vcategories/removeFromFavorites.php:30
-#, php-format
-msgid "%s ID not provided."
-msgstr "Nie podano ID %s."
-
-#: ajax/vcategories/addToFavorites.php:35
-#, php-format
-msgid "Error adding %s to favorites."
-msgstr "Błąd podczas dodawania %s do ulubionych."
-
-#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
-msgid "No categories selected for deletion."
-msgstr "Nie zaznaczono kategorii do usunięcia."
-
-#: ajax/vcategories/removeFromFavorites.php:35
-#, php-format
-msgid "Error removing %s from favorites."
-msgstr "Błąd podczas usuwania %s z ulubionych."
-
 #: avatar/controller.php:62
 msgid "No image or file provided"
-msgstr ""
+msgstr "Brak obrazu lub pliku dostarczonego"
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
@@ -318,27 +279,6 @@ msgstr "({count} zaznaczonych)"
 msgid "Error loading file exists template"
 msgstr ""
 
-#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
-#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
-msgid "The object type is not specified."
-msgstr "Nie określono typu obiektu."
-
-#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
-#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:130 js/share.js:143 js/share.js:150
-#: js/share.js:665 js/share.js:677
-msgid "Error"
-msgstr "Błąd"
-
-#: js/oc-vcategories.js:179
-msgid "The app name is not specified."
-msgstr "Nie określono nazwy aplikacji."
-
-#: js/oc-vcategories.js:194
-msgid "The required file {file} is not installed!"
-msgstr "Wymagany plik {file} nie jest zainstalowany!"
-
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
 msgstr "Udostępniono"
@@ -347,7 +287,12 @@ msgstr "Udostępniono"
 msgid "Share"
 msgstr "Udostępnij"
 
-#: js/share.js:132 js/share.js:705
+#: js/share.js:130 js/share.js:143 js/share.js:150 js/share.js:667
+#: js/share.js:679
+msgid "Error"
+msgstr "Błąd"
+
+#: js/share.js:132 js/share.js:707
 msgid "Error while sharing"
 msgstr "Błąd podczas współdzielenia"
 
@@ -379,7 +324,7 @@ msgstr "Współdziel wraz z odnośnikiem"
 msgid "Password protect"
 msgstr "Zabezpiecz hasłem"
 
-#: js/share.js:194 templates/installation.php:57 templates/login.php:26
+#: js/share.js:194 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "Hasło"
 
@@ -425,7 +370,7 @@ msgstr "Zatrzymaj współdzielenie"
 
 #: js/share.js:353
 msgid "notify user by email"
-msgstr ""
+msgstr "powiadom użytkownika przez email"
 
 #: js/share.js:361
 msgid "can edit"
@@ -451,29 +396,57 @@ msgstr "usuń"
 msgid "share"
 msgstr "współdziel"
 
-#: js/share.js:409 js/share.js:652
+#: js/share.js:409 js/share.js:654
 msgid "Password protected"
 msgstr "Zabezpieczone hasłem"
 
-#: js/share.js:665
+#: js/share.js:667
 msgid "Error unsetting expiration date"
 msgstr "Błąd podczas usuwania daty wygaśnięcia"
 
-#: js/share.js:677
+#: js/share.js:679
 msgid "Error setting expiration date"
 msgstr "Błąd podczas ustawiania daty wygaśnięcia"
 
-#: js/share.js:692
+#: js/share.js:694
 msgid "Sending ..."
 msgstr "Wysyłanie..."
 
-#: js/share.js:703
+#: js/share.js:705
 msgid "Email sent"
 msgstr "E-mail wysłany"
 
-#: js/share.js:727
+#: js/share.js:729
 msgid "Warning"
 msgstr "Ostrzeżenie"
+
+#: js/tags.js:4
+msgid "The object type is not specified."
+msgstr "Nie określono typu obiektu."
+
+#: js/tags.js:13
+msgid "Enter new"
+msgstr ""
+
+#: js/tags.js:27
+msgid "Delete"
+msgstr "Usuń"
+
+#: js/tags.js:31
+msgid "Add"
+msgstr "Dodaj"
+
+#: js/tags.js:39
+msgid "Edit tags"
+msgstr ""
+
+#: js/tags.js:57
+msgid "Error loading dialog template: {error}"
+msgstr ""
+
+#: js/tags.js:261
+msgid "No tags selected for deletion."
+msgstr ""
 
 #: js/update.js:17
 msgid ""
@@ -511,7 +484,7 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "Odnośnik służący do resetowania hasła zostanie wysłany na adres e-mail."
 
 #: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
-#: templates/login.php:19
+#: templates/login.php:25
 msgid "Username"
 msgstr "Nazwa użytkownika"
 
@@ -555,7 +528,7 @@ msgstr "Osobiste"
 msgid "Users"
 msgstr "Użytkownicy"
 
-#: strings.php:7 templates/layout.user.php:108
+#: strings.php:7 templates/layout.user.php:109
 msgid "Apps"
 msgstr "Aplikacje"
 
@@ -566,6 +539,34 @@ msgstr "Administrator"
 #: strings.php:9
 msgid "Help"
 msgstr "Pomoc"
+
+#: tags/controller.php:22
+msgid "Error loading tags"
+msgstr ""
+
+#: tags/controller.php:48
+msgid "Tag already exists"
+msgstr ""
+
+#: tags/controller.php:64
+msgid "Error deleting tag(s)"
+msgstr ""
+
+#: tags/controller.php:75
+msgid "Error tagging"
+msgstr ""
+
+#: tags/controller.php:86
+msgid "Error untagging"
+msgstr ""
+
+#: tags/controller.php:97
+msgid "Error favoriting"
+msgstr ""
+
+#: tags/controller.php:108
+msgid "Error unfavoriting"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -590,19 +591,11 @@ msgstr ""
 msgid ""
 "The share will expire on %s.\n"
 "\n"
-msgstr ""
+msgstr "Udostępnienie wygaśnie w dniu %s.\n\n"
 
 #: templates/altmail.php:6 templates/mail.php:19
 msgid "Cheers!"
-msgstr ""
-
-#: templates/edit_categories_dialog.php:4
-msgid "Edit categories"
-msgstr "Edytuj kategorie"
-
-#: templates/edit_categories_dialog.php:16
-msgid "Add"
-msgstr "Dodaj"
+msgstr "Pozdrawiam!"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -691,14 +684,14 @@ msgstr "Zakończ konfigurowanie"
 
 #: templates/installation.php:184
 msgid "Finishing …"
-msgstr ""
+msgstr "Kończę ..."
 
-#: templates/layout.user.php:41
+#: templates/layout.user.php:42
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s jest dostępna. Dowiedz się więcej na temat aktualizacji."
 
-#: templates/layout.user.php:69
+#: templates/layout.user.php:70
 msgid "Log out"
 msgstr "Wyloguj"
 
@@ -716,19 +709,27 @@ msgstr "Jeśli hasło było dawno niezmieniane, twoje konto może być zagrożon
 msgid "Please change your password to secure your account again."
 msgstr "Zmień swoje hasło, aby ponownie zabezpieczyć swoje konto."
 
-#: templates/login.php:32
+#: templates/login.php:17
+msgid "Server side authentication failed!"
+msgstr "Uwierzytelnianie po stronie serwera nie powiodło się!"
+
+#: templates/login.php:18
+msgid "Please contact your administrator."
+msgstr "Skontaktuj się z administratorem"
+
+#: templates/login.php:38
 msgid "Lost your password?"
 msgstr "Nie pamiętasz hasła?"
 
-#: templates/login.php:37
+#: templates/login.php:43
 msgid "remember"
 msgstr "pamiętaj"
 
-#: templates/login.php:40
+#: templates/login.php:46
 msgid "Log in"
 msgstr "Zaloguj"
 
-#: templates/login.php:46
+#: templates/login.php:52
 msgid "Alternative Logins"
 msgstr "Alternatywne loginy"
 
@@ -737,12 +738,12 @@ msgstr "Alternatywne loginy"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "Cześć,<br><br>Informuję cię że %s udostępnia ci »%s«.\n<br><a href=\"%s\">Zobacz!</a><br><br>"
 
 #: templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s.<br><br>"
-msgstr ""
+msgstr "Udostępnienie wygaśnie w dniu %s.<br><br>"
 
 #: templates/update.php:3
 #, php-format

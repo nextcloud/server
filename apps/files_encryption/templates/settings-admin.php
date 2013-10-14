@@ -1,10 +1,7 @@
 <form id="encryption">
 	<fieldset class="personalblock">
 
-		<p>
-			<strong><?php p($l->t('Encryption')); ?></strong>
-			<br/>
-		</p>
+		<h2><?php p($l->t('Encryption')); ?></h2>
 
 		<p>
 			<?php p($l->t("Enable recovery key (allow to recover users files in case of password loss):")); ?>

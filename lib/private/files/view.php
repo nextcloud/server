@@ -110,7 +110,9 @@ class View {
 	 * @return array consisting of the storage and the internal path
 	 */
 	public function resolvePath($path) {
-		return Filesystem::resolvePath($this->getAbsolutePath($path));
+		$a = $this->getAbsolutePath($path);
+		$p = Filesystem::normalizePath($a);
+		return Filesystem::resolvePath($p);
 	}
 
 	/**
@@ -324,7 +326,8 @@ class View {
 				return false;
 			}
 		} else {
-			return $this->basicOperation('file_put_contents', $path, array('create', 'write'), $data);
+			$hooks = ($this->file_exists($path)) ? array('write') : array('create', 'write');
+			return $this->basicOperation('file_put_contents', $path, $hooks, $data);
 		}
 	}
 
@@ -709,7 +712,10 @@ class View {
 			return false;
 		}
 		$defaultRoot = Filesystem::getRoot();
-		return (strlen($this->fakeRoot) >= strlen($defaultRoot)) && (substr($this->fakeRoot, 0, strlen($defaultRoot)) === $defaultRoot);
+		if($this->fakeRoot === $defaultRoot){
+			return true;
+		}
+		return (strlen($this->fakeRoot) > strlen($defaultRoot)) && (substr($this->fakeRoot, 0, strlen($defaultRoot) + 1) === $defaultRoot . '/');
 	}
 
 	private function runHooks($hooks, $path, $post = false) {

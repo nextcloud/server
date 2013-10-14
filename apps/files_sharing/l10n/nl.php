@@ -1,8 +1,8 @@
 <?php
 $TRANSLATIONS = array(
+"This share is password-protected" => "Deze share is met een wachtwoord beveiligd",
 "The password is wrong. Try again." => "Wachtwoord ongeldig. Probeer het nogmaals.",
 "Password" => "Wachtwoord",
-"Submit" => "Verzenden",
 "Sorry, this link doesn’t seem to work anymore." => "Sorry, deze link lijkt niet meer in gebruik te zijn.",
 "Reasons might be:" => "Redenen kunnen zijn:",
 "the item was removed" => "bestand was verwijderd",
