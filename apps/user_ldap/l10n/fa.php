@@ -57,7 +57,6 @@ $TRANSLATIONS = array(
 "Internal Username" => "نام کاربری داخلی",
 "Internal Username Attribute:" => "ویژگی نام کاربری داخلی:",
 "Override UUID detection" => "نادیده گرفتن تشخیص UUID ",
-"UUID Attribute:" => "صفت UUID:",
 "Username-LDAP User Mapping" => "نام کاربری - نگاشت کاربر LDAP ",
 "Clear Username-LDAP User Mapping" => "پاک کردن نام کاربری- LDAP  نگاشت کاربر ",
 "Clear Groupname-LDAP Group Mapping" => "پاک کردن نام گروه -LDAP گروه نقشه برداری",

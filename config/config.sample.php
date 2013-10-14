@@ -148,6 +148,9 @@ $CONFIG = array(
  (watch out, this option can increase the size of your log file)*/
 "log_query" => false,
 
+/* Enable or disable the logging of IP addresses in case of webform auth failures */
+"log_authfailip" => false,
+
 /*
  * Configure the size in bytes log rotation should happen, 0 or false disables the rotation.
  * This rotates the current owncloud logfile to a new name, this way the total log usage

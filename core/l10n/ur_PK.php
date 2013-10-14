@@ -1,7 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"No category to add?" => "شامل کرنے کے لیے کوئی زمرہ نہیں؟",
-"No categories selected for deletion." => "ختم کرنے کے لیے کسی زمرہ جات کا انتخاب نہیں کیا گیا۔",
 "January" => "جنوری",
 "February" => "فرورئ",
 "March" => "مارچ",
@@ -45,6 +43,7 @@ $TRANSLATIONS = array(
 "delete" => "ختم کریں",
 "share" => "شئیر کریں",
 "Password protected" => "پاسورڈ سے محفوظ کیا گیا ہے",
+"Add" => "شامل کریں",
 "Use the following link to reset your password: {link}" => "اپنا پاسورڈ ری سیٹ کرنے کے لیے اس لنک پر کلک کریں۔  {link}",
 "You will receive a link to reset your password via Email." => "آپ ای میل کے ذریعے اپنے پاسورڈ ری سیٹ کا لنک موصول کریں گے",
 "Username" => "یوزر نیم",
@@ -60,8 +59,6 @@ $TRANSLATIONS = array(
 "Help" => "مدد",
 "Access forbidden" => "پہنچ کی اجازت نہیں",
 "Cloud not found" => "نہیں مل سکا",
-"Edit categories" => "زمرہ جات کی تدوین کریں",
-"Add" => "شامل کریں",
 "Create an <strong>admin account</strong>" => "ایک<strong> ایڈمن اکاؤنٹ</strong> بنائیں",
 "Advanced" => "ایڈوانسڈ",
 "Data folder" => "ڈیٹا فولڈر",

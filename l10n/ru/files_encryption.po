@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-06 23:07+0000\n"
+"POT-Creation-Date: 2013-10-13 20:29-0400\n"
+"PO-Revision-Date: 2013-10-14 00:29+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -59,20 +59,32 @@ msgid ""
 "correct."
 msgstr "Невозможно обновить пароль от секретного ключа. Возможно, старый пароль указан неверно."
 
-#: files/error.php:9
+#: files/error.php:12
 msgid ""
 "Encryption app not initialized! Maybe the encryption app was re-enabled "
 "during your session. Please try to log out and log back in to initialize the"
 " encryption app."
 msgstr ""
 
-#: files/error.php:12
+#: files/error.php:15
 msgid ""
 "Your private key is not valid! Likely your password was changed outside the "
 "ownCloud system (e.g. your corporate directory). You can update your private"
 " key password in your personal settings to recover access to your encrypted "
 "files."
 msgstr "Ваш секретный ключ не действителен! Вероятно, ваш пароль был изменен вне системы OwnCloud (например, корпоративный каталог). Вы можете обновить секретный ключ в личных настройках на странице восстановления доступа к зашифрованным файлам. "
+
+#: files/error.php:18
+msgid ""
+"Can not decrypt this file, probably this is a shared file. Please ask the "
+"file owner to reshare the file with you."
+msgstr ""
+
+#: files/error.php:21 files/error.php:26
+msgid ""
+"Unknown error please check your system settings or contact your "
+"administrator"
+msgstr ""
 
 #: hooks/hooks.php:53
 msgid "Missing requirements."
@@ -85,7 +97,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "Пожалуйста, убедитесь, что версия PHP 5.3.3 или новее, а также, что OpenSSL и соответствующее расширение PHP включены и правильно настроены. На данный момент приложение шифрования отключено."
 
-#: hooks/hooks.php:254
+#: hooks/hooks.php:252
 msgid "Following users are not set up for encryption:"
 msgstr "Для следующих пользователей шифрование не настроено:"
 
@@ -101,91 +113,91 @@ msgstr ""
 msgid "personal settings"
 msgstr "персональные настройки"
 
-#: templates/settings-admin.php:5 templates/settings-personal.php:4
+#: templates/settings-admin.php:4 templates/settings-personal.php:3
 msgid "Encryption"
 msgstr "Шифрование"
 
-#: templates/settings-admin.php:10
+#: templates/settings-admin.php:7
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
 msgstr "Включить ключ восстановления (позволяет пользователям восстановить файлы при потере пароля):"
 
-#: templates/settings-admin.php:14
+#: templates/settings-admin.php:11
 msgid "Recovery key password"
 msgstr "Пароль для ключа восстановления"
 
-#: templates/settings-admin.php:17
+#: templates/settings-admin.php:14
 msgid "Repeat Recovery key password"
 msgstr ""
 
-#: templates/settings-admin.php:24 templates/settings-personal.php:54
+#: templates/settings-admin.php:21 templates/settings-personal.php:51
 msgid "Enabled"
 msgstr "Включено"
 
-#: templates/settings-admin.php:32 templates/settings-personal.php:62
+#: templates/settings-admin.php:29 templates/settings-personal.php:59
 msgid "Disabled"
 msgstr "Отключено"
 
-#: templates/settings-admin.php:37
+#: templates/settings-admin.php:34
 msgid "Change recovery key password:"
 msgstr "Сменить пароль для ключа восстановления:"
 
-#: templates/settings-admin.php:43
+#: templates/settings-admin.php:40
 msgid "Old Recovery key password"
 msgstr "Старый пароль для ключа восстановления"
 
-#: templates/settings-admin.php:50
+#: templates/settings-admin.php:47
 msgid "New Recovery key password"
 msgstr "Новый пароль для ключа восстановления"
 
-#: templates/settings-admin.php:56
+#: templates/settings-admin.php:53
 msgid "Repeat New Recovery key password"
 msgstr ""
 
-#: templates/settings-admin.php:61
+#: templates/settings-admin.php:58
 msgid "Change Password"
 msgstr "Изменить пароль"
 
-#: templates/settings-personal.php:11
+#: templates/settings-personal.php:9
 msgid "Your private key password no longer match your log-in password:"
 msgstr "Пароль от секретного ключа больше не соответствует паролю входа:"
 
-#: templates/settings-personal.php:14
+#: templates/settings-personal.php:12
 msgid "Set your old private key password to your current log-in password."
 msgstr "Замените старый пароль от секретного ключа на новый пароль входа."
 
-#: templates/settings-personal.php:16
+#: templates/settings-personal.php:14
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
 msgstr "Если вы не помните свой старый пароль, вы можете попросить своего администратора восстановить ваши файлы"
 
-#: templates/settings-personal.php:24
+#: templates/settings-personal.php:22
 msgid "Old log-in password"
 msgstr "Старый пароль для входа"
 
-#: templates/settings-personal.php:30
+#: templates/settings-personal.php:28
 msgid "Current log-in password"
 msgstr "Текущйи пароль для входа"
 
-#: templates/settings-personal.php:35
+#: templates/settings-personal.php:33
 msgid "Update Private Key Password"
 msgstr "Обновить пароль от секретного ключа"
 
-#: templates/settings-personal.php:45
+#: templates/settings-personal.php:42
 msgid "Enable password recovery:"
 msgstr "Включить восстановление пароля:"
 
-#: templates/settings-personal.php:47
+#: templates/settings-personal.php:44
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
 msgstr "Включение этой опции позволит вам получить доступ к своим зашифрованным файлам в случае утери пароля"
 
-#: templates/settings-personal.php:63
+#: templates/settings-personal.php:60
 msgid "File recovery settings updated"
 msgstr "Настройки файла восстановления обновлены"
 
-#: templates/settings-personal.php:64
+#: templates/settings-personal.php:61
 msgid "Could not update file recovery"
 msgstr "Невозможно обновить файл восстановления"

@@ -4,16 +4,12 @@ td.status > span {
 	width: 16px;
 	vertical-align: text-bottom;
 }
-
 span.success {
 	background: #37ce02;
 	border-radius: 8px;
 }
 span.error {
 	background: #ce3702;
-}
-span.waiting {
-	background: none;
 }
 
 td.mountPoint, td.backend { width:10em; }

@@ -1,8 +1,6 @@
 <form id="encryption">
 	<fieldset class="personalblock">
-		<legend>
-			<?php p( $l->t( 'Encryption' ) ); ?>
-		</legend>
+		<h2><?php p( $l->t( 'Encryption' ) ); ?></h2>
 
 		<?php if ( ! $_["privateKeySet"] && $_["initialized"] ): ?>
 			<p>
@@ -38,9 +36,8 @@
 			</p>
 		<?php endif; ?>
 
-		<br />
-
 		<?php if ( $_["recoveryEnabled"] && $_["privateKeySet"] ): ?>
+			<br />
 			<p>
 				<label for="userEnableRecovery"><?php p( $l->t( "Enable password recovery:" ) ); ?></label>
 				<br />
@@ -65,6 +62,5 @@
 			</p>
 		<?php endif; ?>
 
-		<br />
 	</fieldset>
 </form>

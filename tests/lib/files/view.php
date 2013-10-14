@@ -391,4 +391,81 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->storages[] = $storage;
 		return $storage;
 	}
+
+	private $createHookPath;
+
+	function dummyCreateHook($params) {
+		$this->createHookPath = $params['path'];
+	}
+
+	/**
+	 * @medium
+	 */
+	function testViewHooksIfRootStartsTheSame() {
+		$storage1 = $this->getTestStorage();
+		$storage2 = $this->getTestStorage();
+		$defaultRoot = \OC\Files\Filesystem::getRoot();
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		\OC\Files\Filesystem::mount($storage2, array(), $defaultRoot . '_substorage');
+		\OC_Hook::connect('OC_Filesystem', 'post_write', $this, 'dummyHook');
+
+		$subView = new \OC\Files\View($defaultRoot . '_substorage');
+		$this->hookPath = null;
+
+		$subView->file_put_contents('/foo.txt', 'asd');
+		$this->assertNull($this->hookPath);
+	}
+
+	public function testEditNoCreateHook() {
+		$storage1 = $this->getTestStorage();
+		$storage2 = $this->getTestStorage();
+		$defaultRoot = \OC\Files\Filesystem::getRoot();
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		\OC\Files\Filesystem::mount($storage2, array(), $defaultRoot);
+		\OC_Hook::connect('OC_Filesystem', 'post_create', $this, 'dummyCreateHook');
+
+		$view = new \OC\Files\View($defaultRoot);
+		$this->hookPath = null;
+
+		$view->file_put_contents('/asd.txt', 'foo');
+		$this->assertEquals('/asd.txt', $this->createHookPath);
+		$this->createHookPath = null;
+
+		$view->file_put_contents('/asd.txt', 'foo');
+		$this->assertNull($this->createHookPath);
+	}
+
+	/**
+	 * @dataProvider resolvePathTestProvider
+	 */
+	public function testResolvePath($expected, $pathToTest) {
+		$storage1 = $this->getTestStorage();
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+
+		$view = new \OC\Files\View('');
+
+		$result = $view->resolvePath($pathToTest);
+		$this->assertEquals($expected, $result[1]);
+
+		$exists = $view->file_exists($pathToTest);
+		$this->assertTrue($exists);
+
+		$exists = $view->file_exists($result[1]);
+		$this->assertTrue($exists);
+	}
+
+	function resolvePathTestProvider() {
+		return array(
+			array('foo.txt', 'foo.txt'),
+			array('foo.txt', '/foo.txt'),
+			array('folder', 'folder'),
+			array('folder', '/folder'),
+			array('folder', 'folder/'),
+			array('folder', '/folder/'),
+			array('folder/bar.txt', 'folder/bar.txt'),
+			array('folder/bar.txt', '/folder/bar.txt'),
+			array('', ''),
+			array('', '/'),
+		);
+	}
 }

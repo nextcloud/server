@@ -1,4 +1,3 @@
-<!--[if IE 8]><style>input[type="checkbox"]{padding:0;}table td{position:static !important;}</style><![endif]-->
 <div id="controls">
 	<?php print_unescaped($_['breadcrumb']); ?>
 		<div id="file_action_panel"></div>
@@ -17,7 +16,9 @@
 	<thead>
 		<tr>
 			<th id='headerName'>
+				<div id="headerName-container">
 				<input type="checkbox" id="select_all" />
+				<label for="select_all"></label>
 				<span class='name'><?php p($l->t( 'Name' )); ?></span>
 				<span class='selectedActions'>
 						<a href="" class="undelete">
@@ -26,6 +27,7 @@
 							<?php p($l->t('Restore'))?>
 						</a>
 				</span>
+				</div>
 			</th>
 			<th id="headerDate">
 				<span id="modified"><?php p($l->t( 'Deleted' )); ?></span>

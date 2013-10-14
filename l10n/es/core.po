@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-07 12:16-0400\n"
-"PO-Revision-Date: 2013-10-07 16:17+0000\n"
+"POT-Creation-Date: 2013-10-13 20:29-0400\n"
+"PO-Revision-Date: 2013-10-14 00:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgstr "%s ha compatido  »%s« contigo"
 #: ajax/share.php:168
 #, php-format
 msgid "Couldn't send mail to following users: %s "
-msgstr ""
+msgstr "No se pudo enviar mensajes a los siguientes usuarios: %s"
 
 #: ajax/share.php:327
 msgid "group"
@@ -65,45 +65,6 @@ msgstr "Caché de archivos actualizada"
 #, php-format
 msgid "... %d%% done ..."
 msgstr "... %d%% hecho ..."
-
-#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
-msgid "Category type not provided."
-msgstr "Tipo de categoría no proporcionado."
-
-#: ajax/vcategories/add.php:30
-msgid "No category to add?"
-msgstr "¿Ninguna categoría para añadir?"
-
-#: ajax/vcategories/add.php:37
-#, php-format
-msgid "This category already exists: %s"
-msgstr "Esta categoría ya existe: %s"
-
-#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
-#: ajax/vcategories/favorites.php:24
-#: ajax/vcategories/removeFromFavorites.php:26
-msgid "Object type not provided."
-msgstr "Tipo de objeto no proporcionado."
-
-#: ajax/vcategories/addToFavorites.php:30
-#: ajax/vcategories/removeFromFavorites.php:30
-#, php-format
-msgid "%s ID not provided."
-msgstr "ID de %s no proporcionado."
-
-#: ajax/vcategories/addToFavorites.php:35
-#, php-format
-msgid "Error adding %s to favorites."
-msgstr "Error añadiendo %s a favoritos."
-
-#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
-msgid "No categories selected for deletion."
-msgstr "No hay categorías seleccionadas para borrar."
-
-#: ajax/vcategories/removeFromFavorites.php:35
-#, php-format
-msgid "Error removing %s from favorites."
-msgstr "Error eliminando %s de los favoritos."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -321,27 +282,6 @@ msgstr "({count} seleccionados)"
 msgid "Error loading file exists template"
 msgstr "Error cargando plantilla de archivo existente"
 
-#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
-#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
-msgid "The object type is not specified."
-msgstr "El tipo de objeto no está especificado."
-
-#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
-#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:130 js/share.js:143 js/share.js:150
-#: js/share.js:667 js/share.js:679
-msgid "Error"
-msgstr "Error"
-
-#: js/oc-vcategories.js:179
-msgid "The app name is not specified."
-msgstr "El nombre de la aplicación no está especificado."
-
-#: js/oc-vcategories.js:194
-msgid "The required file {file} is not installed!"
-msgstr "¡El fichero {file} es necesario y no está instalado!"
-
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
 msgstr "Compartido"
@@ -349,6 +289,11 @@ msgstr "Compartido"
 #: js/share.js:90
 msgid "Share"
 msgstr "Compartir"
+
+#: js/share.js:130 js/share.js:143 js/share.js:150 js/share.js:667
+#: js/share.js:679
+msgid "Error"
+msgstr "Error"
 
 #: js/share.js:132 js/share.js:707
 msgid "Error while sharing"
@@ -428,7 +373,7 @@ msgstr "Dejar de compartir"
 
 #: js/share.js:353
 msgid "notify user by email"
-msgstr ""
+msgstr "notificar al usuario por correo electrónico"
 
 #: js/share.js:361
 msgid "can edit"
@@ -477,6 +422,34 @@ msgstr "Correo electrónico enviado"
 #: js/share.js:729
 msgid "Warning"
 msgstr "Precaución"
+
+#: js/tags.js:4
+msgid "The object type is not specified."
+msgstr "El tipo de objeto no está especificado."
+
+#: js/tags.js:13
+msgid "Enter new"
+msgstr ""
+
+#: js/tags.js:27
+msgid "Delete"
+msgstr "Eliminar"
+
+#: js/tags.js:31
+msgid "Add"
+msgstr "Agregar"
+
+#: js/tags.js:39
+msgid "Edit tags"
+msgstr ""
+
+#: js/tags.js:57
+msgid "Error loading dialog template: {error}"
+msgstr ""
+
+#: js/tags.js:261
+msgid "No tags selected for deletion."
+msgstr ""
 
 #: js/update.js:17
 msgid ""
@@ -558,7 +531,7 @@ msgstr "Personal"
 msgid "Users"
 msgstr "Usuarios"
 
-#: strings.php:7 templates/layout.user.php:108
+#: strings.php:7 templates/layout.user.php:109
 msgid "Apps"
 msgstr "Aplicaciones"
 
@@ -569,6 +542,34 @@ msgstr "Administración"
 #: strings.php:9
 msgid "Help"
 msgstr "Ayuda"
+
+#: tags/controller.php:22
+msgid "Error loading tags"
+msgstr ""
+
+#: tags/controller.php:48
+msgid "Tag already exists"
+msgstr ""
+
+#: tags/controller.php:64
+msgid "Error deleting tag(s)"
+msgstr ""
+
+#: tags/controller.php:75
+msgid "Error tagging"
+msgstr ""
+
+#: tags/controller.php:86
+msgid "Error untagging"
+msgstr ""
+
+#: tags/controller.php:97
+msgid "Error favoriting"
+msgstr ""
+
+#: tags/controller.php:108
+msgid "Error unfavoriting"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -586,26 +587,18 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-msgstr ""
+msgstr "Hola:\n\nTan solo queremos informarte que %s compartió %s contigo.\nMíralo aquí: %s\n\n"
 
 #: templates/altmail.php:4
 #, php-format
 msgid ""
 "The share will expire on %s.\n"
 "\n"
-msgstr ""
+msgstr "El objeto dejará de ser compartido el %s.\n\n"
 
 #: templates/altmail.php:6 templates/mail.php:19
 msgid "Cheers!"
-msgstr ""
-
-#: templates/edit_categories_dialog.php:4
-msgid "Edit categories"
-msgstr "Editar categorías"
-
-#: templates/edit_categories_dialog.php:16
-msgid "Add"
-msgstr "Agregar"
+msgstr "¡Saludos!"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -694,14 +687,14 @@ msgstr "Completar la instalación"
 
 #: templates/installation.php:184
 msgid "Finishing …"
-msgstr ""
+msgstr "Finalizando..."
 
-#: templates/layout.user.php:41
+#: templates/layout.user.php:42
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s esta disponible. Obtener mas información de como actualizar."
 
-#: templates/layout.user.php:69
+#: templates/layout.user.php:70
 msgid "Log out"
 msgstr "Salir"
 
@@ -721,11 +714,11 @@ msgstr "Por favor cambie su contraseña para asegurar su cuenta nuevamente."
 
 #: templates/login.php:17
 msgid "Server side authentication failed!"
-msgstr ""
+msgstr "La autenticación a fallado en el servidor."
 
 #: templates/login.php:18
 msgid "Please contact your administrator."
-msgstr ""
+msgstr "Sírvase contactar a su administrador."
 
 #: templates/login.php:38
 msgid "Lost your password?"
@@ -748,12 +741,12 @@ msgstr "Inicios de sesión alternativos"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "Hola:<br><br>tan solo queremos informarte que %s compartió «%s» contigo.<br><a href=\"%s\">¡Míralo acá!</a><br><br>"
 
 #: templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s.<br><br>"
-msgstr ""
+msgstr "El objeto dejará de ser compartido el %s.<br><br>"
 
 #: templates/update.php:3
 #, php-format

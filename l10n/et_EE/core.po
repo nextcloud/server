@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-07 12:16-0400\n"
-"PO-Revision-Date: 2013-10-07 16:17+0000\n"
+"POT-Creation-Date: 2013-10-13 20:29-0400\n"
+"PO-Revision-Date: 2013-10-14 00:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -57,45 +57,6 @@ msgstr "Uuendatud failipuhver"
 #, php-format
 msgid "... %d%% done ..."
 msgstr "... %d%% tehtud ..."
-
-#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
-msgid "Category type not provided."
-msgstr "Kategooria tüüp puudub."
-
-#: ajax/vcategories/add.php:30
-msgid "No category to add?"
-msgstr "Pole kategooriat, mida lisada?"
-
-#: ajax/vcategories/add.php:37
-#, php-format
-msgid "This category already exists: %s"
-msgstr "See kategooria on juba olemas: %s"
-
-#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
-#: ajax/vcategories/favorites.php:24
-#: ajax/vcategories/removeFromFavorites.php:26
-msgid "Object type not provided."
-msgstr "Objekti tüüb puudub."
-
-#: ajax/vcategories/addToFavorites.php:30
-#: ajax/vcategories/removeFromFavorites.php:30
-#, php-format
-msgid "%s ID not provided."
-msgstr "%s ID puudub."
-
-#: ajax/vcategories/addToFavorites.php:35
-#, php-format
-msgid "Error adding %s to favorites."
-msgstr "Viga %s lisamisel lemmikutesse."
-
-#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
-msgid "No categories selected for deletion."
-msgstr "Kustutamiseks pole kategooriat valitud."
-
-#: ajax/vcategories/removeFromFavorites.php:35
-#, php-format
-msgid "Error removing %s from favorites."
-msgstr "Viga %s eemaldamisel lemmikutest."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -291,7 +252,7 @@ msgstr "Milliseid faile sa soovid alles hoida?"
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
-msgstr ""
+msgstr "Kui valid mõlemad versioonid, siis lisatakse kopeeritud faili nimele number."
 
 #: js/oc-dialogs.js:376
 msgid "Cancel"
@@ -311,28 +272,7 @@ msgstr "({count} valitud)"
 
 #: js/oc-dialogs.js:457
 msgid "Error loading file exists template"
-msgstr ""
-
-#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
-#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
-msgid "The object type is not specified."
-msgstr "Objekti tüüp pole määratletud."
-
-#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
-#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:130 js/share.js:143 js/share.js:150
-#: js/share.js:667 js/share.js:679
-msgid "Error"
-msgstr "Viga"
-
-#: js/oc-vcategories.js:179
-msgid "The app name is not specified."
-msgstr "Rakenduse nimi ole määratletud."
-
-#: js/oc-vcategories.js:194
-msgid "The required file {file} is not installed!"
-msgstr "Vajalikku faili {file} pole paigaldatud!"
+msgstr "Viga faili olemasolu malli laadimisel"
 
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
@@ -341,6 +281,11 @@ msgstr "Jagatud"
 #: js/share.js:90
 msgid "Share"
 msgstr "Jaga"
+
+#: js/share.js:130 js/share.js:143 js/share.js:150 js/share.js:667
+#: js/share.js:679
+msgid "Error"
+msgstr "Viga"
 
 #: js/share.js:132 js/share.js:707
 msgid "Error while sharing"
@@ -470,6 +415,34 @@ msgstr "E-kiri on saadetud"
 msgid "Warning"
 msgstr "Hoiatus"
 
+#: js/tags.js:4
+msgid "The object type is not specified."
+msgstr "Objekti tüüp pole määratletud."
+
+#: js/tags.js:13
+msgid "Enter new"
+msgstr ""
+
+#: js/tags.js:27
+msgid "Delete"
+msgstr "Kustuta"
+
+#: js/tags.js:31
+msgid "Add"
+msgstr "Lisa"
+
+#: js/tags.js:39
+msgid "Edit tags"
+msgstr ""
+
+#: js/tags.js:57
+msgid "Error loading dialog template: {error}"
+msgstr ""
+
+#: js/tags.js:261
+msgid "No tags selected for deletion."
+msgstr ""
+
 #: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
@@ -550,7 +523,7 @@ msgstr "Isiklik"
 msgid "Users"
 msgstr "Kasutajad"
 
-#: strings.php:7 templates/layout.user.php:108
+#: strings.php:7 templates/layout.user.php:109
 msgid "Apps"
 msgstr "Rakendused"
 
@@ -561,6 +534,34 @@ msgstr "Admin"
 #: strings.php:9
 msgid "Help"
 msgstr "Abiinfo"
+
+#: tags/controller.php:22
+msgid "Error loading tags"
+msgstr ""
+
+#: tags/controller.php:48
+msgid "Tag already exists"
+msgstr ""
+
+#: tags/controller.php:64
+msgid "Error deleting tag(s)"
+msgstr ""
+
+#: tags/controller.php:75
+msgid "Error tagging"
+msgstr ""
+
+#: tags/controller.php:86
+msgid "Error untagging"
+msgstr ""
+
+#: tags/controller.php:97
+msgid "Error favoriting"
+msgstr ""
+
+#: tags/controller.php:108
+msgid "Error unfavoriting"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -590,14 +591,6 @@ msgstr "Jagamine aegub %s.\n\n"
 #: templates/altmail.php:6 templates/mail.php:19
 msgid "Cheers!"
 msgstr "Terekest!"
-
-#: templates/edit_categories_dialog.php:4
-msgid "Edit categories"
-msgstr "Muuda kategooriaid"
-
-#: templates/edit_categories_dialog.php:16
-msgid "Add"
-msgstr "Lisa"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -688,12 +681,12 @@ msgstr "Lõpeta seadistamine"
 msgid "Finishing …"
 msgstr "Lõpetamine ..."
 
-#: templates/layout.user.php:41
+#: templates/layout.user.php:42
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s on saadaval. Vaata lähemalt kuidas uuendada."
 
-#: templates/layout.user.php:69
+#: templates/layout.user.php:70
 msgid "Log out"
 msgstr "Logi välja"
 
@@ -713,11 +706,11 @@ msgstr "Palun muuda parooli, et oma kasutajakonto uuesti turvata."
 
 #: templates/login.php:17
 msgid "Server side authentication failed!"
-msgstr ""
+msgstr "Serveripoolne autentimine ebaõnnestus!"
 
 #: templates/login.php:18
 msgid "Please contact your administrator."
-msgstr ""
+msgstr "Palun kontakteeru oma süsteemihalduriga."
 
 #: templates/login.php:38
 msgid "Lost your password?"

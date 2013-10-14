@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-10-08 07:22-0400\n"
+"POT-Creation-Date: 2013-10-13 20:29-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,38 +18,38 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: app.php:237
+#: app.php:243
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version "
 "of ownCloud."
 msgstr ""
 
-#: app.php:248
+#: app.php:254
 msgid "No app name specified"
 msgstr ""
 
-#: app.php:352
+#: app.php:359
 msgid "Help"
 msgstr ""
 
-#: app.php:365
+#: app.php:372
 msgid "Personal"
 msgstr ""
 
-#: app.php:376
+#: app.php:383
 msgid "Settings"
 msgstr ""
 
-#: app.php:388
+#: app.php:395
 msgid "Users"
 msgstr ""
 
-#: app.php:401
+#: app.php:408
 msgid "Admin"
 msgstr ""
 
-#: app.php:832
+#: app.php:839
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr ""

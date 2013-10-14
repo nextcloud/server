@@ -2,17 +2,12 @@
 $TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Kunne ikke slette %s permanent",
 "Couldn't restore %s" => "Kunne ikke gendanne %s",
-"perform restore operation" => "udfør gendannelsesoperation",
 "Error" => "Fejl",
-"delete file permanently" => "slet fil permanent",
-"Delete permanently" => "Slet permanent",
-"Name" => "Navn",
-"Deleted" => "Slettet",
-"_%n folder_::_%n folders_" => array("%n mappe","%n mapper"),
-"_%n file_::_%n files_" => array("%n fil","%n filer"),
 "restored" => "Gendannet",
 "Nothing in here. Your trash bin is empty!" => "Intet at se her. Din papirkurv er tom!",
+"Name" => "Navn",
 "Restore" => "Gendan",
+"Deleted" => "Slettet",
 "Delete" => "Slet",
 "Deleted Files" => "Slettede filer"
 );
