@@ -62,50 +62,53 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 			}
 
 			return $this->createFileChunked($name, $data);
-		}
+		} else {
 
-		if (!\OC\Files\Filesystem::isCreatable($this->path)) {
-			throw new \Sabre_DAV_Exception_Forbidden();
-		}
+			if (!\OC\Files\Filesystem::isCreatable($this->path)) {
+				throw new \Sabre_DAV_Exception_Forbidden();
+			}
 
-		$newPath = $this->path . '/' . $name;
+			$newPath = $this->path . '/' . $name;
 
-		// mark file as partial while uploading (ignored by the scanner)
-		$partpath = $newPath . '.part';
+			// mark file as partial while uploading (ignored by the scanner)
+			$partpath = $newPath . '.part';
 
-		\OC\Files\Filesystem::file_put_contents($partpath, $data);
+			\OC\Files\Filesystem::file_put_contents($partpath, $data);
 
-		//detect aborted upload
-		if (isset ($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT' ) {
-			if (isset($_SERVER['CONTENT_LENGTH'])) {
-				$expected = $_SERVER['CONTENT_LENGTH'];
-				$actual = \OC\Files\Filesystem::filesize($partpath);
-				if ($actual != $expected) {
-					\OC\Files\Filesystem::unlink($partpath);
-					throw new Sabre_DAV_Exception_BadRequest(
-							'expected filesize ' . $expected . ' got ' . $actual);
+			//detect aborted upload
+			if (isset ($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT' ) {
+				if (isset($_SERVER['CONTENT_LENGTH'])) {
+					$expected = $_SERVER['CONTENT_LENGTH'];
+					$actual = \OC\Files\Filesystem::filesize($partpath);
+					if ($actual != $expected) {
+						\OC\Files\Filesystem::unlink($partpath);
+						throw new Sabre_DAV_Exception_BadRequest(
+								'expected filesize ' . $expected . ' got ' . $actual);
+					}
 				}
 			}
-		}
 
-		// rename to correct path
-		$renameOkay = \OC\Files\Filesystem::rename($partpath, $newPath);
-		$fileExists = \OC\Files\Filesystem::file_exists($newPath);
-		if ($renameOkay === false || $fileExists === false) {
-			\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
-			\OC\Files\Filesystem::unlink($partpath);
-			throw new Sabre_DAV_Exception();
-		}
-
-		// allow sync clients to send the mtime along in a header
-		$mtime = OC_Request::hasModificationTime();
-		if ($mtime !== false) {
-			if(\OC\Files\Filesystem::touch($newPath, $mtime)) {
-				header('X-OC-MTime: accepted');
+			// rename to correct path
+			$renameOkay = \OC\Files\Filesystem::rename($partpath, $newPath);
+			$fileExists = \OC\Files\Filesystem::file_exists($newPath);
+			if ($renameOkay === false || $fileExists === false) {
+				\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
+				\OC\Files\Filesystem::unlink($partpath);
+				throw new Sabre_DAV_Exception();
 			}
+
+			// allow sync clients to send the mtime along in a header
+			$mtime = OC_Request::hasModificationTime();
+			if ($mtime !== false) {
+				if(\OC\Files\Filesystem::touch($newPath, $mtime)) {
+					header('X-OC-MTime: accepted');
+				}
+			}
+
+			return OC_Connector_Sabre_Node::getETagPropertyForPath($newPath);
 		}
 
-		return OC_Connector_Sabre_Node::getETagPropertyForPath($newPath);
+		return null;
 	}
 
 	/**
