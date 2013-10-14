@@ -262,7 +262,7 @@ OC.Share={
 				// Default permissions are Edit (CRUD) and Share
 				var permissions = OC.PERMISSION_ALL;
 				OC.Share.share(itemType, itemSource, shareType, shareWith, permissions, function() {
-					OC.Share.addShareWith(shareType, shareWith, selected.item.label, permissions, possiblePermissions);
+					OC.Share.addShareWith(shareType, shareWith, selected.item.value.shareWith, permissions, possiblePermissions);
 					$('#shareWith').val('');
 					OC.Share.updateIcon(itemType, itemSource);
 				});
@@ -303,6 +303,9 @@ OC.Share={
 		});
 	},
 	addShareWith:function(shareType, shareWith, shareWithDisplayName, permissions, possiblePermissions, mailSend, collection) {
+		if (shareType === 1) {
+			shareWithDisplayName = shareWithDisplayName + " (" + t('core', 'group') + ')';
+		}
 		if (!OC.Share.itemShares[shareType]) {
 			OC.Share.itemShares[shareType] = [];
 		}
