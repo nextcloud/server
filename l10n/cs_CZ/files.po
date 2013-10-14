@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-05 15:12+0000\n"
+"POT-Creation-Date: 2013-10-13 20:29-0400\n"
+"PO-Revision-Date: 2013-10-11 02:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -79,15 +79,15 @@ msgstr "Zápis na disk selhal"
 msgid "Not enough storage available"
 msgstr "Nedostatek dostupného úložného prostoru"
 
-#: ajax/upload.php:120 ajax/upload.php:143
+#: ajax/upload.php:122 ajax/upload.php:148
 msgid "Upload failed. Could not get file info."
 msgstr ""
 
-#: ajax/upload.php:136
+#: ajax/upload.php:138
 msgid "Upload failed. Could not find uploaded file"
 msgstr ""
 
-#: ajax/upload.php:160
+#: ajax/upload.php:165
 msgid "Invalid directory."
 msgstr "Neplatný adresář"
 
@@ -95,36 +95,36 @@ msgstr "Neplatný adresář"
 msgid "Files"
 msgstr "Soubory"
 
-#: js/file-upload.js:244
+#: js/file-upload.js:224
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
 msgstr ""
 
-#: js/file-upload.js:255
+#: js/file-upload.js:235
 msgid "Not enough space available"
 msgstr "Nedostatek volného místa"
 
-#: js/file-upload.js:322
+#: js/file-upload.js:302
 msgid "Upload cancelled."
 msgstr "Odesílání zrušeno."
 
-#: js/file-upload.js:356
+#: js/file-upload.js:336
 msgid "Could not get result from server."
 msgstr ""
 
-#: js/file-upload.js:446
+#: js/file-upload.js:426
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Probíhá odesílání souboru. Opuštění stránky způsobí zrušení nahrávání."
 
-#: js/file-upload.js:520
+#: js/file-upload.js:500
 msgid "URL cannot be empty."
 msgstr "URL nemůže být prázdná."
 
-#: js/file-upload.js:525 lib/app.php:53
+#: js/file-upload.js:505 lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
 msgstr "Název složky nelze použít. Použití názvu 'Shared' je ownCloudem rezervováno"
 
-#: js/file-upload.js:557 js/file-upload.js:573 js/files.js:516 js/files.js:554
+#: js/file-upload.js:540 js/file-upload.js:556 js/files.js:518 js/files.js:556
 msgid "Error"
 msgstr "Chyba"
 
@@ -136,7 +136,7 @@ msgstr "Sdílet"
 msgid "Delete permanently"
 msgstr "Trvale odstranit"
 
-#: js/fileactions.js:197
+#: js/fileactions.js:184
 msgid "Rename"
 msgstr "Přejmenovat"
 
@@ -168,14 +168,14 @@ msgstr "nahrazeno {new_name} s {old_name}"
 msgid "undo"
 msgstr "vrátit zpět"
 
-#: js/filelist.js:533 js/filelist.js:599 js/files.js:585
+#: js/filelist.js:533 js/filelist.js:599 js/files.js:587
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n složka"
 msgstr[1] "%n složky"
 msgstr[2] "%n složek"
 
-#: js/filelist.js:534 js/filelist.js:600 js/files.js:591
+#: js/filelist.js:534 js/filelist.js:600 js/files.js:593
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n soubor"
@@ -234,25 +234,25 @@ msgid ""
 "your personal settings to decrypt your files."
 msgstr "Šifrování bylo vypnuto, vaše soubory jsou však stále zašifrované. Běžte prosím do osobního nastavení, kde soubory odšifrujete."
 
-#: js/files.js:305
+#: js/files.js:307
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Vaše soubory ke stažení se připravují. Pokud jsou velké, může to chvíli trvat."
 
-#: js/files.js:516 js/files.js:554
+#: js/files.js:518 js/files.js:556
 msgid "Error moving file"
 msgstr "Chyba při přesunu souboru"
 
-#: js/files.js:567 templates/index.php:59
+#: js/files.js:569 templates/index.php:56
 msgid "Name"
 msgstr "Název"
 
-#: js/files.js:568 templates/index.php:71
+#: js/files.js:570 templates/index.php:68
 msgid "Size"
 msgstr "Velikost"
 
-#: js/files.js:569 templates/index.php:73
+#: js/files.js:571 templates/index.php:70
 msgid "Modified"
 msgstr "Upraveno"
 
@@ -261,7 +261,7 @@ msgstr "Upraveno"
 msgid "%s could not be renamed"
 msgstr "%s nemůže být přejmenován"
 
-#: lib/helper.php:11 templates/index.php:17
+#: lib/helper.php:11 templates/index.php:16
 msgid "Upload"
 msgstr "Odeslat"
 
@@ -297,65 +297,65 @@ msgstr "Maximální velikost vstupu pro ZIP soubory"
 msgid "Save"
 msgstr "Uložit"
 
-#: templates/index.php:6
+#: templates/index.php:5
 msgid "New"
 msgstr "Nový"
 
-#: templates/index.php:9
+#: templates/index.php:8
 msgid "Text file"
 msgstr "Textový soubor"
 
-#: templates/index.php:11
+#: templates/index.php:10
 msgid "Folder"
 msgstr "Složka"
 
-#: templates/index.php:13
+#: templates/index.php:12
 msgid "From link"
 msgstr "Z odkazu"
 
-#: templates/index.php:32
+#: templates/index.php:29
 msgid "Deleted files"
 msgstr "Odstraněné soubory"
 
-#: templates/index.php:37
+#: templates/index.php:34
 msgid "Cancel upload"
 msgstr "Zrušit odesílání"
 
-#: templates/index.php:43
+#: templates/index.php:40
 msgid "You don’t have write permissions here."
 msgstr "Nemáte zde práva zápisu."
 
-#: templates/index.php:48
+#: templates/index.php:45
 msgid "Nothing in here. Upload something!"
 msgstr "Žádný obsah. Nahrajte něco."
 
-#: templates/index.php:65
+#: templates/index.php:62
 msgid "Download"
 msgstr "Stáhnout"
 
-#: templates/index.php:78 templates/index.php:79
+#: templates/index.php:75 templates/index.php:76
 msgid "Unshare"
 msgstr "Zrušit sdílení"
 
-#: templates/index.php:84 templates/index.php:85
+#: templates/index.php:81 templates/index.php:82
 msgid "Delete"
 msgstr "Smazat"
 
-#: templates/index.php:98
+#: templates/index.php:95
 msgid "Upload too large"
 msgstr "Odesílaný soubor je příliš velký"
 
-#: templates/index.php:100
+#: templates/index.php:97
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Soubory, které se snažíte odeslat, překračují limit velikosti odesílání na tomto serveru."
 
-#: templates/index.php:105
+#: templates/index.php:102
 msgid "Files are being scanned, please wait."
 msgstr "Soubory se prohledávají, prosím čekejte."
 
-#: templates/index.php:108
+#: templates/index.php:105
 msgid "Current scanning"
 msgstr "Aktuální prohledávání"
 

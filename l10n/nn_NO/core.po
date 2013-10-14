@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-07 12:16-0400\n"
-"PO-Revision-Date: 2013-10-07 16:17+0000\n"
+"POT-Creation-Date: 2013-10-13 20:29-0400\n"
+"PO-Revision-Date: 2013-10-14 00:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -58,45 +58,6 @@ msgstr "Mellomlager oppdatert"
 #, php-format
 msgid "... %d%% done ..."
 msgstr "… %d %% ferdig …"
-
-#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
-msgid "Category type not provided."
-msgstr "Ingen kategoritype."
-
-#: ajax/vcategories/add.php:30
-msgid "No category to add?"
-msgstr "Ingen kategori å leggja til?"
-
-#: ajax/vcategories/add.php:37
-#, php-format
-msgid "This category already exists: %s"
-msgstr "Denne kategorien finst alt: %s"
-
-#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
-#: ajax/vcategories/favorites.php:24
-#: ajax/vcategories/removeFromFavorites.php:26
-msgid "Object type not provided."
-msgstr "Ingen objekttype."
-
-#: ajax/vcategories/addToFavorites.php:30
-#: ajax/vcategories/removeFromFavorites.php:30
-#, php-format
-msgid "%s ID not provided."
-msgstr "Ingen %s-ID."
-
-#: ajax/vcategories/addToFavorites.php:35
-#, php-format
-msgid "Error adding %s to favorites."
-msgstr "Klarte ikkje leggja til %s i favorittar."
-
-#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
-msgid "No categories selected for deletion."
-msgstr "Ingen kategoriar valt for sletting."
-
-#: ajax/vcategories/removeFromFavorites.php:35
-#, php-format
-msgid "Error removing %s from favorites."
-msgstr "Klarte ikkje fjerna %s frå favorittar."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -314,27 +275,6 @@ msgstr "({count} valte)"
 msgid "Error loading file exists template"
 msgstr "Klarte ikkje å lasta fil-finst-mal"
 
-#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
-#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
-msgid "The object type is not specified."
-msgstr "Objekttypen er ikkje spesifisert."
-
-#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
-#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:130 js/share.js:143 js/share.js:150
-#: js/share.js:667 js/share.js:679
-msgid "Error"
-msgstr "Feil"
-
-#: js/oc-vcategories.js:179
-msgid "The app name is not specified."
-msgstr "Programnamnet er ikkje spesifisert."
-
-#: js/oc-vcategories.js:194
-msgid "The required file {file} is not installed!"
-msgstr "Den kravde fila {file} er ikkje installert!"
-
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
 msgstr "Delt"
@@ -342,6 +282,11 @@ msgstr "Delt"
 #: js/share.js:90
 msgid "Share"
 msgstr "Del"
+
+#: js/share.js:130 js/share.js:143 js/share.js:150 js/share.js:667
+#: js/share.js:679
+msgid "Error"
+msgstr "Feil"
 
 #: js/share.js:132 js/share.js:707
 msgid "Error while sharing"
@@ -471,6 +416,34 @@ msgstr "E-post sendt"
 msgid "Warning"
 msgstr "Åtvaring"
 
+#: js/tags.js:4
+msgid "The object type is not specified."
+msgstr "Objekttypen er ikkje spesifisert."
+
+#: js/tags.js:13
+msgid "Enter new"
+msgstr ""
+
+#: js/tags.js:27
+msgid "Delete"
+msgstr "Slett"
+
+#: js/tags.js:31
+msgid "Add"
+msgstr "Legg til"
+
+#: js/tags.js:39
+msgid "Edit tags"
+msgstr ""
+
+#: js/tags.js:57
+msgid "Error loading dialog template: {error}"
+msgstr ""
+
+#: js/tags.js:261
+msgid "No tags selected for deletion."
+msgstr ""
+
 #: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
@@ -551,7 +524,7 @@ msgstr "Personleg"
 msgid "Users"
 msgstr "Brukarar"
 
-#: strings.php:7 templates/layout.user.php:108
+#: strings.php:7 templates/layout.user.php:109
 msgid "Apps"
 msgstr "Program"
 
@@ -562,6 +535,34 @@ msgstr "Admin"
 #: strings.php:9
 msgid "Help"
 msgstr "Hjelp"
+
+#: tags/controller.php:22
+msgid "Error loading tags"
+msgstr ""
+
+#: tags/controller.php:48
+msgid "Tag already exists"
+msgstr ""
+
+#: tags/controller.php:64
+msgid "Error deleting tag(s)"
+msgstr ""
+
+#: tags/controller.php:75
+msgid "Error tagging"
+msgstr ""
+
+#: tags/controller.php:86
+msgid "Error untagging"
+msgstr ""
+
+#: tags/controller.php:97
+msgid "Error favoriting"
+msgstr ""
+
+#: tags/controller.php:108
+msgid "Error unfavoriting"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -591,14 +592,6 @@ msgstr ""
 #: templates/altmail.php:6 templates/mail.php:19
 msgid "Cheers!"
 msgstr ""
-
-#: templates/edit_categories_dialog.php:4
-msgid "Edit categories"
-msgstr "Endra kategoriar"
-
-#: templates/edit_categories_dialog.php:16
-msgid "Add"
-msgstr "Legg til"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -689,12 +682,12 @@ msgstr "Fullfør oppsettet"
 msgid "Finishing …"
 msgstr ""
 
-#: templates/layout.user.php:41
+#: templates/layout.user.php:42
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s er tilgjengeleg. Få meir informasjon om korleis du oppdaterer."
 
-#: templates/layout.user.php:69
+#: templates/layout.user.php:70
 msgid "Log out"
 msgstr "Logg ut"
 

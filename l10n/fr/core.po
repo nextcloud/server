@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-10 22:26-0400\n"
-"PO-Revision-Date: 2013-10-09 22:40+0000\n"
-"Last-Translator: etiess <etiess@gmail.com>\n"
+"POT-Creation-Date: 2013-10-13 20:29-0400\n"
+"PO-Revision-Date: 2013-10-14 00:30+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,45 +62,6 @@ msgstr "Cache de fichier mis à jour"
 #, php-format
 msgid "... %d%% done ..."
 msgstr "... %d%% effectué ..."
-
-#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
-msgid "Category type not provided."
-msgstr "Type de catégorie non spécifié."
-
-#: ajax/vcategories/add.php:30
-msgid "No category to add?"
-msgstr "Pas de catégorie à ajouter ?"
-
-#: ajax/vcategories/add.php:37
-#, php-format
-msgid "This category already exists: %s"
-msgstr "Cette catégorie existe déjà : %s"
-
-#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
-#: ajax/vcategories/favorites.php:24
-#: ajax/vcategories/removeFromFavorites.php:26
-msgid "Object type not provided."
-msgstr "Type d'objet non spécifié."
-
-#: ajax/vcategories/addToFavorites.php:30
-#: ajax/vcategories/removeFromFavorites.php:30
-#, php-format
-msgid "%s ID not provided."
-msgstr "L'identifiant de %s n'est pas spécifié."
-
-#: ajax/vcategories/addToFavorites.php:35
-#, php-format
-msgid "Error adding %s to favorites."
-msgstr "Erreur lors de l'ajout de %s aux favoris."
-
-#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
-msgid "No categories selected for deletion."
-msgstr "Pas de catégorie sélectionnée pour la suppression."
-
-#: ajax/vcategories/removeFromFavorites.php:35
-#, php-format
-msgid "Error removing %s from favorites."
-msgstr "Erreur lors de la suppression de %s des favoris."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -318,27 +279,6 @@ msgstr "({count} sélectionnés)"
 msgid "Error loading file exists template"
 msgstr "Erreur de chargement du modèle de fichier existant"
 
-#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
-#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
-msgid "The object type is not specified."
-msgstr "Le type d'objet n'est pas spécifié."
-
-#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
-#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:130 js/share.js:143 js/share.js:150
-#: js/share.js:667 js/share.js:679
-msgid "Error"
-msgstr "Erreur"
-
-#: js/oc-vcategories.js:179
-msgid "The app name is not specified."
-msgstr "Le nom de l'application n'est pas spécifié."
-
-#: js/oc-vcategories.js:194
-msgid "The required file {file} is not installed!"
-msgstr "Le fichier requis {file} n'est pas installé !"
-
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
 msgstr "Partagé"
@@ -346,6 +286,11 @@ msgstr "Partagé"
 #: js/share.js:90
 msgid "Share"
 msgstr "Partager"
+
+#: js/share.js:130 js/share.js:143 js/share.js:150 js/share.js:667
+#: js/share.js:679
+msgid "Error"
+msgstr "Erreur"
 
 #: js/share.js:132 js/share.js:707
 msgid "Error while sharing"
@@ -475,6 +420,34 @@ msgstr "Email envoyé"
 msgid "Warning"
 msgstr "Attention"
 
+#: js/tags.js:4
+msgid "The object type is not specified."
+msgstr "Le type d'objet n'est pas spécifié."
+
+#: js/tags.js:13
+msgid "Enter new"
+msgstr ""
+
+#: js/tags.js:27
+msgid "Delete"
+msgstr "Supprimer"
+
+#: js/tags.js:31
+msgid "Add"
+msgstr "Ajouter"
+
+#: js/tags.js:39
+msgid "Edit tags"
+msgstr ""
+
+#: js/tags.js:57
+msgid "Error loading dialog template: {error}"
+msgstr ""
+
+#: js/tags.js:261
+msgid "No tags selected for deletion."
+msgstr ""
+
 #: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
@@ -567,6 +540,34 @@ msgstr "Administration"
 msgid "Help"
 msgstr "Aide"
 
+#: tags/controller.php:22
+msgid "Error loading tags"
+msgstr ""
+
+#: tags/controller.php:48
+msgid "Tag already exists"
+msgstr ""
+
+#: tags/controller.php:64
+msgid "Error deleting tag(s)"
+msgstr ""
+
+#: tags/controller.php:75
+msgid "Error tagging"
+msgstr ""
+
+#: tags/controller.php:86
+msgid "Error untagging"
+msgstr ""
+
+#: tags/controller.php:97
+msgid "Error favoriting"
+msgstr ""
+
+#: tags/controller.php:108
+msgid "Error unfavoriting"
+msgstr ""
+
 #: templates/403.php:12
 msgid "Access forbidden"
 msgstr "Accès interdit"
@@ -595,14 +596,6 @@ msgstr "Le partage expire le %s.\n\n"
 #: templates/altmail.php:6 templates/mail.php:19
 msgid "Cheers!"
 msgstr "Salutations!"
-
-#: templates/edit_categories_dialog.php:4
-msgid "Edit categories"
-msgstr "Editer les catégories"
-
-#: templates/edit_categories_dialog.php:16
-msgid "Add"
-msgstr "Ajouter"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38

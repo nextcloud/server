@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"This share is password-protected" => "Diese Freigabe ist durch ein Passwort geschützt",
 "The password is wrong. Try again." => "Bitte überprüfen sie Ihr Passwort und versuchen Sie es erneut.",
 "Password" => "Passwort",
 "Sorry, this link doesn’t seem to work anymore." => "Entschuldigung, dieser Link scheint nicht mehr zu funktionieren.",

@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Daniel Sandman <revoltism@gmail.com>, 2013
 # medialabs, 2013
 # Magnus Höglund <magnus@linux.com>, 2013
 # medialabs, 2013
@@ -10,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-02 13:21+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-13 20:29-0400\n"
+"PO-Revision-Date: 2013-10-11 21:20+0000\n"
+"Last-Translator: Daniel Sandman <revoltism@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,53 +21,53 @@ msgstr ""
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: private/app.php:237
+#: private/app.php:243
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "Appen \"%s\" kan inte installeras eftersom att den inte är kompatibel med denna version av ownCloud."
 
-#: private/app.php:248
+#: private/app.php:254
 msgid "No app name specified"
 msgstr "Inget appnamn angivet"
 
-#: private/app.php:352
+#: private/app.php:359
 msgid "Help"
 msgstr "Hjälp"
 
-#: private/app.php:365
+#: private/app.php:372
 msgid "Personal"
 msgstr "Personligt"
 
-#: private/app.php:376
+#: private/app.php:383
 msgid "Settings"
 msgstr "Inställningar"
 
-#: private/app.php:388
+#: private/app.php:395
 msgid "Users"
 msgstr "Användare"
 
-#: private/app.php:401
+#: private/app.php:408
 msgid "Admin"
 msgstr "Admin"
 
-#: private/app.php:832
+#: private/app.php:839
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Misslyckades med att uppgradera \"%s\"."
 
 #: private/avatar.php:56
 msgid "Custom profile pictures don't work with encryption yet"
-msgstr ""
+msgstr "Anpassningsbara profilbilder fungerar inte med kryptering ännu."
 
 #: private/avatar.php:64
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Okänd filtyp"
 
 #: private/avatar.php:69
 msgid "Invalid image"
-msgstr ""
+msgstr "Ogiltig bild"
 
 #: private/defaults.php:36
 msgid "web services under your control"

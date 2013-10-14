@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-10 22:26-0400\n"
-"PO-Revision-Date: 2013-10-11 02:27+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-13 20:29-0400\n"
+"PO-Revision-Date: 2013-10-11 09:40+0000\n"
+"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -371,11 +371,11 @@ msgstr "Por padrão, o atributo UUID é detectado automaticamente. O atributo UU
 
 #: templates/settings.php:103
 msgid "UUID Attribute for Users:"
-msgstr ""
+msgstr "UUID Atributos para Usuários:"
 
 #: templates/settings.php:104
 msgid "UUID Attribute for Groups:"
-msgstr ""
+msgstr "UUID Atributos para Grupos:"
 
 #: templates/settings.php:105
 msgid "Username-LDAP User Mapping"

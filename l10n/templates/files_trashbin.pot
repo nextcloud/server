@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-10-10 22:26-0400\n"
+"POT-Creation-Date: 2013-10-13 20:29-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,23 +35,23 @@ msgstr ""
 msgid "restored"
 msgstr ""
 
-#: templates/index.php:9
+#: templates/index.php:8
 msgid "Nothing in here. Your trash bin is empty!"
 msgstr ""
 
-#: templates/index.php:23
+#: templates/index.php:22
 msgid "Name"
 msgstr ""
 
-#: templates/index.php:26 templates/index.php:28
+#: templates/index.php:25 templates/index.php:27
 msgid "Restore"
 msgstr ""
 
-#: templates/index.php:34
+#: templates/index.php:33
 msgid "Deleted"
 msgstr ""
 
-#: templates/index.php:37 templates/index.php:38
+#: templates/index.php:36 templates/index.php:37
 msgid "Delete"
 msgstr ""
 

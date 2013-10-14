@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"This share is password-protected" => "Tämä jako on suojattu salasanalla",
 "The password is wrong. Try again." => "Väärä salasana. Yritä uudelleen.",
 "Password" => "Salasana",
 "Sorry, this link doesn’t seem to work anymore." => "Valitettavasti linkki ei vaikuta enää toimivan.",

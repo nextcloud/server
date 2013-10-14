@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-10 22:26-0400\n"
-"PO-Revision-Date: 2013-10-09 11:10+0000\n"
+"POT-Creation-Date: 2013-10-13 20:29-0400\n"
+"PO-Revision-Date: 2013-10-11 02:31+0000\n"
 "Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -76,15 +76,15 @@ msgstr "Kettale kirjutamine ebaõnnestus"
 msgid "Not enough storage available"
 msgstr "Saadaval pole piisavalt ruumi"
 
-#: ajax/upload.php:120 ajax/upload.php:143
+#: ajax/upload.php:122 ajax/upload.php:148
 msgid "Upload failed. Could not get file info."
 msgstr "Üleslaadimine ebaõnnestus. Faili info hankimine ebaõnnestus."
 
-#: ajax/upload.php:136
+#: ajax/upload.php:138
 msgid "Upload failed. Could not find uploaded file"
 msgstr "Üleslaadimine ebaõnnestus. Üleslaetud faili ei leitud"
 
-#: ajax/upload.php:160
+#: ajax/upload.php:165
 msgid "Invalid directory."
 msgstr "Vigane kaust."
 
@@ -121,7 +121,7 @@ msgstr "URL ei saa olla tühi."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
 msgstr "Vigane kausta nimi. 'Shared' kasutamine on reserveeritud ownCloud poolt."
 
-#: js/file-upload.js:537 js/file-upload.js:553 js/files.js:518 js/files.js:556
+#: js/file-upload.js:540 js/file-upload.js:556 js/files.js:518 js/files.js:556
 msgid "Error"
 msgstr "Viga"
 
@@ -238,15 +238,15 @@ msgstr "Valmistatakse allalaadimist. See võib võtta veidi aega, kui on tegu su
 msgid "Error moving file"
 msgstr "Viga faili eemaldamisel"
 
-#: js/files.js:569 templates/index.php:57
+#: js/files.js:569 templates/index.php:56
 msgid "Name"
 msgstr "Nimi"
 
-#: js/files.js:570 templates/index.php:69
+#: js/files.js:570 templates/index.php:68
 msgid "Size"
 msgstr "Suurus"
 
-#: js/files.js:571 templates/index.php:71
+#: js/files.js:571 templates/index.php:70
 msgid "Modified"
 msgstr "Muudetud"
 
@@ -255,7 +255,7 @@ msgstr "Muudetud"
 msgid "%s could not be renamed"
 msgstr "%s ümbernimetamine ebaõnnestus"
 
-#: lib/helper.php:11 templates/index.php:17
+#: lib/helper.php:11 templates/index.php:16
 msgid "Upload"
 msgstr "Lae üles"
 
@@ -291,65 +291,65 @@ msgstr "Maksimaalne ZIP-faili sisestatava faili suurus"
 msgid "Save"
 msgstr "Salvesta"
 
-#: templates/index.php:6
+#: templates/index.php:5
 msgid "New"
 msgstr "Uus"
 
-#: templates/index.php:9
+#: templates/index.php:8
 msgid "Text file"
 msgstr "Tekstifail"
 
-#: templates/index.php:11
+#: templates/index.php:10
 msgid "Folder"
 msgstr "Kaust"
 
-#: templates/index.php:13
+#: templates/index.php:12
 msgid "From link"
 msgstr "Allikast"
 
-#: templates/index.php:30
+#: templates/index.php:29
 msgid "Deleted files"
 msgstr "Kustutatud failid"
 
-#: templates/index.php:35
+#: templates/index.php:34
 msgid "Cancel upload"
 msgstr "Tühista üleslaadimine"
 
-#: templates/index.php:41
+#: templates/index.php:40
 msgid "You don’t have write permissions here."
 msgstr "Siin puudvad sul kirjutamisõigused."
 
-#: templates/index.php:46
+#: templates/index.php:45
 msgid "Nothing in here. Upload something!"
 msgstr "Siin pole midagi. Lae midagi üles!"
 
-#: templates/index.php:63
+#: templates/index.php:62
 msgid "Download"
 msgstr "Lae alla"
 
-#: templates/index.php:76 templates/index.php:77
+#: templates/index.php:75 templates/index.php:76
 msgid "Unshare"
 msgstr "Lõpeta jagamine"
 
-#: templates/index.php:82 templates/index.php:83
+#: templates/index.php:81 templates/index.php:82
 msgid "Delete"
 msgstr "Kustuta"
 
-#: templates/index.php:96
+#: templates/index.php:95
 msgid "Upload too large"
 msgstr "Üleslaadimine on liiga suur"
 
-#: templates/index.php:98
+#: templates/index.php:97
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Failid, mida sa proovid üles laadida, ületab serveri poolt üleslaetavatele failidele määratud maksimaalse suuruse."
 
-#: templates/index.php:103
+#: templates/index.php:102
 msgid "Files are being scanned, please wait."
 msgstr "Faile skannitakse, palun oota."
 
-#: templates/index.php:106
+#: templates/index.php:105
 msgid "Current scanning"
 msgstr "Praegune skannimine"
 
