@@ -784,7 +784,7 @@ class OC_App{
 		}
 
 		// prio 4: alphabetical
-		return strcmp($a['name'], $b['name']);
+		return strcasecmp($a['name'], $b['name']);
 
 	}
 
