@@ -698,11 +698,23 @@ $(document).ready(function(){
 				// array index 0 contains the max files size
 				// array index 1 contains the request token
 				// array index 2 contains the directory
-				var parentDir = formArray[2]['value'];
-				if (parentDir === '/') {
-					formArray[2]['value'] += dir;
-				} else {
-					formArray[2]['value'] += '/' + dir;
+				if (formArray.length){
+					var parentDir = formArray[2]['value'];
+					if (parentDir === '/') {
+						formArray[2]['value'] += dir;
+					} else {
+						formArray[2]['value'] += '/' + dir;
+					}
+				}
+				else{
+					var parentDir = $('#dir').val() || '';
+					if (parentDir[parentDir.length - 1] != '/'){
+						parentDir += '/';
+					}
+					return [
+						{name: 'dir', value: parentDir + dir},
+						{name: 'requesttoken', value: oc_requesttoken}
+					];
 				}
 
 				return formArray;
