@@ -86,7 +86,7 @@ class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @medium
-	 * @brief test delete file
+	 * @brief test if postFileSize returns the unencrypted file size
 	 */
 	function testPostFileSize() {
 
