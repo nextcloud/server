@@ -904,7 +904,8 @@ class View {
 								$permissions = $subStorage->getPermissions($rootEntry['path']);
 								$subPermissionsCache->set($rootEntry['fileid'], $user, $permissions);
 							}
-							$rootEntry['permissions'] = $permissions;
+							// do not allow renaming/deleting the mount point
+							$rootEntry['permissions'] = $permissions & (\OCP\PERMISSION_ALL - (\OCP\PERMISSION_UPDATE | \OCP\PERMISSION_DELETE));
 
 							//remove any existing entry with the same name
 							foreach ($files as $i => $file) {
