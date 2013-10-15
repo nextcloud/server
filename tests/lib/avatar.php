@@ -15,8 +15,8 @@ class Test_Avatar extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(false, $avatar->get());
 
 		$expected = new OC_Image(\OC::$SERVERROOT.'/tests/data/testavatar.png');
-		$avatar->set($expected->data());
 		$expected->resize(64);
+		$avatar->set($expected->data());
 		$this->assertEquals($expected->data(), $avatar->get()->data());
 
 		$avatar->remove();
