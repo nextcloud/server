@@ -705,7 +705,9 @@ function checkTrashStatus() {
 function onClickBreadcrumb(e){
 	var $el = $(e.target).closest('.crumb'),
 		$targetDir = $el.data('dir');
-	if ($targetDir !== undefined){
+		isPublic = !!$('#isPublic').val();
+
+	if ($targetDir !== undefined && !isPublic){
 		e.preventDefault();
 		FileList.changeDirectory(decodeURIComponent($targetDir));
 	}
