@@ -413,7 +413,6 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 #personal-show + label {
 	margin-top: 1em;
 	margin-left: -3em;
-	display:inline !important;
 }
 #passwordbutton {
 	margin-left: .5em;
