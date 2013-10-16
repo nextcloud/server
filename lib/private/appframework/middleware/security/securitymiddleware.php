@@ -74,12 +74,12 @@ class SecurityMiddleware extends Middleware {
 
 		// this will set the current navigation entry of the app, use this only
 		// for normal HTML requests and not for AJAX requests
-		$this->api->activateNavigationEntry();
+		//$this->api->activateNavigationEntry();
 
 		// security checks
 		$isPublicPage = $annotationReader->hasAnnotation('PublicPage');
 		if(!$isPublicPage) {
-			if(!$this->api->isLoggedIn()) {
+			if(!\OC_User::isLoggedIn()) {
 				throw new SecurityException('Current user is not logged in', Http::STATUS_UNAUTHORIZED);
 			}
 
