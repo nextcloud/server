@@ -8,18 +8,20 @@
  */
 
 namespace OC;
+use OCP\IURLGenerator;
+use RuntimeException;
 
 /**
  * Class to generate URLs
  */
-class URLGenerator {
+class URLGenerator implements IURLGenerator {
 	/**
 	 * @brief Creates an url using a defined route
 	 * @param $route
 	 * @param array $parameters
 	 * @return
 	 * @internal param array $args with param=>value, will be appended to the returned url
-	 * @returns the url
+	 * @returns string the url
 	 *
 	 * Returns a url to the given app and file.
 	 */
@@ -97,15 +99,13 @@ class URLGenerator {
 		}
 	}
 
+
 	/**
-	 * @brief Makes an $url absolute
-	 * @param string $url the url
-	 * @return string the absolute url
-	 *
-	 * Returns a absolute url to the given app and file.
+	 * Makes an URL absolute
+	 * @param string $url the url in the owncloud host
+	 * @return string the absolute version of the url
 	 */
-	public function makeURLAbsolute($url) {
+	public function getAbsoluteURL($url) {
 		return \OC_Request::serverProtocol() . '://' . \OC_Request::serverHost() . $url;
 	}
-
 }

@@ -35,6 +35,7 @@ use OC\AppFramework\Utility\TimeFactory;
 use OCP\AppFramework\IApi;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\IMiddleWare;
+use OCP\AppFramework\Middleware;
 use OCP\IServerContainer;
 
 
@@ -49,9 +50,10 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 	 * Put your class dependencies in here
 	 * @param string $appName the name of the app
 	 */
-	public function __construct($appName){
+	public function __construct($appName, $urlParams = array()){
 
 		$this['AppName'] = $appName;
+		$this['urlParams'] = $urlParams;
 
 		$this->registerParameter('ServerContainer', \OC::$server);
 
@@ -66,6 +68,7 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 			/** @var $c SimpleContainer */
 			/** @var $server IServerContainer */
 			$server = $c->query('ServerContainer');
+			$server->registerParameter('urlParams', $c['urlParams']);
 			return $server->getRequest();
 		});
 
@@ -86,7 +89,7 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 		 * Middleware
 		 */
 		$this['SecurityMiddleware'] = $this->share(function($c){
-			return new SecurityMiddleware($c['API'], $c['Request']);
+			return new SecurityMiddleware($this, $c['Request']);
 		});
 
         $middleWares = $this->middleWares;
@@ -130,10 +133,10 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 	}
 
 	/**
-	 * @param IMiddleWare $middleWare
+	 * @param Middleware $middleWare
 	 * @return boolean
 	 */
-	function registerMiddleWare(IMiddleWare $middleWare) {
+	function registerMiddleWare(Middleware $middleWare) {
 		array_push($this->middleWares, $middleWare);
 	}
 
@@ -143,5 +146,50 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 	 */
 	function getAppName() {
 		return $this->query('AppName');
+	}
+
+	/**
+	 * @return boolean
+	 */
+	function isLoggedIn() {
+		return \OC_User::isLoggedIn();
+	}
+
+	/**
+	 * @return boolean
+	 */
+	function isAdminUser() {
+		$uid = $this->getUserId();
+		return \OC_User::isAdminUser($uid);
+	}
+
+	private function getUserId() {
+		return \OC::$session->get('user_id');
+	}
+
+	/**
+	 * @param $message
+	 * @param $level
+	 * @return mixed
+	 */
+	function log($message, $level) {
+		switch($level){
+			case 'debug':
+				$level = \OCP\Util::DEBUG;
+				break;
+			case 'info':
+				$level = \OCP\Util::INFO;
+				break;
+			case 'warn':
+				$level = \OCP\Util::WARN;
+				break;
+			case 'fatal':
+				$level = \OCP\Util::FATAL;
+				break;
+			default:
+				$level = \OCP\Util::ERROR;
+				break;
+		}
+		\OCP\Util::writeLog($this->getAppName(), $message, $level);
 	}
 }

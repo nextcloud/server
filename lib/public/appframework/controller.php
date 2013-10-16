@@ -22,11 +22,11 @@
  */
 
 
-namespace OC\AppFramework\Controller;
+namespace OCP\AppFramework;
 
-use OC\AppFramework\Http\Request;
-use OC\AppFramework\Core\API;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\IAppContainer;
+use OCP\IRequest;
 
 
 /**
@@ -35,18 +35,21 @@ use OCP\AppFramework\Http\TemplateResponse;
 abstract class Controller {
 
 	/**
-	 * @var API instance of the api layer
+	 * @var \OCP\AppFramework\IAppContainer
 	 */
-	protected $api;
+	protected $app;
 
+	/**
+	 * @var \OCP\IRequest
+	 */
 	protected $request;
 
 	/**
-	 * @param API $api an api wrapper instance
-	 * @param Request $request an instance of the request
+	 * @param IAppContainer $app interface to the app
+	 * @param IRequest $request an instance of the request
 	 */
-	public function __construct(API $api, Request $request){
-		$this->api = $api;
+	public function __construct(IAppContainer $app, IRequest $request){
+		$this->app = $app;
 		$this->request = $request;
 	}
 
@@ -127,7 +130,7 @@ abstract class Controller {
 	 */
 	public function render($templateName, array $params=array(),
 							$renderAs='user', array $headers=array()){
-		$response = new TemplateResponse($this->api, $templateName);
+		$response = new TemplateResponse($this->app->getAppName(), $templateName);
 		$response->setParams($params);
 		$response->renderAs($renderAs);
 

@@ -44,8 +44,8 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 	protected function setUp() {
 		$this->controllerMethod = 'test';
 
-		$api = $this->getMockBuilder(
-			'\OC\AppFramework\Core\API')
+		$app = $this->getMockBuilder(
+			'OC\AppFramework\DependencyInjection\DIContainer')
 			->disableOriginalConstructor()
 			->getMock();
 		$request = $this->getMockBuilder(
@@ -62,8 +62,8 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->controller = $this->getMock(
-			'\OC\AppFramework\Controller\Controller',
-			array($this->controllerMethod), array($api, $request));
+			'\OCP\AppFramework\Controller',
+			array($this->controllerMethod), array($app, $request));
 		
 		$this->dispatcher = new Dispatcher(
 			$this->http, $this->middlewareDispatcher);
