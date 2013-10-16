@@ -41,6 +41,24 @@ class File {
 		return $result;
 	}
 
+	/**
+	 * Returns the size of the stored/cached data
+	 *
+	 * @param $key
+	 * @return int
+	 */
+	public function size($key) {
+		$result = 0;
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
+		if ($this->hasKey($key)) {
+			$storage = $this->getStorage();
+			$result = $storage->filesize($key);
+		}
+		\OC_FileProxy::$enabled = $proxyStatus;
+		return $result;
+	}
+
 	public function set($key, $value, $ttl=0) {
 		$storage = $this->getStorage();
 		$result = false;

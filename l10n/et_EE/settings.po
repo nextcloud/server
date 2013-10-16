@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-06 17:40+0000\n"
+"POT-Creation-Date: 2013-10-16 00:26-0400\n"
+"PO-Revision-Date: 2013-10-14 00:42+0000\n"
 "Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -159,15 +159,15 @@ msgstr "Uuenda"
 msgid "Updated"
 msgstr "Uuendatud"
 
-#: js/personal.js:225
+#: js/personal.js:220
 msgid "Select a profile picture"
 msgstr "Vali profiili pilt"
 
-#: js/personal.js:270
+#: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Dekrüpteerin faile... Palun oota, see võib võtta veidi aega."
 
-#: js/personal.js:292
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "Salvestamine..."
 
@@ -183,32 +183,32 @@ msgstr "tagasi"
 msgid "Unable to remove user"
 msgstr "Kasutaja eemaldamine ebaõnnestus"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:90
+#: js/users.js:95 templates/users.php:26 templates/users.php:90
 #: templates/users.php:118
 msgid "Groups"
 msgstr "Grupid"
 
-#: js/users.js:97 templates/users.php:92 templates/users.php:130
+#: js/users.js:100 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
 msgstr "Grupi admin"
 
-#: js/users.js:120 templates/users.php:170
+#: js/users.js:123 templates/users.php:170
 msgid "Delete"
 msgstr "Kustuta"
 
-#: js/users.js:277
+#: js/users.js:280
 msgid "add group"
 msgstr "lisa grupp"
 
-#: js/users.js:436
+#: js/users.js:442
 msgid "A valid username must be provided"
 msgstr "Sisesta nõuetele vastav kasutajatunnus"
 
-#: js/users.js:437 js/users.js:443 js/users.js:458
+#: js/users.js:443 js/users.js:449 js/users.js:464
 msgid "Error creating user"
 msgstr "Viga kasutaja loomisel"
 
-#: js/users.js:442
+#: js/users.js:448
 msgid "A valid password must be provided"
 msgstr "Sisesta nõuetele vastav parool"
 
@@ -386,11 +386,11 @@ msgstr "Rohkem"
 msgid "Less"
 msgstr "Vähem"
 
-#: templates/admin.php:250 templates/personal.php:161
+#: templates/admin.php:250 templates/personal.php:169
 msgid "Version"
 msgstr "Versioon"
 
-#: templates/admin.php:254 templates/personal.php:164
+#: templates/admin.php:254 templates/personal.php:172
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -529,34 +529,34 @@ msgstr "Vali kui profiili pilt"
 msgid "Language"
 msgstr "Keel"
 
-#: templates/personal.php:119
+#: templates/personal.php:126
 msgid "Help translate"
 msgstr "Aita tõlkida"
 
-#: templates/personal.php:125
+#: templates/personal.php:133
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:127
+#: templates/personal.php:135
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
 "target=\"_blank\">access your Files via WebDAV</a>"
 msgstr "Kasuta seda aadressi <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">oma failidele ligipääsuks WebDAV kaudu</a>"
 
-#: templates/personal.php:138
+#: templates/personal.php:146
 msgid "Encryption"
 msgstr "Krüpteerimine"
 
-#: templates/personal.php:140
+#: templates/personal.php:148
 msgid "The encryption app is no longer enabled, decrypt all your file"
 msgstr "Küpteeringu rakend pole lubatud, dekrüpteeri kõik oma failid"
 
-#: templates/personal.php:146
+#: templates/personal.php:154
 msgid "Log-in password"
 msgstr "Sisselogimise parool"
 
-#: templates/personal.php:151
+#: templates/personal.php:159
 msgid "Decrypt all Files"
 msgstr "Dekrüpteeri kõik failid"
 

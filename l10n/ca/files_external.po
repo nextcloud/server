@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:05+0000\n"
+"POT-Creation-Date: 2013-10-16 00:26-0400\n"
+"PO-Revision-Date: 2013-10-14 00:42+0000\n"
 "Last-Translator: rogerc\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/dropbox.js:7 js/dropbox.js:28 js/google.js:16 js/google.js:34
+#: js/dropbox.js:7 js/dropbox.js:28 js/google.js:8 js/google.js:39
 msgid "Access granted"
 msgstr "S'ha concedit l'accés"
 
@@ -26,7 +26,7 @@ msgstr "S'ha concedit l'accés"
 msgid "Error configuring Dropbox storage"
 msgstr "Error en configurar l'emmagatzemament Dropbox"
 
-#: js/dropbox.js:65 js/google.js:66
+#: js/dropbox.js:65 js/google.js:86
 msgid "Grant access"
 msgstr "Concedeix accés"
 
@@ -34,24 +34,24 @@ msgstr "Concedeix accés"
 msgid "Please provide a valid Dropbox app key and secret."
 msgstr "Proporcioneu una clau d'aplicació i secret vàlids per a Dropbox"
 
-#: js/google.js:36 js/google.js:93
+#: js/google.js:42 js/google.js:121
 msgid "Error configuring Google Drive storage"
 msgstr "Error en configurar l'emmagatzemament Google Drive"
 
-#: lib/config.php:447
+#: lib/config.php:453
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Avís:</b> \"smbclient\" no està instal·lat. No es pot muntar la compartició CIFS/SMB. Demaneu a l'administrador del sistema que l'instal·li."
 
-#: lib/config.php:450
+#: lib/config.php:457
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
 msgstr "<b>Avís:</b> El suport FTP per PHP no està activat o no està instal·lat. No es pot muntar la compartició FTP. Demaneu a l'administrador del sistema que l'instal·li."
 
-#: lib/config.php:453
+#: lib/config.php:460
 msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "

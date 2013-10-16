@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "Password" => "Mật khẩu",
-"Submit" => "Xác nhận",
 "%s shared the folder %s with you" => "%s đã chia sẻ thư mục %s với bạn",
 "%s shared the file %s with you" => "%s đã chia sẻ tập tin %s với bạn",
 "Download" => "Tải về",

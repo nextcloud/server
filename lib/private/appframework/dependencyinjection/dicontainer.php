@@ -50,9 +50,10 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 	 * Put your class dependencies in here
 	 * @param string $appName the name of the app
 	 */
-	public function __construct($appName){
+	public function __construct($appName, $urlParams = array()){
 
 		$this['AppName'] = $appName;
+		$this['urlParams'] = $urlParams;
 
 		$this->registerParameter('ServerContainer', \OC::$server);
 
@@ -67,6 +68,7 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 			/** @var $c SimpleContainer */
 			/** @var $server IServerContainer */
 			$server = $c->query('ServerContainer');
+			$server->registerParameter('urlParams', $c['urlParams']);
 			return $server->getRequest();
 		});
 
@@ -90,11 +92,12 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 			return new SecurityMiddleware($this, $c['Request']);
 		});
 
-		$this['MiddlewareDispatcher'] = $this->share(function($c){
+        $middleWares = $this->middleWares;
+		$this['MiddlewareDispatcher'] = $this->share(function($c) use ($middleWares) {
 			$dispatcher = new MiddlewareDispatcher();
 			$dispatcher->registerMiddleware($c['SecurityMiddleware']);
 
-			foreach($this->middleWares as $middleWare) {
+			foreach($middleWares as $middleWare) {
 				$dispatcher->registerMiddleware($middleWare);
 			}
 

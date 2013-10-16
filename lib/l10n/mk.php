@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Settings" => "Подесувања",
 "Users" => "Корисници",
 "Admin" => "Админ",
+"Invalid image" => "Невалидна фотографија",
 "web services under your control" => "веб сервиси под Ваша контрола",
 "ZIP download is turned off." => "Преземање во ZIP е исклучено",
 "Files need to be downloaded one by one." => "Датотеките треба да се симнат една по една.",

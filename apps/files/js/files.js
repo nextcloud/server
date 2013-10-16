@@ -703,7 +703,12 @@ function checkTrashStatus() {
 }
 
 function onClickBreadcrumb(e){
-	var $el = $(e.target).closest('.crumb');
-	e.preventDefault();
-	FileList.changeDirectory(decodeURIComponent($el.data('dir')));
+	var $el = $(e.target).closest('.crumb'),
+		$targetDir = $el.data('dir');
+		isPublic = !!$('#isPublic').val();
+
+	if ($targetDir !== undefined && !isPublic){
+		e.preventDefault();
+		FileList.changeDirectory(decodeURIComponent($targetDir));
+	}
 }

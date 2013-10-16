@@ -88,8 +88,8 @@ class OC_User_Dummy extends OC_User_Backend {
 	 * returns the user id or false
 	 */
 	public function checkPassword($uid, $password) {
-		if (isset($this->users[$uid])) {
-			return ($this->users[$uid] == $password);
+		if (isset($this->users[$uid]) && $this->users[$uid] === $password) {
+			return $uid;
 		} else {
 			return false;
 		}

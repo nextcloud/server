@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-03 12:22+0000\n"
-"Last-Translator: kwillems <kwillems@zonnet.nl>\n"
+"POT-Creation-Date: 2013-10-13 20:29-0400\n"
+"PO-Revision-Date: 2013-10-11 07:10+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -371,14 +371,18 @@ msgid ""
 msgstr "Standaard herkent ownCloud het UUID-attribuut automatisch. Het UUID attribuut wordt gebruikt om LDAP-gebruikers en -groepen uniek te identificeren. Ook zal de interne gebruikersnaam worden aangemaakt op basis van het UUID, tenzij deze hierboven anders is aangegeven. U kunt de instelling overschrijven en zelf een waarde voor het attribuut opgeven. U moet ervoor zorgen dat het ingestelde attribuut kan worden opgehaald voor zowel gebruikers als groepen en dat het uniek is. Laat het leeg voor standaard gedrag. Veranderingen worden alleen doorgevoerd op nieuw gekoppelde (toegevoegde) LDAP-gebruikers en-groepen."
 
 #: templates/settings.php:103
-msgid "UUID Attribute:"
-msgstr "UUID Attribuut:"
+msgid "UUID Attribute for Users:"
+msgstr "UUID attribuut voor gebruikers:"
 
 #: templates/settings.php:104
+msgid "UUID Attribute for Groups:"
+msgstr "UUID attribuut voor groepen:"
+
+#: templates/settings.php:105
 msgid "Username-LDAP User Mapping"
 msgstr "Gebruikersnaam-LDAP gebruikers vertaling"
 
-#: templates/settings.php:105
+#: templates/settings.php:106
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -392,18 +396,18 @@ msgid ""
 "experimental stage."
 msgstr "ownCloud maakt gebruik van gebruikersnamen om (meta) data op te slaan en toe te wijzen. Om gebruikers uniek te identificeren, krijgt elke LDAP-gebruiker ook een interne gebruikersnaam. Dit vereist een koppeling van de ownCloud gebruikersnaam aan een ​​LDAP-gebruiker. De gecreëerde gebruikersnaam is gekoppeld aan de UUID van de LDAP-gebruiker. Aanvullend wordt ook de 'DN' gecached om het aantal LDAP-interacties te verminderen, maar dit wordt niet gebruikt voor identificatie. Als de DN verandert, zullen de veranderingen worden gevonden. De interne naam wordt overal gebruikt. Het wissen van de koppeling zal overal resten achterlaten. Het wissen van koppelingen is niet configuratiegevoelig, maar het raakt wel alle LDAP instellingen! Zorg ervoor dat deze koppelingen nooit in een productieomgeving gewist worden. Maak ze alleen leeg in een test- of ontwikkelomgeving."
 
-#: templates/settings.php:106
+#: templates/settings.php:107
 msgid "Clear Username-LDAP User Mapping"
 msgstr "Leegmaken Gebruikersnaam-LDAP gebruikers vertaling"
 
-#: templates/settings.php:106
+#: templates/settings.php:107
 msgid "Clear Groupname-LDAP Group Mapping"
 msgstr "Leegmaken Groepsnaam-LDAP groep vertaling"
 
-#: templates/settings.php:108
+#: templates/settings.php:109
 msgid "Test Configuration"
 msgstr "Test configuratie"
 
-#: templates/settings.php:108
+#: templates/settings.php:109
 msgid "Help"
 msgstr "Help"

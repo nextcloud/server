@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-07 12:16-0400\n"
-"PO-Revision-Date: 2013-10-07 16:17+0000\n"
+"POT-Creation-Date: 2013-10-16 00:26-0400\n"
+"PO-Revision-Date: 2013-10-14 00:41+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -55,45 +55,6 @@ msgstr ""
 #, php-format
 msgid "... %d%% done ..."
 msgstr ""
-
-#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
-msgid "Category type not provided."
-msgstr "பிரிவு வகைகள் வழங்கப்படவில்லை"
-
-#: ajax/vcategories/add.php:30
-msgid "No category to add?"
-msgstr "சேர்ப்பதற்கான வகைகள் இல்லையா?"
-
-#: ajax/vcategories/add.php:37
-#, php-format
-msgid "This category already exists: %s"
-msgstr ""
-
-#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
-#: ajax/vcategories/favorites.php:24
-#: ajax/vcategories/removeFromFavorites.php:26
-msgid "Object type not provided."
-msgstr "பொருள் வகை வழங்கப்படவில்லை"
-
-#: ajax/vcategories/addToFavorites.php:30
-#: ajax/vcategories/removeFromFavorites.php:30
-#, php-format
-msgid "%s ID not provided."
-msgstr "%s ID வழங்கப்படவில்லை"
-
-#: ajax/vcategories/addToFavorites.php:35
-#, php-format
-msgid "Error adding %s to favorites."
-msgstr "விருப்பங்களுக்கு %s ஐ சேர்ப்பதில் வழு"
-
-#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
-msgid "No categories selected for deletion."
-msgstr "நீக்குவதற்கு எந்தப் பிரிவும் தெரிவுசெய்யப்படவில்லை."
-
-#: ajax/vcategories/removeFromFavorites.php:35
-#, php-format
-msgid "Error removing %s from favorites."
-msgstr "விருப்பத்திலிருந்து %s ஐ அகற்றுவதில் வழு.உஇஇ"
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -195,55 +156,55 @@ msgstr "மார்கழி"
 msgid "Settings"
 msgstr "அமைப்புகள்"
 
-#: js/js.js:866
+#: js/js.js:858
 msgid "seconds ago"
 msgstr "செக்கன்களுக்கு முன்"
 
-#: js/js.js:867
+#: js/js.js:859
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:868
+#: js/js.js:860
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:869
+#: js/js.js:861
 msgid "today"
 msgstr "இன்று"
 
-#: js/js.js:870
+#: js/js.js:862
 msgid "yesterday"
 msgstr "நேற்று"
 
-#: js/js.js:871
+#: js/js.js:863
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:872
+#: js/js.js:864
 msgid "last month"
 msgstr "கடந்த மாதம்"
 
-#: js/js.js:873
+#: js/js.js:865
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:874
+#: js/js.js:866
 msgid "months ago"
 msgstr "மாதங்களுக்கு முன்"
 
-#: js/js.js:875
+#: js/js.js:867
 msgid "last year"
 msgstr "கடந்த வருடம்"
 
-#: js/js.js:876
+#: js/js.js:868
 msgid "years ago"
 msgstr "வருடங்களுக்கு முன்"
 
@@ -311,27 +272,6 @@ msgstr ""
 msgid "Error loading file exists template"
 msgstr ""
 
-#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
-#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
-msgid "The object type is not specified."
-msgstr "பொருள் வகை குறிப்பிடப்படவில்லை."
-
-#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
-#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:130 js/share.js:143 js/share.js:150
-#: js/share.js:667 js/share.js:679
-msgid "Error"
-msgstr "வழு"
-
-#: js/oc-vcategories.js:179
-msgid "The app name is not specified."
-msgstr "செயலி பெயர் குறிப்பிடப்படவில்லை."
-
-#: js/oc-vcategories.js:194
-msgid "The required file {file} is not installed!"
-msgstr "தேவைப்பட்ட கோப்பு {கோப்பு} நிறுவப்படவில்லை!"
-
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
 msgstr ""
@@ -339,6 +279,11 @@ msgstr ""
 #: js/share.js:90
 msgid "Share"
 msgstr "பகிர்வு"
+
+#: js/share.js:130 js/share.js:143 js/share.js:150 js/share.js:667
+#: js/share.js:679
+msgid "Error"
+msgstr "வழு"
 
 #: js/share.js:132 js/share.js:707
 msgid "Error while sharing"
@@ -468,6 +413,34 @@ msgstr ""
 msgid "Warning"
 msgstr "எச்சரிக்கை"
 
+#: js/tags.js:4
+msgid "The object type is not specified."
+msgstr "பொருள் வகை குறிப்பிடப்படவில்லை."
+
+#: js/tags.js:13
+msgid "Enter new"
+msgstr ""
+
+#: js/tags.js:27
+msgid "Delete"
+msgstr "நீக்குக"
+
+#: js/tags.js:31
+msgid "Add"
+msgstr "சேர்க்க"
+
+#: js/tags.js:39
+msgid "Edit tags"
+msgstr ""
+
+#: js/tags.js:57
+msgid "Error loading dialog template: {error}"
+msgstr ""
+
+#: js/tags.js:261
+msgid "No tags selected for deletion."
+msgstr ""
+
 #: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
@@ -548,7 +521,7 @@ msgstr "தனிப்பட்ட"
 msgid "Users"
 msgstr "பயனாளர்"
 
-#: strings.php:7 templates/layout.user.php:108
+#: strings.php:7 templates/layout.user.php:109
 msgid "Apps"
 msgstr "செயலிகள்"
 
@@ -559,6 +532,34 @@ msgstr "நிர்வாகம்"
 #: strings.php:9
 msgid "Help"
 msgstr "உதவி"
+
+#: tags/controller.php:22
+msgid "Error loading tags"
+msgstr ""
+
+#: tags/controller.php:48
+msgid "Tag already exists"
+msgstr ""
+
+#: tags/controller.php:64
+msgid "Error deleting tag(s)"
+msgstr ""
+
+#: tags/controller.php:75
+msgid "Error tagging"
+msgstr ""
+
+#: tags/controller.php:86
+msgid "Error untagging"
+msgstr ""
+
+#: tags/controller.php:97
+msgid "Error favoriting"
+msgstr ""
+
+#: tags/controller.php:108
+msgid "Error unfavoriting"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -588,14 +589,6 @@ msgstr ""
 #: templates/altmail.php:6 templates/mail.php:19
 msgid "Cheers!"
 msgstr ""
-
-#: templates/edit_categories_dialog.php:4
-msgid "Edit categories"
-msgstr "வகைகளை தொகுக்க"
-
-#: templates/edit_categories_dialog.php:16
-msgid "Add"
-msgstr "சேர்க்க"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -686,12 +679,12 @@ msgstr "அமைப்பை முடிக்க"
 msgid "Finishing …"
 msgstr ""
 
-#: templates/layout.user.php:41
+#: templates/layout.user.php:42
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:69
+#: templates/layout.user.php:70
 msgid "Log out"
 msgstr "விடுபதிகை செய்க"
 

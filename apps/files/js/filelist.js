@@ -677,6 +677,7 @@ var FileList={
 };
 
 $(document).ready(function(){
+	var isPublic = !!$('#isPublic').val();
 
 	// handle upload events
 	var file_upload_start = $('#file_upload_start');
@@ -684,28 +685,32 @@ $(document).ready(function(){
 	file_upload_start.on('fileuploaddrop', function(e, data) {
 		OC.Upload.log('filelist handle fileuploaddrop', e, data);
 
-		var dropTarget = $(e.originalEvent.target).closest('tr');
-		if(dropTarget && dropTarget.data('type') === 'dir') { // drag&drop upload to folder
+		var dropTarget = $(e.originalEvent.target).closest('tr, .crumb');
+		if(dropTarget && (dropTarget.data('type') === 'dir' || dropTarget.hasClass('crumb'))) { // drag&drop upload to folder
 
 			// remember as context
 			data.context = dropTarget;
 
 			var dir = dropTarget.data('file');
+			// if from file list, need to prepend parent dir
+			if (dir){
+				var parentDir = $('#dir').val() || '/';
+				if (parentDir[parentDir.length - 1] != '/'){
+					parentDir += '/';
+				}
+				dir = parentDir + dir;
+			}
+			else{
+				// read full path from crumb
+				dir = dropTarget.data('dir') || '/';
+			}
 
 			// update folder in form
 			data.formData = function(form) {
-				var formArray = form.serializeArray();
-				// array index 0 contains the max files size
-				// array index 1 contains the request token
-				// array index 2 contains the directory
-				var parentDir = formArray[2]['value'];
-				if (parentDir === '/') {
-					formArray[2]['value'] += dir;
-				} else {
-					formArray[2]['value'] += '/' + dir;
-				}
-
-				return formArray;
+				return [
+					{name: 'dir', value: dir},
+					{name: 'requesttoken', value: oc_requesttoken}
+				];
 			};
 		} 
 
@@ -783,6 +788,10 @@ $(document).ready(function(){
 				data.context.find('td.filesize').text(humanFileSize(size));
 
 			} else {
+				// only append new file if dragged onto current dir's crumb (last)
+				if (data.context && data.context.hasClass('crumb') && !data.context.hasClass('last')){
+					return;
+				}
 
 				// add as stand-alone row to filelist
 				var size=t('files', 'Pending');
@@ -924,29 +933,32 @@ $(document).ready(function(){
 		return (params && params.dir) || '/';
 	}
 
-	// fallback to hashchange when no history support
-	if (!window.history.pushState){
-		$(window).on('hashchange', function(){
-			FileList.changeDirectory(parseCurrentDirFromUrl(), false);
-		});
-	}
-	window.onpopstate = function(e){
-		var targetDir;
-		if (e.state && e.state.dir){
-			targetDir = e.state.dir;
+	// disable ajax/history API for public app (TODO: until it gets ported)
+	if (!isPublic){
+		// fallback to hashchange when no history support
+		if (!window.history.pushState){
+			$(window).on('hashchange', function(){
+				FileList.changeDirectory(parseCurrentDirFromUrl(), false);
+			});
 		}
-		else{
-			// read from URL
-			targetDir = parseCurrentDirFromUrl();
+		window.onpopstate = function(e){
+			var targetDir;
+			if (e.state && e.state.dir){
+				targetDir = e.state.dir;
+			}
+			else{
+				// read from URL
+				targetDir = parseCurrentDirFromUrl();
+			}
+			if (targetDir){
+				FileList.changeDirectory(targetDir, false);
+			}
 		}
-		if (targetDir){
-			FileList.changeDirectory(targetDir, false);
-		}
-	}
 
-	if (parseInt($('#ajaxLoad').val(), 10) === 1){
-		// need to initially switch the dir to the one from the hash (IE8)
-		FileList.changeDirectory(parseCurrentDirFromUrl(), false, true);
+		if (parseInt($('#ajaxLoad').val(), 10) === 1){
+			// need to initially switch the dir to the one from the hash (IE8)
+			FileList.changeDirectory(parseCurrentDirFromUrl(), false, true);
+		}
 	}
 
 	FileList.createFileSummary();

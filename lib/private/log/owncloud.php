@@ -51,12 +51,22 @@ class OC_Log_Owncloud {
 		if($level>=$minLevel) {
 			// default to ISO8601
 			$format = OC_Config::getValue('logdateformat', 'c');
-			$time = date($format, time());
-			$entry=array('app'=>$app, 'message'=>$message, 'level'=>$level, 'time'=> $time);
+			$logtimezone=OC_Config::getValue( "logtimezone", 'UTC' );
+			try {
+				$timezone = new DateTimeZone($logtimezone);
+			} catch (Exception $e) {
+				$timezone = new DateTimeZone('UTC');
+			}
+			$time = new DateTime(null, $timezone);
+			$entry=array('app'=>$app, 'message'=>$message, 'level'=>$level, 'time'=> $time->format($format));
+			$entry = json_encode($entry);
 			$handle = @fopen(self::$logFile, 'a');
 			if ($handle) {
-				fwrite($handle, json_encode($entry)."\n");
+				fwrite($handle, $entry."\n");
 				fclose($handle);
+			} else {
+				// Fall back to error_log
+				error_log($entry);
 			}
 		}
 	}

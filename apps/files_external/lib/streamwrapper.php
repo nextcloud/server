@@ -8,7 +8,7 @@
 
 namespace OC\Files\Storage;
 
-abstract class StreamWrapper extends Common{
+abstract class StreamWrapper extends Common {
 	abstract public function constructUrl($path);
 
 	public function mkdir($path) {
@@ -16,7 +16,15 @@ abstract class StreamWrapper extends Common{
 	}
 
 	public function rmdir($path) {
-		if($this->file_exists($path)) {
+		if ($this->file_exists($path)) {
+			$dh = $this->opendir($path);
+			while (($file = readdir($dh)) !== false) {
+				if ($this->is_dir($path . '/' . $file)) {
+					$this->rmdir($path . '/' . $file);
+				} else {
+					$this->unlink($path . '/' . $file);
+				}
+			}
 			$success = rmdir($this->constructUrl($path));
 			clearstatcache();
 			return $success;
@@ -34,11 +42,11 @@ abstract class StreamWrapper extends Common{
 	}
 
 	public function isReadable($path) {
-		return true;//not properly supported
+		return true; //not properly supported
 	}
 
 	public function isUpdatable($path) {
-		return true;//not properly supported
+		return true; //not properly supported
 	}
 
 	public function file_exists($path) {
@@ -55,15 +63,19 @@ abstract class StreamWrapper extends Common{
 		return fopen($this->constructUrl($path), $mode);
 	}
 
-	public function touch($path, $mtime=null) {
-		if(is_null($mtime)) {
-			$fh = $this->fopen($path, 'a');
-			fwrite($fh, '');
-			fclose($fh);
+	public function touch($path, $mtime = null) {
+		if ($this->file_exists($path)) {
+			if (is_null($mtime)) {
+				$fh = $this->fopen($path, 'a');
+				fwrite($fh, '');
+				fclose($fh);
 
-			return true;
+				return true;
+			} else {
+				return false; //not supported
+			}
 		} else {
-			return false;//not supported
+			$this->file_put_contents($path, '');
 		}
 	}
 

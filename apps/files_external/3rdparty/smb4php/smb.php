@@ -181,6 +181,8 @@ class smb {
 						return false;
 					}elseif(substr($regs[0],0,31)=='NT_STATUS_OBJECT_PATH_NOT_FOUND'){
 						return false;
+					}elseif(substr($regs[0],0,31)=='NT_STATUS_OBJECT_NAME_NOT_FOUND'){
+						return false;
 					}elseif(substr($regs[0],0,29)=='NT_STATUS_FILE_IS_A_DIRECTORY'){
 						return false;
 					}
@@ -305,7 +307,8 @@ class smb {
 			trigger_error('rename(): error in URL', E_USER_ERROR);
 		}
 		smb::clearstatcache ($url_from);
-		return smb::execute ('rename "'.$from['path'].'" "'.$to['path'].'"', $to);
+		$result = smb::execute ('rename "'.$from['path'].'" "'.$to['path'].'"', $to);
+		return $result !== false;
 	}
 
 	function mkdir ($url, $mode, $options) {
@@ -430,7 +433,10 @@ class smb_stream_wrapper extends smb {
 			case 'rb':
 			case 'a':
 			case 'a+':  $this->tmpfile = tempnam('/tmp', 'smb.down.');
-				smb::execute ('get "'.$pu['path'].'" "'.$this->tmpfile.'"', $pu);
+				$result = smb::execute ('get "'.$pu['path'].'" "'.$this->tmpfile.'"', $pu);
+				if($result === false){
+					return $result;
+				}
 				break;
 			case 'w':
 			case 'w+':

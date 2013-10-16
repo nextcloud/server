@@ -305,9 +305,8 @@ class OC {
 			self::$session = new \OC\Session\Internal(OC_Util::getInstanceId());
 			// if session cant be started break with http 500 error
 		} catch (Exception $e) {
-			OC_Log::write('core', 'Session could not be initialized',
+			OC_Log::write('core', 'Session could not be initialized. Exception message: '.$e->getMessage(),
 				OC_Log::ERROR);
-
 			header('HTTP/1.1 500 Internal Server Error');
 			OC_Util::addStyle("styles");
 			$error = 'Session could not be initialized. Please contact your ';
@@ -764,6 +763,13 @@ class OC {
 		// logon via web form
 		elseif (OC::tryFormLogin()) {
 			$error[] = 'invalidpassword';
+			if ( OC_Config::getValue('log_authfailip', false) ) {
+				OC_Log::write('core', 'Login failed: user \''.$_POST["user"].'\' , wrong password, IP:'.$_SERVER['REMOTE_ADDR'],
+				OC_Log::WARN);
+			} else { 
+				OC_Log::write('core', 'Login failed: user \''.$_POST["user"].'\' , wrong password, IP:set log_authfailip=true in conf',
+                                OC_Log::WARN);
+			}
 		}
 
 		OC_Util::displayLoginPage(array_unique($error));

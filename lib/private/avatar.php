@@ -51,10 +51,6 @@ class OC_Avatar {
 	 * @return void
 	*/
 	public function set ($data) {
-		if (\OC_App::isEnabled('files_encryption')) {
-			$l = \OC_L10N::get('lib');
-			throw new \Exception($l->t("Custom profile pictures don't work with encryption yet"));
-		}
 
 		$img = new OC_Image($data);
 		$type = substr($img->mimeType(), -3);
