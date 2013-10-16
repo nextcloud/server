@@ -64,7 +64,7 @@ class TXT extends Provider {
 class MarkDown extends TXT {
 
 	public function getMimeType() {
-		return '/text\/x-markdown/';
+		return '/text\/(x-)?markdown/';
 	}
 
 }
