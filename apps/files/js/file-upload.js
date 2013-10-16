@@ -124,7 +124,11 @@ OC.Upload = {
 	 */
 	onReplace:function(data){
 		this.log('replace', null, data);
-		data.data.append('resolution', 'replace');
+		if (data.data){
+			data.data.append('resolution', 'replace');
+		} else {
+			data.formData.push({name:'resolution',value:'replace'}); //hack for ie8
+		}
 		data.submit();
 	},
 	/**
