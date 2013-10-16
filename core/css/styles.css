@@ -237,6 +237,7 @@ input[type="submit"].enabled {
 #body-login p.info,
 #body-login form fieldset legend,
 #body-login #datadirContent label,
+#body-login form fieldset .warning-info,
 #body-login form input[type="checkbox"]+label {
 	text-align: center;
 	color: #ccc;
@@ -253,6 +254,8 @@ input[type="submit"].enabled {
 }
 #body-login p.info a {
 	font-weight: bold;
+	padding: 13px;
+	margin: -13px;
 }
 #body-login #submit.login { margin-right:7px; } /* quick fix for log in button not being aligned with input fields, should be properly fixed by input field width later */
 
@@ -745,20 +748,27 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 span.ui-icon {float: left; margin: 3px 7px 30px 0;}
 
 .loading { background: url('../img/loading.gif') no-repeat center; cursor: wait; }
+.loading-small { background: url('../img/loading-small.gif') no-repeat center; cursor: wait; }
 .move2trash { /* decrease spinner size */
 	width: 16px;
 	height: 16px;
 }
 
-
-/* ---- CATEGORIES ---- */
-#categoryform .scrollarea { position:absolute; left:10px; top:10px; right:10px; bottom:50px; overflow:auto; border:1px solid #ddd; background:#f8f8f8; }
-#categoryform .bottombuttons { position:absolute; bottom:10px;}
-#categoryform .bottombuttons * { float:left;}
-/*#categorylist { border:1px solid #ddd;}*/
-#categorylist li { background:#f8f8f8; padding:.3em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 500ms; -moz-transition:background-color 500ms; -o-transition:background-color 500ms; transition:background-color 500ms; }
-#categorylist li:hover, #categorylist li:active { background:#eee; }
-#category_addinput { width:10em; }
+/* ---- TAGS ---- */
+#tagsdialog .content {
+	width: 100%; height: 280px;
+}
+#tagsdialog .scrollarea {
+	overflow:auto; border:1px solid #ddd;
+	width: 100%; height: 240px;
+}
+#tagsdialog .bottombuttons {
+	 width: 100%; height: 30px;
+}
+#tagsdialog .bottombuttons * { float:left;}
+#tagsdialog .taglist li { background:#f8f8f8; padding:.3em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 500ms; -moz-transition:background-color 500ms; -o-transition:background-color 500ms; transition:background-color 500ms; }
+#tagsdialog .taglist li:hover, #tagsdialog .taglist li:active { background:#eee; }
+#tagsdialog .addinput { width: 90%; clear: both; }
 
 /* ---- APP SETTINGS ---- */
 .popup { background-color:white; border-radius:10px 10px 10px 10px; box-shadow:0 0 20px #888; color:#333; padding:10px; position:fixed !important; z-index:100; }

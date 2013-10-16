@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-03 12:22+0000\n"
+"POT-Creation-Date: 2013-10-13 20:29-0400\n"
+"PO-Revision-Date: 2013-10-11 09:40+0000\n"
 "Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -370,14 +370,18 @@ msgid ""
 msgstr "Por padrão, o atributo UUID é detectado automaticamente. O atributo UUID é usado para identificar, sem dúvidas, os usuários e grupos LDAP. Além disso, o nome de usuário interno será criado com base no UUID, se não especificado acima. Você pode substituir a configuração e passar um atributo de sua escolha. Você deve certificar-se de que o atributo de sua escolha pode ser lido tanto para usuários como para grupos, e que seja único. Deixe-o vazio para o comportamento padrão. As alterações terão efeito apenas para usuários e grupos LDAP recém mapeados (adicionados)."
 
 #: templates/settings.php:103
-msgid "UUID Attribute:"
-msgstr "Atributo UUID:"
+msgid "UUID Attribute for Users:"
+msgstr "UUID Atributos para Usuários:"
 
 #: templates/settings.php:104
+msgid "UUID Attribute for Groups:"
+msgstr "UUID Atributos para Grupos:"
+
+#: templates/settings.php:105
 msgid "Username-LDAP User Mapping"
 msgstr "Usuário-LDAP Mapeamento de Usuário"
 
-#: templates/settings.php:105
+#: templates/settings.php:106
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -391,18 +395,18 @@ msgid ""
 "experimental stage."
 msgstr "Nomes de usuários sãi usados para armazenar e atribuir (meta) dados. A fim de identificar com precisão e reconhecer usuários, cada usuário LDAP terá um nome de usuário interno. Isso requer um mapeamento nome de usuário para usuário LDAP. O nome de usuário criado é mapeado para o UUID do usuário LDAP. Adicionalmente, o DN fica em cache, assim como para reduzir a interação LDAP, mas não é utilizado para a identificação. Se o DN muda, as mudanças serão encontradas. O nome de usuário interno é utilizado em todo lugar. Limpar os mapeamentos não influencia a configuração. Limpar os mapeamentos deixará rastros em todo lugar. Limpar os mapeamentos não influencia a configuração, mas afeta as configurações LDAP! Somente limpe os mapeamentos em embiente de testes ou em estágio experimental."
 
-#: templates/settings.php:106
+#: templates/settings.php:107
 msgid "Clear Username-LDAP User Mapping"
 msgstr "Limpar Mapeamento de Usuário Nome de Usuário-LDAP"
 
-#: templates/settings.php:106
+#: templates/settings.php:107
 msgid "Clear Groupname-LDAP Group Mapping"
 msgstr "Limpar NomedoGrupo-LDAP Mapeamento do Grupo"
 
-#: templates/settings.php:108
+#: templates/settings.php:109
 msgid "Test Configuration"
 msgstr "Teste de Configuração"
 
-#: templates/settings.php:108
+#: templates/settings.php:109
 msgid "Help"
 msgstr "Ajuda"

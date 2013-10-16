@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-05 15:12+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-16 00:26-0400\n"
+"PO-Revision-Date: 2013-10-14 00:41+0000\n"
+"Last-Translator: ogre_sympathique <ogre.sympathique@speed.1s.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -163,15 +163,15 @@ msgstr "Mettre à jour"
 msgid "Updated"
 msgstr "Mise à jour effectuée avec succès"
 
-#: js/personal.js:225
+#: js/personal.js:220
 msgid "Select a profile picture"
 msgstr "Selectionner une photo de profil "
 
-#: js/personal.js:270
+#: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Déchiffrement en cours... Cela peut prendre un certain temps."
 
-#: js/personal.js:292
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "Enregistrement..."
 
@@ -187,32 +187,32 @@ msgstr "annuler"
 msgid "Unable to remove user"
 msgstr "Impossible de retirer l'utilisateur"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:90
+#: js/users.js:95 templates/users.php:26 templates/users.php:90
 #: templates/users.php:118
 msgid "Groups"
 msgstr "Groupes"
 
-#: js/users.js:97 templates/users.php:92 templates/users.php:130
+#: js/users.js:100 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
 msgstr "Groupe Admin"
 
-#: js/users.js:120 templates/users.php:170
+#: js/users.js:123 templates/users.php:170
 msgid "Delete"
 msgstr "Supprimer"
 
-#: js/users.js:277
+#: js/users.js:280
 msgid "add group"
 msgstr "ajouter un groupe"
 
-#: js/users.js:436
+#: js/users.js:442
 msgid "A valid username must be provided"
 msgstr "Un nom d'utilisateur valide doit être saisi"
 
-#: js/users.js:437 js/users.js:443 js/users.js:458
+#: js/users.js:443 js/users.js:449 js/users.js:464
 msgid "Error creating user"
 msgstr "Erreur lors de la création de l'utilisateur"
 
-#: js/users.js:442
+#: js/users.js:448
 msgid "A valid password must be provided"
 msgstr "Un mot de passe valide doit être saisi"
 
@@ -348,11 +348,11 @@ msgstr "Autoriser les utilisateurs à partager avec des utilisateurs de leur gro
 
 #: templates/admin.php:170
 msgid "Allow mail notification"
-msgstr ""
+msgstr "Autoriser les notifications par couriel"
 
 #: templates/admin.php:171
 msgid "Allow user to send mail notification for shared files"
-msgstr ""
+msgstr "Autoriser l'utilisateur à envoyer une notification par couriel concernant les fichiers partagés"
 
 #: templates/admin.php:178
 msgid "Security"
@@ -390,11 +390,11 @@ msgstr "Plus"
 msgid "Less"
 msgstr "Moins"
 
-#: templates/admin.php:250 templates/personal.php:161
+#: templates/admin.php:250 templates/personal.php:169
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin.php:254 templates/personal.php:164
+#: templates/admin.php:254 templates/personal.php:172
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -533,34 +533,34 @@ msgstr "Choisir en temps que photo de profil "
 msgid "Language"
 msgstr "Langue"
 
-#: templates/personal.php:119
+#: templates/personal.php:126
 msgid "Help translate"
 msgstr "Aidez à traduire"
 
-#: templates/personal.php:125
+#: templates/personal.php:133
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:127
+#: templates/personal.php:135
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
 "target=\"_blank\">access your Files via WebDAV</a>"
 msgstr "Utilisez cette adresse pour <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">accéder à vos fichiers via WebDAV</a>"
 
-#: templates/personal.php:138
+#: templates/personal.php:146
 msgid "Encryption"
 msgstr "Chiffrement"
 
-#: templates/personal.php:140
+#: templates/personal.php:148
 msgid "The encryption app is no longer enabled, decrypt all your file"
 msgstr "L'application de chiffrement n'est plus activée, déchiffrez tous vos fichiers"
 
-#: templates/personal.php:146
+#: templates/personal.php:154
 msgid "Log-in password"
 msgstr "Mot de passe de connexion"
 
-#: templates/personal.php:151
+#: templates/personal.php:159
 msgid "Decrypt all Files"
 msgstr "Déchiffrer tous les fichiers"
 

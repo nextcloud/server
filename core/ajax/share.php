@@ -293,7 +293,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				while ($count < 15 && count($users) == $limit) {
 					$limit = 15 - $count;
 					if ($sharePolicy == 'groups_only') {
-						$users = OC_Group::DisplayNamesInGroups($groups, $_GET['search'], $limit, $offset);
+						$users = OC_Group::DisplayNamesInGroups($usergroups, $_GET['search'], $limit, $offset);
 					} else {
 						$users = OC_User::getDisplayNames($_GET['search'], $limit, $offset);
 					}

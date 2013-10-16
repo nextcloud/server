@@ -288,7 +288,7 @@ class Access extends LDAPUtility {
 		}
 
 		//second try: get the UUID and check if it is known. Then, update the DN and return the name.
-		$uuid = $this->getUUID($dn);
+		$uuid = $this->getUUID($dn, $isUser);
 		if($uuid) {
 			$query = \OCP\DB::prepare('
 				SELECT `owncloud_name`
@@ -580,7 +580,9 @@ class Access extends LDAPUtility {
 		');
 
 		//feed the DB
-		$insRows = $insert->execute(array($dn, $ocname, $this->getUUID($dn), $dn, $ocname));
+		$insRows = $insert->execute(array($dn, $ocname,
+										  $this->getUUID($dn, $isUser), $dn,
+										  $ocname));
 
 		if(\OCP\DB::isError($insRows)) {
 			return false;
@@ -905,55 +907,67 @@ class Access extends LDAPUtility {
 	 * @param $force the detection should be run, even if it is not set to auto
 	 * @returns true on success, false otherwise
 	 */
-	private function detectUuidAttribute($dn, $force = false) {
-		if(($this->connection->ldapUuidAttribute !== 'auto') && !$force) {
+	private function detectUuidAttribute($dn, $isUser = true, $force = false) {
+		if($isUser) {
+			$uuidAttr     = 'ldapUuidUserAttribute';
+			$uuidOverride = $this->connection->ldapExpertUUIDUserAttr;
+		} else {
+			$uuidAttr     = 'ldapUuidGroupAttribute';
+			$uuidOverride = $this->connection->ldapExpertUUIDGroupAttr;
+		}
+
+		if(($this->connection->$uuidAttr !== 'auto') && !$force) {
 			return true;
 		}
 
-		$fixedAttribute = $this->connection->ldapExpertUUIDAttr;
-		if(!empty($fixedAttribute)) {
-			$this->connection->ldapUuidAttribute = $fixedAttribute;
+		if(!empty($uuidOverride) && !$force) {
+			$this->connection->$uuidAttr = $uuidOverride;
 			return true;
 		}
 
-		//for now, supported (known) attributes are entryUUID, nsuniqueid, objectGUID
+		//for now, supported attributes are entryUUID, nsuniqueid, objectGUID
 		$testAttributes = array('entryuuid', 'nsuniqueid', 'objectguid', 'guid');
 
 		foreach($testAttributes as $attribute) {
-			\OCP\Util::writeLog('user_ldap', 'Testing '.$attribute.' as UUID attr', \OCP\Util::DEBUG);
-
 			$value = $this->readAttribute($dn, $attribute);
 			if(is_array($value) && isset($value[0]) && !empty($value[0])) {
-				\OCP\Util::writeLog('user_ldap', 'Setting '.$attribute.' as UUID attr', \OCP\Util::DEBUG);
-				$this->connection->ldapUuidAttribute = $attribute;
+				\OCP\Util::writeLog('user_ldap',
+									'Setting '.$attribute.' as '.$uuidAttr,
+									\OCP\Util::DEBUG);
+				$this->connection->$uuidAttr = $attribute;
 				return true;
 			}
-			\OCP\Util::writeLog('user_ldap',
-				'The looked for uuid attr is not '.$attribute.', result was '.print_r($value, true),
-				\OCP\Util::DEBUG);
 		}
+		\OCP\Util::writeLog('user_ldap',
+							'Could not autodetect the UUID attribute',
+							\OCP\Util::ERROR);
 
 		return false;
 	}
 
-	public function getUUID($dn) {
-		if($this->detectUuidAttribute($dn)) {
-			\OCP\Util::writeLog('user_ldap',
-				'UUID Checking \ UUID for '.$dn.' using '. $this->connection->ldapUuidAttribute,
-				\OCP\Util::DEBUG);
-			$uuid = $this->readAttribute($dn, $this->connection->ldapUuidAttribute);
-			if(!is_array($uuid) && $this->connection->ldapOverrideUuidAttribute) {
-				$this->detectUuidAttribute($dn, true);
-				$uuid = $this->readAttribute($dn, $this->connection->ldapUuidAttribute);
+	public function getUUID($dn, $isUser = true) {
+		if($isUser) {
+			$uuidAttr     = 'ldapUuidUserAttribute';
+			$uuidOverride = $this->connection->ldapExpertUUIDUserAttr;
+		} else {
+			$uuidAttr     = 'ldapUuidGroupAttribute';
+			$uuidOverride = $this->connection->ldapExpertUUIDGroupAttr;
+		}
+
+		$uuid = false;
+		if($this->detectUuidAttribute($dn, $isUser)) {
+			$uuid = $this->readAttribute($dn, $this->connection->$uuidAttr);
+			if( !is_array($uuid)
+				&& !empty($uuidOverride)
+				&& $this->detectUuidAttribute($dn, $isUser, true)) {
+					$uuid = $this->readAttribute($dn,
+												 $this->connection->$uuidAttr);
 			}
 			if(is_array($uuid) && isset($uuid[0]) && !empty($uuid[0])) {
 				$uuid = $uuid[0];
-			} else {
-				$uuid = false;
 			}
-		} else {
-			$uuid = false;
 		}
+
 		return $uuid;
 	}
 

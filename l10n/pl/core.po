@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-07 12:16-0400\n"
-"PO-Revision-Date: 2013-10-07 16:17+0000\n"
+"POT-Creation-Date: 2013-10-16 00:26-0400\n"
+"PO-Revision-Date: 2013-10-14 00:41+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -58,48 +58,9 @@ msgstr "Zaktualizuj filecache"
 msgid "... %d%% done ..."
 msgstr "... %d%% udane ..."
 
-#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
-msgid "Category type not provided."
-msgstr "Nie podano typu kategorii."
-
-#: ajax/vcategories/add.php:30
-msgid "No category to add?"
-msgstr "Brak kategorii do dodania?"
-
-#: ajax/vcategories/add.php:37
-#, php-format
-msgid "This category already exists: %s"
-msgstr "Ta kategoria już istnieje: %s"
-
-#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
-#: ajax/vcategories/favorites.php:24
-#: ajax/vcategories/removeFromFavorites.php:26
-msgid "Object type not provided."
-msgstr "Nie podano typu obiektu."
-
-#: ajax/vcategories/addToFavorites.php:30
-#: ajax/vcategories/removeFromFavorites.php:30
-#, php-format
-msgid "%s ID not provided."
-msgstr "Nie podano ID %s."
-
-#: ajax/vcategories/addToFavorites.php:35
-#, php-format
-msgid "Error adding %s to favorites."
-msgstr "Błąd podczas dodawania %s do ulubionych."
-
-#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
-msgid "No categories selected for deletion."
-msgstr "Nie zaznaczono kategorii do usunięcia."
-
-#: ajax/vcategories/removeFromFavorites.php:35
-#, php-format
-msgid "Error removing %s from favorites."
-msgstr "Błąd podczas usuwania %s z ulubionych."
-
 #: avatar/controller.php:62
 msgid "No image or file provided"
-msgstr ""
+msgstr "Brak obrazu lub pliku dostarczonego"
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
@@ -197,59 +158,59 @@ msgstr "Grudzień"
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: js/js.js:866
+#: js/js.js:858
 msgid "seconds ago"
 msgstr "sekund temu"
 
-#: js/js.js:867
+#: js/js.js:859
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minute temu"
 msgstr[1] "%n minut temu"
 msgstr[2] "%n minut temu"
 
-#: js/js.js:868
+#: js/js.js:860
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n godzine temu"
 msgstr[1] "%n godzin temu"
 msgstr[2] "%n godzin temu"
 
-#: js/js.js:869
+#: js/js.js:861
 msgid "today"
 msgstr "dziś"
 
-#: js/js.js:870
+#: js/js.js:862
 msgid "yesterday"
 msgstr "wczoraj"
 
-#: js/js.js:871
+#: js/js.js:863
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n dzień temu"
 msgstr[1] "%n dni temu"
 msgstr[2] "%n dni temu"
 
-#: js/js.js:872
+#: js/js.js:864
 msgid "last month"
 msgstr "w zeszłym miesiącu"
 
-#: js/js.js:873
+#: js/js.js:865
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n miesiąc temu"
 msgstr[1] "%n miesięcy temu"
 msgstr[2] "%n miesięcy temu"
 
-#: js/js.js:874
+#: js/js.js:866
 msgid "months ago"
 msgstr "miesięcy temu"
 
-#: js/js.js:875
+#: js/js.js:867
 msgid "last year"
 msgstr "w zeszłym roku"
 
-#: js/js.js:876
+#: js/js.js:868
 msgid "years ago"
 msgstr "lat temu"
 
@@ -318,27 +279,6 @@ msgstr "({count} zaznaczonych)"
 msgid "Error loading file exists template"
 msgstr ""
 
-#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
-#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
-msgid "The object type is not specified."
-msgstr "Nie określono typu obiektu."
-
-#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
-#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:130 js/share.js:143 js/share.js:150
-#: js/share.js:667 js/share.js:679
-msgid "Error"
-msgstr "Błąd"
-
-#: js/oc-vcategories.js:179
-msgid "The app name is not specified."
-msgstr "Nie określono nazwy aplikacji."
-
-#: js/oc-vcategories.js:194
-msgid "The required file {file} is not installed!"
-msgstr "Wymagany plik {file} nie jest zainstalowany!"
-
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
 msgstr "Udostępniono"
@@ -346,6 +286,11 @@ msgstr "Udostępniono"
 #: js/share.js:90
 msgid "Share"
 msgstr "Udostępnij"
+
+#: js/share.js:130 js/share.js:143 js/share.js:150 js/share.js:667
+#: js/share.js:679
+msgid "Error"
+msgstr "Błąd"
 
 #: js/share.js:132 js/share.js:707
 msgid "Error while sharing"
@@ -425,7 +370,7 @@ msgstr "Zatrzymaj współdzielenie"
 
 #: js/share.js:353
 msgid "notify user by email"
-msgstr ""
+msgstr "powiadom użytkownika przez email"
 
 #: js/share.js:361
 msgid "can edit"
@@ -474,6 +419,34 @@ msgstr "E-mail wysłany"
 #: js/share.js:729
 msgid "Warning"
 msgstr "Ostrzeżenie"
+
+#: js/tags.js:4
+msgid "The object type is not specified."
+msgstr "Nie określono typu obiektu."
+
+#: js/tags.js:13
+msgid "Enter new"
+msgstr ""
+
+#: js/tags.js:27
+msgid "Delete"
+msgstr "Usuń"
+
+#: js/tags.js:31
+msgid "Add"
+msgstr "Dodaj"
+
+#: js/tags.js:39
+msgid "Edit tags"
+msgstr ""
+
+#: js/tags.js:57
+msgid "Error loading dialog template: {error}"
+msgstr ""
+
+#: js/tags.js:261
+msgid "No tags selected for deletion."
+msgstr ""
 
 #: js/update.js:17
 msgid ""
@@ -555,7 +528,7 @@ msgstr "Osobiste"
 msgid "Users"
 msgstr "Użytkownicy"
 
-#: strings.php:7 templates/layout.user.php:108
+#: strings.php:7 templates/layout.user.php:109
 msgid "Apps"
 msgstr "Aplikacje"
 
@@ -566,6 +539,34 @@ msgstr "Administrator"
 #: strings.php:9
 msgid "Help"
 msgstr "Pomoc"
+
+#: tags/controller.php:22
+msgid "Error loading tags"
+msgstr ""
+
+#: tags/controller.php:48
+msgid "Tag already exists"
+msgstr ""
+
+#: tags/controller.php:64
+msgid "Error deleting tag(s)"
+msgstr ""
+
+#: tags/controller.php:75
+msgid "Error tagging"
+msgstr ""
+
+#: tags/controller.php:86
+msgid "Error untagging"
+msgstr ""
+
+#: tags/controller.php:97
+msgid "Error favoriting"
+msgstr ""
+
+#: tags/controller.php:108
+msgid "Error unfavoriting"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -590,19 +591,11 @@ msgstr ""
 msgid ""
 "The share will expire on %s.\n"
 "\n"
-msgstr ""
+msgstr "Udostępnienie wygaśnie w dniu %s.\n\n"
 
 #: templates/altmail.php:6 templates/mail.php:19
 msgid "Cheers!"
-msgstr ""
-
-#: templates/edit_categories_dialog.php:4
-msgid "Edit categories"
-msgstr "Edytuj kategorie"
-
-#: templates/edit_categories_dialog.php:16
-msgid "Add"
-msgstr "Dodaj"
+msgstr "Pozdrawiam!"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -691,14 +684,14 @@ msgstr "Zakończ konfigurowanie"
 
 #: templates/installation.php:184
 msgid "Finishing …"
-msgstr ""
+msgstr "Kończę ..."
 
-#: templates/layout.user.php:41
+#: templates/layout.user.php:42
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s jest dostępna. Dowiedz się więcej na temat aktualizacji."
 
-#: templates/layout.user.php:69
+#: templates/layout.user.php:70
 msgid "Log out"
 msgstr "Wyloguj"
 
@@ -718,11 +711,11 @@ msgstr "Zmień swoje hasło, aby ponownie zabezpieczyć swoje konto."
 
 #: templates/login.php:17
 msgid "Server side authentication failed!"
-msgstr ""
+msgstr "Uwierzytelnianie po stronie serwera nie powiodło się!"
 
 #: templates/login.php:18
 msgid "Please contact your administrator."
-msgstr ""
+msgstr "Skontaktuj się z administratorem"
 
 #: templates/login.php:38
 msgid "Lost your password?"
@@ -745,12 +738,12 @@ msgstr "Alternatywne loginy"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "Cześć,<br><br>Informuję cię że %s udostępnia ci »%s«.\n<br><a href=\"%s\">Zobacz!</a><br><br>"
 
 #: templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s.<br><br>"
-msgstr ""
+msgstr "Udostępnienie wygaśnie w dniu %s.<br><br>"
 
 #: templates/update.php:3
 #, php-format

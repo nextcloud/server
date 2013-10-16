@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Folder name" => "اسم المجلد",
+"All Users" => "كل المستخدمين",
 "Groups" => "مجموعات",
 "Users" => "المستخدمين",
 "Delete" => "إلغاء"

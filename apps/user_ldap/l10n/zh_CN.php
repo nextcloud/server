@@ -66,7 +66,6 @@ $TRANSLATIONS = array(
 "Internal Username" => "内部用户名",
 "Internal Username Attribute:" => "内部用户名属性：",
 "Override UUID detection" => "超越UUID检测",
-"UUID Attribute:" => "UUID属性：",
 "Username-LDAP User Mapping" => "用户名-LDAP用户映射",
 "Clear Username-LDAP User Mapping" => "清除用户-LDAP用户映射",
 "Clear Groupname-LDAP Group Mapping" => "清除组用户-LDAP级映射",

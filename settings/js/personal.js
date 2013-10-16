@@ -31,7 +31,7 @@ function changeDisplayName(){
         // Ajax foo
         $.post( 'ajax/changedisplayname.php', post, function(data){
             if( data.status === "success" ){
-                $('#oldDisplayName').text($('#displayName').val());
+                $('#oldDisplayName').val($('#displayName').val());
                 // update displayName on the top right expand button
                 $('#expandDisplayName').text($('#displayName').val());
                 updateAvatar();
@@ -170,11 +170,6 @@ $(document).ready(function(){
             timeout = setTimeout('changeEmailAddress()',1000);
         }
     });
-
-	$("#languageinput").chosen();
-	// Show only the not selectable optgroup
-	// Choosen only shows optgroup-labels if there are options in the optgroup
-	$(".languagedivider").hide();
 
 	$("#languageinput").change( function(){
 		// Serialize the data

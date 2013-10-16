@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-06 23:07+0000\n"
+"POT-Creation-Date: 2013-10-13 20:29-0400\n"
+"PO-Revision-Date: 2013-10-14 00:29+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -56,20 +56,32 @@ msgid ""
 "correct."
 msgstr "Impossibile aggiornare la password della chiave privata. Forse la vecchia password non era corretta."
 
-#: files/error.php:9
+#: files/error.php:12
 msgid ""
 "Encryption app not initialized! Maybe the encryption app was re-enabled "
 "during your session. Please try to log out and log back in to initialize the"
 " encryption app."
 msgstr ""
 
-#: files/error.php:12
+#: files/error.php:15
 msgid ""
 "Your private key is not valid! Likely your password was changed outside the "
 "ownCloud system (e.g. your corporate directory). You can update your private"
 " key password in your personal settings to recover access to your encrypted "
 "files."
 msgstr "La chiave privata non è valida! Forse la password è stata cambiata esternamente al sistema di ownCloud (ad es. la directory aziendale). Puoi aggiornare la password della chiave privata nelle impostazioni personali per ottenere nuovamente l'accesso ai file."
+
+#: files/error.php:18
+msgid ""
+"Can not decrypt this file, probably this is a shared file. Please ask the "
+"file owner to reshare the file with you."
+msgstr ""
+
+#: files/error.php:21 files/error.php:26
+msgid ""
+"Unknown error please check your system settings or contact your "
+"administrator"
+msgstr ""
 
 #: hooks/hooks.php:53
 msgid "Missing requirements."
@@ -82,7 +94,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "Assicurati che sia installato PHP 5.3.3 o versioni successive e che l'estensione OpenSSL di PHP sia abilitata e configurata correttamente. Per ora, l'applicazione di cifratura è disabilitata."
 
-#: hooks/hooks.php:254
+#: hooks/hooks.php:252
 msgid "Following users are not set up for encryption:"
 msgstr "I seguenti utenti non sono configurati per la cifratura:"
 
@@ -92,97 +104,97 @@ msgstr "Salvataggio in corso..."
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "
-msgstr ""
+msgstr "Passa direttamente a"
 
 #: templates/invalid_private_key.php:8
 msgid "personal settings"
 msgstr "impostazioni personali"
 
-#: templates/settings-admin.php:5 templates/settings-personal.php:4
+#: templates/settings-admin.php:4 templates/settings-personal.php:3
 msgid "Encryption"
 msgstr "Cifratura"
 
-#: templates/settings-admin.php:10
+#: templates/settings-admin.php:7
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
 msgstr "Abilita la chiave di recupero (permette di recuperare i file utenti in caso di perdita della password):"
 
-#: templates/settings-admin.php:14
+#: templates/settings-admin.php:11
 msgid "Recovery key password"
 msgstr "Password della chiave di recupero"
 
-#: templates/settings-admin.php:17
+#: templates/settings-admin.php:14
 msgid "Repeat Recovery key password"
-msgstr ""
+msgstr "Ripeti la password della chiave di recupero"
 
-#: templates/settings-admin.php:24 templates/settings-personal.php:54
+#: templates/settings-admin.php:21 templates/settings-personal.php:51
 msgid "Enabled"
 msgstr "Abilitata"
 
-#: templates/settings-admin.php:32 templates/settings-personal.php:62
+#: templates/settings-admin.php:29 templates/settings-personal.php:59
 msgid "Disabled"
 msgstr "Disabilitata"
 
-#: templates/settings-admin.php:37
+#: templates/settings-admin.php:34
 msgid "Change recovery key password:"
 msgstr "Cambia la password della chiave di recupero:"
 
-#: templates/settings-admin.php:43
+#: templates/settings-admin.php:40
 msgid "Old Recovery key password"
 msgstr "Vecchia password della chiave di recupero"
 
-#: templates/settings-admin.php:50
+#: templates/settings-admin.php:47
 msgid "New Recovery key password"
 msgstr "Nuova password della chiave di recupero"
 
-#: templates/settings-admin.php:56
+#: templates/settings-admin.php:53
 msgid "Repeat New Recovery key password"
-msgstr ""
+msgstr "Ripeti la nuova password della chiave di recupero"
 
-#: templates/settings-admin.php:61
+#: templates/settings-admin.php:58
 msgid "Change Password"
 msgstr "Modifica password"
 
-#: templates/settings-personal.php:11
+#: templates/settings-personal.php:9
 msgid "Your private key password no longer match your log-in password:"
 msgstr "La password della chiave privata non corrisponde più alla password di accesso:"
 
-#: templates/settings-personal.php:14
+#: templates/settings-personal.php:12
 msgid "Set your old private key password to your current log-in password."
 msgstr "Imposta la vecchia password della chiave privata sull'attuale password di accesso."
 
-#: templates/settings-personal.php:16
+#: templates/settings-personal.php:14
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
 msgstr "Se non ricordi la vecchia password puoi chiedere al tuo amministratore di recuperare i file."
 
-#: templates/settings-personal.php:24
+#: templates/settings-personal.php:22
 msgid "Old log-in password"
 msgstr "Vecchia password di accesso"
 
-#: templates/settings-personal.php:30
+#: templates/settings-personal.php:28
 msgid "Current log-in password"
 msgstr "Password di accesso attuale"
 
-#: templates/settings-personal.php:35
+#: templates/settings-personal.php:33
 msgid "Update Private Key Password"
 msgstr "Aggiorna la password della chiave privata"
 
-#: templates/settings-personal.php:45
+#: templates/settings-personal.php:42
 msgid "Enable password recovery:"
 msgstr "Abilita il ripristino della password:"
 
-#: templates/settings-personal.php:47
+#: templates/settings-personal.php:44
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
 msgstr "L'abilitazione di questa opzione ti consentirà di accedere nuovamente ai file cifrati in caso di perdita della password"
 
-#: templates/settings-personal.php:63
+#: templates/settings-personal.php:60
 msgid "File recovery settings updated"
 msgstr "Impostazioni di ripristino dei file aggiornate"
 
-#: templates/settings-personal.php:64
+#: templates/settings-personal.php:61
 msgid "Could not update file recovery"
 msgstr "Impossibile aggiornare il ripristino dei file"

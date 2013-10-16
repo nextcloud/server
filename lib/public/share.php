@@ -155,13 +155,13 @@ class Share {
 
 		while ($source !== -1) {
 
-			// Fetch all shares of this file path from DB
+			// Fetch all shares with another user
 			$query = \OC_DB::prepare(
 				'SELECT `share_with`
 				FROM
 				`*PREFIX*share`
 				WHERE
-				`item_source` = ? AND `share_type` = ?'
+				`item_source` = ? AND `share_type` = ? AND `item_type` IN (\'file\', \'folder\')'
 			);
 
 			$result = $query->execute(array($source, self::SHARE_TYPE_USER));
@@ -180,7 +180,7 @@ class Share {
 				FROM
 				`*PREFIX*share`
 				WHERE
-				`item_source` = ? AND `share_type` = ?'
+				`item_source` = ? AND `share_type` = ? AND `item_type` IN (\'file\', \'folder\')'
 			);
 
 			$result = $query->execute(array($source, self::SHARE_TYPE_GROUP));
@@ -201,7 +201,7 @@ class Share {
 					FROM
 					`*PREFIX*share`
 					WHERE
-					`item_source` = ? AND `share_type` = ?'
+					`item_source` = ? AND `share_type` = ? AND `item_type` IN (\'file\', \'folder\')'
 				);
 
 				$result = $query->execute(array($source, self::SHARE_TYPE_LINK));

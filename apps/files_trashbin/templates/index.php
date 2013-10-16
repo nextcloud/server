@@ -1,4 +1,3 @@
-<!--[if IE 8]><style>input[type="checkbox"]{padding:0;}table td{position:static !important;}</style><![endif]-->
 <div id="controls">
 	<?php print_unescaped($_['breadcrumb']); ?>
 		<div id="file_action_panel"></div>

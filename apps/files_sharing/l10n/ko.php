@@ -2,7 +2,6 @@
 $TRANSLATIONS = array(
 "The password is wrong. Try again." => "비밀번호가 틀립니다. 다시 입력해주세요.",
 "Password" => "암호",
-"Submit" => "제출",
 "Sorry, this link doesn’t seem to work anymore." => "죄송합니다만 이 링크는 더이상 작동되지 않습니다.",
 "Reasons might be:" => "이유는 다음과 같을 수 있습니다:",
 "the item was removed" => "이 항목은 삭제되었습니다",

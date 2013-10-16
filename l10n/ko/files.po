@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-05 15:12+0000\n"
+"POT-Creation-Date: 2013-10-16 00:26-0400\n"
+"PO-Revision-Date: 2013-10-14 00:41+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -77,15 +77,15 @@ msgstr "디스크에 쓰지 못했습니다"
 msgid "Not enough storage available"
 msgstr "저장소가 용량이 충분하지 않습니다."
 
-#: ajax/upload.php:120 ajax/upload.php:143
+#: ajax/upload.php:122 ajax/upload.php:148
 msgid "Upload failed. Could not get file info."
 msgstr "업로드에 실패했습니다. 파일 정보를 가져올수 없습니다."
 
-#: ajax/upload.php:136
+#: ajax/upload.php:138
 msgid "Upload failed. Could not find uploaded file"
 msgstr "업로드에 실패했습니다. 업로드할 파일을 찾을수 없습니다"
 
-#: ajax/upload.php:160
+#: ajax/upload.php:165
 msgid "Invalid directory."
 msgstr "올바르지 않은 디렉터리입니다."
 
@@ -93,36 +93,36 @@ msgstr "올바르지 않은 디렉터리입니다."
 msgid "Files"
 msgstr "파일"
 
-#: js/file-upload.js:244
+#: js/file-upload.js:224
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
 msgstr "{filename}을 업로드 할수 없습니다. 폴더이거나 0 바이트 파일입니다."
 
-#: js/file-upload.js:255
+#: js/file-upload.js:235
 msgid "Not enough space available"
 msgstr "여유 공간이 부족합니다"
 
-#: js/file-upload.js:322
+#: js/file-upload.js:302
 msgid "Upload cancelled."
 msgstr "업로드가 취소되었습니다."
 
-#: js/file-upload.js:356
+#: js/file-upload.js:336
 msgid "Could not get result from server."
 msgstr "서버에서 결과를 가져올수 없습니다."
 
-#: js/file-upload.js:446
+#: js/file-upload.js:426
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "파일 업로드가 진행 중입니다. 이 페이지를 벗어나면 업로드가 취소됩니다."
 
-#: js/file-upload.js:520
+#: js/file-upload.js:500
 msgid "URL cannot be empty."
 msgstr "URL을 입력해야 합니다."
 
-#: js/file-upload.js:525 lib/app.php:53
+#: js/file-upload.js:505 lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
 msgstr "유효하지 않은 폴더명입니다. \"Shared\" 이름의 사용은 OwnCloud 가 이미 예약하고 있습니다."
 
-#: js/file-upload.js:557 js/file-upload.js:573 js/files.js:516 js/files.js:554
+#: js/file-upload.js:540 js/file-upload.js:556 js/files.js:518 js/files.js:556
 msgid "Error"
 msgstr "오류"
 
@@ -134,11 +134,11 @@ msgstr "공유"
 msgid "Delete permanently"
 msgstr "영원히 삭제"
 
-#: js/fileactions.js:197
+#: js/fileactions.js:184
 msgid "Rename"
 msgstr "이름 바꾸기"
 
-#: js/filelist.js:71 js/filelist.js:74 js/filelist.js:788
+#: js/filelist.js:71 js/filelist.js:74 js/filelist.js:789
 msgid "Pending"
 msgstr "대기 중"
 
@@ -166,12 +166,12 @@ msgstr "{old_name}이(가) {new_name}(으)로 대체됨"
 msgid "undo"
 msgstr "되돌리기"
 
-#: js/filelist.js:533 js/filelist.js:599 js/files.js:585
+#: js/filelist.js:533 js/filelist.js:599 js/files.js:587
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "폴더 %n"
 
-#: js/filelist.js:534 js/filelist.js:600 js/files.js:591
+#: js/filelist.js:534 js/filelist.js:600 js/files.js:593
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "파일 %n 개"
@@ -180,7 +180,7 @@ msgstr[0] "파일 %n 개"
 msgid "{dirs} and {files}"
 msgstr "{dirs} 그리고 {files}"
 
-#: js/filelist.js:731 js/filelist.js:769
+#: js/filelist.js:732 js/filelist.js:770
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "%n 개의 파일을 업로드중"
@@ -226,25 +226,25 @@ msgid ""
 "your personal settings to decrypt your files."
 msgstr "암호화는 해제되어 있지만, 파일은 아직 암호화 되어 있습니다. 개인 설저에 가셔서 암호를 해제하십시오"
 
-#: js/files.js:305
+#: js/files.js:307
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "다운로드가 준비 중입니다. 파일 크기가 크다면 시간이 오래 걸릴 수도 있습니다."
 
-#: js/files.js:516 js/files.js:554
+#: js/files.js:518 js/files.js:556
 msgid "Error moving file"
 msgstr "파일 이동 오류"
 
-#: js/files.js:567 templates/index.php:59
+#: js/files.js:569 templates/index.php:56
 msgid "Name"
 msgstr "이름"
 
-#: js/files.js:568 templates/index.php:71
+#: js/files.js:570 templates/index.php:68
 msgid "Size"
 msgstr "크기"
 
-#: js/files.js:569 templates/index.php:73
+#: js/files.js:571 templates/index.php:70
 msgid "Modified"
 msgstr "수정됨"
 
@@ -253,7 +253,7 @@ msgstr "수정됨"
 msgid "%s could not be renamed"
 msgstr "%s 의 이름을 변경할수 없습니다"
 
-#: lib/helper.php:11 templates/index.php:17
+#: lib/helper.php:11 templates/index.php:16
 msgid "Upload"
 msgstr "업로드"
 
@@ -289,65 +289,65 @@ msgstr "ZIP 파일 최대 크기"
 msgid "Save"
 msgstr "저장"
 
-#: templates/index.php:6
+#: templates/index.php:5
 msgid "New"
 msgstr "새로 만들기"
 
-#: templates/index.php:9
+#: templates/index.php:8
 msgid "Text file"
 msgstr "텍스트 파일"
 
-#: templates/index.php:11
+#: templates/index.php:10
 msgid "Folder"
 msgstr "폴더"
 
-#: templates/index.php:13
+#: templates/index.php:12
 msgid "From link"
 msgstr "링크에서"
 
-#: templates/index.php:32
+#: templates/index.php:29
 msgid "Deleted files"
 msgstr "파일 삭제됨"
 
-#: templates/index.php:37
+#: templates/index.php:34
 msgid "Cancel upload"
 msgstr "업로드 취소"
 
-#: templates/index.php:43
+#: templates/index.php:40
 msgid "You don’t have write permissions here."
 msgstr "당신은 여기에 쓰기를 할 수 있는 권한이 없습니다."
 
-#: templates/index.php:48
+#: templates/index.php:45
 msgid "Nothing in here. Upload something!"
 msgstr "내용이 없습니다. 업로드할 수 있습니다!"
 
-#: templates/index.php:65
+#: templates/index.php:62
 msgid "Download"
 msgstr "다운로드"
 
-#: templates/index.php:78 templates/index.php:79
+#: templates/index.php:75 templates/index.php:76
 msgid "Unshare"
 msgstr "공유 해제"
 
-#: templates/index.php:84 templates/index.php:85
+#: templates/index.php:81 templates/index.php:82
 msgid "Delete"
 msgstr "삭제"
 
-#: templates/index.php:98
+#: templates/index.php:95
 msgid "Upload too large"
 msgstr "업로드한 파일이 너무 큼"
 
-#: templates/index.php:100
+#: templates/index.php:97
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "이 파일이 서버에서 허용하는 최대 업로드 가능 용량보다 큽니다."
 
-#: templates/index.php:105
+#: templates/index.php:102
 msgid "Files are being scanned, please wait."
 msgstr "파일을 검색하고 있습니다. 기다려 주십시오."
 
-#: templates/index.php:108
+#: templates/index.php:105
 msgid "Current scanning"
 msgstr "현재 검색"
 

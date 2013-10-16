@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "A aplicação \"%s\" não pode ser instaladas por não ser compatível com esta versão da ownCloud.",
+"No app name specified" => "O nome da aplicação não foi especificado",
 "Help" => "Ajuda",
 "Personal" => "Pessoal",
 "Settings" => "Configurações",
@@ -15,6 +17,11 @@ $TRANSLATIONS = array(
 "Back to Files" => "Voltar a Ficheiros",
 "Selected files too large to generate zip file." => "Os ficheiros seleccionados são grandes demais para gerar um ficheiro zip.",
 "Download the files in smaller chunks, seperately or kindly ask your administrator." => "Descarregue os ficheiros em partes menores, separados ou peça gentilmente ao seu administrador.",
+"Archives of type %s are not supported" => "Arquivos do tipo %s não são suportados",
+"App does not provide an info.xml file" => "A aplicação não disponibiliza um ficheiro info.xml",
+"App can't be installed because of not allowed code in the App" => "A aplicação não pode ser instalado devido a código não permitido dentro da aplicação",
+"App directory already exists" => "A directoria da aplicação já existe",
+"Can't create app folder. Please fix permissions. %s" => "Não foi possível criar a pasta da aplicação. Por favor verifique as permissões. %s",
 "Application is not enabled" => "A aplicação não está activada",
 "Authentication error" => "Erro na autenticação",
 "Token expired. Please reload page." => "O token expirou. Por favor recarregue a página.",

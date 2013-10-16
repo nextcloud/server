@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-05 15:40+0000\n"
+"POT-Creation-Date: 2013-10-16 00:26-0400\n"
+"PO-Revision-Date: 2013-10-14 00:41+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -158,15 +158,15 @@ msgstr "Päivitä"
 msgid "Updated"
 msgstr "Päivitetty"
 
-#: js/personal.js:225
+#: js/personal.js:220
 msgid "Select a profile picture"
 msgstr "Valitse profiilikuva"
 
-#: js/personal.js:270
+#: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Puretaan tiedostojen salausta... Odota, tämä voi kestää jonkin aikaa."
 
-#: js/personal.js:292
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "Tallennetaan..."
 
@@ -182,32 +182,32 @@ msgstr "kumoa"
 msgid "Unable to remove user"
 msgstr "Käyttäjän poistaminen ei onnistunut"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:90
+#: js/users.js:95 templates/users.php:26 templates/users.php:90
 #: templates/users.php:118
 msgid "Groups"
 msgstr "Ryhmät"
 
-#: js/users.js:97 templates/users.php:92 templates/users.php:130
+#: js/users.js:100 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
 msgstr "Ryhmän ylläpitäjä"
 
-#: js/users.js:120 templates/users.php:170
+#: js/users.js:123 templates/users.php:170
 msgid "Delete"
 msgstr "Poista"
 
-#: js/users.js:277
+#: js/users.js:280
 msgid "add group"
 msgstr "lisää ryhmä"
 
-#: js/users.js:436
+#: js/users.js:442
 msgid "A valid username must be provided"
 msgstr "Anna kelvollinen käyttäjätunnus"
 
-#: js/users.js:437 js/users.js:443 js/users.js:458
+#: js/users.js:443 js/users.js:449 js/users.js:464
 msgid "Error creating user"
 msgstr "Virhe käyttäjää luotaessa"
 
-#: js/users.js:442
+#: js/users.js:448
 msgid "A valid password must be provided"
 msgstr "Anna kelvollinen salasana"
 
@@ -385,11 +385,11 @@ msgstr "Enemmän"
 msgid "Less"
 msgstr "Vähemmän"
 
-#: templates/admin.php:250 templates/personal.php:161
+#: templates/admin.php:250 templates/personal.php:169
 msgid "Version"
 msgstr "Versio"
 
-#: templates/admin.php:254 templates/personal.php:164
+#: templates/admin.php:254 templates/personal.php:172
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -528,34 +528,34 @@ msgstr "Valitse profiilikuvaksi"
 msgid "Language"
 msgstr "Kieli"
 
-#: templates/personal.php:119
+#: templates/personal.php:126
 msgid "Help translate"
 msgstr "Auta kääntämisessä"
 
-#: templates/personal.php:125
+#: templates/personal.php:133
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:127
+#: templates/personal.php:135
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
 "target=\"_blank\">access your Files via WebDAV</a>"
 msgstr "Käytä tätä osoitetta <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">päästäksesi käsiksi tiedostoihisi WebDAVin kautta</a>"
 
-#: templates/personal.php:138
+#: templates/personal.php:146
 msgid "Encryption"
 msgstr "Salaus"
 
-#: templates/personal.php:140
+#: templates/personal.php:148
 msgid "The encryption app is no longer enabled, decrypt all your file"
 msgstr "Salaussovellus ei ole enää käytössä, pura kaikkien tiedostojesi salaus"
 
-#: templates/personal.php:146
+#: templates/personal.php:154
 msgid "Log-in password"
 msgstr ""
 
-#: templates/personal.php:151
+#: templates/personal.php:159
 msgid "Decrypt all Files"
 msgstr "Pura kaikkien tiedostojen salaus"
 

@@ -2,7 +2,6 @@
 $TRANSLATIONS = array(
 "The password is wrong. Try again." => "Lösenordet är fel. Försök igen.",
 "Password" => "Lösenord",
-"Submit" => "Skicka",
 "Sorry, this link doesn’t seem to work anymore." => "Tyvärr, denna länk verkar inte fungera längre.",
 "Reasons might be:" => "Orsaker kan vara:",
 "the item was removed" => "objektet togs bort",

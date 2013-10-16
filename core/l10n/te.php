@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"This category already exists: %s" => "ఈ వర్గం ఇప్పటికే ఉంది: %s",
 "Sunday" => "ఆదివారం",
 "Monday" => "సోమవారం",
 "Tuesday" => "మంగళవారం",
@@ -42,11 +41,12 @@ $TRANSLATIONS = array(
 "Send" => "పంపించు",
 "Expiration date" => "కాలం చెల్లు తేదీ",
 "delete" => "తొలగించు",
+"Delete" => "తొలగించు",
+"Add" => "చేర్చు",
 "Username" => "వాడుకరి పేరు",
 "New password" => "కొత్త సంకేతపదం",
 "Users" => "వాడుకరులు",
 "Help" => "సహాయం",
-"Add" => "చేర్చు",
 "Log out" => "నిష్క్రమించు",
 "Lost your password?" => "మీ సంకేతపదం పోయిందా?"
 );

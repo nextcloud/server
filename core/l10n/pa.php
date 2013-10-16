@@ -37,11 +37,12 @@ $TRANSLATIONS = array(
 "Ok" => "ਠੀਕ ਹੈ",
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
 "Cancel" => "ਰੱਦ ਕਰੋ",
-"Error" => "ਗਲ",
 "Share" => "ਸਾਂਝਾ ਕਰੋ",
+"Error" => "ਗਲ",
 "Password" => "ਪਾਸਵਰ",
 "Send" => "ਭੇਜੋ",
 "Warning" => "ਚੇਤਾਵਨੀ",
+"Delete" => "ਹਟਾਓ",
 "Username" => "ਯੂਜ਼ਰ-ਨਾਂ",
 "Security Warning" => "ਸੁਰੱਖਿਆ ਚੇਤਾਵਨੀ"
 );

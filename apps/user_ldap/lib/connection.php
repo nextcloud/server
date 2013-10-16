@@ -60,7 +60,8 @@ class Connection extends LDAPUtility {
 		'ldapQuotaDefault' => null,
 		'ldapEmailAttribute' => null,
 		'ldapCacheTTL' => null,
-		'ldapUuidAttribute' => 'auto',
+		'ldapUuidUserAttribute' => 'auto',
+		'ldapUuidGroupAttribute' => 'auto',
 		'ldapOverrideUuidAttribute' => null,
 		'ldapOverrideMainServer' => false,
 		'ldapConfigurationActive' => false,
@@ -69,7 +70,8 @@ class Connection extends LDAPUtility {
 		'homeFolderNamingRule' => null,
 		'hasPagedResultSupport' => false,
 		'ldapExpertUsernameAttr' => null,
-		'ldapExpertUUIDAttr' => null,
+		'ldapExpertUUIDUserAttr' => null,
+		'ldapExpertUUIDGroupAttr' => null,
 	);
 
 	/**
@@ -120,11 +122,11 @@ class Connection extends LDAPUtility {
 	public function __set($name, $value) {
 		$changed = false;
 		//only few options are writable
-		if($name === 'ldapUuidAttribute') {
-			\OCP\Util::writeLog('user_ldap', 'Set config ldapUuidAttribute to  '.$value, \OCP\Util::DEBUG);
+		if($name === 'ldapUuidUserAttribute' || $name === 'ldapUuidGroupAttribute') {
+			\OCP\Util::writeLog('user_ldap', 'Set config '.$name.' to  '.$value, \OCP\Util::DEBUG);
 			$this->config[$name] = $value;
 			if(!empty($this->configID)) {
-				\OCP\Config::setAppValue($this->configID, $this->configPrefix.'ldap_uuid_attribute', $value);
+				\OCP\Config::setAppValue($this->configID, $this->configPrefix.$name, $value);
 			}
 			$changed = true;
 		}
@@ -285,8 +287,10 @@ class Connection extends LDAPUtility {
 			$this->config['ldapIgnoreNamingRules']
 				= \OCP\Config::getSystemValue('ldapIgnoreNamingRules', false);
 			$this->config['ldapCacheTTL']    = $this->$v('ldap_cache_ttl');
-			$this->config['ldapUuidAttribute']
-				= $this->$v('ldap_uuid_attribute');
+			$this->config['ldapUuidUserAttribute']
+				= $this->$v('ldap_uuid_user_attribute');
+			$this->config['ldapUuidGroupAttribute']
+				= $this->$v('ldap_uuid_group_attribute');
 			$this->config['ldapOverrideUuidAttribute']
 				= $this->$v('ldap_override_uuid_attribute');
 			$this->config['homeFolderNamingRule']
@@ -299,8 +303,10 @@ class Connection extends LDAPUtility {
 				= preg_split('/\r\n|\r|\n/', $this->$v('ldap_attributes_for_group_search'));
 			$this->config['ldapExpertUsernameAttr']
 				= $this->$v('ldap_expert_username_attr');
-			$this->config['ldapExpertUUIDAttr']
-				= $this->$v('ldap_expert_uuid_attr');
+			$this->config['ldapExpertUUIDUserAttr']
+				= $this->$v('ldap_expert_uuid_user_attr');
+			$this->config['ldapExpertUUIDGroupAttr']
+				= $this->$v('ldap_expert_uuid_group_attr');
 
 			$this->configured = $this->validateConfiguration();
 		}
@@ -339,7 +345,8 @@ class Connection extends LDAPUtility {
 			'ldap_attributes_for_user_search' => 'ldapAttributesForUserSearch',
 			'ldap_attributes_for_group_search' => 'ldapAttributesForGroupSearch',
 			'ldap_expert_username_attr' => 'ldapExpertUsernameAttr',
-			'ldap_expert_uuid_attr' => 'ldapExpertUUIDAttr',
+			'ldap_expert_uuid_user_attr' => 'ldapExpertUUIDUserAttr',
+			'ldap_expert_uuid_group_attr' => 'ldapExpertUUIDGroupAttr',
 		);
 		return $array;
 	}
@@ -413,7 +420,8 @@ class Connection extends LDAPUtility {
 					break;
 				case 'ldapIgnoreNamingRules':
 				case 'ldapOverrideUuidAttribute':
-				case 'ldapUuidAttribute':
+				case 'ldapUuidUserAttribute':
+				case 'ldapUuidGroupAttribute':
 				case 'hasPagedResultSupport':
 					continue 2;
 			}
@@ -476,13 +484,23 @@ class Connection extends LDAPUtility {
 		}
 		$uuidAttributes = array(
 			'auto', 'entryuuid', 'nsuniqueid', 'objectguid', 'guid');
-		if(!in_array($this->config['ldapUuidAttribute'], $uuidAttributes)
-			&& (!is_null($this->configID))) {
-			\OCP\Config::setAppValue($this->configID, $this->configPrefix.'ldap_uuid_attribute', 'auto');
-			\OCP\Util::writeLog('user_ldap',
-				'Illegal value for the UUID Attribute, reset to autodetect.',
-				\OCP\Util::INFO);
+		$uuidSettings = array(
+						'ldapUuidUserAttribute' => 'ldapExpertUUIDUserAttr',
+						'ldapUuidGroupAttribute' => 'ldapExpertUUIDGroupAttr');
+		$cta = array_flip($this->getConfigTranslationArray());
+		foreach($uuidSettings as $defaultKey => $overrideKey) {
+			if( !in_array($this->config[$defaultKey], $uuidAttributes)
+				&& is_null($this->config[$overrideKey])
+				&& !is_null($this->configID)) {
+				\OCP\Config::setAppValue($this->configID,
+										$this->configPrefix.$cta[$defaultKey],
+										'auto');
+				\OCP\Util::writeLog('user_ldap',
+					'Illegal value for'.$defaultKey.', reset to autodetect.',
+					\OCP\Util::DEBUG);
+			}
 		}
+
 		if(empty($this->config['ldapBackupPort'])) {
 			//force default
 			$this->config['ldapBackupPort'] = $this->config['ldapPort'];
@@ -501,8 +519,6 @@ class Connection extends LDAPUtility {
 				'LDAPS (already using secure connection) and TLS do not work together. Switched off TLS.',
 				\OCP\Util::INFO);
 		}
-
-
 
 		//second step: critical checks. If left empty or filled wrong, set as unconfigured and give a warning.
 		$configurationOK = true;
@@ -552,8 +568,11 @@ class Connection extends LDAPUtility {
 			$configurationOK = false;
 		}
 
-		if(!empty($this->config['ldapExpertUUIDAttr'])) {
-			$this->config['ldapUuidAttribute'] = $this->config['ldapExpertUUIDAttr'];
+		if(!empty($this->config['ldapExpertUUIDUserAttr'])) {
+			$this->config['ldapUuidUserAttribute'] = $this->config['ldapExpertUUIDUserAttr'];
+		}
+		if(!empty($this->config['ldapExpertUUIDGroupAttr'])) {
+			$this->config['ldapUuidGroupAttribute'] = $this->config['ldapExpertUUIDGroupAttr'];
 		}
 
 		return $configurationOK;
@@ -587,15 +606,17 @@ class Connection extends LDAPUtility {
 			'ldap_email_attr'                   => '',
 			'ldap_group_member_assoc_attribute' => 'uniqueMember',
 			'ldap_cache_ttl'                    => 600,
-			'ldap_uuid_attribute'				=> 'auto',
+			'ldap_uuid_user_attribute'          => 'auto',
+			'ldap_uuid_group_attribute'         => 'auto',
 			'ldap_override_uuid_attribute'		=> 0,
 			'home_folder_naming_rule'           => '',
 			'ldap_turn_off_cert_check'			=> 0,
 			'ldap_configuration_active'			=> 1,
 			'ldap_attributes_for_user_search'	=> '',
 			'ldap_attributes_for_group_search'	=> '',
-			'ldap_expert_username_attr'              => '',
-			'ldap_expert_uuid_attr'             => '',
+			'ldap_expert_username_attr'         => '',
+			'ldap_expert_uuid_user_attr'        => '',
+			'ldap_expert_uuid_group_attr'       => '',
 		);
 	}
 
