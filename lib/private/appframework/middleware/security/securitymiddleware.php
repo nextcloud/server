@@ -24,15 +24,14 @@
 
 namespace OC\AppFramework\Middleware\Security;
 
-use OC\AppFramework\Controller\Controller;
 use OC\AppFramework\Http\Http;
-use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\RedirectResponse;
 use OC\AppFramework\Utility\MethodAnnotationReader;
-use OC\AppFramework\Core\API;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\IAppContainer;
+use OCP\IRequest;
 
 
 /**
@@ -43,18 +42,22 @@ use OCP\AppFramework\Http\JSONResponse;
  */
 class SecurityMiddleware extends Middleware {
 
-	private $api;
+	/**
+	 * @var \OCP\AppFramework\IAppContainer
+	 */
+	private $app;
 
 	/**
-	 * @var \OC\AppFramework\Http\Request
+	 * @var \OCP\IRequest
 	 */
 	private $request;
 
 	/**
-	 * @param API $api an instance of the api
+	 * @param IAppContainer $app
+	 * @param IRequest $request
 	 */
-	public function __construct(API $api, Request $request){
-		$this->api = $api;
+	public function __construct(IAppContainer $app, IRequest $request){
+		$this->app = $app;
 		$this->request = $request;
 	}
 
@@ -74,24 +77,24 @@ class SecurityMiddleware extends Middleware {
 
 		// this will set the current navigation entry of the app, use this only
 		// for normal HTML requests and not for AJAX requests
-		//$this->api->activateNavigationEntry();
+		$this->app->getServer()->getNavigationManager()->setActiveEntry($this->app->getAppName());
 
 		// security checks
 		$isPublicPage = $annotationReader->hasAnnotation('PublicPage');
 		if(!$isPublicPage) {
-			if(!\OC_User::isLoggedIn()) {
+			if(!$this->app->isLoggedIn()) {
 				throw new SecurityException('Current user is not logged in', Http::STATUS_UNAUTHORIZED);
 			}
 
 			if(!$annotationReader->hasAnnotation('NoAdminRequired')) {
-				if(!$this->api->isAdminUser($this->api->getUserId())) {
+				if(!$this->app->isAdminUser()) {
 					throw new SecurityException('Logged in user must be an admin', Http::STATUS_FORBIDDEN);
 				}
 			}
 		}
 
 		if(!$annotationReader->hasAnnotation('NoCSRFRequired')) {
-			if(!$this->api->passesCSRFCheck()) {
+			if(!$this->request->passesCSRFCheck()) {
 				throw new SecurityException('CSRF check failed', Http::STATUS_PRECONDITION_FAILED);
 			}
 		}
@@ -118,12 +121,13 @@ class SecurityMiddleware extends Middleware {
 					array('message' => $exception->getMessage()),
 					$exception->getCode()
 				);
-				$this->api->log($exception->getMessage(), 'debug');
+				$this->app->log($exception->getMessage(), 'debug');
 			} else {
 
-				$url = $this->api->linkToAbsolute('index.php', ''); // TODO: replace with link to route
+				// TODO: replace with link to route
+				$url = $this->app->getServer()->getURLGenerator()->getAbsoluteURL('index.php');
 				$response = new RedirectResponse($url);
-				$this->api->log($exception->getMessage(), 'debug');
+				$this->app->log($exception->getMessage(), 'debug');
 			}
 
 			return $response;

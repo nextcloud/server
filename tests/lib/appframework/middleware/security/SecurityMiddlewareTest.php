@@ -39,8 +39,8 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	private $request;
 
 	public function setUp() {
-		$api = $this->getMock('OC\AppFramework\Core\API', array(), array('test'));
-		$this->controller = $this->getMock('OC\AppFramework\Controller\Controller',
+		$api = $this->getMock('OC\AppFramework\DependencyInjection\DIContainer', array(), array('test'));
+		$this->controller = $this->getMock('OCP\AppFramework\Controller',
 				array(), array($api, new Request()));
 
 		$this->request = new Request();
@@ -51,24 +51,19 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 
 
 	private function getAPI(){
-		return $this->getMock('OC\AppFramework\Core\API',
+		return $this->getMock('OC\AppFramework\DependencyInjection\DIContainer',
 					array('isLoggedIn', 'passesCSRFCheck', 'isAdminUser',
-							'isSubAdminUser', 'activateNavigationEntry',
-							'getUserId'),
+							'isSubAdminUser', 'getUserId'),
 					array('app'));
 	}
 
 
-	private function checkNavEntry($method, $shouldBeActivated=false){
+	private function checkNavEntry($method){
 		$api = $this->getAPI();
 
-		if($shouldBeActivated){
-			$api->expects($this->once())
-				->method('activateNavigationEntry');
-		} else {
-			$api->expects($this->never())
-				->method('activateNavigationEntry');
-		}
+		$serverMock = $this->getMock('\OC\Server', array());
+		$api->expects($this->any())->method('getServer')
+			->will($this->returnValue($serverMock));
 
 		$sec = new SecurityMiddleware($api, $this->request);
 		$sec->beforeController('\OC\AppFramework\Middleware\Security\SecurityMiddlewareTest', $method);
@@ -80,8 +75,7 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	 * @NoCSRFRequired
 	 */
 	public function testSetNavigationEntry(){
-		$this->markTestSkipped("Setting navigation in security check has been disabled");
-		//$this->checkNavEntry('testSetNavigationEntry', true);
+		$this->checkNavEntry('testSetNavigationEntry');
 	}
 
 
@@ -121,7 +115,6 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	 * @NoAdminRequired
 	 */
 	public function testAjaxNotAdminCheck() {
-		$this->markTestSkipped("Logged in state currently not available in API");
 		$this->ajaxExceptionStatus(
 			'testAjaxNotAdminCheck',
 			'isAdminUser',
@@ -217,9 +210,33 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @PublicPage
+	 * @expectedException \OC\AppFramework\Middleware\Security\SecurityException
 	 */
 	public function testCsrfCheck(){
-		$this->securityCheck('testCsrfCheck', 'passesCSRFCheck');
+		$api = $this->getAPI();
+		$request = $this->getMock('OC\AppFramework\Http\Request', array('passesCSRFCheck'));
+		$request->expects($this->once())
+			->method('passesCSRFCheck')
+			->will($this->returnValue(false));
+
+		$sec = new SecurityMiddleware($api, $request);
+		$sec->beforeController('\OC\AppFramework\Middleware\Security\SecurityMiddlewareTest', 'testCsrfCheck');
+	}
+
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 */
+	public function testNoCsrfCheck(){
+		$api = $this->getAPI();
+		$request = $this->getMock('OC\AppFramework\Http\Request', array('passesCSRFCheck'));
+		$request->expects($this->never())
+			->method('passesCSRFCheck')
+			->will($this->returnValue(false));
+
+		$sec = new SecurityMiddleware($api, $request);
+		$sec->beforeController('\OC\AppFramework\Middleware\Security\SecurityMiddlewareTest', 'testNoCsrfCheck');
 	}
 
 
@@ -227,7 +244,14 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	 * @PublicPage
 	 */
 	public function testFailCsrfCheck(){
-		$this->securityCheck('testFailCsrfCheck', 'passesCSRFCheck', true);
+		$api = $this->getAPI();
+		$request = $this->getMock('OC\AppFramework\Http\Request', array('passesCSRFCheck'));
+		$request->expects($this->once())
+			->method('passesCSRFCheck')
+			->will($this->returnValue(true));
+
+		$sec = new SecurityMiddleware($api, $request);
+		$sec->beforeController('\OC\AppFramework\Middleware\Security\SecurityMiddlewareTest', 'testFailCsrfCheck');
 	}
 
 
@@ -236,7 +260,6 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	 * @NoAdminRequired
 	 */
 	public function testLoggedInCheck(){
-		$this->markTestSkipped("Logged in state currently not available in API");
 		$this->securityCheck('testLoggedInCheck', 'isLoggedIn');
 	}
 
@@ -246,7 +269,6 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	 * @NoAdminRequired
 	 */
 	public function testFailLoggedInCheck(){
-		$this->markTestSkipped("Logged in state currently not available in API");
 		$this->securityCheck('testFailLoggedInCheck', 'isLoggedIn', true);
 	}
 
@@ -255,7 +277,6 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	 * @NoCSRFRequired
 	 */
 	public function testIsAdminCheck(){
-		$this->markTestSkipped("Logged in state currently not available in API");
 		$this->securityCheck('testIsAdminCheck', 'isAdminUser');
 	}
 
@@ -264,7 +285,6 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	 * @NoCSRFRequired
 	 */
 	public function testFailIsAdminCheck(){
-		$this->markTestSkipped("Logged in state currently not available in API");
 		$this->securityCheck('testFailIsAdminCheck', 'isAdminUser', true);
 	}
 
@@ -277,8 +297,12 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 
 
 	public function testAfterExceptionReturnsRedirect(){
-		$api = $this->getMock('OC\AppFramework\Core\API', array(), array('test'));
-		$this->controller = $this->getMock('OC\AppFramework\Controller\Controller',
+		$api = $this->getMock('OC\AppFramework\DependencyInjection\DIContainer', array(), array('test'));
+		$serverMock = $this->getMock('\OC\Server', array('getNavigationManager'));
+		$api->expects($this->once())->method('getServer')
+			->will($this->returnValue($serverMock));
+
+		$this->controller = $this->getMock('OCP\AppFramework\Controller',
 			array(), array($api, new Request()));
 
 		$this->request = new Request(

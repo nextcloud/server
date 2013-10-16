@@ -25,11 +25,8 @@
 namespace Test\AppFramework\Controller;
 
 use OC\AppFramework\Http\Request;
-use OC\AppFramework\Controller\Controller;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
-
-
-//require_once __DIR__ . "/../classloader.php";
 
 
 class ChildController extends Controller {};
@@ -40,7 +37,7 @@ class ControllerTest extends \PHPUnit_Framework_TestCase {
 	 * @var Controller
 	 */
 	private $controller;
-	private $api;
+	private $app;
 
 	protected function setUp(){
 		$request = new Request(
@@ -55,13 +52,13 @@ class ControllerTest extends \PHPUnit_Framework_TestCase {
 			)
 		);
 
-		$this->api = $this->getMock('OC\AppFramework\Core\API',
+		$this->app = $this->getMock('OC\AppFramework\DependencyInjection\DIContainer',
 									array('getAppName'), array('test'));
-		$this->api->expects($this->any())
+		$this->app->expects($this->any())
 				->method('getAppName')
 				->will($this->returnValue('apptemplate_advanced'));
 
-		$this->controller = new ChildController($this->api, $request);
+		$this->controller = new ChildController($this->app, $request);
 	}
 
 
@@ -111,26 +108,6 @@ class ControllerTest extends \PHPUnit_Framework_TestCase {
 		$response = $this->controller->render('home', $params);
 
 		$this->assertEquals($params, $response->getParams());
-	}
-
-
-	public function testRenderRenderAs(){
-		$ocTpl = $this->getMock('Template', array('fetchPage'));
-		$ocTpl->expects($this->once())
-				->method('fetchPage');
-
-		$api = $this->getMock('OC\AppFramework\Core\API',
-					array('getAppName', 'getTemplate'), array('app'));
-		$api->expects($this->any())
-				->method('getAppName')
-				->will($this->returnValue('app'));
-		$api->expects($this->once())
-				->method('getTemplate')
-				->with($this->equalTo('home'), $this->equalTo('admin'), $this->equalTo('app'))
-				->will($this->returnValue($ocTpl));
-
-		$this->controller = new ChildController($api, new Request());
-		$this->controller->render('home', array(), 'admin')->render();
 	}
 
 
