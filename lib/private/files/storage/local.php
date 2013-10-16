@@ -90,10 +90,10 @@ if (\OC_Util::runningOnWindows()) {
 			$fullPath = $this->datadir . $path;
 			$statResult = stat($fullPath);
 
-			if ($statResult['size'] < 0) {
-				$size = self::getFileSizeFromOS($fullPath);
-				$statResult['size'] = $size;
-				$statResult[7] = $size;
+			$filesize = self::getFileSizeWithTricks($fullPath);
+			if (!is_null($filesize)) {
+				$statResult['size'] = $filesize;
+				$statResult[7] = $filesize;
 			}
 			return $statResult;
 		}
@@ -111,12 +111,13 @@ if (\OC_Util::runningOnWindows()) {
 				return 0;
 			} else {
 				$fullPath = $this->datadir . $path;
-				$fileSize = filesize($fullPath);
-				if ($fileSize < 0) {
-					return self::getFileSizeFromOS($fullPath);
+
+				$filesize = self::getFileSizeWithTricks($fullPath);
+				if (!is_null($filesize)) {
+					return $filesize;
 				}
 
-				return $fileSize;
+				return filesize($fullPath);
 			}
 		}
 
@@ -221,8 +222,60 @@ if (\OC_Util::runningOnWindows()) {
 		}
 
 		/**
-		 * @param string $fullPath
-		 */
+		* @brief Tries to get the filesize via various workarounds if necessary.
+		* @param string $fullPath
+		* @return mixed Number of bytes as float on success and workaround necessary, null otherwise.
+		*/
+		private static function getFileSizeWithTricks($fullPath) {
+			if (PHP_INT_SIZE === 4) {
+				// filesize() and stat() are unreliable on 32bit systems
+				// for big files.
+				// In some cases they cause an E_WARNING and return false,
+				// in some other cases they silently wrap around at 2^32,
+				// i.e. e.g. report 674347008 bytes instead of 4969314304.
+				$filesize = self::getFileSizeFromCurl($fullPath);
+				if (!is_null($filesize)) {
+					return $filesize;
+				}
+				$filesize = self::getFileSizeFromOS($fullPath);
+				if (!is_null($filesize)) {
+					return $filesize;
+				}
+			}
+
+			return null;
+		}
+
+		/**
+		* @brief Tries to get the filesize via a CURL HEAD request.
+		* @param string $fullPath
+		* @return mixed Number of bytes as float on success, null otherwise.
+		*/
+		private static function getFileSizeFromCurl($fullPath) {
+			if (function_exists('curl_init')) {
+				$ch = curl_init("file://$fullPath");
+				curl_setopt($ch, CURLOPT_NOBODY, true);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($ch, CURLOPT_HEADER, true);
+				$data = curl_exec($ch);
+				curl_close($ch);
+				if ($data !== false) {
+					$matches = array();
+					preg_match('/Content-Length: (\d+)/', $data, $matches);
+					if (isset($matches[1])) {
+						return (float) $matches[1];
+					}
+				}
+			}
+
+			return null;
+		}
+
+		/**
+		* @brief Tries to get the filesize via COM and exec().
+		* @param string $fullPath
+		* @return mixed Number of bytes as float on success, null otherwise.
+		*/
 		private static function getFileSizeFromOS($fullPath) {
 			$name = strtolower(php_uname('s'));
 			// Windows OS: we use COM to access the filesystem
@@ -246,7 +299,7 @@ if (\OC_Util::runningOnWindows()) {
 					\OC_Log::ERROR);
 			}
 
-			return 0;
+			return null;
 		}
 
 		public function hash($type, $path, $raw = false) {
