@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-13 20:29-0400\n"
-"PO-Revision-Date: 2013-10-14 00:29+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-16 00:26-0400\n"
+"PO-Revision-Date: 2013-10-15 21:35+0000\n"
+"Last-Translator: pstast <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,7 +63,7 @@ msgid ""
 "Encryption app not initialized! Maybe the encryption app was re-enabled "
 "during your session. Please try to log out and log back in to initialize the"
 " encryption app."
-msgstr ""
+msgstr "Aplikace pro šifrování není inicializována! Je možné, že aplikace byla znovu aktivována během vašeho přihlášení. Zkuste se prosím odhlásit a znovu přihlásit pro provedení inicializace šifrovací aplikace."
 
 #: files/error.php:15
 msgid ""
@@ -77,13 +77,13 @@ msgstr "Váš soukromý klíč není platný! Pravděpodobně bylo heslo změně
 msgid ""
 "Can not decrypt this file, probably this is a shared file. Please ask the "
 "file owner to reshare the file with you."
-msgstr ""
+msgstr "Tento soubor se nepodařilo dešifrovat, pravděpodobně je sdílený. Požádejte prosím majitele souboru, aby jej s vámi znovu sdílel."
 
 #: files/error.php:21 files/error.php:26
 msgid ""
 "Unknown error please check your system settings or contact your "
 "administrator"
-msgstr ""
+msgstr "Neznámá chyba, zkontrolujte vaše systémová nastavení nebo kontaktujte vašeho správce"
 
 #: hooks/hooks.php:53
 msgid "Missing requirements."
@@ -106,7 +106,7 @@ msgstr "Ukládám..."
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "
-msgstr ""
+msgstr "Běžte přímo do vašeho"
 
 #: templates/invalid_private_key.php:8
 msgid "personal settings"
@@ -127,7 +127,7 @@ msgstr "Heslo klíče pro obnovu"
 
 #: templates/settings-admin.php:14
 msgid "Repeat Recovery key password"
-msgstr ""
+msgstr "Zopakujte heslo klíče pro obnovu"
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:51
 msgid "Enabled"
@@ -151,7 +151,7 @@ msgstr "Nové heslo klíče pro obnovu"
 
 #: templates/settings-admin.php:53
 msgid "Repeat New Recovery key password"
-msgstr ""
+msgstr "Zopakujte nové heslo klíče pro obnovu"
 
 #: templates/settings-admin.php:58
 msgid "Change Password"

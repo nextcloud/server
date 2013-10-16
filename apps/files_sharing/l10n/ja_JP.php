@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"This share is password-protected" => "この共有はパスワードで保護されています",
 "The password is wrong. Try again." => "パスワードが間違っています。再試行してください。",
 "Password" => "パスワード",
 "Sorry, this link doesn’t seem to work anymore." => "申し訳ございません。このリンクはもう利用できません。",

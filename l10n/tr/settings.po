@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-05 15:12+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-16 00:26-0400\n"
+"PO-Revision-Date: 2013-10-14 19:10+0000\n"
+"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -90,32 +90,32 @@ msgstr "Uygulama güncellenemedi."
 
 #: changepassword/controller.php:20
 msgid "Wrong password"
-msgstr ""
+msgstr "Hatalı parola"
 
 #: changepassword/controller.php:42
 msgid "No user supplied"
-msgstr ""
+msgstr "Kullanıcı girilmedi"
 
 #: changepassword/controller.php:74
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
-msgstr ""
+msgstr "Lütfen bir yönetici kurtarma parolası girin, aksi takdirde tüm kullanıcı verisi kaybedilecek"
 
 #: changepassword/controller.php:79
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
-msgstr ""
+msgstr "Hatalı yönetici kurtarma parolası. Lütfen parolayı denetleyip yeniden deneyin."
 
 #: changepassword/controller.php:87
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
-msgstr ""
+msgstr "Arka uç parola değişimini desteklemiyor ancak kullanıcı şifreleme anahtarı başarıyla güncellendi."
 
 #: changepassword/controller.php:92 changepassword/controller.php:103
 msgid "Unable to change password"
-msgstr ""
+msgstr "Parola değiştirilemiyor"
 
 #: js/apps.js:43
 msgid "Update to {appversion}"
@@ -161,15 +161,15 @@ msgstr "Güncelleme"
 msgid "Updated"
 msgstr "Güncellendi"
 
-#: js/personal.js:225
+#: js/personal.js:220
 msgid "Select a profile picture"
-msgstr ""
+msgstr "Bir profil fotoğrafı seçin"
 
-#: js/personal.js:270
+#: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Dosyaların şifresi çözülüyor... Lütfen bekleyin, bu biraz zaman alabilir."
 
-#: js/personal.js:292
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "Kaydediliyor..."
 
@@ -185,32 +185,32 @@ msgstr "geri al"
 msgid "Unable to remove user"
 msgstr "Kullanıcı kaldırılamıyor"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:90
+#: js/users.js:95 templates/users.php:26 templates/users.php:90
 #: templates/users.php:118
 msgid "Groups"
 msgstr "Gruplar"
 
-#: js/users.js:97 templates/users.php:92 templates/users.php:130
+#: js/users.js:100 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
 msgstr "Yönetici Grubu "
 
-#: js/users.js:120 templates/users.php:170
+#: js/users.js:123 templates/users.php:170
 msgid "Delete"
 msgstr "Sil"
 
-#: js/users.js:277
+#: js/users.js:280
 msgid "add group"
 msgstr "grup ekle"
 
-#: js/users.js:436
+#: js/users.js:442
 msgid "A valid username must be provided"
 msgstr "Geçerli bir kullanıcı adı mutlaka sağlanmalı"
 
-#: js/users.js:437 js/users.js:443 js/users.js:458
+#: js/users.js:443 js/users.js:449 js/users.js:464
 msgid "Error creating user"
 msgstr "Kullanıcı oluşturulurken hata"
 
-#: js/users.js:442
+#: js/users.js:448
 msgid "A valid password must be provided"
 msgstr "Geçerli bir parola mutlaka sağlanmalı"
 
@@ -346,11 +346,11 @@ msgstr "Kullanıcıların sadece kendi gruplarındaki kullanıcılarla paylaşma
 
 #: templates/admin.php:170
 msgid "Allow mail notification"
-msgstr ""
+msgstr "Posta bilgilendirmesine izin ver"
 
 #: templates/admin.php:171
 msgid "Allow user to send mail notification for shared files"
-msgstr ""
+msgstr "Paylaşılmış dosyalar için kullanıcının posta bildirimi göndermesine izin ver"
 
 #: templates/admin.php:178
 msgid "Security"
@@ -388,11 +388,11 @@ msgstr "Daha fazla"
 msgid "Less"
 msgstr "Az"
 
-#: templates/admin.php:250 templates/personal.php:161
+#: templates/admin.php:250 templates/personal.php:169
 msgid "Version"
 msgstr "Sürüm"
 
-#: templates/admin.php:254 templates/personal.php:164
+#: templates/admin.php:254 templates/personal.php:172
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -505,60 +505,60 @@ msgstr "Profil resmi"
 
 #: templates/personal.php:90
 msgid "Upload new"
-msgstr ""
+msgstr "Yeni yükle"
 
 #: templates/personal.php:92
 msgid "Select new from Files"
-msgstr ""
+msgstr "Dosyalardan seç"
 
 #: templates/personal.php:93
 msgid "Remove image"
-msgstr ""
+msgstr "Resmi kaldır"
 
 #: templates/personal.php:94
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
-msgstr ""
+msgstr "PNG veya JPG. Genellikle karedir ancak kesebileceksiniz."
 
 #: templates/personal.php:97
 msgid "Abort"
-msgstr ""
+msgstr "İptal Et"
 
 #: templates/personal.php:98
 msgid "Choose as profile image"
-msgstr ""
+msgstr "Profil resmi olarak seç"
 
 #: templates/personal.php:106 templates/personal.php:107
 msgid "Language"
 msgstr "Dil"
 
-#: templates/personal.php:119
+#: templates/personal.php:126
 msgid "Help translate"
 msgstr "Çevirilere yardım edin"
 
-#: templates/personal.php:125
+#: templates/personal.php:133
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:127
+#: templates/personal.php:135
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
 "target=\"_blank\">access your Files via WebDAV</a>"
 msgstr " <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">Dosyalarınıza WebDAV üzerinen erişme </a> için  bu adresi kullanın"
 
-#: templates/personal.php:138
+#: templates/personal.php:146
 msgid "Encryption"
 msgstr "Şifreleme"
 
-#: templates/personal.php:140
+#: templates/personal.php:148
 msgid "The encryption app is no longer enabled, decrypt all your file"
 msgstr "Şifreleme uygulaması artık etkin değil, tüm dosyanın şifresini çöz"
 
-#: templates/personal.php:146
+#: templates/personal.php:154
 msgid "Log-in password"
 msgstr "Oturum açma parolası"
 
-#: templates/personal.php:151
+#: templates/personal.php:159
 msgid "Decrypt all Files"
 msgstr "Tüm dosyaların şifresini çözme"
 

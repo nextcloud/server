@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"This share is password-protected" => "Toto sdílení je chráněno heslem",
 "The password is wrong. Try again." => "Heslo není správné. Zkuste to znovu.",
 "Password" => "Heslo",
 "Sorry, this link doesn’t seem to work anymore." => "Je nám líto, ale tento odkaz již není funkční.",
