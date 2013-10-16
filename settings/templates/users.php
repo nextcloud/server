@@ -78,7 +78,7 @@ $_['subadmingroups'] = array_flip($items);
 	</div>
 </div>
 
-<table class="hascontrols" data-groups="<?php p(json_encode($allGroups));?>">
+<table class="hascontrols grid" data-groups="<?php p(json_encode($allGroups));?>">
 	<thead>
 		<tr>
 			<?php if ($_['enableAvatars']): ?>

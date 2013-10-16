@@ -66,7 +66,6 @@ $TRANSLATIONS = array(
 "Internal Username" => "Nome de utilizador interno",
 "Internal Username Attribute:" => "Atributo do nome de utilizador interno",
 "Override UUID detection" => "Passar a detecção do UUID",
-"UUID Attribute:" => "Atributo UUID:",
 "Username-LDAP User Mapping" => "Mapeamento do utilizador LDAP",
 "Clear Username-LDAP User Mapping" => "Limpar mapeamento do utilizador-LDAP",
 "Clear Groupname-LDAP Group Mapping" => "Limpar o mapeamento do nome de grupo LDAP",

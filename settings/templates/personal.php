@@ -104,19 +104,27 @@ if($_['passwordChangeSupported']) {
 <form>
 	<fieldset class="personalblock">
 		<h2><?php p($l->t('Language'));?></h2>
-		<select id="languageinput" class="chzen-select" name="lang" data-placeholder="<?php p($l->t('Language'));?>">
-		<option value="<?php p($_['activelanguage']['code']);?>"><?php p($_['activelanguage']['name']);?></option>
-		<?php foreach($_['commonlanguages'] as $language):?>
-			<option value="<?php p($language['code']);?>"><?php p($language['name']);?></option>
-		<?php endforeach;?>
-		<optgroup label="––––––––––"><option class="languagedivider">-</option></optgroup>
-		<?php foreach($_['languages'] as $language):?>
-			<option value="<?php p($language['code']);?>"><?php p($language['name']);?></option>
-		<?php endforeach;?>
+		<select id="languageinput" name="lang" data-placeholder="<?php p($l->t('Language'));?>">
+			<option value="<?php p($_['activelanguage']['code']);?>">
+				<?php p($_['activelanguage']['name']);?>
+			</option>
+			<?php foreach($_['commonlanguages'] as $language):?>
+				<option value="<?php p($language['code']);?>">
+					<?php p($language['name']);?>
+				</option>
+			<?php endforeach;?>
+			<optgroup label="––––––––––"></optgroup>
+			<?php foreach($_['languages'] as $language):?>
+				<option value="<?php p($language['code']);?>">
+					<?php p($language['name']);?>
+				</option>
+			<?php endforeach;?>
 		</select>
 		<?php if (OC_Util::getEditionString() === ''): ?>
 		<a href="https://www.transifex.com/projects/p/owncloud/team/<?php p($_['activelanguage']['code']);?>/"
-			target="_blank"><em><?php p($l->t('Help translate'));?></em></a>
+			target="_blank">
+			<em><?php p($l->t('Help translate'));?></em>
+		</a>
 		<?php endif; ?>
 	</fieldset>
 </form>
@@ -159,7 +167,7 @@ if($_['passwordChangeSupported']) {
 
 <fieldset class="personalblock">
 	<h2><?php p($l->t('Version'));?></h2>
-	<strong><?php p($theme->getName()); ?></strong> <?php p(OC_Util::getVersionString()); ?><br/>
+	<strong><?php p($theme->getName()); ?></strong> <?php p(OC_Util::getVersionString().' ('.OC_Util::getChannel().')'); ?><br />
 <?php if (OC_Util::getEditionString() === ''): ?>
 	<?php print_unescaped($l->t('Developed by the <a href="http://ownCloud.org/contact" target="_blank">ownCloud community</a>, the <a href="https://github.com/owncloud" target="_blank">source code</a> is licensed under the <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank"><abbr title="Affero General Public License">AGPL</abbr></a>.')); ?>
 <?php endif; ?>

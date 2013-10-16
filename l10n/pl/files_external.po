@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-23 01:55-0400\n"
-"PO-Revision-Date: 2013-07-23 05:05+0000\n"
+"POT-Creation-Date: 2013-10-16 00:26-0400\n"
+"PO-Revision-Date: 2013-10-14 00:42+0000\n"
 "Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: js/dropbox.js:7 js/dropbox.js:28 js/google.js:16 js/google.js:34
+#: js/dropbox.js:7 js/dropbox.js:28 js/google.js:8 js/google.js:39
 msgid "Access granted"
 msgstr "Dostęp do"
 
@@ -26,7 +26,7 @@ msgstr "Dostęp do"
 msgid "Error configuring Dropbox storage"
 msgstr "Wystąpił błąd podczas konfigurowania zasobu Dropbox"
 
-#: js/dropbox.js:65 js/google.js:66
+#: js/dropbox.js:65 js/google.js:86
 msgid "Grant access"
 msgstr "Udziel dostępu"
 
@@ -34,24 +34,24 @@ msgstr "Udziel dostępu"
 msgid "Please provide a valid Dropbox app key and secret."
 msgstr "Proszę podać prawidłowy klucz aplikacji Dropbox i klucz sekretny."
 
-#: js/google.js:36 js/google.js:93
+#: js/google.js:42 js/google.js:121
 msgid "Error configuring Google Drive storage"
 msgstr "Wystąpił błąd podczas konfigurowania zasobu Google Drive"
 
-#: lib/config.php:447
+#: lib/config.php:453
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Ostrzeżenie:</b> \"smbclient\" nie jest zainstalowany. Zamontowanie katalogów CIFS/SMB nie jest możliwe. Skontaktuj sie z administratorem w celu zainstalowania."
 
-#: lib/config.php:450
+#: lib/config.php:457
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
 msgstr "<b>Ostrzeżenie:</b> Wsparcie dla FTP w PHP nie jest zainstalowane lub włączone.  Skontaktuj sie z administratorem w celu zainstalowania lub włączenia go."
 
-#: lib/config.php:453
+#: lib/config.php:460
 msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "

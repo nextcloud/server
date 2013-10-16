@@ -1,8 +1,8 @@
 <?php
 $TRANSLATIONS = array(
+"This share is password-protected" => "This share is password-protected",
 "The password is wrong. Try again." => "The password is wrong. Try again.",
 "Password" => "Password",
-"Submit" => "Submit",
 "Sorry, this link doesn’t seem to work anymore." => "Sorry, this link doesn’t seem to work anymore.",
 "Reasons might be:" => "Reasons might be:",
 "the item was removed" => "the item was removed",

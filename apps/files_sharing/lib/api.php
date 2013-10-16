@@ -31,11 +31,11 @@ class Api {
 	 * @return \OC_OCS_Result share information
 	 */
 	public static function getAllShares($params) {
-
 		// if a file is specified, get the share for this file
 		if (isset($_GET['path'])) {
 			$params['itemSource'] = self::getFileId($_GET['path']);
 			$params['path'] = $_GET['path'];
+			$params['itemType'] = self::getItemType($_GET['path']);
 			if (isset($_GET['subfiles']) && $_GET['subfiles'] === 'true') {
 				return self::getSharesFromFolder($params);
 			}
@@ -59,20 +59,22 @@ class Api {
 	 * @return \OC_OCS_Result share information
 	 */
 	public static function getShare($params) {
-
 		// either the $params already contains a itemSource if we come from
 		//  getAllShare() or we need to translate the shareID to a itemSource
 		if(isset($params['itemSource'])) {
 			$itemSource = $params['itemSource'];
+			$itemType = $params['itemType'];
 			$getSpecificShare = true;
 		} else {
 			$s = self::getShareFromId($params['id']);
 			$itemSource = $s['item_source'];
+			$itemType = $s['item_type'];
 			$getSpecificShare = false;
 		}
 
 		if ($itemSource !== null) {
-			$shares = \OCP\Share::getItemShared('file', $itemSource);
+			$shares = \OCP\Share::getItemShared($itemType, $itemSource);
+			$reshare =  \OCP\Share::getItemSharedWithBySource($itemType, $itemSource);
 			// if a specific share was specified only return this one
 			if ($getSpecificShare === false) {
 				foreach ($shares as $share) {
@@ -81,6 +83,10 @@ class Api {
 						break;
 					}
 				}
+			}
+			if ($reshare) {
+				$shares['received_from'] = $reshare['uid_owner'];
+				$shares['received_from_displayname'] = \OCP\User::getDisplayName($reshare['uid_owner']);
 			}
 		} else {
 			$shares = null;
@@ -110,7 +116,14 @@ class Api {
 
 		$result = array();
 		foreach ($content as $file) {
-			$share = \OCP\Share::getItemShared('file', $file['fileid']);
+			// workaround because folders are named 'dir' in this context
+			$itemType = $file['type'] === 'file' ? 'file' : 'folder';
+			$share = \OCP\Share::getItemShared($itemType, $file['fileid']);
+			$reshare =  \OCP\Share::getItemSharedWithBySource($itemType, $file['fileid']);
+			if ($reshare) {
+				$share['received_from'] = $reshare['uid_owner'];
+				$share['received_from_displayname'] = \OCP\User::getDisplayName($reshare['uid_owner']);
+			}
 			if ($share) {
 				$share['filename'] = $file['name'];
 				$result[] = $share;
@@ -132,7 +145,6 @@ class Api {
 		if($path === null) {
 			return new \OC_OCS_Result(null, 400, "please specify a file or folder path");
 		}
-
 		$itemSource = self::getFileId($path);
 		$itemType = self::getItemType($path);
 
@@ -184,7 +196,7 @@ class Api {
 		if ($token) {
 			$data = array();
 			$data['id'] = 'unknown';
-			$shares = \OCP\Share::getItemShared('file', $itemSource);
+			$shares = \OCP\Share::getItemShared($itemType, $itemSource);
 			if(is_string($token)) { //public link share
 				foreach ($shares as $share) {
 					if ($share['token'] === $token) {
@@ -414,7 +426,6 @@ class Api {
 
 		$view = new \OC\Files\View('/'.\OCP\User::getUser().'/files');
 		$fileId = null;
-
 		$fileInfo = $view->getFileInfo($path);
 		if ($fileInfo) {
 			$fileId = $fileInfo['fileid'];

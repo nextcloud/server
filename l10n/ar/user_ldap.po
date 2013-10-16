@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-03 12:22+0000\n"
+"POT-Creation-Date: 2013-10-10 22:26-0400\n"
+"PO-Revision-Date: 2013-10-11 02:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -368,14 +368,18 @@ msgid ""
 msgstr ""
 
 #: templates/settings.php:103
-msgid "UUID Attribute:"
+msgid "UUID Attribute for Users:"
 msgstr ""
 
 #: templates/settings.php:104
-msgid "Username-LDAP User Mapping"
+msgid "UUID Attribute for Groups:"
 msgstr ""
 
 #: templates/settings.php:105
+msgid "Username-LDAP User Mapping"
+msgstr ""
+
+#: templates/settings.php:106
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -389,18 +393,18 @@ msgid ""
 "experimental stage."
 msgstr ""
 
-#: templates/settings.php:106
+#: templates/settings.php:107
 msgid "Clear Username-LDAP User Mapping"
 msgstr ""
 
-#: templates/settings.php:106
+#: templates/settings.php:107
 msgid "Clear Groupname-LDAP Group Mapping"
 msgstr ""
 
-#: templates/settings.php:108
+#: templates/settings.php:109
 msgid "Test Configuration"
 msgstr ""
 
-#: templates/settings.php:108
+#: templates/settings.php:109
 msgid "Help"
 msgstr "المساعدة"

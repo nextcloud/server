@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-05 15:12+0000\n"
+"POT-Creation-Date: 2013-10-16 00:26-0400\n"
+"PO-Revision-Date: 2013-10-14 00:41+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -75,15 +75,15 @@ msgstr "Không thể ghi "
 msgid "Not enough storage available"
 msgstr "Không đủ không gian lưu trữ"
 
-#: ajax/upload.php:120 ajax/upload.php:143
+#: ajax/upload.php:122 ajax/upload.php:148
 msgid "Upload failed. Could not get file info."
 msgstr ""
 
-#: ajax/upload.php:136
+#: ajax/upload.php:138
 msgid "Upload failed. Could not find uploaded file"
 msgstr ""
 
-#: ajax/upload.php:160
+#: ajax/upload.php:165
 msgid "Invalid directory."
 msgstr "Thư mục không hợp lệ"
 
@@ -91,36 +91,36 @@ msgstr "Thư mục không hợp lệ"
 msgid "Files"
 msgstr "Tập tin"
 
-#: js/file-upload.js:244
+#: js/file-upload.js:224
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
 msgstr ""
 
-#: js/file-upload.js:255
+#: js/file-upload.js:235
 msgid "Not enough space available"
 msgstr "Không đủ chỗ trống cần thiết"
 
-#: js/file-upload.js:322
+#: js/file-upload.js:302
 msgid "Upload cancelled."
 msgstr "Hủy tải lên"
 
-#: js/file-upload.js:356
+#: js/file-upload.js:336
 msgid "Could not get result from server."
 msgstr ""
 
-#: js/file-upload.js:446
+#: js/file-upload.js:426
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Tập tin tải lên đang được xử lý. Nếu bạn rời khỏi trang bây giờ sẽ hủy quá trình này."
 
-#: js/file-upload.js:520
+#: js/file-upload.js:500
 msgid "URL cannot be empty."
 msgstr "URL không được để trống."
 
-#: js/file-upload.js:525 lib/app.php:53
+#: js/file-upload.js:505 lib/app.php:53
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
 msgstr ""
 
-#: js/file-upload.js:557 js/file-upload.js:573 js/files.js:516 js/files.js:554
+#: js/file-upload.js:540 js/file-upload.js:556 js/files.js:518 js/files.js:556
 msgid "Error"
 msgstr "Lỗi"
 
@@ -132,11 +132,11 @@ msgstr "Chia sẻ"
 msgid "Delete permanently"
 msgstr "Xóa vĩnh vễn"
 
-#: js/fileactions.js:197
+#: js/fileactions.js:184
 msgid "Rename"
 msgstr "Sửa tên"
 
-#: js/filelist.js:71 js/filelist.js:74 js/filelist.js:788
+#: js/filelist.js:71 js/filelist.js:74 js/filelist.js:789
 msgid "Pending"
 msgstr "Đang chờ"
 
@@ -164,12 +164,12 @@ msgstr "đã thay thế {new_name} bằng {old_name}"
 msgid "undo"
 msgstr "lùi lại"
 
-#: js/filelist.js:533 js/filelist.js:599 js/files.js:585
+#: js/filelist.js:533 js/filelist.js:599 js/files.js:587
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] ""
 
-#: js/filelist.js:534 js/filelist.js:600 js/files.js:591
+#: js/filelist.js:534 js/filelist.js:600 js/files.js:593
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] ""
@@ -178,7 +178,7 @@ msgstr[0] ""
 msgid "{dirs} and {files}"
 msgstr ""
 
-#: js/filelist.js:731 js/filelist.js:769
+#: js/filelist.js:732 js/filelist.js:770
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] ""
@@ -224,25 +224,25 @@ msgid ""
 "your personal settings to decrypt your files."
 msgstr ""
 
-#: js/files.js:305
+#: js/files.js:307
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Your download is being prepared. This might take some time if the files are big."
 
-#: js/files.js:516 js/files.js:554
+#: js/files.js:518 js/files.js:556
 msgid "Error moving file"
 msgstr ""
 
-#: js/files.js:567 templates/index.php:59
+#: js/files.js:569 templates/index.php:56
 msgid "Name"
 msgstr "Tên"
 
-#: js/files.js:568 templates/index.php:71
+#: js/files.js:570 templates/index.php:68
 msgid "Size"
 msgstr "Kích cỡ"
 
-#: js/files.js:569 templates/index.php:73
+#: js/files.js:571 templates/index.php:70
 msgid "Modified"
 msgstr "Thay đổi"
 
@@ -251,7 +251,7 @@ msgstr "Thay đổi"
 msgid "%s could not be renamed"
 msgstr ""
 
-#: lib/helper.php:11 templates/index.php:17
+#: lib/helper.php:11 templates/index.php:16
 msgid "Upload"
 msgstr "Tải lên"
 
@@ -287,65 +287,65 @@ msgstr "Kích thước tối đa cho các tập tin ZIP"
 msgid "Save"
 msgstr "Lưu"
 
-#: templates/index.php:6
+#: templates/index.php:5
 msgid "New"
 msgstr "Mới"
 
-#: templates/index.php:9
+#: templates/index.php:8
 msgid "Text file"
 msgstr "Tập tin văn bản"
 
-#: templates/index.php:11
+#: templates/index.php:10
 msgid "Folder"
 msgstr "Thư mục"
 
-#: templates/index.php:13
+#: templates/index.php:12
 msgid "From link"
 msgstr "Từ liên kết"
 
-#: templates/index.php:32
+#: templates/index.php:29
 msgid "Deleted files"
 msgstr "File đã bị xóa"
 
-#: templates/index.php:37
+#: templates/index.php:34
 msgid "Cancel upload"
 msgstr "Hủy upload"
 
-#: templates/index.php:43
+#: templates/index.php:40
 msgid "You don’t have write permissions here."
 msgstr "Bạn không có quyền ghi vào đây."
 
-#: templates/index.php:48
+#: templates/index.php:45
 msgid "Nothing in here. Upload something!"
 msgstr "Không có gì ở đây .Hãy tải lên một cái gì đó !"
 
-#: templates/index.php:65
+#: templates/index.php:62
 msgid "Download"
 msgstr "Tải về"
 
-#: templates/index.php:78 templates/index.php:79
+#: templates/index.php:75 templates/index.php:76
 msgid "Unshare"
 msgstr "Bỏ chia sẻ"
 
-#: templates/index.php:84 templates/index.php:85
+#: templates/index.php:81 templates/index.php:82
 msgid "Delete"
 msgstr "Xóa"
 
-#: templates/index.php:98
+#: templates/index.php:95
 msgid "Upload too large"
 msgstr "Tập tin tải lên quá lớn"
 
-#: templates/index.php:100
+#: templates/index.php:97
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Các tập tin bạn đang tải lên vượt quá kích thước tối đa cho phép trên máy chủ ."
 
-#: templates/index.php:105
+#: templates/index.php:102
 msgid "Files are being scanned, please wait."
 msgstr "Tập tin đang được quét ,vui lòng chờ."
 
-#: templates/index.php:108
+#: templates/index.php:105
 msgid "Current scanning"
 msgstr "Hiện tại đang quét"
 

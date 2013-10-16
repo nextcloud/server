@@ -2,7 +2,6 @@
 $TRANSLATIONS = array(
 "The password is wrong. Try again." => "Heslo je chybné. Skúste to znova.",
 "Password" => "Heslo",
-"Submit" => "Odoslať",
 "Sorry, this link doesn’t seem to work anymore." => "To je nepríjemné, ale tento odkaz už nie je funkčný.",
 "Reasons might be:" => "Možné dôvody:",
 "the item was removed" => "položka bola presunutá",

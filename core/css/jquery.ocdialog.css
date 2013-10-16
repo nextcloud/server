@@ -29,6 +29,7 @@
 	bottom: 0;
 	display: block;
 	margin-top: 10px;
+	width: 100%;
 }
 
 .oc-dialog-close {

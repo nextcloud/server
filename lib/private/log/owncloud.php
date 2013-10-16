@@ -59,10 +59,14 @@ class OC_Log_Owncloud {
 			}
 			$time = new DateTime(null, $timezone);
 			$entry=array('app'=>$app, 'message'=>$message, 'level'=>$level, 'time'=> $time->format($format));
+			$entry = json_encode($entry);
 			$handle = @fopen(self::$logFile, 'a');
 			if ($handle) {
-				fwrite($handle, json_encode($entry)."\n");
+				fwrite($handle, $entry."\n");
 				fclose($handle);
+			} else {
+				// Fall back to error_log
+				error_log($entry);
 			}
 		}
 	}
