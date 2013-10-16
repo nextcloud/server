@@ -348,9 +348,7 @@ class Proxy extends \OC_FileProxy {
 		// if file is encrypted return real file size
 		if (is_array($fileInfo) && $fileInfo['encrypted'] === true) {
 			// try to fix unencrypted file size if it doesn't look plausible
-			if ((int)$fileInfo['size'] > 0 &&
-					((int)$fileInfo['unencrypted_size'] === 0 ||
-					(int)$fileInfo['size'] === (int)$fileInfo['unencrypted_size'])) {
+			if ((int)$fileInfo['size'] > 0 && (int)$fileInfo['unencrypted_size'] === 0 ) {
 				$fixSize = $util->getFileSize($path);
 				$fileInfo['unencrypted_size'] = $fixSize;
 				// put file info if not .part file
