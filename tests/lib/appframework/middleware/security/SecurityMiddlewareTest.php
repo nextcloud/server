@@ -115,7 +115,6 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	 * @NoAdminRequired
 	 */
 	public function testAjaxNotAdminCheck() {
-		$this->markTestSkipped("Logged in state currently not available in API");
 		$this->ajaxExceptionStatus(
 			'testAjaxNotAdminCheck',
 			'isAdminUser',
@@ -261,7 +260,6 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	 * @NoAdminRequired
 	 */
 	public function testLoggedInCheck(){
-		$this->markTestSkipped("Logged in state currently not available in API");
 		$this->securityCheck('testLoggedInCheck', 'isLoggedIn');
 	}
 
@@ -271,7 +269,6 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	 * @NoAdminRequired
 	 */
 	public function testFailLoggedInCheck(){
-		$this->markTestSkipped("Logged in state currently not available in API");
 		$this->securityCheck('testFailLoggedInCheck', 'isLoggedIn', true);
 	}
 
@@ -280,7 +277,6 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	 * @NoCSRFRequired
 	 */
 	public function testIsAdminCheck(){
-		$this->markTestSkipped("Logged in state currently not available in API");
 		$this->securityCheck('testIsAdminCheck', 'isAdminUser');
 	}
 
@@ -289,7 +285,6 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	 * @NoCSRFRequired
 	 */
 	public function testFailIsAdminCheck(){
-		$this->markTestSkipped("Logged in state currently not available in API");
 		$this->securityCheck('testFailIsAdminCheck', 'isAdminUser', true);
 	}
 
