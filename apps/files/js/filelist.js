@@ -685,28 +685,32 @@ $(document).ready(function(){
 	file_upload_start.on('fileuploaddrop', function(e, data) {
 		OC.Upload.log('filelist handle fileuploaddrop', e, data);
 
-		var dropTarget = $(e.originalEvent.target).closest('tr');
-		if(dropTarget && dropTarget.data('type') === 'dir') { // drag&drop upload to folder
+		var dropTarget = $(e.originalEvent.target).closest('tr, .crumb');
+		if(dropTarget && (dropTarget.data('type') === 'dir' || dropTarget.hasClass('crumb'))) { // drag&drop upload to folder
 
 			// remember as context
 			data.context = dropTarget;
 
 			var dir = dropTarget.data('file');
+			// if from file list, need to prepend parent dir
+			if (dir){
+				var parentDir = $('#dir').val() || '/';
+				if (parentDir[parentDir.length - 1] != '/'){
+					parentDir += '/';
+				}
+				dir = parentDir + dir;
+			}
+			else{
+				// read full path from crumb
+				dir = dropTarget.data('dir') || '/';
+			}
 
 			// update folder in form
 			data.formData = function(form) {
-				var formArray = form.serializeArray();
-				// array index 0 contains the max files size
-				// array index 1 contains the request token
-				// array index 2 contains the directory
-				var parentDir = formArray[2]['value'];
-				if (parentDir === '/') {
-					formArray[2]['value'] += dir;
-				} else {
-					formArray[2]['value'] += '/' + dir;
-				}
-
-				return formArray;
+				return [
+					{name: 'dir', value: dir},
+					{name: 'requesttoken', value: oc_requesttoken}
+				];
 			};
 		} 
 
@@ -784,6 +788,10 @@ $(document).ready(function(){
 				data.context.find('td.filesize').text(humanFileSize(size));
 
 			} else {
+				// only append new file if dragged onto current dir's crumb (last)
+				if (data.context && data.context.hasClass('crumb') && !data.context.hasClass('last')){
+					return;
+				}
 
 				// add as stand-alone row to filelist
 				var size=t('files', 'Pending');
