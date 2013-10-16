@@ -36,7 +36,7 @@ namespace OCP;
  */
 class User {
 	/**
-	 * @brief get the user id of the user currently logged in.
+	 * Get the user id of the user currently logged in.
 	 * @return string uid or false
 	 */
 	public static function getUser() {
@@ -44,45 +44,46 @@ class User {
 	}
 
 	/**
-	 * @brief Get a list of all users
-	 * @returns array with all uids
-	 *
-	 * Get a list of all users.
+	 * Get a list of all users
+	 * @param string search pattern
+	 * @param int limit
+	 * @param int offset
+	 * @return array with all uids
 	 */
-	public static function getUsers($search = '', $limit = null, $offset = null) {
-		return \OC_User::getUsers($search, $limit, $offset);
+	public static function getUsers( $search = '', $limit = null, $offset = null ) {
+		return \OC_User::getUsers( $search, $limit, $offset );
 	}
 
 	/**
-	 * @brief get the user display name of the user currently logged in.
+	 * Get the user display name of the user currently logged in.
+	 * @param string user id or null for current user
 	 * @return string display name
 	 */
-	public static function getDisplayName($user=null) {
-		return \OC_User::getDisplayName($user);
+	public static function getDisplayName( $user = null ) {
+		return \OC_User::getDisplayName( $user );
 	}
 
 	/**
-	 * @brief Get a list of all display names
-	 * @returns array with all display names (value) and the correspondig uids (key)
-	 *
 	 * Get a list of all display names and user ids.
+	 * @param string search pattern
+	 * @param int limit
+	 * @param int offset
+	 * @return array with all display names (value) and the correspondig uids (key)
 	 */
-	public static function getDisplayNames($search = '', $limit = null, $offset = null) {
-		return \OC_User::getDisplayNames($search, $limit, $offset);
+	public static function getDisplayNames( $search = '', $limit = null, $offset = null ) {
+		return \OC_User::getDisplayNames( $search, $limit, $offset );
 	}
 
 	/**
-	 * @brief Check if the user is logged in
-	 * @returns true/false
-	 *
-	 * Checks if the user is logged in
+	 * Check if the user is logged in
+	 * @return boolean
 	 */
 	public static function isLoggedIn() {
 		return \OC_User::isLoggedIn();
 	}
 
 	/**
-	 * @brief check if a user exists
+	 * Check if a user exists
 	 * @param string $uid the username
 	 * @param string $excludingBackend (default none)
 	 * @return boolean
@@ -91,7 +92,7 @@ class User {
 		return \OC_User::userExists( $uid, $excludingBackend );
 	}
 	/**
-	 * @brief Loggs the user out including all the session data
+	 * Logs the user out including all the session data
 	 * Logout, destroys session
 	 */
 	public static function logout() {
@@ -99,10 +100,10 @@ class User {
 	}
 
 	/**
-	 * @brief Check if the password is correct
-	 * @param $uid The username
-	 * @param $password The password
-	 * @returns mixed username on success, false otherwise
+	 * Check if the password is correct
+	 * @param string The username
+	 * @param string The password
+	 * @return mixed username on success, false otherwise
 	 *
 	 * Check if the password is correct without logging in the user
 	 */

@@ -4,7 +4,7 @@
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
- * 
+ *
  */
 
 namespace OCP;
@@ -30,9 +30,9 @@ interface IDBConnection {
 	public function lastInsertId($table = null);
 
 	/**
-	 * @brief Insert a row if a matching row doesn't exists.
-	 * @param $table string The table name (will replace *PREFIX*) to perform the replace on.
-	 * @param $input array
+	 * Insert a row if a matching row doesn't exists.
+	 * @param string The table name (will replace *PREFIX*) to perform the replace on.
+	 * @param array
 	 *
 	 * The input array if in the form:
 	 *
@@ -49,25 +49,25 @@ interface IDBConnection {
 	public function insertIfNotExist($table, $input);
 
 	/**
-	 * @brief Start a transaction
+	 * Start a transaction
 	 * @return bool TRUE on success or FALSE on failure
 	 */
 	public function beginTransaction();
 
 	/**
-	 * @brief Commit the database changes done during a transaction that is in progress
+	 * Commit the database changes done during a transaction that is in progress
 	 * @return bool TRUE on success or FALSE on failure
 	 */
 	public function commit();
 
 	/**
-	 * @brief Rollback the database changes done during a transaction that is in progress
+	 * Rollback the database changes done during a transaction that is in progress
 	 * @return bool TRUE on success or FALSE on failure
 	 */
 	public function rollBack();
 
 	/**
-	 * returns the error code and message as a string for logging
+	 * Gets the error code and message as a string for logging
 	 * @return string
 	 */
 	public function getError();

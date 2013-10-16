@@ -14,7 +14,6 @@ interface ICache {
 
 	/**
 	 * Get a value from the user cache
-	 *
 	 * @param string $key
 	 * @return mixed
 	 */
@@ -22,7 +21,6 @@ interface ICache {
 
 	/**
 	 * Set a value in the user cache
-	 *
 	 * @param string $key
 	 * @param mixed $value
 	 * @param int $ttl Time To Live in seconds. Defaults to 60*60*24
@@ -32,7 +30,6 @@ interface ICache {
 
 	/**
 	 * Check if a value is set in the user cache
-	 *
 	 * @param string $key
 	 * @return bool
 	 */
@@ -40,14 +37,13 @@ interface ICache {
 
 	/**
 	 * Remove an item from the user cache
-	 * 
 	 * @param string $key
 	 * @return bool
 	 */
 	public function remove($key);
 
 	/**
-	 * clear the user cache of all entries starting with a prefix
+	 * Clear the user cache of all entries starting with a prefix
 	 * @param string $prefix (optional)
 	 * @return bool
 	 */

@@ -14,7 +14,7 @@ namespace OCP;
  */
 interface IL10N {
 	/**
-	 * @brief Translating
+	 * Translating
 	 * @param $text String The text we need a translation for
 	 * @param array $parameters default:array() Parameters for sprintf
 	 * @return \OC_L10N_String|string Translation or the same text
@@ -25,7 +25,7 @@ interface IL10N {
 	public function t($text, $parameters = array());
 
 	/**
-	 * @brief Translating
+	 * Translating
 	 * @param $text_singular String the string to translate for exactly one object
 	 * @param $text_plural String the string to translate for n objects
 	 * @param $count Integer Number of objects
@@ -42,10 +42,10 @@ interface IL10N {
 	public function n($text_singular, $text_plural, $count, $parameters = array());
 
 	/**
-	 * @brief Localization
+	 * Localization
 	 * @param $type Type of localization
 	 * @param $params parameters for this localization
-	 * @returns String or false
+	 * @return String or false
 	 *
 	 * Returns the localized data.
 	 *
