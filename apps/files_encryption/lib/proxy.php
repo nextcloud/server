@@ -317,6 +317,16 @@ class Proxy extends \OC_FileProxy {
 
 		$view = new \OC_FilesystemView('/');
 
+		$userId = \OCP\User::getUser();
+		$util = new Util($view, $userId);
+
+		// if encryption is no longer enabled or if the files aren't migrated yet
+		// we return the default file size
+		if(!\OCP\App::isEnabled('files_encryption') ||
+				$util->getMigrationStatus() !== Util::MIGRATION_COMPLETED) {
+			return $size;
+		}
+
 		// if path is a folder do nothing
 		if ($view->is_dir($path)) {
 			return $size;
@@ -338,6 +348,15 @@ class Proxy extends \OC_FileProxy {
 
 		// if file is encrypted return real file size
 		if (is_array($fileInfo) && $fileInfo['encrypted'] === true) {
+			// try to fix unencrypted file size if it doesn't look plausible
+			if ((int)$fileInfo['size'] > 0 && (int)$fileInfo['unencrypted_size'] === 0 ) {
+				$fixSize = $util->getFileSize($path);
+				$fileInfo['unencrypted_size'] = $fixSize;
+				// put file info if not .part file
+				if (!Keymanager::isPartialFilePath($relativePath)) {
+					$view->putFileInfo($path, $fileInfo);
+				}
+			}
 			$size = $fileInfo['unencrypted_size'];
 		} else {
 			// self healing if file was removed from file cache
@@ -345,8 +364,6 @@ class Proxy extends \OC_FileProxy {
 				$fileInfo = array();
 			}
 
-			$userId = \OCP\User::getUser();
-			$util = new Util($view, $userId);
 			$fixSize = $util->getFileSize($path);
 			if ($fixSize > 0) {
 				$size = $fixSize;
