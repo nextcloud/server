@@ -8,9 +8,10 @@
 
 	<head data-user="<?php p($_['user_uid']); ?>" data-requesttoken="<?php p($_['requesttoken']); ?>">
 		<title>
-			<?php p(!empty($_['application'])?$_['application'].' | ':'');
-			p($theme->getTitle());
-			p(trim($_['user_displayname']) != '' ?' ('.$_['user_displayname'].') ':'') ?>
+			<?php
+				p(!empty($_['application'])?$_['application'].' - ':'');
+				p($theme->getTitle());
+			?>
 		</title>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
