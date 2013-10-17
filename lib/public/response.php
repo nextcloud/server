@@ -35,7 +35,7 @@ namespace OCP;
  */
 class Response {
 	/**
-	* @brief Enable response caching by sending correct HTTP headers
+	* Enable response caching by sending correct HTTP headers
 	* @param int $cache_time time to cache the response
 	*  >0		cache time in seconds
 	*  0 and <0	enable default browser caching
@@ -55,7 +55,7 @@ class Response {
 	}
 
 	/**
-	* @brief disable browser caching
+	* Disable browser caching
 	* @see enableCaching with cache_time = 0
 	*/
 	static public function disableCaching() {
@@ -72,7 +72,7 @@ class Response {
 	}
 
 	/**
-	* @brief Send file as response, checking and setting caching headers
+	* Send file as response, checking and setting caching headers
 	* @param string $filepath of file to send
 	*/
 	static public function sendFile( $filepath ) {
@@ -80,7 +80,7 @@ class Response {
 	}
 
 	/**
-	* @brief Set response expire time
+	* Set response expire time
 	* @param string|\DateTime $expires date-time when the response expires
 	*  string for DateInterval from now
 	*  DateTime object when to expire response
@@ -90,7 +90,7 @@ class Response {
 	}
 
 	/**
-	* @brief Send redirect response
+	* Send redirect response
 	* @param string $location to redirect to
 	*/
 	static public function redirect( $location ) {

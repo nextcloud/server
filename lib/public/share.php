@@ -64,7 +64,7 @@ class Share {
 	private static $isResharingAllowed;
 
 	/**
-	* @brief Register a sharing backend class that implements OCP\Share_Backend for an item type
+	* Register a sharing backend class that implements OCP\Share_Backend for an item type
 	* @param string Item type
 	* @param string Backend class
 	* @param string (optional) Depends on item type
@@ -94,11 +94,10 @@ class Share {
 	}
 
 	/**
-	* @brief Check if the Share API is enabled
+	* Check if the Share API is enabled
 	* @return Returns true if enabled or false
 	*
 	* The Share API is enabled by default if not configured
-	*
 	*/
 	public static function isEnabled() {
 		if (\OC_Appconfig::getValue('core', 'shareapi_enabled', 'yes') == 'yes') {
@@ -108,7 +107,7 @@ class Share {
 	}
 
 	/**
-	* @brief Prepare a path to be passed to DB as file_target
+	* Prepare a path to be passed to DB as file_target
 	* @return string Prepared path
 	*/
 	public static function prepFileTarget( $path ) {
@@ -125,7 +124,7 @@ class Share {
 	}
 
 	/**
-	* @brief Find which users can access a shared item
+	* Find which users can access a shared item
 	* @param $path to the file
 	* @param $user owner of the file
 	* @param include owner to the list of users with access to the file
@@ -232,7 +231,7 @@ class Share {
 	}
 
 	/**
-	* @brief Get the items of item type shared with the current user
+	* Get the items of item type shared with the current user
 	* @param string Item type
 	* @param int Format (optional) Format type must be defined by the backend
 	* @param int Number of items to return (optional) Returns all by default
@@ -245,7 +244,7 @@ class Share {
 	}
 
 	/**
-	* @brief Get the item of item type shared with the current user
+	* Get the item of item type shared with the current user
 	* @param string $itemType
 	* @param string $ItemTarget
 	* @param int $format (optional) Format type must be defined by the backend
@@ -258,7 +257,7 @@ class Share {
 	}
 
 	/**
-	 * @brief Get the item of item type shared with a given user by source
+	 * Get the item of item type shared with a given user by source
 	 * @param string $ItemType
 	 * @param string $ItemSource
 	 * @param string $user User user to whom the item was shared
@@ -307,7 +306,7 @@ class Share {
 	}
 
 	/**
-	* @brief Get the item of item type shared with the current user by source
+	* Get the item of item type shared with the current user by source
 	* @param string Item type
 	* @param string Item source
 	* @param int Format (optional) Format type must be defined by the backend
@@ -320,7 +319,7 @@ class Share {
 	}
 
 	/**
-	* @brief Get the item of item type shared by a link
+	* Get the item of item type shared by a link
 	* @param string Item type
 	* @param string Item source
 	* @param string Owner of link
@@ -332,7 +331,7 @@ class Share {
 	}
 
 	/**
-	 * @brief Get the item shared by a token
+	 * Get the item shared by a token
 	 * @param string token
 	 * @return Item
 	 */
@@ -357,7 +356,7 @@ class Share {
 	}
 
 	/**
-	 * @brief resolves reshares down to the last real share
+	 * resolves reshares down to the last real share
 	 * @param $linkItem
 	 * @return $fileOwner
 	 */
@@ -380,7 +379,7 @@ class Share {
 
 
 	/**
-	* @brief Get the shared items of item type owned by the current user
+	* Get the shared items of item type owned by the current user
 	* @param string Item type
 	* @param int Format (optional) Format type must be defined by the backend
 	* @param int Number of items to return (optional) Returns all by default
@@ -393,7 +392,7 @@ class Share {
 	}
 
 	/**
-	* @brief Get the shared item of item type owned by the current user
+	* Get the shared item of item type owned by the current user
 	* @param string Item type
 	* @param string Item source
 	* @param int Format (optional) Format type must be defined by the backend
@@ -429,7 +428,7 @@ class Share {
 	}
 
 	/**
-	* @brief Share an item with a user, group, or via private link
+	* Share an item with a user, group, or via private link
 	* @param string Item type
 	* @param string Item source
 	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
@@ -606,7 +605,7 @@ class Share {
 	}
 
 	/**
-	* @brief Unshare an item from a user, group, or delete a private link
+	* Unshare an item from a user, group, or delete a private link
 	* @param string Item type
 	* @param string Item source
 	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
@@ -639,7 +638,7 @@ class Share {
 	}
 
 	/**
-	* @brief Unshare an item from all users, groups, and remove all links
+	* Unshare an item from all users, groups, and remove all links
 	* @param string Item type
 	* @param string Item source
 	* @return Returns true on success or false on failure
@@ -666,7 +665,7 @@ class Share {
 	}
 
 	/**
-	* @brief Unshare an item shared with the current user
+	* Unshare an item shared with the current user
 	* @param string Item type
 	* @param string Item target
 	* @return Returns true on success or false on failure
@@ -703,7 +702,7 @@ class Share {
 		return false;
 	}
 	/**
-	 * @brief sent status if users got informed by mail about share
+	 * sent status if users got informed by mail about share
 	 * @param string $itemType
 	 * @param string $itemSource
 	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
@@ -727,7 +726,7 @@ class Share {
 	}
 
 	/**
-	* @brief Set the permissions of an item for a specific user or group
+	* Set the permissions of an item for a specific user or group
 	* @param string Item type
 	* @param string Item source
 	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
@@ -831,7 +830,7 @@ class Share {
 	}
 
 	/**
-	* @brief Get the backend class for the specified item type
+	* Get the backend class for the specified item type
 	* @param string $itemType
 	* @return Share_Backend
 	*/
@@ -860,7 +859,7 @@ class Share {
 	}
 
 	/**
-	* @brief Check if resharing is allowed
+	* Check if resharing is allowed
 	* @return Returns true if allowed or false
 	*
 	* Resharing is allowed by default if not configured
@@ -878,7 +877,7 @@ class Share {
 	}
 
 	/**
-	* @brief Get a list of collection item types for the specified item type
+	* Get a list of collection item types for the specified item type
 	* @param string Item type
 	* @return array
 	*/
@@ -902,7 +901,7 @@ class Share {
 	}
 
 	/**
-	* @brief Get shared items from the database
+	* Get shared items from the database
 	* @param string Item type
 	* @param string Item source or target (optional)
 	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, SHARE_TYPE_LINK, $shareTypeUserAndGroups, or $shareTypeGroupUserUnique
@@ -1307,7 +1306,7 @@ class Share {
 	}
 
 	/**
-	* @brief Put shared item into the database
+	* Put shared item into the database
 	* @param string Item type
 	* @param string Item source
 	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
@@ -1543,7 +1542,7 @@ class Share {
 	}
 
 	/**
-	* @brief Generate a unique target for the item
+	* Generate a unique target for the item
 	* @param string Item type
 	* @param string Item source
 	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
@@ -1659,7 +1658,7 @@ class Share {
 	}
 
 	/**
-	* @brief Delete all reshares of an item
+	* Delete all reshares of an item
 	* @param int Id of item to delete
 	* @param bool If true, exclude the parent from the delete (optional)
 	* @param string The user that the parent was shared with (optinal)
@@ -1797,7 +1796,7 @@ class Share {
 interface Share_Backend {
 
 	/**
-	* @brief Get the source of the item to be stored in the database
+	* Get the source of the item to be stored in the database
 	* @param string Item source
 	* @param string Owner of the item
 	* @return mixed|array|false Source
@@ -1810,7 +1809,7 @@ interface Share_Backend {
 	public function isValidSource($itemSource, $uidOwner);
 
 	/**
-	* @brief Get a unique name of the item for the specified user
+	* Get a unique name of the item for the specified user
 	* @param string Item source
 	* @param string|false User the item is being shared with
 	* @param array|null List of similar item names already existing as shared items
@@ -1822,7 +1821,7 @@ interface Share_Backend {
 	public function generateTarget($itemSource, $shareWith, $exclude = null);
 
 	/**
-	* @brief Converts the shared item sources back into the item in the specified format
+	* Converts the shared item sources back into the item in the specified format
 	* @param array Shared items
 	* @param int Format
 	* @return ?
@@ -1853,10 +1852,7 @@ interface Share_Backend {
 interface Share_Backend_File_Dependent extends Share_Backend {
 
 	/**
-	* @brief Get the file path of the item
-	* @param
-	* @param
-	* @return
+	* Get the file path of the item
 	*/
 	public function getFilePath($itemSource, $uidOwner);
 
@@ -1869,7 +1865,7 @@ interface Share_Backend_File_Dependent extends Share_Backend {
 interface Share_Backend_Collection extends Share_Backend {
 
 	/**
-	* @brief Get the sources of the children of the item
+	* Get the sources of the children of the item
 	* @param string Item source
 	* @return array Returns an array of children each inside an array with the keys: source, target, and file_path if applicable
 	*/

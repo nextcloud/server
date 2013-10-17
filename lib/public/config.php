@@ -40,7 +40,7 @@ namespace OCP;
  */
 class Config {
 	/**
-	 * @brief Gets a value from config.php
+	 * Gets a value from config.php
 	 * @param string $key key
 	 * @param string $default = null default value
 	 * @return string the value or $default
@@ -53,7 +53,7 @@ class Config {
 	}
 
 	/**
-	 * @brief Sets a value
+	 * Sets a value
 	 * @param string $key key
 	 * @param string $value value
 	 * @return bool
@@ -71,7 +71,7 @@ class Config {
 	}
 
 	/**
-	 * @brief Gets the config value
+	 * Gets the config value
 	 * @param string $app app
 	 * @param string $key key
 	 * @param string $default = null, default value if the key does not exist
@@ -85,7 +85,7 @@ class Config {
 	}
 
 	/**
-	 * @brief sets a value in the appconfig
+	 * Sets a value in the appconfig
 	 * @param string $app app
 	 * @param string $key key
 	 * @param string $value value
@@ -103,7 +103,7 @@ class Config {
 	}
 
 	/**
-	 * @brief Gets the preference
+	 * Gets the preference
 	 * @param string $user user
 	 * @param string $app app
 	 * @param string $key key
@@ -118,12 +118,12 @@ class Config {
 	}
 
 	/**
-	 * @brief sets a value in the preferences
+	 * Sets a value in the preferences
 	 * @param string $user user
 	 * @param string $app app
 	 * @param string $key key
 	 * @param string $value value
-	 * @returns bool
+	 * @return bool
 	 *
 	 * Adds a value to the preferences. If the key did not exist before, it
 	 * will be added automagically.

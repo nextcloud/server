@@ -35,7 +35,7 @@ namespace OCP;
  */
 class DB {
 	/**
-	 * @brief Prepare a SQL query
+	 * Prepare a SQL query
 	 * @param string $query Query string
 	 * @return \MDB2_Statement_Common prepared SQL query
 	 *
@@ -46,7 +46,7 @@ class DB {
 	}
 
 	/**
-	 * @brief Insert a row if a matching row doesn't exists.
+	 * Insert a row if a matching row doesn't exists.
 	 * @param $table string The table name (will replace *PREFIX*) to perform the replace on.
 	 * @param $input array
 	 *
@@ -67,7 +67,7 @@ class DB {
 	}
 
 	/**
-	 * @brief gets last value of autoincrement
+	 * Gets last value of autoincrement
 	 * @param $table string The optional table name (will replace *PREFIX*) and add sequence suffix
 	 * @return int
 	 *
@@ -81,21 +81,21 @@ class DB {
 	}
 
 	/**
-	 * @brief Start a transaction
+	 * Start a transaction
 	 */
 	public static function beginTransaction() {
 		return(\OC_DB::beginTransaction());
 	}
 
 	/**
-	 * @brief Commit the database changes done during a transaction that is in progress
+	 * Commit the database changes done during a transaction that is in progress
 	 */
 	public static function commit() {
 		return(\OC_DB::commit());
 	}
 
 	/**
-	 * @brief check if a result is an error, works with MDB2 and PDOException
+	 * Check if a result is an error, works with MDB2 and PDOException
 	 * @param mixed $result
 	 * @return bool
 	 */
