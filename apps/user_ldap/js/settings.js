@@ -170,8 +170,10 @@ var LdapWizard = {
 
 		if(host && port && agent && pwd && base) {
 			$('.ldap_action_continue').removeAttr('disabled');
+			$('#ldapSettings').tabs('option', 'disabled', []);
 		} else {
 			$('.ldap_action_continue').attr('disabled', 'disabled');
+			$('#ldapSettings').tabs('option', 'disabled', [1, 2, 3, 4, 5]);
 		}
 	},
 
