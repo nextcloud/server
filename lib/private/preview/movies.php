@@ -11,7 +11,7 @@ namespace OC\Preview;
 // movie preview is currently not supported on Windows
 if (!\OC_Util::runningOnWindows()) {
 	$isShellExecEnabled = !in_array('shell_exec', explode(', ', ini_get('disable_functions')));
-	$whichAVCONV = shell_exec('which avconv');
+	$whichAVCONV = ($isShellExecEnabled ? shell_exec('which avconv') : '');
 	$isAVCONVAvailable = !empty($whichAVCONV);
 
 	if($isShellExecEnabled && $isAVCONVAvailable) {
