@@ -61,7 +61,13 @@ var FileActions = {
 		var actions = this.get(mime, type, permissions);
 		return actions[name];
 	},
-	display: function (parent) {
+	/**
+	 * Display file actions for the given element
+	 * @param parent "td" element of the file for which to display actions
+	 * @param triggerEvent if true, triggers the fileActionsReady on the file
+	 * list afterwards (false by default)
+	 */
+	display: function (parent, triggerEvent) {
 		FileActions.currentFile = parent;
 		var actions = FileActions.get(FileActions.getCurrentMimeType(), FileActions.getCurrentType(), FileActions.getCurrentPermissions());
 		var file = FileActions.getCurrentFile();
@@ -136,6 +142,10 @@ var FileActions = {
 			element.data('action', actions['Delete']);
 			element.on('click', {a: null, elem: parent, actionFunc: actions['Delete']}, actionHandler);
 			parent.parent().children().last().append(element);
+		}
+
+		if (triggerEvent){
+			$('#fileList').trigger(jQuery.Event("fileActionsReady"));
 		}
 	},
 	getCurrentFile: function () {
