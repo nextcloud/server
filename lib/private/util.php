@@ -754,6 +754,10 @@ class OC_Util {
 	 * file in the data directory and trying to access via http
 	 */
 	public static function isHtAccessWorking() {
+		if (!\OC_Config::getValue("check_for_working_htaccess", true)) {
+			return true;
+		}
+		
 		// testdata
 		$fileName = '/htaccesstest.txt';
 		$testContent = 'testcontent';
@@ -800,6 +804,9 @@ class OC_Util {
 	 */
 	public static function isWebDAVWorking() {
 		if (!function_exists('curl_init')) {
+			return true;
+		}
+		if (!\OC_Config::getValue("check_for_working_webdav", true)) {
 			return true;
 		}
 		$settings = array(
