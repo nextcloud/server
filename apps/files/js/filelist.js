@@ -130,7 +130,7 @@ var FileList={
 		if (hidden) {
 			tr.hide();
 		}
-		FileActions.display(tr.find('td.filename'));
+		FileActions.display(tr.find('td.filename'), true);
 		return tr;
 	},
 	refresh:function(data) {
@@ -473,7 +473,7 @@ $(document).ready(function(){
 						data.context.attr('data-permissions', file.permissions);
 						data.context.data('permissions', file.permissions);
 					}
-					FileActions.display(data.context.find('td.filename'));
+					FileActions.display(data.context.find('td.filename'), true);
 					if (FileList.loadingDone) {
 						FileList.loadingDone(file.name, file.id);
 					}
