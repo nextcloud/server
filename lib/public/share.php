@@ -439,22 +439,31 @@ class Share {
 	public static function shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions) {
 		$uidOwner = \OC_User::getUser();
 		$sharingPolicy = \OC_Appconfig::getValue('core', 'shareapi_share_policy', 'global');
+
+		//retrieve name of file
+		$fileData = \OC\Files\Filesystem::getFileInfo(\OC\Files\Filesystem::getPath($itemSource));
+		if(!is_null($fileData)) {
+			$itemSourceName = $fileData['name'];
+		} else {
+			$itemSourceName = $itemSource;
+		}
+
 		// Verify share type and sharing conditions are met
 		if ($shareType === self::SHARE_TYPE_USER) {
 			if ($shareWith == $uidOwner) {
-				$message = 'Sharing '.$itemSource.' failed, because the user '.$shareWith.' is the item owner';
+				$message = 'Sharing '.$itemSourceName.' failed, because the user '.$shareWith.' is the item owner';
 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 				throw new \Exception($message);
 			}
 			if (!\OC_User::userExists($shareWith)) {
-				$message = 'Sharing '.$itemSource.' failed, because the user '.$shareWith.' does not exist';
+				$message = 'Sharing '.$itemSourceName.' failed, because the user '.$shareWith.' does not exist';
 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 				throw new \Exception($message);
 			}
 			if ($sharingPolicy == 'groups_only') {
 				$inGroup = array_intersect(\OC_Group::getUserGroups($uidOwner), \OC_Group::getUserGroups($shareWith));
 				if (empty($inGroup)) {
-					$message = 'Sharing '.$itemSource.' failed, because the user '
+					$message = 'Sharing '.$itemSourceName.' failed, because the user '
 						.$shareWith.' is not a member of any groups that '.$uidOwner.' is a member of';
 					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 					throw new \Exception($message);
@@ -467,19 +476,19 @@ class Share {
 				// owner and is not a user share, this use case is for increasing
 				// permissions for a specific user
 				if ($checkExists['uid_owner'] != $uidOwner || $checkExists['share_type'] == $shareType) {
-					$message = 'Sharing '.$itemSource.' failed, because this item is already shared with '.$shareWith;
+					$message = 'Sharing '.$itemSourceName.' failed, because this item is already shared with '.$shareWith;
 					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 					throw new \Exception($message);
 				}
 			}
 		} else if ($shareType === self::SHARE_TYPE_GROUP) {
 			if (!\OC_Group::groupExists($shareWith)) {
-				$message = 'Sharing '.$itemSource.' failed, because the group '.$shareWith.' does not exist';
+				$message = 'Sharing '.$itemSourceName.' failed, because the group '.$shareWith.' does not exist';
 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 				throw new \Exception($message);
 			}
 			if ($sharingPolicy == 'groups_only' && !\OC_Group::inGroup($uidOwner, $shareWith)) {
-				$message = 'Sharing '.$itemSource.' failed, because '
+				$message = 'Sharing '.$itemSourceName.' failed, because '
 					.$uidOwner.' is not a member of the group '.$shareWith;
 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 				throw new \Exception($message);
@@ -492,7 +501,7 @@ class Share {
 				// owner and is not a group share, this use case is for increasing
 				// permissions for a specific user
 				if ($checkExists['uid_owner'] != $uidOwner || $checkExists['share_type'] == $shareType) {
-					$message = 'Sharing '.$itemSource.' failed, because this item is already shared with '.$shareWith;
+					$message = 'Sharing '.$itemSourceName.' failed, because this item is already shared with '.$shareWith;
 					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 					throw new \Exception($message);
 				}
@@ -541,7 +550,7 @@ class Share {
 					return false;
 				}
 			}
-			$message = 'Sharing '.$itemSource.' failed, because sharing with links is not allowed';
+			$message = 'Sharing '.$itemSourceName.' failed, because sharing with links is not allowed';
 			\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 			throw new \Exception($message);
 			return false;
@@ -1318,18 +1327,27 @@ class Share {
 	private static function put($itemType, $itemSource, $shareType, $shareWith, $uidOwner,
 		$permissions, $parentFolder = null, $token = null) {
 		$backend = self::getBackend($itemType);
+
 		// Check if this is a reshare
 		if ($checkReshare = self::getItemSharedWithBySource($itemType, $itemSource, self::FORMAT_NONE, null, true)) {
+			//retrieve name of file
+			$fileData = \OC\Files\Filesystem::getFileInfo(\OC\Files\Filesystem::getPath($itemSource));
+			if(!is_null($fileData)) {
+				$itemSourceName = $fileData['name'];
+			} else {
+				$itemSourceName = $itemSource;
+			}
+
 			// Check if attempting to share back to owner
 			if ($checkReshare['uid_owner'] == $shareWith && $shareType == self::SHARE_TYPE_USER) {
-				$message = 'Sharing '.$itemSource.' failed, because the user '.$shareWith.' is the original sharer';
+				$message = 'Sharing '.$itemSourceName.' failed, because the user '.$shareWith.' is the original sharer';
 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 				throw new \Exception($message);
 			}
 			// Check if share permissions is granted
 			if (self::isResharingAllowed() && (int)$checkReshare['permissions'] & PERMISSION_SHARE) {
 				if (~(int)$checkReshare['permissions'] & $permissions) {
-					$message = 'Sharing '.$itemSource
+					$message = 'Sharing '.$itemSourceName
 						.' failed, because the permissions exceed permissions granted to '.$uidOwner;
 					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 					throw new \Exception($message);
@@ -1343,7 +1361,7 @@ class Share {
 					$filePath = $checkReshare['file_target'];
 				}
 			} else {
-				$message = 'Sharing '.$itemSource.' failed, because resharing is not allowed';
+				$message = 'Sharing '.$itemSourceName.' failed, because resharing is not allowed';
 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 				throw new \Exception($message);
 			}
