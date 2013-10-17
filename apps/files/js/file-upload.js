@@ -539,7 +539,7 @@ $(document).ready(function() {
 								lazyLoadPreview(path, result.data.mime, function(previewpath){
 									tr.find('td.filename').attr('style','background-image:url('+previewpath+')');
 								});
-								FileActions.display(tr.find('td.filename'));
+								FileActions.display(tr.find('td.filename'), true);
 							} else {
 								OC.dialogs.alert(result.data.message, t('core', 'Error'));
 							}

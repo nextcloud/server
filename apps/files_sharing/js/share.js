@@ -1,11 +1,19 @@
 $(document).ready(function() {
 
-	var disableSharing = $('#disableSharing').data('status');
+	var disableSharing = $('#disableSharing').data('status'),
+		sharesLoaded = false;
 
 	if (typeof OC.Share !== 'undefined' && typeof FileActions !== 'undefined'  && !disableSharing) {
-
 		$('#fileList').on('fileActionsReady',function(){
-			OC.Share.loadIcons('file');
+			if (!sharesLoaded){
+				OC.Share.loadIcons('file');
+				// assume that we got all shares, so switching directories
+				// will not invalidate that list
+				sharesLoaded = true;
+			}
+			else{
+				OC.Share.updateIcons('file');
+			}
 		});
 
 		FileActions.register('all', 'Share', OC.PERMISSION_READ, OC.imagePath('core', 'actions/share'), function(filename) {

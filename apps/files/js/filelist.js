@@ -151,7 +151,7 @@ var FileList={
 		if (hidden) {
 			tr.hide();
 		}
-		FileActions.display(tr.find('td.filename'));
+		FileActions.display(tr.find('td.filename'), true);
 		return tr;
 	},
 	/**
@@ -817,7 +817,7 @@ $(document).ready(function(){
 					data.context.attr('data-permissions', file.permissions);
 					data.context.data('permissions', file.permissions);
 				}
-				FileActions.display(data.context.find('td.filename'));
+				FileActions.display(data.context.find('td.filename'), true);
 
 				var path = getPathForPreview(file.name);
 				lazyLoadPreview(path, file.mime, function(previewpath){
