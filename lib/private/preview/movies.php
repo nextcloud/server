@@ -8,40 +8,44 @@
  */
 namespace OC\Preview;
 
-$isShellExecEnabled = !in_array('shell_exec', explode(', ', ini_get('disable_functions')));
-$whichAVCONV = shell_exec('which avconv');
-$isAVCONVAvailable = !empty($whichAVCONV);
+// movie preview is currently not supported on Windows
+if (!\OC_Util::runningOnWindows()) {
+	$isShellExecEnabled = !in_array('shell_exec', explode(', ', ini_get('disable_functions')));
+	$whichAVCONV = shell_exec('which avconv');
+	$isAVCONVAvailable = !empty($whichAVCONV);
 
-if($isShellExecEnabled && $isAVCONVAvailable) {
+	if($isShellExecEnabled && $isAVCONVAvailable) {
 
-	class Movie extends Provider {
+		class Movie extends Provider {
 
-		public function getMimeType() {
-			return '/video\/.*/';
+			public function getMimeType() {
+				return '/video\/.*/';
+			}
+
+			public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
+				$absPath = \OC_Helper::tmpFile();
+				$tmpPath = \OC_Helper::tmpFile();
+
+				$handle = $fileview->fopen($path, 'rb');
+
+				$firstmb = stream_get_contents($handle, 1048576); //1024 * 1024 = 1048576
+				file_put_contents($absPath, $firstmb);
+
+				//$cmd = 'ffmpeg -y  -i ' . escapeshellarg($absPath) . ' -f mjpeg -vframes 1 -ss 1 -s ' . escapeshellarg($maxX) . 'x' . escapeshellarg($maxY) . ' ' . $tmpPath;
+				$cmd = 'avconv -an -y -ss 1 -i ' . escapeshellarg($absPath) . ' -f mjpeg -vframes 1 ' . escapeshellarg($tmpPath);
+
+				shell_exec($cmd);
+
+				$image = new \OC_Image($tmpPath);
+
+				unlink($absPath);
+				unlink($tmpPath);
+
+				return $image->valid() ? $image : false;
+			}
 		}
 
-		public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-			$absPath = \OC_Helper::tmpFile();
-			$tmpPath = \OC_Helper::tmpFile();
-
-			$handle = $fileview->fopen($path, 'rb');
-
-			$firstmb = stream_get_contents($handle, 1048576); //1024 * 1024 = 1048576
-			file_put_contents($absPath, $firstmb);
-
-			//$cmd = 'ffmpeg -y  -i ' . escapeshellarg($absPath) . ' -f mjpeg -vframes 1 -ss 1 -s ' . escapeshellarg($maxX) . 'x' . escapeshellarg($maxY) . ' ' . $tmpPath;
-			$cmd = 'avconv -an -y -ss 1 -i ' . escapeshellarg($absPath) . ' -f mjpeg -vframes 1 ' . escapeshellarg($tmpPath);
-			
-			shell_exec($cmd);
-
-			$image = new \OC_Image($tmpPath);
-
-			unlink($absPath);
-			unlink($tmpPath);
-
-			return $image->valid() ? $image : false;
-		}
+		\OC\Preview::registerProvider('OC\Preview\Movie');
 	}
-
-	\OC\Preview::registerProvider('OC\Preview\Movie');
 }
+
