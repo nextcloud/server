@@ -51,7 +51,7 @@ $TRANSLATIONS = array(
 "Your data directory and your files are probably accessible from the internet. The .htaccess file is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Dein Datenverzeichnis und deine Dateien sind möglicher Weise aus dem Internet erreichbar. Die .htaccess-Datei funktioniert nicht. Wir raten dir dringend, dass du deinen Webserver dahingehend konfigurierst, dass dein Datenverzeichnis nicht länger aus dem Internet erreichbar ist, oder du verschiebst das Datenverzeichnis außerhalb des Wurzelverzeichnisses des Webservers.",
 "Setup Warning" => "Einrichtungswarnung",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Dein Web-Server ist noch nicht für Datei-Synchronisation bereit, weil die WebDAV-Schnittstelle vermutlich defekt ist.",
-"Please double check the <a href=\"%s\">installation guides</a>." => "Bitte überprüfe die <a href=\"%s\">Instalationsanleitungen</a>.",
+"Please double check the <a href=\"%s\">installation guides</a>." => "Bitte überprüfe die <a href=\"%s\">Installationsanleitungen</a>.",
 "Module 'fileinfo' missing" => "Modul 'fileinfo' fehlt ",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "Das PHP-Modul 'fileinfo' fehlt. Wir empfehlen dieses Modul zu aktivieren um die besten Resultate bei der Erkennung der Dateitypen zu erreichen.",
 "Locale not working" => "Ländereinstellung funktioniert nicht",

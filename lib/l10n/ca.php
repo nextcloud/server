@@ -8,7 +8,6 @@ $TRANSLATIONS = array(
 "Users" => "Usuaris",
 "Admin" => "Administració",
 "Failed to upgrade \"%s\"." => "Ha fallat l'actualització \"%s\".",
-"Custom profile pictures don't work with encryption yet" => "Les imatges de perfil personals encara no funcionen amb encriptació",
 "Unknown filetype" => "Tipus de fitxer desconegut",
 "Invalid image" => "Imatge no vàlida",
 "web services under your control" => "controleu els vostres serveis web",

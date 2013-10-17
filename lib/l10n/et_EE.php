@@ -8,7 +8,6 @@ $TRANSLATIONS = array(
 "Users" => "Kasutajad",
 "Admin" => "Admin",
 "Failed to upgrade \"%s\"." => "Ebaõnnestunud uuendus \"%s\".",
-"Custom profile pictures don't work with encryption yet" => "Kohandatud profiili pildid ei toimi veel koos krüpteeringuga",
 "Unknown filetype" => "Tundmatu failitüüp",
 "Invalid image" => "Vigane pilt",
 "web services under your control" => "veebitenused sinu kontrolli all",

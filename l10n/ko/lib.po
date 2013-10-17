@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-02 13:20+0000\n"
-"Last-Translator: smallsnail <bjh13579@gmail.com>\n"
+"POT-Creation-Date: 2013-10-17 13:47-0400\n"
+"PO-Revision-Date: 2013-10-17 17:47+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,51 +19,47 @@ msgstr ""
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: private/app.php:237
+#: private/app.php:243
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "현재 ownCloud 버전과 호환되지 않기 때문에 \"%s\" 앱을 설치할 수 없습니다."
 
-#: private/app.php:248
+#: private/app.php:254
 msgid "No app name specified"
 msgstr "앱 이름이 지정되지 않았습니다."
 
-#: private/app.php:352
+#: private/app.php:359
 msgid "Help"
 msgstr "도움말"
 
-#: private/app.php:365
+#: private/app.php:372
 msgid "Personal"
 msgstr "개인"
 
-#: private/app.php:376
+#: private/app.php:383
 msgid "Settings"
 msgstr "설정"
 
-#: private/app.php:388
+#: private/app.php:395
 msgid "Users"
 msgstr "사용자"
 
-#: private/app.php:401
+#: private/app.php:408
 msgid "Admin"
 msgstr "관리자"
 
-#: private/app.php:832
+#: private/app.php:872
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "\"%s\" 업그레이드에 실패했습니다."
 
-#: private/avatar.php:56
-msgid "Custom profile pictures don't work with encryption yet"
-msgstr "개개인의 프로필 사진은 아직은 암호화 되지 않습니다"
-
-#: private/avatar.php:64
+#: private/avatar.php:60
 msgid "Unknown filetype"
 msgstr "알수없는 파일형식"
 
-#: private/avatar.php:69
+#: private/avatar.php:65
 msgid "Invalid image"
 msgstr "잘못된 그림"
 

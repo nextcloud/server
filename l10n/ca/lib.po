@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-02 13:20+0000\n"
-"Last-Translator: rogerc\n"
+"POT-Creation-Date: 2013-10-17 13:47-0400\n"
+"PO-Revision-Date: 2013-10-17 17:47+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,51 +18,47 @@ msgstr ""
 "Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: private/app.php:237
+#: private/app.php:243
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "L'aplicació \"%s\" no es pot instal·lar perquè no és compatible amb aquesta versió d'ownCloud."
 
-#: private/app.php:248
+#: private/app.php:254
 msgid "No app name specified"
 msgstr "No heu especificat cap nom d'aplicació"
 
-#: private/app.php:352
+#: private/app.php:359
 msgid "Help"
 msgstr "Ajuda"
 
-#: private/app.php:365
+#: private/app.php:372
 msgid "Personal"
 msgstr "Personal"
 
-#: private/app.php:376
+#: private/app.php:383
 msgid "Settings"
 msgstr "Configuració"
 
-#: private/app.php:388
+#: private/app.php:395
 msgid "Users"
 msgstr "Usuaris"
 
-#: private/app.php:401
+#: private/app.php:408
 msgid "Admin"
 msgstr "Administració"
 
-#: private/app.php:832
+#: private/app.php:872
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Ha fallat l'actualització \"%s\"."
 
-#: private/avatar.php:56
-msgid "Custom profile pictures don't work with encryption yet"
-msgstr "Les imatges de perfil personals encara no funcionen amb encriptació"
-
-#: private/avatar.php:64
+#: private/avatar.php:60
 msgid "Unknown filetype"
 msgstr "Tipus de fitxer desconegut"
 
-#: private/avatar.php:69
+#: private/avatar.php:65
 msgid "Invalid image"
 msgstr "Imatge no vàlida"
 
