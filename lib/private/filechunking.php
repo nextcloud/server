@@ -85,6 +85,16 @@ class OC_FileChunking {
 		}
 	}
 
+	/**
+	 * Removes one specific chunk
+	 * @param $index
+	 */
+	public function remove($index) {
+		$cache = $this->getCache();
+		$prefix = $this->getPrefix();
+		$cache->remove($prefix.$index);
+	}
+
 	public function signature_split($orgfile, $input) {
 		$info = unpack('n', fread($input, 2));
 		$blocksize = $info[1];
