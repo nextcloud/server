@@ -29,6 +29,7 @@ OC.Share={
 	 * (not reloaded from server)
 	 */
 	updateIcons:function(itemType){
+		var item;
 		for (item in OC.Share.statuses){
 			var data = OC.Share.statuses[item];
 
