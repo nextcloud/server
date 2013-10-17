@@ -197,10 +197,9 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK,
 				null, 1);
 
-		$params = array('itemSource' => $fileInfo['fileid'],
-			'itemType' => 'file');
+		$params = array('path' => $this->filename);
 
-		$result = Share\Api::getShare($params);
+		$result = Share\Api::getAllShares($params);
 
 		$this->assertTrue($result->succeeded());
 

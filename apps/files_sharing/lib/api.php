@@ -102,7 +102,7 @@ class Api {
 
 			// include also reshares in the lists. This means that the result
 			// will contain every user with access to the file.
-			if ($params['reshares'] === true) {
+			if (isset($params['reshares']) && $params['reshares'] === true) {
 				$shares = self::addReshares($shares, $itemSource);
 			}
 
