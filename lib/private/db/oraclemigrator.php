@@ -37,4 +37,18 @@ class OracleMigrator extends NoCheckMigrator {
 	protected function generateTemporaryTableName($name) {
 		return 'oc_' . uniqid();
 	}
+
+	/**
+	 * @param $statement
+	 * @return string
+	 */
+	protected function convertStatementToScript($statement) {
+		if (substr($statement, -1) === ';') {
+			return $statement . PHP_EOL . '/' . PHP_EOL;
+		}
+		$script = $statement . ';';
+		$script .= PHP_EOL;
+		$script .= PHP_EOL;
+		return $script;
+	}
 }
