@@ -243,6 +243,9 @@ class Configuration {
 			$value = '';
 		} else {
 			$value = preg_split('/\r\n|\r|\n/', $value);
+			if($value === false) {
+				$value = '';
+			}
 		}
 
 		$this->setValue($varname, $value);

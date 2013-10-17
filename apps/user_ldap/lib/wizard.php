@@ -424,11 +424,8 @@ class Wizard extends LDAPUtility {
 		$i = stripos($this->configuration->ldapAgentName, 'dc=');
 		if($i !== false) {
 			$base = substr($this->configuration->ldapAgentName, $i);
-
 			if($this->testBaseDN($base)) {
 				$this->applyFind('ldap_base', $base);
-				$this->applyFind('ldap_base_users', $base);
-				$this->applyFind('ldap_base_groups', $base);
 				return $this->result;
 			}
 		}
@@ -445,8 +442,6 @@ class Wizard extends LDAPUtility {
 		$base2 = implode('dc=', $dparts);
 		if($base !== $base2 && $this->testBaseDN($base2)) {
 			$this->applyFind('ldap_base', $base2);
-			$this->applyFind('ldap_base_users', $base2);
-			$this->applyFind('ldap_base_groups', $base2);
 			return $this->result;
 		}
 
