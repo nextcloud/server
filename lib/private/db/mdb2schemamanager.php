@@ -53,7 +53,7 @@ class MDB2SchemaManager {
 	 * @param string $file file to read structure from
 	 * @return bool
 	 */
-	public function updateDbFromStructure($file) {
+	public function updateDbFromStructure($file, $generateSql = false) {
 		$sm = $this->conn->getSchemaManager();
 		$fromSchema = $sm->createSchema();
 
@@ -80,6 +80,10 @@ class MDB2SchemaManager {
 		$tables = $schemaDiff->newTables + $schemaDiff->changedTables + $schemaDiff->removedTables;
 		foreach($tables as $tableDiff) {
 			$tableDiff->name = $platform->quoteIdentifier($tableDiff->name);
+		}
+
+		if ($generateSql) {
+			return $this->generateChangeScript($schemaDiff);
 		}
 
 		return $this->executeSchemaChange($schemaDiff);
@@ -146,5 +150,21 @@ class MDB2SchemaManager {
 		}
 		$this->conn->commit();
 		return true;
+	}
+
+	/**
+	 * @param \Doctrine\DBAL\Schema\Schema $schema
+	 * @return string
+	 */
+	public function generateChangeScript($schema) {
+
+		$script = '';
+		$sqls = $schema->toSql($this->conn->getDatabasePlatform());
+		foreach($sqls as $sql) {
+			$script .= $sql . ';';
+			$script .= PHP_EOL;
+		}
+
+		return $script;
 	}
 }
