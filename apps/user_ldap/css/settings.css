@@ -5,6 +5,7 @@
 
 .tablecell {
 	display: table-cell !important;
+	white-space: nowrap;
 }
 
 .tablerow {
@@ -73,6 +74,10 @@
 .ldapwarning {
 	margin-left: 1.4em;
 	color: #FF3B3B;
+}
+
+.wizSpinner {
+	height: 15px;
 }
 
 #ldap fieldset p label {

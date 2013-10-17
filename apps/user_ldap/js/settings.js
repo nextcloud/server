@@ -128,6 +128,7 @@ var LdapWizard = {
 	checkPortInfoShown: false,
 	saveBlacklist: {},
 	userFilterGroupSelectState: 'enable',
+	spinner: '<img class="wizSpinner" src="'+ OC.imagePath('core', 'loading.gif') +'">',
 
 	ajax: function(param, fnOnSuccess, fnOnError) {
 		$.post(
@@ -168,15 +169,18 @@ var LdapWizard = {
 			param = 'action=guessBaseDN'+
 					'&ldap_serverconfig_chooser='+$('#ldap_serverconfig_chooser').val();
 
+			LdapWizard.showSpinner('#ldap_base');
 			LdapWizard.ajax(param,
 				function(result) {
 					LdapWizard.applyChanges(result);
+					LdapWizard.hideSpinner('#ldap_base');
 					if($('#ldap_base').val()) {
 						$('#ldap_base').removeClass('invisible');
 						LdapWizard.hideInfoBox();
 					}
 				},
 				function (result) {
+					LdapWizard.hideSpinner('#ldap_base');
 					$('#ldap_base').removeClass('invisible');
 					LdapWizard.showInfoBox('Please specify a port');
 				}
@@ -193,9 +197,11 @@ var LdapWizard = {
 			param = 'action=guessPortAndTLS'+
 					'&ldap_serverconfig_chooser='+$('#ldap_serverconfig_chooser').val();
 
+			LdapWizard.showSpinner('#ldap_port');
 			LdapWizard.ajax(param,
 				function(result) {
 					LdapWizard.applyChanges(result);
+					LdapWizard.hideSpinner('#ldap_port');
 					if($('#ldap_port').val()) {
 						LdapWizard.checkBaseDN();
 						$('#ldap_port').removeClass('invisible');
@@ -203,6 +209,7 @@ var LdapWizard = {
 					}
 				},
 				function (result) {
+					LdapWizard.hideSpinner('#ldap_port');
 					$('#ldap_port').removeClass('invisible');
 					LdapWizard.showInfoBox('Please specify the BaseDN');
 				}
@@ -278,6 +285,7 @@ var LdapWizard = {
 		param = 'action=determineAttributes'+
 				'&ldap_serverconfig_chooser='+$('#ldap_serverconfig_chooser').val();
 
+		LdapWizard.showSpinner('#ldap_loginfilter_attributes');
 		LdapWizard.ajax(param,
 			function(result) {
 				$('#ldap_loginfilter_attributes').find('option').remove();
@@ -287,6 +295,7 @@ var LdapWizard = {
 					$('#ldap_loginfilter_attributes').append(
 								"<option value='"+attr+"'>"+attr+"</option>");
 				}
+				LdapWizard.hideSpinner('#ldap_loginfilter_attributes');
 				LdapWizard.applyChanges(result);
 				$('#ldap_loginfilter_attributes').multiselect('refresh');
 				$('#ldap_loginfilter_attributes').multiselect('enable');
@@ -296,6 +305,7 @@ var LdapWizard = {
 				$('#ldap_loginfilter_attributes').multiselect(
 									{noneSelectedText : 'No attributes found'});
 				$('#ldap_loginfilter_attributes').multiselect('disable');
+				LdapWizard.hideSpinner('#ldap_loginfilter_attributes');
 			}
 		);
 	},
@@ -307,6 +317,7 @@ var LdapWizard = {
 		param = 'action=determineGroupsFor'+type+
 				'&ldap_serverconfig_chooser='+$('#ldap_serverconfig_chooser').val();
 
+		LdapWizard.showSpinner('#'+multisel);
 		LdapWizard.ajax(param,
 			function(result) {
 				$('#'+multisel).find('option').remove();
@@ -315,11 +326,13 @@ var LdapWizard = {
 					objc = result.options[multisel][i];
 					$('#'+multisel).append("<option value='"+objc+"'>"+objc+"</option>");
 				}
+				LdapWizard.hideSpinner('#'+multisel);
 				LdapWizard.applyChanges(result);
 				$('#'+multisel).multiselect('refresh');
 				$('#'+multisel).multiselect('enable');
 			},
 			function (result) {
+				LdapWizard.hideSpinner('#'+multisel);
 				$('#'+multisel).multiselect('disable');
 			}
 		);
@@ -332,6 +345,7 @@ var LdapWizard = {
 		param = 'action=determine'+type+'ObjectClasses'+
 				'&ldap_serverconfig_chooser='+$('#ldap_serverconfig_chooser').val();
 
+		LdapWizard.showSpinner('#'+multisel);
 		LdapWizard.ajax(param,
 			function(result) {
 				$('#'+multisel).find('option').remove();
@@ -340,10 +354,12 @@ var LdapWizard = {
 					objc = result.options[multisel][i];
 					$('#'+multisel).append("<option value='"+objc+"'>"+objc+"</option>");
 				}
+				LdapWizard.hideSpinner('#'+multisel);
 				LdapWizard.applyChanges(result);
 				$('#'+multisel).multiselect('refresh');
 			},
 			function (result) {
+				LdapWizard.hideSpinner('#'+multisel);
 				//TODO: error handling
 			}
 		);
@@ -377,6 +393,11 @@ var LdapWizard = {
 			$('#ldapWizard1 .ldapWizardInfo').addClass('invisible');
 			LdapWizard.checkInfoShown = false;
 		}
+	},
+
+	hideSpinner: function(id) {
+		$(id+' + .wizSpinner').remove();
+		$(id + " + button").css('display', 'inline');
 	},
 
 	init: function() {
@@ -508,6 +529,11 @@ var LdapWizard = {
 		$('#ldapWizard1 .ldapWizardInfo').text(t('user_ldap', text));
 		$('#ldapWizard1 .ldapWizardInfo').removeClass('invisible');
 		LdapWizard.checkInfoShown = true;
+	},
+
+	showSpinner: function(id) {
+		$(LdapWizard.spinner).insertAfter($(id));
+		$(id + " + img + button").css('display', 'none');
 	},
 
 	toggleRawFilter: function(container, moc, mg, stateVar) {
