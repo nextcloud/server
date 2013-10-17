@@ -157,6 +157,10 @@ var LdapWizard = {
 			}
 		}
 		LdapWizard.functionalityCheck();
+
+		if($('#ldapSettings').tabs('option', 'active') == 0) {
+			LdapWizard.basicStatusCheck();
+		}
 	},
 
 	basicStatusCheck: function() {
@@ -451,6 +455,9 @@ var LdapWizard = {
 		if($('#ldap_port').val()) {
 			$('#ldap_port').removeClass('invisible');
 		}
+		if($('#ldap_base').val()) {
+			$('#ldap_base').removeClass('invisible');
+		}
 		LdapWizard.basicStatusCheck();
 	},
 
@@ -584,8 +591,10 @@ var LdapWizard = {
 	},
 
 	showSpinner: function(id) {
-		$(LdapWizard.spinner).insertAfter($(id));
-		$(id + " + img + button").css('display', 'none');
+		if($(id + ' + .wizSpinner').length == 0) {
+			$(LdapWizard.spinner).insertAfter($(id));
+			$(id + " + img + button").css('display', 'none');
+		}
 	},
 
 	toggleRawFilter: function(container, moc, mg, stateVar) {
