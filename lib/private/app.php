@@ -770,12 +770,12 @@ class OC_App{
 		}
 
 		// prio 2: shipped
-		if ($a['shipped'] != $b['shipped']) {
-			$atemp = ($a['shipped'] == true ? 1 : 0);
-			$btemp = ($b['shipped'] == true ? 1 : 0);
-			return ($btemp - $atemp);
+		$ashipped = (array_key_exists('shipped', $a) && $a['shipped'] === 'true') ? 1 : 0;
+		$bshipped = (array_key_exists('shipped', $b) && $b['shipped'] === 'true') ? 1 : 0;
+		if ($ashipped !== $bshipped) {
+			return ($bshipped - $ashipped);
 		}
-       
+
 		// prio 3: recommended
 		if ($a['internalclass'] != $b['internalclass']) {
 			$atemp = ($a['internalclass'] == 'recommendedapp' ? 1 : 0);
