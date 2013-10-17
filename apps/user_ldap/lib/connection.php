@@ -38,8 +38,6 @@ class Connection extends LDAPUtility {
 
 	//settings handler
 	protected $configuration;
-		'ldapUuidGroupAttribute' => 'auto',
-		'ldapExpertUUIDGroupAttr' => null,
 
 	/**
 	 * @brief Constructor
@@ -189,17 +187,11 @@ class Connection extends LDAPUtility {
 	private function readConfiguration($force = false) {
 		if((!$this->configured || $force) && !is_null($this->configID)) {
 			$this->configuration->readConfiguration();
-			$this->config['ldapUuidGroupAttribute']
-				= $this->$v('ldap_uuid_group_attribute');
-			$this->config['ldapExpertUUIDGroupAttr']
-				= $this->$v('ldap_expert_uuid_group_attr');
-
 			$this->configured = $this->validateConfiguration();
 		}
 	}
 
 	/**
-			'ldap_expert_uuid_group_attr' => 'ldapExpertUUIDGroupAttr',
 	 * @brief set LDAP configuration with values delivered by an array, not read from configuration
 	 * @param $config array that holds the config parameters in an associated array
 	 * @param &$setParameters optional; array where the set fields will be given to
@@ -224,7 +216,6 @@ class Connection extends LDAPUtility {
 	 */
 	public function saveConfiguration() {
 		$this->configuration->saveConfiguration();
-				case 'ldapUuidGroupAttribute':
 		$this->clearCache();
 	}
 
@@ -262,11 +253,6 @@ class Connection extends LDAPUtility {
 		return $result;
 	}
 
-	//TODO remove if not necessary
-// 	public function getDefaults() {
-// 		return $this->configuration->getDefaults();
-// 	}
-
 	private function doSoftValidation() {
 		//if User or Group Base are not set, take over Base DN setting
 		foreach(array('ldapBaseUsers', 'ldapBaseGroups') as $keyBase) {
@@ -289,26 +275,28 @@ class Connection extends LDAPUtility {
 								\OCP\Util::INFO);
 		}
 
-		$uuidOverride = $this->configuration->ldapExpertUUIDAttr;
-		if(!empty($uuidOverride)) {
-			$this->configuration->ldapUuidAttribute = $uuidOverride;
-		} else {
-			$uuidAttributes = array('auto', 'entryuuid', 'nsuniqueid',
-									'objectguid', 'guid');
-			if(!in_array($this->configuration->ldapUuidAttribute,
-						 $uuidAttributes)
-				&& (!is_null($this->configID))) {
-				$this->configuration->ldapUuidAttribute = 'auto';
-				$this->configuration->saveConfiguration();
-										'auto');
-				\OCP\Util::writeLog('user_ldap',
-									'Illegal value for the UUID Attribute, '.
-									'reset to autodetect.',
-									\OCP\Util::INFO);
+		foreach(array('ldapExpertUUIDUserAttr'  => 'ldapUuidUserAttribute',
+					  'ldapExpertUUIDGroupAttr' => 'ldapUuidGroupAttribute')
+				as $expertSetting => $effectiveSetting) {
+			$uuidOverride = $this->configuration->$expertSetting;
+			if(!empty($uuidOverride)) {
+				$this->configuration->$effectiveSetting = $uuidOverride;
+			} else {
+				$uuidAttributes = array('auto', 'entryuuid', 'nsuniqueid',
+										'objectguid', 'guid');
+				if(!in_array($this->configuration->$effectiveSetting,
+							$uuidAttributes)
+					&& (!is_null($this->configID))) {
+					$this->configuration->$effectiveSetting = 'auto';
+					$this->configuration->saveConfiguration();
+					\OCP\Util::writeLog('user_ldap',
+										'Illegal value for the '.
+										$effectiveSetting.', '.'reset to '.
+										'autodetect.', \OCP\Util::INFO);
+				}
+
 			}
-
 		}
-
 
 		$backupPort = $this->configuration->ldapBackupPort;
 		if(empty($backupPort)) {
@@ -405,9 +393,6 @@ class Connection extends LDAPUtility {
 			$configurationOK = false;
 		}
 
-		}
-		if(!empty($this->config['ldapExpertUUIDGroupAttr'])) {
-			$this->config['ldapUuidGroupAttribute'] = $this->config['ldapExpertUUIDGroupAttr'];
 		return $configurationOK;
 	}
 
@@ -423,8 +408,6 @@ class Connection extends LDAPUtility {
 		//second step: critical checks. If left empty or filled wrong, set as
 		//unconfigured and give a warning.
 		return $this->doCriticalValidation();
-			'ldap_uuid_group_attribute'         => 'auto',
-			'ldap_expert_uuid_group_attr'       => '',
 	}
 
 

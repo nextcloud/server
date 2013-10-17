@@ -60,8 +60,8 @@ class Configuration {
 		'ldapQuotaDefault' => null,
 		'ldapEmailAttribute' => null,
 		'ldapCacheTTL' => null,
-		'ldapUuidAttribute' => 'auto',
-		'ldapOverrideUuidAttribute' => null,
+		'ldapUuidUserAttribute' => 'auto',
+		'ldapUuidGroupAttribute' => 'auto',
 		'ldapOverrideMainServer' => false,
 		'ldapConfigurationActive' => false,
 		'ldapAttributesForUserSearch' => null,
@@ -70,7 +70,8 @@ class Configuration {
 		'hasPagedResultSupport' => false,
 		'hasMemberOfFilterSupport' => false,
 		'ldapExpertUsernameAttr' => null,
-		'ldapExpertUUIDAttr' => null,
+		'ldapExpertUUIDUserAttr' => null,
+		'ldapExpertUUIDGroupAttr' => null,
 	);
 
 	public function __construct($configPrefix, $autoread = true) {
@@ -214,9 +215,9 @@ class Configuration {
 					break;
 				//following options are not stored but detected, skip them
 				case 'ldapIgnoreNamingRules':
-				case 'ldapOverrideUuidAttribute':
 				case 'hasPagedResultSupport':
-				case 'ldapUuidAttribute':
+				case 'ldapUuidUserAttribute':
+				case 'ldapUuidGroupAttribute':
 					continue 2;
 			}
 			if(is_null($value)) {
@@ -315,15 +316,16 @@ class Configuration {
 			'ldap_email_attr'					=> '',
 			'ldap_group_member_assoc_attribute'	=> 'uniqueMember',
 			'ldap_cache_ttl'					=> 600,
-			'ldap_uuid_attribute'				=> 'auto',
-			'ldap_override_uuid_attribute'		=> 0,
+			'ldap_uuid_user_attribute'			=> 'auto',
+			'ldap_uuid_group_attribute'			=> 'auto',
 			'home_folder_naming_rule'			=> '',
 			'ldap_turn_off_cert_check'			=> 0,
 			'ldap_configuration_active'			=> 0,
 			'ldap_attributes_for_user_search'	=> '',
 			'ldap_attributes_for_group_search'	=> '',
 			'ldap_expert_username_attr'			=> '',
-			'ldap_expert_uuid_attr'				=> '',
+			'ldap_expert_uuid_user_attr'		=> '',
+			'ldap_expert_uuid_group_attr'		=> '',
 			'has_memberof_filter_support'		=> 0,
 		);
 	}
@@ -369,7 +371,8 @@ class Configuration {
 			'ldap_attributes_for_user_search' 	=> 'ldapAttributesForUserSearch',
 			'ldap_attributes_for_group_search'	=> 'ldapAttributesForGroupSearch',
 			'ldap_expert_username_attr' 		=> 'ldapExpertUsernameAttr',
-			'ldap_expert_uuid_attr' 			=> 'ldapExpertUUIDAttr',
+			'ldap_expert_uuid_user_attr' 		=> 'ldapExpertUUIUserDAttr',
+			'ldap_expert_uuid_group_attr'		=> 'ldapExpertUUIDGroupAttr',
 			'has_memberof_filter_support'		=> 'hasMemberOfFilterSupport',
 		);
 		return $array;
