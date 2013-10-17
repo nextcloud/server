@@ -159,6 +159,22 @@ var LdapWizard = {
 		LdapWizard.functionalityCheck();
 	},
 
+	basicStatusCheck: function() {
+		//criterias to continue from the first tab
+		// - host, port, user filter, agent dn, password, base dn
+		host	= $('#ldap_host').val();
+		port	= $('#ldap_port').val();
+		agent	= $('#ldap_dn').val();
+		pwd		= $('#ldap_agent_password').val();
+		base	= $('#ldap_base').val();
+
+		if(host && port && agent && pwd && base) {
+			$('.ldap_action_continue').removeAttr('disabled');
+		} else {
+			$('.ldap_action_continue').attr('disabled', 'disabled');
+		}
+	},
+
 	checkBaseDN: function() {
 		host = $('#ldap_host').val();
 		port = $('#ldap_port').val();
@@ -243,6 +259,35 @@ var LdapWizard = {
 				// error handling
 			}
 		);
+	},
+
+	controlBack: function() {
+		curTabIndex = $('#ldapSettings').tabs('option', 'active');
+		if(curTabIndex == 0) {
+			return;
+		}
+		if(curTabIndex == 1) {
+			$('.ldap_action_back').addClass('invisible');
+		}
+		$('#ldapSettings').tabs('option', 'active', curTabIndex - 1);
+		if(curTabIndex == 3) {
+			$('.ldap_action_continue').removeClass('invisible');
+		}
+	},
+
+	controlContinue: function() {
+		curTabIndex = $('#ldapSettings').tabs('option', 'active');
+		if(curTabIndex == 3) {
+			return;
+		}
+		$('#ldapSettings').tabs('option', 'active', 1 + curTabIndex);
+		if(curTabIndex == 2) {
+			//now last tab
+			$('.ldap_action_continue').addClass('invisible');
+		}
+		if(curTabIndex == 0) {
+			$('.ldap_action_back').removeClass('invisible');
+		}
 	},
 
 	_countThings: function(method) {
@@ -404,6 +449,7 @@ var LdapWizard = {
 		if($('#ldap_port').val()) {
 			$('#ldap_port').removeClass('invisible');
 		}
+		LdapWizard.basicStatusCheck();
 	},
 
 	initGroupFilter: function() {
@@ -469,6 +515,10 @@ var LdapWizard = {
 		if(triggerObj.id == 'ldap_loginfilter_username'
 		   || triggerObj.id == 'ldap_loginfilter_email') {
 			LdapWizard.composeFilter('login');
+		}
+
+		if($('#ldapSettings').tabs('option', 'active') == 0) {
+			LdapWizard.basicStatusCheck();
 		}
 	},
 
@@ -595,6 +645,14 @@ $(document).ready(function() {
 	$('#toggleRawUserFilter').click(LdapWizard.toggleRawUserFilter);
 	$('#toggleRawGroupFilter').click(LdapWizard.toggleRawGroupFilter);
 	LdapConfiguration.refreshConfig();
+	$('.ldap_action_continue').click(function(event) {
+		event.preventDefault();
+		LdapWizard.controlContinue();
+	});
+	$('.ldap_action_back').click(function(event) {
+		event.preventDefault();
+		LdapWizard.controlBack();
+	});
 	$('#ldap_action_test_connection').click(function(event){
 		event.preventDefault();
 		$.post(

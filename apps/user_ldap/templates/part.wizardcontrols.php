@@ -1,8 +1,9 @@
 <div class="ldapWizardControls">
-	<button id="ldap_action_back" name="ldap_action_back" class="invisible">
+	<button class="ldap_action_back invisible" name="ldap_action_back"
+			type="button">
 		<?php p($l->t('Back'));?>
 	</button>
-	<button id="ldap_action_continue" name="ldap_action_continue">
+	<button class="ldap_action_continue" name="ldap_action_continue" type="button">
 		<?php p($l->t('Continue'));?>
 	</button>
 	<a href="<?php p($theme->getDocBaseUrl()); ?>/server/5.0/admin_manual/auth_ldap.html"
