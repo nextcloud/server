@@ -25,7 +25,7 @@
  * like request timeout.
  */
 
-class OC_DAVClient extends \Sabre_DAV_Client{
+class OC_DAVClient extends \Sabre_DAV_Client {
 
 	protected $requestTimeout;
 
@@ -33,12 +33,12 @@ class OC_DAVClient extends \Sabre_DAV_Client{
 	 * @brief Sets the request timeout or 0 to disable timeout.
 	 * @param int timeout in seconds or 0 to disable
 	 */
-	public function setRequestTimeout($timeout){
+	public function setRequestTimeout($timeout) {
 		$this->requestTimeout = (int)$timeout;
 	}
 
 	protected function curlRequest($url, $settings) {
-		if ($this->requestTimeout > 0){
+		if ($this->requestTimeout > 0) {
 			$settings[CURLOPT_TIMEOUT] = $this->requestTimeout;
 		}
 		return parent::curlRequest($url, $settings);
