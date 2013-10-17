@@ -325,6 +325,7 @@ $(document).ready(function() {
 		  getMimeIcon(mime,function(path){
 			tr.find('td.filename').attr('style','background-image:url('+path+')');
 		  });
+		  FileActions.display(tr.find('td.filename'));
 		});
 		eventSource.listen('error',function(error){
 		  $('#uploadprogressbar').fadeOut();
