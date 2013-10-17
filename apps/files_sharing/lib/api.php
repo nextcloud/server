@@ -132,7 +132,8 @@ class Api {
 		// if there are no shares than there are also no reshares
 		if (count($shares) > 0) {
 			$ids = array();
-			$path = reset($shares)['path'];
+			$firstShare = reset($shares);
+			$path = $firstShare['path'];
 			foreach ($shares as $share) {
 				$ids[] = $share['id'];
 			}
