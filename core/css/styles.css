@@ -798,7 +798,8 @@ div.crumb {
 	background: url('../img/breadcrumb.svg') no-repeat right center;
 	height: 44px;
 }
-div.crumb a {
+div.crumb a,
+div.crumb span {
 	position: relative;
 	top: 12px;
 	padding: 14px 24px 14px 17px;
