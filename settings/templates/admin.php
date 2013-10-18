@@ -104,7 +104,7 @@ if (!$_['internetconnectionworking']) {
 					print_unescaped('checked="checked"');
 				} ?>>
 				<label for="backgroundjobs_webcron">Webcron</label><br/>
-				<em><?php p($l->t("cron.php is registered at a webcron service to call cron.php once a minute over http.")); ?></em>
+				<em><?php p($l->t("cron.php is registered at a webcron service to call cron.php every 15min over http.")); ?></em>
 	</p>
 	<p>
 				<input type="radio" name="mode" value="cron"
@@ -112,7 +112,7 @@ if (!$_['internetconnectionworking']) {
 					print_unescaped('checked="checked"');
 				} ?>>
 				<label for="backgroundjobs_cron">Cron</label><br/>
-				<em><?php p($l->t("Use systems cron service to call the cron.php file once a minute.")); ?></em>
+				<em><?php p($l->t("Use systems cron service to call the cron.php file every 15min.")); ?></em>
 	</p>
 </fieldset>
 
