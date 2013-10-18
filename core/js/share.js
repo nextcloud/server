@@ -204,11 +204,17 @@ OC.Share={
 			html += '<ul id="shareWithList">';
 			html += '</ul>';
 			var linksAllowed = false;
-			$.ajax({type: 'GET', url: OC.filePath('core', 'ajax', 'appconfig.php'), data: { action:'getValue', app:'core', key:'shareapi_allow_links', defaultValue:'yes' }, async: false, success: function(result) {
-				if (result && result.status === 'success' && result.data === 'yes') {
-					linksAllowed = true;
+			$.ajax({
+				type: 'GET',
+				url: OC.filePath('core', 'ajax', 'appconfig.php'),
+				data: { action:'getValue', app:'core', key:'shareapi_allow_links', defaultValue:'yes' },
+				async: false,
+				success: function(result) {
+					if (result && result.status === 'success' && result.data === 'yes') {
+						linksAllowed = true;
+					}
 				}
-			}});
+			});
 			if (link && linksAllowed) {
 				html += '<div id="link">';
 				html += '<input type="checkbox" name="linkCheckbox" id="linkCheckbox" value="1" /><label for="linkCheckbox">'+t('core', 'Share with link')+'</label>';
