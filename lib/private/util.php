@@ -806,7 +806,9 @@ class OC_Util {
 			'baseUri' => OC_Helper::linkToRemote('webdav'),
 		);
 
-		$client = new \Sabre_DAV_Client($settings);
+		$client = new \OC_DAVClient($settings);
+
+		$client->setRequestTimeout(10);
 
 		// for this self test we don't care if the ssl certificate is self signed and the peer cannot be verified.
 		$client->setVerifyPeer(false);
