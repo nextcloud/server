@@ -130,27 +130,18 @@ class Api {
 	private static function addReshares($shares, $itemSource) {
 
 		// if there are no shares than there are also no reshares
-		if (count($shares) > 0) {
-			$ids = array();
-			$firstShare = reset($shares);
+		$firstShare = reset($shares);
+		if ($firstShare) {
 			$path = $firstShare['path'];
-			foreach ($shares as $share) {
-				$ids[] = $share['id'];
-			}
 		} else {
 			return $shares;
 		}
 
 		$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `file_source`, `path` , `permissions`, `stime`, `expiration`, `token`, `storage`, `mail_send`, `mail_send`';
-		$getReshares = \OC_DB::prepare('SELECT ' . $select . ' FROM `*PREFIX*share` INNER JOIN `*PREFIX*filecache` ON `file_source` = `*PREFIX*filecache`.`fileid` WHERE `*PREFIX*share`.`file_source` = ? AND `*PREFIX*share`.`item_type` IN (\'file\', \'folder\')');
-		$reshares = $getReshares->execute(array($itemSource))->fetchAll();
+		$getReshares = \OC_DB::prepare('SELECT ' . $select . ' FROM `*PREFIX*share` INNER JOIN `*PREFIX*filecache` ON `file_source` = `*PREFIX*filecache`.`fileid` WHERE `*PREFIX*share`.`file_source` = ? AND `*PREFIX*share`.`item_type` IN (\'file\', \'folder\') AND `uid_owner` != ?');
+		$reshares = $getReshares->execute(array($itemSource, \OCP\User::getUser()))->fetchAll();
 
 		foreach ($reshares as $key => $reshare) {
-			// remove reshares we already have in the shares array.
-			if (in_array($reshare['id'], $ids)) {
-				unset($reshares[$key]);
-				continue;
-			}
 			if (isset($reshare['share_with']) && $reshare['share_with'] !== '') {
 				$reshares[$key]['share_with_displayname'] = \OCP\User::getDisplayName($reshare['share_with']);
 			}
