@@ -1722,6 +1722,18 @@ class Share {
 	}
 
 	/**
+	 * Delete all shares with type SHARE_TYPE_LINK
+	 */
+	public static function removeAllLinkShares() {
+		// Delete any link shares
+		$query = \OC_DB::prepare('SELECT `id` FROM `*PREFIX*share` WHERE `share_type` = ?');
+		$result = $query->execute(array(self::SHARE_TYPE_LINK));
+		while ($item = $result->fetchRow()) {
+			self::delete($item['id']);
+		}
+	}
+
+	/**
 	* Hook Listeners
 	*/
 
