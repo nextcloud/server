@@ -7,6 +7,7 @@ input#openid, input#webdav { width:20em; }
 
 
 /* PERSONAL */
+#rootcert_import { margin:0 30px 0 0; }
 
 /* Sync clients */
 .clientsbox { margin:12px; }
