@@ -134,6 +134,12 @@ class OC_Appconfig{
 				.' WHERE `appid` = ? AND `configkey` = ?' );
 			$query->execute( array( $value, $app, $key ));
 		}
+		// TODO where should this be documented?
+		\OC_Hook::emit('OC_Appconfig', 'post_set_value', array(
+			'app' => $app,
+			'key' => $key,
+			'value' => $value
+		));
 	}
 
 	/**

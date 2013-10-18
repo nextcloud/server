@@ -960,6 +960,10 @@ class Share {
 				$queryArgs = array($itemType);
 			}
 		}
+		if (\OC_Appconfig::getValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
+			$where .= ' AND `share_type` != ?';
+			$queryArgs[] = self::SHARE_TYPE_LINK;
+		}
 		if (isset($shareType)) {
 			// Include all user and group items
 			if ($shareType == self::$shareTypeUserAndGroups && isset($shareWith)) {
@@ -1714,6 +1718,18 @@ class Share {
 			$ids = "'".implode("','", $ids)."'";
 			$query = \OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `id` IN ('.$ids.')');
 			$query->execute();
+		}
+	}
+
+	/**
+	 * Delete all shares with type SHARE_TYPE_LINK
+	 */
+	public static function removeAllLinkShares() {
+		// Delete any link shares
+		$query = \OC_DB::prepare('SELECT `id` FROM `*PREFIX*share` WHERE `share_type` = ?');
+		$result = $query->execute(array(self::SHARE_TYPE_LINK));
+		while ($item = $result->fetchRow()) {
+			self::delete($item['id']);
 		}
 	}
 
