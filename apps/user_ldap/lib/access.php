@@ -1021,7 +1021,7 @@ class Access extends LDAPUtility {
 		$bases = $this->sanitizeDN($bases);
 		foreach($bases as $base) {
 			$belongsToBase = true;
-			if(mb_strripos($dn, $base, 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($base))) {
+			if(mb_strripos($dn, $base, 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($base, 'UTF-8'))) {
 				$belongsToBase = false;
 			}
 			if($belongsToBase) {
