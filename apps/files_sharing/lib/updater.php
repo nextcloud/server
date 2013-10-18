@@ -34,7 +34,7 @@ class Shared_Updater {
 		$info = \OC\Files\Filesystem::getFileInfo($target);
 		$checkedUser = array($uidOwner);
 		// Correct Shared folders of other users shared with
-		$users = \OCP\Share::getUsersItemShared('file', $info['fileid'], $currentOwner, true);
+		$users = \OCP\Share::getUsersItemShared('file', $info['fileid'], $uidOwner, true);
 		if (!empty($users)) {
 			while (!empty($users)) {
 				$reshareUsers = array();
