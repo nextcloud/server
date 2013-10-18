@@ -39,7 +39,7 @@ class Shared_Updater {
 			while (!empty($users)) {
 				$reshareUsers = array();
 				foreach ($users as $user) {
-					if ( in_array($user, $checkedUser) ) {
+					if ( !in_array($user, $checkedUser) ) {
 						$etag = \OC\Files\Filesystem::getETag('');
 						\OCP\Config::setUserValue($user, 'files_sharing', 'etag', $etag);
 						// Look for reshares
