@@ -61,6 +61,7 @@ class OC_Log_Owncloud {
 			$entry=array('app'=>$app, 'message'=>$message, 'level'=>$level, 'time'=> $time->format($format));
 			$entry = json_encode($entry);
 			$handle = @fopen(self::$logFile, 'a');
+			@chmod(self::$logFile, 0640);
 			if ($handle) {
 				fwrite($handle, $entry."\n");
 				fclose($handle);
