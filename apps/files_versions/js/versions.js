@@ -1,5 +1,12 @@
 $(document).ready(function(){
 
+	if ($('#isPublic').val()){
+		// no versions actions in public mode
+		// beware of https://github.com/owncloud/core/issues/4545
+		// as enabling this might hang Chrome
+		return;
+	}
+
 	if (typeof FileActions !== 'undefined') {
 		// Add versions button to 'files/index.php'
 		FileActions.register(
