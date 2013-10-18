@@ -301,7 +301,7 @@ $(document).ready(function() {
 	});
 
 	$('.download').click('click',function(event) {
-		var files=getSelectedFiles('name');
+		var files=getSelectedFilesTrash('name');
 		var fileslist = JSON.stringify(files);
 		var dir=$('#dir').val()||'/';
 		OC.Notification.show(t('files','Your download is being prepared. This might take some time if the files are big.'));
@@ -315,7 +315,7 @@ $(document).ready(function() {
 	});
 
 	$('.delete-selected').click(function(event) {
-		var files=getSelectedFiles('name');
+		var files=getSelectedFilesTrash('name');
 		event.preventDefault();
 		FileList.do_delete(files);
 		return false;
@@ -433,7 +433,7 @@ var createDragShadow = function(event){
 		$(event.target).parents('tr').find('td input:first').prop('checked',true);
 	}
 
-	var selectedFiles = getSelectedFiles();
+	var selectedFiles = getSelectedFilesTrash();
 
 	if (!isDragSelected && selectedFiles.length == 1) {
 		//revert the selection
@@ -562,7 +562,7 @@ var crumbDropOptions={
 }
 
 function procesSelection(){
-	var selected=getSelectedFiles();
+	var selected=getSelectedFilesTrash();
 	var selectedFiles=selected.filter(function(el){return el.type=='file'});
 	var selectedFolders=selected.filter(function(el){return el.type=='dir'});
 	if(selectedFiles.length==0 && selectedFolders.length==0) {
@@ -607,7 +607,7 @@ function procesSelection(){
  * if property is set, an array with that property for each file is returnd
  * if it's ommited an array of objects with all properties is returned
  */
-function getSelectedFiles(property){
+function getSelectedFilesTrash(property){
 	var elements=$('td.filename input:checkbox:checked').parent().parent();
 	var files=[];
 	elements.each(function(i,element){
