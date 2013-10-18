@@ -893,7 +893,9 @@ abstract class Access {
 		if(!$testConnection->setConfiguration($credentials)) {
 			return false;
 		}
-		return $testConnection->bind();
+		$result=$testConnection->bind();
+		$this->connection->bind();
+		return $result;
 	}
 
 	/**
