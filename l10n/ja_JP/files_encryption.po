@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-13 20:29-0400\n"
-"PO-Revision-Date: 2013-10-14 00:29+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-19 08:26-0400\n"
+"PO-Revision-Date: 2013-10-19 05:50+0000\n"
+"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -61,7 +61,7 @@ msgid ""
 "Encryption app not initialized! Maybe the encryption app was re-enabled "
 "during your session. Please try to log out and log back in to initialize the"
 " encryption app."
-msgstr ""
+msgstr "暗号化アプリが初期化されていません。暗号化アプリが接続中に再度有効かされた可能性があります。暗号化アプリを初期化する為に、１回ログアウトしてログインしなおしてください。"
 
 #: files/error.php:15
 msgid ""
@@ -75,13 +75,13 @@ msgstr "秘密鍵が有効ではありません。パスワードがownCloudシ�
 msgid ""
 "Can not decrypt this file, probably this is a shared file. Please ask the "
 "file owner to reshare the file with you."
-msgstr ""
+msgstr "このファイルを復号化できません、共有ファイルの可能性があります。ファイルの所有者にお願いして、ファイルを共有しなおしてもらってください。"
 
 #: files/error.php:21 files/error.php:26
 msgid ""
 "Unknown error please check your system settings or contact your "
 "administrator"
-msgstr ""
+msgstr "不明なエラーです。システム設定を確認するか、管理者に問い合わせてください。"
 
 #: hooks/hooks.php:53
 msgid "Missing requirements."
@@ -104,7 +104,7 @@ msgstr "保存中..."
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "
-msgstr ""
+msgstr "あなたのディレクトリへ"
 
 #: templates/invalid_private_key.php:8
 msgid "personal settings"
@@ -125,7 +125,7 @@ msgstr "復旧キーのパスワード"
 
 #: templates/settings-admin.php:14
 msgid "Repeat Recovery key password"
-msgstr ""
+msgstr "復旧キーのパスワードをもう一度入力"
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:51
 msgid "Enabled"
@@ -149,7 +149,7 @@ msgstr "新しい復旧キーのパスワード"
 
 #: templates/settings-admin.php:53
 msgid "Repeat New Recovery key password"
-msgstr ""
+msgstr "新しい復旧キーのパスワードをもう一度入力"
 
 #: templates/settings-admin.php:58
 msgid "Change Password"

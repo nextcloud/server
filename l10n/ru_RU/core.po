@@ -3,482 +3,488 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
-# plazmism <gomidori@live.jp>, 2013
-# Koichi MATSUMOTO <mzch@me.com>, 2013
-# tt yn <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
 "POT-Creation-Date: 2013-10-19 08:26-0400\n"
-"PO-Revision-Date: 2013-10-19 06:00+0000\n"
-"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
-"Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
+"PO-Revision-Date: 2013-10-18 09:31+0000\n"
+"Last-Translator: masensio <masensio@solidgear.es>\n"
+"Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ja_JP\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: ru_RU\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: ajax/share.php:118 ajax/share.php:197
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr "%sが あなたと »%s«を共有しました"
+msgstr ""
 
 #: ajax/share.php:168
 #, php-format
 msgid "Couldn't send mail to following users: %s "
-msgstr "次のユーザにメールを送信できませんでした: %s"
+msgstr ""
 
 #: ajax/share.php:327 js/share.js:338
 msgid "group"
-msgstr "グループ"
+msgstr ""
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
-msgstr "メンテナンスモードがオンになりました"
+msgstr ""
 
 #: ajax/update.php:14
 msgid "Turned off maintenance mode"
-msgstr "メンテナンスモードがオフになりました"
+msgstr ""
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr "データベース更新完了"
+msgstr ""
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
-msgstr "ファイルキャッシュを更新しています、しばらく掛かる恐れがあります..."
+msgstr ""
 
 #: ajax/update.php:23
 msgid "Updated filecache"
-msgstr "ファイルキャッシュ更新完了"
+msgstr ""
 
 #: ajax/update.php:26
 #, php-format
 msgid "... %d%% done ..."
-msgstr "... %d%% 完了 ..."
+msgstr ""
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
-msgstr "画像もしくはファイルが提供されていません"
+msgstr ""
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
-msgstr "不明なファイルタイプ"
+msgstr ""
 
 #: avatar/controller.php:85
 msgid "Invalid image"
-msgstr "無効な画像"
+msgstr ""
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
-msgstr "一時的なプロファイル用画像が利用できません。もう一度試して下さい"
+msgstr ""
 
 #: avatar/controller.php:135
 msgid "No crop data provided"
-msgstr "クロップデータは提供されません"
+msgstr ""
 
 #: js/config.php:32
 msgid "Sunday"
-msgstr "日"
+msgstr ""
 
 #: js/config.php:33
 msgid "Monday"
-msgstr "月"
+msgstr ""
 
 #: js/config.php:34
 msgid "Tuesday"
-msgstr "火"
+msgstr ""
 
 #: js/config.php:35
 msgid "Wednesday"
-msgstr "水"
+msgstr ""
 
 #: js/config.php:36
 msgid "Thursday"
-msgstr "木"
+msgstr ""
 
 #: js/config.php:37
 msgid "Friday"
-msgstr "金"
+msgstr ""
 
 #: js/config.php:38
 msgid "Saturday"
-msgstr "土"
+msgstr ""
 
 #: js/config.php:43
 msgid "January"
-msgstr "1月"
+msgstr ""
 
 #: js/config.php:44
 msgid "February"
-msgstr "2月"
+msgstr ""
 
 #: js/config.php:45
 msgid "March"
-msgstr "3月"
+msgstr ""
 
 #: js/config.php:46
 msgid "April"
-msgstr "4月"
+msgstr ""
 
 #: js/config.php:47
 msgid "May"
-msgstr "5月"
+msgstr ""
 
 #: js/config.php:48
 msgid "June"
-msgstr "6月"
+msgstr ""
 
 #: js/config.php:49
 msgid "July"
-msgstr "7月"
+msgstr ""
 
 #: js/config.php:50
 msgid "August"
-msgstr "8月"
+msgstr ""
 
 #: js/config.php:51
 msgid "September"
-msgstr "9月"
+msgstr ""
 
 #: js/config.php:52
 msgid "October"
-msgstr "10月"
+msgstr ""
 
 #: js/config.php:53
 msgid "November"
-msgstr "11月"
+msgstr ""
 
 #: js/config.php:54
 msgid "December"
-msgstr "12月"
+msgstr ""
 
 #: js/js.js:387
 msgid "Settings"
-msgstr "設定"
+msgstr "Настройки"
 
 #: js/js.js:858
 msgid "seconds ago"
-msgstr "数秒前"
+msgstr ""
 
 #: js/js.js:859
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] "%n 分前"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: js/js.js:860
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] "%n 時間後"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: js/js.js:861
 msgid "today"
-msgstr "今日"
+msgstr ""
 
 #: js/js.js:862
 msgid "yesterday"
-msgstr "昨日"
+msgstr ""
 
 #: js/js.js:863
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] "%n 日後"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: js/js.js:864
 msgid "last month"
-msgstr "一月前"
+msgstr ""
 
 #: js/js.js:865
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] "%n カ月後"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: js/js.js:866
 msgid "months ago"
-msgstr "月前"
+msgstr ""
 
 #: js/js.js:867
 msgid "last year"
-msgstr "一年前"
+msgstr ""
 
 #: js/js.js:868
 msgid "years ago"
-msgstr "年前"
+msgstr ""
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
-msgstr "選択"
+msgstr ""
 
 #: js/oc-dialogs.js:146
 msgid "Error loading file picker template: {error}"
-msgstr "ファイル選択テンプレートの読み込みエラー: {error}"
+msgstr ""
 
 #: js/oc-dialogs.js:172
 msgid "Yes"
-msgstr "はい"
+msgstr "Да"
 
 #: js/oc-dialogs.js:182
 msgid "No"
-msgstr "いいえ"
+msgstr "Нет"
 
 #: js/oc-dialogs.js:199
 msgid "Ok"
-msgstr "OK"
+msgstr ""
 
 #: js/oc-dialogs.js:219
 msgid "Error loading message template: {error}"
-msgstr "メッセージテンプレートの読み込みエラー: {error}"
+msgstr ""
 
 #: js/oc-dialogs.js:347
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
-msgstr[0] "{count} ファイルが競合"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: js/oc-dialogs.js:361
 msgid "One file conflict"
-msgstr "1ファイルが競合"
+msgstr ""
 
 #: js/oc-dialogs.js:367
 msgid "Which files do you want to keep?"
-msgstr "どちらのファイルを保持したいですか？"
+msgstr ""
 
 #: js/oc-dialogs.js:368
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
-msgstr "両方のバージョンを選択した場合は、ファイル名の後ろに数字を追加したファイルのコピーを作成します。"
+msgstr ""
 
 #: js/oc-dialogs.js:376
 msgid "Cancel"
-msgstr "キャンセル"
+msgstr "Отмена"
 
 #: js/oc-dialogs.js:386
 msgid "Continue"
-msgstr "続ける"
+msgstr ""
 
 #: js/oc-dialogs.js:433 js/oc-dialogs.js:446
 msgid "(all selected)"
-msgstr "(全て選択)"
+msgstr ""
 
 #: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "({count} selected)"
-msgstr "({count} 選択)"
+msgstr ""
 
 #: js/oc-dialogs.js:457
 msgid "Error loading file exists template"
-msgstr "既存ファイルのテンプレートの読み込みエラー"
+msgstr ""
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
-msgstr "共有中"
+msgstr ""
 
 #: js/share.js:109
 msgid "Share"
-msgstr "共有"
+msgstr "Сделать общим"
 
 #: js/share.js:149 js/share.js:162 js/share.js:169 js/share.js:701
 #: js/share.js:713
 msgid "Error"
-msgstr "エラー"
+msgstr "Ошибка"
 
 #: js/share.js:151 js/share.js:741
 msgid "Error while sharing"
-msgstr "共有でエラー発生"
+msgstr ""
 
 #: js/share.js:162
 msgid "Error while unsharing"
-msgstr "共有解除でエラー発生"
+msgstr ""
 
 #: js/share.js:169
 msgid "Error while changing permissions"
-msgstr "権限変更でエラー発生"
+msgstr ""
 
 #: js/share.js:178
 msgid "Shared with you and the group {group} by {owner}"
-msgstr "あなたと {owner} のグループ {group} で共有中"
+msgstr ""
 
 #: js/share.js:180
 msgid "Shared with you by {owner}"
-msgstr "{owner} と共有中"
+msgstr ""
 
 #: js/share.js:203
 msgid "Share with"
-msgstr "共有者"
+msgstr ""
 
 #: js/share.js:220
 msgid "Share with link"
-msgstr "URLリンクで共有"
+msgstr ""
 
 #: js/share.js:223
 msgid "Password protect"
-msgstr "パスワード保護"
+msgstr ""
 
 #: js/share.js:225 templates/installation.php:57 templates/login.php:32
 msgid "Password"
-msgstr "パスワード"
+msgstr "Пароль"
 
 #: js/share.js:230
 msgid "Allow Public Upload"
-msgstr "アップロードを許可"
+msgstr ""
 
 #: js/share.js:234
 msgid "Email link to person"
-msgstr "メールリンク"
+msgstr ""
 
 #: js/share.js:235
 msgid "Send"
-msgstr "送信"
+msgstr ""
 
 #: js/share.js:240
 msgid "Set expiration date"
-msgstr "有効期限を設定"
+msgstr ""
 
 #: js/share.js:241
 msgid "Expiration date"
-msgstr "有効期限"
+msgstr ""
 
 #: js/share.js:274
 msgid "Share via email:"
-msgstr "メール経由で共有:"
+msgstr ""
 
 #: js/share.js:277
 msgid "No people found"
-msgstr "ユーザーが見つかりません"
+msgstr ""
 
 #: js/share.js:315
 msgid "Resharing is not allowed"
-msgstr "再共有は許可されていません"
+msgstr ""
 
 #: js/share.js:354
 msgid "Shared in {item} with {user}"
-msgstr "{item} 内で {user} と共有中"
+msgstr ""
 
 #: js/share.js:375
 msgid "Unshare"
-msgstr "共有解除"
+msgstr ""
 
 #: js/share.js:387
 msgid "notify user by email"
-msgstr "ユーザにメールで通知"
+msgstr ""
 
 #: js/share.js:395
 msgid "can edit"
-msgstr "編集可能"
+msgstr ""
 
 #: js/share.js:397
 msgid "access control"
-msgstr "アクセス権限"
+msgstr ""
 
 #: js/share.js:400
 msgid "create"
-msgstr "作成"
+msgstr ""
 
 #: js/share.js:403
 msgid "update"
-msgstr "更新"
+msgstr ""
 
 #: js/share.js:406
 msgid "delete"
-msgstr "削除"
+msgstr ""
 
 #: js/share.js:409
 msgid "share"
-msgstr "共有"
+msgstr ""
 
 #: js/share.js:443 js/share.js:688
 msgid "Password protected"
-msgstr "パスワード保護"
+msgstr ""
 
 #: js/share.js:701
 msgid "Error unsetting expiration date"
-msgstr "有効期限の未設定エラー"
+msgstr ""
 
 #: js/share.js:713
 msgid "Error setting expiration date"
-msgstr "有効期限の設定でエラー発生"
+msgstr ""
 
 #: js/share.js:728
 msgid "Sending ..."
-msgstr "送信中..."
+msgstr ""
 
 #: js/share.js:739
 msgid "Email sent"
-msgstr "メールを送信しました"
+msgstr ""
 
 #: js/share.js:763
 msgid "Warning"
-msgstr "警告"
+msgstr "Предупреждение"
 
 #: js/tags.js:4
 msgid "The object type is not specified."
-msgstr "オブジェクタイプが指定されていません。"
+msgstr ""
 
 #: js/tags.js:13
 msgid "Enter new"
-msgstr "新規に入力"
+msgstr ""
 
 #: js/tags.js:27
 msgid "Delete"
-msgstr "削除"
+msgstr ""
 
 #: js/tags.js:31
 msgid "Add"
-msgstr "追加"
+msgstr ""
 
 #: js/tags.js:39
 msgid "Edit tags"
-msgstr "タグを編集"
+msgstr ""
 
 #: js/tags.js:57
 msgid "Error loading dialog template: {error}"
-msgstr "メッセージテンプレートの読み込みエラー: {error}"
+msgstr ""
 
 #: js/tags.js:261
 msgid "No tags selected for deletion."
-msgstr "削除するタグが選択されていません。"
+msgstr ""
 
 #: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr "更新に成功しました。この問題を <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a> にレポートしてください。"
+msgstr ""
 
 #: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr "更新に成功しました。今すぐownCloudにリダイレクトします。"
+msgstr ""
 
 #: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
-msgstr "%s パスワードリセット"
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr "パスワードをリセットするには次のリンクをクリックして下さい: {link}"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:4
 msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr "パスワードリセットのリンクをあなたのメールアドレスに送信しました。<br>しばらくたっても受信出来ない場合は、スパム／迷惑メールフォルダを確認して下さい。<br>もしそこにもない場合は、管理者に問い合わせてください。"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:12
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr "リクエストに失敗しました！<br>あなたのメール／ユーザ名が正しいことを確認しましたか？"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
-msgstr "メールでパスワードをリセットするリンクが届きます。"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
 #: templates/login.php:25
 msgid "Username"
-msgstr "ユーザー名"
+msgstr "Имя пользователя"
 
 #: lostpassword/templates/lostpassword.php:22
 msgid ""
@@ -486,87 +492,87 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr "ファイルが暗号化されています。復旧キーを有効にしていなかった場合、パスワードをリセットしてからデータを復旧する方法はありません。何をすべきかよくわからないなら、続ける前にまず管理者に連絡しましょう。本当に続けますか？"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:24
 msgid "Yes, I really want to reset my password now"
-msgstr "はい、今すぐパスワードをリセットします。"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Request reset"
-msgstr "リセットを要求します。"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr "あなたのパスワードはリセットされました。"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr "ログインページへ戻る"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr "新しいパスワードを入力"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr "パスワードをリセット"
+msgstr ""
 
 #: strings.php:5
 msgid "Personal"
-msgstr "個人"
+msgstr ""
 
 #: strings.php:6
 msgid "Users"
-msgstr "ユーザ"
+msgstr ""
 
 #: strings.php:7 templates/layout.user.php:110
 msgid "Apps"
-msgstr "アプリ"
+msgstr ""
 
 #: strings.php:8
 msgid "Admin"
-msgstr "管理"
+msgstr ""
 
 #: strings.php:9
 msgid "Help"
-msgstr "ヘルプ"
+msgstr ""
 
 #: tags/controller.php:22
 msgid "Error loading tags"
-msgstr "タグの読み込みエラー"
+msgstr ""
 
 #: tags/controller.php:48
 msgid "Tag already exists"
-msgstr "タグはすでに存在します"
+msgstr ""
 
 #: tags/controller.php:64
 msgid "Error deleting tag(s)"
-msgstr "タグの削除エラー"
+msgstr ""
 
 #: tags/controller.php:75
 msgid "Error tagging"
-msgstr "タグの付与エラー"
+msgstr ""
 
 #: tags/controller.php:86
 msgid "Error untagging"
-msgstr "タグの解除エラー"
+msgstr ""
 
 #: tags/controller.php:97
 msgid "Error favoriting"
-msgstr "お気に入りに追加エラー"
+msgstr ""
 
 #: tags/controller.php:108
 msgid "Error unfavoriting"
-msgstr "お気に入りから削除エラー"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr "アクセスが禁止されています"
+msgstr ""
 
 #: templates/404.php:15
 msgid "Cloud not found"
-msgstr "見つかりません"
+msgstr ""
 
 #: templates/altmail.php:2
 #, php-format
@@ -576,168 +582,168 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-msgstr "こんにちは、\n\n%s があなたと %s を共有したことをお知らせします。\nそれを表示: %s\n"
+msgstr ""
 
 #: templates/altmail.php:4
 #, php-format
 msgid ""
 "The share will expire on %s.\n"
 "\n"
-msgstr "共有は %s で有効期限が切れます。\n\n"
+msgstr ""
 
 #: templates/altmail.php:6 templates/mail.php:19
 msgid "Cheers!"
-msgstr "それでは！"
+msgstr ""
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
 msgid "Security Warning"
-msgstr "セキュリティ警告"
+msgstr ""
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr "あなたのPHPのバージョンには、Null Byte攻撃(CVE-2006-7243)という脆弱性が含まれています。"
+msgstr ""
 
 #: templates/installation.php:26
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr "%s を安全に利用する為に インストールされているPHPをアップデートしてください。"
+msgstr ""
 
 #: templates/installation.php:32
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr "セキュアな乱数生成器が利用可能ではありません。PHPのOpenSSL拡張を有効にして下さい。"
+msgstr ""
 
 #: templates/installation.php:33
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr "セキュアな乱数生成器が無い場合、攻撃者がパスワードリセットのトークンを予測してアカウントを乗っ取られる可能性があります。"
+msgstr ""
 
 #: templates/installation.php:39
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ".htaccess ファイルが動作していないため、おそらくあなたのデータディレクトリもしくはファイルはインターネットからアクセス可能です。"
+msgstr ""
 
 #: templates/installation.php:41
 #, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr "サーバーを適正に設定する情報は、こちらの<a href=\"%s\" target=\"_blank\">ドキュメント</a>を参照してください。"
+msgstr ""
 
 #: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
-msgstr "<strong>管理者アカウント</strong>を作成してください"
+msgstr ""
 
 #: templates/installation.php:66
 msgid "Advanced"
-msgstr "詳細設定"
+msgstr ""
 
 #: templates/installation.php:73
 msgid "Data folder"
-msgstr "データフォルダ"
+msgstr ""
 
 #: templates/installation.php:85
 msgid "Configure the database"
-msgstr "データベースを設定してください"
+msgstr ""
 
 #: templates/installation.php:90 templates/installation.php:102
 #: templates/installation.php:113 templates/installation.php:124
 #: templates/installation.php:136
 msgid "will be used"
-msgstr "が使用されます"
+msgstr ""
 
 #: templates/installation.php:148
 msgid "Database user"
-msgstr "データベースのユーザ名"
+msgstr ""
 
 #: templates/installation.php:155
 msgid "Database password"
-msgstr "データベースのパスワード"
+msgstr ""
 
 #: templates/installation.php:160
 msgid "Database name"
-msgstr "データベース名"
+msgstr ""
 
 #: templates/installation.php:168
 msgid "Database tablespace"
-msgstr "データベースの表領域"
+msgstr ""
 
 #: templates/installation.php:175
 msgid "Database host"
-msgstr "データベースのホスト名"
+msgstr ""
 
 #: templates/installation.php:184
 msgid "Finish setup"
-msgstr "セットアップを完了します"
+msgstr ""
 
 #: templates/installation.php:184
 msgid "Finishing …"
-msgstr "終了しています ..."
+msgstr ""
 
 #: templates/layout.user.php:43
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr "%s が利用可能です。更新方法に関してさらに情報を取得して下さい。"
+msgstr ""
 
 #: templates/layout.user.php:71
 msgid "Log out"
-msgstr "ログアウト"
+msgstr ""
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
-msgstr "自動ログインは拒否されました！"
+msgstr ""
 
 #: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr "最近パスワードを変更していない場合、あなたのアカウントは危険にさらされているかもしれません。"
+msgstr ""
 
 #: templates/login.php:12
 msgid "Please change your password to secure your account again."
-msgstr "アカウント保護の為、パスワードを再度の変更をお願いいたします。"
+msgstr ""
 
 #: templates/login.php:17
 msgid "Server side authentication failed!"
-msgstr "サーバサイドの認証に失敗しました！"
+msgstr ""
 
 #: templates/login.php:18
 msgid "Please contact your administrator."
-msgstr "管理者に問い合わせてください。"
+msgstr ""
 
 #: templates/login.php:38
 msgid "Lost your password?"
-msgstr "パスワードを忘れましたか？"
+msgstr ""
 
 #: templates/login.php:43
 msgid "remember"
-msgstr "パスワードを記憶する"
+msgstr ""
 
 #: templates/login.php:46
 msgid "Log in"
-msgstr "ログイン"
+msgstr ""
 
 #: templates/login.php:52
 msgid "Alternative Logins"
-msgstr "代替ログイン"
+msgstr ""
 
 #: templates/mail.php:15
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>"
-msgstr "こんにちは、<br><br>%sがあなたと »%s« を共有したことをお知らせします。<br><a href=\"%s\">それを表示</a><br><br>"
+msgstr ""
 
 #: templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s.<br><br>"
-msgstr "共有は %s で有効期限が切れます。<br><br>"
+msgstr ""
 
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr "ownCloud をバージョン %s に更新しています、しばらくお待ち下さい。"
+msgstr ""

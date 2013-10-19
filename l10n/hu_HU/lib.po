@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# sherlock79 <david@interpont.hu>, 2013
 # ebela <bela@dandre.hu>, 2013
 # Laszlo Tornoci <torlasz@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-17 13:47-0400\n"
-"PO-Revision-Date: 2013-10-17 17:47+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-19 08:26-0400\n"
+"PO-Revision-Date: 2013-10-18 20:00+0000\n"
+"Last-Translator: sherlock79 <david@interpont.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr ""
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr ""
+msgstr "A(z) \"%s\" alkalmazást nem lehet telepíteni, mert nem kompatibilis az ownCloud telepített verziójával."
 
 #: private/app.php:254
 msgid "No app name specified"
@@ -96,24 +97,24 @@ msgstr "Tölts le a fileokat kisebb chunkokban, kölün vagy kérj segitséget a
 
 #: private/installer.php:63
 msgid "No source specified when installing app"
-msgstr ""
+msgstr "Az alkalmazás telepítéséhez nincs forrás megadva"
 
 #: private/installer.php:70
 msgid "No href specified when installing app from http"
-msgstr ""
+msgstr "Az alkalmazás http-n keresztül történő telepítéséhez nincs href hivetkozás megadva"
 
 #: private/installer.php:75
 msgid "No path specified when installing app from local file"
-msgstr ""
+msgstr "Az alkalmazás helyi telepítéséhez nincs útvonal (mappa) megadva"
 
 #: private/installer.php:89
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr ""
+msgstr "A(z) %s típusú tömörített állomány nem támogatott"
 
 #: private/installer.php:103
 msgid "Failed to open archive when installing app"
-msgstr ""
+msgstr "Nem sikerült megnyitni a tömörített állományt a telepítés során"
 
 #: private/installer.php:125
 msgid "App does not provide an info.xml file"
@@ -121,7 +122,7 @@ msgstr "Az alkalmazás nem szolgáltatott info.xml file-t"
 
 #: private/installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
-msgstr ""
+msgstr "Az alkalmazást nem lehet telepíteni, mert abban nem engedélyezett programkód szerepel"
 
 #: private/installer.php:140
 msgid ""
@@ -133,13 +134,13 @@ msgstr "Az alalmazás nem telepíthető, mert nem kompatibilis az ownClod ezzel 
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
-msgstr ""
+msgstr "Az alkalmazást nem lehet telepíteni, mert tartalmazza a \n<shipped>\ntrue\n</shipped>\ncímkét, ami a nem szállított alkalmazások esetén nem engedélyezett"
 
 #: private/installer.php:152
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr ""
+msgstr "Az alkalmazást nem lehet telepíteni, mert az info.xml/version-ben megadott verzió nem egyezik az alkalmazás-áruházban feltüntetett verzióval."
 
 #: private/installer.php:162
 msgid "App directory already exists"
@@ -294,13 +295,13 @@ msgstr "pár másodperce"
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n perccel ezelőtt"
 
 #: private/template/functions.php:124
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n órával ezelőtt"
+msgstr[1] "%n órával ezelőtt"
 
 #: private/template/functions.php:125
 msgid "today"
@@ -313,8 +314,8 @@ msgstr "tegnap"
 #: private/template/functions.php:128
 msgid "%n day go"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n nappal ezelőtt"
+msgstr[1] "%n nappal ezelőtt"
 
 #: private/template/functions.php:130
 msgid "last month"
@@ -323,8 +324,8 @@ msgstr "múlt hónapban"
 #: private/template/functions.php:131
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n hónappal ezelőtt"
+msgstr[1] "%n hónappal ezelőtt"
 
 #: private/template/functions.php:133
 msgid "last year"

@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-17 13:47-0400\n"
-"PO-Revision-Date: 2013-10-16 14:00+0000\n"
-"Last-Translator: polxmod <paolo.velati@gmail.com>\n"
+"POT-Creation-Date: 2013-10-19 08:26-0400\n"
+"PO-Revision-Date: 2013-10-17 18:30+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,7 +31,7 @@ msgstr "%s ha condiviso «%s» con te"
 msgid "Couldn't send mail to following users: %s "
 msgstr "Impossibile inviare email ai seguenti utenti: %s"
 
-#: ajax/share.php:327
+#: ajax/share.php:327 js/share.js:338
 msgid "group"
 msgstr "gruppo"
 
@@ -284,12 +284,12 @@ msgstr "Condivisi"
 msgid "Share"
 msgstr "Condividi"
 
-#: js/share.js:149 js/share.js:162 js/share.js:169 js/share.js:686
-#: js/share.js:698
+#: js/share.js:149 js/share.js:162 js/share.js:169 js/share.js:701
+#: js/share.js:713
 msgid "Error"
 msgstr "Errore"
 
-#: js/share.js:151 js/share.js:726
+#: js/share.js:151 js/share.js:741
 msgid "Error while sharing"
 msgstr "Errore durante la condivisione"
 
@@ -313,107 +313,107 @@ msgstr "Condiviso con te da {owner}"
 msgid "Share with"
 msgstr "Condividi con"
 
-#: js/share.js:208
+#: js/share.js:220
 msgid "Share with link"
 msgstr "Condividi con collegamento"
 
-#: js/share.js:211
+#: js/share.js:223
 msgid "Password protect"
 msgstr "Proteggi con password"
 
-#: js/share.js:213 templates/installation.php:57 templates/login.php:32
+#: js/share.js:225 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "Password"
 
-#: js/share.js:218
+#: js/share.js:230
 msgid "Allow Public Upload"
 msgstr "Consenti caricamento pubblico"
 
-#: js/share.js:222
+#: js/share.js:234
 msgid "Email link to person"
 msgstr "Invia collegamento via email"
 
-#: js/share.js:223
+#: js/share.js:235
 msgid "Send"
 msgstr "Invia"
 
-#: js/share.js:228
+#: js/share.js:240
 msgid "Set expiration date"
 msgstr "Imposta data di scadenza"
 
-#: js/share.js:229
+#: js/share.js:241
 msgid "Expiration date"
 msgstr "Data di scadenza"
 
-#: js/share.js:262
+#: js/share.js:274
 msgid "Share via email:"
 msgstr "Condividi tramite email:"
 
-#: js/share.js:265
+#: js/share.js:277
 msgid "No people found"
 msgstr "Non sono state trovate altre persone"
 
-#: js/share.js:303
+#: js/share.js:315
 msgid "Resharing is not allowed"
 msgstr "La ri-condivisione non è consentita"
 
-#: js/share.js:339
+#: js/share.js:354
 msgid "Shared in {item} with {user}"
 msgstr "Condiviso in {item} con {user}"
 
-#: js/share.js:360
+#: js/share.js:375
 msgid "Unshare"
 msgstr "Rimuovi condivisione"
 
-#: js/share.js:372
+#: js/share.js:387
 msgid "notify user by email"
 msgstr "notifica l'utente tramite email"
 
-#: js/share.js:380
+#: js/share.js:395
 msgid "can edit"
 msgstr "può modificare"
 
-#: js/share.js:382
+#: js/share.js:397
 msgid "access control"
 msgstr "controllo d'accesso"
 
-#: js/share.js:385
+#: js/share.js:400
 msgid "create"
 msgstr "creare"
 
-#: js/share.js:388
+#: js/share.js:403
 msgid "update"
 msgstr "aggiornare"
 
-#: js/share.js:391
+#: js/share.js:406
 msgid "delete"
 msgstr "elimina"
 
-#: js/share.js:394
+#: js/share.js:409
 msgid "share"
 msgstr "condividi"
 
-#: js/share.js:428 js/share.js:673
+#: js/share.js:443 js/share.js:688
 msgid "Password protected"
 msgstr "Protetta da password"
 
-#: js/share.js:686
+#: js/share.js:701
 msgid "Error unsetting expiration date"
 msgstr "Errore durante la rimozione della data di scadenza"
 
-#: js/share.js:698
+#: js/share.js:713
 msgid "Error setting expiration date"
 msgstr "Errore durante l'impostazione della data di scadenza"
 
-#: js/share.js:713
+#: js/share.js:728
 msgid "Sending ..."
 msgstr "Invio in corso..."
 
-#: js/share.js:724
+#: js/share.js:739
 msgid "Email sent"
 msgstr "Messaggio inviato"
 
-#: js/share.js:748
+#: js/share.js:763
 msgid "Warning"
 msgstr "Avviso"
 
@@ -435,15 +435,15 @@ msgstr "Aggiungi"
 
 #: js/tags.js:39
 msgid "Edit tags"
-msgstr "Modifica tag"
+msgstr "Modifica etichette"
 
 #: js/tags.js:57
 msgid "Error loading dialog template: {error}"
-msgstr ""
+msgstr "Errore durante il caricamento del modello di finestra: {error}"
 
 #: js/tags.js:261
 msgid "No tags selected for deletion."
-msgstr "Nessuna tag selezionata per l'eliminazione."
+msgstr "Nessuna etichetta selezionata per l'eliminazione."
 
 #: js/update.js:17
 msgid ""
@@ -539,31 +539,31 @@ msgstr "Aiuto"
 
 #: tags/controller.php:22
 msgid "Error loading tags"
-msgstr "Errore di caricamento tag"
+msgstr "Errore di caricamento delle etichette"
 
 #: tags/controller.php:48
 msgid "Tag already exists"
-msgstr ""
+msgstr "L'etichetta esiste già"
 
 #: tags/controller.php:64
 msgid "Error deleting tag(s)"
-msgstr ""
+msgstr "Errore di eliminazione delle etichette"
 
 #: tags/controller.php:75
 msgid "Error tagging"
-msgstr ""
+msgstr "Errore di assegnazione delle etichette"
 
 #: tags/controller.php:86
 msgid "Error untagging"
-msgstr ""
+msgstr "Errore di rimozione delle etichette"
 
 #: tags/controller.php:97
 msgid "Error favoriting"
-msgstr ""
+msgstr "Errore di creazione dei preferiti"
 
 #: tags/controller.php:108
 msgid "Error unfavoriting"
-msgstr ""
+msgstr "Errore di rimozione dai preferiti"
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -708,11 +708,11 @@ msgstr "Cambia la password per rendere nuovamente sicuro il tuo account."
 
 #: templates/login.php:17
 msgid "Server side authentication failed!"
-msgstr "Autenticazione lato server faillita!"
+msgstr "Autenticazione lato server non riuscita!"
 
 #: templates/login.php:18
 msgid "Please contact your administrator."
-msgstr "Per favore contatta l'amministratore di sistema."
+msgstr "Contatta il tuo amministratore di sistema."
 
 #: templates/login.php:38
 msgid "Lost your password?"
