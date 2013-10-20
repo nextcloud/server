@@ -58,7 +58,9 @@ button, .button,
 }
 input[type="hidden"] { height:0; width:0; }
 input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"], input[type="url"], textarea {
-	background:#f8f8f8; color:#555; cursor:text;
+	background: #fff;
+	color: #555;
+	cursor: text;
 	font-family: inherit; /* use default ownCloud font instead of default textarea monospace */
 }
 input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"], input[type="url"] {
@@ -72,7 +74,7 @@ input[type="number"]:hover, input[type="number"]:focus, input[type="number"]:act
 input[type="email"]:hover, input[type="email"]:focus, input[type="email"]:active,
 input[type="url"]:hover, input[type="url"]:focus, input[type="url"]:active,
 textarea:hover, textarea:focus, textarea:active {
-	background-color:#fff; color:#333;
+	color: #333;
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1;
 }
 input[type="checkbox"] { margin:0; padding:0; height:auto; width:auto; }
