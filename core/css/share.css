@@ -22,7 +22,8 @@
 }
 
 #shareWithList li {
-	padding-top:.1em;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 #shareWithList li:first-child {
