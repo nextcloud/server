@@ -372,7 +372,7 @@ OC.Share={
 				shareChecked = 'checked="checked"';
 			}
 			var html = '<li style="clear: both;" data-share-type="'+escapeHTML(shareType)+'" data-share-with="'+escapeHTML(shareWith)+'" title="' + escapeHTML(shareWith) + '">';
-			html += '<a href="#" class="unshare" style="display:none;"><img class="svg" alt="'+t('core', 'Unshare')+'" src="'+OC.imagePath('core', 'actions/delete')+'"/></a>';
+			html += '<a href="#" class="unshare"><img class="svg" alt="'+t('core', 'Unshare')+'" src="'+OC.imagePath('core', 'actions/delete')+'"/></a>';
 			if(shareWith.length > 14){
 				html += escapeHTML(shareWithDisplayName.substr(0,11) + '...');
 			}else{
@@ -387,14 +387,9 @@ OC.Share={
 				html += '<label><input type="checkbox" name="mailNotification" class="mailNotification" ' + checked + ' />'+t('core', 'notify user by email')+'</label>';
 			}
 			if (possiblePermissions & OC.PERMISSION_CREATE || possiblePermissions & OC.PERMISSION_UPDATE || possiblePermissions & OC.PERMISSION_DELETE) {
-				if (editChecked == '') {
-					html += '<label style="display:none;">';
-				} else {
-					html += '<label>';
-				}
-				html += '<input type="checkbox" name="edit" class="permissions" '+editChecked+' />'+t('core', 'can edit')+'</label>';
+				html += '<label><input type="checkbox" name="edit" class="permissions" '+editChecked+' />'+t('core', 'can edit')+'</label>';
 			}
-			html += '<a href="#" class="showCruds" style="display:none;"><img class="svg" alt="'+t('core', 'access control')+'" src="'+OC.imagePath('core', 'actions/triangle-s')+'"/></a>';
+			html += '<a href="#" class="showCruds"><img class="svg" alt="'+t('core', 'access control')+'" src="'+OC.imagePath('core', 'actions/triangle-s')+'"/></a>';
 			html += '<div class="cruds" style="display:none;">';
 				if (possiblePermissions & OC.PERMISSION_CREATE) {
 					html += '<label><input type="checkbox" name="create" class="permissions" '+createChecked+' data-permissions="'+OC.PERMISSION_CREATE+'" />'+t('core', 'create')+'</label>';
@@ -513,24 +508,6 @@ $(document).ready(function() {
 			&& !target.closest('#ui-datepicker-div').length && !target.closest('.ui-autocomplete').length;
 		if (OC.Share.droppedDown && isMatched && $('#dropdown').has(event.target).length === 0) {
 			OC.Share.hideDropDown();
-		}
-	});
-
-	$(document).on('mouseenter', '#dropdown #shareWithList li', function(event) {
-		// Show permissions and unshare button
-		$(':hidden', this).filter(':not(.cruds)').show();
-	});
-
-	$(document).on('mouseleave', '#dropdown #shareWithList li', function(event) {
-		// Hide permissions and unshare button
-		if (!$('.cruds', this).is(':visible')) {
-			$('a', this).hide();
-			if (!$('input[name="edit"]', this).is(':checked')) {
-				$('input[type="checkbox"]', this).hide();
-				$('label', this).hide();
-			}
-		} else {
-			$('a.unshare', this).hide();
 		}
 	});
 
