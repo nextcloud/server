@@ -102,3 +102,8 @@ a.showCruds:hover,a.unshare:hover {
 	overflow-y:auto;
 	overflow-x:hidden;
 }
+
+.notCreatable {
+	padding-top: 12px;
+	color: #999;
+}
