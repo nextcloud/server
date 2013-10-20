@@ -58,7 +58,9 @@ button, .button,
 }
 input[type="hidden"] { height:0; width:0; }
 input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"], input[type="url"], textarea {
-	background:#f8f8f8; color:#555; cursor:text;
+	background: #fff;
+	color: #555;
+	cursor: text;
 	font-family: inherit; /* use default ownCloud font instead of default textarea monospace */
 }
 input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"], input[type="url"] {
