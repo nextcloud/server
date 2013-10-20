@@ -268,7 +268,7 @@ class OC_Group {
 			$users = $group->searchDisplayName($search, $limit, $offset);
 			$displayNames = array();
 			foreach ($users as $user) {
-				$displayNames[] = $user->getDisplayName();
+				$displayNames[$user->getUID()] = $user->getDisplayName();
 			}
 			return $displayNames;
 		} else {
