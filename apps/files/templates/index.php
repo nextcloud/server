@@ -37,7 +37,7 @@
 		</div>
 		<div id="file_action_panel"></div>
 		<div class="notCreatable notPublic <?php if ($_['isCreatable'] or $_['isPublic'] ):?>hidden<?php endif; ?>">
-			<?php p($l->t('You don’t have write permissions here'))?>
+			<?php p($l->t('You don’t have permission to upload or create files here'))?>
 		</div>
 	<input type="hidden" name="permissions" value="<?php p($_['permissions']); ?>" id="permissions">
 </div>
