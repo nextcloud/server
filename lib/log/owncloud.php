@@ -35,7 +35,17 @@ class OC_Log_Owncloud {
 	public static function init() {
 		$defaultLogFile = OC_Config::getValue("datadirectory", OC::$SERVERROOT.'/data').'/owncloud.log';
 		self::$logFile = OC_Config::getValue("logfile", $defaultLogFile);
-		if (!file_exists(self::$logFile)) {
+
+		/*
+		* Fall back to default log file if specified logfile does not exist
+		* and can not be created. Error suppression is required in order to
+		* not end up in the error handler which will try to log the error.
+		* A better solution (compared to error suppression) would be checking
+		* !is_writable(dirname(self::$logFile)) before touch(), but
+		* is_writable() on directories used to be pretty unreliable on Windows
+		* for at least some time.
+		*/
+		if (!file_exists(self::$logFile) && !@touch(self::$logFile)) {
 			self::$logFile = $defaultLogFile;
 		}
 	}
