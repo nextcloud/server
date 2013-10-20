@@ -44,6 +44,7 @@
 
 #dropdown input[type="checkbox"] {
 	margin:0 .2em 0 .5em;
+	vertical-align: middle;
 }
 
 a.showCruds {
