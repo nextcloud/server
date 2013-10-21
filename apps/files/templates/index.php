@@ -1,6 +1,6 @@
 <div id="controls">
 	<?php print_unescaped($_['breadcrumb']); ?>
-		<div class="actions creatable <?php if (!$_['isCreatable']):?>hidden<?php endif; ?> <?php if (isset($_['files']) and count($_['files'])==0):?>emptycontent<?php endif; ?>">
+		<div class="actions creatable <?php if (!$_['isCreatable']):?>hidden<?php endif; ?>">
 			<div id="new" class="button">
 				<a><?php p($l->t('New'));?></a>
 				<ul>
