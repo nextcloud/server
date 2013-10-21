@@ -305,8 +305,9 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 							&& $uid != OC_User::getUser()) {
 							$shareWith[] = array(
 								'label' => $displayName,
-								'value' => array('shareType' => OCP\Share::SHARE_TYPE_USER,
-								'shareWith' => $uid)
+								'value' => array(
+									'shareType' => OCP\Share::SHARE_TYPE_USER,
+									'shareWith' => $uid)
 							);
 							$count++;
 						}
@@ -324,7 +325,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 							|| !is_array($_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP])
 							|| !in_array($group, $_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP])) {
 							$shareWith[] = array(
-								'label' => $group.' ('.$l->t('group').')',
+								'label' => $group,
 								'value' => array(
 									'shareType' => OCP\Share::SHARE_TYPE_GROUP,
 									'shareWith' => $group

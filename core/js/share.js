@@ -282,7 +282,7 @@ OC.Share={
 				// Default permissions are Edit (CRUD) and Share
 				var permissions = OC.PERMISSION_ALL;
 				OC.Share.share(itemType, itemSource, shareType, shareWith, permissions, function() {
-					OC.Share.addShareWith(shareType, shareWith, selected.item.value.shareWith, permissions, possiblePermissions);
+					OC.Share.addShareWith(shareType, shareWith, selected.item.label, permissions, possiblePermissions);
 					$('#shareWith').val('');
 					OC.Share.updateIcon(itemType, itemSource);
 				});
@@ -291,12 +291,14 @@ OC.Share={
 			})
 			// customize internal _renderItem function to display groups and users differently
 			.data("ui-autocomplete")._renderItem = function( ul, item ) {
-				var insert = $( "<a>" ).text( item.label );
-				if(item.label.length > 8 && item.label.substr(item.label.length-8) === ' (group)') {
-					// current label is group - wrap "strong" element
-					insert = insert.wrapInner('<strong>');
+				var insert = $( "<a>" );
+				var text = (item.value.shareType == 1)? item.label + ' ('+t('core', 'group')+')' : item.label;
+				insert.text( text );
+				if(item.value.shareType == 1) {
+					insert = insert.wrapInner('<strong></strong>');
 				}
 				return $( "<li>" )
+					.addClass((item.value.shareType == 1)?'group':'user')
 					.append( insert )
 					.appendTo( ul );
 			};
