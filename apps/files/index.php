@@ -119,7 +119,7 @@ if ($needUpgrade) {
 	}
 
 	$isCreatable = \OC\Files\Filesystem::isCreatable($dir . '/');
-	$emptyContent = (!isset($files) or !$isCreatable or count($files) > 0 or $ajaxLoad);
+	$emptyContent = (!isset($files) or count($files) > 0 or $ajaxLoad);
 
 	OCP\Util::addscript('files', 'fileactions');
 	OCP\Util::addscript('files', 'files');

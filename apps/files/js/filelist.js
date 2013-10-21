@@ -623,8 +623,8 @@ var FileList={
 		var $fileList = $('#fileList');
 		var permissions = $('#permissions').val();
 		var isCreatable = (permissions & OC.PERMISSION_CREATE) !== 0;
-		$('#emptycontent').toggleClass('hidden', !isCreatable || $fileList.find('tr').length > 0);
-		$('#filestable th').toggleClass('hidden', isCreatable && $fileList.find('tr').length === 0);
+		$('#emptycontent').toggleClass('hidden', $fileList.find('tr').length > 0);
+		$('#filestable th').toggleClass('hidden', $fileList.find('tr').length === 0);
 	},
 	showMask: function(){
 		// in case one was shown before
