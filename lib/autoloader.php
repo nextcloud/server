@@ -133,10 +133,10 @@ class Autoloader {
 					$pathsToRequire[] = $fullPath;
 				}
 			}
-		}
 
-		if ($this->memoryCache) {
-			$this->memoryCache->set($class, $pathsToRequire, 60); // cache 60 sec
+			if ($this->memoryCache) {
+				$this->memoryCache->set($class, $pathsToRequire, 60); // cache 60 sec
+			}
 		}
 
 		foreach ($pathsToRequire as $fullPath) {
