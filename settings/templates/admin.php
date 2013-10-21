@@ -30,7 +30,7 @@ if (!$_['isWebDavWorking']) {
 
 	<span class="securitywarning">
 		<?php p($l->t('Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken.')); ?>
-		<?php print_unescaped($l->t('Please double check the <a href="%s">installation guides</a>.', $theme->getDocBaseUrl().'/server/5.0/admin_manual/installation.html')); ?>
+		<?php print_unescaped($l->t('Please double check the <a href="%s">installation guides</a>.', link_to_docs('admin-install'))); ?>
 	</span>
 
 </fieldset>

@@ -35,6 +35,11 @@ function link_to( $app, $file, $args = array() ) {
 	return OC_Helper::linkTo( $app, $file, $args );
 }
 
+function link_to_docs($key) {
+	$theme = new OC_Defaults();
+	return $theme->getDocBaseUrl() . '/server/5.0/go.php?to=' . $key;
+}
+
 /**
  * @brief make OC_Helper::imagePath available as a simple function
  * @param string $app app

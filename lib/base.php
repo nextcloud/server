@@ -181,7 +181,7 @@ class OC {
 			OC_Template::printErrorPage(
 				"Can't write into config directory!",
 				'This can usually be fixed by '
-					.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html#set-the-directory-permissions" target="_blank">giving the webserver write access to the config directory</a>.'
+					.'<a href="' . link_to_docs('admin-dir_permissions') . '" target="_blank">giving the webserver write access to the config directory</a>.'
 			);
 		}
 	}
