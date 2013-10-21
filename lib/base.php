@@ -371,6 +371,11 @@ class OC {
 		// register autoloader
 		require_once __DIR__ . '/autoloader.php';
 		self::$loader = new \OC\Autoloader();
+		spl_autoload_register(array(self::$loader, 'load'));
+		try {
+			self::$loader->setMemoryCache(\OC\Memcache\Factory::createLowLatency('Autoloader'));
+		} catch(\Exception $ex) {
+		}
 		self::$loader->registerPrefix('Doctrine\\Common', 'doctrine/common/lib');
 		self::$loader->registerPrefix('Doctrine\\DBAL', 'doctrine/dbal/lib');
 		self::$loader->registerPrefix('Symfony\\Component\\Routing', 'symfony/routing');
@@ -378,7 +383,6 @@ class OC {
 		self::$loader->registerPrefix('Sabre\\VObject', '3rdparty');
 		self::$loader->registerPrefix('Sabre_', '3rdparty');
 		self::$loader->registerPrefix('Patchwork', '3rdparty');
-		spl_autoload_register(array(self::$loader, 'load'));
 
 		// set some stuff
 		//ob_start();
