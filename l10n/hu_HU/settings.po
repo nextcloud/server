@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-19 08:26-0400\n"
-"PO-Revision-Date: 2013-10-18 19:10+0000\n"
-"Last-Translator: sherlock79 <david@interpont.hu>\n"
+"POT-Creation-Date: 2013-10-21 13:01-0400\n"
+"PO-Revision-Date: 2013-10-21 17:01+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -291,13 +291,13 @@ msgstr "Egy-egy feladat végrehajtása minden alkalommal, amikor egy weboldalt l
 
 #: templates/admin.php:107
 msgid ""
-"cron.php is registered at a webcron service to call cron.php once a minute "
-"over http."
-msgstr "A cron.php webcron szolgáltatásként van regisztrálva. Hívja meg a cron.php állományt http-n keresztül percenként egyszer."
+"cron.php is registered at a webcron service to call cron.php every 15 "
+"minutes over http."
+msgstr ""
 
 #: templates/admin.php:115
-msgid "Use systems cron service to call the cron.php file once a minute."
-msgstr "A rendszer cron szolgáltatásának használata. Hívja meg a cron.php állományt percenként egyszer a rendszer cron szolgáltatásának segítségével."
+msgid "Use systems cron service to call the cron.php file every 15 minutes."
+msgstr ""
 
 #: templates/admin.php:120
 msgid "Sharing"
