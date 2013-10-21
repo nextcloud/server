@@ -238,6 +238,15 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 				$fs->unlink($targetPath);
 				throw new Sabre_DAV_Exception();
 			}
+
+			// allow sync clients to send the mtime along in a header
+			$mtime = OC_Request::hasModificationTime();
+			if ($mtime !== false) {
+				if($fs->touch($this->path, $mtime)) {
+					header('X-OC-MTime: accepted');
+				}
+			}
+
 			return OC_Connector_Sabre_Node::getETagPropertyForPath($targetPath);
 		}
 
