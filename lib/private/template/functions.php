@@ -35,9 +35,12 @@ function link_to( $app, $file, $args = array() ) {
 	return OC_Helper::linkTo( $app, $file, $args );
 }
 
+/**
+ * @param $key
+ * @return string url to the online documentation
+ */
 function link_to_docs($key) {
-	$theme = new OC_Defaults();
-	return $theme->getDocBaseUrl() . '/server/5.0/go.php?to=' . $key;
+	return OC_Helper::linkToDocs($key);
 }
 
 /**
