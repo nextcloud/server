@@ -119,7 +119,8 @@ if ($needUpgrade) {
 	}
 
 	$isCreatable = \OC\Files\Filesystem::isCreatable($dir . '/');
-	$emptyContent = (!isset($files) or count($files) > 0 or $ajaxLoad);
+	$fileHeader = (!isset($files) or count($files) > 0);
+	$emptyContent = $isCreatable or $fileHeader or $ajaxLoad;
 
 	OCP\Util::addscript('files', 'fileactions');
 	OCP\Util::addscript('files', 'files');
@@ -145,6 +146,7 @@ if ($needUpgrade) {
 	$tmpl->assign('disableSharing', false);
 	$tmpl->assign('ajaxLoad', $ajaxLoad);
 	$tmpl->assign('emptyContent', $emptyContent);
+	$tmpl->assign('fileHeader', $fileHeader);
 
 	$tmpl->printPage();
 }

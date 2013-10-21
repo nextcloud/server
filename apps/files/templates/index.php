@@ -42,14 +42,14 @@
 	<input type="hidden" name="permissions" value="<?php p($_['permissions']); ?>" id="permissions">
 </div>
 
-<div id="emptycontent" <?php if ($_['emptyContent']):?>class="hidden"<?php endif; ?>><?php p($l->t('Nothing in here. Upload something!'))?></div>
+<div id="emptycontent" <?php if (!$_['emptyContent']):?>class="hidden"<?php endif; ?>><?php p($l->t('Nothing in here. Upload something!'))?></div>
 
 <input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>"></input>
 
 <table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="36" data-preview-y="36">
 	<thead>
 		<tr>
-			<th <?php if (!$_['emptyContent']):?>class="hidden"<?php endif; ?> id='headerName'>
+			<th <?php if (!$_['fileHeader']):?>class="hidden"<?php endif; ?> id='headerName'>
 				<div id="headerName-container">
 					<input type="checkbox" id="select_all" />
 					<label for="select_all"></label>
@@ -65,8 +65,8 @@
 					</span>
 				</div>
 			</th>
-			<th <?php if (!$_['emptyContent']):?>class="hidden"<?php endif; ?> id="headerSize"><?php p($l->t('Size')); ?></th>
-			<th <?php if (!$_['emptyContent']):?>class="hidden"<?php endif; ?> id="headerDate">
+			<th <?php if (!$_['fileHeader']):?>class="hidden"<?php endif; ?> id="headerSize"><?php p($l->t('Size')); ?></th>
+			<th <?php if (!$_['fileHeader']):?>class="hidden"<?php endif; ?> id="headerDate">
 				<span id="modified"><?php p($l->t( 'Modified' )); ?></span>
 				<?php if ($_['permissions'] & OCP\PERMISSION_DELETE): ?>
 <!--					NOTE: Temporary fix to allow unsharing of files in root of Shared folder -->
