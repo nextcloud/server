@@ -67,4 +67,6 @@ $(document).ready(function() {
 		procesSelection();
 	});
 
+	$('#directLink').focus();
+
 });

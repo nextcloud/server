@@ -95,6 +95,7 @@
 					</li>
 				</ul>
 			<?php endif; ?>
+			<div class="directLink"><label for="directLink"><?php p($l->t('Direct link')) ?></label><input id="directLink" type="text" readonly value="<?php p($_['downloadURL']); ?>"></input></div>
 		<?php endif; ?>
 	</div>
 	<footer>

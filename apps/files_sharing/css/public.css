@@ -132,3 +132,14 @@ thead{
 	top: -2px;
 	color: #555;
 }
+
+.directLink {
+	margin-bottom: 20px;
+}
+	.directLink label {
+		font-weight: normal;
+	}
+	.directLink input {
+		margin-left: 10px;
+		width: 300px;
+	}
