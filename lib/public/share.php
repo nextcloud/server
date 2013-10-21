@@ -1475,6 +1475,7 @@ class Share {
 				'id' => $parent,
 				'token' => $token
 			));
+
 			if ($parentFolder === true) {
 				// Return parent folders to preserve file target paths for potential children
 				return $parentFolders;
