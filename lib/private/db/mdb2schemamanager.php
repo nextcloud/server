@@ -77,6 +77,11 @@ class MDB2SchemaManager {
 		$comparator = new \Doctrine\DBAL\Schema\Comparator();
 		$schemaDiff = $comparator->compare($fromSchema, $toSchema);
 
+		$platform = $this->conn->getDatabasePlatform();
+		foreach($schemaDiff->changedTables as $tableDiff) {
+			$tableDiff->name = $platform->quoteIdentifier($tableDiff->name);
+		}
+		
 		if ($generateSql) {
 			return $this->generateChangeScript($schemaDiff);
 		}
