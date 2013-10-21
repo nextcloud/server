@@ -715,14 +715,14 @@ $(document).ready(function() {
 		var file = $('tr').filterAttr('data-id', String(itemSource)).data('file');
 		var email = $('#email').val();
 		if (email != '') {
-			$('#email').attr('disabled', "disabled");
+			$('#email').prop('disabled', true);
 			$('#email').val(t('core', 'Sending ...'));
-			$('#emailButton').attr('disabled', "disabled");
+			$('#emailButton').prop('disabled', true);
 
 			$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'email', toaddress: email, link: link, itemType: itemType, itemSource: itemSource, file: file},
 				function(result) {
-					$('#email').attr('disabled', "false");
-					$('#emailButton').attr('disabled', "false");
+					$('#email').prop('disabled', false);
+					$('#emailButton').prop('disabled', false);
 				if (result && result.status == 'success') {
 					$('#email').css('font-weight', 'bold');
 					$('#email').animate({ fontWeight: 'normal' }, 2000, function() {
