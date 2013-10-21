@@ -1,7 +1,7 @@
 <fieldset id="ldapWizard4">
 	<div>
 		<p>
-			<?php p($l->t('Limit the access to ownCloud to groups meeting this criteria:'));?>
+			<?php p($l->t('Limit the access to %s to groups meeting this criteria:', $theme->getName()));?>
 		</p>
 		<p>
 			<label for="ldap_groupfilter_objectclass">
@@ -28,7 +28,7 @@
 			<input type="text" id="ldap_group_filter" name="ldap_group_filter"
 			class="lwautosave"
 			placeholder="<?php p($l->t('Raw LDAP filter'));?>"
-			title="<?php p($l->t('The filter specifies which LDAP groups shall have access to the ownCloud instance.'));?>"
+			title="<?php p($l->t('The filter specifies which LDAP groups shall have access to the %s instance.', $theme->getName()));?>"
 			/>
 		</p>
 		<p>

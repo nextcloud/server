@@ -13,7 +13,7 @@
 		</p>
 		<p>
 			<label for="ldap_loginfilter_email">
-				<?php p($l->t('LDAP Email Adress:'));?>
+				<?php p($l->t('LDAP Email Address:'));?>
 			</label>
 
 			<input type="checkbox" id="ldap_loginfilter_email"

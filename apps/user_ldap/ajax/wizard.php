@@ -82,7 +82,8 @@ switch($action) {
 		$setParameters = array();
 		$configuration->setConfiguration($cfg, $setParameters);
 		if(!in_array($key, $setParameters)) {
-			\OCP\JSON::error(array('message' => $l->t($key.' Could not set configuration '.$setParameters[0])));
+			\OCP\JSON::error(array('message' => $l->t($key.
+				' Could not set configuration %s', $setParameters[0])));
 			exit;
 		}
 		$configuration->saveConfiguration();

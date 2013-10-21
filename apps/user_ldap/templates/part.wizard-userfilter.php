@@ -1,7 +1,7 @@
 <fieldset id="ldapWizard2">
 	<div>
 		<p>
-			<?php p($l->t('Limit the access to ownCloud to users meeting this criteria:'));?>
+			<?php p($l->t('Limit the access to %s to users meeting this criteria:', $theme->getName()));?>
 		</p>
 		<p>
 			<label for="ldap_userfilter_objectclass">
@@ -28,7 +28,7 @@
 			<input type="text" id="ldap_userlist_filter" name="ldap_userlist_filter"
 			class="lwautosave"
 			placeholder="<?php p($l->t('Raw LDAP filter'));?>"
-			title="<?php p($l->t('The filter specifies which LDAP users shall have access to the ownCloud instance.'));?>"
+			title="<?php p($l->t('The filter specifies which LDAP users shall have access to the %s instance.', $theme->getName()));?>"
 			/>
 		</p>
 		<p>
