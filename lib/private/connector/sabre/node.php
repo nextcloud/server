@@ -191,6 +191,17 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	}
 
 	/**
+	 * removes all properties for this node and user
+	 */
+	public function removeProperties() {
+		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*properties`'
+		.' WHERE `userid` = ? AND `propertypath` = ?' );
+		$query->execute( array( OC_User::getUser(), $this->path));
+
+		$this->setPropertyCache(null);
+	}
+
+	/**
 	 * @brief Returns a list of properties for this nodes.;
 	 * @param array $properties
 	 * @return array

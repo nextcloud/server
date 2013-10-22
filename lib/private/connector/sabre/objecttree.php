@@ -97,6 +97,11 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 			throw new \Sabre_DAV_Exception_Forbidden('');
 		}
 
+		// update properties
+		$query = \OC_DB::prepare( 'UPDATE `*PREFIX*properties` SET `propertypath` = ?'
+		.' WHERE `userid` = ? AND `propertypath` = ?' );
+		$query->execute( array( $destinationPath, \OC_User::getUser(), $sourcePath ));
+
 		$this->markDirty($sourceDir);
 		$this->markDirty($destinationDir);
 
