@@ -83,7 +83,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				($return) ? OC_JSON::success() : OC_JSON::error();
 			}
 			break;
-	case 'informRecipients':
+		case 'informRecipients':
 
 			$l = OC_L10N::get('core');
 
