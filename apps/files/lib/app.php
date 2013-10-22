@@ -25,7 +25,14 @@
 namespace OCA\Files;
 
 class App {
+	/**
+	 * @var \OC_L10N
+	 */
 	private $l10n;
+
+	/**
+	 * @var \OC\Files\View
+	 */
 	private $view;
 
 	public function __construct($view, $l10n) {
