@@ -7,11 +7,9 @@ var FileList={
 		});
 	},
 	update:function(fileListHtml) {
-		var $fileList = $('#fileList'),
-			permissions = $('#permissions').val(),
-			isCreatable = (permissions & OC.PERMISSION_CREATE) !== 0;
+		var $fileList = $('#fileList');
 		$fileList.empty().html(fileListHtml);
-		$('#emptycontent').toggleClass('hidden', !isCreatable || $fileList.find('tr').length > 0);
+		FileList.updateEmptyContent();
 		$fileList.find('tr').each(function () {
 			FileActions.display($(this).children('td.filename'));
 		});
@@ -282,6 +280,7 @@ var FileList={
 		FileList.updateFileSummary();
 		if($('tr[data-file]').length==0){
 			$('#emptycontent').removeClass('hidden');
+			$('#filescontent th').addClass('hidden');
 		}
 	},
 	insertElement:function(name,type,element){
@@ -312,6 +311,7 @@ var FileList={
 			$('#fileList').append(element);
 		}
 		$('#emptycontent').addClass('hidden');
+		$('#filestable th').removeClass('hidden');
 		FileList.updateFileSummary();
 	},
 	loadingDone:function(name, id){
@@ -530,6 +530,7 @@ var FileList={
 						procesSelection();
 						checkTrashStatus();
 						FileList.updateFileSummary();
+						FileList.updateEmptyContent();
 					} else {
 						$.each(files,function(index,file) {
 							var deleteAction = $('tr').filterAttr('data-file',files[i]).children("td.date").children(".action.delete");
@@ -642,6 +643,13 @@ var FileList={
 				$connector.show();
 			}
 		}
+	},
+	updateEmptyContent: function(){
+		var $fileList = $('#fileList');
+		var permissions = $('#permissions').val();
+		var isCreatable = (permissions & OC.PERMISSION_CREATE) !== 0;
+		$('#emptycontent').toggleClass('hidden', !isCreatable || $fileList.find('tr').length > 0);
+		$('#filestable th').toggleClass('hidden', $fileList.find('tr').length === 0);
 	},
 	showMask: function(){
 		// in case one was shown before
