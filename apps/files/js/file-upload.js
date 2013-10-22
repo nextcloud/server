@@ -21,13 +21,13 @@ function supportAjaxUploadWithProgress() {
 		var fi = document.createElement('INPUT');
 		fi.type = 'file';
 		return 'files' in fi;
-	};
+	}
 
 	// Are progress events supported?
 	function supportAjaxUploadProgressEvents() {
 		var xhr = new XMLHttpRequest();
 		return !! (xhr && ('upload' in xhr) && ('onprogress' in xhr.upload));
-	};
+	}
 
 	// Is FormData supported?
 	function supportFormData() {
