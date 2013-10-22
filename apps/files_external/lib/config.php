@@ -84,14 +84,21 @@ class OC_Mount_Config {
 				'token' => '#token'),
 				'custom' => 'google');
 
-		$backends['\OC\Files\Storage\SWIFT']=array(
-			'backend' => 'OpenStack Swift',
-			'configuration' => array(
-				'host' => 'URL',
-				'user' => 'Username',
-				'token' => '*Token',
-				'root' => '&Root',
-				'secure' => '!Secure ftps://'));
+		if(OC_Mount_Config::checkcurl()) {
+			$backends['\OC\Files\Storage\Swift'] = array(
+				'backend' => 'OpenStack Object Storage',
+				'configuration' => array(
+					'user' => 'Username',
+					'bucket' => 'Bucket',
+					'region' => 'Region',
+					'key' => '*API Key (Rackspace Cloud Files)',
+					'tenant' => 'Tenantname (OpenStack Object Storage)',
+					'password' => '*Password (OpenStack Object Storage)',
+					'service_name' => 'Service Name (OpenStack Object Storage)',
+					'url' => 'URL of identity endpoint (OpenStack Object Storage)'
+				)
+			);
+                }
 
 		if (!OC_Util::runningOnWindows()) {
 			if (OC_Mount_Config::checksmbclient()) {
