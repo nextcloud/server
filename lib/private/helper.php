@@ -59,6 +59,15 @@ class OC_Helper {
 	}
 
 	/**
+	 * @param $key
+	 * @return string url to the online documentation
+	 */
+	public static function linkToDocs($key) {
+		$theme = new OC_Defaults();
+		return $theme->getDocBaseUrl() . '/server/5.0/go.php?to=' . $key;
+	}
+
+	/**
 	 * @brief Creates an absolute url
 	 * @param string $app app
 	 * @param string $file file
