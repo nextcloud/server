@@ -249,6 +249,7 @@ class OC_App{
 				if(isset($appdata['id'])) {
 					OC_Appconfig::setValue( $app, 'ocsid', $appdata['id'] );
 				}
+				\OC_Hook::emit('OC_App', 'post_enable', array('app' => $app));
 			}
 		}else{
 			throw new \Exception($l->t("No app name specified"));
