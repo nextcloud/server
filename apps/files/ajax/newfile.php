@@ -56,6 +56,21 @@ function progress($notification_code, $severity, $message, $message_code, $bytes
 
 $target = $dir.'/'.$filename;
 
+$l10n = \OC_L10n::get('files');
+
+if (\OC\Files\Filesystem::file_exists($target)) {
+		$result = array(
+			'success' 	=> false,
+			'data'		=> array(
+				'message'	=> $l10n->t(
+					"The name %s is already used in the folder %s. Please choose a different name.",
+					array($newname, $dir))
+				)
+			);
+	OCP\JSON::error($result);
+	exit();
+}
+
 if($source) {
 	if(substr($source, 0, 8)!='https://' and substr($source, 0, 7)!='http://') {
 		OCP\JSON::error(array("data" => array( "message" => "Not a valid source" )));

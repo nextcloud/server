@@ -933,7 +933,7 @@ jQuery.fn.selectRange = function(start, end) {
  */
 jQuery.fn.exists = function(){
 	return this.length > 0;
-}
+};
 
 /**
  * Calls the server periodically every 15 mins to ensure that session doesnt
