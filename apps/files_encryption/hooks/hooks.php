@@ -560,7 +560,6 @@ class Hooks {
 	 * @param array $params contains the app ID
 	 */
 	public static function postEnable($params) {
-		error_log("app was enabled!");
 		if ($params['app'] === 'files_encryption') {
 			$session = new \OCA\Encryption\Session(new \OC\Files\View('/'));
 			$session->setInitialized(\OCA\Encryption\Session::NOT_INITIALIZED);
