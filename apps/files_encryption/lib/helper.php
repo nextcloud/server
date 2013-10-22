@@ -69,6 +69,7 @@ class Helper {
 	public static function registerAppHooks() {
 
 		\OCP\Util::connectHook('OC_App', 'pre_disable', 'OCA\Encryption\Hooks', 'preDisable');
+		\OCP\Util::connectHook('OC_App', 'post_disable', 'OCA\Encryption\Hooks', 'postEnable');
 	}
 
 	/**
