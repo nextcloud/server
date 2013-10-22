@@ -252,9 +252,35 @@ var FileList={
 		$('.creatable').toggleClass('hidden', !isCreatable);
 		$('.notCreatable').toggleClass('hidden', isCreatable);
 	},
-	remove:function(name) {
-		$('tr[data-file="'+name+'"]').find('td.filename').draggable('destroy');
-		$('tr[data-file="'+name+'"]').remove();
+
+	/**
+	 * Shows/hides action buttons
+	 *
+	 * @param show true for enabling, false for disabling
+	 */
+	showActions: function(show){
+		$('.actions,#file_action_panel').toggleClass('hidden', !show);
+		if (show){
+			// make sure to display according to permissions
+			var permissions =  $('#permissions').val();
+			var isCreatable = (permissions & OC.PERMISSION_CREATE) !== 0;
+			$('.creatable').toggleClass('hidden', !isCreatable);
+			$('.notCreatable').toggleClass('hidden', isCreatable);
+		}
+	},
+	/**
+	 * Enables/disables viewer mode.
+	 * In viewer mode, apps can embed themselves under the controls bar.
+	 * In viewer mode, the actions of the file list will be hidden.
+	 * @param show true for enabling, false for disabling
+	 */
+	setViewerMode: function(show){
+		this.showActions(!show);
+		$('#filestable').toggleClass('hidden', show);
+	},
+	remove:function(name){
+		$('tr').filterAttr('data-file',name).find('td.filename').draggable('destroy');
+		$('tr').filterAttr('data-file',name).remove();
 		FileList.updateFileSummary();
 		if ( ! $('tr[data-file]').exists() ) {
 			$('#emptycontent').removeClass('hidden');

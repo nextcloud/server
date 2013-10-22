@@ -38,8 +38,15 @@ try {
 		}
 		OC_Group::addToGroup( $username, $i );
 	}
+
+	// check whether the user's files home exists
+	$userDirectory = OC_User::getHome($username) . '/files/';
+	$homeExists = file_exists($userDirectory);
+
 	OC_JSON::success(array("data" =>
 				array(
+					// returns whether the home already existed
+					"homeExists" => $homeExists,
 					"username" => $username,
 					"groups" => OC_Group::getUserGroups( $username ))));
 } catch (Exception $exception) {
