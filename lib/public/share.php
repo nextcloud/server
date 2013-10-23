@@ -428,23 +428,26 @@ class Share {
 	}
 
 	/**
-	* Share an item with a user, group, or via private link
-	* @param string Item type
-	* @param string Item source
-	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
-	* @param string User or group the item is being shared with
-	* @param int CRUDS permissions
-	* @return bool|string Returns true on success or false on failure, Returns token on success for links
-	*/
-	public static function shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions) {
+	 * Share an item with a user, group, or via private link
+	 * @param string $itemType
+	 * @param string $itemSource
+	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
+	 * @param string $shareWith User or group the item is being shared with
+	 * @param int $permissions CRUDS
+	 * @param null $itemSourceName
+	 * @throws \Exception
+	 * @internal param \OCP\Item $string type
+	 * @internal param \OCP\Item $string source
+	 * @internal param \OCP\SHARE_TYPE_USER $int , SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
+	 * @internal param \OCP\User $string or group the item is being shared with
+	 * @internal param \OCP\CRUDS $int permissions
+	 * @return bool|string Returns true on success or false on failure, Returns token on success for links
+	 */
+	public static function shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions, $itemSourceName = null) {
 		$uidOwner = \OC_User::getUser();
 		$sharingPolicy = \OC_Appconfig::getValue('core', 'shareapi_share_policy', 'global');
 
-		//retrieve name of file
-		$fileData = \OC\Files\Filesystem::getFileInfo(\OC\Files\Filesystem::getPath($itemSource));
-		if(!is_null($fileData)) {
-			$itemSourceName = $fileData['name'];
-		} else {
+		if (is_null($itemSourceName)) {
 			$itemSourceName = $itemSource;
 		}
 
@@ -543,7 +546,7 @@ class Share {
 					$token = \OC_Util::generateRandomBytes(self::TOKEN_LENGTH);
 				}
 				$result = self::put($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions,
-					null, $token);
+					null, $token, $itemSourceName);
 				if ($result) {
 					return $token;
 				} else {
@@ -609,7 +612,7 @@ class Share {
 // 			return false;
 // 		} else {
 			// Put the item into the database
-			return self::put($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions);
+			return self::put($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions, null, null, $itemSourceName);
 // 		}
 	}
 
@@ -1329,18 +1332,11 @@ class Share {
 	* @return bool Returns true on success or false on failure
 	*/
 	private static function put($itemType, $itemSource, $shareType, $shareWith, $uidOwner,
-		$permissions, $parentFolder = null, $token = null) {
+		$permissions, $parentFolder = null, $token = null, $itemSourceName = null) {
 		$backend = self::getBackend($itemType);
 
 		// Check if this is a reshare
 		if ($checkReshare = self::getItemSharedWithBySource($itemType, $itemSource, self::FORMAT_NONE, null, true)) {
-			//retrieve name of file
-			$fileData = \OC\Files\Filesystem::getFileInfo(\OC\Files\Filesystem::getPath($itemSource));
-			if(!is_null($fileData)) {
-				$itemSourceName = $fileData['name'];
-			} else {
-				$itemSourceName = $itemSource;
-			}
 
 			// Check if attempting to share back to owner
 			if ($checkReshare['uid_owner'] == $shareWith && $shareType == self::SHARE_TYPE_USER) {
