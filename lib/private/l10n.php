@@ -458,6 +458,10 @@ class OC_L10N implements \OCP\IL10N {
 			} else {
 				$available = self::findAvailableLanguages($app);
 			}
+
+			// E.g. make sure that 'de' is before 'de_DE'.
+			sort($available);
+
 			$preferences = preg_split('/,\s*/', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']));
 			foreach($preferences as $preference) {
 				list($prefered_language) = explode(';', $preference);
