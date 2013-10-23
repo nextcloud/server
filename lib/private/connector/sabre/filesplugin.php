@@ -59,7 +59,10 @@ class OC_Connector_Sabre_FilesPlugin extends Sabre_DAV_ServerPlugin
 			unset($requestedProperties[array_search($fileid_propertyname, $requestedProperties)]);
 
 			/** @var $node OC_Connector_Sabre_Node */
-			$returnedProperties[200][$fileid_propertyname] = $node->getFileId();
+			$fileId = $node->getFileId();
+			if (!is_null($fileId)) {
+				$returnedProperties[200][$fileid_propertyname] = $fileId;
+			}
 
 		}
 
