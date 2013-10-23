@@ -447,11 +447,11 @@ class OC_L10N implements \OCP\IL10N {
 			}
 		}
 
-    $default_language = OC_Config::getValue('default_language', false);
+		$default_language = OC_Config::getValue('default_language', false);
 
-    if($default_language !== false) {
-      return $default_language;
-    }
+		if($default_language !== false) {
+			return $default_language;
+		}
 
 		if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 			$accepted_languages = preg_split('/,\s*/', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']));
