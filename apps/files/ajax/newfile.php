@@ -20,15 +20,6 @@ if($source) {
 	OC_JSON::callCheck();
 }
 
-if($filename == '') {
-	OCP\JSON::error(array("data" => array( "message" => "Empty Filename" )));
-	exit();
-}
-if(strpos($filename, '/')!==false) {
-	OCP\JSON::error(array("data" => array( "message" => "Invalid Filename" )));
-	exit();
-}
-
 function progress($notification_code, $severity, $message, $message_code, $bytes_transferred, $bytes_max) {
 	static $filesize = 0;
 	static $lastsize = 0;
@@ -54,9 +45,27 @@ function progress($notification_code, $severity, $message, $message_code, $bytes
 	}
 }
 
-$target = $dir.'/'.$filename;
-
 $l10n = \OC_L10n::get('files');
+
+$result = array(
+	'success' 	=> false,
+	'data'		=> NULL
+	);
+
+if(trim($filename) === '') {
+	$result['data'] = array('message' => $l10n->t('Filename cannot not be empty.'));
+	OCP\JSON::error($result);
+	exit();
+}
+
+if(strpos($filename, '/') !== false) {
+	$result['data'] = array('message' => $l10n->t('Filename must not contain /. Please choose a different name.'));
+	OCP\JSON::error($result);
+	exit();
+}
+
+//TODO why is stripslashes used on foldername in newfolder.php but not here?
+$target = $dir.'/'.$filename;
 
 if (\OC\Files\Filesystem::file_exists($target)) {
 		$result = array(
