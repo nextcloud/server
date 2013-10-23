@@ -78,6 +78,39 @@ class Util {
 	}
 
 	/**
+	 * @brief write exception into the log. Include the stack trace
+	 * if DEBUG mode is enabled
+	 * @param Exception $ex exception to log
+	 */
+	public static function logException( \Exception $ex ) {
+		$message = $ex->getMessage();
+		if ($ex->getCode()) {
+			$message .= ' [' . $ex->getCode() . ']';
+		}
+		\OCP\Util::writeLog('index', 'Exception: ' . $message, \OCP\Util::FATAL);
+		if (defined('DEBUG') and DEBUG) {
+			// also log stack trace
+			$stack = explode('#', $ex->getTraceAsString());
+			// first element is empty
+			array_shift($stack);
+			foreach ($stack as $s) {
+				\OCP\Util::writeLog('index', 'Exception: ' . $s, \OCP\Util::FATAL);
+			}
+
+			// include cause
+			$l = \OC_L10N::get('lib');
+			while (method_exists($ex, 'getPrevious') && $ex = $ex->getPrevious()) {
+				$message .= ' - '.$l->t('Caused by:').' ';
+				$message .= $ex->getMessage();
+				if ($ex->getCode()) {
+					$message .= '[' . $ex->getCode() . '] ';
+				}
+				\OCP\Util::writeLog('index', 'Exception: ' . $message, \OCP\Util::FATAL);
+			}
+		}
+	}
+
+	/**
 	 * @brief get l10n object
 	 * @param string $app
 	 * @return OC_L10N

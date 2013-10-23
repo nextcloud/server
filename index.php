@@ -23,34 +23,6 @@
 
 $RUNTIME_NOAPPS = true; //no apps, yet
 
-function logException($ex) {
-	$message = $ex->getMessage();
-	if ($ex->getCode()) {
-		$message .= ' [' . $message . ']';
-	}
-	\OCP\Util::writeLog('index', $message, \OCP\Util::FATAL);
-	if (defined('DEBUG') and DEBUG) {
-		// also log stack trace
-		$stack = explode('#', $ex->getTraceAsString());
-		// first element is empty
-		array_shift($stack);
-		foreach ($stack as $s) {
-			\OCP\Util::writeLog('index', $s, \OCP\Util::FATAL);
-		}
-
-		// include cause
-		$l = OC_L10N::get('lib');
-		while (method_exists($ex, 'getPrevious') && $ex = $ex->getPrevious()) {
-			$message .= ' - '.$l->t('Caused by:').' ';
-			$message .= $ex->getMessage();
-			if ($ex->getCode()) {
-				$message .= '['.$ex->getCode().'] ';
-			}
-			\OCP\Util::writeLog('index', $message, \OCP\Util::FATAL);
-		}
-	}
-}
-
 try {
 	
 	require_once 'lib/base.php';
@@ -58,7 +30,7 @@ try {
 	OC::handleRequest();
 
 } catch (Exception $ex) {
-	logException($ex);
+	\OCP\Util::logException($ex);
 
 	//show the user a detailed error page
 	OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);
