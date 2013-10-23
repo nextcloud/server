@@ -104,6 +104,7 @@ a.showCruds:hover,a.unshare:hover {
 }
 
 .notCreatable {
+	padding-left: 12px;
 	padding-top: 12px;
 	color: #999;
 }
