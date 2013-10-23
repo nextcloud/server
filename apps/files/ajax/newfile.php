@@ -35,7 +35,7 @@ function progress($notification_code, $severity, $message, $message_code, $bytes
 				if (!isset($filesize)) {
 				} else {
 					$progress = (int)(($bytes_transferred/$filesize)*100);
-					if($progress>$lastsize) {//limit the number or messages send
+					if($progress>$lastsize) { //limit the number or messages send
 						$eventSource->send('progress', $progress);
 					}
 					$lastsize=$progress;
@@ -53,13 +53,13 @@ $result = array(
 	);
 
 if(trim($filename) === '') {
-	$result['data'] = array('message' => $l10n->t('Filename cannot not be empty.'));
+	$result['data'] = array('message' => $l10n->t('File name cannot not be empty.'));
 	OCP\JSON::error($result);
 	exit();
 }
 
 if(strpos($filename, '/') !== false) {
-	$result['data'] = array('message' => $l10n->t('Filename must not contain /. Please choose a different name.'));
+	$result['data'] = array('message' => $l10n->t('File name must not contain "/". Please choose a different name.'));
 	OCP\JSON::error($result);
 	exit();
 }
@@ -69,7 +69,7 @@ $target = $dir.'/'.$filename;
 
 if (\OC\Files\Filesystem::file_exists($target)) {
 	$result['data'] = array('message' => $l10n->t(
-			"The name %s is already used in the folder %s. Please choose a different name.",
+			'The name %s is already used in the folder %s. Please choose a different name.',
 			array($filename, $dir))
 		);
 	OCP\JSON::error($result);
@@ -78,7 +78,7 @@ if (\OC\Files\Filesystem::file_exists($target)) {
 
 if($source) {
 	if(substr($source, 0, 8)!='https://' and substr($source, 0, 7)!='http://') {
-		OCP\JSON::error(array("data" => array( "message" => "Not a valid source" )));
+		OCP\JSON::error(array('data' => array( 'message' => $l10n->t('Not a valid source') )));
 		exit();
 	}
 
@@ -91,7 +91,7 @@ if($source) {
 		$id = $meta['fileid'];
 		$eventSource->send('success', array('mime'=>$mime, 'size'=>\OC\Files\Filesystem::filesize($target), 'id' => $id));
 	} else {
-		$eventSource->send('error', "Error while downloading ".$source. ' to '.$target);
+		$eventSource->send('error', $l10n->t('Error while downloading %s to %s', array($source, $target)));
 	}
 	$eventSource->close();
 	exit();
@@ -124,4 +124,4 @@ if($source) {
 	}
 }
 
-OCP\JSON::error(array("data" => array( "message" => "Error when creating the file" )));
+OCP\JSON::error(array('data' => array( 'message' => $l10n->t('Error when creating the file') )));

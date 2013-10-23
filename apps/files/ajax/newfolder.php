@@ -18,13 +18,13 @@ $result = array(
 	);
 
 if(trim($foldername) === '') {
-	$result['data'] = array('message' => $l10n->t('Foldername cannot not be empty.'));
+	$result['data'] = array('message' => $l10n->t('Folder name cannot not be empty.'));
 	OCP\JSON::error($result);
 	exit();
 }
 
 if(strpos($foldername, '/') !== false) {
-	$result['data'] = array('message' => $l10n->t('Foldername must not contain /. Please choose a different name.'));
+	$result['data'] = array('message' => $l10n->t('Folder name must not contain "/". Please choose a different name.'));
 	OCP\JSON::error($result);
 	exit();
 }
@@ -53,4 +53,4 @@ if(\OC\Files\Filesystem::mkdir($target)) {
 	exit();
 }
 
-OCP\JSON::error(array('data' => array( 'message' => 'Error when creating the folder' )));
+OCP\JSON::error(array('data' => array( 'message' => $l10n->t('Error when creating the folder') )));
