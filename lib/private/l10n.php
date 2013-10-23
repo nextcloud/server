@@ -466,11 +466,13 @@ class OC_L10N implements \OCP\IL10N {
 			foreach($preferences as $preference) {
 				list($prefered_language) = explode(';', $preference);
 				$prefered_language = str_replace('-', '_', $prefered_language);
-				if( ($key = array_search($prefered_language, $available)) !== false) {
-					if (is_null($app)) {
-						self::$language = $available[$key];
+				foreach($available as $available_language) {
+					if ($prefered_language === strtolower($available_language)) {
+						if (is_null($app)) {
+							self::$language = $available_language;
+						}
+						return $available_language;
 					}
-					return $available[$key];
 				}
 				foreach($available as $available_language) {
 					if (substr($prefered_language, 0, 2) === $available_language) {
