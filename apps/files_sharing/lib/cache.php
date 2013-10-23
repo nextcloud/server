@@ -237,7 +237,9 @@ class Shared_Cache extends Cache {
 					`encrypted`, `unencrypted_size`, `etag`
 					FROM `*PREFIX*filecache` WHERE `name` LIKE ? AND `fileid` IN (' . $placeholders . ')';
 
-			$result = \OC_DB::executeAudited($sql, array_merge(array($pattern), $chunk));
+			$stmt = \OC_DB::prepare($sql);
+			
+			$result = $stmt->execute(array_merge(array($pattern), $chunk));
 
 			while ($row = $result->fetchRow()) {
 				if (substr($row['path'], 0, 6)==='files/') {
@@ -278,7 +280,9 @@ class Shared_Cache extends Cache {
 					`encrypted`, `unencrypted_size`, `etag`
 					FROM `*PREFIX*filecache` WHERE ' . $where . ' AND `fileid` IN (' . $placeholders . ')';
 
-			$result = \OC_DB::executeAudited($sql, array_merge(array($mimetype), $chunk));
+			$stmt = \OC_DB::prepare($sql);
+			
+			$result = $stmt->execute(array_merge(array($mimetype), $chunk));
 
 			while ($row = $result->fetchRow()) {
 				if (substr($row['path'], 0, 6)==='files/') {
