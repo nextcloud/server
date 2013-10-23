@@ -45,6 +45,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * @var string
 	 */
 	protected $path;
+
 	/**
 	 * node fileinfo cache
 	 * @var array
@@ -211,6 +212,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * properties should be returned
 	 */
 	public function getProperties($properties) {
+
 		if (is_null($this->property_cache)) {
 			$sql = 'SELECT * FROM `*PREFIX*properties` WHERE `userid` = ? AND `propertypath` = ?';
 			$result = OC_DB::executeAudited( $sql, array( OC_User::getUser(), $this->path ) );
@@ -236,8 +238,11 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 
 		$props = array();
 		foreach($properties as $property) {
-			if (isset($this->property_cache[$property])) $props[$property] = $this->property_cache[$property];
+			if (isset($this->property_cache[$property])) {
+				$props[$property] = $this->property_cache[$property];
+			}
 		}
+
 		return $props;
 	}
 
@@ -259,5 +264,16 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 			$this->fileView = \OC\Files\Filesystem::getView();
 		}
 		return $this->fileView;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getFileId()
+	{
+		$this->getFileinfoCache();
+		$instanceId = OC_Util::getInstanceId();
+		$id = sprintf('%08d', $this->fileinfo_cache['fileid']);
+		return $instanceId . $id;
 	}
 }
