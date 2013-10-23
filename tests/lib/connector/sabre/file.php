@@ -35,4 +35,11 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 		$etag = $file->put('test data');
 	}
 
+	/**
+	 * @expectedException Sabre_DAV_Exception_Forbidden
+	 */
+	public function testDeleteSharedFails() {
+		$file = new OC_Connector_Sabre_File('Shared');
+		$file->delete();
+	}
 }
