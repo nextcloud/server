@@ -469,7 +469,7 @@ class OC_L10N implements \OCP\IL10N {
 					return $available[$key];
 				}
 				foreach($available as $available_language) {
-					if ($prefered_language == substr($available_language, 0, 2)) {
+					if (substr($prefered_language, 0, 2) === $available_language) {
 						if (is_null($app)) {
 							self::$language = $available_language;
 						}
