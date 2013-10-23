@@ -25,6 +25,7 @@
 namespace OC\AppFramework\Http;
 
 use \OC\AppFramework\Middleware\MiddlewareDispatcher;
+use \OC\AppFramework\Http;
 use OCP\AppFramework\Controller;
 
 
