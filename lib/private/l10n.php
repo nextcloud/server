@@ -438,8 +438,7 @@ class OC_L10N implements \OCP\IL10N {
 			if(is_array($app)) {
 				$available = $app;
 				$lang_exists = array_search($lang, $available) !== false;
-			}
-			else {
+			} else {
 				$lang_exists = self::languageExists($app, $lang);
 			}
 			if($lang_exists) {
@@ -457,8 +456,7 @@ class OC_L10N implements \OCP\IL10N {
 			$accepted_languages = preg_split('/,\s*/', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']));
 			if(is_array($app)) {
 				$available = $app;
-			}
-			else{
+			} else {
 				$available = self::findAvailableLanguages($app);
 			}
 			foreach($accepted_languages as $i) {
