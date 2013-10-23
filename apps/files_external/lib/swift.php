@@ -198,15 +198,18 @@ class Swift extends \OC\Files\Storage\Common {
 			$path .= '/';
 		}
 
+		error_log($path."\n", 3, "/tmp/opendir");
+
 		try {
 			$files = array();
 			$objects = $this->container->ObjectList(array(
-				'prefix' => $path
+				'prefix' => $path . '/'
 			));
 
 			while ($object = $objects->Next()) {
 				$file = basename($object->Name());
 				if ($file !== basename($path)) {
+					error_log($file."\n", 3, "/tmp/opendir");
 					$files[] = $file;
 				}
 			}
