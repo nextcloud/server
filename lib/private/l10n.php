@@ -419,7 +419,7 @@ class OC_L10N implements \OCP\IL10N {
 	/**
 	 * @brief find the best language
 	 * @param $app Array or string, details below
-	 * @returns language
+	 * @returns string language
 	 *
 	 * If $app is an array, ownCloud assumes that these are the available
 	 * languages. Otherwise ownCloud tries to find the files in the l10n
@@ -464,10 +464,10 @@ class OC_L10N implements \OCP\IL10N {
 
 			$preferences = preg_split('/,\s*/', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']));
 			foreach($preferences as $preference) {
-				list($prefered_language) = explode(';', $preference);
-				$prefered_language = str_replace('-', '_', $prefered_language);
+				list($preferred_language) = explode(';', $preference);
+				$preferred_language = str_replace('-', '_', $preferred_language);
 				foreach($available as $available_language) {
-					if ($prefered_language === strtolower($available_language)) {
+					if ($preferred_language === strtolower($available_language)) {
 						if (is_null($app)) {
 							self::$language = $available_language;
 						}
@@ -475,7 +475,7 @@ class OC_L10N implements \OCP\IL10N {
 					}
 				}
 				foreach($available as $available_language) {
-					if (substr($prefered_language, 0, 2) === $available_language) {
+					if (substr($preferred_language, 0, 2) === $available_language) {
 						if (is_null($app)) {
 							self::$language = $available_language;
 						}
