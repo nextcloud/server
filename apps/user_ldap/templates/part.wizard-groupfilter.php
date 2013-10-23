@@ -35,7 +35,7 @@
 			<div class="ldapWizardInfo invisible">&nbsp;</div>
 		</p>
 		<p>
-			<span id="ldap_group_count">0</span> <span><?php p($l->t('group(s) found'));?></span>
+			<span id="ldap_group_count">0 <?php p($l->t('groups found'));?></span>
 		</p>
 		<?php print_unescaped($_['wizardControls']); ?>
 	</div>

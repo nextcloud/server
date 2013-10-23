@@ -73,8 +73,10 @@ class Wizard extends LDAPUtility {
 		$base = $this->configuration->ldapBase[0];
 		$filter = $this->configuration->ldapGroupFilter;
 		\OCP\Util::writeLog('user_ldap', 'Wiz: g filter '. print_r($filter, true), \OCP\Util::DEBUG);
+		$l = \OC_L10N::get('user_ldap');
 		if(empty($filter)) {
-			$this->result->addChange('ldap_group_count', 0);
+			$output = $l->n('%s group found', '%s groups found', 0, array(0));
+			$this->result->addChange('ldap_group_count', $output);
 			return $this->result;
 		}
 		$cr = $this->getConnection();
@@ -87,7 +89,8 @@ class Wizard extends LDAPUtility {
 		}
 		$entries = $this->ldap->countEntries($cr, $rr);
 		$entries = ($entries !== false) ? $entries : 0;
-		$this->result->addChange('ldap_group_count', $entries);
+		$output = $l->n('%s group found', '%s groups found', $entries, $entries);
+		$this->result->addChange('ldap_group_count', $output);
 
 		return $this->result;
 	}
@@ -116,10 +119,13 @@ class Wizard extends LDAPUtility {
 		}
 		$entries = $this->ldap->countEntries($cr, $rr);
 		$entries = ($entries !== false) ? $entries : 0;
-		$this->result->addChange('ldap_user_count', $entries);
+		$l = \OC_L10N::get('user_ldap');
+		$output = $l->n('%s user found', '%s users found', $entries, $entries);
+		$this->result->addChange('ldap_user_count', $output);
 
 		return $this->result;
 	}
+
 
 	public function determineAttributes() {
 		if(!$this->checkRequirements(array('ldapHost',

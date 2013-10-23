@@ -35,7 +35,7 @@
 			<div class="ldapWizardInfo invisible">&nbsp;</div>
 		</p>
 		<p>
-			<span id="ldap_user_count">0</span> <span><?php p($l->t('user(s) found'));?></span>
+			<span id="ldap_user_count">0 <?php p($l->t('users found'));?></span>
 		</p>
 		<?php print_unescaped($_['wizardControls']); ?>
 	</div>
