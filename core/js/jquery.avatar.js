@@ -60,7 +60,7 @@
 			if (typeof(this.data('user')) !== 'undefined') {
 				user = this.data('user');
 			} else {
-				this.placeholder('x');
+				this.imageplaceholder('x');
 				return;
 			}
 		}
@@ -76,9 +76,9 @@
 				if (typeof(result) === 'object') {
 					if (!hidedefault) {
 						if (result.data && result.data.displayname) {
-							$div.placeholder(user, result.data.displayname);
+							$div.imageplaceholder(user, result.data.displayname);
 						} else {
-							$div.placeholder(user);
+							$div.imageplaceholder(user);
 						}
 					} else {
 						$div.hide();
