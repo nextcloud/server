@@ -200,7 +200,7 @@ OC.Share={
 				}
 			});
 
-			html += '<input id="shareWith" type="text" placeholder="'+t('core', 'Share with')+'" />';
+			html += '<input id="shareWith" type="text" placeholder="'+t('core', 'Share with user or group …')+'" />';
 			html += '<ul id="shareWithList">';
 			html += '</ul>';
 			var linksAllowed = false;
@@ -217,7 +217,7 @@ OC.Share={
 			});
 			if (link && linksAllowed) {
 				html += '<div id="link">';
-				html += '<input type="checkbox" name="linkCheckbox" id="linkCheckbox" value="1" /><label for="linkCheckbox">'+t('core', 'Share with link')+'</label>';
+				html += '<input type="checkbox" name="linkCheckbox" id="linkCheckbox" value="1" /><label for="linkCheckbox">'+t('core', 'Share link')+'</label>';
 				html += '<br />';
 				html += '<input id="linkText" type="text" readonly="readonly" />';
 				html += '<input type="checkbox" name="showPassword" id="showPassword" value="1" style="display:none;" /><label for="showPassword" style="display:none;">'+t('core', 'Password protect')+'</label>';
