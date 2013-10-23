@@ -21,26 +21,36 @@
 	padding:.5em;
 }
 
-#shareWithList li {
-	padding-top: 10px;
-	padding-bottom: 10px;
-	font-weight: bold;
-}
+	#shareWithList li {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		font-weight: bold;
+		line-height: 21px;
+		white-space: normal;
+	}
 
-#shareWithList li:first-child {
-	white-space:normal;
-}
+	#shareWithList .unshare img, #shareWithList .showCruds img {
+		vertical-align:text-bottom; /* properly align icons */
+	}
 
-#shareWithList .cruds {
-	margin-left:-10px;
-}
-
-#shareWithList .unshare img, #shareWithList .showCruds img {
-	vertical-align:text-bottom; /* properly align icons */
-}
-
+	#shareWithList label input[type=checkbox]{
+		margin-left: 0;
+	}
+	#shareWithList .username{
+		padding-right: .5em;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		max-width: 254px;
+		display: inline-block;
+		overflow: hidden;
+		vertical-align: middle;
+	}
+	#shareWithList li label{
+		margin-right: .5em;
+	}
 #dropdown label {
 	font-weight:400;
+	white-space: nowrap;
 }
 
 #dropdown input[type="checkbox"] {
