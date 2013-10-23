@@ -453,27 +453,27 @@ class OC_L10N implements \OCP\IL10N {
 		}
 
 		if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-			$accepted_languages = preg_split('/,\s*/', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']));
 			if(is_array($app)) {
 				$available = $app;
 			} else {
 				$available = self::findAvailableLanguages($app);
 			}
-			foreach($accepted_languages as $i) {
-				$temp = explode(';', $i);
-				$temp[0] = str_replace('-', '_', $temp[0]);
-				if( ($key = array_search($temp[0], $available)) !== false) {
+			$preferences = preg_split('/,\s*/', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']));
+			foreach($preferences as $preference) {
+				list($prefered_language) = explode(';', $preference);
+				$prefered_language = str_replace('-', '_', $prefered_language);
+				if( ($key = array_search($prefered_language, $available)) !== false) {
 					if (is_null($app)) {
 						self::$language = $available[$key];
 					}
 					return $available[$key];
 				}
-				foreach($available as $l) {
-					if ( $temp[0] == substr($l, 0, 2) ) {
+				foreach($available as $available_language) {
+					if ($prefered_language == substr($available_language, 0, 2)) {
 						if (is_null($app)) {
-							self::$language = $l;
+							self::$language = $available_language;
 						}
-						return $l;
+						return $available_language;
 					}
 				}
 			}
