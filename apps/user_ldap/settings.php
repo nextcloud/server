@@ -25,19 +25,50 @@
 
 OC_Util::checkAdminUser();
 
-OCP\Util::addscript('user_ldap', 'settings');
-OCP\Util::addstyle('user_ldap', 'settings');
+OCP\Util::addScript('user_ldap', 'settings');
+OCP\Util::addScript('core', 'jquery.multiselect');
+OCP\Util::addStyle('user_ldap', 'settings');
+OCP\Util::addStyle('core', 'jquery.multiselect');
+OCP\Util::addStyle('core', 'jquery-ui-1.10.0.custom');
 
 // fill template
 $tmpl = new OCP\Template('user_ldap', 'settings');
 
 $prefixes = \OCA\user_ldap\lib\Helper::getServerConfigurationPrefixes();
 $hosts = \OCA\user_ldap\lib\Helper::getServerConfigurationHosts();
-$tmpl->assign('serverConfigurationPrefixes', $prefixes);
-$tmpl->assign('serverConfigurationHosts', $hosts);
+
+$wizardHtml = '';
+$toc = array();
+
+$wControls = new OCP\Template('user_ldap', 'part.wizardcontrols');
+$wControls = $wControls->fetchPage();
+$sControls = new OCP\Template('user_ldap', 'part.settingcontrols');
+$sControls = $sControls->fetchPage();
+
+$wizTabs = array();
+$wizTabs[] = array('tpl' => 'part.wizard-server',      'cap' => 'Server');
+$wizTabs[] = array('tpl' => 'part.wizard-userfilter',  'cap' => 'User Filter');
+$wizTabs[] = array('tpl' => 'part.wizard-loginfilter', 'cap' => 'Login Filter');
+$wizTabs[] = array('tpl' => 'part.wizard-groupfilter', 'cap' => 'Group Filter');
+
+for($i = 0; $i < count($wizTabs); $i++) {
+	$tab = new OCP\Template('user_ldap', $wizTabs[$i]['tpl']);
+	if($i === 0) {
+		$tab->assign('serverConfigurationPrefixes', $prefixes);
+		$tab->assign('serverConfigurationHosts', $hosts);
+	}
+	$tab->assign('wizardControls', $wControls);
+	$wizardHtml .= $tab->fetchPage();
+	$toc['#ldapWizard'.($i+1)] = $wizTabs[$i]['cap'];
+}
+
+$tmpl->assign('tabs', $wizardHtml);
+$tmpl->assign('toc', $toc);
+$tmpl->assign('settingControls', $sControls);
 
 // assign default values
-$defaults = \OCA\user_ldap\lib\Connection::getDefaults();
+$config = new \OCA\user_ldap\lib\Configuration('', false);
+$defaults = $config->getDefaults();
 foreach($defaults as $key => $default) {
     $tmpl->assign($key.'_default', $default);
 }

@@ -831,7 +831,7 @@ class Access extends LDAPUtility {
 	private function combineFilter($filters, $operator) {
 		$combinedFilter = '('.$operator;
 		foreach($filters as $filter) {
-		    if($filter[0] !== '(') {
+		    if(!empty($filter) && $filter[0] !== '(') {
 				$filter = '('.$filter.')';
 		    }
 		    $combinedFilter.=$filter;
