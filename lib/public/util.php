@@ -82,19 +82,19 @@ class Util {
 	 * if DEBUG mode is enabled
 	 * @param Exception $ex exception to log
 	 */
-	public static function logException( \Exception $ex ) {
+	public static function logException( $app, \Exception $ex ) {
 		$message = $ex->getMessage();
 		if ($ex->getCode()) {
 			$message .= ' [' . $ex->getCode() . ']';
 		}
-		\OCP\Util::writeLog('index', 'Exception: ' . $message, \OCP\Util::FATAL);
+		\OCP\Util::writeLog($app, 'Exception: ' . $message, \OCP\Util::FATAL);
 		if (defined('DEBUG') and DEBUG) {
 			// also log stack trace
 			$stack = explode('#', $ex->getTraceAsString());
 			// first element is empty
 			array_shift($stack);
 			foreach ($stack as $s) {
-				\OCP\Util::writeLog('index', 'Exception: ' . $s, \OCP\Util::FATAL);
+				\OCP\Util::writeLog($app, 'Exception: ' . $s, \OCP\Util::FATAL);
 			}
 
 			// include cause
@@ -105,7 +105,7 @@ class Util {
 				if ($ex->getCode()) {
 					$message .= '[' . $ex->getCode() . '] ';
 				}
-				\OCP\Util::writeLog('index', 'Exception: ' . $message, \OCP\Util::FATAL);
+				\OCP\Util::writeLog($app, 'Exception: ' . $message, \OCP\Util::FATAL);
 			}
 		}
 	}
