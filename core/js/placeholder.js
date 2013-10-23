@@ -30,7 +30,7 @@
  *
  * And call this from Javascript:
  *
- * $('#albumart').placeholder('The Album Title');
+ * $('#albumart').imageplaceholder('The Album Title');
  *
  * Which will result in:
  *
@@ -38,7 +38,7 @@
  *
  * You may also call it like this, to have a different background, than the seed:
  *
- * $('#albumart').placeholder('The Album Title', 'Album Title');
+ * $('#albumart').imageplaceholder('The Album Title', 'Album Title');
  *
  * Resulting in:
  *
@@ -47,7 +47,7 @@
  */
 
 (function ($) {
-	$.fn.placeholder = function(seed, text) {
+	$.fn.imageplaceholder = function(seed, text) {
 		// set optional argument "text" to value of "seed" if undefined
 		text = text || seed;
 

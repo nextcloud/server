@@ -310,6 +310,9 @@ OC.Share={
 		$('#dropdown').show('blind', function() {
 			OC.Share.droppedDown = true;
 		});
+		if ($('html').hasClass('lte9')){
+			$('#dropdown input[placeholder]').placeholder();
+		}
 		$('#shareWith').focus();
 	},
 	hideDropDown:function(callback) {
