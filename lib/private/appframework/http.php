@@ -22,10 +22,11 @@
  */
 
 
-namespace OC\AppFramework\Http;
+namespace OC\AppFramework;
 
+use OCP\AppFramework\Http as BaseHttp;
 
-class Http extends \OCP\AppFramework\Http\Http{
+class Http extends BaseHttp {
 
 	private $server;
 	private $protocolVersion;

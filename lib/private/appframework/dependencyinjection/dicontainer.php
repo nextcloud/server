@@ -24,7 +24,7 @@
 
 namespace OC\AppFramework\DependencyInjection;
 
-use OC\AppFramework\Http\Http;
+use OC\AppFramework\Http;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Core\API;

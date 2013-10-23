@@ -24,6 +24,7 @@
 
 namespace OCP\AppFramework\Http;
 
+use OCP\AppFramework\Http;
 
 /**
  * Base class for responses. Also used to just send headers.
