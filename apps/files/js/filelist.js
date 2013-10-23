@@ -359,7 +359,7 @@ var FileList={
 				if (!Files.isFileNameValid(filename)) {
 					// Files.isFileNameValid(filename) throws an exception itself
 				} else if($('#dir').val() === '/' && filename === 'Shared') {
-					throw t('files','Invalid name. Usage of \'Shared\' is reserved by ownCloud');
+					throw t('files','In the home folder \'Shared\' is a reserved filename');
 				} else if (FileList.inList(filename)) {
 					throw t('files', '{new_name} already exists', {new_name: filename});
 				}
