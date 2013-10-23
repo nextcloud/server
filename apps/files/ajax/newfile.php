@@ -64,7 +64,7 @@ if (\OC\Files\Filesystem::file_exists($target)) {
 			'data'		=> array(
 				'message'	=> $l10n->t(
 					"The name %s is already used in the folder %s. Please choose a different name.",
-					array($target, $dir))
+					array($filename, $dir))
 				)
 			);
 	OCP\JSON::error($result);
