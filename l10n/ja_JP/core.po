@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-16 00:26-0400\n"
-"PO-Revision-Date: 2013-10-16 04:11+0000\n"
-"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
+"POT-Creation-Date: 2013-10-19 08:26-0400\n"
+"PO-Revision-Date: 2013-10-19 06:00+0000\n"
+"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,7 +31,7 @@ msgstr "%sが あなたと »%s«を共有しました"
 msgid "Couldn't send mail to following users: %s "
 msgstr "次のユーザにメールを送信できませんでした: %s"
 
-#: ajax/share.php:327
+#: ajax/share.php:327 js/share.js:338
 msgid "group"
 msgstr "グループ"
 
@@ -271,144 +271,144 @@ msgstr "({count} 選択)"
 msgid "Error loading file exists template"
 msgstr "既存ファイルのテンプレートの読み込みエラー"
 
-#: js/share.js:30 js/share.js:45 js/share.js:87
+#: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
 msgstr "共有中"
 
-#: js/share.js:90
+#: js/share.js:109
 msgid "Share"
 msgstr "共有"
 
-#: js/share.js:130 js/share.js:143 js/share.js:150 js/share.js:667
-#: js/share.js:679
+#: js/share.js:149 js/share.js:162 js/share.js:169 js/share.js:701
+#: js/share.js:713
 msgid "Error"
 msgstr "エラー"
 
-#: js/share.js:132 js/share.js:707
+#: js/share.js:151 js/share.js:741
 msgid "Error while sharing"
 msgstr "共有でエラー発生"
 
-#: js/share.js:143
+#: js/share.js:162
 msgid "Error while unsharing"
 msgstr "共有解除でエラー発生"
 
-#: js/share.js:150
+#: js/share.js:169
 msgid "Error while changing permissions"
 msgstr "権限変更でエラー発生"
 
-#: js/share.js:159
+#: js/share.js:178
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "あなたと {owner} のグループ {group} で共有中"
 
-#: js/share.js:161
+#: js/share.js:180
 msgid "Shared with you by {owner}"
 msgstr "{owner} と共有中"
 
-#: js/share.js:184
+#: js/share.js:203
 msgid "Share with"
 msgstr "共有者"
 
-#: js/share.js:189
+#: js/share.js:220
 msgid "Share with link"
 msgstr "URLリンクで共有"
 
-#: js/share.js:192
+#: js/share.js:223
 msgid "Password protect"
 msgstr "パスワード保護"
 
-#: js/share.js:194 templates/installation.php:57 templates/login.php:32
+#: js/share.js:225 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "パスワード"
 
-#: js/share.js:199
+#: js/share.js:230
 msgid "Allow Public Upload"
 msgstr "アップロードを許可"
 
-#: js/share.js:203
+#: js/share.js:234
 msgid "Email link to person"
 msgstr "メールリンク"
 
-#: js/share.js:204
+#: js/share.js:235
 msgid "Send"
 msgstr "送信"
 
-#: js/share.js:209
+#: js/share.js:240
 msgid "Set expiration date"
 msgstr "有効期限を設定"
 
-#: js/share.js:210
+#: js/share.js:241
 msgid "Expiration date"
 msgstr "有効期限"
 
-#: js/share.js:243
+#: js/share.js:274
 msgid "Share via email:"
 msgstr "メール経由で共有:"
 
-#: js/share.js:246
+#: js/share.js:277
 msgid "No people found"
 msgstr "ユーザーが見つかりません"
 
-#: js/share.js:284
+#: js/share.js:315
 msgid "Resharing is not allowed"
 msgstr "再共有は許可されていません"
 
-#: js/share.js:320
+#: js/share.js:354
 msgid "Shared in {item} with {user}"
 msgstr "{item} 内で {user} と共有中"
 
-#: js/share.js:341
+#: js/share.js:375
 msgid "Unshare"
 msgstr "共有解除"
 
-#: js/share.js:353
+#: js/share.js:387
 msgid "notify user by email"
 msgstr "ユーザにメールで通知"
 
-#: js/share.js:361
+#: js/share.js:395
 msgid "can edit"
 msgstr "編集可能"
 
-#: js/share.js:363
+#: js/share.js:397
 msgid "access control"
 msgstr "アクセス権限"
 
-#: js/share.js:366
+#: js/share.js:400
 msgid "create"
 msgstr "作成"
 
-#: js/share.js:369
+#: js/share.js:403
 msgid "update"
 msgstr "更新"
 
-#: js/share.js:372
+#: js/share.js:406
 msgid "delete"
 msgstr "削除"
 
-#: js/share.js:375
+#: js/share.js:409
 msgid "share"
 msgstr "共有"
 
-#: js/share.js:409 js/share.js:654
+#: js/share.js:443 js/share.js:688
 msgid "Password protected"
 msgstr "パスワード保護"
 
-#: js/share.js:667
+#: js/share.js:701
 msgid "Error unsetting expiration date"
 msgstr "有効期限の未設定エラー"
 
-#: js/share.js:679
+#: js/share.js:713
 msgid "Error setting expiration date"
 msgstr "有効期限の設定でエラー発生"
 
-#: js/share.js:694
+#: js/share.js:728
 msgid "Sending ..."
 msgstr "送信中..."
 
-#: js/share.js:705
+#: js/share.js:739
 msgid "Email sent"
 msgstr "メールを送信しました"
 
-#: js/share.js:729
+#: js/share.js:763
 msgid "Warning"
 msgstr "警告"
 
@@ -434,7 +434,7 @@ msgstr "タグを編集"
 
 #: js/tags.js:57
 msgid "Error loading dialog template: {error}"
-msgstr ""
+msgstr "メッセージテンプレートの読み込みエラー: {error}"
 
 #: js/tags.js:261
 msgid "No tags selected for deletion."
@@ -520,7 +520,7 @@ msgstr "個人"
 msgid "Users"
 msgstr "ユーザ"
 
-#: strings.php:7 templates/layout.user.php:109
+#: strings.php:7 templates/layout.user.php:110
 msgid "Apps"
 msgstr "アプリ"
 
@@ -554,11 +554,11 @@ msgstr "タグの解除エラー"
 
 #: tags/controller.php:97
 msgid "Error favoriting"
-msgstr ""
+msgstr "お気に入りに追加エラー"
 
 #: tags/controller.php:108
 msgid "Error unfavoriting"
-msgstr ""
+msgstr "お気に入りから削除エラー"
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -576,7 +576,7 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-msgstr ""
+msgstr "こんにちは、\n\n%s があなたと %s を共有したことをお知らせします。\nそれを表示: %s\n"
 
 #: templates/altmail.php:4
 #, php-format
@@ -587,7 +587,7 @@ msgstr "共有は %s で有効期限が切れます。\n\n"
 
 #: templates/altmail.php:6 templates/mail.php:19
 msgid "Cheers!"
-msgstr ""
+msgstr "それでは！"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -678,12 +678,12 @@ msgstr "セットアップを完了します"
 msgid "Finishing …"
 msgstr "終了しています ..."
 
-#: templates/layout.user.php:42
+#: templates/layout.user.php:43
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s が利用可能です。更新方法に関してさらに情報を取得して下さい。"
 
-#: templates/layout.user.php:70
+#: templates/layout.user.php:71
 msgid "Log out"
 msgstr "ログアウト"
 
@@ -730,7 +730,7 @@ msgstr "代替ログイン"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "こんにちは、<br><br>%sがあなたと »%s« を共有したことをお知らせします。<br><a href=\"%s\">それを表示</a><br><br>"
 
 #: templates/mail.php:17
 #, php-format

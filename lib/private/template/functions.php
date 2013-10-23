@@ -36,6 +36,14 @@ function link_to( $app, $file, $args = array() ) {
 }
 
 /**
+ * @param $key
+ * @return string url to the online documentation
+ */
+function link_to_docs($key) {
+	return OC_Helper::linkToDocs($key);
+}
+
+/**
  * @brief make OC_Helper::imagePath available as a simple function
  * @param string $app app
  * @param string $image image

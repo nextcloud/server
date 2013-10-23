@@ -181,7 +181,7 @@ class OC {
 			OC_Template::printErrorPage(
 				"Can't write into config directory!",
 				'This can usually be fixed by '
-					.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html#set-the-directory-permissions" target="_blank">giving the webserver write access to the config directory</a>.'
+					.'<a href="' . link_to_docs('admin-dir_permissions') . '" target="_blank">giving the webserver write access to the config directory</a>.'
 			);
 		}
 	}
@@ -828,6 +828,7 @@ class OC {
 				OC_User::setMagicInCookie($_COOKIE['oc_username'], $token);
 				// login
 				OC_User::setUserId($_COOKIE['oc_username']);
+				OC_User::setDisplayName($_COOKIE['oc_username'], $_COOKIE['display_name']);
 				OC_Util::redirectToDefaultPage();
 				// doesn't return
 			}

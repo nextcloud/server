@@ -8,7 +8,6 @@ $TRANSLATIONS = array(
 "Users" => "Users",
 "Admin" => "Admin",
 "Failed to upgrade \"%s\"." => "Failed to upgrade \"%s\".",
-"Custom profile pictures don't work with encryption yet" => "Custom profile pictures don't work with encryption yet",
 "Unknown filetype" => "Unknown filetype",
 "Invalid image" => "Invalid image",
 "web services under your control" => "web services under your control",

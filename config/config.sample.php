@@ -129,6 +129,12 @@ $CONFIG = array(
 /* Are we connected to the internet or are we running in a closed network? */
 "has_internet_connection" => true,
 
+/* Check if the ownCloud WebDAV server is working correctly. Can be disabled if not needed in special situations*/
+"check_for_working_webdav" => true,
+
+/* Check if .htaccess protection of data is working correctly. Can be disabled if not needed in special situations*/
+"check_for_working_htaccess" => true,
+
 /* Place to log to, can be owncloud and syslog (owncloud is log menu item in admin menu) */
 "log_type" => "owncloud",
 

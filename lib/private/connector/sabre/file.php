@@ -148,6 +148,9 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		}
 		\OC\Files\Filesystem::unlink($this->path);
 
+		// remove properties
+		$this->removeProperties();
+
 	}
 
 	/**

@@ -555,4 +555,15 @@ class Hooks {
 		}
 	}
 
+	/**
+	 * set the init status to 'NOT_INITIALIZED' (0) if the app gets enabled
+	 * @param array $params contains the app ID
+	 */
+	public static function postEnable($params) {
+		if ($params['app'] === 'files_encryption') {
+			$session = new \OCA\Encryption\Session(new \OC\Files\View('/'));
+			$session->setInitialized(\OCA\Encryption\Session::NOT_INITIALIZED);
+		}
+	}
+
 }

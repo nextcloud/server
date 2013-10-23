@@ -5,6 +5,7 @@
 # Translators:
 # Daniel Sandman <revoltism@gmail.com>, 2013
 # Gunnar Norin <blittan@xbmc.org>, 2013
+# Gustav Smedberg <shadow.elf@hotmail.com>, 2013
 # Jan Busk, 2013
 # Jan Busk, 2013
 # medialabs, 2013
@@ -14,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-16 00:26-0400\n"
-"PO-Revision-Date: 2013-10-14 00:41+0000\n"
+"POT-Creation-Date: 2013-10-21 13:01-0400\n"
+"PO-Revision-Date: 2013-10-21 17:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -294,13 +295,13 @@ msgstr "Exekvera en uppgift vid varje sidladdning"
 
 #: templates/admin.php:107
 msgid ""
-"cron.php is registered at a webcron service to call cron.php once a minute "
-"over http."
-msgstr "cron.php är registrerad som en webcron-tjänst för att anropa cron.php varje minut över http."
+"cron.php is registered at a webcron service to call cron.php every 15 "
+"minutes over http."
+msgstr ""
 
 #: templates/admin.php:115
-msgid "Use systems cron service to call the cron.php file once a minute."
-msgstr "Använd system-tjänsten cron för att anropa cron.php varje minut."
+msgid "Use systems cron service to call the cron.php file every 15 minutes."
+msgstr ""
 
 #: templates/admin.php:120
 msgid "Sharing"
@@ -349,11 +350,11 @@ msgstr "Tillåt bara delning med användare i egna grupper"
 
 #: templates/admin.php:170
 msgid "Allow mail notification"
-msgstr ""
+msgstr "Tillåt e-post notifikation"
 
 #: templates/admin.php:171
 msgid "Allow user to send mail notification for shared files"
-msgstr ""
+msgstr "Tillåt användare att skicka e-port notifikationer för delade filer"
 
 #: templates/admin.php:178
 msgid "Security"

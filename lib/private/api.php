@@ -46,6 +46,7 @@ class OC_API {
 	 * api actions
 	 */
 	protected static $actions = array();
+	private static $logoutRequired = false;
 	
 	/**
 	 * registers an api call
@@ -115,7 +116,9 @@ class OC_API {
 		$formats = array('json', 'xml');
 
 		$format = !empty($_GET['format']) && in_array($_GET['format'], $formats) ? $_GET['format'] : 'xml';
-		OC_User::logout();
+		if (self::$logoutRequired) {
+			OC_User::logout();
+		}
 
 		self::respond($response, $format);
 	}
@@ -235,10 +238,23 @@ class OC_API {
 	 * http basic auth
 	 * @return string|false (username, or false on failure)
 	 */
-	private static function loginUser(){ 
+	private static function loginUser(){
+		// basic auth
 		$authUser = isset($_SERVER['PHP_AUTH_USER']) ? $_SERVER['PHP_AUTH_USER'] : '';
 		$authPw = isset($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : '';
-		return OC_User::login($authUser, $authPw) ? $authUser : false;
+		$return = OC_User::login($authUser, $authPw);
+		if ($return === true) {
+			self::$logoutRequired = true;
+			return $authUser;
+		}
+
+		// reuse existing login
+		$loggedIn = OC_User::isLoggedIn();
+		if ($loggedIn === true) {
+			return OC_User::getUser();
+		}
+
+		return false;
 	}
 	
 	/**

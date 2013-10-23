@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# sherlock79 <david@interpont.hu>, 2013
 # ebela <bela@dandre.hu>, 2013
 # Laszlo Tornoci <torlasz@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-06 19:07-0400\n"
-"PO-Revision-Date: 2013-10-02 13:20+0000\n"
-"Last-Translator: ebela <bela@dandre.hu>\n"
+"POT-Creation-Date: 2013-10-19 08:26-0400\n"
+"PO-Revision-Date: 2013-10-18 20:00+0000\n"
+"Last-Translator: sherlock79 <david@interpont.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,51 +20,47 @@ msgstr ""
 "Language: hu_HU\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: private/app.php:237
+#: private/app.php:243
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr ""
+msgstr "A(z) \"%s\" alkalmazást nem lehet telepíteni, mert nem kompatibilis az ownCloud telepített verziójával."
 
-#: private/app.php:248
+#: private/app.php:254
 msgid "No app name specified"
 msgstr "Nincs az alkalmazás név megadva."
 
-#: private/app.php:352
+#: private/app.php:359
 msgid "Help"
 msgstr "Súgó"
 
-#: private/app.php:365
+#: private/app.php:372
 msgid "Personal"
 msgstr "Személyes"
 
-#: private/app.php:376
+#: private/app.php:383
 msgid "Settings"
 msgstr "Beállítások"
 
-#: private/app.php:388
+#: private/app.php:395
 msgid "Users"
 msgstr "Felhasználók"
 
-#: private/app.php:401
+#: private/app.php:408
 msgid "Admin"
 msgstr "Adminsztráció"
 
-#: private/app.php:832
+#: private/app.php:872
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Sikertelen Frissítés \"%s\"."
 
-#: private/avatar.php:56
-msgid "Custom profile pictures don't work with encryption yet"
-msgstr ""
-
-#: private/avatar.php:64
+#: private/avatar.php:60
 msgid "Unknown filetype"
 msgstr "Ismeretlen file tipús"
 
-#: private/avatar.php:69
+#: private/avatar.php:65
 msgid "Invalid image"
 msgstr "Hibás kép"
 
@@ -100,24 +97,24 @@ msgstr "Tölts le a fileokat kisebb chunkokban, kölün vagy kérj segitséget a
 
 #: private/installer.php:63
 msgid "No source specified when installing app"
-msgstr ""
+msgstr "Az alkalmazás telepítéséhez nincs forrás megadva"
 
 #: private/installer.php:70
 msgid "No href specified when installing app from http"
-msgstr ""
+msgstr "Az alkalmazás http-n keresztül történő telepítéséhez nincs href hivetkozás megadva"
 
 #: private/installer.php:75
 msgid "No path specified when installing app from local file"
-msgstr ""
+msgstr "Az alkalmazás helyi telepítéséhez nincs útvonal (mappa) megadva"
 
 #: private/installer.php:89
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr ""
+msgstr "A(z) %s típusú tömörített állomány nem támogatott"
 
 #: private/installer.php:103
 msgid "Failed to open archive when installing app"
-msgstr ""
+msgstr "Nem sikerült megnyitni a tömörített állományt a telepítés során"
 
 #: private/installer.php:125
 msgid "App does not provide an info.xml file"
@@ -125,7 +122,7 @@ msgstr "Az alkalmazás nem szolgáltatott info.xml file-t"
 
 #: private/installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
-msgstr ""
+msgstr "Az alkalmazást nem lehet telepíteni, mert abban nem engedélyezett programkód szerepel"
 
 #: private/installer.php:140
 msgid ""
@@ -137,13 +134,13 @@ msgstr "Az alalmazás nem telepíthető, mert nem kompatibilis az ownClod ezzel 
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
-msgstr ""
+msgstr "Az alkalmazást nem lehet telepíteni, mert tartalmazza a \n<shipped>\ntrue\n</shipped>\ncímkét, ami a nem szállított alkalmazások esetén nem engedélyezett"
 
 #: private/installer.php:152
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr ""
+msgstr "Az alkalmazást nem lehet telepíteni, mert az info.xml/version-ben megadott verzió nem egyezik az alkalmazás-áruházban feltüntetett verzióval."
 
 #: private/installer.php:162
 msgid "App directory already exists"
@@ -298,13 +295,13 @@ msgstr "pár másodperce"
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n perccel ezelőtt"
 
 #: private/template/functions.php:124
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n órával ezelőtt"
+msgstr[1] "%n órával ezelőtt"
 
 #: private/template/functions.php:125
 msgid "today"
@@ -317,8 +314,8 @@ msgstr "tegnap"
 #: private/template/functions.php:128
 msgid "%n day go"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n nappal ezelőtt"
+msgstr[1] "%n nappal ezelőtt"
 
 #: private/template/functions.php:130
 msgid "last month"
@@ -327,8 +324,8 @@ msgstr "múlt hónapban"
 #: private/template/functions.php:131
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n hónappal ezelőtt"
+msgstr[1] "%n hónappal ezelőtt"
 
 #: private/template/functions.php:133
 msgid "last year"

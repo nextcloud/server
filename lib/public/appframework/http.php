@@ -22,7 +22,7 @@
  */
 
 
-namespace OCP\AppFramework\Http;
+namespace OCP\AppFramework;
 
 
 class Http {

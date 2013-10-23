@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-16 00:26-0400\n"
-"PO-Revision-Date: 2013-10-14 00:41+0000\n"
-"Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
+"POT-Creation-Date: 2013-10-21 13:01-0400\n"
+"PO-Revision-Date: 2013-10-21 17:01+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -288,13 +288,13 @@ msgstr "當頁面載入時，執行"
 
 #: templates/admin.php:107
 msgid ""
-"cron.php is registered at a webcron service to call cron.php once a minute "
-"over http."
-msgstr "cron.php 已經註冊 webcron 服務，webcron 每分鐘會呼叫 cron.php 一次。"
+"cron.php is registered at a webcron service to call cron.php every 15 "
+"minutes over http."
+msgstr ""
 
 #: templates/admin.php:115
-msgid "Use systems cron service to call the cron.php file once a minute."
-msgstr "使用系統的 cron 服務來呼叫 cron.php 每分鐘一次。"
+msgid "Use systems cron service to call the cron.php file every 15 minutes."
+msgstr ""
 
 #: templates/admin.php:120
 msgid "Sharing"

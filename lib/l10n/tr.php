@@ -8,7 +8,6 @@ $TRANSLATIONS = array(
 "Users" => "Kullanıcılar",
 "Admin" => "Yönetici",
 "Failed to upgrade \"%s\"." => "\"%s\" yükseltme başarısız oldu.",
-"Custom profile pictures don't work with encryption yet" => "Hala özel profil resminiz şifreleme ile çalışmıyor",
 "Unknown filetype" => "Bilinmeyen dosya türü",
 "Invalid image" => "Geçersiz resim",
 "web services under your control" => "Bilgileriniz güvenli ve şifreli",

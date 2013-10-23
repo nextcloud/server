@@ -303,16 +303,16 @@ class OC_Util {
 
 		//common hint for all file permissions error messages
 		$permissionsHint = 'Permissions can usually be fixed by '
-			.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html'
-			.'#set-the-directory-permissions" target="_blank">giving the webserver write access to the root directory</a>.';
+			.'<a href="' . OC_Helper::linkToDocs('admin-dir_permissions')
+			.'" target="_blank">giving the webserver write access to the root directory</a>.';
 
 		// Check if config folder is writable.
 		if(!is_writable(OC::$SERVERROOT."/config/") or !is_readable(OC::$SERVERROOT."/config/")) {
 			$errors[] = array(
 				'error' => "Can't write into config directory",
 				'hint' => 'This can usually be fixed by '
-					.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html'
-					.'#set-the-directory-permissions" target="_blank">giving the webserver write access to the config directory</a>.'
+					.'<a href="' . OC_Helper::linkToDocs('admin-dir_permissions')
+					.'" target="_blank">giving the webserver write access to the config directory</a>.'
 				);
 		}
 
@@ -324,8 +324,8 @@ class OC_Util {
 				$errors[] = array(
 					'error' => "Can't write into apps directory",
 					'hint' => 'This can usually be fixed by '
-						.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html'
-						.'#set-the-directory-permissions" target="_blank">giving the webserver write access to the apps directory</a> '
+						.'<a href="' . OC_Helper::linkToDocs('admin-dir_permissions')
+						.'" target="_blank">giving the webserver write access to the apps directory</a> '
 						.'or disabling the appstore in the config file.'
 					);
 			}
@@ -340,8 +340,8 @@ class OC_Util {
 				$errors[] = array(
 					'error' => "Can't create data directory (".$CONFIG_DATADIRECTORY.")",
 					'hint' => 'This can usually be fixed by '
-					.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html'
-					.'#set-the-directory-permissions" target="_blank">giving the webserver write access to the root directory</a>.'
+					.'<a href="' . OC_Helper::linkToDocs('admin-dir_permissions')
+					.'" target="_blank">giving the webserver write access to the root directory</a>.'
 				);
 			}
 		} else if(!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
@@ -754,6 +754,10 @@ class OC_Util {
 	 * file in the data directory and trying to access via http
 	 */
 	public static function isHtAccessWorking() {
+		if (!\OC_Config::getValue("check_for_working_htaccess", true)) {
+			return true;
+		}
+		
 		// testdata
 		$fileName = '/htaccesstest.txt';
 		$testContent = 'testcontent';
@@ -802,11 +806,16 @@ class OC_Util {
 		if (!function_exists('curl_init')) {
 			return true;
 		}
+		if (!\OC_Config::getValue("check_for_working_webdav", true)) {
+			return true;
+		}
 		$settings = array(
 			'baseUri' => OC_Helper::linkToRemote('webdav'),
 		);
 
-		$client = new \Sabre_DAV_Client($settings);
+		$client = new \OC_DAVClient($settings);
+
+		$client->setRequestTimeout(10);
 
 		// for this self test we don't care if the ssl certificate is self signed and the peer cannot be verified.
 		$client->setVerifyPeer(false);

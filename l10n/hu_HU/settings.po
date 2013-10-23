@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Adam Toth <adazlord@gmail.com>, 2013
+# sherlock79 <david@interpont.hu>, 2013
 # ebela <bela@dandre.hu>, 2013
 # Laszlo Tornoci <torlasz@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-16 00:26-0400\n"
-"PO-Revision-Date: 2013-10-14 00:41+0000\n"
+"POT-Creation-Date: 2013-10-21 13:01-0400\n"
+"PO-Revision-Date: 2013-10-21 17:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -290,13 +291,13 @@ msgstr "Egy-egy feladat végrehajtása minden alkalommal, amikor egy weboldalt l
 
 #: templates/admin.php:107
 msgid ""
-"cron.php is registered at a webcron service to call cron.php once a minute "
-"over http."
-msgstr "A cron.php webcron szolgáltatásként van regisztrálva. Hívja meg a cron.php állományt http-n keresztül percenként egyszer."
+"cron.php is registered at a webcron service to call cron.php every 15 "
+"minutes over http."
+msgstr ""
 
 #: templates/admin.php:115
-msgid "Use systems cron service to call the cron.php file once a minute."
-msgstr "A rendszer cron szolgáltatásának használata. Hívja meg a cron.php állományt percenként egyszer a rendszer cron szolgáltatásának segítségével."
+msgid "Use systems cron service to call the cron.php file every 15 minutes."
+msgstr ""
 
 #: templates/admin.php:120
 msgid "Sharing"
@@ -345,11 +346,11 @@ msgstr "A felhasználók csak olyanokkal oszthatják meg állományaikat, akikke
 
 #: templates/admin.php:170
 msgid "Allow mail notification"
-msgstr ""
+msgstr "E-mail értesítések engedélyezése"
 
 #: templates/admin.php:171
 msgid "Allow user to send mail notification for shared files"
-msgstr ""
+msgstr "Engedélyezi, hogy a felhasználók e-mail értesítést küldhessenek a megosztott fájlokról."
 
 #: templates/admin.php:178
 msgid "Security"

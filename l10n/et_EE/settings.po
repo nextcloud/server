@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-16 00:26-0400\n"
-"PO-Revision-Date: 2013-10-14 00:42+0000\n"
-"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
+"POT-Creation-Date: 2013-10-21 13:01-0400\n"
+"PO-Revision-Date: 2013-10-21 17:01+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -133,11 +133,11 @@ msgstr "Palun oota..."
 
 #: js/apps.js:79 js/apps.js:80 js/apps.js:101
 msgid "Error while disabling app"
-msgstr "Viga rakendi keelamisel"
+msgstr "Viga rakenduse keelamisel"
 
 #: js/apps.js:100 js/apps.js:114 js/apps.js:115
 msgid "Error while enabling app"
-msgstr "Viga rakendi lubamisel"
+msgstr "Viga rakenduse lubamisel"
 
 #: js/apps.js:125
 msgid "Updating...."
@@ -285,17 +285,17 @@ msgstr "Cron"
 
 #: templates/admin.php:99
 msgid "Execute one task with each page loaded"
-msgstr "Käivita toiming lehe laadimisel"
+msgstr "Käivita toiming igal lehe laadimisel"
 
 #: templates/admin.php:107
 msgid ""
-"cron.php is registered at a webcron service to call cron.php once a minute "
-"over http."
-msgstr "cron.php on registreeritud webcron teenusena laadimaks cron.php iga minut üle http."
+"cron.php is registered at a webcron service to call cron.php every 15 "
+"minutes over http."
+msgstr ""
 
 #: templates/admin.php:115
-msgid "Use systems cron service to call the cron.php file once a minute."
-msgstr "Kasuta süsteemi cron teenust käivitamaks faili cron.php kord minutis."
+msgid "Use systems cron service to call the cron.php file every 15 minutes."
+msgstr ""
 
 #: templates/admin.php:120
 msgid "Sharing"
@@ -503,7 +503,7 @@ msgstr "Profiili pilt"
 
 #: templates/personal.php:90
 msgid "Upload new"
-msgstr "Laadi uus"
+msgstr "Laadi uus üles"
 
 #: templates/personal.php:92
 msgid "Select new from Files"
@@ -515,7 +515,7 @@ msgstr "Eemalda pilt"
 
 #: templates/personal.php:94
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
-msgstr "Kas png või jpg. Võimalikult ruudukujuline, kuid Sul on võimalus veel lõigata."
+msgstr "Kas png või jpg. Võimalikult ruudukujuline, kuid sul on võimalus seda veel lõigata."
 
 #: templates/personal.php:97
 msgid "Abort"
@@ -523,7 +523,7 @@ msgstr "Katkesta"
 
 #: templates/personal.php:98
 msgid "Choose as profile image"
-msgstr "Vali kui profiili pilt"
+msgstr "Vali profiilipildiks"
 
 #: templates/personal.php:106 templates/personal.php:107
 msgid "Language"
@@ -570,7 +570,7 @@ msgstr "Lisa"
 
 #: templates/users.php:36
 msgid "Admin Recovery Password"
-msgstr "Admin taasteparool"
+msgstr "Admini parooli taastamine"
 
 #: templates/users.php:37 templates/users.php:38
 msgid ""

@@ -8,7 +8,6 @@ $TRANSLATIONS = array(
 "Users" => "Vartotojai",
 "Admin" => "Administravimas",
 "Failed to upgrade \"%s\"." => "Nepavyko pakelti  „%s“ versijos.",
-"Custom profile pictures don't work with encryption yet" => "Saviti profilio paveiksliukai dar neveikia su šifravimu",
 "Unknown filetype" => "Nežinomas failo tipas",
 "Invalid image" => "Netinkamas paveikslėlis",
 "web services under your control" => "jūsų valdomos web paslaugos",

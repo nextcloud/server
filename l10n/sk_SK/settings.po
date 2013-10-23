@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-16 00:26-0400\n"
-"PO-Revision-Date: 2013-10-14 00:41+0000\n"
+"POT-Creation-Date: 2013-10-21 13:01-0400\n"
+"PO-Revision-Date: 2013-10-21 17:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -88,11 +88,11 @@ msgstr "Nemožno aktualizovať aplikáciu."
 
 #: changepassword/controller.php:20
 msgid "Wrong password"
-msgstr ""
+msgstr "Nesprávne heslo"
 
 #: changepassword/controller.php:42
 msgid "No user supplied"
-msgstr ""
+msgstr "Nebol uvedený používateľ"
 
 #: changepassword/controller.php:74
 msgid ""
@@ -113,7 +113,7 @@ msgstr ""
 
 #: changepassword/controller.php:92 changepassword/controller.php:103
 msgid "Unable to change password"
-msgstr ""
+msgstr "Zmena hesla sa nepodarila"
 
 #: js/apps.js:43
 msgid "Update to {appversion}"
@@ -161,7 +161,7 @@ msgstr "Aktualizované"
 
 #: js/personal.js:220
 msgid "Select a profile picture"
-msgstr ""
+msgstr "Vybrať profilový obrázok"
 
 #: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
@@ -289,13 +289,13 @@ msgstr "Vykonať jednu úlohu s každým načítaní stránky"
 
 #: templates/admin.php:107
 msgid ""
-"cron.php is registered at a webcron service to call cron.php once a minute "
-"over http."
-msgstr "cron.php je registrovaný v službe webcron na zavolanie stránky cron.php raz za minútu cez HTTP."
+"cron.php is registered at a webcron service to call cron.php every 15 "
+"minutes over http."
+msgstr ""
 
 #: templates/admin.php:115
-msgid "Use systems cron service to call the cron.php file once a minute."
-msgstr "Použiť systémovú službu cron na spustenie súboru cron.php raz za minútu."
+msgid "Use systems cron service to call the cron.php file every 15 minutes."
+msgstr ""
 
 #: templates/admin.php:120
 msgid "Sharing"
@@ -344,11 +344,11 @@ msgstr "Povoliť používateľom zdieľať len s používateľmi v ich skupinác
 
 #: templates/admin.php:170
 msgid "Allow mail notification"
-msgstr ""
+msgstr "Povoliť upozornenia emailom"
 
 #: templates/admin.php:171
 msgid "Allow user to send mail notification for shared files"
-msgstr ""
+msgstr "Povoliť používateľom upozornenia emailom pre svoje zdieľané súbory"
 
 #: templates/admin.php:178
 msgid "Security"
@@ -503,15 +503,15 @@ msgstr "Profilová fotka"
 
 #: templates/personal.php:90
 msgid "Upload new"
-msgstr ""
+msgstr "Nahrať nový"
 
 #: templates/personal.php:92
 msgid "Select new from Files"
-msgstr ""
+msgstr "Vyberte nový zo Súborov"
 
 #: templates/personal.php:93
 msgid "Remove image"
-msgstr ""
+msgstr "Zmazať obrázok"
 
 #: templates/personal.php:94
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
@@ -519,11 +519,11 @@ msgstr ""
 
 #: templates/personal.php:97
 msgid "Abort"
-msgstr ""
+msgstr "Prerušiť"
 
 #: templates/personal.php:98
 msgid "Choose as profile image"
-msgstr ""
+msgstr "Vybrať ako profilový obrázok"
 
 #: templates/personal.php:106 templates/personal.php:107
 msgid "Language"
