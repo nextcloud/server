@@ -68,14 +68,10 @@ if(strpos($filename, '/') !== false) {
 $target = $dir.'/'.$filename;
 
 if (\OC\Files\Filesystem::file_exists($target)) {
-		$result = array(
-			'success' 	=> false,
-			'data'		=> array(
-				'message'	=> $l10n->t(
-					"The name %s is already used in the folder %s. Please choose a different name.",
-					array($filename, $dir))
-				)
-			);
+	$result['data'] = array('message' => $l10n->t(
+			"The name %s is already used in the folder %s. Please choose a different name.",
+			array($filename, $dir))
+		);
 	OCP\JSON::error($result);
 	exit();
 }
