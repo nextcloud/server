@@ -9,11 +9,11 @@
 if (extension_loaded('imagick')) {
 	$isShellExecEnabled = !in_array('shell_exec', explode(', ', ini_get('disable_functions')));
 
-	// movie preview is currently not supported on Windows
+	// LibreOffice preview is currently not supported on Windows
 	if (!\OC_Util::runningOnWindows()) {
-		$whichLibreOffice = shell_exec('which libreoffice');
+		$whichLibreOffice = ($isShellExecEnabled ? shell_exec('which libreoffice') : '');
 		$isLibreOfficeAvailable = !empty($whichLibreOffice);
-		$whichOpenOffice = shell_exec('which libreoffice');
+		$whichOpenOffice = ($isShellExecEnabled ? shell_exec('which libreoffice') : '');
 		$isOpenOfficeAvailable = !empty($whichOpenOffice);
 		//let's see if there is libreoffice or openoffice on this machine
 		if($isShellExecEnabled && ($isLibreOfficeAvailable || $isOpenOfficeAvailable || is_string(\OC_Config::getValue('preview_libreoffice_path', null)))) {

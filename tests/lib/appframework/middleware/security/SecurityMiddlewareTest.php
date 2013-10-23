@@ -24,7 +24,7 @@
 
 namespace OC\AppFramework\Middleware\Security;
 
-use OC\AppFramework\Http\Http;
+use OC\AppFramework\Http;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\JSONResponse;

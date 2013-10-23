@@ -132,7 +132,7 @@ if($_['passwordChangeSupported']) {
 <fieldset class="personalblock">
 	<h2><?php p($l->t('WebDAV'));?></h2>
 	<code><?php print_unescaped(OC_Helper::linkToRemote('webdav')); ?></code><br />
-	<em><?php print_unescaped($l->t('Use this address to <a href="%s/server/5.0/user_manual/files/files.html" target="_blank">access your Files via WebDAV</a>', array($theme->getDocBaseUrl())));?></em>
+	<em><?php print_unescaped($l->t('Use this address to <a href="%s" target="_blank">access your Files via WebDAV</a>', array(link_to_docs('user-webdav'))));?></em>
 </fieldset>
 
 <?php foreach($_['forms'] as $form) {

@@ -8,7 +8,6 @@ $TRANSLATIONS = array(
 "Users" => "사용자",
 "Admin" => "관리자",
 "Failed to upgrade \"%s\"." => "\"%s\" 업그레이드에 실패했습니다.",
-"Custom profile pictures don't work with encryption yet" => "개개인의 프로필 사진은 아직은 암호화 되지 않습니다",
 "Unknown filetype" => "알수없는 파일형식",
 "Invalid image" => "잘못된 그림",
 "web services under your control" => "내가 관리하는 웹 서비스",

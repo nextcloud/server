@@ -161,4 +161,25 @@ class Helper {
 
 		return true;
 	}
+
+	/**
+	 * @brief extractsthe domain from a given URL
+	 * @param $url the URL
+	 * @return mixed, domain as string on success, false otherwise
+	 */
+	static public function getDomainFromURL($url) {
+		$uinfo = parse_url($url);
+		if(!is_array($uinfo)) {
+			return false;
+		}
+
+		$domain = false;
+		if(isset($uinfo['host'])) {
+			$domain = $uinfo['host'];
+		} else if(isset($uinfo['path'])) {
+			$domain = $uinfo['path'];
+		}
+
+		return $domain;
+	}
 }

@@ -39,7 +39,7 @@
 		<p><?php p($l->t('Your data directory and files are probably accessible from the internet because the .htaccess file does not work.'));?><br>
 		<?php print_unescaped($l->t(
 			'For information how to properly configure your server, please see the <a href="%s" target="_blank">documentation</a>.',
-			$theme->getDocBaseUrl().'/server/5.0/admin_manual/installation.html'
+			link_to_docs('admin-install')
 		)); ?></p>
 	</fieldset>
 	<?php endif; ?>

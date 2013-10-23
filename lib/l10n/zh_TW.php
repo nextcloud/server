@@ -8,7 +8,6 @@ $TRANSLATIONS = array(
 "Users" => "使用者",
 "Admin" => "管理",
 "Failed to upgrade \"%s\"." => "升級失敗：%s",
-"Custom profile pictures don't work with encryption yet" => "自訂大頭貼暫時不能和加密功能同時使用",
 "Unknown filetype" => "未知的檔案類型",
 "Invalid image" => "無效的圖片",
 "web services under your control" => "由您控制的網路服務",

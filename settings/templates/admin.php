@@ -30,7 +30,7 @@ if (!$_['isWebDavWorking']) {
 
 	<span class="securitywarning">
 		<?php p($l->t('Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken.')); ?>
-		<?php print_unescaped($l->t('Please double check the <a href="%s">installation guides</a>.', $theme->getDocBaseUrl().'/server/5.0/admin_manual/installation.html')); ?>
+		<?php print_unescaped($l->t('Please double check the <a href="%s">installation guides</a>.', link_to_docs('admin-install'))); ?>
 	</span>
 
 </fieldset>
@@ -104,7 +104,7 @@ if (!$_['internetconnectionworking']) {
 					print_unescaped('checked="checked"');
 				} ?>>
 				<label for="backgroundjobs_webcron">Webcron</label><br/>
-				<em><?php p($l->t("cron.php is registered at a webcron service to call cron.php once a minute over http.")); ?></em>
+				<em><?php p($l->t("cron.php is registered at a webcron service to call cron.php every 15 minutes over http.")); ?></em>
 	</p>
 	<p>
 				<input type="radio" name="mode" value="cron"
@@ -112,7 +112,7 @@ if (!$_['internetconnectionworking']) {
 					print_unescaped('checked="checked"');
 				} ?>>
 				<label for="backgroundjobs_cron">Cron</label><br/>
-				<em><?php p($l->t("Use systems cron service to call the cron.php file once a minute.")); ?></em>
+				<em><?php p($l->t("Use systems cron service to call the cron.php file every 15 minutes.")); ?></em>
 	</p>
 </fieldset>
 

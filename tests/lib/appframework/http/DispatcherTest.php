@@ -26,7 +26,7 @@ namespace OC\AppFramework\Http;
 
 use OC\AppFramework\Core\API;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
-
+use OCP\AppFramework\Http;
 //require_once(__DIR__ . "/../classloader.php");
 
 
@@ -53,7 +53,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->http = $this->getMockBuilder(
-			'\OC\AppFramework\Http\Http')
+			'\OC\AppFramework\Http')
 			->disableOriginalConstructor()
 			->getMock();
 

@@ -190,23 +190,33 @@ class Scanner extends BasicEmitter {
 		}
 		$newChildren = array();
 		if ($this->storage->is_dir($path) && ($dh = $this->storage->opendir($path))) {
+			$exceptionOccurred = false;
 			\OC_DB::beginTransaction();
 			if (is_resource($dh)) {
 				while (($file = readdir($dh)) !== false) {
 					$child = ($path) ? $path . '/' . $file : $file;
 					if (!Filesystem::isIgnoredDir($file)) {
 						$newChildren[] = $file;
-						$data = $this->scanFile($child, $reuse, true);
-						if ($data) {
-							if ($data['size'] === -1) {
-								if ($recursive === self::SCAN_RECURSIVE) {
-									$childQueue[] = $child;
-								} else {
-									$size = -1;
+						try {
+							$data = $this->scanFile($child, $reuse, true);
+							if ($data) {
+								if ($data['size'] === -1) {
+									if ($recursive === self::SCAN_RECURSIVE) {
+										$childQueue[] = $child;
+									} else {
+										$size = -1;
+									}
+								} else if ($size !== -1) {
+									$size += $data['size'];
 								}
-							} else if ($size !== -1) {
-								$size += $data['size'];
 							}
+						}
+						catch (\Doctrine\DBAL\DBALException $ex){
+							// might happen if inserting duplicate while a scanning
+							// process is running in parallel
+							// log and ignore
+							\OC_Log::write('core', 'Exception while scanning file "' . $child . '": ' . $ex->getMessage(), \OC_Log::DEBUG);
+							$exceptionOccurred = true;
 						}
 					}
 				}
@@ -217,6 +227,14 @@ class Scanner extends BasicEmitter {
 				$this->cache->remove($child);
 			}
 			\OC_DB::commit();
+			if ($exceptionOccurred){
+				// It might happen that the parallel scan process has already
+				// inserted mimetypes but those weren't available yet inside the transaction
+				// To make sure to have the updated mime types in such cases,
+				// we reload them here
+				$this->cache->loadMimetypes();
+			}
+
 			foreach ($childQueue as $child) {
 				$childSize = $this->scanChildren($child, self::SCAN_RECURSIVE, $reuse);
 				if ($childSize === -1) {

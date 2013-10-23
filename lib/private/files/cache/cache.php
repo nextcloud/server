@@ -69,9 +69,15 @@ class Cache {
 		}
 		
 		if (!isset(self::$mimetypeIds[$mime])) {
-			$result = \OC_DB::executeAudited('INSERT INTO `*PREFIX*mimetypes`(`mimetype`) VALUES(?)', array($mime));
-			self::$mimetypeIds[$mime] = \OC_DB::insertid('*PREFIX*mimetypes');
-			self::$mimetypes[self::$mimetypeIds[$mime]] = $mime;
+			try{
+				$result = \OC_DB::executeAudited('INSERT INTO `*PREFIX*mimetypes`(`mimetype`) VALUES(?)', array($mime));
+				self::$mimetypeIds[$mime] = \OC_DB::insertid('*PREFIX*mimetypes');
+				self::$mimetypes[self::$mimetypeIds[$mime]] = $mime;
+			}
+			catch (\Doctrine\DBAL\DBALException $e){
+				\OC_Log::write('core', 'Exception during mimetype insertion: ' . $e->getmessage(), \OC_Log::DEBUG);
+				return -1;
+			}
 		} 
 				
 		return self::$mimetypeIds[$mime];
@@ -84,8 +90,8 @@ class Cache {
 
 		return isset(self::$mimetypes[$id]) ? self::$mimetypes[$id] : null;
 	}
-	
-	protected function loadMimetypes(){
+
+	public function loadMimetypes(){
 			$result = \OC_DB::executeAudited('SELECT `id`, `mimetype` FROM `*PREFIX*mimetypes`', array());
 			if ($result) {
 				while ($row = $result->fetchRow()) {

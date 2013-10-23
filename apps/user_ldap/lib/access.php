@@ -831,7 +831,7 @@ class Access extends LDAPUtility {
 	private function combineFilter($filters, $operator) {
 		$combinedFilter = '('.$operator;
 		foreach($filters as $filter) {
-		    if($filter[0] !== '(') {
+		    if(!empty($filter) && $filter[0] !== '(') {
 				$filter = '('.$filter.')';
 		    }
 		    $combinedFilter.=$filter;
@@ -1021,7 +1021,7 @@ class Access extends LDAPUtility {
 		$bases = $this->sanitizeDN($bases);
 		foreach($bases as $base) {
 			$belongsToBase = true;
-			if(mb_strripos($dn, $base, 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($base))) {
+			if(mb_strripos($dn, $base, 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($base, 'UTF-8'))) {
 				$belongsToBase = false;
 			}
 			if($belongsToBase) {

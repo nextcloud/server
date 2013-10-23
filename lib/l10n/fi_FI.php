@@ -8,7 +8,6 @@ $TRANSLATIONS = array(
 "Users" => "Käyttäjät",
 "Admin" => "Ylläpitäjä",
 "Failed to upgrade \"%s\"." => "Kohteen \"%s\" päivitys epäonnistui.",
-"Custom profile pictures don't work with encryption yet" => "Omavalintaiset profiilikuvat eivät toimi salauksen kanssa vielä",
 "Unknown filetype" => "Tuntematon tiedostotyyppi",
 "Invalid image" => "Virheellinen kuva",
 "web services under your control" => "verkkopalvelut hallinnassasi",
