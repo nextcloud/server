@@ -32,17 +32,19 @@ class Shared_Updater {
 		$uid = \OCP\User::getUser();
 		$uidOwner = \OC\Files\Filesystem::getOwner($target);
 		$info = \OC\Files\Filesystem::getFileInfo($target);
+		$checkedUser = array($uidOwner);
 		// Correct Shared folders of other users shared with
 		$users = \OCP\Share::getUsersItemShared('file', $info['fileid'], $uidOwner, true);
 		if (!empty($users)) {
 			while (!empty($users)) {
 				$reshareUsers = array();
 				foreach ($users as $user) {
-					if ( $user !== $uidOwner ) {
+					if ( !in_array($user, $checkedUser) ) {
 						$etag = \OC\Files\Filesystem::getETag('');
 						\OCP\Config::setUserValue($user, 'files_sharing', 'etag', $etag);
 						// Look for reshares
 						$reshareUsers = array_merge($reshareUsers, \OCP\Share::getUsersItemShared('file', $info['fileid'], $user, true));
+						$checkedUser[] = $user;
 					}
 				}
 				$users = $reshareUsers;
