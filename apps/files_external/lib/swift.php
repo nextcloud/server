@@ -201,7 +201,8 @@ class Swift extends \OC\Files\Storage\Common {
 		try {
 			$files = array();
 			$objects = $this->container->ObjectList(array(
-				'prefix' => $path
+				'prefix' => $path,
+				'delimiter' => '/'
 			));
 
 			while ($object = $objects->Next()) {
