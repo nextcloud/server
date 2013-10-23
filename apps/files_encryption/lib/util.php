@@ -1278,7 +1278,7 @@ class Util {
 		// If no record is found
 		if (empty($migrationStatus)) {
 			\OCP\Util::writeLog('Encryption library', "Could not get migration status for " . $this->userId . ", no record found", \OCP\Util::ERROR);
-			return false;
+			return self::MIGRATION_OPEN;
 			// If a record is found
 		} else {
 			return (int)$migrationStatus[0];

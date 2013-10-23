@@ -15,10 +15,10 @@
 		<div class="header-right">
 			<?php if (isset($_['folder'])): ?>
 				<span id="details"><?php p($l->t('%s shared the folder %s with you',
-						array($_['displayName'], $_['fileTarget']))) ?></span>
+						array($_['displayName'], $_['filename']))) ?></span>
 			<?php else: ?>
 				<span id="details"><?php p($l->t('%s shared the file %s with you',
-						array($_['displayName'], $_['fileTarget']))) ?></span>
+						array($_['displayName'], $_['filename']))) ?></span>
 			<?php endif; ?>
 
 
@@ -88,7 +88,7 @@
 			<?php else: ?>
 				<ul id="noPreview">
 					<li class="error">
-						<?php p($l->t('No preview available for').' '.$_['fileTarget']); ?><br />
+						<?php p($l->t('No preview available for').' '.$_['filename']); ?><br />
 						<a href="<?php p($_['downloadURL']); ?>" id="download"><img class="svg" alt="Download"
 						                                                            src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>"
 								/><?php p($l->t('Download'))?></a>

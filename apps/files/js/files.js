@@ -663,8 +663,16 @@ function lazyLoadPreview(path, mime, ready, width, height) {
 		$.get(previewURL, function() {
 			previewURL = previewURL.replace('(', '%28');
 			previewURL = previewURL.replace(')', '%29');
-			//set preview thumbnail URL
-			ready(previewURL + '&reload=true');
+			previewURL += '&reload=true';
+
+			// preload image to prevent delay
+			// this will make the browser cache the image
+			var img = new Image();
+			img.onload = function(){
+				//set preview thumbnail URL
+				ready(previewURL);
+			}
+			img.src = previewURL;
 		});
 	});
 }
