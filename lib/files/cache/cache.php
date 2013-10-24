@@ -287,10 +287,6 @@ class Cache {
 	 * @return int
 	 */
 	public function getId($file) {
-		// if no file is given return -1
-		if ($file === '') {
-			return -1;
-		}
 		// normalize path
 		$file = $this->normalize($file);
 

@@ -100,11 +100,12 @@ class Updater {
 
 			while ($id !== -1) {
 				$cache->update($id, array('mtime' => $time, 'etag' => $storage->getETag($internalPath)));
+				$id = $cache->getParentId($internalPath);
 				$internalPath = dirname($internalPath);
 				if ($internalPath === '.') {
 					$internalPath = '';
 				}
-				$id = $cache->getId($internalPath);
+
 			}
 
 		}
