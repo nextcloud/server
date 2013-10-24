@@ -86,10 +86,6 @@ class Updater {
 	 * @param string $time
 	 */
 	static public function correctFolder($path, $time) {
-		//Shared folder gets handles by the files_sharing app
-		//if (strpos($path, '/Shared' === 0)) {
-		//	return true;
-		//}
 
 		if ($path !== '' && $path !== '/') {
 
