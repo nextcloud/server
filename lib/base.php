@@ -224,7 +224,9 @@ class OC {
 			header('Retry-After: 120');
 
 			// render error page
-			OC_Template::printErrorPage('ownCloud is in maintenance mode');
+			$tmpl = new OC_Template('', 'update.user', 'guest');
+			$tmpl->printPage();
+			die();
 		}
 	}
 
@@ -240,7 +242,7 @@ class OC {
 					$minimizerJS = new OC_Minimizer_JS();
 					$minimizerJS->clearCache();
 					OC_Util::addscript('update');
-					$tmpl = new OC_Template('', 'update', 'guest');
+					$tmpl = new OC_Template('', 'update.admin', 'guest');
 					$tmpl->assign('version', OC_Util::getVersionString());
 					$tmpl->printPage();
 					exit();
@@ -259,6 +261,7 @@ class OC {
 		OC_Util::addScript("jquery-ui-1.10.0.custom");
 		OC_Util::addScript("jquery-showpassword");
 		OC_Util::addScript("jquery.infieldlabel");
+		OC_Util::addScript("jquery.placeholder");
 		OC_Util::addScript("jquery-tipsy");
 		OC_Util::addScript("compatibility");
 		OC_Util::addScript("jquery.ocdialog");
@@ -687,7 +690,11 @@ class OC {
 		}
 		// Handle WebDAV
 		if ($_SERVER['REQUEST_METHOD'] == 'PROPFIND') {
-			header('location: ' . OC_Helper::linkToRemote('webdav'));
+			// not allowed any more to prevent people
+			// mounting this root directly.
+			// Users need to mount remote.php/webdav instead.
+			header('HTTP/1.1 405 Method Not Allowed');
+			header('Status: 405 Method Not Allowed');
 			return;
 		}
 

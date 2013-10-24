@@ -202,7 +202,7 @@ input[type="submit"].enabled {
 	-moz-box-sizing:border-box; box-sizing:border-box;
 }
 #leftcontent, .leftcontent {
-	position:relative; overflow:auto; width:20em; height:100%;
+	position:relative; overflow:auto; width:256px; height:100%;
 	background:#f8f8f8; border-right:1px solid #ddd;
 	-moz-box-sizing:border-box; box-sizing:border-box;
 }
@@ -211,7 +211,11 @@ input[type="submit"].enabled {
 #leftcontent li.active, .leftcontent li.active { font-weight:bold; }
 #leftcontent li:hover, .leftcontent li:hover { color:#333; background:#ddd; }
 #leftcontent a { height:100%; display:block; margin:0; padding:0 1em 0 0; float:left; }
-#rightcontent, .rightcontent { position:fixed; top:6.4em; left:24.5em; overflow:auto }
+#rightcontent, .rightcontent { position:fixed; top:89px; left: 336px; overflow:auto }
+
+#controls + .leftcontent{
+	top: 44px;
+}
 
 #emptycontent {
 	font-size: 1.5em;
@@ -439,6 +443,11 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	text-align: left;
 	border-radius: 3px;
 	cursor: default;
+}
+
+#body-login .update {
+	text-align: center;
+	color: #ccc;
 }
 
 #body-user .warning, #body-settings .warning {

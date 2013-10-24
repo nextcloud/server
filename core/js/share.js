@@ -200,13 +200,13 @@ OC.Share={
 				}
 			});
 
-			html += '<input id="shareWith" type="text" placeholder="'+t('core', 'Share with')+'" />';
+			html += '<input id="shareWith" type="text" placeholder="'+t('core', 'Share with user or group …')+'" />';
 			html += '<ul id="shareWithList">';
 			html += '</ul>';
 			var linksAllowed = $('#allowShareWithLink').val() === 'yes';
 			if (link && linksAllowed) {
 				html += '<div id="link">';
-				html += '<input type="checkbox" name="linkCheckbox" id="linkCheckbox" value="1" /><label for="linkCheckbox">'+t('core', 'Share with link')+'</label>';
+				html += '<input type="checkbox" name="linkCheckbox" id="linkCheckbox" value="1" /><label for="linkCheckbox">'+t('core', 'Share link')+'</label>';
 				html += '<br />';
 				html += '<input id="linkText" type="text" readonly="readonly" />';
 				html += '<input type="checkbox" name="showPassword" id="showPassword" value="1" style="display:none;" /><label for="showPassword" style="display:none;">'+t('core', 'Password protect')+'</label>';
@@ -310,6 +310,9 @@ OC.Share={
 		$('#dropdown').show('blind', function() {
 			OC.Share.droppedDown = true;
 		});
+		if ($('html').hasClass('lte9')){
+			$('#dropdown input[placeholder]').placeholder();
+		}
 		$('#shareWith').focus();
 	},
 	hideDropDown:function(callback) {
@@ -363,29 +366,21 @@ OC.Share={
 				shareChecked = 'checked="checked"';
 			}
 			var html = '<li style="clear: both;" data-share-type="'+escapeHTML(shareType)+'" data-share-with="'+escapeHTML(shareWith)+'" title="' + escapeHTML(shareWith) + '">';
-			html += '<a href="#" class="unshare" style="display:none;"><img class="svg" alt="'+t('core', 'Unshare')+'" src="'+OC.imagePath('core', 'actions/delete')+'"/></a>';
-			if(shareWith.length > 14){
-				html += escapeHTML(shareWithDisplayName.substr(0,11) + '...');
-			}else{
-				html += escapeHTML(shareWithDisplayName);
-			}
+			var showCrudsButton;
+			html += '<a href="#" class="unshare"><img class="svg" alt="'+t('core', 'Unshare')+'" src="'+OC.imagePath('core', 'actions/delete')+'"/></a>';
+			html += '<span class="username">' + escapeHTML(shareWithDisplayName) + '</span>';
 			var mailNotificationEnabled = $('input:hidden[name=mailNotificationEnabled]').val();
 			if (mailNotificationEnabled === 'yes') {
 				var checked = '';
 				if (mailSend === '1') {
 					checked = 'checked';
 				}
-				html += '<label><input type="checkbox" name="mailNotification" class="mailNotification" ' + checked + ' />'+t('core', 'notify user by email')+'</label>';
+				html += '<label><input type="checkbox" name="mailNotification" class="mailNotification" ' + checked + ' />'+t('core', 'notify by email')+'</label> ';
 			}
 			if (possiblePermissions & OC.PERMISSION_CREATE || possiblePermissions & OC.PERMISSION_UPDATE || possiblePermissions & OC.PERMISSION_DELETE) {
-				if (editChecked == '') {
-					html += '<label style="display:none;">';
-				} else {
-					html += '<label>';
-				}
-				html += '<input type="checkbox" name="edit" class="permissions" '+editChecked+' />'+t('core', 'can edit')+'</label>';
+				html += '<label><input type="checkbox" name="edit" class="permissions" '+editChecked+' />'+t('core', 'can edit')+'</label> ';
 			}
-			html += '<a href="#" class="showCruds" style="display:none;"><img class="svg" alt="'+t('core', 'access control')+'" src="'+OC.imagePath('core', 'actions/triangle-s')+'"/></a>';
+			showCrudsButton = '<a href="#" class="showCruds"><img class="svg" alt="'+t('core', 'access control')+'" src="'+OC.imagePath('core', 'actions/triangle-s')+'"/></a>';
 			html += '<div class="cruds" style="display:none;">';
 				if (possiblePermissions & OC.PERMISSION_CREATE) {
 					html += '<label><input type="checkbox" name="create" class="permissions" '+createChecked+' data-permissions="'+OC.PERMISSION_CREATE+'" />'+t('core', 'create')+'</label>';
@@ -401,7 +396,15 @@ OC.Share={
 				}
 			html += '</div>';
 			html += '</li>';
-			$(html).appendTo('#shareWithList');
+			html = $(html).appendTo('#shareWithList');
+			// insert cruds button into last label element
+			var lastLabel = html.find('>label:last');
+			if (lastLabel.exists()){
+				lastLabel.append(showCrudsButton);
+			}
+			else{
+				html.find('.cruds').before(showCrudsButton);
+			}
 			$('#expiration').show();
 		}
 	},
@@ -507,26 +510,8 @@ $(document).ready(function() {
 		}
 	});
 
-	$(document).on('mouseenter', '#dropdown #shareWithList li', function(event) {
-		// Show permissions and unshare button
-		$(':hidden', this).filter(':not(.cruds)').show();
-	});
-
-	$(document).on('mouseleave', '#dropdown #shareWithList li', function(event) {
-		// Hide permissions and unshare button
-		if (!$('.cruds', this).is(':visible')) {
-			$('a', this).hide();
-			if (!$('input[name="edit"]', this).is(':checked')) {
-				$('input[type="checkbox"]', this).hide();
-				$('label', this).hide();
-			}
-		} else {
-			$('a.unshare', this).hide();
-		}
-	});
-
 	$(document).on('click', '#dropdown .showCruds', function() {
-		$(this).parent().find('.cruds').toggle();
+		$(this).closest('li').find('.cruds').toggle();
 		return false;
 	});
 

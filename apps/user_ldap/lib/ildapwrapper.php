@@ -68,6 +68,14 @@ interface ILDAPWrapper {
 	public function controlPagedResultResponse($link, $result, &$cookie);
 
 	/**
+	 * @brief Count the number of entries in a search
+	 * @param $link LDAP link resource
+	 * @param $result LDAP result resource
+	 * @return mixed, number of results on success, false otherwise
+	 */
+	public function countEntries($link, $result);
+
+	/**
 	 * @brief Return the LDAP error number of the last LDAP command
 	 * @param $link LDAP link resource
 	 * @return error message as string
@@ -98,12 +106,28 @@ interface ILDAPWrapper {
 	public function getAttributes($link, $result);
 
 	/**
+	 * @brief Get the DN of a result entry
+	 * @param $link LDAP link resource
+	 * @param $result LDAP result resource
+	 * @return string containing the DN, false on error
+	 */
+	public function getDN($link, $result);
+
+	/**
 	 * @brief Get all result entries
 	 * @param $link LDAP link resource
 	 * @param $result LDAP result resource
 	 * @return array containing the results, false on error
 	 */
 	public function getEntries($link, $result);
+
+	/**
+	 * @brief Return next result id
+	 * @param $link LDAP link resource
+	 * @param $result LDAP entry result resource
+	 * @return an LDAP search result resource
+	 * */
+	public function nextEntry($link, $result);
 
 	/**
 	 * @brief Read an entry

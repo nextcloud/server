@@ -49,6 +49,10 @@ class LDAP implements ILDAPWrapper {
 										$isCritical, $cookie);
 	}
 
+	public function countEntries($link, $result) {
+		return $this->invokeLDAPMethod('count_entries', $link, $result);
+	}
+
 	public function errno($link) {
 		return $this->invokeLDAPMethod('errno', $link);
 	}
@@ -65,8 +69,16 @@ class LDAP implements ILDAPWrapper {
 		return $this->invokeLDAPMethod('get_attributes', $link, $result);
 	}
 
+	public function getDN($link, $result) {
+		return $this->invokeLDAPMethod('get_dn', $link, $result);
+	}
+
 	public function getEntries($link, $result) {
 		return $this->invokeLDAPMethod('get_entries', $link, $result);
+	}
+
+	public function nextEntry($link, $result) {
+		return $this->invokeLDAPMethod('next_entry', $link, $result);
 	}
 
 	public function read($link, $baseDN, $filter, $attr) {

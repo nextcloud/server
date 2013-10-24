@@ -5,6 +5,7 @@ namespace OC;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\Cache\UserCache;
+use OC\DB\ConnectionWrapper;
 use OC\Files\Node\Root;
 use OC\Files\View;
 use OCP\IServerContainer;
@@ -289,7 +290,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	 * @return \OCP\IDBConnection
 	 */
 	function getDatabaseConnection() {
-		return \OC_DB::getConnection();
+		return new ConnectionWrapper(\OC_DB::getConnection());
 	}
 
 	/**

@@ -25,7 +25,14 @@
 namespace OCA\Files;
 
 class App {
+	/**
+	 * @var \OC_L10N
+	 */
 	private $l10n;
+
+	/**
+	 * @var \OC\Files\View
+	 */
 	private $view;
 
 	public function __construct($view, $l10n) {
@@ -52,7 +59,15 @@ class App {
 			$result['data'] = array(
 				'message'	=> $this->l10n->t("Invalid folder name. Usage of 'Shared' is reserved by ownCloud")
 			);
-		} elseif(
+		// rename to existing file is denied
+		} else if ($this->view->file_exists($dir . '/' . $newname)) {
+			
+			$result['data'] = array(
+				'message'	=> $this->l10n->t(
+						"The name %s is already used in the folder %s. Please choose a different name.",
+						array($newname, $dir))
+			);
+		} else if (
 			// rename to "." is denied
 			$newname !== '.' and
 			// rename of  "/Shared" is denied
