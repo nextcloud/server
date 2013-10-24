@@ -20,8 +20,10 @@ class Updater {
 	 * @return array consisting of the storage and the internal path
 	 */
 	static public function resolvePath($path) {
-		$view = \OC\Files\Filesystem::getView();
-		return $view->resolvePath($path);
+		$uidOwner = \OC\Files\Filesystem::getOwner($path);
+		$info = \OC\Files\Filesystem::getFileInfo($path);
+		$view = new \OC\Files\View('/' . $uidOwner);
+		return $view->resolvePath($info['path']);
 	}
 
 	static public function writeUpdate($path) {
@@ -84,24 +86,31 @@ class Updater {
 	 * @param string $time
 	 */
 	static public function correctFolder($path, $time) {
+		//Shared folder gets handles by the files_sharing app
+		//if (strpos($path, '/Shared' === 0)) {
+		//	return true;
+		//}
+
 		if ($path !== '' && $path !== '/') {
-			$parent = dirname($path);
-			if ($parent === '.') {
-				$parent = '';
-			}
+
 			/**
 			 * @var \OC\Files\Storage\Storage $storage
 			 * @var string $internalPath
 			 */
-			list($storage, $internalPath) = self::resolvePath($parent);
-			if ($storage) {
-				$cache = $storage->getCache();
-				$id = $cache->getId($internalPath);
-				if ($id !== -1) {
-					$cache->update($id, array('mtime' => $time, 'etag' => $storage->getETag($internalPath)));
-					self::correctFolder($parent, $time);
+			list($storage, $internalPath) = self::resolvePath(dirname($path));
+
+			$cache = $storage->getCache();
+			$id = $cache->getId($internalPath);
+
+			while ($id !== -1) {
+				$cache->update($id, array('mtime' => $time, 'etag' => $storage->getETag($internalPath)));
+				$internalPath = dirname($internalPath);
+				if ($internalPath === '.') {
+					$internalPath = '';
 				}
+				$id = $cache->getId($internalPath);
 			}
+
 		}
 	}
 
