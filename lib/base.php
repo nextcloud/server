@@ -224,7 +224,9 @@ class OC {
 			header('Retry-After: 120');
 
 			// render error page
-			OC_Template::printErrorPage('ownCloud is in maintenance mode');
+			$tmpl = new OC_Template('', 'update.user', 'guest');
+			$tmpl->printPage();
+			die();
 		}
 	}
 
@@ -240,7 +242,7 @@ class OC {
 					$minimizerJS = new OC_Minimizer_JS();
 					$minimizerJS->clearCache();
 					OC_Util::addscript('update');
-					$tmpl = new OC_Template('', 'update', 'guest');
+					$tmpl = new OC_Template('', 'update.admin', 'guest');
 					$tmpl->assign('version', OC_Util::getVersionString());
 					$tmpl->printPage();
 					exit();

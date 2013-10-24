@@ -445,6 +445,11 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	cursor: default;
 }
 
+#body-login .update {
+	text-align: center;
+	color: #ccc;
+}
+
 #body-user .warning, #body-settings .warning {
 	margin-top: 8px;
 	padding: 5px;
