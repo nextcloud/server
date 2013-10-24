@@ -39,6 +39,8 @@ class Connection extends LDAPUtility {
 	//settings handler
 	protected $configuration;
 
+	protected $doNotValidate = false;
+
 	/**
 	 * @brief Constructor
 	 * @param $configPrefix a string with the prefix for the configkey column (appconfig table)
@@ -57,6 +59,8 @@ class Connection extends LDAPUtility {
 		}
 		$this->hasPagedResultSupport =
 			$this->ldap->hasPagedResultSupport();
+		$this->doNotValidate = !in_array($this->configPrefix,
+			Helper::getServerConfigurationPrefixes());
 	}
 
 	public function __destruct() {
@@ -88,6 +92,7 @@ class Connection extends LDAPUtility {
 	}
 
 	public function __set($name, $value) {
+		$this->doNotValidate = false;
 		$before = $this->configuration->$name;
 		$this->configuration->$name = $value;
 		$after = $this->configuration->$name;
@@ -201,10 +206,12 @@ class Connection extends LDAPUtility {
 		if(is_null($setParameters)) {
 			$setParameters = array();
 		}
+		$this->doNotValidate = false;
 		$this->configuration->setConfiguration($config, $setParameters);
 		if(count($setParameters) > 0) {
 			$this->configured = $this->validateConfiguration();
 		}
+
 
 		return $this->configured;
 	}
@@ -401,6 +408,14 @@ class Connection extends LDAPUtility {
 	 * @returns true if configuration seems OK, false otherwise
 	 */
 	private function validateConfiguration() {
+
+		if($this->doNotValidate) {
+			//don't do a validation if it is a new configuration with pure
+			//default values. Will be allowed on changes via __set or
+			//setConfiguration
+			return false;
+		}
+
 		// first step: "soft" checks: settings that are not really
 		// necessary, but advisable. If left empty, give an info message
 		$this->doSoftValidation();
