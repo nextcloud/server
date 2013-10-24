@@ -374,7 +374,7 @@ class Configuration {
 			'ldap_attributes_for_user_search' 	=> 'ldapAttributesForUserSearch',
 			'ldap_attributes_for_group_search'	=> 'ldapAttributesForGroupSearch',
 			'ldap_expert_username_attr' 		=> 'ldapExpertUsernameAttr',
-			'ldap_expert_uuid_user_attr' 		=> 'ldapExpertUUIUserDAttr',
+			'ldap_expert_uuid_user_attr' 		=> 'ldapExpertUUIDUserAttr',
 			'ldap_expert_uuid_group_attr'		=> 'ldapExpertUUIDGroupAttr',
 			'has_memberof_filter_support'		=> 'hasMemberOfFilterSupport',
 		);
