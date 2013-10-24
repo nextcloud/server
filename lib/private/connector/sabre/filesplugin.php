@@ -13,7 +13,7 @@ class OC_Connector_Sabre_FilesPlugin extends Sabre_DAV_ServerPlugin
 {
 
 	// namespace
-	const NS_OWNCLOUD = 'xmlns:oc="http://owncloud.org/ns';
+	const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
 	/**
 	 * Reference to main server object
@@ -56,7 +56,9 @@ class OC_Connector_Sabre_FilesPlugin extends Sabre_DAV_ServerPlugin
 		if ($node instanceof OC_Connector_Sabre_Node) {
 
 			$fileid_propertyname = '{' . self::NS_OWNCLOUD . '}id';
-			unset($requestedProperties[array_search($fileid_propertyname, $requestedProperties)]);
+			if (array_search($fileid_propertyname, $requestedProperties)) {
+				unset($requestedProperties[array_search($fileid_propertyname, $requestedProperties)]);
+			}
 
 			/** @var $node OC_Connector_Sabre_Node */
 			$fileId = $node->getFileId();
