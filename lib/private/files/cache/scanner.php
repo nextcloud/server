@@ -144,7 +144,9 @@ class Scanner extends BasicEmitter {
 						// Only update metadata that has changed
 						$newData = array_diff($data, $cacheData);
 						if (isset($newData['etag'])) {
-							\OCP\Util::writeLog('OC\Files\Cache\Scanner', "!!! No reuse of etag for '$file' !!!", \OCP\Util::ERROR);
+							$cacheDataString = print_r($cacheData, true);
+							$dataString = print_r($data, true);
+							\OCP\Util::writeLog('OC\Files\Cache\Scanner', "!!! No reuse of etag for '$file' !!! \ncache: $cacheDataString \ndata: $dataString", \OCP\Util::ERROR);
 						}
 					}
 				}
