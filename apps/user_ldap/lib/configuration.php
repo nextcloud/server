@@ -241,7 +241,7 @@ class Configuration {
 	protected function setMultiLine($varname, $value) {
 		if(empty($value)) {
 			$value = '';
-		} else {
+		} else if (!is_array($value)) {
 			$value = preg_split('/\r\n|\r|\n/', $value);
 			if($value === false) {
 				$value = '';
