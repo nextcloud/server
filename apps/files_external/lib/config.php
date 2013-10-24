@@ -95,7 +95,8 @@ class OC_Mount_Config {
 					'tenant' => 'Tenantname (OpenStack Object Storage)',
 					'password' => '*Password (OpenStack Object Storage)',
 					'service_name' => 'Service Name (OpenStack Object Storage)',
-					'url' => 'URL of identity endpoint (OpenStack Object Storage)'
+					'url' => 'URL of identity endpoint (OpenStack Object Storage)',
+					'timeout' => 'Timeout of HTTP requests in seconds (optional)',
 				)
 			);
                 }

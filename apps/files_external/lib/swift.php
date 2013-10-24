@@ -109,6 +109,11 @@ class Swift extends \OC\Files\Storage\Common {
 		}
 
 		$this->anchor = new \OpenCloud\OpenStack($params['url'], $settings);
+
+		if (isset($params['timeout'])) {
+			$this->anchor->setHttpTimeout($params['timeout']);
+		}
+
 		$this->connection = $this->anchor->ObjectStore($params['service_name'], $params['region'], 'publicURL');
 
 		try {
