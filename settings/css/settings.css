@@ -58,10 +58,6 @@ tr:hover>td.remove>a, tr:hover>td.password>img,tr:hover>td.displayName>img, tr:h
 tr:hover>td.remove>a { float:right; }
 li.selected { background-color:#ddd; }
 table.grid { width:100%; }
-#leftcontent, .leftcontent {
-	width: 256px;
-}
-#rightcontent, .rightcontent { top: 80px; left: 336px; }
 #rightcontent { padding-left: 10px; }
 div.quota {
 	float: right;
