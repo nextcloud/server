@@ -275,11 +275,11 @@ class OC_Installer{
 				return($ocsversion);
 
 			}else{
-				return('');
+				return false;
 			}
 
 		}else{
-			return('');
+			return false;
 		}
 
 	}
