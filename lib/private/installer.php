@@ -181,7 +181,11 @@ class OC_Installer{
 
 		//install the database
 		if(is_file($basedir.'/appinfo/database.xml')) {
-			OC_DB::createDbFromStructure($basedir.'/appinfo/database.xml');
+			if (OC_Appconfig::getValue($info['id'], 'installed_version') === null) {
+				OC_DB::createDbFromStructure($basedir.'/appinfo/database.xml');
+			} else {
+				OC_DB::updateDbFromStructure($basedir.'/appinfo/database.xml');
+			}
 		}
 
 		//run appinfo/install.php
