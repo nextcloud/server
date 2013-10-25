@@ -66,7 +66,7 @@
 		}
 
 		// sanitize
-		user = user.replace(/\//g,'');
+		user = String(user).replace(/\//g,'');
 
 		var $div = this;
 
