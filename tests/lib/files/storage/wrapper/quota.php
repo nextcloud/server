@@ -58,4 +58,26 @@ class Quota extends \Test\Files\Storage\Storage {
 		fclose($stream);
 		$this->assertEquals('foobarqwe', $instance->file_get_contents('foo'));
 	}
+
+	public function testReturnRegularStreamOnRead(){
+		$instance = $this->getLimitedStorage(9);
+
+		// create test file first
+		$stream = $instance->fopen('foo', 'w+');
+		fwrite($stream, 'blablacontent');
+		fclose($stream);
+
+		$stream = $instance->fopen('foo', 'r');
+		$meta = stream_get_meta_data($stream);
+		$this->assertEquals('plainfile', $meta['wrapper_type']);
+		fclose($stream);
+	}
+
+	public function testReturnQuotaStreamOnWrite(){
+		$instance = $this->getLimitedStorage(9);
+		$stream = $instance->fopen('foo', 'w+');
+		$meta = stream_get_meta_data($stream);
+		$this->assertEquals('user-space', $meta['wrapper_type']);
+		fclose($stream);
+	}
 }

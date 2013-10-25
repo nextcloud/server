@@ -95,7 +95,7 @@ class Quota extends Wrapper {
 	public function fopen($path, $mode) {
 		$source = $this->storage->fopen($path, $mode);
 		$free = $this->free_space('');
-		if ($free >= 0) {
+		if ($free >= 0 && $mode !== 'r') {
 			return \OC\Files\Stream\Quota::wrap($source, $free);
 		} else {
 			return $source;

@@ -66,12 +66,24 @@ class Quota {
 	}
 
 	public function stream_seek($offset, $whence = SEEK_SET) {
-		if ($whence === SEEK_SET) {
+		if ($whence === SEEK_END){
+			// go to the end to find out last position's offset
+			$oldOffset = $this->stream_tell();
+			if (fseek($this->source, 0, $whence) !== 0){
+				return false;
+			}
+			$whence = SEEK_SET;
+			$offset = $this->stream_tell() + $offset;
+			$this->limit += $oldOffset - $offset;
+		}
+		else if ($whence === SEEK_SET) {
 			$this->limit += $this->stream_tell() - $offset;
 		} else {
 			$this->limit -= $offset;
 		}
-		fseek($this->source, $offset, $whence);
+		// this wrapper needs to return "true" for success.
+		// the fseek call itself returns 0 on succeess
+		return !fseek($this->source, $offset, $whence);
 	}
 
 	public function stream_tell() {
