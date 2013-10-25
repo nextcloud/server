@@ -81,6 +81,8 @@ class Quota {
 		} else {
 			$this->limit -= $offset;
 		}
+		// this wrapper needs to return "true" for success.
+		// the fseek call itself returns 0 on succeess
 		return !fseek($this->source, $offset, $whence);
 	}
 
