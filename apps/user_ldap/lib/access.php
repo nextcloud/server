@@ -28,6 +28,8 @@ class Access extends LDAPUtility {
 	//never ever check this var directly, always use getPagedSearchResultState
 	protected $pagedSearchedSuccessful;
 
+	protected $cookies = array();
+
 	public function __construct(Connection $connection, ILDAPWrapper $ldap) {
 		parent::__construct($ldap);
 		$this->connection = $connection;
@@ -60,6 +62,8 @@ class Access extends LDAPUtility {
 			\OCP\Util::writeLog('user_ldap', 'LDAP resource not available.', \OCP\Util::DEBUG);
 			return false;
 		}
+		//all or nothing! otherwise we get in trouble with.
+		$this->initPagedSearch($filter, array($dn), $attr, 99999, 0);
 		$dn = $this->DNasBaseParameter($dn);
 		$rr = @$this->ldap->read($cr, $dn, $filter, array($attr));
 		if(!$this->ldap->isResource($rr)) {
@@ -1048,9 +1052,12 @@ class Access extends LDAPUtility {
 		$offset -= $limit;
 		//we work with cache here
 		$cachekey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' . $limit . '-' . $offset;
-		$cookie = $this->connection->getFromCache($cachekey);
-		if(is_null($cookie)) {
-			$cookie = '';
+		$cookie = '';
+		if(isset($this->cookies[$cachekey])) {
+			$cookie = $this->cookies[$cachekey];
+			if(is_null($cookie)) {
+				$cookie = '';
+			}
 		}
 		return $cookie;
 	}
@@ -1067,7 +1074,7 @@ class Access extends LDAPUtility {
 	private function setPagedResultCookie($base, $filter, $limit, $offset, $cookie) {
 		if(!empty($cookie)) {
 			$cachekey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' .$limit . '-' . $offset;
-			$cookie = $this->connection->writeToCache($cachekey, $cookie);
+			$this->cookies[$cachekey] = $cookie;
 		}
 	}
 
