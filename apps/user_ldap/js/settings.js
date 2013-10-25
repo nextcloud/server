@@ -272,13 +272,8 @@ var LdapWizard = {
 		if(curTabIndex == 0) {
 			return;
 		}
-		if(curTabIndex == 1) {
-			$('.ldap_action_back').addClass('invisible');
-		}
 		$('#ldapSettings').tabs('option', 'active', curTabIndex - 1);
-		if(curTabIndex == 3) {
-			$('.ldap_action_continue').removeClass('invisible');
-		}
+		LdapWizard.controlUpdate(curTabIndex - 1);
 	},
 
 	controlContinue: function() {
@@ -287,12 +282,26 @@ var LdapWizard = {
 			return;
 		}
 		$('#ldapSettings').tabs('option', 'active', 1 + curTabIndex);
-		if(curTabIndex == 2) {
-			//now last tab
-			$('.ldap_action_continue').addClass('invisible');
-		}
-		if(curTabIndex == 0) {
+		LdapWizard.controlUpdate(curTabIndex + 1);
+	},
+
+	controlUpdate: function(nextTabIndex) {
+		if(nextTabIndex == 0) {
+			$('.ldap_action_back').addClass('invisible');
+			$('.ldap_action_continue').removeClass('invisible');
+		} else
+		if(nextTabIndex == 1) {
 			$('.ldap_action_back').removeClass('invisible');
+			$('.ldap_action_continue').removeClass('invisible');
+		} else
+		if(nextTabIndex == 2) {
+			$('.ldap_action_continue').removeClass('invisible');
+			$('.ldap_action_back').removeClass('invisible');
+		} else
+		if(nextTabIndex == 3) {
+			//now last tab
+			$('.ldap_action_back').removeClass('invisible');
+			$('.ldap_action_continue').addClass('invisible');
 		}
 	},
 
@@ -493,12 +502,21 @@ var LdapWizard = {
 	},
 
 	onTabChange: function(event, ui) {
+		newTabIndex = 0;
 		if(ui.newTab[0].id === '#ldapWizard2') {
 			LdapWizard.initUserFilter();
+			newTabIndex = 1;
 		} else if(ui.newTab[0].id === '#ldapWizard3') {
 			LdapWizard.initLoginFilter();
+			newTabIndex = 2;
 		} else if(ui.newTab[0].id === '#ldapWizard4') {
 			LdapWizard.initGroupFilter();
+			newTabIndex = 3;
+		}
+
+		curTabIndex = $('#ldapSettings').tabs('option', 'active');
+		if(curTabIndex >= 0 && curTabIndex <= 3) {
+			LdapWizard.controlUpdate(newTabIndex);
 		}
 	},
 
