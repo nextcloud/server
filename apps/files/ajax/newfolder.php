@@ -18,7 +18,7 @@ $result = array(
 	);
 
 if(trim($foldername) === '') {
-	$result['data'] = array('message' => $l10n->t('Folder name cannot not be empty.'));
+	$result['data'] = array('message' => $l10n->t('Folder name cannot be empty.'));
 	OCP\JSON::error($result);
 	exit();
 }

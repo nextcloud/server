@@ -53,7 +53,7 @@ $result = array(
 	);
 
 if(trim($filename) === '') {
-	$result['data'] = array('message' => $l10n->t('File name cannot not be empty.'));
+	$result['data'] = array('message' => $l10n->t('File name cannot be empty.'));
 	OCP\JSON::error($result);
 	exit();
 }
