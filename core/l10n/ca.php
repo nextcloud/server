@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s ha compartit »%s« amb tu",
-"group" => "grup",
 "Turned on maintenance mode" => "Activat el mode de manteniment",
 "Turned off maintenance mode" => "Desactivat el mode de manteniment",
 "Updated database" => "Actualitzada la base de dades",
@@ -67,8 +66,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Error en canviar els permisos",
 "Shared with you and the group {group} by {owner}" => "Compartit amb vos i amb el grup {group} per {owner}",
 "Shared with you by {owner}" => "Compartit amb vos per {owner}",
-"Share with" => "Comparteix amb",
-"Share with link" => "Comparteix amb enllaç",
 "Password protect" => "Protegir amb contrasenya",
 "Password" => "Contrasenya",
 "Allow Public Upload" => "Permet pujada pública",
@@ -78,6 +75,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "Data de venciment",
 "Share via email:" => "Comparteix per correu electrònic",
 "No people found" => "No s'ha trobat ningú",
+"group" => "grup",
 "Resharing is not allowed" => "No es permet compartir de nou",
 "Shared in {item} with {user}" => "Compartit en {item} amb {user}",
 "Unshare" => "Deixa de compartir",

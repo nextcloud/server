@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-16 00:26-0400\n"
-"PO-Revision-Date: 2013-10-14 00:41+0000\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-27 06:28+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Welsh (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/cy_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -27,10 +27,6 @@ msgstr ""
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr ""
-
-#: ajax/share.php:327
-msgid "group"
-msgstr "grŵp"
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
@@ -283,144 +279,148 @@ msgstr ""
 msgid "Error loading file exists template"
 msgstr ""
 
-#: js/share.js:30 js/share.js:45 js/share.js:87
+#: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
 msgstr "Rhannwyd"
 
-#: js/share.js:90
+#: js/share.js:109
 msgid "Share"
 msgstr "Rhannu"
 
-#: js/share.js:130 js/share.js:143 js/share.js:150 js/share.js:667
-#: js/share.js:679
+#: js/share.js:149 js/share.js:162 js/share.js:169 js/share.js:676
+#: js/share.js:688
 msgid "Error"
 msgstr "Gwall"
 
-#: js/share.js:132 js/share.js:707
+#: js/share.js:151 js/share.js:716
 msgid "Error while sharing"
 msgstr "Gwall wrth rannu"
 
-#: js/share.js:143
+#: js/share.js:162
 msgid "Error while unsharing"
 msgstr "Gwall wrth ddad-rannu"
 
-#: js/share.js:150
+#: js/share.js:169
 msgid "Error while changing permissions"
 msgstr "Gwall wrth newid caniatâd"
 
-#: js/share.js:159
+#: js/share.js:178
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Rhannwyd â chi a'r grŵp {group} gan {owner}"
 
-#: js/share.js:161
+#: js/share.js:180
 msgid "Shared with you by {owner}"
 msgstr "Rhannwyd â chi gan {owner}"
 
-#: js/share.js:184
-msgid "Share with"
-msgstr "Rhannu gyda"
+#: js/share.js:203
+msgid "Share with user or group …"
+msgstr ""
 
-#: js/share.js:189
-msgid "Share with link"
-msgstr "Dolen ar gyfer rhannu"
+#: js/share.js:209
+msgid "Share link"
+msgstr ""
 
-#: js/share.js:192
+#: js/share.js:212
 msgid "Password protect"
 msgstr "Diogelu cyfrinair"
 
-#: js/share.js:194 templates/installation.php:57 templates/login.php:32
+#: js/share.js:214 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "Cyfrinair"
 
-#: js/share.js:199
+#: js/share.js:219
 msgid "Allow Public Upload"
 msgstr ""
 
-#: js/share.js:203
+#: js/share.js:223
 msgid "Email link to person"
 msgstr "E-bostio dolen at berson"
 
-#: js/share.js:204
+#: js/share.js:224
 msgid "Send"
 msgstr "Anfon"
 
-#: js/share.js:209
+#: js/share.js:229
 msgid "Set expiration date"
 msgstr "Gosod dyddiad dod i ben"
 
-#: js/share.js:210
+#: js/share.js:230
 msgid "Expiration date"
 msgstr "Dyddiad dod i ben"
 
-#: js/share.js:243
+#: js/share.js:263
 msgid "Share via email:"
 msgstr "Rhannu drwy e-bost:"
 
-#: js/share.js:246
+#: js/share.js:266
 msgid "No people found"
 msgstr "Heb ganfod pobl"
 
-#: js/share.js:284
+#: js/share.js:295 js/share.js:332
+msgid "group"
+msgstr "grŵp"
+
+#: js/share.js:306
 msgid "Resharing is not allowed"
 msgstr "Does dim hawl ail-rannu"
 
-#: js/share.js:320
+#: js/share.js:348
 msgid "Shared in {item} with {user}"
 msgstr "Rhannwyd yn {item} â {user}"
 
-#: js/share.js:341
+#: js/share.js:370
 msgid "Unshare"
 msgstr "Dad-rannu"
 
-#: js/share.js:353
-msgid "notify user by email"
+#: js/share.js:378
+msgid "notify by email"
 msgstr ""
 
-#: js/share.js:361
+#: js/share.js:381
 msgid "can edit"
 msgstr "yn gallu golygu"
 
-#: js/share.js:363
+#: js/share.js:383
 msgid "access control"
 msgstr "rheolaeth mynediad"
 
-#: js/share.js:366
+#: js/share.js:386
 msgid "create"
 msgstr "creu"
 
-#: js/share.js:369
+#: js/share.js:389
 msgid "update"
 msgstr "diweddaru"
 
-#: js/share.js:372
+#: js/share.js:392
 msgid "delete"
 msgstr "dileu"
 
-#: js/share.js:375
+#: js/share.js:395
 msgid "share"
 msgstr "rhannu"
 
-#: js/share.js:409 js/share.js:654
+#: js/share.js:437 js/share.js:663
 msgid "Password protected"
 msgstr "Diogelwyd â chyfrinair"
 
-#: js/share.js:667
+#: js/share.js:676
 msgid "Error unsetting expiration date"
 msgstr "Gwall wrth ddad-osod dyddiad dod i ben"
 
-#: js/share.js:679
+#: js/share.js:688
 msgid "Error setting expiration date"
 msgstr "Gwall wrth osod dyddiad dod i ben"
 
-#: js/share.js:694
+#: js/share.js:703
 msgid "Sending ..."
 msgstr "Yn anfon ..."
 
-#: js/share.js:705
+#: js/share.js:714
 msgid "Email sent"
 msgstr "Anfonwyd yr e-bost"
 
-#: js/share.js:729
+#: js/share.js:738
 msgid "Warning"
 msgstr "Rhybudd"
 
@@ -532,7 +532,7 @@ msgstr "Personol"
 msgid "Users"
 msgstr "Defnyddwyr"
 
-#: strings.php:7 templates/layout.user.php:109
+#: strings.php:7 templates/layout.user.php:110
 msgid "Apps"
 msgstr "Pecynnau"
 
@@ -690,12 +690,12 @@ msgstr "Gorffen sefydlu"
 msgid "Finishing …"
 msgstr ""
 
-#: templates/layout.user.php:42
+#: templates/layout.user.php:43
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s ar gael. Mwy o wybodaeth am sut i ddiweddaru."
 
-#: templates/layout.user.php:70
+#: templates/layout.user.php:71
 msgid "Log out"
 msgstr "Allgofnodi"
 
@@ -749,7 +749,26 @@ msgstr ""
 msgid "The share will expire on %s.<br><br>"
 msgstr ""
 
-#: templates/update.php:3
+#: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
 msgstr "Yn diweddaru owncloud i fersiwn %s, gall hyn gymryd amser."
+
+#: templates/update.user.php:3
+msgid ""
+"This ownCloud instance is currently being updated, which may take a while."
+msgstr ""
+
+#: templates/update.user.php:4
+msgid "Please reload this page after a short time to continue using ownCloud."
+msgstr ""
+
+#: templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr ""
+
+#: templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr ""

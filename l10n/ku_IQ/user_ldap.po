@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-10 22:26-0400\n"
-"PO-Revision-Date: 2013-10-11 02:27+0000\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-27 06:28+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Kurdish (Iraq) (http://www.transifex.com/projects/p/owncloud/language/ku_IQ/)\n"
 "MIME-Version: 1.0\n"
@@ -41,298 +41,395 @@ msgid ""
 "details."
 msgstr ""
 
-#: js/settings.js:66
+#: ajax/wizard.php:32
+msgid "No action specified"
+msgstr ""
+
+#: ajax/wizard.php:38
+msgid "No configuration specified"
+msgstr ""
+
+#: ajax/wizard.php:78
+msgid "No data specified"
+msgstr ""
+
+#: ajax/wizard.php:86
+#, php-format
+msgid " Could not set configuration %s"
+msgstr ""
+
+#: js/settings.js:67
 msgid "Deletion failed"
 msgstr ""
 
-#: js/settings.js:82
+#: js/settings.js:83
 msgid "Take over settings from recent server configuration?"
 msgstr ""
 
-#: js/settings.js:83
+#: js/settings.js:84
 msgid "Keep settings?"
 msgstr ""
 
-#: js/settings.js:97
+#: js/settings.js:99
 msgid "Cannot add server configuration"
 msgstr ""
 
-#: js/settings.js:111
+#: js/settings.js:113
 msgid "mappings cleared"
 msgstr ""
 
-#: js/settings.js:112
+#: js/settings.js:114
 msgid "Success"
 msgstr "سه‌رکه‌وتن"
 
-#: js/settings.js:117
+#: js/settings.js:119
 msgid "Error"
 msgstr "هه‌ڵه"
 
-#: js/settings.js:141
+#: js/settings.js:660 js/settings.js:669
+msgid "Select groups"
+msgstr ""
+
+#: js/settings.js:663 js/settings.js:672
+msgid "Select object classes"
+msgstr ""
+
+#: js/settings.js:666
+msgid "Select attributes"
+msgstr ""
+
+#: js/settings.js:694
 msgid "Connection test succeeded"
 msgstr ""
 
-#: js/settings.js:146
+#: js/settings.js:699
 msgid "Connection test failed"
 msgstr ""
 
-#: js/settings.js:156
+#: js/settings.js:709
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr ""
 
-#: js/settings.js:157
+#: js/settings.js:710
 msgid "Confirm Deletion"
 msgstr ""
 
-#: templates/settings.php:9
+#: lib/wizard.php:78 lib/wizard.php:92
+#, php-format
+msgid "%s group found"
+msgid_plural "%s groups found"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/wizard.php:123
+#, php-format
+msgid "%s user found"
+msgid_plural "%s users found"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/wizard.php:752 lib/wizard.php:764
+msgid "Invalid Host"
+msgstr ""
+
+#: lib/wizard.php:910
+msgid "Could not find the desired feature"
+msgstr ""
+
+#: templates/part.settingcontrols.php:4
+msgid "Test Configuration"
+msgstr ""
+
+#: templates/part.settingcontrols.php:10 templates/part.wizardcontrols.php:13
+msgid "Help"
+msgstr "یارمەتی"
+
+#: templates/part.wizard-groupfilter.php:4
+#, php-format
+msgid "Limit the access to %s to groups meeting this criteria:"
+msgstr ""
+
+#: templates/part.wizard-groupfilter.php:8
+#: templates/part.wizard-userfilter.php:8
+msgid "only those object classes:"
+msgstr ""
+
+#: templates/part.wizard-groupfilter.php:17
+#: templates/part.wizard-userfilter.php:17
+msgid "only from those groups:"
+msgstr ""
+
+#: templates/part.wizard-groupfilter.php:25
+#: templates/part.wizard-userfilter.php:25
+msgid "Edit raw filter instead"
+msgstr ""
+
+#: templates/part.wizard-groupfilter.php:30
+#: templates/part.wizard-userfilter.php:30
+msgid "Raw LDAP filter"
+msgstr ""
+
+#: templates/part.wizard-groupfilter.php:31
+#, php-format
 msgid ""
-"<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
-" experience unexpected behavior. Please ask your system administrator to "
-"disable one of them."
+"The filter specifies which LDAP groups shall have access to the %s instance."
 msgstr ""
 
-#: templates/settings.php:12
-msgid ""
-"<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
-"work. Please ask your system administrator to install it."
+#: templates/part.wizard-groupfilter.php:38
+msgid "groups found"
 msgstr ""
 
-#: templates/settings.php:16
-msgid "Server configuration"
+#: templates/part.wizard-loginfilter.php:4
+msgid "What attribute shall be used as login name:"
 msgstr ""
 
-#: templates/settings.php:32
+#: templates/part.wizard-loginfilter.php:8
+msgid "LDAP Username:"
+msgstr ""
+
+#: templates/part.wizard-loginfilter.php:16
+msgid "LDAP Email Address:"
+msgstr ""
+
+#: templates/part.wizard-loginfilter.php:24
+msgid "Other Attributes:"
+msgstr ""
+
+#: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
 msgstr ""
 
-#: templates/settings.php:37
+#: templates/part.wizard-server.php:30
 msgid "Host"
 msgstr ""
 
-#: templates/settings.php:39
+#: templates/part.wizard-server.php:31
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
 msgstr ""
 
-#: templates/settings.php:40
-msgid "Base DN"
+#: templates/part.wizard-server.php:36
+msgid "Port"
 msgstr ""
 
-#: templates/settings.php:41
-msgid "One Base DN per line"
-msgstr ""
-
-#: templates/settings.php:42
-msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr ""
-
-#: templates/settings.php:44
+#: templates/part.wizard-server.php:44
 msgid "User DN"
 msgstr ""
 
-#: templates/settings.php:46
+#: templates/part.wizard-server.php:45
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
 msgstr ""
 
-#: templates/settings.php:47
+#: templates/part.wizard-server.php:52
 msgid "Password"
 msgstr "وشەی تێپەربو"
 
-#: templates/settings.php:50
+#: templates/part.wizard-server.php:53
 msgid "For anonymous access, leave DN and Password empty."
 msgstr ""
 
-#: templates/settings.php:51
+#: templates/part.wizard-server.php:60
+msgid "One Base DN per line"
+msgstr ""
+
+#: templates/part.wizard-server.php:61
+msgid "You can specify Base DN for users and groups in the Advanced tab"
+msgstr ""
+
+#: templates/part.wizard-userfilter.php:4
+#, php-format
+msgid "Limit the access to %s to users meeting this criteria:"
+msgstr ""
+
+#: templates/part.wizard-userfilter.php:31
+#, php-format
+msgid ""
+"The filter specifies which LDAP users shall have access to the %s instance."
+msgstr ""
+
+#: templates/part.wizard-userfilter.php:38
+msgid "users found"
+msgstr ""
+
+#: templates/part.wizardcontrols.php:4
+msgid "Back"
+msgstr ""
+
+#: templates/part.wizardcontrols.php:7
+msgid "Continue"
+msgstr ""
+
+#: templates/settings.php:11
+msgid ""
+"<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
+" experience unexpected behavior. Please ask your system administrator to "
+"disable one of them."
+msgstr ""
+
+#: templates/settings.php:14
+msgid ""
+"<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
+"work. Please ask your system administrator to install it."
+msgstr ""
+
+#: templates/settings.php:20
+msgid "Connection Settings"
+msgstr ""
+
+#: templates/settings.php:22
+msgid "Configuration Active"
+msgstr ""
+
+#: templates/settings.php:22
+msgid "When unchecked, this configuration will be skipped."
+msgstr ""
+
+#: templates/settings.php:23
 msgid "User Login Filter"
 msgstr ""
 
-#: templates/settings.php:54
+#: templates/settings.php:26
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action. Example: \"uid=%%uid\""
 msgstr ""
 
-#: templates/settings.php:55
-msgid "User List Filter"
-msgstr ""
-
-#: templates/settings.php:58
-msgid ""
-"Defines the filter to apply, when retrieving users (no placeholders). "
-"Example: \"objectClass=person\""
-msgstr ""
-
-#: templates/settings.php:59
-msgid "Group Filter"
-msgstr ""
-
-#: templates/settings.php:62
-msgid ""
-"Defines the filter to apply, when retrieving groups (no placeholders). "
-"Example: \"objectClass=posixGroup\""
-msgstr ""
-
-#: templates/settings.php:66
-msgid "Connection Settings"
-msgstr ""
-
-#: templates/settings.php:68
-msgid "Configuration Active"
-msgstr ""
-
-#: templates/settings.php:68
-msgid "When unchecked, this configuration will be skipped."
-msgstr ""
-
-#: templates/settings.php:69
-msgid "Port"
-msgstr ""
-
-#: templates/settings.php:70
+#: templates/settings.php:27
 msgid "Backup (Replica) Host"
 msgstr ""
 
-#: templates/settings.php:70
+#: templates/settings.php:27
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
 msgstr ""
 
-#: templates/settings.php:71
+#: templates/settings.php:28
 msgid "Backup (Replica) Port"
 msgstr ""
 
-#: templates/settings.php:72
+#: templates/settings.php:29
 msgid "Disable Main Server"
 msgstr ""
 
-#: templates/settings.php:72
+#: templates/settings.php:29
 msgid "Only connect to the replica server."
 msgstr ""
 
-#: templates/settings.php:73
-msgid "Use TLS"
-msgstr ""
-
-#: templates/settings.php:73
-msgid "Do not use it additionally for LDAPS connections, it will fail."
-msgstr ""
-
-#: templates/settings.php:74
+#: templates/settings.php:30
 msgid "Case insensitve LDAP server (Windows)"
 msgstr ""
 
-#: templates/settings.php:75
+#: templates/settings.php:31
 msgid "Turn off SSL certificate validation."
 msgstr ""
 
-#: templates/settings.php:75
+#: templates/settings.php:31
 #, php-format
 msgid ""
 "Not recommended, use it for testing only! If connection only works with this"
 " option, import the LDAP server's SSL certificate in your %s server."
 msgstr ""
 
-#: templates/settings.php:76
+#: templates/settings.php:32
 msgid "Cache Time-To-Live"
 msgstr ""
 
-#: templates/settings.php:76
+#: templates/settings.php:32
 msgid "in seconds. A change empties the cache."
 msgstr ""
 
-#: templates/settings.php:78
+#: templates/settings.php:34
 msgid "Directory Settings"
 msgstr ""
 
-#: templates/settings.php:80
+#: templates/settings.php:36
 msgid "User Display Name Field"
 msgstr ""
 
-#: templates/settings.php:80
+#: templates/settings.php:36
 msgid "The LDAP attribute to use to generate the user's display name."
 msgstr ""
 
-#: templates/settings.php:81
+#: templates/settings.php:37
 msgid "Base User Tree"
 msgstr ""
 
-#: templates/settings.php:81
+#: templates/settings.php:37
 msgid "One User Base DN per line"
 msgstr ""
 
-#: templates/settings.php:82
+#: templates/settings.php:38
 msgid "User Search Attributes"
 msgstr ""
 
-#: templates/settings.php:82 templates/settings.php:85
+#: templates/settings.php:38 templates/settings.php:41
 msgid "Optional; one attribute per line"
 msgstr ""
 
-#: templates/settings.php:83
+#: templates/settings.php:39
 msgid "Group Display Name Field"
 msgstr ""
 
-#: templates/settings.php:83
+#: templates/settings.php:39
 msgid "The LDAP attribute to use to generate the groups's display name."
 msgstr ""
 
-#: templates/settings.php:84
+#: templates/settings.php:40
 msgid "Base Group Tree"
 msgstr ""
 
-#: templates/settings.php:84
+#: templates/settings.php:40
 msgid "One Group Base DN per line"
 msgstr ""
 
-#: templates/settings.php:85
+#: templates/settings.php:41
 msgid "Group Search Attributes"
 msgstr ""
 
-#: templates/settings.php:86
+#: templates/settings.php:42
 msgid "Group-Member association"
 msgstr ""
 
-#: templates/settings.php:88
+#: templates/settings.php:44
 msgid "Special Attributes"
 msgstr ""
 
-#: templates/settings.php:90
+#: templates/settings.php:46
 msgid "Quota Field"
 msgstr ""
 
-#: templates/settings.php:91
+#: templates/settings.php:47
 msgid "Quota Default"
 msgstr ""
 
-#: templates/settings.php:91
+#: templates/settings.php:47
 msgid "in bytes"
 msgstr ""
 
-#: templates/settings.php:92
+#: templates/settings.php:48
 msgid "Email Field"
 msgstr ""
 
-#: templates/settings.php:93
+#: templates/settings.php:49
 msgid "User Home Folder Naming Rule"
 msgstr ""
 
-#: templates/settings.php:93
+#: templates/settings.php:49
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr ""
 
-#: templates/settings.php:98
+#: templates/settings.php:55
 msgid "Internal Username"
 msgstr ""
 
-#: templates/settings.php:99
+#: templates/settings.php:56
 msgid ""
 "By default the internal username will be created from the UUID attribute. It"
 " makes sure that the username is unique and characters do not need to be "
@@ -348,15 +445,15 @@ msgid ""
 "effect only on newly mapped (added) LDAP users."
 msgstr ""
 
-#: templates/settings.php:100
+#: templates/settings.php:57
 msgid "Internal Username Attribute:"
 msgstr ""
 
-#: templates/settings.php:101
+#: templates/settings.php:58
 msgid "Override UUID detection"
 msgstr ""
 
-#: templates/settings.php:102
+#: templates/settings.php:59
 msgid ""
 "By default, the UUID attribute is automatically detected. The UUID attribute"
 " is used to doubtlessly identify LDAP users and groups. Also, the internal "
@@ -367,19 +464,19 @@ msgid ""
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
 msgstr ""
 
-#: templates/settings.php:103
+#: templates/settings.php:60
 msgid "UUID Attribute for Users:"
 msgstr ""
 
-#: templates/settings.php:104
+#: templates/settings.php:61
 msgid "UUID Attribute for Groups:"
 msgstr ""
 
-#: templates/settings.php:105
+#: templates/settings.php:62
 msgid "Username-LDAP User Mapping"
 msgstr ""
 
-#: templates/settings.php:106
+#: templates/settings.php:63
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -393,18 +490,10 @@ msgid ""
 "experimental stage."
 msgstr ""
 
-#: templates/settings.php:107
+#: templates/settings.php:64
 msgid "Clear Username-LDAP User Mapping"
 msgstr ""
 
-#: templates/settings.php:107
+#: templates/settings.php:64
 msgid "Clear Groupname-LDAP Group Mapping"
 msgstr ""
-
-#: templates/settings.php:109
-msgid "Test Configuration"
-msgstr ""
-
-#: templates/settings.php:109
-msgid "Help"
-msgstr "یارمەتی"

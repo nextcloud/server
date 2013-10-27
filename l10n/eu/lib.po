@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-17 13:47-0400\n"
-"PO-Revision-Date: 2013-10-17 17:47+0000\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-23 10:41+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -26,31 +26,31 @@ msgid ""
 " of ownCloud."
 msgstr ""
 
-#: private/app.php:254
+#: private/app.php:255
 msgid "No app name specified"
 msgstr ""
 
-#: private/app.php:359
+#: private/app.php:360
 msgid "Help"
 msgstr "Laguntza"
 
-#: private/app.php:372
+#: private/app.php:373
 msgid "Personal"
 msgstr "Pertsonala"
 
-#: private/app.php:383
+#: private/app.php:384
 msgid "Settings"
 msgstr "Ezarpenak"
 
-#: private/app.php:395
+#: private/app.php:396
 msgid "Users"
 msgstr "Erabiltzaileak"
 
-#: private/app.php:408
+#: private/app.php:409
 msgid "Admin"
 msgstr "Admin"
 
-#: private/app.php:872
+#: private/app.php:873
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Ezin izan da \"%s\" eguneratu."
@@ -286,54 +286,54 @@ msgstr "Mesedez begiratu <a href='%s'>instalazio gidak</a>."
 msgid "Could not find category \"%s\""
 msgstr "Ezin da \"%s\" kategoria aurkitu"
 
-#: private/template/functions.php:122
+#: private/template/functions.php:130
 msgid "seconds ago"
 msgstr "segundu"
 
-#: private/template/functions.php:123
+#: private/template/functions.php:131
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "orain dela minutu %n"
 msgstr[1] "orain dela %n minutu"
 
-#: private/template/functions.php:124
+#: private/template/functions.php:132
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "orain dela ordu %n"
 msgstr[1] "orain dela %n ordu"
 
-#: private/template/functions.php:125
+#: private/template/functions.php:133
 msgid "today"
 msgstr "gaur"
 
-#: private/template/functions.php:126
+#: private/template/functions.php:134
 msgid "yesterday"
 msgstr "atzo"
 
-#: private/template/functions.php:128
+#: private/template/functions.php:136
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "orain dela egun %n"
 msgstr[1] "orain dela %n egun"
 
-#: private/template/functions.php:130
+#: private/template/functions.php:138
 msgid "last month"
 msgstr "joan den hilabetean"
 
-#: private/template/functions.php:131
+#: private/template/functions.php:139
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "orain dela hilabete %n"
 msgstr[1] "orain dela %n hilabete"
 
-#: private/template/functions.php:133
+#: private/template/functions.php:141
 msgid "last year"
 msgstr "joan den urtean"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:142
 msgid "years ago"
 msgstr "urte"
 
-#: private/template.php:297
+#: private/template.php:297 public/util.php:103
 msgid "Caused by:"
 msgstr "Honek eraginda:"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-21 13:01-0400\n"
-"PO-Revision-Date: 2013-10-21 17:01+0000\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-27 06:28+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -211,6 +211,10 @@ msgstr "Virhe käyttäjää luotaessa"
 msgid "A valid password must be provided"
 msgstr "Anna kelvollinen salasana"
 
+#: js/users.js:472
+msgid "Warning: Home directory for user \"{user}\" already exists"
+msgstr ""
+
 #: personal.php:45 personal.php:46
 msgid "__language_name__"
 msgstr "_kielen_nimi_"
@@ -230,7 +234,7 @@ msgstr ""
 
 #: templates/admin.php:29
 msgid "Setup Warning"
-msgstr ""
+msgstr "Asetusvaroitus"
 
 #: templates/admin.php:32
 msgid ""
@@ -255,7 +259,7 @@ msgstr "PHP-moduuli \"fileinfo\" puuttuu. Sen käyttö on erittäin suositeltava
 
 #: templates/admin.php:58
 msgid "Locale not working"
-msgstr ""
+msgstr "Maa-asetus ei toimi"
 
 #: templates/admin.php:63
 #, php-format
@@ -294,7 +298,7 @@ msgstr ""
 
 #: templates/admin.php:115
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
-msgstr ""
+msgstr "Käytä järjestelmän cron-palvelua cron.php-tiedoston kutsumiseen 15 minuutin välein"
 
 #: templates/admin.php:120
 msgid "Sharing"
@@ -318,7 +322,7 @@ msgstr "Salli käyttäjien jakaa kohteita käyttäen linkkejä"
 
 #: templates/admin.php:143
 msgid "Allow public uploads"
-msgstr ""
+msgstr "Salli julkiset lähetykset"
 
 #: templates/admin.php:144
 msgid ""
@@ -539,9 +543,9 @@ msgstr "WebDAV"
 #: templates/personal.php:135
 #, php-format
 msgid ""
-"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
-"target=\"_blank\">access your Files via WebDAV</a>"
-msgstr "Käytä tätä osoitetta <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">päästäksesi käsiksi tiedostoihisi WebDAVin kautta</a>"
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
+"WebDAV</a>"
+msgstr ""
 
 #: templates/personal.php:146
 msgid "Encryption"

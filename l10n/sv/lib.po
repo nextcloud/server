@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-17 13:47-0400\n"
-"PO-Revision-Date: 2013-10-17 17:47+0000\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-23 10:41+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -28,31 +28,31 @@ msgid ""
 " of ownCloud."
 msgstr "Appen \"%s\" kan inte installeras eftersom att den inte är kompatibel med denna version av ownCloud."
 
-#: private/app.php:254
+#: private/app.php:255
 msgid "No app name specified"
 msgstr "Inget appnamn angivet"
 
-#: private/app.php:359
+#: private/app.php:360
 msgid "Help"
 msgstr "Hjälp"
 
-#: private/app.php:372
+#: private/app.php:373
 msgid "Personal"
 msgstr "Personligt"
 
-#: private/app.php:383
+#: private/app.php:384
 msgid "Settings"
 msgstr "Inställningar"
 
-#: private/app.php:395
+#: private/app.php:396
 msgid "Users"
 msgstr "Användare"
 
-#: private/app.php:408
+#: private/app.php:409
 msgid "Admin"
 msgstr "Admin"
 
-#: private/app.php:872
+#: private/app.php:873
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Misslyckades med att uppgradera \"%s\"."
@@ -288,54 +288,54 @@ msgstr "Var god kontrollera <a href='%s'>installationsguiden</a>."
 msgid "Could not find category \"%s\""
 msgstr "Kunde inte hitta kategorin \"%s\""
 
-#: private/template/functions.php:122
+#: private/template/functions.php:130
 msgid "seconds ago"
 msgstr "sekunder sedan"
 
-#: private/template/functions.php:123
+#: private/template/functions.php:131
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minut sedan"
 msgstr[1] "%n minuter sedan"
 
-#: private/template/functions.php:124
+#: private/template/functions.php:132
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n timme sedan"
 msgstr[1] "%n timmar sedan"
 
-#: private/template/functions.php:125
+#: private/template/functions.php:133
 msgid "today"
 msgstr "i dag"
 
-#: private/template/functions.php:126
+#: private/template/functions.php:134
 msgid "yesterday"
 msgstr "i går"
 
-#: private/template/functions.php:128
+#: private/template/functions.php:136
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "%n dag sedan"
 msgstr[1] "%n dagar sedan"
 
-#: private/template/functions.php:130
+#: private/template/functions.php:138
 msgid "last month"
 msgstr "förra månaden"
 
-#: private/template/functions.php:131
+#: private/template/functions.php:139
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n månad sedan"
 msgstr[1] "%n månader sedan"
 
-#: private/template/functions.php:133
+#: private/template/functions.php:141
 msgid "last year"
 msgstr "förra året"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:142
 msgid "years ago"
 msgstr "år sedan"
 
-#: private/template.php:297
+#: private/template.php:297 public/util.php:103
 msgid "Caused by:"
 msgstr "Orsakad av:"

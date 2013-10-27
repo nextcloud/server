@@ -58,14 +58,14 @@ $TRANSLATIONS = array(
 "Could not find category \"%s\"" => "カテゴリ \"%s\" が見つかりませんでした",
 "seconds ago" => "数秒前",
 "_%n minute ago_::_%n minutes ago_" => array("%n 分前"),
-"_%n hour ago_::_%n hours ago_" => array("%n 時間後"),
+"_%n hour ago_::_%n hours ago_" => array("%n 時間前"),
 "today" => "今日",
 "yesterday" => "昨日",
-"_%n day go_::_%n days ago_" => array("%n 日後"),
+"_%n day go_::_%n days ago_" => array("%n 日前"),
 "last month" => "一月前",
-"_%n month ago_::_%n months ago_" => array("%n カ月後"),
+"_%n month ago_::_%n months ago_" => array("%n ヶ月前"),
 "last year" => "一年前",
 "years ago" => "年前",
-"Caused by:" => "原因は以下:"
+"Caused by:" => "原因:"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# volkangezer <volkangezer@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-16 00:26-0400\n"
-"PO-Revision-Date: 2013-10-14 00:42+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-21 18:50+0000\n"
+"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,21 +42,21 @@ msgstr "Google Drive depo yapılandırma hatası"
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
-msgstr "<b>Uyari.</b>''smbclient''yüklü değil. Mont etme CIFS/SMB hissenin mümkün değildir. Lutfen kullanici sistemin sormak onu yuklemek ici,  "
+msgstr "<b>Uyarı:</b> \"smbclient\" kurulu değil. CIFS/SMB paylaşımlarını bağlama işlemi mümkün olmadı. Lütfen kurulumu için sistem yöneticinize danışın."
 
 #: lib/config.php:457
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
-msgstr "<Uyari.</b>. Sistem FTP PHPden aktif degil veya yuklemedi. Monte etme hissenin FTP mumkun degildir. Lutfen kullaniici sistemin sormak onu yuklemek icin."
+msgstr "<b>Uyarı:</b> PHP içerisinde FTP desteği etkin veya yüklü değil. FTP paylaşımlarını bağlama işlemi mümkün olmadı. Lütfen kurulumu için sistem yöneticinize danışın."
 
 #: lib/config.php:460
 msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
 "your system administrator to install it."
-msgstr "<b> Ihbar </b>. Dayanma Curl PHPden aktif veya yuklemedi degil. Monte ownClouden/WebDay veya GoogleDrive mumkun degil. Lutfen sistm yonetici sormak yuklemek icin. "
+msgstr "<b>Uyarı:</b> PHP içerisinde Curl desteği etkin veya yüklü değil. OwnCloud / WebDAV veya GoogleDrive bağlama işlemi mümkün olmadı. Lütfen kurulumu için sistem yöneticinizde danışın."
 
 #: templates/settings.php:3
 msgid "External Storage"
@@ -67,7 +68,7 @@ msgstr "Dizin ismi"
 
 #: templates/settings.php:10
 msgid "External storage"
-msgstr "Harici Depolama"
+msgstr "Harici depolama"
 
 #: templates/settings.php:11
 msgid "Configuration"

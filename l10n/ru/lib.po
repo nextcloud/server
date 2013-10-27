@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-17 13:47-0400\n"
-"PO-Revision-Date: 2013-10-17 17:47+0000\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-23 10:41+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -30,31 +30,31 @@ msgid ""
 " of ownCloud."
 msgstr "Приложение \"%s\" нельзя установить, так как оно не совместимо с текущей версией ownCloud."
 
-#: private/app.php:254
+#: private/app.php:255
 msgid "No app name specified"
 msgstr "Не выбрано имя приложения"
 
-#: private/app.php:359
+#: private/app.php:360
 msgid "Help"
 msgstr "Помощь"
 
-#: private/app.php:372
+#: private/app.php:373
 msgid "Personal"
 msgstr "Личное"
 
-#: private/app.php:383
+#: private/app.php:384
 msgid "Settings"
 msgstr "Конфигурация"
 
-#: private/app.php:395
+#: private/app.php:396
 msgid "Users"
 msgstr "Пользователи"
 
-#: private/app.php:408
+#: private/app.php:409
 msgid "Admin"
 msgstr "Admin"
 
-#: private/app.php:872
+#: private/app.php:873
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Не смог обновить \"%s\"."
@@ -290,58 +290,58 @@ msgstr "Пожалуйста, дважды просмотрите <a href='%s'>�
 msgid "Could not find category \"%s\""
 msgstr "Категория \"%s\"  не найдена"
 
-#: private/template/functions.php:122
+#: private/template/functions.php:130
 msgid "seconds ago"
 msgstr "несколько секунд назад"
 
-#: private/template/functions.php:123
+#: private/template/functions.php:131
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n минута назад"
 msgstr[1] "%n минуты назад"
 msgstr[2] "%n минут назад"
 
-#: private/template/functions.php:124
+#: private/template/functions.php:132
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n час назад"
 msgstr[1] "%n часа назад"
 msgstr[2] "%n часов назад"
 
-#: private/template/functions.php:125
+#: private/template/functions.php:133
 msgid "today"
 msgstr "сегодня"
 
-#: private/template/functions.php:126
+#: private/template/functions.php:134
 msgid "yesterday"
 msgstr "вчера"
 
-#: private/template/functions.php:128
+#: private/template/functions.php:136
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "%n день назад"
 msgstr[1] "%n дня назад"
 msgstr[2] "%n дней назад"
 
-#: private/template/functions.php:130
+#: private/template/functions.php:138
 msgid "last month"
 msgstr "в прошлом месяце"
 
-#: private/template/functions.php:131
+#: private/template/functions.php:139
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n месяц назад"
 msgstr[1] "%n месяца назад"
 msgstr[2] "%n месяцев назад"
 
-#: private/template/functions.php:133
+#: private/template/functions.php:141
 msgid "last year"
 msgstr "в прошлом году"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:142
 msgid "years ago"
 msgstr "несколько лет назад"
 
-#: private/template.php:297
+#: private/template.php:297 public/util.php:103
 msgid "Caused by:"
 msgstr "Вызвано:"

@@ -14,6 +14,7 @@ $TRANSLATIONS = array(
 "Download" => "ダウンロード",
 "Upload" => "アップロード",
 "Cancel upload" => "アップロードをキャンセル",
-"No preview available for" => "プレビューはありません"
+"No preview available for" => "プレビューはありません",
+"Direct link" => "リンク"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-17 13:47-0400\n"
-"PO-Revision-Date: 2013-10-17 17:47+0000\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-23 10:41+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -25,31 +25,31 @@ msgid ""
 " of ownCloud."
 msgstr "無法安裝應用程式 %s 因為它和此版本的 ownCloud 不相容。"
 
-#: private/app.php:254
+#: private/app.php:255
 msgid "No app name specified"
 msgstr "沒有指定應用程式名稱"
 
-#: private/app.php:359
+#: private/app.php:360
 msgid "Help"
 msgstr "說明"
 
-#: private/app.php:372
+#: private/app.php:373
 msgid "Personal"
 msgstr "個人"
 
-#: private/app.php:383
+#: private/app.php:384
 msgid "Settings"
 msgstr "設定"
 
-#: private/app.php:395
+#: private/app.php:396
 msgid "Users"
 msgstr "使用者"
 
-#: private/app.php:408
+#: private/app.php:409
 msgid "Admin"
 msgstr "管理"
 
-#: private/app.php:872
+#: private/app.php:873
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "升級失敗：%s"
@@ -285,50 +285,50 @@ msgstr "請參考<a href='%s'>安裝指南</a>。"
 msgid "Could not find category \"%s\""
 msgstr "找不到分類：\"%s\""
 
-#: private/template/functions.php:122
+#: private/template/functions.php:130
 msgid "seconds ago"
 msgstr "幾秒前"
 
-#: private/template/functions.php:123
+#: private/template/functions.php:131
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n 分鐘前"
 
-#: private/template/functions.php:124
+#: private/template/functions.php:132
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n 小時前"
 
-#: private/template/functions.php:125
+#: private/template/functions.php:133
 msgid "today"
 msgstr "今天"
 
-#: private/template/functions.php:126
+#: private/template/functions.php:134
 msgid "yesterday"
 msgstr "昨天"
 
-#: private/template/functions.php:128
+#: private/template/functions.php:136
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "%n 天前"
 
-#: private/template/functions.php:130
+#: private/template/functions.php:138
 msgid "last month"
 msgstr "上個月"
 
-#: private/template/functions.php:131
+#: private/template/functions.php:139
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n 個月前"
 
-#: private/template/functions.php:133
+#: private/template/functions.php:141
 msgid "last year"
 msgstr "去年"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:142
 msgid "years ago"
 msgstr "幾年前"
 
-#: private/template.php:297
+#: private/template.php:297 public/util.php:103
 msgid "Caused by:"
 msgstr "原因："

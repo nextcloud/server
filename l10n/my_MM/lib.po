@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-17 13:47-0400\n"
-"PO-Revision-Date: 2013-10-17 17:47+0000\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-23 10:41+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Burmese (Myanmar) (http://www.transifex.com/projects/p/owncloud/language/my_MM/)\n"
 "MIME-Version: 1.0\n"
@@ -24,31 +24,31 @@ msgid ""
 " of ownCloud."
 msgstr ""
 
-#: private/app.php:254
+#: private/app.php:255
 msgid "No app name specified"
 msgstr ""
 
-#: private/app.php:359
+#: private/app.php:360
 msgid "Help"
 msgstr "အကူအညီ"
 
-#: private/app.php:372
+#: private/app.php:373
 msgid "Personal"
 msgstr ""
 
-#: private/app.php:383
+#: private/app.php:384
 msgid "Settings"
 msgstr ""
 
-#: private/app.php:395
+#: private/app.php:396
 msgid "Users"
 msgstr "သုံးစွဲသူ"
 
-#: private/app.php:408
+#: private/app.php:409
 msgid "Admin"
 msgstr "အက်ဒမင်"
 
-#: private/app.php:872
+#: private/app.php:873
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
@@ -284,50 +284,50 @@ msgstr ""
 msgid "Could not find category \"%s\""
 msgstr "\"%s\"ခေါင်းစဉ်ကို ရှာမတွေ့ပါ"
 
-#: private/template/functions.php:122
+#: private/template/functions.php:130
 msgid "seconds ago"
 msgstr "စက္ကန့်အနည်းငယ်က"
 
-#: private/template/functions.php:123
+#: private/template/functions.php:131
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 
-#: private/template/functions.php:124
+#: private/template/functions.php:132
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 
-#: private/template/functions.php:125
+#: private/template/functions.php:133
 msgid "today"
 msgstr "ယနေ့"
 
-#: private/template/functions.php:126
+#: private/template/functions.php:134
 msgid "yesterday"
 msgstr "မနေ့က"
 
-#: private/template/functions.php:128
+#: private/template/functions.php:136
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] ""
 
-#: private/template/functions.php:130
+#: private/template/functions.php:138
 msgid "last month"
 msgstr "ပြီးခဲ့သောလ"
 
-#: private/template/functions.php:131
+#: private/template/functions.php:139
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 
-#: private/template/functions.php:133
+#: private/template/functions.php:141
 msgid "last year"
 msgstr "မနှစ်က"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:142
 msgid "years ago"
 msgstr "နှစ် အရင်က"
 
-#: private/template.php:297
+#: private/template.php:297 public/util.php:103
 msgid "Caused by:"
 msgstr ""

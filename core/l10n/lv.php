@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s kopīgots »%s« ar jums",
-"group" => "grupa",
 "Sunday" => "Svētdiena",
 "Monday" => "Pirmdiena",
 "Tuesday" => "Otrdiena",
@@ -47,8 +46,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Kļūda, mainot atļaujas",
 "Shared with you and the group {group} by {owner}" => "{owner} dalījās ar jums un grupu {group}",
 "Shared with you by {owner}" => "{owner} dalījās ar jums",
-"Share with" => "Dalīties ar",
-"Share with link" => "Dalīties ar saiti",
 "Password protect" => "Aizsargāt ar paroli",
 "Password" => "Parole",
 "Allow Public Upload" => "Ļaut publisko augšupielādi.",
@@ -58,6 +55,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "Termiņa datums",
 "Share via email:" => "Dalīties, izmantojot e-pastu:",
 "No people found" => "Nav atrastu cilvēku",
+"group" => "grupa",
 "Resharing is not allowed" => "Atkārtota dalīšanās nav atļauta",
 "Shared in {item} with {user}" => "Dalījās ar {item} ar {user}",
 "Unshare" => "Pārtraukt dalīšanos",

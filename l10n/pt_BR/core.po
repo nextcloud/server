@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-16 00:26-0400\n"
-"PO-Revision-Date: 2013-10-14 13:00+0000\n"
-"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-27 06:28+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,10 +28,6 @@ msgstr "%s compartilhou »%s« com você"
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Não foi possível enviar e-mail para os seguintes usuários: %s"
-
-#: ajax/share.php:327
-msgid "group"
-msgstr "grupo"
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
@@ -274,144 +270,148 @@ msgstr "({count} selecionados)"
 msgid "Error loading file exists template"
 msgstr "Erro ao carregar arquivo existe modelo"
 
-#: js/share.js:30 js/share.js:45 js/share.js:87
+#: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
 msgstr "Compartilhados"
 
-#: js/share.js:90
+#: js/share.js:109
 msgid "Share"
 msgstr "Compartilhar"
 
-#: js/share.js:130 js/share.js:143 js/share.js:150 js/share.js:667
-#: js/share.js:679
+#: js/share.js:149 js/share.js:162 js/share.js:169 js/share.js:676
+#: js/share.js:688
 msgid "Error"
 msgstr "Erro"
 
-#: js/share.js:132 js/share.js:707
+#: js/share.js:151 js/share.js:716
 msgid "Error while sharing"
 msgstr "Erro ao compartilhar"
 
-#: js/share.js:143
+#: js/share.js:162
 msgid "Error while unsharing"
 msgstr "Erro ao descompartilhar"
 
-#: js/share.js:150
+#: js/share.js:169
 msgid "Error while changing permissions"
 msgstr "Erro ao mudar permissões"
 
-#: js/share.js:159
+#: js/share.js:178
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Compartilhado com você e com o grupo {group} por {owner}"
 
-#: js/share.js:161
+#: js/share.js:180
 msgid "Shared with you by {owner}"
 msgstr "Compartilhado com você por {owner}"
 
-#: js/share.js:184
-msgid "Share with"
-msgstr "Compartilhar com"
+#: js/share.js:203
+msgid "Share with user or group …"
+msgstr ""
 
-#: js/share.js:189
-msgid "Share with link"
-msgstr "Compartilhar com link"
+#: js/share.js:209
+msgid "Share link"
+msgstr ""
 
-#: js/share.js:192
+#: js/share.js:212
 msgid "Password protect"
 msgstr "Proteger com senha"
 
-#: js/share.js:194 templates/installation.php:57 templates/login.php:32
+#: js/share.js:214 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "Senha"
 
-#: js/share.js:199
+#: js/share.js:219
 msgid "Allow Public Upload"
 msgstr "Permitir upload público"
 
-#: js/share.js:203
+#: js/share.js:223
 msgid "Email link to person"
 msgstr "Enviar link por e-mail"
 
-#: js/share.js:204
+#: js/share.js:224
 msgid "Send"
 msgstr "Enviar"
 
-#: js/share.js:209
+#: js/share.js:229
 msgid "Set expiration date"
 msgstr "Definir data de expiração"
 
-#: js/share.js:210
+#: js/share.js:230
 msgid "Expiration date"
 msgstr "Data de expiração"
 
-#: js/share.js:243
+#: js/share.js:263
 msgid "Share via email:"
 msgstr "Compartilhar via e-mail:"
 
-#: js/share.js:246
+#: js/share.js:266
 msgid "No people found"
 msgstr "Nenhuma pessoa encontrada"
 
-#: js/share.js:284
+#: js/share.js:295 js/share.js:332
+msgid "group"
+msgstr "grupo"
+
+#: js/share.js:306
 msgid "Resharing is not allowed"
 msgstr "Não é permitido re-compartilhar"
 
-#: js/share.js:320
+#: js/share.js:348
 msgid "Shared in {item} with {user}"
 msgstr "Compartilhado em {item} com {user}"
 
-#: js/share.js:341
+#: js/share.js:370
 msgid "Unshare"
 msgstr "Descompartilhar"
 
-#: js/share.js:353
-msgid "notify user by email"
-msgstr "notificar usuário por email"
+#: js/share.js:378
+msgid "notify by email"
+msgstr ""
 
-#: js/share.js:361
+#: js/share.js:381
 msgid "can edit"
 msgstr "pode editar"
 
-#: js/share.js:363
+#: js/share.js:383
 msgid "access control"
 msgstr "controle de acesso"
 
-#: js/share.js:366
+#: js/share.js:386
 msgid "create"
 msgstr "criar"
 
-#: js/share.js:369
+#: js/share.js:389
 msgid "update"
 msgstr "atualizar"
 
-#: js/share.js:372
+#: js/share.js:392
 msgid "delete"
 msgstr "remover"
 
-#: js/share.js:375
+#: js/share.js:395
 msgid "share"
 msgstr "compartilhar"
 
-#: js/share.js:409 js/share.js:654
+#: js/share.js:437 js/share.js:663
 msgid "Password protected"
 msgstr "Protegido com senha"
 
-#: js/share.js:667
+#: js/share.js:676
 msgid "Error unsetting expiration date"
 msgstr "Erro ao remover data de expiração"
 
-#: js/share.js:679
+#: js/share.js:688
 msgid "Error setting expiration date"
 msgstr "Erro ao definir data de expiração"
 
-#: js/share.js:694
+#: js/share.js:703
 msgid "Sending ..."
 msgstr "Enviando ..."
 
-#: js/share.js:705
+#: js/share.js:714
 msgid "Email sent"
 msgstr "E-mail enviado"
 
-#: js/share.js:729
+#: js/share.js:738
 msgid "Warning"
 msgstr "Aviso"
 
@@ -523,7 +523,7 @@ msgstr "Pessoal"
 msgid "Users"
 msgstr "Usuários"
 
-#: strings.php:7 templates/layout.user.php:109
+#: strings.php:7 templates/layout.user.php:110
 msgid "Apps"
 msgstr "Aplicações"
 
@@ -681,12 +681,12 @@ msgstr "Concluir configuração"
 msgid "Finishing …"
 msgstr "Finalizando ..."
 
-#: templates/layout.user.php:42
+#: templates/layout.user.php:43
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s está disponível. Obtenha mais informações sobre como atualizar."
 
-#: templates/layout.user.php:70
+#: templates/layout.user.php:71
 msgid "Log out"
 msgstr "Sair"
 
@@ -740,7 +740,26 @@ msgstr "Olá,<br><br>só gostaria que você soubesse que %s compartilhou »%s« 
 msgid "The share will expire on %s.<br><br>"
 msgstr "O compartilhamento irá expirar em %s.<br><br>"
 
-#: templates/update.php:3
+#: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
 msgstr "Atualizando ownCloud para a versão %s, isto pode levar algum tempo."
+
+#: templates/update.user.php:3
+msgid ""
+"This ownCloud instance is currently being updated, which may take a while."
+msgstr ""
+
+#: templates/update.user.php:4
+msgid "Please reload this page after a short time to continue using ownCloud."
+msgstr ""
+
+#: templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr ""
+
+#: templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr ""

@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s به اشتراک گذاشته شده است »%s« توسط شما",
-"group" => "گروه",
 "Sunday" => "یکشنبه",
 "Monday" => "دوشنبه",
 "Tuesday" => "سه شنبه",
@@ -47,8 +46,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "خطا در حال تغییر مجوز",
 "Shared with you and the group {group} by {owner}" => "به اشتراک گذاشته شده با شما و گروه {گروه} توسط {دارنده}",
 "Shared with you by {owner}" => "به اشتراک گذاشته شده با شما توسط { دارنده}",
-"Share with" => "به اشتراک گذاشتن با",
-"Share with link" => "به اشتراک گذاشتن با پیوند",
 "Password protect" => "نگهداری کردن رمز عبور",
 "Password" => "گذرواژه",
 "Allow Public Upload" => "اجازه آپلود عمومی",
@@ -58,6 +55,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "تاریخ انقضا",
 "Share via email:" => "از طریق ایمیل به اشتراک بگذارید :",
 "No people found" => "کسی یافت نشد",
+"group" => "گروه",
 "Resharing is not allowed" => "اشتراک گذاری مجدد مجاز نمی باشد",
 "Shared in {item} with {user}" => "به اشتراک گذاشته شده در {بخش} با {کاربر}",
 "Unshare" => "لغو اشتراک",

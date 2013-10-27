@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"group" => "grop",
 "Sunday" => "Dimenge",
 "Monday" => "Diluns",
 "Tuesday" => "Dimarç",
@@ -43,14 +42,13 @@ $TRANSLATIONS = array(
 "Error while sharing" => "Error al partejar",
 "Error while unsharing" => "Error al non partejar",
 "Error while changing permissions" => "Error al cambiar permissions",
-"Share with" => "Parteja amb",
-"Share with link" => "Parteja amb lo ligam",
 "Password protect" => "Parat per senhal",
 "Password" => "Senhal",
 "Set expiration date" => "Met la data d'expiracion",
 "Expiration date" => "Data d'expiracion",
 "Share via email:" => "Parteja tras corrièl :",
 "No people found" => "Deguns trobat",
+"group" => "grop",
 "Resharing is not allowed" => "Tornar partejar es pas permis",
 "Unshare" => "Pas partejador",
 "can edit" => "pòt modificar",

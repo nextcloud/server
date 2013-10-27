@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"This share is password-protected" => "Ez egy jelszóval védett megosztás",
 "The password is wrong. Try again." => "A megadott jelszó nem megfelelő. Próbálja újra!",
 "Password" => "Jelszó",
 "Sorry, this link doesn’t seem to work anymore." => "Sajnos úgy tűnik, ez a link már nem működik.",
@@ -13,6 +14,7 @@ $TRANSLATIONS = array(
 "Download" => "Letöltés",
 "Upload" => "Feltöltés",
 "Cancel upload" => "A feltöltés megszakítása",
-"No preview available for" => "Nem áll rendelkezésre előnézet ehhez: "
+"No preview available for" => "Nem áll rendelkezésre előnézet ehhez: ",
+"Direct link" => "Közvetlen link"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

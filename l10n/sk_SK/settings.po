@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-21 13:01-0400\n"
-"PO-Revision-Date: 2013-10-21 17:01+0000\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-27 06:28+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -98,18 +98,18 @@ msgstr "Nebol uvedený používateľ"
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
-msgstr ""
+msgstr "Zadajte administrátorské heslo pre obnovu, inak budú všetky dáta stratené"
 
 #: changepassword/controller.php:79
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
-msgstr ""
+msgstr "Chybné administrátorské heslo pre obnovu. Skontrolujte správnosť hesla a skúste to znovu."
 
 #: changepassword/controller.php:87
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
-msgstr ""
+msgstr "Úložisko nepodporuje zmenu hesla, ale šifrovací kľúč používateľov bol úspešne zmenený."
 
 #: changepassword/controller.php:92 changepassword/controller.php:103
 msgid "Unable to change password"
@@ -211,6 +211,10 @@ msgstr "Chyba pri vytváraní používateľa"
 #: js/users.js:448
 msgid "A valid password must be provided"
 msgstr "Musíte zadať platné heslo"
+
+#: js/users.js:472
+msgid "Warning: Home directory for user \"{user}\" already exists"
+msgstr ""
 
 #: personal.php:45 personal.php:46
 msgid "__language_name__"
@@ -515,7 +519,7 @@ msgstr "Zmazať obrázok"
 
 #: templates/personal.php:94
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
-msgstr ""
+msgstr "Buď png alebo jpg. V ideálnom prípade štvorec, ale budete mať možnosť ho orezať."
 
 #: templates/personal.php:97
 msgid "Abort"
@@ -540,9 +544,9 @@ msgstr "WebDAV"
 #: templates/personal.php:135
 #, php-format
 msgid ""
-"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
-"target=\"_blank\">access your Files via WebDAV</a>"
-msgstr "Použite túto adresu <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">pre prístup k súborom cez WebDAV</a>"
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
+"WebDAV</a>"
+msgstr ""
 
 #: templates/personal.php:146
 msgid "Encryption"

@@ -4,12 +4,13 @@
 # 
 # Translators:
 # Shinjo Park <kde@peremen.name>, 2013
+# smallsnail <bjh13579@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-21 13:01-0400\n"
-"PO-Revision-Date: 2013-10-21 17:01+0000\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-27 06:28+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -87,7 +88,7 @@ msgstr "앱을 업데이트할 수 없습니다."
 
 #: changepassword/controller.php:20
 msgid "Wrong password"
-msgstr ""
+msgstr "잘못된 비밀번호"
 
 #: changepassword/controller.php:42
 msgid "No user supplied"
@@ -112,7 +113,7 @@ msgstr ""
 
 #: changepassword/controller.php:92 changepassword/controller.php:103
 msgid "Unable to change password"
-msgstr ""
+msgstr "비밀번호를 변경하실수 없습니다"
 
 #: js/apps.js:43
 msgid "Update to {appversion}"
@@ -132,11 +133,11 @@ msgstr "기다려 주십시오...."
 
 #: js/apps.js:79 js/apps.js:80 js/apps.js:101
 msgid "Error while disabling app"
-msgstr ""
+msgstr "앱을 사용중지하는 도중 에러발생"
 
 #: js/apps.js:100 js/apps.js:114 js/apps.js:115
 msgid "Error while enabling app"
-msgstr ""
+msgstr "앱을 사용토록 하는 중에 에러발생"
 
 #: js/apps.js:125
 msgid "Updating...."
@@ -160,11 +161,11 @@ msgstr "업데이트됨"
 
 #: js/personal.js:220
 msgid "Select a profile picture"
-msgstr ""
+msgstr "프로필 사진 선택"
 
 #: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "파일 해독중... 잠시만 기다려주세요, 시간이 걸릴수 있습니다."
 
 #: js/personal.js:287
 msgid "Saving..."
@@ -210,6 +211,10 @@ msgstr "사용자 생성 오류"
 #: js/users.js:448
 msgid "A valid password must be provided"
 msgstr "올바른 암호를 입력해야 함"
+
+#: js/users.js:472
+msgid "Warning: Home directory for user \"{user}\" already exists"
+msgstr ""
 
 #: personal.php:45 personal.php:46
 msgid "__language_name__"
@@ -318,7 +323,7 @@ msgstr "사용자가 개별 항목의 링크를 공유할 수 있도록 허용"
 
 #: templates/admin.php:143
 msgid "Allow public uploads"
-msgstr ""
+msgstr "퍼블릭 업로드 허용"
 
 #: templates/admin.php:144
 msgid ""
@@ -343,11 +348,11 @@ msgstr "사용자가 속해 있는 그룹의 사용자와만 공유할 수 있�
 
 #: templates/admin.php:170
 msgid "Allow mail notification"
-msgstr ""
+msgstr "메일 알림을 허용"
 
 #: templates/admin.php:171
 msgid "Allow user to send mail notification for shared files"
-msgstr ""
+msgstr "사용자에게 공유 파일에 대한 메일 알림을 허용합니다"
 
 #: templates/admin.php:178
 msgid "Security"
@@ -502,15 +507,15 @@ msgstr "프로필 사진"
 
 #: templates/personal.php:90
 msgid "Upload new"
-msgstr ""
+msgstr "새로이 업로드하기"
 
 #: templates/personal.php:92
 msgid "Select new from Files"
-msgstr ""
+msgstr "파일에서 선택"
 
 #: templates/personal.php:93
 msgid "Remove image"
-msgstr ""
+msgstr "그림 삭제"
 
 #: templates/personal.php:94
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
@@ -522,7 +527,7 @@ msgstr "대하여"
 
 #: templates/personal.php:98
 msgid "Choose as profile image"
-msgstr ""
+msgstr "프로필 사진을 선택해주세요"
 
 #: templates/personal.php:106 templates/personal.php:107
 msgid "Language"
@@ -539,8 +544,8 @@ msgstr "WebDAV"
 #: templates/personal.php:135
 #, php-format
 msgid ""
-"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
-"target=\"_blank\">access your Files via WebDAV</a>"
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
+"WebDAV</a>"
 msgstr ""
 
 #: templates/personal.php:146
@@ -553,11 +558,11 @@ msgstr ""
 
 #: templates/personal.php:154
 msgid "Log-in password"
-msgstr ""
+msgstr "로그인 비밀번호"
 
 #: templates/personal.php:159
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "모든 파일 해독"
 
 #: templates/users.php:21
 msgid "Login Name"

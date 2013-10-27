@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-10-21 13:01-0400\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,10 +26,6 @@ msgstr ""
 #: ajax/share.php:168
 #, php-format
 msgid "Couldn't send mail to following users: %s "
-msgstr ""
-
-#: ajax/share.php:327 js/share.js:338
-msgid "group"
 msgstr ""
 
 #: ajax/update.php:11
@@ -281,12 +277,12 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
-#: js/share.js:149 js/share.js:162 js/share.js:169 js/share.js:701
-#: js/share.js:713
+#: js/share.js:149 js/share.js:162 js/share.js:169 js/share.js:676
+#: js/share.js:688
 msgid "Error"
 msgstr ""
 
-#: js/share.js:151 js/share.js:741
+#: js/share.js:151 js/share.js:716
 msgid "Error while sharing"
 msgstr ""
 
@@ -307,110 +303,114 @@ msgid "Shared with you by {owner}"
 msgstr ""
 
 #: js/share.js:203
-msgid "Share with"
+msgid "Share with user or group …"
 msgstr ""
 
-#: js/share.js:220
-msgid "Share with link"
+#: js/share.js:209
+msgid "Share link"
 msgstr ""
 
-#: js/share.js:223
+#: js/share.js:212
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:225 templates/installation.php:57 templates/login.php:32
+#: js/share.js:214 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr ""
 
-#: js/share.js:230
+#: js/share.js:219
 msgid "Allow Public Upload"
 msgstr ""
 
-#: js/share.js:234
+#: js/share.js:223
 msgid "Email link to person"
 msgstr ""
 
-#: js/share.js:235
+#: js/share.js:224
 msgid "Send"
 msgstr ""
 
-#: js/share.js:240
+#: js/share.js:229
 msgid "Set expiration date"
 msgstr ""
 
-#: js/share.js:241
+#: js/share.js:230
 msgid "Expiration date"
 msgstr ""
 
-#: js/share.js:274
+#: js/share.js:263
 msgid "Share via email:"
 msgstr ""
 
-#: js/share.js:277
+#: js/share.js:266
 msgid "No people found"
 msgstr ""
 
-#: js/share.js:315
+#: js/share.js:295 js/share.js:332
+msgid "group"
+msgstr ""
+
+#: js/share.js:306
 msgid "Resharing is not allowed"
 msgstr ""
 
-#: js/share.js:354
+#: js/share.js:348
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:375
+#: js/share.js:370
 msgid "Unshare"
 msgstr ""
 
-#: js/share.js:387
-msgid "notify user by email"
+#: js/share.js:378
+msgid "notify by email"
 msgstr ""
 
-#: js/share.js:395
+#: js/share.js:381
 msgid "can edit"
 msgstr ""
 
-#: js/share.js:397
+#: js/share.js:383
 msgid "access control"
 msgstr ""
 
-#: js/share.js:400
+#: js/share.js:386
 msgid "create"
 msgstr ""
 
-#: js/share.js:403
+#: js/share.js:389
 msgid "update"
 msgstr ""
 
-#: js/share.js:406
+#: js/share.js:392
 msgid "delete"
 msgstr ""
 
-#: js/share.js:409
+#: js/share.js:395
 msgid "share"
 msgstr ""
 
-#: js/share.js:443 js/share.js:688
+#: js/share.js:437 js/share.js:663
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:701
+#: js/share.js:676
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:713
+#: js/share.js:688
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:728
+#: js/share.js:703
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:739
+#: js/share.js:714
 msgid "Email sent"
 msgstr ""
 
-#: js/share.js:763
+#: js/share.js:738
 msgid "Warning"
 msgstr ""
 
@@ -739,7 +739,26 @@ msgstr ""
 msgid "The share will expire on %s.<br><br>"
 msgstr ""
 
-#: templates/update.php:3
+#: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
+msgstr ""
+
+#: templates/update.user.php:3
+msgid ""
+"This ownCloud instance is currently being updated, which may take a while."
+msgstr ""
+
+#: templates/update.user.php:4
+msgid "Please reload this page after a short time to continue using ownCloud."
+msgstr ""
+
+#: templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr ""
+
+#: templates/update.user.php:6
+msgid "Thank you for your patience."
 msgstr ""

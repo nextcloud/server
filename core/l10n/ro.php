@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s Partajat »%s« cu tine de",
-"group" => "grup",
 "Updated database" => "Bază de date actualizată",
 "Unknown filetype" => "Tip fișier necunoscut",
 "Invalid image" => "Imagine invalidă",
@@ -54,8 +53,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Eroare la modificarea permisiunilor",
 "Shared with you and the group {group} by {owner}" => "Distribuie cu tine si grupul {group} de {owner}",
 "Shared with you by {owner}" => "Distribuie cu tine de {owner}",
-"Share with" => "Partajat cu",
-"Share with link" => "Partajare cu legătură",
 "Password protect" => "Protejare cu parolă",
 "Password" => "Parolă",
 "Allow Public Upload" => "Permiteţi încărcarea publică.",
@@ -65,6 +62,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "Data expirării",
 "Share via email:" => "Distribuie prin email:",
 "No people found" => "Nici o persoană găsită",
+"group" => "grup",
 "Resharing is not allowed" => "Repartajarea nu este permisă",
 "Shared in {item} with {user}" => "Distribuie in {item} si {user}",
 "Unshare" => "Anulare partajare",

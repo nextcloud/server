@@ -117,7 +117,6 @@ $TRANSLATIONS = array(
 "Language" => "Idioma",
 "Help translate" => "Ajudeu-nos amb la traducció",
 "WebDAV" => "WebDAV",
-"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "Useu aquesta adreça per <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">accedir als fitxers via WebDAV</a>",
 "Encryption" => "Xifrat",
 "The encryption app is no longer enabled, decrypt all your file" => "L'aplicació d'encriptació ja no està activada, desencripteu tots els vostres fitxers.",
 "Log-in password" => "Contrasenya d'accés",

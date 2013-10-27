@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "Den/D' %s huet »%s« mat dir gedeelt",
-"group" => "Grupp",
 "Sunday" => "Sonndeg",
 "Monday" => "Méindeg",
 "Tuesday" => "Dënschdeg",
@@ -47,8 +46,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Feeler beim Ännere vun de Rechter",
 "Shared with you and the group {group} by {owner}" => "Gedeelt mat dir an der Grupp {group} vum {owner}",
 "Shared with you by {owner}" => "Gedeelt mat dir vum {owner}",
-"Share with" => "Deele mat",
-"Share with link" => "Mat Link deelen",
 "Password protect" => "Passwuertgeschützt",
 "Password" => "Passwuert",
 "Allow Public Upload" => "Ëffentlechen Upload erlaaben",
@@ -58,6 +55,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "Verfallsdatum",
 "Share via email:" => "Via E-Mail deelen:",
 "No people found" => "Keng Persoune fonnt",
+"group" => "Grupp",
 "Resharing is not allowed" => "Weiderdeelen ass net erlaabt",
 "Shared in {item} with {user}" => "Gedeelt an {item} mat {user}",
 "Unshare" => "Net méi deelen",

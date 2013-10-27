@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s delte »%s« med deg",
-"group" => "gruppe",
 "Sunday" => "Søndag",
 "Monday" => "Mandag",
 "Tuesday" => "Tirsdag",
@@ -44,8 +43,6 @@ $TRANSLATIONS = array(
 "Error" => "Feil",
 "Error while sharing" => "Feil under deling",
 "Shared with you by {owner}" => "Delt med deg av {owner}",
-"Share with" => "Del med",
-"Share with link" => "Del med link",
 "Password protect" => "Passordbeskyttet",
 "Password" => "Passord",
 "Send" => "Send",
@@ -53,6 +50,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "Utløpsdato",
 "Share via email:" => "Del på epost",
 "No people found" => "Ingen personer funnet",
+"group" => "gruppe",
 "Unshare" => "Avslutt deling",
 "can edit" => "kan endre",
 "access control" => "tilgangskontroll",

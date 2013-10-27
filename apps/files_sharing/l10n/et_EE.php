@@ -14,6 +14,7 @@ $TRANSLATIONS = array(
 "Download" => "Lae alla",
 "Upload" => "Lae üles",
 "Cancel upload" => "Tühista üleslaadimine",
-"No preview available for" => "Eelvaadet pole saadaval"
+"No preview available for" => "Eelvaadet pole saadaval",
+"Direct link" => "Otsene link"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

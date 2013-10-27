@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s delte »%s« med sig",
-"group" => "gruppe",
 "Turned on maintenance mode" => "Startede vedligeholdelsestilstand",
 "Turned off maintenance mode" => "standsede vedligeholdelsestilstand",
 "Updated database" => "Opdaterede database",
@@ -67,8 +66,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Fejl under justering af rettigheder",
 "Shared with you and the group {group} by {owner}" => "Delt med dig og gruppen {group} af {owner}",
 "Shared with you by {owner}" => "Delt med dig af {owner}",
-"Share with" => "Del med",
-"Share with link" => "Del med link",
 "Password protect" => "Beskyt med adgangskode",
 "Password" => "Kodeord",
 "Allow Public Upload" => "Tillad Offentlig Upload",
@@ -78,6 +75,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "Udløbsdato",
 "Share via email:" => "Del via email:",
 "No people found" => "Ingen personer fundet",
+"group" => "gruppe",
 "Resharing is not allowed" => "Videredeling ikke tilladt",
 "Shared in {item} with {user}" => "Delt i {item} med {user}",
 "Unshare" => "Fjern deling",

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-17 13:47-0400\n"
-"PO-Revision-Date: 2013-10-17 17:47+0000\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-26 13:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -27,42 +27,42 @@ msgid ""
 " of ownCloud."
 msgstr ""
 
-#: private/app.php:254
+#: private/app.php:255
 msgid "No app name specified"
 msgstr ""
 
-#: private/app.php:359
+#: private/app.php:360
 msgid "Help"
 msgstr "帮助"
 
-#: private/app.php:372
+#: private/app.php:373
 msgid "Personal"
 msgstr "个人"
 
-#: private/app.php:383
+#: private/app.php:384
 msgid "Settings"
 msgstr "设置"
 
-#: private/app.php:395
+#: private/app.php:396
 msgid "Users"
 msgstr "用户"
 
-#: private/app.php:408
+#: private/app.php:409
 msgid "Admin"
 msgstr "管理"
 
-#: private/app.php:872
+#: private/app.php:873
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
 
 #: private/avatar.php:60
 msgid "Unknown filetype"
-msgstr ""
+msgstr "未知的文件类型"
 
 #: private/avatar.php:65
 msgid "Invalid image"
-msgstr ""
+msgstr "无效的图像"
 
 #: private/defaults.php:36
 msgid "web services under your control"
@@ -287,50 +287,50 @@ msgstr "请认真检查<a href='%s'>安装指南</a>."
 msgid "Could not find category \"%s\""
 msgstr "无法找到分类 \"%s\""
 
-#: private/template/functions.php:122
+#: private/template/functions.php:130
 msgid "seconds ago"
 msgstr "秒前"
 
-#: private/template/functions.php:123
+#: private/template/functions.php:131
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n 分钟前"
 
-#: private/template/functions.php:124
+#: private/template/functions.php:132
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n 小时前"
 
-#: private/template/functions.php:125
+#: private/template/functions.php:133
 msgid "today"
 msgstr "今天"
 
-#: private/template/functions.php:126
+#: private/template/functions.php:134
 msgid "yesterday"
 msgstr "昨天"
 
-#: private/template/functions.php:128
+#: private/template/functions.php:136
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "%n 天前"
 
-#: private/template/functions.php:130
+#: private/template/functions.php:138
 msgid "last month"
 msgstr "上月"
 
-#: private/template/functions.php:131
+#: private/template/functions.php:139
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n 月前"
 
-#: private/template/functions.php:133
+#: private/template/functions.php:141
 msgid "last year"
 msgstr "去年"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:142
 msgid "years ago"
 msgstr "年前"
 
-#: private/template.php:297
+#: private/template.php:297 public/util.php:103
 msgid "Caused by:"
 msgstr ""

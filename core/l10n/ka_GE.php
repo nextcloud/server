@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"group" => "ჯგუფი",
 "Sunday" => "კვირა",
 "Monday" => "ორშაბათი",
 "Tuesday" => "სამშაბათი",
@@ -46,8 +45,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "შეცდომა დაშვების ცვლილების დროს",
 "Shared with you and the group {group} by {owner}" => "გაზიარდა თქვენთვის და ჯგუფისთვის {group}, {owner}–ის მიერ",
 "Shared with you by {owner}" => "გაზიარდა თქვენთვის {owner}–ის მიერ",
-"Share with" => "გააზიარე შემდეგით:",
-"Share with link" => "გაუზიარე ლინკით",
 "Password protect" => "პაროლით დაცვა",
 "Password" => "პაროლი",
 "Email link to person" => "ლინკის პიროვნების იმეილზე გაგზავნა",
@@ -56,6 +53,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "ვადის გასვლის დრო",
 "Share via email:" => "გააზიარე მეილზე",
 "No people found" => "მომხმარებელი არ არის ნაპოვნი",
+"group" => "ჯგუფი",
 "Resharing is not allowed" => "მეორეჯერ გაზიარება არ არის დაშვებული",
 "Shared in {item} with {user}" => "გაზიარდა {item}–ში  {user}–ის მიერ",
 "Unshare" => "გაუზიარებადი",

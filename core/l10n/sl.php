@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s je delil »%s« z vami",
-"group" => "skupina",
 "Sunday" => "nedelja",
 "Monday" => "ponedeljek",
 "Tuesday" => "torek",
@@ -47,8 +46,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Napaka med spreminjanjem dovoljenj",
 "Shared with you and the group {group} by {owner}" => "V souporabi z vami in skupino {group}. Lastnik je {owner}.",
 "Shared with you by {owner}" => "V souporabi z vami. Lastnik je {owner}.",
-"Share with" => "Omogoči souporabo z",
-"Share with link" => "Omogoči souporabo preko povezave",
 "Password protect" => "Zaščiti z geslom",
 "Password" => "Geslo",
 "Allow Public Upload" => "Dovoli javne prenose na strežnik",
@@ -58,6 +55,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "Datum preteka",
 "Share via email:" => "Souporaba preko elektronske pošte:",
 "No people found" => "Ni najdenih uporabnikov",
+"group" => "skupina",
 "Resharing is not allowed" => "Nadaljnja souporaba ni dovoljena",
 "Shared in {item} with {user}" => "V souporabi v {item} z {user}",
 "Unshare" => "Prekliči souporabo",

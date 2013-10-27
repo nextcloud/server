@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"group" => "그룹",
 "Sunday" => "일요일",
 "Monday" => "월요일",
 "Tuesday" => "화요일",
@@ -46,8 +45,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "권한 변경하는 중 오류 발생",
 "Shared with you and the group {group} by {owner}" => "{owner} 님이 여러분 및 그룹 {group}와(과) 공유 중",
 "Shared with you by {owner}" => "{owner} 님이 공유 중",
-"Share with" => "다음으로 공유",
-"Share with link" => "URL 링크로 공유",
 "Password protect" => "암호 보호",
 "Password" => "암호",
 "Allow Public Upload" => "퍼블릭 업로드 허용",
@@ -57,6 +54,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "만료 날짜",
 "Share via email:" => "이메일로 공유:",
 "No people found" => "발견된 사람 없음",
+"group" => "그룹",
 "Resharing is not allowed" => "다시 공유할 수 없습니다",
 "Shared in {item} with {user}" => "{user} 님과 {item}에서 공유 중",
 "Unshare" => "공유 해제",

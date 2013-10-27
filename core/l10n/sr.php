@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"group" => "група",
 "Sunday" => "Недеља",
 "Monday" => "Понедељак",
 "Tuesday" => "Уторак",
@@ -45,8 +44,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Грешка код промене дозвола",
 "Shared with you and the group {group} by {owner}" => "Дељено са вама и са групом {group}. Поделио {owner}.",
 "Shared with you by {owner}" => "Поделио са вама {owner}",
-"Share with" => "Подели са",
-"Share with link" => "Подели линк",
 "Password protect" => "Заштићено лозинком",
 "Password" => "Лозинка",
 "Send" => "Пошаљи",
@@ -54,6 +51,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "Датум истека",
 "Share via email:" => "Подели поштом:",
 "No people found" => "Особе нису пронађене.",
+"group" => "група",
 "Resharing is not allowed" => "Поновно дељење није дозвољено",
 "Shared in {item} with {user}" => "Подељено унутар {item} са {user}",
 "Unshare" => "Укини дељење",

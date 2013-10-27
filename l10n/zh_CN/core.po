@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# hanfeng <appweb.cn@gmail.com>, 2013
 # Xuetian Weng <wengxt@gmail.com>, 2013
 # zhangmin <zm1990s@gmail.com>, 2013
 # zhangmin <zm1990s@gmail.com>, 2013
@@ -10,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-16 00:26-0400\n"
-"PO-Revision-Date: 2013-10-14 00:41+0000\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-27 06:28+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -29,10 +30,6 @@ msgstr "%s 向您分享了 »%s«"
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr ""
-
-#: ajax/share.php:327
-msgid "group"
-msgstr "组"
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
@@ -65,11 +62,11 @@ msgstr ""
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
-msgstr ""
+msgstr "未知的文件类型"
 
 #: avatar/controller.php:85
 msgid "Invalid image"
-msgstr ""
+msgstr "无效的图像"
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
@@ -270,144 +267,148 @@ msgstr ""
 msgid "Error loading file exists template"
 msgstr ""
 
-#: js/share.js:30 js/share.js:45 js/share.js:87
+#: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
 msgstr "已共享"
 
-#: js/share.js:90
+#: js/share.js:109
 msgid "Share"
 msgstr "分享"
 
-#: js/share.js:130 js/share.js:143 js/share.js:150 js/share.js:667
-#: js/share.js:679
+#: js/share.js:149 js/share.js:162 js/share.js:169 js/share.js:676
+#: js/share.js:688
 msgid "Error"
 msgstr "错误"
 
-#: js/share.js:132 js/share.js:707
+#: js/share.js:151 js/share.js:716
 msgid "Error while sharing"
 msgstr "共享时出错"
 
-#: js/share.js:143
+#: js/share.js:162
 msgid "Error while unsharing"
 msgstr "取消共享时出错"
 
-#: js/share.js:150
+#: js/share.js:169
 msgid "Error while changing permissions"
 msgstr "修改权限时出错"
 
-#: js/share.js:159
+#: js/share.js:178
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "{owner} 共享给您及 {group} 组"
 
-#: js/share.js:161
+#: js/share.js:180
 msgid "Shared with you by {owner}"
 msgstr "{owner} 与您共享"
 
-#: js/share.js:184
-msgid "Share with"
-msgstr "分享之"
+#: js/share.js:203
+msgid "Share with user or group …"
+msgstr ""
 
-#: js/share.js:189
-msgid "Share with link"
-msgstr "共享链接"
+#: js/share.js:209
+msgid "Share link"
+msgstr ""
 
-#: js/share.js:192
+#: js/share.js:212
 msgid "Password protect"
 msgstr "密码保护"
 
-#: js/share.js:194 templates/installation.php:57 templates/login.php:32
+#: js/share.js:214 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "密码"
 
-#: js/share.js:199
+#: js/share.js:219
 msgid "Allow Public Upload"
 msgstr "允许公开上传"
 
-#: js/share.js:203
+#: js/share.js:223
 msgid "Email link to person"
 msgstr "发送链接到个人"
 
-#: js/share.js:204
+#: js/share.js:224
 msgid "Send"
 msgstr "发送"
 
-#: js/share.js:209
+#: js/share.js:229
 msgid "Set expiration date"
 msgstr "设置过期日期"
 
-#: js/share.js:210
+#: js/share.js:230
 msgid "Expiration date"
 msgstr "过期日期"
 
-#: js/share.js:243
+#: js/share.js:263
 msgid "Share via email:"
 msgstr "通过Email共享"
 
-#: js/share.js:246
+#: js/share.js:266
 msgid "No people found"
 msgstr "未找到此人"
 
-#: js/share.js:284
+#: js/share.js:295 js/share.js:332
+msgid "group"
+msgstr "组"
+
+#: js/share.js:306
 msgid "Resharing is not allowed"
 msgstr "不允许二次共享"
 
-#: js/share.js:320
+#: js/share.js:348
 msgid "Shared in {item} with {user}"
 msgstr "在 {item} 与 {user} 共享。"
 
-#: js/share.js:341
+#: js/share.js:370
 msgid "Unshare"
 msgstr "取消共享"
 
-#: js/share.js:353
-msgid "notify user by email"
+#: js/share.js:378
+msgid "notify by email"
 msgstr ""
 
-#: js/share.js:361
+#: js/share.js:381
 msgid "can edit"
 msgstr "可以修改"
 
-#: js/share.js:363
+#: js/share.js:383
 msgid "access control"
 msgstr "访问控制"
 
-#: js/share.js:366
+#: js/share.js:386
 msgid "create"
 msgstr "创建"
 
-#: js/share.js:369
+#: js/share.js:389
 msgid "update"
 msgstr "更新"
 
-#: js/share.js:372
+#: js/share.js:392
 msgid "delete"
 msgstr "删除"
 
-#: js/share.js:375
+#: js/share.js:395
 msgid "share"
 msgstr "共享"
 
-#: js/share.js:409 js/share.js:654
+#: js/share.js:437 js/share.js:663
 msgid "Password protected"
 msgstr "密码已受保护"
 
-#: js/share.js:667
+#: js/share.js:676
 msgid "Error unsetting expiration date"
 msgstr "取消设置过期日期时出错"
 
-#: js/share.js:679
+#: js/share.js:688
 msgid "Error setting expiration date"
 msgstr "设置过期日期时出错"
 
-#: js/share.js:694
+#: js/share.js:703
 msgid "Sending ..."
 msgstr "正在发送..."
 
-#: js/share.js:705
+#: js/share.js:714
 msgid "Email sent"
 msgstr "邮件已发送"
 
-#: js/share.js:729
+#: js/share.js:738
 msgid "Warning"
 msgstr "警告"
 
@@ -519,7 +520,7 @@ msgstr "个人"
 msgid "Users"
 msgstr "用户"
 
-#: strings.php:7 templates/layout.user.php:109
+#: strings.php:7 templates/layout.user.php:110
 msgid "Apps"
 msgstr "应用"
 
@@ -677,12 +678,12 @@ msgstr "安装完成"
 msgid "Finishing …"
 msgstr ""
 
-#: templates/layout.user.php:42
+#: templates/layout.user.php:43
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s 可用。获取更多关于如何升级的信息。"
 
-#: templates/layout.user.php:70
+#: templates/layout.user.php:71
 msgid "Log out"
 msgstr "注销"
 
@@ -736,7 +737,26 @@ msgstr ""
 msgid "The share will expire on %s.<br><br>"
 msgstr ""
 
-#: templates/update.php:3
+#: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
 msgstr "更新 ownCloud 到版本 %s，这可能需要一些时间。"
+
+#: templates/update.user.php:3
+msgid ""
+"This ownCloud instance is currently being updated, which may take a while."
+msgstr ""
+
+#: templates/update.user.php:4
+msgid "Please reload this page after a short time to continue using ownCloud."
+msgstr ""
+
+#: templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr ""
+
+#: templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr ""

@@ -14,6 +14,7 @@ $TRANSLATIONS = array(
 "Download" => "Ladda ner",
 "Upload" => "Ladda upp",
 "Cancel upload" => "Avbryt uppladdning",
-"No preview available for" => "Ingen förhandsgranskning tillgänglig för"
+"No preview available for" => "Ingen förhandsgranskning tillgänglig för",
+"Direct link" => "Direkt länk"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"group" => "група",
 "Updated database" => "Базата е надградена",
 "Updated filecache" => "Кешот е надграден",
 "Invalid image" => "Невалидна фотографија",
@@ -53,8 +52,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Грешка при промена на привилегии",
 "Shared with you and the group {group} by {owner}" => "Споделено со Вас и групата {group} од {owner}",
 "Shared with you by {owner}" => "Споделено со Вас од {owner}",
-"Share with" => "Сподели со",
-"Share with link" => "Сподели со врска",
 "Password protect" => "Заштити со лозинка",
 "Password" => "Лозинка",
 "Allow Public Upload" => "Дозволи јавен аплоуд",
@@ -64,10 +61,10 @@ $TRANSLATIONS = array(
 "Expiration date" => "Рок на траење",
 "Share via email:" => "Сподели по е-пошта:",
 "No people found" => "Не се најдени луѓе",
+"group" => "група",
 "Resharing is not allowed" => "Повторно споделување не е дозволено",
 "Shared in {item} with {user}" => "Споделено во {item} со {user}",
 "Unshare" => "Не споделувај",
-"notify user by email" => "извести го корисникот преку електронска пошта",
 "can edit" => "може да се измени",
 "access control" => "контрола на пристап",
 "create" => "креирај",

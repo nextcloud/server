@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "Ο %s διαμοιράστηκε μαζί σας το »%s«",
-"group" => "ομάδα",
 "Sunday" => "Κυριακή",
 "Monday" => "Δευτέρα",
 "Tuesday" => "Τρίτη",
@@ -47,8 +46,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Σφάλμα κατά την αλλαγή των δικαιωμάτων",
 "Shared with you and the group {group} by {owner}" => "Διαμοιράστηκε με σας και με την ομάδα {group} του {owner}",
 "Shared with you by {owner}" => "Διαμοιράστηκε με σας από τον {owner}",
-"Share with" => "Διαμοιρασμός με",
-"Share with link" => "Διαμοιρασμός με σύνδεσμο",
 "Password protect" => "Προστασία συνθηματικού",
 "Password" => "Συνθηματικό",
 "Allow Public Upload" => "Να επιτρέπεται η Δημόσια Αποστολή",
@@ -58,6 +55,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "Ημερομηνία λήξης",
 "Share via email:" => "Διαμοιρασμός μέσω email:",
 "No people found" => "Δεν βρέθηκε άνθρωπος",
+"group" => "ομάδα",
 "Resharing is not allowed" => "Ξαναμοιρασμός δεν επιτρέπεται",
 "Shared in {item} with {user}" => "Διαμοιρασμός του {item} με τον {user}",
 "Unshare" => "Σταμάτημα διαμοιρασμού",

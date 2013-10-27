@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s delte «%s» med deg",
-"group" => "gruppe",
 "Turned on maintenance mode" => "Skrudde på vedlikehaldsmodus",
 "Turned off maintenance mode" => "Skrudde av vedlikehaldsmodus",
 "Updated database" => "Database oppdatert",
@@ -67,8 +66,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Feil ved endring av tillatingar",
 "Shared with you and the group {group} by {owner}" => "Delt med deg og gruppa {group} av {owner}",
 "Shared with you by {owner}" => "Delt med deg av {owner}",
-"Share with" => "Del med",
-"Share with link" => "Del med lenkje",
 "Password protect" => "Passordvern",
 "Password" => "Passord",
 "Allow Public Upload" => "Tillat offentleg opplasting",
@@ -78,6 +75,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "Utløpsdato",
 "Share via email:" => "Del over e-post:",
 "No people found" => "Fann ingen personar",
+"group" => "gruppe",
 "Resharing is not allowed" => "Vidaredeling er ikkje tillate",
 "Shared in {item} with {user}" => "Delt i {item} med {brukar}",
 "Unshare" => "Udel",

@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"group" => "nhóm",
 "Sunday" => "Chủ nhật",
 "Monday" => "Thứ 2",
 "Tuesday" => "Thứ 3",
@@ -46,8 +45,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Lỗi trong quá trình phân quyền",
 "Shared with you and the group {group} by {owner}" => "Đã được chia sẽ với bạn và nhóm {group} bởi {owner}",
 "Shared with you by {owner}" => "Đã được chia sẽ bởi {owner}",
-"Share with" => "Chia sẻ với",
-"Share with link" => "Chia sẻ với liên kết",
 "Password protect" => "Mật khẩu bảo vệ",
 "Password" => "Mật khẩu",
 "Email link to person" => "Liên kết email tới cá nhân",
@@ -56,6 +53,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "Ngày kết thúc",
 "Share via email:" => "Chia sẻ thông qua email",
 "No people found" => "Không tìm thấy người nào",
+"group" => "nhóm",
 "Resharing is not allowed" => "Chia sẻ lại không được cho phép",
 "Shared in {item} with {user}" => "Đã được chia sẽ trong {item} với {user}",
 "Unshare" => "Bỏ chia sẻ",

@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Error" => "Ошибка",
+"More" => "Подробнее",
 "Password" => "Пароль",
 "Username" => "Имя пользователя"
 );

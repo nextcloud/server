@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"group" => "grup",
 "Sunday" => "Minggu",
 "Monday" => "Senin",
 "Tuesday" => "Selasa",
@@ -46,8 +45,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Galat ketika mengubah izin",
 "Shared with you and the group {group} by {owner}" => "Dibagikan dengan Anda dan grup {group} oleh {owner}",
 "Shared with you by {owner}" => "Dibagikan dengan Anda oleh {owner}",
-"Share with" => "Bagikan dengan",
-"Share with link" => "Bagikan lewat tautan",
 "Password protect" => "Lindungi dengan sandi",
 "Password" => "Sandi",
 "Email link to person" => "Emailkan tautan ini ke orang",
@@ -56,6 +53,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "Tanggal kedaluwarsa",
 "Share via email:" => "Bagian lewat email:",
 "No people found" => "Tidak ada orang ditemukan",
+"group" => "grup",
 "Resharing is not allowed" => "Berbagi ulang tidak diizinkan",
 "Shared in {item} with {user}" => "Dibagikan dalam {item} dengan {user}",
 "Unshare" => "Batalkan berbagi",

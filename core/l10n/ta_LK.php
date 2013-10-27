@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"group" => "குழு",
 "Sunday" => "ஞாயிற்றுக்கிழமை",
 "Monday" => "திங்கட்கிழமை",
 "Tuesday" => "செவ்வாய்க்கிழமை",
@@ -45,14 +44,13 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "அனுமதிகள் மாறும்போதான வழு",
 "Shared with you and the group {group} by {owner}" => "உங்களுடனும் குழுவுக்கிடையிலும் {குழு} பகிரப்பட்டுள்ளது {உரிமையாளர்}",
 "Shared with you by {owner}" => "உங்களுடன் பகிரப்பட்டுள்ளது {உரிமையாளர்}",
-"Share with" => "பகிர்தல்",
-"Share with link" => "இணைப்புடன் பகிர்தல்",
 "Password protect" => "கடவுச்சொல்லை பாதுகாத்தல்",
 "Password" => "கடவுச்சொல்",
 "Set expiration date" => "காலாவதி தேதியை குறிப்பிடுக",
 "Expiration date" => "காலவதியாகும் திகதி",
 "Share via email:" => "மின்னஞ்சலினூடான பகிர்வு: ",
 "No people found" => "நபர்கள் யாரும் இல்லை",
+"group" => "குழு",
 "Resharing is not allowed" => "மீள்பகிர்வதற்கு அனுமதி இல்லை ",
 "Shared in {item} with {user}" => "{பயனாளர்} உடன் {உருப்படி} பகிரப்பட்டுள்ளது",
 "Unshare" => "பகிரப்படாதது",

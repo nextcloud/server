@@ -5,6 +5,7 @@
 # Translators:
 # Adalberto Rodrigues <rodrigues_adalberto@yahoo.fr>, 2013
 # Christophe Lherieau <skimpax@gmail.com>, 2013
+# etiess <etiess@gmail.com>, 2013
 # lyly95, 2013
 # Mystyle <maelvstyle@gmail.com>, 2013
 # ogre_sympathique <ogre.sympathique@speed.1s.fr>, 2013
@@ -13,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-21 13:01-0400\n"
-"PO-Revision-Date: 2013-10-21 17:01+0000\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-27 06:28+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -216,6 +217,10 @@ msgstr "Erreur lors de la création de l'utilisateur"
 msgid "A valid password must be provided"
 msgstr "Un mot de passe valide doit être saisi"
 
+#: js/users.js:472
+msgid "Warning: Home directory for user \"{user}\" already exists"
+msgstr ""
+
 #: personal.php:45 personal.php:46
 msgid "__language_name__"
 msgstr "Français"
@@ -295,11 +300,11 @@ msgstr "Exécute une tâche à chaque chargement de page"
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
-msgstr ""
+msgstr "cron.php est enregistré en tant que service webcron pour appeler cron.php toutes les 15 minutes via http."
 
 #: templates/admin.php:115
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
-msgstr ""
+msgstr "Utilise le service cron du système pour appeler le fichier cron.php toutes les 15 minutes."
 
 #: templates/admin.php:120
 msgid "Sharing"
@@ -544,9 +549,9 @@ msgstr "WebDAV"
 #: templates/personal.php:135
 #, php-format
 msgid ""
-"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
-"target=\"_blank\">access your Files via WebDAV</a>"
-msgstr "Utilisez cette adresse pour <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">accéder à vos fichiers via WebDAV</a>"
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
+"WebDAV</a>"
+msgstr ""
 
 #: templates/personal.php:146
 msgid "Encryption"

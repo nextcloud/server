@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"group" => "گۇرۇپپا",
 "Sunday" => "يەكشەنبە",
 "Monday" => "دۈشەنبە",
 "Tuesday" => "سەيشەنبە",
@@ -34,9 +33,9 @@ $TRANSLATIONS = array(
 "Cancel" => "ۋاز كەچ",
 "Share" => "ھەمبەھىر",
 "Error" => "خاتالىق",
-"Share with" => "ھەمبەھىر",
 "Password" => "ئىم",
 "Send" => "يوللا",
+"group" => "گۇرۇپپا",
 "Unshare" => "ھەمبەھىرلىمە",
 "delete" => "ئۆچۈر",
 "share" => "ھەمبەھىر",

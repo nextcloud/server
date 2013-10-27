@@ -14,6 +14,7 @@ $TRANSLATIONS = array(
 "Download" => "Download",
 "Upload" => "Upload",
 "Cancel upload" => "Cancel upload",
-"No preview available for" => "No preview available for"
+"No preview available for" => "No preview available for",
+"Direct link" => "Direct link"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

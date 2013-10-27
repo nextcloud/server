@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-17 13:47-0400\n"
-"PO-Revision-Date: 2013-10-17 17:47+0000\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-23 10:41+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -26,31 +26,31 @@ msgid ""
 " of ownCloud."
 msgstr "현재 ownCloud 버전과 호환되지 않기 때문에 \"%s\" 앱을 설치할 수 없습니다."
 
-#: private/app.php:254
+#: private/app.php:255
 msgid "No app name specified"
 msgstr "앱 이름이 지정되지 않았습니다."
 
-#: private/app.php:359
+#: private/app.php:360
 msgid "Help"
 msgstr "도움말"
 
-#: private/app.php:372
+#: private/app.php:373
 msgid "Personal"
 msgstr "개인"
 
-#: private/app.php:383
+#: private/app.php:384
 msgid "Settings"
 msgstr "설정"
 
-#: private/app.php:395
+#: private/app.php:396
 msgid "Users"
 msgstr "사용자"
 
-#: private/app.php:408
+#: private/app.php:409
 msgid "Admin"
 msgstr "관리자"
 
-#: private/app.php:872
+#: private/app.php:873
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "\"%s\" 업그레이드에 실패했습니다."
@@ -286,50 +286,50 @@ msgstr "<a href='%s'>설치 가이드</a>를 다시 한 번 확인하십시오."
 msgid "Could not find category \"%s\""
 msgstr "분류 \"%s\"을(를) 찾을 수 없습니다."
 
-#: private/template/functions.php:122
+#: private/template/functions.php:130
 msgid "seconds ago"
 msgstr "초 전"
 
-#: private/template/functions.php:123
+#: private/template/functions.php:131
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n분 전 "
 
-#: private/template/functions.php:124
+#: private/template/functions.php:132
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n시간 전 "
 
-#: private/template/functions.php:125
+#: private/template/functions.php:133
 msgid "today"
 msgstr "오늘"
 
-#: private/template/functions.php:126
+#: private/template/functions.php:134
 msgid "yesterday"
 msgstr "어제"
 
-#: private/template/functions.php:128
+#: private/template/functions.php:136
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "%n일 전 "
 
-#: private/template/functions.php:130
+#: private/template/functions.php:138
 msgid "last month"
 msgstr "지난 달"
 
-#: private/template/functions.php:131
+#: private/template/functions.php:139
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n달 전 "
 
-#: private/template/functions.php:133
+#: private/template/functions.php:141
 msgid "last year"
 msgstr "작년"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:142
 msgid "years ago"
 msgstr "년 전"
 
-#: private/template.php:297
+#: private/template.php:297 public/util.php:103
 msgid "Caused by:"
 msgstr "원인: "

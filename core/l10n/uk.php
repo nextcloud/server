@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"group" => "група",
 "Sunday" => "Неділя",
 "Monday" => "Понеділок",
 "Tuesday" => "Вівторок",
@@ -46,8 +45,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Помилка при зміні повноважень",
 "Shared with you and the group {group} by {owner}" => " {owner} опублікував для Вас та для групи {group}",
 "Shared with you by {owner}" => "{owner} опублікував для Вас",
-"Share with" => "Опублікувати для",
-"Share with link" => "Опублікувати через посилання",
 "Password protect" => "Захистити паролем",
 "Password" => "Пароль",
 "Email link to person" => "Ел. пошта належить Пану",
@@ -56,6 +53,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "Термін дії",
 "Share via email:" => "Опублікувати через Ел. пошту:",
 "No people found" => "Жодної людини не знайдено",
+"group" => "група",
 "Resharing is not allowed" => "Пере-публікація не дозволяється",
 "Shared in {item} with {user}" => "Опубліковано {item} для {user}",
 "Unshare" => "Закрити доступ",

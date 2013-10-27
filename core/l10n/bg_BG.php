@@ -37,7 +37,6 @@ $TRANSLATIONS = array(
 "Cancel" => "Отказ",
 "Share" => "Споделяне",
 "Error" => "Грешка",
-"Share with" => "Споделено с",
 "Password" => "Парола",
 "create" => "създаване",
 "Warning" => "Внимание",

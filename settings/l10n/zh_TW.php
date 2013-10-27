@@ -117,7 +117,6 @@ $TRANSLATIONS = array(
 "Language" => "語言",
 "Help translate" => "幫助翻譯",
 "WebDAV" => "WebDAV",
-"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "以上的 WebDAV 位址可以讓您<a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">透過 WebDAV 協定存取檔案</a>",
 "Encryption" => "加密",
 "The encryption app is no longer enabled, decrypt all your file" => "加密應用程式已經停用，請您解密您所有的檔案",
 "Log-in password" => "登入密碼",

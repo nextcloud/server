@@ -102,7 +102,6 @@ $TRANSLATIONS = array(
 "Language" => "语言",
 "Help translate" => "帮助翻译",
 "WebDAV" => "WebDAV",
-"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "使用该链接 <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">通过WebDAV访问你的文件</a>",
 "Encryption" => "加密",
 "The encryption app is no longer enabled, decrypt all your file" => "加密 app 未启用，将解密您所有文件",
 "Log-in password" => "登录密码",

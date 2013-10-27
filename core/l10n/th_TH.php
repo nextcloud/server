@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"group" => "กลุ่มผู้ใช้งาน",
 "Sunday" => "วันอาทิตย์",
 "Monday" => "วันจันทร์",
 "Tuesday" => "วันอังคาร",
@@ -46,8 +45,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "เกิดข้อผิดพลาดในการเปลี่ยนสิทธิ์การเข้าใช้งาน",
 "Shared with you and the group {group} by {owner}" => "ได้แชร์ให้กับคุณ และกลุ่ม {group} โดย {owner}",
 "Shared with you by {owner}" => "ถูกแชร์ให้กับคุณโดย {owner}",
-"Share with" => "แชร์ให้กับ",
-"Share with link" => "แชร์ด้วยลิงก์",
 "Password protect" => "ใส่รหัสผ่านไว้",
 "Password" => "รหัสผ่าน",
 "Email link to person" => "ส่งลิงก์ให้ทางอีเมล",
@@ -56,6 +53,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "วันที่หมดอายุ",
 "Share via email:" => "แชร์ผ่านทางอีเมล",
 "No people found" => "ไม่พบบุคคลที่ต้องการ",
+"group" => "กลุ่มผู้ใช้งาน",
 "Resharing is not allowed" => "ไม่อนุญาตให้แชร์ข้อมูลซ้ำได้",
 "Shared in {item} with {user}" => "ได้แชร์ {item} ให้กับ {user}",
 "Unshare" => "ยกเลิกการแชร์",

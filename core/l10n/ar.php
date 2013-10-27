@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"group" => "مجموعة",
 "Sunday" => "الاحد",
 "Monday" => "الأثنين",
 "Tuesday" => "الثلاثاء",
@@ -46,8 +45,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "حصل خطأ عند عملية إعادة تعيين التصريح بالتوصل",
 "Shared with you and the group {group} by {owner}" => "شورك معك ومع المجموعة {group} من قبل {owner}",
 "Shared with you by {owner}" => "شورك معك من قبل {owner}",
-"Share with" => "شارك مع",
-"Share with link" => "شارك مع رابط",
 "Password protect" => "حماية كلمة السر",
 "Password" => "كلمة المرور",
 "Email link to person" => "ارسل الرابط بالبريد الى صديق",
@@ -56,6 +53,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "تاريخ إنتهاء الصلاحية",
 "Share via email:" => "مشاركة عبر البريد الإلكتروني:",
 "No people found" => "لم يتم العثور على أي شخص",
+"group" => "مجموعة",
 "Resharing is not allowed" => "لا يسمح بعملية إعادة المشاركة",
 "Shared in {item} with {user}" => "شورك في {item} مع {user}",
 "Unshare" => "إلغاء مشاركة",

@@ -4,13 +4,14 @@
 # 
 # Translators:
 # tridinebandim, 2013
+# volkangezer <volkangezer@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-16 00:26-0400\n"
-"PO-Revision-Date: 2013-10-14 00:42+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-21 18:00+0000\n"
+"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,12 +22,12 @@ msgstr ""
 #: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr "%s Kalıcı olarak silinemedi"
+msgstr "%s alıcı olarak silinemedi"
 
 #: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
-msgstr "%s Geri yüklenemedi"
+msgstr "%s eri yüklenemedi"
 
 #: js/trash.js:18 js/trash.js:44 js/trash.js:121 js/trash.js:149
 msgid "Error"
@@ -38,7 +39,7 @@ msgstr "geri yüklendi"
 
 #: templates/index.php:8
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr "Burası boş. Çöp kutun tamamen boş."
+msgstr "Burada hiçbir şey yok. Çöp kutunuz tamamen boş!"
 
 #: templates/index.php:22
 msgid "Name"

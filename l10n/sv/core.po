@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-17 13:47-0400\n"
-"PO-Revision-Date: 2013-10-16 18:50+0000\n"
-"Last-Translator: Gustav Smedberg <shadow.elf@hotmail.com>\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-27 06:28+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,10 +32,6 @@ msgstr "%s delade »%s« med dig"
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Gick inte att skicka e-post till följande användare: %s"
-
-#: ajax/share.php:327
-msgid "group"
-msgstr "Grupp"
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
@@ -286,12 +282,12 @@ msgstr "Delad"
 msgid "Share"
 msgstr "Dela"
 
-#: js/share.js:149 js/share.js:162 js/share.js:169 js/share.js:686
-#: js/share.js:698
+#: js/share.js:149 js/share.js:162 js/share.js:169 js/share.js:676
+#: js/share.js:688
 msgid "Error"
 msgstr "Fel"
 
-#: js/share.js:151 js/share.js:726
+#: js/share.js:151 js/share.js:716
 msgid "Error while sharing"
 msgstr "Fel vid delning"
 
@@ -312,110 +308,114 @@ msgid "Shared with you by {owner}"
 msgstr "Delad med dig av {owner}"
 
 #: js/share.js:203
-msgid "Share with"
-msgstr "Delad med"
+msgid "Share with user or group …"
+msgstr ""
 
-#: js/share.js:208
-msgid "Share with link"
-msgstr "Delad med länk"
+#: js/share.js:209
+msgid "Share link"
+msgstr ""
 
-#: js/share.js:211
+#: js/share.js:212
 msgid "Password protect"
 msgstr "Lösenordsskydda"
 
-#: js/share.js:213 templates/installation.php:57 templates/login.php:32
+#: js/share.js:214 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "Lösenord"
 
-#: js/share.js:218
+#: js/share.js:219
 msgid "Allow Public Upload"
 msgstr "Tillåt publik uppladdning"
 
-#: js/share.js:222
+#: js/share.js:223
 msgid "Email link to person"
 msgstr "E-posta länk till person"
 
-#: js/share.js:223
+#: js/share.js:224
 msgid "Send"
 msgstr "Skicka"
 
-#: js/share.js:228
+#: js/share.js:229
 msgid "Set expiration date"
 msgstr "Sätt utgångsdatum"
 
-#: js/share.js:229
+#: js/share.js:230
 msgid "Expiration date"
 msgstr "Utgångsdatum"
 
-#: js/share.js:262
+#: js/share.js:263
 msgid "Share via email:"
 msgstr "Dela via e-post:"
 
-#: js/share.js:265
+#: js/share.js:266
 msgid "No people found"
 msgstr "Hittar inga användare"
 
-#: js/share.js:303
+#: js/share.js:295 js/share.js:332
+msgid "group"
+msgstr "Grupp"
+
+#: js/share.js:306
 msgid "Resharing is not allowed"
 msgstr "Dela vidare är inte tillåtet"
 
-#: js/share.js:339
+#: js/share.js:348
 msgid "Shared in {item} with {user}"
 msgstr "Delad i {item} med {user}"
 
-#: js/share.js:360
+#: js/share.js:370
 msgid "Unshare"
 msgstr "Sluta dela"
 
-#: js/share.js:372
-msgid "notify user by email"
-msgstr "notifiera användare via e-post"
+#: js/share.js:378
+msgid "notify by email"
+msgstr ""
 
-#: js/share.js:380
+#: js/share.js:381
 msgid "can edit"
 msgstr "kan redigera"
 
-#: js/share.js:382
+#: js/share.js:383
 msgid "access control"
 msgstr "åtkomstkontroll"
 
-#: js/share.js:385
+#: js/share.js:386
 msgid "create"
 msgstr "skapa"
 
-#: js/share.js:388
+#: js/share.js:389
 msgid "update"
 msgstr "uppdatera"
 
-#: js/share.js:391
+#: js/share.js:392
 msgid "delete"
 msgstr "radera"
 
-#: js/share.js:394
+#: js/share.js:395
 msgid "share"
 msgstr "dela"
 
-#: js/share.js:428 js/share.js:673
+#: js/share.js:437 js/share.js:663
 msgid "Password protected"
 msgstr "Lösenordsskyddad"
 
-#: js/share.js:686
+#: js/share.js:676
 msgid "Error unsetting expiration date"
 msgstr "Fel vid borttagning av utgångsdatum"
 
-#: js/share.js:698
+#: js/share.js:688
 msgid "Error setting expiration date"
 msgstr "Fel vid sättning av utgångsdatum"
 
-#: js/share.js:713
+#: js/share.js:703
 msgid "Sending ..."
 msgstr "Skickar ..."
 
-#: js/share.js:724
+#: js/share.js:714
 msgid "Email sent"
 msgstr "E-post skickat"
 
-#: js/share.js:748
+#: js/share.js:738
 msgid "Warning"
 msgstr "Varning"
 
@@ -437,15 +437,15 @@ msgstr "Lägg till"
 
 #: js/tags.js:39
 msgid "Edit tags"
-msgstr ""
+msgstr "Editera taggar"
 
 #: js/tags.js:57
 msgid "Error loading dialog template: {error}"
-msgstr ""
+msgstr "Fel under laddning utav dialog mall: {fel}"
 
 #: js/tags.js:261
 msgid "No tags selected for deletion."
-msgstr ""
+msgstr "Inga taggar valda för borttagning."
 
 #: js/update.js:17
 msgid ""
@@ -541,23 +541,23 @@ msgstr "Hjälp"
 
 #: tags/controller.php:22
 msgid "Error loading tags"
-msgstr ""
+msgstr "Fel vid laddning utav taggar"
 
 #: tags/controller.php:48
 msgid "Tag already exists"
-msgstr ""
+msgstr "Tagg existerar redan"
 
 #: tags/controller.php:64
 msgid "Error deleting tag(s)"
-msgstr ""
+msgstr "Fel vid borttagning utav tagg(ar)"
 
 #: tags/controller.php:75
 msgid "Error tagging"
-msgstr ""
+msgstr "Fel taggning"
 
 #: tags/controller.php:86
 msgid "Error untagging"
-msgstr ""
+msgstr "Fel av taggning"
 
 #: tags/controller.php:97
 msgid "Error favoriting"
@@ -565,7 +565,7 @@ msgstr "Fel favorisering"
 
 #: tags/controller.php:108
 msgid "Error unfavoriting"
-msgstr ""
+msgstr "Fel av favorisering "
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -744,7 +744,26 @@ msgstr "Hej där,<br><br>ville bara informera dig om att %s delade »%s« med di
 msgid "The share will expire on %s.<br><br>"
 msgstr "Utdelningen kommer att upphöra %s.<br><br>"
 
-#: templates/update.php:3
+#: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
 msgstr "Uppdaterar ownCloud till version %s, detta kan ta en stund."
+
+#: templates/update.user.php:3
+msgid ""
+"This ownCloud instance is currently being updated, which may take a while."
+msgstr ""
+
+#: templates/update.user.php:4
+msgid "Please reload this page after a short time to continue using ownCloud."
+msgstr ""
+
+#: templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr ""
+
+#: templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr ""

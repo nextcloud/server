@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s kunhavigis “%s” kun vi",
-"group" => "grupo",
 "Sunday" => "dimanĉo",
 "Monday" => "lundo",
 "Tuesday" => "mardo",
@@ -47,8 +46,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Eraro dum ŝanĝo de permesoj",
 "Shared with you and the group {group} by {owner}" => "Kunhavigita kun vi kaj la grupo {group} de {owner}",
 "Shared with you by {owner}" => "Kunhavigita kun vi de {owner}",
-"Share with" => "Kunhavigi kun",
-"Share with link" => "Kunhavigi per ligilo",
 "Password protect" => "Protekti per pasvorto",
 "Password" => "Pasvorto",
 "Email link to person" => "Retpoŝti la ligilon al ulo",
@@ -57,6 +54,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "Limdato",
 "Share via email:" => "Kunhavigi per retpoŝto:",
 "No people found" => "Ne troviĝis gento",
+"group" => "grupo",
 "Resharing is not allowed" => "Rekunhavigo ne permesatas",
 "Shared in {item} with {user}" => "Kunhavigita en {item} kun {user}",
 "Unshare" => "Malkunhavigi",

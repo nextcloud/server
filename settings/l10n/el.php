@@ -101,7 +101,6 @@ $TRANSLATIONS = array(
 "Language" => "Γλώσσα",
 "Help translate" => "Βοηθήστε στη μετάφραση",
 "WebDAV" => "WebDAV",
-"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "Χρήση αυτής της διεύθυνσης για <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">πρόσβαση των αρχείων σας μέσω WebDAV</a>",
 "Encryption" => "Κρυπτογράφηση",
 "Log-in password" => "Συνθηματικό εισόδου",
 "Login Name" => "Όνομα Σύνδεσης",

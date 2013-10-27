@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s שיתף/שיתפה איתך את »%s«",
-"group" => "קבוצה",
 "Sunday" => "יום ראשון",
 "Monday" => "יום שני",
 "Tuesday" => "יום שלישי",
@@ -47,8 +46,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "שגיאה במהלך שינוי ההגדרות",
 "Shared with you and the group {group} by {owner}" => "שותף אתך ועם הקבוצה {group} שבבעלות {owner}",
 "Shared with you by {owner}" => "שותף אתך על ידי {owner}",
-"Share with" => "שיתוף עם",
-"Share with link" => "שיתוף עם קישור",
 "Password protect" => "הגנה בססמה",
 "Password" => "סיסמא",
 "Email link to person" => "שליחת קישור בדוא״ל למשתמש",
@@ -57,6 +54,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "תאריך התפוגה",
 "Share via email:" => "שיתוף באמצעות דוא״ל:",
 "No people found" => "לא נמצאו אנשים",
+"group" => "קבוצה",
 "Resharing is not allowed" => "אסור לעשות שיתוף מחדש",
 "Shared in {item} with {user}" => "שותף תחת {item} עם {user}",
 "Unshare" => "הסר שיתוף",

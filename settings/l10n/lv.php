@@ -99,7 +99,6 @@ $TRANSLATIONS = array(
 "Language" => "Valoda",
 "Help translate" => "Palīdzi tulkot",
 "WebDAV" => "WebDAV",
-"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "Lietojiet šo adresi <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">lai piekļūtu saviem failiem ar WebDAV</a>",
 "Encryption" => "Šifrēšana",
 "The encryption app is no longer enabled, decrypt all your file" => "Šifrēšanas lietotne ir atslēgta, atšifrējiet visus jūsu failus",
 "Log-in password" => "Pieslēgšanās parole",

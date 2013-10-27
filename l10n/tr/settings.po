@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-21 13:01-0400\n"
-"PO-Revision-Date: 2013-10-21 17:01+0000\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-27 06:28+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -48,11 +48,11 @@ msgstr "Gruba eklenemiyor"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr "Eposta kaydedildi"
+msgstr "E-posta kaydedildi"
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr "Geçersiz eposta"
+msgstr "Geçersiz e-posta"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -123,7 +123,7 @@ msgstr "{appversion} Güncelle"
 
 #: js/apps.js:49 js/apps.js:82 js/apps.js:110
 msgid "Disable"
-msgstr "Etkin değil"
+msgstr "Devre dışı bırak"
 
 #: js/apps.js:49 js/apps.js:90 js/apps.js:103 js/apps.js:119
 msgid "Enable"
@@ -214,6 +214,10 @@ msgstr "Kullanıcı oluşturulurken hata"
 msgid "A valid password must be provided"
 msgstr "Geçerli bir parola mutlaka sağlanmalı"
 
+#: js/users.js:472
+msgid "Warning: Home directory for user \"{user}\" already exists"
+msgstr ""
+
 #: personal.php:45 personal.php:46
 msgid "__language_name__"
 msgstr "Türkçe"
@@ -293,11 +297,11 @@ msgstr "Yüklenen her sayfa ile bir görev çalıştır"
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
-msgstr ""
+msgstr "cron.php, http üzerinden her 15 dakikada bir çağrılması için webcron hizmetine kaydedildi."
 
 #: templates/admin.php:115
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
-msgstr ""
+msgstr "Cron.php dosyasını her 15 dakikada bir çağırmak için sistem cron hizmetini kullan."
 
 #: templates/admin.php:120
 msgid "Sharing"
@@ -334,7 +338,7 @@ msgstr "Paylaşıma izin ver"
 
 #: templates/admin.php:153
 msgid "Allow users to share items shared with them again"
-msgstr "Kullanıcıların kendileri ile paylaşılan öğeleri yeniden paylaşmasına izin ver"
+msgstr "Kullanıcıların kendileri ile paylaşılan ögeleri yeniden paylaşmasına izin ver"
 
 #: templates/admin.php:160
 msgid "Allow users to share with anyone"
@@ -400,19 +404,19 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr "Geliştirilen Taraf<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is altında lisanslanmıştır <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
+msgstr "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud topluluğu</a> tarafından geliştirilmiş olup, <a href=\"https://github.com/owncloud\" target=\"_blank\">kaynak kodu</a>, <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> altında lisanslanmıştır."
 
 #: templates/apps.php:13
 msgid "Add your App"
-msgstr "Uygulamanı Ekle"
+msgstr "Uygulamanızı Ekleyin"
 
 #: templates/apps.php:28
 msgid "More Apps"
-msgstr "Daha fazla uygulama"
+msgstr "Daha Fazla Uygulama"
 
 #: templates/apps.php:33
 msgid "Select an App"
-msgstr "Bir uygulama seçin"
+msgstr "Bir Uygulama Seçin"
 
 #: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
@@ -448,7 +452,7 @@ msgstr "Ticari Destek"
 
 #: templates/personal.php:8
 msgid "Get the apps to sync your files"
-msgstr "Dosyalarınızı senkronize etmek için uygulamayı indirin"
+msgstr "Dosyalarınızı eşitlemek için uygulamayı indirin"
 
 #: templates/personal.php:19
 msgid "Show First Run Wizard again"
@@ -493,7 +497,7 @@ msgstr "Eposta"
 
 #: templates/personal.php:75
 msgid "Your email address"
-msgstr "Eposta adresiniz"
+msgstr "E-posta adresiniz"
 
 #: templates/personal.php:76
 msgid "Fill in an email address to enable password recovery"
@@ -542,9 +546,9 @@ msgstr "WebDAV"
 #: templates/personal.php:135
 #, php-format
 msgid ""
-"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
-"target=\"_blank\">access your Files via WebDAV</a>"
-msgstr " <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">Dosyalarınıza WebDAV üzerinen erişme </a> için  bu adresi kullanın"
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
+"WebDAV</a>"
+msgstr ""
 
 #: templates/personal.php:146
 msgid "Encryption"
@@ -552,7 +556,7 @@ msgstr "Şifreleme"
 
 #: templates/personal.php:148
 msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr "Şifreleme uygulaması artık etkin değil, tüm dosyanın şifresini çöz"
+msgstr "Şifreleme uygulaması artık etkin değil, tüm dosyalarınızın şifresini çözün"
 
 #: templates/personal.php:154
 msgid "Log-in password"

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-21 13:01-0400\n"
-"PO-Revision-Date: 2013-10-21 17:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-23 16:20+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
-msgstr ""
+msgstr "Toto zdieľanie je chránené heslom"
 
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
@@ -70,11 +70,11 @@ msgstr "Sťahovanie"
 
 #: templates/public.php:45 templates/public.php:48
 msgid "Upload"
-msgstr "Odoslať"
+msgstr "Nahrať"
 
 #: templates/public.php:58
 msgid "Cancel upload"
-msgstr "Zrušiť odosielanie"
+msgstr "Zrušiť nahrávanie"
 
 #: templates/public.php:91
 msgid "No preview available for"
@@ -82,4 +82,4 @@ msgstr "Žiaden náhľad k dispozícii pre"
 
 #: templates/public.php:98
 msgid "Direct link"
-msgstr ""
+msgstr "Priama linka"

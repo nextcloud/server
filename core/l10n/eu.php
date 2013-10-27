@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s-ek »%s« zurekin partekatu du",
-"group" => "taldea",
 "Sunday" => "Igandea",
 "Monday" => "Astelehena",
 "Tuesday" => "Asteartea",
@@ -47,8 +46,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Errore bat egon da baimenak aldatzean",
 "Shared with you and the group {group} by {owner}" => "{owner}-k zu eta {group} taldearekin elkarbanatuta",
 "Shared with you by {owner}" => "{owner}-k zurekin elkarbanatuta",
-"Share with" => "Elkarbanatu honekin",
-"Share with link" => "Elkarbanatu lotura batekin",
 "Password protect" => "Babestu pasahitzarekin",
 "Password" => "Pasahitza",
 "Allow Public Upload" => "Gaitu igotze publikoa",
@@ -58,6 +55,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "Muga data",
 "Share via email:" => "Elkarbanatu eposta bidez:",
 "No people found" => "Ez da inor aurkitu",
+"group" => "taldea",
 "Resharing is not allowed" => "Berriz elkarbanatzea ez dago baimendua",
 "Shared in {item} with {user}" => "{user}ekin {item}-n elkarbanatuta",
 "Unshare" => "Ez elkarbanatu",

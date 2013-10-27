@@ -27,7 +27,6 @@ $TRANSLATIONS = array(
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
 "Share" => "साझा करें",
 "Error" => "त्रुटि",
-"Share with" => "के साथ साझा",
 "Password" => "पासवर्ड",
 "Send" => "भेजें",
 "No people found" => "कोई व्यक्ति नहीं मिले ",

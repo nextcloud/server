@@ -5,14 +5,14 @@
 # Translators:
 # Dharth <emilpg@gmail.com>, 2013
 # pablomillaquen <pablomillaquen@gmail.com>, 2013
-# Korrosivo <yo@rubendelcampo.es>, 2013
+# Rubén del Campo <yo@rubendelcampo.es>, 2013
 # xhiena <xhiena@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-17 13:47-0400\n"
-"PO-Revision-Date: 2013-10-17 17:47+0000\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-23 10:41+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -28,31 +28,31 @@ msgid ""
 " of ownCloud."
 msgstr "La aplicación \"%s\" no puede ser instalada porque no es compatible con esta versión de ownCloud"
 
-#: private/app.php:254
+#: private/app.php:255
 msgid "No app name specified"
 msgstr "No se ha especificado nombre de la aplicación"
 
-#: private/app.php:359
+#: private/app.php:360
 msgid "Help"
 msgstr "Ayuda"
 
-#: private/app.php:372
+#: private/app.php:373
 msgid "Personal"
 msgstr "Personal"
 
-#: private/app.php:383
+#: private/app.php:384
 msgid "Settings"
 msgstr "Ajustes"
 
-#: private/app.php:395
+#: private/app.php:396
 msgid "Users"
 msgstr "Usuarios"
 
-#: private/app.php:408
+#: private/app.php:409
 msgid "Admin"
 msgstr "Administración"
 
-#: private/app.php:872
+#: private/app.php:873
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Falló la actualización \"%s\"."
@@ -288,54 +288,54 @@ msgstr "Por favor, vuelva a comprobar las <a href='%s'>guías de instalación</a
 msgid "Could not find category \"%s\""
 msgstr "No puede encontrar la categoria \"%s\""
 
-#: private/template/functions.php:122
+#: private/template/functions.php:130
 msgid "seconds ago"
 msgstr "hace segundos"
 
-#: private/template/functions.php:123
+#: private/template/functions.php:131
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "Hace %n minuto"
 msgstr[1] "Hace %n minutos"
 
-#: private/template/functions.php:124
+#: private/template/functions.php:132
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "Hace %n hora"
 msgstr[1] "Hace %n horas"
 
-#: private/template/functions.php:125
+#: private/template/functions.php:133
 msgid "today"
 msgstr "hoy"
 
-#: private/template/functions.php:126
+#: private/template/functions.php:134
 msgid "yesterday"
 msgstr "ayer"
 
-#: private/template/functions.php:128
+#: private/template/functions.php:136
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "Hace %n día"
 msgstr[1] "Hace %n días"
 
-#: private/template/functions.php:130
+#: private/template/functions.php:138
 msgid "last month"
 msgstr "mes pasado"
 
-#: private/template/functions.php:131
+#: private/template/functions.php:139
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "Hace %n mes"
 msgstr[1] "Hace %n meses"
 
-#: private/template/functions.php:133
+#: private/template/functions.php:141
 msgid "last year"
 msgstr "año pasado"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:142
 msgid "years ago"
 msgstr "hace años"
 
-#: private/template.php:297
+#: private/template.php:297 public/util.php:103
 msgid "Caused by:"
 msgstr "Causado por:"

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-21 13:01-0400\n"
-"PO-Revision-Date: 2013-10-21 17:01+0000\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-27 06:28+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -214,6 +214,10 @@ msgstr "A felhasználó nem hozható létre"
 msgid "A valid password must be provided"
 msgstr "Érvényes jelszót kell megadnia"
 
+#: js/users.js:472
+msgid "Warning: Home directory for user \"{user}\" already exists"
+msgstr ""
+
 #: personal.php:45 personal.php:46
 msgid "__language_name__"
 msgstr "__language_name__"
@@ -293,11 +297,11 @@ msgstr "Egy-egy feladat végrehajtása minden alkalommal, amikor egy weboldalt l
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
-msgstr ""
+msgstr "A cron.php webcron szolgáltatásként van regisztrálva, hogy 15 percenként egyszer lefuttassa a cron.php-t."
 
 #: templates/admin.php:115
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
-msgstr ""
+msgstr "Használjuk a rendszer cron szolgáltatását, hogy 15 percenként egyszer futtassa le a cron.php-t."
 
 #: templates/admin.php:120
 msgid "Sharing"
@@ -542,9 +546,9 @@ msgstr "WebDAV"
 #: templates/personal.php:135
 #, php-format
 msgid ""
-"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
-"target=\"_blank\">access your Files via WebDAV</a>"
-msgstr "Ezt a címet használja, ha <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">WebDAV-on keresztül szeretné elérni az állományait</a>"
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
+"WebDAV</a>"
+msgstr ""
 
 #: templates/personal.php:146
 msgid "Encryption"

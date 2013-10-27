@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"group" => "grŵp",
 "Sunday" => "Sul",
 "Monday" => "Llun",
 "Tuesday" => "Mawrth",
@@ -46,8 +45,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Gwall wrth newid caniatâd",
 "Shared with you and the group {group} by {owner}" => "Rhannwyd â chi a'r grŵp {group} gan {owner}",
 "Shared with you by {owner}" => "Rhannwyd â chi gan {owner}",
-"Share with" => "Rhannu gyda",
-"Share with link" => "Dolen ar gyfer rhannu",
 "Password protect" => "Diogelu cyfrinair",
 "Password" => "Cyfrinair",
 "Email link to person" => "E-bostio dolen at berson",
@@ -56,6 +53,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "Dyddiad dod i ben",
 "Share via email:" => "Rhannu drwy e-bost:",
 "No people found" => "Heb ganfod pobl",
+"group" => "grŵp",
 "Resharing is not allowed" => "Does dim hawl ail-rannu",
 "Shared in {item} with {user}" => "Rhannwyd yn {item} â {user}",
 "Unshare" => "Dad-rannu",

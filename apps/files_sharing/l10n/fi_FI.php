@@ -14,6 +14,7 @@ $TRANSLATIONS = array(
 "Download" => "Lataa",
 "Upload" => "Lähetä",
 "Cancel upload" => "Peru lähetys",
-"No preview available for" => "Ei esikatselua kohteelle"
+"No preview available for" => "Ei esikatselua kohteelle",
+"Direct link" => "Suora linkki"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

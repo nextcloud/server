@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Help" => "Помощь",
 "Settings" => "Настройки",
 "Files" => "Файлы",
 "_%n minute ago_::_%n minutes ago_" => array("","",""),

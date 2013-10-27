@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s teilt »%s« mit Ihnen",
-"group" => "Gruppe",
 "Sunday" => "Sonntag",
 "Monday" => "Montag",
 "Tuesday" => "Dienstag",
@@ -47,8 +46,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Fehler bei der Änderung der Rechte",
 "Shared with you and the group {group} by {owner}" => "Von {owner} mit Ihnen und der Gruppe {group} geteilt.",
 "Shared with you by {owner}" => "Von {owner} mit Ihnen geteilt.",
-"Share with" => "Teilen mit",
-"Share with link" => "Über einen Link teilen",
 "Password protect" => "Passwortschutz",
 "Password" => "Passwort",
 "Allow Public Upload" => "Öffentliches Hochladen erlauben",
@@ -58,6 +55,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "Ablaufdatum",
 "Share via email:" => "Mittels einer E-Mail teilen:",
 "No people found" => "Niemand gefunden",
+"group" => "Gruppe",
 "Resharing is not allowed" => "Das Weiterverteilen ist nicht erlaubt",
 "Shared in {item} with {user}" => "Freigegeben in {item} von {user}",
 "Unshare" => "Freigabe aufheben",

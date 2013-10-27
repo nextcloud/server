@@ -9,6 +9,6 @@ $TRANSLATIONS = array(
 "Restore" => "復元",
 "Deleted" => "削除済み",
 "Delete" => "削除",
-"Deleted Files" => "削除されたファイル"
+"Deleted Files" => "ゴミ箱"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

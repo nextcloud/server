@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s ndau »%s« me ju",
-"group" => "grupi",
 "Turned on maintenance mode" => "Mënyra e mirëmbajtjes u aktivizua",
 "Turned off maintenance mode" => "Mënyra e mirëmbajtjes u çaktivizua",
 "Updated database" => "Database-i u azhurnua",
@@ -53,8 +52,6 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Veprim i gabuar gjatë ndryshimit të lejeve",
 "Shared with you and the group {group} by {owner}" => "Ndarë me ju dhe me grupin {group} nga {owner}",
 "Shared with you by {owner}" => "Ndarë me ju nga {owner}",
-"Share with" => "Nda me",
-"Share with link" => "Nda me lidhje",
 "Password protect" => "Mbro me kod",
 "Password" => "Kodi",
 "Allow Public Upload" => "Lejo Ngarkimin Publik",
@@ -64,6 +61,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "Data e përfundimit",
 "Share via email:" => "Nda me email:",
 "No people found" => "Nuk u gjet asnjë person",
+"group" => "grupi",
 "Resharing is not allowed" => "Rindarja nuk lejohet",
 "Shared in {item} with {user}" => "Ndarë në {item} me {user}",
 "Unshare" => "Hiq ndarjen",
