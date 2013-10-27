@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "ไม่สามารถย้าย %s ได้ - ไฟล์ที่ใช้ชื่อนี้มีอยู่แล้ว",
 "Could not move %s" => "ไม่สามารถย้าย %s ได้",
+"File name cannot be empty." => "ชื่อไฟล์ไม่สามารถเว้นว่างได้",
 "No file was uploaded. Unknown error" => "ยังไม่มีไฟล์ใดที่ถูกอัพโหลด เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ",
 "There is no error, the file uploaded with success" => "ไม่พบข้อผิดพลาดใดๆ, ไฟล์ถูกอัพโหลดเรียบร้อยแล้ว",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "ขนาดไฟล์ที่อัพโหลดมีขนาดเกิน upload_max_filesize ที่ระบุไว้ใน php.ini",
@@ -26,7 +27,6 @@ $TRANSLATIONS = array(
 "_%n file_::_%n files_" => array(""),
 "_Uploading %n file_::_Uploading %n files_" => array(""),
 "'.' is an invalid file name." => "'.' เป็นชื่อไฟล์ที่ไม่ถูกต้อง",
-"File name cannot be empty." => "ชื่อไฟล์ไม่สามารถเว้นว่างได้",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "ชื่อที่ใช้ไม่ถูกต้อง, '\\', '/', '<', '>', ':', '\"', '|', '?' และ '*' ไม่ได้รับอนุญาตให้ใช้งานได้",
 "Your storage is full, files can not be updated or synced anymore!" => "พื้นที่จัดเก็บข้อมูลของคุณเต็มแล้ว ไม่สามารถอัพเดทหรือผสานไฟล์ต่างๆได้อีกต่อไป",
 "Your storage is almost full ({usedSpacePercent}%)" => "พื้นที่จัดเก็บข้อมูลของคุณใกล้เต็มแล้ว ({usedSpacePercent}%)",

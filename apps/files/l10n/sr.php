@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Не могу да преместим %s – датотека с овим именом већ постоји",
 "Could not move %s" => "Не могу да преместим %s",
+"File name cannot be empty." => "Име датотеке не може бити празно.",
 "No file was uploaded. Unknown error" => "Ниједна датотека није отпремљена услед непознате грешке",
 "There is no error, the file uploaded with success" => "Није дошло до грешке. Датотека је успешно отпремљена.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Отпремљена датотека прелази смерницу upload_max_filesize у датотеци php.ini:",
@@ -27,7 +28,6 @@ $TRANSLATIONS = array(
 "_%n file_::_%n files_" => array("","",""),
 "_Uploading %n file_::_Uploading %n files_" => array("","",""),
 "'.' is an invalid file name." => "Датотека „.“ је неисправног имена.",
-"File name cannot be empty." => "Име датотеке не може бити празно.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Неисправан назив. Следећи знакови нису дозвољени: \\, /, <, >, :, \", |, ? и *.",
 "Your storage is full, files can not be updated or synced anymore!" => "Ваше складиште је пуно. Датотеке више не могу бити ажуриране ни синхронизоване.",
 "Your storage is almost full ({usedSpacePercent}%)" => "Ваше складиште је скоро па пуно ({usedSpacePercent}%)",

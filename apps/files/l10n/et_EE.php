@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Ei saa liigutada faili %s - samanimeline fail on juba olemas",
 "Could not move %s" => "%s liigutamine ebaõnnestus",
+"File name cannot be empty." => "Faili nimi ei saa olla tühi.",
 "Unable to set upload directory." => "Üleslaadimiste kausta määramine ebaõnnestus.",
 "Invalid Token" => "Vigane kontrollkood",
 "No file was uploaded. Unknown error" => "Ühtegi faili ei laetud üles. Tundmatu viga",
@@ -34,7 +35,6 @@ $TRANSLATIONS = array(
 "{dirs} and {files}" => "{dirs} ja {files}",
 "_Uploading %n file_::_Uploading %n files_" => array("Laadin üles %n faili","Laadin üles %n faili"),
 "'.' is an invalid file name." => "'.' on vigane failinimi.",
-"File name cannot be empty." => "Faili nimi ei saa olla tühi.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Vigane nimi, '\\', '/', '<', '>', ':', '\"', '|', '?' ja '*' pole lubatud.",
 "Your storage is full, files can not be updated or synced anymore!" => "Sinu andmemaht on täis! Faile ei uuendata ega sünkroniseerita!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Su andmemaht on peaaegu täis ({usedSpacePercent}%)",

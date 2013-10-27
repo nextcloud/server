@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Kon %s niet verplaatsen - Er bestaat al een bestand met deze naam",
 "Could not move %s" => "Kon %s niet verplaatsen",
+"File name cannot be empty." => "Bestandsnaam kan niet leeg zijn.",
 "Unable to set upload directory." => "Kan upload map niet instellen.",
 "Invalid Token" => "Ongeldig Token",
 "No file was uploaded. Unknown error" => "Er was geen bestand geladen.  Onbekende fout",
@@ -34,7 +35,6 @@ $TRANSLATIONS = array(
 "{dirs} and {files}" => "{dirs} en {files}",
 "_Uploading %n file_::_Uploading %n files_" => array("%n bestand aan het uploaden","%n bestanden aan het uploaden"),
 "'.' is an invalid file name." => "'.' is een ongeldige bestandsnaam.",
-"File name cannot be empty." => "Bestandsnaam kan niet leeg zijn.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Onjuiste naam; '\\', '/', '<', '>', ':', '\"', '|', '?' en '*' zijn niet toegestaan.",
 "Your storage is full, files can not be updated or synced anymore!" => "Uw opslagruimte zit vol, Bestanden kunnen niet meer worden ge-upload of gesynchroniseerd!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Uw opslagruimte zit bijna vol ({usedSpacePercent}%)",

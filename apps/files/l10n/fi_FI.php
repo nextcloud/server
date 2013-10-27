@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Kohteen %s siirto ei onnistunut - Tiedosto samalla nimellä on jo olemassa",
 "Could not move %s" => "Kohteen %s siirto ei onnistunut",
+"File name cannot be empty." => "Tiedoston nimi ei voi olla tyhjä.",
 "No file was uploaded. Unknown error" => "Tiedostoa ei lähetetty. Tuntematon virhe",
 "There is no error, the file uploaded with success" => "Ei virheitä, tiedosto lähetettiin onnistuneesti",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Lähetetyn tiedoston koko ylittää php.ini-tiedoston upload_max_filesize-säännön:",
@@ -29,7 +30,6 @@ $TRANSLATIONS = array(
 "{dirs} and {files}" => "{dirs} ja {files}",
 "_Uploading %n file_::_Uploading %n files_" => array("Lähetetään %n tiedosto","Lähetetään %n tiedostoa"),
 "'.' is an invalid file name." => "'.' on virheellinen nimi tiedostolle.",
-"File name cannot be empty." => "Tiedoston nimi ei voi olla tyhjä.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Virheellinen nimi, merkit '\\', '/', '<', '>', ':', '\"', '|', '?' ja '*' eivät ole sallittuja.",
 "Your storage is full, files can not be updated or synced anymore!" => "Tallennustila on loppu, tiedostoja ei voi enää päivittää tai synkronoida!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Tallennustila on melkein loppu ({usedSpacePercent}%)",

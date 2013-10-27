@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "無法移動 %s ，同名的檔案已經存在",
 "Could not move %s" => "無法移動 %s",
+"File name cannot be empty." => "檔名不能為空",
 "Unable to set upload directory." => "無法設定上傳目錄",
 "Invalid Token" => "無效的 token",
 "No file was uploaded. Unknown error" => "沒有檔案被上傳，原因未知",
@@ -34,7 +35,6 @@ $TRANSLATIONS = array(
 "{dirs} and {files}" => "{dirs} 和 {files}",
 "_Uploading %n file_::_Uploading %n files_" => array("%n 個檔案正在上傳"),
 "'.' is an invalid file name." => "'.' 是不合法的檔名",
-"File name cannot be empty." => "檔名不能為空",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "檔名不合法，不允許 \\ / < > : \" | ? * 字元",
 "Your storage is full, files can not be updated or synced anymore!" => "您的儲存空間已滿，沒有辦法再更新或是同步檔案！",
 "Your storage is almost full ({usedSpacePercent}%)" => "您的儲存空間快要滿了 ({usedSpacePercent}%)",

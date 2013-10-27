@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Impossible de déplacer %s - Un fichier possédant ce nom existe déjà",
 "Could not move %s" => "Impossible de déplacer %s",
+"File name cannot be empty." => "Le nom de fichier ne peut être vide.",
 "Unable to set upload directory." => "Impossible de définir le dossier pour l'upload, charger.",
 "Invalid Token" => "Jeton non valide",
 "No file was uploaded. Unknown error" => "Aucun fichier n'a été envoyé. Erreur inconnue",
@@ -34,7 +35,6 @@ $TRANSLATIONS = array(
 "{dirs} and {files}" => "{dir} et {files}",
 "_Uploading %n file_::_Uploading %n files_" => array("Téléversement de %n fichier","Téléversement de %n fichiers"),
 "'.' is an invalid file name." => "'.' n'est pas un nom de fichier valide.",
-"File name cannot be empty." => "Le nom de fichier ne peut être vide.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nom invalide, les caractères '\\', '/', '<', '>', ':', '\"', '|', '?' et '*' ne sont pas autorisés.",
 "Your storage is full, files can not be updated or synced anymore!" => "Votre espage de stockage est plein, les fichiers ne peuvent plus être téléversés ou synchronisés !",
 "Your storage is almost full ({usedSpacePercent}%)" => "Votre espace de stockage est presque plein ({usedSpacePercent}%)",

@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Nie można było przenieść %s - Plik o takiej nazwie już istnieje",
 "Could not move %s" => "Nie można było przenieść %s",
+"File name cannot be empty." => "Nazwa pliku nie może być pusta.",
 "Unable to set upload directory." => "Nie można ustawić katalog wczytywania.",
 "Invalid Token" => "Nieprawidłowy Token",
 "No file was uploaded. Unknown error" => "Żaden plik nie został załadowany. Nieznany błąd",
@@ -34,7 +35,6 @@ $TRANSLATIONS = array(
 "{dirs} and {files}" => "{katalogi} and {pliki}",
 "_Uploading %n file_::_Uploading %n files_" => array("Wysyłanie %n pliku","Wysyłanie %n plików","Wysyłanie %n plików"),
 "'.' is an invalid file name." => "„.” jest nieprawidłową nazwą pliku.",
-"File name cannot be empty." => "Nazwa pliku nie może być pusta.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nieprawidłowa nazwa. Znaki '\\', '/', '<', '>', ':', '\"', '|', '?' oraz '*' są niedozwolone.",
 "Your storage is full, files can not be updated or synced anymore!" => "Magazyn jest pełny. Pliki nie mogą zostać zaktualizowane lub zsynchronizowane!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Twój magazyn jest prawie pełny ({usedSpacePercent}%)",

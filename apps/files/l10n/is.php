@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Gat ekki fært %s - Skrá með þessu nafni er þegar til",
 "Could not move %s" => "Gat ekki fært %s",
+"File name cannot be empty." => "Nafn skráar má ekki vera tómt",
 "No file was uploaded. Unknown error" => "Engin skrá var send inn. Óþekkt villa.",
 "There is no error, the file uploaded with success" => "Engin villa, innsending heppnaðist",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Innsend skrá er stærri en upload_max stillingin í php.ini:",
@@ -25,7 +26,6 @@ $TRANSLATIONS = array(
 "_%n file_::_%n files_" => array("",""),
 "_Uploading %n file_::_Uploading %n files_" => array("",""),
 "'.' is an invalid file name." => "'.' er ekki leyfilegt nafn.",
-"File name cannot be empty." => "Nafn skráar má ekki vera tómt",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Ógilt nafn, táknin '\\', '/', '<', '>', ':', '\"', '|', '?' og '*' eru ekki leyfð.",
 "Error" => "Villa",
 "Name" => "Nafn",

@@ -67,6 +67,8 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "İzinleri değiştirirken hata oluştu",
 "Shared with you and the group {group} by {owner}" => " {owner} tarafından sizinle ve {group} ile paylaştırılmış",
 "Shared with you by {owner}" => "{owner} trafından sizinle paylaştırıldı",
+"Share with user or group …" => "Kullanıcı veya grup ile paylaş..",
+"Share link" => "Paylaşma bağlantısı",
 "Password protect" => "Parola koruması",
 "Password" => "Parola",
 "Allow Public Upload" => "Herkes tarafından yüklemeye izin ver",
@@ -80,6 +82,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "Tekrar paylaşmaya izin verilmiyor",
 "Shared in {item} with {user}" => " {item} içinde  {user} ile paylaşılanlarlar",
 "Unshare" => "Paylaşılmayan",
+"notify by email" => "e-posta ile bildir",
 "can edit" => "düzenleyebilir",
 "access control" => "erişim kontrolü",
 "create" => "oluştur",
@@ -163,6 +166,10 @@ $TRANSLATIONS = array(
 "Alternative Logins" => "Alternatif Girişler",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Merhaba, <br><br> %s sizinle »%s« paylaşımında bulundu.<br><a href=\"%s\">Paylaşımı gör!</a><br><br>İyi günler!",
 "The share will expire on %s.<br><br>" => "Bu paylaşım %s tarihinde dolacaktır.<br><br>",
-"Updating ownCloud to version %s, this may take a while." => "Owncloud %s versiyonuna güncelleniyor. Biraz zaman alabilir."
+"Updating ownCloud to version %s, this may take a while." => "Owncloud %s versiyonuna güncelleniyor. Biraz zaman alabilir.",
+"This ownCloud instance is currently being updated, which may take a while." => "Bu ownCloud örneği şu anda güncelleniyor, bu biraz zaman alabilir.",
+"Please reload this page after a short time to continue using ownCloud." => "ownCloud kullanmaya devam etmek için kısa bir süre sonra lütfen sayfayı yenileyin.",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Eğer bu ileti görünmeye devam ederse veya beklenmedik şekilde ortaya çıkmışsa sistem yöneticinizle iletişime geçin.",
+"Thank you for your patience." => "Sabrınız için teşekkür ederiz."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

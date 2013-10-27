@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "E pa mundur zhvendosja e %s - ekziston nje skedar me te njetin emer",
 "Could not move %s" => "Nuk mund të zhvendoset %s",
+"File name cannot be empty." => "Emri i skedarit nuk mund të jetë bosh.",
 "Unable to set upload directory." => "E pa mundur të vendoset dosja e ngarkimit",
 "Invalid Token" => "Shenjë e gabuar",
 "No file was uploaded. Unknown error" => "Asnjë skedar nuk u dërgua. Gabim i pa njohur",
@@ -30,7 +31,6 @@ $TRANSLATIONS = array(
 "{dirs} and {files}" => "{dirs} dhe {files}",
 "_Uploading %n file_::_Uploading %n files_" => array("Po ngarkoj %n skedar","Po ngarkoj %n skedarë"),
 "'.' is an invalid file name." => "'.' nuk është skedar i vlefshem.",
-"File name cannot be empty." => "Emri i skedarit nuk mund të jetë bosh.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Emër jo i vlefshëm, '\\', '/', '<', '>', ':', '\"', '|', '?' dhe '*' nuk lejohen.",
 "Your storage is full, files can not be updated or synced anymore!" => "Hapsira juaj e arkivimit është plot, skedarët nuk mund të përditësohen ose sinkronizohen!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Hapsira juaj e arkivimit është pothuajse në fund  ({usedSpacePercent}%)",

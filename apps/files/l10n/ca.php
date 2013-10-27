@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "No s'ha pogut moure %s - Ja hi ha un fitxer amb aquest nom",
 "Could not move %s" => " No s'ha pogut moure %s",
+"File name cannot be empty." => "El nom del fitxer no pot ser buit.",
 "Unable to set upload directory." => "No es pot establir la carpeta de pujada.",
 "Invalid Token" => "Testimoni no vàlid",
 "No file was uploaded. Unknown error" => "No s'ha carregat cap fitxer. Error desconegut",
@@ -34,7 +35,6 @@ $TRANSLATIONS = array(
 "{dirs} and {files}" => "{dirs} i {files}",
 "_Uploading %n file_::_Uploading %n files_" => array("Pujant %n fitxer","Pujant %n fitxers"),
 "'.' is an invalid file name." => "'.' és un nom no vàlid per un fitxer.",
-"File name cannot be empty." => "El nom del fitxer no pot ser buit.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "El nóm no és vàlid, '\\', '/', '<', '>', ':', '\"', '|', '?' i '*' no estan permesos.",
 "Your storage is full, files can not be updated or synced anymore!" => "El vostre espai d'emmagatzemament és ple, els fitxers ja no es poden actualitzar o sincronitzar!",
 "Your storage is almost full ({usedSpacePercent}%)" => "El vostre espai d'emmagatzemament és gairebé ple ({usedSpacePercent}%)",

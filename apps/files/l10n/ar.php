@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "فشل في نقل الملف %s - يوجد ملف بنفس هذا الاسم",
 "Could not move %s" => "فشل في نقل %s",
+"File name cannot be empty." => "اسم الملف لا يجوز أن يكون فارغا",
 "Unable to set upload directory." => "غير قادر على تحميل المجلد",
 "Invalid Token" => "علامة غير صالحة",
 "No file was uploaded. Unknown error" => "لم يتم رفع أي ملف , خطأ غير معروف",
@@ -34,7 +35,6 @@ $TRANSLATIONS = array(
 "{dirs} and {files}" => "{dirs} و {files}",
 "_Uploading %n file_::_Uploading %n files_" => array("لا يوجد ملفات %n لتحميلها","تحميل 1 ملف %n","تحميل 2 ملف %n","يتم تحميل عدد قليل من ملفات %n","يتم تحميل عدد كبير من ملفات %n","يتم تحميل ملفات %n"),
 "'.' is an invalid file name." => "\".\" اسم ملف غير صحيح.",
-"File name cannot be empty." => "اسم الملف لا يجوز أن يكون فارغا",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "اسم غير صحيح , الرموز  '\\', '/', '<', '>', ':', '\"', '|', '?' و \"*\" غير مسموح استخدامها",
 "Your storage is full, files can not be updated or synced anymore!" => "مساحتك التخزينية ممتلئة, لا يمكم تحديث ملفاتك أو مزامنتها بعد الآن !",
 "Your storage is almost full ({usedSpacePercent}%)" => "مساحتك التخزينية امتلأت تقريبا ",

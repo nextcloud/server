@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 02:28-0400\n"
-"PO-Revision-Date: 2013-10-27 06:28+0000\n"
+"POT-Creation-Date: 2013-10-27 07:25-0400\n"
+"PO-Revision-Date: 2013-10-27 11:25+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -36,45 +36,45 @@ msgstr "%s konnte nicht verschoben werden. Eine Datei mit diesem Namen existiert
 msgid "Could not move %s"
 msgstr "Konnte %s nicht verschieben"
 
-#: ajax/newfile.php:56
-msgid "File name cannot not be empty."
-msgstr ""
+#: ajax/newfile.php:56 js/files.js:27
+msgid "File name cannot be empty."
+msgstr "Der Dateiname darf nicht leer sein."
 
 #: ajax/newfile.php:62
 msgid "File name must not contain \"/\". Please choose a different name."
-msgstr ""
+msgstr "Der Dateiname darf kein \"/\" enthalten. Bitte wählen Sie einen anderen Namen."
 
 #: ajax/newfile.php:72 ajax/newfolder.php:37 lib/app.php:67
 #, php-format
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different "
 "name."
-msgstr ""
+msgstr "Der Name %s wird bereits im Ordner %s benutzt. Bitte wählen Sie einen anderen Namen."
 
 #: ajax/newfile.php:81
 msgid "Not a valid source"
-msgstr ""
+msgstr "Keine gültige Quelle"
 
 #: ajax/newfile.php:94
 #, php-format
 msgid "Error while downloading %s to %s"
-msgstr ""
+msgstr "Fehler beim Herunterladen von %s nach %s"
 
 #: ajax/newfile.php:127
 msgid "Error when creating the file"
-msgstr ""
+msgstr "Fehler beim Erstellen der Datei"
 
 #: ajax/newfolder.php:21
-msgid "Folder name cannot not be empty."
+msgid "Folder name cannot be empty."
 msgstr ""
 
 #: ajax/newfolder.php:27
 msgid "Folder name must not contain \"/\". Please choose a different name."
-msgstr ""
+msgstr "Der Ordner-Name darf kein \"/\" enthalten. Bitte wählen Sie einen anderen Namen."
 
 #: ajax/newfolder.php:56
 msgid "Error when creating the folder"
-msgstr ""
+msgstr "Fehler beim Erstellen des Ordners"
 
 #: ajax/upload.php:18 ajax/upload.php:50
 msgid "Unable to set upload directory."
@@ -162,11 +162,11 @@ msgstr "Dateiupload läuft. Wenn Sie die Seite jetzt verlassen, wird der Upload 
 
 #: js/file-upload.js:511
 msgid "URL cannot be empty"
-msgstr ""
+msgstr "Die URL darf nicht leer sein"
 
 #: js/file-upload.js:515 js/filelist.js:361
 msgid "In the home folder 'Shared' is a reserved filename"
-msgstr ""
+msgstr "Das Benutzerverzeichnis 'Shared' ist ein reservierter Dateiname"
 
 #: js/file-upload.js:517 js/filelist.js:363
 msgid "{new_name} already exists"
@@ -174,11 +174,11 @@ msgstr "{new_name} existiert bereits"
 
 #: js/file-upload.js:576
 msgid "Could not create file"
-msgstr ""
+msgstr "Datei konnte nicht erstellt werden"
 
 #: js/file-upload.js:592
 msgid "Could not create folder"
-msgstr ""
+msgstr "Der Ordner konnte nicht erstellt werden"
 
 #: js/fileactions.js:125
 msgid "Share"
@@ -198,7 +198,7 @@ msgstr "Ausstehend"
 
 #: js/filelist.js:389
 msgid "Could not rename file"
-msgstr ""
+msgstr "Die Datei konnte nicht umbenannt werden"
 
 #: js/filelist.js:508
 msgid "replaced {new_name} with {old_name}"
@@ -233,10 +233,6 @@ msgstr[1] "%n Dateien werden hoch geladen"
 #: js/files.js:25
 msgid "'.' is an invalid file name."
 msgstr "'.' ist kein gültiger Dateiname."
-
-#: js/files.js:27
-msgid "File name cannot be empty."
-msgstr "Der Dateiname darf nicht leer sein."
 
 #: js/files.js:34
 msgid ""
@@ -368,7 +364,7 @@ msgstr "Upload abbrechen"
 
 #: templates/index.php:40
 msgid "You don’t have permission to upload or create files here"
-msgstr ""
+msgstr "Sie besitzen hier keine Berechtigung Dateien hochzuladen oder zu erstellen"
 
 #: templates/index.php:45
 msgid "Nothing in here. Upload something!"

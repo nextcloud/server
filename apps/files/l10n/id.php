@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Tidak dapat memindahkan %s - Berkas dengan nama ini sudah ada",
 "Could not move %s" => "Tidak dapat memindahkan %s",
+"File name cannot be empty." => "Nama berkas tidak boleh kosong.",
 "No file was uploaded. Unknown error" => "Tidak ada berkas yang diunggah. Galat tidak dikenal.",
 "There is no error, the file uploaded with success" => "Tidak ada galat, berkas sukses diunggah",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Berkas yang diunggah melampaui direktif upload_max_filesize pada php.ini",
@@ -27,7 +28,6 @@ $TRANSLATIONS = array(
 "_%n file_::_%n files_" => array(""),
 "_Uploading %n file_::_Uploading %n files_" => array(""),
 "'.' is an invalid file name." => "'.' bukan nama berkas yang valid.",
-"File name cannot be empty." => "Nama berkas tidak boleh kosong.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nama tidak valid, karakter '\\', '/', '<', '>', ':', '\"', '|', '?' dan '*' tidak diizinkan.",
 "Your storage is full, files can not be updated or synced anymore!" => "Ruang penyimpanan Anda penuh, berkas tidak dapat diperbarui atau disinkronkan lagi!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Ruang penyimpanan hampir penuh ({usedSpacePercent}%)",

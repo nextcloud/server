@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 02:28-0400\n"
-"PO-Revision-Date: 2013-10-27 06:28+0000\n"
+"POT-Creation-Date: 2013-10-27 07:25-0400\n"
+"PO-Revision-Date: 2013-10-27 11:25+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -28,9 +28,9 @@ msgstr "無法移動 %s ，同名的檔案已經存在"
 msgid "Could not move %s"
 msgstr "無法移動 %s"
 
-#: ajax/newfile.php:56
-msgid "File name cannot not be empty."
-msgstr ""
+#: ajax/newfile.php:56 js/files.js:27
+msgid "File name cannot be empty."
+msgstr "檔名不能為空"
 
 #: ajax/newfile.php:62
 msgid "File name must not contain \"/\". Please choose a different name."
@@ -57,7 +57,7 @@ msgid "Error when creating the file"
 msgstr ""
 
 #: ajax/newfolder.php:21
-msgid "Folder name cannot not be empty."
+msgid "Folder name cannot be empty."
 msgstr ""
 
 #: ajax/newfolder.php:27
@@ -222,10 +222,6 @@ msgstr[0] "%n 個檔案正在上傳"
 #: js/files.js:25
 msgid "'.' is an invalid file name."
 msgstr "'.' 是不合法的檔名"
-
-#: js/files.js:27
-msgid "File name cannot be empty."
-msgstr "檔名不能為空"
 
 #: js/files.js:34
 msgid ""

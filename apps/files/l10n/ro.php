@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s nu se poate muta - Fișierul cu acest nume există deja ",
 "Could not move %s" => "Nu s-a putut muta %s",
+"File name cannot be empty." => "Numele fișierului nu poate rămâne gol.",
 "Unable to set upload directory." => "Imposibil de a seta directorul pentru incărcare.",
 "Invalid Token" => "Jeton Invalid",
 "No file was uploaded. Unknown error" => "Nici un fișier nu a fost încărcat. Eroare necunoscută",
@@ -34,7 +35,6 @@ $TRANSLATIONS = array(
 "{dirs} and {files}" => "{dirs} și {files}",
 "_Uploading %n file_::_Uploading %n files_" => array("Se încarcă %n fișier.","Se încarcă %n fișiere.","Se încarcă %n fișiere."),
 "'.' is an invalid file name." => "'.' este un nume invalid de fișier.",
-"File name cannot be empty." => "Numele fișierului nu poate rămâne gol.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nume invalide, '\\', '/', '<', '>', ':', '\"', '|', '?' si '*' nu sunt permise.",
 "Your storage is full, files can not be updated or synced anymore!" => "Spatiul de stocare este plin, fisierele nu mai pot fi actualizate sau sincronizate",
 "Your storage is almost full ({usedSpacePercent}%)" => "Spatiul de stocare este aproape plin {spatiu folosit}%",

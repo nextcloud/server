@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 02:28-0400\n"
-"PO-Revision-Date: 2013-10-27 06:28+0000\n"
+"POT-Creation-Date: 2013-10-27 07:25-0400\n"
+"PO-Revision-Date: 2013-10-27 11:25+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -28,45 +28,45 @@ msgstr "Non se moveu %s - Xa existe un ficheiro con ese nome."
 msgid "Could not move %s"
 msgstr "Non foi posíbel mover %s"
 
-#: ajax/newfile.php:56
-msgid "File name cannot not be empty."
-msgstr ""
+#: ajax/newfile.php:56 js/files.js:27
+msgid "File name cannot be empty."
+msgstr "O nome de ficheiro non pode estar baleiro"
 
 #: ajax/newfile.php:62
 msgid "File name must not contain \"/\". Please choose a different name."
-msgstr ""
+msgstr "O nome do ficheiro non pode conter «/». Escolla outro nome."
 
 #: ajax/newfile.php:72 ajax/newfolder.php:37 lib/app.php:67
 #, php-format
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different "
 "name."
-msgstr ""
+msgstr "Xa existe o nome %s no cartafol %s. Escolla outro nome."
 
 #: ajax/newfile.php:81
 msgid "Not a valid source"
-msgstr ""
+msgstr "Esta orixe non é correcta"
 
 #: ajax/newfile.php:94
 #, php-format
 msgid "Error while downloading %s to %s"
-msgstr ""
+msgstr "Produciuse un erro ao descargar %s en %s"
 
 #: ajax/newfile.php:127
 msgid "Error when creating the file"
-msgstr ""
+msgstr "Produciuse un erro ao crear o ficheiro"
 
 #: ajax/newfolder.php:21
-msgid "Folder name cannot not be empty."
+msgid "Folder name cannot be empty."
 msgstr ""
 
 #: ajax/newfolder.php:27
 msgid "Folder name must not contain \"/\". Please choose a different name."
-msgstr ""
+msgstr "O nome do cartafol non pode conter «/». Escolla outro nome."
 
 #: ajax/newfolder.php:56
 msgid "Error when creating the folder"
-msgstr ""
+msgstr "Produciuse un erro ao crear o cartafol"
 
 #: ajax/upload.php:18 ajax/upload.php:50
 msgid "Unable to set upload directory."
@@ -154,11 +154,11 @@ msgstr "O envío do ficheiro está en proceso. Saír agora da páxina cancelará
 
 #: js/file-upload.js:511
 msgid "URL cannot be empty"
-msgstr ""
+msgstr "O URL non pode quedar en branco."
 
 #: js/file-upload.js:515 js/filelist.js:361
 msgid "In the home folder 'Shared' is a reserved filename"
-msgstr ""
+msgstr "«Shared» dentro do cartafol persoal é un nome reservado"
 
 #: js/file-upload.js:517 js/filelist.js:363
 msgid "{new_name} already exists"
@@ -166,11 +166,11 @@ msgstr "Xa existe un {new_name}"
 
 #: js/file-upload.js:576
 msgid "Could not create file"
-msgstr ""
+msgstr "Non foi posíbel crear o ficheiro"
 
 #: js/file-upload.js:592
 msgid "Could not create folder"
-msgstr ""
+msgstr "Non foi posíbel crear o cartafol"
 
 #: js/fileactions.js:125
 msgid "Share"
@@ -190,7 +190,7 @@ msgstr "Pendentes"
 
 #: js/filelist.js:389
 msgid "Could not rename file"
-msgstr ""
+msgstr "Non foi posíbel renomear o ficheiro"
 
 #: js/filelist.js:508
 msgid "replaced {new_name} with {old_name}"
@@ -225,10 +225,6 @@ msgstr[1] "Cargando %n ficheiros"
 #: js/files.js:25
 msgid "'.' is an invalid file name."
 msgstr "«.» é un nome de ficheiro incorrecto"
-
-#: js/files.js:27
-msgid "File name cannot be empty."
-msgstr "O nome de ficheiro non pode estar baleiro"
 
 #: js/files.js:34
 msgid ""
@@ -360,7 +356,7 @@ msgstr "Cancelar o envío"
 
 #: templates/index.php:40
 msgid "You don’t have permission to upload or create files here"
-msgstr ""
+msgstr "Non ten permisos para enviar ou crear ficheiros aquí."
 
 #: templates/index.php:45
 msgid "Nothing in here. Upload something!"

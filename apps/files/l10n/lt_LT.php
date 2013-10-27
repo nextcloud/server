@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Nepavyko perkelti %s - failas su tokiu pavadinimu jau egzistuoja",
 "Could not move %s" => "Nepavyko perkelti %s",
+"File name cannot be empty." => "Failo pavadinimas negali būti tuščias.",
 "Unable to set upload directory." => "Nepavyksta nustatyti įkėlimų katalogo.",
 "Invalid Token" => "Netinkamas ženklas",
 "No file was uploaded. Unknown error" => "Failai nebuvo įkelti dėl nežinomos priežasties",
@@ -34,7 +35,6 @@ $TRANSLATIONS = array(
 "{dirs} and {files}" => "{dirs} ir {files}",
 "_Uploading %n file_::_Uploading %n files_" => array("Įkeliamas %n failas","Įkeliami %n failai","Įkeliama %n failų"),
 "'.' is an invalid file name." => "'.' yra neleidžiamas failo pavadinime.",
-"File name cannot be empty." => "Failo pavadinimas negali būti tuščias.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Neleistinas pavadinimas, '\\', '/', '<', '>', ':', '\"', '|', '?' ir '*' yra neleidžiami.",
 "Your storage is full, files can not be updated or synced anymore!" => "Jūsų visa vieta serveryje užimta",
 "Your storage is almost full ({usedSpacePercent}%)" => "Jūsų vieta serveryje beveik visa užimta ({usedSpacePercent}%)",

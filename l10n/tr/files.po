@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 02:28-0400\n"
-"PO-Revision-Date: 2013-10-27 06:28+0000\n"
+"POT-Creation-Date: 2013-10-27 07:25-0400\n"
+"PO-Revision-Date: 2013-10-27 11:25+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -31,45 +31,45 @@ msgstr "%s taşınamadı. Bu isimde dosya zaten var."
 msgid "Could not move %s"
 msgstr "%s taşınamadı"
 
-#: ajax/newfile.php:56
-msgid "File name cannot not be empty."
-msgstr ""
+#: ajax/newfile.php:56 js/files.js:27
+msgid "File name cannot be empty."
+msgstr "Dosya adı boş olamaz."
 
 #: ajax/newfile.php:62
 msgid "File name must not contain \"/\". Please choose a different name."
-msgstr ""
+msgstr "Dosya adı \"/\" içermemelidir. Lütfen farklı bir isim seçin."
 
 #: ajax/newfile.php:72 ajax/newfolder.php:37 lib/app.php:67
 #, php-format
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different "
 "name."
-msgstr ""
+msgstr "%s ismi zaten %s klasöründe kullanılıyor. Lütfen farklı bir isim seçin."
 
 #: ajax/newfile.php:81
 msgid "Not a valid source"
-msgstr ""
+msgstr "Geçerli bir kaynak değil"
 
 #: ajax/newfile.php:94
 #, php-format
 msgid "Error while downloading %s to %s"
-msgstr ""
+msgstr "%s, %s içine indirilirken hata"
 
 #: ajax/newfile.php:127
 msgid "Error when creating the file"
-msgstr ""
+msgstr "Dosya oluşturulurken hata"
 
 #: ajax/newfolder.php:21
-msgid "Folder name cannot not be empty."
+msgid "Folder name cannot be empty."
 msgstr ""
 
 #: ajax/newfolder.php:27
 msgid "Folder name must not contain \"/\". Please choose a different name."
-msgstr ""
+msgstr "Klasör adı \"/\" içermemelidir. Lütfen farklı bir isim seçin."
 
 #: ajax/newfolder.php:56
 msgid "Error when creating the folder"
-msgstr ""
+msgstr "Klasör oluşturulurken hata"
 
 #: ajax/upload.php:18 ajax/upload.php:50
 msgid "Unable to set upload directory."
@@ -157,11 +157,11 @@ msgstr "Dosya yükleme işlemi sürüyor. Şimdi sayfadan ayrılırsanız işlem
 
 #: js/file-upload.js:511
 msgid "URL cannot be empty"
-msgstr ""
+msgstr "URL boş olamaz"
 
 #: js/file-upload.js:515 js/filelist.js:361
 msgid "In the home folder 'Shared' is a reserved filename"
-msgstr ""
+msgstr "Ev klasöründeki 'Paylaşılan', ayrılmış bir dosya adıdır"
 
 #: js/file-upload.js:517 js/filelist.js:363
 msgid "{new_name} already exists"
@@ -169,11 +169,11 @@ msgstr "{new_name} zaten mevcut"
 
 #: js/file-upload.js:576
 msgid "Could not create file"
-msgstr ""
+msgstr "Dosya oluşturulamadı"
 
 #: js/file-upload.js:592
 msgid "Could not create folder"
-msgstr ""
+msgstr "Klasör oluşturulamadı"
 
 #: js/fileactions.js:125
 msgid "Share"
@@ -193,7 +193,7 @@ msgstr "Bekliyor"
 
 #: js/filelist.js:389
 msgid "Could not rename file"
-msgstr ""
+msgstr "Dosya adlandırılamadı"
 
 #: js/filelist.js:508
 msgid "replaced {new_name} with {old_name}"
@@ -228,10 +228,6 @@ msgstr[1] "%n dosya yükleniyor"
 #: js/files.js:25
 msgid "'.' is an invalid file name."
 msgstr "'.' geçersiz dosya adı."
-
-#: js/files.js:27
-msgid "File name cannot be empty."
-msgstr "Dosya adı boş olamaz."
 
 #: js/files.js:34
 msgid ""
@@ -363,7 +359,7 @@ msgstr "Yüklemeyi iptal et"
 
 #: templates/index.php:40
 msgid "You don’t have permission to upload or create files here"
-msgstr ""
+msgstr "Buraya dosya yükleme veya oluşturma izniniz yok"
 
 #: templates/index.php:45
 msgid "Nothing in here. Upload something!"

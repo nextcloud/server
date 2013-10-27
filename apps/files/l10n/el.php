@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Αδυναμία μετακίνησης του %s - υπάρχει ήδη αρχείο με αυτό το όνομα",
 "Could not move %s" => "Αδυναμία μετακίνησης του %s",
+"File name cannot be empty." => "Το όνομα αρχείου δεν μπορεί να είναι κενό.",
 "Unable to set upload directory." => "Αδυναμία ορισμού καταλόγου αποστολής.",
 "Invalid Token" => "Μη έγκυρο Token",
 "No file was uploaded. Unknown error" => "Δεν ανέβηκε κάποιο αρχείο. Άγνωστο σφάλμα",
@@ -29,7 +30,6 @@ $TRANSLATIONS = array(
 "_%n file_::_%n files_" => array("%n αρχείο","%n αρχεία"),
 "_Uploading %n file_::_Uploading %n files_" => array("Ανέβασμα %n αρχείου","Ανέβασμα %n αρχείων"),
 "'.' is an invalid file name." => "'.' είναι μη έγκυρο όνομα αρχείου.",
-"File name cannot be empty." => "Το όνομα αρχείου δεν μπορεί να είναι κενό.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Μη έγκυρο όνομα, '\\', '/', '<', '>', ':', '\"', '|', '?' και '*' δεν επιτρέπονται.",
 "Your storage is full, files can not be updated or synced anymore!" => "Ο αποθηκευτικός σας χώρος είναι γεμάτος, τα αρχεία δεν μπορούν να ενημερωθούν ή να συγχρονιστούν πια!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Ο αποθηκευτικός χώρος είναι σχεδόν γεμάτος ({usedSpacePercent}%)",

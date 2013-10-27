@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Không thể di chuyển %s - Đã có tên tập tin này trên hệ thống",
 "Could not move %s" => "Không thể di chuyển %s",
+"File name cannot be empty." => "Tên file không được rỗng",
 "No file was uploaded. Unknown error" => "Không có tập tin nào được tải lên. Lỗi không xác định",
 "There is no error, the file uploaded with success" => "Không có lỗi, các tập tin đã được tải lên thành công",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "The uploaded file exceeds the upload_max_filesize directive in php.ini: ",
@@ -27,7 +28,6 @@ $TRANSLATIONS = array(
 "_%n file_::_%n files_" => array(""),
 "_Uploading %n file_::_Uploading %n files_" => array(""),
 "'.' is an invalid file name." => "'.' là một tên file không hợp lệ",
-"File name cannot be empty." => "Tên file không được rỗng",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Tên không hợp lệ, '\\', '/', '<', '>', ':', '\"', '|', '?' và '*' thì không được phép dùng.",
 "Your storage is full, files can not be updated or synced anymore!" => "Your storage is full, files can not be updated or synced anymore!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Your storage is almost full ({usedSpacePercent}%)",

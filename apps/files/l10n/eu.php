@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Ezin da %s mugitu - Izen hau duen fitxategia dagoeneko existitzen da",
 "Could not move %s" => "Ezin dira fitxategiak mugitu %s",
+"File name cannot be empty." => "Fitxategi izena ezin da hutsa izan.",
 "Unable to set upload directory." => "Ezin da igoera direktorioa ezarri.",
 "Invalid Token" => "Lekuko baliogabea",
 "No file was uploaded. Unknown error" => "Ez da fitxategirik igo. Errore ezezaguna",
@@ -34,7 +35,6 @@ $TRANSLATIONS = array(
 "{dirs} and {files}" => "{dirs} eta {files}",
 "_Uploading %n file_::_Uploading %n files_" => array("Fitxategi %n igotzen","%n fitxategi igotzen"),
 "'.' is an invalid file name." => "'.' ez da fitxategi izen baliogarria.",
-"File name cannot be empty." => "Fitxategi izena ezin da hutsa izan.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "IZen aliogabea, '\\', '/', '<', '>', ':', '\"', '|', '?' eta '*' ez daude baimenduta.",
 "Your storage is full, files can not be updated or synced anymore!" => "Zure biltegiratzea beterik dago, ezingo duzu aurrerantzean fitxategirik igo edo sinkronizatu!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Zure biltegiratzea nahiko beterik dago (%{usedSpacePercent})",

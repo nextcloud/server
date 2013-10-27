@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s نمی تواند حرکت کند - در حال حاضر پرونده با این نام وجود دارد. ",
 "Could not move %s" => "%s نمی تواند حرکت کند ",
+"File name cannot be empty." => "نام پرونده نمی تواند خالی باشد.",
 "Unable to set upload directory." => "قادر به تنظیم پوشه آپلود نمی باشد.",
 "Invalid Token" => "رمز نامعتبر",
 "No file was uploaded. Unknown error" => "هیچ فایلی آپلود نشد.خطای ناشناس",
@@ -29,7 +30,6 @@ $TRANSLATIONS = array(
 "_%n file_::_%n files_" => array(""),
 "_Uploading %n file_::_Uploading %n files_" => array(""),
 "'.' is an invalid file name." => "'.'   یک نام پرونده نامعتبر است.",
-"File name cannot be empty." => "نام پرونده نمی تواند خالی باشد.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "نام نامعتبر ،  '\\', '/', '<', '>', ':', '\"', '|', '?'  و '*'  مجاز نمی باشند.",
 "Your storage is full, files can not be updated or synced anymore!" => "فضای ذخیره ی شما کاملا پر است، بیش از این فایلها بهنگام یا همگام سازی نمی توانند بشوند!",
 "Your storage is almost full ({usedSpacePercent}%)" => "فضای ذخیره ی شما تقریبا پر است ({usedSpacePercent}%)",

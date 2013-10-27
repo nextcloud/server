@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "No se pudo mover %s - Ya existe un archivo con ese nombre.",
 "Could not move %s" => "No se pudo mover %s",
+"File name cannot be empty." => "El nombre de archivo no puede estar vacío.",
 "Unable to set upload directory." => "Incapaz de crear directorio de subida.",
 "Invalid Token" => "Token Inválido",
 "No file was uploaded. Unknown error" => "No se subió ningún archivo. Error desconocido",
@@ -34,7 +35,6 @@ $TRANSLATIONS = array(
 "{dirs} and {files}" => "{dirs} y {files}",
 "_Uploading %n file_::_Uploading %n files_" => array("Subiendo %n archivo","Subiendo %n archivos"),
 "'.' is an invalid file name." => "'.' no es un nombre de archivo válido.",
-"File name cannot be empty." => "El nombre de archivo no puede estar vacío.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nombre inválido, los caracteres \"\\\", \"/\", \"<\", \">\", \":\", \"\", \"|\" \"?\" y \"*\" no están permitidos ",
 "Your storage is full, files can not be updated or synced anymore!" => "Su almacenamiento está lleno, ¡los archivos no se actualizarán ni sincronizarán más!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Su almacenamiento está casi lleno ({usedSpacePercent}%)",

@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "无法移动 %s - 同名文件已存在",
 "Could not move %s" => "无法移动 %s",
+"File name cannot be empty." => "文件名不能为空。",
 "Unable to set upload directory." => "无法设置上传文件夹。",
 "Invalid Token" => "无效密匙",
 "No file was uploaded. Unknown error" => "没有文件被上传。未知错误",
@@ -29,7 +30,6 @@ $TRANSLATIONS = array(
 "_%n file_::_%n files_" => array("%n个文件"),
 "_Uploading %n file_::_Uploading %n files_" => array(""),
 "'.' is an invalid file name." => "'.' 是一个无效的文件名。",
-"File name cannot be empty." => "文件名不能为空。",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "无效名称，'\\', '/', '<', '>', ':', '\"', '|', '?' 和 '*' 不被允许使用。",
 "Your storage is full, files can not be updated or synced anymore!" => "您的存储空间已满，文件将无法更新或同步！",
 "Your storage is almost full ({usedSpacePercent}%)" => "您的存储空间即将用完 ({usedSpacePercent}%)",

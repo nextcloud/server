@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 02:28-0400\n"
-"PO-Revision-Date: 2013-10-27 06:28+0000\n"
+"POT-Creation-Date: 2013-10-27 07:25-0400\n"
+"PO-Revision-Date: 2013-10-27 11:25+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -29,9 +29,9 @@ msgstr "No s'ha pogut moure %s - Ja hi ha un fitxer amb aquest nom"
 msgid "Could not move %s"
 msgstr " No s'ha pogut moure %s"
 
-#: ajax/newfile.php:56
-msgid "File name cannot not be empty."
-msgstr ""
+#: ajax/newfile.php:56 js/files.js:27
+msgid "File name cannot be empty."
+msgstr "El nom del fitxer no pot ser buit."
 
 #: ajax/newfile.php:62
 msgid "File name must not contain \"/\". Please choose a different name."
@@ -58,7 +58,7 @@ msgid "Error when creating the file"
 msgstr ""
 
 #: ajax/newfolder.php:21
-msgid "Folder name cannot not be empty."
+msgid "Folder name cannot be empty."
 msgstr ""
 
 #: ajax/newfolder.php:27
@@ -226,10 +226,6 @@ msgstr[1] "Pujant %n fitxers"
 #: js/files.js:25
 msgid "'.' is an invalid file name."
 msgstr "'.' és un nom no vàlid per un fitxer."
-
-#: js/files.js:27
-msgid "File name cannot be empty."
-msgstr "El nom del fitxer no pot ser buit."
 
 #: js/files.js:34
 msgid ""

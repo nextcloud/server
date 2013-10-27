@@ -67,6 +67,8 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Fehler bei der Änderung der Rechte",
 "Shared with you and the group {group} by {owner}" => "Von {owner} mit Ihnen und der Gruppe {group} geteilt.",
 "Shared with you by {owner}" => "Von {owner} mit Ihnen geteilt.",
+"Share with user or group …" => "Mit Benutzer oder Gruppe teilen ....",
+"Share link" => "Link teilen",
 "Password protect" => "Passwortschutz",
 "Password" => "Passwort",
 "Allow Public Upload" => "Öffentliches Hochladen erlauben",
@@ -80,6 +82,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "Das Weiterverteilen ist nicht erlaubt",
 "Shared in {item} with {user}" => "Freigegeben in {item} von {user}",
 "Unshare" => "Freigabe aufheben",
+"notify by email" => "Per E-Mail informieren",
 "can edit" => "kann bearbeiten",
 "access control" => "Zugriffskontrolle",
 "create" => "erstellen",
@@ -163,6 +166,10 @@ $TRANSLATIONS = array(
 "Alternative Logins" => "Alternative Logins",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hallo,<br><br>ich wollte Sie nur wissen lassen, dass %s %s mit Ihnen teilt.<br><a href=\"%s\">Schauen Sie es sich an!</a><br><br>",
 "The share will expire on %s.<br><br>" => "Die Freigabe wird ablaufen am %s.<br><br>",
-"Updating ownCloud to version %s, this may take a while." => "Aktualisiere ownCloud auf Version %s. Dies könnte eine Weile dauern."
+"Updating ownCloud to version %s, this may take a while." => "Aktualisiere ownCloud auf Version %s. Dies könnte eine Weile dauern.",
+"This ownCloud instance is currently being updated, which may take a while." => "Diese OwnCloud-Instanz wird gerade aktualisiert, was eine Weile dauert.",
+"Please reload this page after a short time to continue using ownCloud." => "Bitte laden Sie diese Seite nach kurzer Zeit neu, um mit der Nutzung von OwnCloud fortzufahren.",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Kontaktieren Sie Ihren Systemadministrator, wenn diese Meldung dauerhaft oder unerwartet erscheint.",
+"Thank you for your patience." => "Vielen Dank für Ihre Geduld."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

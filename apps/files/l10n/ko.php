@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s 항목을 이동시키지 못하였음 - 파일 이름이 이미 존재함",
 "Could not move %s" => "%s 항목을 이딩시키지 못하였음",
+"File name cannot be empty." => "파일 이름이 비어 있을 수 없습니다.",
 "Unable to set upload directory." => "업로드 디렉터리를 정할수 없습니다",
 "Invalid Token" => "잘못된 토큰",
 "No file was uploaded. Unknown error" => "파일이 업로드되지 않았습니다. 알 수 없는 오류입니다",
@@ -34,7 +35,6 @@ $TRANSLATIONS = array(
 "{dirs} and {files}" => "{dirs} 그리고 {files}",
 "_Uploading %n file_::_Uploading %n files_" => array("%n 개의 파일을 업로드중"),
 "'.' is an invalid file name." => "'.' 는 올바르지 않은 파일 이름 입니다.",
-"File name cannot be empty." => "파일 이름이 비어 있을 수 없습니다.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "폴더 이름이 올바르지 않습니다. 이름에 문자 '\\', '/', '<', '>', ':', '\"', '|', '? ', '*'는 사용할 수 없습니다.",
 "Your storage is full, files can not be updated or synced anymore!" => "저장 공간이 가득 찼습니다. 파일을 업데이트하거나 동기화할 수 없습니다!",
 "Your storage is almost full ({usedSpacePercent}%)" => "저장 공간이 거의 가득 찼습니다 ({usedSpacePercent}%)",

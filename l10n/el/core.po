@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Efstathios Iosifidis <iefstathios@gmail.com>, 2013
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
 # KAT.RAT12 <spanish.katerina@gmail.com>, 2013
 # Teogramm <theodorewii121@hotmail.com>, 2013
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 02:28-0400\n"
-"PO-Revision-Date: 2013-10-27 06:28+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-27 07:25-0400\n"
+"PO-Revision-Date: 2013-10-27 09:40+0000\n"
+"Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,15 +37,15 @@ msgstr ""
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "Η κατάσταση συντήρησης ενεργοποιήθηκε"
 
 #: ajax/update.php:14
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "Η κατάσταση συντήρησης απενεργοποιήθηκε"
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr ""
+msgstr "Ενημερωμένη βάση δεδομένων"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
@@ -65,11 +66,11 @@ msgstr ""
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Άγνωστος τύπος αρχείου"
 
 #: avatar/controller.php:85
 msgid "Invalid image"
-msgstr ""
+msgstr "Μη έγκυρη εικόνα"
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
@@ -261,7 +262,7 @@ msgstr "Άκυρο"
 
 #: js/oc-dialogs.js:386
 msgid "Continue"
-msgstr ""
+msgstr "Συνέχεια"
 
 #: js/oc-dialogs.js:433 js/oc-dialogs.js:446
 msgid "(all selected)"
@@ -310,11 +311,11 @@ msgstr "Διαμοιράστηκε με σας από τον {owner}"
 
 #: js/share.js:203
 msgid "Share with user or group …"
-msgstr ""
+msgstr "Διαμοιρασμός με χρήστη ή ομάδα ..."
 
 #: js/share.js:209
 msgid "Share link"
-msgstr ""
+msgstr "Διαμοιρασμός συνδέσμου"
 
 #: js/share.js:212
 msgid "Password protect"
@@ -370,7 +371,7 @@ msgstr "Σταμάτημα διαμοιρασμού"
 
 #: js/share.js:378
 msgid "notify by email"
-msgstr ""
+msgstr "ειδοποίηση με email"
 
 #: js/share.js:381
 msgid "can edit"
@@ -426,7 +427,7 @@ msgstr "Δεν καθορίστηκε ο τύπος του αντικειμέν�
 
 #: js/tags.js:13
 msgid "Enter new"
-msgstr ""
+msgstr "Εισαγωγή νέου"
 
 #: js/tags.js:27
 msgid "Delete"
@@ -438,7 +439,7 @@ msgstr "Προσθήκη"
 
 #: js/tags.js:39
 msgid "Edit tags"
-msgstr ""
+msgstr "Επεξεργασία ετικετών"
 
 #: js/tags.js:57
 msgid "Error loading dialog template: {error}"
@@ -546,7 +547,7 @@ msgstr ""
 
 #: tags/controller.php:48
 msgid "Tag already exists"
-msgstr ""
+msgstr "Υπάρχει ήδη η ετικέτα"
 
 #: tags/controller.php:64
 msgid "Error deleting tag(s)"
@@ -767,4 +768,4 @@ msgstr ""
 
 #: templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr ""
+msgstr "Σας ευχαριστούμε για την υπομονή σας."

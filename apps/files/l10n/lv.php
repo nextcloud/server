@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Nevarēja pārvietot %s — jau eksistē datne ar tādu nosaukumu",
 "Could not move %s" => "Nevarēja pārvietot %s",
+"File name cannot be empty." => "Datnes nosaukums nevar būt tukšs.",
 "Unable to set upload directory." => "Nevar uzstādīt augšupielādes mapi.",
 "Invalid Token" => "Nepareiza pilnvara",
 "No file was uploaded. Unknown error" => "Netika augšupielādēta neviena datne. Nezināma kļūda",
@@ -29,7 +30,6 @@ $TRANSLATIONS = array(
 "_%n file_::_%n files_" => array("%n faili","%n fails","%n faili"),
 "_Uploading %n file_::_Uploading %n files_" => array("%n","Augšupielāde %n failu","Augšupielāde %n failus"),
 "'.' is an invalid file name." => "'.' ir nederīgs datnes nosaukums.",
-"File name cannot be empty." => "Datnes nosaukums nevar būt tukšs.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nederīgs nosaukums, nav atļauti '\\', '/', '<', '>', ':', '\"', '|', '?' un '*'.",
 "Your storage is full, files can not be updated or synced anymore!" => "Jūsu krātuve ir pilna, datnes vairs nevar augšupielādēt vai sinhronizēt!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Jūsu krātuve ir gandrīz pilna ({usedSpacePercent}%)",

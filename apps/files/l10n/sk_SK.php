@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Nie je možné presunúť %s - súbor s týmto menom už existuje",
 "Could not move %s" => "Nie je možné presunúť %s",
+"File name cannot be empty." => "Meno súboru nemôže byť prázdne",
 "Unable to set upload directory." => "Nemožno nastaviť priečinok pre nahrané súbory.",
 "Invalid Token" => "Neplatný token",
 "No file was uploaded. Unknown error" => "Žiaden súbor nebol nahraný. Neznáma chyba",
@@ -34,7 +35,6 @@ $TRANSLATIONS = array(
 "{dirs} and {files}" => "{dirs} a {files}",
 "_Uploading %n file_::_Uploading %n files_" => array("Nahrávam %n súbor","Nahrávam %n súbory","Nahrávam %n súborov"),
 "'.' is an invalid file name." => "'.' je neplatné meno súboru.",
-"File name cannot be empty." => "Meno súboru nemôže byť prázdne",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nesprávne meno, '\\', '/', '<', '>', ':', '\"', '|', '?' a '*' nie sú povolené hodnoty.",
 "Your storage is full, files can not be updated or synced anymore!" => "Vaše úložisko je plné. Súbory nemožno aktualizovať ani synchronizovať!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Vaše úložisko je takmer plné ({usedSpacePercent}%)",

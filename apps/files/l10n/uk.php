@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Не вдалося перемістити %s - Файл з таким ім'ям вже існує",
 "Could not move %s" => "Не вдалося перемістити %s",
+"File name cannot be empty." => " Ім'я файлу не може бути порожнім.",
 "Unable to set upload directory." => "Не вдалося встановити каталог завантаження.",
 "No file was uploaded. Unknown error" => "Не завантажено жодного файлу. Невідома помилка",
 "There is no error, the file uploaded with success" => "Файл успішно вивантажено без помилок.",
@@ -28,7 +29,6 @@ $TRANSLATIONS = array(
 "_%n file_::_%n files_" => array("","",""),
 "_Uploading %n file_::_Uploading %n files_" => array("","",""),
 "'.' is an invalid file name." => "'.' це невірне ім'я файлу.",
-"File name cannot be empty." => " Ім'я файлу не може бути порожнім.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Невірне ім'я, '\\', '/', '<', '>', ':', '\"', '|', '?' та '*' не дозволені.",
 "Your storage is full, files can not be updated or synced anymore!" => "Ваше сховище переповнене, файли більше не можуть бути оновлені або синхронізовані !",
 "Your storage is almost full ({usedSpacePercent}%)" => "Ваше сховище майже повне ({usedSpacePercent}%)",

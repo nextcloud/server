@@ -30,6 +30,7 @@ $TRANSLATIONS = array(
 "One Base DN per line" => "Ένα DN Βάσης ανά γραμμή ",
 "You can specify Base DN for users and groups in the Advanced tab" => "Μπορείτε να καθορίσετε το Base DN για χρήστες και ομάδες από την καρτέλα Προηγμένες ρυθμίσεις",
 "Back" => "Επιστροφή",
+"Continue" => "Συνέχεια",
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." => "<b>Προσοχή:</b> Το άρθρωμα PHP LDAP δεν είναι εγκατεστημένο και το σύστημα υποστήριξης δεν θα δουλέψει. Παρακαλώ ζητήστε από τον διαχειριστή συστήματος να το εγκαταστήσει.",
 "Connection Settings" => "Ρυθμίσεις Σύνδεσης",
 "Configuration Active" => "Ενεργοποιηση ρυθμισεων",

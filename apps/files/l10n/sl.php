@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s ni mogoče premakniti  - datoteka s tem imenom že obstaja",
 "Could not move %s" => "Ni mogoče premakniti %s",
+"File name cannot be empty." => "Ime datoteke ne sme biti prazno polje.",
 "Unable to set upload directory." => "Mapo, v katero boste prenašali dokumente, ni mogoče določiti",
 "Invalid Token" => "Neveljaven žeton",
 "No file was uploaded. Unknown error" => "Ni poslane datoteke. Neznana napaka.",
@@ -29,7 +30,6 @@ $TRANSLATIONS = array(
 "_%n file_::_%n files_" => array("","","",""),
 "_Uploading %n file_::_Uploading %n files_" => array("","","",""),
 "'.' is an invalid file name." => "'.' je neveljavno ime datoteke.",
-"File name cannot be empty." => "Ime datoteke ne sme biti prazno polje.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Neveljavno ime, znaki '\\', '/', '<', '>', ':', '\"', '|', '?' in '*' niso dovoljeni.",
 "Your storage is full, files can not be updated or synced anymore!" => "Shramba je povsem napolnjena. Datotek ni več mogoče posodabljati in usklajevati!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Mesto za shranjevanje je skoraj polno ({usedSpacePercent}%)",

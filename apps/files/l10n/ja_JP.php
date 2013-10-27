@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s を移動できませんでした ― この名前のファイルはすでに存在します",
 "Could not move %s" => "%s を移動できませんでした",
+"File name cannot be empty." => "ファイル名を空にすることはできません。",
 "Unable to set upload directory." => "アップロードディレクトリを設定出来ません。",
 "Invalid Token" => "無効なトークン",
 "No file was uploaded. Unknown error" => "ファイルは何もアップロードされていません。不明なエラー",
@@ -34,7 +35,6 @@ $TRANSLATIONS = array(
 "{dirs} and {files}" => "{dirs} と {files}",
 "_Uploading %n file_::_Uploading %n files_" => array("%n 個のファイルをアップロード中"),
 "'.' is an invalid file name." => "'.' は無効なファイル名です。",
-"File name cannot be empty." => "ファイル名を空にすることはできません。",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "無効な名前、'\\', '/', '<', '>', ':', '\"', '|', '?', '*' は使用できません。",
 "Your storage is full, files can not be updated or synced anymore!" => "あなたのストレージは一杯です。ファイルの更新と同期はもうできません！",
 "Your storage is almost full ({usedSpacePercent}%)" => "あなたのストレージはほぼ一杯です（{usedSpacePercent}%）",

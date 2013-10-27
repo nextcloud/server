@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s áthelyezése nem sikerült - már létezik másik fájl ezzel a névvel",
 "Could not move %s" => "Nem sikerült %s áthelyezése",
+"File name cannot be empty." => "A fájlnév nem lehet semmi.",
 "Unable to set upload directory." => "Nem található a mappa, ahova feltölteni szeretne.",
 "Invalid Token" => "Hibás mappacím",
 "No file was uploaded. Unknown error" => "Nem történt feltöltés. Ismeretlen hiba",
@@ -34,7 +35,6 @@ $TRANSLATIONS = array(
 "{dirs} and {files}" => "{dirs} és {files}",
 "_Uploading %n file_::_Uploading %n files_" => array("%n állomány feltöltése","%n állomány feltöltése"),
 "'.' is an invalid file name." => "'.' fájlnév érvénytelen.",
-"File name cannot be empty." => "A fájlnév nem lehet semmi.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Érvénytelen elnevezés. Ezek a karakterek nem használhatók: '\\', '/', '<', '>', ':', '\"', '|', '?' és '*'",
 "Your storage is full, files can not be updated or synced anymore!" => "A tároló tele van, a fájlok nem frissíthetőek vagy szinkronizálhatóak a jövőben.",
 "Your storage is almost full ({usedSpacePercent}%)" => "A tároló majdnem tele van ({usedSpacePercent}%)",

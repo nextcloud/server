@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Невозможно переместить %s - файл с таким именем уже существует",
 "Could not move %s" => "Невозможно переместить %s",
+"File name cannot be empty." => "Имя файла не может быть пустым.",
 "Unable to set upload directory." => "Не удалось установить каталог загрузки.",
 "Invalid Token" => "Недопустимый маркер",
 "No file was uploaded. Unknown error" => "Файл не был загружен. Неизвестная ошибка",
@@ -34,7 +35,6 @@ $TRANSLATIONS = array(
 "{dirs} and {files}" => "{dirs} и {files}",
 "_Uploading %n file_::_Uploading %n files_" => array("Закачка %n файла","Закачка %n файлов","Закачка %n файлов"),
 "'.' is an invalid file name." => "'.' - неправильное имя файла.",
-"File name cannot be empty." => "Имя файла не может быть пустым.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Неправильное имя, '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' недопустимы.",
 "Your storage is full, files can not be updated or synced anymore!" => "Ваше дисковое пространство полностью заполнено, произведите очистку перед загрузкой новых файлов.",
 "Your storage is almost full ({usedSpacePercent}%)" => "Ваше хранилище почти заполнено ({usedSpacePercent}%)",

@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s কে স্থানান্তর করা সম্ভব হলো না -  এই নামের ফাইল বিদ্যমান",
 "Could not move %s" => "%s  কে স্থানান্তর করা সম্ভব হলো না",
+"File name cannot be empty." => "ফাইলের নামটি ফাঁকা রাখা যাবে না।",
 "No file was uploaded. Unknown error" => "কোন ফাইল আপলোড করা হয় নি। সমস্যার কারণটি অজ্ঞাত।",
 "There is no error, the file uploaded with success" => "কোন সমস্যা হয় নি, ফাইল আপলোড সুসম্পন্ন হয়েছে।",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "আপলোড করা  ফাইলটি php.ini তে বর্ণিত  upload_max_filesize নির্দেশিত আয়তন অতিক্রম করছেঃ",
@@ -25,7 +26,6 @@ $TRANSLATIONS = array(
 "_%n file_::_%n files_" => array("",""),
 "_Uploading %n file_::_Uploading %n files_" => array("",""),
 "'.' is an invalid file name." => "টি একটি অননুমোদিত নাম।",
-"File name cannot be empty." => "ফাইলের নামটি ফাঁকা রাখা যাবে না।",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "নামটি সঠিক নয়,  '\\', '/', '<', '>', ':', '\"', '|', '?' এবং  '*'  অনুমোদিত নয়।",
 "Error" => "সমস্যা",
 "Name" => "রাম",

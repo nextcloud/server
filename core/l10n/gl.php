@@ -67,6 +67,8 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Produciuse un erro ao cambiar os permisos",
 "Shared with you and the group {group} by {owner}" => "Compartido con vostede e co grupo {group} por {owner}",
 "Shared with you by {owner}" => "Compartido con vostede por {owner}",
+"Share with user or group …" => "Compartir cun usuario ou grupo ...",
+"Share link" => "Ligazón para compartir",
 "Password protect" => "Protexido con contrasinais",
 "Password" => "Contrasinal",
 "Allow Public Upload" => "Permitir o envío público",
@@ -80,6 +82,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "Non se permite volver a compartir",
 "Shared in {item} with {user}" => "Compartido en {item} con {user}",
 "Unshare" => "Deixar de compartir",
+"notify by email" => "notificar por correo",
 "can edit" => "pode editar",
 "access control" => "control de acceso",
 "create" => "crear",
@@ -163,6 +166,10 @@ $TRANSLATIONS = array(
 "Alternative Logins" => "Accesos alternativos",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Ola,<br><br>Só facerlle saber que %s compartiu «%s» con vostede.<br><a href=\"%s\">Véxao!</a><br><br>",
 "The share will expire on %s.<br><br>" => "Esta compartición caduca o %s.<br><br>",
-"Updating ownCloud to version %s, this may take a while." => "Actualizando ownCloud a versión %s,  esto pode levar un anaco."
+"Updating ownCloud to version %s, this may take a while." => "Actualizando ownCloud a versión %s,  esto pode levar un anaco.",
+"This ownCloud instance is currently being updated, which may take a while." => "Esta instancia do ownCloud está actualizandose neste momento, pode levarlle un chisco.",
+"Please reload this page after a short time to continue using ownCloud." => "Volva cargar a páxina de aquí a pouco para para continuar co ownCloud.",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Póñase en contacto co administrador do sistema se persiste esta mensaxe ou se aparece de forma inesperada.",
+"Thank you for your patience." => "Grazas pola súa paciencia."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

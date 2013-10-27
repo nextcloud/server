@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Kan ikke flytte %s - En fil med samme navn finnes allerede",
 "Could not move %s" => "Kunne ikke flytte %s",
+"File name cannot be empty." => "Filnavn kan ikke være tomt.",
 "Unable to set upload directory." => "Kunne ikke sette opplastingskatalog.",
 "Invalid Token" => "Ugyldig nøkkel",
 "No file was uploaded. Unknown error" => "Ingen filer ble lastet opp. Ukjent feil.",
@@ -29,7 +30,6 @@ $TRANSLATIONS = array(
 "_%n file_::_%n files_" => array("%n fil","%n filer"),
 "_Uploading %n file_::_Uploading %n files_" => array("Laster opp %n fil","Laster opp %n filer"),
 "'.' is an invalid file name." => "'.' er et ugyldig filnavn.",
-"File name cannot be empty." => "Filnavn kan ikke være tomt.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Ugyldig navn, '\\', '/', '<', '>', ':', '\"', '|', '?' og '*' er ikke tillatt.",
 "Your storage is full, files can not be updated or synced anymore!" => "Lagringsplass er oppbrukt, filer kan ikke lenger oppdateres eller synkroniseres!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Lagringsplass er nesten brukt opp ([usedSpacePercent}%)",
