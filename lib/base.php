@@ -507,7 +507,7 @@ class OC {
 		// This includes plugins for users and filesystems as well
 		global $RUNTIME_NOAPPS;
 		global $RUNTIME_APPTYPES;
-		if (!$RUNTIME_NOAPPS) {
+		if (!$RUNTIME_NOAPPS && !self::checkUpgrade(false)) {
 			if ($RUNTIME_APPTYPES) {
 				OC_App::loadApps($RUNTIME_APPTYPES);
 			} else {
