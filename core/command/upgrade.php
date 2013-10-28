@@ -72,20 +72,18 @@ class Upgrade extends Command {
 
 			$updater->upgrade();
 			return self::ERROR_SUCCESS;
+		} else if(\OC_Config::getValue('maintenance', false)) {
+			//Possible scenario: ownCloud core is updated but an app failed
+			$output->writeln('ownCloud is in maintenance mode');
+			$output->write('Maybe an upgrade is already in process. Please check the '
+				. 'logfile (data/owncloud.log). If you want to re-run the '
+				. 'upgrade procedure, remove the "maintenance mode" from '
+				. 'config.php and call this script again.'
+				, true);
+			return self::ERROR_MAINTENANCE_MODE;
 		} else {
-			if(\OC_Config::getValue('maintenance', false)) {
-				//Possible scenario: ownCloud core is updated but an app failed
-				$output->writeln('ownCloud is in maintenance mode');
-				$output->write('Maybe an upgrade is already in process. Please check the '
-					. 'logfile (data/owncloud.log). If you want to re-run the '
-					. 'upgrade procedure, remove the "maintenance mode" from '
-					. 'config.php and call this script again.'
-					, true);
-				return self::ERROR_MAINTENANCE_MODE;
-			} else {
-				$output->writeln('ownCloud is already latest version');
-				return self::ERROR_UP_TO_DATE;
-			}
+			$output->writeln('ownCloud is already latest version');
+			return self::ERROR_UP_TO_DATE;
 		}
 	}
 }
