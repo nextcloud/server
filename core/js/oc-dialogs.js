@@ -514,7 +514,7 @@ var OCdialogs = {
 		}
 
 		return $.getJSON(
-			OC.filePath('files', 'ajax', 'rawlist.php'),
+			OC.filePath('files', 'ajax', 'list.php'),
 			{
 				dir: dir,
 				mimetypes: JSON.stringify(mimeType)
@@ -539,7 +539,7 @@ var OCdialogs = {
 		this.$filelist.empty().addClass('loading');
 		this.$filePicker.data('path', dir);
 		$.when(this._getFileList(dir, this.$filePicker.data('mimetype'))).then(function(response) {
-			$.each(response.data, function(index, file) {
+			$.each(response.data.files, function(index, file) {
 				if (file.type === 'dir') {
 					dirs.push(file);
 				} else {
@@ -555,9 +555,16 @@ var OCdialogs = {
 					type: entry.type,
 					dir: dir,
 					filename: entry.name,
-					date: OC.mtime2date(entry.mtime)
+					date: OC.mtime2date(Math.floor(entry.mtime / 1000))
 				});
-				$li.find('img').attr('src', entry.mimetype_icon);
+				$li.find('img').attr('src', entry.icon);
+				if (entry.isPreviewAvailable) {
+					var urlSpec = {
+						file: dir + '/' + entry.name
+					};
+					var previewUrl = OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
+					$li.find('img').attr('src', previewUrl);
+				}
 				self.$filelist.append($li);
 			});
 

@@ -58,8 +58,8 @@ if(\OC\Files\Filesystem::mkdir($target)) {
 		$path = '/'.$foldername;
 	}
 	$meta = \OC\Files\Filesystem::getFileInfo($path);
-	$id = $meta['fileid'];
-	OCP\JSON::success(array('data' => array('id' => $id)));
+	$meta['type'] = 'dir'; // missing ?!
+	OCP\JSON::success(array('data' => \OCA\Files\Helper::formatFileInfo($meta)));
 	exit();
 }
 

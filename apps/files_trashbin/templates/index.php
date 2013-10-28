@@ -1,13 +1,11 @@
 <div id="controls">
-	<?php print_unescaped($_['breadcrumb']); ?>
-		<div id="file_action_panel"></div>
+	<div id="file_action_panel"></div>
 </div>
 <div id='notification'></div>
 
-<div id="emptycontent" <?php if (!(isset($_['files']) && count($_['files']) === 0 && $_['dirlisting'] === false && !$_['ajaxLoad'])):?>class="hidden"<?php endif; ?>><?php p($l->t('Nothing in here. Your trash bin is empty!'))?></div>
+<div id="emptycontent" class="hidden"><?php p($l->t('Nothing in here. Your trash bin is empty!'))?></div>
 
-<input type="hidden" name="ajaxLoad" id="ajaxLoad" value="<?php p($_['ajaxLoad']); ?>" />
-<input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>"></input>
+<input type="hidden" id="permissions" value="0"></input>
 <input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
 
 <table id="filestable">
@@ -40,6 +38,5 @@
 		</tr>
 	</thead>
 	<tbody id="fileList">
-		<?php print_unescaped($_['fileList']); ?>
 	</tbody>
 </table>

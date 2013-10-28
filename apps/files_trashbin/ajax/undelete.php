@@ -19,7 +19,7 @@ if (isset($_POST['allfiles']) and $_POST['allfiles'] === 'true') {
 	foreach (OCA\Files_Trashbin\Helper::getTrashFiles($dir) as $file) {
 		$fileName = $file['name'];
 		if (!$dirListing) {
-			$fileName .= '.d' . $file['timestamp'];
+			$fileName .= '.d' . $file['mtime'];
 		}
 		$list[] = $fileName;
 	}

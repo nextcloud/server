@@ -12,32 +12,16 @@ if (!$dirInfo->getType() === 'dir') {
 	exit();
 }
 
-$doBreadcrumb = isset($_GET['breadcrumb']);
 $data = array();
 $baseUrl = OCP\Util::linkTo('files', 'index.php') . '?dir=';
 
 $permissions = $dirInfo->getPermissions();
 
-// Make breadcrumb
-if($doBreadcrumb) {
-	$breadcrumb = \OCA\Files\Helper::makeBreadcrumb($dir);
-
-	$breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
-	$breadcrumbNav->assign('breadcrumb', $breadcrumb, false);
-	$breadcrumbNav->assign('baseURL', $baseUrl);
-
-	$data['breadcrumb'] = $breadcrumbNav->fetchPage();
-}
-
 // make filelist
 $files = \OCA\Files\Helper::getFiles($dir);
 
-$list = new OCP\Template("files", "part.list", "");
-$list->assign('files', $files, false);
-$list->assign('baseURL', $baseUrl, false);
-$list->assign('downloadURL', OCP\Util::linkToRoute('download', array('file' => '/')));
-$list->assign('isPublic', false);
-$data['files'] = $list->fetchPage();
+$data['directory'] = $dir;
+$data['files'] = \OCA\Files\Helper::formatFileInfos($files);
 $data['permissions'] = $permissions;
 
 OCP\JSON::success(array('data' => $data));

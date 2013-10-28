@@ -19,11 +19,17 @@ class Helper
 					 'usedSpacePercent'  => (int)$storageInfo['relative']);
 	}
 
+	/**
+	 * Determine icon for a given file
+	 *
+	 * @param \OC\Files\FileInfo $file file info
+	 * @return string icon URL
+	 */
 	public static function determineIcon($file) {
 		if($file['type'] === 'dir') {
 			$dir = $file['directory'];
 			$icon = \OC_Helper::mimetypeIcon('dir');
-			$absPath = \OC\Files\Filesystem::getView()->getAbsolutePath($dir.'/'.$file['name']);
+			$absPath = $file->getPath();
 			$mount = \OC\Files\Filesystem::getMountManager()->find($absPath);
 			if (!is_null($mount)) {
 				$sid = $mount->getStorageId();
@@ -38,11 +44,7 @@ class Helper
 				}
 			}
 		}else{
-			if($file['isPreviewAvailable']) {
-				$pathForPreview = $file['directory'] . '/' . $file['name'];
-				return \OC_Helper::previewIcon($pathForPreview) . '&c=' . $file['etag'];
-			}
-			$icon = \OC_Helper::mimetypeIcon($file['mimetype']);
+			$icon = \OC_Helper::mimetypeIcon($file->getMimetype());
 		}
 
 		return substr($icon, 0, -3) . 'svg';
@@ -69,52 +71,58 @@ class Helper
 	}
 
 	/**
-	 * Retrieves the contents of the given directory and
-	 * returns it as a sorted array.
-	 * @param string $dir path to the directory
-	 * @return array of files
+	 * Formats the file info to be returned as JSON to the client.
+	 *
+	 * @param \OCP\Files\FileInfo file info
+	 * @return array formatted file info
 	 */
-	public static function getFiles($dir) {
-		$content = \OC\Files\Filesystem::getDirectoryContent($dir);
-		$files = array();
+	public static function formatFileInfo($i) {
+		$entry = array();
 
-		foreach ($content as $i) {
-			$i['date'] = \OCP\Util::formatDate($i['mtime']);
-			if ($i['type'] === 'file') {
-				$fileinfo = pathinfo($i['name']);
-				$i['basename'] = $fileinfo['filename'];
-				if (!empty($fileinfo['extension'])) {
-					$i['extension'] = '.' . $fileinfo['extension'];
-				} else {
-					$i['extension'] = '';
-				}
-			}
-			$i['directory'] = $dir;
-			$i['isPreviewAvailable'] = \OC::$server->getPreviewManager()->isMimeSupported($i['mimetype']);
-			$i['icon'] = \OCA\Files\Helper::determineIcon($i);
-			$files[] = $i;
+		$entry['id'] = $i['fileid'];
+		$entry['date'] = \OCP\Util::formatDate($i['mtime']);
+		$entry['mtime'] = $i['mtime'] * 1000;
+		// only pick out the needed attributes
+		$entry['icon'] = \OCA\Files\Helper::determineIcon($i);
+		if (\OC::$server->getPreviewManager()->isMimeSupported($i['mimetype'])) {
+			$entry['isPreviewAvailable'] = true;
 		}
+		$entry['name'] = $i['name'];
+		$entry['permissions'] = $i['permissions'];
+		$entry['mimetype'] = $i['mimetype'];
+		$entry['size'] = $i['size'];
+		$entry['type'] = $i['type'];
+		$entry['etag'] = $i['etag'];
+		if (isset($i['displayname_owner'])) {
+			$entry['shareOwner'] = $i['displayname_owner'];
+		}
+		return $entry;
+	}
 
-		usort($files, array('\OCA\Files\Helper', 'fileCmp'));
+	/**
+	 * Format file info for JSON
+	 * @param \OCP\Files\FileInfo[] $fileInfos file infos
+	 */
+	public static function formatFileInfos($fileInfos) {
+		$files = array();
+		foreach ($fileInfos as $i) {
+			$files[] = self::formatFileInfo($i);
+		}
 
 		return $files;
 	}
 
 	/**
-	 * Splits the given path into a breadcrumb structure.
-	 * @param string $dir path to process
-	 * @return array where each entry is a hash of the absolute
-	 * directory path and its name
+	 * Retrieves the contents of the given directory and
+	 * returns it as a sorted array of FileInfo.
+	 *
+	 * @param string $dir path to the directory
+	 * @return \OCP\Files\FileInfo[] files
 	 */
-	public static function makeBreadcrumb($dir){
-		$breadcrumb = array();
-		$pathtohere = '';
-		foreach (explode('/', $dir) as $i) {
-			if ($i !== '') {
-				$pathtohere .= '/' . $i;
-				$breadcrumb[] = array('dir' => $pathtohere, 'name' => $i);
-			}
-		}
-		return $breadcrumb;
+	public static function getFiles($dir) {
+		$content = \OC\Files\Filesystem::getDirectoryContent($dir);
+
+		usort($content, array('\OCA\Files\Helper', 'fileCmp'));
+		return $content;
 	}
 }

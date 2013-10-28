@@ -159,6 +159,7 @@ function escapeHTML(s) {
 * @param file The filename
 * @param dir The directory the file is in - e.g. $('#dir').val()
 * @return string
+* @deprecated use Files.getDownloadURL() instead
 */
 function fileDownloadPath(dir, file) {
 	return OC.filePath('files', 'ajax', 'download.php')+'?files='+encodeURIComponent(file)+'&dir='+encodeURIComponent(dir);
