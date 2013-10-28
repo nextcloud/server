@@ -16,6 +16,7 @@ $totalsize = 0; ?>
 		data-type="<?php ($file['type'] == 'dir')?p('dir'):p('file')?>"
 		data-mime="<?php p($file['mimetype'])?>"
 		data-size="<?php p($file['size']);?>"
+		data-etag="<?php p($file['etag']);?>"
 		data-permissions="<?php p($file['permissions']); ?>">
 		<?php if($file['isPreviewAvailable']): ?>
 		<td class="filename svg preview-icon"

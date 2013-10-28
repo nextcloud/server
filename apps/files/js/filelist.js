@@ -326,9 +326,9 @@ var FileList={
 			tr.attr('data-id', id);
 		}
 		var path = getPathForPreview(name);
-		lazyLoadPreview(path, mime, function(previewpath) {
+		Files.lazyLoadPreview(path, mime, function(previewpath) {
 			tr.find('td.filename').attr('style','background-image:url('+previewpath+')');
-		});
+		}, null, null, tr.attr('data-etag'));
 		tr.find('td.filename').draggable(dragOptions);
 	},
 	isLoading:function(name) {
@@ -863,7 +863,7 @@ $(document).ready(function() {
 				data.context = FileList.addFile(file.name, file.size, date, false, false, param);
 
 				// update file data
-				data.context.attr('data-mime',file.mime).attr('data-id',file.id);
+				data.context.attr('data-mime',file.mime).attr('data-id',file.id).attr('data-etag', file.etag);
 
 				var permissions = data.context.data('permissions');
 				if (permissions !== file.permissions) {
@@ -873,9 +873,9 @@ $(document).ready(function() {
 				FileActions.display(data.context.find('td.filename'), true);
 
 				var path = getPathForPreview(file.name);
-				lazyLoadPreview(path, file.mime, function(previewpath) {
+				Files.lazyLoadPreview(path, file.mime, function(previewpath) {
 					data.context.find('td.filename').attr('style','background-image:url('+previewpath+')');
-				});
+				}, null, null, file.etag);
 			}
 		}
 	});

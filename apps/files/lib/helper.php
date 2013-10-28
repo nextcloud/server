@@ -40,7 +40,7 @@ class Helper
 
 		if($file['isPreviewAvailable']) {
 			$pathForPreview = $file['directory'] . '/' . $file['name'];
-			return \OC_Helper::previewIcon($pathForPreview);
+			return \OC_Helper::previewIcon($pathForPreview) . '&c=' . $file['etag'];
 		}
 		return \OC_Helper::mimetypeIcon($file['mimetype']);
 	}
