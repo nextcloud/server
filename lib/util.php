@@ -404,6 +404,7 @@ class OC_Util {
 	 * Check if the user is a admin, redirects to home if not
 	 */
 	public static function checkAdminUser() {
+		\OC_Util::checkLoggedIn();
 		if( !OC_User::isAdminUser(OC_User::getUser())) {
 			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
