@@ -94,17 +94,24 @@ class Updater {
 			 * @var string $internalPath
 			 */
 			list($storage, $internalPath) = self::resolvePath(dirname($path));
+			$owner = \OC\Files\Filesystem::getOwner($path);
+			$view = new \OC\Files\View($owner);
+
 
 			$cache = $storage->getCache();
 			$id = $cache->getId($internalPath);
 
 			while ($id !== -1) {
+				error_log("while loop: " . $id);
 				$cache->update($id, array('mtime' => $time, 'etag' => $storage->getETag($internalPath)));
-				$id = $cache->getParentId($internalPath);
+				//$id = $cache->getParentId($internalPath);
 				$internalPath = dirname($internalPath);
-				if ($internalPath === '.') {
-					$internalPath = '';
-				}
+				//if ($internalPath === '.') {
+				//	$internalPath = '';
+				//}
+				list($storage, $internalPath) = $view->resolvePath($internalPath);
+				$cache = $storage->getCache();
+				$id = $cache->getId($internalPath);
 
 			}
 
