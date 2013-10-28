@@ -38,8 +38,6 @@ class Proxy extends \OC_FileProxy {
 
 	private static $blackList = null; //mimetypes blacklisted from encryption
 
-	private static $enableEncryption = null;
-
 	/**
 	 * Check if a file requires encryption
 	 * @param string $path
@@ -49,47 +47,22 @@ class Proxy extends \OC_FileProxy {
 	 */
 	private static function shouldEncrypt($path) {
 
-		if (is_null(self::$enableEncryption)) {
-
-			if (
-				\OCP\Config::getAppValue('files_encryption', 'enable_encryption', 'true') === 'true'
-				&& Crypt::mode() === 'server'
-			) {
-
-				self::$enableEncryption = true;
-
-			} else {
-
-				self::$enableEncryption = false;
-
-			}
-
-		}
-
-		if (!self::$enableEncryption) {
-
+		if (\OCP\App::isEnabled('files_encryption') === false || Crypt::mode() !== 'server') {
 			return false;
-
 		}
 
 		if (is_null(self::$blackList)) {
-
 			self::$blackList = explode(',', \OCP\Config::getAppValue('files_encryption', 'type_blacklist', ''));
-
 		}
 
 		if (Crypt::isCatfileContent($path)) {
-
 			return true;
-
 		}
 
 		$extension = substr($path, strrpos($path, '.') + 1);
 
 		if (array_search($extension, self::$blackList) === false) {
-
 			return true;
-
 		}
 
 		return false;
@@ -203,7 +176,7 @@ class Proxy extends \OC_FileProxy {
 	 */
 	public function preUnlink($path) {
 
-		// let the trashbin handle this  
+		// let the trashbin handle this
 		if (\OCP\App::isEnabled('files_trashbin')) {
 			return true;
 		}
@@ -294,7 +267,7 @@ class Proxy extends \OC_FileProxy {
 			// Close the original encrypted file
 			fclose($result);
 
-			// Open the file using the crypto stream wrapper 
+			// Open the file using the crypto stream wrapper
 			// protocol and let it do the decryption work instead
 			$result = fopen('crypt://' . $relativePath, $meta['mode']);
 
@@ -321,7 +294,7 @@ class Proxy extends \OC_FileProxy {
 	public function postGetFileInfo($path, $data) {
 
 		// if path is a folder do nothing
-		if (is_array($data) && array_key_exists('size', $data)) {
+		if (\OCP\App::isEnabled('files_encryption') && is_array($data) && array_key_exists('size', $data)) {
 
 			// Disable encryption proxy to prevent recursive calls
 			$proxyStatus = \OC_FileProxy::$enabled;
@@ -346,6 +319,16 @@ class Proxy extends \OC_FileProxy {
 
 		$view = new \OC_FilesystemView('/');
 
+		$userId = \OCP\User::getUser();
+		$util = new Util($view, $userId);
+
+		// if encryption is no longer enabled or if the files aren't migrated yet
+		// we return the default file size
+		if(!\OCP\App::isEnabled('files_encryption') ||
+				$util->getMigrationStatus() !== Util::MIGRATION_COMPLETED) {
+			return $size;
+		}
+
 		// if path is a folder do nothing
 		if ($view->is_dir($path)) {
 			return $size;
@@ -367,6 +350,15 @@ class Proxy extends \OC_FileProxy {
 
 		// if file is encrypted return real file size
 		if (is_array($fileInfo) && $fileInfo['encrypted'] === true) {
+			// try to fix unencrypted file size if it doesn't look plausible
+			if ((int)$fileInfo['size'] > 0 && (int)$fileInfo['unencrypted_size'] === 0) {
+				$fixSize = $util->getFileSize($path);
+				$fileInfo['unencrypted_size'] = $fixSize;
+				// put file info if not .part file
+				if (!Keymanager::isPartialFilePath($relativePath)) {
+					$view->putFileInfo($path, $fileInfo);
+				}
+			}
 			$size = $fileInfo['unencrypted_size'];
 		} else {
 			// self healing if file was removed from file cache
@@ -374,8 +366,6 @@ class Proxy extends \OC_FileProxy {
 				$fileInfo = array();
 			}
 
-			$userId = \OCP\User::getUser();
-			$util = new Util($view, $userId);
 			$fixSize = $util->getFileSize($path);
 			if ($fixSize > 0) {
 				$size = $fixSize;

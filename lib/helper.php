@@ -517,11 +517,11 @@ class OC_Helper {
 	 * copy the contents of one stream to another
 	 * @param resource $source
 	 * @param resource $target
-	 * @return int the number of bytes copied
+	 * @return array the number of bytes copied and result
 	 */
 	public static function streamCopy($source, $target) {
-		if(!$source or !$target) {
-			return false;
+		if (!$source or !$target) {
+			return array(0, false);
 		}
 		$result = true;
 		$count = 0;

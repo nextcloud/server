@@ -231,6 +231,34 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$this->view->unlink($this->userId . '/files/' . $filename);
 	}
 
+	/**
+	 * @brief Test that data that is read by the crypto stream wrapper
+	 */
+	function testGetFileSize() {
+		\Test_Encryption_Util::loginHelper(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER1);
+
+		$filename = 'tmp-' . time();
+		$externalFilename = '/' . $this->userId . '/files/' . $filename;
+
+		// Test for 0 byte files
+		$problematicFileSizeData = "";
+		$cryptedFile = $this->view->file_put_contents($externalFilename, $problematicFileSizeData);
+		$this->assertTrue(is_int($cryptedFile));
+		$this->assertEquals($this->util->getFileSize($externalFilename), 0);
+		$decrypt = $this->view->file_get_contents($externalFilename);
+		$this->assertEquals($problematicFileSizeData, $decrypt);
+		$this->view->unlink($this->userId . '/files/' . $filename);
+
+		// Test a file with 18377 bytes as in https://github.com/owncloud/mirall/issues/1009
+		$problematicFileSizeData = str_pad("", 18377, "abc");
+		$cryptedFile = $this->view->file_put_contents($externalFilename, $problematicFileSizeData);
+		$this->assertTrue(is_int($cryptedFile));
+		$this->assertEquals($this->util->getFileSize($externalFilename), 18377);
+		$decrypt = $this->view->file_get_contents($externalFilename);
+		$this->assertEquals($problematicFileSizeData, $decrypt);
+		$this->view->unlink($this->userId . '/files/' . $filename);
+	}
+
 	function testIsSharedPath() {
 		$sharedPath = '/user1/files/Shared/test';
 		$path = '/user1/files/test';
