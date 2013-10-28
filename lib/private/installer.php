@@ -259,7 +259,7 @@ class OC_Installer{
 	/**
 	 * @brief Check if an update for the app is available
 	 * @param $name name of the application
-	 * @returns empty string is no update available or the version number of the update
+	 * @return boolean false or the version number of the update
 	 *
 	 * The function will check if an update for a version is available
 	 */
