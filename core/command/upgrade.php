@@ -49,7 +49,7 @@ class Upgrade extends Command {
 				$output->writeln('Turned on maintenance mode');
 			});
 			$updater->listen('\OC\Updater', 'maintenanceEnd', function () use($output) {
-				$output->write('Turned off maintenance mode');
+				$output->writeln('Turned off maintenance mode');
 				$output->writeln('Update successful');
 			});
 			$updater->listen('\OC\Updater', 'dbUpgrade', function () use($output) {
