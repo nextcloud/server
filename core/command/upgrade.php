@@ -38,7 +38,7 @@ class Upgrade extends Command {
 
 		// Don't do anything if ownCloud has not been installed
 		if(!\OC_Config::getValue('installed', false)) {
-			$output->writeln('ownCloud has not yet been installed');
+			$output->writeln('<error>ownCloud has not yet been installed</error>');
 			return self::ERROR_NOT_INSTALLED;
 		}
 
@@ -46,20 +46,20 @@ class Upgrade extends Command {
 			$updater = new Updater();
 
 			$updater->listen('\OC\Updater', 'maintenanceStart', function () use($output) {
-				$output->writeln('Turned on maintenance mode');
+				$output->writeln('<info>Turned on maintenance mode</info>');
 			});
 			$updater->listen('\OC\Updater', 'maintenanceEnd', function () use($output) {
-				$output->writeln('Turned off maintenance mode');
-				$output->writeln('Update successful');
+				$output->writeln('<info>Turned off maintenance mode</info>');
+				$output->writeln('<info>Update successful</info>');
 			});
 			$updater->listen('\OC\Updater', 'dbUpgrade', function () use($output) {
-				$output->writeln('Updated database');
+				$output->writeln('<info>Updated database</info>');
 			});
 			$updater->listen('\OC\Updater', 'filecacheStart', function () use($output) {
-				$output->writeln('Updating filecache, this may take really long...');
+				$output->writeln('<info>Updating filecache, this may take really long...</info>');
 			});
 			$updater->listen('\OC\Updater', 'filecacheDone', function () use($output) {
-				$output->writeln('Updated filecache');
+				$output->writeln('<info>Updated filecache</info>');
 			});
 			$updater->listen('\OC\Updater', 'filecacheProgress', function ($out) use($output) {
 				$output->writeln('... ' . $out . '% done ...');
@@ -74,15 +74,15 @@ class Upgrade extends Command {
 			return self::ERROR_SUCCESS;
 		} else if(\OC_Config::getValue('maintenance', false)) {
 			//Possible scenario: ownCloud core is updated but an app failed
-			$output->writeln('ownCloud is in maintenance mode');
-			$output->write('Maybe an upgrade is already in process. Please check the '
+			$output->writeln('<warning>ownCloud is in maintenance mode</warning>');
+			$output->write('<comment>Maybe an upgrade is already in process. Please check the '
 				. 'logfile (data/owncloud.log). If you want to re-run the '
 				. 'upgrade procedure, remove the "maintenance mode" from '
-				. 'config.php and call this script again.'
+				. 'config.php and call this script again.</comment>'
 				, true);
 			return self::ERROR_MAINTENANCE_MODE;
 		} else {
-			$output->writeln('ownCloud is already latest version');
+			$output->writeln('<info>ownCloud is already latest version</info>');
 			return self::ERROR_UP_TO_DATE;
 		}
 	}
