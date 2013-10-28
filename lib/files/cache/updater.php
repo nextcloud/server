@@ -102,13 +102,10 @@ class Updater {
 			$id = $cache->getId($internalPath);
 
 			while ($id !== -1) {
-				error_log("while loop: " . $id);
 				$cache->update($id, array('mtime' => $time, 'etag' => $storage->getETag($internalPath)));
 				//$id = $cache->getParentId($internalPath);
 				$internalPath = dirname($internalPath);
-				//if ($internalPath === '.') {
-				//	$internalPath = '';
-				//}
+				// check storage for parent in case we change the storage in this step
 				list($storage, $internalPath) = $view->resolvePath($internalPath);
 				$cache = $storage->getCache();
 				$id = $cache->getId($internalPath);
