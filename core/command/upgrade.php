@@ -16,6 +16,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Upgrade extends Command {
+
+	const ERROR_SUCCESS = 0;
+	const ERROR_NOT_INSTALLED = 1;
+	const ERROR_MAINTENANCE_MODE = 2;
+	const ERROR_UP_TO_DATE = 3;
+
 	protected function configure() {
 		$this
 			->setName('upgrade')
@@ -32,50 +38,53 @@ class Upgrade extends Command {
 
 		// Don't do anything if ownCloud has not been installed
 		if(!\OC_Config::getValue('installed', false)) {
-			echo 'ownCloud has not yet been installed' . PHP_EOL;
-			exit(0);
+			$output->write('ownCloud has not yet been installed', true);
+			return self::ERROR_NOT_INSTALLED;
 		}
 
 		if(\OC::checkUpgrade(false)) {
 			$updater = new Updater();
 
-			$updater->listen('\OC\Updater', 'maintenanceStart', function () {
-				echo 'Turned on maintenance mode' . PHP_EOL;
+			$updater->listen('\OC\Updater', 'maintenanceStart', function () use($output) {
+				$output->write('Turned on maintenance mode', true);
 			});
-			$updater->listen('\OC\Updater', 'maintenanceEnd', function () {
-				echo 'Turned off maintenance mode' . PHP_EOL;
-				echo 'Update successful' . PHP_EOL;
+			$updater->listen('\OC\Updater', 'maintenanceEnd', function () use($output) {
+				$output->write('Turned off maintenance mode', true);
+				$output->write('Update successful', true);
 			});
-			$updater->listen('\OC\Updater', 'dbUpgrade', function () {
-				echo 'Updated database' . PHP_EOL;
+			$updater->listen('\OC\Updater', 'dbUpgrade', function () use($output) {
+				$output->write('Updated database', true);
 			});
-			$updater->listen('\OC\Updater', 'filecacheStart', function () {
-				echo 'Updating filecache, this may take really long...' . PHP_EOL;
+			$updater->listen('\OC\Updater', 'filecacheStart', function () use($output) {
+				$output->write('Updating filecache, this may take really long...', true);
 			});
-			$updater->listen('\OC\Updater', 'filecacheDone', function () {
-				echo 'Updated filecache' . PHP_EOL;
+			$updater->listen('\OC\Updater', 'filecacheDone', function () use($output) {
+				$output->write('Updated filecache', true);
 			});
-			$updater->listen('\OC\Updater', 'filecacheProgress', function ($out) {
-				echo '... ' . $out . '% done ...' . PHP_EOL;
+			$updater->listen('\OC\Updater', 'filecacheProgress', function ($out) use($output) {
+				$output->write('... ' . $out . '% done ...', true);
 			});
 
-			$updater->listen('\OC\Updater', 'failure', function ($message) {
-				echo $message . PHP_EOL;
+			$updater->listen('\OC\Updater', 'failure', function ($message) use($output) {
+				$output->write($message, true);
 				\OC_Config::setValue('maintenance', false);
 			});
 
 			$updater->upgrade();
+			return self::ERROR_SUCCESS;
 		} else {
 			if(\OC_Config::getValue('maintenance', false)) {
 				//Possible scenario: ownCloud core is updated but an app failed
-				echo 'ownCloud is in maintenance mode' . PHP_EOL;
-				echo 'Maybe an upgrade is already in process. Please check the '
+				$output->write('ownCloud is in maintenance mode', true);
+				$output->write('Maybe an upgrade is already in process. Please check the '
 					. 'logfile (data/owncloud.log). If you want to re-run the '
 					. 'upgrade procedure, remove the "maintenance mode" from '
 					. 'config.php and call this script again.'
-					. PHP_EOL;
+					, true);
+				return self::ERROR_MAINTENANCE_MODE;
 			} else {
-				echo 'ownCloud is already latest version' . PHP_EOL;
+				$output->write('ownCloud is already latest version', true);
+				return self::ERROR_UP_TO_DATE;
 			}
 		}
 	}
