@@ -480,7 +480,7 @@ var createDragShadow = function(event) {
 //options for file drag/drop
 var dragOptions={
 	revert: 'invalid', revertDuration: 300,
-	opacity: 0.7, zIndex: 100, appendTo: 'body', cursorAt: { left: -5, top: -5 },
+	opacity: 0.7, zIndex: 100, appendTo: 'body', cursorAt: { left: 24, top: 18 },
 	helper: createDragShadow, cursor: 'move',
 	stop: function(event, ui) {
 		$('#fileList tr td.filename').addClass('ui-draggable');
@@ -626,7 +626,8 @@ function getSelectedFilesTrash(property) {
 			name:$(element).attr('data-file'),
 			mime:$(element).data('mime'),
 			type:$(element).data('type'),
-			size:$(element).data('size')
+			size:$(element).data('size'),
+			etag:$(element).data('etag')
 		};
 		if (property) {
 			files.push(file[property]);
