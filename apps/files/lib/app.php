@@ -57,7 +57,7 @@ class App {
 		// rename to "/Shared" is denied
 		if( $dir === '/' and $newname === 'Shared' ) {
 			$result['data'] = array(
-				'message'	=> $this->l10n->t("Invalid folder name. Usage of 'Shared' is reserved by ownCloud")
+				'message'	=> $this->l10n->t("Invalid folder name. Usage of 'Shared' is reserved.")
 			);
 		// rename to existing file is denied
 		} else if ($this->view->file_exists($dir . '/' . $newname)) {
