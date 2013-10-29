@@ -41,5 +41,5 @@ if($connection->setConfiguration($_POST)) {
 	}
 } else {
 	OCP\JSON::error(array('message'
-		=> $l->t('The configuration is invalid. Please look in the ownCloud log for further details.')));
+		=> $l->t('The configuration is invalid. Please have a look at the logs for further details.')));
 }
