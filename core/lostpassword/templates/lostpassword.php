@@ -27,7 +27,7 @@ OCP\Util::addStyle('lostpassword', 'lostpassword');
 					<?php print_unescaped($l->t('Yes, I really want to reset my password now')); ?><br/><br/>
 				<?php endif; ?>
 			</p>
-			<input type="submit" id="submit" value="<?php print_unescaped($l->t('Zurücksetzen')); ?>" />
+			<input type="submit" id="submit" value="<?php print_unescaped($l->t('Reset')); ?>" />
 		</fieldset>
 	</form>
 <?php endif; ?>
