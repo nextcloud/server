@@ -61,8 +61,6 @@ class Detection {
 	 * @return string
 	 */
 	public function detect($path) {
-		$isWrapped = (strpos($path, '://') !== false) and (substr($path, 0, 7) === 'file://');
-
 		if (@is_dir($path)) {
 			// directories are easy
 			return "httpd/unix-directory";
@@ -79,6 +77,7 @@ class Detection {
 			}
 			finfo_close($finfo);
 		}
+		$isWrapped = (strpos($path, '://') !== false) and (substr($path, 0, 7) === 'file://');
 		if (!$isWrapped and $mimeType === 'application/octet-stream' && function_exists("mime_content_type")) {
 			// use mime magic extension if available
 			$mimeType = mime_content_type($path);
