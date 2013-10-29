@@ -88,14 +88,14 @@ class OC_Mount_Config {
 			$backends['\OC\Files\Storage\Swift'] = array(
 				'backend' => 'OpenStack Object Storage',
 				'configuration' => array(
-					'user' => 'Username',
-					'bucket' => 'Bucket',
-					'region' => 'Region',
-					'key' => '*API Key (Rackspace Cloud Files)',
-					'tenant' => 'Tenantname (OpenStack Object Storage)',
-					'password' => '*Password (OpenStack Object Storage)',
-					'service_name' => 'Service Name (OpenStack Object Storage)',
-					'url' => 'URL of identity endpoint (OpenStack Object Storage)',
+					'user' => 'Username (required)',
+					'bucket' => 'Bucket (required)',
+					'region' => 'Region (optional for OpenStack Object Storage)',
+					'key' => '*API Key (required for Rackspace Cloud Files)',
+					'tenant' => 'Tenantname (required for OpenStack Object Storage)',
+					'password' => '*Password (required for OpenStack Object Storage)',
+					'service_name' => 'Service Name (required for OpenStack Object Storage)',
+					'url' => 'URL of identity endpoint (required for OpenStack Object Storage)',
 					'timeout' => 'Timeout of HTTP requests in seconds (optional)',
 				)
 			);
