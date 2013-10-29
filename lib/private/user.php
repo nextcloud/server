@@ -195,12 +195,12 @@ class OC_User {
 				// We have to delete the user from all groups
 				foreach (OC_Group::getUserGroups($uid) as $i) {
 					OC_Group::removeFromGroup($uid, $i);
-					}
+				}
 				// Delete the user's keys in preferences
-					OC_Preferences::deleteUser($uid);
+				OC_Preferences::deleteUser($uid);
 
 				// Delete user files in /data/
-				OC_Helper::rmdirr(OC_Config::getValue('datadirectory', OC::$SERVERROOT . '/data') . '/' . $uid . '/');
+				OC_Helper::rmdirr(\OC_User::getHome($uid));
 
 				// Remove it from the Cache
 				self::getManager()->delete($uid);
