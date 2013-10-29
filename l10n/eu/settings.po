@@ -4,14 +4,15 @@
 # 
 # Translators:
 # asieriko <asieriko@gmail.com>, 2013
+# electro, 2013
 # Piarres Beobide <pi@beobide.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 02:28-0400\n"
-"PO-Revision-Date: 2013-10-27 06:28+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-29 07:28-0400\n"
+"PO-Revision-Date: 2013-10-28 14:45+0000\n"
+"Last-Translator: electro\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -88,7 +89,7 @@ msgstr "Ezin izan da aplikazioa eguneratu."
 
 #: changepassword/controller.php:20
 msgid "Wrong password"
-msgstr ""
+msgstr "Pasahitz okerra"
 
 #: changepassword/controller.php:42
 msgid "No user supplied"
@@ -161,7 +162,7 @@ msgstr "Eguneratuta"
 
 #: js/personal.js:220
 msgid "Select a profile picture"
-msgstr ""
+msgstr "Profil argazkia aukeratu"
 
 #: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
@@ -515,7 +516,7 @@ msgstr ""
 
 #: templates/personal.php:93
 msgid "Remove image"
-msgstr ""
+msgstr "Irudia ezabatu"
 
 #: templates/personal.php:94
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
@@ -527,7 +528,7 @@ msgstr "Bertan-behera utzi"
 
 #: templates/personal.php:98
 msgid "Choose as profile image"
-msgstr ""
+msgstr "Profil irudi bezala aukeratu"
 
 #: templates/personal.php:106 templates/personal.php:107
 msgid "Language"

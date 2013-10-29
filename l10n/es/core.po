@@ -9,6 +9,7 @@
 # juanman <juanma@kde.org.ar>, 2013
 # msoko <sokolovitch@yahoo.com>, 2013
 # pablomillaquen <pablomillaquen@gmail.com>, 2013
+# Raul Fernandez Garcia <raulfg3@gmail.com>, 2013
 # Rubén del Campo <yo@rubendelcampo.es>, 2013
 # saskarip <saskarip@gmail.com>, 2013
 # saskarip <saskarip@gmail.com>, 2013
@@ -18,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 07:25-0400\n"
-"PO-Revision-Date: 2013-10-27 06:40+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-29 07:28-0400\n"
+"PO-Revision-Date: 2013-10-28 10:44+0000\n"
+"Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -314,11 +315,11 @@ msgstr "Compartido contigo por {owner}"
 
 #: js/share.js:203
 msgid "Share with user or group …"
-msgstr ""
+msgstr "Compartido con el usuario o con el grupo ..."
 
 #: js/share.js:209
 msgid "Share link"
-msgstr ""
+msgstr "Enlace compartido"
 
 #: js/share.js:212
 msgid "Password protect"
@@ -374,7 +375,7 @@ msgstr "Dejar de compartir"
 
 #: js/share.js:378
 msgid "notify by email"
-msgstr ""
+msgstr "notificar al usuario por correo electrónico"
 
 #: js/share.js:381
 msgid "can edit"
@@ -757,18 +758,18 @@ msgstr "Actualizando ownCloud a la versión %s, esto puede demorar un tiempo."
 #: templates/update.user.php:3
 msgid ""
 "This ownCloud instance is currently being updated, which may take a while."
-msgstr ""
+msgstr "Esta versión de owncloud se está actualizando, esto puede demorar un tiempo."
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr ""
+msgstr "Por favor , recargue esta instancia de onwcloud tras un corto periodo de tiempo y continue usándolo."
 
 #: templates/update.user.php:5
 msgid ""
 "Contact your system administrator if this message persists or appeared "
 "unexpectedly."
-msgstr ""
+msgstr "Contacte con su administrador de sistemas si este mensaje persiste o aparece de forma inesperada."
 
 #: templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr ""
+msgstr "Gracias por su paciencia."

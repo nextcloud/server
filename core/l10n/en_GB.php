@@ -67,6 +67,8 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Error whilst changing permissions",
 "Shared with you and the group {group} by {owner}" => "Shared with you and the group {group} by {owner}",
 "Shared with you by {owner}" => "Shared with you by {owner}",
+"Share with user or group …" => "Share with user or group …",
+"Share link" => "Share link",
 "Password protect" => "Password protect",
 "Password" => "Password",
 "Allow Public Upload" => "Allow Public Upload",
@@ -80,6 +82,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "Resharing is not allowed",
 "Shared in {item} with {user}" => "Shared in {item} with {user}",
 "Unshare" => "Unshare",
+"notify by email" => "notify by email",
 "can edit" => "can edit",
 "access control" => "access control",
 "create" => "create",
@@ -163,6 +166,10 @@ $TRANSLATIONS = array(
 "Alternative Logins" => "Alternative Logins",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>",
 "The share will expire on %s.<br><br>" => "The share will expire on %s.<br><br>",
-"Updating ownCloud to version %s, this may take a while." => "Updating ownCloud to version %s, this may take a while."
+"Updating ownCloud to version %s, this may take a while." => "Updating ownCloud to version %s, this may take a while.",
+"This ownCloud instance is currently being updated, which may take a while." => "This ownCloud instance is currently being updated, which may take a while.",
+"Please reload this page after a short time to continue using ownCloud." => "Please reload this page after a short time to continue using ownCloud.",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Contact your system administrator if this message persists or appeared unexpectedly.",
+"Thank you for your patience." => "Thank you for your patience."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

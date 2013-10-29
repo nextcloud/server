@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "Not a valid source" => "Geçerli bir kaynak değil",
 "Error while downloading %s to %s" => "%s, %s içine indirilirken hata",
 "Error when creating the file" => "Dosya oluşturulurken hata",
+"Folder name cannot be empty." => "Klasör adı boş olamaz.",
 "Folder name must not contain \"/\". Please choose a different name." => "Klasör adı \"/\" içermemelidir. Lütfen farklı bir isim seçin.",
 "Error when creating the folder" => "Klasör oluşturulurken hata",
 "Unable to set upload directory." => "Yükleme dizini tanımlanamadı.",

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"This share is password-protected" => "Aquest compartit està protegit amb contrasenya",
 "The password is wrong. Try again." => "la contrasenya és incorrecta. Intenteu-ho de nou.",
 "Password" => "Contrasenya",
 "Sorry, this link doesn’t seem to work anymore." => "Aquest enllaç sembla que no funciona.",
@@ -13,6 +14,7 @@ $TRANSLATIONS = array(
 "Download" => "Baixa",
 "Upload" => "Puja",
 "Cancel upload" => "Cancel·la la pujada",
-"No preview available for" => "No hi ha vista prèvia disponible per a"
+"No preview available for" => "No hi ha vista prèvia disponible per a",
+"Direct link" => "Enllaç directe"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 07:25-0400\n"
-"PO-Revision-Date: 2013-10-27 10:40+0000\n"
+"POT-Creation-Date: 2013-10-29 07:28-0400\n"
+"PO-Revision-Date: 2013-10-28 10:45+0000\n"
 "Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -151,7 +151,7 @@ msgstr "Hilfe"
 #: templates/part.wizard-groupfilter.php:4
 #, php-format
 msgid "Limit the access to %s to groups meeting this criteria:"
-msgstr "Beschränken Sie den Zugriff auf %s für die Gruppen-Sitzungen durch folgende Kriterien:"
+msgstr "Beschränke den Zugriff auf %s auf Gruppen, die die folgenden Kriterien erfüllen:"
 
 #: templates/part.wizard-groupfilter.php:8
 #: templates/part.wizard-userfilter.php:8
@@ -246,7 +246,7 @@ msgstr "Du kannst Basis-DN für Benutzer und Gruppen in dem \"Erweitert\"-Reiter
 #: templates/part.wizard-userfilter.php:4
 #, php-format
 msgid "Limit the access to %s to users meeting this criteria:"
-msgstr "Beschränken Sie den Zugriff auf %s für die Benutzer-Sitzungen durch folgende Kriterien:"
+msgstr "Beschränke den Zugriff auf %s auf Benutzer, die die folgenden Kriterien erfüllen:"
 
 #: templates/part.wizard-userfilter.php:31
 #, php-format

@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 07:25-0400\n"
-"PO-Revision-Date: 2013-10-27 06:40+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-29 07:28-0400\n"
+"PO-Revision-Date: 2013-10-28 10:44+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -302,11 +302,11 @@ msgstr "{owner} と共有中"
 
 #: js/share.js:203
 msgid "Share with user or group …"
-msgstr ""
+msgstr "ユーザもしくはグループと共有 ..."
 
 #: js/share.js:209
 msgid "Share link"
-msgstr ""
+msgstr "共有リンク"
 
 #: js/share.js:212
 msgid "Password protect"
@@ -362,7 +362,7 @@ msgstr "共有解除"
 
 #: js/share.js:378
 msgid "notify by email"
-msgstr ""
+msgstr "メールで通知"
 
 #: js/share.js:381
 msgid "can edit"
@@ -745,18 +745,18 @@ msgstr "ownCloud をバージョン %s に更新しています、しばらく�
 #: templates/update.user.php:3
 msgid ""
 "This ownCloud instance is currently being updated, which may take a while."
-msgstr ""
+msgstr "この ownCloud インスタンスは現在更新中であり、しばらく時間がかかります。"
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr ""
+msgstr "ownCloud を続けて利用するには、しばらくした後でページをリロードしてください。"
 
 #: templates/update.user.php:5
 msgid ""
 "Contact your system administrator if this message persists or appeared "
 "unexpectedly."
-msgstr ""
+msgstr "このメッセージが引き続きもしくは予期せず現れる場合は、システム管理者に連絡してください。"
 
 #: templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr ""
+msgstr "しばらくお待ちください。"

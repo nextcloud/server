@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "Not a valid source" => "Keine gültige Quelle",
 "Error while downloading %s to %s" => "Fehler beim Herunterladen von %s nach %s",
 "Error when creating the file" => "Fehler beim Erstellen der Datei",
+"Folder name cannot be empty." => "Der Ordner-Name darf nicht leer sein.",
 "Folder name must not contain \"/\". Please choose a different name." => "Der Ordner-Name darf kein \"/\" enthalten. Bitte wählen Sie einen anderen Namen.",
 "Error when creating the folder" => "Fehler beim Erstellen des Ordners",
 "Unable to set upload directory." => "Das Upload-Verzeichnis konnte nicht gesetzt werden.",

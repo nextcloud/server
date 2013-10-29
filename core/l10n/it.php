@@ -67,6 +67,8 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Errore durante la modifica dei permessi",
 "Shared with you and the group {group} by {owner}" => "Condiviso con te e con il gruppo {group} da {owner}",
 "Shared with you by {owner}" => "Condiviso con te da {owner}",
+"Share with user or group …" => "Condividi con utente o gruppo ...",
+"Share link" => "Condividi link",
 "Password protect" => "Proteggi con password",
 "Password" => "Password",
 "Allow Public Upload" => "Consenti caricamento pubblico",
@@ -80,6 +82,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "La ri-condivisione non è consentita",
 "Shared in {item} with {user}" => "Condiviso in {item} con {user}",
 "Unshare" => "Rimuovi condivisione",
+"notify by email" => "notifica via email",
 "can edit" => "può modificare",
 "access control" => "controllo d'accesso",
 "create" => "creare",
@@ -163,6 +166,10 @@ $TRANSLATIONS = array(
 "Alternative Logins" => "Accessi alternativi",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Ciao,<br><br>volevo informarti che %s ha condiviso %s con te.<br><a href=\"%s\">Vedi!</a><br><br>",
 "The share will expire on %s.<br><br>" => "La condivisione scadrà il %s.<br><br>",
-"Updating ownCloud to version %s, this may take a while." => "Aggiornamento di ownCloud alla versione %s in corso, ciò potrebbe richiedere del tempo."
+"Updating ownCloud to version %s, this may take a while." => "Aggiornamento di ownCloud alla versione %s in corso, ciò potrebbe richiedere del tempo.",
+"This ownCloud instance is currently being updated, which may take a while." => "Questa istanza di ownCloud si sta aggiornando, per favore attendere.",
+"Please reload this page after a short time to continue using ownCloud." => "Per favore ricarica questa pagina per poter continuare ad usare ownCloud.",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Contatta il tuo amministratore di sistema se questo messaggio persiste o appare inaspettatamente.",
+"Thank you for your patience." => "Vi ringrazio per la pazienza."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

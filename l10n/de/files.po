@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 07:25-0400\n"
-"PO-Revision-Date: 2013-10-27 11:25+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-29 07:28-0400\n"
+"PO-Revision-Date: 2013-10-28 10:44+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,7 +46,7 @@ msgstr "Der Dateiname darf kein \"/\" enthalten. Bitte wähle einen anderen Name
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different "
 "name."
-msgstr "Der Name %s wird bereits im Ordner %s benutzt. Bitte wählen Sie einen anderen Namen."
+msgstr "Der Name %s wird bereits im Ordner %s benutzt. Bitte wähle  einen anderen Namen."
 
 #: ajax/newfile.php:81
 msgid "Not a valid source"
@@ -63,7 +63,7 @@ msgstr "Fehler beim Erstellen der Datei"
 
 #: ajax/newfolder.php:21
 msgid "Folder name cannot be empty."
-msgstr ""
+msgstr "Der Ordner-Name darf nicht leer sein."
 
 #: ajax/newfolder.php:27
 msgid "Folder name must not contain \"/\". Please choose a different name."
@@ -138,7 +138,7 @@ msgstr "Dateien"
 
 #: js/file-upload.js:228
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
-msgstr "Datei {filename} kann nicht hochgeladen werden, da sie entweder ein Verzeichnis oder 0 Bytes groß ist"
+msgstr "Die Datei {filename} kann nicht hochgeladen werden, da sie entweder ein Verzeichnis oder 0 Bytes groß ist"
 
 #: js/file-upload.js:239
 msgid "Not enough space available"
@@ -249,20 +249,20 @@ msgstr "Dein Speicher ist fast voll ({usedSpacePercent}%)"
 msgid ""
 "Encryption App is enabled but your keys are not initialized, please log-out "
 "and log-in again"
-msgstr "Verschlüsselung-App ist aktiviert aber Deine Schlüssel sind nicht initialisiert. Bitte melden sich nochmals ab und wieder an."
+msgstr "Die Verschlüsselung-App ist aktiviert, aber Deine Schlüssel sind nicht initialisiert. Bitte melden Dich nochmals ab und wieder an."
 
 #: js/files.js:67
 msgid ""
 "Invalid private key for Encryption App. Please update your private key "
 "password in your personal settings to recover access to your encrypted "
 "files."
-msgstr "Ungültiger privater Schlüssel für die Verschlüsselung-App. Bitte aktualisiere dein privates Schlüssel-Passwort um den Zugriff auf Deine verschlüsselten Dateien wiederherzustellen."
+msgstr "Ungültiger privater Schlüssel für die Verschlüsselung-App. Bitte aktualisiere Dein privates Schlüssel-Passwort, um den Zugriff auf Deine verschlüsselten Dateien wiederherzustellen."
 
 #: js/files.js:71
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
-msgstr "Die Verschlüsselung wurde deaktiviert, jedoch sind deine Dateien nach wie vor verschlüsselt. Bitte gehe zu deinen persönlichen Einstellungen, um deine Dateien zu entschlüsseln."
+msgstr "Die Verschlüsselung wurde deaktiviert, jedoch sind Deine Dateien nach wie vor verschlüsselt. Bitte gehe zu Deinen persönlichen Einstellungen, um Deine Dateien zu entschlüsseln."
 
 #: js/files.js:302
 msgid ""
@@ -361,7 +361,7 @@ msgstr "Upload abbrechen"
 
 #: templates/index.php:40
 msgid "You don’t have permission to upload or create files here"
-msgstr "Du besitzt hier keine Berechtigung Dateien hochzuladen oder zu erstellen"
+msgstr "Du besitzt hier keine Berechtigung, um Dateien hochzuladen oder zu erstellen"
 
 #: templates/index.php:45
 msgid "Nothing in here. Upload something!"

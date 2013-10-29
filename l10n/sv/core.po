@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 07:25-0400\n"
-"PO-Revision-Date: 2013-10-27 06:40+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-29 07:28-0400\n"
+"PO-Revision-Date: 2013-10-28 10:44+0000\n"
+"Last-Translator: Gustav Smedberg <shadow.elf@hotmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -309,11 +309,11 @@ msgstr "Delad med dig av {owner}"
 
 #: js/share.js:203
 msgid "Share with user or group …"
-msgstr ""
+msgstr "Dela med användare eller grupp..."
 
 #: js/share.js:209
 msgid "Share link"
-msgstr ""
+msgstr "Dela länk"
 
 #: js/share.js:212
 msgid "Password protect"
@@ -752,18 +752,18 @@ msgstr "Uppdaterar ownCloud till version %s, detta kan ta en stund."
 #: templates/update.user.php:3
 msgid ""
 "This ownCloud instance is currently being updated, which may take a while."
-msgstr ""
+msgstr "Denna ownCloud instans håller på att uppdatera, vilket kan ta ett tag."
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr ""
+msgstr "Var god och ladda om denna sida efter en kort stund för att fortsätta använda ownCloud."
 
 #: templates/update.user.php:5
 msgid ""
 "Contact your system administrator if this message persists or appeared "
 "unexpectedly."
-msgstr ""
+msgstr "Hör av dig till din system administratör ifall detta meddelande fortsätter eller visas oväntat."
 
 #: templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr ""
+msgstr "Tack för ditt tålamod."

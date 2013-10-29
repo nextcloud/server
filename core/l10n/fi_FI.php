@@ -64,6 +64,8 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Virhe oikeuksia muuttaessa",
 "Shared with you and the group {group} by {owner}" => "Jaettu sinun ja ryhmän {group} kanssa käyttäjän {owner} toimesta",
 "Shared with you by {owner}" => "Jaettu kanssasi käyttäjän {owner} toimesta",
+"Share with user or group …" => "Jaa käyttäjän tai ryhmän kanssa…",
+"Share link" => "Jaa linkki",
 "Password protect" => "Suojaa salasanalla",
 "Password" => "Salasana",
 "Allow Public Upload" => "Salli julkinen lähetys",
@@ -77,6 +79,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "Jakaminen uudelleen ei ole salittu",
 "Shared in {item} with {user}" => "{item} on jaettu {user} kanssa",
 "Unshare" => "Peru jakaminen",
+"notify by email" => "ilmoita sähköpostitse",
 "can edit" => "voi muokata",
 "access control" => "Pääsyn hallinta",
 "create" => "luo",
@@ -151,6 +154,7 @@ $TRANSLATIONS = array(
 "Alternative Logins" => "Vaihtoehtoiset kirjautumiset",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hei sinä!<br><br>%s jakoi kohteen »%s« kanssasi.<br><a href=\"%s\">Tutustu siihen!</a><br><br>",
 "The share will expire on %s.<br><br>" => "Jakaminen päättyy %s.<br><br>",
-"Updating ownCloud to version %s, this may take a while." => "Päivitetään ownCloud versioon %s, tämä saattaa kestää hetken."
+"Updating ownCloud to version %s, this may take a while." => "Päivitetään ownCloud versioon %s, tämä saattaa kestää hetken.",
+"Thank you for your patience." => "Kiitos kärsivällisyydestäsi."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

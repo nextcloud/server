@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 07:25-0400\n"
-"PO-Revision-Date: 2013-10-27 06:40+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-29 07:28-0400\n"
+"PO-Revision-Date: 2013-10-28 11:40+0000\n"
+"Last-Translator: rogerc\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +27,7 @@ msgstr "%s ha compartit »%s« amb tu"
 #: ajax/share.php:168
 #, php-format
 msgid "Couldn't send mail to following users: %s "
-msgstr ""
+msgstr "No s'ha pogut enviar correu als usuaris següents: %s"
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
@@ -305,11 +305,11 @@ msgstr "Compartit amb vos per {owner}"
 
 #: js/share.js:203
 msgid "Share with user or group …"
-msgstr ""
+msgstr "Comparteix amb usuari o grup..."
 
 #: js/share.js:209
 msgid "Share link"
-msgstr ""
+msgstr "Enllaç de compartició"
 
 #: js/share.js:212
 msgid "Password protect"
@@ -365,7 +365,7 @@ msgstr "Deixa de compartir"
 
 #: js/share.js:378
 msgid "notify by email"
-msgstr ""
+msgstr "notifica per correu electrònic"
 
 #: js/share.js:381
 msgid "can edit"
@@ -421,7 +421,7 @@ msgstr "No s'ha especificat el tipus d'objecte."
 
 #: js/tags.js:13
 msgid "Enter new"
-msgstr ""
+msgstr "Escriu nou"
 
 #: js/tags.js:27
 msgid "Delete"
@@ -433,15 +433,15 @@ msgstr "Afegeix"
 
 #: js/tags.js:39
 msgid "Edit tags"
-msgstr ""
+msgstr "Edita etiquetes"
 
 #: js/tags.js:57
 msgid "Error loading dialog template: {error}"
-msgstr ""
+msgstr "Error en carregar la plantilla de diàleg: {error}"
 
 #: js/tags.js:261
 msgid "No tags selected for deletion."
-msgstr ""
+msgstr "No heu seleccionat les etiquetes a eliminar."
 
 #: js/update.js:17
 msgid ""
@@ -537,31 +537,31 @@ msgstr "Ajuda"
 
 #: tags/controller.php:22
 msgid "Error loading tags"
-msgstr ""
+msgstr "Error en carregar les etiquetes"
 
 #: tags/controller.php:48
 msgid "Tag already exists"
-msgstr ""
+msgstr "L'etiqueta ja existeix"
 
 #: tags/controller.php:64
 msgid "Error deleting tag(s)"
-msgstr ""
+msgstr "Error en eliminar etiqueta(s)"
 
 #: tags/controller.php:75
 msgid "Error tagging"
-msgstr ""
+msgstr "Error en etiquetar"
 
 #: tags/controller.php:86
 msgid "Error untagging"
-msgstr ""
+msgstr "Error en treure les etiquetes"
 
 #: tags/controller.php:97
 msgid "Error favoriting"
-msgstr ""
+msgstr "Error en posar a preferits"
 
 #: tags/controller.php:108
 msgid "Error unfavoriting"
-msgstr ""
+msgstr "Error en treure de preferits"
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -579,18 +579,18 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-msgstr ""
+msgstr "Ei,\n\nnomés fer-te saber que %s ha compartit %s amb tu.\nMira-ho a: %s\n\n"
 
 #: templates/altmail.php:4
 #, php-format
 msgid ""
 "The share will expire on %s.\n"
 "\n"
-msgstr ""
+msgstr "El compartit té venciment a %s.\n\n"
 
 #: templates/altmail.php:6 templates/mail.php:19
 msgid "Cheers!"
-msgstr ""
+msgstr "Salut!"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -679,7 +679,7 @@ msgstr "Acaba la configuració"
 
 #: templates/installation.php:184
 msgid "Finishing …"
-msgstr ""
+msgstr "Acabant..."
 
 #: templates/layout.user.php:43
 #, php-format
@@ -706,11 +706,11 @@ msgstr "Canvieu la contrasenya de nou per assegurar el vostre compte."
 
 #: templates/login.php:17
 msgid "Server side authentication failed!"
-msgstr ""
+msgstr "L'autenticació del servidor ha fallat!"
 
 #: templates/login.php:18
 msgid "Please contact your administrator."
-msgstr ""
+msgstr "Contacteu amb l'administrador."
 
 #: templates/login.php:38
 msgid "Lost your password?"
@@ -733,12 +733,12 @@ msgstr "Acreditacions alternatives"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "Ei,<br><br>només fer-te saber que %s ha compartit »%s« amb tu.<br><a href=\"%s\">Mira-ho!</a><br><br>"
 
 #: templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s.<br><br>"
-msgstr ""
+msgstr "El compartit té venciment a %s.<br><br>"
 
 #: templates/update.admin.php:3
 #, php-format
@@ -748,18 +748,18 @@ msgstr "S'està actualitzant ownCloud a la versió %s, pot trigar una estona."
 #: templates/update.user.php:3
 msgid ""
 "This ownCloud instance is currently being updated, which may take a while."
-msgstr ""
+msgstr "Aquesta instància d'ownCloud s'està actualitzant i podria trigar una estona."
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr ""
+msgstr "Carregueu de nou aquesta pàgina d'aquí a poc temps per continuar usant ownCloud."
 
 #: templates/update.user.php:5
 msgid ""
 "Contact your system administrator if this message persists or appeared "
 "unexpectedly."
-msgstr ""
+msgstr "Contacteu amb l'administrador del sistema si aquest missatge persisteix o apareix inesperadament."
 
 #: templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr ""
+msgstr "Gràcies per la paciència."

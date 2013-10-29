@@ -67,6 +67,8 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Nem sikerült módosítani a jogosultságokat",
 "Shared with you and the group {group} by {owner}" => "Megosztotta Önnel és a(z) {group} csoporttal: {owner}",
 "Shared with you by {owner}" => "Megosztotta Önnel: {owner}",
+"Share with user or group …" => "Megosztani egy felhasználóval vagy csoporttal ...",
+"Share link" => "Megosztás hivatkozással",
 "Password protect" => "Jelszóval is védem",
 "Password" => "Jelszó",
 "Allow Public Upload" => "Feltöltést is engedélyezek",
@@ -80,6 +82,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "Ezt az állományt csak a tulajdonosa oszthatja meg másokkal",
 "Shared in {item} with {user}" => "Megosztva {item}-ben {user}-rel",
 "Unshare" => "A megosztás visszavonása",
+"notify by email" => "email értesítés",
 "can edit" => "módosíthat",
 "access control" => "jogosultság",
 "create" => "létrehoz",
@@ -163,6 +166,10 @@ $TRANSLATIONS = array(
 "Alternative Logins" => "Alternatív bejelentkezés",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Szia!<br><br>Értesítünk, hogy %s megosztotta veled a következőt: »%s«.<br><a href=\"%s\">Ide kattintva tudod megnézni</a><br><br>",
 "The share will expire on %s.<br><br>" => "A megosztás ekkor jár le: %s<br><br>",
-"Updating ownCloud to version %s, this may take a while." => "Owncloud frissítés a %s verzióra folyamatban. Kis türelmet."
+"Updating ownCloud to version %s, this may take a while." => "Owncloud frissítés a %s verzióra folyamatban. Kis türelmet.",
+"This ownCloud instance is currently being updated, which may take a while." => "Az Owncloud frissítés elezdődött, eltarthat egy ideig.",
+"Please reload this page after a short time to continue using ownCloud." => "Frissitsd az oldalt ha \"Please reload this page after a short time to continue using ownCloud. \"",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Ha ezt az üzenetet már többször látod akkor keresd meg a rendszer adminját.",
+"Thank you for your patience." => "Köszönjük a türelmét."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

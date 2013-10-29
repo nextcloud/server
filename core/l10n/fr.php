@@ -67,6 +67,8 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Erreur lors du changement des permissions",
 "Shared with you and the group {group} by {owner}" => "Partagé par {owner} avec vous et le groupe {group}",
 "Shared with you by {owner}" => "Partagé avec vous par {owner}",
+"Share with user or group …" => "Partager avec un utilisateur ou un groupe...",
+"Share link" => "Partager le lien",
 "Password protect" => "Protéger par un mot de passe",
 "Password" => "Mot de passe",
 "Allow Public Upload" => "Autoriser l'upload par les utilisateurs non enregistrés",
@@ -80,6 +82,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "Le repartage n'est pas autorisé",
 "Shared in {item} with {user}" => "Partagé dans {item} avec {user}",
 "Unshare" => "Ne plus partager",
+"notify by email" => "Notifier par email",
 "can edit" => "édition autorisée",
 "access control" => "contrôle des accès",
 "create" => "créer",
@@ -163,6 +166,10 @@ $TRANSLATIONS = array(
 "Alternative Logins" => "Logins alternatifs",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Bonjour,<br><br>Juste pour vous informer que %s a partagé »%s« avec vous.<br><a href=\"%s\">Consultez-le !</a><br><br>",
 "The share will expire on %s.<br><br>" => "Le partage expirera le %s.<br><br>",
-"Updating ownCloud to version %s, this may take a while." => "Mise à jour en cours d'ownCloud vers la version %s, cela peut prendre du temps."
+"Updating ownCloud to version %s, this may take a while." => "Mise à jour en cours d'ownCloud vers la version %s, cela peut prendre du temps.",
+"This ownCloud instance is currently being updated, which may take a while." => "Cette instance d'ownCloud est en cours de mise à jour, cela peut prendre du temps.",
+"Please reload this page after a short time to continue using ownCloud." => "Merci de recharger cette page après un moment pour continuer à utiliser ownCloud.",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Contactez votre administrateur système si ce message persiste ou apparaît de façon innatendue.",
+"Thank you for your patience." => "Merci de votre patience."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

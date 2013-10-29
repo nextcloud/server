@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 07:25-0400\n"
-"PO-Revision-Date: 2013-10-27 06:40+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-29 07:28-0400\n"
+"PO-Revision-Date: 2013-10-29 10:20+0000\n"
+"Last-Translator: Dr. ROX <to.dr.rox@gmail.com>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -313,11 +313,11 @@ msgstr "Pasidalino su Jumis {owner}"
 
 #: js/share.js:203
 msgid "Share with user or group …"
-msgstr ""
+msgstr "Dalintis su vartotoju arba grupe..."
 
 #: js/share.js:209
 msgid "Share link"
-msgstr ""
+msgstr "Dalintis nuoroda"
 
 #: js/share.js:212
 msgid "Password protect"
@@ -373,7 +373,7 @@ msgstr "Nebesidalinti"
 
 #: js/share.js:378
 msgid "notify by email"
-msgstr ""
+msgstr "pranešti el. paštu"
 
 #: js/share.js:381
 msgid "can edit"
@@ -756,18 +756,18 @@ msgstr "Atnaujinama ownCloud į %s versiją. tai gali šiek tiek užtrukti."
 #: templates/update.user.php:3
 msgid ""
 "This ownCloud instance is currently being updated, which may take a while."
-msgstr ""
+msgstr "Šiuo metu vyksta ownCloud atnaujinamas, tai gali šiek tiek užtrukti."
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr ""
+msgstr "Po trupučio laiko atnaujinkite šį puslapį kad galėtumėte toliau naudoti ownCloud."
 
 #: templates/update.user.php:5
 msgid ""
 "Contact your system administrator if this message persists or appeared "
 "unexpectedly."
-msgstr ""
+msgstr "Susisiekite su savo sistemos administratoriumi jei šis pranešimas nedingsta arba jei jis pasirodė netikėtai."
 
 #: templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr ""
+msgstr "Dėkojame už jūsų kantrumą."
