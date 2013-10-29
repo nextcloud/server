@@ -306,10 +306,10 @@ class Filesystem {
 
 		$root = \OC_User::getHome($user);
 
-		if (\OC\Files\Cache\Storage::exists('local::' . $root . '/')) {
+		$userObject = \OC_User::getManager()->get($user);
+		if (\OC\Files\Cache\Storage::exists('local::' . $root . '/') or is_null($userObject)) {
 			self::mount('\OC\Files\Storage\Local', array('datadir' => $root), $user);
 		} else {
-			$userObject = \OC_User::getManager()->get($user);
 			self::mount('\OC\Files\Storage\Home', array('user' => $userObject), $user);
 		}
 		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
