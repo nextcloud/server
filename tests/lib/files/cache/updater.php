@@ -46,6 +46,10 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		if (!self::$user) {
 			self::$user = uniqid();
 		}
+
+		\OC_User::createUser(self::$user, 'password');
+		\OC_User::setUserId(self::$user);
+
 		\OC\Files\Filesystem::init(self::$user, '/' . self::$user . '/files');
 
 		Filesystem::clearMounts();
@@ -63,6 +67,7 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		if ($this->cache) {
 			$this->cache->clear();
 		}
+		\OC_User::deleteUser(self::$user);
 		Filesystem::tearDown();
 	}
 
