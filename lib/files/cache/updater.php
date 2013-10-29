@@ -20,10 +20,8 @@ class Updater {
 	 * @return array consisting of the storage and the internal path
 	 */
 	static public function resolvePath($path) {
-		$uidOwner = \OC\Files\Filesystem::getOwner($path);
-		$info = \OC\Files\Filesystem::getFileInfo($path);
-		$view = new \OC\Files\View('/' . $uidOwner);
-		return $view->resolvePath($info['path']);
+		$view = \OC\Files\Filesystem::getView();
+		return $view->resolvePath($path);
 	}
 
 	static public function writeUpdate($path) {
@@ -80,6 +78,22 @@ class Updater {
 	}
 
 	/**
+	 * @brief get file owner and path
+	 * @param string $filename
+	 * @return array with the oweners uid and the owners path
+	 */
+	public static function getUidAndFilename($filename) {
+		$uid = \OC\Files\Filesystem::getOwner($filename);
+		\OC\Files\Filesystem::initMountPoints($uid);
+		if ( $uid != \OCP\User::getUser() ) {
+			$info = \OC\Files\Filesystem::getFileInfo($filename);
+			$ownerView = new \OC\Files\View('/'.$uid.'/files');
+			$filename = $ownerView->getPath($info['fileid']);
+		}
+		return array($uid, '/files/'.$filename);
+	}
+
+	/**
 	 * Update the mtime and ETag of all parent folders
 	 *
 	 * @param string $path
@@ -89,26 +103,30 @@ class Updater {
 
 		if ($path !== '' && $path !== '/') {
 
+			list($owner, $realPath) = self::getUidAndFilename(dirname($path));
+
 			/**
 			 * @var \OC\Files\Storage\Storage $storage
 			 * @var string $internalPath
 			 */
-			list($storage, $internalPath) = self::resolvePath(dirname($path));
-			$owner = \OC\Files\Filesystem::getOwner($path);
-			$view = new \OC\Files\View($owner);
 
+			$view = new \OC\Files\View('/' . $owner);
 
+			list($storage, $internalPath) = $view->resolvePath($realPath);
 			$cache = $storage->getCache();
 			$id = $cache->getId($internalPath);
 
 			while ($id !== -1) {
 				$cache->update($id, array('mtime' => $time, 'etag' => $storage->getETag($internalPath)));
-				//$id = $cache->getParentId($internalPath);
-				$internalPath = dirname($internalPath);
+				$realPath = dirname($realPath);
 				// check storage for parent in case we change the storage in this step
-				list($storage, $internalPath) = $view->resolvePath($internalPath);
-				$cache = $storage->getCache();
-				$id = $cache->getId($internalPath);
+				list($storage, $internalPath) = $view->resolvePath($realPath);
+				if ($internalPath) {
+					$cache = $storage->getCache();
+					$id = $cache->getId($internalPath);
+				} else {
+					$id = -1;
+				}
 
 			}
 
