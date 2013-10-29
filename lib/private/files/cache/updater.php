@@ -95,6 +95,24 @@ class Updater {
 	}
 
 	/**
+	 * @brief get file owner and path
+	 * @param string $filename
+	 * @return array with the oweners uid and the owners path
+	 */
+	public static function getUidAndFilename($filename) {
+
+		$uid = \OC\Files\Filesystem::getOwner($filename);
+		\OC\Files\Filesystem::initMountPoints($uid);
+
+		if ($uid != \OCP\User::getUser()) {
+			$info = \OC\Files\Filesystem::getFileInfo($filename);
+			$ownerView = new \OC\Files\View('/' . $uid . '/files');
+			$filename = $ownerView->getPath($info['fileid']);
+		}
+		return array($uid, '/files/' . $filename);
+	}
+
+	/**
 	 * Update the mtime and ETag of all parent folders
 	 *
 	 * @param string $path
@@ -102,23 +120,29 @@ class Updater {
 	 */
 	static public function correctFolder($path, $time) {
 		if ($path !== '' && $path !== '/') {
-			$parent = dirname($path);
-			if ($parent === '.' || $parent === '\\') {
-				$parent = '';
-			}
+
+			list($owner, $realPath) = self::getUidAndFilename(dirname($path));
+
 			/**
 			 * @var \OC\Files\Storage\Storage $storage
 			 * @var string $internalPath
 			 */
-			list($storage, $internalPath) = self::resolvePath($parent);
-			if ($storage) {
-				$cache = $storage->getCache();
-				$id = $cache->getId($internalPath);
-				if ($id !== -1) {
-					$cache->update($id, array('mtime' => $time, 'etag' => $storage->getETag($internalPath)));
-					self::correctFolder($parent, $time);
+			$view = new \OC\Files\View('/' . $owner);
+
+			list($storage, $internalPath) = $view->resolvePath($realPath);
+			$cache = $storage->getCache();
+			$id = $cache->getId($internalPath);
+
+			while ($id !== -1) {
+				$cache->update($id, array('mtime' => $time, 'etag' => $storage->getETag($internalPath)));
+				$realPath = dirname($realPath);
+				// check storage for parent in case we change the storage in this step
+				list($storage, $internalPath) = $view->resolvePath($realPath);
+				if ($internalPath) {
+					$cache = $storage->getCache();
+					$id = $cache->getId($internalPath);
 				} else {
-					Util::writeLog('core', 'Path not in cache: '.$internalPath, Util::ERROR);
+					$id = -1;
 				}
 			}
 		}
