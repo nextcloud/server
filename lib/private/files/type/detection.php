@@ -93,6 +93,10 @@ class Detection {
 			//trim the newline
 			$mimeType = trim($reply);
 
+			if (empty($mimeType)) {
+				$mimeType = 'application/octet-stream';
+			}
+
 		}
 		return $mimeType;
 	}
