@@ -601,7 +601,7 @@ $(document).ready(function() {
 		var itemSourceName = $('#dropdown').data('item-source-name');
 		if (this.checked) {
 			// Create a link
-			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', OC.PERMISSION_READ, function(data) {
+			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', OC.PERMISSION_READ, itemSourceName, function(data) {
 				OC.Share.showLink(data.token, null, itemSource);
 				OC.Share.updateIcon(itemType, itemSource);
 			});
@@ -641,7 +641,7 @@ $(document).ready(function() {
 		}
 
 		// Update the share information
-		OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', permissions, function(data) {
+		OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', permissions, itemSourceName, function(data) {
 		});
 	});
 
@@ -662,7 +662,7 @@ $(document).ready(function() {
 			}
 
 
-			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', permissions);
+			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', permissions, itemSourceName);
 		} else {
 			$('#linkPassText').focus();
 		}
@@ -686,7 +686,7 @@ $(document).ready(function() {
 				permissions = OC.PERMISSION_READ;
 			}
 
-			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $('#linkPassText').val(), permissions, function() {
+			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $('#linkPassText').val(), permissions, itemSourceName, function() {
 				console.log("password set to: '" + linkPassText.val() +"' by event: " + event.type);
 				linkPassText.val('');
 				linkPassText.attr('placeholder', t('core', 'Password protected'));
