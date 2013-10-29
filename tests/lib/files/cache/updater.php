@@ -234,7 +234,6 @@ class Updater extends \PHPUnit_Framework_TestCase {
 
 		$cachedData = $this->cache->get('folder');
 		$this->assertNotEquals($folderCachedData['etag'], $cachedData['etag']);
-		$this->assertEquals($time, $cachedData['mtime']);
 
 		$cachedData = $this->cache->get('');
 		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
@@ -259,7 +258,6 @@ class Updater extends \PHPUnit_Framework_TestCase {
 
 		$cachedData = $cache2->get('');
 		$this->assertNotEquals($substorageCachedData['etag'], $cachedData['etag']);
-		$this->assertEquals($time, $cachedData['mtime']);
 
 		$cachedData = $this->cache->get('folder');
 		$this->assertNotEquals($folderCachedData['etag'], $cachedData['etag']);
