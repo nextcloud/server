@@ -99,7 +99,7 @@ class Updater {
 	 * @param string $filename
 	 * @return array with the oweners uid and the owners path
 	 */
-	public static function getUidAndFilename($filename) {
+	private static function getUidAndFilename($filename) {
 
 		$uid = \OC\Files\Filesystem::getOwner($filename);
 		\OC\Files\Filesystem::initMountPoints($uid);
