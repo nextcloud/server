@@ -518,7 +518,7 @@ class Cache {
 				if ($entry['size'] !== $totalSize) {
 					$this->update($id, array('size' => $totalSize));
 				}
-				
+
 			}
 		}
 		return $totalSize;
