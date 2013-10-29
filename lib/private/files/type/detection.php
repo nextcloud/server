@@ -74,6 +74,7 @@ class Detection {
 			$info = @strtolower(finfo_file($finfo, $path));
 			if ($info) {
 				$mimeType = substr($info, 0, strpos($info, ';'));
+				return empty($mimeType) ? 'application/octet-stream' : $mimeType;
 			}
 			finfo_close($finfo);
 		}
