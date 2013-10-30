@@ -280,7 +280,7 @@ class Shared_Cache extends Cache {
 		$chunks = array_chunk($ids, $chunksize);
 
 		foreach ($chunks as $chunk) {
-			$placeholders = join(',', array_fill(0, count($ids), '?'));
+			$placeholders = join(',', array_fill(0, count($chunk), '?'));
 			$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`,
 					`encrypted`, `unencrypted_size`, `etag`
 					FROM `*PREFIX*filecache` WHERE ' . $sqlwhere . ' `fileid` IN (' . $placeholders . ')';
