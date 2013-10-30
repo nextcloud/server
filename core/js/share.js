@@ -56,7 +56,7 @@ OC.Share={
 						var path = dir;
 						// Search for possible parent folders that are shared
 						while (path != last) {
-							if (path == data['path']) {
+							if (path == data['path'] && !data['link']) {
 								var actions = $('.fileactions .action[data-action="Share"]');
 								$.each(actions, function(index, action) {
 									var img = $(action).find('img');
@@ -244,7 +244,9 @@ OC.Share={
 			if (data.shares) {
 				$.each(data.shares, function(index, share) {
 					if (share.share_type == OC.Share.SHARE_TYPE_LINK) {
-						OC.Share.showLink(share.token, share.share_with, itemSource);
+						if ( !('file_target' in share) ) {
+							OC.Share.showLink(share.token, share.share_with, itemSource);
+						}
 					} else {
 						if (share.collection) {
 							OC.Share.addShareWith(share.share_type, share.share_with, share.share_with_displayname, share.permissions, possiblePermissions, share.mail_send, share.collection);
