@@ -134,13 +134,11 @@ class Preview extends \PHPUnit_Framework_TestCase {
 	}
 
 	private function initFS() {
-		if(\OC\Files\Filesystem::getView()){
-			$user = \OC_User::getUser();
-		}else{
-			$user=uniqid();
-			\OC_User::setUserId($user);
-			\OC\Files\Filesystem::init($user, '/'.$user.'/files');
-		}
+		// create a new user with his own filesystem view
+		// this gets called by each test in this test class
+		$user=uniqid();
+		\OC_User::setUserId($user);
+		\OC\Files\Filesystem::init($user, '/'.$user.'/files');
 
 		\OC\Files\Filesystem::mount('OC\Files\Storage\Temporary', array(), '/');
 		
