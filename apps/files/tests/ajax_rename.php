@@ -88,7 +88,7 @@ class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 		$result = $this->files->rename($dir, $oldname, $newname);
 		$expected = array(
 			'success'	=> false,
-			'data'		=> array('message' => "Invalid folder name. Usage of 'Shared' is reserved by ownCloud")
+			'data'		=> array('message' => "Invalid folder name. Usage of 'Shared' is reserved.")
 		);
 
 		$this->assertEquals($expected, $result);
