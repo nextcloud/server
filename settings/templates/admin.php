@@ -5,11 +5,11 @@
  */
 $levels = array('Debug', 'Info', 'Warning', 'Error', 'Fatal');
 $levelLabels = array(
-	$l->t( 'Everything (fatal errors, warnings, info, debug)' ),
-	$l->t( 'Info, warnings, errors and fatal' ),
-	$l->t( 'Warnings, errors and fatal' ),
-	$l->t( 'Errors and fatal' ),
-	$l->t( 'Fatal only' ),
+	$l->t( 'Everything (fatal issues, errors, warnings, info, debug)' ),
+	$l->t( 'Info, warnings, errors and fatal issues' ),
+	$l->t( 'Warnings, errors and fatal issues' ),
+	$l->t( 'Errors and fatal issues' ),
+	$l->t( 'Fatal issues only' ),
 );
 ?>
 
