@@ -19,6 +19,7 @@ $(document).ready(function() {
 						}
 						enableActions();
 						FileList.updateFileSummary();
+						FileList.updateEmptyContent();
 					}
 			);
 
@@ -45,6 +46,7 @@ $(document).ready(function() {
 					}
 					enableActions();
 					FileList.updateFileSummary();
+					FileList.updateEmptyContent();
 				}
 		);
 
@@ -122,34 +124,60 @@ $(document).ready(function() {
 					}
 					enableActions();
 					FileList.updateFileSummary();
+					FileList.updateEmptyContent();
 				}
 		);
 	});
 
 	$('.delete').click('click', function(event) {
 		event.preventDefault();
-		var files = getSelectedFiles('file');
-		var fileslist = JSON.stringify(files);
-		var dirlisting = getSelectedFiles('dirlisting')[0];
+		var allFiles = $('#select_all').is(':checked');
+		var files = [];
+		var params = {};
+		if (allFiles) {
+			params = {
+			   allfiles: true
+			};
+		}
+		else {
+			files = getSelectedFiles('file');
+			params = {
+				files: JSON.stringify(files),
+				dirlisting: getSelectedFiles('dirlisting')[0]
+			};
+		};
 
 		disableActions();
-		for (var i = 0; i < files.length; i++) {
-			var deleteAction = $('tr').filterAttr('data-file', files[i]).children("td.date").children(".action.delete");
-			deleteAction.removeClass('delete-icon').addClass('progress-icon');
+		if (allFiles) {
+			FileList.showMask();
+		}
+		else {
+			for (var i = 0; i < files.length; i++) {
+				var deleteAction = $('tr').filterAttr('data-file', files[i]).children("td.date").children(".action.delete");
+				deleteAction.removeClass('delete-icon').addClass('progress-icon');
+			}
 		}
 
 		$.post(OC.filePath('files_trashbin', 'ajax', 'delete.php'),
-				{files: fileslist, dirlisting: dirlisting},
+				params,
 				function(result) {
-					for (var i = 0; i < result.data.success.length; i++) {
-						var row = document.getElementById(result.data.success[i].filename);
-						row.parentNode.removeChild(row);
+					if (allFiles) {
+						FileList.hideMask();
+						// simply remove all files
+						$('#fileList').empty();
+					}
+					else {
+						for (var i = 0; i < result.data.success.length; i++) {
+							var row = document.getElementById(result.data.success[i].filename);
+							row.parentNode.removeChild(row);
+						}
 					}
 					if (result.status !== 'success') {
 						OC.dialogs.alert(result.data.message, t('core', 'Error'));
 					}
 					enableActions();
 					FileList.updateFileSummary();
+					FileList.updateEmptyContent();
 				}
 		);
 

@@ -3,10 +3,19 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 
-$files = $_POST['files'];
-$dirlisting = $_POST['dirlisting'];
-$list = json_decode($files);
-
+// "empty trash" command
+$deleteAll = false;
+if (isset($_POST['allfiles']) and $_POST['allfiles'] === 'true'){
+	$user = \OCP\User::getUser();
+	$list = OCA\Files_Trashbin\Helper::getTrashFiles('/');
+	$deleteAll = true;
+	$dirlisting = '0';
+}
+else {
+	$files = $_POST['files'];
+	$dirlisting = $_POST['dirlisting'];
+	$list = json_decode($files);
+}
 $error = array();
 $success = array();
 
@@ -14,22 +23,30 @@ $success = array();
 $i = 0;
 foreach ($list as $file) {
 	if ( $dirlisting === '0') {
-		$delimiter = strrpos($file, '.d');
-		$filename = substr($file, 0, $delimiter);
-		$timestamp =  substr($file, $delimiter+2);
+		if ($deleteAll) {
+			$filename = $file['name'];
+			$timestamp = $file['timestamp'];
+		}
+		else {
+			$delimiter = strrpos($file, '.d');
+			$filename = substr($file, 0, $delimiter);
+			$timestamp =  substr($file, $delimiter+2);
+		}
 	} else {
 		$filename = $file;
 		$timestamp = null;
 	}
 
 	OCA\Files_Trashbin\Trashbin::delete($filename, $timestamp);
-	if (!OCA\Files_Trashbin\Trashbin::file_exists($filename, $timestamp)) {
+	if (OCA\Files_Trashbin\Trashbin::file_exists($filename, $timestamp)) {
+		$error[] = $filename;
+		OC_Log::write('trashbin','can\'t delete ' . $filename . ' permanently.', OC_Log::ERROR);
+	}
+	// only list deleted files if not deleting everything
+	else if (!$deleteAll) {
 		$success[$i]['filename'] = $file;
 		$success[$i]['timestamp'] = $timestamp;
 		$i++;
-	} else {
-		$error[] = $filename;
-		OC_Log::write('trashbin','can\'t delete ' . $filename . ' permanently.', OC_Log::ERROR);
 	}
 }
 
