@@ -147,7 +147,11 @@ var UserList = {
 		quotaSelect.on('change', function () {
 			var uid = $(this).parent().parent().attr('data-uid');
 			var quota = $(this).val();
-			setQuota(uid, quota);
+			setQuota(uid, quota, function(returnedQuota){
+				if (quota !== returnedQuota) {
+					$(quotaSelect).find(':selected').text(returnedQuota);
+				}
+			});
 		});
 	},
 	// From http://my.opera.com/GreyWyvern/blog/show.dml/1671288
@@ -428,9 +432,14 @@ $(document).ready(function () {
 	});
 
 	$('select.quota, select.quota-user').singleSelect().on('change', function () {
+		var select = $(this);
 		var uid = $(this).parent().parent().attr('data-uid');
 		var quota = $(this).val();
-		setQuota(uid, quota);
+		setQuota(uid, quota, function(returnedQuota){
+			if (quota !== returnedQuota) {
+				select.find(':selected').text(returnedQuota);
+			}
+		});
 	});
 
 	$('#newuser').submit(function (event) {

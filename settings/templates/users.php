@@ -41,7 +41,7 @@ $_['subadmingroups'] = array_flip($items);
 	<div class="quota">
 		<span><?php p($l->t('Default Storage'));?></span>
 			<?php if((bool) $_['isadmin']): ?>
-			<select class='quota'>
+			<select class='quota' data-inputtitle="<?php p($l->t('Please enter storage quota (ex: "512 MB" or "12 GB"')) ?>">
 				<option
 					<?php if($_['default_quota'] === 'none') print_unescaped('selected="selected"');?>
 						value='none'>
@@ -136,7 +136,7 @@ $_['subadmingroups'] = array_flip($items);
 			</td>
 			<?php endif;?>
 			<td class="quota">
-				<select class='quota-user'>
+				<select class='quota-user' data-inputtitle="<?php p($l->t('Please enter storage quota (ex: "512 MB" or "12 GB"')) ?>">
 					<option
 						<?php if($user['quota'] === 'default') print_unescaped('selected="selected"');?>
 							value='default'>
