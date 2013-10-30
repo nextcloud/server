@@ -4,6 +4,13 @@
  * See the COPYING-README file.
  */
 $levels = array('Debug', 'Info', 'Warning', 'Error', 'Fatal');
+$levelLabels = array(
+	$l->t( 'Everything (fatal errors, warnings, info, debug)' ),
+	$l->t( 'Info, warnings, errors and fatal' ),
+	$l->t( 'Warnings, errors and fatal' ),
+	$l->t( 'Errors and fatal' ),
+	$l->t( 'Fatal only' ),
+);
 ?>
 
 <?php
@@ -210,12 +217,13 @@ if (!$_['internetconnectionworking']) {
 <fieldset class="personalblock">
 	<h2><?php p($l->t('Log'));?></h2>
 	<?php p($l->t('Log level'));?> <select name='loglevel' id='loglevel'>
-	<option value='<?php p($_['loglevel'])?>'><?php p($levels[$_['loglevel']])?></option>
-	<?php for ($i = 0; $i < 5; $i++):
-	if ($i !== $_['loglevel']):?>
-		<option value='<?php p($i)?>'><?php p($levels[$i])?></option>
-		<?php endif;
-endfor;?>
+<?php for ($i = 0; $i < 5; $i++):
+	$selected = '';
+	if ($i == $_['loglevel']):
+		$selected = 'selected="selected"';
+	endif; ?>
+		<option value='<?php p($i)?>' <?php p($selected) ?>><?php p($levelLabels[$i])?></option>
+<?php endfor;?>
 </select>
 	<table id="log" class="grid">
 		<?php foreach ($_['entries'] as $entry): ?>
