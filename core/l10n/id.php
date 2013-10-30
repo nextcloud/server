@@ -77,7 +77,6 @@ $TRANSLATIONS = array(
 "Use the following link to reset your password: {link}" => "Gunakan tautan berikut untuk menyetel ulang sandi Anda: {link}",
 "You will receive a link to reset your password via Email." => "Anda akan menerima tautan penyetelan ulang sandi lewat Email.",
 "Username" => "Nama pengguna",
-"Request reset" => "Ajukan penyetelan ulang",
 "Your password was reset" => "Sandi Anda telah disetel ulang",
 "To login page" => "Ke halaman masuk",
 "New password" => "Sandi baru",

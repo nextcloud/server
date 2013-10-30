@@ -104,7 +104,6 @@ $TRANSLATIONS = array(
 "Username" => "Brukarnamn",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Filene dine er krypterte. Viss du ikkje har skrudd på gjenopprettingsnøkkelen, finst det ingen måte å få tilbake dataa dine når passordet ditt er nullstilt. Viss du ikkje er sikker på kva du skal gjera bør du spørja administratoren din før du går vidare. Vil du verkeleg fortsetja?",
 "Yes, I really want to reset my password now" => "Ja, eg vil nullstilla passordet mitt no",
-"Request reset" => "Be om nullstilling",
 "Your password was reset" => "Passordet ditt er nullstilt",
 "To login page" => "Til innloggingssida",
 "New password" => "Nytt passord",

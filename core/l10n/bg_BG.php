@@ -44,7 +44,6 @@ $TRANSLATIONS = array(
 "Add" => "Добавяне",
 "You will receive a link to reset your password via Email." => "Ще получите връзка за нулиране на паролата Ви.",
 "Username" => "Потребител",
-"Request reset" => "Нулиране на заявка",
 "Your password was reset" => "Вашата парола е нулирана",
 "New password" => "Нова парола",
 "Reset password" => "Нулиране на парола",

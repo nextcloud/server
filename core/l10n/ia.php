@@ -33,7 +33,6 @@ $TRANSLATIONS = array(
 "Delete" => "Deler",
 "Add" => "Adder",
 "Username" => "Nomine de usator",
-"Request reset" => "Requestar reinitialisation",
 "Your password was reset" => "Tu contrasigno esseva reinitialisate",
 "To login page" => "al pagina de initio de session",
 "New password" => "Nove contrasigno",

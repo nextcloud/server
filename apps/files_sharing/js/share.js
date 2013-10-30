@@ -35,14 +35,14 @@ $(document).ready(function() {
 				if ($(tr).data('id') != $('#dropdown').attr('data-item-source')) {
 					OC.Share.hideDropDown(function () {
 						$(tr).addClass('mouseOver');
-						OC.Share.showDropDown(itemType, $(tr).data('id'), appendTo, true, possiblePermissions);
+						OC.Share.showDropDown(itemType, $(tr).data('id'), appendTo, true, possiblePermissions, filename);
 					});
 				} else {
 					OC.Share.hideDropDown();
 				}
 			} else {
 				$(tr).addClass('mouseOver');
-				OC.Share.showDropDown(itemType, $(tr).data('id'), appendTo, true, possiblePermissions);
+				OC.Share.showDropDown(itemType, $(tr).data('id'), appendTo, true, possiblePermissions, filename);
 			}
 		});
 	}

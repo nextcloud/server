@@ -1,391 +1,270 @@
 <?php
+
 /**
- * Copyright (c) 2012 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * ownCloud
+ *
+ * @author Christian Berendt
+ * @copyright 2013 Christian Berendt berendt@b1-systems.de
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 namespace OC\Files\Storage;
 
-require_once 'php-cloudfiles/cloudfiles.php';
+set_include_path(get_include_path() . PATH_SEPARATOR .
+        \OC_App::getAppPath('files_external') . '/3rdparty/php-opencloud/lib');
+require_once 'openstack.php';
 
-class SWIFT extends \OC\Files\Storage\Common{
-	private $id;
-	private $host;
-	private $root;
-	private $user;
-	private $token;
-	private $secure;
-	private $ready = false;
-	/**
-	 * @var \CF_Authentication auth
-	 */
-	private $auth;
-	/**
-	 * @var \CF_Connection conn
-	 */
-	private $conn;
-	/**
-	 * @var \CF_Container rootContainer
-	 */
-	private $rootContainer;
+use \OpenCloud;
+use \OpenCloud\Common\Exceptions;
 
-	private static $tempFiles=array();
-	private $objects=array();
-	private $containers=array();
+class Swift extends \OC\Files\Storage\Common {
 
-	const SUBCONTAINER_FILE='.subcontainers';
+        /**
+         * @var \OpenCloud\ObjectStore
+         */
+	private $connection;
+        /**
+         * @var \OpenCloud\ObjectStore\Container
+         */
+	private $container;
+        /**
+         * @var \OpenCloud\OpenStack
+         */
+	private $anchor;
+        /**
+         * @var string
+         */
+	private $bucket;
+        /**
+         * @var array
+         */
+	private static $tmpFiles = array();
 
-	/**
-	 * translate directory path to container name
-	 * @param string $path
-	 * @return string
-	 */
-	private function getContainerName($path) {
-		$path=trim(trim($this->root, '/') . "/".$path, '/.');
-		return str_replace('/', '\\', $path);
+	private function normalizePath($path) {
+		$path = trim($path, '/');
+
+		if (!$path) {
+			$path = '.';
+		}
+
+		return $path;
 	}
 
-	/**
-	 * get container by path
-	 * @param string $path
-	 * @return \CF_Container
-	 */
-	private function getContainer($path) {
-		if ($path=='' or $path=='/') {
-			return $this->rootContainer;
-		}
-		if (isset($this->containers[$path])) {
-			return $this->containers[$path];
-		}
+	private function doesObjectExist($path) {
 		try {
-			$container=$this->conn->get_container($this->getContainerName($path));
-			$this->containers[$path]=$container;
-			return $container;
-		} catch(\NoSuchContainerException $e) {
-			return null;
-		}
-	}
-
-	/**
-	 * create container
-	 * @param string $path
-	 * @return \CF_Container
-	 */
-	private function createContainer($path) {
-		if ($path=='' or $path=='/' or $path=='.') {
-			return $this->conn->create_container($this->getContainerName($path));
-		}
-		$parent=dirname($path);
-		if ($parent=='' or $parent=='/' or $parent=='.') {
-			$parentContainer=$this->rootContainer;
-		} else {
-			if ( ! $this->containerExists($parent)) {
-				$parentContainer=$this->createContainer($parent);
-			} else {
-				$parentContainer=$this->getContainer($parent);
-			}
-		}
-		$this->addSubContainer($parentContainer, basename($path));
-		return $this->conn->create_container($this->getContainerName($path));
-	}
-
-	/**
-	 * get object by path
-	 * @param string $path
-	 * @return \CF_Object
-	 */
-	private function getObject($path) {
-		if (isset($this->objects[$path])) {
-			return $this->objects[$path];
-		}
-		$container=$this->getContainer(dirname($path));
-		if (is_null($container)) {
-			return null;
-		} else {
-			if ($path=="/" or $path=='') {
-				return null;
-			}
-			try {
-				$obj=$container->get_object(basename($path));
-				$this->objects[$path]=$obj;
-				return $obj;
-			} catch(\NoSuchObjectException $e) {
-				return null;
-			}
-		}
-	}
-
-	/**
-	 * get the names of all objects in a container
-	 * @param CF_Container
-	 * @return array
-	 */
-	private function getObjects($container) {
-		if (is_null($container)) {
-			return array();
-		} else {
-			$files=$container->get_objects();
-			foreach ($files as &$file) {
-				$file=$file->name;
-			}
-			return $files;
-		}
-	}
-
-	/**
-	 * create object
-	 * @param string $path
-	 * @return \CF_Object
-	 */
-	private function createObject($path) {
-		$container=$this->getContainer(dirname($path));
-		if ( ! is_null($container)) {
-			$container=$this->createContainer(dirname($path));
-		}
-		return $container->create_object(basename($path));
-	}
-
-	/**
-	 * check if an object exists
-	 * @param string
-	 * @return bool
-	 */
-	private function objectExists($path) {
-		return !is_null($this->getObject($path));
-	}
-
-	/**
-	 * check if container for path exists
-	 * @param string $path
-	 * @return bool
-	 */
-	private function containerExists($path) {
-		return !is_null($this->getContainer($path));
-	}
-
-	/**
-	 * get the list of emulated sub containers
-	 * @param \CF_Container $container
-	 * @return array
-	 */
-	private function getSubContainers($container) {
-		$tmpFile=\OCP\Files::tmpFile();
-		$obj=$this->getSubContainerFile($container);
-		try {
-			$obj->save_to_filename($tmpFile);
-		} catch(\Exception $e) {
-			return array();
-		}
-		$obj->save_to_filename($tmpFile);
-		$containers=file($tmpFile);
-		unlink($tmpFile);
-		foreach ($containers as &$sub) {
-			$sub=trim($sub);
-		}
-		return $containers;
-	}
-
-	/**
-	 * add an emulated sub container
-	 * @param \CF_Container $container
-	 * @param string $name
-	 * @return bool
-	 */
-	private function addSubContainer($container, $name) {
-		if ( ! $name) {
+			$object = $this->container->DataObject($path);
+			return true;
+		} catch (Exceptions\ObjFetchError $e) {
+			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
-		}
-		$tmpFile=\OCP\Files::tmpFile();
-		$obj=$this->getSubContainerFile($container);
-		try {
-			$obj->save_to_filename($tmpFile);
-			$containers=file($tmpFile);
-			foreach ($containers as &$sub) {
-				$sub=trim($sub);
-			}
-			if(array_search($name, $containers) !== false) {
-				unlink($tmpFile);
-				return false;
-			} else {
-				$fh=fopen($tmpFile, 'a');
-				fwrite($fh, $name . "\n");
-			}
-		} catch(\Exception $e) {
-			file_put_contents($tmpFile, $name . "\n");
-		}
-
-		$obj->load_from_filename($tmpFile);
-		unlink($tmpFile);
-		return true;
-	}
-
-	/**
-	 * remove an emulated sub container
-	 * @param \CF_Container $container
-	 * @param string $name
-	 * @return bool
-	 */
-	private function removeSubContainer($container, $name) {
-		if ( ! $name) {
+		} catch (Exceptions\HttpError $e) {
+			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
-		}
-		$tmpFile=\OCP\Files::tmpFile();
-		$obj=$this->getSubContainerFile($container);
-		try {
-			$obj->save_to_filename($tmpFile);
-			$containers=file($tmpFile);
-		} catch (\Exception $e) {
-			return false;
-		}
-		foreach ($containers as &$sub) {
-			$sub=trim($sub);
-		}
-		$i=array_search($name, $containers);
-		if ($i===false) {
-			unlink($tmpFile);
-			return false;
-		} else {
-			unset($containers[$i]);
-			file_put_contents($tmpFile, implode("\n", $containers)."\n");
-		}
-
-		$obj->load_from_filename($tmpFile);
-		unlink($tmpFile);
-		return true;
-	}
-
-	/**
-	 * ensure a subcontainer file exists and return it's object
-	 * @param \CF_Container $container
-	 * @return \CF_Object
-	 */
-	private function getSubContainerFile($container) {
-		try {
-			return $container->get_object(self::SUBCONTAINER_FILE);
-		} catch(\NoSuchObjectException $e) {
-			return $container->create_object(self::SUBCONTAINER_FILE);
 		}
 	}
 
 	public function __construct($params) {
-		if (isset($params['token']) && isset($params['host']) && isset($params['user'])) {
-			$this->token=$params['token'];
-			$this->host=$params['host'];
-			$this->user=$params['user'];
-			$this->root=isset($params['root'])?$params['root']:'/';
-			if (isset($params['secure'])) {
-				if (is_string($params['secure'])) {
-					$this->secure = ($params['secure'] === 'true');
-				} else {
-					$this->secure = (bool)$params['secure'];
-				}
-			} else {
-				$this->secure = false;
-			}
-			if ( ! $this->root || $this->root[0]!='/') {
-				$this->root='/'.$this->root;
-			}
-			$this->id = 'swift:' . $this->host . ':'.$this->root . ':' . $this->user;
-		} else {
-			throw new \Exception();
+		if ((!isset($params['key']) and !isset($params['password']))
+		 	or !isset($params['user']) or !isset($params['bucket'])
+			or !isset($params['region'])) {
+			throw new \Exception("API Key or password, Username, Bucket and Region have to be configured.");
 		}
 
-	}
+		$this->id = 'swift::' . $params['user'] . md5($params['bucket']);
+		$this->bucket = $params['bucket'];
 
-	private function init(){
-		if($this->ready) {
-			return;
+		if (!isset($params['url'])) {
+			$params['url'] = 'https://identity.api.rackspacecloud.com/v2.0/';
 		}
-		$this->ready = true;
 
-		$this->auth = new \CF_Authentication($this->user, $this->token, null, $this->host);
-		$this->auth->authenticate();
+		if (!isset($params['service_name'])) {
+			$params['service_name'] = 'cloudFiles';
+		}
 
-		$this->conn = new \CF_Connection($this->auth);
+		$settings = array(
+			'username' => $params['user'],
+			
+		);
 
-		if ( ! $this->containerExists('/')) {
-			$this->rootContainer=$this->createContainer('/');
-		} else {
-			$this->rootContainer=$this->getContainer('/');
+		if (isset($params['password'])) {
+			$settings['password'] = $params['password'];
+		} else if (isset($params['key'])) {
+			$settings['apiKey'] = $params['key'];
+		}
+
+		if (isset($params['tenant'])) {
+			$settings['tenantName'] = $params['tenant'];
+		}
+
+		$this->anchor = new \OpenCloud\OpenStack($params['url'], $settings);
+
+		if (isset($params['timeout'])) {
+			$this->anchor->setHttpTimeout($params['timeout']);
+		}
+
+		$this->connection = $this->anchor->ObjectStore($params['service_name'], $params['region'], 'publicURL');
+
+		try {
+			$this->container = $this->connection->Container($this->bucket);
+		} catch (Exceptions\ContainerNotFoundError $e) {
+			$this->container = $this->connection->Container();
+			$this->container->Create(array('name' => $this->bucket));
+		}
+
+		if (!$this->file_exists('.')) {
+			$this->mkdir('.');
 		}
 	}
-
-	public function getId(){
-		return $this->id;
-	}
-
 
 	public function mkdir($path) {
-		$this->init();
-		if ($this->containerExists($path)) {
+		$path = $this->normalizePath($path);
+
+		if ($this->is_dir($path)) {
 			return false;
-		} else {
-			$this->createContainer($path);
-			return true;
 		}
+
+		if($path !== '.') {
+			$path .= '/';
+		}
+
+		try {
+			$object = $this->container->DataObject();
+			$object->Create(array(
+				'name' => $path,
+				'content_type' => 'httpd/unix-directory'
+			));
+		} catch (Exceptions\CreateUpdateError $e) {
+			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+			return false;
+		}
+
+		return true;
+	}
+
+	public function file_exists($path) {
+		$path = $this->normalizePath($path);
+
+		if ($path !== '.' && $this->is_dir($path)) {
+			$path .= '/';
+		}
+
+		return $this->doesObjectExist($path);
 	}
 
 	public function rmdir($path) {
-		$this->init();
-		if (!$this->containerExists($path)) {
+		$path = $this->normalizePath($path);
+
+		if (!$this->is_dir($path)) {
 			return false;
-		} else {
-			$this->emptyContainer($path);
-			if ($path!='' and $path!='/') {
-				$parentContainer=$this->getContainer(dirname($path));
-				$this->removeSubContainer($parentContainer, basename($path));
+		}
+
+		$dh = $this->opendir($path);
+		while ($file = readdir($dh)) {
+			if ($file === '.' || $file === '..') {
+				continue;
 			}
 
-			$this->conn->delete_container($this->getContainerName($path));
-			unset($this->containers[$path]);
-			return true;
-		}
-	}
-
-	private function emptyContainer($path) {
-		$container=$this->getContainer($path);
-		if (is_null($container)) {
-			return;
-		}
-		$subContainers=$this->getSubContainers($container);
-		foreach ($subContainers as $sub) {
-			if ($sub) {
-				$this->emptyContainer($path.'/'.$sub);
-				$this->conn->delete_container($this->getContainerName($path.'/'.$sub));
-				unset($this->containers[$path.'/'.$sub]);
+			if ($this->is_dir($path . '/' . $file)) {
+				$this->rmdir($path . '/' . $file);
+			} else {
+				$this->unlink($path . '/' . $file);
 			}
 		}
 
-		$objects=$this->getObjects($container);
-		foreach ($objects as $object) {
-			$container->delete_object($object);
-			unset($this->objects[$path.'/'.$object]);
+		try {
+			$object = $this->container->DataObject($path . '/');
+			$object->Delete();
+		} catch (Exceptions\DeleteError $e) {
+			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+			return false;
 		}
+
+		return true;
 	}
 
 	public function opendir($path) {
-		$this->init();
-		$container=$this->getContainer($path);
-		$files=$this->getObjects($container);
-		$i=array_search(self::SUBCONTAINER_FILE, $files);
-		if ($i!==false) {
-			unset($files[$i]);
+		$path = $this->normalizePath($path);
+
+		if ($path === '.') {
+			$path = '';
+		} else {
+			$path .= '/';
 		}
-		$subContainers=$this->getSubContainers($container);
-		$files=array_merge($files, $subContainers);
-		$id=$this->getContainerName($path);
-		\OC\Files\Stream\Dir::register($id, $files);
-		return opendir('fakedir://'.$id);
+
+		try {
+			$files = array();
+			$objects = $this->container->ObjectList(array(
+				'prefix' => $path,
+				'delimiter' => '/'
+			));
+
+			while ($object = $objects->Next()) {
+				$file = basename($object->Name());
+				if ($file !== basename($path)) {
+					$files[] = $file;
+				}
+			}
+
+			\OC\Files\Stream\Dir::register('swift' . $path, $files);
+			return opendir('fakedir://swift' . $path);
+		} catch (Exception $e) {
+			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+			return false;
+		}
+
+	}
+
+	public function stat($path) {
+		$path = $this->normalizePath($path);
+
+		if ($this->is_dir($path) && $path != '.') {
+			$path .= '/';
+		}
+
+		try {
+			$object = $this->container->DataObject($path);
+		} catch (Exceptions\ObjFetchError $e) {
+			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+			return false;
+		}
+
+		$mtime = $object->extra_headers['X-Timestamp'];
+		if (isset($object->extra_headers['X-Object-Meta-Timestamp'])) {
+			$mtime = $object->extra_headers['X-Object-Meta-Timestamp'];
+		}
+
+		$stat = array();
+		$stat['size'] = $object->content_length;
+		$stat['mtime'] = $mtime;
+		$stat['atime'] = time();
+		return $stat;
 	}
 
 	public function filetype($path) {
-		$this->init();
-		if ($this->containerExists($path)) {
-			return 'dir';
-		} else {
+		$path = $this->normalizePath($path);
+
+		if ($path !== '.' && $this->doesObjectExist($path)) {
 			return 'file';
+		}
+
+		if ($path !== '.') {
+			$path .= '/';
+		}
+
+		if ($this->doesObjectExist($path)) {
+			return 'dir';
 		}
 	}
 
@@ -397,66 +276,44 @@ class SWIFT extends \OC\Files\Storage\Common{
 		return true;
 	}
 
-	public function file_exists($path) {
-		$this->init();
-		if ($this->is_dir($path)) {
-			return true;
-		} else {
-			return $this->objectExists($path);
-		}
-	}
-
-	public function file_get_contents($path) {
-		$this->init();
-		$obj=$this->getObject($path);
-		if (is_null($obj)) {
-			return false;
-		}
-		return $obj->read();
-	}
-
-	public function file_put_contents($path, $content) {
-		$this->init();
-		$obj=$this->getObject($path);
-		if (is_null($obj)) {
-			$container=$this->getContainer(dirname($path));
-			if (is_null($container)) {
-				return false;
-			}
-			$obj=$container->create_object(basename($path));
-		}
-		$this->resetMTime($obj);
-		return $obj->write($content);
-	}
-
 	public function unlink($path) {
-		$this->init();
-		if ($this->containerExists($path)) {
-			return $this->rmdir($path);
-		}
-		if ($this->objectExists($path)) {
-			$container=$this->getContainer(dirname($path));
-			$container->delete_object(basename($path));
-			unset($this->objects[$path]);
-		} else {
+		$path = $this->normalizePath($path);
+
+		try {
+			$object = $this->container->DataObject($path);
+			$object->Delete();
+		} catch (Exceptions\DeleteError $e) {
+			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+			return false;
+		} catch (Exceptions\ObjFetchError $e) {
+			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
 		}
+
+		return true;
 	}
 
 	public function fopen($path, $mode) {
-		$this->init();
-		switch($mode) {
+		$path = $this->normalizePath($path);
+
+		switch ($mode) {
 			case 'r':
 			case 'rb':
-				$obj=$this->getObject($path);
-				if (is_null($obj)) {
+				$tmpFile = \OC_Helper::tmpFile();
+				self::$tmpFiles[$tmpFile] = $path;
+				try {
+					$object = $this->container->DataObject($path);
+				} catch (Exceptions\ObjFetchError $e) {
+					\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 					return false;
 				}
-				$fp = fopen('php://temp', 'r+');
-				$obj->stream($fp);
-
-				rewind($fp);
-				return $fp;
+				try {
+					$object->SaveToFilename($tmpFile);
+				} catch (Exceptions\IOError $e) {
+					\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+					return false;
+				}
+				return fopen($tmpFile, 'r');
 			case 'w':
 			case 'wb':
 			case 'a':
@@ -469,119 +326,166 @@ class SWIFT extends \OC\Files\Storage\Common{
 			case 'x+':
 			case 'c':
 			case 'c+':
-				$tmpFile=$this->getTmpFile($path);
+				if (strrpos($path, '.') !== false) {
+					$ext = substr($path, strrpos($path, '.'));
+				} else {
+					$ext = '';
+				}
+				$tmpFile = \OC_Helper::tmpFile($ext);
 				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
-				self::$tempFiles[$tmpFile]=$path;
-				return fopen('close://'.$tmpFile, $mode);
+				if ($this->file_exists($path)) {
+					$source = $this->fopen($path, 'r');
+					file_put_contents($tmpFile, $source);
+				}
+				self::$tmpFiles[$tmpFile] = $path;
+
+				return fopen('close://' . $tmpFile, $mode);
 		}
 	}
 
-	public function writeBack($tmpFile) {
-		if (isset(self::$tempFiles[$tmpFile])) {
-			$this->fromTmpFile($tmpFile, self::$tempFiles[$tmpFile]);
-			unlink($tmpFile);
+	public function getMimeType($path) {
+		$path = $this->normalizePath($path);
+
+		if ($this->is_dir($path)) {
+			return 'httpd/unix-directory';
+		} else if ($this->file_exists($path)) {
+			$object = $this->container->DataObject($path);
+			return $object->extra_headers["Content-Type"];
 		}
+		return false;
 	}
 
-	public function touch($path, $mtime=null) {
-		$this->init();
-		$obj=$this->getObject($path);
-		if (is_null($obj)) {
-			return false;
-		}
-		if (is_null($mtime)) {
-			$mtime=time();
-		}
+	public function touch($path, $mtime = null) {
+		$path = $this->normalizePath($path);
+		if ($this->file_exists($path)) {
+			if ($this->is_dir($path) && $path != '.') {
+				$path .= '/';
+			}
 
-		//emulate setting mtime with metadata
-		$obj->metadata['Mtime']=$mtime;
-		$obj->sync_metadata();
-	}
-
-	public function rename($path1, $path2) {
-		$this->init();
-		$sourceContainer=$this->getContainer(dirname($path1));
-		$targetContainer=$this->getContainer(dirname($path2));
-		$result=$sourceContainer->move_object_to(basename($path1), $targetContainer, basename($path2));
-		unset($this->objects[$path1]);
-		if ($result) {
-			$targetObj=$this->getObject($path2);
-			$this->resetMTime($targetObj);
+			$object = $this->container->DataObject($path);
+			if( is_null($mtime)) {
+				$mtime = time();
+			}
+			$settings = array(
+				'name' => $path,
+				'extra_headers' => array(
+					'X-Object-Meta-Timestamp' => $mtime
+				)
+			);
+			$object->Update($settings);
+		} else {
+			$object = $this->container->DataObject();
+			if (is_null($mtime)) {
+				$mtime = time();
+			}
+			$settings = array(
+				'name' => $path,
+				'content_type' => 'text/plain',
+				'extra_headers' => array(
+					'X-Object-Meta-Timestamp' => $mtime
+				)
+			);
+			$object->Create($settings);
 		}
-		return $result;
 	}
 
 	public function copy($path1, $path2) {
-		$this->init();
-		$sourceContainer=$this->getContainer(dirname($path1));
-		$targetContainer=$this->getContainer(dirname($path2));
-		$result=$sourceContainer->copy_object_to(basename($path1), $targetContainer, basename($path2));
-		if ($result) {
-			$targetObj=$this->getObject($path2);
-			$this->resetMTime($targetObj);
+		$path1 = $this->normalizePath($path1);
+		$path2 = $this->normalizePath($path2);
+
+		if ($this->is_file($path1)) {
+			try {
+				$source = $this->container->DataObject($path1);
+				$target = $this->container->DataObject();
+				$target->Create(array(
+					'name' => $path2,
+				));
+				$source->Copy($target);
+			} catch (Exceptions\ObjectCopyError $e) {
+				\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+				return false;
+			}
+		} else {
+			if ($this->file_exists($path2)) {
+				return false;
+			}
+
+			try {
+				$source = $this->container->DataObject($path1 . '/');
+				$target = $this->container->DataObject();
+				$target->Create(array(
+					'name' => $path2 . '/',
+				));
+				$source->Copy($target);
+			} catch (Exceptions\ObjectCopyError $e) {
+				\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+				return false;
+			}
+
+			$dh = $this->opendir($path1);
+			while ($file = readdir($dh)) {
+				if ($file === '.' || $file === '..') {
+					continue;
+				}
+
+				$source = $path1 . '/' . $file;
+				$target = $path2 . '/' . $file;
+				$this->copy($source, $target);
+			}
 		}
-		return $result;
+
+		return true;
 	}
 
-	public function stat($path) {
-		$this->init();
-		$container=$this->getContainer($path);
-		if ( ! is_null($container)) {
-			return array(
-				'mtime'=>-1,
-				'size'=>$container->bytes_used,
-				'ctime'=>-1
-			);
+	public function rename($path1, $path2) {
+		$path1 = $this->normalizePath($path1);
+		$path2 = $this->normalizePath($path2);
+
+		if ($this->is_file($path1)) {
+			if ($this->copy($path1, $path2) === false) {
+				return false;
+			}
+
+			if ($this->unlink($path1) === false) {
+				$this->unlink($path2);
+				return false;
+			}
+		} else {
+			if ($this->file_exists($path2)) {
+				return false;
+			}
+
+			if ($this->copy($path1, $path2) === false) {
+				return false;
+			}
+
+			if ($this->rmdir($path1) === false) {
+				$this->rmdir($path2);
+				return false;
+			}
 		}
 
-		$obj=$this->getObject($path);
+		return true;
+	}
 
-		if (is_null($obj)) {
+	public function getId() {
+		return $this->id;
+	}
+
+	public function getConnection() {
+		return $this->connection;
+	}
+
+	public function writeBack($tmpFile) {
+		if (!isset(self::$tmpFiles[$tmpFile])) {
 			return false;
 		}
 
-		if (isset($obj->metadata['Mtime']) and $obj->metadata['Mtime']>-1) {
-			$mtime=$obj->metadata['Mtime'];
-		} else {
-			$mtime=strtotime($obj->last_modified);
-		}
-		return array(
-			'mtime'=>$mtime,
-			'size'=>$obj->content_length,
-			'ctime'=>-1,
-		);
-	}
-
-	private function getTmpFile($path) {
-		$this->init();
-		$obj=$this->getObject($path);
-		if ( ! is_null($obj)) {
-			$tmpFile=\OCP\Files::tmpFile();
-			$obj->save_to_filename($tmpFile);
-			return $tmpFile;
-		} else {
-			return \OCP\Files::tmpFile();
-		}
-	}
-
-	private function fromTmpFile($tmpFile, $path) {
-		$this->init();
-		$obj=$this->getObject($path);
-		if (is_null($obj)) {
-			$obj=$this->createObject($path);
-		}
-		$obj->load_from_filename($tmpFile);
-		$this->resetMTime($obj);
-	}
-
-	/**
-	 * remove custom mtime metadata
-	 * @param \CF_Object $obj
-	 */
-	private function resetMTime($obj) {
-		if (isset($obj->metadata['Mtime'])) {
-			$obj->metadata['Mtime']=-1;
-			$obj->sync_metadata();
-		}
+		$object = $this->container->DataObject();
+		$object->Create(array(
+			'name' => self::$tmpFiles[$tmpFile],
+			'content_type' => \OC_Helper::getMimeType($tmpFile)
+		), $tmpFile);
+		unlink($tmpFile);
 	}
 }

@@ -22,6 +22,8 @@ class Updater extends \PHPUnit_Framework_TestCase {
 	 */
 	private $scanner;
 
+	private $stateFilesEncryption;
+
 	/**
 	 * @var \OC\Files\Cache\Cache $cache
 	 */
@@ -30,6 +32,12 @@ class Updater extends \PHPUnit_Framework_TestCase {
 	private static $user;
 
 	public function setUp() {
+
+		// remember files_encryption state
+		$this->stateFilesEncryption = \OC_App::isEnabled('files_encryption');
+		// we want to tests with the encryption app disabled
+		\OC_App::disable('files_encryption');
+
 		$this->storage = new \OC\Files\Storage\Temporary(array());
 		$textData = "dummy file data\n";
 		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo.png');
@@ -47,6 +55,10 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		if (!self::$user) {
 			self::$user = uniqid();
 		}
+
+		\OC_User::createUser(self::$user, 'password');
+		\OC_User::setUserId(self::$user);
+
 		\OC\Files\Filesystem::init(self::$user, '/' . self::$user . '/files');
 
 		Filesystem::clearMounts();
@@ -64,7 +76,13 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		if ($this->cache) {
 			$this->cache->clear();
 		}
+		$result = \OC_User::deleteUser(self::$user);
+		$this->assertTrue($result);
 		Filesystem::tearDown();
+		// reset app files_encryption
+		if ($this->stateFilesEncryption) {
+			\OC_App::enable('files_encryption');
+		}
 	}
 
 	public function testWrite() {

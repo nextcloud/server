@@ -112,7 +112,6 @@ $TRANSLATIONS = array(
 "Username" => "Prisijungimo vardas",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Jūsų failai yra užšifruoti. Jei neįjungėte atstatymo rakto, nebus galimybės atstatyti duomenų po slaptažodžio atstatymo. Jei nesate tikri ką daryti, prašome susisiekti su administratoriumi prie tęsiant. Ar tikrai tęsti?",
 "Yes, I really want to reset my password now" => "Taip, aš tikrai noriu atnaujinti slaptažodį",
-"Request reset" => "Prašyti nustatymo iš najo",
 "Your password was reset" => "Jūsų slaptažodis buvo nustatytas iš naujo",
 "To login page" => "Į prisijungimo puslapį",
 "New password" => "Naujas slaptažodis",

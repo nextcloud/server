@@ -108,7 +108,6 @@ $TRANSLATIONS = array(
 "Username" => "Имя пользователя",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Ваши файлы зашифрованы. Если вы не активировали ключ восстановления, то после сброса пароля все ваши данные будут потеряны навсегда. Если вы не знаете что делать, свяжитесь со своим администратором до того как продолжить. Вы действительно хотите продолжить?",
 "Yes, I really want to reset my password now" => "Да, я действительно хочу сбросить свой пароль",
-"Request reset" => "Запросить сброс",
 "Your password was reset" => "Ваш пароль был сброшен",
 "To login page" => "На страницу авторизации",
 "New password" => "Новый пароль",

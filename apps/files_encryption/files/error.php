@@ -12,7 +12,8 @@ if (!isset($_)) { //also provide standalone error page
 				$errorMsg = $l->t('Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app.');
 				break;
 			case \OCA\Encryption\Crypt::ENCRYPTION_PRIVATE_KEY_NOT_VALID_ERROR:
-				$errorMsg = $l->t('Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files.');
+				$theme = new OC_Defaults();
+				$errorMsg = $l->t('Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files.', array($theme->getName()));
 				break;
 			case \OCA\Encryption\Crypt::ENCRYPTION_NO_SHARE_KEY_FOUND:
 				$errorMsg = $l->t('Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');

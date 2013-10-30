@@ -68,7 +68,6 @@ $TRANSLATIONS = array(
 "Use the following link to reset your password: {link}" => "Bruk følgende lenke for å tilbakestille passordet ditt: {link}",
 "You will receive a link to reset your password via Email." => "Du burde motta detaljer om å tilbakestille passordet ditt via epost.",
 "Username" => "Brukernavn",
-"Request reset" => "Anmod tilbakestilling",
 "Your password was reset" => "Passordet ditt ble tilbakestilt",
 "To login page" => "Til innlogginssiden",
 "New password" => "Nytt passord",

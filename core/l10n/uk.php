@@ -77,7 +77,6 @@ $TRANSLATIONS = array(
 "Use the following link to reset your password: {link}" => "Використовуйте наступне посилання для скидання пароля: {link}",
 "You will receive a link to reset your password via Email." => "Ви отримаєте посилання для скидання вашого паролю на Ел. пошту.",
 "Username" => "Ім'я користувача",
-"Request reset" => "Запит скидання",
 "Your password was reset" => "Ваш пароль був скинутий",
 "To login page" => "До сторінки входу",
 "New password" => "Новий пароль",

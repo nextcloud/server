@@ -97,7 +97,6 @@ $TRANSLATIONS = array(
 "You will receive a link to reset your password via Email." => "Ќе добиете врска по е-пошта за да може да ја ресетирате Вашата лозинка.",
 "Username" => "Корисничко име",
 "Yes, I really want to reset my password now" => "Да, јас сега навистина сакам да ја поништам својата лозинка",
-"Request reset" => "Побарајте ресетирање",
 "Your password was reset" => "Вашата лозинка беше ресетирана",
 "To login page" => "Кон страницата за најава",
 "New password" => "Нова лозинка",

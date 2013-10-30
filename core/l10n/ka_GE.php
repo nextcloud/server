@@ -77,7 +77,6 @@ $TRANSLATIONS = array(
 "Use the following link to reset your password: {link}" => "გამოიყენე შემდეგი ლინკი პაროლის შესაცვლელად: {link}",
 "You will receive a link to reset your password via Email." => "თქვენ მოგივათ პაროლის შესაცვლელი ლინკი მეილზე",
 "Username" => "მომხმარებლის სახელი",
-"Request reset" => "პაროლის შეცვლის მოთხოვნა",
 "Your password was reset" => "თქვენი პაროლი შეცვლილია",
 "To login page" => "შესვლის გვერდზე",
 "New password" => "ახალი პაროლი",

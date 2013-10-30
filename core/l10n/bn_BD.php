@@ -74,7 +74,6 @@ $TRANSLATIONS = array(
 "Use the following link to reset your password: {link}" => "আপনার কূটশব্দটি পূনঃনির্ধারণ  করার জন্য নিম্নোক্ত লিংকটি ব্যবহার করুনঃ {link}",
 "You will receive a link to reset your password via Email." => "কূটশব্দ পূনঃনির্ধারণের জন্য একটি টূনঃনির্ধারণ লিংকটি আপনাকে ই-মেইলে পাঠানো হয়েছে ।",
 "Username" => "ব্যবহারকারী",
-"Request reset" => "অনুরোধ পূনঃনির্ধারণ",
 "Your password was reset" => "আপনার কূটশব্দটি  পূনঃনির্ধারণ  করা হয়েছে",
 "To login page" => "প্রবেশ পৃষ্ঠায়",
 "New password" => "নতুন কূটশব্দ",

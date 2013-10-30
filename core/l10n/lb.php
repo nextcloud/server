@@ -83,7 +83,6 @@ $TRANSLATIONS = array(
 "Username" => "Benotzernumm",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Deng Fichiere si verschlësselt. Falls du de Recuperatiouns-Schlëssel net aktivéiert hues, gëtt et keng Méiglechkeet nees un deng Daten ze komme wann däi Passwuert muss zréckgesat ginn. Falls du net sécher bass wat s de maache soll, kontaktéier w.e.gl däin Administrateur bevir s de weidermëss. Wëlls de wierklech weidermaachen?",
 "Yes, I really want to reset my password now" => "Jo, ech wëll mäi Passwuert elo zrécksetzen",
-"Request reset" => "Zrécksetzung ufroen",
 "Your password was reset" => "Däi Passwuert ass zréck gesat ginn",
 "To login page" => "Bei d'Login-Säit",
 "New password" => "Neit Passwuert",

@@ -45,7 +45,6 @@ $TRANSLATIONS = array(
 "Use the following link to reset your password: {link}" => "اپنا پاسورڈ ری سیٹ کرنے کے لیے اس لنک پر کلک کریں۔  {link}",
 "You will receive a link to reset your password via Email." => "آپ ای میل کے ذریعے اپنے پاسورڈ ری سیٹ کا لنک موصول کریں گے",
 "Username" => "یوزر نیم",
-"Request reset" => "ری سیٹ کی درخواست کریں",
 "Your password was reset" => "آپ کا پاسورڈ ری سیٹ کر دیا گیا ہے",
 "To login page" => "لاگ ان صفحے کی طرف",
 "New password" => "نیا پاسورڈ",
