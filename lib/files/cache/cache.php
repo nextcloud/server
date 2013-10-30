@@ -67,6 +67,19 @@ class Cache {
 		return $this->numericId;
 	}
 
+	public static function storageExists($storageId) {
+		if (strlen($storageId) > 64) {
+			$storageId = md5($storageId);
+		}
+		$query = \OC_DB::prepare('SELECT `numeric_id` FROM `*PREFIX*storages` WHERE `id` = ?');
+		$result = $query->execute(array($storageId));
+		if ($row = $result->fetchRow()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	/**
 	 * normalize mimetypes
 	 *
