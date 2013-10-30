@@ -579,6 +579,7 @@ class OC_Util {
 	 * @return void
 	 */
 	public static function checkAdminUser() {
+		OC_Util::checkLoggedIn();
 		if( !OC_User::isAdminUser(OC_User::getUser())) {
 			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
@@ -611,6 +612,7 @@ class OC_Util {
 	 * @return array $groups where the current user is subadmin
 	 */
 	public static function checkSubAdminUser() {
+		OC_Util::checkLoggedIn();
 		if(!OC_SubAdmin::isSubAdmin(OC_User::getUser())) {
 			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
