@@ -75,7 +75,6 @@ $TRANSLATIONS = array(
 "Use the following link to reset your password: {link}" => "Notað eftirfarandi veftengil til að endursetja lykilorðið þitt: {link}",
 "You will receive a link to reset your password via Email." => "Þú munt fá veftengil í tölvupósti til að endursetja lykilorðið.",
 "Username" => "Notendanafn",
-"Request reset" => "Endursetja lykilorð",
 "Your password was reset" => "Lykilorðið þitt hefur verið endursett.",
 "To login page" => "Fara á innskráningarsíðu",
 "New password" => "Nýtt lykilorð",

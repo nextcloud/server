@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-29 07:28-0400\n"
-"PO-Revision-Date: 2013-10-28 10:44+0000\n"
+"POT-Creation-Date: 2013-10-30 03:32-0400\n"
+"PO-Revision-Date: 2013-10-30 07:32+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -19,12 +19,12 @@ msgstr ""
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:118 ajax/share.php:197
+#: ajax/share.php:119 ajax/share.php:198
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr ""
 
-#: ajax/share.php:168
+#: ajax/share.php:169
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr ""
@@ -273,140 +273,140 @@ msgstr "공유됨"
 msgid "Share"
 msgstr "공유"
 
-#: js/share.js:149 js/share.js:162 js/share.js:169 js/share.js:676
-#: js/share.js:688
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:690
+#: js/share.js:702
 msgid "Error"
 msgstr "오류"
 
-#: js/share.js:151 js/share.js:716
+#: js/share.js:160 js/share.js:730
 msgid "Error while sharing"
 msgstr "공유하는 중 오류 발생"
 
-#: js/share.js:162
+#: js/share.js:171
 msgid "Error while unsharing"
 msgstr "공유 해제하는 중 오류 발생"
 
-#: js/share.js:169
+#: js/share.js:178
 msgid "Error while changing permissions"
 msgstr "권한 변경하는 중 오류 발생"
 
-#: js/share.js:178
+#: js/share.js:187
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "{owner} 님이 여러분 및 그룹 {group}와(과) 공유 중"
 
-#: js/share.js:180
+#: js/share.js:189
 msgid "Shared with you by {owner}"
 msgstr "{owner} 님이 공유 중"
 
-#: js/share.js:203
+#: js/share.js:212
 msgid "Share with user or group …"
 msgstr ""
 
-#: js/share.js:209
+#: js/share.js:218
 msgid "Share link"
 msgstr ""
 
-#: js/share.js:212
+#: js/share.js:221
 msgid "Password protect"
 msgstr "암호 보호"
 
-#: js/share.js:214 templates/installation.php:57 templates/login.php:32
+#: js/share.js:223 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "암호"
 
-#: js/share.js:219
+#: js/share.js:228
 msgid "Allow Public Upload"
 msgstr "퍼블릭 업로드 허용"
 
-#: js/share.js:223
+#: js/share.js:232
 msgid "Email link to person"
 msgstr "이메일 주소"
 
-#: js/share.js:224
+#: js/share.js:233
 msgid "Send"
 msgstr "전송"
 
-#: js/share.js:229
+#: js/share.js:238
 msgid "Set expiration date"
 msgstr "만료 날짜 설정"
 
-#: js/share.js:230
+#: js/share.js:239
 msgid "Expiration date"
 msgstr "만료 날짜"
 
-#: js/share.js:263
+#: js/share.js:272
 msgid "Share via email:"
 msgstr "이메일로 공유:"
 
-#: js/share.js:266
+#: js/share.js:275
 msgid "No people found"
 msgstr "발견된 사람 없음"
 
-#: js/share.js:295 js/share.js:332
+#: js/share.js:305 js/share.js:342
 msgid "group"
 msgstr "그룹"
 
-#: js/share.js:306
+#: js/share.js:316
 msgid "Resharing is not allowed"
 msgstr "다시 공유할 수 없습니다"
 
-#: js/share.js:348
+#: js/share.js:358
 msgid "Shared in {item} with {user}"
 msgstr "{user} 님과 {item}에서 공유 중"
 
-#: js/share.js:370
+#: js/share.js:380
 msgid "Unshare"
 msgstr "공유 해제"
 
-#: js/share.js:378
+#: js/share.js:388
 msgid "notify by email"
 msgstr ""
 
-#: js/share.js:381
+#: js/share.js:391
 msgid "can edit"
 msgstr "편집 가능"
 
-#: js/share.js:383
+#: js/share.js:393
 msgid "access control"
 msgstr "접근 제어"
 
-#: js/share.js:386
+#: js/share.js:396
 msgid "create"
 msgstr "생성"
 
-#: js/share.js:389
+#: js/share.js:399
 msgid "update"
 msgstr "업데이트"
 
-#: js/share.js:392
+#: js/share.js:402
 msgid "delete"
 msgstr "삭제"
 
-#: js/share.js:395
+#: js/share.js:405
 msgid "share"
 msgstr "공유"
 
-#: js/share.js:437 js/share.js:663
+#: js/share.js:447 js/share.js:677
 msgid "Password protected"
 msgstr "암호로 보호됨"
 
-#: js/share.js:676
+#: js/share.js:690
 msgid "Error unsetting expiration date"
 msgstr "만료 날짜 해제 오류"
 
-#: js/share.js:688
+#: js/share.js:702
 msgid "Error setting expiration date"
 msgstr "만료 날짜 설정 오류"
 
-#: js/share.js:703
+#: js/share.js:717
 msgid "Sending ..."
 msgstr "전송 중..."
 
-#: js/share.js:714
+#: js/share.js:728
 msgid "Email sent"
 msgstr "이메일 발송됨"
 
-#: js/share.js:738
+#: js/share.js:752
 msgid "Warning"
 msgstr "경고"
 
@@ -458,27 +458,27 @@ msgstr ""
 msgid "Use the following link to reset your password: {link}"
 msgstr "다음 링크를 사용하여 암호를 재설정할 수 있습니다: {link}"
 
-#: lostpassword/templates/lostpassword.php:4
+#: lostpassword/templates/lostpassword.php:7
 msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:12
+#: lostpassword/templates/lostpassword.php:15
 msgid "Request failed!<br>Did you make sure your email/username was right?"
 msgstr "요청이 실패했습니다!<br>email 주소와 사용자 명을 정확하게 넣으셨나요?"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:18
 msgid "You will receive a link to reset your password via Email."
 msgstr "이메일로 암호 재설정 링크를 보냈습니다."
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:51
 #: templates/login.php:25
 msgid "Username"
 msgstr "사용자 이름"
 
-#: lostpassword/templates/lostpassword.php:22
+#: lostpassword/templates/lostpassword.php:25
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -486,13 +486,13 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:24
+#: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
 msgstr "네, 전 제 비밀번호를 리셋하길 원합니다"
 
-#: lostpassword/templates/lostpassword.php:27
-msgid "Request reset"
-msgstr "요청 초기화"
+#: lostpassword/templates/lostpassword.php:30
+msgid "Reset"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"

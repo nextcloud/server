@@ -90,7 +90,6 @@ $TRANSLATIONS = array(
 "Username" => "Nume utilizator",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Fișierele tale sunt criptate. Dacă nu ai activat o cheie de recuperare, nu va mai exista nici o metodă prin care să îți recuperezi datele după resetarea parole. Dacă nu ești sigur în privința la ce ai de făcut, contactează un administrator înainte să continuii. Chiar vrei să continui?",
 "Yes, I really want to reset my password now" => "Da, eu chiar doresc să îmi resetez parola acum",
-"Request reset" => "Cerere trimisă",
 "Your password was reset" => "Parola a fost resetată",
 "To login page" => "Spre pagina de autentificare",
 "New password" => "Noua parolă",

@@ -62,7 +62,6 @@ $TRANSLATIONS = array(
 "Use the following link to reset your password: {link}" => "請用以下連結重設你的密碼: {link}",
 "You will receive a link to reset your password via Email." => "你將收到一封電郵",
 "Username" => "用戶名稱",
-"Request reset" => "重設",
 "Your password was reset" => "你的密碼已被重設",
 "To login page" => "前往登入版面",
 "New password" => "新密碼",

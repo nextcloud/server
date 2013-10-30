@@ -79,7 +79,6 @@ $TRANSLATIONS = array(
 "Request failed!<br>Did you make sure your email/username was right?" => "الطلب رفض! <br> هل انت متأكد أن الاسم/العنوان البريدي صحيح؟",
 "You will receive a link to reset your password via Email." => "سوف نرسل لك بريد يحتوي على وصلة لتجديد كلمة السر.",
 "Username" => "إسم المستخدم",
-"Request reset" => "طلب تعديل",
 "Your password was reset" => "لقد تم تعديل كلمة السر",
 "To login page" => "الى صفحة الدخول",
 "New password" => "كلمات سر جديدة",

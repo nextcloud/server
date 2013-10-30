@@ -89,7 +89,6 @@ $TRANSLATIONS = array(
 "Username" => "Përdoruesi",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Skedarët tuaj janë të kodifikuar. Nëqoftëse nuk keni aktivizuar çelësin e restaurimit, të dhënat tuaja nuk do të jenë të arritshme pasi të keni rivendosur kodin. Nëqoftëse nuk jeni i sigurt, ju lutemi kontaktoni administratorin tuaj para se të vazhdoni. Jeni i sigurt që dëshironi të vazhdoni?",
 "Yes, I really want to reset my password now" => "Po, dua ta rivendos kodin tani",
-"Request reset" => "Bëj kërkesë për rivendosjen",
 "Your password was reset" => "Kodi yt u rivendos",
 "To login page" => "Tek faqja e hyrjes",
 "New password" => "Kodi i ri",

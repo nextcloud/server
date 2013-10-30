@@ -79,7 +79,6 @@ $TRANSLATIONS = array(
 "Request failed!<br>Did you make sure your email/username was right?" => "Methodd y cais!<br>Gwiriwch eich enw defnyddiwr ac ebost.",
 "You will receive a link to reset your password via Email." => "Byddwch yn derbyn dolen drwy e-bost i ailosod eich cyfrinair.",
 "Username" => "Enw defnyddiwr",
-"Request reset" => "Gwneud cais i ailosod",
 "Your password was reset" => "Ailosodwyd eich cyfrinair",
 "To login page" => "I'r dudalen mewngofnodi",
 "New password" => "Cyfrinair newydd",

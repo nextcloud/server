@@ -65,7 +65,6 @@ $TRANSLATIONS = array(
 "Use the following link to reset your password: {link}" => "Utiliza lo ligam seguent per tornar botar lo senhal : {link}",
 "You will receive a link to reset your password via Email." => "Reçaupràs un ligam per tornar botar ton senhal via corrièl.",
 "Username" => "Non d'usancièr",
-"Request reset" => "Tornar botar requesit",
 "Your password was reset" => "Ton senhal es estat tornat botar",
 "To login page" => "Pagina cap al login",
 "New password" => "Senhal novèl",

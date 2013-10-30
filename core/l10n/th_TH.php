@@ -77,7 +77,6 @@ $TRANSLATIONS = array(
 "Use the following link to reset your password: {link}" => "ใช้ลิงค์ต่อไปนี้เพื่อเปลี่ยนรหัสผ่านของคุณใหม่: {link}",
 "You will receive a link to reset your password via Email." => "คุณจะได้รับลิงค์เพื่อกำหนดรหัสผ่านใหม่ทางอีเมล์",
 "Username" => "ชื่อผู้ใช้งาน",
-"Request reset" => "ขอเปลี่ยนรหัสใหม่",
 "Your password was reset" => "รหัสผ่านของคุณถูกเปลี่ยนเรียบร้อยแล้ว",
 "To login page" => "ไปที่หน้าเข้าสู่ระบบ",
 "New password" => "รหัสผ่านใหม่",

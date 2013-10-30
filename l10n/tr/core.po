@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-29 07:28-0400\n"
-"PO-Revision-Date: 2013-10-28 10:44+0000\n"
-"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
+"POT-Creation-Date: 2013-10-30 03:32-0400\n"
+"PO-Revision-Date: 2013-10-30 07:32+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,12 +21,12 @@ msgstr ""
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ajax/share.php:118 ajax/share.php:197
+#: ajax/share.php:119 ajax/share.php:198
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s  sizinle »%s« paylaşımında bulundu"
 
-#: ajax/share.php:168
+#: ajax/share.php:169
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Şu kullanıcılara posta gönderilemedi: %s"
@@ -280,140 +280,140 @@ msgstr "Paylaşılan"
 msgid "Share"
 msgstr "Paylaş"
 
-#: js/share.js:149 js/share.js:162 js/share.js:169 js/share.js:676
-#: js/share.js:688
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:690
+#: js/share.js:702
 msgid "Error"
 msgstr "Hata"
 
-#: js/share.js:151 js/share.js:716
+#: js/share.js:160 js/share.js:730
 msgid "Error while sharing"
 msgstr "Paylaşım sırasında hata  "
 
-#: js/share.js:162
+#: js/share.js:171
 msgid "Error while unsharing"
 msgstr "Paylaşım iptal ediliyorken hata"
 
-#: js/share.js:169
+#: js/share.js:178
 msgid "Error while changing permissions"
 msgstr "İzinleri değiştirirken hata oluştu"
 
-#: js/share.js:178
+#: js/share.js:187
 msgid "Shared with you and the group {group} by {owner}"
 msgstr " {owner} tarafından sizinle ve {group} ile paylaştırılmış"
 
-#: js/share.js:180
+#: js/share.js:189
 msgid "Shared with you by {owner}"
 msgstr "{owner} trafından sizinle paylaştırıldı"
 
-#: js/share.js:203
+#: js/share.js:212
 msgid "Share with user or group …"
 msgstr "Kullanıcı veya grup ile paylaş.."
 
-#: js/share.js:209
+#: js/share.js:218
 msgid "Share link"
 msgstr "Paylaşma bağlantısı"
 
-#: js/share.js:212
+#: js/share.js:221
 msgid "Password protect"
 msgstr "Parola koruması"
 
-#: js/share.js:214 templates/installation.php:57 templates/login.php:32
+#: js/share.js:223 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "Parola"
 
-#: js/share.js:219
+#: js/share.js:228
 msgid "Allow Public Upload"
 msgstr "Herkes tarafından yüklemeye izin ver"
 
-#: js/share.js:223
+#: js/share.js:232
 msgid "Email link to person"
 msgstr "Bağlantıyı e-posta ile gönder"
 
-#: js/share.js:224
+#: js/share.js:233
 msgid "Send"
 msgstr "Gönder"
 
-#: js/share.js:229
+#: js/share.js:238
 msgid "Set expiration date"
 msgstr "Son kullanma tarihini ayarla"
 
-#: js/share.js:230
+#: js/share.js:239
 msgid "Expiration date"
 msgstr "Son kullanım tarihi"
 
-#: js/share.js:263
+#: js/share.js:272
 msgid "Share via email:"
 msgstr "E-posta ile paylaş"
 
-#: js/share.js:266
+#: js/share.js:275
 msgid "No people found"
 msgstr "Kişi bulunamadı"
 
-#: js/share.js:295 js/share.js:332
+#: js/share.js:305 js/share.js:342
 msgid "group"
 msgstr "grup"
 
-#: js/share.js:306
+#: js/share.js:316
 msgid "Resharing is not allowed"
 msgstr "Tekrar paylaşmaya izin verilmiyor"
 
-#: js/share.js:348
+#: js/share.js:358
 msgid "Shared in {item} with {user}"
 msgstr " {item} içinde  {user} ile paylaşılanlarlar"
 
-#: js/share.js:370
+#: js/share.js:380
 msgid "Unshare"
 msgstr "Paylaşılmayan"
 
-#: js/share.js:378
+#: js/share.js:388
 msgid "notify by email"
 msgstr "e-posta ile bildir"
 
-#: js/share.js:381
+#: js/share.js:391
 msgid "can edit"
 msgstr "düzenleyebilir"
 
-#: js/share.js:383
+#: js/share.js:393
 msgid "access control"
 msgstr "erişim kontrolü"
 
-#: js/share.js:386
+#: js/share.js:396
 msgid "create"
 msgstr "oluştur"
 
-#: js/share.js:389
+#: js/share.js:399
 msgid "update"
 msgstr "güncelle"
 
-#: js/share.js:392
+#: js/share.js:402
 msgid "delete"
 msgstr "sil"
 
-#: js/share.js:395
+#: js/share.js:405
 msgid "share"
 msgstr "paylaş"
 
-#: js/share.js:437 js/share.js:663
+#: js/share.js:447 js/share.js:677
 msgid "Password protected"
 msgstr "Parola korumalı"
 
-#: js/share.js:676
+#: js/share.js:690
 msgid "Error unsetting expiration date"
 msgstr "Geçerlilik tarihi tanımlama kaldırma hatası"
 
-#: js/share.js:688
+#: js/share.js:702
 msgid "Error setting expiration date"
 msgstr "Geçerlilik tarihi tanımlama hatası"
 
-#: js/share.js:703
+#: js/share.js:717
 msgid "Sending ..."
 msgstr "Gönderiliyor..."
 
-#: js/share.js:714
+#: js/share.js:728
 msgid "Email sent"
 msgstr "E-posta gönderildi"
 
-#: js/share.js:738
+#: js/share.js:752
 msgid "Warning"
 msgstr "Uyarı"
 
@@ -465,27 +465,27 @@ msgstr "%s parola sıfırlama"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Bu bağlantıyı kullanarak parolanızı sıfırlayın: {link}"
 
-#: lostpassword/templates/lostpassword.php:4
+#: lostpassword/templates/lostpassword.php:7
 msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
 msgstr "Parolanızı değiştirme bağlantısı e-posta adresinize gönderildi.<br>Eğer makül bir süre içerisinde mesajı almadıysanız spam/junk dizinini kontrol ediniz.<br> Eğer orada da bulamazsanız sistem yöneticinize sorunuz."
 
-#: lostpassword/templates/lostpassword.php:12
+#: lostpassword/templates/lostpassword.php:15
 msgid "Request failed!<br>Did you make sure your email/username was right?"
 msgstr "Isteği başarısız oldu!<br>E-posta / kullanıcı adınızı doğru olduğundan emin misiniz?"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:18
 msgid "You will receive a link to reset your password via Email."
 msgstr "Parolanızı sıfırlamak için bir bağlantıyı e-posta olarak alacaksınız."
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:51
 #: templates/login.php:25
 msgid "Username"
 msgstr "Kullanıcı Adı"
 
-#: lostpassword/templates/lostpassword.php:22
+#: lostpassword/templates/lostpassword.php:25
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -493,13 +493,13 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr "Dosyalarınız şifrelenmiş. Eğer kurtarma anahtarını aktif etmediyseniz parola sıfırlama işleminden sonra verilerinize erişmeniz imkansız olacak. Eğer ne yaptığınızdan emin değilseniz, devam etmeden önce sistem yöneticiniz ile irtibata geçiniz. Gerçekten devam etmek istiyor musunuz?"
 
-#: lostpassword/templates/lostpassword.php:24
+#: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
 msgstr "Evet,Şu anda parolamı sıfırlamak istiyorum."
 
-#: lostpassword/templates/lostpassword.php:27
-msgid "Request reset"
-msgstr "Sıfırlama iste"
+#: lostpassword/templates/lostpassword.php:30
+msgid "Reset"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"

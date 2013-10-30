@@ -84,7 +84,6 @@ $TRANSLATIONS = array(
 "Username" => "Lietotājvārds",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Jūsu faili ir šifrēti. Ja nav iespējota atgūšanas kods, tad nebūs iespēja atjaunot jūsu failus pēc tam kad tiks mainīta parole. ja neesat pārliecināts kā rīkoties, jautājiet administratoram. Vai tiešam vēlaties turpināt?",
 "Yes, I really want to reset my password now" => "Jā, Es tiešām vēlos mainīt savu paroli",
-"Request reset" => "Pieprasīt paroles maiņu",
 "Your password was reset" => "Jūsu parole tika nomainīta",
 "To login page" => "Uz ielogošanās lapu",
 "New password" => "Jauna parole",

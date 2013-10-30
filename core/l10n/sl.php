@@ -83,7 +83,6 @@ $TRANSLATIONS = array(
 "Username" => "Uporabniško ime",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Datoteke so šifrirane. Če niste omogočili ključa za obnovitev, žal podatkov ne bo mogoče pridobiti nazaj, ko boste geslo enkrat spremenili. Če niste prepričani, kaj storiti, se obrnite na skrbnika storitve. Ste prepričani, da želite nadaljevati?",
 "Yes, I really want to reset my password now" => "Da, potrjujem ponastavitev gesla",
-"Request reset" => "Zahtevaj ponovno nastavitev",
 "Your password was reset" => "Geslo je ponovno nastavljeno",
 "To login page" => "Na prijavno stran",
 "New password" => "Novo geslo",

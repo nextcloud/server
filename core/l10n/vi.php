@@ -79,7 +79,6 @@ $TRANSLATIONS = array(
 "Request failed!<br>Did you make sure your email/username was right?" => "Yêu cầu thất bại!<br>Bạn có chắc là email/tên đăng nhập của bạn chính xác?",
 "You will receive a link to reset your password via Email." => "Vui lòng kiểm tra Email để khôi phục lại mật khẩu.",
 "Username" => "Tên đăng nhập",
-"Request reset" => "Yêu cầu thiết lập lại ",
 "Your password was reset" => "Mật khẩu của bạn đã được khôi phục",
 "To login page" => "Trang đăng nhập",
 "New password" => "Mật khẩu mới",

@@ -80,7 +80,6 @@ $TRANSLATIONS = array(
 "You will receive a link to reset your password via Email." => "이메일로 암호 재설정 링크를 보냈습니다.",
 "Username" => "사용자 이름",
 "Yes, I really want to reset my password now" => "네, 전 제 비밀번호를 리셋하길 원합니다",
-"Request reset" => "요청 초기화",
 "Your password was reset" => "암호가 재설정되었습니다",
 "To login page" => "로그인 화면으로",
 "New password" => "새 암호",

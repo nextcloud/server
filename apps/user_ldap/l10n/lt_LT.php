@@ -2,8 +2,10 @@
 $TRANSLATIONS = array(
 "Failed to clear the mappings." => "Nepavyko išvalyti sąsajų.",
 "Failed to delete the server configuration" => "Nepavyko pašalinti serverio konfigūracijos",
+"The configuration is valid and the connection could be established!" => "Konfigūracija yra tinkama bei prisijungta sėkmingai!",
 "Deletion failed" => "Ištrinti nepavyko",
 "Keep settings?" => "Išlaikyti nustatymus?",
+"Cannot add server configuration" => "Negalima pridėti serverio konfigūracijos",
 "mappings cleared" => "susiejimai išvalyti",
 "Success" => "Sėkmingai",
 "Error" => "Klaida",

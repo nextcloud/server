@@ -84,7 +84,6 @@ $TRANSLATIONS = array(
 "Username" => "Erabiltzaile izena",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Zure fitxategiak enkriptaturik daude. Ez baduzu berreskuratze gakoa gaitzen pasahitza berrabiaraztean ez da zure fitxategiak berreskuratzeko modurik egongo. Zer egin ziur ez bazaude kudeatzailearekin harremanetan ipini jarraitu aurretik. Ziur zaude aurrera jarraitu nahi duzula?",
 "Yes, I really want to reset my password now" => "Bai, nire pasahitza orain berrabiarazi nahi dut",
-"Request reset" => "Eskaera berrezarri da",
 "Your password was reset" => "Zure pasahitza berrezarri da",
 "To login page" => "Sarrera orrira",
 "New password" => "Pasahitz berria",

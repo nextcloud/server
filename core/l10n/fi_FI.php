@@ -106,7 +106,6 @@ $TRANSLATIONS = array(
 "You will receive a link to reset your password via Email." => "Saat sähköpostitse linkin nollataksesi salasanan.",
 "Username" => "Käyttäjätunnus",
 "Yes, I really want to reset my password now" => "Kyllä, haluan nollata salasanani nyt",
-"Request reset" => "Tilaus lähetetty",
 "Your password was reset" => "Salasanasi nollattiin",
 "To login page" => "Kirjautumissivulle",
 "New password" => "Uusi salasana",

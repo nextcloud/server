@@ -80,7 +80,6 @@ $TRANSLATIONS = array(
 "You will receive a link to reset your password via Email." => "Vi ricevos ligilon retpoŝte por rekomencigi vian pasvorton.",
 "Username" => "Uzantonomo",
 "Yes, I really want to reset my password now" => "Jes, mi vere volas restarigi mian pasvorton nun",
-"Request reset" => "Peti rekomencigon",
 "Your password was reset" => "Via pasvorto rekomencis",
 "To login page" => "Al la ensaluta paĝo",
 "New password" => "Nova pasvorto",

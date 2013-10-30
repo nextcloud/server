@@ -73,7 +73,6 @@ $TRANSLATIONS = array(
 "Use the following link to reset your password: {link}" => "Овом везом ресетујте своју лозинку: {link}",
 "You will receive a link to reset your password via Email." => "Добићете везу за ресетовање лозинке путем е-поште.",
 "Username" => "Корисничко име",
-"Request reset" => "Захтевај ресетовање",
 "Your password was reset" => "Ваша лозинка је ресетована",
 "To login page" => "На страницу за пријаву",
 "New password" => "Нова лозинка",

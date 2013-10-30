@@ -112,7 +112,6 @@ $TRANSLATIONS = array(
 "Username" => "Kasutajanimi",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Sinu failid on krüpteeritud. Kui sa pole taastamise võtit veel määranud, siis pole präast parooli taastamist mingit võimalust sinu andmeid tagasi saada. Kui sa pole kindel, mida teha, siis palun väta enne jätkamist ühendust oma administaatoriga. Oled sa kindel, et sa soovid jätkata?",
 "Yes, I really want to reset my password now" => "Jah, ma tõesti soovin oma parooli praegu nullida",
-"Request reset" => "Päringu taastamine",
 "Your password was reset" => "Sinu parool on taastatud",
 "To login page" => "Sisselogimise lehele",
 "New password" => "Uus parool",
