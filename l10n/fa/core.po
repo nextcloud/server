@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 02:28-0400\n"
-"PO-Revision-Date: 2013-10-27 06:28+0000\n"
+"POT-Creation-Date: 2013-10-30 03:32-0400\n"
+"PO-Revision-Date: 2013-10-30 07:32+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -18,12 +18,12 @@ msgstr ""
 "Language: fa\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:118 ajax/share.php:197
+#: ajax/share.php:119 ajax/share.php:198
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s به اشتراک گذاشته شده است »%s« توسط شما"
 
-#: ajax/share.php:168
+#: ajax/share.php:169
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr ""
@@ -272,140 +272,140 @@ msgstr "اشتراک گذاشته شده"
 msgid "Share"
 msgstr "اشتراک‌گذاری"
 
-#: js/share.js:149 js/share.js:162 js/share.js:169 js/share.js:676
-#: js/share.js:688
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:690
+#: js/share.js:702
 msgid "Error"
 msgstr "خطا"
 
-#: js/share.js:151 js/share.js:716
+#: js/share.js:160 js/share.js:730
 msgid "Error while sharing"
 msgstr "خطا درحال به اشتراک گذاشتن"
 
-#: js/share.js:162
+#: js/share.js:171
 msgid "Error while unsharing"
 msgstr "خطا درحال لغو اشتراک"
 
-#: js/share.js:169
+#: js/share.js:178
 msgid "Error while changing permissions"
 msgstr "خطا در حال تغییر مجوز"
 
-#: js/share.js:178
+#: js/share.js:187
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "به اشتراک گذاشته شده با شما و گروه {گروه} توسط {دارنده}"
 
-#: js/share.js:180
+#: js/share.js:189
 msgid "Shared with you by {owner}"
 msgstr "به اشتراک گذاشته شده با شما توسط { دارنده}"
 
-#: js/share.js:203
+#: js/share.js:212
 msgid "Share with user or group …"
 msgstr ""
 
-#: js/share.js:209
+#: js/share.js:218
 msgid "Share link"
 msgstr ""
 
-#: js/share.js:212
+#: js/share.js:221
 msgid "Password protect"
 msgstr "نگهداری کردن رمز عبور"
 
-#: js/share.js:214 templates/installation.php:57 templates/login.php:32
+#: js/share.js:223 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "گذرواژه"
 
-#: js/share.js:219
+#: js/share.js:228
 msgid "Allow Public Upload"
 msgstr "اجازه آپلود عمومی"
 
-#: js/share.js:223
+#: js/share.js:232
 msgid "Email link to person"
 msgstr "پیوند ایمیل برای شخص."
 
-#: js/share.js:224
+#: js/share.js:233
 msgid "Send"
 msgstr "ارسال"
 
-#: js/share.js:229
+#: js/share.js:238
 msgid "Set expiration date"
 msgstr "تنظیم تاریخ انقضا"
 
-#: js/share.js:230
+#: js/share.js:239
 msgid "Expiration date"
 msgstr "تاریخ انقضا"
 
-#: js/share.js:263
+#: js/share.js:272
 msgid "Share via email:"
 msgstr "از طریق ایمیل به اشتراک بگذارید :"
 
-#: js/share.js:266
+#: js/share.js:275
 msgid "No people found"
 msgstr "کسی یافت نشد"
 
-#: js/share.js:295 js/share.js:332
+#: js/share.js:305 js/share.js:342
 msgid "group"
 msgstr "گروه"
 
-#: js/share.js:306
+#: js/share.js:316
 msgid "Resharing is not allowed"
 msgstr "اشتراک گذاری مجدد مجاز نمی باشد"
 
-#: js/share.js:348
+#: js/share.js:358
 msgid "Shared in {item} with {user}"
 msgstr "به اشتراک گذاشته شده در {بخش} با {کاربر}"
 
-#: js/share.js:370
+#: js/share.js:380
 msgid "Unshare"
 msgstr "لغو اشتراک"
 
-#: js/share.js:378
+#: js/share.js:388
 msgid "notify by email"
 msgstr ""
 
-#: js/share.js:381
+#: js/share.js:391
 msgid "can edit"
 msgstr "می توان ویرایش کرد"
 
-#: js/share.js:383
+#: js/share.js:393
 msgid "access control"
 msgstr "کنترل دسترسی"
 
-#: js/share.js:386
+#: js/share.js:396
 msgid "create"
 msgstr "ایجاد"
 
-#: js/share.js:389
+#: js/share.js:399
 msgid "update"
 msgstr "به روز"
 
-#: js/share.js:392
+#: js/share.js:402
 msgid "delete"
 msgstr "پاک کردن"
 
-#: js/share.js:395
+#: js/share.js:405
 msgid "share"
 msgstr "به اشتراک گذاشتن"
 
-#: js/share.js:437 js/share.js:663
+#: js/share.js:447 js/share.js:677
 msgid "Password protected"
 msgstr "نگهداری از رمز عبور"
 
-#: js/share.js:676
+#: js/share.js:690
 msgid "Error unsetting expiration date"
 msgstr "خطا در تنظیم نکردن تاریخ انقضا "
 
-#: js/share.js:688
+#: js/share.js:702
 msgid "Error setting expiration date"
 msgstr "خطا در تنظیم تاریخ انقضا"
 
-#: js/share.js:703
+#: js/share.js:717
 msgid "Sending ..."
 msgstr "درحال ارسال ..."
 
-#: js/share.js:714
+#: js/share.js:728
 msgid "Email sent"
 msgstr "ایمیل ارسال شد"
 
-#: js/share.js:738
+#: js/share.js:752
 msgid "Warning"
 msgstr "اخطار"
 
@@ -457,27 +457,27 @@ msgstr ""
 msgid "Use the following link to reset your password: {link}"
 msgstr "از لینک زیر جهت دوباره سازی پسورد استفاده کنید :\n{link}"
 
-#: lostpassword/templates/lostpassword.php:4
+#: lostpassword/templates/lostpassword.php:7
 msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
 msgstr "لینک تنظیم مجدد رمز عبور به ایمیل شما ارسال شده است.<br>اگر آن رادر یک زمان مشخصی دریافت نکرده اید، لطفا هرزنامه/ پوشه های ناخواسته را بررسی کنید.<br>در صورت نبودن از مدیر خود بپرسید."
 
-#: lostpassword/templates/lostpassword.php:12
+#: lostpassword/templates/lostpassword.php:15
 msgid "Request failed!<br>Did you make sure your email/username was right?"
 msgstr "درخواست رد شده است !<br> آیا مطمئن هستید که ایمیل/ نام کاربری شما صحیح میباشد ؟"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:18
 msgid "You will receive a link to reset your password via Email."
 msgstr "شما یک نامه الکترونیکی حاوی یک لینک جهت بازسازی گذرواژه دریافت خواهید کرد."
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:51
 #: templates/login.php:25
 msgid "Username"
 msgstr "نام کاربری"
 
-#: lostpassword/templates/lostpassword.php:22
+#: lostpassword/templates/lostpassword.php:25
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -485,13 +485,13 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr "فایل های شما رمزگذاری شده اند. اگر شما کلید بازیابی را فعال نکرده اید، پس از راه اندازی مجدد رمزعبور هیچ راهی برای بازگشت اطلاعاتتان وجود نخواهد داشت.در صورت عدم اطمینان به انجام کار، لطفا ابتدا با مدیر خود تماس بگیرید. آیا واقعا میخواهید ادامه دهید ؟"
 
-#: lostpassword/templates/lostpassword.php:24
+#: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
 msgstr "بله، من اکنون میخواهم رمز عبور خود را مجددا راه اندازی کنم."
 
-#: lostpassword/templates/lostpassword.php:27
-msgid "Request reset"
-msgstr "درخواست دوباره سازی"
+#: lostpassword/templates/lostpassword.php:30
+msgid "Reset"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"

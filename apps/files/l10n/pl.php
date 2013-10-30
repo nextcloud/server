@@ -3,6 +3,7 @@ $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Nie można było przenieść %s - Plik o takiej nazwie już istnieje",
 "Could not move %s" => "Nie można było przenieść %s",
 "File name cannot be empty." => "Nazwa pliku nie może być pusta.",
+"Folder name cannot be empty." => "Nazwa folderu nie może być pusta.",
 "Unable to set upload directory." => "Nie można ustawić katalog wczytywania.",
 "Invalid Token" => "Nieprawidłowy Token",
 "No file was uploaded. Unknown error" => "Żaden plik nie został załadowany. Nieznany błąd",

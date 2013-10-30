@@ -67,6 +67,8 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Viga õiguste muutmisel",
 "Shared with you and the group {group} by {owner}" => "Jagatud sinu ja {group} grupiga {owner} poolt",
 "Shared with you by {owner}" => "Sinuga jagas {owner}",
+"Share with user or group …" => "Jaga kasutaja või grupiga ...",
+"Share link" => "Jaga linki",
 "Password protect" => "Parooliga kaitstud",
 "Password" => "Parool",
 "Allow Public Upload" => "Luba avalik üleslaadimine",
@@ -80,6 +82,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "Edasijagamine pole lubatud",
 "Shared in {item} with {user}" => "Jagatud {item} kasutajaga {user}",
 "Unshare" => "Lõpeta jagamine",
+"notify by email" => "teavita e-postiga",
 "can edit" => "saab muuta",
 "access control" => "ligipääsukontroll",
 "create" => "loo",
@@ -109,7 +112,6 @@ $TRANSLATIONS = array(
 "Username" => "Kasutajanimi",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Sinu failid on krüpteeritud. Kui sa pole taastamise võtit veel määranud, siis pole präast parooli taastamist mingit võimalust sinu andmeid tagasi saada. Kui sa pole kindel, mida teha, siis palun väta enne jätkamist ühendust oma administaatoriga. Oled sa kindel, et sa soovid jätkata?",
 "Yes, I really want to reset my password now" => "Jah, ma tõesti soovin oma parooli praegu nullida",
-"Request reset" => "Päringu taastamine",
 "Your password was reset" => "Sinu parool on taastatud",
 "To login page" => "Sisselogimise lehele",
 "New password" => "Uus parool",
@@ -163,6 +165,10 @@ $TRANSLATIONS = array(
 "Alternative Logins" => "Alternatiivsed sisselogimisviisid",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hei,<br><br>lihtsalt annan sulle teada, et %s jagas sulle välja »%s«.<br><a href=\"%s\">Vaata seda!</a><br><br>",
 "The share will expire on %s.<br><br>" => "Jagamine aegub %s.<br><br>",
-"Updating ownCloud to version %s, this may take a while." => "ownCloudi uuendamine versioonile %s. See võib veidi aega võtta."
+"Updating ownCloud to version %s, this may take a while." => "ownCloudi uuendamine versioonile %s. See võib veidi aega võtta.",
+"This ownCloud instance is currently being updated, which may take a while." => "Seda ownCloud instantsi hetkel uuendatakse, võib võtta veidi aega.",
+"Please reload this page after a short time to continue using ownCloud." => "Palun laadi see leht uuesti veidi aja pärast jätkamaks ownCloud kasutamist.",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Kontakteeru oma süsteemihalduriga kui see teade püsib või on tekkinud ootamatult.",
+"Thank you for your patience." => "Täname kannatlikkuse eest."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

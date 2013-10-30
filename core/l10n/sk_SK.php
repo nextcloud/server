@@ -108,7 +108,6 @@ $TRANSLATIONS = array(
 "Username" => "Meno používateľa",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Vaše súbory sú šifrované. Ak nemáte povolený kľúč obnovy, nie je spôsob, ako získať po obnove hesla Vaše dáta. Ak nie ste si isí tým, čo robíte, obráťte sa najskôr na administrátora. Naozaj chcete pokračovať?",
 "Yes, I really want to reset my password now" => "Áno, želám si teraz obnoviť svoje heslo",
-"Request reset" => "Požiadať o obnovenie",
 "Your password was reset" => "Vaše heslo bolo obnovené",
 "To login page" => "Na prihlasovaciu stránku",
 "New password" => "Nové heslo",

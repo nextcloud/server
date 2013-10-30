@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 02:28-0400\n"
-"PO-Revision-Date: 2013-10-27 06:28+0000\n"
+"POT-Creation-Date: 2013-10-30 03:32-0400\n"
+"PO-Revision-Date: 2013-10-30 07:32+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -17,12 +17,12 @@ msgstr ""
 "Language: id\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:118 ajax/share.php:197
+#: ajax/share.php:119 ajax/share.php:198
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr ""
 
-#: ajax/share.php:168
+#: ajax/share.php:169
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr ""
@@ -271,140 +271,140 @@ msgstr "Dibagikan"
 msgid "Share"
 msgstr "Bagikan"
 
-#: js/share.js:149 js/share.js:162 js/share.js:169 js/share.js:676
-#: js/share.js:688
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:690
+#: js/share.js:702
 msgid "Error"
 msgstr "Galat"
 
-#: js/share.js:151 js/share.js:716
+#: js/share.js:160 js/share.js:730
 msgid "Error while sharing"
 msgstr "Galat ketika membagikan"
 
-#: js/share.js:162
+#: js/share.js:171
 msgid "Error while unsharing"
 msgstr "Galat ketika membatalkan pembagian"
 
-#: js/share.js:169
+#: js/share.js:178
 msgid "Error while changing permissions"
 msgstr "Galat ketika mengubah izin"
 
-#: js/share.js:178
+#: js/share.js:187
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Dibagikan dengan Anda dan grup {group} oleh {owner}"
 
-#: js/share.js:180
+#: js/share.js:189
 msgid "Shared with you by {owner}"
 msgstr "Dibagikan dengan Anda oleh {owner}"
 
-#: js/share.js:203
+#: js/share.js:212
 msgid "Share with user or group …"
 msgstr ""
 
-#: js/share.js:209
+#: js/share.js:218
 msgid "Share link"
 msgstr ""
 
-#: js/share.js:212
+#: js/share.js:221
 msgid "Password protect"
 msgstr "Lindungi dengan sandi"
 
-#: js/share.js:214 templates/installation.php:57 templates/login.php:32
+#: js/share.js:223 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "Sandi"
 
-#: js/share.js:219
+#: js/share.js:228
 msgid "Allow Public Upload"
 msgstr ""
 
-#: js/share.js:223
+#: js/share.js:232
 msgid "Email link to person"
 msgstr "Emailkan tautan ini ke orang"
 
-#: js/share.js:224
+#: js/share.js:233
 msgid "Send"
 msgstr "Kirim"
 
-#: js/share.js:229
+#: js/share.js:238
 msgid "Set expiration date"
 msgstr "Setel tanggal kedaluwarsa"
 
-#: js/share.js:230
+#: js/share.js:239
 msgid "Expiration date"
 msgstr "Tanggal kedaluwarsa"
 
-#: js/share.js:263
+#: js/share.js:272
 msgid "Share via email:"
 msgstr "Bagian lewat email:"
 
-#: js/share.js:266
+#: js/share.js:275
 msgid "No people found"
 msgstr "Tidak ada orang ditemukan"
 
-#: js/share.js:295 js/share.js:332
+#: js/share.js:305 js/share.js:342
 msgid "group"
 msgstr "grup"
 
-#: js/share.js:306
+#: js/share.js:316
 msgid "Resharing is not allowed"
 msgstr "Berbagi ulang tidak diizinkan"
 
-#: js/share.js:348
+#: js/share.js:358
 msgid "Shared in {item} with {user}"
 msgstr "Dibagikan dalam {item} dengan {user}"
 
-#: js/share.js:370
+#: js/share.js:380
 msgid "Unshare"
 msgstr "Batalkan berbagi"
 
-#: js/share.js:378
+#: js/share.js:388
 msgid "notify by email"
 msgstr ""
 
-#: js/share.js:381
+#: js/share.js:391
 msgid "can edit"
 msgstr "dapat mengedit"
 
-#: js/share.js:383
+#: js/share.js:393
 msgid "access control"
 msgstr "kontrol akses"
 
-#: js/share.js:386
+#: js/share.js:396
 msgid "create"
 msgstr "buat"
 
-#: js/share.js:389
+#: js/share.js:399
 msgid "update"
 msgstr "perbarui"
 
-#: js/share.js:392
+#: js/share.js:402
 msgid "delete"
 msgstr "hapus"
 
-#: js/share.js:395
+#: js/share.js:405
 msgid "share"
 msgstr "bagikan"
 
-#: js/share.js:437 js/share.js:663
+#: js/share.js:447 js/share.js:677
 msgid "Password protected"
 msgstr "Dilindungi sandi"
 
-#: js/share.js:676
+#: js/share.js:690
 msgid "Error unsetting expiration date"
 msgstr "Galat ketika menghapus tanggal kedaluwarsa"
 
-#: js/share.js:688
+#: js/share.js:702
 msgid "Error setting expiration date"
 msgstr "Galat ketika menyetel tanggal kedaluwarsa"
 
-#: js/share.js:703
+#: js/share.js:717
 msgid "Sending ..."
 msgstr "Mengirim ..."
 
-#: js/share.js:714
+#: js/share.js:728
 msgid "Email sent"
 msgstr "Email terkirim"
 
-#: js/share.js:738
+#: js/share.js:752
 msgid "Warning"
 msgstr "Peringatan"
 
@@ -456,27 +456,27 @@ msgstr ""
 msgid "Use the following link to reset your password: {link}"
 msgstr "Gunakan tautan berikut untuk menyetel ulang sandi Anda: {link}"
 
-#: lostpassword/templates/lostpassword.php:4
+#: lostpassword/templates/lostpassword.php:7
 msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:12
+#: lostpassword/templates/lostpassword.php:15
 msgid "Request failed!<br>Did you make sure your email/username was right?"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:18
 msgid "You will receive a link to reset your password via Email."
 msgstr "Anda akan menerima tautan penyetelan ulang sandi lewat Email."
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:51
 #: templates/login.php:25
 msgid "Username"
 msgstr "Nama pengguna"
 
-#: lostpassword/templates/lostpassword.php:22
+#: lostpassword/templates/lostpassword.php:25
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -484,13 +484,13 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:24
+#: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:27
-msgid "Request reset"
-msgstr "Ajukan penyetelan ulang"
+#: lostpassword/templates/lostpassword.php:30
+msgid "Reset"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"

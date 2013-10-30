@@ -56,7 +56,7 @@ OC.Share={
 						var path = dir;
 						// Search for possible parent folders that are shared
 						while (path != last) {
-							if (path == data['path']) {
+							if (path == data['path'] && !data['link']) {
 								var actions = $('.fileactions .action[data-action="Share"]');
 								$.each(actions, function(index, action) {
 									var img = $(action).find('img');
@@ -136,8 +136,17 @@ OC.Share={
 
 		return data;
 	},
-	share:function(itemType, itemSource, shareType, shareWith, permissions, callback) {
-		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'share', itemType: itemType, itemSource: itemSource, shareType: shareType, shareWith: shareWith, permissions: permissions }, function(result) {
+	share:function(itemType, itemSource, shareType, shareWith, permissions, itemSourceName, callback) {
+		$.post(OC.filePath('core', 'ajax', 'share.php'),
+			{
+				action: 'share',
+				itemType: itemType,
+				itemSource: itemSource,
+				shareType: shareType,
+				shareWith: shareWith,
+				permissions: permissions,
+				itemSourceName: itemSourceName
+			}, function (result) {
 			if (result && result.status === 'success') {
 				if (callback) {
 					callback(result.data);
@@ -170,9 +179,9 @@ OC.Share={
 			}
 		});
 	},
-	showDropDown:function(itemType, itemSource, appendTo, link, possiblePermissions) {
+	showDropDown:function(itemType, itemSource, appendTo, link, possiblePermissions, filename) {
 		var data = OC.Share.loadItem(itemType, itemSource);
-		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item-source="'+itemSource+'">';
+		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item-source="'+itemSource+'"" data-item-source-name="'+filename+'">';
 		if (data !== false && data.reshare !== false && data.reshare.uid_owner !== undefined) {
 			if (data.reshare.share_type == OC.Share.SHARE_TYPE_GROUP) {
 				html += '<span class="reshare">'+t('core', 'Shared with you and the group {group} by {owner}', {group: escapeHTML(data.reshare.share_with), owner: escapeHTML(data.reshare.displayname_owner)})+'</span>';
@@ -235,7 +244,9 @@ OC.Share={
 			if (data.shares) {
 				$.each(data.shares, function(index, share) {
 					if (share.share_type == OC.Share.SHARE_TYPE_LINK) {
-						OC.Share.showLink(share.token, share.share_with, itemSource);
+						if ( !('file_target' in share) ) {
+							OC.Share.showLink(share.token, share.share_with, itemSource);
+						}
 					} else {
 						if (share.collection) {
 							OC.Share.addShareWith(share.share_type, share.share_with, share.share_with_displayname, share.permissions, possiblePermissions, share.mail_send, share.collection);
@@ -276,12 +287,13 @@ OC.Share={
 				event.stopPropagation();
 				var itemType = $('#dropdown').data('item-type');
 				var itemSource = $('#dropdown').data('item-source');
+				var itemSourceName = $('#dropdown').data('item-source-name');
 				var shareType = selected.item.value.shareType;
 				var shareWith = selected.item.value.shareWith;
 				$(this).val(shareWith);
 				// Default permissions are Edit (CRUD) and Share
 				var permissions = OC.PERMISSION_ALL;
-				OC.Share.share(itemType, itemSource, shareType, shareWith, permissions, function() {
+				OC.Share.share(itemType, itemSource, shareType, shareWith, permissions, itemSourceName, function() {
 					OC.Share.addShareWith(shareType, shareWith, selected.item.label, permissions, possiblePermissions);
 					$('#shareWith').val('');
 					OC.Share.updateIcon(itemType, itemSource);
@@ -573,9 +585,10 @@ $(document).ready(function() {
 	$(document).on('change', '#dropdown #linkCheckbox', function() {
 		var itemType = $('#dropdown').data('item-type');
 		var itemSource = $('#dropdown').data('item-source');
+		var itemSourceName = $('#dropdown').data('item-source-name');
 		if (this.checked) {
 			// Create a link
-			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', OC.PERMISSION_READ, function(data) {
+			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', OC.PERMISSION_READ, itemSourceName, function(data) {
 				OC.Share.showLink(data.token, null, itemSource);
 				OC.Share.updateIcon(itemType, itemSource);
 			});
@@ -604,6 +617,7 @@ $(document).ready(function() {
 		var allowPublicUpload = $(this).is(':checked');
 		var itemType = $('#dropdown').data('item-type');
 		var itemSource = $('#dropdown').data('item-source');
+		var itemSourceName = $('#dropdown').data('item-source-name');
 		var permissions = 0;
 
 		// Calculate permissions
@@ -614,7 +628,7 @@ $(document).ready(function() {
 		}
 
 		// Update the share information
-		OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', permissions, function(data) {
+		OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', permissions, itemSourceName, function(data) {
 		});
 	});
 
@@ -623,6 +637,7 @@ $(document).ready(function() {
 		if (!$('#showPassword').is(':checked') ) {
 			var itemType = $('#dropdown').data('item-type');
 			var itemSource = $('#dropdown').data('item-source');
+			var itemSourceName = $('#dropdown').data('item-source-name');
 			var allowPublicUpload = $('#sharingDialogAllowPublicUpload').is(':checked');
 			var permissions = 0;
 
@@ -634,7 +649,7 @@ $(document).ready(function() {
 			}
 
 
-			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', permissions);
+			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', permissions, itemSourceName);
 		} else {
 			$('#linkPassText').focus();
 		}
@@ -648,6 +663,7 @@ $(document).ready(function() {
 			var dropDown = $('#dropdown');
 			var itemType = dropDown.data('item-type');
 			var itemSource = dropDown.data('item-source');
+			var itemSourceName = $('#dropdown').data('item-source-name');
 			var permissions = 0;
 
 			// Calculate permissions
@@ -657,7 +673,7 @@ $(document).ready(function() {
 				permissions = OC.PERMISSION_READ;
 			}
 
-			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $('#linkPassText').val(), permissions, function() {
+			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $('#linkPassText').val(), permissions, itemSourceName, function() {
 				console.log("password set to: '" + linkPassText.val() +"' by event: " + event.type);
 				linkPassText.val('');
 				linkPassText.attr('placeholder', t('core', 'Password protected'));

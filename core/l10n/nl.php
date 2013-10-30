@@ -109,7 +109,6 @@ $TRANSLATIONS = array(
 "Username" => "Gebruikersnaam",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Je bestanden zijn versleuteld. Als je geen recoverykey hebt ingeschakeld is er geen manier om je data terug te krijgen indien je je wachtwoord reset!\nAls je niet weet wat te doen, neem dan alsjeblieft contact op met je administrator eer je doorgaat.\nWil je echt doorgaan?",
 "Yes, I really want to reset my password now" => "Ja, ik wil mijn wachtwoord nu echt resetten",
-"Request reset" => "Resetaanvraag",
 "Your password was reset" => "Je wachtwoord is gewijzigd",
 "To login page" => "Naar de login-pagina",
 "New password" => "Nieuw wachtwoord",

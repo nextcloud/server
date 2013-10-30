@@ -10,6 +10,7 @@ $TRANSLATIONS = array(
 "Files" => "Fail-fail",
 "Upload cancelled." => "Muatnaik dibatalkan.",
 "Share" => "Kongsi",
+"Rename" => "Namakan",
 "Pending" => "Dalam proses",
 "_%n folder_::_%n folders_" => array(""),
 "_%n file_::_%n files_" => array(""),

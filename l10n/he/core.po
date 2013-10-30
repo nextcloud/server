@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 02:28-0400\n"
-"PO-Revision-Date: 2013-10-27 06:28+0000\n"
+"POT-Creation-Date: 2013-10-30 03:32-0400\n"
+"PO-Revision-Date: 2013-10-30 07:32+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -19,12 +19,12 @@ msgstr ""
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:118 ajax/share.php:197
+#: ajax/share.php:119 ajax/share.php:198
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s שיתף/שיתפה איתך את »%s«"
 
-#: ajax/share.php:168
+#: ajax/share.php:169
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr ""
@@ -278,140 +278,140 @@ msgstr "שותף"
 msgid "Share"
 msgstr "שתף"
 
-#: js/share.js:149 js/share.js:162 js/share.js:169 js/share.js:676
-#: js/share.js:688
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:690
+#: js/share.js:702
 msgid "Error"
 msgstr "שגיאה"
 
-#: js/share.js:151 js/share.js:716
+#: js/share.js:160 js/share.js:730
 msgid "Error while sharing"
 msgstr "שגיאה במהלך השיתוף"
 
-#: js/share.js:162
+#: js/share.js:171
 msgid "Error while unsharing"
 msgstr "שגיאה במהלך ביטול השיתוף"
 
-#: js/share.js:169
+#: js/share.js:178
 msgid "Error while changing permissions"
 msgstr "שגיאה במהלך שינוי ההגדרות"
 
-#: js/share.js:178
+#: js/share.js:187
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "שותף אתך ועם הקבוצה {group} שבבעלות {owner}"
 
-#: js/share.js:180
+#: js/share.js:189
 msgid "Shared with you by {owner}"
 msgstr "שותף אתך על ידי {owner}"
 
-#: js/share.js:203
+#: js/share.js:212
 msgid "Share with user or group …"
 msgstr ""
 
-#: js/share.js:209
+#: js/share.js:218
 msgid "Share link"
 msgstr ""
 
-#: js/share.js:212
+#: js/share.js:221
 msgid "Password protect"
 msgstr "הגנה בססמה"
 
-#: js/share.js:214 templates/installation.php:57 templates/login.php:32
+#: js/share.js:223 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "סיסמא"
 
-#: js/share.js:219
+#: js/share.js:228
 msgid "Allow Public Upload"
 msgstr ""
 
-#: js/share.js:223
+#: js/share.js:232
 msgid "Email link to person"
 msgstr "שליחת קישור בדוא״ל למשתמש"
 
-#: js/share.js:224
+#: js/share.js:233
 msgid "Send"
 msgstr "שליחה"
 
-#: js/share.js:229
+#: js/share.js:238
 msgid "Set expiration date"
 msgstr "הגדרת תאריך תפוגה"
 
-#: js/share.js:230
+#: js/share.js:239
 msgid "Expiration date"
 msgstr "תאריך התפוגה"
 
-#: js/share.js:263
+#: js/share.js:272
 msgid "Share via email:"
 msgstr "שיתוף באמצעות דוא״ל:"
 
-#: js/share.js:266
+#: js/share.js:275
 msgid "No people found"
 msgstr "לא נמצאו אנשים"
 
-#: js/share.js:295 js/share.js:332
+#: js/share.js:305 js/share.js:342
 msgid "group"
 msgstr "קבוצה"
 
-#: js/share.js:306
+#: js/share.js:316
 msgid "Resharing is not allowed"
 msgstr "אסור לעשות שיתוף מחדש"
 
-#: js/share.js:348
+#: js/share.js:358
 msgid "Shared in {item} with {user}"
 msgstr "שותף תחת {item} עם {user}"
 
-#: js/share.js:370
+#: js/share.js:380
 msgid "Unshare"
 msgstr "הסר שיתוף"
 
-#: js/share.js:378
+#: js/share.js:388
 msgid "notify by email"
 msgstr ""
 
-#: js/share.js:381
+#: js/share.js:391
 msgid "can edit"
 msgstr "ניתן לערוך"
 
-#: js/share.js:383
+#: js/share.js:393
 msgid "access control"
 msgstr "בקרת גישה"
 
-#: js/share.js:386
+#: js/share.js:396
 msgid "create"
 msgstr "יצירה"
 
-#: js/share.js:389
+#: js/share.js:399
 msgid "update"
 msgstr "עדכון"
 
-#: js/share.js:392
+#: js/share.js:402
 msgid "delete"
 msgstr "מחיקה"
 
-#: js/share.js:395
+#: js/share.js:405
 msgid "share"
 msgstr "שיתוף"
 
-#: js/share.js:437 js/share.js:663
+#: js/share.js:447 js/share.js:677
 msgid "Password protected"
 msgstr "מוגן בססמה"
 
-#: js/share.js:676
+#: js/share.js:690
 msgid "Error unsetting expiration date"
 msgstr "אירעה שגיאה בביטול תאריך התפוגה"
 
-#: js/share.js:688
+#: js/share.js:702
 msgid "Error setting expiration date"
 msgstr "אירעה שגיאה בעת הגדרת תאריך התפוגה"
 
-#: js/share.js:703
+#: js/share.js:717
 msgid "Sending ..."
 msgstr "מתבצעת שליחה ..."
 
-#: js/share.js:714
+#: js/share.js:728
 msgid "Email sent"
 msgstr "הודעת הדוא״ל נשלחה"
 
-#: js/share.js:738
+#: js/share.js:752
 msgid "Warning"
 msgstr "אזהרה"
 
@@ -463,27 +463,27 @@ msgstr ""
 msgid "Use the following link to reset your password: {link}"
 msgstr "יש להשתמש בקישור הבא כדי לאפס את הססמה שלך: {link}"
 
-#: lostpassword/templates/lostpassword.php:4
+#: lostpassword/templates/lostpassword.php:7
 msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
 msgstr "הקישור לאיפוס הססמה שלך נשלח אליך בדוא״ל.<br>אם לא קיבלת את הקישור תוך זמן סביר, מוטב לבדוק את תיבת הזבל שלך.<br>אם ההודעה לא שם, כדאי לשאול את מנהל הרשת שלך ."
 
-#: lostpassword/templates/lostpassword.php:12
+#: lostpassword/templates/lostpassword.php:15
 msgid "Request failed!<br>Did you make sure your email/username was right?"
 msgstr "הבקשה נכשלה!<br>האם כתובת הדוא״ל/שם המשתמש שלך נכונים?"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:18
 msgid "You will receive a link to reset your password via Email."
 msgstr "יישלח לתיבת הדוא״ל שלך קישור לאיפוס הססמה."
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:51
 #: templates/login.php:25
 msgid "Username"
 msgstr "שם משתמש"
 
-#: lostpassword/templates/lostpassword.php:22
+#: lostpassword/templates/lostpassword.php:25
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -491,13 +491,13 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:24
+#: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
 msgstr "כן, אני רוצה לאפס את הסיסמה שלי עכשיו."
 
-#: lostpassword/templates/lostpassword.php:27
-msgid "Request reset"
-msgstr "בקשת איפוס"
+#: lostpassword/templates/lostpassword.php:30
+msgid "Reset"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"

@@ -119,6 +119,20 @@ class Manager extends PublicEmitter {
 	}
 
 	/**
+	 * remove deleted user from cache
+	 *
+	 * @param string $uid
+	 * @return bool
+	 */
+	public function delete($uid) {
+		if (isset($this->cachedUsers[$uid])) {
+			unset($this->cachedUsers[$uid]);
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Check if the password is valid for the user
 	 *
 	 * @param $loginname

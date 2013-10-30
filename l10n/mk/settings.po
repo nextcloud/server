@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 02:28-0400\n"
-"PO-Revision-Date: 2013-10-27 06:28+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-29 07:28-0400\n"
+"PO-Revision-Date: 2013-10-28 10:45+0000\n"
+"Last-Translator: miroj <jmiroslav@softhome.net>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -87,11 +87,11 @@ msgstr "Не можам да ја надградам апликацијата."
 
 #: changepassword/controller.php:20
 msgid "Wrong password"
-msgstr ""
+msgstr "Погрешна лозинка"
 
 #: changepassword/controller.php:42
 msgid "No user supplied"
-msgstr ""
+msgstr "Нема корисничко име"
 
 #: changepassword/controller.php:74
 msgid ""
@@ -112,7 +112,7 @@ msgstr ""
 
 #: changepassword/controller.php:92 changepassword/controller.php:103
 msgid "Unable to change password"
-msgstr ""
+msgstr "Вашата лозинка неможе да се смени"
 
 #: js/apps.js:43
 msgid "Update to {appversion}"
@@ -132,11 +132,11 @@ msgstr "Ве молам почекајте ..."
 
 #: js/apps.js:79 js/apps.js:80 js/apps.js:101
 msgid "Error while disabling app"
-msgstr ""
+msgstr "Грешка при исклучувањето на апликацијата"
 
 #: js/apps.js:100 js/apps.js:114 js/apps.js:115
 msgid "Error while enabling app"
-msgstr ""
+msgstr "Грешка при вклучувањето на апликацијата"
 
 #: js/apps.js:125
 msgid "Updating...."
@@ -160,7 +160,7 @@ msgstr "Надграден"
 
 #: js/personal.js:220
 msgid "Select a profile picture"
-msgstr ""
+msgstr "Одбери фотографија за профилот"
 
 #: js/personal.js:265
 msgid "Decrypting files... Please wait, this can take some time."
@@ -259,7 +259,7 @@ msgstr ""
 
 #: templates/admin.php:58
 msgid "Locale not working"
-msgstr ""
+msgstr "Локалето не функционира"
 
 #: templates/admin.php:63
 #, php-format
@@ -302,19 +302,19 @@ msgstr ""
 
 #: templates/admin.php:120
 msgid "Sharing"
-msgstr ""
+msgstr "Споделување"
 
 #: templates/admin.php:126
 msgid "Enable Share API"
-msgstr ""
+msgstr "Овозможи го API-то за споделување"
 
 #: templates/admin.php:127
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Дозволете апликациите да го користат API-то за споделување"
 
 #: templates/admin.php:134
 msgid "Allow links"
-msgstr ""
+msgstr "Дозволи врски"
 
 #: templates/admin.php:135
 msgid "Allow users to share items to the public with links"
@@ -322,7 +322,7 @@ msgstr ""
 
 #: templates/admin.php:143
 msgid "Allow public uploads"
-msgstr ""
+msgstr "Дозволи јавен аплоуд"
 
 #: templates/admin.php:144
 msgid ""
@@ -331,7 +331,7 @@ msgstr ""
 
 #: templates/admin.php:152
 msgid "Allow resharing"
-msgstr ""
+msgstr "Овозможи повторно споделување"
 
 #: templates/admin.php:153
 msgid "Allow users to share items shared with them again"
@@ -339,27 +339,27 @@ msgstr ""
 
 #: templates/admin.php:160
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Овозможи корисниците да споделуваат со секого"
 
 #: templates/admin.php:163
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Овозможи корисниците да споделуваат со корисници од своите групи"
 
 #: templates/admin.php:170
 msgid "Allow mail notification"
-msgstr ""
+msgstr "Овозможи известување по електронска пошта"
 
 #: templates/admin.php:171
 msgid "Allow user to send mail notification for shared files"
-msgstr ""
+msgstr "Овозможи корисник да испраќа известување по електронска пошта за споделени датотеки"
 
 #: templates/admin.php:178
 msgid "Security"
-msgstr ""
+msgstr "Безбедност"
 
 #: templates/admin.php:191
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "Наметни HTTPS"
 
 #: templates/admin.php:193
 #, php-format
@@ -449,7 +449,7 @@ msgstr "Комерцијална подршка"
 
 #: templates/personal.php:8
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "Преземете апликации за синхронизирање на вашите датотеки"
 
 #: templates/personal.php:19
 msgid "Show First Run Wizard again"
@@ -486,7 +486,7 @@ msgstr "Смени лозинка"
 
 #: templates/personal.php:58 templates/users.php:88
 msgid "Display Name"
-msgstr ""
+msgstr "Прикажи го Името"
 
 #: templates/personal.php:73
 msgid "Email"
@@ -506,27 +506,27 @@ msgstr "Фотографија за профил"
 
 #: templates/personal.php:90
 msgid "Upload new"
-msgstr ""
+msgstr "Префрли нова"
 
 #: templates/personal.php:92
 msgid "Select new from Files"
-msgstr ""
+msgstr "Одбери нова од датотеките"
 
 #: templates/personal.php:93
 msgid "Remove image"
-msgstr ""
+msgstr "Отстрани ја фотографијата"
 
 #: templates/personal.php:94
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
-msgstr ""
+msgstr "Мора де биде png или jpg. Идеално квадрат, но ќе бидете во можност да ја исечете."
 
 #: templates/personal.php:97
 msgid "Abort"
-msgstr ""
+msgstr "Прекини"
 
 #: templates/personal.php:98
 msgid "Choose as profile image"
-msgstr ""
+msgstr "Одбери фотографија за профилот"
 
 #: templates/personal.php:106 templates/personal.php:107
 msgid "Language"
@@ -557,15 +557,15 @@ msgstr ""
 
 #: templates/personal.php:154
 msgid "Log-in password"
-msgstr ""
+msgstr "Лозинка за најавување"
 
 #: templates/personal.php:159
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Дешифрирај ги сите датотеки"
 
 #: templates/users.php:21
 msgid "Login Name"
-msgstr ""
+msgstr "Име за најава"
 
 #: templates/users.php:30
 msgid "Create"
@@ -583,11 +583,11 @@ msgstr ""
 
 #: templates/users.php:42
 msgid "Default Storage"
-msgstr ""
+msgstr "Предефинирано складиште "
 
 #: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
-msgstr ""
+msgstr "Неограничено"
 
 #: templates/users.php:66 templates/users.php:163
 msgid "Other"
@@ -599,16 +599,16 @@ msgstr "Корисничко име"
 
 #: templates/users.php:94
 msgid "Storage"
-msgstr ""
+msgstr "Складиште"
 
 #: templates/users.php:108
 msgid "change display name"
-msgstr ""
+msgstr "промени го прикажаното име"
 
 #: templates/users.php:112
 msgid "set new password"
-msgstr ""
+msgstr "постави нова лозинка"
 
 #: templates/users.php:143
 msgid "Default"
-msgstr ""
+msgstr "Предефиниран"

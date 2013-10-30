@@ -81,7 +81,6 @@ $TRANSLATIONS = array(
 "You will receive a link to reset your password via Email." => "יישלח לתיבת הדוא״ל שלך קישור לאיפוס הססמה.",
 "Username" => "שם משתמש",
 "Yes, I really want to reset my password now" => "כן, אני רוצה לאפס את הסיסמה שלי עכשיו.",
-"Request reset" => "בקשת איפוס",
 "Your password was reset" => "הססמה שלך אופסה",
 "To login page" => "לדף הכניסה",
 "New password" => "ססמה חדשה",

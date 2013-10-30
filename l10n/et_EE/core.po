@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 07:25-0400\n"
-"PO-Revision-Date: 2013-10-27 06:40+0000\n"
+"POT-Creation-Date: 2013-10-30 03:32-0400\n"
+"PO-Revision-Date: 2013-10-30 07:32+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -19,12 +19,12 @@ msgstr ""
 "Language: et_EE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:118 ajax/share.php:197
+#: ajax/share.php:119 ajax/share.php:198
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s jagas sinuga »%s«"
 
-#: ajax/share.php:168
+#: ajax/share.php:169
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Kirja saatmine järgnevatele kasutajatele ebaõnnestus: %s "
@@ -278,140 +278,140 @@ msgstr "Jagatud"
 msgid "Share"
 msgstr "Jaga"
 
-#: js/share.js:149 js/share.js:162 js/share.js:169 js/share.js:676
-#: js/share.js:688
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:690
+#: js/share.js:702
 msgid "Error"
 msgstr "Viga"
 
-#: js/share.js:151 js/share.js:716
+#: js/share.js:160 js/share.js:730
 msgid "Error while sharing"
 msgstr "Viga jagamisel"
 
-#: js/share.js:162
+#: js/share.js:171
 msgid "Error while unsharing"
 msgstr "Viga jagamise lõpetamisel"
 
-#: js/share.js:169
+#: js/share.js:178
 msgid "Error while changing permissions"
 msgstr "Viga õiguste muutmisel"
 
-#: js/share.js:178
+#: js/share.js:187
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Jagatud sinu ja {group} grupiga {owner} poolt"
 
-#: js/share.js:180
+#: js/share.js:189
 msgid "Shared with you by {owner}"
 msgstr "Sinuga jagas {owner}"
 
-#: js/share.js:203
-msgid "Share with user or group …"
-msgstr ""
-
-#: js/share.js:209
-msgid "Share link"
-msgstr ""
-
 #: js/share.js:212
+msgid "Share with user or group …"
+msgstr "Jaga kasutaja või grupiga ..."
+
+#: js/share.js:218
+msgid "Share link"
+msgstr "Jaga linki"
+
+#: js/share.js:221
 msgid "Password protect"
 msgstr "Parooliga kaitstud"
 
-#: js/share.js:214 templates/installation.php:57 templates/login.php:32
+#: js/share.js:223 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "Parool"
 
-#: js/share.js:219
+#: js/share.js:228
 msgid "Allow Public Upload"
 msgstr "Luba avalik üleslaadimine"
 
-#: js/share.js:223
+#: js/share.js:232
 msgid "Email link to person"
 msgstr "Saada link isikule e-postiga"
 
-#: js/share.js:224
+#: js/share.js:233
 msgid "Send"
 msgstr "Saada"
 
-#: js/share.js:229
+#: js/share.js:238
 msgid "Set expiration date"
 msgstr "Määra aegumise kuupäev"
 
-#: js/share.js:230
+#: js/share.js:239
 msgid "Expiration date"
 msgstr "Aegumise kuupäev"
 
-#: js/share.js:263
+#: js/share.js:272
 msgid "Share via email:"
 msgstr "Jaga e-postiga:"
 
-#: js/share.js:266
+#: js/share.js:275
 msgid "No people found"
 msgstr "Ühtegi inimest ei leitud"
 
-#: js/share.js:295 js/share.js:332
+#: js/share.js:305 js/share.js:342
 msgid "group"
 msgstr "grupp"
 
-#: js/share.js:306
+#: js/share.js:316
 msgid "Resharing is not allowed"
 msgstr "Edasijagamine pole lubatud"
 
-#: js/share.js:348
+#: js/share.js:358
 msgid "Shared in {item} with {user}"
 msgstr "Jagatud {item} kasutajaga {user}"
 
-#: js/share.js:370
+#: js/share.js:380
 msgid "Unshare"
 msgstr "Lõpeta jagamine"
 
-#: js/share.js:378
+#: js/share.js:388
 msgid "notify by email"
-msgstr ""
+msgstr "teavita e-postiga"
 
-#: js/share.js:381
+#: js/share.js:391
 msgid "can edit"
 msgstr "saab muuta"
 
-#: js/share.js:383
+#: js/share.js:393
 msgid "access control"
 msgstr "ligipääsukontroll"
 
-#: js/share.js:386
+#: js/share.js:396
 msgid "create"
 msgstr "loo"
 
-#: js/share.js:389
+#: js/share.js:399
 msgid "update"
 msgstr "uuenda"
 
-#: js/share.js:392
+#: js/share.js:402
 msgid "delete"
 msgstr "kustuta"
 
-#: js/share.js:395
+#: js/share.js:405
 msgid "share"
 msgstr "jaga"
 
-#: js/share.js:437 js/share.js:663
+#: js/share.js:447 js/share.js:677
 msgid "Password protected"
 msgstr "Parooliga kaitstud"
 
-#: js/share.js:676
+#: js/share.js:690
 msgid "Error unsetting expiration date"
 msgstr "Viga aegumise kuupäeva eemaldamisel"
 
-#: js/share.js:688
+#: js/share.js:702
 msgid "Error setting expiration date"
 msgstr "Viga aegumise kuupäeva määramisel"
 
-#: js/share.js:703
+#: js/share.js:717
 msgid "Sending ..."
 msgstr "Saatmine ..."
 
-#: js/share.js:714
+#: js/share.js:728
 msgid "Email sent"
 msgstr "E-kiri on saadetud"
 
-#: js/share.js:738
+#: js/share.js:752
 msgid "Warning"
 msgstr "Hoiatus"
 
@@ -463,27 +463,27 @@ msgstr "%s parooli lähtestus"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Kasuta järgnevat linki oma parooli taastamiseks: {link}"
 
-#: lostpassword/templates/lostpassword.php:4
+#: lostpassword/templates/lostpassword.php:7
 msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
 msgstr "Link parooli vahetuseks on saadetud Sinu e-posti aadressile.<br>Kui kiri pole saabunud mõistliku aja jooksul, siis kontrolli oma spam-/rämpskirjade katalooge.<br>Kui kirja pole ka seal, siis küsi abi süsteemihaldurilt."
 
-#: lostpassword/templates/lostpassword.php:12
+#: lostpassword/templates/lostpassword.php:15
 msgid "Request failed!<br>Did you make sure your email/username was right?"
 msgstr "Päring ebaõnnestus!<br>Oled sa veendunud, et e-post/kasutajanimi on õiged?"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:18
 msgid "You will receive a link to reset your password via Email."
 msgstr "Sinu parooli taastamise link saadetakse sulle e-postile."
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:51
 #: templates/login.php:25
 msgid "Username"
 msgstr "Kasutajanimi"
 
-#: lostpassword/templates/lostpassword.php:22
+#: lostpassword/templates/lostpassword.php:25
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -491,13 +491,13 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr "Sinu failid on krüpteeritud. Kui sa pole taastamise võtit veel määranud, siis pole präast parooli taastamist mingit võimalust sinu andmeid tagasi saada. Kui sa pole kindel, mida teha, siis palun väta enne jätkamist ühendust oma administaatoriga. Oled sa kindel, et sa soovid jätkata?"
 
-#: lostpassword/templates/lostpassword.php:24
+#: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
 msgstr "Jah, ma tõesti soovin oma parooli praegu nullida"
 
-#: lostpassword/templates/lostpassword.php:27
-msgid "Request reset"
-msgstr "Päringu taastamine"
+#: lostpassword/templates/lostpassword.php:30
+msgid "Reset"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -748,18 +748,18 @@ msgstr "ownCloudi uuendamine versioonile %s. See võib veidi aega võtta."
 #: templates/update.user.php:3
 msgid ""
 "This ownCloud instance is currently being updated, which may take a while."
-msgstr ""
+msgstr "Seda ownCloud instantsi hetkel uuendatakse, võib võtta veidi aega."
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr ""
+msgstr "Palun laadi see leht uuesti veidi aja pärast jätkamaks ownCloud kasutamist."
 
 #: templates/update.user.php:5
 msgid ""
 "Contact your system administrator if this message persists or appeared "
 "unexpectedly."
-msgstr ""
+msgstr "Kontakteeru oma süsteemihalduriga kui see teade püsib või on tekkinud ootamatult."
 
 #: templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr ""
+msgstr "Täname kannatlikkuse eest."

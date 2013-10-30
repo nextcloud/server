@@ -105,7 +105,6 @@ $TRANSLATIONS = array(
 "Username" => "使用者名稱",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "您的檔案已加密，如果您沒有設定還原金鑰，未來重設密碼後將無法取回您的資料。如果您不確定該怎麼做，請洽詢系統管理員後再繼續。您確定要現在繼續嗎？",
 "Yes, I really want to reset my password now" => "對，我現在想要重設我的密碼。",
-"Request reset" => "請求重設",
 "Your password was reset" => "您的密碼已重設",
 "To login page" => "至登入頁面",
 "New password" => "新密碼",

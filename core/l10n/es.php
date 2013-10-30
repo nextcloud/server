@@ -67,6 +67,8 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Error al cambiar permisos",
 "Shared with you and the group {group} by {owner}" => "Compartido contigo y el grupo {group} por {owner}",
 "Shared with you by {owner}" => "Compartido contigo por {owner}",
+"Share with user or group …" => "Compartido con el usuario o con el grupo ...",
+"Share link" => "Enlace compartido",
 "Password protect" => "Protección con contraseña",
 "Password" => "Contraseña",
 "Allow Public Upload" => "Permitir Subida Pública",
@@ -80,6 +82,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "No se permite compartir de nuevo",
 "Shared in {item} with {user}" => "Compartido en {item} con {user}",
 "Unshare" => "Dejar de compartir",
+"notify by email" => "notificar al usuario por correo electrónico",
 "can edit" => "puede editar",
 "access control" => "control de acceso",
 "create" => "crear",
@@ -109,7 +112,6 @@ $TRANSLATIONS = array(
 "Username" => "Nombre de usuario",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Sus archivos están cifrados. Si no ha habilitado la clave de recurperación, no habrá forma de recuperar sus datos luego de que la contraseña sea reseteada. Si no está seguro de qué hacer, contacte a su administrador antes de continuar. ¿Realmente desea continuar?",
 "Yes, I really want to reset my password now" => "Sí. Realmente deseo resetear mi contraseña ahora",
-"Request reset" => "Solicitar restablecimiento",
 "Your password was reset" => "Su contraseña fue restablecida",
 "To login page" => "A la página de inicio de sesión",
 "New password" => "Nueva contraseña",
@@ -163,6 +165,10 @@ $TRANSLATIONS = array(
 "Alternative Logins" => "Inicios de sesión alternativos",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hola:<br><br>tan solo queremos informarte que %s compartió «%s» contigo.<br><a href=\"%s\">¡Míralo acá!</a><br><br>",
 "The share will expire on %s.<br><br>" => "El objeto dejará de ser compartido el %s.<br><br>",
-"Updating ownCloud to version %s, this may take a while." => "Actualizando ownCloud a la versión %s, esto puede demorar un tiempo."
+"Updating ownCloud to version %s, this may take a while." => "Actualizando ownCloud a la versión %s, esto puede demorar un tiempo.",
+"This ownCloud instance is currently being updated, which may take a while." => "Esta versión de owncloud se está actualizando, esto puede demorar un tiempo.",
+"Please reload this page after a short time to continue using ownCloud." => "Por favor , recargue esta instancia de onwcloud tras un corto periodo de tiempo y continue usándolo.",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Contacte con su administrador de sistemas si este mensaje persiste o aparece de forma inesperada.",
+"Thank you for your patience." => "Gracias por su paciencia."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

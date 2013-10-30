@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 07:25-0400\n"
-"PO-Revision-Date: 2013-10-27 06:40+0000\n"
+"POT-Creation-Date: 2013-10-30 03:32-0400\n"
+"PO-Revision-Date: 2013-10-30 07:32+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -21,12 +21,12 @@ msgstr ""
 "Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:118 ajax/share.php:197
+#: ajax/share.php:119 ajax/share.php:198
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s ha condiviso «%s» con te"
 
-#: ajax/share.php:168
+#: ajax/share.php:169
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Impossibile inviare email ai seguenti utenti: %s"
@@ -280,140 +280,140 @@ msgstr "Condivisi"
 msgid "Share"
 msgstr "Condividi"
 
-#: js/share.js:149 js/share.js:162 js/share.js:169 js/share.js:676
-#: js/share.js:688
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:690
+#: js/share.js:702
 msgid "Error"
 msgstr "Errore"
 
-#: js/share.js:151 js/share.js:716
+#: js/share.js:160 js/share.js:730
 msgid "Error while sharing"
 msgstr "Errore durante la condivisione"
 
-#: js/share.js:162
+#: js/share.js:171
 msgid "Error while unsharing"
 msgstr "Errore durante la rimozione della condivisione"
 
-#: js/share.js:169
+#: js/share.js:178
 msgid "Error while changing permissions"
 msgstr "Errore durante la modifica dei permessi"
 
-#: js/share.js:178
+#: js/share.js:187
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Condiviso con te e con il gruppo {group} da {owner}"
 
-#: js/share.js:180
+#: js/share.js:189
 msgid "Shared with you by {owner}"
 msgstr "Condiviso con te da {owner}"
 
-#: js/share.js:203
-msgid "Share with user or group …"
-msgstr ""
-
-#: js/share.js:209
-msgid "Share link"
-msgstr ""
-
 #: js/share.js:212
+msgid "Share with user or group …"
+msgstr "Condividi con utente o gruppo ..."
+
+#: js/share.js:218
+msgid "Share link"
+msgstr "Condividi link"
+
+#: js/share.js:221
 msgid "Password protect"
 msgstr "Proteggi con password"
 
-#: js/share.js:214 templates/installation.php:57 templates/login.php:32
+#: js/share.js:223 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "Password"
 
-#: js/share.js:219
+#: js/share.js:228
 msgid "Allow Public Upload"
 msgstr "Consenti caricamento pubblico"
 
-#: js/share.js:223
+#: js/share.js:232
 msgid "Email link to person"
 msgstr "Invia collegamento via email"
 
-#: js/share.js:224
+#: js/share.js:233
 msgid "Send"
 msgstr "Invia"
 
-#: js/share.js:229
+#: js/share.js:238
 msgid "Set expiration date"
 msgstr "Imposta data di scadenza"
 
-#: js/share.js:230
+#: js/share.js:239
 msgid "Expiration date"
 msgstr "Data di scadenza"
 
-#: js/share.js:263
+#: js/share.js:272
 msgid "Share via email:"
 msgstr "Condividi tramite email:"
 
-#: js/share.js:266
+#: js/share.js:275
 msgid "No people found"
 msgstr "Non sono state trovate altre persone"
 
-#: js/share.js:295 js/share.js:332
+#: js/share.js:305 js/share.js:342
 msgid "group"
 msgstr "gruppo"
 
-#: js/share.js:306
+#: js/share.js:316
 msgid "Resharing is not allowed"
 msgstr "La ri-condivisione non è consentita"
 
-#: js/share.js:348
+#: js/share.js:358
 msgid "Shared in {item} with {user}"
 msgstr "Condiviso in {item} con {user}"
 
-#: js/share.js:370
+#: js/share.js:380
 msgid "Unshare"
 msgstr "Rimuovi condivisione"
 
-#: js/share.js:378
+#: js/share.js:388
 msgid "notify by email"
-msgstr ""
+msgstr "notifica via email"
 
-#: js/share.js:381
+#: js/share.js:391
 msgid "can edit"
 msgstr "può modificare"
 
-#: js/share.js:383
+#: js/share.js:393
 msgid "access control"
 msgstr "controllo d'accesso"
 
-#: js/share.js:386
+#: js/share.js:396
 msgid "create"
 msgstr "creare"
 
-#: js/share.js:389
+#: js/share.js:399
 msgid "update"
 msgstr "aggiornare"
 
-#: js/share.js:392
+#: js/share.js:402
 msgid "delete"
 msgstr "elimina"
 
-#: js/share.js:395
+#: js/share.js:405
 msgid "share"
 msgstr "condividi"
 
-#: js/share.js:437 js/share.js:663
+#: js/share.js:447 js/share.js:677
 msgid "Password protected"
 msgstr "Protetta da password"
 
-#: js/share.js:676
+#: js/share.js:690
 msgid "Error unsetting expiration date"
 msgstr "Errore durante la rimozione della data di scadenza"
 
-#: js/share.js:688
+#: js/share.js:702
 msgid "Error setting expiration date"
 msgstr "Errore durante l'impostazione della data di scadenza"
 
-#: js/share.js:703
+#: js/share.js:717
 msgid "Sending ..."
 msgstr "Invio in corso..."
 
-#: js/share.js:714
+#: js/share.js:728
 msgid "Email sent"
 msgstr "Messaggio inviato"
 
-#: js/share.js:738
+#: js/share.js:752
 msgid "Warning"
 msgstr "Avviso"
 
@@ -465,27 +465,27 @@ msgstr "Ripristino password di %s"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Usa il collegamento seguente per ripristinare la password: {link}"
 
-#: lostpassword/templates/lostpassword.php:4
+#: lostpassword/templates/lostpassword.php:7
 msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
 msgstr "Il collegamento per ripristinare la password è stato inviato al tuo indirizzo di posta.<br>Se non lo ricevi in tempi ragionevoli, controlla le cartelle della posta indesiderata.<br>Se non dovesse essere nemmeno lì, contatta il tuo amministratore locale."
 
-#: lostpassword/templates/lostpassword.php:12
+#: lostpassword/templates/lostpassword.php:15
 msgid "Request failed!<br>Did you make sure your email/username was right?"
 msgstr "Richiesta non riuscita!<br>Sei sicuro che l'indirizzo di posta/nome utente fosse corretto?"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:18
 msgid "You will receive a link to reset your password via Email."
 msgstr "Riceverai un collegamento per ripristinare la tua password via email"
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:51
 #: templates/login.php:25
 msgid "Username"
 msgstr "Nome utente"
 
-#: lostpassword/templates/lostpassword.php:22
+#: lostpassword/templates/lostpassword.php:25
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -493,13 +493,13 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr "I file sono cifrati. Se non hai precedentemente abilitato la chiave di recupero, non sarà più possibile ritrovare i tuoi dati una volta che la password sarà ripristinata. Se non sei sicuro, per favore contatta l'amministratore prima di proseguire. Vuoi davvero continuare?"
 
-#: lostpassword/templates/lostpassword.php:24
+#: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
 msgstr "Sì, voglio davvero ripristinare la mia password adesso"
 
-#: lostpassword/templates/lostpassword.php:27
-msgid "Request reset"
-msgstr "Richiesta di ripristino"
+#: lostpassword/templates/lostpassword.php:30
+msgid "Reset"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -750,18 +750,18 @@ msgstr "Aggiornamento di ownCloud alla versione %s in corso, ciò potrebbe richi
 #: templates/update.user.php:3
 msgid ""
 "This ownCloud instance is currently being updated, which may take a while."
-msgstr ""
+msgstr "Questa istanza di ownCloud si sta aggiornando, per favore attendere."
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr ""
+msgstr "Per favore ricarica questa pagina per poter continuare ad usare ownCloud."
 
 #: templates/update.user.php:5
 msgid ""
 "Contact your system administrator if this message persists or appeared "
 "unexpectedly."
-msgstr ""
+msgstr "Contatta il tuo amministratore di sistema se questo messaggio persiste o appare inaspettatamente."
 
 #: templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr ""
+msgstr "Vi ringrazio per la pazienza."

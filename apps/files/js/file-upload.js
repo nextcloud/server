@@ -334,8 +334,13 @@ $(document).ready(function() {
 				var result=$.parseJSON(response);
 
 				delete data.jqXHR;
-				
-				if (typeof result[0] === 'undefined') {
+
+				if (result.status === 'error' && result.data && result.data.message){
+					data.textStatus = 'servererror';
+					data.errorThrown = result.data.message;
+					var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
+					fu._trigger('fail', e, data);
+				} else if (typeof result[0] === 'undefined') {
 					data.textStatus = 'servererror';
 					data.errorThrown = t('files', 'Could not get result from server.');
 					var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
@@ -460,7 +465,11 @@ $(document).ready(function() {
 		crumb.text(text);
 	}
 
-	$(document).click(function() {
+	$(document).click(function(ev) {
+		// do not close when clicking in the dropdown
+		if ($(ev.target).closest('#new').length){
+			return;
+		}
 		$('#new>ul').hide();
 		$('#new').removeClass('active');
 		if ($('#new .error').length > 0) {

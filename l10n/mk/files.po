@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# miroj <jmiroslav@softhome.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 07:25-0400\n"
-"PO-Revision-Date: 2013-10-27 11:25+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-29 07:28-0400\n"
+"PO-Revision-Date: 2013-10-28 10:44+0000\n"
+"Last-Translator: miroj <jmiroslav@softhome.net>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,16 +21,16 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "Не можам да го преместам %s - Датотека со такво име веќе постои"
 
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "Не можам да ги префрлам %s"
 
 #: ajax/newfile.php:56 js/files.js:27
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "Името на датотеката не може да биде празно."
 
 #: ajax/newfile.php:62
 msgid "File name must not contain \"/\". Please choose a different name."
@@ -44,36 +45,36 @@ msgstr ""
 
 #: ajax/newfile.php:81
 msgid "Not a valid source"
-msgstr ""
+msgstr "Не е валиден извор"
 
 #: ajax/newfile.php:94
 #, php-format
 msgid "Error while downloading %s to %s"
-msgstr ""
+msgstr "Грешка додека преземам %s to %s"
 
 #: ajax/newfile.php:127
 msgid "Error when creating the file"
-msgstr ""
+msgstr "Грешка при креирање на датотека"
 
 #: ajax/newfolder.php:21
 msgid "Folder name cannot be empty."
-msgstr ""
+msgstr "Името на папката не може да биде празно."
 
 #: ajax/newfolder.php:27
 msgid "Folder name must not contain \"/\". Please choose a different name."
-msgstr ""
+msgstr "Името на папката не смее да содржи \"/\". Одберете друго име."
 
 #: ajax/newfolder.php:56
 msgid "Error when creating the folder"
-msgstr ""
+msgstr "Грешка при креирање на папка"
 
 #: ajax/upload.php:18 ajax/upload.php:50
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "Не може да се постави папката за префрлање на податоци."
 
 #: ajax/upload.php:27
 msgid "Invalid Token"
-msgstr ""
+msgstr "Грешен токен"
 
 #: ajax/upload.php:64
 msgid "No file was uploaded. Unknown error"
@@ -112,7 +113,7 @@ msgstr "Неуспеав да запишам на диск"
 
 #: ajax/upload.php:96
 msgid "Not enough storage available"
-msgstr ""
+msgstr "Нема доволно слободен сториџ"
 
 #: ajax/upload.php:127 ajax/upload.php:153
 msgid "Upload failed. Could not get file info."
@@ -120,11 +121,11 @@ msgstr ""
 
 #: ajax/upload.php:143
 msgid "Upload failed. Could not find uploaded file"
-msgstr ""
+msgstr "Префрлањето е неуспешно. Не можам да го најдам префрлената датотека."
 
 #: ajax/upload.php:170
 msgid "Invalid directory."
-msgstr ""
+msgstr "Погрешна папка."
 
 #: appinfo/app.php:11
 msgid "Files"
@@ -136,7 +137,7 @@ msgstr ""
 
 #: js/file-upload.js:239
 msgid "Not enough space available"
-msgstr ""
+msgstr "Немате доволно дисков простор"
 
 #: js/file-upload.js:306
 msgid "Upload cancelled."
@@ -144,7 +145,7 @@ msgstr "Преземањето е прекинато."
 
 #: js/file-upload.js:340
 msgid "Could not get result from server."
-msgstr ""
+msgstr "Не можам да добијам резултат од серверот."
 
 #: js/file-upload.js:432
 msgid ""
@@ -153,11 +154,11 @@ msgstr "Подигање на датотека е во тек. Напуштењ�
 
 #: js/file-upload.js:511
 msgid "URL cannot be empty"
-msgstr ""
+msgstr "URL-то не може да биде празно"
 
 #: js/file-upload.js:515 js/filelist.js:361
 msgid "In the home folder 'Shared' is a reserved filename"
-msgstr ""
+msgstr "Во домашната папка, 'Shared' е резервирано има на датотека/папка"
 
 #: js/file-upload.js:517 js/filelist.js:363
 msgid "{new_name} already exists"
@@ -165,11 +166,11 @@ msgstr "{new_name} веќе постои"
 
 #: js/file-upload.js:576
 msgid "Could not create file"
-msgstr ""
+msgstr "Не множам да креирам датотека"
 
 #: js/file-upload.js:592
 msgid "Could not create folder"
-msgstr ""
+msgstr "Не можам да креирам папка"
 
 #: js/fileactions.js:125
 msgid "Share"
@@ -177,7 +178,7 @@ msgstr "Сподели"
 
 #: js/fileactions.js:137
 msgid "Delete permanently"
-msgstr ""
+msgstr "Трајно избришани"
 
 #: js/fileactions.js:194
 msgid "Rename"
@@ -189,7 +190,7 @@ msgstr "Чека"
 
 #: js/filelist.js:389
 msgid "Could not rename file"
-msgstr ""
+msgstr "Не можам да ја преименувам датотеката"
 
 #: js/filelist.js:508
 msgid "replaced {new_name} with {old_name}"
@@ -213,7 +214,7 @@ msgstr[1] ""
 
 #: js/filelist.js:587
 msgid "{dirs} and {files}"
-msgstr ""
+msgstr "{dirs} и {files}"
 
 #: js/filelist.js:789 js/filelist.js:827
 msgid "Uploading %n file"
@@ -223,7 +224,7 @@ msgstr[1] ""
 
 #: js/files.js:25
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' е грешно име за датотека."
 
 #: js/files.js:34
 msgid ""
@@ -233,11 +234,11 @@ msgstr "Неправилно име. , '\\', '/', '<', '>', ':', '\"', '|', '?' 
 
 #: js/files.js:46
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "Вашиот сториџ е полн, датотеките веќе не можат да се освежуваат или синхронизираат!"
 
 #: js/files.js:50
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "Вашиот сториџ е скоро полн ({usedSpacePercent}%)"
 
 #: js/files.js:63
 msgid ""
@@ -262,11 +263,11 @@ msgstr ""
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr ""
+msgstr "Вашето преземање се подготвува. Ова може да потрае до колку датотеките се големи."
 
 #: js/files.js:514 js/files.js:552
 msgid "Error moving file"
-msgstr ""
+msgstr "Грешка при префрлање на датотека"
 
 #: js/files.js:514 js/files.js:552
 msgid "Error"
@@ -286,12 +287,12 @@ msgstr "Променето"
 
 #: lib/app.php:60
 msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
-msgstr ""
+msgstr "Грешно име на папката. Користењето на 'Shared' е резервирано од самиот ownCloud"
 
 #: lib/app.php:88
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "%s не може да биде преименуван"
 
 #: lib/helper.php:11 templates/index.php:16
 msgid "Upload"
@@ -347,7 +348,7 @@ msgstr "Од врска"
 
 #: templates/index.php:29
 msgid "Deleted files"
-msgstr ""
+msgstr "Избришани датотеки"
 
 #: templates/index.php:34
 msgid "Cancel upload"
@@ -393,4 +394,4 @@ msgstr "Моментално скенирам"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr ""
+msgstr "Го надградувам кешот на фјал системот..."

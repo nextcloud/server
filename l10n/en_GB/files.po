@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 07:25-0400\n"
-"PO-Revision-Date: 2013-10-27 11:25+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-29 07:28-0400\n"
+"PO-Revision-Date: 2013-10-28 14:00+0000\n"
+"Last-Translator: mnestis <transifex@mnestis.net>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,39 +34,39 @@ msgstr "File name cannot be empty."
 
 #: ajax/newfile.php:62
 msgid "File name must not contain \"/\". Please choose a different name."
-msgstr ""
+msgstr "File name must not contain \"/\". Please choose a different name."
 
 #: ajax/newfile.php:72 ajax/newfolder.php:37 lib/app.php:67
 #, php-format
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different "
 "name."
-msgstr ""
+msgstr "The name %s is already used in the folder %s. Please choose a different name."
 
 #: ajax/newfile.php:81
 msgid "Not a valid source"
-msgstr ""
+msgstr "Not a valid source"
 
 #: ajax/newfile.php:94
 #, php-format
 msgid "Error while downloading %s to %s"
-msgstr ""
+msgstr "Error whilst downloading %s to %s"
 
 #: ajax/newfile.php:127
 msgid "Error when creating the file"
-msgstr ""
+msgstr "Error when creating the file"
 
 #: ajax/newfolder.php:21
 msgid "Folder name cannot be empty."
-msgstr ""
+msgstr "Folder name cannot be empty."
 
 #: ajax/newfolder.php:27
 msgid "Folder name must not contain \"/\". Please choose a different name."
-msgstr ""
+msgstr "Folder name must not contain \"/\". Please choose a different name."
 
 #: ajax/newfolder.php:56
 msgid "Error when creating the folder"
-msgstr ""
+msgstr "Error when creating the folder"
 
 #: ajax/upload.php:18 ajax/upload.php:50
 msgid "Unable to set upload directory."
@@ -154,11 +154,11 @@ msgstr "File upload is in progress. Leaving the page now will cancel the upload.
 
 #: js/file-upload.js:511
 msgid "URL cannot be empty"
-msgstr ""
+msgstr "URL cannot be empty"
 
 #: js/file-upload.js:515 js/filelist.js:361
 msgid "In the home folder 'Shared' is a reserved filename"
-msgstr ""
+msgstr "In the home folder 'Shared' is a reserved file name"
 
 #: js/file-upload.js:517 js/filelist.js:363
 msgid "{new_name} already exists"
@@ -166,11 +166,11 @@ msgstr "{new_name} already exists"
 
 #: js/file-upload.js:576
 msgid "Could not create file"
-msgstr ""
+msgstr "Could not create file"
 
 #: js/file-upload.js:592
 msgid "Could not create folder"
-msgstr ""
+msgstr "Could not create folder"
 
 #: js/fileactions.js:125
 msgid "Share"
@@ -190,7 +190,7 @@ msgstr "Pending"
 
 #: js/filelist.js:389
 msgid "Could not rename file"
-msgstr ""
+msgstr "Could not rename file"
 
 #: js/filelist.js:508
 msgid "replaced {new_name} with {old_name}"
@@ -356,7 +356,7 @@ msgstr "Cancel upload"
 
 #: templates/index.php:40
 msgid "You don’t have permission to upload or create files here"
-msgstr ""
+msgstr "You don’t have permission to upload or create files here"
 
 #: templates/index.php:45
 msgid "Nothing in here. Upload something!"

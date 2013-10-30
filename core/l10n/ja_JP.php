@@ -67,6 +67,8 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "権限変更でエラー発生",
 "Shared with you and the group {group} by {owner}" => "あなたと {owner} のグループ {group} で共有中",
 "Shared with you by {owner}" => "{owner} と共有中",
+"Share with user or group …" => "ユーザもしくはグループと共有 ...",
+"Share link" => "共有リンク",
 "Password protect" => "パスワード保護",
 "Password" => "パスワード",
 "Allow Public Upload" => "アップロードを許可",
@@ -80,6 +82,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "再共有は許可されていません",
 "Shared in {item} with {user}" => "{item} 内で {user} と共有中",
 "Unshare" => "共有解除",
+"notify by email" => "メールで通知",
 "can edit" => "編集を許可",
 "access control" => "アクセス権限",
 "create" => "作成",
@@ -109,7 +112,6 @@ $TRANSLATIONS = array(
 "Username" => "ユーザー名",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "ファイルが暗号化されています。復旧キーを有効にしていなかった場合、パスワードをリセットしてからデータを復旧する方法はありません。何をすべきかよくわからないなら、続ける前にまず管理者に連絡しましょう。本当に続けますか？",
 "Yes, I really want to reset my password now" => "はい、今すぐパスワードをリセットします。",
-"Request reset" => "リセットを要求します。",
 "Your password was reset" => "あなたのパスワードはリセットされました。",
 "To login page" => "ログインページへ戻る",
 "New password" => "新しいパスワードを入力",
@@ -163,6 +165,10 @@ $TRANSLATIONS = array(
 "Alternative Logins" => "代替ログイン",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "こんにちは、<br><br>%sがあなたと »%s« を共有したことをお知らせします。<br><a href=\"%s\">それを表示</a><br><br>",
 "The share will expire on %s.<br><br>" => "共有は %s で有効期限が切れます。<br><br>",
-"Updating ownCloud to version %s, this may take a while." => "ownCloud をバージョン %s に更新しています、しばらくお待ち下さい。"
+"Updating ownCloud to version %s, this may take a while." => "ownCloud をバージョン %s に更新しています、しばらくお待ち下さい。",
+"This ownCloud instance is currently being updated, which may take a while." => "この ownCloud インスタンスは現在更新中であり、しばらく時間がかかります。",
+"Please reload this page after a short time to continue using ownCloud." => "ownCloud を続けて利用するには、しばらくした後でページをリロードしてください。",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "このメッセージが引き続きもしくは予期せず現れる場合は、システム管理者に連絡してください。",
+"Thank you for your patience." => "しばらくお待ちください。"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

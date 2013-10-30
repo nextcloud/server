@@ -67,6 +67,8 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Klaida, keičiant privilegijas",
 "Shared with you and the group {group} by {owner}" => "Pasidalino su Jumis ir {group} grupe {owner}",
 "Shared with you by {owner}" => "Pasidalino su Jumis {owner}",
+"Share with user or group …" => "Dalintis su vartotoju arba grupe...",
+"Share link" => "Dalintis nuoroda",
 "Password protect" => "Apsaugotas slaptažodžiu",
 "Password" => "Slaptažodis",
 "Allow Public Upload" => "Leisti viešą įkėlimą",
@@ -80,6 +82,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "Dalijinasis išnaujo negalimas",
 "Shared in {item} with {user}" => "Pasidalino {item} su {user}",
 "Unshare" => "Nebesidalinti",
+"notify by email" => "pranešti el. paštu",
 "can edit" => "gali redaguoti",
 "access control" => "priėjimo kontrolė",
 "create" => "sukurti",
@@ -109,7 +112,6 @@ $TRANSLATIONS = array(
 "Username" => "Prisijungimo vardas",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Jūsų failai yra užšifruoti. Jei neįjungėte atstatymo rakto, nebus galimybės atstatyti duomenų po slaptažodžio atstatymo. Jei nesate tikri ką daryti, prašome susisiekti su administratoriumi prie tęsiant. Ar tikrai tęsti?",
 "Yes, I really want to reset my password now" => "Taip, aš tikrai noriu atnaujinti slaptažodį",
-"Request reset" => "Prašyti nustatymo iš najo",
 "Your password was reset" => "Jūsų slaptažodis buvo nustatytas iš naujo",
 "To login page" => "Į prisijungimo puslapį",
 "New password" => "Naujas slaptažodis",
@@ -161,6 +163,10 @@ $TRANSLATIONS = array(
 "Alternative Logins" => "Alternatyvūs prisijungimai",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Labas,<br><br>tik informuojame, kad %s pasidalino su Jumis »%s«.<br><a href=\"%s\">Peržiūrėk!</a><br><br>",
 "The share will expire on %s.<br><br>" => "Bendrinimo laikas baigsis %s.<br><br>",
-"Updating ownCloud to version %s, this may take a while." => "Atnaujinama ownCloud į %s versiją. tai gali šiek tiek užtrukti."
+"Updating ownCloud to version %s, this may take a while." => "Atnaujinama ownCloud į %s versiją. tai gali šiek tiek užtrukti.",
+"This ownCloud instance is currently being updated, which may take a while." => "Šiuo metu vyksta ownCloud atnaujinamas, tai gali šiek tiek užtrukti.",
+"Please reload this page after a short time to continue using ownCloud." => "Po trupučio laiko atnaujinkite šį puslapį kad galėtumėte toliau naudoti ownCloud.",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Susisiekite su savo sistemos administratoriumi jei šis pranešimas nedingsta arba jei jis pasirodė netikėtai.",
+"Thank you for your patience." => "Dėkojame už jūsų kantrumą."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);";

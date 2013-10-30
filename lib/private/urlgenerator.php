@@ -88,27 +88,27 @@ class URLGenerator implements IURLGenerator {
 		if (file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$app/img/$image")) {
 			return \OC::$WEBROOT . "/themes/$theme/apps/$app/img/$image";
 		} elseif (!file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$app/img/$basename.svg")
-				&& file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$app/img/$basename.png")) {
+			&& file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$app/img/$basename.png")) {
 			return \OC::$WEBROOT . "/themes/$theme/apps/$app/img/$basename.png";
 		} elseif (file_exists(\OC_App::getAppPath($app) . "/img/$image")) {
 			return \OC_App::getAppWebPath($app) . "/img/$image";
 		} elseif (!file_exists(\OC_App::getAppPath($app) . "/img/$basename.svg")
-				&& file_exists(\OC_App::getAppPath($app) . "/img/$basename.png")) {
+			&& file_exists(\OC_App::getAppPath($app) . "/img/$basename.png")) {
 			return \OC_App::getAppPath($app) . "/img/$basename.png";
 		} elseif (!empty($app) and file_exists(\OC::$SERVERROOT . "/themes/$theme/$app/img/$image")) {
 			return \OC::$WEBROOT . "/themes/$theme/$app/img/$image";
 		} elseif (!empty($app) and (!file_exists(\OC::$SERVERROOT . "/themes/$theme/$app/img/$basename.svg")
-				&& file_exists(\OC::$WEBROOT . "/themes/$theme/$app/img/$basename.png"))) {
+			&& file_exists(\OC::$SERVERROOT . "/themes/$theme/$app/img/$basename.png"))) {
 			return \OC::$WEBROOT . "/themes/$theme/$app/img/$basename.png";
 		} elseif (!empty($app) and file_exists(\OC::$SERVERROOT . "/$app/img/$image")) {
 			return \OC::$WEBROOT . "/$app/img/$image";
 		} elseif (!empty($app) and (!file_exists(\OC::$SERVERROOT . "/$app/img/$basename.svg")
-				&& file_exists(\OC::$WEBROOT . "/$app/img/$basename.png"))) {
+			&& file_exists(\OC::$SERVERROOT . "/$app/img/$basename.png"))) {
 			return \OC::$WEBROOT . "/$app/img/$basename.png";
 		} elseif (file_exists(\OC::$SERVERROOT . "/themes/$theme/core/img/$image")) {
 			return \OC::$WEBROOT . "/themes/$theme/core/img/$image";
 		} elseif (!file_exists(\OC::$SERVERROOT . "/themes/$theme/core/img/$basename.svg")
-				&& file_exists(\OC::$SERVERROOT . "/themes/$theme/core/img/$basename.png")) {
+			&& file_exists(\OC::$SERVERROOT . "/themes/$theme/core/img/$basename.png")) {
 			return \OC::$WEBROOT . "/themes/$theme/core/img/$basename.png";
 		} elseif (file_exists(\OC::$SERVERROOT . "/core/img/$image")) {
 			return \OC::$WEBROOT . "/core/img/$image";

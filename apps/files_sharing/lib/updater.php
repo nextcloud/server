@@ -49,13 +49,6 @@ class Shared_Updater {
 				}
 				$users = $reshareUsers;
 			}
-			// Correct folders of shared file owner
-			$target = substr($target, 8);
-			if ($uidOwner !== $uid && $source = \OC_Share_Backend_File::getSource($target)) {
-				\OC\Files\Filesystem::initMountPoints($uidOwner);
-				$source = '/'.$uidOwner.'/'.$source['path'];
-				\OC\Files\Cache\Updater::correctFolder($source, $info['mtime']);
-			}
 		}
 	}
 

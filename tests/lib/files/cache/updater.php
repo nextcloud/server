@@ -9,6 +9,7 @@
 namespace Test\Files\Cache;
 
 use \OC\Files\Filesystem as Filesystem;
+use OC\Files\Storage\Temporary;
 
 class Updater extends \PHPUnit_Framework_TestCase {
 	/**
@@ -21,6 +22,8 @@ class Updater extends \PHPUnit_Framework_TestCase {
 	 */
 	private $scanner;
 
+	private $stateFilesEncryption;
+
 	/**
 	 * @var \OC\Files\Cache\Cache $cache
 	 */
@@ -29,6 +32,12 @@ class Updater extends \PHPUnit_Framework_TestCase {
 	private static $user;
 
 	public function setUp() {
+
+		// remember files_encryption state
+		$this->stateFilesEncryption = \OC_App::isEnabled('files_encryption');
+		// we want to tests with the encryption app disabled
+		\OC_App::disable('files_encryption');
+
 		$this->storage = new \OC\Files\Storage\Temporary(array());
 		$textData = "dummy file data\n";
 		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo.png');
@@ -46,6 +55,10 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		if (!self::$user) {
 			self::$user = uniqid();
 		}
+
+		\OC_User::createUser(self::$user, 'password');
+		\OC_User::setUserId(self::$user);
+
 		\OC\Files\Filesystem::init(self::$user, '/' . self::$user . '/files');
 
 		Filesystem::clearMounts();
@@ -63,7 +76,13 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		if ($this->cache) {
 			$this->cache->clear();
 		}
+		$result = \OC_User::deleteUser(self::$user);
+		$this->assertTrue($result);
 		Filesystem::tearDown();
+		// reset app files_encryption
+		if ($this->stateFilesEncryption) {
+			\OC_App::enable('files_encryption');
+		}
 	}
 
 	public function testWrite() {
@@ -233,7 +252,6 @@ class Updater extends \PHPUnit_Framework_TestCase {
 
 		$cachedData = $this->cache->get('folder');
 		$this->assertNotEquals($folderCachedData['etag'], $cachedData['etag']);
-		$this->assertEquals($time, $cachedData['mtime']);
 
 		$cachedData = $this->cache->get('');
 		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
@@ -258,11 +276,41 @@ class Updater extends \PHPUnit_Framework_TestCase {
 
 		$cachedData = $cache2->get('');
 		$this->assertNotEquals($substorageCachedData['etag'], $cachedData['etag']);
-		$this->assertEquals($time, $cachedData['mtime']);
 
 		$cachedData = $this->cache->get('folder');
 		$this->assertNotEquals($folderCachedData['etag'], $cachedData['etag']);
 		$this->assertEquals($time, $cachedData['mtime']);
 	}
 
+	public function testUpdatePermissionsOnRescanOnlyForUpdatedFile() {
+		$permissionsCache = $this->storage->getPermissionsCache();
+		$scanner = $this->storage->getScanner();
+		$scanner->scan('');
+		$cache = $this->storage->getCache();
+		$loggedInUser = \OC_User::getUser();
+		\OC_User::setUserId(self::$user);
+		FileSystem::getDirectoryContent('/');
+		$past = time() - 600;
+		$cache->put('', array('storage_mtime' => $past));
+
+		$this->assertNotEquals(-1, $permissionsCache->get($cache->getId('foo.txt'), self::$user));
+		$this->assertNotEquals(-1, $permissionsCache->get($cache->getId('foo.png'), self::$user));
+
+		$permissionsCache->set($cache->getId('foo.png'), self::$user, 15);
+		FileSystem::file_put_contents('/foo.txt', 'asd');
+
+		$this->assertEquals(-1, $permissionsCache->get($cache->getId('foo.txt'), self::$user));
+		$this->assertEquals(15, $permissionsCache->get($cache->getId('foo.png'), self::$user));
+
+		FileSystem::getDirectoryContent('/');
+
+		$this->assertEquals(15, $permissionsCache->get($cache->getId('foo.png'), self::$user));
+
+		FileSystem::file_put_contents('/qwerty.txt', 'asd');
+		FileSystem::getDirectoryContent('/');
+
+		$this->assertEquals(15, $permissionsCache->get($cache->getId('foo.png'), self::$user));
+
+		\OC_User::setUserId($loggedInUser);
+	}
 }

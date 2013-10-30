@@ -41,7 +41,8 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 						$_POST['itemSource'],
 						$shareType,
 						$shareWith,
-						$_POST['permissions']
+						$_POST['permissions'],
+						$_POST['itemSourceName']
 					);
 
 					if (is_string($token)) {

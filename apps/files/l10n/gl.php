@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "Not a valid source" => "Esta orixe non é correcta",
 "Error while downloading %s to %s" => "Produciuse un erro ao descargar %s en %s",
 "Error when creating the file" => "Produciuse un erro ao crear o ficheiro",
+"Folder name cannot be empty." => "O nome de cartafol non pode estar baleiro.",
 "Folder name must not contain \"/\". Please choose a different name." => "O nome do cartafol non pode conter «/». Escolla outro nome.",
 "Error when creating the folder" => "Produciuse un erro ao crear o cartafol",
 "Unable to set upload directory." => "Non é posíbel configurar o directorio de envíos.",

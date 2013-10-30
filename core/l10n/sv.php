@@ -67,6 +67,8 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Fel vid ändring av rättigheter",
 "Shared with you and the group {group} by {owner}" => "Delad med dig och gruppen {group} av {owner}",
 "Shared with you by {owner}" => "Delad med dig av {owner}",
+"Share with user or group …" => "Dela med användare eller grupp...",
+"Share link" => "Dela länk",
 "Password protect" => "Lösenordsskydda",
 "Password" => "Lösenord",
 "Allow Public Upload" => "Tillåt publik uppladdning",
@@ -80,6 +82,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "Dela vidare är inte tillåtet",
 "Shared in {item} with {user}" => "Delad i {item} med {user}",
 "Unshare" => "Sluta dela",
+"notify by email" => "informera via e-post",
 "can edit" => "kan redigera",
 "access control" => "åtkomstkontroll",
 "create" => "skapa",
@@ -109,7 +112,6 @@ $TRANSLATIONS = array(
 "Username" => "Användarnamn",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Dina filer är krypterade. Om du inte har aktiverat återställningsnyckeln kommer det inte att finnas någon möjlighet att få tillbaka dina filer efter att ditt lösenord har återställts. Om du är osäker, kontakta din systemadministratör innan du fortsätter. Är du verkligen säker på att fortsätta?",
 "Yes, I really want to reset my password now" => "Ja, jag vill verkligen återställa mitt lösenord nu",
-"Request reset" => "Begär återställning",
 "Your password was reset" => "Ditt lösenord har återställts",
 "To login page" => "Till logginsidan",
 "New password" => "Nytt lösenord",
@@ -163,6 +165,10 @@ $TRANSLATIONS = array(
 "Alternative Logins" => "Alternativa inloggningar",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hej där,<br><br>ville bara informera dig om att %s delade »%s« med dig.<br><a href=\"%s\">Titta på den!</a><br><br>",
 "The share will expire on %s.<br><br>" => "Utdelningen kommer att upphöra %s.<br><br>",
-"Updating ownCloud to version %s, this may take a while." => "Uppdaterar ownCloud till version %s, detta kan ta en stund."
+"Updating ownCloud to version %s, this may take a while." => "Uppdaterar ownCloud till version %s, detta kan ta en stund.",
+"This ownCloud instance is currently being updated, which may take a while." => "Denna ownCloud instans håller på att uppdatera, vilket kan ta ett tag.",
+"Please reload this page after a short time to continue using ownCloud." => "Var god och ladda om denna sida efter en kort stund för att fortsätta använda ownCloud.",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Hör av dig till din system administratör ifall detta meddelande fortsätter eller visas oväntat.",
+"Thank you for your patience." => "Tack för ditt tålamod."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
