@@ -7,6 +7,7 @@
  */
 
 namespace OC\Files\Cache;
+
 use OCP\Util;
 
 /**
@@ -42,6 +43,7 @@ class Updater {
 			$scanner->scan($internalPath, Scanner::SCAN_SHALLOW);
 			$cache->correctFolderSize($internalPath);
 			self::correctFolder($path, $storage->filemtime($internalPath));
+			self::correctParentStorageMtime($storage, $internalPath);
 		}
 	}
 
@@ -61,6 +63,7 @@ class Updater {
 			$cache->remove($internalPath);
 			$cache->correctFolderSize($internalPath);
 			self::correctFolder($path, time());
+			self::correctParentStorageMtime($storage, $internalPath);
 		}
 	}
 
@@ -87,6 +90,8 @@ class Updater {
 				$cache->correctFolderSize($internalTo);
 				self::correctFolder($from, time());
 				self::correctFolder($to, time());
+				self::correctParentStorageMtime($storageFrom, $internalFrom);
+				self::correctParentStorageMtime($storageTo, $internalTo);
 			} else {
 				self::deleteUpdate($from);
 				self::writeUpdate($to);
@@ -148,6 +153,21 @@ class Updater {
 					$id = -1;
 				}
 			}
+		}
+	}
+
+	/**
+	 * update the storage_mtime of the parent
+	 *
+	 * @param \OC\Files\Storage\Storage $storage
+	 * @param string $internalPath
+	 */
+	static private function correctParentStorageMtime($storage, $internalPath) {
+		$cache = $storage->getCache();
+		$parentId = $cache->getParentId($internalPath);
+		$parent = dirname($internalPath);
+		if ($parentId != -1) {
+			$cache->update($parentId, array('storage_mtime' => $storage->filemtime($parent)));
 		}
 	}
 
