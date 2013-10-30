@@ -250,7 +250,8 @@ class OC_API {
 
 		// reuse existing login
 		$loggedIn = OC_User::isLoggedIn();
-		if ($loggedIn === true) {
+		$ocsApiRequest = isset($_SERVER['HTTP_OCS_APIREQUEST']) ? $_SERVER['HTTP_OCS_APIREQUEST'] === 'true' : false;
+		if ($loggedIn === true && $ocsApiRequest) {
 			return OC_User::getUser();
 		}
 
