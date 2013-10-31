@@ -35,7 +35,7 @@ class OC_OCS_Privatedata {
 	public static function get($parameters) {
 		$user = OC_User::getUser();
 		$app = addslashes(strip_tags($parameters['app']));
-		$key = isset($parameters['key']) ?addslashes(strip_tags($parameters['key'])) : null;
+		$key = isset($parameters['key']) ? addslashes(strip_tags($parameters['key'])) : null;
 		
 		if(empty($key)) {
 			$query = \OCP\DB::prepare('SELECT `key`, `app`, `value`  FROM `*PREFIX*privatedata` WHERE `user` = ? AND `app` = ? ');
@@ -94,12 +94,14 @@ class OC_OCS_Privatedata {
 	 */
 	public static function delete($parameters) {
 		$user = OC_User::getUser();
+		if (!isset($parameters['app']) or !isset($parameters['key'])) {
+			//key and app are NOT optional here
+			return new OC_OCS_Result(null, 101);
+		}
+
 		$app = addslashes(strip_tags($parameters['app']));
 		$key = addslashes(strip_tags($parameters['key']));
-		if($key==="" or $app==="") {
-			return new OC_OCS_Result(null, 101); //key and app are NOT optional here
-		}
-		
+
 		// delete in DB
 		$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*privatedata`  WHERE `user` = ? AND `app` = ? AND `key` = ? ');
 		$query->execute(array($user, $app, $key ));
