@@ -465,7 +465,11 @@ $(document).ready(function() {
 		crumb.text(text);
 	}
 
-	$(document).click(function() {
+	$(document).click(function(ev) {
+		// do not close when clicking in the dropdown
+		if ($(ev.target).closest('#new').length){
+			return;
+		}
 		$('#new>ul').hide();
 		$('#new').removeClass('active');
 		if ($('#new .error').length > 0) {

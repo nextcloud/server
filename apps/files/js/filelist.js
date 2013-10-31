@@ -593,18 +593,19 @@ var FileList={
 				var fileSize = '<td class="filesize">'+humanFileSize(totalSize)+'</td>';
 			}
 
-			$('#fileList').append('<tr class="summary"><td><span class="info">'+info+'</span></td>'+fileSize+'<td></td></tr>');
+			var $summary = $('<tr class="summary"><td><span class="info">'+info+'</span></td>'+fileSize+'<td></td></tr>');
+			$('#fileList').append($summary);
 
-			var $dirInfo = $('.summary .dirinfo');
-			var $fileInfo = $('.summary .fileinfo');
-			var $connector = $('.summary .connector');
+			var $dirInfo = $summary.find('.dirinfo');
+			var $fileInfo = $summary.find('.fileinfo');
+			var $connector = $summary.find('.connector');
 
 			// Show only what's necessary, e.g.: no files: don't show "0 files"
-			if ($dirInfo.html().charAt(0) === "0") {
+			if (totalDirs === 0) {
 				$dirInfo.hide();
 				$connector.hide();
 			}
-			if ($fileInfo.html().charAt(0) === "0") {
+			if (totalFiles === 0) {
 				$fileInfo.hide();
 				$connector.hide();
 			}
