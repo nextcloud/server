@@ -666,7 +666,7 @@ var folderDropOptions={
 			return false;
 		}
 
-		var target=$.trim($(this).find('.nametext').text());
+		var target = $(this).parent('tr').data('file');
 
 		var files = ui.helper.find('tr');
 		$(files).each(function(i,row){
