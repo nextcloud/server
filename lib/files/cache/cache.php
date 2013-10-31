@@ -59,7 +59,7 @@ class Cache {
 		if ($row = $result->fetchRow()) {
 			$this->numericId = $row['numeric_id'];
 		} else {
-			$result = \OC_DB::executeAudited(
+			\OC_DB::executeAudited(
 				'INSERT INTO `*PREFIX*storages`(`id`) VALUES(?)',
 				array($this->storageId)
 			);
@@ -86,7 +86,7 @@ class Cache {
 			if ($row = $result->fetchRow()) {
 				$this->mimetypeIds[$mime] = $row['id'];
 			} else {
-				$result = \OC_DB::executeAudited(
+				\OC_DB::executeAudited(
 					'INSERT INTO `*PREFIX*mimetypes`(`mimetype`) VALUES(?)',
 					array($mime)
 				);
@@ -364,7 +364,7 @@ class Cache {
 				$this->remove($child['path']);
 			}
 		}
-		$result = \OC_DB::executeAudited('
+		\OC_DB::executeAudited('
 			DELETE FROM `*PREFIX*filecache` WHERE `fileid` = ?',
 			array($entry['fileid'])
 		);
@@ -401,7 +401,7 @@ class Cache {
 
 			foreach ($childEntries as $child) {
 				$targetPath = $target . substr($child['path'], $sourceLength);
-				$result = \OC_DB::executeAudited($query,
+				\OC_DB::executeAudited($query,
 					array(
 						$targetPath,
 						md5($targetPath),
@@ -411,7 +411,7 @@ class Cache {
 			}
 		}
 
-		$result = \OC_DB::executeAudited('
+		\OC_DB::executeAudited('
 			UPDATE `*PREFIX*filecache`
 			SET `path` = ?, `path_hash` = ?, `name` = ?, `parent` =?
 			WHERE `fileid` = ?',
@@ -423,12 +423,12 @@ class Cache {
 	 * remove all entries for files that are stored on the storage from the cache
 	 */
 	public function clear() {
-		$result = \OC_DB::executeAudited('
+		\OC_DB::executeAudited('
 			DELETE FROM `*PREFIX*filecache` WHERE `storage` = ?',
 			array($this->numericId)
 		);
 
-		$result = \OC_DB::executeAudited('
+		\OC_DB::executeAudited('
 			DELETE FROM `*PREFIX*storages` WHERE `id` = ?',
 			array($this->storageId)
 		);
@@ -514,7 +514,6 @@ class Cache {
 			WHERE ' . $where . ' AND `storage` = ?',
 			array($mimetype, $this->numericId)
 		);
-		$result = $query->execute(array($mimetype, $this->numericId));
 		
 		$files = array();
 		while ($row = $result->fetchRow()) {
