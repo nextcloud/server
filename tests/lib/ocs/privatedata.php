@@ -36,18 +36,51 @@ class Test_OC_OCS_Privatedata extends PHPUnit_Framework_TestCase
 	public function testGetEmptyOne() {
 		$params = array('app' => $this->appKey, 'key' => '123');
 		$result = OC_OCS_Privatedata::get($params);
-		$this->assertEquals(100, $result->getStatusCode());
-		$data = $result->getData();
-		$this->assertTrue(is_array($data));
-		$this->assertEquals(0, sizeof($data));
+		$this->assertOcsResult(0, $result);
 	}
 
 	public function testGetEmptyAll() {
 		$params = array('app' => $this->appKey);
 		$result = OC_OCS_Privatedata::get($params);
+		$this->assertOcsResult(0, $result);
+	}
+
+	public function testSetOne() {
+		$_POST = array('value' => 123456789);
+		$params = array('app' => $this->appKey, 'key' => 'k-1');
+		$result = OC_OCS_Privatedata::set($params);
+		$this->assertEquals(100, $result->getStatusCode());
+
+		$result = OC_OCS_Privatedata::get($params);
+		$this->assertOcsResult(1, $result);
+	}
+
+	public function testSetMany() {
+		$_POST = array('value' => 123456789);
+
+		// set key 'k-1'
+		$params = array('app' => $this->appKey, 'key' => 'k-1');
+		$result = OC_OCS_Privatedata::set($params);
+		$this->assertEquals(100, $result->getStatusCode());
+
+		// set key 'k-2'
+		$params = array('app' => $this->appKey, 'key' => 'k-2');
+		$result = OC_OCS_Privatedata::set($params);
+		$this->assertEquals(100, $result->getStatusCode());
+
+		// query for all
+		$params = array('app' => $this->appKey);
+		$result = OC_OCS_Privatedata::get($params);
+		$this->assertOcsResult(2, $result);
+	}
+
+	/**
+	 * @param \OC_OCS_Result $result
+	 */
+	public function assertOcsResult($expectedArraySize, $result) {
 		$this->assertEquals(100, $result->getStatusCode());
 		$data = $result->getData();
 		$this->assertTrue(is_array($data));
-		$this->assertEquals(0, sizeof($data));
+		$this->assertEquals($expectedArraySize, sizeof($data));
 	}
 }
