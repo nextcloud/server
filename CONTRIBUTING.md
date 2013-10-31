@@ -20,6 +20,7 @@ If you have questions about how to install or use ownCloud, please direct these 
       - [Bookmarks](https://github.com/owncloud/bookmarks/issues)
       - [Calendar](https://github.com/owncloud/calendar/issues)
       - [Contacts](https://github.com/owncloud/contacts/issues)
+      - [Documents](https://github.com/owncloud/documents/issues)
       - [Mail](https://github.com/owncloud/mail/issues)
       - [Media/Music](https://github.com/owncloud/media/issues)
       - [News](https://github.com/owncloud/news/issues)
