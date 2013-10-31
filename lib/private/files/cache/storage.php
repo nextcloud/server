@@ -48,13 +48,26 @@ class Storage {
 	}
 
 	public static function getStorageId($numericId) {
-		
+
 		$sql = 'SELECT `id` FROM `*PREFIX*storages` WHERE `numeric_id` = ?';
 		$result = \OC_DB::executeAudited($sql, array($numericId));
 		if ($row = $result->fetchRow()) {
 			return $row['id'];
 		} else {
 			return null;
+		}
+	}
+
+	public static function exists($storageId) {
+		if (strlen($storageId) > 64) {
+			$storageId = md5($storageId);
+		}
+		$sql = 'SELECT `numeric_id` FROM `*PREFIX*storages` WHERE `id` = ?';
+		$result = \OC_DB::executeAudited($sql, array($storageId));
+		if ($row = $result->fetchRow()) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 }
