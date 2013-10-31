@@ -35,7 +35,7 @@ class OC_OCS_Privatedata {
 	public static function get($parameters) {
 		$user = OC_User::getUser();
 		$app = addslashes(strip_tags($parameters['app']));
-		$key = addslashes(strip_tags($parameters['key']));
+		$key = isset($parameters['key']) ?addslashes(strip_tags($parameters['key'])) : null;
 		
 		if(empty($key)) {
 			$query = \OCP\DB::prepare('SELECT `key`, `app`, `value`  FROM `*PREFIX*privatedata` WHERE `user` = ? AND `app` = ? ');
