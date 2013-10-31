@@ -63,7 +63,6 @@ class OC_OCS_Privatedata {
 	* @param array $parameters The OCS parameter
 	*/
 	public static function set($parameters) {
-		OC_Util::checkLoggedIn();
 		$user = OC_User::getUser();
 		$app = addslashes(strip_tags($parameters['app']));
 		$key = addslashes(strip_tags($parameters['key']));
