@@ -221,7 +221,11 @@ class Filesystem {
 		$parser = new \OC\ArrayParser();
 
 		$root = \OC_User::getHome($user);
-		self::mount('\OC\Files\Storage\Local', array('datadir' => $root), $user);
+		if (\OC\Files\Cache\Cache::storageExists('local::' . $root . '/') or is_null($user)) {
+			self::mount('\OC\Files\Storage\Local', array('datadir' => $root), $user);
+		} else {
+			self::mount('\OC\Files\Storage\Home', array('user' => $user, 'datadir' => $root), $user);
+		}
 		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
 
 		//move config file to it's new position
