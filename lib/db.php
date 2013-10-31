@@ -434,7 +434,7 @@ class OC_DB {
 	 *					  an array with 'sql' and optionally 'limit' and 'offset' keys
 	 *					.. or a simple sql query string
 	 * @param array $parameters
-	 * @return result
+	 * @return MDB2_Result|PDOStatementWrapper|bool|int result
 	 * @throws DatabaseException
 	 */
 	static public function executeAudited( $stmt, array $parameters = null) {
@@ -444,7 +444,7 @@ class OC_DB {
 				// TODO try to convert LIMIT OFFSET notation to parameters, see fixLimitClauseForMSSQL
 				$message = 'LIMIT and OFFSET are forbidden for portability reasons,'
 						 . ' pass an array with \'limit\' and \'offset\' instead';
-				throw new DatabaseException($message);
+				throw new DatabaseException($message, $stmt);
 			}
 			$stmt = array('sql' => $stmt, 'limit' => null, 'offset' => null);
 		}
@@ -452,7 +452,7 @@ class OC_DB {
 			// convert to prepared statement
 			if ( ! array_key_exists('sql', $stmt) ) {
 				$message = 'statement array must at least contain key \'sql\'';
-				throw new DatabaseException($message);
+				throw new DatabaseException($message, '');
 			}
 			if ( ! array_key_exists('limit', $stmt) ) {
 				$stmt['limit'] = null;
@@ -463,6 +463,7 @@ class OC_DB {
 			$stmt = self::prepare($stmt['sql'], $stmt['limit'], $stmt['offset']);
 		}
 		if ($stmt instanceof PDOStatementWrapper || $stmt instanceof MDB2_Statement_Common) {
+			/** @var $stmt PDOStatementWrapper|MDB2_Statement_Common */
 			$result = $stmt->execute($parameters);
 			self::raiseExceptionOnError($result, 'Could not execute statement');
 		} else {
@@ -471,7 +472,7 @@ class OC_DB {
 			} else {
 				$message = 'Expected a prepared statement or array got ' . gettype($stmt);
 			}
-			throw new DatabaseException($message);
+			throw new DatabaseException($message, '');
 		}
 		return $result;
 	}
@@ -783,7 +784,8 @@ class OC_DB {
 				$stmt = self::prepare($query);
 				$result = $stmt->execute($inserts);
 				if (self::isError($result)) {
-					OC_Log::write('core', self::getErrorMessage($result), OC_Log::FATAL);
+					$entry = self::getErrorMessage($result);
+					OC_Log::write('core', $entry, OC_Log::FATAL);
 					OC_Template::printErrorPage( $entry );
 				}
 
@@ -1052,7 +1054,7 @@ class OC_DB {
 	/**
 	 * check if a result is an error, writes a log entry and throws an exception, works with MDB2 and PDOException
 	 * @param mixed $result
-	 * @param string message
+	 * @param string $message
 	 * @return void
 	 * @throws DatabaseException
 	 */
@@ -1067,8 +1069,14 @@ class OC_DB {
 		}
 	}
 
+	/**
+	 * @param mixed $error
+	 * @return int|mixed|null
+	 */
 	public static function getErrorCode($error) {
+		$code = null;
 		if ( self::$backend==self::BACKEND_MDB2 and PEAR::isError($error) ) {
+			/** @var $error PEAR_Error */
 			$code = $error->getCode();
 		} elseif ( self::$backend==self::BACKEND_PDO and self::$PDO ) {
 			$code = self::$PDO->errorCode();
@@ -1133,6 +1141,9 @@ class PDOStatementWrapper{
 
 	/**
 	 * make execute return the result or updated row count instead of a bool
+	 *
+	 * @param array $input
+	 * @return $this|bool|int
 	 */
 	public function execute($input=array()) {
 		$this->lastArguments = $input;
