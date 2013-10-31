@@ -1,10 +1,13 @@
 (function ($) {
 	$.fn.singleSelect = function () {
 		return this.each(function (i, select) {
-			var input = $('<input/>');
+			var input = $('<input/>'),
+			    inputTooltip = $(select).attr('data-inputtitle');
+			if (inputTooltip){
+				input.attr('title', inputTooltip);
+			}
 			select = $(select);
 			input.css('position', 'absolute');
-			input.css(select.offset());
 			input.css({
 				'box-sizing': 'border-box',
 				'-moz-box-sizing': 'border-box',
@@ -28,7 +31,13 @@
 					select.data('previous', value);
 				} else {
 					event.stopImmediatePropagation();
+					// adjust offset, in case the user scrolled
+					input.css(select.offset());
 					input.show();
+					if ($.fn.tipsy){
+						input.tipsy({gravity: 'n', trigger: 'manual'});
+						input.tipsy('show');
+					}
 					select.css('background-color', 'white');
 					input.focus();
 				}
@@ -70,6 +79,9 @@
 
 			input.on('blur', function () {
 				$(this).change();
+				if ($.fn.tipsy){
+					$(this).tipsy('hide');
+				}
 			});
 		});
 	}
