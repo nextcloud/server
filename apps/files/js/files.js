@@ -487,7 +487,7 @@ var folderDropOptions={
 			return false;
 		}
 
-		var target = $(this).parent('tr').data('file');
+		var target = $(this).closest('tr').data('file');
 
 		var files = ui.helper.find('tr');
 		$(files).each(function(i,row) {
