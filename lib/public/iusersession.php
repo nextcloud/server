@@ -4,7 +4,7 @@
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
- * 
+ *
  */
 
 namespace OCP;
@@ -22,7 +22,7 @@ interface IUserSession {
 	public function login($user, $password);
 
 	/**
-	 * @brief Logs the user out including all the session data
+	 * Logs the user out including all the session data
 	 * Logout, destroys session
 	 */
 	public function logout();
