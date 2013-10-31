@@ -7,11 +7,7 @@
 				input.attr('title', inputTooltip);
 			}
 			select = $(select);
-			if ($.fn.tipsy){
-				input.tipsy({gravity: 'n', trigger: 'manual'});
-			}
 			input.css('position', 'absolute');
-			input.css(select.offset());
 			input.css({
 				'box-sizing': 'border-box',
 				'-moz-box-sizing': 'border-box',
@@ -35,8 +31,11 @@
 					select.data('previous', value);
 				} else {
 					event.stopImmediatePropagation();
+					// adjust offset, in case the user scrolled
+					input.css(select.offset());
 					input.show();
 					if ($.fn.tipsy){
+						input.tipsy({gravity: 'n', trigger: 'manual'});
 						input.tipsy('show');
 					}
 					select.css('background-color', 'white');
