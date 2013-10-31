@@ -26,13 +26,13 @@
 class OC_OCS_Privatedata {
 
 	/**
-	* read keys
-	* test: curl http://login:passwd@oc/core/ocs/v1.php/privatedata/getattribute/testy/123
-	* test: curl http://login:passwd@oc/core/ocs/v1.php/privatedata/getattribute/testy
-	* @param array $parameters The OCS parameter
-	*/
+	 * read keys
+	 * test: curl http://login:passwd@oc/core/ocs/v1.php/privatedata/getattribute/testy/123
+	 * test: curl http://login:passwd@oc/core/ocs/v1.php/privatedata/getattribute/testy
+	 * @param array $parameters The OCS parameter
+	 * @return \OC_OCS_Result
+	 */
 	public static function get($parameters) {
-		OC_Util::checkLoggedIn();
 		$user = OC_User::getUser();
 		$app = addslashes(strip_tags($parameters['app']));
 		$key = addslashes(strip_tags($parameters['key']));
