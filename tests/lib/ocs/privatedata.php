@@ -55,6 +55,30 @@ class Test_OC_OCS_Privatedata extends PHPUnit_Framework_TestCase
 		$this->assertOcsResult(1, $result);
 	}
 
+	public function testSetExisting() {
+		$_POST = array('value' => 123456789);
+		$params = array('app' => $this->appKey, 'key' => 'k-10');
+		$result = OC_OCS_Privatedata::set($params);
+		$this->assertEquals(100, $result->getStatusCode());
+
+		$result = OC_OCS_Privatedata::get($params);
+		$this->assertOcsResult(1, $result);
+		$data = $result->getData();
+		$data = $data[0];
+		$this->assertEquals('123456789', $data['value']);
+
+		$_POST = array('value' => 'updated');
+		$params = array('app' => $this->appKey, 'key' => 'k-10');
+		$result = OC_OCS_Privatedata::set($params);
+		$this->assertEquals(100, $result->getStatusCode());
+
+		$result = OC_OCS_Privatedata::get($params);
+		$this->assertOcsResult(1, $result);
+		$data = $result->getData();
+		$data = $data[0];
+		$this->assertEquals('updated', $data['value']);
+	}
+
 	public function testSetMany() {
 		$_POST = array('value' => 123456789);
 
@@ -72,6 +96,21 @@ class Test_OC_OCS_Privatedata extends PHPUnit_Framework_TestCase
 		$params = array('app' => $this->appKey);
 		$result = OC_OCS_Privatedata::get($params);
 		$this->assertOcsResult(2, $result);
+	}
+
+	public function testDelete() {
+		$_POST = array('value' => 123456789);
+
+		// set key 'k-1'
+		$params = array('app' => $this->appKey, 'key' => 'k-3');
+		$result = OC_OCS_Privatedata::set($params);
+		$this->assertEquals(100, $result->getStatusCode());
+
+		$result = OC_OCS_Privatedata::delete($params);
+		$this->assertEquals(100, $result->getStatusCode());
+
+		$result = OC_OCS_Privatedata::get($params);
+		$this->assertOcsResult(0, $result);
 	}
 
 	/**
