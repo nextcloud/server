@@ -58,10 +58,11 @@ class OC_OCS_Privatedata {
 	}
 
 	/**
-	* set a key
-	* test: curl http://login:passwd@oc/core/ocs/v1.php/privatedata/setattribute/testy/123  --data "value=foobar"
-	* @param array $parameters The OCS parameter
-	*/
+	 * set a key
+	 * test: curl http://login:passwd@oc/core/ocs/v1.php/privatedata/setattribute/testy/123  --data "value=foobar"
+	 * @param array $parameters The OCS parameter
+	 * @return \OC_OCS_Result
+	 */
 	public static function set($parameters) {
 		$user = OC_User::getUser();
 		$app = addslashes(strip_tags($parameters['app']));
@@ -86,12 +87,12 @@ class OC_OCS_Privatedata {
 	}
 
 	/**
-	* delete a key
-	* test: curl http://login:passwd@oc/core/ocs/v1.php/privatedata/deleteattribute/testy/123 --data "post=1"
-	* @param array $parameters The OCS parameter
-	*/
+	 * delete a key
+	 * test: curl http://login:passwd@oc/core/ocs/v1.php/privatedata/deleteattribute/testy/123 --data "post=1"
+	 * @param array $parameters The OCS parameter
+	 * @return \OC_OCS_Result
+	 */
 	public static function delete($parameters) {
-		OC_Util::checkLoggedIn();
 		$user = OC_User::getUser();
 		$app = addslashes(strip_tags($parameters['app']));
 		$key = addslashes(strip_tags($parameters['key']));
