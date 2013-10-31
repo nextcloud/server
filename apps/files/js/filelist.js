@@ -264,6 +264,9 @@ var FileList={
 			$('.creatable').toggleClass('hidden', !isCreatable);
 			$('.notCreatable').toggleClass('hidden', isCreatable);
 		}
+		else{
+			$('.creatable, .notCreatable').addClass('hidden');
+		}
 	},
 	/**
 	 * Enables/disables viewer mode.
