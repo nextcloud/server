@@ -119,7 +119,7 @@ if($source) {
 			'mime' => $mime,
 			'size' => $size,
 			'content' => $content,
-			'etag' => $meta['etag']
+			'etag' => $meta['etag'],
 		)));
 		exit();
 	}
