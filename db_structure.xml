@@ -1077,4 +1077,67 @@
 
 	</table>
 
+	<table>
+
+		<name>*dbprefix*privatedata</name>
+
+		<declaration>
+
+		<field>
+			<name>keyid</name>
+			<type>integer</type>
+			<default>0</default>
+			<notnull>true</notnull>
+			<unsigned>true</unsigned>
+			<length>4</length>
+			<autoincrement>1</autoincrement>
+		</field>
+
+		<field>
+			<name>user</name>
+			<type>text</type>
+			<default></default>
+			<notnull>true</notnull>
+			<length>255</length>
+		</field>
+
+		<field>
+			<name>app</name>
+			<type>text</type>
+			<default></default>
+			<notnull>true</notnull>
+			<length>255</length>
+		</field>
+
+		<field>
+			<name>key</name>
+			<type>text</type>
+			<default></default>
+			<notnull>true</notnull>
+			<length>255</length>
+		</field>
+
+		<field>
+			<name>value</name>
+			<type>text</type>
+			<default></default>
+			<notnull>true</notnull>
+			<length>255</length>
+		</field>
+
+		<index>
+			<primary>true</primary>
+			<unique>true</unique>
+			<name>keyid_index</name>
+			<field>
+				<name>keyid</name>
+				<sorting>ascending</sorting>
+			</field>
+		</index>
+
+		</declaration>
+
+	</table>
+
+
 </database>
