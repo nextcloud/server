@@ -42,18 +42,21 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($this->instance->isUpdatable('/'), 'Root folder is not writable');
 	}
 
-	public function testDirectories() {
-		$this->assertFalse($this->instance->file_exists('/folder'));
+	/**
+	 * @dataProvider directoryProvider
+	 */
+	public function testDirectories($directory) {
+		$this->assertFalse($this->instance->file_exists('/'.$directory));
 
-		$this->assertTrue($this->instance->mkdir('/folder'));
+		$this->assertTrue($this->instance->mkdir('/'.$directory));
 
-		$this->assertTrue($this->instance->file_exists('/folder'));
-		$this->assertTrue($this->instance->is_dir('/folder'));
-		$this->assertFalse($this->instance->is_file('/folder'));
-		$this->assertEquals('dir', $this->instance->filetype('/folder'));
-		$this->assertEquals(0, $this->instance->filesize('/folder'));
-		$this->assertTrue($this->instance->isReadable('/folder'));
-		$this->assertTrue($this->instance->isUpdatable('/folder'));
+		$this->assertTrue($this->instance->file_exists('/'.$directory));
+		$this->assertTrue($this->instance->is_dir('/'.$directory));
+		$this->assertFalse($this->instance->is_file('/'.$directory));
+		$this->assertEquals('dir', $this->instance->filetype('/'.$directory));
+		$this->assertEquals(0, $this->instance->filesize('/'.$directory));
+		$this->assertTrue($this->instance->isReadable('/'.$directory));
+		$this->assertTrue($this->instance->isUpdatable('/'.$directory));
 
 		$dh = $this->instance->opendir('/');
 		$content = array();
@@ -62,14 +65,14 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 				$content[] = $file;
 			}
 		}
-		$this->assertEquals(array('folder'), $content);
+		$this->assertEquals(array($directory), $content);
 
-		$this->assertFalse($this->instance->mkdir('/folder')); //cant create existing folders
-		$this->assertTrue($this->instance->rmdir('/folder'));
+		$this->assertFalse($this->instance->mkdir('/'.$directory)); //cant create existing folders
+		$this->assertTrue($this->instance->rmdir('/'.$directory));
 
-		$this->assertFalse($this->instance->file_exists('/folder'));
+		$this->assertFalse($this->instance->file_exists('/'.$directory));
 
-		$this->assertFalse($this->instance->rmdir('/folder')); //cant remove non existing folders
+		$this->assertFalse($this->instance->rmdir('/'.$directory)); //cant remove non existing folders
 
 		$dh = $this->instance->opendir('/');
 		$content = array();
@@ -81,6 +84,14 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(array(), $content);
 	}
 
+	public function directoryProvider()
+	{
+		return array(
+			array('folder'),
+			array(' folder'),
+			array('folder '),
+		);
+	}
 	/**
 	 * test the various uses of file_get_contents and file_put_contents
 	 */

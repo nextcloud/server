@@ -236,7 +236,7 @@ class OC_DB {
 
 			// Prepare options array
 			$options = array(
-					'portability' => MDB2_PORTABILITY_ALL - MDB2_PORTABILITY_FIX_CASE,
+					'portability' => MDB2_PORTABILITY_ALL - MDB2_PORTABILITY_FIX_CASE - MDB2_PORTABILITY_RTRIM,
 					'log_line_break' => '<br>',
 					'idxname_format' => '%s',
 					'debug' => true,
