@@ -69,18 +69,14 @@ class OC_OCS_Privatedata {
 		$key = addslashes(strip_tags($parameters['key']));
 		$value = OC_OCS::readData('post', 'value', 'text');
 
-		// check if key is already set
-		$query = \OCP\DB::prepare('SELECT `value`  FROM `*PREFIX*privatedata` WHERE `user` = ? AND `app` = ? AND `key` = ? ');
-		$result = $query->execute(array($user, $app, $key));
+		// update in DB
+		$query = \OCP\DB::prepare('UPDATE `*PREFIX*privatedata` SET `value` = ?  WHERE `user` = ? AND `app` = ? AND `key` = ?');
+		$numRows = $query->execute(array($value, $user, $app, $key));
                 
-        if ($result->numRows()==0) {
+		if ($numRows === false || $numRows === 0) {
 			// store in DB
 			$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*privatedata` (`user`, `app`, `key`, `value`)' . ' VALUES(?, ?, ?, ?)');
 			$query->execute(array($user, $app, $key, $value));
-		} else {
-			// update in DB
-			$query = \OCP\DB::prepare('UPDATE `*PREFIX*privatedata` SET `value` = ?  WHERE `user` = ? AND `app` = ? AND `key` = ? ');
-			$query->execute(array($value, $user, $app, $key ));
 		}
 
 		return new OC_OCS_Result(null, 100);
