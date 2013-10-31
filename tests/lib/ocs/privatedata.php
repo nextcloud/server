@@ -75,6 +75,22 @@ class Test_OC_OCS_Privatedata extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @dataProvider deleteWithEmptyKeysProvider
+	 */
+	public function testDeleteWithEmptyKeys($params) {
+		$result = OC_OCS_Privatedata::delete($params);
+		$this->assertEquals(101, $result->getStatusCode());
+	}
+
+	public function deleteWithEmptyKeysProvider() {
+		return array(
+			array(array()),
+			array(array('app' => '123')),
+			array(array('key' => '123')),
+		);
+	}
+
+	/**
 	 * @param \OC_OCS_Result $result
 	 */
 	public function assertOcsResult($expectedArraySize, $result) {
