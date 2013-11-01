@@ -313,7 +313,7 @@ class OC {
 			header('HTTP/1.1 500 Internal Server Error');
 			OC_Util::addStyle("styles");
 			$error = 'Session could not be initialized. Please contact your ';
-			$error .= 'system administrator';
+			$error .= 'system administrator.';
 
 			OC_Template::printErrorPage($error);
 		}
