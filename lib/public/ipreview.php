@@ -15,7 +15,7 @@ interface IPreview
 {
 
 	/**
-	 * @brief return a preview of a file
+	 * Return a preview of a file
 	 * @param string $file The path to the file where you want a thumbnail from
 	 * @param int $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
 	 * @param int $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
@@ -26,7 +26,7 @@ interface IPreview
 
 
 	/**
-	 * @brief returns true if the passed mime type is supported
+	 * Returns true if the passed mime type is supported
 	 * @param string $mimeType
 	 * @return boolean
 	 */

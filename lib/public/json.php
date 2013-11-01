@@ -35,7 +35,7 @@ namespace OCP;
  */
 class JSON {
 	/**
-	* @brief Encode and print $data in JSON format
+	* Encode and print $data in JSON format
 	* @param array $data The data to use
 	* @param string $setContentType the optional content type
 	* @return string json formatted string.
@@ -123,7 +123,7 @@ class JSON {
 	}
 
 	/**
-	* @brief set Content-Type header to jsonrequest
+	* Set Content-Type header to jsonrequest
 	* @param array $type The contwnt type header
 	* @return string json formatted string.
 	*/

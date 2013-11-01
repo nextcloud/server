@@ -44,7 +44,7 @@ use \OC\BackgroundJob\JobList;
  */
 class BackgroundJob {
 	/**
-	 * @brief get the execution type of background jobs
+	 * get the execution type of background jobs
 	 * @return string
 	 *
 	 * This method returns the type how background jobs are executed. If the user
@@ -55,7 +55,7 @@ class BackgroundJob {
 	}
 
 	/**
-	 * @brief sets the background jobs execution type
+	 * sets the background jobs execution type
 	 * @param string $type execution type
 	 * @return boolean
 	 *
@@ -77,7 +77,7 @@ class BackgroundJob {
 
 	/**
 	 * @deprecated
-	 * @brief creates a regular task
+	 * creates a regular task
 	 * @param string $klass class name
 	 * @param string $method method name
 	 * @return true
@@ -89,7 +89,7 @@ class BackgroundJob {
 
 	/**
 	 * @deprecated
-	 * @brief gets all regular tasks
+	 * gets all regular tasks
 	 * @return associative array
 	 *
 	 * key is string "$klass-$method", value is array( $klass, $method )
@@ -109,7 +109,7 @@ class BackgroundJob {
 
 	/**
 	 * @deprecated
-	 * @brief Gets one queued task
+	 * Gets one queued task
 	 * @param int $id ID of the task
 	 * @return associative array
 	 */
@@ -120,7 +120,7 @@ class BackgroundJob {
 
 	/**
 	 * @deprecated
-	 * @brief Gets all queued tasks
+	 * Gets all queued tasks
 	 * @return array with associative arrays
 	 */
 	public static function allQueuedTasks() {
@@ -139,7 +139,7 @@ class BackgroundJob {
 
 	/**
 	 * @deprecated
-	 * @brief Gets all queued tasks of a specific app
+	 * Gets all queued tasks of a specific app
 	 * @param string $app app name
 	 * @return array with associative arrays
 	 */
@@ -161,7 +161,7 @@ class BackgroundJob {
 
 	/**
 	 * @deprecated
-	 * @brief queues a task
+	 * queues a task
 	 * @param string $app app name
 	 * @param string $class class name
 	 * @param string $method method name
@@ -175,7 +175,7 @@ class BackgroundJob {
 
 	/**
 	 * @deprecated
-	 * @brief deletes a queued task
+	 * deletes a queued task
 	 * @param int $id id of task
 	 * @return bool
 	 *
