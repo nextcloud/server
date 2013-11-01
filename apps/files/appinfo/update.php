@@ -3,10 +3,14 @@
 // fix webdav properties,add namespace in front of the property, update for OC4.5
 $installedVersion=OCP\Config::getAppValue('files', 'installed_version');
 if (version_compare($installedVersion, '1.1.6', '<')) {
-	$concat = OC_DB::getConnection()->getDatabasePlatform()->getConcatExpression( "'{DAV:}'", "`propertyname`" );
-	$query = OC_DB::prepare( "UPDATE  `*PREFIX*properties`
-								  SET `propertyname` = $concat
-								WHERE `propertyname` LIKE '{%'" );
+	$concat = OC_DB::getConnection()->getDatabasePlatform()->
+		getConcatExpression( '\'{DAV:}\'', '`propertyname`' );
+	$query = OC_DB::prepare('
+		UPDATE `*PREFIX*properties`
+		SET    `propertyname` = ' . $concat . '
+		WHERE  `propertyname` NOT LIKE \'{%\'
+	');
+	$query->execute();
 }
 
 //update from OC 3
