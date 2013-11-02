@@ -884,7 +884,7 @@
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>256</length>
+				<length>255</length>
 			</field>
 
 			<field>
