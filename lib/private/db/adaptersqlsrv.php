@@ -11,10 +11,8 @@ namespace OC\DB;
 
 class AdapterSQLSrv extends Adapter {
 	public function lastInsertId($table) {
-		if($table !== null) {
-			$table = $this->conn->replaceTablePrefix( $table );
-		}
-		return $this->conn->lastInsertId($table);
+
+		return $this->conn->realLastInsertId($table);
 	}
 
 	public function fixupStatement($statement) {
