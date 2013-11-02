@@ -239,7 +239,7 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 		return array(
 			array(0, false, false, false),
 			array(0, false, \OC::$SERVERROOT . '/tests/data/lorem.txt', false),
-			array(446, true, \OC::$SERVERROOT . '/tests/data/lorem.txt', \OC::$SERVERROOT . '/tests/data/lorem-copy.txt'),
+			array(filesize(\OC::$SERVERROOT . '/tests/data/lorem.txt'), true, \OC::$SERVERROOT . '/tests/data/lorem.txt', \OC::$SERVERROOT . '/tests/data/lorem-copy.txt'),
 		);
 	}
 }
