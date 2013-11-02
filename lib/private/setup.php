@@ -183,7 +183,7 @@ class OC_Setup {
 
 			$error = $l->t('Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken.');
 			$hint = $l->t('Please double check the <a href=\'%s\'>installation guides</a>.',
-				link_to_docs('admin-install'));
+				\OC_Helper::linkToDocs('admin-install'));
 
 			OC_Template::printErrorPage($error, $hint);
 			exit();
