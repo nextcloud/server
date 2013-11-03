@@ -18,6 +18,15 @@
  * You should have received a copy of the GNU Affero General Public
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**
+ * Public interface of ownCloud for apps to use.
+ * Share Class
+ *
+ */
+
+// use OCP namespace for all classes that are considered public.
+// This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
 /**

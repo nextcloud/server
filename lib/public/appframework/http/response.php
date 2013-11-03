@@ -1,5 +1,4 @@
 <?php
-
 /**
  * ownCloud - App Framework
  *
@@ -71,7 +70,7 @@ class Response {
 	public function cacheFor($cacheSeconds) {
 
 		if($cacheSeconds > 0) {
-			$this->addHeader('Cache-Control', 'max-age=' . $cacheSeconds . 
+			$this->addHeader('Cache-Control', 'max-age=' . $cacheSeconds .
 				', must-revalidate');
 		} else {
 			$this->addHeader('Cache-Control', 'no-cache, must-revalidate');
@@ -101,16 +100,16 @@ class Response {
 	 */
 	public function getHeaders() {
 		$mergeWith = array();
-		
+
 		if($this->lastModified) {
-			$mergeWith['Last-Modified'] = 
+			$mergeWith['Last-Modified'] =
 				$this->lastModified->format(\DateTime::RFC2822);
 		}
 
 		if($this->ETag) {
 			$mergeWith['ETag'] = '"' . $this->ETag . '"';
 		}
-			
+
 		return array_merge($mergeWith, $this->headers);
 	}
 

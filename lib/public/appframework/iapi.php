@@ -1,5 +1,4 @@
 <?php
-
 /**
  * ownCloud - App Framework
  *
