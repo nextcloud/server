@@ -8,10 +8,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-30 03:32-0400\n"
-"PO-Revision-Date: 2013-10-30 07:32+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-03 12:38-0500\n"
+"PO-Revision-Date: 2013-10-31 08:00+0000\n"
+"Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -273,12 +273,12 @@ msgstr "已分享"
 msgid "Share"
 msgstr "分享"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:690
-#: js/share.js:702
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:692
+#: js/share.js:704
 msgid "Error"
 msgstr "錯誤"
 
-#: js/share.js:160 js/share.js:730
+#: js/share.js:160 js/share.js:732
 msgid "Error while sharing"
 msgstr "分享時發生錯誤"
 
@@ -300,11 +300,11 @@ msgstr "{owner} 已經和您分享"
 
 #: js/share.js:212
 msgid "Share with user or group …"
-msgstr ""
+msgstr "與用戶或群組分享"
 
 #: js/share.js:218
 msgid "Share link"
-msgstr ""
+msgstr "分享連結"
 
 #: js/share.js:221
 msgid "Password protect"
@@ -334,79 +334,79 @@ msgstr "指定到期日"
 msgid "Expiration date"
 msgstr "到期日"
 
-#: js/share.js:272
+#: js/share.js:274
 msgid "Share via email:"
 msgstr "透過電子郵件分享："
 
-#: js/share.js:275
+#: js/share.js:277
 msgid "No people found"
 msgstr "沒有找到任何人"
 
-#: js/share.js:305 js/share.js:342
+#: js/share.js:307 js/share.js:344
 msgid "group"
 msgstr "群組"
 
-#: js/share.js:316
+#: js/share.js:318
 msgid "Resharing is not allowed"
 msgstr "不允許重新分享"
 
-#: js/share.js:358
+#: js/share.js:360
 msgid "Shared in {item} with {user}"
 msgstr "已和 {user} 分享 {item}"
 
-#: js/share.js:380
+#: js/share.js:382
 msgid "Unshare"
 msgstr "取消分享"
 
-#: js/share.js:388
+#: js/share.js:390
 msgid "notify by email"
-msgstr ""
+msgstr "以 email 通知"
 
-#: js/share.js:391
+#: js/share.js:393
 msgid "can edit"
 msgstr "可編輯"
 
-#: js/share.js:393
+#: js/share.js:395
 msgid "access control"
 msgstr "存取控制"
 
-#: js/share.js:396
+#: js/share.js:398
 msgid "create"
 msgstr "建立"
 
-#: js/share.js:399
+#: js/share.js:401
 msgid "update"
 msgstr "更新"
 
-#: js/share.js:402
+#: js/share.js:404
 msgid "delete"
 msgstr "刪除"
 
-#: js/share.js:405
+#: js/share.js:407
 msgid "share"
 msgstr "分享"
 
-#: js/share.js:447 js/share.js:677
+#: js/share.js:449 js/share.js:679
 msgid "Password protected"
 msgstr "受密碼保護"
 
-#: js/share.js:690
+#: js/share.js:692
 msgid "Error unsetting expiration date"
 msgstr "取消到期日設定失敗"
 
-#: js/share.js:702
+#: js/share.js:704
 msgid "Error setting expiration date"
 msgstr "設定到期日發生錯誤"
 
-#: js/share.js:717
+#: js/share.js:719
 msgid "Sending ..."
 msgstr "正在傳送…"
 
-#: js/share.js:728
+#: js/share.js:730
 msgid "Email sent"
 msgstr "Email 已寄出"
 
-#: js/share.js:752
+#: js/share.js:754
 msgid "Warning"
 msgstr "警告"
 
@@ -416,7 +416,7 @@ msgstr "未指定物件類型。"
 
 #: js/tags.js:13
 msgid "Enter new"
-msgstr ""
+msgstr "輸入新的"
 
 #: js/tags.js:27
 msgid "Delete"
@@ -428,15 +428,15 @@ msgstr "增加"
 
 #: js/tags.js:39
 msgid "Edit tags"
-msgstr ""
+msgstr "編輯標籤"
 
 #: js/tags.js:57
 msgid "Error loading dialog template: {error}"
-msgstr ""
+msgstr "載入對話樣板出錯：{error}"
 
 #: js/tags.js:261
 msgid "No tags selected for deletion."
-msgstr ""
+msgstr "沒有選擇要刪除的標籤"
 
 #: js/update.js:17
 msgid ""
@@ -492,7 +492,7 @@ msgstr "對，我現在想要重設我的密碼。"
 
 #: lostpassword/templates/lostpassword.php:30
 msgid "Reset"
-msgstr ""
+msgstr "重設"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -532,15 +532,15 @@ msgstr "說明"
 
 #: tags/controller.php:22
 msgid "Error loading tags"
-msgstr ""
+msgstr "載入標籤出錯"
 
 #: tags/controller.php:48
 msgid "Tag already exists"
-msgstr ""
+msgstr "標籤已經存在"
 
 #: tags/controller.php:64
 msgid "Error deleting tag(s)"
-msgstr ""
+msgstr "刪除標籤出錯"
 
 #: tags/controller.php:75
 msgid "Error tagging"
@@ -548,15 +548,15 @@ msgstr ""
 
 #: tags/controller.php:86
 msgid "Error untagging"
-msgstr ""
+msgstr "移除標籤失敗"
 
 #: tags/controller.php:97
 msgid "Error favoriting"
-msgstr ""
+msgstr "加入最愛時出錯"
 
 #: tags/controller.php:108
 msgid "Error unfavoriting"
-msgstr ""
+msgstr "從最愛移除出錯"
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -701,11 +701,11 @@ msgstr "請更改您的密碼以再次取得您帳戶的控制權。"
 
 #: templates/login.php:17
 msgid "Server side authentication failed!"
-msgstr ""
+msgstr "伺服器端認證失敗！"
 
 #: templates/login.php:18
 msgid "Please contact your administrator."
-msgstr ""
+msgstr "請聯絡系統管理員。"
 
 #: templates/login.php:38
 msgid "Lost your password?"
@@ -743,18 +743,18 @@ msgstr "正在將 ownCloud 升級至版本 %s ，這可能需要一點時間。"
 #: templates/update.user.php:3
 msgid ""
 "This ownCloud instance is currently being updated, which may take a while."
-msgstr ""
+msgstr "ownCloud 正在升級，請稍待一會。"
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr ""
+msgstr "請稍後重新載入這個頁面就可以繼續使用 ownCloud"
 
 #: templates/update.user.php:5
 msgid ""
 "Contact your system administrator if this message persists or appeared "
 "unexpectedly."
-msgstr ""
+msgstr "若這個訊息持續出現，請聯絡系統管理員"
 
 #: templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr ""
+msgstr "感謝您的耐心"

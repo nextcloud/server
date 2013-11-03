@@ -9,9 +9,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-29 07:28-0400\n"
-"PO-Revision-Date: 2013-10-28 10:44+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-03 12:38-0500\n"
+"PO-Revision-Date: 2013-11-03 17:38+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -145,32 +145,32 @@ msgstr "여유 공간이 부족합니다"
 msgid "Upload cancelled."
 msgstr "업로드가 취소되었습니다."
 
-#: js/file-upload.js:340
+#: js/file-upload.js:345
 msgid "Could not get result from server."
 msgstr "서버에서 결과를 가져올수 없습니다."
 
-#: js/file-upload.js:432
+#: js/file-upload.js:437
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "파일 업로드가 진행 중입니다. 이 페이지를 벗어나면 업로드가 취소됩니다."
 
-#: js/file-upload.js:511
+#: js/file-upload.js:520
 msgid "URL cannot be empty"
 msgstr ""
 
-#: js/file-upload.js:515 js/filelist.js:361
+#: js/file-upload.js:524 js/filelist.js:364
 msgid "In the home folder 'Shared' is a reserved filename"
 msgstr ""
 
-#: js/file-upload.js:517 js/filelist.js:363
+#: js/file-upload.js:526 js/filelist.js:366
 msgid "{new_name} already exists"
 msgstr "{new_name}이(가) 이미 존재함"
 
-#: js/file-upload.js:576
+#: js/file-upload.js:585
 msgid "Could not create file"
 msgstr ""
 
-#: js/file-upload.js:592
+#: js/file-upload.js:601
 msgid "Could not create folder"
 msgstr ""
 
@@ -186,37 +186,37 @@ msgstr "영원히 삭제"
 msgid "Rename"
 msgstr "이름 바꾸기"
 
-#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:850
+#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:854
 msgid "Pending"
 msgstr "대기 중"
 
-#: js/filelist.js:389
+#: js/filelist.js:392
 msgid "Could not rename file"
 msgstr ""
 
-#: js/filelist.js:508
+#: js/filelist.js:511
 msgid "replaced {new_name} with {old_name}"
 msgstr "{old_name}이(가) {new_name}(으)로 대체됨"
 
-#: js/filelist.js:508
+#: js/filelist.js:511
 msgid "undo"
 msgstr "되돌리기"
 
-#: js/filelist.js:579 js/filelist.js:645 js/files.js:587
+#: js/filelist.js:582 js/filelist.js:649 js/files.js:587
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "폴더 %n"
 
-#: js/filelist.js:580 js/filelist.js:646 js/files.js:593
+#: js/filelist.js:583 js/filelist.js:650 js/files.js:593
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "파일 %n 개"
 
-#: js/filelist.js:587
+#: js/filelist.js:590
 msgid "{dirs} and {files}"
 msgstr "{dirs} 그리고 {files}"
 
-#: js/filelist.js:789 js/filelist.js:827
+#: js/filelist.js:793 js/filelist.js:831
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "%n 개의 파일을 업로드중"
@@ -285,8 +285,8 @@ msgid "Modified"
 msgstr "수정됨"
 
 #: lib/app.php:60
-msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
-msgstr "유효하지 않은 폴더명입니다. \"Shared\" 이름의 사용은 OwnCloud 가 이미 예약하고 있습니다."
+msgid "Invalid folder name. Usage of 'Shared' is reserved."
+msgstr ""
 
 #: lib/app.php:88
 #, php-format

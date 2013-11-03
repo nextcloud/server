@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-29 07:28-0400\n"
-"PO-Revision-Date: 2013-10-28 10:45+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-03 12:38-0500\n"
+"PO-Revision-Date: 2013-11-03 17:38+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Burmese (Myanmar) (http://www.transifex.com/projects/p/owncloud/language/my_MM/)\n"
 "MIME-Version: 1.0\n"
@@ -142,32 +142,32 @@ msgstr ""
 msgid "Upload cancelled."
 msgstr ""
 
-#: js/file-upload.js:340
+#: js/file-upload.js:345
 msgid "Could not get result from server."
 msgstr ""
 
-#: js/file-upload.js:432
+#: js/file-upload.js:437
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr ""
 
-#: js/file-upload.js:511
+#: js/file-upload.js:520
 msgid "URL cannot be empty"
 msgstr ""
 
-#: js/file-upload.js:515 js/filelist.js:361
+#: js/file-upload.js:524 js/filelist.js:364
 msgid "In the home folder 'Shared' is a reserved filename"
 msgstr ""
 
-#: js/file-upload.js:517 js/filelist.js:363
+#: js/file-upload.js:526 js/filelist.js:366
 msgid "{new_name} already exists"
 msgstr ""
 
-#: js/file-upload.js:576
+#: js/file-upload.js:585
 msgid "Could not create file"
 msgstr ""
 
-#: js/file-upload.js:592
+#: js/file-upload.js:601
 msgid "Could not create folder"
 msgstr ""
 
@@ -183,37 +183,37 @@ msgstr ""
 msgid "Rename"
 msgstr ""
 
-#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:850
+#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:854
 msgid "Pending"
 msgstr ""
 
-#: js/filelist.js:389
+#: js/filelist.js:392
 msgid "Could not rename file"
 msgstr ""
 
-#: js/filelist.js:508
+#: js/filelist.js:511
 msgid "replaced {new_name} with {old_name}"
 msgstr ""
 
-#: js/filelist.js:508
+#: js/filelist.js:511
 msgid "undo"
 msgstr ""
 
-#: js/filelist.js:579 js/filelist.js:645 js/files.js:587
+#: js/filelist.js:582 js/filelist.js:649 js/files.js:587
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] ""
 
-#: js/filelist.js:580 js/filelist.js:646 js/files.js:593
+#: js/filelist.js:583 js/filelist.js:650 js/files.js:593
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] ""
 
-#: js/filelist.js:587
+#: js/filelist.js:590
 msgid "{dirs} and {files}"
 msgstr ""
 
-#: js/filelist.js:789 js/filelist.js:827
+#: js/filelist.js:793 js/filelist.js:831
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] ""
@@ -282,7 +282,7 @@ msgid "Modified"
 msgstr ""
 
 #: lib/app.php:60
-msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
+msgid "Invalid folder name. Usage of 'Shared' is reserved."
 msgstr ""
 
 #: lib/app.php:88

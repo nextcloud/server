@@ -10,10 +10,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-30 03:32-0400\n"
-"PO-Revision-Date: 2013-10-30 07:32+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-03 12:38-0500\n"
+"PO-Revision-Date: 2013-11-02 11:40+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -280,12 +280,12 @@ msgstr "Condivisi"
 msgid "Share"
 msgstr "Condividi"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:690
-#: js/share.js:702
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:692
+#: js/share.js:704
 msgid "Error"
 msgstr "Errore"
 
-#: js/share.js:160 js/share.js:730
+#: js/share.js:160 js/share.js:732
 msgid "Error while sharing"
 msgstr "Errore durante la condivisione"
 
@@ -311,7 +311,7 @@ msgstr "Condividi con utente o gruppo ..."
 
 #: js/share.js:218
 msgid "Share link"
-msgstr "Condividi link"
+msgstr "Condividi collegamento"
 
 #: js/share.js:221
 msgid "Password protect"
@@ -341,79 +341,79 @@ msgstr "Imposta data di scadenza"
 msgid "Expiration date"
 msgstr "Data di scadenza"
 
-#: js/share.js:272
+#: js/share.js:274
 msgid "Share via email:"
 msgstr "Condividi tramite email:"
 
-#: js/share.js:275
+#: js/share.js:277
 msgid "No people found"
 msgstr "Non sono state trovate altre persone"
 
-#: js/share.js:305 js/share.js:342
+#: js/share.js:307 js/share.js:344
 msgid "group"
 msgstr "gruppo"
 
-#: js/share.js:316
+#: js/share.js:318
 msgid "Resharing is not allowed"
 msgstr "La ri-condivisione non è consentita"
 
-#: js/share.js:358
+#: js/share.js:360
 msgid "Shared in {item} with {user}"
 msgstr "Condiviso in {item} con {user}"
 
-#: js/share.js:380
+#: js/share.js:382
 msgid "Unshare"
 msgstr "Rimuovi condivisione"
 
-#: js/share.js:388
+#: js/share.js:390
 msgid "notify by email"
-msgstr "notifica via email"
+msgstr "notifica tramite email"
 
-#: js/share.js:391
+#: js/share.js:393
 msgid "can edit"
 msgstr "può modificare"
 
-#: js/share.js:393
+#: js/share.js:395
 msgid "access control"
 msgstr "controllo d'accesso"
 
-#: js/share.js:396
+#: js/share.js:398
 msgid "create"
 msgstr "creare"
 
-#: js/share.js:399
+#: js/share.js:401
 msgid "update"
 msgstr "aggiornare"
 
-#: js/share.js:402
+#: js/share.js:404
 msgid "delete"
 msgstr "elimina"
 
-#: js/share.js:405
+#: js/share.js:407
 msgid "share"
 msgstr "condividi"
 
-#: js/share.js:447 js/share.js:677
+#: js/share.js:449 js/share.js:679
 msgid "Password protected"
 msgstr "Protetta da password"
 
-#: js/share.js:690
+#: js/share.js:692
 msgid "Error unsetting expiration date"
 msgstr "Errore durante la rimozione della data di scadenza"
 
-#: js/share.js:702
+#: js/share.js:704
 msgid "Error setting expiration date"
 msgstr "Errore durante l'impostazione della data di scadenza"
 
-#: js/share.js:717
+#: js/share.js:719
 msgid "Sending ..."
 msgstr "Invio in corso..."
 
-#: js/share.js:728
+#: js/share.js:730
 msgid "Email sent"
 msgstr "Messaggio inviato"
 
-#: js/share.js:752
+#: js/share.js:754
 msgid "Warning"
 msgstr "Avviso"
 
@@ -499,7 +499,7 @@ msgstr "Sì, voglio davvero ripristinare la mia password adesso"
 
 #: lostpassword/templates/lostpassword.php:30
 msgid "Reset"
-msgstr ""
+msgstr "Ripristina"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -750,11 +750,11 @@ msgstr "Aggiornamento di ownCloud alla versione %s in corso, ciò potrebbe richi
 #: templates/update.user.php:3
 msgid ""
 "This ownCloud instance is currently being updated, which may take a while."
-msgstr "Questa istanza di ownCloud si sta aggiornando, per favore attendere."
+msgstr "Questa istanza di ownCloud è in fase di aggiornamento, potrebbe richiedere del tempo."
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr "Per favore ricarica questa pagina per poter continuare ad usare ownCloud."
+msgstr "Ricarica questa pagina per poter continuare ad usare ownCloud."
 
 #: templates/update.user.php:5
 msgid ""
@@ -764,4 +764,4 @@ msgstr "Contatta il tuo amministratore di sistema se questo messaggio persiste o
 
 #: templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr "Vi ringrazio per la pazienza."
+msgstr "Grazie per la pazienza."

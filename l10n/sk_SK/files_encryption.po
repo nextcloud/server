@@ -8,10 +8,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 02:28-0400\n"
-"PO-Revision-Date: 2013-10-23 12:30+0000\n"
-"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-03 12:38-0500\n"
+"PO-Revision-Date: 2013-11-03 17:38+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,38 +62,38 @@ msgid ""
 " encryption app."
 msgstr "Šifrovacia aplikácia nie je inicializovaná. Je možné, že aplikácia bola znova aktivovaná počas vášho prihlasovania. Pokúste sa odhlásiť a znova prihlásiť pre inicializáciu šifrovania."
 
-#: files/error.php:15
+#: files/error.php:16
+#, php-format
 msgid ""
-"Your private key is not valid! Likely your password was changed outside the "
-"ownCloud system (e.g. your corporate directory). You can update your private"
-" key password in your personal settings to recover access to your encrypted "
-"files."
-msgstr "Váš privátny kľúč je nesprávny! Pravdepodobne bolo zmenené vaše heslo mimo systému ownCloud (napr. váš korporátny adresár). Môžte aktualizovať vaše heslo privátneho kľúča v osobných nastaveniach za účelom obnovenia prístupu k zašifrovaným súborom."
+"Your private key is not valid! Likely your password was changed outside of "
+"%s (e.g. your corporate directory). You can update your private key password"
+" in your personal settings to recover access to your encrypted files."
+msgstr ""
 
-#: files/error.php:18
+#: files/error.php:19
 msgid ""
 "Can not decrypt this file, probably this is a shared file. Please ask the "
 "file owner to reshare the file with you."
 msgstr "Tento súbor sa nepodarilo dešifrovať, pravdepodobne je zdieľaný. Požiadajte majiteľa súboru, aby ho s vami znovu vyzdieľal."
 
-#: files/error.php:21 files/error.php:26
+#: files/error.php:22 files/error.php:27
 msgid ""
 "Unknown error please check your system settings or contact your "
 "administrator"
 msgstr "Neznáma chyba, skontrolujte si vaše systémové nastavenia alebo kontaktujte administrátora"
 
-#: hooks/hooks.php:53
+#: hooks/hooks.php:59
 msgid "Missing requirements."
 msgstr "Chýbajúce požiadavky."
 
-#: hooks/hooks.php:54
+#: hooks/hooks.php:60
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr "Prosím uistite sa, že PHP verzie 5.3.3 alebo novšej je nainštalované a tiež, že OpenSSL knižnica spolu z PHP rozšírením je povolená a konfigurovaná správne. Nateraz bola aplikácia šifrovania zablokovaná."
 
-#: hooks/hooks.php:252
+#: hooks/hooks.php:273
 msgid "Following users are not set up for encryption:"
 msgstr "Nasledujúci používatelia nie sú nastavení pre šifrovanie:"
 

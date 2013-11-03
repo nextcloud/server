@@ -3,7 +3,6 @@ $TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Не вдалося видалити конфігурацію сервера",
 "The configuration is valid and the connection could be established!" => "Конфігурація вірна і зв'язок може бути встановлений ​​!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Конфігурація вірна, але встановити зв'язок не вдалося. Будь ласка, перевірте налаштування сервера і облікові дані.",
-"The configuration is invalid. Please look in the ownCloud log for further details." => "Конфігурація невірна. Подробиці подивіться, будь ласка, в журналі ownCloud.",
 "Deletion failed" => "Видалення не було виконано",
 "Take over settings from recent server configuration?" => "Застосувати налаштування  з останньої конфігурації сервера ?",
 "Keep settings?" => "Зберегти налаштування ?",

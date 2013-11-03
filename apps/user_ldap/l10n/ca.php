@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Ha fallat en eliminar la configuració del servidor",
 "The configuration is valid and the connection could be established!" => "La configuració és vàlida i s'ha pogut establir la comunicació!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "La configuració és vàlida, però ha fallat el Bind. Comproveu les credencials i l'arranjament del servidor.",
-"The configuration is invalid. Please look in the ownCloud log for further details." => "La configuració no és vàlida. Per més detalls mireu al registre d'ownCloud.",
 "No action specified" => "No heu especificat cap acció",
 "No configuration specified" => "No heu especificat cap configuració",
 "No data specified" => "No heu especificat cap dada",

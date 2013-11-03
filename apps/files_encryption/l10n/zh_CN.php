@@ -8,7 +8,6 @@ $TRANSLATIONS = array(
 "Could not change the password. Maybe the old password was not correct." => "不能修改密码。旧密码可能不正确。",
 "Private key password successfully updated." => "私钥密码成功更新。",
 "Could not update the private key password. Maybe the old password was not correct." => "无法更新私钥密码。可能旧密码不正确。",
-"Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "您的私有密钥无效！也许是您在 ownCloud 系统外更改了密码 (比如，在您的公司目录)。您可以在个人设置里更新您的私钥密码来恢复访问你的加密文件。",
 "Saving..." => "保存中",
 "personal settings" => "个人设置",
 "Encryption" => "加密",

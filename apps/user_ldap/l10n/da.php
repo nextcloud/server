@@ -2,7 +2,6 @@
 $TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Kunne ikke slette server konfigurationen",
 "The configuration is valid and the connection could be established!" => "Konfigurationen er korrekt og forbindelsen kunne etableres!",
-"The configuration is invalid. Please look in the ownCloud log for further details." => "Konfigurationen er ugyldig. Se venligst ownCloud loggen for yderligere detaljer.",
 "Deletion failed" => "Fejl ved sletning",
 "Take over settings from recent server configuration?" => "Overtag indstillinger fra nylig server konfiguration? ",
 "Keep settings?" => "Behold indstillinger?",

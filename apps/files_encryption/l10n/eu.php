@@ -8,7 +8,6 @@ $TRANSLATIONS = array(
 "Could not change the password. Maybe the old password was not correct." => "Ezin izan da pasahitza aldatu. Agian pasahitz zaharra okerrekoa da.",
 "Private key password successfully updated." => "Gako pasahitz pribatu behar bezala eguneratu da.",
 "Could not update the private key password. Maybe the old password was not correct." => "Ezin izan da gako pribatu pasahitza eguneratu. Agian pasahitz zaharra okerrekoa da.",
-"Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Zure gako pribatua ez da egokia! Seguruaski zure pasahitza ownCloud sistematik kanpo aldatu da (adb. zure direktorio korporatiboa). Zure gako pribatuaren pasahitza eguneratu dezakezu zure ezarpen pertsonaletan zure enkriptatutako fitxategiak berreskuratzeko.",
 "Missing requirements." => "Eskakizun batzuk ez dira betetzen.",
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Mesedez ziurtatu PHP 5.3.3 edo berriago bat instalatuta dagoela eta OpenSSL PHP hedapenarekin gaitua eta ongi konfiguratuta dagoela. Oraingoz, enkriptazio aplikazioa desgaituta dago.",
 "Following users are not set up for encryption:" => "Hurrengo erabiltzaileak ez daude enktriptatzeko konfiguratutak:",

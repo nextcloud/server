@@ -112,6 +112,7 @@ $TRANSLATIONS = array(
 "Username" => "ユーザー名",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "ファイルが暗号化されています。復旧キーを有効にしていなかった場合、パスワードをリセットしてからデータを復旧する方法はありません。何をすべきかよくわからないなら、続ける前にまず管理者に連絡しましょう。本当に続けますか？",
 "Yes, I really want to reset my password now" => "はい、今すぐパスワードをリセットします。",
+"Reset" => "リセット",
 "Your password was reset" => "あなたのパスワードはリセットされました。",
 "To login page" => "ログインページへ戻る",
 "New password" => "新しいパスワードを入力",

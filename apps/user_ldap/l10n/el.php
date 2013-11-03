@@ -3,7 +3,6 @@ $TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Αποτυχία διαγραφής ρυθμίσεων διακομιστή",
 "The configuration is valid and the connection could be established!" => "Οι ρυθμίσεις είναι έγκυρες και η σύνδεση μπορεί να πραγματοποιηθεί!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Οι ρυθμίσεις είναι έγκυρες, αλλά απέτυχε η σύνδεση. Παρακαλώ ελέγξτε τις ρυθμίσεις του διακομιστή και τα διαπιστευτήρια.",
-"The configuration is invalid. Please look in the ownCloud log for further details." => "Μη έγκυρες ρυθμίσεις. Παρακαλώ ελέγξτε τις καταγραφές του ownCloud για περισσότερες λεπτομέρειες.",
 "Deletion failed" => "Η διαγραφή απέτυχε",
 "Take over settings from recent server configuration?" => "Πάρτε πάνω από τις πρόσφατες ρυθμίσεις διαμόρφωσης του διακομιστή?",
 "Keep settings?" => "Διατήρηση ρυθμίσεων;",

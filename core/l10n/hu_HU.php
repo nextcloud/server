@@ -112,6 +112,7 @@ $TRANSLATIONS = array(
 "Username" => "Felhasználónév",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Az Ön állományai titkosítva vannak. Ha nem engedélyezte korábban az adatok visszanyeréséhez szükséges kulcs használatát, akkor a jelszó megváltoztatását követően nem fog hozzáférni az adataihoz. Ha nem biztos abban, hogy mit kellene tennie, akkor kérdezze meg a rendszergazdát, mielőtt továbbmenne. Biztos, hogy folytatni kívánja?",
 "Yes, I really want to reset my password now" => "Igen, tényleg meg akarom változtatni a jelszavam",
+"Reset" => "Visszaállítás",
 "Your password was reset" => "Jelszó megváltoztatva",
 "To login page" => "A bejelentkező ablakhoz",
 "New password" => "Az új jelszó",

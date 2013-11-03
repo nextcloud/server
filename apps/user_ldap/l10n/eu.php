@@ -3,7 +3,6 @@ $TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Zerbitzariaren konfigurazioa ezabatzeak huts egin du",
 "The configuration is valid and the connection could be established!" => "Konfigurazioa egokia da eta konexioa ezarri daiteke!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Konfigurazioa ongi dago, baina Bind-ek huts egin du. Mesedez egiaztatu zerbitzariaren ezarpenak eta kredentzialak.",
-"The configuration is invalid. Please look in the ownCloud log for further details." => "Konfigurazioa ez dago ongi. Mesedez ikusi ownCloud-en egunerokoa informazio gehiago eskuratzeko.",
 "Deletion failed" => "Ezabaketak huts egin du",
 "Take over settings from recent server configuration?" => "oraintsuko zerbitzariaren konfigurazioaren ezarpenen ardura hartu?",
 "Keep settings?" => "Mantendu ezarpenak?",

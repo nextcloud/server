@@ -3,16 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# DanielMalmgren <daniel@kolefors.se>, 2013
 # Gustav Smedberg <shadow.elf@hotmail.com>, 2013
 # Jan Busk, 2013
+# Jonas Erlandsson <jonas.erlandsson@gmail.com>, 2013
+# kallemooo <karl.h.thoren@gmail.com>, 2013
 # Magnus Höglund <magnus@linux.com>, 2013
 # medialabs, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-29 07:28-0400\n"
-"PO-Revision-Date: 2013-10-28 10:46+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-03 12:38-0500\n"
+"PO-Revision-Date: 2013-11-03 17:39+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -41,26 +44,26 @@ msgstr "Konfigurationen är riktig, men Bind felade. Var vänlig och kontrollera
 
 #: ajax/testConfiguration.php:44
 msgid ""
-"The configuration is invalid. Please look in the ownCloud log for further "
+"The configuration is invalid. Please have a look at the logs for further "
 "details."
-msgstr "Inställningen är ogiltig. Vänligen se ownCloud-loggen för fler detaljer."
+msgstr ""
 
 #: ajax/wizard.php:32
 msgid "No action specified"
-msgstr ""
+msgstr "Ingen åtgärd har angetts"
 
 #: ajax/wizard.php:38
 msgid "No configuration specified"
-msgstr ""
+msgstr "Ingen konfiguration har angetts"
 
 #: ajax/wizard.php:78
 msgid "No data specified"
-msgstr ""
+msgstr "Ingen data har angetts"
 
 #: ajax/wizard.php:86
 #, php-format
 msgid " Could not set configuration %s"
-msgstr ""
+msgstr "Kunde inte sätta inställning %s"
 
 #: js/settings.js:67
 msgid "Deletion failed"
@@ -96,11 +99,11 @@ msgstr "Välj grupper"
 
 #: js/settings.js:663 js/settings.js:672
 msgid "Select object classes"
-msgstr ""
+msgstr "Välj Objekt-klasser"
 
 #: js/settings.js:666
 msgid "Select attributes"
-msgstr ""
+msgstr "Välj attribut"
 
 #: js/settings.js:694
 msgid "Connection test succeeded"
@@ -122,23 +125,23 @@ msgstr "Bekräfta radering"
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s grupp hittad"
+msgstr[1] "%s grupper hittade"
 
 #: lib/wizard.php:123
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s användare hittad"
+msgstr[1] "%s användare hittade"
 
 #: lib/wizard.php:752 lib/wizard.php:764
 msgid "Invalid Host"
-msgstr ""
+msgstr "Felaktig Host"
 
 #: lib/wizard.php:910
 msgid "Could not find the desired feature"
-msgstr ""
+msgstr "Det gick inte hitta den önskade funktionen"
 
 #: templates/part.settingcontrols.php:4
 msgid "Test Configuration"
@@ -151,17 +154,17 @@ msgstr "Hjälp"
 #: templates/part.wizard-groupfilter.php:4
 #, php-format
 msgid "Limit the access to %s to groups meeting this criteria:"
-msgstr ""
+msgstr "Begränsa åtkomsten till %s till grupper som möter följande kriterie:"
 
 #: templates/part.wizard-groupfilter.php:8
 #: templates/part.wizard-userfilter.php:8
 msgid "only those object classes:"
-msgstr ""
+msgstr "Endast de objekt-klasserna:"
 
 #: templates/part.wizard-groupfilter.php:17
 #: templates/part.wizard-userfilter.php:17
 msgid "only from those groups:"
-msgstr ""
+msgstr "endast ifrån de här grupperna:"
 
 #: templates/part.wizard-groupfilter.php:25
 #: templates/part.wizard-userfilter.php:25
@@ -177,27 +180,27 @@ msgstr ""
 #, php-format
 msgid ""
 "The filter specifies which LDAP groups shall have access to the %s instance."
-msgstr ""
+msgstr "Filtret specifierar vilka LDAD-grupper som ska ha åtkomst till %s instans"
 
 #: templates/part.wizard-groupfilter.php:38
 msgid "groups found"
-msgstr ""
+msgstr "grupper hittade"
 
 #: templates/part.wizard-loginfilter.php:4
 msgid "What attribute shall be used as login name:"
-msgstr ""
+msgstr "Vilket attribut ska användas som login namn:"
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
-msgstr ""
+msgstr "LDAP användarnamn:"
 
 #: templates/part.wizard-loginfilter.php:16
 msgid "LDAP Email Address:"
-msgstr ""
+msgstr "LDAP e-postadress:"
 
 #: templates/part.wizard-loginfilter.php:24
 msgid "Other Attributes:"
-msgstr ""
+msgstr "Övriga attribut:"
 
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
@@ -246,17 +249,17 @@ msgstr "Du kan ange start DN för användare och grupper under fliken Avancerat"
 #: templates/part.wizard-userfilter.php:4
 #, php-format
 msgid "Limit the access to %s to users meeting this criteria:"
-msgstr ""
+msgstr "Begränsa åtkomsten till %s till användare som möter följande kriterie:"
 
 #: templates/part.wizard-userfilter.php:31
 #, php-format
 msgid ""
 "The filter specifies which LDAP users shall have access to the %s instance."
-msgstr ""
+msgstr "Filtret specifierar vilka LDAP-användare som skall ha åtkomst till %s instans"
 
 #: templates/part.wizard-userfilter.php:38
 msgid "users found"
-msgstr ""
+msgstr "användare funna"
 
 #: templates/part.wizardcontrols.php:4
 msgid "Back"

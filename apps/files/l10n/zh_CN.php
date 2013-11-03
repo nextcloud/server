@@ -38,7 +38,6 @@ $TRANSLATIONS = array(
 "Name" => "名称",
 "Size" => "大小",
 "Modified" => "修改日期",
-"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "无效的文件夹名。”Shared“ 是 Owncloud 预留的文件夹",
 "%s could not be renamed" => "%s 不能被重命名",
 "Upload" => "上传",
 "File handling" => "文件处理",

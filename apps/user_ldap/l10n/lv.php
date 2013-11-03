@@ -3,7 +3,6 @@ $TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Neizdevās izdzēst servera konfigurāciju",
 "The configuration is valid and the connection could be established!" => "Konfigurācija ir derīga un varēja izveidot savienojumu!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Konfigurācija ir derīga, bet sasaiste neizdevās. Lūdzu, pārbaudiet servera iestatījumus un akreditācijas datus.",
-"The configuration is invalid. Please look in the ownCloud log for further details." => "Konfigurācija ir nederīga. Lūdzu, apskatiet ownCloud žurnālu, lai uzzinātu vairāk.",
 "Deletion failed" => "Neizdevās izdzēst",
 "Take over settings from recent server configuration?" => "Paņemt iestatījumus no nesenas servera konfigurācijas?",
 "Keep settings?" => "Paturēt iestatījumus?",

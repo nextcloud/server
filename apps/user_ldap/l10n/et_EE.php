@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Serveri seadistuse kustutamine ebaõnnestus",
 "The configuration is valid and the connection could be established!" => "Seadistus on korrektne ning ühendus on olemas!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Seadistus on korrektne, kuid ühendus ebaõnnestus. Palun kontrolli serveri seadeid ja ühenduseks kasutatavaid kasutajatunnuseid.",
-"The configuration is invalid. Please look in the ownCloud log for further details." => "Seadistus on vigane. Palun vaata ownCloud logist täpsemalt.",
 "No action specified" => "Tegevusi pole määratletud",
 "No configuration specified" => "Seadistust pole määratletud",
 "No data specified" => "Andmeid pole määratletud",

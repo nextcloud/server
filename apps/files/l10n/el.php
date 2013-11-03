@@ -40,7 +40,6 @@ $TRANSLATIONS = array(
 "Name" => "Όνομα",
 "Size" => "Μέγεθος",
 "Modified" => "Τροποποιήθηκε",
-"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Μη έγκυρο όνομα φακέλου. Η χρήση του 'Κοινόχρηστος' χρησιμοποιείται από το ownCloud",
 "%s could not be renamed" => "Αδυναμία μετονομασίας του %s",
 "Upload" => "Μεταφόρτωση",
 "File handling" => "Διαχείριση αρχείων",

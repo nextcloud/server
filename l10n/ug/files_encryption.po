@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-13 20:29-0400\n"
-"PO-Revision-Date: 2013-10-14 00:29+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-03 12:38-0500\n"
+"PO-Revision-Date: 2013-11-03 17:38+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Uighur (http://www.transifex.com/projects/p/owncloud/language/ug/)\n"
 "MIME-Version: 1.0\n"
@@ -60,38 +60,38 @@ msgid ""
 " encryption app."
 msgstr ""
 
-#: files/error.php:15
+#: files/error.php:16
+#, php-format
 msgid ""
-"Your private key is not valid! Likely your password was changed outside the "
-"ownCloud system (e.g. your corporate directory). You can update your private"
-" key password in your personal settings to recover access to your encrypted "
-"files."
+"Your private key is not valid! Likely your password was changed outside of "
+"%s (e.g. your corporate directory). You can update your private key password"
+" in your personal settings to recover access to your encrypted files."
 msgstr ""
 
-#: files/error.php:18
+#: files/error.php:19
 msgid ""
 "Can not decrypt this file, probably this is a shared file. Please ask the "
 "file owner to reshare the file with you."
 msgstr ""
 
-#: files/error.php:21 files/error.php:26
+#: files/error.php:22 files/error.php:27
 msgid ""
 "Unknown error please check your system settings or contact your "
 "administrator"
 msgstr ""
 
-#: hooks/hooks.php:53
+#: hooks/hooks.php:59
 msgid "Missing requirements."
 msgstr ""
 
-#: hooks/hooks.php:54
+#: hooks/hooks.php:60
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr ""
 
-#: hooks/hooks.php:252
+#: hooks/hooks.php:273
 msgid "Following users are not set up for encryption:"
 msgstr ""
 

@@ -39,7 +39,6 @@ $TRANSLATIONS = array(
 "Name" => "Nosaukums",
 "Size" => "Izmērs",
 "Modified" => "Mainīts",
-"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Kļūdains mapes nosaukums. 'Shared' lietošana ir rezervēta no ownCloud",
 "%s could not be renamed" => "%s nevar tikt pārsaukts",
 "Upload" => "Augšupielādēt",
 "File handling" => "Datņu pārvaldība",

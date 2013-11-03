@@ -18,9 +18,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-30 03:32-0400\n"
-"PO-Revision-Date: 2013-10-30 07:32+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-03 12:38-0500\n"
+"PO-Revision-Date: 2013-10-30 07:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -288,12 +288,12 @@ msgstr "Compartido"
 msgid "Share"
 msgstr "Compartir"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:690
-#: js/share.js:702
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:692
+#: js/share.js:704
 msgid "Error"
 msgstr "Error"
 
-#: js/share.js:160 js/share.js:730
+#: js/share.js:160 js/share.js:732
 msgid "Error while sharing"
 msgstr "Error al compartir"
 
@@ -349,79 +349,79 @@ msgstr "Establecer fecha de caducidad"
 msgid "Expiration date"
 msgstr "Fecha de caducidad"
 
-#: js/share.js:272
+#: js/share.js:274
 msgid "Share via email:"
 msgstr "Compartir por correo electrónico:"
 
-#: js/share.js:275
+#: js/share.js:277
 msgid "No people found"
 msgstr "No se encontró gente"
 
-#: js/share.js:305 js/share.js:342
+#: js/share.js:307 js/share.js:344
 msgid "group"
 msgstr "grupo"
 
-#: js/share.js:316
+#: js/share.js:318
 msgid "Resharing is not allowed"
 msgstr "No se permite compartir de nuevo"
 
-#: js/share.js:358
+#: js/share.js:360
 msgid "Shared in {item} with {user}"
 msgstr "Compartido en {item} con {user}"
 
-#: js/share.js:380
+#: js/share.js:382
 msgid "Unshare"
 msgstr "Dejar de compartir"
 
-#: js/share.js:388
+#: js/share.js:390
 msgid "notify by email"
 msgstr "notificar al usuario por correo electrónico"
 
-#: js/share.js:391
+#: js/share.js:393
 msgid "can edit"
 msgstr "puede editar"
 
-#: js/share.js:393
+#: js/share.js:395
 msgid "access control"
 msgstr "control de acceso"
 
-#: js/share.js:396
+#: js/share.js:398
 msgid "create"
 msgstr "crear"
 
-#: js/share.js:399
+#: js/share.js:401
 msgid "update"
 msgstr "actualizar"
 
-#: js/share.js:402
+#: js/share.js:404
 msgid "delete"
 msgstr "eliminar"
 
-#: js/share.js:405
+#: js/share.js:407
 msgid "share"
 msgstr "compartir"
 
-#: js/share.js:447 js/share.js:677
+#: js/share.js:449 js/share.js:679
 msgid "Password protected"
 msgstr "Protegido con contraseña"
 
-#: js/share.js:690
+#: js/share.js:692
 msgid "Error unsetting expiration date"
 msgstr "Error eliminando fecha de caducidad"
 
-#: js/share.js:702
+#: js/share.js:704
 msgid "Error setting expiration date"
 msgstr "Error estableciendo fecha de caducidad"
 
-#: js/share.js:717
+#: js/share.js:719
 msgid "Sending ..."
 msgstr "Enviando..."
 
-#: js/share.js:728
+#: js/share.js:730
 msgid "Email sent"
 msgstr "Correo electrónico enviado"
 
-#: js/share.js:752
+#: js/share.js:754
 msgid "Warning"
 msgstr "Precaución"
 
@@ -507,7 +507,7 @@ msgstr "Sí. Realmente deseo resetear mi contraseña ahora"
 
 #: lostpassword/templates/lostpassword.php:30
 msgid "Reset"
-msgstr ""
+msgstr "Reiniciar"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"

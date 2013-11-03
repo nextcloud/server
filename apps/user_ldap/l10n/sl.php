@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Brisanje nastavitev strežnika je spodletelo.",
 "The configuration is valid and the connection could be established!" => "Nastavitev je veljavna, zato je povezavo mogoče vzpostaviti!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Nastavitev je veljavna, vendar pa je vez Bind spodletela. Preveriti je treba nastavitve strežnika in ustreznost poveril.",
-"The configuration is invalid. Please look in the ownCloud log for further details." => "Nastavitev je veljavna. Več podrobnosti je zapisanih v dnevniku ownCloud.",
 "Deletion failed" => "Brisanje je spodletelo.",
 "Take over settings from recent server configuration?" => "Ali naj se prevzame nastavitve nedavne nastavitve strežnika?",
 "Keep settings?" => "Ali nas se nastavitve ohranijo?",

@@ -45,7 +45,6 @@ $TRANSLATIONS = array(
 "Name" => "이름",
 "Size" => "크기",
 "Modified" => "수정됨",
-"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "유효하지 않은 폴더명입니다. \"Shared\" 이름의 사용은 OwnCloud 가 이미 예약하고 있습니다.",
 "%s could not be renamed" => "%s 의 이름을 변경할수 없습니다",
 "Upload" => "업로드",
 "File handling" => "파일 처리",

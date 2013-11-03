@@ -47,7 +47,6 @@ $TRANSLATIONS = array(
 "Name" => "Název",
 "Size" => "Velikost",
 "Modified" => "Upraveno",
-"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Název složky nelze použít. Použití názvu 'Shared' je ownCloudem rezervováno",
 "%s could not be renamed" => "%s nemůže být přejmenován",
 "Upload" => "Odeslat",
 "File handling" => "Zacházení se soubory",

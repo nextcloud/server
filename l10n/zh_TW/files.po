@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# sy6614 <sy6614@yahoo.com.hk>, 2013
 # pellaeon <nfsmwlin@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-29 07:28-0400\n"
-"PO-Revision-Date: 2013-10-28 10:45+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-03 12:38-0500\n"
+"PO-Revision-Date: 2013-11-03 17:38+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -34,39 +35,39 @@ msgstr "檔名不能為空"
 
 #: ajax/newfile.php:62
 msgid "File name must not contain \"/\". Please choose a different name."
-msgstr ""
+msgstr "檔名不能包含 \"/\" ，請選其他名字"
 
 #: ajax/newfile.php:72 ajax/newfolder.php:37 lib/app.php:67
 #, php-format
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different "
 "name."
-msgstr ""
+msgstr "%s 已經被使用於資料夾 %s ，請換一個名字"
 
 #: ajax/newfile.php:81
 msgid "Not a valid source"
-msgstr ""
+msgstr "不是有效的來源"
 
 #: ajax/newfile.php:94
 #, php-format
 msgid "Error while downloading %s to %s"
-msgstr ""
+msgstr "下載 %s 到 %s 失敗"
 
 #: ajax/newfile.php:127
 msgid "Error when creating the file"
-msgstr ""
+msgstr "建立檔案失敗"
 
 #: ajax/newfolder.php:21
 msgid "Folder name cannot be empty."
-msgstr ""
+msgstr "資料夾名稱不能留空"
 
 #: ajax/newfolder.php:27
 msgid "Folder name must not contain \"/\". Please choose a different name."
-msgstr ""
+msgstr "資料夾名稱不能包含 \"/\" ，請選其他名字"
 
 #: ajax/newfolder.php:56
 msgid "Error when creating the folder"
-msgstr ""
+msgstr "建立資料夾失敗"
 
 #: ajax/upload.php:18 ajax/upload.php:50
 msgid "Unable to set upload directory."
@@ -143,34 +144,34 @@ msgstr "沒有足夠的可用空間"
 msgid "Upload cancelled."
 msgstr "上傳已取消"
 
-#: js/file-upload.js:340
+#: js/file-upload.js:345
 msgid "Could not get result from server."
 msgstr "無法從伺服器取回結果"
 
-#: js/file-upload.js:432
+#: js/file-upload.js:437
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "檔案上傳中，離開此頁面將會取消上傳。"
 
-#: js/file-upload.js:511
+#: js/file-upload.js:520
 msgid "URL cannot be empty"
-msgstr ""
+msgstr "URL 不能留空"
 
-#: js/file-upload.js:515 js/filelist.js:361
+#: js/file-upload.js:524 js/filelist.js:364
 msgid "In the home folder 'Shared' is a reserved filename"
-msgstr ""
+msgstr "在家目錄中不能使用「共享」作為檔名"
 
-#: js/file-upload.js:517 js/filelist.js:363
+#: js/file-upload.js:526 js/filelist.js:366
 msgid "{new_name} already exists"
 msgstr "{new_name} 已經存在"
 
-#: js/file-upload.js:576
+#: js/file-upload.js:585
 msgid "Could not create file"
-msgstr ""
+msgstr "無法建立檔案"
 
-#: js/file-upload.js:592
+#: js/file-upload.js:601
 msgid "Could not create folder"
-msgstr ""
+msgstr "無法建立資料夾"
 
 #: js/fileactions.js:125
 msgid "Share"
@@ -184,37 +185,37 @@ msgstr "永久刪除"
 msgid "Rename"
 msgstr "重新命名"
 
-#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:850
+#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:854
 msgid "Pending"
 msgstr "等候中"
 
-#: js/filelist.js:389
+#: js/filelist.js:392
 msgid "Could not rename file"
-msgstr ""
+msgstr "無法重新命名"
 
-#: js/filelist.js:508
+#: js/filelist.js:511
 msgid "replaced {new_name} with {old_name}"
 msgstr "使用 {new_name} 取代 {old_name}"
 
-#: js/filelist.js:508
+#: js/filelist.js:511
 msgid "undo"
 msgstr "復原"
 
-#: js/filelist.js:579 js/filelist.js:645 js/files.js:587
+#: js/filelist.js:582 js/filelist.js:649 js/files.js:587
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n 個資料夾"
 
-#: js/filelist.js:580 js/filelist.js:646 js/files.js:593
+#: js/filelist.js:583 js/filelist.js:650 js/files.js:593
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n 個檔案"
 
-#: js/filelist.js:587
+#: js/filelist.js:590
 msgid "{dirs} and {files}"
 msgstr "{dirs} 和 {files}"
 
-#: js/filelist.js:789 js/filelist.js:827
+#: js/filelist.js:793 js/filelist.js:831
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "%n 個檔案正在上傳"
@@ -283,8 +284,8 @@ msgid "Modified"
 msgstr "修改時間"
 
 #: lib/app.php:60
-msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
-msgstr "無效的資料夾名稱，'Shared' 的使用被 ownCloud 保留"
+msgid "Invalid folder name. Usage of 'Shared' is reserved."
+msgstr ""
 
 #: lib/app.php:88
 #, php-format
@@ -353,7 +354,7 @@ msgstr "取消上傳"
 
 #: templates/index.php:40
 msgid "You don’t have permission to upload or create files here"
-msgstr ""
+msgstr "您沒有權限在這裡上傳或建立檔案"
 
 #: templates/index.php:45
 msgid "Nothing in here. Upload something!"

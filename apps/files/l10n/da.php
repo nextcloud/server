@@ -45,7 +45,6 @@ $TRANSLATIONS = array(
 "Name" => "Navn",
 "Size" => "Størrelse",
 "Modified" => "Ændret",
-"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Ugyldigt mappenavn. Brug af 'Shared' er forbeholdt af ownCloud",
 "%s could not be renamed" => "%s kunne ikke omdøbes",
 "Upload" => "Upload",
 "File handling" => "Filhåndtering",

@@ -8,9 +8,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-29 07:28-0400\n"
-"PO-Revision-Date: 2013-10-28 10:45+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-03 12:38-0500\n"
+"PO-Revision-Date: 2013-11-03 17:39+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -39,26 +39,26 @@ msgstr "A konfiguráció érvényes, de a kapcsolat nem hozható létre. Kérem 
 
 #: ajax/testConfiguration.php:44
 msgid ""
-"The configuration is invalid. Please look in the ownCloud log for further "
+"The configuration is invalid. Please have a look at the logs for further "
 "details."
-msgstr "Érvénytelen konfiguráció. További információkért nézze meg az ownCloud naplófájlját."
+msgstr ""
 
 #: ajax/wizard.php:32
 msgid "No action specified"
-msgstr ""
+msgstr "Nincs megadva parancs"
 
 #: ajax/wizard.php:38
 msgid "No configuration specified"
-msgstr ""
+msgstr "Nincs megadva konfiguráció"
 
 #: ajax/wizard.php:78
 msgid "No data specified"
-msgstr ""
+msgstr "Nincs adat megadva"
 
 #: ajax/wizard.php:86
 #, php-format
 msgid " Could not set configuration %s"
-msgstr ""
+msgstr "A(z) %s konfiguráció nem állítható be"
 
 #: js/settings.js:67
 msgid "Deletion failed"
@@ -94,11 +94,11 @@ msgstr "Csoportok kiválasztása"
 
 #: js/settings.js:663 js/settings.js:672
 msgid "Select object classes"
-msgstr ""
+msgstr "Objektumosztályok kiválasztása"
 
 #: js/settings.js:666
 msgid "Select attributes"
-msgstr ""
+msgstr "Attribútumok kiválasztása"
 
 #: js/settings.js:694
 msgid "Connection test succeeded"
@@ -120,23 +120,23 @@ msgstr "A törlés megerősítése"
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s csoport van"
+msgstr[1] "%s csoport van"
 
 #: lib/wizard.php:123
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s felhasználó van"
+msgstr[1] "%s felhasználó van"
 
 #: lib/wizard.php:752 lib/wizard.php:764
 msgid "Invalid Host"
-msgstr ""
+msgstr "Érvénytelen gépnév"
 
 #: lib/wizard.php:910
 msgid "Could not find the desired feature"
-msgstr ""
+msgstr "A kívánt funkció nem található"
 
 #: templates/part.settingcontrols.php:4
 msgid "Test Configuration"
@@ -149,53 +149,53 @@ msgstr "Súgó"
 #: templates/part.wizard-groupfilter.php:4
 #, php-format
 msgid "Limit the access to %s to groups meeting this criteria:"
-msgstr ""
+msgstr "Korlátozzuk %s elérését a következő feltételeknek megfelelő csoportokra:"
 
 #: templates/part.wizard-groupfilter.php:8
 #: templates/part.wizard-userfilter.php:8
 msgid "only those object classes:"
-msgstr ""
+msgstr "csak ezek az objektumosztályok:"
 
 #: templates/part.wizard-groupfilter.php:17
 #: templates/part.wizard-userfilter.php:17
 msgid "only from those groups:"
-msgstr ""
+msgstr "csak ezek a csoportok:"
 
 #: templates/part.wizard-groupfilter.php:25
 #: templates/part.wizard-userfilter.php:25
 msgid "Edit raw filter instead"
-msgstr ""
+msgstr "Inkább közvetlenül megadom a szűrési kifejezést:"
 
 #: templates/part.wizard-groupfilter.php:30
 #: templates/part.wizard-userfilter.php:30
 msgid "Raw LDAP filter"
-msgstr ""
+msgstr "Az LDAP szűrőkifejezés"
 
 #: templates/part.wizard-groupfilter.php:31
 #, php-format
 msgid ""
 "The filter specifies which LDAP groups shall have access to the %s instance."
-msgstr ""
+msgstr "A szűrő meghatározza, hogy mely LDAP csoportok lesznek jogosultak %s elérésére."
 
 #: templates/part.wizard-groupfilter.php:38
 msgid "groups found"
-msgstr ""
+msgstr "csoport van"
 
 #: templates/part.wizard-loginfilter.php:4
 msgid "What attribute shall be used as login name:"
-msgstr ""
+msgstr "Melyik attribútumot használjuk login névként:"
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
-msgstr ""
+msgstr "LDAP felhasználónév:"
 
 #: templates/part.wizard-loginfilter.php:16
 msgid "LDAP Email Address:"
-msgstr ""
+msgstr "LDAP e-mail cím:"
 
 #: templates/part.wizard-loginfilter.php:24
 msgid "Other Attributes:"
-msgstr ""
+msgstr "Más attribútumok:"
 
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
@@ -244,17 +244,17 @@ msgstr "A Haladó fülre kattintva külön DN-gyökér állítható be a felhasz
 #: templates/part.wizard-userfilter.php:4
 #, php-format
 msgid "Limit the access to %s to users meeting this criteria:"
-msgstr ""
+msgstr "Korlátozzuk %s elérését a következő feltételeknek megfelelő felhasználókra:"
 
 #: templates/part.wizard-userfilter.php:31
 #, php-format
 msgid ""
 "The filter specifies which LDAP users shall have access to the %s instance."
-msgstr ""
+msgstr "A szűrő meghatározza, hogy mely LDAP felhasználók lesznek jogosultak %s elérésére."
 
 #: templates/part.wizard-userfilter.php:38
 msgid "users found"
-msgstr ""
+msgstr "felhasználó van"
 
 #: templates/part.wizardcontrols.php:4
 msgid "Back"
@@ -464,15 +464,15 @@ msgid ""
 "You must make sure that the attribute of your choice can be fetched for both"
 " users and groups and it is unique. Leave it empty for default behavior. "
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
-msgstr ""
+msgstr "Az UUID attribútum alapértelmezetten felismerésre kerül. Az UUID attribútum segítségével az LDAP felhasználók és csoportok egyértelműen azonosíthatók. A belső felhasználónév is azonos lesz az UUID-vel, ha fentebb nincs másként definiálva. Ezt a beállítást felülbírálhatja és bármely attribútummal helyettesítheti. Ekkor azonban gondoskodnia kell arról, hogy a kiválasztott attribútum minden felhasználó és csoport esetén lekérdezhető és egyedi értékkel bír. Ha a mezőt üresen hagyja, akkor az alapértelmezett attribútum lesz érvényes. Egy esetleges módosítás csak az újonnan hozzárendelt (ill. létrehozott) felhasználókra és csoportokra lesz érvényes."
 
 #: templates/settings.php:60
 msgid "UUID Attribute for Users:"
-msgstr ""
+msgstr "A felhasználók UUID attribútuma:"
 
 #: templates/settings.php:61
 msgid "UUID Attribute for Groups:"
-msgstr ""
+msgstr "A csoportok UUID attribútuma:"
 
 #: templates/settings.php:62
 msgid "Username-LDAP User Mapping"
@@ -490,7 +490,7 @@ msgid ""
 " is not configuration sensitive, it affects all LDAP configurations! Never "
 "clear the mappings in a production environment, only in a testing or "
 "experimental stage."
-msgstr ""
+msgstr "A felhasználónevek segítségével történik a (meta)adatok tárolása és hozzárendelése. A felhasználók pontos azonosítása céljából minden LDAP felhasználóhoz egy belső felhasználónevet rendelünk. Ezt a felhasználónevet az LDAP felhasználó UUID attribútumához rendeljük hozzá. Ezen túlmenően a DN is tárolásra kerül a gyorsítótárban, hogy csökkentsük az LDAP lekérdezések számát, de a DN-t nem használjuk azonosításra. Ha a DN megváltozik, akkor a rendszer ezt észleli. A belső felhasználóneveket a rendszer igen sok helyen használja, ezért a hozzárendelések törlése sok érvénytelen adatrekordot eredményez az adatbázisban. A hozzárendelések törlése nem függ a konfigurációtól, minden LDAP konfigurációt érint! Ténylegesen működő szolgáltatás esetén sose törölje a hozzárendeléseket, csak tesztelési vagy kísérleti célú szerveren!"
 
 #: templates/settings.php:64
 msgid "Clear Username-LDAP User Mapping"

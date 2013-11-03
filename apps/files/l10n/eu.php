@@ -47,7 +47,6 @@ $TRANSLATIONS = array(
 "Name" => "Izena",
 "Size" => "Tamaina",
 "Modified" => "Aldatuta",
-"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Karpeta izne baliogabea. \"Shared\" karpeta erabilpena OwnCloudentzat erreserbaturik dago.",
 "%s could not be renamed" => "%s ezin da berrizendatu",
 "Upload" => "Igo",
 "File handling" => "Fitxategien kudeaketa",

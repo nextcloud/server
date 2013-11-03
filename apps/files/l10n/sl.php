@@ -38,7 +38,6 @@ $TRANSLATIONS = array(
 "Name" => "Ime",
 "Size" => "Velikost",
 "Modified" => "Spremenjeno",
-"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Ime mape je neveljavno. Uporaba oznake \"Souporaba\" je rezervirana za ownCloud",
 "%s could not be renamed" => "%s ni bilo mogoče preimenovati",
 "Upload" => "Pošlji",
 "File handling" => "Upravljanje z datotekami",

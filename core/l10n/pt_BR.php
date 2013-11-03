@@ -112,6 +112,7 @@ $TRANSLATIONS = array(
 "Username" => "Nome de usuário",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Seus arquivos estão encriptados. Se você não habilitou a chave de recuperação, não haverá maneira de recuperar seus dados após criar uma nova senha. Se você não tem certeza do que fazer,  por favor entre em contato com o administrador antes de continuar. Tem certeza que realmente quer continuar?",
 "Yes, I really want to reset my password now" => "Sim, realmente quero criar uma nova senha.",
+"Reset" => "Resetar",
 "Your password was reset" => "Sua senha foi redefinida",
 "To login page" => "Para a página de login",
 "New password" => "Nova senha",

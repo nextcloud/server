@@ -3,7 +3,6 @@ $TRANSLATIONS = array(
 "Failed to delete the server configuration" => "การลบการกำหนดค่าเซิร์ฟเวอร์ล้มเหลว",
 "The configuration is valid and the connection could be established!" => "การกำหนดค่าถูกต้องและการเชื่อมต่อสามารถเชื่อมต่อได้!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "การกำหนดค่าถูกต้อง, แต่การผูกข้อมูลล้มเหลว, กรุณาตรวจสอบการตั้งค่าเซิร์ฟเวอร์และข้อมูลการเข้าใช้งาน",
-"The configuration is invalid. Please look in the ownCloud log for further details." => "การกำหนดค่าไม่ถูกต้อง กรุณาดูรายละเอียดจากบันทึกการเปลี่ยนแปลงของ ownCloud สำหรับรายละเอียดเพิ่มเติม",
 "Deletion failed" => "การลบทิ้งล้มเหลว",
 "Keep settings?" => "รักษาการตั้งค่าไว้?",
 "Cannot add server configuration" => "ไม่สามารถเพิ่มค่ากำหนดเซิร์ฟเวอร์ได้",

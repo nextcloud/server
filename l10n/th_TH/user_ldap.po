@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-29 07:28-0400\n"
-"PO-Revision-Date: 2013-10-28 10:46+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-03 12:38-0500\n"
+"PO-Revision-Date: 2013-11-03 17:39+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -37,9 +37,9 @@ msgstr "การกำหนดค่าถูกต้อง, แต่กา�
 
 #: ajax/testConfiguration.php:44
 msgid ""
-"The configuration is invalid. Please look in the ownCloud log for further "
+"The configuration is invalid. Please have a look at the logs for further "
 "details."
-msgstr "การกำหนดค่าไม่ถูกต้อง กรุณาดูรายละเอียดจากบันทึกการเปลี่ยนแปลงของ ownCloud สำหรับรายละเอียดเพิ่มเติม"
+msgstr ""
 
 #: ajax/wizard.php:32
 msgid "No action specified"

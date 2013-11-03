@@ -8,7 +8,6 @@ $TRANSLATIONS = array(
 "Could not change the password. Maybe the old password was not correct." => "رمزعبور را نمیتواند تغییر دهد. شاید رمزعبورقدیمی صحیح نمی باشد.",
 "Private key password successfully updated." => "رمزعبور کلید خصوصی با موفقیت به روز شد.",
 "Could not update the private key password. Maybe the old password was not correct." => "رمزعبور کلید خصوصی را نمی تواند به روز کند. شاید رمزعبور قدیمی صحیح نمی باشد.",
-"Your private key is not valid! Likely your password was changed outside the ownCloud system (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "کلید خصوصی شما معتبر نمی باشد!  ظاهرا رمزعبور شما بیرون از سیستم ownCloud تغییر یافته است( به عنوان مثال پوشه سازمان شما ). شما میتوانید رمزعبور کلید خصوصی خود را در تنظیمات شخصیتان به روز کنید تا بتوانید به  فایل های رمزگذاری شده خود را دسترسی داشته باشید.",
 "Missing requirements." => "نیازمندی های گمشده",
 "Saving..." => "در حال ذخیره سازی...",
 "personal settings" => "تنظیمات شخصی",

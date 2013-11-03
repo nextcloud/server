@@ -9,9 +9,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-29 07:28-0400\n"
-"PO-Revision-Date: 2013-10-28 10:46+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-03 12:38-0500\n"
+"PO-Revision-Date: 2013-11-03 17:39+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -40,26 +40,26 @@ msgstr "De configuratie is geldig, maar Bind mislukte. Controleer de serverinste
 
 #: ajax/testConfiguration.php:44
 msgid ""
-"The configuration is invalid. Please look in the ownCloud log for further "
+"The configuration is invalid. Please have a look at the logs for further "
 "details."
-msgstr "De configuratie is ongeldig. Controleer de ownCloud log voor meer details."
+msgstr ""
 
 #: ajax/wizard.php:32
 msgid "No action specified"
-msgstr ""
+msgstr "Geen actie opgegeven"
 
 #: ajax/wizard.php:38
 msgid "No configuration specified"
-msgstr ""
+msgstr "Geen configuratie opgegeven"
 
 #: ajax/wizard.php:78
 msgid "No data specified"
-msgstr ""
+msgstr "Geen gegevens verstrekt"
 
 #: ajax/wizard.php:86
 #, php-format
 msgid " Could not set configuration %s"
-msgstr ""
+msgstr "Kon configuratie %s niet instellen"
 
 #: js/settings.js:67
 msgid "Deletion failed"
@@ -95,11 +95,11 @@ msgstr "Selecteer groepen"
 
 #: js/settings.js:663 js/settings.js:672
 msgid "Select object classes"
-msgstr ""
+msgstr "Selecteer objectklasse"
 
 #: js/settings.js:666
 msgid "Select attributes"
-msgstr ""
+msgstr "Selecteer attributen"
 
 #: js/settings.js:694
 msgid "Connection test succeeded"
@@ -121,23 +121,23 @@ msgstr "Bevestig verwijderen"
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s groep gevonden"
+msgstr[1] "%s groepen gevonden"
 
 #: lib/wizard.php:123
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s gebruiker gevonden"
+msgstr[1] "%s gebruikers gevonden"
 
 #: lib/wizard.php:752 lib/wizard.php:764
 msgid "Invalid Host"
-msgstr ""
+msgstr "Ongeldige server"
 
 #: lib/wizard.php:910
 msgid "Could not find the desired feature"
-msgstr ""
+msgstr "Kon de gewenste functie niet vinden"
 
 #: templates/part.settingcontrols.php:4
 msgid "Test Configuration"
@@ -150,53 +150,53 @@ msgstr "Help"
 #: templates/part.wizard-groupfilter.php:4
 #, php-format
 msgid "Limit the access to %s to groups meeting this criteria:"
-msgstr ""
+msgstr "Beperk toegang tot %s tot groepen die voldoen aan deze criteria:"
 
 #: templates/part.wizard-groupfilter.php:8
 #: templates/part.wizard-userfilter.php:8
 msgid "only those object classes:"
-msgstr ""
+msgstr "alleen deze objectklassen"
 
 #: templates/part.wizard-groupfilter.php:17
 #: templates/part.wizard-userfilter.php:17
 msgid "only from those groups:"
-msgstr ""
+msgstr "alleen van deze groepen:"
 
 #: templates/part.wizard-groupfilter.php:25
 #: templates/part.wizard-userfilter.php:25
 msgid "Edit raw filter instead"
-msgstr ""
+msgstr "Bewerk raw filter"
 
 #: templates/part.wizard-groupfilter.php:30
 #: templates/part.wizard-userfilter.php:30
 msgid "Raw LDAP filter"
-msgstr ""
+msgstr "Raw LDAP filter"
 
 #: templates/part.wizard-groupfilter.php:31
 #, php-format
 msgid ""
 "The filter specifies which LDAP groups shall have access to the %s instance."
-msgstr ""
+msgstr "Dit filter geeft aan welke LDAP groepen toegang hebben tot %s."
 
 #: templates/part.wizard-groupfilter.php:38
 msgid "groups found"
-msgstr ""
+msgstr "groepen gevonden"
 
 #: templates/part.wizard-loginfilter.php:4
 msgid "What attribute shall be used as login name:"
-msgstr ""
+msgstr "Welk attribuut moet worden gebruikt als inlognaam:"
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
-msgstr ""
+msgstr "LDAP Username:"
 
 #: templates/part.wizard-loginfilter.php:16
 msgid "LDAP Email Address:"
-msgstr ""
+msgstr "LDAP e-mailadres:"
 
 #: templates/part.wizard-loginfilter.php:24
 msgid "Other Attributes:"
-msgstr ""
+msgstr "Overige attributen:"
 
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
@@ -245,17 +245,17 @@ msgstr "Je kunt het Base DN voor gebruikers en groepen specificeren in het tab G
 #: templates/part.wizard-userfilter.php:4
 #, php-format
 msgid "Limit the access to %s to users meeting this criteria:"
-msgstr ""
+msgstr "Beperk toegang tot %s tot gebruikers die voldoen aan deze criteria:"
 
 #: templates/part.wizard-userfilter.php:31
 #, php-format
 msgid ""
 "The filter specifies which LDAP users shall have access to the %s instance."
-msgstr ""
+msgstr "Dit filter geeft aan welke LDAP gebruikers toegang hebben tot %s."
 
 #: templates/part.wizard-userfilter.php:38
 msgid "users found"
-msgstr ""
+msgstr "gebruikers gevonden"
 
 #: templates/part.wizardcontrols.php:4
 msgid "Back"

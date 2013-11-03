@@ -8,9 +8,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-29 07:28-0400\n"
-"PO-Revision-Date: 2013-10-28 10:45+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-03 12:38-0500\n"
+"PO-Revision-Date: 2013-11-03 17:38+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -196,23 +196,23 @@ msgstr "Administrator grupy"
 msgid "Delete"
 msgstr "Usuń"
 
-#: js/users.js:280
+#: js/users.js:284
 msgid "add group"
 msgstr "dodaj grupę"
 
-#: js/users.js:442
+#: js/users.js:451
 msgid "A valid username must be provided"
 msgstr "Należy podać prawidłową nazwę użytkownika"
 
-#: js/users.js:443 js/users.js:449 js/users.js:464
+#: js/users.js:452 js/users.js:458 js/users.js:473
 msgid "Error creating user"
 msgstr "Błąd podczas tworzenia użytkownika"
 
-#: js/users.js:448
+#: js/users.js:457
 msgid "A valid password must be provided"
 msgstr "Należy podać prawidłowe hasło"
 
-#: js/users.js:472
+#: js/users.js:481
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr ""
 
@@ -220,11 +220,31 @@ msgstr ""
 msgid "__language_name__"
 msgstr "polski"
 
-#: templates/admin.php:15
+#: templates/admin.php:8
+msgid "Everything (fatal issues, errors, warnings, info, debug)"
+msgstr ""
+
+#: templates/admin.php:9
+msgid "Info, warnings, errors and fatal issues"
+msgstr ""
+
+#: templates/admin.php:10
+msgid "Warnings, errors and fatal issues"
+msgstr ""
+
+#: templates/admin.php:11
+msgid "Errors and fatal issues"
+msgstr ""
+
+#: templates/admin.php:12
+msgid "Fatal issues only"
+msgstr ""
+
+#: templates/admin.php:22
 msgid "Security Warning"
 msgstr "Ostrzeżenie o zabezpieczeniach"
 
-#: templates/admin.php:18
+#: templates/admin.php:25
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file is not working. We strongly suggest that you "
@@ -233,36 +253,36 @@ msgid ""
 "root."
 msgstr "Twój katalog danych i pliki są prawdopodobnie dostępne z Internetu. Plik .htaccess, który dostarcza ownCloud nie działa. Sugerujemy, aby skonfigurować serwer WWW w taki sposób, aby katalog danych nie był dostępny lub przenieść katalog danych poza główny katalog serwera WWW."
 
-#: templates/admin.php:29
+#: templates/admin.php:36
 msgid "Setup Warning"
 msgstr "Ostrzeżenia konfiguracji"
 
-#: templates/admin.php:32
+#: templates/admin.php:39
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Serwer internetowy nie jest jeszcze poprawnie skonfigurowany, aby umożliwić synchronizację plików, ponieważ interfejs WebDAV wydaje się być uszkodzony."
 
-#: templates/admin.php:33
+#: templates/admin.php:40
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr "Proszę sprawdź ponownie <a href=\"%s\">przewodnik instalacji</a>."
 
-#: templates/admin.php:44
+#: templates/admin.php:51
 msgid "Module 'fileinfo' missing"
 msgstr "Brak modułu „fileinfo”"
 
-#: templates/admin.php:47
+#: templates/admin.php:54
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "Brak modułu PHP „fileinfo”. Zalecamy włączenie tego modułu, aby uzyskać najlepsze wyniki podczas wykrywania typów MIME."
 
-#: templates/admin.php:58
+#: templates/admin.php:65
 msgid "Locale not working"
 msgstr "Lokalizacja nie działa"
 
-#: templates/admin.php:63
+#: templates/admin.php:70
 #, php-format
 msgid ""
 "System locale can't be set to %s. This means that there might be problems "
@@ -270,11 +290,11 @@ msgid ""
 "required packages on your system to support %s."
 msgstr "System lokalny nie może włączyć ustawień regionalnych %s. Może to oznaczać, że wystąpiły problemy z niektórymi znakami w nazwach plików. Zalecamy instalację wymaganych pakietów na tym systemie w celu wsparcia %s."
 
-#: templates/admin.php:75
+#: templates/admin.php:82
 msgid "Internet connection not working"
 msgstr "Połączenie internetowe nie działa"
 
-#: templates/admin.php:78
+#: templates/admin.php:85
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -283,118 +303,118 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "Ten serwer OwnCloud nie ma połączenia z Internetem. Oznacza to, że niektóre z funkcji, takich jak montowanie zewnętrznych zasobów, powiadomienia o aktualizacji lub 3-cie aplikacje mogą nie działać. Dostęp do plików z zewnątrz i wysyłanie powiadomienia e-mail nie może również działać. Sugerujemy, aby włączyć połączenia internetowego dla tego serwera, jeśli chcesz mieć wszystkie opcje."
 
-#: templates/admin.php:92
+#: templates/admin.php:99
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:99
+#: templates/admin.php:106
 msgid "Execute one task with each page loaded"
 msgstr "Wykonuj jedno zadanie wraz z każdą wczytaną stroną"
 
-#: templates/admin.php:107
+#: templates/admin.php:114
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "cron.php jest zarejestrowany w serwisie webcron do uruchamiania cron.php raz na 15 minut przez http."
 
-#: templates/admin.php:115
+#: templates/admin.php:122
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "Użyj systemowego cron-a do uruchamiania cron.php raz na 15 minut."
 
-#: templates/admin.php:120
+#: templates/admin.php:127
 msgid "Sharing"
 msgstr "Udostępnianie"
 
-#: templates/admin.php:126
+#: templates/admin.php:133
 msgid "Enable Share API"
 msgstr "Włącz API udostępniania"
 
-#: templates/admin.php:127
+#: templates/admin.php:134
 msgid "Allow apps to use the Share API"
 msgstr "Zezwalaj aplikacjom na korzystanie z API udostępniania"
 
-#: templates/admin.php:134
+#: templates/admin.php:141
 msgid "Allow links"
 msgstr "Zezwalaj na odnośniki"
 
-#: templates/admin.php:135
+#: templates/admin.php:142
 msgid "Allow users to share items to the public with links"
 msgstr "Zezwalaj użytkownikom na publiczne współdzielenie zasobów za pomocą odnośników"
 
-#: templates/admin.php:143
+#: templates/admin.php:150
 msgid "Allow public uploads"
 msgstr "Pozwól na  publiczne wczytywanie"
 
-#: templates/admin.php:144
+#: templates/admin.php:151
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr "Użytkownicy mogą włączyć dla innych wgrywanie do ich publicznych katalogów"
 
-#: templates/admin.php:152
+#: templates/admin.php:159
 msgid "Allow resharing"
 msgstr "Zezwalaj na ponowne udostępnianie"
 
-#: templates/admin.php:153
+#: templates/admin.php:160
 msgid "Allow users to share items shared with them again"
 msgstr "Zezwalaj użytkownikom na ponowne współdzielenie zasobów już z nimi współdzielonych"
 
-#: templates/admin.php:160
+#: templates/admin.php:167
 msgid "Allow users to share with anyone"
 msgstr "Zezwalaj użytkownikom na współdzielenie z kimkolwiek"
 
-#: templates/admin.php:163
+#: templates/admin.php:170
 msgid "Allow users to only share with users in their groups"
 msgstr "Zezwalaj użytkownikom współdzielić z użytkownikami ze swoich grup"
 
-#: templates/admin.php:170
+#: templates/admin.php:177
 msgid "Allow mail notification"
 msgstr "Pozwól na mailowe powiadomienia"
 
-#: templates/admin.php:171
+#: templates/admin.php:178
 msgid "Allow user to send mail notification for shared files"
 msgstr "Pozwól użytkownikom wysyłać maile powiadamiające o udostępnionych plikach"
 
-#: templates/admin.php:178
+#: templates/admin.php:185
 msgid "Security"
 msgstr "Bezpieczeństwo"
 
-#: templates/admin.php:191
+#: templates/admin.php:198
 msgid "Enforce HTTPS"
 msgstr "Wymuś HTTPS"
 
-#: templates/admin.php:193
+#: templates/admin.php:200
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Wymusza na klientach na łączenie się %s za pośrednictwem połączenia szyfrowanego."
 
-#: templates/admin.php:199
+#: templates/admin.php:206
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Proszę połącz się do twojego %s za pośrednictwem protokołu HTTPS, aby włączyć lub wyłączyć stosowanie protokołu SSL."
 
-#: templates/admin.php:211
+#: templates/admin.php:218
 msgid "Log"
 msgstr "Logi"
 
-#: templates/admin.php:212
+#: templates/admin.php:219
 msgid "Log level"
 msgstr "Poziom logów"
 
-#: templates/admin.php:243
+#: templates/admin.php:251
 msgid "More"
 msgstr "Więcej"
 
-#: templates/admin.php:244
+#: templates/admin.php:252
 msgid "Less"
 msgstr "Mniej"
 
-#: templates/admin.php:250 templates/personal.php:169
+#: templates/admin.php:258 templates/personal.php:169
 msgid "Version"
 msgstr "Wersja"
 
-#: templates/admin.php:254 templates/personal.php:172
+#: templates/admin.php:262 templates/personal.php:172
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -585,6 +605,10 @@ msgstr "Wpisz hasło odzyskiwania, aby odzyskać pliki użytkowników podczas zm
 #: templates/users.php:42
 msgid "Default Storage"
 msgstr "Magazyn domyślny"
+
+#: templates/users.php:44 templates/users.php:139
+msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
+msgstr ""
 
 #: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"

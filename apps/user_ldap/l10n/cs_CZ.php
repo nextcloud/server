@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Selhalo smazání nastavení serveru",
 "The configuration is valid and the connection could be established!" => "Nastavení je v pořádku a spojení bylo navázáno.",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Konfigurace je v pořádku, ale spojení selhalo. Zkontrolujte, prosím, nastavení serveru a přihlašovací údaje.",
-"The configuration is invalid. Please look in the ownCloud log for further details." => "Nastavení je neplatné. Zkontrolujte, prosím, záznamy ownCloud pro další podrobnosti.",
 "Deletion failed" => "Mazání selhalo",
 "Take over settings from recent server configuration?" => "Převzít nastavení z nedávné konfigurace serveru?",
 "Keep settings?" => "Ponechat nastavení?",

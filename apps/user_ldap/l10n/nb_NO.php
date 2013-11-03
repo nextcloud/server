@@ -3,7 +3,6 @@ $TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Klarte ikke å slette tjener-konfigurasjonen.",
 "The configuration is valid and the connection could be established!" => "Konfigurasjonen er i orden og tilkoblingen skal være etablert!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Konfigurasjonen er i orden, men Bind mislyktes. Vennligst sjekk tjener-konfigurasjonen og påloggingsinformasjonen.",
-"The configuration is invalid. Please look in the ownCloud log for further details." => "Konfigurasjonen er ikke i orden. Vennligst se ownClouds logfil for flere detaljer.",
 "Deletion failed" => "Sletting mislyktes",
 "Take over settings from recent server configuration?" => "Hent innstillinger fra tidligere tjener-konfigurasjon?",
 "Keep settings?" => "Behold innstillinger?",

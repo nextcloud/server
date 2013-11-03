@@ -112,6 +112,7 @@ $TRANSLATIONS = array(
 "Username" => "Kullanıcı Adı",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Dosyalarınız şifrelenmiş. Eğer kurtarma anahtarını aktif etmediyseniz parola sıfırlama işleminden sonra verilerinize erişmeniz imkansız olacak. Eğer ne yaptığınızdan emin değilseniz, devam etmeden önce sistem yöneticiniz ile irtibata geçiniz. Gerçekten devam etmek istiyor musunuz?",
 "Yes, I really want to reset my password now" => "Evet,Şu anda parolamı sıfırlamak istiyorum.",
+"Reset" => "Sıfırla",
 "Your password was reset" => "Parolanız sıfırlandı",
 "To login page" => "Giriş sayfasına git",
 "New password" => "Yeni parola",

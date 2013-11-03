@@ -67,6 +67,8 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Fout tijdens het veranderen van permissies",
 "Shared with you and the group {group} by {owner}" => "Gedeeld met u en de groep {group} door {owner}",
 "Shared with you by {owner}" => "Gedeeld met u door {owner}",
+"Share with user or group …" => "Delen met gebruiker of groep ...",
+"Share link" => "Deel link",
 "Password protect" => "Wachtwoord beveiligd",
 "Password" => "Wachtwoord",
 "Allow Public Upload" => "Sta publieke uploads toe",
@@ -80,6 +82,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "Verder delen is niet toegestaan",
 "Shared in {item} with {user}" => "Gedeeld in {item} met {user}",
 "Unshare" => "Stop met delen",
+"notify by email" => "melden per e-mail",
 "can edit" => "kan wijzigen",
 "access control" => "toegangscontrole",
 "create" => "creëer",
@@ -109,6 +112,7 @@ $TRANSLATIONS = array(
 "Username" => "Gebruikersnaam",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Je bestanden zijn versleuteld. Als je geen recoverykey hebt ingeschakeld is er geen manier om je data terug te krijgen indien je je wachtwoord reset!\nAls je niet weet wat te doen, neem dan alsjeblieft contact op met je administrator eer je doorgaat.\nWil je echt doorgaan?",
 "Yes, I really want to reset my password now" => "Ja, ik wil mijn wachtwoord nu echt resetten",
+"Reset" => "Reset",
 "Your password was reset" => "Je wachtwoord is gewijzigd",
 "To login page" => "Naar de login-pagina",
 "New password" => "Nieuw wachtwoord",
@@ -162,6 +166,10 @@ $TRANSLATIONS = array(
 "Alternative Logins" => "Alternatieve inlogs",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hallo daar,<br><br>even een berichtje dat %s »%s« met u deelde.<br><a href=\"%s\">Bekijk hier!</a><br><br>",
 "The share will expire on %s.<br><br>" => "Het delen stopt op %s.<br><br>",
-"Updating ownCloud to version %s, this may take a while." => "Updaten ownCloud naar versie %s, dit kan even duren..."
+"Updating ownCloud to version %s, this may take a while." => "Updaten ownCloud naar versie %s, dit kan even duren...",
+"This ownCloud instance is currently being updated, which may take a while." => "Deze ownCloud dienst wordt nu bijgewerkt, dat kan even duren.",
+"Please reload this page after a short time to continue using ownCloud." => "Laad deze pagina straks opnieuw om verder te gaan met ownCloud.",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Beem contact op met uw systeembeheerder als deze melding aanhoudt of plotseling verscheen.",
+"Thank you for your patience." => "Bedankt voor uw geduld."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -57,7 +57,6 @@ $TRANSLATIONS = array(
 "Name" => "Pavadinimas",
 "Size" => "Dydis",
 "Modified" => "Pakeista",
-"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Negalimas aplanko pavadinimas. 'Shared' pavadinimas yra rezervuotas ownCloud",
 "%s could not be renamed" => "%s negali būti pervadintas",
 "Upload" => "Įkelti",
 "File handling" => "Failų tvarkymas",

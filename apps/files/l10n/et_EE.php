@@ -60,7 +60,6 @@ $TRANSLATIONS = array(
 "Name" => "Nimi",
 "Size" => "Suurus",
 "Modified" => "Muudetud",
-"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Vigane kausta nimi. 'Shared' kasutamine on reserveeritud ownCloud poolt.",
 "%s could not be renamed" => "%s ümbernimetamine ebaõnnestus",
 "Upload" => "Lae üles",
 "File handling" => "Failide käsitlemine",

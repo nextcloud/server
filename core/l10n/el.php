@@ -94,6 +94,7 @@ $TRANSLATIONS = array(
 "Username" => "Όνομα χρήστη",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Τα αρχεία σας είναι κρυπτογραφημένα. Εάν δεν έχετε ενεργοποιήσει το κλειδί ανάκτησης, δεν υπάρχει περίπτωση να έχετε πρόσβαση στα δεδομένα σας μετά την επαναφορά του συνθηματικού. Εάν δεν είστε σίγουροι τι να κάνετε, παρακαλώ επικοινωνήστε με τον διαχειριστή πριν συνεχίσετε. Θέλετε να συνεχίσετε;",
 "Yes, I really want to reset my password now" => "Ναι, θέλω να επαναφέρω το συνθηματικό μου τώρα.",
+"Reset" => "Επαναφορά",
 "Your password was reset" => "Ο κωδικός πρόσβασής σας επαναφέρθηκε",
 "To login page" => "Σελίδα εισόδου",
 "New password" => "Νέο συνθηματικό",

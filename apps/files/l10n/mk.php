@@ -53,7 +53,6 @@ $TRANSLATIONS = array(
 "Name" => "Име",
 "Size" => "Големина",
 "Modified" => "Променето",
-"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Грешно име на папката. Користењето на 'Shared' е резервирано од самиот ownCloud",
 "%s could not be renamed" => "%s не може да биде преименуван",
 "Upload" => "Подигни",
 "File handling" => "Ракување со датотеки",

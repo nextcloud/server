@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Failed to delete the server configuration" => "刪除伺服器設定時失敗",
 "The configuration is valid and the connection could be established!" => "設定有效且連線可建立",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "設定有效但連線無法建立，請檢查伺服器設定與認證資料。",
-"The configuration is invalid. Please look in the ownCloud log for further details." => "設定無效，更多細節請參閱 ownCloud 的記錄檔。",
 "Deletion failed" => "移除失敗",
 "Take over settings from recent server configuration?" => "要使用最近一次的伺服器設定嗎？",
 "Keep settings?" => "維持設定嗎？",

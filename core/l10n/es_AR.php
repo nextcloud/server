@@ -92,6 +92,7 @@ $TRANSLATIONS = array(
 "Username" => "Nombre de usuario",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Tus archivos están encriptados. Si no habilitaste la clave de recuperación, no vas a tener manera de obtener nuevamente tus datos después que se restablezca tu contraseña. Si no estás seguro sobre qué hacer, ponete en contacto con el administrador antes de seguir. ¿Estás seguro/a que querés continuar?",
 "Yes, I really want to reset my password now" => "Sí, definitivamente quiero restablecer mi contraseña ahora",
+"Reset" => "Resetear",
 "Your password was reset" => "Tu contraseña fue restablecida",
 "To login page" => "A la página de inicio de sesión",
 "New password" => "Nueva contraseña:",

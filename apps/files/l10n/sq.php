@@ -40,7 +40,6 @@ $TRANSLATIONS = array(
 "Name" => "Emri",
 "Size" => "Madhësia",
 "Modified" => "Ndryshuar",
-"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Emër i gabuar i dosjes. Përdorimi i 'E ndare' është i rezervuar nga serveri",
 "%s could not be renamed" => "Nuk është i mundur riemërtimi i %s",
 "Upload" => "Ngarko",
 "File handling" => "Trajtimi i Skedarëve",

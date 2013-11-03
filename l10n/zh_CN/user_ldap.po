@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-29 07:28-0400\n"
-"PO-Revision-Date: 2013-10-28 10:46+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-03 12:38-0500\n"
+"PO-Revision-Date: 2013-11-03 17:39+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -38,9 +38,9 @@ msgstr "配置有效但绑定失败。请检查服务器设置和认证信息。
 
 #: ajax/testConfiguration.php:44
 msgid ""
-"The configuration is invalid. Please look in the ownCloud log for further "
+"The configuration is invalid. Please have a look at the logs for further "
 "details."
-msgstr "配置无效。更多细节请查看 ownCloud 日志。"
+msgstr ""
 
 #: ajax/wizard.php:32
 msgid "No action specified"

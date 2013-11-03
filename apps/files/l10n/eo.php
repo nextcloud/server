@@ -36,7 +36,6 @@ $TRANSLATIONS = array(
 "Name" => "Nomo",
 "Size" => "Grando",
 "Modified" => "Modifita",
-"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Nevalida dosierujnomo. La uzo de “Shared” estas rezervita de ownCloud.",
 "Upload" => "Alŝuti",
 "File handling" => "Dosieradministro",
 "Maximum upload size" => "Maksimuma alŝutogrando",

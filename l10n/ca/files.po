@@ -9,10 +9,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-29 07:28-0400\n"
-"PO-Revision-Date: 2013-10-28 11:20+0000\n"
-"Last-Translator: rogerc\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-03 12:38-0500\n"
+"PO-Revision-Date: 2013-11-03 17:38+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -145,32 +145,32 @@ msgstr "No hi ha prou espai disponible"
 msgid "Upload cancelled."
 msgstr "La pujada s'ha cancel·lat."
 
-#: js/file-upload.js:340
+#: js/file-upload.js:345
 msgid "Could not get result from server."
 msgstr "No hi ha resposta del servidor."
 
-#: js/file-upload.js:432
+#: js/file-upload.js:437
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Hi ha una pujada en curs. Si abandoneu la pàgina la pujada es cancel·larà."
 
-#: js/file-upload.js:511
+#: js/file-upload.js:520
 msgid "URL cannot be empty"
 msgstr "L'URL no pot ser buit"
 
-#: js/file-upload.js:515 js/filelist.js:361
+#: js/file-upload.js:524 js/filelist.js:364
 msgid "In the home folder 'Shared' is a reserved filename"
 msgstr "A la carpeta inici 'Compartit' és un nom de fitxer reservat"
 
-#: js/file-upload.js:517 js/filelist.js:363
+#: js/file-upload.js:526 js/filelist.js:366
 msgid "{new_name} already exists"
 msgstr "{new_name} ja existeix"
 
-#: js/file-upload.js:576
+#: js/file-upload.js:585
 msgid "Could not create file"
 msgstr "No s'ha pogut crear el fitxer"
 
-#: js/file-upload.js:592
+#: js/file-upload.js:601
 msgid "Could not create folder"
 msgstr "No s'ha pogut crear la carpeta"
 
@@ -186,39 +186,39 @@ msgstr "Esborra permanentment"
 msgid "Rename"
 msgstr "Reanomena"
 
-#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:850
+#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:854
 msgid "Pending"
 msgstr "Pendent"
 
-#: js/filelist.js:389
+#: js/filelist.js:392
 msgid "Could not rename file"
 msgstr "No es pot canviar el nom de fitxer"
 
-#: js/filelist.js:508
+#: js/filelist.js:511
 msgid "replaced {new_name} with {old_name}"
 msgstr "s'ha substituït {old_name} per {new_name}"
 
-#: js/filelist.js:508
+#: js/filelist.js:511
 msgid "undo"
 msgstr "desfés"
 
-#: js/filelist.js:579 js/filelist.js:645 js/files.js:587
+#: js/filelist.js:582 js/filelist.js:649 js/files.js:587
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n carpeta"
 msgstr[1] "%n carpetes"
 
-#: js/filelist.js:580 js/filelist.js:646 js/files.js:593
+#: js/filelist.js:583 js/filelist.js:650 js/files.js:593
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n fitxer"
 msgstr[1] "%n fitxers"
 
-#: js/filelist.js:587
+#: js/filelist.js:590
 msgid "{dirs} and {files}"
 msgstr "{dirs} i {files}"
 
-#: js/filelist.js:789 js/filelist.js:827
+#: js/filelist.js:793 js/filelist.js:831
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Pujant %n fitxer"
@@ -288,8 +288,8 @@ msgid "Modified"
 msgstr "Modificat"
 
 #: lib/app.php:60
-msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
-msgstr "Nom de carpeta no vàlid. L'ús de 'Shared' està reservat per Owncloud"
+msgid "Invalid folder name. Usage of 'Shared' is reserved."
+msgstr ""
 
 #: lib/app.php:88
 #, php-format

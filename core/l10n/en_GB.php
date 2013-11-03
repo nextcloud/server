@@ -112,6 +112,7 @@ $TRANSLATIONS = array(
 "Username" => "Username",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?",
 "Yes, I really want to reset my password now" => "Yes, I really want to reset my password now",
+"Reset" => "Reset",
 "Your password was reset" => "Your password was reset",
 "To login page" => "To login page",
 "New password" => "New password",

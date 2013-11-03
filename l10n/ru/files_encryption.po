@@ -9,12 +9,13 @@
 # jekader <jekader@gmail.com>, 2013
 # eurekafag <rkfg@rkfg.me>, 2013
 # Victor Bravo <>, 2013
+# vsapronov <vladimir.sapronov@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-13 20:29-0400\n"
-"PO-Revision-Date: 2013-10-14 00:29+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-03 12:38-0500\n"
+"PO-Revision-Date: 2013-11-03 17:38+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -64,40 +65,40 @@ msgid ""
 "Encryption app not initialized! Maybe the encryption app was re-enabled "
 "during your session. Please try to log out and log back in to initialize the"
 " encryption app."
+msgstr "Приложение шифрации не инициализированно! Возможно приложение шифрации было реактивировано во время вашей сессии. Пожалуйста, попробуйте выйти и войти снова чтобы проинициализировать приложение шифрации."
+
+#: files/error.php:16
+#, php-format
+msgid ""
+"Your private key is not valid! Likely your password was changed outside of "
+"%s (e.g. your corporate directory). You can update your private key password"
+" in your personal settings to recover access to your encrypted files."
 msgstr ""
 
-#: files/error.php:15
-msgid ""
-"Your private key is not valid! Likely your password was changed outside the "
-"ownCloud system (e.g. your corporate directory). You can update your private"
-" key password in your personal settings to recover access to your encrypted "
-"files."
-msgstr "Ваш секретный ключ не действителен! Вероятно, ваш пароль был изменен вне системы OwnCloud (например, корпоративный каталог). Вы можете обновить секретный ключ в личных настройках на странице восстановления доступа к зашифрованным файлам. "
-
-#: files/error.php:18
+#: files/error.php:19
 msgid ""
 "Can not decrypt this file, probably this is a shared file. Please ask the "
 "file owner to reshare the file with you."
-msgstr ""
+msgstr "Не могу расшифровать файл, возможно это опубликованный файл. Пожалуйста, попросите владельца файла поделиться им  с вами еще раз."
 
-#: files/error.php:21 files/error.php:26
+#: files/error.php:22 files/error.php:27
 msgid ""
 "Unknown error please check your system settings or contact your "
 "administrator"
-msgstr ""
+msgstr "Неизвестная ошибка, пожалуйста, проверьте системные настройки или свяжитесь с администратором"
 
-#: hooks/hooks.php:53
+#: hooks/hooks.php:59
 msgid "Missing requirements."
 msgstr "Требования отсутствуют."
 
-#: hooks/hooks.php:54
+#: hooks/hooks.php:60
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr "Пожалуйста, убедитесь, что версия PHP 5.3.3 или новее, а также, что OpenSSL и соответствующее расширение PHP включены и правильно настроены. На данный момент приложение шифрования отключено."
 
-#: hooks/hooks.php:252
+#: hooks/hooks.php:273
 msgid "Following users are not set up for encryption:"
 msgstr "Для следующих пользователей шифрование не настроено:"
 
@@ -107,7 +108,7 @@ msgstr "Сохранение..."
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "
-msgstr ""
+msgstr "Перейти прямо в"
 
 #: templates/invalid_private_key.php:8
 msgid "personal settings"
@@ -128,7 +129,7 @@ msgstr "Пароль для ключа восстановления"
 
 #: templates/settings-admin.php:14
 msgid "Repeat Recovery key password"
-msgstr ""
+msgstr "Повторите пароль восстановления ключа"
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:51
 msgid "Enabled"
@@ -152,7 +153,7 @@ msgstr "Новый пароль для ключа восстановления"
 
 #: templates/settings-admin.php:53
 msgid "Repeat New Recovery key password"
-msgstr ""
+msgstr "Повторите новый пароль восстановления ключа"
 
 #: templates/settings-admin.php:58
 msgid "Change Password"

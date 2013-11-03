@@ -47,7 +47,6 @@ $TRANSLATIONS = array(
 "Name" => "اسم",
 "Size" => "حجم",
 "Modified" => "معدل",
-"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "تسمية ملف غير صالحة. استخدام الاسم \"shared\" محجوز بواسطة ownCloud",
 "%s could not be renamed" => "%s  لا يمكن إعادة تسميته. ",
 "Upload" => "رفع",
 "File handling" => "التعامل مع الملف",

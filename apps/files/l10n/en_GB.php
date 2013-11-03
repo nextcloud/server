@@ -60,7 +60,6 @@ $TRANSLATIONS = array(
 "Name" => "Name",
 "Size" => "Size",
 "Modified" => "Modified",
-"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Invalid folder name. Usage of 'Shared' is reserved by ownCloud",
 "%s could not be renamed" => "%s could not be renamed",
 "Upload" => "Upload",
 "File handling" => "File handling",

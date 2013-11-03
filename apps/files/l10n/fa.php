@@ -38,7 +38,6 @@ $TRANSLATIONS = array(
 "Name" => "نام",
 "Size" => "اندازه",
 "Modified" => "تاریخ",
-"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "نام پوشه نامعتبر است. استفاده از 'به اشتراک گذاشته شده' متعلق به ownCloud میباشد.",
 "%s could not be renamed" => "%s نمیتواند تغییر نام دهد.",
 "Upload" => "بارگزاری",
 "File handling" => "اداره پرونده ها",

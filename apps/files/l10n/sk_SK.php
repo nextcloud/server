@@ -47,7 +47,6 @@ $TRANSLATIONS = array(
 "Name" => "Názov",
 "Size" => "Veľkosť",
 "Modified" => "Upravené",
-"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Neplatný názov priečinka. Názov \"Shared\" je rezervovaný pre ownCloud",
 "%s could not be renamed" => "%s nemohol byť premenovaný",
 "Upload" => "Odoslať",
 "File handling" => "Nastavenie správania sa k súborom",

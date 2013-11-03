@@ -9,10 +9,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-30 03:32-0400\n"
-"PO-Revision-Date: 2013-10-30 07:32+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-03 12:38-0500\n"
+"PO-Revision-Date: 2013-11-02 08:30+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -279,12 +279,12 @@ msgstr "Gedeeld"
 msgid "Share"
 msgstr "Delen"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:690
-#: js/share.js:702
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:692
+#: js/share.js:704
 msgid "Error"
 msgstr "Fout"
 
-#: js/share.js:160 js/share.js:730
+#: js/share.js:160 js/share.js:732
 msgid "Error while sharing"
 msgstr "Fout tijdens het delen"
 
@@ -306,11 +306,11 @@ msgstr "Gedeeld met u door {owner}"
 
 #: js/share.js:212
 msgid "Share with user or group …"
-msgstr ""
+msgstr "Delen met gebruiker of groep ..."
 
 #: js/share.js:218
 msgid "Share link"
-msgstr ""
+msgstr "Deel link"
 
 #: js/share.js:221
 msgid "Password protect"
@@ -340,79 +340,79 @@ msgstr "Stel vervaldatum in"
 msgid "Expiration date"
 msgstr "Vervaldatum"
 
-#: js/share.js:272
+#: js/share.js:274
 msgid "Share via email:"
 msgstr "Deel via e-mail:"
 
-#: js/share.js:275
+#: js/share.js:277
 msgid "No people found"
 msgstr "Geen mensen gevonden"
 
-#: js/share.js:305 js/share.js:342
+#: js/share.js:307 js/share.js:344
 msgid "group"
 msgstr "groep"
 
-#: js/share.js:316
+#: js/share.js:318
 msgid "Resharing is not allowed"
 msgstr "Verder delen is niet toegestaan"
 
-#: js/share.js:358
+#: js/share.js:360
 msgid "Shared in {item} with {user}"
 msgstr "Gedeeld in {item} met {user}"
 
-#: js/share.js:380
+#: js/share.js:382
 msgid "Unshare"
 msgstr "Stop met delen"
 
-#: js/share.js:388
+#: js/share.js:390
 msgid "notify by email"
-msgstr ""
+msgstr "melden per e-mail"
 
-#: js/share.js:391
+#: js/share.js:393
 msgid "can edit"
 msgstr "kan wijzigen"
 
-#: js/share.js:393
+#: js/share.js:395
 msgid "access control"
 msgstr "toegangscontrole"
 
-#: js/share.js:396
+#: js/share.js:398
 msgid "create"
 msgstr "creëer"
 
-#: js/share.js:399
+#: js/share.js:401
 msgid "update"
 msgstr "bijwerken"
 
-#: js/share.js:402
+#: js/share.js:404
 msgid "delete"
 msgstr "verwijderen"
 
-#: js/share.js:405
+#: js/share.js:407
 msgid "share"
 msgstr "deel"
 
-#: js/share.js:447 js/share.js:677
+#: js/share.js:449 js/share.js:679
 msgid "Password protected"
 msgstr "Wachtwoord beveiligd"
 
-#: js/share.js:690
+#: js/share.js:692
 msgid "Error unsetting expiration date"
 msgstr "Fout tijdens het verwijderen van de verval datum"
 
-#: js/share.js:702
+#: js/share.js:704
 msgid "Error setting expiration date"
 msgstr "Fout tijdens het instellen van de vervaldatum"
 
-#: js/share.js:717
+#: js/share.js:719
 msgid "Sending ..."
 msgstr "Versturen ..."
 
-#: js/share.js:728
+#: js/share.js:730
 msgid "Email sent"
 msgstr "E-mail verzonden"
 
-#: js/share.js:752
+#: js/share.js:754
 msgid "Warning"
 msgstr "Waarschuwing"
 
@@ -498,7 +498,7 @@ msgstr "Ja, ik wil mijn wachtwoord nu echt resetten"
 
 #: lostpassword/templates/lostpassword.php:30
 msgid "Reset"
-msgstr ""
+msgstr "Reset"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -749,18 +749,18 @@ msgstr "Updaten ownCloud naar versie %s, dit kan even duren..."
 #: templates/update.user.php:3
 msgid ""
 "This ownCloud instance is currently being updated, which may take a while."
-msgstr ""
+msgstr "Deze ownCloud dienst wordt nu bijgewerkt, dat kan even duren."
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr ""
+msgstr "Laad deze pagina straks opnieuw om verder te gaan met ownCloud."
 
 #: templates/update.user.php:5
 msgid ""
 "Contact your system administrator if this message persists or appeared "
 "unexpectedly."
-msgstr ""
+msgstr "Beem contact op met uw systeembeheerder als deze melding aanhoudt of plotseling verscheen."
 
 #: templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr ""
+msgstr "Bedankt voor uw geduld."

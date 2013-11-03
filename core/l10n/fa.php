@@ -83,6 +83,7 @@ $TRANSLATIONS = array(
 "Username" => "نام کاربری",
 "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "فایل های شما رمزگذاری شده اند. اگر شما کلید بازیابی را فعال نکرده اید، پس از راه اندازی مجدد رمزعبور هیچ راهی برای بازگشت اطلاعاتتان وجود نخواهد داشت.در صورت عدم اطمینان به انجام کار، لطفا ابتدا با مدیر خود تماس بگیرید. آیا واقعا میخواهید ادامه دهید ؟",
 "Yes, I really want to reset my password now" => "بله، من اکنون میخواهم رمز عبور خود را مجددا راه اندازی کنم.",
+"Reset" => "تنظیم مجدد",
 "Your password was reset" => "گذرواژه شما تغییرکرد",
 "To login page" => "به صفحه ورود",
 "New password" => "گذرواژه جدید",

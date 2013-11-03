@@ -3,7 +3,6 @@ $TRANSLATIONS = array(
 "Failed to delete the server configuration" => "შეცდომა სერვერის კონფიგურაციის წაშლისას",
 "The configuration is valid and the connection could be established!" => "კონფიგურაცია მართებულია და კავშირი დამყარდება!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "კონფიგურაცია მართებულია, მაგრამ მიერთება ვერ მოხერხდა. გთხოვთ შეამოწმოთ სერვერის პარამეტრები და აუთენთიკაციის პარამეტრები.",
-"The configuration is invalid. Please look in the ownCloud log for further details." => "კონფიგურაცია არ არის მართებული. გთხოვთ ჩაიხედოთ დეტალური ინფორმაციისთვის ownCloud –ის ლოგში.",
 "Deletion failed" => "წაშლა ვერ განხორციელდა",
 "Take over settings from recent server configuration?" => "დაბრუნდებით სერვერის წინა კონფიგურაციაში?",
 "Keep settings?" => "დავტოვოთ პარამეტრები?",

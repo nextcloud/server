@@ -7,14 +7,16 @@
 # Fenuks <fenuksuh@ya.ru>, 2013
 # alfsoft <alfsoft@gmail.com>, 2013
 # jekader <jekader@gmail.com>, 2013
+# Евгений Белоусов <kvantor12@gmail.com>, 2013
+# vsapronov <vladimir.sapronov@gmail.com>, 2013
 # not_your_conscience <hex.void@gmail.com>, 2013
 # navigator666 <yuriy.malyovaniy@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-29 07:28-0400\n"
-"PO-Revision-Date: 2013-10-28 10:45+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-03 12:38-0500\n"
+"PO-Revision-Date: 2013-11-03 17:39+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -43,26 +45,26 @@ msgstr "Конфигурация верна, но операция подклю�
 
 #: ajax/testConfiguration.php:44
 msgid ""
-"The configuration is invalid. Please look in the ownCloud log for further "
+"The configuration is invalid. Please have a look at the logs for further "
 "details."
-msgstr "Конфигурация не верна. Пожалуйста, посмотрите в журнале ownCloud детали."
+msgstr ""
 
 #: ajax/wizard.php:32
 msgid "No action specified"
-msgstr ""
+msgstr "Действие не указано"
 
 #: ajax/wizard.php:38
 msgid "No configuration specified"
-msgstr ""
+msgstr "Конфигурация не создана"
 
 #: ajax/wizard.php:78
 msgid "No data specified"
-msgstr ""
+msgstr "Нет данных"
 
 #: ajax/wizard.php:86
 #, php-format
 msgid " Could not set configuration %s"
-msgstr ""
+msgstr "Невозможно создать конфигурацию %s"
 
 #: js/settings.js:67
 msgid "Deletion failed"
@@ -98,11 +100,11 @@ msgstr "Выбрать группы"
 
 #: js/settings.js:663 js/settings.js:672
 msgid "Select object classes"
-msgstr ""
+msgstr "Выберите классы объекта"
 
 #: js/settings.js:666
 msgid "Select attributes"
-msgstr ""
+msgstr "Выберите атрибуты"
 
 #: js/settings.js:694
 msgid "Connection test succeeded"
@@ -124,25 +126,25 @@ msgstr "Подтверждение удаления"
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%s гурппа найдена"
+msgstr[1] "%s группы найдены"
+msgstr[2] "%s групп найдено"
 
 #: lib/wizard.php:123
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%s пользователь найден"
+msgstr[1] "%s пользователя найдено"
+msgstr[2] "%s пользователей найдено"
 
 #: lib/wizard.php:752 lib/wizard.php:764
 msgid "Invalid Host"
-msgstr ""
+msgstr "Неверный сервер"
 
 #: lib/wizard.php:910
 msgid "Could not find the desired feature"
-msgstr ""
+msgstr "Не могу найти требуемой функциональности"
 
 #: templates/part.settingcontrols.php:4
 msgid "Test Configuration"
@@ -155,53 +157,53 @@ msgstr "Помощь"
 #: templates/part.wizard-groupfilter.php:4
 #, php-format
 msgid "Limit the access to %s to groups meeting this criteria:"
-msgstr ""
+msgstr "Ограничить доступ к %s группам удовлетворяющим этому критерию:"
 
 #: templates/part.wizard-groupfilter.php:8
 #: templates/part.wizard-userfilter.php:8
 msgid "only those object classes:"
-msgstr ""
+msgstr "только эти классы объекта"
 
 #: templates/part.wizard-groupfilter.php:17
 #: templates/part.wizard-userfilter.php:17
 msgid "only from those groups:"
-msgstr ""
+msgstr "только из этих групп"
 
 #: templates/part.wizard-groupfilter.php:25
 #: templates/part.wizard-userfilter.php:25
 msgid "Edit raw filter instead"
-msgstr ""
+msgstr "Редактировать исходный фильтр"
 
 #: templates/part.wizard-groupfilter.php:30
 #: templates/part.wizard-userfilter.php:30
 msgid "Raw LDAP filter"
-msgstr ""
+msgstr "Исходный LDAP фильтр"
 
 #: templates/part.wizard-groupfilter.php:31
 #, php-format
 msgid ""
 "The filter specifies which LDAP groups shall have access to the %s instance."
-msgstr ""
+msgstr "Этот фильтр определяет какие LDAP группы должны иметь доступ к %s."
 
 #: templates/part.wizard-groupfilter.php:38
 msgid "groups found"
-msgstr ""
+msgstr "групп найдено"
 
 #: templates/part.wizard-loginfilter.php:4
 msgid "What attribute shall be used as login name:"
-msgstr ""
+msgstr "Какой аттибут должен быть использован для логина:"
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
-msgstr ""
+msgstr "Имя пользователя LDAP"
 
 #: templates/part.wizard-loginfilter.php:16
 msgid "LDAP Email Address:"
-msgstr ""
+msgstr "LDAP адрес электронной почты:"
 
 #: templates/part.wizard-loginfilter.php:24
 msgid "Other Attributes:"
-msgstr ""
+msgstr "Другие аттрибуты:"
 
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
@@ -250,17 +252,17 @@ msgstr "Вы можете задать Base DN для пользователей
 #: templates/part.wizard-userfilter.php:4
 #, php-format
 msgid "Limit the access to %s to users meeting this criteria:"
-msgstr ""
+msgstr "Ограничить доступ к %s пользователям удовлетворяющим этому критерию:"
 
 #: templates/part.wizard-userfilter.php:31
 #, php-format
 msgid ""
 "The filter specifies which LDAP users shall have access to the %s instance."
-msgstr ""
+msgstr "Этот фильтр указывает какие LDAP пользователи должны иметь доступ к %s."
 
 #: templates/part.wizard-userfilter.php:38
 msgid "users found"
-msgstr ""
+msgstr "пользователей найдено"
 
 #: templates/part.wizardcontrols.php:4
 msgid "Back"
