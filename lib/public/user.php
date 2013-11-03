@@ -22,7 +22,7 @@
 
 /**
  * Public interface of ownCloud for apps to use.
- * User Class.
+ * User Class
  *
  */
 

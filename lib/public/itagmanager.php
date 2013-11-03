@@ -21,6 +21,16 @@
 */
 
 /**
+ * Public interface of ownCloud for apps to use.
+ * Tag manager interface
+ *
+ */
+
+// use OCP namespace for all classes that are considered public.
+// This means that they should be used by apps instead of the internal ownCloud classes
+namespace OCP;
+
+/**
  * Factory class creating instances of \OCP\ITags
  *
  * A tag can be e.g. 'Family', 'Work', 'Chore', 'Special Occation' or
@@ -30,9 +40,6 @@
  * are entered in. If a user already has a tag 'family' for a type, and
  * tries to add a tag named 'Family' it will be silently ignored.
  */
-
-namespace OCP;
-
 interface ITagManager {
 
 	/**
