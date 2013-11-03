@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Mariano <mstreet@kde.org.ar>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-16 00:26-0400\n"
-"PO-Revision-Date: 2013-10-14 00:42+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-03 14:38-0500\n"
+"PO-Revision-Date: 2013-11-03 19:30+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,12 +21,12 @@ msgstr ""
 #: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr ""
+msgstr "Ne povis foriĝi %s por ĉiam"
 
 #: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
-msgstr ""
+msgstr "Ne povis restaŭriĝi %s"
 
 #: js/trash.js:18 js/trash.js:44 js/trash.js:121 js/trash.js:149
 msgid "Error"
@@ -33,11 +34,11 @@ msgstr "Eraro"
 
 #: lib/trashbin.php:814 lib/trashbin.php:816
 msgid "restored"
-msgstr ""
+msgstr "restaŭrita"
 
 #: templates/index.php:8
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr ""
+msgstr "Nenio estas ĉi tie. Via rubujo malplenas!"
 
 #: templates/index.php:22
 msgid "Name"
@@ -49,7 +50,7 @@ msgstr "Restaŭri"
 
 #: templates/index.php:33
 msgid "Deleted"
-msgstr ""
+msgstr "Forigita"
 
 #: templates/index.php:36 templates/index.php:37
 msgid "Delete"

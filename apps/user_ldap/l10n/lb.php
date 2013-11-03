@@ -6,6 +6,7 @@ $TRANSLATIONS = array(
 "_%s user found_::_%s users found_" => array("",""),
 "Help" => "Hëllef",
 "Password" => "Passwuert",
-"Back" => "Zeréck"
+"Back" => "Zeréck",
+"Continue" => "Weider"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

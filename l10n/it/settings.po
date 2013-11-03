@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-03 12:38-0500\n"
-"PO-Revision-Date: 2013-11-03 17:41+0000\n"
+"POT-Creation-Date: 2013-11-03 14:38-0500\n"
+"PO-Revision-Date: 2013-11-03 17:51+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -216,7 +216,7 @@ msgstr "Deve essere fornita una password valida"
 
 #: js/users.js:481
 msgid "Warning: Home directory for user \"{user}\" already exists"
-msgstr "Attenzione: esiste già la home directory dell'utente \"{user}\""
+msgstr "Avviso: la cartella home dell'utente \"{user}\" esiste già"
 
 #: personal.php:45 personal.php:46
 msgid "__language_name__"
@@ -240,7 +240,7 @@ msgstr "Errori e problemi gravi"
 
 #: templates/admin.php:12
 msgid "Fatal issues only"
-msgstr ""
+msgstr "Solo problemi gravi"
 
 #: templates/admin.php:22
 msgid "Security Warning"
@@ -317,7 +317,7 @@ msgstr "Esegui un'operazione con ogni pagina caricata"
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
-msgstr "cron.php è registrato su un servizio webcron per invocare la pagina cron.php ogni 15 minuti su http."
+msgstr "cron.php è registrato su un servizio webcron per invocare cron.php ogni 15 minuti su http."
 
 #: templates/admin.php:122
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
@@ -610,7 +610,7 @@ msgstr "Archiviazione predefinita"
 
 #: templates/users.php:44 templates/users.php:139
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
-msgstr ""
+msgstr "Digita la quota di archiviazione (ad es.: \"512 MB\" or \"12 GB\")"
 
 #: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"

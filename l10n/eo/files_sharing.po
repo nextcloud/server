@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Mariano <mstreet@kde.org.ar>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-29 07:28-0400\n"
-"PO-Revision-Date: 2013-10-28 10:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-03 14:38-0500\n"
+"PO-Revision-Date: 2013-11-03 19:20+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
-msgstr ""
+msgstr "Ĉi tiu kunhavigo estas protektata per pasvorto"
 
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
@@ -31,27 +32,27 @@ msgstr "Pasvorto"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
-msgstr ""
+msgstr "Pardonu, ĉi tiu ligilo ŝajne ne plu funkcias."
 
 #: templates/part.404.php:4
 msgid "Reasons might be:"
-msgstr ""
+msgstr "Kialoj povas esti:"
 
 #: templates/part.404.php:6
 msgid "the item was removed"
-msgstr ""
+msgstr "la ero foriĝis"
 
 #: templates/part.404.php:7
 msgid "the link expired"
-msgstr ""
+msgstr "la ligilo eksvalidiĝis"
 
 #: templates/part.404.php:8
 msgid "sharing is disabled"
-msgstr ""
+msgstr "kunhavigo malkapablas"
 
 #: templates/part.404.php:10
 msgid "For more info, please ask the person who sent this link."
-msgstr ""
+msgstr "Por plia informo, bonvolu peti al la persono, kiu sendis ĉi tiun ligilon."
 
 #: templates/public.php:17
 #, php-format
@@ -81,4 +82,4 @@ msgstr "Ne haveblas antaŭvido por"
 
 #: templates/public.php:98
 msgid "Direct link"
-msgstr ""
+msgstr "Direkta ligilo"

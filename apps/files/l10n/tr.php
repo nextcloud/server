@@ -60,6 +60,7 @@ $TRANSLATIONS = array(
 "Name" => "İsim",
 "Size" => "Boyut",
 "Modified" => "Değiştirilme",
+"Invalid folder name. Usage of 'Shared' is reserved." => "Geçersiz dizin adı. Shared isminin kullanımı Owncloud tarafından rezerve edilmiştir.",
 "%s could not be renamed" => "%s yeniden adlandırılamadı",
 "Upload" => "Yükle",
 "File handling" => "Dosya taşıma",

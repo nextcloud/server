@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-03 12:38-0500\n"
-"PO-Revision-Date: 2013-11-03 17:38+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-03 14:38-0500\n"
+"PO-Revision-Date: 2013-11-03 19:35+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -83,7 +83,7 @@ msgstr ""
 
 #: hooks/hooks.php:59
 msgid "Missing requirements."
-msgstr ""
+msgstr "Mankas neproj."
 
 #: hooks/hooks.php:60
 msgid ""
@@ -102,7 +102,7 @@ msgstr "Konservante..."
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "
-msgstr ""
+msgstr "Iri direkte al via"
 
 #: templates/invalid_private_key.php:8
 msgid "personal settings"

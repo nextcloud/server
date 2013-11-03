@@ -5,15 +5,16 @@
 # Translators:
 # Sappe, 2013
 # claus_chr <claus_chr@webspeed.dk>, 2013
+# kaffeldt <kasper.affeldt@gmail.com>, 2013
 # Ole Holm Frandsen <froksen@gmail.com>, 2013
 # Peter Jespersen <flywheeldk@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-30 03:32-0400\n"
-"PO-Revision-Date: 2013-10-30 07:32+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-03 14:38-0500\n"
+"PO-Revision-Date: 2013-11-03 19:10+0000\n"
+"Last-Translator: kaffeldt <kasper.affeldt@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +30,7 @@ msgstr "%s delte »%s« med sig"
 #: ajax/share.php:169
 #, php-format
 msgid "Couldn't send mail to following users: %s "
-msgstr ""
+msgstr "Kunne ikke sende mail til følgende brugere: %s"
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
@@ -280,12 +281,12 @@ msgstr "Delt"
 msgid "Share"
 msgstr "Del"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:690
-#: js/share.js:702
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:692
+#: js/share.js:704
 msgid "Error"
 msgstr "Fejl"
 
-#: js/share.js:160 js/share.js:730
+#: js/share.js:160 js/share.js:732
 msgid "Error while sharing"
 msgstr "Fejl under deling"
 
@@ -307,11 +308,11 @@ msgstr "Delt med dig af {owner}"
 
 #: js/share.js:212
 msgid "Share with user or group …"
-msgstr ""
+msgstr "Del med bruger eller gruppe ..."
 
 #: js/share.js:218
 msgid "Share link"
-msgstr ""
+msgstr "Del link"
 
 #: js/share.js:221
 msgid "Password protect"
@@ -341,79 +342,79 @@ msgstr "Vælg udløbsdato"
 msgid "Expiration date"
 msgstr "Udløbsdato"
 
-#: js/share.js:272
+#: js/share.js:274
 msgid "Share via email:"
 msgstr "Del via email:"
 
-#: js/share.js:275
+#: js/share.js:277
 msgid "No people found"
 msgstr "Ingen personer fundet"
 
-#: js/share.js:305 js/share.js:342
+#: js/share.js:307 js/share.js:344
 msgid "group"
 msgstr "gruppe"
 
-#: js/share.js:316
+#: js/share.js:318
 msgid "Resharing is not allowed"
 msgstr "Videredeling ikke tilladt"
 
-#: js/share.js:358
+#: js/share.js:360
 msgid "Shared in {item} with {user}"
 msgstr "Delt i {item} med {user}"
 
-#: js/share.js:380
+#: js/share.js:382
 msgid "Unshare"
 msgstr "Fjern deling"
 
-#: js/share.js:388
+#: js/share.js:390
 msgid "notify by email"
-msgstr ""
+msgstr "Giv besked med mail"
 
-#: js/share.js:391
+#: js/share.js:393
 msgid "can edit"
 msgstr "kan redigere"
 
-#: js/share.js:393
+#: js/share.js:395
 msgid "access control"
 msgstr "Adgangskontrol"
 
-#: js/share.js:396
+#: js/share.js:398
 msgid "create"
 msgstr "opret"
 
-#: js/share.js:399
+#: js/share.js:401
 msgid "update"
 msgstr "opdater"
 
-#: js/share.js:402
+#: js/share.js:404
 msgid "delete"
 msgstr "slet"
 
-#: js/share.js:405
+#: js/share.js:407
 msgid "share"
 msgstr "del"
 
-#: js/share.js:447 js/share.js:677
+#: js/share.js:449 js/share.js:679
 msgid "Password protected"
 msgstr "Beskyttet med adgangskode"
 
-#: js/share.js:690
+#: js/share.js:692
 msgid "Error unsetting expiration date"
 msgstr "Fejl ved fjernelse af udløbsdato"
 
-#: js/share.js:702
+#: js/share.js:704
 msgid "Error setting expiration date"
 msgstr "Fejl under sætning af udløbsdato"
 
-#: js/share.js:717
+#: js/share.js:719
 msgid "Sending ..."
 msgstr "Sender ..."
 
-#: js/share.js:728
+#: js/share.js:730
 msgid "Email sent"
 msgstr "E-mail afsendt"
 
-#: js/share.js:752
+#: js/share.js:754
 msgid "Warning"
 msgstr "Advarsel"
 
@@ -423,7 +424,7 @@ msgstr "Objekttypen er ikke angivet."
 
 #: js/tags.js:13
 msgid "Enter new"
-msgstr ""
+msgstr "Indtast nyt"
 
 #: js/tags.js:27
 msgid "Delete"
@@ -435,15 +436,15 @@ msgstr "Tilføj"
 
 #: js/tags.js:39
 msgid "Edit tags"
-msgstr ""
+msgstr "Rediger tags"
 
 #: js/tags.js:57
 msgid "Error loading dialog template: {error}"
-msgstr ""
+msgstr "Fejl ved indlæsning dialog skabelon: {error}"
 
 #: js/tags.js:261
 msgid "No tags selected for deletion."
-msgstr ""
+msgstr "Ingen tags markeret til sletning."
 
 #: js/update.js:17
 msgid ""
@@ -499,7 +500,7 @@ msgstr "Ja, Jeg ønsker virkelig at nulstille mit kodeord"
 
 #: lostpassword/templates/lostpassword.php:30
 msgid "Reset"
-msgstr ""
+msgstr "Nulstil"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -539,31 +540,31 @@ msgstr "Hjælp"
 
 #: tags/controller.php:22
 msgid "Error loading tags"
-msgstr ""
+msgstr "Fejl ved indlæsning af tags"
 
 #: tags/controller.php:48
 msgid "Tag already exists"
-msgstr ""
+msgstr "Tag eksistere allerede"
 
 #: tags/controller.php:64
 msgid "Error deleting tag(s)"
-msgstr ""
+msgstr "Fejl ved sletning af tag(s)"
 
 #: tags/controller.php:75
 msgid "Error tagging"
-msgstr ""
+msgstr "Fejl ved tagging"
 
 #: tags/controller.php:86
 msgid "Error untagging"
-msgstr ""
+msgstr "Fejl ved fjernelse af tag"
 
 #: tags/controller.php:97
 msgid "Error favoriting"
-msgstr ""
+msgstr "Fejl ved favoritering"
 
 #: tags/controller.php:108
 msgid "Error unfavoriting"
-msgstr ""
+msgstr "Fejl ved fjernelse af favorisering."
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -581,18 +582,18 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-msgstr ""
+msgstr "Hej med dig\n\nDette blot for at lade dig vide, at %s har delt %s med dig.\nSe det her: %s\n\n"
 
 #: templates/altmail.php:4
 #, php-format
 msgid ""
 "The share will expire on %s.\n"
 "\n"
-msgstr ""
+msgstr "Det delte link vil udløbe d. %s.⏎\n⏎\n"
 
 #: templates/altmail.php:6 templates/mail.php:19
 msgid "Cheers!"
-msgstr ""
+msgstr "Hej!"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -681,7 +682,7 @@ msgstr "Afslut opsætning"
 
 #: templates/installation.php:184
 msgid "Finishing …"
-msgstr ""
+msgstr "Færdigbehandling ..."
 
 #: templates/layout.user.php:43
 #, php-format
@@ -708,11 +709,11 @@ msgstr "Skift adgangskode for at sikre din konto igen."
 
 #: templates/login.php:17
 msgid "Server side authentication failed!"
-msgstr ""
+msgstr "Server side godkendelse mislykkedes!"
 
 #: templates/login.php:18
 msgid "Please contact your administrator."
-msgstr ""
+msgstr "Kontakt venligst din administrator"
 
 #: templates/login.php:38
 msgid "Lost your password?"
@@ -735,12 +736,12 @@ msgstr "Alternative logins"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "Hej med dig,<br><br>Dette blot for at lade dig vide, at %s har delt \"%s\" med dig.<br><a href=\"%s\">Se det her!</a><br><br>Hej"
 
 #: templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s.<br><br>"
-msgstr ""
+msgstr "Det delte link vil udløbe d. %s."
 
 #: templates/update.admin.php:3
 #, php-format
@@ -750,18 +751,18 @@ msgstr "Opdatere Owncloud til version %s, dette kan tage et stykke tid."
 #: templates/update.user.php:3
 msgid ""
 "This ownCloud instance is currently being updated, which may take a while."
-msgstr ""
+msgstr "Opdatere Owncloud, dette kan tage et stykke tid."
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr ""
+msgstr "Genindlæs denne side efter kort tid til at fortsætte med at bruge ownCloud."
 
 #: templates/update.user.php:5
 msgid ""
 "Contact your system administrator if this message persists or appeared "
 "unexpectedly."
-msgstr ""
+msgstr "Kontakt systemadministratoren, hvis denne meddelelse fortsætter eller optrådte uventet."
 
 #: templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr ""
+msgstr "Tak for din tålmodighed."

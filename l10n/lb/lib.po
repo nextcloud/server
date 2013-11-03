@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-29 07:28-0400\n"
-"PO-Revision-Date: 2013-10-28 10:45+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-03 14:38-0500\n"
+"PO-Revision-Date: 2013-11-03 19:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Luxembourgish (http://www.transifex.com/projects/p/owncloud/language/lb/)\n"
 "MIME-Version: 1.0\n"
@@ -56,11 +56,11 @@ msgstr ""
 
 #: private/avatar.php:60
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Onbekannten Fichier Typ"
 
 #: private/avatar.php:65
 msgid "Invalid image"
-msgstr ""
+msgstr "Ongülteg d'Bild"
 
 #: private/defaults.php:36
 msgid "web services under your control"
@@ -333,6 +333,6 @@ msgstr "Läscht Joer"
 msgid "years ago"
 msgstr "Joren hier"
 
-#: private/template.php:297 public/util.php:103
+#: private/template.php:297 public/util.php:108
 msgid "Caused by:"
 msgstr ""
