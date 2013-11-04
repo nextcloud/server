@@ -308,14 +308,9 @@ class OC {
 			self::$session = new \OC\Session\Internal(OC_Util::getInstanceId());
 			// if session cant be started break with http 500 error
 		} catch (Exception $e) {
-			OC_Log::write('core', 'Session could not be initialized. Exception message: '.$e->getMessage(),
-				OC_Log::ERROR);
-			header('HTTP/1.1 500 Internal Server Error');
-			OC_Util::addStyle("styles");
-			$error = 'Session could not be initialized. Please contact your ';
-			$error .= 'system administrator.';
-
-			OC_Template::printErrorPage($error);
+			//show the user a detailed error page
+			OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);
+			OC_Template::printExceptionErrorPage($e);
 		}
 
 		$sessionLifeTime = self::getSessionLifeTime();
