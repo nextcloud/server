@@ -276,7 +276,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 		if (isset($this->fileinfo_cache['fileid'])) {
 			$instanceId = OC_Util::getInstanceId();
 			$id = sprintf('%08d', $this->fileinfo_cache['fileid']);
-			return $instanceId . $id;
+			return $id . $instanceId;
 		}
 
 		return null;
