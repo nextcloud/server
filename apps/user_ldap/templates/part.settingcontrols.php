@@ -1,5 +1,5 @@
 <div class="ldapSettingControls">
-	<input class="ldap_submit" value="Save">
+	<input class="ldap_submit" value="Save" type="submit">
 	<button class="ldap_action_test_connection" name="ldap_action_test_connection">
 		<?php p($l->t('Test Configuration'));?>
 	</button>

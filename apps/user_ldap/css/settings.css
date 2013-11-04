@@ -80,6 +80,10 @@
 	height: 15px;
 }
 
+.ldapSettingControls {
+	margin-top: 3ex;
+}
+
 #ldap fieldset p label {
 	width: 20%;
 	max-width: 200px;
@@ -88,6 +92,10 @@
 	text-align: right;
 	padding-top: 9px;
 	padding-right: 5px;
+}
+
+#ldap fieldset input[type=submit] {
+	width: auto;
 }
 
 #ldap fieldset input, #ldap fieldset textarea {
