@@ -240,6 +240,7 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 			array(0, false, false, false),
 			array(0, false, \OC::$SERVERROOT . '/tests/data/lorem.txt', false),
 			array(filesize(\OC::$SERVERROOT . '/tests/data/lorem.txt'), true, \OC::$SERVERROOT . '/tests/data/lorem.txt', \OC::$SERVERROOT . '/tests/data/lorem-copy.txt'),
+			array(3670, true, \OC::$SERVERROOT . '/tests/data/testimage.png', \OC::$SERVERROOT . '/tests/data/testimage-copy.png'),
 		);
 	}
 }
