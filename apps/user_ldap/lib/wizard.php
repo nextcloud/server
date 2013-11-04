@@ -81,7 +81,7 @@ class Wizard extends LDAPUtility {
 		}
 		$cr = $this->getConnection();
 		if(!$cr) {
-			throw new \Excpetion('Could not connect to LDAP');
+			throw new \Exception('Could not connect to LDAP');
 		}
 		$rr = $this->ldap->search($cr, $base, $filter, array('dn'));
 		if(!$this->ldap->isResource($rr)) {
@@ -108,7 +108,7 @@ class Wizard extends LDAPUtility {
 
 		$cr = $this->getConnection();
 		if(!$cr) {
-			throw new \Excpetion('Could not connect to LDAP');
+			throw new \Exception('Could not connect to LDAP');
 		}
 
 		$base = $this->configuration->ldapBase[0];
@@ -169,7 +169,7 @@ class Wizard extends LDAPUtility {
 		}
 		$cr = $this->getConnection();
 		if(!$cr) {
-			throw new \Excpetion('Could not connect to LDAP');
+			throw new \Exception('Could not connect to LDAP');
 		}
 
 		$base = $this->configuration->ldapBase[0];
@@ -222,7 +222,7 @@ class Wizard extends LDAPUtility {
 		}
 		$cr = $this->getConnection();
 		if(!$cr) {
-			throw new \Excpetion('Could not connect to LDAP');
+			throw new \Exception('Could not connect to LDAP');
 		}
 
 		$obclasses = array('posixGroup', 'group', '*');
@@ -274,7 +274,7 @@ class Wizard extends LDAPUtility {
 		}
 		$cr = $this->getConnection();
 		if(!$cr) {
-			throw new \Excpetion('Could not connect to LDAP');
+			throw new \Exception('Could not connect to LDAP');
 		}
 
 		$obclasses = array('group', 'posixGroup', '*');
@@ -302,7 +302,7 @@ class Wizard extends LDAPUtility {
 		}
 		$cr = $this->getConnection();
 		if(!$cr) {
-			throw new \Excpetion('Could not connect to LDAP');
+			throw new \Exception('Could not connect to LDAP');
 		}
 
 		$obclasses = array('inetOrgPerson', 'person', 'organizationalPerson',
@@ -498,7 +498,7 @@ class Wizard extends LDAPUtility {
 		}
 		$cr = $this->getConnection();
 		if(!$cr) {
-			throw new \Excpetion('Could not connect to LDAP');
+			throw new \Exception('Could not connect to LDAP');
 		}
 		$base = $this->configuration->ldapBase[0];
 		$rr = $this->ldap->search($cr, $base, $filter, $possibleAttrs);
@@ -534,7 +534,7 @@ class Wizard extends LDAPUtility {
 	private function testBaseDN($base) {
 		$cr = $this->getConnection();
 		if(!$cr) {
-			throw new \Excpetion('Could not connect to LDAP');
+			throw new \Exception('Could not connect to LDAP');
 		}
 
 		//base is there, let's validate it. If we search for anything, we should
@@ -556,7 +556,7 @@ class Wizard extends LDAPUtility {
 	private function testMemberOf() {
 		$cr = $this->getConnection();
 		if(!$cr) {
-			throw new \Excpetion('Could not connect to LDAP');
+			throw new \Exception('Could not connect to LDAP');
 		}
 		if(!is_array($this->configuration->ldapBase)
 		   || !isset($this->configuration->ldapBase[0])) {
@@ -616,7 +616,7 @@ class Wizard extends LDAPUtility {
 						$filter .= '(|';
 						$cr = $this->getConnection();
 						if(!$cr) {
-							throw new \Excpetion('Could not connect to LDAP');
+							throw new \Exception('Could not connect to LDAP');
 						}
 						$base = $this->configuration->ldapBase[0];
 						foreach($cns as $cn) {
@@ -890,7 +890,7 @@ class Wizard extends LDAPUtility {
 	private function determineFeature($objectclasses, $attr, $dbkey, $confkey, $po = false) {
 		$cr = $this->getConnection();
 		if(!$cr) {
-			throw new \Excpetion('Could not connect to LDAP');
+			throw new \Exception('Could not connect to LDAP');
 		}
 		$p = 'objectclass=';
 		foreach($objectclasses as $key => $value) {
