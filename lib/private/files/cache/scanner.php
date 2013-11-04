@@ -64,7 +64,7 @@ class Scanner extends BasicEmitter {
 	public function getData($path) {
 		if (!$this->storage->isReadable($path)) {
 			//cant read, nothing we can do
-			\OCP\Util::writeLog('OC\Files\Cache\Scanner', "!!! Path '$path' is not readable !!!", \OCP\Util::ERROR);
+			\OCP\Util::writeLog('OC\Files\Cache\Scanner', "!!! Path '$path' is not readable !!!", \OCP\Util::DEBUG);
 			return null;
 		}
 		$data = array();
@@ -146,7 +146,9 @@ class Scanner extends BasicEmitter {
 						if (isset($newData['etag'])) {
 							$cacheDataString = print_r($cacheData, true);
 							$dataString = print_r($data, true);
-							\OCP\Util::writeLog('OC\Files\Cache\Scanner', "!!! No reuse of etag for '$file' !!! \ncache: $cacheDataString \ndata: $dataString", \OCP\Util::ERROR);
+							\OCP\Util::writeLog('OC\Files\Cache\Scanner',
+								"!!! No reuse of etag for '$file' !!! \ncache: $cacheDataString \ndata: $dataString",
+								\OCP\Util::DEBUG);
 						}
 					}
 				}
