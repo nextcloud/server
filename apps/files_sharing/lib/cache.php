@@ -103,7 +103,7 @@ class Shared_Cache extends Cache {
 			$data['encrypted'] = (bool)$data['encrypted'];
 			$data['mimetype'] = $this->getMimetype($data['mimetype']);
 			$data['mimepart'] = $this->getMimetype($data['mimepart']);
-			if ($data['storage_mtime'] == 0) {
+			if ($data['storage_mtime'] === 0) {
 				$data['storage_mtime'] = $data['mtime'];
 			}
 			return $data;
