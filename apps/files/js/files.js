@@ -357,24 +357,26 @@ $(document).ready(function() {
 			Files.updateMaxUploadFilesize(response);
 		});
 	}
+	// only possible at the moment if user is logged in
+	if (OC.currentUser) {
+		// start on load - we ask the server every 5 minutes
+		var update_storage_statistics_interval = 5*60*1000;
+		var update_storage_statistics_interval_id = setInterval(update_storage_statistics, update_storage_statistics_interval);
 
-	// start on load - we ask the server every 5 minutes
-	var update_storage_statistics_interval = 5*60*1000;
-	var update_storage_statistics_interval_id = setInterval(update_storage_statistics, update_storage_statistics_interval);
-
-	// Use jquery-visibility to de-/re-activate file stats sync
-	if ($.support.pageVisibility) {
-		$(document).on({
-			'show.visibility': function() {
-				if (!update_storage_statistics_interval_id) {
-					update_storage_statistics_interval_id = setInterval(update_storage_statistics, update_storage_statistics_interval);
+		// Use jquery-visibility to de-/re-activate file stats sync
+		if ($.support.pageVisibility) {
+			$(document).on({
+				'show.visibility': function() {
+					if (!update_storage_statistics_interval_id) {
+						update_storage_statistics_interval_id = setInterval(update_storage_statistics, update_storage_statistics_interval);
+					}
+				},
+				'hide.visibility': function() {
+					clearInterval(update_storage_statistics_interval_id);
+					update_storage_statistics_interval_id = 0;
 				}
-			},
-			'hide.visibility': function() {
-				clearInterval(update_storage_statistics_interval_id);
-				update_storage_statistics_interval_id = 0;
-			}
-		});
+			});
+		}
 	}
 
 	//scroll to and highlight preselected file
