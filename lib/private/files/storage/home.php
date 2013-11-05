@@ -19,10 +19,9 @@ class Home extends Local {
 
 	public function __construct($arguments) {
 		$this->user = $arguments['user'];
-		$this->datadir = $this->user->getHome();
-		if (substr($this->datadir, -1) !== '/') {
-			$this->datadir .= '/';
-		}
+		$datadir = $this->user->getHome();
+
+		parent::__construct(array('datadir' => $datadir));
 	}
 
 	public function getId() {
