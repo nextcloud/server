@@ -27,13 +27,46 @@ namespace OC\Files\Cache;
 class Shared_Watcher extends Watcher {
 
 	/**
+	 * @brief get file owner and path
+	 * @param string $filename
+	 * @return array with the oweners uid and the owners path
+	 */
+	private static function getUidAndFilename($filename) {
+		// FIXME: duplicate of Updater::getUidAndFilename()
+		$uid = \OC\Files\Filesystem::getOwner($filename);
+		\OC\Files\Filesystem::initMountPoints($uid);
+
+		if ($uid != \OCP\User::getUser()) {
+			$info = \OC\Files\Filesystem::getFileInfo($filename);
+			$ownerView = new \OC\Files\View('/' . $uid . '/files');
+			$filename = $ownerView->getPath($info['fileid']);
+		}
+		return array($uid, '/files/' . $filename);
+	}
+
+	/**
 	 * check $path for updates
 	 *
 	 * @param string $path
 	 */
 	public function checkUpdate($path) {
-		if ($path != '') {
-			parent::checkUpdate($path);
+		if ($path != '' && parent::checkUpdate($path)) {
+			// since checkUpdate() has already updated the size of the subdirs,
+			// only apply the update to the owner's parent dirs
+
+			// find last parent before reaching the shared storage root,
+			// which is the actual shared dir from the owner
+			$baseDir = substr($path, 0, strpos($path, '/'));
+
+			// find the path relative to the data dir
+			$file = $this->storage->getFile($baseDir);
+			$view = new \OC\Files\View('/' . $file['fileOwner']);
+
+			// find the owner's storage and path
+			list($storage, $internalPath) = $view->resolvePath($file['path']);
+
+			// update the parent dirs' sizes in the owner's cache
+			$storage->getCache()->correctFolderSize(dirname($internalPath));
 		}
 	}
 
