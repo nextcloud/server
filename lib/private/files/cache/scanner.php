@@ -62,8 +62,12 @@ class Scanner extends BasicEmitter {
 	 * @return array with metadata of the file
 	 */
 	public function getData($path) {
+		if (!$this->storage->isReadable($path)) {
+			//cant read, nothing we can do
+			\OCP\Util::writeLog('OC\Files\Cache\Scanner', "!!! Path '$path' is not readable !!!", \OCP\Util::DEBUG);
+			return null;
+		}
 		$data = array();
-		if (!$this->storage->isReadable($path)) return null; //cant read, nothing we can do
 		$data['mimetype'] = $this->storage->getMimeType($path);
 		$data['mtime'] = $this->storage->filemtime($path);
 		if ($data['mimetype'] == 'httpd/unix-directory') {
@@ -104,7 +108,9 @@ class Scanner extends BasicEmitter {
 				$newData = $data;
 				$cacheData = $this->cache->get($file);
 				if ($cacheData) {
-					$this->permissionsCache->remove($cacheData['fileid']);
+					if (isset($cacheData['fileid'])) {
+						$this->permissionsCache->remove($cacheData['fileid']);
+					}
 					if ($reuseExisting) {
 						// prevent empty etag
 						$etag = $cacheData['etag'];
@@ -136,7 +142,14 @@ class Scanner extends BasicEmitter {
 							}
 						}
 						// Only update metadata that has changed
-						$newData = array_diff($data, $cacheData);
+						$newData = array_diff_assoc($data, $cacheData);
+						if (isset($newData['etag'])) {
+							$cacheDataString = print_r($cacheData, true);
+							$dataString = print_r($data, true);
+							\OCP\Util::writeLog('OC\Files\Cache\Scanner',
+								"!!! No reuse of etag for '$file' !!! \ncache: $cacheDataString \ndata: $dataString",
+								\OCP\Util::DEBUG);
+						}
 					}
 				}
 				if (!empty($newData)) {

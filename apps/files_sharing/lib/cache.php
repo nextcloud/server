@@ -99,9 +99,13 @@ class Shared_Cache extends Cache {
 			$data['fileid'] = (int)$data['fileid'];
 			$data['size'] = (int)$data['size'];
 			$data['mtime'] = (int)$data['mtime'];
+			$data['storage_mtime'] = (int)$data['storage_mtime'];
 			$data['encrypted'] = (bool)$data['encrypted'];
 			$data['mimetype'] = $this->getMimetype($data['mimetype']);
 			$data['mimepart'] = $this->getMimetype($data['mimepart']);
+			if ($data['storage_mtime'] === 0) {
+				$data['storage_mtime'] = $data['mtime'];
+			}
 			return $data;
 		}
 		return false;
