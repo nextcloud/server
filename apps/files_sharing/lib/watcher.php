@@ -38,7 +38,12 @@ class Shared_Watcher extends Watcher {
 
 			// find last parent before reaching the shared storage root,
 			// which is the actual shared dir from the owner
-			$baseDir = substr($path, 0, strpos($path, '/'));
+			$sepPos = strpos($path, '/');
+			if ($sepPos > 0) {
+				$baseDir = substr($path, 0, $sepPos);
+			} else {
+				$baseDir = $path;
+			}
 
 			// find the path relative to the data dir
 			$file = $this->storage->getFile($baseDir);
@@ -49,7 +54,10 @@ class Shared_Watcher extends Watcher {
 
 			// update the parent dirs' sizes in the owner's cache
 			$storage->getCache()->correctFolderSize(dirname($internalPath));
+
+			return true;
 		}
+		return false;
 	}
 
 	/**
