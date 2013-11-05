@@ -27,24 +27,6 @@ namespace OC\Files\Cache;
 class Shared_Watcher extends Watcher {
 
 	/**
-	 * @brief get file owner and path
-	 * @param string $filename
-	 * @return array with the oweners uid and the owners path
-	 */
-	private static function getUidAndFilename($filename) {
-		// FIXME: duplicate of Updater::getUidAndFilename()
-		$uid = \OC\Files\Filesystem::getOwner($filename);
-		\OC\Files\Filesystem::initMountPoints($uid);
-
-		if ($uid != \OCP\User::getUser()) {
-			$info = \OC\Files\Filesystem::getFileInfo($filename);
-			$ownerView = new \OC\Files\View('/' . $uid . '/files');
-			$filename = $ownerView->getPath($info['fileid']);
-		}
-		return array($uid, '/files/' . $filename);
-	}
-
-	/**
 	 * check $path for updates
 	 *
 	 * @param string $path
