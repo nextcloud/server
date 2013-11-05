@@ -320,8 +320,9 @@ table.dragshadow {
 	width:auto;
 }
 table.dragshadow td.filename {
-	padding-left:36px;
+	padding-left:60px;
 	padding-right:16px;
+	height: 36px;
 }
 table.dragshadow td.size {
 	padding-right:8px;

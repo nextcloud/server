@@ -28,7 +28,7 @@ function determineIcon($file, $sharingRoot, $sharingToken) {
 	$relativePath = substr($file['path'], 6);
 	$relativePath = substr($relativePath, strlen($sharingRoot));
 	if($file['isPreviewAvailable']) {
-		return OCP\publicPreview_icon($relativePath, $sharingToken);
+		return OCP\publicPreview_icon($relativePath, $sharingToken) . '&c=' . $file['etag'];
 	}
 	return OCP\mimetype_icon($file['mimetype']);
 }

@@ -20,6 +20,17 @@ Files={
 		}
 
 	},
+
+	/**
+	 * Fix path name by removing double slash at the beginning, if any
+	 */
+	fixPath: function(fileName) {
+		if (fileName.substr(0, 2) == '//') {
+			return fileName.substr(1);
+		}
+		return fileName;
+	},
+
 	isFileNameValid:function (name) {
 		if (name === '.') {
 			throw t('files', '\'.\' is an invalid file name.');
@@ -457,9 +468,9 @@ var createDragShadow = function(event) {
 			newtr.find('td.filename').attr('style','background-image:url('+OC.imagePath('core', 'filetypes/folder.png')+')');
 		} else {
 			var path = getPathForPreview(elem.name);
-			lazyLoadPreview(path, elem.mime, function(previewpath) {
+			Files.lazyLoadPreview(path, elem.mime, function(previewpath) {
 				newtr.find('td.filename').attr('style','background-image:url('+previewpath+')');
-			});
+			}, null, null, elem.etag);
 		}
 	});
 
@@ -469,7 +480,7 @@ var createDragShadow = function(event) {
 //options for file drag/drop
 var dragOptions={
 	revert: 'invalid', revertDuration: 300,
-	opacity: 0.7, zIndex: 100, appendTo: 'body', cursorAt: { left: -5, top: -5 },
+	opacity: 0.7, zIndex: 100, appendTo: 'body', cursorAt: { left: 24, top: 18 },
 	helper: createDragShadow, cursor: 'move',
 	stop: function(event, ui) {
 		$('#fileList tr td.filename').addClass('ui-draggable');
@@ -615,7 +626,8 @@ function getSelectedFilesTrash(property) {
 			name:$(element).attr('data-file'),
 			mime:$(element).data('mime'),
 			type:$(element).data('type'),
-			size:$(element).data('size')
+			size:$(element).data('size'),
+			etag:$(element).data('etag')
 		};
 		if (property) {
 			files.push(file[property]);
@@ -626,26 +638,28 @@ function getSelectedFilesTrash(property) {
 	return files;
 }
 
-function getMimeIcon(mime, ready) {
-	if (getMimeIcon.cache[mime]) {
-		ready(getMimeIcon.cache[mime]);
+Files.getMimeIcon = function(mime, ready) {
+	if (Files.getMimeIcon.cache[mime]) {
+		ready(Files.getMimeIcon.cache[mime]);
 	} else {
 		$.get( OC.filePath('files','ajax','mimeicon.php'), {mime: mime}, function(path) {
-			getMimeIcon.cache[mime]=path;
-			ready(getMimeIcon.cache[mime]);
+			Files.getMimeIcon.cache[mime]=path;
+			ready(Files.getMimeIcon.cache[mime]);
 		});
 	}
 }
-getMimeIcon.cache={};
+Files.getMimeIcon.cache={};
 
 function getPathForPreview(name) {
 	var path = $('#dir').val() + '/' + name;
 	return path;
 }
 
-function lazyLoadPreview(path, mime, ready, width, height) {
+Files.lazyLoadPreview = function(path, mime, ready, width, height, etag) {
 	// get mime icon url
-	getMimeIcon(mime, function(iconURL) {
+	Files.getMimeIcon(mime, function(iconURL) {
+		var urlSpec = {};
+		var previewURL;
 		ready(iconURL); // set mimeicon URL
 
 		// now try getting a preview thumbnail URL
@@ -655,25 +669,38 @@ function lazyLoadPreview(path, mime, ready, width, height) {
 		if ( ! height ) {
 			height = $('#filestable').data('preview-y');
 		}
-		if ( $('#publicUploadButtonMock').length ) {
-			var previewURL = OC.Router.generate('core_ajax_public_preview', {file: path, x:width, y:height, t:$('#dirToken').val()});
-		} else {
-			var previewURL = OC.Router.generate('core_ajax_preview', {file: path, x:width, y:height});
-		}
-		$.get(previewURL, function() {
-			previewURL = previewURL.replace('(', '%28');
-			previewURL = previewURL.replace(')', '%29');
-			previewURL += '&reload=true';
+		// note: the order of arguments must match the one
+		// from the server's template so that the browser
+		// knows it's the same file for caching
+		urlSpec.x = width;
+		urlSpec.y = height;
+		urlSpec.file = Files.fixPath(path);
 
-			// preload image to prevent delay
-			// this will make the browser cache the image
-			var img = new Image();
-			img.onload = function(){
-				//set preview thumbnail URL
-				ready(previewURL);
-			}
-			img.src = previewURL;
-		});
+		if (etag){
+			// use etag as cache buster
+			urlSpec.c = etag;
+		}
+		else {
+			console.warn('Files.lazyLoadPreview(): missing etag argument');
+		}
+
+		if ( $('#publicUploadButtonMock').length ) {
+			urlSpec.t = $('#dirToken').val();
+			previewURL = OC.Router.generate('core_ajax_public_preview', urlSpec);
+		} else {
+			previewURL = OC.Router.generate('core_ajax_preview', urlSpec);
+		}
+		previewURL = previewURL.replace('(', '%28');
+		previewURL = previewURL.replace(')', '%29');
+
+		// preload image to prevent delay
+		// this will make the browser cache the image
+		var img = new Image();
+		img.onload = function(){
+			//set preview thumbnail URL
+			ready(previewURL);
+		}
+		img.src = previewURL;
 	});
 }
 

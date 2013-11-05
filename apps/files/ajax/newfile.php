@@ -89,7 +89,7 @@ if($source) {
 		$meta = \OC\Files\Filesystem::getFileInfo($target);
 		$mime=$meta['mimetype'];
 		$id = $meta['fileid'];
-		$eventSource->send('success', array('mime'=>$mime, 'size'=>\OC\Files\Filesystem::filesize($target), 'id' => $id));
+		$eventSource->send('success', array('mime'=>$mime, 'size'=>\OC\Files\Filesystem::filesize($target), 'id' => $id, 'etag' => $meta['etag']));
 	} else {
 		$eventSource->send('error', $l10n->t('Error while downloading %s to %s', array($source, $target)));
 	}
@@ -119,6 +119,7 @@ if($source) {
 			'mime' => $mime,
 			'size' => $size,
 			'content' => $content,
+			'etag' => $meta['etag'],
 		)));
 		exit();
 	}

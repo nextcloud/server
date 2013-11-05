@@ -294,14 +294,14 @@ var OCdialogs = {
 				conflict.find('.replacement .mtime').text(formatDate(replacement.lastModifiedDate));
 			}
 			var path = getPathForPreview(original.name);
-			lazyLoadPreview(path, original.mime, function(previewpath){
+			Files.lazyLoadPreview(path, original.mime, function(previewpath){
 				conflict.find('.original .icon').css('background-image','url('+previewpath+')');
-			}, 96, 96);
+			}, 96, 96, original.etag);
 			getCroppedPreview(replacement).then(
 				function(path){
 					conflict.find('.replacement .icon').css('background-image','url(' + path + ')');
 				}, function(){
-					getMimeIcon(replacement.type,function(path){
+					Files.getMimeIcon(replacement.type,function(path){
 						conflict.find('.replacement .icon').css('background-image','url(' + path + ')');
 					});
 				}
