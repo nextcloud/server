@@ -465,7 +465,7 @@ class OC_DB {
 		if ($stmt instanceof PDOStatementWrapper || $stmt instanceof MDB2_Statement_Common) {
 			/** @var $stmt PDOStatementWrapper|MDB2_Statement_Common */
 			$result = $stmt->execute($parameters);
-			self::raiseExceptionOnError($result, 'Could not execute statement');
+			self::raiseExceptionOnError($result, 'Could not execute statement', $parameters);
 		} else {
 			if (is_object($stmt)) {
 				$message = 'Expected a prepared statement or array got ' . get_class($stmt);
@@ -591,6 +591,8 @@ class OC_DB {
 		}
 
 		file_put_contents( $file2, $content );
+
+		\OC_Log::write('db','creating table from schema: '.$content,\OC_Log::DEBUG);
 
 		// Try to create tables
 		$definition = self::$schema->parseDatabaseDefinitionFile( $file2 );
@@ -1058,12 +1060,15 @@ class OC_DB {
 	 * @return void
 	 * @throws DatabaseException
 	 */
-	public static function raiseExceptionOnError($result, $message = null) {
+	public static function raiseExceptionOnError($result, $message = null, array $params = null) {
 		if(self::isError($result)) {
 			if ($message === null) {
 				$message = self::getErrorMessage($result);
 			} else {
 				$message .= ', Root cause:' . self::getErrorMessage($result);
+			}
+			if ($params) {
+				$message .= ', params: ' . json_encode($params);
 			}
 			throw new DatabaseException($message, self::getErrorCode($result));
 		}
