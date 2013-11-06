@@ -85,7 +85,7 @@ $_['subadmingroups'] = array_flip($items);
 			<th id='headerAvatar'></th>
 			<?php endif; ?>
 			<th id='headerName'><?php p($l->t('Username'))?></th>
-			<th id="headerDisplayName"><?php p($l->t( 'Display Name' )); ?></th>
+			<th id="headerDisplayName"><?php p($l->t( 'Full Name' )); ?></th>
 			<th id="headerPassword"><?php p($l->t( 'Password' )); ?></th>
 			<th id="headerGroups"><?php p($l->t( 'Groups' )); ?></th>
 			<?php if(is_array($_['subadmins']) || $_['subadmins']): ?>
@@ -105,7 +105,7 @@ $_['subadmingroups'] = array_flip($items);
 			<td class="name"><?php p($user["name"]); ?></td>
 			<td class="displayName"><span><?php p($user["displayName"]); ?></span> <img class="svg action"
 				src="<?php p(image_path('core', 'actions/rename.svg'))?>"
-				alt="<?php p($l->t("change display name"))?>" title="<?php p($l->t("change display name"))?>"/>
+				alt="<?php p($l->t("change full name"))?>" title="<?php p($l->t("change full name"))?>"/>
 			</td>
 			<td class="password"><span>●●●●●●●</span> <img class="svg action"
 				src="<?php print_unescaped(image_path('core', 'actions/rename.svg'))?>"

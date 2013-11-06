@@ -55,7 +55,7 @@ if($_['displayNameChangeSupported']) {
 ?>
 <form id="displaynameform">
 	<fieldset class="personalblock">
-		<h2><?php echo $l->t('Display Name');?></h2>
+		<h2><?php echo $l->t('Full Name');?></h2>
 		<input type="text" id="displayName" name="displayName" value="<?php p($_['displayName'])?>" />
         <span class="msg"></span>
 		<input type="hidden" id="oldDisplayName" name="oldDisplayName" value="<?php p($_['displayName'])?>" />
