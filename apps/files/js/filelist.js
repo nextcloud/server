@@ -571,24 +571,12 @@ var FileList={
 				});
 	},
 	createFileSummary: function() {
-		if ( $('#fileList tr').exists() ) {
-			var totalDirs = 0;
-			var totalFiles = 0;
-			var totalSize = 0;
-
-			// Count types and filesize
-			$.each($('tr[data-file]'), function(index, value) {
-				if ($(value).data('type') === 'dir') {
-					totalDirs++;
-				} else if ($(value).data('type') === 'file') {
-					totalFiles++;
-				}
-				totalSize += parseInt($(value).data('size'));
-			});
+		if( $('#fileList tr').exists() ) {
+			var summary = this._calculateFileSummary();
 
 			// Get translations
-			var directoryInfo = n('files', '%n folder', '%n folders', totalDirs);
-			var fileInfo = n('files', '%n file', '%n files', totalFiles);
+			var directoryInfo = n('files', '%n folder', '%n folders', summary.totalDirs);
+			var fileInfo = n('files', '%n file', '%n files', summary.totalFiles);
 
 			var infoVars = {
 				dirs: '<span class="dirinfo">'+directoryInfo+'</span><span class="connector">',
@@ -598,10 +586,10 @@ var FileList={
 			var info = t('files', '{dirs} and {files}', infoVars);
 
 			// don't show the filesize column, if filesize is NaN (e.g. in trashbin)
-			if (isNaN(totalSize)) {
+			if (isNaN(summary.totalSize)) {
 				var fileSize = '';
 			} else {
-				var fileSize = '<td class="filesize">'+humanFileSize(totalSize)+'</td>';
+				var fileSize = '<td class="filesize">'+humanFileSize(summary.totalSize)+'</td>';
 			}
 
 			var $summary = $('<tr class="summary"><td><span class="info">'+info+'</span></td>'+fileSize+'<td></td></tr>');
@@ -622,6 +610,26 @@ var FileList={
 			}
 		}
 	},
+	_calculateFileSummary: function() {
+		var result = {
+			totalDirs: 0,
+			totalFiles: 0,
+			totalSize: 0
+		};
+		$.each($('tr[data-file]'), function(index, value) {
+			var $value = $(value);
+			if ($value.data('type') === 'dir') {
+				result.totalDirs++;
+			} else if ($value.data('type') === 'file') {
+				result.totalFiles++;
+			}
+			if ($value.data('size') !== undefined && $value.data('id') !== -1) {
+				//Skip shared as it does not count toward quota
+				result.totalSize += parseInt($value.data('size'));
+			}
+		});
+		return result;
+	},
 	updateFileSummary: function() {
 		var $summary = $('.summary');
 
@@ -635,28 +643,15 @@ var FileList={
 		}
 		// There's a summary and data -> Update the summary
 		else if ($('#fileList tr').length > 1 && $summary.length === 1) {
-			var totalDirs = 0;
-			var totalFiles = 0;
-			var totalSize = 0;
-			$.each($('tr[data-file]'), function(index, value) {
-				if ($(value).data('type') === 'dir') {
-					totalDirs++;
-				} else if ($(value).data('type') === 'file') {
-					totalFiles++;
-				}
-				if ($(value).data('size') !== undefined) {
-					totalSize += parseInt($(value).data('size'));
-				}
-			});
-
+			var fileSummary = this._calculateFileSummary();
 			var $dirInfo = $('.summary .dirinfo');
 			var $fileInfo = $('.summary .fileinfo');
 			var $connector = $('.summary .connector');
 
 			// Substitute old content with new translations
-			$dirInfo.html(n('files', '%n folder', '%n folders', totalDirs));
-			$fileInfo.html(n('files', '%n file', '%n files', totalFiles));
-			$('.summary .filesize').html(humanFileSize(totalSize));
+			$dirInfo.html(n('files', '%n folder', '%n folders', fileSummary.totalDirs));
+			$fileInfo.html(n('files', '%n file', '%n files', fileSummary.totalFiles));
+			$('.summary .filesize').html(humanFileSize(fileSummary.totalSize));
 
 			// Show only what's necessary (may be hidden)
 			if ($dirInfo.html().charAt(0) === "0") {
