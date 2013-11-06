@@ -55,11 +55,11 @@ class Test_Files_Sharing_Watcher extends Test_Files_Sharing_Base {
 	function tearDown() {
 		$this->sharedCache->clear();
 
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
 		$fileinfo = $this->view->getFileInfo('container/shareddir');
 		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
 			self::TEST_FILES_SHARING_API_USER2);
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$this->view->deleteAll('container');
 

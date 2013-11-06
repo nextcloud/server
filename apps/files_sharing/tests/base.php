@@ -29,7 +29,7 @@ use OCA\Files\Share;
  *
  * Base class for sharing tests.
  */
-class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
+abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
 
 	const TEST_FILES_SHARING_API_USER1 = "test-share-user1";
 	const TEST_FILES_SHARING_API_USER2 = "test-share-user2";
