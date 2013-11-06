@@ -554,6 +554,7 @@ var FileList={
 						checkTrashStatus();
 						FileList.updateFileSummary();
 						FileList.updateEmptyContent();
+						Files.updateStorageStatistics();
 					} else {
 						$.each(files,function(index,file) {
 							var deleteAction = $('tr[data-file="'+files[i]+'"]').children("td.date").children(".action.delete");
