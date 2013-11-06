@@ -561,9 +561,29 @@ class OC_DB {
 	 * TODO: write more documentation
 	 */
 	public static function createDbFromStructure( $file ) {
-		$CONFIG_DBNAME  = OC_Config::getValue( "dbname", "owncloud" );
-		$CONFIG_DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
-		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
+		$CONFIG_DBNAME  = OC_Config::getValue('dbname', 'owncloud');
+		$CONFIG_DBTABLEPREFIX = OC_Config::getValue('dbtableprefix', 'oc_');
+		$CONFIG_DBTYPE = OC_Config::getValue('dbtype', 'sqlite');
+		$CONFIG_DBHOST = OC_Config::getValue('dbhost', '');
+
+		if( $CONFIG_DBTYPE === 'oci'
+			&& $CONFIG_DBNAME === '' 
+			&& $CONFIG_DBHOST !== null && $CONFIG_DBHOST !== ''
+		) {
+			// we are connecting by user name, pwd and SID (host)
+			$CONFIG_DBUSER = OC_Config::getValue('dbuser', '');
+			$CONFIG_DBPASSWORD = OC_Config::getValue('dbpassword');
+			if ($CONFIG_DBUSER !== ''
+				&& $CONFIG_DBPASSWORD !== ''
+			) {
+				// use dbuser as dbname
+				$CONFIG_DBNAME = $CONFIG_DBUSER;
+			} else {
+				throw new DatabaseException('Please specify '
+					.'username and password when '
+					.'connecting via SID as the hostname.');
+			}
+		}
 
 		// cleanup the cached queries
 		self::$preparedQueries = array();
