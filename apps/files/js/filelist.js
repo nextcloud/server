@@ -152,6 +152,9 @@ var FileList={
 		FileActions.display(tr.find('td.filename'), true);
 		return tr;
 	},
+	getCurrentDirectory: function(){
+		return $('#dir').val() || '/';
+	},
 	/**
 	 * @brief Changes the current directory and reload the file list.
 	 * @param targetDir target directory (non URL encoded)
@@ -223,6 +226,10 @@ var FileList={
 			FileList.changeDirectory('/');
 			return;
 		}
+
+		// TODO: should rather return upload file size through
+		// the files list ajax call
+		Files.updateStorageStatistics(true);
 
 		if (result.data.permissions) {
 			FileList.setDirectoryPermissions(result.data.permissions);

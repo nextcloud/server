@@ -2,16 +2,23 @@ Files={
 	// file space size sync
 	_updateStorageStatistics: function() {
 		Files._updateStorageStatisticsTimeout = null;
-		if (Files.updateStorageStatistics.running){
-			return;
+		var currentDir = FileList.getCurrentDirectory(),
+			state = Files.updateStorageStatistics;
+		if (state.dir){
+			if (state.dir === currentDir) {
+				return;
+			}
+			// cancel previous call, as it was for another dir
+			state.call.abort();
 		}
-		Files.updateStorageStatistics.running = true;
-		$.getJSON(OC.filePath('files','ajax','getstoragestats.php'),function(response) {
-			Files.updateStorageStatistics.running = false;
+		state.dir = currentDir;
+		state.call = $.getJSON(OC.filePath('files','ajax','getstoragestats.php') + '?dir=' + encodeURIComponent(currentDir),function(response) {
+			state.dir = null;
+			state.call = null;
 			Files.updateMaxUploadFilesize(response);
 		});
 	},
-	updateStorageStatistics: function() {
+	updateStorageStatistics: function(force) {
 		if (!OC.currentUser) {
 			return;
 		}
@@ -20,7 +27,12 @@ Files={
 		if (Files._updateStorageStatisticsTimeout) {
 			clearTimeout(Files._updateStorageStatisticsTimeout);
 		}
-		Files._updateStorageStatisticsTimeout = setTimeout(Files._updateStorageStatistics, 1000);
+		if (force) {
+			Files._updateStorageStatistics();
+		}
+		else {
+			Files._updateStorageStatisticsTimeout = setTimeout(Files._updateStorageStatistics, 250);
+		}
 	},
 
 	updateMaxUploadFilesize:function(response) {
