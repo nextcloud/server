@@ -404,7 +404,7 @@ $(document).ready(function() {
 				
 				$('#uploadprogresswrapper input.stop').fadeOut();
 				$('#uploadprogressbar').fadeOut();
-				
+			    Files.updateStorageStatistics();
 			});
 			fileupload.on('fileuploadfail', function(e, data) {
 				OC.Upload.log('progress handle fileuploadfail', e, data);
