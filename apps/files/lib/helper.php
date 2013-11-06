@@ -30,7 +30,7 @@ class Helper
 					if ($sid[0] === 'shared') {
 						return \OC_Helper::mimetypeIcon('dir-shared');
 					}
-					if ($sid[0] !== 'local') {
+					if ($sid[0] !== 'local' and $sid[0] !== 'home') {
 						return \OC_Helper::mimetypeIcon('dir-external');
 					}
 				}
