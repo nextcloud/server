@@ -139,12 +139,12 @@ class Jobs extends \OC\BackgroundJob\TimedJob {
 			return self::$groupBE;
 		}
 		$configPrefixes = Helper::getServerConfigurationPrefixes(true);
-		$ldapWrapper = new OCA\user_ldap\lib\LDAP();
+		$ldapWrapper = new LDAP();
 		if(count($configPrefixes) === 1) {
 			//avoid the proxy when there is only one LDAP server configured
-			$connector = new OCA\user_ldap\lib\Connection($ldapWrapper, $configPrefixes[0]);
-			$ldapAccess = new OCA\user_ldap\lib\Access($connector, $ldapWrapper);
-			self::$groupBE = new OCA\user_ldap\GROUP_LDAP($ldapAccess);
+			$connector = new Connection($ldapWrapper, $configPrefixes[0]);
+			$ldapAccess = new Access($connector, $ldapWrapper);
+			self::$groupBE = new \OCA\user_ldap\GROUP_LDAP($ldapAccess);
 		} else {
 			self::$groupBE = new \OCA\user_ldap\Group_Proxy($configPrefixes, $ldapWrapper);
 		}
