@@ -652,8 +652,8 @@ var LdapWizard = {
 $(document).ready(function() {
 	$('#ldapAdvancedAccordion').accordion({ heightStyle: 'content', animate: 'easeInOutCirc'});
 	$('#ldapSettings').tabs({ beforeActivate: LdapWizard.onTabChange });
-	$('#ldap_submit').button();
-	$('#ldap_action_test_connection').button();
+	$('.ldap_submit').button();
+	$('.ldap_action_test_connection').button();
 	$('#ldap_action_delete_configuration').button();
 	LdapWizard.initMultiSelect($('#ldap_userfilter_groups'),
 							   'ldap_userfilter_groups',
@@ -682,7 +682,7 @@ $(document).ready(function() {
 		event.preventDefault();
 		LdapWizard.controlBack();
 	});
-	$('#ldap_action_test_connection').click(function(event){
+	$('.ldap_action_test_connection').click(function(event){
 		event.preventDefault();
 		$.post(
 			OC.filePath('user_ldap','ajax','testConfiguration.php'),
@@ -716,18 +716,18 @@ $(document).ready(function() {
 		);
 	});
 
-	$('#ldap_submit').click(function(event) {
+	$('.ldap_submit').click(function(event) {
 		event.preventDefault();
 		$.post(
 			OC.filePath('user_ldap','ajax','setConfiguration.php'),
 			$('#ldap').serialize(),
 			function (result) {
-				bgcolor = $('#ldap_submit').css('background');
+				bgcolor = $('.ldap_submit').css('background');
 				if (result.status === 'success') {
 					//the dealing with colors is a but ugly, but the jQuery version in use has issues with rgba colors
-					$('#ldap_submit').css('background', '#fff');
-					$('#ldap_submit').effect('highlight', {'color':'#A8FA87'}, 5000, function() {
-						$('#ldap_submit').css('background', bgcolor);
+					$('.ldap_submit').css('background', '#fff');
+					$('.ldap_submit').effect('highlight', {'color':'#A8FA87'}, 5000, function() {
+						$('.ldap_submit').css('background', bgcolor);
 					});
 					//update the Label in the config chooser
 					caption = $('#ldap_serverconfig_chooser option:selected:first').text();
@@ -737,9 +737,9 @@ $(document).ready(function() {
 					$('#ldap_serverconfig_chooser option:selected:first').text(caption);
 
 				} else {
-					$('#ldap_submit').css('background', '#fff');
-					$('#ldap_submit').effect('highlight', {'color':'#E97'}, 5000, function() {
-						$('#ldap_submit').css('background', bgcolor);
+					$('.ldap_submit').css('background', '#fff');
+					$('.ldap_submit').effect('highlight', {'color':'#E97'}, 5000, function() {
+						$('.ldap_submit').css('background', bgcolor);
 					});
 				}
 			}
