@@ -17,6 +17,8 @@ use OC\Hooks\BasicEmitter;
  * Hooks available in scope \OC\Files\Cache\Scanner:
  *  - scanFile(string $path, string $storageId)
  *  - scanFolder(string $path, string $storageId)
+ *  - postScanFile(string $path, string $storageId)
+ *  - postScanFolder(string $path, string $storageId)
  *
  * @package OC\Files\Cache
  */
@@ -154,6 +156,8 @@ class Scanner extends BasicEmitter {
 				}
 				if (!empty($newData)) {
 					$this->cache->put($file, $newData);
+					$this->emit('\OC\Files\Cache\Scanner', 'postScanFile', array($file, $this->storageId));
+					\OC_Hook::emit('\OC\Files\Cache\Scanner', 'post_scan_file', array('path' => $file, 'storage' => $this->storageId));
 				}
 			} else {
 				$this->cache->remove($file);
@@ -258,6 +262,7 @@ class Scanner extends BasicEmitter {
 			}
 			$this->cache->put($path, array('size' => $size));
 		}
+		$this->emit('\OC\Files\Cache\Scanner', 'postScanFolder', array($path, $this->storageId));
 		return $size;
 	}
 
