@@ -12,4 +12,6 @@
 			style="height:1.75ex" />
 		<?php p($l->t('Help'));?>
 	</a>
+	<br/>
+	<span class="ldap_config_state_indicator"></span> <span class="ldap_config_state_indicator_sign"></span>
 </div>
