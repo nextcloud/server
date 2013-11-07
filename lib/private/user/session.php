@@ -170,5 +170,10 @@ class Session implements Emitter, \OCP\IUserSession {
 		setcookie('oc_username', '', time()-3600, \OC::$WEBROOT);
 		setcookie('oc_token', '', time()-3600, \OC::$WEBROOT);
 		setcookie('oc_remember_login', '', time()-3600, \OC::$WEBROOT);
+		// old cookies might be stored under /webroot/ instead of /webroot
+		// and Firefox doesn't like it!
+		setcookie('oc_username', '', time()-3600, \OC::$WEBROOT . '/');
+		setcookie('oc_token', '', time()-3600, \OC::$WEBROOT . '/');
+		setcookie('oc_remember_login', '', time()-3600, \OC::$WEBROOT . '/');
 	}
 }
