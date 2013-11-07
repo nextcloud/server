@@ -600,11 +600,11 @@ var FileList={
 			var $connector = $summary.find('.connector');
 
 			// Show only what's necessary, e.g.: no files: don't show "0 files"
-			if (totalDirs === 0) {
+			if (summary.totalDirs === 0) {
 				$dirInfo.hide();
 				$connector.hide();
 			}
-			if (totalFiles === 0) {
+			if (summary.totalFiles === 0) {
 				$fileInfo.hide();
 				$connector.hide();
 			}
