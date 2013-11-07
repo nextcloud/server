@@ -4,6 +4,7 @@ $TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Verwijderen serverconfiguratie mislukt",
 "The configuration is valid and the connection could be established!" => "De configuratie is geldig en de verbinding is geslaagd!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "De configuratie is geldig, maar Bind mislukte. Controleer de serverinstellingen en inloggegevens.",
+"The configuration is invalid. Please have a look at the logs for further details." => "De configuratie is ongeldig. Bekijk de logbestanden voor meer details.",
 "No action specified" => "Geen actie opgegeven",
 "No configuration specified" => "Geen configuratie opgegeven",
 "No data specified" => "Geen gegevens verstrekt",

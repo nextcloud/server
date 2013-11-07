@@ -2,8 +2,6 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "无法从应用商店载入列表",
 "Authentication error" => "认证出错",
-"Your display name has been changed." => "您的显示名字已经改变",
-"Unable to change display name" => "无法修改显示名称",
 "Group already exists" => "已存在该组",
 "Unable to add group" => "无法添加组",
 "Email saved" => "电子邮件已保存",
@@ -94,7 +92,6 @@ $TRANSLATIONS = array(
 "Current password" => "当前密码",
 "New password" => "新密码",
 "Change password" => "修改密码",
-"Display Name" => "显示名称",
 "Email" => "电子邮件",
 "Your email address" => "您的电子邮件",
 "Fill in an email address to enable password recovery" => "填写电子邮件地址以启用密码恢复功能",
@@ -115,7 +112,6 @@ $TRANSLATIONS = array(
 "Other" => "其它",
 "Username" => "用户名",
 "Storage" => "存储",
-"change display name" => "修改显示名称",
 "set new password" => "设置新密码",
 "Default" => "默认"
 );

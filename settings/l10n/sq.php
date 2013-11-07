@@ -2,7 +2,6 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "E pamundur të shkarkohet lista nga App Store",
 "Authentication error" => "Gabim autentifikimi",
-"Unable to change display name" => "Nuk është e mundur të ndryshohet emri i shfaqur",
 "Group already exists" => "Grupi ekziston",
 "Unable to add group" => "E pamundur të shtohet grupi",
 "Email saved" => "Email u ruajt",
@@ -83,7 +82,6 @@ $TRANSLATIONS = array(
 "Current password" => "Fjalëkalimi aktual",
 "New password" => "Fjalëkalimi i ri",
 "Change password" => "Ndrysho fjalëkalimin",
-"Display Name" => "Emri i shfaqur",
 "Email" => "Email",
 "Your email address" => "Adresa juaj email",
 "Fill in an email address to enable password recovery" => "Jepni një adresë email për të aktivizuar rigjetjen e fjalëkalimit",
@@ -99,7 +97,6 @@ $TRANSLATIONS = array(
 "Other" => "Tjetër",
 "Username" => "Përdoruesi",
 "Storage" => "Vendruajtja/Storage",
-"change display name" => "ndryshim i emrit të shfaqur",
 "set new password" => "vendos fjalëkalim të ri",
 "Default" => "Paracaktuar"
 );

@@ -2,7 +2,6 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Tidak dapat memuat daftar dari App Store",
 "Authentication error" => "Galat saat autentikasi",
-"Unable to change display name" => "Tidak dapat mengubah nama tampilan",
 "Group already exists" => "Grup sudah ada",
 "Unable to add group" => "Tidak dapat menambah grup",
 "Email saved" => "Email disimpan",
@@ -82,7 +81,6 @@ $TRANSLATIONS = array(
 "Current password" => "Sandi saat ini",
 "New password" => "Sandi baru",
 "Change password" => "Ubah sandi",
-"Display Name" => "Nama Tampilan",
 "Email" => "Email",
 "Your email address" => "Alamat email Anda",
 "Fill in an email address to enable password recovery" => "Masukkan alamat email untuk mengaktifkan pemulihan sandi",
@@ -97,7 +95,6 @@ $TRANSLATIONS = array(
 "Other" => "Lainnya",
 "Username" => "Nama pengguna",
 "Storage" => "Penyimpanan",
-"change display name" => "ubah nama tampilan",
 "set new password" => "setel sandi baru",
 "Default" => "Baku"
 );

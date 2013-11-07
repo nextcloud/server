@@ -2,8 +2,6 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Kan inte ladda listan från App Store",
 "Authentication error" => "Fel vid autentisering",
-"Your display name has been changed." => "Ditt visningsnamn har ändrats.",
-"Unable to change display name" => "Kan inte ändra visningsnamn",
 "Group already exists" => "Gruppen finns redan",
 "Unable to add group" => "Kan inte lägga till grupp",
 "Email saved" => "E-post sparad",
@@ -106,7 +104,6 @@ $TRANSLATIONS = array(
 "Current password" => "Nuvarande lösenord",
 "New password" => "Nytt lösenord",
 "Change password" => "Ändra lösenord",
-"Display Name" => "Visningsnamn",
 "Email" => "E-post",
 "Your email address" => "Din e-postadress",
 "Fill in an email address to enable password recovery" => "Fyll i en e-postadress för att aktivera återställning av lösenord",
@@ -134,7 +131,6 @@ $TRANSLATIONS = array(
 "Other" => "Annat",
 "Username" => "Användarnamn",
 "Storage" => "Lagring",
-"change display name" => "ändra visningsnamn",
 "set new password" => "ange nytt lösenord",
 "Default" => "Förvald"
 );

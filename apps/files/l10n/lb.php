@@ -10,6 +10,7 @@ $TRANSLATIONS = array(
 "Upload cancelled." => "Upload ofgebrach.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "File Upload am gaang. Wann's de des Säit verléiss gëtt den Upload ofgebrach.",
 "Share" => "Deelen",
+"Rename" => "Ëm-benennen",
 "undo" => "réckgängeg man",
 "_%n folder_::_%n folders_" => array("",""),
 "_%n file_::_%n files_" => array("",""),

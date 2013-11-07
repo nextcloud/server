@@ -4,6 +4,7 @@ $TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Échec de la suppression de la configuration du serveur",
 "The configuration is valid and the connection could be established!" => "La configuration est valide et la connexion peut être établie !",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "La configuration est valide, mais le lien ne peut être établi. Veuillez vérifier les paramètres du serveur ainsi que vos identifiants de connexion.",
+"The configuration is invalid. Please have a look at the logs for further details." => "La configuration est invalide. Veuillez consulter les logs pour plus de détails.",
 "No action specified" => "Aucune action spécifiée",
 "No configuration specified" => "Aucune configuration spécifiée",
 "No data specified" => "Aucune donnée spécifiée",

@@ -2,8 +2,6 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Nem tölthető le a lista az App Store-ból",
 "Authentication error" => "Azonosítási hiba",
-"Your display name has been changed." => "Az Ön megjelenítési neve megváltozott.",
-"Unable to change display name" => "Nem sikerült megváltoztatni a megjelenítési nevet",
 "Group already exists" => "A csoport már létezik",
 "Unable to add group" => "A csoport nem hozható létre",
 "Email saved" => "Email mentve",
@@ -106,7 +104,6 @@ $TRANSLATIONS = array(
 "Current password" => "A jelenlegi jelszó",
 "New password" => "Az új jelszó",
 "Change password" => "A jelszó megváltoztatása",
-"Display Name" => "A megjelenített név",
 "Email" => "Email",
 "Your email address" => "Az Ön email címe",
 "Fill in an email address to enable password recovery" => "Adja meg az email címét, hogy jelszó-emlékeztetőt kérhessen, ha elfelejtette a jelszavát!",
@@ -134,7 +131,6 @@ $TRANSLATIONS = array(
 "Other" => "Más",
 "Username" => "Felhasználónév",
 "Storage" => "Tárhely",
-"change display name" => "a megjelenített név módosítása",
 "set new password" => "új jelszó beállítása",
 "Default" => "Alapértelmezett"
 );

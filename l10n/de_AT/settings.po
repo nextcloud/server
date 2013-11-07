@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-03 12:38-0500\n"
-"PO-Revision-Date: 2013-11-03 17:38+0000\n"
+"POT-Creation-Date: 2013-11-06 21:43-0500\n"
+"PO-Revision-Date: 2013-11-07 02:43+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Austria) (http://www.transifex.com/projects/p/owncloud/language/de_AT/)\n"
 "MIME-Version: 1.0\n"
@@ -28,11 +28,11 @@ msgid "Authentication error"
 msgstr ""
 
 #: ajax/changedisplayname.php:31
-msgid "Your display name has been changed."
+msgid "Your full name has been changed."
 msgstr ""
 
 #: ajax/changedisplayname.php:34
-msgid "Unable to change display name"
+msgid "Unable to change full name"
 msgstr ""
 
 #: ajax/creategroup.php:10
@@ -505,7 +505,7 @@ msgid "Change password"
 msgstr ""
 
 #: templates/personal.php:58 templates/users.php:88
-msgid "Display Name"
+msgid "Full Name"
 msgstr ""
 
 #: templates/personal.php:73
@@ -626,7 +626,7 @@ msgid "Storage"
 msgstr ""
 
 #: templates/users.php:108
-msgid "change display name"
+msgid "change full name"
 msgstr ""
 
 #: templates/users.php:112

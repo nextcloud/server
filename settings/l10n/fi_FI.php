@@ -2,8 +2,6 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Ei pystytä lataamaan listaa sovellusvarastosta (App Store)",
 "Authentication error" => "Tunnistautumisvirhe",
-"Your display name has been changed." => "Näyttönimesi on muutettu.",
-"Unable to change display name" => "Näyttönimen muuttaminen epäonnistui",
 "Group already exists" => "Ryhmä on jo olemassa",
 "Unable to add group" => "Ryhmän lisäys epäonnistui",
 "Email saved" => "Sähköposti tallennettu",
@@ -44,6 +42,10 @@ $TRANSLATIONS = array(
 "A valid password must be provided" => "Anna kelvollinen salasana",
 "Warning: Home directory for user \"{user}\" already exists" => "Varoitus: käyttäjällä \"{user}\" on jo olemassa kotikansio",
 "__language_name__" => "_kielen_nimi_",
+"Everything (fatal issues, errors, warnings, info, debug)" => "Kaikki (vakavat ongelmat, virheet, varoitukset, tiedot, vianjäljitys)",
+"Info, warnings, errors and fatal issues" => "Tiedot, varoitukset, virheet ja vakavat ongelmat",
+"Warnings, errors and fatal issues" => "Varoitukset, virheet ja vakavat ongelmat",
+"Errors and fatal issues" => "Virheet ja vakavat ongelmat",
 "Security Warning" => "Turvallisuusvaroitus",
 "Setup Warning" => "Asetusvaroitus",
 "Please double check the <a href=\"%s\">installation guides</a>." => "Lue <a href=\"%s\">asennusohjeet</a> tarkasti.",
@@ -94,7 +96,6 @@ $TRANSLATIONS = array(
 "Current password" => "Nykyinen salasana",
 "New password" => "Uusi salasana",
 "Change password" => "Vaihda salasana",
-"Display Name" => "Näyttönimi",
 "Email" => "Sähköpostiosoite",
 "Your email address" => "Sähköpostiosoitteesi",
 "Fill in an email address to enable password recovery" => "Anna sähköpostiosoitteesi, jotta unohdettu salasana on mahdollista palauttaa",
@@ -119,7 +120,6 @@ $TRANSLATIONS = array(
 "Other" => "Muu",
 "Username" => "Käyttäjätunnus",
 "Storage" => "Tallennustila",
-"change display name" => "vaihda näyttönimi",
 "set new password" => "aseta uusi salasana",
 "Default" => "Oletus"
 );

@@ -2,8 +2,6 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Nie je možné nahrať zoznam z App Store",
 "Authentication error" => "Chyba autentifikácie",
-"Your display name has been changed." => "Vaše zobrazované meno bolo zmenené.",
-"Unable to change display name" => "Nemožno zmeniť zobrazované meno",
 "Group already exists" => "Skupina už existuje",
 "Unable to add group" => "Nie je možné pridať skupinu",
 "Email saved" => "Email uložený",
@@ -103,7 +101,6 @@ $TRANSLATIONS = array(
 "Current password" => "Aktuálne heslo",
 "New password" => "Nové heslo",
 "Change password" => "Zmeniť heslo",
-"Display Name" => "Zobrazované meno",
 "Email" => "Email",
 "Your email address" => "Vaša emailová adresa",
 "Fill in an email address to enable password recovery" => "Vyplňte emailovú adresu pre aktivovanie obnovy hesla",
@@ -130,7 +127,6 @@ $TRANSLATIONS = array(
 "Other" => "Iné",
 "Username" => "Meno používateľa",
 "Storage" => "Úložisko",
-"change display name" => "zmeniť zobrazované meno",
 "set new password" => "nastaviť nové heslo",
 "Default" => "Predvolené"
 );

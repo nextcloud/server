@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-03 12:38-0500\n"
-"PO-Revision-Date: 2013-10-30 07:50+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-06 21:43-0500\n"
+"PO-Revision-Date: 2013-11-04 09:40+0000\n"
+"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,11 +31,11 @@ msgstr "Kirja saatmine järgnevatele kasutajatele ebaõnnestus: %s "
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
-msgstr "Haldusreziimis"
+msgstr "Haldusrežiimis sisse lülitatud"
 
 #: ajax/update.php:14
 msgid "Turned off maintenance mode"
-msgstr "Haldusreziim lõpetatud"
+msgstr "Haldusrežiimis välja lülitatud"
 
 #: ajax/update.php:17
 msgid "Updated database"
@@ -43,7 +43,7 @@ msgstr "Uuendatud andmebaas"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
-msgstr "Uuendan failipuhvrit, see võib kesta väga kaua..."
+msgstr "Failipuhvri uuendamine, see võib kesta väga kaua..."
 
 #: ajax/update.php:23
 msgid "Updated filecache"
@@ -56,7 +56,7 @@ msgstr "... %d%% tehtud ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
-msgstr "Ühtegi pilti või faili ei pakutud"
+msgstr "Ühtegi pilti või faili pole pakutud"
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
@@ -212,7 +212,7 @@ msgstr "Vali"
 
 #: js/oc-dialogs.js:146
 msgid "Error loading file picker template: {error}"
-msgstr "Viga faili valija malli laadimisel:  {error}"
+msgstr "Viga failivalija malli laadimisel:  {error}"
 
 #: js/oc-dialogs.js:172
 msgid "Yes"
@@ -228,7 +228,7 @@ msgstr "Ok"
 
 #: js/oc-dialogs.js:219
 msgid "Error loading message template: {error}"
-msgstr "Viga sõnumi malli laadimisel:  {error}"
+msgstr "Viga sõnumi malli laadimisel: {error}"
 
 #: js/oc-dialogs.js:347
 msgid "{count} file conflict"

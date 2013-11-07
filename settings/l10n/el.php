@@ -2,8 +2,6 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Σφάλμα στην φόρτωση της λίστας από το App Store",
 "Authentication error" => "Σφάλμα πιστοποίησης",
-"Your display name has been changed." => "Το όνομα σας στην οθόνη άλλαξε. ",
-"Unable to change display name" => "Δεν είναι δυνατή η αλλαγή του ονόματος εμφάνισης",
 "Group already exists" => "Η ομάδα υπάρχει ήδη",
 "Unable to add group" => "Αδυναμία προσθήκης ομάδας",
 "Email saved" => "Το email αποθηκεύτηκε ",
@@ -89,7 +87,6 @@ $TRANSLATIONS = array(
 "Current password" => "Τρέχων συνθηματικό",
 "New password" => "Νέο συνθηματικό",
 "Change password" => "Αλλαγή συνθηματικού",
-"Display Name" => "Όνομα εμφάνισης",
 "Email" => "Ηλ. ταχυδρομείο",
 "Your email address" => "Η διεύθυνση ηλεκτρονικού ταχυδρομείου σας",
 "Fill in an email address to enable password recovery" => "Συμπληρώστε μια διεύθυνση ηλεκτρονικού ταχυδρομείου για να ενεργοποιηθεί η ανάκτηση συνθηματικού",
@@ -112,7 +109,6 @@ $TRANSLATIONS = array(
 "Other" => "Άλλο",
 "Username" => "Όνομα χρήστη",
 "Storage" => "Αποθήκευση",
-"change display name" => "αλλαγή ονόματος εμφάνισης",
 "set new password" => "επιλογή νέου κωδικού",
 "Default" => "Προκαθορισμένο"
 );

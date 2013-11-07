@@ -2,8 +2,6 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Imposibil de actualizat lista din  App Store.",
 "Authentication error" => "Eroare la autentificare",
-"Your display name has been changed." => "Numele afişat a fost schimbat.",
-"Unable to change display name" => "Imposibil de schimbat numele afişat.",
 "Group already exists" => "Grupul există deja",
 "Unable to add group" => "Nu s-a putut adăuga grupul",
 "Email saved" => "E-mail salvat",
@@ -100,7 +98,6 @@ $TRANSLATIONS = array(
 "Other" => "Altele",
 "Username" => "Nume utilizator",
 "Storage" => "Stocare",
-"change display name" => "schimbă numele afișat",
 "set new password" => "setează parolă nouă",
 "Default" => "Implicită"
 );

@@ -9,6 +9,7 @@ $TRANSLATIONS = array(
 "Private key password successfully updated." => "Private key password updated successfully.",
 "Could not update the private key password. Maybe the old password was not correct." => "Could not update the private key password. Maybe the old password was not correct.",
 "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." => "Encryption app not initialised! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialise the encryption app.",
+"Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files.",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "Cannot decrypt this file, which is probably a shared file. Please ask the file owner to reshare the file with you.",
 "Unknown error please check your system settings or contact your administrator" => "Unknown error. Please check your system settings or contact your administrator",
 "Missing requirements." => "Missing requirements.",

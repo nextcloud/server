@@ -2,8 +2,6 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Неможам да вчитам листа од App Store",
 "Authentication error" => "Грешка во автентикација",
-"Your display name has been changed." => "Вашето прикажано име се промени.",
-"Unable to change display name" => "Не можам да го сменам прикажанато име",
 "Group already exists" => "Групата веќе постои",
 "Unable to add group" => "Неможе да додадам група",
 "Email saved" => "Електронската пошта е снимена",
@@ -82,7 +80,6 @@ $TRANSLATIONS = array(
 "Current password" => "Моментална лозинка",
 "New password" => "Нова лозинка",
 "Change password" => "Смени лозинка",
-"Display Name" => "Прикажи го Името",
 "Email" => "Е-пошта",
 "Your email address" => "Вашата адреса за е-пошта",
 "Fill in an email address to enable password recovery" => "Пополни ја адресата за е-пошта за да може да ја обновуваш лозинката",
@@ -106,7 +103,6 @@ $TRANSLATIONS = array(
 "Other" => "Останато",
 "Username" => "Корисничко име",
 "Storage" => "Складиште",
-"change display name" => "промени го прикажаното име",
 "set new password" => "постави нова лозинка",
 "Default" => "Предефиниран"
 );

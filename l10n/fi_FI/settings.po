@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-03 12:38-0500\n"
-"PO-Revision-Date: 2013-11-03 17:38+0000\n"
+"POT-Creation-Date: 2013-11-06 21:43-0500\n"
+"PO-Revision-Date: 2013-11-07 02:43+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -28,12 +28,12 @@ msgid "Authentication error"
 msgstr "Tunnistautumisvirhe"
 
 #: ajax/changedisplayname.php:31
-msgid "Your display name has been changed."
-msgstr "Näyttönimesi on muutettu."
+msgid "Your full name has been changed."
+msgstr ""
 
 #: ajax/changedisplayname.php:34
-msgid "Unable to change display name"
-msgstr "Näyttönimen muuttaminen epäonnistui"
+msgid "Unable to change full name"
+msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -221,19 +221,19 @@ msgstr "_kielen_nimi_"
 
 #: templates/admin.php:8
 msgid "Everything (fatal issues, errors, warnings, info, debug)"
-msgstr ""
+msgstr "Kaikki (vakavat ongelmat, virheet, varoitukset, tiedot, vianjäljitys)"
 
 #: templates/admin.php:9
 msgid "Info, warnings, errors and fatal issues"
-msgstr ""
+msgstr "Tiedot, varoitukset, virheet ja vakavat ongelmat"
 
 #: templates/admin.php:10
 msgid "Warnings, errors and fatal issues"
-msgstr ""
+msgstr "Varoitukset, virheet ja vakavat ongelmat"
 
 #: templates/admin.php:11
 msgid "Errors and fatal issues"
-msgstr ""
+msgstr "Virheet ja vakavat ongelmat"
 
 #: templates/admin.php:12
 msgid "Fatal issues only"
@@ -505,8 +505,8 @@ msgid "Change password"
 msgstr "Vaihda salasana"
 
 #: templates/personal.php:58 templates/users.php:88
-msgid "Display Name"
-msgstr "Näyttönimi"
+msgid "Full Name"
+msgstr ""
 
 #: templates/personal.php:73
 msgid "Email"
@@ -626,8 +626,8 @@ msgid "Storage"
 msgstr "Tallennustila"
 
 #: templates/users.php:108
-msgid "change display name"
-msgstr "vaihda näyttönimi"
+msgid "change full name"
+msgstr ""
 
 #: templates/users.php:112
 msgid "set new password"

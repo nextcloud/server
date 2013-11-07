@@ -60,6 +60,7 @@ $TRANSLATIONS = array(
 "Name" => "Имя",
 "Size" => "Размер",
 "Modified" => "Изменён",
+"Invalid folder name. Usage of 'Shared' is reserved." => "Неправильное имя каталога. Имя 'Shared' зарезервировано.",
 "%s could not be renamed" => "%s не может быть переименован",
 "Upload" => "Загрузка",
 "File handling" => "Управление файлами",

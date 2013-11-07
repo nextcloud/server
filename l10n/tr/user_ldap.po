@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-03 14:38-0500\n"
-"PO-Revision-Date: 2013-11-03 18:01+0000\n"
-"Last-Translator: ismail yenigül <ismail.yenigul@surgate.com>\n"
+"POT-Creation-Date: 2013-11-06 21:43-0500\n"
+"PO-Revision-Date: 2013-11-05 00:20+0000\n"
+"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,7 +36,7 @@ msgstr "Yapılandırma geçerli ve bağlantı kuruldu!"
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
-msgstr "Yapılandırma geçerli fakat bağlanma(bind) başarısız. Lütfen Sunucu ayarları ve kimlik bilgilerini kontrol ediniz."
+msgstr "Yapılandırma geçerli fakat bağlama (bind) başarısız. Lütfen Sunucu ayarları ve kimlik bilgilerini kontrol edin."
 
 #: ajax/testConfiguration.php:44
 msgid ""
@@ -67,7 +67,7 @@ msgstr "Silme başarısız oldu"
 
 #: js/settings.js:83
 msgid "Take over settings from recent server configuration?"
-msgstr "Ayarları son sunucu yapılandırmalarından devral?"
+msgstr "Ayarlar son sunucu yapılandırmalarından devralınsın mı?"
 
 #: js/settings.js:84
 msgid "Keep settings?"

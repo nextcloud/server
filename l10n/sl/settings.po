@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-03 12:38-0500\n"
-"PO-Revision-Date: 2013-11-03 17:38+0000\n"
+"POT-Creation-Date: 2013-11-06 21:43-0500\n"
+"PO-Revision-Date: 2013-11-07 02:43+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -29,12 +29,12 @@ msgid "Authentication error"
 msgstr "Napaka med overjanjem"
 
 #: ajax/changedisplayname.php:31
-msgid "Your display name has been changed."
-msgstr "Prikazano ime je bilo spremenjeno."
+msgid "Your full name has been changed."
+msgstr ""
 
 #: ajax/changedisplayname.php:34
-msgid "Unable to change display name"
-msgstr "Prikazanega imena ni mogoče spremeniti."
+msgid "Unable to change full name"
+msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -506,8 +506,8 @@ msgid "Change password"
 msgstr "Spremeni geslo"
 
 #: templates/personal.php:58 templates/users.php:88
-msgid "Display Name"
-msgstr "Prikazano ime"
+msgid "Full Name"
+msgstr ""
 
 #: templates/personal.php:73
 msgid "Email"
@@ -627,8 +627,8 @@ msgid "Storage"
 msgstr "Shramba"
 
 #: templates/users.php:108
-msgid "change display name"
-msgstr "spremeni prikazano ime"
+msgid "change full name"
+msgstr ""
 
 #: templates/users.php:112
 msgid "set new password"

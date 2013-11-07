@@ -2,8 +2,6 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "앱 스토어에서 목록을 가져올 수 없습니다",
 "Authentication error" => "인증 오류",
-"Your display name has been changed." => "표시 이름이 변경되었습니다.",
-"Unable to change display name" => "표시 이름을 변경할 수 없음",
 "Group already exists" => "그룹이 이미 존재함",
 "Unable to add group" => "그룹을 추가할 수 없음",
 "Email saved" => "이메일 저장됨",
@@ -92,7 +90,6 @@ $TRANSLATIONS = array(
 "Current password" => "현재 암호",
 "New password" => "새 암호",
 "Change password" => "암호 변경",
-"Display Name" => "표시 이름",
 "Email" => "이메일",
 "Your email address" => "이메일 주소",
 "Fill in an email address to enable password recovery" => "암호 찾기 기능을 사용하려면 이메일 주소를 입력하십시오",
@@ -117,7 +114,6 @@ $TRANSLATIONS = array(
 "Other" => "기타",
 "Username" => "사용자 이름",
 "Storage" => "저장소",
-"change display name" => "표시 이름 변경",
 "set new password" => "새 암호 설정",
 "Default" => "기본값"
 );

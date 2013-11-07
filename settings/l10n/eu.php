@@ -2,8 +2,6 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Ezin izan da App Dendatik zerrenda kargatu",
 "Authentication error" => "Autentifikazio errorea",
-"Your display name has been changed." => "Zure bistaratze izena aldatu egin da.",
-"Unable to change display name" => "Ezin izan da bistaratze izena aldatu",
 "Group already exists" => "Taldea dagoeneko existitzenda",
 "Unable to add group" => "Ezin izan da taldea gehitu",
 "Email saved" => "Eposta gorde da",
@@ -90,7 +88,6 @@ $TRANSLATIONS = array(
 "Current password" => "Uneko pasahitza",
 "New password" => "Pasahitz berria",
 "Change password" => "Aldatu pasahitza",
-"Display Name" => "Bistaratze Izena",
 "Email" => "E-posta",
 "Your email address" => "Zure e-posta",
 "Fill in an email address to enable password recovery" => "Idatz ezazu e-posta bat pasahitza berreskuratu ahal izateko",
@@ -112,7 +109,6 @@ $TRANSLATIONS = array(
 "Other" => "Bestelakoa",
 "Username" => "Erabiltzaile izena",
 "Storage" => "Biltegiratzea",
-"change display name" => "aldatu bistaratze izena",
 "set new password" => "ezarri pasahitz berria",
 "Default" => "Lehenetsia"
 );

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-03 12:38-0500\n"
-"PO-Revision-Date: 2013-11-03 17:38+0000\n"
+"POT-Creation-Date: 2013-11-06 21:43-0500\n"
+"PO-Revision-Date: 2013-11-07 02:43+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -29,12 +29,12 @@ msgid "Authentication error"
 msgstr "Error d'autenticació"
 
 #: ajax/changedisplayname.php:31
-msgid "Your display name has been changed."
-msgstr "El nom a mostrar ha canviat."
+msgid "Your full name has been changed."
+msgstr ""
 
 #: ajax/changedisplayname.php:34
-msgid "Unable to change display name"
-msgstr "No s'ha pogut canviar el nom a mostrar"
+msgid "Unable to change full name"
+msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -222,23 +222,23 @@ msgstr "Català"
 
 #: templates/admin.php:8
 msgid "Everything (fatal issues, errors, warnings, info, debug)"
-msgstr ""
+msgstr "Tot (problemes fatals, errors, avisos, informació, depuració)"
 
 #: templates/admin.php:9
 msgid "Info, warnings, errors and fatal issues"
-msgstr ""
+msgstr "Informació, avisos, errors i problemes fatals"
 
 #: templates/admin.php:10
 msgid "Warnings, errors and fatal issues"
-msgstr ""
+msgstr "Avisos, errors i problemes fatals"
 
 #: templates/admin.php:11
 msgid "Errors and fatal issues"
-msgstr ""
+msgstr "Errors i problemes fatals"
 
 #: templates/admin.php:12
 msgid "Fatal issues only"
-msgstr ""
+msgstr "Només problemes fatals"
 
 #: templates/admin.php:22
 msgid "Security Warning"
@@ -506,8 +506,8 @@ msgid "Change password"
 msgstr "Canvia la contrasenya"
 
 #: templates/personal.php:58 templates/users.php:88
-msgid "Display Name"
-msgstr "Nom a mostrar"
+msgid "Full Name"
+msgstr ""
 
 #: templates/personal.php:73
 msgid "Email"
@@ -608,7 +608,7 @@ msgstr "Emmagatzemament per defecte"
 
 #: templates/users.php:44 templates/users.php:139
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
-msgstr ""
+msgstr "Escriviu la quota d'emmagatzemament (per ex.: \"512 MB\" o \"12 GB\")"
 
 #: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
@@ -627,8 +627,8 @@ msgid "Storage"
 msgstr "Emmagatzemament"
 
 #: templates/users.php:108
-msgid "change display name"
-msgstr "canvia el nom a mostrar"
+msgid "change full name"
+msgstr ""
 
 #: templates/users.php:112
 msgid "set new password"

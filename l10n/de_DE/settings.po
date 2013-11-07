@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-03 12:38-0500\n"
-"PO-Revision-Date: 2013-11-03 17:38+0000\n"
+"POT-Creation-Date: 2013-11-06 21:43-0500\n"
+"PO-Revision-Date: 2013-11-07 02:43+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -34,12 +34,12 @@ msgid "Authentication error"
 msgstr "Authentifizierungs-Fehler"
 
 #: ajax/changedisplayname.php:31
-msgid "Your display name has been changed."
-msgstr "Dein Anzeigename ist geändert worden."
+msgid "Your full name has been changed."
+msgstr ""
 
 #: ajax/changedisplayname.php:34
-msgid "Unable to change display name"
-msgstr "Das Ändern des Anzeigenamens ist nicht möglich"
+msgid "Unable to change full name"
+msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -227,23 +227,23 @@ msgstr "Deutsch (Förmlich: Sie)"
 
 #: templates/admin.php:8
 msgid "Everything (fatal issues, errors, warnings, info, debug)"
-msgstr ""
+msgstr "Alles (fatale Probleme, Fehler, Warnungen, Infos, Debug-Meldungen)"
 
 #: templates/admin.php:9
 msgid "Info, warnings, errors and fatal issues"
-msgstr ""
+msgstr "Infos, Warnungen, Fehler und fatale Probleme"
 
 #: templates/admin.php:10
 msgid "Warnings, errors and fatal issues"
-msgstr ""
+msgstr "Warnungen, Fehler und fatale Probleme"
 
 #: templates/admin.php:11
 msgid "Errors and fatal issues"
-msgstr ""
+msgstr "Fehler und fatale Probleme"
 
 #: templates/admin.php:12
 msgid "Fatal issues only"
-msgstr ""
+msgstr "Nur fatale Probleme"
 
 #: templates/admin.php:22
 msgid "Security Warning"
@@ -511,8 +511,8 @@ msgid "Change password"
 msgstr "Passwort ändern"
 
 #: templates/personal.php:58 templates/users.php:88
-msgid "Display Name"
-msgstr "Anzeigename"
+msgid "Full Name"
+msgstr ""
 
 #: templates/personal.php:73
 msgid "Email"
@@ -613,7 +613,7 @@ msgstr "Standard-Speicher"
 
 #: templates/users.php:44 templates/users.php:139
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
-msgstr ""
+msgstr "Bitte Speicherkontingent eingeben (z.B.: \"512 MB\" oder \"12 GB\")"
 
 #: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
@@ -632,8 +632,8 @@ msgid "Storage"
 msgstr "Speicher"
 
 #: templates/users.php:108
-msgid "change display name"
-msgstr "Anzeigenamen ändern"
+msgid "change full name"
+msgstr ""
 
 #: templates/users.php:112
 msgid "set new password"

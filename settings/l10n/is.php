@@ -50,7 +50,6 @@ $TRANSLATIONS = array(
 "Current password" => "Núverandi lykilorð",
 "New password" => "Nýtt lykilorð",
 "Change password" => "Breyta lykilorði",
-"Display Name" => "Vísa nafn",
 "Email" => "Netfang",
 "Your email address" => "Netfangið þitt",
 "Fill in an email address to enable password recovery" => "Sláðu inn netfangið þitt til að virkja endurheimt á lykilorði",

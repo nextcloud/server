@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-03 14:38-0500\n"
-"PO-Revision-Date: 2013-11-03 18:10+0000\n"
-"Last-Translator: ismail yenigül <ismail.yenigul@surgate.com>\n"
+"POT-Creation-Date: 2013-11-06 21:43-0500\n"
+"PO-Revision-Date: 2013-11-07 02:43+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,12 +31,12 @@ msgid "Authentication error"
 msgstr "Kimlik doğrulama hatası"
 
 #: ajax/changedisplayname.php:31
-msgid "Your display name has been changed."
-msgstr "Görüntülenen isminiz değiştirildi."
+msgid "Your full name has been changed."
+msgstr ""
 
 #: ajax/changedisplayname.php:34
-msgid "Unable to change display name"
-msgstr "Ekran adı değiştirilemiyor"
+msgid "Unable to change full name"
+msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -508,8 +508,8 @@ msgid "Change password"
 msgstr "Parola değiştir"
 
 #: templates/personal.php:58 templates/users.php:88
-msgid "Display Name"
-msgstr "Ekran Adı"
+msgid "Full Name"
+msgstr ""
 
 #: templates/personal.php:73
 msgid "Email"
@@ -629,8 +629,8 @@ msgid "Storage"
 msgstr "Depolama"
 
 #: templates/users.php:108
-msgid "change display name"
-msgstr "ekran adını değiştir"
+msgid "change full name"
+msgstr ""
 
 #: templates/users.php:112
 msgid "set new password"

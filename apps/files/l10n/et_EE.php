@@ -60,6 +60,7 @@ $TRANSLATIONS = array(
 "Name" => "Nimi",
 "Size" => "Suurus",
 "Modified" => "Muudetud",
+"Invalid folder name. Usage of 'Shared' is reserved." => "Vigane kausta nimi. Nime 'Shared' kasutamine on reserveeritud.",
 "%s could not be renamed" => "%s ümbernimetamine ebaõnnestus",
 "Upload" => "Lae üles",
 "File handling" => "Failide käsitlemine",

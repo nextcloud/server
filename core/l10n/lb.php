@@ -31,7 +31,7 @@ $TRANSLATIONS = array(
 "December" => "Dezember",
 "Settings" => "Astellungen",
 "seconds ago" => "Sekonnen hir",
-"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n minute ago_::_%n minutes ago_" => array("%n Minutt hir","%n Minutten hir"),
 "_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "haut",
 "yesterday" => "gëschter",
@@ -111,7 +111,7 @@ $TRANSLATIONS = array(
 "Apps" => "Applikatiounen",
 "Admin" => "Admin",
 "Help" => "Hëllef",
-"Error tagging" => "Fehler beim taggen",
+"Error tagging" => "Fehler beim Taggen",
 "Error untagging" => "Fehler beim Tag läschen",
 "Access forbidden" => "Zougrëff net erlaabt",
 "Cloud not found" => "Cloud net fonnt",
@@ -144,6 +144,6 @@ $TRANSLATIONS = array(
 "Log in" => "Umellen",
 "Alternative Logins" => "Alternativ Umeldungen",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud gëtt op d'Versioun %s aktualiséiert, dat kéint e Moment daueren.",
-"Thank you for your patience." => "Merci fir den Gedold."
+"Thank you for your patience." => "Merci fir deng Gedold."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

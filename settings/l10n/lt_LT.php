@@ -2,8 +2,6 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Neįmanoma įkelti sąrašo iš Programų Katalogo",
 "Authentication error" => "Autentikacijos klaida",
-"Your display name has been changed." => "Jūsų rodomas vardas buvo pakeistas.",
-"Unable to change display name" => "Nepavyksta pakeisti rodomą vardą",
 "Group already exists" => "Grupė jau egzistuoja",
 "Unable to add group" => "Nepavyko pridėti grupės",
 "Email saved" => "El. paštas išsaugotas",
@@ -106,7 +104,6 @@ $TRANSLATIONS = array(
 "Current password" => "Dabartinis slaptažodis",
 "New password" => "Naujas slaptažodis",
 "Change password" => "Pakeisti slaptažodį",
-"Display Name" => "Rodyti vardą",
 "Email" => "El. Paštas",
 "Your email address" => "Jūsų el. pašto adresas",
 "Fill in an email address to enable password recovery" => "Pamiršto slaptažodžio atkūrimui įveskite savo el. pašto adresą",
@@ -134,7 +131,6 @@ $TRANSLATIONS = array(
 "Other" => "Kita",
 "Username" => "Prisijungimo vardas",
 "Storage" => "Saugojimas",
-"change display name" => "keisti rodomą vardą",
 "set new password" => "nustatyti naują slaptažodį",
 "Default" => "Numatytasis"
 );

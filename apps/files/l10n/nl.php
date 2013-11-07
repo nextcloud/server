@@ -60,6 +60,7 @@ $TRANSLATIONS = array(
 "Name" => "Naam",
 "Size" => "Grootte",
 "Modified" => "Aangepast",
+"Invalid folder name. Usage of 'Shared' is reserved." => "Ongeldige mapnaam. Gebruik van 'Shared' is gereserveerd.",
 "%s could not be renamed" => "%s kon niet worden hernoemd",
 "Upload" => "Uploaden",
 "File handling" => "Bestand",

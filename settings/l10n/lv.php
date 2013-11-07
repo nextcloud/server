@@ -2,8 +2,6 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Nevar lejupielādēt sarakstu no lietotņu veikala",
 "Authentication error" => "Autentifikācijas kļūda",
-"Your display name has been changed." => "Jūsu redzamais vārds ir mainīts.",
-"Unable to change display name" => "Nevarēja mainīt redzamo vārdu",
 "Group already exists" => "Grupa jau eksistē",
 "Unable to add group" => "Nevar pievienot grupu",
 "Email saved" => "E-pasts tika saglabāts",
@@ -92,7 +90,6 @@ $TRANSLATIONS = array(
 "Current password" => "Pašreizējā parole",
 "New password" => "Jauna parole",
 "Change password" => "Mainīt paroli",
-"Display Name" => "Redzamais vārds",
 "Email" => "E-pasts",
 "Your email address" => "Jūsu e-pasta adrese",
 "Fill in an email address to enable password recovery" => "Ievadiet e-pasta adresi, lai vēlāk varētu atgūt paroli, ja būs nepieciešamība",
@@ -112,7 +109,6 @@ $TRANSLATIONS = array(
 "Other" => "Cits",
 "Username" => "Lietotājvārds",
 "Storage" => "Krātuve",
-"change display name" => "mainīt redzamo vārdu",
 "set new password" => "iestatīt jaunu paroli",
 "Default" => "Noklusējuma"
 );
