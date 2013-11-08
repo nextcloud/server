@@ -1,4 +1,5 @@
 <div class="ldapWizardControls">
+	<span class="ldap_config_state_indicator"></span> <span class="ldap_config_state_indicator_sign"></span>
 	<button class="ldap_action_back invisible" name="ldap_action_back"
 			type="button">
 		<?php p($l->t('Back'));?>
@@ -10,8 +11,6 @@
 		target="_blank">
 		<img src="<?php print_unescaped(OCP\Util::imagePath('', 'actions/info.png')); ?>"
 			style="height:1.75ex" />
-		<?php p($l->t('Help'));?>
+		<span class="ldap_grey"><?php p($l->t('Help'));?></span>
 	</a>
-	<br/>
-	<span class="ldap_config_state_indicator"></span> <span class="ldap_config_state_indicator_sign"></span>
 </div>
