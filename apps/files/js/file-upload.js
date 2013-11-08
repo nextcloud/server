@@ -303,16 +303,15 @@ $(document).ready(function() {
 				OC.Upload.log('fail', e, data);
 				if (typeof data.textStatus !== 'undefined' && data.textStatus !== 'success' ) {
 					if (data.textStatus === 'abort') {
-						$('#notification').text(t('files', 'Upload cancelled.'));
+						OC.Notification.show(t('files', 'Upload cancelled.'));
 					} else {
 						// HTTP connection problem
-						$('#notification').text(data.errorThrown);
+						OC.Notification.show(data.errorThrown);
 					}
-					$('#notification').fadeIn();
-					//hide notification after 5 sec
+					//hide notification after 10 sec
 					setTimeout(function() {
-						$('#notification').fadeOut();
-					}, 5000);
+						OC.Notification.hide();
+					}, 10000);
 				}
 				OC.Upload.deleteUpload(data);
 			},
