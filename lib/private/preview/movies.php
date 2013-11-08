@@ -49,7 +49,7 @@ if (!\OC_Util::runningOnWindows()) {
 
 				if (self::$avconvBinary) {
 					$cmd = self::$avconvBinary . ' -an -y -ss 1'.
-					    ' -i ' . escapeshellarg($absPath) .
+						' -i ' . escapeshellarg($absPath) .
 						' -f mjpeg -vframes 1 ' . escapeshellarg($tmpPath) .
 						' > /dev/null 2>&1';
 				}
