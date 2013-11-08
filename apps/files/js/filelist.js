@@ -170,6 +170,12 @@ var FileList={
 			return;
 		}
 		FileList.setCurrentDir(targetDir, changeUrl);
+		$('#fileList').trigger(
+			jQuery.Event('changeDirectory', {
+				dir: targetDir,
+				previousDir: currentDir
+			}
+		));
 		FileList.reload();
 	},
 	linkTo: function(dir) {
