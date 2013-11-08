@@ -27,4 +27,11 @@ class Home extends Local {
 	public function getId() {
 		return 'home::' . $this->user->getUID();
 	}
+
+	public function getCache($path = '') {
+		if (!isset($this->cache)) {
+			$this->cache = new \OC\Files\Cache\HomeCache($this);
+		}
+		return $this->cache;
+	}
 }
