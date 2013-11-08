@@ -197,13 +197,11 @@ var LdapWizard = {
 					LdapWizard.applyChanges(result);
 					LdapWizard.hideSpinner('#ldap_base');
 					if($('#ldap_base').val()) {
-						$('#ldap_base').removeClass('invisible');
 						LdapWizard.hideInfoBox();
 					}
 				},
 				function (result) {
 					LdapWizard.hideSpinner('#ldap_base');
-					$('#ldap_base').removeClass('invisible');
 					LdapWizard.showInfoBox('Please specify a port');
 				}
 			);
@@ -463,9 +461,6 @@ var LdapWizard = {
 	init: function() {
 		if($('#ldap_port').val()) {
 			$('#ldap_port').removeClass('invisible');
-		}
-		if($('#ldap_base').val()) {
-			$('#ldap_base').removeClass('invisible');
 		}
 		LdapWizard.basicStatusCheck();
 	},

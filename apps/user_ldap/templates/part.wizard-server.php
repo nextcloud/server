@@ -56,7 +56,7 @@
 
 			<div class="tablerow">
 				<textarea id="ldap_base" name="ldap_base"
-					class="tablecell invisible lwautosave"
+					class="tablecell lwautosave"
 					placeholder="<?php p($l->t('One Base DN per line'));?>"
 					title="<?php p($l->t('You can specify Base DN for users and groups in the Advanced tab'));?>">
 				</textarea>
