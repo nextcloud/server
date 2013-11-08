@@ -353,6 +353,13 @@ class OC_Util {
 			$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
 		}
 
+		if(!OC_Util::isSetLocaleWorking()) {
+			$errors[] = array(
+				'error' => 'Setting locale to en_US.UTF-8/en_US.UTF8 failed',
+				'hint' => 'Please install the locale on your system and restart your webserver.'
+			);
+		}
+
 		$moduleHint = "Please ask your server administrator to install the module.";
 		// check if all required php modules are present
 		if(!class_exists('ZipArchive')) {
