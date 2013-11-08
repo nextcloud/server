@@ -581,7 +581,7 @@ class OC_DB {
 			} else {
 				throw new DatabaseException('Please specify '
 					.'username and password when '
-					.'connecting via SID as the hostname.');
+					.'connecting via SID as the hostname.', '');
 			}
 		}
 
