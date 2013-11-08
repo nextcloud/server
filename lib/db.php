@@ -567,8 +567,8 @@ class OC_DB {
 		$CONFIG_DBHOST = OC_Config::getValue('dbhost', '');
 
 		if( $CONFIG_DBTYPE === 'oci'
-			&& $CONFIG_DBNAME === '' 
-			&& $CONFIG_DBHOST !== null && $CONFIG_DBHOST !== ''
+			&& $CONFIG_DBNAME === ''
+			&& ! empty($CONFIG_DBHOST)
 		) {
 			// we are connecting by user name, pwd and SID (host)
 			$CONFIG_DBUSER = OC_Config::getValue('dbuser', '');
