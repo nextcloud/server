@@ -123,3 +123,7 @@ select[multiple=multiple] + button {
 .ldap_config_state_indicator_sign.error {
 	background: #ce3702;
 }
+
+.ldap_grey {
+	color: #777;
+}

@@ -673,6 +673,7 @@ var LdapWizard = {
 					$('.ldap_config_state_indicator').text(t('user_ldap',
 						'Configuration OK'
 					));
+					$('.ldap_config_state_indicator').addClass('ldap_grey');
 					$('.ldap_config_state_indicator_sign').removeClass('error');
 					$('.ldap_config_state_indicator_sign').addClass('success');
 				},
@@ -681,6 +682,7 @@ var LdapWizard = {
 					$('.ldap_config_state_indicator').text(t('user_ldap',
 						'Configuration incorrect'
 					));
+					$('.ldap_config_state_indicator').removeClass('ldap_grey');
 					$('.ldap_config_state_indicator_sign').addClass('error');
 					$('.ldap_config_state_indicator_sign').removeClass('success');
 				}
@@ -689,6 +691,7 @@ var LdapWizard = {
 			$('.ldap_config_state_indicator').text(t('user_ldap',
 				'Configuration incomplete'
 			));
+			$('.ldap_config_state_indicator').removeClass('ldap_grey');
 			$('.ldap_config_state_indicator_sign').removeClass('error');
 			$('.ldap_config_state_indicator_sign').removeClass('success');
 		}
