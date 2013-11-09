@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-06 21:43-0500\n"
-"PO-Revision-Date: 2013-11-07 02:43+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-09 01:44-0500\n"
+"PO-Revision-Date: 2013-11-08 14:16+0000\n"
+"Last-Translator: polxmod <paolo.velati@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,11 +32,11 @@ msgstr "Errore di autenticazione"
 
 #: ajax/changedisplayname.php:31
 msgid "Your full name has been changed."
-msgstr ""
+msgstr "Il tuo nome completo è stato cambiato."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change full name"
-msgstr ""
+msgstr "Impossibile cambiare il nome completo"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -509,7 +509,7 @@ msgstr "Modifica password"
 
 #: templates/personal.php:58 templates/users.php:88
 msgid "Full Name"
-msgstr ""
+msgstr "Nome Completo"
 
 #: templates/personal.php:73
 msgid "Email"
@@ -630,7 +630,7 @@ msgstr "Archiviazione"
 
 #: templates/users.php:108
 msgid "change full name"
-msgstr ""
+msgstr "Modica nome completo"
 
 #: templates/users.php:112
 msgid "set new password"

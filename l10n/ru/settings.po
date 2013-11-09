@@ -9,18 +9,20 @@
 # lord93 <lordakryl@gmail.com>, 2013
 # jekader <jekader@gmail.com>, 2013
 # eurekafag <rkfg@rkfg.me>, 2013
+# unixoid <victor.ashirov@gmail.com>, 2013
 # vsapronov <vladimir.sapronov@gmail.com>, 2013
 # not_your_conscience <hex.void@gmail.com>, 2013
 # navigator666 <yuriy.malyovaniy@gmail.com>, 2013
 # hackproof <hackproof.ai@gmail.com>, 2013
 # Friktor <antonshramko@yandex.ru>, 2013
+# Иван Тюрин <wen89@inbox.ru>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-06 21:43-0500\n"
-"PO-Revision-Date: 2013-11-07 02:43+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-09 01:44-0500\n"
+"PO-Revision-Date: 2013-11-08 09:50+0000\n"
+"Last-Translator: unixoid <victor.ashirov@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,11 +41,11 @@ msgstr "Ошибка аутентификации"
 
 #: ajax/changedisplayname.php:31
 msgid "Your full name has been changed."
-msgstr ""
+msgstr "Ваше полное имя было изменено."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change full name"
-msgstr ""
+msgstr "Невозможно изменить полное имя"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -199,7 +201,7 @@ msgstr "Группы"
 
 #: js/users.js:100 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
-msgstr "Группа Администраторы"
+msgstr "Администратор группы"
 
 #: js/users.js:123 templates/users.php:170
 msgid "Delete"
@@ -285,7 +287,7 @@ msgstr "Модуль 'fileinfo' отсутствует"
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr "PHP модуль 'fileinfo' отсутствует. Мы настоятельно рекомендуем включить этот модуль для улучшения определения типов (mime-type) файлов."
+msgstr "PHP-модуль 'fileinfo' отсутствует. Мы настоятельно рекомендуем включить этот модуль для улучшения определения типов (mime-type) файлов."
 
 #: templates/admin.php:65
 msgid "Locale not working"
@@ -405,11 +407,11 @@ msgstr "Пожалуйста, подключитесь к %s используя 
 
 #: templates/admin.php:218
 msgid "Log"
-msgstr "Лог"
+msgstr "Журнал"
 
 #: templates/admin.php:219
 msgid "Log level"
-msgstr "Уровень лога"
+msgstr "Уровень детализации журнала"
 
 #: templates/admin.php:251
 msgid "More"
@@ -516,7 +518,7 @@ msgstr "Сменить пароль"
 
 #: templates/personal.php:58 templates/users.php:88
 msgid "Full Name"
-msgstr ""
+msgstr "Полное имя"
 
 #: templates/personal.php:73
 msgid "Email"
@@ -528,7 +530,7 @@ msgstr "Ваш адрес электронной почты"
 
 #: templates/personal.php:76
 msgid "Fill in an email address to enable password recovery"
-msgstr "Введите адрес электронной почты чтобы появилась возможность восстановления пароля"
+msgstr "Введите адрес электронной почты, чтобы появилась возможность восстановления пароля"
 
 #: templates/personal.php:86
 msgid "Profile picture"
@@ -536,7 +538,7 @@ msgstr "Фото профиля"
 
 #: templates/personal.php:90
 msgid "Upload new"
-msgstr "Закачать новую"
+msgstr "Загрузить новую"
 
 #: templates/personal.php:92
 msgid "Select new from Files"
@@ -603,7 +605,7 @@ msgstr "Создать"
 
 #: templates/users.php:36
 msgid "Admin Recovery Password"
-msgstr "Восстановление Пароля Администратора"
+msgstr "Восстановление пароля администратора"
 
 #: templates/users.php:37 templates/users.php:38
 msgid ""
@@ -613,7 +615,7 @@ msgstr "Введите пароль для того, чтобы восстано
 
 #: templates/users.php:42
 msgid "Default Storage"
-msgstr "Хранилище по-умолчанию"
+msgstr "Хранилище по умолчанию"
 
 #: templates/users.php:44 templates/users.php:139
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
@@ -637,7 +639,7 @@ msgstr "Хранилище"
 
 #: templates/users.php:108
 msgid "change full name"
-msgstr ""
+msgstr "изменить полное имя"
 
 #: templates/users.php:112
 msgid "set new password"

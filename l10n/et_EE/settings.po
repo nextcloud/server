@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-06 21:43-0500\n"
-"PO-Revision-Date: 2013-11-07 02:43+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-09 01:44-0500\n"
+"PO-Revision-Date: 2013-11-07 08:20+0000\n"
+"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,11 +30,11 @@ msgstr "Autentimise viga"
 
 #: ajax/changedisplayname.php:31
 msgid "Your full name has been changed."
-msgstr ""
+msgstr "Sinu täispikk nimi on muudetud."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change full name"
-msgstr ""
+msgstr "Täispika nime muutmine ebaõnnestus"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -507,7 +507,7 @@ msgstr "Muuda parooli"
 
 #: templates/personal.php:58 templates/users.php:88
 msgid "Full Name"
-msgstr ""
+msgstr "Täispikk nimi"
 
 #: templates/personal.php:73
 msgid "Email"
@@ -628,7 +628,7 @@ msgstr "Maht"
 
 #: templates/users.php:108
 msgid "change full name"
-msgstr ""
+msgstr "Muuda täispikka nime"
 
 #: templates/users.php:112
 msgid "set new password"

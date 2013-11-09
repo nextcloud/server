@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-06 21:43-0500\n"
-"PO-Revision-Date: 2013-11-07 02:43+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-09 01:44-0500\n"
+"PO-Revision-Date: 2013-11-07 07:20+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,11 +29,11 @@ msgstr "Tunnistautumisvirhe"
 
 #: ajax/changedisplayname.php:31
 msgid "Your full name has been changed."
-msgstr ""
+msgstr "Koko nimesi on muutettu."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change full name"
-msgstr ""
+msgstr "Koko nimen muuttaminen epäonnistui"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -237,7 +237,7 @@ msgstr "Virheet ja vakavat ongelmat"
 
 #: templates/admin.php:12
 msgid "Fatal issues only"
-msgstr ""
+msgstr "Vain vakavat ongelmat"
 
 #: templates/admin.php:22
 msgid "Security Warning"
@@ -506,7 +506,7 @@ msgstr "Vaihda salasana"
 
 #: templates/personal.php:58 templates/users.php:88
 msgid "Full Name"
-msgstr ""
+msgstr "Koko nimi"
 
 #: templates/personal.php:73
 msgid "Email"
@@ -627,7 +627,7 @@ msgstr "Tallennustila"
 
 #: templates/users.php:108
 msgid "change full name"
-msgstr ""
+msgstr "muuta koko nimi"
 
 #: templates/users.php:112
 msgid "set new password"

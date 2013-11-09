@@ -2,6 +2,8 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "No s'ha pogut carregar la llista des de l'App Store",
 "Authentication error" => "Error d'autenticació",
+"Your full name has been changed." => "El vostre nom complet ha canviat.",
+"Unable to change full name" => "No s'ha pogut canviar el nom complet",
 "Group already exists" => "El grup ja existeix",
 "Unable to add group" => "No es pot afegir el grup",
 "Email saved" => "S'ha desat el correu electrònic",
@@ -109,6 +111,7 @@ $TRANSLATIONS = array(
 "Current password" => "Contrasenya actual",
 "New password" => "Contrasenya nova",
 "Change password" => "Canvia la contrasenya",
+"Full Name" => "Nom complet",
 "Email" => "Correu electrònic",
 "Your email address" => "Correu electrònic",
 "Fill in an email address to enable password recovery" => "Ompliu el correu electrònic per activar la recuperació de contrasenya",
@@ -137,6 +140,7 @@ $TRANSLATIONS = array(
 "Other" => "Un altre",
 "Username" => "Nom d'usuari",
 "Storage" => "Emmagatzemament",
+"change full name" => "canvia el nom complet",
 "set new password" => "estableix nova contrasenya",
 "Default" => "Per defecte"
 );

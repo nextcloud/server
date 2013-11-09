@@ -2,6 +2,8 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Impossibile caricare l'elenco dall'App Store",
 "Authentication error" => "Errore di autenticazione",
+"Your full name has been changed." => "Il tuo nome completo è stato cambiato.",
+"Unable to change full name" => "Impossibile cambiare il nome completo",
 "Group already exists" => "Il gruppo esiste già",
 "Unable to add group" => "Impossibile aggiungere il gruppo",
 "Email saved" => "Email salvata",
@@ -109,6 +111,7 @@ $TRANSLATIONS = array(
 "Current password" => "Password attuale",
 "New password" => "Nuova password",
 "Change password" => "Modifica password",
+"Full Name" => "Nome Completo",
 "Email" => "Posta elettronica",
 "Your email address" => "Il tuo indirizzo email",
 "Fill in an email address to enable password recovery" => "Inserisci il tuo indirizzo email per abilitare il recupero della password",
@@ -137,6 +140,7 @@ $TRANSLATIONS = array(
 "Other" => "Altro",
 "Username" => "Nome utente",
 "Storage" => "Archiviazione",
+"change full name" => "Modica nome completo",
 "set new password" => "imposta una nuova password",
 "Default" => "Predefinito"
 );
