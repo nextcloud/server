@@ -193,7 +193,7 @@ class MDB2SchemaReader {
 				} else {
 					$options['default'] = '';
 				}
-				if ($type == 'integer') {
+				if ($type == 'integer' || $type == 'numeric') {
 					$options['default'] = 0;
 				} elseif ($type == 'boolean') {
 					$options['default'] = false;
