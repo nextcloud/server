@@ -12,17 +12,17 @@ namespace OC\Files\Storage;
  * Specialized version of Local storage for home directory usage
  */
 class Home extends Local {
+
 	/**
-	 * @var \OC\User\User $user
+	 * @var string $user
 	 */
 	protected $user;
 
 	public function __construct($arguments) {
 		$this->user = $arguments['user'];
-		$this->datadir = $arguments['datadir'];
-		if (substr($this->datadir, -1) !== '/') {
-			$this->datadir .= '/';
-		}
+		$datadir = $arguments['datadir'];
+
+		parent::__construct(array('datadir' => $datadir));
 	}
 
 	public function getId() {
