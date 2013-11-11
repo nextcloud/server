@@ -43,7 +43,7 @@ class Shared extends \OC\Files\Storage\Common {
 	* @param string Shared target file path
 	* @return Returns array with the keys path, permissions, and owner or false if not found
 	*/
-	private function getFile($target) {
+	public function getFile($target) {
 		if (!isset($this->files[$target])) {
 			// Check for partial files
 			if (pathinfo($target, PATHINFO_EXTENSION) === 'part') {
@@ -66,7 +66,7 @@ class Shared extends \OC\Files\Storage\Common {
 	* @param string Shared target file path
 	* @return string source file path or false if not found
 	*/
-	private function getSourcePath($target) {
+	public function getSourcePath($target) {
 		$source = $this->getFile($target);
 		if ($source) {
 			if (!isset($source['fullPath'])) {
