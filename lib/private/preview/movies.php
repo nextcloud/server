@@ -60,7 +60,7 @@ if (!\OC_Util::runningOnWindows()) {
 						' -i ' . escapeshellarg($absPath) .
 						' -f mjpeg -vframes 1' .
 						' -s ' . escapeshellarg($maxX) . 'x' . escapeshellarg($maxY) .
-						' ' . $tmpPath .
+						' ' . escapeshellarg($tmpPath) .
 						' > /dev/null 2>&1';
 				}
 
