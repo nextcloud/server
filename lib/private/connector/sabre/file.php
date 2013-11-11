@@ -225,7 +225,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		if ($chunk_handler->isComplete()) {
 
 			// we first assembly the target file as a part file
-			$partFile = $path . '/' . $info['name'] . '-' . $info['transferid'] . '.part';
+			$partFile = $path . '/' . $info['name'] . '.ocTransferId' . $info['transferid'] . '.part';
 			$chunk_handler->file_assemble($partFile);
 
 			// here is the final atomic rename
