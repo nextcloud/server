@@ -63,8 +63,6 @@ class Wizard extends LDAPUtility {
 	public function countGroups() {
 		if(!$this->checkRequirements(array('ldapHost',
 										   'ldapPort',
-										   'ldapAgentName',
-										   'ldapAgentPassword',
 										   'ldapBase',
 										   ))) {
 			return  false;
@@ -98,8 +96,6 @@ class Wizard extends LDAPUtility {
 	public function countUsers() {
 		if(!$this->checkRequirements(array('ldapHost',
 										   'ldapPort',
-										   'ldapAgentName',
-										   'ldapAgentPassword',
 										   'ldapBase',
 										   'ldapUserFilter',
 										   ))) {
@@ -130,8 +126,6 @@ class Wizard extends LDAPUtility {
 	public function determineAttributes() {
 		if(!$this->checkRequirements(array('ldapHost',
 										   'ldapPort',
-										   'ldapAgentName',
-										   'ldapAgentPassword',
 										   'ldapBase',
 										   'ldapUserFilter',
 										   ))) {
@@ -160,8 +154,6 @@ class Wizard extends LDAPUtility {
 	private function getUserAttributes() {
 		if(!$this->checkRequirements(array('ldapHost',
 										   'ldapPort',
-										   'ldapAgentName',
-										   'ldapAgentPassword',
 										   'ldapBase',
 										   'ldapUserFilter',
 										   ))) {
@@ -214,8 +206,6 @@ class Wizard extends LDAPUtility {
 	private function determineGroups($dbkey, $confkey, $testMemberOf = true) {
 		if(!$this->checkRequirements(array('ldapHost',
 										   'ldapPort',
-										   'ldapAgentName',
-										   'ldapAgentPassword',
 										   'ldapBase',
 										   ))) {
 			return  false;
@@ -242,8 +232,6 @@ class Wizard extends LDAPUtility {
 	public function determineGroupMemberAssoc() {
 		if(!$this->checkRequirements(array('ldapHost',
 										   'ldapPort',
-										   'ldapAgentName',
-										   'ldapAgentPassword',
 										   'ldapGroupFilter',
 										   ))) {
 			return  false;
@@ -266,8 +254,6 @@ class Wizard extends LDAPUtility {
 	public function determineGroupObjectClasses() {
 		if(!$this->checkRequirements(array('ldapHost',
 										   'ldapPort',
-										   'ldapAgentName',
-										   'ldapAgentPassword',
 										   'ldapBase',
 										   ))) {
 			return  false;
@@ -294,8 +280,6 @@ class Wizard extends LDAPUtility {
 	public function determineUserObjectClasses() {
 		if(!$this->checkRequirements(array('ldapHost',
 										   'ldapPort',
-										   'ldapAgentName',
-										   'ldapAgentPassword',
 										   'ldapBase',
 										   ))) {
 			return  false;
@@ -322,8 +306,6 @@ class Wizard extends LDAPUtility {
 	public function getGroupFilter() {
 		if(!$this->checkRequirements(array('ldapHost',
 										   'ldapPort',
-										   'ldapAgentName',
-										   'ldapAgentPassword',
 										   'ldapBase',
 										   ))) {
 			return false;
@@ -337,8 +319,6 @@ class Wizard extends LDAPUtility {
 	public function getUserListFilter() {
 		if(!$this->checkRequirements(array('ldapHost',
 										   'ldapPort',
-										   'ldapAgentName',
-										   'ldapAgentPassword',
 										   'ldapBase',
 										   ))) {
 			return false;
@@ -355,13 +335,12 @@ class Wizard extends LDAPUtility {
 	public function getUserLoginFilter() {
 		if(!$this->checkRequirements(array('ldapHost',
 										   'ldapPort',
-										   'ldapAgentName',
-										   'ldapAgentPassword',
 										   'ldapBase',
 										   'ldapUserFilter',
 										   ))) {
 			return false;
 		}
+
 		$filter = $this->composeLdapFilter(self::LFILTER_LOGIN);
 		if(!$filter) {
 			throw new \Exception('Cannot create filter');
@@ -377,8 +356,6 @@ class Wizard extends LDAPUtility {
 	 */
 	public function guessPortAndTLS() {
 		if(!$this->checkRequirements(array('ldapHost',
-										   'ldapAgentName',
-										   'ldapAgentPassword'
 										   ))) {
 			return false;
 		}
@@ -418,8 +395,6 @@ class Wizard extends LDAPUtility {
 	 */
 	public function guessBaseDN() {
 		if(!$this->checkRequirements(array('ldapHost',
-										   'ldapAgentName',
-										   'ldapAgentPassword',
 										   'ldapPort',
 										   ))) {
 			return false;
@@ -799,7 +774,22 @@ class Wizard extends LDAPUtility {
 		throw new \Exception($error);
 	}
 
+	/**
+	 * @brief checks whether a valid combination of agent and password has been
+	 * provided (either two values or nothing for anonymous connect)
+	 * @return boolean, true if everything is fine, false otherwise
+	 *
+	 */
+	private function checkAgentRequirements() {
+		$agent = $this->configuration->ldapAgentName;
+		$pwd = $this->configuration->ldapAgentPassword;
+
+		return ( (!empty($agent) && !empty($pwd))
+		       || (empty($agent) &&  empty($pwd)));
+	}
+
 	private function checkRequirements($reqs) {
+		$this->checkAgentRequirements();
 		foreach($reqs as $option) {
 			$value = $this->configuration->$option;
 			if(empty($value)) {
