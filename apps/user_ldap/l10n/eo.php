@@ -15,6 +15,7 @@ $TRANSLATIONS = array(
 "_%s group found_::_%s groups found_" => array("%s grupo troviĝis","%s grupoj troviĝis"),
 "_%s user found_::_%s users found_" => array("%s uzanto troviĝis","%s uzanto troviĝis"),
 "Invalid Host" => "Nevalida gastigo",
+"Save" => "Konservi",
 "Test Configuration" => "Provi agordon",
 "Help" => "Helpo",
 "only those object classes:" => "nur tiuj objektoklasoj:",

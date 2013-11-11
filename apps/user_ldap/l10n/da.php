@@ -15,6 +15,7 @@ $TRANSLATIONS = array(
 "Confirm Deletion" => "Bekræft Sletning",
 "_%s group found_::_%s groups found_" => array("",""),
 "_%s user found_::_%s users found_" => array("",""),
+"Save" => "Gem",
 "Test Configuration" => "Test Konfiguration",
 "Help" => "Hjælp",
 "Add Server Configuration" => "Tilføj Server Konfiguration",

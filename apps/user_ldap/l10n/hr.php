@@ -3,6 +3,7 @@ $TRANSLATIONS = array(
 "Error" => "Greška",
 "_%s group found_::_%s groups found_" => array("","",""),
 "_%s user found_::_%s users found_" => array("","",""),
+"Save" => "Snimi",
 "Help" => "Pomoć",
 "Password" => "Lozinka",
 "Back" => "Natrag"

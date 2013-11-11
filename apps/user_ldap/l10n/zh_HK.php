@@ -4,6 +4,7 @@ $TRANSLATIONS = array(
 "Error" => "錯誤",
 "_%s group found_::_%s groups found_" => array(""),
 "_%s user found_::_%s users found_" => array(""),
+"Save" => "儲存",
 "Help" => "幫助",
 "Port" => "連接埠",
 "Password" => "密碼"

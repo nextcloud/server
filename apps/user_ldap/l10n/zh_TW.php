@@ -18,6 +18,7 @@ $TRANSLATIONS = array(
 "Confirm Deletion" => "確認刪除",
 "_%s group found_::_%s groups found_" => array(""),
 "_%s user found_::_%s users found_" => array(""),
+"Save" => "儲存",
 "Test Configuration" => "測試此設定",
 "Help" => "說明",
 "Add Server Configuration" => "新增伺服器設定",

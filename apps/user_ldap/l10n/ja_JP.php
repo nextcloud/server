@@ -26,6 +26,7 @@ $TRANSLATIONS = array(
 "_%s user found_::_%s users found_" => array("%s ユーザが見つかりました"),
 "Invalid Host" => "無効なホスト",
 "Could not find the desired feature" => "望ましい機能は見つかりませんでした",
+"Save" => "保存",
 "Test Configuration" => "設定をテスト",
 "Help" => "ヘルプ",
 "Limit the access to %s to groups meeting this criteria:" => "この基準に合致するグループに %s へのアクセスを制限:",

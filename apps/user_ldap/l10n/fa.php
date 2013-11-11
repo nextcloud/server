@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Confirm Deletion" => "تایید حذف",
 "_%s group found_::_%s groups found_" => array(""),
 "_%s user found_::_%s users found_" => array(""),
+"Save" => "ذخیره",
 "Test Configuration" => "امتحان پیکربندی",
 "Help" => "راه‌نما",
 "Add Server Configuration" => "افزودن پیکربندی سرور",

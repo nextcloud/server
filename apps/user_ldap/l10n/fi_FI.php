@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "Confirm Deletion" => "Vahvista poisto",
 "_%s group found_::_%s groups found_" => array("",""),
 "_%s user found_::_%s users found_" => array("",""),
+"Save" => "Tallenna",
 "Help" => "Ohje",
 "Host" => "Isäntä",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Voit jättää protokollan määrittämättä, paitsi kun vaadit SSL:ää. Aloita silloin ldaps://",

@@ -18,6 +18,7 @@ $TRANSLATIONS = array(
 "Confirm Deletion" => "Potvrdit smazání",
 "_%s group found_::_%s groups found_" => array("","",""),
 "_%s user found_::_%s users found_" => array("","",""),
+"Save" => "Uložit",
 "Test Configuration" => "Vyzkoušet nastavení",
 "Help" => "Nápověda",
 "Add Server Configuration" => "Přidat nastavení serveru",

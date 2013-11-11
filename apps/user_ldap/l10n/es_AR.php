@@ -18,6 +18,7 @@ $TRANSLATIONS = array(
 "Confirm Deletion" => "Confirmar borrado",
 "_%s group found_::_%s groups found_" => array("",""),
 "_%s user found_::_%s users found_" => array("",""),
+"Save" => "Guardar",
 "Test Configuration" => "Probar configuración",
 "Help" => "Ayuda",
 "Add Server Configuration" => "Añadir Configuración del Servidor",

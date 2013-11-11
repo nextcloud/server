@@ -26,6 +26,7 @@ $TRANSLATIONS = array(
 "_%s user found_::_%s users found_" => array("%s felhasználó van","%s felhasználó van"),
 "Invalid Host" => "Érvénytelen gépnév",
 "Could not find the desired feature" => "A kívánt funkció nem található",
+"Save" => "Mentés",
 "Test Configuration" => "A beállítások tesztelése",
 "Help" => "Súgó",
 "Limit the access to %s to groups meeting this criteria:" => "Korlátozzuk %s elérését a következő feltételeknek megfelelő csoportokra:",

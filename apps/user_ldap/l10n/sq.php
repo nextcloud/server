@@ -17,6 +17,7 @@ $TRANSLATIONS = array(
 "Confirm Deletion" => "Konfirmoni Fshirjen",
 "_%s group found_::_%s groups found_" => array("",""),
 "_%s user found_::_%s users found_" => array("",""),
+"Save" => "Ruaj",
 "Test Configuration" => "Provoni konfigurimet",
 "Help" => "Ndihmë",
 "Add Server Configuration" => "Shtoni konfigurimet e serverit",

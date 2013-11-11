@@ -27,6 +27,7 @@ $TRANSLATIONS = array(
 "_%s user found_::_%s users found_" => array("%s kullanıcı bulundu","%s kullanıcı bulundu"),
 "Invalid Host" => "Geçersiz Makine",
 "Could not find the desired feature" => "İstenen özellik bulunamadı",
+"Save" => "Kaydet",
 "Test Configuration" => "Test Yapılandırması",
 "Help" => "Yardım",
 "Limit the access to %s to groups meeting this criteria:" => "%s erişimini, şu kriterle eşleşen gruplara sınırla:",

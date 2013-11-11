@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Error" => "Eroare",
 "_%s group found_::_%s groups found_" => array("","",""),
 "_%s user found_::_%s users found_" => array("","",""),
+"Save" => "Salvează",
 "Help" => "Ajutor",
 "Host" => "Gazdă",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Puteți omite protocolul, decât dacă folosiți SSL. Atunci se începe cu ldaps://",

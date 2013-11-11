@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Confirm Deletion" => "Konfirmasi Penghapusan",
 "_%s group found_::_%s groups found_" => array(""),
 "_%s user found_::_%s users found_" => array(""),
+"Save" => "Simpan",
 "Test Configuration" => "Uji Konfigurasi",
 "Help" => "Bantuan",
 "Add Server Configuration" => "Tambah Konfigurasi Server",

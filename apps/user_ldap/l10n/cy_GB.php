@@ -4,6 +4,7 @@ $TRANSLATIONS = array(
 "Error" => "Gwall",
 "_%s group found_::_%s groups found_" => array("","","",""),
 "_%s user found_::_%s users found_" => array("","","",""),
+"Save" => "Cadw",
 "Help" => "Cymorth",
 "Password" => "Cyfrinair"
 );

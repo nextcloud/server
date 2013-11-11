@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Error" => "දෝෂයක්",
 "_%s group found_::_%s groups found_" => array("",""),
 "_%s user found_::_%s users found_" => array("",""),
+"Save" => "සුරකින්න",
 "Help" => "උදව්",
 "Host" => "සත්කාරකය",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "SSL අවශ්‍යය වන විට පමණක් හැර, අන් අවස්ථාවන්හිදී ප්‍රොටොකෝලය අත් හැරිය හැක. භාවිතා කරන විට ldaps:// ලෙස ආරම්භ කරන්න",

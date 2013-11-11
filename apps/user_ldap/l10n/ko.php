@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "Connection test failed" => "연결 시험 실패",
 "_%s group found_::_%s groups found_" => array(""),
 "_%s user found_::_%s users found_" => array(""),
+"Save" => "저장",
 "Help" => "도움말",
 "Host" => "호스트",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "SSL을 사용하는 경우가 아니라면 프로토콜을 입력하지 않아도 됩니다. SSL을 사용하려면 ldaps://를 입력하십시오.",

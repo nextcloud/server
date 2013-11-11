@@ -27,6 +27,7 @@ $TRANSLATIONS = array(
 "_%s user found_::_%s users found_" => array("Atopouse %s usuario","Atopáronse %s usuarios"),
 "Invalid Host" => "Máquina incorrecta",
 "Could not find the desired feature" => "Non foi posíbel atopar a función desexada",
+"Save" => "Gardar",
 "Test Configuration" => "Probar a configuración",
 "Help" => "Axuda",
 "Limit the access to %s to groups meeting this criteria:" => "Limitar o acceso a %s aos grupos que coincidan con estes criterios:",

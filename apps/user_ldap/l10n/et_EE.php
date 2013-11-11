@@ -27,6 +27,7 @@ $TRANSLATIONS = array(
 "_%s user found_::_%s users found_" => array("%s kasutaja leitud","%s kasutajat leitud"),
 "Invalid Host" => "Vigane server",
 "Could not find the desired feature" => "Ei suuda leida soovitud funktsioonaalsust",
+"Save" => "Salvesta",
 "Test Configuration" => "Testi seadistust",
 "Help" => "Abiinfo",
 "Limit the access to %s to groups meeting this criteria:" => "Piira ligipääs %s grupile, mis sobivad kriteeriumiga:",

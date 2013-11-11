@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Puretech <terjemah.puretech@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-16 00:26-0400\n"
-"PO-Revision-Date: 2013-10-14 00:42+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-11 05:45-0500\n"
+"PO-Revision-Date: 2013-11-09 13:30+0000\n"
+"Last-Translator: Puretech <terjemah.puretech@gmail.com>\n"
 "Language-Team: Malay (Malaysia) (http://www.transifex.com/projects/p/owncloud/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,12 +21,12 @@ msgstr ""
 #: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr ""
+msgstr "Tidak dapat menghapuskan %s secara kekal"
 
 #: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
-msgstr ""
+msgstr "Tidak dapat memulihkan %s"
 
 #: js/trash.js:18 js/trash.js:44 js/trash.js:121 js/trash.js:149
 msgid "Error"
@@ -33,11 +34,11 @@ msgstr "Ralat"
 
 #: lib/trashbin.php:814 lib/trashbin.php:816
 msgid "restored"
-msgstr ""
+msgstr "dipulihkan"
 
 #: templates/index.php:8
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr ""
+msgstr "Tiada apa disini. Tong sampah anda kosong!"
 
 #: templates/index.php:22
 msgid "Name"
@@ -45,11 +46,11 @@ msgstr "Nama"
 
 #: templates/index.php:25 templates/index.php:27
 msgid "Restore"
-msgstr ""
+msgstr "Pulihkan"
 
 #: templates/index.php:33
 msgid "Deleted"
-msgstr ""
+msgstr "Dihapuskan"
 
 #: templates/index.php:36 templates/index.php:37
 msgid "Delete"
@@ -57,4 +58,4 @@ msgstr "Padam"
 
 #: templates/part.breadcrumb.php:9
 msgid "Deleted Files"
-msgstr ""
+msgstr "Fail Dihapus"

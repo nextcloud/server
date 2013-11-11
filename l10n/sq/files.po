@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-03 12:38-0500\n"
-"PO-Revision-Date: 2013-11-03 17:38+0000\n"
+"POT-Creation-Date: 2013-11-11 05:45-0500\n"
+"PO-Revision-Date: 2013-11-09 07:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr "E pa mundur zhvendosja e %s - ekziston nje skedar me te njetin emer"
 msgid "Could not move %s"
 msgstr "Nuk mund të zhvendoset %s"
 
-#: ajax/newfile.php:56 js/files.js:27
+#: ajax/newfile.php:56 js/files.js:74
 msgid "File name cannot be empty."
 msgstr "Emri i skedarit nuk mund të jetë bosh."
 
@@ -52,7 +52,7 @@ msgstr ""
 msgid "Error while downloading %s to %s"
 msgstr ""
 
-#: ajax/newfile.php:127
+#: ajax/newfile.php:128
 msgid "Error when creating the file"
 msgstr ""
 
@@ -115,15 +115,15 @@ msgstr "Dështoi shkrimi në disk"
 msgid "Not enough storage available"
 msgstr "Hapsira e arkivimit e pamjaftueshme"
 
-#: ajax/upload.php:127 ajax/upload.php:153
+#: ajax/upload.php:127 ajax/upload.php:154
 msgid "Upload failed. Could not get file info."
 msgstr ""
 
-#: ajax/upload.php:143
+#: ajax/upload.php:144
 msgid "Upload failed. Could not find uploaded file"
 msgstr ""
 
-#: ajax/upload.php:170
+#: ajax/upload.php:172
 msgid "Invalid directory."
 msgstr "Dosje e pavlefshme"
 
@@ -143,24 +143,24 @@ msgstr "Nuk ka hapsirë të nevojshme"
 msgid "Upload cancelled."
 msgstr "Ngarkimi u anullua"
 
-#: js/file-upload.js:345
+#: js/file-upload.js:344
 msgid "Could not get result from server."
 msgstr ""
 
-#: js/file-upload.js:437
+#: js/file-upload.js:436
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Skedari duke u ngarkuar. Largimi nga faqja do të anullojë ngarkimin"
 
-#: js/file-upload.js:520
+#: js/file-upload.js:519
 msgid "URL cannot be empty"
 msgstr ""
 
-#: js/file-upload.js:524 js/filelist.js:364
+#: js/file-upload.js:523 js/filelist.js:371
 msgid "In the home folder 'Shared' is a reserved filename"
 msgstr ""
 
-#: js/file-upload.js:526 js/filelist.js:366
+#: js/file-upload.js:525 js/filelist.js:373
 msgid "{new_name} already exists"
 msgstr "{new_name} është ekzistues "
 
@@ -184,104 +184,104 @@ msgstr "Fshi përfundimisht"
 msgid "Rename"
 msgstr "Riemëro"
 
-#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:854
+#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:857
 msgid "Pending"
 msgstr "Në vijim"
 
-#: js/filelist.js:392
+#: js/filelist.js:399
 msgid "Could not rename file"
 msgstr ""
 
-#: js/filelist.js:511
+#: js/filelist.js:518
 msgid "replaced {new_name} with {old_name}"
 msgstr "u zëvendësua {new_name} me {old_name}"
 
-#: js/filelist.js:511
+#: js/filelist.js:518
 msgid "undo"
 msgstr "anullo"
 
-#: js/filelist.js:582 js/filelist.js:649 js/files.js:587
+#: js/filelist.js:578 js/filelist.js:652 js/files.js:631
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n dosje"
 msgstr[1] "%n dosje"
 
-#: js/filelist.js:583 js/filelist.js:650 js/files.js:593
+#: js/filelist.js:579 js/filelist.js:653 js/files.js:637
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n skedar"
 msgstr[1] "%n skedarë"
 
-#: js/filelist.js:590
+#: js/filelist.js:586
 msgid "{dirs} and {files}"
 msgstr "{dirs} dhe {files}"
 
-#: js/filelist.js:793 js/filelist.js:831
+#: js/filelist.js:796 js/filelist.js:834
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Po ngarkoj %n skedar"
 msgstr[1] "Po ngarkoj %n skedarë"
 
-#: js/files.js:25
+#: js/files.js:72
 msgid "'.' is an invalid file name."
 msgstr "'.' nuk është skedar i vlefshem."
 
-#: js/files.js:34
+#: js/files.js:81
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Emër jo i vlefshëm, '\\', '/', '<', '>', ':', '\"', '|', '?' dhe '*' nuk lejohen."
 
-#: js/files.js:46
+#: js/files.js:93
 msgid "Your storage is full, files can not be updated or synced anymore!"
 msgstr "Hapsira juaj e arkivimit është plot, skedarët nuk mund të përditësohen ose sinkronizohen!"
 
-#: js/files.js:50
+#: js/files.js:97
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Hapsira juaj e arkivimit është pothuajse në fund  ({usedSpacePercent}%)"
 
-#: js/files.js:63
+#: js/files.js:110
 msgid ""
 "Encryption App is enabled but your keys are not initialized, please log-out "
 "and log-in again"
 msgstr ""
 
-#: js/files.js:67
+#: js/files.js:114
 msgid ""
 "Invalid private key for Encryption App. Please update your private key "
 "password in your personal settings to recover access to your encrypted "
 "files."
 msgstr ""
 
-#: js/files.js:71
+#: js/files.js:118
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
 msgstr "Kodifikimi u çaktivizua por skedarët tuaj vazhdojnë të jenë të kodifikuar. Ju lutem shkoni tek parametrat personale për të dekodifikuar skedarët tuaj."
 
-#: js/files.js:302
+#: js/files.js:349
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Shkarkimi juaj është duke u përgatitur. Kjo mund të kërkojë kohë nëse skedarët janë të mëdhenj."
 
-#: js/files.js:514 js/files.js:552
+#: js/files.js:558 js/files.js:596
 msgid "Error moving file"
 msgstr ""
 
-#: js/files.js:514 js/files.js:552
+#: js/files.js:558 js/files.js:596
 msgid "Error"
 msgstr "Gabim"
 
-#: js/files.js:569 templates/index.php:56
+#: js/files.js:613 templates/index.php:56
 msgid "Name"
 msgstr "Emri"
 
-#: js/files.js:570 templates/index.php:68
+#: js/files.js:614 templates/index.php:68
 msgid "Size"
 msgstr "Madhësia"
 
-#: js/files.js:571 templates/index.php:70
+#: js/files.js:615 templates/index.php:70
 msgid "Modified"
 msgstr "Ndryshuar"
 

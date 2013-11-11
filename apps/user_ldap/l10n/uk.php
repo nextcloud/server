@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Confirm Deletion" => "Підтвердіть Видалення",
 "_%s group found_::_%s groups found_" => array("","",""),
 "_%s user found_::_%s users found_" => array("","",""),
+"Save" => "Зберегти",
 "Test Configuration" => "Тестове налаштування",
 "Help" => "Допомога",
 "Add Server Configuration" => "Додати налаштування Сервера",

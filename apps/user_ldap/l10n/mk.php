@@ -9,6 +9,7 @@ $TRANSLATIONS = array(
 "Confirm Deletion" => "Потврдете го бришењето",
 "_%s group found_::_%s groups found_" => array("",""),
 "_%s user found_::_%s users found_" => array("",""),
+"Save" => "Сними",
 "Help" => "Помош",
 "Host" => "Домаќин",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Може да го скокнете протколот освен ако не ви треба SSL. Тогаш ставете ldaps://",
