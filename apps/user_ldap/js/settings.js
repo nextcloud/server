@@ -192,6 +192,7 @@ var LdapWizard = {
 					'&ldap_serverconfig_chooser='+$('#ldap_serverconfig_chooser').val();
 
 			LdapWizard.showSpinner('#ldap_base');
+			$('#ldap_base').prop('disabled', 'disabled');
 			LdapWizard.ajax(param,
 				function(result) {
 					LdapWizard.applyChanges(result);
@@ -199,10 +200,12 @@ var LdapWizard = {
 					if($('#ldap_base').val()) {
 						LdapWizard.hideInfoBox();
 					}
+					$('#ldap_base').prop('disabled', false);
 				},
 				function (result) {
 					LdapWizard.hideSpinner('#ldap_base');
 					LdapWizard.showInfoBox('Please specify a Base DN');
+					$('#ldap_base').prop('disabled', false);
 				}
 			);
 		}
@@ -514,7 +517,7 @@ var LdapWizard = {
 
 	processChanges: function(triggerObj) {
 		LdapWizard.hideInfoBox();
-		
+
 		if(triggerObj.id == 'ldap_host'
 		   || triggerObj.id == 'ldap_port'
 		   || triggerObj.id == 'ldap_dn'
